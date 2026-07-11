@@ -16,6 +16,8 @@ are readings and labeled as such.
 [Superposition Translated](SUPERPOSITION_TRANSLATED.md),
 [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the fifth entry,
 spending this entry's currency),
+[Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md) (the sixth
+entry),
 [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
 [The Label Map](THE_LABEL_MAP.md),
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md),

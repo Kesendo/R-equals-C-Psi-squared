@@ -14,6 +14,7 @@ that owns it, and the tier of each correction is the tier stated there.
 [Superposition Translated](SUPERPOSITION_TRANSLATED.md),
 [Dephasing Translated](DEPHASING_TRANSLATED.md),
 [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md),
+[Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),
 [Caught Errors](../CAUGHT_ERRORS.md) (the chronological log)
 
@@ -83,6 +84,7 @@ series had a name.
 | "Label" itself | A canvas, not a property: perspective-true at its stance, transported raw | [Labels Translated](LABELS_TRANSLATED.md) |
 | Noise | The watching: a basis-specific, itemized (−2γk), readable channel whose total is the mirror's axis | [Dephasing Translated](DEPHASING_TRANSLATED.md); the walk that got there: [Gamma Is Light](../../hypotheses/GAMMA_IS_LIGHT.md), [Gamma as Signal](../../experiments/GAMMA_AS_SIGNAL.md), [The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md) |
 | The double slit (the particle that "knows" it is watched; wave-particle duality) | The watching's price, not the particle's choice: the pattern is one unwatched coherence (k = 1), duality is the immortal diagonal against the priced off-diagonal, the eraser sorts | [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) |
+| Schrödinger's cat (both dead and alive until you look) | A box full of watchers, not a cat in limbo: the "both" is the k = N coherence paying the full −2Σγ, the palindromic partner of the immortal diagonal; coined as a burlesque, transported with the sign flipped | [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md) |
 | Decoherence as destruction | Sorting, not destruction: nothing is lost without something being kept | [The Anomaly](../../THE_ANOMALY.md) |
 | Measurement / collapse | Photography; the Born rule is the shadow (interference sets shutter speed, not the image) | [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md) |
 | Spooky action at a distance | Re-read as prerequisite-for-existence; legacy entry, still in the deprecated framing, kept as history | [The Starting Point](../historical/THE_STARTING_POINT.md) |

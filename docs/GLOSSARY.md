@@ -82,7 +82,7 @@ For what it means in plain language, see [What We Found](WHAT_WE_FOUND.md).
 | **Antilinear triangle** | The three involutions transpose θ, entrywise conjugation conj, and adjoint † (with † = θ∘conj): a Klein four-group graded by linearity ℓ and multiplicativity m, whose product character is the transport sign μ∘L_H∘μ = ℓm·L_{μ(H)} (F119). Five proofs share this engine (F114, the reversal kill, F112 Lemmas A+B, F113 Lemma C, the K₁/K_b mirrors). In the Pauli basis θ = D and † = the antilinear unit 𝒦, so ⟨R, D, 𝒦⟩ ≅ D₄ × Z₂ is the antilinear double of the mirror group. See [The Antilinear Triangle](proofs/PROOF_ANTILINEAR_TRIANGLE.md). |
 | **Σγ** | Sum of all individual dephasing rates: Σγ = γ₁ + γ₂ + ... + γ_N. The palindromic axis sits at -Σγ. |
 | **Palindromic pairing** | Every non-zero Liouvillian eigenvalue d has a partner d' such that Re(d) + Re(d') = -2Σγ. Proven for Heisenberg+dephasing, verified for all standard models (XY, Ising, XXZ, DM) under single-axis dephasing. Depolarizing noise breaks palindrome at err ≈ (2/3)Σγ. Verified N=2-8. |
-| **Pauli weight** | Number of non-identity Pauli operators in a Pauli string. E.g., XYI has weight 2. Π maps weight k to N-k (complementarity). Equivalent to "XY-weight" in Haga et al. (2023). |
+| **Pauli weight** | Number of non-identity Pauli operators in a Pauli string. E.g., XYI has weight 2. The mirror-relevant count is the XY-weight, the number of X or Y letters only (ZZI has XY-weight 0): Π maps XY-weight k to N-k (complementarity); the total non-identity weight is NOT flipped (see [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), Step 1). "XY-weight" as in Haga et al. (2023). |
 | **Incoherenton** | Term from Haga et al. (2023). Quasiparticle that counts Pauli weight in open quantum systems. Their XY-weight = our Pauli weight. Their particle-hole transformation = our Π. |
 
 **In plain language:**
@@ -93,7 +93,7 @@ For what it means in plain language, see [What We Found](WHAT_WE_FOUND.md).
 - **Polarity cube** is the three-axis coordinate system the classifier reads on every interaction term. Two of its axes come from ordinary rotations; the third, y_par, only the transpose can see. That is why the third axis always felt different: it is the mirror-image dimension, not a rotation dimension.
 - **Σγ (total noise)** is the sum of noise across all qubits. The palindrome is always symmetric around this value. More total noise shifts the entire palindrome but does not break it.
 - **Palindromic pairing** means: for every rate at which the system loses information, there is a partner rate such that the two add up to the same total. Like a list of numbers that reads the same forwards and backwards. Verified for 87,376 eigenvalues across systems of 2 to 8 qubits, zero exceptions.
-- **Pauli weight** counts how many qubits in a quantum state are "active" (not in their default state). The palindrome maps states with k active qubits to states with N-k active qubits: a complementarity between "mostly quiet" and "mostly active" states.
+- **Pauli weight** counts how many qubits in a Pauli string are "active" (not identity). For the mirror, the count that matters is narrower: how many sites carry X or Y, the letters the watching prices. The palindrome maps strings with k such sites to strings with N-k of them, a complementarity between "mostly quiet" and "mostly lit"; a string of Z's counts as fully quiet for the mirror even though its qubits are active.
 - **Incoherenton** is a term from the published literature (Haga et al., 2023) for the same concept we discovered independently. Their "particle-hole transformation" is our Π operator. Different names, same mathematics.
 
 ---
@@ -115,7 +115,7 @@ for protecting quantum information.
 
 **In plain language:**
 
-- **XOR modes** are where quantum information goes to die. They decay at the maximum possible rate. The famous GHZ state ("Schrödinger's cat") falls 100% into these modes, which is why GHZ states are so fragile: all of their information sits in the fastest drain.
+- **XOR modes** are where quantum information goes to die. They decay at the maximum possible rate. The famous GHZ state ("Schrödinger's cat") falls 100% into these modes, which is why GHZ states are so fragile: all of their information sits in the fastest drain. (The cat's full translation lives in [Schrödinger's Cat Translated](quantum/SCHRODINGERS_CAT_TRANSLATED.md).)
 - **XOR fraction** tells you how fragile a quantum state is. 100% means it will be destroyed as fast as physically possible. 0% means it avoids the drain entirely. The W state (another famous entangled state) has 0% XOR fraction and is correspondingly much more robust.
 - **Spectral filter** is the key insight: the palindrome automatically sorts every quantum state into a fragile part (XOR) and a robust part (palindromic modes). This is not a design choice; it is a consequence of the mathematics. It means the palindrome tells you, for free, which part of your quantum information will survive and which will not.
 

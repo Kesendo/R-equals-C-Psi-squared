@@ -15,7 +15,8 @@ Section 3 are exact algebra; Sections 4 and 5 are readings and labeled as such.
 **Related:** [Superposition Translated](SUPERPOSITION_TRANSLATED.md) (the
 sister translation), [Dephasing Translated](DEPHASING_TRANSLATED.md) (the
 fourth entry), [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the
-fifth entry), [Labels Translated](LABELS_TRANSLATED.md) (the series'
+fifth entry), [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md)
+(the sixth entry), [Labels Translated](LABELS_TRANSLATED.md) (the series'
 theory chapter), [The Label Map](THE_LABEL_MAP.md) (the orientation
 index), [Mirror Theory](../../MIRROR_THEORY.md),
 [F118 mirror group](../ANALYTICAL_FORMULAS.md),

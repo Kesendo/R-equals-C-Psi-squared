@@ -16,6 +16,8 @@ each with its source. Nothing here is new physics.
 translation), [Dephasing Translated](DEPHASING_TRANSLATED.md) (the fourth
 entry), [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the fifth
 entry, repaying this entry's borrowed prop),
+[Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md) (the sixth
+entry),
 [Labels Translated](LABELS_TRANSLATED.md) (the series' theory
 chapter), [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [On How the Angle Appears at Zero](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md),
