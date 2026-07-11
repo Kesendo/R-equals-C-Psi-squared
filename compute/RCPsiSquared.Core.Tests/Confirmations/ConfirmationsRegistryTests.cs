@@ -22,7 +22,7 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasTwentyTwoEntries()
+    public void All_HasTwentyThreeEntries()
     {
         // Union discipline with simulations/framework/confirmations.py: both registries
         // hold the same set. Reconciled to 15 on 2026-06-08; ibm_ep_onset_may2026
@@ -32,8 +32,10 @@ public class ConfirmationsRegistryTests
         // (front_matter_truth arc) make 20; price_pair_locality_marrakesh_july2026
         // (the four-run F89d-price campaign, 2026-07-04) makes 21;
         // f84_heating_leg_attribution_kingston_july2026 (the two-leg cold-bath
-        // attribution, 2026-07-05) makes 22.
-        Assert.Equal(22, ConfirmationsRegistry.All.Count);
+        // attribution, 2026-07-05) makes 22;
+        // concentrator_site_contrast_kingston_july2026 (the reload flight's A-sign,
+        // registered 2026-07-12 per the pre-registered verdict split) makes 23.
+        Assert.Equal(23, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -212,9 +214,11 @@ public class ConfirmationsRegistryTests
         // (runs 2-4; run 1's [2,3,4] shares the campaign entry), making seventeen with paths.
         // f84_heating_leg_attribution_kingston_july2026 (2026-07-05) is on Kingston
         // [82,83,13], making eighteen with paths.
+        // concentrator_site_contrast_kingston_july2026 (flown 2026-07-11, registered
+        // 2026-07-12) is on Kingston [109,108,107,106,105], making nineteen with paths.
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(18, withPath);
+        Assert.Equal(19, withPath);
         Assert.Equal(4, withoutPath);
     }
 }

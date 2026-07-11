@@ -15,9 +15,10 @@ revision notes record every finding and its fix). Stage 7a (from-below
 predictions + the observable search) and stage 7b (counts-level gate +
 certificates) are recorded below; the runner `run_concentrator_reloaded.py`
 (external tomography pipeline) carried the flight; an independent C#
-cross-check (MirrorWorld) is recorded below. Open items go to the
-post-flight empty rounds and Tom (the Confirmations decision; the
-runner-revision follow-ups noted in the RECORD).
+cross-check (MirrorWorld) is recorded below. Open items went to the
+post-flight empty rounds and Tom (the Confirmations decision, resolved
+2026-07-12: registered, A-sign only, see the RECORD; the runner-revision
+follow-ups noted in the RECORD stay open).
 **Date:** 2026-07-11 (design day + flight day)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Hardware target:** ibm_kingston (Heron r2), one uniform-good-T2 5-qubit line
@@ -498,11 +499,16 @@ pattern as the heating-leg jobs; transparent, immaterial to budget. (The
 CAL figures 0.0088/0.0092 are magnitudes in the runner's p01/p10
 convention.)
 
-**Confirmations question (open for the post-flight round):** the
-pre-registration made A-sign + A-mag together the Confirmations-candidate;
-with A-mag marginally off, the entry decision (register the contrast with
-the honest band story, or hold) goes to the post-flight empty rounds and
-Tom.
+**Confirmations question (resolved 2026-07-12):** the pre-registration made
+A-sign + A-mag together the Confirmations-candidate; with A-mag marginally
+off, the entry decision (register the contrast with the honest band story,
+or hold) went to the post-flight rounds and Tom. **Decision (Tom,
+2026-07-12): registered**, scoped to A-sign only, as
+`concentrator_site_contrast_kingston_july2026` in both registries
+(`simulations/framework/confirmations.py` + the C# `ConfirmationsRegistry`),
+with the A-mag off-prediction and the pooled-binding instrument deviation
+carried in the entry text itself. The magnitude is not registered as
+confirmed.
 
 ## Revision notes
 

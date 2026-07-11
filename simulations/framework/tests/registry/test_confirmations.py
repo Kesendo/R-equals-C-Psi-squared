@@ -11,9 +11,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 import framework as fw
 
 
-def test_confirmations_has_twenty_entries():
+def test_confirmations_has_twenty_three_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 22
+    assert len(names) == 23
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
@@ -37,6 +37,25 @@ def test_confirmations_has_twenty_entries():
     assert 'cpsi_quarter_crossing_torino_q80_mar2026' in names
     # 2026-07-05: the two-leg cold-bath attribution on the f95/F113 qubits (union of 22).
     assert 'f84_heating_leg_attribution_kingston_july2026' in names
+    # 2026-07-12: the concentrator reload's site-resolved contrast, A-sign only per the
+    # pre-registered verdict split (union of 23).
+    assert 'concentrator_site_contrast_kingston_july2026' in names
+
+
+def test_confirmations_lookup_concentrator_site_contrast():
+    e = fw.Confirmations.lookup('concentrator_site_contrast_kingston_july2026')
+    assert e['date'] == '2026-07-11'
+    assert e['machine'] == 'ibm_kingston'
+    assert e['job_id'] == 'd99a970tcv6s73dn2atg'
+    assert 'slope(MP) − slope(E) = −0.05337/step' in e['measured_value']
+    assert 'A-sign CONFIRMED' in e['measured_value']
+    # the honest band story is part of the entry, not a hidden footnote
+    assert 'magnitude off-prediction' in e['measured_value']
+    assert 'A-SIGN ONLY' in e['predicted_value']
+    assert '−0.07325' in e['predicted_value']          # the 7a dressed central prediction
+    assert 'shot-only' in e['description']             # the binding-pooling instrument deviation
+    assert 'concentrator_reloaded_7a.py' in e['framework_primitive']
+    assert e['experiment_doc'] == 'experiments/IBM_CONCENTRATOR_RELOADED.md'
 
 
 def test_confirmations_lookup_f84_heating_leg():

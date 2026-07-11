@@ -537,6 +537,57 @@ public static class ConfirmationsRegistry
                 "the F84 scalar. P1/P2 verdicts landed exactly by the pre-registered rules; the q82 χ² flag fired as " +
                 "designed. The 0-pending queue window and fresh 08:28Z calibration were Tom's catch.",
             QubitPath: new[] { 82, 83, 13 }),
+
+        new Confirmation(
+            Name: "concentrator_site_contrast_kingston_july2026",
+            Date: "2026-07-11",
+            Machine: "ibm_kingston",
+            JobId: "d99a970tcv6s73dn2atg",
+            Observable: "paired-ratio slope difference slope(MP) − slope(E) of ln R_a(t) = ln[coh_a(t)/coh_0(t)] over " +
+                "the depth grid {1,2,3,4,6,8} Trotter steps at J·dt = 0.05; payload |+⟩ on position 2 of the 5-chain " +
+                "[109,108,107,106,105] (payload Q107), 2-basis Ramsey (X,Y), pooled coherence |mean(⟨X₂⟩+i⟨Y₂⟩)|; " +
+                "randomized Z-sink as M = 256 i.i.d. phase bindings per (arm, depth) at per-step retention e^{−0.05}, " +
+                "arm E on position 0 (distance 2), arm MP on the payload; three arms round-robin interleaved in ONE " +
+                "job (46 PUBs, 376,832 shots, billed 119 s ≈ 2.0 QPU min)",
+            PredictedValue:
+                "pre-registered A-sign gate (v3.1, committed pre-shot after a five-round design loop): slope(MP) − " +
+                "slope(E) < 0 at one-sided 99.87% bootstrap AND outside the frozen null band [−0.01050, +0.01310]. " +
+                "From-below dressed central prediction −0.07325/step (7a exact density-matrix sim of the FLOWN " +
+                "circuits, 7a power margin 6.60; the operative margin is the 7b-reconciled 7.95 at projected SE " +
+                "0.00921; MirrorWorld C# continuous cross-check −0.073618, the 0.5% " +
+                "gap = quantified Trotterization). Operative A-mag band [−0.09167, −0.05482] (7b-reconciled). THIS " +
+                "ENTRY REGISTERS A-SIGN ONLY, per the pre-registered verdict split.",
+            MeasuredValue:
+                "slope(MP) − slope(E) = −0.05337/step; one-sided 99.87% bootstrap CI [−0.06505, −0.04107] (shot-only " +
+                "realized bootstrap, see description) entirely " +
+                "negative; far outside the null band; ≈ 5.8σ against the pre-registered projected SE 0.00921 ⟹ A-sign " +
+                "CONFIRMED. A-mag OFF-PREDICTION, marginal: 0.00145 above the operative band edge (0.16 projected SE, " +
+                "0.33 shot-only SE) ⟹ per the committed rule \"contrast confirmed, magnitude off-prediction\"; the " +
+                "magnitude is NOT registered as confirmed. slope(E) = −0.00585 inside its null band " +
+                "[−0.01235, +0.00829] (L null-consistent, as pre-declared).",
+            HardwareData: "external (AIEvolution.UI/experiments/ibm_quantum_tomography): " +
+                "results/reloaded_hardware_20260711_221840.json + reloaded_analyze_20260711_221936.json",
+            ExperimentDoc: "experiments/IBM_CONCENTRATOR_RELOADED.md",
+            FrameworkPrimitive: "site-resolved dephasing pricing (F1 palindrome center Σγ read per site, " +
+                "transport-dressed; the registered A-sign confirms the site-resolution, not the theorem magnitude, " +
+                "see description); 7a from-below gate simulations/concentrator_reloaded_7a.py; MirrorWorld Restless " +
+                "per-site γ + concentrator run mode (C# cross-check, N ≤ 9); run_concentrator_reloaded.py (external " +
+                "pipeline)",
+            Description:
+                "First lifetime-rate contrast of the concentrator arc: the payload pays for a dephasing sink ON its " +
+                "site but not for the same dose two sites away, site-resolved on hardware at ≈ 5.8σ. SCOPE, honest: " +
+                "A-sign is the QUALITATIVE site-resolution, which any local-dephasing model also predicts; the " +
+                "theorem's quantitative discriminator was A-mag, which missed marginally (measured = dressed " +
+                "prediction uniformly compressed ≈ 0.73×; at this SNR \"bare −2γ survives\" and \"gate-error " +
+                "compression of the dressed rate\" are numerically degenerate, so NO bare-−2γ theorem claim is made). " +
+                "Instrument deviation disclosed: the persisted JSON pooled the M = 256 bindings (SamplerV2 " +
+                "get_counts()), so the realized bootstrap is shot-only and significance is reported against the " +
+                "pre-registered binding+shot projection; point estimates unaffected. The RECORD governs over the " +
+                "runner's stale-7a-band verdict printout. Arms E and MP share payload Q107, so its readout confusion " +
+                "and T1/T2 are common-mode and cancel in the verdict statistic. Registered 2026-07-12 (Tom's call per " +
+                "the RECORD's open Confirmations question): the contrast with the honest band story. Still owed " +
+                "elsewhere: the interior coherence lifetime under the full concentrator PROFILE (a different object).",
+            QubitPath: new[] { 109, 108, 107, 106, 105 }),
     };
 
     public static IReadOnlyList<Confirmation> All => _all;
