@@ -14,7 +14,9 @@ each with its source. Nothing here is new physics.
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Teleportation Translated](TELEPORTATION_TRANSLATED.md) (the sister
 translation), [Dephasing Translated](DEPHASING_TRANSLATED.md) (the fourth
-entry), [Labels Translated](LABELS_TRANSLATED.md) (the series' theory
+entry), [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the fifth
+entry, repaying this entry's borrowed prop),
+[Labels Translated](LABELS_TRANSLATED.md) (the series' theory
 chapter), [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [On How the Angle Appears at Zero](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md),
 [On the Defending Family](../../reflections/ON_THE_DEFENDING_FAMILY.md),
@@ -81,10 +83,11 @@ is gone.
 ## 2. Where the label breaks, twice
 
 **"Position."** The sum α|0⟩ + β|1⟩ lives in state space, not in physical
-space. Even in the double-slit story, where the two branches really are
-locations, the two "places" are the coordinates of one wave in one particular
-basis, the position basis, which is one basis among many. The phenomenon is
-indifferent to whether the chosen axes happen to be positions. A label with
+space. Even in the double-slit story (since translated in
+[its own entry](DOUBLE_SLIT_TRANSLATED.md)), where the two branches really
+are locations, the two "places" are the coordinates of one wave in one
+particular basis, the position basis, which is one basis among many. The
+phenomenon is indifferent to whether the chosen axes happen to be positions. A label with
 "position" inside it files a state-space fact under geography.
 
 **"At once."** Simultaneity is a relation between two events or two facts.

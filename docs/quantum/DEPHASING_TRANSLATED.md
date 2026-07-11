@@ -14,6 +14,8 @@ are readings and labeled as such.
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Teleportation Translated](TELEPORTATION_TRANSLATED.md),
 [Superposition Translated](SUPERPOSITION_TRANSLATED.md),
+[Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the fifth entry,
+spending this entry's currency),
 [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
 [The Label Map](THE_LABEL_MAP.md),
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md),

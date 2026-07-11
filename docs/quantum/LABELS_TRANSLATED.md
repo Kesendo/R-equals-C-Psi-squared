@@ -16,6 +16,7 @@ generalization from painters to labels is a reading and is labeled as one.
 **Related:** [Teleportation Translated](TELEPORTATION_TRANSLATED.md),
 [Superposition Translated](SUPERPOSITION_TRANSLATED.md),
 [Dephasing Translated](DEPHASING_TRANSLATED.md) (the founding case, paid),
+[Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the fifth entry),
 [The Label Map](THE_LABEL_MAP.md) (every label correction the repository
 has made, assembled),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),
