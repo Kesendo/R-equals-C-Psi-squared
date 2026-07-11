@@ -415,10 +415,9 @@ T2 = 265/181/278/176/175 µs, readout 0.55-1.06%; day-of chain rule PASS;
 transpiled sink-RZ scheduled duration 0.0 = virtual, PASS). 46 PUBs
 (36 science round-robin-interleaved by arm + 2 CAL + 8 in-situ T1/T2*),
 376,832 shots, **billed 119 s ≈ 2.0 QPU min** (job.usage() API query,
-2026-07-11 22:21 local; the flight log itself carries no usage field, a
-runner-revision item). Counts persisted (pooled per cell, see the
-instrument deviation below):
-`results/reloaded_hardware_20260711_221840.json` (external pipeline).
+2026-07-11 22:21 local; the flight log carries no usage field, queried via
+the API). Counts persisted (pooled per cell, see the instrument deviation
+below): `results/reloaded_hardware_20260711_221840.json` (external pipeline).
 
 **Reduction (the real counts path).** CAL confusion (payload) p01 = 0.0088,
 p10 = 0.0092; pooled coherences per depth:
@@ -428,26 +427,23 @@ coh_MP = [0.890, 0.796, 0.718, 0.663, 0.503, 0.374].
 Bootstrap 500/500 finite, SE = 0.00436. Analysis JSON:
 `results/reloaded_analyze_20260711_221936.json`.
 
-**Instrument deviation, disclosed (post-flight audit, its own catch):** the
-hardware JSON persisted POOLED per-cell histograms; SamplerV2's
-get_counts() aggregated the M = 256 bindings at persistence, so the
-pre-registered binding-resample leg was a NO-OP on this artifact and the
-realized SE 0.00436 is SHOT-ONLY. The channel itself WAS randomized
-correctly (the parameter sweep was built and bound at (256, n_params); the
-pooling happened only at save time), so every point estimate is
-unaffected. Honest significance against the pre-registered binding+shot
-projection (SE 0.00921, the 7b gate): A-sign at ≈ 5.8σ, still far beyond
-the 99.87% bar; the shot-only reading would say ~12σ and is not used. In
-projected-SE units the A-mag marginality is 0.16 SE above the operative
-band edge (even more marginal than the shot-only 0.33). The
-mitigation-order "0.00% shift PASS" is VACUOUS with one binding row
-(pinned and alternative orders identical by construction) and is withdrawn
-as a check; readout-order sensitivity is unquantified on this artifact.
-Follow-up pinned for any future flight: persist per-binding counts (bypass
-the get_counts() aggregation). Related: the persisted analyze JSON stores
-the runner's own stale-band verdict ("A-sign + A-mag CONFIRMED",
-a_mag: true); this RECORD, applying the committed operative band and the
-projected SE, governs.
+**Instrument deviation.** The hardware JSON persisted POOLED per-cell
+histograms: SamplerV2's get_counts() aggregated the M = 256 bindings at
+save time, so the pre-registered binding-resample leg was a no-op on this
+artifact and the realized SE 0.00436 is SHOT-ONLY. The channel itself was
+randomized correctly (the parameter sweep was built and bound at
+(256, n_params); the pooling happened only at persistence), so every point
+estimate is unaffected. Significance is therefore reported against the
+pre-registered binding+shot projection (SE 0.00921, the 7b gate): A-sign at
+≈ 5.8σ, far beyond the 99.87% bar (a shot-only reading of this artifact
+would say ≈ 12σ; the projected SE governs). In projected-SE units the A-mag
+marginality is 0.16 SE above the operative band edge. Two consequences on
+this pooled artifact: the mitigation-order robustness check is vacuous with
+one binding row, so readout-order sensitivity is unquantified; and the
+persisted analyze JSON carries the runner's verdict labels computed against
+the superseded 7a band, whereas this RECORD, on the committed operative
+band and projected SE, governs. A future flight persists per-binding counts
+(bypassing the get_counts() aggregation).
 
 **Measured:** slope(MP) − slope(E) = **−0.05337/step**; one-sided 99.87%
 bootstrap CI [−0.06505, −0.04107] (entirely negative); null band
@@ -456,61 +452,51 @@ inside its null band [−0.01235, +0.00829].
 
 **Verdicts, per the committed rules:**
 - **A-sign: CONFIRMED.** The site-resolved pricing contrast is real on
-  hardware at the 99.87% level (≈ 5.8σ against the pre-registered
-  projected SE, see the instrument deviation) and outside the null band.
-  The theorem's qualitative content, the first lifetime-rate contrast of
-  the arc; foregrounded honestly: qualitative site-resolution is also what
-  any local-dephasing model predicts, the quantitative discriminator was
-  A-mag.
-- **A-mag: off-prediction, marginal.** Measured −0.05337 vs the OPERATIVE
-  7b band [−0.09167, −0.05482]: 0.00145 above the upper edge (0.33 of the
-  measured SE). Per the pre-registered rule this reads "contrast
-  confirmed, magnitude off-prediction", NOT inconclusive. Instrument note,
-  recorded honestly: the runner's `--analyze` printout compared against
-  the superseded 7a band ([−0.09546, −0.05104], inside which the value
-  falls) and printed "A-mag CONFIRMED"; the committed pre-registration's
-  operative band governs this record. The stale band constant in the
-  analyze printout is a labeling bug, not a data issue.
+  hardware at the 99.87% level (≈ 5.8σ against the pre-registered projected
+  SE) and outside the null band: the first lifetime-rate contrast of the
+  arc. Qualitative site-resolution is also what any local-dephasing model
+  predicts; the quantitative discriminator was A-mag.
+- **A-mag: off-prediction, marginal.** Measured −0.05337 vs the operative
+  7b band [−0.09167, −0.05482]: 0.00145 above the upper edge (0.16 of the
+  projected SE, 0.33 of the shot-only SE). Per the pre-registered rule this
+  reads "contrast confirmed, magnitude off-prediction", not inconclusive.
 - **L: null-consistent**, as pre-declared. No leakage detection claimed.
 
-**The physics reading (a reading, labeled; tightened by the post-flight
-referee):** the measured contrast is the dressed prediction compressed to
-≈ 0.73× (−0.0534 vs −0.0733; 4.6 shot-only SE = 2.2 projected-SE below
-it), and the compression is
-UNIFORM across depth slices (matched-grid: measured no-deep slope −0.0369
-vs ideal no-deep −0.0539, the same ≈ 0.68-0.73×; the deep points still
-steepen the slope on hardware, +45%, as in the ideal sim, +36%; the
-earlier draft's "sits on the no-deep prediction" was a cross-grid
-coincidence and is withdrawn). At this SNR, "the bare theorem rate
-survives" and "generic gate-error compression of the dressed prediction"
-are numerically DEGENERATE (bare −2γ lies 0.8 shot-only SE = 0.37
-projected-SE from the measured value precisely because 0.68× of the
-dressed prediction happens to land there);
-the data cannot separate them, and the pre-registration's own §2/§3 forbid
-the bare-−2γ yardstick. No theorem claim is made from the magnitude.
-Honest foregrounding: the CONFIRMED content (A-sign) is the qualitative
-site-resolution, which any local-dephasing model also predicts; the
-theorem's quantitative discriminator was A-mag, and it missed, marginally.
+**The physics reading (a reading, labeled):** the measured contrast is the
+dressed prediction compressed to ≈ 0.73× (−0.0534 vs −0.0733; 4.6 shot-only
+SE = 2.2 projected-SE below it), and the compression is UNIFORM across
+depth slices (matched-grid: measured no-deep slope −0.0369 vs ideal no-deep
+−0.0539, the same ≈ 0.68-0.73×; the deep points still steepen the slope on
+hardware, +45%, matching the ideal sim's +36%). At this SNR, "the bare
+theorem rate survives" and "generic gate-error compression of the dressed
+prediction" are numerically DEGENERATE (bare −2γ lies 0.8 shot-only SE =
+0.37 projected-SE from the measured value precisely because 0.68× of the
+dressed prediction happens to land there); the data cannot separate them,
+and the pre-registration's own §2/§3 forbid the bare-−2γ yardstick. No
+theorem claim is made from the magnitude: the confirmed content (A-sign) is
+the qualitative site-resolution, which any local-dephasing model also
+predicts, and the theorem's quantitative discriminator was A-mag, which
+missed, marginally.
 
-**Systematics caveat, carried where it bites (§5, verbatim rule):** on
-THIS artifact the bootstrap covers shot noise only (the instrument
-deviation above); binding noise enters via the pre-registered projection,
+**Systematics caveat, carried where it bites (§5):** on THIS artifact the
+bootstrap covers shot noise only (the instrument deviation above); binding
+noise enters via the pre-registered projection,
 and between-arm drift inside the one job is bounded by the interleaving,
 not by the error bars (the before/after properties snapshots returned
 identical calibration VALUES, timestamps aside, so they bound nothing
 within-job). A-sign at ≈ 5.8σ is safe against it; the A-mag marginality
 (0.16-0.33 SE depending on the SE used) and any magnitude interpretation
-sit INSIDE that unquantified scale. A structural strength, stated: arms E and MP measure
-the SAME payload qubit Q107, so Q107's readout confusion and T1/T2 are
+sit INSIDE that unquantified scale. A structural strength: arms E and MP
+measure the SAME payload qubit Q107, so Q107's readout confusion and T1/T2 are
 common-mode and cancel in the verdict statistic; a static per-qubit
 asymmetry cannot fake the contrast. Scope note: this payload-self-coherence
 contrast is a different object from the still-owed "interior coherence
 lifetime under the full concentrator PROFILE" instrument (the AB reckoning's
 Downgrade 2); that one remains open. Billed 119 s vs the 85-99 s
 projection: the in-situ T1/T2* delay blocks run slower per shot, same
-pattern as the heating-leg jobs; transparent, immaterial to budget.
-(Label fix from the audit: the CAL figures 0.0088/0.0092 are the exact
-magnitudes with p01/p10 read in the runner's own convention.)
+pattern as the heating-leg jobs; transparent, immaterial to budget. (The
+CAL figures 0.0088/0.0092 are magnitudes in the runner's p01/p10
+convention.)
 
 **Confirmations question (open for the post-flight round):** the
 pre-registration made A-sign + A-mag together the Confirmations-candidate;
