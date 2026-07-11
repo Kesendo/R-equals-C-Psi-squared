@@ -1,23 +1,24 @@
-# IBM Concentrator Reloaded: the Site-Resolved Rate Flies (Pre-Registration Draft v3)
+# IBM Concentrator Reloaded: the Site-Resolved Rate Flies (flown 2026-07-11, A-sign confirmed)
 
 <!-- Keywords: concentrator protection metric hardware, site-resolved Absorption Theorem test,
 interior coherence lifetime, per-binding randomized Z-sink channel, dose-scaled phases,
 weak-coupling regime, ibm_kingston uniform chain, edge vs payload dose contrast -->
 
-**Status:** PRE-REGISTRATION (committed 2026-07-11, before any shot).
-Nothing has flown. The design went through five empty review rounds (v1:
-three lenses; v2: two; v3: two; v3.1 convergence; all with from-below
-Lindblad checks; the revision notes record every finding and its fix).
-Stage 7a (from-below predictions + the observable search) and stage 7b
-(counts-level gate + certificates) are recorded below; the runner
-`run_concentrator_reloaded.py` (external tomography pipeline) was built,
-went through its own pre-commit reviews (which found and fixed a missing
-hardware counts-persistence path, among others; the 7b block records
-them), and its gates are green; the billing question is resolved by
-measurement (section 7); an independent C# cross-check (MirrorWorld) is
-recorded below. The one remaining step before the flight is the day-of
-calibration pull + chain selection with the hard-abort armed.
-**Date:** 2026-07-11 (design day)
+**Status:** FLOWN (2026-07-11, ibm_kingston). The pre-registration was
+committed before any shot (commit aefaa3b, sections 1-9); the flight
+followed and its RECORD is below. Verdicts, per the committed rules:
+**A-sign CONFIRMED** (≈ 5.8σ against the pre-registered projected SE),
+A-mag off-prediction and marginal, L null-consistent. The design went
+through five empty review rounds before the flight (v1: three lenses; v2:
+two; v3: two; v3.1 convergence; all with from-below Lindblad checks; the
+revision notes record every finding and its fix). Stage 7a (from-below
+predictions + the observable search) and stage 7b (counts-level gate +
+certificates) are recorded below; the runner `run_concentrator_reloaded.py`
+(external tomography pipeline) carried the flight; an independent C#
+cross-check (MirrorWorld) is recorded below. Open items go to the
+post-flight empty rounds and Tom (the Confirmations decision; the
+runner-revision follow-ups noted in the RECORD).
+**Date:** 2026-07-11 (design day + flight day)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Hardware target:** ibm_kingston (Heron r2), one uniform-good-T2 5-qubit line
 **Relation:** the repeat the March run owes, as its own document.
