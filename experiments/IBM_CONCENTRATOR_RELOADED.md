@@ -478,7 +478,7 @@ referee):** the measured contrast is the dressed prediction compressed to
 it), and the compression is
 UNIFORM across depth slices (matched-grid: measured no-deep slope −0.0369
 vs ideal no-deep −0.0539, the same ≈ 0.68-0.73×; the deep points still
-steepen the slope on hardware, +45%, as in the ideal sim, +36% — the
+steepen the slope on hardware, +45%, as in the ideal sim, +36%; the
 earlier draft's "sits on the no-deep prediction" was a cross-grid
 coincidence and is withdrawn). At this SNR, "the bare theorem rate
 survives" and "generic gate-error compression of the dressed prediction"
