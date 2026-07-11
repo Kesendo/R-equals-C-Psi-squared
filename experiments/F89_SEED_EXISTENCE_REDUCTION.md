@@ -119,7 +119,10 @@ which mis-read the tail at large q):
 
 The verifier `simulations/seed_existence_nullity_check.py` computes both endpoints exactly, N = 3..13
 (odd rows shown; the verifier also runs even N, where n₂ = 0 and the surplus is 0; dim = N²(N−1)/2 =
-N(N−1) + N(N−1)(N−2)/2, the −2 + −6 split):
+N(N−1) + N(N−1)(N−2)/2, the −2 + −6 split). Where the d = 2 powers of two went: dim = C(N,2)·C(N,1),
+one joint-popcount cell of the 4^N operator space, since Σ_{p,q} C(N,p)·C(N,q) = (2^N)² = 4^N; the
+2^N is the binomial theorem evaluated (charge forgotten), the cell grid is it unevaluated (charge
+conserved by the dephasing), the Block grading of MirrorWorld:
 
 | N | dim | n₂ = nullity(P₋₂CP₋₂) | n₆ = nullity(P₋₆CP₋₆) | r(∞) = nullity(C) | r(0⁺) − r(∞) |
 |---|-----|-----|-----|-----|-----|
