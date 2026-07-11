@@ -347,10 +347,15 @@ def check_generalization(N=11):
 
 def check_even_N_lab(N=14):
     """N even => n odd => every mirror pair has reflection sign -1, so the proof says nothing.
-    Y = 0 holds anyway. That is the test bed the open column needs."""
+    Y = 0 holds anyway, and the pair-block level law spec(X) = (3a, a, 0), a = (12 - sum lam^2)/n
+    (6/n for ROT3, 8/n for PENT), extends to even N unchanged. At N = 8 (the smallest even lab,
+    n = 9, found 2026-07-12 via
+    MirrorWorld's seed table r(inf) = 6 = 3*Z3) the vanishing set is EXACTLY one mirror pair
+    {2,4,8}/{1,5,7}, so the Q-proved mirror specialisation carries the entire vanishing
+    population there; distinct (non-mirror) pairs first exist at N = 14."""
     n, U = N + 1, modes(N)
     _, K26, _ = blocks(N)
-    seen, worst, pairs = set(), 0.0, 0
+    seen, worst, worst_x, pairs = set(), 0.0, 0.0, 0
     for tau in combinations(range(1, N + 1), 3):
         if abs(sum(lam(k, n) for k in tau)) > 1e-9:
             continue
@@ -364,9 +369,17 @@ def check_even_N_lab(N=14):
         W = np.array([lift(U, tau, s, N, slater_norm(U, tau, N)) for s in range(3)]).T
         Wp = np.array([lift(U, taup, s, N, slater_norm(U, taup, N)) for s in range(3)]).T
         worst = max(worst, float(np.linalg.norm((K26 @ W).T @ (K26 @ Wp))))
+        for t, Wt in ((tau, W), (taup, Wp)):
+            a = (12.0 - sum(lam(k, n) ** 2 for k in t)) / n
+            ev = sorted(np.linalg.eigvalsh((K26 @ Wt).T @ (K26 @ Wt)))
+            worst_x = max(worst_x, max(abs(e - w) for e, w in zip(ev, sorted([0.0, a, 3 * a]))))
+    if N == 8:
+        assert sorted(seen) == [(1, 5, 7), (2, 4, 8)], f"N=8 inventory changed: {sorted(seen)}"
     assert pairs and worst < TOL, f"N={N}: the even-N laboratory does not show Y = 0"
+    assert worst_x < TOL, f"N={N}: the level law spec(X) = (3a, a, 0) fails at even N"
     print(f"  N={N:>3} (n={n} odd) | {pairs} mirror pairs, 0 self-mirror, reflection sign -1 "
-          f"everywhere | ||Y|| <= {worst:.1e}: the proof misses it, the phenomenon does not")
+          f"everywhere | ||Y|| <= {worst:.1e}, level law spec(X) = (3a, a, 0) to {worst_x:.1e}: "
+          f"the proof misses it, the phenomenon does not")
 
 
 def main():
@@ -394,7 +407,8 @@ def main():
     check_generalization(11)
 
     print("\nThe even-N laboratory for the open cases (reflection sign -1, Y = 0 regardless):")
-    check_even_N_lab(14)
+    for even_n in (8, 14):
+        check_even_N_lab(even_n)
 
     print("\n(J) The scope: what the full-spectrum twinning needs beyond Y = 0.")
     still_open = sum(check_cross_triple_blocks(N) for N in resonant)

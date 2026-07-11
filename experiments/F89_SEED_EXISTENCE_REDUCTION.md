@@ -1596,6 +1596,20 @@ itself is proved over ℚ. This is the corrected form of the previous section's 
 even-N case is the smallest instance of the argument the open column needs, and the identity consumes
 λ_{k₁} + λ_{k₂} + λ_{k₃} = 0 exactly once, in the divisibility.
 
+> **The smallest even laboratory, run (2026-07-12).** MirrorWorld's seed table pointed at it: r(∞) = 6
+> at N = 8, the first even N with fusion resonances, is 3·Z₃ with Z₃ = 2, the same 2cos(π/9)-family
+> triples the Piece-3 resonance count records at even N. At N = 8 (n = 9) the vanishing set is **exactly one pair**,
+> and it is the mirror pair {2,4,8}/{1,5,7} (mode-disjoint, k(τ) + k(σ) = 27, so ε = −1): the proof-free
+> zone, with **no distinct-pair residue at all**. So at N = 8, uniquely, the ℚ-proved mirror
+> specialisation plus the gated assembly carry the **entire** vanishing population; distinct (non-mirror)
+> pairs, the part that waits for the variety identity's ℚ-level proof, first exist at the next even
+> lab, N = 14. Measured: ‖Y‖ ≤ 4.0e−16, and the coupled-level law extends to even N unchanged,
+> spec(X) = (3a, a, 0) with a·n = 12 − Σλ² (6 for ROT3, 8 for the two PENT triples at N = 14), to
+> 1.8e−16 at N = 8 and 3.3e−16 at N = 14. The verifier
+> `simulations/y_zero_and_level_law.py` now runs the even-N lab at 8 and 14, asserts the N = 8
+> single-pair inventory, and pins the even-N level law; the assembly and the specialisation were
+> already gated at even N by `simulations/cross_triple_orthogonality.py` (its steps (C), (D)).
+
 **The full column, at certificate grade.** For two distinct triples the same expansion gives 𝔉, gated
 against the discrete Gram at 16200 integer pairs (error 3e−13, values up to 231). Its vanishing on the
 double-constraint variety is certified by exact arithmetic in GF(p), at random points **of** the
