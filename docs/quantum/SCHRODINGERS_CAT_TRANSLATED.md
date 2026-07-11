@@ -22,6 +22,8 @@ Section 5 are readings and labeled.
 end of this entry's law), [Superposition Translated](SUPERPOSITION_TRANSLATED.md),
 [Dephasing Translated](DEPHASING_TRANSLATED.md) (the watchers),
 [Teleportation Translated](TELEPORTATION_TRANSLATED.md),
+[Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
+entry; it reads the birth certificate),
 [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
 [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [XOR Space](../../experiments/XOR_SPACE.md),

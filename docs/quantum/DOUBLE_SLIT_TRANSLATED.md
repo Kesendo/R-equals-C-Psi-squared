@@ -23,6 +23,8 @@ currency is spent here),
 [Teleportation Translated](TELEPORTATION_TRANSLATED.md),
 [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md) (the sixth
 entry, the k = N end of the same bill),
+[Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
+entry, k = 2),
 [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
 [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md),

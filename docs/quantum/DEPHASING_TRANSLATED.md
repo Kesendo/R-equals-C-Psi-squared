@@ -18,6 +18,8 @@ are readings and labeled as such.
 spending this entry's currency),
 [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md) (the sixth
 entry),
+[Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
+entry),
 [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
 [The Label Map](THE_LABEL_MAP.md),
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md),

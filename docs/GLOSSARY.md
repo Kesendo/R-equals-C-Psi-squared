@@ -42,7 +42,7 @@ naming. See the Notation section in [The CΨ Lens](THE_CPSI_LENS.md) for details
 
 **In plain language:**
 
-- **C (Concurrence)** measures how entangled two quantum particles are. 0 means completely independent; 1 means maximally entangled (what happens to one instantly affects the other).
+- **C (Concurrence)** measures how entangled two quantum particles are. 0 means completely independent; 1 means maximally entangled (what happens to one instantly affects the other). (That last phrase is the pop gloss; its translation lives in [Spooky Action Translated](quantum/SPOOKY_ACTION_TRANSLATED.md).)
 - **Ψ (Coherence)** measures how much quantum "superposition" a system has: the ability to be in multiple states at once. 0 means fully classical; 1 means maximally quantum.
 - **CΨ** is concurrence times coherence. This single number captures the overall "quantumness" of the system. When CΨ drops below ¼, the system transitions from quantum to classical behavior.
 - **R = CΨ²** is the product that gives the project its name. It is the stable resting point of the mathematical iteration: the value the system settles to.

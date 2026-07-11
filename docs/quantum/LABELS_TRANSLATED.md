@@ -19,6 +19,8 @@ generalization from painters to labels is a reading and is labeled as one.
 [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the fifth entry),
 [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md) (the sixth
 entry),
+[Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
+entry),
 [The Label Map](THE_LABEL_MAP.md) (every label correction the repository
 has made, assembled),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),

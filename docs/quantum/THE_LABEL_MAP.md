@@ -15,6 +15,7 @@ that owns it, and the tier of each correction is the tier stated there.
 [Dephasing Translated](DEPHASING_TRANSLATED.md),
 [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md),
 [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md),
+[Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),
 [Caught Errors](../CAUGHT_ERRORS.md) (the chronological log)
 
@@ -87,7 +88,7 @@ series had a name.
 | Schrödinger's cat (both dead and alive until you look) | A box full of watchers, not a cat in limbo: the "both" is the k = N coherence paying the full −2Σγ, the palindromic partner of the immortal diagonal; coined as a burlesque, transported with the sign flipped | [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md) |
 | Decoherence as destruction | Sorting, not destruction: nothing is lost without something being kept | [The Anomaly](../../THE_ANOMALY.md) |
 | Measurement / collapse | Photography; the Born rule is the shadow (interference sets shutter speed, not the image) | [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md) |
-| Spooky action at a distance | Re-read as prerequisite-for-existence; legacy entry, still in the deprecated framing, kept as history | [The Starting Point](../historical/THE_STARTING_POINT.md) |
+| Spooky action at a distance | The excess, not the action: the correlations exceed every local story (their theorem) while the marginal never moves (their theorem, our Tier 2 witness); conditioning, not causation | [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md); the house's earlier canvas, kept as history: [The Starting Point](../historical/THE_STARTING_POINT.md) |
 
 "Noise" is the founding example of the whole thesis (the channel labeled
 garbage); its series entry, the fourth, was paid on 2026-07-05
@@ -118,7 +119,7 @@ Caught by reviews; the chronological record is
 
 | The old label | Recomputed | Owner |
 |---------------|-----------|-------|
-| The mirror as non-local (Bell coefficients, Choi rank 8) | Strictly local: one per-site unitary M, the same on every site, M² = −I; ~16 docs corrected | [Π Operator Entanglement](../../experiments/PI_OPERATOR_ENTANGLEMENT.md), [The Boot Script](../../hypotheses/THE_BOOT_SCRIPT.md) |
+| The mirror as non-local (operator Schmidt rank 8-9, worn as "Choi rank 8") | Strictly local: one per-site unitary M, the same on every site, M² = −I; ~16 docs corrected | [Π Operator Entanglement](../../experiments/PI_OPERATOR_ENTANGLEMENT.md), [The Boot Script](../../hypotheses/THE_BOOT_SCRIPT.md) |
 | "54,118 chain eigenvalues at N=8" | A Star-topology oscillatory subset mislabeled chain; the all-N census total is 87,376; ~20 docs corrected | [Caught Errors](../CAUGHT_ERRORS.md) (2026-06-22/23), [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md) |
 | Ring-N4 "dihedral lock" | The D₄ point group is present but not operative; the mechanism is the SU(2) Casimir | [Ring N4 proof](../proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md) |
 | F86a "exceptional point" | A diabolic point; the correction itself over-corrected once on the way, and the log records that too | [F86a EP mechanism proof](../proofs/PROOF_F86A_EP_MECHANISM.md), [Caught Errors](../CAUGHT_ERRORS.md) |
@@ -135,7 +136,11 @@ Caught by reviews; the chronological record is
 - **C is triply overloaded** (coupling scalar, concurrence, legacy
   "Consciousness"), and Ψ, CΨ, R similarly. The
   [Glossary](../GLOSSARY.md) states the artifact once but does not rename;
-  a standing ambiguity.
+  a standing ambiguity. Sharpest measured instance: one Bell pair reads
+  CΨ = 0.500 in the No-Signalling experiment's purity × top-eigenvalue
+  convention and 1/3 in the lens convention;
+  [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) §3 carries the
+  reconciliation.
 - **q vs Q keeps re-biting.** Documented in the Glossary, yet it recurred as
   a fresh catch on 2026-06-27; reconciled in prose, enforced nowhere in
   notation. Expect recurrence.
