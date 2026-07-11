@@ -24,6 +24,7 @@ public sealed class Restless : GameObject
     readonly double[,] h;           // the handshake H: flip-flop on the bonds (real, symmetric)
     readonly (int a, int b)[] bonds; // the geometry the handshake rides (default: a chain)
     readonly int[] pc;              // popcount per basis index (the excitation number H conserves)
+    readonly double zz;             // the ZZ (longitudinal) bond coefficient: 0 = XY handshake, 1 = isotropic Heisenberg
     readonly HashSet<(int p, int q)> occupied = new();   // the joint-popcount blocks the seed lives in
     (int i, int j)[]? alive;        // the cells inside the occupied blocks (F63); the rest is forbidden
 
@@ -32,12 +33,20 @@ public sealed class Restless : GameObject
     // SAME world read through the bra complement: anti-rho(t) = rho(t) * X^N exactly (H commutes with
     // X^N, and k(i, complement j) = N - k(i,j)), so nothing was taken -- the conservation law just
     // moves from the trace (the diagonal dies fastest here) to the ANTI-trace, sum of rho(i, ~i).
+    //
+    // siteGammas = per-site Z-dephasing rates (2026-07-11, the concentrator cross-check): the watching is
+    // no longer uniform. A coherence |i><j| collects -2*sum_l gamma_l*(bit l of i^j), the site-resolved form
+    // of the Absorption Theorem's Re lambda = -2 sum_l gamma_l * light_l. Uniform gamma is the special case
+    // gamma_l = gamma for all l. When null the uniform Pair rate is used (unchanged behavior).
+    // zz = the longitudinal ZZ bond coefficient added to the handshake: H += zz * sum_bonds Z_a Z_b. zz=0 is
+    // the XY flip-flop (unchanged); zz=1 (with the hopping J=2) is the isotropic Heisenberg bond XX+YY+ZZ.
     public Restless(World world, int n, double j, double gamma, (int a, int b)[]? bonds = null,
-        bool antiWatching = false) : base(world)
+        bool antiWatching = false, double[]? siteGammas = null, double zz = 0.0) : base(world)
     {
         N = n;
         J = j;
         Gamma = gamma;
+        this.zz = zz;
         dim = 1 << n;
         this.bonds = bonds ?? Topology.Chain(n);
         rho = new Complex[dim, dim];
@@ -47,7 +56,16 @@ public sealed class Restless : GameObject
             for (int jj = 0; jj < dim; jj++)
             {
                 var p = new Pair(world, i, jj, gamma);   // the atom: its own disagreement and its own rate
-                mask[i, jj] = antiWatching ? -2.0 * gamma * (n - p.Disagreement) : p.Rate;
+                if (siteGammas != null)
+                {
+                    double rate = 0.0;                   // site-resolved watching: -2 sum_l gamma_l * (bit l of i^j)
+                    int diffbits = i ^ jj;
+                    for (int l = 0; l < n; l++)
+                        if (((diffbits >> l) & 1) == 1) rate -= 2.0 * siteGammas[l];
+                    mask[i, jj] = rate;
+                }
+                else
+                    mask[i, jj] = antiWatching ? -2.0 * gamma * (n - p.Disagreement) : p.Rate;
                 dis[i, jj] = p.Disagreement;
             }
         pc = new int[dim];
@@ -94,6 +112,17 @@ public sealed class Restless : GameObject
                     int s2 = (s & ~(1 << a)) | (1 << b);   // move the excitation a -> b
                     H[s, s2] += J;
                     H[s2, s] += J;
+                }
+        // the longitudinal ZZ bond (zz != 0): diagonal, H[s,s] += zz * sum_bonds z_a z_b, z = +1 on |0>, -1 on |1>.
+        // Diagonal, so it commutes with the joint-popcount block cut (F63) and adds only a per-state energy;
+        // for the vacuum<->single-excitation coherence it is the site-dependent potential of the Heisenberg chain.
+        if (zz != 0.0)
+            foreach (var (a, b) in bonds)
+                for (int s = 0; s < dim; s++)
+                {
+                    int za = 1 - 2 * ((s >> a) & 1);
+                    int zb = 1 - 2 * ((s >> b) & 1);
+                    H[s, s] += zz * za * zb;
                 }
         return H;
     }

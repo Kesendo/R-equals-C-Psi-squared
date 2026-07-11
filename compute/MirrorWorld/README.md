@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (118 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (124 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -58,7 +58,7 @@ x/y/z; that is the inheritance edge System → Object.
 | `Seed.cs` | **the within-block self-dual seed** (adopted 2026-07-07, F89 seed-existence): where a state meets the mirror's null (v^T v = 0), a defective seed -- the static source the shadow and the i^4 holonomy leave behind. Held as a COUNT, no eigensolver (the nullity surplus r(0+) - r(inf) over GF(p)): N-1 forced seeds at odd N (the unmirrorable middle seat), 0 at even N. Mirror's within-block companion |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 118 from-below tests: `SmokeTests` (39, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end), `SeedTests` (9, the F89 nullity surplus = N-1 odd / 0 even, exact over GF(p)) |
+| `../MirrorWorld.Tests/*.cs` | 124 from-below tests: `SmokeTests` (39, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end), `SeedTests` (9, the F89 nullity surplus = N-1 odd / 0 even, exact over GF(p)), `ConcentratorTests` (6, the site-resolved watching: J-convention pin, per-site rates, the N=5 reload contrast, ZZ-is-tiny, N=9 persistence; added 2026-07-11 for the IBM_CONCENTRATOR_RELOADED pre-registration) |
 
 ## The closed-form base (the stopping line 2026-06-28; coverage closed 2026-07-04)
 
@@ -184,7 +184,8 @@ dotnet run --project compute/MirrorWorld -- group 3       # MirrorGroup + Antili
 dotnet run --project compute/MirrorWorld -- klein 6       # ParameterKlein: the V4 on each parameter axis; the anti-palindromic orbit shares its diagonal blocks cell for cell, the breaking lives in the cross-blocks
 dotnet run --project compute/MirrorWorld -- hardness      # Hardness: the F87 bloc without a spectrum -- the K3 trio by valuation, the purity and cell rules, the trace face firing at m*=9 on the exact F117 integer
 dotnet run --project compute/MirrorWorld -- router        # Router: the golden/metallic ceiling router -- the window lemma at all four offsets, the locus gating the frame, the dense W L W^-1 = -L - 2 sigma at N=5
-dotnet test compute/MirrorWorld.Tests                     # the 109-test from-below guard
+dotnet run --project compute/MirrorWorld -- concentrator 5 # Concentrator: the site-resolved watching (the IBM_CONCENTRATOR_RELOADED cross-check); also 9 = past the wall
+dotnet test compute/MirrorWorld.Tests                     # the 124-test from-below guard
 ```
 
 ## How to continue (future us)

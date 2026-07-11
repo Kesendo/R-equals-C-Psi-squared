@@ -64,6 +64,108 @@ if (args.Length > 0 && args[0] == "live")
     return;
 }
 
+// ---- run mode "concentrator": the site-resolved rate cross-check (IBM Concentrator Reloaded 7a) ----
+// A standalone continuous-Lindblad comparator for experiments/IBM_CONCENTRATOR_RELOADED.md stage 7a. The
+// flown design Trotterizes the isotropic Heisenberg bond exp(-i*0.05*(XX+YY+ZZ)) with a per-step Z-sink of
+// off-diagonal retention e^-0.05; here we integrate the EXACT continuous Lindblad rho-dot = -i[H,rho] +
+// sum_l gamma_l D_Zl[rho] to the SAME depth grid and read the payload coherence 2|<0..0|rho|0..0,1@payload>|
+// (= |<X_p>+i<Y_p>|). Three arms -- 0 (no sink), E (far-edge sink), MP (on-payload sink) -- the paired-ratio
+// ln-slope over the grid, and the verdict slope(MP)-slope(E) vs the pre-registered central -0.07325/step.
+// Convention, read from Restless + Pair and pinned in ConcentratorTests: hopping J=2 gives the unit-Pauli XY
+// bond (XX+YY), zz=1 the isotropic Heisenberg ZZ; gamma_sink=0.5 gives per-step retention e^-2*gamma*dt =
+// e^-0.05 at dt=0.05 (Pair rate -2*gamma*k). Runs at N=5 (the flight) and past the N=8 wall at N=9 (bonus).
+if (args.Length > 0 && args[0] == "concentrator")
+{
+    int cn = args.Length > 1 ? int.Parse(args[1]) : 5;
+    const double jHop = 2.0, gSink = 0.5, stepT = 0.05;
+    const int subPerStep = 50;                       // RK4 substeps per Trotter-step interval (continuous limit)
+    int[] grid = { 1, 2, 3, 4, 6, 8 };
+    int[] gridNoDeep = { 1, 2, 3, 4 };
+    int payload = cn / 2;                            // center site (N=5 -> 2, N=9 -> 4)
+    int edge = 0;                                    // the far-edge sink site (design arm E)
+    var cworld = new World();
+
+    double[] Arm(int? sinkSite, double zz)
+    {
+        var g = new double[cn];
+        if (sinkSite is int ss) g[ss] = gSink;
+        var r = new Restless(cworld, cn, jHop, 0.0, Topology.Chain(cn), siteGammas: g, zz: zz);
+        int pIdx = 1 << payload;
+        r.Seed(0, 0.5); r.Seed(pIdx, 0.5); r.SeedCoherence(0, pIdx, 0.5);   // |+> on payload, |0> elsewhere
+        double dt = stepT / subPerStep;
+        var coh = new List<double>();
+        int gi = 0;
+        for (int step = 1; step <= grid[^1]; step++)
+        {
+            for (int s = 0; s < subPerStep; s++) r.Step(dt);
+            if (gi < grid.Length && step == grid[gi]) { coh.Add(2.0 * r[0, pIdx].Magnitude); gi++; }
+        }
+        return coh.ToArray();
+    }
+
+    static double SlopeLnR(double[] ca, double[] c0, int[] gr)
+    {
+        int m = gr.Length; double sx = 0, sy = 0, sxx = 0, sxy = 0;
+        for (int i = 0; i < m; i++)
+        {
+            double x = gr[i], y = Math.Log(ca[i] / c0[i]);   // x = step number -> slope is PER STEP
+            sx += x; sy += y; sxx += x * x; sxy += x * y;
+        }
+        return (m * sxy - sx * sy) / (m * sxx - sx * sx);
+    }
+    static double[] Pick(double[] full, int[] grid, int[] want)
+    {
+        var outp = new double[want.Length];
+        for (int i = 0; i < want.Length; i++) outp[i] = full[Array.IndexOf(grid, want[i])];
+        return outp;
+    }
+    static string Sg(double v) => (v < 0 ? "-" : "+") + Math.Abs(v).ToString("0.000000");   // clean forced sign
+
+    Console.WriteLine("the site-resolved rate cross-check (IBM Concentrator Reloaded 7a, continuous-Lindblad)");
+    Console.WriteLine($"  source experiments/IBM_CONCENTRATOR_RELOADED.md; N={cn}, payload |+> on site {payload}, others |0>");
+    Console.WriteLine($"  H = sum_bonds (XX+YY+ZZ) [hopping J={jHop} -> unit-Pauli XY, zz=1 isotropic]; watching D_Z, gamma_sink={gSink}");
+    Console.WriteLine($"  arm 0: no sink; arm E: sink on far edge site {edge}; arm MP: sink on payload site {payload}");
+    Console.WriteLine($"  observable coh_a(t) = 2|rho[0, 1<<{payload}]| = |<X_{payload}>+i<Y_{payload}>|; grid (Trotter steps) = [{string.Join(",", grid)}], t = 0.05*step");
+    Console.WriteLine($"  continuous limit: {subPerStep} RK4 substeps per step (dt = {stepT / subPerStep})");
+    Console.WriteLine();
+
+    var c0 = Arm(null, 1.0);
+    var cE = Arm(edge, 1.0);
+    var cMP = Arm(payload, 1.0);
+    Console.WriteLine($"  {"step",4} {"coh_0",9} {"coh_E",9} {"coh_MP",9} {"R_E=E/0",9} {"R_MP=MP/0",10}");
+    for (int i = 0; i < grid.Length; i++)
+        Console.WriteLine($"  {grid[i],4} {c0[i],9:0.00000} {cE[i],9:0.00000} {cMP[i],9:0.00000} {cE[i] / c0[i],9:0.00000} {cMP[i] / c0[i],10:0.00000}");
+
+    double sE = SlopeLnR(cE, c0, grid), sMP = SlopeLnR(cMP, c0, grid), diff = sMP - sE;
+    double sE4 = SlopeLnR(Pick(cE, grid, gridNoDeep), Pick(c0, grid, gridNoDeep), gridNoDeep);
+    double sMP4 = SlopeLnR(Pick(cMP, grid, gridNoDeep), Pick(c0, grid, gridNoDeep), gridNoDeep);
+    Console.WriteLine();
+    Console.WriteLine($"  slope(E)  = {sE,+10:0.000000}/step   slope(MP) = {sMP,+10:0.000000}/step");
+    Console.WriteLine($"  slope(MP) - slope(E) = {diff,+10:0.000000}/step   (no-deep, steps 1-4: {sMP4 - sE4,+10:0.000000})");
+    Console.WriteLine($"  coh_0 at step 8 (t=0.4) = {c0[^1]:0.00000}   (design clean anchor ~0.456)");
+
+    if (cn == 5)
+    {
+        // isolate the ZZ contribution: rerun XY-only (zz=0) and compare the contrast
+        var c0x = Arm(null, 0.0); var cEx = Arm(edge, 0.0); var cMPx = Arm(payload, 0.0);
+        double diffXY = SlopeLnR(cMPx, c0x, grid) - SlopeLnR(cEx, c0x, grid);
+        Console.WriteLine();
+        Console.WriteLine("  cross-check vs the pre-registered design (experiments/IBM_CONCENTRATOR_RELOADED.md 7a):");
+        Console.WriteLine($"    design flown Trotter (J*dt=0.05)  slope(MP)-slope(E) = -0.073249/step (recorded -0.07325)");
+        Console.WriteLine($"    this continuous Heisenberg (zz=1) slope(MP)-slope(E) = {Sg(diff)}/step");
+        Console.WriteLine($"    Trotter gap (continuous - flown)  = {Sg(diff - (-0.073249))}/step  (O((J*dt)^2) ~ 0.0025 bound)");
+        Console.WriteLine($"    XY-only (zz=0) contrast           = {Sg(diffXY)}/step  -> ZZ shifts it by {Sg(diff - diffXY)} (tiny)");
+        Console.WriteLine($"    far-sink leakage slope(E)         = {Sg(sE)}/step  (design -0.00029, null-consistency)");
+    }
+    else
+    {
+        Console.WriteLine();
+        Console.WriteLine($"  N={cn} is past the N=8 spectrum wall; the site contrast is still a small block-local run (100 alive cells).");
+        Console.WriteLine($"    site contrast slope(MP)-slope(E) = {Sg(diff)}/step; far-sink slope(E) = {Sg(sE)}/step (leakage).");
+    }
+    return;
+}
+
 // ---- run mode "mirror": the first mirror in the world of mirrors ----
 // The fold-lattice legs (adopted 2026-07-03) as exact entry-wise rearrangements: no eigensolver, the
 // mirror checked cell by cell. Then the play: orbits, the self-folded price, and the trajectory fold
