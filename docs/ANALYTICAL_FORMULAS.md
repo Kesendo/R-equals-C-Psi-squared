@@ -2198,7 +2198,7 @@ The 2·(1/2) = 1 term is exact: all the probability mass lives on mirror-pairs (
 
 **Structural reading.** Information per mirror-pair ~ 2p_ℓ ~ 4/(N+1) shrinks with N. Number of mirror-pairs ~ N/2 grows with N. The product saturates at 1 bit, because the two scalings are exactly matched by the probability normalisation Σ p_ℓ = 1.
 
-**Resonance enhancement at special N.** At N+1 ≡ 0 (mod 2) with k = (N+1)/2 integer, the distribution reduces to (p_max, 0, p_max, 0, ...) with only two values. The sin⁴ sum equals (N+1)/2 instead of 3(N+1)/8, giving Σ p² = 2/(N+1) and thus MM(0) ≈ 1 + 1/((N+1) ln 2)·2 ≈ 1 + 1.445/(N+1). At most N this resonance is not the best-k globally; the generic optimum with 3(N+1)/8 coefficient wins.
+**Resonance enhancement at special N.** At N+1 ≡ 0 (mod 2) with k = (N+1)/2 integer, the distribution reduces to (p_max, 0, p_max, 0, ...) with only two values. The sin⁴ sum equals (N+1)/2 instead of 3(N+1)/8, giving Σ p² = 2/(N+1), mirror-pair half 1/(N+1), and thus MM(0) ≈ 1 + 1/((N+1) ln 2) ≈ 1 + 1.445/(N+1). At most N this resonance is not the best-k globally; the generic optimum with 3(N+1)/8 coefficient wins.
 
 **Verified values (best-k MM(0) and rescaled deviation):**
 

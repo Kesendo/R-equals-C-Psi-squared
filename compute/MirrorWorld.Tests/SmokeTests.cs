@@ -339,6 +339,28 @@ public class SmokeTests
             }
     }
 
+    // --- F77: the multi-drop MM(0) saturates at 1 bit -- the closed asymptotic pinned against the
+    // EXACT F75 mirror-pair sum at full best-k search (the registry's own verified rows), and the
+    // rescaled deviation (MM-1)(N+1) descending toward 3/(4 ln 2) = 1.0820.
+    [Fact]
+    public void F77_MM0_Saturation_Against_Exact_F75_BestK()
+    {
+        Assert.Equal(1.0820, Formulas.F77_RescaledDeviationLimit(), 4);
+        double prev = double.MaxValue;
+        foreach (var (N, mm0, resc) in new[] { (101, 1.01078, 1.100), (201, 1.00540, 1.091), (1001, 1.00108, 1.084) })
+        {
+            double best = 0.0;
+            for (int k = 1; k <= N; k++) best = Math.Max(best, Formulas.F75_MirrorPairSum(N, k));
+            Assert.Equal(mm0, best, 5);
+            Assert.Equal(resc, (best - 1.0) * (N + 1), 3);
+            Assert.Equal(Formulas.F77_MMSaturation(N), best, 3);
+            double dev = (best - 1.0) * (N + 1);
+            Assert.True(dev > Formulas.F77_RescaledDeviationLimit() && dev < prev,
+                "the rescaled deviation must descend toward 3/(4 ln 2) from above");
+            prev = dev;
+        }
+    }
+
     // --- F75: mirror-pair mutual information for single-excitation mirror-symmetric states,
     // MI = 2 h(p) - h(2p) with p the site population; independent of the mirror sign; saturates at
     // 2 bits (a Bell pair) at p = 1/2. Bonding:k populations are the F65 amplitudes squared, and

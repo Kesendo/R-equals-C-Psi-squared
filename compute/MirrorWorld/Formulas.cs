@@ -291,6 +291,17 @@ public static class Formulas
         return mm;
     }
 
+    // F77 (T1, asymptotic proven; adopted 2026-07-12): the multi-drop MM(0) saturates at 1 bit --
+    // MM(0)(N, k*) = 1 + 3/(4(N+1) ln 2) + O(N^-2). Per-pair information ~ 4/(N+1) shrinks exactly as
+    // the ~ N/2 pair count grows (the probability normalisation matches the two scalings); the
+    // correction is the entropy non-linearity via sum sin^4 = 3(N+1)/8 at generic k. Sits ON F75:
+    // the from-below pin is convergence of the exact F75 mirror-pair sum, (MM-1)(N+1) -> 3/(4 ln 2)
+    // = 1.0820. The resonant k = (N+1)/2 carries the enhanced 1/((N+1) ln 2) deviation, rescaled
+    // 1/ln 2 = 1.4427 (the registry's 1.445; its symbolic line carried a stray *2, fixed at this
+    // adoption); isolated, density zero in the limit.
+    public static double F77_MMSaturation(int n) => 1.0 + 3.0 / (4.0 * (n + 1) * Math.Log(2.0));
+    public static double F77_RescaledDeviationLimit() => 3.0 / (4.0 * Math.Log(2.0));
+
     // F76 (T1): pure-dephasing decay of the mirror-pair MI. The pair coherence decays at 4 gamma0
     // (lambda = e^{-4 gamma0 t}) while the populations stay, so the pair eigenvalues become
     // {1-2p, p(1+lambda), p(1-lambda), 0} and MI(p, t) = 2 h(p) - S_ab(p, lambda). lambda = 1
