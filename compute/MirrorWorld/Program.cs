@@ -297,6 +297,25 @@ if (args.Length > 0 && args[0] == "seed")
     Console.WriteLine($"  verified, not derived). RESONANT (odd N) iff 3 | N+1 and N >= 11: next after 17 is 23, not 29. In range:");
     var res = Enumerable.Range(3, Math.Max(0, sn - 2)).Where(Seed.IsResonant);
     Console.WriteLine($"  resonant N = [{string.Join(", ", res)}]; N = 8 is the smallest EVEN N with resonances (Z3 = 2), seedless.");
+    Console.WriteLine();
+    Console.WriteLine("  the coupled-level law (adopted 2026-07-12, the 10d section of the same doc): each vanishing triple's");
+    Console.WriteLine("  pair block is X = a*[[1,1,0],[1,2,1],[0,1,1]], spec (3,1,0) structural, so spec(X) = (3a, a, 0) with");
+    Console.WriteLine("  a*n = 12 - sum lam^2: an INTEGER for the paired families -- 6 (ROT3) and 8 (PENT), pair levels");
+    Console.WriteLine("  (18/n, 6/n) and (24/n, 8/n). TRIV is self-mirror, unpaired. The triples, exact (cyclotomic GF(p),");
+    Console.WriteLine("  two primes; the tie column checks #triples = Z3 = r(inf)/3 against the independent rank count):");
+    var (hi, lo, zr) = Seed.CouplingShapeSpectrum();   // throws if x(x-1)(x-3) ever stops being the shape's char poly
+    Console.WriteLine($"  coupling shape spec = ({hi}, {lo}, {zr}) = roots of x^3 - 4x^2 + 3x, verified in integers");
+    for (int n = 3; n <= sn; n++)
+    {
+        var seed = new Seed(sworld, n, sg);
+        var triples = seed.VanishingTriples();
+        if (triples.Length == 0) continue;
+        int z3 = Seed.Z3FromRInf(seed.Count().RInf);
+        string tie = triples.Length == z3 ? "ties" : "?? MISMATCH";
+        string inv = string.Join("  ", triples.Select(t => $"{{{t.K1},{t.K2},{t.K3}}}{t.Family switch { TripleFamily.Triv => "T", TripleFamily.Rot3 => "R", TripleFamily.Pent => "P", _ => "?" }}"));
+        Console.WriteLine($"  N={n,2} (n={n + 1,2}): {triples.Length} triple(s) {tie} Z3={z3}   {inv}");
+    }
+    Console.WriteLine("  (T = TRIV self-mirror, R = ROT3 pair levels (18/n, 6/n), P = PENT pair levels (24/n, 8/n))");
     return;
 }
 

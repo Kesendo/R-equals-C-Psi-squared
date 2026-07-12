@@ -100,4 +100,93 @@ public class SeedTests
         Assert.Equal(a.Surplus, b.Surplus);
         Assert.Equal(6, a.Surplus);
     }
+
+    // ---- the coupled-level law (adopted 2026-07-12 from the 10d section of the same doc) ----
+
+    // the soundness tie: the cyclotomic triple enumeration can only OVERcount (a true zero is zero mod
+    // every prime), and the proved r(inf) = 3*Z3 makes the independent GF(p) rank count the exact
+    // ceiling -- equality pins the enumeration at every N in the rank range, even N included.
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
+    [InlineData(11)]
+    public void Triple_Count_Ties_To_RInf_Over_3(int n)
+    {
+        var seed = new Seed(W, n, G);
+        Assert.Equal(Seed.Z3FromRInf(seed.Count().RInf), seed.VanishingTriples().Length);
+    }
+
+    // the odd-N family decomposition behind the Conway-Jones closed form: (N-1)/2 TRIV + [3|n](n/3 - 2)
+    // ROT3 + 2[15|n] PENT (the even-n counting; odd n counts differently -- see the N=8 pin below).
+    [Theory]
+    [InlineData(5)]
+    [InlineData(7)]
+    [InlineData(9)]
+    [InlineData(11)]
+    [InlineData(13)]
+    [InlineData(17)]
+    [InlineData(23)]
+    [InlineData(29)]
+    public void Odd_N_Family_Counts_Match_ConwayJones_Decomposition(int nSites)
+    {
+        int n = nSites + 1;
+        var triples = new Seed(W, nSites, G).VanishingTriples();
+        Assert.Equal((nSites - 1) / 2, triples.Count(t => t.Family == TripleFamily.Triv));
+        Assert.Equal(n % 3 == 0 ? n / 3 - 2 : 0, triples.Count(t => t.Family == TripleFamily.Rot3));
+        Assert.Equal(n % 15 == 0 ? 2 : 0, triples.Count(t => t.Family == TripleFamily.Pent));
+        Assert.Equal(Seed.Z3ClosedFormOdd(nSites), triples.Length);
+    }
+
+    // the smallest even laboratory (run 2026-07-12): at N = 8 (n = 9) the vanishing set is exactly the
+    // one mode-disjoint mirror pair {2,4,8} / {1,5,7}, both ROT3 (cos(2pi/9) + cos(4pi/9) = cos(pi/9)),
+    // no TRIV floor (n odd), pair levels (18/9, 6/9) = (2, 2/3) -- a*n = 6 extends to even N.
+    [Fact]
+    public void Even_N_Inventory_At_N8()
+    {
+        var triples = new Seed(W, 8, G).VanishingTriples();
+        Assert.Equal(2, triples.Length);
+        Assert.Contains((1, 5, 7, TripleFamily.Rot3), triples);
+        Assert.Contains((2, 4, 8, TripleFamily.Rot3), triples);
+    }
+
+    // mirror closure: lam_{n-k} = -lam_k, so the mirror k -> n-k of a vanishing triple vanishes too.
+    // TRIV is exactly the self-mirror class (the class-split theorem); every non-TRIV triple pairs
+    // with a DISTINCT mirror partner in the inventory.
+    [Theory]
+    [InlineData(8)]
+    [InlineData(11)]
+    [InlineData(14)]
+    [InlineData(17)]
+    public void NonTriv_Triples_Pair_Under_Mirror_Triv_Is_SelfMirror(int nSites)
+    {
+        int n = nSites + 1;
+        var triples = new Seed(W, nSites, G).VanishingTriples();
+        var set = triples.Select(t => (t.K1, t.K2, t.K3)).ToHashSet();
+        foreach (var t in triples)
+        {
+            var mirror = (n - t.K3, n - t.K2, n - t.K1);
+            Assert.Contains(mirror, set);
+            bool selfMirror = mirror == (t.K1, t.K2, t.K3);
+            Assert.Equal(t.Family == TripleFamily.Triv, selfMirror);
+        }
+    }
+
+    // the law's two exact factors: the structural coupling-shape spectrum (3,1,0) = roots of
+    // x^3 - 4x^2 + 3x (integer char poly, no eigensolver), and the integer pair levels times n --
+    // a*n = 12 - sum lam^2 = 6 (ROT3) and 8 (PENT), spec(X) = (3a, a, 0). TRIV has no pair to twin
+    // with (self-mirror) and asking for its pair levels throws.
+    [Fact]
+    public void Coupling_Shape_And_Pair_Levels_Are_Exact()
+    {
+        Assert.Equal((3, 1, 0), Seed.CouplingShapeSpectrum());
+        Assert.Equal((18, 6, 0), Seed.PairLevelsTimesN(TripleFamily.Rot3));
+        Assert.Equal((24, 8, 0), Seed.PairLevelsTimesN(TripleFamily.Pent));
+        Assert.Throws<InvalidOperationException>(() => Seed.PairLevelsTimesN(TripleFamily.Triv));
+    }
 }

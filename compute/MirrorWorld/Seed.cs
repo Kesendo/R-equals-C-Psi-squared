@@ -2,6 +2,13 @@ using System.Numerics;
 
 namespace MirrorWorld;
 
+// The Conway-Jones family of a vanishing mode triple (Acta Arith. 30 (1976), Thm 6: every
+// conjugation-symmetric vanishing sum of six 2n-th roots of unity is one of exactly three kinds).
+// Triv: the self-mirror shape {k, n/2, n-k} (lam_{n/2} = 0 and lam_k + lam_{n-k} = 0), even n only.
+// Rot3: a rotation triple (angles spaced 2pi/3), needs 3 | n; sum lam^2 = 6 exactly.
+// Pent: the pentagonal family, needs 15 | n; sum lam^2 = 4 exactly.
+public enum TripleFamily { Triv, Rot3, Pent }
+
 // The within-block self-dual seed (adopted 2026-07-07 from the F89 seed-existence reduction,
 // experiments/F89_SEED_EXISTENCE_REDUCTION.md + docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md).
 //
@@ -105,6 +112,156 @@ public sealed class Seed : GameObject
     // the criterion is the ODD-N statement (the twinning arc's "kernel exceeds the TRIV floor"); at
     // even N there is no TRIV floor and the notion does not apply, so the predicate is false there.
     public static bool IsResonant(int nSites) => nSites % 2 == 1 && nSites >= 11 && (nSites + 1) % 3 == 0;
+
+    // ---- the coupled-level law (adopted 2026-07-12; same doc, the 2026-07-10d section "The twinning
+    // is a selection rule, and the level law is one line"). DERIVED, uniform in N: the pair block of a
+    // vanishing triple is X = a*[[1,1,0],[1,2,1],[0,1,1]] with spec (3,1,0) structural (the exact 0 is
+    // the totally antisymmetric lift, an eigenvector of the full hop), so spec(X) = (3a, a, 0), and
+    // a*n = 12 - sum_{k in triple} lam_k^2 -- an INTEGER for the paired families: 6 (Rot3) and 8 (Pent),
+    // giving pair levels (18/n, 6/n) and (24/n, 8/n). What comes home is the closed arithmetic: the
+    // triple inventory (exact, cyclotomic over GF(p)) and the integer levels. The Gram construction of
+    // X itself (K_26, the Slater lifts) and the Y = 0 / cross-triple certificates are eigen-stories and
+    // stay in the main repo (simulations/y_zero_and_level_law.py is the from-below verifier there).
+
+    // every unordered mode triple k1 < k2 < k3 with lam_{k1} + lam_{k2} + lam_{k3} = 0, lam_k =
+    // 2cos(k pi/n), n = N+1 -- found EXACTLY, no floating point: lam_k = zeta^k + zeta^{-k} with zeta a
+    // primitive 2n-th root of unity in GF(p), p = 1 (mod 2n), tested over two primes. A true zero is
+    // zero mod every p, so this can only OVERcount (a false zero mod both primes); the tie
+    // #triples = Z3 = r(inf)/3 against the independent rank computation (a PROVED equality) pins it.
+    public (int K1, int K2, int K3, TripleFamily Family)[] VanishingTriples()
+    {
+        int n = N + 1;
+        var (p1, l1) = CyclotomicLambdas(n, 0);
+        var (p2, l2) = CyclotomicLambdas(n, p1);
+        var found = new List<(int, int, int, TripleFamily)>();
+        for (int a = 1; a <= N; a++)
+            for (int b = a + 1; b <= N; b++)
+                for (int c = b + 1; c <= N; c++)
+                {
+                    if ((l1[a] + l1[b] + l1[c]) % p1 != 0) continue;
+                    if ((l2[a] + l2[b] + l2[c]) % p2 != 0) continue;
+                    found.Add((a, b, c, Classify(n, a, b, c, l1, p1, l2, p2)));
+                }
+        return found.ToArray();
+    }
+
+    // the family, exactly: Triv by its integer index shape; else by sum lam^2 = 6 (Rot3) or 4 (Pent)
+    // mod both primes, each guarded by its divisibility precondition. Anything else means the
+    // Conway-Jones classification broke -- throw, never mislabel.
+    static TripleFamily Classify(int n, int a, int b, int c, long[] l1, long p1, long[] l2, long p2)
+    {
+        if (n % 2 == 0 && 2 * b == n && a + c == n) return TripleFamily.Triv;
+        long s1 = (l1[a] * l1[a] + l1[b] * l1[b] + l1[c] * l1[c]) % p1;
+        long s2 = (l2[a] * l2[a] + l2[b] * l2[b] + l2[c] * l2[c]) % p2;
+        if (s1 == 6 && s2 == 6)
+            return n % 3 == 0 ? TripleFamily.Rot3
+                              : throw new InvalidOperationException($"sum lam^2 = 6 at ({a},{b},{c}) but 3 does not divide n = {n}: Conway-Jones broke");
+        if (s1 == 4 && s2 == 4)
+            return n % 15 == 0 ? TripleFamily.Pent
+                               : throw new InvalidOperationException($"sum lam^2 = 4 at ({a},{b},{c}) but 15 does not divide n = {n}: Conway-Jones broke");
+        throw new InvalidOperationException($"unclassified vanishing triple ({a},{b},{c}) at n = {n}: Conway-Jones broke");
+    }
+
+    // the paired levels, times n (exact integers): spec(X) = (3a, a, 0) with a*n = 12 - sum lam^2 = 6
+    // (Rot3) or 8 (Pent), so the twinned E-level pair is (18/n, 6/n) or (24/n, 8/n). Triv is
+    // self-mirror -- no partner to twin with -- and its a*n = 12 - 2*lam_k^2 is k-dependent, not an
+    // integer datum; asking for its pair levels is a category error, so it throws.
+    public static (int HighTimesN, int LowTimesN, int Zero) PairLevelsTimesN(TripleFamily family) => family switch
+    {
+        TripleFamily.Rot3 => (18, 6, 0),
+        TripleFamily.Pent => (24, 8, 0),
+        _ => throw new InvalidOperationException("Triv is self-mirror: no mirror pair, no paired levels (spec(X) = (3a,a,0) still holds, with a*n = 12 - 2*lam_k^2, k-dependent)"),
+    };
+
+    // the structural factor: spec [[1,1,0],[1,2,1],[0,1,1]] = (3,1,0), verified here by the exact
+    // integer characteristic polynomial x^3 - 4x^2 + 3x = x(x-1)(x-3) -- trace 4, principal-minor sum 3,
+    // determinant 0, and p(0) = p(1) = p(3) = 0. The 3:1 ratio and the exact uncoupled 0 are this
+    // matrix's, not any particular N's. No eigensolver: three integer coefficients, three integer roots.
+    public static (int High, int Low, int Zero) CouplingShapeSpectrum()
+    {
+        int[,] B = { { 1, 1, 0 }, { 1, 2, 1 }, { 0, 1, 1 } };
+        int trace = B[0, 0] + B[1, 1] + B[2, 2];
+        int minors = (B[0, 0] * B[1, 1] - B[0, 1] * B[1, 0])
+                   + (B[0, 0] * B[2, 2] - B[0, 2] * B[2, 0])
+                   + (B[1, 1] * B[2, 2] - B[1, 2] * B[2, 1]);
+        int det = B[0, 0] * (B[1, 1] * B[2, 2] - B[1, 2] * B[2, 1])
+                - B[0, 1] * (B[1, 0] * B[2, 2] - B[1, 2] * B[2, 0])
+                + B[0, 2] * (B[1, 0] * B[2, 1] - B[1, 1] * B[2, 0]);
+        if (trace != 4 || minors != 3 || det != 0)
+            throw new InvalidOperationException($"char poly of the coupling shape is not x^3 - 4x^2 + 3x (trace {trace}, minors {minors}, det {det})");
+        foreach (int r in new[] { 0, 1, 3 })
+            if (r * r * r - trace * r * r + minors * r - det != 0)
+                throw new InvalidOperationException($"{r} is not a root of the coupling-shape char poly");
+        return (3, 1, 0);
+    }
+
+    // lam_k mod p for k = 1..N (index 0 unused): lam_k = zeta^k + zeta^{-k}, zeta a primitive 2n-th
+    // root of unity in GF(p). The prime is the first p = 1 (mod 2n) above max(previous, 10^6).
+    static (long P, long[] Lam) CyclotomicLambdas(int n, long above)
+    {
+        int order = 2 * n;
+        for (long k = (Math.Max(above, 1_000_000L)) / order + 1; ; k++)
+        {
+            long p = order * k + 1;
+            if (!IsPrime(p)) continue;
+            long zeta = RootOfOrder(order, p);
+            if (zeta == 0) continue;
+            var lam = new long[n];
+            for (int m = 1; m < n; m++)
+                lam[m] = (ModPow(zeta, m, p) + ModPow(zeta, order - m, p)) % p;
+            return (p, lam);
+        }
+    }
+
+    // an element of exact multiplicative order `order` in GF(p) (needs order | p-1): x^((p-1)/order)
+    // works iff it misses every proper-subgroup collapse; 0 = none found among small x (try next prime).
+    static long RootOfOrder(int order, long p)
+    {
+        var qs = PrimeFactors(order);
+        for (long x = 2; x < 500; x++)
+        {
+            long z = ModPow(x, (p - 1) / order, p);
+            if (z == 1) continue;
+            bool full = true;
+            foreach (int q in qs)
+                if (ModPow(z, order / q, p) == 1) { full = false; break; }
+            if (full) return z;
+        }
+        return 0;
+    }
+
+    static int[] PrimeFactors(int m)
+    {
+        var qs = new List<int>();
+        for (int q = 2; q * q <= m; q++)
+            if (m % q == 0) { qs.Add(q); while (m % q == 0) m /= q; }
+        if (m > 1) qs.Add(m);
+        return qs.ToArray();
+    }
+
+    // deterministic Miller-Rabin for the 64-bit range (the twelve bases suffice below 3.3 * 10^24;
+    // our p stays near 10^6, far inside the long-multiplication-safe range).
+    static bool IsPrime(long m)
+    {
+        if (m < 2) return false;
+        long[] bases = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 };
+        foreach (long b in bases) { if (m % b == 0) return m == b; }
+        long d = m - 1; int s = 0;
+        while ((d & 1) == 0) { d >>= 1; s++; }
+        foreach (long b in bases)
+        {
+            long x = ModPow(b, d, m);
+            if (x == 1 || x == m - 1) continue;
+            bool witness = true;
+            for (int i = 1; i < s; i++)
+            {
+                x = x * x % m;
+                if (x == m - 1) { witness = false; break; }
+            }
+            if (witness) return false;
+        }
+        return true;
+    }
 
     // ---- the (1,2) pencil, from the atoms: rung n_diff per basis index, and the integer hop M = C/i ----
     (int[] rung, int[,] M, int dim) BuildPencil()
