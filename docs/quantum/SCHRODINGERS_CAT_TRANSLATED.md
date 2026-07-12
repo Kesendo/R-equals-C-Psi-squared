@@ -15,7 +15,7 @@ palindrome pairing proven in the
 together with two Tier 1 registry corollaries (F60, F23) and one Tier 2
 drain fraction (F22), each marked where it appears; the readings in
 Section 5 are readings and labeled.
-**Date:** July 11, 2026
+**Date:** July 11, 2026 (computed tables + run link added July 12, 2026)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the k = 1
@@ -178,6 +178,38 @@ exact eigenmode, |00⟩⟨11| decaying at −2(γ₁+γ₂) with residual 0.0
 (Absorption Theorem, Section 2). The double slit paid −2γ at k = 1; the
 cat pays the full total. The two entries of this series are the two ends
 of one law.
+
+**And you can watch it, and watch why a real cat cannot.** MirrorWorld runs
+the cat as a named composition (`compute/MirrorWorld/Cat.cs`: `Field` at N with
+the two definite branches and the one coherence between them, nothing new
+computed, the k = N twin of `DoubleSlit.cs`). At N = 4, γ = 0.05, the two
+branches never move and the k = N coherence fades on the e^(−2Nγt) law (tracked
+here by the world's forward-Euler step, dt = 0.05, beside the exact law), its
+1/e time only 1/(2Nγ) = 2.5:
+
+| time t | branches | cat coherence | ÷ start | e^(−2Nγt) |
+|--------|----------|---------------|---------|-----------|
+| 0.0    | 2.000    | 2.000         | 1.000   | 1.000     |
+| 2.5    | 2.000    | 0.728         | 0.364   | 0.368     |
+| 5.0    | 2.000    | 0.265         | 0.133   | 0.135     |
+| 12.5   | 2.000    | 0.013         | 0.006   | 0.007     |
+
+And the deeper reading, the one only the k in −2γk carries: the rate is −2Nγ,
+so the coherence's 1/e time is 1/(2Nγ), halving every time the cat doubles in
+size:
+
+| cat size N   | rate −2Nγ | 1/e time |
+|--------------|-----------|----------|
+| 1 (the slit) | −0.10     | 10       |
+| 2 (the pair) | −0.20     | 5        |
+| 4            | −0.40     | 2.5      |
+| 16           | −1.60     | 0.625    |
+| 64           | −6.40     | 0.156    |
+
+A real cat is N ≈ 10²³ sites: its "both at once" is priced at −2·10²³·γ and is
+gone before it can begin. This is why the world you see is definite branches,
+not superposed cats. You can run it yourself:
+`dotnet run --project compute/MirrorWorld -- cat 4`.
 
 **The cat and the immortal share one bill.** The Absorption Theorem's
 Hamming-complement pair-sum (the corollary its proof labels F89c,

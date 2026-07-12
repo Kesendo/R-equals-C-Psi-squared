@@ -330,6 +330,55 @@ if (args.Length > 0 && args[0] == "doubleslit")
     return;
 }
 
+// ---- run mode "cat": Schrodinger's cat composed as Field at N (the k=N sighting) ----
+// The two definite branches (dead |0..0>, alive |1..1>) are the immortal diagonal; the coherence between
+// them (k=N) pays -2*gamma*N and dies N times faster than the slit's k=1 -- the same law, the far end.
+// The dynamics needs Field's 4^N, so keep N small; the N-scaling law (why a real cat never superposes) is
+// pure arithmetic. Meaning in docs/quantum/SCHRODINGERS_CAT_TRANSLATED.md.
+if (args.Length > 0 && args[0] == "cat")
+{
+    int catN = args.Length > 1 ? int.Parse(args[1]) : 4;
+    const double catg = 0.05, catdt = 0.05;
+    var catworld = new World();
+    if (catN <= 12)                                        // the dynamics builds Field's 4^N; keep it small
+    {
+        var cat = new Cat(catworld, catN, catg);
+        double coh0 = cat.CatCoherence;
+        double tau = 1.0 / (2.0 * catg * catN);
+        Console.WriteLine($"Schrodinger's cat, composed as Field at N={catN} (the k=N sighting, nothing new)");
+        Console.WriteLine("  two definite branches |0..0> (dead), |1..1> (alive): the immortal diagonal, the poles that stay;");
+        Console.WriteLine($"  the coherence |0..0><1..1> between them is the 'both at once', disagreement k={catN}, rate {cat.CoherenceRate:0.00}");
+        Console.WriteLine($"  = -2*gamma*N. Its 1/e time is 1/(2*gamma*N) = {tau:0.0} -- it dies {catN}x faster than the slit's k=1.");
+        Console.WriteLine("  Meaning: SCHRODINGERS_CAT_TRANSLATED.md");
+        Console.WriteLine();
+        Console.WriteLine($"  gamma = {catg}");
+        Console.WriteLine($"  {"t",6} {"branches",9} {"cat-coh",8} {"coh/c0",8} {"e^(-2Ngt)",10}");
+        int steps = (int)Math.Round(5 * tau / catdt);      // run to ~5 lifetimes
+        int every = Math.Max(1, steps / 5);
+        for (int s = 0; s <= steps; s++)
+        {
+            if (s % every == 0)
+                Console.WriteLine($"  {cat.T,6:0.00} {cat.Branches,9:0.000} {cat.CatCoherence,8:0.000} {cat.CatCoherence / coh0,8:0.000} {Math.Exp(cat.CoherenceRate * cat.T),10:0.000}");
+            cat.Watch(catdt);
+        }
+        Console.WriteLine();
+        Console.WriteLine("  the branches stay flat (the definite poles are immortal); the 'both at once' vanishes fast.");
+    }
+    else
+    {
+        Console.WriteLine($"Schrodinger's cat at N={catN}: the dynamics builds Field's 4^N (too big past N=12), so");
+        Console.WriteLine("  the run shows the N-scaling law only -- it is pure arithmetic and holds for any N (a real cat's own N).");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  the deeper reading -- why we never see a macroscopic cat both dead and alive (rate -2*N*gamma):");
+    Console.WriteLine($"  {"N",4} {"rate -2Ng",10} {"1/e time",10}");
+    foreach (int nn in new[] { 1, 2, 4, 8, 16, 32, 64 })
+        Console.WriteLine($"  {nn,4} {-2.0 * catg * nn,10:0.00} {1.0 / (2.0 * catg * nn),10:0.0000}");
+    Console.WriteLine("  the bigger the superposition, the deeper the rate and the shorter the life -- k=1 the slit,");
+    Console.WriteLine("  k=N the cat, one law. A real cat is N ~ 10^23: the 'both at once' is gone before it begins.");
+    return;
+}
+
 // ---- run mode "group": the mirror group and its antilinear double ----
 // F118 + F119 (adopted 2026-07-04): the palindromizer factors, Pi_Z = R o D, and the two generators
 // close into the dihedral D4 -- eight signed permutations of the Pauli basis, compared exactly. The
