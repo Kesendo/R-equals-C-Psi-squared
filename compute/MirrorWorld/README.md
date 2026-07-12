@@ -95,10 +95,14 @@ DEFINITION itself (with the F104 engine -- what the Hardness certificates replac
 F112-F114 balance/conjugation laws, F120's hardware protocol, and the boundary-excluded paths
 (F86 EPs, F89/F90 braid + monodromy -- but F89's seed-EXISTENCE count came home 2026-07-07 as `Seed.cs`; only the locus q*,
 the shadow, and the holonomy stay out). Also still open from the delta survey's adoptable bucket:
-the smaller closed-form singles F100/F101 -- candidates, not yet home (F74 + F77 adopted
-2026-07-12; F73 adopted 2026-07-12 as F74's n = 0 mono-chromatic end, Restless-pinned; F72
-adopted 2026-07-12, the DD + CC site-purity split, all-sector-pinned; F94 + F96 adopted together
-2026-07-12 as the Born-deviation table, setup-specific scalars, sym3/sym5 recomputed exactly);
+and F100/F101 -- re-examined 2026-07-12 and OUT after all: their Tier-1 content is the exact
+oddness of the c₁ bond-mirror deviation, but c₁ itself is a non-closed numerical fit (the
+registry's own F101 words), so there is no closed form to adopt without the fit apparatus; the
+operator-side twins F91/F92 are already home in `ParameterKlein.cs`. The closed-form singles
+bucket is now EMPTY (F74 + F77 adopted 2026-07-12; F73 adopted 2026-07-12 as F74's n = 0
+mono-chromatic end, Restless-pinned; F72 adopted 2026-07-12, the DD + CC site-purity split,
+all-sector-pinned; F94 + F96 adopted together 2026-07-12 as the Born-deviation table,
+setup-specific scalars, sym3/sym5 recomputed exactly);
 "the delta list is done" below means the survey's SHORTLIST, not its whole bucket.
 
 **One deliberate exception (2026-07-03): `Mirror.cs`, the first OPERATOR adoption.** An inventory
@@ -205,7 +209,7 @@ Two paths are open.
 The 2026-06-28 remnant list is empty, the delta-survey SHORTLIST (F75/F76, F88b, F91-F93,
 F95, F99) is home, the F87-hardness bloc landed as `Hardness.cs`, and the golden router
 followed as `Router.cs`. Remaining candidates from the survey's wider adoptable bucket:
-the closed-form singles F100/F101 (F74 + F77 + F73 + F72 + F94/F96 adopted 2026-07-12) (see "Still outside" above) --
+NONE -- the singles bucket emptied 2026-07-12 (F74 + F77 + F73 + F72 + F94/F96 adopted; F100/F101 re-examined and OUT, the c₁ fit is the blocker; see "Still outside" above) --
 plus FUTURE registry entries: when a new F-number lands as a closed form (or as an exact
 rearrangement, the operator genre), it comes home here.
 
