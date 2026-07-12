@@ -234,6 +234,40 @@ verified at N = 11, C# RK4). Nothing in this repository has ever seen
 correlation jump. It has watched it walk, and it has priced what it costs to
 stand still.
 
+**And you can watch the pages not turn.** MirrorWorld runs this entry as a
+named composition (`compute/MirrorWorld/SpookyAction.cs`: the Bell skeleton
+assembled from the atoms `Field` and `Pair`, plus the one read the slit and
+the cat never needed, `Marginal.cs`, the local page of a chosen site-set,
+the partial trace as an atom). The sharpest face is the one-sided watching:
+the living world (`Restless`, H on) with only Bob's site watched
+(γ_A = 0, γ_B = 0.05). The carrier pays exactly Bob's rate and nothing
+else, and Alice's page holds I/2 to machine precision the whole run:
+
+| time t | carrier ÷ start | e^(−2γ_B·t) | Alice's page (0,0) | (1,1) | off-diagonal |
+|--------|-----------------|-------------|--------------------|-------|--------------|
+| 0      | 1.000           | 1.000       | 0.500000           | 0.500000 | 0.000000  |
+| 4      | 0.670           | 0.670       | 0.500000           | 0.500000 | 0.000000  |
+| 8      | 0.449           | 0.449       | 0.500000           | 0.500000 | 0.000000  |
+| 10     | 0.368           | 0.368       | 0.500000           | 0.500000 | 0.000000  |
+
+Something changed in the joint books; nothing changed on the local page.
+And the "at a distance" of Section 3, read as a rate table: put the two
+partners at the far ends of an N-site chain (every site between them
+definite) and the carrier still disagrees at exactly two sites, k = 2,
+price −4γ at every N, while the cat coherence over the same register pays
+−2Nγ:
+
+| N | pair at the ends | cat, k = N |
+|---|------------------|------------|
+| 2 | −0.20 | −0.20 |
+| 8 | −0.20 | −0.80 |
+| 32 | −0.20 | −3.20 |
+
+The distance lives only in the way (the bonds the correlation once walked,
+the relay's hop-by-hop); the finished between keeps no column for it. You
+do not need to read any code to see either face, only to run one line:
+`dotnet run --project compute/MirrorWorld -- spooky`.
+
 ---
 
 ## 5. The readings (labeled as readings)
