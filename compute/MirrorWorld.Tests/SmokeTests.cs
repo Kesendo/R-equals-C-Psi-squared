@@ -95,6 +95,16 @@ public class SmokeTests
         Assert.Equal(Math.Sqrt(2), Formulas.Qstar(3), 4);
         Assert.Equal(1.8787, Formulas.Qstar(4), 4);
         Assert.Equal(2.3737, Formulas.Qstar(5), 4);
+        // N=6..8: the exact SE-EP (coherence_horizon_se_block.py qstar_se), NOT the 2N/pi asymptote.
+        Assert.Equal(2.889253, Formulas.Qstar(6), 4);
+        Assert.Equal(3.419782, Formulas.Qstar(7), 4);
+        Assert.Equal(3.961618, Formulas.Qstar(8), 4);
+        // the finite-N EP sits strictly BELOW the asymptote it approaches (the bug returned the asymptote):
+        for (int n = 4; n <= 8; n++)
+            Assert.True(Formulas.Qstar(n) < 2.0 * n / Math.PI, $"Q*({n}) must be below the 2N/pi asymptote");
+        // monotone increasing across the exact->asymptote splice at N=8->9 (used by any horizon sweep):
+        for (int n = 2; n <= 8; n++)
+            Assert.True(Formulas.Qstar(n) < Formulas.Qstar(n + 1), $"Q*(N) not monotone at N={n}");
     }
 
     [Fact]

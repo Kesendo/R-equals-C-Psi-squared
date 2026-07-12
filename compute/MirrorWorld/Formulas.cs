@@ -29,14 +29,22 @@ public static class Formulas
     public static double OmegaMem(int n, double j, double gamma) =>
         n >= 3 ? 2.0 * j * Math.Cos(Math.PI / (n + 1)) : 2.0 * Math.Sqrt(Math.Max(0.0, j * j - gamma * gamma));
 
-    // Coherence horizon Q*(N) (T1): exact values. N=2,3 clean (1, sqrt2); N>=4 transcendental SE-EP
-    // (1.8787, 2.3737); asymptotic slope exactly 2/pi (Q*(N) -> 2N/pi).
+    // Coherence horizon Q*(N) (T1): the single-excitation EP (coherence_horizon_se_block.py, qstar_se;
+    // PROOF_COHERENCE_HORIZON_SLOPE). N=2,3 clean closed forms (1, sqrt2); N=4..8 the transcendental
+    // SE-EP values, each strictly BELOW the 2N/pi asymptote it approaches from below. Only the slope
+    // 2/pi is the clean N->inf limit, so N>=9 falls back to the asymptote -- a documented approximation
+    // that OVERSHOOTS the true finite-N EP (still ~+29% at N=8), so extend the exact table if a larger
+    // N matters. (The N=6,7,8 exact values landed 2026-07-12 after an empty review caught N>=6 silently
+    // using the asymptote, ~30% high, as if exact.)
     public static double Qstar(int n) => n switch
     {
         2 => 1.0,
         3 => Math.Sqrt(2.0),
         4 => 1.8787,
         5 => 2.3737,
+        6 => 2.889253,
+        7 => 3.419782,
+        8 => 3.961618,
         _ => 2.0 * n / Math.PI,
     };
 
