@@ -300,6 +300,36 @@ if (args.Length > 0 && args[0] == "seed")
     return;
 }
 
+// ---- run mode "doubleslit": the phenomenon composed from the atoms (the access layer) ----
+// DoubleSlit IS Field at N=1: two places |L>,|R>, the humps = the immortal diagonal, the fringe = the
+// between |L><R| (the k=1 coherence) paying -2gamma. Nothing new is computed; the atoms are assembled
+// under the name so the phenomenon is recognizable where Pair + Field alone were not. The MEANING lives
+// in docs/quantum/DOUBLE_SLIT_TRANSLATED.md.
+if (args.Length > 0 && args[0] == "doubleslit")
+{
+    const double dsg = 0.05, dsdt = 0.05;   // gamma = 0.05: the canonical hardware-anchored rate
+    var dsworld = new World();
+    var ds = new DoubleSlit(dsworld, dsg);
+    double fringe0 = ds.Fringe;
+    Console.WriteLine("the double slit, composed from the atoms: Field at N=1 (Pair + Field, nothing new)");
+    Console.WriteLine("  two places |L>,|R>: the humps are the immortal diagonal; the fringe is the between |L><R|,");
+    Console.WriteLine($"  the k=1 coherence, rate {ds.BetweenRate:0.00} = -2*gamma -- the generator of |rho_LR(t)| = e^(-2*gamma*t).");
+    Console.WriteLine("  the watching never touches the humps; it carves the between away. Meaning: DOUBLE_SLIT_TRANSLATED.md");
+    Console.WriteLine();
+    Console.WriteLine($"  gamma = {dsg} (canonical, hardware-anchored); the coherence 1/e time is 1/(2*gamma) = 10");
+    Console.WriteLine($"  {"t",5} {"humps",8} {"fringe",8} {"fringe/f0",10} {"e^(-2gt)",9}");
+    for (int s = 0; s <= 600; s++)
+    {
+        if (s % 120 == 0)
+            Console.WriteLine($"  {ds.T,5:0.00} {ds.Humps,8:0.000} {ds.Fringe,8:0.000} {ds.Fringe / fringe0,10:0.000} {Math.Exp(ds.BetweenRate * ds.T),9:0.000}");
+        ds.Watch(dsdt);
+    }
+    Console.WriteLine();
+    Console.WriteLine("  the humps stay flat (the particle face, never watched away); the fringe fades on the exp");
+    Console.WriteLine("  law (the wave face, the between paying -2gamma). The pattern is what not being watched looks like.");
+    return;
+}
+
 // ---- run mode "group": the mirror group and its antilinear double ----
 // F118 + F119 (adopted 2026-07-04): the palindromizer factors, Pi_Z = R o D, and the two generators
 // close into the dihedral D4 -- eight signed permutations of the Pauli basis, compared exactly. The

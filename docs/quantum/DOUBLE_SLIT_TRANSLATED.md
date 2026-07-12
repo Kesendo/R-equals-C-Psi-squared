@@ -13,7 +13,7 @@ Section 4 is the same Tier 1 per-coherence bill proven in the
 [block-CΨ quarter proof](../proofs/PROOF_BLOCK_CPSI_QUARTER.md), read at
 N = 1; the conjugate-question note in Section 4 is our own assembly and is
 marked as such; the readings in Section 5 are readings and labeled.
-**Date:** July 11, 2026
+**Date:** July 11, 2026 (computed table + run link added July 12, 2026)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Superposition Translated](SUPERPOSITION_TRANSLATED.md) (the
@@ -216,6 +216,29 @@ watcher, one bill. The humps survive because the diagonal is immortal;
 the fringes die because exactly the off-diagonal pays; and the death is
 exponential in the watching, not triggered by the knowing. The pop story's
 switch is this dial read at its two endpoints.
+
+**And you can watch the bill being paid.** MirrorWorld runs exactly this
+N = 1 empty world as a named composition (`compute/MirrorWorld/DoubleSlit.cs`:
+the double slit assembled from the atoms `Pair` and `Field`, nothing new
+computed, only named so it can be seen). At γ = 0.05, the canonical
+hardware-anchored watching rate (so the coherence 1/e time is 1/(2γ) = 10),
+the two humps never move and the fringe fades on the e^(−2γt) law, tracked
+here by the world's forward-Euler step (dt = 0.05) beside the exact law:
+
+| time t | humps | fringe | fringe ÷ start | e^(−2γt) |
+|--------|-------|--------|----------------|----------|
+| 0      | 2.000 | 2.000  | 1.000          | 1.000    |
+| 6      | 2.000 | 1.096  | 0.548          | 0.549    |
+| 12     | 2.000 | 0.601  | 0.300          | 0.301    |
+| 18     | 2.000 | 0.329  | 0.165          | 0.165    |
+| 24     | 2.000 | 0.180  | 0.090          | 0.091    |
+| 30     | 2.000 | 0.099  | 0.049          | 0.050    |
+
+The humps column is flat: the diagonal is never touched by the watching. The
+fringe falls, and its ratio to the start tracks the e^(−2γt) column reading by
+reading: the between, and only the between, pays. You do not need to read any
+code to see this, only to run one line:
+`dotnet run --project compute/MirrorWorld -- doubleslit`.
 
 **The two questions anticommute** (our own assembly, marked as such; the
 ingredients are canonical, the sentence is ours). The which-path detector
