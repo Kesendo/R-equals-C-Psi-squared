@@ -398,6 +398,59 @@ if (args.Length > 0 && args[0] == "cat")
     return;
 }
 
+// ---- run mode "spooky": spooky action composed as Field at N=2 + the local pages (the k=2 sighting) ----
+// The middle of the triptych (k=1 slit, k=2 pair, k=N cat). The sock drawer (the 00/11 records) is the
+// immortal diagonal; the spook |00><11| pays -2*gamma*2 = -2(gamma_A + gamma_B); the two Marginals are
+// the local pages, blind to the spook (F70: a k=2 disagreement cannot reach a one-site page). The second
+// half runs the LIVING world with only one side watched: the carrier pays exactly the watched side's
+// rate while the unwatched page stays I/2. Meaning in docs/quantum/SPOOKY_ACTION_TRANSLATED.md.
+if (args.Length > 0 && args[0] == "spooky")
+{
+    const double spg = 0.05, spdt = 0.05;   // gamma = 0.05: the canonical hardware-anchored rate
+    var spworld = new World();
+    var sp = new SpookyAction(spworld, spg);
+    double spook0 = sp.Spook;
+    Console.WriteLine("spooky action, composed from the atoms: Field at N=2 + the local pages (Marginal)");
+    Console.WriteLine("  the sock drawer |00><00| + |11><11| is the immortal diagonal; the spook |00><11| is the k=2");
+    Console.WriteLine($"  coherence, rate {sp.SpookRate:0.00} = -2*gamma*2 = -2(gamma_A+gamma_B) -- twice the slit's k=1, the N=2 cat.");
+    Console.WriteLine("  the pages (one-site marginals) are BLIND to it: F70, a two-step disagreement never reaches one page.");
+    Console.WriteLine("  Meaning: SPOOKY_ACTION_TRANSLATED.md");
+    Console.WriteLine();
+    Console.WriteLine($"  gamma = {spg}; the spook 1/e time is 1/(4*gamma) = 5");
+    Console.WriteLine($"  {"t",5} {"socks",8} {"spook",8} {"spook/s0",9} {"e^(-4gt)",9} {"pageA off",10} {"pageA diag",11}");
+    for (int s = 0; s <= 200; s++)
+    {
+        if (s % 40 == 0)
+            Console.WriteLine($"  {sp.T,5:0.00} {sp.SockDrawer,8:0.000} {sp.Spook,8:0.000} {sp.Spook / spook0,9:0.000} {Math.Exp(sp.SpookRate * sp.T),9:0.000} {sp.PageA.Novelty,10:0.000000} {sp.PageA[0, 0].Real,11:0.000}");
+        sp.Watch(spdt);
+    }
+    Console.WriteLine();
+    Console.WriteLine("  the one-sided watching (the living world, Restless): only site B watched, siteGammas = {0, gamma},");
+    Console.WriteLine("  H ON (J=1, ZZ on). The poles |00>,|11> are equal-energy H-eigenstates, so the carrier rotates");
+    Console.WriteLine("  nothing and pays exactly -2*gamma_B -- and the UNWATCHED page A stays I/2 the whole time:");
+    var spw = new Restless(spworld, 2, 1.0, spg, siteGammas: new[] { 0.0, spg }, zz: 1.0);
+    spw.Seed(0b00, 0.5); spw.Seed(0b11, 0.5); spw.SeedCoherence(0b00, 0b11, 0.5);
+    var spPageA = new Marginal(spw, new[] { 0 });
+    double spc0 = spw[0b00, 0b11].Magnitude;
+    Console.WriteLine($"  {"t",5} {"carrier",8} {"e^(-2gt)",9} {"pageA[0,0]",11} {"pageA[1,1]",11} {"pageA off",10}");
+    for (int tick = 0; tick <= 1000; tick++)
+    {
+        if (tick % 200 == 0)
+            Console.WriteLine($"  {spw.T,5:0.00} {spw[0b00, 0b11].Magnitude / spc0,8:0.000} {Math.Exp(-2.0 * spg * spw.T),9:0.000} {spPageA[0, 0].Real,11:0.000000} {spPageA[1, 1].Real,11:0.000000} {spPageA[0, 1].Magnitude,10:0.000000}");
+        if (tick < 1000) spw.Step(0.01);
+    }
+    Console.WriteLine();
+    Console.WriteLine("  something changed in the joint books (the spook paid), nothing changed on the local page.");
+    Console.WriteLine();
+    Console.WriteLine("  and the DISTANCE? It lives only in the way (the bonds that built the pair), never in the price:");
+    Console.WriteLine($"  {"N",4} {"pair-at-ends",13} {"cat k=N",8}");
+    foreach (int nn in new[] { 2, 4, 8, 16, 32 })
+        Console.WriteLine($"  {nn,4} {-4.0 * spg,13:0.00} {-2.0 * spg * nn,8:0.00}");
+    Console.WriteLine("  the pair at the two ends of an N-chain keeps k=2 at any separation (rate flat); the cat's k=N");
+    Console.WriteLine("  grows. The watching reads disagreement, never distance. Meaning: SPOOKY_ACTION_TRANSLATED.md");
+    return;
+}
+
 // ---- run mode "group": the mirror group and its antilinear double ----
 // F118 + F119 (adopted 2026-07-04): the palindromizer factors, Pi_Z = R o D, and the two generators
 // close into the dihedral D4 -- eight signed permutations of the Pauli basis, compared exactly. The
