@@ -1,0 +1,74 @@
+==============================================================================
+BALLISTIC FRONT ACROSS A delta-J DEFECT: pre-registered arrival-time runs
+J = 1, chain, relative threshold theta * max_t P_i|clean
+==============================================================================
+
+[Run A] N=60, gamma=0, seed site 0, defect bond (29,30), theta=0.2
+  predicted plateau height = -delta/(2J); broadband undershoot O(15%) expected
+    delta |   near-side mean(5:20) |  plateau mean(40:56) | plateau std | pred
+    -0.10 |               -0.00000 |             +0.06332 |     0.00173 | +0.0500
+    -0.05 |               -0.00000 |             +0.02873 |     0.00057 | +0.0250
+    +0.05 |               +0.00000 |             -0.02354 |     0.00010 | -0.0250
+    +0.10 |               +0.00000 |             -0.04243 |     0.00042 | -0.0500
+  P1 plateau flatness: see std column (pre-reg: far-half variation < +-30%)
+  P2 broadband slope fit: -0.5275  (predicted -0.50, undershoot O(15%) OK)
+
+[Control iii] theta-independence, delta=+0.10:
+  theta=0.1: plateau -0.04233 +- 0.00019
+  theta=0.2: plateau -0.04243 +- 0.00042
+  theta=0.4: plateau -0.04140 +- 0.00162
+
+[Control i] dt-halving (clean pipeline), delta=+0.10:
+  max |Delta-t(dt=0.001) - Delta-t(dt=0.0005)| = 9.56e-08
+
+[Control ii] lattice reflection: (seed 0, bond (20,21)) vs (seed 59, bond (38,39)):
+  max |profile - mirror(profile)| = 1.42e-14  (must be ~0)
+
+[Run B / P2'] quasi-monochromatic packet, q=-pi/2, sigma_q=0.1*pi, n0=10,
+  N=120 (room for the packet), defect bond (59,60), gamma=0, theta=0.2
+  delta=-0.10: plateau +0.06373 +- 0.00033  (pred +0.0500)
+  delta=-0.05: plateau +0.02856 +- 0.00006  (pred +0.0250)
+  delta=+0.05: plateau -0.02271 +- 0.00012  (pred -0.0250)
+  delta=+0.10: plateau -0.04021 +- 0.00041  (pred -0.0500)
+  P2 quasi-monochromatic slope: -0.5183  (pre-reg: -1/(2J) = -0.5000 within +-5%)
+
+[Run C / P3'] locality scan, N=60, gamma=0, seed 0, delta=+0.10,
+  bond b in {10, 20, 30, 40}: edge must sit at b, plateau b-independent
+    b |  mean up(b-8:b-1) | edge jump at |  plateau(b+6:b+16)
+   10 |          +0.00006 |           10 |      -0.04502 +- 0.00039
+   20 |          +0.00038 |           20 |      -0.04387 +- 0.00028
+   30 |          +0.00079 |           29 |      -0.04301 +- 0.00021
+   40 |          +0.00121 |           39 |      -0.04217 +- 0.00030
+
+[Run D / P4'] gamma=0.05: near-field step, far-field diffusive crossover
+  D1: N=20, seed 0, defect (4,5), sites 6..9 (t_arr < 1/(4 gamma) = 5):
+     Delta-t sites 6..9: [-0.0488 -0.049  -0.0491 -0.0491]
+     pre-reg: within factor 2 of -delta/(2J) = -0.0500
+  D2 (descriptive): N=60, seed 0, defect (29,30), far half:
+     just-past-defect (32:40): -0.0490 +- 0.0001
+     far (40:56): -0.0492 +- 0.0001  (16/16 sites cross)
+     (no step claim far-field; diffusive regime, documented)
+
+[Probe] far-field step at gamma=0.05 vs threshold (theta-stability + the
+  absolute-threshold artifact that produced the design-review scout verdict):
+  relative theta=0.05: mean -0.04692 +- 0.00027  (16/16 cross)
+  relative theta=0.10: mean -0.04796 +- 0.00021  (16/16 cross)
+  relative theta=0.20: mean -0.04919 +- 0.00012  (16/16 cross)
+  relative theta=0.40: mean -0.04970 +- 0.00224  (16/16 cross)
+  relative theta=0.60: mean -0.03633 +- 0.01754  (16/16 cross)
+  relative theta=0.80: mean +0.00612 +- 0.03609  (16/16 cross)
+  ABSOLUTE thr=0.01 (the scout's observable): mean +0.09544 +- 0.02069  (2/16 cross)  <- the artifact, reproduced
+  timing is still ballistic: site 50 clean crossing t=25.64 ~ 50/(2J)=25.0 (diffusive would be ~125); max_clean P_50=0.0069
+
+[Run E] N=7 descriptive: middle defect bond (2,3), delta=+0.10, seed 0
+  (incommensurate with alpha: localized-packet arrival vs delocalized-state
+   purity rescaling; printed side by side, no test)
+  gamma=0    Delta-t_i: [        nan -8.0193e-06  6.8686e-03 -4.5042e-02 -4.6537e-02 -5.5034e-02
+ -4.7909e-02]
+  gamma=0.05 Delta-t_i: [        nan -7.4658e-06  6.6350e-03 -4.5895e-02 -4.7709e-02 -5.4332e-02
+ -4.9789e-02]
+  PTF alpha_i (N=7, bond (0,1), dJ=+0.1, gamma=0.05, bonding mode):
+             [1.095, 1.182, 1.051, 0.991, 0.845, 0.923, 0.997]  (smooth, nonlocal)
+
+==============================================================================
+DONE
