@@ -266,6 +266,16 @@ public static class Formulas
     public static double F124_FrobeniusNormSq(int n) => 2.0 - F124_EndWeight(n);
     public static double F124_SpectralFloor(int n) => F124_EndWeight(n);
 
+    // F74 (T1, combinatorial; adopted 2026-07-12): chromaticity of the (n, n+1) popcount coherence
+    // block at J = 0 -- exactly min(n, N-1-n) + 1 distinct pure dephasing rates, the odd ladder
+    // 2*gamma0*{1, 3, ..., 2c-1}. A pair (x, y) with popcounts (n, n+1) differs at HD = 2n+1-2*match
+    // sites (match = ones shared); match ranges over [max(0, 2n+1-N), n], so HD runs the odd values
+    // 1..min(2n+1, 2N-2n-1) and the Pair rate -2*gamma0*HD takes exactly c(n, N) values. The block
+    // generalization of Pair's single-coherence rate: mono-chromatic at the ends, maximal at centre.
+    public static int F74_Chromaticity(int n, int nSites) => Math.Min(n, nSites - 1 - n) + 1;
+    public static double[] F74_RateLadder(int n, int nSites, double gamma0)
+        => Enumerable.Range(0, F74_Chromaticity(n, nSites)).Select(i => 2.0 * gamma0 * (2 * i + 1)).ToArray();
+
     // F75 (T1): mirror-pair mutual information for a single-excitation mirror-symmetric state
     // |psi> = sum c_j |1_j> with c_{N-1-j} = +-c_j: MI(l, N-1-l) = 2 h(p) - h(2p), p = |c_l|^2,
     // h the binary entropy. Sign-independent; saturates at 2 bits (a Bell pair) at p = 1/2.

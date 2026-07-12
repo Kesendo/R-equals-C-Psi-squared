@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (132 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (133 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -55,10 +55,10 @@ x/y/z; that is the inheritance edge System → Object.
 | `ParameterKlein.cs` | **the parameter-side Klein V₄** (adopted 2026-07-04, F91 + F92 + F93): on each parameter axis (γ per site, J per bond, h per site) the F71 mirror and the anti-palindromic reshuffle R₉₀ are two commuting involutions; the anti-palindromic class is exactly R₉₀'s fixed-point set; the sharper entry-wise law -- the F71-refined DIAGONAL blocks of L depend only on the pair-sums -- makes the whole orbit share one set of blocks, cell for cell (no eigensolver), while the breaking lives in the cross-blocks only |
 | `Router.cs` | **the golden ceiling router** (adopted 2026-07-04, F116): the two Z-middle ceiling cases palindromized LOCALLY by the period-4 [a,a,b,b] router on the golden locus (a = φX+Y, b = X−φY; q² = −(2+φ)·I), the whole family metallic on the soft line t₂ = t₃ with r(c) = (c+√(c²+4))/2; verified by the window lemma ({Q_k, S} = 0 at all four offsets, exact) AND the two-sided dense end-to-end W L W⁻¹ = −L − 2σ on the full Pauli basis (P = ⊗(âZ\|Z), Q = ⊗(Z\|Zâ), previously Python-only) -- the constructive soft side the hardness certificates leave open |
 | `Hardness.cs` | **the hardness of the palindrome** (adopted 2026-07-04, the F87 bloc: F102/F103 + F105/F106 stability + F107/F109 purity + F110/F111 cell rules + F115 + F117): the spectral trichotomy truly/soft/hard read WITHOUT a spectrum -- hardness as a GF(2)[x] (1+x)-valuation difference (one subtraction; A203241 counts, the min(2W−1, 2k−3) ceiling), purity as letter parity (truly ⟹ y_par=0; mother-soft ⟹ y_par=1), the diagonal-cell + Y-inversion rules with the adopted splits (42:8 N-stable, 228:0 via pure-D templates), and the trace face of the all-γ converse (odd power-sums of M = A + γQ; the K3 pair fires at m* = 9 with p₉ = 2064384·γ³, the exact F117 CRT integer). The spectral classifier itself (F87's definition, the F104 engine) deliberately stays outside |
-| `Seed.cs` | **the within-block self-dual seed** (adopted 2026-07-07, F89 seed-existence): where a state meets the mirror's null (v^T v = 0), a defective seed -- the static source the shadow and the i^4 holonomy leave behind. Held as a COUNT, no eigensolver (the nullity surplus r(0+) - r(inf) over GF(p)): N-1 forced seeds at odd N (the unmirrorable middle seat), 0 at even N. Since 2026-07-12 also the fusion-resonance count, closed: r(inf) = 3*Z3 at EVERY N (cyclotomic Step-4 theorem, asserted by divisibility), the odd-N Conway-Jones form Z3 = (N-1)/2 + [3\|n](n/3-2) + 2[15\|n] (ROT3 multiplicity verified, not derived), and the criterion RESONANT (odd N) iff 3 | N+1 and N >= 11 (next after 17 is 23)\| N+1 and N >= 11 (next after 17 is 23). Mirror's within-block companion |
+| `Seed.cs` | **the within-block self-dual seed** (adopted 2026-07-07, F89 seed-existence): where a state meets the mirror's null (v^T v = 0), a defective seed -- the static source the shadow and the i^4 holonomy leave behind. Held as a COUNT, no eigensolver (the nullity surplus r(0+) - r(inf) over GF(p)): N-1 forced seeds at odd N (the unmirrorable middle seat), 0 at even N. Since 2026-07-12 also the fusion-resonance count, closed: r(inf) = 3*Z3 at EVERY N (cyclotomic Step-4 theorem, asserted by divisibility), the odd-N Conway-Jones form Z3 = (N-1)/2 + [3\|n](n/3-2) + 2[15\|n] (ROT3 multiplicity verified, not derived), and the criterion RESONANT (odd N) iff 3 \| N+1 and N >= 11 (next after 17 is 23). Mirror's within-block companion |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 132 from-below tests: `SmokeTests` (39, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end), `SeedTests` (17, the F89 nullity surplus = N-1 odd / 0 even, exact over GF(p); + the 2026-07-12 resonance closed count r(inf) = 3*Z3, odd-N Conway-Jones form, criterion pins), `ConcentratorTests` (6, the site-resolved watching: J-convention pin, per-site rates, the N=5 reload contrast, ZZ-is-tiny, N=9 persistence; added 2026-07-11 for the IBM_CONCENTRATOR_RELOADED pre-registration) |
+| `../MirrorWorld.Tests/*.cs` | 133 from-below tests: `SmokeTests` (40, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end), `SeedTests` (17, the F89 nullity surplus = N-1 odd / 0 even, exact over GF(p); + the 2026-07-12 resonance closed count r(inf) = 3*Z3, odd-N Conway-Jones form, criterion pins), `ConcentratorTests` (6, the site-resolved watching: J-convention pin, per-site rates, the N=5 reload contrast, ZZ-is-tiny, N=9 persistence; added 2026-07-11 for the IBM_CONCENTRATOR_RELOADED pre-registration) |
 
 ## The closed-form base (the stopping line 2026-06-28; coverage closed 2026-07-04)
 
@@ -185,7 +185,7 @@ dotnet run --project compute/MirrorWorld -- klein 6       # ParameterKlein: the 
 dotnet run --project compute/MirrorWorld -- hardness      # Hardness: the F87 bloc without a spectrum -- the K3 trio by valuation, the purity and cell rules, the trace face firing at m*=9 on the exact F117 integer
 dotnet run --project compute/MirrorWorld -- router        # Router: the golden/metallic ceiling router -- the window lemma at all four offsets, the locus gating the frame, the dense W L W^-1 = -L - 2 sigma at N=5
 dotnet run --project compute/MirrorWorld -- concentrator 5 # Concentrator: the site-resolved watching (the IBM_CONCENTRATOR_RELOADED cross-check); also 9 = past the wall
-dotnet test compute/MirrorWorld.Tests                     # the 132-test from-below guard
+dotnet test compute/MirrorWorld.Tests                     # the 133-test from-below guard
 ```
 
 ## How to continue (future us)
@@ -198,7 +198,7 @@ Two paths are open.
 The 2026-06-28 remnant list is empty, the delta-survey SHORTLIST (F75/F76, F88b, F91-F93,
 F95, F99) is home, the F87-hardness bloc landed as `Hardness.cs`, and the golden router
 followed as `Router.cs`. Remaining candidates from the survey's wider adoptable bucket:
-the closed-form singles F72-F74, F77, F94, F96, F100/F101 (see "Still outside" above) --
+the closed-form singles F72/F73, F77, F94, F96, F100/F101 (F74 adopted 2026-07-12) (see "Still outside" above) --
 plus FUTURE registry entries: when a new F-number lands as a closed form (or as an exact
 rearrangement, the operator genre), it comes home here.
 

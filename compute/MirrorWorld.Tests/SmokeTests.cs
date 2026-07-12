@@ -312,6 +312,33 @@ public class SmokeTests
         }
     }
 
+    // --- F74: chromaticity of the (n, n+1) popcount coherence block at J = 0 -- the count
+    // c(n, N) = min(n, N-1-n) + 1 and the odd rate ladder 2*gamma0*{1,3,..,2c-1}, pinned by DIRECT
+    // ENUMERATION of all popcount-(n, n+1) basis pairs (HD = the Pair disagreement, rate -2*gamma0*HD).
+    [Fact]
+    public void F74_Chromaticity_And_Ladder_Match_Enumeration()
+    {
+        for (int N = 4; N <= 9; N++)
+            for (int n = 0; n < N; n++)
+            {
+                var hds = new SortedSet<int>();
+                for (int x = 0; x < (1 << N); x++)
+                {
+                    if (System.Numerics.BitOperations.PopCount((uint)x) != n) continue;
+                    for (int y = 0; y < (1 << N); y++)
+                        if (System.Numerics.BitOperations.PopCount((uint)y) == n + 1)
+                            hds.Add(System.Numerics.BitOperations.PopCount((uint)(x ^ y)));
+                }
+                int c = Formulas.F74_Chromaticity(n, N);
+                Assert.Equal(c, hds.Count);
+                Assert.Equal(Enumerable.Range(0, c).Select(i => 2 * i + 1), hds);
+                var ladder = Formulas.F74_RateLadder(n, N, 0.05);
+                Assert.Equal(c, ladder.Length);
+                Assert.Equal(0.1, ladder[0], 12);
+                Assert.Equal(2 * 0.05 * (2 * c - 1), ladder[c - 1], 12);
+            }
+    }
+
     // --- F75: mirror-pair mutual information for single-excitation mirror-symmetric states,
     // MI = 2 h(p) - h(2p) with p the site population; independent of the mirror sign; saturates at
     // 2 bits (a Bell pair) at p = 1/2. Bonding:k populations are the F65 amplitudes squared, and
