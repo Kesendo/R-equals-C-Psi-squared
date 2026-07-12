@@ -81,6 +81,31 @@ public sealed class Seed : GameObject
         return (rInf, r0, r0 - rInf, parts.ToArray());
     }
 
+    // ---- the fusion-resonance count, closed (adopted 2026-07-12; same doc, Piece 3 + the 2026-07-10c
+    // resonance criterion). PROVED for every N, even N included: nullity(C) = 3*Z3, where Z3 counts the
+    // unordered mode triples a < b < c with lam_a + lam_b + lam_c = 0 (Step 4's cyclotomic integrality
+    // kills every degenerate relation, so r(inf) is exactly divisible by 3). For ODD N the Conway-Jones
+    // closed form: Z3 = (N-1)/2 + [3|n]*(n/3 - 2) + 2*[15|n], n = N+1 (criterion and TRIV/PENT counts
+    // proved; the ROT3 multiplicity n/3 - 2 verified, not derived). RESONANT -- the kernel exceeding the
+    // always-present TRIV floor -- iff 3 | N+1 and N >= 11; the next resonant N after 17 is 23, not 29.
+    // The even rows carry no closed form here (n odd, no TRIV family); their Z3 is still forced by the
+    // divisibility (N = 8: r(inf) = 6, Z3 = 2, the 2cos(pi/9) family -- the smallest even laboratory of
+    // the twinning arc, run 2026-07-12).
+    public static int Z3FromRInf(int rInf) =>
+        rInf % 3 == 0 ? rInf / 3
+                      : throw new InvalidOperationException($"r(inf) = {rInf} not divisible by 3: the 3*Z3 theorem broke");
+
+    public static int Z3ClosedFormOdd(int nSites)
+    {
+        if (nSites % 2 == 0) throw new ArgumentException("the closed form is the odd-N Conway-Jones count", nameof(nSites));
+        int n = nSites + 1;
+        return (nSites - 1) / 2 + (n % 3 == 0 ? n / 3 - 2 : 0) + (n % 15 == 0 ? 2 : 0);
+    }
+
+    // the criterion is the ODD-N statement (the twinning arc's "kernel exceeds the TRIV floor"); at
+    // even N there is no TRIV floor and the notion does not apply, so the predicate is false there.
+    public static bool IsResonant(int nSites) => nSites % 2 == 1 && nSites >= 11 && (nSites + 1) % 3 == 0;
+
     // ---- the (1,2) pencil, from the atoms: rung n_diff per basis index, and the integer hop M = C/i ----
     (int[] rung, int[,] M, int dim) BuildPencil()
     {

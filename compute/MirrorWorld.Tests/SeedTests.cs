@@ -50,6 +50,46 @@ public class SeedTests
         Assert.Contains(parts, p => p.NDiff == 1 && p.Dim == 20 && p.Nullity == 4);   // rung A = -2
     }
 
+    // the fusion-resonance count, closed (adopted 2026-07-12): r(inf) = 3*Z3 at EVERY N (the cyclotomic
+    // Step-4 theorem; even N included), and at odd N Z3 matches the Conway-Jones closed form. N = 8 is
+    // the smallest even N with resonances (Z3 = 2, the 2cos(pi/9) family), yet seedless.
+    [Theory]
+    [InlineData(3, 1)]
+    [InlineData(4, 0)]
+    [InlineData(5, 2)]
+    [InlineData(6, 0)]
+    [InlineData(7, 3)]
+    [InlineData(8, 2)]
+    [InlineData(9, 4)]
+    public void RInf_Is_3_Z3_And_Odd_N_Matches_ConwayJones(int n, int z3)
+    {
+        var seed = new Seed(W, n, G);
+        var (rInf, _, _, _) = seed.Count();
+        Assert.Equal(0, rInf % 3);
+        Assert.Equal(z3, Seed.Z3FromRInf(rInf));
+        if (n % 2 == 1) Assert.Equal(z3, Seed.Z3ClosedFormOdd(n));
+    }
+
+    // the criterion and the closed form past the rank range (pure arithmetic, F89's 10c pins):
+    // resonant (odd N) iff 3 | N+1 and N >= 11; the next resonant N after 17 is 23, NOT 29; N = 29 is the
+    // first with the PENT family (+2).
+    [Fact]
+    public void Resonance_Criterion_And_ClosedForm_Pins()
+    {
+        Assert.Equal(7, Seed.Z3ClosedFormOdd(11));    // (11-1)/2 + (12/3 - 2) = 5 + 2
+        Assert.Equal(6, Seed.Z3ClosedFormOdd(13));    // (13-1)/2, 14 has no family
+        Assert.Equal(24, Seed.Z3ClosedFormOdd(29));   // 14 + (10 - 2) + 2: the first PENT N
+        Assert.False(Seed.IsResonant(5));             // 3 | 6 but N < 11 (there the CJ multiplicity n/3 - 2 = 0)
+        Assert.False(Seed.IsResonant(8));             // even N: resonances exist, no seeds, criterion odd-N only
+        Assert.False(Seed.IsResonant(14));            // even N with 3 | N+1: the parity guard, not the mod-3 test
+        Assert.True(Seed.IsResonant(11));
+        Assert.False(Seed.IsResonant(13));
+        Assert.True(Seed.IsResonant(17));
+        Assert.False(Seed.IsResonant(19));
+        Assert.True(Seed.IsResonant(23));
+        Assert.True(Seed.IsResonant(29));
+    }
+
     // the count is gamma-independent (gamma scales A, not its kernel structure; the pencil's real-strand
     // count is a property of the hop C and the rungs, not the rate magnitude).
     [Fact]

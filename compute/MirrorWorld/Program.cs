@@ -273,7 +273,7 @@ if (args.Length > 0 && args[0] == "seed")
     Console.WriteLine("  a state meets the mirror's null (v^T v = 0), a DEFECTIVE seed. The count, ranks only, no eigensolver:");
     Console.WriteLine("  surplus = r(0+) - r(inf) = the real strands forced off the axis = the seed count (the pencil A + q*C).");
     Console.WriteLine();
-    Console.WriteLine($"  {"N",3} {"dim",5} {"r(inf)",7} {"r(0+)",6} {"surplus",8} {"N-1",4} {"parity",7}   rungs (n_diff: dim, nullity)");
+    Console.WriteLine($"  {"N",3} {"dim",5} {"r(inf)",7} {"r(0+)",6} {"surplus",8} {"N-1",4} {"Z3",3} {"CJ",4} {"parity",7}   rungs (n_diff: dim, nullity)");
     for (int n = 3; n <= sn; n++)
     {
         var seed = new Seed(sworld, n, sg);
@@ -282,13 +282,21 @@ if (args.Length > 0 && args[0] == "seed")
         string par = n % 2 == 1 ? "ODD" : "EVEN";
         string ps = string.Join("  ", parts.Select(pp => $"[{pp.NDiff}: {pp.Dim},{pp.Nullity}]"));
         string flag = surplus == n - 1 ? "= N-1" : surplus == 0 ? "ZERO" : "??";
-        Console.WriteLine($"  {n,3} {dim,5} {rInf,7} {r0,6} {surplus,8} {n - 1,4} {par,7}   {ps}  <- {flag}");
+        int z3 = Seed.Z3FromRInf(rInf);   // throws loudly if r(inf) ever stops being 3*Z3
+        string cj = n % 2 == 1 ? (Seed.Z3ClosedFormOdd(n) == z3 ? "ok" : "??") : "-";
+        Console.WriteLine($"  {n,3} {dim,5} {rInf,7} {r0,6} {surplus,8} {n - 1,4} {z3,3} {cj,4} {par,7}   {ps}  <- {flag}");
     }
     Console.WriteLine();
     Console.WriteLine("  N-1 seeds at odd N (the unmirrorable middle seat forces each half to face itself, eigenvalues");
     Console.WriteLine("  real, then collide -- Kato); 0 at even N (every seat mirrors, no real strand forced off). The between-block");
     Console.WriteLine("  fold (Mirror) holds exactly where the within-block eigenframe tears (v^T v -> 0) -- one merge, two");
     Console.WriteLine("  faces: what the way leaves behind lives here; the way itself (the shadow, the holonomy) stays outside.");
+    Console.WriteLine();
+    Console.WriteLine("  the resonance count, closed (adopted 2026-07-12): r(inf) = 3*Z3 at EVERY N (cyclotomic, exact);");
+    Console.WriteLine("  at odd N the Conway-Jones form Z3 = (N-1)/2 + [3|n](n/3-2) + 2[15|n] (CJ column; ROT3 multiplicity");
+    Console.WriteLine($"  verified, not derived). RESONANT (odd N) iff 3 | N+1 and N >= 11: next after 17 is 23, not 29. In range:");
+    var res = Enumerable.Range(3, Math.Max(0, sn - 2)).Where(Seed.IsResonant);
+    Console.WriteLine($"  resonant N = [{string.Join(", ", res)}]; N = 8 is the smallest EVEN N with resonances (Z3 = 2), seedless.");
     return;
 }
 
