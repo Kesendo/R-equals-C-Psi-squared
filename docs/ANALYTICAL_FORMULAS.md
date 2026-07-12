@@ -1955,7 +1955,7 @@ For any N-site qubit system with Hermitian Hamiltonian H conserving single-excit
 
 exactly, independent of the Hamiltonian's non-U(1) structure. Here (ρ_coh,i)_{0,1} is the off-diagonal element of the site-i reduced density matrix, and the sum runs over all N sites.
 
-**Proof (general U(1) case).** Let x_i(t) = ⟨vac|ρ(t)|1_i⟩ be the amplitude of the |vac⟩⟨1_i| component of ρ(t); equivalently the (vac, SE) block of ρ as an N-vector indexed by site. Evolution under the Lindblad master equation splits into:
+**Proof (general U(1) case).** Let x_i(t) = 2·⟨vac|ρ(t)|1_i⟩, twice the (vac, 1_i) matrix element of ρ; the factor 2 strips the probe's 1/2 normalization, so for the probe above x_i(0) = ⟨α|1_i⟩ = α_i* and x(0) is the conjugate amplitude vector of |α⟩ as an N-vector indexed by site (the norm below is unaffected by the conjugation). Evolution under the Lindblad master equation splits into:
 
 - **Hamiltonian part.** H preserves SE by assumption, so its restriction to SE is a Hermitian N×N matrix H_SE. The (vac, 1_i) bra-ket block evolves under H as iẋ = −H_SE x on the ket side, giving a unitary propagator U_SE(t) = exp(−i H_SE t).
 - **Dephasing part.** Each D\[Z_j\] acts on the (vac, 1_i) coherence element with rate γ₀ · (⟨Z_j⟩_vac − ⟨Z_j⟩_{1_i})² / 2 = γ₀ · (2 δ_{j,i})² / 2 = 2γ₀ · δ_{j,i}. Summing over j gives a uniform 2γ₀ decay on every SE-block coherence, independent of site.

@@ -284,6 +284,17 @@ public static class Formulas
     public static double[] F74_RateLadder(int n, int nSites, double gamma0)
         => Enumerable.Range(0, F74_Chromaticity(n, nSites)).Select(i => 2.0 * gamma0 * (2 * i + 1)).ToArray();
 
+    // F73 (T1, proven; adopted 2026-07-12): the spatial-sum coherence closure. Any Hermitian H with
+    // [H, N_total] = 0 and uniform Z-dephasing gamma0, on the vac-SE coherent probe
+    // rho0 = (|vac><alpha| + |alpha><vac|)/2 (|alpha> any normalized single-excitation state), obeys
+    // sum_i 2*|(rho_i)_{01}(t)|^2 = (1/2) e^{-4 gamma0 t} EXACTLY -- blind to H. The (vac, SE) block
+    // is F74's n = 0 mono-chromatic block (c(0, N) = 1, the single Pair rate -2*gamma0): the block
+    // vector evolves as x(t) = e^{-2 gamma0 t} U_SE(t) x(0) with U_SE unitary, so the summed squared
+    // magnitude pays twice the rate and the H-rotation drops out of the norm. Breaks for non-uniform
+    // gamma_l, non-U(1) H, dissipators that shift the d_H = 1 rate (mixed X/Z, amplitude damping),
+    // and probes with two-or-more-excitation admixture (the rate leaves 2*gamma0).
+    public static double F73_SpatialSumClosure(double gamma0, double t) => 0.5 * Math.Exp(-4.0 * gamma0 * t);
+
     // F75 (T1): mirror-pair mutual information for a single-excitation mirror-symmetric state
     // |psi> = sum c_j |1_j> with c_{N-1-j} = +-c_j: MI(l, N-1-l) = 2 h(p) - h(2p), p = |c_l|^2,
     // h the binary entropy. Sign-independent; saturates at 2 bits (a Bell pair) at p = 1/2.

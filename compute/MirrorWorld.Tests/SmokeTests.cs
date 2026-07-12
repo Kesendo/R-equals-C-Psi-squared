@@ -349,6 +349,51 @@ public class SmokeTests
             }
     }
 
+    // --- F73: the spatial-sum coherence closure -- sum_i 2*|(rho_i)_{01}(t)|^2 = (1/2) e^{-4 gamma0 t}
+    // on the vac-SE coherent probe, pinned FROM BELOW by running the living world (Restless RK4) with a
+    // deliberately asymmetric |alpha> under three different U(1) Hamiltonians (XY chain, XXZ chain
+    // at zz = 1 i.e. Delta = 2, XY ring): the closure must be blind to all of them. The site-i marginal's
+    // off-diagonal is computed inline by partial trace (sum over basis states with bit i = 0). Cross-dock:
+    // the (vac, SE) block is F74's n = 0 mono-chromatic block, c(0, N) = 1, whose single Pair rate
+    // -2*gamma0 the squared magnitude pays twice.
+    [Fact]
+    public void F73_SpatialSum_Closure_HBlind_Under_Restless()
+    {
+        int N = 5, dim = 1 << N;
+        double gamma = 0.05;
+        Assert.Equal(1, Formulas.F74_Chromaticity(0, N));       // the mono-chromatic end F73 rides
+        double[] alpha = { 0.6, -0.3, 0.5, 0.2, -0.51 };        // asymmetric, no XY eigenmode
+        double norm = Math.Sqrt(alpha.Sum(a => a * a));
+        foreach (var (bonds, zz) in new[] { (Topology.Chain(N), 0.0), (Topology.Chain(N), 1.0), (Topology.Ring(N), 0.0) })
+        {
+            var w = new Restless(W, N, 1.0, gamma, bonds, zz: zz);
+            for (int l = 0; l < N; l++)
+                w.SeedCoherence(0, 1 << l, alpha[l] / norm / 2);    // rho0 = (|vac><alpha| + h.c.)/2
+            for (int tick = 0; tick <= 1600; tick++)
+            {
+                if (tick % 400 == 0)
+                {
+                    double sum = 0, moved = 0;
+                    for (int site = 0; site < N; site++)
+                    {
+                        var m01 = System.Numerics.Complex.Zero; // (rho_site)_{01} = sum_{s: bit site of s = 0} rho[s, s | bit]
+                        for (int s = 0; s < dim; s++)
+                            if (((s >> site) & 1) == 0) m01 += w[s, s | (1 << site)];
+                        sum += 2.0 * m01.Magnitude * m01.Magnitude;
+                        double atJ0 = alpha[site] * alpha[site] / (norm * norm)
+                                    * Formulas.F73_SpatialSumClosure(gamma, w.T);  // the J = 0 per-site prediction
+                        moved += Math.Abs(2.0 * m01.Magnitude * m01.Magnitude - atJ0);
+                    }
+                    Assert.Equal(Formulas.F73_SpatialSumClosure(gamma, w.T), sum, 9);
+                    // the H-rotation must actually happen for "H-blind" to mean anything: at the final
+                    // time the per-site pattern has left the J = 0 shape even though the sum has not.
+                    if (tick == 1600) Assert.True(moved > 1e-3, "H did not redistribute the per-site coherence");
+                }
+                if (tick < 1600) w.Step(0.0025);
+            }
+        }
+    }
+
     // --- F77: the multi-drop MM(0) saturates at 1 bit -- the closed asymptotic pinned against the
     // EXACT F75 mirror-pair sum at full best-k search (the registry's own verified rows), and the
     // rescaled deviation (MM-1)(N+1) descending toward 3/(4 ln 2) = 1.0820.
