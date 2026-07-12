@@ -284,6 +284,19 @@ public static class Formulas
     public static double[] F74_RateLadder(int n, int nSites, double gamma0)
         => Enumerable.Range(0, F74_Chromaticity(n, nSites)).Select(i => 2.0 * gamma0 * (2 * i + 1)).ToArray();
 
+    // F72 (T1, corollary of F70; adopted 2026-07-12): the block-diagonal DD + CC split of per-site
+    // purity. Valid for any Hamiltonian conserving excitation number, any sector-preserving
+    // dissipator, any rho0; purely kinematic. Tr(rho_i^2) = 1/2
+    // + P_DD[rho_diag] + P_CC[rho_coh] with NO cross term: the site marginal's z Bloch component
+    // reads only the DeltaN = 0 (diagonal) blocks of rho, its x and y read only the |DeltaN| = 1
+    // blocks (F70: a single site sees at most one excitation step), and squaring keeps each
+    // contribution in its own sector. Blocks with |DeltaN| >= 2 are invisible to any single site.
+    // Generalizes at k = 2 sites to three sub-blocks DD + DC + CC.
+    public static double F72_PurityDD(double z) => 0.5 * z * z;
+    public static double F72_PurityCC(double x, double y) => 0.5 * (x * x + y * y);
+    public static double F72_SitePurity(double x, double y, double z)
+        => 0.5 + F72_PurityDD(z) + F72_PurityCC(x, y);
+
     // F73 (T1, proven; adopted 2026-07-12): the spatial-sum coherence closure. Any Hermitian H with
     // [H, N_total] = 0 and uniform Z-dephasing gamma0, on the vac-SE coherent probe
     // rho0 = (|vac><alpha| + |alpha><vac|)/2 (|alpha> any normalized single-excitation state), obeys

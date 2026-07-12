@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (167 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (168 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -45,7 +45,7 @@ x/y/z; that is the inheritance edge System → Object.
 | `PauliMode.cs` | the symmetry-adapted superposition (a Pauli string of XY-weight k), four Klein cells; `Enumerate` the shared 4^N basis |
 | `Block.cs` | Grading B, the (N+1)² joint-popcount blocks C(N,p)·C(N,q) |
 | `Redistribution.cs`, `Clock.cs`, `Survivor.cs` | the static dynamics readings (H-on grid-leaving folds, θ = arctan Q, the survivor + the coherence horizon Q\*(N)) |
-| `Formulas.cs` | the adopted F-registry closed forms (91 members), each verbatim and tier-tagged |
+| `Formulas.cs` | the adopted F-registry closed forms (92 members), each verbatim and tier-tagged |
 | `Field.cs` | **the empty world, running**: weights on pairs, one `Step` is the disagreement-decay; structure (diagonal) stays, novelty (off-diagonal) fades |
 | `DoubleSlit.cs` | **the double slit, composed** (2026-07-12): `Field` at N=1 named under the phenomenon so it is recognizable where the atoms alone were not; humps = the immortal diagonal, fringe = the between paying −2γ, V = 2\|ρ_LR\|. Nothing new computed; meaning in `docs/quantum/DOUBLE_SLIT_TRANSLATED.md`, run mode `doubleslit` |
 | `Cat.cs` | **Schrodinger's cat, composed** (2026-07-12): `Field` at N, the k=N twin of `DoubleSlit` -- two definite branches \|0..0>,\|1..1> (the immortal diagonal) + the coherence between them (k=N) paying −2Nγ, dying N× faster than the slit's k=1. Nothing new computed; meaning in `docs/quantum/SCHRODINGERS_CAT_TRANSLATED.md`, run mode `cat N` |
@@ -60,7 +60,7 @@ x/y/z; that is the inheritance edge System → Object.
 | `Seed.cs` | **the within-block self-dual seed** (adopted 2026-07-07, F89 seed-existence): where a state meets the mirror's null (v^T v = 0), a defective seed -- the static source the shadow and the i^4 holonomy leave behind. Held as a COUNT, no eigensolver (the nullity surplus r(0+) - r(inf) over GF(p)): N-1 forced seeds at odd N (the unmirrorable middle seat), 0 at even N. Since 2026-07-12 also the fusion-resonance count, closed: r(inf) = 3*Z3 at EVERY N (cyclotomic Step-4 theorem, asserted by divisibility), the odd-N Conway-Jones form Z3 = (N-1)/2 + [3\|n](n/3-2) + 2[15\|n] (ROT3 multiplicity verified, not derived), and the criterion RESONANT (odd N) iff 3 \| N+1 and N >= 11 (next after 17 is 23). Since 2026-07-12 also the coupled-level law (the 10d derivation, uniform in N): the exact triple inventory (cyclotomic over GF(p), two primes, soundness tied to #triples = r(inf)/3 against the independent rank count) with the Conway-Jones families TRIV/ROT3/PENT, the structural coupling-shape spectrum (3,1,0) = roots of x^3 - 4x^2 + 3x verified in integers, and the integer pair levels a·n = 12 - Σλ² = 6 (ROT3, levels (18/n, 6/n)) / 8 (PENT, (24/n, 8/n)); TRIV is exactly the self-mirror class, unpaired. The Gram construction of X (K₂₆, Slater lifts) and the Y = 0 / cross-triple certificates stay outside (paths). Mirror's within-block companion |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 167 from-below tests: `SmokeTests` (42, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end), `SeedTests` (40, the F89 nullity surplus = N-1 odd / 0 even, exact over GF(p); + the 2026-07-12 resonance closed count r(inf) = 3*Z3, odd-N Conway-Jones form, criterion pins; + the 2026-07-12 coupled-level law: the enumeration-vs-rank tie N=3..11, the odd-N family decomposition to N=29, the N=8 even lab, mirror closure incl. N=14, the exact (3,1,0) shape and integer pair levels), `ConcentratorTests` (6, the site-resolved watching: J-convention pin, per-site rates, the N=5 reload contrast, ZZ-is-tiny, N=9 persistence; added 2026-07-11 for the IBM_CONCENTRATOR_RELOADED pre-registration), `DoubleSlitTests` (3, the double slit as `Field` N=1: humps immortal, the between decays at −2γ toward e^(−2γt), V = 2\|ρ_LR\|; added 2026-07-12), `CatTests` (6, the cat as `Field` at N: branches immortal, the k=N coherence decays at −2Nγ, dies N× faster than the slit; added 2026-07-12) |
+| `../MirrorWorld.Tests/*.cs` | 168 from-below tests: `SmokeTests` (43, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end), `SeedTests` (40, the F89 nullity surplus = N-1 odd / 0 even, exact over GF(p); + the 2026-07-12 resonance closed count r(inf) = 3*Z3, odd-N Conway-Jones form, criterion pins; + the 2026-07-12 coupled-level law: the enumeration-vs-rank tie N=3..11, the odd-N family decomposition to N=29, the N=8 even lab, mirror closure incl. N=14, the exact (3,1,0) shape and integer pair levels), `ConcentratorTests` (6, the site-resolved watching: J-convention pin, per-site rates, the N=5 reload contrast, ZZ-is-tiny, N=9 persistence; added 2026-07-11 for the IBM_CONCENTRATOR_RELOADED pre-registration), `DoubleSlitTests` (3, the double slit as `Field` N=1: humps immortal, the between decays at −2γ toward e^(−2γt), V = 2\|ρ_LR\|; added 2026-07-12), `CatTests` (6, the cat as `Field` at N: branches immortal, the k=N coherence decays at −2Nγ, dies N× faster than the slit; added 2026-07-12) |
 
 ## The closed-form base (the stopping line 2026-06-28; coverage closed 2026-07-04)
 
@@ -95,8 +95,9 @@ DEFINITION itself (with the F104 engine -- what the Hardness certificates replac
 F112-F114 balance/conjugation laws, F120's hardware protocol, and the boundary-excluded paths
 (F86 EPs, F89/F90 braid + monodromy -- but F89's seed-EXISTENCE count came home 2026-07-07 as `Seed.cs`; only the locus q*,
 the shadow, and the holonomy stay out). Also still open from the delta survey's adoptable bucket:
-the smaller closed-form singles F72, F94, F96, F100/F101 -- candidates, not yet home (F74 + F77
-adopted 2026-07-12; F73 adopted 2026-07-12 as F74's n = 0 mono-chromatic end, Restless-pinned);
+the smaller closed-form singles F94, F96, F100/F101 -- candidates, not yet home (F74 + F77
+adopted 2026-07-12; F73 adopted 2026-07-12 as F74's n = 0 mono-chromatic end, Restless-pinned;
+F72 adopted 2026-07-12, the DD + CC site-purity split, all-sector-pinned);
 "the delta list is done" below means the survey's SHORTLIST, not its whole bucket.
 
 **One deliberate exception (2026-07-03): `Mirror.cs`, the first OPERATOR adoption.** An inventory
@@ -190,7 +191,7 @@ dotnet run --project compute/MirrorWorld -- router        # Router: the golden/m
 dotnet run --project compute/MirrorWorld -- concentrator 5 # Concentrator: the site-resolved watching (the IBM_CONCENTRATOR_RELOADED cross-check); also 9 = past the wall
 dotnet run --project compute/MirrorWorld -- doubleslit     # DoubleSlit: the double slit composed as Field N=1 -- humps immortal, the between (fringe) fades on e^(-2gt); meaning in DOUBLE_SLIT_TRANSLATED.md
 dotnet run --project compute/MirrorWorld -- cat 4          # Cat: Schrodinger's cat as Field at N (k=N) -- branches immortal, the between dies at -2Ng (N times faster than the slit); the N-scaling
-dotnet test compute/MirrorWorld.Tests                     # the 167-test from-below guard
+dotnet test compute/MirrorWorld.Tests                     # the 168-test from-below guard
 ```
 
 ## How to continue (future us)
@@ -203,7 +204,7 @@ Two paths are open.
 The 2026-06-28 remnant list is empty, the delta-survey SHORTLIST (F75/F76, F88b, F91-F93,
 F95, F99) is home, the F87-hardness bloc landed as `Hardness.cs`, and the golden router
 followed as `Router.cs`. Remaining candidates from the survey's wider adoptable bucket:
-the closed-form singles F72, F94, F96, F100/F101 (F74 + F77 + F73 adopted 2026-07-12) (see "Still outside" above) --
+the closed-form singles F94, F96, F100/F101 (F74 + F77 + F73 + F72 adopted 2026-07-12) (see "Still outside" above) --
 plus FUTURE registry entries: when a new F-number lands as a closed form (or as an exact
 rearrangement, the operator genre), it comes home here.
 

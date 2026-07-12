@@ -349,6 +349,93 @@ public class SmokeTests
             }
     }
 
+    // --- F72: the DD + CC block split of per-site purity -- pinned FROM BELOW on a deterministic
+    // dense Hermitian unit-trace rho at N = 5 with ALL joint-popcount sectors populated (NOT
+    // positive-semidefinite: the split is a purely kinematic identity, deliberately pinned beyond
+    // physical states). The site marginals are computed by a GENERIC partial trace that scans every
+    // (u, v) entry and knows nothing about popcount blocks; the block content enters only through
+    // projected COPIES of rho. The one-site invisibility of |DeltaN| >= 2 blocks is STRUCTURAL to
+    // the single-site trace (that IS F70's proof: |Dpc| >= 2 forces a difference at another site),
+    // so its zero is asserted together with the DISCRIMINATING contrast the registry's own k = 2
+    // line supplies: the SAME |DeltaN| = 2 content is NONZERO in a two-site marginal -- the zero is
+    // the physics of k = 1, not an artifact of the harness. Load-bearing coefficient pin: the
+    // assembled 1/2 + DD + CC equals the directly computed Tr(rho_i^2) with both sectors active.
+    // No dynamics run, any rho.
+    [Fact]
+    public void F72_SitePurity_Splits_Blockwise_With_No_Cross_Term()
+    {
+        int N = 5, dim = 1 << N;
+        var rho = new System.Numerics.Complex[dim, dim];        // deterministic pseudo-dense Hermitian
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++)
+            {
+                var a = new System.Numerics.Complex((i * 3 + j * 7) % 11 - 5, (i * 5 + j * 2) % 7 - 3);
+                var b = new System.Numerics.Complex((j * 3 + i * 7) % 11 - 5, (j * 5 + i * 2) % 7 - 3);
+                rho[i, j] = (a + System.Numerics.Complex.Conjugate(b)) / 2.0;
+            }
+        double tr = 0;
+        for (int i = 0; i < dim; i++) tr += rho[i, i].Real;
+        for (int i = 0; i < dim; i++) rho[i, i] += (1.0 - tr) / dim;   // unit trace, still Hermitian
+
+        int Dpc(int u, int v) => System.Numerics.BitOperations.PopCount((uint)u)
+                               - System.Numerics.BitOperations.PopCount((uint)v);
+
+        // generic partial trace over all sites but `site`: scans EVERY (u, v) pair of the projected
+        // rho and keeps rho[u, v] iff u and v agree everywhere except possibly at `site`. No popcount
+        // logic in here; `keep` projects rho onto a block class before tracing.
+        System.Numerics.Complex[,] Marginal(int site, Func<int, int, bool> keep)
+        {
+            var m = new System.Numerics.Complex[2, 2];
+            for (int u = 0; u < dim; u++)
+                for (int v = 0; v < dim; v++)
+                    if ((u & ~(1 << site)) == (v & ~(1 << site)) && keep(u, v))
+                        m[(u >> site) & 1, (v >> site) & 1] += rho[u, v];
+            return m;
+        }
+
+        int populatedHigh = 0;                                   // the |DeltaN| >= 2 sectors are genuinely there
+        for (int u = 0; u < dim; u++)
+            for (int v = 0; v < dim; v++)
+                if (Math.Abs(Dpc(u, v)) >= 2 && rho[u, v].Magnitude > 0) populatedHigh++;
+        Assert.True(populatedHigh > 100, "the pin needs a rho with real |DeltaN| >= 2 content");
+
+        // the discriminating contrast (the registry's k = 2 doorway): the |DeltaN| = 2 content the
+        // single site cannot see IS visible to a two-site marginal (pairs may differ at both sites,
+        // so |Dpc| = 2 entries survive the trace). Sites 0 and 1, generic pair partial trace.
+        double pairHigh = 0;
+        int pairMask = ~((1 << 0) | (1 << 1));
+        for (int u = 0; u < dim; u++)
+            for (int v = 0; v < dim; v++)
+                if ((u & pairMask) == (v & pairMask) && Math.Abs(Dpc(u, v)) == 2)
+                    pairHigh += rho[u, v].Magnitude;
+        Assert.True(pairHigh > 0.1, "|DeltaN| = 2 content must be visible to a two-site marginal");
+
+        for (int site = 0; site < N; site++)
+        {
+            var full = Marginal(site, (u, v) => true);
+            var dd = Marginal(site, (u, v) => Dpc(u, v) == 0);
+            var cc = Marginal(site, (u, v) => Math.Abs(Dpc(u, v)) == 1);
+            var high = Marginal(site, (u, v) => Math.Abs(Dpc(u, v)) >= 2);
+
+            for (int a = 0; a < 2; a++)
+                for (int b = 0; b < 2; b++)
+                {
+                    Assert.Equal(0.0, high[a, b].Magnitude, 15);            // F70: >= 2 steps invisible to one site
+                    Assert.Equal(0.0, (full[a, b] - dd[a, b] - cc[a, b] - high[a, b]).Magnitude, 12);
+                }
+            Assert.Equal(0.0, dd[0, 1].Magnitude, 15);                      // DD carries only the diagonal (z)
+            Assert.Equal(0.0, cc[0, 0].Magnitude + cc[1, 1].Magnitude, 15); // CC carries only the off-diagonal (x, y)
+
+            double x = 2.0 * full[0, 1].Real, y = -2.0 * full[0, 1].Imaginary;
+            double z = (full[0, 0] - full[1, 1]).Real;
+            double direct = full[0, 0].Real * full[0, 0].Real + full[1, 1].Real * full[1, 1].Real
+                          + 2.0 * full[0, 1].Magnitude * full[0, 1].Magnitude;
+            Assert.Equal(direct, Formulas.F72_SitePurity(x, y, z), 9);      // 1/2 + DD + CC, no cross term
+            Assert.True(Math.Abs(x) + Math.Abs(y) > 1e-3 && Math.Abs(z) > 1e-3,
+                "the pin must exercise both sectors");
+        }
+    }
+
     // --- F73: the spatial-sum coherence closure -- sum_i 2*|(rho_i)_{01}(t)|^2 = (1/2) e^{-4 gamma0 t}
     // on the vac-SE coherent probe, pinned FROM BELOW by running the living world (Restless RK4) with a
     // deliberately asymmetric |alpha> under three different U(1) Hamiltonians (XY chain, XXZ chain
