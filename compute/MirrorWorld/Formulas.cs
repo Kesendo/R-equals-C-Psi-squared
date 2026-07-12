@@ -284,6 +284,23 @@ public static class Formulas
     public static double[] F74_RateLadder(int n, int nSites, double gamma0)
         => Enumerable.Range(0, F74_Chromaticity(n, nSites)).Select(i => 2.0 * gamma0 * (2 * i + 1)).ToArray();
 
+    // F94 + F96 (T1 derived, bit-exact Dyson; adopted 2026-07-12 together): the Born-deviation
+    // table of ONE setup -- |0+0+> on the N = 4 Heisenberg ring (H = (J/4) sum XX+YY+ZZ) under
+    // uniform Z-dephasing, pair (0, 2). SETUP-SPECIFIC scalars, not an N-family law. The single
+    // anchor is F94's 4/3 = (sym3 element 8) / 3!, a pure COUNT (32 surviving Dyson diagrams,
+    // each 1/4, no cancellations): the dominant outcome |00> pays Delta = +(4/3) Q^2 K^3
+    // (Q = J/gamma, K = gamma t); F96 makes the three subdominant outcomes algebra in the same
+    // anchor via the universal slope M_{2k+1} / ((2k+1) U_{2k}): |01> = |10> = -(4/3)^2 K
+    // (= (-4)/(3 * 3/4)) and |11> = -2 (4/3) K (= (-20)/(5 * 3/2)), linear in K, Q-independent.
+    // The qudit lift c(d) = 4(d+2)(d-1)/(3d^2) (the dynamics is the d-independent (J/2) SWAP)
+    // refutes the "4 = d^2" reading: c(2) = 4/3 is both the qubit value and the d -> inf limit,
+    // with the finite-d bump peaking at c(4) = 3/2.
+    public static double F94_DominantDeviation(double q, double k) => 4.0 / 3.0 * q * q * k * k * k;
+    public static double F94_QuditCoefficient(int d) => 4.0 * (d + 2) * (d - 1) / (3.0 * d * d);
+    public static double F96_SlopeFromDyson(double m, int k, double u) => m / ((2 * k + 1) * u);
+    public static double F96_SubdominantSlopeSingle() => -(4.0 / 3.0) * (4.0 / 3.0);   // |01>, |10>
+    public static double F96_SubdominantSlopeDouble() => -2.0 * (4.0 / 3.0);           // |11>
+
     // F72 (T1, corollary of F70; adopted 2026-07-12): the block-diagonal DD + CC split of per-site
     // purity. Valid for any Hamiltonian conserving excitation number, any sector-preserving
     // dissipator, any rho0; purely kinematic. Tr(rho_i^2) = 1/2

@@ -349,6 +349,106 @@ public class SmokeTests
             }
     }
 
+    // --- F94 + F96: the Born-deviation table -- recomputed FROM BELOW by exact dyadic arithmetic
+    // on the 16x16 setup (|0+0+>, N = 4 Heisenberg ring at J = gamma = 1, pair (0, 2)): the sym3
+    // signature (+8, -4, -4, 0), the unitary normalizations U_2^(01) = 3/4 and U_4^(11) = 3/2, the
+    // sym5 element M_5^(11) = -20, then the closed forms: 8/3! = 4/3 = c(2) (F94), the slopes
+    // -16/9 and -8/3 via M/((2k+1)U) (F96), and the qudit curve's shape (peak at d = 4, decay
+    // back toward 4/3). All entries are dyadic rationals, so the equalities are machine-exact.
+    [Fact]
+    public void F94_F96_BornDeviationTable_From_Exact_Dyson()
+    {
+        const int dim = 16;
+        var h = new System.Numerics.Complex[dim, dim];          // H at J = 1: (1/4) sum_bonds XX+YY+ZZ, ring
+        foreach (var (a, b) in Topology.Ring(4))
+            for (int s = 0; s < dim; s++)
+            {
+                int za = 1 - 2 * ((s >> a) & 1), zb = 1 - 2 * ((s >> b) & 1);
+                h[s, s] += 0.25 * za * zb;                                        // ZZ
+                if (((s >> a) & 1) != ((s >> b) & 1))
+                    h[s, s ^ (1 << a) ^ (1 << b)] += 0.5;                         // (XX+YY)/4 = flip-flop/2
+            }
+        var rho0 = new System.Numerics.Complex[dim, dim];       // |0+0+><0+0+|: psi[s] = 1/2 iff bits 0, 2 clear
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++)
+                if ((i & 0b0101) == 0 && (j & 0b0101) == 0) rho0[i, j] = 0.25;
+
+        System.Numerics.Complex[,] Mul(System.Numerics.Complex[,] a, System.Numerics.Complex[,] b)
+        {
+            var r = new System.Numerics.Complex[dim, dim];
+            for (int i = 0; i < dim; i++)
+                for (int m = 0; m < dim; m++)
+                    if (a[i, m] != System.Numerics.Complex.Zero)
+                        for (int j = 0; j < dim; j++) r[i, j] += a[i, m] * b[m, j];
+            return r;
+        }
+        System.Numerics.Complex[,] LH(System.Numerics.Complex[,] x)     // -i[H, x]
+        {
+            var hx = Mul(h, x); var xh = Mul(x, h);
+            var r = new System.Numerics.Complex[dim, dim];
+            for (int i = 0; i < dim; i++)
+                for (int j = 0; j < dim; j++) r[i, j] = -System.Numerics.Complex.ImaginaryOne * (hx[i, j] - xh[i, j]);
+            return r;
+        }
+        System.Numerics.Complex[,] LD(System.Numerics.Complex[,] x)     // sum_l (Z_l x Z_l - x) = -2 Ham(i,j) x_ij
+        {
+            var r = new System.Numerics.Complex[dim, dim];
+            for (int i = 0; i < dim; i++)
+                for (int j = 0; j < dim; j++)
+                    r[i, j] = -2.0 * System.Numerics.BitOperations.PopCount((uint)(i ^ j)) * x[i, j];
+            return r;
+        }
+        // pair (0, 2) outcome (a, c): P = sum over bits 1, 3 of the diagonal
+        double Outcome(System.Numerics.Complex[,] x, int a, int c)
+        {
+            double p = 0;
+            for (int q1 = 0; q1 < 2; q1++)
+                for (int q3 = 0; q3 < 2; q3++)
+                { int s = a | (q1 << 1) | (c << 2) | (q3 << 3); p += x[s, s].Real; }
+            return p;
+        }
+        // sym_n^1: the n orderings of (n-1) LH and one LD, applied to rho0
+        System.Numerics.Complex[,] Sym(int n)
+        {
+            var sum = new System.Numerics.Complex[dim, dim];
+            for (int pos = 0; pos < n; pos++)                   // LD at position pos from the right
+            {
+                var x = rho0;
+                for (int step = 0; step < n; step++) x = step == pos ? LD(x) : LH(x);
+                for (int i = 0; i < dim; i++)
+                    for (int j = 0; j < dim; j++) sum[i, j] += x[i, j];
+            }
+            return sum;
+        }
+
+        var sym3 = Sym(3);
+        Assert.Equal(8.0, Outcome(sym3, 0, 0), 10);             // the F94 count: 32 diagrams x 1/4
+        Assert.Equal(-4.0, Outcome(sym3, 1, 0), 10);            // M_3 singly-flipped |10>
+        Assert.Equal(-4.0, Outcome(sym3, 0, 1), 10);            // M_3 singly-flipped |01>, the 0<->2 twin
+        Assert.Equal(0.0, Outcome(sym3, 1, 1), 10);             // M_3^(11) = 0, |11> waits for sym5
+
+        var lh2 = LH(LH(rho0));
+        Assert.Equal(0.75, Outcome(lh2, 1, 0), 10);             // U_2 singly-flipped = 3/4
+        var lh4 = LH(LH(lh2));
+        double u4 = Outcome(lh4, 1, 1), m5 = Outcome(Sym(5), 1, 1);
+        Assert.Equal(1.5, u4, 10);                              // U_4^(11) = 3/2
+        Assert.Equal(-20.0, m5, 10);                            // M_5^(11)
+
+        Assert.Equal(4.0 / 3.0, Outcome(sym3, 0, 0) / 6.0, 12);                 // F94: 8 / 3! = 4/3
+        Assert.Equal(4.0 / 3.0, Formulas.F94_QuditCoefficient(2), 12);          // = c(2)
+        Assert.Equal(1e-6 * 4.0 / 3.0, Formulas.F94_DominantDeviation(1, 0.01), 12);
+        Assert.Equal(-16.0 / 9.0, Formulas.F96_SlopeFromDyson(Outcome(sym3, 1, 0), 1, Outcome(lh2, 1, 0)), 12);
+        Assert.Equal(Formulas.F96_SubdominantSlopeSingle(),
+                     Formulas.F96_SlopeFromDyson(-4.0, 1, 0.75), 12);
+        Assert.Equal(-8.0 / 3.0, Formulas.F96_SlopeFromDyson(m5, 2, u4), 12);
+        Assert.Equal(-2.0 * (4.0 / 3.0), Formulas.F96_SubdominantSlopeDouble(), 12);
+
+        Assert.Equal(1.5, Formulas.F94_QuditCoefficient(4), 12);                // the finite-d peak
+        Assert.Equal(40.0 / 27.0, Formulas.F94_QuditCoefficient(3), 12);        // refutes c -> d^2/3
+        Assert.True(Math.Abs(Formulas.F94_QuditCoefficient(10000) - 4.0 / 3.0) < 1e-3,
+            "c(d) must decay back to 4/3 as d -> inf");
+    }
+
     // --- F72: the DD + CC block split of per-site purity -- pinned FROM BELOW on a deterministic
     // dense Hermitian unit-trace rho at N = 5 with ALL joint-popcount sectors populated (NOT
     // positive-semidefinite: the split is a purely kinematic identity, deliberately pinned beyond
