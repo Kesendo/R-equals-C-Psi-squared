@@ -300,45 +300,6 @@ if (args.Length > 0 && args[0] == "seed")
     return;
 }
 
-// ---- run mode "resolution": the individuation reading (the rate is also the object-maker) ----
-// The Pair's price -2*gamma*k, read the other way, is a spectral LINEWIDTH: k=0 (agreement, the diagonal)
-// has width 0, infinitely sharp -- the immortal, perfectly individuated object; larger k is broader, less
-// a thing. And the one verdict no other object asks -- ONE object or two -- at the horizon Q = Q*(N) (the
-// EP where two damped modes coalesce, Survivor's handover): below, over-damped (merged); above, oscillating
-// (two). gamma draws the boundary that makes the object. Meaning in the docs; here the numbers, pinned to
-// Pair.Rate and Formulas.Qstar in ResolutionTests.
-if (args.Length > 0 && args[0] == "resolution")
-{
-    int rezN = args.Length > 1 ? int.Parse(args[1]) : 5;
-    const double rezG = 0.5;
-    var rezWorld = new World();
-    var rez = new Resolution(rezWorld, rezN, 1.0, rezG);
-    Console.WriteLine("the individuation reading: the rate is also the object-maker (the boundary a line has)");
-    Console.WriteLine("  the price -2*gamma*k, read the other way, is a spectral linewidth. k=0 (agreement, the");
-    Console.WriteLine("  diagonal) has width 0: infinitely sharp, the immortal perfectly individuated object.");
-    Console.WriteLine();
-    Console.WriteLine($"  gamma = {rezG}; the linewidth ladder 2*gamma*k (the same numbers Pair.Rate carries):");
-    Console.WriteLine($"  {"k",3} {"linewidth",10}");
-    for (int k = 0; k <= rezN; k++)
-        Console.WriteLine($"  {k,3} {rez.Linewidth(k),10:0.000}{(k == 0 ? "   <- width 0: the immortal object" : "")}");
-    Console.WriteLine();
-    Console.WriteLine("  and the one question no other object asks -- one object or two -- at the horizon Q*(N),");
-    Console.WriteLine("  the EP where two damped modes coalesce (Survivor's handover): below it over-damped = one");
-    Console.WriteLine("  merged object; above it oscillating = two distinct. gamma (via Q = J/gamma) draws the line.");
-    Console.WriteLine();
-    Console.WriteLine($"  {"N",3} {"Q*",8} {"Q=0.8Q*",9} {"Q=1.2Q*",9}");
-    for (int n = 2; n <= rezN; n++)
-    {
-        double qs = Formulas.Qstar(n);
-        var lo = new Resolution(rezWorld, n, 0.8 * qs * rezG, rezG);   // Q = 0.8 Q*
-        var hi = new Resolution(rezWorld, n, 1.2 * qs * rezG, rezG);   // Q = 1.2 Q*
-        Console.WriteLine($"  {n,3} {qs,8:0.000} {(lo.Resolved ? "two" : "one"),9} {(hi.Resolved ? "two" : "one"),9}");
-    }
-    Console.WriteLine();
-    Console.WriteLine("  one below the horizon, two above: the rate is the boundary, and the boundary is the object.");
-    return;
-}
-
 // ---- run mode "group": the mirror group and its antilinear double ----
 // F118 + F119 (adopted 2026-07-04): the palindromizer factors, Pi_Z = R o D, and the two generators
 // close into the dihedral D4 -- eight signed permutations of the Pauli basis, compared exactly. The

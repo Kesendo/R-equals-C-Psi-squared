@@ -14,7 +14,7 @@ forced us to find, **broke our complexity wall**: a state's dynamics at N=60-100
 eigendecomposition died at N=8.
 
 Standalone .NET 10.0, no `RCPsiSquared.*` references. Run it, read it, trust it: every adopted
-number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (140 tests).
+number and every dynamics step is pinned from-below by `MirrorWorld.Tests` (134 tests).
 
 *Vocabulary, once.* MirrorWorld is part of the **R=CΨ²** project (mirror symmetry in open quantum
 spin chains; repo root). The basic parameters: **N** = the number of two-level units (the chain
@@ -45,7 +45,6 @@ x/y/z; that is the inheritance edge System → Object.
 | `PauliMode.cs` | the symmetry-adapted superposition (a Pauli string of XY-weight k), four Klein cells; `Enumerate` the shared 4^N basis |
 | `Block.cs` | Grading B, the (N+1)² joint-popcount blocks C(N,p)·C(N,q) |
 | `Redistribution.cs`, `Clock.cs`, `Survivor.cs` | the static dynamics readings (H-on grid-leaving folds, θ = arctan Q, the survivor + the coherence horizon Q\*(N)) |
-| `Resolution.cs` | **the individuation reading** (2026-07-12): the Pair's rate −2γk read as a spectral LINEWIDTH (k=0 = width 0, the immortal object), and the one verdict no other object asks -- one object or two -- at the horizon Q\*(N) (the EP where two damped modes coalesce). γ is the object-maker, not only the price; the meaning lives in the docs, run mode `resolution N` |
 | `Formulas.cs` | the adopted F-registry closed forms (90 members), each verbatim and tier-tagged |
 | `Field.cs` | **the empty world, running**: weights on pairs, one `Step` is the disagreement-decay; structure (diagonal) stays, novelty (off-diagonal) fades |
 | `Restless.cs` | **the living world**: the full Lindblad loop ρ̇=−i[H,ρ]+D[ρ] (RK4); the handshake H births novelty FROM structure |
@@ -59,7 +58,7 @@ x/y/z; that is the inheritance edge System → Object.
 | `Seed.cs` | **the within-block self-dual seed** (adopted 2026-07-07, F89 seed-existence): where a state meets the mirror's null (v^T v = 0), a defective seed -- the static source the shadow and the i^4 holonomy leave behind. Held as a COUNT, no eigensolver (the nullity surplus r(0+) - r(inf) over GF(p)): N-1 forced seeds at odd N (the unmirrorable middle seat), 0 at even N. Since 2026-07-12 also the fusion-resonance count, closed: r(inf) = 3*Z3 at EVERY N (cyclotomic Step-4 theorem, asserted by divisibility), the odd-N Conway-Jones form Z3 = (N-1)/2 + [3\|n](n/3-2) + 2[15\|n] (ROT3 multiplicity verified, not derived), and the criterion RESONANT (odd N) iff 3 \| N+1 and N >= 11 (next after 17 is 23). Mirror's within-block companion |
 | `Topology.cs` | the geometry: chain / ring / star / complete bond generators |
 | `Program.cs` | the full sober run (default) + the run modes (see Run); R-parity and mod-4 inline |
-| `../MirrorWorld.Tests/*.cs` | 134 from-below tests: `SmokeTests` (41, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end), `SeedTests` (17, the F89 nullity surplus = N-1 odd / 0 even, exact over GF(p); + the 2026-07-12 resonance closed count r(inf) = 3*Z3, odd-N Conway-Jones form, criterion pins), `ConcentratorTests` (6, the site-resolved watching: J-convention pin, per-site rates, the N=5 reload contrast, ZZ-is-tiny, N=9 persistence; added 2026-07-11 for the IBM_CONCENTRATOR_RELOADED pre-registration), `ResolutionTests` (6, the linewidth ladder + the \|Pair.Rate\| cross-check + the one-or-two flip at the horizon Q\*(N); added 2026-07-12) |
+| `../MirrorWorld.Tests/*.cs` | 134 from-below tests: `SmokeTests` (41, the closed forms), `FieldTests` (7), `RestlessTests` (10), `ConeTests` (4), `TopologyTests` (2), `MirrorTests` (11, incl. the anti-watched world + past-the-wall), `MirrorGroupTests` (10), `AntilinearTriangleTests` (7), `ParameterKleinTests` (6), `HardnessTests` (8, incl. the valuation-vs-traces crown agreement), `RouterTests` (5, incl. the dense end-to-end), `SeedTests` (17, the F89 nullity surplus = N-1 odd / 0 even, exact over GF(p); + the 2026-07-12 resonance closed count r(inf) = 3*Z3, odd-N Conway-Jones form, criterion pins), `ConcentratorTests` (6, the site-resolved watching: J-convention pin, per-site rates, the N=5 reload contrast, ZZ-is-tiny, N=9 persistence; added 2026-07-11 for the IBM_CONCENTRATOR_RELOADED pre-registration) |
 
 ## The closed-form base (the stopping line 2026-06-28; coverage closed 2026-07-04)
 
@@ -180,7 +179,6 @@ dotnet run --project compute/MirrorWorld -- scale         # the complexity wall 
 dotnet run --project compute/MirrorWorld -- mirror 5      # Mirror: the fold lattice (legs exact, orbits, the price); even N adds the self-folded trace law
 dotnet run --project compute/MirrorWorld -- mirror 100    # N > 8 goes PAST THE WALL: the memory-cut pair (1,1)/(1,N-1) is N^2 both, the fold leg exact at N=100
 dotnet run --project compute/MirrorWorld -- seed 9        # Seed: the within-block self-dual seed count (F89 nullity surplus, no eigensolver): N-1 odd, 0 even
-dotnet run --project compute/MirrorWorld -- resolution 5  # Resolution: the rate read as a linewidth (the boundary); the one-object-or-two verdict at the horizon Q*(N)
 dotnet run --project compute/MirrorWorld -- anti 3        # the rules turned around: the anti-watched world (agreement watched) = the world read through X^N; the conserved law moves to the anti-trace
 dotnet run --project compute/MirrorWorld -- group 3       # MirrorGroup + AntilinearTriangle: the D4 of signed permutations, the palindrome split, the cube of characters, the transport law, the order-16 double
 dotnet run --project compute/MirrorWorld -- klein 6       # ParameterKlein: the V4 on each parameter axis; the anti-palindromic orbit shares its diagonal blocks cell for cell, the breaking lives in the cross-blocks
