@@ -56,7 +56,7 @@ A stronger bond advances the front, a weaker bond delays it; the ± asymmetry is
 
 **Controls.** dt-halving: max change 10⁻⁷. Lattice reflection (seed AND defect mirrored together, i ↦ N−1−i): profiles mirror to 1.4·10⁻¹⁴. θ-independence: above. The upstream O(δ) reflected wave (r ≈ δ(−1 + i cot q), |r|² = O(δ²)) is visible as a faint standing pattern and is not read as signal.
 
-**The N=7 anchor (descriptive, no test).** Near-middle defect bond (2,3), seed 0: Δt = [—, 0.000, +0.007, −0.045, −0.047, −0.055, −0.048] at γ=0 and nearly identically at γ=0.05. Even at N=7 the shape is the step: upstream flat, downstream plateau near −0.05. Printed beside the α row above for the eye; the two observables are incommensurate (localized-packet arrival vs delocalized-state purity rescaling), which is exactly why the locality scan, not this table, carries the P3′ contrast.
+**The N=7 anchor (descriptive, no test).** Near-middle defect bond (2,3), seed 0: Δt = [seed, 0.000, +0.007, −0.045, −0.047, −0.055, −0.048] at γ=0 and nearly identically at γ=0.05. Even at N=7 the shape is the step: upstream flat, downstream plateau near −0.05. Printed beside the α row above for the eye; the two observables are incommensurate (localized-packet arrival vs delocalized-state purity rescaling), which is exactly why the locality scan, not this table, carries the P3′ contrast.
 
 ## What this means, and what it does not
 
