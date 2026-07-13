@@ -4,7 +4,7 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The per-N β-exotic exclusion, certified at N = 5 and N = 7 (Tier 1 derived;
-/// <c>experiments/F89_SEED_EXISTENCE_REDUCTION.md</c>, section "The β-exotic is excluded at N = 5 and
+/// <c>experiments/F89_BETA_EXOTIC_GENERICITY.md</c>, section "The β-exotic is excluded at N = 5 and
 /// N = 7", landed 2026-07-09 after four empty reviews): on the (1,2) coherence pencil
 /// L(q) = A + q·C of the N-site XY chain under uniform Z-dephasing, no branch locus q\* ≠ 0 of the
 /// residual charpoly factor F_res carries the Puiseux exponent 3/2 of the β-exotic. Both R-parity
@@ -118,7 +118,7 @@ public sealed class BetaExoticPerNExclusionClaim : Claim
                "certificate, not a law: it retires N=5 and N=7, one chain length at a time (N=9 is out of reach by " +
                "this route); the all-N item (s6 != 0 at every forced seed) is untouched and open",
                Tier.Tier1Derived,
-               "experiments/F89_SEED_EXISTENCE_REDUCTION.md + " +
+               "experiments/F89_BETA_EXOTIC_GENERICITY.md + " +
                "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md")
     {
         SeedExistence = seedExistence ?? throw new ArgumentNullException(nameof(seedExistence));
