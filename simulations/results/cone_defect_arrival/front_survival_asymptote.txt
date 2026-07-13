@@ -1,7 +1,8 @@
 ==============================================================================
 FRONT-SURVIVAL EXPONENT A: does it settle on a clean fraction of gamma_phi?
 Exact single-excitation dephasing, J = 1, Gamma = 4 gamma = gamma_phi
-Answer: no sub-gamma_phi constant; A_inf = gamma_phi = 4, approached ~ n^{-1/3}
+Answer: NO. Pre-asymptotic climb 4 - 4.864 n^{-1/3}; true fixed-gamma ceiling
+A_inf(gamma) = 4 - phi(2J)/gamma < 4 (= 4 - (8/3)sqrt(gamma/J) for small gamma).
 ==============================================================================
 
 ------------------------------------------------------------------------------
@@ -68,8 +69,8 @@ Answer: no sub-gamma_phi constant; A_inf = gamma_phi = 4, approached ~ n^{-1/3}
       120     0.27664   0.018475         0.44948                          4.92376
       200     0.27673   0.013193         0.45119                          4.90666
 
-    I_1 saturates to 0.27673 (n-independent). |G_n|^2 n^{2/3} -> 0.4553
-    => coefficient of n^{-1/3} in (ln B)/K is 8 I_1 / 0.4553 = 4.8624
+    I_1 saturates to 0.27673 (n-independent). |G_n|^2 n^{2/3} -> 0.45547 = 2^{2/3} Ai(-alpha)^2 (sharpened caustic peak)
+    => coefficient of n^{-1/3} in (ln B)/K is 8 I_1 / 0.45547 = 4.8643 (using the closed-form I_1 = 0.27694424, section [7])
 
 [4b] joint-caustic-sliver-only value (reduced uniform-Airy double integral):
      C = 2^{1/3} int_0^1 dsigma sigma^{-1/3}(1-sigma)^{-2/3} Phi(sigma),
@@ -107,25 +108,103 @@ Answer: no sub-gamma_phi constant; A_inf = gamma_phi = 4, approached ~ n^{-1/3}
        measured ~0.55 gamma-drift is mostly the front peak-time-shift artifact.
 
 ------------------------------------------------------------------------------
-[6] THE n-CLIMB : A_eff(n) at small gamma climbs toward A_inf = 4 like n^{-1/3}
+[6] THE n-CLIMB : A_eff(n) at small gamma climbs like n^{-1/3} toward the
+    gamma=0.002 ceiling A_inf(0.002) = 3.881 (not resolved from 4 in this window)
 ------------------------------------------------------------------------------
     exact renewal solution (interior seed, infinite chain), gamma = 0.002
-    (first-order regime). 4 - A_eff should fall as n^{-p}, p ~ 1/3 with a
-    positive n^{-2/3} sub-leading term shallowing the apparent slope in-window.
+    (first-order regime). A_inf(0.002) - A_eff should fall as n^{-p}, p ~ 1/3
+    with a positive n^{-2/3} sub-leading shallowing the apparent slope in-window.
+    NOTE: at these n (<= 55) the ceiling 3.881 is not resolved from 4; the climb
+    heads to 3.881, not to 4. The crossover n* ~ 67000 (section [8c]) is far above.
 
        n        K         g     -ln g     A_eff  4 - A_eff
       15   0.0150   0.96367   0.03701    2.4670     1.5330
       30   0.0300   0.92170   0.08153    2.7178     1.2822
       55   0.0550   0.85207   0.16009    2.9107     1.0893
 
-    A_eff climbs 2.4670 -> 2.7178 -> 2.9107 (toward 4)
+    A_eff climbs 2.4670 -> 2.7178 -> 2.9107 (toward the
+    gamma=0.002 ceiling A_inf = 3.8808, indistinguishable from 4 here)
     fit 4 - A_eff = 3.128 n^{-0.263}  (apparent p ~ 0.26 in-window,
     the pure Airy exponent 1/3 shallowed by the positive n^{-2/3} sub-leading)
-    asymptotic n^{-1/3} coefficient (from I_1): 8 I_1 / 0.4553 = 4.8624
+    asymptotic n^{-1/3} coefficient (from closed-form I_1): 8 I_1 / 0.45547 = 4.8643
+
+------------------------------------------------------------------------------
+[7] CLOSED FORM OF I_1 : I_1 = 1/12 + (1/4) int_0^{2c} Ai(-w) dw = 0.27694424
+------------------------------------------------------------------------------
+    2c = 2^{2/3} alpha, alpha = |first zero of Ai'|. The n^{-1/3} coefficient of
+    (ln B)/K is 8 I_1 / (2^{2/3} Ai(-alpha)^2). Verified vs the exact 1D momentum
+    representation I_1 = (1/2pi) int_0^{pi/2} cos(2 n th) sin(4 J t* sin th)/sin th dth.
+
+    alpha = |first zero of Ai'|   = 1.0187929716
+    2c    = 2^{2/3} alpha          = 1.6172330349
+    int_0^{2c} Ai(-w) dw         = 0.7744436091
+    I_1 (closed) = 1/12 + (1/4) int = 0.27694424   (target 0.27694424)
+
+    endpoint/caustic split: E = 1/8 = 0.12500 (exact, no stationary point),
+    caustic = I_1 - 1/8 = 0.15194  (referee numeric C_term quad gave 0.15189)
+
+    cross-check at n=15: 1D repr = 0.275415, 2D Bessel sum = 0.275416,
+    deviation = 8.71e-07  (the two exact forms of the same object agree)
+
+    exact 1D I_1(n) at the front peak, with an n^{-2/3} + n^{-4/3} extrapolation:
+         n         t*  I_1 (1D exact)
+       400   202.9838       0.2768144
+      1600   804.7319       0.2768942
+      6400  3207.5086       0.2769269
+
+    extrapolated I_1_inf (n^{-2/3} + n^{-4/3}) = 0.27694865
+    closed form                                 = 0.27694424
+    | closed - extrapolated |                   = 4.41e-06
+    PASS below 1e-04: the closed form is the n->inf limit of the exact I_1
+
+------------------------------------------------------------------------------
+[8] THE FIXED-GAMMA CEILING : A_inf(gamma) = 4 - phi(2J)/gamma < 4, NOT 4
+------------------------------------------------------------------------------
+
+[8a] A_inf(gamma) = 4 - phi(2J)/gamma, phi(2J) = sqrt(Gamma(Gamma+4J))
+     - 4J arcsinh sqrt(Gamma/4J), Gamma = 4 gamma; small-gamma form 4 - (8/3)sqrt(gamma):
+       gamma    phi(2J)  A_inf (closed)  4-(8/3)sqrt(g)  expected      dev
+       0.002   0.000238          3.8808          3.8807     3.881   0.0002
+       0.010   0.002659          3.7341          3.7333     3.734   0.0001
+       0.050   0.029379          3.4124          3.4037     3.412   0.0004
+       0.100   0.081925          3.1808          3.1567     3.181   0.0002
+       0.200   0.225562          2.8722          2.8074     2.872   0.0002
+     max deviation from the stated expectations: 0.0004 (rounding of the
+     expected list; the closed-form values are the correct ceiling)
+
+[8b] DISCRIMINATOR : exact renewal ladder S_n(t*_0), t*_0 = n/(2J), gamma = 0.10.
+     d(ln S)/dn climbs (toward phi/2), EXCEEDING the single-refill ceiling; the
+     single-refill law (slope ~ 0.162 n^{-1/3} - (2/3)/n, DECREASING) is falsified.
+
+     phi(2J) = 0.08192, phi/2 = 0.04096, A_inf = 3.1808
+         n     ln S_n   d(lnS)/dn   single-refill slope
+        50    -1.4514     0.03158               0.03064
+        60    -1.1267     0.03309               0.03027
+        70    -0.7895     0.03417               0.02978
+        80    -0.4433     0.03497               0.02926
+        90    -0.0900     0.03561               0.02874
+       100     0.2688     0.03612               0.02824
+       110     0.6323     0.03654               0.02775
+       120     0.9996     0.03689               0.02729
+
+     measured slope at n=120 = 0.03689 (RISING toward phi/2 = 0.04096)
+     single-refill ceiling (max over window) = 0.03064 (and DECREASING)
+     PASS: the measured slope exceeds the single-refill ceiling and climbs, while
+     the single-refill prediction falls => ln S_n grows LINEARLY, A_inf < 4.
+
+[8c] CROSSOVER n* ~ 6 (gamma/J)^{-3/2} (single-refill n^{2/3} = linear phi/2 n):
+       gamma  n* = 6 (g/J)^-3/2
+       0.002              67082
+       0.050                537
+       0.100                190
+     (all section [5]/[6] windows use n <= 55, far below even the smallest n* ~ 190;
+     the climb there is pre-asymptotic, not a plateau at 4.)
 
 ==============================================================================
-SUMMARY: no sub-gamma_phi constant. A_inf = gamma_phi = 4, approached ~ n^{-1/3}.
-The single clean number is the asymptote; 2.55-3.05 is the pre-asymptotic surface,
-and most of the measured gamma-drift is the max-ratio peak-shift artifact.
+SUMMARY: A_inf = gamma_phi = 4 is REFUTED. Pre-asymptotically A_eff climbs like
+4 - 4.864 n^{-1/3} (closed-form I_1 = 0.27694424); the true fixed-gamma ceiling is
+A_inf(gamma) = 4 - phi(2J)/gamma < 4 (small gamma: 4 - (8/3)sqrt(gamma/J)). ln S_n
+grows LINEARLY at rate phi/2, not O(ln n); the halo is an exp-in-n front boost. The
+measured gamma-drift of the K-collapse remains mostly the max-ratio peak-shift artifact.
 ==============================================================================
 DONE

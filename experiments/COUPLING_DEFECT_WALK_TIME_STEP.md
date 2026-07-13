@@ -90,7 +90,7 @@ The gap is not the caustic decaying more slowly: the coherent caustic pays the f
 
 **What stayed open here, closed below.** Whether the effective A settles on a clean fraction of γ_φ, and the exact coherent-versus-incoherent split of the front peak as n and γ vary, were left unpinned at this point (the K-collapse is only approximate and A drifts with γ); the second follow-up below answers both from the exact model. The robust content of this section stands unchanged: the coherent caustic pays the full 4γ, the front's extra survival is incoherent refill, and the naive full-rate estimate for the total front is falsified; and, for Item 1, the intrinsic single-q second order is the small +δ²/(4J) with no odd asymmetry while the large measured residual is the relative-threshold method, not physics.
 
-## Follow-up (2026-07-13, later the same day): the survival exponent, closed
+## Follow-up (2026-07-13, later the same day): the survival exponent, a first closure (corrected in part below)
 
 The unpinned A question is answered by deriving the front survival from the exact model; the verification is `simulations/cone_front_survival_asymptote.py` (output in `simulations/results/cone_defect_arrival/front_survival_asymptote.txt`). The derivation passed independent mathematical and physics-first referee rounds; each referee recomputed from scratch and each caught one real correction, both folded in below.
 
@@ -104,11 +104,33 @@ with G_{nm}(τ) = (−i)^{|n−m|}·J_{|n−m|}(2Jτ) the clean propagator. The 
 
     A_eff(n) = 4 − O(n^{−1/3}),   A_∞ = γ_φ = 4.
 
+(Corrected the same evening, third follow-up below: this law is the pre-asymptotic window n ≪ n* ≈ 6·(J/γ)^{3/2}. At fixed γ the true ceiling is A_∞(γ) = 4 − φ(2J)/γ < 4; the endpoint 4 survives only as the γ → 0 limit of that ceiling.)
+
 The measured 2.55–3.05 is the pre-asymptotic surface of this slow climb (4 − A fits 3.13·n^{−0.26} in the window; the apparent exponent is shallowed from 1/3 by the n^{−2/3} sub-leading), reaching only ≈ 3.2 at n = 200 (extrapolated from the fit; the verifier computes through n = 55). There is no 8/3 and no fixed 2.8; A ≈ 2.8 is simply where the climb sits at n ≈ 20–55. The climb is already visible in the previous section's own numbers (at γ = 0.01, A rises 2.77 → 3.05 as n goes 15 → 55).
 
 **The two referee corrections.** First, the caustic power-counting fixes the exponent but not the constant: the joint-caustic contribution to I₁ is only ≈ 30% (0.083 of 0.277); the bulk interior of the cone supplies the rest. Second, the γ-direction of the drift is mostly the measurement again: at fixed n = 40 the physical same-instant survival (numerator and denominator both read at the clean caustic time) drifts only −0.14 across γ = 0.002–0.08, while the ratio-of-maxima method drifts several times more (−0.54 by γ = 0.05, −0.91 by γ = 0.08; at this n the windowed peak collides with the diffusive bump from γ = 0.05 on, the EDGE class of the previous section), because the damped front peak slides in time against the fixed t_arr = n/(2J) inside K. Once that peak-time shift is removed, A is nearly a function of n alone. So the honest two-variable statement collapses to one variable: A_eff ≈ 4 − O(n^{−1/3}), physically almost γ-independent; the measured γ-spread of the K-collapse is dominated by the max-ratio method. The same lesson as Item 1, for the third time in this experiment: the residual lived in the method.
 
-**What stays open, smallest.** The closed form of the n^{−1/3} coefficient (I₁ = 0.2767 is numerically saturated, not evaluated in closed form) and the all-order statement that A_eff → 4 at every fixed γ (the climb is slow and partly masked at γ ≳ 0.05) remain unproven. Pinned: the exact renewal representation, the endpoint A_∞ = γ_φ, the n^{−1/3} approach with coefficient ≈ 4.86, and the re-attribution of the γ-drift to the measurement.
+**What stayed open here, closed and corrected below.** The two smallest items this section named, the closed form of the n^{−1/3} coefficient and the all-order fate of A_eff at fixed γ, are both answered in the third follow-up: the coefficient closes exactly, and the fixed-γ conjecture is refuted (the pinned "endpoint A_∞ = γ_φ" of this section holds only as the γ → 0 limit). What survives of this section unconditionally: the exact renewal representation, the coherent front paying the full 4γ, and the re-attribution of the γ-drift to the measurement.
+
+## Follow-up (2026-07-13, evening): the coefficient closes, and the ceiling is not 4
+
+The two items above are answered from the same exact renewal object, and the second answer overturns the sentence the previous section pinned. Both derivations passed independent mathematical and physics-first referee rounds; both referees recomputed from scratch with their own methods (an independent Lindblad ODE reproducing the tables to the digit; an independent local-slope discriminator at γ = 0.1), and both corrections they carried are folded in. The verification sections [7] and [8] of `simulations/cone_front_survival_asymptote.py` pin the numbers.
+
+**Item A: the n^{−1/3} coefficient in closed form.** The single-refill constant is exactly
+
+    I₁ = 1/12 + (1/4)·∫₀^{2c} Ai(−w) dw = 0.27694424…,   2c = 2^{2/3}·α,
+
+with α = 1.0187929716… the magnitude of the first zero of Ai′ (the front-peak location). The route is the exact momentum-Laplace form of the refill integral (the Graf identity plus the convolution ∫₀ᵗ J₀(a(t−s))·J₀(as) ds = sin(at)/a collapse the (s, m) double sum to one θ-integral), which splits at the front into a Dirichlet endpoint term, exactly 1/8, the only rational piece of that split, and an Airy caustic term, I₁ − 1/8 = 0.15194. The previous section's 0.2767 was the pre-asymptotic reading (the exact integral, extrapolated from n ≤ 6400, gives 0.276949, agreeing with the closed form to 4.4·10⁻⁶). Sharpened alongside: the caustic peak constant is 2^{2/3}·Ai(−α)² = 0.45547, so the pre-asymptotic coefficient is 8·I₁/0.45547 = 4.864.
+
+**Item B: the fixed-γ conjecture is refuted; the ceiling sits below 4.** At every fixed γ > 0,
+
+    A_∞(γ) = 4 − φ(2J)/γ,   φ(2J) = √(Γ(Γ + 4J)) − 4J·arcsinh√(Γ/4J),   Γ = 4γ,
+
+with the small-γ form A_∞ = 4 − (8/3)·√(γ/J) + O(γ^{3/2}): 3.88 at γ = 0.002, 3.41 at 0.05, 3.18 at 0.10. The mechanism: the single-refill linearization behind the n^{−1/3} law breaks at large n (the boost B − 1 grows like n^{2/3}), and the full refill ladder resums to a large-deviation pole, μ(θ) = √(Γ² + 16J²·sinh²(θ/2)), whose Legendre transform at the front gives ln S_n(t*) = (φ/2)·n + o(n): the incoherent halo boost is exponential in n, not a vanishing correction, so the front's asymptotic decay rate stays strictly below the bare γ_φ forever. The n^{−1/3} climb toward 4 is real but pre-asymptotic, confined to n ≪ n* ≈ 6·(J/γ)^{3/2} (n* ≈ 540 at γ = 0.05, ≈ 67000 at γ = 0.002); every window of this experiment sits deep inside it, which is why the climb read as "toward 4". The discriminator, measured from below at γ = 0.10: the local slope d(ln S_n)/dn climbs monotonically 0.032 → 0.037 across n = 50–120, toward φ/2 = 0.0410 and past the single-refill ceiling (~0.031, which moreover predicts the wrong direction). Causality holds: v = 2J is an interior point of the tilted ensemble (the bare Bessel propagator carries exponentially suppressed super-cone tails), so the refund is legitimate physics, order-n collapse-and-re-propagate events riding the cone.
+
+**What this does to the story.** The headline sharpens rather than flips: the coherent front still pays the full γ_φ exactly, and the halo still rescues the total front; what changes is that the rescue never fades. The watched front keeps, asymptotically and forever, the fraction φ(2J)/γ_φ of its rate bill as incoherent refund; "the dose the front pays is amplitude, not schedule" gains the clause "and never quite the full amplitude bill either". There is still no clean fraction of γ_φ: the ceiling is a transcendental function of γ/J, and the one clean number, 4, is only its γ → 0 endpoint.
+
+**What stays open, smallest of all.** The o(n) prefactor of the large-deviation law (the approach rate to the ceiling), the windowed-max counterpart of the same-instant ceiling (smooth in v, so the refutation is definition-robust, but the constant differs), and the formula's validity edge at γ ~ J where the ballistic caustic observable itself degenerates (all quoted values live at γ ≪ J).
 
 ## Links
 

@@ -10,13 +10,31 @@ the n ~ 15-55 window and left it as an apparent constant. It is not a constant.
      g(n, gamma) = max_t P_n(gamma) / max_t P_n(0) ~ exp(-A K),  K = gamma n / (2J),
   does A settle on a clean sub-gamma_phi constant (8/3? 2.8?) or is it structural?
 
-  ANSWER. No sub-gamma_phi constant. A_eff(n, gamma) is the caustic-corrected
-  exponent 4 - O(n^{-1/3}) (up in n) - O(gamma) (down in gamma); the only closed
-  form is the asymptote A_inf = gamma_phi = 4, approached from below like n^{-1/3}
-  (the Airy-caustic exponent). The measured 2.55-3.05 is the pre-asymptotic surface.
-  Crucially, most of the apparent gamma-drift is a MEASUREMENT ARTIFACT: the
-  standard ratio-of-windowed-maxima method mixes in the front peak-time shift; the
-  physical same-arrival-instant survival is nearly gamma-independent.
+  ANSWER (corrected 2026-07-13, refuting the prior "A_inf = gamma_phi = 4" reading).
+  No sub-gamma_phi constant, and NO single clean asymptote 4 either. Two regimes:
+
+    * Pre-asymptotic window n << n* ~ 6 (gamma/J)^{-3/2}. A_eff climbs toward 4
+      like A_eff ~ 4 - 4.864 n^{-1/3} (the Airy-caustic exponent). The n^{-1/3}
+      coefficient is 8 I_1 / (2^{2/3} Ai(-alpha)^2) = 4.864 with the closed-form
+      single-refill constant I_1 = 1/12 + (1/4) int_0^{2c} Ai(-w) dw = 0.27694424,
+      2c = 2^{2/3} alpha, alpha = |first zero of Ai'| = 1.0187929716.
+
+    * The TRUE fixed-gamma ceiling is strictly below 4:
+        A_inf(gamma) = 4 - phi(2J)/gamma,
+        phi(2J) = sqrt(Gamma (Gamma + 4J)) - 4J arcsinh sqrt(Gamma/(4J)),  Gamma = 4 gamma.
+      Small gamma: A_inf = 4 - (8/3) sqrt(gamma/J). Values 3.881 (0.002), 3.412
+      (0.05), 3.181 (0.10), 2.872 (0.20). The single-refill argument that gave
+      "A -> 4" resummed the wrong way: ln S_n(t*) grows LINEARLY in n at rate
+      phi(2J)/2 (a large-deviation rate, the dominant pole of Shat), not O(ln n).
+      The incoherent halo is an exp-in-n boost e^{(phi/2) n} of the front, lowering
+      A by the constant phi(2J)/gamma. A_eff -> 4 holds only as gamma -> 0.
+
+  The gamma-drift of the K-collapse measured in cone_walk_time_residuals.py remains
+  mostly a MEASUREMENT ARTIFACT of the ratio-of-windowed-maxima method (the front
+  peak-time shift); the same-arrival-instant survival is nearly gamma-independent.
+
+  Both the closed form for I_1 and the fixed-gamma refutation passed independent
+  math and physics referee rounds on 2026-07-13 (both recomputed from scratch).
 
 The exact single-excitation dephasing model:
      rho_dot = -i[h, rho] - Gamma (rho - diag rho),  Gamma = 4 gamma = gamma_phi,
@@ -41,11 +59,27 @@ Writes simulations/results/cone_defect_arrival/front_survival_asymptote.txt
 
 import os
 import numpy as np
-from scipy.special import jn, jv, airy
+from scipy.special import jn, jv, airy, ai_zeros
 from scipy.integrate import quad
 
 J = 1.0
 OUT = []
+
+# ---- shared closed-form constants (the caustic peak and the single-refill I_1) ---
+ALPHA = float(abs(ai_zeros(1)[1][0]))           # |first zero of Ai'| = 1.0187929716
+TWO_C = 2.0 ** (2.0 / 3.0) * ALPHA              # 2c = 2^{2/3} alpha = 1.6172330
+CAUSTIC_PEAK = 2.0 ** (2.0 / 3.0) * airy(-ALPHA)[0] ** 2   # |G_n|^2 n^{2/3} -> 0.45547
+_ANTIDER, _ = quad(lambda w: airy(-w)[0], 0.0, TWO_C, limit=400)
+I1_CLOSED = 1.0 / 12.0 + 0.25 * _ANTIDER        # single-refill constant = 0.27694424
+COEFF_N13 = 8.0 * I1_CLOSED / CAUSTIC_PEAK       # n^{-1/3} coefficient of (ln B)/K = 4.864
+
+
+def phi_of_gamma(gamma):
+    """Large-deviation rate phi(2J) at the front v = 2J (Legendre of the tilted
+    pole mu(theta) = sqrt(Gamma^2 + 16 J^2 sinh^2(theta/2)), Gamma = 4 gamma).
+    The fixed-gamma ceiling is A_inf(gamma) = 4 - phi(2J)/gamma."""
+    G = 4.0 * gamma
+    return np.sqrt(G * (G + 4.0 * J)) - 4.0 * J * np.arcsinh(np.sqrt(G / (4.0 * J)))
 
 
 def log(s=""):
@@ -132,7 +166,8 @@ def parabolic_peak(P_col, tgrid, tf, half_lo=2.0, half_hi=4.0):
 log("=" * 78)
 log("FRONT-SURVIVAL EXPONENT A: does it settle on a clean fraction of gamma_phi?")
 log("Exact single-excitation dephasing, J = 1, Gamma = 4 gamma = gamma_phi")
-log("Answer: no sub-gamma_phi constant; A_inf = gamma_phi = 4, approached ~ n^{-1/3}")
+log("Answer: NO. Pre-asymptotic climb 4 - 4.864 n^{-1/3}; true fixed-gamma ceiling")
+log("A_inf(gamma) = 4 - phi(2J)/gamma < 4 (= 4 - (8/3)sqrt(gamma/J) for small gamma).")
 log("=" * 78)
 
 # ---------------------------------------------------------------------------
@@ -300,9 +335,10 @@ for n in [15, 30, 55, 90, 120, 200]:
     Gn2coeff_last = gcoeff
     log(f"    {n:>5} {i1:>11.5f} {gn2:>10.6f} {gcoeff:>15.5f} {coeff:>32.5f}")
 assert 0.27 < I1_last < 0.28, f"I_1 did not saturate near 0.277 (got {I1_last:.4f})"
-log(f"\n    I_1 saturates to {I1_last:.5f} (n-independent). |G_n|^2 n^{{2/3}} -> 0.4553")
-log(f"    => coefficient of n^{{-1/3}} in (ln B)/K is 8 I_1 / 0.4553 = "
-    f"{8 * I1_last / 0.4553:.4f}")
+log(f"\n    I_1 saturates to {I1_last:.5f} (n-independent). |G_n|^2 n^{{2/3}} -> "
+    f"{CAUSTIC_PEAK:.5f} = 2^{{2/3}} Ai(-alpha)^2 (sharpened caustic peak)")
+log(f"    => coefficient of n^{{-1/3}} in (ln B)/K is 8 I_1 / {CAUSTIC_PEAK:.5f} = "
+    f"{COEFF_N13:.4f} (using the closed-form I_1 = {I1_CLOSED:.8f}, section [7])")
 
 # 4b. the joint-caustic-sliver-only version (uniform Airy, both legs on the cone)
 log("\n[4b] joint-caustic-sliver-only value (reduced uniform-Airy double integral):")
@@ -415,11 +451,14 @@ log("       measured ~0.55 gamma-drift is mostly the front peak-time-shift artif
 # SECTION 6 : THE n-CLIMB (A_eff climbs toward 4 like n^{-1/3})
 # ---------------------------------------------------------------------------
 log("\n" + "-" * 78)
-log("[6] THE n-CLIMB : A_eff(n) at small gamma climbs toward A_inf = 4 like n^{-1/3}")
+log("[6] THE n-CLIMB : A_eff(n) at small gamma climbs like n^{-1/3} toward the")
+log("    gamma=0.002 ceiling A_inf(0.002) = 3.881 (not resolved from 4 in this window)")
 log("-" * 78)
 log("    exact renewal solution (interior seed, infinite chain), gamma = 0.002")
-log("    (first-order regime). 4 - A_eff should fall as n^{-p}, p ~ 1/3 with a")
-log("    positive n^{-2/3} sub-leading term shallowing the apparent slope in-window.")
+log("    (first-order regime). A_inf(0.002) - A_eff should fall as n^{-p}, p ~ 1/3")
+log("    with a positive n^{-2/3} sub-leading shallowing the apparent slope in-window.")
+log("    NOTE: at these n (<= 55) the ceiling 3.881 is not resolved from 4; the climb")
+log("    heads to 3.881, not to 4. The crossover n* ~ 67000 (section [8c]) is far above.")
 
 tg6 = np.arange(0.0, 42.0 + 1e-9, 0.03)
 NS6 = [15, 30, 55]
@@ -436,22 +475,185 @@ for n in NS6:
     A = -np.log(g) / K
     A6.append(A)
     log(f"    {n:>4} {K:>8.4f} {g:>9.5f} {-np.log(g):>9.5f} {A:>9.4f} {4 - A:>10.4f}")
-assert A6[0] < A6[1] < A6[2] < 4.0, "A_eff not a monotone climb toward 4"
-# fit apparent exponent p on 4 - A_eff = c n^{-p}
+A_INF_6 = 4.0 - phi_of_gamma(GAM6) / GAM6      # fixed-gamma ceiling at gamma=0.002
+assert A6[0] < A6[1] < A6[2] < 4.0, "A_eff not a monotone climb toward the ceiling"
+# fit apparent exponent p on 4 - A_eff = c n^{-p} (4 stands in for 3.881 in-window)
 lp = np.polyfit(np.log(NS6), np.log([4 - a for a in A6]), 1)
 p_fit = -lp[0]
 c_fit = np.exp(lp[1])
-log(f"\n    A_eff climbs {A6[0]:.4f} -> {A6[1]:.4f} -> {A6[2]:.4f} (toward 4)")
+log(f"\n    A_eff climbs {A6[0]:.4f} -> {A6[1]:.4f} -> {A6[2]:.4f} (toward the")
+log(f"    gamma=0.002 ceiling A_inf = {A_INF_6:.4f}, indistinguishable from 4 here)")
 log(f"    fit 4 - A_eff = {c_fit:.3f} n^{{-{p_fit:.3f}}}  (apparent p ~ 0.26 in-window,")
 log("    the pure Airy exponent 1/3 shallowed by the positive n^{-2/3} sub-leading)")
-log(f"    asymptotic n^{{-1/3}} coefficient (from I_1): 8 I_1 / 0.4553 = "
-    f"{8 * I1_last / 0.4553:.4f}")
+log(f"    asymptotic n^{{-1/3}} coefficient (from closed-form I_1): 8 I_1 / "
+    f"{CAUSTIC_PEAK:.5f} = {COEFF_N13:.4f}")
 assert 0.15 < p_fit < 0.45, f"apparent exponent out of range: {p_fit:.3f}"
 
+# ---------------------------------------------------------------------------
+# SECTION 7 : THE CLOSED FORM OF THE SINGLE-REFILL CONSTANT I_1
+# ---------------------------------------------------------------------------
+log("\n" + "-" * 78)
+log("[7] CLOSED FORM OF I_1 : I_1 = 1/12 + (1/4) int_0^{2c} Ai(-w) dw = 0.27694424")
+log("-" * 78)
+log("    2c = 2^{2/3} alpha, alpha = |first zero of Ai'|. The n^{-1/3} coefficient of")
+log("    (ln B)/K is 8 I_1 / (2^{2/3} Ai(-alpha)^2). Verified vs the exact 1D momentum")
+log("    representation I_1 = (1/2pi) int_0^{pi/2} cos(2 n th) sin(4 J t* sin th)/sin th dth.")
+
+log(f"\n    alpha = |first zero of Ai'|   = {ALPHA:.10f}")
+log(f"    2c    = 2^{{2/3}} alpha          = {TWO_C:.10f}")
+log(f"    int_0^{{2c}} Ai(-w) dw         = {_ANTIDER:.10f}")
+log(f"    I_1 (closed) = 1/12 + (1/4) int = {I1_CLOSED:.8f}   (target 0.27694424)")
+assert abs(I1_CLOSED - 0.27694424) < 1e-6, f"I_1 closed form off: {I1_CLOSED:.8f}"
+
+# endpoint / caustic split (E = 1/8 exact, caustic = I_1 - 1/8)
+E_END = 1.0 / 8.0
+C_CAUSTIC = I1_CLOSED - E_END
+log(f"\n    endpoint/caustic split: E = 1/8 = {E_END:.5f} (exact, no stationary point),")
+log(f"    caustic = I_1 - 1/8 = {C_CAUSTIC:.5f}  (referee numeric C_term quad gave 0.15189)")
+
+
+# exact 1D momentum representation and the numeric peak time t*(n)
+def I1_1D(n, t):
+    """Exact 1D momentum-Laplace form of I_1(n, t) (Graf identity + the closed
+    convolution int_0^t J0(a(t-s)) J0(as) ds = sin(at)/a)."""
+    f = lambda th: np.cos(2 * n * th) * np.sin(4 * J * t * np.sin(th)) / np.sin(th)
+    val, _ = quad(f, 1e-12, np.pi / 2, limit=8000)
+    return val / (2 * np.pi)
+
+
+def peak_time_1d(n):
+    x = np.linspace(n - 2.0, n + 8.0 * n ** (1 / 3) + 8.0, 400000)
+    v = jv(n, x) ** 2
+    return x[int(np.argmax(v))] / (2 * J)
+
+
+# cross-check the 1D representation against the raw 2D Bessel double sum at n=15
+i1_2d_15, _, t15_2d = I1_exact(15)
+i1_1d_15 = I1_1D(15, peak_time_1d(15))
+dev_1d_2d = abs(i1_1d_15 - i1_2d_15)
+log(f"\n    cross-check at n=15: 1D repr = {i1_1d_15:.6f}, 2D Bessel sum = {i1_2d_15:.6f},")
+log(f"    deviation = {dev_1d_2d:.2e}  (the two exact forms of the same object agree)")
+TOL_1D = 1e-3
+assert dev_1d_2d < TOL_1D, f"1D-vs-2D I_1 mismatch {dev_1d_2d:.2e}"
+
+# extrapolate the exact 1D I_1(n) to n->inf and compare to the closed form
+log(f"\n    exact 1D I_1(n) at the front peak, with an n^{{-2/3}} + n^{{-4/3}} extrapolation:")
+log(f"    {'n':>6} {'t*':>10} {'I_1 (1D exact)':>15}")
+NS7 = [400, 1600, 6400]
+vals7 = []
+for n in NS7:
+    ts = peak_time_1d(n)
+    v = I1_1D(n, ts)
+    vals7.append(v)
+    log(f"    {n:>6} {ts:>10.4f} {v:>15.7f}")
+# Richardson-style extrapolation on the three points: I_1 = c0 + c1 n^{-2/3} + c2 n^{-4/3}
+M = np.array([[1.0, n ** (-2 / 3), n ** (-4 / 3)] for n in NS7])
+c_extrap = np.linalg.solve(M, np.array(vals7))
+I1_extrap = c_extrap[0]
+dev_close = abs(I1_CLOSED - I1_extrap)
+log(f"\n    extrapolated I_1_inf (n^{{-2/3}} + n^{{-4/3}}) = {I1_extrap:.8f}")
+log(f"    closed form                                 = {I1_CLOSED:.8f}")
+log(f"    | closed - extrapolated |                   = {dev_close:.2e}")
+TOL7 = 1e-4
+assert dev_close < TOL7, f"closed I_1 vs extrapolated off by {dev_close:.2e} (> {TOL7:.0e})"
+log(f"    PASS below {TOL7:.0e}: the closed form is the n->inf limit of the exact I_1")
+
+# ---------------------------------------------------------------------------
+# SECTION 8 : THE FIXED-GAMMA CEILING (the refutation of A_inf = 4)
+# ---------------------------------------------------------------------------
+log("\n" + "-" * 78)
+log("[8] THE FIXED-GAMMA CEILING : A_inf(gamma) = 4 - phi(2J)/gamma < 4, NOT 4")
+log("-" * 78)
+
+# 8a. closed-form ceiling table
+log("\n[8a] A_inf(gamma) = 4 - phi(2J)/gamma, phi(2J) = sqrt(Gamma(Gamma+4J))")
+log("     - 4J arcsinh sqrt(Gamma/4J), Gamma = 4 gamma; small-gamma form 4 - (8/3)sqrt(gamma):")
+log(f"     {'gamma':>7} {'phi(2J)':>10} {'A_inf (closed)':>15} {'4-(8/3)sqrt(g)':>15} "
+    f"{'expected':>9} {'dev':>8}")
+GAMMAS8 = [0.002, 0.01, 0.05, 0.10, 0.20]
+EXPECT8 = [3.881, 3.734, 3.412, 3.181, 2.872]
+maxdev8 = 0.0
+for gam, exp in zip(GAMMAS8, EXPECT8):
+    phi = phi_of_gamma(gam)
+    A_inf = 4.0 - phi / gam
+    A_small = 4.0 - (8.0 / 3.0) * np.sqrt(gam / J)
+    dev = abs(A_inf - exp)
+    maxdev8 = max(maxdev8, dev)
+    log(f"     {gam:>7.3f} {phi:>10.6f} {A_inf:>15.4f} {A_small:>15.4f} "
+        f"{exp:>9.3f} {dev:>8.4f}")
+assert maxdev8 < 0.03, f"closed-form A_inf drifts from expected by {maxdev8:.4f}"
+log(f"     max deviation from the stated expectations: {maxdev8:.4f} (rounding of the")
+log("     expected list; the closed-form values are the correct ceiling)")
+
+# 8b. the DISCRIMINATOR: exact renewal ladder slope d(ln S)/dn exceeds the
+#     single-refill ceiling and climbs toward phi/2 (the sub-linear law falsified)
+log("\n[8b] DISCRIMINATOR : exact renewal ladder S_n(t*_0), t*_0 = n/(2J), gamma = 0.10.")
+log("     d(ln S)/dn climbs (toward phi/2), EXCEEDING the single-refill ceiling; the")
+log("     single-refill law (slope ~ 0.162 n^{-1/3} - (2/3)/n, DECREASING) is falsified.")
+
+
+def renewal_ladder(dmax, tgrid, gamma, Np=2048):
+    """Per-momentum Volterra for the ladder sum S_d(t) (NO e^{-Gamma t} factor).
+    Same solver as section [1]/[6], returns S[t_index, d]."""
+    Gamma = 4.0 * gamma
+    h = tgrid[1] - tgrid[0]
+    p = np.arange(Np) * 2 * np.pi / Np
+    a = 4.0 * J * np.abs(np.sin(p / 2))
+    nt = len(tgrid)
+    K = jn(0, np.outer(tgrid, a))
+    Shat = np.zeros((nt, Np))
+    Shat[0] = K[0]
+    for k in range(1, nt):
+        conv = 0.5 * K[k] * Shat[0]
+        if k > 1:
+            conv = conv + np.sum(K[k - 1:0:-1] * Shat[1:k], axis=0)
+        Shat[k] = (K[k] + Gamma * h * conv) / (1.0 - 0.5 * Gamma * h)
+    d = np.arange(dmax + 1)
+    phase = np.exp(1j * np.outer(d, p)) / Np
+    return np.real(Shat @ phase.T)
+
+
+GAM8 = 0.10
+NS8 = np.arange(40, 131, 10)
+DT8 = 0.05
+tg8 = np.arange(0.0, NS8[-1] / (2 * J) + 2.0 + 1e-9, DT8)
+S8 = renewal_ladder(int(NS8[-1]), tg8, GAM8)
+lnS8 = np.array([np.log(S8[int(round((n / (2 * J)) / DT8)), n]) for n in NS8])
+# central-difference local slope at the interior nodes n = 50..120
+mid8 = NS8[1:-1]
+slope8 = (lnS8[2:] - lnS8[:-2]) / (NS8[2:] - NS8[:-2])
+sr8 = 0.162 * mid8.astype(float) ** (-1 / 3) - (2.0 / 3.0) / mid8   # single-refill slope
+sr_ceiling = float(sr8.max())
+phi8 = phi_of_gamma(GAM8)
+log(f"\n     phi(2J) = {phi8:.5f}, phi/2 = {phi8 / 2:.5f}, A_inf = {4 - phi8 / GAM8:.4f}")
+log(f"     {'n':>5} {'ln S_n':>10} {'d(lnS)/dn':>11} {'single-refill slope':>21}")
+for i, n in enumerate(mid8):
+    log(f"     {n:>5} {lnS8[i + 1]:>10.4f} {slope8[i]:>11.5f} {sr8[i]:>21.5f}")
+slope_at_120 = float(slope8[-1])
+log(f"\n     measured slope at n=120 = {slope_at_120:.5f} (RISING toward phi/2 = {phi8/2:.5f})")
+log(f"     single-refill ceiling (max over window) = {sr_ceiling:.5f} (and DECREASING)")
+assert slope8[-1] > slope8[0], "renewal ladder slope not climbing (LD signature missing)"
+assert slope_at_120 > sr_ceiling, (
+    f"slope at n=120 ({slope_at_120:.5f}) does not exceed the single-refill "
+    f"ceiling ({sr_ceiling:.5f}) - sub-linear law not falsified")
+log("     PASS: the measured slope exceeds the single-refill ceiling and climbs, while")
+log("     the single-refill prediction falls => ln S_n grows LINEARLY, A_inf < 4.")
+
+# 8c. the crossover scale n* : all section [5]/[6] windows sit far below it
+log("\n[8c] CROSSOVER n* ~ 6 (gamma/J)^{-3/2} (single-refill n^{2/3} = linear phi/2 n):")
+log(f"     {'gamma':>7} {'n* = 6 (g/J)^-3/2':>18}")
+for gam in [0.002, 0.05, 0.10]:
+    n6 = 6.0 * (gam / J) ** (-1.5)
+    log(f"     {gam:>7.3f} {n6:>18.0f}")
+log("     (all section [5]/[6] windows use n <= 55, far below even the smallest n* ~ 190;")
+log("     the climb there is pre-asymptotic, not a plateau at 4.)")
+
 log("\n" + "=" * 78)
-log("SUMMARY: no sub-gamma_phi constant. A_inf = gamma_phi = 4, approached ~ n^{-1/3}.")
-log("The single clean number is the asymptote; 2.55-3.05 is the pre-asymptotic surface,")
-log("and most of the measured gamma-drift is the max-ratio peak-shift artifact.")
+log("SUMMARY: A_inf = gamma_phi = 4 is REFUTED. Pre-asymptotically A_eff climbs like")
+log("4 - 4.864 n^{-1/3} (closed-form I_1 = 0.27694424); the true fixed-gamma ceiling is")
+log("A_inf(gamma) = 4 - phi(2J)/gamma < 4 (small gamma: 4 - (8/3)sqrt(gamma/J)). ln S_n")
+log("grows LINEARLY at rate phi/2, not O(ln n); the halo is an exp-in-n front boost. The")
+log("measured gamma-drift of the K-collapse remains mostly the max-ratio peak-shift artifact.")
 log("=" * 78)
 log("DONE")
 
