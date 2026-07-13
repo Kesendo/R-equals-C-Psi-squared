@@ -91,6 +91,11 @@ from .weight_coherence_block import (
     mask_of_sites, sites_of_mask, combinations_order_permutation,
 )
 
+from .sine_slater import (
+    sine_mode_matrix, sine_dispersion,
+    slater_det, slater_vector, slater_norm_sq_law,
+)
+
 # Cockpit OOP layer
 from .chain_system import ChainSystem
 from .receiver import Receiver
