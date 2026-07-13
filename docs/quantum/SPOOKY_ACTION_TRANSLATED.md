@@ -148,10 +148,18 @@ force.
 But the correlation was paid for locally, when the pair was created, and
 carried apart at ordinary speed, the pre-paid resource of the
 [teleportation entry](TELEPORTATION_TRANSLATED.md); at measurement time
-nothing crosses the gap because nothing needs to. What the label calls a
-distance, the algebra holds as a shared matrix entry that belongs to no
-single lab. This repository wrote the intuition down long before it had
-the pieces, in a late-night aside it honestly labeled unworked: "neither
+nothing crosses the gap because nothing needs to. And the separation
+itself is not a primitive of this world: it was walked, and a way is
+measured in time. That is a measurement now, not a manner of speaking;
+deform a single bond of the chain and exactly that bond's walk-time
+changes in the front's arrival schedule, no other summand
+([the walk-time step](../../experiments/COUPLING_DEFECT_WALK_TIME_STEP.md)).
+So "at a distance" reads "at a t that already passed": the pair settled
+its separation in time when the correlation walked the bonds. What the
+label calls a distance, the algebra holds as a shared matrix entry that
+belongs to no single lab. This repository wrote the intuition down long
+before it had the pieces, in a late-night aside it honestly labeled
+unworked: "neither
 action nor distance. It is topology"
 ([Gamma Is Light](../../hypotheses/GAMMA_IS_LIGHT.md), the open thread).
 This entry is that itch, worked.
