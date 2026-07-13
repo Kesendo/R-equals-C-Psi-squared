@@ -29,6 +29,11 @@ cone_defect_arrival.py).
      full 4 gamma rate; the survival boost is incoherent population that dephasing
      redistributes toward the front, not the caustic decaying more slowly.
 
+     The measured A ~ 2.8 is a pre-asymptotic window value, not a constant of the model:
+     the sequel verifier cone_front_survival_asymptote.py (sections [7]/[8]) closes the
+     n^(-1/3) coefficient in Airy form and derives the true fixed-gamma ceiling
+     A_inf(gamma) = 4 - phi(2J)/gamma < 4 (the experiment doc's third follow-up).
+
 Run:  python simulations/cone_walk_time_residuals.py
 Writes simulations/results/cone_defect_arrival/walk_time_residuals.txt
 """
