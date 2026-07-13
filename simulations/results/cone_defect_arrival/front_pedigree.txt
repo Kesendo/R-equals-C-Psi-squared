@@ -1,0 +1,89 @@
+==============================================================================
+THE FRONT'S PEDIGREE: the F126 refill ladder resolved by CATCH COUNT j
+Exact single-excitation dephasing, J = 1, Gamma = 4 gamma; interior seed,
+infinite chain. P(j) = S^(j)_n(t*_0)/S_n(t*_0) at the band-edge t*_0 = n/(2J).
+==============================================================================
+
+------------------------------------------------------------------------------
+[1] METHOD CROSS-CHECK : ladder-sum == implicit renewal == displacement Volterra
+------------------------------------------------------------------------------
+    (n, gamma) = (30, 0.05), front d = n, at the band-edge t*_0 = n/(2J) = 15.
+    three independent solvers of the same renewal object must agree.
+
+    ladder-sum   sum_j S^(j)_n(t*_0) = 0.04872065   (per-order momentum, jmax=18)
+    implicit     renewal S_n(t*_0)    = 0.04872065   (per-momentum, the committed solver)
+    displacement Volterra S_n(t*_0)   = 0.04872065   (scout's chain-convolution solver)
+    rel |ladder - implicit|  = 4.27e-16   (same discretized operator, Neumann series)
+    rel |ladder - Volterra|  = 1.35e-14   (independent method, grid/window-limited)
+    jmax tail P(j=18)        = 2.36e-14
+    PASS: all three agree <= 1e-3; the catch-order tail is below 1e-4.
+
+    RECONCILIATION (the scout-vs-committed A_same deviation):
+    S_n(t)/J_n(2Jt)^2 recomputed with BOTH solvers, at BOTH reference times.
+      n                   time        t  S(renewal)  S(Volterra)   reldiff   A_same
+     40       band-edge n/(2J)  20.0000     0.04923      0.04924  1.83e-05   2.9427
+     40 caustic peak (comm. [5])  21.3927     0.17797      0.17797  3.50e-06   2.7316
+     50       band-edge n/(2J)  25.0000     0.05140      0.05140  1.88e-05   3.0007
+     50 caustic peak (comm. [5])  26.4988     0.19964      0.19964  1.10e-05   2.7943
+    => the two solvers agree to <= 2e-5 at BOTH instants; the committed 2.7316 (n=40)
+       / 2.7943 (n=50) are the CAUSTIC-PEAK reading, the band-edge reading is 2.9427 /
+       3.0007. Same S-ratio, different reference time: neither number is wrong. This
+       script's pedigree uses the band-edge n/(2J), where Gamma t = 4K exactly.
+
+------------------------------------------------------------------------------
+[2] THE PEDIGREE TABLE : P(j), j = 0..7, at the band-edge t*_0 = n/(2J)
+------------------------------------------------------------------------------
+    P(j=0) is the never-caught coherent front; <j> is the mean catch count of the
+    surviving front weight; Gamma t*_0 = 4K is the free-walker mean catch count.
+    IDENTITY (not a test): P(0) = exp(-(4 - A_same) K), A_same = 4 - ln(S_n/J_n^2)/K
+    from this run's own totals. Informative: <j> / (Gamma t*_0) = the catch deficit.
+
+       n  gamma      K    P(0)    <j>  G t*=4K  <j>/4K  A_same  e^-(4-A)K  P(j) j=0..7
+      20  0.050  0.500  0.5292  0.672    2.000   0.336  2.7270   0.529154  0.529 0.318 0.114 0.031 0.007 0.001 0.000 0.000
+      30  0.050  0.750  0.4252  0.920    3.000   0.307  2.8598   0.425231  0.425 0.336 0.160 0.057 0.016 0.004 0.001 0.000
+      50  0.050  1.250  0.2868  1.383    5.000   0.277  3.0007   0.286762  0.287 0.320 0.216 0.109 0.045 0.016 0.005 0.001
+      30  0.100  1.500  0.1589  2.098    6.000   0.350  2.7735   0.158860  0.159 0.251 0.239 0.170 0.099 0.049 0.021 0.008
+      30  0.025  0.375  0.6627  0.427    1.500   0.285  2.9027   0.662672  0.663 0.262 0.062 0.011 0.002 0.000 0.000 0.000
+
+    P(0) = e^{-(4-A_same)K} holds to < 1e-9 in every row (it is the identity, not a
+    fit). <j> sits far below the free-walker 4K: dephasing near the arriving front is
+    strongly SUPPRESSED (a caught walker mostly falls behind the ballistic edge), so
+    the survivors were caught ~1/4 as often as a free walker over the same dose.
+
+------------------------------------------------------------------------------
+[3] THE LAST-CATCH AGE : how young is the surviving halo? (n = 50, gamma = 0.05)
+------------------------------------------------------------------------------
+    Among front weight caught at least once, the age tau of the LAST catch has density
+    A(tau) = Gamma sum_m |G_{nm}(tau)|^2 S_m(t*_0 - tau) (the walker's final free flight
+    of duration tau after its last dephasing). Reported as fractions of the trip t*_0.
+
+    never-caught weight S^(0)_n(t*_0) = 0.014740
+    caught weight  Gamma int A(tau)   = 0.036589
+    ladder total   S_n(t*_0)          = 0.051402
+    never + caught vs ladder total    : reldiff = 1.43e-03
+    never-caught fraction P(0) = never/total = 0.2868  (matches the [2] row at (50,0.05))
+
+    quartiles of the last-catch age tau among caught front weight (trip t*_0 = 25.0):
+      quantile      tau   tau / t*_0
+           25%     1.96        7.8%
+           50%     7.42       29.7%
+           75%    16.56       66.2%
+           90%    22.70       90.8%
+
+    the age spread is BROAD (25%-75% spans ~8% to ~66% of the
+    trip): the last catch is not concentrated in a thin sliver just behind the caustic.
+    This ties to the bulk-dominance of the single-refill constant I_1 (the fourth
+    follow-up's referee finding, cone_front_survival_asymptote.py [4b]): the joint
+    caustic sliver supplies only ~30% of I_1; ~70% of the refill comes from the cone
+    INTERIOR, so the refilling weight is caught across the whole cone, not at its edge.
+
+==============================================================================
+SUMMARY: the surviving front is mostly virgin (P(0) = 0.53/0.43/0.29 at n = 20/30/50,
+gamma = 0.05); the caught remainder was dephased far fewer times than a free walker
+(<j>/4K ~ 0.3), and its last catch is spread broadly across the cone interior, not the
+caustic sliver. P(0) = e^{-(4-A_same)K} is the identity linking the pedigree to the
+survival exponent A of cone_front_survival_asymptote.py. The scout-vs-committed A_same
+deviation was a reference-time mismatch (band-edge n/2J vs caustic peak), not an error.
+runtime: 192.8 s
+==============================================================================
+DONE

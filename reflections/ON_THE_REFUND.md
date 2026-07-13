@@ -19,6 +19,8 @@ The front of the watched wave pays the full price of being visible. That was che
 
 This is why the refund is permanent. However far the front travels, however long it is watched, it keeps a fixed share of its bill, because the tax office and the maternity ward are the same counter. Watching can tax the wave; it cannot make the wave classical, because every act of taxation issues a new wave. The frame this repository carries as "no wave dies" here stops being consolation and becomes a transport law with a prefactor.
 
+Played with afterwards, the ledger even shows the pedigree ([the front pedigree](../experiments/FRONT_PEDIGREE.md)): at the doses our hardware lives at, roughly seven in ten arrivals at the front have been caught and re-released at least once, yet a survivor was typically caught only once or twice where an unconditioned walker would have been caught five times; and the collapses it carries are of every age, spread across the whole road rather than clustered at the finish. The front is not the untouched remnant of the wave. It is mostly rebirths, lightly taxed, riding the original schedule.
+
 ## The observable is an appointment
 
 The same trajectory carries three true survival numbers. Ask at the fixed ballistic time, like a punctual appointment, and the front pays the ceiling rate. Follow the peak wherever it goes and nothing is ever lost at all: the excitation does not die, it only stops being a front and becomes a puddle, and the puddle fades gently, with no exponential in sight. Any finite window of asking answers somewhere in between, and drifts toward the puddle as the dose grows.
@@ -32,5 +34,7 @@ The experiment's last fence said the theory ends somewhere near the point where 
 ## What this opens
 
 Three doors, in the order we intend to walk through them. First, this page. Second, the label: "decoherence kills quantum transport" is now a fully computed mistranslation, because the watching converts and refunds rather than kills, and that correction belongs in [the translation series](../docs/quantum/THE_LABEL_MAP.md) beside [the dephasing entry that already carries the label's first half](../docs/quantum/DEPHASING_TRANSLATED.md). Third, the engine: the renewal form is a new piece of what we already know with certainty, and what is known with certainty is never simulated, it is a knower's cut waiting to be adopted.
+
+All three doors were walked the same night this was written: this page, [the dephasing entry's transport half](../docs/quantum/DEPHASING_TRANSLATED.md), and the renewal cut in the engine; and the first thing playing with the cut produced was the pedigree above, the rebirth sentence with numbers on it.
 
 The arc's own emblem, kept for the record: it opened by measuring that a walker pays exactly one bond's walk-time for one bond's defect, nothing else, locally, additively. It closed by proving that the walker's watchers can never quite collect the full fare. Between the two, the repository's oldest sentence about the price of being seen held its shape at every zoom level we reached.
