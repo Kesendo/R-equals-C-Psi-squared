@@ -1689,7 +1689,7 @@ exact-symbolic and the last two the sweep:
    field K = ℚ(i)(z₁, z₂, w₂)[z₃]/(z₃² + S_z z₃ + 1) with w₁ free, each term's w₃-carrying denominator
    factor is made w₃-free by its degree-2 conjugate and the numerator reduced mod (Qz, Qw), all by exact
    Gaussian-rational arithmetic, to 𝔉 = 𝔉₀(w₁) + 𝔉₁(w₁)·w₃ on V (the two w₃-degree components; F0, F1
-   in the code — not the F-registry). This is an exact reduction, not a Schwartz-Zippel sample; a
+   in the code, not the F-registry). This is an exact reduction, not a Schwartz-Zippel sample; a
    numerical pin (|𝔉 − 𝔉₀ − 𝔉₁ w₃| ~ 1e−9 on V) guards it against a transcription bug rather than
    certifying it symbolically. So 𝔉 = 0 on V ⟺ 𝔉₀ = 𝔉₁ = 0 in K(w₁).
 2. **Simple poles (exact).** Within each term the two w₁-denominator factors are coprime (Sylvester
@@ -1719,12 +1719,12 @@ H is read off the exact coefficient structure and never from the mod-p grid valu
 remainder numerators are moreover **rational** (real coefficients in z), so the reconstruction is
 ordinary integer CRT and ∏ p > 2H suffices, not the ∏ p > H² a genuinely Gaussian remainder would force.
 This is load-bearing: four endpoint items (E0_w3, E0_w5, E1_w3, E1_w5) fit inside 17 primes only because
-they are rational — a genuinely Gaussian remainder of the same height would need 18–21. The realness is
+they are rational; a genuinely Gaussian remainder of the same height would need 18–21. The realness is
 an exact structural fact (real coefficients are closed under the +, −, × of the reduction), and it is
 now **asserted in the `--assert` path**: a realness guard checks that all 103232 base coefficients (the
 elimination outputs 𝔉₀, 𝔉₁ and the denominator factors) have zero imaginary part, before the 2H
 sufficiency bound is used. For the worst item
-(E0_w5), log₂ H = 304.6, so 2H = 2^305.6, while ∏ of the 17 primes is 2^510 — 17 primes where the worst
+(E0_w5), log₂ H = 304.6, so 2H = 2^305.6, while ∏ of the 17 primes is 2^510: 17 primes where the worst
 item needs only 11. The `--assert` pass re-checks ∏ p > 2H.
 
 **The grade table, updated.** The two ε = −1 cells move from *certified* to *proved on the variety, over
@@ -1751,7 +1751,7 @@ bookkeeping) are verified exactly and symbolically. Only the step-1 reduction �
 arithmetic guarded by a numerical pin rather than symbolically checked. The numerators' rationality
 (above) is now asserted: the `--assert` guard checks the base coefficients exactly, and the certified
 numerators' realness follows from them by closure. So "proved over ℚ(i)"
-is contingent on the correctness of the exact-reduction and grid code — and this is not the routine trust
+is contingent on the correctness of the exact-reduction and grid code. This is not the routine trust
 in an established CAS: unlike Piece 3, which earned Tier 1 through two independent re-derivations (exact
 ℤ[ζ] arithmetic and a full-2^N spin rebuild), this result's cross-checks are all internal to one bespoke,
 single-run implementation (the same evaluation re-run over auxiliary semirings, plus the corruption
