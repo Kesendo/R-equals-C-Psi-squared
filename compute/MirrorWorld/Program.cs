@@ -892,6 +892,40 @@ if (args.Length > 0 && args[0] == "spread")
     return;
 }
 
+// ---- run mode "walk": the walk-time step of a coupling defect (distance is t, locally additive) ----
+// Adopted 2026-07-13 from experiments/COUPLING_DEFECT_WALK_TIME_STEP.md: deform one bond to J' = J(1+delta)
+// and the front's arrival-time profile is a step -- zero upstream, near -delta/(2J) downstream. The one bond's
+// walk-time is the only summand that changes; the front pays the bond's local walk-time and nothing else.
+// At gamma > 0 the timing stays ballistic while the amplitude decays: the dose the front pays is amplitude,
+// not schedule, so the step survives the watching.
+if (args.Length > 0 && args[0] == "walk")
+{
+    int wn = args.Length > 1 ? int.Parse(args[1]) : 60;
+    double wdelta = args.Length > 2 ? double.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture) : 0.10;
+    const double wj = 1.0, wdt = 0.02;
+    double wtMax = 0.6 * wn / wj;
+    (int a, int b) wbond = (wn / 2 - 1, wn / 2);
+    var wworld = new World();
+    Console.WriteLine($"the walk-time step: one defect bond J' = J(1+delta), delta={wdelta}, bond {wbond} on an N={wn} chain");
+    Console.WriteLine($"  seed site 0, J={wj}. arrival = first crossing of 0.2 x the site's own defect-free peak.");
+    Console.WriteLine($"  first-order metric step -delta/(2J) = {-wdelta / (2 * wj):+0.0000;-0.0000}");
+    foreach (double g in new[] { 0.0, 0.05 })
+    {
+        var clean = WalkTime.Reference(wworld, wn, wj, g, seedSite: 0, dt: wdt, tMax: wtMax);
+        var prof = WalkTime.Profile(wworld, wn, wj, g, wbond, wdelta, clean, seedSite: 0, dt: wdt, tMax: wtMax);
+        double up = 0; for (int i = 2; i < wbond.a - 2; i++) if (!double.IsNaN(prof[i])) up = Math.Max(up, Math.Abs(prof[i]));
+        double plateau = WalkTime.Mean(prof, wbond.b + 10, Math.Min(wn - 5, wbond.b + 25));   // N=60: sites 40-55, the committed window
+        Console.WriteLine($"  gamma={g:0.00}: upstream max |dt| = {up:0.0000}, downstream plateau = {plateau:+0.0000;-0.0000}");
+        var sb = new System.Text.StringBuilder("    profile  ");
+        for (int i = 2; i < wn - 2; i += Math.Max(1, wn / 48))
+            sb.Append(double.IsNaN(prof[i]) ? '?' : Math.Abs(prof[i]) < 0.01 ? '_' : prof[i] < 0 ? 'v' : '^');
+        Console.WriteLine(sb.ToString() + "   (_ flat, v advanced, ^ delayed, ? never crossed)");
+    }
+    Console.WriteLine("  the step edge sits at the bond; the plateau is site-independent: walk-time is locally additive.");
+    Console.WriteLine("  distance is t: the way is a sum of per-bond walk-times, and a defect edits one summand.");
+    return;
+}
+
 const double gamma = 0.5;
 var world = new World();
 Console.WriteLine($"empty world (Z-dephasing, no Hamiltonian), gamma={gamma}");

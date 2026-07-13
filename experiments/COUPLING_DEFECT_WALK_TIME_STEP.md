@@ -113,6 +113,7 @@ The measured 2.55–3.05 is the pre-asymptotic surface of this slow climb (4 −
 ## Links
 
 - The frame this computes: `hypotheses/PERSPECTIVAL_TIME_FIELD.md` (α_i, §1.3 numbers, §3 mechanism); the distance pin in MirrorWorld (`compute/MirrorWorld.Tests`, SpookyActionTests: the price −2γk never sees distance; this experiment is where distance DOES live, in the way walked).
+- The adopted C# witness (2026-07-13): `compute/MirrorWorld/WalkTime.cs` reads the step live over the Cone engine (`Cone.SetBond` is the defect knob; run mode `walk N [delta]`); `compute/MirrorWorld.Tests/WalkTimeTests.cs` pins the committed plateau numbers at both signs of δ and the γ = 0.05 near-field survival from below.
 - Front speed and dispersion: F2b in `docs/ANALYTICAL_FORMULAS.md` (the single-excitation band propagated here); `docs/proofs/derivations/D10_W1_DISPERSION.md` (the weight-1 Liouvillian dispersion, the same physics one sector up, background).
 - The dissipative defect law the far field would obey if the timing ever went diffusive: `SurvivorDiffusionGradientClaim` (Tier-1 Candidate, `compute/RCPsiSquared.Diagnostics/Foundation/SurvivorDiffusionGradientClaim.cs`).
 - The earlier dissipative arrival table (perturbation-response arrival, a different observable): `simulations/results/n7_coupling_defect_overlay/run_log.txt`.
