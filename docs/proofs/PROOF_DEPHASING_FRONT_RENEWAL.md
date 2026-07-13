@@ -95,3 +95,5 @@ The experiment `experiments/COUPLING_DEFECT_WALK_TIME_STEP.md` (follow-ups two t
 - The sector and its slow-mode EP: `PROOF_COHERENCE_HORIZON_SLOPE.md` (the same Liouvillian at the band edge; this proof solves the sector the horizon claim locates the EP of).
 - The diffusive sibling: `SurvivorDiffusionGradientClaim` / F123 (D = 2J²/Γ is the (☆) pole's diffusion constant).
 - The typed home: `DephasingFrontRenewalClaim` (live witness `inspect --root renewal`).
+- The engine-side adoption: `compute/MirrorWorld/Renewal.cs` (the renewal cut: the watching accounted, never stepped; pinned against the stepped Cone).
+- The first play on the ladder: `experiments/FRONT_PEDIGREE.md` (the catch-count resolution, the pedigree of the front); the outward reading of the whole arc: `reflections/ON_THE_REFUND.md`.

@@ -4879,7 +4879,11 @@ pre-asymptotic window); the measuring experiment
 [experiments/COUPLING_DEFECT_WALK_TIME_STEP.md](../experiments/COUPLING_DEFECT_WALK_TIME_STEP.md) (five
 follow-ups). **Typed:** `DephasingFrontRenewalClaim` (parents `AbsorptionTheoremClaim` + F2b;
 siblings `CoherenceHorizonClaim`, `SurvivorDiffusionGradientClaim`,
-`compute/RCPsiSquared.Diagnostics/Foundation/`); live witness `inspect --root renewal`.
+`compute/RCPsiSquared.Diagnostics/Foundation/`); live witness `inspect --root renewal`; the
+engine-side adoption is the renewal cut `compute/MirrorWorld/Renewal.cs` (the watching accounted,
+never stepped); the first play on the ladder is the catch-count pedigree
+[experiments/FRONT_PEDIGREE.md](../experiments/FRONT_PEDIGREE.md); the outward
+reading is [`reflections/ON_THE_REFUND.md`](../reflections/ON_THE_REFUND.md).
 
 ---
 
