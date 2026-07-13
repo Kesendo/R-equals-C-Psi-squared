@@ -1,0 +1,131 @@
+==============================================================================
+FRONT-SURVIVAL EXPONENT A: does it settle on a clean fraction of gamma_phi?
+Exact single-excitation dephasing, J = 1, Gamma = 4 gamma = gamma_phi
+Answer: no sub-gamma_phi constant; A_inf = gamma_phi = 4, approached ~ n^{-1/3}
+==============================================================================
+
+------------------------------------------------------------------------------
+[1] RENEWAL EXACTNESS : per-momentum Volterra vs direct RK4 Lindblad
+------------------------------------------------------------------------------
+    P_n = e^{-Gamma t}[|G_{n0}|^2 + Gamma int_0^t ds sum_m |G_{nm}(t-s)|^2 S_m(s)]
+    direct RK4 on the N=121 density matrix (interior seed) is the truth
+
+    gamma = 0.05, compare over t <= 18 (before boundary reflections):
+       d   peak_dir   peak_ren    max|dP|
+       5    0.10979    0.10979   1.62e-06
+      10    0.05282    0.05282   6.79e-07
+      15    0.02955    0.02955   3.59e-07
+      20    0.01760    0.01760   2.08e-07
+      25    0.01085    0.01085   1.27e-07
+      30    0.00685    0.00685   8.00e-08
+
+    max deviation over all d, t<=18 : 1.62e-06  (grid-limited, dt=0.02)
+    PASS: renewal representation reproduces the direct Lindblad below 5e-03
+
+------------------------------------------------------------------------------
+[2] GREEN'S FUNCTION SANITY : probability conservation + gamma=0 = J_n(2Jt)^2
+------------------------------------------------------------------------------
+
+[2a] sum_n P_n(t) from the direct RK4 (interior seed, pre-reflection):
+     max_t | sum_n P_n - 1 | = 8.88e-16
+     PASS: trace preserved below 1e-12
+
+[2b] gamma = 0 renewal S_n(t) vs the clean front J_n(2Jt)^2:
+        d   max|S_ren - J^2|
+        5           1.67e-16
+       10           1.67e-16
+       20           1.18e-16
+       30           2.50e-16
+     max deviation 2.50e-16; PASS below 5e-03 (p-grid Np=1024 limited)
+
+------------------------------------------------------------------------------
+[3] COHERENT PIECE : j=0 term = e^{-Gamma t} J_n(2Jt)^2 = |<a_n>|^2, A_coh -> 4+
+------------------------------------------------------------------------------
+
+[3a] |<a_n>(t)|^2 (amplitude ODE with uniform decay Gamma/2 = 2 gamma) vs
+     e^{-Gamma t} J_n(2Jt)^2 : max deviation 1.36e-09
+     PASS below 5e-04: the j=0 ladder term IS the coherent front |<a_n>|^2
+
+[3b] A_coh(n) = 8 J t*/n, first Airy max 2 J t* = n + 0.8086 n^{1/3}, -> 4+
+        n  t* numeric  t* formula  A_coh num  A_coh form
+       30     16.2671     16.2563     4.3379      4.3350
+       50     26.4988     26.4895     4.2398      4.2383
+      100     51.8842     51.8766     4.1507      4.1501
+     A_coh decreases 4.338 -> 4.240 -> 4.151,
+     monotone toward 4 from ABOVE (the caustic peak sits inside the cone)
+
+------------------------------------------------------------------------------
+[4] I_1 SATURATION : the first-order refill I_1(n, t*) -> const; bulk dominates
+------------------------------------------------------------------------------
+    I_1(n,t*) = int_0^{t*} ds sum_m |G_{nm}(t*-s)|^2 |G_{m0}(s)|^2, seed at 0
+    exact 2D Bessel sum saturates to an n-independent constant ~ 0.277
+
+        n   I_1 exact    |G_n|^2 |G_n|^2 n^{2/3}  coeff = 8 I_1/(|G_n|^2 n^{2/3})
+       15     0.27542   0.071067         0.43224                          5.09741
+       30     0.27607   0.045636         0.44061                          5.01256
+       55     0.27640   0.030801         0.44546                          4.96383
+       90     0.27657   0.022319         0.44823                          4.93620
+      120     0.27664   0.018475         0.44948                          4.92376
+      200     0.27673   0.013193         0.45119                          4.90666
+
+    I_1 saturates to 0.27673 (n-independent). |G_n|^2 n^{2/3} -> 0.4553
+    => coefficient of n^{-1/3} in (ln B)/K is 8 I_1 / 0.4553 = 4.8624
+
+[4b] joint-caustic-sliver-only value (reduced uniform-Airy double integral):
+     C = 2^{1/3} int_0^1 dsigma sigma^{-1/3}(1-sigma)^{-2/3} Phi(sigma),
+     Phi(sigma) = int dv Ai(-2^{1/3} v)^2 Ai(2^{1/3} v (sigma/(1-sigma))^{1/3})^2
+     caustic-sliver C = 0.08327   vs   exact I_1 = 0.27673
+     ratio C / I_1 = 0.301  (~30%)
+     => the joint caustic fixes only the EXPONENT n^{-1/3}; the bulk cone
+        interior supplies ~70% of the constant. Power-counting, not the value.
+
+------------------------------------------------------------------------------
+[5] THE ARTIFACT SPLIT : same-arrival-instant A vs windowed ratio-of-maxima A
+------------------------------------------------------------------------------
+    interior seed n=40, gamma sweep. (i) same-instant: numerator and
+    denominator BOTH at the CLEAN caustic time t*_0. (ii) max-ratio: the
+    doc method, ratio of front-windowed maxima (front window declared).
+    The gamma-drift of (ii) is mostly the front peak-time shift, not physics.
+
+    clean caustic: t*_0 = 21.3927, peak = 0.037889
+    front window declared: [10.696, 28.233]
+    'edge' flags when the windowed max sits at the window upper edge: the
+    front peak has drifted past and the diffusive bump is entering (breakdown).
+      gamma       K  A_sameinstant  A_maxratio  front dt  edge
+      0.002   0.040         2.8169      2.8125   +0.0185      
+      0.010   0.200         2.8024      2.7805   +0.0996      
+      0.030   0.600         2.7668      2.6922   +0.3720      
+      0.050   1.000         2.7316      2.2725   +6.8273  EDGE
+      0.080   1.600         2.6798      1.9021   +6.8273  EDGE
+
+    same-instant A drift, full range gamma 0.002 -> 0.08 : -0.1371
+    max-ratio   A drift, gamma 0.002 -> 0.05 (robust)    : -0.5400
+    max-ratio   A drift, full range 0.002 -> 0.08        : -0.9104
+    (the front peak-time shift front dt jumps once dephasing kills the coherent
+     front; at gamma >= 0.05 the windowed max is the diffusive bump, not the front)
+    => the PHYSICAL (same-instant) A is nearly gamma-independent (~0.14); the
+       measured ~0.55 gamma-drift is mostly the front peak-time-shift artifact.
+
+------------------------------------------------------------------------------
+[6] THE n-CLIMB : A_eff(n) at small gamma climbs toward A_inf = 4 like n^{-1/3}
+------------------------------------------------------------------------------
+    exact renewal solution (interior seed, infinite chain), gamma = 0.002
+    (first-order regime). 4 - A_eff should fall as n^{-p}, p ~ 1/3 with a
+    positive n^{-2/3} sub-leading term shallowing the apparent slope in-window.
+
+       n        K         g     -ln g     A_eff  4 - A_eff
+      15   0.0150   0.96367   0.03701    2.4670     1.5330
+      30   0.0300   0.92170   0.08153    2.7178     1.2822
+      55   0.0550   0.85207   0.16009    2.9107     1.0893
+
+    A_eff climbs 2.4670 -> 2.7178 -> 2.9107 (toward 4)
+    fit 4 - A_eff = 3.128 n^{-0.263}  (apparent p ~ 0.26 in-window,
+    the pure Airy exponent 1/3 shallowed by the positive n^{-2/3} sub-leading)
+    asymptotic n^{-1/3} coefficient (from I_1): 8 I_1 / 0.4553 = 4.8624
+
+==============================================================================
+SUMMARY: no sub-gamma_phi constant. A_inf = gamma_phi = 4, approached ~ n^{-1/3}.
+The single clean number is the asymptote; 2.55-3.05 is the pre-asymptotic surface,
+and most of the measured gamma-drift is the max-ratio peak-shift artifact.
+==============================================================================
+DONE
