@@ -200,11 +200,83 @@ A_inf(gamma) = 4 - phi(2J)/gamma < 4 (= 4 - (8/3)sqrt(gamma/J) for small gamma).
      (all section [5]/[6] windows use n <= 55, far below even the smallest n* ~ 190;
      the climb there is pre-asymptotic, not a plateau at 4.)
 
+------------------------------------------------------------------------------
+[9] THE o(n) : prefactor (power -1/2, closed constant), approach law, A_max = 0
+------------------------------------------------------------------------------
+    ln S_n(t*_0) = (phi/2J) n - (1/2) ln n + ln C(gamma) + O(1/n), t*_0 = n/(2J),
+    C(gamma) = (2 pi)^{-1/2} (gamma/(gamma+J))^{1/4} = (Gamma/mu*) sqrt(J/(pi mu''(th*))).
+    Referee-confirmed 2026-07-13 (SymPy + steepest-descent + direct-Lindblad + Haken-Strobl).
+
+[9a] SADDLE CONSTANTS : mu(theta) = sqrt(Gamma^2 + 16 J^2 sinh^2(theta/2)),
+     theta* = 2 arcsinh sqrt(Gamma/4J); mu''(theta*) = 2J sqrt(Gamma/(Gamma+4J)) checked
+     vs a 5-point finite-difference mu'' to <= 1e-8; C(gamma) = (2pi)^-1/2 (g/(g+J))^1/4.
+
+       gamma    theta*   mu'(FD)      mu"(FD)  mu"(closed)        dev   C(gamma)
+        0.05   0.44357   2.00000    0.4364358    0.4364358   2.62e-10   0.186361
+        0.10   0.62236   2.00000    0.6030227    0.6030227   2.24e-10   0.219059
+        0.20   0.86701   2.00000    0.8164966    0.8164966   5.11e-10   0.254901
+     max |mu''(FD) - mu''(closed)| = 5.11e-10; PASS below 1e-08 (mu'(FD) = 2J)
+
+[9b] POWER -1/2 + CONSTANT : exact renewal ladder (the section [8b] solver), gamma=0.10,
+     lnC_est = ln S_n(t*_0) - (phi/2J) n + (1/2) ln n converges to ln C(0.1) = -1.5184
+     iff the power is exactly -1/2 and the constant is C(0.1).
+
+     phi/2J = 0.040962, ln C(0.1) = -1.5184, A_inf(0.1) = 3.1808
+         n     S_n(t*_0)    lnC_est  lnC_est - lnC
+        80   6.32570e-01   -1.54395       -0.02554
+       100   1.32601e+00   -1.51149        0.00692
+       120   2.71525e+00   -1.52286       -0.00445
+       140   5.63453e+00   -1.53501       -0.01660
+       160   1.22995e+01   -1.50684        0.01157
+
+     |lnC_est(n=160) - ln C(0.1)| = 0.0116; PASS below 0.05 => the power is exactly
+     -1/2, the constant is C(0.1) = 0.219059 (a single interior Gaussian saddle).
+
+[9c] APPROACH LAW : A_eff(n) = A_inf + (2J/(gamma n))[-(1/6) ln n + ln(c_G/C(gamma))],
+     c_G = 2^{2/3} Ai(-alpha)^2 = 0.45547 (the coherent-peak denominator). vs renewal A_eff.
+
+     A_inf(0.1) = 3.1808, c_G = 0.45547, c_G/C = 2.0792
+         n  A_eff(renewal)  A_eff(law)    |diff|
+        60          3.2037      3.1973    0.0064
+       100          3.1723      3.1736    0.0014
+       160          3.1651      3.1665    0.0014
+     max |A_eff(renewal) - A_eff(law)| = 0.0064; PASS below 0.02
+
+     predicted crossing n_x = exp(6 ln(c_G/C)) = 80.8
+     measured A_eff - A_inf sign change (+ -> -) between n = 81 and n = 82
+     convention flag: the crossing exists for the coherent-PEAK denominator reading;
+     a same-instant denominator removes it (A_eff approaches A_inf monotonically from
+     below). A_inf and the -(1/6) ln n term are convention-robust; only the additive
+     O(ln n / n) constant (hence the crossing location) is not.
+
+[9d] THIRD READING A_max = 0 : exact Haken-Strobl diffusive walk
+     P_n(t) = e^{-2Dt} I_n(2Dt) = ive(n, 2Dt), D = 2 J^2 / Gamma. The GLOBAL max over t
+     is the diffusive plateau: t_peak = n^2/(2D), peak height ~ 1/n (algebraic).
+
+     gamma = 0.1, Gamma = 0.4, D = 2 J^2 / Gamma = 5.0000
+         n  t_peak(num)    n^2/(2D)    dev %     Pmax*n
+        80       640.05      640.00   0.0078    0.24197
+       160      2560.05     2560.00   0.0020    0.24197
+       320     10240.05    10240.00   0.0005    0.24197
+
+     t_peak = n^2/(2D) to 0.0078% (<= 1%); Pmax*n(320) = 0.24197 vs
+     e^{-1/2}/sqrt(2pi) = 0.24197 (0.0001% <= 1%). Peak height ~ 1/n:
+     the global-max peak-value survival exponent is 0 (algebraic decay, psi = Gamma).
+
+     TRICHOTOMY: the fixed-time ceiling A_inf = 4 - phi/gamma is the arrival-instant
+     amplitude; a narrow front window interpolates between A_inf and 0; the global-max
+     exponent is 0. The section [5] EDGE exclusions are exactly this diffusive plateau
+     entering the front window (the windowed max jumping off the front onto the plateau).
+
 ==============================================================================
 SUMMARY: A_inf = gamma_phi = 4 is REFUTED. Pre-asymptotically A_eff climbs like
 4 - 4.864 n^{-1/3} (closed-form I_1 = 0.27694424); the true fixed-gamma ceiling is
 A_inf(gamma) = 4 - phi(2J)/gamma < 4 (small gamma: 4 - (8/3)sqrt(gamma/J)). ln S_n
 grows LINEARLY at rate phi/2, not O(ln n); the halo is an exp-in-n front boost. The
 measured gamma-drift of the K-collapse remains mostly the max-ratio peak-shift artifact.
+The o(n) is CLOSED (section [9]): S_n(t*_0) = C(gamma) n^{-1/2} e^{(phi/2J)n} with the
+closed constant C(gamma) = (2 pi)^{-1/2}(gamma/(gamma+J))^{1/4}; A_eff approaches A_inf as
+-(J/(3 gamma n)) ln n (alpha_ln = -1/6), and the global-max peak-value exponent is 0
+(Haken-Strobl). Open now only the gamma ~ J validity edge (the ballistic caustic degenerates).
 ==============================================================================
 DONE
