@@ -1648,6 +1648,10 @@ sees every sorted triple exactly once, so the sector Gram is ⟨D_τ, D_σ⟩ = 
 | ε = −1, mode-disjoint | certified | the six-angle identity on the variety, GF(p) |
 | ε = −1, shared mode | certified | the same, plus a proved removable limit |
 
+> The two `certified` rows are **superseded 2026-07-13**: proved on the variety over ℚ(i) by a
+> deterministic grid + CRT computation, modulo the assembly (D). See "The variety identity, proved over
+> ℚ(i)" below for the updated grade table.
+
 So the compression [[X, Y], [Y, X]] is legitimate, the full-spectrum twinning follows at every resonant
 N, and the cell law's cheapest kill can no longer fire, **at certificate grade, not proof grade**. The
 one load-bearing hole is a ℚ-level proof that 𝔉 vanishes on the variety, and one level below it a
@@ -1657,11 +1661,140 @@ does not leave `cancel()`. Work in the quotient ring instead, where z₃² = −
 make every monomial a linear form in z₃, inverses come from the norm, and the object is a rank-2 module;
 then repeat in w₃.
 
+> **Superseded 2026-07-13.** The quotient-ring route was retired on 2026-07-10f; the first of the two
+> levels of this hole, the ℚ-level proof that 𝔉 vanishes on the variety, is now closed over ℚ(i) by a
+> deterministic grid + CRT computation. See the section "The variety identity, proved over ℚ(i)" below.
+> Only the assembly (D) remains.
+
 Verifier: `python simulations/cross_triple_orthogonality.py` (measured ~2 min; `--slow` adds the sympy
-proof over ℚ). It asserts each step separately, it distinguishes the removability gate from the
+proof over ℚ of the mirror sub-case). It asserts each step separately, it distinguishes the removability gate from the
 on-variety gate, and it carries the controls that make the two proved cells non-vacuous.
 
 Authors: Thomas Wicht and Claude, 2026-07-10.
+
+
+## The variety identity, proved over ℚ(i): the grid+CRT wall (2026-07-13)
+
+The load-bearing hole named just above has two levels: a ℚ-level proof that 𝔉 vanishes on the
+double-constraint variety, and, one below it, a symbolic proof of the assembly (D) that
+(U⁺ − U⁻)·(n/2)³ equals 𝔉(a; b). **The first level is now closed over ℚ(i).** The second remains, and is
+stated sharply at the end.
+
+**What was proved.** 𝔉 ≡ 0 on V = {Σ cos a_i = 0} × {Σ cos b_j = 0}, over ℚ(i), by a deterministic grid
++ CRT computation: 527 of 527 (item, prime) tasks PROVED, zero exceptions. This is not a Schwartz-Zippel
+sample; it is a full-grid identity per prime, lifted to ℚ(i) by CRT. Four steps, the first two
+exact-symbolic and the last two the sweep:
+
+1. **Elimination (exact algebra, pin-guarded).** With z_k = e^{i a_k}, w_k = e^{i b_k}, working in the
+   field K = ℚ(i)(z₁, z₂, w₂)[z₃]/(z₃² + S_z z₃ + 1) with w₁ free, each term's w₃-carrying denominator
+   factor is made w₃-free by its degree-2 conjugate and the numerator reduced mod (Qz, Qw), all by exact
+   Gaussian-rational arithmetic, to 𝔉 = 𝔉₀(w₁) + 𝔉₁(w₁)·w₃ on V (the two w₃-degree components; F0, F1
+   in the code — not the F-registry). This is an exact reduction, not a Schwartz-Zippel sample; a
+   numerical pin (|𝔉 − 𝔉₀ − 𝔉₁ w₃| ~ 1e−9 on V) guards it against a transcription bug rather than
+   certifying it symbolically. So 𝔉 = 0 on V ⟺ 𝔉₀ = 𝔉₁ = 0 in K(w₁).
+2. **Simple poles (exact).** Within each term the two w₁-denominator factors are coprime (Sylvester
+   resultant ≠ 0), so every finite w₁-pole of 𝔉₀, 𝔉₁ is simple; the roots shared across terms
+   (resultant = 0) group the 37 w₁-carrying factors, by union-find, into 25 components (13 singletons +
+   12 resultant-coupled quad-quad pairs).
+3. **No finite pole (grid).** For each component C, the principal part of 𝔉₀ (and 𝔉₁) at the roots of
+   Π_C = ∏_{f∈C} f vanishes ⟺ Π_C | P_C, with P_C a division-free structured numerator. Π_C | P_C is
+   tested by reducing P_C mod Π_C on a full (z₁, z₂, w₂) tensor grid, both z₃-components zero, at 17
+   primes (just above 2^30, ≡ 1 mod 4). A corruption control (one coefficient off by 1) makes the remainder
+   nonzero, so the test discriminates rather than passing vacuously.
+4. **Window and endpoints (grid).** With no finite pole, each summand's w₁ polynomial part lies in
+   {−1, 0, 1}, so F = c₋₁/w₁ + c₀ + c₁ w₁; evaluating at w₁ ∈ {2, 3, 5} (a generalized Vandermonde,
+   det ≠ 0) and finding each slice ≡ 0 on the full grid forces c₋₁ = c₀ = c₁ = 0. Hence 𝔉₀ = 𝔉₁ = 0.
+
+**The rigor scaffold.** The tensor-grid lemma (a Laurent polynomial of per-axis degree ≤ d that vanishes
+on a full product of d + 1 distinct good residues per axis is identically zero; the density-1/p bad
+points are skip-and-enlarged). Both a-priori bounds it needs are computed, not assumed, by re-running the
+identical evaluation tree over two auxiliary semirings. The **degree bound** is a genuine upper bound: a
+tropical (min, max)-exponent span ring where products add exponent intervals and sums union them, so
+cancellation is ignored and the reported span can only over-estimate the true per-axis degree (too small
+a grid would make the lemma vacuous, so over-estimation is the safe direction). The **height bound** is
+a-priori and non-circular: a third semiring propagates an L1 coefficient bound (submultiplicative and
+subadditive for Gaussian integers) through the same tree, cleared to Gaussian integers by the only
+denominator primes present (2 from C = −1/8 and sin = −i/2; 3, 5 from the fixed w₁ = 2, 3, 5 slices), so
+H is read off the exact coefficient structure and never from the mod-p grid values. The certified
+remainder numerators are moreover **rational** (real coefficients in z), so the reconstruction is
+ordinary integer CRT and ∏ p > 2H suffices, not the ∏ p > H² a genuinely Gaussian remainder would force.
+This is load-bearing: four endpoint items (E0_w3, E0_w5, E1_w3, E1_w5) fit inside 17 primes only because
+they are rational — a genuinely Gaussian remainder of the same height would need 18–21. The realness is
+an exact structural fact (real coefficients are closed under the +, −, × of the reduction), and it is
+now **asserted in the `--assert` path**: a realness guard checks that all 103232 base coefficients (the
+elimination outputs 𝔉₀, 𝔉₁ and the denominator factors) have zero imaginary part, before the 2H
+sufficiency bound is used. For the worst item
+(E0_w5), log₂ H = 304.6, so 2H = 2^305.6, while ∏ of the 17 primes is 2^510 — 17 primes where the worst
+item needs only 11. The `--assert` pass re-checks ∏ p > 2H.
+
+**The grade table, updated.** The two ε = −1 cells move from *certified* to *proved on the variety, over
+ℚ(i)*:
+
+| cell | grade (2026-07-13) | why |
+|------|--------------------|-----|
+| ε = +1, mode-disjoint | proved | Lemma 4, the Laplace sum is empty |
+| ε = +1, shared mode | proved, uniform in N | the same-two-magnon-energy lemma |
+| ε = −1, mode-disjoint | **proved on V, over ℚ(i)** (grid+CRT), modulo (D) | 𝔉 ≡ 0 on V, deterministic |
+| ε = −1, shared mode | **proved on V, over ℚ(i)** (grid+CRT), modulo (D) | the same, plus the proved removable limit |
+
+All four grades additionally carry the code-trust layer discussed next (the proof is a computation); the
+two ε = −1 rows carry, on top of that, the still-numerical assembly (D).
+
+**What this buys, and the caveats, of two kinds.** The variety identity 𝔉 ≡ 0 on V is no longer a
+sampled certificate; it is a proof over ℚ(i). Two honest qualifications remain, and they are different in
+kind.
+
+The first is a **code-trust** layer. The vanishing of 𝔉₀ and 𝔉₁ is deterministic (full grid, the a-priori
+bounds above, corruption controls); the field property (sympy irreducibility), the simple-pole
+classification (exact Sylvester resultants over K), and the {−1, 0, 1} window (exact integer span
+bookkeeping) are verified exactly and symbolically. Only the step-1 reduction 𝔉 = 𝔉₀ + 𝔉₁·w₃ is exact
+arithmetic guarded by a numerical pin rather than symbolically checked. The numerators' rationality
+(above) is now asserted: the `--assert` guard checks the base coefficients exactly, and the certified
+numerators' realness follows from them by closure. So "proved over ℚ(i)"
+is contingent on the correctness of the exact-reduction and grid code — and this is not the routine trust
+in an established CAS: unlike Piece 3, which earned Tier 1 through two independent re-derivations (exact
+ℤ[ζ] arithmetic and a full-2^N spin rebuild), this result's cross-checks are all internal to one bespoke,
+single-run implementation (the same evaluation re-run over auxiliary semirings, plus the corruption
+controls), with no independent re-implementation. That is exactly why committing the code (below) and,
+later, an independent C# witness, matter.
+
+The second is a genuinely **unproved mathematical** step, and it is the deeper one: the **assembly (D)**,
+that the discrete Gram difference (U⁺ − U⁻)·(n/2)³ *equals* 𝔉(a; b). Its four intermediates (Laplace
+along the c column, the M_pq closed form, the geometric sum Θ_P, the triple-sine sum) are each proved;
+only their assembly into that one equation is checked numerically (16200 integer pairs, error 3e−13).
+(D) is the **object-identification bridge**: 𝔉 is an abstract six-angle trigonometric object, and (D) is
+the sole link from it to the physical Heff cross-block the twinning actually needs. So until (D) is
+symbolic, what is proved is 𝔉 ≡ 0 on V; the identification of 𝔉 with the twinning cross-block stays
+numerical. The full-spectrum twinning at every resonant N, and "the cell law's cheapest kill cannot
+fire", therefore hold **at proof grade modulo the assembly (D)** (and, as any computed proof, the code-trust layer above), one strict step better than the
+certificate grade of 2026-07-10e, with the surviving analytic gap a single symbolic identity rather than
+a variety of unknown degree. The verifier `y_zero_and_level_law.py` still reports the cross blocks as
+"measured, not proved" because it predates this proof; its open note (J) now reduces to the assembly (D).
+
+**The lead this opens (the fragile thing).** The wall is meant to make the statement safe to lean on, not
+to be the final word. Written into the door of
+[ON_LEAVING_THE_CIRCLE](../reflections/ON_LEAVING_THE_CIRCLE.md) was the suspicion that the grids are the
+pile, not the find, and that inside sits a one-line reason of the "the length cancels" family. There is
+now a concrete, numerically verified backbone for it. The four-cotangent building block is
+Xh(μ; ξ, η) = −sin μ · sin ξ · sin η / Δ(μ, ξ, η) with Δ = (cos μ − cos(ξ + η))(cos μ − cos(ξ − η)) the
+spherical-triangle Gram determinant, and each atom splits into two simple poles,
+Xh = (sin μ / 2)·[1/(cos μ − cos(ξ + η)) − 1/(cos μ − cos(ξ − η))]. So 𝔉 is an antisymmetric (sign
+(−1)^{i+j}) sum of simple poles, each atom with poles at cos μ = cos(ξ ± η) (ξ, η built from the
+two-magnon sum and difference angles), and with no N in it. The candidate one-line reason is that this
+sum telescopes to zero once Σ cos a = 0 and
+Σ cos b = 0 collapse the residues, the continuous analogue of the mirror specialisation's exact
+divisibility by z₃² + S z₃ + 1. That telescoping is the open step; when it closes it replaces the 25 grid
+components. It is a lead, not a proof.
+
+Reproduce/verify: `python simulations/grid_proof_sweep.py --assert` re-checks the 527 completed items,
+runs the realness guard, and confirms CRT ∏ p > 2H. The runner drives the grid+CRT engine
+`simulations/core_grid.py`; the exact-symbolic steps 1–2 (the w₃-elimination and pole structure) are in
+`simulations/residue_assembly_close.py` + `simulations/halfangle_residue_proof.py`; the certified
+grid `simulations/grid_proof_close.py`. The full sweep that produced the 527 checkpoints is
+`grid_proof_sweep.py` with no flag (its docstring carries the four-step proof). A C# witness of the same
+kind as the other `inspect` witnesses is the owed follow-up.
+
+**Authors:** Thomas Wicht and Claude (Opus 4.8), 2026-07-13.
 
 
 ## Reproduce
@@ -1673,7 +1806,8 @@ python simulations/o2b_three_attacks_audit.py          # the "Three attacks" sec
 python simulations/o2b_gcd_certificate.py              # the gcd certificate section (N=5; add 7)
 python simulations/resonant_n_twinning.py              # the resonance criterion + twinning (add 29)
 python simulations/y_zero_and_level_law.py             # the Y = 0 proof, step by step (add: 23 29)
-python simulations/cross_triple_orthogonality.py       # the cross-triple orthogonality (--slow: +ℚ proof)
+python simulations/cross_triple_orthogonality.py       # the cross-triple orthogonality (--slow: the MIRROR sub-case ℚ proof only)
+python simulations/grid_proof_sweep.py --assert        # the full ℚ(i) variety identity 𝔉≡0 on V: 527/527 items, realness guard, CRT>2H
 ```
 
 `seed_existence_nullity_check.py` is self-validating: it asserts (F1) the surplus (N − 1)·[N odd]
@@ -1765,6 +1899,14 @@ This note must not be read as closing the existence question until the remaining
    criterion, closed"): the resonant N are exactly those with 3 \| N + 1, N ≥ 11, and the twinning
    holds at N = 23 and N = 29 as well, though it stays unproven at every unprobed N. N = 17's counts
    were not measured (only its kernel split and twinning gaps).
+
+   > **Update 2026-07-13.** "Unproven at every unprobed N" above is at the certificate grade of
+   > 2026-07-10e. The cross-triple orthogonality is a continuous, N-free identity (𝔉 ≡ 0 on V, now
+   > proved over ℚ(i); see "The variety identity, proved over ℚ(i)" above), so the full-spectrum
+   > twinning now follows at **every** resonant N, uniform in N, at proof grade modulo the assembly (D),
+   > not only at the probed N = 11, 23, 29. The resonant-N support this item leans on inherits that
+   > grade; item 3 itself stays open only at the **non-resonant** N ≥ 13, which the twinning argument
+   > does not touch.
 
 When the β-exotic closes **for all odd N**, the census input becomes a law for all odd N, and the
 containment diamond membership follows at every odd N with no further scan. Per-N certificates, however
