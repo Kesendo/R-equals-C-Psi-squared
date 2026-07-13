@@ -85,6 +85,12 @@ from .coherence_block import (
     t_peak,
 )
 
+from .weight_coherence_block import (
+    weight_block_configs, weight_block_hop, weight_block_pencil,
+    weight_block_build, weight_block_zz,
+    mask_of_sites, sites_of_mask, combinations_order_permutation,
+)
+
 # Cockpit OOP layer
 from .chain_system import ChainSystem
 from .receiver import Receiver
