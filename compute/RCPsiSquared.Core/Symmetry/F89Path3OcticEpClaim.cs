@@ -61,7 +61,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// factorisation), <c>simulations/f89_path3_ep_locator.py</c> (numerical
 /// degeneracy location), <c>simulations/f89_jordan_definitive.py</c> +
 /// <c>f89_jordan_corroborate.py</c> (the diabolic-character verdict),
-/// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
+/// <c>experiments/F89_PATH_K_GALOIS.md</c>
 /// § "Path-3 octic diabolic-degeneracy location".</para></summary>
 public sealed class F89Path3OcticEpClaim : Claim
 {
@@ -89,7 +89,7 @@ public sealed class F89Path3OcticEpClaim : Claim
     public F89Path3OcticEpClaim(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
         : base("F89 path-3 octic diabolic degeneracy (semisimple) at q² = (−1+√13)/6, q ≈ 0.658983, with merged eigenvalue λ_EP = −4γ + 2iJ; Re(λ_EP) = −4γ sits at the AT-spectral midpoint of rate 2γ (overlap) and rate 6γ (no-overlap)",
                Tier.Tier1Derived,
-               "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
+               "experiments/F89_PATH_K_GALOIS.md + " +
                "simulations/f89_path3_octic_galois.py + " +
                "simulations/f89_path3_ep_locator.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")

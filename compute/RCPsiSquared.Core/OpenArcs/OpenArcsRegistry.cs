@@ -323,7 +323,7 @@ public static class OpenArcsRegistry
                 "invariant-subspace isolation, F89HbMixedIsolation.Isolate = the triple R=0/deg=d/gcd=1); the Python " +
                 "engine of record (f89_pathk_galois.py full-d); the typed claim F89PathKHbMixedDegreesClaim " +
                 "(degree-table Tier1Candidate / Galois-verdict Tier1Derived); the doc section 'Computing the " +
-                "path-3..6 Galois groups live' (experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) + the " +
+                "path-3..6 Galois groups live' (experiments/F89_PATH_K_GALOIS.md) + the " +
                 "galois_of_spectral_polynomial recipe (isolate-before-DDF + invariant-subspace). The RESULT is " +
                 "closed; the doors are the next research, none started.",
             NextStep: "RESUMING IN ONE LINE (2026-06-30): door C is CLOSED (chaos = a FILLING threshold [term defined in " +
@@ -433,7 +433,7 @@ public static class OpenArcsRegistry
                 "F89PathKLiveGaloisWitness}.cs (inspect --root f89galois); compute/RCPsiSquared.Core/F89PathK/" +
                 "{F89PathKSeDeBlock, F89AtFactorReconstruction, F89HbMixedIsolation}.cs + Numerics/" +
                 "{GaussianMatrixCharpoly, GaussianPolynomial, OcticGaloisCertificate}.cs; " +
-                "simulations/f89_pathk_galois.py (full-d); experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md (the live-Galois " +
+                "simulations/f89_pathk_galois.py (full-d); experiments/F89_PATH_K_GALOIS.md (the live-Galois " +
                 "section); the galois_of_spectral_polynomial recipe; reflections/ON_WHAT_CANNOT_CLOSE.md (the " +
                 "will-not/cannot frame the seeing sharpens).",
             Status: OpenArcStatus.Open),

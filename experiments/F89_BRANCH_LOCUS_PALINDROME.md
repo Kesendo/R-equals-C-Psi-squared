@@ -73,7 +73,7 @@ Scope, now **checked** (2026-06-26, the `foldlift` probe over path-k blocks: `rc
 
 - [`reflections/ON_WHO_WATCHES_WHOM.md`](../reflections/ON_WHO_WATCHES_WHOM.md): the plain-words reading (γ as the watching, the seams where observer and observed exchange).
 - [`docs/proofs/MIRROR_SYMMETRY_PROOF.md`](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the F1 palindrome Π L Π⁻¹ = −L − 2σ.
-- [`experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md`](F89_TOPOLOGY_ORBIT_CLOSURE.md): the octic, the braid, the diabolic location, the discriminant.
+- [`experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md`](F89_TOPOLOGY_ORBIT_CLOSURE.md): the octic and its factorisation; [`experiments/F89_PATH_K_GALOIS.md`](F89_PATH_K_GALOIS.md): the Galois verdict, the diabolic location, the discriminant.
 - [`hypotheses/DIABOLIC_BY_INTEGRABILITY.md`](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md): why the diabolic is diabolic (integrability), and the XXZ Δ ≠ 0 counterexample to "on-line ⟹ silent".
 - [`reflections/OBSERVER_INHERITANCE.md`](../reflections/OBSERVER_INHERITANCE.md), [`reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md`](../reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md): the inherited mirror.
 - Live: `inspect --root branchpalindrome` (the typed witness), `inspect --root galoismonodromy`, `gmscan --mirror`.

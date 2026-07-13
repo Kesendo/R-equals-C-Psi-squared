@@ -36,7 +36,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Anchors: <c>simulations/f89_path4_path5_at_lock_scan.py</c> (despite name,
 /// loop covers k = 3..6 inclusive) + <c>simulations/f89_path6_at_locked_amplitude_symbolic.py</c>,
-/// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> § Tier-assessment table.</para></summary>
+/// <c>experiments/F89_PATH_K_GALOIS.md</c> § "Computing the path-3..6 Galois groups live".</para></summary>
 public sealed class F89PathKHbMixedDegreesClaim : Claim
 {
     public F89TopologyOrbitClosure F89 { get; }
@@ -107,7 +107,7 @@ public sealed class F89PathKHbMixedDegreesClaim : Claim
     public F89PathKHbMixedDegreesClaim(F89TopologyOrbitClosure f89)
         : base("F89 path-k H_B-mixed sub-factor degrees: {8, 18, 32, 53} for paths {3, 4, 5, 6} (Tier 1 candidate; switch-statement enumeration, general-k closed form open). Each F_d is irreducible over Q(i)(q) with Galois group the full S_d (non-solvable) — Tier-1 derived, closing the prior conjecture",
                Tier.Tier1Candidate,
-               "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
+               "experiments/F89_PATH_K_GALOIS.md + " +
                "simulations/f89_path4_path5_at_lock_scan.py (despite name, loop covers k=3..6 inclusive) + " +
                "simulations/f89_path6_at_locked_amplitude_symbolic.py + " +
                "simulations/f89_pathk_galois.py (Gal F_d = S_d, path-4/5/6) + " +

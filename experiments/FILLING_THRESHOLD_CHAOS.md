@@ -161,6 +161,6 @@ tagged `[Trait("Category", "SLOW_FILLCSR")]` (the N=8 EVDs run minutes); run the
 
 - [RANDOM_MATRIX_THEORY.md](RANDOM_MATRIX_THEORY.md): Result 3 (the galoischaos null, the dilute control)
   and Result 5 (this finding).
-- [F89_TOPOLOGY_ORBIT_CLOSURE.md](F89_TOPOLOGY_ORBIT_CLOSURE.md): the live-Galois section (S_d over q).
+- [F89_PATH_K_GALOIS.md](F89_PATH_K_GALOIS.md): the live-Galois section (S_d over q).
 - `inspect --root galoischaos` (the Δ=0 / dilute control) and `inspect --root fillcsr` (this result);
   the Door-C staged sweep + methodology live in the `IntegrabilityBreakingCsr` harness.

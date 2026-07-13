@@ -26,8 +26,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>CONSEQUENCE: the eight roots λ_k(q) (Liouvillian eigenvalues of this block)
 /// admit NO expression by RADICALS over Q(i)(q) (Abel-Ruffini). This does NOT
-/// exclude non-radical special-function expressions (Bring radicals / theta /
-/// hypergeometric), which exist for any algebraic function.</para>
+/// exclude non-radical special-function expressions (theta / hypergeometric, the
+/// higher-degree analogues of the quintic's Bring radical), which exist for any
+/// algebraic function.</para>
 ///
 /// <para>FRAMING: S_8 is the GENERIC Galois group of an irreducible degree-8
 /// polynomial (van der Waerden 1936; Bhargava, Annals 2025), so S_8 is not exotic.
@@ -51,8 +52,8 @@ namespace RCPsiSquared.Core.Symmetry;
     /// <see cref="RCPsiSquared.Core.Numerics.OcticGaloisCertificate"/> (distinct-degree
     /// factorisation over F_p); <c>simulations/f89_path3_octic_galois.py</c> (gate-first:
 /// reproduce the octic from the 12×12 charpoly, known-answer engine validation,
-/// the q0=2 certificate, multi-q0 + base-field robustness), <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
-/// § "Path-3 octic non-solvability: Gal = S_8". References: K. Conrad,
+/// the q0=2 certificate, multi-q0 + base-field robustness), <c>experiments/F89_PATH_K_GALOIS.md</c>
+/// § "Path-3 octic non-solvability: Gal(F_8) = S_8". References: K. Conrad,
 /// "Recognizing Galois groups S_n and A_n" (the method); M. Bhargava, Annals 201
 /// (2025) (S_n generic); Appleby-Yadsan-Appleby-Zauner, arXiv:1209.1813 (the
 /// contrasting solvable SIC precedent). Do NOT conflate with differential Galois
@@ -94,7 +95,7 @@ public sealed class F89Path3OcticGaloisClaim : Claim
     public F89Path3OcticGaloisClaim(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
         : base("F89 path-3 octic Galois group: Gal(F_8 / Q(i)(q)) = S_8 (Tier 1 derived). disc(F_8) = const · q²⁴ · (3q⁴+q²−1)² · P_10(q²) is non-square ⇒ ⊄ A_8; a (5,2,1) Frobenius at 𝔭|5, q0=2, gives a 5-cycle (⇒ primitive ⇒ ⊇A_8 by Jordan) and an odd permutation (⇒ ⊄A_8) ⇒ S_8. Robust to base Q(i,√5). ⇒ the roots λ_k(q) admit no expression by radicals in q (non-radical special functions not excluded)",
                Tier.Tier1Derived,
-               "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
+               "experiments/F89_PATH_K_GALOIS.md + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/F89OcticGaloisWitness.cs (inspect --root f89galois) + " +
                "simulations/f89_path3_octic_galois.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")

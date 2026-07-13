@@ -27,7 +27,7 @@ the spin coupling, γ the dephasing rate, q = J/γ the one dimensionless knob. F
 watched (single-excitation, double-excitation) coherence sector, the **(SE, DE) block**, here at chain
 length giving the **path-3** case, splits into a clean half whose rates have closed forms and a residual
 **octic** F_8 (degree 8) whose rates **cannot be written in radicals**: its Galois group is the maximal
-S_8 ([`F89_TOPOLOGY_ORBIT_CLOSURE`](F89_TOPOLOGY_ORBIT_CLOSURE.md),
+S_8 ([`F89_PATH_K_GALOIS`](F89_PATH_K_GALOIS.md),
 [`ON_WHAT_CANNOT_CLOSE`](../reflections/ON_WHAT_CANNOT_CLOSE.md)). That unwritable half is the watching's
 own signature.
 
@@ -157,7 +157,7 @@ Live: `inspect --root galoismonodromy` (the S_8 generation, gate G3) and `inspec
 
 - [`reflections/ON_WHO_WATCHES_WHOM.md`](../reflections/ON_WHO_WATCHES_WHOM.md): the plain-words sibling; this is its from-below ground.
 - [`experiments/F89_BRANCH_LOCUS_PALINDROME.md`](F89_BRANCH_LOCUS_PALINDROME.md): the seams' POSITIONS are a palindrome (the q-plane locus); this doc carries the BRAIDING.
-- [`experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md`](F89_TOPOLOGY_ORBIT_CLOSURE.md): the octic and the algebraic Gal(F_8) = S_8 (the route this doc reproduces geometrically).
+- [`experiments/F89_PATH_K_GALOIS.md`](F89_PATH_K_GALOIS.md): the algebraic Gal(F_8) = S_8 certificate (the route this doc reproduces geometrically); the octic itself is born in [`experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md`](F89_TOPOLOGY_ORBIT_CLOSURE.md).
 - [`docs/proofs/MIRROR_SYMMETRY_PROOF.md`](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome, the first stone.
 - [`hypotheses/DIABOLIC_BY_INTEGRABILITY.md`](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md): why the diabolic point is silent (the loop = identity used above).
 
