@@ -16,6 +16,7 @@ non-solvable), for the diabolic-degeneracy location q_EP = √((−1+√13)/6) w
 the live isolate-before-DDF pipeline; Tier 2 empirical for the octic-mode amplitude q-dependence.
 **Date:** 2026-07-13 (sections moved from the parent, faithful modulo small review-driven precision fixes; their content dates from 2026-06-21..25)
 **Authors:** Thomas Wicht, Claude (Fable 5)
+**Registry:** F89f (the Galois verdicts) + F89e (the diabolic degeneracy), letters of the F89 family in [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md)
 **Scripts:**
 - [`f89_path3_octic_galois.py`](../simulations/f89_path3_octic_galois.py): the gate-first q0 = 2 Frobenius certificate for Gal(F_8) = S_8 (+ multi-q0 and base-field robustness).
 - [`f89_pathk_galois.py`](../simulations/f89_pathk_galois.py): the path-3..6 engine of record (`full-d`): isolate F_d, certify Gal(F_d) = S_d for d = 8/18/32/53.

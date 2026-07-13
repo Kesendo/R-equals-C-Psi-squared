@@ -2875,6 +2875,15 @@ For an N-qubit system with Hamiltonian H_B = J · Σ_{(p,q) ∈ B} (X_p X_q + Y_
 
 depends only on the S_N-orbit of B. Bond positions inside an orbit are dynamically indistinguishable; only the orbit label survives.
 
+**The F89 letter family** (the de-monolith's map, 2026-07-13: F89 is a namespace that accreted separable concerns; each separated concern carries a letter, minted chronologically like the organic F89c/F89d before it):
+- **F89** (this root): the orbit-closure theorem + the path-k S(t) closed-form program ([F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md)).
+- **F89c**: the structural lemma, per-coherence rate 2γ₀·n_diff + the column-flip pair-sum (below).
+- **F89d**: the cross-block antiunitary similarity, one leg of the bit-flip Klein group (below).
+- **F89e**: the path-3 octic diabolic degeneracy, location + character (sub-entry below; [F89_PATH_K_GALOIS](../experiments/F89_PATH_K_GALOIS.md)).
+- **F89f**: the path-3..6 Galois verdicts Gal(F_d) = S_d, no radical closure (sub-entry below; [F89_PATH_K_GALOIS](../experiments/F89_PATH_K_GALOIS.md)).
+- **F89g**: monodromy = Galois + the mirror split at the Galois boundary (sub-entry below; [F89_MONODROMY_MIRROR](../experiments/F89_MONODROMY_MIRROR.md)).
+- **F89h**: the β-exotic genericity question, is each count-dropping seed a √-type EP2 (open; [F89_BETA_EXOTIC_GENERICITY](../experiments/F89_BETA_EXOTIC_GENERICITY.md)).
+
 For the chain restriction (B ⊂ {NN-bonds}), the orbit equals the **bond-graph topology class**: the sorted multiset of connected-path-lengths. E.g. in N=7 there are 14 distinct classes spanning k = 1..6 active bonds.
 
 S(0) = (N−1)/N closed-form (Probe-only, independent of the bond set).
@@ -2981,7 +2990,7 @@ Originally fit empirically across k = 3..24 (22 data points, zero exceptions, 20
 
 Tier: Tier-1-Derived (closed 2026-05-15). Anchors: [`F89PathPolynomialPipeline`](../compute/RCPsiSquared.Core/Symmetry/F89PathPolynomialPipeline.cs) (native Chebyshev pipeline, exact BigInteger/BigRational arithmetic), [`F89UnifiedFaClosedFormClaim`](../compute/RCPsiSquared.Core/Symmetry/F89UnifiedFaClosedFormClaim.cs) (`PredictDenominator(int k)` int-safe to k=46, `PredictDenominatorBig(int k)` BigInteger for arbitrary k, `ComputePathPolynomialBig` runtime), [`PROOF_F89_PATH_D_CLOSED_FORM`](proofs/PROOF_F89_PATH_D_CLOSED_FORM.md) (full proof + 33-row verification tables), `simulations/f89_pathk_symbolic_derivation.py` (sympy prototype, retained as cross-check probe).
 
-#### F89 path-3 octic diabolic degeneracy, EP location + character (Tier 1 derived for the location + the diabolic character, 2026-06-21; the integrability-WHY is Tier 2)
+#### F89e. Path-3 octic diabolic degeneracy, EP location + character (Tier 1 derived for the location + the diabolic character, 2026-06-21; the integrability-WHY is Tier 2)
 
 The S₂-sym (SE, DE) sub-block's degree-8 factor F_8 (the H_B-mixed residual after the F_a/F_b AT-quadratics; [`F89Path3SeDeFactorisationClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3SeDeFactorisationClaim.cs)) has a degeneracy at
 
@@ -2997,7 +3006,7 @@ located by the perfect-square factor (3q⁴+q²−1)² of disc(F_8) (the same fa
 
 **Source:** [`F89Path3OcticEpClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs) (Tier 1 derived, the diabolic Correction block), [`F89Path3OcticGaloisClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticGaloisClaim.cs); live [`F89OcticCharacterWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/F89OcticCharacterWitness.cs) (`inspect --root f89octic`) + the ported block [`F89Path3OcticBlock`](../compute/RCPsiSquared.Core/F89PathK/F89Path3OcticBlock.cs) (validated as a genuine sub-block of the full N=4 Liouvillian); [F89_PATH_K_GALOIS](../experiments/F89_PATH_K_GALOIS.md) § "Path-3 octic diabolic-degeneracy location"; probes `simulations/f89_jordan_definitive.py`, `f89_zz_break_gate.py`, `f89_why_diabolic_probe.py`.
 
-#### F89 path-3 octic Galois group: Gal(F_8) = S_8 (Tier 1 derived)
+#### F89f. Path-3..6 octic Galois groups: Gal(F_d) = S_d (Tier 1 derived)
 
 The same degree-8 factor F_8 has Galois group the **full symmetric group S_8** over Q(i)(q) (robust to the base Q(i,√5)(q)). Foundation, the degree-52 discriminant:
 
@@ -3009,7 +3018,7 @@ with P_10(q²) degree 20 in q, NOT a perfect square ⇒ Gal ⊄ A_8. **Method:**
 
 **Source:** [`F89Path3OcticGaloisClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticGaloisClaim.cs) (Tier 1 derived; `GalIsS8`, `CertifyingPrimeAtQ0Eq2 = 5`); live witness [`F89PathKGaloisWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/F89PathKGaloisWitness.cs) (`inspect --root f89galois`, the path-3..6 composite) whose path-3 child [`F89OcticGaloisWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/F89OcticGaloisWitness.cs) recomputes the Frobenius certificate via [`OcticGaloisCertificate`](../compute/RCPsiSquared.Core/Numerics/OcticGaloisCertificate.cs) (distinct-degree factorisation over F_p); [`f89_path3_octic_galois.py`](../simulations/f89_path3_octic_galois.py) (gate-first: reproduce octic from the 12×12 charpoly, known-answer engine validation, the q0=2 certificate, multi-q0 + base-field robustness); [F89_PATH_K_GALOIS](../experiments/F89_PATH_K_GALOIS.md) § "Path-3 octic non-solvability: Gal(F_8) = S_8". Method: K. Conrad, "Recognizing Galois groups S_n and A_n".
 
-#### F89 path-3 monodromy = Galois, and the mirror split (Tier 1 derived)
+#### F89g. Path-3 monodromy = Galois, and the mirror split (Tier 1 derived)
 
 The S_8 above is reached a second, independent way: GEOMETRICALLY, by monodromy. As q = J/γ loops the complex plane the eight octic rates braid; a lasso around each genuine EP (a simple P_10 zero) reads a transposition of the 8 strands in one base labelling (q0 = 2), the diabolic q_EP is silent (loop = identity), and the transposition graph is connected ⟹ **Gal(F_8) = S_8, reconstructed from eigenvalue braids** (monodromy = Galois, from below; [`F89OcticMonodromyClaim`](../compute/RCPsiSquared.Core/Symmetry/F89OcticMonodromyClaim.cs), live `inspect --root galoismonodromy`, gate G3).
 

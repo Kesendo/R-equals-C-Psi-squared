@@ -12,6 +12,7 @@ recorded real defective seeds (`WeightCoherenceBlock`, `RealDefectiveSeeds`); th
 Reproduce, below).*
 
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
+**Registry:** F89h in [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (letter minted 2026-07-13, the de-monolith)
 
 ## The β-exotic, sharpened: a count-dropping seed is √-type iff s₆ ≠ 0 (open, 2026-07-08; taxonomy refined 2026-07-09)
 
