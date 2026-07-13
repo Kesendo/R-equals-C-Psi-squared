@@ -697,6 +697,19 @@ public static class InspectCommand
                     c.Parser.HasFlag("N") ? c.N : 4,
                     c.Parser.OptionalDouble("q") ?? 1.5),
             RequiresN: false, HonorsOptionalN: true),
+        new("renewal", "THE DEPHASING-FRONT RENEWAL REPRESENTATION (proof PROOF_DEPHASING_FRONT_RENEWAL.md): the " +
+            "exact solution of the WATCHED walk. The watched single excitation is the unwatched wave repeatedly " +
+            "caught and released, P_n(t) = e^{−Γt}·S_n(t) with the Volterra refill ladder (★), Γ = 4γ. The j=0 " +
+            "term is the coherent front, the j≥1 halo the incoherent refill; the ladder closes to " +
+            "Ŝ(p,z) = 1/(√(z²+a²)−Γ), a = 4J·sin(p/2), with the diffusive pole D = 2J²/Γ (the F123 sibling). Six " +
+            "from-below checks: renewal-vs-RK4, probability conservation, the coherent-front Bessel identity, the " +
+            "Γ=0 clean-wave limit, the Haken-Strobl plateau, the I₁ Airy constant. Typed: DephasingFrontRenewalClaim",
+            c => new DephasingFrontRenewalWitness(
+                    c.Parser.HasFlag("N") ? c.N : 27,
+                    seed: null,                                       // interior seed = N/2
+                    j: c.Parser.OptionalDouble("J") ?? 1.0,
+                    gamma: c.Parser.OptionalDouble("gamma") ?? 0.15),
+            RequiresN: false, HonorsOptionalN: true),
         new("trichotomy",
             "the chain/ring/star survivor trichotomy as one sweep: carbon un-freeze read (RouteSweep) + absolute Δn-seam read",
             c => new TrichotomyWitness(

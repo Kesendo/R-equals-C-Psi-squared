@@ -318,6 +318,29 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasRenewalRoot_NFree_HonorsOptionalN()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "renewal");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("RENEWAL", entry.Description);
+        Assert.Contains("WATCHED walk", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_RenewalFactory_BuildsTheLiveWitness_BatteryPasses()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "renewal");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);
+        Assert.IsType<DephasingFrontRenewalWitness>(root);
+        Assert.Contains("renewal", root.Summary, StringComparison.OrdinalIgnoreCase);
+        var w = (DephasingFrontRenewalWitness)root;
+        Assert.Equal(w.Cases.Count, w.Cases.Count(c => c.Passes));   // all six from-below checks pass
+    }
+
+    [Fact]
     public void SymphonyFactory_TempoRatio_GrowsTheClockMovement()
     {
         var symphony = InspectCommand.Catalog.Single(e => e.Name == "symphony");

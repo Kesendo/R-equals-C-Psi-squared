@@ -4843,5 +4843,45 @@ Since the block pencil `L(q) = A + q·C` is linear in q, the relation holds for 
 
 ---
 
+### F126. The dephasing front renewal: the watched walk is the wave, caught and released (representation + Green's function Tier 1 exact; the survival readings Tier 1 candidate; 2026-07-13)
+
+The single-excitation sector under local Z-dephasing (`ρ̇ = −i[h,ρ] − Γ(ρ − diag ρ)`, `Γ = 4γ = γ_φ`, the
+Absorption Theorem rate of the sector's Hamming-2 coherences) is solved **exactly** by the renewal
+representation
+
+  **P_n(t) = e^{−Γt}·S_n(t),  S_n(t) = |G_{n0}(t)|² + Γ·∫₀ᵗ ds Σ_m |G_{nm}(t−s)|²·S_m(s)**
+
+(`G` the clean propagator; on the infinite chain `G_{nm}(τ) = (−i)^{|n−m|}·J_{|n−m|}(2Jτ)`), which closes in
+momentum-Laplace space to the Green's function
+
+  **Ŝ(p, z) = 1/(√(z² + a(p)²) − Γ),  a(p) = 4J·sin(p/2).**
+
+*Reading*: the watching collapses the excitation onto the sites at rate `Γ` and releases it to run
+cleanly between collapses; every refill order carries the same universal `e^{−Γt}`, the `j = 0` term is
+exactly the coherent front `|⟨a_n⟩|²` (amplitude damps at `Γ/2`), and the `j ≥ 1` ladder is the incoherent
+halo. `p = 0` conserves probability; `Γ = 0` returns the clean Bessel wave; the small-`p` pole carries the
+Haken-Strobl diffusion `D = 2J²/Γ` (the F123 sibling's rate object).
+
+*The survival readings* (corollaries on the exact object, each Tier 1 candidate): the front-peak survival
+exponent has the fixed-γ ceiling **A_∞(γ) = 4 − φ(2J)/γ**, `φ(2J) = √(Γ(Γ+4J)) − 4J·arcsinh√(Γ/4J)`
+(small γ: `4 − (8/3)·√(γ/J)`; the naive "the front asymptotically pays the full γ_φ" is false at fixed γ);
+the prefactor is `S_n(t*₀) = C(γ)·n^{−1/2}·e^{(φ/2J)n}` with **C(γ) = (2π)^{−1/2}·(γ/(γ+J))^{1/4}** (via
+`μ″(θ*) = 2J·√(Γ/(Γ+4J))`); the single-refill constant closes as **I₁ = 1/12 + ¼·∫₀^{2c}Ai(−w)dw =
+0.27694424** (`2c = 2^{2/3}·α`, `α` the first zero of `Ai′`), giving the pre-asymptotic climb
+`4 − 4.864·n^{−1/3}`; and the peak-tracking exponent is exactly **0** (the global maximum is the diffusive
+plateau, height `e^{−1/2}/√(2π)/n`), the trichotomy of front-survival readings.
+
+**Source:** [Proof](proofs/PROOF_DEPHASING_FRONT_RENEWAL.md);
+[`simulations/cone_front_survival_asymptote.py`](../simulations/cone_front_survival_asymptote.py)
+(sections [1]–[10], the exact checks and every reading) and
+[`simulations/cone_walk_time_residuals.py`](../simulations/cone_walk_time_residuals.py) (the measured
+pre-asymptotic window); the measuring experiment
+[experiments/COUPLING_DEFECT_WALK_TIME_STEP.md](../experiments/COUPLING_DEFECT_WALK_TIME_STEP.md) (five
+follow-ups). **Typed:** `DephasingFrontRenewalClaim` (parents `AbsorptionTheoremClaim` + F2b;
+siblings `CoherenceHorizonClaim`, `SurvivorDiffusionGradientClaim`,
+`compute/RCPsiSquared.Diagnostics/Foundation/`); live witness `inspect --root renewal`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

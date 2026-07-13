@@ -258,6 +258,16 @@ public static class KnowledgeRegistryFactory
             // Rayleigh quotient, amplitude^2). Parents AbsorptionTheoremClaim + the survivor mirror (just above).
             // Tier1Candidate. Witness: inspect --root gradient.
             .RegisterSurvivorDiffusionGradientClaim()
+            // THE DEPHASING-FRONT RENEWAL REPRESENTATION (Tier1Derived, 2026-07-13): the exact solution of
+            // the watched walk, P_n(t) = e^{−Γt}·S_n(t) with the Volterra renewal (★), Γ = 4γ. The watched
+            // single excitation is the unwatched wave repeatedly caught and released; the j=0 term is the
+            // coherent front, the j≥1 halo the incoherent refill, closing to Ŝ(p,z) = 1/(√(z²+a²)−Γ),
+            // a = 4J·sin(p/2). Typed home of docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md. Two Tier1Derived
+            // typed parents, both registered in this chain: AbsorptionTheoremClaim (the sector rate Γ = 4γ) +
+            // F2bXyChainSpectrumPi2Inheritance (the clean propagator / band). Live witness: inspect --root
+            // renewal (renewal-vs-RK4, probability conservation, the coherent-front Bessel identity, the Γ=0
+            // clean-wave limit, the Haken-Strobl plateau, the I₁ Airy constant).
+            .RegisterDephasingFrontRenewalClaim()
             .RegisterF86LEffMirrorAxis()
             // F-formula Pi2-Foundation inheritance claims.
             // F63 + F61 registered first because F1Pi2Inheritance now ctor-takes F61 as
