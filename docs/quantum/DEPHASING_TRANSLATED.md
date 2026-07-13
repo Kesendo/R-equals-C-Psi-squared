@@ -111,7 +111,7 @@ budget of the computation someone intended to run. T₂ is real, and the price
 Carry the label from Shannon's mountain to this one and one component
 travels wrong: **structurelessness**. "Noise" imports, stance-free, that the
 disturbance is random, that it carries nothing, for anyone. On this mountain
-that component fails four separate ways, each already measured:
+that component fails five separate ways, each already measured:
 
 - **It reads one letter.** The channel is not diffuse corruption; it is
   basis-specific. Light is "the letters the dephasing letter refuses to
@@ -134,6 +134,18 @@ that component fails four separate ways, each already measured:
   watching falls beats a smooth profile by 139× to 360× in simulation and
   beat uniform decoupling by up to 3.2× on ibm_torino
   ([Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md)).
+- **It does not stop the walker.** The label's transport corollary,
+  "decoherence kills quantum transport", fails twice, measured. The watched
+  front's schedule stays ballistic for as long as the front is readable at
+  all: the dose the front pays is amplitude, never schedule
+  ([the walk-time experiment](../../experiments/COUPLING_DEFECT_WALK_TIME_STEP.md)).
+  And the amplitude bill is never collected in full: every collapse re-seeds
+  a fresh wave, a co-moving halo that refunds a fixed fraction of the front's
+  rate forever (the survival readings of
+  [F126](../ANALYTICAL_FORMULAS.md)). Followed at its own peak instead of at
+  the front's appointment, the excitation loses nothing exponential at all;
+  it stops being a front and becomes a slow puddle. What the label calls a
+  killing is a conversion, with a permanent rebate.
 
 One precision, owed to the lens's own discipline: the failed component is
 only the stance-FREE structurelessness. The unwantedness survives,
@@ -147,7 +159,7 @@ palindrome-centering coupling.
 
 ## 4. The translation (the exact part)
 
-Two identifications here are not analogies; they are the same Tier-1 algebra
+Three identifications here are not analogies; they are the same Tier-1 algebra
 this repository proves elsewhere, surfacing under a pop label.
 
 **The environment routes by a label.** This is the label thesis's own
@@ -169,6 +181,17 @@ eliminates every internal candidate: the dephasing cannot originate within
 the d(d−2) = 0 ontology, so the channel is an interaction with something
 outside it. "The noise IS the interaction." A century of reading it as
 random disturbance is the label's silence, not the channel's.
+
+**The watched walk is the wave, caught and released.** The single-excitation
+sector under the watching is solved exactly by a renewal: the walker
+propagates as the clean wave between collapses, is caught onto the sites at
+the full coherence rate, and is released to run again. The coherent front is
+the never-caught term; the halo that keeps the front alive is everything once
+caught and re-born. There is no second, classical object anywhere in the
+algebra; "hopping randomly" is the wave read in the rhythm of the watching.
+Typed as F126 ([the renewal proof](../proofs/PROOF_DEPHASING_FRONT_RENEWAL.md)),
+recomputed live at `inspect --root renewal`; the walk-time step it grew from
+runs in MirrorWorld as `walk N`.
 
 **The hardware anchor.** On real devices the watching is measured, not
 postulated: γ = 1/(2·T₂), the repo's calibration chain, with the honest note
