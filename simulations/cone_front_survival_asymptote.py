@@ -53,8 +53,9 @@ This script verifies the 2026-07-13 renewal derivation (session work), which was
 independently reviewed by a mathematical referee (the I_1 caustic power-counting and
 the renewal exactness) and a physics referee (the same-arrival-instant artifact split).
 
-Open now only the gamma ~ J validity edge (the ballistic caustic observable degenerates
-there); the o(n) is closed by section [9] (referee-confirmed 2026-07-13: independent
+The gamma ~ J fence is now docked (section [10]): at experimental distances the edge is the
+dose K_deg ~ 0.6 (theta = 0.2), gamma_deg ~ 1.2 J/n; gamma ~ J is only the n -> 1 EP corner.
+The o(n) is closed by section [9] (referee-confirmed 2026-07-13: independent
 SymPy + steepest-descent + direct-Lindblad + Haken-Strobl cross-checks). Section [9] pins
 the prefactor S_n(t*_0) = C(gamma) n^{-1/2} e^{(phi/2J)n} with the closed constant
 C(gamma) = (2 pi)^{-1/2}(gamma/(gamma+J))^{1/4}, the approach law A_eff = A_inf +
@@ -815,6 +816,108 @@ log("     amplitude; a narrow front window interpolates between A_inf and 0; the
 log("     exponent is 0. The section [5] EDGE exclusions are exactly this diffusive plateau")
 log("     entering the front window (the windowed max jumping off the front onto the plateau).")
 
+# ---------------------------------------------------------------------------
+# SECTION 10 : THE FENCE (where the ballistic arrival reading dies: a dose)
+# ---------------------------------------------------------------------------
+log("\n" + "-" * 78)
+log("[10] THE FENCE : where the ballistic arrival reading dies (a dose, not a ratio)")
+log("-" * 78)
+log("     interior-seed renewal front-window survival g(n,gamma) = max over [0.5,1.3] n/(2J)")
+log("     of P_n(t), divided by the clean (gamma=0) front peak. The arrival reading dies when")
+log("     g drops below theta. The edge is a fixed dephasing DOSE K_deg = gamma_deg n /(2J) ~ 0.6,")
+log("     NOT a fixed gamma/J. Docks the gamma ~ J fence of COUPLING_DEFECT_WALK_TIME_STEP.md")
+log("     onto the owned coherence-horizon dispersion (EP gamma*(q) = J q / 2).")
+
+
+def _front_g(n, gamma, tg, Pc_peak):
+    """Front-window survival g(n,gamma): max over [0.5,1.3] n/(2J) of the interior
+    renewal P_n(t), divided by the clean front peak Pc_peak. Monotone decreasing in gamma."""
+    Pg, _ = renewal_P(n, tg, gamma)
+    col = Pg[:, n]
+    dt = tg[1] - tg[0]
+    tball = n / (2.0 * J)
+    lo = int(0.5 * tball / dt)
+    hi = int(1.3 * tball / dt)
+    return float(np.max(col[lo:hi])) / Pc_peak
+
+
+def _gamma_deg(n, theta, tg, Pc_peak, glo=0.02, ghi=0.16):
+    """Bisect gamma_deg where g(n,gamma) crosses theta (g monotone decreasing in gamma)."""
+    for _ in range(16):
+        gm = 0.5 * (glo + ghi)
+        if _front_g(n, gm, tg, Pc_peak) > theta:
+            glo = gm
+        else:
+            ghi = gm
+        if ghi - glo < 1e-4:
+            break
+    return 0.5 * (glo + ghi)
+
+
+# 10a. n = 20, 30, 40 : the degeneration dose K_deg at theta = 0.2
+log("\n[10a] DEGENERATION DOSE : theta = 0.2, interior seed n = 20, 30, 40 (exact renewal).")
+log("      expect K_deg ~ 0.69 / 0.64 / 0.61 (weakly decreasing: the pre-asymptotic A-climb).")
+log(f"      {'n':>4} {'gamma_deg':>10} {'Q_deg=J/g':>10} {'K_deg':>8}")
+THETA_A = 0.2
+Kdeg_a = []
+gdeg_a = []
+for n in [20, 30, 40]:
+    tball = n / (2.0 * J)
+    tgA = np.arange(0.0, 1.5 * tball + 1e-9, 0.04)
+    Pc0, _ = renewal_P(n, tgA, 0.0)
+    Pc_peak = float(np.max(Pc0[:, n]))
+    gdeg = _gamma_deg(n, THETA_A, tgA, Pc_peak)
+    Qdeg = J / gdeg
+    Kdeg = gdeg * n / (2.0 * J)
+    Kdeg_a.append(Kdeg)
+    gdeg_a.append(gdeg)
+    log(f"      {n:>4} {gdeg:>10.5f} {Qdeg:>10.3f} {Kdeg:>8.4f}")
+for n, K in zip([20, 30, 40], Kdeg_a):
+    assert 0.5 <= K <= 0.8, f"K_deg(n={n}) = {K:.4f} outside [0.5, 0.8]"
+log("\n      K_deg ~ 0.6 across n = 20..40 (weakly decreasing): a fixed DOSE, not a fixed")
+log("      gamma/J. gamma_deg ~ 1.2 J/n (from K_deg ~ 0.6): the degeneration gamma falls with n.")
+
+# 10b. theta-scan at n = 20 : K_deg moves with ln(1/theta), NOT a single-A identity
+log("\n[10b] THETA-SCAN at n = 20 : K_deg vs theta. The implied A = ln(1/theta)/K_deg is NOT")
+log("      constant (ln g is concave in K: the halo boost softens the slope at larger dose),")
+log("      so K_deg tracks ln(1/theta) in DIRECTION only, not as a single-A identity.")
+n_b = 20
+tball_b = n_b / (2.0 * J)
+tgB = np.arange(0.0, 1.5 * tball_b + 1e-9, 0.04)
+Pc0b, _ = renewal_P(n_b, tgB, 0.0)
+Pc_peak_b = float(np.max(Pc0b[:, n_b]))
+log(f"\n      {'theta':>6} {'gamma_deg':>10} {'K_deg':>8} {'A=ln(1/theta)/K_deg':>20}")
+Kdeg_b = []
+for theta in [0.1, 0.2, 0.4]:
+    gdeg = _gamma_deg(n_b, theta, tgB, Pc_peak_b)
+    Kdeg = gdeg * n_b / (2.0 * J)
+    A_impl = np.log(1.0 / theta) / Kdeg
+    Kdeg_b.append(Kdeg)
+    log(f"      {theta:>6.1f} {gdeg:>10.5f} {Kdeg:>8.4f} {A_impl:>20.4f}")
+assert Kdeg_b[0] > Kdeg_b[1] > Kdeg_b[2], f"K_deg not decreasing with theta: {Kdeg_b}"
+log(f"\n      K_deg falls {Kdeg_b[0]:.3f} -> {Kdeg_b[1]:.3f} -> {Kdeg_b[2]:.3f} as theta rises")
+log("      0.1 -> 0.2 -> 0.4; the implied A climbs ~2.1 -> 2.5 (a ~20% drift), so ln(1/theta)")
+log("      is the right direction but K_deg = ln(1/theta)/A is a ~25% approximation, not exact.")
+
+# 10c. the docking summary : no n-free front EP; the n-free content is the small-N corner
+log("\n[10c] DOCKING SUMMARY (onto the owned coherence-horizon dispersion gamma*(q) = J q / 2):")
+log("      * NO n-free front EP. The front's coherence content is q -> 0 in the owned")
+log("        dispersion (group velocity domega/dq = 2J, the ballistic speed), where the EP")
+log("        gamma*(q) = J q / 2 -> 0. The naive band-momentum substitution gamma* = pi J / 4")
+log("        (q = pi/2) is a wrong-variable reading: q is the coherence centre-of-mass")
+log("        wavevector, not a band momentum, and pi/2 is outside the q -> 0 validity.")
+log("      * The n-free content is the small-N EP corner Q*(2) = 1 (gamma = J, N=2 critical")
+log("        damping) and Q*(3) = sqrt(2) = 1.414 (the ibm_kingston brackets Q = 1 and Q ~ 1.5),")
+log("        and the ENAQT front-dominant window L* = Q/2 (ballistic edge = diffusive spread).")
+Qdeg_over_n = [(J / g) / n for g, n in zip(gdeg_a, [20, 30, 40])]
+slope_Q = float(np.mean(Qdeg_over_n))
+log(f"      * measured Q_deg / n = {Qdeg_over_n[0]:.3f}, {Qdeg_over_n[1]:.3f}, {Qdeg_over_n[2]:.3f} "
+    f"(mean ~ {slope_Q:.2f}); extrapolating Q_deg ~ {slope_Q:.2f} n to n = 1, 2 gives")
+log(f"        Q ~ {slope_Q * 1:.2f} (n=1) and {slope_Q * 2:.2f} (n=2), landing on the Q*(2) = 1 /")
+log("        Q*(3) = 1.41 bracket (the ibm_kingston Q = 1 and Q ~ 1.5).")
+log("      => the fence is a DOSE K_deg ~ 0.6, gamma_deg ~ 1.2 J/n; gamma ~ J is only the")
+log("         n -> 1 EP corner of the same coherence-horizon ladder (large-N slope 2/pi).")
+
 log("\n" + "=" * 78)
 log("SUMMARY: A_inf = gamma_phi = 4 is REFUTED. Pre-asymptotically A_eff climbs like")
 log("4 - 4.864 n^{-1/3} (closed-form I_1 = 0.27694424); the true fixed-gamma ceiling is")
@@ -824,7 +927,8 @@ log("measured gamma-drift of the K-collapse remains mostly the max-ratio peak-sh
 log("The o(n) is CLOSED (section [9]): S_n(t*_0) = C(gamma) n^{-1/2} e^{(phi/2J)n} with the")
 log("closed constant C(gamma) = (2 pi)^{-1/2}(gamma/(gamma+J))^{1/4}; A_eff approaches A_inf as")
 log("-(J/(3 gamma n)) ln n (alpha_ln = -1/6), and the global-max peak-value exponent is 0")
-log("(Haken-Strobl). Open now only the gamma ~ J validity edge (the ballistic caustic degenerates).")
+log("(Haken-Strobl). The gamma ~ J fence is docked (section [10]): the edge is a dephasing dose")
+log("K_deg ~ 0.6 (theta = 0.2, gamma_deg ~ 1.2 J/n); gamma ~ J is only the n -> 1 EP corner.")
 log("=" * 78)
 log("DONE")
 

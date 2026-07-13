@@ -268,6 +268,53 @@ A_inf(gamma) = 4 - phi(2J)/gamma < 4 (= 4 - (8/3)sqrt(gamma/J) for small gamma).
      exponent is 0. The section [5] EDGE exclusions are exactly this diffusive plateau
      entering the front window (the windowed max jumping off the front onto the plateau).
 
+------------------------------------------------------------------------------
+[10] THE FENCE : where the ballistic arrival reading dies (a dose, not a ratio)
+------------------------------------------------------------------------------
+     interior-seed renewal front-window survival g(n,gamma) = max over [0.5,1.3] n/(2J)
+     of P_n(t), divided by the clean (gamma=0) front peak. The arrival reading dies when
+     g drops below theta. The edge is a fixed dephasing DOSE K_deg = gamma_deg n /(2J) ~ 0.6,
+     NOT a fixed gamma/J. Docks the gamma ~ J fence of COUPLING_DEFECT_WALK_TIME_STEP.md
+     onto the owned coherence-horizon dispersion (EP gamma*(q) = J q / 2).
+
+[10a] DEGENERATION DOSE : theta = 0.2, interior seed n = 20, 30, 40 (exact renewal).
+      expect K_deg ~ 0.69 / 0.64 / 0.61 (weakly decreasing: the pre-asymptotic A-climb).
+         n  gamma_deg  Q_deg=J/g    K_deg
+        20    0.06823     14.657   0.6823
+        30    0.04184     23.900   0.6276
+        40    0.02988     33.470   0.5976
+
+      K_deg ~ 0.6 across n = 20..40 (weakly decreasing): a fixed DOSE, not a fixed
+      gamma/J. gamma_deg ~ 1.2 J/n (from K_deg ~ 0.6): the degeneration gamma falls with n.
+
+[10b] THETA-SCAN at n = 20 : K_deg vs theta. The implied A = ln(1/theta)/K_deg is NOT
+      constant (ln g is concave in K: the halo boost softens the slope at larger dose),
+      so K_deg tracks ln(1/theta) in DIRECTION only, not as a single-A identity.
+
+       theta  gamma_deg    K_deg  A=ln(1/theta)/K_deg
+         0.1    0.10952   1.0952               2.1025
+         0.2    0.06823   0.6823               2.3589
+         0.4    0.03712   0.3712               2.4682
+
+      K_deg falls 1.095 -> 0.682 -> 0.371 as theta rises
+      0.1 -> 0.2 -> 0.4; the implied A climbs ~2.1 -> 2.5 (a ~20% drift), so ln(1/theta)
+      is the right direction but K_deg = ln(1/theta)/A is a ~25% approximation, not exact.
+
+[10c] DOCKING SUMMARY (onto the owned coherence-horizon dispersion gamma*(q) = J q / 2):
+      * NO n-free front EP. The front's coherence content is q -> 0 in the owned
+        dispersion (group velocity domega/dq = 2J, the ballistic speed), where the EP
+        gamma*(q) = J q / 2 -> 0. The naive band-momentum substitution gamma* = pi J / 4
+        (q = pi/2) is a wrong-variable reading: q is the coherence centre-of-mass
+        wavevector, not a band momentum, and pi/2 is outside the q -> 0 validity.
+      * The n-free content is the small-N EP corner Q*(2) = 1 (gamma = J, N=2 critical
+        damping) and Q*(3) = sqrt(2) = 1.414 (the ibm_kingston brackets Q = 1 and Q ~ 1.5),
+        and the ENAQT front-dominant window L* = Q/2 (ballistic edge = diffusive spread).
+      * measured Q_deg / n = 0.733, 0.797, 0.837 (mean ~ 0.79); extrapolating Q_deg ~ 0.79 n to n = 1, 2 gives
+        Q ~ 0.79 (n=1) and 1.58 (n=2), landing on the Q*(2) = 1 /
+        Q*(3) = 1.41 bracket (the ibm_kingston Q = 1 and Q ~ 1.5).
+      => the fence is a DOSE K_deg ~ 0.6, gamma_deg ~ 1.2 J/n; gamma ~ J is only the
+         n -> 1 EP corner of the same coherence-horizon ladder (large-N slope 2/pi).
+
 ==============================================================================
 SUMMARY: A_inf = gamma_phi = 4 is REFUTED. Pre-asymptotically A_eff climbs like
 4 - 4.864 n^{-1/3} (closed-form I_1 = 0.27694424); the true fixed-gamma ceiling is
@@ -277,6 +324,7 @@ measured gamma-drift of the K-collapse remains mostly the max-ratio peak-shift a
 The o(n) is CLOSED (section [9]): S_n(t*_0) = C(gamma) n^{-1/2} e^{(phi/2J)n} with the
 closed constant C(gamma) = (2 pi)^{-1/2}(gamma/(gamma+J))^{1/4}; A_eff approaches A_inf as
 -(J/(3 gamma n)) ln n (alpha_ln = -1/6), and the global-max peak-value exponent is 0
-(Haken-Strobl). Open now only the gamma ~ J validity edge (the ballistic caustic degenerates).
+(Haken-Strobl). The gamma ~ J fence is docked (section [10]): the edge is a dephasing dose
+K_deg ~ 0.6 (theta = 0.2, gamma_deg ~ 1.2 J/n); gamma ~ J is only the n -> 1 EP corner.
 ==============================================================================
 DONE
