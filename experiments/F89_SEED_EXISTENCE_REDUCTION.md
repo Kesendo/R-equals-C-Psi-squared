@@ -855,6 +855,13 @@ sees every sorted triple exactly once, so the sector Gram is ⟨D_τ, D_σ⟩ = 
 > deterministic grid + CRT computation, modulo the assembly (D). See "The variety identity, proved over
 > ℚ(i)" below for the updated grade table.
 
+> **Extended off-resonance 2026-07-14 (F130).** This whole four-cell table turned out to be a table
+> about level COINCIDENCE, not about vanishing: for any two distinct triples with equal levels
+> S(τ) = S(σ) ≠ 0 the same four cells close (the assembly (D) was a free-angle identity all along,
+> F128 supplies 𝔉 = 0 on {e₁ = f₁}, the two-magnon lemma consumes only the equality of the
+> complements' pair energies), so B(τ, σ) = 0 at every level collision, resonant or not. See
+> [PROOF_F130_COLLISION_DECOUPLING](../docs/proofs/PROOF_F130_COLLISION_DECOUPLING.md).
+
 So the compression [[X, Y], [Y, X]] is legitimate, the full-spectrum twinning follows at every resonant
 N, and the cell law's cheapest kill can no longer fire, **at certificate grade, not proof grade**. The
 one load-bearing hole is a ℚ-level proof that 𝔉 vanishes on the variety, and one level below it a

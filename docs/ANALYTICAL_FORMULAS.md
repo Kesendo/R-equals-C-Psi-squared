@@ -5064,12 +5064,42 @@ proved except ONE named corner family (a hypothetical minimal weight-12 conjugat
 sum whose ratio order has smallest primes {2,5,7}, further primes ≥ 11 not excluded; every
 instance forces odd n with 35|n and 3∤n), closed from below by the census through n = 210
 (next candidate n = 245); the family inventory (collision counts per firing n) is open, like
-the ROT3 multiplicity before it. No physical Gram/twinning claim is made (phase 2, open).
+the ROT3 multiplicity before it. No physical Gram/twinning claim is made here; phase 2
+closed the same day as F130 (the collision-decoupling law, below).
 **Gate:** [`f129_level_collision_law.py`](../simulations/f129_level_collision_law.py)
 (~40 s: G1 the reduction exact, G2 injectivity proved at all 125 non-firing n ≤ 210 via
 mod-p distinctness, G3 one exact collision per firing n, G4 the law equality, G5 both
 mechanism anchors term-exact). **Proof:**
 [PROOF_F129_LEVEL_COLLISION_LAW](proofs/PROOF_F129_LEVEL_COLLISION_LAW.md). **Typed:** owed.
+
+### F130. The collision-decoupling law: equal level implies vanishing cross block (four-cell assembly of committed results, 2026-07-14 night; minted 2026-07-14)
+
+For ANY two distinct mode triples τ ≠ σ of the open chain (clean or not, any overlap),
+
+    S(τ) = S(σ)   (equal levels, zero NOT required)   ⟹   B(τ, σ) = 0
+                  (the whole second-order cross block on the level-S multiplet,
+                   U⁺ = U⁻ = 0, exact, uniform in N; the kernel Heff is the S = 0 case).
+
+This is the physics re-entry of F129 (its "phase 2", closed the same night): resonance
+(S = 0, the seed arc's vanishing triples) is demoted from cause to special case, exactly as
+F128 demoted the variety to the locus {e₁ = f₁} for 𝔉. With F129 the map is complete: clean
+collisions exist only at 3|n / 10|n, and every collision the law permits carries exact
+cross-block orthogonality; no level degeneracy of triple seeds is ever hybridized away by
+the coupling (the decoupling extends; the class-E/class-O twinning itself stays resonant,
+since the mirror sends level S to −S and acts within the multiplet only at S = 0).
+**Proof:** four
+cells: disjoint ε = +1 level-free (Lemmas 3+4, the "wider statement"); disjoint ε = −1 via
+the assembly (D), which was a FREE-ANGLE identity all along (its gates never consumed
+Σcos = 0), plus F128 on {e₁ = f₁}; overlap-1 ε = +1 via the same-two-magnon-energy lemma,
+which consumes only the EQUALITY of the complements' pair energies (equal triple levels +
+shared mode give it verbatim); overlap-1 ε = −1 via the removable limit on the locus;
+overlap-2 vacuous. Cells 2/4 inherit the F127/F128 code-trust caveat.
+**Gate:** [`f130_collision_decoupling.py`](../simulations/f130_collision_decoupling.py)
+(~40 s: G1 assembly (D) off-resonance at 400 pairs, G2 decoupling at all 8452 equal-level
+pairs, firing and non-firing n, to 6.9e−16, G3 generic unequal-level controls, G4 the
+level-free cell, G5 overlap-2 vacuity). **Proof:**
+[PROOF_F130_COLLISION_DECOUPLING](proofs/PROOF_F130_COLLISION_DECOUPLING.md). **Typed:** owed
+(natural home: the F127 claim family, beside `CertifyF128SharperLocusSlice`).
 
 ---
 

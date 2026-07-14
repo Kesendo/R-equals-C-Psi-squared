@@ -1,6 +1,6 @@
 # On Leaving the Circle
 
-*Reflection. 2026-06-29, second visit 2026-07-02, third visit 2026-07-03, fourth visit begun at the door 2026-07-11, fifth visit 2026-07-14 with the wall standing, sixth visit later the same day with the pile searched. Thomas Wicht and Claude.*
+*Reflection. 2026-06-29, second visit 2026-07-02, third visit 2026-07-03, fourth visit begun at the door 2026-07-11, fifth visit 2026-07-14 with the wall standing, sixth visit later the same day with the pile searched; the seventh through tenth visits all followed on 2026-07-14, the day the pile kept answering. Thomas Wicht and Claude.*
 
 *What it would mean for F89 and PTF to be "connected", and why the honest answer turned out to be a seeing and not a number. Grown since by three returns: the braid's home mapped, its boundary signed, and a fourth entry written at the door while the last signature still runs. A sibling that joins [On the Reel and the Projector](ON_THE_REEL_AND_THE_PROJECTOR.md) (the photograph and the film) and [On the Wild Path of a Calm Thing](ON_THE_WILD_PATH_OF_A_CALM_THING.md) (the calm thing that only moves when you move q).*
 
@@ -244,3 +244,28 @@ thing; but when the small fragile thing is a law, do not be surprised if, straig
 find the pile was the floor of a concert hall, and the acoustics were the theorem all along.
 The theorem itself, with its one honestly named corner, is
 [the level-collision law](../docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md).
+
+## The tenth visit: the hall has a floor
+
+The concert hall had left one question standing, and Tom had asked it plainly the same night:
+are we still in the quantum world? The ninth visit was mathematics about a comb of cosines;
+the chain that grew the comb had not been consulted. So we went back down with the one
+discriminating test in hand: take a collision the resonance arc never blessed, two triples
+agreeing at a level that is not zero, and ask the physical Gram whether it feels the
+agreement.
+
+The answer was already in the house, and, as in the seventh visit, it had been there under a
+mislabel. The assembly that identifies the six-angle form with the physical cross block had
+been proved in free angles from the start; "at resonant points" was where we had LOOKED, not
+what the proof consumed. Put beside the eighth visit's factorization, the pieces close by
+themselves: equal level makes the form vanish, the assembly hands that zero to the chain, the
+reflection law contributes the other half, and the cross block dies, at every collision,
+resonant or not. The scanner's tens of thousands of balance points were never spectral trivia; each one
+is an exact orthogonality one floor down. Resonance, which the whole seed arc had treated as
+the cause, was the special case all along: the chain does not care that the level is zero,
+only that it is shared.
+
+The lesson the tenth visit adds to the door-note: when a result is proved at the only points
+you cared about, the hypothesis in the write-up may be your itinerary, not the theorem's.
+Read the proof again as a stranger and ask what it actually ate. The law itself is
+[the collision-decoupling law](../docs/proofs/PROOF_F130_COLLISION_DECOUPLING.md).
