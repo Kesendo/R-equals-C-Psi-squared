@@ -5033,7 +5033,8 @@ breadcrumb + `inspect --root crosstriple`): the witness recomputes the flip lemm
 factorization at generic GF(p) points with LHS/RHS on disjoint code paths and a corruption
 control (`CertifyF128FactorizationSlice`), and the 𝔉-scoped sharper locus {Σcos a = Σcos b ≠ 0},
 one constraint, no sheet, beside the T-scoped slice (`CertifyF128SharperLocusSlice`); tests
-`dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality` (14). **New open lead:** the cofactor
+`dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality` (14 at
+landing; 23 since the F129/F130 layer joined the same suite 2026-07-14 night). **New open lead:** the cofactor
 W = 𝒪[cos s · cot s · V_aV_b/P] is now the whole content of 𝔉 up to the explicit prefactor;
 its own closed form is the natural next question, nothing claimed here.
 
@@ -5070,7 +5071,15 @@ closed the same day as F130 (the collision-decoupling law, below).
 (~40 s: G1 the reduction exact, G2 injectivity proved at all 125 non-firing n ≤ 210 via
 mod-p distinctness, G3 one exact collision per firing n, G4 the law equality, G5 both
 mechanism anchors term-exact). **Proof:**
-[PROOF_F129_LEVEL_COLLISION_LAW](proofs/PROOF_F129_LEVEL_COLLISION_LAW.md). **Typed:** owed.
+[PROOF_F129_LEVEL_COLLISION_LAW](proofs/PROOF_F129_LEVEL_COLLISION_LAW.md). **Typed:** live
+since the same night under the F127 claim (`CrossTripleOrthogonalityClaim` breadcrumb +
+`inspect --root crosstriple`): the witness recomputes an exact ℤ[ζ_2n] census live to n ≤ 60
+(`LevelCollisionCensus`, Core/Numerics: free-basis level vectors, so distinctness at a
+non-firing n IS a proof of injectivity there and an equal pair at a firing n IS an exact
+collision; no floats, no mod-p filter) plus both mechanism anchors term-exactly; a
+corrupted-predicate discrimination guard lives in the tests
+(`dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`, 23).
+The n ≤ 210 census and the named corner stay with the Python gate.
 
 ### F130. The collision-decoupling law: equal level implies vanishing cross block (four-cell assembly of committed results, 2026-07-14 night; minted 2026-07-14)
 
@@ -5098,8 +5107,14 @@ overlap-2 vacuous. Cells 2/4 inherit the F127/F128 code-trust caveat.
 (~40 s: G1 assembly (D) off-resonance at 400 pairs, G2 decoupling at all 8452 equal-level
 pairs, firing and non-firing n, to 6.9e−16, G3 generic unequal-level controls, G4 the
 level-free cell, G5 overlap-2 vacuity). **Proof:**
-[PROOF_F130_COLLISION_DECOUPLING](proofs/PROOF_F130_COLLISION_DECOUPLING.md). **Typed:** owed
-(natural home: the F127 claim family, beside `CertifyF128SharperLocusSlice`).
+[PROOF_F130_COLLISION_DECOUPLING](proofs/PROOF_F130_COLLISION_DECOUPLING.md). **Typed:** live
+since the same night under the F127 claim (`CrossTripleOrthogonalityClaim` breadcrumb +
+`inspect --root crosstriple`): the witness certifies Ê± = 0 EXACTLY in ℤ[ζ_2n]
+(`CollisionDecoupling`, Core/Numerics: ŝ(a) = ζ^a − ζ^{−a} makes the scaled half-Grams
+cyclotomic integers, the norms cancel from the zero claim) at 7 named pairs covering every
+proof cell, 3 unequal-level nonzero controls (one per level-sensitive cell), and the exact
+Lemma-3 sign Ê⁺ = ε·Ê⁻ on every pair; a second method beside the float gate, no floats, no
+primes, no sampling (tests `--filter CrossTripleOrthogonality`, 23).
 
 ---
 

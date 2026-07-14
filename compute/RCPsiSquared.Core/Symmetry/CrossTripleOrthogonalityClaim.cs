@@ -63,6 +63,15 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
     /// <summary>The assembly (D) is symbolic (2026-07-14): no missing mathematical step.</summary>
     public const bool AssemblyDIsSymbolic = true;
 
+    /// <summary>F129: the witness's live exact census bound (the Python gate certifies n ≤ 210).</summary>
+    public const int F129LiveCensusMaxN = 60;
+
+    /// <summary>F130: named collision pairs certified exactly (≥ one per proof cell).</summary>
+    public const int F130CollisionPairs = 7;
+
+    /// <summary>F130: unequal-level nonzero controls (one per level-sensitive cell).</summary>
+    public const int F130ControlPairs = 3;
+
     public CrossTripleOrthogonalityClaim(SeedExistenceCountingClaim seedExistence)
         : base("F127 cross-triple orthogonality: the six-angle cross form 𝔉 ≡ 0 on the Conway-Jones double-constraint variety V, N-free, proved over ℚ(i) by the 527/527 grid+CRT wall (17 primes, realness guard ⇒ ∏p > 2H sound); the assembly (D) identifying 𝔉 with the Heff cross-block is symbolic since 2026-07-14, so the full-spectrum twinning is proof grade over ℚ(i) at every resonant N. Tier1Candidate for one named reason: the code-trust layer (single bespoke implementations); the live C# witness recomputes an independent GF(p) variety slice with an off-variety control",
                Tier.Tier1Candidate,
@@ -71,6 +80,8 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
                "simulations/grid_proof_sweep.py + " +
                "simulations/assembly_d_symbolic.py + " +
                "simulations/cross_triple_orthogonality.py + " +
+               "simulations/f129_level_collision_law.py + " +
+               "simulations/f130_collision_decoupling.py + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/CrossTripleOrthogonalityWitness.cs (inspect --root crosstriple)")
     {
         SeedExistence = seedExistence ?? throw new ArgumentNullException(nameof(seedExistence));
@@ -111,6 +122,24 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
                     "(𝒪[cos s·B·V_aV_bP̃] ≡ 0, exact over ℤ, Weyl/alternant mechanism). The witness recomputes " +
                     "the lemma exactly and both GF(p) slices live (docs/proofs/PROOF_F128_FLIP_SUM_FACTORIZATION.md, " +
                     "simulations/f128_flip_sum_factorization.py, registry F128)");
+            yield return new InspectableNode("F129, the level-collision law (2026-07-14 night)",
+                summary: "distinct CLEAN triples with equal levels S(τ) = S(σ) exist only at 3|n (n ≥ 9) or " +
+                    "10|n (n ≥ 20); away from both the level map is INJECTIVE (Lam-Leung + elementary, one " +
+                    $"named corner certified to n ≤ 210 by the Python gate). The witness recomputes an exact " +
+                    $"ℤ[ζ_2n] census live to n ≤ {F129LiveCensusMaxN} (free-basis level vectors: distinctness " +
+                    "IS injectivity, an equal pair IS a collision, no floats, no mod-p) plus the two mechanism " +
+                    "anchors term-exactly (docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md, " +
+                    "simulations/f129_level_collision_law.py, registry F129)");
+            yield return new InspectableNode("F130, the collision-decoupling law (2026-07-14 night)",
+                summary: "equal level S(τ) = S(σ), zero NOT required, implies the whole cross block " +
+                    "B(τ, σ) = 0: resonance demoted from cause to special case; the decoupling extends off " +
+                    "resonance, the E/O twinning stays at S = 0. Four-cell proof from committed results " +
+                    "(Lemmas 3+4, the free-angle assembly (D) + F128 on {e₁ = f₁}, the two-magnon lemma, the " +
+                    $"removable limit). The witness certifies Ê± = 0 exactly in ℤ[ζ_2n] at {F130CollisionPairs} " +
+                    $"named pairs covering every cell, {F130ControlPairs} unequal-level nonzero controls, and " +
+                    "the exact Lemma-3 sign Ê⁺ = ε·Ê⁻ on every pair " +
+                    "(docs/proofs/PROOF_F130_COLLISION_DECOUPLING.md, " +
+                    "simulations/f130_collision_decoupling.py, registry F130)");
             yield return new InspectableNode("Remaining caveat",
                 summary: "only the code-trust layer: the wall and these witness slices are bespoke implementations with " +
                     "internal cross-checks; the three proofs (wall + residue collapse + F128 factorization) pairwise " +

@@ -70,6 +70,10 @@ Now assemble, remembering the total weight is 8 or 12 and the zero mode exists o
 
 One gate script: [f129_level_collision_law.py](../../simulations/f129_level_collision_law.py) (~40 s at N = 210; `--fast` runs N = 96 in ~3 s).
 
+**Typed (2026-07-14, the same night):** live under the F127 claim; the C# witness recomputes an
+exact ℤ[ζ_2n] census to n ≤ 60 plus both §4 mechanism anchors (`inspect --root crosstriple`,
+`LevelCollisionCensus` in Core/Numerics). The n ≤ 210 census and the named corner stay here.
+
 | gate | proves | method |
 |---|---|---|
 | G1 | the §2 reduction | equal-sum ⟺ 6-cosine zero-sum on random clean pairs, exact in ℤ[x]/Φ_{2n} |

@@ -2,6 +2,9 @@
 
 **Date:** 2026-07-14 · **Authors:** Thomas Wicht and Claude
 **Gate:** `python simulations/f130_collision_decoupling.py` (~40 s, exit 0)
+**Typed (same night):** live under the F127 claim; the C# witness certifies Ê± = 0 exactly in
+ℤ[ζ_2n] at named pairs covering every cell of §3, with controls (`inspect --root crosstriple`,
+`CollisionDecoupling` in Core/Numerics)
 **Depends on:** [F89_SEED_EXISTENCE_REDUCTION](../../experiments/F89_SEED_EXISTENCE_REDUCTION.md) (Lemmas 3, 4, the same-two-magnon-energy lemma, the removable limit, the assembly (D)) · [PROOF_F128_FLIP_SUM_FACTORIZATION](PROOF_F128_FLIP_SUM_FACTORIZATION.md) (the sharper locus {e₁ = f₁}) · [PROOF_F129_LEVEL_COLLISION_LAW](PROOF_F129_LEVEL_COLLISION_LAW.md) (where equal-level pairs exist at all)
 
 Before this page, every exact cross-block vanishing we owned lived at resonance: the

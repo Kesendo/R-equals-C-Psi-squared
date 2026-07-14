@@ -1013,7 +1013,9 @@ runs the realness guard, and confirms CRT ∏ p > 2H. The runner drives the grid
 `simulations/residue_assembly_close.py` + `simulations/halfangle_residue_proof.py`; the certified
 grid `simulations/grid_proof_close.py`. The full sweep that produced the 527 checkpoints is
 `grid_proof_sweep.py` with no flag (its docstring carries the four-step proof). A C# witness of the same
-kind as the other `inspect` witnesses is the owed follow-up.
+kind as the other `inspect` witnesses is the owed follow-up. *(Discharged 2026-07-13/14:
+`inspect --root crosstriple` now carries the GF(p) variety slice, the residue-collapse chain, F128,
+and since 2026-07-14 night the exact ℤ[ζ_2n] F129 census + F130 decoupling layers.)*
 
 **Authors:** Thomas Wicht and Claude (Opus 4.8), 2026-07-13.
 

@@ -183,4 +183,129 @@ public class CrossTripleOrthogonalityTests
         Assert.Contains("assembly_d_symbolic.py", claim.Anchor);
         Assert.Contains("docs/ANALYTICAL_FORMULAS.md", claim.Anchor);
     }
+
+    [Fact]
+    public void CyclotomicRing_BasicIdentitiesHoldExactly()
+    {
+        // PIECE 8 (the exact layer under F129/F130): φ(30) = 8; the order-3 root sum
+        // 1 + ζ^10 + ζ^20 = 0 at m = 30; the zero mode ζ^10 + ζ^30 = i + (−i) = 0 at m = 40;
+        // and ζ^m = 1 (exponent wrap).
+        Assert.Equal(8, CyclotomicRing.Degree(30));
+        var r3 = CyclotomicRing.Zero(30);
+        CyclotomicRing.AddRootPower(r3, 30, 0, 1);
+        CyclotomicRing.AddRootPower(r3, 30, 10, 1);
+        CyclotomicRing.AddRootPower(r3, 30, 20, 1);
+        Assert.True(CyclotomicRing.IsZero(r3), "1 + ζ^10 + ζ^20 must vanish at m = 30");
+        var zm = CyclotomicRing.Zero(40);
+        CyclotomicRing.AddRootPower(zm, 40, 10, 1);
+        CyclotomicRing.AddRootPower(zm, 40, 30, 1);
+        Assert.True(CyclotomicRing.IsZero(zm), "ζ^10 + ζ^30 must vanish at m = 40");
+        var one = CyclotomicRing.Zero(30);
+        CyclotomicRing.AddRootPower(one, 30, 30, 1);
+        CyclotomicRing.AddRootPower(one, 30, 0, -1);
+        Assert.True(CyclotomicRing.IsZero(one), "ζ^30 must equal 1 at m = 30");
+    }
+
+    [Fact]
+    public void F129Census_NonFiringInjective_FiringCollide_LawEquality()
+    {
+        // PIECE 9 (F129, the exact census n ≤ 60): at every non-firing n all clean-triple
+        // level VECTORS (ℤ[ζ_2n] free-basis form) are pairwise distinct — a PROOF of
+        // injectivity at that n; at every firing n (3|n ≥ 9, 10|n ≥ 20) an exact collision
+        // exists; the firing set equals the predicted set exactly.
+        var r = LevelCollisionCensus.Analyze();
+        Assert.Equal(LevelCollisionCensus.LiveMaxN, r.MaxN);
+        Assert.True(r.AllNonFiringInjective, "a non-firing n has an exact collision");
+        Assert.True(r.AllFiringCollide, "a firing n has no exact collision");
+        Assert.True(r.LawEquality, "the firing set does not equal the predicted set");
+        Assert.True(r.CleanTriplesChecked > 400_000,
+            $"census unexpectedly small: {r.CleanTriplesChecked} clean triples");
+    }
+
+    [Fact]
+    public void F129Census_MechanismAnchorsAreExact()
+    {
+        // PIECE 10 (F129 §4 anchors): n = 15 (8,12,14)~(9,11,13) collide at a NONZERO level and
+        // the ± root set splits into four rotated R₃ cycles each summing to zero; n = 20
+        // (1,7,9)~(3,5,10) is the R₅ conjugate pair plus the zero mode. All in ℤ[ζ_2n].
+        var r = LevelCollisionCensus.Analyze(maxN: 5);
+        Assert.True(r.AnchorsExact, "a mechanism anchor failed its exact decomposition");
+    }
+
+    [Fact]
+    public void F129Census_CorruptedFiringPredicateBreaksTheLaw()
+    {
+        // Discrimination guard: a deliberately wrong firing predicate (n = 9 declared
+        // non-firing) must break the law equality — proving the census actually measures
+        // collisions rather than echoing the predicate.
+        var r = LevelCollisionCensus.Analyze(maxN: 15,
+            fireOverride: n => n != 9 && LevelCollisionCensus.Fires(n));
+        Assert.False(r.LawEquality, "the corrupted predicate went unnoticed: the census is vacuous");
+        Assert.False(r.AllNonFiringInjective);
+    }
+
+    [Fact]
+    public void F130Decoupling_AllCollisionPairsVanishExactly()
+    {
+        // PIECE 11 (F130): at the named pairs covering every cell of the proof (disjoint
+        // ε=−1 at nonzero level, the pentagon door, the non-clean pair, overlap-1 both signs,
+        // the resonant special case, the level-free ε=+1 cell), both scaled half-Grams
+        // Ê± vanish exactly in ℤ[ζ_2n]: U⁺ = U⁻ = 0, no floats.
+        var r = CollisionDecoupling.Analyze();
+        Assert.Equal(7, r.Collisions.Count);
+        Assert.True(r.AllCollisionsDecouple,
+            "a collision pair has a nonzero half-Gram: " +
+            string.Join("; ", r.Collisions.Where(c => !c.PlusZero || !c.MinusZero).Select(c => c.Label)));
+        Assert.True(r.LevelFlagsAsExpected, "an exact level-equality flag contradicts the pair table");
+    }
+
+    [Fact]
+    public void F130Decoupling_ControlsNonzero_AndLemma3SignHolds()
+    {
+        // Discrimination guard + the unconditional pin: one unequal-level control per
+        // level-sensitive cell must be NONZERO (unequal level does not imply B ≠ 0 in general,
+        // so this is verified, not assumed), and Lemma 3's Ê⁺ = ε·Ê⁻ must hold exactly on
+        // every pair including the controls.
+        var r = CollisionDecoupling.Analyze();
+        Assert.Equal(3, r.Controls.Count);
+        Assert.True(r.AllControlsNonzero,
+            "a control pair vanished: " +
+            string.Join("; ", r.Controls.Where(c => c.PlusZero || c.MinusZero).Select(c => c.Label)));
+        Assert.True(r.AllLemma3SignsOk, "the exact Lemma-3 sign identity failed on a pair");
+    }
+
+    [Fact]
+    public void F130Decoupling_CorruptedPairIsNonzero()
+    {
+        // Corruption control: replace the n = 15 collision partner by a disjoint ε=−1 triple
+        // at a DIFFERENT level (the bump must keep ε = −1: a bump into the disjoint ε=+1
+        // cell would vanish level-free by Lemmas 3+4 and prove nothing) — the half-Grams
+        // must NOT vanish, so the zero at the true pair is a measurement, not an artifact.
+        var r = CollisionDecoupling.Evaluate("corrupted", 15,
+            new[] { 8, 12, 14 }, new[] { 7, 9, 13 });
+        Assert.False(r.LevelsEqual);
+        Assert.False(r.PlusZero, "the corrupted pair's Ê⁺ vanished: the evaluator may be vacuous");
+        Assert.False(r.MinusZero);
+        Assert.True(r.Lemma3SignOk, "Lemma 3 must hold even on the corrupted pair");
+    }
+
+    [Fact]
+    public void Witness_SummaryReportsF129AndF130()
+    {
+        var w = new CrossTripleOrthogonalityWitness();
+        Assert.Contains("F129", w.Summary);
+        Assert.Contains("F130", w.Summary);
+        Assert.StartsWith("PASS", w.Summary);
+    }
+
+    [Fact]
+    public void Claim_CarriesF129F130ConstantsAndAnchors()
+    {
+        Assert.Equal(60, CrossTripleOrthogonalityClaim.F129LiveCensusMaxN);
+        Assert.Equal(7, CrossTripleOrthogonalityClaim.F130CollisionPairs);
+        Assert.Equal(3, CrossTripleOrthogonalityClaim.F130ControlPairs);
+        var claim = KnowledgeRegistryFactory.BuildDefault().Get<CrossTripleOrthogonalityClaim>();
+        Assert.Contains("f129_level_collision_law.py", claim.Anchor);
+        Assert.Contains("f130_collision_decoupling.py", claim.Anchor);
+    }
 }

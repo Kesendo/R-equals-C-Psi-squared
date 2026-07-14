@@ -611,8 +611,13 @@ public static class OpenArcsRegistry
                 "grade over Q(i) with no missing step). The fragile-thing hunt CLOSED 2026-07-14 " +
                 "(docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md: the sheet lattice, the nine-term core identity via " +
                 "resultant divisibility, the transport lemma, the oddness collapse, the mirror anchor; the wall " +
-                "stays as the independent certificate); witness + typed claim landed c745623. REMAINING on this arc: " +
-                "extending the C# witness to the residue-collapse chain, code-trust layer. Earlier context follows. " +
+                "stays as the independent certificate); witness + typed claim landed c745623; the witness extension to the " +
+                "residue-collapse chain landed with F128 (95692be). UPDATE 2026-07-14 night: F129 (the level-collision law, " +
+                "PROOF_F129_LEVEL_COLLISION_LAW) + F130 (the collision-decoupling law, PROOF_F130_COLLISION_DECOUPLING, " +
+                "phase 2 closed: equal level implies B = 0, resonance a special case) landed with their C# witness layer " +
+                "(LevelCollisionCensus + CollisionDecoupling, exact Z[zeta_2n], inspect --root crosstriple). REMAINING on " +
+                "this arc: the code-trust layer (named, narrowing with each independent implementation), F129's named " +
+                "corner + family inventory, W's closed form. Earlier context follows. " +
                 "RESUMING IN ONE LINE (2026-07-06, post N=11 completion; step 3 landed through N=11 via the sparse path) [symbols: see the TERMS block at " +
                 "the END of this header]: STEP 3 OF THE LARGE-N EXCLUSION PROGRAM IS RUN AND LANDED. The instrument " +
                 "(SectorShellCensus + ShiftedSigmaMin + BlockLattice + RealDefectiveSeeds + the general (p,w) R-parity " +
