@@ -75,7 +75,7 @@ One gate script: [f129_level_collision_law.py](../../simulations/f129_level_coll
 | G1 | the §2 reduction | equal-sum ⟺ 6-cosine zero-sum on random clean pairs, exact in ℤ[x]/Φ_{2n} |
 | G2 | injectivity at every non-firing n ≤ 210 | all clean-triple levels pairwise distinct mod p ≡ 1 (mod 2n) (exact equality implies mod-p equality, so distinctness is PROOF); mod-p candidates refuted exactly |
 | G3 | the converse at every firing n | one exact collision exhibited per n, cyclotomic |
-| G4 | the law equality | firing set == {3|n, n ≥ 9} ∪ {10|n, n ≥ 20}, no exceptions |
+| G4 | the law equality | firing set == {3\|n, n ≥ 9} ∪ {10\|n, n ≥ 20}, no exceptions |
 | G5 | the two mechanisms | n = 15: four rotated R₃'s partition the 12 roots; n = 20: R₅-pair + zero mode; term-exact |
 
 The census layer doubles as the independent certificate for the named corner. The exploratory scouts that found the law (the dark-fringe scanner, the density census) stayed local per the WIP policy; everything load-bearing is in the gate above.
