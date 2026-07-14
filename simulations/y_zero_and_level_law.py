@@ -83,6 +83,19 @@ block between two triples; X = B(tau,tau), Y = B(tau,tau'); k(tau) := k1+k2+k3 i
       shared), and at EVEN N every mirror pair has reflection sign -1 yet Y = 0 anyway.
       So the sign obstruction belongs to this proof, not to the phenomenon.
 
+      RESOLVED 2026-07-13/14 (this note added 2026-07-14; the paragraph above is kept as the
+      historical framing): the "open" population (reflection sign -1, which at even N is EVERY
+      mirror pair) is now PROOF GRADE over Q(i). The informative half at eps = -1 is
+      U+ - U- = (2/n)^3 * cross_form(a; b), and cross_form == 0 on the double-constraint
+      variety is F127 (grid+CRT wall, commit 05b5b82; structural proof
+      docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md incl. the 2026-07-14 closed form,
+      simulations/f127_closed_form.py); the identification is the symbolic assembly (D)
+      (simulations/assembly_d_symbolic.py, parity-independent: gate S3 is proved in six FREE
+      angles, and the Theta_0/antipodal branch is provably vacuous at odd n = even N). With
+      Lemma 3's free U+ + U- = 0 this gives U+ = U- = 0, hence Y = 0 and the full-spectrum
+      twinning, at EVERY N. The remaining caveat is code trust only (see the F127 registry
+      entry). The measurements below stay as from-below pins, no longer as the only evidence.
+
 Run: python simulations/y_zero_and_level_law.py         (N = 11, 17; measured 3.4 s)
      python simulations/y_zero_and_level_law.py 23 29   (adds N = 23 and N = 29, the first
                                                          PENT pair; measured 30 s)
@@ -416,8 +429,9 @@ def main():
     print("\nAll steps verified. Y = 0 is a theorem, uniform in N, for every triple mode-disjoint from\n"
           "its mirror; the pair block is X = a*[[1,1,0],[1,2,1],[0,1,1]], spec (3a, a, 0), with\n"
           "a*n = 12 - sum lam^2 = 6 (ROT3) or 8 (PENT).\n"
-          f"STILL OPEN: {still_open} cross-triple blocks (over the N run here) are measured zero,\n"
-          "not proved; the full-spectrum twinning rests on them. See (J).")
+          f"CLOSED SINCE 2026-07-13/14: the {still_open} cross-triple blocks measured zero here\n"
+          "are proof grade over Q(i) via F127 (cross_form == 0 on V) + the symbolic assembly (D);\n"
+          "see (J)'s RESOLVED note. The measurements stand as from-below pins.")
 
 
 if __name__ == "__main__":
