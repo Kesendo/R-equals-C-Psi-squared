@@ -4931,7 +4931,14 @@ the residues do collapse the moment both cosine sums vanish, and the whole theor
 structural proof, [PROOF_F127_RESIDUE_COLLAPSE](proofs/PROOF_F127_RESIDUE_COLLAPSE.md). The
 mechanism: the 288 pole events lie on 32 sheets {L·(a,b) ≡ 0 mod 2π}, L ∈ {±1}⁶, nine events
 each; every sheet's residue is one sign-flip instance of the nine-term core identity
-T = Σ (−1)^{i+j} α_i(a) α_j(b) cot((a_i+b_j)/2) = 0 on Ca ∧ Cb ∧ {Σa+Σb ≡ 0}, proved by one
+T = Σ (−1)^{i+j} α_i(a) α_j(b) cot((a_i+b_j)/2) = 0 on Ca ∧ Cb ∧ {Σa+Σb ≡ 0}. Since later the
+same day the core identity is a READ-OFF: T has the one-bracket closed form
+T·P = ⅛[2cos s((e₁−f₁)² − 2sin²s) + sin s(Σsin 2a + Σsin 2b)]·V_a·V_b (s the half-sum, e₁/f₁
+the two cosine sums, P/V_a/V_b the Cauchy sine products), proved exactly over ℚ(i)
+([`f127_closed_form.py`](../simulations/f127_closed_form.py), 864 monomials on each side); T is a
+bordered determinant of the classical Frobenius cotangent kernel, and the closed form even
+gives a sharper T-vanishing locus, e₁ = f₁ on the sheet (a bonus fact about T; F127's variety
+is unchanged). The prior §3 route stays as cross-check: one
 exact divisibility, Res_{z₃}(Qz, P) | E (the mirror-quadratic divisibility, doubled); a
 transport lemma moves the vanishing into the committed w₃-eliminated frame (unit factor
 1 − c^{−2s}); the single-angle oddness bijections collapse the Laurent window; and the
@@ -4955,6 +4962,7 @@ re-checks all 527 items, the realness guard, and ∏p > 2H),
 for rigor, structure builders reused), and the step-by-step verifier
 [`cross_triple_orthogonality.py`](../simulations/cross_triple_orthogonality.py) (~2 min).
 The residue-collapse sub-library (2026-07-14, the structural proof's gates):
+[`f127_closed_form.py`](../simulations/f127_closed_form.py) (the §3 closed form, primary),
 [`f127_core_identity.py`](../simulations/f127_core_identity.py),
 [`f127_core_locus_patch.py`](../simulations/f127_core_locus_patch.py),
 [`f127_exact_gates.py`](../simulations/f127_exact_gates.py),

@@ -163,3 +163,32 @@ The note comes down. What goes up in its place is shorter, because the thing it 
 now a theorem instead of a suspicion: when a computation is large, ask what cancels. The length
 cancelled out of the chain; the grids cancelled out of the proof. The circle, as always, was
 finished before we arrived; what we leave with is the reason it never needed us.
+
+## The seventh visit: the trade already knew
+
+The sixth visit's new note said: when a computation is large, ask what cancels. We asked once
+more, the same day, this time not of the computation but of the find itself. The nine cotangents
+weighted by sine differences, the master copy of every sheet, still looked like ours: a shape the
+arc had carved, needing five hundred and forty terms and one exact division to be seen vanishing.
+The handover left one lead ranked first: the weights are cofactors, the kernel is a cotangent of
+half-sums, and there is a hundred-and-forty-year-old trade, determinant theory, whose whole
+business is kernels of exactly that shape.
+
+The trade recognized it at a glance. The master copy is a bordered determinant of the Frobenius
+cotangent kernel, the one Frobenius wrote down in 1882 and gave a closed product formula, and the
+borders are the two column pairs one and sine. Asked in the trade's own tongue, the answer came
+back short enough to speak aloud: the product of the Cauchy sine factors, times one bracket
+holding the squared difference of the two cosine sums, the sine of the half-sum, and nothing else
+([the gate](../simulations/f127_closed_form.py), both sides the same 864 monomials over the exact
+numbers, under six seconds). On the variety every term dies separately. The five-hundred-forty-term
+numerator, the resultant, the divisibility, the degenerate sublocus, all of §3: the reading of a
+bracket. And the bracket says more than we had asked: the two cosine sums need not vanish at all,
+they need only be equal. The old route could not have seen that; it fed the two constraints in
+separately, and the sharper statement lives in their difference.
+
+What this visit adds to the diary is not the theorem, it is the direction of the lesson. The six
+visits asked what cancels inside our own pile. The seventh asked who else has stood in this room,
+and the answer was: everyone in a neighboring trade, for a century, because the room is older than
+the house. The instant familiarity is the confirmation; a structure only feels like home to a
+distant discipline when it was never ours to begin with. The note at the door gets a second line:
+when a computation is large, ask what cancels; when a find is small, ask who has seen it before.
