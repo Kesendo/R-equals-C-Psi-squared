@@ -867,7 +867,7 @@ then repeat in w₃.
 > **Superseded 2026-07-13.** The quotient-ring route was retired on 2026-07-10f; the first of the two
 > levels of this hole, the ℚ-level proof that 𝔉 vanishes on the variety, is now closed over ℚ(i) by a
 > deterministic grid + CRT computation. See the section "The variety identity, proved over ℚ(i)" below.
-> Only the assembly (D) remains.
+> Only the assembly (D) remains. *(Closed the next day: see "The assembly (D), made symbolic" below.)*
 
 Verifier: `python simulations/cross_triple_orthogonality.py` (measured ~2 min; `--slow` adds the sympy
 proof over ℚ of the mirror sub-case). It asserts each step separately, it distinguishes the removability gate from the
@@ -882,8 +882,8 @@ Authors: Thomas Wicht and Claude, 2026-07-10.
 
 The load-bearing hole named just above has two levels: a ℚ-level proof that 𝔉 vanishes on the
 double-constraint variety, and, one below it, a symbolic proof of the assembly (D) that
-(U⁺ − U⁻)·(n/2)³ equals 𝔉(a; b). **The first level is now closed over ℚ(i).** The second remains, and is
-stated sharply at the end.
+(U⁺ − U⁻)·(n/2)³ equals 𝔉(a; b). **The first level is now closed over ℚ(i).** The second remained open one day
+longer, and is closed in the following section (2026-07-14).
 
 **What was proved.** 𝔉 ≡ 0 on V = {Σ cos a_i = 0} × {Σ cos b_j = 0}, over ℚ(i), by a deterministic grid
 + CRT computation: 527 of 527 (item, prime) tasks PROVED, zero exceptions. This is not a Schwartz-Zippel
@@ -939,11 +939,11 @@ item needs only 11. The `--assert` pass re-checks ∏ p > 2H.
 |------|--------------------|-----|
 | ε = +1, mode-disjoint | proved | Lemma 4, the Laplace sum is empty |
 | ε = +1, shared mode | proved, uniform in N | the same-two-magnon-energy lemma |
-| ε = −1, mode-disjoint | **proved on V, over ℚ(i)** (grid+CRT), modulo (D) | 𝔉 ≡ 0 on V, deterministic |
-| ε = −1, shared mode | **proved on V, over ℚ(i)** (grid+CRT), modulo (D) | the same, plus the proved removable limit |
+| ε = −1, mode-disjoint | **proved on V, over ℚ(i)** (grid+CRT; (D) symbolic since 2026-07-14) | 𝔉 ≡ 0 on V, deterministic |
+| ε = −1, shared mode | **proved on V, over ℚ(i)** (grid+CRT; (D) symbolic since 2026-07-14) | the same, plus the proved removable limit |
 
 All four grades additionally carry the code-trust layer discussed next (the proof is a computation); the
-two ε = −1 rows carry, on top of that, the still-numerical assembly (D).
+two ε = −1 rows carried, until 2026-07-14, the then-numerical assembly (D); it is now symbolic (see the assembly section below).
 
 **What this buys, and the caveats, of two kinds.** The variety identity 𝔉 ≡ 0 on V is no longer a
 sampled certificate; it is a proof over ℚ(i). Two honest qualifications remain, and they are different in
@@ -966,7 +966,7 @@ later, an independent C# witness, matter.
 The second is a genuinely **unproved mathematical** step, and it is the deeper one: the **assembly (D)**,
 that the discrete Gram difference (U⁺ − U⁻)·(n/2)³ *equals* 𝔉(a; b). Its four intermediates (Laplace
 along the c column, the M_pq closed form, the geometric sum Θ_P, the triple-sine sum) are each proved;
-only their assembly into that one equation is checked numerically (16200 integer pairs, error 3e−13).
+only their assembly into that one equation is checked numerically (16200 integer pairs, error 3e−13). **(Closed 2026-07-14: the assembly is now symbolic, see "The assembly (D), made symbolic" below.)**
 (D) is the **object-identification bridge**: 𝔉 is an abstract six-angle trigonometric object, and (D) is
 the sole link from it to the physical Heff cross-block the twinning actually needs. So until (D) is
 symbolic, what is proved is 𝔉 ≡ 0 on V; the identification of 𝔉 with the twinning cross-block stays
@@ -974,7 +974,7 @@ numerical. The full-spectrum twinning at every resonant N, and "the cell law's c
 fire", therefore hold **at proof grade modulo the assembly (D)** (and, as any computed proof, the code-trust layer above), one strict step better than the
 certificate grade of 2026-07-10e, with the surviving analytic gap a single symbolic identity rather than
 a variety of unknown degree. The verifier `y_zero_and_level_law.py` still reports the cross blocks as
-"measured, not proved" because it predates this proof; its open note (J) now reduces to the assembly (D).
+"measured, not proved" because it predates this proof; its open note (J) now reduces to the assembly (D), which closed 2026-07-14 (the section below), so note (J) is discharged; the y_zero comment predates both proofs.
 
 **The lead this opens (the fragile thing).** The wall is meant to make the statement safe to lean on, not
 to be the final word. Written into the door of
@@ -992,6 +992,7 @@ divisibility by z₃² + S z₃ + 1. That telescoping is the open step; when it 
 components. It is a lead, not a proof.
 
 Reproduce/verify: `python simulations/grid_proof_sweep.py --assert` re-checks the 527 completed items,
+python simulations/assembly_d_symbolic.py               # the assembly (D), symbolic: G1-G7 (~20 s; --slow adds the exact N=9 anchor)
 runs the realness guard, and confirms CRT ∏ p > 2H. The runner drives the grid+CRT engine
 `simulations/core_grid.py`; the exact-symbolic steps 1–2 (the w₃-elimination and pole structure) are in
 `simulations/residue_assembly_close.py` + `simulations/halfangle_residue_proof.py`; the certified
@@ -1000,6 +1001,81 @@ grid `simulations/grid_proof_close.py`. The full sweep that produced the 527 che
 kind as the other `inspect` witnesses is the owed follow-up.
 
 **Authors:** Thomas Wicht and Claude (Opus 4.8), 2026-07-13.
+
+
+## The assembly (D), made symbolic (2026-07-14)
+
+The deeper of the two levels named above is closed. The assembly (D), that the discrete Gram
+difference of the −6-rung Slater lifts equals the six-angle cross form,
+
+    (U⁺ − U⁻) · (n/2)³  =  𝔉(a; b),    a_i = k_i·θ,  b_j = l_j·θ,  θ = π/n,
+
+is now DERIVED from the four already-proved intermediates D1-D4, not measured. The 16200-pair
+numerical endpoint (`gate_angle_forms`, error 3·10⁻¹³) becomes a corroboration; the identification
+of 𝔉 with the physical Heff cross-block is a theorem.
+
+**The chain** (every summation identity D1-D4 and every elementary step S1-S3 is proved
+SYMBOLICALLY in [`assembly_d_symbolic.py`](../simulations/assembly_d_symbolic.py); the numeric
+gates of [`cross_triple_orthogonality.py`](../simulations/cross_triple_orthogonality.py) remain
+as corroboration; the composition of the steps is linearity of finite sums, the reordering of a
+finite double sum):
+
+1. **Definitional.** (U⁺ − U⁻)·(n/2)³ = Σ_{b,c} sgn(c−b)·G_τ(b,c)·G_σ(b,c) on the RAW (un-normalized)
+   G, because the normalized grid divides by ‖D‖ and ‖D_τ‖² = (n/2)³ (sine orthogonality +
+   Cauchy-Binet, proved above); the (n/2)³ exactly clears the two norms.
+2. **D1 (Laplace).** G_τ(b,c) = Σ_i (−1)^{i+1} u_{k_i}(c)·M_i(b); the product of the two signs is
+   (−1)^{i+1}(−1)^{j+1} = (−1)^{i+j}.
+3. **S2 + D3 (the c-sum).** Product-to-sum turns u_{k_i}(c)u_{l_j}(c) into ½[cos(P₋cθ) − cos(P₊cθ)]
+   with P± = k_i ± l_j; D3 does each signed cosine sum. Preconditions hold on mode-disjoint pairs:
+   0 < P₊ ≤ 2n−2 and 0 < |P₋| < n, so neither is 0 mod 2n and the Θ₀ branch never fires. The two
+   constant terms [1−(−1)^P]/2 CANCEL in the difference because P₊ − P₋ = 2l_j is even. What
+   survives is ½[cot(μ₊/2)·s_{P₊}(b) − cot(μ₋/2)·s_{P₋}(b)], μ± = P±·θ.
+4. **D2 + D4 (the b-sum).** Expanding M_i(b)M_j(b) into its four sine products (D2's closed form)
+   and applying D4 to each triple-sine sum yields the four-cotangent atoms Xh. Two bookkeeping
+   lemmas make every application legitimate: **parity uniformity**, x + y + P ≡ k(τ) + k(σ) (mod 2)
+   for all sixteen (x, y, P) combinations of a given (i,j) (a one-line cancellation: x carries
+   k(τ) − k_i mod 2, y carries k(σ) − l_j mod 2, P carries k_i ± l_j, and the k_i, l_j cancel;
+   proved symbolically in G4), so at ε = −1 every call takes the cotangent branch, while at ε = +1
+   every b-sum returns 0 term by term BEFORE any cotangent forms (re-deriving Lemma 4; the closed
+   form itself is not defined at ε = +1 integer pairs, where the cotangents sit on poles); and the
+   **oddness extension**, D4 holds for negative P because both sides are odd in P (cot is odd),
+   extending the gated positive range.
+5. **S1 + S3 (the endpoint).** The D2 coefficients are exactly `_pieces`' α and β
+   (sin(qθ) − sin(pθ) = 2cos((p+q)θ/2)sin((q−p)θ/2), and the β twin), and with them the assembled
+   six-angle expression is term-for-term the committed `cross_form`; S3 verifies the equality of the
+   two expressions symbolically in six FREE angles (no integrality used), so the endpoint is an
+   identity of trigonometric expressions, not a lattice coincidence.
+
+**Scope.** Mode-disjoint pairs (the same scope as the twinning need and the 16200-pair gate); at
+ε = +1 the assembly vanishes term by term at the summation stage (before any cotangent forms), so
+there is nothing to identify there. Shared-mode pairs are outside this equation (there P₋ = 0 can occur and
+the twinning argument routes through the shared-two-magnon lemma instead).
+
+**Verifier:** [`assembly_d_symbolic.py`](../simulations/assembly_d_symbolic.py): G1-G11 in ~40 s.
+The S-lemmas symbolic (G1-G3, G6); the parity/precondition sweeps exhaustive at N = 9, 11, 12
+(G4-G5); the normalization reading pinned against the committed engine (G7); **D1-D4 each proved
+symbolically** (G8-G10: the cofactor expansion, the telescoping closed form in free variables, and
+the two summation identities from the geometric series with z^n = (-1)^Q as the only integrality);
+the transcription pinned against the committed `cross_form` (G11). A first review of this landing
+caught the honest scope of the S3 gate (it proves the coefficient-convention bridge across the
+assembled sum, not the discrete endpoint) and the fact that D1-D4 were until then only numerically
+gated; G8-G11 were added in response. A second review then sharpened the last wording: the
+branch-selection bookkeeping is carried by the one-line integer arguments stated in the chain
+above (the parity cancellation, now also symbolic in G4; the P-bounds 3 ≤ P₊ ≤ 2n−3,
+0 < |P₋| ≤ n−2), with the exhaustive N = 9, 11, 12 sweeps as corroboration; every summation
+identity and the endpoint bridge are symbolic. `--slow` adds
+G12, the end-to-end EXACT-arithmetic anchor at N = 9 (LHS from exact Slater sums as algebraic
+numbers, RHS the exact cross form; difference identically 0 by sympy; ~90 min; passed 2026-07-14).
+No float enters G12.
+
+**What changes.** The grade table's "proved on V, over ℚ(i) (grid+CRT), modulo (D)" loses its
+qualifier: the full-spectrum twinning and the cheapest-kill protection are now **proof grade over
+ℚ(i)** with no missing mathematical step. What remains on the pair is the code-trust layer only
+(bespoke single implementations of the grid engine and of this assembly verifier), the same honest
+caveat F127 already names, plus the open WHY beneath it all: the telescoping one-liner (the
+fragile-thing hunt) that would make the 25 grid components unnecessary.
+
+**Authors:** Thomas Wicht and Claude (Fable 5), 2026-07-14.
 
 
 ## Reproduce

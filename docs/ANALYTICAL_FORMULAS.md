@@ -4888,7 +4888,7 @@ never stepped); the first play on the ladder is the catch-count pedigree
 [experiments/FRONT_PEDIGREE.md](../experiments/FRONT_PEDIGREE.md); the outward
 reading is [`reflections/ON_THE_REFUND.md`](../reflections/ON_THE_REFUND.md).
 
-### F127. The cross-triple orthogonality: 𝔉 ≡ 0 on the double-constraint variety, N-free (proved over ℚ(i) by grid+CRT, modulo the assembly (D); single-implementation code-trust caveat named; 2026-07-13, minted 2026-07-14)
+### F127. The cross-triple orthogonality: 𝔉 ≡ 0 on the double-constraint variety, N-free (proved over ℚ(i) by grid+CRT; the assembly (D) symbolic since 2026-07-14; single-implementation code-trust caveat named; 2026-07-13, minted 2026-07-14)
 
 The six-angle cross form 𝔉(a₁,a₂,a₃; b₁,b₂,b₃) vanishes identically on the Conway-Jones
 double-constraint variety
@@ -4901,7 +4901,7 @@ Xh(μ;ξ,η) = −sin μ·sin ξ·sin η / Δ(μ,ξ,η) with Δ the spherical-tr
 (cos μ − cos(ξ+η))(cos μ − cos(ξ−η)); every cotangent is the half-angle Laurent form
 cot(μ/2) = i(M+1)/(M−1). **The chain's length does not appear**: the identity is continuous and
 N-free, so the full-spectrum twinning of the resonant seeds follows at EVERY resonant N at once,
-uniform in N, modulo the assembly step (D) below. This is the theorem behind the multi-sector
+uniform in N (the assembly step (D) below closed 2026-07-14, so the identification is derived). This is the theorem behind the multi-sector
 arc's thread (b): the cross-triple blocks B(τ,σ) = (K26·W_τ)ᵀ(K26·W_σ) vanish for every pair of
 distinct vanishing mode triples (K26 the −2/−6 coupling block of the (2,1) pencil, W_τ the
 gauged Slater lifts), including the ε = −1 column no scan could close.
@@ -4916,11 +4916,18 @@ to ℚ(i) by CRT; the realness guard checks all 103232 base coefficients have ze
 so the remainders are rational and ordinary integer CRT with ∏p > 2H suffices (∏p = 2^510
 against the worst item's 2H = 2^305.6); the a-priori degree bounds are tropical exponent spans,
 which can only over-estimate. **Status, honestly:** proof grade over ℚ(i), NOT yet Tier 1: the
-cross-checks are internal to one bespoke implementation, and the **assembly (D)**, that the
-discrete Gram difference (U⁺ − U⁻)·(n/2)³ equals 𝔉, is itself checked numerically (16200
-integer pairs, error 3·10⁻¹³), not symbolically. Open: (D) symbolic; the fragile-thing hunt
-(the telescoping lead: the residues may collapse once both cosine sums vanish, which would
-replace the 25 grid components with one line); the owed C# witness + typed claim.
+cross-checks are internal to one bespoke implementation (the code-trust layer). The **assembly
+(D)**, that the discrete Gram difference (U⁺ − U⁻)·(n/2)³ equals 𝔉, was the one remaining
+mathematical gap and is **symbolic since 2026-07-14**: derived from the proved intermediates
+D1-D4 plus three bookkeeping lemmas, verified in
+[`assembly_d_symbolic.py`](../simulations/assembly_d_symbolic.py) (G1-G11 ~40 s, every summation
+identity D1-D4 proved symbolically, the transcription pinned to the committed cross_form; `--slow`
+adds G12, the exact-arithmetic N=9 anchor, no float), see
+[F89_SEED_EXISTENCE_REDUCTION](../experiments/F89_SEED_EXISTENCE_REDUCTION.md) §"The assembly (D),
+made symbolic". With (D) closed the twinning is proof grade over ℚ(i) with no missing step. Open:
+the fragile-thing hunt (the telescoping lead: the residues may collapse once both cosine sums
+vanish, which would replace the 25 grid components with one line); the owed C# witness + typed
+claim.
 
 **The F127 stack** (the ℚ(i) proof sub-library, all committed in `simulations/`):
 [`halfangle_residue_proof.py`](../simulations/halfangle_residue_proof.py) (the exact-symbolic

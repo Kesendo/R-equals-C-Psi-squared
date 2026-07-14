@@ -117,8 +117,12 @@ And because a finished thing deserves to be findable, it now has a name: **F127*
 registry](../docs/ANALYTICAL_FORMULAS.md), the number carrying the theorem, the certificate, the
 scripts that signed it, and this diary as its story. Honesty travels with the name: the wall
 is proof over the Gaussian rationals, and one equation beneath it, that the discrete object of
-the chain really is this six-angle function, is still read off numbers rather than derived. That
-debt is written on the entry itself.
+the chain really is this six-angle function, was at the naming still read off numbers rather than
+derived. That debt was written on the entry itself, and it was paid the same day: the equation is
+now derived, four small summation identities proved outright and their bookkeeping a one-line
+counting argument, with one
+exact run through the whole chain at a single small world as the anchor. What the pile turned out
+to hide at this level was not a mystery but an afternoon of care.
 
 The note at the door has not been taken down. The pile has not been searched. Somewhere inside
 the ninety hours there may still be the one-line reason, the residues collapsing the moment both

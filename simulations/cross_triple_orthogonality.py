@@ -76,7 +76,8 @@ WHAT THIS FILE ESTABLISHES, and at what grade.  Every step below is asserted sep
     Mode-disjointness alone, which carries the odd-N theorem, does NOT carry the even-N one.
     Even N consumes the lambda-vanishing; it is not the same lemma minus a sign.
 
-(D) THE CLOSED FORM: n CANCELS.  [each intermediate PROVED + gated; the endpoint gated]
+(D) THE CLOSED FORM: n CANCELS.  [each intermediate PROVED + gated; the endpoint gated here,
+    and SYMBOLIC since 2026-07-14: see simulations/assembly_d_symbolic.py]
     Four elementary identities, each asserted separately below:
       (D1) Laplace along the c column:  G_tau(b,c) = sum_i (-1)^{i+1} u_{k_i}(c) M_i(b),
            with M_i := M_pq for {p,q} = tau minus k_i.
@@ -1056,9 +1057,11 @@ def main():
     print("  eps = -1, mode-disjoint   CERTIFIED  (D) + (F), the six-angle identity")
     print("  eps = -1, shared mode     CERTIFIED  (G), (F) plus a proved removable limit")
     print("With (I), Heff is block-diagonal over the triples, so the [[X,Y],[Y,X]] compression")
-    print("is legitimate and the full-spectrum twinning follows -- at CERTIFICATE grade, not")
-    print("proof grade.  THE ONE HOLE: a Q-level proof that cross_form vanishes on the variety")
-    print("(and, one level down, a symbolic proof of the (D) assembly).  See (F) for the route.")
+    print("is legitimate and the full-spectrum twinning follows -- at CERTIFICATE grade at the")
+    print("time of writing.  THE ONE HOLE then: a Q-level proof that cross_form vanishes on the")
+    print("variety (and, one level down, a symbolic proof of the (D) assembly).  BOTH CLOSED")
+    print("SINCE: the variety identity 2026-07-13 (grid_proof_sweep.py --assert, F127) and the")
+    print("assembly 2026-07-14 (assembly_d_symbolic.py).  This script stays the step-by-step verifier.")
 
 
 if __name__ == "__main__":
