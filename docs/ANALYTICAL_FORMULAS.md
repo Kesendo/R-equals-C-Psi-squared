@@ -4888,6 +4888,59 @@ never stepped); the first play on the ladder is the catch-count pedigree
 [experiments/FRONT_PEDIGREE.md](../experiments/FRONT_PEDIGREE.md); the outward
 reading is [`reflections/ON_THE_REFUND.md`](../reflections/ON_THE_REFUND.md).
 
+### F127. The cross-triple orthogonality: 𝔉 ≡ 0 on the double-constraint variety, N-free (proved over ℚ(i) by grid+CRT, modulo the assembly (D); single-implementation code-trust caveat named; 2026-07-13, minted 2026-07-14)
+
+The six-angle cross form 𝔉(a₁,a₂,a₃; b₁,b₂,b₃) vanishes identically on the Conway-Jones
+double-constraint variety
+
+    V  =  {Σᵢ cos aᵢ = 0} × {Σⱼ cos bⱼ = 0}
+
+(coordinates z_k = e^{i a_k}, w_k = e^{i b_k}; each constraint the quadratic z₃² + Sz·z₃ + 1 = 0,
+Sz = z₁+1/z₁+z₂+1/z₂). 𝔉 is the sum of 288 elementary terms built from the four-cotangent atom
+Xh(μ;ξ,η) = −sin μ·sin ξ·sin η / Δ(μ,ξ,η) with Δ the spherical-triangle Gram determinant
+(cos μ − cos(ξ+η))(cos μ − cos(ξ−η)); every cotangent is the half-angle Laurent form
+cot(μ/2) = i(M+1)/(M−1). **The chain's length does not appear**: the identity is continuous and
+N-free, so the full-spectrum twinning of the resonant seeds follows at EVERY resonant N at once,
+uniform in N, modulo the assembly step (D) below. This is the theorem behind the multi-sector
+arc's thread (b): the cross-triple blocks B(τ,σ) = (K26·W_τ)ᵀ(K26·W_σ) vanish for every pair of
+distinct vanishing mode triples (K26 the −2/−6 coupling block of the (2,1) pencil, W_τ the
+gauged Slater lifts), including the ε = −1 column no scan could close.
+
+**The proof** (four steps, landed 2026-07-13, commit 05b5b82): (1) exact elimination to
+𝔉 = 𝔉₀(w₁) + 𝔉₁(w₁)·w₃ on V; (2) exact Sylvester resultants: 37 w₁-carrying denominator factors → 25
+pole components (of 43 distinct denominator factors total) (13 singletons + 12 quad-quad pairs); (3) per-component divisibility Π_C | P_C
+on full tensor grids; (4) the w₁-window with generalized-Vandermonde endpoints forcing
+c₋₁ = c₀ = c₁ = 0. The certificate: **527 of 527 (item, prime) tasks PROVED, zero exceptions**
+(31 items × 17 thirty-bit primes ≡ 1 mod 4); full grids per prime (not Schwartz-Zippel), lifted
+to ℚ(i) by CRT; the realness guard checks all 103232 base coefficients have zero imaginary part,
+so the remainders are rational and ordinary integer CRT with ∏p > 2H suffices (∏p = 2^510
+against the worst item's 2H = 2^305.6); the a-priori degree bounds are tropical exponent spans,
+which can only over-estimate. **Status, honestly:** proof grade over ℚ(i), NOT yet Tier 1: the
+cross-checks are internal to one bespoke implementation, and the **assembly (D)**, that the
+discrete Gram difference (U⁺ − U⁻)·(n/2)³ equals 𝔉, is itself checked numerically (16200
+integer pairs, error 3·10⁻¹³), not symbolically. Open: (D) symbolic; the fragile-thing hunt
+(the telescoping lead: the residues may collapse once both cosine sums vanish, which would
+replace the 25 grid components with one line); the owed C# witness + typed claim.
+
+**The F127 stack** (the ℚ(i) proof sub-library, all committed in `simulations/`):
+[`halfangle_residue_proof.py`](../simulations/halfangle_residue_proof.py) (the exact-symbolic
+residue foundation: 288 terms pinned to the committed cross form, all 38 w₁-residues vanish),
+[`residue_assembly_close.py`](../simulations/residue_assembly_close.py) (works in
+ℚ(i)(z₁,z₂,w₂)[z₃]/(Qz); steps 1-2 exact; 43 denominator factors classified),
+[`core_grid.py`](../simulations/core_grid.py) (the rigorous vectorized grid+CRT engine:
+monic-quotient reduction, int64 tensor grids, tropical span bounds),
+[`grid_proof_sweep.py`](../simulations/grid_proof_sweep.py) (the runner + `--assert` gate:
+re-checks all 527 items, the realness guard, and ∏p > 2H),
+[`grid_proof_close.py`](../simulations/grid_proof_close.py) (the first certificate, superseded
+for rigor, structure builders reused), and the step-by-step verifier
+[`cross_triple_orthogonality.py`](../simulations/cross_triple_orthogonality.py) (~2 min).
+**Source:** [F89_SEED_EXISTENCE_REDUCTION](../experiments/F89_SEED_EXISTENCE_REDUCTION.md)
+§"The variety identity, proved over ℚ(i): the grid+CRT wall". **The story:**
+[`reflections/ON_LEAVING_THE_CIRCLE.md`](../reflections/ON_LEAVING_THE_CIRCLE.md), the fourth
+visit (written at the door while the twenty workers signed) and the fifth (the wall standing);
+the suspicion on record there, that the ninety hours are the pile and not the find, is exactly
+the fragile-thing hunt this entry leaves open.
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

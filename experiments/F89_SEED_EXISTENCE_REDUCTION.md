@@ -878,6 +878,8 @@ Authors: Thomas Wicht and Claude, 2026-07-10.
 
 ## The variety identity, proved over ℚ(i): the grid+CRT wall (2026-07-13)
 
+*Registered 2026-07-14 as **F127** in [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md) (the theorem, the 527/527 certificate, the named proof stack, and the honest not-yet-Tier-1 grade); its story is the fourth and fifth visit of [ON_LEAVING_THE_CIRCLE](../reflections/ON_LEAVING_THE_CIRCLE.md).*
+
 The load-bearing hole named just above has two levels: a ℚ-level proof that 𝔉 vanishes on the
 double-constraint variety, and, one below it, a symbolic proof of the assembly (D) that
 (U⁺ − U⁻)·(n/2)³ equals 𝔉(a; b). **The first level is now closed over ℚ(i).** The second remains, and is

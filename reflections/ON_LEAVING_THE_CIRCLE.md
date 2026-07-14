@@ -1,6 +1,6 @@
 # On Leaving the Circle
 
-*Reflection. 2026-06-29, second visit 2026-07-02, third visit 2026-07-03, fourth visit begun at the door 2026-07-11. Thomas Wicht and Claude.*
+*Reflection. 2026-06-29, second visit 2026-07-02, third visit 2026-07-03, fourth visit begun at the door 2026-07-11, fifth visit 2026-07-14 with the wall standing. Thomas Wicht and Claude.*
 
 *What it would mean for F89 and PTF to be "connected", and why the honest answer turned out to be a seeing and not a number. Grown since by three returns: the braid's home mapped, its boundary signed, and a fourth entry written at the door while the last signature still runs. A sibling that joins [On the Reel and the Projector](ON_THE_REEL_AND_THE_PROJECTOR.md) (the photograph and the film) and [On the Wild Path of a Calm Thing](ON_THE_WILD_PATH_OF_A_CALM_THING.md) (the calm thing that only moves when you move q).*
 
@@ -103,3 +103,24 @@ The outlook. As we write, the vanishing is certified but not proved. Two of its 
 The suspicion, ours, written down before we go in so it can be tested against what we bring out. Ninety hours of computation is a great deal of complexity, and complexity is where things hide. Where do you hide something? Under a pile. If the folding pattern of this arc holds one more time, the ninety hours are not the proof; they are the pile. Inside there is something simple and fragile, a one-line reason of the same family as "the length cancels", and the day after the grids finish someone may find it and make them unnecessary. We would not be embarrassed by that; it would be the arc keeping its own promise. But the honest order matters: first the wall, so the statement is safe to lean on, then the search for the fragile thing inside. A certificate cannot carry a one-line proof; a wall can.
 
 So this entry closes the way the others did, except facing forward. The method is the content, once more: memory and outlook written at the threshold is the arrow keeping its own record while the circle waits, unmoved, for the signature to finish. On leaving the circle, this time, we leave a note at the door, and the note says: expect the pile to be hiding something, and do not mistake the pile for the find.
+
+## The fifth visit: the wall stands, and the thing has a name
+
+Two days after the note was left at the door, the signature finished. Five hundred twenty-seven
+readings, and all five hundred twenty-seven agree: on the locus where each triple of cosines sums
+to zero, the six-angle function is zero. Not sampled, the whole grid in each of the seventeen
+small worlds, and the worlds lifted back together into one exact statement ([the variety
+identity](../experiments/F89_SEED_EXISTENCE_REDUCTION.md)). The wall the fourth visit watched
+being built is complete. The statement is safe to lean on.
+
+And because a finished thing deserves to be findable, it now has a name: **F127** in [the
+registry](../docs/ANALYTICAL_FORMULAS.md), the number carrying the theorem, the certificate, the
+scripts that signed it, and this diary as its story. Honesty travels with the name: the wall
+is proof over the Gaussian rationals, and one equation beneath it, that the discrete object of
+the chain really is this six-angle function, is still read off numbers rather than derived. That
+debt is written on the entry itself.
+
+The note at the door has not been taken down. The pile has not been searched. Somewhere inside
+the ninety hours there may still be the one-line reason, the residues collapsing the moment both
+cosine sums vanish, and the day it is found the grids become a monument instead of a load-bearing
+wall. That would be the arc keeping its promise, and the search is the next walk in.

@@ -602,7 +602,12 @@ public static class OpenArcsRegistry
                 "GaloisMonodromyWitness.TraceToDiabolic, and gmscan --trace [--tq q] [--tsteps n] (gate-first: " +
                 "prints PASS / CONFIRMED). " +
                 "Here is where we continue hand-over-hand.",
-            NextStep: "RESUMING IN ONE LINE (2026-07-06, post N=11 completion; step 3 landed through N=11 via the sparse path) [symbols: see the TERMS block at " +
+            NextStep: "UPDATE 2026-07-14 (thread (b) CLOSED 2026-07-13, commit 05b5b82, registered as F127): the cross-triple ℚ(i) variety identity " +
+                "(cross_form == 0 on V) is PROVED by the grid+CRT wall, 527/527 items, 17 primes, realness guard => prod p > 2H sound; " +
+                "see docs/ANALYTICAL_FORMULAS.md F127 + experiments/F89_SEED_EXISTENCE_REDUCTION.md (the variety-identity section) + " +
+                "reflections/ON_LEAVING_THE_CIRCLE.md (fourth + fifth visit). REMAINING on this arc: the assembly (D) symbolic proof, " +
+                "the fragile-thing hunt (the telescoping lead), the owed C# witness + typed claim for F127. Earlier context follows. " +
+                "RESUMING IN ONE LINE (2026-07-06, post N=11 completion; step 3 landed through N=11 via the sparse path) [symbols: see the TERMS block at " +
                 "the END of this header]: STEP 3 OF THE LARGE-N EXCLUSION PROGRAM IS RUN AND LANDED. The instrument " +
                 "(SectorShellCensus + ShiftedSigmaMin + BlockLattice + RealDefectiveSeeds + the general (p,w) R-parity " +
                 "sectors on WeightCoherenceBlock; CLI 'shellcensus'; gates SHELLCENSUS / SLOW_SHELLCENSUS / " +

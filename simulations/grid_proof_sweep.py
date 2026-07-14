@@ -61,7 +61,7 @@ every good grid point.)
 
 CRT.  Every remainder / numerator is a polynomial over Z[i] after clearing denominators, with a
 coefficient-height bound H ~ 2^447.  Vanishing mod each of the 17 primes p (30-bit, p = 1 mod 4) on
-a grid that beats its degree forces it = 0 mod p; the product of the 17 primes is ~ 2^527 > 2H, so
+a grid that beats its degree forces it = 0 mod p; the product of the 17 primes is 2^510 (exact) > 2H, so
 by CRT the coefficients (Gaussian integers of modulus < H) are 0 over Z[i].  --assert re-checks that
 prod(primes) > 2H.
 
