@@ -63,6 +63,44 @@ public class CrossTripleOrthogonalityTests
     }
 
     [Fact]
+    public void ClosedForm_HoldsAtGenericPoints_AndCorruptionControlBreaks()
+    {
+        // PIECE 3 (§3 closed form, 2026-07-14): T·P = ⅛[2cos s((e₁−f₁)² − 2sin²s)
+        // + sin s(Σsin2a + Σsin2b)]·Va·Vb is an UNCONDITIONAL identity, so it must hold at
+        // GENERIC half-angle points in GF(p) (no variety construction); the corruption control
+        // (the sin s term sign-flipped) must break at nearly every point, else the check is vacuous.
+        var (points, mismatches, ctrlMismatches, ctrlEvals) =
+            CrossFormCertificate.CertifyClosedFormSlice(WallPrime, 24);
+        Assert.True(points >= 24, $"expected ≥ 24 generic points, got {points}");
+        Assert.Equal(0, mismatches);
+        Assert.True(ctrlMismatches >= (int)(0.8 * ctrlEvals),
+            $"corruption control: {ctrlMismatches}/{ctrlEvals} broke (expected ≥ 80%)");
+    }
+
+    [Fact]
+    public void SharperLocus_EqualNonzeroCosineSums_OnSheet_TVanishes()
+    {
+        // PIECE 4 (Corollary 2 of the closed form, NEW surface): T = 0 already on
+        // {Σcos a = Σcos b ≠ 0, sheet} — equality of the two cosine sums suffices. The Σ ≠ 0
+        // requirement makes the slice discriminating against the old variety (where both are 0);
+        // the control re-randomizes w₁ (breaking sheet and equality) and must be nonzero.
+        var (points, bad, ctrlNonzero, ctrlEval) =
+            CrossFormCertificate.CertifySharperLocusSlice(WallPrime, 20);
+        Assert.True(points >= 20, $"expected ≥ 20 sharper-locus points, got {points}");
+        Assert.Equal(0, bad);
+        Assert.True(ctrlNonzero >= (int)(0.8 * ctrlEval),
+            $"controls: {ctrlNonzero}/{ctrlEval} nonzero (expected ≥ 80%)");
+    }
+
+    [Fact]
+    public void Witness_SummaryReportsClosedFormAndSharperLocus()
+    {
+        var w = new CrossTripleOrthogonalityWitness();
+        Assert.Contains("closed form", w.Summary);
+        Assert.Contains("sharper", w.Summary);
+    }
+
+    [Fact]
     public void Claim_ResolvesFromDefaultRegistry_WithTypedParent()
     {
         var claim = KnowledgeRegistryFactory.BuildDefault().Get<CrossTripleOrthogonalityClaim>();

@@ -13,7 +13,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <item>the §3 core function T vanishes on the three-constraint variety, with an off-variety
 /// nonzero control (<see cref="CrossFormCertificate.CertifyCoreIdentitySlice"/>);</item>
 /// <item>the §2 sheet lattice: 72 atoms → 288 pole events → 32 sheets, all coefficients ±1, nine
-/// events per sheet, exact integer combinatorics (<see cref="SheetLattice"/>).</item>
+/// events per sheet, exact integer combinatorics (<see cref="SheetLattice"/>);</item>
+/// <item>the §3 closed form (2026-07-14): T·P = ⅛[2cos s((e₁−f₁)² − 2sin²s) + sin s(Σsin2a +
+/// Σsin2b)]·V_a·V_b holds at generic GF(p) points with a corruption control, and Corollary 2's
+/// SHARPER locus (Σcos a = Σcos b ≠ 0 on the sheet) kills T live
+/// (<see cref="CrossFormCertificate.CertifyClosedFormSlice"/>,
+/// <see cref="CrossFormCertificate.CertifySharperLocusSlice"/>).</item>
 /// </list>
 /// This is the second implementation the F127 code-trust caveat asks for, at sample scale; the proof
 /// objects remain the 527/527 grid+CRT wall and the six committed <c>f127_*.py</c> gates.
@@ -24,9 +29,11 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
     private static readonly long[] Primes = { 1073741833L, 1073741857L };
     private const int SamplesPerPrime = 6;
     private const int CoreSamplesPerPrime = 12;
+    private const int ClosedFormSamplesPerPrime = 12;
+    private const int SharperSamplesPerPrime = 10;
 
     public string DisplayName =>
-        "F127 cross-triple orthogonality (live: 𝔉-slice + core-identity T + sheet lattice)";
+        "F127 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + sheet lattice)";
 
     public string Summary
     {
@@ -34,12 +41,18 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
         {
             int onVariety = 0, bad = 0, controls = 0, samples = 0;
             int coreEvals = 0, coreBad = 0, coreCtrl = 0, coreCtrlEval = 0;
+            int cfPts = 0, cfBad = 0, cfCtrl = 0, cfCtrlEval = 0;
+            int shPts = 0, shBad = 0, shCtrl = 0, shCtrlEval = 0;
             foreach (long p in Primes)
             {
                 var (ev, b, c, s) = CrossFormCertificate.CertifySlice(p, SamplesPerPrime);
                 onVariety += ev; bad += b; controls += c; samples += s;
                 var (cev, cb, cc, cce) = CrossFormCertificate.CertifyCoreIdentitySlice(p, CoreSamplesPerPrime);
                 coreEvals += cev; coreBad += cb; coreCtrl += cc; coreCtrlEval += cce;
+                var (fp, fm, fc, fce) = CrossFormCertificate.CertifyClosedFormSlice(p, ClosedFormSamplesPerPrime);
+                cfPts += fp; cfBad += fm; cfCtrl += fc; cfCtrlEval += fce;
+                var (sp, sb, sc, sce) = CrossFormCertificate.CertifySharperLocusSlice(p, SharperSamplesPerPrime);
+                shPts += sp; shBad += sb; shCtrl += sc; shCtrlEval += sce;
             }
             var lattice = SheetLattice.Analyze();
             bool latticeOk = lattice.Atoms == SheetLattice.AtomCount &&
@@ -50,11 +63,15 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                              lattice.MaxEventsPerSheet == SheetLattice.EventsPerSheet &&
                              lattice.EachSheetOneEventPerBlock;
             bool pass = bad == 0 && controls >= (int)(0.9 * samples) &&
-                        coreBad == 0 && coreCtrl >= (int)(0.8 * coreCtrlEval) && latticeOk;
+                        coreBad == 0 && coreCtrl >= (int)(0.8 * coreCtrlEval) &&
+                        cfBad == 0 && cfCtrl >= (int)(0.8 * cfCtrlEval) &&
+                        shBad == 0 && shCtrl >= (int)(0.8 * shCtrlEval) && latticeOk;
             return $"{(pass ? "PASS" : "FAIL")}: 𝔉-slice {onVariety} zeros ({bad} bad), " +
                    $"{controls}/{samples} controls nonzero; core-T {coreEvals} zeros ({coreBad} bad), " +
-                   $"{coreCtrl}/{coreCtrlEval} controls nonzero; lattice {lattice.DistinctSheets} sheets × " +
-                   $"{lattice.MaxEventsPerSheet} events {(latticeOk ? "OK" : "BAD")}";
+                   $"{coreCtrl}/{coreCtrlEval} controls nonzero; closed form {cfPts} generic points " +
+                   $"({cfBad} mismatch), {cfCtrl}/{cfCtrlEval} corruptions broke; sharper locus {shPts} " +
+                   $"points ({shBad} bad), {shCtrl}/{shCtrlEval} controls nonzero; lattice " +
+                   $"{lattice.DistinctSheets} sheets × {lattice.MaxEventsPerSheet} events {(latticeOk ? "OK" : "BAD")}";
         }
     }
 
@@ -66,12 +83,14 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
         {
             yield return SheetLatticeNode();
             yield return CoreIdentityNode();
+            yield return ClosedFormNode();
             yield return CrossFormNode();
             yield return GatesNode();
             yield return new InspectableNode("What this is",
                 summary: "the residue-collapse chain recomputed live in C#: the §2 lattice (exact integer), " +
-                         "the §3 core identity T (GF(p), independent of 𝔉), and the 𝔉-slice; a SLICE of F127, " +
-                         "not the wall (that is the 527/527 sweep and the six committed f127_* gates)");
+                         "the §3 core identity T (GF(p), independent of 𝔉), the §3 closed form + its sharper " +
+                         "locus, and the 𝔉-slice; a SLICE of F127, " +
+                         "not the wall (that is the 527/527 sweep and the seven committed f127_* gates)");
         }
     }
 
@@ -105,6 +124,30 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             children: perPrime, provenance: NodeProvenance.Live);
     }
 
+    private static InspectableNode ClosedFormNode()
+    {
+        int pts = 0, bad = 0, ctrl = 0, ctrlEval = 0;
+        int shPts = 0, shBad = 0, shCtrl = 0, shCtrlEval = 0;
+        var perPrime = new List<IInspectable>();
+        foreach (long p in Primes)
+        {
+            var (fp, fm, fc, fce) = CrossFormCertificate.CertifyClosedFormSlice(p, ClosedFormSamplesPerPrime);
+            pts += fp; bad += fm; ctrl += fc; ctrlEval += fce;
+            var (sp, sb, sc, sce) = CrossFormCertificate.CertifySharperLocusSlice(p, SharperSamplesPerPrime);
+            shPts += sp; shBad += sb; shCtrl += sc; shCtrlEval += sce;
+            perPrime.Add(new InspectableNode($"p = {p}",
+                summary: $"identity at {fp} generic points ({fm} mismatch, must be 0), {fc}/{fce} corruptions " +
+                         $"broke; sharper locus {sp} points ({sb} nonzero, must be 0), {sc}/{sce} controls nonzero",
+                provenance: NodeProvenance.Live));
+        }
+        return new InspectableNode("§3 closed form (live GF(p), 2026-07-14)",
+            summary: $"T·P = ⅛[2cos s((e₁−f₁)² − 2sin²s) + sin s(Σsin2a + Σsin2b)]·V_a·V_b at {pts} generic " +
+                     $"points ({bad} mismatch); corruption control {ctrl}/{ctrlEval} broke; Corollary 2's sharper " +
+                     $"locus (Σcos a = Σcos b ≠ 0, sheet): T = 0 at {shPts} points ({shBad} bad), " +
+                     $"{shCtrl}/{shCtrlEval} controls nonzero",
+            children: perPrime, provenance: NodeProvenance.Live);
+    }
+
     private static InspectableNode CrossFormNode()
     {
         int onVariety = 0, bad = 0, ctrl = 0, samples = 0;
@@ -127,14 +170,17 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
 
     private static InspectableNode GatesNode() =>
         new("The proof chain (committed gates)",
-            summary: "docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md + six f127_* gate scripts",
+            summary: "docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md + seven f127_* gate scripts",
             children: new IInspectable[]
             {
                 new InspectableNode("PROOF_F127_RESIDUE_COLLAPSE.md",
-                    summary: "the derived chain: sheet lattice (§2), core identity by resultant divisibility (§3), " +
-                             "transport (§4), the window + oddness (§5), the mirror anchor (§6)"),
+                    summary: "the derived chain: sheet lattice (§2), core identity by the closed form, prior " +
+                             "resultant route retained (§3), transport (§4), the window + oddness (§5), the mirror anchor (§6)"),
+                new InspectableNode("f127_closed_form.py",
+                    summary: "§3 primary: the closed form T·P = RHS exact over ℚ(i) (864 monomials each side), " +
+                             "the bordered Frobenius determinant, the three corollaries"),
                 new InspectableNode("f127_core_identity.py",
-                    summary: "§3: naked-T falsification, N assembly (540 terms), Res | E exact, branch check"),
+                    summary: "§3 cross-check: naked-T falsification, N assembly (540 terms), Res | E exact, branch check"),
                 new InspectableNode("f127_core_locus_patch.py",
                     summary: "§3.2: forcing chain, gcd(Res, S_w−m₀S_z) = 1, degenerate sublocus r₀ = r₁ = 0"),
                 new InspectableNode("f127_exact_gates.py",

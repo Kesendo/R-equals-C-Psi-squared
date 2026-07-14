@@ -98,7 +98,12 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
             yield return new InspectableNode("Witness extension (done)",
                 summary: "the live witness now recomputes the residue-collapse chain: the §2 sheet lattice (exact integer: " +
                     "72 atoms → 288 events → 32 sheets × 9) + the §3 core identity T in GF(p) (independent of 𝔉, off-variety " +
-                    "control), alongside the 𝔉-slice, and breadcrumbs the six f127_* gates (inspect --root crosstriple)");
+                    "control), alongside the 𝔉-slice, and breadcrumbs the seven f127_* gates (inspect --root crosstriple)");
+            yield return new InspectableNode("The closed form (2026-07-14, simulations/f127_closed_form.py)",
+                summary: "the §3 core identity is a READ-OFF: T·P = ⅛[2cos s((e₁−f₁)² − 2sin²s) + sin s(Σsin2a + " +
+                    "Σsin2b)]·V_a·V_b, exact over ℚ(i) (T = a bordered Frobenius-kernel determinant); the witness checks " +
+                    "the identity live at generic GF(p) points (corruption control) and Corollary 2's sharper locus " +
+                    "(Σcos a = Σcos b ≠ 0 on the sheet ⇒ T = 0); scope: replaces §3's argument only");
             yield return new InspectableNode("Remaining caveat",
                 summary: "only the code-trust layer: the wall and these witness slices are bespoke implementations with " +
                     "internal cross-checks; the two proofs (wall + residue collapse) have disjoint trust surfaces but share it");
