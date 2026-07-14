@@ -193,6 +193,112 @@ public static class CrossFormCertificate
         return Div(tot, 2);
     }
 
+    /// <summary>The §3 core function T = Σ_{i,j} (−1)^{i+j} α_i(z) α_j(w)·cot((a_i+b_j)/2) over F_p,
+    /// with α_i(z) = sin(a_l) − sin(a_j) on the ascending complement {j &lt; l}, sin x = (x − 1/x)/(2i),
+    /// and cot((a_i+b_j)/2) = i(Z+1)/(Z−1), Z = z_i·w_j. This is an INDEPENDENT transcription (not a
+    /// slice of <see cref="Evaluate"/>, which is the full 𝔉): T is the residue every sheet's nine
+    /// events share (<see cref="SheetLattice"/>). Throws <see cref="DivideByZeroException"/> on a pole
+    /// Z = 1 (the caller skips), which also covers the §3.3 singular cotangent sublocus z₃w₃ = 1.</summary>
+    public static long EvaluateCoreT(long p, long iRoot, long[] zs)
+    {
+        long Mul(long a, long b) => a * b % p;
+        long Add(long a, long b) => (a + b) % p;
+        long Sub(long a, long b) => ((a - b) % p + p) % p;
+        long Div(long a, long b)
+        {
+            if (b % p == 0) throw new DivideByZeroException();
+            return Mul(a, Inv(b, p));
+        }
+
+        long Sin(long z) => Div(Sub(z, Inv(z, p)), Mul(2, iRoot));
+
+        long Alpha(int off, int i)
+        {
+            int j = -1, l = -1;
+            for (int t = 0; t < 3; t++)
+                if (t != i) { if (j < 0) j = t; else l = t; }
+            return Sub(Sin(zs[off + l]), Sin(zs[off + j]));
+        }
+
+        long CotHalf(long z) => Mul(iRoot, Div(Add(z, 1), Sub(z, 1)));
+
+        long tot = 0;
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+            {
+                long term = Mul(Mul(Alpha(0, i), Alpha(3, j)), CotHalf(Mul(zs[i], zs[3 + j])));
+                tot = Add(tot, (i + j) % 2 == 0 ? term : Sub(0, term));
+            }
+        return tot;
+    }
+
+    /// <summary>One prime's CORE-IDENTITY slice (PROOF_F127_RESIDUE_COLLAPSE §3): deterministic
+    /// points on the three-constraint variety {Qz(z₃)=0, Qw(w₃)=0, z₁z₂z₃w₁w₂w₃=1}, sampled by
+    /// choosing z₁, z₃, w₁, solving z₂ from Ca (z₂+1/z₂ = −(z₁+1/z₁)−(z₃+1/z₃)), setting the sheet
+    /// w₃ = K/w₂ with K = 1/(z₁z₂z₃w₁), and solving w₂ from Cb, which reduces to
+    /// (K+1)w₂² + K(w₁+1/w₁)w₂ + K(K+1) = 0. All three constraints are re-checked exactly per point
+    /// (a violation is a construction bug and throws). T must vanish on-variety; the control
+    /// re-randomizes w₁ (breaking Cb and the sheet), where T must be nonzero. Returns
+    /// (onVarietyPoints, nonZeroOnVariety, nonZeroControls, controlsEvaluated).</summary>
+    public static (int OnVarietyEvals, int BadOnVariety, int ControlsNonzero, int ControlsEvaluated)
+        CertifyCoreIdentitySlice(long p, int samples)
+    {
+        long iRoot = SqrtMinusOne(p);
+        if (iRoot < 0 || iRoot * iRoot % p != p - 1)
+            throw new InvalidOperationException($"p = {p} is not split (need p = 1 mod 4)");
+        var stream = new Stream((ulong)p * 0xD1B54A32D192ED03UL);   // independent of the 𝔉 slice's stream
+        long inv2 = Inv(2, p);
+        long CosSum(long a, long b, long c) =>
+            ((a + Inv(a, p)) % p + (b + Inv(b, p)) % p + (c + Inv(c, p)) % p) % p;
+
+        int good = 0, bad = 0, ctrlNonzero = 0, ctrlEval = 0;
+        while (good < samples)
+        {
+            long z1 = stream.Next(2, p), z3 = stream.Next(2, p), w1 = stream.Next(2, p);
+            long vz = ((p - (z1 + Inv(z1, p)) % p) + (p - (z3 + Inv(z3, p)) % p)) % p;
+            long dz = Tonelli(((vz * vz - 4) % p + p) % p, p);
+            if (dz < 0) continue;
+            long z2 = (vz + dz) % p * inv2 % p;
+            if (z2 == 0) continue;
+
+            long k = Inv(z1 * z2 % p * z3 % p * w1 % p, p);
+            long w1s = (w1 + Inv(w1, p)) % p;
+            long aq = (k + 1) % p;
+            if (aq == 0) continue;
+            long bq = k * w1s % p;
+            long cq = k * aq % p;
+            long disc = ((bq * bq - 4 * aq % p * cq) % p + p) % p;
+            long dw = Tonelli(disc, p);
+            if (dw < 0) continue;
+            long w2 = (p - bq + dw) % p * Inv(2 * aq % p, p) % p;
+            if (w2 == 0) continue;
+            long w3 = k * Inv(w2, p) % p;
+            if (w3 == 0) continue;
+
+            if (CosSum(z1, z2, z3) != 0 || CosSum(w1, w2, w3) != 0 ||
+                z1 * z2 % p * z3 % p * w1 % p * w2 % p * w3 % p != 1)
+                throw new InvalidOperationException("constructed point violates a variety constraint");
+
+            long tval;
+            try { tval = EvaluateCoreT(p, iRoot, new[] { z1, z2, z3, w1, w2, w3 }); }
+            catch (DivideByZeroException) { continue; }   // a pole z_i w_j = 1: skip
+            good++;
+            if (tval != 0) bad++;
+
+            for (int attempt = 0; attempt < 4; attempt++)
+            {
+                long w1c = stream.Next(2, p);
+                long cval;
+                try { cval = EvaluateCoreT(p, iRoot, new[] { z1, z2, z3, w1c, w2, w3 }); }
+                catch (DivideByZeroException) { continue; }
+                ctrlEval++;
+                if (cval != 0) ctrlNonzero++;
+                break;
+            }
+        }
+        return (good, bad, ctrlNonzero, ctrlEval);
+    }
+
     /// <summary>One prime's certificate slice: <paramref name="samples"/> deterministic variety
     /// points (all four (z₃, w₃) root combinations each) plus one off-variety control per point.
     /// Returns (onVarietyEvaluations, nonZeroOnVariety, nonZeroControls).</summary>

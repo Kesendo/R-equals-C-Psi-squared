@@ -4938,8 +4938,9 @@ transport lemma moves the vanishing into the committed w₃-eliminated frame (un
 ℚ-proved mirror specialisation is the anchor evaluation that kills the last constant. The
 grid+CRT wall above stays as the independent certificate (disjoint trust surface). The C#
 witness + typed claim landed 2026-07-14 (`CrossTripleOrthogonalityClaim`,
-`inspect --root crosstriple`, commit c745623); extending the witness to the residue-collapse
-chain is owed.
+`inspect --root crosstriple`, commit c745623); the witness recomputes the residue-collapse
+chain live since the same day (the §2 sheet lattice exactly, the §3 core identity T over
+GF(p) with off-variety controls, independent of the 𝔉-slice).
 
 **The F127 stack** (the ℚ(i) proof sub-library, all committed in `simulations/`):
 [`halfangle_residue_proof.py`](../simulations/halfangle_residue_proof.py) (the exact-symbolic

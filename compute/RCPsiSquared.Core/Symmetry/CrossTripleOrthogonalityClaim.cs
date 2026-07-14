@@ -43,8 +43,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/cross_triple_orthogonality.py</c> (the step-by-step verifier). The story:
 /// <c>reflections/ON_LEAVING_THE_CIRCLE.md</c> (fourth + fifth + sixth visit). The fragile-thing hunt
 /// CLOSED 2026-07-14 (<c>docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md</c>: the structural proof by residue
-/// collapse; the wall stays as the independent certificate). OPEN on this arc: extending this witness to
-/// the residue-collapse chain.</para></summary>
+/// collapse; the wall stays as the independent certificate). The witness now recomputes that chain live
+/// (the §2 sheet lattice + the §3 core identity T in GF(p), each with its own control); the only remaining
+/// caveat on this arc is the code-trust layer named above.</para></summary>
 public sealed class CrossTripleOrthogonalityClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
@@ -94,8 +95,13 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
             yield return new InspectableNode("The residue collapse",
                 summary: "the fragile thing FOUND 2026-07-14: docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md (sheet lattice, " +
                     "nine-term core identity via resultant divisibility, transport, oddness, mirror anchor); the wall = independent certificate");
-            yield return new InspectableNode("Open",
-                summary: "extending this witness to the residue-collapse chain (the six f127_* gates)");
+            yield return new InspectableNode("Witness extension (done)",
+                summary: "the live witness now recomputes the residue-collapse chain: the §2 sheet lattice (exact integer: " +
+                    "72 atoms → 288 events → 32 sheets × 9) + the §3 core identity T in GF(p) (independent of 𝔉, off-variety " +
+                    "control), alongside the 𝔉-slice, and breadcrumbs the six f127_* gates (inspect --root crosstriple)");
+            yield return new InspectableNode("Remaining caveat",
+                summary: "only the code-trust layer: the wall and these witness slices are bespoke implementations with " +
+                    "internal cross-checks; the two proofs (wall + residue collapse) have disjoint trust surfaces but share it");
         }
     }
 }
