@@ -41,8 +41,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// + §"The assembly (D), made symbolic" + <c>simulations/grid_proof_sweep.py --assert</c> (the
 /// wall's harvest gate) + <c>simulations/assembly_d_symbolic.py</c> (the assembly, G1-G12) +
 /// <c>simulations/cross_triple_orthogonality.py</c> (the step-by-step verifier). The story:
-/// <c>reflections/ON_LEAVING_THE_CIRCLE.md</c> (fourth + fifth visit). OPEN on this arc: the
-/// fragile-thing hunt (the telescoping one-liner that would replace the 25 grid components).</para></summary>
+/// <c>reflections/ON_LEAVING_THE_CIRCLE.md</c> (fourth + fifth + sixth visit). The fragile-thing hunt
+/// CLOSED 2026-07-14 (<c>docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md</c>: the structural proof by residue
+/// collapse; the wall stays as the independent certificate). OPEN on this arc: extending this witness to
+/// the residue-collapse chain.</para></summary>
 public sealed class CrossTripleOrthogonalityClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
@@ -89,8 +91,11 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
                 summary: "realness guard (103232 base coefficients real) ⇒ ordinary integer CRT, ∏p = 2^510 > 2H = 2^305.6 (worst item)");
             yield return new InspectableNode("The assembly (D)",
                 summary: $"symbolic: {AssemblyDIsSymbolic} (D1-D4 + bookkeeping all symbolic; exact N=9 anchor; simulations/assembly_d_symbolic.py)");
+            yield return new InspectableNode("The residue collapse",
+                summary: "the fragile thing FOUND 2026-07-14: docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md (sheet lattice, " +
+                    "nine-term core identity via resultant divisibility, transport, oddness, mirror anchor); the wall = independent certificate");
             yield return new InspectableNode("Open",
-                summary: "the fragile-thing hunt: the telescoping one-liner that would replace the 25 grid components");
+                summary: "extending this witness to the residue-collapse chain (the six f127_* gates)");
         }
     }
 }

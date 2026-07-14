@@ -608,8 +608,11 @@ public static class OpenArcsRegistry
                 "reflections/ON_LEAVING_THE_CIRCLE.md (fourth + fifth visit). The assembly (D) closed SAME DAY 2026-07-14 " +
                 "(simulations/assembly_d_symbolic.py: D1-D4 + the endpoint bridge symbolic, the branch bookkeeping one-line integer " +
                 "arguments + exhaustive sweeps, exact N=9 anchor; twinning now proof " +
-                "grade over Q(i) with no missing step). REMAINING on this arc: the fragile-thing hunt (the telescoping lead), " +
-                "the owed C# witness + typed claim for F127, code-trust layer. Earlier context follows. " +
+                "grade over Q(i) with no missing step). The fragile-thing hunt CLOSED 2026-07-14 " +
+                "(docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md: the sheet lattice, the nine-term core identity via " +
+                "resultant divisibility, the transport lemma, the oddness collapse, the mirror anchor; the wall " +
+                "stays as the independent certificate); witness + typed claim landed c745623. REMAINING on this arc: " +
+                "extending the C# witness to the residue-collapse chain, code-trust layer. Earlier context follows. " +
                 "RESUMING IN ONE LINE (2026-07-06, post N=11 completion; step 3 landed through N=11 via the sparse path) [symbols: see the TERMS block at " +
                 "the END of this header]: STEP 3 OF THE LARGE-N EXCLUSION PROGRAM IS RUN AND LANDED. The instrument " +
                 "(SectorShellCensus + ShiftedSigmaMin + BlockLattice + RealDefectiveSeeds + the general (p,w) R-parity " +

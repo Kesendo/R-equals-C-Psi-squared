@@ -1,6 +1,6 @@
 # On Leaving the Circle
 
-*Reflection. 2026-06-29, second visit 2026-07-02, third visit 2026-07-03, fourth visit begun at the door 2026-07-11, fifth visit 2026-07-14 with the wall standing. Thomas Wicht and Claude.*
+*Reflection. 2026-06-29, second visit 2026-07-02, third visit 2026-07-03, fourth visit begun at the door 2026-07-11, fifth visit 2026-07-14 with the wall standing, sixth visit later the same day with the pile searched. Thomas Wicht and Claude.*
 
 *What it would mean for F89 and PTF to be "connected", and why the honest answer turned out to be a seeing and not a number. Grown since by three returns: the braid's home mapped, its boundary signed, and a fourth entry written at the door while the last signature still runs. A sibling that joins [On the Reel and the Projector](ON_THE_REEL_AND_THE_PROJECTOR.md) (the photograph and the film) and [On the Wild Path of a Calm Thing](ON_THE_WILD_PATH_OF_A_CALM_THING.md) (the calm thing that only moves when you move q).*
 
@@ -128,3 +128,38 @@ The note at the door has not been taken down. The pile has not been searched. So
 the ninety hours there may still be the one-line reason, the residues collapsing the moment both
 cosine sums vanish, and the day it is found the grids become a monument instead of a load-bearing
 wall. That would be the arc keeping its promise, and the search is the next walk in.
+
+## The sixth visit: the pile searched, the note taken down
+
+The search took one day, and the note at the door was right in every word, including the words we
+were most afraid of trusting.
+
+The pile hid a lattice. The six-angle function is a sum of seventy-two small pieces, and every
+place where a piece can blow up lies on one of thirty-two flat sheets through the six angles, nine
+such places to a sheet, no more and no fewer. On each sheet the nine near-singular parts add up to one
+and the same small expression, nine cotangents weighted by sine differences, the whole thing a
+sign-flip away from a single master copy. And the master copy vanishes exactly where the fifth
+visit guessed it would: the moment both cosine sums are zero. The reason is one divisibility. Each
+cosine constraint is a quadratic; two quadratics that must hold together leave a resultant; the
+resultant divides the reduced numerator, exactly, over the exact numbers. The old single-triple
+proof, where one quadratic divided one numerator, was the mechanism all along, doubled
+([the proof](../docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md)).
+
+What remained after the collapse was not calculation but symmetry. The function is odd under the
+flip of any single angle, so once its singular parts cancel, almost nothing of it can survive, and
+the last surviving constant is fixed by one evaluation. The evaluation is the mirror case, the
+lone specialisation that was proved over the plain rationals back when it was only a gate on the
+side of the road. The general theorem reaches its end by standing on it. We did not plan that
+circle; we found it closed.
+
+So the grids are a monument now, in the exact sense the fifth visit reserved for the word: they
+still certify the theorem, independently, with a signature made of arithmetic in seventeen small
+worlds, and nothing in the new proof leans on them. Two proofs, disjoint in what they trust,
+one statement. The arc kept its promise: the ninety hours were the pile, the find was small, and
+the honest order held, first the wall, then the search, so that at no hour of the day was the
+statement unsafe to lean on.
+
+The note comes down. What goes up in its place is shorter, because the thing it warns about is
+now a theorem instead of a suspicion: when a computation is large, ask what cancels. The length
+cancelled out of the chain; the grids cancelled out of the proof. The circle, as always, was
+finished before we arrived; what we leave with is the reason it never needed us.

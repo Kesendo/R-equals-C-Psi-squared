@@ -880,6 +880,12 @@ Authors: Thomas Wicht and Claude, 2026-07-10.
 
 *Registered 2026-07-14 as **F127** in [ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md) (the theorem, the 527/527 certificate, the named proof stack, and the honest not-yet-Tier-1 grade); its story is the fourth and fifth visit of [ON_LEAVING_THE_CIRCLE](../reflections/ON_LEAVING_THE_CIRCLE.md).*
 
+*UPDATE 2026-07-14, later the same day: the fragile thing the fourth visit predicted under this
+wall was found and proved. The structural proof, [PROOF_F127_RESIDUE_COLLAPSE](../docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md),
+derives 𝔉 ≡ 0 on V from a nine-term core identity (one resultant divisibility) plus symmetry;
+the wall below stays as the independent certificate. The sixth visit of ON_LEAVING_THE_CIRCLE
+tells that part.*
+
 The load-bearing hole named just above has two levels: a ℚ-level proof that 𝔉 vanishes on the
 double-constraint variety, and, one below it, a symbolic proof of the assembly (D) that
 (U⁺ − U⁻)·(n/2)³ equals 𝔉(a; b). **The first level is now closed over ℚ(i).** The second remained open one day
@@ -976,7 +982,9 @@ certificate grade of 2026-07-10e, with the surviving analytic gap a single symbo
 a variety of unknown degree. The verifier `y_zero_and_level_law.py` still reports the cross blocks as
 "measured, not proved" because it predates this proof; its open note (J) now reduces to the assembly (D), which closed 2026-07-14 (the section below), so note (J) is discharged; the y_zero comment predates both proofs.
 
-**The lead this opens (the fragile thing).** The wall is meant to make the statement safe to lean on, not
+**The lead this opens (the fragile thing).** *(Superseded 2026-07-14, same day: the lead closed exactly
+as guessed; the found proof is [PROOF_F127_RESIDUE_COLLAPSE](../docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md).
+This paragraph stays as the historical record of the guess.)* The wall is meant to make the statement safe to lean on, not
 to be the final word. Written into the door of
 [ON_LEAVING_THE_CIRCLE](../reflections/ON_LEAVING_THE_CIRCLE.md) was the suspicion that the grids are the
 pile, not the find, and that inside sits a one-line reason of the "the length cancels" family. There is
@@ -1072,8 +1080,9 @@ No float enters G12.
 qualifier: the full-spectrum twinning and the cheapest-kill protection are now **proof grade over
 ℚ(i)** with no missing mathematical step. What remains on the pair is the code-trust layer only
 (bespoke single implementations of the grid engine and of this assembly verifier), the same honest
-caveat F127 already names, plus the open WHY beneath it all: the telescoping one-liner (the
-fragile-thing hunt) that would make the 25 grid components unnecessary.
+caveat F127 already names. The WHY beneath it all, the telescoping one-liner, closed 2026-07-14:
+[PROOF_F127_RESIDUE_COLLAPSE](../docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md) derives the variety
+identity structurally, and the grids became the independent certificate.
 
 **Authors:** Thomas Wicht and Claude (Fable 5), 2026-07-14.
 

@@ -4888,7 +4888,7 @@ never stepped); the first play on the ladder is the catch-count pedigree
 [experiments/FRONT_PEDIGREE.md](../experiments/FRONT_PEDIGREE.md); the outward
 reading is [`reflections/ON_THE_REFUND.md`](../reflections/ON_THE_REFUND.md).
 
-### F127. The cross-triple orthogonality: 𝔉 ≡ 0 on the double-constraint variety, N-free (proved over ℚ(i) by grid+CRT; the assembly (D) symbolic since 2026-07-14; single-implementation code-trust caveat named; 2026-07-13, minted 2026-07-14)
+### F127. The cross-triple orthogonality: 𝔉 ≡ 0 on the double-constraint variety, N-free (structural proof by residue collapse 2026-07-14, the grid+CRT wall as independent certificate; the assembly (D) symbolic since 2026-07-14; 2026-07-13, minted 2026-07-14)
 
 The six-angle cross form 𝔉(a₁,a₂,a₃; b₁,b₂,b₃) vanishes identically on the Conway-Jones
 double-constraint variety
@@ -4924,10 +4924,22 @@ D1-D4 plus three bookkeeping lemmas, verified in
 identity D1-D4 proved symbolically, the transcription pinned to the committed cross_form; `--slow`
 adds G12, the exact-arithmetic N=9 anchor, no float), see
 [F89_SEED_EXISTENCE_REDUCTION](../experiments/F89_SEED_EXISTENCE_REDUCTION.md) §"The assembly (D),
-made symbolic". With (D) closed the twinning is proof grade over ℚ(i) with no missing step. Open:
-the fragile-thing hunt (the telescoping lead: the residues may collapse once both cosine sums
-vanish, which would replace the 25 grid components with one line); the owed C# witness + typed
-claim.
+made symbolic". With (D) closed the twinning is proof grade over ℚ(i) with no missing step.
+
+**The fragile thing, found (2026-07-14).** The hunt this entry used to leave open is CLOSED:
+the residues do collapse the moment both cosine sums vanish, and the whole theorem now has a
+structural proof, [PROOF_F127_RESIDUE_COLLAPSE](proofs/PROOF_F127_RESIDUE_COLLAPSE.md). The
+mechanism: the 288 pole events lie on 32 sheets {L·(a,b) ≡ 0 mod 2π}, L ∈ {±1}⁶, nine events
+each; every sheet's residue is one sign-flip instance of the nine-term core identity
+T = Σ (−1)^{i+j} α_i(a) α_j(b) cot((a_i+b_j)/2) = 0 on Ca ∧ Cb ∧ {Σa+Σb ≡ 0}, proved by one
+exact divisibility, Res_{z₃}(Qz, P) | E (the mirror-quadratic divisibility, doubled); a
+transport lemma moves the vanishing into the committed w₃-eliminated frame (unit factor
+1 − c^{−2s}); the single-angle oddness bijections collapse the Laurent window; and the
+ℚ-proved mirror specialisation is the anchor evaluation that kills the last constant. The
+grid+CRT wall above stays as the independent certificate (disjoint trust surface). The C#
+witness + typed claim landed 2026-07-14 (`CrossTripleOrthogonalityClaim`,
+`inspect --root crosstriple`, commit c745623); extending the witness to the residue-collapse
+chain is owed.
 
 **The F127 stack** (the ℚ(i) proof sub-library, all committed in `simulations/`):
 [`halfangle_residue_proof.py`](../simulations/halfangle_residue_proof.py) (the exact-symbolic
@@ -4941,12 +4953,20 @@ re-checks all 527 items, the realness guard, and ∏p > 2H),
 [`grid_proof_close.py`](../simulations/grid_proof_close.py) (the first certificate, superseded
 for rigor, structure builders reused), and the step-by-step verifier
 [`cross_triple_orthogonality.py`](../simulations/cross_triple_orthogonality.py) (~2 min).
+The residue-collapse sub-library (2026-07-14, the structural proof's gates):
+[`f127_core_identity.py`](../simulations/f127_core_identity.py),
+[`f127_core_locus_patch.py`](../simulations/f127_core_locus_patch.py),
+[`f127_exact_gates.py`](../simulations/f127_exact_gates.py),
+[`f127_transport_lemma.py`](../simulations/f127_transport_lemma.py),
+[`f127_relabel_pin.py`](../simulations/f127_relabel_pin.py),
+[`f127_sheet_lattice.py`](../simulations/f127_sheet_lattice.py); the map is
+[PROOF_F127_RESIDUE_COLLAPSE](proofs/PROOF_F127_RESIDUE_COLLAPSE.md) §8.
 **Source:** [F89_SEED_EXISTENCE_REDUCTION](../experiments/F89_SEED_EXISTENCE_REDUCTION.md)
 §"The variety identity, proved over ℚ(i): the grid+CRT wall". **The story:**
 [`reflections/ON_LEAVING_THE_CIRCLE.md`](../reflections/ON_LEAVING_THE_CIRCLE.md), the fourth
 visit (written at the door while the twenty workers signed) and the fifth (the wall standing);
-the suspicion on record there, that the ninety hours are the pile and not the find, is exactly
-the fragile-thing hunt this entry leaves open.
+the suspicion on record there, that the ninety hours are the pile and not the find, was
+confirmed 2026-07-14: the find is the residue collapse, and the wall became the monument.
 
 ---
 
