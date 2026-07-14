@@ -5037,6 +5037,40 @@ one constraint, no sheet, beside the T-scoped slice (`CertifyF128SharperLocusSli
 W = 𝒪[cos s · cot s · V_aV_b/P] is now the whole content of 𝔉 up to the explicit prefactor;
 its own closed form is the natural next question, nothing claimed here.
 
+### F129. The level-collision law: the triple level map is injective away from 3|n and 10|n (structural proof 2026-07-14 late, Lam-Leung + elementary; one named corner certified to n ≤ 210; minted 2026-07-14)
+
+Call a triple τ ⊂ {1..n−1} CLEAN if no internal pair sums to n. For distinct clean triples,
+
+    S(τ) = S(σ)   (equal cosine-sum levels, zero NOT required)   ⟹   3|n or 10|n
+                  (modulo one named corner family; the Status paragraph below),
+
+with converses at every 3|n ≥ 9 and 10|n ≥ 20; away from both families the level map is
+INJECTIVE on clean triples (tens of thousands of levels per n, zero accidental collisions,
+certified to n = 210). **Sub-law:** overlap-1 collisions (4-term relations) force 3|n; the
+10|n door is exclusively disjoint pairs. **Mechanisms:** 3|n = rotated 3-cycles (the
+Conway-Jones 15|n sporadics absorbed); 10|n = the pentagon family, an R₅ conjugate pair
+plus the zero mode n/2 (at 70|n a {2,5,7}-piece second mechanism is not excluded; the law
+is unaffected). In the seed arc's three-cosine world (F89, `Seed.cs`) the pentagon
+was chained to the 3 (the 15|n sporadic); at six cosines it is unchained: 10|n, no 3.
+
+**Why it exists here:** F128's sharper locus {e₁ = f₁} asks only for EQUAL triple energies;
+this law charts exactly where the discrete comb populates that locus: never accidentally,
+massively on the two arithmetic families (the forced-and-free law wearing number theory).
+The proof rides one reduction (equal sums of two triples = vanishing sums of SIX comb
+cosines, one weight level above the seed arc's three) plus Lam-Leung's minimal-vanishing-sum
+facts (two-prime structure; the ≥3-prime weight bound) plus elementary pairing arguments
+(odd cycles need conjugate partners; the support carries no real root). **Status, honestly:**
+proved except ONE named corner family (a hypothetical minimal weight-12 conjugation-symmetric
+sum whose ratio order has smallest primes {2,5,7}, further primes ≥ 11 not excluded; every
+instance forces odd n with 35|n and 3∤n), closed from below by the census through n = 210
+(next candidate n = 245); the family inventory (collision counts per firing n) is open, like
+the ROT3 multiplicity before it. No physical Gram/twinning claim is made (phase 2, open).
+**Gate:** [`f129_level_collision_law.py`](../simulations/f129_level_collision_law.py)
+(~40 s: G1 the reduction exact, G2 injectivity proved at all 125 non-firing n ≤ 210 via
+mod-p distinctness, G3 one exact collision per firing n, G4 the law equality, G5 both
+mechanism anchors term-exact). **Proof:**
+[PROOF_F129_LEVEL_COLLISION_LAW](proofs/PROOF_F129_LEVEL_COLLISION_LAW.md). **Typed:** owed.
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

@@ -222,3 +222,25 @@ subtraction wide. The door-note holds unchanged, both lines now load-bearing in 
 what the eighth visit adds is only the order of operations: ask what cancels first, and when the
 answer is everything, ask who has seen it before, because a cancellation that total is never
 yours alone.
+
+## The ninth visit: the concert hall
+
+We had gone under the pile expecting, as always, something small and fragile, and the eighth
+visit had delivered it: one subtraction. Then we asked the new theorem's own question back at
+the discrete comb (if only equality matters, where do equal levels live?) and sent a scanner,
+the kind of instrument that cannot be wrong, only empty. It was not empty. Tens of thousands of
+exact balance points, at chain sizes the resonance arc had never visited, and when we measured
+the room instead of the finds, the walls answered with a law: away from two arithmetic families
+the levels never collide, not once, not anywhere; on them, the spectrum collapses in the
+thousands. Forced or absent, nothing in between: the forced-and-free law, wearing number theory.
+
+Standing in it, the room turned out to be the same building. Equal sums of two triples are
+vanishing sums of six cosines; the seed arc had classified three; the trade (Conway and Jones,
+then Lam and Leung) had built the corridor between the floors long ago. Even the pentagon was
+already in the house, chained to a different wall. What is new is the size of the hall and the
+one unchained door (ten divides n) that no resonance criterion had ever named. The lesson the
+ninth visit adds to the door-note is about expectation: under a pile, look for the small fragile
+thing; but when the small fragile thing is a law, do not be surprised if, straightening up, you
+find the pile was the floor of a concert hall, and the acoustics were the theorem all along.
+The theorem itself, with its one honestly named corner, is
+[the level-collision law](../docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md).
