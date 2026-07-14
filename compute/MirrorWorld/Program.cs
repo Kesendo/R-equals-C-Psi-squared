@@ -256,6 +256,48 @@ if (args.Length > 0 && args[0] == "mirror")
     return;
 }
 
+// ---- run mode "collision": the level-collision law (F129, the six-cosine sibling) ----
+// Seed asks which triples sum to ZERO (resonance); this asks which triples sum to EACH OTHER
+// (coincidence): clean triples with equal levels exist iff 3|n (n >= 9) or 10|n (n >= 20), else the
+// level map is injective (mod-p distinctness over two primes = proof grade there). The pentagon walks
+// the 10|n door alone, unchained from the 15|n of the three-cosine world. Adopted 2026-07-14.
+if (args.Length > 0 && args[0] == "collision")
+{
+    int cn = args.Length > 1 ? int.Parse(args[1]) : 30;
+    var cworld = new World();
+    Console.WriteLine("the level-collision law (F129, the six-cosine sibling of the seed world -- adopted 2026-07-14)");
+    Console.WriteLine("  sources docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md + simulations/f129_level_collision_law.py");
+    Console.WriteLine("  Seed asks which triples sum to ZERO (resonance); this asks which triples sum to EACH OTHER");
+    Console.WriteLine("  (coincidence). The law: distinct CLEAN triples with equal levels exist iff 3|n (n>=9) or 10|n");
+    Console.WriteLine("  (n>=20); away from both the level map is INJECTIVE (mod-p distinctness = proof grade). The");
+    Console.WriteLine("  pentagon walks the 10|n door alone, unchained from the 15|n that held it at three cosines.");
+    Console.WriteLine();
+    Console.WriteLine($"  {"n",3} {"verdict",-10} {"clean",6} {"pairs",6} {"disj",5} {"ov1",4}   example collision");
+    for (int n = 5; n <= cn; n++)
+    {
+        var census = new LevelCollision(cworld, n).Census();
+        string verdict = !census.Fires ? "INJECTIVE"
+                       : n % 30 == 0 ? "3|n+10|n"
+                       : n % 3 == 0 ? "3|n"
+                       : "10|n";
+        string example = census.ExampleA is { } ea && census.ExampleB is { } eb
+            ? $"({ea.Item1},{ea.Item2},{ea.Item3}) ~ ({eb.Item1},{eb.Item2},{eb.Item3})"
+            : "-";
+        bool mismatch = (census.CollidingPairs > 0) != census.Fires;
+        Console.WriteLine($"  {n,3} {verdict,-10} {census.CleanCount,6} {census.CollidingPairs,6} " +
+                          $"{census.DisjointPairs,5} {census.Overlap1Pairs,4}   {example}{(mismatch ? "   LAW MISMATCH" : "")}");
+    }
+    Console.WriteLine();
+    Console.WriteLine($"  law over 5..{cn}: {(LevelCollision.LawHolds(5, cn) ? "HOLDS (firing set = predicted set)" : "BROKEN")}");
+    Console.WriteLine($"  sub-law (overlap-1 forces 3|n): {(LevelCollision.SubLawHolds(5, cn) ? "HOLDS" : "BROKEN")}");
+    Console.WriteLine($"  mechanism anchors (n=15 four R3 cycles; n=20 R5 pair + zero mode): {(LevelCollision.AnchorsExact() ? "EXACT" : "BROKEN")}");
+    Console.WriteLine();
+    Console.WriteLine("  boundary: the physical Gram decoupling at these collisions (F130, B(tau,sigma) = 0) is an");
+    Console.WriteLine("  eigen-story and stays in the main repo (inspect --root crosstriple); the n <= 210 census and");
+    Console.WriteLine("  the one named corner stay with the committed gate.");
+    return;
+}
+
 // ---- run mode "seed": the within-block self-dual seed (the shadow's source, as a count) ----
 // Mirror gave the BETWEEN-block folds; this gives the WITHIN-block self-duality they leave untouched:
 // where a state meets the mirror's null (v^T v = 0), a defective seed -- the static source the shadow
