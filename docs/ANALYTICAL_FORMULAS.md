@@ -5027,9 +5027,13 @@ deaths, G5 the assembled factorization vs the committed `cross_form`, G6 the sha
 from below at machine zero vs the generic median ~10, G7 restriction hygiene over the 62
 pair/sheet cosets, a conservative superset of the polar support). **Proof:**
 [PROOF_F128_FLIP_SUM_FACTORIZATION](proofs/PROOF_F128_FLIP_SUM_FACTORIZATION.md).
-**Typed:** owed; the natural home is a 𝔉-scoped sharper-locus certifier beside the T-scoped
-`CertifySharperLocusSlice` in `CrossFormCertificate`, breadcrumbed from
-`CrossTripleOrthogonalityClaim`. **New open lead:** the cofactor
+**Typed:** live since the same evening under the F127 claim (`CrossTripleOrthogonalityClaim`
+breadcrumb + `inspect --root crosstriple`): the witness recomputes the flip lemma exactly over
+ℤ in C# (`FlipLemma`, 8640 → 0 with a projector self-test and the 28 shifted-set deaths), the
+factorization at generic GF(p) points with LHS/RHS on disjoint code paths and a corruption
+control (`CertifyF128FactorizationSlice`), and the 𝔉-scoped sharper locus {Σcos a = Σcos b ≠ 0},
+one constraint, no sheet, beside the T-scoped slice (`CertifyF128SharperLocusSlice`); tests
+`dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality` (14). **New open lead:** the cofactor
 W = 𝒪[cos s · cot s · V_aV_b/P] is now the whole content of 𝔉 up to the explicit prefactor;
 its own closed form is the natural next question, nothing claimed here.
 

@@ -442,6 +442,150 @@ public static class CrossFormCertificate
         return (points, bad, ctrlNonzero, ctrlEval);
     }
 
+    /// <summary>The F128 FACTORIZATION (2026-07-14 evening, PROOF_F128_FLIP_SUM_FACTORIZATION):
+    /// 𝔉 = −(e₁−f₁)²·𝒪[cos s·cot s·V_a V_b/P] checked live at GENERIC half-angle points, LHS via
+    /// the committed 𝔉 transcription (<see cref="Evaluate"/>), RHS via the literal 64-flip signed
+    /// sum: disjoint code paths meeting only in the field helpers. Half-angle monomials ζᵢ, ωⱼ
+    /// are sampled free (zᵢ = ζᵢ², wⱼ = ωⱼ²); a flip ε_u = −1 inverts the half-angle monomial.
+    /// Poles (cot s at μ² = 1, P = 0, or an 𝔉 pole) skip the point. The corruption control
+    /// replaces (e₁−f₁)² by (e₁+f₁)²; it must break at nearly every point, else the comparison
+    /// is vacuous. Returns (points, mismatches, controlMismatches, controlEvals).</summary>
+    public static (int Points, int Mismatches, int ControlMismatches, int ControlEvals)
+        CertifyF128FactorizationSlice(long p, int samples)
+    {
+        long iRoot = SqrtMinusOne(p);
+        if (iRoot < 0 || iRoot * iRoot % p != p - 1)
+            throw new InvalidOperationException($"p = {p} is not split (need p = 1 mod 4)");
+        var stream = new Stream((ulong)p * 0xC2B2AE3D27D4EB4FUL);   // own stream, independent of the other slices
+        long Mul(long a, long b) => a * b % p;
+        long Add(long a, long b) => (a + b) % p;
+        long Sub(long a, long b) => ((a - b) % p + p) % p;
+        long inv2 = Inv(2, p);
+        long inv2i = Inv(Mul(2, iRoot), p);
+        long inv64 = Inv(64, p);
+        long SinOf(long m) => Mul(Sub(m, Inv(m, p)), inv2i);
+        long CosOf(long m) => Mul(Add(m, Inv(m, p)), inv2);
+
+        int points = 0, mismatches = 0, ctrlMismatch = 0, ctrlEval = 0;
+        var half = new long[6];
+        var flipped = new long[6];
+        while (points < samples)
+        {
+            for (int t = 0; t < 6; t++) half[t] = stream.Next(2, p);
+            var zs = new long[6];
+            for (int t = 0; t < 6; t++) zs[t] = Mul(half[t], half[t]);
+
+            long lhs;
+            try { lhs = Evaluate(p, iRoot, zs); }
+            catch (DivideByZeroException) { continue; }
+
+            long e1 = 0, f1 = 0;
+            for (int t = 0; t < 3; t++)
+            {
+                e1 = Add(e1, CosOf(zs[t]));
+                f1 = Add(f1, CosOf(zs[3 + t]));
+            }
+
+            long wSum = 0;
+            bool pole = false;
+            for (int mask = 0; mask < 64 && !pole; mask++)
+            {
+                for (int t = 0; t < 6; t++)
+                    flipped[t] = (mask >> t & 1) == 0 ? half[t] : Inv(half[t], p);
+                long mu = 1;
+                for (int t = 0; t < 6; t++) mu = Mul(mu, flipped[t]);
+                long mu2 = Mul(mu, mu);
+                if (Sub(mu2, 1) == 0) { pole = true; break; }      // cot s pole on this flip
+                long cosS = CosOf(mu);
+                long cotS = Mul(iRoot, Mul(Add(mu2, 1), Inv(Sub(mu2, 1), p)));
+                long va = 1, vb = 1, pp = 1;
+                for (int i = 0; i < 3; i++)
+                    for (int j = i + 1; j < 3; j++)
+                    {
+                        va = Mul(va, SinOf(Mul(flipped[i], Inv(flipped[j], p))));
+                        vb = Mul(vb, SinOf(Mul(flipped[3 + i], Inv(flipped[3 + j], p))));
+                    }
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
+                        pp = Mul(pp, SinOf(Mul(flipped[i], flipped[3 + j])));
+                if (pp == 0) { pole = true; break; }               // P pole on this flip
+                long term = Mul(Mul(Mul(cosS, cotS), Mul(va, vb)), Inv(pp, p));
+                bool signMinus = System.Numerics.BitOperations.PopCount((uint)mask) % 2 == 1;
+                wSum = signMinus ? Sub(wSum, term) : Add(wSum, term);
+            }
+            if (pole) continue;
+            long w = Mul(wSum, inv64);
+
+            long d = Sub(e1, f1);
+            long rhs = Sub(0, Mul(Mul(d, d), w));
+            points++;
+            if (lhs != rhs) mismatches++;
+
+            long dBad = Add(e1, f1);
+            long rhsBad = Sub(0, Mul(Mul(dBad, dBad), w));
+            ctrlEval++;
+            if (lhs != rhsBad) ctrlMismatch++;
+        }
+        return (points, mismatches, ctrlMismatch, ctrlEval);
+    }
+
+    /// <summary>The F128 COROLLARY, 𝔉-scoped (2026-07-14 evening): 𝔉 = 0 already on the sharper
+    /// locus {Σcos a = Σcos b ≠ 0}: ONE constraint, no sheet, strictly wider than F127's V and
+    /// than the T-scoped <see cref="CertifySharperLocusSlice"/> (which needs the sheet).
+    /// Construction: z₁,z₂,z₃,w₁,w₂ free with S_a := Σ(zᵢ+1/zᵢ) ≠ 0 (the discriminating half:
+    /// on V both sums are 0); the equality fixes w₃+1/w₃ = S_a − Σ_{j≤2}(wⱼ+1/wⱼ), so w₃ is a
+    /// root of x² − vx + 1 (Tonelli; roots multiply to 1). The equality is re-checked exactly
+    /// per point (a violation throws). The control re-randomizes w₃, breaking the equality; 𝔉
+    /// must be nonzero there. Returns (points, nonZeroOnLocus, controlsNonzero, controlEvals).</summary>
+    public static (int Points, int BadOnLocus, int ControlsNonzero, int ControlEvals)
+        CertifyF128SharperLocusSlice(long p, int samples)
+    {
+        long iRoot = SqrtMinusOne(p);
+        if (iRoot < 0 || iRoot * iRoot % p != p - 1)
+            throw new InvalidOperationException($"p = {p} is not split (need p = 1 mod 4)");
+        var stream = new Stream((ulong)p * 0xBF58476D1CE4E5B9UL);   // own stream
+        long Mul(long a, long b) => a * b % p;
+        long Add(long a, long b) => (a + b) % p;
+        long Sub(long a, long b) => ((a - b) % p + p) % p;
+        long inv2 = Inv(2, p);
+
+        int points = 0, bad = 0, ctrlNonzero = 0, ctrlEval = 0;
+        while (points < samples)
+        {
+            long z1 = stream.Next(2, p), z2 = stream.Next(2, p), z3 = stream.Next(2, p);
+            long w1 = stream.Next(2, p), w2 = stream.Next(2, p);
+            long sa = Add(Add(Add(z1, Inv(z1, p)), Add(z2, Inv(z2, p))), Add(z3, Inv(z3, p)));
+            if (sa == 0) continue;                       // want Σcos a ≠ 0: the discriminating half
+            long v = Sub(sa, Add(Add(w1, Inv(w1, p)), Add(w2, Inv(w2, p))));
+            long d = Tonelli(Sub(Mul(v, v), 4), p);
+            if (d < 0) continue;
+            long w3 = Mul(Add(v, d), inv2);
+            if (w3 == 0) continue;
+
+            long sb = Add(Add(Add(w1, Inv(w1, p)), Add(w2, Inv(w2, p))), Add(w3, Inv(w3, p)));
+            if (sb != sa)
+                throw new InvalidOperationException("constructed point violates the equal-sums constraint");
+
+            long fVal;
+            try { fVal = Evaluate(p, iRoot, new[] { z1, z2, z3, w1, w2, w3 }); }
+            catch (DivideByZeroException) { continue; }
+            points++;
+            if (fVal != 0) bad++;
+
+            for (int attempt = 0; attempt < 4; attempt++)
+            {
+                long w3c = stream.Next(2, p);
+                long cval;
+                try { cval = Evaluate(p, iRoot, new[] { z1, z2, z3, w1, w2, w3c }); }
+                catch (DivideByZeroException) { continue; }
+                ctrlEval++;
+                if (cval != 0) ctrlNonzero++;
+                break;
+            }
+        }
+        return (points, bad, ctrlNonzero, ctrlEval);
+    }
+
     /// <summary>One prime's certificate slice: <paramref name="samples"/> deterministic variety
     /// points (all four (z₃, w₃) root combinations each) plus one off-variety control per point.
     /// Returns (onVarietyEvaluations, nonZeroOnVariety, nonZeroControls).</summary>

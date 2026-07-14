@@ -5,7 +5,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The live F127 witness (<c>inspect --root crosstriple</c>): recomputes, at inspect time,
 /// an INDEPENDENT C# slice of the cross-triple orthogonality along the residue-collapse chain of
-/// <c>docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md</c>. Three recomputations, each with its own
+/// <c>docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md</c> and the F128 factorization of
+/// <c>docs/proofs/PROOF_F128_FLIP_SUM_FACTORIZATION.md</c>. Five recomputations, each with its own
 /// discriminating control:
 /// <list type="bullet">
 /// <item>the full form 𝔉 vanishes on the two-constraint variety over split primes, with an
@@ -18,10 +19,16 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// Σsin2b)]·V_a·V_b holds at generic GF(p) points with a corruption control, and Corollary 2's
 /// SHARPER locus (Σcos a = Σcos b ≠ 0 on the sheet) kills T live
 /// (<see cref="CrossFormCertificate.CertifyClosedFormSlice"/>,
-/// <see cref="CrossFormCertificate.CertifySharperLocusSlice"/>).</item>
+/// <see cref="CrossFormCertificate.CertifySharperLocusSlice"/>);</item>
+/// <item>F128 (2026-07-14 evening, PROOF_F128_FLIP_SUM_FACTORIZATION): the flip lemma exactly
+/// over ℤ (8640 monomials annihilated by the signed character sum, <see cref="FlipLemma"/>),
+/// the factorization 𝔉 = −(e₁−f₁)²·𝒪[cos s·cot s·V_a V_b/P] at generic GF(p) points (LHS/RHS
+/// disjoint code paths, corruption control), and the 𝔉-scoped sharper locus {Σcos a = Σcos b
+/// ≠ 0}, ONE constraint, no sheet (<see cref="CrossFormCertificate.CertifyF128FactorizationSlice"/>,
+/// <see cref="CrossFormCertificate.CertifyF128SharperLocusSlice"/>).</item>
 /// </list>
-/// This is the second implementation the F127 code-trust caveat asks for, at sample scale; the proof
-/// objects remain the 527/527 grid+CRT wall and the six committed <c>f127_*.py</c> gates.
+/// This is the second implementation the F127/F128 code-trust caveat asks for, at sample scale; the
+/// proof objects remain the 527/527 grid+CRT wall and the committed <c>f127_*</c>/<c>f128_*</c> gates.
 /// Sub-second; fully deterministic (xorshift streams seeded from the prime).</summary>
 public sealed class CrossTripleOrthogonalityWitness : IInspectable
 {
@@ -31,9 +38,12 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
     private const int CoreSamplesPerPrime = 12;
     private const int ClosedFormSamplesPerPrime = 12;
     private const int SharperSamplesPerPrime = 10;
+    private const int F128SamplesPerPrime = 6;
+    private const int F128SharperSamplesPerPrime = 10;
 
     public string DisplayName =>
-        "F127 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + sheet lattice)";
+        "F127/F128 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + " +
+        "sheet lattice + F128 flip lemma/factorization/sharper locus)";
 
     public string Summary
     {
@@ -43,6 +53,8 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             int coreEvals = 0, coreBad = 0, coreCtrl = 0, coreCtrlEval = 0;
             int cfPts = 0, cfBad = 0, cfCtrl = 0, cfCtrlEval = 0;
             int shPts = 0, shBad = 0, shCtrl = 0, shCtrlEval = 0;
+            int fxPts = 0, fxBad = 0, fxCtrl = 0, fxCtrlEval = 0;
+            int flPts = 0, flBad = 0, flCtrl = 0, flCtrlEval = 0;
             foreach (long p in Primes)
             {
                 var (ev, b, c, s) = CrossFormCertificate.CertifySlice(p, SamplesPerPrime);
@@ -53,7 +65,15 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                 cfPts += fp; cfBad += fm; cfCtrl += fc; cfCtrlEval += fce;
                 var (sp, sb, sc, sce) = CrossFormCertificate.CertifySharperLocusSlice(p, SharperSamplesPerPrime);
                 shPts += sp; shBad += sb; shCtrl += sc; shCtrlEval += sce;
+                var (xp, xm, xc, xce) = CrossFormCertificate.CertifyF128FactorizationSlice(p, F128SamplesPerPrime);
+                fxPts += xp; fxBad += xm; fxCtrl += xc; fxCtrlEval += xce;
+                var (lp, lb, lc, lce) = CrossFormCertificate.CertifyF128SharperLocusSlice(p, F128SharperSamplesPerPrime);
+                flPts += lp; flBad += lb; flCtrl += lc; flCtrlEval += lce;
             }
+            var flip = FlipLemma.Analyze();
+            bool flipOk = flip.NumeratorMonomials == 8640 && flip.SurvivingMonomials == 0 &&
+                          flip.ProjectorSelfTestOk && flip.ShiftedSets == 28 &&
+                          flip.AllShiftedSetsDie && flip.AllShiftedProjectionsVanish;
             var lattice = SheetLattice.Analyze();
             bool latticeOk = lattice.Atoms == SheetLattice.AtomCount &&
                              lattice.Events == SheetLattice.EventCount &&
@@ -65,13 +85,19 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             bool pass = bad == 0 && controls >= (int)(0.9 * samples) &&
                         coreBad == 0 && coreCtrl >= (int)(0.8 * coreCtrlEval) &&
                         cfBad == 0 && cfCtrl >= (int)(0.8 * cfCtrlEval) &&
-                        shBad == 0 && shCtrl >= (int)(0.8 * shCtrlEval) && latticeOk;
+                        shBad == 0 && shCtrl >= (int)(0.8 * shCtrlEval) && latticeOk &&
+                        flipOk && fxBad == 0 && fxCtrl >= (int)(0.8 * fxCtrlEval) &&
+                        flBad == 0 && flCtrl >= (int)(0.8 * flCtrlEval);
             return $"{(pass ? "PASS" : "FAIL")}: 𝔉-slice {onVariety} zeros ({bad} bad), " +
                    $"{controls}/{samples} controls nonzero; core-T {coreEvals} zeros ({coreBad} bad), " +
                    $"{coreCtrl}/{coreCtrlEval} controls nonzero; closed form {cfPts} generic points " +
                    $"({cfBad} mismatch), {cfCtrl}/{cfCtrlEval} corruptions broke; sharper locus {shPts} " +
                    $"points ({shBad} bad), {shCtrl}/{shCtrlEval} controls nonzero; lattice " +
-                   $"{lattice.DistinctSheets} sheets × {lattice.MaxEventsPerSheet} events {(latticeOk ? "OK" : "BAD")}";
+                   $"{lattice.DistinctSheets} sheets × {lattice.MaxEventsPerSheet} events {(latticeOk ? "OK" : "BAD")}; " +
+                   $"F128 flip lemma {flip.NumeratorMonomials}→{flip.SurvivingMonomials} " +
+                   $"{(flipOk ? "OK" : "BAD")}, factorization {fxPts} points ({fxBad} mismatch), " +
+                   $"{fxCtrl}/{fxCtrlEval} corruptions broke, 𝔉-sharper locus {flPts} points " +
+                   $"({flBad} bad), {flCtrl}/{flCtrlEval} controls nonzero";
         }
     }
 
@@ -84,13 +110,15 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             yield return SheetLatticeNode();
             yield return CoreIdentityNode();
             yield return ClosedFormNode();
+            yield return F128Node();
             yield return CrossFormNode();
             yield return GatesNode();
             yield return new InspectableNode("What this is",
                 summary: "the residue-collapse chain recomputed live in C#: the §2 lattice (exact integer), " +
                          "the §3 core identity T (GF(p), independent of 𝔉), the §3 closed form + its sharper " +
-                         "locus, and the 𝔉-slice; a SLICE of F127, " +
-                         "not the wall (that is the 527/527 sweep and the seven committed f127_* gates)");
+                         "locus, the F128 flip lemma (exact ℤ) + factorization + 𝔉-sharper locus, and the " +
+                         "𝔉-slice; a SLICE of F127/F128, " +
+                         "not the wall (that is the 527/527 sweep and the eight committed f12*_* gates)");
         }
     }
 
@@ -148,6 +176,46 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             children: perPrime, provenance: NodeProvenance.Live);
     }
 
+    private static InspectableNode F128Node()
+    {
+        var flip = FlipLemma.Analyze();
+        bool flipOk = flip.NumeratorMonomials == 8640 && flip.SurvivingMonomials == 0 &&
+                      flip.ProjectorSelfTestOk && flip.ShiftedSets == 28 &&
+                      flip.AllShiftedSetsDie && flip.AllShiftedProjectionsVanish;
+        var children = new List<IInspectable>
+        {
+            new InspectableNode("The flip lemma (exact over ℤ)",
+                summary: $"𝒪[cos s·B·V_aV_bP̃]: {flip.NumeratorMonomials} monomials → " +
+                         $"{flip.SurvivingMonomials} after the signed character sum (must be 0); " +
+                         $"projector self-test {(flip.ProjectorSelfTestOk ? "OK" : "BAD")}; " +
+                         $"{flip.ShiftedSets} shifted alternant exponent sets, all die " +
+                         $"(0/repeat/±pair): {flip.AllShiftedSetsDie}, and each one's odd " +
+                         $"projection is the zero polynomial: {flip.AllShiftedProjectionsVanish}",
+                provenance: NodeProvenance.Live),
+        };
+        int fxPts = 0, fxBad = 0, fxCtrl = 0, fxCtrlEval = 0;
+        int flPts = 0, flBad = 0, flCtrl = 0, flCtrlEval = 0;
+        foreach (long p in Primes)
+        {
+            var (xp, xm, xc, xce) = CrossFormCertificate.CertifyF128FactorizationSlice(p, F128SamplesPerPrime);
+            fxPts += xp; fxBad += xm; fxCtrl += xc; fxCtrlEval += xce;
+            var (lp, lb, lc, lce) = CrossFormCertificate.CertifyF128SharperLocusSlice(p, F128SharperSamplesPerPrime);
+            flPts += lp; flBad += lb; flCtrl += lc; flCtrlEval += lce;
+            children.Add(new InspectableNode($"p = {p}",
+                summary: $"factorization at {xp} generic points ({xm} mismatch, must be 0), {xc}/{xce} " +
+                         $"corruptions broke; 𝔉-sharper locus {lp} points ({lb} nonzero, must be 0), " +
+                         $"{lc}/{lce} controls nonzero",
+                provenance: NodeProvenance.Live));
+        }
+        return new InspectableNode("F128 factorization + sharper locus (live, 2026-07-14 evening)",
+            summary: $"𝔉 = −(e₁−f₁)²·𝒪[cos s·cot s·V_aV_b/P]: flip lemma {(flipOk ? "OK" : "BAD")} " +
+                     $"(exact ℤ); factorization at {fxPts} generic GF(p) points ({fxBad} mismatch), " +
+                     $"{fxCtrl}/{fxCtrlEval} corruptions broke; 𝔉 = 0 on {{Σcos a = Σcos b ≠ 0}} at " +
+                     $"{flPts} points ({flBad} bad), {flCtrl}/{flCtrlEval} controls nonzero: ONE " +
+                     $"constraint, no sheet; F127's V is the codim-2 special case",
+            children: children, provenance: NodeProvenance.Live);
+    }
+
     private static InspectableNode CrossFormNode()
     {
         int onVariety = 0, bad = 0, ctrl = 0, samples = 0;
@@ -170,9 +238,14 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
 
     private static InspectableNode GatesNode() =>
         new("The proof chain (committed gates)",
-            summary: "docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md + seven f127_* gate scripts",
+            summary: "docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md + PROOF_F128_FLIP_SUM_FACTORIZATION.md " +
+                     "+ eight committed gate scripts",
             children: new IInspectable[]
             {
+                new InspectableNode("f128_flip_sum_factorization.py",
+                    summary: "F128: the flip lemma over ℤ (G1) + Weyl folding (G2) + raising shifts (G3) + " +
+                             "the 28 deaths (G4) + factorization pin (G5) + sharper locus from below (G6) + " +
+                             "restriction hygiene (G7)"),
                 new InspectableNode("PROOF_F127_RESIDUE_COLLAPSE.md",
                     summary: "the derived chain: sheet lattice (§2), core identity by the closed form, prior " +
                              "resultant route retained (§3), transport (§4), the window + oddness (§5), the mirror anchor (§6)"),

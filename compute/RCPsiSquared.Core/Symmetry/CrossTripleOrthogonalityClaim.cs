@@ -104,9 +104,17 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
                     "Σsin2b)]·V_a·V_b, exact over ℚ(i) (T = a bordered Frobenius-kernel determinant); the witness checks " +
                     "the identity live at generic GF(p) points (corruption control) and Corollary 2's sharper locus " +
                     "(Σcos a = Σcos b ≠ 0 on the sheet ⇒ T = 0); scope: replaces §3's argument only");
+            yield return new InspectableNode("F128, the flip-sum factorization (2026-07-14 evening)",
+                summary: "𝔉 = −(e₁−f₁)²·𝒪[cos s·cot s·V_a V_b/P], so 𝔉 = 0 already on the SHARPER locus " +
+                    "{Σcos a = Σcos b}: one constraint; V is the codim-2 special case and this is F127's third " +
+                    "proof (route-distinct; trust-disjointness stays with the wall). Engine: the flip lemma " +
+                    "(𝒪[cos s·B·V_aV_bP̃] ≡ 0, exact over ℤ, Weyl/alternant mechanism). The witness recomputes " +
+                    "the lemma exactly and both GF(p) slices live (docs/proofs/PROOF_F128_FLIP_SUM_FACTORIZATION.md, " +
+                    "simulations/f128_flip_sum_factorization.py, registry F128)");
             yield return new InspectableNode("Remaining caveat",
                 summary: "only the code-trust layer: the wall and these witness slices are bespoke implementations with " +
-                    "internal cross-checks; the two proofs (wall + residue collapse) have disjoint trust surfaces but share it");
+                    "internal cross-checks; the three proofs (wall + residue collapse + F128 factorization) pairwise " +
+                    "share it, the wall's surface disjoint from the other two");
         }
     }
 }

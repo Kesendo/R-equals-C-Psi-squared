@@ -81,7 +81,7 @@ public class CrossTripleOrthogonalityTests
     public void SharperLocus_EqualNonzeroCosineSums_OnSheet_TVanishes()
     {
         // PIECE 4 (Corollary 2 of the closed form, NEW surface): T = 0 already on
-        // {Σcos a = Σcos b ≠ 0, sheet} — equality of the two cosine sums suffices. The Σ ≠ 0
+        // {Σcos a = Σcos b ≠ 0, sheet}: equality of the two cosine sums suffices. The Σ ≠ 0
         // requirement makes the slice discriminating against the old variety (where both are 0);
         // the control re-randomizes w₁ (breaking sheet and equality) and must be nonzero.
         var (points, bad, ctrlNonzero, ctrlEval) =
@@ -98,6 +98,62 @@ public class CrossTripleOrthogonalityTests
         var w = new CrossTripleOrthogonalityWitness();
         Assert.Contains("closed form", w.Summary);
         Assert.Contains("sharper", w.Summary);
+    }
+
+    [Fact]
+    public void FlipLemma_OddProjectionAnnihilatesTheNumerator_ExactOverZ()
+    {
+        // PIECE 5 (F128 flip lemma, 2026-07-14 evening): the integer trig polynomial
+        // cos s · B · V_a V_b P̃ (8640 monomials in half-angle units) is annihilated by the
+        // (ℤ/2)⁶ signed character sum, exactly over ℤ; the projector self-test guards against
+        // a projection that annihilates everything; the 28 Murnaghan-Nakayama-shifted exponent
+        // sets of proof (B) all die structurally (0/repeat/±pair).
+        var r = FlipLemma.Analyze();
+        Assert.True(r.ProjectorSelfTestOk, "projector self-test failed");
+        Assert.Equal(8640, r.NumeratorMonomials);
+        Assert.Equal(0, r.SurvivingMonomials);
+        Assert.Equal(28, r.ShiftedSets);
+        Assert.True(r.AllShiftedSetsDie, "a shifted exponent set survives the death criteria");
+        Assert.True(r.AllShiftedProjectionsVanish,
+            "a shifted alternant's odd projection is not the zero polynomial");
+    }
+
+    [Fact]
+    public void F128Factorization_HoldsAtGenericPoints_AndCorruptionControlBreaks()
+    {
+        // PIECE 6 (F128, the factorization): 𝔉 = −(e₁−f₁)²·𝒪[cos s·cot s·V_a V_b/P] at GENERIC
+        // half-angle points in GF(p); LHS via the committed 𝔉 transcription (Evaluate), RHS via
+        // the literal 64-flip sum: disjoint code paths. The corruption control replaces
+        // (e₁−f₁)² by (e₁+f₁)² and must break at nearly every point.
+        var (points, mismatches, ctrlMismatches, ctrlEvals) =
+            CrossFormCertificate.CertifyF128FactorizationSlice(WallPrime, 12);
+        Assert.True(points >= 12, $"expected ≥ 12 generic points, got {points}");
+        Assert.Equal(0, mismatches);
+        Assert.True(ctrlMismatches >= (int)(0.8 * ctrlEvals),
+            $"corruption control: {ctrlMismatches}/{ctrlEvals} broke (expected ≥ 80%)");
+    }
+
+    [Fact]
+    public void F128SharperLocus_EqualNonzeroCosineSums_NoSheet_CrossFormVanishes()
+    {
+        // PIECE 7 (F128 corollary, the 𝔉-scoped sharper locus): 𝔉 = 0 already on {e₁ = f₁ ≠ 0},
+        // ONE constraint, no sheet: strictly wider than F127's V (both sums zero) and than the
+        // T-scoped sharper slice (which needs the sheet). The control re-randomizes w₃
+        // (breaking the equality) and must be nonzero.
+        var (points, bad, ctrlNonzero, ctrlEval) =
+            CrossFormCertificate.CertifyF128SharperLocusSlice(WallPrime, 12);
+        Assert.True(points >= 12, $"expected ≥ 12 sharper-locus points, got {points}");
+        Assert.Equal(0, bad);
+        Assert.True(ctrlNonzero >= (int)(0.8 * ctrlEval),
+            $"controls: {ctrlNonzero}/{ctrlEval} nonzero (expected ≥ 80%)");
+    }
+
+    [Fact]
+    public void Witness_SummaryReportsF128()
+    {
+        var w = new CrossTripleOrthogonalityWitness();
+        Assert.Contains("F128", w.Summary);
+        Assert.Contains("flip lemma", w.Summary);
     }
 
     [Fact]
