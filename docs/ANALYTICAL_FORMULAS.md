@@ -4938,7 +4938,13 @@ the two cosine sums, P/V_a/V_b the Cauchy sine products), proved exactly over �
 ([`f127_closed_form.py`](../simulations/f127_closed_form.py), 864 monomials on each side); T is a
 bordered determinant of the classical Frobenius cotangent kernel, and the closed form even
 gives a sharper T-vanishing locus, e₁ = f₁ on the sheet (a bonus fact about T; F127's variety
-is unchanged). The prior §3 route stays as cross-check: one
+is unchanged). Later the same day the closed form lifted to the WHOLE cross form: the global
+representation 𝔉 = −⅛ Σ_{L∈{±1}⁶} (ΠL)·T(L∘x)·cot((L·x)/2) = −4·(totally-odd part of
+T·cot s), a term-by-term ℚ(i) identity over the 32 sheets whose residue face is gate S2
+([`f127_global_representation.py`](../simulations/f127_global_representation.py), 288/288
+cells); it makes 𝔉 fully explicit and the single-angle oddness manifest, and on V it recasts
+F127 as one explicit 32-term flip-sum; it RESTATES the theorem, it does not re-prove it, and
+nothing about the wall or the grade changes. The prior §3 route stays as cross-check: one
 exact divisibility, Res_{z₃}(Qz, P) | E (the mirror-quadratic divisibility, doubled); a
 transport lemma moves the vanishing into the committed w₃-eliminated frame (unit factor
 1 − c^{−2s}); the single-angle oddness bijections collapse the Laurent window; and the
@@ -4963,6 +4969,8 @@ for rigor, structure builders reused), and the step-by-step verifier
 [`cross_triple_orthogonality.py`](../simulations/cross_triple_orthogonality.py) (~2 min).
 The residue-collapse sub-library (2026-07-14, the structural proof's gates):
 [`f127_closed_form.py`](../simulations/f127_closed_form.py) (the §3 closed form, primary),
+[`f127_global_representation.py`](../simulations/f127_global_representation.py) (§3A: the
+𝔉 = −4·𝒪[T·cot s] representation, 288 cells),
 [`f127_core_identity.py`](../simulations/f127_core_identity.py),
 [`f127_core_locus_patch.py`](../simulations/f127_core_locus_patch.py),
 [`f127_exact_gates.py`](../simulations/f127_exact_gates.py),
