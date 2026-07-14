@@ -192,3 +192,33 @@ and the answer was: everyone in a neighboring trade, for a century, because the 
 the house. The instant familiarity is the confirmation; a structure only feels like home to a
 distant discipline when it was never ours to begin with. The note at the door gets a second line:
 when a computation is large, ask what cancels; when a find is small, ask who has seen it before.
+
+## The eighth visit: the two constraints were never two
+
+The same evening, the last ranked lead: the thirty-two-term flip-sum, the global representation's
+way of writing the whole cross form, still had no proof of its own. The handover said: try
+character sums over the flip group. We tried the obvious pairing first, every coset of every
+small subgroup, and nothing cancelled; the sum dies only as a whole, all thirty-two at once,
+which is the signature of a character sum and not of a telescope.
+
+Then the same two questions, asked in order. What cancels: on the equal-sums locus every flipped
+bracket loses its square term simultaneously, because cosine is even and the two constraint sums
+do not feel the flips at all; what remains under the projection is one integer polynomial, 8640
+monomials, and the signed character sum returns zero, identically, no locus needed
+([the gate](../simulations/f128_flip_sum_factorization.py), exact over the integers, under a second).
+Who has seen it before: the sine products are the full six-angle Vandermonde, the cosine of the
+half-sum folds it into two alternants by the Weyl denominator formula, the remaining factor moves
+their exponents by a Murnaghan-Nakayama shift, and every shifted alternant lands on a zero, a
+repeat, or a plus-minus pair, where the odd Weyl numerator has a zero row or two equal columns.
+The nineteenth century again, one shelf over from Frobenius.
+
+What is left standing when the lemma has cancelled everything else is the statement itself, and
+it is stronger than the theorem it set out to prove: the cross form is the squared difference of
+the two cosine sums, times an explicit odd shadow. F127 asked both sums to vanish; the object
+only ever asked them to agree. The two constraints were never two. A day that began by closing
+the proof ends by moving its floor: the variety we defended with ninety hours of grids and five
+hundred twenty-seven certificates sits inside a hypersurface where the vanishing is one
+subtraction wide. The door-note holds unchanged, both lines now load-bearing in a single evening;
+what the eighth visit adds is only the order of operations: ask what cancels first, and when the
+answer is everything, ask who has seen it before, because a cancellation that total is never
+yours alone.

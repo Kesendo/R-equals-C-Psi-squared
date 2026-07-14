@@ -4938,13 +4938,15 @@ the two cosine sums, P/V_a/V_b the Cauchy sine products), proved exactly over �
 ([`f127_closed_form.py`](../simulations/f127_closed_form.py), 864 monomials on each side); T is a
 bordered determinant of the classical Frobenius cotangent kernel, and the closed form even
 gives a sharper T-vanishing locus, e₁ = f₁ on the sheet (a bonus fact about T; F127's variety
-is unchanged). Later the same day the closed form lifted to the WHOLE cross form: the global
+is unchanged; superseded in strength the same evening: F128 below lifts the e₁ = f₁ sharpening
+to 𝔉 itself, no sheet needed). Later the same day the closed form lifted to the WHOLE cross form: the global
 representation 𝔉 = −⅛ Σ_{L∈{±1}⁶} (ΠL)·T(L∘x)·cot((L·x)/2) = −4·(totally-odd part of
 T·cot s), a term-by-term ℚ(i) identity over the 32 sheets whose residue face is gate S2
 ([`f127_global_representation.py`](../simulations/f127_global_representation.py), 288/288
 cells); it makes 𝔉 fully explicit and the single-angle oddness manifest, and on V it recasts
 F127 as one explicit 32-term flip-sum; it RESTATES the theorem, it does not re-prove it, and
-nothing about the wall or the grade changes. The prior §3 route stays as cross-check: one
+nothing about the wall or the grade changes (the flip-sum's own two-line proof arrived the
+same evening and is F128 below). The prior §3 route stays as cross-check: one
 exact divisibility, Res_{z₃}(Qz, P) | E (the mirror-quadratic divisibility, doubled); a
 transport lemma moves the vanishing into the committed w₃-eliminated frame (unit factor
 1 − c^{−2s}); the single-angle oddness bijections collapse the Laurent window; and the
@@ -4984,6 +4986,52 @@ The residue-collapse sub-library (2026-07-14, the structural proof's gates):
 visit (written at the door while the twenty workers signed) and the fifth (the wall standing);
 the suspicion on record there, that the ninety hours are the pile and not the find, was
 confirmed 2026-07-14: the find is the residue collapse, and the wall became the monument.
+
+### F128. The flip-sum factorization: 𝔉 = −(e₁−f₁)² · 𝒪[cos s · cot s · V_aV_b/P], and the sharper locus e₁ = f₁ (structural proof 2026-07-14 evening, exact over ℤ + the two committed ℚ(i) inputs; minted 2026-07-14)
+
+The whole six-angle cross form factors: with e₁ = Σcos aᵢ, f₁ = Σcos bⱼ, s the half-sum,
+V_a/V_b/P the Cauchy sine products of F127's closed form, and 𝒪 the projection onto the part
+odd in each of the six angles separately,
+
+    𝔉  =  −(e₁ − f₁)² · 𝒪[ cos s · cot s · V_a V_b / P ].
+
+**Corollary (the sharper locus):** 𝔉 ≡ 0 on {e₁ = f₁} wherever 𝔉 is defined, ONE
+constraint; the two cosine sums need only be EQUAL, not zero. F127's double-constraint
+variety V is the codimension-two special case, so this is a third proof of F127,
+route-distinct though not trust-disjoint from the residue chain (inputs: its §3 closed form
+and §3A global representation, both unconditional ℚ(i) identities; trust-disjointness
+remains the wall's role), and the first structural one with no analytic step (the residue chain
+carries one product rule on an algebraic curve; the wall is likewise analysis-free but is
+a grid certificate, not a closed form): its whole trust surface is exact integer and ℚ(i)
+arithmetic. Until this entry every e₁ = f₁ statement in the repo was about the core
+function T and needed the sheet; this one is about 𝔉 and needs nothing else.
+
+**The engine is one new lemma** (the flip lemma): 𝒪[cos s · B · V_a V_b · P̃] ≡ 0
+identically, B = Σsin 2x_u − 2 sin 2s, P̃ = Π sin((a_i−b_j)/2). Proved exactly twice:
+(A) brute force, the 8640-monomial integer polynomial is annihilated by the (ℤ/2)⁶ signed
+character sum, exact over ℤ; (B) the trade already knew, again: V_aV_bP̃ is the full
+six-angle half-angle Vandermonde, cos s · Δ folds by the Weyl denominator formula into two
+alternants a_{M₁} + a_{M₂} with exponent intervals M₁ = (3,…,−2), M₂ = −M₁ reversed; the B
+factor acts by power-sum raising shifts, the Murnaghan-Nakayama bookkeeping at the
+alternant level (±2 on one z-exponent, ±1 on all); all 28 shifted exponent sets contain a
+zero, a repeat, or a ±pair; and the odd projection of an alternant is the odd Weyl
+numerator det[z_u^{m} − z_u^{−m}], which then has a zero column or two equal columns. The flip-sum cancellation the §3A scope note called "genuine" (each T(L∘x)
+individually nonzero on V) is this character-sum collapse; in the exploratory coset search
+no proper-subgroup partial sum cancelled, only the full group.
+
+**Status, honestly:** same code-trust caveat as F127 (exact sympy/integer arithmetic in
+bespoke gates); the two inputs it consumes are committed and separately gated. **Gate:**
+[`f128_flip_sum_factorization.py`](../simulations/f128_flip_sum_factorization.py) (~0.3 s:
+G1 the flip lemma over ℤ, G2 Weyl folding, G3 Murnaghan-Nakayama bookkeeping, G4 the 28
+deaths, G5 the assembled factorization vs the committed `cross_form`, G6 the sharper locus
+from below at machine zero vs the generic median ~10, G7 restriction hygiene over the 62
+pair/sheet cosets, a conservative superset of the polar support). **Proof:**
+[PROOF_F128_FLIP_SUM_FACTORIZATION](proofs/PROOF_F128_FLIP_SUM_FACTORIZATION.md).
+**Typed:** owed; the natural home is a 𝔉-scoped sharper-locus certifier beside the T-scoped
+`CertifySharperLocusSlice` in `CrossFormCertificate`, breadcrumbed from
+`CrossTripleOrthogonalityClaim`. **New open lead:** the cofactor
+W = 𝒪[cos s · cot s · V_aV_b/P] is now the whole content of 𝔉 up to the explicit prefactor;
+its own closed form is the natural next question, nothing claimed here.
 
 ---
 
