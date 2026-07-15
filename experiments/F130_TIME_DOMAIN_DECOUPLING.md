@@ -95,6 +95,13 @@ undone before any IBM design: the lifts live in Liouville space (a 2-excitation 
 a 1-excitation bra), and no committed source yet maps w_τ to a PREPARABLE state and its
 readout; that mapping is the next design step, and the flight question only exists after it.
 
+**Resolved 2026-07-15 (same repository, design stage, no QPU):** the mapping question was
+taken to its budget and the beat protocol is NOT flyable; even an everywhere-optimistic
+amplitude bound sits ~2 orders below the discrimination bar. Verdict + numbers:
+[F130_HW_INFEASIBILITY.md](F130_HW_INFEASIBILITY.md). What flies instead is F129's
+collision as a first-order standing Ramsey fringe:
+[IBM_F129_RAMSEY_FRINGE.md](IBM_F129_RAMSEY_FRINGE.md) (design draft).
+
 ## What is NOT claimed
 
 - **One lab.** N = 11, the documented n = 12 pair, one generic control (3,4,9). The power

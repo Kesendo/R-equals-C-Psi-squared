@@ -5151,6 +5151,12 @@ all-orders protection).
 [Experiment](../experiments/F130_TIME_DOMAIN_DECOUPLING.md) +
 gate [`f130_time_domain_decoupling.py`](../simulations/f130_time_domain_decoupling.py).
 
+**Hardware (2026-07-15, design stage, no QPU):** the naive beat protocol is NOT flyable
+(an everywhere-optimistic amplitude bound sits ~2 orders below the discrimination bar;
+the q⁴ smallness IS the law): [F130_HW_INFEASIBILITY.md](../experiments/F130_HW_INFEASIBILITY.md).
+The surviving first-order hardware face is F129's standing Ramsey fringe:
+[IBM_F129_RAMSEY_FRINGE.md](../experiments/IBM_F129_RAMSEY_FRINGE.md) (design draft).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
