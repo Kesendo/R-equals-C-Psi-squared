@@ -48,19 +48,19 @@ ERROR MODEL (v2, review round 1 folded):
     ZZ drift is zero BY SYMMETRY (mirror pair equalizes the bond correlators), which
     is zeta-independent and holds at every theta.
 
-Constants from the external pipeline survey (2026-07-15): tau_step = 1200 ns,
-2q gate ~0.5 us, T1 ~ 200 us, T2* ~ 70 us, ZZ ~ 4 kHz (Confirmations 21 noise
-model). Billing projected by shots-ratio against the measured comparable
+Constants (v2.4): tau_step = 0.7 us wall (Heron-era 150 ns 2q, no idle
+padding), T1 ~ 200 us, T2* ~ 70 us, ZZ ~ 4 kHz in the Ramsey-shift convention
+H_ZZ = pi zeta Z_i Z_j (Confirmations 21 noise model / price_pair measurement). Billing projected by shots-ratio against the measured comparable
 (IBM_CONCENTRATOR_RELOADED: 376,832 shots billed 119 s).
 """
 
 import numpy as np
 from itertools import combinations
 
-TAU_STEP_US = 1.2
+TAU_STEP_US = 0.7   # v2.4: no idle padding (150 ns 2q); the padding was concentrator legacy
 T1_US = 200.0
 T2S_US = 70.0
-ZZ_RAD_PER_STEP = 2 * np.pi * 4e3 * TAU_STEP_US * 1e-6  # ~0.030 rad at zeta = 4 kHz
+ZZ_RAD_PER_STEP = 2 * np.pi * 4e3 * TAU_STEP_US * 1e-6  # ~0.0176 rad at zeta = 4 kHz, tau = 0.7 us
 ZZ_SAFETY = 5.0
 BILLED_S_PER_SHOT = 119.0 / 376832.0
 
@@ -129,12 +129,16 @@ def zz_drift_exact(theta, a, b, nn):
 
 
 def visibility(m, nn, m_deph, p2):
-    """Predicted fringe amplitude at M = m steps."""
+    """Predicted fringe amplitude at M = m steps. v2.4 model, re-frozen at the 7a
+    gate: Heron-era timing (150 ns 2q, NO idle padding, tau_step = 0.7 us wall),
+    times the 0.75 one-qubit-gate attenuation factor (transpiled sx count
+    336 + 42 M at 50 ns each; 7a sim/old-model ratio 0.79-0.82, pinned
+    conservative: the 7a mixture check requires V_sim >= this model at every M)."""
     givens = nn * (nn - 1) // 2
     bonds = nn - 1
     cx = 5 + 2 * givens * 2 + m * bonds * 2 + 5
-    t_us = m * TAU_STEP_US + 2 * givens * 0.5 / 5 + 2.0  # steps + networks (5 lanes) + seed
-    return (1 - p2) ** cx * np.exp(-3 * t_us / T1_US) * np.exp(-m_deph * t_us / T2S_US)
+    t_us = m * TAU_STEP_US + 2.5   # step wall + networks/seed at 150 ns 2q
+    return 0.75 * (1 - p2) ** cx * np.exp(-3 * t_us / T1_US) * np.exp(-m_deph * t_us / T2S_US)
 
 
 def slope_sigma(ms, nn, m_deph, p2, shots):
