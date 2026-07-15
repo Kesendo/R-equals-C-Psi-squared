@@ -5155,7 +5155,8 @@ gate [`f130_time_domain_decoupling.py`](../simulations/f130_time_domain_decoupli
 (an everywhere-optimistic amplitude bound sits ~2 orders below the discrimination bar;
 the q⁴ smallness IS the law): [F130_HW_INFEASIBILITY.md](../experiments/F130_HW_INFEASIBILITY.md).
 The surviving first-order hardware face is F129's standing Ramsey fringe:
-[IBM_F129_RAMSEY_FRINGE.md](../experiments/IBM_F129_RAMSEY_FRINGE.md) (design draft).
+[IBM_F129_RAMSEY_FRINGE.md](../experiments/IBM_F129_RAMSEY_FRINGE.md)
+(pre-registration; 7a + 7b recorded 2026-07-15, flight pending calibration + go).
 
 ---
 

@@ -1,11 +1,12 @@
 # IBM F129: The Standing Fringe
 
-**Status:** DESIGN DRAFT v2.4, pre-registration candidate. 7a RECORDED (§6); the
-Givens compiler exists and is certified. NOT flight-ready yet: the hardware runner
-is not built and 7b is not recorded. Per the one-shot discipline the flight
-question exists only after: 7b counts gate on the actual runner → billing
-re-checked → this document committed as the pre-registration → fresh calibration +
-chain rule → Tom's explicit go.
+**Status:** PRE-REGISTRATION v2.5. 7a AND 7b RECORDED (§6); the Givens compiler
+and the hardware runner exist and are certified. The remaining steps before the
+one flight, in the pinned order: fresh calibration + the §8 chain rule as a
+HARD abort on flight day → Tom's explicit go → ONE job → RECORD appended here.
+The runner: `run_f129_ramsey_fringe.py` in the external IBM pipeline
+(AIEvolution.UI/experiments/ibm_quantum_tomography), importing this repo's
+committed gates as the single source of circuits, estimator and verdict.
 **Date:** 2026-07-15
 **Authors:** Thomas Wicht & Claude
 **Design gate:** [`simulations/f129_ramsey_fringe_design.py`](../simulations/f129_ramsey_fringe_design.py)
@@ -127,16 +128,20 @@ PUBs and 8 in-situ T1/T2* PUBs interleaved (concentrator pattern), ≈ 64 PUBs t
 v2.2 for the billing cushion; it duplicated A1's detuning magnitude and decided
 nothing.)
 
-**Instruments (v2.4 status):** the Givens network compiler EXISTS and is certified
+**Instruments (v2.5 status):** the Givens network compiler EXISTS and is certified
 machine-zero ([`f129_givens_compiler.py`](../simulations/f129_givens_compiler.py):
 per-arm column permutations put each arm's differing modes contiguous, so the cat
 costs 5/3/1 CX for A0/A1/A2; branch signs tracked from the column-permutation
-parity; circuit-vs-direct Slater < 6·10⁻¹⁵, full-chain fringe = M·ΔΦ exact), and
-the seed + estimator run end-to-end in the 7a gate
-([`f129_ramsey_7a_gate.py`](../simulations/f129_ramsey_7a_gate.py)). Still to
-build: the HARDWARE runner in the external pipeline (bonding cascade, ab_test Aer
-harness, calibration pull are reusable; a 2/3-magnon preparation has never been
-flown there).
+parity; circuit-vs-direct Slater < 6·10⁻¹⁵, full-chain fringe = M·ΔΦ exact); the
+seed + estimator run end-to-end in the 7a gate
+([`f129_ramsey_7a_gate.py`](../simulations/f129_ramsey_7a_gate.py)); and the
+HARDWARE runner exists (`run_f129_ramsey_fringe.py`, external pipeline), with
+modes --calibrate / --certify / --simulate (the 7b gate) / --hardware (gated
+behind --yes) / --analyze, counts persisted BEFORE any reduction (the
+concentrator lesson), and the repo gates imported as the single source of
+circuits, estimator and verdict (no copied physics). Per-arm CX counts:
+112 + 2(cat−1) + 14M, so the shared A0-formula V-model over-counts the smaller
+control cats, conservative as pinned.
 
 ## 4. Dose
 
@@ -268,13 +273,13 @@ is ≈ 0. The design's exposure is false-negative (power), which the margins abo
 cover, including at the p₂ stress point 0.5 % and under a uniform 2× V-model miss
 (margins halve, clauses survive).
 
-**Null band and bootstrap (owed to 7a/7b):** the 7a sim gate must produce (i) a
-frozen null band for clause (a) from a zero-drift synthetic arm through this exact
-estimator, and (ii) hierarchical bootstrap SEs; if the bootstrap SE exceeds 1.3×
-the analytic σ_slope, the bands are re-frozen from the bootstrap at the 7b gate,
-recorded in the Revision notes BEFORE the pre-registration commit, never after data.
+**Null band and bootstrap (DISCHARGED at 7a/7b, see §6):** the 7a gate produced
+(i) the frozen null band for clause (a) from a zero-drift synthetic arm through
+this exact estimator, and (ii) hierarchical bootstrap SEs; the re-freeze trigger
+(bootstrap SE > 1.3× analytic) did not fire (ratios 0.90/0.63/0.50), so the
+analytic bands stand, confirmed unchanged at the 7b gate.
 
-## 6. The two gates (to be recorded here before any shot)
+## 6. The two gates (RECORDED below, before any shot)
 
 - **7a (from-below sim):** full-circuit Aer simulation of the flown construction
   under the anchored noise model (p₂, T1/T2*, readout, ZZ = 4 kHz), through the §5
@@ -289,7 +294,7 @@ recorded in the Revision notes BEFORE the pre-registration commit, never after d
   magnon-number leakage feeding spurious phase. RECORDED below.
 - **7b (counts level):** the actual runner's circuits, the actual transpilation,
   counts through the actual estimator code; band reconciliation recorded. Hard
-  pre-flight abort if 7b contradicts 7a. Not recorded yet.
+  pre-flight abort if 7b contradicts 7a. RECORDED below.
 
 ### 7a RECORDED (2026-07-15, gate [`f129_ramsey_7a_gate.py`](../simulations/f129_ramsey_7a_gate.py), seeds pinned in the gate)
 
@@ -330,6 +335,22 @@ model exactly.
   quadratically and bought nothing), the V-model re-freeze, and the two
   clause-(a) budgets b_zz2, b_qs.
 
+### 7b RECORDED (2026-07-15, runner `run_f129_ramsey_fringe.py --simulate`, external pipeline)
+
+The runner's OWN circuit list (54 science, round-robin by M-point, + 2 cal
+PUBs), its own transpilation, counts through the estimator and verdict IMPORTED
+from the 7a gate (single code path, nothing re-implemented): **CONFIRMED on all
+three 7b seeds** (dev_a +0.70 to +1.67, sep_b ≈ 62σ), band reconciliation
+σ_a = 0.00339 = the 7a value exactly, budgets b_zz2 = 0.00427 / b_qs = 0.008
+unchanged; the analytic bands stand. Runner `--certify` PASS: per-arm CX counts
+match 112 + 2(cat−1) + 14M exactly, noiseless slopes within sampling noise of
+the Floquet ΔΦ, and the conservatism ordering (A0 ≥ A1 ≥ A2 CX) holds. Billing:
+64 PUBs × 16384 shots ≈ 1.05M shots → 5.5 min shots-ratio, 6.6-7.7 min with the
+depth uplift (unchanged; re-checked against the account meter on flight day).
+Zero-QPU dress rehearsal of the calibration path ran against the live backend
+(2026-07-15, ibm_kingston): 41 chains pass the §8 v2.5 rule, chain file
+written.
+
 ## 7. Cost, budget, and the gate order
 
 54 science circuits × 16384 shots + ~10 cal PUBs ≈ 1.05M shots. Billing by
@@ -348,14 +369,21 @@ fresh calibration + chain selection (hard abort armed) → Tom's explicit go →
 
 ## 8. Chain rule and guards (carried in verbatim, extended)
 
-Day-of hard aborts, no override flag: an 8-qubit line with every qubit
-T2echo ≥ 150 µs, max/min T2echo ≤ 2, readout error ≤ 2 %, and median two-qubit (ECR)
-error of the chain ≤ 0.5 % (the p₂ stress point where the §5 margins still hold
-3.0× / 7.0×). The visibility model additionally rests on T2* = 70 µs, which T2echo
-does not guarantee: the chain's calibration T2* (or, where the calibration data
-carries none, the free-window M = 0 network Ramsey of the de-risking rule below)
-must read ≥ 70 µs median, else abort; the §5 sensitivity line covers a residual
-2× miss.
+Day-of hard aborts, no override flag (v2.5 rule; every threshold is an anchor of
+a pinned model, not an aesthetic): an 8-qubit line with every qubit
+T2echo ≥ 100 µs (the pinned 2× V-sensitivity absorbs a shortfall), the SEED-end
+readout error ≤ 2 % (only the seed qubit is measured; the chain is oriented so
+the better-readout end is the seed), median two-qubit (CZ, the Kingston native) error of the chain's bonds
+≤ 0.5 % (the p₂ stress point where the §5 margins still hold 3.0× / 7.0×), and
+the chain's median T2* estimate ≥ 70 µs (the visibility-model anchor, which
+T2echo does not guarantee; where the calibration data carries no T2*, the
+free-window M = 0 network Ramsey of the de-risking rule below stands in). The
+v1-v2.4 rule inherited the concentrator's all-qubit RO ≤ 2 % and max/min
+T2echo ≤ 2 verbatim; on an 8-qubit line that uniformity aesthetic excluded
+every chain on a healthy device (0 of 950 on the 2026-07-15 ibm_kingston
+calibration) while protecting nothing this design measures, and it was replaced
+by the anchors above (41 of 950 pass the same day, best chain median 2q 0.15 %,
+median T2* estimate 136 µs, seed RO 0.5 %).
 Any failed fit, NaN, or guard trip is declared an instrument failure, never a
 physics verdict. Between-arm drift is bounded by the round-robin
 interleaving, not by the error bars (concentrator caveat carried in). The
@@ -439,6 +467,22 @@ alone, M = 0), never on the flight.
   relabeled: the verdict control, formerly A3, is now A2; 72 → 54 science
   circuits, operative projection 6.6-7.7 QPU min, cushion ≥ 2.3 min). Scope
   fence: the stepped-device nuance and cleanness-as-construction made explicit.
+- **v2.5 (2026-07-15, the runner + 7b session):** the hardware runner built in
+  the external pipeline (modes --calibrate/--certify/--simulate/--hardware
+  --yes/--analyze; counts persisted before reduction; repo gates imported as
+  the single source). 7b RECORDED (§6): CONFIRMED on the runner's own
+  transpiled circuits, bands identical to 7a. Two instrument findings folded:
+  (i) the per-arm CX counts are 112 + 2(cat−1) + 14M (the smaller control cats
+  spend fewer CX; the shared A0-formula V-model is thereby conservative, and
+  the runner's --certify pins the exact per-arm counts); (ii) the §8 chain rule
+  as inherited from the concentrator was structurally infeasible for an
+  8-qubit line (0 of 950 chains on the live 2026-07-15 Kingston calibration,
+  killed by the all-qubit RO and max/min T2echo uniformity clauses that
+  protect nothing this design measures) and was replaced by the model-anchor
+  rule of §8 (min T2echo 100 µs under the pinned 2× V-sensitivity, seed-end
+  readout, median 2q ≤ 0.5 %, median T2* ≥ 70 µs), under which 41 chains pass
+  the same day. Status: PRE-REGISTRATION; remaining before the flight are only
+  the day-of calibration + hard abort and Tom's explicit go.
 - **v2.4.1 (2026-07-15, 7a-landing review round 1 folded):** the spec lens's
   MAJOR was real: the budgeted clause-(a) window existed only in prose; the 7a
   gate's verdict() now implements the asymmetric budgeted window, the VIOLATED

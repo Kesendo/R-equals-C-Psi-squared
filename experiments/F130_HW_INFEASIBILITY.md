@@ -49,9 +49,10 @@ first-order observable that does work.
    meaningful up to q ≈ 1; beyond that the chain is hopping-dominated, the
    dephasing-induced beat B is no longer the object being measured, and extrapolating
    the law there does not describe any experiment. Inside the domain the best point
-   (q = 1, γ_step = 0.32, M = 1) gives amplitude 1.5·10⁻⁴ and SNR 0.014 at 8192
-   shots: **360× short of the 5σ discrimination bar**, roughly 2.6 orders in
-   amplitude and over 5 orders in shots. Even the generous over-extrapolation to
+   (q = 1, γ_step = 0.167 = 1/(6M), M = 1; γ_step and M truly maximized over,
+   only θ ≤ 0.32 constrains) gives amplitude 2.0·10⁻⁴ and SNR 0.018 at 8192
+   shots: **276× short of the 5σ discrimination bar**, roughly 2.4 orders in
+   amplitude and about 5 orders in shots. Even the generous over-extrapolation to
    q = 2 (printed separately by the gate; 6× past the fit window) reaches only
    SNR 0.073, still 69× short. The protected arm is smaller by another factor
    q²·(5.9·10⁻⁵/1.9·10⁻²) ≈ 1.2·10⁻² and is invisible a fortiori. And the large-q
@@ -94,7 +95,7 @@ collision pins it to zero.
   inherits an exactly standing fringe up to a computable third-order drift.
 - **The pivot:** the F129 Ramsey-fringe design,
   [IBM_F129_RAMSEY_FRINGE.md](IBM_F129_RAMSEY_FRINGE.md), a first-order protocol at
-  the n = 9 clean mirror collision (impostor rejection 21.7σ, verdict control 50.2σ,
+  the n = 9 clean mirror collision (impostor rejection 26.5σ, verdict control 62.4σ,
   6.6-7.7 QPU minutes projected). F130's own n = 12 pair does NOT fly there: its nearest impostor
   sits at dS = 0.018 and is inseparable at this budget; the pivot carries F129's law,
   not F130's pair.
