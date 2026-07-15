@@ -267,15 +267,19 @@ if (args.Length > 0 && args[0] == "collision")
     var cworld = new World();
     Console.WriteLine("the level-collision law (F129, the six-cosine sibling of the seed world -- adopted 2026-07-14)");
     Console.WriteLine("  sources docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md + simulations/f129_level_collision_law.py");
+    Console.WriteLine("  + the inventory experiments/F129_FAMILY_INVENTORY.md, counts derived in");
+    Console.WriteLine("  docs/proofs/PROOF_F129_FAMILY_INVENTORY_COUNTS.md (gate simulations/f129_family_inventory.py)");
     Console.WriteLine("  Seed asks which triples sum to ZERO (resonance); this asks which triples sum to EACH OTHER");
     Console.WriteLine("  (coincidence). The law: distinct CLEAN triples with equal levels exist iff 3|n (n>=9) or 10|n");
     Console.WriteLine("  (n>=20); away from both the level map is INJECTIVE (mod-p distinctness = proof grade). The");
     Console.WriteLine("  pentagon walks the 10|n door alone, unchained from the 15|n that held it at three cosines.");
     Console.WriteLine();
-    Console.WriteLine($"  {"n",3} {"verdict",-10} {"clean",6} {"pairs",6} {"disj",5} {"ov1",4}   example collision");
+    Console.WriteLine($"  {"n",3} {"verdict",-10} {"clean",6} {"pairs",6} {"disj",5} {"ov1",4} {"inv",6}   example collision");
+    int lastFiring = 0;
     for (int n = 5; n <= cn; n++)
     {
         var census = new LevelCollision(cworld, n).Census();
+        if (census.Fires) lastFiring = n;
         string verdict = !census.Fires ? "INJECTIVE"
                        : n % 30 == 0 ? "3|n+10|n"
                        : n % 3 == 0 ? "3|n"
@@ -283,14 +287,34 @@ if (args.Length > 0 && args[0] == "collision")
         string example = census.ExampleA is { } ea && census.ExampleB is { } eb
             ? $"({ea.Item1},{ea.Item2},{ea.Item3}) ~ ({eb.Item1},{eb.Item2},{eb.Item3})"
             : "-";
+        var inv = LevelCollision.InventoryOf(n);
         bool mismatch = (census.CollidingPairs > 0) != census.Fires;
+        bool invMismatch = inv.Total != census.CollidingPairs
+                        || inv.Disjoint != census.DisjointPairs || inv.Overlap1 != census.Overlap1Pairs;
         Console.WriteLine($"  {n,3} {verdict,-10} {census.CleanCount,6} {census.CollidingPairs,6} " +
-                          $"{census.DisjointPairs,5} {census.Overlap1Pairs,4}   {example}{(mismatch ? "   LAW MISMATCH" : "")}");
+                          $"{census.DisjointPairs,5} {census.Overlap1Pairs,4} {inv.Total,6}   {example}" +
+                          $"{(mismatch ? "   LAW MISMATCH" : "")}{(invMismatch ? "   INVENTORY MISMATCH" : "")}");
     }
     Console.WriteLine();
     Console.WriteLine($"  law over 5..{cn}: {(LevelCollision.LawHolds(5, cn) ? "HOLDS (firing set = predicted set)" : "BROKEN")}");
     Console.WriteLine($"  sub-law (overlap-1 forces 3|n): {(LevelCollision.SubLawHolds(5, cn) ? "HOLDS" : "BROKEN")}");
     Console.WriteLine($"  mechanism anchors (n=15 four R3 cycles; n=20 R5 pair + zero mode): {(LevelCollision.AnchorsExact() ? "EXACT" : "BROKEN")}");
+    Console.WriteLine();
+    Console.WriteLine("  the family inventory (adopted 2026-07-15, derived closed forms; inv = their sum above):");
+    Console.WriteLine("  thirteen families A..M by minimal-piece decomposition; degree counts the freedom (free labels");
+    Console.WriteLine("  + the d=2 s-line: A two labels, B label*s-line, C..H linear, sporadics constant); M = 40 + 0 + 60");
+    Console.WriteLine("  over the three CDK order-210 types, the middle one impossible (one axis-fixed vertex).");
+    if (lastFiring > 0)
+    {
+        Console.WriteLine($"  breakdown at n = {lastFiring}:");
+        foreach (LevelCollision.CollisionFamily f in Enum.GetValues<LevelCollision.CollisionFamily>())
+        {
+            long c = LevelCollision.FamilyCount(f, lastFiring);
+            if (c > 0)
+                Console.WriteLine($"    {f}: {c,6}   (door {LevelCollision.FamilyDoor(f)}|n, " +
+                                  $"{(LevelCollision.FamilySharesAMode(f) ? "shares a mode" : "disjoint")})");
+        }
+    }
     Console.WriteLine();
     Console.WriteLine("  boundary: the physical Gram decoupling at these collisions (F130, B(tau,sigma) = 0) is an");
     Console.WriteLine("  eigen-story and stays in the main repo (inspect --root crosstriple); the n <= 210 census");

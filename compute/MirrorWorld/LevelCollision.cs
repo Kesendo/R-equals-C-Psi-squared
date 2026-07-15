@@ -22,6 +22,20 @@ namespace MirrorWorld;
 /// anchors (n = 15: four rotated R3 cycles; n = 20: the R5 conjugate pair + the zero mode)
 /// are checked as root-sum zeros mod both primes.
 ///
+/// THE FAMILY INVENTORY (adopted 2026-07-15 from experiments/F129_FAMILY_INVENTORY.md +
+/// docs/proofs/PROOF_F129_FAMILY_INVENTORY_COUNTS.md): every colliding pair decomposes into
+/// minimal vanishing pieces of the complete Poonen-Rubinstein/CDK list, and the pieces sort
+/// the census into exactly THIRTEEN families A..M, each with a DERIVED closed-form count.
+/// The degree counts the freedom, precisely: each free coset label, plus the shared-mode
+/// line of a d = 2 family, contributes one factor linear in n -- A two labels, B one label
+/// times the s-line (both quadratic); C..H one factor (linear); a rigid sporadic pinned by
+/// conjugation symmetry contributes a constant (I..M). The
+/// F129 onsets are ZEROS of the inventory (A(6) = B(6) = C(10) = 0), and family M splits
+/// 40 + 0 + 60 over the three CDK order-210 types, the middle one structurally impossible.
+/// What comes home is the closed arithmetic (doors, counts, the M split); the derivation
+/// (label/orbit engines, the s-lemma) stays in the proof, and its section 8 carries the
+/// honest code-trust flags.
+///
 /// The boundary, per Seed's header: the LAW and its COUNTS come home (arithmetic of the
 /// comb, no eigensolver); the physical Gram decoupling at collisions (F130, B(tau,sigma) = 0,
 /// the K_26/Slater construction) is an eigen-story and stays in the main repo, where it is
@@ -39,7 +53,7 @@ public sealed class LevelCollision : GameObject
         Ncomb = ncomb;
     }
 
-    public override IReadOnlyList<string> Own => new[] { "levels", "collisions" };
+    public override IReadOnlyList<string> Own => new[] { "levels", "collisions", "inventory" };
 
     /// <summary>The law's firing predicate: 3|n (n &gt;= 9) or 10|n (n &gt;= 20).</summary>
     public static bool Fires(int n) => (n % 3 == 0 && n >= 9) || (n % 10 == 0 && n >= 20);
@@ -128,6 +142,92 @@ public sealed class LevelCollision : GameObject
             if (CensusOf(n).Overlap1Pairs > 0 && n % 3 != 0) return false;
         return true;
     }
+
+    // ---- the family inventory (adopted 2026-07-15): thirteen families, thirteen derived
+    // ---- closed forms. Pieces per family (weight, CDK ratio order) and doors per the
+    // ---- inventory table; counts per the counting proof's label/orbit engines. A family's
+    // ---- count is 0 off its door AND at silent multiples below onset (the onsets are zeros
+    // ---- of the formulas, never extra conditions).
+
+    /// <summary>The thirteen collision families of the F129 inventory. A = four R3 pieces;
+    /// B = zero mode + R3-conjugate-pair; C = zero mode + R5-conjugate-pair (the pentagon);
+    /// D = (R5:3R3) weight 8; E = R3-pair + (R5:R3); F = (R5:R3) + conjugate; G = zero +
+    /// (R5:R3); H = (R7:R3) weight 8; I = (R7:5R3); J = zero + (R7:3R3); K = (R11:R3);
+    /// L = zero + (R7:R5) (the corner-closure's second mechanism); M = the weight-12
+    /// order-210 types.</summary>
+    public enum CollisionFamily { A, B, C, D, E, F, G, H, I, J, K, L, M }
+
+    /// <summary>The family's door: the divisibility that admits it (each piece's ratio order
+    /// must divide 2n).</summary>
+    public static int FamilyDoor(CollisionFamily f) => f switch
+    {
+        CollisionFamily.A => 3,
+        CollisionFamily.B => 6,
+        CollisionFamily.C => 10,
+        CollisionFamily.D => 15,
+        CollisionFamily.E => 15,
+        CollisionFamily.F => 15,
+        CollisionFamily.G => 30,
+        CollisionFamily.H => 21,
+        CollisionFamily.I => 21,
+        CollisionFamily.J => 42,
+        CollisionFamily.K => 33,
+        CollisionFamily.L => 70,
+        CollisionFamily.M => 105,
+        _ => throw new ArgumentOutOfRangeException(nameof(f)),
+    };
+
+    /// <summary>True for the d = 2 families (the pair shares one mode; weight-8 W). Their
+    /// doors all carry the factor 3: the F129 sub-law, visible piece by piece.</summary>
+    public static bool FamilySharesAMode(CollisionFamily f) =>
+        f is CollisionFamily.B or CollisionFamily.D or CollisionFamily.G or CollisionFamily.H;
+
+    /// <summary>The derived closed-form count of colliding pairs in family f at comb size n
+    /// (PROOF_F129_FAMILY_INVENTORY_COUNTS.md sections 2-6). Zero off the door; the onsets
+    /// (A and B at n = 6, C at n = 10) are zeros of the formulas themselves.</summary>
+    public static long FamilyCount(CollisionFamily f, int n)
+    {
+        if (n < 5 || n % FamilyDoor(f) != 0) return 0;
+        switch (f)
+        {
+            case CollisionFamily.A: { long k = FloorDiv(n - 9, 6); return (20 * k + 1) * (k + 1); }
+            case CollisionFamily.B: { long k = (n - 12) / 6; return 12 * (3 * k + 2) * (k + 1); }
+            case CollisionFamily.C: return 2L * (n - 10);
+            case CollisionFamily.D: return 12L * (n - 9);
+            case CollisionFamily.E: return n % 2 == 1 ? (20L * n - 264) / 3 : (20L * n - 324) / 3;
+            case CollisionFamily.F: return n % 2 == 1 ? 10L * n - 149 : 10L * n - 275;
+            case CollisionFamily.G: return 6L * (n - 8);
+            case CollisionFamily.H: return 6L * (n - 9);
+            case CollisionFamily.I: return 60;
+            case CollisionFamily.J: return 60;
+            case CollisionFamily.K: return 20;
+            case CollisionFamily.L: return 20;
+            case CollisionFamily.M: return 100;
+            default: throw new ArgumentOutOfRangeException(nameof(f));
+        }
+    }
+
+    /// <summary>Family M's sub-classification over the three CDK order-210 types (the counts
+    /// proof section 6, pinned from below by the committed gate's I5): (R7:(R5:2R3)) = 40,
+    /// (R7:R3,(R5:R3)) = 0 -- IMPOSSIBLE at every n: two branches of distinct types would
+    /// each need the odd gon's one axis-fixed vertex -- and (R7:2R3,R5) = 60.</summary>
+    public static (int FannedR5Pair, int MixedBranches, int FixedVertexR5) MSplit => (40, 0, 60);
+
+    /// <summary>The inventory totals at n: the thirteen closed forms summed, split by d.
+    /// The from-below tie: Total/Disjoint/Overlap1 equal the census counts exactly (the
+    /// thirteen families partition the census, gate I3).</summary>
+    public static (long Total, long Disjoint, long Overlap1) InventoryOf(int n)
+    {
+        long disjoint = 0, overlap1 = 0;
+        foreach (CollisionFamily f in Enum.GetValues<CollisionFamily>())
+        {
+            long c = FamilyCount(f, n);
+            if (FamilySharesAMode(f)) overlap1 += c; else disjoint += c;
+        }
+        return (disjoint + overlap1, disjoint, overlap1);
+    }
+
+    static long FloorDiv(long a, long b) => a >= 0 ? a / b : -((-a + b - 1) / b);
 
     /// <summary>The two mechanism anchors of the proof's paragraph 4, as root-sum zeros mod
     /// both primes: n = 15, (8,12,14) ~ (9,11,13) at a NONZERO shared level whose 12-root

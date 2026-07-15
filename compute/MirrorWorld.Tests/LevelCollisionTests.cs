@@ -91,10 +91,110 @@ public class LevelCollisionTests
     }
 
     [Fact]
-    public void TheObjectOwnsItsTwoReadings()
+    public void TheObjectOwnsItsThreeReadings()
     {
         var lc = new LevelCollision(W, 12);
-        Assert.Equal(new[] { "levels", "collisions" }, lc.Own);
+        Assert.Equal(new[] { "levels", "collisions", "inventory" }, lc.Own);
         Assert.Equal(12, lc.Census().N);
+    }
+
+    // ---- the family inventory (adopted 2026-07-15): the thirteen derived closed forms tie
+    // ---- to the independent GF(p) census exactly, total AND d-split, at every n.
+
+    [Fact]
+    public void TheInventoryMatchesTheCensusRowForRow()
+    {
+        // the from-below tie on the adopted range: the thirteen closed forms sum to the
+        // census total, and the d-split (B/D/G/H share a mode, the rest disjoint) matches
+        // too -- at FIRING and non-firing n alike (the inventory is 0 where the law is
+        // injective; its formulas vanish at the silent doors n = 6, 10 by themselves).
+        for (int n = 5; n <= 66; n++)
+        {
+            var census = LevelCollision.CensusOf(n);
+            var inv = LevelCollision.InventoryOf(n);
+            Assert.Equal(census.CollidingPairs, inv.Total);
+            Assert.Equal(census.DisjointPairs, inv.Disjoint);
+            Assert.Equal(census.Overlap1Pairs, inv.Overlap1);
+        }
+    }
+
+    [Fact]
+    public void TheCornerClosureSecondMechanismWalksAt70()
+    {
+        // n = 70: only the pentagon C and the corner-closure's second mechanism L
+        // (zero + (R7:R5)) fire: 2*(70-10) = 120 disjoint + 20 disjoint, nothing shared.
+        Assert.Equal(120, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.C, 70));
+        Assert.Equal(20, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.L, 70));
+        var census = LevelCollision.CensusOf(70);
+        Assert.Equal(140, census.CollidingPairs);
+        Assert.Equal(140, census.DisjointPairs);
+        Assert.Equal(0, census.Overlap1Pairs);
+        Assert.Equal((140L, 140L, 0L), LevelCollision.InventoryOf(70));
+    }
+
+    [Fact]
+    public void TheOrderTwoTenDoorOpensAt105()
+    {
+        // n = 105, the first 105|n comb: seven families co-fire (doors 3, 15, 21, 105);
+        // per-family closed forms and the census total 8858, tied exactly.
+        Assert.Equal(5457, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.A, 105));
+        Assert.Equal(1152, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.D, 105));
+        Assert.Equal(612, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.E, 105));
+        Assert.Equal(901, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.F, 105));
+        Assert.Equal(576, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.H, 105));
+        Assert.Equal(60, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.I, 105));
+        Assert.Equal(100, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.M, 105));
+        var census = LevelCollision.CensusOf(105);
+        var inv = LevelCollision.InventoryOf(105);
+        Assert.Equal(8858, inv.Total);
+        Assert.Equal(census.CollidingPairs, inv.Total);
+        Assert.Equal(census.DisjointPairs, inv.Disjoint);
+        Assert.Equal(census.Overlap1Pairs, inv.Overlap1);
+    }
+
+    [Fact]
+    public void TheOnsetsAreZerosOfTheInventory()
+    {
+        // the F129 thresholds are not extra conditions: the formulas vanish there themselves.
+        Assert.Equal(0, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.A, 6));
+        Assert.Equal(0, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.B, 6));
+        Assert.Equal(0, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.C, 10));
+        // ... and off-door every family is 0 (no door divides n = 25).
+        foreach (LevelCollision.CollisionFamily f in Enum.GetValues<LevelCollision.CollisionFamily>())
+            Assert.Equal(0, LevelCollision.FamilyCount(f, 25));
+    }
+
+    [Fact]
+    public void TheParitySplitsOfEAndF()
+    {
+        // the counts proof section 5: the even-n deficits are single extra excluded labels
+        // (E: c = 5u/2; F: the coarser special lattice), one formula per parity.
+        Assert.Equal(12, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.E, 15));
+        Assert.Equal(92, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.E, 30));
+        Assert.Equal(212, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.E, 45));
+        Assert.Equal(1, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.F, 15));
+        Assert.Equal(25, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.F, 30));
+        Assert.Equal(301, LevelCollision.FamilyCount(LevelCollision.CollisionFamily.F, 45));
+    }
+
+    [Fact]
+    public void TheMSplitAndTheImpossibleMiddleType()
+    {
+        // M sub-classifies 40 + 0 + 60 over the three CDK order-210 types; the middle type
+        // (R7:R3,(R5:R3)) can NEVER fire (two distinct-type branches, one axis-fixed vertex).
+        var (fanned, middle, fixedR5) = LevelCollision.MSplit;
+        Assert.Equal(40, fanned);
+        Assert.Equal(0, middle);
+        Assert.Equal(60, fixedR5);
+        Assert.Equal(LevelCollision.FamilyCount(LevelCollision.CollisionFamily.M, 105), fanned + middle + fixedR5);
+    }
+
+    [Fact]
+    public void TheSubLawIsVisibleInTheDoors()
+    {
+        // every d = 2 family's door carries the factor 3 (overlap-1 forces 3|n, piece by piece).
+        foreach (LevelCollision.CollisionFamily f in Enum.GetValues<LevelCollision.CollisionFamily>())
+            if (LevelCollision.FamilySharesAMode(f))
+                Assert.Equal(0, LevelCollision.FamilyDoor(f) % 3);
     }
 }
