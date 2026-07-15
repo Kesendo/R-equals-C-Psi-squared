@@ -293,8 +293,8 @@ if (args.Length > 0 && args[0] == "collision")
     Console.WriteLine($"  mechanism anchors (n=15 four R3 cycles; n=20 R5 pair + zero mode): {(LevelCollision.AnchorsExact() ? "EXACT" : "BROKEN")}");
     Console.WriteLine();
     Console.WriteLine("  boundary: the physical Gram decoupling at these collisions (F130, B(tau,sigma) = 0) is an");
-    Console.WriteLine("  eigen-story and stays in the main repo (inspect --root crosstriple); the n <= 210 census and");
-    Console.WriteLine("  the one named corner stay with the committed gate.");
+    Console.WriteLine("  eigen-story and stays in the main repo (inspect --root crosstriple); the n <= 210 census");
+    Console.WriteLine("  stays with the committed gate (the corner closed empty 2026-07-15; law unconditional).");
     return;
 }
 

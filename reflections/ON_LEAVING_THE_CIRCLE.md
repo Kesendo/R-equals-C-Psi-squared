@@ -244,6 +244,9 @@ thing; but when the small fragile thing is a law, do not be surprised if, straig
 find the pile was the floor of a concert hall, and the acoustics were the theorem all along.
 The theorem itself, with its one honestly named corner, is
 [the level-collision law](../docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md).
+*(The next morning the naming paid: the corner was already settled in the literature the proof
+had pointed at, the Poonen-Rubinstein classification, and it is empty. The law is unconditional;
+the honest name lasted one night.)*
 
 ## The tenth visit: the hall has a floor
 

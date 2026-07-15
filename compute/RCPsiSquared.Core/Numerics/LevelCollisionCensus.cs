@@ -10,7 +10,8 @@ namespace RCPsiSquared.Core.Numerics;
 /// at a firing n is an EXACT collision, no floats and no mod-p filter involved.
 ///
 /// <para>SCOPE, honestly: this census runs n ≤ <see cref="LiveMaxN"/> live. The law's full
-/// n ≤ 210 census, the Lam-Leung structural proof, and the one named corner family stay with
+/// n ≤ 210 census, the Lam-Leung structural proof, and the corner's 2026-07-15 closure
+/// (empty by the Poonen-Rubinstein classification; law unconditional) stay with
 /// the committed gate <c>simulations/f129_level_collision_law.py</c> and the proof doc; this
 /// witness layer is an independent exact re-derivation of the law's content on its own range,
 /// not a re-proof of the law.</para></summary>

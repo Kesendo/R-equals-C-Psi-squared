@@ -5,10 +5,11 @@ docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md):
 
   For n >= 5 call a triple tau = {k1<k2<k3} in {1..n-1} CLEAN if no internal pair is
   balanced (k_i + k_j != n).  Two distinct clean triples tau != sigma with EQUAL level
-  S = Sum cos(k_i pi/n) exist  ==>  3|n or 10|n  (proved modulo ONE named corner
-  family, proof doc SS4: a hypothetical minimal weight-12 sum whose smallest
-  ratio-order primes are {2,5,7}, forcing odd 35|n; this census IS its certificate
-  through n = 210, next candidate n = 245).  Conversely such pairs exist at every
+  S = Sum cos(k_i pi/n) exist  ==>  3|n or 10|n  (UNCONDITIONAL since 2026-07-15:
+  the one named corner family of the proof doc SS4, a hypothetical minimal weight-12
+  sum with smallest ratio-order primes {2,5,7} forcing odd 35|n, is EMPTY by the
+  Poonen-Rubinstein weight <= 12 classification; this census, in particular n = 35
+  and 175, is the independent from-below cross-check).  Conversely such pairs exist at every
   3|n >= 9 and every 10|n >= 20 (exhibited per n <= 210 by G3).  Equivalently: away
   from {3|n or 10|n} the level map is INJECTIVE on clean triples: tens of thousands
   of levels, zero accidental collisions.

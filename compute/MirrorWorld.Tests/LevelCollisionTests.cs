@@ -4,8 +4,8 @@ namespace MirrorWorldTests;
 
 /// <summary>From-below pins for the adopted level-collision law (F129), the six-cosine
 /// sibling of the seed world. Sources: docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md +
-/// simulations/f129_level_collision_law.py (the committed gate carries the n &lt;= 210 census
-/// and the named corner; these pins mirror its G2-G5 on the adopted range).</summary>
+/// simulations/f129_level_collision_law.py (the committed gate carries the n &lt;= 210 census;
+/// the named corner closed empty 2026-07-15; these pins mirror its G2-G5 on the adopted range).</summary>
 public class LevelCollisionTests
 {
     static readonly World W = new();

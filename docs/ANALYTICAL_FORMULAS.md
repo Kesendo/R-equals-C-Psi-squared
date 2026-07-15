@@ -5038,20 +5038,20 @@ landing; 23 since the F129/F130 layer joined the same suite 2026-07-14 night). *
 W = 𝒪[cos s · cot s · V_aV_b/P] is now the whole content of 𝔉 up to the explicit prefactor;
 its own closed form is the natural next question, nothing claimed here.
 
-### F129. The level-collision law: the triple level map is injective away from 3|n and 10|n (structural proof 2026-07-14 late, Lam-Leung + elementary; one named corner certified to n ≤ 210; minted 2026-07-14)
+### F129. The level-collision law: the triple level map is injective away from 3|n and 10|n (structural proof 2026-07-14 late, Lam-Leung + elementary; the named corner closed 2026-07-15 via the Poonen-Rubinstein classification, now unconditional; minted 2026-07-14)
 
 Call a triple τ ⊂ {1..n−1} CLEAN if no internal pair sums to n. For distinct clean triples,
 
     S(τ) = S(σ)   (equal cosine-sum levels, zero NOT required)   ⟹   3|n or 10|n
-                  (modulo one named corner family; the Status paragraph below),
+                  (unconditional; the Status paragraph below),
 
 with converses at every 3|n ≥ 9 and 10|n ≥ 20; away from both families the level map is
 INJECTIVE on clean triples (tens of thousands of levels per n, zero accidental collisions,
 certified to n = 210). **Sub-law:** overlap-1 collisions (4-term relations) force 3|n; the
 10|n door is exclusively disjoint pairs. **Mechanisms:** 3|n = rotated 3-cycles (the
 Conway-Jones 15|n sporadics absorbed); 10|n = the pentagon family, an R₅ conjugate pair
-plus the zero mode n/2 (at 70|n a {2,5,7}-piece second mechanism is not excluded; the law
-is unaffected). In the seed arc's three-cosine world (F89, `Seed.cs`) the pentagon
+plus the zero mode n/2 (at 70|n the classification permits exactly one further assembly,
+(R₇:R₅) plus the zero mode; the law is unaffected). In the seed arc's three-cosine world (F89, `Seed.cs`) the pentagon
 was chained to the 3 (the 15|n sporadic); at six cosines it is unchained: 10|n, no 3.
 
 **Why it exists here:** F128's sharper locus {e₁ = f₁} asks only for EQUAL triple energies;
@@ -5060,12 +5060,16 @@ massively on the two arithmetic families (the forced-and-free law wearing number
 The proof rides one reduction (equal sums of two triples = vanishing sums of SIX comb
 cosines, one weight level above the seed arc's three) plus Lam-Leung's minimal-vanishing-sum
 facts (two-prime structure; the ≥3-prime weight bound) plus elementary pairing arguments
-(odd cycles need conjugate partners; the support carries no real root). **Status, honestly:**
-proved except ONE named corner family (a hypothetical minimal weight-12 conjugation-symmetric
-sum whose ratio order has smallest primes {2,5,7}, further primes ≥ 11 not excluded; every
-instance forces odd n with 35|n and 3∤n), closed from below by the census through n = 210
-(next candidate n = 245); the family inventory (collision counts per firing n) is open, like
-the ROT3 multiplicity before it. No physical Gram/twinning claim is made here; phase 2
+(odd cycles need conjugate partners; the support carries no real root). **Status:** proved
+UNCONDITIONALLY. The one named corner the 2026-07-14 case analysis left open (a hypothetical
+minimal weight-12 conjugation-symmetric sum whose ratio order has smallest primes {2,5,7},
+forcing odd n with 35|n and 3∤n) was closed 2026-07-15: the Poonen-Rubinstein weight ≤ 12
+classification (verified against Theorem 3.3 + Table 1 of the classification paper
+arXiv:2008.11268, which reproduces it and extends it to weight ≤ 16) lists exactly five
+minimal types of weight 12, orders 66,
+210, 210, 210, 42, ALL divisible by 3, so the corner family is empty; the census (n = 35,
+175 exactly injective) stands as the independent from-below cross-check. The family
+inventory (collision counts per firing n) is open, like the ROT3 multiplicity before it. No physical Gram/twinning claim is made here; phase 2
 closed the same day as F130 (the collision-decoupling law, below).
 **Gate:** [`f129_level_collision_law.py`](../simulations/f129_level_collision_law.py)
 (~40 s: G1 the reduction exact, G2 injectivity proved at all 125 non-firing n ≤ 210 via
@@ -5079,7 +5083,7 @@ non-firing n IS a proof of injectivity there and an equal pair at a firing n IS 
 collision; no floats, no mod-p filter) plus both mechanism anchors term-exactly; a
 corrupted-predicate discrimination guard lives in the tests
 (`dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`, 23).
-The n ≤ 210 census and the named corner stay with the Python gate.
+The n ≤ 210 census stays with the Python gate; the corner's closure lives in the proof's §4.
 
 ### F130. The collision-decoupling law: equal level implies vanishing cross block (four-cell assembly of committed results, 2026-07-14 night; minted 2026-07-14)
 

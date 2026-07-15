@@ -26,7 +26,8 @@ namespace MirrorWorld;
 /// comb, no eigensolver); the physical Gram decoupling at collisions (F130, B(tau,sigma) = 0,
 /// the K_26/Slater construction) is an eigen-story and stays in the main repo, where it is
 /// witnessed exactly (CollisionDecoupling, inspect --root crosstriple). The law's full
-/// n &lt;= 210 census and its one named corner family also stay with the committed gate.</summary>
+/// n &lt;= 210 census also stays with the committed gate (its one named corner family was
+/// closed as EMPTY 2026-07-15 via the Poonen-Rubinstein classification; law unconditional).</summary>
 public sealed class LevelCollision : GameObject
 {
     /// <summary>Comb size n (= N_sites + 1); modes are 1..n-1.</summary>

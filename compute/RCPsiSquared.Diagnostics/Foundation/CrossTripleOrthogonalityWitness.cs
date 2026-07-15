@@ -36,7 +36,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// </list>
 /// This is the second implementation the F127/F128 code-trust caveat asks for, at sample scale; the
 /// proof objects remain the 527/527 grid+CRT wall and the committed <c>f12*_*</c> gates (F129's
-/// n ≤ 210 census and named corner stay with <c>simulations/f129_level_collision_law.py</c>).
+/// n ≤ 210 census stays with <c>simulations/f129_level_collision_law.py</c>; the named corner
+/// was closed as empty 2026-07-15, PROOF_F129 §4).
 /// A couple of seconds (the exact F129 census dominates; computed once per process); fully
 /// deterministic (xorshift streams seeded from the prime; the exact layers have no randomness).</summary>
 public sealed class CrossTripleOrthogonalityWitness : IInspectable
@@ -146,8 +147,8 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                 summary: "the residue-collapse chain recomputed live in C#: the §2 lattice (exact integer), " +
                          "the §3 core identity T (GF(p), independent of 𝔉), the §3 closed form + its sharper " +
                          "locus, the F128 flip lemma (exact ℤ) + factorization + 𝔉-sharper locus, the " +
-                         "𝔉-slice, the F129 exact ℤ[ζ_2n] level census (n ≤ 60; the n ≤ 210 census + the " +
-                         "named corner stay with the Python gate), and the F130 exact collision decoupling; " +
+                         "𝔉-slice, the F129 exact ℤ[ζ_2n] level census (n ≤ 60; the n ≤ 210 census stays " +
+                         "with the Python gate, the corner closed empty 2026-07-15), and the F130 exact collision decoupling; " +
                          "a SLICE of F127/F128 (not the wall) and an independent exact re-derivation of " +
                          "F129/F130's content on the witness range");
         }
@@ -277,8 +278,8 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                      $"{r.FiringChecked} firing n (3|n ≥ 9, 10|n ≥ 20) all carry an exact collision: " +
                      $"{r.AllFiringCollide}; firing set = predicted set: {r.LawEquality}; the n=15 R₃-cycle and " +
                      $"n=20 R₅+zero-mode anchors term-exact: {r.AnchorsExact} → {(ok ? "OK" : "BAD")}. " +
-                     "Scope: the law's n ≤ 210 census and its one named corner stay with " +
-                     "simulations/f129_level_collision_law.py",
+                     "Scope: the law's n ≤ 210 census stays with " +
+                     "simulations/f129_level_collision_law.py (corner closed empty 2026-07-15, PROOF_F129 §4)",
             provenance: NodeProvenance.Live);
     }
 

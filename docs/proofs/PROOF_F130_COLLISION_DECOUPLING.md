@@ -54,7 +54,8 @@ Two readings, both load-bearing:
    demoted the variety {e₁ = 0, f₁ = 0} to the locus {e₁ = f₁} for 𝔉.
 2. **With F129, the map is complete.** Equal-level pairs of distinct clean triples exist
    only at 3|n or 10|n ([F129](PROOF_F129_LEVEL_COLLISION_LAW.md)); away from those n the
-   hypothesis is empty on clean pairs (injectivity, modulo F129's one named corner family),
+   hypothesis is empty on clean pairs (injectivity; F129's one named corner family was
+   closed as empty on 2026-07-15, so this is unconditional),
    and on the firing families every collision the law permits carries exact cross-block
    orthogonality. No level degeneracy of triple multiplets is ever mixed away by the
    second-order coupling.

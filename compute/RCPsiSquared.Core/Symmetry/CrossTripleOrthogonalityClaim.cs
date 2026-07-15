@@ -124,8 +124,9 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
                     "simulations/f128_flip_sum_factorization.py, registry F128)");
             yield return new InspectableNode("F129, the level-collision law (2026-07-14 night)",
                 summary: "distinct CLEAN triples with equal levels S(τ) = S(σ) exist only at 3|n (n ≥ 9) or " +
-                    "10|n (n ≥ 20); away from both the level map is INJECTIVE (Lam-Leung + elementary, one " +
-                    $"named corner certified to n ≤ 210 by the Python gate). The witness recomputes an exact " +
+                    "10|n (n ≥ 20); away from both the level map is INJECTIVE (Lam-Leung + elementary; " +
+                    $"unconditional since 2026-07-15: the named corner is empty by the Poonen-Rubinstein " +
+                    $"weight ≤ 12 classification, census to n ≤ 210 as cross-check). The witness recomputes an exact " +
                     $"ℤ[ζ_2n] census live to n ≤ {F129LiveCensusMaxN} (free-basis level vectors: distinctness " +
                     "IS injectivity, an equal pair IS a collision, no floats, no mod-p) plus the two mechanism " +
                     "anchors term-exactly (docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md, " +
