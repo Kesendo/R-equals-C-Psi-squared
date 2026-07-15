@@ -44,7 +44,9 @@ Readings, from the table:
 
 The committed gate [f129_family_inventory.py](../simulations/f129_family_inventory.py) re-derives the whole table from scratch: exact collision pairs from the F129 census machinery, greedy decomposition per pair, then asserts (I1) every pair decomposes, (I2) every family count equals its closed form, (I3) the thirteen families partition the census, (I4) a family appears iff its door divides n. Default run: every firing n ≤ 140 (~15 min). `--deep` adds the capstones n = 150 and n = 210, where seven and twelve families fire simultaneously; both pass, with four of the five constant families co-firing at 210 (K needs 33|n). `--fast` runs n ≤ 66 (~1 min); the n = 210 point dominates `--deep` (~40 min total). The n = 210 capstone total (72,269 pairs) and every sub-count, and later the n = 132 and n = 140 points, were PREDICTED from the smaller-n fits before their runs (this file's authoring session; every pre-registered number hit).
 
-The MirrorWorld run mode `collision N` (`LevelCollision.cs`) prints the same census totals (pairs/disj/ov1) live and independently over GF(p); its totals for n ≤ 60 match the family sums row for row (checked in this file's authoring session).
+The MirrorWorld run mode `collision N` (`LevelCollision.cs`) prints the same census totals (pairs/disj/ov1) live and independently over GF(p); its totals for n ≤ 60 match the family sums row for row (checked in this file's authoring session). Since the same evening MirrorWorld also carries the thirteen closed forms themselves (`FamilyCount` + the `inv` column, commit `147b480`).
+
+**Typed** (2026-07-15, the same evening): `CollisionFamilyInventory` (Core/Numerics, under the F127 claim, `inspect --root crosstriple`): the thirteen closed forms tie their SUMS (total + d-split) to the exact ℤ[ζ_2n] census live at every n ≤ 60 plus the n = 70 capstone; the n = 105 capstone (total 8858) is pinned in the tests (`--filter CrossTripleOrthogonality`, 29); per-family MEMBERSHIP and the M-split reconstruction stay with this file's gate (I1-I5).
 
 ## What is NOT claimed
 

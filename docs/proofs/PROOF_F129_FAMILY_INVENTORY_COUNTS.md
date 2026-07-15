@@ -92,5 +92,6 @@ Each strand verified its derivation against the exact census with independent ge
 | all thirteen totals, n ≤ 140 + capstones 150/210 | `f129_family_inventory.py` gates I1-I4 |
 | the orbit/split factorizations quoted here | re-derivable from the census (the pairs are exact; group by the flip-quotiented E-multiset) |
 | M = 40 + 0 + 60 at every 105\|n in range | gate I5: the census M W-sets equal EXACTLY the admissible rotations built from the committed substitution recipes (4 M1 + 6 M3 sets, completeness asserted loudly) |
+| the closed-form SUMS (total + d-split) vs the exact census, live | the typed surface (2026-07-15): `CollisionFamilyInventory` (Core/Numerics) on the crosstriple witness, every n ≤ 60 + the n = 70 capstone, exact ℤ[ζ_2n]; the n = 105 sum 8858 pinned in `--filter CrossTripleOrthogonality` |
 
 The counting derivation closes the "derivation open" item of the inventory; the M sub-classification and the impostor are new content beyond it.

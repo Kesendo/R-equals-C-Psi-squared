@@ -72,6 +72,17 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
     /// <summary>F130: unequal-level nonzero controls (one per level-sensitive cell).</summary>
     public const int F130ControlPairs = 3;
 
+    /// <summary>F129 inventory: the thirteen collision families A..M (the list forced at
+    /// every n; the counts derived, PROOF_F129_FAMILY_INVENTORY_COUNTS.md).</summary>
+    public const int F129InventoryFamilies = 13;
+
+    /// <summary>F129 inventory: family M's split over the three CDK order-210 types,
+    /// (R₇:(R₅:2R₃)) = 40, (R₇:R₃,(R₅:R₃)) = 0 (impossible: one axis-fixed vertex),
+    /// (R₇:2R₃,R₅) = 60; reconstruction = the committed gate's I5.</summary>
+    public const int F129MSplitFannedR5Pair = 40;
+    public const int F129MSplitMiddleImpossible = 0;
+    public const int F129MSplitFixedVertexR5 = 60;
+
     public CrossTripleOrthogonalityClaim(SeedExistenceCountingClaim seedExistence)
         : base("F127 cross-triple orthogonality: the six-angle cross form 𝔉 ≡ 0 on the Conway-Jones double-constraint variety V, N-free, proved over ℚ(i) by the 527/527 grid+CRT wall (17 primes, realness guard ⇒ ∏p > 2H sound); the assembly (D) identifying 𝔉 with the Heff cross-block is symbolic since 2026-07-14, so the full-spectrum twinning is proof grade over ℚ(i) at every resonant N. Tier1Candidate for one named reason: the code-trust layer (single bespoke implementations); the live C# witness recomputes an independent GF(p) variety slice with an off-variety control",
                Tier.Tier1Candidate,
@@ -82,6 +93,9 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
                "simulations/cross_triple_orthogonality.py + " +
                "simulations/f129_level_collision_law.py + " +
                "simulations/f130_collision_decoupling.py + " +
+               "simulations/f129_family_inventory.py + " +
+               "docs/proofs/PROOF_F129_FAMILY_INVENTORY_COUNTS.md + " +
+               "experiments/F129_FAMILY_INVENTORY.md + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/CrossTripleOrthogonalityWitness.cs (inspect --root crosstriple)")
     {
         SeedExistence = seedExistence ?? throw new ArgumentNullException(nameof(seedExistence));
@@ -131,6 +145,19 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
                     "IS injectivity, an equal pair IS a collision, no floats, no mod-p) plus the two mechanism " +
                     "anchors term-exactly (docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md, " +
                     "simulations/f129_level_collision_law.py, registry F129)");
+            yield return new InspectableNode("F129, the family inventory (2026-07-15, counts derived)",
+                summary: $"every colliding pair decomposes into minimal Poonen-Rubinstein/CDK pieces, " +
+                    $"sorting the census into exactly {F129InventoryFamilies} families A..M — the LIST forced at " +
+                    "every n (weight partitions × admissible orders), the COUNTS derived (label/orbit " +
+                    "arithmetic, PROOF_F129_FAMILY_INVENTORY_COUNTS.md; code-trust flags in its §8): degree " +
+                    "counts the freedom (free coset labels + the d = 2 shared-mode line), the F129 onsets are " +
+                    $"zeros of the formulas, and M splits {F129MSplitFannedR5Pair}+{F129MSplitMiddleImpossible}+" +
+                    $"{F129MSplitFixedVertexR5} over the three CDK order-210 types, the middle one impossible " +
+                    "(one axis-fixed vertex). The witness ties the closed forms' SUMS (total + d-split) to the " +
+                    "exact ℤ[ζ_2n] census live (eleven families exercised at n ≤ 60, L pinned at the n = 70 " +
+                    "capstone); per-family membership, M's split reconstruction and the n = 105/210 capstones " +
+                    "stay with the committed gate (simulations/f129_family_inventory.py, I1-I5; the n = 105 " +
+                    "sum 8858 is pinned in the tests)");
             yield return new InspectableNode("F130, the collision-decoupling law (2026-07-14 night)",
                 summary: "equal level S(τ) = S(σ), zero NOT required, implies the whole cross block " +
                     "B(τ, σ) = 0: resonance demoted from cause to special case; the decoupling extends off " +

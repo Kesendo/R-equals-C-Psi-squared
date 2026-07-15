@@ -623,7 +623,8 @@ public static class OpenArcsRegistry
                 "f129_family_inventory.py; the counting DERIVATION closed the same evening, " +
                 "PROOF_F129_FAMILY_INVENTORY_COUNTS: degree = free coset labels, parity deficits = single " +
                 "extra excluded labels, M = 40+0+60 with the middle CDK 210-type impossible; code-trust " +
-                "flags in its SS8). REMAINING on " +
+                "flags in its SS8; typed the same day: CollisionFamilyInventory, the exact sum tie live on " +
+                "the crosstriple witness, membership/M-split staying with the gate's I1-I5). REMAINING on " +
                 "this arc: the code-trust layer (named, narrowing with each independent implementation), " +
                 "W's closed form. Earlier context follows. " +
                 "RESUMING IN ONE LINE (2026-07-06, post N=11 completion; step 3 landed through N=11 via the sparse path) [symbols: see the TERMS block at " +

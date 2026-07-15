@@ -5093,8 +5093,14 @@ since the same night under the F127 claim (`CrossTripleOrthogonalityClaim` bread
 non-firing n IS a proof of injectivity there and an equal pair at a firing n IS an exact
 collision; no floats, no mod-p filter) plus both mechanism anchors term-exactly; a
 corrupted-predicate discrimination guard lives in the tests
-(`dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`, 23).
+(`dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`, 29).
 The n ≤ 210 census stays with the Python gate; the corner's closure lives in the proof's §4.
+The family inventory is typed since 2026-07-15 (`CollisionFamilyInventory`, Core/Numerics,
+same witness root): the thirteen derived closed forms tie their SUMS (total + d-split) to the
+exact ℤ[ζ_2n] census live at every n ≤ 60 (eleven families exercised) plus the n = 70
+capstone (L's door); the n = 105 capstone (seven families, total 8858, M's door) is pinned in
+the tests; per-family MEMBERSHIP (first-fit labels) and the M-split reconstruction stay with
+the committed gate's I1-I5.
 
 ### F130. The collision-decoupling law: equal level implies vanishing cross block (four-cell assembly of committed results, 2026-07-14 night; minted 2026-07-14)
 

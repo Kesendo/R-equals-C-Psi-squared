@@ -308,4 +308,102 @@ public class CrossTripleOrthogonalityTests
         Assert.Contains("f129_level_collision_law.py", claim.Anchor);
         Assert.Contains("f130_collision_decoupling.py", claim.Anchor);
     }
+
+    [Fact]
+    public void F129Inventory_ClosedFormsTieToExactCensus_RowForRow()
+    {
+        // PIECE 12 (the F129 family inventory, 2026-07-15): the thirteen derived closed
+        // forms sum (total AND d-split) to the exact ℤ[ζ_2n] census at every row n ≤ 60,
+        // firing and non-firing alike (the formulas vanish at the silent doors n = 6, 10
+        // themselves), plus the n = 70 capstone (L's door: C 120 + L 20, all disjoint)
+        // and the internal M-split sum.
+        var r = CollisionFamilyInventory.Analyze();
+        Assert.Equal(CollisionFamilyInventory.LiveMaxN, r.MaxN);
+        Assert.True(r.AllRowsTied, "a closed-form sum disagrees with the exact census");
+        Assert.True(r.Capstone70Tied, "the n = 70 capstone (L's door) broke");
+        Assert.True(r.MSplitSumsToCountM, "40 + 0 + 60 does not sum to Count(M)");
+        Assert.Equal((140L, 140L, 0L), CollisionFamilyInventory.CensusAt(70));
+    }
+
+    [Fact]
+    public void F129Inventory_Capstone105_SevenFamiliesSum8858()
+    {
+        // PIECE 13 (M's door, m = 210): at n = 105 exactly seven families co-fire (doors
+        // 3, 15, 21, 105: A 5457, D 1152, E 612, F 901, H 576, I 60, M 100) and the exact
+        // census reproduces the sum 8858 with the d-split D + H = 1728 shared-mode pairs.
+        Assert.Equal(5457, CollisionFamilyInventory.Count(CollisionFamilyInventory.Family.A, 105));
+        Assert.Equal(100, CollisionFamilyInventory.Count(CollisionFamilyInventory.Family.M, 105));
+        var census = CollisionFamilyInventory.CensusAt(105);
+        Assert.Equal(CollisionFamilyInventory.ClosedFormsOf(105), census);
+        Assert.Equal((8858L, 7130L, 1728L), census);
+    }
+
+    [Fact]
+    public void F129Inventory_CorruptedClosedFormBreaksTheTie()
+    {
+        // Discrimination guard (two-sided): a deliberately wrong family D formula
+        // (12(n−8) instead of 12(n−9)) shifts Total and Overlap1 at every 15|n ≤ 60 while
+        // the census side is recomputed from the triples — the tie must break, proving the
+        // tie actually measures the census rather than echoing the formulas.
+        static long Corrupted(CollisionFamilyInventory.Family f, int n) =>
+            f == CollisionFamilyInventory.Family.D && n % 15 == 0 && n >= 15
+                ? 12L * (n - 8)
+                : CollisionFamilyInventory.Count(f, n);
+        var r = CollisionFamilyInventory.Analyze(countsOverride: Corrupted);
+        Assert.False(r.AllRowsTied, "a corrupted D closed form failed to break the tie");
+    }
+
+    [Fact]
+    public void F129Inventory_OnsetZerosAndSubLawDoors()
+    {
+        // The F129 thresholds are zeros of the formulas (A and B at the silent 3|6, C at
+        // the silent 10|10 — A needs floor division, C# truncation would give A(6) = 1);
+        // off-door every family is 0 (no door divides 25); and every d = 2 family's door
+        // carries the factor 3 (the sub-law, visible piece by piece).
+        Assert.Equal(0, CollisionFamilyInventory.Count(CollisionFamilyInventory.Family.A, 6));
+        Assert.Equal(0, CollisionFamilyInventory.Count(CollisionFamilyInventory.Family.B, 6));
+        Assert.Equal(0, CollisionFamilyInventory.Count(CollisionFamilyInventory.Family.C, 10));
+        foreach (CollisionFamilyInventory.Family f in Enum.GetValues<CollisionFamilyInventory.Family>())
+        {
+            Assert.Equal(0, CollisionFamilyInventory.Count(f, 25));
+            if (CollisionFamilyInventory.SharesAMode(f))
+                Assert.Equal(0, CollisionFamilyInventory.Door(f) % 3);
+        }
+    }
+
+    [Fact]
+    public void CyclotomicRing_Phi210CarriesThePlusTwoCoefficient()
+    {
+        // The inventory capstones take the ring past its old m ≤ 120 envelope: Φ₁₄₀ still
+        // has coefficients in {−1, 0, 1}, but Φ₂₁₀ (odd part 105 = 3·5·7) is the classic
+        // first break — its x⁷ coefficient is +2 (cross-checked against sympy's
+        // cyclotomic_poly(210)). Correctness rests on DivideExact + checked arithmetic,
+        // never on the coefficient bound; this pin asserts the extended envelope knowingly.
+        Assert.Equal(48, CyclotomicRing.Degree(140));
+        Assert.Equal(48, CyclotomicRing.Degree(210));
+        var phi140 = CyclotomicRing.Phi(140);
+        Assert.All(phi140, c => Assert.InRange(c, -1, 1));
+        var phi210 = CyclotomicRing.Phi(210);
+        Assert.Equal(2, phi210[7]);
+        Assert.Equal(2, phi210.Max());
+        Assert.Equal(-1, phi210.Min());
+    }
+
+    [Fact]
+    public void Claim_CarriesInventoryConstantsAndAnchors()
+    {
+        Assert.Equal(13, CrossTripleOrthogonalityClaim.F129InventoryFamilies);
+        Assert.Equal(40, CrossTripleOrthogonalityClaim.F129MSplitFannedR5Pair);
+        Assert.Equal(0, CrossTripleOrthogonalityClaim.F129MSplitMiddleImpossible);
+        Assert.Equal(60, CrossTripleOrthogonalityClaim.F129MSplitFixedVertexR5);
+        Assert.Equal(
+            CollisionFamilyInventory.Count(CollisionFamilyInventory.Family.M, 105),
+            CrossTripleOrthogonalityClaim.F129MSplitFannedR5Pair
+            + CrossTripleOrthogonalityClaim.F129MSplitMiddleImpossible
+            + CrossTripleOrthogonalityClaim.F129MSplitFixedVertexR5);
+        var claim = KnowledgeRegistryFactory.BuildDefault().Get<CrossTripleOrthogonalityClaim>();
+        Assert.Contains("f129_family_inventory.py", claim.Anchor);
+        Assert.Contains("docs/proofs/PROOF_F129_FAMILY_INVENTORY_COUNTS.md", claim.Anchor);
+        Assert.Contains("experiments/F129_FAMILY_INVENTORY.md", claim.Anchor);
+    }
 }

@@ -32,7 +32,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <see cref="LevelCollisionCensus"/>);</item>
 /// <item>F130 (2026-07-14 night, PROOF_F130_COLLISION_DECOUPLING): Ê± = 0 exactly in ℤ[ζ_2n]
 /// at named collision pairs covering every proof cell, unequal-level nonzero controls, and
-/// the exact Lemma-3 sign Ê⁺ = ε·Ê⁻ on every pair (<see cref="CollisionDecoupling"/>).</item>
+/// the exact Lemma-3 sign Ê⁺ = ε·Ê⁻ on every pair (<see cref="CollisionDecoupling"/>);</item>
+/// <item>the F129 family inventory (2026-07-15, PROOF_F129_FAMILY_INVENTORY_COUNTS): the
+/// thirteen derived closed-form counts tie their SUMS (total + d-split) to the exact census
+/// at every n ≤ 60 (eleven families exercised live) plus the n = 70 capstone (L's door);
+/// M and its 40+0+60 split stay with the committed gate's I5
+/// (<see cref="CollisionFamilyInventory"/>).</item>
 /// </list>
 /// This is the second implementation the F127/F128 code-trust caveat asks for, at sample scale; the
 /// proof objects remain the 527/527 grid+CRT wall and the committed <c>f12*_*</c> gates (F129's
@@ -57,11 +62,13 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
         new(() => LevelCollisionCensus.Analyze());
     private static readonly Lazy<CollisionDecoupling.Report> Decoupling =
         new(CollisionDecoupling.Analyze);
+    private static readonly Lazy<CollisionFamilyInventory.Report> Inventory =
+        new(() => CollisionFamilyInventory.Analyze());
 
     public string DisplayName =>
         "F127/F128/F129/F130 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + " +
         "sheet lattice + F128 flip lemma/factorization/sharper locus + F129 exact level census + " +
-        "F130 exact collision decoupling)";
+        "F129 family-inventory sum tie + F130 exact collision decoupling)";
 
     public string Summary
     {
@@ -106,13 +113,15 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             var dec = Decoupling.Value;
             bool decOk = dec.AllCollisionsDecouple && dec.AllControlsNonzero &&
                          dec.AllLemma3SignsOk && dec.LevelFlagsAsExpected;
+            var inv = Inventory.Value;
+            bool invOk = inv.AllRowsTied && inv.Capstone70Tied && inv.MSplitSumsToCountM;
             bool pass = bad == 0 && controls >= (int)(0.9 * samples) &&
                         coreBad == 0 && coreCtrl >= (int)(0.8 * coreCtrlEval) &&
                         cfBad == 0 && cfCtrl >= (int)(0.8 * cfCtrlEval) &&
                         shBad == 0 && shCtrl >= (int)(0.8 * shCtrlEval) && latticeOk &&
                         flipOk && fxBad == 0 && fxCtrl >= (int)(0.8 * fxCtrlEval) &&
                         flBad == 0 && flCtrl >= (int)(0.8 * flCtrlEval) &&
-                        censusOk && decOk;
+                        censusOk && decOk && invOk;
             return $"{(pass ? "PASS" : "FAIL")}: 𝔉-slice {onVariety} zeros ({bad} bad), " +
                    $"{controls}/{samples} controls nonzero; core-T {coreEvals} zeros ({coreBad} bad), " +
                    $"{coreCtrl}/{coreCtrlEval} controls nonzero; closed form {cfPts} generic points " +
@@ -125,7 +134,8 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                    $"({flBad} bad), {flCtrl}/{flCtrlEval} controls nonzero; F129 exact census n ≤ " +
                    $"{census.MaxN} ({census.CleanTriplesChecked} clean triples) {(censusOk ? "OK" : "BAD")}; " +
                    $"F130 exact decoupling {dec.Collisions.Count} collision pairs / {dec.Controls.Count} " +
-                   $"controls {(decOk ? "OK" : "BAD")}";
+                   $"controls {(decOk ? "OK" : "BAD")}; F129 inventory {inv.RowsChecked} rows tied + " +
+                   $"capstone 70 + M-split sum {(invOk ? "OK" : "BAD")}";
         }
     }
 
@@ -140,6 +150,7 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             yield return ClosedFormNode();
             yield return F128Node();
             yield return F129CensusNode();
+            yield return F129InventoryNode();
             yield return F130DecouplingNode();
             yield return CrossFormNode();
             yield return GatesNode();
@@ -148,7 +159,9 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                          "the §3 core identity T (GF(p), independent of 𝔉), the §3 closed form + its sharper " +
                          "locus, the F128 flip lemma (exact ℤ) + factorization + 𝔉-sharper locus, the " +
                          "𝔉-slice, the F129 exact ℤ[ζ_2n] level census (n ≤ 60; the n ≤ 210 census stays " +
-                         "with the Python gate, the corner closed empty 2026-07-15), and the F130 exact collision decoupling; " +
+                         "with the Python gate, the corner closed empty 2026-07-15), the F129 family-inventory " +
+                         "sum tie (eleven families live, L at the n = 70 capstone; membership and the M split " +
+                         "stay with the gate's I1-I5), and the F130 exact collision decoupling; " +
                          "a SLICE of F127/F128 (not the wall) and an independent exact re-derivation of " +
                          "F129/F130's content on the witness range");
         }
@@ -283,6 +296,25 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             provenance: NodeProvenance.Live);
     }
 
+    private static InspectableNode F129InventoryNode()
+    {
+        var r = Inventory.Value;
+        bool ok = r.AllRowsTied && r.Capstone70Tied && r.MSplitSumsToCountM;
+        var (fanned, middle, fixedVertex) = CollisionFamilyInventory.MSplit;
+        return new InspectableNode("F129 family inventory (exact ℤ[ζ_2n] sum tie, live)",
+            summary: $"thirteen derived closed forms (PROOF_F129_FAMILY_INVENTORY_COUNTS.md): their sums " +
+                     $"(total + d-split) tie to the exact census at all {r.RowsChecked} rows n ≤ {r.MaxN} " +
+                     $"(eleven families A..K exercised live): {r.AllRowsTied}; the n = 70 capstone pins L, " +
+                     $"the corner-closure's second mechanism (C 120 + L 20, all disjoint): {r.Capstone70Tied}; " +
+                     $"M split {fanned}+{middle}+{fixedVertex} sums to Count(M) (internal consistency of " +
+                     $"adopted constants, not a from-below leg): {r.MSplitSumsToCountM} " +
+                     $"→ {(ok ? "OK" : "BAD")}. " +
+                     "Scope: the tie certifies the SUMS; per-family membership (first-fit decomposition, " +
+                     "labels) and M's split reconstruction stay with simulations/f129_family_inventory.py " +
+                     "(I2/I3/I5); the n = 105 capstone (total 8858) is pinned in the tests",
+            provenance: NodeProvenance.Live);
+    }
+
     private static InspectableNode F130DecouplingNode()
     {
         var r = Decoupling.Value;
@@ -343,5 +375,10 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                     summary: "F130: assembly (D) off-resonance at 400 pairs (G1), B = 0 at all 8452 " +
                              "equal-level pairs (G2), generic unequal-level controls (G3), the level-free " +
                              "cell (G4), overlap-2 vacuity (G5); float grade, the exactness lives here"),
+                new InspectableNode("f129_family_inventory.py",
+                    summary: "the F129 inventory: every pair decomposes (I1), the thirteen closed forms " +
+                             "at every firing n ≤ 140 + capstones 150/210 (I2), the families partition " +
+                             "the census (I3), family ⟺ door (I4), the M W-sets rebuilt from committed " +
+                             "substitution recipes at n = 105 and 210 (I5)"),
             });
 }

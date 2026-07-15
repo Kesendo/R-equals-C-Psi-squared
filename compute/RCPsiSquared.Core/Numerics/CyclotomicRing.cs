@@ -5,12 +5,18 @@ namespace RCPsiSquared.Core.Numerics;
 /// ring equality is equality of the represented algebraic numbers (no floats, no primes, no
 /// sampling). Since Φ_m | x^m − 1, exponents reduce mod m (x^m ≡ 1); a root power ζ^e is
 /// added via the precomputed remainder rem(x^{e mod m}, Φ_m), and products are folded by the
-/// monic Φ_m. For every modulus used here (m = 2n ≤ 120, odd part &lt; 105 ⟹ at most two
-/// distinct odd primes) all Φ_m and remainder-table coefficients lie in {−1, 0, 1}; all
-/// arithmetic is checked 64-bit. This is the exact layer under
-/// <see cref="LevelCollisionCensus"/> (F129) and <see cref="CollisionDecoupling"/> (F130),
-/// the C# counterpart of the Python gates' ℤ[x]/Φ_2n convention
-/// (<c>simulations/f129_level_collision_law.py</c>, <c>root_sum_vec</c>).</summary>
+/// monic Φ_m. Moduli with odd part &lt; 105 (at most two distinct odd primes; the census's
+/// m = 2n ≤ 120 live range) have all Φ_m and remainder-table coefficients in {−1, 0, 1};
+/// the inventory capstones reach m = 140 (still {−1, 0, 1}) and m = 210, whose odd part
+/// 105 = 3·5·7 breaks that pattern (Φ₁₀₅ is the textbook first cyclotomic with a
+/// coefficient outside {−1, 0, 1}; Φ₂₁₀ = Φ₁₀₅(−x) carries the mirrored +2, at x⁷ among
+/// others; pinned in the tests). Correctness never rests on the coefficient bound: all arithmetic
+/// is checked 64-bit and <c>DivideExact</c> throws on a non-exact quotient. This is the
+/// exact layer under <see cref="LevelCollisionCensus"/> (F129),
+/// <see cref="CollisionFamilyInventory"/> (the F129 counts) and
+/// <see cref="CollisionDecoupling"/> (F130), the C# counterpart of the Python gates'
+/// ℤ[x]/Φ_2n convention (<c>simulations/f129_level_collision_law.py</c>,
+/// <c>root_sum_vec</c>).</summary>
 public static class CyclotomicRing
 {
     private static readonly Dictionary<int, long[]> PhiCache = new();
