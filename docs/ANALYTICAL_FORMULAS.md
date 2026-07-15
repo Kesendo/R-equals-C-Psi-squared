@@ -5074,7 +5074,11 @@ thirteen families by exact piece decomposition; the LIST of thirteen is forced a
 (CDK table + pairing/complement, one paragraph), each count a closed form (degree matching
 the kit's free rotations, an observation: quadratic/linear/constant; the F129 onsets are
 zeros of the inventory), counts verified on every firing n ≤ 140 + capstones 150 and 210,
-counting derivation open; see
+and DERIVED the same evening (label-and-orbit arithmetic,
+[PROOF_F129_FAMILY_INVENTORY_COUNTS](proofs/PROOF_F129_FAMILY_INVENTORY_COUNTS.md): the
+degree = the number of free coset labels, the parity deficits are single extra excluded
+labels, M = 40 + 0 + 60 with the middle CDK order-210 type impossible by the odd-gon
+fixed-vertex argument, pinned by gate I5; code-trust flags in its §8); see
 [experiments/F129_FAMILY_INVENTORY](../experiments/F129_FAMILY_INVENTORY.md) +
 gate [`f129_family_inventory.py`](../simulations/f129_family_inventory.py). No physical Gram/twinning claim is made here; phase 2
 closed the same day as F130 (the collision-decoupling law, below).

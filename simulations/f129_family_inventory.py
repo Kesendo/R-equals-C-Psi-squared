@@ -1,8 +1,9 @@
 """F129 family inventory: the collision counts per firing n, as closed forms per family.
 
 STATEMENT (found 2026-07-15 by exact piece-decomposition of every collision pair;
-grade: VERIFIED, not derived -- the ROT3-multiplicity precedent; the owning proof of
-the underlying law is docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md):
+grade: counts VERIFIED by this gate and DERIVED the same evening in
+docs/proofs/PROOF_F129_FAMILY_INVENTORY_COUNTS.md, modulo its SS8 code-trust flags;
+the owning proof of the underlying law is docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md):
 
   Every F129 collision pair (two distinct clean triples with equal level) reduces
   (proof SS2) to a weight-8 or weight-12 vanishing sum W of 2n-th roots of unity,
@@ -30,8 +31,9 @@ the underlying law is docs/proofs/PROOF_F129_LEVEL_COLLISION_LAW.md):
     K      (R11:R3) w12     (d=3)    33|n       20
     L      zero+(R7:R5)     (d=3)    70|n       20   [the corner-closure's second
                                                       mechanism, live at n = 70]
-    M      w12 order-210    (d=3)    105|n      100  [may bundle up to three CDK
-                                                      210-types; not sub-classified]
+    M      w12 order-210    (d=3)    105|n      100  [sub-classified by gate I5:
+                                                      40 + 0 + 60 over the three
+                                                      CDK 210-types]
 
   d = |A| = |B| is the private-mode count (d=2 <=> overlap-1 <=> weight 8, which is
   why every d=2 family's door is divisible by 3, the F129 sub-law); the polynomial
@@ -47,9 +49,10 @@ gate I2 verifies that the counts follow the forms, not that a label means what i
 CDK name says; the piece NAMES are (weight, order) annotations, never re-verified
 per pair (family F's one level-0 member per firing n decomposes into two
 SELF-conjugate weight-6 pieces, not a conjugate pair).  Counts verified exactly on
-every firing n <= 140 plus the capstones n = 150 and n = 210 (all doors at once),
-NOT derived.  Thin constants, honestly: L fires at three tested n (70, 140, 210),
-M at TWO (105, 210); M may also bundle up to three distinct CDK order-210 types.
+every firing n <= 140 plus the capstones n = 150 and n = 210 (all doors at once);
+the DERIVATION lives in PROOF_F129_FAMILY_INVENTORY_COUNTS.md (SS8 flags).  Thin
+constants, honestly: L fires at three tested n (70, 140, 210), M at TWO (105, 210);
+M's 40 + 0 + 60 sub-classification is pinned by gate I5 at those two points.
 Level-0 (F127-world) pairs are counted (F129 asks equal level; equal-to-zero
 qualifies): e.g. at n = 30 family A holds 28 level-0 pairs of its 244.
 
@@ -61,6 +64,13 @@ GATES (exit 0 iff all pass):
        no family key outside the 13 labels appears).
   [I4] the doors: a family is PRESENT at n iff its door divides n and its count
        formula is nonzero (both directions).
+  [I5] the M sub-classification (PROOF_F129_FAMILY_INVENTORY_COUNTS SS6): at every
+       checked n with 105|n, the family-M census W-sets are EXACTLY the admissible
+       conjugation-symmetric rotations built from the committed substitution
+       recipes of the two firing CDK order-210 types: (R7:(R5:2R3)) with a
+       conjugation-closed subterm pair (2 orbits, 40 pairs) and (R7:2R3,R5)
+       (3 orbits, 60 pairs); the third type (R7:R3,(R5:R3)) never fires (the
+       odd-gon fixed-vertex obstruction).
 
 Run: python simulations/f129_family_inventory.py            (firing n <= 140, ~15 min)
      python simulations/f129_family_inventory.py --fast     (firing n <= 66, ~1 min)
@@ -218,6 +228,67 @@ def classify(n):
     return counts, total
 
 
+# ------------------------------------------------------------------ gate I5: M subtypes
+def _m_reference_sets(n):
+    """The admissible family-M W-sets at 105|n, built from substitution recipes in
+    Z/m (m = 2n).  R7-fan of x: x -> {x + m/2 + k*m/7}; R5-fan: {x + m/2 + k*m/5};
+    R3-fan: {x + m/2 + k*m/3}.  Returns {'M1': [W-set, ...], 'M3': [...]} with the
+    flip copies included (W and W + n)."""
+    m = 2 * n
+
+    def r5fan(x):
+        return [(x + m // 2 + k * (m // 5)) % m for k in range(1, 5)]
+
+    def r3fan(x):
+        return [(x + m // 2 + k * (m // 3)) % m for k in range(1, 3)]
+
+    skeleton = [(k * (m // 7)) % m for k in range(7)]   # axis vertex at 0
+    out = {"M1": [], "M3": []}
+    for axis in (0, n):                                  # the flip pair
+        sk = [(v + axis) % m for v in skeleton]
+        fixed, rest = sk[0], sk[1:]
+        sub = r5fan(fixed)                               # the R5 branch at the fixed vertex
+        # M1 = (R7:(R5:2R3)): further R3-fan a conjugation-closed PAIR of the four
+        # R5 subterms (the pairs are {s, -s mod m} within sub)
+        for i in range(4):
+            for j in range(i + 1, 4):
+                if (sub[i] + sub[j]) % m == (2 * axis) % m:   # conjugate pair about the axis
+                    keep = [sub[x] for x in range(4) if x not in (i, j)]
+                    W = frozenset(rest + keep + r3fan(sub[i]) + r3fan(sub[j]))
+                    out["M1"].append(W)
+        # M3 = (R7:2R3,R5): R5 at the fixed vertex, R3-fan one conjugate skeleton pair
+        for a in range(1, 4):                            # the three vertex pairs (a, 7-a)
+            va, vb = sk[a], sk[7 - a]
+            bare = [sk[x] for x in range(1, 7) if x not in (a, 7 - a)]
+            W = frozenset(bare + sub + r3fan(va) + r3fan(vb))
+            out["M3"].append(W)
+    for lbl, ws in out.items():
+        for W in ws:
+            assert len(W) == 12 and not any(x in (0, n) for x in W), (lbl, sorted(W))
+            assert all((m - x) % m in W for x in W), f"{lbl} not conj-symmetric"
+    return out
+
+
+def gate5_m_subtypes(n, census_counts):
+    """Assert the M census at n (105|n) is exactly M1 (2 orbits) + M3 (3 orbits)."""
+    m = 2 * n
+    refs = _m_reference_sets(n)
+    assert len(set(refs["M1"])) == 4 and len(set(refs["M3"])) == 6
+    mps = (_ModP(n, 0), _ModP(n, 1))
+    seen = []
+    for t, s in exact_collision_pairs(n):
+        exps, d = twelve_roots(n, t, s)
+        if d == 3 and piece_decomposition(n, exps, mps) == ((12, 210),):
+            seen.append(frozenset(exps))    # exps IS the 12-root W-set of this description
+    m1, m3 = set(refs["M1"]), set(refs["M3"])
+    c1 = sum(1 for W in seen if W in m1)
+    c3 = sum(1 for W in seen if W in m3)
+    assert c1 + c3 == len(seen) == census_counts.get("M", 0), \
+        f"[I5] n={n}: {len(seen)} M pairs, matched {c1}+{c3}, census {census_counts.get('M')}"
+    assert (c1, c3) == (40, 60), f"[I5] n={n}: M split {c1}/{c3}, expected 40/60"
+    print(f"  [I5] n={n}: M = {c1} (R7:(R5:2R3)) + 0 (R7:R3,(R5:R3)) + {c3} (R7:2R3,R5)  OK")
+
+
 # ------------------------------------------------------------------ gates
 def main():
     hi = 66 if "--fast" in sys.argv else 140
@@ -234,6 +305,8 @@ def main():
         assert sum(counts.values()) == total
         print(f"  n={n:3d}: {total:5d} pairs, families "
               + " ".join(f"{l}={c}" for l, c in sorted(counts.items())) + "  OK")
+        if n % 105 == 0:
+            gate5_m_subtypes(n, counts)
         sys.stdout.flush()
     print(f"[I1] every pair decomposes into inventory pieces at all {len(ns)} firing n  PASS")
     print(f"[I2] per-family counts == closed forms at all {len(ns)} firing n  PASS")
