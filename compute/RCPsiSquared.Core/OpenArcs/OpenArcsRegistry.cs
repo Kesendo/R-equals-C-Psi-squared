@@ -618,9 +618,11 @@ public static class OpenArcsRegistry
                 "(LevelCollisionCensus + CollisionDecoupling, exact Z[zeta_2n], inspect --root crosstriple). UPDATE 2026-07-15: " +
                 "F129's named corner CLOSED as EMPTY (the Poonen-Rubinstein weight <= 12 classification, verified against " +
                 "arXiv:2008.11268 Thm 3.3 + Table 1: all five weight-12 minimal types have 3 | order; the law is now " +
-                "unconditional, PROOF_F129 SS4). REMAINING on " +
-                "this arc: the code-trust layer (named, narrowing with each independent implementation), the F129 " +
-                "family inventory, W's closed form. Earlier context follows. " +
+                "unconditional, PROOF_F129 SS4). The F129 family inventory closed at VERIFIED grade the same day " +
+                "(13 families, closed-form counts, experiments/F129_FAMILY_INVENTORY.md + gate " +
+                "f129_family_inventory.py; the counting DERIVATION stays open). REMAINING on " +
+                "this arc: the code-trust layer (named, narrowing with each independent implementation), the " +
+                "family-inventory derivation, W's closed form. Earlier context follows. " +
                 "RESUMING IN ONE LINE (2026-07-06, post N=11 completion; step 3 landed through N=11 via the sparse path) [symbols: see the TERMS block at " +
                 "the END of this header]: STEP 3 OF THE LARGE-N EXCLUSION PROGRAM IS RUN AND LANDED. The instrument " +
                 "(SectorShellCensus + ShiftedSigmaMin + BlockLattice + RealDefectiveSeeds + the general (p,w) R-parity " +

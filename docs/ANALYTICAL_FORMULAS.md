@@ -5069,7 +5069,14 @@ arXiv:2008.11268, which reproduces it and extends it to weight ≤ 16) lists exa
 minimal types of weight 12, orders 66,
 210, 210, 210, 42, ALL divisible by 3, so the corner family is empty; the census (n = 35,
 175 exactly injective) stands as the independent from-below cross-check. The family
-inventory (collision counts per firing n) is open, like the ROT3 multiplicity before it. No physical Gram/twinning claim is made here; phase 2
+inventory (collision counts per firing n) closed at VERIFIED grade the same day, 2026-07-15:
+thirteen families by exact piece decomposition; the LIST of thirteen is forced at every n
+(CDK table + pairing/complement, one paragraph), each count a closed form (degree matching
+the kit's free rotations, an observation: quadratic/linear/constant; the F129 onsets are
+zeros of the inventory), counts verified on every firing n ≤ 140 + capstones 150 and 210,
+counting derivation open; see
+[experiments/F129_FAMILY_INVENTORY](../experiments/F129_FAMILY_INVENTORY.md) +
+gate [`f129_family_inventory.py`](../simulations/f129_family_inventory.py). No physical Gram/twinning claim is made here; phase 2
 closed the same day as F130 (the collision-decoupling law, below).
 **Gate:** [`f129_level_collision_law.py`](../simulations/f129_level_collision_law.py)
 (~40 s: G1 the reduction exact, G2 injectivity proved at all 125 non-firing n ≤ 210 via
