@@ -35,7 +35,7 @@ public class ConfirmationsRegistryTests
         // attribution, 2026-07-05) makes 22;
         // concentrator_site_contrast_kingston_july2026 (the reload flight's A-sign,
         // registered 2026-07-12 per the pre-registered verdict split) makes 23.
-        Assert.Equal(23, ConfirmationsRegistry.All.Count);
+        Assert.Equal(24, ConfirmationsRegistry.All.Count);
     }
 
     [Fact]
@@ -136,7 +136,7 @@ public class ConfirmationsRegistryTests
     public void ByMachine_Kingston_HasCuspEntries()
     {
         var kingston = ConfirmationsRegistry.ByMachine("ibm_kingston").ToList();
-        Assert.True(kingston.Count >= 2);
+        Assert.True(kingston.Count >= 3);
         Assert.Contains(kingston, c => c.Name == "f25_cusp_trajectory");
         Assert.Contains(kingston, c => c.Name == "f57_kdwell_gamma_invariance");
     }
@@ -216,9 +216,11 @@ public class ConfirmationsRegistryTests
         // [82,83,13], making eighteen with paths.
         // concentrator_site_contrast_kingston_july2026 (flown 2026-07-11, registered
         // 2026-07-12) is on Kingston [109,108,107,106,105], making nineteen with paths.
+        // f129_standing_fringe_kingston_july2026 (2026-07-15) is on Kingston
+        // [11,12,13,14,15,19,35,34], making twenty with paths.
         int withPath = ConfirmationsRegistry.All.Count(c => c.QubitPath != null);
         int withoutPath = ConfirmationsRegistry.All.Count(c => c.QubitPath == null);
-        Assert.Equal(19, withPath);
+        Assert.Equal(20, withPath);
         Assert.Equal(4, withoutPath);
     }
 }

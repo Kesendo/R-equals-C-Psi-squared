@@ -588,6 +588,57 @@ public static class ConfirmationsRegistry
                 "the RECORD's open Confirmations question): the contrast with the honest band story. Still owed " +
                 "elsewhere: the interior coherence lifetime under the full concentrator PROFILE (a different object).",
             QubitPath: new[] { 109, 108, 107, 106, 105 }),
+
+        new Confirmation(
+            Name: "f129_standing_fringe_kingston_july2026",
+            Date: "2026-07-15",
+            Machine: "ibm_kingston",
+            JobId: "d9br4vmg26ic73dgbgk0",
+            Observable: "Ramsey fringe phase slopes of three two-triple 3-magnon superpositions on an 8-qubit line " +
+                "(seed = the better-readout end): each arm prepares (|tau> + |c>)/sqrt(2) in the FLOQUET eigenbasis " +
+                "of the theta = 0.5 Trotter step (GHZ cat on the differing modes + per-arm 28-Givens network), " +
+                "evolves M in 0..8 pure-hopping steps, inverts the network and reads the seed qubit in X/Y; " +
+                "weighted-LSQ slope per arm with pinned predicted-V weights. Arms: A0 = the F129 collision " +
+                "(1,5,7)~(2,4,8) of the n = 9 comb (clean mirror pair), A1 = (2,5,6) near dial, A2 = (1,6,7) " +
+                "verdict clock. ONE Batch, 64 PUBs, 16384 shots each, billed 297 s ~ 5.0 QPU min.",
+            PredictedValue:
+                "pre-registered (commit 5bf3b79, v2.5, 7a+7b recorded pre-shot): STANDING FRINGE CONFIRMED iff " +
+                "(a) A0 slope within the budgeted window center(theta-hat) + [-(3 sigma_a + b_qs), " +
+                "+(3 sigma_a + b_zz2 + b_qs)] with center = 0.0213 + 0.1294 (theta-hat - 0.5), sigma_a = 0.0034 " +
+                "frozen, b_zz2 = +0.0043 one-sided (the chiral zeta^2 anti-protection law " +
+                "0.00257 (zeta/3.8 kHz)^2 (tau/1.2 us)^2), b_qs = +-0.008 (quasi-static site disorder); " +
+                "(b) A2 separates >= 5 sigma combined with predicted sign; (c) A2 within +-(3 sigma + 5 |ZZ_Wick|) " +
+                "of nominal +0.3214. Floquet predictions: A0 +0.0213 (= 0.170 theta^3, the collision standing), " +
+                "A1 -0.0903, A2 +0.3204; nearest impostor the census permits +0.109.",
+            MeasuredValue:
+                "A0 = +0.0326 +- 0.0033 (deviation +0.0114 from the theta-hat center, INSIDE the budgeted window " +
+                "[-0.0182, +0.0225]; +3.36 sigma_a purely statistically, positive as the zeta^2 law predicts, " +
+                "sized within b_zz2 + b_qs) -> (a) PASS; A2 - A0 separation 61.0 sigma combined, predicted sign " +
+                "-> (b) PASS; A2 = +0.3199, 0.45 sigma from nominal, theta-hat = 0.4992 -> (c) PASS; A1 = -0.0928, " +
+                "0.7 sigma from its prediction. STANDING FRINGE CONFIRMED; the nearest impostor lies 22.5 sigma " +
+                "above the measured A0. V(M=8) = 0.33-0.46 vs conservative model 0.215.",
+            HardwareData:
+                "external (AIEvolution.UI/experiments/ibm_quantum_tomography): " +
+                "results_f129/f129_flight_20260715_222348.json (+ f129_submit_20260715_181658.json; recovered via " +
+                "--recover after a local power failure, job unaffected)",
+            ExperimentDoc: "experiments/IBM_F129_RAMSEY_FRINGE.md",
+            FrameworkPrimitive:
+                "F129 level-collision law (existence half at the smallest firing n; " +
+                "PROOF_F129_LEVEL_COLLISION_LAW.md); design gate simulations/f129_ramsey_fringe_design.py + " +
+                "compiler simulations/f129_givens_compiler.py + 7a gate simulations/f129_ramsey_7a_gate.py " +
+                "(estimator + verdict = the flown code path); run_f129_ramsey_fringe.py (external pipeline)",
+            Description:
+                "F129 has a hardware sighting: the exact clean-clean level collision (1,5,7)~(2,4,8) of the n = 9 " +
+                "comb, prepared as a two-branch 3-magnon cat in the Floquet eigenbasis, stands still (to its " +
+                "computed theta^3 drift and pre-registered systematic budgets) while the verdict clock winds at " +
+                "61 sigma and the opposite-winding dial tracks its prediction at 0.7 sigma. The chiral mirror pair " +
+                "choice retired ZZ and detuning at first order (all-range, Slater-Condon branch-mixing zero); the " +
+                "surviving zeta^2 anti-protection (the mirror negates the Floquet gaps, so second-order shifts are " +
+                "opposite) and the quasi-static prep-basis pull were found by the 7a gate, budgeted pre-flight, and " +
+                "the measured +0.0114 excess landed inside them with the predicted sign. Post-flight empty round: " +
+                "independent hand recompute from the raw counts matches the RECORD to the digit. The concert hall " +
+                "on silicon: one note that does not beat.",
+            QubitPath: new[] { 11, 12, 13, 14, 15, 19, 35, 34 }),
     };
 
     public static IReadOnlyList<Confirmation> All => _all;

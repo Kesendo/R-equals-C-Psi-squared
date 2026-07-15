@@ -13,7 +13,7 @@ import framework as fw
 
 def test_confirmations_has_twenty_three_entries():
     names = fw.Confirmations.list_names()
-    assert len(names) == 23
+    assert len(names) == 24
     assert 'palindrome_trichotomy' in names
     assert 'lebensader_skeleton_trace_decoupling' in names
     assert 'gamma_0_marrakesh_calibration' in names
@@ -132,4 +132,4 @@ def test_confirmations_by_machine():
     marrakesh = fw.Confirmations.by_machine('ibm_marrakesh')
     kingston = fw.Confirmations.by_machine('ibm_kingston')
     assert len(marrakesh) >= 6
-    assert len(kingston) >= 3
+    assert len(kingston) >= 4
