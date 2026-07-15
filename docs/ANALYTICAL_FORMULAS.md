@@ -5135,7 +5135,21 @@ since the same night under the F127 claim (`CrossTripleOrthogonalityClaim` bread
 cyclotomic integers, the norms cancel from the zero claim) at 7 named pairs covering every
 proof cell, 3 unequal-level nonzero controls (one per level-sensitive cell), and the exact
 Lemma-3 sign Ê⁺ = ε·Ê⁻ on every pair; a second method beside the float gate, no floats, no
-primes, no sampling (tests `--filter CrossTripleOrthogonality`, 23).
+primes, no sampling (tests `--filter CrossTripleOrthogonality`, 29).
+**Dynamics (2026-07-15):** the decoupling's time-domain face measured at the documented
+n = 12 pair: the effective coupling (an exact Schur reduction on the degenerate 6-space of
+the two lift multiplets, basis-free; float arithmetic) scales as **5.9·10⁻⁵·q⁴** (q = J/γ;
+the q² order exactly absent, which is B = 0 itself; q³ absent in the measurement: the
+off-block steps are purely ×16 per q-doubling, slope 3.9892, an observation not a
+derivation) against **1.9·10⁻²·q²** for a generic unequal-level control; the
+self-blocks split at q² (so the q⁴ residual is never resonant), and each triple's totally
+antisymmetric lift is an exact eigenvector of the FULL hop (all-orders protection of the
+persistent zero-branch pair). "No avoided crossing, ever", now seen from the generator
+side; cell 2's first dynamics-side check by a second, methodologically independent route
+(the q² zero is the same B; the new content is the q⁴ law, the self-split and the
+all-orders protection).
+[Experiment](../experiments/F130_TIME_DOMAIN_DECOUPLING.md) +
+gate [`f130_time_domain_decoupling.py`](../simulations/f130_time_domain_decoupling.py).
 
 ---
 
