@@ -1,9 +1,9 @@
 # IBM F129: The Standing Fringe
 
-**Status:** PRE-REGISTRATION v2.5. 7a AND 7b RECORDED (§6); the Givens compiler
-and the hardware runner exist and are certified. The remaining steps before the
-one flight, in the pinned order: fresh calibration + the §8 chain rule as a
-HARD abort on flight day → Tom's explicit go → ONE job → RECORD appended here.
+**Status:** FLOWN AND CONFIRMED (2026-07-15, ibm_kingston, job
+d9br4vmg26ic73dgbgk0; see RECORD). Pre-registered at commit 5bf3b79 (v2.5, 7a +
+7b recorded) BEFORE the shot; the flight followed the pinned order: fresh
+calibration + §8 hard aborts → Tom's explicit go → ONE job → the RECORD below.
 The runner: `run_f129_ramsey_fringe.py` in the external IBM pipeline
 (AIEvolution.UI/experiments/ibm_quantum_tomography), importing this repo's
 committed gates as the single source of circuits, estimator and verdict.
@@ -410,6 +410,58 @@ alone, M = 0), never on the flight.
   collision is inferred through the verified θ³ scaling, and cleanness is a
   construction property of the loaded triples, not a measured quantity.
 - One device, one job, one lab; no cross-device claims.
+
+## RECORD: the flight
+
+**Flown 2026-07-15, ibm_kingston, job `d9br4vmg26ic73dgbgk0`, ONE Batch, 64 PUBs
+× 16384 shots, billed 297 s ≈ 5.0 QPU min** (projection 6.6-7.7; under). Chain
+[11, 12, 13, 14, 15, 19, 35, 34] (fresh §8 rule: min T2e 101 µs, med 2q 0.15 %,
+med T2* est 136 µs, seed RO 0.5 %), submitted 18:17 after the pinned order
+completed (pre-registration commit 5bf3b79, fresh calibration, dry-run aborts
+green, Tom's explicit go). A local power failure killed the waiting process
+mid-queue; the job was unaffected (0 QPU s at reconnect) and the results were
+fetched by the submit-record job ID through the runner's --recover path, counts
+persisted before any reduction
+(results_f129/f129_flight_20260715_222348.json, external pipeline).
+
+**Measured (the committed §5 estimator on the persisted counts):**
+
+| Arm | fitted slope (rad/step) | prediction | V(M=8) |
+|-----|--------------------------|------------|--------|
+| A0 | +0.0326 ± 0.0033 | center(θ̂) +0.0212 + budgets | 0.328 |
+| A1 | −0.0928 ± 0.0034 | −0.0903 (0.7σ) | 0.459 |
+| A2 | +0.3199 ± 0.0033 | +0.3214 (0.4σ) | 0.444 |
+
+θ̂ = 0.4992 (the device hit the pinned angle to 0.16 %; clause (c) bound 0.024).
+
+**Verdicts (the committed rules, applied by hand against the persisted counts;
+the runner printout agreed):**
+- **(a) PASS:** A0 deviation from the θ̂ center +0.0114, inside the budgeted
+  window [−0.0182, +0.0225]. The excess is POSITIVE and sized within
+  b_zz2 + b_qs, exactly the direction the ζ² anti-protection law predicts for
+  same-sign always-on ZZ; purely statistically it is +3.36σ_a, which is why the
+  budgets exist and were pre-registered.
+- **(b) PASS:** A2 separates from A0 by 61.0σ combined, predicted sign.
+- **(c) PASS:** A2 within 0.4σ of its nominal prediction.
+- **STANDING FRINGE CONFIRMED.** The nearest impostor hypothesis (the smallest
+  detuned triple in the census, predicted slope +0.109) lies ~22σ above the
+  measured A0. F129's existence half has a hardware sighting: the clean mirror
+  collision of the n = 9 comb stands still (to its computed θ³ drift and
+  budgeted systematics) while the winding clock turns at 61σ and the
+  opposite-winding dial A1 tracks its prediction at 0.7σ.
+- **Instrument notes:** V(M=8) measured 0.33-0.46 across arms vs the
+  conservative model 0.215 (the in-situ Ramsey PUBs put the chain's T2* well
+  above the 70 µs anchor, consistent); σ_slope is therefore the frozen
+  projection, conservative as pinned. No point fell below the 0.08 floor
+  (min V = 0.328, all 27 points, 9/9 per arm); no PUB returned empty; billed
+  usage under projection. Readout is asymmetric (P(err|0) = 0.02 %,
+  P(err|1) = 0.84 %), handled by the 2×2 correction as pinned. Because the
+  results were fetched through --recover after the power failure, the
+  persisted snapshot_after matches snapshot_before (same calibration epoch);
+  no independent post-flight drift snapshot exists, and between-arm drift is
+  bounded by the round-robin interleaving (§8), not by the snapshots. The
+  post-flight empty round recomputed every verdict number independently from
+  the raw counts (clause (c) exact: 0.45σ) and the RECORD stands.
 
 ## Revision notes
 
