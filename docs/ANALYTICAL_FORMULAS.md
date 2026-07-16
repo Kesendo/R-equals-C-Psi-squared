@@ -5101,6 +5101,16 @@ exact ℤ[ζ_2n] census live at every n ≤ 60 (eleven families exercised) plus 
 capstone (L's door); the n = 105 capstone (seven families, total 8858, M's door) is pinned in
 the tests; per-family MEMBERSHIP (first-fit labels) and the M-split reconstruction stay with
 the committed gate's I1-I5.
+**Derived instrument law under this surface (2026-07-16, no own F number):** the ζ²
+anti-protection law of the flown standing-fringe experiment (Confirmation 24) is the
+antiunitary chiral lift Θ = T·K of `ChiralKClaim` (class BDI) to the Floquet step:
+for a Θ-mirror collision pair the quasi-energies obey θ_τ(ζ) = −θ_ν(−ζ) exactly, to
+ALL orders, so odd ZZ orders transfer equally (first-order protection) and even orders
+push the branches apart with an exact factor 2; the second-order term gives the ζ²
+bias, clean-limit coefficient 0.002522 (the flown estimator dresses it to 0.00257). Mirror pairs ONLY; the n = 12
+pair carries first-order ZZ. Proof:
+[PROOF_ZETA2_ANTI_PROTECTION](proofs/PROOF_ZETA2_ANTI_PROTECTION.md); gate:
+[`zeta2_anti_protection.py`](../simulations/zeta2_anti_protection.py).
 
 ### F130. The collision-decoupling law: equal level implies vanishing cross block (four-cell assembly of committed results, 2026-07-14 night; minted 2026-07-14)
 

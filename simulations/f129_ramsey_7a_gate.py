@@ -299,7 +299,13 @@ def pred_V(ms, m_deph):
 
 
 def zz2_budget():
-    """The one-sided clause-(a) budget from the chiral second-order law,
+    """(2026-07-16: the law is now DERIVED, docs/proofs/PROOF_ZETA2_ANTI_
+    PROTECTION.md + gate simulations/zeta2_anti_protection.py: second-order
+    Floquet PT under the antiunitary chiral lift Theta = T.K; clean-limit
+    coefficient 0.002522, which the flown estimator dresses to C2LAW below.
+    Theta-mirror pairs only.)
+
+    The one-sided clause-(a) budget from the chiral second-order law,
     derived by zz2_scan() (exact statevector): bias = C2LAW * (zeta/3.8 kHz)^2
     * (tau_step/1.2 us)^2 (1.2 us = the law's normalization point), budgeted at
     2x the transferred zeta with a 1.22 estimator-pattern uplift (the seed

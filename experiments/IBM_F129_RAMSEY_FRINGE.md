@@ -215,6 +215,16 @@ b_qs = ±0.008 two-sided (quasi-static site-disorder at the T2*-consistent scale
 of unknown sign, hence two-sided; it also covers the ≤ 10⁻³ mixed-sign ζ
 excursions and the in-sim decoherence pull ~−0.002).
 
+*(2026-07-16, post-flight: the ζ² law is now DERIVED, not only scanned:
+[PROOF_ZETA2_ANTI_PROTECTION](../docs/proofs/PROOF_ZETA2_ANTI_PROTECTION.md)
++ gate [`zeta2_anti_protection.py`](../simulations/zeta2_anti_protection.py).
+It is second-order Floquet perturbation theory under the antiunitary chiral
+lift Θ = T·K of `ChiralKClaim`; the estimator-free clean-limit coefficient is
+0.002522, which the flown estimator dresses to the 0.00257 above. The complete
+mechanism is gap negation AND coupling-modulus equality, both from Θ; and the
+law exists ONLY for Θ-mirror pairs like A0's. The budgets, the uplift, and the
+one-sidedness policy above remain the normative flight-record constants.)*
+
 **Verdict rules (v2; the verdict is ONE conjunction, the secondaries carry no verdict
 weight, so there is no multiple-comparison inflation):**
 
@@ -402,7 +412,10 @@ alone, M = 0), never on the flight.
   (1,2,10) ~ (3,5,6) has a non-clean member and tests F130's hypothesis, not F129's
   law; its nearest impostor (dS = 0.018) is inseparable at this budget (design-gate
   appendix: 1.3σ). Any future n = 12 flight requires its own pre-registration with
-  its own bands.
+  its own bands. *(Added 2026-07-16: and its own ZZ treatment. The n = 12 pair is
+  NOT a Θ-mirror pair, so the ζ² anti-protection law does not apply; it carries
+  FIRST-order ZZ drift and must budget ζ¹, not ζ²; see
+  [PROOF_ZETA2_ANTI_PROTECTION](../docs/proofs/PROOF_ZETA2_ANTI_PROTECTION.md) §5.)*
 - **The n = 9 statement is F129's:** a clean-clean collision standing still against
   a winding clock, with the nearest permitted alternative rejected at 26.5σ.
   Precisely: the device directly measures the STEPPED chain's collision (the
@@ -467,6 +480,24 @@ the runner printout agreed):**
 
 ## Revision notes
 
+- **v2.6 (2026-07-16, post-flight; no verdict-bearing number changed):** the ζ²
+  anti-protection law got its own derived surface,
+  [PROOF_ZETA2_ANTI_PROTECTION](../docs/proofs/PROOF_ZETA2_ANTI_PROTECTION.md)
+  + gate `zeta2_anti_protection.py` (design round: 3 fresh lenses, math/physics/
+  grounding, all SOUND WITH FIXES, folded). Three labels of the earlier entries
+  are superseded in place, records untouched: (i) the v2.4 mechanism one-liner
+  "mirrored Floquet gaps make the shifts opposite" was incomplete as a cause;
+  the derived mechanism is gap negation AND coupling-modulus equality, both
+  from the antiunitary lift Θ = T·K of `ChiralKClaim` (class BDI); (ii) the
+  v2.4 label "exact law 0.00242 ... a physics find" is superseded: 0.00242 was
+  the equal-weight-estimator dressing, 0.00257 the flown-estimator dressing,
+  and the estimator-free physics constant is the clean-limit 0.002522, derived
+  and gate-pinned; (iii) the RECORD's "+3.36σ_a positive, the direction the
+  law predicts" is to be read as sign-CONSISTENCY within the blended budget
+  (b_zz2 ≈ 38 % of the excess, the rest under the unknown-sign b_qs draw), not
+  as a ζ²-sign measurement; the flight banks the standing fringe, nothing
+  more. Load-bearing fence recorded in §9: the law is Θ-mirror-pair-only; the
+  n = 12 pair carries first-order ZZ.
 - **v1 (2026-07-15):** initial design draft from the feasibility scout
   (θ = 0.32, even M-grid, 8192 shots, all arms verdict-bearing, ±0.030 ZZ band
   language mixed with exact-Wick numbers, single-arm σ).
