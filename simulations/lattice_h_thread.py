@@ -211,7 +211,8 @@ def main():
         if q < 0:
             n_odd += 1
     check("every alive readout sorts by its X-parity", sorted_ok,
-          f"{len(alive)}/63 alive ({n_dead} doubly-mirrored zeros), all sorted")
+          f"{len(alive)}/63 alive ({n_dead} dead; the diagonal deaths are the proven "
+          "doubly-mirrored zeros), all sorted")
     top_odd = max((m for _, q, m in alive if q < 0), default=0.0)
     check("the odd cell is non-vacuous", n_odd > 0 and top_odd > 0.1,
           f"{n_odd} X-odd strings alive, top |<O>| = {top_odd:.3f}")
