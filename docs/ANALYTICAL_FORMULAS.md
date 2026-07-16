@@ -5110,7 +5110,8 @@ push the branches apart with an exact factor 2; the second-order term gives the 
 bias, clean-limit coefficient 0.002522 (the flown estimator dresses it to 0.00257). Mirror pairs ONLY; the n = 12
 pair carries first-order ZZ. Proof:
 [PROOF_ZETA2_ANTI_PROTECTION](proofs/PROOF_ZETA2_ANTI_PROTECTION.md); gate:
-[`zeta2_anti_protection.py`](../simulations/zeta2_anti_protection.py).
+[`zeta2_anti_protection.py`](../simulations/zeta2_anti_protection.py). Since 2026-07-16 this
+law is Theorem B (the antiunitary column) of F131 below.
 
 ### F130. The collision-decoupling law: equal level implies vanishing cross block (four-cell assembly of committed results, 2026-07-14 night; minted 2026-07-14)
 
@@ -5167,6 +5168,43 @@ the q⁴ smallness IS the law): [F130_HW_INFEASIBILITY.md](../experiments/F130_H
 The surviving first-order hardware face is F129's standing Ramsey fringe:
 [IBM_F129_RAMSEY_FRINGE.md](../experiments/IBM_F129_RAMSEY_FRINGE.md)
 (pre-registration; 7a + 7b recorded 2026-07-15, flight pending calibration + go).
+
+### F131. The mirror's order-sorting law: response orders sort by the parity product q·σ_eff (assembly of committed results, 2026-07-16; minted 2026-07-16)
+
+For a mirror M (unitary or antiunitary involution) whose conjugation reflects a
+parameter scan,
+
+    M · G(x₀ + s·δ) · M⁻¹ = G(x₀ + σ_eff·s·δ),   σ_eff = σ_op·χ_M
+
+(σ_op = the operator parity of the direction δ; χ_M = +1 linear, −1 antilinear:
+an antiunitary flips the exponent's i, which is how an M-FIXED perturbation still
+scans reflected), and a readout of definite mirror parity q, the response orders
+sort by q·σ_eff into four cells: **generic** (+,+) / **EVEN response** (+,−; only
+even orders enter, the first order vanishes) / **ODD response** (−,−) /
+**IDENTICALLY ZERO** (−,+; a static selection rule). Parities only, never
+magnitudes. **Theorem A** (unitary, unconditional): the F71 site reversal on the
+Lindblad chain gives ⟨O⟩(t) = q·⟨O⟩(−t) for OPERATOR-R-even preparation and
+definite-parity readout, and the FULL Liouville spectrum is even in the
+anti-palindromic scale (new corollary; the F91/F92/F93 diagonal-block pair-sum
+invariance is the stronger all-orders special case; F100/F101 are the odd cell).
+**Theorem B** (antiunitary, isolated-branch + tracking hypotheses): the ζ²
+anti-protection law above (the F129 derived law, 304301b): pair difference even,
+pair sum odd. **Boundary as content:** expectation-even preparation is provably
+insufficient (operator-even is the hypothesis); an ε-impure preparation leaks the
+forbidden parity EXACTLY affinely in ε, leading O(ε·t); in both examined linear
+leaks (the ε-leak, the flown b_qs budget) the failure was a broken parity
+hypothesis, not a broken mirror. Π-protected observables are a DIFFERENT zero
+mechanism (degenerate-cluster cancellation, state-tied), deliberately not the
+zero cell's witness.
+**Proof:** [PROOF_MIRROR_ORDER_SORTING](proofs/PROOF_MIRROR_ORDER_SORTING.md).
+**Gate:** [`mirror_order_sorting.py`](../simulations/mirror_order_sorting.py)
+(T0 conjugation identity + γ-axis corollary, T1 spectral evenness by optimal
+matching, T2 both response cells, T3 the zero cell, T4 the leak with ε- and
+t-halving; PASS at N = 4, 5, 6). **Hardware:** Confirmation 24 sights the
+first-order protection only (the standing fringe); no other cell has a hardware
+witness; the ζ²-meter (a mirror-pair crosstalk intensity reading) is a candidate
+future instrument. **Typed:** owed; the natural home is a new claim with parents
+`ChiralKClaim`, the F119 antilinear triangle, and the F91 family.
 
 ---
 

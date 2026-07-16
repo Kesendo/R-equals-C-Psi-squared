@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-16
 **Status:** assembly proof. One new identity family; every cell witness is an already-proven Tier-1 result or the committed gate. Gate: [`simulations/mirror_order_sorting.py`](../../simulations/mirror_order_sorting.py) (N = 4, 5 default, N = 6 via `--deep`; all PASS, exit 0). The antiunitary column's own gate is [`simulations/zeta2_anti_protection.py`](../../simulations/zeta2_anti_protection.py).
-**Registry:** no F number yet; the question goes to the registry after the review rounds.
+**Registry:** minted **F131** (2026-07-16, Tom's call after the review rounds); entry at the end of [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md).
 
 Before the algebra, the shape: a mirror does not throw information away, it
 sorts it. What the noise does to a mirror-respecting system arrives in two
