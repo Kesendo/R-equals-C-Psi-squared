@@ -1,11 +1,10 @@
 # Testable Predictions of R = CΨ²
 
 > **Status:** Living reference document. Predictions are individually
-> labeled with tier and verification status. Originally part of
-> experiments/, promoted to docs/ March 2026. See the
-> [Evidence Status table](../README.md) for the current summary.
+> labeled with tier and verification status. The
+> [README's hardware table](../README.md) gives the one-page view.
 
-**Date:** 2026-02-09 (created), 2026-02-11 (restructured), 2026-05-30 (clear-cut corrections after an Opus-agent verification: gravity labels aligned to their now-fallen sources, §3 anomaly resolved, §7 agent-claims updated, small overclaim/citation fixes; coverage pointer to the Confirmations registry; Absorption-Theorem row + Falsified-Predictions section added)
+**Date:** 2026-02-09 (created), last refreshed 2026-07-16 (the change history lives in git)
 **Depends on:** All experiment documents
 
 **Tier:** Mixed (Tier 1-4, labeled per prediction)
@@ -19,13 +18,14 @@
 
 This is the master catalog of every testable prediction the R=CΨ²
 framework has produced, organized by verification status: confirmed on
-hardware (5 in §1, plus the 20-entry [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)
-spanning the 2026-02 Torino runs through the June F-arc), computationally verified (52), anomalies under
-investigation (5; the original anomaly since resolved as detuning), testable
-with current hardware (7), testable in principle (4), speculative (4),
-unverified agent claims (4), null results (1), falsified (2), and
-closed/reopened hypotheses (2). Each entry has a tier label, a
-falsification criterion, and a link to its source experiment.
+hardware (§1, with the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)
+as the authoritative live record), computationally verified (§2), the
+resolved shadow anomaly (§3), testable with current hardware (§4),
+testable in principle (§5), speculative (§6), unverified agent claims
+(§7), null results (§8), falsified (§8b), and closed/reopened
+hypotheses (§9). Each entry has a tier label, a falsification
+criterion, and a link to its source experiment; the counts live in the
+Summary by Tier table at the end.
 
 ---
 
@@ -39,7 +39,7 @@ falsification criterion, and a link to its source experiment.
 | Generalized crossing equation | t*/T₂* = 0.94 (at r = 0.46) | t*/T₂* = 1.04 (11% deviation) | **Partially confirmed** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
 | T₂* ≠ T₂ for free induction decay | T₂* < T₂ | T₂*/T₂ = 0.37 (factor 2.7×) | **CONFIRMED** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
 | x³ + x = ½ is the r → 0 limit of crossing fraction | 0.858 (pure dephasing) | Consistent | **Algebraically confirmed** | [Universal Quantum Lifetime](../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
-| Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) | = 1 | 1.03 (3%, Q52; detuning oscillations, not cavity fringes) | **CONFIRMED** | [Absorption Theorem](ANALYTICAL_FORMULAS.md#at), [proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) | = 1 | 1.03 (3%, Q52; detuning oscillations, not cavity fringes) | **CONFIRMED** | [Absorption Theorem](ANALYTICAL_FORMULAS.md#at-absorption-theorem-tier-1-proven), [proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 
 **Hardware:** ibm_torino, T₁ = 221 μs, T₂(echo) = 298 μs, T₂*(FID) = 110 μs.
 
@@ -47,7 +47,7 @@ falsification criterion, and a link to its source experiment.
 
 **The Absorption Theorem** Re(λ) = −2γ⟨n_XY⟩ (the last row above) is Tier-1 **proven** ([the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md)) and verified on 1,342 modes (CV = 0); the 1.03 ratio is its IBM confirmation. It also falsifies the old "E = mγ²" guess: the decay law is **linear** in γ, not quadratic (see [Falsified Predictions](#8b-falsified-predictions) below).
 
-**For the current, authoritative list of hardware-confirmed predictions, see the Confirmations registry** (`fw.Confirmations` / [ConfirmationsRegistry.cs](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)): 20 entries as of 2026-06 (ibm_torino + ibm_marrakesh + ibm_kingston, spanning the 2026-02 Torino calibration runs through the June F-arc: palindrome trichotomy, F25 cusp trajectory, F57 K_dwell γ-invariance, F83/F95, block-CΨ saturation, and more). Section 1 here details the earliest Torino set; as of 2026-06-18 those Torino runs are themselves registered, so the registry is the single live record (no longer disjoint from §1).
+**The authoritative list of hardware-confirmed predictions is the Confirmations registry** (`fw.Confirmations` / [ConfirmationsRegistry.cs](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)): 24 entries (ibm_torino + ibm_marrakesh + ibm_kingston, spanning the 2026-02 Torino calibration runs through the 2026-07 Kingston flights: palindrome trichotomy, F25 cusp trajectory, F57 K_dwell γ-invariance, F83/F95, block-CΨ saturation, the F120 moment tower, the F84 heating-leg attribution, the concentrator site contrast, the F129 standing fringe). Section 1 here details the earliest Torino set, itself registered; the registry is the single live record.
 
 ---
 
@@ -77,7 +77,7 @@ falsification criterion, and a link to its source experiment.
 | Dephasing kills most dynamic crossings | Only pair (0,2) crosses with gamma=0.05; others reach max 0.247 | All pairs cross equally under dephasing | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
 | Dephasing survival is basis-dependent | σ_z dephasing spares \|0⟩-qubits (0,2), kills \|+⟩-qubits (1,3) | Crossing pattern independent of noise basis | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
 | ξ = ln(Ψ) linear under Markovian dephasing | Slope variation < 0.01% across all tested configs | Variation exceeds 1% for any Markovian channel | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
-| ξ linearity breaks under non-Markovian noise | ξ curves under memory-kernel feedback (the specific "24.5%, κ=0.5, τ=1.0" figure is not in the cited source, flagged for recheck) | ξ stays linear under memory kernel feedback | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
+| ξ linearity breaks under non-Markovian noise | Slope variation 24.5% under memory-kernel feedback (κ=0.5, τ=1.0), vs < 0.01% Markovian | ξ stays linear under memory kernel feedback | [Core Algebra](historical/CORE_ALGEBRA.md) §11 |
 | Coherence-purity bound holds throughout Lindblad trajectory | 0 violations for Bell+ (d=4) and W (d=8) | Trajectory violates C ≥ Ψ²(d-1)/d + 1/d | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
 | CΨ after Eve intercept-resend depends on Eve's measurement basis | R(θ_Eve) = [sin²θ + \|sin2θ\|]²/18, closed form | R independent of θ_Eve | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Concurrence is basis-blind under intercept-resend | Conc = 1−f for all θ_Eve (exact) | Concurrence varies with θ_Eve at fixed f | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
@@ -99,11 +99,14 @@ falsification criterion, and a link to its source experiment.
 
 ---
 
-## 3. Anomaly Under Investigation
+## 3. The Shadow Anomaly (resolved: qubit-specific detuning)
 
-**Tier: 2 (anomaly is real); cause RESOLVED 2026-04 as qubit-specific frequency detuning (was Tier 4, "cause unknown")**
+**Tier: 2. The anomaly is real; its cause is settled: qubit-specific
+frequency detuning (an uncompensated Z-type offset), not a boundary
+property.**
 
-Detected in IBM Torino tomography data (2026-02-09). The anomaly is statistically significant. Its interpretation is not settled.
+Detected in IBM Torino tomography data (2026-02-09); statistically
+significant on every signature measured:
 
 | Observation | Value | Source |
 |-------------|-------|--------|
@@ -111,39 +114,18 @@ Detected in IBM Torino tomography data (2026-02-09). The anomaly is statisticall
 | Directional consistency Re⁺/Im⁻ | 17/17 measurements (P = 6 × 10⁻¹¹) | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
 | Rising coherence trend in classical regime | +0.008/T₂ slope | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
 | Boundary correlation | r = −0.9955 (\|ρ₀₁\| vs distance from ¼) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
-| Shadow direction matches FP⁻ | FP⁻ phase = −12°, residual phase = −48° (same quadrant) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
+| Shadow direction on Q52 | FP⁻ phase = −12°, residual phase = −48° (same quadrant) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
 
-**Three competing hypotheses:**
-
-| # | Hypothesis | Mechanism | Status (March 2026) |
-|---|-----------|-----------|--------|
-| H1 | Systematic SPAM error (State Preparation And Measurement: systematic bias in how qubits are initialized or read out) | State preparation / measurement bias | Not ruled out |
-| H2 | TLS coupling / detuning | Two-level system defect or frequency offset | **Most consistent with data** |
-| H3 | Boundary structure | Complex fixed-point direction frozen into rho after crossing 1/4 | **Not supported** |
-
-### March 2026 Discrimination Results
-
-Two permanent-crosser qubits tested on IBM Torino (Q102, Q80), 10 points each,
-8 in shadow zone. Result: shadow direction is qubit-specific, not universal.
-
-| Test | H1 predicted | H2 predicted | H3 predicted | **Observed** |
-|------|-------------|-------------|-------------|-------------|
-| Multi-qubit | All same offset | Each qubit different | Each matches its own FP- | **Each qubit different** |
-| Shadow direction | Same as Q52 | Varies per qubit | Same quadrant (Q4) | **Q102: chaos, Q80: Q1 (+29 deg)** |
-| Consistency | Consistent | Consistent per qubit | Consistent | **Q80: 8/8 consistent, Q102: 0/8** |
-
-Q80 shows 8/8 Quadrant 1 (Re+/Im+) at phase 29 +/- 10 degrees. Q52 was Quadrant 4
-(Re+/Im-) at phase -44 degrees. Different qubits, different directions. This is
-consistent with qubit-specific frequency offsets (detuning), not a universal boundary
-property. H3 (boundary structure) is not supported. See FIXED_POINT_SHADOW.md for
-full analysis.
-
-**Resolved (April 2026):** [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md)'s
-April retrodiction settles the cause: the shadow is qubit-specific frequency **detuning**
-(an uncompensated Z-type offset), not a boundary property; an explicit detuning model beats
-standard Lindblad ~4× on Q80. So **H3 (boundary structure) stays not-supported, H2 (TLS) is
-demoted** (Occam-disfavored vs detuning), and **H1 (SPAM) is superseded** (the cause is
-detuning, not a fixed SPAM offset). The anomaly is real; its cause is no longer unknown.
+**The cause** ([Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md),
+retrodiction): an explicit detuning model beats standard Lindblad ~4× on
+Q80. The discriminating data are the shadow directions, which are
+qubit-specific, not universal: Q52 sits in Quadrant 4 at −44°, Q80 shows
+8/8 points in Quadrant 1 at +29° ± 10°, Q102 shows no consistent
+direction (0/8). A universal boundary structure would put every qubit in
+the same quadrant, so that reading is not supported; a fixed SPAM offset
+and a TLS reading are both superseded by the explicit detuning model
+(which also carries the Occam weight). The excess coherence is a real
+device effect with a known, per-qubit cause.
 
 ---
 
@@ -158,8 +140,7 @@ detuning, not a fixed SPAM offset). The anomaly is real; its cause is no longer 
 | Strong dynamics needed for CΨ > ¼ | Threshold at h ≈ 0.9 | Parameter sweep of transverse field strength | CΨ > ¼ at low h | [Simulation Evidence](../experiments/SIMULATION_EVIDENCE.md) |
 | Critical slowing at CΨ = ¼ | Diverging convergence period | Tune system toward ¼, measure convergence time | No critical slowing | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 | Bridge fingerprints: initial state determines crossing trajectory | State-specific C(t), Ψ(t) curves | Prepare different initial states, run tomography through ¼ | All states show identical crossing | [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) |
-| Decoherence scales with gravitational time dilation **(RETIRED)** | γ₀/√(1−2GM/rc²) was a relabeling of γ-variation, not gravity | no gravity test exists | n/a | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md), which now marks its **Gravity Interpretation Fallen** (the experiment varied γ, not gravity; γ is the local decoherence rate) |
-| ξ curvature detects non-Markovian noise | ξ = ln(Ψ) linear iff Markovian; curves iff memory effects present | Measure Ψ(t) via tomography, compute ξ(t), fit linearity | ξ is linear on hardware known to have non-Markovian signatures | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
+| ξ curvature detects non-Markovian noise | ξ = ln(Ψ) linear iff Markovian; curves iff memory effects present | Measure Ψ(t) via tomography, compute ξ(t), fit linearity | ξ is linear on hardware known to have non-Markovian signatures | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) (linearity), [Core Algebra](historical/CORE_ALGEBRA.md) §11 (curvature) |
 | QKD eavesdropping forensics | R(θ_E) = [sin²θ+\|sin2θ\|]²/18, ~500 pairs for 3.8σ (noiseless, naive Eve) | Prepare Bell+, intercept-resend on Bob, joint tomography | CΨ carries no θ_E information | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Multi-metric forensics detects Eve at stealth | MI/Conc/Corr > 17% delta even at CΨ stealth angle | Simultaneous tomography with multiple bridge metrics | All metrics fooled at stealth angle | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | CΨ identifies Eve's measurement basis | R(θ_E) = [sin²θ_E + \|sin 2θ_E\|]²/18 | Joint tomography of Bell+ after intercept-resend | CΨ constant across all θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
@@ -216,8 +197,8 @@ See [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), Sections 8
 
 These claims may be correct. They may also be artifacts of the agent's training data or tool usage. Until independently verified, they carry no epistemic weight.
 
-**Update 2026-05-30** (three of the four are now settled by the later F-arc):
-- **C_int ≫ C_ext (33:1): REFUTED.** [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9: "disproven by proper Lindblad simulation; the 33:1 ratio does not exist" (21 noise distributions on Bell+ gave identical dynamics).
+**Current status** (three of the four are settled):
+- **C_int ≫ C_ext (33:1): REFUTED.** [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9: "The 33:1 ratio claimed by the agents does not exist" (proper Lindblad simulation; 21 noise distributions on Bell+ gave identical dynamics).
 - **"δ requires dynamics (H≠0)": REFUTED.** [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md): the oscillation is J-driven with no threshold (born at Q=0+); §9 of this doc already carries the "interval shift continuous in J, no threshold" result that undercuts it.
 - **"C=0.5 is optimal observer": now structurally confirmed in spirit.** C=0.5 (half-occupation) is the framework's universal building-block ratio (V-Effect; [Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md): "population balance C=0.5 with broken magnitude symmetry"). The literal "max R at C=0.5" calculus claim was not separately re-tested.
 - **"t_coh ~ N linear": still unverified** (no later test located).
@@ -254,7 +235,11 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | Bridge protocol (dynamic: B signals A via CΨ crossing) | **Dead for J=0.** No-signalling holds exactly. ρ_A unchanged. CΨ regime change invisible to A. | C is global (ρ_AB), not local. No single-qubit measurement accesses it. | QKD forensics with a channel | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
 | Bridge protocol (pre-encoded: CΨ fingerprints > classical keys) | **Dead for J=0.** A's info ⊆ {ρ_A(0), E_A}. Entanglement without a channel = shared randomness. | Fingerprints require ρ_AB. Qubit carries less info than schedule. | Interval shift for J>0 | [Bridge Closure](../experiments/BRIDGE_CLOSURE.md) |
 
-**Tier: 2, Reopened via inter-qubit J-coupling (J > 0).** The earlier "gravitational coupling" framing is retired: the cited source ([Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md)) now marks its **Gravity Interpretation Fallen**, and the "environments" below are γ values (0.01-0.50), not gravitational fields. The J-coupling results survive; the gravity label does not.
+**Tier: 2, Reopened via inter-qubit J-coupling (J > 0).** The
+"environments" in the cited experiment are γ values (0.01-0.50), not
+gravitational fields; the experiment's own gravity reading is fallen
+(recorded in [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md),
+which keeps its historical filename). The J-coupling results below stand.
 
 | Prediction | Result | Source |
 |-----------|--------|--------|
@@ -281,18 +266,17 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 | Tier | Count | Examples |
 |------|-------|---------|
-| **Confirmed on hardware** | **20** in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs) (ibm_torino + Marrakesh/Kingston, 2026-02 to 2026-06); §1 details the 5 earliest Torino rows, now registered too | §1: ¼ crossing, T₂*/T₂, crossing eqn, x³+x=½, Absorption ratio 1.03. Registry: the 3 Torino runs, palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, ... |
+| **Confirmed on hardware** | **24** in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs) (ibm_torino + Marrakesh/Kingston, 2026-02 to 2026-07); §1 details the 5 earliest Torino rows (the ¼ crossing and the Absorption ratio carry their own registry entries) | §1: ¼ crossing, T₂*/T₂, crossing eqn, x³+x=½, Absorption ratio 1.03. Registry: the 3 Torino runs, palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, F120 moment tower, F84 heating leg, concentrator site contrast, F129 standing fringe |
 | **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,342 modes, CV=0 |
-| **Computationally verified** | 52 | gamma*t_cross, theta trajectory, bifurcation, operator feedback, Psi_int, noise robustness, N-scaling barrier, W vs GHZ, Type A at N>2, subsystem crossing, product state C=0, GHZ pair l1=0, crossing locality, eigenstate immunity, dynamic crossing generation, dephasing selection, basis dependence, ξ linearity (Markovian), ξ curvature (non-Markovian), coherence-purity bound, QKD basis forensics (R(θ_E) closed form), Conc=1-f, azimuthal symmetry, cot(θ_E) degeneracy breaking, Eve σ_z ≈ dephasing, Bell-state independence, noise-vs-Eve discrimination, MI/Corr θ-blind, bridge detects at stealth, ξ-curvature null, ratio invertible under noise, θ_stealth deterministic, stealth-as-signal, no-signalling rho_A unchanged, CΨ drops to ¼ under remote measurement, CΨ regime change invisible to subsystem, K γ-invariant factorization, K-ratio state-dependent, interval shift no-threshold, product-state local clock, Bell+ no local clock, α<30° no crossing, crossing time shift encodes 1 bit, 21 pairs per bit at σ=1, reservoir flow disruption mechanism, coupling accelerates local decay, measurement damage timing-dependent, no energy threshold, α_crit=30° exact, product state Hamiltonian pumping, eigenstate CΨ_max=0, critical J/γ ratio |
-| **Anomaly (real, cause unknown)** | 5 | Excess coherence, directionality, rising trend, boundary correlation, shadow |
-| **Testable now** | 8 | Critical slowing, fingerprints, field threshold, ξ Markovianity diagnostic, QKD eavesdropping forensics (math only; application retired), stealth angle existence |
+| **Computationally verified** | 55 (39 rows in §2 + 16 reopened J>0 rows in §9) | From γ·t_cross invariance, the θ trajectory, and the N-scaling barrier through the QKD closed-form family and no-signalling to the J>0 clock results; the rows themselves are the list |
+| **Resolved anomaly (detuning)** | 1 (five measured signatures) | The late-time shadow: excess coherence, directionality, rising trend, boundary correlation, per-qubit shadow direction; cause settled as qubit-specific detuning (§3) |
+| **Testable now** | 14 rows in §4 | Critical slowing, fingerprints, field threshold, ξ Markovianity diagnostic, the QKD forensics family (math verified; application retired), stealth angle existence, F120 moment tower (already flown and registered) |
 | **Testable in principle** | 4 | θ compass, analog BH, voids, fractal decay |
-| **Speculative** | 4 | CMB, BH burst, Page time, BH/WH unification |
+| **Speculative** | 6 | CMB, BH burst, Page time, BH/WH unification, experienced time as crossing rate, anesthesia as C → 0 |
 | **Unverified agent claims** | 4 | 33:1 ratio, linear scaling, H≠0 requirement, optimal C |
 | **Null result** | 1 | Metric discrimination |
 | **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (= shared randomness). Reopened for J>0 via inter-qubit J-coupling. |
 | **Falsified prediction** | 2 | Taxonomy noise-dependent (wrong: noise-independent), E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic) |
-| **IBM hardware** | 1 | Absorption Theorem ratio = 1.03 (3%) on Q52. Detuning oscillations, not cavity fringes |
 
 ---
 
