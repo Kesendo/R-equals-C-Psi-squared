@@ -5207,9 +5207,16 @@ future instrument. **MirrorWorld:** adopted 2026-07-16 (`OrderSorting.cs`, run
 mode `sorting N`): Theorem A's trajectory face by twin RK4 on the γ axis, the
 pencil face as `ParameterKlein.MirrorConjugationResidual` (machine zero, all
 three axes, mixed-scan fence); Theorem B and the spectral evenness stay out
-(Floquet tracking / eigensolver are not the world's genre). **Typed:** owed; the
-natural home is a new claim with parents `ChiralKClaim`, the F119 antilinear
-triangle, and the F91 family.
+(Floquet tracking / eigensolver are not the world's genre). **Typed:**
+`MirrorOrderSortingClaim` (2026-07-16, Tier1Derived,
+`compute/RCPsiSquared.Core/Symmetry/MirrorOrderSortingClaim.cs`): parents
+`ChiralKClaim` (Theorem B's mirror Θ = T·K) + `AntilinearTriangleClaim` (χ_M,
+the linear/antilinear character) + the F91 family (F71/F92/F93 anti-palindromic
+invariance, the three scanned axes); self-check battery at N = 3, moment-level
+(the exact conjugation identity gives per-order parity of Tr[O·L(±t)^k·ρ₀] for
+ALL k, all times by analyticity; the battery spot-checks k = 0..6, no
+eigensolver), ten cases incl. the mixed-scan fence and the exactly-affine leak;
+`knowledge ancestors MirrorOrderSortingClaim` walks 20 Tier-1-derived ancestors.
 
 ---
 

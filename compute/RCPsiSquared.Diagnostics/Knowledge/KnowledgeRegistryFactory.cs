@@ -697,6 +697,19 @@ public static class KnowledgeRegistryFactory
             // LindbladBitBPiBalance (F112), all registered above; the conj-leg claim
             // (ChiralMirrorTrajectoryClaim, Diagnostics) stays a prose edge.
             .RegisterAntilinearTriangleClaim()
+            // F131, the mirror's order-sorting law (2026-07-16): mirror conjugation
+            // reflects a parameter scan, M·G(x₀ + s·δ)·M⁻¹ = G(x₀ + σ_eff·s·δ) with
+            // σ_eff = σ_op·χ_M, and a readout of definite mirror parity q reads only the
+            // orders q·σ_eff allows: generic / EVEN / ODD / IDENTICALLY ZERO. Theorem A =
+            // the unitary F71 site-reversal column (unconditional); Theorem B = the ζ²
+            // anti-protection law (antiunitary Floquet Θ = T·K, tracking hypotheses).
+            // NOT an IZ2AxisClaim (cross-axis structural, like AntilinearTriangleClaim).
+            // Typed parents: ChiralKClaim (Theorem B's mirror), AntilinearTriangleClaim
+            // (χ_M, the linear/antilinear character), and the F91 family
+            // (F71AntiPalindromicGammaSpectralInvariance + F92/F93 twins, the owned
+            // pair-sum invariance on the three scanned axes), all registered above.
+            // MirrorWorld adoption: compute/MirrorWorld/OrderSorting.cs (sorting N).
+            .RegisterMirrorOrderSortingClaim()
             // The F120 moment-tower pump channel (2026-06-11): amplitude damping is the
             // unique non-unital piece of the standard Lindbladian and pumps along pure
             // local Z (D[σ⁻_l](I) = +Z_l, D[σ⁺_l](I) = −Z_l), so the slope of ⟨H^j⟩ at

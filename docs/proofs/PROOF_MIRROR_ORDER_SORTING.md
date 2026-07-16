@@ -172,5 +172,9 @@ candidate future instrument, not a result.
   pencil face as `ParameterKlein.MirrorConjugationResidual`; guarded from below
   by `OrderSortingTests` (6). Theorem B and the spectral evenness stay in the
   main repo (the drawn boundary, same style as `mirror`/`seed`).
-- Typed surface: deferred; the natural home is a new claim with parents
-  `ChiralKClaim`, the F119 triangle, and the F91 family.
+- Typed surface (2026-07-16): `MirrorOrderSortingClaim`
+  (`compute/RCPsiSquared.Core/Symmetry/MirrorOrderSortingClaim.cs`), parents
+  `ChiralKClaim` + `AntilinearTriangleClaim` + the F91 family (F71/F92/F93);
+  self-check battery at N = 3 (moment-level, ten cases), guarded by
+  `MirrorOrderSortingClaimTests` (Core.Tests) and the registration + wiring
+  audit (Runtime.Tests).
