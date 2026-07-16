@@ -1,6 +1,6 @@
 # Incompleteness of d(d-2)=0: Where Noise Comes From (And Why the Answer Is "Not From Here")
 
-**Status:** Tier 2 (derived from computationally verified falsifications); 5 candidates within the framework eliminated, 0 internal candidates remain.
+**Status:** Tier 2 (derived from computationally verified falsifications); 5 candidates within the framework examined, four eliminated and the first (internal bootstrap) reduced to a structural constraint (§2, Candidate 1), 0 viable internal candidates remain.
 **Date:** 2026-03-21
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** Within the d(d−2)=0 ontology (qubits + d=0 nothing), the dephasing noise required by the palindromic mirror symmetry cannot originate from any internal source. Noise must come from outside the framework.
@@ -28,7 +28,8 @@ no time arrow. So noise must be real. But where does it come from? We
 test every possible source that exists within the mathematical framework:
 the system generating its own noise, a single qubit decaying, a bath of
 many qubits, the "nothing" solution, and anything else the equations
-allow. Five candidates, five eliminations. None of them work.
+allow. Five candidates: four eliminated outright, the first reduced to
+a structural constraint (Candidate 1 below). None of them work.
 
 The conclusion is not that noise is mysterious. The conclusion is precise:
 noise cannot originate from within the system that it acts on. It must
@@ -166,9 +167,10 @@ including noise.
 
 **Argument:** d(d-2)=0 has exactly two solutions: d=0 (nothing) and
 d=2 (qubit). The palindromic mirror symmetry condition requires that
-Pi maps XY-weight k to N-k with balanced splitting. This requires d^2-2d immune
-operators versus d dephasing operators. This is balanced only when
-d^2-2d=0. No other dimension satisfies the condition. Within the
+Pi maps XY-weight k to N-k with balanced splitting. This requires the
+d immune (diagonal) operators to balance the d²−d decaying ones,
+d = d²−d. This holds only when
+d²−2d=0. No other dimension satisfies the condition. Within the
 framework, no entity with d>2 or non-integer d exists.
 
 **Source:** [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md) (the counting argument); the typed [`PolynomialFoundationClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) records the d=2 selection from d²−2d=0 with d=1 algebraically excluded; closes any "d=anything-else" loophole that would have been needed for a non-qubit noise source within the framework.
