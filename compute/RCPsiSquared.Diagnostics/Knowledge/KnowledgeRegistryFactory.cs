@@ -710,6 +710,17 @@ public static class KnowledgeRegistryFactory
             // pair-sum invariance on the three scanned axes), all registered above.
             // MirrorWorld adoption: compute/MirrorWorld/OrderSorting.cs (sorting N).
             .RegisterMirrorOrderSortingClaim()
+            // F132, the dead-set law (2026-07-16): the mirror-composition antiunitaries
+            // V_g = (U_g·X^N)∘conj are exact symmetries of the XY+field Lindblad flow at
+            // every fixed h; their kill sign is the N-free mod-4 function of the Majorana
+            // degree; alive ⟺ (K_pop ∧ d ≡ 0 mod 4) ∨ (coherence ∧ K_coh ∧ d = N).
+            // Necessity derived, sufficiency gated; the zz knob is the free-world fence.
+            // NOT an IZ2AxisClaim (cross-axis structural). Typed parents: ChiralKClaim
+            // (the sublattice gauge), AntilinearTriangleClaim (conj as the antilinear
+            // leg), MirrorOrderSortingClaim (F131, the third-mirror sighting that opened
+            // the doubly-mirrored zeros), all registered above. No MirrorWorld adoption
+            // yet (second-consumer stance).
+            .RegisterDeadSetLawClaim()
             // The F120 moment-tower pump channel (2026-06-11): amplitude damping is the
             // unique non-unital piece of the standard Lindbladian and pumps along pure
             // local Z (D[σ⁻_l](I) = +Z_l, D[σ⁺_l](I) = −Z_l), so the slope of ⟨H^j⟩ at

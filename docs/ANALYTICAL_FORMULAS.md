@@ -5275,8 +5275,17 @@ binomial anatomy, the zz boundary). **Relations:** closes the open question of
 F131's third-mirror sighting ([LATTICE_H_THREAD](../experiments/LATTICE_H_THREAD.md)
 §4); the chiral gauge is [PROOF_K_PARTNERSHIP](proofs/PROOF_K_PARTNERSHIP.md)'s K,
 the conjugation leg is F119's antilinear triangle, the blocks are Grading B (F63).
-**Not yet:** no hardware witness; no typed Claim; no MirrorWorld adoption (waits
-for a second consumer; the collapsed one-liner is the adoptable face).
+**Typed:** `DeadSetLawClaim` (2026-07-16, Tier1Derived,
+`compute/RCPsiSquared.Core/Symmetry/DeadSetLawClaim.cs`): parents `ChiralKClaim`
+(the sublattice gauge) + `AntilinearTriangleClaim` (conj as the antilinear leg) +
+`MirrorOrderSortingClaim` (F131, the third-mirror sighting); N = 3 ctor battery,
+matrix + moment level, no eigensolver (the composed mirror flips H, the flow
+symmetry on a generic matrix, the mod-4 identity on all 64 strings three ways, the
+automatic signs through N = 12, degree conservation, the FULL 63-string moment
+census for both preps, the zz fence); `knowledge ancestors DeadSetLawClaim` walks
+21 Tier-1-derived ancestors. **Not yet:** no hardware witness; no MirrorWorld
+adoption (waits for a second consumer; the collapsed one-liner is the adoptable
+face).
 
 ---
 
