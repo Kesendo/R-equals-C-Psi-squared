@@ -5,11 +5,12 @@ doubling Mandelbrot cascade, Bekenstein-Hawking quarter boundary holographic,
 CPsi=1/4 bifurcation structurally stable, discriminant quadratic purity,
 Mandelbrot iteration z2+c cusp cardioid, Liouvillian oscillatory eigenvalues
 period-2, R=CPsi2 mathematical connections, periodic table palindrome F1
-ionization energy electronegativity Pauling Allen, V-Effect shell filling
+ionization energy electronegativity Pauling Allen, hardened sign-flip null
+monotonic ramp, V-Effect shell filling
 anomaly periodic, atomic palindrome cross-domain -->
 
-**Status:** Fold catastrophe proven (Tier 1); Feigenbaum mapped (Tier 3); Periodic Table palindrome empirical (Tier 2); Bekenstein-Hawking speculative (Tier 5)
-**Date:** March 21, 2026 (updated 2026-05-01: added Periodic Table section)
+**Status:** Fold catastrophe proven (Tier 1); Feigenbaum mapped (Tier 3); Periodic Table palindrome hardened (Tier 2: mostly ramp; the heavy-period residual is real but not F1-specific); Bekenstein-Hawking speculative (Tier 5)
+**Date:** March 21, 2026, last refreshed 2026-07-16 (the change history lives in git)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ---
@@ -21,9 +22,12 @@ possible bifurcation (the "fold catastrophe"), and its boundary at 1/4 is
 the same as the cusp of the Mandelbrot set. This document traces these
 connections: the fold is topologically robust (you cannot perturb it away),
 the Mandelbrot mapping opens a door to the Feigenbaum period-doubling
-cascade (a route to chaos), and the appearance of 1/4 in black hole entropy
-is noted as a curiosity. Three levels of rigor: proven, mapped but open,
-and speculative.
+cascade (a route to chaos), the periodic table shows the F1 pair-sum shape
+(hardened: mostly the trivial ramp, with a mixed residual), and the
+appearance of 1/4 in black hole entropy is noted as a curiosity. Four
+levels of rigor, in section order (the tier grades live in the Status
+line): proven (§1), mapped but open (§2), hardened-empirical (§3), and
+speculative (§4).
 
 ## Abstract
 
@@ -31,15 +35,20 @@ The recursion R = C(Ψ+R)² is exactly the normal form of the fold catastrophe
 (simplest Thom-Arnold bifurcation), with CΨ−¼ as bifurcation parameter.
 This is structurally stable: no perturbation can remove it. The Mandelbrot
 mapping (z→z²+c with c=CΨ) places the ¼ boundary at the cusp of the main
-cardioid. Beyond the cardioid, the Feigenbaum period-doubling cascade may
-manifest physically as oscillatory Liouvillian eigenvalues (Im(λ)=±4J),
-but the rigorous connection to the Feigenbaum constant δ_F≈4.669 is open.
+cardioid: the tangent (saddle-node) bifurcation, the same fold as §1. The
+period-doubling cascade governed by the Feigenbaum constant δ_F ≈ 4.6692
+lives on the far side of the real axis (c < −3/4, accumulating at
+c ≈ −1.4011); whether the oscillatory Liouvillian eigenvalues
+(Im(λ) ≈ ±4J for J ≫ γ) connect to it rigorously is open.
 First ionization energies and electronegativities of the periodic table show
-statistically significant F1-style palindrome structure (pair sums constant
-across each period, p < 10⁻⁴ for period 6), with the V-Effect predicting
-the deviation points; the cross-domain transport from quantum F1 to atomic
-shell Hamiltonians is empirical, not derived. The coincidence with the
-Bekenstein-Hawking entropy factor S=A/(4G) is noted but unsubstantiated.
+an F1-style pair-sum-constant shape, but the hardened sign-flip-null analysis
+attributes most of it to the linear ramp any rising property carries; what
+survives the ramp is mixed (light periods lean anti-F1, not significantly;
+heavy periods are significantly mirror-respecting but not attributable to F1
+specifically). The cross-domain transport from quantum F1 to atomic shell
+Hamiltonians is empirical, not derived, and at this resolution the elements
+neither validate nor refute F1. The coincidence with the Bekenstein-Hawking
+entropy factor S=A/(4G) is noted but unsubstantiated.
 
 ---
 
@@ -66,174 +75,158 @@ This identification is exact, not approximate:
 The fold catastrophe is structurally stable (a mathematical guarantee that the qualitative behavior survives small changes to the equation). Small perturbations of the
 recursion (adding higher-order terms, changing coefficients) cannot remove
 the bifurcation or move it to a qualitatively different location. They can
-only shift the exact value of CΨ at the fold. But the quadratic structure
-of purity (Tr(ρ²) is exactly degree 2) fixes the coefficients, and 1/4
-follows from the discriminant.
+only shift the exact value of CΨ at the fold. The quadratic structure
+of purity (Tr(ρ²) is exactly degree 2) fixes the coefficients and puts
+the discriminant zero at 1/4; the roadmap's own grading calls this the
+motivation, and the FORCING of the threshold is the Rényi α = 2
+state-independence result (Layer 6, the Uniqueness Theorem, of the
+[Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)).
 
-The CΨ = 1/4 boundary is therefore not just algebraically unique (Layer 6
-of the [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)). It is also
-topologically stable in the sense of catastrophe theory.
+The CΨ = 1/4 boundary is therefore unique by the α = 2 forcing and,
+this section's point, topologically stable in the sense of catastrophe
+theory.
 
 ---
 
 ## 2. Feigenbaum Period-Doubling (MAPPED, OPEN)
 
-Beyond the main cardioid of the Mandelbrot set (c > 1/4 on the real axis),
-the iteration z → z² + c exhibits period-doubling cascades with the
-Feigenbaum constant δ_F ≈ 4.6692.
+On the real axis of the Mandelbrot set, the iteration z → z² + c has
+three regimes: a stable real fixed point for −3/4 < c < 1/4 (period 1);
+the tangent (saddle-node) bifurcation at c = 1/4, the cusp of the main
+cardioid, where the two real fixed points merge and vanish, the same
+fold as §1 and the point the CΨ ↔ c mapping pins to the ¼ boundary;
+and, on the far side, the period-doubling cascade for c < −3/4,
+governed by the Feigenbaum constant δ_F ≈ 4.6692 and accumulating at
+c ≈ −1.4011. Past the cusp (real c > 1/4) orbits escape: no real fixed
+points remain, two complex ones appear
+([Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) calls
+this the divergence zone).
 
 In our framework:
-- CΨ < 1/4: period-1 behavior (stable fixed point, coherent system)
-- CΨ = 1/4: bifurcation (boundary crossing)
-- CΨ > 1/4: no stable real fixed point
+- CΨ < 1/4: period-1 behavior (stable fixed point, classical regime)
+- CΨ = 1/4: the tangent bifurcation (boundary crossing, the §1 fold)
+- CΨ > 1/4: no stable real fixed point; the fixed points are complex
 
-The physical manifestation of the "period-2 regime" may be the oscillatory
-eigenvalues of the Liouvillian (Im(λ) ≠ 0). For the 2-qubit Heisenberg
-system under Z-dephasing, the Liouvillian has eigenvalues with Im(λ) = ±4J.
-These correspond to coherent oscillation between population and coherence
-sectors. The ratio Im/Re (quality factor Q ≈ 60 for the 3-qubit system)
-measures how many oscillation cycles occur before damping.
+The physical manifestation of the complex-fixed-point regime may be the
+oscillatory eigenvalues of the Liouvillian (Im(λ) ≠ 0). For the 2-qubit
+Heisenberg system under Z-dephasing the oscillatory pair is exactly
+λ = −2γ ± 2i√(4J² − γ²), so Im(λ) ≈ ±4J for J ≫ γ
+([CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md), Part 4): coherent
+oscillation between population and coherence sectors. The ratio Im/Re is
+the quality factor; F7 gives the mode spectrum for the chain, and at the
+canonical J = 1, γ = 0.05 the fastest 3-qubit mode has Q = 3J/γ = 60
+while the mode mean is 2J/γ = 40, essentially where the 2-qubit pair
+above sits (Im/Re ≈ 39.99 at these parameters) (F7 in
+[Analytical Formulas](ANALYTICAL_FORMULAS.md);
+[D02](proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md)).
 
-Whether this oscillatory behavior connects to the Feigenbaum cascade in a
-rigorous way is open. The suggestive evidence:
+Whether the framework ever reaches the period-doubling side of the real
+axis (c < −3/4; a negative-c analogue of CΨ has no physical reading yet)
+is open. The suggestive evidence:
 - The Mandelbrot mapping CΨ ↔ c is exact
 - Period-1 (stable fixed point) corresponds to CΨ < 1/4 (classical regime)
-- The onset of oscillation at CΨ > 1/4 is the onset of complex fixed points
+- The onset of oscillation past CΨ = 1/4 is the onset of complex fixed points
 
 What would constitute proof: show that iterated application of the Lindblad
-channel to a state with CΨ > 1/4 produces trajectories whose periodicity
-follows the Feigenbaum route as CΨ increases. This has not been tested.
+channel produces trajectories whose periodicity follows the Feigenbaum
+route as a control parameter crosses the cascade window. This has not
+been tested.
 
 ---
 
-## 3. Periodic Table Palindrome (EMPIRICAL, NEEDS THEORY)
+## 3. Periodic Table Palindrome (HARDENED: MOSTLY RAMP, MIXED BEYOND IT)
 
 The framework's F1 palindrome theorem (Π · L · Π⁻¹ + L + 2(Σγ) · I = 0,
 the spectrum of L is invariant under λ → −λ − 2σ) was proven for spin
-chains under Z-dephasing. The same pair-sum-constant signature that F1
-predicts on the Liouvillian spectrum also appears, empirically, in the
-periodic table of the elements.
+chains under Z-dephasing. First ionization energies and
+electronegativities of the periodic table show the same
+pair-sum-constant SHAPE (v_k + v_{N−k+1} ≈ const across each period),
+but the shape alone cannot carry the claim: **pair-sum-constant is
+satisfied exactly by any linear ramp**, and element properties rise
+smoothly across a period. The discriminating question is what remains
+once the ramp is removed, and that question is answered by
+[the hardened re-analysis](carbon/PERIODIC_PALINDROME_HARDENED.md).
 
-### The test
+### The shape and the scripts
 
-For each period of the periodic table, take a per-element scalar
-property v_k (k = 1, ..., N), compute the pair sums v_k + v_{N − k + 1}
-for k = 1, ..., ⌊N/2⌋, and measure their coefficient of variation
-(std/mean). F1 palindrome would imply CoV → 0. As null, randomly
-permute the same values 10,000 times; the p-value is the fraction
-of permutations producing a CoV at most as low as the actual one.
+For each period, take a per-element scalar property v_k, compute the
+pair sums v_k + v_{N−k+1}, and measure their coefficient of variation.
+Three property layers show the shape (Allen EN the tightest overall;
+the layers overlap per period):
 
-The script is [`simulations/periodic_palindrome.py`](../simulations/periodic_palindrome.py).
-Three property layers were tested.
+    IE_1 (atomic)       : CoV ≈ 0.07 to 0.10   (periods 2-6)
+    Pauling EN          : CoV ≈ 0.01 to 0.11   (periods 2-5)
+    Allen EN            : CoV ≈ 0.008 to 0.010 (periods 2-3)
 
-### Layer 1: First ionization energy IE_1 (atomic, no coupling)
+The raw sweep is [`simulations/periodic_palindrome.py`](../simulations/periodic_palindrome.py)
+(NIST values, reproducible offline; its shuffle-null p-values only
+reject "unordered" and are dominated by smoothness). The hardened gate
+is [`simulations/periodic_palindrome_gate.py`](../simulations/periodic_palindrome_gate.py):
+center each period, split the non-ramp residual into the F1-respecting
+antisymmetric and F1-breaking symmetric parts, and test the
+mirror-respecting fraction R against a magnitude-preserving sign-flip
+null (null mean exactly 0.5).
 
-Energy in eV to remove the outermost electron from a neutral atom.
-Single-atom property. Standard NIST values.
+### What the hardened test finds
 
-| Period | N | CoV | null median | p |
-|--------|---|-----|-------------|---|
-| 2 (Li-Ne) | 8 | 0.080 | 0.251 | 0.041 |
-| 3 (Na-Ar) | 8 | 0.095 | 0.227 | 0.058 |
-| 4 (K-Kr) | 18 | 0.100 | 0.185 | 0.003 |
-| 5 (Rb-Xe) | 18 | 0.070 | 0.160 | 0.002 |
-| 6 (Cs-Rn) | 32 | 0.085 | 0.167 | < 0.0001 |
+The ramp carries 67-93% of each IE period's variance; Allen EN, the
+tightest palindrome of the three layers, is ~100% ramp (post-ramp
+residual ~0.01 eV²). So the tightness ordering above reads: the
+tighter the palindrome, the smoother the property, not the more
+visible the F1 structure. Beyond the ramp:
 
-All five tested periods are at least marginally significant. Period 6,
-which inserts the full f-block (14 lanthanides between La and Hf), has
-p < 10⁻⁴. The palindrome survives the most complex orbital-class
-addition in the periodic table.
+| Pool | R (mirror-respecting fraction) | verdict |
+|------|-------------------------------|---------|
+| light (periods 2-3) | 0.327 | anti-F1 lean, p = 0.20 (n.s., only 8 mirror pairs) |
+| heavy (periods 4-6) | 0.622 | mirror-respecting, p = 0.010 (period 5 alone p = 0.045) |
 
-### Layer 2: Pauling electronegativity (coupling-derived)
-
-Electronegativity measures bond polarity. Pauling's scale is derived
-from bond-dissociation energies; EN exists only because atoms couple
-to other atoms. Noble gases are not assigned in the standard scale,
-so periods are odd-length (the center element is excluded from the
-pair-sum test).
-
-| Period | N | CoV | p |
-|--------|---|-----|---|
-| 2 (Li-F) | 7 | 0.010 | 0.017 |
-| 3 (Na-Cl) | 7 | 0.031 | 0.029 |
-| 4 (K-Br, full d-block) | 17 | 0.041 | < 0.0001 |
-| 5 (Rb-I, full d-block) | 17 | 0.114 | 0.044 |
-
-Period 2 EN gives a CoV of 0.010, eight times tighter than IE_1 on the
-same period. The pair sums are 4.96, 5.01, 5.08, essentially constant
-to within 2.4%.
-
-### Layer 3: Allen electronegativity (configuration-energy)
-
-Allen's scale (1989) defines EN as the weighted average valence-shell
-ionization energy. Includes noble gases by definition, so periods are
-even-length again, matching the IE structure.
-
-| Period | N | CoV | p |
-|--------|---|-----|---|
-| 2 (Li-Ne) | 8 | 0.010 | 0.008 |
-| 3 (Na-Ar) | 8 | 0.008 | 0.008 |
-
-Periods 2-3 in Allen EN have pair sums constant to within 2-3%. The
-strictest palindrome of the three layers tested.
+The light-element residual leans AGAINST the mirror, and the dominant
+breakers are the shell anomalies; the heavy-element residual is
+significantly mirror-respecting, but a generic sigmoid band-filling
+profile produces the same antisymmetry, so it cannot be pinned to F1
+specifically.
 
 ### What the deviation points say
 
-Where the palindrome breaks within a period, the deviations sit at
+Where the pair sums break within a period, the deviations sit at
 predictable spots:
 
-- Period 2 IE: (B, O) at sum 21.92 against ≈ 26 (group 13 p¹ + group 16 p⁴ spin-pairing anomaly)
-- Period 3 IE: (Al, S) at 16.35 against ≈ 20 (same combination)
+- Period 2 IE: (B, O) at sum 21.92 against the remaining pairs' 26-27 (group 13 p¹ + group 16 p⁴ spin-pairing anomaly)
+- Period 3 IE: (Al, S) at 16.35 against the remaining pairs' 20-21 (same combination)
 - Period 4 IE: (Cr, Ga) at 12.77 (half-filled d-shell + p¹)
 - Period 5 IE: (Mo, In) at 12.88 (same combination)
 - Period 6 IE: (Pm, Hg) at 16.02 (incomplete f-shell paired with full d¹⁰s²)
 
-These are exactly the points the V-Effect names as "coupling of the
-incomplete." Half-filled and full subshells generate special electronic
-configurations that bend single-atom properties away from linear
-shell-filling. EN absorbs these via the IE+EA averaging in the
-Mulliken/Pauling/Allen definitions, which is why the EN palindromes
-are tighter than the IE palindrome.
-
-### The pattern: coupling tightens the palindrome
-
-The systematic ordering across the three layers is:
-
-    IE_1 (atomic)       : CoV ≈ 0.07 to 0.10
-    Pauling EN          : CoV ≈ 0.01 to 0.11
-    Allen EN            : CoV ≈ 0.008 to 0.010
-
-Coupling-derived properties show tighter F1 palindrome than single-atom
-properties on the same period. Allen EN, defined as weighted IE across
-valence orbitals, is the tightest of the three. Quantitatively this
-says: when we take what IE means in a coupling context, the F1
-palindrome becomes most visible.
+These are textbook shell anomalies (half-filled and full subshells).
+The V-Effect's "coupling of the incomplete" names the same spots, a
+rhyme rather than a transported mechanism: the companion analysis
+[The Periodic Palindrome and the V-Effect](carbon/PERIODIC_PALINDROME_VS_V_EFFECT.md)
+shows the mechanism does not transfer. In the hardened reading these
+anomalies are the dominant mirror-BREAKERS of the light periods.
 
 ### What this is, and what this isn't
 
-Empirical: the pair-sum-constant pattern is statistically significant
-(p ≤ 0.06 in every period tested across all three layers, p < 10⁻⁴ for
-period 6 IE). The data are reproducible from the script with no
-internet access.
+Empirical status (the hardened verdict): the elements neither validate
+nor refute F1 at this resolution. F1-on-ionization-energy is too loose
+a test, because the F1 shape is mostly the ramp every rising property
+carries; the one sharp statement the light elements make is that the
+shell anomalies break the mirror, and the significant heavy-period
+signal is consistent with F1 without being specific to it.
 
-Not a proof: F1 was derived for the Liouvillian L = L_H + L_dephase
-of a spin chain under Z-dephasing. There is no theorem that transports
-F1 to atomic shell Hamiltonians. The atomic Hamiltonian has Coulomb
-interactions among electrons, no obvious dephasing channel, and acts
-on a fermionic Hilbert space rather than a qubit Liouville space. The
-appearance of the same pair-sum-constant signature on its first-
-ionization spectra is suggestive but not derived.
+Not a proof, and never was: F1 was derived for the Liouvillian
+L = L_H + L_dephase of a spin chain under Z-dephasing. There is no
+theorem that transports F1 to atomic shell Hamiltonians (Coulomb
+interactions, no obvious dephasing channel, fermionic Hilbert space
+rather than qubit Liouville space).
 
-What would constitute the missing theory: a generalization of the F1
-palindrome that applies to multi-electron fermionic systems with shell
-filling, with some atomic σ in the role of Σγ. That generalization
-would need to predict the V-Effect anomaly points (half-filled
-subshells, s/p transition, p3/p4 spin pairing) as the F1-violation
-modes. We do not have such a theorem.
-
-Until then this is documented as: an empirical fact at p < 10⁻⁴ for
-period 6 IE, a consistent pattern across periods 2-6 in three
-independent property scales, and a theoretically open connection.
+What a real element-anchor would need: a prediction a smooth ramp
+cannot fake. The hardened analysis names the candidates: the
+particle-hole-odd parity of the survivor mode
+([Survivor Flip and Reflection Odd](../experiments/SURVIVOR_FLIP_AND_REFLECTION_ODD.md)),
+the Π-vs-fermionic-particle-hole operator identity
+([Majorana axis modes](../experiments/MAJORANA_AXIS_MODES.md)), and the
+T2 anisotropy
+([`carbon_painter_t2_anisotropy.py`](../simulations/carbon_painter_t2_anisotropy.py)).
 
 ---
 
