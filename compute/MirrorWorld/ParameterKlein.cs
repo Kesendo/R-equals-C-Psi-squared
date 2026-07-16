@@ -95,6 +95,27 @@ public sealed class ParameterKlein : GameObject
         return worst;
     }
 
+    // ---- the F131 Theorem-A conjugation identity, pencil face (adopted 2026-07-16 from
+    // PROOF_MIRROR_ORDER_SORTING.md T0): (R x R) L(A) (R x R) = L(B) entry-wise on every
+    // joint-popcount block, where R is the F71 site reversal (perm[] below). Machine zero iff B is
+    // the F71-reflection of A on every axis at once (base + t*dir vs base - t*dir with an R-even
+    // base and an R-odd direction); O(1) when any component fails to negate (the mixed-scan fence).
+    public double MirrorConjugationResidual(double[] gammasA, double[] jsA, double[] hsA,
+                                            double[] gammasB, double[] jsB, double[] hsB)
+    {
+        double worst = 0;
+        for (int p = 0; p <= N; p++)
+            for (int q = 0; q <= N; q++)
+            {
+                var (la, perm) = BuildBlock(p, q, gammasA, jsA, hsA);
+                var (lb, _) = BuildBlock(p, q, gammasB, jsB, hsB);
+                for (int i = 0; i < perm.Length; i++)
+                    for (int j = 0; j < perm.Length; j++)
+                        worst = Math.Max(worst, (la[perm[i], perm[j]] - lb[i, j]).Magnitude);
+            }
+        return worst;
+    }
+
     // ---- the block pencil with site-resolved parameters (the same atoms Mirror builds from, plus
     // per-bond J and per-site h): diagonal = -2 sum_l gamma_l [a_l != b_l] - i (E_h(a) - E_h(b)),
     // ket hop -i J_b, bra hop +i J_b on the chain bond b = (l, l+1). ----

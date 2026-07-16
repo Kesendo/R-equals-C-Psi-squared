@@ -639,6 +639,52 @@ if (args.Length > 0 && args[0] == "klein")
     return;
 }
 
+// ---- run mode "sorting": the mirror's order-sorting law (F131, Theorem A) ----
+// Adopted 2026-07-16 from PROOF_MIRROR_ORDER_SORTING.md: mirror conjugation reflects a parameter
+// scan, (R x R) L(base + t*dir) (R x R) = L(base - t*dir) for an R-odd direction, so for an
+// operator-R-even preparation the response sorts by the readout parity q into four cells:
+// (+,-) EVEN in t, (-,-) ODD in t, (-,+) IDENTICALLY ZERO, (+,+) generic. Trajectory face only,
+// twin RK4 on the gamma axis; Theorem B (antiunitary, the zeta^2 law) and the spectral-evenness
+// corollary stay in the main repo. No eigensolver anywhere.
+if (args.Length > 0 && args[0] == "sorting")
+{
+    int sn = args.Length > 1 ? int.Parse(args[1]) : 5;
+    var sworld = new World();
+    var sorting = new OrderSorting(sworld, sn);
+
+    Console.WriteLine("the mirror's order-sorting law (F131 Theorem A, adopted 2026-07-16)");
+    Console.WriteLine($"  source docs/proofs/PROOF_MIRROR_ORDER_SORTING.md + gate simulations/mirror_order_sorting.py; N={sn}");
+    Console.WriteLine("  a mirror does not throw information away, it sorts it: for an R-odd scan direction");
+    Console.WriteLine("  (sigma_eff = -1) and an operator-R-even preparation, <O>(t) = q * <O>(-t) at every time.");
+    Console.WriteLine();
+
+    var gBase = OrderSorting.SymmetricBase(sn);
+    var gOdd = OrderSorting.OddDirection(sn);
+    Console.WriteLine($"  R-even gamma base:    [{string.Join(", ", gBase.Select(v => v.ToString("0.000")))}]");
+    Console.WriteLine($"  R-odd scan direction: [{string.Join(", ", gOdd.Select(v => v.ToString("+0.000;-0.000;0.000")))}]  (t = 0.30)");
+    Console.WriteLine();
+
+    var rep = sorting.Run();
+    Console.WriteLine($"  T0 the conjugation identity (pencil face, all (p,q) blocks): residual {rep.ConjugationResidual:E1}");
+    Console.WriteLine();
+    Console.WriteLine("  the four cells (twin RK4, readouts O_even = Z_0 + Z_last (q=+1), O_odd = Z_0 - Z_last (q=-1)):");
+    Console.WriteLine($"    (+,-) EVEN response:  |<O_even>(+t) - <O_even>(-t)|  {rep.EvenCellResidual:E1}   (even orders only)");
+    Console.WriteLine($"    (-,-) ODD  response:  |<O_odd>(+t) + <O_odd>(-t)|   {rep.OddCellResidual:E1}   (odd orders only,");
+    Console.WriteLine($"          non-vacuous: max |<O_odd>| = {rep.OddMagnitude:0.0000})");
+    Console.WriteLine($"    (-,+) the ZERO cell:  R-even generator, every tick   {rep.ZeroCellWorst:E1}   (a pure selection rule;");
+    Console.WriteLine("          NOT the Pi-protected cluster cancellation -- that is a different zero mechanism)");
+    Console.WriteLine($"    (+,+) generic:        R-even direction responds      {rep.GenericGap:0.0000}   (no constraint, O(1) from below)");
+    Console.WriteLine();
+    Console.WriteLine("  the leak (the hypothesis is the physics): prep = R-even + eps * (R-odd) opens the forbidden");
+    Console.WriteLine($"  odd channel EXACTLY affine in eps: slope {rep.LeakSlope:+0.000E+0;-0.000E+0}, eps-halving ratio {rep.LeakRatio:0.000000}");
+    Console.WriteLine();
+    Console.WriteLine("  boundary: Theorem B (the antiunitary column, the zeta^2 anti-protection law on the Floquet");
+    Console.WriteLine("  step) pays tracking hypotheses and stays in the main repo (PROOF_ZETA2_ANTI_PROTECTION.md);");
+    Console.WriteLine("  the spectral evenness is the eigensolver face of the same identity, cited as Inherited (F91-F93");
+    Console.WriteLine("  are in-world via ParameterKlein: identical diagonal blocks are the stronger sub-object law).");
+    return;
+}
+
 // ---- run mode "hardness": the hardness of the palindrome ----
 // The F87 bloc (adopted 2026-07-04): the spectral trichotomy truly/soft/hard, read WITHOUT a
 // spectrum -- the GF(2)[x] valuation (F115), the letter-parity purity rules (F107/F109), the cell

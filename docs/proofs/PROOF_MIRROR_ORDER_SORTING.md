@@ -167,5 +167,10 @@ candidate future instrument, not a result.
   (+ F91/F93), [PROOF_F100](PROOF_F100_C1_QPEAK_MIRROR_J_PARITY.md) (+ F101).
 - The engines: F118 ([PROOF_PI_FACTORS_AS_R_TIMES_D](PROOF_PI_FACTORS_AS_R_TIMES_D.md)),
   F119 ([PROOF_ANTILINEAR_TRIANGLE](PROOF_ANTILINEAR_TRIANGLE.md)).
+- MirrorWorld adoption (2026-07-16): `compute/MirrorWorld/OrderSorting.cs`, run
+  mode `sorting N` -- Theorem A's trajectory face by twin RK4 on the γ axis, the
+  pencil face as `ParameterKlein.MirrorConjugationResidual`; guarded from below
+  by `OrderSortingTests` (6). Theorem B and the spectral evenness stay in the
+  main repo (the drawn boundary, same style as `mirror`/`seed`).
 - Typed surface: deferred; the natural home is a new claim with parents
   `ChiralKClaim`, the F119 triangle, and the F91 family.

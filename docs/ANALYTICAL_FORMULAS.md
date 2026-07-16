@@ -5203,8 +5203,13 @@ matching, T2 both response cells, T3 the zero cell, T4 the leak with ε- and
 t-halving; PASS at N = 4, 5, 6). **Hardware:** Confirmation 24 sights the
 first-order protection only (the standing fringe); no other cell has a hardware
 witness; the ζ²-meter (a mirror-pair crosstalk intensity reading) is a candidate
-future instrument. **Typed:** owed; the natural home is a new claim with parents
-`ChiralKClaim`, the F119 antilinear triangle, and the F91 family.
+future instrument. **MirrorWorld:** adopted 2026-07-16 (`OrderSorting.cs`, run
+mode `sorting N`): Theorem A's trajectory face by twin RK4 on the γ axis, the
+pencil face as `ParameterKlein.MirrorConjugationResidual` (machine zero, all
+three axes, mixed-scan fence); Theorem B and the spectral evenness stay out
+(Floquet tracking / eigensolver are not the world's genre). **Typed:** owed; the
+natural home is a new claim with parents `ChiralKClaim`, the F119 antilinear
+triangle, and the F91 family.
 
 ---
 
