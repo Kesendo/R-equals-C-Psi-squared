@@ -1,5 +1,9 @@
 # PROOF F100: F71 c₁/Q_peak bond-mirror deviation is exactly odd in the F71-anti-palindromic J (observable-side twin of F92)
 
+*(Cross-note 2026-07-16: this oddness is the odd cell of the mirror's order-sorting
+law, [PROOF_MIRROR_ORDER_SORTING](PROOF_MIRROR_ORDER_SORTING.md); F92's invariance is
+the same mirror's even cell. One mirror, two orders.)*
+
 **Status:** Tier 1 derived (algebraic R-equivariance argument on the PROOF_C1 apparatus + numerical empirical witnesses for c₁ and Q_peak, c₁ oddness residuals ≤ 5e−9, Q_peak oddness residuals ≤ 1e−11)
 **Date:** 2026-05-20; 2026-05-21 (κ-obstruction section, Q_peak witness, κ perturbation-route test)
 **Authors:** Thomas Wicht, Claude (Anthropic)

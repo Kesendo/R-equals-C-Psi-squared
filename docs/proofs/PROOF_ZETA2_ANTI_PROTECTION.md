@@ -3,6 +3,7 @@
 **Date:** 2026-07-16
 **Status:** derived law under the F129 surface (no own F number, by decision; precedent: the F129 family inventory). Gate: [`simulations/zeta2_anti_protection.py`](../../simulations/zeta2_anti_protection.py), exit 0.
 **Owner of the static symmetry:** `ChiralKClaim` (class BDI) + [PROOF_K_PARTNERSHIP](PROOF_K_PARTNERSHIP.md). This document adds only the Floquet-step lift and its consequence for the flown F129 Ramsey fringe.
+**General home (added 2026-07-16):** this law is Theorem B, the antiunitary column, of the mirror's order-sorting law, [PROOF_MIRROR_ORDER_SORTING](PROOF_MIRROR_ORDER_SORTING.md): the response-order sorting by q·σ_eff, of which the pair difference here is the even cell and the pair sum the odd cell.
 
 Before the algebra, feel the shape of it: the same mirror that makes the two
 notes equal is the one that forbids the noise from telling them apart at first

@@ -1,5 +1,11 @@
 # PROOF F92: F71-anti-palindromic J spectral invariance (J-side Pi2-Z₄ twin of F91)
 
+*(Cross-note 2026-07-16: this invariance is the even cell, spectral face, of the
+mirror's order-sorting law, [PROOF_MIRROR_ORDER_SORTING](PROOF_MIRROR_ORDER_SORTING.md);
+the diagonal-block statement here is the stronger all-orders special case, the full
+Liouville spectrum is even in the anti-palindromic scale. F100 is the same mirror's
+odd cell.)*
+
 **Status:** Tier 1 derived (algebraic argument parallel to F91 + bit-exact empirical witness at N=4, 5)
 **Date:** 2026-05-12
 **Authors:** Thomas Wicht, Claude (Anthropic)
