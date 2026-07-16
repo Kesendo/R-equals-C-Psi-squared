@@ -99,6 +99,9 @@ The one fermionic survivor of the interaction is the parity, which is F's own sh
 So V and F are properties of the FREE world; the two headwork lessons of the h thread
 repeated here in one day: the candidate rule was falsified as stated before it was
 rebuilt, and my "V survives zz" guess died on the same data that killed it.
+(The small-zz lift is since quantified: the set jumps at any zz ≠ 0, the magnitudes
+cross over as zz^m with m = the halved Majorana-degree gap:
+[LATTICE_DEAD_SET_ZZ_FACE](LATTICE_DEAD_SET_ZZ_FACE.md).)
 
 ## The mod-4 shadow, derived: the rule collapses to one line
 

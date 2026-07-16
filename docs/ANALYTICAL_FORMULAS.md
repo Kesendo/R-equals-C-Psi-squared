@@ -5294,7 +5294,18 @@ this law's ε_g(d) (ε_g/ε'_g = (−1)^(d_O), the component sign of X^N); unifo
 h keeps the h = 0 population channel and revives the coherence channel. Owner:
 [experiments/LATTICE_DEAD_SET_H_ZERO.md](../experiments/LATTICE_DEAD_SET_H_ZERO.md),
 gate [`lattice_dead_set_h_zero.py`](../simulations/lattice_dead_set_h_zero.py)
-(29 checks). **Not yet:** no hardware witness; no MirrorWorld
+(29 checks). **The zz face, quantified (2026-07-16, same evening):** the small-zz
+lift of the dead set is a jump in the SET (any zz ≠ 0 breaks V and F exactly;
+the sole holdout is the conserved parity Z^N at odd N, pinned to its initial 0)
+and a crossover in the MAGNITUDES with exact integer orders,
+max|⟨O⟩| ~ zz^m, m = min |d − d0|/2 over same-parity populated prep degrees
+(m quartic vertices bridge the degree gap; per-readout gated, worst
+|slope − m| = 0.0006 over 586 revived readouts; the F-killed 20 at N = 5 ride
+zz², and at zz = 10⁻⁵ they are the only revivable strings still below the
+detection threshold). Owner:
+[experiments/LATTICE_DEAD_SET_ZZ_FACE.md](../experiments/LATTICE_DEAD_SET_ZZ_FACE.md),
+gate [`lattice_dead_set_zz_face.py`](../simulations/lattice_dead_set_zz_face.py)
+(12 checks). **Not yet:** no hardware witness; no MirrorWorld
 adoption (waits for a second consumer; the collapsed one-liner is the adoptable
 face).
 
