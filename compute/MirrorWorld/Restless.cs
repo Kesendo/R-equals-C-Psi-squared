@@ -86,6 +86,17 @@ public sealed class Restless : GameObject
         occupied.Add((pc[i], pc[j])); occupied.Add((pc[j], pc[i])); alive = null;
     }
 
+    // seed one cell |i><j| WITHOUT the Hermitian twin (2026-07-16, the bridged lattice): a
+    // one-sided reading of a state (X^N applied to one side only, Lattice.cs) is not Hermitian,
+    // so it is not a state -- it is a state seen through one complemented leg. The loop runs it
+    // like anything else; the Hermitian pairing lives between the L and R worlds (dagger), not
+    // inside either one.
+    public void SeedRaw(int i, int j, double amp)
+    {
+        rho[i, j] = amp;
+        occupied.Add((pc[i], pc[j])); alive = null;
+    }
+
     // cut (c): the loop stays in the seed's joint-popcount blocks (F63, [L,Pi^2]=0); the rest is forbidden,
     // never run. Alive = the cells whose (popcount row, popcount col) block the seed occupies.
     (int i, int j)[] Alive => alive ??= BuildAlive();

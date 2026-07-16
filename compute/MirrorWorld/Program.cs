@@ -815,6 +815,48 @@ if (args.Length > 0 && args[0] == "anti")
     return;
 }
 
+// ---- run mode "lattice": the bridged lattice of worlds (the Klein V4 of watchings, run dynamically) ----
+// The engine beat the fourth play offered (2026-07-16): e / L / R / LR run side by side, e and LR
+// under the normal rule (-2*gamma*k), L and R under the turned one (-2*gamma*(N-k)); every edge is
+// an exact always-open identity ([H, X^N] = 0), the V4 composes at the rho level, the dagger
+// exchanges the one-sided readings, and the carried unit moves from the trace to the anti-trace.
+if (args.Length > 0 && args[0] == "lattice")
+{
+    int ln = args.Length > 1 ? int.Parse(args[1]) : 3;
+    var lworld = new World();
+    var lattice = new Lattice(lworld, ln);
+    int lseed = 1;
+
+    Console.WriteLine("the bridged lattice of worlds (the Klein V4 of watchings, run dynamically)");
+    Console.WriteLine($"  N={ln}, J={lattice.J}, gamma={lattice.Gamma}, seed |0..01>; four worlds, four RK4 loops:");
+    Console.WriteLine("    e  = rho(t)            normal rule -2*gamma*k       (disagreement watched)");
+    Console.WriteLine("    L  = X^N rho(t)        turned rule -2*gamma*(N-k)   (the ket-side reading)");
+    Console.WriteLine("    R  = rho(t) X^N        turned rule -2*gamma*(N-k)   (the bra-side reading, the anti-world)");
+    Console.WriteLine("    LR = X^N rho(t) X^N    normal rule -2*gamma*k       (the double turn, home)");
+    Console.WriteLine();
+
+    var rep = lattice.Run(lseed, dt: 0.05, ticks: 40);
+    Console.WriteLine("  the bridges (worst over ALL 41 ticks, every cell):");
+    Console.WriteLine($"    L(t)[i,j]  = e(t)[~i, j]    {rep.WorstBridgeL:E1}");
+    Console.WriteLine($"    R(t)[i,j]  = e(t)[i, ~j]    {rep.WorstBridgeR:E1}");
+    Console.WriteLine($"    LR(t)[i,j] = e(t)[~i, ~j]   {rep.WorstBridgeLR:E1}");
+    Console.WriteLine($"    L o R = LR = R o L          {rep.WorstComposition:E1}   (the V4 composes at the rho level)");
+    Console.WriteLine($"    L(t) = R(t)-dagger          {rep.WorstDagger:E1}   (the dagger exchanges the legs, F119 read here)");
+    Console.WriteLine($"    vertex separation           {rep.VertexSeparation:0.000}   (four genuinely different matrices)");
+    Console.WriteLine();
+    Console.WriteLine("  the carried unit (worst |1 - unit| over the run):");
+    Console.WriteLine($"    trace at e:  {rep.WorstUnitE:E1}    trace at LR:  {rep.WorstUnitLR:E1}");
+    Console.WriteLine($"    anti-trace at L: {rep.WorstUnitL:E1}    anti-trace at R: {rep.WorstUnitR:E1}");
+    Console.WriteLine();
+    Console.WriteLine($"  k-histogram e: [{string.Join(", ", rep.HistogramE.Select(v => v.ToString("0.000")))}]");
+    Console.WriteLine($"  k-histogram L: [{string.Join(", ", rep.HistogramL.Select(v => v.ToString("0.000")))}]  (the e one, read backward)");
+    Console.WriteLine();
+    Console.WriteLine($"  the discriminator: the R reading under the WRONG (normal) rule breaks its bridge at {lattice.BrokenBridgeR(lseed, 0.05, 40):0.000}");
+    Console.WriteLine("  -- the watching assignment is load-bearing. the conservation law is never lost, it moves:");
+    Console.WriteLine("  trace at e/LR, anti-trace at L/R; the immortal set moves with it (diagonal there, anti-diagonal here).");
+    return;
+}
+
 // ---- run mode "scale": the complexity wall and the cut ----
 // Why the full-spectrum side hit the wall and a state's dynamics did not. full = 4^N (the whole Liouvillian
 // an eigendecomposition tackles); single-exc = the (1,1) block a one-excitation state lives in (N^2,
