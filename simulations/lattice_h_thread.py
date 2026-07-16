@@ -30,6 +30,8 @@ Four findings, each gated below:
       diagonal readouts like Z_0 are DOUBLY-MIRRORED ZEROS: identically zero at every
       h because the two mirrors disagree there. Which non-diagonal strings die is
       OBSERVED here (48/63 at N = 3), not derived; the derivation is open.
+      (Since resolved: the closed three-layer rule is derived and gated in
+      simulations/lattice_dead_set_rule.py / experiments/LATTICE_DEAD_SET_RULE.md.)
 
 Runtime ~30 s. Scout history: a local scratch scout (falsified the crossed-bridge
 guess, found the enumeration), folded into this gate.

@@ -53,9 +53,10 @@ For an X-odd DIAGONAL readout the two mirrors then disagree: the X mirror demand
 ⟨Z_l⟩ odd in h, the conjugation-chiral mirror demands it even, and odd ∧ even forces
 ⟨Z_l⟩ ≡ 0 at every h, a zero neither mirror owns alone. Honest scope: the population
 face of the second mirror is gated exactly; the full parity rule deciding which
-OFF-diagonal strings die (48/63 at N = 3 on this prep) is OBSERVED, not derived. The
-derivation, and whether the alive/dead split has a closed cell rule like F131's table,
-is the open next step.
+OFF-diagonal strings die (48/63 at N = 3 on this prep) is OBSERVED, not derived.
+RESOLVED same day: the closed rule exists and has THREE layers (popcount blocks, the
+composed-mirror kill, fermion degree), derived and gated in
+[LATTICE_DEAD_SET_RULE](LATTICE_DEAD_SET_RULE.md).
 
 ## Boundary
 
