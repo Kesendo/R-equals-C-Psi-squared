@@ -5212,7 +5212,8 @@ Lindblad chain (linear, χ = +1; the longitudinal h axis is its σ_op = −1 sca
 X H(h) X = H(−h) exactly): all alive Pauli readouts sort by their X-parity, and
 X-odd DIAGONAL readouts are doubly-mirrored zeros (a conj∘chiral partner forces
 populations even in h); [experiments/LATTICE_H_THREAD.md](../experiments/LATTICE_H_THREAD.md)
-+ gate [`lattice_h_thread.py`](../simulations/lattice_h_thread.py). **Typed:**
++ gate [`lattice_h_thread.py`](../simulations/lattice_h_thread.py); the full
+dead-set rule those zeros opened is F132 below. **Typed:**
 `MirrorOrderSortingClaim` (2026-07-16, Tier1Derived,
 `compute/RCPsiSquared.Core/Symmetry/MirrorOrderSortingClaim.cs`): parents
 `ChiralKClaim` (Theorem B's mirror Θ = T·K) + `AntilinearTriangleClaim` (χ_M,
@@ -5222,6 +5223,60 @@ invariance, the three scanned axes); self-check battery at N = 3, moment-level
 ALL k, all times by analyticity; the battery spot-checks k = 0..6, no
 eigensolver), ten cases incl. the mixed-scan fence and the exactly-affine leak;
 `knowledge ancestors MirrorOrderSortingClaim` walks 20 Tier-1-derived ancestors.
+
+### F132. The dead-set law: the mirror-composition kill is the mod-4 face of the conserved fermion degree (derived + gated 2026-07-16; minted 2026-07-16)
+
+On the open XY chain with a longitudinal field h_l Z_l under local Z-dephasing (any
+watching profile), for each sublattice gauge U_g (Z on the even or the odd sites)
+the antiunitary
+
+    V_g(ρ) = W_g · conj(ρ) · W_g†,   W_g = U_g·X^N
+
+is an EXACT symmetry of the Lindblad flow at every fixed h: W_g flips H(h) to −H(h)
+as an operator, conjugation (antiunitary, H real) maps the H-world's trajectories to
+the −H-world's, and the dephasing mask, real and a function of i⊕j only, rides along.
+Two h-flipping mirrors (F131's third mirror X^N; the conj∘chiral partner) compose to
+an h-preserving one. Its kill sign on a Pauli readout O is a pure, N-free function of
+the left-Jordan-Wigner Majorana degree d(O):
+
+    ε_odd-gauge(O) = (−1)^(d(d−1)/2),   ε_even-gauge(O) = (−1)^(d(d+1)/2)
+
+(the per-site sign of W_g∘conj is uniform on the chain; the Hermitian phase
+i^(d(d−1)/2) conjugates to a sign). The prep family ρ(0) = (P_s + P_~s)/2
+(+ optional cross coherence) splits into V-eigen-sectors, population +1 under both
+gauges, coherence (−1)^|g|; a sector's contribution to ⟨O⟩ dies unless ε_g matches
+its sign for BOTH gauges; at d = N the coherence signs hold automatically
+(⌊N/2⌋, ⌈N/2⌉ are exactly the sublattice sizes). With the F63 popcount blocks and
+the conserved degree (H quadratic, dissipator diagonal on Pauli strings) the whole
+identically-zero-at-every-h set closes into one line:
+
+    alive  ⟺  (mask connects a populated diagonal block ∧ d ≡ 0 mod 4)
+              ∨ (coherence on ∧ mask connects the coherence blocks ∧ d = N).
+
+**Tiers, honestly split:** the necessity direction (forbidden ⟹ identically zero)
+is Tier 1, derived; the sufficiency direction (allowed ⟹ alive) is Tier 2, the
+gated observation (twelve full 4^N−1 censuses, N = 3..6, both seed popcounts,
+population/real/imaginary-coherence preps, one-sided and full non-uniform watching,
+all exact, plus the two zz controls). The per-sector form is load-bearing, not cosmetic: at N ≡ 2 (mod 4)
+with coherence no V_g stabilizes ρ(0) globally, and the global-stabilizer shortcut
+goes blind (N = 6: 2047 predicted vs 1055 actual; the collapsed form stays exact).
+Alive-by-degree counts are binomial coefficients cut by kinematics (C(10,5) = 252
+fully alive at N = 5 with a popcount-2 seed). **Boundary as content:** a ZZ coupling
+kills BOTH non-kinematic ingredients (the chiral gauge no longer flips H; the degree
+grading collapses to parity), their kills revive, and the lone fermionic survivor is
+the conserved parity Z^N: this is a law of the FREE world, and the interaction knob
+is its gated discriminator.
+**Owner:** [experiments/LATTICE_DEAD_SET_RULE.md](../experiments/LATTICE_DEAD_SET_RULE.md)
+(the three-layer discovery path K/V/F and the collapse, with the derivations).
+**Gate:** [`lattice_dead_set_rule.py`](../simulations/lattice_dead_set_rule.py)
+(21 checks: ten censuses, per-layer witnesses, the mod-4 identity over all strings
+N = 2..6 three ways at once, the collapsed rule incl. the N = 6 divergence and the
+binomial anatomy, the zz boundary). **Relations:** closes the open question of
+F131's third-mirror sighting ([LATTICE_H_THREAD](../experiments/LATTICE_H_THREAD.md)
+§4); the chiral gauge is [PROOF_K_PARTNERSHIP](proofs/PROOF_K_PARTNERSHIP.md)'s K,
+the conjugation leg is F119's antilinear triangle, the blocks are Grading B (F63).
+**Not yet:** no hardware witness; no typed Claim; no MirrorWorld adoption (waits
+for a second consumer; the collapsed one-liner is the adoptable face).
 
 ---
 

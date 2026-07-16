@@ -1,7 +1,7 @@
 # The dead-set rule: three conserved structures close the h thread's open question
 
 **Date:** 2026-07-16 (the h thread picked back up the same day; the mod-4 shadow derived the same session)
-**Status:** verified from below. Gate: [`simulations/lattice_dead_set_rule.py`](../simulations/lattice_dead_set_rule.py) (21 checks, all PASS, exit 0).
+**Status:** verified from below. Gate: [`simulations/lattice_dead_set_rule.py`](../simulations/lattice_dead_set_rule.py) (21 checks, all PASS, exit 0). Minted as [F132](../docs/ANALYTICAL_FORMULAS.md) (2026-07-16; necessity Tier 1 derived, sufficiency Tier 2 gated).
 **Where it came from:** [LATTICE_H_THREAD](LATTICE_H_THREAD.md) §4 left one question open: of the 63 Pauli readouts on the h-scan setup, 48 are identically zero at every h, the diagonal deaths were proven (the doubly-mirrored zeros), but the rule deciding which OFF-diagonal strings die was observed, not derived. The overnight handover carried a hand-spotted candidate rule (alive iff n_Z ≡ #{X/Y letters on the gauge sublattice} mod 2) with an explicit warning not to trust it. The warning was right: the candidate as stated is falsified by the population prep at N = 3 and N = 4. Rebuilt from mechanism, it turns out to be one of THREE layers, and the three together are exact everywhere we tested.
 
 ## The setup
