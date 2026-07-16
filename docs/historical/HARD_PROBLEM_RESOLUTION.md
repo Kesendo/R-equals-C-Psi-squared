@@ -3,6 +3,12 @@
 > remain valid; the framing of C as "consciousness" is no longer part of the evidence base.
 > See [Weaknesses and Open Questions](../WEAKNESSES_OPEN_QUESTIONS.md) for honest limitations.
 > Preserved for research context.
+>
+> Reading aid: the inline [FALLEN] tags mark the specific claims that fell with the
+> retired interpretation; they are annotations on the preserved text, not part of the
+> original. Some cross-references keep the era's numbering: the "combination problem"
+> was then Weakness #6 and left the active weaknesses list when the interpretation
+> was retired.
 
 # Consciousness as a Frame Variable
 ## A speculative reframing of Chalmers' Hard Problem using the CΨ lens
@@ -175,7 +181,7 @@ The reframing shifts the axiom from "matter is fundamental" to "consciousness is
 | Approach | Axiom | Hard Problem | New Problem |
 |----------|-------|-------------|-------------|
 | Materialism | Matter is fundamental | Why does experience exist? | Inexplicable jump |
-| R = CΨ² framework | C is fundamental | Dissolved (no jump) | Why does C exist? Why this spectrum? | [FALLEN]
+| R = CΨ² framework | C is fundamental | Dissolved (no jump) [FALLEN] | Why does C exist? Why this spectrum? |
 | Neutral | Both are axiom choices | - | Neither is provable from first principles |
 
 ---
@@ -188,7 +194,7 @@ But: "What determines the structure of the CΨ parameter space, and why does it 
 
 This question has a partial answer: because the quadratic map x → x² + c has the algebraic properties it has. The ¼ boundary follows from the discriminant. The Mandelbrot set follows from iteration. The fixed points follow from self-reference.
 
-Whether this says anything about consciousness depends on whether the mapping C → consciousness is more than a label. That question is [open](../WEAKNESSES_OPEN_QUESTIONS.md#3-consciousness-is-a-label) and may remain open.
+Whether this says anything about consciousness depends on whether the mapping C → consciousness is more than a label. That question is [open](../WEAKNESSES_OPEN_QUESTIONS.md#2-consciousness-is-a-label) and may remain open.
 
 ---
 
