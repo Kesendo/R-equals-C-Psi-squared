@@ -403,7 +403,8 @@ height-10¹⁴ box, so this says only that no low-complexity closed form present
 this arc's forced/free law; a certificate must be identical in (λ, q), which is what the rational form
 provides.
 
-**A second gauge-free equivalent, banked for a global attack.** The Hermitian **Krein pencil**
+**A second gauge-free equivalent, banked for a global attack (cashed and bounded the same arc, next
+paragraph).** The Hermitian **Krein pencil**
 Q(λ, q) := T(D − λ) + iq·TK (Hermitian for real λ, q since TK is real antisymmetric) has real
 eigencurves ν(λ); real eigenvalues of L are their zeros, the Krein sign of a branch is −ν′(λ), and a
 seed is a *tangential, T-neutral touching* ν = ν′ = 0. Exactly there ∂ν/∂q = −(4/q)·κ₋₂ (verified at
@@ -415,6 +416,35 @@ exit), an upward-opening minimum descending through 0 gains two (an entry). This
 proof, and a counting argument alone cannot close it (nothing in the net count forbids a compensated
 ascending/descending pair); its value is that the target lives on one Hermitian family with no
 eigenvector-weight language left in it.
+
+**The banked handle, cashed and honestly bounded (2026-07-16 night): ν″ is the sign
+characteristic, and the sign characteristic is blind to O2b.** The touching curvature has a closed
+second-order (Rellich) form: with v the unit kernel vector of L − λ\* and w the minimum-norm
+generalized vector ((L − λ\*)w = v), Q′ = −T and Q″ = 0 give ν″(λ\*) = −2·v†Tw/‖v‖². The number
+v†Tw is real, and it is exactly the **Gohberg-Lancaster-Rodman sign characteristic** of the size-2
+Jordan block of the T-selfadjoint L (the root-subspace Gram [[v†Tv, v†Tw], [w†Tv, w†Tw]] has
+determinant −|v†Tw|², and the GLR canonical form makes that Gram nondegenerate for a real
+eigenvalue). Consequence, all N: **at any genuine size-2 Jordan block the λ-touching is quadratic,
+never flatter, forced by structure** (a semisimple β-exotic would instead make ν = 0 a double
+eigenvalue of Q, and any higher Jordan structure would flatten the touching, ν″ = 0). Read as a
+certificate it runs the other way: computing ν″ ≠ 0 together with ν = 0 simple and the T-neutral
+touching certifies "Jordan size exactly 2" at that seed, from the local pair (v, w) alone, cheaper
+than a full spectral decomposition (still a per-seed computation; the all-N content is the forcing
+direction, not a proof of H1). What ν″ does **not**
+certify is s₆: the O2b scalar is the orthogonal jet ∂ν/∂q = i·v†TKv/‖v‖² = −(4/q\*)·κ₋₂ (the
+relation above, now verified three ways at every N = 5 seed: formula, finite difference, and the
+banked identity; the first two agree exactly and to 1e−10, the finite differences to 1e−4), and
+the two jets are independent, ν″/κ₋₂ spanning −4.33 to +40.82
+with a sign flip across the four N = 5 seeds. The moment-relation kill witness of the "Why the
+natural proof route does not close it" section separates them outright: it is a genuine T-selfadjoint size-2 Jordan block with
+ν″ = −0.5 ≠ 0 and s₆ = κ₋₂ = ∂ν/∂q = 0 exactly. So the Krein pencil *restates* κ₋₂ as the q-jet
+of the touching and supplies no new lever for the nonvanishing; the measured exit/entry ν″ signs
+are a defectiveness/sign-characteristic diagnostic, not evidence toward s₆ ≠ 0. The route "prove
+s₆ ≠ 0 for all N via GLR sign-characteristic theory" joins the do-not-retry list with that precise
+reason. Gate: [the Krein touching dictionary](../simulations/o2b_krein_touching_dictionary.py)
+(T-selfadjointness and Hermiticity exact 0.0, ν = 0 simple, T-neutrality < 1e−13, the ν″ and
+∂ν/∂q formulas against finite differences at all four forced N = 5 seeds, the ratio spread, and
+the witness, all asserted).
 
 **New dead ends, measured (these join the do-not-retry list).** Per-unit-norm mass dominance (the three
 flipped seeds above). Band-wide monotonicity σ·λ̇ < 0, equivalently xᵀKy > 0 band-wide: false at
