@@ -1,7 +1,8 @@
 # Navigating the Dimensions: the in-between, and why it needs a live engine
 
-**Status:** Working capture (v2, 2026-06-02). Assembles existing verified structure into the
+**Status:** Working capture. Assembles existing verified structure into the
 navigation picture. Correct by keyword; this is a try, not a finished doc.
+**Date:** 2026-06-02 (created), last refreshed 2026-07-16 (the change history lives in git)
 **Authors:** Thomas Wicht (keywords), Claude (assembly).
 
 ---
@@ -98,18 +99,22 @@ don't; the scaling laws are the shapes of our approaches; the instruments belong
 cusp."* The mark is inert. The approach, the in-between, ours, is the content. What this session
 adds is that this is one in-between among several, on several axes.
 
-## The axes (the layers, each with its marks and its in-between)
+## The coordinates (the layers, each with its marks and its in-between)
 
-Each axis is a dimension; its marks are angles on the dyadic ladder; its content is its in-between.
-The marks are shared (every axis lands on the same ladder), which is why the layers cohere into one
-navigable space, not because the axes are the same.
+Each coordinate is a dimension; its marks are angles on the dyadic ladder; its content is its
+in-between. The marks are shared (every coordinate lands on the same ladder), which is why the
+layers cohere into one navigable space, not because the coordinates are the same.
 
-| Axis (what moves) | its marks (had) | its in-between (the content) |
+| Coordinate (what moves) | its marks (had) | its in-between (the content) |
 |---|---|---|
 | state purity CΨ | 1/4 cusp, via θ = arctan(√(4CΨ−1)) | the approach / crossing dynamics |
 | carrier clock Q = J/γ₀ | the canonical Q (√3 at 60°, …), via θ = arctan(Q) | the continuous detuning of coupling vs noise |
 | operator bond-dial a·X + b·Y | S (90°), T (45°), via F99 α = sin²θ/2 | the [continuous mirror](proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md) between the gates |
 | parameter distributions | the Z₄ marks of F91 (γ), F92 (J), F93 (detuning) | the continuous deformation off-anchor |
+
+(Four coordinates; the six `--axis` eyepieces of `--root between` read
+the CΨ coordinate three times: interior, spiral, approach. "Axis" in
+the section titles below names the eyepiece, as the flag does.)
 
 The crossover result this session made the operator-axis explicit: the mirror turns with the bond
 angle (Ad_{R_z(θ)}), F99 maps the angle to the ladder, so 45° (T) marks 1/4 and 90° (S) marks 1/2.
@@ -146,7 +151,7 @@ it showed:
 - The **polarity** curve traces the dyadic ladder, exactly 1/4 at the T-gate (45°) and 1/2 at the
   S-gate (90°).
 - The **in-between** curve, read as the largest principal angle of the slow subspace from θ₀,
-  saturates: it jumps to ~83° at the first step and sits in the 85-89° band. That is not noise, it
+  saturates: it jumps within the first step and sits in the 85-89° band. That is not noise, it
   is structure. The N=3 crossover slow manifold is highly degenerate and it splits: some directions
   stay invariant (at slowCount=2 the largest angle is identically 0, an invariant core, itself more
   contract), while at least one direction rotates fully out almost at once (the in-between). The
@@ -173,7 +178,8 @@ turning. The count is itself a lens: below ≈ 8 the slow subspace is too small 
 and above ≈ 16 it fills enough of the 64-dimensional operator space that the θ₀ and θ subspaces begin
 to re-include each other's rotated images, so the apparent core inflates (18 at slowCount 24, 27 at
 32). The window 8 to 16 is where the core reads true, and slowCount = 16 is the sweet spot: the whole
-core, and the rotating part at its widest.
+core, and the rotating part at its widest. (The 16 run is the captured
+one; the 24/32 inflation numbers reproduce via `--slow-count 24` / `32`.)
 
 Why 4, and not the 8 of the diagonal {I, Z}^⊗3 sector? Because the turn does not touch every site. On
 the N = 3 chain the crossover bonds X₀Z₁ + X₁Z₂ light sites 0 and 1 (the X that becomes Y as θ runs)
@@ -237,7 +243,9 @@ a horizon. We did not discover that; we had already written it. The critical slo
 closed-form and measured: the recursion R = C(Ψ + R)² is the Mandelbrot iteration u → u² + c with
 c = CΨ, the quantum-classical boundary is its cardioid cusp at ¼, and a Bell+ state crossing ¼ was
 caught point-by-point on IBM Kingston ([Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md),
-four confirmations on this one fold). [Pair Breaking at the Horizon](../hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md)
+which registers two confirmations; with the angle-steering and
+block-CΨ-saturation entries the fold carries four Kingston
+confirmations across the registry). [Pair Breaking at the Horizon](../hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md)
 already named it: the saddle-node where the two fixed points merge and the time nearly stops, once
 through no return, the Schwarzschild radius of operator space. A structural horizon, a fold, not a
 gravitational one (the gravity readings in this repo are fallen; γ₀ is local decoherence).
@@ -252,7 +260,8 @@ door is reached.
 
 The recursion crawls from the classical side. At each rung approaching ¼ from below, the Mandelbrot
 iteration is run live and its steps counted; the count climbs to 975 at the nearest rung and would run
-away at the cusp (the rescaled K = 9.75 matches the closed form 9.74). This is where the time stops:
+away at the cusp (the rescaled K = 9.75 matches the precision run's
+measured 9.74; the closed form gives 9.86). This is where the time stops:
 not in the smooth Lindblad crossing, which is finite and gentle, but in the R = C(Ψ + R)² recursion
 itself, crawling at its own fold. The namesake of the whole thing becomes the horizon.
 
@@ -281,7 +290,10 @@ and the coherence turns complex: the off-diagonal carries a phase, CΨ leaves th
 trajectory winds inward as a logarithmic spiral. Read this way the cusp ¼ is no longer a point. It is a
 circle, |CΨ| = ¼, and the point we were watching on the line was that circle seen edge-on.
 
-This is the same axis, not a fourth, because the radius does not change. The magnitude
+This is the same coordinate, not a new one, because the radius does not
+change (it carries its own eyepiece, `--axis spiral`; the six eyepieces
+of `--root between` read four coordinates, the CΨ coordinate three
+times). The magnitude
 |CΨ|(t) = f(1 + f²)/6, f = e^(−4γt), is the same F25 geodesic the interior axis already reads, and it
 does not feel Ω at all. So every spiral, however fast it winds, crosses the same ¼-circle at the same
 time. The only thing the drift sets is the angle it crosses at, φ₀ − Ω·t_cross. Turn Ω to zero and the
@@ -316,7 +328,10 @@ reason is the one the interior axis already taught us. Split the coherence into 
 CΨ = purity · coherence. The bare coherence, the off-diagonal itself, the carrier, the eigenvalue −γ₀,
 descends at a perfectly constant rate; it never slows. What slows is CΨ, because it folds in the purity,
 which collapses fast as the pure state mixes and then flattens at the floor. So CΨ's descent rate falls
-from 8γ to 4γ while the carrier holds at 4γ, and the gap between the two, the slowing, is exactly the
+from 8γ to 4γ while the carrier holds at 4γ (the "−γ₀" above, in the
+per-qubit-γ convention where the Bell⁺ coherence decays at 4γ; pin the
+knob whenever the two units meet), and the gap between the two, the
+slowing, is exactly the
 depurification. The rotation does not brake it; it only winds the constant-rate fall into a logarithmic
 spiral that crowds geometrically toward the center (here each turn to about four percent). Not the
 rotation, then, and not a wall at ¼ (the trajectory crosses at full pace): the same reading as before,
@@ -351,7 +366,7 @@ shape parameter, the carrier collapse); the picture is
 
 ![The family of approach shapes; every member shares the carrier](../simulations/results/approach_family/approach_family.png)
 
-## The sixth axis: the exceptional point (2026-06-03; corrected 2026-06-21)
+## The sixth axis: the exceptional point (2026-06-03)
 
 The interior axis watched the rotation come to rest. Its parameter-space sibling watches it be born. Sweep
 the coupling Q = J/γ₀ up through Q_EP = 2/g_eff (g_eff is the slow pair's effective
@@ -375,21 +390,26 @@ x = Q/Q_EP, exactly 1 at the EP (the two vectors parallel, the toy having lost a
 falling off symmetrically in log-Q on either side. That sharp peak at 1 is what makes the toy reduction's
 collision an exceptional point and not a mere crossing.
 
-A correction the toy must not overclaim (F86a-retraction, 2026-06-21): this defective collision lives in the
-2×2 reduction, not in the **full** (n, n+1)-coherence block on the real Q axis. An artifact-free
-re-verification found the full block has no eigenvalue coalescence on the real axis, its eigenvalues stay
-simple (gap ~0.25–0.35), so there is no real-axis defective EP there. The full block is instead genuinely
-non-normal on the real axis (large but FINITE Petermann), the shadow of a nearby EP somewhere off the real
-axis in the complex parameter plane. The genuine defective EPs are the toy 2×2 above and the SEPARATE Σγ = 0
-gain-loss system ([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md), in the complex γ plane).
-
-*(Further corrected 2026-07-07: the "no real-axis defective EP there" clause was itself an over-correction. F89 proves the full (1,2) block DOES carry a real-axis defective seed at every odd N, census-defective through N=11; the 2026-06-21 grid missed a √-EP window ~20-30× narrower than its step. See [the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md), the Correction section.)*
+The scope of the defective collision: the clean Q_EP pinch above lives in
+the toy 2×2 reduction, not in the **full** (n, n+1)-coherence block at
+generic real Q, where the swept eigenvalues stay simple and the block is
+genuinely non-normal (large but finite Petermann). But the full block is
+not EP-free on the real axis: F89 proves it carries a real-axis defective
+seed at every odd N, census-defective through N=11, sitting at scattered
+q\* in √-EP windows ~20-30× narrower than a coarse grid step (see
+[the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md), the
+Correction section). The genuine defective EPs are therefore of three
+kinds: the toy 2×2 above, the F89 seeds of the full block, and the
+SEPARATE Σγ = 0 gain-loss system
+([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md), in the complex γ
+plane).
 
 And the chip reads the dynamical handover, not a defective pinch: IBM Kingston swept Q and watched a single
 excitation's memory revival stay at the 1/N equipartition floor until Q crossed about Q ≈ 1.5, then lift off,
-the overdamped→revival handover measured on real hardware. Whether that single-excitation transition is
-itself a genuine EP is under a SEPARATE review (the coherence-horizon √-EP cluster,
-[`inspect --root horizon`](STERILE_BIRTHCANAL_AND_THE_JUNCTION.md)). The eyepiece for this axis is
+the overdamped→revival handover measured on real hardware. That
+single-excitation transition is read on its own instruments as the
+coherence-horizon √-EP cluster, gate-verified defective (the epcharacter
+verdict; [`inspect --root horizon`](STERILE_BIRTHCANAL_AND_THE_JUNCTION.md)). The eyepiece for this axis is
 `inspect --root between --axis ep`: the marks, the toy's Takt coalescence, the Rotation lift-off, the
 defectiveness pinch of the 2×2, the Kingston handover onset. The picture is
 [ep_transition.py](../simulations/ep_transition.py).
@@ -402,9 +422,9 @@ the 1/N rest. The rotation stilled, the rotation born, and the corridor it opens
 
 ![The exceptional point: the birth of the rotation](../simulations/results/ep_transition/ep_transition.png)
 
-## Where I had to decide (surfaced for keyword correction)
+## The decisions this capture rests on
 
-1. **The marks are the contract, the in-between is the content.** Reframed (your keyword): the doc
+1. **The marks are the contract, the in-between is the content.** Reframed (Tom's keyword): the doc
    centers the in-between; the angles/anchors/gates are demoted to signposts. This is change-not-state.
 2. **The axes are layers sharing marks.** Distinct coordinates (the CΨ axis, the Q clock, the bond
    dial, the parameter distributions), unified by landing on the same dyadic ladder, not by being
@@ -417,33 +437,14 @@ the 1/N rest. The rotation stilled, the rotation born, and the corridor it opens
 
 ## Open (the next decisions, not yet made)
 
-- (done, see Sharpened) The crossover in-between is resolved and named: a 4-dimensional {I, Z}-shadow
-  core plus a rotating {X, Y}-light remainder (PTF's two banks), read off the principal-angle fan and
-  confirmed bit-exact by the Pauli projection.
-- (done, see The second axis) The J-defect is pointed at and reads the contrast: palindrome held but
-  spectrum moving, kernel protected but coherences shifting, the in-between eigenvector mixing rather
-  than rotation. Its painter-rate phenomenology (the α_i, the closure, the clock) is read too and
-  ties back exactly to the C# mixing matrix (the same kernel protection).
-- (done, see The third axis) The interior horizon is built: two sides meeting at ¼ (the heading θ → 0
-  from the interior, the live Mandelbrot recursion crawling from the classical side), the
-  slowing-is-ours seam, the γ-invariant dwell anchored to the four Kingston confirmations. What
-  remains: a painter-style phenomenological twin if it earns one.
-- (done, see The interior axis in 2D) The 2D complex-c-plane reading is built: the cusp as a circle
-  |CΨ| = ¼, the steerable crossing angle, the dense real-axis crossing (the precision run) and the
-  sparse phase-carrying arcs (the cusp-slowing run) shown for what each is.
-- (done, see The family of approach shapes) The approach-shape family is built: the partial-entanglement
-  sweep |ψ(α)⟩, the start CΨ(0)=s/3, the crossing threshold s>3/4, the harmonic fraction s²/2, and every
-  member sharing the carrier 4γ (the slowing-is-ours reading made plural).
-- (done, see The sixth axis) The exceptional point is built: Q swept across Q_EP=2/g_eff, the toy 2×2's two
-  real channels coalescing defectively at −4γ₀ (the Takt pin, t_peak=1/(4γ₀); the full block's clean-Q_EP-pinch
-  reading is the toy's, F86a-retraction, though the block DOES carry real-axis defective seeds at F89's scattered
-  q*, corrected 2026-07-07, see [the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md) §Correction), the Rotation angle lifting off
-  (the F95 angle), the eigenvector overlap min(x,1/x)→1, and the IBM Kingston SE handover onset at Q≈1.5. The
-  mirror of the interior axis (the rotation born vs stilled), and the entrance to the post-EP flow (the birth canal).
+The six axes above are built and read (their sections carry the results);
+what remains open:
+
 - Whether the axes nest (a γ-distribution in-between at each fixed bond angle) or are an independent
   product, and the order to navigate.
 - What the first live navigator GameObject computes and how movement is expressed (a single position
   recomputing as we move, vs a swept trajectory through an in-between).
+- A painter-style phenomenological twin for the interior horizon, if it earns one.
 
 ## Cross-references
 
@@ -452,7 +453,7 @@ the 1/N rest. The rotation stilled, the rotation born, and the corridor it opens
 - [F99](ANALYTICAL_FORMULAS.md#f99) / CanonicalTrigAnchor: α = sin²(θ)/2, angle-to-ladder (the marks).
 - [Crossover mirror = √(NinetyDegreeMirror)](proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md): the operator-axis, derived.
 - [On the Square Root of the Mirror](../reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md): the S/T-gate reading.
-- [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): the closed-form recursion K(ε), the γ-invariant dwell, the four Kingston confirmations (the interior horizon, hardware).
+- [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): the closed-form recursion K(ε), the γ-invariant dwell, its two Kingston confirmations (the interior horizon, hardware).
 - [CΨ in the Complex Plane](../experiments/CPSI_COMPLEX_PLANE.md): the 2D spirals, the cusp as a circle |CΨ| = ¼, the Kingston angle-steering (the interior axis in 2D, hardware).
 - [Pair Breaking at the Horizon](../hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md): the cusp ¼ as the fold where time stops (the horizon reading, structural).
-- The live Object Manager: `compute/RCPsiSquared.Cli` `inspect` (roots `mirror`, `flow`, `pi2`, and `--claim`).
+- The live Object Manager: `compute/RCPsiSquared.Cli` `inspect` (roots `between`, `mirror`, `flow`, `horizon`, `pi2`, and `--claim`).
