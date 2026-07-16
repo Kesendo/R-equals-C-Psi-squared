@@ -115,6 +115,46 @@ public sealed class Lattice : GameObject
             e.WeightByDisagreement(), l.WeightByDisagreement());
     }
 
+    // ---- the opening law (experiments/LATTICE_OPENING_LAW.md, found playing 2026-07-16): on the
+    // cat pair psi(theta) = cos|0..0> + sin|1..1> the entry-wise distance between e and its
+    // one-sided reading L has the closed form
+    //     opening(t) = max(cos^2, sin^2) - cos*sin * e^(-2*G*t),   G = sum of site rates = N*gamma here,
+    // "the heavier sock's weight minus the LIVING spook". Exact because the cat sector is H-dead
+    // (a hop needs an excitation beside a hole; |0..0> has none, |1..1> has no hole; the ZZ term
+    // gives both ends the same energy), so the e trajectory is pure dephasing and the bridge
+    // relabels it entry-wise. Returns the worst |measured - closed form| over the run. ----
+    public double OpeningLawDeviation(double theta, double dt, int ticks)
+    {
+        var w = (World)Parent!;
+        int dim = 1 << N, full = dim - 1;
+        double c = Math.Cos(theta), s = Math.Sin(theta);
+
+        var e = new Restless(w, N, J, Gamma, zz: zz);
+        e.Seed(0, c * c);
+        e.Seed(full, s * s);
+        e.SeedCoherence(0, full, c * s);
+        var l = new Restless(w, N, J, Gamma, antiWatching: true, zz: zz);
+        l.SeedRaw(full, 0, c * c);                                   // X^N applied to the rows
+        l.SeedRaw(0, full, s * s);
+        l.SeedRaw(0, 0, c * s);
+        l.SeedRaw(full, full, c * s);
+
+        double bigGamma = N * Gamma;
+        double worst = 0;
+        for (int tick = 0; tick <= ticks; tick++)
+        {
+            double opening = 0;
+            for (int i = 0; i < dim; i++)
+                for (int j = 0; j < dim; j++)
+                    opening = Math.Max(opening, (e[i, j] - l[i, j]).Magnitude);
+            double predicted = Math.Max(c * c, s * s) - c * s * Math.Exp(-2.0 * bigGamma * (dt * tick));
+            worst = Math.Max(worst, Math.Abs(opening - predicted));
+            if (tick == ticks) break;
+            e.Step(dt); l.Step(dt);
+        }
+        return worst;
+    }
+
     // ---- the discriminator: run the R reading under the NORMAL rule instead of the turned one;
     // the bridge must break at O(1) (the watching assignment is load-bearing, not decoration). ----
     public double BrokenBridgeR(int seed, double dt, int ticks)

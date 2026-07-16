@@ -851,6 +851,10 @@ if (args.Length > 0 && args[0] == "lattice")
     Console.WriteLine($"  k-histogram e: [{string.Join(", ", rep.HistogramE.Select(v => v.ToString("0.000")))}]");
     Console.WriteLine($"  k-histogram L: [{string.Join(", ", rep.HistogramL.Select(v => v.ToString("0.000")))}]  (the e one, read backward)");
     Console.WriteLine();
+    Console.WriteLine("  the opening law (experiments/LATTICE_OPENING_LAW.md): on the cat pair cos|0..0> + sin|1..1>,");
+    Console.WriteLine("  opening(t) = max(cos^2, sin^2) - cos*sin*e^(-2*N*gamma*t) -- the heavier sock minus the LIVING spook;");
+    Console.WriteLine($"  worst |measured - closed form| at theta = 30/45 deg: {lattice.OpeningLawDeviation(Math.PI / 6, 0.05, 40):E1} / {lattice.OpeningLawDeviation(Math.PI / 4, 0.05, 40):E1}  (J-free: the cat sector is H-dead)");
+    Console.WriteLine();
     Console.WriteLine($"  the discriminator: the R reading under the WRONG (normal) rule breaks its bridge at {lattice.BrokenBridgeR(lseed, 0.05, 40):0.000}");
     Console.WriteLine("  -- the watching assignment is load-bearing. the conservation law is never lost, it moves:");
     Console.WriteLine("  trace at e/LR, anti-trace at L/R; the immortal set moves with it (diagonal there, anti-diagonal here).");

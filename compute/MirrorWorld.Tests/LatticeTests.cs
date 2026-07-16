@@ -83,6 +83,30 @@ public class LatticeTests
         Assert.True(rep.WorstBridgeLR < 1e-12, $"LR bridge with ZZ {rep.WorstBridgeLR:E1}");
     }
 
+    // the opening law (experiments/LATTICE_OPENING_LAW.md, found playing 2026-07-16): on the cat
+    // pair psi(theta) = cos|0..0> + sin|1..1>, the entry-wise distance between the e world and its
+    // one-sided reading L has the closed form
+    //     opening(t) = max(cos^2, sin^2) - cos*sin * e^(-2*Gamma*t),   Gamma = N*gamma (uniform),
+    // "the heavier sock's weight minus the LIVING spook": the chirality floor is timeless, the
+    // spook term dies at the full k = N rate and closes exactly the gap it owns. Exact because the
+    // cat sector is H-dead (no hop touches |0..0> or |1..1>), so the law is J-free too.
+    [Fact]
+    public void The_Opening_Law_Holds_On_The_Cat_Pair()
+    {
+        // dt = 0.025: at uniform gamma = 0.5 the spook rate is 2*N*gamma = 3, and dt = 0.05 puts
+        // the RK4 floor at ~9e-7, a thin 1.14x margin under 1e-6; halving dt restores ~18x.
+        var lattice = new Lattice(W, 3);
+        foreach (double thetaDeg in new[] { 0.0, 30.0, 45.0, 75.0 })
+        {
+            double dev = lattice.OpeningLawDeviation(thetaDeg * Math.PI / 180.0, dt: 0.025, ticks: 80);
+            Assert.True(dev < 1e-6, $"theta={thetaDeg}: worst |opening - closed form| = {dev:E1}");
+        }
+        // J-free: a very different hop amplitude gives the same deviation floor (the cat sector
+        // is H-dead, so the whole opening trajectory is J-blind).
+        var fastHop = new Lattice(W, 3, j: 2.3);
+        Assert.True(fastHop.OpeningLawDeviation(Math.PI / 6, 0.025, 80) < 1e-6);
+    }
+
     // ontology: the lattice's own outputs.
     [Fact]
     public void Ontology_Own_Carries_The_Lattice_Readings()
