@@ -24,7 +24,17 @@ i -> N-1-i on the (1,2)-block states [(a,b) for a in C(N,2) for b in C(N,1)]):
   3. disc_Lam(F_res) = c * Q2^v * A1 * A2^2 with max multiplicity 2 off Q2 = 0 (the beta-exotic
      needs 3), layer degrees matching the certified table (N=5: A1 28/28, A2 16/13, v 77/69;
      N=7: A1 114/111, A2 210/195, v 772/753; E/O order, degrees in Q2), and A1 irreducible
-     over Q; at N = 5 the discriminant is additionally reconstructed EXACTLY over Z
+     over Q. Since 2026-07-16 (the LAYER DISCHARGE, both N): A1 and A2 are lifted to exact
+     primitive Z polynomials (CRT + rational reconstruction of the Yun layers) and the
+     identity disc = C * Q2^v * A1 * A2^2 is PROVED over Z, coefficient-wise mod a prime
+     pool whose product exceeds B_D + B_R (B_D = the rigorous permanent/row-sum l1 bound
+     on disc from the Sylvester matrix of (F_res, dF_res/dlam); B_R = |C| ||A1||_1
+     ||A2||_1^2 a rigorous bound on the right side), with SHAPE (A1, A2 squarefree,
+     coprime, nonzero at Q2 = 0) certified at good primes and lifted by Gauss; uniqueness
+     of the squarefree decomposition then makes the mult-1 layer = A1 and the mult-2
+     layer = A2 a THEOREM, and every certificate prime's Yun layers are asserted to BE
+     the exact layers' reductions. At N = 5 the discriminant is additionally reconstructed
+     EXACTLY over Z
      (integer-node interpolation with exact resultants, cross-checked coefficient-wise
      against every certificate prime), its layers split exactly, A1 and A2 both factored
      exactly (each irreducible over Q), and the real-positive root INVENTORY asserted:
@@ -75,8 +85,8 @@ Proof status of each layer (read this before citing):
     downstream at N = 7 (F_res, the disc layers, the psc_1 leg, both gcd certificates, the
     seed checks) now rests on proof-grade base polynomials. (Historical: before 2026-07-16
     this was stability-stopped only, verification grade -- the first of the two named N = 7
-    premises in F89_BETA_EXOTIC_GENERICITY.md's bookkeeping; it is DISCHARGED. The layer
-    identification premise below remains.)
+    premises in F89_BETA_EXOTIC_GENERICITY.md's bookkeeping; it is DISCHARGED, and the
+    second, the layer identification, was discharged the same evening, see below.)
   * PROVED OVER Q VIA A GOOD PRIME, given the base polynomials (a nontrivial Q-gcd of
     integer polynomials survives reduction mod any prime that preserves both degrees, by
     Gauss's lemma; F_res and chi are monic in lam, so Res_Lam commutes with reduction
@@ -85,24 +95,24 @@ Proof status of each layer (read this before citing):
     coincident-EP2 exclusion of item 3b (which uses only D itself, whose true Q2-degree the
     DISCMULT engine certified by Hadamard-bounded prime sampling, never the layer
     identification). Asserted at >= 3 primes although ONE good prime already proves each.
-    At N = 5 these are therefore unconditional; at N = 7 they now rest on the PROOF-grade
-    base polynomials above (since 2026-07-16), so the psc_1 leg, being also free of the
-    layer premise below, is unconditional at N = 7.
-  * CERTIFIED MODULO A CONDITIONAL PREMISE (N = 7 only), ON TOP of the base grade: the
-    identification "mod-p mult-1 Yun layer = A1 mod p (up to scalar)". A bad prime can merge
-    two roots of A1 into a square that Yun then books into the mult-2 layer: such a merge
-    preserves the total degree, the valuation and max-mult <= 2 ((A1, A2) = (116, 209) over
-    Q with a d = 1 merge would imitate the table's (114, 210) exactly), and is invisible to
-    the DISCMULT logic as well. Only finitely many primes are bad (those dividing
-    disc(A1) * Res(A1, A2)), so the agreement of several independent primes is STRONG
-    EVIDENCE, not a Q-proof. Consequently the N = 7 A1-irreducibility (subset-sum
-    certificate: possible Q-factor degrees lie in every good prime's mod-p degree
-    partition's subset sums, intersection {0, n}) and both N = 7 gcd conclusions of item 4
-    rest on this layer-identification premise alone (since 2026-07-16 the base polynomials
-    underneath are PROOF grade, so it is the single remaining N = 7 premise). At N = 5
-    no premise remains: A1 and A2 are reconstructed exactly over Z and the mod-p layers are
-    asserted to BE their reductions. The item-3b coincident-EP2 exclusion does not use the
-    layer premise at either N.
+    At N = 5 these are therefore unconditional; at N = 7 they rest on the PROOF-grade
+    base polynomials above plus the proved layer identification below (the psc_1 leg
+    never needed the latter), so they are unconditional at N = 7 as well.
+  * LAYER IDENTIFICATION: PROVED at BOTH N since 2026-07-16 (evening) -- no longer a
+    premise. Historically (first N = 7 landing): "mod-p mult-1 Yun layer = A1 mod p" was
+    conditional, because a bad prime can merge two roots of A1 into a square that Yun
+    books into the mult-2 layer ((A1, A2) = (116, 209) over Q with a d = 1 merge would
+    imitate the table's (114, 210) exactly), invisible to the DISCMULT logic; multi-prime
+    agreement was evidence, not a Q-proof. The layer discharge of item 3 closes exactly
+    this: with disc = C * Q2^v * A1 * A2^2 proved over Z and A1, A2 squarefree and coprime
+    with nonzero constant terms, no degree-preserving prime CAN misbook a layer (the
+    squarefree decomposition of the reduction is the reduction of the squarefree
+    decomposition at every prime preserving the layer degrees and shape, all checked
+    per certificate prime by direct comparison against the exact A1, A2). Consequently
+    the N = 7 A1-irreducibility (subset-sum certificate, fed by reductions of the PROVED
+    exact A1) and both N = 7 gcd conclusions of item 4 are UNCONDITIONAL, resting on the
+    proof-grade base polynomials + the proved layers alone. The item-3b coincident-EP2
+    exclusion never used the layer identification at either N.
   * MULTI-PRIME EVIDENCE ONLY (not asserted at N = 7): the A2^2-split of the resultant,
     Res_Lam(F_res, S6) = c * Q2^vR * A2^2 * B. At N = 5 the split was proved EXACTLY by the
     in-session sympy scouts, so deg gcd(Res, disc) = 2*deg A2 + v IS asserted there; at N = 7
@@ -116,13 +126,16 @@ Proof status of each layer (read this before citing):
 Axis: unit-hop (this file's q = twice the octic census q*; Q2 = q^2). All reference seed values
 are unit-hop, from simulations/o2b_krein_sign_law.py runs.
 
-Run:  python simulations/o2b_gcd_certificate.py         # N = 5 (~5 s measured, dev machine)
-      python simulations/o2b_gcd_certificate.py 7       # N = 5 and N = 7 (~3 min measured)
+Run:  python simulations/o2b_gcd_certificate.py         # N = 5 (~10 s measured, dev machine)
+      python simulations/o2b_gcd_certificate.py 7       # N = 5 and N = 7 (~30 min measured:
+                                                        #   the layer discharge sweeps ~560
+                                                        #   primes per sector inside the run)
 """
 import os
 import sys
 import time
 from fractions import Fraction
+from math import gcd, isqrt
 
 import numpy as np
 import sympy as sp
@@ -1221,6 +1234,233 @@ def exact_disc_inventory_n5(s, F):
     return dict(D=Dx, A1=A1x, A2=A2x)
 
 
+# ================================================================== 6c. layer discharge
+def prime_stream(below=2 ** 25):
+    """Descending primes just below 2^25 (int64-safe, > every node count in use)."""
+    p = below
+    while True:
+        p = int(sp.prevprime(p))
+        yield p
+
+
+def rational_reconstruct(r, M):
+    """Unique a/b with r*b = a mod M, gcd(b, M) = 1, |a| <= sqrt(M/2), 0 < b <= sqrt(M/2),
+    or None. Half-extended Euclid (Wang); below those bounds the representation is unique."""
+    bound = isqrt(M // 2)
+    r0, r1 = M, r % M
+    t0, t1 = 0, 1
+    while r1 > bound:
+        q = r0 // r1
+        r0, r1 = r1, r0 - q * r1
+        t0, t1 = t1, t0 - q * t1
+    if t1 == 0 or abs(t1) > bound or gcd(abs(t1), M) != 1:
+        return None
+    a, b = (r1, t1) if t1 > 0 else (-r1, -t1)
+    return (a, b) if (a - r * b) % M == 0 else None
+
+
+def _rr_selftest():
+    M = 1
+    for p in make_primes(6):
+        M *= p
+    for a, b in ((3, 7), (-1234567, 89), (0, 1), (10 ** 20, 3), (-5, 10 ** 18 + 9)):
+        g = gcd(abs(a), b)
+        a, b = a // g, b // g
+        r = a * pow(b, -1, M) % M
+        assert rational_reconstruct(r, M) == (a, b), f"rr selftest {a}/{b}"
+
+
+def crt_pair(r1, M1, r2, p):
+    """CRT combine: x = r1 mod M1, x = r2 mod p -> x mod M1*p (0 <= x < M1*p)."""
+    inv = pow(M1 % p, p - 2, p)
+    return r1 + M1 * (((r2 - r1) % p) * inv % p)
+
+
+def lift_layers(CF, table, nodes, primes_iter, tag):
+    """Stage L of the layer discharge: CRT of the monic mod-p Yun layers of disc_Lam(F_res)
+    + per-coefficient rational reconstruction, denominators cleared -> primitive Z
+    candidates (descending int arrays, lc > 0) A1, A2. HEURISTIC by design: correctness
+    rests entirely on certify_layer_identity below, which no wrong candidate can pass."""
+    t0 = time.time()
+    res1 = res2 = None
+    M = 1
+    used = 0
+    cand = None
+    stable = 0
+    for p in primes_iter:
+        try:
+            _, A1p, A2p, _ = disc_layers_modp(CF, nodes, p, table)
+        except AssertionError:
+            continue                                   # bad prime for the layer shape
+        used += 1
+        a1 = [int(x) for x in A1p]
+        a2 = [int(x) for x in A2p]
+        if res1 is None:
+            res1, res2, M = a1, a2, p
+        else:
+            res1 = [crt_pair(res1[i], M, a1[i], p) for i in range(len(res1))]
+            res2 = [crt_pair(res2[i], M, a2[i], p) for i in range(len(res2))]
+            M *= p
+        if used < 4:
+            continue
+        new_cand, ok = [], True
+        for res in (res1, res2):
+            fr = []
+            for r in res:
+                rc = rational_reconstruct(r, M)
+                if rc is None:
+                    ok = False
+                    break
+                fr.append(Fraction(rc[0], rc[1]))
+            if not ok:
+                break
+            den = 1
+            for f in fr:
+                den = den * f.denominator // gcd(den, f.denominator)
+            ints = [int(f * den) for f in fr]
+            g = 0
+            for v in ints:
+                g = gcd(g, abs(v))
+            ints = [v // g for v in ints]
+            if ints[0] < 0:
+                ints = [-v for v in ints]
+            new_cand.append(ints)
+        if ok:
+            if cand is not None and new_cand == cand:
+                stable += 1
+                if stable >= 2:
+                    print(f"  {tag} layer Stage L: lifted at {used} primes (stable under 2 "
+                          f"extra); deg A1 {len(cand[0]) - 1}, deg A2 {len(cand[1]) - 1}  "
+                          f"[{time.time() - t0:.0f}s]")
+                    return (np.array(cand[0], dtype=object), np.array(cand[1], dtype=object))
+            else:
+                cand, stable = new_cand, 0
+        else:
+            cand, stable = None, 0
+    raise AssertionError(f"{tag}: layer Stage L did not stabilize")
+
+
+def certify_layer_identity(CF, table, A1, A2, primes_iter, tag, exact_disc=None):
+    """Stage V of the layer discharge, THE PROOF. Establishes over Z:
+
+        disc_Lam(F_res) = C * w^v * A1 * A2^2                            (IDENTITY)
+        A1, A2 primitive, lc > 0, squarefree, coprime, A1(0) != 0 != A2(0)  (SHAPE)
+        deg A1, deg A2, v as in the certified table; v > 2                  (TABLE)
+
+    by (i) the rigorous permanent/row-sum l1 bound B_D on disc's coefficients (disc = det
+    of the (2m-1) x (2m-1) Sylvester matrix of (F, dF/dlam): m-1 F-rows of row sum
+    sum_dl ||F_dl||_1 and m F'-rows of row sum sum_dl dl*||F_dl||_1; l1 submultiplicative
+    on products, subadditive on sums, det <= permanent <= row-sum product), (ii) C by CRT
+    from the leading-coefficient ratio lc(disc mod p) / (lc(A1) lc(A2)^2) at degree-stable
+    primes with prod > 2*B_D (node-independent, NOT fitted to the identity), (iii) the
+    coefficient-wise identity mod EVERY pool prime with prod(pool) > B_D + B_R, where
+    B_R = |C| * ||A1||_1 * ||A2||_1^2 is a rigorous upper bound on the RHS coefficients
+    (so LHS - RHS, bounded by B_D + B_R and divisible by the pool product, is zero over
+    Z), and (iv) SHAPE at >= 3 good primes (one proves each statement, Gauss lift under
+    preserved degree). Uniqueness of the squarefree decomposition then forces: the
+    multiplicity-1 layer of disc off w = 0 IS A1 and the multiplicity-2 layer IS A2 over
+    Q, at every degree/shape-preserving prime -- the mod-p layer identification becomes a
+    theorem instead of a premise.
+
+    V2 pool prime conditions (all guaranteed by the 25-bit stream, asserted): pairwise
+    distinct; p > #nodes (node distinctness mod p); p does not divide m = deg_lam F (so
+    the node-wise resultant of (F mod p, F' mod p) IS disc(w0) mod p: F is monic and
+    lc(F') = m survives). With exact_disc (N = 5): B_D is validated from below.
+    Returns the exact integer C."""
+    t0 = time.time()
+    m = len(CF) - 1
+    degw = max(len(row) for row in CF) - 1
+    l1c = [sum(abs(c) for c in row) for row in CF]
+    rowF = sum(l1c)
+    rowFp = sum(dl * l1c[dl] for dl in range(1, m + 1))
+    B_D = rowF ** (m - 1) * rowFp ** m
+    degD_apriori = m * degw + (m - 1) * degw
+    nodes = list(range(degD_apriori + 2))
+    degD_true = table["v"] + table["A1"] + 2 * table["A2"]
+    assert table["v"] > 2, "v <= 2 would merge the w layer with A1/A2"
+    if exact_disc is not None:
+        mx = max(abs(int(c)) for c in exact_disc.all_coeffs())
+        assert mx <= B_D, "B_D violated by the exact disc"
+        print(f"  {tag} layer B_D = 2^{B_D.bit_length()} validated from below "
+              f"(exact max|coeff(disc)| = 2^{mx.bit_length()})")
+
+    def disc_modp(p):
+        assert p > len(nodes) and m % p != 0, "pool prime violates the V2 conditions"
+        Fv = eval_nodes_modp(CF, nodes, p)
+        vals = []
+        for j in range(len(nodes)):
+            fj = polytrim(Fv[j][::-1].copy())
+            vals.append(res_modp(fj, polyderiv(fj, p), p))
+        return interp_modp(nodes, np.array(vals, dtype=np.int64), p)
+
+    Dp_store, pool = [], []
+    prodp = 1
+    while prodp <= 2 * B_D:                                # enough to determine C
+        p = next(primes_iter)
+        Dp_store.append(disc_modp(p))
+        pool.append(p)
+        prodp *= p
+    # C by CRT over degree-stable primes (extend the pool if too many were skipped)
+    lcA = int(A1[0]) * int(A2[0]) ** 2
+    while True:
+        rC, MC = None, 1
+        for Dp, p in zip(Dp_store, pool):
+            if len(Dp) - 1 != degD_true or lcA % p == 0:
+                continue
+            r = int(Dp[0]) * pow(lcA % p, p - 2, p) % p
+            rC, MC = (r, p) if rC is None else (crt_pair(rC, MC, r, p), MC * p)
+        if MC > 2 * B_D:
+            break
+        p = next(primes_iter)
+        Dp_store.append(disc_modp(p))
+        pool.append(p)
+        prodp *= p
+    C = rC if rC <= MC // 2 else rC - MC
+    assert C != 0
+    B_R = abs(C) * sum(abs(int(v)) for v in A1) * sum(abs(int(v)) for v in A2) ** 2
+    while prodp <= B_D + B_R:                              # the identity bound, fail-closed
+        p = next(primes_iter)
+        Dp_store.append(disc_modp(p))
+        pool.append(p)
+        prodp *= p
+    assert len(set(pool)) == len(pool), "pool primes not pairwise distinct"
+
+    v = table["v"]
+    for Dp, p in zip(Dp_store, pool):                      # IDENTITY mod EVERY pool prime
+        a1p = np.array([int(x) % p for x in A1], dtype=np.int64)
+        a2p = np.array([int(x) % p for x in A2], dtype=np.int64)
+        rhs = polymul(polymul(a2p, a2p, p), a1p, p)
+        rhs = (rhs * (C % p)) % p
+        rhs = np.concatenate([rhs, np.zeros(v, dtype=np.int64)])
+        assert np.array_equal(polytrim(rhs), polytrim(Dp)), \
+            f"{tag} layer IDENTITY fails mod {p}"
+    print(f"  {tag} layer IDENTITY disc = C * w^{v} * A1 * A2^2 mod all {len(pool)} pool "
+          f"primes, prod = 2^{prodp.bit_length() - 1} > B_D + B_R "
+          f"(2^{B_D.bit_length()} + 2^{B_R.bit_length()}) => exact over Z; "
+          f"C: {len(str(abs(C)))} digits, sign {'+' if C > 0 else '-'}  "
+          f"[{time.time() - t0:.0f}s]")
+
+    shape_ok = 0                                           # SHAPE at >= 3 good primes
+    for p in pool:
+        a1p = polytrim(np.array([int(x) % p for x in A1], dtype=np.int64))
+        a2p = polytrim(np.array([int(x) % p for x in A2], dtype=np.int64))
+        if len(a1p) - 1 != len(A1) - 1 or len(a2p) - 1 != len(A2) - 1:
+            continue
+        if int(A1[-1]) % p == 0 or int(A2[-1]) % p == 0:
+            continue
+        if (len(polygcd(a1p, polyderiv(a1p, p), p)) - 1 == 0
+                and len(polygcd(a2p, polyderiv(a2p, p), p)) - 1 == 0
+                and len(polygcd(a1p, a2p, p)) - 1 == 0):
+            shape_ok += 1
+            if shape_ok >= 3:
+                break
+    assert shape_ok >= 3, f"{tag} layer SHAPE certified at only {shape_ok} primes"
+    print(f"  {tag} layer SHAPE: A1, A2 squarefree, coprime, nonzero at w = 0 (good-prime "
+          f"Gauss lift, asserted at {shape_ok}) => mult-1 layer IS A1, mult-2 IS A2 over Q: "
+          f"layer identification PROVED")
+    return C
+
+
 # ================================================================== 7. seed spot-checks
 def refine_and_check_seeds(N, polys, F_res):
     """Newton-refine each forced seed as a double root of its sector F_res (exact Jacobian,
@@ -1341,36 +1581,57 @@ def run(N):
         nodesD = list(range(degF_l * degF_w + (degF_l - 1) * degF_w + 2))
         nodesR = list(range(degF_l * degS_w + degS_l * degF_w + 2))
         nodesX = list(range(degF_l * degX_w + degX_l * degF_w + 2))
+        # ---- the layer discharge (reconstruct-and-verify, 2026-07-16): lift the Yun
+        #      layers to exact primitive Z polynomials and PROVE disc = C * w^v * A1 * A2^2
+        #      over Z + SHAPE, so the mod-p layer identification is a theorem at both N
+        A1x, A2x = lift_layers(CF, table, nodesD, prime_stream(), f"[{s}]")
+        assert len(A1x) - 1 == table["A1"] and len(A2x) - 1 == table["A2"]
+        C_layer = certify_layer_identity(CF, table, A1x, A2x, prime_stream(), f"[{s}]",
+                                         exact_disc=exact_inv["D"] if exact_inv else None)
+        if exact_inv is not None:                    # N = 5: cross-check vs the exact story
+            for nm, mine, ex in (("A1", A1x, exact_inv["A1"]), ("A2", A2x, exact_inv["A2"])):
+                exc = [int(c) for c in ex.all_coeffs()]
+                g = 0
+                for v_ in exc:
+                    g = gcd(g, abs(v_))
+                exc = [c // g for c in exc]
+                if exc[0] < 0:
+                    exc = [-c for c in exc]
+                assert exc == [int(x) for x in mine], \
+                    f"reconstructed {nm} != exact inventory (N=5)"
+            diff = sp.expand(C_layer * sp.Poly([int(x) for x in A1x], Q2).as_expr()
+                             * sp.Poly([int(x) for x in A2x], Q2).as_expr() ** 2
+                             * Q2 ** table["v"] - exact_inv["D"].as_expr())
+            assert diff == 0, "C * w^v * A1 * A2^2 != exact disc (N=5)"
+            print(f"  [{s}] reconstructed (C, A1, A2) == the exact-Z inventory "
+                  f"(N=5 cross-check)")
         # good-prime conditions, stated and checked:
         #   (i) F_res and chi_other are MONIC in lam (asserted above / by construction), so
         #       Res_lam commutes with reduction mod p once deg_lam of the second argument
         #       is preserved;
         #  (ii) p does not divide lc_lam(S6) (= the rung-6 state count, a tiny integer);
-        # (iii) deg/valuation/layer degrees of D mod p match the certified table. At N = 5
-        #       the identification A1p = A1 mod p is then ASSERTED against the exact A1; at
-        #       N = 7 it is the conditional premise the module docstring spells out (a mod-p
-        #       merge of two A1 roots is invisible here; finitely many primes can be bad).
+        # (iii) deg/valuation/layer degrees of D mod p match the certified table, and the
+        #       identification A1p = A1 mod p is ASSERTED against the PROVED exact layers
+        #       at BOTH N (the layer discharge above; before 2026-07-16 this was the
+        #       conditional N = 7 premise -- a mod-p merge of two A1 roots was invisible).
         lcS6 = int(sp.LC(polys[s]["S6"].as_expr(), lam))
         r1_degs, gcd_r1_disc, psc_shapes = set(), set(), set()
-        a1_images = []                               # (p, A1p) for the irreducibility cert
         n_ok = 0
         for p in cert_primes[:MIN_CERT_PRIMES]:
             t0 = time.time()
             assert lcS6 % p != 0, f"bad prime {p} for lc(S6)"
             Dp, A1p, A2p, vD = disc_layers_modp(CF, nodesD, p, table)
-            a1_images.append((p, A1p))
             if exact_inv is not None:
-                # N = 5: the mod-p objects are asserted to BE the exact ones' reductions
+                # N = 5: the interpolated disc is asserted to BE the exact one's reduction
                 Dx_p = polytrim(np.array([int(c) % p for c in exact_inv["D"].all_coeffs()],
                                          dtype=np.int64))
                 assert np.array_equal(Dx_p, Dp), f"exact D mod {p} != interpolated Dp"
-                for exact_poly, modp_layer, nm in ((exact_inv["A1"], A1p, "A1"),
-                                                   (exact_inv["A2"], A2p, "A2")):
-                    ax = polytrim(np.array([int(c) % p for c in exact_poly.all_coeffs()],
-                                           dtype=np.int64))
-                    ax = (ax * pow(int(ax[0]), p - 2, p)) % p        # monic-normalize
-                    assert np.array_equal(ax, modp_layer), \
-                        f"exact {nm} mod {p} != Yun mult layer (identification broken)"
+            # BOTH N: the mod-p Yun layers ARE the reductions of the proved exact layers
+            for exact_arr, modp_layer, nm in ((A1x, A1p, "A1"), (A2x, A2p, "A2")):
+                ax = polytrim(np.array([int(c) % p for c in exact_arr], dtype=np.int64))
+                ax = (ax * pow(int(ax[0]), p - 2, p)) % p            # monic-normalize
+                assert np.array_equal(ax, modp_layer), \
+                    f"exact {nm} mod {p} != Yun mult layer (identification broken)"
             # coincident-EP2 exclusion: gcd(D/w^v, psc_1/w^v') = 1
             P1p = psc1_poly_modp(CF, p)
             vP = valuation_at_zero(P1p)
@@ -1407,42 +1668,39 @@ def run(N):
         else:
             print(f"  [{s}] deg gcd(Res(F,S6), disc) = {sorted(gcd_r1_disc)[0]} "
                   f"(prediction v + 2*deg A2 = {pred}; multi-prime EVIDENCE, not asserted)")
-        # A1 irreducibility over Q: subset-sum across primes; start from the certificate
-        # primes' images, extend with fresh good primes until {0, n} lands (budget 20 extra)
+        # A1 irreducibility over Q: subset-sum across primes, fed by reductions of the
+        # PROVED exact A1 -- never by unverified Yun layers (a fresh prime whose Yun layer
+        # silently differed from A1 mod p could otherwise force a false-irreducible PASS)
         possible, used, nA1 = None, 0, table["A1"]
-        p_next = min(pp for pp, _ in a1_images)
-        extra_budget = 20
-        while True:
-            if used < len(a1_images):
-                p, A1p = a1_images[used]
-            else:
-                if extra_budget == 0:
-                    break
-                extra_budget -= 1
-                p_next = int(sp.prevprime(p_next))
-                p = p_next
-                try:
-                    _, A1p, _, _ = disc_layers_modp(CF, nodesD, p, table)
-                except AssertionError:
-                    continue                          # bad prime for the layer shape: skip
-            part = ddf_partition(A1p, p)
+        ps = prime_stream()
+        budget = 40
+        while possible != {0, nA1}:
+            budget -= 1
+            assert budget >= 0, (f"A1 irreducibility not certified in sector {s}: "
+                                 f"possible {sorted(possible) if possible else possible}")
+            p = next(ps)
+            a1p = np.array([int(c) % p for c in A1x], dtype=np.int64)
+            if a1p[0] == 0:
+                continue                              # lc drop: bad prime, skip
+            if len(polygcd(a1p, polyderiv(a1p, p), p)) - 1 != 0:
+                continue                              # not squarefree mod p: skip
+            part = ddf_partition(a1p, p)
             possible = subset_sums(part, nA1) if possible is None \
                 else possible & subset_sums(part, nA1)
             used += 1
-            if possible == {0, nA1}:
-                break
-        assert possible == {0, nA1}, \
-            f"A1 irreducibility not certified in sector {s}: possible {sorted(possible)}"
         print(f"  [{s}] A1 (deg {nA1}): IRREDUCIBLE over Q (subset-sum certificate, "
-              f"{used} primes)")
+              f"{used} primes, exact-A1 reductions)")
 
     # ---- 5: seed spot-checks
     refine_and_check_seeds(N, polys, F_res)
 
     print(f"  Coincident-EP2 pairs excluded at every w != 0 (both sectors, psc_1 certificate)"
           + (", N=5 inventory exact over Z" if N == 5 else "") + ".")
-    qual = "" if N == 5 else (" (modulo the mod-p layer-identification premise; the base "
-                              "polynomials are PROOF grade since 2026-07-16, see docstring)")
+    qual = "" if N == 5 else (" (base polynomials PROOF grade + layer identification "
+                              "PROVED by reconstruct-and-verify, both 2026-07-16: no "
+                              "premise of this certificate's bookkeeping left; H1 and "
+                              "the F_res-reality premise of the EP2 reading are tracked "
+                              "in the experiment doc)")
     print(f"\nO2B NONVANISHING CERTIFIED at N={N}: S6 != 0 on the entire simple disc layer "
           f"(all seeds), geometric multiplicity 1 full-block, s6 != 0 at every forced seed. "
           f"PASS{qual}  [{time.time() - t_start:.0f}s]")
@@ -1450,7 +1708,8 @@ def run(N):
 
 if __name__ == "__main__":
     _fl_selftest()
-    print("FL self-test OK")
+    _rr_selftest()
+    print("FL + rational-reconstruction self-tests OK")
     todo = [5] + ([7] if "7" in sys.argv[1:] else [])
     for n in todo:
         run(n)
