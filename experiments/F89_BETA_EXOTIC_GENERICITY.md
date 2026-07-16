@@ -390,7 +390,7 @@ R-sectors are defined in the certificate section, next); the honest per-N
 exclusion remains the disc-multiplicity certificate of that next section. **(This caution is
 retired 2026-07-10 per-N: the gcd certificate section further below separates the diabolics onto
 the doubled disc layer A₂ and proves geometric multiplicity 1 directly on the simple layer,
-exactly at N = 5 and, at the time of writing, modulo two named premises at N = 7 — both
+exactly at N = 5 and, at the time of writing, modulo two named premises at N = 7, both
 discharged 2026-07-16, so exactly at N = 7 too; kept here so the paragraph reads as it
 stood when written.)** What the rational form
 adds is the *all-N shape*: one integer polynomial whose nonvanishing at the count-dropping loci is
@@ -746,10 +746,10 @@ side, so the difference, integer-bounded by B_D + B_R and divisible by the pool 
 over ℤ; (iv) SHAPE: A₁, A₂ squarefree, coprime, and nonzero at w = 0, each lifted from one
 degree-preserving prime by Gauss (asserted at 3). Uniqueness of the squarefree decomposition then
 forces: **the multiplicity-1 layer of disc off w = 0 IS A₁ and the multiplicity-2 layer IS A₂
-over ℚ** — the identification is a theorem, and the verifier now asserts the mod-p Yun layers
+over ℚ**: the identification is a theorem, and the verifier now asserts the mod-p Yun layers
 against the exact A₁/A₂ at every certificate prime, at both N; the A₁-irreducibility certificate
 is fed by reductions of the exact A₁ (a fresh unverified Yun layer could otherwise smuggle the
-premise back in — a review catch). Numbers: N = 7 R-even B_D = 2^14200, pool 569 primes
+premise back in, a review catch). Numbers: N = 7 R-even B_D = 2^14200, pool 569 primes
 (∏ = 2^14224), C 442 digits; R-odd B_D = 2^13723, pool 549 primes, C 408 digits; ~11-12 min per
 sector. Validated from below at N = 5: the reconstructed (C, A₁, A₂) equal the exact-ℤ inventory
 exactly, and max|coeff(disc)| = 2^430/2^372 ≤ B_D = 2^1548/2^1393. What this deliberately does
