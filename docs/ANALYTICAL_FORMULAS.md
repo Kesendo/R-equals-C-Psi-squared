@@ -5207,7 +5207,12 @@ future instrument. **MirrorWorld:** adopted 2026-07-16 (`OrderSorting.cs`, run
 mode `sorting N`): Theorem A's trajectory face by twin RK4 on the γ axis, the
 pencil face as `ParameterKlein.MirrorConjugationResidual` (machine zero, all
 three axes, mixed-scan fence); Theorem B and the spectral evenness stay out
-(Floquet tracking / eigensolver are not the world's genre). **Typed:**
+(Floquet tracking / eigensolver are not the world's genre). **Third mirror sighting (2026-07-16 late):** M = X^N on the
+Lindblad chain (linear, χ = +1; the longitudinal h axis is its σ_op = −1 scan,
+X H(h) X = H(−h) exactly): all alive Pauli readouts sort by their X-parity, and
+X-odd DIAGONAL readouts are doubly-mirrored zeros (a conj∘chiral partner forces
+populations even in h); [experiments/LATTICE_H_THREAD.md](../experiments/LATTICE_H_THREAD.md)
++ gate [`lattice_h_thread.py`](../simulations/lattice_h_thread.py). **Typed:**
 `MirrorOrderSortingClaim` (2026-07-16, Tier1Derived,
 `compute/RCPsiSquared.Core/Symmetry/MirrorOrderSortingClaim.cs`): parents
 `ChiralKClaim` (Theorem B's mirror Θ = T·K) + `AntilinearTriangleClaim` (χ_M,

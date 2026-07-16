@@ -82,3 +82,6 @@ uniform watching until a second consumer wants the profile).
   every edge exact; commit eca401b).
 - The meaning neighbours: [SPOOKY_ACTION_TRANSLATED](../docs/quantum/SPOOKY_ACTION_TRANSLATED.md)
   (the spook, the pages, no signalling), `docs/proofs/` F1/Absorption for the −2Γ rate.
+- The thread the review left behind (a longitudinal field breaks the bridge but not
+  the law) is chased in [LATTICE_H_THREAD](LATTICE_H_THREAD.md): X^N as a third F131
+  mirror, the mixed two-field pencil, and the doubly-mirrored zeros.
