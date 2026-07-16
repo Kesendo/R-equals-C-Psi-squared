@@ -951,11 +951,14 @@ public static class OpenArcsRegistry
                 "UPDATE 2026-07-10 (the gcd certificate; doc section 'The gcd certificate' + 'The cell law, " +
                 "tightened' + 'Resonant N, measured'): O2B NONVANISHING PROVEN AT N=5 (exact over Z, " +
                 "unconditional: base polynomials by exact integer Faddeev-LeVerrier in the committed verifier) AND AT N=7 " +
-                "MODULO TWO NAMED THINGS (the mod-p layer identification: a bad-prime " +
+                "MODULO ONE NAMED THING since 2026-07-16 (the mod-p layer identification: a bad-prime " +
                 "merge of two A1 roots is invisible to DISCMULT; finitely many bad primes, all sampled primes " +
-                "agree -- strong evidence, not a Q-proof; PLUS the CRT verification grade of the N=7 base " +
-                "polynomials, which everything at N=7 sits downstream of; the rest good-prime rational), " +
-                "eigensolver-free. " +
+                "agree -- strong evidence, not a Q-proof; the rest good-prime rational). The second premise the " +
+                "2026-07-10 landing carried, the CRT verification grade of the N=7 base polynomials, is " +
+                "DISCHARGED 2026-07-16: the verifier consumes CRT primes until prod(p) > 2*B for the rigorous " +
+                "permanent/row-sum l1 bound (l1_bounds() in the verifier; doc subsection 'Premise discharge'), " +
+                "making the symmetric-range reconstruction provably exact -- the N=7 base polynomials are PROOF " +
+                "grade. Eigensolver-free. " +
                 "Per R-sector over Z[lam, w=q^2]: S6 = strands x ONE irreducible core (strands sign-fixed on the " +
                 "strip, SYMBOL-proved norm-form shape); disc_Lam(F_res) = c * w^v * A1 * A2^2 with A1 (the simple " +
                 "layer) IRREDUCIBLE over Q in both sectors at both N (A2 irreducible exact at N=5, evidence at " +
@@ -963,7 +966,8 @@ public static class OpenArcsRegistry
                 "cross-sector gcd(Res_Lam(F_res_s, chi_other), A1_s) = 1 both directions AND the coincident-pair " +
                 "exclusion gcd(disc/w^v, psc1/w^v') = 1 (psc1 = first principal subresultant coeff of " +
                 "(F_res, dF_res/dlam); two double-lam roots at one w0 would force psc0 = psc1 = 0; this leg is " +
-                "free of the LAYER premise at both N, though at N=7 still downstream of the CRT grade) => S6 != 0 on the " +
+                "free of the LAYER premise at both N, hence unconditional at N=7 too since the base-grade " +
+                "discharge) => S6 != 0 on the " +
                 "entire simple layer => every forced count-drop (order >= 3 dead by DISCMULT; non-coincident " +
                 "order-2 classes drop no count; the coincident-EP2 pair dead by the psc1 leg; so all count-drops " +
                 "sit on A1) is a sqrt-type defective EP2 with s6 != 0; H1 " +

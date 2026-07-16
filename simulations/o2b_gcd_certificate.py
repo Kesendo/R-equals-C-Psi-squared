@@ -11,8 +11,10 @@ i -> N-1-i on the (1,2)-block states [(a,b) for a in C(N,2) for b in C(N,1)]):
      at N = 5 by EXACT integer Faddeev-LeVerrier at dim//2 + 1 integer u-nodes + exact
      interpolation over Z (a proof: deg_u <= dim and evenness make those nodes determining;
      the CRT route runs alongside and is asserted equal), at N = 7 by mod-p FLV + Newton
-     interpolation in u^2 + CRT (verification grade: stability-stopped with 3 slack primes,
-     re-verified at 2 extra u-nodes under 3 FRESH primes); both with sum_i adj_ii =
+     interpolation in u^2 + CRT (PROOF grade since 2026-07-16: primes consumed until
+     prod(p) > 2*B for the rigorous permanent/row-sum l1 bound B of l1_bounds(), making the
+     symmetric-range CRT provably exact; the stability stop with 3 slack primes and the
+     2 extra u-nodes under 3 FRESH primes stay as cross-checks); both with sum_i adj_ii =
      d chi/d lam exact, evenness in u structural + checked at the u = -1 node, and a 50-digit
      mpmath full-block adjugate check incl. S6_full = S6_E chi_O + S6_O chi_E;
   2. the split chi = AT * F_res (AT = the q-independent invariant-subspace strand factor, exact
@@ -64,11 +66,17 @@ Proof status of each layer (read this before citing):
     factors (lam+2) < 0 < (lam+6) by inspection), and the whole N = 5 disc inventory of
     item 3 (exact D, A1, A2 over Z with A1 mod p asserted to BE the mult-1 Yun layer at
     every certificate prime).
-  * CRT VERIFICATION-GRADE (N = 7 only): chi/S6/ST at N = 7 are reconstructed by
-    stability-stopped CRT (+3 slack primes, fresh-prime extra-node checks, the 50-digit
-    full-block adjugate check); a Hadamard coefficient bound would upgrade this to a proof
-    and is NOT done. Everything downstream at N = 7 (F_res, the disc layers, the psc_1 leg,
-    both gcd certificates, the seed checks) inherits this grade.
+  * BASE POLYNOMIALS AT N = 7: PROOF GRADE since 2026-07-16. chi/S6/S2/ST are reconstructed
+    by CRT with the prime pool consumed until prod(p) > 2*B, B the rigorous a-priori
+    permanent/row-sum l1 bound of l1_bounds() (validated from below at N = 5 against the
+    exact-Z coefficients). The symmetric-range CRT is then provably exact -- no stability
+    assumption left; the stability stop (+3 slack primes), fresh-prime extra-node checks and
+    the 50-digit full-block adjugate check remain as independent cross-checks. Everything
+    downstream at N = 7 (F_res, the disc layers, the psc_1 leg, both gcd certificates, the
+    seed checks) now rests on proof-grade base polynomials. (Historical: before 2026-07-16
+    this was stability-stopped only, verification grade -- the first of the two named N = 7
+    premises in F89_BETA_EXOTIC_GENERICITY.md's bookkeeping; it is DISCHARGED. The layer
+    identification premise below remains.)
   * PROVED OVER Q VIA A GOOD PRIME, given the base polynomials (a nontrivial Q-gcd of
     integer polynomials survives reduction mod any prime that preserves both degrees, by
     Gauss's lemma; F_res and chi are monic in lam, so Res_Lam commutes with reduction
@@ -77,10 +85,10 @@ Proof status of each layer (read this before citing):
     coincident-EP2 exclusion of item 3b (which uses only D itself, whose true Q2-degree the
     DISCMULT engine certified by Hadamard-bounded prime sampling, never the layer
     identification). Asserted at >= 3 primes although ONE good prime already proves each.
-    At N = 5 these are therefore unconditional; at N = 7 they sit on the CRT verification
-    grade above (the psc_1 leg is free of the layer premise below but still downstream of
-    the CRT-grade F_res).
-  * CERTIFIED MODULO A CONDITIONAL PREMISE (N = 7 only), ON TOP of the CRT grade: the
+    At N = 5 these are therefore unconditional; at N = 7 they now rest on the PROOF-grade
+    base polynomials above (since 2026-07-16), so the psc_1 leg, being also free of the
+    layer premise below, is unconditional at N = 7.
+  * CERTIFIED MODULO A CONDITIONAL PREMISE (N = 7 only), ON TOP of the base grade: the
     identification "mod-p mult-1 Yun layer = A1 mod p (up to scalar)". A bad prime can merge
     two roots of A1 into a square that Yun then books into the mult-2 layer: such a merge
     preserves the total degree, the valuation and max-mult <= 2 ((A1, A2) = (116, 209) over
@@ -90,7 +98,8 @@ Proof status of each layer (read this before citing):
     EVIDENCE, not a Q-proof. Consequently the N = 7 A1-irreducibility (subset-sum
     certificate: possible Q-factor degrees lie in every good prime's mod-p degree
     partition's subset sums, intersection {0, n}) and both N = 7 gcd conclusions of item 4
-    rest on BOTH the CRT verification grade AND this layer-identification premise. At N = 5
+    rest on this layer-identification premise alone (since 2026-07-16 the base polynomials
+    underneath are PROOF grade, so it is the single remaining N = 7 premise). At N = 5
     no premise remains: A1 and A2 are reconstructed exactly over Z and the mod-p layers are
     asserted to BE their reductions. The item-3b coincident-EP2 exclusion does not use the
     layer premise at either N.
@@ -361,6 +370,36 @@ def crt_stack(residues, primes):
     return x, M
 
 
+def l1_bounds(sec):
+    """Rigorous a-priori l1-coefficient bounds for chi, S6, S2, ST over Z[lam, u].
+
+    chi = det(lam I - D - uK) is a signed sum over permutations of entry products. The
+    l1 norm of coefficients (in the two variables lam, u) is submultiplicative on products
+    and subadditive on sums, so ||chi||_1 <= perm(Nmat), where Nmat_ab = ||entry_ab||_1:
+    the diagonal entry lam - D_a - u K_aa has l1 = 1 + |D_a| + |K_aa|, the off-diagonal
+    -u K_ab has l1 = |K_ab|. The permanent of a nonnegative matrix is bounded by the
+    product of its row sums, so ||chi||_1 <= prod_a rowsum_a with
+    rowsum_a = 1 + |D_a| + sum_b |K_ab|. Each adj diagonal entry adj_aa is the (a,a)
+    minor, so ||adj_aa||_1 <= prod_{a' != a} rowsum_{a'} (deleting a column only lowers
+    row sums). Hence ||S6||_1 <= sum_{a on the -6 rung} prod_{a' != a} rowsum_{a'}, and
+    likewise S2 (the -2 rung) and ST (all rows, |t_a| = 1). The u -> w = u^2 collection
+    merges no terms (all polys are even in u, asserted structurally by T K T = -K and
+    pinned by the u = -1 extra node), so the same numbers bound the (lam, w) coefficients,
+    and every single coefficient obeys |c| <= ||.||_1. These are exact Python ints."""
+    K, D = sec["K"], sec["D"]
+    dim = sec["dim"]
+    rowsums = [1 + abs(int(D[a])) + int(np.abs(K[a]).sum()) for a in range(dim)]
+    prod_all = 1
+    for s in rowsums:
+        prod_all *= s
+    minor = [prod_all // rowsums[a] for a in range(dim)]
+    b = dict(chi=prod_all,
+             S6=sum(minor[a] for a in range(dim) if int(D[a]) == -6),
+             S2=sum(minor[a] for a in range(dim) if int(D[a]) == -2),
+             ST=sum(minor))
+    return b
+
+
 def compute_exact_polys(label, sec, work_primes, check_primes, exact_over_Z=False):
     """chi, S6, S2, ST of the sector pencil D + uK as dicts {(j_desc, dw): int} in
     (lam, w = u^2).
@@ -371,9 +410,12 @@ def compute_exact_polys(label, sec, work_primes, check_primes, exact_over_Z=Fals
     integer FLV at those nodes + exact interpolation over Z is a proof, no CRT involved. The
     CRT route still runs and is asserted EQUAL, as a cross-check of the shared machinery.
 
-    Without (N = 7): VERIFICATION grade. Stability-stopped CRT (+3 slack primes), fresh-prime
-    extra u-nodes (+nw and -1, the latter pinning the odd-u part to zero); a Hadamard
-    coefficient bound would upgrade this to a proof and is not done here.
+    Without (N = 7): PROOF grade since 2026-07-16 -- the CRT prime pool is consumed until
+    prod(used primes) > 2 * B for the rigorous a-priori l1 bound B of l1_bounds() (the
+    permanent/row-sum bound), which makes the symmetric-range CRT reconstruction provably
+    exact; the stability stop (+3 slack primes) and the fresh-prime extra u-nodes (+nw and
+    -1, the latter pinning the odd-u part to zero) are kept as independent cross-checks.
+    (Before 2026-07-16 this path was verification grade: stability-stopped only, no bound.)
 
     Both paths assert tr adj = d chi/d lam exactly."""
     dim, K, D, t = sec["dim"], sec["K"], sec["D"], sec["t"]
@@ -401,13 +443,20 @@ def compute_exact_polys(label, sec, work_primes, check_primes, exact_over_Z=Fals
         return tuple(newton_interp_modp(wnodes, arr, p)
                      for arr in (chi_s, s6_s, s2_s, st_s))
 
+    bounds = l1_bounds(sec)
+    B_max = max(bounds.values())
+
     res = {nm: [] for nm in ("chi", "S6", "S2", "ST")}
     used, exact = [], {}
+    prodp = 1
     for p in work_primes:
         for nm, arr in zip(("chi", "S6", "S2", "ST"), samples_for(p)):
             res[nm].append(arr)
         used.append(p)
-        if len(used) >= 8 and len(used) % 4 == 0:
+        prodp *= p
+        # PROOF condition: symmetric-range CRT is exact once prod(primes) > 2*B (a-priori
+        # l1 bound). The stability stop stays as an independent cross-check on top.
+        if prodp > 2 * B_max and len(used) >= 8:
             ok = True
             for nm in ("chi", "S6", "S2", "ST"):
                 x_all, _ = crt_stack(res[nm], used)
@@ -419,9 +468,13 @@ def compute_exact_polys(label, sec, work_primes, check_primes, exact_over_Z=Fals
                 for nm in ("chi", "S6", "S2", "ST"):
                     exact[nm], _ = crt_stack(res[nm], used)
                 break
-    assert exact, f"CRT did not stabilize with {len(work_primes)} primes in sector {label}"
-    print(f"  [{label}] dim={dim}: CRT stable at {len(used)} primes "
-          f"(+3 slack asserted)  [{time.time() - t0:.1f}s]")
+    assert exact, f"CRT did not close with {len(work_primes)} primes in sector {label}"
+    assert prodp > 2 * B_max, "proof condition violated (unreachable: enforced in loop)"
+    print(f"  [{label}] dim={dim}: CRT at {len(used)} primes; PROOF condition "
+          f"prod(p) = 2^{prodp.bit_length() - 1} > 2*B = 2^{(2 * B_max).bit_length() - 1} "
+          f"(l1 bounds: chi 2^{bounds['chi'].bit_length() - 1}, S6 2^{bounds['S6'].bit_length() - 1}, "
+          f"S2 2^{bounds['S2'].bit_length() - 1}, ST 2^{bounds['ST'].bit_length() - 1}); "
+          f"stability +3 slack also asserted  [{time.time() - t0:.1f}s]")
 
     if exact_over_Z:                              # N = 5: exact integer FLV, proof grade
         t1 = time.time()
@@ -441,9 +494,13 @@ def compute_exact_polys(label, sec, work_primes, check_primes, exact_over_Z=Fals
             exZ = newton_interp_exact(wnodes, raw[nm])
             assert np.array_equal(exZ, exact[nm]), \
                 f"exact-Z FLV != CRT result for {nm} in sector {label}"
+            # from-below validation of the a-priori l1 bound against the exact coefficients
+            mx = max(abs(int(v)) for v in exZ.ravel())
+            assert mx <= bounds[nm], f"l1 bound violated by exact {nm} in sector {label}"
             exact[nm] = exZ
         print(f"  [{label}] exact integer FLV over Z at {nw} w-nodes: equals the CRT result "
-              f"(N=5 base polynomials PROOF grade)  [{time.time() - t1:.1f}s]")
+              f"(N=5 base polynomials PROOF grade); exact max|coeff| <= l1 bound validated "
+              f"for all four polys  [{time.time() - t1:.1f}s]")
 
     for p in check_primes:                        # fresh primes, extra u-nodes
         for u in extra_u:
@@ -1384,8 +1441,8 @@ def run(N):
 
     print(f"  Coincident-EP2 pairs excluded at every w != 0 (both sectors, psc_1 certificate)"
           + (", N=5 inventory exact over Z" if N == 5 else "") + ".")
-    qual = "" if N == 5 else (" (modulo the mod-p layer-identification premise + CRT "
-                              "verification grade of the base polynomials; see docstring)")
+    qual = "" if N == 5 else (" (modulo the mod-p layer-identification premise; the base "
+                              "polynomials are PROOF grade since 2026-07-16, see docstring)")
     print(f"\nO2B NONVANISHING CERTIFIED at N={N}: S6 != 0 on the entire simple disc layer "
           f"(all seeds), geometric multiplicity 1 full-block, s6 != 0 at every forced seed. "
           f"PASS{qual}  [{time.time() - t_start:.0f}s]")

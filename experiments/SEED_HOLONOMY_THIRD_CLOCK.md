@@ -95,7 +95,8 @@ the first two wired at X^⊗N = Π², the third free-standing wherever two eigen
 **Not decided (unchanged, correctly open elsewhere):** whether OUR seed is a generic
 √-type EP2 at every odd N is the β-exotic item of
 [the genericity note](F89_BETA_EXOTIC_GENERICITY.md) (settled N = 5 unconditionally,
-N = 7 modulo two premises). The third-clock statement is conditional on EP2-ness and
+N = 7 modulo the layer-identification premise; the second premise was discharged
+2026-07-16). The third-clock statement is conditional on EP2-ness and
 does not touch that question; the claim stays Tier 1 candidate for exactly that reason.
 
 ## Verification

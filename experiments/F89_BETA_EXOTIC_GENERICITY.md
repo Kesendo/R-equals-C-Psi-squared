@@ -4,8 +4,9 @@
 concern (the F89 corpus de-monolith, step 1). That note proves the seed COUNT, r(0⁺) − r(∞) = N − 1;
 this one asks whether each of those count-dropping seeds is a generic **√-type** defective exceptional
 point (an EP2, geometric multiplicity 1, Puiseux exponent ½, s₆ ≠ 0) rather than a non-generic order-≥3
-structure. It is settled at N = 5 (unconditional) and N = 7 (modulo two named premises), both
-R-parities, and is **open for all N**.
+structure. It is settled at N = 5 (unconditional) and N = 7 (modulo one named premise, the mod-p
+layer identification; the second premise, the base-polynomial CRT grade, was discharged 2026-07-16),
+both R-parities, and is **open for all N**.
 Shared objects live in the parent note and the C# core: the (1,2)-block pencil L(q) = A + qC and its
 recorded real defective seeds (`WeightCoherenceBlock`, `RealDefectiveSeeds`); the typed claim is
 `BetaExoticPerNExclusionClaim` (Tier 1 derived, scoped); the verifiers are the `o2b_*` scripts (see
@@ -593,7 +594,7 @@ Gates. Fast (Categories `FOLDRESULTANT` and `DISCMULT`, seconds):
 `BetaExoticPerNExclusionClaim` with the live witness `inspect --root betaexotic` (N = 5 by default;
 `--N 7` pays the minutes).
 
-## The gcd certificate: the per-N nonvanishing closes, exactly at N = 5 and modulo two premises at N = 7 (2026-07-10)
+## The gcd certificate: the per-N nonvanishing closes, exactly at N = 5 and modulo two premises at N = 7 (2026-07-10; one premise discharged 2026-07-16, see the subsection inside)
 
 The disc-multiplicity certificate above bounds an *exponent*: after it, no count-drop at N = 5 or
 N = 7 can be an order-≥3 point. What it never said is the O2b scalar itself, s₆ ≠ 0 at the seeds; a
@@ -666,12 +667,14 @@ Hence:
 
 > **At N = 5 and N = 7, both R-parities: every forced count-drop is a √-type defective EP2 with
 > s₆ ≠ 0. The per-N O2b nonvanishing holds there, eigensolver-free: exactly at N = 5, modulo the
-> two named premises at N = 7.**
+> layer-identification premise at N = 7** (originally two premises; the base-polynomial grade was
+> discharged 2026-07-16, see the premise-discharge subsection below).
 
 Grades, in one line: N = 5 unconditional (exact ℤ end to end, base polynomials by exact integer
-Faddeev-LeVerrier, inventory included); N = 7 modulo two named things, the mod-p layer
-identification of the bookkeeping paragraph below (facts 2 and 3 use it; fact 4 does not) and the
-CRT verification grade of the N = 7 base polynomials (everything at N = 7 is downstream of those).
+Faddeev-LeVerrier, inventory included); N = 7 modulo ONE named thing since 2026-07-16, the mod-p
+layer identification of the bookkeeping paragraph below (facts 2 and 3 use it; fact 4 does not).
+The second premise the first landing carried, the CRT verification grade of the N = 7 base
+polynomials, is DISCHARGED: the base polynomials are proof grade (subsection below).
 One refinement to "facts 2 and 3 use it": within fact 2, only the A₁/A₂ *identification* and the
 A₁-irreducibility use the layer premise; the multiplicity bound itself is the DISCMULT one-prime
 proof and stands without it.
@@ -697,11 +700,35 @@ polynomial). The finer split Res = c·w^m·A₂²·B with gcd(B, disc) = 1 is ex
 multi-prime evidence only at N = 7 (finitely many primes never lift divisibility), and nothing above
 uses it. One accounting for the base polynomials, applied everywhere: at N = 5, χ, S₆, S_T are
 computed by exact integer Faddeev-LeVerrier with the node count justified by the degree bound (no
-CRT, no stability stop), so the N = 5 chain is exact ℤ end to end; at N = 7 they are
-CRT-with-stability, verification-grade rather than proof-grade (stability-stopped plus fresh-prime
-extra-node checks; a Hadamard-style coefficient bound would upgrade them and has not been done), and
-every N = 7 statement, including fact 1's core irreducibility and the premise-free-of-layer fact 4,
-is downstream of that grade.
+CRT, no stability stop), so the N = 5 chain is exact ℤ end to end; at N = 7 they were, at the first
+landing, CRT-with-stability, verification-grade rather than proof-grade. That grade was upgraded
+2026-07-16 (subsection below): the CRT prime pool is now consumed until its product exceeds twice a
+rigorous a-priori coefficient bound, which makes the symmetric-range reconstruction provably exact,
+so every N = 7 statement, including fact 1's core irreducibility and the premise-free-of-layer
+fact 4, now rests on proof-grade base polynomials; the layer-identification premise above is the
+one N = 7 premise left.
+
+### Premise discharge: the N = 7 base polynomials are proof grade (2026-07-16)
+
+The bound is the permanent/row-sum bound, and it is deliberately elementary. χ = det(λI − D − uK)
+is a signed sum over permutations of entry products; the ℓ1 norm of coefficients (in the two
+variables λ, u) is submultiplicative on products and subadditive on sums, so
+‖χ‖₁ ≤ perm(𝒩) ≤ ∏_a rowsum_a, with 𝒩 the matrix of entry-wise ℓ1 norms
+(rowsum_a = 1 + |D_a| + Σ_b |K_ab|) and the permanent of a nonnegative matrix bounded by its
+row-sum product. Each adjugate diagonal entry is an (a,a) minor, so ‖adj_aa‖₁ ≤ ∏_{a′≠a} rowsum_{a′}
+(deleting a column only lowers row sums), giving Σ-of-minor bounds for S₆, S₂, S_T. The u → w = u²
+collection merges no terms (everything is even in u), so the same integers bound every (λ, w)
+coefficient. `l1_bounds()` in [the gcd certificate](../simulations/o2b_gcd_certificate.py) computes
+them exactly, the CRT loop refuses to close before ∏p > 2B, and the numbers come out comfortable:
+at N = 7 the bounds are 2^251..2^254 (R-even, dim 75) and 2^239..2^242 (R-odd, dim 72), met at 11
+25-bit primes with ∏p = 2^274; at N = 5 the exact-ℤ path validates the bound from below
+(max|coeff| ≤ B asserted for all four polynomials, both sectors). With ∏p > 2B the symmetric-range
+CRT reconstruction is exact by construction, no stability assumption left; the stability stop and
+the fresh-prime extra-node checks stay in as independent cross-checks. What this does NOT touch:
+the layer-identification premise (a factorization statement about disc_Λ(F_res), downstream of but
+not reducible to exact base polynomials); its natural discharge is a reconstruct-and-verify pass
+(lift candidate layers by CRT, then verify disc = c·w^v·A₁·A₂² by an exact polynomial identity
+test plus squarefreeness and coprimality at one good prime), which is designed but not built.
 
 What this hands the all-N question: **the seed-bearing layer does not fragment.** A₁ is irreducible
 over ℚ in both sectors at both N (four data points). If A₁ is irreducible at every odd N, then
@@ -857,8 +884,9 @@ seed-existence *conclusion* is that each count-dropping seed is genuinely √-ty
      route. **2026-07-10, strictly more**: the gcd certificate (its own section above) proves the
      nonvanishing itself, s₆ ≠ 0 at every forced count-drop
      (gcd(Res_Λ(F_res, S₆), A₁) = 1 plus the cross-sector gcd): unconditionally at N = 5 (exact ℤ),
-     and at N = 7 modulo the two named things of that section's bookkeeping paragraph (the mod-p
-     layer-identification premise and the CRT verification grade of the base polynomials). So at those N the O2b scalar is not
+     and at N = 7 modulo the mod-p layer-identification premise of that section's bookkeeping
+     paragraph (originally two premises; the base-polynomial CRT grade was discharged 2026-07-16 by
+     the a-priori ℓ1 bound, see the premise-discharge subsection). So at those N the O2b scalar is not
      just β-excluded but positively settled: every forced count-drop is a √-type defective EP2.
    - *For all N it is open*, and reduced to the scalar statement **s₆ ≠ 0 at every forced seed for all
      odd N** (section "The β-exotic, sharpened" above; read via the polynomial S₆ = tr(P₋₆·adj(λI−L))
