@@ -139,7 +139,9 @@ both gauges at every N. The coherence channel is never V-killed. The whole rule 
 
 The same honesty split as the layered form: the identity sharpened only the
 NECESSITY direction (forbidden ⟹ dead is derived); the ⟸ direction (everything
-allowed is alive) remains the gated observation.
+allowed is alive) remains the gated observation. (Since gated GENERICALLY, six
+random h directions per config, and refined at the axis's special points:
+[LATTICE_DEAD_SET_H_ZERO](LATTICE_DEAD_SET_H_ZERO.md).)
 
 **Where the collapsed form is load-bearing.** The layered form's global-stabilizer
 bookkeeping and the per-sector form agree on the whole battery above, and they
@@ -168,6 +170,9 @@ independent there. The three-layer story above stays as the honest discovery pat
   strings N = 2..6, T4 the collapsed per-sector rule incl. the N = 6 divergence and
   the binomial anatomy, T5 the zz boundary).
 - The question this closes: [LATTICE_H_THREAD](LATTICE_H_THREAD.md) §4.
+- The h axis walked: [LATTICE_DEAD_SET_H_ZERO](LATTICE_DEAD_SET_H_ZERO.md)
+  (sufficiency generic; at h = 0 the bi-degree refinement, one level below
+  this rule's mod-4 shadow).
 - The two composed mirrors: [PROOF_MIRROR_ORDER_SORTING](../docs/proofs/PROOF_MIRROR_ORDER_SORTING.md)
   (F131, X^N as its third sighting), [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md)
   (the chiral gauge), [PROOF_ANTILINEAR_TRIANGLE](../docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md)

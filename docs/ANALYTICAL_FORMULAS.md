@@ -5283,7 +5283,18 @@ matrix + moment level, no eigensolver (the composed mirror flips H, the flow
 symmetry on a generic matrix, the mod-4 identity on all 64 strings three ways, the
 automatic signs through N = 12, degree conservation, the FULL 63-string moment
 census for both preps, the zz fence); `knowledge ancestors DeadSetLawClaim` walks
-21 Tier-1-derived ancestors. **Not yet:** no hardware witness; no MirrorWorld
+21 Tier-1-derived ancestors. **The h axis, mapped (2026-07-16, same day):**
+sufficiency is GENERIC (six seeded random h directions per config, all exact,
+dead sets at machine zero), and at h = 0 the law refines: the Majorana hopping
+graph disconnects into two components (k mod 4 ∈ {0,3} vs {1,2}; the field is
+the only bridge), the bi-degree (d_E, d_O) is conserved, the rule collapses to
+"alive ⟺ bi-sector populated ∧ K-readable", and the bare chiral-conj symmetry
+V'_g = U_g·conj(·)·U_g is the mod-4 shadow of the bi-degree, one level below
+this law's ε_g(d) (ε_g/ε'_g = (−1)^(d_O), the component sign of X^N); uniform
+h keeps the h = 0 population channel and revives the coherence channel. Owner:
+[experiments/LATTICE_DEAD_SET_H_ZERO.md](../experiments/LATTICE_DEAD_SET_H_ZERO.md),
+gate [`lattice_dead_set_h_zero.py`](../simulations/lattice_dead_set_h_zero.py)
+(29 checks). **Not yet:** no hardware witness; no MirrorWorld
 adoption (waits for a second consumer; the collapsed one-liner is the adoptable
 face).
 
