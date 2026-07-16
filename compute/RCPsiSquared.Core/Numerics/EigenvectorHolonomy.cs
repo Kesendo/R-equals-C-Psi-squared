@@ -100,9 +100,11 @@ public static class EigenvectorHolonomy
                 var vj = BNorm(Col(vall, best, dim));
                 // Load-bearing, not cosmetic: BNorm's principal Complex.Sqrt(vᵀv) flips sign as vᵀv crosses
                 // its branch cut once per loop; fixing the ±1 by Euclidean (Hermitian) closeness to the
-                // previous step restores the continuous quarter-turn. This is what upgrades the mod-2
-                // eigenVALUE swap to the mod-4 (±i) eigenVECTOR frame. It corrects a ±1 only, so it sets the
-                // step-count requirement: the per-step phase must stay < π/2 (fails only very close to the EP).
+                // previous step restores the continuous quarter-turn. The mod-2 → mod-4 promotion itself
+                // comes from the vᵀv normalizer (√(vᵀv) ~ ε^{1/4}, see the class docstring); this sign-fix
+                // only preserves step-to-step continuity so the numerics reveal that branch instead of
+                // hiding it behind the cut. It corrects a ±1 only, so it sets the step-count requirement:
+                // the per-step phase must stay < π/2 (fails only very close to the EP).
                 Complex herm = Complex.Zero;
                 for (int i = 0; i < dim; i++) herm += Complex.Conjugate(prev[i, t]) * vj[i];
                 if (herm.Real < 0) for (int i = 0; i < dim; i++) vj[i] = -vj[i];

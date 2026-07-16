@@ -11,10 +11,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// already computes: this is the eigenVECTOR-phase half nobody had tracked.
 ///
 /// <para>It SHARES the order-4 (Z₄) structure of the algebraic i⁴ = 1 memory loop (the Pi2 Z₄ /
-/// NinetyDegreeMirrorMemory) — a noted correspondence, NOT a derived identity: both are order-4 / ±i, but the
-/// monodromy generator (a parameter-space parallel transport around the EP) is not shown to equal, or be
-/// induced by, the algebraic M-spectrum Z₄. Gauge note: ±i / mod-4 is the biorthogonal-gauge reading; the
-/// gauge-invariant content is the swap (a Hermitian gauge gives only the mod-2 ±1 swap).</para>
+/// NinetyDegreeMirrorMemory) — a correspondence DECIDED 2026-07-16 (the third-clock control,
+/// experiments/SEED_HOLONOMY_THIRD_CLOCK.md): the holonomy Z₄ is NOT Π's Z₄ and not the Clifford-degree
+/// mod-4 — it is generic EP2 geometry. A random complex-symmetric pencil with no palindrome, chain, or
+/// Clifford structure carries the identical ±i / M₂=−I / M₄=+I signature (simulations/seed_holonomy_generic.py:
+/// 5/5 random pencils plus a disguised deterministic EP2, machine-zero residuals, √ε gap slope 0.500; C# pin
+/// <c>EigenvectorHolonomyTests.DisguisedPiFreeEP2_SameMod4Holonomy_TheThirdClockIsGeneric</c>). What the clocks
+/// share is the scalar i alone (see experiments/ONE_FOUR_THESIS.md). Gauge note: ±i / mod-4 is the
+/// biorthogonal-gauge reading; the gauge-invariant content is the swap (a Hermitian gauge gives only the
+/// mod-2 ±1 swap; gated as the scout's gauge-contingency control).</para>
 ///
 /// <para>Tier1Candidate: strong, ε-stable, independently re-verified numerics (a fresh cut confirmed
 /// M₁~90°-rotation, M₂=−I, M₄=I at the N=9 seed in the R=+1 sector; the live witness reproduces it, using
@@ -63,9 +68,12 @@ public sealed class SeedHolonomyClaim : Claim
                          "the mod-2 swap to the mod-4 ±i frame. The gauge-invariant content is the swap; ±i/mod-4 " +
                          "is the vᵀv-gauge reading.");
             yield return new InspectableNode(
-                "the correspondence (noted, not derived)",
-                summary: "shares the order-4/±i shape with the algebraic Pi2 Z₄ (NinetyDegreeMirrorMemory) and " +
-                         "with F86's EP-through-the-clock reading; a resonance we record, not a proven identity.");
+                "the correspondence (decided: the third clock)",
+                summary: "shares the order-4/±i shape with the algebraic Pi2 Z₄ (NinetyDegreeMirrorMemory), but " +
+                         "is NOT it: a Π-free random complex-symmetric EP2 carries the identical holonomy " +
+                         "(experiments/SEED_HOLONOMY_THIRD_CLOCK.md, 2026-07-16), so the mod-4 here is generic " +
+                         "EP2 geometry — a third clock wound by the same scalar i, beside Π's spectral Z₄ and " +
+                         "the Clifford-degree mod-4 (experiments/ONE_FOUR_THESIS.md).");
             yield return new InspectableNode(
                 "the reading (whose it is)",
                 summary: "the eigenvectors — the turning half, the residue — rotate 90° per loop around the EP " +

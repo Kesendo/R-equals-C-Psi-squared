@@ -128,7 +128,9 @@ The seed holonomy (anchor 3) is the single remaining literal M² = −I in the r
 derived identity". The holonomy's mod-4 is moreover gauge-contingent (it lives in the
 biorthogonal vᵀv gauge; a Hermitian gauge sees only the mod-2 swap). Whether that
 third four is Π's, the Clifford's, or a third clock on the same i remains open; this
-document does not decide it.
+document does not decide it. (Decided the same day, in the third direction: a Π-free
+random complex-symmetric EP2 carries the identical holonomy, so it is generic EP2
+geometry, a third clock on the same i: [the third clock](SEED_HOLONOMY_THIRD_CLOCK.md).)
 
 ## Verification
 
