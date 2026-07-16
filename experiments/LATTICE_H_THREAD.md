@@ -55,8 +55,9 @@ For an X-odd DIAGONAL readout the two mirrors then disagree: the X mirror demand
 face of the second mirror is gated exactly; the full parity rule deciding which
 OFF-diagonal strings die (48/63 at N = 3 on this prep) is OBSERVED, not derived.
 RESOLVED same day: the closed rule exists and has THREE layers (popcount blocks, the
-composed-mirror kill, fermion degree), derived and gated in
-[LATTICE_DEAD_SET_RULE](LATTICE_DEAD_SET_RULE.md).
+composed-mirror kill, fermion degree), which then collapse to a single fermionic
+criterion (alive ⟺ block-readable ∧ d ≡ 0 mod 4, or the coherence channel at d = N),
+derived and gated in [LATTICE_DEAD_SET_RULE](LATTICE_DEAD_SET_RULE.md).
 
 ## Boundary
 

@@ -37,6 +37,24 @@ the gated observation):
      with a popcount-2 seed, where the 2N Jordan-Wigner-linear strings (d = 1) and
      their Gamma-duals (d = 2N-1) slip through K and V and are dead by F alone.
 
+  THE MOD-4 SHADOW (T3/T4, the sharpened form): V's kill sign is a pure function of
+  the Majorana degree, N-free: eps_odd-gauge = (-1)^(d(d-1)/2) and eps_even-gauge =
+  (-1)^(d(d+1)/2) (see eps_degree for the one-paragraph derivation; checked against
+  the letter formula AND direct matrix conjugation for all strings, N = 2..6). In
+  this language V_g is ALWAYS a symmetry; the prep splits into V-eigen-sectors
+  (population +1 under both gauges, coherence (-1)^|g|), each sector's contribution
+  to <O> dies unless eps_g matches the sector sign for both g, and at d = N the
+  coherence signs match AUTOMATICALLY (both N parities). The whole rule collapses to
+
+      alive  iff  (K_pop and d = 0 mod 4)  or  (coherence and K_coh and d = N)
+
+  (necessity derived; sufficiency, as everywhere in this gate, is the gated
+  observation). The global-stabilizer form above is the special case where the readable sectors
+  share their signs; the two forms diverge at N = 2 mod 4 with coherence (no gauge
+  stabilizes globally: at N = 6 the global form over-predicts 2047 alive vs the
+  actual 1055, the collapsed form stays exact). Alive-by-degree counts come out as
+  binomial coefficients cut by kinematics (asserted via math.comb).
+
   Boundary (zz control): with a ZZ coupling the chiral gauge no longer flips H
   (kills V) and H is quartic (kills F); layer K persists, and the one fermionic
   survivor is the conserved parity Z^N, whose expectation starts (and stays) 0 for
@@ -44,8 +62,9 @@ the gated observation):
   layer K; at N = 3 (pop) it is layer K plus {ZZZ}.
 
 Exactness = predicted set == alive set over the full 4^N - 1 census, per config.
-Runtime ~2 min. Scout history: five local scouts (the candidate rule of the
-2026-07-16 handover falsified as stated, then rebuilt as layer V of this rule).
+Runtime ~5 min (the N = 6 censuses dominate). Scout history: seven local scouts (the
+candidate rule of the 2026-07-16 handover falsified as stated, then rebuilt as layer
+V; the mod-4 shadow conjectured from the Majorana bookkeeping, then pinned exactly).
 """
 import sys
 from itertools import product
@@ -65,6 +84,17 @@ def check(name, ok, detail):
     print(f"  [{'PASS' if ok else 'FAIL'}] {name}: {detail}")
     if not ok:
         FAILURES.append(name)
+
+
+def eps_degree(d, gauge):
+    """The mod-4 shadow, exact: eps_odd = (-1)^(d(d-1)/2), eps_even = (-1)^(d(d+1)/2).
+    N-free. Derivation: X^N sends a_2l -> (-1)^l a_2l, a_2l+1 -> (-1)^(l+1) a_2l+1;
+    conj fixes a_2l and flips a_2l+1; U_g flips both Majoranas of the sites in g. The
+    combined per-site sign is (-1)^(l + [l in g]): uniformly -1 for the even-sites
+    gauge, uniformly +1 for the odd-sites gauge. A Hermitian degree-d string is
+    (+-) i^(d(d-1)/2) times an ordered Majorana monomial, and the antilinear map
+    conjugates that phase to a sign. Hence eps_g = (-1)^(d(d-1)/2) * sigma_g^d."""
+    return (-1) ** ((d * (d - 1)) // 2) if gauge == "odd" else (-1) ** ((d * (d + 1)) // 2)
 
 
 def majorana_degree(name):
@@ -222,6 +252,74 @@ def run_config(N, seed, coh_kind, gammas, zz, label, use_f=True):
     return rows
 
 
+def t4_mod4_identity(maxN=6):
+    """Check eps_letters == eps_degree == the direct matrix conjugation, ALL strings."""
+    worst_bad = 0
+    total = 0
+    for N in range(2, maxN + 1):
+        D = 2 ** N
+
+        def op(single, site):
+            ops = [s0] * N
+            ops[site] = single
+            out = ops[0]
+            for o in ops[1:]:
+                out = np.kron(out, o)
+            return out
+
+        XN = op(sx, 0)
+        for site in range(1, N):
+            XN = XN @ op(sx, site)
+        W = {}
+        for gname, par in (("even", 0), ("odd", 1)):
+            U = np.eye(D, dtype=complex)
+            for l in range(N):
+                if l % 2 == par:
+                    U = U @ op(sz, l)
+            W[gname] = U @ XN
+        for letters in product("IXYZ", repeat=N):
+            name = "".join(letters)
+            O = op(PAULI[letters[0]], 0)
+            for site in range(1, N):
+                O = O @ op(PAULI[letters[site]], site)
+            d = majorana_degree(name)
+            nz = sum(1 for ch in name if ch == "Z")
+            for gname, par in (("even", 0), ("odd", 1)):
+                xy_g = sum(1 for l, ch in enumerate(name) if ch in "XY" and l % 2 == par)
+                e_let = (-1) ** (nz + xy_g)
+                e_deg = eps_degree(d, gname)
+                Wm = W[gname]
+                res = float(np.max(np.abs((Wm @ O @ Wm.conj().T).conj() - e_deg * O)))
+                total += 1
+                if e_let != e_deg or res > 1e-12:
+                    worst_bad += 1
+    return worst_bad, total
+
+
+def run_collapsed(N, seed, coh_kind, gammas, label, expect_hist):
+    """The per-sector (collapsed fermionic) rule:
+    alive iff (K_pop and d = 0 mod 4) or (coherence and K_coh and d = N)."""
+    rows, stab, v_worst = census(N, seed, coh_kind, gammas, 0.0)
+    ps, pt = bin(seed).count("1"), N - bin(seed).count("1")
+    sup_pop = {(ps, ps), (pt, pt)}
+    sup_coh = {(ps, pt), (pt, ps)}
+    coh = coh_kind is not None
+    pred_alive = set()
+    hist = {}
+    for name, alive, mag, k_ok, v_ok, f_ok, d, w in rows:
+        pred = (block_readable(N, w, sup_pop) and d % 4 == 0) or \
+               (coh and block_readable(N, w, sup_coh) and d == N)
+        if pred:
+            pred_alive.add(name)
+        if alive:
+            hist[d] = hist.get(d, 0) + 1
+    alive = {r[0] for r in rows if r[1]}
+    check(label, pred_alive == alive and hist == expect_hist,
+          f"alive {len(alive)}/{len(rows)}, collapsed-rule predicted {len(pred_alive)}, "
+          f"alive-by-degree {dict(sorted(hist.items()))}")
+    return rows
+
+
 def main():
     print("T1  the rule is exact, free world (XY + field), full censuses")
     one3, one4, one5 = [0.0, 0.0, 0.5], [0.0] * 3 + [0.5], [0.0] * 4 + [0.5]
@@ -256,7 +354,42 @@ def main():
           "ZII: k_ok, d=2 (F allows), eps=-1 (V kills), dead: the doubly-mirrored "
           "zero of the h thread, now one cell of the closed rule")
 
-    print("T3  the zz boundary: V and F are properties of the free world")
+    print("T3  the mod-4 shadow: eps is a pure function of Majorana degree, N-free")
+    bad, total = t4_mod4_identity(6)
+    check("eps_letters == eps_degree == matrix conjugation, all strings N=2..6",
+          bad == 0, f"{total} (string, gauge) pairs, {bad} mismatches; "
+          "eps_odd=(-1)^(d(d-1)/2), eps_even=(-1)^(d(d+1)/2)")
+
+    print("T4  the collapsed per-sector rule (V_g always a symmetry; the prep splits "
+          "into V-eigen-sectors; at d=N the coherence channel's signs are automatic)")
+    one6 = [0.0] * 5 + [0.5]
+    run_collapsed(5, 3, "real", one5, "N=5 s=3 coherence via the collapsed rule",
+                  {4: 210, 5: 252, 8: 45})
+    run_collapsed(6, 1, None, one6, "N=6 population via the collapsed rule",
+                  {4: 255, 8: 255, 12: 1})
+    r6 = run_collapsed(6, 1, "real", one6,
+                       "N=6 coherence via the collapsed rule (N=2 mod 4: no gauge "
+                       "stabilizes globally, the per-sector form still exact)",
+                       {4: 255, 6: 544, 8: 255, 12: 1})
+    # the honest divergence pin: the GLOBAL-stabilizer form of the rule (T1's) is
+    # blind here (stab=[] with coherence at N=2 mod 4) and over-predicts
+    global_pred = {r[0] for r in r6 if r[3] and r[4] and r[5]}
+    alive6 = {r[0] for r in r6 if r[1]}
+    check("the global-stabilizer form genuinely diverges at N=6 coherence",
+          alive6 < global_pred,
+          f"global form predicts {len(global_pred)} alive, actual {len(alive6)}: "
+          "the per-sector refinement is load-bearing, not cosmetic")
+    # binomial anatomy of the histograms (comb ties, not literals)
+    from math import comb
+    check("alive-by-degree counts are binomials cut by kinematics",
+          210 == comb(10, 4) and 252 == comb(10, 5) and 45 == comb(10, 8)
+          and 255 == comb(12, 4) - comb(6, 4) * 2 ** 4
+          and 544 == comb(12, 6) - comb(6, 3) - comb(6, 2) * 4 * comb(4, 2)
+          and 1 == comb(12, 12),
+          "N=5 s=3: C(10,4)+C(10,5)+C(10,8); N=6: C(12,4)-240 (w=4 caps unreadable), "
+          "C(12,6)-20-360 (w<4 cannot reach the coherence blocks), C(12,12)=Z^N")
+
+    print("T5  the zz boundary: V and F are properties of the free world")
     rows3, _, _ = census(3, 1, None, one3, 0.7)
     dead3 = {r[0] for r in rows3 if not r[1]}
     k_dead3 = {r[0] for r in rows3 if not r[3]}
@@ -276,7 +409,9 @@ def main():
         print(f"GATE FAIL: {FAILURES}")
         return 1
     print("GATE PASS: the dead set is closed by the three conserved structures "
-          "(popcount blocks, the doubly-mirrored kill, fermion degree); with zz the "
+          "(popcount blocks, the doubly-mirrored kill, fermion degree), and the "
+          "sharpened per-sector form collapses them to one fermionic line: alive iff "
+          "(K_pop and d = 0 mod 4) or (coherence and K_coh and d = N); with zz the "
           "V and F layers collapse and only the blocks plus conserved parity remain.")
     return 0
 

@@ -1,7 +1,7 @@
 # The dead-set rule: three conserved structures close the h thread's open question
 
-**Date:** 2026-07-16 (the h thread picked back up the same day)
-**Status:** verified from below. Gate: [`simulations/lattice_dead_set_rule.py`](../simulations/lattice_dead_set_rule.py) (15 checks, all PASS, exit 0).
+**Date:** 2026-07-16 (the h thread picked back up the same day; the mod-4 shadow derived the same session)
+**Status:** verified from below. Gate: [`simulations/lattice_dead_set_rule.py`](../simulations/lattice_dead_set_rule.py) (21 checks, all PASS, exit 0).
 **Where it came from:** [LATTICE_H_THREAD](LATTICE_H_THREAD.md) §4 left one question open: of the 63 Pauli readouts on the h-scan setup, 48 are identically zero at every h, the diagonal deaths were proven (the doubly-mirrored zeros), but the rule deciding which OFF-diagonal strings die was observed, not derived. The overnight handover carried a hand-spotted candidate rule (alive iff n_Z ≡ #{X/Y letters on the gauge sublattice} mod 2) with an explicit warning not to trust it. The warning was right: the candidate as stated is falsified by the population prep at N = 3 and N = 4. Rebuilt from mechanism, it turns out to be one of THREE layers, and the three together are exact everywhere we tested.
 
 ## The setup
@@ -16,7 +16,10 @@ a readout O is ALIVE if ⟨O⟩(t) is not identically zero over the scan, DEAD o
 
 A Pauli readout O (n_Z Z-letters, XY-mask of weight w) is alive iff it passes all
 three layers. Each necessity is an exact conservation or symmetry argument; the joint
-sufficiency (everything not forbidden is alive) is the gated observation.
+sufficiency (everything not forbidden is alive) is the gated observation. The three
+layers are the discovery path; the section on the mod-4 shadow below collapses them
+into a single fermionic criterion that also covers the one prep family the layered
+form misses.
 
 **K, the popcount blocks.** H conserves total popcount at every h and the dephasing
 mask moves no matrix element, so ρ(t) is supported exactly on the (p, q) popcount
@@ -97,19 +100,73 @@ So V and F are properties of the FREE world; the two headwork lessons of the h t
 repeated here in one day: the candidate rule was falsified as stated before it was
 rebuilt, and my "V survives zz" guess died on the same data that killed it.
 
-## Redundancy structure (why the layers hid from each other)
+## The mod-4 shadow, derived: the rule collapses to one line
 
-On the odd-w sector, where F applies, ε_even·ε_odd = (−1)^w = −1, so at most one
-gauge condition is independent there, and the surviving one appears to be the mod-4
-shadow of the exact degree; that is why F stayed invisible until a Δ = ±1 coherence
-seed let odd-w strings through K at degrees far from N. On the even-w sector F is
-silent (every even degree is fed by the populations) and V does the killing. K is the
-only layer that survives interactions. None of the three subsumes another.
+The first landing of this doc noted that V "appears to be the mod-4 shadow" of the
+exact degree. Chasing that sentence gave the exact identity, and the identity
+collapsed the whole rule.
+
+**The identity (N-free, every Pauli string, both gauges).** V's kill sign is a pure
+function of the Majorana degree:
+
+    ε_odd-gauge(O) = (−1)^(d(d−1)/2),   ε_even-gauge(O) = (−1)^(d(d+1)/2),
+
+i.e. the odd-sites gauge kills exactly d ≡ 2, 3 (mod 4) and the even-sites gauge
+kills exactly d ≡ 1, 2 (mod 4). Derivation, one paragraph: X^N sends a_2l ↦ (−1)^l
+a_2l and a_2l+1 ↦ (−1)^(l+1) a_2l+1 (the tail collects one sign per site below);
+conjugation fixes the real a_2l and flips the imaginary a_2l+1; U_g flips both
+Majoranas of every site in g. The combined per-SITE sign is (−1)^(l + [l∈g]),
+uniformly −1 for the even-sites gauge and uniformly +1 for the odd-sites gauge; and
+a Hermitian degree-d string is ±i^(d(d−1)/2) times an ordered Majorana monomial,
+whose phase the antilinear map conjugates to the sign (−1)^(d(d−1)/2). Gated
+three ways at once (letter formula == degree formula == direct matrix conjugation)
+over all 4^N strings × both gauges, N = 2..6: 10912 pairs, zero mismatches.
+
+**The per-sector refinement.** In this language the stabilizer bookkeeping dissolves:
+V_g is ALWAYS a symmetry of the flow; what varies is how the prep decomposes. The
+population part and the coherence part live in disjoint, flow-invariant block
+classes, and each is separately a V_g eigenvector: population with sign +1 (both
+gauges), coherence with sign (−1)^|g|. Each sector's contribution to ⟨O⟩ dies unless
+ε_g(O) matches the sector's sign for BOTH gauges. For the population sector that
+demands ε_even = ε_odd = +1, which by the identity is exactly d ≡ 0 (mod 4). For the
+coherence sector at d = N the required signs hold AUTOMATICALLY: the identity gives
+ε_odd = (−1)^(N(N−1)/2) = (−1)^⌊N/2⌋ and ε_even = (−1)^(N(N+1)/2) = (−1)^⌈N/2⌉, and
+⌊N/2⌋, ⌈N/2⌉ are exactly the sizes of the two sublattices, so ε_g = (−1)^|g| for
+both gauges at every N. The coherence channel is never V-killed. The whole rule collapses to one line:
+
+    alive  ⟺  (mask connects a populated diagonal block ∧ d ≡ 0 mod 4)
+              ∨ (coherence on ∧ mask connects the coherence blocks ∧ d = N).
+
+The same honesty split as the layered form: the identity sharpened only the
+NECESSITY direction (forbidden ⟹ dead is derived); the ⟸ direction (everything
+allowed is alive) remains the gated observation.
+
+**Where the collapsed form is load-bearing.** The layered form's global-stabilizer
+bookkeeping and the per-sector form agree on the whole battery above, and they
+DIVERGE at N ≡ 2 (mod 4) with coherence: there both sublattices have odd size, no
+V_g fixes ρ(0) globally, and the layered form imposes no V constraint at all. Gated
+at N = 6 (s = 1, real coherence, one-sided watching, full 4095-census; the necessity
+arguments are watching-profile-independent and the full-profile face is gated at
+N = 5): the global form over-predicts 2047 alive; the actual set is 1055; the
+collapsed form is exact. The alive-by-degree
+counts come out as binomial coefficients cut by kinematics, e.g. at N = 6 coherence
+{d=4: 255, d=6: 544, d=8: 255, d=12: 1} = {C(12,4) − 240, C(12,6) − 380, C(12,8) −
+240, C(12,12)}, and at N = 5 s = 3 coherence the full degree-5 sector C(10,5) = 252
+is alive. (The d = 12 survivor at N = 6 is Γ = Z^⊗N itself, constant and nonzero at
+even N.)
+
+**What remains of the layer picture.** K is untouched (and is the only piece that
+survives interactions); F's exact-degree conservation now carries V's mod-4 kill as
+its coarser shadow, the two meeting in one criterion; on the odd-w sector
+ε_even·ε_odd = (−1)^w = −1 explains why at most one gauge condition ever looked
+independent there. The three-layer story above stays as the honest discovery path.
 
 ## Files
 
 - Gate: [`simulations/lattice_dead_set_rule.py`](../simulations/lattice_dead_set_rule.py)
-  (T1 ten full censuses, T2 per-layer witnesses, T3 the zz boundary).
+  (T1 ten full censuses, T2 per-layer witnesses, T3 the mod-4 identity over all
+  strings N = 2..6, T4 the collapsed per-sector rule incl. the N = 6 divergence and
+  the binomial anatomy, T5 the zz boundary).
 - The question this closes: [LATTICE_H_THREAD](LATTICE_H_THREAD.md) §4.
 - The two composed mirrors: [PROOF_MIRROR_ORDER_SORTING](../docs/proofs/PROOF_MIRROR_ORDER_SORTING.md)
   (F131, X^N as its third sighting), [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md)
