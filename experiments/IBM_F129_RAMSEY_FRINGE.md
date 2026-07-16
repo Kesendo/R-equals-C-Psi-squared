@@ -422,7 +422,9 @@ green, Tom's explicit go). A local power failure killed the waiting process
 mid-queue; the job was unaffected (0 QPU s at reconnect) and the results were
 fetched by the submit-record job ID through the runner's --recover path, counts
 persisted before any reduction
-(results_f129/f129_flight_20260715_222348.json, external pipeline).
+([`data/ibm_f129_ramsey_fringe_july2026/`](../data/ibm_f129_ramsey_fringe_july2026/),
+the persisted counts + submit record; written by the external pipeline as
+`results_f129/f129_flight_20260715_222348.json`).
 
 **Measured (the committed §5 estimator on the persisted counts):**
 
