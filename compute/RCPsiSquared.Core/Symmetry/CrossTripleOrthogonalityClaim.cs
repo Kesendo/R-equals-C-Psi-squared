@@ -83,6 +83,11 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
     public const int F129MSplitMiddleImpossible = 0;
     public const int F129MSplitFixedVertexR5 = 60;
 
+    /// <summary>F133: the number of symplectic Weyl characters χ^{C₆}_λ in the closed form of the
+    /// F128 cofactor W (K = 2⁻³⁰·Σ_λ n_λ·χ^{C₆}_λ), all with |n_λ| ≤ 8 (Σ|n_λ| = 359).</summary>
+    public const int F133CharacterTerms = 143;
+    public const int F133MaxCoefficient = 8;
+
     public CrossTripleOrthogonalityClaim(SeedExistenceCountingClaim seedExistence)
         : base("F127 cross-triple orthogonality: the six-angle cross form 𝔉 ≡ 0 on the Conway-Jones double-constraint variety V, N-free, proved over ℚ(i) by the 527/527 grid+CRT wall (17 primes, realness guard ⇒ ∏p > 2H sound); the assembly (D) identifying 𝔉 with the Heff cross-block is symbolic since 2026-07-14, so the full-spectrum twinning is proof grade over ℚ(i) at every resonant N. Tier1Candidate for one named reason: the code-trust layer (single bespoke implementations); the live C# witness recomputes an independent GF(p) variety slice with an off-variety control",
                Tier.Tier1Candidate,
@@ -96,6 +101,8 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
                "simulations/f129_family_inventory.py + " +
                "docs/proofs/PROOF_F129_FAMILY_INVENTORY_COUNTS.md + " +
                "experiments/F129_FAMILY_INVENTORY.md + " +
+               "docs/proofs/PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md + " +
+               "simulations/f133_w_closed_form.py + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/CrossTripleOrthogonalityWitness.cs (inspect --root crosstriple)")
     {
         SeedExistence = seedExistence ?? throw new ArgumentNullException(nameof(seedExistence));
@@ -168,6 +175,18 @@ public sealed class CrossTripleOrthogonalityClaim : Claim
                     "the exact Lemma-3 sign Ê⁺ = ε·Ê⁻ on every pair " +
                     "(docs/proofs/PROOF_F130_COLLISION_DECOUPLING.md, " +
                     "simulations/f130_collision_decoupling.py, registry F130)");
+            yield return new InspectableNode("F133, the symplectic closed form of W (2026-07-17)",
+                summary: "the F128 cofactor W is written out: W = −2⁹·(Π sin x_u)·V_c(a)·V_c(b)·K/SP with " +
+                    $"K = 2⁻³⁰·Σ_λ n_λ·χ^{{C₆}}_λ, exactly {F133CharacterTerms} symplectic (Sp(12)) Weyl " +
+                    $"characters, |n_λ| ≤ {F133MaxCoefficient} (Σ|n_λ| = 359). The 143 integers are read off " +
+                    "with no fit: X = Δ̂·Π_{31 sheets} sin(s_L) is S₆-alternating, so n_raw(λ) = " +
+                    "Σ_ε sgn(ε)[X]_{ε∘2(λ+ρ)} = 2·n_λ (meet-in-the-middle, P₁ = 590016 · P₂ = 5817 monomials); " +
+                    "the sin-s lemma 𝒪[sin s·Δ̂] ≡ 0 and the C₆ Weyl denominator fix the constants (the 2³⁰ " +
+                    "derived, not fitted). The witness recomputes the sin-s lemma exactly over ℤ, spot-checks " +
+                    "the read-off vs the embedded 143-term table, and certifies C₆·SP = 2⁻⁵(2i)⁻⁴⁶Σ n_λ A_{λ+ρ} " +
+                    "over GF(p) with a corruption control; the full 557-λ read-off + aggregate checksums are the " +
+                    "tests (docs/proofs/PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md, simulations/f133_w_closed_form.py, " +
+                    "registry F133)");
             yield return new InspectableNode("Remaining caveat",
                 summary: "only the code-trust layer: the wall and these witness slices are bespoke implementations with " +
                     "internal cross-checks; the three proofs (wall + residue collapse + F128 factorization) pairwise " +

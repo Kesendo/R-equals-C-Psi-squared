@@ -5034,9 +5034,10 @@ factorization at generic GF(p) points with LHS/RHS on disjoint code paths and a 
 control (`CertifyF128FactorizationSlice`), and the 𝔉-scoped sharper locus {Σcos a = Σcos b ≠ 0},
 one constraint, no sheet, beside the T-scoped slice (`CertifyF128SharperLocusSlice`); tests
 `dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality` (14 at
-landing; 23 since the F129/F130 layer joined the same suite 2026-07-14 night). **New open lead:** the cofactor
-W = 𝒪[cos s · cot s · V_aV_b/P] is now the whole content of 𝔉 up to the explicit prefactor;
-its own closed form is the natural next question, nothing claimed here.
+landing; 23 since the F129/F130 layer joined the same suite 2026-07-14 night). **The cofactor's
+closed form:** W = 𝒪[cos s · cot s · V_aV_b/P] is the whole content of 𝔉 up to the explicit
+prefactor; its closed form is F133 (below, 2026-07-17): a symplectic character sum over
+Sp(12), 143 integer coefficients.
 
 ### F129. The level-collision law: the triple level map is injective away from 3|n and 10|n (structural proof 2026-07-14 late, Lam-Leung + elementary; the named corner closed 2026-07-15 via the Poonen-Rubinstein classification, now unconditional; minted 2026-07-14)
 
@@ -5308,6 +5309,59 @@ gate [`lattice_dead_set_zz_face.py`](../simulations/lattice_dead_set_zz_face.py)
 (12 checks). **Not yet:** no hardware witness; no MirrorWorld
 adoption (waits for a second consumer; the collapsed one-liner is the adoptable
 face).
+
+### F133. The symplectic closed form of the cofactor W: the cross form written out in Sp(12) characters (derived exactly over ℤ 2026-07-17; minted 2026-07-17)
+
+F128 left one opaque object, the cofactor W = 𝒪[cos s · cot s · V_aV_b/P] (the whole
+content of 𝔉 up to the prefactor −(e₁−f₁)²). Its closed form, as an identity of
+rational functions of the six angles x = (a₁,a₂,a₃,b₁,b₂,b₃), with c_u = cos x_u:
+
+    W = −2⁹ · (Π_u sin x_u) · V_c(a) · V_c(b) · K(c) / SP(x),
+    K = 2⁻³⁰ · Σ_λ n_λ · χ^{C₆}_λ,
+
+where V_c(a) = Π_{i<j}(cos a_i − cos a_j) (V_c(b) likewise), SP = the product of the
+32 canonical sheet sines sin(L·x/2), χ^{C₆}_λ = the Weyl characters of Sp(12) at
+z_u = e^{i x_u}, and the sum runs over exactly 143 partitions (≤ 6 parts, even
+|λ| ≤ 18 down to λ = ∅, λ₁+λ₂ ≤ 10) with integer coefficients n_λ, |n_λ| ≤ 8
+(65 of 143 are ±1; as a polynomial K has monomial degrees 6..18 only, the
+low-degree characters cancel)
+(committed: [chiC_coeffs.txt](../simulations/results/f133_w_closed_form/chiC_coeffs.txt);
+the same K as 190 dyadic monomial-symmetric terms in
+[m_coeffs.txt](../simulations/results/f133_w_closed_form/m_coeffs.txt)). With F128 the
+cross form is fully explicit: 𝔉 = +2⁹·(e₁−f₁)²·(Π sin x_u)·V_c(a)V_c(b)·K/SP; its
+only nontrivial content is the 143 integers.
+
+**Chain (each step exact):** the P·P̃ escape clears the cross denominator; the sin-s
+lemma 𝒪[sin s·Δ̂] ≡ 0 (the flip lemma's cousin, exact over ℤ) reduces W to the core
+𝒞 = 𝒪[Δ̂/sin s]; SP is flip-invariant (re-canonicalization signs multiply to +1), so
+𝒞·SP = 𝒪[X] with X = Δ̂·Π₃₁ sin(s_L) a trig polynomial; X is S₆-alternating, so the
+n_λ are READ OFF as alternant coefficients, n_raw(λ) = Σ_ε sgn(ε)·[X]_{ε∘2(λ+ρ)},
+no fit and no cap (meet-in-the-middle integer dicts; the support window λ₁ ≤ 12 is
+forced by X's exponent span and swept COMPLETELY, 18 564 candidates, exactly the 143
+survive); the classical C₆ Weyl denominator identity assembles the ratio and DERIVES
+the common denominator 2³⁰. The coefficients are derived twice independently
+(GF(p)+CRT character-basis solve; the read-off). The one numeric link is
+corroboration: the assembled identity vs the committed `cross_form`, rel ~10⁻¹⁰.
+
+**The naming:** the 64 sheet vectors, as half-angle forms, are the weight system of
+the spin representation of so(13) = B₆ (dim 2⁶); SP is that representation's spinor
+sine-product; and the basis where K collapses is C₆ = Sp(12), the Langlands dual of
+B₆ (the B₆ character basis itself is rank-deficient here; the symplectic side is a
+fact, not a convention). **Open, deliberately:** a closed form for the 143 n_λ
+themselves (nearest kin: King et al. arXiv:2303.00576 spin↔symplectic dual pairs;
+Rains-Warnaar arXiv:1506.02755); simple product ansätze are ruled out.
+**Gate:** [`f133_w_closed_form.py`](../simulations/f133_w_closed_form.py) (~25 s,
+8 gates, all exact except the end-to-end pin; `--full` adds the ~9 min support
+sweep). **Proof:**
+[PROOF_F133_W_SYMPLECTIC_CLOSED_FORM](proofs/PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md).
+**Typed:** live since the same day under the F127 claim (`CrossTripleOrthogonalityClaim`
+breadcrumb + `inspect --root crosstriple`): `WSymplecticClosedForm` in Core/Numerics
+recomputes the sin-s lemma exactly over ℤ, the meet-in-the-middle read-off
+(P₁ = 590016, P₂ = 5817 monomials; the full 557-window vs the embedded table in the
+test suite), and the GF(p) certificate 𝒞·SP = 2⁻⁵·(2i)⁻⁴⁶·Σ n_λ·A_{λ+ρ} with
+read-off-derived coefficients on a disjoint code path plus corruption controls;
+tests `dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter
+CrossTripleOrthogonality` (35 since this layer joined).
 
 ---
 

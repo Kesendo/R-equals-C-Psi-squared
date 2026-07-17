@@ -406,4 +406,84 @@ public class CrossTripleOrthogonalityTests
         Assert.Contains("docs/proofs/PROOF_F129_FAMILY_INVENTORY_COUNTS.md", claim.Anchor);
         Assert.Contains("experiments/F129_FAMILY_INVENTORY.md", claim.Anchor);
     }
+
+    // ---- F133: the symplectic closed form of the F128 cofactor W ----
+
+    [Fact]
+    public void F133SinSLemma_OddProjectionAnnihilatesSinSTimesDelta_ExactOverZ()
+    {
+        // (F133 gate G2): the integer trig polynomial (2i sin s)·(2i)¹⁵ Δ̂ is annihilated by the
+        // (ℤ/2)⁶ signed character sum, exactly over ℤ; the projector self-test guards against a
+        // projection that annihilates everything (a generic monomial must expand to 64 ±1 terms).
+        var r = WSymplecticClosedForm.AnalyzeSinSLemma();
+        Assert.Equal(720, r.DeltaMonomials);          // (2i)¹⁵ Δ̂ = the A₅ Weyl denominator
+        Assert.Equal(0, r.SurvivingMonomials);
+        Assert.True(r.ProjectorSelfTestOk, "projector self-test failed");
+    }
+
+    [Fact]
+    public void F133Readoff_HalvesHaveTheCommittedSizes()
+    {
+        // (F133 gate G5): the meet-in-the-middle split X = P₁·P₂ reproduces the committed monomial
+        // counts (P₁ = Δ̂ · first 15 sheets, P₂ = the other 16); cancellation keeps both small.
+        var h = WSymplecticClosedForm.BuildHalves();
+        Assert.Equal(590016, h.P1Size);
+        Assert.Equal(5817, h.P2Size);
+    }
+
+    [Fact]
+    public void F133Readoff_FullWindowMatchesTable_WithAggregateChecksums()
+    {
+        // (F133 gate G5): n_raw(λ) = 2·n_λ across the FULL 557-λ even-degree window, exactly the
+        // 143 committed terms nonzero, with the aggregate checksums (max|n_λ| = 8, Σ|n_λ| = 359,
+        // n_() = −1). The committed table is embedded in the witness; a transcription slip fails here.
+        var r = WSymplecticClosedForm.AnalyzeReadoff();
+        Assert.Equal(590016, r.P1Size);
+        Assert.Equal(5817, r.P2Size);
+        Assert.Equal(557, r.WindowCount);
+        Assert.Equal(0, r.Mismatches);
+        Assert.True(r.AllMatchTable, "the read-off disagrees with the committed table");
+        Assert.Equal(143, r.NonzeroCount);
+        Assert.Equal(8, r.MaxAbsN);
+        Assert.Equal(359, r.SumAbsN);
+        Assert.Equal(-1, r.NAtEmpty);
+    }
+
+    [Fact]
+    public void F133GfpCertificate_ClosedFormIdentityHolds_BothPrimes_CorruptionBreaks()
+    {
+        // (F133, the GF(p) certificate): C₆·SP == 2⁻⁵·(2i)⁻⁴⁶·Σ_λ n_λ·A_{λ+ρ} at random points over
+        // BOTH 30-bit NTT primes, using the READ-OFF-DERIVED n_λ (a code path disjoint from the
+        // embedded table and from the 64-flip LHS). The corruption control bumps one n_λ and must
+        // break the identity at every point, else the check is vacuous.
+        var derived = WSymplecticClosedForm.DeriveCoefficients(WSymplecticClosedForm.BuildHalves());
+        Assert.Equal(143, derived.Count);
+        foreach (long p in new long[] { 2013265921L, 1811939329L })
+        {
+            var g = WSymplecticClosedForm.CertifyGfpSlice(p, 6, derived);
+            Assert.True(g.Points >= 6, $"expected >= 6 points at p = {p}, got {g.Points}");
+            Assert.Equal(0, g.Mismatches);
+            Assert.True(g.ControlChecks > 0, "no corruption controls were evaluated");
+            Assert.Equal(g.ControlChecks, g.ControlMismatches);
+        }
+    }
+
+    [Fact]
+    public void Witness_SummaryReportsF133()
+    {
+        var w = new CrossTripleOrthogonalityWitness();
+        Assert.Contains("F133", w.Summary);
+        Assert.Contains("W closed form", w.Summary);
+        Assert.StartsWith("PASS", w.Summary);
+    }
+
+    [Fact]
+    public void Claim_CarriesF133ConstantsAndAnchors()
+    {
+        Assert.Equal(143, CrossTripleOrthogonalityClaim.F133CharacterTerms);
+        Assert.Equal(8, CrossTripleOrthogonalityClaim.F133MaxCoefficient);
+        var claim = KnowledgeRegistryFactory.BuildDefault().Get<CrossTripleOrthogonalityClaim>();
+        Assert.Contains("docs/proofs/PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md", claim.Anchor);
+        Assert.Contains("simulations/f133_w_closed_form.py", claim.Anchor);
+    }
 }

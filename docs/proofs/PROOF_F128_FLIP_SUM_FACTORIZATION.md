@@ -85,7 +85,7 @@ By the lemma, 𝒪[T·cot s] = ¼ (e₁−f₁)² · 𝒪[cos s · cot s · V_a 
 
 - **F127's statement, variety, tier, and wall are untouched.** The twinning arc consumes 𝔉 = 0 at points where both sums vanish separately; that remains the load-bearing case. The wall and the residue-collapse chain remain the two committed independent proofs; this chain is the third, and the first structural one with no analytic link (§4 of the F127 chain used a product rule on an algebraic curve; the wall is likewise analysis-free, but it is a grid certificate, not a closed form).
 - **The T-scoped sharper-locus notes stay true** but are superseded in strength: the sharpening now reaches 𝔉 itself, without the sheet. The F127 surfaces carry dated pointers here rather than rewrites.
-- **New open lead.** The cofactor W = 𝒪[cos s · cot s · V_a V_b / P] is now the whole content of 𝔉 up to the explicit prefactor −(e₁−f₁)². W's own closed form (its poles are the sheet lattice; its residues are ± T(L∘x)/(e₁−f₁)²-free data) is the natural next question; nothing is claimed about it here.
+- **The cofactor's closed form (resolved 2026-07-17).** The cofactor W = 𝒪[cos s · cot s · V_a V_b / P] is the whole content of 𝔉 up to the explicit prefactor −(e₁−f₁)². Its closed form is F133, [PROOF_F133_W_SYMPLECTIC_CLOSED_FORM](PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md): a 143-term Sp(12) Weyl-character sum over the C₆ Weyl denominator, every coefficient an integer ≤ 8 in magnitude, derived exactly over ℤ.
 
 ## §6 Verification index
 

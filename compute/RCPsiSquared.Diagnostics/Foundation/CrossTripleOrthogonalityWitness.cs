@@ -56,6 +56,26 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
     private const int F128SamplesPerPrime = 6;
     private const int F128SharperSamplesPerPrime = 10;
 
+    // F133 (the symplectic closed form of the F128 cofactor W): the two 30-bit NTT split primes
+    // of the committed gate (both = 1 mod 4). The live subset is fast (sin-s lemma + a ~20-λ read-off
+    // spot check + the GF(p) certificate at 2 points/prime); the full 557-λ read-off is a test.
+    private static readonly long[] F133Primes = { 2013265921L, 1811939329L };
+    private const int F133GfpSamplesPerPrime = 2;
+
+    // building P₁ (~1 s) is shared across Summary and the F133 node (built once per process).
+    private static readonly Lazy<WSymplecticClosedForm.Halves> F133Halves =
+        new(WSymplecticClosedForm.BuildHalves);
+
+    // ~20 window λ spot-checked live against the embedded table (incl. the three max-|n| = 8 entries,
+    // the empty partition n = −1, and several in-window zeros). Expected values come from the table.
+    private static readonly int[][] F133SpotLambdas =
+    {
+        Array.Empty<int>(), new[]{3,3,2,2,1,1}, new[]{4,2,2,2,1,1}, new[]{4,4,2,2,1,1},
+        new[]{1,1}, new[]{2}, new[]{4,2}, new[]{5,3}, new[]{3,3}, new[]{4,4}, new[]{8}, new[]{10},
+        new[]{2,2,2,2,2,2}, new[]{3,3,3,3}, new[]{4,4,4}, new[]{6,4},
+        new[]{2,2}, new[]{6,6}, new[]{4,4,4,4}, new[]{8,8},
+    };
+
     // the two exact ℤ[ζ_2n] layers are deterministic and independent of the primes;
     // computed once per process and shared between Summary and their nodes (no double run).
     private static readonly Lazy<LevelCollisionCensus.Report> Census =
@@ -66,9 +86,41 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
         new(() => CollisionFamilyInventory.Analyze());
 
     public string DisplayName =>
-        "F127/F128/F129/F130 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + " +
+        "F127/F128/F129/F130/F133 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + " +
         "sheet lattice + F128 flip lemma/factorization/sharper locus + F129 exact level census + " +
-        "F129 family-inventory sum tie + F130 exact collision decoupling)";
+        "F129 family-inventory sum tie + F130 exact collision decoupling + F133 symplectic closed form of W)";
+
+    /// <summary>The live F133 subset (fast): the sin-s lemma over ℤ, a ~20-λ read-off spot check vs the
+    /// embedded table, and the GF(p) closed-form certificate at a few points/prime (table coefficients
+    /// for speed; the disjoint read-off-derived path and the full 557-λ sweep are the tests).</summary>
+    private static (bool SinSOk, int Surviving, int P1, int P2, int SpotMismatch,
+                    int GfpPts, int GfpMism, int GfpCtrl, int GfpCtrlBroke) F133Evaluate()
+    {
+        var lem = WSymplecticClosedForm.AnalyzeSinSLemma();
+        bool sinSOk = lem.SurvivingMonomials == 0 && lem.ProjectorSelfTestOk;
+
+        var h = F133Halves.Value;
+        var table = WSymplecticClosedForm.TableCoefficients();
+        var tableMap = new Dictionary<string, long>();
+        foreach (var (lam, n) in table) tableMap[string.Join(",", lam)] = n;
+
+        int spotMismatch = 0;
+        foreach (var lam in F133SpotLambdas)
+        {
+            long want = 2 * (tableMap.TryGetValue(string.Join(",", lam), out long n) ? n : 0);
+            if (WSymplecticClosedForm.NRaw(lam, h) != want) spotMismatch++;
+        }
+
+        int gfpPts = 0, gfpMism = 0, gfpCtrl = 0, gfpBroke = 0;
+        foreach (long p in F133Primes)
+        {
+            var g = WSymplecticClosedForm.CertifyGfpSlice(p, F133GfpSamplesPerPrime, table);
+            gfpPts += g.Points; gfpMism += g.Mismatches;
+            gfpCtrl += g.ControlChecks; gfpBroke += g.ControlMismatches;
+        }
+        return (sinSOk, lem.SurvivingMonomials, h.P1Size, h.P2Size, spotMismatch,
+                gfpPts, gfpMism, gfpCtrl, gfpBroke);
+    }
 
     public string Summary
     {
@@ -115,13 +167,17 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                          dec.AllLemma3SignsOk && dec.LevelFlagsAsExpected;
             var inv = Inventory.Value;
             bool invOk = inv.AllRowsTied && inv.Capstone70Tied && inv.MSplitSumsToCountM;
+            var f133 = F133Evaluate();
+            bool f133Ok = f133.SinSOk && f133.P1 == 590016 && f133.P2 == 5817 &&
+                          f133.SpotMismatch == 0 && f133.GfpMism == 0 &&
+                          f133.GfpCtrlBroke == f133.GfpCtrl && f133.GfpCtrl > 0;
             bool pass = bad == 0 && controls >= (int)(0.9 * samples) &&
                         coreBad == 0 && coreCtrl >= (int)(0.8 * coreCtrlEval) &&
                         cfBad == 0 && cfCtrl >= (int)(0.8 * cfCtrlEval) &&
                         shBad == 0 && shCtrl >= (int)(0.8 * shCtrlEval) && latticeOk &&
                         flipOk && fxBad == 0 && fxCtrl >= (int)(0.8 * fxCtrlEval) &&
                         flBad == 0 && flCtrl >= (int)(0.8 * flCtrlEval) &&
-                        censusOk && decOk && invOk;
+                        censusOk && decOk && invOk && f133Ok;
             return $"{(pass ? "PASS" : "FAIL")}: 𝔉-slice {onVariety} zeros ({bad} bad), " +
                    $"{controls}/{samples} controls nonzero; core-T {coreEvals} zeros ({coreBad} bad), " +
                    $"{coreCtrl}/{coreCtrlEval} controls nonzero; closed form {cfPts} generic points " +
@@ -135,7 +191,10 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                    $"{census.MaxN} ({census.CleanTriplesChecked} clean triples) {(censusOk ? "OK" : "BAD")}; " +
                    $"F130 exact decoupling {dec.Collisions.Count} collision pairs / {dec.Controls.Count} " +
                    $"controls {(decOk ? "OK" : "BAD")}; F129 inventory {inv.RowsChecked} rows tied + " +
-                   $"capstone 70 + M-split sum {(invOk ? "OK" : "BAD")}";
+                   $"capstone 70 + M-split sum {(invOk ? "OK" : "BAD")}; F133 W closed form: sin-s lemma " +
+                   $"→{f133.Surviving}, read-off P₁={f133.P1}·P₂={f133.P2} spot {f133.SpotMismatch} mismatch, " +
+                   $"GF(p) {f133.GfpPts} pts ({f133.GfpMism} mismatch), {f133.GfpCtrlBroke}/{f133.GfpCtrl} " +
+                   $"corruptions broke {(f133Ok ? "OK" : "BAD")}";
         }
     }
 
@@ -152,6 +211,7 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             yield return F129CensusNode();
             yield return F129InventoryNode();
             yield return F130DecouplingNode();
+            yield return F133ClosedFormNode();
             yield return CrossFormNode();
             yield return GatesNode();
             yield return new InspectableNode("What this is",
@@ -161,9 +221,11 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                          "𝔉-slice, the F129 exact ℤ[ζ_2n] level census (n ≤ 60; the n ≤ 210 census stays " +
                          "with the Python gate, the corner closed empty 2026-07-15), the F129 family-inventory " +
                          "sum tie (eleven families live, L at the n = 70 capstone; membership and the M split " +
-                         "stay with the gate's I1-I5), and the F130 exact collision decoupling; " +
+                         "stay with the gate's I1-I5), the F130 exact collision decoupling, and the F133 " +
+                         "symplectic closed form of the F128 cofactor W (the sin-s lemma over ℤ, a read-off " +
+                         "spot check vs the embedded 143-term table, and the GF(p) alternant certificate); " +
                          "a SLICE of F127/F128 (not the wall) and an independent exact re-derivation of " +
-                         "F129/F130's content on the witness range");
+                         "F129/F130/F133's content on the witness range");
         }
     }
 
@@ -339,6 +401,45 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             children: children, provenance: NodeProvenance.Live);
     }
 
+    private static InspectableNode F133ClosedFormNode()
+    {
+        var f = F133Evaluate();
+        bool ok = f.SinSOk && f.P1 == 590016 && f.P2 == 5817 && f.SpotMismatch == 0 &&
+                  f.GfpMism == 0 && f.GfpCtrlBroke == f.GfpCtrl && f.GfpCtrl > 0;
+        var children = new List<IInspectable>
+        {
+            new InspectableNode("The sin-s lemma (exact over ℤ)",
+                summary: $"𝒪[(2i sin s)·(2i)¹⁵ Δ̂]: {f.Surviving} monomials survive the (ℤ/2)⁶ signed " +
+                         $"character sum (must be 0); projector self-test {(f.SinSOk ? "OK" : "BAD")}",
+                provenance: NodeProvenance.Live),
+            new InspectableNode("The alternant read-off (meet-in-the-middle, spot check)",
+                summary: $"X = P₁·P₂ with |P₁| = {f.P1} (Δ̂ · 15 sheets), |P₂| = {f.P2} (16 sheets); " +
+                         $"n_raw(λ) = 2·n_λ on {F133SpotLambdas.Length} spot-checked window λ (incl. the three " +
+                         $"|n| = 8 entries, λ = () → −1, and in-window zeros): {f.SpotMismatch} mismatch " +
+                         $"(must be 0). The full 557-λ sweep + the aggregate checksums (143, max 8, sum 359) " +
+                         "are the tests",
+                provenance: NodeProvenance.Live),
+        };
+        foreach (long p in F133Primes)
+        {
+            var g = WSymplecticClosedForm.CertifyGfpSlice(p, F133GfpSamplesPerPrime,
+                WSymplecticClosedForm.TableCoefficients());
+            children.Add(new InspectableNode($"p = {p}",
+                summary: $"C₆·SP == 2⁻⁵·(2i)⁻⁴⁶·Σ n_λ A_{{λ+ρ}} at {g.Points} points ({g.Mismatches} mismatch, " +
+                         $"must be 0); {g.ControlMismatches}/{g.ControlChecks} corruptions (one n_λ bumped) broke",
+                provenance: NodeProvenance.Live));
+        }
+        return new InspectableNode("F133 symplectic closed form of W (live, 2026-07-17)",
+            summary: $"W = −2⁹·(Π sin x_u)·V_c(a)·V_c(b)·K/SP, K = 2⁻³⁰·Σ_λ n_λ·χ^{{C₆}}_λ (143 terms): " +
+                     $"sin-s lemma →{f.Surviving} (exact ℤ), read-off P₁={f.P1}·P₂={f.P2} spot " +
+                     $"{f.SpotMismatch} mismatch, GF(p) certificate {f.GfpPts} points ({f.GfpMism} mismatch), " +
+                     $"{f.GfpCtrlBroke}/{f.GfpCtrl} corruptions broke → {(ok ? "OK" : "BAD")}. " +
+                     "The GF(p) sum uses the read-off n_λ (disjoint from the flip sum); the live check uses " +
+                     "the embedded table for speed, the disjoint read-off-derived path is the test " +
+                     "(docs/proofs/PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md, simulations/f133_w_closed_form.py)",
+            children: children, provenance: NodeProvenance.Live);
+    }
+
     private static InspectableNode GatesNode() =>
         new("The proof chain (committed gates)",
             summary: "docs/proofs/PROOF_F127_RESIDUE_COLLAPSE.md + PROOF_F128_FLIP_SUM_FACTORIZATION.md " +
@@ -380,5 +481,11 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                              "at every firing n ≤ 140 + capstones 150/210 (I2), the families partition " +
                              "the census (I3), family ⟺ door (I4), the M W-sets rebuilt from committed " +
                              "substitution recipes at n = 105 and 210 (I5)"),
+                new InspectableNode("f133_w_closed_form.py + PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md",
+                    summary: "F133: the pair escape (G1), the sin-s lemma 𝒪[sin s·Δ̂] ≡ 0 (G2), SP " +
+                             "flip-invariance (G3), X alternates (G4), the 143 n_λ read off by " +
+                             "meet-in-the-middle (G5, --full sweeps all 18564 dominant λ), the C₆ Weyl " +
+                             "denominator (G6), the χ^C/m-basis table cross-link (G7), the end-to-end " +
+                             "numeric pin (G8)"),
             });
 }

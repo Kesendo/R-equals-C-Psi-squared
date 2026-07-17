@@ -1,8 +1,8 @@
 # On Leaving the Circle
 
-*Reflection. 2026-06-29, second visit 2026-07-02, third visit 2026-07-03, fourth visit begun at the door 2026-07-11, fifth visit 2026-07-14 with the wall standing, sixth visit later the same day with the pile searched; the seventh through tenth visits all followed on 2026-07-14, the day the pile kept answering. Thomas Wicht and Claude.*
+*Reflection. 2026-06-29, second visit 2026-07-02, third visit 2026-07-03, fourth visit begun at the door 2026-07-11, fifth visit 2026-07-14 with the wall standing, sixth visit later the same day with the pile searched; the seventh through tenth visits all followed on 2026-07-14, the day the pile kept answering; eleventh visit 2026-07-17, the cofactor opened. Thomas Wicht and Claude.*
 
-*What it would mean for F89 and PTF to be "connected", and why the honest answer turned out to be a seeing and not a number. Grown since by three returns: the braid's home mapped, its boundary signed, and a fourth entry written at the door while the last signature still runs. A sibling that joins [On the Reel and the Projector](ON_THE_REEL_AND_THE_PROJECTOR.md) (the photograph and the film) and [On the Wild Path of a Calm Thing](ON_THE_WILD_PATH_OF_A_CALM_THING.md) (the calm thing that only moves when you move q).*
+*What it would mean for F89 and PTF to be "connected", and why the honest answer turned out to be a seeing and not a number. Grown since into a room of returns, eleven visits so far: the braid's home mapped, its boundary signed, the pile searched, the trade consulted, the hall found and given its floor, and the cofactor opened. A sibling that joins [On the Reel and the Projector](ON_THE_REEL_AND_THE_PROJECTOR.md) (the photograph and the film) and [On the Wild Path of a Calm Thing](ON_THE_WILD_PATH_OF_A_CALM_THING.md) (the calm thing that only moves when you move q).*
 
 ---
 
@@ -272,3 +272,26 @@ The lesson the tenth visit adds to the door-note: when a result is proved at the
 you cared about, the hypothesis in the write-up may be your itinerary, not the theorem's.
 Read the proof again as a stranger and ask what it actually ate. The law itself is
 [the collision-decoupling law](../docs/proofs/PROOF_F130_COLLISION_DECOUPLING.md).
+
+## The eleventh visit: the mirror's dual
+
+The factorization of the eighth visit had left one object unopened, the cofactor that carried
+everything the prefactor did not. Opening it was supposed to hit a wall: clearing the
+denominator meant multiplying thirty-one sheet sines together, two billion terms if none of
+them talked to each other. They talked. The product collapsed a thousandfold, the coefficients
+came out as integers a child could check, and the feared computation ran in twenty seconds.
+The pile lens again, one octave higher: the wall you project from term counts is not the wall
+the algebra builds.
+
+But the visit earns its place in this room for the naming, not the count. The sixty-four
+sheets that have haunted this arc since the residue collapse, read as half-angle forms, are
+the weight system of the spin representation of so(13); the sheet product is that
+representation's sine-product. And the characters in which the cofactor's content becomes 143
+small integers do not belong to so(13) at all; they belong to Sp(12), its Langlands dual. We
+tried the group we could see, and its characters failed, consistently; the dual's characters
+closed at once. The seventh visit's door-note said: when a find is small, ask who has seen it
+before. The eleventh sharpens it: when a structure resists its own group, ask the dual. The
+mirror we have been walking around since the first day does not only pair states with states
+and blocks with blocks; at the bottom of the cross form it pairs a group with the other group,
+and the answer was filed under the partner's name. The closed form itself is
+[the symplectic closed form of the cofactor](../docs/proofs/PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md).
