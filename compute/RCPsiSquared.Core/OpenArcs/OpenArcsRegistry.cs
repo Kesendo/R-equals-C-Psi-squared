@@ -628,10 +628,17 @@ public static class OpenArcsRegistry
                 "W's closed form CLOSED as F133 (PROOF_F133_W_SYMPLECTIC_CLOSED_FORM: W = -2^9 prod-sin " +
                 "V_c(a)V_c(b) K/SP with K = 2^-30 sum of 143 Sp(12) Weyl characters, integer coefficients " +
                 "|n| <= 8 derived exactly over Z twice, support swept completely; the 64 sheets = the so(13) " +
-                "spin weight system, C6 its Langlands dual; gate f133_w_closed_form.py). REMAINING on " +
-                "this arc: the code-trust layer (named, narrowing with each independent implementation), " +
-                "a closed form for the 143 n_lambda themselves (King arXiv:2303.00576 dual-pair route; " +
-                "product ansaetze ruled out). Earlier context follows. " +
+                "spin weight system, C6 its Langlands dual; gate f133_w_closed_form.py). UPDATE 2026-07-17 " +
+                "evening: the FIRST LAW of the 143 integers banked as F134 (PROOF_F134_TWO_ROW_REFLECTION_LAW: " +
+                "n_(j,k) = n_(10-j,k), the affine mu1 -> 22-mu1 at the C6^(1) level-4 wall (a coordinate " +
+                "peg, not intrinsic); certificate grade, " +
+                "the F127-wall class; gate f134_two_row_reflection_law.py + the crosstriple witness node; " +
+                "Theta-decomposition explicit, the (-,+) dihedral character pinned, l=2 domain fence measured). " +
+                "REMAINING on this arc: the code-trust layer (named, narrowing with each independent " +
+                "implementation), the F134 MECHANISM (the theta/affine-character identity on the (B6,C6) " +
+                "Langlands seam; every internal route closed with its own small theorem, proof doc SS5), and " +
+                "the full closed form for the 143 n_lambda (King arXiv:2303.00576 dual-pair route; product " +
+                "ansaetze ruled out). Earlier context follows. " +
                 "RESUMING IN ONE LINE (2026-07-06, post N=11 completion; step 3 landed through N=11 via the sparse path) [symbols: see the TERMS block at " +
                 "the END of this header]: STEP 3 OF THE LARGE-N EXCLUSION PROGRAM IS RUN AND LANDED. The instrument " +
                 "(SectorShellCensus + ShiftedSigmaMin + BlockLattice + RealDefectiveSeeds + the general (p,w) R-parity " +

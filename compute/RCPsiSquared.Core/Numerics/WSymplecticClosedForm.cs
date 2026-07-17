@@ -283,6 +283,62 @@ public static class WSymplecticClosedForm
 
     private static string Key(int[] lam) => string.Join(",", lam);
 
+    // ------------------------------------------------------------- the F134 two-row reflection ----
+
+    /// <summary>What <see cref="AnalyzeTwoRowReflection"/> recomputes (F134): the two-row reflection
+    /// law n_(j,k) = n_(10−j,k) on the embedded table (36 ordered pairs, 14 live), the l = 2 domain
+    /// break (exactly 8 breaking pairs; the two nonzero l = 2 entries satisfying the reflection are
+    /// the center-fixed j = 5 weights, μ₁ = 11), and, when halves are supplied, an NRaw spot check of
+    /// every live pair on the read-off path (code-disjoint from the table).</summary>
+    public sealed record TwoRowReflectionReport(
+        int PairsChecked, int LivePairs, int Mismatches,
+        int L2PairsChecked, int L2Breaks, bool L2CenterHoldsNonzero,
+        int SpotPairsChecked, int SpotMismatches);
+
+    public static TwoRowReflectionReport AnalyzeTwoRowReflection(Halves? spotHalves = null)
+    {
+        var tableMap = new Dictionary<string, long>();
+        foreach (var (lam, n) in TableCoefficients()) tableMap[Key(lam)] = n;
+
+        static int[] Lam(params int[] parts)
+        {
+            int len = parts.Length;
+            while (len > 0 && parts[len - 1] == 0) len--;
+            return parts.Take(len).ToArray();
+        }
+        long N(params int[] parts) => tableMap.TryGetValue(Key(Lam(parts)), out long n) ? n : 0;
+
+        int pairs = 0, live = 0, mism = 0, spotPairs = 0, spotMism = 0;
+        for (int k = 0; k <= 5; k++)
+            for (int j = k; j <= 10 - k; j++)
+            {
+                long a = N(j, k), b = N(10 - j, k);
+                pairs++;
+                if (a != b) mism++;
+                if (a != 0 || b != 0)
+                {
+                    live++;
+                    if (spotHalves is not null)
+                    {
+                        spotPairs++;
+                        long ra = NRaw(Lam(j, k), spotHalves), rb = NRaw(Lam(10 - j, k), spotHalves);
+                        if (ra != rb || ra != 2 * a) spotMism++;
+                    }
+                }
+            }
+
+        int l2Pairs = 0, l2Breaks = 0;
+        for (int k = 2; k <= 5; k++)
+            for (int j = k; j <= 10 - k; j++)
+            {
+                l2Pairs++;
+                if (N(j, k, 2) != N(10 - j, k, 2)) l2Breaks++;
+            }
+        bool centerHolds = N(5, 3, 2) != 0 && N(5, 5, 2) != 0;
+        return new TwoRowReflectionReport(pairs, live, mism, l2Pairs, l2Breaks, centerHolds,
+                                          spotPairs, spotMism);
+    }
+
     /// <summary>The read-off-derived nonzero coefficients (λ, n_λ) over the window: a code path
     /// disjoint from the embedded table (the GF(p) certificate consumes THESE, not the table).</summary>
     public static List<(int[] Lam, long N)> DeriveCoefficients(Halves h)

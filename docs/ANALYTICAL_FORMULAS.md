@@ -5349,7 +5349,8 @@ sine-product; and the basis where K collapses is C₆ = Sp(12), the Langlands du
 B₆ (the B₆ character basis itself is rank-deficient here; the symplectic side is a
 fact, not a convention). **Open, deliberately:** a closed form for the 143 n_λ
 themselves (nearest kin: King et al. arXiv:2303.00576 spin↔symplectic dual pairs;
-Rains-Warnaar arXiv:1506.02755); simple product ansätze are ruled out.
+Rains-Warnaar arXiv:1506.02755); simple product ansätze are ruled out. The first law
+those integers obey is banked as F134 (below).
 **Gate:** [`f133_w_closed_form.py`](../simulations/f133_w_closed_form.py) (~25 s,
 8 gates, all exact except the end-to-end pin; `--full` adds the ~9 min support
 sweep). **Proof:**
@@ -5361,7 +5362,50 @@ recomputes the sin-s lemma exactly over ℤ, the meet-in-the-middle read-off
 test suite), and the GF(p) certificate 𝒞·SP = 2⁻⁵·(2i)⁻⁴⁶·Σ n_λ·A_{λ+ρ} with
 read-off-derived coefficients on a disjoint code path plus corruption controls;
 tests `dotnet test compute/RCPsiSquared.Diagnostics.Tests --filter
-CrossTripleOrthogonality` (35 since this layer joined).
+CrossTripleOrthogonality`.
+
+### F134. The two-row reflection law of the F133 coefficients: along any fixed second row, the table is a palindrome (verified exactly over ℤ 2026-07-17; minted 2026-07-17)
+
+The first law of the 143 integers F133 left open. For every two-row partition in the
+support (0 ≤ k ≤ j ≤ 10−k),
+
+    n_(j,k) = n_(10−j,k),
+
+equivalently μ₁ ↦ 22−μ₁ on μ = λ+ρ with every other coordinate fixed, equivalently
+every column polynomial C_k(q) = Σ_j n_(j,k) q^j is palindromic about q⁵. The center
+sits one step past the support wall λ₁+λ₂ ≤ 10 (μ₁+μ₂ ≤ 21): an affine reflection,
+not a visible symmetry of the table. **Grade:** a finite statement (36 pairs, 14
+live), verified exactly over ℤ through the committed F133 read-off and independently
+recomputed in C# from the embedded table AND on the read-off path; the F127-wall
+epistemic class, code trust the only caveat. **The structure around it (each piece
+exact):** the finite half F_k(−m) = −F_k(m) is a theorem ((−1)⁴⁶ makes X's
+coefficient function even); the wall F_k(m) = 0 for |m| > 32−2k is a theorem (X's
+exponent span); and the whole coefficient array decomposes as Θ_k minus its
+beyond-wall shadow, with Θ_k = (t²²−t⁻²²)·P_k explicit (P₀ = −(C₁₀+C₆),
+P₁ = (t⁴−t⁻⁴)², P₂ = 3C₂, P₃ = −(C₄+3), P₄ = C₂, P₅ = 0; C_a = t^a+t^{−a}) and
+exactly one period of an honest odd-even theta object. The convention-free signature:
+the two-row coefficient function transforms under ⟨s: μ₁↦−μ₁, s₀: μ₁↦22−μ₁⟩ by the
+mixed character (−1, +1); in the untwisted C₆⁽¹⁾ dictionary the wall 11 = ℓ+h∨ with
+h∨ = 7 pins level ℓ = 4, a coordinate peg (a twisted home relabels the same wall).
+**Domain:** exact on two rows; with a third row the reflection holds at l ∈ {0,1,3,4,5}
+and breaks at l = 2 on exactly 8 pairs (the two nonzero l = 2 entries that reflect are
+the center-fixed j = 5 weights); "l = 2" is itself a projection artifact of a deeper
+tail inventory. **Open, deliberately:** the mechanism. What it provably is NOT
+(each closed with its own small theorem, mapped in the proof doc §5): a constituent
+cancellation at any depth, an affine array symmetry (the centroid obstruction), a
+finite-Weyl/modification-rule consequence, a telescope boundary, a term bijection, or
+a twisted A₁₂⁽²⁾ denominator. The posed open problem: the theta/affine-character
+identity on the (B₆, C₆) Langlands seam that makes the law a corollary and reproduces
+the break inventory.
+**Gate:** [`f134_two_row_reflection_law.py`](../simulations/f134_two_row_reflection_law.py)
+(~2 min, G1 the law, G2 oddness, G3 Θ-decomposition, G4 level dictionary, G5 domain
+fence, G6 centroid; exact ℤ throughout). **Proof:**
+[PROOF_F134_TWO_ROW_REFLECTION_LAW](proofs/PROOF_F134_TWO_ROW_REFLECTION_LAW.md).
+**Typed:** live since the same day under the F127 claim (`inspect --root crosstriple`,
+the "F134 two-row reflection law" node): `WSymplecticClosedForm.AnalyzeTwoRowReflection`
+recomputes the 36 pairs from the embedded table plus every live pair on the read-off
+path, and the l = 2 fence; tests `dotnet test compute/RCPsiSquared.Diagnostics.Tests
+--filter CrossTripleOrthogonality` (38 with this layer).
 
 ---
 

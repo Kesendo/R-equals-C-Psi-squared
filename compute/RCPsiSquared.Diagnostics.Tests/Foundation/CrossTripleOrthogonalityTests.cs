@@ -486,4 +486,42 @@ public class CrossTripleOrthogonalityTests
         Assert.Contains("docs/proofs/PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md", claim.Anchor);
         Assert.Contains("simulations/f133_w_closed_form.py", claim.Anchor);
     }
+
+    // ---- F134: the two-row reflection law of the F133 coefficients ----
+
+    [Fact]
+    public void F134TwoRowReflection_TableExact_AndReadoffSpotAgrees()
+    {
+        // (F134 gate G1): n_(j,k) = n_(10−j,k) on all 36 ordered two-row pairs of the embedded
+        // table (14 live), AND the same equality recomputed on the read-off path (NRaw, disjoint
+        // from the table) for every live pair. A transcription slip or a read-off drift fails here.
+        var r = WSymplecticClosedForm.AnalyzeTwoRowReflection(WSymplecticClosedForm.BuildHalves());
+        Assert.Equal(36, r.PairsChecked);
+        Assert.Equal(14, r.LivePairs);
+        Assert.Equal(0, r.Mismatches);
+        Assert.Equal(r.LivePairs, r.SpotPairsChecked);
+        Assert.Equal(0, r.SpotMismatches);
+    }
+
+    [Fact]
+    public void F134DomainFence_L2BreaksExactlyEight_CenterFixedHoldsNonzero()
+    {
+        // (F134 gate G5): the law does NOT extend freely; with a third row l = 2 the reflection
+        // breaks on exactly 8 of the 16 dominant pairs (the ρ₄-tail resonance), and the two nonzero
+        // l = 2 entries that do reflect are the center-fixed j = 5 weights (μ₁ = 11). The break set
+        // is the fence: a "law" that held at l = 2 would be the wrong law.
+        var r = WSymplecticClosedForm.AnalyzeTwoRowReflection();
+        Assert.Equal(16, r.L2PairsChecked);
+        Assert.Equal(8, r.L2Breaks);
+        Assert.True(r.L2CenterHoldsNonzero, "the center-fixed l = 2 weights must be nonzero holds");
+    }
+
+    [Fact]
+    public void Witness_SummaryReportsF134()
+    {
+        var w = new CrossTripleOrthogonalityWitness();
+        Assert.Contains("F134", w.Summary);
+        Assert.Contains("two-row reflection", w.Summary);
+        Assert.StartsWith("PASS", w.Summary);
+    }
 }

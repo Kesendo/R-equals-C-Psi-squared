@@ -86,15 +86,17 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
         new(() => CollisionFamilyInventory.Analyze());
 
     public string DisplayName =>
-        "F127/F128/F129/F130/F133 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + " +
+        "F127/F128/F129/F130/F133/F134 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + " +
         "sheet lattice + F128 flip lemma/factorization/sharper locus + F129 exact level census + " +
-        "F129 family-inventory sum tie + F130 exact collision decoupling + F133 symplectic closed form of W)";
+        "F129 family-inventory sum tie + F130 exact collision decoupling + F133 symplectic closed form of W + " +
+        "F134 two-row reflection law)";
 
     /// <summary>The live F133 subset (fast): the sin-s lemma over ℤ, a ~20-λ read-off spot check vs the
     /// embedded table, and the GF(p) closed-form certificate at a few points/prime (table coefficients
     /// for speed; the disjoint read-off-derived path and the full 557-λ sweep are the tests).</summary>
     private static (bool SinSOk, int Surviving, int P1, int P2, int SpotMismatch,
-                    int GfpPts, int GfpMism, int GfpCtrl, int GfpCtrlBroke) F133Evaluate()
+                    int GfpPts, int GfpMism, int GfpCtrl, int GfpCtrlBroke,
+                    WSymplecticClosedForm.TwoRowReflectionReport Refl) F133Evaluate()
     {
         var lem = WSymplecticClosedForm.AnalyzeSinSLemma();
         bool sinSOk = lem.SurvivingMonomials == 0 && lem.ProjectorSelfTestOk;
@@ -118,8 +120,9 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             gfpPts += g.Points; gfpMism += g.Mismatches;
             gfpCtrl += g.ControlChecks; gfpBroke += g.ControlMismatches;
         }
+        var refl = WSymplecticClosedForm.AnalyzeTwoRowReflection(h);
         return (sinSOk, lem.SurvivingMonomials, h.P1Size, h.P2Size, spotMismatch,
-                gfpPts, gfpMism, gfpCtrl, gfpBroke);
+                gfpPts, gfpMism, gfpCtrl, gfpBroke, refl);
     }
 
     public string Summary
@@ -171,13 +174,18 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             bool f133Ok = f133.SinSOk && f133.P1 == 590016 && f133.P2 == 5817 &&
                           f133.SpotMismatch == 0 && f133.GfpMism == 0 &&
                           f133.GfpCtrlBroke == f133.GfpCtrl && f133.GfpCtrl > 0;
+            var refl = f133.Refl;
+            bool f134Ok = refl.PairsChecked == 36 && refl.LivePairs == 14 && refl.Mismatches == 0 &&
+                          refl.L2PairsChecked == 16 && refl.L2Breaks == 8 &&
+                          refl.L2CenterHoldsNonzero &&
+                          refl.SpotPairsChecked == refl.LivePairs && refl.SpotMismatches == 0;
             bool pass = bad == 0 && controls >= (int)(0.9 * samples) &&
                         coreBad == 0 && coreCtrl >= (int)(0.8 * coreCtrlEval) &&
                         cfBad == 0 && cfCtrl >= (int)(0.8 * cfCtrlEval) &&
                         shBad == 0 && shCtrl >= (int)(0.8 * shCtrlEval) && latticeOk &&
                         flipOk && fxBad == 0 && fxCtrl >= (int)(0.8 * fxCtrlEval) &&
                         flBad == 0 && flCtrl >= (int)(0.8 * flCtrlEval) &&
-                        censusOk && decOk && invOk && f133Ok;
+                        censusOk && decOk && invOk && f133Ok && f134Ok;
             return $"{(pass ? "PASS" : "FAIL")}: 𝔉-slice {onVariety} zeros ({bad} bad), " +
                    $"{controls}/{samples} controls nonzero; core-T {coreEvals} zeros ({coreBad} bad), " +
                    $"{coreCtrl}/{coreCtrlEval} controls nonzero; closed form {cfPts} generic points " +
@@ -194,7 +202,10 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                    $"capstone 70 + M-split sum {(invOk ? "OK" : "BAD")}; F133 W closed form: sin-s lemma " +
                    $"→{f133.Surviving}, read-off P₁={f133.P1}·P₂={f133.P2} spot {f133.SpotMismatch} mismatch, " +
                    $"GF(p) {f133.GfpPts} pts ({f133.GfpMism} mismatch), {f133.GfpCtrlBroke}/{f133.GfpCtrl} " +
-                   $"corruptions broke {(f133Ok ? "OK" : "BAD")}";
+                   $"corruptions broke {(f133Ok ? "OK" : "BAD")}; F134 two-row reflection " +
+                   $"{refl.Mismatches}/{refl.PairsChecked} mismatch ({refl.LivePairs} live, spot " +
+                   $"{refl.SpotMismatches} mismatch), l=2 fence {refl.L2Breaks}/{refl.L2PairsChecked} " +
+                   $"breaks {(f134Ok ? "OK" : "BAD")}";
         }
     }
 
@@ -212,6 +223,7 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             yield return F129InventoryNode();
             yield return F130DecouplingNode();
             yield return F133ClosedFormNode();
+            yield return F134ReflectionNode();
             yield return CrossFormNode();
             yield return GatesNode();
             yield return new InspectableNode("What this is",
@@ -223,7 +235,9 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                          "sum tie (eleven families live, L at the n = 70 capstone; membership and the M split " +
                          "stay with the gate's I1-I5), the F130 exact collision decoupling, and the F133 " +
                          "symplectic closed form of the F128 cofactor W (the sin-s lemma over ℤ, a read-off " +
-                         "spot check vs the embedded 143-term table, and the GF(p) alternant certificate); " +
+                         "spot check vs the embedded 143-term table, and the GF(p) alternant certificate), " +
+                         "and the F134 two-row reflection law n_(j,k) = n_(10−j,k) (table + read-off spot + " +
+                         "the l = 2 domain fence); " +
                          "a SLICE of F127/F128 (not the wall) and an independent exact re-derivation of " +
                          "F129/F130/F133's content on the witness range");
         }
@@ -438,6 +452,23 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                      "the embedded table for speed, the disjoint read-off-derived path is the test " +
                      "(docs/proofs/PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md, simulations/f133_w_closed_form.py)",
             children: children, provenance: NodeProvenance.Live);
+    }
+
+    private static InspectableNode F134ReflectionNode()
+    {
+        var r = F133Evaluate().Refl;
+        bool ok = r.PairsChecked == 36 && r.LivePairs == 14 && r.Mismatches == 0 &&
+                  r.L2PairsChecked == 16 && r.L2Breaks == 8 && r.L2CenterHoldsNonzero &&
+                  r.SpotPairsChecked == r.LivePairs && r.SpotMismatches == 0;
+        return new InspectableNode("F134 two-row reflection law (live, 2026-07-17)",
+            summary: $"n_(j,k) = n_(10−j,k) (μ₁ ↦ 22−μ₁): {r.Mismatches}/{r.PairsChecked} table mismatches " +
+                     $"({r.LivePairs} live pairs), read-off spot on every live pair {r.SpotMismatches} mismatch " +
+                     $"(disjoint from the table); domain fence: l = 2 breaks {r.L2Breaks}/{r.L2PairsChecked} " +
+                     $"(must be exactly 8), the two nonzero l = 2 holds are the center-fixed j = 5 weights: " +
+                     $"{r.L2CenterHoldsNonzero} → {(ok ? "OK" : "BAD")}. Certificate grade (the F127-wall class); " +
+                     "the structural mechanism is the arc's named open " +
+                     "(docs/proofs/PROOF_F134_TWO_ROW_REFLECTION_LAW.md, simulations/f134_two_row_reflection_law.py)",
+            provenance: NodeProvenance.Live);
     }
 
     private static InspectableNode GatesNode() =>
