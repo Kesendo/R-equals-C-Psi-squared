@@ -5,7 +5,8 @@
 [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md). 2026-07-04; Piece 3 ((N1′)) closed later the same
 day, after two adversarial reviews; the q/Q convention pin (this note's knob = twice the census axis)
 added the same day. The β-exotic arc sections (the sharpened reduction, the three attacks, the per-N
-certificate) were added 2026-07-08/09; the gcd certificate (the nonvanishing itself at N = 5 and 7),
+certificate) were added 2026-07-08/09; the gcd certificate (the nonvanishing itself, at N = 5 and 7
+then, reaching N = 9 on 2026-07-17),
 the resonant-N measurement, and the cell-law tightening were added 2026-07-10, and later the same day
 the resonance criterion closed (Conway-Jones on the vanishing triples) and the twinning survived its
 cheapest kill at N = 23 and N = 29.*
@@ -308,9 +309,9 @@ N ≤ 13, margin ≥ 7 orders). The exact Step-4 argument is what makes D = 0 a 
 
 Whether each count-dropping seed is a **√-type** defective EP2 (geometric multiplicity 1, s₆ ≠ 0) rather
 than a non-generic order-≥3 structure is a self-contained residual question on the seed: it uses this
-note's seed object but adds an orthogonal character question. It is settled at N = 5 and N = 7 and open
+note's seed object but adds an orthogonal character question. It is settled at N = 5, 7 and 9 and open
 for all N. To keep this reduction focused on the counting theorem and the twinning, the whole β-exotic
-program (the sharpening, the three attacks, the N = 5/7 exclusion, the gcd certificate, and the cell-law
+program (the sharpening, the three attacks, the per-N exclusion, the gcd certificate, and the cell-law
 sign-law tightening) now lives in its own file,
 [F89_BETA_EXOTIC_GENERICITY.md](F89_BETA_EXOTIC_GENERICITY.md). **The seed-existence conclusion depends
 on it**: the count is a theorem, but that each drop is a genuine √-type seed is the β-exotic item
@@ -1131,8 +1132,8 @@ This note must not be read as closing the existence question until the remaining
    then-open Piece 3) turned out unnecessary: the proof is graph combinatorics + one cyclotomic norm
    bound. Two adversarial reviews (exact arithmetic; full-2^N spin rebuild) held it.
 2. **The codim-2 β-exotic genericity, now its own concern.** Whether each count-dropping seed is a
-   √-type defective EP2 rather than a non-generic order-≥3 structure is settled at N = 5 and N = 7 and
-   open for all N. The whole program (the sharpening, the three attacks, the N = 5/7 exclusion, the
+   √-type defective EP2 rather than a non-generic order-≥3 structure is settled at N = 5, 7 and 9 and
+   open for all N. The whole program (the sharpening, the three attacks, the per-N exclusion, the
    gcd certificate, the cell-law sign-law) and its detailed status moved to
    [F89_BETA_EXOTIC_GENERICITY.md](F89_BETA_EXOTIC_GENERICITY.md) on 2026-07-13. The count is a
    theorem; that each drop is a genuine √-type seed is that note's open item, and the seed-existence

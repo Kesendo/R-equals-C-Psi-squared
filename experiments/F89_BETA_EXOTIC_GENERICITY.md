@@ -4,10 +4,11 @@
 concern (the F89 corpus de-monolith, step 1). That note proves the seed COUNT, r(0⁺) − r(∞) = N − 1;
 this one asks whether each of those count-dropping seeds is a generic **√-type** defective exceptional
 point (an EP2, geometric multiplicity 1, Puiseux exponent ½, s₆ ≠ 0) rather than a non-generic order-≥3
-structure. It is settled at N = 5 AND N = 7, both unconditional over ℚ since 2026-07-16: the two
-named N = 7 premises are both discharged (the base-polynomial CRT grade by the a-priori ℓ1 bound;
-the mod-p layer identification by reconstruct-and-verify, see the two premise-discharge
-subsections), both R-parities, and is **open for all N**.
+structure. It is settled at N = 5, 7 AND 9, all unconditional over ℚ (N = 5 and 7 since
+2026-07-16: the two named N = 7 premises are both discharged, the base-polynomial CRT grade by the
+a-priori ℓ1 bound and the mod-p layer identification by reconstruct-and-verify, see the two
+premise-discharge subsections; N = 9 since 2026-07-17, the same engine at scale with both
+mechanisms built in), both R-parities, and is **open for all N**.
 Shared objects live in the parent note and the C# core: the (1,2)-block pencil L(q) = A + qC and its
 recorded real defective seeds (`WeightCoherenceBlock`, `RealDefectiveSeeds`); the typed claim is
 `BetaExoticPerNExclusionClaim` (Tier 1 derived, scoped); the verifiers are the `o2b_*` scripts (see
@@ -73,7 +74,9 @@ sides of q\*), so it does not drop the real count and cannot be a forced seed at
 multiplicity table in the certificate section below). Algebraic-multiplicity-2 holds numerically at
 every seed through N = 11 but is not itself proved for all odd N; it is a premise separate from
 s₆ ≠ 0, and the sign law bears only on the latter. (At N = 5 and N = 7 H1 is no longer numerical: it
-is a corollary of the certificate below, "The β-exotic is excluded at N = 5 and N = 7". For all odd N
+is a corollary of the certificate below, "The β-exotic is excluded at N = 5 and N = 7"; at N = 9 it
+follows the same way from the gcd-certificate section's proved layer identity, max multiplicity 2
+plus the simple-zero lemma on A₁, with the same per-N reality check. For all odd N
 it remains open, alongside the reduction of this section.)
 
 **Numerics (grounding for the identity, not evidence for all N).** At the 17 census seeds
@@ -228,8 +231,9 @@ gauge-invariant form, and a sharper (EP-free, real-symmetric, seed-local) target
 **f₂ := ‖P₂x‖²/‖x‖² > (λ + 6)/4**, with both the band-wide weight reading and the ker-inheritance
 candidate ruled out as its route.
 
-**Two ways it can still advance.** An exact *per-N* certificate (now taken, at N = 5 and N = 7: the
-section "The β-exotic is excluded at N = 5 and N = 7" below), or the all-N *sign-half* prize: prove the
+**Two ways it can still advance.** An exact *per-N* certificate (now taken, at N = 5, 7 and 9: the
+section "The β-exotic is excluded at N = 5 and N = 7" below, and at N = 9 the gcd-certificate
+section's proved layer identity), or the all-N *sign-half* prize: prove the
 class-imbalance sign law, i.e. the definiteness ingredient just named (attacked and re-based the same
 day: the section "Three attacks on the sign law" below, where the sign law's proved reach and its open
 remainder are separated).
@@ -595,7 +599,10 @@ restricts to each R-parity sector and T L T = L† holds there: **each sector's 
 self-conjugate**. The AT spectrum inside that sector is separately self-conjugate, because the AT strand
 slopes κ come in ± pairs (the chiral pairing λ_{N+1−k} = −λ_k, `ChiralKClaim`). Hence the roots of
 F_res, the sector's spectrum with AT's removed, are self-conjugate, and the monic F_res is real. Both
-steps are checked from below at N = 5 and N = 7; the second rests on the chiral pairing being what fixes
+steps are checked from below at N = 5 and N = 7, and at N = 9 by the gcd certificate's runtime asserts
+(AT is asserted even in u with integer coefficients, exactly the ± slope pairing, and the exact
+division leaves F_res monic in λ with integer coefficients, so F_res is real by construction there);
+the second step rests on the chiral pairing being what fixes
 the AT slopes, which we have not derived in general.
 
 **How N = 7 was reached, and why not by "the same call".** `CertifyComplete` proves the remainder-R1 gcd
@@ -611,7 +618,9 @@ this one does not make). It is pinned where both can run: at N = 5 the two paths
 number, and the D-only one is about ten times faster. N = 7 then costs 2.4 and 2.7 minutes per parity.
 
 **What it does not close.** Not N = 9: the block there is 324-dimensional, and its exact bivariate
-ℤ[i][q] charpoly is a different engineering problem, not a longer run of this one. And not any N at
+ℤ[i][q] charpoly is a different engineering problem, not a longer run of this one (the gcd
+certificate section below reaches N = 9 by a different route, the proved layer identity,
+2026-07-17). And not any N at
 once. This is a per-N certificate, not a law; it retires chain lengths one at a time. The all-N item,
 s₆ ≠ 0, stays open, and nothing here bears on it.
 
@@ -626,7 +635,7 @@ Gates. Fast (Categories `FOLDRESULTANT` and `DISCMULT`, seconds):
 `BetaExoticPerNExclusionClaim` with the live witness `inspect --root betaexotic` (N = 5 by default;
 `--N 7` pays the minutes).
 
-## The gcd certificate: the per-N nonvanishing closes, exactly at N = 5 AND N = 7 (2026-07-10; both N = 7 premises discharged 2026-07-16, see the two subsections inside)
+## The gcd certificate: the per-N nonvanishing closes, exactly at N = 5, 7 AND 9 (2026-07-10; both N = 7 premises discharged 2026-07-16, see the two subsections inside; N = 9 landed 2026-07-17)
 
 The disc-multiplicity certificate above bounds an *exponent*: after it, no count-drop at N = 5 or
 N = 7 can be an order-≥3 point. What it never said is the O2b scalar itself, s₆ ≠ 0 at the seeds; a
@@ -634,17 +643,22 @@ multiplicity bound reads the branching, not the weight. That gap closes now, rat
 per sector. The computation was then adversarially reconfirmed by an independent route (independent
 pencil builders, Faddeev-LeVerrier adjugate recursion in place of vertex-deleted characteristic
 polynomials, a second factorization library; zero discrepancies at N = 5), and extended to N = 7 by
-the mod-p/CRT engine described below.
+the mod-p/CRT engine described below. On 2026-07-17 the same engine, with the disc sweeps fanned
+out over a multiprocessing pool, extended everything to N = 9 (sector dims 164/160, F_res degrees
+116/115); at N = 9 the layer discharge is not only the premise-killer but the *only* route to max
+multiplicity 2, since the DISCMULT engine never reached N = 9.
 
 Everything lives per R-sector over ℤ[λ, w], w = q² (this note's unit-hop axis), with the "Three
 attacks" section's two integer polynomials S₆ = tr(P₋₆·adj(λI − L)) and S_T = tr(T·adj(λI − L)).
-Four facts per sector, at both N (grades per fact and per N in the bookkeeping paragraph below):
+Four facts per sector, at each of the three N (grades per fact and per N in the bookkeeping paragraph below):
 
 1. **S₆ splits as strands × one core.** S₆ = (integer content) · (prefactors) · G with G irreducible
    over ℚ, and every prefactor either an AT-strand factor or a linear rung factor (λ+2), (λ+6). At
    N = 5: S₆ᴱ = 4·(w + (λ+2)²)·Gᴱ with Gᴱ of degree (23, 11); S₆ᴼ = 2·(λ+2)(λ+6)·(3w + (λ+2)²)·Gᴼ,
    Gᴼ of degree (19, 8). At N = 7: S₆ᴱ = 2·(λ+2)(λ+6)²·N₂·N₂′·Gᴱ, Gᴱ of degree (67, 31);
-   S₆ᴼ = N₄·N₄′·Gᴼ, Gᴼ of degree (63, 31) (Nₖ the AT strand factors of that sector). Each prefactor
+   S₆ᴼ = N₄·N₄′·Gᴼ, Gᴼ of degree (63, 31) (Nₖ the AT strand factors of that sector). At N = 9:
+   S₆ᴱ = 4·N₄·N₄′²·Gᴱ, Gᴱ of degree (151, 75); S₆ᴼ = 4·(λ+2)(λ+6)³·N₄·N₄′²·Gᴼ, Gᴼ of degree
+   (143, 68) (both N₄, N₄′ of degree (4, 2), the second squared). Each prefactor
    is **sign-fixed on the strip** λ ∈ (−6, −2), w > 0, and provably so by shape: every nonlinear AT
    factor is a Galois product of ((λ − r₀)² + κ²w) terms with κ real (spectrum of a symmetric
    restriction of K), strictly positive for w > 0, and the linear factors do not vanish on the open
@@ -653,26 +667,29 @@ Four facts per sector, at both N (grades per fact and per N in the bookkeeping p
 2. **The discriminant layers, exactly.** disc_Λ(F_res) = c · w^v · A₁ · A₂² per sector (c an integer
    constant; A₁, A₂ primitive with positive leading coefficient), with **A₁ (the simple layer)
    irreducible over ℚ** and A₂ irreducible (A₂'s irreducibility exact at N = 5, evidence-grade at
-   N = 7; nothing below uses it), and max multiplicity 2 off w = 0. Degrees
+   N = 7 and 9; nothing below uses it), and max multiplicity 2 off w = 0. Degrees
    in w, slashes in **E/O order** (mind: the DISCMULT table in the certificate section lists R-odd
    first): at N = 5, A₁ has degree 28 in both sectors (A₂: 16/13, v: 77/69); at N = 7, A₁ has degree
-   114/111 (A₂: 210/195, v: 772/753). The N = 5 computation is exact over ℤ, which upgrades the
+   114/111 (A₂: 210/195, v: 772/753); at N = 9, A₁ has degree 288/286 (A₂: 1072/1021, v: 4054/4020).
+   The N = 5 computation is exact over ℤ, which upgrades the
    certificate section's fail-closed mod-p reading of "max multiplicity 2" to an exact equality
    there; the N = 7 layer degrees reproduce the DISCMULT-certified table after the unit change
    (that table is in q, this list in w = q², so every degree doubles: 2·114 = 228, 2·210 = 420,
-   2·772 = 1544).
-3. **The gcds.** gcd(Res_Λ(F_res, S₆), A₁) = 1 in both sectors at both N. And, closing a gap the
+   2·772 = 1544). At N = 9 there is no DISCMULT table to reproduce (that engine never reached
+   N = 9); the proved identity itself delivers max multiplicity 2 there, see the second
+   premise-discharge subsection.
+3. **The gcds.** gcd(Res_Λ(F_res, S₆), A₁) = 1 in both sectors at all three N. And, closing a gap the
    first pass had not addressed: the **cross-sector** certificate gcd(Res_Λ(F_res_s, χ_other), A₁_s) = 1
-   in both directions, at both N (a λ\* shared with the *other* sector's spectrum would give
+   in both directions, at all three N (a λ\* shared with the *other* sector's spectrum would give
    full-block geometric multiplicity 2 despite sector S₆ ≠ 0; it cannot happen on the simple layer).
 4. **No coincident pair.** The one order-2 *count-dropping* configuration the certificate section
    keeps alive, two coincident √-type EP2s at a single w\* (distinct λ\*, dropping the count by 4),
    would sit on A₂, where fact 3 says nothing. It is excluded by a subresultant certificate: two
    double λ-roots at one w₀ force psc₀(w₀) = psc₁(w₀) = 0 (psc₁ the first principal subresultant
    coefficient of (F_res, ∂_λF_res); psc₀ is the discriminant), and
-   **gcd(disc_Λ(F_res)/w^v, psc₁/w^{v′}) = 1** in both sectors at both N, so no w₀ ≠ 0, real or
-   complex, carries more than one double λ-root. This fact is free of the layer premise even at
-   N = 7 (psc₁ is a fixed integer determinant in F_res's coefficients, so its mod-p reduction
+   **gcd(disc_Λ(F_res)/w^v, psc₁/w^{v′}) = 1** in both sectors at all three N, so no w₀ ≠ 0, real or
+   complex, carries more than one double λ-root. This fact is free of the layer premise at
+   every N (psc₁ is a fixed integer determinant in F_res's coefficients, so its mod-p reduction
    commutes unconditionally, and the gcd lifts from a good prime attaining the discriminant's
    certified degree); at N = 5 the exact inventory says the same
    thing concretely (A₂'s real positive roots: none in R-even, exactly the known diabolic in R-odd,
@@ -689,24 +706,32 @@ w\* ≠ 0, A₁(0) ≠ 0 checked). Fact 3 then forbids Res_Λ(F_res, S₆)(w\*) 
 hence adj(λ\*I − L) ≠ 0: **sector geometric multiplicity 1**; the cross-sector gcd extends that to
 the full block. At geometric multiplicity 1 the adjugate is rank one, adj = c·rrᵀ with c ≠ 0 in the
 antilinear gauge, so s₆ = S₆/c ≠ 0. That rank-one gauge step is the single non-rational link in the
-chain (standard linear algebra at geometric multiplicity 1; corroborated numerically at all 11
+chain (standard linear algebra at geometric multiplicity 1; corroborated numerically at all 19
 seeds, where κ₋₂ = −S₆/S_T from the exact polynomials matches the eigenvector-side values to the
 1e−5 gate, printed at six decimals: N = 5: 0.314463, 0.140184, 0.351821, 0.062939; N = 7: 0.090208, 0.238066, 0.184075,
-0.060903, 0.025288, 0.377212, 0.050276; S₆·S_T < 0 at every seed, the sign law's product form).
+0.060903, 0.025288, 0.377212, 0.050276; N = 9: 0.064236, 0.190886, 0.146061, 0.090363, 0.139896,
+0.379238, 0.049866, 0.040848 (the full defective census at N = 9: 8 coalescences, 4 per R-parity,
+2 of them re-entrant complex→real ones; one convention for all three N: the per-N seed lists count
+ALL defective coalescences including the re-entrant ones, 4/7/8 at N = 5/7/9 with 1/2/2 re-entrant,
+while the forced NET drop is (N − 1)/2 conjugate pairs = 2/3/4);
+S₆·S_T < 0 at every seed, the sign law's product form).
 And at a simple discriminant zero this note's own lemma gives exactly two branches meeting in a
 square-root point, so algebraic multiplicity 2 (H1) *follows* on A₁ rather than being assumed.
 Hence:
 
-> **At N = 5 and N = 7, both R-parities: every forced count-drop is a √-type defective EP2 with
-> s₆ ≠ 0. The per-N O2b nonvanishing holds there, eigensolver-free and exactly, at BOTH N**
+> **At N = 5, 7 and 9, both R-parities: every forced count-drop is a √-type defective EP2 with
+> s₆ ≠ 0. The per-N O2b nonvanishing holds there, eigensolver-free and exactly, at all three N**
 > (the two premises the first N = 7 landing carried are both discharged 2026-07-16: the
 > base-polynomial grade by the a-priori ℓ1 bound, the layer identification by
-> reconstruct-and-verify; the two premise-discharge subsections below).
+> reconstruct-and-verify; the two premise-discharge subsections below. N = 9 runs the same
+> proof shape end to end, landed 2026-07-17).
 
 Grades, in one line: N = 5 unconditional (exact ℤ end to end, base polynomials by exact integer
 Faddeev-LeVerrier, inventory included); N = 7 unconditional over ℚ since 2026-07-16, both former
 premises discharged: the CRT verification grade of the base polynomials (proof grade, first
-subsection below) and the mod-p layer identification (proved, second subsection below).
+subsection below) and the mod-p layer identification (proved, second subsection below); N = 9
+unconditional over ℚ since 2026-07-17, by the same two mechanisms (never carrying the premises:
+it landed with them already built in).
 
 Certification bookkeeping, so nothing is over-read. Proved over ℚ outright: the N = 5 facts, exact ℤ
 arithmetic end to end (independently reproduced by a second exact engine during the review round).
@@ -719,15 +744,15 @@ invisible to the fail-closed DISCMULT logic, whose one-prime proof covers only t
 **That premise is DISCHARGED** (second premise-discharge subsection below): A₁ and A₂ are now
 reconstructed as exact primitive ℤ polynomials and disc = C·w^v·A₁·A₂² is proved over ℤ, so no
 degree/shape-preserving prime can misbook a layer, and the committed verifier asserts the Yun
-layers against the exact A₁/A₂ at every certificate prime, at both N. On that footing the N = 7
-gcds are rational: F_res is monic and p ∤ lc_λ(S₆), so the mod-p reduction of the
-resultant is exact and Gauss's lemma lifts coprimality from one good prime; and the N = 7
-irreducibility certificate (mod-p degree-partition subset-sum, fed by reductions of the proved
-exact A₁, never by unverified Yun layers) proves irreducibility of A₁ itself. The
-S₆-core irreducibility at N = 7 never needed the premise (the core comes from the exact CRT
+layers against the exact A₁/A₂ at every certificate prime, at every certified N. On that footing
+the N = 7 and 9 gcds are rational: F_res is monic and p ∤ lc_λ(S₆), so the mod-p reduction of the
+resultant is exact and Gauss's lemma lifts coprimality from one good prime; and the N = 7 and 9
+irreducibility certificates (mod-p degree-partition subset-sum, fed by reductions of the proved
+exact A₁, never by unverified Yun layers) prove irreducibility of A₁ itself. The
+S₆-core irreducibility at N = 7 and 9 never needed the premise (the core comes from the exact CRT
 polynomial). The finer split Res = c·w^m·A₂²·B with gcd(B, disc) = 1 is exact at N = 5 but
-multi-prime evidence only at N = 7 (finitely many primes never lift divisibility), and nothing above
-uses it. One accounting for the base polynomials, applied everywhere: at N = 5, χ, S₆, S_T are
+multi-prime evidence only at N = 7 and 9 (finitely many primes never lift divisibility), and nothing
+above uses it. One accounting for the base polynomials, applied everywhere: at N = 5, χ, S₆, S_T are
 computed by exact integer Faddeev-LeVerrier with the node count justified by the degree bound (no
 CRT, no stability stop), so the N = 5 chain is exact ℤ end to end; at N = 7 they were, at the first
 landing, CRT-with-stability, verification-grade rather than proof-grade. That grade was upgraded
@@ -735,9 +760,10 @@ landing, CRT-with-stability, verification-grade rather than proof-grade. That gr
 rigorous a-priori coefficient bound, which makes the symmetric-range reconstruction provably exact,
 so every N = 7 statement, including fact 1's core irreducibility and the premise-free-of-layer
 fact 4, now rests on proof-grade base polynomials; the layer-identification premise above was the
-one N = 7 premise left, and it fell the same evening (second subsection below).
+one N = 7 premise left, and it fell the same evening (second subsection below). N = 9 entered
+(2026-07-17) with both mechanisms already in the engine, so it never carried either premise.
 
-### Premise discharge I: the N = 7 base polynomials are proof grade (2026-07-16)
+### Premise discharge I: the N = 7 (and 9) base polynomials are proof grade (2026-07-16; N = 9 on 2026-07-17)
 
 The bound is the permanent/row-sum bound, and it is deliberately elementary. χ = det(λI − D − uK)
 is a signed sum over permutations of entry products; the ℓ1 norm of coefficients (in the two
@@ -750,8 +776,9 @@ collection merges no terms (everything is even in u), so the same integers bound
 coefficient. `l1_bounds()` in [the gcd certificate](../simulations/o2b_gcd_certificate.py) computes
 them exactly, the CRT loop refuses to close before ∏p > 2B, and the numbers come out comfortable:
 at N = 7 the bounds are 2^251..2^254 (R-even, dim 75) and 2^239..2^242 (R-odd, dim 72), met at 11
-25-bit primes with ∏p = 2^274; at N = 5 the exact-ℤ path validates the bound from below
-(max|coeff| ≤ B asserted for all four polynomials, both sectors). With ∏p > 2B the symmetric-range
+25-bit primes with ∏p = 2^274; at N = 9 they are 2^563..2^567 (R-even, dim 164) and 2^547..2^551
+(R-odd, dim 160), met at 23 primes with ∏p = 2^574; at N = 5 the exact-ℤ path validates the bound
+from below (max|coeff| ≤ B asserted for all four polynomials, both sectors). With ∏p > 2B the symmetric-range
 CRT reconstruction is exact by construction, no stability assumption left; the stability stop and
 the fresh-prime extra-node checks stay in as independent cross-checks. What this does NOT touch:
 the layer-identification premise (a factorization statement about disc_Λ(F_res), downstream of but
@@ -777,25 +804,37 @@ over ℤ; (iv) SHAPE: A₁, A₂ squarefree, coprime, and nonzero at w = 0, each
 degree-preserving prime by Gauss (asserted at 3). Uniqueness of the squarefree decomposition then
 forces: **the multiplicity-1 layer of disc off w = 0 IS A₁ and the multiplicity-2 layer IS A₂
 over ℚ**: the identification is a theorem, and the verifier now asserts the mod-p Yun layers
-against the exact A₁/A₂ at every certificate prime, at both N; the A₁-irreducibility certificate
+against the exact A₁/A₂ at every certificate prime, at every certified N; the A₁-irreducibility
+certificate
 is fed by reductions of the exact A₁ (a fresh unverified Yun layer could otherwise smuggle the
 premise back in, a review catch). Numbers: N = 7 R-even B_D = 2^14200, pool 569 primes
 (∏ = 2^14224), C 442 digits; R-odd B_D = 2^13723, pool 549 primes, C 408 digits; ~11-12 min per
-sector. Validated from below at N = 5: the reconstructed (C, A₁, A₂) equal the exact-ℤ inventory
+sector. At N = 9 the same stages run at scale (2026-07-17): R-even B_D = 2^69908, Stage L stable
+at 504 primes, identity pool 2797 primes with ∏ = 2^69922 > B_D + B_R, C 931 digits, sign +;
+R-odd B_D = 2^68845, Stage L 480 primes, identity pool 2754 primes (∏ = 2^68847), C 956 digits,
+sign −; the disc-mod-p sweeps are fanned out over a multiprocessing
+pool (~1-1.5 h per sector at 22 workers; the per-prime math is byte-identical to the serial path).
+At N = 9 this identity is doing double duty: **max multiplicity 2 off w = 0 at N = 9 is itself a
+corollary** (the proved shape C·w^v·A₁·A₂² with A₁, A₂ squarefree and coprime has no
+multiplicity-3 layer), which the DISCMULT engine could never reach at N = 9; the localization
+half of the argument is thereby served without DISCMULT.
+Validated from below at N = 5: the reconstructed (C, A₁, A₂) equal the exact-ℤ inventory
 exactly, and max|coeff(disc)| = 2^430/2^372 ≤ B_D = 2^1548/2^1393. What this deliberately does
 NOT upgrade: the A₂²-split of Res_Λ(F_res, S₆) stays multi-prime evidence (nothing uses it), and
-A₂'s own irreducibility at N = 7 stays evidence-grade (nothing uses it either).
+A₂'s own irreducibility at N = 7 and 9 stays evidence-grade (nothing uses it either).
 
 What this hands the all-N question: **the seed-bearing layer does not fragment.** A₁ is irreducible
-over ℚ in both sectors at both N (four data points). If A₁ is irreducible at every odd N, then
+over ℚ in both sectors at all three N (six data points: hypothesis (i) below). If A₁ is
+irreducible at every odd N, then
 gcd(Res_Λ(F_res, S₆), A₁) is 1 or A₁, so the *resultant's* nonvanishing at one point of the simple
 layer decides all of it: the **simple-layer half** of O2b reduces to (i) A₁-irreducibility for all
 odd N and (ii) Res_Λ(F_res, S₆) ≠ 0 at one accessible w° with A₁(w°) = 0, i.e. S₆ ≠ 0 at **every**
 F_res branch over that one fiber, not merely at the defective one (S₆ could vanish at a spectator
 branch while the seed's s₆ ≠ 0 still holds, so a one-branch evaluation would neither force gcd = 1
 nor would gcd = A₁ falsify O2b). The *localization* half, "every count-drop sits on the simple
-layer", stays per-N: it consumed max multiplicity 2 (DISCMULT, out of reach at N = 9 by the current
-engine), the psc₁ coincident-pair exclusion, the cross-sector gcd, and per-sector reality of F_res,
+layer", stays per-N: it consumed max multiplicity 2 (DISCMULT at N = 5 and 7; at N = 9 the proved
+layer identity delivers it directly, the paragraph above), the psc₁ coincident-pair exclusion,
+the cross-sector gcd, and per-sector reality of F_res,
 none of which the two hypotheses subsume. That two-hypothesis shape for the simple-layer half
 is new; the previous all-N form (the "Three attacks" caution) had no way to separate the diabolics
 inside {S₆ = 0} from the seeds, and here the separation is the layer structure itself: the diabolics
@@ -812,7 +851,8 @@ reading any polynomial value there. mpmath's `findroot` absolute tolerance is us
 coefficient scales.
 
 Committed verifier: `simulations/o2b_gcd_certificate.py` (self-asserting at N = 5, ~10 s; `7` adds
-N = 7, ~30 min since the layer discharge runs inside it; it recomputes the polynomials, the
+N = 7, ~30 min since the layer discharge runs inside it; `9` adds N = 9, ~3.4 h measured with the
+disc sweeps on a 22-worker pool; it recomputes the polynomials, the
 factorizations, the exact layers A₁/A₂ with the full reconstruct-and-verify proof, all three gcd
 families including the psc₁ coincident-pair certificate, the strand positivity symbolically, the
 exact N = 5 disc/inventory over ℤ, and the seed evaluations from scratch; its docstring carries the
@@ -917,7 +957,7 @@ resonant-N facts in [F89_SEED_EXISTENCE_REDUCTION.md](F89_SEED_EXISTENCE_REDUCTI
 python simulations/seed_existence_nullity_check.py     # the seed object + the count (parent note)
 python simulations/o2b_krein_sign_law.py               # the class-imbalance sign law, N = 5, 7 (add 9)
 python simulations/o2b_three_attacks_audit.py          # the "Three attacks" section (N=5; also 7/b7/b9)
-python simulations/o2b_gcd_certificate.py              # the gcd certificate section (N=5; add 7)
+python simulations/o2b_gcd_certificate.py              # the gcd certificate section (N=5; add 7 and/or 9)
 ```
 
 ## Status
@@ -926,8 +966,8 @@ The count r(0⁺) − r(∞) = N − 1 is a theorem (the parent
 [F89_SEED_EXISTENCE_REDUCTION.md](F89_SEED_EXISTENCE_REDUCTION.md), Pieces 1-3). What this note owes the
 seed-existence *conclusion* is that each count-dropping seed is genuinely √-type:
 
-**The codim-2 β-exotic (OPEN for all N; CLOSED EXACTLY at N = 5 and N = 7, both parities,
-   2026-07-09/10):** a count-dropping transition is a √-type defective EP2 (exponent ½) unless it is a
+**The codim-2 β-exotic (OPEN for all N; CLOSED EXACTLY at N = 5, 7 and 9, both parities,
+   2026-07-09/10, N = 9 on 2026-07-17):** a count-dropping transition is a √-type defective EP2 (exponent ½) unless it is a
    non-generic order-≥3 point: the formally semisimple β-exotic (normal form β(s) = [[0, s], [s², 0]],
    eigenvalues ±s^{3/2}), its defective exponent-3/2 twin (geometric multiplicity 1, s₆ = 0), or the
    higher-order relatives (Jordan size ≥ 4, higher odd exponents), all caught by the same bound.
@@ -936,21 +976,25 @@ seed-existence *conclusion* is that each count-dropping seed is genuinely √-ty
      and a β-exotic would need 3. The subsidiary premise H1 (algebraic multiplicity exactly 2, no
      Jordan block of size ≥ 3) **follows there, with one checked premise**: the argument needs F_res
      real, whose per-sector reality rests on the chiral pairing being what fixes the AT slopes,
-     checked at N = 5 and N = 7 rather than derived in general (the certificate section's reality
-     paragraph is the canonical wording). Cite H1 with that qualifier. N = 9 is out of reach by this
-     route. **2026-07-10, strictly more**: the gcd certificate (its own section above) proves the
+     checked at N = 5 and N = 7 rather than derived in general, and at N = 9 by the gcd
+     certificate's runtime asserts (the certificate section's reality
+     paragraph is the canonical wording). Cite H1 with that qualifier. N = 9 is out of reach by the
+     DISCMULT route; there the max-multiplicity-2 bound comes from the proved layer identity
+     instead (the second premise-discharge subsection).
+     **2026-07-10, strictly more**: the gcd certificate (its own section above) proves the
      nonvanishing itself, s₆ ≠ 0 at every forced count-drop
      (gcd(Res_Λ(F_res, S₆), A₁) = 1 plus the cross-sector gcd): unconditionally at N = 5 (exact ℤ),
-     and unconditionally at N = 7 since 2026-07-16 (both premises of that section's bookkeeping
+     unconditionally at N = 7 since 2026-07-16 (both premises of that section's bookkeeping
      paragraph discharged: the base-polynomial CRT grade by the a-priori ℓ1 bound, the mod-p layer
-     identification by reconstruct-and-verify; the two premise-discharge subsections). So at those
-     N the O2b scalar is not
+     identification by reconstruct-and-verify; the two premise-discharge subsections), and
+     unconditionally at N = 9 since 2026-07-17 (same engine, premises built in from the start).
+     So at those N the O2b scalar is not
      just β-excluded but positively settled: every forced count-drop is a √-type defective EP2.
    - *For all N it is open*, and reduced to the scalar statement **s₆ ≠ 0 at every forced seed for all
      odd N** (section "The β-exotic, sharpened" above; read via the polynomial S₆ = tr(P₋₆·adj(λI−L))
      where the eigenspace could be two-dimensional, since s₆ itself is defined only at geometric
      multiplicity 1), which excludes the β-exotic only under the
-     separate premise H1 (algebraic multiplicity exactly 2, only numerical for N ≥ 9). It is a genuine
+     separate premise H1 (algebraic multiplicity exactly 2, only numerical for N ≥ 11). It is a genuine
      sharpening of the failed discriminant-Galois route. The moment-relation proof route (transpose +
      Hermitian relations from the rung-split eigen-equation) is proved insufficient by an explicit
      in-class witness. The remaining need, a definiteness ingredient from the K₆₆ = −3H₃ spectrum or
@@ -960,8 +1004,8 @@ seed-existence *conclusion* is that each count-dropping seed is genuinely √-ty
      not proved. It is the gauge-invariant, signed reading of s₆ ≠ 0 at the *defective* seeds (the
      gauge relation κ₋₆ = c·s₆/‖v‖² holds only at geometric multiplicity 1), and a from-below
      mechanism candidate, not a standalone β-exotic exclusion: that still needs the defectiveness
-     (geometric multiplicity 1) itself, which the certificate supplies at N = 5, 7 and the σ₂ sweep
-     corroborates numerically at N = 5, 7, 9. The 2026-07-09 section "Three attacks on the sign law"
+     (geometric multiplicity 1) itself, which the certificate supplies at N = 5, 7, 9 and the σ₂
+     sweep corroborates numerically at the same N. The 2026-07-09 section "Three attacks on the sign law"
      re-based both halves: the sign law's *sign half* reduces (modulo H1) to the band-wide *separating
      law* (giving κ₋₂ ≥ 0 at every defective seed, strict exactly where s₆ ≠ 0), and the nonvanishing
      acquires the integer-polynomial form κ₋₂ = −S₆/S_T with S₆ ≠ 0 ⟹ geometric
@@ -970,10 +1014,12 @@ seed-existence *conclusion* is that each count-dropping seed is genuinely √-ty
      certificate section replaces the old caution ("{S₆ = 0} contains the diabolics, no separation")
      with a measured separation, the diabolics on A₂ and the seeds on A₁, and reduces the
      *simple-layer half* of all-N O2b to
-     two uniform hypotheses: **A₁ irreducible over ℚ for every odd N** (true at N = 5, 7, both
-     sectors) **plus Res_Λ(F_res, S₆) ≠ 0 at one accessible simple-layer fiber** (S₆ ≠ 0 at every
+     two uniform hypotheses: **A₁ irreducible over ℚ for every odd N** (true at N = 5, 7, 9, both
+     sectors: six data points) **plus Res_Λ(F_res, S₆) ≠ 0 at one accessible simple-layer fiber**
+     (S₆ ≠ 0 at every
      branch over it, not merely at the defective one); the localization half (every count-drop on
-     A₁) keeps its per-N inputs (DISCMULT max-mult 2, the psc₁ leg, the cross-sector gcd, F_res
+     A₁) keeps its per-N inputs (max-mult 2 by DISCMULT at N = 5, 7 and by the layer identity at
+     N = 9, the psc₁ leg, the cross-sector gcd, F_res
      reality). The sign half's
      band-wide targets are tightened in the cell-law section (the separating law with sharp constant
      κ₋₂ ≥ 2σ/(N+1), its rung-6 dual, the edge-birth theorem, and the twinning protection at

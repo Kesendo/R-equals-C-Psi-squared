@@ -1,8 +1,9 @@
-"""The rational gcd certificate that closes the O2b nonvanishing at N = 5 and N = 7 (F89 arc).
+"""The rational gcd certificate that closes the O2b nonvanishing at N = 5, 7 and 9 (F89 arc).
 
 Companion verifier for experiments/F89_SEED_EXISTENCE_REDUCTION.md, sections "Three attacks on
 the sign law" (the rational form kappa_-2 = -S6/ST) and "The beta-exotic is excluded at N = 5 and
-N = 7". It recomputes, from scratch at runtime and per R-parity sector (spatial reflection
+N = 7" (extended to N = 9 on 2026-07-17, see F89_BETA_EXOTIC_GENERICITY.md). It recomputes, from
+scratch at runtime and per R-parity sector (spatial reflection
 i -> N-1-i on the (1,2)-block states [(a,b) for a in C(N,2) for b in C(N,1)]):
 
   1. the real pencil L(q) = D + u K over Z (u = iq, K real symmetric integer, T K T = -K exact
@@ -10,7 +11,7 @@ i -> N-1-i on the (1,2)-block states [(a,b) for a in C(N,2) for b in C(N,1)]):
          chi = det(lam I - L),  S6 = tr(P_-6 adj(lam I - L)),  ST = tr(T adj(lam I - L))
      at N = 5 by EXACT integer Faddeev-LeVerrier at dim//2 + 1 integer u-nodes + exact
      interpolation over Z (a proof: deg_u <= dim and evenness make those nodes determining;
-     the CRT route runs alongside and is asserted equal), at N = 7 by mod-p FLV + Newton
+     the CRT route runs alongside and is asserted equal), at N = 7 and 9 by mod-p FLV + Newton
      interpolation in u^2 + CRT (PROOF grade since 2026-07-16: primes consumed until
      prod(p) > 2*B for the rigorous permanent/row-sum l1 bound B of l1_bounds(), making the
      symmetric-range CRT provably exact; the stability stop with 3 slack primes and the
@@ -18,13 +19,17 @@ i -> N-1-i on the (1,2)-block states [(a,b) for a in C(N,2) for b in C(N,1)]):
      d chi/d lam exact, evenness in u structural + checked at the u = -1 node, and a 50-digit
      mpmath full-block adjugate check incl. S6_full = S6_E chi_O + S6_O chi_E;
   2. the split chi = AT * F_res (AT = the q-independent invariant-subspace strand factor, exact
-     division with zero remainder; F_res monic in lam, degrees 18/17 at N = 5, 53/52 at N = 7)
+     division with zero remainder; F_res monic in lam, degrees 18/17 at N = 5, 53/52 at
+     N = 7, 116/115 at N = 9)
      and the S6 factor shape S6 = content * prefactors * G with every prefactor sign-fixed on
      the strip lam in (-6,-2), Q2 > 0 and the core G irreducible over Q;
   3. disc_Lam(F_res) = c * Q2^v * A1 * A2^2 with max multiplicity 2 off Q2 = 0 (the beta-exotic
      needs 3), layer degrees matching the certified table (N=5: A1 28/28, A2 16/13, v 77/69;
-     N=7: A1 114/111, A2 210/195, v 772/753; E/O order, degrees in Q2), and A1 irreducible
-     over Q. Since 2026-07-16 (the LAYER DISCHARGE, both N): A1 and A2 are lifted to exact
+     N=7: A1 114/111, A2 210/195, v 772/753; N=9: A1 288/286, A2 1072/1021, v 4054/4020;
+     E/O order, degrees in Q2), and A1 irreducible
+     over Q. Since 2026-07-16 (the LAYER DISCHARGE, N = 5 and 7; N = 9 on 2026-07-17,
+     ~2800 pool primes per sector, fanned out over a multiprocessing Pool -- the math per
+     prime is identical to the serial path, see disc_stream): A1 and A2 are lifted to exact
      primitive Z polynomials (CRT + rational reconstruction of the Yun layers) and the
      identity disc = C * Q2^v * A1 * A2^2 is PROVED over Z, coefficient-wise mod a prime
      pool whose product exceeds B_D + B_R (B_D = the rigorous permanent/row-sum l1 bound
@@ -42,7 +47,7 @@ i -> N-1-i on the (1,2)-block states [(a,b) for a in C(N,2) for b in C(N,1)]):
      {1.541958, 4.645014} E / {1.653988, 31.469594} O) and A2 has none (R-even) resp.
      exactly one (R-odd, w ~ 5.100831, verified to carry a single REAL double lambda-root
      of F_res: the diabolic class, not a coincident EP2 pair);
-  3b. COINCIDENT-EP2 EXCLUSION (both N, both sectors): with psc_1 the first principal
+  3b. COINCIDENT-EP2 EXCLUSION (all three N, both sectors): with psc_1 the first principal
      subresultant coefficient of (F_res, dF_res/dlam) in lam, a w0 carrying TWO double
      lambda-roots (a coincident EP2 pair: an order-2 COUNT-DROPPING locus on A2 that the
      gcd certificate alone cannot see) or one triple root forces deg gcd(F_res, dF') >= 2,
@@ -56,7 +61,8 @@ i -> N-1-i on the (1,2)-block states [(a,b) for a in C(N,2) for b in C(N,1)]):
      per sector, and the cross-sector gap gcd(Res_Lam(F_res_s, chi_other), A1_s) = 1 in both
      directions (so no OTHER-sector eigenvalue meets a seed locus: the kernel at a simple-layer
      collision is 1-dimensional on the FULL block, geometric multiplicity 1);
-  5. seed spot-checks: each forced seed Newton-refined (exact Jacobian, dps 80) as a double
+  5. seed spot-checks: each forced seed Newton-refined (exact Jacobian; dps 80 at N <= 7,
+     160 at N = 9, see refine_and_check_seeds) as a double
      root of F_res, then S6 != 0, S6*ST < 0 and kappa_-2 = -S6/ST > 0 asserted against the
      eigenvector-route reference values to 1e-5 (printed at 6 decimals).
 
@@ -64,7 +70,7 @@ Together: on the simple layer A1 of the discriminant (which carries every count-
 by the disc-multiplicity table of the beta-exclusion section) S6 does not vanish, and no
 cross-sector coincidence can raise the kernel dimension there. Hence at every count-drop the
 geometric multiplicity is 1 full-block, adj(lam* I - L) = c*r r^T with c != 0, and
-s6 = S6/c != 0 at every forced seed: the O2b nonvanishing, per N, at N = 5 and N = 7.
+s6 = S6/c != 0 at every forced seed: the O2b nonvanishing, per N, at N = 5, 7 and 9.
 
 Proof status of each layer (read this before citing):
   * PROVED OVER Q (exact integer arithmetic), N = 5 end to end: the base polynomials
@@ -76,16 +82,17 @@ Proof status of each layer (read this before citing):
     factors (lam+2) < 0 < (lam+6) by inspection), and the whole N = 5 disc inventory of
     item 3 (exact D, A1, A2 over Z with A1 mod p asserted to BE the mult-1 Yun layer at
     every certificate prime).
-  * BASE POLYNOMIALS AT N = 7: PROOF GRADE since 2026-07-16. chi/S6/S2/ST are reconstructed
+  * BASE POLYNOMIALS AT N = 7 AND 9: PROOF GRADE (N = 7 since 2026-07-16, N = 9 since
+    2026-07-17). chi/S6/S2/ST are reconstructed
     by CRT with the prime pool consumed until prod(p) > 2*B, B the rigorous a-priori
     permanent/row-sum l1 bound of l1_bounds() (validated from below at N = 5 against the
     exact-Z coefficients). The symmetric-range CRT is then provably exact -- no stability
     assumption left; the stability stop (+3 slack primes), fresh-prime extra-node checks and
     the 50-digit full-block adjugate check remain as independent cross-checks. Everything
-    downstream at N = 7 (F_res, the disc layers, the psc_1 leg, both gcd certificates, the
-    seed checks) now rests on proof-grade base polynomials. (Historical: before 2026-07-16
-    this was stability-stopped only, verification grade -- the first of the two named N = 7
-    premises in F89_BETA_EXOTIC_GENERICITY.md's bookkeeping; it is DISCHARGED, and the
+    downstream at N = 7 and 9 (F_res, the disc layers, the psc_1 leg, both gcd certificates,
+    the seed checks) now rests on proof-grade base polynomials. (Historical: before 2026-07-16
+    the N = 7 run was stability-stopped only, verification grade -- the first of the two named
+    N = 7 premises in F89_BETA_EXOTIC_GENERICITY.md's bookkeeping; it is DISCHARGED, and the
     second, the layer identification, was discharged the same evening, see below.)
   * PROVED OVER Q VIA A GOOD PRIME, given the base polynomials (a nontrivial Q-gcd of
     integer polynomials survives reduction mod any prime that preserves both degrees, by
@@ -95,10 +102,11 @@ Proof status of each layer (read this before citing):
     coincident-EP2 exclusion of item 3b (which uses only D itself, whose true Q2-degree the
     DISCMULT engine certified by Hadamard-bounded prime sampling, never the layer
     identification). Asserted at >= 3 primes although ONE good prime already proves each.
-    At N = 5 these are therefore unconditional; at N = 7 they rest on the PROOF-grade
+    At N = 5 these are therefore unconditional; at N = 7 and 9 they rest on the PROOF-grade
     base polynomials above plus the proved layer identification below (the psc_1 leg
-    never needed the latter), so they are unconditional at N = 7 as well.
-  * LAYER IDENTIFICATION: PROVED at BOTH N since 2026-07-16 (evening) -- no longer a
+    never needed the latter), so they are unconditional at N = 7 and 9 as well.
+  * LAYER IDENTIFICATION: PROVED at every certified N (N = 5 and 7 on 2026-07-16, N = 9
+    on 2026-07-17) -- no longer a
     premise. Historically (first N = 7 landing): "mod-p mult-1 Yun layer = A1 mod p" was
     conditional, because a bad prime can merge two roots of A1 into a square that Yun
     books into the mult-2 layer ((A1, A2) = (116, 209) over Q with a d = 1 merge would
@@ -109,15 +117,15 @@ Proof status of each layer (read this before citing):
     squarefree decomposition of the reduction is the reduction of the squarefree
     decomposition at every prime preserving the layer degrees and shape, all checked
     per certificate prime by direct comparison against the exact A1, A2). Consequently
-    the N = 7 A1-irreducibility (subset-sum certificate, fed by reductions of the PROVED
-    exact A1) and both N = 7 gcd conclusions of item 4 are UNCONDITIONAL, resting on the
-    proof-grade base polynomials + the proved layers alone. The item-3b coincident-EP2
-    exclusion never used the layer identification at either N.
-  * MULTI-PRIME EVIDENCE ONLY (not asserted at N = 7): the A2^2-split of the resultant,
+    the N = 7 and 9 A1-irreducibility (subset-sum certificate, fed by reductions of the
+    PROVED exact A1) and the N = 7 and 9 gcd conclusions of item 4 are UNCONDITIONAL,
+    resting on the proof-grade base polynomials + the proved layers alone. The item-3b
+    coincident-EP2 exclusion never used the layer identification at any N.
+  * MULTI-PRIME EVIDENCE ONLY (not asserted at N = 7 or 9): the A2^2-split of the resultant,
     Res_Lam(F_res, S6) = c * Q2^vR * A2^2 * B. At N = 5 the split was proved EXACTLY by the
     in-session sympy scouts, so deg gcd(Res, disc) = 2*deg A2 + v IS asserted there; at N = 7
-    the same gcd degree is printed as evidence, never asserted (mod-p divisibility at finitely
-    many primes does not lift).
+    and 9 the same gcd degree is printed as evidence, never asserted (mod-p divisibility at
+    finitely many primes does not lift).
   * Honest caveat (kept from the review): the final step s6 = S6/c != 0 uses the rank-1
     adjugate identity adj = c*r r^T in the antilinear gauge, standard linear algebra at
     geometric multiplicity 1; the certificate items above are what establish that geometric
@@ -130,6 +138,9 @@ Run:  python simulations/o2b_gcd_certificate.py         # N = 5 (~10 s measured,
       python simulations/o2b_gcd_certificate.py 7       # N = 5 and N = 7 (~30 min measured:
                                                         #   the layer discharge sweeps ~560
                                                         #   primes per sector inside the run)
+      python simulations/o2b_gcd_certificate.py 9       # N = 5 and N = 9 (~3.4 h measured,
+                                                        #   22-worker Pool: ~2800 pool primes
+                                                        #   per sector; "7 9" runs all three)
 """
 import os
 import sys
@@ -148,11 +159,12 @@ from o2b_krein_sign_law import basis, bipartite_sign      # noqa: E402
 lam, Q2 = sp.symbols("lam Q2")
 
 # ------------------------------------------------------------------ certified reference tables
-SECTOR_DIM = {5: {"E": 26, "O": 24}, 7: {"E": 75, "O": 72}}
-FRES_DEG = {5: {"E": 18, "O": 17}, 7: {"E": 53, "O": 52}}
+SECTOR_DIM = {5: {"E": 26, "O": 24}, 7: {"E": 75, "O": 72}, 9: {"E": 164, "O": 160}}
+FRES_DEG = {5: {"E": 18, "O": 17}, 7: {"E": 53, "O": 52}, 9: {"E": 116, "O": 115}}
 # disc_Lam(F_res) layers in Q2: simple layer A1, double layer A2, valuation v at Q2 = 0
 DISC_TABLE = {5: {"E": dict(A1=28, A2=16, v=77), "O": dict(A1=28, A2=13, v=69)},
-              7: {"E": dict(A1=114, A2=210, v=772), "O": dict(A1=111, A2=195, v=753)}}
+              7: {"E": dict(A1=114, A2=210, v=772), "O": dict(A1=111, A2=195, v=753)},
+              9: {"E": dict(A1=288, A2=1072, v=4054), "O": dict(A1=286, A2=1021, v=4020)}}
 # N = 5 only: the EXACT split gcd(Res(F,S6), disc) = Q2^v * A2^2 (proved by the sympy scouts)
 GCD_R1_DISC_N5 = {"E": 109, "O": 95}          # = v + 2*deg A2
 # forced seeds (sector, q*, lam*, kappa_-2 reference), unit-hop, from o2b_krein_sign_law.py
@@ -168,6 +180,14 @@ SEEDS = {
         ("E", 3.029667, -4.8846, 0.025288),
         ("O", 3.181705, -3.8998, 0.377212),
         ("E", 11.355150, -4.8553, 0.050276)],
+    9: [("O", 1.023916, -4.1581, 0.064236),
+        ("E", 1.183521, -5.1206, 0.190886),
+        ("E", 1.319535, -5.1101, 0.146061),
+        ("O", 1.350748, -4.4978, 0.090363),
+        ("E", 1.698022, -4.8415, 0.139896),
+        ("E", 4.275099, -4.0264, 0.379238),
+        ("O", 5.523970, -5.0640, 0.049866),
+        ("O", 18.670862, -5.0817, 0.040848)],
 }
 MIN_CERT_PRIMES = 3        # gcd certificates asserted at >= this many good primes
 
@@ -1113,10 +1133,9 @@ def valuation_at_zero(f):
     return v
 
 
-def disc_layers_modp(CF, nodes, p, table):
-    """Disc mod p: assert deg, v, layer degrees vs the certified table, max multiplicity 2;
-    return (Dp, A1p, A2p, vD)."""
-    Dp = resultant_modp(CF, None, nodes, p, derivative=True)
+def layers_from_disc(Dp, p, table):
+    """Yun layers of a given disc mod p: assert v, layer degrees vs the certified table,
+    max multiplicity 2; return (A1p, A2p, vD)."""
     vD = valuation_at_zero(Dp)
     layers = yun_sqf(polytrim(Dp[:len(Dp) - vD].copy()), p)
     laydeg = {m: len(g) - 1 for g, m in layers}
@@ -1126,6 +1145,14 @@ def disc_layers_modp(CF, nodes, p, table):
         f"layer degrees {laydeg} != table {table} at p={p}"
     A1p = next(g for g, m in layers if m == 1)
     A2p = next(g for g, m in layers if m == 2)
+    return A1p, A2p, vD
+
+
+def disc_layers_modp(CF, nodes, p, table):
+    """Disc mod p: assert deg, v, layer degrees vs the certified table, max multiplicity 2;
+    return (Dp, A1p, A2p, vD)."""
+    Dp = resultant_modp(CF, None, nodes, p, derivative=True)
+    A1p, A2p, vD = layers_from_disc(Dp, p, table)
     return Dp, A1p, A2p, vD
 
 
@@ -1243,6 +1270,45 @@ def prime_stream(below=2 ** 25):
         yield p
 
 
+_PAR = {}                       # worker-process state for the parallel disc sweep
+
+
+def _par_init(CF, nodes):
+    _PAR["CF"], _PAR["nodes"] = CF, nodes
+
+
+def _par_disc(p):
+    """One pool prime: (p, disc_Lam(F_res) mod p). The V2 prime conditions are asserted
+    here, so they hold in the parallel path exactly as in the serial one."""
+    CF, nodes = _PAR["CF"], _PAR["nodes"]
+    m = len(CF) - 1
+    assert p > len(nodes) and m % p != 0, "pool prime violates the V2 conditions"
+    Fv = eval_nodes_modp(CF, nodes, p)
+    vals = []
+    for j in range(len(nodes)):
+        fj = polytrim(Fv[j][::-1].copy())
+        vals.append(res_modp(fj, polyderiv(fj, p), p))
+    return p, interp_modp(nodes, np.array(vals, dtype=np.int64), p)
+
+
+def disc_stream(CF, nodes, primes_iter, workers):
+    """Yield (p, disc mod p) in prime-stream order. workers > 1 fans the per-prime disc
+    computation out over a multiprocessing Pool (N = 9: ~2800 pool primes at ~25 s each
+    serial); the math per prime is _par_disc either way, so the certificate's assertions
+    are identical on both paths."""
+    _par_init(CF, nodes)
+    if workers <= 1:
+        for p in primes_iter:
+            yield _par_disc(p)
+        return
+    from multiprocessing import Pool
+    with Pool(workers, initializer=_par_init, initargs=(CF, nodes)) as pool:
+        while True:
+            batch = [next(primes_iter) for _ in range(workers * 2)]
+            for out in pool.imap(_par_disc, batch):
+                yield out
+
+
 def rational_reconstruct(r, M):
     """Unique a/b with r*b = a mod M, gcd(b, M) = 1, |a| <= sqrt(M/2), 0 < b <= sqrt(M/2),
     or None. Half-extended Euclid (Wang); below those bounds the representation is unique."""
@@ -1276,20 +1342,23 @@ def crt_pair(r1, M1, r2, p):
     return r1 + M1 * (((r2 - r1) % p) * inv % p)
 
 
-def lift_layers(CF, table, nodes, primes_iter, tag):
+def lift_layers(CF, table, nodes, primes_iter, tag, workers=1):
     """Stage L of the layer discharge: CRT of the monic mod-p Yun layers of disc_Lam(F_res)
     + per-coefficient rational reconstruction, denominators cleared -> primitive Z
     candidates (descending int arrays, lc > 0) A1, A2. HEURISTIC by design: correctness
-    rests entirely on certify_layer_identity below, which no wrong candidate can pass."""
+    rests entirely on certify_layer_identity below, which no wrong candidate can pass.
+    Reconstruction is attempted every prime while the lift is young, then every 8th (at
+    N = 9 the ~500-prime lift makes a per-prime Euclid pass over ~1360 coefficients the
+    dominant cost, not the disc itself)."""
     t0 = time.time()
     res1 = res2 = None
     M = 1
     used = 0
     cand = None
     stable = 0
-    for p in primes_iter:
+    for p, Dp in disc_stream(CF, nodes, primes_iter, workers):
         try:
-            _, A1p, A2p, _ = disc_layers_modp(CF, nodes, p, table)
+            A1p, A2p, _ = layers_from_disc(Dp, p, table)
         except AssertionError:
             continue                                   # bad prime for the layer shape
         used += 1
@@ -1301,7 +1370,7 @@ def lift_layers(CF, table, nodes, primes_iter, tag):
             res1 = [crt_pair(res1[i], M, a1[i], p) for i in range(len(res1))]
             res2 = [crt_pair(res2[i], M, a2[i], p) for i in range(len(res2))]
             M *= p
-        if used < 4:
+        if used < 4 or (used >= 48 and used % 8):
             continue
         new_cand, ok = [], True
         for res in (res1, res2):
@@ -1340,7 +1409,7 @@ def lift_layers(CF, table, nodes, primes_iter, tag):
     raise AssertionError(f"{tag}: layer Stage L did not stabilize")
 
 
-def certify_layer_identity(CF, table, A1, A2, primes_iter, tag, exact_disc=None):
+def certify_layer_identity(CF, table, A1, A2, primes_iter, tag, exact_disc=None, workers=1):
     """Stage V of the layer discharge, THE PROOF. Establishes over Z:
 
         disc_Lam(F_res) = C * w^v * A1 * A2^2                            (IDENTITY)
@@ -1384,22 +1453,22 @@ def certify_layer_identity(CF, table, A1, A2, primes_iter, tag, exact_disc=None)
         print(f"  {tag} layer B_D = 2^{B_D.bit_length()} validated from below "
               f"(exact max|coeff(disc)| = 2^{mx.bit_length()})")
 
-    def disc_modp(p):
-        assert p > len(nodes) and m % p != 0, "pool prime violates the V2 conditions"
-        Fv = eval_nodes_modp(CF, nodes, p)
-        vals = []
-        for j in range(len(nodes)):
-            fj = polytrim(Fv[j][::-1].copy())
-            vals.append(res_modp(fj, polyderiv(fj, p), p))
-        return interp_modp(nodes, np.array(vals, dtype=np.int64), p)
-
+    stream = disc_stream(CF, nodes, primes_iter, workers)
     Dp_store, pool = [], []
     prodp = 1
-    while prodp <= 2 * B_D:                                # enough to determine C
-        p = next(primes_iter)
-        Dp_store.append(disc_modp(p))
+
+    def take_one():
+        nonlocal prodp
+        p, Dp = next(stream)
+        Dp_store.append(Dp)
         pool.append(p)
         prodp *= p
+        if workers > 1 and len(pool) % 256 == 0:
+            print(f"  {tag} layer pool: {len(pool)} primes, prod 2^{prodp.bit_length() - 1}"
+                  f"  [{time.time() - t0:.0f}s]", flush=True)
+
+    while prodp <= 2 * B_D:                                # enough to determine C
+        take_one()
     # C by CRT over degree-stable primes (extend the pool if too many were skipped)
     lcA = int(A1[0]) * int(A2[0]) ** 2
     while True:
@@ -1411,18 +1480,12 @@ def certify_layer_identity(CF, table, A1, A2, primes_iter, tag, exact_disc=None)
             rC, MC = (r, p) if rC is None else (crt_pair(rC, MC, r, p), MC * p)
         if MC > 2 * B_D:
             break
-        p = next(primes_iter)
-        Dp_store.append(disc_modp(p))
-        pool.append(p)
-        prodp *= p
+        take_one()
     C = rC if rC <= MC // 2 else rC - MC
     assert C != 0
     B_R = abs(C) * sum(abs(int(v)) for v in A1) * sum(abs(int(v)) for v in A2) ** 2
     while prodp <= B_D + B_R:                              # the identity bound, fail-closed
-        p = next(primes_iter)
-        Dp_store.append(disc_modp(p))
-        pool.append(p)
-        prodp *= p
+        take_one()
     assert len(set(pool)) == len(pool), "pool primes not pairwise distinct"
 
     v = table["v"]
@@ -1463,11 +1526,16 @@ def certify_layer_identity(CF, table, A1, A2, primes_iter, tag, exact_disc=None)
 
 # ================================================================== 7. seed spot-checks
 def refine_and_check_seeds(N, polys, F_res):
-    """Newton-refine each forced seed as a double root of its sector F_res (exact Jacobian,
-    dps 80; mpmath findroot's absolute tolerance is useless here, the coefficients carry ~8
-    digits of cancellation and the locus must be pinned far below that), then assert
-    S6 != 0, S6*ST < 0, kappa_-2 = -S6/ST > 0 matching the eigenvector-route reference."""
-    mp.dps = 80
+    """Newton-refine each forced seed as a double root of its sector F_res (exact Jacobian;
+    mpmath findroot's absolute tolerance is useless here, the coefficients carry heavy
+    cancellation and the locus must be pinned far below that), then assert
+    S6 != 0, S6*ST < 0, kappa_-2 = -S6/ST > 0 matching the eigenvector-route reference.
+
+    dps: 80 at N <= 7; 160 at N = 9, where F_res coefficients reach ~2^570 and the
+    evaluation noise at dps 80 floors the Newton steps at ~1e-5 (measured: the iteration
+    bounces, one seed even leaves the basin); at dps 160 every N = 9 seed converges in
+    4 iterations to steps < 1e-49, and dps 240 reproduces the loci digit for digit."""
+    mp.dps = 80 if N <= 7 else 160
 
     def mp_eval(P, l0, w0):
         tot = mpf(0)
@@ -1475,16 +1543,42 @@ def refine_and_check_seeds(N, polys, F_res):
             tot += int(c) * (l0 ** dl) * (w0 ** dw)
         return tot
 
+    # Direct monomial evaluators (exact integer coefficients, mpmath at the ambient dps).
+    # NOT lambdify: that compiles one giant Python expression, and at the N = 9 term count
+    # (F_res has ~3400 monomials) CPython's compiler hits its recursion limit.
+    def poly_terms(P):
+        return [(m[0], m[1], int(c)) for m, c in zip(P.monoms(), P.coeffs())]
+
+    def d_dl(terms):
+        return [(dl - 1, dw, c * dl) for dl, dw, c in terms if dl]
+
+    def d_dw(terms):
+        return [(dl, dw - 1, c * dw) for dl, dw, c in terms if dw]
+
+    def make_eval(terms):
+        dl_max = max((t[0] for t in terms), default=0)
+        dw_max = max((t[1] for t in terms), default=0)
+
+        def ev(l0, w0):
+            lp = [mpf(1)]
+            for _ in range(dl_max):
+                lp.append(lp[-1] * l0)
+            wp = [mpf(1)]
+            for _ in range(dw_max):
+                wp.append(wp[-1] * w0)
+            tot = mpf(0)
+            for dl, dw, c in terms:
+                tot += c * lp[dl] * wp[dw]
+            return tot
+        return ev
+
     lamb = {}
     for s in ("E", "O"):
-        Fe = F_res[s].as_expr()
-        lamb[s] = dict(
-            F=sp.lambdify((lam, Q2), Fe, "mpmath"),
-            dF=sp.lambdify((lam, Q2), sp.diff(Fe, lam), "mpmath"),
-            J=[sp.lambdify((lam, Q2), sp.diff(Fe, lam), "mpmath"),
-               sp.lambdify((lam, Q2), sp.diff(Fe, Q2), "mpmath"),
-               sp.lambdify((lam, Q2), sp.diff(Fe, lam, 2), "mpmath"),
-               sp.lambdify((lam, Q2), sp.diff(Fe, lam, Q2), "mpmath")])
+        T = poly_terms(F_res[s])
+        Tl = d_dl(T)
+        lamb[s] = dict(F=make_eval(T), dF=make_eval(Tl),
+                       J=[make_eval(Tl), make_eval(d_dw(T)),
+                          make_eval(d_dl(Tl)), make_eval(d_dw(Tl))])
 
     print(f"  {'q*':>11} {'lam*':>11} sec {'S6_s':>12} {'ST_s':>12} "
           f"{'kappa_-2':>10} {'kappa_ref':>10}")
@@ -1526,6 +1620,11 @@ def refine_and_check_seeds(N, polys, F_res):
 def run(N):
     t_start = time.time()
     print(f"\n================================ N = {N} ================================")
+    # N = 9 fans the disc sweeps out over a Pool (~2800 pool primes at ~25 s each serial);
+    # N = 5 and 7 keep the committed serial path (identical math either way, see disc_stream).
+    # O2B_WORKERS overrides (validation hook: the parallel path is asserted equal at N = 5).
+    workers = int(os.environ.get("O2B_WORKERS", "0")) \
+        or (max(2, (os.cpu_count() or 4) - 2) if N >= 9 else 1)
     all_primes = make_primes(60)
     check_primes, work_primes = all_primes[:3], all_primes[3:]
 
@@ -1581,13 +1680,29 @@ def run(N):
         nodesD = list(range(degF_l * degF_w + (degF_l - 1) * degF_w + 2))
         nodesR = list(range(degF_l * degS_w + degS_l * degF_w + 2))
         nodesX = list(range(degF_l * degX_w + degX_l * degF_w + 2))
+        if N == 5 and workers == 1 and s == "E":
+            # default-run validation of the Pool path: the parallel disc stream is asserted
+            # byte-equal to the serial one (same primes, same arrays), so the N = 9 mode's
+            # parallelism is exercised on every default run, not only under O2B_WORKERS
+            ser = disc_stream(CF, nodesD, prime_stream(), 1)
+            par = disc_stream(CF, nodesD, prime_stream(), 3)
+            for _ in range(8):
+                p_s, D_s = next(ser)
+                p_p, D_p = next(par)
+                assert p_s == p_p and np.array_equal(D_s, D_p), \
+                    "parallel disc_stream != serial disc_stream"
+            par.close()
+            print(f"  [{s}] parallel disc_stream == serial (8 primes, byte-equal): "
+                  f"Pool path validated in the default run")
         # ---- the layer discharge (reconstruct-and-verify, 2026-07-16): lift the Yun
         #      layers to exact primitive Z polynomials and PROVE disc = C * w^v * A1 * A2^2
-        #      over Z + SHAPE, so the mod-p layer identification is a theorem at both N
-        A1x, A2x = lift_layers(CF, table, nodesD, prime_stream(), f"[{s}]")
+        #      over Z + SHAPE, so the mod-p layer identification is a theorem at every
+        #      certified N
+        A1x, A2x = lift_layers(CF, table, nodesD, prime_stream(), f"[{s}]", workers=workers)
         assert len(A1x) - 1 == table["A1"] and len(A2x) - 1 == table["A2"]
         C_layer = certify_layer_identity(CF, table, A1x, A2x, prime_stream(), f"[{s}]",
-                                         exact_disc=exact_inv["D"] if exact_inv else None)
+                                         exact_disc=exact_inv["D"] if exact_inv else None,
+                                         workers=workers)
         if exact_inv is not None:                    # N = 5: cross-check vs the exact story
             for nm, mine, ex in (("A1", A1x, exact_inv["A1"]), ("A2", A2x, exact_inv["A2"])):
                 exc = [int(c) for c in ex.all_coeffs()]
@@ -1697,10 +1812,10 @@ def run(N):
     print(f"  Coincident-EP2 pairs excluded at every w != 0 (both sectors, psc_1 certificate)"
           + (", N=5 inventory exact over Z" if N == 5 else "") + ".")
     qual = "" if N == 5 else (" (base polynomials PROOF grade + layer identification "
-                              "PROVED by reconstruct-and-verify, both 2026-07-16: no "
-                              "premise of this certificate's bookkeeping left; H1 and "
-                              "the F_res-reality premise of the EP2 reading are tracked "
-                              "in the experiment doc)")
+                              "PROVED by reconstruct-and-verify, N=7 2026-07-16 / N=9 "
+                              "2026-07-17: no premise of this certificate's bookkeeping "
+                              "left; H1 and the F_res-reality premise of the EP2 reading "
+                              "are tracked in the experiment doc)")
     print(f"\nO2B NONVANISHING CERTIFIED at N={N}: S6 != 0 on the entire simple disc layer "
           f"(all seeds), geometric multiplicity 1 full-block, s6 != 0 at every forced seed. "
           f"PASS{qual}  [{time.time() - t_start:.0f}s]")
@@ -1710,7 +1825,7 @@ if __name__ == "__main__":
     _fl_selftest()
     _rr_selftest()
     print("FL + rational-reconstruction self-tests OK")
-    todo = [5] + ([7] if "7" in sys.argv[1:] else [])
+    todo = [5] + [n for n in (7, 9) if str(n) in sys.argv[1:]]
     for n in todo:
         run(n)
     print(f"\nAll assertions passed at N in {todo}.")

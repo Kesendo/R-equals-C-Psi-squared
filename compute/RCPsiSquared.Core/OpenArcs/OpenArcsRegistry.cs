@@ -955,25 +955,30 @@ public static class OpenArcsRegistry
                 "'7' adds the N=7 seed sweep, 'b7'/'b9' the N=7/N=9 bands). " +
                 "UPDATE 2026-07-10 (the gcd certificate; doc section 'The gcd certificate' + 'The cell law, " +
                 "tightened' + 'Resonant N, measured'): O2B NONVANISHING PROVEN AT N=5 (exact over Z, " +
-                "unconditional: base polynomials by exact integer Faddeev-LeVerrier in the committed verifier) AND AT N=7 " +
-                "MODULO ONE NAMED THING since 2026-07-16 (the mod-p layer identification: a bad-prime " +
-                "merge of two A1 roots is invisible to DISCMULT; finitely many bad primes, all sampled primes " +
-                "agree -- strong evidence, not a Q-proof; the rest good-prime rational). The second premise the " +
-                "2026-07-10 landing carried, the CRT verification grade of the N=7 base polynomials, is " +
-                "DISCHARGED 2026-07-16: the verifier consumes CRT primes until prod(p) > 2*B for the rigorous " +
-                "permanent/row-sum l1 bound (l1_bounds() in the verifier; doc subsection 'Premise discharge'), " +
-                "making the symmetric-range reconstruction provably exact -- the N=7 base polynomials are PROOF " +
-                "grade. Eigensolver-free. " +
+                "unconditional: base polynomials by exact integer Faddeev-LeVerrier in the committed verifier), AT N=7 " +
+                "UNCONDITIONALLY since 2026-07-16 (BOTH premises the 2026-07-10 landing carried are DISCHARGED " +
+                "that day, commits 16eb4ca + 9e73e5e: (a) the CRT verification grade of the base polynomials -- " +
+                "the verifier consumes CRT primes until prod(p) > 2*B for the rigorous permanent/row-sum l1 " +
+                "bound, l1_bounds(), making the symmetric-range reconstruction provably exact, PROOF grade; " +
+                "(b) the mod-p layer identification -- reconstruct-and-verify: A1, A2 lifted to exact primitive " +
+                "Z polynomials, disc = C*w^v*A1*A2^2 PROVED over Z mod a pool with prod > B_D + B_R, SHAPE by " +
+                "Gauss, so no degree/shape-preserving prime can misbook a layer; doc subsections 'Premise " +
+                "discharge I/II'), AND AT N=9 UNCONDITIONALLY since 2026-07-17 (the same engine with the disc " +
+                "sweeps on a multiprocessing Pool, ~2800 pool primes/sector; at N=9 the proved layer identity " +
+                "ALSO delivers max multiplicity 2 directly, replacing DISCMULT, which never reached N=9; full " +
+                "certificate run(9) end to end: gcd legs, psc1, cross-sector, A1 irreducibility, all 8 forced " +
+                "seeds spot-checked). Eigensolver-free. " +
                 "Per R-sector over Z[lam, w=q^2]: S6 = strands x ONE irreducible core (strands sign-fixed on the " +
                 "strip, SYMBOL-proved norm-form shape); disc_Lam(F_res) = c * w^v * A1 * A2^2 with A1 (the simple " +
-                "layer) IRREDUCIBLE over Q in both sectors at both N (A2 irreducible exact at N=5, evidence at " +
-                "N=7, unused); gcd(Res_Lam(F_res, S6), A1) = 1 AND the " +
+                "layer) IRREDUCIBLE over Q in both sectors at N=5, 7, 9 (A2 irreducible exact at N=5, evidence at " +
+                "N=7/9, unused); gcd(Res_Lam(F_res, S6), A1) = 1 AND the " +
                 "cross-sector gcd(Res_Lam(F_res_s, chi_other), A1_s) = 1 both directions AND the coincident-pair " +
                 "exclusion gcd(disc/w^v, psc1/w^v') = 1 (psc1 = first principal subresultant coeff of " +
                 "(F_res, dF_res/dlam); two double-lam roots at one w0 would force psc0 = psc1 = 0; this leg is " +
-                "free of the LAYER premise at both N, hence unconditional at N=7 too since the base-grade " +
-                "discharge) => S6 != 0 on the " +
-                "entire simple layer => every forced count-drop (order >= 3 dead by DISCMULT; non-coincident " +
+                "free of the LAYER premise at every N, hence unconditional wherever the base grade holds) " +
+                "=> S6 != 0 on the " +
+                "entire simple layer => every forced count-drop (order >= 3 dead by DISCMULT at N=5/7 and by " +
+                "the proved layer identity at N=9; non-coincident " +
                 "order-2 classes drop no count; the coincident-EP2 pair dead by the psc1 leg; so all count-drops " +
                 "sit on A1) is a sqrt-type defective EP2 with s6 != 0; H1 " +
                 "FOLLOWS on A1 by the simple-zero lemma. The 09d caution ('{S6=0} contains the diabolics, no " +
@@ -983,19 +988,34 @@ public static class OpenArcsRegistry
                 "E none, O exactly the known diabolic w=5.100831 where S6 vanishes as adj=0 forces, carrying " +
                 "exactly one real double lam). SCOPE OF THE ALL-N RE-BASE: the two uniform hypotheses cover the " +
                 "SIMPLE-LAYER HALF only; the localization half (every count-drop sits on A1) consumed max-mult 2 " +
-                "(DISCMULT, per-N, out of reach at N=9), the psc1 leg, the cross-sector gcd, and F_res reality, " +
+                "(DISCMULT at N=5/7, the proved layer identity at N=9), the psc1 leg, the cross-sector gcd, " +
+                "and F_res reality, " +
                 "all per-N inputs. " +
                 "Adversarially reconfirmed by an independent route (FLV adjugate + flint vs vertex-deleted " +
                 "charpolys + sympy; ZERO discrepancies; N=5 max-mult 2 upgraded to exact over Z). ALL-N RE-BASED " +
-                "to TWO uniform hypotheses: (i) A1 irreducible over Q for every odd N (4/4 data points), " +
+                "to TWO uniform hypotheses: (i) A1 irreducible over Q for every odd N (6/6 data points since " +
+                "N=9, 2026-07-17; degree fits, 3 points each, N=11 would test: deg A1_E = 11N^2-89N+198, " +
+                "deg A1_O = 11.5N^2-96.5N+223), " +
                 "(ii) Res_Lam(F_res, S6) != 0 at ONE accessible simple-layer fiber, i.e. S6 != 0 at EVERY branch " +
                 "over it, not merely the defective one (a one-branch evaluation decides nothing: gcd in {1, A1} " +
                 "is a statement about whole fibers; mind: the two N=7 data points of (i) carry the N=7 premises " +
                 "above, the N=5 pair is exact). NUMERICAL TRAP: S6 cancels heavily at seeds (8-18 digits, " +
                 "seed/measure-dependent); pin loci to ~1e-20 (2D " +
                 "Newton, exact Jacobian, dps>=60) or the apparent sign flips. COMMITTED VERIFIER: " +
-                "simulations/o2b_gcd_certificate.py (N=5 default ~10 s; '7' adds N=7 ~3 min; includes the exact " +
-                "N=5 inventory, the psc1 certificate, and the symbolic strand positivity). SIGN-HALF TIGHTENED (in-session, " +
+                "simulations/o2b_gcd_certificate.py (N=5 default ~10 s; '7' adds N=7 ~30 min with the layer " +
+                "discharge inside; '9' adds N=9 ~3.4 h measured on a 22-worker Pool; includes the exact " +
+                "N=5 inventory, the psc1 certificate, and the symbolic strand positivity). " +
+                "KREIN HANDLE CASHED 2026-07-16 (b0c35ac; joins the do-not-retry list as an all-N lever): the " +
+                "banked Hermitian Krein pencil Q = T(L-lam) is resolved BOTH ways -- by-product theorem: at the " +
+                "T-neutral tangential touching nu'' = -2 v^dag T w/||v||^2 = -2 * (GLR sign characteristic of " +
+                "the size-2 Jordan block), forced nonzero by root-subspace nondegeneracy, so nu'' != 0 pins " +
+                "DEFECTIVENESS (an H1-type certificate from the local pair (v, w)), NOT s6: s6 lives in the " +
+                "orthogonal jet nu_q = -(4/q*) kappa_-2 (exact), the doc's moment-relation witness has nu'' != 0 " +
+                "AND s6 = 0, and the pencil RESTATES kappa_-2 with no new lever. Gate " +
+                "simulations/o2b_krein_touching_dictionary.py (T1-T7). Dumas/Newton-polygon route for " +
+                "hypothesis (i) TESTED DEAD the same evening (multi-segment at p in {2,3}, both N, both " +
+                "sectors). " +
+                "SIGN-HALF TIGHTENED (in-session, " +
                 "two independent recomputations): cell law = separating law + rung-6 dual (sigma<0 => kappa_-6<0, " +
                 "0 violations 3575/3615/1036); cell law now 0 violations at N=5,7,9,11; sharp constant " +
                 "kappa_-2 >= 2 sigma/(N+1) on positive-type (equality family EXACT RATIONAL: the IN-BAND " +

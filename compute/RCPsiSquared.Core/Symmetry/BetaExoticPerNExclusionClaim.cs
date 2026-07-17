@@ -72,7 +72,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// N = 5 but 441 at N = 7. The D-only path drops the corner, the resultant and the Mignotte lift (that
 /// bound certifies the gcd, a statement this one does not make), and is pinned against the full
 /// certificate at N = 5, where both run and agree number for number. N = 9 is out of reach by this
-/// route: a 324-dimensional block, whose bivariate ℤ[i][q] charpoly is a different problem. The all-N
+/// route: a 324-dimensional block, whose bivariate ℤ[i][q] charpoly is a different problem (since
+/// 2026-07-17 the max-multiplicity-2 bound holds at N = 9 anyway, delivered by the proved layer
+/// identity disc = C·w^v·A₁·A₂² of the gcd certificate, simulations/o2b_gcd_certificate.py, the
+/// experiment doc's premise-discharge-II subsection). The all-N
 /// item, the
 /// codim-2 β-exotic genericity, reduced to the single scalar s₆ ≠ 0 at every forced seed, is
 /// UNTOUCHED by this claim and remains open; see the parent claim's scope note and the doc's Status
@@ -183,7 +186,9 @@ public sealed class BetaExoticPerNExclusionClaim : Claim
                          "block of dimension 441 at N = 7 (25 at N = 5). CertifyDiscMultiplicity drops " +
                          "the corner, the resultant and the Mignotte lift, and is pinned against the full " +
                          "certificate at N = 5 where both run and agree. N = 9 is out of reach by this " +
-                         "route (a 324-dimensional block). The all-N core, the " +
+                         "route (a 324-dimensional block); since 2026-07-17 the max-mult-2 bound holds at " +
+                         "N = 9 anyway, via the gcd certificate's proved layer identity " +
+                         "(simulations/o2b_gcd_certificate.py, run mode 9). The all-N core, the " +
                          "codim-2 β-exotic genericity, reduced to the single scalar s₆ ≠ 0 at every forced seed, " +
                          "is untouched. Two traps recorded with it: the SIGN of s₆ is not gauge-invariant (the " +
                          "antilinear gauge has two branches, exchanged by r ↦ i·r), so never try to prove s₆ > 0; " +
