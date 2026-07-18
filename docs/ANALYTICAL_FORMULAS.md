@@ -5407,6 +5407,45 @@ recomputes the 36 pairs from the embedded table plus every live pair on the read
 path, and the l = 2 fence; tests `dotnet test compute/RCPsiSquared.Diagnostics.Tests
 --filter CrossTripleOrthogonality` (38 with this layer).
 
+### F135. The record parity law: which witnesses record is the arithmetic of the angle ratios (pair reduction exact ∀N any graph; laws gated at N=8, 22/22; minted 2026-07-18)
+
+The pointer door's law. For H = Σ Δ_ab·Z_aZ_b (any graph, per-bond couplings), per-site
+Z-dephasing γ_l, and |+⟩^⊗N, the two-site reduced state is closed-form for all t
+(the Absorption substrate traced to a pair: each entry = ¼ · direct-bond phase ·
+e^{−2t(γ_a𝟙+γ_b𝟙)} · Π_k cos(t[Δ_ak(z_a−z'_a) + Δ_bk(z_b−z'_b)]); traced-site γ drops out).
+At the symmetric readout **t\* = π/(4Δ_S)** (equal write couplings at S, deg(S) ≥ 2, and
+triangle-free at S: some S-neighbor besides j not adjacent to j; a triangle at S instead
+yields a Bell-channel bit, the 3-cycle cousin of the plaquette below) a witness j ∈ N(S) holds
+
+  **I(S:E_j) = 1 − h₂((1+β_j)/2),  β_j = e^{−2γ_j t\*} · Π_{k∈N(j)∖{S}} |cos((π/2)·Δ_jk/Δ_S)|**
+
+and the trichotomy is arithmetic: watcher ratio **even → forgiven** (I = 1 exactly, watched
+or not), **odd → exactly blind**, non-integer → generic (r = 3/2 → 0.399124). The leaf law
+(a perfect record only in an unwatched witness) is the empty-watcher case; uniform coupling
+makes every ratio 1, odd, which is why uniformly only leaves record. **R_perfect =
+#even-aligned neighbors ≤ deg(S)**, achievable on any triangle-free graph by alignment (chain 0→2, broom
+k→k+1, star 7; the aligned broom grows a real non-star Zurek plateau, R_δ = 3.5); on trees
+non-neighbors hold exactly zero at t\*, and the tree scoping is sharp: on a uniform 4-cycle
+the opposite corner holds a **perfect distance-2 bit in the Bell channel**, the plaquette
+record, which records the ANTI-pointer X_S (⟨X_S X_j⟩ = 1, Z-conditional states identical;
+predicted from the closed form, confirmed 1.0000000, neighbors blind): counted by MI,
+invisible to pointer redundancy. The γ race is exact: D_j(t) =
+e^{−2γ_j t}·|sin(2Δ_Sj t)|·Π|cos(2Δ_jk t)| (the trace distance of j's two conditional
+pointer states), its peak at **t_opt = arctan(Δ/γ_j)/(2Δ) < t\*** (pulled forward 0.025 at
+canonical γ/Δ = 0.05; t_opt maximizes D, not the MI); the record read at t\* degrades to
+I = 0.768040. J > 0 breaks it all numerically fast (deficit ~J^1.4, R_δ pinned at
+1.75): pointer optimization is a pure-ZZ phenomenon; transport moves records, never copies.
+
+**Gate:** [`simulations/qd_pointer_opt.py`](../simulations/qd_pointer_opt.py) (~70 s, 22/22:
+closed form vs RK4 ≤ 7·10⁻⁸ over four configs, the parity endpoints, the MI formula to 10⁻⁹,
+the plaquette + its anti-pointer channel, t_opt); the door and sightings
+[`simulations/qd_scout.py`](../simulations/qd_scout.py) +
+[experiments/QUANTUM_DARWINISM_POINTER_DOOR.md](../experiments/QUANTUM_DARWINISM_POINTER_DOOR.md).
+**Proof:** [PROOF_RECORD_PARITY_LAW](proofs/PROOF_RECORD_PARITY_LAW.md) (substrate:
+[PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) §4.5; fragment side F70).
+**Typed:** pending, the named open door (the witness port, with the refcount-by-topology
+N-scaling and the (Δ, J, γ) plateau corner).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
