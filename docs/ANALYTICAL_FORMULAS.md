@@ -5420,7 +5420,9 @@ yields a Bell-channel bit, the 3-cycle cousin of the plaquette below) a witness 
   **I(S:E_j) = 1 − h₂((1+β_j)/2),  β_j = e^{−2γ_j t\*} · Π_{k∈N(j)∖{S}} |cos((π/2)·Δ_jk/Δ_S)|**
 
 and the trichotomy is arithmetic: watcher ratio **even → forgiven** (I = 1 exactly, watched
-or not), **odd → exactly blind**, non-integer → generic (r = 3/2 → 0.399124). The leaf law
+or not; the signed-coherence corollary adds: the even-parity record returns ROTATED BY π,
+the signed cos face — MI is sign-blind, the sign is separately testable), **odd → exactly
+blind**, non-integer → generic (r = 3/2 → 0.399124). The leaf law
 (a perfect record only in an unwatched witness) is the empty-watcher case; uniform coupling
 makes every ratio 1, odd, which is why uniformly only leaves record. **R_perfect =
 #even-aligned neighbors ≤ deg(S)**, achievable on any triangle-free graph by alignment (chain 0→2, broom

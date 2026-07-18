@@ -62,6 +62,17 @@ with the watcher ratios r_k = Δ_jk/Δ_S. The trichotomy is the arithmetic of th
 
 The leaf law ([the experiment record](../../experiments/QUANTUM_DARWINISM_POINTER_DOOR.md)) is the empty-product case N(j)∖{S} = ∅. Uniform coupling makes every r_k = 1, odd: that is why, uniformly, only leaves record.
 
+**Signed-coherence corollary (the record returns rotated).** Proposition 1's third-site
+factor is the signed real cosine, not its magnitude: j's conditional coherence carries the
+factor cos(2Δ_jk t) with its sign. At the symmetric readout with a single watcher at ratio
+r, the record's Bloch vectors are therefore multiplied by cos(r·π/2), which is negative for
+r ∈ (1, 2]: the record survives the even-parity watcher at full magnitude but ROTATED BY π
+in the equatorial plane (the two conditional states swap). The magnitude laws above are the
+|cos| face of this signed statement; the sign is gauge-free once referenced to the
+unwatched (r = 0) record and is itself a testable prediction (a sign-flat |cos| response
+cannot produce it). Mutual information is sign-blind, so every I formula above is
+unchanged.
+
 ## Law B (alignment beats topology)
 
 Under Law A's hypotheses, define R_perfect = #{j ∈ N(S) : every watcher ratio of j is even}. Then
