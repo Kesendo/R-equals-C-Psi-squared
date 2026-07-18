@@ -5414,14 +5414,15 @@ Z-dephasing γ_l, and |+⟩^⊗N, the two-site reduced state is closed-form for 
 (the Absorption substrate traced to a pair: each entry = ¼ · direct-bond phase ·
 e^{−2t(γ_a𝟙+γ_b𝟙)} · Π_k cos(t[Δ_ak(z_a−z'_a) + Δ_bk(z_b−z'_b)]); traced-site γ drops out).
 At the symmetric readout **t\* = π/(4Δ_S)** (equal write couplings at S, deg(S) ≥ 2, and
-triangle-free at S: some S-neighbor besides j not adjacent to j; a triangle at S instead
-yields a Bell-channel bit, the 3-cycle cousin of the plaquette below) a witness j ∈ N(S) holds
+triangle-free at S: some S-neighbor besides j not adjacent to j; at uniform coupling a
+triangle at S instead yields a Bell-channel bit, the 3-cycle cousin of the plaquette below;
+the general far-bond-parity split is F136) a witness j ∈ N(S) holds
 
   **I(S:E_j) = 1 − h₂((1+β_j)/2),  β_j = e^{−2γ_j t\*} · Π_{k∈N(j)∖{S}} |cos((π/2)·Δ_jk/Δ_S)|**
 
 and the trichotomy is arithmetic: watcher ratio **even → forgiven** (I = 1 exactly, watched
 or not; the signed-coherence corollary adds: the even-parity record returns ROTATED BY π,
-the signed cos face — MI is sign-blind, the sign is separately testable), **odd → exactly
+the signed cos face; MI is sign-blind, the sign is separately testable), **odd → exactly
 blind**, non-integer → generic (r = 3/2 → 0.399124). The leaf law
 (a perfect record only in an unwatched witness) is the empty-watcher case; uniform coupling
 makes every ratio 1, odd, which is why uniformly only leaves record. **R_perfect =
@@ -5447,6 +5448,51 @@ the plaquette + its anti-pointer channel, t_opt); the door and sightings
 [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) §4.5; fragment side F70).
 **Typed:** pending, the named open door (the witness port, with the refcount-by-topology
 N-scaling and the (Δ, J, γ) plateau corner).
+
+---
+
+### F136. The record letter law: which operator a witness records is the parity of its shared neighborhood (derived from F135 Prop 1; 70/70 pre-registered gates; minted 2026-07-18)
+
+The letter question, closed the same night F135 opened it. Pair (S, j) under F135's substrate,
+all S-bonds at Δ_S, readout t\* = π/(4Δ_S), S keeping a neighbor besides j (the V_S = 0
+hinge; a pure pendant S instead ROLE-SWAPS into j's witness, 1 separable YZ bit of Z_j at an
+odd watcher, the proof's edge case); partition the rest into **D** (shared
+dressers, m = |D|), **P** (private watchers of j), **Q** (private S-neighbors); ratios
+r_k = Δ_jk/Δ_S. Exactly two mutually exclusive perfect records:
+
+  **pointer record** (write bond present, deg(S) ≥ 2, EVERY watcher of j even, shared and
+  private alike): 1 bit of Z_S in j's equator (ZY channel), F135's Law A generalized: even
+  dressers are admitted, and without the write bond there is no record;
+  **Bell record** (Q = ∅, m ≥ 1, all D odd, all P even; deg(S) = 1 allowed, K₂,₁ is the
+  smallest instance): ρ_Sj = ½Φ^{σ₁} + ½Ψ^{σ₂} exactly, 1 bit with
+  ZERO pointer content, and the **letter is the dresser parity**: m odd → Y⊗Y, m even → X⊗X
+  (sign(c₁c₂) = (−1)^m; the direct S–j bond never moves the letter).
+
+Aliveness is **watcher parity**: private watchers must be even for either family; the shared
+dressers' parity selects it (all even + write bond → pointer, all odd → Bell, mixed → dark);
+any integer violation is an exact kill (odd private, mixed D, Q ≠ ∅ for the Bell record,
+missing write bond for the pointer record → 0 identically; uniform 5- and 6-cycles are
+entirely dark at t\*). Signs are closed forms, σ₁ = Π_D(−1)^{(1+r)/2}·Π_P(−1)^{r/2},
+σ₂ = Π_D(−1)^{(1−r)/2}·Π_P(−1)^{r/2}, the luminous correlator reading σ₂; the pointer
+record's sign is Π_{D∪P}(−1)^{r/2} (K₂,₁ at r = 3: YY = −1; an r = 2 watcher, private or
+even dresser, rotates the pointer record by π: ZY = −1, back at r = 4), F135's
+signed-coherence corollary made observable. Dephasing dressing: the Bell record pays BOTH
+sites, I = 1 − h₂((1+κ)/2), κ = e^{−2(γ_S+γ_j)t\*}; the pointer record pays only γ_j; γ on
+dressers/watchers/any traced site is exactly invisible (watching the writers is free).
+Uniform catalogue: leaves → pointer; triangle → YY; square → XX (F135's plaquette); K₂,m
+alternates. Frame note: the letter symbols live in the world's own frame (dephasing basis +
+|+⟩ start); gauge-free are the I values, the alternation (−1)^m, and signs relative to the
+r = 1 baseline. At uniform coupling t\* is the graph-state instant and the aliveness/letter
+statics are Hein-Eisert-Briegel 2004 (quant-ph/0307130) composed with the evolution's
+degree rotation e^{−i(π/4)deg·Z} (credited + reconciliation gated in the proof); the
+ratio arithmetic, the sign closed forms, the exclusivity, and the γ dressing are the arc's own.
+
+**Gate:** [`simulations/qd_letter_gates.py`](../simulations/qd_letter_gates.py) (70/70, every
+prediction fixed in code before running; the numerics build full closed-form states and
+partial-trace, never the channel formulas under test).
+**Proof:** [PROOF_RECORD_LETTER_LAW](proofs/PROOF_RECORD_LETTER_LAW.md) (substrate: F135
+Proposition 1 → [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) §4.5).
+**Typed:** pending (rides F135's witness-port door).
 
 ---
 

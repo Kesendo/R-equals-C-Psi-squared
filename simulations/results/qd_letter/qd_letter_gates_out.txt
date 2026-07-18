@@ -1,0 +1,90 @@
+record-letter GATES (predictions fixed in code before running)
+G K2,1 r=1:
+  [OK] I=1 (r=1): pred +1.000000 got +1.000000
+  [OK] YY sign (r=1): pred +1.000000 got +1.000000
+  [OK] XX=0 (r=1): pred +0.000000 got +0.000000
+  [OK] TD=0 (r=1): pred +0.000000 got +0.000000
+G K2,1 r=3:
+  [OK] I=1 (r=3): pred +1.000000 got +1.000000
+  [OK] YY sign (r=3): pred -1.000000 got -1.000000
+  [OK] XX=0 (r=3): pred +0.000000 got +0.000000
+  [OK] TD=0 (r=3): pred +0.000000 got +0.000000
+G K2,1 r=5:
+  [OK] I=1 (r=5): pred +1.000000 got +1.000000
+  [OK] YY sign (r=5): pred +1.000000 got +1.000000
+  [OK] XX=0 (r=5): pred +0.000000 got +0.000000
+  [OK] TD=0 (r=5): pred +0.000000 got +0.000000
+G K2,2 r=(1, 1):
+  [OK] I=1 (1, 1): pred +1.000000 got +1.000000
+  [OK] XX sign (1, 1): pred +1.000000 got +1.000000
+  [OK] YY=0 (1, 1): pred +0.000000 got +0.000000
+G K2,2 r=(1, 3):
+  [OK] I=1 (1, 3): pred +1.000000 got +1.000000
+  [OK] XX sign (1, 3): pred -1.000000 got -1.000000
+  [OK] YY=0 (1, 3): pred +0.000000 got +0.000000
+G triangle + private r=2 on j:
+  [OK] I=1 (rp=2): pred +1.000000 got +1.000000
+  [OK] YY sign (rp=2): pred -1.000000 got -1.000000
+G triangle + private r=4 on j:
+  [OK] I=1 (rp=4): pred +1.000000 got +1.000000
+  [OK] YY sign (rp=4): pred +1.000000 got +1.000000
+G kill conditions:
+  [OK] even dresser r=2 -> I=0: pred +0.000000 got +0.000000
+  [OK] odd private r=1 -> I=0: pred +0.000000 got +0.000000
+  [OK] S-private neighbor -> I=0: pred +0.000000 got +0.000000
+G square structure:
+  [OK] eig1=1/2: pred +0.500000 got +0.500000
+  [OK] eig2=1/2: pred +0.500000 got +0.500000
+  [OK] eig3=0: pred +0.000000 got +0.000000
+  [OK] XY=0: pred +0.000000 got +0.000000
+  [OK] YX=0: pred +0.000000 got +0.000000
+G gamma race (Bell record pays BOTH sites):
+  [OK] I = 1-h2((1+kappa)/2): pred +0.624146 got +0.624146
+  [OK] XX = kappa: pred +0.854636 got +0.854636
+  [OK] gamma on dressers invisible: I=1: pred +1.000000 got +1.000000
+G pointer side (Law A + sign):
+  [OK] leaf ZY=+1: pred +1.000000 got +1.000000
+  [OK] leaf I=1: pred +1.000000 got +1.000000
+  [OK] watched-leaf rp=2: ZY sign: pred -1.000000 got -1.000000
+  [OK] watched-leaf rp=2: I=1: pred +1.000000 got +1.000000
+  [OK] watched-leaf rp=4: ZY sign: pred +1.000000 got +1.000000
+  [OK] watched-leaf rp=4: I=1: pred +1.000000 got +1.000000
+G gamma asymmetry pointer vs Bell:
+  [OK] pointer record: gamma_S invisible, I=1: pred +1.000000 got +1.000000
+G uniform-cycle catalogue:
+  [OK] K2,3 physical frame: YY=+1 (m=3, the ladder refuter): pred +1.000000 got +1.000000
+  [OK] K2,3 physical frame: XX=0: pred +0.000000 got +0.000000
+  [OK] triangle YY=+1: pred +1.000000 got +1.000000
+  [OK] square XX=+1: pred +1.000000 got +1.000000
+  [OK] pentagon (0,1) dark: pred +0.000000 got +0.000000
+  [OK] pentagon (0,2) dark: pred +0.000000 got +0.000000
+  [OK] hexagon (0,1) dark: pred +0.000000 got +0.000000
+  [OK] hexagon (0,2) dark: pred +0.000000 got +0.000000
+  [OK] hexagon (0,3) dark: pred +0.000000 got +0.000000
+G exclusivity pointer vs Bell:
+  [OK] leaf: XX=0: pred +0.000000 got +0.000000
+  [OK] leaf: YY=0: pred +0.000000 got +0.000000
+  [OK] square: ZY=0: pred +0.000000 got +0.000000
+  [OK] square: ZZ=0: pred +0.000000 got +0.000000
+G pointer family with even dressers:
+  [OK] even-dresser triangle: I=1: pred +1.000000 got +1.000000
+  [OK] even-dresser triangle: ZY=-1: pred -1.000000 got -1.000000
+  [OK] even-dresser triangle: TD=1: pred +1.000000 got +1.000000
+  [OK] even-dresser triangle: XX=0: pred +0.000000 got -0.000000
+  [OK] even-dresser triangle: YY=0: pred +0.000000 got +0.000000
+  [OK] direct + two even dressers: I=1: pred +1.000000 got +1.000000
+  [OK] direct + two even dressers: ZY=+1: pred +1.000000 got +1.000000
+  [OK] no write bond, D empty, P even: dark: pred +0.000000 got +0.000000
+G hinge and pendant role-swap:
+  [OK] pendant S, odd watcher: I=1: pred +1.000000 got +1.000000
+  [OK] pendant S, odd watcher: YZ=+1 (records Z_j): pred +1.000000 got +1.000000
+  [OK] pendant S, odd watcher: ZY=0 (no Z_S record): pred +0.000000 got +0.000000
+  [OK] pendant S, even watcher: I=2 (entangled): pred +2.000000 got +2.000000
+  [OK] hinge restored (Q nonempty), odd watcher: dark: pred +0.000000 got +0.000000
+G frame reconciliation (HEB letters after undoing degree rotation):
+  [OK] K2,3 graph frame: XX=+1 (HEB disconnected): pred +1.000000 got +1.000000
+  [OK] K2,3 graph frame: YY=0: pred +0.000000 got +0.000000
+  [OK] triangle graph frame: YY=+-1 (HEB connected): pred +1.000000 got +1.000000
+  [OK] leaf graph frame: |ZX|=1 (HEB leaf X(x)Z): pred +1.000000 got +1.000000
+
+RESULT: 70 gates, ALL OK
