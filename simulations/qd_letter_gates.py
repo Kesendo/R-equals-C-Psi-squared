@@ -265,6 +265,39 @@ gate("pendant S, even watcher: I=2 (entangled)", 2.0, I)
 I, corr, td, ev = measure(4, [(0, 1, 1.0), (1, 2, 1.0), (0, 3, 1.0)], 0, 1)
 gate("hinge restored (Q nonempty), odd watcher: dark", 0.0, I)
 
+# --- G16: the fan-out corollary. Law B bounds POINTER redundancy by deg(S);
+# Bell witnesses need not be neighbors, so the anti-pointer redundancy is
+# not deg-bounded: K_{4,2} (S = 0 and corners 1,2,3 sharing dressers 4,5)
+# gives deg(S) = 2 but THREE perfect XX bits, and the corners Bell-record
+# each other (the clique).
+print("G fan-out (anti-pointer redundancy beyond deg(S)):")
+k42 = [(i, k, 1.0) for i in range(4) for k in (4, 5)]
+for (a, b) in [(0, 1), (0, 2), (0, 3), (1, 2)]:
+    I, corr, td, ev = measure(6, k42, a, b)
+    gate(f"K4,2 ({a},{b}): I=1", 1.0, I)
+    gate(f"K4,2 ({a},{b}): XX=+1", 1.0, corr["XX"])
+
+# --- G17: two review-found refinements of the pendant/edge scope. (a) The
+# role-swap is EXISTENTIAL: one odd-integer watcher on j suffices (it zeroes
+# beta_j and both double coherences at once); other watchers, even or
+# non-integer, do not spoil it. (b) The fully-shared corner (write bond +
+# ONE dresser + nothing else) holds a FORCED full bit at EVERY far-bond
+# ratio: the ratio rotates which channel carries it, (YY, ZY) =
+# (cos, sin) of pi(1-r)/2, but I = 1 always; the blanket "non-integer ->
+# generic" has this one exception.
+print("G pendant existential + the forced triangle bit:")
+I, corr, td, ev = measure(4, [(0, 1, 1.0), (1, 2, 1.0), (1, 3, 2.0)], 0, 1)
+gate("pendant, watchers (1,2): I=1 (one odd suffices)", 1.0, I)
+gate("pendant, watchers (1,2): YZ=+1", 1.0, corr["YZ"])
+I, corr, td, ev = measure(4, [(0, 1, 1.0), (1, 2, 1.0), (1, 3, 1.5)], 0, 1)
+gate("pendant, watchers (1,1.5): I=1", 1.0, I)
+for r in (1.5, 2.6):
+    ang = np.pi * (1.0 - r) / 2.0
+    I, corr, td, ev = measure(3, [(0, 1, 1.0), (0, 2, 1.0), (1, 2, r)], 0, 1)
+    gate(f"bare triangle r={r}: I=1 (forced)", 1.0, I)
+    gate(f"bare triangle r={r}: YY=cos(pi(1-r)/2)", np.cos(ang), corr["YY"], tol=1e-9)
+    gate(f"bare triangle r={r}: ZY=sin(pi(1-r)/2)", np.sin(ang), corr["ZY"], tol=1e-9)
+
 # --- G13: frame reconciliation with the graph-state literature (HEB 2004,
 # quant-ph/0307130). U(t*) = prod_bonds e^{-i(pi/4)ZZ} equals prod CZ times
 # the degree rotation e^{-i(pi/4)deg_j Z_j} per site (up to global phase), so

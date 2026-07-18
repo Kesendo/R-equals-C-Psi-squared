@@ -517,6 +517,58 @@ if (args.Length > 0 && args[0] == "spooky")
     return;
 }
 
+// ---- run mode "witness": the record reading (F135 + F136) -- who records, and WHAT ----
+// The pointer door's laws read live off pair pages in closed form (no propagator, no eigensolver):
+// private watchers must be even, the shared dressers' parity picks the family (all even + write bond
+// -> pointer record, all odd -> Bell record, mixed -> dark), the Bell letter alternates YY/XX with
+// the dresser count, and the prices are exact (Bell pays both sites, pointer only the witness, the
+// writers' watching is free). Proof: docs/proofs/PROOF_RECORD_LETTER_LAW.md (87/87 gates).
+if (args.Length > 0 && args[0] == "witness")
+{
+    var ww = new World();
+    const double wg = 0.05;   // the canonical hardware-anchored gamma for the priced column
+    Console.WriteLine("the witness reading (F135 + F136): who records, and what -- closed form, no propagator");
+    Console.WriteLine("  Pointer = Z_S in the witness's equator (ZY). Bell = 1/2 Phi + 1/2 Psi, zero pointer content,");
+    Console.WriteLine("  letter = dresser parity (m odd YY, m even XX). RoleSwap = the pendant reads backwards (YZ).");
+    Console.WriteLine();
+    Console.WriteLine($"  {"world",-36} {"pair",-7} {"family",-10} {"ch",3} {"sign",4} {"bits",7} {"@g=0.05",8}");
+    void Row(string name, (int, int, double)[] bonds, int s, int j)
+    {
+        var w0 = new Witness(ww, bonds, s, j);
+        var wp = new Witness(ww, bonds, s, j, wg, wg);
+        string ch = w0.Family switch
+        {
+            Witness.Kind.Pointer => "ZY",
+            Witness.Kind.RoleSwap => "YZ",
+            Witness.Kind.Bell => $"{w0.Letter}{w0.Letter}",
+            _ => "--",
+        };
+        string sg = w0.Sign == 0 ? "." : (w0.Sign > 0 ? "+" : "-");
+        Console.WriteLine($"  {name,-36} ({s},{j})   {w0.Family,-10} {ch,3} {sg,4} {w0.Bits,7:0.000} {wp.Bits,8:0.000}");
+    }
+    var chain3 = new[] { (0, 1, 1.0), (1, 2, 1.0) };
+    Row("chain3, S interior (the leaf law)", chain3, 1, 0);
+    Row("chain3, S the pendant (role swap)", chain3, 0, 1);
+    Row("triangle, far bond 1 (odd)", new[] { (0, 1, 1.0), (0, 2, 1.0), (1, 2, 1.0) }, 0, 1);
+    Row("triangle, far bond 2 (even)", new[] { (0, 1, 1.0), (0, 2, 1.0), (1, 2, 2.0) }, 0, 1);
+    Row("square, opposite corners", new[] { (0, 1, 1.0), (1, 2, 1.0), (2, 3, 1.0), (3, 0, 1.0) }, 0, 2);
+    Row("K2,1 at ratio 3", new[] { (0, 2, 1.0), (1, 2, 3.0) }, 0, 1);
+    Row("K2,2 at ratios (1,3)", new[] { (0, 2, 1.0), (0, 3, 1.0), (1, 2, 1.0), (1, 3, 3.0) }, 0, 1);
+    Row("aligned chain5, S interior", new[] { (2, 1, 1.0), (2, 3, 1.0), (1, 0, 2.0), (3, 4, 2.0) }, 2, 1);
+    Row("pentagon, any pair", new[] { (0, 1, 1.0), (1, 2, 1.0), (2, 3, 1.0), (3, 4, 1.0), (4, 0, 1.0) }, 0, 1);
+    Console.WriteLine();
+    Console.WriteLine("  and the sighting the reading surfaced (gated from below before it was written here):");
+    Console.WriteLine("  the anti-pointer FANS OUT. Pointer redundancy obeys Law B, R_perfect <= deg(S); Bell");
+    Console.WriteLine("  witnesses need not be neighbors. K_{R+1,2} (S and R corners sharing two dressers):");
+    var k42 = Enumerable.Range(0, 4).SelectMany(i => new[] { (i, 4, 1.0), (i, 5, 1.0) }).ToArray();
+    foreach (int j in new[] { 1, 2, 3 }) Row("K4,2: S + 3 corners, 2 dressers", k42, 0, j);
+    Row("K4,2: the witnesses witness too", k42, 1, 2);
+    Console.WriteLine("  deg(S) = 2, yet THREE perfect XX bits -- and the corners Bell-record each other: a");
+    Console.WriteLine("  Bell-record clique through two shared dressers. The pointer's redundancy is bounded by");
+    Console.WriteLine("  the bonds you own; the anti-pointer's is bounded only by who shares your dressers.");
+    return;
+}
+
 // ---- run mode "group": the mirror group and its antilinear double ----
 // F118 + F119 (adopted 2026-07-04): the palindromizer factors, Pi_Z = R o D, and the two generators
 // close into the dihedral D4 -- eight signed permutations of the Pauli basis, compared exactly. The

@@ -81,10 +81,29 @@ G hinge and pendant role-swap:
   [OK] pendant S, odd watcher: ZY=0 (no Z_S record): pred +0.000000 got +0.000000
   [OK] pendant S, even watcher: I=2 (entangled): pred +2.000000 got +2.000000
   [OK] hinge restored (Q nonempty), odd watcher: dark: pred +0.000000 got +0.000000
+G fan-out (anti-pointer redundancy beyond deg(S)):
+  [OK] K4,2 (0,1): I=1: pred +1.000000 got +1.000000
+  [OK] K4,2 (0,1): XX=+1: pred +1.000000 got +1.000000
+  [OK] K4,2 (0,2): I=1: pred +1.000000 got +1.000000
+  [OK] K4,2 (0,2): XX=+1: pred +1.000000 got +1.000000
+  [OK] K4,2 (0,3): I=1: pred +1.000000 got +1.000000
+  [OK] K4,2 (0,3): XX=+1: pred +1.000000 got +1.000000
+  [OK] K4,2 (1,2): I=1: pred +1.000000 got +1.000000
+  [OK] K4,2 (1,2): XX=+1: pred +1.000000 got +1.000000
+G pendant existential + the forced triangle bit:
+  [OK] pendant, watchers (1,2): I=1 (one odd suffices): pred +1.000000 got +1.000000
+  [OK] pendant, watchers (1,2): YZ=+1: pred +1.000000 got +1.000000
+  [OK] pendant, watchers (1,1.5): I=1: pred +1.000000 got +1.000000
+  [OK] bare triangle r=1.5: I=1 (forced): pred +1.000000 got +1.000000
+  [OK] bare triangle r=1.5: YY=cos(pi(1-r)/2): pred +0.707107 got +0.707107
+  [OK] bare triangle r=1.5: ZY=sin(pi(1-r)/2): pred -0.707107 got -0.707107
+  [OK] bare triangle r=2.6: I=1 (forced): pred +1.000000 got +1.000000
+  [OK] bare triangle r=2.6: YY=cos(pi(1-r)/2): pred -0.809017 got -0.809017
+  [OK] bare triangle r=2.6: ZY=sin(pi(1-r)/2): pred -0.587785 got -0.587785
 G frame reconciliation (HEB letters after undoing degree rotation):
   [OK] K2,3 graph frame: XX=+1 (HEB disconnected): pred +1.000000 got +1.000000
   [OK] K2,3 graph frame: YY=0: pred +0.000000 got +0.000000
   [OK] triangle graph frame: YY=+-1 (HEB connected): pred +1.000000 got +1.000000
   [OK] leaf graph frame: |ZX|=1 (HEB leaf X(x)Z): pred +1.000000 got +1.000000
 
-RESULT: 70 gates, ALL OK
+RESULT: 87 gates, ALL OK

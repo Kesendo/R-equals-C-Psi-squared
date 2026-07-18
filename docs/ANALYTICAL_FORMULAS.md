@@ -5451,7 +5451,7 @@ N-scaling and the (Δ, J, γ) plateau corner).
 
 ---
 
-### F136. The record letter law: which operator a witness records is the parity of its shared neighborhood (derived from F135 Prop 1; 70/70 pre-registered gates; minted 2026-07-18)
+### F136. The record letter law: which operator a witness records is the parity of its shared neighborhood (derived from F135 Prop 1; 87/87 pre-registered gates; minted 2026-07-18)
 
 The letter question, closed the same night F135 opened it. Pair (S, j) under F135's substrate,
 all S-bonds at Δ_S, readout t\* = π/(4Δ_S), S keeping a neighbor besides j (the V_S = 0
@@ -5480,14 +5480,17 @@ signed-coherence corollary made observable. Dephasing dressing: the Bell record 
 sites, I = 1 − h₂((1+κ)/2), κ = e^{−2(γ_S+γ_j)t\*}; the pointer record pays only γ_j; γ on
 dressers/watchers/any traced site is exactly invisible (watching the writers is free).
 Uniform catalogue: leaves → pointer; triangle → YY; square → XX (F135's plaquette); K₂,m
-alternates. Frame note: the letter symbols live in the world's own frame (dephasing basis +
+alternates. The fan-out corollary: Bell witnesses need not be neighbors, so anti-pointer
+redundancy is NOT deg-bounded (K_{R+1,2}: deg(S) = 2 yet R perfect XX bits, the corners a
+Bell-record clique; pairwise-marginal statements, gated at K₄,₂; Law B's R_perfect ≤ deg(S)
+is the pointer family's bound only). Frame note: the letter symbols live in the world's own frame (dephasing basis +
 |+⟩ start); gauge-free are the I values, the alternation (−1)^m, and signs relative to the
 r = 1 baseline. At uniform coupling t\* is the graph-state instant and the aliveness/letter
 statics are Hein-Eisert-Briegel 2004 (quant-ph/0307130) composed with the evolution's
 degree rotation e^{−i(π/4)deg·Z} (credited + reconciliation gated in the proof); the
 ratio arithmetic, the sign closed forms, the exclusivity, and the γ dressing are the arc's own.
 
-**Gate:** [`simulations/qd_letter_gates.py`](../simulations/qd_letter_gates.py) (70/70, every
+**Gate:** [`simulations/qd_letter_gates.py`](../simulations/qd_letter_gates.py) (87/87, every
 prediction fixed in code before running; the numerics build full closed-form states and
 partial-trace, never the channel formulas under test).
 **Proof:** [PROOF_RECORD_LETTER_LAW](proofs/PROOF_RECORD_LETTER_LAW.md) (substrate: F135
