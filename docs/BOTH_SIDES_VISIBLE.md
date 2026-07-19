@@ -634,3 +634,24 @@ used on this page:
   the mathematics proves impossible.
 - **The full picture:** [Reading Guide](READING_GUIDE.md) gives three paths
   through the project depending on your background.
+
+---
+
+## Ten Weeks Later: The Boundary Is a Field (July 18, 2026)
+
+This document counted residents: the 16 oscillators of the original
+March 25 table, the stable archetypes the May 5 update typed. A
+four-machine pass over the same calibration histories now counts
+visitors: on Torino, Marrakesh,
+Kingston and Fez, 110 / 135 / 95 / 104 qubits (61–87% of each chip)
+sit on BOTH sides of the boundary across the window. The boundary is
+not a rim where a few special qubits live; it is a field the whole
+chip moves through.
+
+The same pass answers a question this document never asked: whose
+property is the clock? Variance decomposition of the daily 1/T2 rates
+gives ICC 0.74–0.87 on all four machines; a qubit's dephasing rate is
+a stable property of its site, not day-noise. Full method, the
+two-regime chip-drift split, and the pre-registered null (no
+compensation visible at chip scale) live in
+[The Clock Field Is Site-Owned](../experiments/CLOCK_FIELD_SITE_OWNED.md).

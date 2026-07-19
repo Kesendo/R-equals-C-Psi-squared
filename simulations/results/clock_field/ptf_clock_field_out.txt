@@ -1,0 +1,30 @@
+PTF clock field: the real per-site clock (data/ibm_history)
+rate = 1/T2 unless noted; permutations N=500, seed 135
+
+== torino: 24073 records; coverage matrix 133 qubits x 181 days
+  Q1 ln-rate variance: between-qubit 0.2987  within-qubit 0.1062  ICC=0.738  -> SITE-OWNED (ICC > 0.5)
+  Q2 CV(chip total)=0.0766  independence null [0.0693, 0.0831] (pct rank 60%)  -> independent drift (no total conservation)
+  Q2 control 1/T1: CV=0.1069 null [0.0981, 0.1167] -> independent
+  Q3 quarter boundary: 112 qubits ever cross in-window; 110 qubits sit on BOTH sides across days
+  telegraph |d ln rate|/day: median 0.110  p95 0.668
+
+== marrakesh: 14196 records; coverage matrix 156 qubits x 91 days
+  Q1 ln-rate variance: between-qubit 0.5751  within-qubit 0.1544  ICC=0.788  -> SITE-OWNED (ICC > 0.5)
+  Q2 CV(chip total)=0.0517  independence null [0.0408, 0.0542] (pct rank 88%)  -> independent drift (no total conservation)
+  Q2 control 1/T1: CV=0.0502 null [0.0382, 0.0504] -> independent
+  Q3 quarter boundary: 148 qubits ever cross in-window; 135 qubits sit on BOTH sides across days
+  telegraph |d ln rate|/day: median 0.187  p95 1.118
+
+== kingston: 14105 records; coverage matrix 155 qubits x 91 days
+  Q1 ln-rate variance: between-qubit 0.5758  within-qubit 0.0912  ICC=0.863  -> SITE-OWNED (ICC > 0.5)
+  Q2 CV(chip total)=0.0555  independence null [0.0299, 0.0383] (pct rank 100%)  -> COMMON-MODE chip drift (total varies MORE than independent)
+  Q2 control 1/T1: CV=0.1054 null [0.0547, 0.0684] -> common-mode
+  Q3 quarter boundary: 119 qubits ever cross in-window; 95 qubits sit on BOTH sides across days
+  telegraph |d ln rate|/day: median 0.061  p95 0.642
+
+== fez: 14196 records; coverage matrix 156 qubits x 91 days
+  Q1 ln-rate variance: between-qubit 0.5166  within-qubit 0.0762  ICC=0.871  -> SITE-OWNED (ICC > 0.5)
+  Q2 CV(chip total)=0.0497  independence null [0.0343, 0.0441] (pct rank 100%)  -> COMMON-MODE chip drift (total varies MORE than independent)
+  Q2 control 1/T1: CV=0.0671 null [0.0312, 0.0413] -> common-mode
+  Q3 quarter boundary: 116 qubits ever cross in-window; 104 qubits sit on BOTH sides across days
+  telegraph |d ln rate|/day: median 0.140  p95 0.727
