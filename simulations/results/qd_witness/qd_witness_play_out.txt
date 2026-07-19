@@ -1,0 +1,17 @@
+PLAY 1: complete graphs -- the whole-world weave
+  K3: m=1  I=1.0000  letter YY
+  K4: m=2  I=1.0000  letter XX
+  K5: m=3  I=1.0000  letter YY
+  K6: m=4  I=1.0000  letter XX
+  K7: m=5  I=1.0000  letter YY
+
+PLAY 2: the one-bond record multiplexer
+  1-4 odd : adjacent j=1 I=0.0000   corner j=4 I=1.0000
+  1-4 even: adjacent j=1 I=1.0000   corner j=4 I=0.0000
+
+PLAY 3: the fully-witnessed census (star + K_N and nothing else)
+  N=4: 38 connected graphs, fully witnessed 5: ['STAR', 'STAR', 'STAR', 'STAR', 'K_N']
+  N=5: 728 connected graphs, fully witnessed 6: ['STAR', 'STAR', 'STAR', 'STAR', 'STAR', 'K_N']
+  N=6: 26704 connected graphs, fully witnessed 7: ['STAR', 'STAR', 'STAR', 'STAR', 'STAR', 'STAR', 'K_N']
+
+witness-play GATES all OK (PLAY 1 letters, PLAY 2 routing, PLAY 3 census)

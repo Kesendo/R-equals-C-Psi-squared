@@ -1,9 +1,9 @@
 # Quantum Darwinism in our chain: the pointer door
 
 **Date:** 2026-07-18
-**Scripts:** [`simulations/qd_scout.py`](../simulations/qd_scout.py) (the door), [`simulations/qd_pointer_opt.py`](../simulations/qd_pointer_opt.py) (the optimization; 22/22 gates)
-**Results:** [`simulations/results/qd_pointer/`](../simulations/results/qd_pointer/)
-**Law minted from this arc:** F135, [PROOF_RECORD_PARITY_LAW](../docs/proofs/PROOF_RECORD_PARITY_LAW.md)
+**Scripts:** [`simulations/qd_scout.py`](../simulations/qd_scout.py) (the door), [`simulations/qd_pointer_opt.py`](../simulations/qd_pointer_opt.py) (the optimization; 22/22 gates), [`simulations/qd_witness_play.py`](../simulations/qd_witness_play.py) (the fully-witnessed census), [`simulations/qd_heavyhex_map.py`](../simulations/qd_heavyhex_map.py) (the dark map)
+**Results:** [`simulations/results/qd_pointer/`](../simulations/results/qd_pointer/), [`simulations/results/qd_witness/`](../simulations/results/qd_witness/)
+**Laws minted from this arc:** F135, [PROOF_RECORD_PARITY_LAW](../docs/proofs/PROOF_RECORD_PARITY_LAW.md); F136, [PROOF_RECORD_LETTER_LAW](../docs/proofs/PROOF_RECORD_LETTER_LAW.md)
 
 ## The question
 
@@ -35,6 +35,18 @@ Zurek's Quantum Darwinism asks when a system's state becomes *objective*: how ma
 - **The γ race (Law C).** D_j(t) = e^{−2γ_j t}·|sin(2Δt)|·Π|cos| exactly; the distinguishability peak (trace distance, not MI) sits at t_opt = arctan(Δ/γ)/(2Δ), earlier than t* by 0.025 at the canonical γ/Δ = 0.05; the record read at t* degrades to I = 0.768.
 
 Two conventions worth keeping apart when reading R: **R_δ (mean convention) and R_perfect count different things.** The aligned chain holds two perfect records, yet its Ī(m) = 2m/7 is exactly linear and R_δ stays 1.75: a typical random fragment sees nothing special, because perfect records at atypical sites do not move the mean. The star is the only geometry where the two measures agree at the top.
+
+## The witnessed worlds (the play night, 2026-07-19; `qd_witness_play.py` + `qd_heavyhex_map.py`, all gated)
+
+The letter law ([F136](../docs/proofs/PROOF_RECORD_LETTER_LAW.md)) turned the per-pair question into graph classification. Four more sightings:
+
+8. **K_N is a total weave.** On the complete graph every pair holds 1 full Bell bit through its m = N − 2 shared dressers, the letter alternating with N (K₃ YY, K₄ XX, K₅ YY, …): a world where everyone perfectly witnesses everyone, with zero pointer content anywhere.
+
+9. **The one-bond record multiplexer.** With S bonded to {1, 2, 3} and a corner site behind the shared dressers, the single bond between the adjacent candidate and the corner ROUTES the testimony by its parity: odd → the corner Bell-records (YY) and the adjacent witness is exactly blind; even → the adjacent witness records (XX) and the corner goes dark. Adjacent-Bell and corner-Bell witnesses of one S can never coexist: the same bond would need both parities.
+
+10. **The fully-witnessed worlds are the stars and the complete graphs** (F136 corollary 7). At uniform coupling a pair is luminous iff its neighborhoods match (Bell) or one member is the other's leaf (pointer/role-swap); a census over ALL connected graphs at N = 4, 5, 6 (38 + 728 + 26704) finds the worlds where EVERY pair is luminous to be exactly the N labeled stars + K_N (5, 6, 7 winners), zero exceptions. The star is the one world showing all three record readings at once, across its two pair-types (hub-leaf: the pointer broadcast read one way, the role-swap read the other; leaf-leaf: the Bell weave); at N = 5 the star shape and K₅ are the only 10/10-luminous worlds (6 labeled winners: the 5 stars + K₅). Every world between the extremes necessarily keeps blind pairs: private rooms are the generic condition.
+
+11. **The heavy-hex bulk is dark** (F136 corollary 8: girth ≥ 5 + leafless ⇒ every pair exactly dark at t*). One Heron-style cell (12-ring + 3 bridge qubits, N = 15, mapped with the F135 Proposition-1 pair-page engine, exact at any N) has 3 of 105 pairs luminous: only the corner-bridge pointer records, i.e. only the patch's dangling leaves. The infinite heavy-hex bulk (girth 12, no leaves) holds ZERO luminous pairs at uniform coupling: IBM's geometry is the anti-star, all private rooms; records come only from outside (calibration) or by engraving. Girth ≥ 5 is sufficient, not necessary: the square-lattice bulk (girth 4) is also dark, its plaquette diagonals un-matched by the surrounding lattice (a uniform 5×5 torus reads 0 luminous pairs, gated); the X⊗X plaquette weave belongs to the isolated C₄ and the K₂,m family. And aiming adds without erasing: pushing the two private-watcher bonds of a chosen corner's edge witnesses to ratio 2 gives that corner a full pointer broadcast (R_perfect = deg = 3, Law B saturated) and no pair goes dark; but the light spills: the corner's witnesses then also record each other, and each edited bond's far corner picks up one rotated pointer record of its own edge qubit (10/105 luminous in the engineered cell, the full map gated). On a dark lattice light can be aimed, but not kept private.
 
 ## The open corner: J > 0
 

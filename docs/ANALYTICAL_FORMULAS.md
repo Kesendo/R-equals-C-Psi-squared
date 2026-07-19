@@ -5483,7 +5483,18 @@ Uniform catalogue: leaves → pointer; triangle → YY; square → XX (F135's pl
 alternates. The fan-out corollary: Bell witnesses need not be neighbors, so anti-pointer
 redundancy is NOT deg-bounded (K_{R+1,2}: deg(S) = 2 yet R perfect XX bits, the corners a
 Bell-record clique; pairwise-marginal statements, gated at K₄,₂; Law B's R_perfect ≤ deg(S)
-is the pointer family's bound only). Frame note: the letter symbols live in the world's own frame (dephasing basis +
+is the pointer family's bound only). The graph-level corollaries (added 2026-07-19, proof
+corollaries 7 + 8): at uniform coupling a pair is luminous iff neighborhoods match (Bell) or
+one member is the other's leaf (pointer/role-swap), so the FULLY-witnessed worlds are exactly
+the stars and the complete graphs (census: ALL connected graphs at N = 4/5/6, 38 + 728 + 26704,
+winners the N labeled stars + K_N, zero exceptions; the star shows all three record
+readings across its two pair-types (hub-leaf: pointer/role-swap; leaf-leaf: Bell weave),
+K_N is a total weave with zero pointer content, letter alternating with N); and
+**girth ≥ 5 + leafless ⇒ every pair dark**, so the heavy-hex bulk holds ZERO luminous pairs
+at uniform coupling (one N = 15 Heron cell: 3/105, only the corner-bridge pointer records;
+aiming a chosen corner via ratio-2 watcher bonds gives R_perfect = deg = 3 and erases
+nothing, but is not private: the corner's witnesses also weave, and each edited bond's far
+corner picks up a rotated pointer record, 10/105 in the engineered cell). Frame note: the letter symbols live in the world's own frame (dephasing basis +
 |+⟩ start); gauge-free are the I values, the alternation (−1)^m, and signs relative to the
 r = 1 baseline. At uniform coupling t\* is the graph-state instant and the aliveness/letter
 statics are Hein-Eisert-Briegel 2004 (quant-ph/0307130) composed with the evolution's
@@ -5492,7 +5503,10 @@ ratio arithmetic, the sign closed forms, the exclusivity, and the γ dressing ar
 
 **Gate:** [`simulations/qd_letter_gates.py`](../simulations/qd_letter_gates.py) (87/87, every
 prediction fixed in code before running; the numerics build full closed-form states and
-partial-trace, never the channel formulas under test).
+partial-trace, never the channel formulas under test); the graph-level corollaries in
+[`simulations/qd_witness_play.py`](../simulations/qd_witness_play.py) (the census) and
+[`simulations/qd_heavyhex_map.py`](../simulations/qd_heavyhex_map.py) (the dark map),
+outputs in [`simulations/results/qd_witness/`](../simulations/results/qd_witness/).
 **Proof:** [PROOF_RECORD_LETTER_LAW](proofs/PROOF_RECORD_LETTER_LAW.md) (substrate: F135
 Proposition 1 → [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) §4.5).
 **Typed:** pending (rides F135's witness-port door).
