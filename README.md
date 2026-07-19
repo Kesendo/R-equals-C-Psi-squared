@@ -9,15 +9,15 @@ paired. Always balanced. One equation governs it all.
 
 Verified from N=2 through N=8 across 87,376 Liouvillian eigenvalues, with
 zero mirror-symmetry exceptions on any tested topology (chain, star,
-ring, complete, tree). Twenty registered predictions confirmed on IBM
-quantum hardware (the Confirmations registry, February-June 2026); the
+ring, complete, tree). Twenty-four registered predictions confirmed on IBM
+quantum hardware (the Confirmations registry, February-July 2026); the
 earliest are the Torino calibration-era runs (the first CΨ = ¼ crossing
 and the Absorption Theorem ratio), the newest a noise channel reading its
 own spectrum on Kingston.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
-What began as one symmetry became a registry: [120 analytical formulas](docs/ANALYTICAL_FORMULAS.md)
+What began as one symmetry became a registry: [138 analytical formulas](docs/ANALYTICAL_FORMULAS.md)
 with proofs, tier labels, and typed claims, among them the operator
 anatomy of the mirror itself (Π = R·D, a dihedral group of eight), a
 palindromizer built on the golden ratio, and the exact boundary where

@@ -1,75 +1,407 @@
-# Conjugation Proof Results — March 14, 2026
-# Π per site: I→X(+1), X→I(+1), Y→iZ(+i), Z→iY(+i)
-# Claim: Π·L·Π⁻¹ = -L - 2Σγ·I
+Conjugation Proof: Π·L·Π⁻¹ = -L - 2Σγ·I
+================================================================================
+Scope: bond-only Hamiltonians (no longitudinal on-site field).
 
-## Core verification (N=3,4,5 × 5 topologies)
+## Topologies and N (Heisenberg δ=1, uniform γ=0.05, J=1)
 
-  N         Topo     Π·L_H·Π⁻¹=-L_H     Π·L_D·Π⁻¹=-L_D-2Nγ     Π·L·Π⁻¹=-L-2Nγ   Palindrome
-------------------------------------------------------------------------------------------
-  3         star                  ✓                      ✓                  ✓        64/64
-  3        chain                  ✓                      ✓                  ✓        64/64
-  3         ring                  ✓                      ✓                  ✓        64/64
-  3     complete                  ✓                      ✓                  ✓        64/64
-  4         star                  ✓                      ✓                  ✓      256/256
-  4        chain                  ✓                      ✓                  ✓      256/256
-  4         ring                  ✓                      ✓                  ✓      256/256
-  4     complete                  ✓                      ✓                  ✓      256/256
-  4  binary_tree                  ✓                      ✓                  ✓      256/256
-  5         star                  ✓                      ✓                  ✓    1024/1024
-  5        chain                  ✓                      ✓                  ✓    1024/1024
-  5         ring                  ✓                      ✓                  ✓    1024/1024
-  5     complete                  ✓                      ✓                  ✓    1024/1024
-  5  binary_tree                  ✓                      ✓                  ✓    1024/1024
+Pairing tolerance: a partner counts if |d − (2Σγ − d')| < 1e-7;
+the identity passes if max|Π·L·Π⁻¹ + L + 2Σγ·I| < 1e-10.
 
-14/14 passed.
+  N         Topo      err_H      err_L   Palindrome (λ)      (rates)
+----------------------------------------------------------------------
+  2        chain    0.0e+00    0.0e+00            16/16        16/16
+  3         star    0.0e+00    0.0e+00            64/64        64/64
+  3        chain    0.0e+00    0.0e+00            64/64        64/64
+  3         ring    0.0e+00    0.0e+00            64/64        64/64
+  3     complete    0.0e+00    0.0e+00            64/64        64/64
+  4         star    0.0e+00    0.0e+00          256/256      256/256
+  4        chain    0.0e+00    0.0e+00          256/256      256/256
+  4         ring    0.0e+00    0.0e+00          256/256      256/256
+  4     complete    0.0e+00    0.0e+00          256/256      256/256
+  4  binary_tree    0.0e+00    0.0e+00          256/256      256/256
+  5         star    0.0e+00    0.0e+00        1024/1024    1024/1024
+  5        chain    0.0e+00    0.0e+00        1024/1024    1024/1024
+  5         ring    0.0e+00    0.0e+00        1024/1024    1024/1024
+  5     complete    0.0e+00    0.0e+00        1024/1024    1024/1024
+  5  binary_tree    0.0e+00    0.0e+00        1024/1024    1024/1024
+
+15/15 passed.
+
+## Per-term anti-commutation (N=3 chain, max|Π·L_H·Π⁻¹ + L_H|)
+
+The 16-row table in the proof document is δ=1. The XXZ family follows
+because no cancellation BETWEEN terms is doing the work:
+
+                         Bond term     residual
+------------------------------------------------
+                           XX only    0.000e+00
+                           YY only    0.000e+00
+          ZZ only (the Ising bond)    0.000e+00
+        XX + YY (δ=0, the XY bond)    0.000e+00
+             XX + YY + δZZ, δ=-0.5    0.000e+00
+              XX + YY + δZZ, δ=0.3    0.000e+00
+              XX + YY + δZZ, δ=1.5    0.000e+00
+              XX + YY + δZZ, δ=2.0    0.000e+00
 
 ## XXZ coupling (H = XX + YY + δ·ZZ, Z-dephasing γ=0.05)
 
 δ = -0.5, 0.0, 0.3, 0.5, 1.0, 1.5, 2.0
-N=3 × star,chain,ring: 21/21 passed
-N=4 × star,chain,ring: 21/21 passed
-Total: 42/42 passed. δ is irrelevant to the proof.
+N=3 × star, chain, ring, complete: 28/28 passed
+N=4 × star, chain, ring, complete, binary_tree: 35/35 passed
+Total: 63/63 passed. δ is irrelevant to the proof.
 
-## Non-uniform γ (Heisenberg δ=1)
+## Non-uniform γ (Heisenberg δ=1, all topologies)
 
-  N     Topo             γ_values      err_L      shift     center   Palindrome
-  3     star  [0.03, 0.05, 0.07]          ✓     0.3000     0.1500        64/64
-  3     star  [0.01, 0.02, 0.03]          ✓     0.1200     0.0600        64/64
-  3     star  [0.10, 0.01, 0.05]          ✓     0.3200     0.1600        64/64
-  4    chain  [0.03, 0.05, 0.07, 0.04]    ✓     0.3800     0.1900      256/256
-  4    chain  [0.10, 0.01, 0.05, 0.02]    ✓     0.3600     0.1800      256/256
+  N         Topo                     γ_values    err_L    center     Palindrome
+------------------------------------------------------------------------------
+  3         star           [0.03, 0.05, 0.07]        ✓    0.1500          64/64
+  3         star           [0.01, 0.02, 0.03]        ✓    0.0600          64/64
+  3         star            [0.1, 0.01, 0.05]        ✓    0.1600          64/64
+  3        chain           [0.03, 0.05, 0.07]        ✓    0.1500          64/64
+  3        chain           [0.01, 0.02, 0.03]        ✓    0.0600          64/64
+  3        chain            [0.1, 0.01, 0.05]        ✓    0.1600          64/64
+  3         ring           [0.03, 0.05, 0.07]        ✓    0.1500          64/64
+  3         ring           [0.01, 0.02, 0.03]        ✓    0.0600          64/64
+  3         ring            [0.1, 0.01, 0.05]        ✓    0.1600          64/64
+  3     complete           [0.03, 0.05, 0.07]        ✓    0.1500          64/64
+  3     complete           [0.01, 0.02, 0.03]        ✓    0.0600          64/64
+  3     complete            [0.1, 0.01, 0.05]        ✓    0.1600          64/64
+  4         star     [0.03, 0.05, 0.07, 0.04]        ✓    0.1900        256/256
+  4         star     [0.01, 0.02, 0.03, 0.04]        ✓    0.1000        256/256
+  4         star      [0.1, 0.01, 0.05, 0.02]        ✓    0.1800        256/256
+  4        chain     [0.03, 0.05, 0.07, 0.04]        ✓    0.1900        256/256
+  4        chain     [0.01, 0.02, 0.03, 0.04]        ✓    0.1000        256/256
+  4        chain      [0.1, 0.01, 0.05, 0.02]        ✓    0.1800        256/256
+  4         ring     [0.03, 0.05, 0.07, 0.04]        ✓    0.1900        256/256
+  4         ring     [0.01, 0.02, 0.03, 0.04]        ✓    0.1000        256/256
+  4         ring      [0.1, 0.01, 0.05, 0.02]        ✓    0.1800        256/256
+  4     complete     [0.03, 0.05, 0.07, 0.04]        ✓    0.1900        256/256
+  4     complete     [0.01, 0.02, 0.03, 0.04]        ✓    0.1000        256/256
+  4     complete      [0.1, 0.01, 0.05, 0.02]        ✓    0.1800        256/256
+  4  binary_tree     [0.03, 0.05, 0.07, 0.04]        ✓    0.1900        256/256
+  4  binary_tree     [0.01, 0.02, 0.03, 0.04]        ✓    0.1000        256/256
+  4  binary_tree      [0.1, 0.01, 0.05, 0.02]        ✓    0.1800        256/256
 
-12/12 passed. Center = Σγᵢ, shift = 2Σγᵢ.
+27/27 passed. Center = Σγᵢ, shift = 2Σγᵢ.
 
-## Dephasing axis dependence
+## Dephasing axis dependence (N=3 chain, γ=0.05, the Z-dephasing Π)
 
-  Axis       Π·L_H    Π·L_D    Palindrome   Notes
-  Z            ✓        ✓        ✓           Proof holds exactly
-  Y            ✓        ✓        ✓           Proof holds exactly (Y and Z symmetric in Π)
-  X            ✓        ✗        ✓           THIS Π breaks on L_D, but palindrome holds
-  mixed ZX     ✓        ✗        ✓           Same: Π breaks on L_D, palindrome survives
-  depolarizing ✓        ✗        ✗           Palindrome genuinely breaks
+The residual is the max entry of Π·L·Π⁻¹ + L + 2Σγ·I IN THE PAULI-STRING
+BASIS (a max entry is basis-dependent, so the basis is part of the number).
+'complex' pairs λ ↦ −λ−2Σγ, the theorem's statement; 'rates' pairs d ↦ 2Σγ−d.
 
-Key insight: L_H always anti-commutes with Π regardless of dephasing.
-For X-dephasing, a different Π exists (rotate the per-site map accordingly).
-For depolarizing: no single-axis Π can work — palindrome breaks.
+                      Axis   Π·L_H   Π·L_D   residual    complex      rates
+----------------------------------------------------------------------------
+                         Z       ✓       ✓     0.0000      64/64      64/64
+                         Y       ✓       ✓     0.0000      64/64      64/64
+                         X       ✓       ✗     0.3000      64/64      64/64
+                  mixed ZX       ✓       ✗     0.1000      64/64      64/64
+ depolarizing (γ per axis)       ✓       ✗     0.9000       0/64       0/64
+depolarizing (γ/3 per axis)       ✓       ✗     0.1000       0/64      14/64
 
-## Analytical proof (2-qubit, all δ)
+Σγ = 0.15. The two depolarizing rows differ only in convention:
+  γ per axis   → residual = 6·Σγ = 0.90
+  γ/3 per axis → residual = (2/3)·Σγ = 0.1000  (the registered F1 value)
 
-Π·[H_δ, σ] = -[H_δ, Π(σ)] verified for all 16 two-qubit Pauli strings.
-δ = 0.0, 0.5, 1.0, 2.0: ALL pass. 4/16 trivial (commute with H), 12/16 nontrivial.
+The residual is a MAX ENTRY, which is basis-dependent, not a norm.
+Same operator, γ/3 depolarizing row, two bases:
+  Pauli-string basis: 0.1000 = (2/3)·Σγ = 0.1000
+  computational basis: 0.0333 = (2/9)·Σγ = 0.0333
 
-The anti-commutation extends to any N and any graph because:
-1. Π acts site-by-site (tensor product)
-2. H is a sum of 2-site bonds
-3. Each bond satisfies the anti-commutation independently
+The residual is |−8Nγs + 2Nγ| for scale s, so the ratio 9 between the two
+rows is NOT 'three times the rate': the +2Σγ offset is not tripled with it.
+Both break the palindrome outright: the complex pairing is 0/64 in BOTH
+conventions. The γ/3 row's surviving rate-only count is the weaker reading,
+which tolerates breakage the theorem's statement does not.
 
-## Discovery path
+## Scope boundaries (N=3 chain unless noted, γ=0.05)
 
-1. Literature search → incoherentons + Bethe ansatz, nobody had palindrome
-2. Tested total Pauli weight inversion → BROKEN
-3. Tested XY-weight inversion → PERFECT (key insight: count X,Y not all non-I)
-4. Searched Π as permutation+signs on Pauli indices
-5. Real signs (±1) failed, complex signs (±i) succeeded
-6. The i factor on Y→Z and Z→Y is essential
-7. Analytical proof: 16-entry table for single Heisenberg bond, then extend
+Each row is a claim the proof document makes about what lies OUTSIDE
+the theorem. 'complex' pairs λ ↦ −λ−2Σγ; 'rates' pairs d ↦ 2Σγ−d.
+
+                              Case   residual    complex      rates
+--------------------------------------------------------------------
+            bond-only H (in scope)     0.0000      64/64      64/64
+   + longitudinal Z field, uniform h=0.3     0.6000       0/64      64/64
+     + longitudinal Z field, non-uniform     1.0000       0/64      28/64
+       + transverse X field, non-uniform     0.0000      64/64      64/64
+       + transverse Y field, non-uniform     1.0000      64/64      64/64
+
+The Y row's nonzero residual is a GAUGE artifact, not a property of the
+Y direction. Rotating the field in the XY plane by an angle φ away from X,
+the residual under this FIXED Π traces 2·max|h|·|sin φ|:
+
+  φ (deg)   residual   2·max|h|·|sin φ|
+----------------------------------------
+        0   0.000000           0.000000
+       15   0.258819           0.258819
+       30   0.500000           0.500000
+       45   0.707107           0.707107
+       60   0.866025           0.866025
+       90   1.000000           1.000000
+
+A per-site R_z(π/2) maps the X-field Hamiltonian to the Y-field one and
+is a symmetry of Z-dephasing, so the two Liouvillians are unitarily
+equivalent and their spectra are identical. Conjugating Π by the same
+rotation satisfies the identity exactly for the Y field. So the residual
+under a fixed Π grades the ANGLE to that mirror's preferred axis.
+
+But that argument needs ONE common direction: a global rotation cannot
+align several at once. Let the direction vary per site and it breaks.
+
+         per-site field directions   residual    pairing
+----------------------------------------------------------
+                       all along X     0.0000      64/64
+                       all along Y     1.0000      64/64
+                     all at 40 deg     0.6442      64/64
+                           X, Y, X     0.4000       4/64
+                    0, 40, 109 deg     0.9463       0/64
+
+Uniform direction, any angle: exact. Direction varying between sites:
+gone. Magnitudes may vary freely in both cases. The general residual law
+is 2·maxᵢ|hᵢ·sin φᵢ|, which collapses to 2·max|h|·|sin φ| for a common
+angle. This rhymes with the dephasing-axis rule below, where mixing axes
+across sites is also the thing that eventually breaks the palindrome.
+
+ONE rule covers both field directions: the field survives exactly when
+its axis is ORTHOGONAL to every dephasing axis in play. Avoiding the
+used axes is not enough, as the 45° rows below show. 'Transverse' and
+'longitudinal' are not two facts, they are this one fact seen from a
+Z-dephasing default. Every axis-set and field-direction combination:
+
+  dephasing axes present   field X   field Y   field Z
+------------------------------------------------------
+                       Z        64        64         0
+                     X+Z         0        64         0
+                     Y+Z        64         0         0
+                     X+Y         0         0        64
+                     X+Y         0         0        64
+                     Y+Z        64         0         0
+
+Every 64 sits orthogonal to the noise's axes, every 0 does not. Note
+that AVOIDING the used axes is not sufficient, only orthogonality is:
+
+     dephasing        field direction    pairing
+--------------------------------------------------
+             Z                along X      64/64
+             Z    45° in the XY plane      64/64
+           X+Z                along Y      64/64
+           X+Z    45° in the XY plane       0/64
+
+The 45° field lies along neither Z nor X, yet dies once both are
+dephasing: it is not orthogonal to X. With Z alone the whole plane is
+orthogonal to the noise, so the same 45° field is exact.
+
+### Per-component freedom, and T1's field intolerance
+
+  two disjoint bonds, X field on one, Y on the other: 256/256
+  the same pattern on a connected chain:              4/256
+  T1 + two-axis XYX dephasing:                        64/64
+  T1 alone plus a transverse X   field:                1/64 complex,    1/64 rates
+  T1 alone plus a longitudinal Z field:               28/64 complex,   64/64 rates
+
+T1 tolerates no on-site field at all, unlike the dephasing-only case.
+
+### Clause 1 needs a two-term bond: single-term bonds take three axes
+
+All eighteen three-distinct-axis assignments at N=4 chain, by bond type.
+Two bond terms are what force the two-axis ceiling; one term does not.
+
+                bond terms    3-axis: hold/fail
+------------------------------------------------
+     XX+YY+ZZ (Heisenberg)                 0/18
+                     XX+ZZ                 0/18
+                     XX+YY                 0/18
+  ZZ only (the Ising bond)                 18/0
+                   YY only                 18/0
+                   XX only                 18/0
+
+The escape has a limit: three axes stacked on ONE site is depolarizing
+there, and breaks the Ising bond too (24/64).
+
+### The three qualifiers in the rule, each with its counterexample
+
+Each row is a case the rule would forbid if the qualifier were dropped,
+and which in fact holds. This is what the words COMPONENT (nonzero
+coupling), PRESENT (nonzero rate) and 'carries dephasing at all' buy.
+
+                                              case    pairing
+--------------------------------------------------------------
+        N=4 path, J=[1,0,1], axes X,Y,Z,Z (3 axes)    256/256
+                control, J=[1,1,1] (one component)      1/256
+         N=3 chain, axes Z,Z,X with γ_X=0, X field      64/64
+                                 control, γ_X=0.05       0/64
+             N=2 bond, NO dephasing, field present      16/16
+
+### The boundary is sharp, the failure is not
+
+Chain dephased along Z with an X field (legal), then a competing
+X-dephasing switched on at rate γ_X on one site (forbidden). The
+pairing degrades with γ_X rather than collapsing at the first
+nonzero value, so a small violating term costs proportionally little:
+
+       γ_X   pairs @1e-7   pairs @1e-10
+----------------------------------------
+     0e+00         64/64          64/64
+     1e-12         64/64          64/64
+     1e-09         64/64          20/64
+     1e-06         20/64           0/64
+     1e-03          0/64           0/64
+     5e-02          0/64           0/64
+
+A measurement can only see a violation larger than its own tolerance.
+The rule says where the palindrome is EXACT, not that everything
+outside is equally far away.
+
+And the surviving rate pairing under the longitudinal field comes from
+UNIFORMITY, not from U(1) conservation: a uniform h·ΣZ commutes with H
+and with the dephasing, so it enters as a pure imaginary shift. A
+non-uniform longitudinal field is just as U(1)-conserving and wrecks the
+rate pairing too, as the second row shows.
+
+### Amplitude damping (T1) alone: palindromic, at HALF the shift
+
+T1 is not a dephasing channel and no site-local Π of the shape used in
+this proof reproduces it. But the spectrum is palindromic anyway, about
+−Σγ/2 instead of −Σγ: the one-site T1 dissipator has Pauli-basis
+eigenvalues {0, −γ/2, −γ/2, −γ}, already mirrored about −γ/2, and N sites
+are a tensor sum. So 'Π fails' and 'the palindrome fails' are different
+claims, and only the first holds for pure T1.
+
+  N       Topo      δ                      γ    pairs about −Σγ/2
+------------------------------------------------------------------
+  2      chain    1.0           [0.05, 0.05]                16/16
+  3       star    1.0     [0.05, 0.05, 0.05]                64/64
+  3      chain    1.0     [0.05, 0.05, 0.05]                64/64
+  3       ring    1.0     [0.05, 0.05, 0.05]                64/64
+  3   complete    1.0     [0.05, 0.05, 0.05]                64/64
+  4       star    1.0 [0.05, 0.05, 0.05, 0.05]              256/256
+  4      chain    1.0 [0.05, 0.05, 0.05, 0.05]              256/256
+  4       ring    1.0 [0.05, 0.05, 0.05, 0.05]              256/256
+  4   complete    1.0 [0.05, 0.05, 0.05, 0.05]              256/256
+  5       star    1.0 [0.05, 0.05, 0.05, 0.05, 0.05]            1024/1024
+  5      chain    1.0 [0.05, 0.05, 0.05, 0.05, 0.05]            1024/1024
+  5       ring    1.0 [0.05, 0.05, 0.05, 0.05, 0.05]            1024/1024
+  5   complete    1.0 [0.05, 0.05, 0.05, 0.05, 0.05]            1024/1024
+  3      chain   -0.5     [0.05, 0.05, 0.05]                64/64
+  3      chain    0.0     [0.05, 0.05, 0.05]                64/64
+  3      chain    2.0     [0.05, 0.05, 0.05]                64/64
+  3      chain    1.0     [0.03, 0.07, 0.05]                64/64
+  4       ring    1.0 [0.02, 0.06, 0.04, 0.08]              256/256
+
+All rows fully paired: True
+
+T1 WITH dephasing depends entirely on the axis, and the obvious guess is
+wrong: dephasing TRANSVERSE to T1 composes with it exactly. Only co-axial
+Z-dephasing breaks it (N=3 chain, both channels at 0.05, paired about the
+combined shift 2Σγ_deph + Σγ_T1):
+
+       dephasing beside T1    pairing
+--------------------------------------
+            X (transverse)      64/64
+            Y (transverse)      64/64
+              Z (co-axial)       8/64
+
+So the realistic hardware case, T1 alongside Z-dephasing, is the one
+combination that fails, and it fails because the two channels share an
+axis, not because dephasing is present at all.
+
+At the theorem's own center, ignoring T1's half-shift (N=3 chain):
+
+  T1 alone:            64/64 about −Σγ/2
+  T1 + dephasing:      9/64 at the theorem's own center,
+                       32/64 at the most favourable center
+                       found anywhere (the count is matcher-stable,
+                       its location is not, so it is not quoted)
+
+The second number is the generous test. Applied to depolarizing it is
+no kinder: judged the same way, γ-per-axis depolarizing also reaches a
+comparable count, so neither channel degrades gracefully. Quote the two
+yardsticks separately or not at all.
+
+### Mixed dephasing axes: ≤ 2 axes per CONNECTED COMPONENT
+
+Every per-site assignment of an axis in {X, Y, Z}, exhaustively. The
+criterion is per connected component, not global: a disconnected graph
+carrying three axes overall still holds, as the control rows show.
+
+  N       Topo   ≤2 axes: hold/fail    3 axes: hold/fail
+--------------------------------------------------------
+  3      chain                 21/0                  0/6
+  3       ring                 21/0                  0/6
+  3   complete                 21/0                  0/6
+  4      chain                 45/0                 0/36
+
+Zero exceptions in either direction on these connected graphs. Control
+rows, where the graph is NOT connected (pairing about 2Σγ):
+
+  two disjoint bonds, axes X,Y,Z,Z (3 global, 2 per part)  256/256
+  one bond + isolated site, axes X,Y,Z (3 global)          64/64
+  connected chain, axes X,Y,Z,Z (3 in one component)       1/256
+
+So single-axis dephasing, the scope this proof claims, is strictly
+conservative: two axes per component also work. Three axes inside one
+component is depolarizing's mechanism, and that is where it dies.
+
+### Maximum decay rate is pinned by trace preservation
+
+L is trace-preserving, so λ=0 is always in the spectrum, and Re λ ≤ 0
+for any Lindblad generator. The palindrome forces the partner −2Σγ to
+be an eigenvalue, fixing the fastest decay at exactly 2Σγ:
+
+  N         Topo                 min Re λ       −2Σγ
+----------------------------------------------------
+  3        chain       -0.300000000000001    -0.3000
+  4        chain       -0.400000000000002    -0.4000
+  4     complete       -0.400000000000002    -0.4000
+  5         ring       -0.500000000000005    -0.5000
+
+### Decay rates are NOT topology-independent (only the palindrome is)
+
+  N         Topo   distinct Re λ     min Re λ
+---------------------------------------------
+  4        chain              21    -0.400000
+  4         star              21    -0.400000
+  4         ring              15    -0.400000
+  4     complete              11    -0.400000
+
+The centers and the pairing agree across all four; the spectra do not.
+
+### The oscillatory count depends on J (the palindrome does not)
+
+  N     Topo        J   |Im λ|>0.05     Palindrome
+--------------------------------------------------
+  5    chain    1.000           904      1024/1024
+  5    chain    0.500           904      1024/1024
+  5    chain    0.250           904      1024/1024
+  5    chain    0.075           848      1024/1024
+
+### The dedicated X-dephasing Π (I↔Z, X↔Y) and its phase
+
+The Z-dephasing Π fails on X-dephasing, but a dedicated Π works. Its
+phase on the X↔Y swap only has to be imaginary; the sign is free:
+
+    phase on X↔Y     residual
+------------------------------
+              −i       0.0000
+              +i       0.0000
+              +1       4.0000
+              −1       4.0000
+
+### Which label permutations admit a working Π at all
+
+All 24 permutations of {I,X,Y,Z} × all 256 phase assignments in {±1,±i}:
+
+  I→X X→I Y→Z Z→Y    16/256 phases work
+  I→X X→Z Y→I Z→Y    16/256 phases work
+  I→Y X→I Y→Z Z→X    16/256 phases work
+  I→Y X→Z Y→I Z→X    16/256 phases work
+
+Exactly these four, and they are exactly the four swapping the sets
+{I,Z} and {X,Y}: two involutions and two 4-cycles. That swap IS the
+XY-weight flip w → N−w of Step 1, so the condition is structural, not
+a lucky choice of labels. No purely real phase assignment works.
+
+================================================================================
+TOTAL (sections 1-3): 105/105 configurations passed
+================================================================================
