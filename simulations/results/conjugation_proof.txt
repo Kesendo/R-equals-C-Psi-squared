@@ -216,8 +216,18 @@ Two bond terms are what force the two-axis ceiling; one term does not.
                    YY only                 18/0
                    XX only                 18/0
 
-The escape has a limit: three axes stacked on ONE site is depolarizing
-there, and breaks the Ising bond too (24/64).
+The escape has two limits. Three axes stacked on ONE site is depolarizing
+there, and breaks the Ising bond too (24/64). And a
+three-axis component must be FIELD-FREE, which is clause 2 read carefully:
+no direction is orthogonal to X, Y and Z at once, so only the empty field
+passes it. The two clauses look like they conflict here; they do not:
+
+            Ising bond, axes X,Y,Z    pairing
+----------------------------------------------
+                          no field      64/64
+                         + X field       0/64
+                         + Y field       0/64
+                         + Z field       8/64
 
 ### The three qualifiers in the rule, each with its counterexample
 

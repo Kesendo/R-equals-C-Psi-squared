@@ -194,8 +194,14 @@ pairs 16/16. And clause 1's *two-term* proviso is not decoration: a
 single-term bond, the Ising bond ZZ among them, tolerates all three dephasing
 axes at once, all eighteen three-axis assignments at N=4 pairing exactly where
 Heisenberg, XX+ZZ and XX+YY all fail on the same assignments. Two bond terms
-are what force the ceiling. That escape has its own limit: three axes stacked
-on a single site is depolarizing there, and breaks the Ising bond too.
+are what force the ceiling. That escape has two limits. Three axes stacked on
+a single site is depolarizing there, and breaks the Ising bond too. And a
+three-axis component must be **field-free**: this is not a separate condition
+but clause 2 read carefully, since no direction is orthogonal to X, Y and Z
+at once, so the clause is unsatisfiable there and only the empty field passes
+it. Measured, and worth stating because the two clauses look like they
+conflict here: Ising with all three axes pairs 64/64 with no field, and 0/64
+under an X or Y field.
 
 What follows from the rule, each of which we first met as a separate
 exception:

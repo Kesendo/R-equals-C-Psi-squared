@@ -706,9 +706,21 @@ if __name__ == '__main__':
     ax = [1, 2, 3]
     ev, shift = arbitrary_graph_spectrum(
         3, edges3, [(1, 2, 3), (3,), (3,)], [0.05] * 3, bond_terms=(3,))
-    print(f"\nThe escape has a limit: three axes stacked on ONE site is depolarizing")
+    print(f"\nThe escape has two limits. Three axes stacked on ONE site is depolarizing")
     print(f"there, and breaks the Ising bond too "
-          f"({multiset_pairs(list(ev), lambda lam: -lam - shift)}/64).")
+          f"({multiset_pairs(list(ev), lambda lam: -lam - shift)}/64). And a")
+    print("three-axis component must be FIELD-FREE, which is clause 2 read carefully:")
+    print("no direction is orthogonal to X, Y and Z at once, so only the empty field")
+    print("passes it. The two clauses look like they conflict here; they do not:\n")
+    print(f"{'Ising bond, axes X,Y,Z':>34} {'pairing':>10}")
+    print("-" * 46)
+    for fld, lbl in [(None, "no field"), (1, "+ X field"), (2, "+ Y field"),
+                     (3, "+ Z field")]:
+        ev2, sh2 = arbitrary_graph_spectrum(
+            3, edges3, [(1,), (2,), (3,)], [0.05] * 3, bond_terms=(3,),
+            field=(H_NON if fld else None), field_axis=(fld or 3))
+        print(f"{lbl:>34} "
+              f"{f'{multiset_pairs(list(ev2), lambda lam: -lam - sh2)}/64':>10}")
 
     print("\n### The three qualifiers in the rule, each with its counterexample\n")
     print("Each row is a case the rule would forbid if the qualifier were dropped,")
