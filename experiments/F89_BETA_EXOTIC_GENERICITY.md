@@ -670,7 +670,7 @@ Four facts per sector, at each of the three N (grades per fact and per N in the 
    N = 7 and 9; nothing below uses it), and max multiplicity 2 off w = 0. Degrees
    in w, slashes in **E/O order** (mind: the DISCMULT table in the certificate section lists R-odd
    first): at N = 5, A₁ has degree 28 in both sectors (A₂: 16/13, v: 77/69); at N = 7, A₁ has degree
-   114/111 (A₂: 210/195, v: 772/753); at N = 9, A₁ has degree 288/286 (A₂: 1072/1021, v: 4054/4020).
+   114/111 (A₂: 210/195, v: 772/753); at N = 9, A₁ has degree 288/286 (A₂: 1072/1021, v: 4054/4020); at N = 11, the first resonant N, A₁ has degree 586/581 (A₂: 3520/3420, v: 14975/14922).
    The N = 5 computation is exact over ℤ, which upgrades the
    certificate section's fail-closed mod-p reading of "max multiplicity 2" to an exact equality
    there; the N = 7 layer degrees reproduce the DISCMULT-certified table after the unit change
@@ -824,7 +824,7 @@ NOT upgrade: the A₂²-split of Res_Λ(F_res, S₆) stays multi-prime evidence 
 A₂'s own irreducibility at N = 7 and 9 stays evidence-grade (nothing uses it either).
 
 What this hands the all-N question: **the seed-bearing layer does not fragment.** A₁ is irreducible
-over ℚ in both sectors at all three N (six data points: hypothesis (i) below). If A₁ is
+over ℚ in both sectors at all four N (eight data points, N = 11 the first resonant: hypothesis (i) below). If A₁ is
 irreducible at every odd N, then
 gcd(Res_Λ(F_res, S₆), A₁) is 1 or A₁, so the *resultant's* nonvanishing at one point of the simple
 layer decides all of it: the **simple-layer half** of O2b reduces to (i) A₁-irreducibility for all
@@ -857,6 +857,49 @@ factorizations, the exact layers A₁/A₂ with the full reconstruct-and-verify 
 families including the psc₁ coincident-pair certificate, the strand positivity symbolically, the
 exact N = 5 disc/inventory over ℤ, and the seed evaluations from scratch; its docstring carries the
 same grade ladder as the bookkeeping paragraph above).
+
+### N = 11, the first resonant N: the layer identity and A₁-irreducibility, both parities (2026-07-19)
+
+N = 11 is the first *resonant* N (3 ∣ N + 1 with N ≥ 11, the criterion where the parent note's
+resonance count turns on), the first test of the all-N inputs at a resonant datum. The
+reconstruct-and-verify layer discharge (Stage L + Stage V, the identical proof shape) proves there,
+both R-parities, **disc_Λ(F_res) = C · w^v · A₁ · A₂² over ℤ with max multiplicity 2 off w = 0**:
+R-even B_D = 2^244350, identity pool 9856 primes (∏ > B_D + B_R), deg disc 22601, v 14975, A₁ 586,
+A₂ 3520; R-odd B_D = 2^242360, 9768 primes, deg disc 22343, v 14922, A₁ 581, A₂ 3420 (sector dims
+305/300, F_res degrees 215/214). The base polynomials χ, S₆, S₂, S_T are proof grade there by the
+same a-priori ℓ1 bound as at N = 7, 9 (premise discharge I): the CRT pool closes past 2B at R-even 43
+primes (∏p = 2^1074 > 2B = 2^1068) and R-odd 42 primes (∏p = 2^1049 > 2^1048), so F_res is exact
+over ℤ and the B_D bound and the identity are exact, not merely mod-p. **A₁ is irreducible over ℚ
+in both sectors** by the mod-p
+degree-partition subset-sum on reductions of the proved exact A₁ (the achievable factor degree
+closes to {0, 586} at 6 primes for E, {0, 581} at 11 primes for O), so hypothesis (i) survives its
+first resonant test: **eight data points** now (N = 5, 7, 9, 11, both parities).
+
+The resonance leaves a fingerprint in the *simple* layer's degree. The A₁ degrees that fit
+11N² − 89N + 198 (E) and 11.5N² − 96.5N + 223 (O) through N = 5, 7, 9 predict 550/553 at N = 11;
+the measured 586/581 sit +36/+28 above. The degree jumps, the polynomial does not fragment: the
+non-resonant degree law is a trend, not an all-N law, while irreducibility is stable across the
+jump. Structure shared across parity: both A₁ carry the alternating-sign coefficient pattern, both
+A₁(0) are {2, 3, 5}-smooth (2^2241·3^192·5^39 for E, 2^2245·3^213·5^37 for O; the A₁(0) supports
+at N = 5, 9, 11 are {2, 3}, {2, 5}, {2, 3, 5}, all small), the large-prime part of each leading
+coefficient is a perfect square (E 21102244601021² = (6014299·3508679)², O
+10588150423224676087² = (65027·3234994657·50333)²; the large primes differ in count, two for E and
+three for O, but each appears squared), and the 2-adic Newton polygon of A₁ has an *identical* head
+across the two sectors (the (segment length, slope) pairs [(160, −8), (40, −7), (2, −6), …]).
+
+What N = 11 does **not** yet close, stated so nothing is over-read: the gcd legs
+(gcd(Res_Λ(F_res, S₆), A₁) = 1, the cross-sector gcd, the psc₁ coincident-pair certificate) are
+not computed there, so the per-N O2b nonvanishing is *not* settled at N = 11 the way it is at
+N = 5, 7, 9; what is in hand is one localization ingredient (max multiplicity 2, not the psc₁ leg,
+the cross-sector gcd, or F_res reality) and the hypothesis-(i) datum (A₁ irreducible over ℚ), not
+the scalar s₆ ≠ 0 itself. And the discharge runs in a local reconstruct-and-verify runner, not the
+committed [gcd certificate](../simulations/o2b_gcd_certificate.py), which has no run mode 11 yet: at
+this scale the pure disc-mod-p sweep (the committed `res_modp`/`interp_modp` kernel) costs ~440 s
+per prime, so a tractable run(11) needs a faster disc kernel first (a numba + node-reduction path,
+validated byte-identical to that kernel on random polynomials and end to end on a real N = 7 F_res,
+cuts it to ~13 s per prime); porting that into the committed certificate and running the full gate
+is a deferred promotion, so N = 11 is deliberately kept out of the committed grade ladder above
+until then. Both sectors' exact (C, A₁, A₂) are cached in the meantime.
 
 ## The cell law, tightened: decomposition, sharp constants, and where the band tightness comes from (2026-07-10)
 
@@ -1014,8 +1057,8 @@ seed-existence *conclusion* is that each count-dropping seed is genuinely √-ty
      certificate section replaces the old caution ("{S₆ = 0} contains the diabolics, no separation")
      with a measured separation, the diabolics on A₂ and the seeds on A₁, and reduces the
      *simple-layer half* of all-N O2b to
-     two uniform hypotheses: **A₁ irreducible over ℚ for every odd N** (true at N = 5, 7, 9, both
-     sectors: six data points) **plus Res_Λ(F_res, S₆) ≠ 0 at one accessible simple-layer fiber**
+     two uniform hypotheses: **A₁ irreducible over ℚ for every odd N** (true at N = 5, 7, 9, 11, both
+     sectors: eight data points, N = 11 the first resonant) **plus Res_Λ(F_res, S₆) ≠ 0 at one accessible simple-layer fiber**
      (S₆ ≠ 0 at every
      branch over it, not merely at the defective one); the localization half (every count-drop on
      A₁) keeps its per-N inputs (max-mult 2 by DISCMULT at N = 5, 7 and by the layer identity at
