@@ -33,7 +33,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// star / complete × N=4,5,6, simulations/second_clock_regime_axis.py) and live (the N=4 frame is a
 /// self-validating full-Liouvillian gate, inspect --root secondclock). It is a candidate, not derived,
 /// because it is capped by its weaker parent <see cref="CoherenceHorizonClaim"/> (Tier1Candidate, its own
-/// half-filling V-Effect seam still open); the other parent <see cref="StructuralCeilingClaim"/> is
+/// ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam open pending the PROOF_RING_HANDOVER_SLOPE
+/// review); the other parent <see cref="StructuralCeilingClaim"/> is
 /// Tier1Derived. The two parents ARE the two regimes the map joins.</para>
 ///
 /// <para>Live witness: <c>inspect --root secondclock</c>

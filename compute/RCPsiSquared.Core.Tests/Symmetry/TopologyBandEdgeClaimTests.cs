@@ -16,7 +16,7 @@ public class TopologyBandEdgeClaimTests
         // the Re=−2γ floor is the Absorption Theorem, and the chain gap-dominance that capped the parent
         // ClockHandLadderClaim is proven (PROOF_CHAIN_GAP_DOMINANCE), so ClockHandLadder graduated and the
         // inherited cap is lifted. (The sibling CoherenceHorizonClaim stays Tier1Candidate for its own open
-        // piece — the half-filling V-Effect ring seam — not the gap-dominance.)
+        // piece — the ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam — not the gap-dominance.)
         Assert.Equal(Tier.Tier1Derived, claim.Tier);
         Assert.NotNull(claim.ChainInstance);   // ClockHandLadderClaim (the chain Im instance)
         Assert.NotNull(claim.Absorption);      // AbsorptionTheoremClaim (the Re=-2γ floor)

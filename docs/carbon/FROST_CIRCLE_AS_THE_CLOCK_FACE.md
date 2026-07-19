@@ -96,8 +96,8 @@ the ladder (Uhr 2 of F2b's two clocks, the {0,2}-coherence EP), benzene's thresh
 transcendental like the chains at N ≥ 4
 ([`simulations/carbon/benzene_two_clocks.py`](../../simulations/carbon/benzene_two_clocks.py)).
 It sits *below* every open polyene: the closed ring, beating at the full 2|β| band edge, holds its
-coherence down to a lower Q than any chain. But benzene is also the even-N, half-filled ring where
-the V-Effect seam opens, and there the two clocks come apart. For an open chain the Absorption
+coherence down to a lower Q than any chain. But benzene is also the closed ring where the
+2-excitation V-Effect seam opens, and there the two clocks come apart. For an open chain the Absorption
 Theorem pins the band-edge survivor (Uhr 1) and the erasure point (Uhr 2) to the same gap rate −2γ,
 so the full Liouvillian's crossover and the single-excitation EP coincide (that is the ladder). On
 benzene they split: the mode that actually overtakes the band-edge beat in the full Liouvillian is a
@@ -147,7 +147,7 @@ transcendental for N ≥ 4, a diffusive critical-damping condition, not a proper
 quantum side, [F2b](../ANALYTICAL_FORMULAS.md) and
 [`coherence_horizon_se_block.py`](../../simulations/coherence_horizon_se_block.py)). Benzene's ring
 crossover is Q* = 1.609 (the benzene paragraph above). What the V-Effect does is now visible: on the
-half-filled even-N ring the band-edge selection does *not* simply survive, the overtaking channel
+even-N closed ring the band-edge selection does *not* simply survive, the overtaking channel
 hands over to a double-excitation coherence near Q ≈ 2.0 (the earlier ~1.95 estimate; precisely the Q
 where the (2,2) seam's darkness ⟨n_XY⟩ reaches the F50 off-diagonal floor = 1, the (0,1) band edge at
 Re = −2γ). **That handover mechanism is now resolved** ([`handover_q.py`](../../simulations/carbon/handover_q.py),
@@ -157,10 +157,14 @@ coherence horizon Q*(N)), and it grows linearly with N (Q_h → N·√3/(2π) �
 2026-06-20, [`PROOF_RING_HANDOVER_SLOPE`](../proofs/PROOF_RING_HANDOVER_SLOPE.md), pending review, the darkness-1
 sibling of Q*; benzene's ≈ 2.0 is a small-N value; the earlier "≈ 0.29N" was the finite-N Q_h/N), not cleanly
 co-located with the ring single-excitation Q* (the two curves
-merely cross near N ≈ 10). What stays open is the dynamic C=0.5 question it opens: whether the
-half-occupied coherence is always the longest-lived survivor over N and topology. The split is now known to be RING-UNIVERSAL, not aromatic:
+merely cross near N ≈ 10). The dynamic C=0.5 question it opened (is the half-occupied coherence
+always the longest-lived survivor over N and topology?) is answered: only on dispersive substrates
+(chain, ring), and the ring survivor is the off-centre 2-excitation `(2,2)/(N−2,N−2)` doublet, not
+half-filling (the sector gate in [the Ring Handover Slope proof](../proofs/PROOF_RING_HANDOVER_SLOPE.md));
+the central-spin star is the counterexample (typed `SurvivalIncompletenessMirrorClaim`,
+`inspect --root survivor`). The split is RING-UNIVERSAL, not aromatic:
 C4, C6, and C8 rings all hand over to a frozen double-excitation mode at strong dephasing (the open
-chains do not), so it is the C=0.5 half-filling boundary, a sibling of the incompleteness V-Effect
+chains do not), a sibling of the incompleteness V-Effect
 ([The Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md)); Hückel's 4n+2 is not the
 discriminant (the 4n anti-aromatics C4 and C8 do not group, C4 being a small-ring anomaly;
 [`aromatic_ring_v_effect.py`](../../simulations/carbon/aromatic_ring_v_effect.py)).

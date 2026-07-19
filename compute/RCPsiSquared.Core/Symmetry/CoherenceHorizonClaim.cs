@@ -43,9 +43,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π; the ring sibling is exactly half, 1/π).
 /// Tier1Candidate — NOT for the gap-dominance (now PROVEN, docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md, so the
 /// parent <see cref="ClockHandLadderClaim"/> graduated to Tier1Derived), but for its OWN open piece: the
-/// half-filling V-Effect seam now has a concrete carbon-ring probe (benzene C₆ Q* = 1.609; the
-/// double-excitation mode that overtakes the beat there is ring-specific, see the benzene node and
-/// simulations/carbon/benzene_two_clocks.py).</para>
+/// ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam (NOT half-filling: at N=6 the (2,2) block's
+/// handover Q_h matches the full-L survivor, the half-filling (3,3) block does not; the sector gate in
+/// docs/proofs/PROOF_RING_HANDOVER_SLOPE.md). That proof derives the seam's slope Q_h → N·√3/(2π) (the
+/// darkness-1 sibling of Q*) but its review is pending; this claim graduates when it is reviewed. Concrete
+/// carbon-ring probe: benzene C₆ Q* = 1.609 (the benzene node, simulations/carbon/benzene_two_clocks.py).</para>
 ///
 /// <para>Live witnesses: <c>inspect --root horizon</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs</c>, the ladder + the eig
@@ -153,15 +155,16 @@ public sealed class CoherenceHorizonClaim : Claim
                          "Benzene C₆'s own coherence horizon (Uhr 2, the single-excitation {0,2}-EP via the same " +
                          "Haken-Strobl reduction) is Q* = 1.609, transcendental like N≥4 and below every open polyene " +
                          "(the closed ring, beating at the full 2|β| band edge, holds coherence to a lower Q). But " +
-                         "benzene (even N, HALF-FILLED) is where the half-filling V-Effect seam opens: the mode that " +
+                         "benzene (even N) is where the 2-excitation V-Effect seam opens: the mode that " +
                          "overtakes the band-edge beat in the FULL 4^6 Liouvillian is a DOUBLE-excitation coherence " +
                          "(filling sector (2,2)/(4,4)), so the full-L handover (~1.95) SPLITS from the clean SE-EP Uhr 2 " +
                          "(1.609). For the open chains the Absorption Theorem co-locates the two at Re = −2γ (that IS the " +
                          "ladder); benzene breaks it. The split is RING-SPECIFIC: the open even-N chain N=6 overtaker " +
                          "spreads across all fillings at its own SE-EP, so the double-excitation seam is a feature of the " +
-                         "closed ring at half-filling (the C=0.5 boundary), not even N alone. Aromaticity (Hückel 4n+2) " +
+                         "closed ring's interior 2-excitation doublet, not even N alone. Aromaticity (Hückel 4n+2) " +
                          "is NOT the discriminant (tested C4/C8 in simulations/carbon/aromatic_ring_v_effect.py): the " +
-                         "seam is RING-UNIVERSAL, the C=0.5 half-filling boundary made dynamic, a sibling of the " +
+                         "seam is RING-UNIVERSAL, the off-centre (2,2)/(N−2,N−2) doublet (not half-filling; the " +
+                         "sector gate in PROOF_RING_HANDOVER_SLOPE.md), a sibling of the " +
                          "incompleteness V-Effect (docs/HIERARCHY_OF_INCOMPLETENESS.md). The 4n anti-aromatics C4 and C8 " +
                          "do NOT group (C4 is a small-ring anomaly, its seam dominates even at weak dephasing). Carbon " +
                          "doc: FROST_CIRCLE_AS_THE_CLOCK_FACE.md.");

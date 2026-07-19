@@ -29,7 +29,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// witnessed, and independently understood: the star has no coherence horizon (flat band,
 /// PROOF_STRUCTURAL_CEILING §7), and complete/star structurally ceiling (g2=4/N, 4/(N−1); F122 /
 /// <see cref="StructuralCeilingClaim"/>). The sibling <c>CoherenceHorizonClaim</c> stays Tier1Candidate for
-/// its OWN open piece (the half-filling V-Effect ring seam), not the gap-dominance.</para>
+/// its OWN open piece (the ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam, pending the
+/// PROOF_RING_HANDOVER_SLOPE review), not the gap-dominance.</para>
 ///
 /// <para>Typed parents: <see cref="ClockHandLadderClaim"/> (the chain instance it generalizes — its
 /// ω_mem = 2J·cos(π/(N+1)) is the chain ρ), <see cref="AbsorptionTheoremClaim"/> (the Re=−2γ floor).</para></summary>

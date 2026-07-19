@@ -185,7 +185,8 @@ N ≥ 3 and arctan(√(Q²−1)) for N = 2 (zero at the EP).
 **Tier:** 1 derived (mechanism + gap-dominance proven via free fermions,
 [the Chain Gap-Dominance proof](proofs/PROOF_CHAIN_GAP_DOMINANCE.md); ClockHandLadderClaim
 graduated). The Q*(N) coherence-horizon sub-result below stays Tier 1 candidate
-(its own half-filling V-Effect-seam open piece).
+(its own open piece: the ring 2-excitation `(2,2)/(N−2,N−2)` doublet V-Effect seam,
+[Ring Handover Slope proof](proofs/PROOF_RING_HANDOVER_SLOPE.md) pending review).
 **Verified:** gap-dominance gate-exact N = 3..6 (and γ-independent across γ); N = 2 closed
 form 2√(J²−γ²) exact.
 **Live:** `inspect --root clock`
