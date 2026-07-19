@@ -483,7 +483,8 @@ public static class KnowledgeRegistryFactory
             // Tier1Derived. Implemented as Diagnostics OddHarmonicApproach / ApproachFamilyField
             // (the --axis approach eyepiece). Wired 2026-06-03.
             .RegisterApproachFamilyCarrierClaim()
-            // The two clocks (Tier1Candidate, 2026-06-12): the Symphony clock node's coherence
+            // The two clocks (Tier1Derived; landed 2026-06-12, graduated 2026-06-16 when the chain
+            // gap-dominance was proven, PROOF_CHAIN_GAP_DOMINANCE): the Symphony clock node's coherence
             // hand ω_mem = 2J·cos(π/(N+1)) is, for N≥3, the F2b band edge and is γ-protected
             // (the |vac⟩⟨ψ_k| modes are simultaneous L_D/L_H eigenoperators, eigenvalue −2γ from
             // the Absorption Theorem + iE_k from F2b), so γ moves the Takt hand (2γ) but not the
@@ -494,18 +495,18 @@ public static class KnowledgeRegistryFactory
             // .RegisterAbsorptionTheoremClaim() (the −2γ), .RegisterUniversalCarrierClaim()
             // (carrier-blindness), all resolved by build time.
             .RegisterClockHandLadderClaim()
-            // The topology band edge (Tier1Candidate, 2026-06-16): the XY single-excitation band edge =
+            // The topology band edge (Tier1Derived since 2026-06-16): the XY single-excitation band edge =
             // J × the hopping graph's adjacency spectral radius ρ (chain 2cos(π/(N+1)), star √(N−1),
             // ring 2), generalizing the chain-only F2b band edge to any topology (the Im/L_H side). The
             // Re=−2γ floor (the band-edge coherence has n_XY=1) is the Absorption Theorem, cited not
             // re-derived. Two typed parents, both registered earlier in this chain: ClockHandLadderClaim
             // (the chain instance, directly above) + AbsorptionTheoremClaim (the floor). Gap-dominance is
-            // witnessed (inspect --root bandedge), not separately claimed. Tier1Candidate (not Derived):
-            // the typed parent ClockHandLadderClaim is Tier1Candidate, so the tier-inheritance invariant
-            // caps this child there too — matching the sibling CoherenceHorizonClaim (the spec said
-            // Derived; the gate caught the candidate parent).
+            // witnessed (inspect --root bandedge), not separately claimed. Tier1Derived: the parent
+            // ClockHandLadderClaim graduated 2026-06-16 (PROOF_CHAIN_GAP_DOMINANCE), lifting the
+            // inherited cap.
             .RegisterTopologyBandEdgeClaim()
-            // The coherence horizon Q*(N) (Tier1Candidate, 2026-06-12): Q*(N) = 1/√2/1.8785/2.3722
+            // The coherence horizon Q*(N) (Tier1Derived since 2026-07-19, the ring-seam open piece
+            // resolved by the reviewed PROOF_RING_HANDOVER_SLOPE; landed 2026-06-12): Q*(N) = 1/√2/1.8785/2.3722
             // for N=2..5, the Q below which the slowest non-zero Liouvillian mode stops oscillating
             // (the coherence hand freezes), verified equal to the carbon Frost-Hückel coherent↔incoherent
             // threshold under J ↔ |β| (the cross-substrate identity). N=2 (Q*=1) is the EP base the
@@ -530,14 +531,14 @@ public static class KnowledgeRegistryFactory
             // Absorption Theorem + commutant linear algebra). Live witness: StructuralCeilingWitness
             // (inspect --root ceiling).
             .RegisterStructuralCeilingClaim()
-            // The second clock's regime map (Tier1Candidate, 2026-06-16, "the stitch"): the {0,2}/half-filling
+            // The second clock's regime map (Tier1Derived since 2026-07-19; landed 2026-06-16, "the stitch"): the {0,2}/half-filling
             // coherence (the second clock) is ONE mode whose regime is selected by the single-particle band via
             // two knobs — knob 1 (degeneracy m) → the high-Q ceiling 4/(m+1) (below the −2γ floor iff m≥4), knob 2
             // (dispersion) → the low-Q character (sharp √-EP coherence horizon on a dispersive band, only
             // asymptotic protection on a flat one). It stitches CoherenceHorizonClaim (the EP regime) +
             // StructuralCeilingClaim (the CEILING regime, 4/(m+1) the bridge) + the star-no-horizon (GRADUAL) into
-            // one node. Two typed parents = the two regimes, both registered above: CoherenceHorizonClaim (the
-            // weaker, Tier1Candidate, caps this child) + StructuralCeilingClaim (Tier1Derived). Gate-verified 15/15
+            // one node. Two typed parents = the two regimes, both registered above: CoherenceHorizonClaim +
+            // StructuralCeilingClaim (both Tier1Derived). Gate-verified 15/15
             // (simulations/second_clock_regime_axis.py); live N=4 full-Liouvillian gate (inspect --root secondclock).
             .RegisterSecondClockRegimeClaim()
             // The star's frozen seam (Tier1Candidate, 2026-06-18): on the star the longest-lived coherence never
@@ -546,8 +547,10 @@ public static class KnowledgeRegistryFactory
             // (4/3>1) un-freezes (the band edge wins, the (2,2)/K₄ outlier). The third member of the trichotomy
             // chain(SE-EP un-freeze)/ring(frozen level crossing)/star(frozen commutant); the structural ceiling
             // read dynamically. Two typed parents, both registered above: StructuralCeilingClaim (Tier1Derived,
-            // the g2 threshold + the commutant mechanism) + SecondClockRegimeClaim (Tier1Candidate, the regime
-            // map it sharpens; caps this child). Gate-verified N=4..8 (simulations/star_frozen_seam.py); live
+            // the g2 threshold + the commutant mechanism) + SecondClockRegimeClaim (Tier1Derived, the regime
+            // map it sharpens). No longer parent-capped since 2026-07-19; stays Tier1Candidate on its own
+            // standing (the all-Q survivor statement is gate-verified N=4..8, not proven for general N).
+            // Gate-verified N=4..8 (simulations/star_frozen_seam.py); live
             // inspect --root starseam.
             .RegisterStarFrozenSeamClaim()
             // The Niven root (Tier1Derived, 2026-06-17): Niven's theorem on the SE cyclotomic angle π/(N+1)

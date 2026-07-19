@@ -9,10 +9,13 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class CoherenceHorizonClaimTests
 {
     [Fact]
-    public void Claim_IsTier1Candidate_AndNamesQStarN()
+    public void Claim_IsTier1Derived_AndNamesQStarN()
     {
+        // Tier1Derived since 2026-07-19: the ring-seam open piece (the 2-excitation (2,2)/(N−2,N−2)
+        // doublet) is resolved by the reviewed PROOF_RING_HANDOVER_SLOPE; gap-dominance was already
+        // proven (PROOF_CHAIN_GAP_DOMINANCE).
         var c = CoherenceHorizonClaim.Shared;
-        Assert.Equal(Tier.Tier1Candidate, c.Tier);
+        Assert.Equal(Tier.Tier1Derived, c.Tier);
         Assert.Contains("Q*(N)", c.Summary);
     }
 

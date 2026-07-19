@@ -1,6 +1,6 @@
 # PROOF: the ring double-excitation handover slope is √3/(2π)
 
-**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the (2,2) double-excitation seam's slow mode obeys the resummed coherence-ladder dispersion `λ² + 8γλ + 4J²q²` (CV-confirmed, the SE proof's own discriminator), and the handover (its darkness reaching the band-edge floor `⟨n_XY⟩ = 1`) sits at `Q·q = √3`, so `Q_h = √3/q_min → N·√3/(2π)`, slope `√3/(2π)`. The sibling of [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md): same dispersion, but the `darkness = 1` condition (`Q·q = √3`) instead of the EP (`Q·q = 2`). Confirmed numerically N = 6..14 (Q_h·2π/N → √3 monotonically from above) and by the γ-constant-q CV discriminator (CV(8γ) = 0.012/0.019 at N = 12/10, beating the 4γ telegrapher ~10×). Resolves the open piece that kept `CoherenceHorizonClaim` + `SecondClockRegimeClaim` at Tier 1 candidate (the ring V-Effect seam), and corrects its sector label (the 2-excitation doublet, not half-filling).
+**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the (2,2) double-excitation seam's slow mode obeys the resummed coherence-ladder dispersion `λ² + 8γλ + 4J²q²` (CV-confirmed, the SE proof's own discriminator), and the handover (its darkness reaching the band-edge floor `⟨n_XY⟩ = 1`) sits at `Q·q = √3`, so `Q_h = √3/q_min → N·√3/(2π)`, slope `√3/(2π)`. The sibling of [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md): same dispersion, but the `darkness = 1` condition (`Q·q = √3`) instead of the EP (`Q·q = 2`). Confirmed numerically (the sector at N = 6; the endpoint Q_h·2π/N → √3 monotonically from above at N = 8..14, tail faster than 1/N, Aitken-extrapolating to ≈ √3) and by the γ-constant-q CV discriminator (CV(8γ) = 0.012/0.019 at N = 12/10, beating the 4γ telegrapher ~10×). Resolves the open piece that kept `CoherenceHorizonClaim` + `SecondClockRegimeClaim` at Tier 1 candidate (the ring V-Effect seam), and corrects its sector label (the 2-excitation doublet, not half-filling).
 **Date:** 2026-06-20
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Sibling of:** [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md) (the single-excitation coherence horizon, slope 2/π chain / 1/π ring) and the parallel ceiling result [the ring g2=1 / commutant 2(N−2)/N, commit b191df3].
@@ -15,7 +15,7 @@ This proof pins how that tipping point grows with the ring's length: a straight 
 
 On the cyclic XY ring under uniform Z-dephasing, below a crossover Q the longest-lived interior mode is the 2-excitation `(2,2)/(N−2,N−2)` doublet coherence (particle-hole partners, isospectral); above it, the single-excitation band edge wins. The handover Q_h is defined by the doublet survivor's darkness reaching the F50 / Absorption floor `⟨n_XY⟩ = 1` exactly (`Re(λ) = −2γ`).
 
-The (2,2) slow mode is a two-particle density coupled to the **entire ladder of coherence ranges**, the same structure PROOF_COHERENCE_HORIZON_SLOPE resums for one particle: dilute on the ring, the two particles act as two independent single-particle density modes, so the long-wavelength dispersion is the same `λ² + 8γλ + 4J²q²`. This is confirmed directly by the SE proof's own discriminator: the overdamped slow eigenvalue, fed back through `λ² + 8γλ + 4J²q² = 0`, yields a γ-constant `q` (CV = 0.012 at N = 12, 0.019 at N = 10; the 4γ-truncated telegrapher scatters ~10× worse), with `q → q_min = 2π/N` (q_eff/q_min = 0.986 at N = 12).
+The (2,2) slow mode is a two-particle density coupled to the **entire ladder of coherence ranges**, the same structure PROOF_COHERENCE_HORIZON_SLOPE resums for one particle: dilute on the ring, the two particles act as two independent single-particle density modes, so the long-wavelength dispersion is the same `λ² + 8γλ + 4J²q²` (throughout, lowercase q is the density-wave WAVEVECTOR, `2π·k/N` on the ring, not the GLOSSARY coupling ratio `q = Q/2`). This is confirmed directly by the SE proof's own discriminator: the overdamped slow eigenvalue, fed back through `λ² + 8γλ + 4J²q² = 0`, yields a γ-constant `q` (CV = 0.012 at N = 12, 0.019 at N = 10; the 4γ-truncated telegrapher scatters ~10× worse), with `q → q_min = 2π/N` (q_eff/q_min = 0.986 at N = 12).
 
 The overdamped slow root gives the darkness `⟨n_XY⟩(Q) = 2 − √(4 − (Q·q)²)`. The handover `⟨n_XY⟩ = 1` is at `Q·q = √3`; the EP (oscillation onset, `⟨n_XY⟩ = 2`) of the **same** dispersion is at `Q·q = 2` and is the SE coherence horizon `Q* = 2/q_min = N/π`. Hence `Q_h = √3/q_min → N·√3/(2π)`, and `Q_h/Q* = √3/2`. The handover's high-Q limit (the EP darkness 2) is the (2,2) commutant `2(N−2)/N → 2`, the parallel ceiling result.
 
@@ -54,7 +54,7 @@ This is confirmed by the SE proof's decisive discriminator (its cross-check 2a),
 where a full-curve fit is not: in the overdamped regime the slow `(2,2)` eigenvalue is real; fed back through
 `q² = −(λ² + 8γλ)/(4J²)` it is γ-constant across a γ-sweep, CV = 0.0121 (N = 12) / 0.0194 (N = 10), while
 the 4γ-truncated telegrapher `q² = −(λ² + 4γλ)/(2J²)` scatters ~10× worse (CV 0.16). The fitted q tracks the
-ring `q_min = 2π/N` (q_eff/q_min = 0.978 / 0.986 at N = 10 / 12, approaching 1 from below with the O(1/N)
+ring `q_min = 2π/N` (q_eff/q_min = 0.978 / 0.986 at N = 10 / 12, approaching 1 from below with a
 finite-size tail).
 
 ## The handover slope
@@ -86,8 +86,13 @@ dispersion: `√3 = √(Qq)²|_{D=1}` against `2 = (Qq)|_{EP}`.
 ## Cross-checks
 
 1. **The endpoint, numerically (the analogue of the SE proof's `q_min·N → π`).** Q_h·2π/N → √3 from above,
-   monotonically: 1.846 / 1.785 / 1.759 / 1.748 at N = 8 / 10 / 12 / 14, against √3 = 1.732, an O(1/N) tail
-   exactly as the q → 0 derivation predicts (`ring_handover_qh.py` + `ring_handover_extend.py`).
+   monotonically: 1.846 / 1.785 / 1.759 / 1.748 at N = 8 / 10 / 12 / 14, against √3 = 1.732051
+   (`ring_handover_qh.py` + `ring_handover_extend.py`). The tail is FASTER than 1/N: the excess over √3
+   times N falls (0.91 / 0.53 / 0.32 / 0.22), log-log slope ≈ −3.5. So a linear-in-1/N extrapolation is the
+   wrong model for this endpoint (it lands at 1.61–1.68, below √3); the geometric (Aitken Δ²) extrapolation
+   of the same four points gives 1.7397 / 1.7399 ≈ √3. The leading-order derivation bounds the corrections,
+   it does not fix their exponent; the SE sibling's own endpoint (`q_min·N → π`) has a genuinely slower
+   O(1/N) tail, so the two endpoints of the shared dispersion converge at different rates.
 2. **The dispersion, directly (the discriminator).** The γ-constant-q CV test above: CV(8γ) = 0.012 / 0.019
    (N = 12 / 10) vs CV(4γ) = 0.16, the resummed 8γ dispersion is the fixed mode, the truncated telegrapher
    refuted, exactly as in the SE proof (`ring_handover_dispersion_cv.py`).
@@ -102,7 +107,8 @@ dispersion: `√3 = √(Qq)²|_{D=1}` against `2 = (Qq)|_{EP}`.
 ## Scope
 
 The derivation is leading-order (q → 0, N → ∞), so it fixes the asymptotic **slope** exactly (√3/(2π)); the
-finite-N Q_h(N) for N ≥ 6 are transcendental (O(1/N) corrections, the same as the SE horizon). The
+finite-N Q_h(N) for N ≥ 6 are transcendental (finite-size corrections, measured faster than 1/N, unlike the
+SE horizon's own O(1/N) endpoint tail; cross-check 1). The
 governing dispersion `λ² + 8γλ + 4J²q²` is established for the `(2,2)` mode by the CV discriminator (the SE
 proof's load-bearing test); the explicit two-particle EOM resummation (the dilute-limit argument that the
 `(2,2)` density mode reduces to two SE coherence ladders) is the physically-transparent remaining write-out,
@@ -125,8 +131,8 @@ Bethe-ansatz problem.
 - Parallel ceiling: the ring `g2 = 1` (no high-Q ceiling) and the `(1,1)/(2,2)/(N/2,N/2)` commutant
   `2(N−2)/N → 2` (commit b191df3, `StructuralCeilingWitness` RingNode, `ring_ceiling_commutant_sweep.py`):
   the EP-darkness limit of this proof's curve.
-- Typed homes (graduation-eligible once reviewed): `CoherenceHorizonClaim`, `SecondClockRegimeClaim`
-  (the ring 2-excitation doublet V-Effect seam is their Tier 1 candidate reason; this derivation addresses it),
+- Typed homes: `CoherenceHorizonClaim`, `SecondClockRegimeClaim` (the ring 2-excitation doublet V-Effect
+  seam was their Tier 1 candidate reason; resolved here, both graduated Tier 1 derived 2026-07-19),
   arc `clock_hand_ladder`.
 - Verifiers: `simulations/ring_handover_qh.py` (the sector discriminator + Q_h data, gate-first),
   `simulations/ring_handover_extend.py` (N = 14 + the `2(N−2)/N` cross-session convergence),
@@ -136,9 +142,23 @@ Bethe-ansatz problem.
 
 ## Review
 
-Pending. Recommended lenses: physics-first-review (the dilute-limit dispersion assumption: is the two-particle
-`(2,2)` density mode really two independent SE ladders, or does the hardcore constraint / relative coordinate
-change the coefficients? the CV test says the 8γ form holds, but the EOM resummation is not written out) +
-mathematical-review (the darkness-1 algebra and the `Q·q = √3` condition; the q_eff → q_min finite-size
-approach). The √3/(2π) endpoint is numerically solid (cross-check 1); the load-bearing claim to attack is
-that the governing dispersion is the SE one (cross-check 2).
+Reviewed 2026-07-19, two adversarial refute-first lenses, both with independent from-scratch rebuilds; GO.
+
+- Mathematical lens: root selection (the `+` branch IS the slow root; the other root never slower in the
+  overdamped window), the darkness algebra, the `Q·q = √3` crossing, the EP at `Q·q = 2`, the monotone
+  smallest-q-last selection behind `Q_h = √3/q_min`, the ring/chain factor against the SE sibling, the
+  numbers `√3/(2π) = 0.275664` and `2(N−2)/N`, and the GLOSSARY Q-convention: all verified exact. The one
+  MAJOR found: cross-check 1's original "O(1/N) tail exactly as predicted" was contradicted by its own four
+  points (a 1/N extrapolation lands 1.61–1.68, below √3; the Aitken Δ² extrapolation gives 1.7397/1.7399);
+  corrected above (the tail is faster than 1/N).
+- Physics lens: independent sector-projected builder, gated on the anti-periodic 2√2 top, the 2J·cos(k)
+  band, `2(N−2)/N`, and Q_h(6); reproduced the N = 10 CV discriminator to the digit (CV(8γ) = 0.0194 vs
+  CV(4γ) = 0.1555, q_eff/q_min = 0.9782) and the N = 8/10 endpoints; confirmed the N = 6 sector verdict
+  (the full-L survivor is the `(2,2)/(4,4)` doublet at 100% weight, the `(3,3)` crossing differs); found no
+  leading-order shift from the hardcore constraint / relative coordinate (q_eff/q_min climbs monotonically
+  toward 1). Confirmed the faster-than-1/N tail independently (log-log slope ≈ −3.7 at N = 6..10).
+
+Standing caveat (unchanged, also in Scope): the two-particle EOM resummation is operationally confirmed by
+the CV discriminator, not written out term-by-term; the CV test discriminates through the sub-leading λ²
+term (both forms share the leading diffusion constant D = J²/2γ), and the fixed-q_min darkness curve is a
+leading-order limit, not a finite-N identity (the implied q_eff drifts below q_min toward the EP).

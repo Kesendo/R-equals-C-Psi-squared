@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The coherence horizon Q*(N) (Tier 1 candidate).
+/// <summary>The coherence horizon Q*(N) (Tier 1 derived).
 ///
 /// <para><b>Where this sits</b> (returning-reader compass, so the EP-character seams stop tripping us):
 /// this is the <b>(1,1) SE-SE coherence block</b>'s real-axis <b>DEFECTIVE</b> √-EP — a single-particle
@@ -41,12 +41,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// dressed (no clean 2×2), the exact condition transcendental, Q* a diffusive ~linear growth with asymptotic
 /// slope DERIVED = 2/π (2026-06-15, PROOF_COHERENCE_HORIZON_SLOPE: the resummed coherence-range ladder gives
 /// λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π; the ring sibling is exactly half, 1/π).
-/// Tier1Candidate — NOT for the gap-dominance (now PROVEN, docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md, so the
-/// parent <see cref="ClockHandLadderClaim"/> graduated to Tier1Derived), but for its OWN open piece: the
-/// ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam (NOT half-filling: at N=6 the (2,2) block's
-/// handover Q_h matches the full-L survivor, the half-filling (3,3) block does not; the sector gate in
-/// docs/proofs/PROOF_RING_HANDOVER_SLOPE.md). That proof derives the seam's slope Q_h → N·√3/(2π) (the
-/// darkness-1 sibling of Q*) but its review is pending; this claim graduates when it is reviewed. Concrete
+/// Tier1Derived (2026-07-19): the two pieces that kept it a candidate are both closed. The gap-dominance is
+/// PROVEN (docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md, which already graduated the parent
+/// <see cref="ClockHandLadderClaim"/>), and the ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam
+/// (NOT half-filling: at N=6 the (2,2) block's handover Q_h matches the full-L survivor, the half-filling
+/// (3,3) block does not) is resolved by docs/proofs/PROOF_RING_HANDOVER_SLOPE.md: slope Q_h → N·√3/(2π),
+/// the darkness-1 sibling of Q*, adversarially reviewed 2026-07-19 (two refute-first lenses, independent
+/// rebuilds; the proof's Review section holds the record). Concrete
 /// carbon-ring probe: benzene C₆ Q* = 1.609 (the benzene node, simulations/carbon/benzene_two_clocks.py).</para>
 ///
 /// <para>Live witnesses: <c>inspect --root horizon</c>
@@ -86,7 +87,7 @@ public sealed class CoherenceHorizonClaim : Claim
                "N=2,3 the pair are roots of λ²+4γλ+c·J²=0 (c=4,2) so Q*=2/√c=1,√2 exactly; N≥4 collectively dressed, " +
                "the exact condition transcendental; the asymptotic slope is DERIVED = 2/π " +
                "(PROOF_COHERENCE_HORIZON_SLOPE: the resummed coherence-ladder dispersion λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π).",
-               Tier.Tier1Candidate,
+               Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F2b corollary \"Coherence horizon Q*(N)\" + " +
                "docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md (the carbon-layer twin) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs (CoherenceHorizonWitness, inspect --root horizon) + " +

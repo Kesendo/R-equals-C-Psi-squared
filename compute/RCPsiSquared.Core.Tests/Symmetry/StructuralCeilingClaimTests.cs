@@ -13,9 +13,8 @@ public class StructuralCeilingClaimTests
     {
         var claim = StructuralCeilingClaim.Build();
         // Tier1Derived: a principal-angle proof of the closed forms + gate-exact verification. The single
-        // typed parent is the Tier1Derived AbsorptionTheoremClaim; the claim is NOT parented on the
-        // Tier1Candidate TopologyBandEdgeClaim (the forms are dimensionless, no ρ, no gap-dominance proof),
-        // so the tier-inheritance invariant does not cap it.
+        // typed parent is the Tier1Derived AbsorptionTheoremClaim; the claim is NOT parented on
+        // TopologyBandEdgeClaim (the forms are dimensionless, no ρ, no gap-dominance dependence).
         Assert.Equal(Tier.Tier1Derived, claim.Tier);
         Assert.NotNull(claim.Absorption);
         Assert.Equal(Tier.Tier1Derived, claim.Absorption.Tier);

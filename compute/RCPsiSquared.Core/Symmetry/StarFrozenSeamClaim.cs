@@ -29,9 +29,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// all Q for N ≥ 5, max |Im| &lt; 1e-15; N=4 un-freezes at 1.73) and live (the commutant ceiling is exact and
 /// cheap; the |Im|(Q) sweep is the full 4^N at N≤5). Two typed parents: <see cref="StructuralCeilingClaim"/>
 /// (Tier1Derived, the g2 = 4/(N−1) threshold + the commutant mechanism it reuses) and
-/// <see cref="SecondClockRegimeClaim"/> (Tier1Candidate, the {0,2}/second-clock regime map whose star/GRADUAL
-/// case this sharpens to a survivor-level statement). Capped at Tier1Candidate by the weaker parent
-/// SecondClockRegimeClaim.</para>
+/// <see cref="SecondClockRegimeClaim"/> (Tier1Derived since 2026-07-19, the {0,2}/second-clock regime map
+/// whose star/GRADUAL case this sharpens to a survivor-level statement). No longer parent-capped; stays
+/// Tier1Candidate on its own standing: the all-Q survivor statement is gate-verified at N=4..8, not proven
+/// for general N.</para>
 ///
 /// <para><b>Model scope (XY ceiling vs Heisenberg survivor).</b> g2 = 4/(N−1) here is the XY-network
 /// (hopping-only) value, by design: this claim's witness and <see cref="StructuralCeilingClaim"/> build
@@ -54,7 +55,7 @@ public sealed class StarFrozenSeamClaim : Claim
 
     /// <summary>Parent: the second clock's regime map. This claim sharpens its star/GRADUAL case ("only
     /// asymptotic protection, no sharp horizon") into a survivor-level statement: the slowest mode never
-    /// acquires a frequency at all. Tier1Candidate; caps this child.</summary>
+    /// acquires a frequency at all. Tier1Derived since 2026-07-19.</summary>
     public SecondClockRegimeClaim Regime { get; }
 
     public StarFrozenSeamClaim(StructuralCeilingClaim ceiling, SecondClockRegimeClaim regime)
@@ -108,7 +109,7 @@ public sealed class StarFrozenSeamClaim : Claim
                          "(= g2), and pinned to the floor 1 for N≤5. The single formula min(g2,1) is exactly the " +
                          "ladder's 'un-freezes iff g2>1'.");
             yield return Ceiling;   // typed parent edge (the ceiling threshold + commutant mechanism, Tier1Derived)
-            yield return Regime;    // typed parent edge (the second-clock regime map it sharpens, Tier1Candidate, caps this child)
+            yield return Regime;    // typed parent edge (the second-clock regime map it sharpens, Tier1Derived)
         }
     }
 

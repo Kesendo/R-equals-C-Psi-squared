@@ -144,7 +144,7 @@ different Hamiltonians.
 **Source:** [the OBC sine-basis findings](../review/OBC_SINE_BASIS_FINDINGS.md),
 standard tight-binding theory for OBC chains.
 
-### F2b corollary. The two clocks (Tier 1 derived; the Q*(N) coherence horizon below stays Tier 1 candidate)
+### F2b corollary. The two clocks (Tier 1 derived; the Q*(N) coherence horizon below graduated 2026-07-19)
 
 When F2b's band edge is read as the coherence hand ω_mem of the
 open-system clock (the slowest-decaying |vac⟩⟨ψ_k| sector, decay rate
@@ -184,9 +184,10 @@ N ≥ 3 and arctan(√(Q²−1)) for N = 2 (zero at the EP).
 
 **Tier:** 1 derived (mechanism + gap-dominance proven via free fermions,
 [the Chain Gap-Dominance proof](proofs/PROOF_CHAIN_GAP_DOMINANCE.md); ClockHandLadderClaim
-graduated). The Q*(N) coherence-horizon sub-result below stays Tier 1 candidate
-(its own open piece: the ring 2-excitation `(2,2)/(N−2,N−2)` doublet V-Effect seam,
-[Ring Handover Slope proof](proofs/PROOF_RING_HANDOVER_SLOPE.md) pending review).
+graduated). The Q*(N) coherence-horizon sub-result below is Tier 1 derived too
+(graduated 2026-07-19: its open piece, the ring 2-excitation `(2,2)/(N−2,N−2)` doublet
+V-Effect seam, is resolved by the reviewed
+[Ring Handover Slope proof](proofs/PROOF_RING_HANDOVER_SLOPE.md)).
 **Verified:** gap-dominance gate-exact N = 3..6 (and γ-independent across γ); N = 2 closed
 form 2√(J²−γ²) exact.
 **Live:** `inspect --root clock`
@@ -265,7 +266,7 @@ sits just below it by the trace dressing O((tr−1)²) at N≥4 (gap 0.0002/0.00
 full-Liouvillian-verified at N=6, NOT half-filling, correcting an earlier label), and the handover is a
 frozen LEVEL CROSSING (|Im| ≈ 1e-15, a different sector than the SE-EP), growing linearly with
 **asymptotic slope √3/(2π) ≈ 0.276, DERIVED** (2026-06-20, [the ring handover-slope proof](proofs/PROOF_RING_HANDOVER_SLOPE.md),
-Tier1-standard, pending review): the (2,2) slow mode obeys the SE coherence-ladder dispersion
+Tier1-standard, reviewed 2026-07-19): the (2,2) slow mode obeys the SE coherence-ladder dispersion
 λ² + 8γλ + 4J²q² (CV-confirmed), darkness = 2 − √(4 − (Qq)²), so the handover (darkness = 1) is at
 Qq = √3, the **darkness-1 sibling** of the SE coherence horizon (the same dispersion's EP at Qq = 2 →
 Q* = N/π); Q_h/Q* = √3/2 asymptotically. (The earlier "c_eff ≈ 12 flat, ~0.29N" was the finite-N Q_h/N,

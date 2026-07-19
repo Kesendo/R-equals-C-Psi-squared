@@ -154,7 +154,7 @@ Re = −2γ). **That handover mechanism is now resolved** ([`handover_q.py`](../
 the typed `HandoverFloorClaim`, `inspect --root survivor`): it is a frozen *level crossing* (not the
 single-excitation coalescence the filling-degenerate open chain has, where the handover IS the
 coherence horizon Q*(N)), and it grows linearly with N (Q_h → N·√3/(2π) ≈ 0.276N, asymptotic slope DERIVED
-2026-06-20, [`PROOF_RING_HANDOVER_SLOPE`](../proofs/PROOF_RING_HANDOVER_SLOPE.md), pending review, the darkness-1
+2026-06-20, [`PROOF_RING_HANDOVER_SLOPE`](../proofs/PROOF_RING_HANDOVER_SLOPE.md), reviewed 2026-07-19, the darkness-1
 sibling of Q*; benzene's ≈ 2.0 is a small-N value; the earlier "≈ 0.29N" was the finite-N Q_h/N), not cleanly
 co-located with the ring single-excitation Q* (the two curves
 merely cross near N ≈ 10). The dynamic C=0.5 question it opened (is the half-occupied coherence

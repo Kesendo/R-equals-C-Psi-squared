@@ -9,15 +9,16 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 public class SecondClockRegimeClaimTests
 {
     [Fact]
-    public void Build_WiresBothRegimeParents_AndIsCappedAtTier1Candidate()
+    public void Build_WiresBothRegimeParents_AndIsTier1Derived()
     {
         var claim = SecondClockRegimeClaim.Build();
-        // Tier1Candidate: the tier-inheritance invariant caps the child at its weaker parent,
-        // CoherenceHorizonClaim (Tier1Candidate); the other parent, StructuralCeilingClaim, is Tier1Derived.
-        Assert.Equal(Tier.Tier1Candidate, claim.Tier);
+        // Tier1Derived since 2026-07-19: the former cap by the weaker parent CoherenceHorizonClaim
+        // lifted when its ring-seam open piece was resolved (reviewed PROOF_RING_HANDOVER_SLOPE);
+        // both parents are now Tier1Derived.
+        Assert.Equal(Tier.Tier1Derived, claim.Tier);
         Assert.NotNull(claim.Horizon);
         Assert.NotNull(claim.Ceiling);
-        Assert.Equal(Tier.Tier1Candidate, claim.Horizon.Tier);
+        Assert.Equal(Tier.Tier1Derived, claim.Horizon.Tier);
         Assert.Equal(Tier.Tier1Derived, claim.Ceiling.Tier);
 
         var kids = ((IInspectable)claim).Children.ToList();

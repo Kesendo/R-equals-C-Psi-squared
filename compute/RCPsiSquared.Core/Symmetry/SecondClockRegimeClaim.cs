@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The second clock's regime map (Tier 1 candidate, "the stitch"): the {0,2}/half-filling
+/// <summary>The second clock's regime map (Tier 1 derived, "the stitch"): the {0,2}/half-filling
 /// coherence (the SECOND clock, the one that competes with the band-edge survivor for "slowest mode")
 /// is ONE phenomenon across the arcs, and its fate is selected by the single-particle band through TWO
 /// knobs. This is the seam that joins three previously separate readings into one node.
@@ -29,20 +29,20 @@ namespace RCPsiSquared.Core.Symmetry;
 /// mode whose regime = map(degeneracy, dispersion). The N=4 anomalies (ring-4 GRADUAL, complete-4 CEILING)
 /// are the (2,2) half-filling sector, the same N=3/N=4 specials the rest of the project keeps meeting.</para>
 ///
-/// <para>Tier1Candidate: gate-verified as a 2D regime map (15/15 across chain / disordered-chain / ring /
-/// star / complete × N=4,5,6, simulations/second_clock_regime_axis.py) and live (the N=4 frame is a
-/// self-validating full-Liouvillian gate, inspect --root secondclock). It is a candidate, not derived,
-/// because it is capped by its weaker parent <see cref="CoherenceHorizonClaim"/> (Tier1Candidate, its own
-/// ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam open pending the PROOF_RING_HANDOVER_SLOPE
-/// review); the other parent <see cref="StructuralCeilingClaim"/> is
-/// Tier1Derived. The two parents ARE the two regimes the map joins.</para>
+/// <para>Tier1Derived (2026-07-19): gate-verified as a 2D regime map (15/15 across chain / disordered-chain /
+/// ring / star / complete × N=4,5,6, simulations/second_clock_regime_axis.py) and live (the N=4 frame is a
+/// self-validating full-Liouvillian gate, inspect --root secondclock). The former cap by the weaker parent
+/// <see cref="CoherenceHorizonClaim"/> lifted when that claim's ring-seam open piece (the 2-excitation
+/// (2,2)/(N−2,N−2) doublet) was resolved and reviewed (PROOF_RING_HANDOVER_SLOPE, 2026-07-19); both parents
+/// (<see cref="StructuralCeilingClaim"/> the other) are now Tier1Derived. The two parents ARE the two
+/// regimes the map joins.</para>
 ///
 /// <para>Live witness: <c>inspect --root secondclock</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/SecondClockRegimeWitness.cs</c>).</para></summary>
 public sealed class SecondClockRegimeClaim : Claim
 {
     /// <summary>Parent: the EP regime. On a dispersive band the second clock coalesces with the band edge
-    /// at the finite coherence horizon Q*(N) (a √-EP). The weaker parent (Tier1Candidate); caps this child.</summary>
+    /// at the finite coherence horizon Q*(N) (a √-EP). Tier1Derived since 2026-07-19.</summary>
     public CoherenceHorizonClaim Horizon { get; }
 
     /// <summary>Parent: the CEILING regime. On a degenerate band the second clock is the darkest commutant
@@ -66,7 +66,7 @@ public sealed class SecondClockRegimeClaim : Claim
                "are one mode, regime = map(degeneracy, dispersion). N=4 anomalies (ring-4 GRADUAL, complete-4 " +
                "CEILING) are the (2,2) half-filling sector. Gate-verified 15/15 over chain/disordered/ring/star/" +
                "complete × N=4,5,6.",
-               Tier.Tier1Candidate,
+               Tier.Tier1Derived,
                "simulations/second_clock_regime_axis.py + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/SecondClockRegimeWitness.cs (SecondClockRegimeWitness, inspect --root secondclock)")
     {
@@ -103,7 +103,7 @@ public sealed class SecondClockRegimeClaim : Claim
                 summary: "CoherenceHorizonClaim (EP), StructuralCeilingClaim (CEILING, 4/(m+1) the bridge), and " +
                          "star-no-horizon (GRADUAL) are not three findings but one mode whose regime = " +
                          "map(degeneracy, dispersion). Everything is one object, seen at max zoom on different facets.");
-            yield return Horizon;   // typed parent edge (the EP regime, Tier1Candidate, caps this child)
+            yield return Horizon;   // typed parent edge (the EP regime, Tier1Derived)
             yield return Ceiling;   // typed parent edge (the CEILING regime, Tier1Derived)
         }
     }

@@ -29,7 +29,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (particle-hole partners, isospectral; NOT half-filling, full-Liouvillian-verified at N=6, correcting
 /// an earlier label), in pure XY a free-fermion dephasing mode. Its handover is a frozen LEVEL CROSSING
 /// (a different sector than the SE-EP), growing linearly with asymptotic slope √3/(2π) ≈ 0.276 (DERIVED
-/// 2026-06-20, docs/proofs/PROOF_RING_HANDOVER_SLOPE.md, pending review: the (2,2) slow mode obeys the SE
+/// 2026-06-20, docs/proofs/PROOF_RING_HANDOVER_SLOPE.md, reviewed 2026-07-19: the (2,2) slow mode obeys the SE
 /// coherence-ladder dispersion λ²+8γλ+4J²q², darkness = 2−√(4−(Qq)²), handover at Qq=√3, the darkness-1
 /// sibling of the SE coherence horizon's EP at Qq=2; ratio Q_h/Q* = √3/2). The earlier "~0.29N, c_eff≈12
 /// flat" was the finite-N Q_h/N, refuted as a constant (c_eff climbs toward 4π²/3 = 13.16). Handover and
@@ -71,11 +71,12 @@ public sealed class HandoverFloorClaim : Claim
                "edge, Re=-2g exactly). CHAIN: filling-degenerate, so the handover IS the coherence horizon Q*(N) (a coalescence/EP; " +
                "= Q* exactly at the clean-2x2 N=2,3, just below by trace dressing O((tr-1)^2) at N>=4). RING: a DISTINCT " +
                "2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling) free-fermion LEVEL CROSSING, asymptotic slope " +
-               "sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, pending review; the darkness-1 sibling of Q*, ratio sqrt3/2; " +
+               "sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the darkness-1 sibling of Q*, ratio sqrt3/2; " +
                "the earlier ~0.29N/c_eff~12 was the finite-N Q_h/N, refuted, c_eff climbs toward 4pi^2/3=13.16); " +
                "NOT co-located with the ring SE-EP (their values cross near N~10, benzene's 2.0-vs-1.609 is small-N). " +
-               "Tier1Candidate: the chain identity and the mechanism are derived+live (witness bit-for-bit vs Python), the ring " +
-               "growth law and the general handover proof are verified (N<=10), not proven.",
+               "Tier1Candidate: the chain identity and the mechanism are derived+live (witness bit-for-bit vs Python), and the " +
+               "ring asymptotic slope is derived+reviewed (2026-07-19); the finite-N handover values and the Delta-axis " +
+               "hump/limit stay verified (N<=10), not proven.",
                Tier.Tier1Candidate,
                "simulations/carbon/handover_q.py (self-validating) + " +
                "docs/ANALYTICAL_FORMULAS.md F2b corollary + " +
@@ -95,7 +96,7 @@ public sealed class HandoverFloorClaim : Claim
     public override string Summary =>
         "the handover (the incompleteness survivor's darkness rises to the F50 floor <n_XY>=1) is closed: the CHAIN handover IS " +
         "the coherence horizon Q*(N), the RING is a distinct 2-excitation (2,2) doublet level crossing, asymptotic slope " +
-        "sqrt3/(2pi)~0.276 derived (PROOF_RING_HANDOVER_SLOPE, pending review; the earlier ~0.29N was finite-N Q_h/N); " +
+        "sqrt3/(2pi)~0.276 derived (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the earlier ~0.29N was finite-N Q_h/N); " +
         $"the same band-edge floor governs the XXZ Delta-axis too (cross-axis universal): the CHAIN Delta*(N) descends to " +
         $"the SU(2) point Delta=1, the RING Delta*(N) HUMPS (peak ~1.31-1.33 near N=9-10, then descends; limit open) - one " +
         $"floor, many climbs; " +
@@ -115,7 +116,7 @@ public sealed class HandoverFloorClaim : Claim
             yield return new InspectableNode("ring = a distinct (2,2) level crossing, growing",
                 summary: "the wrap bond breaks filling-degeneracy; the 2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling; a " +
                          "free-fermion dephasing mode) hands over by a frozen level crossing, asymptotic slope sqrt3/(2pi)~0.276 " +
-                         "DERIVED (PROOF_RING_HANDOVER_SLOPE, pending review; the darkness-1 sibling of Q*, ratio sqrt3/2; the earlier " +
+                         "DERIVED (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the darkness-1 sibling of Q*, ratio sqrt3/2; the earlier " +
                          "~0.29N/c_eff~12 was finite-N Q_h/N, refuted); its values cross the ring SE-EP near N~10. " +
                          "Live: inspect --root survivor (the handover node).");
             yield return new InspectableNode("cross-axis universality: the same floor governs the XXZ Delta-axis",
