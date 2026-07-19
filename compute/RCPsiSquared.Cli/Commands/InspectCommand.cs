@@ -712,6 +712,17 @@ public static class InspectCommand
                     j: c.Parser.OptionalDouble("J") ?? 1.0,
                     gamma: c.Parser.OptionalDouble("gamma") ?? 0.15),
             RequiresN: false, HonorsOptionalN: true),
+        new("record", "THE RECORD LAWS (F135 + F136, proofs PROOF_RECORD_PARITY_LAW.md + PROOF_RECORD_LETTER_LAW.md): " +
+            "who records, and WHAT. Under H = Σ Δ·ZZ from |+⟩^⊗N every pair page is closed-form for all t (the " +
+            "Absorption substrate); at t* = π/4 the watcher-ratio parities decide (even → perfect record, odd → " +
+            "blind, non-integer → 1−h₂((1+β)/2)), and the shared dressers' parity picks the family: all even + " +
+            "write bond → pointer record of Z_S, all odd → Bell record (letter = dresser parity, m odd YY / m even " +
+            "XX, zero pointer content), mixed → dark. Bell pays both sites, pointer only the witness, watching the " +
+            "writers is free; a pendant S role-swaps; anti-pointer redundancy is not deg-bounded (K_{R+1,2}); " +
+            "fully-witnessed worlds = stars + K_N, girth ≥ 5 + leafless = dark. The battery recomputes every case " +
+            "closed-form-vs-full-state at inspect time. Typed: RecordParityLawClaim + RecordLetterLawClaim",
+            c => new RecordLawWitness(c.Parser.OptionalDouble("gamma") ?? 0.05),
+            RequiresN: false),
         new("trichotomy",
             "the chain/ring/star survivor trichotomy as one sweep: carbon un-freeze read (RouteSweep) + absolute Δn-seam read",
             c => new TrichotomyWitness(

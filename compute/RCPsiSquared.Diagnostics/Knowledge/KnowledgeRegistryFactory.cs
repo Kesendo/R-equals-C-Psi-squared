@@ -405,6 +405,15 @@ public static class KnowledgeRegistryFactory
             // AbsorptionTheoremClaim (the price list) + Pi2KleinV4DephaseSwapGroup (the swap), both
             // Tier1Derived. Live: inspect --root label (WatchedLetterRoutingWitness).
             .RegisterWatchedLetterRoutingClaim()
+            // The record laws, typed (2026-07-19): F135 (who records is the parity arithmetic of
+            // the watcher ratios; the pair reduction = the Absorption substrate on a pair page) and
+            // F136 (which operator is the shared-neighborhood parity: all even + write bond ->
+            // pointer, all odd -> Bell with the letter alternating on the dresser count, mixed ->
+            // dark; Bell pays both sites, pointer only the witness; fully-witnessed worlds = stars
+            // + K_N, girth >= 5 + leafless = dark). Parents: AbsorptionTheoremClaim -> F135 -> F136.
+            // Live: inspect --root record (RecordLawWitness, closed form vs full state).
+            .RegisterRecordParityLawClaim()
+            .RegisterRecordLetterLawClaim()
             .RegisterF89OcticMonodromyClaim()
             // Multi-sector monodromy verdict (the sectorbraid arc, 2026-07-01): is the S_8 braid the (1,2) octic
             // carries LOCALIZED to (1,2) or SHARED across the joint-popcount sectors? N-dependent -- CONFINED to

@@ -5446,8 +5446,10 @@ the plaquette + its anti-pointer channel, t_opt); the door and sightings
 [experiments/QUANTUM_DARWINISM_POINTER_DOOR.md](../experiments/QUANTUM_DARWINISM_POINTER_DOOR.md).
 **Proof:** [PROOF_RECORD_PARITY_LAW](proofs/PROOF_RECORD_PARITY_LAW.md) (substrate:
 [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) §4.5; fragment side F70).
-**Typed:** pending, the named open door (the witness port, with the refcount-by-topology
-N-scaling and the (Δ, J, γ) plateau corner).
+**Typed:** `RecordParityLawClaim` (Tier1Derived, parent `AbsorptionTheoremClaim`: Proposition 1
+is the absorption substrate on a pair page); live `inspect --root record` (`RecordLawWitness`,
+the pair battery closed-form-vs-full-state at inspect time). Open: the refcount-by-topology
+N-scaling and the (Δ, J, γ) plateau corner.
 
 ---
 
@@ -5509,7 +5511,10 @@ partial-trace, never the channel formulas under test); the graph-level corollari
 outputs in [`simulations/results/qd_witness/`](../simulations/results/qd_witness/).
 **Proof:** [PROOF_RECORD_LETTER_LAW](proofs/PROOF_RECORD_LETTER_LAW.md) (substrate: F135
 Proposition 1 → [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) §4.5).
-**Typed:** pending (rides F135's witness-port door).
+**Typed:** `RecordLetterLawClaim` (Tier1Derived, parent `RecordParityLawClaim`: every channel
+is Proposition 1 on a channel class); live `inspect --root record` (`RecordLawWitness`); the
+MirrorWorld adoption (`Witness.cs`, run mode `witness`) carries the same closed forms in the
+sober base.
 
 ---
 
