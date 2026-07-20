@@ -602,9 +602,10 @@ comes within 10% only above Q ≈ 1.75 at N=5, against Q*_gap = 1.82) neither
 closed form is good to 10%, and the gap is simply a number one computes: at
 N=5, Q = 1.5 the asymptotic form would give 1.7188γ against the true 1.2754γ
 that §4.1 quotes. The overshoot is not monotone in Q: it peaks near Q ≈ 1.55
-(+35%) and falls back to +29% at the threshold itself, where the true gap is
-climbing to meet 2γ, so the two closed forms approach each other from a
-worst point in between rather than trading off cleanly.
+(+35%), is +29% at 98% of the threshold, and falls to +26% at the threshold
+itself, where the true gap is climbing to meet 2γ, so the two closed forms
+approach each other from a worst point in between rather than trading off
+cleanly.
 
 This is Zeno suppression, read from the light side. Strong dephasing freezes the
 transport that would give a mode its light, and a mode with almost no light
