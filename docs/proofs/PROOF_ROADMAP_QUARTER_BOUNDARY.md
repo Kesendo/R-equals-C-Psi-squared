@@ -73,7 +73,7 @@ The discriminant is:
 
 $$D = (2C\Psi - 1)^2 - 4C^2\Psi^2 = 1 - 4C\Psi$$
 
-This vanishes at $C\Psi = 1/4$, giving exactly one real fixed point at the boundary. For $C\Psi > 1/4$, the fixed points become complex; the system has crossed the fold into the complex regime (the θ-compass regime of F95 below; not chaos — on the positive real axis the orbit simply escapes, and the period-doubling route to chaos lives on the negative real axis, Layer 7).
+This vanishes at $C\Psi = 1/4$, giving exactly one real fixed point at the boundary. For $C\Psi > 1/4$, the fixed points become complex; the system has crossed the fold into the complex regime (the θ-compass regime of F95 below; not chaos: on the positive real axis the orbit simply escapes, and the period-doubling route to chaos lives on the negative real axis, Layer 7).
 
 **The crossing cubic.** At the critical boundary $C\Psi = 1/4$, with the normalized l1-coherence and the correlation bridge definition, the boundary condition reduces to the cubic:
 
@@ -164,7 +164,7 @@ When two qubits are entangled, the full system lives in a 4-dimensional Hilbert 
 
 $$C\Psi(0) = 1/3,$$
 
-which is *above* 1/4 — matching the F25 closed form's $C\Psi(0) = f(1+f^2)/6\,|_{f=1} = 2/6 = 1/3$. The pair must cross downward through the boundary during decoherence.
+which is *above* 1/4, matching the F25 closed form's $C\Psi(0) = f(1+f^2)/6\,|_{f=1} = 2/6 = 1/3$. The pair must cross downward through the boundary during decoherence.
 
 **Crossing is observed computationally.** Under Heisenberg Hamiltonian with local dephasing:
 
