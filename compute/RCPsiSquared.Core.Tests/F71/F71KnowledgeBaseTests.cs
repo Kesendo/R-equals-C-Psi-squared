@@ -56,7 +56,7 @@ public class F71KnowledgeBaseTests
         var link = new F86MirrorGeneralisationLink();
         Assert.Equal(Tier.Tier1Derived, link.Tier);
         Assert.Contains("F71", link.Anchor);
-        Assert.Contains("PROOF_F86_QPEAK", link.Anchor);
+        Assert.Contains("PROOF_F86C_F71_MIRROR", link.Anchor);
     }
 
     [Fact]

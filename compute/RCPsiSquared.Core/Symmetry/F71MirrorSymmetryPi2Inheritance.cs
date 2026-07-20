@@ -54,7 +54,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// c_1(N−2−b). Purely kinematic.</para>
 ///
 /// <para>Tier1Derived: F71 is Tier 1 proven kinematic
-/// (PROOF_C1_MIRROR_SYMMETRY); verified N=3..6 with residuals &lt; 10⁻⁹.
+/// (PROOF_C1_MIRROR_SYMMETRY); verified ψ_1 N=3..6 &lt; 2·10⁻⁹, ψ_2 N=4..6 &lt; 5·10⁻¹⁰.
 /// The Pi2-Foundation anchoring is algebraic-trivial composition.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F71 (line 1561) +
@@ -193,7 +193,7 @@ public sealed class F71MirrorSymmetryPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("parent (typed)",
                 summary: $"Pi2DyadicLadderClaim ({DyadicLadder.Tier.Label()}): a_n = 2^(1−n); F71's component count ⌊N/2⌋ lands on rungs a_1, a_0, a_{{−1}} at N=2,3 / 4,5 / 8,9");
             yield return new InspectableNode("F71 closed form",
-                summary: "c_1(N, b, ρ₀) = c_1(N, N−2−b, ρ₀); Tier 1 proven kinematic (PROOF_C1_MIRROR_SYMMETRY); verified N=3..6 residuals < 10⁻⁹");
+                summary: "c_1(N, b, ρ₀) = c_1(N, N−2−b, ρ₀); Tier 1 proven kinematic (PROOF_C1_MIRROR_SYMMETRY); verified ψ_1 N=3..6 < 2·10⁻⁹, ψ_2 N=4..6 < 5·10⁻¹⁰");
             yield return new InspectableNode("HalfIntegerMirror connection",
                 summary: "F71's bond pairing IS the HalfIntegerMirrorClaim N-parity classification: odd N → no center bond (half-integer w_XY); even N → self-paired center (integer w_XY)");
             yield return new InspectableNode("F86 generalization (Tier 1 derived 2026-05-03)",

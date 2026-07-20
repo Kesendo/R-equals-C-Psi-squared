@@ -16,7 +16,7 @@ F71 is the spatial-mirror law of the closure-breaking coefficient. For a uniform
 
 where c₁ is the leading coefficient of the closure sum Σ_i ln α_i under a single-bond δJ. The proof is purely kinematic: the spatial reflection R (site i ↔ N−1−i) commutes with the uniform Hamiltonian and with Z-dephasing, so the bond-wise profile is blind to handedness. The chain does not care which half you flip; the count of independent c₁ components drops from N−1 to ⌈(N−1)/2⌉.
 
-The law degrades gracefully off the uniform line. Its observable-side twin F100 carries the same mirror to the F86c Q_peak, with the bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) exactly odd in the F71-anti-palindromic part of J (any palindromic J keeps D = 0; asymmetry breaks it only at linear order); F101 is the dephasing-axis version, and the spectrum-side partner F91 says the eigenvalues see only the symmetric part of γ. Orthogonal to all of these is the K₁ chiral mirror (PTF), which pairs single-excitation modes by sublattice color rather than bonds across the center.
+The law degrades gracefully off the uniform line. Its observable-side twin F100 carries the same mirror to the F86c Q_peak, with the bond-mirror deviation D(b) = c₁(b) − c₁(N−2−b) exactly odd in the F71-anti-palindromic part of J (any palindromic J keeps D = 0; asymmetry breaks it only at linear order); F101 is the dephasing-axis version, and the spectrum-side partner F91 says the eigenvalues see only the symmetric part of γ. Orthogonal to all of these is [the K₁ chiral mirror](PROOF_K_PARTNERSHIP.md) (PTF), which pairs single-excitation modes by sublattice color rather than bonds across the center.
 
 ## Statement
 
@@ -39,7 +39,8 @@ Here c₁(N, b, ρ₀) is the first-order coefficient of the closure sum under a
 - Chain A: all bonds at coupling J (unperturbed)
 - Chain B(b): bond b at coupling J + δJ (perturbed)
 - α_i: per-site purity rescaling factor from fitting P_B(i, t) ≈ P_A(i, α_i · t)
-- c₁(b): symmetric-difference extraction of the first-order closure coefficient
+- C(b, δJ) := Σ_i ln α_i(δJ at bond b): the closure sum at finite δJ
+- c₁(b) := ∂C(b, δJ)/∂(δJ) |_{δJ=0}, the first-order closure coefficient; numerically extracted as the symmetric difference [C(b, +δJ) − C(b, −δJ)] / (2·δJ)
 
 ---
 
@@ -92,17 +93,19 @@ because R maps the perturbation at bond b to bond N−2−b.
 
 ## Proof
 
-Let ρ₀ be a **reflection-symmetric initial state**, meaning: applying R_sup to ρ₀ changes at most the *signs* of off-diagonal matrix elements (coherences), not the moduli. For a single-qubit Bloch decomposition ρ_i = (1/2)(I + ⟨X_i⟩ X + ⟨Y_i⟩ Y + ⟨Z_i⟩ Z), the purity is
+Let ρ₀ be a **reflection-symmetric initial state**, meaning:
 
-    Tr(ρ_i²) = (1/2)(1 + ⟨X_i⟩² + ⟨Y_i⟩² + ⟨Z_i⟩²),
+    R · ρ₀ · R = U · ρ₀ · U†
 
-quadratic in the Bloch components. A sign flip on any component leaves the square unchanged, so R_sup · ρ₀ and ρ₀ have identical per-site purities at every site.
+for some product of single-site phase unitaries U = ⊗_i U_i that is a symmetry of the Liouvillian, [L, U_sup] = 0 (with U_sup(ρ) = U ρ U†). For everything in scope here the only U needed is the excitation-parity operator U = ∏_i Z_i = (−1)^n̂ (or U = I): every XX+YY bond term and the Z-dephasing dissipator commute with conjugation by it, bond-wise, so [L_B(b), U_sup] = 0 for every b, perturbed or not.
+
+Why this is the right class: conjugation by a product of single-site unitaries commutes with the partial trace onto any site, Tr_{¬i}(U σ U†) = U_i · Tr_{¬i}(σ) · U_i†, and purity is invariant under unitary conjugation. So ρ₀ and R_sup · ρ₀ have identical per-site purities at every site, and (Step 2) this persists under evolution.
 
 **Example (ψ_k + vac).** For ρ₀ = (|vac⟩ + |ψ_k⟩)(⟨vac| + ⟨ψ_k|) / 2:
 
     R · ρ₀ · R = (|vac⟩ + (−1)^(k+1) |ψ_k⟩)(⟨vac| + (−1)^(k+1) ⟨ψ_k|) / 2.
 
-The diagonal blocks |vac⟩⟨vac| and |ψ_k⟩⟨ψ_k| each pick up ((−1)^(k+1))² = 1, so they are unchanged. The coherences |vac⟩⟨ψ_k| and |ψ_k⟩⟨vac| pick up a factor (−1)^(k+1). After the partial trace at site i, this sign shows up on ⟨X_i⟩ and ⟨Y_i⟩ (off-diagonals of ρ_i) but not on ⟨Z_i⟩ (diagonal), and squares out in Tr(ρ_i²).
+For odd k this is ρ₀ itself (U = I). For even k the coherences |vac⟩⟨ψ_k| and |ψ_k⟩⟨vac| pick up a minus sign while the diagonal blocks are unchanged, and this sign flip is exactly conjugation by U = (−1)^n̂: U|vac⟩ = |vac⟩ and U|ψ_k⟩ = −|ψ_k⟩ (single excitation). Dicke, GHZ and W states are R-invariant outright (U = I).
 
 **Step 1: Relate time evolution under bond b to bond N−2−b.**
 
@@ -135,7 +138,11 @@ From Step 1, R_sup · ρ_B(b, t) = exp(L_B(N−2−b) · t) · (R_sup · ρ₀),
 
     P_B(b, i, t) = Tr[(Tr_{¬(N−1−i)}(exp(L_B(N−2−b) · t) · (R_sup · ρ₀)))²].
 
-Finally, evolve R_sup · ρ₀ under L_B(N−2−b). Because reflection-symmetry (as defined above) flips only the signs of coherences, and because U(1) conservation keeps each excitation-number sector invariant under L_B, a coherence sign flip at t = 0 propagates to a coherence sign flip at all t. The per-site purity Tr(ρ_i²) is quadratic in the Bloch components and therefore unchanged by coherence sign flips. So:
+Finally, evolve R_sup · ρ₀ under L_B(N−2−b). By reflection-symmetry (as defined above), R_sup · ρ₀ = U ρ₀ U† with [L_B(N−2−b), U_sup] = 0, so the conjugation commutes through the evolution:
+
+    exp(L_B(N−2−b) · t) · (U ρ₀ U†) = U · [exp(L_B(N−2−b) · t) · ρ₀] · U†,
+
+and conjugation by the product-of-single-site-phases U leaves every per-site purity unchanged (Tr_{¬i}(U σ U†) = U_i Tr_{¬i}(σ) U_i†). So:
 
     Tr[(Tr_{¬(N−1−i)}(exp(L_B(N−2−b) · t) · (R_sup · ρ₀)))²]
     = Tr[(Tr_{¬(N−1−i)}(exp(L_B(N−2−b) · t) · ρ₀))²]
@@ -143,7 +150,7 @@ Finally, evolve R_sup · ρ₀ under L_B(N−2−b). Because reflection-symmetry
 
 **Step 3: From purity identity to α identity.**
 
-The α_i fitting matches P_B(b, i, t) against P_A(i, α_i · t). From Step 2:
+The α_i fitting matches P_B(b, i, t) against P_A(i, α_i · t). The fit is a model ansatz (hence the ≈), but Step 2 makes the two purity traces pointwise identical in t, so any deterministic fitting procedure returns bit-identical α on both sides; the identity below is exact regardless of fit quality. From Step 2:
 
     P_B(b, i, t) = P_B(N−2−b, N−1−i, t)
 
@@ -165,7 +172,7 @@ Re-indexing j = N−1−i:
 
     = Σ_j ln(α_j(δJ at N−2−b))
 
-Therefore:
+So the closure sums agree at every δJ: C(b, δJ) = C(N−2−b, δJ). Every coefficient of the δJ-expansion therefore agrees; in particular the first-order coefficient:
 
     c₁(b) = c₁(N−2−b)
 
@@ -177,22 +184,23 @@ Therefore:
 
 **Valid for:**
 - Any uniform XY chain (all J_b = J) with uniform Z-dephasing (all γ_i = γ₀)
-- Any reflection-symmetric initial state (includes ψ_k + vac for all k, Dicke states, GHZ, W, and any state invariant under R up to phases that square in purity)
+- Any reflection-symmetric initial state in the sense defined in the Proof section: R · ρ₀ · R = U · ρ₀ · U† for a product of single-site phases U with [L, U_sup] = 0 (includes ψ_k + vac for all k, Dicke states, GHZ, W)
 - Any N ≥ 2
 
 **Does NOT require:**
-- Specific form of the Hamiltonian beyond reflection symmetry of the coupling pattern. Extends to any Hamiltonian with [H, R] = 0 and any dissipator with [D, R_sup] = 0.
-- Specific initial state beyond reflection symmetry in the purity sense.
+- Specific form of the Hamiltonian beyond reflection symmetry, IF the initial state is exactly R-invariant (R · ρ₀ · R = ρ₀, e.g. odd-k ψ_k + vac, Dicke, GHZ, W): then U = I and the argument runs for any Hamiltonian with [H, R] = 0 and any dissipator with [D, R_sup] = 0.
+- U(1) (excitation-number) conservation. Uniform amplitude damping breaks U(1) yet preserves the mirror identity, because it still commutes with (−1)^n̂-conjugation. The operative extra ingredient for the up-to-sign states is the local symmetry [L, U_sup] = 0, not number conservation.
 
 **Breaks for:**
 - Non-uniform coupling (J_b ≠ J_{N−2−b}): reflection symmetry of L_A lost
 - Non-uniform dephasing (γ_i ≠ γ_{N−1−i}): reflection symmetry of D lost
-- Initial states that are NOT reflection-symmetric in purity
+- Initial states that are NOT reflection-symmetric in the sense above
+- Up-to-sign initial states (even-k ψ_k + vac) combined with a Hamiltonian that has [H, R] = 0 but no (−1)^n̂ symmetry: a uniform transverse field h · Σ_i X_i anticommutes with U site-wise, and the mirror identity fails at linear order in h (residual ~7·10⁻² at N = 4, h = 0.3, ψ₂ + vac), while exactly R-invariant states survive the same field at machine precision. Probe: [`simulations/c1_mirror_scope_probe.py`](../../simulations/c1_mirror_scope_probe.py)
 
 **Verified:**
-- N = 3, 4, 5, 6, ψ_1 + vac: residual < 10⁻⁹
-- N = 4, 5, 6, ψ_2 + vac: residual < 10⁻¹⁰
-- Source: [`simulations/eq021_obc_sine_basis.py`](../../simulations/eq021_obc_sine_basis.py), [`simulations/c1_veffect_scaling_small.py`](../../simulations/c1_veffect_scaling_small.py)
+- N = 3, 4, 5, 6, ψ_1 + vac: residual < 2·10⁻⁹ (largest 1.32·10⁻⁹ at N = 6)
+- N = 4, 5, 6, ψ_2 + vac: residual < 5·10⁻¹⁰ (largest 4.22·10⁻¹⁰ at N = 6)
+- Source: [`simulations/eq021_obc_sine_basis.py`](../../simulations/eq021_obc_sine_basis.py), [`simulations/c1_veffect_scaling_small.py`](../../simulations/c1_veffect_scaling_small.py); scope boundary: [`simulations/c1_mirror_scope_probe.py`](../../simulations/c1_mirror_scope_probe.py)
 
 ---
 

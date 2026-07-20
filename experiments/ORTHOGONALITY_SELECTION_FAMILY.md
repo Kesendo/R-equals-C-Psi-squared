@@ -266,7 +266,7 @@ This upgrades the Meta-Theorem's four instances from "static selection rules" to
 | Instance | Tier | Proof location | Numerical verification |
 |----------|------|----------------|-------------------------|
 | F70 | 1 (kinematic) | [`PROOF_DELTA_N_SELECTION_RULE`](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md) | 9 pairs at N=5, residual 0 to machine precision |
-| F71 | 1 (kinematic) | [`PROOF_C1_MIRROR_SYMMETRY`](../docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md) | N=3..6, residual < 1e-9 |
+| F71 | 1 (kinematic) | [`PROOF_C1_MIRROR_SYMMETRY`](../docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md) | ψ₁ N=3..6 < 2e-9, ψ₂ N=4..6 < 5e-10 |
 | F72-candidate | 2 (sketched, bound to F70) | [F72](../docs/ANALYTICAL_FORMULAS.md) | w-scan machine precision under c_1_pr |
 | (vac, S_1) purity sum = (1/2)·exp(−4γ₀t) | 1 (proven this session) | [F73](../docs/ANALYTICAL_FORMULAS.md) | c_1_pr gives K_CC[0, 1] ~ 1e-12 at multiple t_0 and all N tested |
 

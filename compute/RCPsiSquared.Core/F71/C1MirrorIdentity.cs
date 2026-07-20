@@ -22,8 +22,13 @@ namespace RCPsiSquared.Core.F71;
 /// identity for c₁.</para>
 ///
 /// <para>Validity: any [H, R] = 0 (uniform J on a symmetric graph), any [D, R_sup] = 0
-/// (uniform or R-symmetric dephasing), any reflection-symmetric initial state. Breaks for
-/// non-uniform J_b ≠ J_{N−2−b}, non-uniform γ_i ≠ γ_{N−1−i}, asymmetric ρ₀.</para>
+/// (uniform or R-symmetric dephasing), any exactly R-invariant initial state. For states
+/// that are R-symmetric only up to coherence signs (even-k ψ_k + vac), the sign flip must
+/// additionally be a local symmetry of L: [L, U_sup] = 0 with U = (−1)^n̂ = ∏ Z_i. XY hopping,
+/// Z-dephasing and amplitude damping all satisfy this; a uniform transverse field satisfies
+/// [H, R] = 0 but not [L, U_sup] = 0, and the mirror fails at linear order in the field
+/// (simulations/c1_mirror_scope_probe.py). Breaks for non-uniform J_b ≠ J_{N−2−b},
+/// non-uniform γ_i ≠ γ_{N−1−i}, asymmetric ρ₀.</para>
 /// </summary>
 public sealed class C1MirrorIdentity : Claim
 {
@@ -49,7 +54,7 @@ public sealed class C1MirrorIdentity : Claim
             yield return new InspectableNode("breaks for",
                 summary: "non-uniform J_b ≠ J_{N−2−b}; non-uniform γ_i ≠ γ_{N−1−i}; asymmetric ρ₀");
             yield return new InspectableNode("verified",
-                summary: "N=3..6 for ψ_1+vac and ψ_2+vac; residuals < 10⁻⁹ (eq021_obc_sine_basis.py)");
+                summary: "ψ_1+vac N=3..6 residuals < 2·10⁻⁹ (c1_veffect_scaling_small.py); ψ_2+vac N=4..6 < 5·10⁻¹⁰ (eq021_obc_sine_basis.py)");
         }
     }
 }
