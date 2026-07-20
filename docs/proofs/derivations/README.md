@@ -14,7 +14,7 @@ eigenvalues (N=2-5).
 | [D03](D03_CROSSING_TIME_RATIOS.md) | t_X/t_Z = 2.320 | 27 | VERIFIED |
 | [D04](D04_DIMENSIONAL_FACTOR.md) | f(1+f^2) = (d-1)/2 | 12 + 25 | VERIFIED |
 | [D05](D05_DYNAMIC_MODE_COUNT.md) | Osc = 4^N-(N+1)-Stat(N) | 4 + 22 + 23 | VERIFIED |
-| [D06](D06_SPECTRAL_GAP.md) | Gap = 2*gamma | 1 + 3 | VERIFIED |
+| [D06](D06_SPECTRAL_GAP.md) | Gap = 2*gamma (Q = J/gamma above Q*_gap(N)) | 1 + 3 | VERIFIED above Q*_gap |
 | [D07](D07_Q_DISTRIBUTION.md) | Q ~ arcsine distribution | 2 + 7 | VERIFIED |
 | [D08](D08_CROOKS_RATE_IDENTITY.md) | ln(d_fast/d_slow) = 2·artanh(Δd/(2Σγ)) | 1 | PROVEN |
 | [D09](D09_SECTOR_SFF_PAIRING.md) | K_freq(w,t) = K_freq(N−w,t) | 1 | PROVEN |

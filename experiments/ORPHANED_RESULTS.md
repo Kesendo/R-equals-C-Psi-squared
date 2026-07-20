@@ -173,11 +173,17 @@ SB oscillates at the highest (fast, dies quickly). AB sees combinations.
 
 | Pair | Envelope decay rate | Nearest palindrome rate |
 |------|--------------------|-----------------------|
-| SA | 0.1395 | 8γ/3 = 0.1333 |
+| SA | 0.1395 | 8γ/3 = 0.1333 (limit value) |
 | SB | 0.3089 | (multi-mode, ~2× fastest) |
 | AB | 0.7006 | (multi-mode, ~4× fastest) |
 
-SA decays near the middle palindromic rate (8γ/3). This makes physical sense:
+SA decays near the middle palindromic rate (8γ/3), within 4.6%. Note that
+8γ/3 is a J/γ → ∞ limit and at finite coupling that level is a narrow band
+(F33), but the band cannot carry this residual: the measured 0.1395 sits
+ABOVE the limit, while the band's highest sublevel at canonical coupling is
+2.698γ = 0.1349 (and the band narrows toward 8γ/3 as J/γ grows), so the band
+points the wrong way and the residual stays unexplained (fit window and
+multi-mode contamination are the open candidates). This makes physical sense:
 the SA pair started as Bell, exciting all three Liouvillian modes. The fastest
 mode (10γ/3) dies first, the slowest (2γ) is too weakly coupled. The middle
 mode dominates the long-time behavior of the envelope.

@@ -270,9 +270,11 @@ for n in [2, 3, 4, 5]:
     match = "EXACT" if abs(predicted_max - observed_max) < 0.01 else f"off by {abs(predicted_max-observed_max):.4f}"
     print(f"  N={n}: predicted max = {predicted_max}g, observed = {observed_max:.4f}g ({match})")
 
-print(f"\n  Prediction for N=6: max rate = 10g, min = 2g")
-print(f"  Prediction for N=10: max rate = 18g, min = 2g")
-print(f"  Prediction for N=100: max rate = 198g, min = 2g")
+print(f"\n  (min = 2g needs Q = J/gamma above the threshold Q*_gap(N), which grows"
+      f" with N: 0.50, 0.80, 1.34, 1.82 at N = 2..5. Below it the min is smaller.)")
+print(f"  Prediction for N=6: max rate = 10g, min = 2g at large Q")
+print(f"  Prediction for N=10: max rate = 18g, min = 2g at large Q")
+print(f"  Prediction for N=100: max rate = 198g, min = 2g at large Q")
 print(f"  The band widens linearly with N: bandwidth = 2(N-2)g.")
 
 print(f"\n{'='*75}")
@@ -284,13 +286,14 @@ SUMMARY:
 The transition from discrete to continuous rate structure:
 
   N=2: Single rate (2g). No band.
-  N=3: 3-4 discrete rates. All fixed. No bands.
+  N=3: 3-4 discrete rates. Rungs fixed; the interior levels
+       form narrow bands that move with J (F33).
   N=4: Multiple bands. Interior rates MOVE with J. 
        Boundaries 2g and 6g fixed.
   N=5: Dense spectrum. Many bands merge.
        Boundaries 2g and 8g fixed.
 
-Boundary formula: min = 2g (always), max = 2(N-1)g (always).
+Boundary formula: min = 2g and max = 2(N-1)g, for Q = J/gamma above Q*_gap(N).
 Interior: free at N>=4, increasingly dense with N.
 
 This is analogous to electronic band structure in solids:

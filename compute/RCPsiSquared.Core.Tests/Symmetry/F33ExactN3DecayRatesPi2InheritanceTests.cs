@@ -37,7 +37,7 @@ public class F33ExactN3DecayRatesPi2InheritanceTests
     [InlineData(0.05, 8.0 * 0.05 / 3.0)]
     [InlineData(1.0, 8.0 / 3.0)]
     [InlineData(3.0, 8.0)]   // 8·3/3 = 8
-    public void Rate2_Equals8GammaOverThree(double gammaZero, double expected)
+    public void Rate2_LimitValue_Equals8GammaOverThree(double gammaZero, double expected)
     {
         Assert.Equal(expected, BuildClaim().Rate2(gammaZero), precision: 12);
     }
@@ -46,7 +46,7 @@ public class F33ExactN3DecayRatesPi2InheritanceTests
     [InlineData(0.05, 10.0 * 0.05 / 3.0)]
     [InlineData(1.0, 10.0 / 3.0)]
     [InlineData(3.0, 10.0)]   // 10·3/3 = 10
-    public void Rate3_Equals10GammaOverThree(double gammaZero, double expected)
+    public void Rate3_LimitValue_Equals10GammaOverThree(double gammaZero, double expected)
     {
         Assert.Equal(expected, BuildClaim().Rate3(gammaZero), precision: 12);
     }
@@ -61,7 +61,7 @@ public class F33ExactN3DecayRatesPi2InheritanceTests
     }
 
     [Fact]
-    public void RatesAreRationalRatios_HoldsAtAnyGamma()
+    public void LimitRatesHaveRationalRatio_AtAnyGamma()
     {
         var f = BuildClaim();
         Assert.True(f.RatesAreRationalRatios(0.05));

@@ -215,9 +215,9 @@ These were once on the active list. They have since been answered.
 | Born Rule Gap | Substantially resolved: R_i = C_i · (Ψ_past + Ψ_future)² gives Born as perfect-mirror limit. See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) |
 | N-Scaling Barrier | Resolved: crossing is local to entangled pairs. See [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
 | Gravitational invariance | Demoted: true but trivial (dimensionless ratios). Gravity interpretation moved to `recovered/` |
-| Spectral boundaries | Resolved: Re(λ) = −2γ⟨n_XY⟩ (Absorption Theorem). Min = 2γ (one light factor), max = 2(N−1)γ. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| Spectral boundaries | Resolved: Re(λ) = −2γ⟨n_XY⟩ (Absorption Theorem). Min = 2γ, max = 2(N−1)γ for the generic band, above the coupling threshold Q*_gap(N); the kernel and the XOR drain sit outside it. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 | Why factor 2 | Resolved: standing wave round trip. Unpaired modes are all-light (⟨n_XY⟩=N), paired average to half-light. Ratio = 2 by definition. See [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md) |
-| Spectral gap | Resolved: 2γ = one absorption quantum. The cost of a single X/Y Pauli factor. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| Spectral gap | Resolved above Q*_gap(N): 2γ = one absorption quantum, the cost of a single X/Y Pauli factor. Below the threshold the gap is Zeno-suppressed and the theorem supplies no lower bound; see [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) §4.3 |
 | IBM hardware | Resolved: Absorption Theorem ratio = 1.03 (3%) on Q52. Detuning oscillations at 470 μs, not cavity fringes. See [IBM Fringes + Absorption](../experiments/IBM_ABSORPTION_THEOREM.md) |
 
 ---
@@ -262,8 +262,9 @@ The Absorption Theorem (Re(λ) = −2γ⟨n_XY⟩) resolved three questions
 that were not explicitly listed here but had been open since March:
 what determines the spectral boundaries (answer: light content), why
 the factor 2 (answer: standing wave round trip), and what sets the
-spectral gap (answer: one absorption quantum, 2γ). These are now
-formulas, not observations. See
+spectral gap (answer: one absorption quantum, 2γ, above an N-dependent
+coupling threshold; below it the gap is Zeno-suppressed and the theorem
+supplies no lower bound). These are now formulas, not observations. See
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md).
 
 The mass-energy relationship is α = 2γ⟨n_XY⟩, which is linear in γ
@@ -352,5 +353,5 @@ impactful next step.
 topology), Mar 14 (palindrome proven), Mar 16-18 (XOR, non-Heisenberg,
 QST), Mar 24 (sacrifice formula), Apr 1 (Urqubit algebra), Apr 2
 (cockpit framework, rewrite for clarity). Apr 4
-(Absorption Theorem resolves spectral boundaries/gap/factor-2,
+(Absorption Theorem resolves spectral boundaries/factor-2 and relocates the gap,
 IBM hardware confirms at 3%, mass-energy relation is linear).*

@@ -5,7 +5,9 @@ K_death universal dose, immortal palindromic modes, gamma role of c,
 entrance pupil window, cavity mass distribution, R=CPsi2 mass hypothesis -->
 
 **Status:** Center-localized mode energy confirmed (consistent with mass
-= trapped light). K_death = ln(10) = 2.303 universal (proven from D6). Gamma plays the algebraic
+= trapped light). K_death = ln(10) = 2.303 above the coupling threshold
+Q*_gap(N) (from D6; below it the slowest mortal mode is slower and the dose
+grows). Gamma plays the algebraic
 role of c (K = γt invariant). E = mγ² as conversion: open question.
 **Date:** April 4, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -86,18 +88,34 @@ See also: [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994, Ma
 
 ---
 
-## Result 2: K_death = 2.303 (universal absorption dose)
+## Result 2: K_death = 2.303 (absorption dose, strong-coupling regime)
 
 | N | Immortal modes | Slowest mortal rate | K_death | K_death / K_fold |
-|---|---------------|--------------------|---------|-----------------| 
-| 2 | 3 | 0.100 | 2.303 | 2.3x |
-| 3 | 4 | 0.100 | 2.303 | 2.3x |
-| 4 | 5 | 0.100 | 2.303 | 2.3x |
+|---|---------------|--------------------|---------|-----------------|
+| 2 | 3 | 0.100 | 2.303 | 62x |
+| 3 | 4 | 0.100 | 2.303 | 62x |
+| 4 | 5 | 0.100 | 2.303 | 62x |
 
 The dose for 99% absorption is K_death = γ × ln(100) / rate_min.
 With rate_min = 2γ (spectral gap, formula D6): K_death = ln(100)/2
-= ln(10) = 2.303, universal across all N. Only ~2.3× the fold dose
-(K_fold at CΨ = 1/4).
+= ln(10) = 2.303, the same across all N tested.
+
+Two things about that number. **The ratio to the fold dose is ~62, not 2.3.**
+K_fold is the dose at which CΨ crosses ¼, and F25 gives it in closed form:
+f*(1 + f*²) = 3/2 puts CΨ at exactly ¼ with K_fold = 0.03735. So
+2.303 / 0.03735 = 61.65. The old 2.3× was K_death itself, i.e. the column had
+been filled as though K_fold were 1. The corrected picture is the more
+interesting one: the fold happens very early, and the death dose is nearly two
+orders of magnitude later. The column repeats one value down the N rows because
+K_fold is F25's Bell+ (N=2) fold dose: K_death is N-independent, the ratio's
+denominator is not an N=3 or N=4 quantity, so read the column as "the Bell+
+fold measured against this row's death dose".
+
+**And the run's coupling matters.** J is not recorded here, and D6's
+rate_min = 2γ holds only above an N-dependent threshold Q*_gap(N) in Q = J/γ (0.5 to
+1.9 for N = 2..5). The measured rate_min = 0.100 = 2γ shows this run sat above
+it, but the dose is a strong-coupling result; below the threshold rate_min is
+Zeno-suppressed and the dose is larger.
 
 N+1 modes with zero absorption rate (Re = 0) are immortal at every N.
 The cavity ALWAYS retains light. Complete absorption is impossible
@@ -161,7 +179,7 @@ The physics is unproven.
 ## What survives (Tier classification)
 
 1. **Surviving mode energy is center-localized** (Tier 2-3)
-2. **K_death = 2.303 universal** (Tier 2)
+2. **K_death = 2.303 above Q*_gap(N)** (Tier 2)
 3. **Immortal modes are massless** (Tier 3)
 4. **The palindrome prevents total absorption** (Tier 2)
 5. **Gamma plays the role of c** (Tier 2-3, algebraic parallel)

@@ -5,7 +5,7 @@ namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The topology-general XY band edge (Tier 1 derived). The single-excitation band edge (the
 /// largest |E_k| of the vac↔single-excitation coherences) = J × the hopping graph's adjacency spectral
-/// radius ρ: chain 2cos(π/(N+1)), star √(N−1), ring 2 — generalizing the chain-only F2b band edge to any
+/// radius ρ: chain 2cos(π/(N+1)), star √(N−1), ring 2, generalizing the chain-only F2b band edge to any
 /// topology. This is the Im/L_H side; the Re=−2γ floor (the band-edge coherence has n_XY=1) is the
 /// Absorption Theorem, cited not re-derived. Whether the clock/seam reads that band edge as ω_mem is a
 /// topology-specific regime (witnessed, not separately claimed): a Q-horizon for chain (all N), star
@@ -32,14 +32,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// its own open piece (the ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam) was resolved by the
 /// reviewed PROOF_RING_HANDOVER_SLOPE.</para>
 ///
-/// <para>Typed parents: <see cref="ClockHandLadderClaim"/> (the chain instance it generalizes — its
+/// <para>Typed parents: <see cref="ClockHandLadderClaim"/> (the chain instance it generalizes; its
 /// ω_mem = 2J·cos(π/(N+1)) is the chain ρ), <see cref="AbsorptionTheoremClaim"/> (the Re=−2γ floor).</para></summary>
 public sealed class TopologyBandEdgeClaim : Claim
 {
     /// <summary>Parent: the chain instance this generalizes (its ω_mem = 2J·cos(π/(N+1)) is the chain ρ).</summary>
     public ClockHandLadderClaim ChainInstance { get; }
 
-    /// <summary>Parent: the Absorption Theorem — the band-edge coherence has n_XY=1, so Re=−2γ on any graph
+    /// <summary>Parent: the Absorption Theorem; the band-edge coherence has n_XY=1, so Re=−2γ on any graph
     /// (the floor the map's gap-dominance is read against). Cited, not re-derived.</summary>
     public AbsorptionTheoremClaim Absorption { get; }
 
@@ -51,7 +51,7 @@ public sealed class TopologyBandEdgeClaim : Claim
                "for chain (all N) / star (N≤5) / odd rings; structural ceiling for star N≥6; co-occupied floor " +
                "for ring N=4 (a (2,2) mode at −2γ with Im=2√2·J > band edge).",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_ABSORPTION_THEOREM.md (§4.3 gap=2γ, §4.5 n_XY=Hamming — the −2γ floor) + " +
+               "docs/proofs/PROOF_ABSORPTION_THEOREM.md (§4.3 gap=2γ above Q*_gap(N), §4.5 n_XY=Hamming, the −2γ floor) + " +
                "docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md (the chain gap-dominance proof that lifts the cap) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/TopologyBandEdgeWitness.cs (inspect --root bandedge) + " +
                "simulations/topology_band_edge_review.py (the gate-first verifier, full Q-sweep to Q=1000)")
@@ -83,7 +83,7 @@ public sealed class TopologyBandEdgeClaim : Claim
             yield return new InspectableNode("ring gap-dominance (the dihedral lock, characterized 2026-06-17)",
                 summary: "PROOF_RING_GAP_DOMINANCE.md / ring_gap_dominance.py (gate-first N=3..6): max|Im| over the " +
                          "exact-(−2γ) ring modes = 2J = J·ρ (the periodic band top = the k=0 uniform single-excitation " +
-                         "mode fixed by C_N), reached via the (0,1) sector for general N — for all N EXCEPT N=4, the " +
+                         "mode fixed by C_N), reached via the (0,1) sector for general N, for all N EXCEPT N=4, the " +
                          "lone exception where the half-filling (2,2) {0,2} √-EP reaches 2√2·J > 2J (the same (2,2) " +
                          "sector as K_4's ceiling; the ring analogue of the chain's N=3 special, but ABOVE the band " +
                          "top not below). The ring sibling of chain gap-dominance; both give max|Im| = J·ρ. " +

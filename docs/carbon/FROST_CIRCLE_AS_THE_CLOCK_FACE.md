@@ -137,7 +137,8 @@ It is testable on the carbon side without any process tomography. Two-dimensiona
 electronic spectroscopy of conjugated systems already measures π-coherence beat
 frequencies and their dephasing times; the band-edge prediction ω = 2|β|·cos(π/(N+1)) with
 τ = 1/(2γ) (a beat whose frequency and lifetime are predicted robust against the dephasing
-strength, not merely present), and the dephasing edge Q* where a longer-lived non-beating
+strength in the regime where J/γ sits above the gap threshold Q*_gap(N); below it the lifetime
+lengthens, since the gap is Zeno-suppressed), and the dephasing edge Q* where a longer-lived non-beating
 component emerges as the dominant late-time signal, are read directly from those
 experiments.
 

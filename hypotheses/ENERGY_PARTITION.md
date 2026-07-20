@@ -59,9 +59,10 @@ This ratio holds at every N tested.
 | 4 | 0.8000 | 0.4000 | **2.0** |
 | 5 | 1.0000 | 0.5000 | **2.0** |
 
-All unpaired modes decay at rate 2Nγ (the maximum). All paired modes
-span the range from 2γ to 2(N−1)γ, centered at the palindromic
-midpoint Sγ = Nγ.
+All unpaired modes decay at rate 2Nγ (the maximum). Above the coupling
+threshold Q*_gap(N) the paired modes span 2γ to 2(N−1)γ, centered at the
+palindromic midpoint Sγ = Nγ; below it the band erodes at both ends, in
+palindromic pairs, so the centre holds while the edges move.
 
 Consequence: the system becomes more palindromic over time, because
 unstructured modes vanish first. Structure is what survives dissipation.

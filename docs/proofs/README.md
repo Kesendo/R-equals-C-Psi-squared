@@ -169,7 +169,7 @@ abstract and its upstream dependencies.
 
 | Proof | What it proves | Builds on |
 |-------|----------------|-----------|
-| [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) | Every Liouvillian mode has a "light content" ⟨n_XY⟩ (oscillating X/Y Pauli components) that directly determines its absorption rate via Re(λ) = −2γ⟨n_XY⟩. Linear in γ, proven from L_H anti-Hermitian. Unifies six previously separate spectral results (boundary formula, sum rule, spectral gap, etc.). | Mirror Symmetry |
+| [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) | Every Liouvillian mode has a "light content" ⟨n_XY⟩ (oscillating X/Y Pauli components) that directly determines its absorption rate via Re(λ) = −2γ⟨n_XY⟩. Linear in γ, proven from L_H anti-Hermitian. Gives several previously separate spectral results a common reading (boundary formula, sum rule, 2x decay law); the spectral gap it relocates rather than derives, and it holds above a coupling threshold. | Mirror Symmetry |
 
 ### Cross-term structure (extend Time Irreversibility Exclusion)
 

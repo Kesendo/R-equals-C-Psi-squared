@@ -45,7 +45,8 @@ print(f"\nObserved rates: {2*gamma:.4f}, {8*gamma/3:.4f}, {10*gamma/3:.4f}")
 print(f"Expected (simple): {2*gamma:.4f}, {4*gamma:.4f}, {6*gamma:.4f}")
 print(f"\n8g/3 = {8*gamma/3:.4f} is between 2g and 4g")
 print(f"10g/3 = {10*gamma/3:.4f} is between 2g and 4g")
-print(f"So the Hamiltonian MIXES k=1 and k=2 modes into new eigenmodes")
+print(f"So the Hamiltonian MIXES ACROSS WEIGHT SECTORS into new eigenmodes")
+print(f"  (parity-preserving: k=0 with k=2 and k=1 with k=3, never k=1 with k=2)")
 print(f"with intermediate decay rates.")
 
 # Let's check: do the decay rates depend on gamma in the expected way?

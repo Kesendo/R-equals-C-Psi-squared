@@ -1,4 +1,4 @@
-"""Verification for tau_max_spectral_gap.py — proven invariants + the gamma-clock result.
+"""Verification for tau_max_spectral_gap.py: proven invariants + the gamma-clock result.
 Run: python simulations/tau_max_spectral_gap_verify.py
 """
 import os, sys
@@ -15,6 +15,7 @@ def test_floor_is_2gamma():
     gamma = 0.05
     for N in (2, 3, 4):
         gap = t.spectral_gap(t.build_L(t.heisenberg_chain_H(N, J=1.0), gamma, N))
+        # Valid only above the coupling threshold Q*_gap(N); this suite runs at Q >> Q*_gap.
         assert approx(gap, 2 * gamma), f"N={N}: gap={gap}, expected {2*gamma}"
     print("PASS test_floor_is_2gamma")
 
@@ -33,7 +34,8 @@ def test_gap_J_independent():
     gamma, N = 0.05, 3
     for J in (0.5, 1.0, 2.0, 4.0):
         gap = t.spectral_gap(t.build_L(t.heisenberg_chain_H(N, J=J), gamma, N))
-        assert approx(gap, 2 * gamma, tol=1e-6), f"J={J}: gap={gap} != 2gamma; gap depends on J!"
+        # J-independence holds above Q*_gap(N) only; this sweep is Q = 10..80.
+        assert approx(gap, 2 * gamma, tol=1e-6), f"J={J}: gap={gap} != 2gamma at Q={J/gamma:.1f}"
     print("PASS test_gap_J_independent")
 
 

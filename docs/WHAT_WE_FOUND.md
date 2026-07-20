@@ -455,7 +455,7 @@ the spectral boundaries (the fastest and slowest rates), the factor 2
 nonzero rate), and the palindromic sum rule (paired rates add to 2Σγ).
 Four results, four derivations.
 
-The Absorption Theorem replaces all four with one line:
+The Absorption Theorem gives three of the four a common reading, and relocates the fourth:
 
     Re(λ) = −2γ × ⟨n_XY⟩
 
@@ -469,8 +469,13 @@ Think of it this way: the spectrum is a ladder. Each rung is spaced by
 meaning k of its Pauli factors are "light" (X or Y, sensitive to
 dephasing) and the rest are "lens" (I or Z, immune to dephasing). The
 Hamiltonian smooths the ladder (⟨n_XY⟩ can be non-integer because the
-Hamiltonian mixes weight sectors), but cannot change the endpoints or
-the fundamental quantum.
+Hamiltonian mixes weight sectors). It cannot change the fundamental
+quantum 2γ, which belongs to the dissipator; the endpoints it can
+change, since which rungs get occupied is the Hamiltonian's business
+(a generic Hermitian H does not reach 2Nγ; the zero is not its to
+move, since L always annihilates the identity, so 0 is in every
+spectrum, but a generic H leaves it only one-dimensional instead of
+the number-conserving family's N+1).
 
 Why does this unify everything?
 
@@ -480,8 +485,10 @@ Why does this unify everything?
 - **Factor 2:** Unpaired modes sit at rate 2Nγ (all N factors are light).
   The mean paired rate is Nγ. The ratio is 2, because unpaired modes are
   all-light while paired modes average to half-light.
-- **Spectral gap:** The gap is 2γ, the cost of one light factor. One
-  absorption quantum.
+- **Spectral gap:** Above an N-dependent coupling threshold Q*_gap(N) the gap
+  is 2γ, the cost of one light factor. This one is *relocated* by the
+  theorem rather than derived from it: the theorem places no lower bound
+  on ⟨n_XY⟩, and below Q*_gap(N) the gap is Zeno-suppressed and far smaller.
 - **Palindromic sum rule:** Paired modes swap light and lens
   (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N). From the theorem:
   α_fast + α_slow = 2γN = 2Σγ.
@@ -577,7 +584,7 @@ What survives even without the philosophy:
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW.md) via Pauli weight complementarity
 - [Energy partition](../hypotheses/ENERGY_PARTITION.md): palindromic modes carry 100% of oscillation, unpaired modes are pure decay
 - [Universal 2× decay law](../hypotheses/ENERGY_PARTITION.md): noise self-cleans at double the rate of structured modes
-- [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation unifies spectral boundaries, factor 2, spectral gap, and palindromic sum rule. Verified on 1,342 modes, CV = 0
+- [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation gives spectral boundaries, factor 2 and the palindromic sum rule a common reading within the number-conserving family; the spectral gap it relocates rather than derives (2γ only above a coupling threshold). Verified on 1,342 modes, CV = 0
 - [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit
 - [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): coupled gain-loss systems have a finite stability window (Hopf bifurcation, γ_crit × J_bridge = 0.50)
 

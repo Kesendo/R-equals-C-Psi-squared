@@ -17,9 +17,12 @@ R=CPsi2 signal processing view -->
 
 An external review by a signal processing engineer (no quantum physics
 background) recognized the entire quantum system as a classical coupled
-resonator network. The Liouvillian has exactly three decay rates for N=3
-({2γ, 8γ/3, 10γ/3}), all exact rational multiples of γ, completely
-topology-independent. Frequencies scale with coupling (imaginary part of
+resonator network. The Liouvillian has a small set of decay rates for N=3. Four rungs
+({0, 2γ, 4γ, 6γ}) are exact at every coupling; the two interior values
+{8γ/3, 10γ/3} are the J/γ → ∞ limit of bands that split at finite
+coupling, and the internal spectrum is topology-dependent already at
+N=3 (see [F33](../docs/ANALYTICAL_FORMULAS.md)). What is genuinely
+topology- and J-independent are the rung positions 2γ·n. Frequencies scale with coupling (imaginary part of
 poles), decay rates do not change (real part). This creates **two
 independent information channels**: a frequency channel (carries topology
 information, changes with J) and a decay channel (carries noise information,
@@ -185,8 +188,12 @@ residue computation.
 | γ_mid | 0.1333 | 8γ/3 |
 | γ_fast | 0.1667 | 10γ/3 |
 
-These three values are IDENTICAL at every J_SB from 0.5 to 5.0.
-Completely topology-independent. Only frequencies move with coupling.
+These three values are identical across J_SB = 0.5 to 5.0 at the gamma used
+here, a range sitting well above the coupling threshold Q*_gap(N) in Q = J/gamma. At
+moderate J/gamma each fractional level splits into a narrow band (F33).
+The rung positions 2kγ are topology-independent; the interior levels are not
+(the triangle drops the 2.4607γ level the chain carries). Frequencies move
+with coupling, and so do the interior levels once J/gamma is moderate.
 
 **Pole structure:**
 
@@ -220,15 +227,22 @@ Script: [`simulations/joint_pole_analysis.py`](../simulations/joint_pole_analysi
 
 ### Decay Rate Derivation: Two Independent Information Channels (March 12)
 
-The three exact decay rates {2γ, 8γ/3, 10γ/3} are exact rational multiples
-of γ. They scale linearly with γ and are COMPLETELY topology-independent.
+The rates {2γ, 8γ/3, 10γ/3} are rational multiples of γ in the J/γ → ∞ limit:
+2γ is exact at every coupling, the other two only in that limit. They scale
+linearly with γ. Topology-independence holds for the rung positions, not for
+the whole spectrum: the triangle drops the 2.4607γ level the chain carries.
 
-**Scaling verified:** At γ = 0.01 through 0.50, ratios stay at {2.000, 2.667, 3.333}.
-Small deviations at very high gamma (γ=0.50) suggest weak nonlinear correction.
+**Scaling verified:** At γ = 0.01 through 0.50, ratios stay near {2.000, 2.667, 3.333}.
+The deviations at the high-gamma end are not a nonlinear correction: at fixed J,
+sweeping γ from 0.01 to 0.50 sweeps Q = J/γ by a factor 50, and the interior
+levels are Q-dependent (2.6666γ at Q=100, 2.4607γ at Q=1.5, 2.0133γ at Q=0.2).
+The "deviation" is the finite-coupling band of F33 seen edge-on.
 
 **Origin:** Pure Z dephasing on individual Pauli strings gives rates 2kγ (k=number
-of X/Y operators). But the Hamiltonian mixes k=1 and k=2 strings into new
-Liouvillian eigenmodes with intermediate decay rates 8γ/3 and 10γ/3.
+of X/Y operators). The Hamiltonian mixes strings across weight sectors into new
+Liouvillian eigenmodes with intermediate decay rates approaching 8γ/3 and 10γ/3.
+The mixing is parity-preserving: XX+YY+ZZ moves weight in steps of two, so the
+families are k=0 with k=2 and k=1 with k=3, never k=1 with k=2 (F33).
 
 **Selective noise test: which qubit contributes which rate:**
 
@@ -242,11 +256,12 @@ Liouvillian eigenmodes with intermediate decay rates 8γ/3 and 10γ/3.
 The clean {2, 8/3, 10/3, 4} structure emerges ONLY when all three qubits
 are equally dephased. Individual qubit noise gives messier rates.
 
-**THE KEY DISCOVERY: 4-qubit decay rates become topology-dependent!**
+**THE KEY DISCOVERY: at 4 qubits the interior levels become topology-dependent**
+(the rung positions 2kγ stay topology-free at every N; see the correction above)
 
 | System | Decay rates (multiples of γ) |
 |---|---|
-| 3-qubit star [1,2] | {2.0, 2.667, 3.333, 4.0}, FIXED for all J |
+| 3-qubit star [1,2] | {2.0, 2.667, 3.333, 4.0} in the J/γ → ∞ limit; at finite J the interior entries split into bands (a triple for uniform couplings; this row is [1,2]) |
 | 4-qubit star [1,1,1] | {2.0, 2.667, 2.844, 3.0, 3.667, 4.0, ...} |
 | 4-qubit star [1,2,3] | {2.0, 2.875, 3.0, 3.410, 3.609, 4.0, ...} |
 | 4-qubit star [0.5,1,3] | {2.0, 3.0, 3.234, 3.416, 3.827, 4.0, ...} |

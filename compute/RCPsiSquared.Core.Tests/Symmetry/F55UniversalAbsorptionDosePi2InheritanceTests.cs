@@ -43,9 +43,14 @@ public class F55UniversalAbsorptionDosePi2InheritanceTests
     }
 
     [Fact]
-    public void KDeathOverKFold_IsApproximately2Point3()
+    public void KDeathOverKFold_IsApproximately61Point65()
     {
-        Assert.Equal(2.3, F55UniversalAbsorptionDosePi2Inheritance.KDeathOverKFoldApprox, precision: 1);
+        Assert.Equal(61.65, F55UniversalAbsorptionDosePi2Inheritance.KDeathOverKFoldApprox, precision: 1);
+        // and the ratio must actually be K_death / K_fold, not K_death alone
+        Assert.Equal(
+            F55UniversalAbsorptionDosePi2Inheritance.KDeath / F55UniversalAbsorptionDosePi2Inheritance.KFold,
+            F55UniversalAbsorptionDosePi2Inheritance.KDeathOverKFoldApprox,
+            precision: 1);
     }
 
     [Theory]
@@ -67,7 +72,7 @@ public class F55UniversalAbsorptionDosePi2InheritanceTests
     }
 
     [Fact]
-    public void DerivationConsistencyHolds_AcrossAllGamma()
+    public void DerivationConsistencyHolds_AcrossAllGamma_AtFixedRateMin()
     {
         var f = BuildClaim();
         // 2γ · t_death = ln(100) for any γ.

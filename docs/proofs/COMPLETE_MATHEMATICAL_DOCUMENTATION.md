@@ -270,7 +270,8 @@ exists (best predictor explains 14% of variance).
 
 **Entanglement echo.** In star topology (N=3, Bell_SA + |0⟩_B, γ=0.05),
 entanglement oscillates between SA and SB at Bohr frequencies (SA: ω=2.09,
-SB: ω=6.07). Envelope decay matches the middle palindromic rate 8γ/3.
+SB: ω=6.07). Envelope decay matches the middle palindromic rate 8γ/3 (the
+strong-coupling F33 value; a band at moderate J/γ).
 Echo weakens as ~1/(N−1) with system size but never vanishes. At γ=0.001:
 63 clean echoes. The mediator S shuttles entanglement between leaves.
 

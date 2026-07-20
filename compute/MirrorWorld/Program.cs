@@ -1257,7 +1257,7 @@ foreach (int n in new[] { 3, 4, 5 })
     var (mn, mx, bw) = Formulas.F3_RateBounds(n, 0.5);
     Console.WriteLine($"  N={n}: F3 min={mn:0.0}/max={mx:0.0}/bw={bw:0.0}  F4 kernel={Formulas.F4_KernelDim(n)}  F5 depol-err={Formulas.F5_DepolError(n, 0.5):0.000}  F23 XOR-frac={Formulas.F23_XorFraction(n):0.0000}  F50 w1-deg={Formulas.F50_Weight1Degeneracy(n)}");
 }
-Console.WriteLine($"  F33 N=3 exact rates (g=0.5) = [{string.Join(", ", Formulas.F33_N3Rates(0.5).Select(x => x.ToString("0.000")))}]  (<n_XY>=1, 4/3, 5/3)");
+Console.WriteLine($"  F33 N=3 rates (g=0.5, J/g->inf limit; rungs 0,2g,4g,6g exact at every J) = [{string.Join(", ", Formulas.F33_N3Rates(0.5).Select(x => x.ToString("0.000")))}]  (<n_XY>=1, 4/3, 5/3)");
 foreach (int n in new[] { 3, 4, 5 })
 {
     var (qmax, qmin, qmean, qspread) = Formulas.F7_QSpectrum(n, 1.0, 0.5);
@@ -1271,14 +1271,14 @@ Console.WriteLine($"  F15 theta compass at CPsi=0.5: {Formulas.F15_ThetaDeg(0.5)
 Console.WriteLine($"  F34 qubit necessity: d^2-2d=0 -> d in {{{string.Join(", ", Formulas.F34_QubitNecessity())}}} (d=0 nothing, d=2 the qubit, the polarity root)");
 Console.WriteLine($"  D1 BW=8J cos(pi/N) (N=4,J=1) = {Formulas.D1_Bandwidth(4, 1.0):0.000} -> 8J at large N");
 Console.WriteLine($"  D4 crossing rhs (d-1)/2: d=2 -> {Formulas.D4_CrossingRhs(2):0.0}, d=4 -> {Formulas.D4_CrossingRhs(4):0.0}");
-Console.WriteLine($"  D6 gap=2g={Formulas.D6_Gap(0.5):0.0}, mixing time (N=4) <= {Formulas.D6_MixingTime(4, 0.5):0.00};  F38 Pi^2=(-1)^(nY+nZ)=X^N (order 4)");
+Console.WriteLine($"  D6 gap=2g={Formulas.D6_Gap(0.5):0.0}, mixing time (N=4) <= {Formulas.D6_MixingTime(4, 0.5):0.00} (both above Q*_gap(N) only);  F38 Pi^2=(-1)^(nY+nZ)=X^N (order 4)");
 Console.WriteLine($"  F18 fold threshold Sg_crit/J: Bell={Formulas.F18_FoldThresholdBell}, product={Formulas.F18_FoldThresholdProduct}");
 Console.WriteLine($"  F36/F37 neural (Wilson-Cowan): Q J Q + J + 2S = 0, pairing mu+mu'=-(1/tE+1/tI); C.elegans 0.013 vs 0.108 random");
 Console.WriteLine($"  F61 bit_a parity Pi^2_X=Z^N=(-1)^(nX+nY)=(-1)^k (the k-parity H conserves); F63 [L,Pi^2]=0 (conserved, all N)");
 Console.WriteLine($"  F39 det(Pi)=(-1)^(N 4^(N-1)): N=1->{Formulas.F39_DetPi(1)}, N>=2->{Formulas.F39_DetPi(4)};  F41 t_Pi=pi/(4J sin^2(pi/2N)) (N=4) = {Formulas.F41_PalindromicTime(4, 1.0):0.000}");
 Console.WriteLine($"  F49 cross-term R(N)=sqrt((N-2)/(N 4^(N-1))): N=2,3,4 = {Formulas.F49_CrossTerm(2):0.000}, {Formulas.F49_CrossTerm(3):0.0000}, {Formulas.F49_CrossTerm(4):0.0000} (0, 1/sqrt48, 1/sqrt128);  F49b ||L_Dc||^2=g^2 4^N N (N=4,g=0.5) = {Formulas.F49b_CenteredDissipatorNormSq(4, 0.5):0.0}");
 Console.WriteLine($"  F49c shadow-crossing R(N)=sqrt((N-1)/(N 4^(N-1))): N=3,4 = {Formulas.F49c_CrossTermCrossing(3):0.0000}, {Formulas.F49c_CrossTermCrossing(4):0.0000}");
-Console.WriteLine($"  F55 K_death=ln10={Formulas.F55_KDeath:0.000} (99% absorption); immortal modes=N+1={Formulas.F55_ImmortalModes(4)} (N=4);  F56 cusp K(eps=1e-4,tol=1e-12) = {Formulas.F56_CriticalSlowing(1e-4, 1e-12):0.000}");
+Console.WriteLine($"  F55 K_death=ln10={Formulas.F55_KDeath:0.000} (99% absorption, above Q*_gap(N)); immortal modes=N+1={Formulas.F55_ImmortalModes(4)} (N=4);  F56 cusp K(eps=1e-4,tol=1e-12) = {Formulas.F56_CriticalSlowing(1e-4, 1e-12):0.000}");
 Console.WriteLine($"  F57 Bell+ dwell prefactor K_dwell/delta = {Formulas.F57_DwellPrefactorBell} (gamma-independent)");
 Console.WriteLine($"  F60 GHZ_N CPsi(0)=1/(2^N-1): N=2,3,4,5 = {Formulas.F60_GhzCPsi0(2):0.000}, {Formulas.F60_GhzCPsi0(3):0.000}, {Formulas.F60_GhzCPsi0(4):0.000}, {Formulas.F60_GhzCPsi0(5):0.000} (<1/4 for N>=3)");
 Console.WriteLine($"  F62 W_N CPsi(0)=2(N^2-4N+8)/(3N^3): N=2,3,4 = {Formulas.F62_WstateCPsi0(2):0.000}, {Formulas.F62_WstateCPsi0(3):0.000}, {Formulas.F62_WstateCPsi0(4):0.000};  F59 prefactor(W0=1/2,k=2,W2=0.371) = {Formulas.F59_DwellPrefactor(2, 0.5, 0.3709):0.000}");

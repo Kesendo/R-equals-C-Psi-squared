@@ -56,12 +56,18 @@ already dimensionally wrong; the experiment below confirms the consequence quant
 
 ## What the repo already proves (re-confirmed here, all checks pass)
 
-- **Palindrome floor:** the smallest nonzero Liouvillian decay rate is exactly **2γ**
-  ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). So λ₂(L) = 2γ.
-- **Gap is N-independent:** λ₂ = 2γ for every N (verified N = 2…5).
-- **Gap is J-independent:** decay rates are rational multiples of γ, independent of J and
-  topology (`simulations/decay_derivation.py`; J drives the *frequency* channel, γ the *decay*
-  channel). Verified: gap = 2γ for J ∈ 0.5…4.
+- **Palindrome floor:** above an N-dependent coupling threshold Q*_gap(N) in the coupling ratio Q = J/γ the smallest
+  nonzero Liouvillian decay rate is exactly **2γ**, so λ₂(L) = 2γ. Below it the gap is
+  Zeno-suppressed and smaller; see
+  [the Absorption Theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) §4.3.
+  Every number in this document sits above the threshold.
+- **Gap is N-independent above Q*_gap(N):** λ₂ = 2γ for every N (verified N = 2…5). Q*_gap(N) itself
+  grows with N: 0.50, 0.80, 1.34, 1.82 at N = 2…5 on the Heisenberg chain.
+- **Gap is J-independent above the coupling threshold:** verified gap = 2γ for J ∈ 0.5…4 at
+  γ = 0.05, i.e. Q = J/γ ∈ 10…80, one to two orders above the threshold Q*_gap(N) ≲ 1.9. The sweep
+  never crossed the boundary, so it could not see it. Below Q*_gap(N) the gap is Zeno-suppressed
+  and J-dependent; see [the Absorption Theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)
+  §4.3. The τ_max rejection below is unaffected: it argues from the rate scale, which is γ.
 - **Gap is γ-linear:** gap = 2γ for γ ∈ 0.02…0.20.
 
 The only rate scale in the problem is γ. The `ħ/√(λ₂·J²)` form appears nowhere in the repo.
@@ -83,8 +89,14 @@ The relaxation clock is the inverse gap, τ = 1/λ₂ = 1/(2γ). Three facts pin
    eigenvalue is purely imaginary, the gap is exactly 0, and τ = ∞. There is no decay clock:
    only Hamiltonian oscillation at frequencies set by J. γ is what makes time *tick*.
    (This is the repo's own thesis: [γ = source of experienced time](../docs/GAMMA_TIME_DISTINCTION.md).)
-2. **J is frequency, not rate.** The decay spectrum is J-independent (proven). So no relaxation
-   timescale can depend on J. The formula's 1/J is spurious.
+2. **J is frequency, not rate, in this regime.** Above Q*_gap(N) the gap does not move with J, so
+   no relaxation timescale set by the gap can depend on J there, and the formula's 1/J is
+   spurious. (Below Q*_gap(N) the spectral gap does depend on J, approaching
+   2(1−cos(π/N))·2J²/γ as J/γ → 0, the prefactor being N-dependent and equal to 1 only at
+   N=3. That regime does not rescue τ_max, since the dependence has the wrong sign and
+   power. It also does not touch the clock: the modes that fall below 2γ are population
+   modes, and every coherence keeps its 2γ floor at any coupling, so τ = 1/(2γ) as a
+   coherence lifetime stands regardless.)
 3. **The scale is purely γ.** τ = 1/(2γ): halve γ, double the clock.
 
 ---
@@ -127,8 +139,8 @@ and γ-power −1 to match the clock; it has −1 and −½.
 ## Verdict
 
 τ_max = ħ/√(λ₂·J²) is **rejected as a law**. The relaxation timescale is the inverse spectral
-gap, **τ = 1/λ₂ = 1/(2γ)**, set by γ alone, N-independent, J-independent, and divergent at
-γ = 0 (the clock stops without dephasing). The formula's two errors are quantitative and clean:
+gap, **τ = 1/λ₂ = 1/(2γ)** above Q*_gap(N), set by γ alone there, N-independent, J-independent,
+and divergent at γ = 0 (the clock stops without dephasing). The formula's two errors are quantitative and clean:
 
 - **Wrong functional form:** 1/√λ₂ gives a γ-power of −½; the true timescale 1/λ₂ has γ-power −1.
 - **Spurious coupling dependence:** a J-power of −1, where the true clock is J-independent
@@ -168,7 +180,8 @@ python simulations/tau_max_spectral_gap.py          # sweep + power-law fits + v
 python simulations/tau_max_spectral_gap_verify.py   # asserts the invariants and the gamma-clock
 ```
 
-The verify script confirms: gap = 2γ exactly; gap J-independent (J 0.5…4) and γ-linear
+The verify script confirms, at γ = 0.05 and J ∈ 0.5…4, i.e. Q = 10…80, one to two orders
+above every Q*_gap(N): gap = 2γ exactly; gap J-independent over that range and γ-linear
 (γ 0.02…0.20); gap = 0 at γ = 0 (clock stops); clock = 1/(2γ) is N- and J-independent;
 clock γ-power = −1 while the formula's is −½ and its J-power is −1; and the palindrome pairing
 rᵢ + r₍ₙ₋₁₋ᵢ₎ = 2Nγ holds across the full rate multiset.

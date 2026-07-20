@@ -618,7 +618,7 @@ public sealed class Symphony : IInspectable
     }
 
     /// <summary>clock — the Taktgeber, promoted to the base symphony (always present). The global clock
-    /// off the shared L spectrum: Takt gap (= 2γ floor for a dephasing chain), τ = 1/gap (the longest
+    /// off the shared L spectrum: Takt gap (= 2γ floor for a dephasing chain above Q*_gap(N)), τ = 1/gap (the longest
     /// breath, mirroring MirrorSystem.TaktReading), ω_mem, and the inside-visible dial Q = J/γ.</summary>
     private InspectableNode ClockNode()
     {
@@ -627,7 +627,7 @@ public sealed class Symphony : IInspectable
         string tauStr = double.IsInfinity(tau) ? "∞" : tau.ToString("0.###", Inv);
         return new InspectableNode("clock",
             summary: $"the global clock (the inside-visible time): Takt gap (slowest nonzero decay rate) = " +
-                     $"{gap.ToString("0.#####", Inv)} (= 2γ floor for a dephasing chain), τ = 1/gap = {tauStr} " +
+                     $"{gap.ToString("0.#####", Inv)} (= 2γ floor for a dephasing chain above Q*_gap(N)), τ = 1/gap = {tauStr} " +
                      $"(the longest breath); ω_mem (max |Im λ| at the gap) = {omega.ToString("0.#####", Inv)}; " +
                      $"Q = J/γ = {(J / Gamma).ToString("0.###", Inv)} (the only dial the inside can read).",
             children: new IInspectable[]
@@ -1387,7 +1387,7 @@ public sealed class PaintersMovement : IInspectable
     private InspectableNode ClockNode() =>
         new InspectableNode("clock",
             summary: $"global clock from the shared L_A spectrum: Takt gap (slowest nonzero decay rate) = " +
-                     $"{_taktGap.ToString("0.#####", Inv)} (= 2γ floor for a dephasing chain), " +
+                     $"{_taktGap.ToString("0.#####", Inv)} (= 2γ floor for a dephasing chain above Q*_gap(N)), " +
                      $"ω_mem (max |Im λ| at the gap) = {_omegaMem.ToString("0.#####", Inv)}.",
             children: new IInspectable[]
             {
@@ -1590,6 +1590,10 @@ public sealed class SeamMovement : IInspectable
         _xyOk = p.HType == HamiltonianType.XY;
 
         // γ-anchor: the dephasing floor gap = 2γ₀ ⟹ γ₀_rec = gap/2 (normalization-free).
+        // PRECONDITION: gap = 2γ₀ holds only above the D6 coupling threshold Q*_gap(N) in Q = J/γ
+        // (0.50, 0.80, 1.34, 1.82 at N = 2..5 on the Heisenberg chain, Pauli-J units).
+        // Below it the gap is Zeno-suppressed and this inversion returns a γ₀ that is too
+        // small. See PROOF_ABSORPTION_THEOREM.md §4.3.
         _gammaRec = gap / 2.0;
 
         // The shared regime flag (BandEdgeIsTheGapMode, inlined on the parent spectrum). N=2 uses the

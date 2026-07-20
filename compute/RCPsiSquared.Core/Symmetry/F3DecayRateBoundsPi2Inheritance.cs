@@ -26,8 +26,11 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         2·N·γ, above the max range. Identical to F43's XorSectorRate.</item>
 /// </list>
 ///
-/// <para><b>Caveat resolved (Hamiltonian mixing):</b> at N ≥ 4, Hamiltonian
-/// mixing creates hybrid modes with rates BELOW 2γ (N=4: 0.98γ, N=5: 0.62γ).
+/// <para><b>Caveat resolved (Hamiltonian mixing):</b> below the coupling
+/// threshold Q*_gap(N) (0.50/0.80/1.34/1.82 at N = 2..5, Pauli-J, Heisenberg
+/// chain), Hamiltonian mixing creates hybrid modes with rates BELOW 2γ
+/// (at Q = 1.0: N=4: 0.98γ, N=5: 0.62γ); this happens at every N including
+/// N=3, what grows with N is the threshold.
 /// These are not exceptions; they are mixed-sector modes with fractional
 /// ⟨n_XY⟩ &lt; 1; the Absorption Theorem α = 2γ·⟨n_XY⟩ holds exactly even for
 /// non-integer ⟨n_XY⟩. The "min rate = 2γ" bound applies to PURE-sector modes
@@ -174,11 +177,11 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("F43 sibling (XOR boundary)",
                 summary: "F3's XOR boundary 2Nγ IS F43's XorSectorRate(N, γ); both anchor the same a_0·N·γ structure at the high end of the rate spectrum");
             yield return new InspectableNode("hybrid-mode caveat",
-                summary: "at N ≥ 4 Hamiltonian mixing creates hybrid modes with rates below 2γ (N=4: 0.98γ, N=5: 0.62γ); these are not exceptions; they have fractional ⟨n_XY⟩ < 1; α = 2γ·⟨n_XY⟩ holds exactly");
+                summary: "below Q*_gap(N) (0.50/0.80/1.34/1.82 at N=2..5, Pauli-J) Hamiltonian mixing creates hybrid modes with rates below 2γ (at Q=1.0: N=4: 0.98γ, N=5: 0.62γ); these are not exceptions; they have fractional ⟨n_XY⟩ < 1; α = 2γ·⟨n_XY⟩ holds exactly");
             yield return new InspectableNode("verified at N=5, γ=0.05",
                 summary: $"min = {MinRate(0.05):G6}, max = {MaxRate(5, 0.05):G6}, bandwidth = {Bandwidth(5, 0.05):G6}, XOR = {XorBoundary(5, 0.05):G6}");
             yield return new InspectableNode("Absorption Theorem ladder",
-                summary: "the spectrum is a 2γ-rung ladder: ⟨n_XY⟩ ∈ {1, 2, ..., N−1, N} gives rates {2γ, 4γ, ..., 2(N−1)γ, 2Nγ}; Hamiltonian smooths the ladder via fractional ⟨n_XY⟩ but cannot change endpoints or rung spacing");
+                summary: "the spectrum is a 2γ-rung ladder: ⟨n_XY⟩ ∈ {1, 2, ..., N−1, N} gives rates {2γ, 4γ, ..., 2(N−1)γ, 2Nγ}; Hamiltonian smooths the ladder via fractional ⟨n_XY⟩ but cannot move the spectral extremes (the kernel at 0 and the XOR drain at 2Nγ); the band edges 2γ/2(N−1)γ hold above Q*_gap(N)");
         }
     }
 }

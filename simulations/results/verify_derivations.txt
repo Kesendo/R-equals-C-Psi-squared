@@ -157,40 +157,46 @@ D5: Oscillating modes = 4^N - (N+1) - Stat(N)
   D5 STATUS: VERIFIED
 
 ============================================================
-D6: Spectral gap = 2*gamma (smallest nonzero decay rate)
-    Mixing time <= N*ln(4) / (2*gamma)
+D6: Spectral gap = 2*gamma  (only where Q = J/gamma > Q*_gap(N))
+    Mixing time <= N*ln(4) / (2*gamma), same condition
 ============================================================
+
+  Coupling ratio Q = J/gamma = 20.0000
 
   N=2:
     Spectral gap:     0.1000000000
     Expected 2*gamma: 0.1000000000
     Deviation:        3.61e-16
     Mixing time bound: 27.7259
+    Q*_gap(2) = 0.5000 -> above threshold, 2*gamma expected
 
   N=3:
     Spectral gap:     0.1000000000
     Expected 2*gamma: 0.1000000000
     Deviation:        1.40e-15
     Mixing time bound: 41.5888
+    Q*_gap(3) = 0.8002 -> above threshold, 2*gamma expected
 
   N=4:
     Spectral gap:     0.1000000000
     Expected 2*gamma: 0.1000000000
     Deviation:        6.00e-15
     Mixing time bound: 55.4518
+    Q*_gap(4) = 1.3422 -> above threshold, 2*gamma expected
 
   N=5:
     Spectral gap:     0.1000000000
     Expected 2*gamma: 0.1000000000
     Deviation:        9.12e-15
     Mixing time bound: 69.3147
+    Q*_gap(5) = 1.8194 -> above threshold, 2*gamma expected
 
-  D6 STATUS: VERIFIED
+  D6 STATUS: VERIFIED for N in [2, 3, 4, 5] at Q = 20.00
 
 ============================================================
 BONUS: Weight-sector rate structure (formula 33 check)
   Expected: rates at 2*w*gamma for each weight w
-  Formula 33 claims: {2g, 8g/3, 10g/3} for N=3
+  Formula 33 claims: {2g, 8g/3, 10g/3} for N=3 (the latter two are a J/g -> inf limit)
 ============================================================
 
   N=2: distinct rates (rounded to 6 decimals):

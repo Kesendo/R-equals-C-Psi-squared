@@ -458,11 +458,19 @@ def verify_D5(out, J=1.0):
 # ==================================================================
 # D6: Spectral gap = 2*gamma (from formulas 1 + 3)
 # ==================================================================
+# Measured by bisection, see simulations/absorption_ladder_regimes.py.
+# Below Q*_gap, the gap is Zeno-suppressed and 2*gamma is simply the wrong value,
+# so a run that never crosses Q*_gap cannot see the boundary at all.
+D6_Q_THRESHOLD = {2: 0.500000, 3: 0.800243, 4: 1.342243, 5: 1.819350}
+
+
 def verify_D6(out, J=1.0, gamma=0.05):
     out.append("=" * 60)
-    out.append("D6: Spectral gap = 2*gamma (smallest nonzero decay rate)")
-    out.append("    Mixing time <= N*ln(4) / (2*gamma)")
+    out.append("D6: Spectral gap = 2*gamma  (only where Q = J/gamma > Q*_gap(N))")
+    out.append("    Mixing time <= N*ln(4) / (2*gamma), same condition")
     out.append("=" * 60)
+    Q = J / gamma
+    out.append(f"\n  Coupling ratio Q = J/gamma = {Q:.4f}")
 
     all_ok = True
     for N in range(2, 6):
@@ -484,11 +492,45 @@ def verify_D6(out, J=1.0, gamma=0.05):
         out.append(f"    Deviation:        {err:.2e}")
         out.append(f"    Mixing time bound: {mix_time:.4f}")
 
-        if err > 1e-6:
-            all_ok = False
-            out.append(f"    *** GAP MISMATCH > 1e-6 ***")
+        above = Q > D6_Q_THRESHOLD[N]
+        out.append("    Q*_gap({}) = {:.4f} -> {}".format(
+            N, D6_Q_THRESHOLD[N],
+            "above threshold, 2*gamma expected" if above
+            else "BELOW threshold: Zeno regime, 2*gamma NOT expected"))
 
-    status = "VERIFIED" if all_ok else "FAILED"
+        if above and err > 1e-6:
+            all_ok = False
+            out.append(f"    *** GAP MISMATCH > 1e-6 ABOVE THRESHOLD ***")
+        elif not above:
+            # The Zeno form is a Q -> 0 ASYMPTOTE, not a law across (0, Q*_gap).
+            # Only check it where it is supposed to hold; elsewhere say so.
+            zeno = 2 * (1 - np.cos(np.pi / N)) * 2 * J * J / gamma
+            ratio = gap / zeno
+            # The approach to the asymptote is N-dependent: at Q = 0.2 the ratio is
+            # already 1.0436 at N=2 while still 1.0103 at N=3. Gate at Q <= 0.1,
+            # where every N tested sits within 2%.
+            if Q <= 0.1:
+                out.append(f"    Zeno asymptote:   {zeno:.10f}   ratio {ratio:.4f}")
+                if abs(ratio - 1.0) > 0.02:
+                    all_ok = False
+                    out.append("    *** ZENO ASYMPTOTE MISMATCH > 2% AT Q <= 0.1 ***")
+            else:
+                out.append(f"    Zeno asymptote:   {zeno:.10f}   ratio {ratio:.4f}"
+                           "  (crossover: no closed form, not checked)")
+
+    tested = [N for N in range(2, 6) if Q > D6_Q_THRESHOLD[N]]
+    if not tested:
+        # Nothing was in scope. That is NOT a pass: return False so the summary
+        # cannot render a run that checked nothing as VERIFIED.
+        all_ok = False
+        status = "NOT APPLICABLE (Q below every threshold; nothing tested)"
+    elif all_ok:
+        untested = [N for N in range(2, 6) if Q <= D6_Q_THRESHOLD[N]]
+        status = f"VERIFIED for N in {tested} at Q = {Q:.2f}"
+        if untested:
+            status += f" (N in {untested} below threshold, gap != 2*gamma there)"
+    else:
+        status = "FAILED"
     out.append(f"\n  D6 STATUS: {status}\n")
     return all_ok
 
@@ -500,7 +542,7 @@ def check_formula_33(out, J=1.0, gamma=0.05):
     out.append("=" * 60)
     out.append("BONUS: Weight-sector rate structure (formula 33 check)")
     out.append("  Expected: rates at 2*w*gamma for each weight w")
-    out.append("  Formula 33 claims: {2g, 8g/3, 10g/3} for N=3")
+    out.append("  Formula 33 claims: {2g, 8g/3, 10g/3} for N=3 (the latter two are a J/g -> inf limit)")
     out.append("=" * 60)
 
     for N in range(2, 6):

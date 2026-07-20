@@ -132,7 +132,7 @@ information from one place to another through a noisy network.
 | **F_avg** | Average fidelity of the transferred state, averaged over all pure input states. Our best: F_avg = 0.886 (star, 2:1 coupling). |
 | **Holevo capacity** | Maximum classical information transmittable per channel use. Our star channel: χ = 0.534 bits. |
 | **2:1 coupling** | Optimal coupling ratio J_SB/J_SA = 2 for star-topology QST. Asymmetric. Not intuitive. Outperforms symmetric 1:1. |
-| **Echo** | Entanglement oscillation in the SA pair. Period ~π/(4J). Envelope decays at 8γ/3. Peak C_SB = 0.598 (N=3). Scales as ~1/(N-1). |
+| **Echo** | Entanglement oscillation in the SA pair. Period ~π/(4J). Envelope decays at 8γ/3 (the J/γ → ∞ value; a band at moderate coupling, F33). Peak C_SB = 0.598 (N=3). Scales as ~1/(N-1). |
 
 **In plain language:**
 
@@ -212,6 +212,8 @@ The relation is **q = Q/2** (equivalently J_F89 = J_F86/2; the F90 bridge relabe
 
 **Worked example, so the trap is concrete:** the octic diabolic degeneracy sits at q_EP ≈ 0.659 in octic units (`F89Path3OcticEpClaim`). In carrier-clock units that is 2 × 0.659 = 1.318, i.e. between the coherence-horizon rungs Q*(2) = 1 and Q*(3) = √2, **not** below 1. Convert (halve a Q, or double a q) before putting an octic q and a horizon Q on one axis.
 
+**Two thresholds on this axis, not one:** the coherence horizon **Q\*(N)** (1, √2, 1.8787, 2.3737 in carrier-clock units; the single-excitation EP where the longest-lived mode changes character, `CoherenceHorizonClaim`) and the gap threshold **Q\*_gap(N)** (the coupling below which the spectral gap drops under 2γ: a |Δpopcount| = 0 population mode is Zeno-suppressed below the 2γ floor, while every coherence sector keeps its rung at every coupling). Q\*_gap is bisected in **Pauli-J units** (H = J·Σ(XX+YY+ZZ)): Heisenberg chain 0.5000 / 0.8002 / 1.3422 / 1.8194 at N = 2..5, XY chain 0.5000 / 0.7071 / 0.9393 / 1.1861, so it belongs to the Hamiltonian, not to N alone. Converted to carrier units (×2), the XY gap threshold matches the horizon to bisection precision at N = 2 and N = 3 (1.000000 and 1.414214, i.e. 1 and √2 to six places) and separates measurably from N = 4 on (1.878541 vs 1.87874, then 2.372175 vs 2.37367). The coincidence at low N is where both reduce to the same clean 2×2 block; no proof that they must agree there is on file, so treat the N = 2, 3 agreement as observed, not as an identity. Sources: [D06](proofs/derivations/D06_SPECTRAL_GAP.md), [Absorption Theorem proof §4.3](proofs/PROOF_ABSORPTION_THEOREM.md), [`absorption_ladder_regimes.py`](../simulations/absorption_ladder_regimes.py).
+
 **Two more uses of the same letter, not this ratio:** lowercase q is also the right-popcount index in a "(p,q)-block" (the coherences between popcount-p and popcount-q basis states, an integer sector label). And the literature's quality factor Q is a different quantity again ("different objects, same letter").
 
 **In plain language:** q and Q both ask "how strong is the coherent coupling compared to the watching?" One book (the F89 octic) counts the coupling at double strength, so its number is half. Halve a Q, or double a q, before you compare the two.
@@ -271,9 +273,9 @@ They are not arbitrary; each one comes from the mathematics.
 | **1/4** | Discriminant of the fixed-point equation. Below 1/4: real fixed points exist. Above: complex. Algebraically exact within the iteration. |
 | **~1.466** | J_SB/J_SA threshold for AB crossing at γ = 0.05 (star topology). |
 | **1/3** | CΨ of a maximally entangled Bell pair (C = 1, Ψ = 1/3). |
-| **2γ** | Decay rate of the c+ supermode (even, slow). Topology-independent for N=3. |
-| **8γ/3** | Decay rate of the concurrence envelope. Topology-independent for N=3. |
-| **10γ/3** | Decay rate of the c- supermode (odd, fast). Topology-independent for N=3. |
+| **2γ** | Decay rate of the c+ supermode (even, slow). The 2γ rung exists at every coupling; it is the *slowest* nonzero rate only above the threshold Q*_gap(N). |
+| **8γ/3** | Concurrence-envelope decay rate at N=3, in the J/γ → ∞ limit; at finite coupling a three-level band (F33). |
+| **10γ/3** | Decay rate of the c- supermode (odd, fast) at N=3, same J/γ → ∞ limit as 8γ/3 (F33). |
 | **-2Σγ** | Location of XOR modes (maximum decay rate). Always N+1 modes here. |
 | **0.886** | Best average fidelity for QST (star topology, J_SB/J_SA = 2:1, γ = 0.05). |
 | **0.039/γ** | Approximate crossing time t_cross for Bell+ under Heisenberg+dephasing. |

@@ -185,7 +185,7 @@ The QST framework gives us:
 
 What we add to their framework:
 - The palindromic spectral theorem (new, proven)
-- The component-wise decay diagnostics (at N=3: C~2γ, Ψ~10γ/3, Conc~8γ/3; only the boundary rate 2γ stays universal at N≥4, the internal 8γ/3 and 10γ/3 are N=3-specific, F33)
+- The component-wise decay diagnostics (at N=3: C~2γ, Ψ~10γ/3, Conc~8γ/3; the pure-weight rungs 2wγ stay universal at N>=4, and 2γ is the slowest of them only above the coupling threshold Q*_gap(N), the internal 8γ/3 and 10γ/3 are N=3-specific, F33)
 - The θ compass as channel quality indicator (r=0.87 with fidelity)
 - The topology gating result (same state, different graph = different transfer)
 - The antiferromagnet crossing discovery (|+-+-⟩ activates ring neighbors)

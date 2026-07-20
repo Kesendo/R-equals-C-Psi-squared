@@ -16,8 +16,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///     Re(λ_α) = −2 · γ₀ · ⟨n_XY⟩(σ_α)
 ///
 ///   where ⟨n_XY⟩ = number of sites k where σ_α has factor X or Y. The
-///   absorption quantum is 2γ₀; spectrum lives on the grid {0, −2γ₀, −4γ₀,
-///   ..., −2N·γ₀}. Maximum rate (full XOR mode) = 2γ₀·N.
+///   absorption quantum is 2γ₀. Pure-weight modes sit on the grid
+///   {0, −2γ₀, −4γ₀, ..., −2N·γ₀}; modes that the Hamiltonian mixes across
+///   weight sectors carry non-integer ⟨n_XY⟩ and sit BETWEEN the rungs
+///   (F33's 4/3 and 5/3 at N=3). The maximum rate 2γ₀·N is attained within
+///   the number-conserving XY/Heisenberg family, not for a generic
+///   Hermitian H.
 /// </code>
 ///
 /// <para>Per-coherence reading on computational-basis density-matrix entries:
@@ -35,7 +39,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// depends only on the dissipator. L_H = −i[H, ·] is anti-Hermitian for every
 /// Hermitian H (H^T = H*, no reality assumption), so it contributes zero to
 /// Re(λ) via the Rayleigh quotient and drops out. Holds for complex Hermitian H
-/// (Dzyaloshinskii-Moriya, Y/transverse terms), not just real symmetric — verified
+/// (Dzyaloshinskii-Moriya, Y/transverse terms), not just real symmetric, verified
 /// bit-exact against a random complex Hermitian H, with Herm(L) = (L+L†)/2 the
 /// identical pure Z-dephasing dissipator for both (simulations/popcount_identity_h_independence.py).
 /// Closes the former "real Hermitian only" caveat in PROOF_ABSORPTION_THEOREM.md.</para>

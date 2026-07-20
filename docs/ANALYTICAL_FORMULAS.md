@@ -312,7 +312,9 @@ in absorption rate. The spectrum is a ladder with rung spacing 2γ. The
 Hamiltonian smooths the ladder (⟨n_XY⟩ can be non-integer) but cannot
 change the endpoints or the fundamental quantum.
 
-**F3, F8, F33, and D6 are corollaries** of this theorem.
+**F3, F8 and F33 are corollaries** of this theorem. D6 is NOT: the gap needs a
+lower bound on <n_XY> that the theorem does not supply (see D6, and
+PROOF_ABSORPTION_THEOREM.md section 4.3).
 The palindromic sum rule (α_fast + α_slow = 2Σγ) follows from combining
 this theorem with the palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N).
 
@@ -324,9 +326,13 @@ any N; non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × \[σ_k ∈ {X,Y
 which add a non-diagonal part to L_D and shift the rate (see F82, F84). No
 Hamiltonian, real or complex, breaks it; the genuine boundary is the dissipator
 (caveat closed 2026-05-28, bit-exact against a random complex Hermitian H).
-**Replaces:** eigenvalue range computation; palindromic sum rule verification;
-spectral gap derivation; unpaired mode rate identification.
-**Verified:** 1,342 modes, N=2-5, γ=0.01-1.0, J=0.1-5.0, CV = 0.0000.
+**Replaces:** nothing computationally, since <n_XY> is read off the eigenvector; what it replaces is the separate derivation of the palindromic sum rule and
+unpaired mode rate identification. It does NOT replace the spectral gap
+derivation: see D6, the gap needs a lower bound on <n_XY> that the theorem
+does not supply.
+**Verified:** 1,342 modes at J=1.0, γ=0.05, pooled over N=2-5, ratio 1.000000,
+CV = 0.0000; plus a γ sweep (0.01-1.0) at N=3 and a J sweep (0.1-5.0) at the
+pair level. The three sweeps are separate runs, not a cross product.
 **Source:** [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md),
 [Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md)
 
@@ -341,13 +347,33 @@ the smallest nonzero ⟨n_XY⟩ ≈ 1 (pure weight-1 modes). Max = 2(N-1)γ
 for the fastest paired modes (⟨n_XY⟩ ≈ N-1). The XOR drain at 2Nγ
 (⟨n_XY⟩ = N) sits above this range.
 
-**Caveat resolved:** At N ≥ 4, Hamiltonian mixing creates hybrid modes
-with rates below 2γ (N=4: 0.98γ, N=5: 0.62γ). These are NOT exceptions:
-they are mixed-sector modes with fractional ⟨n_XY⟩ < 1. The Absorption
-Theorem holds exactly for these modes; the rate 2γ⟨n_XY⟩ is correct
-for non-integer ⟨n_XY⟩ ([Proton Water Chain](water/PROTON_WATER_CHAIN.md)).
+**The band edges are regime-dependent.** Below an N-dependent threshold in the
+coupling ratio Q = J/γ, Hamiltonian mixing creates hybrid modes with rates
+below 2γ. This happens at every N including N=3, not only at N >= 4; what grows
+with N is the threshold. Located by bisection, Q*_gap = 0.5000 (N=2), 0.8002 (N=3), 1.3422 (N=4),
+1.8194 (N=5), so at the canonical Q = 1.5 the erosion first appears at N=5.
+Min nonzero rate in units of γ:
 
-**Valid for:** Heisenberg chain, uniform Z-dephasing, all N.
+    Q      N=3      N=4      N=5
+    0.5    0.539    0.272    0.177
+    1.0    2.000    0.978    0.617
+    1.5    2.000    2.000    1.275
+    2.0    2.000    2.000    2.000
+
+These are NOT exceptions: they are mixed-sector modes with fractional
+⟨n_XY⟩ < 1, and the Absorption Theorem holds exactly for them, the rate
+2γ⟨n_XY⟩ being correct for non-integer ⟨n_XY⟩
+([Proton Water Chain](water/PROTON_WATER_CHAIN.md)). Modes leave the band
+in palindromic pairs, so it erodes symmetrically and the full spectral
+width 2Nγ is untouched: at N=5, Q=1.5 the extreme GENERIC-BAND rates are
+1.2754γ and 8.7246γ, a palindromic pair summing to 2Nγ. The spectral extremes
+themselves are still the kernel at 0 and the XOR drain at 2Nγ, both multiplicity
+N+1, and those do not move.
+
+**Verified:** [`simulations/absorption_ladder_regimes.py`](../simulations/absorption_ladder_regimes.py)
+
+**Valid for:** Heisenberg chain, uniform Z-dephasing, all N, with the band
+edges holding only above the coupling threshold Q*_gap(N) given above.
 **Replaces:** eigenvalue range computation.
 **Source:** [README](../README.md),
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md)
@@ -410,32 +436,60 @@ sector has measure zero.
 irrelevant at macroscopic scale.
 **Source:** [N->infinity Palindrome](../experiments/N_INFINITY_PALINDROME.md)
 
-### F33. N=3 exact intermediate decay rates (Tier 1, exact rational)
+### F33. The N=3 rate ladder (Tier 1 for the pure-weight rungs; the two fractional rates are a J/gamma -> infinity limit)
 
-    rate_1 = 2*gamma       (w=1, pure single-site coherence)
-    rate_2 = 8*gamma/3     (w=2 mixed, Hamiltonian superposition)
-    rate_3 = 10*gamma/3    (w=2 mixed, Hamiltonian superposition)
+The N=3 Heisenberg chain has two kinds of decay rate, and they must not be
+quoted the same way.
 
-Three distinct rates for the N=3 Heisenberg chain. The Hamiltonian
-mixes w=1 and w=2 Pauli strings into supermodes with exact rational
-decay rates. At N=3 these three rates plus the extremes (0 and
-6*gamma) fully determine the spectrum. At N >= 4, internal rates
-become topology-dependent (only the boundary rates 2*gamma and
-2*(N-1)*gamma remain universal).
+**Exact at every J** (the pure-weight rungs, multiplicities out of 64):
 
-**Absorption Theorem interpretation:** The fractional rates correspond
-to fractional ⟨n_XY⟩ from Hamiltonian mixing:
+    rate = 0        <n_XY> = 0   mult 4    (the F4 kernel)
+    rate = 2*gamma  <n_XY> = 1   mult 14   (pure weight-1)
+    rate = 4*gamma  <n_XY> = 2   mult 14   (pure weight-2)
+    rate = 6*gamma  <n_XY> = 3   mult 4    (the XOR drain)
 
-    rate_1 = 2*gamma     -> <n_XY> = 1    (pure weight-1)
-    rate_2 = 8*gamma/3   -> <n_XY> = 4/3  (mix of w=1 and w=2)
-    rate_3 = 10*gamma/3  -> <n_XY> = 5/3  (mix of w=1 and w=2)
+**A strong-coupling limit only:**
 
-The theorem α = 2γ⟨n_XY⟩ holds exactly, including for non-integer ⟨n_XY⟩.
+    rate_2 -> 8*gamma/3    <n_XY> -> 4/3   (cross-sector mix)
+    rate_3 -> 10*gamma/3   <n_XY> -> 5/3   (cross-sector mix)
 
-**Valid for:** N=3 Heisenberg chain, Z-dephasing.
-**Replaces:** Liouvillian diagonalization for N=3 decay rates.
+The mixing is parity-preserving (XX+YY+ZZ moves weight in steps of two): the
+8*gamma/3 cluster resolves into a w=0/w=2 family and a w=1/w=3 family, NOT a
+w=1/w=2 mixture: the parity operator (-1)^n_XY commutes with L at every J, so
+Delta_w = 1 is forbidden. Its weight shares are (5, 5, 10, 1)/21 in the SAME
+J -> infinity limit as the rate (at Q = 1.5 they are 5.31, 5.31, 9.69, 0.69 and
+<n_XY> = 1.2745, not 4/3); this is forced, since <n_XY> = rate/(2*gamma).
+
+Each of these is a *triple* of distinct levels at finite coupling, merging only
+as J/gamma -> infinity, the lowest level approaching its limit as
+0.46*(gamma/J)^2 and the band's spread closing as 0.53*(gamma/J)^2. Each band
+carries multiplicity 14, so the ladder closes at 36 + 28 = 64. In the canonical
+regime Q = 1.5 the "8*gamma/3" band is in fact 2.4607, 2.6040, 2.6980 gamma, up
+to 7.7% away from 8/3. Cite 8*gamma/3 and 10*gamma/3 as a limit, never as exact
+rational rates.
+
+**Verified:** [`simulations/absorption_ladder_regimes.py`](../simulations/absorption_ladder_regimes.py)
+(asserts every number above; Pauli-J normalization, H = J·Σ(XX+YY+ZZ) with unit
+coefficient, the finite-coupling rates quoted at Q = J/γ = 1.5).
+
+The reason sits in the Absorption Theorem: a mode's rate is 2*gamma*<n_XY>, and
+for a mode that mixes across weight sectors the mixing weights themselves depend
+on J, so its <n_XY> does too. A mode sitting on a single weight sector has
+nothing to mix, which is exactly why the pure-weight rungs are J-independent.
+The theorem holds exactly in both cases, including for non-integer <n_XY>.
+
+Topology-dependence starts already at N=3, not at N >= 4: on the triangle the
+2.4607 level is absent and even the pure-rung multiplicities differ from the
+chain's (4, 16, 16, 4 vs 4, 14, 14, 4), which bears on F50's K_3 anomaly. Only
+the rung POSITIONS 2*gamma*n are topology-free; see F3's caveat for where even
+the band edges erode.
+
+**Valid for:** N=3 Heisenberg chain, Z-dephasing; the rung positions 2γ·n at
+every coupling, the interior values 8γ/3 and 10γ/3 in the J/γ → ∞ limit only.
+**Replaces:** Liouvillian diagonalization for the N=3 rung positions; for the
+interior levels only in the strong-coupling limit.
 Two independent information channels (frequency vs decay) are
-perfectly orthogonal at N=3.
+perfectly orthogonal at N=3 in that limit.
 **Source:** [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md)
 
 ### F50. Weight-1 degeneracy / conserved operator count (Tier 1 lower bound proven; Tier 2 verified chain N=2-7 with K_3 N=3 anomaly)
@@ -1024,18 +1078,30 @@ N=3: 36.  N=5: 898.  Fraction --> 1 exponentially.
 **Caveat:** exact at gamma -> 0 only. At finite gamma, the
 Hamiltonian mixes weight-parity sectors (w with w +/- 2).
 
-### D6. Spectral gap and mixing time (from Absorption Theorem) [VERIFIED]
+### D6. Spectral gap and mixing time [gap VERIFIED above Q*_gap(N); mixing-time bound quoted, not verified]
 
-    Spectral gap = 2*gamma    (minimum non-zero decay rate)
-    Mixing time  <= N*ln(4) / (2*gamma)
+    Spectral gap = 2*gamma            (Q = J/gamma above Q*_gap(N) only)
+    Mixing time  <= N*ln(4) / (2*gamma)   (same condition)
 
-**Immediate from Absorption Theorem:** the smallest nonzero ⟨n_XY⟩ for
-any eigenmode is bounded below by the weight-1 contribution. For modes
-dominated by single-site coherences: ⟨n_XY⟩ → 1, giving gap = 2γ × 1.
-The spectral gap is the cost of one X/Y Pauli factor: one absorption
-quantum.
+**Not immediate from the Absorption Theorem.** The theorem gives
+gap = 2γ · min{⟨n_XY⟩ > 0} and places NO lower bound on that minimum, so
+it does not by itself yield 2γ. Above an N-dependent threshold the slowest
+non-kernel modes do sit on pure weight-1 strings, ⟨n_XY⟩ is exactly 1, and
+the gap is exactly 2γ (deviation < 1e-14): the cost of one X/Y Pauli factor.
+Q*_gap(N) = 0.5000, 0.8002, 1.3422, 1.8194 at N = 2, 3, 4, 5.
 
-Deviation < 1e-14 for all N tested.
+Below the threshold the gap is Zeno-suppressed, approaching as Q → 0
+
+    gap -> 2*(1 - cos(pi/N)) * 2*J^2/gamma
+
+(an asymptote, good to ~1% only for Q ≲ 0.1, not a second closed form
+covering (0, Q*_gap); see D06)
+
+At N=3, γ=0.3, J=0.001 the gap is 1.1e-5 of 2γ, five orders below the value
+above. The mixing-time bound inverts the gap and fails with it in that regime.
+See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) §4.3.
+
+**Verified:** [`simulations/absorption_ladder_regimes.py`](../simulations/absorption_ladder_regimes.py)
 
 ### D7. Q-factor distribution (from F2 + F7) [VERIFIED]
 
@@ -1377,23 +1443,39 @@ anywhere in the repository history. They are left unassigned rather than
 reused, so that every F-number stays stable across the repository's
 cross-references.*
 
-### F55. Universal absorption dose K_death (Tier 1, proven from D6)
+### F55. Absorption dose K_death (Tier 1 above Q*_gap(N), from D6)
 
     K_death = ln(10) = 2.303    (dose for 99% absorption)
-    K_death / K_fold ~ 2.3      (ratio to CΨ = ¼ crossing dose)
+    K_death / K_fold ~ 62       (ratio to CΨ = ¼ crossing dose)
     Immortal modes = N + 1      (zero absorption rate, all N)
+
+K_fold is the dose K = gamma*t at which CPsi crosses 1/4, read off the F25
+closed form for CPsi(t): f*(1 + f*^2) = 3/2 gives CPsi = 1/4 exactly, at
+K_fold = 0.03735. So K_death / K_fold = 2.302585 / 0.03735 = 61.65. The fold
+is EARLY and the death dose is nearly two orders later, which is the point:
+CPsi crosses 1/4 long before the slowest mortal mode is spent.
+**Scope of the ratio:** K_death is N-, gamma- and topology-independent, but
+K_fold is F25's, whose validity line is Bell+ under Z-dephasing at N=2. So the
+ratio is a Bell+ number; it is the dose scale of THAT initial state measured
+against a universal death dose, not an N-independent constant.
 
 **Derivation:** 99% absorption of the slowest mortal mode means
 e^{−rate_min · t} = 0.01, so rate_min · t = ln(100). By formula D6:
 rate_min = 2γ (spectral gap). Therefore t = ln(100)/(2γ), and
-K = γ · t = ln(100)/2 = ln(10) = 2.303. Independent of N, γ,
-topology. QED.
+K = γ · t = ln(100)/2 = ln(10) = 2.303. Independent of N, γ, topology.
+
+**Regime condition (inherited from D6):** rate_min = 2γ holds only above the
+N-dependent coupling threshold Q*_gap(N). Below it the slowest mortal mode is
+Zeno-suppressed and the dose is correspondingly larger, so K_death = ln(10)
+is universal in the strong-coupling regime, not at every Q.
 
 N+1 modes have exactly zero absorption rate (pure {I,Z} content,
 invisible to the light). Complete absorption is impossible while the
 palindrome holds. The cavity always retains light.
 
-**Valid for:** any Heisenberg chain, Z-dephasing, all N.
+**Valid for:** any Heisenberg chain, Z-dephasing, all N, in the strong-coupling
+regime Q > Q*_gap(N); below it the slowest mortal mode is Zeno-suppressed and the
+dose is larger.
 **Replaces:** time evolution to find "when does the system die."
 **Source:** [Trapped Light Localization](../experiments/TRAPPED_LIGHT_LOCALIZATION.md)
 

@@ -456,8 +456,9 @@ explains what previously required separate derivations.
 1. [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md):
    Re(λ) = −2γ⟨n_XY⟩. The absorption rate of any eigenmode equals twice
    the dephasing rate times the mode's mean light content. Three-step
-   proof from L_H anti-Hermitian. Unifies the spectral boundary formula,
-   the palindromic sum rule, the 2× decay law, and the spectral gap.
+   proof from L_H anti-Hermitian. Gives the spectral boundary formula, the
+   palindromic sum rule and the 2× decay law a common reading; the spectral
+   gap it relocates rather than derives.
    Extended in 2026 to per-eigenmode Rayleigh form, two-sided and
    projector readings, and the recentred diagonal seam L_D = γ(Q − N·I).
 
@@ -509,9 +510,14 @@ explains what previously required separate derivations.
     implies the palindromic sum rule. 1,342 modes, CV = 0.
 
 **After this you know:** The palindrome is an optical cavity. The
-Absorption Theorem is its governing equation. Every prior result
-(spectral boundaries, factor 2, spectral gap, sum rule) is a corollary
-of one line: Re(λ) = −2γ⟨n_XY⟩. The cavity language is not a metaphor;
+Absorption Theorem is its governing equation, and it reads every decay
+rate as light content. What follows from it alone is less than the
+sweeping version suggests: the spectral boundaries, the factor 2 and the
+sum rule are corollaries *within the number-conserving XY/Heisenberg
+family*, which supplies the kernel dimension (F4) and the pairing (F1);
+the spectral gap is relocated by the theorem rather than derived, and is
+2γ only above a coupling threshold. What the one line
+Re(λ) = −2γ⟨n_XY⟩ gives universally is what a real part *is*. The cavity language is not a metaphor;
 it is what the mathematics was describing all along.
 
 ---

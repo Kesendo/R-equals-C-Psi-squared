@@ -106,6 +106,8 @@ come back.
 ### The hypothesis fails for CPsi
 
 Palindromic decay rates for N=3 uniform dephasing: {2γ, 8γ/3, 10γ/3}
+(8γ/3 and 10γ/3 are the J/γ ≫ 1 values; a band at moderate coupling, F33;
+this experiment runs well above that regime boundary)
 = {0.100, 0.133, 0.167} for γ = 0.05.
 
 The ORPHANED_RESULTS.md measured the SA concurrence envelope decay at 8γ/3 = 0.133.

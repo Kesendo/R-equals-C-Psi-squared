@@ -1,8 +1,10 @@
 """
 4-QUBIT BREAKDOWN: How exactly does frequency-decay orthogonality break?
 ========================================================================
-In the 3-qubit star, decay rates {2g, 8g/3, 10g/3} are EXACT and
-topology-independent. At 4 qubits, some rates start moving with J.
+In the 3-qubit star at strong coupling, decay rates approach {2g, 8g/3, 10g/3}
+(the J/g -> inf limit values; the rungs 0, 2g, 4g, 6g are exact at every J,
+the interior pair is a band at moderate coupling, F33). At 4 qubits, some
+rates start moving with J already in this script's sweep.
 
 Questions:
 1. Which rates stay fixed? Which move?
@@ -68,7 +70,7 @@ print("=" * 75)
 gamma = 0.05
 
 print(f"\n--- PART 1: 3-qubit reference (gamma={gamma}) ---")
-print(f"  Expected: all rates are {2}, {8/3:.4f}, {10/3:.4f} regardless of J")
+print(f"  Expected (J/gamma >> 1): rates near {2}, {8/3:.4f}, {10/3:.4f} (J/g -> inf limit values)")
 print(f"\n  {'J_SA':>5} {'J_SB':>5} | decay rates (in gamma units)")
 print("-" * 60)
 for J_SA, J_SB in [(1,1), (1,2), (0.5,3), (2,2), (1,5), (0.3,0.7)]:

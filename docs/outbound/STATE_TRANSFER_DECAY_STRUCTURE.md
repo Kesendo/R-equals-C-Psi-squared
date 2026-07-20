@@ -101,10 +101,16 @@ N = 2 to 5, 1,342 modes, zero variance):
        Re(λ) = −2γ · ⟨n_XY⟩,
 
    where ⟨n_XY⟩ is the mode's average number of site-operators that
-   anticommute with the dephasing axis. The real part is **linear in γ and
-   independent of the couplings**: the Hamiltonian moves the oscillation
-   frequencies (Im λ) and the mode composition, but contributes exactly zero
-   to the decay rate itself.
+   anticommute with the dephasing axis. The Hamiltonian contributes exactly
+   zero to the decay rate *at fixed mode*: it is anti-Hermitian in Liouville
+   space and drops out of the real part.
+
+   That is easy to over-read, so state the limit too. It does **not** say the
+   spectrum is coupling-independent. ⟨n_XY⟩ is a property of the mode, and the
+   modes move with J/γ. At N = 3 with J fixed, the lowest mixed level ABOVE 2γ runs
+   2.6666γ at J/γ = 100, 2.4607γ at J/γ = 1.5 and 2.0133γ at J/γ = 0.2: a 25%
+   swing in Re(λ)/γ. Fitting a line through Re(λ) versus γ at fixed J gives the
+   right slope only where J/γ is large.
 
 2. **The spectral reflection** ([proof](../proofs/MIRROR_SYMMETRY_PROOF.md)):
    the full set of decay rates is symmetric about Σγ_i. Rates come in pairs
@@ -121,12 +127,15 @@ configurations do (chains, stars, triangles, uniform, weak-end, N = 2 to 5).
 
 ## 3. What the structure buys you (the objects we hand you)
 
-- **A fidelity-cost law instead of a per-run number.** Because every rate is
-  linear in γ, the fidelity loss of a transfer channel is linear in γ until
-  the transfer cycle itself is disrupted. In the benchmark star channel the
+- **A fidelity-cost law instead of a per-run number.** Each rate is linear in γ
+  at fixed mode, and the coherence floor 2γ is linear in γ at every coupling,
+  so the fidelity loss of a transfer channel is linear in γ until the transfer
+  cycle itself is disrupted. (The mixed levels are not: their ⟨n_XY⟩ moves with
+  J/γ, as §2 notes, so a fit that spans a wide J/γ range will see curvature.) In the benchmark star channel the
   cost is ≈ 1.0 fidelity-point per unit γ (1.0–1.1 across the linear regime)
   up to γ ≈ 0.05 (in units of the sender coupling), with the dominant
-  intermediate rate at 8γ/3 for the three-qubit star.
+  intermediate rate at 8γ/3 for the three-qubit star (the strong-coupling
+  value; a narrow band at moderate J/γ, F33).
 
 - **A clean separation of timing and quality.** The optimal measurement time
   is set by the Hamiltonian alone (Bohr frequencies) and is **invariant under
@@ -143,10 +152,18 @@ configurations do (chains, stars, triangles, uniform, weak-end, N = 2 to 5).
   build: one mediator with two tunable couplings instead of an engineered
   profile.
 
-- **A bound on the usable window.** The slowest nonzero rate (2γ for uniform
-  dephasing) caps the number of coherent cycles available to any echo-based
-  or repeated-readout scheme at ~1/(2γ); the reflection tells you this
-  slowest rate is not free to sit anywhere, it is pinned opposite the fastest.
+- **A bound on the usable window.** In the strong-coupling regime the slowest
+  nonzero rate is 2γ for uniform dephasing (below a coupling threshold
+  Q*_gap(N) in the coupling ratio Q = J/γ the spectral gap drops below 2γ). That does NOT lengthen the
+  coherent window, and the distinction matters for design. The modes that fall
+  below 2γ live entirely in the population sector, |Δpopcount| = 0, where
+  strong dephasing freezes transport; every coherence sector keeps its minimum
+  at exactly 2γ at every coupling (measured 2.000000γ for |Δp| = 1 and
+  4.000000γ for |Δp| = 2 at Q = 0.2, 0.5 and 1.5, for N = 3, 4, 5). So the
+  coherent window stays ~1/(2γ), which is a time; divide by the cycle period
+  for a cycle count. Lowering J/γ buys no transfer window. The reflection constrains where the rate sits: rates pair to
+  2Σγ, so the 2γ level is pinned opposite 2(N−1)γ, while the fastest rate 2Nγ
+  is the partner of the frozen kernel at 0.
 
 - **A one-scalar channel witness (empirical).** A single angle computed from
   the receiver-mediator reduced state, θ = arctan √(4·CΨ − 1) (CΨ a
@@ -191,9 +208,18 @@ quantum-dot chains used for adiabatic transfer (Nature Comm. 12, 2021). On
 such a device, our structure makes three independent, cheap predictions:
 
 > 1. **The envelope:** the entanglement (concurrence) envelope of the
->    sender-mediator pair decays at **8γ/3**, where γ is the measured
->    dephasing rate; in our benchmarks this value is the same for every
->    three-qubit geometry tested (star, chain, triangle).
+>    sender-mediator pair decays at **8γ/3** in the strong-coupling limit,
+>    where γ is the measured dephasing rate. In our benchmarks that limit value
+>    is the same for every three-qubit geometry tested; at finite J/γ the star
+>    and the chain (the same graph at N = 3) share one band and the triangle
+>    another.
+>    At moderate J/γ the level splits into a narrow band, and 8γ/3 is near the
+>    top of it, not the centre: at J/γ = 1.5 the band is [2.4607, 2.6980]γ with
+>    a multiplicity-weighted mean of 2.5490γ, about 4.4% below 8γ/3, on the
+>    chain and the star. The triangle behaves differently: its band is
+>    {2.6040γ ×4, 2.6980γ ×8}, whose weighted mean is 8γ/3 exactly. Fit the
+>    band rather than a line, and expect the centre to sit below 8γ/3 on the
+>    open geometries and on 8γ/3 on the closed one.
 > 2. **The timing invariance:** the optimal readout time does not move as
 >    dephasing grows; only the arriving fidelity falls, linearly, with slope
 >    ≈ 1 per unit γ up to γ ≈ 0.05 in units of the sender coupling.
@@ -228,8 +254,10 @@ mature field, it does not compete with its transfer-side canon.
   the time-staged +83%). The hardware content of this adapter is a
   *prediction* (Section 5), not a result.
 - **The N = 3 rates are N = 3 rates.** 8γ/3 and its siblings are specific to
-  the three-qubit system (only the boundary rate 2γ stays universal at
-  N ≥ 4). The prediction in Section 5 is stated for the geometry it holds on.
+  the three-qubit system, and they are a J/γ → ∞ limit rather than exact
+  values; at finite coupling each is a narrow band. What survives at every N is
+  the even ladder of pure-weight rungs 2wγ. The prediction in Section 5 is
+  stated for the geometry it holds on.
 - **The θ witness is empirical** (r = 0.87 across one channel's input
   states), offered as a diagnostic candidate, not a theorem.
 
@@ -239,8 +267,10 @@ mature field, it does not compete with its transfer-side canon.
 
 If one thing survives this document, let it be the objects, not the phrasing:
 
-- **The rate law:** Re(λ) = −2γ⟨n_XY⟩ (coupling-independent decay, exact).
-- **The reflection:** decay rates pair to 2Σγ_i; slowest pinned opposite
+- **The rate law:** Re(λ) = −2γ⟨n_XY⟩, exact per mode. The Hamiltonian drops
+  out of the real part at fixed mode, but it sets which modes exist, so the
+  spectrum itself is not coupling-independent.
+- **The reflection:** decay rates pair to 2Σγ_i; the 2γ level opposite
   fastest.
 - **The design point:** three-qubit star, receiver:sender = 2:1, F = 0.886
   at γ = 0.05 (simulation), beating the engineered chain benchmarks in the

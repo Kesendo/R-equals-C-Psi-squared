@@ -114,8 +114,11 @@ modes:
 | 5 | 2.000 | 0.617 | **Yes** |
 
 These sub-2gamma modes arise from Hamiltonian mixing of w-sectors
-(w with w +/- 2). At N >= 4, the mixing creates hybrid modes with
-decay rates BETWEEN the pure-sector values. F3 remains valid
+(w with w +/- 2). Below the coupling threshold Q*_gap(N) the mixing
+creates hybrid modes with decay rates BETWEEN the pure-sector values.
+This happens at every N including N=3 (0.5393gamma at Q=0.5,
+0.0808gamma at Q=0.2); what grows with N is the threshold, not the
+onset. F3 remains valid
 for pure w=1 modes; the sub-2gamma modes are from mixed sectors.
 
 This was predicted in [D05 Dynamic Mode Count](../docs/proofs/derivations/D05_DYNAMIC_MODE_COUNT.md):

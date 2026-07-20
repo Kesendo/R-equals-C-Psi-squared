@@ -61,7 +61,8 @@ public static class Formulas
     // F23 (T1): XOR-drain fraction = (N+1)/4^N (GHZ fragility vanishes at large N).
     public static double F23_XorFraction(int n) => (n + 1.0) / Math.Pow(4, n);
 
-    // F33 (T1): N=3 exact decay rates {2γ, 8γ/3, 10γ/3} (<n_XY> = 1, 4/3, 5/3).
+    // F33 (T1): N=3 rate ladder. Rungs {0, 2γ, 4γ, 6γ} are exact at every J; the two values
+    // below are the J/γ → ∞ limit of bands that split at finite coupling, NOT exact rationals (<n_XY> = 1, 4/3, 5/3).
     public static double[] F33_N3Rates(double gamma) => new[] { 2.0 * gamma, 8.0 * gamma / 3.0, 10.0 * gamma / 3.0 };
 
     // F50 (T1 lower bound): weight-1 degeneracy d_real(-2γ) = 2N (chain); 8 for the K_3 triangle (N=3).
@@ -111,9 +112,25 @@ public static class Formulas
     // D4 (T1): the crossing condition scales with Hilbert dimension as (d-1)/2. d=2: f*(1+f*^2)=1/2; d=4: =3/2.
     public static double D4_CrossingRhs(int d) => (d - 1) / 2.0;
 
-    // D6 (T1, AT): spectral gap = 2γ (min nonzero rate); mixing time <= N ln(4)/(2γ).
+    // D6 (T1 above the coupling threshold): spectral gap = 2γ (min nonzero rate);
+    // mixing time <= N ln(4)/(2γ). PRECONDITION for both: Q = J/γ above Q*_gap(N), which is
+    // 0.50, 0.80, 1.34, 1.82 at N = 2..5 on the Heisenberg chain (Pauli-J units). Below
+    // that the gap is Zeno-suppressed, these return values that are too large (gap) and
+    // too small (mixing time). The signatures take no J, so the caller carries the
+    // precondition.
     public static double D6_Gap(double gamma) => 2.0 * gamma;
     public static double D6_MixingTime(int n, double gamma) => n * Math.Log(4.0) / (2.0 * gamma);
+
+    // NO predicate is offered here on purpose. The thresholds are known in PAULI-J units
+    // (Heisenberg chain: 0.500000, 0.800243, 1.342243, 1.819350 at N = 2..5; XY chain:
+    // 0.500000, 0.707107, 0.939271, 1.186087), while this module's own coupling is the
+    // hopping amplitude, J_MirrorWorld = 2 * J_Pauli (see Restless: "zz=1 with the hopping
+    // J=2 is the isotropic Heisenberg bond"), and Restless defaults to zz=0, i.e. XY. A
+    // predicate taking this module's J and comparing it against the Pauli-J Heisenberg
+    // table answers wrongly, and wrongly in the unsafe direction: at the canonical regime
+    // (gamma=0.05, J_Pauli=0.075, so J_MirrorWorld=0.15) it would report the gap law
+    // holding at N=5, where the true gap is 1.2754*gamma rather than 2*gamma.
+    // Convert to Pauli-J and pick the right family before comparing.
 
     // F38 (T1): Pi^2 = (-1)^{w_YZ} = (-1)^{n_Y+n_Z} on a Pauli string (order 4, Pi^4=I); = conjugation by X^N.
     public static int F38_PiSquared(int nY, int nZ) => (nY + nZ) % 2 == 0 ? +1 : -1;
@@ -154,8 +171,10 @@ public static class Formulas
     // {I,Z}): R(N) = sqrt((N-1)/(N 4^(N-1))). Companion to F49 (bond-site variance 1 not 0, so N-2 -> N-1).
     public static double F49c_CrossTermCrossing(int n) => Math.Sqrt((n - 1.0) / (n * Math.Pow(4, n - 1)));
 
-    // F55 (T1, from D6): universal absorption dose K_death = ln(10) = 2.303 (99% absorption of the slowest
-    // mortal mode, rate 2gamma). Immortal modes = N+1 (pure {I,Z}, zero absorption, invisible to the light).
+    // F55 (T1, from D6): absorption dose K_death = ln(10) = 2.303 (99% absorption of the slowest
+    // mortal mode, rate 2gamma). The rate 2gamma is D6's, and holds only above the coupling
+    // threshold Q*_gap(N) in Q = J/gamma; below it the slowest mortal mode is Zeno-suppressed and the dose
+    // is larger. Immortal modes = N+1 (zero absorption, invisible to the light).
     public const double F55_KDeath = 2.302585092994046;   // ln(10)
     public static int F55_ImmortalModes(int n) => n + 1;
 

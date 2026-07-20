@@ -4,7 +4,8 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F33ExactN3DecayRatesPi2Inheritance"/>:
-/// F33 N=3 exact rational decay rates rate_1=2γ, rate_2=8γ/3, rate_3=10γ/3.
+/// F33 N=3 rate ladder: rungs 0, 2γ, 4γ, 6γ exact at every J; rate_2 → 8γ/3
+/// and rate_3 → 10γ/3 as J/γ → ∞ only, each a triple at finite coupling.
 /// Two typed parent edges:
 ///
 /// <list type="bullet">
