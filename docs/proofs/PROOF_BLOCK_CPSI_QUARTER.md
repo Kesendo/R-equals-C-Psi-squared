@@ -278,7 +278,7 @@ reading where R = CΨ² applies; what makes it "the transition" rather than
   the geometric reading of "1/4 is half of half" as the polarity-fold
   apex: both ±1/2 sides project to 1/4 under squaring; two distinct
   middles of the polarity pair (arithmetic 0 vs quadratic 1/4).
-- [F86](PROOF_F86_QPEAK.md): F86 Statement 1 (Q_EP = 2/g_eff)
+- [F86a](PROOF_F86A_EP_MECHANISM.md): F86 Statement 1 (Q_EP = 2/g_eff)
   and the 4-mode reduction context where the c=2 block was first studied.
 - `compute/RCPsiSquared.Core/F86/BlockCpsiTrajectory.cs`: implementation.
 - `compute/RCPsiSquared.Core/F86/BlockCpsiClosedForm.cs`: closed-form helper.

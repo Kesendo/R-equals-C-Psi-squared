@@ -29,7 +29,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// <para><b>Stage C3: K-driving eigenvalue pair.</b> The K_CC_pr observable is built from
 /// Duhamel-evaluating the probe state's overlap with each eigenvector of L_eff(Q), so the
 /// 2-of-4 eigenvectors with largest probe overlap dominate the dynamics — these are the
-/// "K-driving pair" (PROOF_F86_QPEAK Statement 1). At Q = Q_EP both eigenvalues approach
+/// "K-driving pair" (PROOF_F86A_EP_MECHANISM Statement 1). At Q = Q_EP both eigenvalues approach
 /// Re(λ) = −4γ₀ as the EP rotation collapses the leading 2-level pair.</para>
 ///
 /// <list type="bullet">
@@ -95,7 +95,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// will need. The pair-sum pattern <c>λ_0 + λ_3 ≈ −8γ₀ ≈ λ_1 + λ_2</c> is empirically visible
 /// at sample (N, Q) but is not algebraically clean (deviations of order 0.5% at N=5, Q=1).</para>
 ///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2), Statement 1 (EP mechanism).</para>
+/// <para>Anchor: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> Statement 1 (EP mechanism; the F86 Item 1 (c=2) derivation).</para>
 /// </summary>
 public sealed class C2EffectiveSpectrum : Claim
 {

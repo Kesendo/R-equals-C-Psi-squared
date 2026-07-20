@@ -52,7 +52,7 @@ public sealed class ShapeFunctionWitnesses : Claim
         WitnessCache? cache = null)
         : base($"f_class(x) shape values ({bondClass})",
                Tier.Tier1Candidate,
-               "docs/ANALYTICAL_FORMULAS.md F86 universal-shape table + docs/proofs/PROOF_F86_QPEAK.md Statement 2")
+               "docs/ANALYTICAL_FORMULAS.md F86 universal-shape table + docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md Statement 2")
     {
         BondClass = bondClass;
         GammaZero = gammaZero;

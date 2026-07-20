@@ -14,7 +14,7 @@ namespace RCPsiSquared.Core.Tests.F86.Item1Derivation;
 /// returned Claim.</summary>
 public class C2HwhmRatioTests
 {
-    /// <summary>Empirical anchor table (PROOF_F86_QPEAK Statement 2 + section "HWHM_left/Q_peak
+    /// <summary>Empirical anchor table (PROOF_F86B_UNIVERSAL_SHAPE Statement 2 + section "HWHM_left/Q_peak
     /// across all tested cases (two bond classes)" at γ₀ = 0.05). Tolerance 0.005 is generous
     /// against the 0.025 Q-grid spacing — the empirical pipeline lands within 1e-3 of the
     /// canonical Python pipeline values.</summary>

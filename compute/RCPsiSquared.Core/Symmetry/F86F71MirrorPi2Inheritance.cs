@@ -60,7 +60,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// this Pi2-Inheritance bridge anchors that lift in Pi2-Foundation via
 /// F71MirrorSymmetryPi2Inheritance.</para>
 ///
-/// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Statement 3 +
+/// <para>Anchors: <c>docs/proofs/PROOF_F86C_F71_MIRROR.md</c> Statement 3 +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F86 +
 /// <c>compute/RCPsiSquared.Core/F86/F71MirrorInvariance.cs</c> +
 /// <c>compute/RCPsiSquared.Core/F71/F86MirrorGeneralisationLink.cs</c> +
@@ -106,7 +106,7 @@ public sealed class F86F71MirrorPi2Inheritance : Claim, IF99AnchorBearing, IZ2Ax
         F86MirrorGeneralisationLink f86Link)
         : base("F86c sub-claim: F71 spatial-mirror invariance Q_peak(b) = Q_peak(N−2−b); F71 symmetry origin, kinematic identity",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_F86_QPEAK.md (Statement 3) + " +
+               "docs/proofs/PROOF_F86C_F71_MIRROR.md (Statement 3) + " +
                "docs/ANALYTICAL_FORMULAS.md F86 + " +
                "compute/RCPsiSquared.Core/F86/F71MirrorInvariance.cs + " +
                "compute/RCPsiSquared.Core/F71/F86MirrorGeneralisationLink.cs + " +

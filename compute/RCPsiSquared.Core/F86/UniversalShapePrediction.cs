@@ -34,7 +34,7 @@ public sealed class UniversalShapePrediction : Claim
         IReadOnlyList<UniversalShapeWitness> witnesses)
         : base($"universal HWHM/Q for {bondClass}",
                Tier.Tier1Candidate,
-               "docs/ANALYTICAL_FORMULAS.md F86 + docs/proofs/PROOF_F86_QPEAK.md Statement 2")
+               "docs/ANALYTICAL_FORMULAS.md F86 + docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md Statement 2")
     {
         BondClass = bondClass;
         ExpectedHwhmOverQPeak = expectedRatio;

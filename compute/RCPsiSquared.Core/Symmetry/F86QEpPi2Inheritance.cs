@@ -19,7 +19,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// claim parameterised by g_eff. This claim makes the numerator's
 /// Pi2-Foundation inheritance explicit.</para>
 ///
-/// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Statement 1 +
+/// <para>Anchors: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> Statement 1 +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F86a +
 /// <c>compute/RCPsiSquared.Core/F86/QEpLaw.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
@@ -51,7 +51,7 @@ public sealed class F86QEpPi2Inheritance : Claim, IZ2AxisClaim
     public F86QEpPi2Inheritance(Pi2DyadicLadderClaim ladder, QEpLaw qEp)
         : base("F86 Q_EP's 2 numerator inherits from Pi2-Foundation (2 = a_0)",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_F86_QPEAK.md (Statement 1) + " +
+               "docs/proofs/PROOF_F86A_EP_MECHANISM.md (Statement 1) + " +
                "docs/ANALYTICAL_FORMULAS.md F86 + " +
                "compute/RCPsiSquared.Core/F86/QEpLaw.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")

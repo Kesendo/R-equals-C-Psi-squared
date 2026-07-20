@@ -23,7 +23,7 @@ public sealed class PerF71OrbitObservation : Claim
     public PerF71OrbitObservation()
         : base("per-F71-orbit substructure within Interior class",
                Tier.Tier2Empirical,
-               "PROOF_F86_QPEAK Open Element 5 (partially addressed by Statement 3)")
+               "PROOF_F86_QPEAK open front 2, the F86d Tier-1 promotion (partially addressed by PROOF_F86C_F71_MIRROR Statement 3)")
     {
         // Frozen empirical witnesses, measured via F86NewIdeasProbe.
         // 9-case sweep: LinearQGrid(0.2, 6.0, 60) at γ₀=0.05.

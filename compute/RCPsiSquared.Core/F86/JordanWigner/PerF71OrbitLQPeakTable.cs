@@ -19,7 +19,7 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// </list>
 ///
 /// <para>The mathematical statement underlying these witnesses: per F71-mirror invariance
-/// (Statement 3 of <c>PROOF_F86_QPEAK</c>), the per-bond Q-resonance peak position and
+/// (Statement 3 of <c>PROOF_F86C_F71_MIRROR</c>), the per-bond Q-resonance peak position and
 /// height are bit-exact equal under bond b ↔ bond N−2−b at the algebraic level. The
 /// underlying L(Q)-eigenbasis projection and its Frobenius norm depend only on the
 /// F71-symmetric structure of <c>D + j·M_h_total</c>, which carries the same

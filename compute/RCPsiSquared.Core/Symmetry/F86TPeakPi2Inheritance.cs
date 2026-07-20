@@ -22,7 +22,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/proofs/PROOF_F86_QPEAK.md</c>; <see cref="TPeakLaw"/> wraps it as a typed
 /// claim parameterised by γ₀.</para>
 ///
-/// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Statement 1 +
+/// <para>Anchors: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> Statement 1 +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F86 +
 /// <c>compute/RCPsiSquared.Core/F86/TPeakLaw.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>.</para></summary>
@@ -80,7 +80,7 @@ public sealed class F86TPeakPi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisCl
         QuarterAsBilinearMaxvalClaim quarter)
         : base("F86 t_peak's 4 denominator inherits from Pi2-Foundation (4 = a_{-1} = d² for N=1); mirror partner = 1/4 = a_3 = Quarter",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_F86_QPEAK.md (Statement 1) + " +
+               "docs/proofs/PROOF_F86A_EP_MECHANISM.md (Statement 1) + " +
                "docs/ANALYTICAL_FORMULAS.md F86 + " +
                "compute/RCPsiSquared.Core/F86/TPeakLaw.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +

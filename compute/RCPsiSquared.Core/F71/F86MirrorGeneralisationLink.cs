@@ -29,7 +29,7 @@ public sealed class F86MirrorGeneralisationLink : Claim
     public F86MirrorGeneralisationLink()
         : base("F71 → F86 mirror generalisation: Q_peak(b) = Q_peak(N−2−b)",
                Tier.Tier1Derived,
-               "docs/ANALYTICAL_FORMULAS.md F71 generalisation paragraph + docs/proofs/PROOF_F86_QPEAK.md Statement 3")
+               "docs/ANALYTICAL_FORMULAS.md F71 generalisation paragraph + docs/proofs/PROOF_F86C_F71_MIRROR.md Statement 3")
     { }
 
     public override string DisplayName => "F71 → F86: Q_peak(b) = Q_peak(N−2−b) bit-exactly";

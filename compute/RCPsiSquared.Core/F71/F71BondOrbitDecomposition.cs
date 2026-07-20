@@ -9,7 +9,7 @@ namespace RCPsiSquared.Core.F71;
 ///
 /// <para>Per F71-mirror invariance, any F71-symmetric chain observable evaluated per-bond
 /// is identical for paired bonds. F86 generalisation: per-bond Q_peak is bit-exact mirror-
-/// invariant (Statement 3 of <c>PROOF_F86_QPEAK</c>).</para>
+/// invariant (Statement 3 of <c>PROOF_F86C_F71_MIRROR</c>).</para>
 /// </summary>
 public sealed class F71BondOrbitDecomposition : Claim
 {
@@ -22,7 +22,7 @@ public sealed class F71BondOrbitDecomposition : Claim
     public F71BondOrbitDecomposition(int N)
         : base("F71 bond-mirror orbit decomposition",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md + ANALYTICAL_FORMULAS F71 + PROOF_F86_QPEAK Statement 3")
+               "docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md + ANALYTICAL_FORMULAS F71 + PROOF_F86C_F71_MIRROR Statement 3")
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), $"N must be ≥ 2; got {N}");
         this.N = N;

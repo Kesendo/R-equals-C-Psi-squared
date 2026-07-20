@@ -6,5 +6,5 @@ namespace RCPsiSquared.Core.F86;
 internal static class F86Anchors
 {
     public const string ProofQPeak = "docs/proofs/PROOF_F86_QPEAK.md";
-    public const string Statement2Plus3 = "docs/proofs/PROOF_F86_QPEAK.md Statement 2 + Statement 3";
+    public const string Statement2Plus3 = "docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md Statement 2 + docs/proofs/PROOF_F86C_F71_MIRROR.md Statement 3";
 }

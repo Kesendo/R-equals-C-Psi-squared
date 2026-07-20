@@ -277,7 +277,7 @@ public sealed class C2HwhmRatio : Claim
     /// <summary>Returns HWHM_left/Q_peak for the class, computed via the canonical Python
     /// pipeline contract: bond-class K-curves are averaged first, then peak Q* and HWHM_left
     /// are extracted from the class-averaged K(Q) curve. This is the directly comparable
-    /// quantity to the PROOF_F86_QPEAK Statement 2 anchor table.
+    /// quantity to the PROOF_F86B_UNIVERSAL_SHAPE Statement 2 anchor table.
     ///
     /// <para>Note: per-bond witness ratios (visible via <see cref="Witnesses"/>) can differ
     /// from this class-mean within a class because mid-chain Interior bonds and flanking-
@@ -305,7 +305,7 @@ public sealed class C2HwhmRatio : Claim
     ///   K(Q) row — these preserve the F71-orbit substructure for the next-session work,</item>
     ///   <item>class-averaged ratios are extracted by averaging K(Q) curves over bonds in the
     ///   class first, then running the peak finder once on the averaged curve — these match
-    ///   the canonical Python pipeline output (PROOF_F86_QPEAK Statement 2 anchor table).</item>
+    ///   the canonical Python pipeline output (PROOF_F86B_UNIVERSAL_SHAPE Statement 2 anchor table).</item>
     /// </list>
     /// </summary>
     private static (IReadOnlyList<HwhmRatioWitness> Witnesses,
@@ -339,7 +339,7 @@ public sealed class C2HwhmRatio : Claim
 
         // Class-averaged ratios — average curves first, THEN find peak/HWHM. This matches
         // the canonical Python pipeline (`eq022_b1_step_e_resonance_shape.py`) which is the
-        // anchor for PROOF_F86_QPEAK Statement 2's table.
+        // anchor for PROOF_F86B_UNIVERSAL_SHAPE Statement 2's table.
         var classRatios = new Dictionary<BondClass, double>();
         foreach (BondClass cls in Enum.GetValues<BondClass>())
         {

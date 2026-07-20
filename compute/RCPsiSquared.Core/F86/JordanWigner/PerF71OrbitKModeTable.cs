@@ -32,7 +32,7 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// witness is the numerical residual at construction. Setting tier to Tier2 mirrors
 /// <see cref="PerF71OrbitKTable"/>'s convention (the analogous K-resonance witness table
 /// also keeps Tier2 despite F71 mirror invariance being algebraically exact for Q_peak
-/// per Statement 3 of <c>PROOF_F86_QPEAK</c>).</para>
+/// per Statement 3 of <c>PROOF_F86C_F71_MIRROR</c>).</para>
 ///
 /// <para>Why this matters: at N=8 the JW K_90 already organises by F71 orbit
 /// ({orbit 0, orbit 3} = 7 vs {orbit 1, orbit 2} = 8 — boundary + center vs intermediate),

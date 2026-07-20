@@ -4,7 +4,7 @@ namespace RCPsiSquared.Core.Resonance;
 ///
 /// <para>For a chain of N qubits with N−1 bonds (b = 0..N−2), Endpoint = {0, N−2} and
 /// Interior = {1, …, N−3}. The two classes have separate universal HWHM_left/Q_peak
-/// values (Interior ≈ 0.756, Endpoint ≈ 0.770) — see PROOF_F86_QPEAK Statement 2.</para>
+/// values (Interior ≈ 0.756, Endpoint ≈ 0.770) — see PROOF_F86B_UNIVERSAL_SHAPE Statement 2.</para>
 /// </summary>
 public enum BondClass
 {

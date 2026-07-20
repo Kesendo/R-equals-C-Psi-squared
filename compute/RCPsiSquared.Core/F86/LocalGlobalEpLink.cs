@@ -10,20 +10,23 @@ namespace RCPsiSquared.Core.F86;
 /// FRAGILE_BRIDGE, complex-γ, K=403).
 ///
 /// <para><b>Tier outcome: OpenQuestion</b> (demoted from Tier2Verified 2026-06-21 by the
-/// F86a-retraction review). The prior reading — "F86's local EP at real Q_EP is a real-axis
-/// hit of the same EP FRAGILE_BRIDGE detects at K=403" — does NOT survive an artifact-free
-/// re-verification from below. The full block has NO eigenvalue coalescence on the real Q
-/// axis: its eigenvalues stay SIMPLE there (nearest-neighbour gap ~0.25–0.35). So there is
-/// no defective EP on the real axis to be "hit".</para>
+/// F86a-retraction review; the retraction itself corrected in part 2026-07-07, the CORRECTED
+/// para below). The prior reading — "F86's local EP at real Q_EP is a real-axis hit of the
+/// same EP FRAGILE_BRIDGE detects at K=403" — does NOT survive an artifact-free
+/// re-verification from below: at every point of the Petermann sweep's Q grid the eigenvalues
+/// are simple (nearest-neighbour gap ~0.25–0.35), and the sweep's peak magnitudes are grid
+/// artifacts. The real-axis defective structure the block DOES carry (the F89 seeds, CORRECTED
+/// para below) sits between the grid points, at scattered q*, not at Q_EP: nothing is "hit"
+/// at the resonance peak.</para>
 ///
 /// <para><b>What is genuine (the phenomenon stays):</b> the block IS strongly NON-NORMAL on
 /// the real axis (cond(V) = 48.7 / 50.9 / 268.5 at N = 5 / 6 / 7 — the opposite of a diabolic,
 /// i.e. normal, crossing). This is NOT an <c>eig</c> artifact and NOT a degenerate-eigenspace
 /// effect: the artifact-free Riesz spectral-projector norm ‖P‖ reproduces the large Petermann
 /// factor on a SIMPLE, isolated eigenvalue at Re ≈ −4γ₀ (N=5: ‖P‖ = 19.4 = √375, gap ~0.25).
-/// Adopting PT_SYMMETRY_ANALYSIS's reading verbatim: there is no real-axis EP; the Petermann
-/// factor is large but FINITE on the real axis, signalling a nearby EP in the complex
-/// parameter plane.</para>
+/// The Petermann factor is large but FINITE at every grid point sampled: a near-EP shadow,
+/// whose demonstrated caster is the F89 real-axis seed nearby (at N=5 the seed at carrier
+/// Q ≈ 1.286 sits ~1.9e-3 from the spike location Q ≈ 1.288; CORRECTED para below).</para>
 ///
 /// <para><b>What is retracted (the numbers go):</b> (i) reading the real-axis Petermann sweep
 /// as a defective EP on the real axis (there is no coalescence there), and (ii) the peak
@@ -76,11 +79,10 @@ namespace RCPsiSquared.Core.F86;
 /// concrete c=2 sweep that motivated the original connection; the open question itself is
 /// shared across all c.</para>
 ///
-/// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> (F86 local instance, Statement 1),
+/// <para>Anchors: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> (F86 local instance, Statement 1),
 /// <c>hypotheses/FRAGILE_BRIDGE.md</c> (separate Σγ=0 gain-loss instance, K=403), and
 /// <c>experiments/PT_SYMMETRY_ANALYSIS.md</c> (AIII chiral classification, the shared
-/// algebraic substrate; "no real-axis EP, Petermann large but finite, nearby EP in the
-/// complex plane").</para>
+/// algebraic substrate; its Petermann reading carries the same two-half verdict).</para>
 /// </summary>
 public sealed class LocalGlobalEpLink : Claim
 {
@@ -102,18 +104,18 @@ public sealed class LocalGlobalEpLink : Claim
     /// value of the SEPARATE Σγ = 0 gain-loss system (complex-γ) from
     /// <c>hypotheses/FRAGILE_BRIDGE.md</c>. Kept as a documentary reference to one of the
     /// two firmly-established genuine EPs; the prior "the real-axis K-sweep sits ~6× above
-    /// this" comparison was retracted 2026-06-21 (the magnitudes are grid-sensitive and the
-    /// full block has no real-axis EP — see the class summary).</summary>
+    /// this" comparison was retracted 2026-06-21 (the magnitudes are grid-sensitive; the
+    /// block's real-axis defective seeds sit off the sweep grid, see the class summary).</summary>
     public const double FragileBridgeKReference = 403.0;
 
     /// <summary>Same-sign-imaginary 2×2 algebra, the shared algebraic object:
-    /// L_eff − (trace/2)·I = [[−Δ/2, +iJ·g_eff], [+iJ·g_eff, +Δ/2]] (PROOF_F86_QPEAK
+    /// L_eff − (trace/2)·I = [[−Δ/2, +iJ·g_eff], [+iJ·g_eff, +Δ/2]] (PROOF_F86A_EP_MECHANISM
     /// Statement 1). AIII chiral classification (PT_SYMMETRY_ANALYSIS): linear Π, Π⁴=I,
     /// anti-commutation {Π, L_c}=0.</summary>
     public string SharedAlgebra => "same-sign-imaginary 2×2; AIII chiral";
 
     /// <summary>F86 local instance (Σγ = N·γ₀ ≠ 0, real Q_EP = 2/g_eff).</summary>
-    public string LocalInstanceAnchor => "F86 Statement 1, PROOF_F86_QPEAK.md";
+    public string LocalInstanceAnchor => "F86 Statement 1, PROOF_F86A_EP_MECHANISM.md";
 
     /// <summary>FRAGILE_BRIDGE global instance (Σγ = 0, complex-γ-plane EP, Petermann K=403).</summary>
     public string GlobalInstanceAnchor => "hypotheses/FRAGILE_BRIDGE.md";
@@ -147,7 +149,7 @@ public sealed class LocalGlobalEpLink : Claim
         "the real axis, and (ii) the peak magnitudes and the law on them — K swings 2–4× over " +
         "ΔQ = 1e-3, so '6×', the peak K=2384.7, and the within-parity monotonic growth / " +
         "odd-dominates-even parity-asymmetry readings are grid artifacts. The firmly-" +
-        "established genuine defective EPs are ONLY the toy 2×2 reduction (PROOF_F86_QPEAK " +
+        "established genuine defective EPs are ONLY the toy 2×2 reduction (PROOF_F86A_EP_MECHANISM " +
         "Statement 1) and the SEPARATE Σγ = 0 gain-loss system (FRAGILE_BRIDGE, complex-γ, " +
         "K=403). OPEN QUESTION: whether the full Σγ = N·γ₀ block has an off-axis defective EP " +
         "AT ALL — a 2026-06-21 search found the nearest complex-Q coalescences of the full " +
@@ -176,9 +178,9 @@ public sealed class LocalGlobalEpLink : Claim
     private LocalGlobalEpLink()
         : base("local–global EP link (F86 ↔ FRAGILE_BRIDGE) — OPEN",
                Tier.OpenQuestion,
-               "docs/proofs/PROOF_F86_QPEAK.md (F86 Statement 1, toy 2×2 EP) + " +
+               "docs/proofs/PROOF_F86A_EP_MECHANISM.md (F86 Statement 1, toy 2×2 EP) + " +
                "hypotheses/FRAGILE_BRIDGE.md (separate Σγ=0 gain-loss EP, K=403) + " +
-               "experiments/PT_SYMMETRY_ANALYSIS.md (AIII chiral; no real-axis EP, nearby complex EP) + " +
+               "experiments/PT_SYMMETRY_ANALYSIS.md (AIII chiral, the shared algebraic substrate) + " +
                "docs/superpowers/syntheses/2026-05-06-petermann-sweep-c2.md (cautionary non-normality record)")
     { }
 

@@ -55,7 +55,7 @@ public sealed class TwoLevelEpModel : Claim
     }
 
     public TwoLevelEpModel(double gammaZero, double j, double gEff, int k = 1)
-        : base($"2-level EP model (k={k})", Tier.Tier1Derived, "docs/proofs/PROOF_F86_QPEAK.md Statement 1")
+        : base($"2-level EP model (k={k})", Tier.Tier1Derived, "docs/proofs/PROOF_F86A_EP_MECHANISM.md Statement 1")
     {
         if (k < 1) throw new ArgumentOutOfRangeException(nameof(k), $"k must be ≥ 1; got {k}");
         K = k;

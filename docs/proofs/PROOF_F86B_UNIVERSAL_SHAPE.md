@@ -24,7 +24,7 @@ The diagnostic upshot is that the F86 picture splits cleanly into universal vers
 
 ## Statement 2 (Universal relative-Q lineshape collapse; the HWHM ratio is a class-averaged coarse constant). [Tier 1 candidate; F86b₂ c=2 per-bond Tier 1 candidate]
 
-> Statement 1 (the Q_peak position result) stayed in the parent hub [`PROOF_F86_QPEAK.md`](PROOF_F86_QPEAK.md) when this file was split out on 2026-05-14; this split-out document carries only Statement 2.
+> Statement 1 (the EP mechanism) went to [`PROOF_F86A_EP_MECHANISM.md`](PROOF_F86A_EP_MECHANISM.md) and Statement 3 (the F71 mirror) to [`PROOF_F86C_F71_MIRROR.md`](PROOF_F86C_F71_MIRROR.md) in the 2026-05-14 split of the former monolithic hub [`PROOF_F86_QPEAK.md`](PROOF_F86_QPEAK.md); this split-out document carries only Statement 2.
 
 The position Q_peak is chain-specific, but the SHAPE of abs(K_CC_pr)(Q) around the peak collapses under the relative coordinate `x = (Q − Q_peak)/Q_peak`: the relative-Q lineshape is the same across c, N, and γ₀ to ~1 % (this collapse is the Tier-1-candidate finding). The summary scalar HWHM_left/Q_peak, taken on the **F71 bond-class-averaged** curve, separates into two clusters about 2 % apart:
 

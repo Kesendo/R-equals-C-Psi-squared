@@ -53,7 +53,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// <see cref="C2HwhmRatio.BareDoubledPtfXPeak"/>). At Q_EP the slowest pair coalesces to
 /// Re(λ) = −4γ₀ and the EP-driving modes show up as the top-weight cluster.</para>
 ///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Statement 1 (EP mechanism) +
+/// <para>Anchor: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> Statement 1 (EP mechanism) +
 /// <see cref="C2HwhmRatio.PendingDerivationNote"/> Direction (b'').</para>
 /// </summary>
 public sealed class C2FullBlockEigenAnatomy : Claim

@@ -53,8 +53,8 @@ namespace RCPsiSquared.Core.F86;
 ///   Stage D2 — the three documented next directions for the closed form.</item>
 /// </list>
 ///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1 (c=2), Statement 2
-/// (HWHM_left/Q_peak universal per bond class).</para>
+/// <para>Anchor: <c>docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md</c> Statement 2
+/// (HWHM_left/Q_peak universal per bond class; the F86 Item 1 (c=2) derivation).</para>
 /// </summary>
 public sealed class C2UniversalShapeDerivation : Claim
 {
@@ -68,11 +68,11 @@ public sealed class C2UniversalShapeDerivation : Claim
 
     /// <summary>Class-mean HWHM_left/Q_peak for Interior bonds (canonical-pipeline:
     /// average bond-class K(Q) curves first, then peak/HWHM). Empirical anchor across
-    /// N=5..8: 0.7506 ± 0.001 (from PROOF_F86_QPEAK Statement 2 anchor table).</summary>
+    /// N=5..8: 0.7506 ± 0.001 (from PROOF_F86B_UNIVERSAL_SHAPE Statement 2 anchor table).</summary>
     public double InteriorMean { get; }
 
     /// <summary>Class-mean HWHM_left/Q_peak for Endpoint bonds (canonical-pipeline).
-    /// Empirical anchor across N=5..8: 0.7728 ± 0.001 (from PROOF_F86_QPEAK Statement 2
+    /// Empirical anchor across N=5..8: 0.7728 ± 0.001 (from PROOF_F86B_UNIVERSAL_SHAPE Statement 2
     /// anchor table).</summary>
     public double EndpointMean { get; }
 

@@ -82,7 +82,7 @@ public class C2FullBlockEigenAnatomyTests
     [InlineData(7)]
     public void TopMode_HasNegativeRealPart_AtQEp(int N)
     {
-        // At Q = Q_EP the slowest-pair eigenvalue Re ≈ −4γ₀ (PROOF_F86_QPEAK Statement 1).
+        // At Q = Q_EP the slowest-pair eigenvalue Re ≈ −4γ₀ (PROOF_F86A_EP_MECHANISM Statement 1).
         // The top-weight eigenmode at this Q should sit in the slow-decay regime
         // (Re(λ) close to or above −10γ₀).
         var anatomy = C2FullBlockEigenAnatomy.Build(C2Block(N));

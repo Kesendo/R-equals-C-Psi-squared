@@ -66,7 +66,7 @@ namespace RCPsiSquared.Core.F86;
 /// Together they bracket the F86 c=2 derivation with EP-side and symmetry-side parent-claim
 /// references in <c>Pi2KnowledgeBase</c>.</para>
 ///
-/// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Statement 2 (Locus 6 inheritance
+/// <para>Anchors: <c>docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md</c> Statement 2 (Locus 6 inheritance
 /// reading), <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (PolarityLayerOriginClaim + QubitDimensionalAnchorClaim + HalfAsStructuralFixedPointClaim),
 /// <c>compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs</c> (live witness pipeline
@@ -239,7 +239,7 @@ public sealed class PolarityInheritanceLink : Claim
     private PolarityInheritanceLink()
         : base("polarity-layer inheritance (F86 ↔ Pi2KnowledgeBase ±0.5 pair)",
                Tier.Tier2Verified,
-               "docs/proofs/PROOF_F86_QPEAK.md (Statement 2 + 2026-05-07 Locus 6 inheritance reading) + " +
+               "docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md (Statement 2 + the Locus 6 inheritance reading) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs " +
                "(PolarityLayerOriginClaim + QubitDimensionalAnchorClaim + HalfAsStructuralFixedPointClaim) + " +
                "compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs (live witness pipeline) + " +

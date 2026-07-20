@@ -128,7 +128,7 @@ public class C2SvdBlockProjectedMagnitudeTests
         // diagnostic, and this test continues to verify it splits per bond class):
         // Endpoint and Interior must produce distinguishable mean magnitudes. Existing
         // C2BondCoupling CrossBlockWitnesses already shows Endpoint < Interior in
-        // |V_b cross|_F at c=2 N=5..8 (PROOF_F86_QPEAK Statement B2). Our SVD-block
+        // |V_b cross|_F at c=2 N=5..8 (PROOF_F86B_UNIVERSAL_SHAPE Statement 2, anchor table). Our SVD-block
         // magnitude is a different observable but should still split per bond class.
         var m = C2SvdBlockProjectedMagnitude.Build(C2Block(N));
         double endpoint = m.NormalisedRatioMean(BondClass.Endpoint);

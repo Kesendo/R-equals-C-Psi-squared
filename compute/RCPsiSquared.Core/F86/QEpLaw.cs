@@ -7,7 +7,7 @@ namespace RCPsiSquared.Core.F86;
 /// <summary>F86 Statement 1 partial: <c>Q_EP = 2/g_eff</c>, the definitional resonance Q,
 /// where g_eff := σ_0, the SVD-top inter-channel singular value (no closed form). In the toy
 /// 2-level reduction this is the genuine exceptional point at which the slowest eigenvalue pair
-/// coalesces (PROOF_F86_QPEAK Statement 1).
+/// coalesces (PROOF_F86A_EP_MECHANISM Statement 1).
 ///
 /// <para>Tier 1 derived in the 2-level reduction. <c>Q_EP = 2/g_eff</c> is a DEFINITION
 /// (g_eff := σ_0); it is NOT "the full block-L exceptional-point position, bit-exact". The full

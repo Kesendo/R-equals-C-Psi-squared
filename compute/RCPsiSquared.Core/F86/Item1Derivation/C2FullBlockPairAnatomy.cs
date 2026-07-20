@@ -40,7 +40,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// The witnesses ARE the data. Tier1 promotion would require an analytical identification
 /// of the dominant pair set as a function of (c, N).</para>
 ///
-/// <para>Anchor: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Statement 1 +
+/// <para>Anchor: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> Statement 1 +
 /// <see cref="C2HwhmRatio.PendingDerivationNote"/> Direction (b'').</para>
 /// </summary>
 public sealed class C2FullBlockPairAnatomy : Claim

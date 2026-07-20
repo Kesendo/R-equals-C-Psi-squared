@@ -59,7 +59,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F71 (line 1561) +
 /// <c>docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md</c> +
-/// <c>docs/proofs/PROOF_F86_QPEAK.md</c> Statement 3 (F86 generalization) +
+/// <c>docs/proofs/PROOF_F86C_F71_MIRROR.md</c> Statement 3 (F86 generalization) +
 /// <c>simulations/eq021_obc_sine_basis.py</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
 /// (HalfIntegerMirrorClaim).</para></summary>
@@ -174,7 +174,7 @@ public sealed class F71MirrorSymmetryPi2Inheritance : Claim, IZ2AxisClaim
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (HalfIntegerMirrorClaim — prose anchor, N-blocked from ctor injection) + " +
                "docs/ANALYTICAL_FORMULAS.md F71 + " +
                "docs/proofs/PROOF_C1_MIRROR_SYMMETRY.md + " +
-               "docs/proofs/PROOF_F86_QPEAK.md (Statement 3) + " +
+               "docs/proofs/PROOF_F86C_F71_MIRROR.md (Statement 3) + " +
                "simulations/eq021_obc_sine_basis.py")
     {
         DyadicLadder = dyadicLadder ?? throw new ArgumentNullException(nameof(dyadicLadder));
