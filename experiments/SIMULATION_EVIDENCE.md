@@ -182,7 +182,7 @@ Full-system crossing is not the only mechanism. Subsystem pairs can cross
 the 1/4 threshold independently:
 
 **Bell+⊗Bell+ (N=4):** Full system never crosses (Ψ_max = 0.200). But
-entangled pairs (0,1) and (2,3) each cross at t = 0.073 with C·Ψ = 0.333.
+entangled pairs (0,1) and (2,3) each cross at t = 0.080 with C·Ψ = 0.333.
 Unentangled cross-pairs (0,2) etc. never cross (C = 0 throughout).
 
 **Product state |+⟩⊗4:** Ψ = 1.0 but C = 0 for all pairs. No crossing

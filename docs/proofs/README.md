@@ -133,7 +133,7 @@ synthesized.
 | Bifurcation boundary | CΨ = 0.2500 exactly | [Uniqueness](UNIQUENESS_PROOF.md) |
 | Palindromic eigenvalues verified | 87,376 (zero exceptions) | [Mirror Symmetry](MIRROR_SYMMETRY_PROOF.md) |
 | IBM hardware deviation | 1.9% | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |
-| Random CPTP maps tested | 300 (0 exceptions) | [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) |
+| General primitive CPTP crossing | FALSE (Case C counterexample, entangled fixed point CΨ=0.2935; the old 300-map sweep was a sampling artifact) | [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) |
 | Internal noise candidates eliminated | 5 of 5 | [Incompleteness](INCOMPLETENESS_PROOF.md) |
 | {L_H, L_D+Σγ} = 0 at N=2 | exact (24/24 entries) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Cross term at N=3 | ~2%, γ-independent | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |

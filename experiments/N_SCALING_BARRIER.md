@@ -288,7 +288,7 @@ Subsystem crossing tests (Experiment 10) resolved the barrier.
 
 A 4-qubit Bell+xBell+ state has full-system Psi(0) = 0.200, below 1/4.
 But the entangled pairs (0,1) and (2,3) each have Psi(0) = 0.333 and
-C = 1.000 at the pair level. They cross at t = 0.073. Cross-pairs that
+C = 1.000 at the pair level. They cross at t = 0.080. Cross-pairs that
 share no entanglement have C = 0 and never cross.
 
 The product state |+⟩^4 has Psi(0) = 1.000 at every level but C = 0

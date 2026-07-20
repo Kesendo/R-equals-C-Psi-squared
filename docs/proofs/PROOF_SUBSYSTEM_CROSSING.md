@@ -338,5 +338,5 @@ says nothing about the general primitive-CPTP claim, which is false.
 
 ### Scripts
 
-- [subsystem_crossing.py](../../simulations/subsystem_crossing.py): numerical verification (300+ random primitive CPTP maps)
+- [subsystem_crossing.py](../../simulations/subsystem_crossing.py): numerical verification of Cases A/B plus the random-CPTP Ginibre n_kraus=4 sweeps that Case C exposed as non-representative (n_kraus=2 violates ~8.5%)
 - [non_markovian_revival.py](../../simulations/non_markovian_revival.py): transient revival characterization (Part 6 of Monotonicity)

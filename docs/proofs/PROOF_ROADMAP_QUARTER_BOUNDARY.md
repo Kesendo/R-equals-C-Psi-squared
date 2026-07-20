@@ -168,7 +168,7 @@ which is *above* 1/4, matching the F25 closed form's $C\Psi(0) = f(1+f^2)/6\,|_{
 
 **Crossing is observed computationally.** Under Heisenberg Hamiltonian with local dephasing:
 
-- Bell pairs (0,1) and (2,3) in a 4-qubit bell_pairs state start at $C\Psi = 1/3$ and cross down through 1/4 at $t \approx 0.072$ (γ = 0.05). That is a dose γt ≈ 0.0036, about 10× less than the isolated-pair K_fold = 0.03735: an isolated Bell+ is a Heisenberg eigenstate, so the speedup is the cross-bond coupling doing the pushing (the Hamiltonian determines *when* you hit the wall, below)
+- Bell pairs (0,1) and (2,3) in a 4-qubit bell_pairs state start at $C\Psi = 1/3$ and cross down through 1/4 at $t \approx 0.080$ (γ = 0.05; reproduced in [subsystem_crossing_pairs.py](../../simulations/subsystem_crossing_pairs.py)). That is a dose γt ≈ 0.004, about 9× less than the isolated-pair concurrence-book dose 0.036 (= γ·0.719; the F25 purity-book dose is K_fold = 0.03735): an isolated Bell+ is a Heisenberg eigenstate, so the speedup is the cross-bond coupling doing the pushing (the Hamiltonian determines *when* you hit the wall, below)
 - Cross-pairs (0,2), (0,3), (1,2), (1,3) start at $C\Psi = 0$ (unentangled) and never reach 1/4 from below; their maximum $C\Psi$ peaks at ~0.13
 - The crossing is exclusively downward for initially entangled pairs
 - Pairs (0,3) and (1,2) show perfect symmetry (palindromic structure), as do pairs (0,2) and (1,3)
@@ -249,7 +249,7 @@ extremes.
 
 **The subsystem crossing hierarchy.** In the 4-qubit bell_pairs state:
 
-- Entangled pairs (0,1) and (2,3): Start at $C\Psi = 1/3$, cross at $t \approx 0.072$
+- Entangled pairs (0,1) and (2,3): Start at $C\Psi = 1/3$, cross at $t \approx 0.080$
 - Cross-pairs (0,2), (0,3), (1,2), (1,3): Start at $C\Psi = 0$, never reach 1/4
 - Maximum $C\Psi$ for cross-pairs: ~0.13 (well below 1/4)
 
