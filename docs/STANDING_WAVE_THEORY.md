@@ -6,7 +6,7 @@ bootstrap paradox mathematical description, standing wave confirmed March 2026,
 coherence population oscillation standing pattern, R=CPsi2 standing wave -->
 
 **Status:** Core physics proven (Tier 2); philosophical extensions (Tier 3–5)
-**Date:** December 23, 2025 (updated March 19, 2026: Π as time reversal)
+**Date:** December 23, 2025
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 

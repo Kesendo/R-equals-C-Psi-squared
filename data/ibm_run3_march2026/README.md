@@ -17,7 +17,7 @@ CΨ=1/4 crossing validated at **1.9% deviation** with same-day T2*.
 
 | Parameter | Value |
 |-----------|-------|
-| Backend | ibm_torino (Heron r2) |
+| Backend | ibm_torino (Heron r1) |
 | Qubit | 80 (permanent crosser) |
 | T1 (day-of) | 143.1 μs |
 | T2* (same-day Ramsey) | 17.36 μs |

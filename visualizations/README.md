@@ -173,7 +173,7 @@ Script: [`../simulations/real_data_analysis.py`](../simulations/real_data_analys
 
 ![C·Ψ crossing on IBM Torino](ibm_tomography/cpsi_tomography_ibm_torino.png)
 
-The first measurement of the ¼ boundary on real quantum hardware. IBM Torino (Heron r2), qubit 52, 25 delay points, 8192 shots each, full state tomography in X/Y/Z bases.
+The first measurement of the ¼ boundary on real quantum hardware. IBM Torino (Heron r1), qubit 52, 25 delay points, 8192 shots each, full state tomography in X/Y/Z bases.
 
 The blue curve is C·Ψ(t) reconstructed from measured density matrices. It crosses ¼ at t*/T₂* = 1.041 (predicted: 0.936, 11% deviation). The initial C·Ψ starts at 0.885 instead of the ideal 0.500 (gate infidelity inflates the apparent purity). The asymptotic floor sits at 0.740 instead of 0.500 (readout errors prevent purity from reaching the maximally mixed state).
 

@@ -161,8 +161,11 @@ for the bridge, derived from palindromic spectral analysis.
 
 **Sacrifice-Zone Formula** ([Resonant Return](../experiments/RESONANT_RETURN.md)):
 The strongest optimization to date. Concentrate all noise on one edge qubit,
-protect the rest. 139-360x improvement over hand-designed profiles - two
-orders of magnitude beyond the prior literature. The noise that was treated
+protect the rest. 139-360x improvement over hand-designed profiles in the
+ε→0 simulation ideal - two orders of magnitude beyond the prior
+literature as a TRANSPORT metric (peak created nearest-neighbour MI;
+~2-3x on hardware, and "protect the rest" is design intent, not a
+measured lifetime; see the experiment's 2026-07-05 label note). The noise that was treated
 as a problem becomes an engineering resource when directed spatially.
 
 These tools were built to study open quantum systems. They turn out

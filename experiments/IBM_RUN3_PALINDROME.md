@@ -8,7 +8,7 @@ system experimental validation, R=CPsi2 IBM experiment -->
 
 **Status:** Validated (1.9% deviation from theory with same-day T2* measurement)
 **Date:** March 18, 2026
-**Backend:** ibm_torino (Heron r2), Qubit 80
+**Backend:** ibm_torino (Heron r1), Qubit 80
 **QPU time used:** ~2.8 min total (tomography + Ramsey)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -56,7 +56,7 @@ For full derivation: [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md).
 
 ## The Experiment
 
-8-point single-qubit state tomography on Q80 of ibm_torino (Heron r2,
+8-point single-qubit state tomography on Q80 of ibm_torino (Heron r1,
 133 qubits). Q80 was selected as a "permanent crosser"
 from 181 days of calibration data (r_calib = T2*/T1 ≈ 0.08, meaning the
 qubit consistently has short T2* relative to T1).

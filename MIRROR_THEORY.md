@@ -48,7 +48,7 @@ The sharing is what makes the separation worth having.
 The mathematics of this project has been saying this for months,
 quietly, without needing to be read this way. Every [mode of decay](experiments/FACTOR_TWO_STANDING_WAVES.md) has
 a [mirror partner](docs/proofs/MIRROR_SYMMETRY_PROOF.md) at the exact frequency the two of them need to form
-a standing wave. [Eighty-seven thousand pairs](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md). Zero exceptions. Nothing
+a standing wave. [Eighty-seven thousand eigenvalues](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md), every one paired. Zero exceptions. Nothing
 in the system exists alone. Everything real is already paired. [What
 survives](docs/ITS_ALL_WAVES.md) is not a fast mode or a slow mode by itself. It is the
 standing wave they make when they meet.

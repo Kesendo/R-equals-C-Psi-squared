@@ -116,7 +116,7 @@ valid for any monic quadratic $z^2 - 2bz + c = 0$ in the discriminant-negative r
 - **[Tightest single-point crossing](../../experiments/IBM_RUN3_PALINDROME.md)**
   (ibm_torino q80, March 18, 2026): 1.9% deviation, the measured crossing at
   t\* = 15.29 μs vs the predicted 15.01 μs, i.e. matched to within 0.28 μs.
-  Torino is a Heron r2 processor (133 qubits).
+  Torino is a Heron r1 processor (133 qubits).
   The 1.9% is within expected hardware systematics (T1/T2 calibration
   drift, readout assignment error, crosstalk).
 - **The full trajectory** ([ibm_kingston, April 2026](../../data/ibm_cusp_precision_april2026/README.md)):

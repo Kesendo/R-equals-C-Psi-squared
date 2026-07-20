@@ -6,7 +6,7 @@ palindromic eigenstructure design rules, resonant return hypothesis, SVD respons
 mode 2 edge-hot center-cold, frequency pulsing falsified, relay protocol palindrome timing,
 standing wave spatial antenna not temporal, R=CPsi2 resonant return -->
 
-**Status:** Largely resolved. Core prediction confirmed far beyond expectations (180x vs predicted 2x). Analytical formula discovered. Frequency pulsing falsified (Tests 2, 6). Relay timing deferred.
+**Status:** Largely resolved. Core prediction confirmed in simulation far beyond expectations (180x vs predicted 2x; the figure is a TRANSPORT metric in the ε→0 ideal, ~2-3x on hardware, see the experiment's 2026-07-05 label note). Analytical formula discovered. Frequency pulsing falsified (Tests 2, 6). Relay timing deferred.
 **Date:** March 24, 2026 (formula discovery)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -26,7 +26,11 @@ analysis (10x improvement) to numerical optimization (100x) to a
 closed-form formula (180x): concentrate all noise on one edge qubit,
 protect the rest. The formula gamma_edge = N * gamma_base - (N-1) * epsilon
 beats 18 years of ENAQT literature (2-3x with uniform dephasing) by
-two orders of magnitude. Temporal modulation (frequency pulsing) was
+two orders of magnitude in the ε→0 simulation ideal; the figure is
+a transport metric (peak created nearest-neighbour MI), the hardware
+gain is ~2-3x, and "protect the rest" is design intent, not a
+measured lifetime (see the experiment's 2026-07-05 label note).
+Temporal modulation (frequency pulsing) was
 falsified twice. The palindrome is a spatial antenna only.
 
 The speculative part of this hypothesis (does c- couple to the bath

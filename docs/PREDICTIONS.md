@@ -31,7 +31,7 @@ Summary by Tier table at the end.
 
 ## 1. Empirically Verified on Real Quantum Hardware
 
-**Tier: 2, Measured on IBM Torino (Heron r2), qubit 52, 2026-02-09**
+**Tier: 2, Measured on IBM Torino (Heron r1), qubit 52, 2026-02-09**
 
 | Prediction | Predicted | Measured | Status | Source |
 |------------|-----------|----------|--------|--------|

@@ -7,6 +7,7 @@ OOP polymorphism quantum palindrome analogy, AM-GM inequality spectral bands,
 palindromic mirror both sides see center, quantum classical boundary spectral resonance -->
 
 **Status:** Supported (N=3, N=5). The midpoint emerges only when both palindromic perspectives are combined. Single-perspective version falsified.
+**Tier:** 5 (analogy, not derivable; see the postscript)
 **Date:** March 25, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)

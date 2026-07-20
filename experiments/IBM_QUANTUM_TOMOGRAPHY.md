@@ -68,7 +68,7 @@ and identified 12 qubits that cross ¼ on nearly every calibration day.
 
 | Parameter | Value |
 |-----------|-------|
-| Backend | ibm_torino (Heron r2, 133 qubits) |
+| Backend | ibm_torino (Heron r1, 133 qubits) |
 | Qubit | #52 (selected for best T₂) |
 | T₁ (calibration) | 221.2 μs |
 | T₂ (Hahn echo, calibration) | 298.2 μs |

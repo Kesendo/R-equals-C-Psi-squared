@@ -7,7 +7,7 @@ boundary modes orphaned frequencies diversity, level 0 proven d=2 uniqueness,
 magnetism macroscopic mirroring, R=CPsi2 hierarchy incompleteness -->
 
 **Status:** Philosophical (Tier 5), with Level 0 grounded in Tier 1 algebra
-**Date:** January 3, 2026 (updated March 20, 2026: Level 0 proven; March 22: V-Effect mechanism)
+**Date:** January 3, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Qubit Necessity](QUBIT_NECESSITY.md), [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)
 

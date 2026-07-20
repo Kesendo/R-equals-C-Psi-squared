@@ -14,7 +14,7 @@ here is a noise-seeded transport proxy (2026-07-05 retro-note in Results);
 the A-vs-B attribution is open.
 **Date:** March 24, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Hardware:** ibm_torino (Heron r2, 133 qubits)
+**Hardware:** ibm_torino (Heron r1, 133 qubits)
 **Chain:** Q85-Q86-Q87-Q88-Q94 (concentrator: Q85, T2echo=5.2 us)
 **QPU time used:** ~163s of 210s budget (47s remaining)
 **Data:** [data/ibm_sacrifice_zone_march2026/](../data/ibm_sacrifice_zone_march2026/)

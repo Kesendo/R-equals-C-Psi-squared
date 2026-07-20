@@ -20,7 +20,7 @@ and for the dual-perspective analysis in [Both Sides Visible](../../docs/BOTH_SI
 
 | Parameter | Value |
 |-----------|-------|
-| Backend | ibm_torino (Heron r2, 133 qubits) |
+| Backend | ibm_torino (Heron r1, 133 qubits) |
 | Qubit | 52 |
 | T1 | 221.2 us |
 | T2 | 298.2 us |

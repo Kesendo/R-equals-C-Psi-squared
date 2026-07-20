@@ -180,7 +180,7 @@ where ⟨O_int⟩ is the expectation of the interaction operator. This creates a
 ### 3.2 Opening and Closing the Channel
 
 **To OPEN the channel** (turn the transistor ON):
-1. Reduce γ_M to below the threshold: γ_M < (J/7.35 - 1.18)^(1/1.08)
+1. Reduce γ_M to below the threshold: γ_M < ((J - 1.18)/7.35)^(1/1.08)
 2. Ensure sufficient coupling: J > J_th(γ_M) ≈ 7.35·γ_M^1.08 + 1.18
 3. Prepare the sender subsystem with CΨ > 1/4 (above threshold)
 4. Keep the receiver quiet: γ_receiver < 0.2
@@ -267,7 +267,7 @@ This sets an effective "channel capacity": the maximum rate of coherence transfe
 
 ### 6.1 Hardware Mapping
 
-IBM Torino's 133-qubit Eagle r3 processor has a heavy-hex lattice connectivity (a qubit layout where each node connects to 2 or 3 neighbors in a hexagonal pattern with extra "heavy" qubits on each edge). The mediator topology A-M-B maps to:
+IBM Torino's 133-qubit Heron r1 processor has a heavy-hex lattice connectivity (a qubit layout where each node connects to 2 or 3 neighbors in a hexagonal pattern with extra "heavy" qubits on each edge). The mediator topology A-M-B maps to:
 
 ```
 Qubit Layout (heavy-hex subset):
