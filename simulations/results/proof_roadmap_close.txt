@@ -1,5 +1,5 @@
 Close the Proof Roadmap: Remaining Computational Gaps
-Started: 2026-03-21 23:41:12
+Started: 2026-07-20 19:07:33
 
 ======================================================================
 TEST 1: GENERALIZED PAULI CHANNELS
@@ -13,7 +13,7 @@ TEST 1: GENERALIZED PAULI CHANNELS
     Depolarizing    0.3333    0.8791      0.2500    0.0766      YES
       Asymmetric    0.3333    0.7347      0.2500    0.0613      YES
 
-[Test 1 completed in 0.6s]
+[Test 1 completed in 0.4s]
 
 ======================================================================
 TEST 2: DIRECT AMPLITUDE DAMPING
@@ -25,7 +25,7 @@ TEST 2: DIRECT AMPLITUDE DAMPING
       0.05    0.3333    2.0585  0.117192           0.7470
       0.10    0.3333    1.0293  0.072226           0.3735
 
-[Test 2 completed in 1.0s]
+[Test 2 completed in 0.6s]
 
 ======================================================================
 TEST 3: NON-MARKOVIAN REVIVAL
@@ -70,12 +70,13 @@ TEST 4: ANALYTICAL delta(N) FOR GHZ
     5      0.00020414      0.00020414   -1.36e-19      0.0000       YES
     6      0.00004011      0.00004011    6.78e-21      0.0000       YES
 
-  Analytical formula:
-    C(t) = 1/2^N + (1/2)*exp(-2*N*gamma*t)
-    Psi(t) = exp(-N*gamma*t) / (4^N - 1)
+  Analytical formula (GHZ under Z-dephasing):
+    C(t) = 1/2 + (1/2)*exp(-4*N*gamma*t)
+    Psi(t) = exp(-2*N*gamma*t) / (4^N - 1)
     CPsi(t) = C(t) * Psi(t)
+    Rate 2Ng per off-diagonal (all N bits differ in GHZ)
 
-[Test 4 completed in 9.4s]
+[Test 4 completed in 12.7s]
 
 ======================================================================
 TEST 5: GHZ PURE DEPHASING (J=0, no Hamiltonian)
@@ -92,7 +93,7 @@ TEST 5: GHZ PURE DEPHASING (J=0, no Hamiltonian)
   At J=0, the analytical formula matches exactly (< 1e-10).
   The delta in Test 4 is the Hamiltonian contribution, not an error.
 
-[Test 5 completed in 2.4s]
+[Test 5 completed in 2.3s]
 
-Total runtime: 13.4s
+Total runtime: 16.0s
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\proof_roadmap_close.txt

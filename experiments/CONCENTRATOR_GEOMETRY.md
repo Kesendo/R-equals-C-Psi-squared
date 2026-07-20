@@ -8,10 +8,10 @@ concentrator" / "center concentrator", renamed in lockstep with the
 `RCPsiSquared.Compute` (2026-07-05); the frozen `*sacrifice*` scripts and
 result files keep their original names as the provenance of the runs.
 
-**What this document is about:** The concentrator in a dephasing profile is not "better dephasing distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It is verified across 68 configurations (N=2-7 chain, N=2-6 star/ring/complete, four γ profiles). The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable for any N and topology from the n_XY parity selection rule.
+**What this document is about:** The concentrator in a dephasing profile is not "better dephasing distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It is verified across 69 configurations (chain N=2-7, ring N=2-6, star N=3-6, complete N=3-4, four γ profiles each, plus the IBM-sacrifice profile at N=5 chain). The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable for any N and topology from the n_XY parity selection rule.
 
 **Tier:** 1-2 (lens method, accessibility boundary, SE fraction scaling are computed and proven; psi_opt shapes are empirical)
-**Status:** Experiment. Universal framing validated across 68 configurations (N=2-7, four topologies, four γ profiles).
+**Status:** Experiment. Universal framing validated across 69 configurations (N=2-7, four topologies, four γ profiles).
 **Date:** April 9-10, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Depends on:**
@@ -28,10 +28,10 @@ result files keep their original names as the provenance of the runs.
 
 When one qubit in a Heisenberg chain receives disproportionate dephasing (the concentrator), the Liouvillian's translational symmetry breaks. A formerly degenerate eigenvalue cluster splits, and one mode slows dramatically. This mode lives almost entirely in the single-excitation (SE) coherence sector (>98% Frobenius norm ratio for N=3-6 across all tested topologies). Its left eigenvector, restricted to the SE sector, gives the optimal initial-state amplitudes directly, without optimization.
 
-The lens method has been tested across 68 configurations (N=2-7 chain, N=2-6 Star/Ring/Complete, four γ profiles each). Three universal results emerge:
+The lens method has been tested across 69 configurations (chain N=2-7, ring N=2-6, star N=3-6, complete N=3-4, four γ profiles each, plus the IBM-sacrifice profile at N=5 chain). Three universal results emerge:
 
 1. **SE fraction stays high.** The slow mode's SE content is >0.98 for N=3-6, independent of topology and gamma profile. The lens extraction is essentially exact.
-2. **The accessibility boundary is exact.** In every configuration tested (64/64), the second slow mode is SE-inaccessible (Frobenius ratio < 1e-3). This is proven analytically by the [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md).
+2. **The accessibility boundary is exact.** Zero violations in 69/69 configurations: all 60 configs with a distinct second slow mode have it SE-inaccessible (Frobenius ratio machine-zero); the 9 small-N configs extract no distinct second mode. This is proven analytically by the [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md).
 3. **The psi_opt shape depends on the dephasing gradient.** Extreme single-qubit concentration produces symmetric shapes (non-concentrator qubits are equivalent). A gradient of dephasing rates (as in real hardware) produces asymmetric, potentially monotonic shapes. The shape is always extractable from one matrix diagonalization.
 
 ---
@@ -60,7 +60,7 @@ Given: N-qubit Heisenberg chain (or star, ring, complete graph), coupling J, sit
 
 ## Universal results: Lens Pipeline survey
 
-Tested: 68 configurations across N=2-7 (chain) and N=2-6 (Star/Ring/Complete), four gamma profiles (uniform, edge concentrator, center concentrator, moderate asymmetry). N=7 uses direct LAPACK zgeev + zgesv (bypassing MathNet 2GB marshalling limit). Full data: `simulations/results/lens_survey/`.
+Tested: 69 configurations (chain N=2-7, ring N=2-6, star N=3-6, complete N=3-4), four gamma profiles (uniform, edge concentrator, center concentrator, moderate asymmetry), plus the IBM-sacrifice profile at N=5 chain. N=7 uses direct LAPACK zgeev + zgesv (bypassing MathNet 2GB marshalling limit). Full data: `simulations/results/lens_survey/`.
 
 ### SE fraction scaling (chain, edge concentrator)
 
@@ -77,9 +77,9 @@ All four N=7 chain profiles (uniform, edge concentrator, center concentrator, mo
 
 For non-chain topologies and other profiles (N=2-6): SE fraction > 0.98 in all cases where a lens mode exists. The lens extraction is robust across all tested configurations.
 
-### Accessibility boundary: 68/68 configurations
+### Accessibility boundary: zero violations in 69 configurations
 
-In every configuration tested, the second slow mode has SE Frobenius ratio < 1e-3. The boundary is not a coincidence of one gamma profile; it is a structural property of the Heisenberg + Z-dephasing Liouvillian, proven analytically by the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md).
+All 60 configurations with a distinct second slow mode have it SE-inaccessible (SE Frobenius ratio machine-zero); the 9 small-N configs extract no distinct second mode. The boundary is not a coincidence of one gamma profile; it is a structural property of the Heisenberg + Z-dephasing Liouvillian, proven analytically by the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md).
 
 ### psi_opt shape depends on symmetry, not just concentration
 
@@ -228,4 +228,4 @@ The lens method emerged after three failed optimization approaches (slow-band we
 
 ---
 
-*April 9-10, 2026. Universal framing validated by the 68-configuration Lens Pipeline survey (N=2-7, Chain/Star/Ring/Complete, four γ profiles).*
+*April 9-10, 2026. Universal framing validated by the 69-configuration Lens Pipeline survey (N=2-7, Chain/Star/Ring/Complete, four γ profiles).*

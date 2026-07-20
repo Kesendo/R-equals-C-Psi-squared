@@ -3,8 +3,8 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F61 closed form (Tier 1 proven, verified 64 configurations
-/// N=2..6, 4 topologies, 4 γ profiles):
+/// <summary>F61 closed form (Tier 1 proven, verified 69 configurations
+/// N=2..7, 4 topologies, 4 γ profiles):
 ///
 /// <code>
 ///   [L, Π²_X] = 0      exactly, for all N (isotropic Heisenberg/XY +
@@ -67,8 +67,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// and bit_b parity.</para>
 ///
 /// <para>Tier1Derived: F61 is Tier 1 proven (PROOF_PARITY_SELECTION_RULE).
-/// Verified 64 configurations (N=2..6, Chain/Star/Ring/Complete, 4 γ profiles);
-/// Second slow mode SE Frobenius ratio &lt; 10⁻³ in all 64. The Pi2-Foundation
+/// Verified 69 configurations (chain N=2..7, ring N=2..6, star N=3..6,
+/// complete N=3..4, 4 γ profiles + IBM-sacrifice at N=5 chain); the second
+/// slow mode is SE-inaccessible in all 60 configs where it is distinct
+/// (Frobenius ratio machine-zero). The Pi2-Foundation
 /// anchoring is algebraic-trivial composition.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F61 +
@@ -167,7 +169,7 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
         get
         {
             yield return new InspectableNode("F61 closed form",
-                summary: "[L, Π²_X] = 0 exactly all N; verified 64 configs (N=2..6, Chain/Star/Ring/Complete, 4 γ profiles); SE Frobenius ratio < 10⁻³ in all 64");
+                summary: "[L, Π²_X] = 0 exactly all N; verified 69 configs (N=2..7, Chain/Star/Ring/Complete, 4 γ profiles); second slow mode SE-inaccessible in all 60 configs where it is distinct (Frobenius ratio machine-zero)");
             yield return new InspectableNode("F61 ↔ F63 sister reading",
                 summary: "F61 = bit_a Z₂ (n_XY parity); F63 = bit_b Z₂ (w_YZ parity); together C₂ × C₂ maximal symmetry of d=2 Pauli algebra (per F34/QUBIT_NECESSITY)");
             yield return new InspectableNode("Pi2-Foundation anchoring",

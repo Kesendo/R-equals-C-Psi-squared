@@ -61,7 +61,7 @@ Two more pieces fell into place when we pulled the same thread.
 
 **Two Z₂ symmetries together explain 3+10+3.** The Liouvillian commutes with two independent Z₂ operators, both proven for all N:
 
-- bit_a = n_XY parity ([F61](../docs/ANALYTICAL_FORMULAS.md#f61-n_xy-parity-selection-rule-tier-1-proven-verified-64-configs-n2-6), [the parity selection rule proof](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md))
+- bit_a = n_XY parity ([F61](../docs/ANALYTICAL_FORMULAS.md#f61-n_xy-parity-selection-rule-tier-1-proven-verified-69-configs-n2-7), [the parity selection rule proof](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md))
 - bit_b = w_YZ parity ([F63](../docs/ANALYTICAL_FORMULAS.md#f63-w_yz-parity-symmetry-l-pi2--0-tier-1-proven-analytically-verified-n2-5), [the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md))
 
 Together they decompose the 16 modes at N=2 into 4 sectors. The 3+10+3 class count splits across Π²-parity as (2+4+2) in the even sector and (1+6+1) in the odd sector. The fastest oscillation Im ≈ ±2.0 lives **exclusively** in the odd sector; the even sector contains only Im ≈ ±1.0. The even sector is the standing-wave / cavity sector (contains II, ZZ, XX, YY, Bell+); the odd sector is the cross-correlation / transport sector (contains XY, XZ, YX, ZX). See [Primordial Qubit Section 9](PRIMORDIAL_QUBIT.md#9-operational-test-from-the-inside-april-15-2026) for the full decomposition table and N-scaling through N=5.

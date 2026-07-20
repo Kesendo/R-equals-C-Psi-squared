@@ -1,5 +1,9 @@
 # The n_XY Parity Selection Rule
 
+**Status:** Tier 1 (proven; registry entry [F61](../ANALYTICAL_FORMULAS.md); typed as [`F61BitAParityPi2Inheritance`](../../compute/RCPsiSquared.Core/Symmetry/F61BitAParityPi2Inheritance.cs))
+**Date:** 2026-04-10, last refreshed 2026-07-20 (the change history lives in git)
+**Authors:** Thomas Wicht, Claude (Anthropic)
+
 ## Statement
 
 **Theorem.** The Liouvillian of the isotropic Heisenberg model under
@@ -75,8 +79,8 @@ on two sites, so the total n_XY change from the product X_i X_j · P is
 For Z_i Z_j, the site-wise changes are:
 
     Z · I = Z   (n_XY: 0 → 0, change 0)
-    Z · X = −iY (n_XY: 1 → 1, change 0)
-    Z · Y = iX  (n_XY: 1 → 1, change 0)
+    Z · X = iY  (n_XY: 1 → 1, change 0)
+    Z · Y = −iX (n_XY: 1 → 1, change 0)
     Z · Z = I   (n_XY: 0 → 0, change 0)
 
 Z preserves n_XY exactly at every site, so Z_i Z_j preserves it too.
@@ -97,6 +101,15 @@ invariant subspaces:
 L maps V_even to V_even and V_odd to V_odd. The eigenmodes of L can
 therefore be chosen to lie entirely within one subspace. Every eigenmode
 has definite n_XY parity. QED (Part 2).
+
+**Scoping (how this split relates to U(1)).** For a basis element
+|i⟩⟨j|, the n_XY parity equals popcount(i⊕j) mod 2 = |w_bra − w_ket|
+mod 2, so V_even and V_odd are the mod-2 coarsening of the finer U(1)
+joint-popcount grading (w, w′) that number conservation already
+provides ([SYMMETRY_CENSUS](../../experiments/SYMMETRY_CENSUS.md) §1.2).
+The parity rule adds no block-diagonalization beyond U(1); its value is
+the selection-rule consequences (Parts 3-4), which are what U(1) alone
+does not state.
 
 ### Part 3: SE density matrices live in V_even
 
@@ -186,7 +199,7 @@ and does not affect the parity argument.
 **Breaks for:** anisotropic models where the Hamiltonian contains terms
 with odd n_XY (e.g., a transverse field h·X_k adds n_XY=1 terms to the
 commutator, which would mix V_even and V_odd). Also breaks for
-**amplitude damping** (T₁ decay), whose jump operator σ₋ = (X − iY)/2
+**amplitude damping** (T₁ decay), whose jump operator σ₋ = (X + iY)/2 = |0⟩⟨1|
 has n_XY = 1 (odd parity). Since real hardware has both T₁ and T₂ noise,
 this theorem applies strictly only to the pure-dephasing component.
 On hardware where T₂ ≫ T₁ (dephasing-dominated regime), the selection
@@ -200,11 +213,16 @@ depends on N, topology, and γ profile.
 
 ## Numerical verification
 
-The Lens Pipeline survey (April 10, 2026) tested 64 configurations:
-N=2–6, Chain/Star/Ring/Complete topologies, four γ profiles each.
-In every configuration, the second slowest Liouvillian mode had
-SE-sector Frobenius ratio < 1e−3 (machine zero). 64/64 configurations
-confirm the selection rule.
+The Lens Pipeline survey (April 10-11, 2026) tested 69 configurations:
+chain N=2–7, ring N=2–6, star N=3–6, complete N=3–4, four γ profiles
+each, plus the IBM-sacrifice profile at N=5 chain (the counts are the
+69 records in `lens_survey_results.json`; complete was not run at
+N ≥ 5). Zero violations in 69/69 configurations: 60 have a distinct
+second slowest Liouvillian mode, and in every one of those it is
+SE-inaccessible (SE-sector Frobenius ratio machine-zero, far below the
+survey's 0.01 accessibility cut); the remaining 9 small-N configs
+extract no distinct second mode, so the rule is untested there rather
+than confirmed.
 
 Engine: `compute/RCPsiSquared.Compute/LensAnalysis.cs` (run via `dotnet run -c Release -- lens`).
 Full data: `simulations/results/lens_survey/lens_survey_scaling.txt`.
@@ -227,6 +245,21 @@ to SE states from a completely different direction.
 was found to have 100% n_XY=1 content. This theorem explains why:
 n_XY=1 is odd, SE density matrices are even, overlap is zero.
 
+**Where this went (successors):**
+
+- **The second Z₂ (F63):** [PROOF_BIT_B_PARITY_SYMMETRY](PROOF_BIT_B_PARITY_SYMMETRY.md)
+  adds the w_YZ parity (bit_b); together F61 + F63 give the maximal
+  C₂ × C₂ decomposition into four sectors of dimension 4^(N−1).
+- **The parity operator identified:** the F61 parity is conjugation by
+  the global Z-string, Z^⊗N · σ · Z^⊗N = (−1)^{n_XY} · σ (Π²_X, the
+  bit_a twin of Π²_Z = X^⊗N; F61 corollary in the
+  [formula registry](../ANALYTICAL_FORMULAS.md)).
+- **The ceiling made quantitative (F122):** the accessibility boundary's
+  α₁ has closed forms per topology, g2(K_N) = 4/N (N ≥ 5),
+  g2(star_N) = 4/(N−1) (N ≥ 6), chain never ceilings; see
+  [PROOF_STRUCTURAL_CEILING](PROOF_STRUCTURAL_CEILING.md), typed
+  `StructuralCeilingClaim`, live witness `inspect --root ceiling`.
+
 ---
 
 ## References
@@ -237,7 +270,7 @@ n_XY=1 is odd, SE density matrices are even, overlap is zero.
 - [Weight-1 Degeneracy Proof](PROOF_WEIGHT1_DEGENERACY.md) - the 2N conserved T_c^{(a)} operators
 - [Analytical Formulas](../ANALYTICAL_FORMULAS.md) - AT, F50, **F61** (this theorem's formula entry)
 
-### Numerical verification (64 configurations, N=2–6)
+### Numerical verification (69 configurations, N=2–7)
 
 - Engine: `compute/RCPsiSquared.Compute/LensAnalysis.cs`
 - Run mode: `dotnet run -c Release -- lens`

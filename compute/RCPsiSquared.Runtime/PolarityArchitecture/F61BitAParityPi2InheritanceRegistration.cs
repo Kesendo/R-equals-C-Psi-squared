@@ -17,7 +17,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// </list>
 ///
 /// <para>Tier consistency: F61 is Tier 1 proven (PROOF_PARITY_SELECTION_RULE);
-/// verified 64 configurations N=2..6. All three claims Tier1Derived (5 ≥ 5).</para>
+/// verified 69 configurations N=2..7. All three claims Tier1Derived (5 ≥ 5).</para>
 ///
 /// <para>Requires: same pipeline as F63 plus
 /// <see cref="F63LCommutesPi2Pi2InheritanceRegistration.RegisterF63LCommutesPi2Pi2Inheritance"/>.</para></summary>

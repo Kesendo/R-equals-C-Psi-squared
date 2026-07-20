@@ -36,7 +36,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// follow that Claim's anchors.</para>
 ///
 /// <para>Tier1Derived: pure reference Claim. F61 is Tier 1 proven
-/// (PROOF_PARITY_SELECTION_RULE; 64 configurations verified). F63 is Tier 1 proven
+/// (PROOF_PARITY_SELECTION_RULE; 69 configurations verified). F63 is Tier 1 proven
 /// (PROOF_BIT_B_PARITY_SYMMETRY). No new derivation; the wiring is composition only.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F63 + F61 +
@@ -79,7 +79,7 @@ public sealed class F63BitAReference : Claim, IZ2AxisClaim
         {
             yield return new InspectableNode("Theorem", summary: Theorem);
             yield return new InspectableNode("Canonical bit_a Π² conservation Claim",
-                summary: "F61BitAParityPi2Inheritance: [L, Π²_X] = 0 exactly all N; 64 configurations verified (N=2..6, 4 topologies, 4 γ profiles); SE-accessibility ceiling on even-n_XY modes. F63BitAReference carries no F61 ctor edge to avoid the F61 → F63 → F61 cycle; the F61 link is documentation-only.");
+                summary: "F61BitAParityPi2Inheritance: [L, Π²_X] = 0 exactly all N; 69 configurations verified (N=2..7, 4 topologies, 4 γ profiles); SE-accessibility ceiling on even-n_XY modes. F63BitAReference carries no F61 ctor edge to avoid the F61 → F63 → F61 cycle; the F61 link is documentation-only.");
             yield return new InspectableNode("BitB twin (F63)",
                 summary: "F63LCommutesPi2Pi2Inheritance: [L, Π²_Z] = 0 exactly all N; six-line proof in PROOF_BIT_B_PARITY_SYMMETRY. F63BitAReference is the bit_a-axis sibling slot, content delegated to F61.");
             yield return new InspectableNode("Why a separate Claim",

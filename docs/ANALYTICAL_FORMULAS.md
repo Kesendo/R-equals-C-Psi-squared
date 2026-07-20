@@ -1626,7 +1626,7 @@ transfer, regardless of how slowly it would decay.
 **Replaces:** trajectory simulation to confirm GHZ_N (N >= 3) never crosses 1/4.
 **Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4; main README Section 6 Rule 1 (avoid GHZ, prefer W-type encodings).
 
-### F61. n_XY Parity Selection Rule (Tier 1, proven, verified 64 configs N=2-6)
+### F61. n_XY Parity Selection Rule (Tier 1, proven, verified 69 configs N=2-7)
 
 The Liouvillian of the isotropic Heisenberg model under Z-dephasing
 preserves n_XY parity. Consequences:
@@ -1649,8 +1649,11 @@ bit_b (w_YZ parity, F63). Combined, they decompose the operator space into
 **Valid for:** any isotropic Heisenberg (XX+YY+ZZ) or XY (XX+YY) model,
 any graph topology, any site-dependent Z-dephasing gamma_k, any N.
 **Breaks for:** amplitude damping (T1), transverse fields (odd-n_XY terms).
-**Verified:** 64 configurations (N=2-6, Chain/Star/Ring/Complete, 4 gamma
-profiles). Second slow mode SE Frobenius ratio < 1e-3 in all 64. Data:
+**Verified:** 69 configurations (chain N=2-7, ring N=2-6, star N=3-6,
+complete N=3-4, 4 gamma profiles each, plus the IBM-sacrifice profile at
+N=5 chain). Zero violations: all 60 configs with a distinct second slow
+mode have it SE-inaccessible (Frobenius ratio machine-zero); 9 small-N
+configs extract no distinct second mode. Data:
 `simulations/results/lens_survey/lens_survey_scaling.txt`.
 **Source:** [Proof](proofs/PROOF_PARITY_SELECTION_RULE.md)
 
