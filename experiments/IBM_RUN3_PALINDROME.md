@@ -56,8 +56,8 @@ For full derivation: [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md).
 
 ## The Experiment
 
-8-point single-qubit state tomography on Q80 of ibm_torino (127-qubit
-Eagle r3 / Heron r2 processor). Q80 was selected as a "permanent crosser"
+8-point single-qubit state tomography on Q80 of ibm_torino (Heron r2,
+133 qubits). Q80 was selected as a "permanent crosser"
 from 181 days of calibration data (r_calib = T2*/T1 ≈ 0.08, meaning the
 qubit consistently has short T2* relative to T1).
 

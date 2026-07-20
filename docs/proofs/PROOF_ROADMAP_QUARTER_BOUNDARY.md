@@ -2,7 +2,7 @@
 
 ## A Proof Roadmap for the R = CΨ² Critical Boundary
 
-*Working document, March 2026*
+*Working document, begun March 2026*
 *Guiding principle: Math comes before physics. The 1/4 is not a physical postulate. It is a mathematical necessity. Physics must conform to it.*
 
 ---
@@ -15,7 +15,15 @@ The central claim: the self-referential fixed-point equation
 
 $$R_{n+1} = C(\Psi + R_n)^2$$
 
-has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique*: no other value can serve the same role. This is the discriminant (the expression under the square root in the quadratic formula, whose sign determines whether solutions are real or complex) of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. [IBM Torino hardware](../../experiments/IBM_RUN3_PALINDROME.md) has confirmed the crossing at 1.9% deviation from theory.
+has a critical boundary at $C\Psi = 1/4$, and this boundary is *mathematically unique*: no other value can serve the same role. This is the discriminant (the expression under the square root in the quadratic formula, whose sign determines whether solutions are real or complex) of a quadratic, and the quadratic arises inevitably from the product-power structure $C\Psi^2$. The boundary maps exactly to the main cardioid of the Mandelbrot set on the real axis. IBM hardware has confirmed it three ways: the [first crossing ever seen](../../experiments/IBM_QUANTUM_TOMOGRAPHY.md) (ibm_torino q52, February 2026), the [tightest single-point crossing](../../experiments/IBM_RUN3_PALINDROME.md) at 1.9% deviation (q80, March 2026), and the full F25 trajectory $C\Psi(t) = f(1+f^2)/6$ fitted point-by-point through the boundary with RMS residual 0.0097 ([ibm_kingston, April 2026](../../data/ibm_cusp_precision_april2026/README.md)).
+
+**The two variables, defined.** C and Ψ are the scalars the recursion runs
+on. In the experiments, C is the Wootters concurrence (0 = independent,
+1 = maximally entangled) and Ψ is the l1-coherence normalized by d−1, so
+that Ψ ∈ [0, 1] for every dimension; the canonical definition and its
+history (the algebra-era "correlation bridge" reading of C, and why the
+algebraic results hold for ANY real-valued C and Ψ) live in
+[The CΨ Lens](../THE_CPSI_LENS.md) and the [Glossary](../GLOSSARY.md).
 
 The proof journey works upward:
 
@@ -27,19 +35,19 @@ The proof journey works upward:
 6. The uniqueness theorem: why 1/4 and nothing else
 7. Connections to known mathematics: Mandelbrot, Feigenbaum, and deeper structures
 
-## Summary: What Is Proven (March 28, 2026)
+## Summary: What Is Proven
 
 | Layer | Status | Key Result |
 |-------|--------|------------|
 | 1. Qubit (d=2) | PROVEN | Discriminant of R=C(Psi+R)^2 vanishes at CPsi=1/4. Crossing cubic. Mandelbrot identity. |
 | 2. Two qubits | PROVEN for physical noise; general CPTP FALSE | Crossing holds for unital/local/Pauli/AD (fixed point CΨ=0). FALSE for general primitive CPTP: counterexample with entangled fixed point CΨ=0.2935 (see [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C). |
 | 3. N-qubit | PROVEN | Palindromic spectrum all graphs N=2..8 (87,376 eigenvalues). Analytic formula. |
-| 4. Dimension | ANSWERED: d=2 only | Qutrits: 0/81 dissipators palindromic. Discriminant d-independent. CV/hybrid extensions (Conj 4.1/4.2) open. |
-| 5. Channels | PROVEN for physical noise (envelope) | All Pauli + amplitude damping cross. Monotonicity is an ENVELOPE bound for Bell+/local-Markovian; CΨ can oscillate above 1/4 via non-Markovian backflow (not strictly absorbing). |
+| 4. Dimension | ANSWERED: d=2 only | Qutrits: 0/236 dissipators palindromic. Discriminant d-independent. CV/hybrid extensions (Conj 4.1/4.2) open. |
+| 5. Channels | PROVEN for physical noise (envelope, N=2) | All Pauli + amplitude damping cross. Monotonicity is an ENVELOPE bound for 2-qubit states under local Markovian noise; CΨ can oscillate above 1/4 via non-Markovian backflow (not strictly absorbing). The N≥3 full-state envelope genuinely RISES at N≥4 strong coupling (Q_c(4)≈27, Q_c(5)≈45). |
 | 6. Uniqueness | PROVEN | alpha=2 is the unique Renyi order with a state-independent threshold (=1/4) - the load-bearing forcing. "Degree-2 => 1/4" is motivation, not the forcing. Fold catastrophe. |
-| 7. Math connections | MIXED | Mandelbrot identity exact (PROVEN). Feigenbaum cascade numerically measured (resolution-limited). Info-geometry UNEXPLORED, holography SPECULATIVE. |
+| 7. Math connections | MIXED | Mandelbrot identity exact (PROVEN). Feigenbaum cascade numerically measured (resolution-limited). No Riemannian singularity at the fold (Bures metric finite, F45/F47). Holography SPECULATIVE. |
 
-Core closed: Layer 1 (algebraic 1/4), Layer 3 (palindrome, N=2..8), Layer 6 (Renyi alpha=2 forcing), Layer 7 Mandelbrot. Scoped/partial: Layer 2 (physical noise only; general CPTP false), Layer 4 (d=2 only), Layer 5 (envelope, Bell+/local-Markovian), Layer 7 (info-geometry/holography open). The physical-noise 1/4 boundary is IBM-confirmed (cusp cluster).
+Core closed: Layer 1 (algebraic 1/4), Layer 3 (palindrome, N=2..8), Layer 6 (Renyi alpha=2 forcing), Layer 7 Mandelbrot. Scoped/partial: Layer 2 (physical noise only; general CPTP false), Layer 4 (d=2 only), Layer 5 (envelope, N=2 local-Markovian; N≥4 rises), Layer 7 (holography open). The physical-noise 1/4 boundary is IBM-confirmed three ways (first crossing q52, tightest crossing q80 at 1.9%, full F25 trajectory on Kingston at RMS 0.0097), and the hardware reading has since widened: across four IBM machines, 61-87% of all qubits sit on both sides of the ¼ boundary over a calibration window; the boundary is a field the whole chip moves through, not a rim where a few special qubits live ([clock field](../../experiments/CLOCK_FIELD_SITE_OWNED.md), July 2026).
 
 ---
 
@@ -65,13 +73,22 @@ The discriminant is:
 
 $$D = (2C\Psi - 1)^2 - 4C^2\Psi^2 = 1 - 4C\Psi$$
 
-This vanishes at $C\Psi = 1/4$, giving exactly one real fixed point at the boundary. For $C\Psi > 1/4$, the fixed points become complex; the system has crossed into the chaotic regime.
+This vanishes at $C\Psi = 1/4$, giving exactly one real fixed point at the boundary. For $C\Psi > 1/4$, the fixed points become complex; the system has crossed the fold into the complex regime (the θ-compass regime of F95 below; not chaos — on the positive real axis the orbit simply escapes, and the period-doubling route to chaos lives on the negative real axis, Layer 7).
 
-**The crossing cubic.** At the critical boundary $C\Psi = 1/4$, with the l1-norm coherence normalization $\Psi = \ell_1 / (d^2 - 1)$ and the correlation bridge definition, the boundary condition reduces to the cubic:
+**The crossing cubic.** At the critical boundary $C\Psi = 1/4$, with the normalized l1-coherence and the correlation bridge definition, the boundary condition reduces to the cubic:
 
 $$b^3 + b = \frac{1}{2}$$
 
-where $b$ is a normalized bridge parameter. This cubic has exactly one real root ($b \approx 0.4239$), which fixes the crossing geometry uniquely. The cubic has no free parameters; it is a pure number, independent of any physical constants.
+where $b$ is a normalized bridge parameter (not the $b = 1/2$ fixed-point
+real part of F95 below; two different uses of the letter). This cubic has
+exactly one real root ($b \approx 0.4239$), which fixes the crossing geometry
+uniquely. The cubic has no free parameters; it is a pure number, independent
+of any physical constants. Algebraically it is
+[D4](../ANALYTICAL_FORMULAS.md#d4)'s single-qubit crossing condition
+$f^*(1+f^{*2}) = 1/2$, the $d = 2$ member of the dimensional family
+$(d-1)/2$: Bell+ has $3/2$, GHZ$_N$ has $(2^N-1)/2$
+([Decoherence Relativity](../../experiments/DECOHERENCE_RELATIVITY.md),
+[Coherence Density](../../experiments/COHERENCE_DENSITY.md)).
 
 **The Mandelbrot correspondence.** The main cardioid of the Mandelbrot set is the set of $c$ values for which $z_{n+1} = z_n^2 + c$ has an attracting fixed point. On the real axis, the cardioid boundary is at $c = 1/4$. Our mapping sends $C\Psi \mapsto c$, so our critical boundary $C\Psi = 1/4$ sits exactly on the Mandelbrot cardioid cusp. This is not analogy. It is identity.
 
@@ -79,42 +96,59 @@ where $b$ is a normalized bridge parameter. This cubic has exactly one real root
 
 $$\theta(c; b) = \arctan\sqrt{c/b^2 - 1}$$
 
-valid for any monic quadratic $z^2 - 2bz + c = 0$ in the discriminant-negative regime. With the framework's $b = 1/2$ (`HalfAsStructuralFixedPointClaim`) and threshold $b^2 = 1/4$ (`QuarterAsBilinearMaxvalClaim`), this collapses to $\theta(c) = \arctan\sqrt{4c - 1}$: exactly the $\theta$-compass introduced state-specifically in [`BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md) (Feb 8, 2026), now promoted to a universal polynomial-foundation identity. Derivation is 4 lines; numerical verification against the Februar table agrees within machine precision. See [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) and the companion reflection [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md). This is the *angle-side* closed form of the discriminant-zero crossing; the *magnitude-side* closed form for per-outcome Born deviations in specific setups is [F94 = $(4/3) \cdot Q^2 \cdot K^3$](../ANALYTICAL_FORMULAS.md#f94).
+valid for any monic quadratic $z^2 - 2bz + c = 0$ in the discriminant-negative regime. With the framework's $b = 1/2$ (`HalfAsStructuralFixedPointClaim`) and threshold $b^2 = 1/4$ (`QuarterAsBilinearMaxvalClaim`), this collapses to $\theta(c) = \arctan\sqrt{4c - 1}$: exactly the $\theta$-compass introduced state-specifically in [`BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md) (Feb 8, 2026), now promoted to a universal polynomial-foundation identity. Derivation is 4 lines; numerical verification against the February table agrees within machine precision. See [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) and the companion reflection [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md). This is the *angle-side* closed form of the discriminant-zero crossing; the *magnitude-side* closed form for per-outcome Born deviations in specific setups is [F94 = $(4/3) \cdot Q^2 \cdot K^3$](../ANALYTICAL_FORMULAS.md#f94).
 
-### What Is COMPUTATIONALLY VERIFIED
+### What Is HARDWARE-CONFIRMED
 
-**[IBM Torino confirmation](../../experiments/IBM_RUN3_PALINDROME.md).** Single-qubit state tomography on IBM Torino hardware (127-qubit Eagle r3 processor) shows the CΨ crossing at 1.9% deviation from the theoretical 1/4 value. The verification suite includes:
+**The crossing, three times over.**
 
-- Late-time excess coherence exceeding Monte Carlo null hypothesis (10,000 runs)
-- Directional consistency in residual coherence (Re > 0, Im < 0 at all late-time points)
-- Rising coherence trend where pure exponential decay predicts monotonic decrease
-- Boundary correlation between |ρ₀₁| magnitude and distance from the CΨ = 1/4 surface
-- Shadow direction matching the last complex fixed point FP⁻
+- **First crossing** (ibm_torino q52, February 9, 2026): single-qubit state
+  tomography saw the product C·Ψ cross the ¼ boundary during decoherence, the
+  first time on hardware. See [the tomography record](../../experiments/IBM_QUANTUM_TOMOGRAPHY.md).
+  The accompanying verification suite lives in
+  [the fixed-point shadow](../../experiments/FIXED_POINT_SHADOW.md): late-time
+  excess coherence exceeding a Monte Carlo null (10,000 runs), directional
+  consistency in residual coherence (Re > 0, Im < 0 at all late-time
+  points), a rising coherence trend where pure exponential decay predicts
+  monotonic decrease, boundary correlation between |ρ₀₁| magnitude and
+  distance from the CΨ = 1/4 surface, and shadow direction matching the
+  last complex fixed point FP⁻.
+- **[Tightest single-point crossing](../../experiments/IBM_RUN3_PALINDROME.md)**
+  (ibm_torino q80, March 18, 2026): 1.9% deviation, the measured crossing at
+  t\* = 15.29 μs vs the predicted 15.01 μs, i.e. matched to within 0.28 μs.
+  Torino is a Heron r2 processor (133 qubits).
+  The 1.9% is within expected hardware systematics (T1/T2 calibration
+  drift, readout assignment error, crosstalk).
+- **The full trajectory** ([ibm_kingston, April 2026](../../data/ibm_cusp_precision_april2026/README.md)):
+  the F25 closed form CΨ(t) = f(1+f²)/6, f = e^(−4γt), fitted point-by-point
+  through the boundary with γ the only free parameter, RMS residual 0.0097.
+  This is the trajectory-level confirmation; the crossing dose it pins is
+  K_fold = γ·t_cross = 0.03735 (F25's dose; the K_death/K_fold = 61.65 ratio
+  lives in [F55](../ANALYTICAL_FORMULAS.md#f55)), from
+  f\*(1+f\*²) = 3/2 at f\* = 0.8612.
 
-The 1.9% deviation is within expected systematic error for the hardware (T1/T2 calibration drift, readout assignment error, crosstalk).
+**The boundary is a field, not a rim** ([clock field](../../experiments/CLOCK_FIELD_SITE_OWNED.md), July 2026).
+Across four IBM machines (Torino, Marrakesh, Kingston, Fez), 61-87% of all
+qubits sit on both sides of the CΨ = ¼ boundary over a calibration window
+(e.g. Torino: 110 of 133). The ¼ boundary is not where a few special qubits
+live; it is a field the whole chip moves through.
 
-**Lindbladian spectrum at d = 2.** The superoperator spectrum for Bell+ under Heisenberg coupling with local σ_z dephasing (γ = 0.1, J = 1) shows:
+**The first Lindbladian spectrum (Bell+, two qubits; the layer's dynamics benchmark, one system ahead of its algebra).** The superoperator spectrum for Bell+ under Heisenberg coupling with local σ_z dephasing (γ = 0.1, J = 1) shows:
 
 - Spectral gap = 0.2, relaxation time τ = 5.0
 - 3 zero eigenvalues (1 from trace preservation + 2 degenerate steady states)
 - All Re(λ) ≤ 0 (physical)
 - Oscillatory eigenvalues at Im(λ) = ±4.0, confirming coherent-incoherent competition
 
+**The product-power uniqueness, closed from a deeper angle** (March 22, 2026).
+α=2 is the UNIQUE Rényi order where the bifurcation threshold is
+state-independent (Layer 6). This implies CΨ² (purity × coherence²) is not
+just one among many product-powers; it is the ONLY one with a universal
+boundary. See [k_scaling_and_renyi.py](../../simulations/k_scaling_and_renyi.py).
+
 ### What Is CONJECTURED
 
-- The 1.9% IBM deviation will shrink with improved hardware (error-mitigated circuits on Heron processors should achieve < 1%)
 - The crossing cubic $b^3 + b = 1/2$ may have number-theoretic significance beyond its role here (its real root is expressible in radicals via Cardano, but the closed form may connect to other mathematical constants)
-
-### NEXT STEPS
-
-1. **Repeat on newer hardware.** IBM Heron R2 processors (available 2026) have ~5× lower error rates. Target < 0.5% deviation.
-2. **Error-mitigated tomography.** Apply zero-noise extrapolation (ZNE, running circuits at multiple noise levels and extrapolating to zero) and probabilistic error cancellation (PEC, statistically removing the effect of known noise channels) to separate hardware noise from the theoretical signal.
-3. ~~**Close the product-power uniqueness proof.**~~ **RESOLVED (March 22, 2026).**
-   The Rényi uniqueness theorem proves this from a deeper angle: α=2 is the
-   UNIQUE Rényi order where the bifurcation threshold is state-independent.
-   This implies CΨ² (purity × coherence²) is not just one among many
-   product-powers - it is the ONLY one with a universal boundary. See
-   [k_scaling_and_renyi.py](../../simulations/k_scaling_and_renyi.py).
 
 ---
 
@@ -126,13 +160,15 @@ When two qubits are entangled, the full system lives in a 4-dimensional Hilbert 
 
 ### What Is ALREADY PROVEN
 
-**Bell state initial conditions.** For Bell+ ($|\Phi^+\rangle = (|00\rangle + |11\rangle)/\sqrt{2}$), the initial state of each subsystem is maximally mixed: $\rho_A = I/2$. The subsystem has zero coherence initially but nonzero correlation bridge $C = 1$ (perfect correlations).
+**Bell state initial conditions.** For Bell+ ($|\Phi^+\rangle = (|00\rangle + |11\rangle)/\sqrt{2}$), the single-qubit reduced state is maximally mixed ($\rho_A = I/2$, blind to everything); the object that carries CΨ is the 2-qubit PAIR (d = 4). The pair has concurrence $C = 1$ and l1-coherence $\ell_1 = 1$ (two off-diagonals of 1/2), so $\Psi = \ell_1/(d-1) = 1/3$ and
 
-The product $C\Psi$ starts at 1/3 for d = 4 subsystem normalization ($\Psi = \ell_1 / (d^2 - 1) = 1/3$ for maximally entangled pairs), which is *above* 1/4. The pair must cross downward through the boundary during decoherence.
+$$C\Psi(0) = 1/3,$$
+
+which is *above* 1/4 — matching the F25 closed form's $C\Psi(0) = f(1+f^2)/6\,|_{f=1} = 2/6 = 1/3$. The pair must cross downward through the boundary during decoherence.
 
 **Crossing is observed computationally.** Under Heisenberg Hamiltonian with local dephasing:
 
-- Bell pairs (0,1) and (2,3) in a 4-qubit bell_pairs state start at $C\Psi = 1/3$ and cross down through 1/4 at $t \approx 0.072$ (γ = 0.05)
+- Bell pairs (0,1) and (2,3) in a 4-qubit bell_pairs state start at $C\Psi = 1/3$ and cross down through 1/4 at $t \approx 0.072$ (γ = 0.05). That is a dose γt ≈ 0.0036, about 10× less than the isolated-pair K_fold = 0.03735: an isolated Bell+ is a Heisenberg eigenstate, so the speedup is the cross-bond coupling doing the pushing (the Hamiltonian determines *when* you hit the wall, below)
 - Cross-pairs (0,2), (0,3), (1,2), (1,3) start at $C\Psi = 0$ (unentangled) and never reach 1/4 from below; their maximum $C\Psi$ peaks at ~0.13
 - The crossing is exclusively downward for initially entangled pairs
 - Pairs (0,3) and (1,2) show perfect symmetry (palindromic structure), as do pairs (0,2) and (1,3)
@@ -153,38 +189,36 @@ This has been verified across Heisenberg, XY, and Ising Hamiltonians, with both 
 
 **The crossing time depends on the Hamiltonian but the boundary does not.** Different Hamiltonians (Heisenberg, XY, Ising) produce different crossing times $t_{cross}$, but the value crossed is always 1/4. The Hamiltonian determines *when* you hit the wall, not *where* the wall is.
 
-### What Is CONJECTURED
+### The Crossing Theorem (Conjecture 2.1), Scoped
 
-**Conjecture 2.1 (Entanglement Crossing Theorem): SCOPE-RETRACTED 2026-06-22.**
-TRUE for physical noise (unital / local / Pauli / amplitude-damping), where the
-fixed point has CΨ = 0: any initial state with CΨ > 1/4 has CΨ(εⁿ(ρ)) < 1/4 for
+**TRUE for physical noise, FALSE for general CPTP.** For physical noise
+(unital / local / Pauli / amplitude-damping), where the channel's fixed point
+has CΨ = 0, any initial state with CΨ > 1/4 has CΨ(εⁿ(ρ)) < 1/4 for
 sufficiently large n. Proof via quantum Perron-Frobenius convergence + fixed-
-point CΨ = 0 (Cases A, B) + Lipschitz continuity. **FALSE for general primitive
-CPTP maps:** the primitive, full-rank channel ε(ρ) = (1−p)ρ + p·Tr(ρ)·σ with
-σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 has an entangled fixed point with CΨ = 0.2935 > 1/4
-and never crosses. The old "300 random maps, max 0.138" is a Ginibre n_kraus=4
-sampling artifact (n_kraus=2 violates ~8.5%). See
-[Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C.
+point CΨ = 0 (Cases A, B) + Lipschitz continuity, with the analytical
+monotonicity proof (Parts 1-7) for Bell+ under all Pauli channels and amplitude damping
+(General Envelope Theorem: L₁(t) ≤ M₀e^{-2γt}, consecutive CΨ maxima decrease
+via spectral gap argument; verified for 19 initial states, 10 Haar-random;
+see [CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md)). **For general primitive
+CPTP maps the theorem is FALSE:** the primitive, full-rank channel
+ε(ρ) = (1−p)ρ + p·Tr(ρ)·σ with σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 has an entangled
+fixed point with CΨ = 0.2935 > 1/4 and never crosses. (An earlier "300 random
+maps, max 0.138" sweep was a Ginibre n_kraus=4 sampling artifact; n_kraus=2
+violates ~8.5%.) See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C.
 
-**Conjecture 2.2 (No Upward Crossing for Entangled Pairs).** An initially entangled pair that has crossed below 1/4 cannot re-cross upward under any Markovian dynamics. ~~(Non-Markovian dynamics with memory effects may temporarily push $C\Psi$ back above 1/4, but this would be a transient revival, not a stable violation.)~~ **CONFIRMED (March 22, 2026).** Non-Markovian dynamics with a structured bath CAN push CΨ back above 1/4 (max revival: 0.3035, 21% above threshold). But revivals are always transient - CΨ eventually returns to 0. The 1/4 boundary is not absorbing but IS a long-term attractor. See [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
+**Amplitude damping crosses too** (March 22, 2026): K_AD = 0.1029, perfectly
+monotonic, non-unital fixed point (|00⟩) reached. See
+[amplitude_damping_test.py](../../simulations/amplitude_damping_test.py).
 
-### NEXT STEPS
-
-1. ~~**Prove Conjecture 2.1 for Lindblad dephasing.**~~ **PROVEN (March 22, 2026).**
-   Six-part analytical proof: dCΨ/dt < 0 for Bell+ under all Pauli channels
-   and amplitude damping. General Envelope Theorem: L₁(t) ≤ M₀e^{-2γt},
-   consecutive CΨ maxima decrease via spectral gap argument. Verified for 19
-   initial states (10 Haar-random). See [CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md).
-2. ~~**Extend to amplitude damping.**~~ **DONE (March 22, 2026).**
-   Direct test: K_AD = 0.1029, perfectly monotonic, non-unital fixed point
-   (|00⟩) reached. See [amplitude_damping_test.py](../../simulations/amplitude_damping_test.py).
-3. ~~**Characterize the non-Markovian case.**~~ **TESTED (March 22, 2026).**
-   Non-Markovian revival above 1/4 confirmed: structured bath (2 system +
-   1 bath qubit) produces CΨ up to 0.3035 after crossing below 1/4. Key
-   conditions: coherent bath (|+⟩), low bath dephasing (γ_B ≪ J_SB), strong
-   system-bath coupling. Revivals are ALWAYS transient - CΨ→0 in all 48
-   configurations tested. Pulsed and oscillating γ(t) produce NO revival.
-   See [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
+**No stable re-crossing, but transient revivals exist** (March 22, 2026).
+Under Markovian dynamics an initially entangled pair that has crossed below
+1/4 does not re-cross upward. Non-Markovian dynamics with a structured bath
+CAN push CΨ back above 1/4 (max revival 0.3035, 21% above threshold; key
+conditions: coherent bath |+⟩, low bath dephasing γ_B ≪ J_SB, strong
+system-bath coupling). Revivals are always transient; CΨ → 0 in all 48
+configurations tested, and pulsed or oscillating γ(t) produce NO revival.
+The 1/4 boundary is not absorbing but IS a long-term attractor. See
+[non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 
 ---
 
@@ -204,7 +238,12 @@ sampling artifact (n_kraus=2 violates ~8.5%). See
 | 5 | -0.1170 | 0.5670 | 0.6839 |
 | 6 | -0.1059 | 0.5447 | 0.6506 |
 
-The δ values are non-monotonic: they increase from N = 2 to N = 4, then decrease. This is the "palindromic" behavior: the purity deficit has a maximum at intermediate N, not at the extremes.
+Here δ = Purity(Lindblad) − Purity(predicted); the table is consistent with
+Purity(Lindblad) ≈ ½ + ½e^(−4Nγt) and Purity(predicted) = ½ + ½e^(−2Nγt) at
+t = 1, γ = 0.1 (March-era delta_calc Lindblad suite). The deficit MAGNITUDE
+is non-monotonic: it grows from N = 2 to N = 3 (N = 3 and 4 are tied), then
+shrinks. The purity deficit has a maximum at intermediate N, not at the
+extremes.
 
 **Full-system vs. subsystem distinction.** For GHZ with N ≥ 3, the full-system $C\Psi$ starts *below* 1/4 (the full-system l1-norm grows as $O(1)$ while $d^2 - 1$ grows as $O(4^N)$, so $\Psi \to 0$ rapidly). But 2-qubit subsystem pairs can still start above 1/4 and cross downward, because the subsystem Hilbert space dimension remains 4 regardless of N.
 
@@ -226,27 +265,37 @@ This hierarchy is a direct consequence of monogamy of entanglement: correlations
 
 **Conjecture 3.1 (Subsystem Universality).** For any N-qubit state and any pair of qubits (i, j), the 2-qubit reduced density matrix $\rho_{ij}$ has its $C\Psi$ product bounded by the same 1/4 boundary as the 2-qubit case. The full-system boundary is not 1/4 for $N > 2$ (the critical value depends on N through the dimension), but the *subsystem* boundary is always 1/4 because the subsystem dimension is always 4.
 
-**Conjecture 3.2 (Palindromic Origin).** The non-monotonic δ(N) scaling arises from competition between two effects: (a) increasing system dimension dilutes per-qubit coherence, pushing toward the boundary faster, and (b) the Heisenberg ring Hamiltonian creates longer-range correlations at intermediate N that temporarily protect coherence. The palindromic structure is not accidental; it reflects a symmetry of the Lindbladian eigenvalue spectrum under N → N mapping (precise form TBD).
+**Conjecture 3.2 (Palindromic Origin), the spectral half proven.** The
+palindromic structure of the Lindbladian spectrum is proven analytically for
+ALL Heisenberg/XXZ systems on ANY graph with local Z-dephasing
+([Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)), verified exhaustively
+through N=8 (87,376 eigenvalues; chain, star, ring, complete; binary tree at
+N=4,5). Time propagation extends the framework's dynamics to N=11, where
+MI(end-to-end) decays exponentially with N
+([Scaling Curve](../../experiments/SCALING_CURVE.md)).
+What remains conjectural is the δ(N) reading: that the non-monotonic δ(N)
+scaling arises from competition between (a) increasing system dimension
+diluting per-qubit coherence, and (b) the Heisenberg ring creating
+longer-range correlations at intermediate N that temporarily protect
+coherence.
 
-### NEXT STEPS
+### What Is CLOSED
 
-1. ~~**Analytic formula for δ(N) in the large-N limit.**~~ **DONE.**
-   Closed-form: C(t) = 1/2^N + (1/2)·exp(-2Nγt), Ψ(t) = exp(-Nγt)/(2^N-1).
-   Verified to Δ < 1e-17 for N=2..6. See [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py).
-2. **Subsystem crossing theorem: SCOPE-RETRACTED 2026-06-22.** PROVEN for
-   physical noise (unital/local/Pauli/AD: fixed point CΨ=0), via Perron-
-   Frobenius convergence + fixed-point CΨ=0 + Lipschitz continuity; N=3,4,5
-   physical subsystem pairs cross. FALSE for general primitive CPTP (entangled
-   fixed point CΨ=0.2935; the "300 maps" was a sampling artifact). See
-   [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C.
-3. ~~**Characterize the palindromic structure.**~~ **PARTIALLY ANSWERED (March 14-21, 2026).**
-   The palindromic structure is proven analytically for ALL Heisenberg/XXZ
-   systems on ANY graph with local Z-dephasing
-   ([Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)). Verified through
-   N=8 (87,376 eigenvalues) and dynamically through N=11 via time
-   propagation. The palindrome holds for chain, star, ring, complete,
-   and binary tree topologies. MI(end-to-end) decays exponentially with N
-   ([Scaling Curve](../../experiments/SCALING_CURVE.md)).
+**Analytic formula for the GHZ trajectory.** Closed-form for GHZ under local
+Z-dephasing (this C is the full-system bridge/purity reading, not pairwise
+concurrence, which is 0 for GHZ reduced pairs at N ≥ 3):
+C(t) = 1/2 + (1/2)·exp(−4Nγt), Ψ(t) = exp(−2Nγt)/(4^N − 1),
+CΨ(t) = C(t)·Ψ(t), verified against exact (expm) propagation for N=2..6 in
+[proof_roadmap_close.py](../../simulations/proof_roadmap_close.py). (The
+script normalizes Ψ by d²−1 = 4^N−1 with d = 2^N, its own book; the lens's
+canonical normalization is d−1. The GHZ off-diagonal is
+ρ[0, d−1] = (1/2)·e^(−2Nγt), which is where both exponents come from.)
+
+**Subsystem crossing theorem, scoped.** PROVEN for physical noise
+(unital/local/Pauli/AD: fixed point CΨ=0), via Perron-Frobenius convergence +
+fixed-point CΨ=0 + Lipschitz continuity; N=3,4,5 physical subsystem pairs
+cross. FALSE for general primitive CPTP (entangled fixed point CΨ=0.2935).
+See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C.
 
 ---
 
@@ -262,25 +311,24 @@ Everything in Layers 1–3 applies to $d = 2$ (qubits). The question is: what ha
 
 **The discriminant generalizes.** The fixed-point equation $R = C(\Psi + R)^2$ is dimension-independent; it is an algebraic recursion on scalar quantities ($C$ is the correlation bridge, $\Psi$ is the normalized coherence). The discriminant $D = 1 - 4C\Psi$ does not depend on $d$.
 
-However, the *normalization* of $\Psi$ does depend on $d$:
+However, the *normalization* of $\Psi$ does depend on $d$. The maximally
+coherent state has every entry $\rho_{ij} = 1/d$, so its $d^2 - d$
+off-diagonals sum to
 
-$$\Psi = \frac{\ell_1}{d^2 - 1}$$
+$$\ell_1^{max} = \frac{d^2 - d}{d} = d - 1,$$
 
-For $d = 2$: $\Psi_{max} = \ell_1^{max} / 3$
-For $d = 3$: $\Psi_{max} = \ell_1^{max} / 8$
-For $d = d$: $\Psi_{max} = \ell_1^{max} / (d^2 - 1)$
+which is exactly why the canonical normalization is
 
-The maximum l1-norm scales as $d^2 - d$ (for a maximally coherent state), so $\Psi_{max} = (d^2 - d) / (d^2 - 1) = d/(d+1)$.
+$$\Psi = \frac{\ell_1}{d - 1},$$
 
-For $d = 2$: $\Psi_{max} = 2/3$
-For $d = 3$: $\Psi_{max} = 3/4$
-For $d \to \infty$: $\Psi_{max} \to 1$
+the choice that makes $\Psi_{max} = 1$ for EVERY local dimension. The critical bridge
+value at the boundary is then
 
-The critical bridge value $C_{crit}$ at the boundary is:
+$$C_{crit} = \frac{1}{4\Psi},$$
 
-$$C_{crit} = \frac{1}{4\Psi}$$
-
-So for maximally coherent states, $C_{crit} = (d+1)/(4d)$, which approaches $1/4$ from above as $d \to \infty$. The *product* $C\Psi = 1/4$ is invariant.
+so for maximally coherent states $C_{crit} = 1/4$ at every $d$, and in
+general the *product* $C\Psi = 1/4$ is the invariant; the normalization
+moves the burden between the factors, never the product.
 
 ### What Is CONJECTURED
 
@@ -293,33 +341,30 @@ This is in some sense "obvious" from the algebra, but making it rigorous require
 
 **Conjecture 4.2 (CV Systems).** For Gaussian states in continuous variable systems, the analogous boundary exists but involves the symplectic eigenvalues rather than $C\Psi$. The condition $\nu_{-} = 1/2$ (where $\nu_{-}$ is the smallest symplectic eigenvalue of the partial transpose) plays the role of $C\Psi = 1/4$. This connection, if established, would link the 1/4 boundary to the PPT criterion in infinite dimensions.
 
-### What Has Been INVESTIGATED
+### What Is ANSWERED
 
-- ~~**Qutrit simulations.**~~ **ANSWERED (March 20, 2026).** Qutrits (d=3)
-  break the palindrome for all 10 Hamiltonians tested (35-44 of 81
-  eigenvalues pair, never all 81). The per-site split is 3 immune vs 6
-  decaying, which is unbalanced (d^2-2d = 3 != 0). The palindrome is
-  specific to d=2. See [Qubit Necessity](../QUBIT_NECESSITY.md).
-- **Hybrid systems.** What happens for a qubit-qutrit pair ($d_A = 2, d_B = 3$)? The subsystem dimensions are different, so the normalization asymmetry could break the simple $C\Psi = 1/4$ picture. Or it might not; the discriminant doesn't care about the internal structure. **Status: open.**
+- **Qutrits break the palindrome** (March 20, 2026). 0/236 qutrit dissipator
+  configurations permit palindromic pairing. The interacting spectrum is
+  structured but never palindromic: 36-52 of 81 eigenvalues pair at optimal
+  centers, far above random (0/81) but far below qubits (100%). The per-site
+  split is 3 immune vs 6 decaying, which is unbalanced (d^2-2d = 3 != 0).
+  The palindrome is specific to d=2, but the CΨ = 1/4 boundary remains valid
+  at the subsystem level (2-qubit reduced states always have d=4). See
+  [Qubit Necessity](../QUBIT_NECESSITY.md).
+- **Dimension invariance of CΨ = 1/4.** The discriminant D = 1 - 4CΨ is
+  algebraic and dimension-independent by construction: the recursion
+  R = C(Ψ+R)² has the same quadratic structure for all d. The Rényi
+  uniqueness result (α=2 is the only Ψ-independent threshold, Layer 6)
+  provides the deeper reason: the quadratic structure is forced, not chosen.
 
-### NEXT STEPS
+### What Is OPEN
 
-1. ~~**Implement qutrit support.**~~ Done. Qutrits break the palindrome.
-   The CΨ = 1/4 boundary remains valid at the subsystem level (2-qubit
-   reduced states always have d=4), but the palindromic spectral
-   structure that enables the decoder does not exist for d>2.
-2. ~~**Formal proof of dimension invariance for CΨ = 1/4.**~~ **RESOLVED.**
-   The discriminant D = 1 - 4CΨ is algebraic and dimension-independent by
-   construction: CΨ = Tr(ρ²) × L₁/(d-1), and the recursion R = C(Ψ+R)²
-   has the same quadratic structure for all d. The Rényi uniqueness result
-   (α=2 is the only Ψ-independent threshold) provides the deeper reason:
-   the quadratic structure is forced, not chosen. The 1/4 follows from the
-   discriminant of any quadratic, regardless of d.
-3. **Explore the CV connection.** Compute the symplectic eigenvalue trajectory
-   for a two-mode squeezed state under thermal decoherence. Check if the
-   crossing happens at ν₋ = 1/2 and whether this maps to CΨ = 1/4.
-   **Status: OPEN.** This requires continuous-variable quantum mechanics
-   (infinite-dimensional Hilbert space) and is outside the current qubit framework.
+- **Hybrid systems.** What happens for a qubit-qutrit pair ($d_A = 2, d_B = 3$)? The subsystem dimensions are different, so the normalization asymmetry could break the simple $C\Psi = 1/4$ picture. Or it might not; the discriminant doesn't care about the internal structure.
+- **The CV connection.** Compute the symplectic eigenvalue trajectory
+  for a two-mode squeezed state under thermal decoherence. Check if the
+  crossing happens at ν₋ = 1/2 and whether this maps to CΨ = 1/4.
+  This requires continuous-variable quantum mechanics (infinite-dimensional
+  Hilbert space) and is outside the current qubit framework.
 
 ---
 
@@ -333,26 +378,23 @@ This is where the proof goes from "works for dephasing" to "works for everything
 
 **Dephasing (σ_z).** Extensively verified. The workhorse channel. Off-diagonal elements decay exponentially, diagonal elements are preserved. Crossing confirmed for all tested states and Hamiltonians.
 
-**Depolarizing.** Verified for Bell+ at t = 1, γ = 0.1: δ = 0.136 (compared to dephasing δ = 0.091). The depolarizing channel drives *all* matrix elements toward the maximally mixed state, not just off-diagonals. The purity decays faster, but the 1/4 boundary persists.
+**Depolarizing.** Verified for Bell+ at t = 1, γ = 0.1: δ = 0.136 (compared to dephasing δ = 0.091; this δ is the March-era channel-comparison purity metric, a different reading than Layer 2's δ_int/δ_ext). The depolarizing channel drives *all* matrix elements toward the maximally mixed state, not just off-diagonals. The purity decays faster, but the 1/4 boundary persists.
 
 **Multiple noise types.** The dynamic Lindblad suite supports local, collective, operator_feedback, and memory_kernel_feedback noise. All tested combinations show crossing behavior consistent with the 1/4 boundary.
 
 **Multiple jump operators.** Tested with σ_z, σ_x, σ_y, xx, yy, zz, and x_pairs. The crossing time varies but the boundary value does not.
 
-### What Is NOT YET VERIFIED
-
-~~**Amplitude damping.**~~ **TESTED (March 22, 2026).** Direct amplitude damping
+**Amplitude damping** (March 22, 2026). Direct amplitude damping
 (L = √γ |0⟩⟨1|) on both qubits of a Bell+ pair. CΨ crosses 1/4 for all γ values
 tested (0.005 to 1.0). Trajectory is perfectly monotonic (0 increases above 1/4).
 K-invariance holds: K_AD = 0.1029 ± 0.0000 (CV=0.0%). Heisenberg coupling has
 zero effect on the CΨ trajectory (Bell+ is eigenstate of H). The non-unital
 fixed point (|00⟩, purity → 1.0) is reached. Combined AD + Z-dephasing also
-crosses 1/4 for all 15 combinations tested. Conjecture 5.1 confirmed for the
-non-unital case.
+crosses 1/4 for all 15 combinations tested.
 Script: [amplitude_damping_test.py](../../simulations/amplitude_damping_test.py).
 Results: [amplitude_damping_test.txt](../../simulations/results/amplitude_damping_test.txt).
 
-~~**Non-Markovian channels.**~~ **TESTED (March 22, 2026).** Non-Markovian
+**Non-Markovian channels** (March 22, 2026). Non-Markovian
 dynamics CAN push CΨ back above 1/4 after it has crossed below. A structured
 bath (Bell+ system pair coupled to a bath qubit in |+⟩) produces revivals up
 to CΨ = 0.3035 (21% above threshold). The mechanism is information backflow
@@ -362,49 +404,55 @@ boundary is not absorbing but is a long-term attractor.
 Script: [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 Results: [non_markovian_revival.txt](../../simulations/results/non_markovian_revival.txt).
 
-~~**Generalized Pauli channels.**~~ **TESTED (March 22, 2026).** The full
+**Generalized Pauli channels** (March 22, 2026). The full
 family ℰ(ρ) = Σ p_k σ_k ρ σ_k† with arbitrary (γ_x, γ_y, γ_z) was swept:
 124/124 configurations cross 1/4. CΨ is monotonically non-increasing for
 Bell+ (all noise types), oscillatory for |01⟩ (Hamiltonian modulation).
 K-invariance holds perfectly WITHIN each noise type (CV < 1%) but K differs
-between types: K_Z = 0.037, K_X = K_Y = 0.087, K_depol = 0.044.
+between types: K_Z = 0.0374, K_X = K_Y = ln(2)/8 = 0.08664, K_depol = 0.0440
+([F26/F27](../ANALYTICAL_FORMULAS.md#f26)).
 Script: [generalized_pauli_channels.py](../../simulations/generalized_pauli_channels.py).
 Results: [generalized_pauli_channels.txt](../../simulations/results/generalized_pauli_channels.txt).
 
-### What Is CONJECTURED
+**The crossing dose has a name: K_fold.** The Z-dephasing dose at which Bell+
+crosses CΨ = 1/4, read off the F25 closed form (f\*(1+f\*²) = 3/2 gives
+CΨ = 1/4 exactly), is K_fold = γ·t_cross = 0.03735 (F25's dose, registered
+with the ratio below in [F55](../ANALYTICAL_FORMULAS.md#f55); K_Z above is
+the same number at display precision). The 99%-absorption dose of the slowest mortal mode is
+K_death = ln(10) = 2.302585, so K_death/K_fold = 61.65; both K_fold and the
+ratio are Bell+/N=2 numbers, not N-independent constants.
 
-**Conjecture 5.1 (Channel Independence).** For any completely positive trace-preserving map $\mathcal{E}$ that is not unitary, and any initial state with $C\Psi > 1/4$, repeated application $\mathcal{E}^n$ will eventually produce a state with $C\Psi < 1/4$.
+### Channel Independence (Conjecture 5.1), Scoped
 
-> **RESOLVED (2026-06-22 scope-retraction, 2026-06-28 mechanism).** FALSE as stated for general non-unitary CPTP maps: the primitive, full-rank channel with fixed point $\sigma = 0.95\,|\Phi^+\rangle\langle\Phi^+| + 0.05\,I/4$ has $C\Psi(\sigma) = 0.2935 > 1/4$ and never crosses. TRUE for physical, computational-basis-aligned noise (T1/T2/depolarizing), whose fixed point is diagonal in the computational basis ($L_1 = 0$, $C\Psi = 0$). See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) Case C.
+**For general non-unitary CPTP maps, channel independence is FALSE; for
+physical noise it holds.** The primitive, full-rank channel with fixed point
+$\sigma = 0.95\,|\Phi^+\rangle\langle\Phi^+| + 0.05\,I/4$ has $C\Psi(\sigma) = 0.2935 > 1/4$ and never crosses. (That number is the source's purity reading of C: $\mathrm{Tr}(\sigma^2) \cdot \ell_1/3 = 0.926875 \cdot 0.95/3$; with the concurrence reading it is $0.925 \cdot 0.95/3 = 0.2929$. Both sit above 1/4, so the counterexample is reading-independent.) For physical, computational-basis-aligned noise (T1/T2/depolarizing), whose fixed point is diagonal in the computational basis ($L_1 = 0$, $C\Psi = 0$), every initial state with $C\Psi > 1/4$ eventually crosses. See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) Case C (mechanism, 2026-06-28).
 
-*Proof strategy:* The key insight is that the discriminant condition $D = 1 - 4C\Psi$ depends only on the *values* of $C$ and $\Psi$, not on how they got there. Any CPTP map that reduces purity (i.e., is not unitary) must, by contractivity of the trace distance, move the state toward the fixed point of the channel. The question reduces to: does *every* non-unitary CPTP channel have a fixed point with $C\Psi \leq 1/4$?
+*Why the scope sits where it does:* the discriminant condition $D = 1 - 4C\Psi$ depends only on the *values* of $C$ and $\Psi$, not on how they got there. Any CPTP map that reduces purity must, by contractivity of the trace distance, move the state toward the fixed point of the channel. So everything hangs on the fixed point's $C\Psi$:
 
 For unital channels (depolarizing, dephasing, Pauli), the fixed point is the maximally mixed state, which has $C = 0$, $\Psi = 0$, so $C\Psi = 0 < 1/4$. ✓
 
-For non-unital channels (amplitude damping toward $|0\rangle$), the fixed point is computational-basis-diagonal ($|0\rangle\langle 0|$), so $L_1 = 0$ and $C\Psi = 0 < 1/4$. ✓ (Note: "product state" alone does NOT give $C\Psi = 0$; the separable product $|+\rangle \otimes |+\rangle$ has $C\Psi = 1$. The operative property is computational-basis-diagonality.)
+For physical non-unital channels (amplitude damping toward $|0\rangle$), the fixed point is computational-basis-diagonal ($|0\rangle\langle 0|$), so $L_1 = 0$ and $C\Psi = 0 < 1/4$. ✓ (Note: "product state" alone does NOT give $C\Psi = 0$; the separable product $|+\rangle \otimes |+\rangle$ has $C\Psi = 1$. The operative property is computational-basis-diagonality.)
 
-The challenge is the *trajectory*: does $C\Psi(t)$ decrease monotonically, or can it increase temporarily before eventually decreasing?
+For general primitive CPTP maps the fixed point can be entangled with $C\Psi > 1/4$, and the counterexample above realizes it.
 
-**Conjecture 5.2 (Monotonicity for Markovian Channels).** For any Markovian quantum channel (Lindblad generator with time-independent coefficients), $C\Psi(t)$ is monotonically non-increasing whenever $C\Psi > 1/4$. The 1/4 surface is an absorbing barrier under Markovian dynamics.
+### Monotonicity (Conjecture 5.2): the Envelope Theorem, and Where It Ends
 
-### NEXT STEPS
+**N=2, proven** (March 22, 2026). For Bell+ under ALL local Markovian
+channels, and by the General Envelope Theorem for arbitrary 2-qubit initial
+states, the local maxima of CΨ form a strictly non-increasing sequence; ¼ is
+the absorbing boundary of the envelope. CΨ itself can oscillate above 1/4
+via non-Markovian backflow, so the pointwise version is false and the
+ENVELOPE is the correct statement. See [CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md).
 
-1. ~~**Implement amplitude damping.**~~ **DONE (March 22, 2026).** Direct test:
-   K_AD = 0.1029 (new K value, distinct from K_Z=0.037, K_X=0.087). Monotonic
-   for Bell+, all γ. Non-unital fixed point (|00⟩) reached. J has zero effect.
-2. ~~**Test generalized Pauli channels.**~~ **DONE (March 22, 2026).** 124/124
-   configs cross 1/4. Monotonic for Bell+, oscillatory for |01⟩. K-invariance
-   holds within each noise type. Conjecture 5.1 confirmed for all Pauli channels.
-3. ~~**Prove Conjecture 5.2 for dephasing.**~~ **PROVEN (March 22, 2026).**
-   Full analytical proof for Bell+ under ALL local Markovian channels (Parts 1-5).
-   General Envelope Theorem extends to arbitrary initial states (Part 5).
-   Non-Markovian threshold characterized (Part 6). See [CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md).
-4. ~~**Attack the non-Markovian case.**~~ **DONE (March 22, 2026).** Swept 48
-   configurations (6 J_SB × 4 γ_B × 2 bath states). Worst-case revival:
-   CΨ = 0.3035 (J_SB=5.0, γ_B=0.5, bath=|+⟩). The 1/4 boundary is NOT
-   absorbing - but all revivals are transient. Conjecture 5.2 needs
-   refinement: the ENVELOPE of CΨ is monotonically non-increasing, but
-   CΨ itself can oscillate above 1/4 via information backflow.
+**N≥3, the envelope law does NOT extend unchanged.** The full-state envelope
+genuinely RISES at N≥4 strong coupling: N=3 never rises (Q_c(3)=∞), and above
+the N≥4 floor there is a threshold Q_c(N) in Q = J/γ that climbs with N,
+Q_c(4)≈27, Q_c(5)≈45. The rise is a pure (N, Q) observable, cleanly factored
+into an N-floor plus a Q-threshold. See
+[Envelope Rise Boundary](../../experiments/ENVELOPE_RISE_BOUNDARY.md) and
+[F17](../ANALYTICAL_FORMULAS.md#f17); open re-entry threads are a closed form
+for Q_c(N) and the internal-site parity question.
 
 ---
 
@@ -416,30 +464,37 @@ This is the crown jewel. Everything else establishes that 1/4 is *a* boundary. T
 
 ### The Argument Structure
 
-The uniqueness proof has three pillars. **Logical structure (clarified 2026-06-22):**
+The uniqueness proof has three pillars. **Logical structure:**
 Pillars 1-2 establish that 1/4 is *a* boundary *given* the recursion form
 $R = C(\Psi + R)^2$ - they are motivation, not the forcing, because degree-2-ness
 alone does not fix the value (a generic degree-2 fixed-point map $aR^2 + bR + c = 0$
 has its discriminant vanish at $b^2 = 4ac$, an arbitrary locus). The **load-bearing
 forcing** - that 1/4 is *the unique state-independent* boundary - is the Rényi α=2
-argument (Pillar 3 and the RESOLVED section below): α=2 is the only Rényi order
+argument (Pillar 3 and the Three Closures below): α=2 is the only Rényi order
 whose fold threshold does not depend on the state.
 
 **Pillar 1: Algebraic necessity (motivation).** The recursion $R_{n+1} = C(\Psi + R_n)^2$ is quadratic in $R_n$. A quadratic $ax^2 + bx + c = 0$ has its discriminant vanish when $b^2 = 4ac$. For our specific quadratic, this gives $1 - 4C\Psi = 0$, i.e., $C\Psi = 1/4$. This fixes the boundary *given the recursion form*; any other boundary would require either:
 
 - A different power (cubic, quartic...), but these don't produce the Mandelbrot mapping
 - A different coefficient structure, but the self-referential form $R = C(\Psi + R)^2$ is determined by the physics (purity is a quadratic function of the density matrix)
-- A different normalization, but $\Psi = \ell_1/(d^2-1)$ is the natural normalization that makes $\Psi \leq 1$
+- A different normalization, but $\Psi = \ell_1/(d-1)$ is the natural normalization that makes $\Psi \leq 1$ (Layer 4)
 
 **Pillar 2: Topological necessity (Mandelbrot).** The boundary $c = 1/4$ on the real axis of the Mandelbrot set is not arbitrary. It is the unique point where the period-1 cardioid meets the real axis at its cusp. This is a topological invariant: no continuous deformation of the iteration $z^2 + c$ can move this boundary. Since our recursion maps to this iteration, our boundary inherits the same topological rigidity.
 
-**Pillar 3: Functional equation constraints.** Consider the question: for what value $\alpha$ does the surface $C\Psi = \alpha$ serve as a bifurcation boundary for the recursion? The requirement is:
+**Pillar 3: The Rényi forcing (the load-bearing one).** Consider the family
+of generalized recursions $R = C_\alpha(\Psi + R)^\alpha$, one for each Rényi
+order $\alpha$ (α = 2 is purity, Tr ρ²). Each has a fold threshold: the
+value of $C\Psi$ at which its two real fixed points merge. That threshold is
 
-- For $C\Psi < \alpha$: two real fixed points (one stable, one unstable)
-- For $C\Psi = \alpha$: exactly one fixed point (marginal stability)
-- For $C\Psi > \alpha$: no real fixed points (complex/chaotic)
+$$C\Psi^*_\alpha = \frac{(\alpha-1)^{\alpha-1}}{\alpha^\alpha \cdot \Psi^{\alpha-2}},$$
 
-This is precisely the discriminant condition, which gives $\alpha = 1/4$ uniquely.
+which depends on the STATE (through $\Psi$) for every $\alpha \neq 2$; the
+exponent of the $\Psi$ factor vanishes exactly at $\alpha = 2$, making that
+factor 1, and the threshold collapses to the universal $1/4$. So the question "for what
+threshold value does the surface $C\Psi = \text{const}$ serve as a
+state-independent bifurcation boundary?" has exactly one answer, and it
+simultaneously forces the ORDER (α = 2, purity) and the VALUE (1/4). The
+worked derivation is in the Three Closures below.
 
 ### Why Not 1/3?
 
@@ -460,39 +515,32 @@ The discriminant of $CR^2 + (2C\Psi - 1)R + C\Psi^2$ is $1 - 4C\Psi$. The coeffi
 
 The factor of 4 in the discriminant formula $b^2 - 4ac$ is itself a consequence of completing the square; it is built into the structure of quadratic equations. You would need to change the definition of "quadratic" to get a different number.
 
-### What REMAINS TO BE PROVEN
+### The Three Closures (March 22, 2026)
 
-~~**The recursion derivation from first principles.**~~ **RESOLVED (March 22, 2026).**
-The question "why must the recursion be quadratic?" is now answered: α=2 (purity Tr(ρ²))
-is the UNIQUE Rényi order where the bifurcation threshold CΨ* does not depend on Ψ.
-For any other α, the threshold is CΨ_α* = (α-1)^{α-1}/(α^α · Ψ^{α-2}), which depends
-on the state. Only α=2 gives the universal 1/4. The quadratic structure is not arbitrary - 
-it is the unique structure with a state-independent critical boundary.
+**The recursion derivation from first principles.** The question "why must the
+recursion be quadratic?" is answered: α=2 (purity Tr(ρ²)) is the UNIQUE Rényi
+order where the bifurcation threshold CΨ* does not depend on Ψ. For the
+generalized recursion R = C_α(Ψ + R)^α, the threshold is
+CΨ_α* = (α-1)^{α-1}/(α^α · Ψ^{α-2}), which depends on the state for every
+α ≠ 2. Only α=2 gives the universal 1/4. The quadratic structure is not
+arbitrary; it is the unique structure with a state-independent critical
+boundary. K_α invariance also confirmed for α=2,3,4 (CV=0% each, different
+K values). Script: [k_scaling_and_renyi.py](../../simulations/k_scaling_and_renyi.py).
 
-**Formal theorem statement and proof.** Something like:
+**Catastrophe classification.** The fold catastrophe x² + a = 0 IS the
+recursion R = C(Ψ+R)² with a = 1-4CΨ; the normal form is verified explicitly.
+The Rényi uniqueness result (α=2 only) proves structural stability: only the
+fold has a state-independent boundary. Higher catastrophes (cusp α=3,
+swallowtail α=4) have Ψ-dependent thresholds and are rejected.
+Script: [catastrophe_feigenbaum.py](../../simulations/catastrophe_feigenbaum.py).
+
+**The written theorem.** The assembled uniqueness argument (discriminant +
+Rényi uniqueness + catastrophe classification) lives in the
+[Uniqueness Proof](UNIQUENESS_PROOF.md); its typed form is
+`QuarterBoundaryUniquenessClaim` with the live witness
+`inspect --root quarter-uniqueness`:
 
 > **Theorem (Uniqueness of the 1/4 Boundary).** Let $\mathcal{R}: [0,1] \to [0,1]$ be the self-referential purity map defined by $\mathcal{R}(R) = C(\Psi + R)^2$ where $C \in [0,1]$ is the correlation bridge and $\Psi \in [0,1]$ is the normalized l1-coherence. Then the bifurcation boundary $\{(C, \Psi) : \mathcal{R} \text{ has a unique fixed point}\}$ is the surface $C\Psi = 1/4$, and this value is uniquely determined by the quadratic structure of $\mathcal{R}$.
-
-### NEXT STEPS
-
-1. ~~**Write the formal uniqueness proof.**~~ **SUBSTANTIALLY DONE (March 22, 2026).**
-   The "uniquely determined by quadratic structure" is now proven: α=2 is the UNIQUE
-   Rényi order where CΨ* is state-independent (Rényi uniqueness theorem). The fold
-   catastrophe normal form is verified. What remains: a clean publishable writeup
-   combining discriminant + Rényi uniqueness + catastrophe classification.
-2. ~~**Investigate the role of higher Rényi entropies.**~~ **DONE (March 22, 2026).**
-   For the generalized recursion R = C_α(Ψ + R)^α, the bifurcation threshold is
-   CΨ_α* = (α-1)^{α-1} / (α^α · Ψ^{α-2}). **Only α=2 gives a Ψ-independent
-   threshold** (CΨ* = 1/4 regardless of state). All other α produce thresholds that
-   depend on the coherence Ψ. This proves that Tr(ρ²) is the UNIQUE Rényi purity
-   where the bifurcation boundary is universal. K_α invariance also confirmed for
-   α=2,3,4 (CV=0% each, different K values). Script: [k_scaling_and_renyi.py](../../simulations/k_scaling_and_renyi.py).
-3. ~~**Explore connections to catastrophe theory.**~~ **DONE (March 22, 2026).**
-   The fold catastrophe x² + a = 0 IS the recursion R = C(Ψ+R)² with a = 1-4CΨ.
-   Normal form verified explicitly. The Rényi uniqueness result (α=2 only) proves
-   structural stability: only the fold has a state-independent boundary. Higher
-   catastrophes (cusp α=3, swallowtail α=4) have Ψ-dependent thresholds → rejected.
-   Script: [catastrophe_feigenbaum.py](../../simulations/catastrophe_feigenbaum.py).
 
 ---
 
@@ -502,9 +550,7 @@ it is the unique structure with a state-independent critical boundary.
 
 The correspondence $C\Psi \leftrightarrow c$ maps the quantum boundary to the cusp of the Mandelbrot main cardioid at $c = 1/4$ on the real axis. Key questions:
 
-**What about the full complex plane?** Our variables $C$ and $\Psi$ are real and non-negative. But the Mandelbrot set is defined for complex $c$. Is there a natural complexification of the quantum problem that accesses the full cardioid boundary $c = \frac{1}{4} - \frac{1}{4}e^{2i\theta}(2 - e^{2i\theta})$?
-
-*Candidate:* The fixed-point shadow analysis (FP⁻) from the IBM data shows a complex fixed point. The imaginary part of the off-diagonal density matrix element provides a natural second coordinate. If $c_{eff} = C\Psi + i \cdot (\text{something involving Im}(\rho_{01}))$, we might trace out the full cardioid.
+**What about the full complex plane?** Our variables $C$ and $\Psi$ are real and non-negative. But the Mandelbrot set is defined for complex $c$. Is there a natural complexification of the quantum problem that accesses the full cardioid boundary $c(\varphi) = \frac{1}{2}e^{i\varphi} - \frac{1}{4}e^{2i\varphi}$?
 
 **Status:** ANSWERED (May 17, 2026). [F95](../ANALYTICAL_FORMULAS.md#f95) closed the angle-of-the-fixed-point question for real c: for real $c > 1/4$, the complex fixed point of $z^2 - z + c = 0$ has argument $\theta(c) = \arctan\sqrt{4c - 1}$ exactly, the universal angle-emergence formula at any quadratic discriminant zero. [F97](../ANALYTICAL_FORMULAS.md#f97) then closed the complex-c direction: the full Mandelbrot cardioid boundary is parametrized by $c(\varphi) = b \cdot e^{i\varphi} - b^2 \cdot e^{2i\varphi}$ with $b = 1/2$, and on this curve the period-1 fixed point is $z^*(\varphi) = b \cdot e^{i\varphi}$ with magnitude $|z^*| = b$ invariant and argument $\arg(z^*) = \varphi$ tracing the cardioid parameter. Bit-exact algebraic identity, machine-precision numerical verification. The structural reading: the Mandelbrot cardioid IS the locus in complex-c where the period-1 fixed-point magnitude equals the framework's `HalfAsStructuralFixedPointClaim` anchor; the `QuarterAsBilinearMaxvalClaim` ($b^2 = 1/4$) enters only at the real-axis cusp ($\varphi = 0$), the one tangent point shared with F95. The hardware 2D spirals on `ibm_kingston` (2026-04-16, [`CPSI_COMPLEX_PLANE`](../../experiments/CPSI_COMPLEX_PLANE.md)) and the [`f95_angle_steering_kingston_may2026`](../ANALYTICAL_FORMULAS.md#f95) Confirmation already trace this cardioid geometry; F97 names the locus they spiral around. See [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](PROOF_F97_CARDIOID_HALF_FIXED_POINT.md). Together F95 + F97 cover both projections of the quadratic discriminant structure on the Mandelbrot c-plane.
 
@@ -523,16 +569,33 @@ map w → w² + c with c = CΨ (substitution w = C(Ψ+R)). The Feigenbaum cascad
 measured on the negative real axis: 7 period-doubling bifurcations found (period
 1→128), with ratios converging toward δ ≈ 4.67 (limited by scan resolution). The
 oscillatory Liouvillian eigenvalues (Im(λ) = 4J) give an effective complex parameter
-c_eff = 0.25 + i·Q/4·0.25 where Q = ω/|σ| = 4J/γ. This places the quantum system
+c_eff = 0.25 + i·Q/4·0.25 where Q = ω/|σ| = 4J/γ (the script's own ratio; four
+times the canonical Q = J/γ used everywhere else). This places the quantum system
 off the real axis near the cardioid boundary. The Feigenbaum universality applies
 because our recursion IS the quadratic map.
 Script: [catastrophe_feigenbaum.py](../../simulations/catastrophe_feigenbaum.py).
 
 ### Connections to Information Geometry
 
-The Fisher information metric on the space of density matrices gives the quantum state space a Riemannian structure. The boundary $C\Psi = 1/4$ may correspond to a geometric feature of this manifold, perhaps a curvature singularity or a geodesic boundary.
+The Fisher information metric on the space of density matrices gives the quantum state space a Riemannian structure. The natural question was whether the boundary $C\Psi = 1/4$ corresponds to a curvature singularity or geodesic boundary of this manifold.
 
-**Status:** UNEXPLORED. This is a direction for future investigation.
+**Status:** ANSWERED, negatively. The fold at CΨ = 1/4 has NO Riemannian
+singularity: the Bures metric there is finite (g = 3.36) and the Gaussian
+curvature is finite and hyperbolic (K = −25). The ¼ boundary is a feature of
+the recursion, not of the state-space geometry. See
+[F45/F47](../ANALYTICAL_FORMULAS.md#f45).
+
+### One Word, Two Seams (a disambiguation)
+
+This document's "fold" is the fold CATASTROPHE of the CΨ recursion (the
+discriminant zero at CΨ = 1/4), and its "cusp" is the Mandelbrot cardioid
+cusp at c = 1/4: both live in parameter space. The repo also uses "fold" and
+"cusp" for two SPECTRAL seams of the Liouvillian: the conservation fold (the
+palindrome axis Re = −Σγ) and the merge cusp (the defective exceptional
+point). Those two spectral seams coincide only at N = 2 and separate for
+larger N ([Fold and Cusp, Two Seams](../../experiments/FOLD_AND_CUSP_TWO_SEAMS.md)).
+Same words, different objects; when a sentence mixes recursion-space and
+spectrum, check which pair it means.
 
 ### Connections to Holography and AdS/CFT
 
@@ -542,30 +605,21 @@ In the holographic context, the Ryu-Takayanagi formula relates entanglement entr
 
 ---
 
-## Summary: The Proof Landscape
+## What Remains Open
 
-| Layer | Status | Key Gap |
-|-------|--------|---------|
-| 1. Qubit (d=2) | **PROVEN** | Product-power classification complete ([Uniqueness Proof](UNIQUENESS_PROOF.md)) |
-| 2. Two entangled qubits | **PROVEN for physical noise; general CPTP FALSE** | Crossing holds for unital/local/Pauli/AD (fixed point CΨ=0). FALSE for general primitive CPTP: primitive counterexample with entangled fixed point CΨ=0.2935 (the "300 maps, 0 exceptions" was a Ginibre n_kraus=4 sampling artifact). See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C. |
-| 3. N-qubit systems | **PROVEN + exact formula** | GHZ analytical formula exact (delta < 1e-17). Palindrome proven all graphs, verified to N=11. |
-| 4. Arbitrary dimension | **Answered: d=2 only** | Qutrits break palindrome (d²-2d=0). CΨ=1/4 discriminant is d-independent. |
-| 5. Channel independence | **PROVEN for physical noise (envelope)** | All Pauli + amplitude damping cross 1/4. Monotonicity proven as an ENVELOPE bound for Bell+/local-Markovian (not pointwise; CΨ can oscillate above 1/4 via non-Markov backflow, not strictly absorbing). |
-| 6. Uniqueness theorem | **PROVEN** | α=2 unique Rényi order with state-independent threshold. Fold catastrophe = only structurally stable bifurcation. |
-| 7. Known math connections | **MIXED** | Mandelbrot identity exact (PROVEN; R-recursion IS z²+c, c=CΨ). Feigenbaum cascade numerically measured (7 bifurcations, resolution-limited). Info-geometry UNEXPLORED, holography SPECULATIVE. |
+The status table at the top of this document is the landscape; these are the
+open edges, gathered:
 
-### Critical Path
-
-The fastest route to a publishable "1/4 is the only boundary" result:
-
-1. ~~**Formalize the uniqueness theorem**~~ (Layer 6). **DONE.** Rényi uniqueness (α=2 only) + fold catastrophe + discriminant.
-2. ~~**Prove channel independence for Markovian channels**~~ (Layer 5). **DONE.** Analytical proof + 124 configs + non-Markov threshold.
-3. ~~**Extend to qutrits computationally**~~ (Layer 4). **DONE.** Qutrits break palindrome (d²-2d≠0). CΨ=1/4 discriminant is d-independent.
-4. **Subsystem crossing theorem (Layer 2, Conjecture 2.1): SCOPE-RETRACTED 2026-06-22.**
-   PROVEN for physical noise (unital/local channels: fixed point CΨ=0) via Perron-Frobenius
-   convergence + fixed-point CΨ=0 + Lipschitz continuity; N=3,4,5 physical subsystem pairs cross.
-   FALSE for general primitive CPTP (entangled fixed point CΨ=0.2935; the "300 random CPTP, max
-   0.138" was a sampling artifact). See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), Case C.
+- **CV connection** (Layer 4): symplectic eigenvalue trajectory of a two-mode
+  squeezed state; does the crossing happen at ν₋ = 1/2?
+- **Hybrid systems** (Layer 4): qubit-qutrit pairs, asymmetric normalization.
+- **Q_c(N) closed form** (Layer 5): does the N≥4 envelope-rise threshold track
+  the band edge ω_mem = 2J·cos(π/(N+1))? Plus the internal-site parity question.
+- **The δ(N) reading of Conjecture 3.2** (Layer 3): the competition mechanism
+  behind the non-monotonic purity deficit.
+- **Crossing-cubic number theory** (Layer 1): whether the real root of
+  b³ + b = 1/2 connects to other constants.
+- **Holography** (Layer 7): still wildly speculative, still noted.
 
 ### The Philosophical Position, Restated
 
@@ -610,7 +664,7 @@ looks like from inside.
 
 ---
 
-### Parallel readings (added 2026-05-07)
+### Parallel readings
 
 Beyond the seven vertical layers, the 1/4 boundary instances at parallel
 readings of the same N-qubit system. The most recent:
@@ -638,6 +692,5 @@ in each.
 
 ---
 
-*Document version: 2.1 (parallel-readings extension 2026-05-07)*
-*Last updated: March 21, 2026 (core), May 7, 2026 (parallel-readings)*
-*Computational data: delta_calc MCP tools (Lindblad simulations, subsystem crossing analysis, IBM verification suite); BlockCpsiTrajectory tests (38/38 + 6 Theorem-2 tests, May 7 2026)*
+*Last refreshed 2026-07-20 (the change history lives in git).*
+*Computational data: the March-era delta_calc Lindblad suite (simulations, subsystem crossing analysis, IBM verification suite); BlockCpsiTrajectory tests (48/48, May 7 2026)*
