@@ -28,7 +28,7 @@ def test_F80_bloch_signwalk_chain_pi2_odd():
 
     Verified at N=4, 5 (small enough for fast pytest); N=6, 7 verified
     in scripts (see pi2_odd_universality_data_sweep.py and
-    _n7_bloch_signwalk_verification.txt).
+    results/n7_bloch_signwalk_verification.txt).
     """
     from itertools import product as iproduct
     from framework.lindblad import lindbladian_z_dephasing, palindrome_residual

@@ -1,7 +1,7 @@
 # Proof of F81: Π-Conjugation of M Decomposes into the Π²-Odd Hamiltonian Commutator
 
 **Tier:** 1 (closed-form algebraic proof + numerical verification at machine precision).
-**Date:** 2026-04-30 (two open items stamped answered 2026-07-02: 5/6:1/6 split → F83, non-Z dissipators → F82/F84)
+**Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [PROOF_SVD_CLUSTER_STRUCTURE.md](PROOF_SVD_CLUSTER_STRUCTURE.md) (Master Lemma: M is γ-independent for pure Z-dephasing; Π² acts on Pauli string σ_α as (-1)^{bit_b(α)})
@@ -42,7 +42,7 @@ with M_sym ⊥_F M_anti (Frobenius-orthogonal) and ‖M‖²_F = ‖M_sym‖²_F
 | pure XY | (Π²-odd) | XY | 1.5e-16 | (analogous) |
 | pure XZ | (Π²-odd) | XZ | 1.5e-16 | (analogous) |
 
-For pure Π²-odd 2-body chain Hamiltonians at any N and any γ, the Π-decomposition has ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 exactly (50/50 split). Verified numerically at N=3, 4, 5 with γ_Z ∈ {0, 0.05, 0.1, 0.5, 1.0}; analytical reason given in Step 8 below. The hard mixed case (XX+XY) at N=3 also gives 50/50 by a separate numerical coincidence specific to that combination, not a general structural theorem.
+For pure Π²-odd 2-body chain Hamiltonians at any N and any γ, the Π-decomposition has ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 exactly (50/50 split). Verified numerically at N=3, 4, 5 with γ_Z ∈ {0, 0.05, 0.1, 0.5, 1.0}; analytical reason given in Step 8 below. The hard mixed case (XX+XY) also gives 50/50, and Step 8 shows this is structural, not a coincidence: the split is 50/50 whenever every non-truly bilinear is Π²-odd, which XX+XY satisfies (XX truly, XY Π²-odd).
 
 ---
 
@@ -50,7 +50,7 @@ For pure Π²-odd 2-body chain Hamiltonians at any N and any γ, the Π-decompos
 
 ### Step 1: Π² acts on Pauli strings as a Π²-parity sign
 
-For a Pauli string σ_α with bit_b-encoding (a₁b₁)(a₂b₂)...(aNbN), the framework's Π² operator is diagonal in the Pauli-string basis with eigenvalue
+For a Pauli string σ_α with symplectic encoding (a₁b₁)(a₂b₂)...(aNbN) (per letter: I = (0,0), X = (1,0), Y = (1,1), Z = (0,1); bit_a the X-component, bit_b the Z-component, conventions as in the Master Lemma), the framework's Π² operator is diagonal in the Pauli-string basis with eigenvalue
 
     Π² σ_α = (-1)^{bit_b(α)} σ_α       where bit_b(α) = (b₁ + b₂ + ... + bN) mod 2.
 
@@ -62,7 +62,7 @@ Since Π² is diagonal in the Pauli basis, conjugation of a 4^N × 4^N matrix M 
 
     (Π² · M · Π⁻²)_{γβ} = D_γγ · M_{γβ} · D⁻¹_ββ = (-1)^{bit_b(γ)+bit_b(β)} · M_{γβ}.
 
-The matrix element M_{γβ} is non-zero only when M takes |σ_β⟩ → |σ_γ⟩ under its action.
+The matrix element M_{γβ} is non-zero only when M takes |σ_β⟩ → |σ_γ⟩ under its action. (In Steps 2-3, γ and β are Pauli-string indices, not dephasing rates; the rates appear as γ_l in Step 4.)
 
 ### Step 3: For L_H = -i[H, ·], the matrix-element sign factor reduces to bit_b(α)
 
@@ -111,7 +111,11 @@ Define M_sym = (M + Π·M·Π⁻¹)/2 and M_anti = (M − Π·M·Π⁻¹)/2. Fro
            = Π·L·Π⁻¹ + L_{H_even} + L_diss + 2Σγ·I,
     M_anti = (M − M + 2·L_{H_odd}) / 2 = L_{H_odd}.
 
-The Frobenius orthogonality M_sym ⊥_F M_anti follows because they live in disjoint Π²-eigenspaces (M_sym is in the +1 eigenspace of the Π-conjugation operation on operators; M_anti is in the −1 eigenspace), and ‖M‖²_F = ‖M_sym‖²_F + ‖M_anti‖²_F by Pythagoras.
+The Frobenius orthogonality is orthogonality in the real sense: writing C(X) = Π·X·Π⁻¹ (which is NOT an involution, since Π² ≠ I), the cross term is
+
+    ⟨M_sym, M_anti⟩_F = ¼·(‖M‖² − ‖C(M)‖² − 2i·Im⟨M, C(M)⟩_F) = −(i/2)·Im⟨M, C(M)⟩_F
+
+because C is a Frobenius isometry (Π unitary), so ‖C(M)‖ = ‖M‖ and the real part vanishes identically. The cross term is purely imaginary, hence ‖M‖²_F = ‖M_sym‖²_F + ‖M_anti‖²_F by Pythagoras (and numerically the cross term is ~10⁻³² even in modulus for the tested cases).
 
 ### Step 7: Spectral consequence
 
@@ -146,7 +150,7 @@ Substituting: 2·‖L_{H_odd}‖² / ‖M‖² = (2 · 2 · 2^N · ‖H_odd‖²
   - Pure Π²-even non-truly (YZ alone, YZ+ZY): 100/0 (M_anti = 0 trivially since H_odd = 0).
   - Mixed Π²-odd + Π²-even non-truly (XY+YZ, XX+XY+YZ): 5/6 sym + 1/6 anti at N=3 and N=4 (the 1/6 reflects the smaller fraction of Π²-odd content within H_non-truly).
 
-The 5/6:1/6 split for mixed odd+even cases is empirical at N=3,4; an analytical derivation analogous to the 50/50 case would require a generalized Frobenius-residual scaling for mixed H_non-truly. ~~Open.~~ **ANSWERED (2026-04-30):** [PROOF_F83_PI_DECOMPOSITION_RATIO.md](PROOF_F83_PI_DECOMPOSITION_RATIO.md) derives exactly that generalized scaling: anti-fraction = `1/(2+4r)` with `r = ‖H_even_nontruly‖²/‖H_odd‖²`; the mixed odd+even case with equal weights (r=1) gives `1/6` anti (5/6 sym), bit-exact N=3,4,5.
+The 5/6:1/6 split for mixed odd+even cases is the r = 1 point of the general law: [the F83 anti-fraction proof](PROOF_F83_PI_DECOMPOSITION_RATIO.md) derives the generalized Frobenius-residual scaling anti-fraction = `1/(2+4r)` with `r = ‖H_even_nontruly‖²/‖H_odd‖²`, so the mixed odd+even case with equal weights (r = 1) gives `1/6` anti (5/6 sym), bit-exact N=3,4,5.
 
 **Scope of 50/50**: this analytical result covers truly H (trivial: M=0), pure Π²-odd 2-body chain H, and mixed truly + Π²-odd 2-body chain H. It does not cover Hamiltonians with Π²-even non-truly content.
 
@@ -161,10 +165,11 @@ F81 is the algebraic backbone of the geometric reading in [reflections/ON_BOTH_S
 
 Companion to F80: F80 states what Spec(M) is (= ±2i · Spec(H_non-truly)). F81 states how M and Π·M·Π⁻¹ relate as operators sharing that spectrum. Together they characterize the Π-action on M completely.
 
-**Verified:** N=3 all listed cases at machine precision (1e-16 residuals on Π·M·Π⁻¹ vs M − 2·L_{H_odd} and on M_anti vs L_{H_odd}). Pytest lock pending in next commit.
+**Verified:** N=3 all listed cases at machine precision (1e-16 residuals on Π·M·Π⁻¹ vs M − 2·L_{H_odd} and on M_anti vs L_{H_odd}); the 50/50 split at N=3, 4, 5 across γ_Z ∈ {0, 0.05, 0.1, 0.5, 1.0}. Pytest locks: `test_F81_pi_conjugation_of_M`, `test_F81_pi_decompose_M_method`, `test_F81_violation_T1_diagnostic` in [`test_f81_pi_decomposition.py`](../../simulations/framework/tests/diagnostics/test_f81_pi_decomposition.py).
 
 **Hardware confirmation.** F81's operational upshot, the [F83](../ANALYTICAL_FORMULAS.md) anti-fraction ‖M_anti‖²/‖M‖² that this decomposition makes readable, was confirmed on IBM Heron r2. The four-Hamiltonian Π²-class discriminator (XX+YY truly; XY+YX pure Π²-odd, anti = 1/2; YZ+ZY Π²-even non-truly, anti = 0; XY+YZ mixed, anti = 1/6) separates all four classes at >>10σ through unique-fingerprint Pauli observables, on Marrakesh (2026-04-30, job d7pol1e7g7gs73cf7j90, path [4,5,6]) and reproduced on Kingston (2026-05-05, path [43,56,63]). M itself is a 4ᴺ superoperator and is not directly measurable; the hardware reads the per-class operator-level fingerprints that the M_sym / M_anti split predicts. Data in [`data/ibm_f83_signature_april2026/`](../../data/ibm_f83_signature_april2026/) and [`data/ibm_soft_break_april2026/`](../../data/ibm_soft_break_april2026/); registry entry `fw.Confirmations.lookup('f83_pi2_class_signature_marrakesh')`; experiment `run_soft_break.py` (external AIEvolution pipeline).
 
-**Open generalizations:**
-- Non-Z dissipators (T1 amplitude damping, X/Y dephasing): Π² no longer commutes with L_diss. F81 should generalize with an additional dissipator-correction term; analytical form not yet worked out. **ANSWERED (2026-04-30):** [PROOF_F82_T1_DISSIPATOR_CORRECTION.md](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) + [PROOF_F84_AMPLITUDE_DAMPING.md](PROOF_F84_AMPLITUDE_DAMPING.md): `Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{AmplDamp,odd}`, with `f81_violation = ‖D_{AmplDamp,odd}‖ = |Δγ|_RMS·√N·2^(N−1)`. Pure X/Y (and Z) dephasing are Π²-symmetric and contribute exactly zero; only σ⁻/σ⁺ (T1 / thermal) channels correct F81.
-- Higher-body Hamiltonians (3-body, 4-body): the Π²-parity classification carries over; the proof structure should generalize verbatim.
+**Generalizations (proven downstream):**
+- Non-Z dissipators: [the F82 T1 dissipator correction](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) + [the F84 amplitude-damping proof](PROOF_F84_AMPLITUDE_DAMPING.md) extend the identity to `Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{AmplDamp,odd}`, with `f81_violation = ‖D_{AmplDamp,odd}‖ = |Δγ|_RMS·√N·2^(N−1)`. Pure X/Y (and Z) dephasing are Π²-symmetric and contribute exactly zero; only σ⁻/σ⁺ (T1 / thermal) channels correct F81.
+- Higher-body Hamiltonians: [the F85 k-body generalization](PROOF_F85_KBODY_GENERALIZATION.md) carries the Π²-parity classification and the identity verbatim to k-body chain terms.
+- One level deeper: [F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) splits M_anti further into the Π +i/−i polarity quadrants, with the Hermitian-H balance ‖M_+½‖² = ‖M_−½‖² (see [the polarity coordinates reflection](../../reflections/POLARITY_COORDINATES.md)).
