@@ -157,9 +157,11 @@ This is the link that surprised us most.
 If the palindromic structure requires noise to exist (without noise,
 there is no dephasing, no immune/decaying split, no palindrome), then
 where does the noise come from? Five candidates for internal origin
-were tested. All eliminated:
+were tested. Four eliminated, the internal bootstrap reduced to a
+structural constraint:
 
-1. Bootstrap (sectors decoupled, palindrome prevents self-generation)
+1. Bootstrap (reduced to a structural constraint: [Π², L] = 0 constrains
+   the noise's form; the elimination is carried by candidates 2-3)
 2. Qubit decay (non-Markovian, breaks palindrome)
 3. Qubit bath (infinite regress, each member faces the same prohibition)
 4. Nothing (d=0, no properties)

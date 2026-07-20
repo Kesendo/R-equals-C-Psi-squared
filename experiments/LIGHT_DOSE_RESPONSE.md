@@ -7,7 +7,7 @@
 **Data:** `simulations/results/light_dose_response/`
 **Supersedes:** [Gamma as binding parameter](GAMMA_AS_BINDING.md) (V1, correct numbers, wrong framing)
 **Depends on:**
-- [EXCLUSIONS](../docs/EXCLUSIONS.md) (Exclusion 2: gamma is external, five internal candidates eliminated)
+- [EXCLUSIONS](../docs/EXCLUSIONS.md) (Exclusion 2: gamma is external, four internal candidates eliminated, the bootstrap reduced to a structural constraint)
 - [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) (chain is a passive optical cavity, 4/5 tests)
 - [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) (per-mode rate formula)
 - [Symmetry Census](SYMMETRY_CENSUS.md) (sector enumeration)

@@ -61,7 +61,7 @@ independently reproducible.
 | [CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for Bell+ under all local Markovian channels. General Envelope Theorem. |
 | [Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every pair with CΨ > 1/4 eventually crosses below under physical, computational-basis-aligned noise (T1/T2/depolarizing). The general primitive-CPTP version is false. |
 | [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven-layer proof architecture from single qubit to arbitrary dimension. Layer 2 holds for physical noise (general-CPTP version false); other layers closed. |
-| [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) | Dephasing noise cannot originate from within d(d−2)=0. Five candidates eliminated. Noise must come from outside. |
+| [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) | Dephasing noise cannot originate from within d(d−2)=0. Four candidates eliminated, the internal bootstrap reduced to a structural constraint. Noise must come from outside. |
 | [Complete Math Doc](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master index of the founding core: algebra, palindrome, boundary, incompleteness, γ channel, engineering, constants. |
 
 ---

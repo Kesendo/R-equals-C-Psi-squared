@@ -164,11 +164,13 @@ See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
 
 ---
 
-## 4. The Incompleteness Proof (Tier 2)
+## 4. The Incompleteness Proof (Tier 1 derived)
 
-Five candidates for the origin of dephasing noise, all eliminated:
+Five candidates for the origin of dephasing noise, four eliminated and
+the first reduced to a structural constraint:
 
-1. Internal (bootstrap falsified, sectors decoupled)
+1. Internal (reduced to a structural constraint: [Π², L] = 0 constrains
+   the noise's form, elimination carried by candidates 2-3)
 2. Qubit decay (non-Markovian, 0/16 palindromic pairs)
 3. Qubit bath (regress, each member faces bootstrap prohibition)
 4. Nothing (d=0, no properties)

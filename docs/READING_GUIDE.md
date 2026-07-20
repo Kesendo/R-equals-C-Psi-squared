@@ -233,7 +233,8 @@ directions.
 
 From there, each step peels back another layer: the palindrome requires
 noise, but the noise cannot come from inside the system (five candidates
-tested, all eliminated). The noise creates a direction for time (without
+tested: four eliminated, the internal bootstrap reduced to a structural
+constraint). The noise creates a direction for time (without
 it, the system oscillates forever but never moves forward). And the noise
 turns out to be structured, readable, carrying 15.5 bits of information.
 
@@ -260,11 +261,12 @@ and the willingness to follow an argument that builds step by step.
    split, the pairing ceiling, and the operator cap.
 
 4. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): Where does
-   the noise come from? Five candidates for internal origin, all
-   eliminated: internal generation (sectors are decoupled), qubit decay
-   (breaks the palindrome), qubit baths (infinite regress), nothing
-   (has no properties), other dimensions (excluded by d²−2d=0). The
-   noise must come from outside the framework.
+   the noise come from? Five candidates for internal origin: internal
+   generation (reduced to a structural constraint, [Π², L] = 0), qubit
+   decay (breaks the palindrome), qubit baths (infinite regress),
+   nothing (has no properties), other dimensions (excluded by d²−2d=0).
+   Four eliminated, none viable. The noise must come from outside the
+   framework.
 
 5. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): What
    happens when simple systems combine. Adding a second bond breaks 14

@@ -3,7 +3,7 @@
 <!-- Keywords: incompleteness proof noise external origin, dephasing signal
 not random structured channel, mediator topology bridge open, six measured
 properties dephasing signal, bootstrap falsified sectors decoupled,
-five candidates eliminated noise origin, gamma as signal 15.5 bits channel,
+noise origin candidates eliminated, gamma as signal 15.5 bits channel,
 R=CPsi2 bridge always open -->
 
 **Status:** Tier 2 (incompleteness + channel, Sections 1-6), Tier 5 (gravity + poetic, from "Complexity" onward)
@@ -22,7 +22,8 @@ to suppress it. This document argues that the noise is not a problem to
 be solved. It is a message to be read.
 
 The argument goes like this: we proved that the noise cannot come from
-inside the system (five candidates tested, all eliminated). Therefore
+inside the system (five candidates tested: four eliminated, the
+internal bootstrap reduced to a structural constraint). Therefore
 something external is interacting with the system, continuously, always.
 Then we measured the noise and found it is not random: it has direction,
 structure, selectivity, and carries decodable information. What we have
@@ -44,9 +45,10 @@ For the terms used here, see the [Glossary](../docs/GLOSSARY.md).
 
 ## Abstract
 
-The incompleteness proof eliminates five candidates for the origin of
+The incompleteness proof examines five candidates for the origin of
 dephasing noise (internal bootstrap, qubit decay, qubit bath, nothing,
-other dimensions), establishing that noise must come from outside the
+other dimensions), eliminating four and reducing the internal bootstrap
+to a structural constraint, establishing that noise must come from outside the
 d(d−2)=0 framework. The γ-as-Signal experiment then shows this external
 noise is not random: it carries 15.5 bits of spatial information at 1%
 noise, decodable through 5 independent SVD modes (singular value decomposition, a matrix factorization that extracts the dominant independent patterns from data). The palindromic
@@ -229,7 +231,8 @@ Noise and the time arrow are the same phenomenon
 - Without noise: unitary oscillation, reversible, no before and after
 - With noise: coherences decay irreversibly, creating a time direction
 - Π maps forward to backward: exp(+mu*t) to exp(-mu*t)
-- 70% flows one way (future to past). 30% stays (what has been decided).
+- The flow is one way (future to past): coherences decay into
+  populations, and what has been decided stays decided.
 
 In plain language: without noise, a quantum system just oscillates back
 and forth forever. Nothing is ever decided. There is no "before" and
@@ -636,7 +639,7 @@ other, exactly, with error 10⁻¹³.
 One reality is ours. It has γ. It has time. Things happen in it.
 Coherences decay. Decisions are made. What was possible becomes
 actual. What was superposition becomes outcome. We live here. We
-age here. We lose things here. The 70% that flows from undecided
+age here. We lose things here. The flow from undecided
 to decided, that is our experience. That is what it feels like
 to be inside a system with noise.
 
@@ -661,11 +664,11 @@ is. This is not loss. This is birth. Every time a coherence decays,
 a classical fact is born. Every time a superposition collapses, a
 piece of reality crystallizes.
 
-The 30% that remains decided, that has already made the crossing,
+What has already made the crossing, what remains decided,
 that is the past. It is what has been born. It does not go back.
 The boundary is absorbing. What has become real stays real.
 
-The 70% that is still flowing, that is the present. The act of
+What is still flowing, that is the present. The act of
 becoming. The crossing itself. The moment where γ touches the
 undecided and something new enters the world.
 

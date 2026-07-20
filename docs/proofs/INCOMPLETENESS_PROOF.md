@@ -1,7 +1,7 @@
 # Incompleteness of d(d-2)=0: Where Noise Comes From (And Why the Answer Is "Not From Here")
 
-**Status:** Tier 2 (derived from computationally verified falsifications); 5 candidates within the framework examined, four eliminated and the first (internal bootstrap) reduced to a structural constraint (§2, Candidate 1), 0 viable internal candidates remain.
-**Date:** 2026-03-21
+**Status:** Tier 1 derived (typed as [`NoiseOriginExclusionClaim`](../../compute/RCPsiSquared.Core/Symmetry/NoiseOriginExclusionClaim.cs), live witness `inspect --root noise-origin`); 5 candidates within the framework examined, four eliminated and the first (internal bootstrap) reduced to a structural constraint (§2, Candidate 1), 0 viable internal candidates remain. The corollaries on time and γ (§3) are interpretive extensions; the γ-time statement is scoped by [GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md).
+**Date:** 2026-03-21, last refreshed 2026-07-20 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** Within the d(d−2)=0 ontology (qubits + d=0 nothing), the dephasing noise required by the palindromic mirror symmetry cannot originate from any internal source. Noise must come from outside the framework.
 **Reference claim:** [`PolynomialFoundationClaim` + `QubitDimensionalAnchorClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) (Tier 1 derived; the d²−2d=0 polynomial selects d=2 as the qubit dimension, with d=1 algebraically excluded). This proof shows the same ontology is incomplete with respect to noise origin.
@@ -42,7 +42,9 @@ and every step is a computation you can run yourself.
 
 The palindromic mirror symmetry of the Liouvillian spectrum is proven
 ([MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)), verified through N=8 (87,376 eigenvalues,
-zero exceptions), and confirmed on IBM hardware at 1.9% deviation.
+zero exceptions), and confirmed on IBM hardware: the single-qubit
+CΨ = 1/4 crossing at 1.9% deviation on ibm_torino Q80
+([IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md), F24).
 
 The palindrome requires noise. Without the dissipator L_D, the Liouvillian
 is purely Hamiltonian: L = L_H. This produces unitary dynamics (perfectly reversible
@@ -58,7 +60,9 @@ Therefore noise must exist. The question is: where does it come from?
 ## 2. The Elimination
 
 Five candidates for the origin of dephasing noise within the d(d-2)=0
-framework. Each tested and eliminated. Think of this as a police
+framework. Four are eliminated outright; the first is reduced to a
+structural constraint, its elimination carried by Candidates 2-3.
+Think of this as a police
 investigation: we have a list of suspects, and we interrogate each one
 until we can prove they could not have done it. When every suspect is
 cleared, the perpetrator must be someone not in the room.
@@ -69,16 +73,17 @@ cleared, the perpetrator must be someone not in the room.
 dissipator structure.
 
 **Result (a structural constraint, not yet an elimination).** The parity
-sectors (Π eigenspaces) are exactly decoupled: [Π², L] = 0, the {I,Z} sector
-(populations, classical) and the {X,Y} sector (coherences, quantum) do not mix,
-and the dissipator is block-diagonal in the parity grading.
+sectors (Π² eigenspaces) are exactly decoupled: [Π², L] = 0, the even and
+odd w_YZ-parity sectors (Π² acts as (−1)^{w_YZ} on each Pauli string, F63)
+do not mix, and the dissipator is block-diagonal in the parity grading.
 
 - [Pi^2, L] = 0 (block-diagonal structure confirmed)
 - Sector populations do not influence sector coherences
 - Parity does not *determine* the dissipator
 
 **What this does and does not establish.** [Π², L] = 0 is a statement about the
-*form* of L (it respects the mirror parity), not about where the noise comes
+*form* of L (it respects the mirror parity; the identity is F63 in the
+[formula registry](../ANALYTICAL_FORMULAS.md)), not about where the noise comes
 from. It is satisfied by the ordinary EXTERNAL Z-dephasing generator we always
 use, so it cannot, by itself, rule out an internal origin. It is also
 *axis-agnostic*: it holds equally for X-, Y-, and Z-dephasing; every dephasing
@@ -173,7 +178,7 @@ d = d²−d. This holds only when
 d²−2d=0. No other dimension satisfies the condition. Within the
 framework, no entity with d>2 or non-integer d exists.
 
-**Source:** [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md) (the counting argument); the typed [`PolynomialFoundationClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) records the d=2 selection from d²−2d=0 with d=1 algebraically excluded; closes any "d=anything-else" loophole that would have been needed for a non-qubit noise source within the framework.
+**Source:** [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md) (the counting argument); the typed [`PolynomialFoundationClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) records the d=2 selection from d²−2d=0 with d=1 algebraically excluded; closes any "d=anything-else" loophole that would have been needed for a non-qubit noise source within the framework. The same polynomial is the c=0 case of F95's universal quadratic angle formula θ(c; b) ([formula registry](../ANALYTICAL_FORMULAS.md), F95), which tracks what happens when it is perturbed off the degenerate axis.
 
 **Conclusion:** Eliminated by the framework's own algebra.
 
@@ -181,7 +186,8 @@ framework, no entity with d>2 or non-integer d exists.
 
 ## 3. The Conclusion
 
-Every suspect has been interrogated and cleared. The system cannot
+Every suspect has been interrogated and cleared as a viable noise
+origin. The system cannot
 generate its own noise. A single qubit cannot generate it. A collection
 of qubits cannot generate it. "Nothing" cannot generate it. And the
 framework's own algebra forbids any other kind of entity from existing.
@@ -219,9 +225,13 @@ The identification is already in the framework:
 - With noise: coherences decay irreversibly, creating a before and after
 - The operator Π is literally time reversal: it maps exp(+mu*t) to
   exp(-mu*t), forward to backward ([PI_AS_TIME_REVERSAL.md](../../experiments/PI_AS_TIME_REVERSAL.md))
-- The 70/30 split IS the time arrow: 70% of information flows
-  irreversibly from coherence (undecided, future) to population
-  (decided, past). The remaining 30% is what has already been decided.
+- The irreversible flow IS the time arrow: coherences (undecided,
+  future) decay, populations (decided, past) persist, and the flow
+  never reverses. Under the dephasing dissipator alone, the immune
+  fraction of Liouville space is (1/2)^N (the all-{I,Z} Pauli
+  strings; verified in
+  [review2_A9_incompleteness.py](../../simulations/review2_A9_incompleteness.py)),
+  everything else decays.
 
 Noise is not like time. Noise IS the time arrow. Dephasing is what
 makes processes irreversible. Irreversibility is what distinguishes
@@ -242,13 +252,21 @@ What we know: it is not from here.
 
 ### Corollary 2: γ: Source of Experienced Time
 
-The dephasing rate γ does not merely correlate with time. γ is the necessary and sufficient condition for experienced time.
+The dephasing rate γ does not merely correlate with time. γ is the
+source of experienced time: it provides the arrow. It is not identical
+to experienced time; τ = γt does not scale universally, and the
+Hamiltonian coupling J provides the content of what is experienced
+([GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md) carries the
+precise statement table).
 
-The evidence is in every equation of the framework:
+The same pattern appears wherever the framework touches time:
 
-- The crossing time is t_cross = 0.039/γ. The product t × γ = const.
-  This is not a relation between two different quantities. It is a
-  tautology: time multiplied by the rate of time gives a pure number.
+- The crossing time is t_cross = 0.039/γ (0.039 is the Bell+/concurrence
+  value under Heisenberg coupling, not a universal constant; see
+  [CROSSING_TAXONOMY.md](../../experiments/CROSSING_TAXONOMY.md)). The
+  product t × γ = const is not a relation between two different
+  quantities. It is a tautology by the Lindblad scaling symmetry:
+  time multiplied by the rate of time gives a pure number.
 
 - The unit of γ is 1/[time]. But this is circular: without γ, there
   IS no time to measure against. γ defines the scale against which t
@@ -260,7 +278,9 @@ The evidence is in every equation of the framework:
   decays reverses the direction of time. Decay IS direction. γ provides
   the arrow.
 
-- In the transistor mapping: γ_M is the gate signal AND the clock.
+- In the transistor mapping ([GAMMA_CONTROL.md](../../experiments/GAMMA_CONTROL.md):
+  the mediator's dephasing rate γ_M as gate signal): γ_M is the gate
+  signal AND the clock.
   There is no separate clock line. The gate IS the clock. Because γ
   provides the irreversibility.
 
@@ -276,8 +296,10 @@ The instrument is identical to what it measures. The system cannot
 step outside itself to find the origin of the thing that makes
 "stepping" possible in the first place.
 
-γ is not a parameter of the system. γ is the system's experience
-of time. And that experience comes from outside.
+γ is not merely a parameter of the system. γ is the source of the
+system's experienced time: the arrow, with J shaping the content
+([GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md)). And that
+source comes from outside.
 
 ---
 
@@ -350,10 +372,13 @@ establishes that the answer is not inside d(d-2)=0.
 A fourth direction emerged from the algebraic analysis of the Urqubit
 (April 1, 2026): the cross term {L_H, L_D + Σγ·I} vanishes exactly at
 N=2 and is nonzero at N > 2. This means oscillation (Hamiltonian) and
-cooling (dissipator) are orthogonal only for the single bond. At N > 2,
-they are woven together, and this weaving cannot be undone by reduction
-(tracing out produces non-Markovian noise, 0/16 palindromic pairs).
-Time reversal is algebraically excluded at N > 2. See
+cooling (dissipator) are Frobenius-orthogonal only for the single bond.
+At N > 2, they are woven together, and this weaving cannot be undone by
+reduction (tracing out produces non-Markovian noise, 0/16 palindromic
+pairs). Reading this loss of orthogonality as an arrow-of-time exclusion
+is a Tier-3 interpretation, not a time-reversal theorem: the dynamical
+separability criterion is the commutator [L_H, L_Dc], nonzero at every
+N. See
 [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) and
 [Primordial Qubit Algebra](../../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md).
 

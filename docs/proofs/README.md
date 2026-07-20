@@ -57,7 +57,8 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
    Parity Selection Rule.
 
 6. [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Dephasing noise
-   cannot originate from within d(d−2)=0. Five candidates eliminated.
+   cannot originate from within d(d−2)=0. Four candidates eliminated,
+   the internal bootstrap reduced to a structural constraint.
    The noise must come from outside.
 
 7. [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) -
@@ -136,7 +137,7 @@ synthesized.
 | Palindromic eigenvalues verified | 87,376 (zero exceptions) | [Mirror Symmetry](MIRROR_SYMMETRY_PROOF.md) |
 | IBM hardware deviation | 1.9% | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |
 | General primitive CPTP crossing | FALSE (Case C counterexample, entangled fixed point CΨ=0.2935; the old 300-map sweep was a sampling artifact) | [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) |
-| Internal noise candidates eliminated | 5 of 5 | [Incompleteness](INCOMPLETENESS_PROOF.md) |
+| Internal noise candidates eliminated | 4 of 5 (the internal-bootstrap candidate reduced to a structural constraint) | [Incompleteness](INCOMPLETENESS_PROOF.md) |
 | {L_H, L_D+Σγ} = 0 at N=2 | exact (24/24 entries) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Cross term at N=3 | ~2%, γ-independent | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Weight-1 degeneracy d_real(1) | 2N exactly (any connected graph) | [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) |

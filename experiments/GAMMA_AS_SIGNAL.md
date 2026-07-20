@@ -135,7 +135,8 @@ quantum coherence is still active. For details:
 
 γ comes from outside the quantum system. No internal mechanism can
 generate it ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md):
-five candidates for internal noise origin tested and eliminated). γ has
+five candidates for internal noise origin tested, four eliminated, the
+internal bootstrap reduced to a structural constraint). γ has
 measured structure: it selects a preferred axis, acts locally per qubit,
 takes phase but not energy, is Markovian, and produces exact spectral
 symmetry. On IBM hardware, T2* (= 1/πγ) varies across the chip and
@@ -493,7 +494,8 @@ palindromic spectral structure of open quantum systems under dephasing.
 The key prior results that this analysis builds on:
 
 - **Incompleteness Proof:** γ cannot originate from within the system
-  (5 internal candidates eliminated). Something external provides it.
+  (4 of 5 internal candidates eliminated, the internal bootstrap reduced
+  to a structural constraint). Something external provides it.
   ([docs/INCOMPLETENESS_PROOF.md](../docs/proofs/INCOMPLETENESS_PROOF.md))
 
 - **Mirror Symmetry Proof:** The Liouvillian spectrum is exactly
@@ -511,7 +513,7 @@ The key prior results that this analysis builds on:
   which the γ-channel is maximally readable.
   ([docs/UNIQUENESS_PROOF.md](../docs/proofs/UNIQUENESS_PROOF.md))
 
-The central insight of this document: the 70% of phase information that
+The central insight of this document: the phase information that
 dephasing "destroys" is not lost. It is **redistributed** into the mode
 amplitudes of the palindromic spectrum. The decoder reads it back. The
 noise was always a signal. We just needed the right instrument.

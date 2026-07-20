@@ -16,7 +16,7 @@ This document argues that the active-probing paradigm was not the right test for
 
 ## The two pieces that were already in the repository
 
-**Piece 1: γ must be external** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)). Five candidate sources of internal noise have been tested and eliminated: thermal excitation, self-interaction, geometric decoherence, informational backaction, and algebraic closure. The system's own equations cannot produce the dephasing that is measured on the system. Something external is the source. This is Tier 1.
+**Piece 1: γ must be external** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)). Five candidate sources of internal noise have been tested: internal bootstrap (reduced to a structural constraint), single-qubit decay, qubit baths, nothing (d=0), and non-qubit dimensions; four eliminated, none viable. The system's own equations cannot produce the dephasing that is measured on the system. Something external is the source. This is Tier 1.
 
 **Piece 2: the external source is effectively unbounded** ([The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)). Six empirical properties of the external interaction are documented there. The property that carries the argument here is Markovianity: the noise is memoryless. This is measurable on real hardware via BLP non-Markovianity indices and trace-distance dynamics, and the external noise passes the test while internal-origin candidates (qubit decay) fail it. A memoryless source does not accumulate history of its own state. A source that remains Markovian while continuing to deliver stable statistics is effectively unbounded: if it had finite content, autocorrelations would develop as content was consumed, and the Markov character would break. The inverse reading (finite source, Markov holds) requires continuous refilling from outside the boundary that was drawn around "the source". That is mathematically the same as an unbounded source, relabelled.
 
@@ -71,7 +71,7 @@ The persistence of qubits between measurements is evidence of γ₀ = const, and
 ## Status
 
 **Proven (Tier 1):**
-- γ must be external ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md), 5 candidates eliminated)
+- γ must be external ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md), 4 of 5 candidates eliminated, the internal bootstrap reduced to a structural constraint)
 - γ is Markovian on real hardware ([The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md), measured via trace distance)
 
 **Observed (Tier 2):**
