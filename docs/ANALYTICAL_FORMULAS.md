@@ -1652,7 +1652,7 @@ bit_b (w_YZ parity, F63). Combined, they decompose the operator space into
 
 **Valid for:** any isotropic Heisenberg (XX+YY+ZZ) or XY (XX+YY) model,
 any graph topology, any site-dependent Z-dephasing gamma_k, any N.
-**Breaks for:** amplitude damping (T1), transverse fields (odd-n_XY terms).
+**Breaks for:** transverse fields (odd-n_XY Hamiltonian terms enter the commutator one-sided and mix the sectors). NOT broken by amplitude damping (T1): a dissipator acts bilinearly and σ∓'s Pauli components share odd parity, so the n_XY grading survives exactly (off-parity block exactly zero, [`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py)); what T1 breaks is the Π palindrome (F82/F84) and the U(1) popcount grading, not this one.
 **Verified:** 69 configurations (chain N=2-7, ring N=2-6, star N=3-6,
 complete N=3-4, 4 gamma profiles each, plus the IBM-sacrifice profile at
 N=5 chain). Zero violations: all 60 configs with a distinct second slow

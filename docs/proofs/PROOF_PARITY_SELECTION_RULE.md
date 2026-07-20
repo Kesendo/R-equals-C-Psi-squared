@@ -198,12 +198,28 @@ and does not affect the parity argument.
 
 **Breaks for:** anisotropic models where the Hamiltonian contains terms
 with odd n_XY (e.g., a transverse field h·X_k adds n_XY=1 terms to the
-commutator, which would mix V_even and V_odd). Also breaks for
-**amplitude damping** (T₁ decay), whose jump operator σ₋ = (X + iY)/2 = |0⟩⟨1|
-has n_XY = 1 (odd parity). Since real hardware has both T₁ and T₂ noise,
-this theorem applies strictly only to the pure-dephasing component.
-On hardware where T₂ ≫ T₁ (dephasing-dominated regime), the selection
-rule holds approximately; on hardware where T₁ ~ T₂, it does not.
+commutator, which mix V_even and V_odd). A Hamiltonian term is the
+dangerous kind of odd operator because the commutator applies it
+one-sided.
+
+**Does NOT break for amplitude damping (T₁ decay),** although its jump
+operator σ₋ = (X + iY)/2 = |0⟩⟨1| has n_XY = 1: a dissipator acts
+bilinearly. The sandwich σ₋ ρ σ₋† puts an odd-parity operator on both
+sides of ρ (net parity change even), and σ₋†σ₋ = (I − Z)/2 is
+parity-even. In general, any jump operator whose Pauli components share
+one n_XY parity preserves the grading; with uniform amplitude damping
+added, the off-parity-block norm of L is exactly zero
+([`simulations/direct_sum_scope_probe.py`](../../simulations/direct_sum_scope_probe.py)).
+On hardware the selection rule therefore survives T₁ + T₂ noise. What
+T₁ erodes is the Π palindrome (a damping channel has a fixed arrow of
+time; closed-form residuals in F82/F84), and what would break the rule
+itself is a coherent transverse-field leak (an odd-n_XY Hamiltonian
+term). On the sector side T₁ breaks the finer U(1) excitation-number
+grading (σ₋ changes excitation number; see
+[PROOF_ASYMPTOTIC_SECTOR_PROJECTION](PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md)),
+of which this rule's n_XY parity is the Hamming-parity shadow that
+survives: σ₋ ρ σ₋† moves (p, q) to (p−1, q−1), leaving p − q, and with
+it the parity, unchanged.
 
 **Does not say:** which specific modes are even or odd, only that the
 decomposition exists. The actual distribution of modes between sectors

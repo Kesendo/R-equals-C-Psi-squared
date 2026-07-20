@@ -40,7 +40,7 @@ In case 1, C' is the conjugate of C by the operator-space Klein element Q_zx (`Q
 
 - **Bespoke-operator residue (keeps `NeedsDerivation`):** claims built on operators other than the canonical Π_d, e.g. Π_5bilinear (F108 family), are not transported by the operator-space Q_zx alone; they need a deeper Hilbert-space Hadamard at the spin-algebra level (PROOF_F108). These are flagged for individual attention, not covered here.
 
-- **bit_b-specific (status `BitBSpecific`):** claims whose content is intrinsically tied to Z-dephasing or to non-dephasing dissipation (amplitude damping F1T1 / F82 / F84, and the Y-dephase / break-magnitude claims F91 / F93 / F108Part3 / F113 / F112-Y) have no bit_a twin to mirror. F61's break conditions show that the σ⁺/σ⁻ jumps of amplitude damping flip bit_a, so the symmetry does not exist.
+- **bit_b-specific (status `BitBSpecific`):** claims whose content is intrinsically tied to Z-dephasing or to non-dephasing dissipation (amplitude damping F1T1 / F82 / F84, and the Y-dephase / break-magnitude claims F91 / F93 / F108Part3 / F113 / F112-Y) have no bit_a twin to mirror. The σ⁺/σ⁻ jumps single out the Z-basis energy ladder, and the Hadamard Z↔X relabeling maps them to (Z ± iY)/2, a different physical channel outside the standard damping family, so the symmetry does not exist. (As superoperators the σ∓ dissipators preserve bit_a: the bilinear sandwich cancels the parity of the jump operator; what they lack is a physical bit_a twin.)
 
 ## Consequence for the map
 

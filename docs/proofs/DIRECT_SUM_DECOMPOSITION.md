@@ -224,14 +224,14 @@ an injective linear map between equal-dimensional spaces is a bijection.
 Every eigenvector of L_even maps to a unique eigenvector of L_odd.
 
 **L_odd is entirely determined by L_even.** Since L preserves both
-sectors (Step 1), the palindrome relation Π · L · Π⁻¹ = −L − 2Σγ · I
-restricted to the action on V_even reads:
+sectors (Step 1), the palindrome relation Π · L · Π⁻¹ = −L − 2Σγ · I,
+read as an identity of maps on V_odd, becomes:
 
     Π · L_even · Π⁻¹ = −L_odd − 2Σγ · I
 
-(The left side takes V_even → V_even → V_odd via L_even then Π.
-The right side takes V_even → V_odd via Π, then acts with −L_odd − 2Σγ·I
-on V_odd.) Rearranging:
+(Both sides act on V_odd: on the left, Π⁻¹ carries V_odd to V_even,
+L_even acts there, and Π carries the result back to V_odd; on the right,
+−L_odd − 2Σγ·I acts on V_odd directly.) Rearranging:
 
     L_odd = −Π · L_even · Π⁻¹ − 2Σγ · I
 
@@ -328,7 +328,10 @@ bridges" postulates:
 4. A superselection rule preventing transitions → **Step 6: \[P_XY, L\] = 0**
 
 All four conditions are satisfied for odd N. The two frameworks were
-developed without knowledge of each other.
+developed without knowledge of each other. (The equal-dimension phrasing
+of postulate 1 is our characterization; the paper's own postulates speak
+of sectors related by a discrete transformation carrying opposite arrows
+of time, without asserting equal Hilbert-space dimension.)
 
 The even-N case has no direct analogue in Gaztañaga's framework (the
 self-dual palindrome is not a two-sector theory).
@@ -340,37 +343,33 @@ to its complement (w → N−w). When N is odd, complements have opposite
 parity; when N is even, they have the same parity. The crossover between
 "two-sector direct sum" and "self-dual" is controlled by a single bit.
 
-This also explains the fragile bridge observation that odd chain lengths
-are less stable than even ones (N=3 is 35× less stable than N=2; N=4
-recovers 2.3× stability). The gain-loss coupling in the fragile bridge
-behaves differently depending on whether Π exchanges sectors or not.
+A speculative echo (not derived): the
+[fragile bridge](../../hypotheses/FRAGILE_BRIDGE.md) observes that odd
+chain lengths are less stable than even ones (N=3 is ~35× less stable
+than N=2; N=4 recovers 2.3× stability). Whether the sector-exchange bit
+governs that model's stability is an open conjecture; the fragile bridge
+is a non-Hermitian gain-loss system, not this Liouvillian, and no
+derivation connects the two.
 
 ---
 
-## Computational implication (prediction)
+## Computational implication
 
-**Status:** This section is a prediction, not a measurement. The current
-compute engine does not yet exploit the direct-sum structure. The numbers
-below follow from matrix size and the cubic scaling of dense
-eigendecomposition; they describe what a sector-aware engine *should*
-achieve, not what has been observed. A C# engine refactored around the
-analytical formulas and the per-sector decomposition is open work.
-
-The block-diagonal structure means eigendecomposition can in principle
-be performed on each sector independently. For odd N, only one sector
-needs to be diagonalized (the other follows from Π).
-
-| N | Full matrix | Per-sector matrix | RAM savings (predicted) |
-|---|-------------|-------------------|-------------------------|
-| 7 | 16,384² | 8,192² | 4× |
-| 8 | 65,536² | 32,768² | 4× |
-
-The 4× RAM factor follows directly from halving each matrix dimension
-(2² = 4 for the dense storage). Wall-clock predictions follow from cubic
-scaling of dense eigendecomposition (8× speedup per sector, halved again
-for odd N where only one sector must be diagonalized). Concrete RAM and
-time numbers for specific N will be added once the sector-aware engine
-exists and produces verified output.
+**Status: realized, by a finer grading.** The sector-aware engine this
+decomposition called for exists since 2026-05-19:
+`LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`
+(`compute/RCPsiSquared.Core/BlockSpectrum/`) computes the full 4^N
+spectrum block by block. It works not on the two n_XY-parity sectors but
+on the finer joint-popcount grading (blocks of size C(N,p)·C(N,q), of
+which V_even/V_odd are the mod-2 coarsening), and it exploits the Π
+orbit-pairing so mirror partners are not recomputed, which is this
+proof's "only one half must be diagonalized" made operational. That path
+carried the N = 9 spectrum; the dense 4^N engine had hit its wall at
+N = 8 (~73 GB). The April arithmetic (per-parity-sector: 4× RAM from
+halved dimension, 4× time at even N with two sectors at 1/8 cost each,
+8× at odd N where one sector suffices) was sound but is now dominated by
+the joint-popcount blocks, which are far smaller than the 2^(2N−1)
+half-sectors.
 
 ---
 
@@ -385,9 +384,29 @@ graph structure. An N=5 ring and an N=5 chain both have direct-sum
 structure (odd N). An N=6 ring and an N=6 chain are both self-dual
 (even N).
 
-**Breaks for:** the same conditions that break the Parity Selection Rule
-(transverse fields with odd n_XY terms, amplitude damping). See the
-[Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md) scope section.
+**Breaks selectively.** The four statements do not stand or fall together,
+and the two standard perturbations break OPPOSITE halves of the structure
+(probe: [`simulations/direct_sum_scope_probe.py`](../../simulations/direct_sum_scope_probe.py)):
+
+- **A transverse field** (any Hamiltonian term with odd n_XY, e.g. h·X_k)
+  enters the commutator one-sided and mixes V_even with V_odd: the direct
+  sum and the superselection charge (Statement 4, and Step 1's sector
+  invariance) are lost, while the palindrome relation itself survives
+  (residual machine-zero at N = 3, h = 0.3).
+- **Amplitude damping (T₁)** does the opposite: a dissipator acts
+  bilinearly (σ₋ ρ σ₋† puts an odd-parity operator on both sides of ρ,
+  net parity change even, and σ₋†σ₋ = (I−Z)/2 is parity-even), so the
+  n_XY grading and \[P_XY, L\] = 0 survive EXACTLY, and with them the
+  direct-sum decomposition. What T₁ breaks is the palindrome content of
+  Statements 2/3 (a damping channel has a fixed arrow of time; closed-form
+  residuals in F82/F84), so the two sectors persist but stop being mirror
+  images of each other.
+- The purely combinatorial parts (Statement 1's dimension count, Step 4's
+  sector-exchange arithmetic) are properties of the Pauli basis and never
+  break.
+
+See the [Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md) scope
+section for the same split stated at the parent theorem.
 
 ---
 
@@ -398,6 +417,16 @@ structure (odd N). An N=6 ring and an N=6 chain are both self-dual
 
 ## Related results
 
+- **Finer gradings:** V_even/V_odd is the mod-2 coarsening of the U(1)
+  joint-popcount grading that number conservation already provides
+  ([SYMMETRY_CENSUS §1.2](../../experiments/SYMMETRY_CENSUS.md)); and this
+  proof's own Π² = (−1)^{n_YZ} (Step 3, conjugation by X^⊗N) is a SECOND
+  independent Z₂ charge, proven four days later as
+  [Bit-b Parity](PROOF_BIT_B_PARITY_SYMMETRY.md). Together bit_a (n_XY,
+  this proof's P_XY) and bit_b (w_YZ) cut the operator space into the
+  Klein-V₄ four-sector split of dimension 4^(N−1) each (F61 × F63); P_XY
+  is one of two commuting superselection charges, and the two-sector
+  direct sum here is the coarsest layer of that structure.
 - [Fragile Bridge](../../hypotheses/FRAGILE_BRIDGE.md): gain-loss coupled system; odd/even N stability asymmetry
 - [Standing Wave Theory](../STANDING_WAVE_THEORY.md): palindromic mode pairing
 - [PT Symmetry Analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md): AIII chiral classification

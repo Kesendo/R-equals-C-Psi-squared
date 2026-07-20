@@ -30,7 +30,7 @@ Z-dephasing (jump operator L_k = sqrt(gamma_k) Z_k) does not flip bits: Z|0> = |
 
 The underlying symmetry is U(1) conservation: both H and the dephasing channel commute with the total excitation number operator Σ_k (I − Z_k)/2. This directly implies sector locking. An additional, finer symmetry is the [n_XY Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md), which proves that the Liouvillian block-diagonalizes by n_XY parity (even vs. odd count of X,Y operators in the Pauli-string basis). Single-excitation density matrices live entirely in the even-parity subspace and cannot couple to odd-parity modes. The PSR is a consequence of the same U(1) symmetry but operates at the level of the Liouvillian superoperator rather than the Hamiltonian.
 
-The theorem holds for any N, any graph topology, and any Z-dephasing profile. It breaks for amplitude damping (T1 decay) or transverse-field Hamiltonians.
+The theorem holds for any N, any graph topology, and any Z-dephasing profile. It breaks for transverse-field Hamiltonians (odd-n_XY terms); amplitude damping (T1) leaves the parity grading intact and breaks the mirror instead ([`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py)).
 
 ---
 
