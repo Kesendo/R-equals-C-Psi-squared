@@ -6,7 +6,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <summary>F26 closed form (Tier 1 proven, monotonic decay):
 ///
 /// <code>
-///   CΨ = u · (1 + u² + v² + w²) / 12
+///   CΨ = max(u, v) · (1 + u² + v² + w²) / 12
 ///
 ///   u = e^{−α·t},  v = e^{−β·t},  w = e^{−δ·t}
 ///   α = 4·(γ_y + γ_z)
@@ -97,8 +97,11 @@ public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim, IZ2AxisClaim
             Delta: four * (gammaX + gammaY));
     }
 
-    /// <summary>Live closed form: <c>CΨ(t) = u·(1 + u² + v² + w²)/12</c> for
-    /// general Pauli-channel mix (γ_x, γ_y, γ_z).</summary>
+    /// <summary>Live closed form: <c>CΨ(t) = max(u,v)·(1 + u² + v² + w²)/12</c> for
+    /// general Pauli-channel mix (γ_x, γ_y, γ_z). The l₁-prefactor is max(u, v);
+    /// the u·(…) form holds only after the WLOG re-sort α ≤ β (for pure Y the
+    /// physical rates violate the WLOG, and dropping the re-sort yields the wrong
+    /// K_Y = K_Z; see F27's trap note).</summary>
     public double CPsiAtTime(double gammaX, double gammaY, double gammaZ, double t)
     {
         if (t < 0.0) throw new ArgumentOutOfRangeException(nameof(t), t, "t must be ≥ 0.");
@@ -106,7 +109,7 @@ public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim, IZ2AxisClaim
         double u = Math.Exp(-alpha * t);
         double v = Math.Exp(-beta * t);
         double w = Math.Exp(-delta * t);
-        return u * (1.0 + u * u + v * v + w * w) / NormalizationDenominator;
+        return Math.Max(u, v) * (1.0 + u * u + v * v + w * w) / NormalizationDenominator;
     }
 
     /// <summary>F26 → F25 recovery: at γ_x = γ_y = 0, F26 closed form equals

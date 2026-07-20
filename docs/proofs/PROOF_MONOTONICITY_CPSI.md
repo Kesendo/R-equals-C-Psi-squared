@@ -1,10 +1,10 @@
 # Proof: CΨ Monotonicity Under Markovian Channels
 
 **Status:** Tier 1 derived (Bell+ closed-form for all single-axis Markovian channels + Envelope Theorem for any 2-qubit state under local Z-dephasing) + Tier 2 verified (19 initial states including 10 Haar-random, GHZ/W subsystems N=3-5, 124/124 channel configurations)
-**Date:** 2026-03-22 (Parts 1-5) + 2026-03-26 (Part 7: Pauli invariance) + 2026-04-29 (K_Y correction in Part 2)
+**Date:** 2026-03-22 (Parts 1-5) + 2026-03-26 (Part 7: Pauli invariance); last refreshed 2026-07-20 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** `dCΨ/dt < 0` strictly for all t > 0 under any local Markovian channel; the local maxima of CΨ form a strictly non-increasing sequence under any Hamiltonian + local Z-dephasing (Envelope Theorem). 1/4 is the absorbing boundary.
-**Reference formulas:** [F25](../ANALYTICAL_FORMULAS.md) (Bell+ Z closed-form), [F26](../ANALYTICAL_FORMULAS.md) (Bell+ Pauli closed-form), [F27](../ANALYTICAL_FORMULAS.md) (K values per channel), [F28](../ANALYTICAL_FORMULAS.md) (Fixed-point absorber theorem) in the F-formula registry.
+**Reference formulas:** [F25](../ANALYTICAL_FORMULAS.md) (Bell+ Z closed-form), [F26](../ANALYTICAL_FORMULAS.md) (Bell+ Pauli closed-form), [F27](../ANALYTICAL_FORMULAS.md) (K values per channel) in the F-formula registry; [F28](../ANALYTICAL_FORMULAS.md) (fixed-point absorber) is scope-retracted for general CPTP maps and owned by [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md).
 
 ---
 
@@ -188,7 +188,7 @@ only if α = β = δ = 0 (no noise). For any nonzero noise:
 |---------|---|---|---|---------------------|
 | Pure Z (γ) | 4γ | 4γ | 0 | 0.0374 |
 | Pure X (γ) | 0 | 4γ | 4γ | 0.0867 |
-| Pure Y (γ) | 0 | 4γ | 4γ | 0.0867 |
+| Pure Y (γ), re-sorted | 0 | 4γ | 4γ | 0.0867 |
 | Depolarizing (γ/3 each) | 8γ/3 | 8γ/3 | 8γ/3 | 0.0440 |
 
 **K_X = K_Y = 0.0867 = ln(2)/8; K_Z = 0.0374 is the odd one out.** The
@@ -199,8 +199,9 @@ cases L₁ stays nonzero, so L₁ = max(u,v) = 1 and CΨ = (1+v²)/6, crossing �
 v² = ½ ⟹ K = ln(2)/8 = 0.0867. Under pure Z **both** XX and YY decay, so L₁ → 0,
 CΨ = u(1+u²)/6, and K_Z = 0.0374. (Note: F26 with γ_y only gives the physical rates
 (α,β,δ) = (4γ, 0, 4γ); since β = 0 < α this **violates the WLOG α ≤ β**, so it must
-be re-sorted to α = 0, giving L₁ = e^{−αt} = 1, exactly pure X's form. This corrects
-the erroneous 2026-04-29 note that dropped the re-sort and wrongly set K_Y = K_Z.)
+be re-sorted to α = 0, giving L₁ = e^{−αt} = 1, exactly pure X's form. Dropping the
+re-sort silently yields the pure-Z form and a wrong K_Y = K_Z; F27 in the registry
+carries the same trap warning.)
 All K values verified numerically (CV < 0.1%).
 
 ---
@@ -227,9 +228,10 @@ where a = (1+p²)/2 = (2-2q+q²)/2, b = pq/2 = (1-q)q/2, d = q²/2.
 
 C = (2-2q+q²)²/4 + (1-q)²q²/2 + q⁴/4 + q²/2
 
-**After simplification** (verified numerically):
+which collapses to the exact closed form (verified numerically to
+machine precision at 7 sample points):
 
-C = (1 + q⁴ + (1-q²)²) / 2 + q² terms... [complex but positive-definite]
+**C = (q² − q + 1)²**
 
 **L₁ coherence:** Only ρ₀₃ and ρ₃₀ are nonzero off-diagonal:
 L₁ = 2 · |q/2| = q
@@ -248,11 +250,23 @@ dCΨ/dt = (dCΨ/dq)(dq/dt) = (dCΨ/dq)(-γq)
 
 We need dCΨ/dq > 0 (CΨ increases with q, i.e., decreases as q decays).
 
-Since CΨ = C(q) · q/3, and C(q) can be verified to be a polynomial in q
-with positive coefficients when restricted to q ∈ [0,1], the product
-C(q) · q/3 is increasing in q on [0,1].
+With C = (q² − q + 1)², CΨ = q(q² − q + 1)²/3, and the derivative
+factors exactly:
+
+```
+3 · dCΨ/dq = (q² − q + 1)(5q² − 3q + 1)
+```
+
+Both quadratic factors have negative discriminant (1 − 4 < 0 and
+9 − 20 < 0), so each is strictly positive for all real q, and
+dCΨ/dq > 0 everywhere. (C(q) itself is NOT monotone in q; it dips to
+9/16 at q = 1/2 and recovers. Only the product CΨ = q·C/3 is monotone,
+which is exactly what the theorem needs.)
 
 **Therefore dCΨ/dt = (positive)(−γq) < 0 for all t > 0, γ > 0. QED.**
+
+The crossing q(q² − q + 1)² = 3/4 gives q* = 0.90219, so
+K_AD = −ln(q*) = 0.1029.
 
 ### Numerical verification
 
@@ -330,8 +344,8 @@ With x = a - 1/2, the characteristic equation is λ² + 4γλ + 16J² = 0:
 For J >> γ (typical regime): ω ≈ 4J.
 
 ```
-a(t) = 1/2 + (1/2) e^{-2γt} cos(ωt)
-v(t) = [J/√(4J²-γ²)] e^{-2γt} sin(ωt) ≡ V₀ e^{-2γt} sin(ωt)
+a(t) ≈ 1/2 + (1/2) e^{-2γt} cos(ωt)       (J ≫ γ; the exact bracket carries an extra (γ/ω)·sin(ωt) term)
+v(t) = [J/√(4J²-γ²)] e^{-2γt} sin(ωt) ≡ V₀ e^{-2γt} sin(ωt)     (exact)
 ```
 
 ### CΨ for |01⟩
@@ -642,7 +656,7 @@ reservoir. The total system still has dCΨ/dt < 0 (monotonic overall),
 but the subsystem CΨ oscillates around 1/4 because coherence flows
 back through the mediator before it fully decays.
 
-The coupling also creates 100 new oscillation frequencies that do not
+The coupling also creates 109 new oscillation frequencies that do not
 exist in either individual pair (the [V-Effect](../../experiments/V_EFFECT_PALINDROME.md)).
 These new modes are the mechanism of complexity growth through coupling.
 
@@ -661,7 +675,8 @@ for the full resonator framework.
 
 ### F-formula registry
 
-- [F25, F26, F27, F28 in ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md): Bell+ closed forms (Z and general Pauli), K-values per channel, fixed-point absorber theorem (all derived here)
+- [F25, F26, F27 in ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md): Bell+ closed forms (Z and general Pauli) and K-values per channel, derived here
+- F28 (fixed-point absorber): scope-retracted for general CPTP maps (separable counterexample) and re-sourced to [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md); the physical-noise scope this proof uses is unaffected
 
 ### Scripts
 

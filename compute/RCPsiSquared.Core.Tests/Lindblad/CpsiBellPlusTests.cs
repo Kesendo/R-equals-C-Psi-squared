@@ -31,12 +31,24 @@ public class CpsiBellPlusTests
     }
 
     [Fact]
-    public void PureZ_EqualsPureY_ByF26Symmetry()
+    public void PureX_EqualsPureY_L1IsPinnedCorrelation()
     {
-        // F26 functional symmetry: pure Y has α=4γ_y, β=0, δ=4γ_y → identical CΨ structure.
+        // Pure Y has physical rates α=4γ, β=0 (violating the WLOG α ≤ β), so L₁ = max(u,v) = 1:
+        // the YY correlation is pinned, CΨ = (1+u²)/6, functionally identical to pure X, NOT pure Z
+        // (PROOF_MONOTONICITY_CPSI.md Part 2 K table; F27's 2026-06-22 revert of the K_Y=K_Z error).
         double t = 0.5;
-        double cz = CpsiBellPlus.At(0.0, 0.0, 1.0, t);
+        double cx = CpsiBellPlus.At(1.0, 0.0, 0.0, t);
         double cy = CpsiBellPlus.At(0.0, 1.0, 0.0, t);
-        Assert.Equal(cz, cy, 12);
+        double cz = CpsiBellPlus.At(0.0, 0.0, 1.0, t);
+        Assert.Equal(cx, cy, 12);
+        Assert.NotEqual(cz, cy);
+    }
+
+    [Fact]
+    public void PureY_AtCuspK_IsOneQuarter()
+    {
+        // K_Y = ln(2)/8 ≈ 0.0867: CΨ = (1+u²)/6 = 1/4 at u² = e^{-8γt} = 1/2.
+        double cpsi = CpsiBellPlus.At(0.0, 1.0, 0.0, CpsiBellPlus.CuspK.PureY);
+        Assert.InRange(cpsi, 0.249, 0.251);
     }
 }

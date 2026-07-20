@@ -91,8 +91,9 @@ public static class Formulas
     public const double F25_CrossingF = 0.8612;
     public const double F25_K = 0.0374;
 
-    // F26 (T1): CPsi for Bell+ under general Pauli noise. CPsi = u(1+u^2+v^2+w^2)/12.
-    public static double F26_CPsi(double u, double v, double w) => u * (1.0 + u * u + v * v + w * w) / 12.0;
+    // F26 (T1): CPsi for Bell+ under general Pauli noise. CPsi = max(u,v)(1+u^2+v^2+w^2)/12;
+    // the u(...) form holds only under the WLOG re-sort alpha <= beta (F27 trap note).
+    public static double F26_CPsi(double u, double v, double w) => Math.Max(u, v) * (1.0 + u * u + v * v + w * w) / 12.0;
 
     // F27 (T1): K per noise channel. K_X=K_Y=ln(2)/8=0.0867, K_Z=0.0374, K_depol=0.0440.
     public static readonly double F27_KX = Math.Log(2) / 8.0;

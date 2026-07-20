@@ -745,12 +745,16 @@ O(1) evaluation instead of ODE solver.
 
 ### F26. CΨ closed form, general Pauli channels (Tier 1, proven)
 
-    CPsi = u * (1 + u^2 + v^2 + w^2) / 12
+    CPsi = max(u, v) * (1 + u^2 + v^2 + w^2) / 12
 
     u = e^{-alpha*t},   v = e^{-beta*t},   w = e^{-delta*t}
     alpha = 4*(gamma_y + gamma_z)
     beta  = 4*(gamma_x + gamma_z)
     delta = 4*(gamma_x + gamma_y)
+
+The l1-prefactor is max(u, v); the frequently quoted u * (...) form
+holds after the WLOG re-sort alpha <= beta (see F27's re-sort trap
+note: for pure Y the physical rates violate the WLOG).
 
 Derivative proven < 0 for any nonzero noise (all coefficients in
 the bracket are non-negative; product with -u is strictly negative).
