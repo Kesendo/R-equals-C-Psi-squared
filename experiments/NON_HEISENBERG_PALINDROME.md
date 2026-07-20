@@ -89,9 +89,9 @@ Section 10) applicable to every major quantum hardware platform.
 |-------|-----|-----|-----------|
 | Heisenberg (XX+YY+ZZ) | 100% | 100% | Uniform Π (P1 family) |
 | XY-only (XX+YY) | 100% | 100% | Uniform Π (P1 family) |
-| Ising (ZZ only) | 100% | 100% | Uniform Π (96 valid maps) |
-| XX alone | 100% | 100% | Uniform Π (32 valid maps) |
-| YY alone | 100% | 100% | Uniform Π (32 valid maps) |
+| Ising (ZZ only) | 100% | 100% | Uniform Π (128 valid maps, 96 supporting ZZ exclusively) |
+| XX alone | 100% | 100% | Uniform Π (64 valid maps, 32 exclusive) |
+| YY alone | 100% | 100% | Uniform Π (64 valid maps, 32 exclusive) |
 | XXZ (δ=0.5, 2.0) | 100% | 100% | Uniform Π (P1 family) |
 | DM interaction (XY−YX) | 100% | 100% | Non-uniform alternating Π |
 | Heisenberg + DM | 100% | 100% | Non-uniform alternating Π |
@@ -118,8 +118,10 @@ on their per-site permutation of Pauli indices:
 | P4 | I↔Y, X↔Z (with phases) | XX, XZ, YY, ZX, ZZ |
 
 The known Π operator (I→X, X→I, Y→iZ, Z→iY) belongs to P1.
-P4 is new: example I→Y, X→−iZ, Y→I, Z→−iX. P4 supports 5 Hamiltonian
-terms vs 3 for P1.
+P4 is new: example I→Y, X→iZ, Y→−I, Z→−iX (one of the 8 maps
+supporting {XX, XZ, YY, ZX, ZZ}). P4 supports 5 Hamiltonian
+terms vs 3 for P1. (The related sign-variant I→Y, X→−iZ, Y→I, Z→−iX
+is the even-site M₂ of Result 3.)
 
 ---
 
@@ -157,8 +159,11 @@ each site chooses its own family: P4⊗P1. When they sit on the SAME site
 M (the same on every site) does. See
 [Pi Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md).
 
-The 14 broken combinations from algebraic analysis match the 14 from
-numerical eigenvalue analysis exactly (cross-validated).
+The 14 broken combinations match between algebra and numerics after
+reconciliation: the raw uniform-discrete algebraic search reports 19
+broken (`algebraic_pi_search.txt` prints the discrepancy explicitly),
+of which 3 are resolved by alternating operators and 2 by the
+continuous rotation, leaving 14 = the numerical count.
 
 ---
 
@@ -215,9 +220,14 @@ numerical noise:
 
     err(XX+XY) = 1.31 × γ²
 
-Verified across γ = 0.001 to 1.0 (coefficient constant to 3 significant
-figures). This is a second-order interference effect between incompatible
-Π operators. The breaking also grows with N (tested N=3 through N=6).
+The coefficient is constant to 3 significant figures for γ = 0.001 to
+0.1 (the leading-order regime); by γ = 0.5 it drifts to ~1.49, so 1.31
+is the small-γ expansion coefficient, not a global constant
+(`non_heisenberg_deep.txt` carries both regimes). This is a
+second-order interference effect between incompatible
+Π operators. The breaking also grows with N (tested N=3 through N=6;
+most broken pairs grow monotonically, the worst pair YZ+ZX is
+non-monotonic at N=4).
 
 ---
 
@@ -234,7 +244,21 @@ Depolarizing noise (X+Y+Z simultaneously, γ/3 per channel) breaks it:
 | DM | OK | err = 3.33×10⁻² |
 
 **The error is Hamiltonian-independent.** It is purely a noise-structure
-effect. N-scaling: err = (2/3)Nγ = (2/3)Σγ. Linear in both γ and N.
+effect. Two metrics quantify the break, and they are different numbers:
+
+- **The spectral-gap law (the exact one, F5):** the most-decaying
+  eigenvalue sits at exactly −(4/3)Σγ while the steady state's
+  palindrome partner would need −2Σγ; the shortfall is
+  **(2/3)Σγ = (2/3)Nγ**, exactly linear in N (0.0667 / 0.1000 / 0.1333
+  at N=2/3/4, γ=0.05). This is the law
+  [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) and F5 carry.
+- **The best-pairing error (the table above):** the max
+  nearest-partner mismatch over the whole spectrum reads
+  ~0 / 3.33×10⁻² / 6.67×10⁻² at N=2/3/4 (γ=0.05), consistent with
+  (2/3)γ·(N−2) over the tested points (N=3/4 committed in
+  `depolarizing_test.txt`, N=2 from an independent rebuild); at N=3 it
+  coincides numerically with (2/3)γ. It is smaller than the gap law
+  because the best pairing redistributes the mismatch.
 
 **Practical implication:** For superconducting qubits with γ ∼ 0.001, the
 palindrome error under depolarizing noise is < 0.1%. The design rules
@@ -270,19 +294,33 @@ The universality across all standard models strengthens this argument:
 the palindrome is not a special property of Heisenberg systems but a
 fundamental feature of qubit dephasing.
 
+The **scope boundary law** in the refreshed
+[Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (2026-07)
+is the complementary classification axis: this document fixes the noise
+(single-axis Z-dephasing) and varies the bond content (the 36 two-term
+combinations); the boundary law fixes the bonds (≥2-term) and varies the
+dephasing/field axes per connected component (≤2 distinct dephasing axes,
+one orthogonal common field axis). The typed owner of the 22/14 routing
+is `TwoTermPalindromeRoutingClaim` (it enumerates 45 unordered pairs:
+the 36 distinct pairs here plus the 9 self-pairs).
+
 ---
 
 ## Reproducibility
 
-| Script | What it computes |
-|--------|-----------------|
-| non_heisenberg_test_v2.py | Initial numerical sweep (all models) |
-| non_heisenberg_deep.py | Systematic N-scaling, γ-scaling |
-| algebraic_pi_search.py | Π family enumeration (P1, P4, alternating) |
-| continuous_pi_search.py | Non-local Π: rotation, optimization, eigenvector construction |
-| depolarizing_test.py | Depolarizing vs single-axis comparison |
+| Script | What it computes | Committed output |
+|--------|-----------------|------------------|
+| non_heisenberg_test_v2.py | Initial numerical sweep (all models) | stdout only (the Result 1 table has no committed result file; an independent rebuild reproduces all models at machine precision) |
+| non_heisenberg_deep.py | Systematic N-scaling, γ-scaling | results/non_heisenberg_deep.txt |
+| algebraic_pi_search.py | Π family enumeration (P1, P4, alternating) | results/algebraic_pi_search.txt |
+| continuous_pi_search.py | Rotation search, optimization, eigenvector construction | results/continuous_pi_search.txt |
+| depolarizing_test.py | Depolarizing vs single-axis comparison | results/depolarizing_test.txt |
+| crossover_pair_local_pi.py | Result 5 verification (continuous M, N=2..6) | stdout only; delegates to framework/diagnostics/crossover_product_pi.py |
 
 All scripts in [`simulations/`](../simulations/). Requirements: Python, QuTiP, NumPy.
+Note for rebuilders: the Π-conjugation check for the continuous
+(rotation) mirror is vectorization-convention-sensitive; it verifies at
+machine precision in the framework's column-major ('F') ordering.
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---
