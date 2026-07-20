@@ -621,9 +621,11 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
 
 1. [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md): The fixed-point
    equation R = C(Ψ+R)² is a quadratic; its discriminant is 1 − 4CΨ;
-   the unique boundary is CΨ = ¼, forced by purity being Tr(ρ²), the
-   unique degree-2 basis-independent invariant. The quarter is not a
-   chosen parameter. It is the discriminant of a quadratic.
+   the unique boundary is CΨ = ¼. The power is 2 because purity is
+   Tr(ρ²); the universality of the VALUE ¼ is forced by α = 2 being
+   the unique Rényi order with a state-independent fold threshold.
+   The quarter is not a chosen parameter. It is the discriminant of
+   a quadratic.
 
 2. [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md):
    The recursion is algebraically equivalent to the Mandelbrot

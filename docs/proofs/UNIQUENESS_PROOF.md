@@ -1,7 +1,7 @@
 # Uniqueness of the 1/4 Boundary
 
 **Status:** Tier 1 derived (algebraic proof) + Tier 2 verified (computational, all standard CPTP channels cross at 1/4 with zero exceptions)
-**Date:** 2026-03-21
+**Date:** 2026-03-21, last refreshed 2026-07-20 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** The fixed-point equation `R = C(Ψ + R)²` has discriminant `D = 1 − 4CΨ`; the unique boundary is `CΨ = 1/4`. The power is 2 because purity is `Tr(ρ²)` (the unique degree-2 basis-independent invariant); the *universality* of the value 1/4 (its state-independence) is forced by α = 2 being the unique Rényi order with a Ψ-independent fold threshold (Step 6).
 **Typed claim:** [`PolynomialDiscriminantAnchorClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/PolynomialDiscriminantAnchorClaim.cs) (Tier 1 derived; 1/4 is the Pi2 dyadic-ladder mirror partner of the polynomial discriminant 4: a₃ · a₋₁ = (1/4)·4 = 1).
@@ -39,7 +39,11 @@ contractivity), and Layer 6 (why the recursion is quadratic).
 
 **Theorem (Uniqueness of the 1/4 Boundary).** Let R(R_in) = C(Ψ + R_in)²
 be the self-referential purity map where C is the correlation bridge
-(0 ≤ C ≤ 1) and Ψ is the normalized l1-coherence (0 ≤ Ψ ≤ 1). Then:
+(0 ≤ C ≤ 1) and Ψ is the normalized l1-coherence (0 ≤ Ψ ≤ 1). The
+abstract proof treats C and Ψ as opaque scalars; every NUMBER in this
+document (the σ counterexample, the crossing table) is computed in the
+purity book, C = Tr(ρ²), so CΨ = Tr(ρ²)·L₁/(d−1). The three C-books and
+their seams are documented in [THE_CPSI_LENS](../THE_CPSI_LENS.md). Then:
 
 (i) The fixed-point equation R = C(Ψ + R)² has exactly two real solutions
     when CΨ < 1/4, exactly one when CΨ = 1/4, and none when CΨ > 1/4.
@@ -215,8 +219,13 @@ All standard Markovian quantum channels cross CΨ = 1/4:
 Non-Markovian revival test: no unitary pulse (θ from 0 to π) can push CΨ
 back above 1/4 after crossing. The boundary is absorbing.
 
-[IBM hardware](../../experiments/IBM_RUN3_PALINDROME.md) confirmed the crossing
-at 1.9% deviation from theory.
+IBM hardware confirmed the crossing three ways: the first crossing ever
+seen ([ibm_torino q52, February 2026](../../experiments/IBM_QUANTUM_TOMOGRAPHY.md)),
+the tightest single-point crossing at 1.9% deviation
+([ibm_torino q80, IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md)), and
+the full F25 trajectory CΨ(t) = f(1+f²)/6 fitted point-by-point through
+the boundary at RMS residual 0.0097
+([ibm_kingston, April 2026](../../data/ibm_cusp_precision_april2026/README.md)).
 
 Source: [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py)
 
