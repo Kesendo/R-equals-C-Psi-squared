@@ -60,11 +60,20 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para>Scope: F61 holds for isotropic Heisenberg (XX+YY+ZZ) or XY (XX+YY),
-/// any graph, any site-dependent γ_k. <b>Breaks for</b>: amplitude damping
-/// (T1, note this is broader breakage than F63, which is preserved under
-/// T1) and transverse fields (odd-n_XY terms in H). The asymmetry between
-/// F61 and F63 break-conditions is the structural difference between bit_a
-/// and bit_b parity.</para>
+/// any graph, any site-dependent γ_k. <b>Breaks for</b>: transverse fields
+/// (odd-n_XY terms in H; a Hamiltonian term enters the commutator one-sided,
+/// so an odd letter flips the parity). <b>NOT broken by amplitude damping
+/// (T1)</b>: a dissipator acts bilinearly, the sandwich σ∓ρσ± puts an
+/// odd-bit_a operator on both sides (net parity change even) and σ⁺σ⁻ is
+/// bit_a-even, so the grading survives exactly (off-parity block exactly
+/// zero, <c>simulations/direct_sum_scope_probe.py</c>). The letter rule: a
+/// field term with letter ℓ breaks exactly the parities in which ℓ is odd
+/// (X → bit_a, Z → bit_b, Y → both); a jump operator breaks a parity iff
+/// its Pauli components are inhomogeneous in that bit. σ∓ = (X ± iY)/2 is
+/// bit_a-homogeneous but bit_b-mixed, so T1 breaks F63's bit_b Z₂ while
+/// preserving F61, and a longitudinal Z-field does the same; the asymmetry
+/// between F61 and F63 break-conditions is the structural difference
+/// between bit_a and bit_b parity.</para>
 ///
 /// <para>Tier1Derived: F61 is Tier 1 proven (PROOF_PARITY_SELECTION_RULE).
 /// Verified 69 configurations (chain N=2..7, ring N=2..6, star N=3..6,
@@ -131,15 +140,17 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
     /// even (= SE-accessible).</summary>
     public bool IsSeAccessible(int nXyParity) => nXyParity == 0;
 
-    /// <summary>F61's break conditions, broader than F63's. Returns the set
-    /// of operators/processes that break the bit_a Z₂ symmetry: amplitude
-    /// damping (T1) and transverse fields (h_x, h_y). Note F63 is preserved
-    /// under T1; the asymmetry IS the bit_a vs bit_b distinction.</summary>
+    /// <summary>F61's break conditions: transverse fields (h_x, h_y), whose
+    /// odd-n_XY terms enter the commutator one-sided. Amplitude damping (T1)
+    /// is deliberately NOT in this list: the dissipator acts bilinearly and
+    /// σ∓ is bit_a-homogeneous, so the bit_a grading survives T1 exactly
+    /// (off-parity block exactly zero, simulations/direct_sum_scope_probe.py);
+    /// T1 instead breaks F63's bit_b Z₂ (σ∓ is bit_b-mixed: X vs Y differ in
+    /// bit_b). The asymmetry IS the bit_a vs bit_b distinction.</summary>
     public IReadOnlyList<string> BreakConditions => new[]
     {
-        "amplitude damping (T1; σ⁺/σ⁻ jump operators flip bit_a)",
         "transverse fields h_x · X_l (odd-n_XY single-site terms)",
-        "transverse fields h_y · Y_l (odd-n_XY single-site terms)",
+        "transverse fields h_y · Y_l (odd-n_XY single-site terms; also break bit_b)",
     };
 
     public F61BitAParityPi2Inheritance(
@@ -162,7 +173,7 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
 
     public override string Summary =>
         $"[L, Π²_X] = 0 exactly all N (bit_a / n_XY parity); companion to F63 bit_b / w_YZ; together C₂ × C₂ maximal; " +
-        $"SE accessibility ceiling: only even-n_XY modes reachable; breaks under T1 + transverse fields ({Tier.Label()})";
+        $"SE accessibility ceiling: only even-n_XY modes reachable; breaks under transverse fields, survives T1 exactly ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -179,8 +190,8 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
                 summary: $"F61 covers: bit_a (n_XY); F63 covers: bit_b (w_YZ); enum classification: {Z2Axis}");
             yield return new InspectableNode("SE accessibility corollary",
                 summary: "every SE density matrix has purely even n_XY → SE optimisers can ONLY reach even-n_XY modes; if a slower odd-n_XY mode exists, its rate is structurally beyond SE optimisation reach");
-            yield return new InspectableNode("F61 break conditions (broader than F63)",
-                summary: "F61 breaks under T1 + transverse fields (h_x, h_y); F63 is preserved under T1, breaks only under transverse fields. Asymmetry IS the bit_a/bit_b distinction.");
+            yield return new InspectableNode("F61 vs F63 break asymmetry",
+                summary: "F61 (bit_a) breaks under transverse fields (h_x, h_y) and SURVIVES T1 exactly (bilinear sandwich, σ∓ bit_a-homogeneous); F63 (bit_b) breaks under T1 and longitudinal/Y fields (σ∓ and Z/Y are bit_b-odd content). Letter rule: a field with letter ℓ breaks the parities in which ℓ is odd; a jump operator breaks a parity iff inhomogeneous in that bit (direct_sum_scope_probe.py).");
             for (int N = 2; N <= 5; N++)
             {
                 yield return new InspectableNode(

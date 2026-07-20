@@ -62,14 +62,17 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
     /// <summary>The typed bit_a-twin sibling, if one exists. Always null for
-    /// F1-T1 amplitude damping: T1 (σ⁻/σ⁺ jump operators) intrinsically breaks
-    /// bit_a Z₂ per F61's documented BreakConditions, so no bit_a-axis analog
-    /// exists. See <see cref="BitATwinStatus"/> for the structural classification.</summary>
+    /// F1-T1 amplitude damping: σ⁻/σ⁺ = (X ± iY)/2 is bit_b-INHOMOGENEOUS
+    /// (X and Y differ in bit_b), so the T1 dissipator is intrinsically
+    /// bit_b-axis content; its bit_a-mixing is identically zero (the bilinear
+    /// sandwich cancels the jumps' bit_a parity, off-block exactly 0,
+    /// simulations/direct_sum_scope_probe.py), so there is nothing on the
+    /// bit_a axis to quantify. See <see cref="BitATwinStatus"/>.</summary>
     public Claim? BitATwin => null;
 
     /// <summary>F1-T1 has NO meaningful bit_a-axis twin. The T1 amplitude-damping
-    /// dissipator (σ⁻/σ⁺) intrinsically breaks bit_a Z₂ symmetry per F61's
-    /// BreakConditions ("amplitude damping flips bit_a"). Classified as
+    /// dissipator (σ⁻/σ⁺) is bit_b-mixed and generates purely bit_b-axis
+    /// breaking (it preserves the bit_a grading exactly). Classified as
     /// <see cref="BitATwinClassification.BitBSpecific"/>: no filling work is
     /// possible or required.</summary>
     public BitATwinClassification BitATwinStatus =>

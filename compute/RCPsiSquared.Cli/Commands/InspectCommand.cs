@@ -766,6 +766,14 @@ public static class InspectCommand
             "(d=1/3/5) live from H and reproduces the exact CRT coefficients (typed: WindowedConverseAllGammaClaim)",
             c => new PascalGramPositivityWitness(),
             RequiresN: false),
+        new("directsum", "the direct-sum decomposition live: L = L_even ⊕ L_odd by n_XY parity (off-parity block " +
+            "exactly 0, sectors 2^(2N−1) each), Π sector map checked column-complete (odd N exchanges, even N " +
+            "preserves), sector-restricted palindrome machine-zero, plus the selective-breaking cross as controls " +
+            "(T1 breaks the mirror not the wall; a transverse field the wall not the mirror) " +
+            "(typed: DirectSumDecompositionClaim)",
+            c => new DirectSumDecompositionWitness(c.Parser.HasFlag("N") ? c.N : 3,
+                                                   c.Parser.OptionalDouble("gamma") ?? 0.05),
+            RequiresN: false, HonorsOptionalN: true),
         new("zeroimmune", "Zero-Sector Immunity, live: a random parity-violating 2-body H gives M ≈ 0 on the " +
             "w=0 ({I,Z}^⊗N) and w=N ({X,Y}^⊗N) Pauli blocks while ‖M‖ > 0 (the non-trivial gate); the classical " +
             "extreme is immune to every 2-body coupling, the palindrome-breaking lives in 0<w<N " +

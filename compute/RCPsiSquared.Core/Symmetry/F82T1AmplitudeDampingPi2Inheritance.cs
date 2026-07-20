@@ -70,22 +70,24 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F82T1AmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
 {
 
-    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). T1 amplitude
-    /// damping (σ⁻/σ⁺ jump operators) intrinsically breaks bit_a Z₂ per F61's
-    /// documented BreakConditions, so no meaningful bit_a-axis twin exists.</summary>
+    /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). σ⁻/σ⁺ is
+    /// bit_b-INHOMOGENEOUS (X and Y differ in bit_b), so T1's parity-breaking
+    /// lives entirely on the bit_b axis; no meaningful bit_a-axis twin exists.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
-    /// <summary>F82 has NO meaningful bit_a-axis twin: T1 amplitude damping
-    /// σ⁻/σ⁺ jump operators flip bit_a per F61's BreakConditions ("amplitude
-    /// damping flips bit_a"). Classified as
-    /// <see cref="BitATwinClassification.BitBSpecific"/>; same break mechanism
+    /// <summary>F82 has NO meaningful bit_a-axis twin: the T1 jumps are
+    /// bit_b-mixed, which is exactly why they generate F82's Π²-antisymmetric
+    /// (bit_b-odd) content, while the bit_a grading survives T1 exactly (the
+    /// bilinear sandwich cancels the jumps' bit_a parity,
+    /// simulations/direct_sum_scope_probe.py). Classified as
+    /// <see cref="BitATwinClassification.BitBSpecific"/>; same structure
     /// as <see cref="F1T1AmplitudeDampingPi2Inheritance"/>.</summary>
     public Claim? BitATwin => null;
 
-    /// <summary>F82 is BitBSpecific: the T1 dissipator (σ⁻/σ⁺) flips bit_a per
-    /// F61's BreakConditions table. No bit_a-axis analog is possible because the
-    /// operation generating F82's content (single-site amplitude damping)
-    /// intrinsically violates bit_a Z₂ symmetry. No filling work required.</summary>
+    /// <summary>F82 is BitBSpecific: the operation generating F82's content
+    /// (single-site amplitude damping) is intrinsically bit_b-axis (σ⁻/σ⁺
+    /// bit_b-mixed); its bit_a-mixing is identically zero, so no bit_a-axis
+    /// analog is possible. No filling work required.</summary>
     public BitATwinClassification BitATwinStatus =>
         BitATwinClassification.BitBSpecific;
 

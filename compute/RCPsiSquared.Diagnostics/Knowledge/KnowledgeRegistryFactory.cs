@@ -758,6 +758,11 @@ public static class KnowledgeRegistryFactory
             // + Z-dephasing. Parents F1PalindromeIdentity + F61 + F63 + AbsorptionTheoremClaim, all
             // registered above. Live: inspect --root zeroimmune.
             .RegisterZeroSectorImmunityClaim()
+            // Direct-sum decomposition (Tier1Derived, DIRECT_SUM_DECOMPOSITION): L = L_even ⊕ L_odd
+            // by n_XY parity, equal halves 2^(2N−1), odd-N Π sector exchange with mirror-image
+            // dynamics, superselection charge P_XY = Π²_X. Parents F1PalindromeIdentity + F61,
+            // both registered above. Live: inspect --root directsum.
+            .RegisterDirectSumDecompositionClaim()
             // Time-irreversibility exclusion (Tier1Derived, TIME_IRREVERSIBILITY_EXCLUSION): the typed
             // ARGUMENT behind F49's cross-term value — {L_H, L_Dc} vanishes only at N=2 (orthogonality),
             // the commutator does not (so NOT reversibility). Parent F49NonUniformCrossTermClaim

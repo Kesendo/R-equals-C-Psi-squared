@@ -77,19 +77,19 @@ public sealed class F84ThermalAmplitudeDampingPi2Inheritance : Claim, IZ2AxisCla
 
     /// <summary>The F1² / Π²_Z axis (bit_b parity, n_Y + n_Z mod 2). Thermal
     /// amplitude damping (σ⁻ cooling + σ⁺ heating at unequal rates) inherits
-    /// F82's bit_a-flipping mechanism per F61's BreakConditions, so no meaningful
-    /// bit_a-axis twin exists.</summary>
+    /// F82's bit_b-mixed mechanism (σ∓ inhomogeneous in bit_b), so no
+    /// meaningful bit_a-axis twin exists.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
     /// <summary>F84 has NO meaningful bit_a-axis twin: thermal amplitude damping
     /// uses the same σ⁻/σ⁺ jump operators as F82 (with unequal rates
-    /// γ_↓ ≠ γ_↑), and the σ⁻/σ⁺ jumps flip bit_a per F61's BreakConditions.
+    /// γ_↓ ≠ γ_↑); their parity-breaking is purely bit_b-axis while the bit_a
+    /// grading survives exactly (bilinear sandwich).
     /// Classified as <see cref="BitATwinClassification.BitBSpecific"/>.</summary>
     public Claim? BitATwin => null;
 
     /// <summary>F84 is BitBSpecific: thermal amplitude damping σ⁻/σ⁺ at unequal
-    /// rates inherits F82's break mechanism per F61's BreakConditions. No
-    /// filling work required.</summary>
+    /// rates inherits F82's bit_b-axis mechanism. No filling work required.</summary>
     public BitATwinClassification BitATwinStatus =>
         BitATwinClassification.BitBSpecific;
 

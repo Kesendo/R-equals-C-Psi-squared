@@ -60,8 +60,9 @@ public sealed class PolarityCubeMap : Claim
         BitBClaims.Count(c => c.BitATwinStatus == BitATwinClassification.NeedsDerivation);
 
     /// <summary>BitB Claims with no meaningful BitA twin (e.g., F1T1's amplitude
-    /// damping intrinsically breaks bit_a symmetry per F61's BreakConditions, so
-    /// no bit_a-axis analog exists). No filling work required.</summary>
+    /// damping is intrinsically bit_b-axis content: σ∓ is bit_b-mixed while the
+    /// bit_a grading survives T1 exactly, so no bit_a-axis analog exists). No
+    /// filling work required.</summary>
     public int BitBSpecificTwinSlots =>
         BitBClaims.Count(c => c.BitATwinStatus == BitATwinClassification.BitBSpecific);
 

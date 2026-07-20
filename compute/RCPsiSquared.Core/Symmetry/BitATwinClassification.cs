@@ -36,7 +36,8 @@ public enum BitATwinClassification
 
     /// <summary>The BitB Claim has no meaningful bit_a-axis twin. Either the
     /// algebraic content is intrinsically tied to Z-dephasing / bit_b structure
-    /// (e.g., F1T1's amplitude-damping breaks bit_a per F61's break conditions),
+    /// (e.g., F1T1's amplitude damping: σ∓ is bit_b-mixed, so its parity-breaking
+    /// is purely bit_b-axis while the bit_a grading survives T1 exactly),
     /// or the bit_a-axis analog would be a trivial rephrasing of an already-typed
     /// claim. No filling work required.</summary>
     BitBSpecific = 3,

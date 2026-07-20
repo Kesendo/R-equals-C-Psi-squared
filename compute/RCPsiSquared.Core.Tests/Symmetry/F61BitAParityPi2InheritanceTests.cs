@@ -89,12 +89,14 @@ public class F61BitAParityPi2InheritanceTests
     }
 
     [Fact]
-    public void BreakConditions_IncludesT1AndTransverseFields()
+    public void BreakConditions_TransverseFieldsOnly_T1DoesNotBreakBitA()
     {
         var conditions = BuildClaim().BreakConditions;
-        Assert.Contains(conditions, c => c.Contains("amplitude damping", StringComparison.OrdinalIgnoreCase) || c.Contains("T1", StringComparison.OrdinalIgnoreCase));
         Assert.Contains(conditions, c => c.Contains("h_x"));
         Assert.Contains(conditions, c => c.Contains("h_y"));
+        // T1 preserves bit_a exactly (bilinear sandwich, sigma-/+ bit_a-homogeneous;
+        // simulations/direct_sum_scope_probe.py): it must NOT be listed as a breaker.
+        Assert.DoesNotContain(conditions, c => c.Contains("amplitude damping", StringComparison.OrdinalIgnoreCase) || c.Contains("T1", StringComparison.OrdinalIgnoreCase));
     }
 
     [Fact]

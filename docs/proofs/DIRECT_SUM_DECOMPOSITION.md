@@ -5,6 +5,8 @@ and the Parity Selection Rule. No new numerical verification required;
 it is a corollary of two established results.
 
 **Date:** April 11, 2026
+**Typed:** `DirectSumDecompositionClaim` (child of F1 + F61); live witness `inspect --root directsum`
+**Scope probe:** [`simulations/direct_sum_scope_probe.py`](../../simulations/direct_sum_scope_probe.py)
 
 **Motivation:** The paper "A new understanding of Einstein-Rosen bridges"
 (Gaztañaga, Kumar, Marto; Class. Quantum Grav. 43, 015023, 2026;
