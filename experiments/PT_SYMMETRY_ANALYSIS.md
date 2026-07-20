@@ -195,7 +195,7 @@ by J_bridge = 1.0. Total 4 qubits, 256x256 Liouvillian.
 ### The chiral-symmetric phase
 
 Below γ_crit, ALL nonzero eigenvalues lie exactly on the imaginary
-axis (max|Re(lambda)| < 2 * 10^{-14}, machine zero):
+axis (max|Re(lambda)| ~ 2 * 10^{-14}, machine zero):
 
 | gamma | gamma/gamma_c | max\|Re\| | On Im axis? |
 |-------|--------------|---------|------------|
@@ -251,7 +251,13 @@ with phase rigidity (how close an eigenmode is to being a normal mode; r = 1 mea
 The K = 403 peak is 400x the Hermitian baseline and signals that the
 system's right and left eigenvectors are nearly orthogonal for the
 critical mode. This is the hallmark of proximity to an EP, even though
-the EP itself lies at a complex gamma value.
+the EP itself lies at a complex gamma value. (The peak VALUE is
+sampling- and convention-sensitive: the committed script reproduces
+402.7 at this grid point exactly, but independent rebuilds with their
+own mode-tracking and grids find spikes of order 10¹–10³ at slightly
+different γ/γ_c. The signal is the spike plus the rigidity collapse,
+not the specific number; compare the grid-sensitivity note in
+"What This Establishes" item 4.)
 
 ### Eigenvector coalescence
 
