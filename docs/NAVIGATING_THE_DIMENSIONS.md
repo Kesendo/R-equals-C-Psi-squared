@@ -398,7 +398,7 @@ not EP-free on the real axis: F89 proves it carries a real-axis defective
 seed at every odd N, census-defective through N=11, sitting at scattered
 q\* in √-EP windows ~20-30× narrower than a coarse grid step (see
 [the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md), the
-Correction section). The genuine defective EPs are therefore of three
+real-axis EP section). The genuine defective EPs are therefore of three
 kinds: the toy 2×2 above, the F89 seeds of the full block, and the
 SEPARATE Σγ = 0 gain-loss system
 ([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md), in the complex γ

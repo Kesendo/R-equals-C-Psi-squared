@@ -60,7 +60,7 @@ public class F86PetermannProbe(ITestOutputHelper output)
     /// EP" and the σ_0-driven "parity asymmetry across N" readings were retracted as grid
     /// artifacts (the block is genuinely non-normal, the Petermann factor large-but-finite; the
     /// retraction's "no eigenvalue coalescence on the real axis" was itself corrected 2026-07-07,
-    /// F89's real-axis defective seed IS there, see PROOF_F86A section Correction). The sweep is RETAINED only as a
+    /// F89's real-axis defective seed IS there, see PROOF_F86A section The real-axis EP). The sweep is RETAINED only as a
     /// cautionary non-normality probe, not as EP evidence or a magnitude/growth/parity law; see
     /// <see cref="LocalGlobalEpLink"/>.
     /// </summary>

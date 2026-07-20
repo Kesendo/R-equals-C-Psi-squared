@@ -435,7 +435,7 @@ an open question.
    real-axis defective seed at every odd N, census-defective through N=11,
    which this coarse-grid sweep missed by a √-EP window ~20-30× narrower
    than its step. See [the F86a EP mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md),
-   the Correction section.)* What
+   the real-axis EP section.)* What
    survives is only the shared algebra (the same-sign-imaginary 2×2,
    AIII chiral, read at two residuals of the F1 palindrome
    `Π · L · Π⁻¹ + L + 2Σγ · I = 0`, Σγ = N·γ₀ vs Σγ = 0); the genuine

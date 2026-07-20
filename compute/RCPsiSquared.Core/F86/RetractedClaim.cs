@@ -42,7 +42,7 @@ public sealed class RetractedClaim : Claim
     /// peak magnitude is a grid artifact). NOTE: the retraction's "no real-axis defective EP" was
     /// itself corrected 2026-07-07 (F89 locates a real-axis defective seed on this block at every
     /// odd N; the retraction's grid missed a √-EP window 20-30× narrower than its step) — see the
-    /// Refutation string and PROOF_F86A_EP_MECHANISM §Correction.</summary>
+    /// Refutation string and PROOF_F86A_EP_MECHANISM §The real-axis EP.</summary>
     public static IReadOnlyList<RetractedClaim> Standard { get; } = new[]
     {
         new RetractedClaim(
@@ -59,6 +59,6 @@ public sealed class RetractedClaim : Claim
             "F86a real-axis EP mechanism",
             "the (n,n+1)-coherence-block rate-channel degeneracy at Q_EP=2/g_eff is a defective exceptional point on the real Q axis; Petermann K ~6x FRAGILE_BRIDGE proves a real-axis EP",
             "Independently re-computed (artifact-free) 2026-06-21: NO eigenvalue coalescence on the real Q axis - the relevant eigenvalues stay simple (nearest-neighbour gap ~0.25-0.35), so neither a defective EP nor a diabolic degeneracy sits there. The Petermann factor is GENUINE non-normality (the Riesz spectral-projector norm reproduces it on a simple isolated eigenvalue at Re~-4gamma0; N=5: ||P||=19.4=sqrt(375); cond(V)=49-268), NOT a degenerate-eigenspace eig artifact - but its peak MAGNITUDE is grid-sensitive (2-4x over deltaQ=1e-3), so '6x', '2384.7' and the within-parity growth law are grid artifacts, dropped. Adopted reading (PT_SYMMETRY_ANALYSIS): no real-axis EP; large-but-finite Petermann signals a nearby EP in the complex plane. Firmly-established defective EPs: the toy 2x2 reduction and the SEPARATE Sigma-gamma=0 gain-loss system (FRAGILE_BRIDGE). Whether the full Sigma-gamma=N*gamma0 block has an off-axis defective EP at all is OPEN (nearest complex-Q coalescences found are themselves diabolic). t_peak=1/(4gamma0) and Q_EP=2/g_eff-as-definition survive. SUPERSEDED IN PART 2026-07-07: F89's exact nullity count (r(0+)-r(inf)=N-1) proves a real-to-complex transition on this very (1,2) block at every odd N, and the Kato simple-zero lemma makes it defective (a Jordan block) at every seed tested, census-confirmed to N=11 and beta-exotic-scoped to Puiseux p~0.5 (only the codim-2 beta-exotic genericity stays open for all N). The 2026-06-21 real-axis scan missed it because a defective sqrt-EP splits its pair by ~sqrt|q-q*|, visible only within |q-q*|<~1e-3, while the scan's dQ~0.029 grid (121 pts over [0.5,4]) is 20-30x coarser and never sat inside that window (shown from below, F86aSeedMaskingTests). The Petermann-magnitude-as-grid-artifact call stands; the 'no real-axis defective EP' conclusion does not (superseded by F89's grid-robust count-change detector).",
-            "docs/proofs/PROOF_F86A_EP_MECHANISM.md (Retraction section, 2026-06-21); typed at F86.LocalGlobalEpLink (OpenQuestion)"),
+            "docs/proofs/PROOF_F86A_EP_MECHANISM.md (section The real-axis EP; verdict dates 2026-06-21 + 2026-07-07); typed at F86.LocalGlobalEpLink (OpenQuestion)"),
     };
 }

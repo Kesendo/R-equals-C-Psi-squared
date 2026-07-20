@@ -21,7 +21,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// the real Q axis (large but finite Petermann) but has NO defective EP there (eigenvalues simple); do
 /// not read this telescope as the chain block's real-axis behaviour. See
 /// <c>RCPsiSquared.Core.F86.LocalGlobalEpLink</c> (OpenQuestion) and
-/// <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> §Retraction.</para></summary>
+/// <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> §The real-axis EP.</para></summary>
 public sealed class EpField : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -92,7 +92,7 @@ public sealed class EpField : IInspectable
                          "either side. This is the defective signature of the toy 2×2 rate-channel reduction, a genuine EP OF THE TOY. " +
                          "It is NOT the physical (n,n+1) chain block's behaviour at Q_peak, where the block is non-normal (large but " +
                          "FINITE Petermann). The block's OWN real-axis defective EPs are F89's scattered seeds (the retraction's " +
-                         "'no real-axis coalescence' was corrected 2026-07-07); see LocalGlobalEpLink / PROOF_F86A section Correction.",
+                         "'no real-axis coalescence' was corrected 2026-07-07); see LocalGlobalEpLink / PROOF_F86A section The real-axis EP.",
                 payload: new InspectablePayload.Curve("eigenvector overlap vs Q", _qGrid, overlap, "Q", "|⟨v₊|v₋⟩| (→1 at the EP)"));
 
             // 5. The hardware (IBM Kingston single-excitation-walk overdamped→revival handover, Part B).

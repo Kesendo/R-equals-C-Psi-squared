@@ -69,7 +69,7 @@ namespace RCPsiSquared.Core.F86;
 /// ~0.35 apart one grid step away). So the block IS defective on the real axis at the seeds; the F89
 /// grid-robust count-change detector, not this Petermann sweep, is the instrument that sees them. What
 /// remains genuinely open is the DISTINCT off-real-axis complex-Q EP structure. See
-/// <c>SeedHolonomyClaim</c>, <c>RealSeedCensusTests</c>, and PROOF_F86A_EP_MECHANISM section Correction.</para>
+/// <c>SeedHolonomyClaim</c>, <c>RealSeedCensusTests</c>, and PROOF_F86A_EP_MECHANISM section The real-axis EP.</para>
 ///
 /// <para>Block-independent meta-claim: registered at the F86 KB root for any block, not
 /// just c=2 (similar to <see cref="ChiralAiiiClassification"/>). The witnesses pin the
@@ -170,7 +170,7 @@ public sealed class LocalGlobalEpLink : Claim
         "only within |q−q*|≲1e-3, while the scan's ΔQ≈0.029 grid is 20-30× coarser and never sat " +
         "inside that window (shown from below, F86aSeedMaskingTests). What survives: the grid-" +
         "artifact call on the Petermann magnitudes; what stays genuinely open is the DISTINCT off-" +
-        "real-axis complex-Q EP. See PROOF_F86A_EP_MECHANISM §Correction, SeedHolonomyClaim, " +
+        "real-axis complex-Q EP. See PROOF_F86A_EP_MECHANISM §The real-axis EP, SeedHolonomyClaim, " +
         "RealSeedCensusTests.";
 
     private LocalGlobalEpLink()

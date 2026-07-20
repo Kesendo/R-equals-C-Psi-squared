@@ -184,7 +184,7 @@ real axis (large but FINITE Petermann); the peak magnitudes, the "6×
 above this file", the within-parity growth rates, and the odd/even
 asymmetry are grid artifacts (K swings 2–4× over ΔQ = 1e-3).
 
-*(Further corrected 2026-07-07: the "no real-axis EP" part of this retraction was itself an over-correction. F89 proves the full (1,2) block DOES carry a real-axis defective seed at every odd N (census-defective through N=11); the 2026-06-21 grid missed a √-EP detection window ~20-30× narrower than its step. See [the F86a EP mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md), the Correction section. This file's own Σγ=0 gain-loss EP is a separate system and is unaffected.)*
+*(Further corrected 2026-07-07: the "no real-axis EP" part of this retraction was itself an over-correction. F89 proves the full (1,2) block DOES carry a real-axis defective seed at every odd N (census-defective through N=11); the 2026-06-21 grid missed a √-EP detection window ~20-30× narrower than its step. See [the F86a EP mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md), the real-axis EP section. This file's own Σγ=0 gain-loss EP is a separate system and is unaffected.)*
 
 What survives is the shared algebra read at two residuals of the F1
 palindrome `Π · L · Π⁻¹ + L + 2Σγ · I = 0` (Σγ = N·γ₀ vs Σγ = 0). The

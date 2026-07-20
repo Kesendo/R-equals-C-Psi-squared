@@ -141,8 +141,10 @@ Open follow-up directions, parked here to be picked up when we next walk past:
   separate session.
 
 - **Π²-odd/memory popcount-mirror refinement (2026-05-04, RESOLVED).** The
-  earlier "0.5 exactly at any HD any bit positions" claim in PROOF_F86_QPEAK
-  §Statement 2 was refined into a three-anchor closed form via Krawtchouk
+  earlier "0.5 exactly at any HD any bit positions" claim (now carried by
+  [PROOF_F86B_UNIVERSAL_SHAPE §Statement 2](../proofs/PROOF_F86B_UNIVERSAL_SHAPE.md);
+  the former monolithic PROOF_F86_QPEAK was split 2026-05-14) was refined into
+  a three-anchor closed form via Krawtchouk
   polynomial analysis: α = 0 at popcount-mirror (odd N central pair),
   α = (N+2)/(4(N+1)) at near-mirror near-half (even N central pairs),
   α = 1/2 elsewhere; Π²-odd/memory = (1/2 − α·s) / (1 − s). Bit-exact

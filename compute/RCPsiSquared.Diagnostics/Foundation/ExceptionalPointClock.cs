@@ -21,7 +21,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// over-correction, corrected 2026-07-07: a defective √-EP is only visible within a q-window 20-30×
 /// narrower than F86a's grid step, which the scan missed). See
 /// <c>RCPsiSquared.Core.F86.LocalGlobalEpLink</c> (OpenQuestion) and
-/// <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> §Correction.</para>
+/// <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> §The real-axis EP.</para>
 ///
 /// <para>The eigenvector overlap |⟨v₊|v₋⟩| = min(x, 1/x), x = Q/Q_EP: exactly 1 at the toy EP (the two
 /// 2×2 eigenvectors coalesce, defective, a Jordan block, the toy's Petermann sensitivity spiking),

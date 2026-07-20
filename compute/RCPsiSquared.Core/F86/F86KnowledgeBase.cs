@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.F86;
 ///         missing for full Tier-1 promotion, plus <see cref="LocalGlobalEpLink"/> (demoted to
 ///         <see cref="Knowledge.Tier.OpenQuestion"/> by the F86a-retraction 2026-06-21:
 ///         genuine non-normality on the real axis; the "no real-axis EP" was corrected 2026-07-07
-///         (F89 locates a real-axis defective seed, PROOF_F86A section Correction), the DISTINCT
+///         (F89 locates a real-axis defective seed, PROOF_F86A section The real-axis EP), the DISTINCT
 ///         off-axis complex-Q question stays open), followed by the 4-mode insufficiency
 ///         note.</item>
 /// </list>
