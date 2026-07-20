@@ -168,7 +168,7 @@ balance, coupling still occurs but with fewer emergent frequencies.
 The coupling does not transport information from A to B. It creates
 new oscillation modes in the shared space that neither system had alone.
 Crucially, the N=2 frequencies do not survive in the N=5 system: all
-556 oscillating palindromic pairs are NEW-NEW (100%). The V-Effect
+452 oscillating palindromic pairs are NEW-NEW (100%). The V-Effect
 does not extend the old palindrome. It replaces it with a richer one.
 Each V-Effect level creates a completely new palindromic substrate for
 the next (Tier 4 interpretation: this progression may underlie

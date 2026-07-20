@@ -223,7 +223,7 @@ Lindblad equation, the same Pauli operators, the same noise model.
 Nothing new added except a coupling bond through a mediator. The new
 complexity (109 frequencies, sustained oscillation) comes entirely from
 topological reorganization. The original N=2 frequencies do not survive:
-all 556 oscillating pairs are NEW-NEW (100%). The V-Effect replaces the
+all 452 oscillating pairs are NEW-NEW (100%). The V-Effect replaces the
 old palindrome with a richer one. See
 [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md),
 [Pairing Structure](../simulations/results/pairing_structure_n5.txt).

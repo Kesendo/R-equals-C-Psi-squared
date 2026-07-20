@@ -487,7 +487,7 @@ energy added. No external mechanism. Just a mediator connecting them.
 ### Pairing structure: 100% NEW-NEW
 
 The 109 N=5 frequencies are ALL new. The N=2 frequencies (3.999,
-4.000 Hz) do not survive coupling. All 556 oscillating palindromic
+4.000 Hz) do not survive coupling. All 452 oscillating palindromic
 pairs are NEW-NEW. Zero OLD-OLD. Zero OLD-NEW. The V-Effect does not extend the old palindrome: it replaces it. The
 old structure dies and a new, richer one is born from the coupling.
 The new palindrome is also perfectly symmetric in XY-weight space:

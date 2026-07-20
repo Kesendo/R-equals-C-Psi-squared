@@ -369,10 +369,10 @@ log("=" * 90)
 log("SECTION 2: Structure in the Error")
 log("=" * 90)
 
-log(f"\n  2a. Gamma^2 scaling verification:")
+log(f"\n  2a. Error scaling in gamma (max pairing error over ALL modes, incl. steady):")
 log(f"  {'Combo':>10}  {'g=0.001':>10}  {'g=0.01':>10}  {'g=0.05':>10}  "
-    f"{'coeff(0.001)':>13}  {'coeff(0.01)':>13}  {'coeff(0.05)':>13}")
-log(f"  {'-'*78}")
+    f"{'err/g(0.001)':>13}  {'err/g(0.01)':>13}  {'err/g(0.05)':>13}  {'exponent':>9}")
+log(f"  {'-'*90}")
 
 gamma_test = [0.001, 0.01, 0.05]
 for combo in sorted(broken_combos)[:8]:  # First 8 for brevity
@@ -387,11 +387,17 @@ for combo in sorted(broken_combos)[:8]:  # First 8 for brevity
         pe_t, _, _ = check_eigenvalue_pairing(ev_t, Sg_t)
         err = np.max(pe_t)
         errs.append(err)
-        coeffs.append(err / (g ** 2) if g > 0 else 0)
+        coeffs.append(err / g if g > 0 else 0)
+    slope = np.polyfit(np.log(gamma_test), np.log(errs), 1)[0]
     log(f"  {combo:>10}  {errs[0]:>10.2e}  {errs[1]:>10.2e}  {errs[2]:>10.2e}  "
-        f"{coeffs[0]:>13.2f}  {coeffs[1]:>13.2f}  {coeffs[2]:>13.2f}")
+        f"{coeffs[0]:>13.2f}  {coeffs[1]:>13.2f}  {coeffs[2]:>13.2f}  {slope:>9.3f}")
 
-log(f"\n  Coefficients are approximately constant -> error scales as gamma^2.")
+log(f"\n  The FULL-SPECTRUM max pairing error is LINEAR in gamma (fitted exponent ~1):")
+log(f"  it is dominated by the extreme modes, whose actual rate misses the mirror")
+log(f"  target 2*Sg by O(gamma) (e.g. XX+XY: fastest rate 4g vs 2*Sg = 6g, err = 2g).")
+log(f"  The gamma^2 law with CONSTANT coefficient (~1.31 g^2 for XX+XY) holds for the")
+log(f"  INTERIOR (nonzero, non-extreme) modes; that metric lives in")
+log(f"  simulations/non_heisenberg_deep.py Section 6 (see NON_HEISENBERG_PALINDROME.md).")
 
 # 2b. Error spectrum: per-pair errors vs decay rate
 log(f"\n  2b. Error spectrum for {ref_combo} (per-pair error vs decay rate):")
@@ -754,7 +760,8 @@ log(f"""
     Breaking is widespread across the spectrum (not localized to a few modes).
 
   SECTION 2: Error Structure
-    Error scales as gamma^2 with combo-specific coefficients.
+    Full-spectrum max error is LINEAR in gamma (extreme modes, err ~ 2g for XX+XY);
+    the interior modes break as ~1.31 g^2 (see non_heisenberg_deep.py Section 6).
     The error is NOT uniform: different modes break at different rates.
 
   SECTION 3: New Symmetries

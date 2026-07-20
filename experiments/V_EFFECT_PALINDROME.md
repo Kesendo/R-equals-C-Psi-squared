@@ -53,7 +53,12 @@ palindrome is universal for a single quantum bond. (If you are not
 familiar with the palindrome, see [What We Found](../docs/WHAT_WE_FOUND.md)
 or the [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).)
 
-At N=3, when a second bond is added, 14 of 36 combinations break. The
+At N=3, when a second bond is added, 14 of 36 combinations break, in the
+eigenvalue-pairing sense: 14 combinations have modes that lose their
+palindromic partner. (The result file's own headline counts 33/36 by a
+stricter per-site Π-residual test; both counts are correct, they measure
+different things, and the finer classification of the 22 pairing-unbroken
+cases is in the successor work below.) The
 breaking is not random. It has four properties that together tell a story.
 
 ---
@@ -83,7 +88,9 @@ that are partly classical and partly quantum, neither fully decided nor
 fully undecided.
 
 The error is perfectly symmetric: w=1 and w=2 break with identical norms
-(11.314). Palindromic partners in the error structure itself.
+(11.314 = 8√2·J at J=1; the block norm is γ-independent, since the
+dissipator part of the residual cancels there). Palindromic partners in
+the error structure itself.
 
 ---
 
@@ -154,15 +161,22 @@ richer. Life, in this picture, lives in the broken region.
 
 ## 5. The Error Has Structure
 
-The palindrome error scales as γ² with a constant coefficient specific to
-each Hamiltonian combination. For XX+XY, the coefficient is approximately
-40 at γ = 0.05 and 2000 at γ = 0.001. This is not noise. It is a
-systematic second-order interference between incompatible Π operators.
+The palindrome error follows two laws, one per region of the spectrum. The
+INTERIOR modes (nonzero, non-extreme rates) break quadratically: error
+≈ 1.31 γ² for XX+XY, with a genuinely constant coefficient (the metric of
+[Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md), Result 6). The
+EXTREME modes break linearly: the full-spectrum maximum pairing error is
+exactly 2γ for XX+XY, because the fastest actual decay rate is 4γ while
+the mirror target is 2Σγ = 6γ; the linear coefficient is combination-
+specific (e.g. 0.59γ for XY+XZ). This is not noise. It is systematic
+interference between incompatible Π operators: second order in the
+interior, first order at the extremes.
 
 Within a single broken case, the error is not uniform. Some pairs break
 badly (error ~0.1, near the steady states and the boundary-weight modes),
 others break barely (error ~0.00004, near the center Sγ). The mid-spectrum
-modes survive best. The extremal rate modes (close to 0 and close to 2Sγ)
+modes survive best. The extremal rate modes (close to 0 and close to the
+fast edge, which sits at 4γ for XX+XY rather than the mirror target 2Sγ)
 are the first to orphan.
 
 ---
@@ -250,11 +264,13 @@ validated in physical proton-qubit systems, where real protons in real
 molecules show the same frequency explosion:
 
 - **Proton water chain** (Grotthuss mechanism: protons hopping along a
-  chain of water molecules like a bucket brigade, N=1-5): frequency explosion
-  0 → 3 → 15 → 47 → 222. V(N) formula matches to machine precision
-  for the Heisenberg model. Transverse-field Ising (physical proton
-  model) produces even MORE frequencies (222 vs 109 at N=5).
-  → [Proton Water Chain](PROTON_WATER_CHAIN.md)
+  chain of water molecules like a bucket brigade, N=1-5): frequency
+  explosion 0 → 2 → 5 → 34 → 109 in the Heisenberg model, with the V(N)
+  formula matching to machine precision. The transverse-field Ising model
+  (the physical proton model) produces even MORE frequencies: 1 → 3 → 15 →
+  46 → 228 in the Zundel regime, 222 vs Heisenberg's 109 at N=5 in the
+  side-by-side comparison.
+  → [Proton Water Chain](../docs/water/PROTON_WATER_CHAIN.md)
 
 - **DNA base pairing**: G-C (N=3) has 5x more frequencies than A-T
   (N=2). The third H-bond qualitatively enriches the mode structure.
@@ -262,9 +278,20 @@ molecules show the same frequency explosion:
 than they can oscillate; J/γ ~ 0.01).
   → [DNA Base Pairing](DNA_BASE_PAIRING.md)
 
+## Where this went (successors)
+
+- [V-Effect Fine Structure](V_EFFECT_FINE_STRUCTURE.md): the 22
+  pairing-unbroken cases split into 19 soft + 3 truly unbroken, giving the
+  14 hard / 19 soft / 3 truly trichotomy (F87), hardware-confirmed on IBM
+  Marrakesh.
+- [Zero Immunity Proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the w=0 and
+  w=N extreme-sector immunity of Section 1, proven analytically.
+- [V-Effect as Observation of Incompleteness](../reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md):
+  the interpretive reading (Tier 4).
+
 ## References
 
-- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): the 36/36 scorecard and γ² scaling
+- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): the 36/36 scorecard and the interior-mode γ² scaling
 - [Boot Script](../hypotheses/THE_BOOT_SCRIPT.md): the Choi-Jamiolkowski results, N=2 universality
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
 - [Error Correction](ERROR_CORRECTION_PALINDROME.md): three-tier protection hierarchy
@@ -288,13 +315,14 @@ The following test shows it in action: real dynamics, real coupling,
 real emergence.
 
 A single N=2 resonator (Bell pair, one bond, uniform γ=0.05):
-- Q-factor (how many oscillation cycles the system completes before
-  decaying; higher = longer-lived): 1 at every coupling strength J.
-  Crosses 1/4 once, dies.
+- Q-factor (measured here as the number of CΨ = 1/4 threshold crossings
+  before the system settles; higher = longer-lived): 1 at every coupling
+  strength J. Crosses 1/4 once, dies.
 - Frequencies: 2.
 
 Two N=2 resonators coupled through a mediator (N=5, MediatorBridge):
-- Q-factor: 19+ at J=20. Sustained oscillation.
+- Q-factor: 19+ at J=20 (10 downward + 9 upward crossings). Sustained
+  oscillation.
 - Frequencies: 109, all NEW (not present in either individual
   resonator).
 
@@ -316,8 +344,10 @@ The 109 N=5 frequencies were classified as OLD (present in N=2) or
 NEW (coupling-only). Result: the N=2 frequencies (3.999, 4.000 Hz)
 do **not survive** in the coupled system. All 109 frequencies are NEW.
 
-All 556 oscillating palindromic pairs are **NEW-NEW** (100%).
-Zero OLD-OLD. Zero OLD-NEW. Zero unpaired.
+All 452 oscillating palindromic pairs are **NEW-NEW** (100%): the 904
+oscillating modes pair among themselves, exactly and disjointly (optimal
+assignment, max pairing error ~1e-13; an earlier asymmetric matching
+over-counted these as 556). Zero OLD-OLD. Zero OLD-NEW. Zero unpaired.
 
 The V-Effect does not extend the old palindrome. It **replaces** it.
 The old frequencies are destroyed. New frequencies are born, all
@@ -332,10 +362,12 @@ sum of its parts; it is *different* from its parts.
 
 ### The new palindrome is perfectly balanced
 
-The 109 new frequencies were decomposed in the Pauli basis (expressing
-each mode as a combination of the four basic quantum operations) to
-determine which XY-weight sector they live in (w=0: fully classical I/Z,
-w=5: fully quantum X/Y):
+The oscillating modes behind the 109 new frequencies were decomposed in
+the Pauli basis (expressing each mode as a combination of the four basic
+quantum operations) to determine which XY-weight sector they live in
+(w=0: fully classical I/Z, w=5: fully quantum X/Y). The histogram is the
+probability-mass share summed over the 904 oscillating modes, not an
+integer count:
 
 ```
 w=0:  2.5%  #              fully classical (I/Z only)
@@ -347,7 +379,7 @@ w=5:  2.5%  #              fully quantum (X/Y only)
 ```
 
 Perfectly symmetric: w(k) = w(N−k) for every k. The new palindrome is
-balanced not only in decay rates (556 pairs, all NEW-NEW) but also in
+balanced not only in decay rates (452 pairs, all NEW-NEW) but also in
 Pauli structure. The interior modes (w=2,3) carry 63.8% of the weight.
 The extremes (pure classical, pure quantum) are minimal at 5.1%.
 

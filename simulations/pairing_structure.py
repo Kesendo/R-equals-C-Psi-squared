@@ -1,9 +1,9 @@
 """
-Pairing Structure of the V-Effect: With whom are the 100 new frequencies paired?
+Pairing Structure of the V-Effect: With whom are the 109 new frequencies paired?
 
 Two N=2 resonators have 2 frequencies each (4 total).
-Coupled through a mediator (N=5), they have 104 frequencies.
-100 are new. But every oscillating mode is palindromically paired (proven).
+Coupled through a mediator (N=5), they have 109 frequencies, all new.
+And every oscillating mode is palindromically paired (proven).
 
 Question: are the new frequencies paired with each other (NEW-NEW),
 with the old ones (OLD-NEW), or mixed?
@@ -144,43 +144,39 @@ counts = {"OLD-OLD": 0, "NEW-NEW": 0, "OLD-NEW": 0,
 
 pair_details = {"OLD-OLD": [], "NEW-NEW": [], "OLD-NEW": []}
 
-seen = set()
-for k in range(len(evals5)):
-    if k in seen:
-        continue
+# Palindromic pairing via optimal assignment. The spectrum is heavily
+# degenerate, so per-mode "best partner" maps are ill-defined: the original
+# asymmetric count let several modes share one partner (556 "pairs" out of
+# only 904 oscillating modes, arithmetically impossible, disjoint maximum
+# 452), and mutual-best matching starves on ties. Optimal assignment
+# handles degeneracy exactly and pairs the full spectrum.
+from scipy.optimize import linear_sum_assignment
 
-    j = partners5[k]
-    if j < 0 or j == k:
-        counts["UNPAIRED"] += 1
-        continue
+mirror5 = -evals5.conj() - 2 * Sg5
+cost = np.abs(evals5[:, None] - mirror5[None, :])
+ri, ci = linear_sum_assignment(cost)
+max_pair_err = cost[ri, ci].max()
+print(f"Optimal-assignment palindromy: max pairing error {max_pair_err:.2e} "
+      f"over {len(evals5)} modes (exact palindrome => ~0)")
 
-    seen.add(k)
-    seen.add(j)
-
-    freq_k = abs(evals5[k].imag)
-    freq_j = abs(evals5[j].imag)
-    rate_k = -evals5[k].real
-    rate_j = -evals5[j].real
-
-    is_osc_k = freq_k > 0.01
-    is_osc_j = freq_j > 0.01
-
-    if not is_osc_k and not is_osc_j:
-        counts["DECAY-DECAY"] += 1
-        continue
-
-    k_old = freq_is_old(round(freq_k, 6), old_set)
-    j_old = freq_is_old(round(freq_j, 6), old_set)
-
-    if k_old and j_old:
-        counts["OLD-OLD"] += 1
-        pair_details["OLD-OLD"].append((freq_k, freq_j, rate_k, rate_j))
-    elif not k_old and not j_old:
-        counts["NEW-NEW"] += 1
-        pair_details["NEW-NEW"].append((freq_k, freq_j, rate_k, rate_j))
-    else:
-        counts["OLD-NEW"] += 1
-        pair_details["OLD-NEW"].append((freq_k, freq_j, rate_k, rate_j))
+osc_mask = np.abs(evals5.imag) > 0.01
+n_osc = int(osc_mask.sum())
+n_dec = len(evals5) - n_osc
+# The mirror partner of an oscillating mode is oscillating (|Im| is
+# preserved by lam -> -conj(lam) - 2*Sg), so oscillating modes pair among
+# themselves: n_osc/2 disjoint pairs, and pure-decay modes likewise.
+n_old_osc = sum(1 for k in range(len(evals5)) if osc_mask[k]
+                and freq_is_old(round(abs(evals5[k].imag), 6), old_set))
+counts["DECAY-DECAY"] = n_dec // 2
+if n_old_osc == 0:
+    counts["NEW-NEW"] = n_osc // 2
+else:
+    print(f"WARNING: {n_old_osc} oscillating modes carry OLD frequencies; "
+          f"classify pairs individually before trusting the NEW-NEW count.")
+counts["UNPAIRED"] = len(evals5) - 2 * (counts["NEW-NEW"] + counts["DECAY-DECAY"])
+print(f"Oscillating modes: {n_osc} ({n_osc // 2} pairs), "
+      f"pure-decay modes: {n_dec} ({n_dec // 2} pairs), "
+      f"oscillating modes at OLD frequencies: {n_old_osc}")
 
 print(f"Total palindromic pairs (oscillating + decay):")
 for cat, count in counts.items():
@@ -212,3 +208,43 @@ if counts["OLD-NEW"] > 0:
     print("\n>>> OLD-NEW PAIRS EXIST: coupling re-wires the palindrome across old/new boundary <<<")
 elif counts["NEW-NEW"] == total_osc:
     print("\n>>> ALL oscillating pairs are NEW-NEW: coupling creates a self-contained palindrome <<<")
+
+
+# Step 5: XY-weight distribution of the oscillating modes (the balance histogram)
+# For each oscillating right eigenvector (|Im| > 0.01), project onto the
+# orthonormal Pauli basis vec(P)/sqrt(d) and accumulate the probability mass
+# per XY-weight (number of X/Y letters). The histogram is a mass SHARE over
+# modes, not an integer count.
+print("\n" + "=" * 60)
+print("STEP 5: XY-WEIGHT DISTRIBUTION (oscillating modes, N=5)")
+print("=" * 60)
+
+from itertools import product as _product
+
+_evals5v, _evecs5 = np.linalg.eig(L5)
+_osc_idx = [k for k in range(len(_evals5v)) if abs(_evals5v[k].imag) > 0.01]
+print(f"Oscillating modes: {len(_osc_idx)}/{len(_evals5v)}")
+
+_d5 = 2 ** N5
+_letters = [I2, sx, sy, sz]
+_weights = np.zeros(N5 + 1)
+_P_cache = []
+for _combo in _product(range(4), repeat=N5):
+    _P = _letters[_combo[0]]
+    for _c in _combo[1:]:
+        _P = np.kron(_P, _letters[_c])
+    _w = sum(1 for _c in _combo if _c in (1, 2))  # X or Y letters
+    _P_cache.append((_P.reshape(-1) / np.sqrt(_d5), _w))
+
+for _k in _osc_idx:
+    _v = _evecs5[:, _k]
+    _v = _v / np.linalg.norm(_v)
+    for _pvec, _w in _P_cache:
+        _weights[_w] += abs(np.vdot(_pvec, _v)) ** 2
+
+_weights_pct = 100 * _weights / _weights.sum()
+for _w in range(N5 + 1):
+    print(f"  w={_w}: {_weights_pct[_w]:5.1f}%  (mass {_weights[_w]:.3f})")
+print(f"  interior (w=2,3): {_weights_pct[2]+_weights_pct[3]:.1f}%")
+print(f"  boundary (w=1,4): {_weights_pct[1]+_weights_pct[4]:.1f}%")
+print(f"  extremes (w=0,5): {_weights_pct[0]+_weights_pct[5]:.1f}%")

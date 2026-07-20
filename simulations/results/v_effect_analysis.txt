@@ -1,6 +1,6 @@
 ==========================================================================================
 THE V-EFFECT: What Emerges from Broken Palindromic Symmetry?
-Date: 2026-03-19 19:48:37.563721
+Date: 2026-07-20 12:09:16.603473
 N = 3, gamma = 0.05, Sg = 0.15000000000000002
 ==========================================================================================
 
@@ -78,19 +78,24 @@ SECTION 1: Anatomy of the Break
 SECTION 2: Structure in the Error
 ==========================================================================================
 
-  2a. Gamma^2 scaling verification:
-       Combo     g=0.001      g=0.01      g=0.05   coeff(0.001)    coeff(0.01)    coeff(0.05)
-  ------------------------------------------------------------------------------
-       XX+XY    2.00e-03    2.00e-02    9.98e-02        2000.00         199.98          39.91
-       XX+XZ    1.87e-14    2.54e-14    2.14e-14           0.00           0.00           0.00
-       XX+YX    2.00e-03    2.00e-02    9.98e-02        2000.00         199.98          39.91
-       XX+YZ    8.95e-15    1.89e-14    1.04e-14           0.00           0.00           0.00
-       XX+ZX    1.53e-14    1.60e-14    1.19e-14           0.00           0.00           0.00
-       XX+ZY    1.14e-14    1.69e-14    1.13e-14           0.00           0.00           0.00
-       XY+XZ    5.86e-04    5.86e-03    2.93e-02         585.79          58.58          11.71
-       XY+YX    9.80e-15    1.15e-14    1.34e-14           0.00           0.00           0.00
+  2a. Error scaling in gamma (max pairing error over ALL modes, incl. steady):
+       Combo     g=0.001      g=0.01      g=0.05   err/g(0.001)    err/g(0.01)    err/g(0.05)   exponent
+  ------------------------------------------------------------------------------------------
+       XX+XY    2.00e-03    2.00e-02    9.98e-02           2.00           2.00           2.00      0.999
+       XX+XZ    1.87e-14    2.54e-14    2.14e-14           0.00           0.00           0.00      0.041
+       XX+YX    2.00e-03    2.00e-02    9.98e-02           2.00           2.00           2.00      0.999
+       XX+YZ    8.95e-15    1.89e-14    1.04e-14           0.00           0.00           0.00      0.057
+       XX+ZX    1.53e-14    1.60e-14    1.19e-14           0.00           0.00           0.00     -0.057
+       XX+ZY    1.14e-14    1.69e-14    1.13e-14           0.00           0.00           0.00      0.011
+       XY+XZ    5.86e-04    5.86e-03    2.93e-02           0.59           0.59           0.59      1.000
+       XY+YX    9.80e-15    1.15e-14    1.34e-14           0.00           0.00           0.00      0.079
 
-  Coefficients are approximately constant -> error scales as gamma^2.
+  The FULL-SPECTRUM max pairing error is LINEAR in gamma (fitted exponent ~1):
+  it is dominated by the extreme modes, whose actual rate misses the mirror
+  target 2*Sg by O(gamma) (e.g. XX+XY: fastest rate 4g vs 2*Sg = 6g, err = 2g).
+  The gamma^2 law with CONSTANT coefficient (~1.31 g^2 for XX+XY) holds for the
+  INTERIOR (nonzero, non-extreme) modes; that metric lives in
+  simulations/non_heisenberg_deep.py Section 6 (see NON_HEISENBERG_PALINDROME.md).
 
   2b. Error spectrum for XX+XY (per-pair error vs decay rate):
         Rate    Pair err      |Im|   Level
@@ -328,7 +333,8 @@ SUMMARY
     Breaking is widespread across the spectrum (not localized to a few modes).
 
   SECTION 2: Error Structure
-    Error scales as gamma^2 with combo-specific coefficients.
+    Full-spectrum max error is LINEAR in gamma (extreme modes, err ~ 2g for XX+XY);
+    the interior modes break as ~1.31 g^2 (see non_heisenberg_deep.py Section 6).
     The error is NOT uniform: different modes break at different rates.
 
   SECTION 3: New Symmetries
@@ -348,5 +354,5 @@ SUMMARY
     Threshold has some overlap.
 
 ==========================================================================================
-COMPLETE -- 2026-03-19 19:48:37.920264
+COMPLETE -- 2026-07-20 12:09:16.982694
 ==========================================================================================
