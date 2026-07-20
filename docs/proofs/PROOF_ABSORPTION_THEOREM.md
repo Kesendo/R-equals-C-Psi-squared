@@ -137,8 +137,9 @@ entry −2γ·n_XY(x).
   decay rate |Re λ| elsewhere, including the Preface, §3's table and the formula
   registry.
   Both usages are established elsewhere in the repo, so both are kept here.
-- **Q** is the coupling ratio J/γ₀ everywhere except §4.7, where it is the F87
-  dephasing generator Σ_l Z_l ⊗ Z_l. §4.7 says so again at the point of use.
+- **Q** is the coupling ratio J/γ₀ everywhere except the Abstract and §4.7,
+  where it is the F87 dephasing generator Σ_l Z_l ⊗ Z_l; both define it inline
+  at the point of use.
 - **Q\*_gap(N)** is not a running variable but the N-dependent threshold value
   of that ratio above which the spectral gap equals 2γ (§4.3). It is distinct
   from the coherence horizon Q\*(N) (see the [Glossary](../GLOSSARY.md), the
