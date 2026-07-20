@@ -47,6 +47,26 @@ crossing; at γ=0.20, zero.
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
 > proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
+> **Reproduction note (2026-07-20):** the quantitative tables here (§5.1
+> unitary and §5.2 γ=0.05) came from the retired MCP tool (the delta_calc
+> family, February 2026) and do not
+> reproduce under the canonical pair-CΨ convention (Wootters concurrence ·
+> l₁/3, [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py)):
+> under that convention |0+0+⟩ on the N=4 ring at γ=0.05 peaks at
+> CΨ ≈ 0.20 (pair (1,3); fine grid 0.2005) and never crosses, matching
+> [Orphaned Results §2b](ORPHANED_RESULTS.md) to its printed precision.
+> [Simulation Evidence §7.2](SIMULATION_EVIDENCE.md) carries a
+> correlation-book row for the same trajectory (C_corr·Ψ = 0.251 at
+> t=0.286): its Ψ column reproduces exactly, but its C_corr column
+> matches no standard correlator tested (raw, connected, Pearson), so
+> that C column is a retired-tool artifact too. The headline survives,
+> relocated: Hamiltonian-generated upward crossing from product states is
+> real. |0+0+⟩ crosses on the CHAIN (pair (1,2), max CΨ = 0.310), and on
+> the ring |+-+-⟩ (ring neighbours, 0.284) and |0+0-⟩ (diagonal, 0.256)
+> cross. The dephasing-selection story of §5.3 (which pair survives, and
+> why) is tied to the non-reproducing (0,2) numbers and should not be
+> imported quantitatively.
+
 ---
 
 ## 1. The Question

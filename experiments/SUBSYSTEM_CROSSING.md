@@ -323,7 +323,11 @@ for i, t in enumerate(tlist):
    crossings from zero initial entanglement. Under pure unitary
    evolution all 6 pairs cross. With dephasing (gamma = 0.05), only
    pair (0,2) crosses at t = 0.285 because |0⟩-qubits are immune to
-   σ_z dephasing. See DYNAMIC_ENTANGLEMENT.md.
+   σ_z dephasing. See DYNAMIC_ENTANGLEMENT.md. *(The ring-(0,2)
+   crossing numbers in that answer do not reproduce under the canonical
+   pair-CΨ book; the upward crossing relocated to the chain and to
+   |+-+-⟩/|0+0-⟩ on the ring, see the 2026-07-20 reproduction note in
+   DYNAMIC_ENTANGLEMENT.md.)*
 
 4. ~~What is the minimum per-pair entanglement needed for crossing?~~
    **ANSWERED (2026-03-08):** The relationship is non-monotonic, not a

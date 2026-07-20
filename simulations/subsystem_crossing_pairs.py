@@ -20,6 +20,15 @@ concurrence book).
 
 Original tables were produced by the retired delta_calc MCP tool
 (February 2026); this script is the committed reproduction.
+
+Also reproduces (2026-07-20) the upward-crossing product-state tables of
+experiments/ORPHANED_RESULTS.md section 2b/2c: |0+0+> on the N=4 ring
+peaks at CPsi = 0.200 (no crossing) but crosses on the CHAIN (pair (1,2),
+0.310); on the ring |+-+-> (0.284, ring neighbours) and |0+0-> (0.256,
+diagonal) cross. The conflicting ring-(0,2) table in
+experiments/DYNAMIC_ENTANGLEMENT.md came from the retired MCP tool
+and does not reproduce under this convention (see the reproduction note
+there).
 """
 
 import numpy as np
@@ -57,6 +66,15 @@ def heisenberg_ring(N, J=1.0):
     for (i, j) in bonds:
         for P in (X, Y, Z):
             H += J * site_op(P, i, N) @ site_op(P, j, N)
+    return H
+
+
+def heisenberg_chain(N, J=1.0):
+    d = 2 ** N
+    H = np.zeros((d, d), dtype=complex)
+    for i in range(N - 1):
+        for P in (X, Y, Z):
+            H += J * site_op(P, i, N) @ site_op(P, i + 1, N)
     return H
 
 
@@ -128,6 +146,33 @@ def run_state(name, psi, N=4, gamma=0.05, t_max=5.0, dt=0.01):
               f"{tc if tc is not None else float('nan'):8.3f}")
 
 
+def run_upward(name, psi, topology="ring", N=4, gamma=0.05,
+               t_max=3.0, dt=0.005):
+    """Upward-crossing table for product states: per-pair max CPsi
+    (concurrence book) and whether it exceeds 1/4."""
+    H = heisenberg_ring(N) if topology == "ring" else heisenberg_chain(N)
+    print(f"\n=== {name} (N={N}, Heisenberg {topology} J=1, gamma={gamma}) ===")
+    L = liouvillian(H, gamma, N)
+    step = expm(L * dt)
+    v = np.outer(psi, psi.conj()).reshape(-1)
+    pairs = [(i, j) for i in range(N) for j in range(i + 1, N)]
+    best = {p: (0.0, 0.0) for p in pairs}
+    t = 0.0
+    while t <= t_max + dt / 2:
+        rho = v.reshape(2 ** N, 2 ** N)
+        for p in pairs:
+            rp = ptrace_pair(rho, list(p), N)
+            c = concurrence(rp) * l1_coherence(rp) / 3.0
+            if c > best[p][0]:
+                best[p] = (c, t)
+        v = step @ v
+        t += dt
+    for p in pairs:
+        c, tm = best[p]
+        print(f"  pair {p}: max CPsi = {c:.3f} at t = {tm:.3f}"
+              f"{'   CROSSES 1/4' if c > 0.25 else ''}")
+
+
 def main():
     up = np.array([1, 0], complex)
     dn = np.array([0, 1], complex)
@@ -148,6 +193,14 @@ def main():
     run_state("W", w)
     run_state("Bell+ x Bell+", np.kron(bell, bell))
     run_state("|+>^4", kron_all(plus, plus, plus, plus))
+
+    # Upward crossings from product states (ORPHANED_RESULTS section 2b/2c;
+    # settles the DYNAMIC_ENTANGLEMENT ring-(0,2) dispute).
+    minus = (up - dn) / np.sqrt(2)
+    run_upward("|0+0+>", kron_all(up, plus, up, plus), "ring")
+    run_upward("|0+0+>", kron_all(up, plus, up, plus), "chain")
+    run_upward("|+-+->", kron_all(plus, minus, plus, minus), "ring")
+    run_upward("|0+0->", kron_all(up, plus, up, minus), "ring")
 
     # Isolated Bell+ baseline: one dephasing trajectory, three C-books.
     gamma = 0.05

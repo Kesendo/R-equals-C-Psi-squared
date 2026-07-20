@@ -891,7 +891,7 @@ these earn the "open" stamp.
 
 ### OQ-219
 
-**Question:** ~~Can dynamical entanglement generation from a product state create crossings?~~ **ANSWERED** (2026-02-18): Yes, but not from |+⟩^N, which is an eigenstate of the isotropic Heisenberg Hamiltonian. The state |0+0+⟩ (not an eigenstate, energy variance = 20) generates crossings from zero initial entanglement. Under pure unitary evolution all 6 pairs cross. With dephasing (gamma = 0.05), only pair (0,2) crosses at t = 0.285 because |0⟩-qubits are immune to σ_z dephasing. See DYNAMIC_ENTANGLEMENT.md.
+**Question:** ~~Can dynamical entanglement generation from a product state create crossings?~~ **ANSWERED** (2026-02-18): Yes, but not from |+⟩^N, which is an eigenstate of the isotropic Heisenberg Hamiltonian. The state |0+0+⟩ (not an eigenstate, energy variance = 20) generates crossings from zero initial entanglement. Under pure unitary evolution all 6 pairs cross. With dephasing (gamma = 0.05), only pair (0,2) crosses at t = 0.285 because |0⟩-qubits are immune to σ_z dephasing. See DYNAMIC_ENTANGLEMENT.md. *(2026-07-20: the ring-(0,2) crossing numbers do not reproduce under the canonical pair-CΨ book; the YES survives via the chain and via |+-+-⟩/|0+0-⟩ on the ring, see the reproduction note in DYNAMIC_ENTANGLEMENT.md.)*
 
 **Source:** `experiments/SUBSYSTEM_CROSSING.md` (line 295)
 **Section:** 6. Open Questions

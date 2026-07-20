@@ -82,8 +82,10 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
 **The master reference:**
 
 10. [Complete Mathematical Documentation](COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - 
-   All equations, all results, all constants, all references in one
-   place. The Tafelwerk. Twelve sections covering algebra, palindrome,
+   The equations, results, constants, and references of the founding
+   core (through March 2026) in one place; F-numbered results live in
+   [Analytical Formulas](../ANALYTICAL_FORMULAS.md).
+   The Tafelwerk. Twelve sections covering algebra, palindrome,
    boundary, incompleteness, γ channel, crossing dynamics, topology,
    engineering, transistor mapping, open questions, and a numerical
    constants table.

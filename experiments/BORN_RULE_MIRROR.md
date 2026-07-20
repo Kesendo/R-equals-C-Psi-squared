@@ -18,6 +18,15 @@ R=CPsi2 Born rule mirror -->
 
 ## Abstract
 
+> **Reproduction note (2026-07-20):** the reference time t = 0.286 used
+> throughout was labeled "the (0,2) crossing" by the retired MCP
+> tool (the delta_calc family, February 2026); under the canonical pair-CΨ convention (Wootters concurrence ·
+> l₁/3, [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py))
+> pair (0,2) of |0+0+⟩ on the N=4 ring never crosses ¼ (see the
+> reproduction note in [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)).
+> The Born-deviation content at t = 0.286 is unaffected by that label and
+> was later closed in F94/F96 (the registry), on exactly this lens.
+
 At the CΨ = ¼ crossing point for pair (0,2) in the alternating state
 |0+0+⟩ under Heisenberg ring dynamics, Born rule probabilities are ~97%
 determined by unitary Hamiltonian evolution alone. The remaining ~3% is

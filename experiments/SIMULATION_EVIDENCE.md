@@ -198,6 +198,13 @@ The alternating state |0+0+⟩ starts with NO entanglement between pairs
 dynamics with σ_z dephasing (γ = 0.05), the Hamiltonian builds entanglement
 between initially unentangled subsystems:
 
+> **Reproduction note (2026-07-20):** the Ψ column below reproduces
+> exactly (Ψ = l₁/3 of the (0,2) pair), but the C_corr column matches no
+> standard correlator tested (raw, connected, Pearson) and comes from the
+> retired tool; under the canonical pair-CΨ book (concurrence · l₁/3)
+> this pair never crosses ¼. See the reproduction note in
+> [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md).
+
 | Time  | C_corr(0,2) | Ψ(0,2) | C·Ψ   | Event              |
 |-------|-------------|---------|-------|--------------------|
 | t=0   | 0.000       | 0.000   | 0.000 | No correlation     |

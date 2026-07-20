@@ -31,9 +31,9 @@ Three entry points for new readers:
 | Interest | Start with |
 |----------|-----------|
 | The core theorem | [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - Π operator, XY-weight grading, verified N=2 through N=8 |
-| The full mathematics | [Complete Mathematical Documentation](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - Master reference for all proven results |
-| All analytical formulas | [Analytical Formulas](ANALYTICAL_FORMULAS.md) - 120 formulas that replace matrix computations. Check here before building a Liouvillian |
-| The newest breakthrough | [Resonant Return](../experiments/RESONANT_RETURN.md) - Sacrifice-zone formula: 139-360x via spatial noise optimization |
+| The full mathematics | [Complete Mathematical Documentation](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - Master index of the founding core (through March 2026); F-numbered results live in the registry below |
+| All analytical formulas | [Analytical Formulas](ANALYTICAL_FORMULAS.md) - 138 formulas that replace matrix computations. Check here before building a Liouvillian |
+| The sacrifice-zone formula | [Resonant Return](../experiments/RESONANT_RETURN.md) - 139-360x via spatial noise optimization (transport metric, ε→0 ideal; ~2-3x hardware) |
 
 ---
 
@@ -62,7 +62,7 @@ independently reproducible.
 | [Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every pair with CΨ > 1/4 eventually crosses below under physical, computational-basis-aligned noise (T1/T2/depolarizing). The general primitive-CPTP version is false. |
 | [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven-layer proof architecture from single qubit to arbitrary dimension. Layer 2 holds for physical noise (general-CPTP version false); other layers closed. |
 | [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) | Dephasing noise cannot originate from within d(d−2)=0. Five candidates eliminated. Noise must come from outside. |
-| [Complete Math Doc](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master index: algebra, palindrome, boundary, incompleteness, γ channel, engineering, constants. |
+| [Complete Math Doc](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master index of the founding core: algebra, palindrome, boundary, incompleteness, γ channel, engineering, constants. |
 
 ---
 

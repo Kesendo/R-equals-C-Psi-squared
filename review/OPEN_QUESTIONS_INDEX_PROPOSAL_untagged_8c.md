@@ -26,7 +26,7 @@
 **Question:** Can dynamical entanglement generation from a product state create crossings? ANSWERED (2026-02-18): Yes, but not from |+>^N.  
 **Source:** `experiments/SUBSYSTEM_CROSSING.md` (line 295)  
 **Proposed status:** resolved  
-**Justification:** Self-documenting: strikethrough + "ANSWERED." The state |0+0+> generates crossings from zero initial entanglement. Under pure unitary evolution all 6 pairs cross; with dephasing only pair (0,2) crosses because |0>-qubits are immune to Z-dephasing. Verified in DYNAMIC_ENTANGLEMENT.md.
+**Justification:** Self-documenting: strikethrough + "ANSWERED." The state |0+0+> generates crossings from zero initial entanglement. Under pure unitary evolution all 6 pairs cross; with dephasing only pair (0,2) crosses because |0>-qubits are immune to Z-dephasing. Verified in DYNAMIC_ENTANGLEMENT.md. *(2026-07-20: the (0,2)-crossing detail did not reproduce under the canonical pair-CΨ book; the YES survives via the chain and |+-+->/|0+0-> on the ring, see the reproduction note in DYNAMIC_ENTANGLEMENT.md.)*
 
 ---
 

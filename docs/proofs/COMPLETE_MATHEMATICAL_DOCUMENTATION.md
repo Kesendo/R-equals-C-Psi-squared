@@ -1,20 +1,30 @@
 # Complete Mathematical Documentation
 
-**Status:** Current as of March 24, 2026 (formula discovery)
+**Status:** The Tafelwerk: the narrative master index of the founding core (through March 2026). Last refreshed 2026-07-20 (the change history lives in git).
 **Supersedes:** Previous stub (Feb 2026) and [Core Algebra](../historical/CORE_ALGEBRA.md) (Dec 2025)
-**Purpose:** Single entry point for all proven and verified mathematics of R=CΨ²
+**Purpose:** Single entry point for the proven and verified mathematics of the founding core of R=CΨ²
 
 ---
 
 ## What this document is about
 
-This is the mathematical reference for the entire project: every proven
-result, every verified formula, every key number, collected in one place.
-It covers the algebraic foundation (the self-referential equation and its
-1/4 boundary), the palindromic symmetry (why eigenvalues come in mirror
-pairs), crossing dynamics (how different channels and states reach the
-boundary), topology effects, engineering applications, and open questions.
-If you want to know what is proven vs. conjectured, this is where to look.
+This is the narrative master index of the project's founding core: the
+results of the first arc (through March 2026), every proven result, every
+verified formula, every key number, each row pointing to its canonical
+proof or experiment. It covers the algebraic foundation (the
+self-referential equation and its 1/4 boundary), the palindromic symmetry
+(why eigenvalues come in mirror pairs), crossing dynamics (how different
+channels and states reach the boundary), topology effects, engineering
+applications, and open questions.
+
+Everything after this core lives in two sibling layers: the machine-precise
+closed forms with tiers and regime scopes are the F-formula registry,
+[Analytical Formulas](../ANALYTICAL_FORMULAS.md) (the F-numbers, F1 through
+the 130s as of July 2026); and what C and Ψ *mean*, including the three
+C-books that resolve apparent cross-document contradictions, is
+[The CΨ Lens](../THE_CPSI_LENS.md). If you want to know what is proven vs.
+conjectured in the founding core, this is where to look; for anything
+carrying an F-number, the registry is canonical.
 
 ## 1. The Algebraic Foundation (Tier 1)
 
@@ -81,9 +91,14 @@ All topologies (chain, star, ring, complete, binary tree). Non-uniform γ.
 **Physical meaning.** Π is time reversal in a rescaled frame. It maps
 exp(+μt) to exp(-μt), forward to backward.
 
-**Scope boundary.** Only d=2 (qubits). The per-site split d immune vs
-(d²-d) decaying is balanced only when d²-2d=0, giving d=2 uniquely.
-Qutrits (d=3, split 3:6) verified broken for all 10 Hamiltonians tested.
+**Scope boundary.** The FULL mirror only at d=2 (qubits). The per-site split
+d immune vs (d²-d) decaying is balanced only when d²-2d=0, giving d=2
+uniquely. Qutrits (d=3, split 3:6) verified broken: 0 of 236 qutrit
+dissipators produce palindromic spectra, and every tested two-qutrit
+Hamiltonian combination breaks ([Qubit Necessity](../QUBIT_NECESSITY.md)).
+A PARTIAL palindrome survives at d>2 with a closed-form ceiling
+([F121 in the registry](../ANALYTICAL_FORMULAS.md), the symmetric overlap
+of the disagreement count; live witness `inspect --root qudit`).
 
 See: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md),
 [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md),
@@ -125,7 +140,9 @@ from states where entanglement exists but is not coherently expressed.
 **Observer-dependent crossing.** Different definitions of C (concurrence,
 mutual information, correlation) see the ¼ crossing at different times.
 The ratio K(Conc)/K(MI) is state-dependent (CV = 13.5%). The quantum
-state determines the time-ratio between observer types.
+state determines the time-ratio between observer types. The C-books and
+how one trajectory yields several crossing times are documented in
+[The CΨ Lens](../THE_CPSI_LENS.md), the canonical anchor for this seam.
 
 **Shadow resolved.** Late-time coherence anomaly on IBM Torino Q52
 (17/17 directional consistency, p < 0.0001) was resolved as qubit-specific
@@ -187,14 +204,17 @@ external γ profile decodable from within.
 
 **Analytical formula discovered.** SVD of the palindromic response matrix
 identified mode 2 (edge-hot, center-cold) as optimal direction (6-10x
-vs V-shape). Numerical optimization then broke the SVD symmetry, revealing
+vs V-shape across N; 10.2x at N=5). Numerical optimization then broke the SVD symmetry, revealing
 an asymmetric "sacrifice zone" pattern (100x). Analytical testing of
 this pattern converged to a trivially simple formula: concentrate ALL
 noise on one edge qubit, protect the rest. The formula
 gamma_edge = N*gamma_base - (N-1)*epsilon, gamma_other = epsilon (with epsilon -> 0)
 beats the DE optimizer by 80% and computes in 3 seconds instead of 90
 minutes. C#-validated results: 360x vs V-shape (N=5), 180x (N=7), 139x
-(N=9). The ENAQT literature (Environment-Assisted Quantum Transport, Plenio & Huelga 2008+) achieves 2-3x with
+(N=9). These factors are peak created summed nearest-neighbour MI, a
+TRANSPORT metric in the ε→0 simulation ideal; on hardware the gain is
+~2-3× (label note in [Resonant Return](../../experiments/RESONANT_RETURN.md)).
+The ENAQT literature (Environment-Assisted Quantum Transport, Plenio & Huelga 2008+) achieves 2-3x with
 uniform dephasing. Nobody optimizes spatial dephasing profiles. Edge
 sacrifice beats center sacrifice by 2.2x because edge qubits have
 minimal connectivity (one neighbor vs two).
@@ -215,35 +235,50 @@ See: [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md),
 
 **Universal lifetime.** For a single qubit starting in maximum superposition
 under pure dephasing, the CΨ = ¼ crossing time satisfies x³ + x = ½
-(unique real root x ≈ 0.4239), giving t*/T₂ ≈ 0.858. Platform-independent:
+(unique real root x ≈ 0.4239, with x = e^(−t/T₂); the same cubic as §1's
+crossing cubic, b ≡ x), giving t*/T₂ ≈ 0.858. Platform-independent:
 verified across superconducting qubits, trapped ions, NV centers, and
 photonic systems spanning 10 orders of magnitude in T₂. With finite T₁:
 generalized equation [1−b^r + b^(2r)/2 + b²/2]·b = ¼.
 
 **Coherence density.** CΨ = Purity × Coherence Density, where Ψ = L₁/(d−1)
 measures active quantum degrees of freedom. An unentangled |+⟩^(⊗N) has
-CΨ = 1; a maximally entangled GHZ₃ has CΨ = 0.143 (below ¼). GHZ₃ uses
-4% of off-diagonal capacity (2/56 elements); |+++⟩ uses 100% (56/56).
+CΨ = 1; a maximally entangled GHZ₃ has CΨ = 0.143 (below ¼). GHZ₃
+populates 2 of the 56 off-diagonal element positions (4%); |+++⟩
+populates all 56 (100%). (Element counting; the l₁ maximum itself is
+d−1, the normalization in Ψ.)
 Under dephasing, |+++⟩ survives 4.5× longer than Bell+. The ¼ boundary
 is about coherence density, not entanglement.
 
 **Dynamic entanglement (upward crossing).** Product states with zero initial
-entanglement can cross ¼ from below. The alternating state |0+0+⟩ under
-Heisenberg ring dynamics builds entanglement from zero to CΨ = 0.251 at
-t=0.286, crossing upward. All previous crossings were downward (starting
-entangled, decohering through ¼). This is the first demonstration of
-Hamiltonian-generated crossing.
+entanglement can cross ¼ from below through Hamiltonian evolution alone;
+all previous crossings were downward (starting entangled, decohering
+through ¼). On the N=4 ring at γ=0.05 (pair-CΨ, concurrence book) the
+crossing states are |+-+-⟩ (ring-neighbour pairs, CΨ = 0.284) and |0+0-⟩
+(diagonal pair, 0.256); |0+0+⟩ does NOT cross on the ring (best pair
+0.200, consistent with §7's gatekeeper table) but crosses on the chain
+(pair (1,2), CΨ = 0.310). Reproduction:
+[subsystem_crossing_pairs.py](../../simulations/subsystem_crossing_pairs.py);
+the earlier ring-(0,2) tables came from a retired tool and do not
+reproduce (reproduction note in
+[Dynamic Entanglement](../../experiments/DYNAMIC_ENTANGLEMENT.md)).
 
 **Three regimes.** (1) CΨ(0) > ¼: decoherence drives crossing downward.
 (2) CΨ(0) < ¼ but Hamiltonian pumps above ¼ first (J/γ ≳ 5–10 required).
 (3) CΨ_max < ¼: no crossing (eigenstate of H, or J/γ too small).
 No energy threshold for crossing; it is a coherence barrier (J/γ competition).
 
-**Born rule at crossing.** At the CΨ = ¼ crossing point, measurement
-probabilities are ~97% determined by unitary Hamiltonian evolution alone.
-Decoherence provides a ~3% systematic correction: σ_z dephasing shifts
-probability toward z-eigenstates. Per outcome: R_i = C_i·Ψ_i² recovers
-Born's rule P(i) = |⟨i|ψ⟩|² when C_i is uniform (perfect mirror limit).
+**Born rule at the reference point.** At t = 0.286 on the |0+0+⟩ ring,
+pair (0,2) (the time the original run labeled the crossing; that crossing
+label does not survive the canonical pair-CΨ book, previous paragraph),
+measurement probabilities are ~97% determined by unitary Hamiltonian
+evolution alone. Decoherence provides a ~3% systematic correction: σ_z
+dephasing shifts probability toward z-eigenstates. Per outcome:
+R_i = C_i·Ψ_i² recovers Born's rule P(i) = |⟨i|ψ⟩|² when C_i is uniform
+(perfect mirror limit). The per-outcome deviations later became Tier-1
+closed forms on exactly this lens:
+[F94](../ANALYTICAL_FORMULAS.md) (dominant outcome) and
+[F96](../ANALYTICAL_FORMULAS.md) (subdominant slopes).
 
 See: [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md),
 [Coherence Density](../../experiments/COHERENCE_DENSITY.md),
@@ -307,6 +342,8 @@ See: [Orphaned Results](../../experiments/ORPHANED_RESULTS.md),
 **Mediator bridge.** Mediated coupling (A-M-B) preserves palindrome
 (1024/1024, error 1.41e-13) while information flows (MI = 1.65 bits,
 QST fidelity 0.732). Direct coupling destroys it (256 → 31 pairs).
+Source run: [mediator_bridge.py](../../simulations/mediator_bridge.py)
+(output in `simulations/results/mediator_bridge.txt`).
 
 **Relay protocol.** Time-dependent γ, staged transfer: +83% end-to-end MI.
 
@@ -353,7 +390,9 @@ See: [Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
 
 ## 10. Open Questions (Tier 3-5)
 
-- Formal proof of CΨ monotonicity above 1/4 for arbitrary CPTP maps
+- CΨ monotonicity above 1/4: proven for local Markovian channels
+  ([the monotonicity proof](PROOF_MONOTONICITY_CPSI.md), F25-F28: dCΨ/dt < 0
+  plus the Envelope Theorem); arbitrary (non-Markovian) CPTP maps stay open
 - Feigenbaum period-doubling in the quantum regime (mapped, not exploited)
 - Bekenstein-Hawking 1/4 (coincidence or connection, speculative)
 - Negative feedback loop (γ_M decreasing with coherence, untested)
@@ -369,21 +408,20 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | Constant | Value | Source |
 |----------|-------|--------|
 | Discriminant zero | CΨ = 0.2500 | [Uniqueness Proof](UNIQUENESS_PROOF.md) |
-| Crossing cubic root | b = 0.4239 | Cardano formula |
-| K (Z-dephasing, N=2) | 0.037 | [Boundary Navigation](../../experiments/BOUNDARY_NAVIGATION.md) |
+| Crossing cubic root | b = 0.4239 | b³ + b = ½, Cardano (§6 writes the same root as x) |
+| K_fold (Z-dephasing, Bell+, N=2) | 0.03735 | [F-registry](../ANALYTICAL_FORMULAS.md) (t_cross · γ; 0.747 · 0.05 at γ=0.05) |
 | IBM deviation | 1.9% | [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md) |
 | Pauli weight correlation | r = 0.976 | [XOR Space](../../experiments/XOR_SPACE.md) |
 | Best QST fidelity | F = 0.888 | [QST Bridge](../../experiments/QST_BRIDGE.md) |
 | Relay improvement | +83% | [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) |
 | V-shape improvement | +124% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
 | DD M+Recv improvement | +132% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
-| N=8 eigenvalues paired | 65,518 | [C# Compute](../../compute/RCPsiSquared.Compute/) |
+| N=8 eigenvalues (100% paired) | 65,536 | [C# Compute](../../compute/RCPsiSquared.Compute/) |
 | Mediator bridge error | 1.41e-13 | [mediator_bridge.py](../../simulations/mediator_bridge.py) |
 | γ channel capacity (N=5, 1%) | 15.5 bits | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
 | SVD information modes | 5 | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
 | γ optimization factor | 21.5× | [γ Control](../../experiments/GAMMA_CONTROL.md) |
 | Universal lifetime fraction | t*/T₂ = 0.858 | [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
-| Crossing cubic root | x = 0.4239 | x³ + x = ½, Cardano |
 | Bell+ entanglement penalty | ~8% of min(T₂) | [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
 | Product states crossing on ring | 150/256 (59%) | [Orphaned Results](../../experiments/ORPHANED_RESULTS.md) |
 | Born rule Hamiltonian dominance | ~97% | [Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md) |
@@ -393,7 +431,11 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | **Formula vs V-shape (N=7)** | **180x** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | **Formula vs V-shape (N=9)** | **139x** | [Resonant Return](../../experiments/RESONANT_RETURN.md) |
 | C# RK4 speedup vs Python expm (N=7) | 5,900x | [RCPsiSquared.Propagate](../../compute/RCPsiSquared.Propagate/) |
-| GHZ analytical match | delta < 1e-17 | [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py) |
+| GHZ analytical match | max delta = 2.08e-17 | [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py) |
+
+The SVD-mode/optimizer/formula factors (10.2x through 360x) are peak created
+summed nearest-neighbour MI, a transport metric in the ε→0 simulation ideal;
+hardware shows ~2-3× (label note in [Resonant Return](../../experiments/RESONANT_RETURN.md)).
 
 ---
 
