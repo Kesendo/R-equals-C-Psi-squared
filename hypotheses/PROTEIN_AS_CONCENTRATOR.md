@@ -62,7 +62,7 @@ protons in bulk water.
 | System | N qubits on a chain | Proton qubits in H-bonds |
 | Concentrator | Edge qubits (high γ) | Protein shell (absorbs solvent noise) |
 | Protected core | Center qubits (low effective γ) | Active-site protons |
-| Effect | 139-360x coherence improvement | J/γ shifts from ~0.02 toward ~1 |
+| Effect | 139-360x transport improvement (peak Sum-MI, sim ε→0) | J/γ shifts from ~0.02 toward ~1 |
 | Fold regime | CΨ crosses 1/4, oscillation sustained | Proton transfer at fold, catalysis |
 
 ## The Prediction

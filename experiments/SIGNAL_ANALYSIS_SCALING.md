@@ -215,7 +215,7 @@ The palindrome inverts the scaling law: from decay to growth.
 
 ## Completed
 
-- ~~V-shape baselines for all N~~ Done: N = 5, 7, 9, 11, 13, 15. Factors: 360×, 180×, 139×, 91×, 97.5×, 63.5×
+- ~~V-shape baselines for all N~~ Done: N = 5, 7, 9, 11, 13, 15. Factors (ε→0): 360×, 180×, 139×, 97×, 105×, 68×; at ε = 0.001: 343×, 169×, 131×, 91×, 97.5×, 63.5×
 - ~~N = 13 all variants~~ Done: formula 1.072, eps→0 1.151, V-shape 0.011, uniform 0.000
 - ~~N = 15 all variants~~ Done: formula 1.309, eps→0 1.407, V-shape 0.021, uniform 0.000
 

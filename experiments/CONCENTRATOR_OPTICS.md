@@ -178,7 +178,7 @@ the cavity." Coupling implies function. Illumination implies input. The
 edge qubit is not a shield. It is the surface where light enters the
 instrument.
 
-The 360× simulation improvement (ε→0 ideal) is not "less damage." It is "better resonance."
+The 360× simulation improvement (peak created Sum-MI, ε→0 ideal; ~2-3× on hardware) is not "less damage." It is "better resonance."
 The same light, entering through a matched surface instead of a raw
 edge, excites the same standing waves 7x longer (Q_max at N=6).
 

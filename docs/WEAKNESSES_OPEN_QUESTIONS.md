@@ -184,7 +184,7 @@ works without knowing why.
 ### 6. Sacrifice-zone formula has known limitations
 
 The formula (concentrate noise on one edge qubit) achieves 139-360×
-improvement, but:
+improvement in peak created Sum-MI (ε→0 simulation ideal), but:
 - Improvement decreases with N (360× at N=5, 139× at N=9)
 - No formal proof of optimality
 - Hardware test shows 3.2× (not 360×) due to real-world constraints
@@ -193,7 +193,8 @@ improvement, but:
 
 *In plain language:* the sacrifice-zone formula
 ([Resonant Return](../experiments/RESONANT_RETURN.md)) is our most
-dramatic practical result: 139-360× improvement in information transfer.
+dramatic practical result: 139-360× improvement in information transfer
+(peak created Sum-MI, ε→0 simulation ideal).
 But the improvement shrinks as the chain gets longer, we have no
 mathematical proof that it is truly the best possible strategy, and on
 real hardware the improvement drops to 3.2× because real quantum

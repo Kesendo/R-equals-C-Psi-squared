@@ -611,7 +611,11 @@ the F1 palindrome, DM included, hold for complex H); Z-dephasing; any graph; any
     gamma_edge = N * gamma_base - (N-1) * epsilon
     gamma_other = epsilon
 
-One-line formula. 360x improvement at N=5, 63.5x at N=15 vs V-shape.
+One-line formula. 360x at N=5 down to 68x at N=15 vs V-shape (ε→0
+ideal; at the practical floor ε=0.001: 343x down to 63.5x). The factor
+is peak created Sum-MI, a TRANSPORT metric, not a coherence lifetime
+(~2-3x on hardware; see the label note in the source experiment and
+CONCENTRATOR_AB_MECHANISM_TEST Downgrade 2).
 
 **Valid for:** Heisenberg chain, Z-dephasing, SumMI objective.
 **Replaces:** numerical optimization (Nelder-Mead, DE).

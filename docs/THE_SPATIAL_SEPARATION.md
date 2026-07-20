@@ -65,7 +65,7 @@ minimum noise.
 |---------------|--------|-------------|
 | Uniform noise (literature standard) | baseline | 1.0x |
 | V-shape profile (hand-designed) | higher | ~1x |
-| **Edge sacrifice (separated)** | **highest** | **139-360x** |
+| **Edge sacrifice (separated)** | **highest** | **139-360x** (sim ε→0 ideal, ~2-3x hardware) |
 
 The separated configuration protects 100% of the interior chain's
 coherence while the edge qubit absorbs the entire noise budget. The
@@ -98,7 +98,7 @@ Each region at its optimum              Each region at its optimum
 (cathode: vacuum, anode: air)           (interior: low noise, edge: high)
         |                                       |
         v                                       v
-2.05x improvement                       139-360x improvement
+2.05x improvement                       139-360x (sim ε→0 ideal)
 ```
 
 The principle: **when a system has spatially contradictory requirements,

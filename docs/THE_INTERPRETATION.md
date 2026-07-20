@@ -365,7 +365,8 @@ improve quantum transport efficiency by 2-3×. A 2025 IBM experiment
 used Bayesian coupling optimization for +8%. Both optimize scalar
 parameters (one noise level, or coupling strengths). Nobody in this
 literature optimizes spatial dephasing profiles. Our concentrator
-formula (Section 8) is the first to do so, achieving 139-360× - two
+formula (Section 8) is the first to do so, achieving 139-360× (peak
+created Sum-MI in the ε→0 simulation ideal; ~2-3× on hardware) - two
 orders of magnitude beyond prior work.
 
 See: [KMS Detailed Balance](../docs/KMS_DETAILED_BALANCE.md),
@@ -442,7 +443,8 @@ C#-validated results (RK4 propagation):
 
 The ENAQT literature (Plenio & Huelga 2008+) optimizes a single uniform
 noise level and achieves 2-3×. We optimize WHERE the noise goes and
-achieve 139-360×. The difference is two orders of magnitude. Nobody in
+achieve 139-360× (peak created Sum-MI in the ε→0 simulation ideal;
+~2-3× on hardware). The difference is two orders of magnitude. Nobody in
 the literature had optimized spatial dephasing profiles before this work.
 
 The discovery path required the palindrome: without the SVD of the

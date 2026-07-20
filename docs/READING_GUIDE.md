@@ -160,7 +160,8 @@ decoded, and optimized.
 The climax of this path is twofold. First the concentrator formula: a
 single, counterintuitive insight (concentrate all the noise on one edge
 and protect the rest) that improves quantum information transfer by
-139-360 times. Then its successor, receiver engineering: choose the
+139-360 times (peak created Sum-MI, a transport metric, simulation
+ε→0 ideal; ~2-3× on hardware). Then its successor, receiver engineering: choose the
 *initial state* rather than the noise profile, and the advantage grows
 with system size, confirmed live on IBM hardware.
 
@@ -197,7 +198,8 @@ with this?", this is your path.
    concentrator formula: concentrate all noise on one edge qubit,
    protect the rest. The SVD (singular value decomposition: extract the dominant independent response directions) of the palindromic response matrix (10x
    improvement) led to numerical optimization (100x) led to analytical
-   insight (139-360x). First spatial dephasing optimization in the
+   insight (139-360x peak Sum-MI transport, sim ideal). First spatial
+   dephasing optimization in the
    literature. Beats 18 years of uniform noise optimization by two
    orders of magnitude.
 

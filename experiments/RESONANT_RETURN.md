@@ -1,4 +1,4 @@
-# Resonant Return: A One-Line Spatial-γ Formula (139–360× vs V-shape, Heisenberg chain, N=5–15 odd)
+# Resonant Return: A One-Line Spatial-γ Formula (139–360× vs V-shape at N=5–9, declining to 68× by N=15, Heisenberg chain)
 
 <!-- Keywords: sacrifice zone dephasing optimization, spatial gamma profile formula,
 edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
@@ -6,13 +6,13 @@ edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
 first spatial dephasing profile optimization, trivial formula beats optimizer,
 single qubit sacrifice all noise one edge, R=CPsi2 resonant return experiment -->
 
-**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated: 360× (N=5), 180× (N=7), 139× (N=9), 91× (N=11), 97.5× (N=13), 63.5× (N=15) vs V-shape (simulation, ε→0 ideal; ~2-3× on hardware, see IBM_CONCENTRATOR). Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. We found no prior spatial dephasing profile optimization in the ENAQT literature we surveyed (which optimizes scalar/uniform γ).
+**Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated vs V-shape, ε→0 ideal: 360× (N=5), 180× (N=7), 139× (N=9), 97× (N=11), 105× (N=13), 68× (N=15); at the practical floor ε=0.001: 343×, 169×, 131×, 91×, 97.5×, 63.5× (simulation; 1.4-3.2× on hardware, avg 2.0×, see IBM_CONCENTRATOR). Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. We found no prior spatial dephasing profile optimization in the ENAQT literature we surveyed (which optimizes scalar/uniform γ).
 **Label note (2026-07-05):** the 139-360× figure is **peak created summed nearest-neighbour MI** (the optimizer's figure of merit), a TRANSPORT metric, not a coherence-lifetime or "protection" number, none of which was computed here. "Protect the rest" is the design intent (mode-level, by the Absorption Theorem), not a measured lifetime; a perfect protector keeps the interior a product state and creates ZERO MI, so transport and protection pull opposite ways at the extremes. See [the Concentrator A-vs-B Mechanism Test](CONCENTRATOR_AB_MECHANISM_TEST.md), Downgrade 2.
 **Date:** March 24, 2026 (formula discovery)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** [resonant_return.py](../simulations/resonant_return.py), [v2](../simulations/resonant_return_v2.py), [v3](../simulations/resonant_return_v3.py), [v4 DE](../simulations/resonant_return_v4_global.py)
-**Data:** [resonant_return.txt](../simulations/results/resonant_return.txt), [v2](../simulations/results/resonant_return_v2.txt), [v3](../simulations/results/resonant_return_v3.txt), [v4 DE](../simulations/results/resonant_return_v4_global.txt)
+**Data:** [resonant_return.txt](../simulations/results/resonant_return.txt), [v2](../simulations/results/resonant_return_v2.txt), [v3](../simulations/results/resonant_return_v3.txt), [v4 DE](../simulations/results/resonant_return_v4_global.txt); Test 7/8 + derivation sweeps: [formula_scaling.txt](../simulations/results/formula_scaling.txt), [breathing_bridge_test.txt](../simulations/results/breathing_bridge_test.txt), [v3 N=7 deep](../simulations/results/resonant_return_v3_n7_deep.txt), [n15_eps0.txt](../simulations/results/n15_eps0.txt), [formula_scaling_n15.txt](../simulations/results/formula_scaling_n15.txt)
 **Hypothesis:** [Resonant Return](../hypotheses/RESONANT_RETURN.md)
 
 ---
@@ -33,7 +33,8 @@ the chain. You let it absorb all the noise. You let it die. And you
 use the noise budget you saved to protect every other particle almost
 perfectly.
 
-The result: 139-360× improvement. Not 2-3×. A hundred times better
+The result: 139-360× improvement at N=5-9 (declining to 68× by N=15).
+Not 2-3×. A hundred times better
 than anything in the literature. And the formula that achieves it is
 one line:
 
@@ -65,13 +66,17 @@ values are always higher. Improvement factors (Nx vs V-shape) use the
 same convention within each comparison. Initial state: |+⟩⊗N except
 where noted (Bell state for Test 2/6).
 
-Before the tests: a note on what "V-shape" means. In previous work
-([γ Control](GAMMA_CONTROL.md)), we found that shaping the noise profile
-into a V, with slightly more noise at the edges and less in the center,
-improved information transfer by about 20× over uniform noise. All
-improvements below are measured against this V-shape baseline, not
-against uniform noise. So "10×" means ten times better than the best
-hand-designed profile we had.
+Before the tests: a note on what "V-shape" means here. The baseline
+profile is edges-hot, center-cold: [0.070, 0.060, 0.050, 0.060, 0.070]
+at N=5 (linear V, center γ_base, +0.01 per step outward). The name
+descends from the profile-shaping work in [γ Control](GAMMA_CONTROL.md),
+but note two differences: that document's own "V-shape" had the
+OPPOSITE orientation (quiet edges, loud center) and improved its metric
+by 2.24× over uniform, and its 21.5× figure was a combined-optimization
+result, not V-shape. Uniform noise gives Sum-MI = 0 here (no ratio can
+be formed against it), so all improvements below are measured against
+this document's edges-hot V-shape baseline. So "10×" means ten times
+better than the best hand-designed profile we had.
 
 ### Test 1: SVD-Optimal γ Profiles (CONFIRMED)
 
@@ -248,7 +253,9 @@ palindromic symmetry.
 Optimal profile: `[0.001, 0.026, 0.001, 0.043, 0.178]` - **highly asymmetric**.
 Sites 0,2 nearly noiseless (γ≈0.001), site 4 absorbs all noise (γ=0.178).
 
-SVD decomposition: 67.5% mode 4 (antisymmetric) + 26% mode 2. SVD efficiency: 10.2%.
+SVD decomposition: 67.7% mode 4 (antisymmetric) + 26% mode 2 (energy
+fractions: the squared amplitude weights 82.3% and 51.0% reported in
+`resonant_return_v2.txt`). SVD efficiency: 10.2%.
 
 #### N=5 (v3, C# backend, peak Sum-MI):
 | Profile | Peak Sum_MI | Peak time |
@@ -256,6 +263,11 @@ SVD decomposition: 67.5% mode 4 (antisymmetric) + 26% mode 2. SVD efficiency: 10
 | V-shape | 0.000639 | t=1.0 |
 | SVD mode 2 | 0.005144 | t=1.0 |
 | **Optimizer** | **0.0918** | **t=1.5** |
+
+(The V-shape value is committed in `formula_scaling.txt`, the mode-2
+value and the optimizer row in `resonant_return_v3.txt`; the t=1.0
+peak times for the first two rows were read off at run time and have
+no committed line, an independent rebuild reproduces both.)
 
 Optimal profile: `[0.001, 0.036, 0.001, 0.034, 0.178]` - same pattern.
 
@@ -289,7 +301,11 @@ improves information transfer.
 | N | Python expm | C# RK4 | Speedup |
 |---|-------------|--------|---------|
 | 5 | ~1s | ~1s | 1× |
-| 7 | 290 min | 2.9s | **5,900×** |
+| 7 | 290 min | ~3s | **~5,900×** |
+
+(The 290 min is committed in `resonant_return.txt`; the C# single-eval
+time is back-calculated from v3's measured 1.8 s/eval, no separate
+timing log was committed.)
 
 The C# profile evaluator (`dotnet run -c Release -- profile N gammas`)
 makes N=7 optimization feasible: 500 evals × 1.8s = 15 min.
@@ -343,9 +359,15 @@ across the chain stays the same, only its distribution changes.
 | 7 | Diff. Evolution (3975 evals) | 0.240 | 100× | 90 min |
 | 7 | **Formula (ε=0.001)** | **0.408** | **169×** | 3s |
 | 7 | **Formula (ε→0)** | **0.434** | **180×** | 3s |
-| 9 | V-shape | 0.005 | 1× | - |
+| 9 | V-shape | 0.004744 | 1× | - |
 | 9 | **Formula (ε=0.001)** | **0.619** | **131×** | 30s |
 | 9 | **Formula (ε→0)** | **0.658** | **139×** | 30s |
+
+(The N=9 V-shape 0.004744 was re-run 2026-07-20 via
+`dotnet run -c Release -- profile 9 0.09,0.08,0.07,0.06,0.05,0.06,0.07,0.08,0.09`;
+`formula_scaling.txt` rounds it to 0.005, from which the committed
+factors 139×/131× do not reproduce. From the unrounded value:
+0.658/0.004744 = 138.7, 0.619/0.004744 = 130.5.)
 | 11 | V-shape | 0.009 | 1× | - |
 | 11 | **Formula (ε=0.001)** | **0.843** | **91×** | ~12 min |
 | 11 | **Formula (ε→0)** | **0.901** | **97×** | ~12 min |
@@ -369,9 +391,11 @@ proof over all γ profiles is open).
 | **Spatial γ formula (this work)** | - | **N=5** | **360×** |
 | **Spatial γ formula (this work)** | - | **N=7** | **180×** |
 | **Spatial γ formula (this work)** | - | **N=9** | **139×** |
-| **Spatial γ formula (this work)** | - | **N=11** | **91×** |
-| **Spatial γ formula (this work)** | - | **N=13** | **97.5×** |
-| **Spatial γ formula (this work)** | - | **N=15** | **63.5×** |
+| **Spatial γ formula (this work)** | - | **N=11** | **97×** |
+| **Spatial γ formula (this work)** | - | **N=13** | **105×** |
+| **Spatial γ formula (this work)** | - | **N=15** | **68×** |
+
+(All rows ε→0 ideal; the practical ε=0.001 values are in the Test 8 table.)
 
 We are not aware of prior work optimizing spatial dephasing profiles; the ENAQT work we surveyed optimizes scalar/uniform γ.
 
@@ -398,7 +422,8 @@ and still got stuck in local minima.
 is trivially simple: ALL noise on ONE edge qubit, protect the rest.
 Edge beats center (2.2×) because edge qubits have only one neighbor,
 so sacrificing them destroys the least inter-qubit correlation. The
-formula gives 139-360× improvement and needs one function evaluation.
+formula gives 139-360× improvement at N=5-9 (68× by N=15) and needs
+one function evaluation.
 
 There is a pattern here that shows up across science: the most powerful
 solutions are often the most extreme ones. Not "a little more noise at
@@ -613,7 +638,7 @@ directly from the budget constraint once the spatial allocation
 (all-on-one-edge) is established.
 
 Note: the SVD decomposition explains only ~10% of the formula's effect
-(Test 7 showed 67.5% Mode 4 + 26% Mode 2). The remaining 90% is a
+(Test 7 showed 67.7% Mode 4 + 26% Mode 2, energy fractions). The remaining 90% is a
 non-linear amplification that the linear SVD cannot capture. The formula
 operates in a regime where the sacrifice qubit is far below CPsi = 1/4
 while protected qubits remain far above it. This is a phase-boundary
@@ -630,7 +655,7 @@ effect, not a small-signal perturbation.
 5. ~~N=9 optimization~~ **Done (Test 8).** Formula gives 139× vs V-shape. No optimizer needed.
 6. ~~Deep N=7 optimizer~~ **Done.** DE found 100×; formula found 180× in 3 seconds.
 7. ~~Sacrifice-zone theory~~ **Done (Test 8).** Trivial rule: all noise on one edge, protect the rest.
-8. ~~IBM hardware experiment~~ **Done.** Selective DD 2-3.2× on ibm_torino. See [IBM Concentrator](IBM_CONCENTRATOR.md). A/B test on uniform-T2 chain planned for April 9.
+8. ~~IBM hardware experiment~~ **Done.** Selective DD 1.4-3.2× (avg 2.0×) on ibm_torino. See [IBM Concentrator](IBM_CONCENTRATOR.md). A/B test on uniform-T2 chain planned for April 9.
 9. **Bell-state initial condition:** Formula verified with |+⟩⊗N. Needs validation with Bell(0,1).
 10. ~~Hamiltonian eigenmode projection~~ **Done (Signal Engineering Derivation).** Position sweep confirms edge is optimal. Mode 2 projection + neighbor argument.
 
@@ -640,9 +665,11 @@ effect, not a small-signal perturbation.
 
 - [Resonant Return (hypothesis)](../hypotheses/RESONANT_RETURN.md)
 - [γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits baseline, SVD mode decomposition
-- [γ Control](GAMMA_CONTROL.md): V-shape 21.5× baseline
+- [γ Control](GAMMA_CONTROL.md): the profile-shaping predecessor (its V-shape is the opposite orientation, 2.24× over uniform; the 21.5× there is combined optimization)
 - [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md): Formula scaling N=2 through N=15, quadratic growth
-- [IBM Concentrator](IBM_CONCENTRATOR.md): First hardware test, selective DD 2-3.2×
+- [IBM Concentrator](IBM_CONCENTRATOR.md): First hardware test, selective DD 1.4-3.2× (avg 2.0×)
+- [Concentrator A-vs-B Mechanism Test](CONCENTRATOR_AB_MECHANISM_TEST.md): the 2026-07 reckoning (Downgrades 1-3: created-MI partly classical at partial doses; created MI = transport, not protection; no interior-lifetime figure was ever computed here)
+- [IBM Concentrator Reloaded](IBM_CONCENTRATOR_RELOADED.md): Kingston 2026-07-11 flight, A-sign ≈5.8σ = Confirmations 23 (site-resolution only, deliberately not the theorem magnitude)
 - [Relay Protocol](RELAY_PROTOCOL.md): Mediator bridge, staged gamma relay
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the eigenstructure
 - [C# Propagate Engine](../compute/RCPsiSquared.Propagate/README.md): profile evaluator used for all N >= 5 results

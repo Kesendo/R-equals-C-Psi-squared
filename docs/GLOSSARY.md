@@ -161,7 +161,7 @@ result. For the full discovery story, see
 **In plain language:**
 
 - **Concentrator** is the core idea: let one qubit at the end of the chain absorb all the noise, and protect every other qubit as much as possible. The edge qubit sacrifices nothing; it was never carrying the information, and it turns the noise it gathers into structure that lets the rest of the chain stay coherent. This simple strategy beats 18 years of published optimization research by a factor of 100. (The early name "sacrifice zone" was a misnomer, corrected 2026-03-28.)
-- **ENAQT** is the established research field that studies how noise can *help* quantum transport (counterintuitively, a little noise can improve information transfer). That field achieved 2-3× improvement by tuning the *amount* of noise. We achieved 139-360× by tuning *where* the noise goes. Nobody before this work had optimized the spatial distribution.
+- **ENAQT** is the established research field that studies how noise can *help* quantum transport (counterintuitively, a little noise can improve information transfer). That field achieved 2-3× improvement by tuning the *amount* of noise. We achieved 139-360× by tuning *where* the noise goes (in simulation, peak created Sum-MI, a transport metric; ~2-3× on hardware). Nobody before this work had optimized the spatial distribution.
 - **Sum-MI (mutual information)** measures how much information neighboring qubits share. Higher means more information is flowing through the chain. This is the score we used to judge whether a noise profile is good or bad.
 
 ---
@@ -280,9 +280,9 @@ They are not arbitrary; each one comes from the mathematics.
 | **0.886** | Best average fidelity for QST (star topology, J_SB/J_SA = 2:1, γ = 0.05). |
 | **0.039/γ** | Approximate crossing time t_cross for Bell+ under Heisenberg+dephasing. |
 | **0.976** | Correlation between mixed XY Pauli weight and XOR fraction (N≥3). |
-| **360×** | Concentrator formula vs V-shape at N=5 (C# RK4 validated). |
-| **180×** | Concentrator formula vs V-shape at N=7. |
-| **139×** | Concentrator formula vs V-shape at N=9. |
+| **360×** | Concentrator formula vs V-shape at N=5 (peak created Sum-MI, a transport metric, ε→0 sim; C# RK4 validated; ~2-3× hardware). |
+| **180×** | Concentrator formula vs V-shape at N=7 (same transport metric). |
+| **139×** | Concentrator formula vs V-shape at N=9 (same transport metric; the factor declines to 68× by N=15). |
 | **15.5 bits** | Channel capacity of spatial dephasing profile at 1% noise (γ as signal). |
 
 ---

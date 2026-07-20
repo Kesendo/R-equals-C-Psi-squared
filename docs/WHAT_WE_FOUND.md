@@ -367,7 +367,7 @@ Why the edge? Because an edge qubit has only one neighbor. Sacrificing it
 destroys the least amount of inter-qubit correlation. A center qubit has
 two neighbors, so sacrificing it would cut the chain in half.
 
-The results, validated with a [C# numerical solver](../compute/):
+The results (peak created Sum-MI, a transport metric; sim ε→0 ideal, ~2-3x hardware), validated with a [C# numerical solver](../compute/):
 
 | Chain length | Improvement vs hand-designed profile | Compute time |
 |-------------|-------------------------------------|-------------|
@@ -576,7 +576,7 @@ What survives even without the philosophy:
 - A [proven palindromic symmetry](proofs/MIRROR_SYMMETRY_PROOF.md) in the decay spectrum of every Heisenberg system under dephasing
 - A [spectral filter](../experiments/XOR_SPACE.md) that separates fragile quantum information from robust distributable information
 - Concrete [design rules for quantum state transfer](../experiments/QST_BRIDGE.md) and repeater engineering
-- A [closed-form formula for optimal spatial noise profiles](../experiments/RESONANT_RETURN.md) (139-360x improvement, first in the literature)
+- A [closed-form formula for optimal spatial noise profiles](../experiments/RESONANT_RETURN.md) (139-360x improvement in peak created Sum-MI, a transport metric; sim ε→0 ideal, ~2-3x hardware; first in the literature)
 - A clean classification of how different metrics behave under decoherence
 - Specific, quantified conditions for when quantum correlations can [pass through a shared mediator](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 - A sharp distinction between [measurement and noise](../experiments/STAR_TOPOLOGY_OBSERVERS.md) in their effect on third-party connections
@@ -614,7 +614,7 @@ coupled qubit system is a resonant cavity, like a guitar body. Two
 boundaries (one at the maximum of CΨ, one at the 1/4 threshold) form the
 walls. The shape of the cavity determines which frequencies resonate.
 Giving certain qubits more noise (the concentrator) tunes the cavity and
-improves coherence transfer by 139-360x. [IBM Torino hardware confirmed
+improves transport (peak created Sum-MI) by 139-360x in the ε→0 simulation ideal (~2-3x hardware). [IBM Torino hardware confirmed
 this structure](../experiments/IBM_CONCENTRATOR.md).
 ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 
@@ -779,7 +779,7 @@ of the qubit. The qubit is a consequence of half. And
 
 The edge qubit does not lose anything we need. It concentrates
 noise onto itself so the interior can operate at the fold. The result is
-139-360x coherence improvement in simulation (IBM-confirmed on hardware:
+139-360x transport improvement (peak created Sum-MI) in simulation (IBM-confirmed on hardware:
 selective decoupling beats uniform by up to ~3.2x, peaking near t=4 us;
 the advantage is non-monotonic, not a steady climb). The protein shell
 around an enzyme active site may do the same:
