@@ -36,8 +36,13 @@ boundary on quantum hardware.
 
 ## Background: What CΨ = 1/4 Is
 
-A qubit under free decoherence loses its phase coherence at rate γ = 1/(πT2*).
-The off-diagonal elements of the density matrix decay as exp(−γt). The product
+A qubit under free decoherence loses its phase coherence on the timescale
+T2*: the off-diagonal elements of the density matrix decay as exp(−t/T2*)
+(in the repo's rate convention γ = 1/(2T2*), the coherence decays as
+e^(−2γt); both locked predictions below reproduce exactly under this
+convention with the T1 population term, committed check
+[ibm_run3_crossing_check.py](../simulations/ibm_run3_crossing_check.py)).
+The product
 CΨ = Tr(ρ²) × L₁/(d−1) combines purity (how mixed the state is) with coherence
 (how much phase information remains). It starts above 1/4 for any state with
 sufficient coherence and decays below 1/4 at a crossing time t* determined by
