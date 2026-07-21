@@ -192,17 +192,19 @@ See: [Incompleteness Proof](INCOMPLETENESS_PROOF.md),
 
 **Dephasing noise is a readable information channel.** The spatial profile
 of dephasing rates γ₁...γ_N across a spin chain carries structured,
-decodable information. A 5-qubit Heisenberg chain at 1% noise achieves
-15.5 bits channel capacity (of 16.6 theoretical max) with 100%
-classification accuracy across 20 spatial profiles. SVD decomposition
+decodable information. A 5-qubit Heisenberg chain at 1% measurement
+noise has 15.5 bits channel capacity, with 100% classification accuracy
+on a 4-symbol alphabet at zero measurement noise. SVD decomposition
 reveals 5 independent information modes, each corresponding to a
-spatial frequency. A 21.5× optimization (V-shape gradient, dynamic
-decoupling, time-resolved decoding) improves mutual information from
-baseline.
+spatial frequency (condition number 14.8). A 21.5× widening of the
+minimum template distance comes from extended features, time-series
+measurement, and higher γ contrast combined.
 
-The palindromic spectral structure is the antenna: the paired
-eigenvalues create complementary sensitivity patterns that make the
-external γ profile decodable from within.
+The palindromic spectral structure is the reading frame: the paired
+immune/decaying sectors say where the dephased information sits. The
+full rank of the response matrix itself is generic for independent
+local rate perturbations and survives palindrome breaking
+([gamma_channel_rank_probe.py](../../simulations/gamma_channel_rank_probe.py)).
 
 **Analytical formula discovered.** SVD of the palindromic response matrix
 identified mode 2 (edge-hot, center-cold) as optimal direction (6-10x

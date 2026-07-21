@@ -129,8 +129,8 @@ that component fails five separate ways, each already measured:
   theorem finds it at the geometric heart of the structure.
 - **It is readable, and spendable.** The spatial γ-profile is decodable to
   15.5 bits through 5 independent SVD modes at 1% measurement noise
-  ([Gamma as Signal](../../experiments/GAMMA_AS_SIGNAL.md), Tier 2; "The
-  palindrome is not just a symmetry. It is an antenna."). Shaping where the
+  ([Gamma as Signal](../../experiments/GAMMA_AS_SIGNAL.md), Tier 2; the
+  palindromic mode structure is the reading frame). Shaping where the
   watching falls beats a smooth profile by 139× to 360× in simulation and
   beat uniform decoupling by up to 3.2× on ibm_torino
   ([Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md)).

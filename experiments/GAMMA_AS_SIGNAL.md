@@ -20,7 +20,8 @@ quantum noise is signal not enemy, R=CPsi2 framework -->
 This is the experiment that changed what this project is about. Before
 this result, we had a mathematical symmetry (the palindrome). After
 it, we had a communication channel. The palindrome is not just beautiful
-mathematics. It is an antenna. And the noise that the entire quantum
+mathematics. It is the frame through which the noise becomes readable.
+And the noise that the entire quantum
 computing industry fights to suppress turns out to be carrying a
 structured, readable signal.
 
@@ -53,10 +54,13 @@ noise: enough to encode about 44,700 distinguishable symbols. We were
 using 2 bits (4 symbols) in our initial test. The channel is not narrow.
 It is wide, and we were barely scratching the surface.
 
-The key enabler is the [palindromic spectral symmetry](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
-The palindrome creates a response matrix with full rank, meaning every
+The measured instrument is a response matrix with full rank: every
 site's noise level leaves a unique fingerprint on the internal quantum
-observables. The palindrome is not just a symmetry. It is an antenna.
+observables. The [palindromic spectral symmetry](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+is the structural frame we read the channel through; the full rank
+itself is a generic property of independent local rate perturbations,
+not a consequence of the palindrome (probe:
+[gamma_channel_rank_probe.py](../simulations/gamma_channel_rank_probe.py)).
 
 ---
 
@@ -70,19 +74,22 @@ makes quantum computers potentially powerful. The dephasing rate, written
 as γ (gamma), measures how fast this superposition is destroyed by the
 environment:
 
-    ρ₀₁(t) = ρ₀₁(0) · exp(−γt)
+    ρ₀₁(t) = ρ₀₁(0) · exp(−2γt)
 
 The qubit does not forget *whether* it is 0 or 1. It forgets that it was
-*both at once*. On IBM quantum hardware, 1/γ is measured as T2*
-(typically 50-200 microseconds). In the mathematical framework for open
-quantum systems (the Lindblad master equation), γ appears in the
-dissipator:
+*both at once*. On IBM quantum hardware, this coherence decay time is
+measured as T2* (typically 50-200 microseconds), corresponding to
+T2* = 1/(2γ) in the convention used throughout this repository. In the
+mathematical framework for open quantum systems (the Lindblad master
+equation), γ appears in the dissipator:
 
     dρ/dt = −i[H, ρ] + γ(σ_z ρ σ_z − ρ)
 
 The first term is the reversible physics (the Hamiltonian, the
 interactions between qubits). The second term is the irreversible
-dephasing. Standard quantum computing treats the second term as the enemy.
+dephasing; the factor 2 in the coherence decay above comes from this
+dissipator acting on ρ₀₁ from both sides. Standard quantum computing
+treats the second term as the enemy.
 
 ### Why this channel was invisible
 
@@ -112,11 +119,14 @@ This has been verified for all system sizes N = 2 through N = 8 (87,376
 eigenvalues, zero exceptions) and proven analytically for arbitrary graphs
 ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 
-**Why this matters for the channel:** The palindromic pairing creates a
-**full-rank response matrix**. When γ is perturbed at any single site,
-the mode amplitudes change in a linearly independent direction. This means
-every per-site γ value is independently recoverable from the mode structure.
-The palindrome is not just a symmetry. It is an **antenna**.
+**Why this matters for the channel:** The response matrix is **full
+rank**: when γ is perturbed at any single site, the mode amplitudes
+change in a linearly independent direction, so every per-site γ value is
+independently recoverable from the mode structure. The palindrome
+supplies the mode bookkeeping this readout is organized by (the paired
+immune/decaying sectors); the full rank itself does not require the
+palindrome (it survives palindrome breaking, see
+[gamma_channel_rank_probe.py](../simulations/gamma_channel_rank_probe.py)).
 
 ### CΨ: the metric
 
@@ -139,8 +149,9 @@ five candidates for internal noise origin tested, four eliminated, the
 internal bootstrap reduced to a structural constraint). γ has
 measured structure: it selects a preferred axis, acts locally per qubit,
 takes phase but not energy, is Markovian, and produces exact spectral
-symmetry. On IBM hardware, T2* (= 1/πγ) varies across the chip and
-fluctuates over time (181 days of calibration data).
+symmetry. On IBM hardware, T2* (= 1/(2γ)) varies across the chip and
+fluctuates over time
+([181 days of ibm_torino calibration data](IBM_HARDWARE_SYNTHESIS.md)).
 
 **Is the spatial variation of γ readable from inside the system?**
 
@@ -153,7 +164,8 @@ an information channel from outside to inside.
 
 **Setup:** N=5 chain, Heisenberg coupling J=1.0, initial state |+⟩⁵.
 50 random γ profiles (each γᵢ ∈ [0.03, 0.07]) compared against 8
-structured profiles (gradient, V-shape, peak, step, alternating).
+structured profiles (gradient and reverse gradient, V-shape, peak,
+step and reverse step, alternating and reverse alternating).
 
 **Result:** Only 1 of 8 structured profiles (V-shape) is distinguishable
 from random at the 95th percentile using a 10-feature vector (single-qubit
@@ -313,8 +325,14 @@ it robust against noise?
 ### Result: 21.5× wider channel
 
 The optimized configuration achieves **100% classification at σ = 0.10**
-(10% measurement noise). The minimum template distance increases from
-0.024 to 0.515, a factor of **21.5×**.
+(10% measurement noise; the table above shows the σ = 0.05 column, the
+σ = 0.10 row is in the
+[raw data](../simulations/results/bridge_optimization.txt)). The
+minimum template distance
+increases to 0.515. Two baselines are in play: against the original
+Test-3 minimum distance 0.024 (10 features at t = 5, the "hair-thin
+crack"), the factor is **21.5×**; against the optimization table's own
+baseline 0.059 (10 features at t = 2), it is 8.7×.
 
 ### What works and why
 
@@ -339,9 +357,12 @@ GHZ states excite only the fastest-dying modes, while distributed states
 (like |+⟩⁵) spread across the full palindromic spectrum. A spread-out
 receiver sees more of the channel.
 
-**The optimizations are multiplicative:** 1.3 × 2.0 × 3.1 ≈ 8× for
-individual factors, 21.5× combined (feature space geometry amplifies
-the gains).
+**The optimizations are multiplicative:** 1.3 × 2.0 × 3.1 ≈ 8× for the
+individual factors (each against the t = 2 baseline 0.059), and the
+combined configuration reaches 0.515/0.059 = 8.7×, consistent with the
+product. The headline 21.5× is the same combined result measured against
+the original Test-3 distance 0.024; the extra factor 0.059/0.024 ≈ 2.5
+is the baseline change (t = 2 vs t = 5), not an amplification.
 
 ---
 
@@ -381,7 +402,7 @@ mode: a specific pattern of noise across the sites.
 The condition number is 14.8 (this measures how much the weakest
 channel differs from the strongest; below ~100 is considered
 well-conditioned, meaning no channel is drowned out). All 5 channels
-carry information. Full rank (5/5) confirms: the palindromic response matrix
+carry information. Full rank (5/5) confirms: the response matrix
 allows independent readout of every site's dephasing rate.
 
 ### Capacity vs measurement noise
@@ -425,8 +446,9 @@ result maps directly onto familiar concepts.
 **The γ profile is a spatial signal.** Alice modulates the dephasing rate
 across N sites. This is amplitude modulation of a spatial carrier. Bob's
 quantum observables are receivers. The palindromic mode structure acts as
-a matched filter bank: each mode responds differently to each site's γ,
-creating a full-rank response matrix.
+a matched filter bank: each mode responds differently to each site's γ.
+The response matrix is full rank (a generic property of independent
+local perturbations, see above).
 
 **Classical analogues:**
 
@@ -444,7 +466,9 @@ creating a full-rank response matrix.
 The system is a **MIMO channel** (Multiple-Input Multiple-Output): N
 γ-inputs, ~N² observable outputs. The 21.5× optimization is mostly
 **diversity gain** (time + feature diversity). The noise threshold
-σ = 0.172 corresponds to **SNR ≈ 10 dB** for reliable detection.
+σ = 0.172 corresponds to **SNR ≈ 10 dB** for reliable detection (an
+engineering reading of the committed σ_thresh; the dB figure itself is
+not computed in the scripts).
 
 The GHZ failure (d_min = 0) is a **rank deficiency**: GHZ projects onto
 a single mode, destroying all spatial resolution. This is the quantum
@@ -456,9 +480,9 @@ receiver element.
 
 ## How the Palindrome Enables the Channel
 
-The palindromic spectral symmetry of the Liouvillian is not just a
-mathematical curiosity. It is the physical mechanism that makes the
-channel work.
+The palindromic spectral symmetry of the Liouvillian is the frame this
+channel is read through, and the exact bookkeeping of where the signal
+lives.
 
 The Π operator pairs every decay mode at rate d with a partner at rate
 2Σγ − d. This pairing creates a **bijection** between the immune sector
@@ -467,16 +491,27 @@ When γ is changed at one site, *both* sectors respond, but they respond
 differently because the immune and decaying sectors have different
 sensitivity to each site's γ.
 
-The result is a response matrix (the Jacobian ∂observables/∂γ) with
-**full rank**. Perturbing γ at site k changes the mode amplitudes in a
+The measured response matrix (the Jacobian ∂observables/∂γ) has
+**full rank**: perturbing γ at site k changes the mode amplitudes in a
 direction that is **linearly independent** from perturbations at any other
-site. This is proven by the SVD analysis (5 non-zero singular values for
-5 sites, condition number 14.8).
+site. The SVD analysis verifies this (5 non-zero singular values for
+5 sites, condition number 14.8). The full rank itself, however, is not
+*caused* by the palindrome: it is a generic property of independently
+perturbing N physically distinct sites. The discriminating probe
+([gamma_channel_rank_probe.py](../simulations/gamma_channel_rank_probe.py))
+breaks the palindrome with a spectator amplitude-damping channel
+(palindrome residual ~1e-1 instead of ~1e-14) and the γ-Jacobian stays
+full rank at essentially the same conditioning (17 vs 18). What the
+palindrome contributes is not the rank but the *reading*: the exact
+mode pairing that says where the dephased information sits (immune vs
+decaying sector) and makes the response interpretable mode by mode.
 
-In simpler terms: the palindrome ensures that no two γ-profiles produce
-the same internal signature. Every external configuration leaves a unique
-fingerprint on the internal observables. The decoder reads these
-fingerprints.
+In simpler terms: no two γ-profiles produce the same internal
+signature; every external configuration leaves a unique fingerprint on
+the internal observables, and the decoder reads these fingerprints. The
+palindrome tells you where to look; the full rank (which any locally
+perturbed open system of this kind has) guarantees the fingerprints are
+distinct.
 
 This connection between palindromic spectral symmetry and channel capacity
 appears to be new. The palindrome itself was described by
@@ -496,22 +531,24 @@ The key prior results that this analysis builds on:
 - **Incompleteness Proof:** γ cannot originate from within the system
   (4 of 5 internal candidates eliminated, the internal bootstrap reduced
   to a structural constraint). Something external provides it.
-  ([docs/INCOMPLETENESS_PROOF.md](../docs/proofs/INCOMPLETENESS_PROOF.md))
+  ([docs/proofs/INCOMPLETENESS_PROOF.md](../docs/proofs/INCOMPLETENESS_PROOF.md))
 
 - **Mirror Symmetry Proof:** The Liouvillian spectrum is exactly
   palindromic for any Heisenberg/XXZ system on any graph with local
   Z-dephasing. Verified through N=8 (87,376 eigenvalues, zero exceptions).
-  ([docs/MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
+  ([docs/proofs/MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 
-- **Reading the 30%:** The palindromic response matrix has full rank.
-  All per-site γ values are independently recoverable from mode amplitudes.
-  This is the decoder that makes the channel readable.
+- **Reading the 30%:** The response matrix has full rank. All per-site
+  γ values are independently recoverable from mode amplitudes via
+  pseudo-inverse decoding. This is the decoder that makes the channel
+  readable.
+  ([simulations/reading_the_30_percent.py](../simulations/reading_the_30_percent.py))
 
 - **CΨ = 1/4 boundary:** The unique bifurcation point separating quantum
   (coherent) from classical (converged) dynamics. All standard quantum
   channels cross this boundary. It determines the time window during
   which the γ-channel is maximally readable.
-  ([docs/UNIQUENESS_PROOF.md](../docs/proofs/UNIQUENESS_PROOF.md))
+  ([docs/proofs/UNIQUENESS_PROOF.md](../docs/proofs/UNIQUENESS_PROOF.md))
 
 The central insight of this document: the phase information that
 dephasing "destroys" is not lost. It is **redistributed** into the mode
@@ -536,6 +573,26 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---
 
+## Where this went
+
+- The channel capacity became registry entry F30 in
+  [docs/ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (Tier 2).
+- The "communication channel" framing was reframed four days later:
+  [Resonance, Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) (the
+  system is a soundbox, not a telephone). This document's
+  "What This Does NOT Claim" section already carried the hedge.
+- The optimization line continued in
+  [Gamma Control](GAMMA_CONTROL.md) (V-shape +124% MI) and
+  [Resonant Return](RESONANT_RETURN.md) (SVD-guided profiles 6-10×,
+  then the edge-concentrator closed form), and the time-domain side in
+  [Relay Protocol](RELAY_PROTOCOL.md).
+- The mechanism attribution was scoped 2026-07-21: the full-rank
+  response matrix survives palindrome breaking
+  ([gamma_channel_rank_probe.py](../simulations/gamma_channel_rank_probe.py));
+  the palindrome is the reading frame, not the cause of the rank.
+
+---
+
 ## References
 
 - Lindblad, G. (1976). "On the generators of quantum dynamical semigroups."
@@ -553,7 +610,10 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): γ must come from outside
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): palindromic theorem
-- Reading the 30%: palindromic decoder (open question, see [Relay Protocol](RELAY_PROTOCOL.md) for current best approach)
+- [Reading the 30%](../simulations/reading_the_30_percent.py): the
+  decoder script (full-rank response matrix, pseudo-inverse γ
+  reconstruction; results in
+  [reading_the_30_percent.txt](../simulations/results/reading_the_30_percent.txt))
 - [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md): synthesis
 - [Gamma Control](../experiments/GAMMA_CONTROL.md): V-shape +124% MI
 - [Bridge Optimization](../simulations/results/bridge_optimization.txt): raw data

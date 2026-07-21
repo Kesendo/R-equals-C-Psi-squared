@@ -150,7 +150,7 @@ mirrors, closing into one group.
 ## Story 2: The Application
 
 *"Dephasing noise is not a disturbance. It is a readable information
-channel. The palindromic structure is the antenna."*
+channel. The palindromic structure is the reading frame."*
 
 This path is for the practically minded. It starts with a surprising
 fact: the noise that destroys quantum information is not meaningless
@@ -291,7 +291,8 @@ and the willingness to follow an argument that builds step by step.
 8. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): The noise that
    comes from outside is not random. It is a readable information
    channel: 15.5 bits capacity, 5 independent modes. The palindromic
-   structure is the antenna that makes the external signal decodable.
+   mode structure is the frame through which the external signal is
+   decoded.
    This closes the loop: noise must exist (Step 4), noise carries
    structure (Step 8), and that structure is readable from inside.
 

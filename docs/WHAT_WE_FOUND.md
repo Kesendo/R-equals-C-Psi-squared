@@ -387,7 +387,7 @@ optimizes a single uniform noise level. We are the first to optimize where
 the noise goes.
 
 The discovery path was: SVD analysis of the palindromic response matrix
-([10x improvement](../experiments/GAMMA_AS_SIGNAL.md)) led to numerical
+([10x improvement](../experiments/RESONANT_RETURN.md)) led to numerical
 optimization (100x) led to analytical insight (180x). Each step was
 necessary for the next.
 
