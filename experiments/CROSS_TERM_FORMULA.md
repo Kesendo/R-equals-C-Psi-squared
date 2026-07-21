@@ -4,7 +4,8 @@
 relative orthogonality sqrt((N-2)/(N*4^(N-1))), bond-sum rule, spectator
 variance, Heisenberg Z-dephasing universal constant, EQ-011 -->
 
-**Status:** Tier 2 (numerical confirmation of proven formula)
+**Status:** Tier 2 record (numerical confirmation; the formula itself is
+Tier 1, proven in [the cross-term formula proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md))
 **Date:** April 13, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Script:** [cross_term_formula_check.py](../simulations/cross_term_formula_check.py)
@@ -38,10 +39,18 @@ Z-dephasing at rate gamma per site:
 
     R(N) = ||{L_H, L_Dc}|| / (||L_H|| * ||L_Dc||) = sqrt((N-2) / (N * 4^(N-1)))
 
+Here L_H = -i[H, .] is the Hamiltonian superoperator, L_D is the
+Z-dephasing dissipator, L_Dc = L_D + N*gamma*I is the CENTERED
+dissipator (shifted so its Pauli-basis spectrum is symmetric around
+zero: eigenvalue gamma*(N - 2*w_XY) on a Pauli string of XY-weight
+w_XY), {.,.} is the anti-commutator, and all norms are Frobenius.
+
 Equivalently: R(N)^2 = 4(N-2) / (N * 4^N).
 
 This is exact for all N, all topologies, all gamma, all coupling
-strength J.
+strength J (gamma and J cancel analytically in the ratio; the proof
+carries the general statement, the tables below confirm chain N=2-6
+plus complete N=5 at gamma = 0.05, J = 1).
 
 ---
 
@@ -57,7 +66,8 @@ strength J.
 | 6 | chain | 0.025515518154 | 0.025515518154 | 6.94e-17 |
 
 All deviations are at machine epsilon. Topology independence confirmed
-at N=5 (chain = complete to 4.2 * 10^-17).
+at N=5 (chain = complete to 4.2 * 10^-17, the direct difference printed
+in the [log](../simulations/results/cross_term_formula/cross_term_formula.txt)).
 
 ### Refutation of the old conjecture
 
@@ -86,7 +96,9 @@ preceding sections.
 
 In brief: the identity ||{L_H, L_Dc}||^2 = 4*gamma^2*(N-2)*||L_H||^2
 follows from four structural properties: (a) L_Dc is diagonal in the
-Pauli basis, (b) every shadow-balanced bond transition satisfies the
+Pauli basis, (b) every shadow-balanced bond transition (shadow-balanced:
+each bond term α_iβ_j has both Paulis in the same dephasing class,
+{X,Y} or {I,Z}; covers Heisenberg XXX, XXZ, XY, Ising, DM) satisfies the
 bond-sum rule w_XY(a) + w_XY(b) = 2 at the bond sites, (c) the
 spectator variance is N-2, (d) every non-identity Pauli coupling
 changes both bond sites, so overlapping bonds have disjoint supports.
@@ -101,7 +113,10 @@ R^2 = (N-2)/(N * 4^(N-1)). The proof is fully analytical (Tier 1).
 
 At N=2, the formula gives R = 0. The bond IS the system: there are no
 spectator sites, so (N-2) = 0. Oscillation and cooling are perpendicular.
-The Pythagorean decomposition L_c^2 = L_H^2 + (L_D + Sg*I)^2 holds
+The Pythagorean decomposition L_c^2 = L_H^2 + (L_D + Sg*I)^2 (with
+L_c the closed-loop combination and Sg = N*gamma the centering shift,
+so L_D + Sg*I = L_Dc; see
+[Primordial Qubit Algebra](PRIMORDIAL_QUBIT_ALGEBRA.md)) holds
 exactly.
 
 ### Why N >= 3 breaks it
@@ -125,7 +140,7 @@ norm scaling.
 
 ### The formula as a function of N
 
-| N | R | R^2 | Physical meaning |
+| N | R | R^2 | Physical meaning (angle = arcsin R) |
 |---|---|-----|-----------------|
 | 2 | 0 | 0 | Exact Pythagorean: oscillation perpendicular to cooling |
 | 3 | 1/sqrt(48) | 1/48 | First spectator bends the right angle by ~8.3 degrees |
@@ -148,8 +163,8 @@ faster than the cross-term).
 | Old conjecture 1/sqrt(N*2^(N+1)) | **Refuted** at N=5 (deviation 7.5e-3) |
 | Correct formula sqrt((N-2)/(N*4^(N-1))) | **Confirmed** at N=2-6 (machine precision) |
 | Topology independence | **Confirmed** at N=5 (chain = complete) |
-| Key identity \|\|{L_H,L_Dc}\|\|^2 = 4gamma^2(N-2)\|\|L_H\|\|^2 | **Proven** (non-overlapping); **verified** (overlapping) |
-| Bond-sum rule (w_ij(a)+w_ij(b)=2) | **Verified** at N=3,4,5 (0 violations) |
+| Key identity \|\|{L_H,L_Dc}\|\|^2 = 4gamma^2(N-2)\|\|L_H\|\|^2 | **Proven** (all bond configurations; the proof's Step 4 closes the overlapping case analytically, the complete-graph run is the independent check) |
+| Bond-sum rule (w_XY(a)+w_XY(b)=2 at bond sites) | **Verified** at N=3,4,5 (0 violations) |
 | \|\|L_Dc\|\|^2 = gamma^2 * 4^N * N | **Proven** and **verified** |
 
 ---
@@ -160,10 +175,13 @@ faster than the cross-term).
    orthogonality R(N) = sqrt((N-2)/(N*4^(N-1))) is exact, not
    approximate. It holds for all N, all topologies, all parameters.
 
-2. **The formula has a proof** (rigorous for non-overlapping bonds,
-   numerically verified for overlapping bonds). The proof rests on three
-   structural properties: (a) L_Dc is diagonal in the Pauli basis,
-   (b) the Heisenberg bond-sum rule, (c) the spectator variance is N-2.
+2. **The formula has a fully analytical proof** (all bond
+   configurations; the overlapping case was closed the same day via the
+   disjoint-support lemma). The proof rests on four structural
+   properties: (a) L_Dc is diagonal in the Pauli basis, (b) the
+   Heisenberg bond-sum rule, (c) the spectator variance is N-2,
+   (d) bond transitions have disjoint Pauli-basis supports even when
+   bonds share a site.
 
 3. **The old conjecture was a coincidence.** The formulas 1/sqrt(N*2^(N+1))
    and sqrt((N-2)/(N*4^(N-1))) agree at N=3 and N=4 because
@@ -174,6 +192,30 @@ faster than the cross-term).
    terms, even though the absolute cross-term grows. The irreversibility
    (cross-term) is always present at N >= 3, but its relative
    contribution to L_c^2 is exponentially suppressed.
+
+---
+
+## Where this went
+
+- The formula is registry entry F49 in
+  [docs/ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (Tier 1,
+  proven), with siblings F48 (Pythagorean decomposition), F49b
+  (the centered-dissipator norm ||L_Dc||² = γ²·4^N·N, the proof's
+  Lemma 1, typed in Core), F49c
+  (shadow-crossing couplings X_iZ_j/Y_iZ_j: the bond-site variance
+  becomes 1 instead of 0, shifting the numerator N−2 → N−1,
+  [proof](../docs/proofs/PROOF_CROSS_TERM_CROSSING.md)), and
+  F49d (non-uniform γ: the uniform-γ restriction is real, site-dependent
+  rates add a bond-asymmetry term (γ_i−γ_j)²,
+  [proof](../docs/proofs/PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md), typed
+  as F49NonUniformCrossTermClaim).
+- The scope boundary is the coupling class, not the graph: XXZ, XY,
+  Ising and DM obey the same formula (shadow-balanced); shadow-crossing
+  couplings shift the numerator (F49c), and single-site field terms and
+  non-Pauli noise fall outside.
+- [Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)
+  uses the cross-term as its algebraic engine (reframed 2026-06-22, the
+  arrow-of-time reading is Tier 3).
 
 ---
 
