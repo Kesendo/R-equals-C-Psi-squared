@@ -7,7 +7,18 @@ external full run. Single Bell⁺ pair, sampled densely right across the cusp.
 
 | File | Description |
 |------|-------------|
-| `cusp_precision_ibm_kingston_20260426_115939.json` | The 19-delay trajectory: per-delay real CΨ, the F25 fit, and the pointwise residuals |
+| `cusp_precision_ibm_kingston_20260426_115939.json` | The 19-delay trajectory: per-delay real CΨ, the F25 fit, and the pointwise residuals (the headline run) |
+| `cusp_precision_ibm_kingston_20260426_115053.json` | The same morning's second run, same pair (14,15), 17 delays over the WIDE window 2.26–39.6 μs (job `d7mtuoraq2pc73a24pjg`): covers the April-16 crossing region and finds the coherence already dead there (CΨ ≈ 0.05 at 22.6 μs); its F25 fit γ_fit = 0.015039 is the source of the headline run's γ_calib = 0.015 |
+| `cusp_precision_ibm_kingston_20260426_113534.json` | The morning's first run, auto-selected pair (149,150), 15 delays around its echo-predicted 25.0 μs (job `d7mtnmlqrg3c738ln1c0`): the same collapse on a second pair, γ_fit = 0.0269 = 18.0× its echo-γ |
+
+The three runs are one same-day chain: run 1 (pair 149,150, echo-predicted window)
+found the coherence dead across its whole sampled window (CΨ ≈ 0.01–0.02
+over 12.5–37.6 μs); run 2 (pair 14,15 forced, wide window)
+measured the fast decay across 2.3–39.6 μs and fit γ = 15.04/ms; run 3 placed 19
+dense delays from that fit (`--gamma-override 15.0`) and confirmed γ_fit = 14.98/ms
+(RMS 0.0097). The γ_calib = 0.015 in the headline JSON is therefore a same-day
+in-situ fit, not a calibration value; the pair's T2-echo γ that day was 0.00165/μs,
+which is the 9.08× gap tracked in EQ-025.
 
 ## Why this run is here
 

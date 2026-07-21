@@ -41,7 +41,7 @@ class Confirmations:
             'observable': 'CΨ(t) for Bell+',
             'predicted_value': 'F25: CΨ(t) = f·(1+f²)/6 with f = exp(-4·γ·t)',
             'measured_value': 'RMS residual 0.0097 vs in-situ γ_fit',
-            'hardware_data': 'data/ibm_cusp_slowing_april2026/ (April 26 precision run)',
+            'hardware_data': 'data/ibm_cusp_precision_april2026/cusp_precision_ibm_kingston_20260426_115939.json',
             'experiment_doc': 'experiments/CRITICAL_SLOWING_AT_THE_CUSP.md',
             'framework_primitive': 'F25 closed-form CΨ(t)',
             'description': 'Bell+ trajectory through CΨ=1/4 cusp confirmed point-by-point on Kingston (19 delay points, qubits 14-15).',

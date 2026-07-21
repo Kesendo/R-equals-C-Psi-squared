@@ -399,10 +399,29 @@ pair (14-15) crossing at t ≈ 22.7 μs, consistent with its
 T2-echo-derived γ to within ~12%. Ten days later the dense run finds
 the same pair crossing at 2.49 μs, an effective dephasing rate 9×
 higher, while the pair's reported T2-echo stayed stable (CV 13%). The
-two measurements cannot both reflect the same effective γ; whether the
-change is day-to-day drift the calibration metric does not see, a
-protocol difference between the sparse and dense runs, or something
-structural, is open and tracked in
+two measurements cannot both reflect the same effective γ. Three
+sub-questions were settled from the full April-26 run chain and an
+offline protocol check (2026-07-22; the same-morning runs are committed
+beside the headline JSON, see the
+[data README](../data/ibm_cusp_precision_april2026/README.md)):
+the γ = 15/ms the dense run was placed around is a same-day in-situ
+fit from a second run on the same pair over the WIDE window
+2.26–39.6 μs (which covered the April-16 crossing region and found the
+coherence dead there, CΨ ≈ 0.05 at 22.6 μs), not a carried-over
+override; the collapse was not unique to this pair that morning (the
+first run's auto-selected pair (149,150) decayed at 18× its echo
+rate); and
+the two runs' delay implementations are equivalent (both bare native
+delay, no dynamical decoupling; the tomography path's transpile
+preserves the μs delays intact, checked offline with current
+qiskit-experiments on a simulated Heron r2 backend, not the April
+library versions on Kingston). What remains open is the day-level
+physics: a
+free-evolution (T2*-class) rate change the Hahn-refocused T2-echo does
+not see, on at least two pairs at once, with a pair-dependent
+multiplier (9× and 18× the same morning) — and no Ramsey T2* is
+recorded for Kingston anywhere in the repo, so the hypothesis cannot be
+closed from committed data. Tracked in
 [Emerging Questions](../review/EMERGING_QUESTIONS.md) (the 9.08×
 thread). Both records stand as measured.
 
