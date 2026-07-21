@@ -58,10 +58,10 @@ public sealed class Restless : GameObject
                 var p = new Pair(world, i, jj, gamma);   // the atom: its own disagreement and its own rate
                 if (siteGammas != null)
                 {
-                    double rate = 0.0;                   // site-resolved watching: -2 sum_l gamma_l * (bit l of i^j)
-                    int diffbits = i ^ jj;
+                    double rate = 0.0;                   // site-resolved watching: -2 sum_l gamma_l * (bit l of i^j);
+                    int diffbits = i ^ jj;               // antiWatching turns each site: agreement watched instead
                     for (int l = 0; l < n; l++)
-                        if (((diffbits >> l) & 1) == 1) rate -= 2.0 * siteGammas[l];
+                        if ((((diffbits >> l) & 1) == 1) != antiWatching) rate -= 2.0 * siteGammas[l];
                     mask[i, jj] = rate;
                 }
                 else

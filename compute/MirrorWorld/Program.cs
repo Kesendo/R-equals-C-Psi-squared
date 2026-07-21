@@ -913,6 +913,45 @@ if (args.Length > 0 && args[0] == "lattice")
     return;
 }
 
+// ---- run mode "gammafold": the pair of mirrors on the gamma axis ----
+// Adopted 2026-07-21 (the F134/F139 arc's home-side move): s (gamma -> -gamma, the gain turn) and
+// s0 (the anti-watch turn) chain through L_anti(gamma) = L(-gamma) - 2*sigma*Id; the trajectory
+// wears the shift as the scalar veil rho_anti(t) = e^(-2*sigma*t) * rho_gain(t). Two mirrors make
+// the translation by the full price 2*sigma: the infinite dihedral, F134's shape on the home axis.
+if (args.Length > 0 && args[0] == "gammafold")
+{
+    int fn = args.Length > 1 ? int.Parse(args[1]) : 3;
+    var fworld = new World();
+    var fold = new GammaFold(fworld, fn);
+
+    Console.WriteLine("the pair of mirrors on the gamma axis (the F134/F139 home-side move, adopted 2026-07-21)");
+    Console.WriteLine($"  N={fn}, J={fold.J}, site profile gamma_l = 0.2 + 0.1*l (non-uniform: per-site is load-bearing), sigma = {fold.Sigma:0.000}");
+    Console.WriteLine("    s   : gamma -> -gamma        the gain turn (reflection through the unwatched zero)");
+    Console.WriteLine("    s0  : the anti-watch turn    agreement watched (the Lattice's turned rule)");
+    Console.WriteLine();
+
+    var ml = fold.MaskLaws();
+    Console.WriteLine("  the mask level (entry-wise rate arithmetic, no eigensolver):");
+    Console.WriteLine($"    L_anti(g) = L(-g) - 2*sigma*Id     {ml.WorstIdentity:E1}   (the generator identity, every cell)");
+    Console.WriteLine($"    s0(s0(r)) = r                      {ml.WorstInvolution:E1}   (the turn is its own inverse)");
+    Console.WriteLine($"    s(s0(r))  = r + 2*sigma            {ml.WorstTranslation:E1}   (two mirrors make the translation)");
+    Console.WriteLine($"    the step 2*sigma = {ml.Step:0.000}; the fixed locus of s0 is r = -sigma, the palindrome center.");
+    Console.WriteLine();
+
+    var rep = fold.Run(seed: 1, dt: 0.02, ticks: 50);
+    Console.WriteLine("  the trajectory level (twin RK4, worst over every probed tick):");
+    Console.WriteLine($"    rho_anti(t) = e^(-2*sigma*t) * rho_gain(t)    {rep.WorstVeil:E1}");
+    Console.WriteLine($"    gain/anti novelty at t=1: {rep.NoveltyRatio:0.000}  (= e^(+2*sigma), the amplification; the trace is blind to gamma in EVERY world)");
+    Console.WriteLine($"    anti-vs-gain separation at t=1: {rep.VertexSeparation:0.000}  (the veil is not vacuous)");
+    Console.WriteLine($"    the discriminator: the veil against the NORMAL (+gamma) world misses by {rep.BrokenFlip:0.000}");
+    Console.WriteLine("    -- the gain flip is load-bearing, not decoration.");
+    Console.WriteLine();
+    Console.WriteLine($"  the cross-dock: X^N rho(t) = e^(-2*sigma*t) * gain-run(X^N rho0)   {fold.ReadThroughVeil(1, 0.02, 50):E1}");
+    Console.WriteLine("  -- the watched world read through the complement IS the gain world in the price veil.");
+    Console.WriteLine("  (a different object from the F1 fold: Pi flips the sign of L_H; this keeps H and flips only gamma.)");
+    return;
+}
+
 // ---- run mode "scale": the complexity wall and the cut ----
 // Why the full-spectrum side hit the wall and a state's dynamics did not. full = 4^N (the whole Liouvillian
 // an eigendecomposition tackles); single-exc = the (1,1) block a one-excitation state lives in (N^2,
