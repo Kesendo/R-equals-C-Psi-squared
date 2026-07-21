@@ -57,12 +57,12 @@ Summary by Tier table at the end.
 
 | Prediction | Value | Falsified if | Source |
 |------------|-------|-------------|--------|
-| γ · t_cross = constant across decoherence rates | 0.039 ± 0.001 over 50× range | Product varies with γ | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
+| γ · t_cross = constant across decoherence rates | constant over 50× range (measured 0.039 ± 0.001 in the February tool's feedback model; exact standard-Lindblad K = 0.036, concurrence book) | Product varies with γ | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
 | θ decreases continuously to 0 at C·Ψ = ¼ | Smooth trajectory observed | Discontinuity at boundary | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | Two real fixed points emerge below ¼ | Topology change confirmed | No bifurcation at ¼ | [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md) |
 | Operator feedback: γ_eff = γ₀(1 − κ⟨O_int⟩) | Modulates γ_eff (~10% at tested params); preservation is parameter-dependent, not a clean separation | Mechanism produces unphysical results | [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) |
 | Ψ_interaction does not shift ¼ boundary | Δδ ≈ −8 × 10⁻⁴ | Boundary shifts under bidirectional coupling | [Core Algebra](historical/CORE_ALGEBRA.md) §8 |
-| Observer-dependent crossing time | t_cross = 0.652 / 0.773 / 1.437 for mutual_info / concurrence / correlation | All bridge types give same t_cross | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
+| Observer-dependent crossing time | t_cross = 0.652 / 0.773 / 1.437 for mutual_info / concurrence / correlation (February tool's feedback model; exact standard-Lindblad 0.593 / 0.719 / 1.438) | All bridge types give same t_cross | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Two observers never see crossing | mutual_purity (C=0.5), overlap (C=0.25): C·Ψ < ¼ always | These observers eventually cross | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Crossing taxonomy noise-robust | Type A/B/C identical under σ_x, σ_y, σ_z | Taxonomy changes with jump operator | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
 | N-scaling barrier | Ψ(0) = l1/(2^N−1) blocks crossing for GHZ N≥3 and W N≥4 | Standard states cross at large N | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |

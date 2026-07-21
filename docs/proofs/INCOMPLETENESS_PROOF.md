@@ -261,8 +261,9 @@ precise statement table).
 
 The same pattern appears wherever the framework touches time:
 
-- The crossing time is t_cross = 0.039/γ (0.039 is the Bell+/concurrence
-  value under Heisenberg coupling, not a universal constant; see
+- The crossing time is t_cross = K/γ (K = 0.036 is the exact
+  Bell+/concurrence value, not a universal constant; the historically
+  quoted 0.039 was a tool's feedback-model reading, see
   [CROSSING_TAXONOMY.md](../../experiments/CROSSING_TAXONOMY.md)). The
   product t × γ = const is not a relation between two different
   quantities. It is a tautology by the Lindblad scaling symmetry:

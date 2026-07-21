@@ -325,7 +325,8 @@ vice versa.
 results suggest concrete engineering guidelines: use W-type encoding
 (avoids the fast drain), use star topology with asymmetric coupling
 (optimizes the slow palindromic modes), and read out before
-t_cross = 0.039/γ (after that, the 1/4 boundary has been crossed).
+t_cross = 0.036/γ (after that, the 1/4 boundary has been crossed in
+the concurrence book).
 
 For the full benchmark, see [QST Bridge](../experiments/QST_BRIDGE.md).
 

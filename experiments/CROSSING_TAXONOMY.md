@@ -33,12 +33,14 @@ Five quantum correlation measures ("bridge metrics") are tested against
 the CΨ = 1/4 decoherence boundary for a Bell+ pair under Heisenberg
 coupling and local Z-dephasing. Three metrics cross the boundary; two
 never do. The three crossing metrics fall into distinct classes based on
-their *mechanism*: Type A (correlation bridge, C = 1.0 throughout, only
-coherence Ψ drives the crossing), Type B (concurrence and mutual
+their *mechanism*: Type A (correlation bridge, C = 1.0 through the
+crossing, only coherence Ψ drives it), Type B (concurrence and mutual
 information, both C and Ψ decay jointly), and Type C (mutual purity and
 overlap, initial CΨ already below 1/4, never cross). The dimensionless
 product K = γ × t_cross is constant within each type across a 20× range
-of dephasing rates (K_A = 0.072, K_B = 0.039 and 0.033). This
+of dephasing rates (K_A = 0.072, K_B = 0.039 and 0.033 as measured by
+the February tool; the standard-Lindblad exact values are 0.0719 /
+0.0360 / 0.0297, see the reproducibility note at the K-table). This
 K-invariance is not a deep property of R = CΨ² but a trivial consequence
 of Lindblad scaling symmetry: all observables depend on the product
 τ = γt, not on γ and t separately. The depth lies in the 1/4 boundary
@@ -75,8 +77,10 @@ constant (K = 0.039 for concurrence). This document downgrades that claim:
 K-invariance follows trivially from the Lindblad equation's scaling
 symmetry. The dissipator is linear in γ, and the Hamiltonian is independent
 of γ. Therefore all observables depend on τ = γt, making K = γ × t_cross
-a constant by construction. The value 0.039 is a property of concurrence
-applied to Bell+ under Heisenberg coupling, not a universal constant.
+a constant by construction. The value is a property of concurrence
+applied to Bell+, not a universal constant (exact K = 0.0360; the
+February tool read 0.039 through its feedback model, see the
+reproducibility note at the K-table).
 
 ---
 
@@ -92,6 +96,15 @@ applied to Bell+ under Heisenberg coupling, not a universal constant.
 | Bridge metrics | Concurrence, mutual information, correlation, mutual purity, overlap |
 
 15 simulations total (5 bridges × 3-4 γ values each).
+
+The five bridges, as pinned from the surviving prose and the reproduced
+behavior (the tool itself was never committed; on the dephased-Bell+
+trajectory f = e^(−4γt)): concurrence = Wootters concurrence (= f
+here); mutual_info = von Neumann mutual information S(A)+S(B)−S(AB) in
+bits, normalized by its t = 0 value 2; correlation = the connected
+Z-basis correlation ⟨Z₁Z₂⟩ − ⟨Z₁⟩⟨Z₂⟩ (≡ 1 under pure dephasing);
+mutual_purity = the single-subsystem purity (0.5, constant); overlap =
+the overlap with the maximally mixed state (1/d = 0.25, constant).
 
 ---
 
@@ -109,14 +122,26 @@ K is constant within each bridge (< 1.5% deviation across 20× γ range).
 K differs between bridges by a factor of 2.2× (0.033 to 0.072).
 Mutual purity and overlap never cross at any γ.
 
-Reproducibility note (2026-07-21): the γ-invariance of K is the result
-and stands (it follows from Lindblad scaling, next section). The K
-VALUES came from the February tool: the correlation row matches the
-exact closed form (K = γ·1.438 = 0.072), but the concurrence row does
-not (exact concurrence book: K = γ·0.719 = 0.036, not 0.039; see the
-reproducibility note in
-[Boundary Navigation](BOUNDARY_NAVIGATION.md)). A full re-audit of this
-document's rows is pending.
+Reproducibility note (2026-07-21, resolved same day): the γ-invariance
+of K is the result and stands (next section). The K VALUES are now fully
+explained: the February tool ran an explicit bridge-feedback model,
+γ_eff = γ_base · C(t) (disclosed in
+[Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) §3.2/§5.1),
+and under that model every number in this table reproduces to the last
+digit; for the concurrence bridge the feedback integrates in closed form
+to f(t) = 1/(1 + 4γt), giving t = (2/√3 − 1)/(4γ) = 0.7735 at γ = 0.05.
+Under the standard Lindblad equation (no feedback, f = e^(−4γt)) the
+exact values are:
+
+| Bridge | K (standard Lindblad) | t at γ = 0.05 | K (tool, feedback) |
+|--------|----------------------|---------------|--------------------|
+| mutual_info | 0.0297 | 0.593 | 0.033 |
+| concurrence | 0.0360 | 0.719 | 0.039 |
+| correlation | 0.0719 | 1.438 | 0.072 (identical: C ≡ 1 makes the feedback inert) |
+
+Probe: [crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py)
+computes both models for all five bridges. K-invariance is exact in BOTH
+models, which is why the February γ-sweeps saw constant K either way.
 
 ### Why K-Invariance Holds: Lindblad Scaling
 
@@ -130,8 +155,14 @@ At identical τ = γt, the values of C and Ψ are identical regardless of γ:
 C and Ψ are functions of τ = γt, not of t alone. K-invariance follows:
 if P(t_cross) = 1/4 and P depends only on τ, then τ_cross = K is a
 constant. This is a scaling property of the Lindblad equation, not a
-specific prediction of R = CΨ². Any threshold applied to any Lindblad
-observable will produce a K-invariant crossing time.
+specific prediction of R = CΨ². Any γ-independent threshold applied to
+any observable of a Lindblad system whose Hamiltonian is γ-independent
+will produce a K-invariant crossing time. (In the table above, the tiny
+γ = 0.01 vs γ = 0.05 spread is finite-dt integration noise; the values
+themselves sit on the tool's feedback trajectory f = 1/(1 + 4τ) =
+0.980392 at τ = 0.005, not on e^(−4τ) = 0.980199. The invariance is
+analytically exact and holds in both models, since df/dτ = −4C(f)·f is
+likewise γ-free.)
 
 ---
 
@@ -150,11 +181,16 @@ is different in kind.
 | 1.437 | 1.000 | 0.250 | **0.250** |
 | 1.8 | 0.986 | 0.232 | 0.229 |
 
-**C = 1.000 throughout the entire crossing.** The correlation bridge
-does not decay. It is blind to local dephasing because it measures
-excess purity beyond the product of subsystem purities. Dephasing
-destroys single-qubit coherence without (initially) destroying the
-relationship between qubits. The crossing is driven entirely by Ψ decay.
+**C = 1.000 through the crossing, and exactly 1 for all t.** The
+computed bridge is the connected Z-basis correlation
+⟨Z₁Z₂⟩ − ⟨Z₁⟩⟨Z₂⟩, which is identically 1 under pure dephasing (the
+density-matrix diagonals are frozen; the 0.986 at t = 1.8 in the table
+is tool noise). The February prose called this "excess purity beyond
+the product of subsystem purities", but excess purity decays
+((1+2f²)/3, about 0.71 at the crossing) and does not reproduce the
+recorded flat 1.000; the label was a misnomer for what the tool
+computed. Either way the mechanism reading stands: this bridge is blind
+to local dephasing, and the crossing is driven entirely by Ψ decay.
 
 ### Type B: Mixed Crossing (concurrence, mutual information)
 
@@ -165,23 +201,32 @@ relationship between qubits. The crossing is driven entirely by Ψ decay.
 | 0.773 | 0.863 | 0.290 | **0.250** |
 
 Both C and Ψ decay simultaneously. The crossing happens faster than
-Type A because two quantities shrink instead of one. The 2.2× spread
-in K (0.033 to 0.072) reflects how much the bridge metric C contributes
-to the decay versus leaving it entirely to Ψ.
+Type A because two quantities shrink instead of one. (The crossing row
+above is the tool's feedback-model value; the standard-Lindblad exact
+crossing is t = 0.719 with C = f = 0.866.) The spread in K (2.2× in the
+tool's values, 2.4× in the exact ones: 0.0297 to 0.0719) reflects how
+much the bridge metric C contributes to the decay versus leaving it
+entirely to Ψ.
 
 ### Type C: Never Crosses (mutual purity, overlap)
 
-These metrics start with CΨ(0) < 1/4 and only decrease. The system
-remains "quantum" from their perspective at all times. The observer
-never sees the boundary.
+These metrics start with CΨ(0) < 1/4 and only decrease: mutual_purity
+has constant C = 0.5 (the single-subsystem purity of a maximally
+entangled pair; the February prose "product of subsystem purities"
+would be 0.25), giving CΨ(0) = 0.5/3 = 0.167; overlap has constant
+C = 0.25 (= 1/d, the overlap with the maximally mixed state; the prose
+"fidelity with initial state" would start at 1 and decay), giving
+CΨ(0) = 0.083. The system remains "quantum" from their perspective at
+all times. The observer never sees the boundary. The verdict is robust
+to the label ambiguity: every reading keeps C constant and below 3/4.
 
 ### Summary Table
 
-| Class | Mechanism | C at crossing | Bridges | K |
-|-------|-----------|---------------|---------|------|
-| **Type A** | C stable, only Ψ decays | 1.000 | correlation | 0.072 |
-| **Type B** | C and Ψ both decay | 0.85-0.86 | concurrence, mutual_info | 0.039, 0.033 |
-| **Type C** | CΨ(0) < 1/4 already | n/a | mutual_purity, overlap | never |
+| Class | Mechanism | C at crossing | Bridges | K (tool) | K (exact) |
+|-------|-----------|---------------|---------|------|------|
+| **Type A** | C stable, only Ψ decays | 1.000 | correlation | 0.072 | 0.0719 |
+| **Type B** | C and Ψ both decay | 0.85-0.89 | concurrence, mutual_info | 0.039, 0.033 | 0.0360, 0.0297 |
+| **Type C** | CΨ(0) < 1/4 already | n/a | mutual_purity, overlap | never | never |
 
 ---
 
@@ -211,7 +256,7 @@ But the path to the boundary is observer-dependent.
 
 **K-invariance as deep constant:** Downgraded. K is a consequence of
 Lindblad scaling, not a prediction of R = CΨ². The depth is in the
-1/4 boundary, not in K. (See Section 3.2.)
+1/4 boundary, not in K. (See "Why K-Invariance Holds" above.)
 
 **Noise dependence of the taxonomy:** Falsified. The prediction that
 depolarizing noise would change Type A to Type B was wrong. The taxonomy
@@ -262,18 +307,27 @@ all local Markovian channels (noise processes where the future depends
 only on the present, not on the past), explaining why Type A and B always cross
 downward and never return.
 
-The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) shows
-that the K values (0.033, 0.039, 0.072) are not just crossing constants
-but reflections of how each bridge metric projects onto the palindromic
-mode structure. The full-rank response matrix that makes the γ channel
-readable is the same structure that creates the three observer types.
+The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) reads
+the same dephasing that drives these crossings as an information
+channel. It does not derive the K values, and its full-rank response
+matrix was later shown to be generic rather than palindrome-caused; the
+two documents share the trajectory, not a mechanism.
 
 ---
 
 ## Reproducibility
 
-The full simulation code is included above (Section 5.1). Requirements:
-Python, QuTiP, NumPy. Runtime: ~30 seconds for all 15 simulations.
+The February sweep ran on a since-retired analysis tool
+(`simulate_dynamic_lindblad` of the `delta_calc` MCP server, parameters
+in [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) §5.1);
+no simulation code from that run is committed. The committed
+reproduction is
+[crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py):
+it computes all five bridges in both models (standard Lindblad and the
+tool's γ_eff = γ·C(t) feedback) and reproduces every crossing time in
+this document, plus the exact values. The trajectory itself is
+closed-form (Bell+ is a Heisenberg eigenstate; f = e^(−4γt)), so every
+clean number is also derivable by hand.
 
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 

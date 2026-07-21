@@ -41,6 +41,16 @@ mechanisms (Type A/B/C) and the K-invariance behind the 2.2× spread.
 > proven analytically. Different crossing times for different metrics are
 > grouped by the conjugation operator Π. See [MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
+> **Reproducibility note (2026-07-21):** the crossing times above are
+> the tool's γ_eff = γ_base · C(t) feedback-model values (the feedback
+> §5.3 discloses; for concurrence it is not secondary: +8% at the
+> crossing). Under the standard Lindblad equation the exact times are
+> 0.593 / 0.719 / 1.438 (mutual_info / concurrence / correlation). The
+> observer-dependence result and the never-crossing verdicts are
+> model-independent. See the resolved note in
+> [Crossing Taxonomy](CROSSING_TAXONOMY.md) and
+> [crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py).
+
 ---
 
 ## 1. The Question
@@ -292,9 +302,11 @@ The crossing time is found by linear interpolation where C(t)·Ψ(t) crosses 0.2
    **Result: Among the three crossing observers, Ψ(t) varies by < 12%
    at t = 3. The non-crossing observers show slower Ψ decay (up to 53%
    deviation) because γ_eff = γ_base · C(t): lower C means less
-   decoherence. This feedback is real but secondary: even if Ψ were
-   identical, the C values alone (1.0 vs 0.5 vs 0.25) determine
-   whether C·Ψ can reach ¼.**
+   decoherence. This feedback is secondary for the QUALITATIVE verdict:
+   even if Ψ were identical, the C values alone (1.0 vs 0.5 vs 0.25)
+   determine whether C·Ψ can reach ¼. It is not secondary for the
+   crossing TIMES (+8% for concurrence; see the reproducibility note
+   above).**
 
 3. If the two non-crossing observers (mutual_purity, overlap) eventually
    crossed at some later time, the effect would be quantitative, not

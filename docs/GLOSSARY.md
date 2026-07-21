@@ -278,7 +278,7 @@ They are not arbitrary; each one comes from the mathematics.
 | **10γ/3** | Decay rate of the c- supermode (odd, fast) at N=3, same J/γ → ∞ limit as 8γ/3 (F33). |
 | **-2Σγ** | Location of XOR modes (maximum decay rate). Always N+1 modes here. |
 | **0.886** | Best average fidelity for QST (star topology, J_SB/J_SA = 2:1, γ = 0.05). |
-| **0.039/γ** | Approximate crossing time t_cross for Bell+ under Heisenberg+dephasing. |
+| **0.036/γ** | Crossing time t_cross for Bell+ under dephasing (concurrence book, exact; the historically quoted 0.039 was the February tool's feedback-model reading, see CROSSING_TAXONOMY). |
 | **0.976** | Correlation between mixed XY Pauli weight and XOR fraction (N≥3). |
 | **360×** | Concentrator formula vs V-shape at N=5 (peak created Sum-MI, a transport metric, ε→0 sim; C# RK4 validated; ~2-3× hardware). |
 | **180×** | Concentrator formula vs V-shape at N=7 (same transport metric). |

@@ -105,7 +105,12 @@ Pair A   relay   Pair B   meta    Pair C   relay   Pair D
 
 ## The Protocol
 
-Six relay stages, each lasting t_stage = K/γ = 0.039/0.05 = 0.78 time units:
+Six relay stages, each lasting t_stage = K/γ = 0.039/0.05 = 0.78 time
+units (K = 0.039 is the February tool's feedback-model concurrence
+value; the exact standard-Lindblad book gives K = 0.036, t_stage = 0.72.
+The protocol below was designed and run with 0.78; its +83% result
+stands as measured, and the stage length is a design choice, not a
+physics constant):
 
 | Stage | Receiving qubits | γ_receive | What happens |
 |-------|-----------------|-----------|-------------|

@@ -136,11 +136,15 @@ was produced by a since-retired analysis tool; it showed the crossing at
 t = 0.773 (the K = 0.039 value that [Crossing Taxonomy](CROSSING_TAXONOMY.md)
 carries as its concurrence row) and fixed-point values whose product
 R₁·R₂ stayed frozen at its t = 0 value 1/3 (0.524·0.636 = 0.333)
-instead of tracking the decaying Ψ(t)². Neither reproduces under the exact
-closed form in any C-book (purity crosses at 0.747, concurrence at
-0.719). The table above is the exact recomputation in the document's own
-purity book; the compass story (θ falling 30° → 0°, the bifurcation at
-1/4) is unchanged.
+instead of tracking the decaying Ψ(t)². The 0.773 is now fully
+explained: the tool ran a bridge-feedback model γ_eff = γ·C(t), under
+which the concurrence crossing is exactly (2/√3 − 1)/(4γ) = 0.7735 (see
+the resolved note in Crossing Taxonomy and the probe
+[crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py)).
+Under the standard Lindblad equation the purity book crosses at 0.747,
+the concurrence book at 0.719. The table above is the exact
+recomputation in the document's own purity book; the compass story
+(θ falling 30° → 0°, the bifurcation at 1/4) is unchanged.
 
 ---
 

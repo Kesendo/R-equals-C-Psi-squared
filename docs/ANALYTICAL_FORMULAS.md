@@ -678,7 +678,10 @@ positives across 133 qubits, 181 days.
 
     K = gamma * t_cross = constant per bridge type
 
-K_concurrence = 0.03596. K_MI = 0.033. K_correlation = 0.072.
+K_concurrence = 0.03596. K_MI = 0.02966. K_correlation = 0.07192.
+(Exact standard-Lindblad values; the February tool's feedback-model
+readings were 0.039 / 0.033 / 0.072, see the resolved note in the
+source doc and simulations/crossing_taxonomy_books.py.)
 Standard Lindblad time-rescaling (τ = γt), not deep physics.
 
 **Interpretation:** In the [optical cavity analogy](../experiments/OPTICAL_CAVITY_ANALYSIS.md),

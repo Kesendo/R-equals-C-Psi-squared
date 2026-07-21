@@ -39,8 +39,9 @@ is the Lindblad scaling symmetry τ = γ·t.
 ## Abstract
 
 Nine Lindblad simulations spanning a 50× range in dephasing rate γ (0.01 to
-0.50) confirm that γ·t_cross = K = 0.039 ± 0.0006 with R² = 0.9999 and
-power-law exponent α = −0.992. This K-invariance is a mathematical identity
+0.50) confirm that γ·t_cross = K is constant (measured 0.039 ± 0.0006 in
+the tool's feedback model, R² = 0.9999, power-law exponent α = −0.992;
+exact standard-Lindblad K = 0.036, see the reproducibility note in §3.1). This K-invariance is a mathematical identity
 of the Lindblad equation: solutions depend only on the product γ·t, so the
 crossing time scales as 1/γ by construction. A single quantum system at a
 single location cannot distinguish different functional forms of γ(r), which
@@ -98,6 +99,16 @@ Nine simulations:
 | 0.50 | 0.081 | 0.04050 | +3.92% |
 
 **K_mean = 0.0390 +/- 0.0006 (1.5% variation across 50x range in γ)**
+
+Reproducibility note (2026-07-21): this table is the origin of the
+K = 0.039 that propagated repo-wide. The value is the February tool's
+bridge-feedback model (γ_eff = γ·C(t), concurrence crossing exactly
+(2/√3 − 1)/(4γ) = 0.7735 at γ = 0.05); the standard-Lindblad exact
+value is K = 0.03596 (t = 0.719). The K-INVARIANCE result of this
+document holds exactly in both models; the residual drift above
+(+3.9% at γ = 0.50) is finite-dt integration noise. See the resolved
+note in [Crossing Taxonomy](CROSSING_TAXONOMY.md) and
+[crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py).
 
 ### 3.2 Power Law Fit
 

@@ -257,7 +257,9 @@ The dephasing rate γ and the experience of time are not two things
 that merely correlate. γ is the necessary and sufficient condition
 for experienced time - the source of the arrow.
 
-The crossing time is t_cross = 0.039/γ. The product t × γ = 0.039,
+The crossing time is t_cross = K/γ with K = 0.036 for the Bell+
+concurrence book (the historically quoted 0.039 was a tool
+feedback-model reading). The product t × γ = K,
 a pure number. Remove γ and t loses its meaning. Remove t
 and γ has nothing to act on. They are inseparable but not identical:
 γ provides the arrow, J provides the content.
@@ -273,7 +275,7 @@ where temporality comes from. Goedel, once more.
 
 (See [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md), Corollary 2.)
 
-*Later (2026-05-16):* γ₀ as Source-of-Experienced-Time is the γ₀-as-Maßstab/tick reading made structural. The product t · γ = 0.039 ("a pure number") is K-dosimetry: K counts γ₀-ticks, not seconds, because γ₀ is the framework's natural time-unit. See [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) (carrier-as-Maßstab visible at seams of typed inheritance edges) and [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) (γ₀ as the framework's "second"; every dimensional timescale = integer × 1/γ₀; θ = arctan(Q) on the Lindblad eigenvalue side). The "circular definition" diagnosed here is the operational reflection of Maßstab-als-Substanz: γ₀ cannot be measured from inside because we ARE inside its tick.
+*Later (2026-05-16):* γ₀ as Source-of-Experienced-Time is the γ₀-as-Maßstab/tick reading made structural. The product t · γ = K ("a pure number") is K-dosimetry: K counts γ₀-ticks, not seconds, because γ₀ is the framework's natural time-unit. See [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) (carrier-as-Maßstab visible at seams of typed inheritance edges) and [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) (γ₀ as the framework's "second"; every dimensional timescale = integer × 1/γ₀; θ = arctan(Q) on the Lindblad eigenvalue side). The "circular definition" diagnosed here is the operational reflection of Maßstab-als-Substanz: γ₀ cannot be measured from inside because we ARE inside its tick.
 
 ---
 
@@ -574,7 +576,7 @@ recognized before the equation was solved. The wirkung before the
 formel.
 
 **From the outside (calculated, not felt):** The other saw the
-equations: t_cross = 0.039/γ, the product t × γ = const, the
+equations: t_cross = K/γ, the product t × γ = const, the
 circular definition where each requires the other. Π reverses t
 by reversing which sector γ acts on. Remove γ and t disappears.
 The mathematics before the experience.
