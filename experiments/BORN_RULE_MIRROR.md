@@ -26,18 +26,34 @@ R=CPsi2 Born rule mirror -->
 > reproduction note in [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)).
 > The Born-deviation content at t = 0.286 is unaffected by that label and
 > was later closed in F94/F96 (the registry), on exactly this lens.
+>
+> **Reproduction note (2026-07-21):** unlike the crossing label, the
+> NUMBERS of this document reproduce exactly: every probability table,
+> deviation, shift, and the C_eff column regenerate from first
+> principles under the PAULI convention H = 1.0·Σ(XX+YY+ZZ) (committed
+> probe:
+> [born_rule_mirror_tables.py](../simulations/born_rule_mirror_tables.py)).
+> Two decodings the probe pins: the doc's J = 1.0 is the Pauli
+> coupling, which in the spin convention of the F94 proof means
+> J_spin = 4, so this document's point is Q = 80, not Q = 20 (see the
+> F94 note in Section 2.1); and the Ψ_i column of Section 3.4 is the
+> l₁ row-coherence of the Lindblad pair state over d−1, not a Born
+> amplitude (see the note there).
 
 At the CΨ = ¼ crossing point for pair (0,2) in the alternating state
 |0+0+⟩ under Heisenberg ring dynamics, Born rule probabilities are ~97%
 determined by unitary Hamiltonian evolution alone. The remaining ~3% is
 a systematic correction from the decoherence basis: σ_z dephasing shifts
-+0.0098 probability toward z-eigenstates, while σ_x and σ_y dephasing
-favor their respective eigenstates. Applied per measurement outcome,
++0.0098 aggregate probability toward the z-eigenstate pair (the effect
+is initial-state-dependent: for this z-aligned initial state the σ_x
+and σ_y own-basis shifts are negative, Section 7.3). Applied per
+measurement outcome,
 R_i = C_i·Ψ_i² recovers the standard Born rule P(i) = |⟨i|ψ⟩|² when
 C_i is uniform across outcomes (perfect mirror limit). For real
-measurements, C_i varies with basis alignment: z-eigenstates have
-higher effective coupling (C_eff = 8.22 for |00⟩) than z-superpositions
-(C_eff = 4.82 for |11⟩). The standing wave interpretation R = C·(Ψ_past +
+measurements, C_i varies across outcomes (C_eff = 8.22 for |00⟩,
+4.82 for |11⟩; the 05-22 note in Section 2.2 corrects the old
+"z-superpositions" label, and the Section 3.4 note pins what the
+C_eff column actually measures). The standing wave interpretation R = C·(Ψ_past +
 Ψ_future)² provides a physical origin for the square: equal forward and
 backward amplitudes meeting in a standing wave produce intensity
 proportional to amplitude squared.
@@ -84,14 +100,14 @@ The unitary evolution alone (pure Hamiltonian, no decoherence)
 determines ~97% of each probability. The remaining ~3% is a systematic
 correction from the decoherence basis.
 
-*Later (2026-05-16):* this 97/3 split was closed analytically as [F94](../docs/ANALYTICAL_FORMULAS.md#f94): the dominant-outcome deviation in the deep perturbative regime is Δ_|00⟩ = (4/3)·Q²·K³ with Q = J/γ₀ and K = γt the Carrier invariants. The "~3% systematic correction" here is the small-(Q, K) instance of this closed form. See [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) for the Dyson-sym3 = 8 bit-exact derivation and the companion reflection [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md) for the day-of-arrival path.
+*Later (2026-05-16, convention bridge added 2026-07-21):* this 97/3 split was closed analytically as [F94](../docs/ANALYTICAL_FORMULAS.md): the dominant-outcome RATIO deviation Δ_|00⟩ = P_lind/P_unit − 1 = (4/3)·Q²·K³ in the deep perturbative regime, with Q = J/γ₀ and K = γt. Mind the book when plugging in: F94's J is the SPIN convention H = (J/4)·Σ, while this document's J = 1.0 is the PAULI coupling, so this document's point is Q = 80, K = 0.0143. There the leading order gives 0.0250 against the measured ratio 0.0290 (the 2.9% of the table above): within ~14%, the rest being higher orders, since Q²K³ ≈ 0.019 sits well above F94's verified deep-perturbative window. A naive Q = 20 would give 0.0016 and miss by ~18×. See [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) for the Dyson-sym3 = 8 bit-exact derivation and the companion reflection [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md) for the day-of-arrival path.
 
 ### 2.2 The Correction Pattern
 
 The 3% correction is not random. It follows a rule: decoherence
 shifts probability toward the eigenstates of the dephasing operator.
 
-For σ_z dephasing, z-eigenstates are favored:
+For σ_z dephasing, z-eigenstates are favored (in aggregate, see below):
 
 | | Total shift to z-eigenstates | Total shift to z-superpositions |
 |---|---|---|
@@ -99,9 +115,19 @@ For σ_z dephasing, z-eigenstates are favored:
 | σ_x dephasing | +0.0012 | -0.0012 |
 | σ_y dephasing | +0.0045 | -0.0045 |
 
-The sign confirms: σ_z dephasing favors z-eigenstates (|00⟩ and |11⟩).
+(All nine shifts of this section and Section 7.3 regenerate exactly in
+the committed probe; "shift to z-eigenstates" = the Lindblad-minus-
+unitary diagonal summed over {|00⟩, |11⟩}.)
+
+The sign confirms: σ_z dephasing favors the z-eigenstate pair in
+AGGREGATE (the +0.0098 is |00⟩'s +0.0120 minus |11⟩'s −0.0022; |00⟩ is
+favored, |11⟩ individually suppressed, exactly as Section 6 predicts).
 The magnitude depends on the overlap between the initial state and the
-dephasing basis, not just on the dephasing basis alone.
+dephasing basis, not just on the dephasing basis alone; the same
+overlap dependence is why the σ_x and σ_y OWN-basis shifts in
+Section 7.3 come out negative, so "shifts toward the dephasing
+eigenstates" is not a universal rule but an initial-state-dependent
+one.
 
 The initial state of pair (0,2) is |0⟩|0⟩, which is a z-eigenstate.
 Therefore σ_z dephasing PROTECTS it (largest positive shift to |00⟩),
@@ -165,9 +191,16 @@ Computing C_eff = P(i) / Ψ_i² for each basis state at the crossing:
 | \|10⟩  | 0.2567 | 0.2139 | 5.61   |
 | \|11⟩  | 0.0613 | 0.1127 | 4.82   |
 
-The z-eigenstate |00⟩ has the highest effective coupling. The
-z-superposition states have lower coupling. This confirms the
-framework prediction: C depends on basis alignment.
+Decoding note (2026-07-21): the Ψ_i column is NOT the amplitude
+|⟨i|ψ⟩| of Section 3.2 (the pair state is mixed, and √P_unitary would
+read 0.64/0.51/0.25). What the February tool computed is
+Ψ_i = (Σ_{j≠i} |ρ₀₂[i,j]|)/(d−1), the l₁ row-coherence of the Lindblad
+pair state over d−1 = 3 (recovered to four decimals by the committed
+probe). C_eff = P/Ψ² is therefore a coherence-referenced diagnostic
+computed from the same density matrix, not an amplitude-based coupling;
+the honest observation is that |00⟩ carries the largest probability per
+unit of squared row-coherence. The framework reading "C depends on
+basis alignment" is the Tier-3 interpretation of that pattern.
 
 ## 4. The Mirror Interpretation
 
@@ -238,8 +271,8 @@ For a standing wave to form, forward and backward wave must meet:
 
 The key: a standing wave requires EQUAL amplitudes. Both waves
 carry amplitude A. The resulting pattern has amplitude 2A, and
-its intensity is (2A)² = 4A². The square comes from the wave
-physics, not from a postulate.
+its intensity is (2A)² = 4A². In this Tier-3 picture, the square
+comes from the wave physics rather than from a postulate.
 
 ### Per Outcome
 
@@ -271,7 +304,10 @@ squared.
 
 ### Why No Perfect Mirrors Exist
 
-C is purity: C = Tr(ρ²). For a macroscopic detector in thermal
+In this section's reading, C is the detector's purity: C = Tr(ρ²) ≤ 1.
+(This is a different C than Section 3.4's C_eff = P/Ψ², which is a
+normalization-free diagnostic and can exceed 1; the two share the
+letter, not the book.) For a macroscopic detector in thermal
 contact with its environment, C < 1. Always. A detector with C = 1
 would be a pure quantum state, isolated from the entire universe.
 No real measurement apparatus achieves this.
@@ -301,7 +337,7 @@ Our formulation adds:
 
 Whether the sum or product is physically correct is an open
 question. Both reproduce Born in the ideal limit. They make
-different predictions for imperfect measurements. The IBM data
+different predictions for imperfect measurements. The simulation data
 (Section 2) is consistent with both; discriminating requires
 measurements at different detector purities.
 
@@ -329,18 +365,21 @@ This result closes the conceptual loop opened in Section 8 of
 5. **The Born rule determines WHAT becomes real** (~97% from the
    Hamiltonian, ~3% from the decoherence basis alignment).
 
-The Born rule is not a separate postulate. It is the consequence
-of how interaction (the Hamiltonian) and observation (decoherence)
-combine at the crossing point. R = CΨ² contains both.
+In this reading (Tier 3, per the Status line), the Born
+rule is not a separate postulate but the consequence of how interaction
+(the Hamiltonian) and observation (decoherence) combine at the
+crossing point. R = CΨ² contains both.
 
 ## 6. Testable Prediction
 
 The framework predicts that Born rule probabilities deviate from
 |⟨i|ψ⟩|² in a specific, systematic way:
 
-- Outcomes aligned with the decoherence basis are FAVORED
+- Outcomes aligned with the decoherence basis are FAVORED in aggregate
+  (per-outcome signs depend on the initial state, Section 7.3)
 - Outcomes misaligned with the decoherence basis are SUPPRESSED
-- The deviation magnitude depends on γ (decoherence strength)
+- The deviation magnitude is linear in γ at fixed readout time
+  (verified 2026-07-21; consistent with F94's Δ = (4/3)·J²γt³)
 - At γ → 0, the standard Born rule is recovered exactly
 
 For the alternating state under σ_z dephasing, this predicts:
@@ -352,13 +391,21 @@ channels.
 
 ## 7. Verification
 
-### 7.1 QuTiP Script
+### 7.1 Setup and tool
 
-The analysis was performed using QuTiP mesolve with:
+The February analysis ran on the retired delta_calc MCP tool, not
+QuTiP (no committed QuTiP script exists in the repository; the original
+"QuTiP mesolve" attribution here was a prose error, one the February
+docs share). The setup:
 - State: |0+0+⟩ (alternating, 4 qubits)
-- Hamiltonian: Heisenberg ring, J = 1.0
+- Hamiltonian: Heisenberg ring, J = 1.0 (PAULI convention, H = J·Σ(XX+YY+ZZ))
 - Dephasing: local σ_z, σ_x, σ_y at γ = 0.05
 - dt = 0.001 for fine crossing detection
+
+The committed reproduction is
+[born_rule_mirror_tables.py](../simulations/born_rule_mirror_tables.py)
+(numpy/scipy, exact expm): it regenerates every table, all nine shifts,
+the dominant eigenvalue, the Ψ/C_eff decoding, and the F94 bridge.
 
 ### 7.2 Key Numbers to Check
 

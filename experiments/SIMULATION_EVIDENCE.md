@@ -242,7 +242,10 @@ exactly as R = CΨ² per outcome predicts.
 
 See [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md),
 [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md),
-[Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md).
+[Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md). These tables
+reproduce exactly (Pauli J = 1; committed probe
+[born_rule_mirror_tables.py](../simulations/born_rule_mirror_tables.py),
+2026-07-21); the deviations were later closed analytically as F94/F96.
 
 ---
 
