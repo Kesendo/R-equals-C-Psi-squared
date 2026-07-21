@@ -102,7 +102,10 @@ Every configuration with active Hamiltonian dynamics produces CΨ > ¼ at some p
 > is the classical mixture). No committed script reproduces these rows.
 > The qualitative event stands: active Hamiltonian dynamics drive CΨ
 > across ¼ while H = 0 decays monotonically; the digits are tool-book
-> artifacts.
+> artifacts. Confirmed at source 2026-07-21: the recovered tool code
+> carries γ_eff = max(0, γ₀·(1 − κ·⟨O_int⟩)) verbatim (with a clamp at
+> zero the doc never saw) and a literal default psi_approx = 0.27
+> behind §3's constant Ψ.
 
 ---
 

@@ -16,7 +16,7 @@ This symmetry, verified for 87,376 eigenvalues with zero exceptions, has
 consequences for quantum state transfer, decoherence thresholds, and
 information channels.
 
-All experiments are reproducible using Python, QuTiP, and NumPy.
+All experiments are reproducible using Python, NumPy, and SciPy.
 Scripts are in [`simulations/`](../simulations/), results in [`simulations/results/`](../simulations/results/).
 
 ---
@@ -256,7 +256,7 @@ palindromic structure connects to Liouvillian symmetry classification
 The system is a quantum MIMO channel with palindromic matched filters.
 
 **If you want to reproduce results:** Every experiment links to its
-simulation script. All use QuTiP + NumPy. Typical runtime: seconds to
+simulation script. All use NumPy + SciPy. Typical runtime: seconds to
 minutes on a standard laptop.
 
 **If you want a guided reading path:** See the [Reading Guide](../docs/READING_GUIDE.md),

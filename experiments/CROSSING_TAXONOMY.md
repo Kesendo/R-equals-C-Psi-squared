@@ -320,7 +320,12 @@ two documents share the trajectory, not a mechanism.
 The February sweep ran on a since-retired analysis tool
 (`simulate_dynamic_lindblad` of the `delta_calc` MCP server, parameters
 in [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) §5.1);
-no simulation code from that run is committed. The committed
+no simulation code from that run is committed. The tool's source was
+recovered and inspected outside the repo (2026-07-21): pure numpy/scipy,
+with the γ_eff = γ·C(t) law verbatim in its evolution step, the
+operator-feedback sibling γ_eff = max(0, γ·(1 − κ·⟨O_int⟩)) beside it,
+and the February agent tables' constant Ψ a literal default parameter
+(psi_approx = 0.27). The committed
 reproduction is
 [crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py):
 it computes all five bridges in both models (standard Lindblad and the

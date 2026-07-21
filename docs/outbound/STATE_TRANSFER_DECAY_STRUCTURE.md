@@ -16,7 +16,7 @@ claim/proof/theorem regardless. See [README](README.md).
 result into the quantum-state-transfer community's language and open corner.
 The decay-rate identity and the spectral pairing rest on Tier-1 theorems
 (machine-verified); every transfer benchmark quoted here is **simulation only**
-(QuTiP / C# RK4, N = 2 to 11); the envelope prediction in Section 5 is the
+(NumPy/SciPy / C# RK4, N = 2 to 11); the envelope prediction in Section 5 is the
 falsifiable handover. External citations are drawn from the underlying study
 and should be verified against the primary sources before any outreach.
 **Date:** July 5, 2026
@@ -182,7 +182,7 @@ configurations do (chains, stars, triangles, uniform, weak-end, N = 2 to 5).
   the load-bearing handover.
 - **The transfer benchmarks** (F = 0.886 star, 0.872 mirror chain, 0.834
   uniform; the 2:1 optimum; the linear cost table; the γ-invariant timing)
-  are **QuTiP simulation**, 12 configurations, N = 2 to 5
+  are **Python simulation** (NumPy/SciPy), 12 configurations, N = 2 to 5
   ([QST Bridge](../../experiments/QST_BRIDGE.md), scripts and outputs linked
   there). No hardware run of ours backs these numbers.
 - **The time-staged extension:** alternating each mediator between a quiet

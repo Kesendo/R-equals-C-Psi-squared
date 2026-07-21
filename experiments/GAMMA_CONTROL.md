@@ -255,7 +255,7 @@ the external γ signal.
 | [using_gamma.py](../simulations/using_gamma.py) | All 5 strategies + time-resolved decoder | ~10 min |
 | [using_gamma.txt](../simulations/results/using_gamma.txt) | Full numerical results | - |
 
-All scripts use QuTiP and NumPy. No proprietary dependencies.
+All scripts use NumPy and SciPy. No proprietary dependencies.
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---

@@ -317,7 +317,7 @@ the 36 distinct pairs here plus the 9 self-pairs).
 | depolarizing_test.py | Depolarizing vs single-axis comparison | results/depolarizing_test.txt |
 | crossover_pair_local_pi.py | Result 5 verification (continuous M, N=2..6) | stdout only; delegates to framework/diagnostics/crossover_product_pi.py |
 
-All scripts in [`simulations/`](../simulations/). Requirements: Python, QuTiP, NumPy.
+All scripts in [`simulations/`](../simulations/). Requirements: Python, NumPy, SciPy.
 Note for rebuilders: the Π-conjugation check for the continuous
 (rotation) mirror is vectorization-convention-sensitive; it verifies at
 machine precision in the framework's column-major ('F') ordering.

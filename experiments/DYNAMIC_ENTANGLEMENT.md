@@ -132,7 +132,7 @@ This state has:
 | Noise | local dephasing (σ_z, gamma = 0.05) |
 | dt | 0.001 (fine resolution for crossing detection) |
 | t_max | 3.0 |
-| Tool | QuTiP mesolve (adaptive RK45) |
+| Tool | retired delta_calc MCP tool, `simulate_dynamic_lindblad` (see the reproduction note above; the earlier "QuTiP mesolve" label was wrong for these tables) |
 
 All 6 qubit pairs tracked. Two regimes tested: pure unitary (gamma = 0)
 and with dephasing (gamma = 0.05).

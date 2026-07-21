@@ -264,7 +264,7 @@ The "contact QST experimentalists" step below now has its vehicle.
 | [qst_bridge.txt](../simulations/results/qst_bridge.txt) | Complete output |
 | [verify_channel.py](../simulations/verify_channel.py) | Channel capacity verification |
 
-Requirements: Python, QuTiP, NumPy. Runtime: ~2 minutes for all configs.
+Requirements: Python, NumPy, SciPy. Runtime: ~2 minutes for all configs.
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---

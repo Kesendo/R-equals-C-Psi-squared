@@ -394,9 +394,11 @@ channels.
 ### 7.1 Setup and tool
 
 The February analysis ran on the retired delta_calc MCP tool, not
-QuTiP (no committed QuTiP script exists in the repository; the original
-"QuTiP mesolve" attribution here was a prose error, one the February
-docs share). The setup:
+QuTiP (the tool's source, recovered and inspected 2026-07-21, is pure
+numpy/scipy; the "QuTiP mesolve" attribution here was a prose error).
+QuTiP itself was genuinely available in the February environment, so a
+QuTiP label elsewhere is judged per document, not condemned as a class.
+The setup:
 - State: |0+0+⟩ (alternating, 4 qubits)
 - Hamiltonian: Heisenberg ring, J = 1.0 (PAULI convention, H = J·Σ(XX+YY+ZZ))
 - Dephasing: local σ_z, σ_x, σ_y at γ = 0.05
