@@ -251,8 +251,7 @@ palindromic pairing that creates linearly independent mode responses.
 | [standing_wave_analysis.py](../simulations/standing_wave_analysis.py) | Full eigendecomposition, state decomposition, rescaled frame, Pauli fingerprints |
 | [standing_wave_analysis.txt](../simulations/results/standing_wave_analysis.txt) | Complete numerical results |
 
-Requirements: Python, QuTiP (Quantum Toolbox in Python, a standard
-open-source library for simulating quantum systems), NumPy. Runtime: ~10 seconds for N=3.
+Requirements: Python, NumPy. Runtime: ~10 seconds for N=3.
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---

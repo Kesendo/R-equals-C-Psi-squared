@@ -110,10 +110,11 @@ deliberately break the symmetry.
    oscillate. Others (ZZZ) are static.
 
 4. [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md): The Π
-   operator does not just swap operators. It reverses the direction of
-   time in the eigenspace: it maps populations (the past, what has been
-   decided) to coherences (the future, what is still open). This
-   connects the palindrome, standing wave, and XOR space into one picture.
+   operator does not just swap operators. It mirrors the direction of
+   time in the eigenspace, mapping populations to coherences; in the
+   framework's interpretive reading, that is past (what has been
+   decided) meeting future (what is still open). This connects the
+   palindrome, standing wave, and XOR space into one picture.
 
 5. [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md):
    How far does this work? All 36 possible two-qubit Hamiltonians are

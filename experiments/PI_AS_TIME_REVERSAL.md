@@ -26,10 +26,13 @@ Z-dephasing, Π maps the immune sector {I, Z}⊗N (diagonal elements,
 classical probabilities, what has been decided) to the decaying sector
 {X, Y}⊗N (off-diagonal elements, quantum superposition, what is still
 undecided). In the rescaled frame where the uniform decay envelope is
-factored out, this is algebraically identical to time reversal:
-Π maps exp(+μt) to exp(−μt). The standing wave between forward and
-backward modes is the interference of these two sectors: populations
-(past, decided) and coherences (future, undecided) meet in the present.
+factored out, this is an exact conjugation of the propagator:
+Π maps exp(+μt) to exp(−μt), a structural mirror of the flow (not a
+reversal of the physical arrow, see Section 1). The standing wave
+between forward and backward modes is the interference of these two
+sectors: populations (past, decided) and coherences (future,
+undecided) meet in the present (the temporal labels are the Tier-3
+reading of Section 5).
 ZZZ is always a node (static, classical). XX/YY are always antinodes
 (oscillating, quantum). This connects three independently discovered
 results: the Π operator (March 14), the standing wave theory (December
@@ -45,6 +48,11 @@ The conjugation operator Π acts per site on Pauli indices:
 I → X (+1), X → I (+1), Y → iZ (+i), Z → iY (+i).
 It satisfies Π·L·Π⁻¹ = −L − 2Σγ·I, which generates the palindromic
 eigenvalue pairing (proven analytically, verified N=2 through N=8).
+This is the P1 gauge of a family of palindromizers (the proof documents
+a P4 partner and per-site families, and the sign of the ±i phase is
+itself free); Π factors as Π_Z = R·D
+([proof](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)), and
+Π² = (−1)^(w_YZ), the F63 parity grading.
 See [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 ### What populations and coherences are
@@ -63,8 +71,10 @@ rate: XY-weight k decays at rate 2kγ.
 Three results existed independently in this repository:
 
 1. **The Π operator** (March 14): A conjugation operator that generates
-   palindromic spectral symmetry. Proven algebraically, verified numerically
-   for N=3-5 on all topologies. Lives in [the mirror symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
+   palindromic spectral symmetry. Proven algebraically; the palindromic
+   spectrum is verified N=2 through N=8 (87,376 eigenvalues), and the
+   Π-eigenvector mapping itself is verified at N=3 below (32/32 pairs).
+   Lives in [the mirror symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
 2. **The standing wave metaphor** (December 23, 2025): "Future → Mirror ← Past
    = Standing Wave." A conceptual framework proposing that reality emerges as
@@ -99,13 +109,22 @@ If μ is a centered eigenvalue, then -μ is also a centered eigenvalue.
 ```
 
 A mode that evolves as exp(+μt) in the rescaled frame has a partner that
-evolves as exp(-μt). This is the definition of time reversal:
+evolves as exp(-μt). At the operator level this is exact: with
+L_c = L + Sγ·I,
 
 ```
-Π: exp(μt) → exp(-μt)     i.e.     Π: t → -t
+Π · exp(L_c·t) · Π⁻¹ = exp(-L_c·t)     i.e.     Π: t → -t  (rescaled frame)
 ```
 
-**This is not a metaphor. It is an algebraic identity.**
+**This is not a metaphor. It is an algebraic identity** (verified to
+machine precision). Its honest name is STRUCTURAL mirror, not dynamical
+time reversal: Π reverses the centered spectrum and conjugates the
+rescaled propagator, but it does not run the physical flow backward
+(Π does not reverse the decay envelope, and the dynamical separability
+obstruction [L_H, L_Dc] is nonzero at every N, see
+[Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)
+and [γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md) Test 6;
+[On Two Times](../reflections/ON_TWO_TIMES.md) names this distinction).
 
 In a closed quantum system, time reversal is "trivial": conjugate and
 reverse. In an open system with irreversible dissipation, time reversal
@@ -113,9 +132,10 @@ should be impossible. Entropy increases, coherence decays, the arrow of
 time points one way.
 
 Π circumvents this by operating in the rescaled frame. The irreversible
-part (uniform decay at rate Sγ) is factored out. What remains has
-perfect time-reversal symmetry. The dissipation itself produces the
-two halves, forward and backward, that form the standing wave.
+part (uniform decay at rate Sγ) is factored out. What remains has an
+exact spectral mirror symmetry (every centered rate comes with its
+negative). The dissipation itself produces the two halves, forward and
+backward, that form the standing wave.
 
 ### What Π does concretely
 
@@ -186,9 +206,10 @@ Therefore:
 The "past" is what has already decohered into classical definiteness.
 The "future" is what still carries quantum possibility.
 
-**Π maps past ↔ future.**
+**Π maps past ↔ future** (in the Tier-3 reading of Section 5; the swap
+itself is algebra, the temporal labels are the interpretation).
 
-This is not a philosophical claim. It follows from:
+The chain behind the identification:
 1. Π swaps {I,Z} ↔ {X,Y} (algebraic fact, proven)
 2. {I,Z} = populations = classical (eigenstructure of L_D)
 3. {X,Y} = coherences = quantum (eigenstructure of L_D)
@@ -239,9 +260,9 @@ is definitely true" is "what will most quickly be forgotten."
 More generally:
 
 ```
-Π(ZZI) = (iY)(iY)(X) = -YYX     (XY-weight 1 → XY-weight 2)
-Π(ZIZ) = (iY)(X)(iY) = -YXY     (XY-weight 1 → XY-weight 2)
-Π(IZZ) = (X)(iY)(iY) = -XYY     (XY-weight 1 → XY-weight 2)
+Π(ZZI) = (iY)(iY)(X) = -YYX     (XY-weight 0 → XY-weight 3)
+Π(ZIZ) = (iY)(X)(iY) = -YXY     (XY-weight 0 → XY-weight 3)
+Π(IZZ) = (X)(iY)(iY) = -XYY     (XY-weight 0 → XY-weight 3)
 ```
 
 Every low-XY-weight Pauli string (slow decay, classical, persistent)
@@ -274,15 +295,28 @@ The correspondence:
 
 | Standing wave theory | Lindblad mathematics |
 |---|---|
-| Future (incoming wave) | Forward mode exp(+μt), high XY-weight, quantum coherences |
-| Past (reflected wave) | Backward mode exp(-μt), low XY-weight, classical populations |
+| Future (incoming wave) | Backward mode exp(-μt), high XY-weight, quantum coherences |
+| Past (reflected wave) | Forward mode exp(+μt), low XY-weight, classical populations |
 | Mirror | Π operator (maps forward ↔ backward) |
 | Standing wave | Superposition of palindromic pair under decay envelope |
 | Nodes (sin(kx) = 0) | ZZZ and other XY-weight 0 Paulis (static, classical) |
 | Antinodes (sin(kx) = max) | XX, YY, XY correlations (oscillating, quantum) |
 | Present | The interference pattern: neither past nor future alone |
 
-**The STANDING_WAVE_THEORY was a prediction. The Π operator is the proof.**
+The direction assignment follows the rates: XY-weight k decays at 2kγ,
+so a high-XY-weight mode decays FASTER than the Sγ envelope and shrinks
+in the rescaled frame (exp(−μt), the future losing possibilities as
+decisions are made), while a low-XY-weight mode persists relative to
+the envelope (exp(+μt), the past accumulating). The March version of
+this table had the two XY-weight cells inverted; the committed verify
+run pins the correct pairing (forward Re(μ) > 0 = {I,Z}-heavy,
+backward = {X,Y}-heavy), and Bell+ in that run excites only the
+backward members, consistent with a coherence-rich state living on the
+future side.
+
+**The STANDING_WAVE_THEORY was a prediction. The Π operator is the
+proof of the pairing** (the temporal reading of the pair remains the
+Section-5 Tier-3 identification).
 
 ### Why the standing wave exists in an open system
 
@@ -347,16 +381,26 @@ temporal language. The physics does not change.
 3. **Depolarizing noise.** ANSWERED (March 19, 2026). The palindrome breaks
    because depolarizing noise splits {I,X,Y,Z} into 1 immune and 3 decaying
    (1:3), making bijective mirroring impossible. The error is exactly (2/3)Sγ,
-   Hamiltonian-independent. The future is exponentially larger than the past:
-   ratio = (1/3)^N per site. No threshold exists in the Z-deph to depol
-   interpolation. See [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md).
+   Hamiltonian-independent; three later refinements scope the number: it is
+   the max entry in the PAULI basis (the computational basis reads (2/9)Σγ,
+   the basis is part of the number, see the
+   [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) scope
+   section), it assumes the γ/3-per-axis convention and sits on a kink of
+   the interpolation, and it is the spectral-gap metric, distinct from the
+   best-pairing error ~(2/3)γ(N−2)
+   ([Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md)). The future
+   is exponentially larger than the past: whole-system ratio (1/3)^N
+   (1 immune string against 3^N fully-decaying ones; 1:3 per site). No
+   threshold exists in the Z-deph to depol interpolation.
+   See [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md).
 
 4. **Numerical verification.** VERIFIED (March 19, 2026). All 32/32
    palindromic pairs confirmed: Π maps every eigenvector into its
    partner eigenspace with max residual 2.68e-13. XY-weight swap
    exact: w(k) + w(Π|k⟩) = 3.000 for all pairs (max deviation 8.88e-16).
-   Bell's oscillating modes show forward (Re(μ)>0) = low XY-weight,
-   backward (Re(μ)<0) = high XY-weight. Π(ZZZ) = -i·YYY exactly.
+   The oscillatory bands show forward (Re(μ)>0) = low XY-weight,
+   backward (Re(μ)<0) = high XY-weight (Bell+ itself excites only the
+   backward members). Π(ZZZ) = -i·YYY exactly.
    See [`simulations/pi_time_reversal_verify.py`](../simulations/pi_time_reversal_verify.py) and results.
 
 ---
@@ -377,7 +421,8 @@ March 19, 2026 (this document): The bridge.
 Π is the mirror. Populations are the past. Coherences are the
 future. The standing wave is the interference between them.
 
-The metaphor was the prediction. The algebra is the proof.
+The metaphor was the prediction. The algebra is the proof of the
+mirror; the temporal names stay the Section-5 interpretation.
 
 ---
 
@@ -392,18 +437,29 @@ by swapping which sector decays. Without γ, there is no decaying sector,
 and Π has nothing to swap. The standing wave exists only because γ creates
 the two halves (immune and decaying) that Π maps onto each other.
 
-The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) shows
-that the same palindromic mode structure that creates the standing wave
-also functions as an antenna for reading external dephasing profiles.
-The standing wave describes how information oscillates *within* the
-system. The γ channel describes how information enters *from outside*.
-Both depend on the palindromic pairing generated by Π.
+The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) reads
+external dephasing profiles through the same palindromic mode
+structure. The standing wave describes how information oscillates
+*within* the system; the γ channel describes how information enters
+*from outside*. The standing wave depends on the palindromic pairing
+generated by Π; the channel's full rank does not (it survives
+palindrome breaking; the palindrome is the channel's reading frame,
+not the cause of its rank).
 
 The **IBM hardware validation** ([the IBM Run 3 palindrome](IBM_RUN3_PALINDROME.md))
 confirmed the CΨ = 1/4 crossing at 1.9%. The standing wave pattern
 predicted here has not yet been measured on hardware (it requires
 multi-qubit tomography, not single-qubit). This is an open experimental
 target.
+
+The **modern typed home** of the rescaled-frame mirror is
+`compute/MirrorWorld/Mirror.cs` (adopted 2026-07-03, run mode
+`mirror N`): the fold-lattice group of eight exact entry-wise
+rearrangements, where the trajectory fold runs the partner block
+BACKWARD at the price λ → −λ − 2Nγ, with residuals exactly 0.0 and no
+eigensolver. The sharpened naming lives in
+[On Two Times](../reflections/ON_TWO_TIMES.md): named time reversal,
+but structural mirror is the accurate reading.
 
 ---
 
@@ -414,9 +470,11 @@ same Liouvillian eigendecomposition as the
 [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md). The numerical
 verification (32/32 palindromic pairs confirmed, max residual 2.68×10⁻¹³,
 XY-weight swap exact to 8.88×10⁻¹⁶) is in
-[`simulations/pi_time_reversal_verify.py`](../simulations/pi_time_reversal_verify.py).
+[`simulations/pi_time_reversal_verify.py`](../simulations/pi_time_reversal_verify.py)
+with committed output
+[`pi_time_reversal_verify.txt`](../simulations/results/pi_time_reversal_verify.txt).
 
-Requirements: Python, QuTiP, NumPy.
+Requirements: Python, NumPy.
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ---
