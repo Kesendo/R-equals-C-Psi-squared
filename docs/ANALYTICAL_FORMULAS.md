@@ -5491,13 +5491,14 @@ h∨ = 7 pins level ℓ = 4, a coordinate peg (a twisted home relabels the same 
 **Domain:** exact on two rows; with a third row the reflection holds at l ∈ {0,1,3,4,5}
 and breaks at l = 2 on exactly 8 pairs (the two nonzero l = 2 entries that reflect are
 the center-fixed j = 5 weights); "l = 2" is itself a projection artifact of a deeper
-tail inventory. **Open, deliberately:** the mechanism. What it provably is NOT
-(each closed with its own small theorem, mapped in the proof doc §5): a constituent
-cancellation at any depth, an affine array symmetry (the centroid obstruction), a
-finite-Weyl/modification-rule consequence, a telescope boundary, a term bijection, or
-a twisted A₁₂⁽²⁾ denominator. The posed open problem: the theta/affine-character
-identity on the (B₆, C₆) Langlands seam that makes the law a corollary and reproduces
-the break inventory.
+tail inventory. **The mechanism: found (F139, 2026-07-21).** The wall is a
+Chebyshev divisor: dividing the a-priori one-variable collapse Φ_k of the letter
+system by S₁₀(y) = sin(11θ)/sinθ returns the P_k above as quotients with remainder
+degree ≤ 4+k, which derives this law from F133 and explains the l = 2 breaks as
+remainder overflow (see F139). The closed internal routes remain mapped in the proof
+doc §5 (constituent cancellation, affine array symmetry via the centroid obstruction,
+modification rules, telescopes, term bijections, twisted A₁₂⁽²⁾ denominators): they
+are why the mechanism had to live outside the array, as it does.
 **Gate:** [`f134_two_row_reflection_law.py`](../simulations/f134_two_row_reflection_law.py)
 (~2 min, G1 the law, G2 oddness, G3 Θ-decomposition, G4 level dictionary, G5 domain
 fence, G6 centroid; exact ℤ throughout). **Proof:**
@@ -5506,7 +5507,7 @@ fence, G6 centroid; exact ℤ throughout). **Proof:**
 the "F134 two-row reflection law" node): `WSymplecticClosedForm.AnalyzeTwoRowReflection`
 recomputes the 36 pairs from the embedded table plus every live pair on the read-off
 path, and the l = 2 fence; tests `dotnet test compute/RCPsiSquared.Diagnostics.Tests
---filter CrossTripleOrthogonality` (38 with this layer).
+--filter CrossTripleOrthogonality` (41 with the F139 layer).
 
 ### F135. The record parity law: which witnesses record is the arithmetic of the angle ratios (pair reduction exact ∀N any graph; laws gated at N=8, 22/22; minted 2026-07-18)
 
@@ -5699,6 +5700,51 @@ self-total 105/105).
 [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
 (`1c7dcf9`, field-free clause refined in `08db70e`). **Typed:** not yet
 (Tier1Candidate). Open: typing; a derivation of the two-term proviso.
+
+### F139. The seam identity: the F134 wall is a Chebyshev divisor (a chain of six lemmas ending in a finite exact-ℤ division; a priori from the F133 letters; minted 2026-07-21)
+
+The mechanism F134 posed as its one open problem. Build, from F133's letter
+system alone (no table input), the one-variable polynomial
+
+    Φ_k(y) = (y²−1)·φ₀ + y·φ₁ + φ₂,   φ_i(y) = Σ_t ψ_{i,t}·y^{15−t},
+    ψ_{i,t} = R⁻[e_i(P)·e_t({C_M})],
+
+where P = {e₁..e₅, 𝟙} is the 6-letter window, {C_M} the 15 cosine pairs of the
+Core (the spin cube minus its poles), and R⁻ the signed W(C₅) read-off at
+μ = ν+ρ₅ (all in x = t′² units). Then polynomial division by
+**S₁₀(y) = sin(11θ)/sinθ = ∏_{r=1}^{10}(y − 2cos(rπ/11))**, the vanishing
+polynomial of the Niven 11-lattice, gives
+
+    Φ_k = S₁₀ · (−1)^k·P_k + R_k,   deg R_k ≤ 4+k,   R₀ = 0,
+
+with P_k exactly F134's committed column polynomials: **the quotients are the
+columns, the remainders are the beyond-wall shadow, and the wall 11 is a
+divisor, not a symmetry** ((z−z⁻¹)·S₁₀(z+z⁻¹) = z¹¹−z⁻¹¹ is the wall factor;
+the centroid obstruction had already ruled out any symmetry reading). Since
+S₁₀·S_j has Chebyshev-S coefficients symmetric about 10 throughout [5,15] and
+R_k feeds only degrees below the k-window, the identity **derives F134 from
+F133**; the table reads off as n_(λ₁,k) = (−1)^{λ₁}·b_{λ₁+5} (S-basis of Φ_k),
+reproduced on all 27 parity-live strip cells including zeros. The fence lands
+exactly: l = 1 slices have remainder degree ≤ 4 (the l = 1 hold), l = 2 slices
+have remainder degree 8–9, **the famous 8 breaks are remainder overflow**.
+**Grade:** six hand-provable lemmas (the t₁-slice, one-slice-suffices, the
+Core pair factorization (1+zx^M)(1+zx^{−M}) = z(y+C_M), the window skew
+ψ_{6−i,t} = −ψ_{i,t}, the Chebyshev fold c(z) = −z^{18}(z−z⁻¹)Φ(y), the
+division) ending in a finite exact-ℤ computation; the F127-wall epistemic
+class, now for a mechanism. **Open:** a structural derivation of
+deg R_k ≤ 4+k without performing the division (the proof doc §5 names the
+two doors: root-of-unity specializations and the θ₁/Appell-Lerch reading).
+**Gate:** [`f139_seam_identity.py`](../simulations/f139_seam_identity.py)
+(~2-3 min; G1 slice identity vs the committed F133 read-off, G2 skew, G3
+degree lemma, G4 the a-priori table 27/27, G5 the division, G6 the fence,
+G7 corruption control). **Proof:**
+[PROOF_F139_SEAM_IDENTITY](proofs/PROOF_F139_SEAM_IDENTITY.md). **Typed:**
+live since the same day under the F127 claim (`inspect --root crosstriple`,
+the "F139 seam identity" node): `WSymplecticClosedForm.AnalyzeSeamIdentity`
+rebuilds ψ, Φ and the division on its own five-variable engine and checks
+the a-priori table against the embedded F134 table; tests `dotnet test
+compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`
+(41 with this layer).
 
 ---
 

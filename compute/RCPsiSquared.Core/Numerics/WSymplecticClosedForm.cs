@@ -339,6 +339,323 @@ public static class WSymplecticClosedForm
                                           spotPairs, spotMism);
     }
 
+    // ------------------------------------------------------------------ the F139 seam identity ----
+
+    /// <summary>What <see cref="AnalyzeSeamIdentity"/> recomputes (F139): the seam identity behind the
+    /// F134 reflection law, on a code path independent of both the Python gate and the six-variable
+    /// read-off. A priori from the letter system (five variables x = t′²): the cosine matrix
+    /// ψ_{i,t} = R⁻[e_i(P)·e_t({C_M})] (P = {e₁..e₅, 𝟙} the 6-letter window; C_M the 15 Core cosine
+    /// pairs), the one-variable polynomial Φ_k = (y²−1)φ₀ + yφ₁ + φ₂ with φ_i = Σ_t ψ_{i,t} y^{15−t},
+    /// and the division Φ_k = S₁₀·(−1)^k P_k + R_k by the Chebyshev wall divisor
+    /// S₁₀(y) = sin(11θ)/sinθ. Checks: the skew ψ_{6−i,t} = −ψ_{i,t}; deg Φ_k ≤ 15; the a-priori
+    /// table n_(λ₁,k) = (−1)^{λ₁}·b_{λ₁+5} vs the embedded F133 table on every parity-live strip
+    /// cell; the quotients equal (−1)^k P_k with deg R_k ≤ 4+k and R₀ = 0; the fence (l = 1
+    /// remainders ≤ 4, l = 2 remainders ≥ 8: the breaks are remainder overflow); and a corruption
+    /// control (one ψ entry bumped must break the table reproduction).</summary>
+    public sealed record SeamIdentityReport(
+        bool SkewOk, bool DegreeLemmaOk, int TableCellsChecked, int TableMismatches,
+        bool QuotientsMatch, bool RemainderBoundsOk, bool K0RemainderZero,
+        bool FenceL1Ok, bool FenceL2Overflow, bool CorruptionBroke);
+
+    private const int Bits5 = 12;
+    private const int Bias5 = 2048;
+
+    private static ulong Pack5(ReadOnlySpan<int> e)
+    {
+        ulong k = 0;
+        for (int u = 0; u < 5; u++)
+        {
+            int shifted = e[u] + Bias5;
+            if (shifted < 0 || shifted >= (1 << Bits5))
+                throw new InvalidOperationException($"5-var exponent {e[u]} outside the packing window");
+            k |= (ulong)shifted << (Bits5 * u);
+        }
+        return k;
+    }
+
+    private static readonly ulong PackBase5 = Pack5(stackalloc int[5]);
+
+    /// <summary>e-series of a letter multiset where each letter is a (possibly 2-term) Laurent
+    /// polynomial: T[j] = coefficient dict of e_j after absorbing every letter.</summary>
+    private static Dictionary<ulong, long>[] ESeries5((ulong Key, long Coeff)[][] letters, int maxDeg)
+    {
+        var T = new Dictionary<ulong, long>[maxDeg + 1];
+        for (int j = 0; j <= maxDeg; j++) T[j] = new Dictionary<ulong, long>();
+        T[0][PackBase5] = 1;
+        foreach (var letter in letters)
+            for (int j = maxDeg; j >= 1; j--)
+                foreach (var (k, c) in T[j - 1].ToArray())
+                    foreach (var (lk, lc) in letter)
+                        AddTo(T[j], k + lk - PackBase5, c * lc);
+        for (int j = 0; j <= maxDeg; j++)
+            foreach (var (k, c) in T[j].ToArray())
+                if (c == 0) T[j].Remove(k);
+        return T;
+    }
+
+    private static (Dictionary<ulong, long>[] ECos, Dictionary<ulong, long>[] EWin) SeamLetterTables()
+    {
+        // Core cosine pairs: the 15 antipodal pairs of {±1}⁵ ∖ {±𝟙}, representative first coord +1.
+        var cos = new List<(ulong, long)[]>();
+        for (int mask = 0; mask < 16; mask++)
+        {
+            var m = new int[5];
+            m[0] = 1;
+            for (int j = 0; j < 4; j++) m[1 + j] = ((mask >> j) & 1) == 1 ? -1 : 1;
+            bool isPole = m.All(v => v == 1);
+            if (isPole) continue;                       // +𝟙 excluded; −𝟙 is the pair of +𝟙
+            var neg = m.Select(v => -v).ToArray();
+            cos.Add(new[] { (Pack5(m), 1L), (Pack5(neg), 1L) });
+        }
+        // The window P = {e₁..e₅, 𝟙}.
+        var win = new List<(ulong, long)[]>();
+        for (int v = 0; v < 5; v++)
+        {
+            var e = new int[5];
+            e[v] = 1;
+            win.Add(new[] { (Pack5(e), 1L) });
+        }
+        win.Add(new[] { (Pack5(new[] { 1, 1, 1, 1, 1 }), 1L) });
+        return (ESeries5(cos.ToArray(), 15), ESeries5(win.ToArray(), 6));
+    }
+
+    private static readonly int[] Delta5 = { 2, 1, 0, -1, -2 };
+    private static readonly int[] Rho5 = { 5, 4, 3, 2, 1 };
+
+    /// <summary>ψ_{i,t} at ν: the signed W(C₅) read-off Σ_{ε,σ} sgn(ε)sgn(σ)·
+    /// [e_i(P)·e_t({C_M})]_{ε∘μ + 𝟙 − σδ}, μ = ν + ρ₅.</summary>
+    private static long Psi(int i, int t, ReadOnlySpan<int> nu,
+                            Dictionary<ulong, long>[] eCos, Dictionary<ulong, long>[] eWin)
+    {
+        Span<int> mu = stackalloc int[5];
+        for (int u = 0; u < 5; u++) mu[u] = nu[u] + Rho5[u];
+        long tot = 0;
+        var perm = new int[5];
+        Span<int> arg = stackalloc int[5];
+        // enumerate S₅ via Heap-free index loops (120 perms) × 32 sign vectors
+        var perms = Permutations5();
+        foreach (var (p, ps) in perms)
+            for (int eps = 0; eps < 32; eps++)
+            {
+                int es = 1;
+                for (int u = 0; u < 5; u++)
+                {
+                    int e = ((eps >> u) & 1) == 1 ? -1 : 1;
+                    es *= e;
+                    arg[u] = e * mu[u] + 1 - Delta5[p[u]];
+                }
+                ulong target = Pack5(arg);
+                long inner = 0;
+                foreach (var (wk, wc) in eWin[i])
+                {
+                    if (eCos[t].TryGetValue(target - wk + PackBase5, out long cc))
+                        inner += wc * cc;
+                }
+                tot += (long)(ps * es) * inner;
+            }
+        return tot;
+    }
+
+    private static List<(int[] P, int Sign)>? _perms5;
+    private static List<(int[] P, int Sign)> Permutations5()
+    {
+        if (_perms5 is not null) return _perms5;
+        var result = new List<(int[], int)>();
+        var idx = new[] { 0, 1, 2, 3, 4 };
+        void Permute(int[] a, int k)
+        {
+            if (k == a.Length)
+            {
+                int s = 1;
+                for (int x = 0; x < 5; x++)
+                    for (int y = x + 1; y < 5; y++)
+                        if (a[x] > a[y]) s = -s;
+                result.Add(((int[])a.Clone(), s));
+                return;
+            }
+            for (int x = k; x < a.Length; x++)
+            {
+                (a[k], a[x]) = (a[x], a[k]);
+                Permute(a, k + 1);
+                (a[k], a[x]) = (a[x], a[k]);
+            }
+        }
+        Permute(idx, 0);
+        _perms5 = result;
+        return result;
+    }
+
+    /// <summary>Φ at ν: monomial coefficients (index = y-power) of (y²−1)φ₀ + yφ₁ + φ₂;
+    /// optionally bump one ψ entry (the corruption control).</summary>
+    private static long[] PhiPoly(ReadOnlySpan<int> nu, Dictionary<ulong, long>[] eCos,
+                                  Dictionary<ulong, long>[] eWin, (int I, int T)? bump = null)
+    {
+        var outp = new long[18];
+        for (int i = 0; i <= 2; i++)
+            for (int t = 0; t <= 15; t++)
+            {
+                long v = Psi(i, t, nu, eCos, eWin);
+                if (bump is not null && bump.Value.I == i && bump.Value.T == t) v += 1;
+                if (v == 0) continue;
+                int p = 15 - t;
+                if (i == 0) { outp[p + 2] += v; outp[p] -= v; }
+                else if (i == 1) outp[p + 1] += v;
+                else outp[p] += v;
+            }
+        return outp;
+    }
+
+    /// <summary>Chebyshev S-polynomials in the 2cos normalization, S_m(2cosθ) = sin((m+1)θ)/sinθ.</summary>
+    private static long[][] ChebyshevS(int maxM)
+    {
+        var s = new long[maxM + 1][];
+        s[0] = new long[] { 1 };
+        s[1] = new long[] { 0, 1 };
+        for (int m = 2; m <= maxM; m++)
+        {
+            s[m] = new long[m + 1];
+            for (int p = 0; p < s[m - 1].Length; p++) s[m][p + 1] += s[m - 1][p];
+            for (int p = 0; p < s[m - 2].Length; p++) s[m][p] -= s[m - 2][p];
+        }
+        return s;
+    }
+
+    private static Dictionary<int, long> ToSBasis(long[] poly, long[][] s)
+    {
+        var a = (long[])poly.Clone();
+        var b = new Dictionary<int, long>();
+        for (int m = a.Length - 1; m >= 0; m--)
+        {
+            long c = a[m];
+            if (c == 0) continue;
+            b[m] = c;
+            for (int p = 0; p < s[m].Length; p++) a[p] -= c * s[m][p];
+        }
+        if (a.Any(x => x != 0))
+            throw new InvalidOperationException("S-basis reduction left a residue");
+        return b;
+    }
+
+    private static (long[] Q, long[] R) DivMod(long[] a, long[] b)
+    {
+        var r = (long[])a.Clone();
+        int db = b.Length - 1;
+        while (db > 0 && b[db] == 0) db--;
+        if (Math.Abs(b[db]) != 1)
+            throw new InvalidOperationException("DivMod assumes a monic (or anti-monic) divisor");
+        var q = new long[Math.Max(r.Length - db, 1)];
+        for (int da = r.Length - 1; da >= db; da--)
+        {
+            if (r[da] == 0) continue;
+            long c = r[da] / b[db];
+            q[da - db] = c;
+            for (int p = 0; p <= db; p++) r[p + da - db] -= c * b[p];
+        }
+        return (q, r);
+    }
+
+    private static int Deg(long[] a)
+    {
+        for (int p = a.Length - 1; p >= 0; p--)
+            if (a[p] != 0) return p;
+        return -1;
+    }
+
+    public static SeamIdentityReport AnalyzeSeamIdentity()
+    {
+        var (eCos, eWin) = SeamLetterTables();
+        var s = ChebyshevS(17);
+        var s10 = s[10];
+
+        // skew ψ_{6−i,t} = −ψ_{i,t} on the whole grid, one-row k = 0..5
+        bool skewOk = true;
+        for (int k = 0; k <= 5 && skewOk; k++)
+        {
+            var nu = new[] { k, 0, 0, 0, 0 };
+            for (int i = 0; i <= 6 && skewOk; i++)
+                for (int t = 0; t <= 15 && skewOk; t++)
+                    if (Psi(6 - i, t, nu, eCos, eWin) != -Psi(i, t, nu, eCos, eWin))
+                        skewOk = false;
+        }
+
+        // Φ_k, degree lemma, a-priori table vs the embedded F133 table
+        var tableMap = new Dictionary<string, long>();
+        foreach (var (lam, n) in TableCoefficients())
+            if (lam.Length <= 2)
+                tableMap[$"{(lam.Length > 0 ? lam[0] : 0)},{(lam.Length > 1 ? lam[1] : 0)}"] = n;
+
+        var phis = new long[6][];
+        var sBasis = new Dictionary<int, long>[6];
+        bool degOk = true;
+        for (int k = 0; k <= 5; k++)
+        {
+            phis[k] = PhiPoly(new[] { k, 0, 0, 0, 0 }, eCos, eWin);
+            if (Deg(phis[k]) > 15) degOk = false;
+            sBasis[k] = ToSBasis(phis[k], s);
+        }
+
+        int cells = 0, mism = 0;
+        for (int lam1 = 0; lam1 <= 10; lam1++)
+            for (int k = 0; k <= Math.Min(lam1, 5); k++)
+            {
+                if ((lam1 + k) % 2 != 0) continue;
+                cells++;
+                long b = sBasis[k].TryGetValue(lam1 + 5, out long bv) ? bv : 0;
+                long got = (lam1 % 2 == 0 ? 1 : -1) * b;
+                long want = tableMap.TryGetValue($"{lam1},{k}", out long tv) ? tv : 0;
+                if (got != want) mism++;
+            }
+
+        // the division: expected quotients (−1)^k·P_k in the S-basis
+        var expectedQ = new Dictionary<int, long>[]
+        {
+            new() { [1] = 1, [5] = -1 },            // (−1)⁰ P₀ = S₁ − S₅
+            new() { [0] = 2, [2] = 1, [4] = -1 },   // (−1)¹ P₁ = −(S₄ − S₂ − 2S₀) = 2S₀ + S₂ − S₄
+            new() { [1] = 3 },                      // (−1)² P₂ = 3S₁
+            new() { [0] = 2, [2] = 1 },             // (−1)³ P₃ = −P₃ = S₂ + 2S₀
+            new() { [1] = 1 },                      // (−1)⁴ P₄ = S₁
+            new(),                                  // (−1)⁵ P₅ = 0
+        };
+        bool quotOk = true, remOk = true, k0Zero = true;
+        for (int k = 0; k <= 5; k++)
+        {
+            var (q, r) = DivMod(phis[k], s10);
+            var bq = ToSBasis(q, s).Where(kv => kv.Value != 0).ToDictionary(kv => kv.Key, kv => kv.Value);
+            var want = expectedQ[k].Where(kv => kv.Value != 0).ToDictionary(kv => kv.Key, kv => kv.Value);
+            if (bq.Count != want.Count || bq.Any(kv => !want.TryGetValue(kv.Key, out long w) || w != kv.Value))
+                quotOk = false;
+            if (Deg(r) > 4 + k) remOk = false;
+            if (k == 0 && Deg(r) != -1) k0Zero = false;
+        }
+
+        // the fence: l = 1 small, l = 2 overflow
+        bool l1Ok = true, l2Ok = true;
+        foreach (var nu in new[] { new[] { 2, 1, 0, 0, 0 }, new[] { 3, 1, 0, 0, 0 } })
+        {
+            var (_, r) = DivMod(PhiPoly(nu, eCos, eWin), s10);
+            if (Deg(r) > 4) l1Ok = false;
+        }
+        foreach (var nu in new[] { new[] { 2, 2, 0, 0, 0 }, new[] { 3, 2, 0, 0, 0 }, new[] { 4, 2, 0, 0, 0 } })
+        {
+            var (_, r) = DivMod(PhiPoly(nu, eCos, eWin), s10);
+            if (Deg(r) < 8) l2Ok = false;
+        }
+
+        // corruption control: bump the PARITY-LIVE ψ_{0,4} in Φ₀ (t even is the live parity at
+        // k = 0, i = 0; the bump feeds y¹³ − y¹¹, which the k = 0 row reads); must break
+        var bumped = ToSBasis(PhiPoly(new[] { 0, 0, 0, 0, 0 }, eCos, eWin, (0, 4)), s);
+        bool broke = false;
+        for (int lam1 = 0; lam1 <= 10 && !broke; lam1 += 2)
+        {
+            long b = bumped.TryGetValue(lam1 + 5, out long bv) ? bv : 0;
+            long want = tableMap.TryGetValue($"{lam1},0", out long tv) ? tv : 0;
+            if (b != want) broke = true;
+        }
+
+        return new SeamIdentityReport(skewOk, degOk, cells, mism, quotOk, remOk, k0Zero,
+                                      l1Ok, l2Ok, broke);
+    }
+
     /// <summary>The read-off-derived nonzero coefficients (λ, n_λ) over the window: a code path
     /// disjoint from the embedded table (the GF(p) certificate consumes THESE, not the table).</summary>
     public static List<(int[] Lam, long N)> DeriveCoefficients(Halves h)

@@ -634,9 +634,14 @@ public static class OpenArcsRegistry
                 "peg, not intrinsic); certificate grade, " +
                 "the F127-wall class; gate f134_two_row_reflection_law.py + the crosstriple witness node; " +
                 "Theta-decomposition explicit, the (-,+) dihedral character pinned, l=2 domain fence measured). " +
+                "UPDATE 2026-07-21: the F134 MECHANISM CLOSED as F139 (PROOF_F139_SEAM_IDENTITY: the wall " +
+                "is a Chebyshev divisor; Phi_k = S_10 * (-1)^k P_k + R_k with deg R_k <= 4+k, built a priori " +
+                "from the F133 letters via six hand-provable lemmas, the committed P_k recovered as the " +
+                "quotients, the l=2 breaks = remainder overflow; gate f139_seam_identity.py + " +
+                "WSymplecticClosedForm.AnalyzeSeamIdentity on the crosstriple witness). " +
                 "REMAINING on this arc: the code-trust layer (named, narrowing with each independent " +
-                "implementation), the F134 MECHANISM (the theta/affine-character identity on the (B6,C6) " +
-                "Langlands seam; every internal route closed with its own small theorem, proof doc SS5), and " +
+                "implementation), the STRUCTURAL derivation of F139's remainder bound deg R_k <= 4+k " +
+                "(the division verifies it; proof doc SS5 names the two doors), and " +
                 "the full closed form for the 143 n_lambda (King arXiv:2303.00576 dual-pair route; product " +
                 "ansaetze ruled out). Earlier context follows. " +
                 "RESUMING IN ONE LINE (2026-07-06, post N=11 completion; step 3 landed through N=11 via the sparse path) [symbols: see the TERMS block at " +

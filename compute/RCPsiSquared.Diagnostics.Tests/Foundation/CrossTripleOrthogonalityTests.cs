@@ -524,4 +524,45 @@ public class CrossTripleOrthogonalityTests
         Assert.Contains("two-row reflection", w.Summary);
         Assert.StartsWith("PASS", w.Summary);
     }
+
+    // ---- F139: the seam identity (the F134 wall as a Chebyshev divisor) ----
+
+    [Fact]
+    public void F139SeamIdentity_APrioriTable_QuotientsAndRemainderBounds()
+    {
+        // (F139 gates G2-G5): the a-priori chain (letters → ψ → Φ → division by S₁₀) reproduces
+        // the embedded two-row table on all 27 parity-live strip cells, the quotients equal
+        // (−1)^k·P_k (the committed F134 column polynomials), the remainders obey deg R_k ≤ 4+k,
+        // and Φ₀ = S₁₀·(S₁ − S₅) exactly (zero remainder). This DERIVES F134 from F133 on a code
+        // path disjoint from both the Python gate and the six-variable read-off.
+        var r = WSymplecticClosedForm.AnalyzeSeamIdentity();
+        Assert.True(r.SkewOk, "psi-skew psi_{6-i,t} = -psi_{i,t} must hold on the whole grid");
+        Assert.True(r.DegreeLemmaOk, "deg Phi_k <= 15");
+        Assert.Equal(27, r.TableCellsChecked);
+        Assert.Equal(0, r.TableMismatches);
+        Assert.True(r.QuotientsMatch, "quotients must equal (-1)^k P_k");
+        Assert.True(r.RemainderBoundsOk, "deg R_k <= 4+k");
+        Assert.True(r.K0RemainderZero, "Phi_0 must be exactly divisible by S_10");
+    }
+
+    [Fact]
+    public void F139SeamIdentity_Fence_AndCorruptionControl()
+    {
+        // (F139 gates G6-G7): the fence lands on the F134 break atlas (l = 1 remainders small,
+        // l = 2 remainders overflow the window: the 8 breaks are remainder overflow), and a
+        // bumped parity-live ψ entry must break the table reproduction (discrimination).
+        var r = WSymplecticClosedForm.AnalyzeSeamIdentity();
+        Assert.True(r.FenceL1Ok, "l = 1 remainder degree must stay <= 4");
+        Assert.True(r.FenceL2Overflow, "l = 2 remainder degree must be >= 8 (the breaks)");
+        Assert.True(r.CorruptionBroke, "a bumped psi entry must break the table");
+    }
+
+    [Fact]
+    public void Witness_SummaryReportsF139()
+    {
+        var w = new CrossTripleOrthogonalityWitness();
+        Assert.Contains("F139", w.Summary);
+        Assert.Contains("seam identity", w.Summary);
+        Assert.StartsWith("PASS", w.Summary);
+    }
 }

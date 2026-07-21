@@ -76,6 +76,10 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
         new[]{2,2}, new[]{6,6}, new[]{4,4,4,4}, new[]{8,8},
     };
 
+    // F139 (the seam identity): exact ℤ, deterministic, no primes; computed once per process.
+    private static readonly Lazy<WSymplecticClosedForm.SeamIdentityReport> Seam =
+        new(WSymplecticClosedForm.AnalyzeSeamIdentity);
+
     // the two exact ℤ[ζ_2n] layers are deterministic and independent of the primes;
     // computed once per process and shared between Summary and their nodes (no double run).
     private static readonly Lazy<LevelCollisionCensus.Report> Census =
@@ -86,10 +90,10 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
         new(() => CollisionFamilyInventory.Analyze());
 
     public string DisplayName =>
-        "F127/F128/F129/F130/F133/F134 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + " +
+        "F127/F128/F129/F130/F133/F134/F139 cross-triple orthogonality (live: 𝔉-slice + core-identity T + closed form + " +
         "sheet lattice + F128 flip lemma/factorization/sharper locus + F129 exact level census + " +
         "F129 family-inventory sum tie + F130 exact collision decoupling + F133 symplectic closed form of W + " +
-        "F134 two-row reflection law)";
+        "F134 two-row reflection law + F139 seam identity)";
 
     /// <summary>The live F133 subset (fast): the sin-s lemma over ℤ, a ~20-λ read-off spot check vs the
     /// embedded table, and the GF(p) closed-form certificate at a few points/prime (table coefficients
@@ -179,13 +183,18 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                           refl.L2PairsChecked == 16 && refl.L2Breaks == 8 &&
                           refl.L2CenterHoldsNonzero &&
                           refl.SpotPairsChecked == refl.LivePairs && refl.SpotMismatches == 0;
+            var seam = Seam.Value;
+            bool f139Ok = seam.SkewOk && seam.DegreeLemmaOk && seam.TableMismatches == 0 &&
+                          seam.TableCellsChecked == 27 && seam.QuotientsMatch &&
+                          seam.RemainderBoundsOk && seam.K0RemainderZero &&
+                          seam.FenceL1Ok && seam.FenceL2Overflow && seam.CorruptionBroke;
             bool pass = bad == 0 && controls >= (int)(0.9 * samples) &&
                         coreBad == 0 && coreCtrl >= (int)(0.8 * coreCtrlEval) &&
                         cfBad == 0 && cfCtrl >= (int)(0.8 * cfCtrlEval) &&
                         shBad == 0 && shCtrl >= (int)(0.8 * shCtrlEval) && latticeOk &&
                         flipOk && fxBad == 0 && fxCtrl >= (int)(0.8 * fxCtrlEval) &&
                         flBad == 0 && flCtrl >= (int)(0.8 * flCtrlEval) &&
-                        censusOk && decOk && invOk && f133Ok && f134Ok;
+                        censusOk && decOk && invOk && f133Ok && f134Ok && f139Ok;
             return $"{(pass ? "PASS" : "FAIL")}: 𝔉-slice {onVariety} zeros ({bad} bad), " +
                    $"{controls}/{samples} controls nonzero; core-T {coreEvals} zeros ({coreBad} bad), " +
                    $"{coreCtrl}/{coreCtrlEval} controls nonzero; closed form {cfPts} generic points " +
@@ -205,7 +214,11 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                    $"corruptions broke {(f133Ok ? "OK" : "BAD")}; F134 two-row reflection " +
                    $"{refl.Mismatches}/{refl.PairsChecked} mismatch ({refl.LivePairs} live, spot " +
                    $"{refl.SpotMismatches} mismatch), l=2 fence {refl.L2Breaks}/{refl.L2PairsChecked} " +
-                   $"breaks {(f134Ok ? "OK" : "BAD")}";
+                   $"breaks {(f134Ok ? "OK" : "BAD")}; F139 seam identity: a-priori table " +
+                   $"{seam.TableMismatches}/{seam.TableCellsChecked} mismatch, quotients = (−1)^k P_k " +
+                   $"{(seam.QuotientsMatch ? "OK" : "BAD")}, deg R_k ≤ 4+k {(seam.RemainderBoundsOk ? "OK" : "BAD")}, " +
+                   $"fence l1/l2 {(seam.FenceL1Ok && seam.FenceL2Overflow ? "OK" : "BAD")} " +
+                   $"→ {(f139Ok ? "OK" : "BAD")}";
         }
     }
 
@@ -224,6 +237,7 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
             yield return F130DecouplingNode();
             yield return F133ClosedFormNode();
             yield return F134ReflectionNode();
+            yield return F139SeamNode();
             yield return CrossFormNode();
             yield return GatesNode();
             yield return new InspectableNode("What this is",
@@ -237,7 +251,8 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                          "symplectic closed form of the F128 cofactor W (the sin-s lemma over ℤ, a read-off " +
                          "spot check vs the embedded 143-term table, and the GF(p) alternant certificate), " +
                          "and the F134 two-row reflection law n_(j,k) = n_(10−j,k) (table + read-off spot + " +
-                         "the l = 2 domain fence); " +
+                         "the l = 2 domain fence), and the F139 seam identity deriving F134 from F133 " +
+                         "(Φ_k = S₁₀·(−1)^k P_k + R_k, deg R_k ≤ 4+k: the wall as a Chebyshev divisor); " +
                          "a SLICE of F127/F128 (not the wall) and an independent exact re-derivation of " +
                          "F129/F130/F133's content on the witness range");
         }
@@ -466,8 +481,28 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                      $"(disjoint from the table); domain fence: l = 2 breaks {r.L2Breaks}/{r.L2PairsChecked} " +
                      $"(must be exactly 8), the two nonzero l = 2 holds are the center-fixed j = 5 weights: " +
                      $"{r.L2CenterHoldsNonzero} → {(ok ? "OK" : "BAD")}. Certificate grade (the F127-wall class); " +
-                     "the structural mechanism is the arc's named open " +
+                     "the structural mechanism is F139's seam identity, the sibling node below " +
                      "(docs/proofs/PROOF_F134_TWO_ROW_REFLECTION_LAW.md, simulations/f134_two_row_reflection_law.py)",
+            provenance: NodeProvenance.Live);
+    }
+
+    private static InspectableNode F139SeamNode()
+    {
+        var s = Seam.Value;
+        bool ok = s.SkewOk && s.DegreeLemmaOk && s.TableMismatches == 0 && s.TableCellsChecked == 27 &&
+                  s.QuotientsMatch && s.RemainderBoundsOk && s.K0RemainderZero &&
+                  s.FenceL1Ok && s.FenceL2Overflow && s.CorruptionBroke;
+        return new InspectableNode("F139 seam identity (live, exact ℤ, 2026-07-21)",
+            summary: $"Φ_k = S₁₀·(−1)^k P_k + R_k, deg R_k ≤ 4+k (the F134 wall as a Chebyshev divisor): " +
+                     $"ψ-skew {(s.SkewOk ? "OK" : "BAD")}, deg Φ_k ≤ 15 {(s.DegreeLemmaOk ? "OK" : "BAD")}, " +
+                     $"a-priori table {s.TableMismatches}/{s.TableCellsChecked} mismatch vs the embedded " +
+                     $"two-row table, quotients = (−1)^k·P_k {(s.QuotientsMatch ? "OK" : "BAD")}, remainder " +
+                     $"bounds {(s.RemainderBoundsOk ? "OK" : "BAD")} (k = 0 exactly zero: {s.K0RemainderZero}), " +
+                     $"fence l=1 small/l=2 overflow {(s.FenceL1Ok && s.FenceL2Overflow ? "OK" : "BAD")}, " +
+                     $"corruption broke: {s.CorruptionBroke} → {(ok ? "OK" : "BAD")}. " +
+                     "Derives F134 from F133 (docs/proofs/PROOF_F139_SEAM_IDENTITY.md, " +
+                     "simulations/f139_seam_identity.py); own five-variable engine, disjoint from the " +
+                     "six-variable read-off and the Python gate",
             provenance: NodeProvenance.Live);
     }
 
@@ -512,6 +547,11 @@ public sealed class CrossTripleOrthogonalityWitness : IInspectable
                              "at every firing n ≤ 140 + capstones 150/210 (I2), the families partition " +
                              "the census (I3), family ⟺ door (I4), the M W-sets rebuilt from committed " +
                              "substitution recipes at n = 105 and 210 (I5)"),
+                new InspectableNode("f139_seam_identity.py + PROOF_F139_SEAM_IDENTITY.md",
+                    summary: "F139: the slice identity vs the committed read-off (G1), the ψ-skew (G2), " +
+                             "the degree lemma (G3), the a-priori table 27/27 (G4), the division with " +
+                             "Q_k = (−1)^k P_k and deg R_k ≤ 4+k (G5), the l = 1/l = 2 fence (G6), " +
+                             "corruption control (G7)"),
                 new InspectableNode("f133_w_closed_form.py + PROOF_F133_W_SYMPLECTIC_CLOSED_FORM.md",
                     summary: "F133: the pair escape (G1), the sin-s lemma 𝒪[sin s·Δ̂] ≡ 0 (G2), SP " +
                              "flip-invariance (G3), X alternates (G4), the 143 n_λ read off by " +
