@@ -419,7 +419,7 @@ library versions on Kingston). What remains open is the day-level
 physics: a
 free-evolution (T2*-class) rate change the Hahn-refocused T2-echo does
 not see, on at least two pairs at once, with a pair-dependent
-multiplier (9× and 18× the same morning) — and no Ramsey T2* is
+multiplier (9× and 18× the same morning); and no Ramsey T2* is
 recorded for Kingston anywhere in the repo, so the hypothesis cannot be
 closed from committed data. Tracked in
 [Emerging Questions](../review/EMERGING_QUESTIONS.md) (the 9.08×
