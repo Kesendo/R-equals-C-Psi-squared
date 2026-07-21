@@ -1506,8 +1506,11 @@ from saddle-node passage (ODE integral). The -4 comes from the
 starting-transient integral (eta_0 = -1/4). The ln(16*tol) term comes
 from the Modified Equation correction (Euler discretization error).
 
-Verified: 0.5-2% accuracy over 5 tol decades (10^-8 to 10^-16) and
-10 eps decades (10^-1 to 10^-10). Modified Equation slope 0.504 vs
+Verified two ways: the ten-decade eps-scan (10^-1 to 10^-10) checks the
+leading-order form (3+ significant figures for eps <= 10^-5; under the
+complete formula the residuals collapse to <= 0.04 for eps <= 10^-2),
+and the Modified-Equation coefficient is validated in the tol-sweep
+(10^-8 to 10^-16, 0.5-2% agreement). Modified Equation slope 0.504 vs
 predicted 0.500 (0.8% deviation).
 
 **Valid for:** Mandelbrot iteration near cardioid cusp, any eps > 0,

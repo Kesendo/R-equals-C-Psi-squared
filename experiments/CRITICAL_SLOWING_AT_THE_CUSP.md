@@ -1,6 +1,7 @@
 # Critical Slowing at the Mandelbrot Cusp
 
-**Status:** Verified (closed-form analytical, April 5, 2026)
+**Status:** Verified (closed-form analytical, April 5, 2026; hardware
+anchors April 16 + April 26, Kingston)
 **Prediction verified:** [Prediction 2](MANDELBROT_CONNECTION.md) (Section 6)
 **Scripts:**
 
@@ -35,7 +36,7 @@ The Mandelbrot iteration u_{n+1} = u_n² + c with c = CΨ approaching 1/4 exhibi
 
     K(ε, tol) = n·√ε = (1/2)·ln(4ε/tol) + [-4 + (1/2)·ln(16·tol)] · √ε
 
-Every coefficient is derived analytically: the leading logarithm from saddle-node passage, the -4 from the starting-transient integral, and the tol-dependent correction from the Modified Equation treatment of the discrete-to-continuous transition. **Zero fit parameters.** The formula matches measured iteration counts to 0.5-2% over five tol decades (10⁻⁸ to 10⁻¹⁶) and ten ε decades (10⁻¹ to 10⁻¹⁰). Additionally, the trajectory dwell time at the CΨ = 1/4 crossing obeys exact γ-invariance to machine precision: K_dwell = γ·t_dwell is constant across γ = 0.1 to 10.0 with std < 2×10⁻¹⁷.
+Every coefficient is derived analytically: the leading logarithm from saddle-node passage, the -4 from the starting-transient integral, and the tol-dependent correction from the Modified Equation treatment of the discrete-to-continuous transition. **Zero fit parameters.** Verified two ways: the ten-decade ε-scan (10⁻¹ to 10⁻¹⁰, Section 2) checks the leading-order form, and the Modified-Equation coefficient is validated in the tol-sweep (Section 4, six tol decades tested, the 10⁻⁶ outlier excluded leaves five, 0.5-2% agreement); under the complete formula the ε-scan residuals collapse to ≤ 0.04 for ε ≤ 10⁻², leaving only genuine continuum breakdown at ε = 10⁻¹ (see the note in Section 2.1). Additionally, the trajectory dwell time at the CΨ = 1/4 crossing obeys exact γ-invariance to machine precision: K_dwell = γ·t_dwell is constant across γ = 0.1 to 10.0 with std < 2×10⁻¹⁷.
 
 ---
 
@@ -138,7 +139,11 @@ The key insight: **K is not a constant**. It depends logarithmically on ε (thro
 
 ### 2.1 High-precision ε-scan
 
-Ten decades, ε = 10⁻¹ to 10⁻¹⁰, tolerance 10⁻¹²:
+Ten decades, ε = 10⁻¹ to 10⁻¹⁰, tolerance 10⁻¹². The K_theory column
+is the LEADING-ORDER (ODE-level) formula K = (1/2)·ln(4ε/tol) − 4·√ε,
+as the source file labels it; the Modified-Equation correction is
+validated separately in Section 4. n counts accepted steps before the
+stopping step (check-then-increment).
 
 | ε       | n       | K_measured | K_theory  | Residual  |
 |---------|---------|------------|-----------|-----------|
@@ -153,7 +158,12 @@ Ten decades, ε = 10⁻¹ to 10⁻¹⁰, tolerance 10⁻¹²:
 | 10⁻⁹   | 131,132 | 4.147      | 4.147     | -0.0001   |
 | 10⁻¹⁰  | 299,806 | 2.998      | 2.996     | +0.002    |
 
-Match to 3+ significant figures for ε ≤ 10⁻⁵. The growing discrepancy at large ε is expected: the continuum approximation breaks when η-steps are not small compared to η itself.
+Match to 3+ significant figures for ε ≤ 10⁻⁵. The growing residual at
+large ε is, for rows ε = 10⁻² to 10⁻⁴, almost entirely the deferred
+Modified-Equation term: under the COMPLETE formula of Section 1 the
+residuals collapse to −0.573 / +0.037 / −0.005 / +0.001 for
+ε = 10⁻¹...10⁻⁴. Only the ε = 10⁻¹ row is genuine continuum breakdown
+(η-steps not small compared to η itself).
 
 **mpmath check (50 decimal digits):** Iteration counts are identical to float64 for all ε from 10⁻⁵ to 10⁻¹⁰. No numerical sensitivity.
 
@@ -226,7 +236,13 @@ The √ε correction coefficient α(tol) = -4 + (1/2)·ln(16·tol) is the Modifi
 
 ### Measured c₁ per tol
 
-For each tol, c₁ was extracted by fitting R(ε) = K_measured - (1/2)·ln(4ε/tol) to the form c₁·√ε over the valid regime where 4ε/tol > 4000 and ε ≤ 10⁻².
+For each tol, c₁ was extracted by fitting R(ε) = K_measured − K_ODE
+= K_measured − [(1/2)·ln(4ε/tol) − 4√ε] to the form c₁·√ε over the
+valid regime where 4ε/tol > 4000 and ε ≤ 10⁻² (the −4√ε transient must
+be subtracted too; fitting against the bare logarithm would return
+α = −4 + c₁ instead of c₁). The tol = 10⁻¹⁶ point requires extended
+precision: float64 breaks down at the tolerance floor there and mpmath
+is needed to recover the tabulated value.
 
 | tol     | N_pts | c₁_measured | c₁_predicted | Relative error |
 |---------|-------|-------------|--------------|----------------|
@@ -256,7 +272,9 @@ The slope deviation (0.8%) is well within the ±0.02 pre-specified tolerance. Th
 
 ### The -4π coincidence
 
-An initial observation noted that c₁(10⁻¹²) ≈ -12.55 sits close to -4π ≈ -12.566 (0.11% match). The Modified Equation derivation shows this is numerical coincidence: c₁(tol) = (1/2)·ln(16·tol) is a logarithm that happens to pass near -4π at tol = 10⁻¹² and nowhere else. At tol = 10⁻¹⁶, c₁ ≈ -17.0, far from any rational multiple of π.
+An initial observation noted that c₁(10⁻¹²) ≈ -12.55 (the all-points
+Fit B of the scaling run; the restricted fit in the table above gives
+-12.185) sits close to -4π ≈ -12.566 (0.11% match). The Modified Equation derivation shows this is numerical coincidence: c₁(tol) = (1/2)·ln(16·tol) is a logarithm that happens to pass near -4π at tol = 10⁻¹² and nowhere else. At tol = 10⁻¹⁶, c₁ ≈ -17.0, far from any rational multiple of π.
 
 ---
 
@@ -271,6 +289,11 @@ The Mandelbrot iteration depends only on c = CΨ, not on which quantum state pro
 | \|+⟩^{⊗2} | (1+g²)²·(2g+g²)/12, g = e^{-2γt}                | 1.0    |
 
 At eight test points c ∈ {0.01, 0.05, 0.10, 0.15, 0.20, 0.24, 0.245, 0.249}, the iteration count n(c) is **identical** for all three states.
+This identity is definitional, not a discriminating test: the map
+u_{n+1} = u² + c depends only on c, so equal c-values force equal
+counts. The load-bearing verified content is upstream: the two CΨ(t)
+closed forms in the table (each re-derivable from the explicit density
+matrices) and the identification c = CΨ.
 
 When plotted against t, the curves differ because the states traverse c-space at different speeds (|+⟩^⊗2 starts at CΨ = 1 and spends significant time above 1/4; Bell+ starts below 1/3 and passes through a narrow crossing). When plotted against c, all curves collapse onto a single universal curve.
 
@@ -299,6 +322,12 @@ So:
     t_dwell = 1.080088 · δ/γ    (Bell+ specific)
 
 Verified to ratio 1.0000 for δ ≤ 10⁻³. The prefactor 1.080088 = 2/1.851701 is specific to the Bell+ trajectory through f_cross; other initial states produce different f_cross values and different prefactors.
+The prefactor was later derived from the Pauli-weight structure:
+1.080088 = (2+4W₂)/(1+6W₂) with the Bell+ light-face weight
+W₂ = 0.3709 at the crossing, see
+[Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md) (F58)
+and its generalization
+[Dwell Prefactor Generalized](DWELL_PREFACTOR_GENERALIZED.md) (F59).
 
 ### γ-invariance (the physical result)
 
@@ -338,7 +367,7 @@ The dwell time measures how long the system remains near the saddle-node bifurca
 
 ### Hardware observation (April 16, 2026)
 
-The γ-invariance claim was tested on ibm_kingston (Heron r2) with two Bell+ pairs at 2.55× different γ: K_dwell/δ = 0.649 (qubits 124-125, γ = 0.00334/μs) and 0.694 (qubits 14-15, γ = 0.00131/μs). Ratio A/B = 0.94, spread 6.3%. The γ-invariance survives real T1 + T2 noise at the 6% level, dominated by residual Kingston noise heterogeneity rather than shot noise. The absolute prefactor (~0.67) is lower than the pure-Z-dephasing prediction 1.0801 because Kingston T1 amplitude damping steepens the slope at the crossing, reducing t_dwell. The state-specific, noise-channel-specific nature of the prefactor is expected; the γ-invariance itself is the robust claim and it holds.
+The γ-invariance claim was tested on ibm_kingston (Heron r2) with two Bell+ pairs at 2.55× different γ: K_dwell/δ = 0.649 (qubits 124-125, γ = 0.00334/μs) and 0.694 (qubits 14-15, γ = 0.00131/μs). Ratio A/B = 0.94, spread 6.4%. The γ-invariance survives real T1 + T2 noise at the 6% level, dominated by residual Kingston noise heterogeneity rather than shot noise. The absolute prefactor (~0.67) is lower than the pure-Z-dephasing prediction 1.0801 because Kingston T1 amplitude damping steepens the slope at the crossing, reducing t_dwell. The state-specific, noise-channel-specific nature of the prefactor is expected; the γ-invariance itself is the robust claim and it holds.
 
 Data: [data/ibm_cusp_slowing_april2026/](../data/ibm_cusp_slowing_april2026/README.md).
 Writeup: the 2D c-plane extension of this result is in [CΨ in the Complex Plane](CPSI_COMPLEX_PLANE.md) (the spirals visible in the saved density matrices).
@@ -365,10 +394,28 @@ Each colored dot is one measured CΨ value, color-coded by t. The trajectory ent
 
 This refines the April-16 finding (then 1.2-1.5× T2-echo / T2* gap) by showing that on dense sampling the gap is much larger for the joint Bell+ dephasing rate. The pair was selected as the most stable always-crosser across 15 calibration files (April 12 to 26): mean T2_min = 311.6 μs, CV 13%, never below 269.5 μs. The T2-echo metric reported by IBM's calibration pipeline therefore systematically overstates the coherence time relevant to entangled-state free evolution; the ratio is pair- and day-specific.
 
+**Unreconciled same-pair tension.** The April-16 run measured this very
+pair (14-15) crossing at t ≈ 22.7 μs, consistent with its
+T2-echo-derived γ to within ~12%. Ten days later the dense run finds
+the same pair crossing at 2.49 μs, an effective dephasing rate 9×
+higher, while the pair's reported T2-echo stayed stable (CV 13%). The
+two measurements cannot both reflect the same effective γ; whether the
+change is day-to-day drift the calibration metric does not see, a
+protocol difference between the sparse and dense runs, or something
+structural, is open and tracked in
+[Emerging Questions](../review/EMERGING_QUESTIONS.md) (the 9.08×
+thread). Both records stand as measured.
+
 **What this confirms (and what it doesn't):**
 - Confirms: the F25 closed form is the right *functional shape* for the hardware trajectory, point-by-point, within shot noise.
 - Confirms: γ extracted from the trajectory itself (in-situ) is the right input for the framework's predictions, not the T2-echo calibration value.
 - Does not confirm: that γ-invariance of K_dwell holds on a single pair (this run used one pair). The April-16 two-pair γ-invariance result remains the only direct test of that claim.
+- Does not confirm: the discrete iteration-count law of Sections 1-4
+  (hardware only probes the continuous F25 trajectory and, on April 16,
+  the dwell γ-invariance), nor the absolute prefactor 1.0801 (April 16
+  measured ~0.67, attributed to T1 amplitude damping steepening the
+  slope; the invariance, not the absolute value, is the hardware-tested
+  claim).
 
 Pipeline: `ibm_quantum_tomography/run_cusp_precision.py` (Kingston-anchored, accepts `--pair` and `--gamma-override`; lives in the external IBM tomography repo). Plot script in this repo: [`plot_cusp_precision.py`](../simulations/plot_cusp_precision.py). Hardware JSON: `cusp_precision_ibm_kingston_20260426_115939.json` in the IBM tomography `results/` folder. Job ID: `d7mu36lqrg3c738lnda0`.
 
@@ -468,14 +515,23 @@ Both cross ~12% earlier than the Aer simulator with T2_echo values, consistent w
 
 ### Gamma-invariance test (F57 core claim)
 
+F57 is the registry name for this document's Section-6 result, the
+K_dwell γ-invariance law with Bell+ prefactor 1.0801
+([ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md), F57).
+
 K_dwell(delta) = gamma * 2*delta / |slope_at_crossing|, with delta = 0.04:
 
 | Pair | gamma (/us) | slope (/us) | t_dwell (us) | K_dwell | K_dwell / delta |
 |------|--------:|--------:|--------:|--------:|--------:|
-| A | 0.00334 | -0.01033 | 7.75 | 0.0260 | 0.649 |
-| B | 0.00131 | -0.00377 | 21.22 | 0.0278 | 0.694 |
+| A | 0.00334 | -0.01030 | 7.77 | 0.0260 | 0.649 |
+| B | 0.00131 | -0.00378 | 21.15 | 0.0278 | 0.694 |
 
-**Gamma-invariance spread: 6.3%** despite 2.55x gamma difference. F57 predicts exact gamma-independence; the 6% residual is within shot noise and Kingston noise-profile heterogeneity.
+(slope and t_dwell cells from the committed JSON's unrounded values.)
+
+**Gamma-invariance spread: 6.4%** (1 − A/B on the JSON fit values
+0.6492/0.6937; historically quoted as 6.3%, a figure no standard
+definition of the spread reproduces exactly) despite 2.55x gamma
+difference. F57 predicts exact gamma-independence; the 6% residual is within shot noise and Kingston noise-profile heterogeneity.
 
 **Absolute prefactor:** 0.67 vs F57 pure-Z-dephasing prediction 1.0801. The gap is from T1 amplitude damping (Kingston T1 is comparable to T2), which steepens the slope at the crossing. This is an expected deviation: F57 derives 1.0801 specifically for pure dephasing; real hardware adds a second decay channel. The gamma-INVARIANCE (the ratio between pairs) is the model-independent claim, and that holds at 6%.
 
@@ -489,8 +545,11 @@ K_dwell(delta) = gamma * 2*delta / |slope_at_crossing|, with delta = 0.04:
 
 ### Data
 
-Hardware JSON and plots are stored in the IBM experiment directory (external to this repo):
-`AIEvolution.UI/experiments/ibm_quantum_tomography/results/cusp_slowing_hardware_ibm_kingston_20260416_*.json`
+The in-repo copy of the hardware data:
+[data/ibm_cusp_slowing_april2026/cusp_slowing_ibm_kingston_20260416_212042.json](../data/ibm_cusp_slowing_april2026/cusp_slowing_ibm_kingston_20260416_212042.json)
+(with [README](../data/ibm_cusp_slowing_april2026/README.md)). The
+original run directory lives in the external IBM tomography repo
+(`AIEvolution.UI/experiments/ibm_quantum_tomography/results/`).
 
 ---
 

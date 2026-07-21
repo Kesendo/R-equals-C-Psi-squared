@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F56 closed form (Tier 1, zero fit parameters; ANALYTICAL_FORMULAS line 1088):
+/// <summary>F56 closed form (Tier 1, zero fit parameters; ANALYTICAL_FORMULAS F56 entry):
 ///
 /// <code>
 ///   K(ε, tol) = (1/2)·ln(4·ε/tol) + α(tol)·√ε
@@ -50,7 +50,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (10⁻¹ to 10⁻¹⁰). Modified Equation slope 0.504 vs predicted 0.500 (0.8%
 /// deviation, structural).</para>
 ///
-/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F56 (line 1088) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F56 entry +
 /// <c>experiments/CRITICAL_SLOWING_AT_THE_CUSP.md</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
