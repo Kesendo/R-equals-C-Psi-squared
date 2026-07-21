@@ -109,6 +109,15 @@ K is constant within each bridge (< 1.5% deviation across 20× γ range).
 K differs between bridges by a factor of 2.2× (0.033 to 0.072).
 Mutual purity and overlap never cross at any γ.
 
+Reproducibility note (2026-07-21): the γ-invariance of K is the result
+and stands (it follows from Lindblad scaling, next section). The K
+VALUES came from the February tool: the correlation row matches the
+exact closed form (K = γ·1.438 = 0.072), but the concurrence row does
+not (exact concurrence book: K = γ·0.719 = 0.036, not 0.039; see the
+reproducibility note in
+[Boundary Navigation](BOUNDARY_NAVIGATION.md)). A full re-audit of this
+document's rows is pending.
+
 ### Why K-Invariance Holds: Lindblad Scaling
 
 At identical τ = γt, the values of C and Ψ are identical regardless of γ:

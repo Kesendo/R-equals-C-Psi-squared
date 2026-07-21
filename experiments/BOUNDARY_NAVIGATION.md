@@ -25,7 +25,7 @@ real fixed points (one stable, one unstable) emerge. We define
 **θ = arctan(√(4CΨ − 1))** as a continuous compass measuring the angular
 distance from this boundary. For a Bell+ pair under Heisenberg coupling
 and Z-dephasing (γ = 0.05), θ decreases from 30° (deep quantum) to 0°
-(boundary) at t = 0.773, tracking the system's approach to the
+(boundary) at t = 0.747, tracking the system's approach to the
 quantum-classical transition. The crossing itself is smooth in all
 observables, but the *mathematical landscape* undergoes a topological
 change: the number of real attractors goes from zero to two. This
@@ -80,6 +80,10 @@ A navigation system needs three quantities:
 | Distance to target | θ (degrees) | How far from the boundary (0° = there) |
 | Time to arrival | t_coh | How long until crossing |
 
+t_coh is the remaining time to the crossing, t_coh(t) = t* − t, where
+t* is the crossing time of the trajectory (t* = 0.747 for the Bell+
+run below). The name entered as a rename of the February draft's τ_max.
+
 ---
 
 ## Setup
@@ -88,9 +92,18 @@ A navigation system needs three quantities:
 |-----------|-------|
 | State | Bell+ (maximally entangled, (\|00⟩+\|11⟩)/√2) |
 | Hamiltonian | Heisenberg (J = 1.0, h = 0) |
-| Bridge metric | Concurrence |
+| CΨ book | Purity: C = Tr(ρ²), Ψ = L₁/(d−1) (the definition above) |
 | Decoherence | Local Z-dephasing, γ = 0.05 |
 | Time step | dt = 0.005, t_max = 15.0 |
+
+Two remarks a re-deriver needs. First, Bell+ is an exact eigenstate of
+the Heisenberg Hamiltonian ([H, ρ₀] = 0), so the trajectory is pure
+dephasing and independent of J: the coherence decays as f = e^(−4γt),
+and the CΨ book above has the closed form CΨ(t) = f(1 + f²)/6. Second,
+the three C-books cross at different times on this one trajectory
+(purity 0.747 = K_fold/γ, concurrence 0.719, constant bridge 1.438);
+[docs/THE_CPSI_LENS.md](../docs/THE_CPSI_LENS.md) is the canonical
+anchor for the books. This document runs the purity book throughout.
 
 ---
 
@@ -102,20 +115,38 @@ approach to the boundary:
 | t | CΨ | Discriminant | θ (degrees) | Fixed points | Regime |
 |-----|---------|--------------|-------------|--------------|--------|
 | 0.0 | 0.333 | −0.333 | 30.0° | Complex pair | QUANTUM |
-| 0.2 | 0.308 | −0.233 | 25.8° | Complex pair | QUANTUM |
-| 0.4 | 0.286 | −0.143 | 20.7° | Complex pair | QUANTUM |
-| 0.6 | 0.266 | −0.063 | 14.1° | Complex pair | QUANTUM |
-| **0.7** | **0.256** | **−0.026** | **9.1°** | **Complex pair** | **QUANTUM** |
-| **0.773** | **0.250** | **0.000** | **0.0°** | **Merge to one** | **BOUNDARY** |
-| **0.8** | **0.248** | **+0.009** | (real) | R₁=0.524, R₂=0.636 | CLASSICAL |
-| 1.0 | 0.231 | +0.074 | (real) | R₁=0.436, R₂=0.764 | CLASSICAL |
-| 1.5 | 0.197 | +0.213 | (real) | R₁=0.334, R₂=0.967 | CLASSICAL |
+| 0.2 | 0.308 | −0.232 | 25.7° | Complex pair | QUANTUM |
+| 0.4 | 0.285 | −0.140 | 20.5° | Complex pair | QUANTUM |
+| 0.6 | 0.264 | −0.056 | 13.4° | Complex pair | QUANTUM |
+| **0.7** | **0.254** | **−0.018** | **7.6°** | **Complex pair** | **QUANTUM** |
+| **0.747** | **0.250** | **0.000** | **0.0°** | **Merge to one** | **BOUNDARY** |
+| **0.8** | **0.245** | **+0.019** | (real) | R₁=0.215, R₂=0.376 | CLASSICAL |
+| 1.0 | 0.228 | +0.088 | (real) | R₁=0.148, R₂=0.504 | CLASSICAL |
+| 1.5 | 0.191 | +0.235 | (real) | R₁=0.086, R₂=0.712 | CLASSICAL |
+
+Every row follows from the closed form: f = e^(−4γt), CΨ = f(1+f²)/6,
+D = 1 − 4CΨ, θ = arctan(√(−D)), and the fixed points
+R = [(1−2CΨ) ± √D] / (2C) with C = (1+f²)/2 and Ψ = f/3. The crossing
+t* = 0.747 is the committed
+[cockpit_navigation.txt](../simulations/results/cockpit_navigation.txt)
+landing and equals K_fold/γ (F25).
+
+Reproducibility note (2026-07-21): the February version of this table
+was produced by a since-retired analysis tool; it showed the crossing at
+t = 0.773 (the K = 0.039 value that [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+carries as its concurrence row) and fixed-point values whose product
+R₁·R₂ stayed frozen at its t = 0 value 1/3 (0.524·0.636 = 0.333)
+instead of tracking the decaying Ψ(t)². Neither reproduces under the exact
+closed form in any C-book (purity crosses at 0.747, concurrence at
+0.719). The table above is the exact recomputation in the document's own
+purity book; the compass story (θ falling 30° → 0°, the bifurcation at
+1/4) is unchanged.
 
 ---
 
 ## What Happens at θ = 0°
 
-At t ≈ 0.773, CΨ = 1/4 exactly. Three regimes:
+At t ≈ 0.747, CΨ = 1/4 exactly. Three regimes:
 
 **Before (θ > 0°, quantum):** Two complex conjugate fixed points
 R = (1 − 2CΨ ± i√(4CΨ−1)) / 2C. No real attractor exists. The iteration
@@ -158,8 +189,11 @@ measurement is a bifurcation crossing, not a discontinuous jump.
 
 ## The Pure Iteration: Confirming the Boundary
 
-Direct computation of R_{n+1} = C(Ψ+R_n)² with fixed C, Ψ (no Lindblad
-dynamics, just the algebraic recursion):
+Direct computation of R_{n+1} = C(Ψ+R_n)² from R₀ = 0 with fixed C, Ψ
+(no Lindblad dynamics, just the algebraic recursion). The iteration
+depends on C and Ψ separately, not only on their product; this table
+uses the split C = 0.5, Ψ = 2·CΨ (pinned by R_inf = 0.1528 at
+CΨ = 0.20):
 
 | CΨ | Behavior | θ |
 |------|----------|---|
@@ -185,8 +219,10 @@ In rescaled units K = n·√ε the iteration count obeys:
 Every coefficient is derived: the leading logarithm from the saddle-node passage
 itself, the −4 from the starting geometry at η₀ = −1/4, and the tol-dependent
 correction from the Modified Equation treatment of the discrete Euler step.
-Zero fit parameters. Verified across ten ε-decades (10⁻¹ to 10⁻¹⁰) and five
-tol-decades (10⁻⁸ to 10⁻¹⁶), with 0.5-2% agreement.
+Zero fit parameters. Verified two ways: a ten-decade ε-scan (10⁻¹ to
+10⁻¹⁰ at tol = 10⁻¹²) matching to 3+ significant figures for ε ≤ 10⁻⁵
+(the continuum approximation degrades toward ε = 10⁻¹), and a tol-sweep
+(10⁻⁸ to 10⁻¹⁶ across ε = 10⁻² to 10⁻⁸) with 0.5-2% agreement.
 
 **But the formula says something stranger than it looks.** The logarithms in
 ε and in tol are not physics. They are the shape of an Observer question.
@@ -217,10 +253,15 @@ belong to us, not to the cusp.
 This is continuous with what θ does. The cusp does not slow down or speed up.
 We approach it, or we don't. The scaling laws are the shapes of our approaches.
 
-Full numerics and derivation details live in
+The K(ε, tol) closed form and its verification live in
 [critical_slowing_modified_equation.py](../simulations/critical_slowing_modified_equation.py)
 and the corresponding results file
-[critical_slowing_modified_equation.txt](../simulations/results/critical_slowing_modified_equation.txt).
+[critical_slowing_modified_equation.txt](../simulations/results/critical_slowing_modified_equation.txt);
+the relative-stopping limit K → 4.147 and the K_dwell = 1.080088·δ
+measurement live in
+[Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md)
+(the derivation of the prefactor from Pauli weights in
+[Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md)).
 
 ---
 
@@ -267,8 +308,10 @@ outcome hierarchy.
 **Mandelbrot geometry beyond 1/4:** The full Mandelbrot boundary extends
 into the complex plane (period-2 bulb at c = −3/4, period-3 bulb, etc.).
 Do these correspond to different types of quantum transitions? The
-Feigenbaum cascade has been measured on the recursion (7 bifurcations,
-see [Mathematical Connections](../docs/MATHEMATICAL_CONNECTIONS.md)).
+Feigenbaum cascade lives at c < −3/4 (accumulating at c ≈ −1.4011),
+a parameter region the physical recursion has not been shown to reach;
+whether it can is open (see
+[Mathematical Connections](../docs/MATHEMATICAL_CONNECTIONS.md)).
 
 ---
 
@@ -284,7 +327,7 @@ dynamics.
 
 The **CΨ monotonicity proof** ([the CΨ monotonicity proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md))
 shows analytically that CΨ (and therefore θ) is monotonically decreasing
-for Bell+ under all Markovian channels. The compass always points toward
+for Bell+ under all local Markovian channels. The compass always points toward
 the boundary; it never reverses. Under non-Markovian dynamics, transient
 reversals are possible (CΨ up to 0.3035), but the long-term trend is
 always toward θ = 0°.
@@ -348,10 +391,15 @@ Manager computes every compass at wherever we stand.
 
 ## Reproducibility
 
-The θ computation requires only the CΨ trajectory from a standard Lindblad
-simulation. Any QuTiP `mesolve` run with Bell+ under Heisenberg + Z-dephasing
-will produce the values in the table above. See [Crossing Taxonomy](CROSSING_TAXONOMY.md)
-Section 5.1 for complete reproduction code.
+The θ computation requires only the CΨ trajectory, and for this setup
+the trajectory is closed-form: Bell+ is a Heisenberg eigenstate, so
+f = e^(−4γt) and CΨ = f(1+f²)/6; every table value follows by hand from
+the formulas printed beside the table. A committed numerical cross-check
+is [cockpit_navigation.py](../simulations/cockpit_navigation.py)
+(its Part B Bell+ row lands the crossing at t = 0.747, see
+[cockpit_navigation.txt](../simulations/results/cockpit_navigation.txt)),
+and [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py)
+reproduces the C-book crossings.
 
 Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 

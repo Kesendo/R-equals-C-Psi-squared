@@ -1985,7 +1985,7 @@ these earn the "open" stamp.
 
 ### OQ-036
 
-**Question:** **Status:** Partially reformulated (April 2026). Along real Bell+ trajectories, u(t) ≈ 0.61·Ψ^{1.02}: essentially Ψ with a prefactor, not an independent dynamical coordinate. u remains a *conjugation variable* that reveals algebraic structure (the Mandelbrot equivalence) without providing a simpler clock along real trajectories. Whether u carries independent information on complex trajectories (non-symmetric states, non-Z dephasing) is untested. See [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) §7.
+**Question:** **Status:** Partially reformulated (April 2026). Along real Bell+ trajectories, u(t) ≈ 0.61·Ψ^{1.02}: essentially Ψ with a prefactor, not an independent dynamical coordinate. u remains a *conjugation variable* that reveals algebraic structure (the Mandelbrot equivalence) without providing a simpler clock along real trajectories. Whether u carries independent information on complex trajectories (non-symmetric states, non-Z dephasing) is untested. See [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) §8, "Active Weakness #4 (the natural variable u)".
 
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 158)
 **Section:** Active weaknesses

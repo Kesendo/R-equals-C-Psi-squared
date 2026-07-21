@@ -162,7 +162,8 @@ that reveals algebraic structure (the Mandelbrot equivalence) without
 providing a simpler clock along real trajectories. Whether u carries
 independent information on complex trajectories (non-symmetric states,
 non-Z dephasing) is untested. See
-[Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) §7.
+[Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)
+§8, "Active Weakness #4 (the natural variable u)".
 
 ### 5. Operator feedback is verified but unexplained
 
