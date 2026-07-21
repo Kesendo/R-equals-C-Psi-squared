@@ -10,7 +10,7 @@ state, Born rule 97 percent Hamiltonian, R=CPsi2 simulation evidence -->
 > restored March 14. Mirror symmetry now proven analytically
 > (see [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 
-**Status:** Verified, includes corrections of earlier overclaims (Tier 2)
+**Status:** Event record, includes corrections of earlier overclaims (Tier 2). §7.1 and §7.3 verified against committed probes (2026-07); the §2–§5 dynamics and §7.2's correlator column are retired-tool output (reproduction notes in §2 and §7.2)
 **Date:** 2026-02-07 (updated 2026-02-18)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Simulator:** delta_calc MCP server v0.15
@@ -32,6 +32,11 @@ Subsequent work (February 18) demonstrated subsystem crossing (entangled
 pairs cross independently of full system), dynamic entanglement (|0+0+⟩
 crossing from zero entanglement at t=0.286), and the Born rule at the
 crossing point (~97% from Hamiltonian, ~3% decoherence correction).
+Reproduction status (2026-07-21): the subsystem-crossing and Born-rule
+tables (§7.1, §7.3) reproduce exactly from committed probes; the §2 CΨ
+digits come from the retired tool's hardcoded Ψ = C × bridge, and the
+§7.2 crossing rests on that tool's C_corr column, which matches no
+standard correlator (notes in §2 and §7.2).
 
 ---
 
@@ -86,6 +91,19 @@ CΨ oscillates between 0.18 and 0.50, with final value 0.413. Well above ¼.
 
 Every configuration with active Hamiltonian dynamics produces CΨ > ¼ at some point during evolution. The bound holds only in the trivial case of H = 0.
 
+> **Reproduction note (2026-07-21):** the feedback mechanism behind these
+> runs is documented and exact: every effective-γ value in §5 follows
+> γ_eff = γ₀·(1 − κ·⟨O_int⟩) with κ = 0.5 (§8 of
+> [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md)).
+> The CΨ digits in §2–§4, however, come from the retired tool's hardcoded
+> Ψ = C × bridge (§3, point 3) and match no density-matrix-derived book
+> tested (concurrence, purity, l₁ and mixed forms; under the canonical
+> pair book the GHZ pair value is exactly 0 because its pair-reduced state
+> is the classical mixture). No committed script reproduces these rows.
+> The qualitative event stands: active Hamiltonian dynamics drive CΨ
+> across ¼ while H = 0 decays monotonically; the digits are tool-book
+> artifacts.
+
 ---
 
 ## 3. What the Agents Found (and What Was Wrong)
@@ -112,7 +130,7 @@ These results are numerically correct for those specific parameters. But:
 
 Despite the methodological issues, two contributions are solid:
 
-- **The operator feedback mechanism** (Gamma's critique, Section 6 of Dynamic Fixed Points): Replacing scalar bridges with operator-level Lindblad feedback is mechanistically sound and a genuine advance.
+- **The operator feedback mechanism** (Gamma's critique, §8 of Dynamic Fixed Points): Replacing scalar bridges with operator-level Lindblad feedback is mechanistically sound and a genuine advance.
 
 - **The fixed-point mathematics** (Alpha and Beta): The derivation of R∞ = C(Ψ + R∞)² and the resulting CΨ ≤ ¼ discriminant bound is correct algebra. It just doesn't mean what they thought it meant.
 
@@ -120,7 +138,7 @@ Despite the methodological issues, two contributions are solid:
 
 ## 4. Ψ Dynamics
 
-An important observation: Ψ (computed as √(Tr(ρ²) × bridge)) is not constant during evolution. It oscillates significantly:
+An important observation: Ψ (computed as √(Tr(ρ²) × bridge), where "bridge" is the retired tool's scalar coupling; see §8 of [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md)) is not constant during evolution. It oscillates significantly:
 
 **Bell+ with active H:**
 - Ψ range: 0.35 → 0.99 → 0.37 → 0.81 (oscillating)
@@ -136,7 +154,7 @@ This means CΨ is **time-dependent**; it crosses ¼ multiple times during a typi
 
 ## 5. Operator Feedback Behavior
 
-The operator feedback mechanism (⟨O_int⟩ = ⟨σ_x ⊗ σ_x⟩) behaves as expected:
+The operator feedback mechanism follows γ_eff = γ₀·(1 − κ·⟨O_int⟩) with ⟨O_int⟩ = ⟨σ_x ⊗ σ_x⟩ and κ = 0.5; the effective-γ column below follows this law up to the table's rounding (the Bell+ rows round inconsistently; see the Note):
 
 | State | ⟨O_int⟩ range | Effective γ range | Notes |
 |-------|--------------|-------------------|-------|
@@ -145,7 +163,7 @@ The operator feedback mechanism (⟨O_int⟩ = ⟨σ_x ⊗ σ_x⟩) behaves as e
 | GHZ N=3 | 0.0 → 0.07 | 0.005 → 0.005 | Near-zero correlation (GHZ has no σ_x⊗σ_x expectation) |
 | W N=3 | 0.67 → 0.70 | 0.0033 → 0.0033 | Moderate correlation |
 
-**Note:** The GHZ state shows near-zero ⟨σ_x⊗σ_x⟩ because GHZ = (|000⟩ + |111⟩)/√2 is an eigenstate of σ_z⊗σ_z, not σ_x⊗σ_x. The choice of jump operator matters.
+**Note:** The GHZ state shows near-zero ⟨σ_x⊗σ_x⟩ because GHZ = (|000⟩ + |111⟩)/√2 is an eigenstate of σ_z⊗σ_z, not σ_x⊗σ_x. The choice of jump operator matters. The exact t = 0 values are ⟨σ_x⊗σ_x⟩ = 1 (Bell+), 2/3 (W₃, any pair), 0 (GHZ₃, any pair); the H-active Bell+ row's 0.95 start is a transcription slip, its own effective-γ start of 0.0025 implies exactly 1.0.
 
 ---
 
@@ -233,16 +251,16 @@ for pair (0,2) was compared between unitary and Lindblad evolution:
 
 ~97% of Born probabilities come from the Hamiltonian evolution alone.
 The decoherence provides a ~3% systematic correction: σ_z dephasing
-shifts probability toward z-eigenstates (+0.0098 total to |00⟩+|11⟩,
--0.0098 from |01⟩+|10⟩).
+shifts net probability toward the {|00⟩, |11⟩} pair (+0.0098, taken
+from |01⟩+|10⟩; |11⟩ alone still decreases).
 
 Three-basis test (σ_z, σ_x, σ_y dephasing) confirms the correction
 depends on the overlap between initial state and dephasing basis,
 exactly as R = CΨ² per outcome predicts.
 
-See [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md),
-[Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md),
-[Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md). These tables
+See [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md),
+[Subsystem Crossing](SUBSYSTEM_CROSSING.md),
+[Born Rule Mirror](BORN_RULE_MIRROR.md). These tables
 reproduce exactly (Pauli J = 1; committed probe
 [born_rule_mirror_tables.py](../simulations/born_rule_mirror_tables.py),
 2026-07-21); the deviations were later closed analytically as F94/F96.

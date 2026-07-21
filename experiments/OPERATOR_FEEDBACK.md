@@ -159,9 +159,7 @@ See [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md) for the r
 
 The results above use h=0.7 (weak transverse field). In this regime, Hamiltonian dynamics are insufficient to push C·Ψ above the 1/4 boundary, so the system remains in the classical regime regardless of feedback mechanism.
 
-With stronger dynamics (h=0.9), the same operator feedback with γ=0.005 produces C·Ψ = 0.405, well above 1/4. The feedback mechanism becomes physically significant only when Hamiltonian dynamics are strong enough to compete with decoherence.
-
-See [Simulation Evidence](SIMULATION_EVIDENCE.md) for strong-dynamics results.
+With stronger dynamics (h=0.9), the same operator feedback with γ=0.005 produces C·Ψ = 0.405, well above 1/4 (a retired-tool digit under the hardcoded Ψ = C × bridge; the qualitative strong-dynamics finding stands, see the §2 reproduction note in [Simulation Evidence](SIMULATION_EVIDENCE.md)). The feedback mechanism becomes physically significant only when Hamiltonian dynamics are strong enough to compete with decoherence.
 
 ---
 
