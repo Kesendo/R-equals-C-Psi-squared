@@ -116,6 +116,8 @@ def build_liouvillian_pauli(N, H, gamma_per_site, axes=(3,), axis_scale=1.0):
 
 
 def get_bonds(N, topo):
+    if isinstance(topo, (list, tuple)):
+        return list(topo)
     if topo == 'star':
         return [(0, i) for i in range(1, N)]
     elif topo == 'chain':
@@ -681,6 +683,27 @@ if __name__ == '__main__':
         print(f"  T1 alone plus a {lbl:14s} field:             "
               f"{f'{cx}/64':>7} complex, {f'{rt}/64':>7} rates")
     print("\nT1 tolerates no on-site field at all, unlike the dephasing-only case.")
+
+    print("\nBoth T1 restrictions are per component. Two disjoint Heisenberg")
+    print("bonds (0-1),(2-3) at N=4, T1 on sites 0-1 at 0.05; pairing about the")
+    print("combined shift 2Σγ_deph + Σγ_T1:\n")
+    disjoint = [(0, 1), (2, 3)]
+    for lbl, kwargs, s_mix in [
+        ("co-axial Z-dephasing on the OTHER bond",
+         dict(dephasing=[0, 0, 0.05, 0.05], dephasing_axis=3), 0.3),
+        ("X field on the OTHER bond",
+         dict(field=[0, 0, 0.3, -0.2], field_axis=1), 0.1),
+        ("co-axial Z-dephasing on T1's OWN bond",
+         dict(dephasing=[0.05, 0.05, 0, 0], dephasing_axis=3), 0.3),
+        ("X field on T1's OWN bond",
+         dict(field=[0.3, -0.2, 0, 0], field_axis=1), 0.1),
+    ]:
+        ev = amplitude_damping_spectrum(4, disjoint, [0.05, 0.05, 0, 0],
+                                        **kwargs)
+        n = multiset_pairs(list(ev), lambda lam: -lam - s_mix)
+        print(f"  {lbl:42s} {n:>3}/256")
+    print("\nOn the other component neither channel matters; on T1's own")
+    print("component both bite.")
 
     print("\n### Clause 1 needs a two-term bond: single-term bonds take three axes\n")
     print("All eighteen three-distinct-axis assignments at N=4 chain, by bond type.")

@@ -202,6 +202,18 @@ orthogonal to the noise, so the same 45° field is exact.
 
 T1 tolerates no on-site field at all, unlike the dephasing-only case.
 
+Both T1 restrictions are per component. Two disjoint Heisenberg
+bonds (0-1),(2-3) at N=4, T1 on sites 0-1 at 0.05; pairing about the
+combined shift 2Σγ_deph + Σγ_T1:
+
+  co-axial Z-dephasing on the OTHER bond     256/256
+  X field on the OTHER bond                  256/256
+  co-axial Z-dephasing on T1's OWN bond      192/256
+  X field on T1's OWN bond                    16/256
+
+On the other component neither channel matters; on T1's own
+component both bite.
+
 ### Clause 1 needs a two-term bond: single-term bonds take three axes
 
 All eighteen three-distinct-axis assignments at N=4 chain, by bond type.

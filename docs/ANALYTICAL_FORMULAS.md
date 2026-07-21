@@ -1,7 +1,7 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-07-17 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-07-21 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -5616,6 +5616,89 @@ Proposition 1 → [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md)
 is Proposition 1 on a channel class); live `inspect --root record` (`RecordLawWitness`); the
 MirrorWorld adoption (`Witness.cs`, run mode `witness`) carries the same closed forms in the
 sober base.
+
+---
+
+### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (H=0 derived by tensor sum; with XXZ H measured, 18/18 configurations N=2–5; minted 2026-07-21)
+
+Pure amplitude damping (T1, jump σ⁻ per site, rates γᵢ) leaves the Liouvillian
+spectrum an exact palindrome, centered at **Re λ = −Σγᵢ/2**: half the dephasing
+center −Σγᵢ. The shift is halved, not lost, although Π itself fails; no
+site-local conjugation of the dephasing shape reproduces T1, which makes this
+the sharpest case of "Π fails" and "the palindrome fails" being different
+claims. (The Π-identity break is the object F82/F84 quantify, and the
+direct-sum scope probe's T1 row,
+[`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py),
+measures that break under co-axial T1 + Z-dephasing, not this spectrum.)
+Derived at H = 0: the single-site T1 dissipator has
+Pauli-basis eigenvalues **{0, −γ/2, −γ/2, −γ}**, already mirrored about −γ/2,
+and N sites are a tensor sum. The commutator part is not site-wise, so with
+the Heisenberg H the general claim is measured, exact as a multiset on all 18
+swept configurations (N=2–5; chain, ring, star, complete; uniform and
+site-dependent rates; anisotropies δ = −0.5 to 2). Pairing fractions here and
+in F138 count eigenvalues with an exact mirror partner out of the full 4^N
+(…/64 is N=3, …/256 is N=4). Composition, all per
+connected component: dephasing *transverse* to T1 composes exactly, the pairs
+now summing to −(2Σγ_deph + Σγ_T1), i.e. center **−(Σγ_deph + Σγ_T1/2)**
+(X 64/64, Y 64/64, XYX 64/64); *co-axial*
+dephasing breaks it (Z 8/64; on T1's own bond of a disjoint pair 192/256,
+on the other bond 256/256); no on-site field in T1's component (transverse
+1/64; on T1's own bond 16/256 vs 256/256 on the other; a longitudinal field
+pairs the rates, the real parts, 64/64, but not the complex eigenvalues,
+28/64).
+
+**Gate:** [`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
+→ the T1 and per-component sections of
+[`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt).
+**Proof:** the Scope paragraphs of
+[MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
+(the boundary-law rewrite, `1c7dcf9`); the H=0 face is derived there, the
+Heisenberg face is measured. **Typed:** not yet (Tier1Candidate). Open:
+typing; a proof of the H ≠ 0 case.
+
+---
+
+### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (clause 1 exhaustive, 3^N sweeps zero exceptions; clause 2 spot-checked; minted 2026-07-21)
+
+For H a sum of bond terms, the dephasing palindrome about −Σγᵢ holds exactly
+when, in every connected component that carries dephasing at all: **(1)** at
+most two distinct dephasing axes appear, a ceiling that exists only when the
+bonds carry at least two terms, and **(2)** the on-site field has a single common axis within the
+component, orthogonal to every dephasing axis present. Five load-bearing
+qualifiers, grounded in the artifact's counterexample and control rows (the
+axis-not-arrow case implicitly, via the mixed-sign field used throughout): *component*
+means connected by nonzero coupling (a J=0 gap is not an edge, 256/256 across
+it vs 1/256 connected); *present* means nonzero rate (64/64 with the field
+along a γ=0 axis, 0/64 once that rate is switched on); *axis*, not arrow
+(antiparallel fields on different sites are fine); a dephasing-free component
+constrains nothing (its spectrum is λ ↦ −λ-symmetric for any H); and the
+two-term proviso forces the ceiling: a single-term bond (the Ising bond ZZ)
+tolerates all three axes at once (all 18 three-axis assignments at N=4 hold,
+18/0, where Heisenberg, XX+ZZ and XX+YY fail 0/18), but a three-axis
+component must then be field-free,
+clause 2 being unsatisfiable there (64/64 with no field, 0/64 under X or Y).
+The depolarizing *channel* is clause 1 failing, three axes inside one
+component, not a separate phenomenon. Evidence: clause 1 is swept exhaustively, every 3^N
+per-site axis assignment at N=3 (chain, ring, complete) and N=4 (chain), zero
+exceptions in either direction plus disconnected controls; clause 2 rests on
+chosen axis-pattern and field-direction combinations, the angle sweep, and the
+per-component controls. Treat clause 1 as measured, clause 2 as well supported
+but spot-checked. Sibling theorem, same slogan: the
+[Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) "at most
+two axes" is per *site* (a rate-pairing on one site's four rates, the route
+by which the depolarizing channel breaks); clause 1
+here is per *component*, a single axis per site with the axes differing
+between sites. Pairing fractions as in F137: mirror-paired eigenvalues out
+of the full 4^N.
+
+**Gate:** [`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
+→ [`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt)
+(the mixed-axes, Ising, qualifier and per-component sections; artifact
+self-total 105/105).
+**Proof:** the Scope paragraphs of
+[MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
+(`1c7dcf9`, field-free clause refined in `08db70e`). **Typed:** not yet
+(Tier1Candidate). Open: typing; a derivation of the two-term proviso.
 
 ---
 

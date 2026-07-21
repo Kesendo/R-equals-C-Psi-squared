@@ -169,7 +169,8 @@ N=3 chain, N=4 chain, N=4 complete and N=5 ring, each hitting its own −2Σγ
 the block-spectrum sweep, where γ=0.5 puts the floor at −8.
 
 **Scope.** H is a sum of *bond* terms, and the proof needs no more than that.
-Dephasing and on-site fields then obey a single boundary law, which is worth
+Dephasing and on-site fields then obey a single boundary law (F138 in the
+[formula registry](../ANALYTICAL_FORMULAS.md)), which is worth
 stating before its consequences because every "exception" below falls out of
 it. The palindrome holds exactly when, *in every connected component that
 carries dephasing at all*:
@@ -311,6 +312,7 @@ because it is a different channel rather than another axis:
 The T1 corrections have their own treatment in F82 and F84 of the
 [formula registry](../ANALYTICAL_FORMULAS.md) (F83, between them, is a
 different result: the anti-fraction closed form under plain Z-dephasing).
+The half-shift itself is registry entry F137, the boundary law above F138.
 
 ---
 
