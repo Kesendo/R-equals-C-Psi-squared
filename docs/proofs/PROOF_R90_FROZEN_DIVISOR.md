@@ -1,6 +1,6 @@
 # The R₉₀ frozen divisor: watching profiles that pin an eigenvalue for every coupling
 
-**Status:** Theorem (lower bound) Tier 1 derived; cofactor closed form + tightness criterion Tier 1 derived (Section 6), tightness generic (leading coefficient nonzero verified N = 3..10)
+**Status:** Theorem (lower bound) Tier 1 derived; cofactor closed form + tightness criterion Tier 1 derived (Section 6); uniform-endpoint constants in closed form and tightness-for-generic-J at every N Tier 1 derived (Section 7, the two boundary clocks)
 **Date:** 2026-07-22
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** On the anti-palindromic watching locus (every reflection pair of dephasing rates sums to the same value), the single-excitation corner block of the Liouvillian carries the eigenvalue λ = −4γ̄ with multiplicity at least ⌊N/2⌋, for every Hamiltonian coupling J (equality generic, verified N = 3..6). The mechanism is a rank bottleneck of a cell-level mirror, not an invariant subspace and not a spectral symmetry. The nonvanishing cofactor is a single N(N−1)/2 determinant in closed form, (−1)^N(4γ̄)^⌈N/2⌉·det((X P_{O₊} X)|_{V₋}), whose nonvanishing is exactly tightness (Section 6).
@@ -64,7 +64,7 @@ So Φ_J: W → O₋, v ↦ (L_block(J) + 4γ̄)v is a linear map into a space of
 
 Every kernel vector is an exact eigenvector of L_block(J) at −4γ̄. ∎
 
-The multiplicity is a dimension bottleneck of the mirror: the fixed cells of τQ (the anti-diagonal, one per balanced pair plus its transpose) give O₊ a surplus of 2⌊N/2⌋ rooms over O₋, the D₋ constraint taxes away half, and the remainder must freeze. Note what the proof does not use: no invariant subspace (the frozen eigenvectors move with J, only the eigenvalue stands still; Section 7's first bullet), no spectral palindromy (Section 2), no diagonalizability assumption.
+The multiplicity is a dimension bottleneck of the mirror: the fixed cells of τQ (the anti-diagonal, one per balanced pair plus its transpose) give O₊ a surplus of 2⌊N/2⌋ rooms over O₋, the D₋ constraint taxes away half, and the remainder must freeze. Note what the proof does not use: no invariant subspace (the frozen eigenvectors move with J, only the eigenvalue stands still; Section 8's first bullet), no spectral palindromy (Section 2), no diagonalizability assumption.
 
 Two structural by-products, both verified at machine precision in the gate: the frozen eigenvectors carry **zero weight on the diagonal cells** and have **τQ-even O-part**; the J-dependence of the frozen modes is only the ⌊N/2⌋-dimensional kernel line of Φ_J rotating inside the fixed subspace W.
 
@@ -113,7 +113,7 @@ The exponent is dim O₊ − dim V₋ = ⌊N/2⌋ (Section 1's counts), det(XP_{
 Three consequences, all pinned in the gate:
 
 - **The γ̄-stratification is exact.** The cofactor is (4γ̄)^⌈N/2⌉ times a polynomial in (J, δ⃗) only: the whole γ̄-dependence of the residual spectrum at the frozen root is the even defect's ⌈N/2⌉ diagonal cells of D₊.
-- **Tightness for generic J.** For a fixed locus profile, det(XP_{O₊}X|_{V₋}) is a polynomial in J of degree N(N−1) with leading coefficient det((K P_{O₊} K)|_{V₋}), which is nonzero for N = 3..10 (both the Heisenberg and the XY single-excitation matrix, checked numerically with healthy conditioning). Whenever that constant is nonzero the multiplicity is exactly ⌊N/2⌋ for all but finitely many J.
+- **Tightness for generic J.** For a fixed locus profile, det(XP_{O₊}X|_{V₋}) is a polynomial in J of degree N(N−1) with leading coefficient det((K P_{O₊} K)|_{V₋}), which is nonzero for every N: Section 7 computes it in closed form (gate scan N = 3..10, both the Heisenberg and the XY single-excitation matrix). Hence the multiplicity is exactly ⌊N/2⌋ for all but finitely many J, at every N and every locus profile.
 - **Small N in closed form** (symbolic, in the antisymmetric coordinates δ₁ = γ₁ − γ̄, δ₂ = γ₂ − γ̄):
 
     N = 3: q(0) = 2¹²·γ̄²·J⁴·(3J² − δ₁²)
@@ -122,14 +122,58 @@ Three consequences, all pinned in the gate:
 
   (The XY chain differs only in the polynomial coefficients: its J-pure terms are 2J² and 5J⁴ at N = 3, 4.) The J-powers 4(N−2) in front are an observation, not yet derived; only the total degree N(N−1) and the leading coefficient come from the theorem.
 
-## 7. What it is not (the placement)
+## 7. The uniform endpoint: the two boundary clocks
+
+At the fully degenerate point of the locus, δ⃗ = 0 (uniform watching), X = J·K and the cofactor collapses to a J-monomial:
+
+  q(0)|_{δ⃗=0} = (−1)^N·(4γ̄)^⌈N/2⌉·J^{N(N−1)}·D_N,  D_N := det( (K P_{O₊} K)|_{V₋} ).
+
+This section computes D_N in closed form, for every N. Three lemmas reduce it to a Gram determinant, and the Gram determinant is a pure power of the chain's clock modulus.
+
+**Lemma 3 (the pair basis diagonalizes K²).** Let λ_1 < ... < λ_N and u_1, ..., u_N be the eigenvalues and orthonormal eigenvectors of h, with R-parities π_i (R u_i = π_i u_i; the spectrum is nondegenerate, see Lemma 5). Writing w_{ij} := u_i ⊗ u_j for the cell-space product vectors, τQ w_{ij} = π_iπ_j·w_{ji}, so the vectors φ_{ij} := (w_{ij} − π_iπ_j w_{ji})/√2 over i < j form an orthonormal basis of V₋ (count: N(N−1)/2 ✓), and K² φ_{ij} = −(λ_i−λ_j)²·φ_{ij}.
+
+**Lemma 4 (the Gram reduction).** K is τQ-odd, so P₊ K|_{V₋} = K|_{V₋} (P₊ the projector onto V₊), hence K P_{O₊} K = K² − K P_{D₊} K = K² + C†C on V₋, with C := P_{D₊} K|_{V₋}. By the Weinstein–Aronszajn identity,
+
+  D_N = (−1)^{N(N−1)/2} · Π_{i<j} (λ_i−λ_j)² · det( I − W ),  W := C Λ⁻² C†,  Λ² := diag((λ_i−λ_j)²).
+
+Moreover I − W = V†V with V_{i,k} := ⟨w_{ii}, d_k⟩ (d_k the D₊ basis): K φ_{ij} = −i(λ_i−λ_j)·ψ_{ij} with ψ_{ij} := (w_{ij} + π_iπ_j w_{ji})/√2, so the (λ_i−λ_j)² of Λ⁻² cancels and W_{kl} = Σ_{i<j} ⟨d_k, ψ_{ij}⟩⟨ψ_{ij}, d_l⟩, and {w_{ii}} ∪ {ψ_{ij}} is an orthonormal basis of V₊ containing d_k, so W_{kl} = δ_{kl} − Σ_i ⟨d_k, w_{ii}⟩⟨w_{ii}, d_l⟩. Since the w_{ii} are τQ-even (orthogonal to D₋), the N×N Gram matrix G_{ij} := ⟨w_{ii}, P_D w_{jj}⟩ = Σ_a u_i(a)²u_j(a)² equals VV†, and therefore
+
+  det(I − W) = det(V†V) = pdet(G)  (the product of the nonzero eigenvalues of G, provided rank G = dim D₊ = ⌈N/2⌉, which Lemma 5 gives).
+
+**Lemma 5 (the two boundary clocks).** The single-excitation eigenbasis of the open chain is a cosine angle lattice, with modulus M depending on the chain (not the running clock of [ClockHandLadder](../../compute/RCPsiSquared.Core/Symmetry/ClockHandLadderClaim.cs), whose two hands tick on ω and γ; here "clock" is the timeless lattice of angles the excitation lives on):
+
+- **Heisenberg (M = N).** λ_k = 4cos(kπ/N) + N − 5 and u_k(a) ∝ cos((2a−1)kπ/(2N)), k = 0..N−1 (the DCT-II basis). The check is two lines: the interior rows force the dispersion, the end rows hold identically for the half-integer cosine (the chain's +2 boundary defect from the ZZ diagonal is exactly what the product-to-sum identity 2cosθ·cos(θ/2) = cos(3θ/2) + cos(θ/2) absorbs), and matching the right end quantizes sin(Nθ) = 0.
+- **XY (M = N+1).** λ_k = 4cos(kπ/(N+1)) and u_k(a) ∝ sin(akπ/(N+1)), k = 1..N (the DST-I basis, classical).
+
+Both spectra are nondegenerate (distinct cosines), so Lemma 3 applies. For B_{a,k} := u_k(a)² the three standard cosine sums (single sums = 0 past the flat mode; double products leave exactly the a = b and b = Ra resonances) give one law for both chains:
+
+  **B Bᵀ = (1 − 1/M)·𝟙𝟙ᵀ/N + (I + R)/(2M).**
+
+B is doubly stochastic (B𝟙 = Bᵀ𝟙 = 𝟙), the anti-symmetric space is killed, and on the R-symmetric space (I+R)/2 acts as the identity: the spectrum of BBᵀ, hence of G = BᵀB, is exactly
+
+  {1 (the flat vector), 1/M with multiplicity ⌈N/2⌉ − 1, 0 with multiplicity ⌊N/2⌋},
+
+so rank G = ⌈N/2⌉ and **pdet(G) = M^{−⌊(N−1)/2⌋}**. ∎
+
+**Theorem (uniform-endpoint constants).** For every N ≥ 3, on the Heisenberg (M = N) and XY (M = N+1) open chains,
+
+  **D_N = (−1)^{N(N−1)/2} · Π_{i<j}(λ_i−λ_j)² · M^{−⌊(N−1)/2⌋} ≠ 0.**
+
+Two consequences:
+
+- **Tightness is now a theorem at every N** (upgrading the N = 3..10 scan of Section 6): D_N ≠ 0 makes det((XP_{O₊}X)|_{V₋}) a nonzero polynomial in J for every locus profile (leading coefficient J^{N(N−1)}·D_N), so the frozen multiplicity is exactly ⌊N/2⌋ for all but finitely many J; at the uniform point itself the determinant is the monomial J^{N(N−1)}·D_N, so there the multiplicity is exactly ⌊N/2⌋ for **every** J ≠ 0.
+- **The J-pure constants of Section 6 are clock numbers.** Π(λ_i−λ_j)² is the discriminant of the (integer) characteristic polynomial of h, and the correction is a pure power of the clock modulus. N = 3 Heisenberg: disc = 2304, M^{−1} = 1/3, D₃ = −768 = −2⁸·3, reproducing the 3J² of Section 6; the gate pins the exact rational assembly at N = 4, 5 (at the gate's point γ̄ = 9/100, J = 4/3, the N = 5 uniform cofactor is exactly −2⁶⁴/2989355625).
+
+The two moduli are the two boundary clocks of the open chain: the XY excitation lives on the Dirichlet lattice sin(akπ/(N+1)), which is the committed SE cosine lattice of modulus N+1 ([NivenRationalityRoot](../../compute/RCPsiSquared.Core/Symmetry/NivenRationalityRootClaim.cs) and the [F65 registry entry](../ANALYTICAL_FORMULAS.md) live there, as do the F129 collision combs and the F139 wall at modulus 11); the Heisenberg excitation lives on the Neumann half-integer lattice cos((2a−1)kπ/(2N)) of modulus N, which had no committed anchor before this proof. The frozen divisor's residual constant reads off which boundary clock the chain carries.
+
+## 8. What it is not (the placement)
 
 - **Not a decoherence-free structure.** The frozen eigenvectors are not in ker(ad_H): the kernel of K intersected with the anti-diagonal span is at most one-dimensional (one at even N, none at odd N), far below ⌊N/2⌋, and the frozen eigenvectors move with J. Only the eigenvalue stands still.
 - **Not the uniform-γ commutant story.** At uniform γ (which sits on the locus as its fully degenerate point) the J-independent spectrum is the committed d_real ladder of [DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md), explained by weight-sector kernels ([absorption theorem](PROOF_ABSORPTION_THEOREM.md), [F50](PROOF_WEIGHT1_DEGENERACY.md)); those modes have J-independent eigenvectors. The frozen divisor is the site-resolved layer that survives when the profile is generic on the locus, and its mechanism is disjoint from the commutant.
 - **Not a defective seed.** The frozen modes are semisimple (healthy left and right eigenvectors, overlap of order one); the Seed count of MirrorWorld concerns defective points, this concerns an eigenvalue pinned across a family. Siblings, not the same object.
 - **The F139 kinship is the design lesson.** There the wall factor S₁₀ divides a character polynomial exactly, with no symmetry realizing the reflection; here (λ + 4γ̄)^⌊N/2⌋ divides the corner characteristic polynomial exactly on a locus, with no symmetry of the spectrum. Both walls are divisors.
 
-## 8. Verification
+## 9. Verification
 
 The committed gate [`simulations/r90_frozen_divisor_gate.py`](../../simulations/r90_frozen_divisor_gate.py) checks, and must print "R90 frozen divisor gate: ALL GREEN":
 
@@ -140,11 +184,11 @@ The committed gate [`simulations/r90_frozen_divisor_gate.py`](../../simulations/
 - the partial-balance nulls;
 - the N = 3 closed form, symbolically exact;
 - at N = 6, exact Gaussian-rational arithmetic: the on-locus 36×36 corner determinant is exactly zero, and the transverse vanishing order in the defect is exactly 3 = ⌊N/2⌋;
-- the cofactor theorem (Section 6): the closed form against the interpolated exact cofactor in Gaussian-rational arithmetic (N = 4, 5, Heisenberg; float cross-check XY N = 4), the symbolic N = 3 corner cofactor 2¹²γ̄²J⁴(3J² − δ₁²), and the nonvanishing of the leading coefficient det((K P_{O₊} K)|_{V₋}) for N = 3..10, Heisenberg and XY.
+- the cofactor theorem (Section 6): the closed form against the interpolated exact cofactor in Gaussian-rational arithmetic (N = 4, 5, Heisenberg; float cross-check XY N = 4), the symbolic N = 3 corner cofactor 2¹²γ̄²J⁴(3J² − δ₁²), and the nonvanishing of the leading coefficient det((K P_{O₊} K)|_{V₋}) for N = 3..10, Heisenberg and XY;
+- the two boundary clocks (Section 7): the DCT-II / DST-I identification of the SE eigenbasis (machine zero, N = 3..10 both chains), the BBᵀ law with its {1, 1/M, 0} spectrum and pdet(G) = M^{−⌊(N−1)/2⌋}, the D_N closed form against the direct determinant, the exact rational assembly of the uniform cofactor at N = 4, 5 (Heisenberg, sympy discriminant), and uniform tightness at every sampled J (N = 3..6).
 
-## 9. Open
+## 10. Open
 
-- The inner structure of the cofactor determinant: the observed J^{4(N−2)} prefactor of the residual polynomial Q_N, and the closed form of the J-pure constants (3, 8, 25 at N = 3, 4, 5 Heisenberg; 2, 5 at N = 3, 4 XY).
-- The leading coefficient det((K P_{O₊} K)|_{V₋}) ≠ 0 for general N (verified N = 3..10; a proof would make tightness-for-generic-J a theorem at every N).
-- The uniform-γ endpoint: how the frozen divisor's ⌊N/2⌋ modes embed into the enhanced d_real counts when all rate classes collapse. The cofactor theorem localizes the question: at δ⃗ = 0 the determinant becomes J^{N(N−1)}·det((K P_{O₊} K)|_{V₋}).
-- Adoption into MirrorWorld (the statement is finite linear algebra, entry-wise checkable, eigensolver-free; candidate genre neighbour of Seed).
+- The inner structure of the residual polynomial Q_N away from the uniform point: the observed J^{4(N−2)} prefactor is not derived (the J-pure constants are now Section 7's clock numbers).
+- The uniform-γ endpoint: how the frozen divisor's ⌊N/2⌋ modes embed into the enhanced d_real counts when all rate classes collapse. Section 7 supplies the frozen side in closed form; the d_real side of the ledger is still the committed open problem of [DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md).
+- Adoption into MirrorWorld (the statement is finite linear algebra; the Sections 6-7 closed forms are entry-wise checkable up to one eigendecomposition of the N×N matrix h; candidate genre neighbour of Seed).

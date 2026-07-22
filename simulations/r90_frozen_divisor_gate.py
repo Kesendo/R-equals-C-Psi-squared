@@ -25,8 +25,20 @@
 #       (b) symbolic N=3 corner cofactor = 2^12 gbar^2 J^4 (3J^2 - d1^2)
 #       (c) leading coefficient det((K P_{O+} K)|_{V-}) nonzero, N = 3..10,
 #           Heisenberg and XY
+#   G9  the two boundary clocks (proof doc Section 7):
+#       (a) SE eigenbasis identification: Heis = DCT-II (lam_k = 4cos(k pi/N)
+#           + N - 5, u_k(a) ~ cos((2a-1)k pi/(2N))), XY = DST-I
+#           (lam_k = 4cos(k pi/(N+1)), u_k(a) ~ sin(a k pi/(N+1))), N = 3..10
+#       (b) BB^T = (1-1/M) 11^T/N + (I+R)/(2M), M = N (Heis) / N+1 (XY);
+#           G = B^T B spectrum {1, 1/M x (ceil(N/2)-1), 0};
+#           pdet(G) = M^{-floor((N-1)/2)}
+#       (c) D_N = (-1)^{N(N-1)/2} prod (lam_i-lam_j)^2 M^{-floor((N-1)/2)}
+#           against the direct determinant, N = 3..10 both chains
+#       (d) exact rational assembly at the uniform point (N = 4, 5 Heisenberg,
+#           sympy discriminant); uniform corner multiplicity = floor(N/2) at
+#           every sampled J (N = 3..6)
 #
-# Runtime: ~2-4 min. Standalone except G0 (imports framework once).
+# Runtime: ~3-5 min. Standalone except G0 (imports framework once).
 import sys
 import math
 import random
@@ -587,6 +599,102 @@ for N in range(3, 11):
         s = np.linalg.svd(Redn, compute_uv=False)
         check(f"N={N} {lbl} leading coeff det((K P+ K)|V-) nonzero",
               s[-1] > 1e-8 * s[0], f"smin/smax {s[-1] / s[0]:.1e}")
+
+# ---------- G9: the two clocks ----------
+
+print("G9  the two boundary clocks: DCT-II/DST-I, BB^T law, pdet(G), D_N, "
+      "uniform assembly")
+
+
+def se_h_np(N, zz=True):
+    """Single-excitation h (hopping 2 + optional ZZ diagonal), float."""
+    h = np.zeros((N, N))
+    for a in range(N - 1):
+        h[a, a + 1] = h[a + 1, a] = 2.0
+    if zz:
+        for a in range(N):
+            h[a, a] = sum(-1 if (a == b or a == b + 1) else 1
+                          for b in range(N - 1))
+    return h
+
+
+for zz, lbl in ((True, "Heis"), (False, "XY")):
+    dev_clock = dev_bbt = dev_spec = dev_dn = 0.0
+    for N in range(3, 11):
+        M = N if zz else N + 1
+        h = se_h_np(N, zz)
+        lam, U = np.linalg.eigh(h)
+        # (a) clock identification
+        if zz:
+            ks = np.arange(N)
+            lpred = 4 * np.cos(ks * np.pi / N) + N - 5
+            vecs = [np.cos((2 * np.arange(1, N + 1) - 1) * k * np.pi / (2 * N))
+                    for k in ks]
+        else:
+            ks = np.arange(1, N + 1)
+            lpred = 4 * np.cos(ks * np.pi / (N + 1))
+            vecs = [np.sin(np.arange(1, N + 1) * k * np.pi / (N + 1)) for k in ks]
+        for lk, v in zip(lpred, vecs):
+            idx = int(np.argmin(np.abs(lam - lk)))
+            v = v / np.linalg.norm(v)
+            u = U[:, idx]
+            dev_clock = max(dev_clock, abs(lam[idx] - lk),
+                            min(np.linalg.norm(u - v), np.linalg.norm(u + v)))
+        # (b) BB^T law + G spectrum + pdet
+        B = U ** 2
+        Rm = np.eye(N)[::-1]
+        cand = (1 - 1 / M) * np.ones((N, N)) / N + (np.eye(N) + Rm) / (2 * M)
+        dev_bbt = max(dev_bbt, np.max(np.abs(B @ B.T - cand)))
+        G = B.T @ B
+        w = np.sort(np.linalg.eigvalsh(G))[::-1]
+        p = (N + 1) // 2
+        dev_spec = max(dev_spec, abs(w[0] - 1),
+                       float(np.max(np.abs(w[1:p] - 1 / M))),
+                       float(np.max(np.abs(w[p:]))),
+                       abs(float(np.prod(w[:p])) - M ** (-((N - 1) // 2))))
+        # (c) D_N closed form vs direct
+        K, _ = corner_pieces(N, [0.0] * N, zz=zz)
+        n2 = N * N
+        TQn = tauQ_perm(N)
+        wv, Vv = np.linalg.eigh(TQn)
+        Vmn = Vv[:, np.abs(wv + 1) < 1e-9]
+        Pdn = np.diag([1.0 if r // N == r % N else 0.0 for r in range(n2)])
+        Ppn = 0.5 * ((np.eye(n2) - Pdn) + TQn @ (np.eye(n2) - Pdn))
+        sgn, ld = np.linalg.slogdet(Vmn.conj().T @ (K @ Ppn @ K) @ Vmn)
+        disc = np.prod([(lam[i] - lam[j]) ** 2 for i in range(N)
+                        for j in range(i + 1, N)])
+        rhs = (-1) ** (N * (N - 1) // 2) * disc * M ** (-((N - 1) // 2))
+        dev_dn = max(dev_dn, abs(ld - np.log(abs(rhs))),
+                     0.0 if sgn.real * np.sign(rhs) > 0 else 1.0)
+    check(f"{lbl} clock identification N=3..10", dev_clock < 1e-10,
+          f"max dev {dev_clock:.1e}")
+    check(f"{lbl} BB^T law N=3..10", dev_bbt < 1e-12, f"max dev {dev_bbt:.1e}")
+    check(f"{lbl} G spectrum + pdet law N=3..10", dev_spec < 1e-10,
+          f"max dev {dev_spec:.1e}")
+    check(f"{lbl} D_N closed form N=3..10", dev_dn < 1e-8, f"max dev {dev_dn:.1e}")
+
+# (d) exact rational assembly at the uniform point, N = 4, 5 Heisenberg
+for N, Jv in ((4, Fraction(9, 5)), (5, Fraction(4, 3))):
+    gbq = Fraction(9, 100)
+    c_dir = cofactor_exact_direct(N, [gbq] * N, Jv)
+    hs = sp.Matrix(N, N, lambda a, b: sp.Integer(int(se_h_np(N)[a, b])))
+    xs = sp.symbols('xdisc')
+    disc_i = sp.discriminant(hs.charpoly(xs).as_expr(), xs)
+    p = (N + 1) // 2
+    rhs_q = (Fraction(-1) ** N) * (4 * gbq) ** p * Jv ** (N * (N - 1)) \
+        * (Fraction(-1) ** (N * (N - 1) // 2)) * Fraction(int(disc_i)) \
+        / Fraction(N) ** ((N - 1) // 2)
+    check(f"N={N} exact uniform cofactor = clock closed form", c_dir == rhs_q,
+          f"value {c_dir}")
+
+# uniform tightness at every sampled J
+for N in (3, 4, 5, 6):
+    K, G9G = corner_pieces(N, [0.07] * N)
+    gbar9 = 0.07
+    mmin, counts = frozen_count_at(lambda J: J * K - 2 * G9G, -4 * gbar9,
+                                   J_list=(0.3, 1.0, 2.7))
+    check(f"N={N} uniform corner multiplicity = {N // 2}",
+          all(c == N // 2 for c in counts), f"counts {counts}")
 
 # ---------- verdict ----------
 
