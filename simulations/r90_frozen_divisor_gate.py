@@ -37,8 +37,15 @@
 #       (d) exact rational assembly at the uniform point (N = 4, 5 Heisenberg,
 #           sympy discriminant); uniform corner multiplicity = floor(N/2) at
 #           every sampled J (N = 3..6)
+#   G10 the J-valuation ladder (proof doc Section 6, last consequence):
+#       (a) exact discriminators: ord_J of the cofactor = 18 at N=6
+#           (= 2 floor(N/2) ceil(N/2), not 16 = 4(N-2)) and = 24 at N=7
+#           (not 20), Gaussian-rational at J = 1/1000 vs 1/2000
+#       (b) the exact second-order rung: rank(P_anti K P_{D-}) = 1 at even N,
+#           0 at odd N (only the distance-1 middle pair is one hop from the
+#           anti-diagonal), N = 4..7
 #
-# Runtime: ~3-5 min. Standalone except G0 (imports framework once).
+# Runtime: ~5-8 min. Standalone except G0 (imports framework once).
 import sys
 import math
 import random
@@ -695,6 +702,55 @@ for N in (3, 4, 5, 6):
                                    J_list=(0.3, 1.0, 2.7))
     check(f"N={N} uniform corner multiplicity = {N // 2}",
           all(c == N // 2 for c in counts), f"counts {counts}")
+
+# ---------- G10: the J-valuation ladder ----------
+
+print("G10 J-valuation ladder: exact N=6/N=7 discriminators; second-order rung")
+
+# (a) exact discriminator at N=6
+gbq10 = Fraction(9, 100)
+d10 = [Fraction(1, 50), Fraction(-3, 100), Fraction(1, 25)]
+gv10 = [gbq10 + d for d in d10] + [gbq10 - d for d in reversed(d10)]
+cJ1 = cofactor_exact_formula(6, gv10, Fraction(1, 1000))
+cJ2 = cofactor_exact_formula(6, gv10, Fraction(1, 2000))
+ordJ6 = math.log2(abs(cJ1 / cJ2))
+check("N=6 exact J-valuation = 18 (2 floor(N/2) ceil(N/2)), not 16",
+      abs(ordJ6 - 18) < 0.05, f"measured {ordJ6:.4f}")
+
+# (a2) second discriminator at N=7: 24 (= 2 m (N-m)), not 20 (= 4(N-2));
+# needs J deep below every delta scale (1/100 still overshoots), so 1/1000
+d10b = [Fraction(1, 50), Fraction(3, 100), Fraction(-1, 25)]
+gv10b = [gbq10 + d for d in d10b] + [gbq10] + [gbq10 - d for d in reversed(d10b)]
+cJ1b = cofactor_exact_formula(7, gv10b, Fraction(1, 1000))
+cJ2b = cofactor_exact_formula(7, gv10b, Fraction(1, 2000))
+ordJ7 = math.log2(abs(cJ1b / cJ2b))
+check("N=7 exact J-valuation = 24 (not 20)", abs(ordJ7 - 24) < 0.1,
+      f"measured {ordJ7:.4f}")
+
+# (b) the exact second-order rung: the D- Schur complement at order J^2 is
+# -C(dagger)C with C = P_anti K P_{D-}; rank C = 1 at even N (only the
+# distance-1 middle pair reaches the anti-diagonal in one hop), 0 at odd N
+for N in (4, 5, 6, 7):
+    K, _ = corner_pieces(N, [0.0] * N)
+    n2 = N * N
+    anti = [a * N + (N - 1 - a) for a in range(N) if a != N - 1 - a]
+    TQ = tauQ_perm(N)
+    D = [r for r in range(n2) if r // N == r % N]
+
+    def pb(idx, sign):
+        sub = TQ[np.ix_(idx, idx)]
+        w2, V2 = np.linalg.eigh(sub)
+        cols = V2[:, np.abs(w2 - sign) < 1e-9]
+        E = np.zeros((n2, cols.shape[1]))
+        E[idx, :] = cols
+        return E
+
+    Dm_b = pb(D, -1)
+    Cmat = (K @ Dm_b)[anti, :]
+    s = np.linalg.svd(Cmat, compute_uv=False)
+    rk = int(np.sum(s > 1e-10 * max(1.0, s[0])))
+    check(f"N={N} rank(P_anti K P_D-) = {1 if N % 2 == 0 else 0}",
+          rk == (1 if N % 2 == 0 else 0), f"rank {rk}")
 
 # ---------- verdict ----------
 

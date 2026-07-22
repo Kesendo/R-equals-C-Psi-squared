@@ -4,7 +4,7 @@
 **Date:** 2026-07-22
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** On the anti-palindromic watching locus (every reflection pair of dephasing rates sums to the same value), the single-excitation corner block of the Liouvillian carries the eigenvalue λ = −4γ̄ with multiplicity at least ⌊N/2⌋, for every Hamiltonian coupling J (equality generic, verified N = 3..6). The mechanism is a rank bottleneck of a cell-level mirror, not an invariant subspace and not a spectral symmetry. The nonvanishing cofactor is a single N(N−1)/2 determinant in closed form, (−1)^N(4γ̄)^⌈N/2⌉·det((X P_{O₊} X)|_{V₋}), whose nonvanishing is exactly tightness (Section 6).
-**Verification:** [`simulations/r90_frozen_divisor_gate.py`](../../simulations/r90_frozen_divisor_gate.py) (must print "R90 frozen divisor gate: ALL GREEN", ~2-4 min)
+**Verification:** [`simulations/r90_frozen_divisor_gate.py`](../../simulations/r90_frozen_divisor_gate.py) (must print "R90 frozen divisor gate: ALL GREEN", ~5-8 min)
 **Depends on:** [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md) (the R₉₀ reshuffle and its fixed locus), [GAMMA_FOLD_PAIR_OF_MIRRORS](../../experiments/GAMMA_FOLD_PAIR_OF_MIRRORS.md) (the X^N cross-dock used in the corollary), [PROOF_F139_SEAM_IDENTITY](PROOF_F139_SEAM_IDENTITY.md) (the sibling on the character side)
 
 ---
@@ -120,7 +120,7 @@ Three consequences, all pinned in the gate:
     N = 4: q(0) = 2²⁰·γ̄²·J⁸·(8J⁴ − 4J²(3δ₁² + 2δ₁δ₂ + δ₂²) + (δ₁² − δ₂²)²)
     N = 5: q(0) = −2³⁰·γ̄³·J¹²·Q₅(J², δ₁, δ₂) with Q₅ of total degree 8 in (J, δ₁, δ₂), leading term 25J⁸
 
-  (The XY chain differs only in the polynomial coefficients: its J-pure terms are 2J² and 5J⁴ at N = 3, 4.) The J-powers 4(N−2) in front are an observation, not yet derived; only the total degree N(N−1) and the leading coefficient come from the theorem.
+  (The XY chain differs only in the polynomial coefficients: its J-pure terms are 2J² and 5J⁴ at N = 3, 4.) The J-power in front is **2⌊N/2⌋⌈N/2⌉ = 2⌊N²/4⌋** (4, 8, 12, 18, 24 at N = 3..7), not the 4(N−2) the first three N suggest: the two expressions coincide exactly through N = 5 and split at N = 6 (exact-rational J → 0 valuations 18 and 24 at N = 6, 7; the N = 6 discriminator is gate-pinned). Mode-resolved, the valuation ladder reads as the distance ladder: the balanced pair (c, Rc) contributes one eigenvalue branch of the D₋ Schur complement with valuation J^{2(N+1−2c)}, twice the pair's site distance: the Hamiltonian must walk the excitation from c to Rc before that frozen mode moves off its perch. The first rung is exact: the order-J² Schur complement on D₋ is −C†C with C = P_anti K P_{D₋} (P_anti the projector onto the anti-diagonal cells), and rank C = 1 at even N, 0 at odd N — only the distance-1 middle pair of even N is one hop from the anti-diagonal. Status: total valuations verified exactly (N = 3..7, Gaussian-rational; the N = 6 and N = 7 discriminators are gate-pinned), the first rung exact (gate), the full per-pair split observed in float Schur cascades at a generic profile (regime-sensitive: the deep branches need J far below every δ scale); the valuation law itself is not yet derived. Only the total degree N(N−1) and the leading coefficient come from the theorem.
 
 ## 7. The uniform endpoint: the two boundary clocks
 
@@ -132,7 +132,7 @@ This section computes D_N in closed form, for every N. Three lemmas reduce it to
 
 **Lemma 3 (the pair basis diagonalizes K²).** Let λ_1 < ... < λ_N and u_1, ..., u_N be the eigenvalues and orthonormal eigenvectors of h, with R-parities π_i (R u_i = π_i u_i; the spectrum is nondegenerate, see Lemma 5). Writing w_{ij} := u_i ⊗ u_j for the cell-space product vectors, τQ w_{ij} = π_iπ_j·w_{ji}, so the vectors φ_{ij} := (w_{ij} − π_iπ_j w_{ji})/√2 over i < j form an orthonormal basis of V₋ (count: N(N−1)/2 ✓), and K² φ_{ij} = −(λ_i−λ_j)²·φ_{ij}.
 
-**Lemma 4 (the Gram reduction).** K is τQ-odd, so P₊ K|_{V₋} = K|_{V₋} (P₊ the projector onto V₊), hence K P_{O₊} K = K² − K P_{D₊} K = K² + C†C on V₋, with C := P_{D₊} K|_{V₋}. By the Weinstein–Aronszajn identity,
+**Lemma 4 (the Gram reduction).** K is τQ-odd, so P₊ K|_{V₋} = K|_{V₋} (P₊ the projector onto V₊), hence K P_{O₊} K = K² − K P_{D₊} K = K² + C†C on V₋, with C := P_{D₊} K|_{V₋}. By the Weinstein-Aronszajn identity,
 
   D_N = (−1)^{N(N−1)/2} · Π_{i<j} (λ_i−λ_j)² · det( I − W ),  W := C Λ⁻² C†,  Λ² := diag((λ_i−λ_j)²).
 
@@ -145,7 +145,7 @@ Moreover I − W = V†V with V_{i,k} := ⟨w_{ii}, d_k⟩ (d_k the D₊ basis):
 - **Heisenberg (M = N).** λ_k = 4cos(kπ/N) + N − 5 and u_k(a) ∝ cos((2a−1)kπ/(2N)), k = 0..N−1 (the DCT-II basis). The check is two lines: the interior rows force the dispersion, the end rows hold identically for the half-integer cosine (the chain's +2 boundary defect from the ZZ diagonal is exactly what the product-to-sum identity 2cosθ·cos(θ/2) = cos(3θ/2) + cos(θ/2) absorbs), and matching the right end quantizes sin(Nθ) = 0.
 - **XY (M = N+1).** λ_k = 4cos(kπ/(N+1)) and u_k(a) ∝ sin(akπ/(N+1)), k = 1..N (the DST-I basis, classical).
 
-Both spectra are nondegenerate (distinct cosines), so Lemma 3 applies. For B_{a,k} := u_k(a)² the three standard cosine sums (single sums = 0 past the flat mode; double products leave exactly the a = b and b = Ra resonances) give one law for both chains:
+Both spectra are nondegenerate (distinct cosines), so Lemma 3 applies. For B_{a,k} := u_k(a)² everything reduces to geometric sums: in the Heisenberg case Σ_{k=0}^{N−1} cos(jkπ/N) = 1 for odd j and N·[N | j] for even j, and the products 2cos·cos split into sums with j = 2(a−b) and j = 2(a+b−1), whose resonances are exactly a = b and b = Ra; the XY case runs the same sums at modulus N+1. The result is one law for both chains:
 
   **B Bᵀ = (1 − 1/M)·𝟙𝟙ᵀ/N + (I + R)/(2M).**
 
@@ -185,10 +185,11 @@ The committed gate [`simulations/r90_frozen_divisor_gate.py`](../../simulations/
 - the N = 3 closed form, symbolically exact;
 - at N = 6, exact Gaussian-rational arithmetic: the on-locus 36×36 corner determinant is exactly zero, and the transverse vanishing order in the defect is exactly 3 = ⌊N/2⌋;
 - the cofactor theorem (Section 6): the closed form against the interpolated exact cofactor in Gaussian-rational arithmetic (N = 4, 5, Heisenberg; float cross-check XY N = 4), the symbolic N = 3 corner cofactor 2¹²γ̄²J⁴(3J² − δ₁²), and the nonvanishing of the leading coefficient det((K P_{O₊} K)|_{V₋}) for N = 3..10, Heisenberg and XY;
-- the two boundary clocks (Section 7): the DCT-II / DST-I identification of the SE eigenbasis (machine zero, N = 3..10 both chains), the BBᵀ law with its {1, 1/M, 0} spectrum and pdet(G) = M^{−⌊(N−1)/2⌋}, the D_N closed form against the direct determinant, the exact rational assembly of the uniform cofactor at N = 4, 5 (Heisenberg, sympy discriminant), and uniform tightness at every sampled J (N = 3..6).
+- the two boundary clocks (Section 7): the DCT-II / DST-I identification of the SE eigenbasis (machine zero, N = 3..10 both chains), the BBᵀ law with its {1, 1/M, 0} spectrum and pdet(G) = M^{−⌊(N−1)/2⌋}, the D_N closed form against the direct determinant, the exact rational assembly of the uniform cofactor at N = 4, 5 (Heisenberg, sympy discriminant), and uniform tightness at every sampled J (N = 3..6);
+- the J-valuation ladder (Section 6, last consequence): the exact discriminators ord_J = 18 at N = 6 (not 16) and 24 at N = 7 (not 20), Gaussian-rational, and the exact second-order rung rank(P_anti K P_{D₋}) = 1 at even N / 0 at odd N (N = 4..7).
 
 ## 10. Open
 
-- The inner structure of the residual polynomial Q_N away from the uniform point: the observed J^{4(N−2)} prefactor is not derived (the J-pure constants are now Section 7's clock numbers).
+- The J-valuation law of the cofactor determinant away from the uniform point: the per-pair valuations 2(N+1−2c) (total 2⌊N²/4⌋, Section 6) are exactly verified but not derived; the missing piece is the walk-counting lower bound (each K-application moves one index by one hop, so the pair (c, Rc) should be unreachable below twice its distance).
 - The uniform-γ endpoint: how the frozen divisor's ⌊N/2⌋ modes embed into the enhanced d_real counts when all rate classes collapse. Section 7 supplies the frozen side in closed form; the d_real side of the ledger is still the committed open problem of [DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md).
 - Adoption into MirrorWorld (the statement is finite linear algebra; the Sections 6-7 closed forms are entry-wise checkable up to one eigendecomposition of the N×N matrix h; candidate genre neighbour of Seed).
