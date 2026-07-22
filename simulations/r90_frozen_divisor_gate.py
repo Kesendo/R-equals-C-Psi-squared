@@ -18,8 +18,15 @@
 #       512 J^4 (g1+g3)^2 (g1+g3-2g2) (4J^2 + (g1+g3)(g1+g3-2g2))
 #   G7  N=6 exact arithmetic (Gaussian rationals): on-locus 36x36 corner det
 #       is exactly zero; transverse vanishing order is 3
+#   G8  the cofactor theorem (proof doc Section 6):
+#       (a) exact Gaussian-rational: coeff of eps^m of det(eps I - Mtilde)
+#           equals (-1)^N (4 gbar)^ceil(N/2) det((X P_{O+} X)|_{V-}) at N=4,5
+#           (Heisenberg, non-AP locus profile, rational J); float check XY N=4
+#       (b) symbolic N=3 corner cofactor = 2^12 gbar^2 J^4 (3J^2 - d1^2)
+#       (c) leading coefficient det((K P_{O+} K)|_{V-}) nonzero, N = 3..10,
+#           Heisenberg and XY
 #
-# Runtime: ~1-2 min. Standalone except G0 (imports framework once).
+# Runtime: ~2-4 min. Standalone except G0 (imports framework once).
 import sys
 import math
 import random
@@ -387,6 +394,199 @@ def mag(gq):
 
 order = math.log(mag(d1) / mag(d2)) / math.log(2.0)
 check("transverse vanishing order = 3", abs(order - 3.0) < 0.01, f"order {order:.4f}")
+
+# ---------- G8: the cofactor theorem ----------
+
+print("G8  cofactor closed form: exact N=4,5; symbolic N=3; leading coeff N=3..10")
+
+
+def tq_index(N):
+    return [(N - 1 - (r % N)) * N + (N - 1 - (r // N)) for r in range(N * N)]
+
+
+def vm_columns(N):
+    """Unnormalized V- basis: e_r - e_{tq(r)} over tq-2-cycles (D- and O-)."""
+    tq = tq_index(N)
+    cols, seen = [], set()
+    for r in range(N * N):
+        rp = tq[r]
+        if rp == r or r in seen:
+            continue
+        seen.add(r)
+        seen.add(rp)
+        cols.append((r, rp))
+    return cols
+
+
+def se_h_frac(N):
+    h = [[Fraction(0)] * N for _ in range(N)]
+    for a in range(N - 1):
+        h[a][a + 1] = h[a + 1][a] = Fraction(2)
+    for a in range(N):
+        h[a][a] = Fraction(sum(-1 if (a == b or a == b + 1) else 1
+                               for b in range(N - 1)))
+    return h
+
+
+def gq_matmul(A, B):
+    n, k, m2 = len(A), len(B), len(B[0])
+    C = [[GQ(0) for _ in range(m2)] for _ in range(n)]
+    for i in range(n):
+        for t in range(k):
+            a = A[i][t]
+            if a.is_zero():
+                continue
+            for j in range(m2):
+                if not B[t][j].is_zero():
+                    C[i][j] += a * B[t][j]
+    return C
+
+
+def cofactor_exact_direct(N, gv, Jv):
+    """coeff of eps^m of det(eps I - Mtilde): dets at n2+1 nodes + Newton
+    interpolation, exact; asserts coeffs eps^0..eps^(m-1) vanish."""
+    n2, m = N * N, N // 2
+    gbar = sum(gv) / N
+    # corner_exact(root) returns root*I - L_block, so eps*I - Mtilde =
+    # (eps - 4*gbar)*I - L_block = corner_exact(root = eps - 4*gbar)
+    nodes = [Fraction(k, 7) for k in range(1, n2 + 2)]
+    dets = []
+    for e in nodes:
+        A = corner_exact(N, gv, Jv, e - 4 * gbar)
+        dets.append(det_exact(A))
+
+    def interp(vals):
+        n = len(nodes)
+        dd = [list(vals)]
+        for k in range(1, n):
+            prev = dd[-1]
+            dd.append([(prev[i + 1] - prev[i]) / (nodes[i + k] - nodes[i])
+                       for i in range(n - k)])
+        coeffs = [Fraction(0)] * n
+        basis = [Fraction(1)] + [Fraction(0)] * (n - 1)
+        for k in range(n):
+            c = dd[k][0]
+            for i in range(k + 1):
+                coeffs[i] += c * basis[i]
+            if k == n - 1:
+                break
+            new = [Fraction(0)] * n
+            for i in range(k + 1):
+                new[i + 1] += basis[i]
+                new[i] += -nodes[k] * basis[i]
+            basis = new
+        return coeffs
+
+    ca = interp([dv.a for dv in dets])
+    cb = interp([dv.b for dv in dets])
+    for k in range(m):
+        assert ca[k] == 0 and cb[k] == 0, f"eps^{k} coeff nonzero"
+    assert cb[m] == 0, "cofactor not real"
+    return ca[m]
+
+
+def cofactor_exact_formula(N, gv, Jv):
+    """(-1)^N (4 gbar)^ceil(N/2) det((X P+ X)|_{V-}), exact."""
+    n2 = N * N
+    h = se_h_frac(N)
+    gbar = sum(gv) / N
+    X = [[GQ(0) for _ in range(n2)] for _ in range(n2)]
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                X[r][c * N + b] += GQ(0, -Jv * h[a][c])
+                X[r][a * N + c] += GQ(0, Jv * h[c][b])
+            if a != b:
+                X[r][r] += GQ(-2 * (gv[a] + gv[b]) + 4 * gbar)
+    tq = tq_index(N)
+    P = [[GQ(0) for _ in range(n2)] for _ in range(n2)]
+    for r in range(n2):
+        if r // N == r % N:
+            continue
+        P[r][r] += GQ(Fraction(1, 2))
+        P[r][tq[r]] += GQ(Fraction(1, 2))
+    Y = gq_matmul(gq_matmul(X, P), X)
+    cols = vm_columns(N)
+    vm = len(cols)
+    Red = [[Y[r1][c1] - Y[r1][c2] - Y[r2][c1] + Y[r2][c2]
+            for (c1, c2) in cols] for (r1, r2) in cols]
+    dv = det_exact(Red)
+    assert dv.b == 0, "reduced det not real"
+    sign = 1 if N % 2 == 0 else -1
+    return sign * (4 * gbar) ** (N - N // 2) * dv.a / Fraction(2) ** vm
+
+
+for N, deltas, Jv in [
+    (4, [Fraction(1, 50), Fraction(-3, 100)], Fraction(9, 5)),
+    (5, [Fraction(1, 50), Fraction(3, 100)], Fraction(4, 3)),
+]:
+    gbq = Fraction(9, 100)
+    gv = [gbq + d for d in deltas] + ([gbq] if N % 2 else []) + \
+         [gbq - d for d in reversed(deltas)]
+    c_dir = cofactor_exact_direct(N, gv, Jv)
+    c_form = cofactor_exact_formula(N, gv, Jv)
+    check(f"N={N} exact cofactor = closed form", c_dir == c_form,
+          f"value {c_dir}")
+
+# G8 float check, XY N=4: formula vs product of nonzero eigenvalues route
+glxy = r90_profile(4)
+gbxy = sum(glxy) / 4
+Kxy, Gxy = corner_pieces(4, glxy, zz=False)
+Mtxy = 1.7 * Kxy - 2 * Gxy + 4 * gbxy * np.eye(16)
+pxy = np.poly(np.linalg.eigvals(Mtxy))
+c_dir_xy = pxy[16 - 2].real
+TQ4 = tauQ_perm(4)
+Pd4 = np.diag([1.0 if r // 4 == r % 4 else 0.0 for r in range(16)])
+Xxy = Mtxy - 4 * gbxy * Pd4
+Ppl = 0.5 * ((np.eye(16) - Pd4) + TQ4 @ (np.eye(16) - Pd4))
+# V- basis (orthonormal, float)
+wv, Vv = np.linalg.eigh(TQ4)
+Vm4 = Vv[:, np.abs(wv + 1) < 1e-9]
+c_form_xy = (4 * gbxy) ** 2 * np.linalg.det(
+    Vm4.conj().T @ (Xxy @ Ppl @ Xxy) @ Vm4).real
+check("N=4 XY float cofactor = closed form",
+      abs(c_dir_xy - c_form_xy) < 1e-8 * abs(c_dir_xy),
+      f"rel dev {abs(c_dir_xy - c_form_xy) / abs(c_dir_xy):.1e}")
+
+# G8b: symbolic N=3 corner cofactor
+g1s, g3s = sp.symbols('g1c g3c', positive=True)
+gbar_s = (g1s + g3s) / 2
+gl_s = [g1s, gbar_s, g3s]
+h3 = sp.Matrix([[0, 2, 0], [2, -2, 2], [0, 2, 0]])
+M3 = sp.zeros(9, 9)
+for a in range(3):
+    for b in range(3):
+        r = a * 3 + b
+        for c in range(3):
+            M3[r, c * 3 + b] += -sp.I * Js * h3[a, c]
+            M3[r, a * 3 + c] += sp.I * Js * h3[c, b]
+        if a != b:
+            M3[r, r] += -2 * (gl_s[a] + gl_s[b])
+Mt3 = M3 + 4 * gbar_s * sp.eye(9)
+epss = sp.symbols('epss')
+p3 = sp.Poly(sp.expand(Mt3.charpoly(epss).as_expr()), epss)
+co = p3.all_coeffs()[::-1]
+d1s = (g1s - g3s) / 2
+target = 2**12 * gbar_s**2 * Js**4 * (3 * Js**2 - d1s**2)
+check("N=3 symbolic: eps^0 coeff zero", sp.simplify(co[0]) == 0)
+check("N=3 symbolic corner cofactor = 2^12 gbar^2 J^4 (3J^2 - d1^2)",
+      sp.simplify(sp.expand(co[1]) - sp.expand(target)) == 0)
+
+# G8c: leading coefficient nonzero N=3..10, Heisenberg and XY (float)
+for N in range(3, 11):
+    n2 = N * N
+    TQn = tauQ_perm(N)
+    Pdn = np.diag([1.0 if r // N == r % N else 0.0 for r in range(n2)])
+    Ppn = 0.5 * ((np.eye(n2) - Pdn) + TQn @ (np.eye(n2) - Pdn))
+    wv, Vv = np.linalg.eigh(TQn)
+    Vmn = Vv[:, np.abs(wv + 1) < 1e-9]
+    for zz, lbl in ((True, "Heis"), (False, "XY")):
+        K, _ = corner_pieces(N, [0.0] * N, zz=zz)
+        Redn = Vmn.conj().T @ (K @ Ppn @ K) @ Vmn
+        s = np.linalg.svd(Redn, compute_uv=False)
+        check(f"N={N} {lbl} leading coeff det((K P+ K)|V-) nonzero",
+              s[-1] > 1e-8 * s[0], f"smin/smax {s[-1] / s[0]:.1e}")
 
 # ---------- verdict ----------
 

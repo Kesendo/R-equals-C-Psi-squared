@@ -1,10 +1,10 @@
 # The R₉₀ frozen divisor: watching profiles that pin an eigenvalue for every coupling
 
-**Status:** Theorem (lower bound) Tier 1 derived; tightness Tier 2 verified (N = 3..6, exact arithmetic at N = 6, symbolic closed form at N = 3)
+**Status:** Theorem (lower bound) Tier 1 derived; cofactor closed form + tightness criterion Tier 1 derived (Section 6), tightness generic (leading coefficient nonzero verified N = 3..10)
 **Date:** 2026-07-22
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Statement:** On the anti-palindromic watching locus (every reflection pair of dephasing rates sums to the same value), the single-excitation corner block of the Liouvillian carries the eigenvalue λ = −4γ̄ with multiplicity at least ⌊N/2⌋, for every Hamiltonian coupling J (equality generic, verified N = 3..6). The mechanism is a rank bottleneck of a cell-level mirror, not an invariant subspace and not a spectral symmetry.
-**Verification:** [`simulations/r90_frozen_divisor_gate.py`](../../simulations/r90_frozen_divisor_gate.py) (must print "R90 frozen divisor gate: ALL GREEN", ~2 min)
+**Statement:** On the anti-palindromic watching locus (every reflection pair of dephasing rates sums to the same value), the single-excitation corner block of the Liouvillian carries the eigenvalue λ = −4γ̄ with multiplicity at least ⌊N/2⌋, for every Hamiltonian coupling J (equality generic, verified N = 3..6). The mechanism is a rank bottleneck of a cell-level mirror, not an invariant subspace and not a spectral symmetry. The nonvanishing cofactor is a single N(N−1)/2 determinant in closed form, (−1)^N(4γ̄)^⌈N/2⌉·det((X P_{O₊} X)|_{V₋}), whose nonvanishing is exactly tightness (Section 6).
+**Verification:** [`simulations/r90_frozen_divisor_gate.py`](../../simulations/r90_frozen_divisor_gate.py) (must print "R90 frozen divisor gate: ALL GREEN", ~2-4 min)
 **Depends on:** [PROOF_F91_GAMMA_NINETY_DEGREES](PROOF_F91_GAMMA_NINETY_DEGREES.md) (the R₉₀ reshuffle and its fixed locus), [GAMMA_FOLD_PAIR_OF_MIRRORS](../../experiments/GAMMA_FOLD_PAIR_OF_MIRRORS.md) (the X^N cross-dock used in the corollary), [PROOF_F139_SEAM_IDENTITY](PROOF_F139_SEAM_IDENTITY.md) (the sibling on the character side)
 
 ---
@@ -26,7 +26,7 @@ The Liouvillian L(ρ) = −i[H, ρ] + Σ_l γ_l (Z_l ρ Z_l − ρ) preserves th
 Two structures on the cells:
 
 - **The locus.** The R₉₀ reshuffle of [F91](PROOF_F91_GAMMA_NINETY_DEGREES.md) acts on the rate profile; its fixed-point set is the anti-palindromic class **γ_l + γ_{R(l)} = 2γ̄ for every l** (at odd N this forces the middle rate to the mean). All statements below hold on this locus.
-- **The mirror.** τQ is the linear involution of cells **(a,b) ↦ (Rb, Ra)** (transpose composed with reversal on both sides). It splits the diagonal cells D = {(a,a)} and the off-diagonal cells O = {(a,b), a≠b} into ±1 eigenspaces D±, O±.
+- **The mirror.** τQ is the linear involution of cells **(a,b) ↦ (Rb, Ra)** (transpose composed with reversal on both sides). It splits the diagonal cells D = {(a,a)} and the off-diagonal cells O = {(a,b), a≠b} into ±1 eigenspaces D±, O±. Throughout, P_S denotes the orthogonal projector onto the span of the cell set or subspace S (P_D, P_{D₊}, P_{D₋}, P_{O₊}).
 
 Three dimension counts, by inspection: the τQ-fixed cells in O are the anti-diagonal (a, Ra) with a ≠ Ra, so **dim O₊ − dim O₋ = 2⌊N/2⌋**; the diagonal cells pair (a,a) ↔ (Ra,Ra), so **dim D₋ = ⌊N/2⌋**; and Γ vanishes on D.
 
@@ -64,7 +64,7 @@ So Φ_J: W → O₋, v ↦ (L_block(J) + 4γ̄)v is a linear map into a space of
 
 Every kernel vector is an exact eigenvector of L_block(J) at −4γ̄. ∎
 
-The multiplicity is a dimension bottleneck of the mirror: the fixed cells of τQ (the anti-diagonal, one per balanced pair plus its transpose) give O₊ a surplus of 2⌊N/2⌋ rooms over O₋, the D₋ constraint taxes away half, and the remainder must freeze. Note what the proof does not use: no invariant subspace (the per-pattern kernels are trivial off the trivial patterns), no spectral palindromy (Section 2), no diagonalizability assumption.
+The multiplicity is a dimension bottleneck of the mirror: the fixed cells of τQ (the anti-diagonal, one per balanced pair plus its transpose) give O₊ a surplus of 2⌊N/2⌋ rooms over O₋, the D₋ constraint taxes away half, and the remainder must freeze. Note what the proof does not use: no invariant subspace (the frozen eigenvectors move with J, only the eigenvalue stands still; Section 7's first bullet), no spectral palindromy (Section 2), no diagonalizability assumption.
 
 Two structural by-products, both verified at machine precision in the gate: the frozen eigenvectors carry **zero weight on the diagonal cells** and have **τQ-even O-part**; the J-dependence of the frozen modes is only the ⌊N/2⌋-dimensional kernel line of Φ_J rotating inside the fixed subspace W.
 
@@ -78,20 +78,58 @@ The two roots −4γ̄ and 4γ̄ − 2σ sum to −2σ: they are partners under 
 
 ## 5. Why only the corners
 
-The proof needs one affine recentering that makes the rate operator odd (Lemma 2). Under reversal a rate −2γ_S (S the disagreement set of the cell) goes to −2(2γ̄|S| − γ_S): the center depends on the size |S|. The corner block has a single off-diagonal size class (|S| = 2), so one center serves; the block (2,2) has classes |S| ∈ {0, 2, 4} and admits no single center, and indeed carries no frozen extras (gate control, N = 4, 5, 6). Away from the R₉₀ locus the whole structure disappears: partial balance (all but one condition satisfied) yields nothing, and the N = 3 closed form shows the defect as an explicit linear factor (M₍₁,₂₎ below is the (1,2) block of L, the N = 3 antidiagonal corner of Section 4),
+The proof needs one affine recentering that makes the rate operator odd (Lemma 2). Under reversal a rate −2γ_S (S the disagreement set of the cell) goes to −2(2γ̄|S| − γ_S): the center depends on the size |S|. The corner block has a single off-diagonal size class (|S| = 2), so one center serves; the block (2,2) has classes |S| ∈ {0, 2, 4} and admits no single center, and indeed carries no eigenvalue at the corner's root −4γ̄ (gate control, N = 4, 5, 6). Away from the R₉₀ locus the whole structure disappears: partial balance (all but one condition satisfied) yields nothing, and the N = 3 closed form shows the defect as an explicit linear factor (M₍₁,₂₎ below is the (1,2) block of L, the N = 3 antidiagonal corner of Section 4),
 
   det(−2γ₂·I − M₍₁,₂₎) = 512·J⁴·(γ₁+γ₃)²·(γ₁+γ₃−2γ₂)·(4J² + (γ₁+γ₃)(γ₁+γ₃−2γ₂)),
 
 so the balanced root exists exactly on the locus (given J ≠ 0), and the distance of the nearest eigenvalue grows linearly in the defect.
 
-## 6. What it is not (the placement)
+## 6. The cofactor: closed form, tightness, semisimplicity
+
+The pencil argument of Section 3 bounds the multiplicity from below; this section computes what is left of the determinant after the frozen factor divides out, and the answer closes the tightness question along the way.
+
+Write M̃ := L_block(J) + 4γ̄ for the recentered block, and split off its τQ-even part: M̃ = X + 4γ̄·P_D, where
+
+  X = J·K − 2Δ,  Δ v_{(a,b)} = (δ_a + δ_b)·v_{(a,b)} on O, 0 on D,  δ_l := γ_l − γ̄.
+
+X is τQ-odd (Lemmas 1 and 2; on the locus δ_{R(l)} = −δ_l), and X is **γ̄-free**: the mean rate enters M̃ only through the even defect 4γ̄·P_D. Let V₊ = D₊ ⊕ O₊ and V₋ = D₋ ⊕ O₋ be the parity eigenspaces of τQ, and note dim V₋ = ⌊N/2⌋ + dim O₋ = N(N−1)/2.
+
+**Theorem (cofactor).** On the R₉₀-fixed locus, the characteristic polynomial p(ε) = det(εI − M̃) factors as ε^⌊N/2⌋·q(ε) with
+
+  **q(0) = (−1)^N · (4γ̄)^⌈N/2⌉ · det( (X P_{O₊} X)|_{V₋} ),**
+
+a determinant of size N(N−1)/2 whose entries are free of γ̄. Consequently the frozen multiplicity is exactly ⌊N/2⌋ if and only if this determinant is nonzero, and in that case the frozen eigenvalue is semisimple (algebraic = geometric = ⌊N/2⌋).
+
+*Proof.* An odd operator exchanges the parity blocks, and an even one preserves them, so in the split V₊ ⊕ V₋ the matrix M̃ − εI has diagonal blocks Λ₊ = diag(4γ̄−ε on D₊, −ε on O₊) and Λ₋ = diag(4γ̄−ε on D₋, −ε on O₋), and off-diagonal blocks X₊₋, X₋₊ (the diagonal rate part −2Δ of X is odd, hence off-diagonal here). For ε ∉ {0, 4γ̄} the Schur complement gives
+
+  det(M̃ − εI) = det(Λ₊) · det( Λ₋ − X Λ₊⁻¹ X |_{V₋} ),  Λ₊⁻¹ = (4γ̄−ε)⁻¹ P_{D₊} − ε⁻¹ P_{O₊}.
+
+Pull the pole at ε = 0 out of the second factor: with A(ε) := Λ₋ − (4γ̄−ε)⁻¹·X P_{D₊} X |_{V₋} (regular at ε = 0),
+
+  det(M̃ − εI) = (4γ̄−ε)^⌈N/2⌉ · (−1)^{dim O₊} · ε^{dim O₊ − dim V₋} · det( X P_{O₊} X |_{V₋} + ε·A(ε) ).
+
+The exponent is dim O₊ − dim V₋ = ⌊N/2⌋ (Section 1's counts), det(XP_{O₊}X + εA(ε)) is regular at ε = 0, and both sides are rational functions equal off finitely many points, hence equal as rational functions; the left side is a polynomial, so the identity extends to ε = 0. This re-proves the divisor bound (order ≥ ⌊N/2⌋ at ε = 0, an independent second proof of the theorem of Section 3), and reading off the coefficient of ε^⌊N/2⌋, with p(ε) = (−1)^{N²}·det(M̃ − εI) (the block is N²×N²), gives q(0) = (−1)^{N² + dim O₊}(4γ̄)^⌈N/2⌉ det(XP_{O₊}X|_{V₋}). The sign: dim O₊ = N(N−1)/2 + ⌊N/2⌋, and N² + N(N−1)/2 + ⌊N/2⌋ ≡ N (mod 2) for every N (check both parities of N). Tightness: q(0) ≠ 0 says the algebraic multiplicity is exactly ⌊N/2⌋; the pencil gives geometric ≥ ⌊N/2⌋, and algebraic ≥ geometric always, so all three coincide. ∎
+
+Three consequences, all pinned in the gate:
+
+- **The γ̄-stratification is exact.** The cofactor is (4γ̄)^⌈N/2⌉ times a polynomial in (J, δ⃗) only: the whole γ̄-dependence of the residual spectrum at the frozen root is the even defect's ⌈N/2⌉ diagonal cells of D₊.
+- **Tightness for generic J.** For a fixed locus profile, det(XP_{O₊}X|_{V₋}) is a polynomial in J of degree N(N−1) with leading coefficient det((K P_{O₊} K)|_{V₋}), which is nonzero for N = 3..10 (both the Heisenberg and the XY single-excitation matrix, checked numerically with healthy conditioning). Whenever that constant is nonzero the multiplicity is exactly ⌊N/2⌋ for all but finitely many J.
+- **Small N in closed form** (symbolic, in the antisymmetric coordinates δ₁ = γ₁ − γ̄, δ₂ = γ₂ − γ̄):
+
+    N = 3: q(0) = 2¹²·γ̄²·J⁴·(3J² − δ₁²)
+    N = 4: q(0) = 2²⁰·γ̄²·J⁸·(8J⁴ − 4J²(3δ₁² + 2δ₁δ₂ + δ₂²) + (δ₁² − δ₂²)²)
+    N = 5: q(0) = −2³⁰·γ̄³·J¹²·Q₅(J², δ₁, δ₂) with Q₅ of total degree 8 in (J, δ₁, δ₂), leading term 25J⁸
+
+  (The XY chain differs only in the polynomial coefficients: its J-pure terms are 2J² and 5J⁴ at N = 3, 4.) The J-powers 4(N−2) in front are an observation, not yet derived; only the total degree N(N−1) and the leading coefficient come from the theorem.
+
+## 7. What it is not (the placement)
 
 - **Not a decoherence-free structure.** The frozen eigenvectors are not in ker(ad_H): the kernel of K intersected with the anti-diagonal span is at most one-dimensional (one at even N, none at odd N), far below ⌊N/2⌋, and the frozen eigenvectors move with J. Only the eigenvalue stands still.
 - **Not the uniform-γ commutant story.** At uniform γ (which sits on the locus as its fully degenerate point) the J-independent spectrum is the committed d_real ladder of [DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md), explained by weight-sector kernels ([absorption theorem](PROOF_ABSORPTION_THEOREM.md), [F50](PROOF_WEIGHT1_DEGENERACY.md)); those modes have J-independent eigenvectors. The frozen divisor is the site-resolved layer that survives when the profile is generic on the locus, and its mechanism is disjoint from the commutant.
 - **Not a defective seed.** The frozen modes are semisimple (healthy left and right eigenvectors, overlap of order one); the Seed count of MirrorWorld concerns defective points, this concerns an eigenvalue pinned across a family. Siblings, not the same object.
 - **The F139 kinship is the design lesson.** There the wall factor S₁₀ divides a character polynomial exactly, with no symmetry realizing the reflection; here (λ + 4γ̄)^⌊N/2⌋ divides the corner characteristic polynomial exactly on a locus, with no symmetry of the spectrum. Both walls are divisors.
 
-## 7. Verification
+## 8. Verification
 
 The committed gate [`simulations/r90_frozen_divisor_gate.py`](../../simulations/r90_frozen_divisor_gate.py) checks, and must print "R90 frozen divisor gate: ALL GREEN":
 
@@ -101,11 +139,12 @@ The committed gate [`simulations/r90_frozen_divisor_gate.py`](../../simulations/
 - the pencil kernel dimensions (= ⌊N/2⌋) and the two eigenvector by-products;
 - the partial-balance nulls;
 - the N = 3 closed form, symbolically exact;
-- at N = 6, exact Gaussian-rational arithmetic: the on-locus 36×36 corner determinant is exactly zero, and the transverse vanishing order in the defect is exactly 3 = ⌊N/2⌋.
+- at N = 6, exact Gaussian-rational arithmetic: the on-locus 36×36 corner determinant is exactly zero, and the transverse vanishing order in the defect is exactly 3 = ⌊N/2⌋;
+- the cofactor theorem (Section 6): the closed form against the interpolated exact cofactor in Gaussian-rational arithmetic (N = 4, 5, Heisenberg; float cross-check XY N = 4), the symbolic N = 3 corner cofactor 2¹²γ̄²J⁴(3J² − δ₁²), and the nonvanishing of the leading coefficient det((K P_{O₊} K)|_{V₋}) for N = 3..10, Heisenberg and XY.
 
-## 8. Open
+## 9. Open
 
-- The nonvanishing cofactor in closed form for general N (the N = 3 instance is the part of the Section 5 formula beside the defect factor; its general shape is not derived).
-- Tightness (multiplicity exactly ⌊N/2⌋, generically) as a statement rather than an observation.
-- The uniform-γ endpoint: how the frozen divisor's ⌊N/2⌋ modes embed into the enhanced d_real counts when all rate classes collapse.
+- The inner structure of the cofactor determinant: the observed J^{4(N−2)} prefactor of the residual polynomial Q_N, and the closed form of the J-pure constants (3, 8, 25 at N = 3, 4, 5 Heisenberg; 2, 5 at N = 3, 4 XY).
+- The leading coefficient det((K P_{O₊} K)|_{V₋}) ≠ 0 for general N (verified N = 3..10; a proof would make tightness-for-generic-J a theorem at every N).
+- The uniform-γ endpoint: how the frozen divisor's ⌊N/2⌋ modes embed into the enhanced d_real counts when all rate classes collapse. The cofactor theorem localizes the question: at δ⃗ = 0 the determinant becomes J^{N(N−1)}·det((K P_{O₊} K)|_{V₋}).
 - Adoption into MirrorWorld (the statement is finite linear algebra, entry-wise checkable, eigensolver-free; candidate genre neighbour of Seed).
