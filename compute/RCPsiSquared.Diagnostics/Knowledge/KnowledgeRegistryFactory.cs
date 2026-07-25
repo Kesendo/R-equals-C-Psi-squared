@@ -422,9 +422,9 @@ public static class KnowledgeRegistryFactory
             // rooms exceed its odd rooms by exactly its fixed count, an odd operator must overflow,
             // and the even diagonal pairs tax half of the surplus away. The four corners p,q in
             // {1, N-1} carry, the root picked by gamma-fold parity, and on the HEISENBERG chain
-            // nothing else does (the confinement is the ZZ diagonal's; on XY the same root spreads
-            // at the same multiplicity, found in this typing); partial balance yields nothing on
-            // either chain. Parents: F71AntiPalindromicGammaSpectralInvariance (the locus) +
+            // nothing else does (the confinement is the ZZ term's quarticity, not a diagonal on h;
+            // on XY the same root spreads at the same multiplicity along an exact ladder, found in
+            // this typing); partial balance yields nothing on either chain. Parents: F71AntiPalindromicGammaSpectralInvariance (the locus) +
             // JointPopcountSectors (the block decomposition the corner presupposes), both above.
             // Live: inspect --root divisor (FrozenDivisorWitness, exact GF(p) ranks, no eigensolver).
             .RegisterFrozenDivisorClaim()

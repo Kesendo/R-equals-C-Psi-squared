@@ -152,8 +152,9 @@ public sealed class Divisor : GameObject
     // lands on 4*gbar - 2*sigma. That is what this object owns, and it holds on both chains.
     //
     // What it does NOT say, and used to: that no other block carries. That confinement is the proof
-    // document's census (its Section 5) and it is a HEISENBERG statement -- the ZZ diagonal is what
-    // confines the divisor. This object's default is zz = false, the XY chain, where the same root is
+    // document's census (its Section 5) and it is a HEISENBERG statement -- what confines the divisor
+    // is the ZZ term as a QUARTIC term (it removes the ladder that carries the corner up the diagonal),
+    // not the diagonal it puts on h. This object's default is zz = false, the XY chain, where the same root is
     // carried at the same multiplicity by many more blocks. So the census is not adopted here at all;
     // only the fold parity is, which is the part that travels (found 2026-07-25, gate G2c).
     public (int P, int Q, int Folds, double Root)[] Corners()

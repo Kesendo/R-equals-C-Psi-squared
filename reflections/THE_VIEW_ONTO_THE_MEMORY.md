@@ -99,10 +99,17 @@ was hard to gather is that they are one ladder.
 light content n_XY (the sites that differ are the sites carrying {X,Y}); one axis, two names. And the
 axis carries a parity, depth mod 2, which is the change in particle number:
 
-- **even rungs** (depth 0, 2, 4 …) are NUMBER-CONSERVING: the diagonal memory and the |i⟩⟨j|
-  coherences a fixed-number state holds. The dark, intra-sector rail the single-excitation flow rides.
-- **odd rungs** (depth 1, 3 …) are NUMBER-CHANGING: the |n⟩⟨n±1| coherences coupling adjacent
-  particle-number sectors. The bright rail an optical dipole grips, the birth channel.
+- **even rungs** (depth 0, 2, 4 …) carry an EVEN change of particle number, Δn ∈ {0, ±2, ±4, …}.
+  Among them sit the diagonal memory and the coherences a fixed-number state holds, the dark
+  intra-sector rail the single-excitation flow rides. They are not the whole even rail: |vac⟩⟨{l,m}|
+  has depth 2 and changes the number by two, conserving nothing.
+- **odd rungs** (depth 1, 3 …) carry an ODD change, Δn ∈ {±1, ±3, …}, the |n⟩⟨n±1| coherences
+  coupling adjacent sectors among them. The bright rail an optical dipole grips, the birth channel.
+
+What the parity fixes is the **parity of Δn, not Δn itself**, and the difference is load-bearing
+rather than pedantic: the Δn = ±2 half of the even rail is exactly where two of the three ladders
+of the [XY frozen band](../experiments/XY_FROZEN_BAND.md) live, seeded at the blocks (0,2) and
+(2,0). Read "even = number-conserving" and that band cannot be seen at all.
 
 Because the rate is the depth (the Absorption Theorem, |Re λ| = 2γ⟨depth⟩), the rail is a ladder of
 rates. depth-0 (even) is the kernel, the steady state, the memory this whole figure is about. depth-1
@@ -111,9 +118,15 @@ channel. depth-2 (even) is the flow's own coherence, rate 4γ, faster than the b
 single-excitation flow, riding the even rungs, relaxes through depth-2 and never touches the depth-1
 birth channel: its weight on odd parity is identically 0, and the C# GameObject measures its
 between-block content as machine zero
-([PostEpFlowField](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs)). The birth
-channel is the slowest mortal mode of the whole Liouvillian, but a latent door: number-conserving
-dynamics never opens it.
+([PostEpFlowField](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs)). Among the
+number-changing coherences the birth channel is the slowest mortal mode, at 2γ. Whether it is the
+slowest of the WHOLE Liouvillian is a question about the coupling, and below the crossing the answer
+is no: the even occupation modes lift off the kernel at a rate that vanishes with the coupling, so
+the smallest nonzero rate is 6·10⁻⁵ at N = 3, J = 0.005, γ = 0.05, against the birth channel's
+2γ = 0.1, and only above the crossing does it settle at exactly 2γ
+([`birth_channel_check.py`](../simulations/birth_channel_check.py)). Either way the birth channel is
+a latent door: number-conserving dynamics never opens it. The crown below is where that crossing is
+named; this paragraph used to state the strong-coupling end of it as if it held everywhere.
 
 **The currency: the bilinear p(1−p).** Every rung is priced by one shape. The per-site light is
 2·p(1−p) with p the single-site occupation, peaking at ½ on the Bloch equator. The maximal

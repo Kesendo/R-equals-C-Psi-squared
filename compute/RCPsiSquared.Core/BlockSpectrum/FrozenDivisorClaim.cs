@@ -33,7 +33,8 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// carry the one root.) Away from the locus the structure disappears entirely: partial balance
 /// yields nothing, so the modes do not fade in, they snap in.</para>
 ///
-/// <para><b>The confinement is the ZZ diagonal's, not the divisor's.</b> That the remaining
+/// <para><b>The confinement is the ZZ term's, not the divisor's, and it is the quarticity rather
+/// than the diagonal on h.</b> That the remaining
 /// (N+1)² − 4 blocks carry nothing at either root is verified on the HEISENBERG chain (full
 /// census, N = 4, 5, 6). Drop the ZZ diagonal and it fails: on the XY chain the two roots are
 /// carried at the same multiplicity ⌊N/2⌋ by many more blocks, counting a block that carries
@@ -41,7 +42,11 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// forty-nine at N = 6, of which nine, twelve and fifteen carry the unfolded root itself. Never
 /// partially, and −4γ̄ appears only on blocks with p + q even (necessary, not sufficient). The bound and the
 /// fold-parity split survive the change of chain; "only the corners" does not. Found in the typing
-/// of this claim, 2026-07-25, and pinned by gate G2c.</para>
+/// of this claim, 2026-07-25, and pinned by gate G2c. What spreads the root on XY is an exact
+/// ladder, ρ ↦ Σ_l d†_l ρ d_l, which commutes with the whole Liouvillian for any γ profile and
+/// carries the corner's frozen modes up the diagonal; the ZZ term is quartic in the fermions and
+/// removes it, while an R-invariant DIAGONAL on h does not (that one empties only the off-diagonal
+/// half of the band, through its seed). See experiments/XY_FROZEN_BAND.md.</para>
 ///
 /// <para><b>The cofactor and the ladder.</b> det(εI − M̃) = ε^⌊N/2⌋·q(ε) with
 /// q(0) = (−1)^N·(4γ̄)^⌈N/2⌉·det((X P_{O₊} X)|_{V₋}), one N(N−1)/2 determinant free of γ̄; its
@@ -98,8 +103,9 @@ public sealed class FrozenDivisorClaim : Claim
                "floor(N/2) taxed away by the even diagonal pairs), so the modes hear only the mean " +
                "watching and nothing of the Hamiltonian; the four corner blocks p,q in {1, N-1} " +
                "carry, the root picked by gamma-fold parity, and on the Heisenberg chain nothing " +
-               "else does (the confinement is the ZZ diagonal's: on the XY chain the same root " +
-               "spreads at the same multiplicity), while partial balance yields nothing on either " +
+               "else does (the confinement is the ZZ term's quarticity, not a diagonal on h: on " +
+               "the XY chain the same root spreads at the same multiplicity along an exact " +
+               "ladder), while partial balance yields nothing on either " +
                "chain; as J -> 0 the cofactor vanishes to order 2*floor(N^2/4), each pair departing " +
                "at J^(2 d_c) with d_c its site distance, so the outermost pair holds longest",
                Tier.Tier1Derived,
@@ -172,8 +178,10 @@ public sealed class FrozenDivisorClaim : Claim
                          "fold sending r ↦ −r − 2σ; at N = 4 the two roots coincide. That the remaining " +
                          "(N+1)² − 4 blocks carry nothing is a HEISENBERG statement (full census, " +
                          "N = 4, 5, 6): drop the ZZ diagonal and the same root spreads, at the same " +
-                         "multiplicity, over many more blocks. The confinement belongs to the ZZ diagonal; " +
-                         "the bound and the fold parity belong to the divisor.");
+                         "multiplicity, over many more blocks. The confinement belongs to the ZZ term as a " +
+                         "QUARTIC term, not as the diagonal it puts on h: an R-invariant diagonal on h leaves " +
+                         "the diagonal band full, and what ZZ removes is the ladder ρ ↦ Σ_l d†_l ρ d_l that " +
+                         "carries the corner up it. The bound and the fold parity belong to the divisor.");
             yield return new InspectableNode("the ladder: distance buys immunity",
                 summary: "as J → 0 the cofactor vanishes to order 2⌊N²/4⌋, and per pair the mode departs at " +
                          "J^{2 d_c}, d_c = N + 1 − 2c the site distance: the coupling must walk the " +

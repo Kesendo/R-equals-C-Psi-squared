@@ -5876,11 +5876,18 @@ counts hold past the spectral wall, to N = 20.
 **The other chain:** on XY the confinement above is replaced by a diagonal
 BAND, |p - q| in {0, 2} minus the two 1x1 corners, 3*(N-1) blocks each at the
 same generic depth floor(N/2) (the corner is in that band, and doubles at J = 0
-like everywhere else), and what decides between band and corners is whether h
-has a bipartite spectrum, not the ZZ term by name. Stated, with the reason its
-edge sits at 2 and with two dead candidate mechanisms, in
-[XY_FROZEN_BAND](../experiments/XY_FROZEN_BAND.md); no F number, because the
-depth is not yet explained.
+like everywhere else). Two independent conditions decide between band and
+corners, not one: the OFF-diagonal half of the band needs h to have a bipartite
+spectrum, while the diagonal half needs only that H be quadratic in the
+fermions, which an R-invariant diagonal on h leaves intact and the ZZ term does
+not. What fills the diagonal is an exact ladder, rho -> sum_l d+_l rho d_l,
+which commutes with the whole Liouvillian at any gamma profile and carries the
+corner's frozen modes rung by rung (the eta-pairing of Medvedyeva-Essler-Prosen,
+in the vectorized picture). Stated, with the reason its edge sits at 2 and with
+two dead candidate mechanisms, in
+[XY_FROZEN_BAND](../experiments/XY_FROZEN_BAND.md); no F number yet, because the
+depth is a proved FLOOR and a measured ceiling, and because the ring carries the
+band without that ladder.
 **Typed:** [`FrozenDivisorClaim`](../compute/RCPsiSquared.Core/BlockSpectrum/FrozenDivisorClaim.cs)
 (Tier1Derived; typed parents F91 for the locus and JointPopcountSectors for the
 block the corner lives in), with the live witness

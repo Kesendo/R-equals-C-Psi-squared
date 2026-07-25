@@ -732,7 +732,8 @@ public static class InspectCommand
             "involution's even rooms exceed its odd rooms by exactly its fixed count, an odd operator must " +
             "overflow, and the even diagonal pairs tax half away. The four corners p,q ∈ {1, N−1} carry, the " +
             "root picked by gamma-fold parity, and on the Heisenberg chain nothing else does; the confinement " +
-            "is the ZZ diagonal's, and `--chain xy` shows the same root spreading at the same multiplicity. " +
+            "is the ZZ term's quarticity rather than the diagonal it puts on h, and `--chain xy` shows the " +
+            "same root spreading at the same multiplicity. " +
             "Off the locus, partial balance yields NOTHING. Every " +
             "multiplicity is an exact GF(p) rank, never an eigensolver (the departing modes sit at spacing " +
             "J^{2d}, where a float count would lie). Typed: FrozenDivisorClaim",

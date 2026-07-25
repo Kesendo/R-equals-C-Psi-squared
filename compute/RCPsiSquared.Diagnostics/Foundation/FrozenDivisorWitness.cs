@@ -59,7 +59,7 @@ public enum DivisorChain
 /// <para><b>The census is a Heisenberg statement, and this witness is where that was found
 /// (2026-07-25).</b> The proof document censuses every (p, q) block at N = 4, 5, 6 and finds only
 /// the four corners carrying, but it runs that census on the Heisenberg chain alone. Drop the ZZ
-/// diagonal and the confinement goes: on the XY chain the two roots are carried, with the SAME
+/// term and the confinement goes: on the XY chain the two roots are carried, with the SAME
 /// multiplicity ⌊N/2⌋, by many more blocks. Counting a block that carries either: nine of
 /// twenty-five at N = 4 and twenty-four of thirty-six at N = 5, both of which this witness computes
 /// itself, and twenty-one of forty-nine at N = 6, which is the gate's G2c rather than this
@@ -206,9 +206,10 @@ public sealed class FrozenDivisorWitness : IInspectable
     public bool CensusRan { get; }
 
     /// <summary>Whether the census found the four corners and nothing else. TRUE on the Heisenberg
-    /// chain, which is what the proof document verified; FALSE on the XY chain, where the ZZ
-    /// diagonal that confines the divisor is missing and many more blocks carry the same root at
-    /// the same multiplicity. Meaningless when <see cref="CensusRan"/> is false.</summary>
+    /// chain, which is what the proof document verified; FALSE on the XY chain, where the quartic ZZ
+    /// term that confines the divisor is missing (with it goes the ladder ρ ↦ Σ_l d†_l ρ d_l that
+    /// carries the corner up the diagonal) and many more blocks carry the same root at the same
+    /// multiplicity. Meaningless when <see cref="CensusRan"/> is false.</summary>
     public bool CornersAreTheOnlyCarriers { get; }
 
     // ---- the ladder (closed form, adopted from the proof's Section 8) ----
@@ -634,7 +635,8 @@ public sealed class FrozenDivisorWitness : IInspectable
                              : "") +
                          (Chain == DivisorChain.Heisenberg
                              ? "On the Heisenberg chain only the four corners carry, which is the proof " +
-                               "document's census: the ZZ diagonal is what confines the divisor."
+                               "document's census: what confines the divisor is ZZ as a QUARTIC term, not " +
+                               "the diagonal it puts on h."
                              : "On the XY chain the confinement is GONE. The same root is carried at the same " +
                                "multiplicity ⌊N/2⌋ by blocks that are not corners" +
                                (CensusRan

@@ -435,8 +435,9 @@ if (args.Length > 0 && args[0] == "divisor")
     foreach (var (p, q, folds, root) in dv.Corners())
         Console.WriteLine($"    block ({p},{q})  folds={folds}  root {root,8:0.0000}   {(folds % 2 == 0 ? "-4*gbar" : "4*gbar-2*sigma")}");
     Console.WriteLine("  the fold parity is what this object owns, and it travels: it holds on both chains.");
-    Console.WriteLine("  that no OTHER block carries is a Heisenberg statement (the ZZ diagonal confines the");
-    Console.WriteLine("  divisor); this world runs the XY chain, where the same root spreads. Not adopted here.");
+    Console.WriteLine("  that no OTHER block carries is a Heisenberg statement (what confines the divisor is");
+    Console.WriteLine("  ZZ as a QUARTIC term, not the diagonal it puts on h); this world runs the XY chain,");
+    Console.WriteLine("  where the same root spreads. Not adopted here.");
 
     var (dist, per, total) = dv.Ladder();
     Console.WriteLine();
