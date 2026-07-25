@@ -147,8 +147,13 @@ public sealed class Divisor : GameObject
     // Each one-sided X^N bridge (GammaFold, already in this world) sends a rate r to -r - 2*sigma and
     // flips one popcount index to N - it. So the four blocks with p, q in {1, N-1} carry the root
     // chosen by how many folds separate them from (1,1): an even number returns to -4*gbar, an odd one
-    // lands on 4*gbar - 2*sigma. That NO other block carries either root is the proof document's
-    // census (its Section 5), adopted here, not recomputed.
+    // lands on 4*gbar - 2*sigma. That is what this object owns, and it holds on both chains.
+    //
+    // What it does NOT say, and used to: that no other block carries. That confinement is the proof
+    // document's census (its Section 5) and it is a HEISENBERG statement -- the ZZ diagonal is what
+    // confines the divisor. This object's default is zz = false, the XY chain, where the same root is
+    // carried at the same multiplicity by many more blocks. So the census is not adopted here at all;
+    // only the fold parity is, which is the part that travels (found 2026-07-25, gate G2c).
     public (int P, int Q, int Folds, double Root)[] Corners()
     {
         var outp = new List<(int, int, int, double)>();

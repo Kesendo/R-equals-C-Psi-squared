@@ -12,6 +12,8 @@
 #       for J in {0.6, 1.0, 2.3} (N = 3..6); plus the FULL (p,q) block census at
 #       N = 4, 5, 6 against both roots: exactly the four corner blocks carry
 #       floor(N/2), each at the root its fold parity selects, all others none
+#       (Heisenberg); plus G2c, the same census on the XY chain, where the
+#       confinement is GONE (more blocks carry, each the whole floor(N/2))
 #   G3  the pencil kernel dim(ker of (E', K_{D-})) on O+ equals floor(N/2)
 #   G4  eigenvector predictions: v_D = 0 and tauQ-even O-part (machine zero);
 #       plus dim(ker K cap anti-diagonal of O) = 1 at even N, 0 at odd (N = 3..8)
@@ -129,6 +131,15 @@ def build_H(N):
     return H
 
 
+def build_H_xy(N):
+    """XY open chain, J = 1, Pauli convention (XX+YY per bond): build_H without the
+    ZZ diagonal. Same hop amplitude, so the (1,1) corner sees exactly the h that
+    corner_pieces(..., zz=False) builds; what changes is every OTHER block."""
+    H = build_H(N)
+    np.fill_diagonal(H, 0.0)
+    return H
+
+
 def corner_pieces(N, gl, zz=True):
     """(1,1) block in the cell basis (a,b): K (J=1 Hamiltonian part) and
     Gamma (rate matrix, diagonal; Gamma[(a,b)] = g_a + g_b off-diagonal, 0 on
@@ -154,10 +165,12 @@ def corner_pieces(N, gl, zz=True):
     return K, G
 
 
-def general_block(N, gl, J, p, q):
-    """Any joint-popcount block (p,q), for the census controls."""
+def general_block(N, gl, J, p, q, Hbuild=build_H):
+    """Any joint-popcount block (p,q), for the census controls. Hbuild selects the
+    chain: build_H (Heisenberg, the default and the one Section 5's census runs on)
+    or build_H_xy."""
     d = 2 ** N
-    H = build_H(N) * J
+    H = Hbuild(N) * J
     cells = [(i, j) for i in range(d) for j in range(d)
              if bin(i).count('1') == p and bin(j).count('1') == q]
     idx = {c: k for k, c in enumerate(cells)}
@@ -287,6 +300,44 @@ for N in (4, 5):
     Kxy, Gxy = corner_pieces(N, gl, zz=False)
     mmin, counts = frozen_count_at(lambda J: J * Kxy - 2 * Gxy, -4 * gbar)
     check(f"N={N} XY corner multiplicity = {N // 2}", mmin == N // 2, f"counts {counts}")
+# G2c: the census is a HEISENBERG statement (found 2026-07-25 by the Object Manager
+# witness FrozenDivisorWitness, which reads the same counts by exact GF(p) ranks).
+# G2a2 above shows the confinement to the four corners on the Heisenberg chain. Drop
+# the ZZ diagonal and the confinement is gone: the SAME root is carried at the SAME
+# multiplicity floor(N/2) by many more blocks. What survives the change of chain is
+# the divisor bound and the fold-parity split of the corners; "only the corners" does
+# not, and Section 5 now says so. Three assertions, the middle one two-sided against
+# the Heisenberg count: the corners still carry; strictly MORE blocks carry; and every
+# carrier carries the whole floor(N/2), never a remnant of it.
+for N in (4, 5, 6):
+    gl = r90_profile(N)
+    gbar = sum(gl) / N
+    sig = sum(gl)
+    m = N // 2
+    roots = (-4 * gbar, 4 * gbar - 2 * sig)
+    carriers, partial, odd_at_root = [], [], []
+    for p in range(N + 1):
+        for q in range(N + 1):
+            got = [N * N, N * N]
+            for J in (0.6, 1.0, 2.3):
+                ev = np.linalg.eigvals(general_block(N, gl, J, p, q, build_H_xy))
+                for t, r in enumerate(roots):
+                    got[t] = min(got[t], int(np.sum(np.abs(ev - r) < 1e-9)))
+            if got[0] or got[1]:
+                carriers.append((p, q, got))
+                if max(got) != m:
+                    partial.append((p, q, got))
+                if got[0] and (p + q) % 2:
+                    odd_at_root.append((p, q, got))
+    corners = [c for c in carriers if c[0] in (1, N - 1) and c[1] in (1, N - 1)]
+    check(f"N={N} XY: the four corners still carry floor(N/2) = {m}",
+          len(corners) == 4 and all(max(c[2]) == m for c in corners),
+          f"corners {corners}")
+    check(f"N={N} XY: MORE than the four corners carry (the confinement is Heisenberg-only)",
+          len(carriers) > 4, f"{len(carriers)} carrying blocks, corners are 4")
+    check(f"N={N} XY: every carrier carries the WHOLE floor(N/2), and -4gbar only on p+q even",
+          not partial and not odd_at_root,
+          f"partial {partial}, odd-at-root {odd_at_root}")
 # ---------- G3 + G4: pencil kernel dims and eigenvector form ----------
 
 print("G3/G4  pencil kernel dims; v_D = 0 and tauQ-even O-part")

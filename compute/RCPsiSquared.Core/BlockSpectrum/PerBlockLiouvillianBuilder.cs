@@ -22,7 +22,19 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <para>Convention: matches <see cref="Lindblad.PauliDephasingDissipator.BuildZ"/>
 /// row-major <c>flat = row · d + col</c> layout, with <c>L = -i (H⊗I − I⊗Hᵀ) +
 /// Σ_l γ_l (Z_l ⊗ Z_l) − Σ_l γ_l · I</c>. The Z⊗Z term is diagonal in (row, col)
-/// pair so contributes only along <c>flat = flat'</c>.</para></summary>
+/// pair so contributes only along <c>flat = flat'</c>.</para>
+///
+/// <para><b>γ index convention.</b> <c>gammaPerSite[l]</c> is the rate of SITE l, and site 0 is
+/// the leftmost Kronecker factor, i.e. the MOST significant bit of the basis index
+/// (<see cref="Pauli.PauliString.SiteOp"/>, and hence
+/// <see cref="Lindblad.PauliDephasingDissipator"/>). The disagreement test below therefore reads
+/// bit <c>N−1−l</c> for site l. Until 2026-07-25 it read bit l instead, so a non-uniform profile
+/// entered REVERSED relative to the full dissipator; the two are now bit-exact on a common set of
+/// flat indices, gated by <c>PerBlockLiouvillianBuilderGammaOrderTests</c>. No committed spectrum
+/// moved: site reversal conjugates L by a permutation that commutes with every mirror-symmetric
+/// H (chain, ring), so the eigenvalues were right all along and only the entries were mislabelled;
+/// what the reversal did reach is any read of block ENTRIES and any H that is not
+/// reversal-invariant (per-bond non-palindromic J profiles).</para></summary>
 public static class PerBlockLiouvillianBuilder
 {
     /// <summary>Build the block <c>B[i,j] = L[flatIndices[i], flatIndices[j]]</c>
@@ -64,16 +76,20 @@ public static class PerBlockLiouvillianBuilder
         //   diagDeph = Σ_l γ_l ( (-1)^{bit_l(row) ⊕ bit_l(col)} − 1 )
         //            = Σ_l (-2 γ_l) · [bit_l(row) != bit_l(col)]
         // (i.e. each disagreement contributes -2 γ_l).
-        // This formula is bit-exact equivalent to the full PauliDephasingDissipator.BuildZ
-        // diagonal sum over the N sites.
+        // Site l is bit N−1−l (site 0 = leftmost Kronecker factor), so gammaByBit re-indexes the
+        // caller's per-SITE array onto the bits this loop tests. This formula is then bit-exact
+        // equivalent to the full PauliDephasingDissipator.BuildZ diagonal sum over the N sites.
+        var gammaByBit = new double[N];
+        for (int l = 0; l < N; l++) gammaByBit[l] = gammaPerSite[N - 1 - l];
+
         for (int i = 0; i < blockSize; i++)
         {
             int r = rowOf[i];
             int c = colOf[i];
             int diff = r ^ c;
             double diag = 0;
-            for (int l = 0; l < N; l++)
-                if (((diff >> l) & 1) != 0) diag += -2.0 * gammaPerSite[l];
+            for (int bit = 0; bit < N; bit++)
+                if (((diff >> bit) & 1) != 0) diag += -2.0 * gammaByBit[bit];
             B[i, i] = new Complex(diag, 0);
         }
 
@@ -202,16 +218,20 @@ public static class PerBlockLiouvillianBuilder
                 colOf[i] = f % d;
             }
 
-            // Diagonal Z-dephasing: same formula as BuildBlockZ. Column-major position of (i,i)
-            // is i * blockSize + i; per element accumulation as if into B[i, i].
+            // Diagonal Z-dephasing: same formula as BuildBlockZ, same per-SITE γ index convention
+            // (site l is bit N−1−l). Column-major position of (i,i) is i * blockSize + i; per
+            // element accumulation as if into B[i, i].
+            var gammaByBit = new double[N];
+            for (int l = 0; l < N; l++) gammaByBit[l] = gammaPerSite[N - 1 - l];
+
             for (int i = 0; i < blockSize; i++)
             {
                 int r = rowOf[i];
                 int c = colOf[i];
                 int diff = r ^ c;
                 double diag = 0;
-                for (int l = 0; l < N; l++)
-                    if (((diff >> l) & 1) != 0) diag += -2.0 * gammaPerSite[l];
+                for (int bit = 0; bit < N; bit++)
+                    if (((diff >> bit) & 1) != 0) diag += -2.0 * gammaByBit[bit];
                 data[(long)i * blockSize + i] = new Complex(diag, 0);
             }
 

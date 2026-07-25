@@ -434,7 +434,9 @@ if (args.Length > 0 && args[0] == "divisor")
     Console.WriteLine("  the four corners, the root picked by how many one-sided folds separate the block from (1,1):");
     foreach (var (p, q, folds, root) in dv.Corners())
         Console.WriteLine($"    block ({p},{q})  folds={folds}  root {root,8:0.0000}   {(folds % 2 == 0 ? "-4*gbar" : "4*gbar-2*sigma")}");
-    Console.WriteLine("  every other block carries NEITHER root (the proof document's census, adopted, not recomputed here).");
+    Console.WriteLine("  the fold parity is what this object owns, and it travels: it holds on both chains.");
+    Console.WriteLine("  that no OTHER block carries is a Heisenberg statement (the ZZ diagonal confines the");
+    Console.WriteLine("  divisor); this world runs the XY chain, where the same root spreads. Not adopted here.");
 
     var (dist, per, total) = dv.Ladder();
     Console.WriteLine();

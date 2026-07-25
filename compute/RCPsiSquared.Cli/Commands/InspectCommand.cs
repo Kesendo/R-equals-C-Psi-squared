@@ -723,6 +723,26 @@ public static class InspectCommand
             "closed-form-vs-full-state at inspect time. Typed: RecordParityLawClaim + RecordLetterLawClaim",
             c => new RecordLawWitness(c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false),
+        new("divisor", "THE R90 FROZEN DIVISOR (F140, proof PROOF_R90_FROZEN_DIVISOR.md): a watching locus that " +
+            "pins ⌊N/2⌋ decay rates at EVERY coupling. On F91's anti-palindromic locus (every reflection pair of " +
+            "site rates carrying the same total) the single-excitation corner block holds λ = −4γ̄, one frozen " +
+            "mode per balanced pair, hearing only the MEAN watching: not J, not the individual rates, nothing of " +
+            "the Hamiltonian. No symmetry is behind it: the cell mirror τQ fixes 2⌊N/2⌋ anti-diagonal cells, an " +
+            "involution's even rooms exceed its odd rooms by exactly its fixed count, an odd operator must " +
+            "overflow, and the even diagonal pairs tax half away. The four corners p,q ∈ {1, N−1} carry, the " +
+            "root picked by gamma-fold parity, and on the Heisenberg chain nothing else does; the confinement " +
+            "is the ZZ diagonal's, and `--chain xy` shows the same root spreading at the same multiplicity. " +
+            "Off the locus, partial balance yields NOTHING. Every " +
+            "multiplicity is an exact GF(p) rank, never an eigensolver (the departing modes sit at spacing " +
+            "J^{2d}, where a float count would lie). Typed: FrozenDivisorClaim",
+            c => new FrozenDivisorWitness(
+                    c.Parser.HasFlag("N") ? c.N : 6,
+                    c.Parser.OptionalDouble("gamma") ?? 0.09,
+                    c.Parser.OptionalDouble("J") ?? 0.75,
+                    string.Equals(c.Parser.OptionalString("chain"), "xy", StringComparison.OrdinalIgnoreCase)
+                        ? DivisorChain.Xy
+                        : DivisorChain.Heisenberg),
+            RequiresN: false, HonorsOptionalN: true),
         new("trichotomy",
             "the chain/ring/star survivor trichotomy as one sweep: carbon un-freeze read (RouteSweep) + absolute Δn-seam read",
             c => new TrichotomyWitness(

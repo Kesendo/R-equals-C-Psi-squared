@@ -414,6 +414,19 @@ public static class KnowledgeRegistryFactory
             // Live: inspect --root record (RecordLawWitness, closed form vs full state).
             .RegisterRecordParityLawClaim()
             .RegisterRecordLetterLawClaim()
+            // The R90 frozen divisor, typed (2026-07-25): F140. On F91's anti-palindromic watching
+            // locus the single-excitation corner block holds lambda = -4*gbar with multiplicity
+            // floor(N/2) at EVERY coupling, one frozen mode per balanced pair. No symmetry is behind
+            // it: the cell mirror tauQ fixes 2*floor(N/2) anti-diagonal cells, an involution's even
+            // rooms exceed its odd rooms by exactly its fixed count, an odd operator must overflow,
+            // and the even diagonal pairs tax half of the surplus away. The four corners p,q in
+            // {1, N-1} carry, the root picked by gamma-fold parity, and on the HEISENBERG chain
+            // nothing else does (the confinement is the ZZ diagonal's; on XY the same root spreads
+            // at the same multiplicity, found in this typing); partial balance yields nothing on
+            // either chain. Parents: F71AntiPalindromicGammaSpectralInvariance (the locus) +
+            // JointPopcountSectors (the block decomposition the corner presupposes), both above.
+            // Live: inspect --root divisor (FrozenDivisorWitness, exact GF(p) ranks, no eigensolver).
+            .RegisterFrozenDivisorClaim()
             .RegisterF89OcticMonodromyClaim()
             // Multi-sector monodromy verdict (the sectorbraid arc, 2026-07-01): is the S_8 braid the (1,2) octic
             // carries LOCALIZED to (1,2) or SHARED across the joint-popcount sectors? N-dependent -- CONFINED to

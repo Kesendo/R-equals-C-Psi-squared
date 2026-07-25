@@ -5770,8 +5770,14 @@ p,q in {1, N-1}: (1,1) and (N-1,N-1) at -4*gbar, (1,N-1) and (N-1,1) at
 4*gbar - 2*sigma, the root chosen by the parity of how many one-sided gamma
 folds separate the block from (1,1), each fold sending r -> -r - 2*sigma.
 Every one of the remaining (N+1)^2 - 4 blocks carries nothing at either root
-(full census, N = 4, 5, 6). Away from the locus the structure disappears
-entirely: partial balance yields nothing.
+(full census, N = 4, 5, 6), **on the Heisenberg chain**. The confinement is
+the ZZ diagonal's doing, not the divisor's: drop it and on the XY chain the
+same root is carried at the same multiplicity by many more blocks (nine of
+twenty-five at N = 4, twenty-four of thirty-six at N = 5, twenty-one of
+forty-nine at N = 6), never partially, and -4*gbar appears only on blocks with
+p + q even (necessary, not sufficient). The bound and the fold-parity split survive the
+change of chain; "only the corners" does not. Away from the locus the
+structure disappears entirely on either chain: partial balance yields nothing.
 
 **The cofactor, in closed form.** det(eps*I - Mtilde) = eps^floor(N/2) * q(eps)
 with q(0) = (-1)^N * (4*gbar)^ceil(N/2) * det((X P_{O+} X)|_{V-}), a single
@@ -5825,16 +5831,29 @@ the defectiveness at the exceptional couplings, the Sturm counts).
 (each pair reaching its own outer anti-diagonal cell; the route is the
 uniqueness of the monotone walk); the uniform-endpoint embedding into the
 committed d_real profiles of DEGENERACY_PALINDROME; a counting law for the
-real exceptional couplings; adoption into MirrorWorld beside Seed.
+real exceptional couplings.
 **Gate:** [`r90_frozen_divisor_gate.py`](../simulations/r90_frozen_divisor_gate.py)
-(~8-12 min, 176 checks; G0 builder, G1 the mirror identity, G2 the census,
+(~8-12 min, 212 checks; G0 builder, G1 the mirror identity, G2 the census,
 G3/G4 pencil and eigenvector by-products, G5 partial-balance nulls, G6/G7
 exact small-N, G8 the cofactor theorem, G9 the two clocks, G10 the valuation
 discriminators, G11 the valuation law, G12 the exceptional couplings, G13 the
-Sturm counts, G14 the pointed grading).
+Sturm counts, G14 the pointed grading, G15 the index reading; G2c, the XY
+census, was added when the typing found it).
 **Proof:** [PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md).
-**Typed:** not yet (Tier1Candidate). Open: typing, and the C# witness the
-cockpit discipline asks for.
+**Adopted:** MirrorWorld `Divisor`, beside Seed (run mode `divisor N`); the
+counts hold past the spectral wall, to N = 20.
+**Typed:** [`FrozenDivisorClaim`](../compute/RCPsiSquared.Core/BlockSpectrum/FrozenDivisorClaim.cs)
+(Tier1Derived; typed parents F91 for the locus and JointPopcountSectors for the
+block the corner lives in), with the live witness
+[`FrozenDivisorWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/FrozenDivisorWitness.cs)
+at `inspect --root divisor`: the multiplicities recomputed at inspect time
+through the repo's own Liouvillian builders, by exact GF(p) ranks rather than
+an eigensolver, each floor(N/2) read standing beside a zero it must not
+produce. What is typed is the divisor bound and the fold-parity placement of
+the corners; the reads also meet the tightness theorem at every coupling
+sampled, though no rank read can see the defectiveness at the exceptional
+couplings. The chain is selectable: `inspect --root divisor --N 5 --chain xy`
+is the invocation that shows the census failing off Heisenberg.
 
 ---
 
