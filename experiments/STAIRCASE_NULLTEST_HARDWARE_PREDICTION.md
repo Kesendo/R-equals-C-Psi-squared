@@ -2,7 +2,7 @@
 
 **Status: PREDICTION, v3, 2026-07-25. Registered before any hardware data exists: no measured results from any flight appear in this document; the planning constants below are inputs to the frozen σ bands only. v1 → v2 → v3 fold two empty design-review rounds of three lenses each (physics, spec, statistics); the operative changes are recorded in the gate script header.**
 
-*Thomas Wicht and Claude. The rate side of the conditional Ramsey: the dephasing-exact-null and its two witnesses.*
+*Thomas Wicht and Claude. The rate side of the conditional Ramsey: the dephasing-exact-null and its two readings.*
 
 ---
 
@@ -14,7 +14,7 @@ Under local Z-dephasing, a coherence cell |A⟩⟨B| pays only for the sites whe
 
 with Γ_tot,m and the excited equilibrium population p∞,m readable in-situ (F84-consistent net cooling; the identity was re-derived independently in both design-review rounds, and it is exactly the t = 0 slope of the committed log-ratio). ZZ crosstalk is diagonal, so it enters the FREQUENCY difference (the conditional shift, for a bonded spectator), never the rate difference.
 
-Predecessors: [PRICE_PAIR_HARDWARE_PREDICTION](PRICE_PAIR_HARDWARE_PREDICTION.md) P3 established "pattern, not carrier" and its run 4 measured the ZZ frequency side by conditional Ramsey; [IBM_CONCENTRATOR_RELOADED](IBM_CONCENTRATOR_RELOADED.md) established the matched-pair slope-difference estimator this design commits to. This flight adds the rate side: the exact null of all dephasing in the difference, the T1-witness identity, and additivity.
+Predecessors: [PRICE_PAIR_HARDWARE_PREDICTION](PRICE_PAIR_HARDWARE_PREDICTION.md) P3 established "pattern, not carrier" and its run 4 measured the ZZ frequency side by conditional Ramsey; [IBM_CONCENTRATOR_RELOADED](IBM_CONCENTRATOR_RELOADED.md) established the matched-pair slope-difference estimator this design commits to. This flight adds the rate side: the exact null of all dephasing in the difference, the in-situ T1-reference identity, and additivity.
 
 ## Protocol (frozen)
 
@@ -82,6 +82,6 @@ Constants from the committed gate `simulations/staircase_nulltest_gate.py` (v3, 
 - The dephasing null is proven for arbitrary local and collective Z-noise. It is NOT shielded against correlated amplitude damping (cross-relaxation between target and spectator); on Heron this is expected negligible, and it would enter r1/r3 as real physics, not as an analysis artifact.
 - The gate models uneven Markovian Z-dephasing, a quasi-static (Gaussian-envelope) dephasing component on the target, T1 with heating, ZZ, and asymmetric readout. It does not model leakage to |2⟩ or mid-batch T1 telegraphing; the first would appear as structure in the fit residuals, the second is guarded by the bracketed B-block (clean-condition iii). Neither is a licence to move a band after the fact.
 - Readout-confusion inversion commutes with the numerator-only post-selection (linear estimator; verified in design review), and readout error is t-independent, so it enters the contrast, not the slopes.
-- The B-block prepares BOTH spectators excited (|011⟩) while the arms excite one at a time; if excitation-dependent T1 or spectator-spectator cross-relaxation exists, the witness Γ_tot,m can differ slightly from the single-excited in-situ value. Expected negligible on Heron, partially caught by clean-condition (iv); the B-block fit residual structure is the day-of eye on it.
+- The B-block prepares BOTH spectators excited (|011⟩) while the arms excite one at a time; if excitation-dependent T1 or spectator-spectator cross-relaxation exists, the reference Γ_tot,m can differ slightly from the single-excited in-situ value. Expected negligible on Heron, partially caught by clean-condition (iv); the B-block fit residual structure is the day-of eye on it.
 
 *Gate lineage (committed together with this document, guard 7): `simulations/staircase_nulltest_feasibility.py` (v0 scout, 10/10 GREEN: exactness, uneven and collective-Z blindness at 1e-17, ZZ sorting, XY-on robustness, and the discovery of the post-selection normalization trap) and `simulations/staircase_nulltest_gate.py` (v3: flown construction, counts level, matched-pair estimator, quasi-static component, bracketed B-block; the constants above). Theory: [XY_FROZEN_BAND](XY_FROZEN_BAND.md), [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), F84.*
