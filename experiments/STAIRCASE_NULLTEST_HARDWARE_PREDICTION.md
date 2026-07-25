@@ -84,4 +84,28 @@ Constants from the committed gate `simulations/staircase_nulltest_gate.py` (v3, 
 - Readout-confusion inversion commutes with the numerator-only post-selection (linear estimator; verified in design review), and readout error is t-independent, so it enters the contrast, not the slopes.
 - The B-block prepares BOTH spectators excited (|011⟩) while the arms excite one at a time; if excitation-dependent T1 or spectator-spectator cross-relaxation exists, the reference Γ_tot,m can differ slightly from the single-excited in-situ value. Expected negligible on Heron, partially caught by clean-condition (iv); the B-block fit residual structure is the day-of eye on it.
 
+---
+
+## Day-of addendum (2026-07-25, guard 3; these constants GOVERN the verdict)
+
+**Backend and line.** ibm_kingston, fresh calibration `last_update 2026-07-25 20:33:34+02:00` (pulled 23:06 local, read-only). Selected line: **q0 = 104 (target, chain end), q1 = 105 (near spectator), q2 = 106 (far spectator)**; live coupling map confirms bonds (104,105) and (105,106) and NO (104,106). All floors pass (see inputs).
+
+**Day-of re-gate inputs** (the DAY-OF INPUT block of the committed gate, seed 31415, N_MC = 2000, unchanged construction):
+
+- T1 = [242, 190, 118] µs (backend properties, within [100, 500] ✓)
+- T2* = [115, 70, 66] µs = **0.4 × reported T2 [288, 174, 165]**. Derating note, recorded before any science data: `props.t2` on this stack is not guaranteed to be Ramsey T2*, and this pipeline's own price-pair flight measured T2* = 45/88/61 µs against calibration T2 ≈ 136-220 (ratio ≈ 0.3-0.5). 0.4 is the frozen midpoint of that measured anchor. All derated values ≥ the 60 µs floor ✓. The same values are passed to the runner as `--t2star`.
+- p∞ = [1.5, 2.0, 2.0] % (calibration-class assumption; no direct day-of source; NOT taken from the batch B-block)
+- readout (ε01, ε10) = [(0.15, 1.37), (0.68, 1.42), (0.73, 1.07)] % (prob_meas1_prep0 / prob_meas0_prep1, day-of properties)
+- ζ_shift = −3.9 kHz (price-pair Marrakesh measured value; context only)
+
+**Day-of frozen constants (GOVERNING; gate output verbatim, quoted to 2 significant figures):**
+
+    m1 = +4.7e-6   s1 = 5.1e-4   /µs
+    m2 = −2.3e-5   s2 = 8.7e-4   /µs
+    m3 = −1.6e-5   s3 = 5.6e-4   /µs
+    sf_near = 4.1e-3   sf_far = 3.9e-3   rad/µs
+    s_bracket = [6.3e-5, 1.0e-4] /µs (near, far)
+
+Gate verdict on these inputs: PASS. Detection context: Δ̂(10) at 9.9σ, Δ̂(01) at 14.7σ (the far spectator's shorter T1 gives the larger splitting). Family rates: P(≥1 MARGINAL) = 0.10, P(≥1 VIOLATED) = 0.009, P(B-block not clean) = 0.005. Min kept points 11. Certification: s1/Γφ,1 with Γφ,1 = 1/70 − 1/380 = 1.17e-2 /µs gives 1σ = 4.4% of the near spectator's pure-dephasing rate (2σ = 8.8%, VIOLATED threshold 3σ = 13%).
+
 *Gate lineage (committed together with this document, guard 7): `simulations/staircase_nulltest_feasibility.py` (v0 scout, 10/10 GREEN: exactness, uneven and collective-Z blindness at 1e-17, ZZ sorting, XY-on robustness, and the discovery of the post-selection normalization trap) and `simulations/staircase_nulltest_gate.py` (v3: flown construction, counts level, matched-pair estimator, quasi-static component, bracketed B-block; the constants above). Theory: [XY_FROZEN_BAND](XY_FROZEN_BAND.md), [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), F84.*
