@@ -385,6 +385,93 @@ if (args.Length > 0 && args[0] == "seed")
     return;
 }
 
+// ---- run mode "divisor": the value the Hamiltonian cannot move ----
+// Mirror gave the between-block folds, Seed the within-block self-duality. This is the third thing the
+// same mirror leaves behind: on the R90 locus the corner block carries lambda = -4*gbar with
+// multiplicity floor(N/2) for EVERY coupling. The point of running it here is the ontology: the object
+// is the first in this world that hangs on ANOTHER object, because the room shortage that does the
+// freezing is the mirror's fixed-room count, not the divisor's. Adopted 2026-07-25 (registry F140).
+if (args.Length > 0 && args[0] == "divisor")
+{
+    int dnMax = args.Length > 1 ? int.Parse(args[1]) : 7;
+    const long dj = 90, dden = 100;      // J = 0.9, rates in hundredths: exact integers
+    var dworld = new World();
+
+    Console.WriteLine("the frozen divisor: a value the Hamiltonian cannot move (adopted 2026-07-25, F140)");
+    Console.WriteLine("  source docs/proofs/PROOF_R90_FROZEN_DIVISOR.md");
+    Console.WriteLine("  On the R90 locus (every reflection pair of rates carrying the same total) the corner block");
+    Console.WriteLine("  holds lambda = -4*gbar at EVERY coupling. Not a symmetry, not a conserved quantity: a shortage.");
+    Console.WriteLine();
+    Console.WriteLine("  THE ROOMS (pure counting, no matrix). The cell mirror tauQ fixes exactly the cells (a, R(a)):");
+    Console.WriteLine("  the coherence between a site and its own mirror partner, one per site. An involution's even");
+    Console.WriteLine("  rooms outnumber its odd rooms by exactly its fixed count, and an ODD operator must send the");
+    Console.WriteLine("  bigger half into the smaller. What will not fit freezes.");
+    Console.WriteLine();
+    Console.WriteLine($"  {"N",3} {"fixed",6} {"dim O+",7} {"dim O-",7} {"surplus",8} {"tax",4} {"frozen",7} {"rank",5}  {"odd? hop / rate",22}");
+    for (int n = 3; n <= dnMax; n++)
+    {
+        var mir = new Mirror(dworld, n, dj, 0.5);
+        var g = Divisor.Locus(n, 9, 2, -3, 5);
+        var div = new Divisor(mir, n, dj, g, dden);
+        var (fx, dp, dm, sur, tax, fr) = div.Rooms();
+        var (hop, rate) = div.OddnessResidual();
+        int rk = div.KernelDimension();
+        string rks = rk.ToString();
+        Console.WriteLine($"  {n,3} {fx,6} {dp,7} {dm,7} {sur,8} {tax,4} {fr,7} {rks,5}  {hop,10:E1} / {rate,9:E1}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  surplus = fixed: the shortage IS the mirror's trace. tax = dim D-, the diagonal cells' pairs,");
+    Console.WriteLine("  which are EVEN under the mirror, not odd, and eat half. frozen = surplus - tax = floor(N/2),");
+    Console.WriteLine("  one per balanced pair. rank = dim ker(L_block + 4*gbar), by elimination, never a spectrum.");
+    Console.WriteLine("  The two residuals are the hypothesis checked cell by cell: the hop part is odd always, the rate");
+    Console.WriteLine("  part is odd EXACTLY on the locus. Step off the locus and the second one is what breaks.");
+
+    int shown = dnMax;
+    var mw = new Mirror(dworld, shown, 1.0, 0.5);
+    var dv = new Divisor(mw, shown, dj, Divisor.Locus(shown, 9, 2, -3, 5), dden);
+    Console.WriteLine();
+    Console.WriteLine($"  N={shown}: root = -4*gbar = {dv.Root:0.0000}, its GammaFold partner 4*gbar - 2*sigma = {dv.FoldRoot:0.0000}");
+    Console.WriteLine("  the four corners, the root picked by how many one-sided folds separate the block from (1,1):");
+    foreach (var (p, q, folds, root) in dv.Corners())
+        Console.WriteLine($"    block ({p},{q})  folds={folds}  root {root,8:0.0000}   {(folds % 2 == 0 ? "-4*gbar" : "4*gbar-2*sigma")}");
+    Console.WriteLine("  every other block carries NEITHER root (the proof document's census, adopted, not recomputed here).");
+
+    var (dist, per, total) = dv.Ladder();
+    Console.WriteLine();
+    Console.WriteLine("  the ladder: a frozen mode cannot move until the coupling has walked the excitation from one");
+    Console.WriteLine("  site of its pair to the other, so distance buys immunity and the ends of the chain hold longest:");
+    for (int i = 0; i < dist.Length; i++)
+        Console.WriteLine($"    pair {i + 1,2} at sites ({i + 1}, {shown - i}): distance {dist[i],2}  departs at order J^{per[i]}");
+    Console.WriteLine($"    total valuation 2*floor(N^2/4) = {total};  the boundary clock this chain carries: modulus {dv.ClockModulus}");
+
+    // past the wall: the spectrum died at N=8, but the corner block is N^2, not 4^N. The divisor
+    // walks straight on, and the room count needs no matrix at all.
+    Console.WriteLine();
+    Console.WriteLine("  PAST THE WALL. The spectrum died at N=8; the corner block is N^2, so the divisor does not");
+    Console.WriteLine("  notice. The rooms are pure counting; the rank is one elimination on an N^2 x N^2 block:");
+    Console.WriteLine($"  {"N",4} {"cells",7} {"fixed",6} {"frozen",7} {"rank",5} {"holds",6}   {"odd? rate",10}");
+    foreach (int n in new[] { 8, 9, 10, 12, 14, 16, 20 })
+    {
+        var mm = new Mirror(dworld, n, 1.0, 0.5);
+        var dd = new Divisor(mm, n, dj, Divisor.Locus(n, 9, 2, -3, 5), dden);
+        var (fx2, _, _, _, _, fr2) = dd.Rooms();
+        var (_, rate2) = dd.OddnessResidual();
+        int rk2 = dd.KernelDimension();
+        Console.WriteLine($"  {n,4} {n * n,7} {fx2,6} {fr2,7} {rk2,5} {(rk2 == fr2 ? "yes" : "NO"),6}   {rate2,10:E1}");
+    }
+
+    Console.WriteLine();
+    Console.WriteLine("  WHAT THE TWO BUCKETS SAY. Its parent is the MIRROR, not the frame (Marginal reached a non-frame");
+    Console.WriteLine("  parent first, on the running cloud it reads; this is the first among the closed-form objects):");
+    Console.WriteLine($"    own       (left) : {string.Join(", ", dv.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join(", ", dv.Inherited)}");
+    Console.WriteLine("  The divisor owns the frozen count, the root and the ladder. It owns NEITHER the surplus NOR the");
+    Console.WriteLine("  tax -- both are tauQ fixed-counts, so both are the mirror's; what is the divisor's is only the");
+    Console.WriteLine("  SUBTRACTION and what sits in the result. A catalog cannot hold a");
+    Console.WriteLine("  way, only what the way leaves behind; here it turns out the divisor cannot hold its own reason.");
+    return;
+}
+
 // ---- run mode "doubleslit": the phenomenon composed from the atoms (the access layer) ----
 // DoubleSlit IS Field at N=1: two places |L>,|R>, the humps = the immortal diagonal, the fringe = the
 // between |L><R| (the k=1 coherence) paying -2gamma. Nothing new is computed; the atoms are assembled
