@@ -82,6 +82,12 @@
 #       real nonzero roots: 1 pair at N=3 (both profiles), 2 at N=4, 2 at N=5,
 #       and 2 versus 4 for two generic N=6 profiles, so the count is NOT a
 #       function of N
+#   G14 the pointed grading (proof doc Section 8.1): chi_x admissible and
+#       constant on every parity basis vector (N = 3..9); chi_x(c,c) =
+#       max(d_c, d_x) = the L1 walk length; the census collapse
+#       F_j = [chi_x(c,c) >= j]; the order law ord = max(d_c, d_x) for
+#       every (cell, pair); each support = the interval between that
+#       pair's own sites; and the strict nesting giving triangularity
 #
 # Runtime: ~8-12 min. Standalone except G0 (imports framework once).
 import sys
@@ -1534,6 +1540,126 @@ for N, half, want in ((3, [2], 1), (3, [5], 1), (4, [2, -3], 2),
 check("the count is NOT a function of N: two generic N=6 profiles disagree",
       st_real_pairs(6, [2, -3, 5, -5, 3, -2])[0]
       != st_real_pairs(6, [1, 2, 3, -3, -2, -1])[0])
+
+# ---------- G14: the pointed grading and sharpness (proof doc Section 8.1) ----
+
+print("G14 pointed grading chi_x: admissibility, the census, the staircase")
+
+
+def pg_chi(N, x, a, b):
+    return abs(a - x) + abs(b - (N + 1 - x))
+
+
+def pg_sets(N):
+    """(rows, columns, anti-diagonal rows, diagonal columns) as index lists."""
+    _, rows, cols, _, dcols = wc_build(N, True)
+    vm, op = [], []
+    n2 = N * N
+    tq = [(N - 1 - r % N) * N + (N - 1 - r // N) for r in range(n2)]
+    for r in range(n2):
+        a, b, t = r // N, r % N, tq[r]
+        if t != r and r < t:
+            vm.append((r, t))
+        if a == b:
+            continue
+        if t == r:
+            op.append((r,))
+        elif r < t:
+            op.append((r, t))
+    anti = [y for y in range(len(op)) if len(op[y]) == 1]
+    return vm, op, anti, dcols, rows, cols
+
+
+for N in range(3, 10):
+    vm, op, anti, dcols, rows, cols = pg_sets(N)
+    ocols = [i for i in range(len(vm)) if i not in dcols]
+    bad_adm, bad_F, bad_h = 0, 0, 0
+    for y in anti:
+        x = op[y][0] // N + 1
+        keep = [yy for yy in range(len(op)) if yy not in anti or yy == y]
+        # admissibility has TWO halves (Lemma 7); test both, not just the first
+        # (a) tauQ-invariance: constant on every parity basis vector
+        for cells in op + [v for v in vm]:
+            vals = {pg_chi(N, x, r // N + 1, r % N + 1) for r in cells}
+            bad_adm += 0 if len(vals) == 1 else 1
+        # (b) one hop moves chi_x by at most one
+        for a in range(1, N + 1):
+            for b in range(1, N + 1):
+                base = pg_chi(N, x, a, b)
+                for a2, b2 in ((a + 1, b), (a - 1, b), (a, b + 1), (a, b - 1)):
+                    if 1 <= a2 <= N and 1 <= b2 <= N:
+                        bad_adm += (0 if abs(pg_chi(N, x, a2, b2) - base) <= 1
+                                    else 1)
+        for c in dcols:
+            site = vm[c][0] // N + 1
+            h = pg_chi(N, x, site, site)
+            bad_h += 0 if h == max(abs(N + 1 - 2 * site),
+                                   abs(N + 1 - 2 * x)) else 1
+            A = ocols + [c]
+            pc = [pg_chi(N, x, vm[i][0] // N + 1, vm[i][0] % N + 1) for i in A]
+            pr = [pg_chi(N, x, op[i][0] // N + 1, op[i][0] % N + 1)
+                  for i in keep]
+            for j in range(1, h + 3):
+                F = sum(1 for v in pc if v >= j) - sum(1 for v in pr if v >= j)
+                bad_F += 0 if F == (1 if h >= j else 0) else 1
+    check(f"N={N} chi_x is admissible: tauQ-invariant AND one-hop Lipschitz",
+          bad_adm == 0, f"violations {bad_adm}")
+    check(f"N={N} chi_x(c,c) = max(d_c, d_x), the L1 walk length", bad_h == 0,
+          f"violations {bad_h}")
+    check(f"N={N} the census collapses: F_j = [chi_x(c,c) >= j]", bad_F == 0,
+          f"violations {bad_F}")
+
+# the case split of Lemma 10's proof, exhaustively. It stood inverted in the
+# document once (a review catch), so it is pinned here: chi_x(c,c) is d_c when
+# x lies between c and R(c), and d_x otherwise, and both readings agree with
+# max(d_c, d_x).
+split_bad = []
+for N in range(3, 13):
+    for c in range(1, N + 1):
+        for x in range(1, N + 1):
+            if x == N + 1 - x:
+                continue
+            chi = abs(c - x) + abs(c - (N + 1 - x))
+            dc, dx = abs(N + 1 - 2 * c), abs(N + 1 - 2 * x)
+            between = min(c, N + 1 - c) <= x <= max(c, N + 1 - c)
+            if chi != (dc if between else dx) or chi != max(dc, dx):
+                split_bad.append((N, c, x))
+check("Lemma 10 case split: chi_x(c,c) = d_c iff x lies between c and R(c), "
+      "N = 3..12", not split_bad, f"deviations {split_bad[:5]}")
+
+# the order law itself, and the staircase it produces, exactly (N = 4..7)
+for N in range(4, 8):
+    delta = wc_delta(N)
+    Y, rows, cols, nrm, dcols = wc_build(N, True)
+    vm, op, anti, _, _, _ = pg_sets(N)
+    ocols = [i for i in range(len(cols)) if i not in dcols]
+    bad_ord, staircase = [], {}
+    for y in anti:
+        x = op[y][0] // N + 1
+        dx = abs(N + 1 - 2 * x)
+        keep = [yy for yy in range(len(op)) if yy not in anti or yy == y]
+        for c in dcols:
+            site = vm[c][0] // N + 1
+            dc = abs(N + 1 - 2 * site)
+            o = wc_minor_ord(Y, keep, ocols + [c])
+            if o != max(dc, dx):
+                bad_ord.append((x, site, o, max(dc, dx)))
+            staircase.setdefault(dc, set())
+            if o == dc:
+                staircase[dc].add(x)
+    check(f"N={N} ord det Y_(I_x, A_c) = max(d_c, d_x) for every pair and cell",
+          not bad_ord, f"deviations {bad_ord}")
+    ds = sorted(staircase)
+    nested = all(staircase[ds[i]] < staircase[ds[i + 1]]
+                 for i in range(len(ds) - 1))
+    intervals = all(staircase[d] == {x for x in
+                                     [op[y][0] // N + 1 for y in anti]
+                                     if abs(N + 1 - 2 * x) <= d}
+                    for d in ds)
+    check(f"N={N} the supports are the intervals between each pair's own sites",
+          intervals, f"supports {[sorted(staircase[d]) for d in ds]}")
+    check(f"N={N} and they are STRICTLY nested, so the matrix is triangular",
+          nested, f"sizes {[len(staircase[d]) for d in ds]}")
 
 # ---------- verdict ----------
 

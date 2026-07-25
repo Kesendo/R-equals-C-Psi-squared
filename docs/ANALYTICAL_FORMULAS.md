@@ -3169,7 +3169,7 @@ The diagonal-block spectral content (= decay rates, "time information") is prese
 
 **Tier outcome <Tier 1 derived>:** algebraic proof complete (2026-05-12, see PROOF_F91 § Algebraic proof). The proof's sharper conclusion: the F71-refined diagonal-block matrix elements of L = −i[H, ·] + D are linear functionals of γ that depend only on the **multiset of F71-pair-sums {S_l = γ_l + γ_{N−1−l}}**, never on individual γ_l or pair-differences D_l = γ_l − γ_{N−1−l}; pair-differences appear only in the F71-cross-block off-diagonal entries (which do not enter diagonal-block eigenvalues). The 90°-rotation R_{90} : γ_l ↦ 2γ_avg − γ_{N−1−l} preserves the anti-palindromic class S_l = 2γ_avg ∀l (and is an involution on it); within that orbit, all γ-distributions yield identical diagonal-block spectra (= the uniform γ_avg spectrum). The originally claimed F91 (90°-invariance) is the corollary of the stronger pair-sum-multiset law. Empirical witness at N=4, 5, 6 across the five γ-profiles above remains the bit-exact verification.
 
-**Anchor:** [`PROOF_F91_GAMMA_NINETY_DEGREES.md`](proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md) (Tier 1 derived: § Algebraic proof, Eqs. 1–13), [`F71AntiPalindromicGammaSpectralInvariance.cs`](../compute/RCPsiSquared.Core/BlockSpectrum/F71AntiPalindromicGammaSpectralInvariance.cs) (typed Tier1Derived Claim with `AntiPalindromicDeviation(γ)` helper), [`NinetyDegreeMirrorMemoryClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) in `Pi2KnowledgeBaseClaims.cs` (the Pi2-Z₄ operator-quaternion side of the same 90°-rotation). **Sisters on other parameter axes:** F92 (J-axis) and F93 (h-detuning-axis) below.
+**Anchor:** [`PROOF_F91_GAMMA_NINETY_DEGREES.md`](proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md) (Tier 1 derived: § Algebraic proof, Eqs. 1–13), [`F71AntiPalindromicGammaSpectralInvariance.cs`](../compute/RCPsiSquared.Core/BlockSpectrum/F71AntiPalindromicGammaSpectralInvariance.cs) (typed Tier1Derived Claim with `AntiPalindromicDeviation(γ)` helper), [`NinetyDegreeMirrorMemoryClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) in `Pi2KnowledgeBaseClaims.cs` (the Pi2-Z₄ operator-quaternion side of the same 90°-rotation). **Sisters on other parameter axes:** F92 (J-axis) and F93 (h-detuning-axis) below. **What else lives on this locus:** F140, the frozen divisor, which pins ⌊N/2⌋ corner-block eigenvalues at −4γ̄ for every coupling exactly here, and only here.
 
 ---
 
@@ -5745,6 +5745,96 @@ rebuilds ψ, Φ and the division on its own five-variable engine and checks
 the a-priori table against the embedded F134 table; tests `dotnet test
 compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`
 (41 with this layer).
+
+---
+
+### F140. The R90 frozen divisor: a watching locus that pins floor(N/2) decay rates at every coupling (a room count of the cell mirror, no symmetry behind it; minted 2026-07-25)
+
+On the anti-palindromic watching locus of F91, every reflection pair of site
+rates carrying the same total (gamma_l + gamma_{R(l)} = 2*gbar for every l),
+the single-excitation corner block of the Liouvillian carries
+
+    lambda = -4*gbar   with multiplicity >= floor(N/2),   for EVERY J,
+
+exactly floor(N/2) for all but finitely many J. One frozen mode per balanced
+pair. **No symmetry is behind it.** The eigenvectors move with J, the block
+spectrum is not palindromic about the root, and no invariant subspace carries
+the modes; what pins the value is a dimension bottleneck of the cell mirror
+tauQ: (a,b) -> (Rb, Ra) has 2*floor(N/2) fixed rooms in the off-diagonal cells
+(the anti-diagonal), the D- constraint taxes away half, and the surplus must
+freeze. The same lesson as F139 on the other axis: **a wall can be a divisor
+instead of a symmetry.**
+
+**Where it sits.** Exactly four joint-popcount blocks carry, the corners
+p,q in {1, N-1}: (1,1) and (N-1,N-1) at -4*gbar, (1,N-1) and (N-1,1) at
+4*gbar - 2*sigma, the root chosen by the parity of how many one-sided gamma
+folds separate the block from (1,1), each fold sending r -> -r - 2*sigma.
+Every one of the remaining (N+1)^2 - 4 blocks carries nothing at either root
+(full census, N = 4, 5, 6). Away from the locus the structure disappears
+entirely: partial balance yields nothing.
+
+**The cofactor, in closed form.** det(eps*I - Mtilde) = eps^floor(N/2) * q(eps)
+with q(0) = (-1)^N * (4*gbar)^ceil(N/2) * det((X P_{O+} X)|_{V-}), a single
+N(N-1)/2 determinant free of gbar (X = J*K - 2*Delta is the tauQ-odd part).
+Its nonvanishing IS tightness, and it gives semisimplicity. At the uniform
+endpoint it collapses to J^{N(N-1)} * D_N with
+
+    D_N = (-1)^{N(N-1)/2} * disc(h) * M^{-floor((N-1)/2)}  != 0,
+
+M the chain's boundary clock: **M = N for Heisenberg** (the DCT-II Neumann
+half-integer lattice, no committed anchor before this) and **M = N+1 for XY**
+(the DST-I Dirichlet lattice, the committed SE cosine lattice of F65). The
+residual constant reads off which clock the chain carries.
+
+**The distance ladder (the valuation).** As J -> 0,
+
+    ord_J det((X P_{O+} X)|_{V-}) = 2*floor(N^2/4) = 2 * sum_c d_c,
+    d_c := N + 1 - 2c  the site distance of the balanced pair (c, Rc),
+
+and per pair ord_J S_{c,c'} >= d_c + d_c' on the D- Schur complement. The
+mechanism is a walk: each pair's frozen mode is carried by a diagonal cell
+sitting d_c levels from the anti-diagonal, the level census is short exactly
+one row there, and the only spare rooms are on the anti-diagonal itself, so
+the debt must be walked down, one power of J per hop. **The far pair is the
+most protected: distance buys immunity, and the two ends of the chain are the
+last to let go.** Corollary: at J = 0 the root carries twice the multiplicity,
+2*floor(N/2), all semisimple, and exactly floor(N/2) modes depart as the
+coupling turns on. Sharpness is reduced to a single nonvanishing by a second,
+pointed grading: chi_x(a,b) = |a-x| + |b-R(x)| gives
+ord det Y_(I_x, A_c) = max(d_c, d_x), so each pair reaches exactly the
+anti-diagonal cells between its own two sites, those intervals are nested, and
+the resulting matrix is triangular.
+
+**Where tightness fails, and how.** The exceptions are real couplings, not an
+artifact of "all but finitely many": at N = 3 the cofactor 2^12*gbar^2*J^4*
+(3J^2 - d1^2) puts them at J = +- delta_1/sqrt(3) in closed form. There the
+divisor is **defective**, one Jordan block of size two (exact over Q(sqrt(s),i)
+at N = 3, 4; at N = 4 confirmed twice, once from the characteristic polynomial).
+The tightness criterion vanishes at two different kinds of place and **cannot
+tell them apart**: at J = 0 the multiplicity merely doubles and stays
+semisimple. How many of the nonzero roots are real is not a function of N: two
+generic profiles on the same N = 6 locus give two real pairs and four (exact
+Sturm counts).
+
+**Grade:** Tier 1 derived (the divisor bound, the cofactor closed form, the
+tightness criterion and semisimplicity, the boundary-clock constants and
+tightness for generic J at every N, the valuation lower bound total and per
+pair, the pointed-grading staircase); exact-computed (the four-corner census,
+the defectiveness at the exceptional couplings, the Sturm counts).
+**Open:** the one nonvanishing that would make the valuation law two-sided
+(each pair reaching its own outer anti-diagonal cell; the route is the
+uniqueness of the monotone walk); the uniform-endpoint embedding into the
+committed d_real profiles of DEGENERACY_PALINDROME; a counting law for the
+real exceptional couplings; adoption into MirrorWorld beside Seed.
+**Gate:** [`r90_frozen_divisor_gate.py`](../simulations/r90_frozen_divisor_gate.py)
+(~8-12 min, 176 checks; G0 builder, G1 the mirror identity, G2 the census,
+G3/G4 pencil and eigenvector by-products, G5 partial-balance nulls, G6/G7
+exact small-N, G8 the cofactor theorem, G9 the two clocks, G10 the valuation
+discriminators, G11 the valuation law, G12 the exceptional couplings, G13 the
+Sturm counts, G14 the pointed grading).
+**Proof:** [PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md).
+**Typed:** not yet (Tier1Candidate). Open: typing, and the C# witness the
+cockpit discipline asks for.
 
 ---
 

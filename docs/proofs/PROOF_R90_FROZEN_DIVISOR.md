@@ -1,6 +1,6 @@
 # The R₉₀ frozen divisor: watching profiles that pin an eigenvalue for every coupling
 
-**Status:** Theorem (lower bound) Tier 1 derived; cofactor closed form + tightness criterion Tier 1 derived (Section 6); uniform-endpoint constants in closed form and tightness-for-generic-J at every N Tier 1 derived (Section 7, the two boundary clocks); the J-valuation lower bound, total and per pair, Tier 1 derived (Section 8, the distance ladder); the exceptional couplings real at N = 3 in closed form, and defective with a single 2×2 block, exact-computed at N = 3, 4 (Section 9)
+**Status:** Theorem (lower bound) Tier 1 derived; cofactor closed form + tightness criterion Tier 1 derived (Section 6); uniform-endpoint constants in closed form and tightness-for-generic-J at every N Tier 1 derived (Section 7, the two boundary clocks); the J-valuation lower bound, total and per pair, Tier 1 derived (Section 8, the distance ladder), with sharpness reduced by the pointed grading to a single nonvanishing (Section 8.1); the exceptional couplings real at N = 3 in closed form, and defective with a single 2×2 block, exact-computed at N = 3, 4 (Section 9)
 **Date:** 2026-07-25
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** On the anti-palindromic watching locus (every reflection pair of dephasing rates sums to the same value), the single-excitation corner block of the Liouvillian carries the eigenvalue λ = −4γ̄ with multiplicity at least ⌊N/2⌋, for every Hamiltonian coupling J, and exactly ⌊N/2⌋ for all but finitely many J, at every N on the two chains of Section 1 (Section 7). The mechanism is a rank bottleneck of a cell-level mirror, not an invariant subspace and not a spectral symmetry. The nonvanishing cofactor is a single N(N−1)/2 determinant in closed form, (−1)^N(4γ̄)^⌈N/2⌉·det((X P_{O₊} X)|_{V₋}), whose nonvanishing is exactly tightness (Section 6).
@@ -194,15 +194,17 @@ The proof is a Gram form, a grading, and a counting argument.
 
 the sum running over the maximal square minors of Y (row sets I of size dim V₋). Any other basis of O₊ serves as well: an unnormalized row basis turns the identity into Y^T D Y with D the diagonal of inverse squared norms, and Cauchy-Binet then carries those positive weights along, which is the form Section 11 uses. In particular ord_J of the left side is at least 2·min_I ord_J det Y_I. Cancellation between minors can only raise the left side, so it cannot damage the bound. This is not a positivity statement: Y is complex and the squares are squares of complex numbers. The Gram shape is used only to halve the bookkeeping, so that a count made once on Y pays twice.
 
-**Lemma 7 (the level grading).** For a cell (a,b) put s(a,b) := a + b − (N+1) and
+**Lemma 7 (gradings, and the level as one of them).** Call an integer function φ on the cells **admissible** if it is τQ-invariant and changes by at most one under a single hop, that is |φ(a±1,b) − φ(a,b)| ≤ 1 and |φ(a,b±1) − φ(a,b)| ≤ 1. An admissible φ is constant on every parity basis vector, so it is defined on the basis vectors of D±, O±, V±, and the entries of Y obey
 
-  **ℓ(a,b) := |s(a,b)|,**
+  Y_{y,x} = 0 whenever |φ(y) − φ(x)| ≥ 2,  ord_J Y_{y,x} ≥ 1 whenever φ(y) ≠ φ(x).
 
-the distance of the cell to the anti-diagonal {b = R(a)}. Then ℓ ∘ τQ = ℓ, so every parity basis vector is supported on a single level and ℓ is defined on the basis vectors of D±, O±, V±; and the entries of Y obey
+The **level**
 
-  Y_{y,x} = 0 whenever |ℓ(y) − ℓ(x)| ≥ 2,  ord_J Y_{y,x} ≥ 1 whenever ℓ(y) ≠ ℓ(x).
+  **ℓ(a,b) := |s(a,b)|,  s(a,b) := a + b − (N+1),**
 
-*Proof.* τQ sends (a,b) to (R(b), R(a)) and therefore s to −s, which gives the invariance of ℓ. For the entries: Δ is diagonal in the cell basis, so it preserves every cell and hence s; the J-linear part of X is J·K, which couples (a,b) to (c,b) and to (a,c) with amplitudes h_{ac} and h_{cb}, zero unless the site indices are neighbours or equal, so one power of J moves s by at most one. Since X is affine in J, cells whose s differ by two or more are uncoupled at every order, and cells with s ≠ s' are uncoupled at order J⁰. Passing from s to ℓ costs nothing: if s and s' have opposite signs then |s − s'| = |s| + |s'|, so |s − s'| ≤ 1 already forces |ℓ − ℓ'| ≤ 1. ∎
+the distance of the cell to the anti-diagonal {b = R(a)}, is admissible.
+
+*Proof.* The entry statements need only admissibility. Δ is diagonal in the cell basis, so it preserves every cell and hence every φ; the J-linear part of X is J·K, which couples (a,b) to (c,b) and to (a,c) with amplitudes h_{ac} and h_{cb}, zero unless the site indices are neighbours or equal, so one power of J moves one site index by one, and an admissible φ by at most one. Since X is affine in J, cells whose φ differ by two or more are uncoupled at every order, and cells with different φ are uncoupled at order J⁰. That the level is admissible: τQ sends (a,b) to (R(b), R(a)) and therefore s to −s, so ℓ is τQ-invariant, and one hop moves s by one, hence |s| by at most one (if s and s' have opposite signs then |s − s'| = |s| + |s'|, so |s − s'| ≤ 1 already forces ||s| − |s'|| ≤ 1). ∎
 
 The Heisenberg ZZ diagonal of h contributes same-cell terms only, so it is level-diagonal and transports nothing. That is why the two chains, whose h differ exactly by that diagonal, carry the same valuation.
 
@@ -216,16 +218,16 @@ where η_j := 1 if j = d_c for some balanced pair c, and 0 otherwise.
 
 The census is the whole mechanism in two lines. At each of the ⌊N/2⌋ distances d_c the columns outnumber the rows by exactly one, because the balanced pair puts a diagonal cell there. All the spare rows sit at level 0, on the anti-diagonal, where there are 2⌊N/2⌋ of them and no columns at all. These are the same τQ-fixed rooms whose surplus froze the eigenvalue in Section 3, seen from the other side: there they made the kernel, here they are the only place the excess can go.
 
-**Lemma 9 (the transport bound).** Let A be a set of columns and I a set of rows with |I| = |A|, write Y_{I,A} for the square submatrix they cut out, and put
+**Lemma 9 (the transport bound).** Fix an admissible grading φ. Let A be a set of columns and I a set of rows with |I| = |A|, write Y_{I,A} for the square submatrix they cut out, and put
 
-  F_j(I, A) := #{columns of A at level ≥ j} − #{rows of I at level ≥ j}.
+  F_j(I, A; φ) := #{columns of A with φ ≥ j} − #{rows of I with φ ≥ j}.
 
-Then ord_J det Y_{I,A} ≥ Σ_{j≥1} max(0, F_j(I, A)), and this pays as follows:
+Then ord_J det Y_{I,A} ≥ Σ_{j≥1} max(0, F_j(I, A; φ)). Taken with φ = ℓ this pays as follows:
 
 - for A the full column set, ord_J det Y_{I,A} ≥ Σ_{j≥1} Σ_{i≥j} η_i = Σ_i i·η_i = Σ_c d_c = ⌊N²/4⌋;
 - for A the O₋ columns together with the single D₋ column of one pair c, ord_J det Y_{I,A} ≥ d_c.
 
-*Proof.* Expand det Y_{I,A} over the bijections π from A onto I (a permutation here, not the R-parities π_i of Lemma 3). By Lemma 7 a term is nonzero only if |ℓ(π(x)) − ℓ(x)| ≤ 1 for every column x, and its J-order is then at least the number of columns with ℓ(π(x)) ≠ ℓ(x). Fix j ≥ 1 and let E_j := {x ∈ A : ℓ(x) ≥ j, ℓ(π(x)) ≤ j−1}. Every column of level ≥ j outside E_j goes to a row of level ≥ j, so #{columns of A at level ≥ j} ≤ #{rows of I at level ≥ j} + |E_j|, that is |E_j| ≥ F_j(I, A). The one-step constraint forces ℓ(x) = j exactly for x ∈ E_j, so the sets E_1, E_2, ... are pairwise disjoint, and each of their elements is one mismatch: the order of the term is at least Σ_j |E_j| ≥ Σ_j max(0, F_j(I, A)).
+*Proof.* Expand det Y_{I,A} over the bijections π from A onto I (a permutation here, not the R-parities π_i of Lemma 3). By Lemma 7 a term is nonzero only if |φ(π(x)) − φ(x)| ≤ 1 for every column x, and its J-order is then at least the number of columns with φ(π(x)) ≠ φ(x). Fix j ≥ 1 and let E_j := {x ∈ A : φ(x) ≥ j, φ(π(x)) ≤ j−1}. Every column with φ ≥ j outside E_j goes to a row with φ ≥ j, so #{columns of A with φ ≥ j} ≤ #{rows of I with φ ≥ j} + |E_j|, that is |E_j| ≥ F_j(I, A; φ). The one-step constraint forces φ(x) = j exactly for x ∈ E_j, so the sets E_1, E_2, ... are pairwise disjoint, and each of their elements is one mismatch: the order of the term is at least Σ_j |E_j| ≥ Σ_j max(0, F_j(I, A; φ)).
 
 For the two specializations, bound the rows of I at level ≥ j by all the rows there, Σ_{i≥j} m_i, and use Lemma 8. With A the full column set the level counts are the n_i, so F_j ≥ Σ_{i≥j}(n_i − m_i) = Σ_{i≥j} η_i ≥ 0, and summing over j counts each diagonal level i once for every 1 ≤ j ≤ i. With A the O₋ columns plus the D₋ column of the pair c, every diagonal column except that one is dropped, so the count at level i ≥ 1 falls to n_i − η_i + [i = d_c] and F_j ≥ #{i ≥ j : i = d_c}, which sums over j to d_c. ∎
 
@@ -235,7 +237,37 @@ For the two specializations, bound the rows of I at level ≥ j by all the rows 
 
 **Corollary (what the order counts).** At J = 0 the recentered block M̃ is diagonal, carrying −2(δ_a + δ_b) on the cell (a,b) and 4γ̄ on the diagonal cells, so on a generic locus profile it vanishes exactly on the 2⌊N/2⌋ anti-diagonal cells off the centre: there the frozen root has twice its generic multiplicity (gate, N = 3..6). Exactly ⌊N/2⌋ modes therefore leave the root as the coupling turns on, and since q(0) collects, up to sign, every eigenvalue of M̃ that is not frozen (Section 6), while only the departing ones among them vanish as J → 0, the theorem says the J-orders of the departing modes sum to at least 2Σ_c d_c. Under the measured equality the split is one departing mode per balanced pair, at order J^{2d_c}: the outermost pair, whose two sites are the ends of the chain, is the one that clings to the frozen root longest.
 
-Two limits of the statement are worth naming. The theorem says only that the mode cannot move sooner; that it does move exactly then is the measured half, equivalent to S̃(0) being nonsingular, and it is what the equalities of Section 11 record. And the only place the chain geometry enters is Lemma 7, through the tridiagonal h: one power of J is one hop. Longer-range hopping crosses several levels per power and the ladder degrades accordingly, so the distance ladder is a statement about the chain, not about the mirror.
+Two limits of the statement are worth naming. The theorem says only that the mode cannot move sooner; that it does move exactly then is the other half, equivalent to S̃(0) being nonsingular, and it is what the equalities of Section 11 record. Section 8.1 takes that half apart and leaves a single nonvanishing standing. And the only place the chain geometry enters is Lemma 7, through the tridiagonal h: one power of J is one hop. Longer-range hopping crosses several levels per power and the ladder degrades accordingly, so the distance ladder is a statement about the chain, not about the mirror.
+
+### 8.1 Sharpness: the pointed grading, and where each pair can land
+
+The theorem bounds the valuation from below; that it is attained is the other half, and it comes out of running Lemma 9 a second time with a different grading. The level ℓ measures the distance to the anti-diagonal as a whole. Aim instead at one anti-diagonal cell. For a site x with x ≠ R(x) put
+
+  **χ_x(a,b) := |a − x| + |b − R(x)|,**
+
+the walking distance from the cell (a,b) to the single cell (x, R(x)). (Not the basis vectors ψ_{ij} of Lemma 4; this is a function on cells.)
+
+**Lemma 10 (χ_x is admissible, and what it counts).** χ_x is admissible in the sense of Lemma 7: one hop moves one site index by one, so χ_x moves by at most one, and τQ, which sends (a,b) to (R(b), R(a)), exchanges the two summands, so χ_x ∘ τQ = χ_x. Let
+
+  I_x := every O₊ row except the anti-diagonal ones other than (x, R(x)),
+
+a set of the right size, and let A_c be the O₋ columns together with the D₋ column of the pair c, as in the theorem. Then for every j ≥ 1
+
+  **F_j(I_x, A_c; χ_x) = [χ_x(c,c) ≥ j],  hence  ord_J det Y_{I_x, A_c} ≥ χ_x(c,c) = max(d_c, d_x),**
+
+where d_x = |N + 1 − 2x| is the site distance of the pair through x.
+
+*Proof.* The census is trivial in this grading because rows and columns cancel almost everywhere. Every τQ-orbit of off-diagonal cells that is not fixed contributes exactly one O₊ row and one O₋ column, and χ_x, being τQ-invariant, gives them the same value; those contributions cancel in F_j. What remains on the column side is the one D₋ column, at height χ_x(c,c), and on the row side the anti-diagonal cells kept in I_x, of which there is exactly one, namely (x, R(x)) at height 0, which no longer counts once j ≥ 1. So F_j is 1 while j ≤ χ_x(c,c) and 0 after, and Lemma 9 sums it to χ_x(c,c). The last equality is the walk itself: χ_x(c,c) = |x − c| + |R(x) − c| is the sum of the distances from the site c to the two sites of the pair through x, which is d_c when x lies between c and R(c) and d_x otherwise, that is max(d_c, d_x) in both cases. (Check the two readings against each other at N = 7: for the pair c = 2, taking x = 3 gives 1 + 3 = 4 = d_c, while x = 1 gives 1 + 5 = 6 = d_x.) ∎
+
+Two consequences, and they are the sharpness.
+
+**The staircase.** Write ĝ_I(c) for the coefficient of z^{d_c} in det Y_{I,A_c}, z := −iJ as in Section 12's reduction (the two readings differ by the unit i^{d_c}, which moves no valuation and no rank). Lemma 10 says ĝ_{I_x}(c) = 0 whenever d_x > d_c, since then the order max(d_c, d_x) already exceeds d_c. So each pair can only land on the anti-diagonal cells that lie between its own two sites, and because those intervals are nested, so are the supports:
+
+  the pair at distance d reaches exactly the cells (x, R(x)) with c ≤ x ≤ R(c), a set that grows with d.
+
+**Independence, hence tightness.** Order the pairs by decreasing distance and take for each c the row set I_c that keeps the anti-diagonal cell (c, R(c)), the outer end of its own interval. For any tighter pair c′, that cell lies outside the interval, so ĝ_{I_c}(c′) = 0, while ĝ_{I_c}(c) ≠ 0. The matrix ĝ_{I_c}(c′) is therefore triangular, and wherever its diagonal does not vanish the ⌊N/2⌋ vectors ĝ(c) are linearly independent, so by the reduction of Section 12 the leading Schur matrix S̃(0), a positive semidefinite Gram matrix built from them, is nonsingular and the valuation law holds with equality, total and per pair. The next paragraph says what carries that diagonal.
+
+One ingredient of that last paragraph is measured rather than derived: the diagonal entries ĝ_{I_c}(c) ≠ 0, equivalently that the bound of Lemma 10 is attained on a pair's own outer cell. It is exact at N = 3..8 for every pair (Section 11), and the reason it should hold is visible: the walk from (c,c) to (c, R(c)) leaves one index fixed and moves the other straight across, so the cheapest route is unique and there is nothing for it to cancel against. Making that uniqueness an argument is what stands between this section and a two-sided theorem, and it is now a single nonvanishing statement rather than the nonsingularity of a determinant.
 
 ## 9. Where tightness fails: the exceptional couplings are defective
 
@@ -280,15 +312,16 @@ The committed gate [`simulations/r90_frozen_divisor_gate.py`](../../simulations/
 - the J-valuation discriminators (Section 6, last consequence): exact-rational cofactor ratios giving ord_J ≈ 18 at N = 6 (against 16) and ≈ 24 at N = 7 (against 20), a two-point estimate on exact arithmetic, since the orders themselves are pinned exactly by the next bullet; and the exact second-order rung rank(P_anti K P_{D₋}) = 1 at even N / 0 at odd N (N = 4..7);
 - the counting data behind the open question of Section 12: exact Sturm counts of the distinct real nonzero roots on the polynomial in J², one pair at N = 3 for two profiles, two at N = 4, two at N = 5, and two against four for the two generic N = 6 profiles, with the disagreement itself asserted as a check;
 - the exceptional couplings (Section 9), exact: the kernel dimensions of M̃, M̃², M̃³ at N = 3 over ℚ(√3) for three profiles, (1, 2, 2) at J* = δ₁/√3 against (1, 1, 1) at a non-exceptional control; the same three dimensions at N = 4 on a profile with a rational exceptional coupling (δ⃗ = (1, 3, −3, −1)/1000, J* = 1/1000), (2, 3, 3) against (2, 2, 2) at both neighbouring couplings 1/999 and 1/1001; and the N = 4 algebraic multiplicity confirmed a second time from the characteristic polynomial, so two independent routes agree;
+- the pointed grading of Section 8.1: that χ_x is admissible in both halves, τQ-invariant (constant on every parity basis vector) and one-hop Lipschitz (N = 3..9), that χ_x(c,c) = max(d_c, d_x) is the L¹ walk length, the case split of Lemma 10's proof exhaustively at N = 3..12, and that the census collapses to F_j = [χ_x(c,c) ≥ j]; then the order law ord_J det Y_(I_x, A_c) = max(d_c, d_x) for every pair and every anti-diagonal cell (N = 4..7), the identification of each support with the interval between that pair's own sites, and the strict nesting that makes the matrix triangular;
 - the valuation law (Section 8), in integer and rational arithmetic: the two grading properties of Lemma 7 and the level census of Lemma 8 against their closed forms (N = 3..10, both chains); the transport bound of Lemma 9 tested exhaustively over **all** maximal row sets (N = 3..6 Heisenberg, up to 816 minors), both as the inequality ord_J det Y_I ≥ its transport bound and as the two sharpness statements (the bound never falls below ⌊N²/4⌋, and the measured minimum over row sets attains it); the total ord_J det((X P_{O₊} X)|_{V₋}) = 2⌊N²/4⌋ for N = 3..10 on both chains, by exact interpolation rather than by ratio; the per-pair orders ord_J S_{c,c'} = d_c + d_{c'} for every pair, N = 3..7 Heisenberg; Lemma 6 entry by entry against an independent cell-basis build of the left side, and the same grading and valuation for a third h with non-uniform R-symmetric bonds and an arbitrary R-symmetric diagonal (N = 4..6), which is the generality the section claims; and the positive-weight Gram form of the leading Schur matrix with its positive definiteness (N = 4..6, the reduction recorded in Section 12). The one floating-point item in this group is the departure census of the Corollary (N = 3..6).
 
 ## 12. Open
 
-- The upper half of the valuation law: Section 8 proves that the frozen modes cannot move before J^{2d_c} and the measurements show that they move exactly then (N = 3..10 for the total, N = 3..7 per pair), which is the nonsingularity of the reduced matrix S̃(0). The open half now has a shape. Reading Cauchy-Binet at leading order gives
+- The upper half of the valuation law, now down to one statement. Section 8.1 derives the staircase that makes the ĝ vectors triangular, so the only thing still measured rather than proved is that each pair reaches its OWN outer anti-diagonal cell, that is ĝ_{I_c}(c) ≠ 0, equivalently that Lemma 10's bound is attained there. The route is the uniqueness of the monotone walk from (c,c) to (c, R(c)): one index stands still, the other crosses, so there is a single cheapest route and nothing to cancel against. Everything downstream is already in place, and is recorded here because it is what that one statement buys: reading Cauchy-Binet at leading order gives
 
     S̃(0)·det T_{O₋,O₋}(0) = Σ_I w_I·ĝ_I(c)·ĝ_I(c'),  ĝ_I(c) := the coefficient of z^{d_c} in det Y_{I,A_c},
 
-  where A_c is the column set of the proof above (the O₋ columns plus the D₋ column of the pair c), z := −iJ, and the w_I are strictly positive. In the variable z every entry of Y is real, since X = z·(iK) − 2Δ with iK and Δ real, and z is a unit times J so no valuation moves. The leading matrix is therefore a **real positive semidefinite Gram matrix**, and its determinant cannot cancel: nonsingularity is exactly the linear independence of the ⌊N/2⌋ vectors ĝ(c). The gate confirms the identity and positive definiteness at N = 4..6. What is missing is an argument that the ⌊N/2⌋ cheapest transports, one per distance, are independent as vectors over the row sets.
+  where A_c is the column set of Section 8 (the O₋ columns plus the D₋ column of the pair c), z := −iJ, and the w_I are strictly positive. In the variable z every entry of Y is real, since X = z·(iK) − 2Δ with iK and Δ real, and z is a unit times J so no valuation moves. The leading matrix is therefore a **real positive semidefinite Gram matrix**, and its determinant cannot cancel: nonsingularity is exactly the linear independence of the ⌊N/2⌋ vectors ĝ(c). The gate confirms the identity and positive definiteness at N = 4..6. Section 8.1 supplies the independence from the staircase; the single nonvanishing above is what it rests on.
 - The exceptional couplings of Section 9, as a counting question: how many of the nonzero roots of the cofactor are real (distinct roots, which is what the Sturm count gives), as a function of the profile and N. Exact Sturm counts on the polynomial in J² give the first data, and they already rule out the easy guess: the answer is not a function of N. At N = 3 both nonzero roots are real for every profile tried; at N = 5 only half of them are; and at N = 6 two generic profiles on the same locus give four real couplings and eight, respectively. What decides it is open, and so is whether the block is always 2×2 at larger N.
 - The uniform-γ endpoint: how the frozen divisor's ⌊N/2⌋ modes embed into the enhanced d_real counts when all rate classes collapse. Section 7 supplies the frozen side in closed form; the d_real side of the ledger is still the committed open problem of [DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md).
 - Adoption into MirrorWorld (the statement is finite linear algebra; the Sections 6-7 closed forms are entry-wise checkable up to one eigendecomposition of the N×N matrix h; candidate genre neighbour of Seed).
