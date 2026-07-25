@@ -8,7 +8,9 @@ namespace MirrorWorld;
 // This holds a third thing the same mirror leaves behind, and it is neither a fold nor a seed: a VALUE
 // the Hamiltonian cannot move. On the R90 locus (every reflection pair of site rates carrying the same
 // total, gamma_l + gamma_{R(l)} = 2*gbar) the corner block carries lambda = -4*gbar with multiplicity
-// floor(N/2), for EVERY coupling J. One frozen mode per balanced pair.
+// AT LEAST floor(N/2) for EVERY coupling J, and exactly floor(N/2) away from finitely many couplings.
+// One frozen mode per balanced pair. Two of the exceptions are visible from here: at J = 0 the count
+// below doubles, and at the real exceptional couplings the root goes defective without the rank moving.
 //
 // THE PARENT IS THE MIRROR, not the frame. (Marginal got to a non-frame parent first, on 2026-07-12,
 // hanging on the running cloud it reads; this is the second, and the first among the closed-form

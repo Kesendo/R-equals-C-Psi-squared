@@ -5772,10 +5772,11 @@ folds separate the block from (1,1), each fold sending r -> -r - 2*sigma.
 Every one of the remaining (N+1)^2 - 4 blocks carries nothing at either root
 (full census, N = 4, 5, 6), **on the Heisenberg chain**. The confinement is
 the ZZ diagonal's doing, not the divisor's: drop it and on the XY chain the
-same root is carried at the same multiplicity by many more blocks (nine of
-twenty-five at N = 4, twenty-four of thirty-six at N = 5, twenty-one of
-forty-nine at N = 6), never partially, and -4*gbar appears only on blocks with
-p + q even (necessary, not sufficient). The bound and the fold-parity split survive the
+two roots are carried at the same multiplicity by many more blocks, counting a
+block that carries either: nine of twenty-five at N = 4, twenty-four of
+thirty-six at N = 5, twenty-one of forty-nine at N = 6, of which nine, twelve
+and fifteen carry the unfolded root itself. Never partially, and -4*gbar appears
+only on blocks with p + q even (necessary, not sufficient). The bound and the fold-parity split survive the
 change of chain; "only the corners" does not. Away from the locus the
 structure disappears entirely on either chain: partial balance yields nothing.
 

@@ -35,10 +35,11 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///
 /// <para><b>The confinement is the ZZ diagonal's, not the divisor's.</b> That the remaining
 /// (N+1)² − 4 blocks carry nothing at either root is verified on the HEISENBERG chain (full
-/// census, N = 4, 5, 6). Drop the ZZ diagonal and it fails: on the XY chain the same root is
-/// carried at the same multiplicity ⌊N/2⌋ by many more blocks (nine of twenty-five at N = 4,
-/// twenty-four of thirty-six at N = 5, twenty-one of forty-nine at N = 6), never partially, and
-/// −4γ̄ appears only on blocks with p + q even (necessary, not sufficient). The bound and the
+/// census, N = 4, 5, 6). Drop the ZZ diagonal and it fails: on the XY chain the two roots are
+/// carried at the same multiplicity ⌊N/2⌋ by many more blocks, counting a block that carries
+/// either: nine of twenty-five at N = 4, twenty-four of thirty-six at N = 5, twenty-one of
+/// forty-nine at N = 6, of which nine, twelve and fifteen carry the unfolded root itself. Never
+/// partially, and −4γ̄ appears only on blocks with p + q even (necessary, not sufficient). The bound and the
 /// fold-parity split survive the change of chain; "only the corners" does not. Found in the typing
 /// of this claim, 2026-07-25, and pinned by gate G2c.</para>
 ///
@@ -138,7 +139,8 @@ public sealed class FrozenDivisorClaim : Claim
         "The R90 frozen divisor (F140): a watching locus that pins ⌊N/2⌋ decay rates at every coupling";
 
     public override string Summary =>
-        "on F91's anti-palindromic γ-locus the corner block holds λ = −4γ̄ ⌊N/2⌋ times for every J, one " +
+        "on F91's anti-palindromic γ-locus the corner block holds λ = −4γ̄ at least ⌊N/2⌋ times for " +
+        "every J, and exactly ⌊N/2⌋ for all but finitely many J (at J = 0 it doubles), one " +
         "frozen mode per balanced pair; no symmetry behind it, only a room shortage of the cell mirror τQ " +
         "(2⌊N/2⌋ fixed anti-diagonal cells minus the ⌊N/2⌋ even diagonal pairs), so the modes hear the mean " +
         "watching and nothing else; the four corners carry, the root picked by gamma-fold parity, and on the " +

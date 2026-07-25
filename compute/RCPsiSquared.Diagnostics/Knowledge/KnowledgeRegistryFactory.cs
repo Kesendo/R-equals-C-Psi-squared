@@ -415,8 +415,9 @@ public static class KnowledgeRegistryFactory
             .RegisterRecordParityLawClaim()
             .RegisterRecordLetterLawClaim()
             // The R90 frozen divisor, typed (2026-07-25): F140. On F91's anti-palindromic watching
-            // locus the single-excitation corner block holds lambda = -4*gbar with multiplicity
-            // floor(N/2) at EVERY coupling, one frozen mode per balanced pair. No symmetry is behind
+            // locus the single-excitation corner block holds lambda = -4*gbar with multiplicity at
+            // least floor(N/2) at EVERY coupling, and exactly floor(N/2) for all but finitely many J
+            // (at J = 0 it doubles); one frozen mode per balanced pair. No symmetry is behind
             // it: the cell mirror tauQ fixes 2*floor(N/2) anti-diagonal cells, an involution's even
             // rooms exceed its odd rooms by exactly its fixed count, an odd operator must overflow,
             // and the even diagonal pairs tax half of the surplus away. The four corners p,q in

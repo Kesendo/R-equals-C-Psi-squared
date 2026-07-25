@@ -333,8 +333,16 @@ for N in (4, 5, 6):
     check(f"N={N} XY: the four corners still carry floor(N/2) = {m}",
           len(corners) == 4 and all(max(c[2]) == m for c in corners),
           f"corners {corners}")
+    # The counts the documents quote, pinned here so a profile change cannot move them
+    # silently. A carrier is a block carrying EITHER root; the -4gbar half is listed
+    # separately because the prose distinguishes the two.
+    want_carriers = {4: 9, 5: 24, 6: 21}[N]
+    want_at_root = {4: 9, 5: 12, 6: 15}[N]
+    at_root = [c for c in carriers if c[2][0]]
     check(f"N={N} XY: MORE than the four corners carry (the confinement is Heisenberg-only)",
-          len(carriers) > 4, f"{len(carriers)} carrying blocks, corners are 4")
+          len(carriers) > 4 and len(carriers) == want_carriers and len(at_root) == want_at_root,
+          f"{len(carriers)} carrying blocks (want {want_carriers}), of which {len(at_root)} "
+          f"at -4gbar (want {want_at_root}); corners are 4")
     check(f"N={N} XY: every carrier carries the WHOLE floor(N/2), and -4gbar only on p+q even",
           not partial and not odd_at_root,
           f"partial {partial}, odd-at-root {odd_at_root}")

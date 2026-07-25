@@ -59,10 +59,11 @@ public enum DivisorChain
 /// <para><b>The census is a Heisenberg statement, and this witness is where that was found
 /// (2026-07-25).</b> The proof document censuses every (p, q) block at N = 4, 5, 6 and finds only
 /// the four corners carrying, but it runs that census on the Heisenberg chain alone. Drop the ZZ
-/// diagonal and the confinement goes: on the XY chain the SAME root is carried, with the SAME
-/// multiplicity ⌊N/2⌋, by many more blocks: nine of twenty-five at N = 4 and twenty-four of
-/// thirty-six at N = 5, both of which this witness computes itself, and twenty-one of forty-nine at
-/// N = 6, which is the gate's G2c rather than this witness's (the full census stops at
+/// diagonal and the confinement goes: on the XY chain the two roots are carried, with the SAME
+/// multiplicity ⌊N/2⌋, by many more blocks. Counting a block that carries either: nine of
+/// twenty-five at N = 4 and twenty-four of thirty-six at N = 5, both of which this witness computes
+/// itself, and twenty-one of forty-nine at N = 6, which is the gate's G2c rather than this
+/// witness's (the full census stops at
 /// <see cref="FullCensusMaxN"/>, so at N = 6 <see cref="CensusRan"/> is false). Never partially,
 /// and every block carrying the UNFOLDED root −4γ̄ has p + q even (necessary, not sufficient:
 /// plenty of even blocks carry nothing). The bound and the fold-parity split survive the change of
