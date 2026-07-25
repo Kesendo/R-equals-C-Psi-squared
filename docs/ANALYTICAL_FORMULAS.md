@@ -5858,8 +5858,9 @@ involution's even rooms exceed its odd rooms by its fixed count, and what will
 not fit must freeze), so what it yields is a FLOOR; the exactness is a separate
 and later theorem, about a cofactor that does not vanish. At J = 0 the floor is
 doubled, and there the old title was false under the reading it invites;
-read charitably as a lower bound it was merely silent about the thing
-that matters. A title that has to be read charitably is the defect. Note the shape: writing the
+read charitably as a lower bound it was merely silent about
+the thing that matters. A title that has to be read charitably is the
+defect. Note the shape: writing the
 inequality as an equality is what loses the mechanism, which is the same error
 this arc made in its proof prose twice on the same day.
 The recomputed title moves the subject to the VALUE, which really is
@@ -5874,7 +5875,8 @@ form loses what the correction taught.
 counts hold past the spectral wall, to N = 20.
 **The other chain:** on XY the confinement above is replaced by a diagonal
 BAND, |p - q| in {0, 2} minus the two 1x1 corners, 3*(N-1) blocks each at the
-same depth floor(N/2), and what decides between band and corners is whether h
+same generic depth floor(N/2) (the corner is in that band, and doubles at J = 0
+like everywhere else), and what decides between band and corners is whether h
 has a bipartite spectrum, not the ZZ term by name. Stated, with the reason its
 edge sits at 2 and with two dead candidate mechanisms, in
 [XY_FROZEN_BAND](../experiments/XY_FROZEN_BAND.md); no F number, because the

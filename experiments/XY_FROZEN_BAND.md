@@ -1,6 +1,6 @@
 # The frozen band: what the divisor does when the chain stops being Heisenberg
 
-*2026-07-25. [F140](../docs/ANALYTICAL_FORMULAS.md) said the frozen root −4γ̄ sits in the four corner blocks and nowhere else. Typing it as a live object put the same question to the XY chain, which the proof's census had never been run on, and the answer was that the confinement is not the divisor's. On XY the same root is carried, at the same depth, by a whole diagonal band of blocks. This note states the band, gives the reason its edge sits where it does, finds what decides whether the band exists at all, and buries the two candidates for what fills it. The number in the band is still the corner's number, and why it is remains open.*
+*2026-07-25. [F140](../docs/ANALYTICAL_FORMULAS.md) said the frozen root −4γ̄ sits in the four corner blocks and nowhere else. Typing it as a live object put the same question to the XY chain, which the proof's census had never been run on, and the answer was that the confinement is not the divisor's. On XY the same root is carried, at the same depth, by a whole diagonal band of blocks. This note states the band, gives the reason its edge sits where it does, finds what decides whether the band exists at all, and buries the two candidates for what fills it. The number is the count of balanced pairs, which is visible directly once the coupling is switched off; what is still open is why every block collapses onto it from wildly different starting counts.*
 
 ## The law
 
@@ -68,7 +68,7 @@ The ring is the cleanest of the four, because bipartiteness there is decided by 
 
 Two candidates are dead, and both deaths are informative.
 
-**The corner's room shortage does not extend.** τQ fixes a cell only when B = R(A), which forces |A| = |B|. So the off-diagonal block pairs (p, p+2) ⊕ (p+2, p) have **no fixed cells at all**: the shortage argument predicts zero there, and ⌊N/2⌋ is measured. On the diagonal it is wrong in both directions: at N = 6 the block (2,2) is predicted 0 and measures 3, while (3,3) is predicted 6 and measures 3. Those counts are gated (V6), not hand-read. Whatever pins the band, it is not the count that pins the corner, even though the answer is the same number.
+**The corner's room shortage does not extend.** τQ fixes a cell only when B = R(A), which forces |A| = |B|. So the off-diagonal block pairs (p, p+2) ⊕ (p+2, p) have **no fixed cells at all**: the shortage argument predicts zero there, and ⌊N/2⌋ is measured. On the diagonal it is wrong in both directions at N = 6, where (2,2) is predicted 0 and measures 3 while (3,3) is predicted 6 and measures 3; at N = 5 it happens to match everywhere, which is worth saying, since a rule that is sometimes right is not refuted by one N. All of these counts are gated (V6), not hand-read. Whatever pins the band, it is not the count that pins the corner, even though the answer is the same number.
 
 **The chiral intertwiner does not transport the corner's modes.** This was the obvious candidate and it is worth writing out, because its algebra is exactly right and it still fails. For free fermions,
 
@@ -80,22 +80,31 @@ It still fails. Applied to a basis of the corner's frozen subspace, the images a
 
 So the count matches, the gate matches, the reachable set matches, and the map is still the wrong map.
 
-## Where a next attempt should start
+## Where the number comes from, and what is still missing
 
-Two things to hand over: one observation, and one experiment that has not been run. The (0,2) block consists **entirely** of cells with |AΔB| = 2, and exactly ⌊N/2⌋ of them are the balanced-pair cells |vac⟩⟨{l, R(l)}| whose rate diagonal is −2(γ_l + γ_{R(l)}) + 4γ̄ = 0 on the locus. One per balanced pair, again, and the same count.
+The depth question has moved. It is no longer "why ⌊N/2⌋" but something sharper, and the sharpening is a result rather than a rewording. The (0,2) block consists **entirely** of cells with |AΔB| = 2, and exactly ⌊N/2⌋ of them are the balanced-pair cells |vac⟩⟨{l, R(l)}| whose rate diagonal is −2(γ_l + γ_{R(l)}) + 4γ̄ = 0 on the locus. One per balanced pair, again, and the same count.
 
 The involution that makes M odd there is **antilinear**: reversal of the bra index composed with complex conjugation, since the block's Hamiltonian part is +iH₂ alone and conjugation is what turns its sign. That points at the antilinear corner of the object manager rather than at τQ. But an antilinear involution has equal-dimensional real forms, so it yields no shortage and cannot be the counter; and it survives the diagonal perturbation that kills the band, so it cannot be the gate either. It is a third structure sitting in the right place, doing neither job on its own. Hand it over as a fact, not as a lead.
 
-**The experiment that has not been run, and should be first.** The depth equals the number of BALANCED PAIRS, in every band block. If the frozen modes really are indexed by pairs, then walking exactly one pair off balance should drop the depth by exactly one, and it should drop in every band block at once. If instead the depth collapses to zero everywhere, or falls by different amounts in different blocks, the pair indexing is wrong and the coincidence with the corner's count needs another explanation. This is cheap (the same exact ranks, one perturbed profile), it is decisive either way, and it does not require guessing a mechanism first. The natural follow-up if the depth does fall one at a time: read which pair each surviving mode belongs to, by its weight on the balanced-pair cells |vac⟩⟨{l, R(l)}|.
+**At J = 0 the count is manifest, and it is one per balanced pair.** Turn the coupling off and every band block is diagonal, so one can simply read which cells sit at the root: the entry is −2·Σ_{l ∈ AΔB} γ_l + 4γ̄, which vanishes exactly when the disagreement set is a balanced pair {l, R(l)}. Only |AΔB| = 2 cells qualify (a four-site set cannot sum to 2γ̄ on this locus), so the balanced pairs, and nothing else, put cells on the root.
+
+**But their number is not ⌊N/2⌋, except in one block.** How many such cells a block holds depends on how much room there is beside the pair, and it varies enormously: at N = 7 the counts are 3, 6, 30, 15 and 60 for the blocks (0,2), (1,1), (2,2), (1,3) and (3,3). Every one of them collapses to exactly 3 the moment the coupling turns on. The (0,2) block is the exception where nothing departs, because a two-site bra beside an empty ket leaves no room: its J = 0 count is already ⌊N/2⌋.
+
+**In that block the modes really are the pairs, continued.** The J = 0 kernel is exactly the span of the ⌊N/2⌋ balanced-pair cells, and its overlap with the J > 0 frozen subspace is nonsingular at N = 5, 6, 7. So there the frozen modes are the continuations of the pair cells, one per balanced pair, and the number is explained.
+
+**What is missing is the collapse.** Everywhere else in the band, far more cells start on the root than end up frozen, and the survivors always number ⌊N/2⌋. Why a 60-cell start and a 3-cell start both land on 3 is the open question, and it is a better one than the count was: it asks about a departure rate, which is the same kind of object as the corner's own ladder J^{2d_c}. The natural next move is to measure the departure orders in a band block the way the proof measures them in the corner, and see whether ⌊N/2⌋ survivors is again a valuation statement.
+
+Do NOT try to test the pair indexing by walking one pair off balance. It cannot be done: the pair deviations sum to zero, so no single pair can be unbalanced alone, and any perturbation moves γ̄ and with it the root, detuning every pair cell at once. The J = 0 reading above is the version of that experiment that is well posed.
 
 ## Verification
 
-[`simulations/xy_frozen_band.py`](../simulations/xy_frozen_band.py), 58 checks, about 4 to 8 minutes, prints `XY frozen band: ALL GREEN`.
+[`simulations/xy_frozen_band.py`](../simulations/xy_frozen_band.py), 67 checks, about 4 to 8 minutes, prints `XY frozen band: ALL GREEN`.
 
 - **V1** the band law by full (p, q) census at N = 4..7: the carrier set, the whole-⌊N/2⌋ depth, the count 3(N−1), and the fold image. The script reports how many of its reads were exact.
 - **V2** the band edge at N = 8, 9, 10, three profile-and-coupling combinations each.
 - **V3** the |AΔB| = 2 oddness criterion, two-sided (it must fail on every other size class), and the combinatorial reach.
 - **V4** the bipartiteness gate, the five rows of the table above.
+- **V7** where the number comes from: the J = 0 census of cells on the root, block by block, and the continuation of the (0,2) pair cells into the J > 0 frozen subspace.
 - **V6** the other falsified candidate as a count: the τQ fixed-cell census behind "the shortage does not extend", two-sided, since it must predict zero off the diagonal AND miss on it.
 - **V5** the falsified intertwiner, with its own self-check first.
 
@@ -105,8 +114,8 @@ The band is also visible live, in the object manager: `inspect --root divisor --
 
 ## Open
 
-- **What pins the depth.** ⌊N/2⌋ in every band block, independent of its dimension, and equal to the corner's count. Neither the room shortage nor the chiral intertwiner produces it. That the two numbers agree while the two mechanisms do not is the whole question.
-- **Whether the edge argument is sufficient as well as necessary.** Section "Why the edge sits at two" shows no block outside the band can carry. It does not show every block inside it must, and indeed on a non-bipartite h most do not.
+- **What pins the depth, now sharpened.** At J = 0 the number of cells on the root is one per balanced pair times whatever room the block leaves beside it, so it ranges from ⌊N/2⌋ to 60 at N = 7; at J > 0 every band block holds exactly ⌊N/2⌋. The open question is the COLLAPSE, not the count: why every starting number lands on the same survivor count. In the one block where nothing departs, (0,2), the modes are the pair cells continued and the number is understood.
+- **Whether the edge argument is sufficient as well as necessary.** The section "Why the edge sits where it does" removes the known mechanism outside the band; it neither proves the null out there (that is measured) nor shows that every block inside must carry, and indeed on a non-bipartite h most do not.
 - **A number, not yet a law:** the |AΔB| = 2 reach and the band coincide at N = 4..8. That is a combinatorial identity and should be provable outright rather than measured. Once it is, the whole edge argument stops being chain-specific evidence and becomes a lemma, at which point it belongs in [PROOF_R90_FROZEN_DIVISOR](../docs/proofs/PROOF_R90_FROZEN_DIVISOR.md) beside the census it scopes, not in an experiment note.
 - **No F number.** This is an experiment, deliberately. The gate is well controlled and the edge has an argument, but the carrier law's inside direction is measurement, and the mechanism for the depth is missing entirely. Minting now would name half an object.
 

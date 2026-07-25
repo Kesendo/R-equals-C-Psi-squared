@@ -4,7 +4,8 @@
 Verifier for experiments/XY_FROZEN_BAND.md: where the F140 frozen root -4*gbar lives once the
 chain is XY rather than Heisenberg, and what decides it.
 
-Prints "XY frozen band: ALL GREEN" when every check passes. Runtime ~4-8 min.
+Prints "XY frozen band: ALL GREEN" when every check passes. Runtime ~5-10 min. This file is a
+RUNNER, in the house style of the gates: importing it executes every check.
 
   V1  the band law, by full (p,q) census at N = 4..7: the blocks carrying -4*gbar are exactly
       |p - q| in {0, 2} minus the two 1x1 corners (0,0) and (N,N), each carrying floor(N/2)
@@ -20,11 +21,17 @@ Prints "XY frozen band: ALL GREEN" when every check passes. Runtime ~4-8 min.
       (its spectrum symmetric about 0). Four independent ways: two R-invariant diagonals added
       to the chain, three N each, and the ring, where bipartiteness is the parity of N. The
       CORNER survives all five rows, which is the control that separates the two mechanisms
+  V7  where the number comes from, as far as it is understood: at J = 0 every band block is
+      diagonal and its cells sitting exactly at the root are precisely the |A^B| = 2 cells whose
+      disagreement set is a balanced pair. Their NUMBER differs wildly from block to block, and
+      every block collapses to the same floor(N/2) once the coupling turns on. In the (0,2)
+      block alone the J = 0 count is already floor(N/2), nothing departs, and the frozen modes
+      at J > 0 are the CONTINUATIONS of the balanced-pair cells (nonsingular overlap)
   V6  the OTHER falsified candidate, as a count: tauQ fixes a cell only at B = R(A), which
       forces |A| = |B|, so the off-diagonal band pairs have no fixed cell at all and the corner's
       room shortage predicts zero where floor(N/2) is measured; on the diagonal it misses in
       both directions
-  V5  a FALSIFIED candidate, kept because it is the obvious one: T(rho) = d_a rho d_b on a
+  V5  a FALSIFIED candidate, kept because it is the obvious one: Xi(rho) = d_a rho d_b on a
       chiral pair commutes with the Hamiltonian part exactly (checked to machine zero, and
       against the predicted commutator off the chiral locus) yet does NOT carry the corner's
       frozen vectors into the (0,2) frozen subspace. The dephasing is what it does not respect
@@ -334,7 +341,8 @@ def liou(n, p, q, h, gl, gbar, J=0.75):
 
 
 def transport_matrix(n, ua, ub, cc, c02, p02):
-    T = np.zeros((len(c02), len(cc)), dtype=complex)
+    """The map the note calls Xi; not the proof's T, which is its bordered cofactor."""
+    Xi = np.zeros((len(c02), len(cc)), dtype=complex)
     for j, (ket, bra) in enumerate(cc):
         x = ket.bit_length() - 1
         if ua[x] == 0.0:
@@ -344,8 +352,8 @@ def transport_matrix(n, ua, ub, cc, c02, p02):
                 continue
             r = cdag_op(m, bra)
             if r is not None and (0, r[1]) in p02:
-                T[p02[(0, r[1])], j] += ua[x] * ub[m] * r[0]
-    return T
+                Xi[p02[(0, r[1])], j] += ua[x] * ub[m] * r[0]
+    return Xi
 
 
 for n in (5, 6, 7):
@@ -364,21 +372,21 @@ for n in (5, 6, 7):
     # the self-check first: without it a coding slip would masquerade as the falsification
     worst_int, worst_pred = 0.0, 0.0
     for (a, b) in chiral[:4]:
-        T = transport_matrix(n, U[:, a], U[:, b], cc, c02, p02)
-        worst_int = max(worst_int, np.linalg.norm(H02 @ T - T @ H11))
+        Xi = transport_matrix(n, U[:, a], U[:, b], cc, c02, p02)
+        worst_int = max(worst_int, np.linalg.norm(H02 @ Xi - Xi @ H11))
     for (a, b) in [(0, 1), (0, 0)]:
-        T = transport_matrix(n, U[:, a], U[:, b], cc, c02, p02)
+        Xi = transport_matrix(n, U[:, a], U[:, b], cc, c02, p02)
         worst_pred = max(worst_pred, np.linalg.norm(
-            (H02 @ T - T @ H11) - 1j * 0.75 * (lam[a] + lam[b]) * T))
-    check(f"N={n} the map really is the intertwiner: [L_H, T] = 0 on a chiral pair, and equals "
-          f"i*J*(eps_a+eps_b)*T off it", worst_int < 1e-10 and worst_pred < 1e-10,
+            (H02 @ Xi - Xi @ H11) - 1j * 0.75 * (lam[a] + lam[b]) * Xi))
+    check(f"N={n} the map really is the intertwiner: [L_H, Xi] = 0 on a chiral pair, and equals "
+          f"i*J*(eps_a+eps_b)*Xi off it", worst_int < 1e-10 and worst_pred < 1e-10,
           f"{worst_int:.1e} / {worst_pred:.1e}")
 
     worst_res, biggest_img = 0.0, 0.0
     for (a, b) in chiral[:4]:
-        T = transport_matrix(n, U[:, a], U[:, b], cc, c02, p02)
+        Xi = transport_matrix(n, U[:, a], U[:, b], cc, c02, p02)
         for c in range(K11.shape[1]):
-            img = T @ K11[:, c]
+            img = Xi @ K11[:, c]
             nrm = np.linalg.norm(img)
             if nrm > 1e-10:
                 biggest_img = max(biggest_img, nrm)
@@ -386,6 +394,49 @@ for n in (5, 6, 7):
     check(f"N={n} and yet it does NOT land in the frozen subspace: the image is nonzero but "
           f"(L_(0,2) + 4 gbar) does not kill it", biggest_img > 1e-6 and worst_res > 1e-3,
           f"worst relative residual {worst_res:.2e}, largest image norm {biggest_img:.2e}")
+
+print()
+print("V7  where the number comes from, as far as it is understood")
+for n in (5, 6, 7):
+    gnum, m = locus(n), n // 2
+    sig = sum(gnum)
+    r0, _ = roots(n, gnum)
+    # (a) at J = 0 the block is diagonal; which cells sit exactly at the root, and how many?
+    counts, sizes_seen = {}, set()
+    for (p, q) in ((0, 2), (1, 1), (2, 2), (1, 3), (3, 3)):
+        if p > n or q > n or abs(p - q) not in (0, 2) or (p, q) in {(0, 0), (n, n)}:
+            continue
+        zero = [(a, b) for a in combinations(range(n), p) for b in combinations(range(n), q)
+                if 2 * n * sum(gnum[l] for l in set(a) ^ set(b)) == 4 * sig]
+        counts[(p, q)] = len(zero)
+        sizes_seen |= {len(set(a) ^ set(b)) for (a, b) in zero}
+        # every such cell's disagreement set must be a balanced pair {l, R(l)}
+        bad = [(a, b) for (a, b) in zero
+               if sorted(set(a) ^ set(b)) != sorted({min(set(a) ^ set(b)),
+                                                     n - 1 - min(set(a) ^ set(b))})]
+        if bad:
+            counts[(p, q)] = -1
+    check(f"N={n} at J = 0 the cells on the root are exactly the balanced-pair cells, and only "
+          f"|A^B| = 2 ones", all(v >= 0 for v in counts.values()) and sizes_seen == {2},
+          f"sizes {sorted(sizes_seen)}")
+    check(f"N={n} their number differs block to block, yet every block collapses to floor(N/2) "
+          f"= {m} at J > 0", len(set(counts.values())) > 1 and counts[(0, 2)] == m,
+          "; ".join(f"{pq}: {v}" for pq, v in counts.items()) + f" -> all {m}")
+
+    # (b) the (0,2) block: is the J > 0 frozen subspace the CONTINUATION of those cells?
+    def ker(jnum):
+        re, im = scaled_block(n, h_chain(n), gnum, jnum, 0, 2)
+        d = re.shape[0]
+        M = (re + 1j * im).astype(complex) - r0 * np.eye(d)
+        _, sv, vh = np.linalg.svd(M)
+        return vh[d - int(np.sum(sv < 1e-7 * max(1.0, sv[0]))):].conj().T
+    K0, KJ = ker(0), ker(768)
+    ov = np.linalg.svd(K0.conj().T @ KJ, compute_uv=False) if K0.size and KJ.size else np.array([])
+    check(f"N={n} in (0,2) nothing departs, and the J > 0 modes are the continuations of the "
+          f"pair cells (overlap nonsingular)",
+          K0.shape[1] == m and KJ.shape[1] == m and ov.size == m and ov.min() > 1e-6,
+          f"dim {K0.shape[1]}/{KJ.shape[1]}, overlap singular values "
+          f"{np.array2string(ov, precision=4)}")
 
 print()
 print("V6  the other falsified candidate: the corner's room shortage does not extend")
@@ -405,12 +456,19 @@ for n in (5, 6, 7):
         predicted = fixed2 - fixed2 // 2          # surplus minus the tax that halves it
         rows.append(((p, q), len(cl), fixed2, predicted))
     offdiag_all_zero = all(pr == 0 for (pq, _, _, pr) in rows if pq[0] != pq[1])
-    misses = [(pq, pr) for (pq, _, _, pr) in rows if pr != m]
     check(f"N={n} the shortage predicts ZERO in every off-diagonal band pair, where floor(N/2) "
           f"= {m} is measured", offdiag_all_zero,
           "; ".join(f"{pq} dim {d} fixed2 {f} -> predicts {pr}" for (pq, d, f, pr) in rows))
-    check(f"N={n} and on the diagonal it misses too, so it is not merely incomplete",
-          bool(misses), f"misses {misses}")
+    # The diagonal half, scoped to the diagonal ONLY. Including the off-diagonal pairs here
+    # would make the check vacuous, since their prediction is 0 != m by construction.
+    diag = [(pq, pr) for (pq, _, _, pr) in rows if pq[0] == pq[1]]
+    diag_misses = [(pq, pr) for (pq, pr) in diag if pr != m]
+    want_miss = {5: False, 6: True, 7: True}[n]
+    check(f"N={n} on the diagonal the shortage "
+          f"{'misses, and in BOTH directions' if want_miss else 'happens to MATCH everywhere, so it is not always wrong'}",
+          bool(diag_misses) == want_miss
+          and (n != 6 or sorted(diag_misses) == [((2, 2), 0), ((3, 3), 6)]),
+          f"diagonal predictions {diag}, misses {diag_misses}")
 
 print()
 if FAILURES:
