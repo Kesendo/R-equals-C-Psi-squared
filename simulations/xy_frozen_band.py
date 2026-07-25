@@ -25,8 +25,9 @@ RUNNER, in the house style of the gates: importing it executes every check.
       diagonal and its cells sitting exactly at the root are precisely the |A^B| = 2 cells whose
       disagreement set is a balanced pair. Their NUMBER differs wildly from block to block, and
       every block collapses to the same floor(N/2) once the coupling turns on. In the (0,2)
-      block alone the J = 0 count is already floor(N/2), nothing departs, and the frozen modes
-      at J > 0 are the CONTINUATIONS of the balanced-pair cells (nonsingular overlap)
+      block alone the J = 0 count is already floor(N/2), nothing departs, and the frozen
+      subspace converges onto the balanced-pair cells as J -> 0 (though at J = 3/4 it has
+      rotated well off them, which the check pins from both sides)
   V6  the OTHER falsified candidate, as a count: tauQ fixes a cell only at B = R(A), which
       forces |A| = |B|, so the off-diagonal band pairs have no fixed cell at all and the corner's
       room shortage predicts zero where floor(N/2) is measured; on the diagonal it misses in
@@ -423,20 +424,31 @@ for n in (5, 6, 7):
           f"= {m} at J > 0", len(set(counts.values())) > 1 and counts[(0, 2)] == m,
           "; ".join(f"{pq}: {v}" for pq, v in counts.items()) + f" -> all {m}")
 
-    # (b) the (0,2) block: is the J > 0 frozen subspace the CONTINUATION of those cells?
+    # (b) the (0,2) block: how does its frozen subspace sit against the pair cells, as J varies?
+    # "Continuation" can only be a J -> 0 statement, and the two-sided form matters: at the
+    # coupling this note reads everywhere else the subspace has rotated almost entirely OFF the
+    # pair cells, so a bare "overlap is nonsingular" would pass on nearly orthogonal subspaces.
     def ker(jnum):
         re, im = scaled_block(n, h_chain(n), gnum, jnum, 0, 2)
         d = re.shape[0]
         M = (re + 1j * im).astype(complex) - r0 * np.eye(d)
         _, sv, vh = np.linalg.svd(M)
-        return vh[d - int(np.sum(sv < 1e-7 * max(1.0, sv[0]))):].conj().T
-    K0, KJ = ker(0), ker(768)
-    ov = np.linalg.svd(K0.conj().T @ KJ, compute_uv=False) if K0.size and KJ.size else np.array([])
-    check(f"N={n} in (0,2) nothing departs, and the J > 0 modes are the continuations of the "
-          f"pair cells (overlap nonsingular)",
-          K0.shape[1] == m and KJ.shape[1] == m and ov.size == m and ov.min() > 1e-6,
-          f"dim {K0.shape[1]}/{KJ.shape[1]}, overlap singular values "
-          f"{np.array2string(ov, precision=4)}")
+        return vh[d - int(np.sum(sv < 1e-9 * max(1.0, sv[0]))):].conj().T
+    cells02 = list(combinations(range(n), 2))
+    Ppair = np.zeros((len(cells02), m))
+    for j, i in enumerate([i for i, c in enumerate(cells02) if c[1] == n - 1 - c[0]]):
+        Ppair[i, j] = 1.0
+    Kbig, Ksmall = ker(768), ker(4)          # J = 3/4 and J = 1/256
+    cos_big = np.linalg.svd(Ppair.T @ Kbig, compute_uv=False)
+    cos_small = np.linalg.svd(Ppair.T @ Ksmall, compute_uv=False)
+    check(f"N={n} in (0,2) the frozen dimension is floor(N/2) = {m} at every coupling, and the "
+          f"subspace CONVERGES onto the pair cells as J -> 0 while sitting well off them at "
+          f"J = 3/4",
+          Kbig.shape[1] == m and Ksmall.shape[1] == m
+          and cos_small.min() > 0.9 and cos_big.min() < 0.9,
+          f"principal cosines with the pair-cell span: J=3/4 "
+          f"{np.array2string(cos_big, precision=4)}, J=1/256 "
+          f"{np.array2string(cos_small, precision=4)}")
 
 print()
 print("V6  the other falsified candidate: the corner's room shortage does not extend")
