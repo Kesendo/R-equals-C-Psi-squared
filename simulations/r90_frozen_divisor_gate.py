@@ -9,9 +9,12 @@
 #   G1  the mirror identity tauQ (M + 4gbar) tauQ = -(M + 4gbar) + 8gbar P_diag
 #       on the locus, machine zero (N = 4, 5, 6); antilinear variant must FAIL
 #   G2  corner-block frozen census: multiplicity floor(N/2) at lambda = -4gbar
-#       for J in {0.6, 1.0, 2.3} (N = 3..6); control block (2,2) carries none
+#       for J in {0.6, 1.0, 2.3} (N = 3..6); plus the FULL (p,q) block census at
+#       N = 4, 5, 6 against both roots: exactly the four corner blocks carry
+#       floor(N/2), each at the root its fold parity selects, all others none
 #   G3  the pencil kernel dim(ker of (E', K_{D-})) on O+ equals floor(N/2)
-#   G4  eigenvector predictions: v_D = 0 and tauQ-even O-part (machine zero)
+#   G4  eigenvector predictions: v_D = 0 and tauQ-even O-part (machine zero);
+#       plus dim(ker K cap anti-diagonal of O) = 1 at even N, 0 at odd (N = 3..8)
 #   G5  partial balance yields nothing (N = 5 with the middle off the common
 #       mean; N = 6 with two of three pair sums equal)
 #   G6  N=3 closed form (sympy, exact): det(-2g2 I - M_(1,2)) =
@@ -45,11 +48,11 @@
 #           0 at odd N (only the distance-1 middle pair is one hop from the
 #           anti-diagonal), N = 4..7
 #   G11 the valuation law (proof doc Section 8), integer-exact:
-#       (a) Lemma 7 (the level grading phi = distance to the anti-diagonal):
-#           no G entry across two levels, J^0 part level-diagonal, N = 3..10
+#       (a) Lemma 7 (the level grading ell = distance to the anti-diagonal):
+#           no Y entry across two levels, J^0 part level-diagonal, N = 3..10
 #           both chains; Lemma 8 (the level census) against the closed form
 #       (b) Lemma 9 (the transport bound): exhaustively over ALL maximal row
-#           sets, ord_J det G_I >= its transport bound, the bound is >=
+#           sets, ord_J det Y_I >= its transport bound, the bound is >=
 #           floor(N^2/4) for every row set, and the measured minimum over row
 #           sets is exactly floor(N^2/4) (N = 3..6)
 #       (c) the theorem: ord_J det((X P_{O+} X)|_{V-}) = 2 floor(N^2/4),
@@ -66,8 +69,21 @@
 #       (g) the reduction of the open half: the leading Schur matrix is a
 #           positive-weight real Gram matrix of the ghat vectors, hence
 #           positive semidefinite, and it is positive definite at N = 4..6
+#   G12 the exceptional couplings (proof doc Section 9), exact:
+#       (a) N=3 over Q(sqrt(3)): the kernel dimensions of Mtilde, Mtilde^2,
+#           Mtilde^3 at J* = d1/sqrt(3) are (1, 2, 2) for three profiles, i.e.
+#           geometric 1, algebraic 2, one block of size exactly 2; a
+#           non-exceptional control gives (1, 1, 1)
+#       (b) N=4 at a profile with a RATIONAL exceptional coupling: (2, 3, 3)
+#           against (2, 2, 2) at both neighbouring couplings, with the
+#           algebraic count confirmed a second time from the characteristic
+#           polynomial (two independent routes)
+#   G13 the counting question (proof doc Section 12), exact Sturm counts of the
+#       real nonzero roots: 1 pair at N=3 (both profiles), 2 at N=4, 2 at N=5,
+#       and 2 versus 4 for two generic N=6 profiles, so the count is NOT a
+#       function of N
 #
-# Runtime: ~7-10 min. Standalone except G0 (imports framework once).
+# Runtime: ~8-12 min. Standalone except G0 (imports framework once).
 import sys
 import math
 import random
@@ -214,18 +230,46 @@ for N in (4, 5, 6):
 
 # ---------- G2: frozen census ----------
 
-print("G2  corner-block multiplicity floor(N/2) at -4*gbar; (2,2) control empty")
+print("G2  corner-block multiplicity floor(N/2) at -4*gbar; full (p,q) census")
 for N in (3, 4, 5, 6):
     gl = r90_profile(N)
     gbar = sum(gl) / N
     K, G = corner_pieces(N, gl)
     mmin, counts = frozen_count_at(lambda J: J * K - 2 * G, -4 * gbar)
     check(f"N={N} corner multiplicity = {N // 2}", mmin == N // 2, f"counts {counts}")
+# G2a2: the FULL block census, not one control block. Over every joint-popcount
+# block (p,q), count eigenvalues at BOTH frozen roots (-4gbar, and its one-sided
+# fold image 4gbar-2sigma). Expected: exactly the four corner blocks p,q in
+# {1, N-1} carry floor(N/2), with the root selected by the parity of how many
+# one-sided folds separate the block from (1,1) (each fold sends r -> -r-2sigma);
+# every other block carries nothing at either root.
 for N in (4, 5, 6):
     gl = r90_profile(N)
     gbar = sum(gl) / N
-    mmin, counts = frozen_count_at(lambda J: general_block(N, gl, J, 2, 2), -4 * gbar)
-    check(f"N={N} (2,2) control carries none", mmin == 0, f"counts {counts}")
+    sig = sum(gl)
+    m = N // 2
+    roots = (-4 * gbar, 4 * gbar - 2 * sig)
+    bad = []
+    for p in range(N + 1):
+        for q in range(N + 1):
+            got = [N * N, N * N]
+            for J in (0.6, 1.0, 2.3):
+                ev = np.linalg.eigvals(general_block(N, gl, J, p, q))
+                for t, r in enumerate(roots):
+                    got[t] = min(got[t], int(np.sum(np.abs(ev - r) < 1e-9)))
+            corner = p in (1, N - 1) and q in (1, N - 1)
+            # number of one-sided folds from (1,1): one per index sitting at N-1
+            folds = (p == N - 1) + (q == N - 1)
+            want = [0, 0]
+            if corner:
+                want[folds % 2] = m
+            if abs(roots[0] - roots[1]) < 1e-12:      # N = 4: the roots coincide
+                if got != ([m, m] if corner else [0, 0]):
+                    bad.append((p, q, got))
+            elif got != want:
+                bad.append((p, q, got, want))
+    check(f"N={N} full (p,q) census: only the four corners, root by fold parity",
+          not bad, f"deviations {bad}")
 # G2b: XY variant (h without the ZZ diagonal): same multiplicity
 for N in (4, 5):
     gl = r90_profile(N)
@@ -233,17 +277,6 @@ for N in (4, 5):
     Kxy, Gxy = corner_pieces(N, gl, zz=False)
     mmin, counts = frozen_count_at(lambda J: J * Kxy - 2 * Gxy, -4 * gbar)
     check(f"N={N} XY corner multiplicity = {N // 2}", mmin == N // 2, f"counts {counts}")
-# G2c: the GammaFold corollary: the antidiagonal corner (1, N-1) freezes at
-# 4*gbar - 2*sigma with the same multiplicity
-for N in (4, 5):
-    gl = r90_profile(N)
-    gbar = sum(gl) / N
-    sigma = sum(gl)
-    mmin, counts = frozen_count_at(
-        lambda J: general_block(N, gl, J, 1, N - 1), 4 * gbar - 2 * sigma)
-    check(f"N={N} (1,{N-1}) corner at 4*gbar-2*sigma, mult {N // 2}",
-          mmin == N // 2, f"counts {counts}")
-
 # ---------- G3 + G4: pencil kernel dims and eigenvector form ----------
 
 print("G3/G4  pencil kernel dims; v_D = 0 and tauQ-even O-part")
@@ -280,6 +313,23 @@ for N in (4, 5, 6):
         vO[O] = v[O]
         ok_par &= np.linalg.norm(vO - TQ @ vO) < 1e-8 * np.linalg.norm(vO)
     check(f"N={N} frozen eigenvectors: v_D = 0, tauQ-even", ok_D and ok_par)
+
+# G4b: the placement side claim (Section 9, first bullet): the frozen modes are
+# not built out of ker(ad_H). dim(ker K cap span of the anti-diagonal cells OF O,
+# i.e. (a, Ra) with a != Ra) is 1 at even N and 0 at odd N, far below floor(N/2).
+# (Note the reading matters: including the odd-N centre cell, which is diagonal
+# and not in O, would give 1 at every N.)
+for N in range(3, 9):
+    K, _ = corner_pieces(N, [0.0] * N)
+    idx = [a * N + (N - 1 - a) for a in range(N) if a != N - 1 - a]
+    E = np.zeros((N * N, len(idx)), dtype=complex)
+    for j, i in enumerate(idx):
+        E[i, j] = 1.0
+    s = np.linalg.svd(K @ E, compute_uv=False)
+    nul = int(np.sum(s < 1e-10 * max(1.0, s[0])))
+    want = 1 if N % 2 == 0 else 0
+    check(f"N={N} dim(ker K cap anti-diagonal of O) = {want}", nul == want,
+          f"dim {nul}, floor(N/2) = {N // 2}")
 
 # ---------- G5: partial balance yields nothing ----------
 
@@ -830,19 +880,19 @@ def wc_build(N, zz=True, h=None, delta=None):
             if a != b:
                 dl[r] = delta[a] + delta[b]
     tq = [(N - 1 - r % N) * N + (N - 1 - r // N) for r in range(n2)]
-    phi = [abs(r // N + r % N - (N - 1)) for r in range(n2)]
+    ell = [abs(r // N + r % N - (N - 1)) for r in range(n2)]
     vm, op = [], []
     for r in range(n2):
         a, b, t = r // N, r % N, tq[r]
         if t != r and r < t:
-            vm.append(((r, t), (1, -1), phi[r]))
+            vm.append(((r, t), (1, -1), ell[r]))
         if a == b:
             continue
         if t == r:
-            op.append(((r,), (1,), phi[r]))
+            op.append(((r,), (1,), ell[r]))
         elif r < t:
-            op.append(((r, t), (1, 1), phi[r]))
-    G = [[[0, 0] for _ in vm] for _ in op]
+            op.append(((r, t), (1, 1), ell[r]))
+    Y = [[[0, 0] for _ in vm] for _ in op]
     for iy, (sy, cy, _) in enumerate(op):
         for ix, (sx, cx, _) in enumerate(vm):
             c0 = c1 = 0
@@ -851,9 +901,9 @@ def wc_build(N, zz=True, h=None, delta=None):
                     c1 += ay * ax * k[ry][rx]
                     if ry == rx:
                         c0 -= 2 * ay * ax * dl[rx]
-            G[iy][ix] = [c0, c1]
+            Y[iy][ix] = [c0, c1]
     diag_cols = [i for i, (s, _, _) in enumerate(vm) if s[0] // N == s[0] % N]
-    return (G, [lv for _, _, lv in op], [lv for _, _, lv in vm],
+    return (Y, [lv for _, _, lv in op], [lv for _, _, lv in vm],
             [len(s) for s, _, _ in op], diag_cols)
 
 
@@ -1186,6 +1236,304 @@ for N in range(3, 7):
           m0 == 2 * (N // 2), f"counts {c0} vs {cJ} at J != 0")
     check(f"N={N} exactly floor(N/2) modes depart", m0 - mJ == N // 2,
           f"{m0} -> {mJ}")
+
+# ---------- G12: the exceptional couplings are defective ----------
+
+print("G12 exceptional couplings: real, and a Jordan block sits on each")
+
+# Exact throughout. At a root of the cofactor q(0)(J) the algebraic multiplicity
+# is >= floor(N/2)+1 (q(0) is the coefficient of eps^floor(N/2), Section 6),
+# while the pencil argument still gives only floor(N/2) geometric dimensions.
+# A float rank test at a tuned degeneracy is worthless, so: N=3 runs over
+# Q(sqrt(3)) (where J* = d1/sqrt(3) is irrational), and N=4 runs at a profile
+# whose exceptional coupling is RATIONAL, so both multiplicities are computed
+# in plain Gaussian rationals and the algebraic one comes from the
+# characteristic polynomial itself, independently of the cofactor theorem.
+
+class QSq:
+    """a + b*sqrt(s), with a and b Gaussian rational (pairs of Fractions)."""
+    __slots__ = ('a', 'b', 's')
+
+    def __init__(self, a=(0, 0), b=(0, 0), s=1):
+        self.a = (Fraction(a[0]), Fraction(a[1]))
+        self.b = (Fraction(b[0]), Fraction(b[1]))
+        self.s = s
+
+    @staticmethod
+    def _m(x, y):
+        return (x[0] * y[0] - x[1] * y[1], x[0] * y[1] + x[1] * y[0])
+
+    def __add__(u, v):
+        return QSq((u.a[0] + v.a[0], u.a[1] + v.a[1]),
+                   (u.b[0] + v.b[0], u.b[1] + v.b[1]), u.s)
+
+    def __sub__(u, v):
+        return QSq((u.a[0] - v.a[0], u.a[1] - v.a[1]),
+                   (u.b[0] - v.b[0], u.b[1] - v.b[1]), u.s)
+
+    def __mul__(u, v):
+        bb = QSq._m(u.b, v.b)
+        aa = QSq._m(u.a, v.a)
+        return QSq((aa[0] + u.s * bb[0], aa[1] + u.s * bb[1]),
+                   tuple(x + y for x, y in zip(QSq._m(u.a, v.b),
+                                               QSq._m(u.b, v.a))), u.s)
+
+    def inv(u):
+        nb = QSq._m(u.b, u.b)
+        den = (u.a[0] * u.a[0] - u.a[1] * u.a[1] - u.s * nb[0],
+               2 * u.a[0] * u.a[1] - u.s * nb[1])
+        d = den[0] * den[0] + den[1] * den[1]
+        ic = (den[0] / d, -den[1] / d)
+        return QSq(QSq._m(u.a, ic), QSq._m((-u.b[0], -u.b[1]), ic), u.s)
+
+    def is_zero(u):
+        return u.a == (0, 0) and u.b == (0, 0)
+
+
+def xc_build(N, gl, Jcoef, s, sqrt_J=True):
+    """Mtilde = L_block + 4 gbar over Q(sqrt(s), i), s a NON-SQUARE.
+
+    The coupling is J = Jcoef*sqrt(s) when sqrt_J is True, and J = Jcoef (a plain
+    rational, carried in the a-slot) when it is False. s must not be a perfect
+    square: in a + b*sqrt(1) the element a = b has zero norm, the ring is not a
+    field, and the elimination below would divide by zero.
+    """
+    assert s > 0 and round(s ** 0.5) ** 2 != s, "s must be a positive non-square"
+    h = se_h_frac(N)
+    gbar = sum(gl) / N
+    n2 = N * N
+    M = [[QSq(s=s) for _ in range(n2)] for _ in range(n2)]
+
+    def add_i(r, c, coeff, in_a):                 # add J*(-i) to the entry
+        cur = M[r][c]
+        if in_a:
+            M[r][c] = QSq((cur.a[0], cur.a[1] - coeff), cur.b, s)
+        else:
+            M[r][c] = QSq(cur.a, (cur.b[0], cur.b[1] - coeff), s)
+
+    in_a = not sqrt_J
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                if h[a][c]:
+                    add_i(r, c * N + b, Jcoef * h[a][c], in_a)
+                if h[c][b]:
+                    add_i(r, a * N + c, -Jcoef * h[c][b], in_a)
+            diag = 4 * gbar - (2 * (gl[a] + gl[b]) if a != b else 0)
+            cur = M[r][r]
+            M[r][r] = QSq((cur.a[0] + diag, cur.a[1]), cur.b, s)
+    return M
+
+
+def xc_matmul(A, B, s):
+    n = len(A)
+    C = [[QSq(s=s) for _ in range(n)] for _ in range(n)]
+    for i in range(n):
+        for k in range(n):
+            if A[i][k].is_zero():
+                continue
+            a = A[i][k]
+            for j in range(n):
+                C[i][j] = C[i][j] + a * B[k][j]
+    return C
+
+
+def xc_null(M):
+    n = len(M)
+    M = [row[:] for row in M]
+    rank = 0
+    for c in range(n):
+        piv = next((i for i in range(rank, n) if not M[i][c].is_zero()), None)
+        if piv is None:
+            continue
+        M[rank], M[piv] = M[piv], M[rank]
+        inv = M[rank][c].inv()
+        for i in range(rank + 1, n):
+            if M[i][c].is_zero():
+                continue
+            f = M[i][c] * inv
+            for j in range(c, n):
+                M[i][j] = M[i][j] - f * M[rank][j]
+        rank += 1
+        if rank == n:
+            break
+    return n - rank
+
+
+def xc_jordan(N, gl, Jcoef, s, sqrt_J=True):
+    """(nullity Mt, nullity Mt^2, nullity Mt^3): geometric, then the algebraic
+    multiplicity once it stabilises, with the increments giving the block sizes.
+
+    The plateau is what licenses reading the last entry as the algebraic
+    multiplicity: once two consecutive kernel dimensions agree they agree
+    forever, so no deeper block can hide. This is asserted here rather than
+    left to the caller, so the routine cannot silently under-report a block of
+    size 3 or more if it is reused at a larger N."""
+    M = xc_build(N, gl, Jcoef, s, sqrt_J)
+    M2 = xc_matmul(M, M, s)
+    M3 = xc_matmul(M2, M, s)
+    n1, n2, n3 = xc_null(M), xc_null(M2), xc_null(M3)
+    assert n2 == n3, f"kernel chain has not stabilised by power 3: {n1, n2, n3}"
+    return n1, n2, n3
+
+
+def xc_nullity(N, gl, Jcoef, s, sqrt_J=True):
+    return xc_null(xc_build(N, gl, Jcoef, s, sqrt_J))
+
+
+def xc_alg_mult(N, gl, J):
+    """Order of vanishing of det(eps I - Mtilde) at eps = 0, rational J."""
+    h = se_h_frac(N)
+    gbar = sum(gl) / N
+    n2 = N * N
+    base = [[GQ(0) for _ in range(n2)] for _ in range(n2)]
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                base[r][c * N + b] += GQ(0, -J * h[a][c])
+                base[r][a * N + c] += GQ(0, J * h[c][b])
+            if a != b:
+                base[r][r] += GQ(-2 * (gl[a] + gl[b]))
+            base[r][r] += GQ(4 * gbar)
+    nodes = [Fraction(k + 1, 7) for k in range(n2 + 1)]
+    vals = []
+    for e in nodes:
+        A = [[(GQ(e) - base[i][j]) if i == j else GQ(0) - base[i][j]
+              for j in range(n2)] for i in range(n2)]
+        vals.append(det_exact(A))
+    m = len(nodes)
+
+    def solve(comp):
+        A = [[Fraction(nodes[i] ** j) for j in range(m)] + [comp[i]]
+             for i in range(m)]
+        for c in range(m):
+            piv = next(r for r in range(c, m) if A[r][c] != 0)
+            A[c], A[piv] = A[piv], A[c]
+            inv = 1 / A[c][c]
+            A[c] = [v * inv for v in A[c]]
+            for r in range(m):
+                if r != c and A[r][c] != 0:
+                    f = A[r][c]
+                    A[r] = [v - f * w for v, w in zip(A[r], A[c])]
+        return [A[i][m] for i in range(m)]
+
+    re, im = solve([v.a for v in vals]), solve([v.b for v in vals])
+    return next(i for i in range(m) if re[i] != 0 or im[i] != 0)
+
+
+# (a) N=3 over Q(sqrt(3)): at the closed-form exceptional coupling J* = d1/sqrt(3)
+#     the kernel dimensions of the powers give the whole Jordan signature, with
+#     no appeal to the cofactor theorem: 1, 2, 2 means geometric 1, algebraic 2,
+#     one block of size exactly 2.
+gb3 = Fraction(9, 100)
+for d1 in (Fraction(1, 50), Fraction(1, 20), Fraction(7, 100)):
+    gl3 = [gb3 + d1, gb3, gb3 - d1]
+    sig = xc_jordan(3, gl3, d1 / 3, 3)          # J* = (d1/3)*sqrt(3)
+    check(f"N=3 d1={d1}: at J* the nullities are (1, 2, 2), one 2x2 block",
+          sig == (1, 2, 2), f"nullities {sig}")
+sig_ctrl = xc_jordan(3, [gb3 + Fraction(1, 50), gb3, gb3 - Fraction(1, 50)],
+                     Fraction(1, 7), 3)
+check("N=3 control at a non-exceptional coupling: (1, 1, 1), semisimple",
+      sig_ctrl == (1, 1, 1), f"nullities {sig_ctrl}")
+
+# (b) N=4 at a profile whose exceptional coupling is RATIONAL: the same signature
+#     by the same route, and the algebraic multiplicity confirmed a second time
+#     from the characteristic polynomial itself; two neighbouring couplings as
+#     controls
+sc = Fraction(1, 1000)
+gl4 = [Fraction(9, 100) + 1 * sc, Fraction(9, 100) + 3 * sc,
+       Fraction(9, 100) - 3 * sc, Fraction(9, 100) - 1 * sc]
+sig4 = xc_jordan(4, gl4, Fraction(1, 1000), 2, sqrt_J=False)
+alg = xc_alg_mult(4, gl4, Fraction(1, 1000))
+check("N=4 at the rational J* = 1/1000: nullities (2, 3, 3), one 2x2 block "
+      "beside one 1x1", sig4 == (2, 3, 3), f"nullities {sig4}")
+check("N=4 the algebraic multiplicity 3 again from the characteristic "
+      "polynomial (two independent routes agree)", alg == sig4[-1],
+      f"charpoly {alg}, powers {sig4[-1]}")
+for Jc in (Fraction(1, 999), Fraction(1, 1001)):
+    s4, a2 = xc_jordan(4, gl4, Jc, 2, sqrt_J=False), xc_alg_mult(4, gl4, Jc)
+    check(f"N=4 control J = {Jc}: (2, 2, 2) and charpoly 2, semisimple",
+          s4 == (2, 2, 2) and a2 == 2, f"nullities {s4}, charpoly {a2}")
+
+# (c) the counting question of Section 12, exactly: the cofactor is even in
+#     z = -i J, so put w = z^2 and strip the J-monomial; a real coupling means
+#     w < 0, and Sturm's theorem counts those exactly. The point of the check is
+#     the NEGATIVE result: the count is not a function of N, since two generic
+#     profiles on the same N = 6 locus disagree.
+
+def st_trim(p):
+    while len(p) > 1 and p[-1] == 0:
+        p = p[:-1]
+    return p
+
+
+def st_rem(a, b):
+    a = a[:]
+    while len(a) >= len(b) and any(x != 0 for x in a):
+        d, c = len(a) - len(b), a[-1] / b[-1]
+        for i in range(len(b)):
+            a[d + i] -= c * b[i]
+        a = st_trim(a)
+        if len(a) < len(b):
+            break
+    return st_trim(a)
+
+
+def st_chain(p):
+    p = st_trim(p)
+    chain = [p, st_trim([p[i] * i for i in range(1, len(p))])]
+    while len(chain[-1]) > 1:
+        r = st_rem(chain[-2], chain[-1])
+        if all(x == 0 for x in r):
+            break
+        chain.append([-x for x in r])
+    return chain
+
+
+def st_var(chain, at_minus_inf, x=None):
+    sg = []
+    for p in chain:
+        v = (p[-1] * (-1) ** (len(p) - 1) if at_minus_inf
+             else sum(c * (x ** i) for i, c in enumerate(p)))
+        if v != 0:
+            sg.append(1 if v > 0 else -1)
+    return sum(1 for i in range(len(sg) - 1) if sg[i] * sg[i + 1] < 0)
+
+
+def st_real_pairs(N, delta):
+    """Distinct real +- pairs of nonzero exceptional couplings, exact."""
+    Y, rows, cols, nrm, _ = wc_build(N, True, delta=delta)
+    n = len(cols)
+    vals = []
+    for z in range(2 * n + 1):
+        col = [[Y[y][x][0] + z * Y[y][x][1] for y in range(len(rows))]
+               for x in range(n)]
+        vals.append(wc_det_frac(
+            [[sum(Fraction(col[i][y] * col[j][y], nrm[y])
+                  for y in range(len(rows))) for j in range(n)]
+             for i in range(n)]))
+    c = wc_coeffs(vals, 2 * n)
+    assert all(c[i] == 0 for i in range(1, len(c), 2)), "cofactor not even in z"
+    w = st_trim([c[2 * k] for k in range(len(c) // 2 + 1)])
+    m = min(i for i, x in enumerate(w) if x != 0)          # strip the monomial
+    ch = st_chain(w[m:])
+    return st_var(ch, True) - st_var(ch, False, Fraction(0)), len(w[m:]) - 1
+
+
+print("G13 the counting question: real exceptional couplings, exact Sturm")
+for N, half, want in ((3, [2], 1), (3, [5], 1), (4, [2, -3], 2),
+                      (5, [2, 3], 2), (6, [2, -3, 5], 2), (6, [1, 2, 3], 4)):
+    delta = [0] * N
+    for i, v in enumerate(half[:N // 2]):
+        delta[i], delta[N - 1 - i] = v, -v
+    pairs, deg = st_real_pairs(N, delta)
+    check(f"N={N} delta-half={half}: {want} real pair(s) of {deg} candidates",
+          pairs == want, f"counted {pairs}, w-degree {deg}")
+check("the count is NOT a function of N: two generic N=6 profiles disagree",
+      st_real_pairs(6, [2, -3, 5, -5, 3, -2])[0]
+      != st_real_pairs(6, [1, 2, 3, -3, -2, -1])[0])
 
 # ---------- verdict ----------
 
