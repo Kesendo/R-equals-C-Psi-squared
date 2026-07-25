@@ -5857,7 +5857,9 @@ mechanism produces no inventory. The room argument is an inequality (an
 involution's even rooms exceed its odd rooms by its fixed count, and what will
 not fit must freeze), so what it yields is a FLOOR; the exactness is a separate
 and later theorem, about a cofactor that does not vanish. At J = 0 the floor is
-doubled and the old title was simply false there. Note the shape: writing the
+doubled, and there the old title was false under the reading it invites;
+read charitably as a lower bound it was merely silent about the thing
+that matters. A title that has to be read charitably is the defect. Note the shape: writing the
 inequality as an equality is what loses the mechanism, which is the same error
 this arc made in its proof prose twice on the same day.
 The recomputed title moves the subject to the VALUE, which really is

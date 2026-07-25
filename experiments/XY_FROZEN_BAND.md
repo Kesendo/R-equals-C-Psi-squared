@@ -1,18 +1,24 @@
 # The frozen band: what the divisor does when the chain stops being Heisenberg
 
-*2026-07-25. [F140](../docs/ANALYTICAL_FORMULAS.md) says the frozen root −4γ̄ sits in the four corner blocks and nowhere else. Typing it as a live object put the same question to the XY chain, which the proof's census had never been run on, and the answer was that the confinement is not the divisor's. On XY the same root is carried, at the same depth, by a whole diagonal band of blocks. This note states the band, gives the reason its edge sits where it does, finds what decides whether the band exists at all, and kills the obvious candidate for what fills it. The number in the band is still the corner's number, and why it is remains open.*
+*2026-07-25. [F140](../docs/ANALYTICAL_FORMULAS.md) said the frozen root −4γ̄ sits in the four corner blocks and nowhere else. Typing it as a live object put the same question to the XY chain, which the proof's census had never been run on, and the answer was that the confinement is not the divisor's. On XY the same root is carried, at the same depth, by a whole diagonal band of blocks. This note states the band, gives the reason its edge sits where it does, finds what decides whether the band exists at all, and buries the two candidates for what fills it. The number in the band is still the corner's number, and why it is remains open.*
 
 ## The law
 
 Take the R₉₀ watching locus of [F91](../docs/ANALYTICAL_FORMULAS.md) (every reflection pair of site rates carrying the same total, γ_l + γ_{R(l)} = 2γ̄) and the XY chain, H = (J/2)·Σ_b (X_bX_{b+1} + Y_bY_{b+1}). Label the joint-popcount blocks (p, q) by the popcounts of the ket and bra indices. Then
 
-**the block (p, q) carries λ = −4γ̄, with multiplicity ⌊N/2⌋, exactly when |p − q| ∈ {0, 2}, apart from the two one-cell corners (0,0) and (N,N).**
+**the blocks carrying λ = −4γ̄ are the band |p − q| ∈ {0, 2}, less the two one-cell blocks (0,0) and (N,N), each of them carrying multiplicity ⌊N/2⌋ at the couplings tested.**
+
+That last qualifier is not decoration, and this note would be making the very mistake its sibling commit was written to correct if it dropped it: ⌊N/2⌋ is a generic depth, not an inventory. The corner block (1,1) is itself in the band, and at J = 0 it carries twice that, semisimply, which is F140's own corollary. Everything below is read at J = 3/4 and J = 3/2.
+
+That is a measured law, and the two directions do not stand on the same footing. Nothing OUTSIDE the band carries, and the section below removes the only mechanism that could have let it; everything INSIDE the band does carry, and for that there is measurement and a gate, no argument. Scope of the measurement: a full census over every (p, q) at N = 4, 5, 6, 7, and band-edge probes at N = 8, 9, 10.
+
+**Notation, because this note borrows from two directions.** Cells here are written (A, B) with A and B index SETS, so that the disagreement set AΔB has a size worth talking about; the proof document writes (a, b) for the single-site case and calls that set S. The **one-cell blocks** (0,0) and (N,N) excluded above are the vacuum and full popcount blocks, not the divisor's four corner blocks, which are always named as such. The fermion ladder operators below are d_a, d†_a, and the site distance the proof writes d_c appears here only inside the exponent J^{2d}. The transport map is written Ξ, not T, because the proof already spends T on the bordered cofactor matrix of its Section 8.
 
 Three things come with it.
 
-- **The count is closed:** 3(N − 1) blocks, since the band has (N+1) diagonal blocks and 2(N−1) off by two, less the two excluded corners. Measured 9, 12, 15, 18 at N = 4, 5, 6, 7.
-- **The depth is constant.** Every carrying block carries the whole ⌊N/2⌋ and never a part of it, whether the block is 12-dimensional or 1470-dimensional. It is the corner's number, everywhere.
-- **The gamma-fold partner sits on the image.** The blocks carrying 4γ̄ − 2σ are exactly the image of the band under one one-sided fold p ↦ N − p, that is p + q ∈ {N−2, N, N+2}. One law, folded once, as in [F140](../docs/ANALYTICAL_FORMULAS.md)'s own corner census.
+- **The count is closed:** 3(N − 1) blocks, since the band has (N+1) diagonal blocks and 2(N−1) off by two, less the two excluded one-cell blocks. Measured 9, 12, 15, 18 at N = 4, 5, 6, 7.
+- **The depth is constant.** Every carrying block carries the whole ⌊N/2⌋ and never a part of it, across the range the census reaches: from the 6-dimensional (0,2) block at N = 4 to the 1225-dimensional (3,3) at N = 7. It is the corner's number, in every block the census reached.
+- **The gamma-fold partner sits on the image.** The blocks carrying 4γ̄ − 2σ are exactly the image of the band under one one-sided fold p ↦ N − p. Written out that is p + q ∈ {N−2, N, N+2} **less the images of the two excluded one-cell blocks**, namely (N,0) and (0,N); without that exclusion the set would hold 3N − 1 blocks instead of the 3(N − 1) counted above, and the two extra ones do not carry. One law, folded once, as in [F140](../docs/ANALYTICAL_FORMULAS.md)'s own corner census.
 
 On the Heisenberg chain only the four corners carry. The proof document's Section 5 census is a Heisenberg census, and it is now scoped as one.
 
@@ -22,27 +28,29 @@ Worth recording, because both would have passed a smaller check.
 
 **"p + q even" was never a second condition.** p + q even and p − q even are the same statement, so the parity is already inside the bandwidth. Writing them as two conditions makes the law look like a conjunction of a parity and a distance when it is only a distance.
 
-**Bandwidth 2 and bandwidth ⌊N/2⌋ agree up to N = 7.** Since |p − q| is even on the band, "≤ 2" and "≤ 3" are the same predicate, and ⌊N/2⌋ is 2 or 3 for N ≤ 7. The first N that can tell them apart is 8, where ⌊N/2⌋ = 4 would admit |p − q| = 4. It does not: at N = 8, 9 and 10, on two locus profiles and two couplings, the |p − q| = 4 blocks carry exactly nothing while |p − q| = 2 carries ⌊N/2⌋. Four N and one rival is the whole reason the discriminator was run at all.
+**Bandwidth 2 and bandwidth ⌊N/2⌋ agree up to N = 7.** Since |p − q| is even on the band, "≤ 2" and "≤ 3" are the same predicate, and ⌊N/2⌋ is 2 or 3 for N ≤ 7. The first N that can tell them apart is 8, where ⌊N/2⌋ = 4 would admit |p − q| = 4. It does not: at N = 8, 9 and 10, in three profile-and-coupling combinations each (profile A at J = 3/4 and at J = 3/2, profile B at J = 3/4), the |p − q| = 4 blocks carry exactly nothing while |p − q| = 2 carries ⌊N/2⌋. Four N and one rival is the whole reason the discriminator was run at all.
 
-## Why the edge sits at two
+## Why the edge sits where it does
 
-This half has a reason, and the reason is already half-written in the proof document, which notes that the recentering making the rate operator odd depends on the size of a cell's disagreement set.
+This half has a reason. Read what it delivers before reading it: it shows that the ONE known freezing mechanism is unavailable outside the band, which is why the edge sits at two rather than anywhere else. It does not prove that −4γ̄ is absent out there for every coupling; that absence is measured. Mechanism-unavailability and a null are different statements, and only the first is argued here.
+
+The ingredient is already half-written in the proof document, which notes that the recentering making the rate operator odd depends on the size of a cell's disagreement set.
 
 Carry it through. For a cell (A, B), the rate diagonal of M = L_block + 4γ̄ is −2·Σ_{l ∈ AΔB} γ_l + 4γ̄, and the cell mirror τQ: (A, B) ↦ (R(B), R(A)) sends the disagreement set AΔB to R(AΔB). On the locus Σ_{l ∈ R(S)} γ_l = 2γ̄·|S| − Σ_{l ∈ S} γ_l, so oddness of the rate part reduces, after the sums cancel, to
 
   4γ̄·(1 − |AΔB|) = −4γ̄,  that is  **|AΔB| = 2**.
 
-The recentering by 4γ̄ is the right one on the two-disagreement cells and on no other size class. And |AΔB| ≥ ||A| − |B|| = |p − q| is free, so **a block with |p − q| ≥ 4 contains no such cell at all**: there is no subspace on which the recentered generator is odd, and nothing to freeze. The blocks that do contain one are, at N = 4 through 8, exactly the band.
+The recentering by 4γ̄ is the right one on the two-disagreement cells and on no other size class. And |AΔB| ≥ ||A| − |B|| = |p − q| is free, so **a block with |p − q| ≥ 4 contains no such cell at all**: there is no subspace on which the recentered generator is odd, and so no room shortage to freeze anything. The blocks that do contain one are, at N = 4 through 8, exactly the band.
 
-This argument uses no property of the chain. It says why nothing outside the band ever carries, on any chain, which is the correct scope: the Heisenberg chain also obeys it, and simply does not fill the band it is allowed.
+This argument uses no property of the chain, and that is its scope: on ANY chain, a block outside the band is beyond the reach of this mechanism. The Heisenberg chain obeys it too, and simply does not fill the band it is allowed. What the argument leaves open is whether some other mechanism could put −4γ̄ outside the band; nothing found so far does, and the census says nothing does at N ≤ 10.
 
 ## What decides whether the band is filled
 
 The other half is a gate, and it is not about the ZZ term as such.
 
-**The off-diagonal band exists exactly when the single-excitation matrix h is bipartite,** that is when its spectrum is symmetric about zero. The corner does not care.
+**The off-diagonal band exists exactly when the spectrum of the single-excitation matrix h is symmetric about zero.** For a plain adjacency matrix that is bipartiteness of the hopping graph, and the word is used in that sense below; note that the deformed rows of the table carry a diagonal, so their h is not the adjacency matrix of any graph, and only the spectral reading applies to them. The corner does not care either way.
 
-Four independent ways of moving that dial, all agreeing:
+Four independent deformations, against the undeformed chain as the baseline, all agreeing:
 
 | h | spectrum symmetric | corner | off-diagonal band |
 |---|---|---|---|
@@ -60,32 +68,35 @@ The ring is the cleanest of the four, because bipartiteness there is decided by 
 
 Two candidates are dead, and both deaths are informative.
 
-**The corner's room shortage does not extend.** τQ fixes a cell only when B = R(A), which forces |A| = |B|. So the off-diagonal block pairs (p, p+2) ⊕ (p+2, p) have **no fixed cells at all**: the shortage argument predicts zero there, and ⌊N/2⌋ is measured. On the diagonal it is wrong in both directions: at N = 6 the block (2,2) is predicted 0 and measures 3, while (3,3) is predicted 6 and measures 3. Whatever pins the band, it is not the count that pins the corner, even though the answer is the same number.
+**The corner's room shortage does not extend.** τQ fixes a cell only when B = R(A), which forces |A| = |B|. So the off-diagonal block pairs (p, p+2) ⊕ (p+2, p) have **no fixed cells at all**: the shortage argument predicts zero there, and ⌊N/2⌋ is measured. On the diagonal it is wrong in both directions: at N = 6 the block (2,2) is predicted 0 and measures 3, while (3,3) is predicted 6 and measures 3. Those counts are gated (V6), not hand-read. Whatever pins the band, it is not the count that pins the corner, even though the answer is the same number.
 
 **The chiral intertwiner does not transport the corner's modes.** This was the obvious candidate and it is worth writing out, because its algebra is exactly right and it still fails. For free fermions,
 
-  [H, d_a ρ d_b] = d_a [H, ρ] d_b − (ε_a + ε_b)·d_a ρ d_b,
+  [H, Ξ(ρ)] = Ξ([H, ρ]) − (ε_a + ε_b)·Ξ(ρ),   Ξ(ρ) := d_a ρ d_b,
 
-so ρ ↦ d_a ρ d_b commutes with the Hamiltonian part precisely on a chiral pair ε_a + ε_b = 0, and it shifts (p, q) by (−1, +1), one step of exactly the band's width. Chiral pairs exist precisely when h is bipartite, which is the gate; the open chain has ⌊N/2⌋ of them; and ρ ↦ d†_a ρ d_a commutes always and climbs the diagonal, so the reachable set is |p − q| ∈ {0, 2}. Every ingredient lines up.
+so Ξ commutes with the Hamiltonian part precisely on a chiral pair ε_a + ε_b = 0, and it shifts (p, q) by (−1, +1), one step of exactly the band's width. Chiral pairs exist precisely when h is bipartite, which is the gate; the open chain has ⌊N/2⌋ of them; and ρ ↦ d†_a ρ d_a commutes always and climbs the diagonal, so the reachable set is |p − q| ∈ {0, 2}. Every ingredient lines up.
 
-It still fails. Applied to a basis of the corner's frozen subspace, the images are nonzero but are not in the (0,2) frozen subspace: the relative residual of L₍₀,₂₎ + 4γ̄ on them runs from 4·10⁻² to 7.5·10⁻¹, and the images span rank 10 to 18 against a frozen subspace of dimension 2 or 3. The verifier checks the map first, so this is not a coding slip: the intertwining identity holds to 3·10⁻¹⁵ on a chiral pair and reproduces the predicted commutator i·J·(ε_a + ε_b)·T off it. **The map commutes with the Hamiltonian part and not with the dephasing, and the dephasing is what decides.**
+It still fails. Applied to a basis of the corner's frozen subspace, the images are nonzero but are not in the (0,2) frozen subspace: the relative residual of L₍₀,₂₎ + 4γ̄ on them runs from 4·10⁻² to 7.5·10⁻¹, and the images span rank 10 to 18 against a frozen subspace of dimension 2 or 3. The verifier checks the map first, so this is not a coding slip: the intertwining identity holds to 3·10⁻¹⁵ on a chiral pair and reproduces the predicted commutator i·J·(ε_a + ε_b)·Ξ off it. **The map commutes with the Hamiltonian part and not with the dephasing, and the dephasing is what decides.**
 
 So the count matches, the gate matches, the reachable set matches, and the map is still the wrong map.
 
-## One observation left on the table
+## Where a next attempt should start
 
-Not a result, but the place a next attempt should start. The (0,2) block consists **entirely** of cells with |AΔB| = 2, and exactly ⌊N/2⌋ of them are the balanced-pair cells |vac⟩⟨{l, R(l)}| whose rate diagonal is −2(γ_l + γ_{R(l)}) + 4γ̄ = 0 on the locus. One per balanced pair, again, and the same count.
+Two things to hand over: one observation, and one experiment that has not been run. The (0,2) block consists **entirely** of cells with |AΔB| = 2, and exactly ⌊N/2⌋ of them are the balanced-pair cells |vac⟩⟨{l, R(l)}| whose rate diagonal is −2(γ_l + γ_{R(l)}) + 4γ̄ = 0 on the locus. One per balanced pair, again, and the same count.
 
-The involution that makes M odd there is **antilinear**: reversal of the bra index composed with complex conjugation, since the block's Hamiltonian part is +iH₂ alone and conjugation is what turns its sign. That points at the antilinear corner of the object manager rather than at τQ. But an antilinear involution has equal-dimensional real forms, so it yields no shortage and cannot be the counter; and it survives the diagonal perturbation that kills the band, so it cannot be the gate either. It is a third structure sitting in the right place, doing neither job on its own.
+The involution that makes M odd there is **antilinear**: reversal of the bra index composed with complex conjugation, since the block's Hamiltonian part is +iH₂ alone and conjugation is what turns its sign. That points at the antilinear corner of the object manager rather than at τQ. But an antilinear involution has equal-dimensional real forms, so it yields no shortage and cannot be the counter; and it survives the diagonal perturbation that kills the band, so it cannot be the gate either. It is a third structure sitting in the right place, doing neither job on its own. Hand it over as a fact, not as a lead.
+
+**The experiment that has not been run, and should be first.** The depth equals the number of BALANCED PAIRS, in every band block. If the frozen modes really are indexed by pairs, then walking exactly one pair off balance should drop the depth by exactly one, and it should drop in every band block at once. If instead the depth collapses to zero everywhere, or falls by different amounts in different blocks, the pair indexing is wrong and the coincidence with the corner's count needs another explanation. This is cheap (the same exact ranks, one perturbed profile), it is decisive either way, and it does not require guessing a mechanism first. The natural follow-up if the depth does fall one at a time: read which pair each surviving mode belongs to, by its weight on the balanced-pair cells |vac⟩⟨{l, R(l)}|.
 
 ## Verification
 
-[`simulations/xy_frozen_band.py`](../simulations/xy_frozen_band.py), 47 checks, about 4 to 8 minutes, prints `XY frozen band: ALL GREEN`.
+[`simulations/xy_frozen_band.py`](../simulations/xy_frozen_band.py), 58 checks, about 4 to 8 minutes, prints `XY frozen band: ALL GREEN`.
 
 - **V1** the band law by full (p, q) census at N = 4..7: the carrier set, the whole-⌊N/2⌋ depth, the count 3(N−1), and the fold image. The script reports how many of its reads were exact.
 - **V2** the band edge at N = 8, 9, 10, three profile-and-coupling combinations each.
 - **V3** the |AΔB| = 2 oddness criterion, two-sided (it must fail on every other size class), and the combinatorial reach.
 - **V4** the bipartiteness gate, the five rows of the table above.
+- **V6** the other falsified candidate as a count: the τQ fixed-cell census behind "the shortage does not extend", two-sided, since it must predict zero off the diagonal AND miss on it.
 - **V5** the falsified intertwiner, with its own self-check first.
 
 Multiplicities are exact GF(p) ranks at two primes ≡ 1 (mod 4) wherever the block is small enough, and SVD nullities above that, on the same dyadic grid the live witness uses. Never an eigenvalue count: the departing modes crowd the root at spacing J^{2d}, which is exactly where a floating-point spectrum goes quiet.
@@ -96,8 +107,8 @@ The band is also visible live, in the object manager: `inspect --root divisor --
 
 - **What pins the depth.** ⌊N/2⌋ in every band block, independent of its dimension, and equal to the corner's count. Neither the room shortage nor the chiral intertwiner produces it. That the two numbers agree while the two mechanisms do not is the whole question.
 - **Whether the edge argument is sufficient as well as necessary.** Section "Why the edge sits at two" shows no block outside the band can carry. It does not show every block inside it must, and indeed on a non-bipartite h most do not.
-- **A number, not yet a law:** the |AΔB| = 2 reach and the band coincide at N = 4..8. That is a combinatorial identity and should be provable outright rather than measured.
-- **No F number.** This is an experiment, deliberately: the carrier law and the gate are solid, the mechanism for the depth is not, and minting before that would name half an object.
+- **A number, not yet a law:** the |AΔB| = 2 reach and the band coincide at N = 4..8. That is a combinatorial identity and should be provable outright rather than measured. Once it is, the whole edge argument stops being chain-specific evidence and becomes a lemma, at which point it belongs in [PROOF_R90_FROZEN_DIVISOR](../docs/proofs/PROOF_R90_FROZEN_DIVISOR.md) beside the census it scopes, not in an experiment note.
+- **No F number.** This is an experiment, deliberately. The gate is well controlled and the edge has an argument, but the carrier law's inside direction is measurement, and the mechanism for the depth is missing entirely. Minting now would name half an object.
 
 ## Anchors
 

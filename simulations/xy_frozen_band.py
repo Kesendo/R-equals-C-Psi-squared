@@ -19,7 +19,11 @@ Prints "XY frozen band: ALL GREEN" when every check passes. Runtime ~4-8 min.
   V4  the GATE: the off-diagonal band exists iff the single-excitation matrix h is bipartite
       (its spectrum symmetric about 0). Four independent ways: two R-invariant diagonals added
       to the chain, three N each, and the ring, where bipartiteness is the parity of N. The
-      CORNER survives all four, which is the control that separates the two mechanisms
+      CORNER survives all five rows, which is the control that separates the two mechanisms
+  V6  the OTHER falsified candidate, as a count: tauQ fixes a cell only at B = R(A), which
+      forces |A| = |B|, so the off-diagonal band pairs have no fixed cell at all and the corner's
+      room shortage predicts zero where floor(N/2) is measured; on the diagonal it misses in
+      both directions
   V5  a FALSIFIED candidate, kept because it is the obvious one: T(rho) = d_a rho d_b on a
       chiral pair commutes with the Hamiltonian part exactly (checked to machine zero, and
       against the predicted commutator off the chiral locus) yet does NOT carry the corner's
@@ -382,6 +386,31 @@ for n in (5, 6, 7):
     check(f"N={n} and yet it does NOT land in the frozen subspace: the image is nonzero but "
           f"(L_(0,2) + 4 gbar) does not kill it", biggest_img > 1e-6 and worst_res > 1e-3,
           f"worst relative residual {worst_res:.2e}, largest image norm {biggest_img:.2e}")
+
+print()
+print("V6  the other falsified candidate: the corner's room shortage does not extend")
+for n in (5, 6, 7):
+    m = n // 2
+    R = lambda t: tuple(sorted(n - 1 - x for x in t))
+    rows = []
+    for (p, q) in ((1, 1), (2, 2), (3, 3), (0, 2), (1, 3)):
+        if p > n or q > n or abs(p - q) not in (0, 2) or (p, q) in {(0, 0), (n, n)}:
+            continue
+        parts = [(p, q)] if p == q else [(p, q), (q, p)]
+        cl = [(a, b) for (x, y) in parts
+              for a in combinations(range(n), x) for b in combinations(range(n), y)]
+        # the shortage argument counts tauQ-fixed cells that also carry the odd recentering
+        fixed2 = sum(1 for c in cl
+                     if (R(c[1]), R(c[0])) == c and len(set(c[0]) ^ set(c[1])) == 2)
+        predicted = fixed2 - fixed2 // 2          # surplus minus the tax that halves it
+        rows.append(((p, q), len(cl), fixed2, predicted))
+    offdiag_all_zero = all(pr == 0 for (pq, _, _, pr) in rows if pq[0] != pq[1])
+    misses = [(pq, pr) for (pq, _, _, pr) in rows if pr != m]
+    check(f"N={n} the shortage predicts ZERO in every off-diagonal band pair, where floor(N/2) "
+          f"= {m} is measured", offdiag_all_zero,
+          "; ".join(f"{pq} dim {d} fixed2 {f} -> predicts {pr}" for (pq, d, f, pr) in rows))
+    check(f"N={n} and on the diagonal it misses too, so it is not merely incomplete",
+          bool(misses), f"misses {misses}")
 
 print()
 if FAILURES:
