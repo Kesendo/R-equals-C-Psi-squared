@@ -44,7 +44,7 @@ The recentering by 4γ̄ is the right one on the two-disagreement cells and on n
 
 This argument uses no property of the chain, and that is its scope: on ANY chain, a block outside the band is beyond the reach of this mechanism. The Heisenberg chain obeys it too, and simply does not fill the band it is allowed. What the argument leaves open is whether some other mechanism could put −4γ̄ outside the band; nothing found so far does, the full census finds nothing outside it through N = 7, and the probes find nothing at |p − q| = 4 or 6 at N = 8, 9 and 10.
 
-## What fills the band: a spectator neither the watching nor the clock can see
+## What fills the band: a spectator neither the watching nor the turning can see
 
 The edge argument says which blocks *can* carry. This section says what *does*, on the open chain, and it is a single exact symmetry.
 
@@ -55,7 +55,7 @@ Write Φ for the map that adds one excitation to the ket and one to the bra **at
 **Φ and Ψ commute with the entire Liouvillian.** Two short reasons, and they are independent of each other.
 
 - **The watching does not see the added particle.** The dephasing part is diagonal in cells, with entry −2·Σ_{l ∈ AΔB} γ_l, so it sees the disagreement set and nothing else. Adding one excitation on *both* sides at the same site leaves AΔB untouched, cell for cell. This needs no locus, no uniform γ, and no property of the chain at all.
-- **The clock does not see it either.** For a quadratic H with single-excitation matrix h, the site sum equals the sum over h's eigenmodes, Σ_l d†_l ρ d_l = Σ_a d†_a ρ d_a, by unitarity of the eigenbasis. Each mode term intertwines the Hamiltonian part exactly, because [H, d†_a] = +ε_a d†_a on the ket costs precisely what [H, d_a] = −ε_a d_a on the bra returns. The pair carries energy ε_a − ε_a = 0.
+- **The turning does not see it either.** (The turning, not the clock: this repo's [clock](../compute/MirrorWorld/Clock.cs) is the two-handed one of F95, whose radial hand is γ and whose angular hand is J. What is blind here is the angular hand alone; the radial one is the watching, and that is the bullet above.) For a quadratic H with single-excitation matrix h, the site sum equals the sum over h's eigenmodes, Σ_l d†_l ρ d_l = Σ_a d†_a ρ d_a, by unitarity of the eigenbasis. Each mode term intertwines the Hamiltonian part exactly, because [H, d†_a] = +ε_a d†_a on the ket costs precisely what [H, d_a] = −ε_a d_a on the bra returns. The pair carries energy ε_a − ε_a = 0.
 
 So a particle added to both sides at once is invisible to the two things that make a coherence decay: it contributes no disagreement, so no rate, and no ket-minus-bra energy, so no phase. It can be added for free, and adding it cannot move an eigenvalue. Checked at machine zero (exactly zero, the blocks being integer matrices) on band and off-band blocks alike, including for γ profiles nowhere near the R₉₀ locus.
 

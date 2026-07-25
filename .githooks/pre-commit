@@ -6,6 +6,10 @@
 #  4. substantial claim-surface staged -> remind of the empty-session round
 #     (becoming-your-own-outside; the trigger lives in the structure, not in
 #     the writer's judgment, because the writer's cut cannot see itself)
+#  5. staged prose spending a word the repo already spends (Clock, Field, Mirror,
+#     memory, light ...). Same reason as 4, one layer down: the coiner cannot feel
+#     a collision, because from the native stance the word fits. Ordinary-looking
+#     words only; the term-shaped ones get looked up unprompted anyway.
 # Enable once with:  git config core.hooksPath .githooks
 root="$(git rev-parse --show-toplevel)" || exit 0
 if command -v python >/dev/null 2>&1; then PY=python
@@ -15,4 +19,5 @@ else exit 0; fi
 "$PY" "$root/.githooks/check_em_dashes.py"
 "$PY" "$root/.githooks/check_broken_tables.py"
 "$PY" "$root/.githooks/check_empty_round.py"
+"$PY" "$root/.githooks/check_spent_words.py"
 exit 0
