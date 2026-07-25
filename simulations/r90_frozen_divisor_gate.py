@@ -88,6 +88,10 @@
 #       F_j = [chi_x(c,c) >= j]; the order law ord = max(d_c, d_x) for
 #       every (cell, pair); each support = the interval between that
 #       pair's own sites; and the strict nesting giving triangularity
+#   G15 the index reading (proof doc Section 3.1): trace(tauQ) = the fixed-cell
+#       count = dim(+) - dim(-) = N (N = 3..10); and the physics taken away --
+#       a RANDOM tauQ-odd matrix keeps the whole effect (kernel N bare,
+#       floor(N/2) with the even defect), while a NOT-odd one keeps nothing
 #
 # Runtime: ~8-12 min. Standalone except G0 (imports framework once).
 import sys
@@ -1660,6 +1664,59 @@ for N in range(4, 8):
           intervals, f"supports {[sorted(staircase[d]) for d in ds]}")
     check(f"N={N} and they are STRICTLY nested, so the matrix is triangular",
           nested, f"sizes {[len(staircase[d]) for d in ds]}")
+
+# ---------- G15: the bound is an index (proof doc Section 3.1) ----------
+
+print("G15 the index reading: the mirror's trace, and the physics taken away")
+
+# (a) the surplus IS the trace: for an involution permuting a basis, dim(+) - dim(-) equals the
+#     number of fixed basis vectors. Here that is the anti-diagonal, one cell per site.
+for N in range(3, 11):
+    n2 = N * N
+    TQ = np.zeros((n2, n2))
+    for a in range(N):
+        for b in range(N):
+            TQ[(N - 1 - b) * N + (N - 1 - a), a * N + b] = 1.0
+    w = np.linalg.eigvalsh(TQ)
+    dp, dm = int(np.sum(w > 0)), int(np.sum(w < 0))
+    fixed = sum(1 for a in range(N) for b in range(N)
+                if (N - 1 - b) * N + (N - 1 - a) == a * N + b)
+    check(f"N={N} trace(tauQ) = fixed cells = dim(+) - dim(-) = N",
+          int(round(np.trace(TQ))) == fixed == dp - dm == N,
+          f"trace {int(round(np.trace(TQ)))}, fixed {fixed}, dim(+)-dim(-) {dp - dm}")
+
+# (b) take the physics away. A RANDOM tauQ-odd matrix -- no Hamiltonian, no chain, no rates -- keeps
+#     the whole effect. Three regimes, and the third is the control that shows oddness is everything:
+#       odd, no even defect      -> kernel N              (the full fixed-cell count)
+#       odd, with the defect     -> kernel floor(N/2)     (the theorem's count)
+#       NOT odd, with the defect -> kernel 0              (no hypothesis, no freezing)
+rng15 = np.random.default_rng(20260725)
+for N in range(3, 9):
+    n2 = N * N
+    TQ = np.zeros((n2, n2))
+    for a in range(N):
+        for b in range(N):
+            TQ[(N - 1 - b) * N + (N - 1 - a), a * N + b] = 1.0
+    Dg = np.diag([1.0 if r // N == r % N else 0.0 for r in range(n2)])
+    bare, taxed, generic = [], [], []
+    for _ in range(6):
+        A = rng15.normal(size=(n2, n2))
+        X = (A - TQ @ A @ TQ) / 2                       # the tauQ-ODD part of pure noise
+        kappa = 3.0 + rng15.normal()
+
+        def nullity(M):
+            s = np.linalg.svd(M, compute_uv=False)
+            return int(np.sum(s < 1e-9 * max(1.0, s[0])))
+
+        bare.append(nullity(X - Dg @ X @ Dg))
+        taxed.append(nullity(X - Dg @ X @ Dg + kappa * Dg))
+        generic.append(nullity(A - Dg @ A @ Dg + kappa * Dg))
+    check(f"N={N} odd noise alone freezes N = {N} directions",
+          set(bare) == {N}, f"kernels {sorted(set(bare))}")
+    check(f"N={N} with the even defect it freezes floor(N/2) = {N // 2}",
+          set(taxed) == {N // 2}, f"kernels {sorted(set(taxed))}")
+    check(f"N={N} a NOT-odd operator freezes nothing", set(generic) == {0},
+          f"kernels {sorted(set(generic))}")
 
 # ---------- verdict ----------
 
