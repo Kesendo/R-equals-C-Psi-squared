@@ -3169,7 +3169,7 @@ The diagonal-block spectral content (= decay rates, "time information") is prese
 
 **Tier outcome <Tier 1 derived>:** algebraic proof complete (2026-05-12, see PROOF_F91 § Algebraic proof). The proof's sharper conclusion: the F71-refined diagonal-block matrix elements of L = −i[H, ·] + D are linear functionals of γ that depend only on the **multiset of F71-pair-sums {S_l = γ_l + γ_{N−1−l}}**, never on individual γ_l or pair-differences D_l = γ_l − γ_{N−1−l}; pair-differences appear only in the F71-cross-block off-diagonal entries (which do not enter diagonal-block eigenvalues). The 90°-rotation R_{90} : γ_l ↦ 2γ_avg − γ_{N−1−l} preserves the anti-palindromic class S_l = 2γ_avg ∀l (and is an involution on it); within that orbit, all γ-distributions yield identical diagonal-block spectra (= the uniform γ_avg spectrum). The originally claimed F91 (90°-invariance) is the corollary of the stronger pair-sum-multiset law. Empirical witness at N=4, 5, 6 across the five γ-profiles above remains the bit-exact verification.
 
-**Anchor:** [`PROOF_F91_GAMMA_NINETY_DEGREES.md`](proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md) (Tier 1 derived: § Algebraic proof, Eqs. 1–13), [`F71AntiPalindromicGammaSpectralInvariance.cs`](../compute/RCPsiSquared.Core/BlockSpectrum/F71AntiPalindromicGammaSpectralInvariance.cs) (typed Tier1Derived Claim with `AntiPalindromicDeviation(γ)` helper), [`NinetyDegreeMirrorMemoryClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) in `Pi2KnowledgeBaseClaims.cs` (the Pi2-Z₄ operator-quaternion side of the same 90°-rotation). **Sisters on other parameter axes:** F92 (J-axis) and F93 (h-detuning-axis) below. **What else lives on this locus:** F140, the frozen divisor, which pins ⌊N/2⌋ corner-block eigenvalues at −4γ̄ for every coupling exactly here, and only here.
+**Anchor:** [`PROOF_F91_GAMMA_NINETY_DEGREES.md`](proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md) (Tier 1 derived: § Algebraic proof, Eqs. 1–13), [`F71AntiPalindromicGammaSpectralInvariance.cs`](../compute/RCPsiSquared.Core/BlockSpectrum/F71AntiPalindromicGammaSpectralInvariance.cs) (typed Tier1Derived Claim with `AntiPalindromicDeviation(γ)` helper), [`NinetyDegreeMirrorMemoryClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) in `Pi2KnowledgeBaseClaims.cs` (the Pi2-Z₄ operator-quaternion side of the same 90°-rotation). **Sisters on other parameter axes:** F92 (J-axis) and F93 (h-detuning-axis) below. **What else lives on this locus:** F140, the frozen divisor, which pins the corner-block rate −4γ̄ for every coupling, at least ⌊N/2⌋ modes deep, exactly here and only here.
 
 ---
 
@@ -5748,7 +5748,7 @@ compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`
 
 ---
 
-### F140. The R90 frozen divisor: a watching locus that pins floor(N/2) decay rates at every coupling (a room count of the cell mirror, no symmetry behind it; minted 2026-07-25)
+### F140. The R90 frozen divisor: a watching locus that pins the decay rate -4*gbar at every coupling, at least floor(N/2) modes deep (a room count of the cell mirror, no symmetry behind it; minted 2026-07-25, retitled 2026-07-25)
 
 On the anti-palindromic watching locus of F91, every reflection pair of site
 rates carrying the same total (gamma_l + gamma_{R(l)} = 2*gbar for every l),
@@ -5840,9 +5840,43 @@ exact small-N, G8 the cofactor theorem, G9 the two clocks, G10 the valuation
 discriminators, G11 the valuation law, G12 the exceptional couplings, G13 the
 Sturm counts, G14 the pointed grading, G15 the index reading; G2c, the XY
 census, was added when the typing found it).
+**Naming (2026-07-25, the day it was minted; the first title lasted hours).**
+The title first read "pins floor(N/2) decay rates at every coupling". That was
+painted true from the stance of having just proved the bound and Section 7's
+tightness, where the generic picture IS exactly floor(N/2) and the whole point
+is the contrast: the coupling turns, these rates do not. Three of its words are
+load-bearing and are kept. **watching locus**, because the condition is on
+gamma, on how one looks, not on what the thing is; the instrument reading hangs
+on that word. **pins**, because nothing here is conserved and no subspace is
+invariant: a value is held. **at every coupling**, because the Hamiltonian is
+exactly what one expects to move a spectrum, and it cannot move this.
+What failed is the grammatical role of the NUMBER. "pins floor(N/2) rates"
+makes the count an INVENTORY, and an inventory is exact by construction: a shelf
+that holds three books at every hour is not holding six at midnight. The
+mechanism produces no inventory. The room argument is an inequality (an
+involution's even rooms exceed its odd rooms by its fixed count, and what will
+not fit must freeze), so what it yields is a FLOOR; the exactness is a separate
+and later theorem, about a cofactor that does not vanish. At J = 0 the floor is
+doubled and the old title was simply false there. Note the shape: writing the
+inequality as an equality is what loses the mechanism, which is the same error
+this arc made in its proof prose twice on the same day.
+The recomputed title moves the subject to the VALUE, which really is
+unconditional (-4*gbar is present at literally every J, including zero and the
+exceptional couplings), and gives the count the role of a DEPTH, which is the
+kind of quantity that admits a floor. This title is ours and it is also a
+canvas: read from some later stance it will be partial in ways not visible from
+here. Do not revert on familiarity, which is the one forbidden reason; the old
+form loses what the correction taught.
 **Proof:** [PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md).
 **Adopted:** MirrorWorld `Divisor`, beside Seed (run mode `divisor N`); the
 counts hold past the spectral wall, to N = 20.
+**The other chain:** on XY the confinement above is replaced by a diagonal
+BAND, |p - q| in {0, 2} minus the two 1x1 corners, 3*(N-1) blocks each at the
+same depth floor(N/2), and what decides between band and corners is whether h
+has a bipartite spectrum, not the ZZ term by name. Stated, with the reason its
+edge sits at 2 and with two dead candidate mechanisms, in
+[XY_FROZEN_BAND](../experiments/XY_FROZEN_BAND.md); no F number, because the
+depth is not yet explained.
 **Typed:** [`FrozenDivisorClaim`](../compute/RCPsiSquared.Core/BlockSpectrum/FrozenDivisorClaim.cs)
 (Tier1Derived; typed parents F91 for the locus and JointPopcountSectors for the
 block the corner lives in), with the live witness

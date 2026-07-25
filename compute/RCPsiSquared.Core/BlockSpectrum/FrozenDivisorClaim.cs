@@ -136,7 +136,8 @@ public sealed class FrozenDivisorClaim : Claim
     public static int TotalValuation(int n) => 2 * (n * n / 4);
 
     public override string DisplayName =>
-        "The R90 frozen divisor (F140): a watching locus that pins ⌊N/2⌋ decay rates at every coupling";
+        "The R90 frozen divisor (F140): a watching locus that pins the decay rate −4γ̄ at every coupling, " +
+        "at least ⌊N/2⌋ modes deep";
 
     public override string Summary =>
         "on F91's anti-palindromic γ-locus the corner block holds λ = −4γ̄ at least ⌊N/2⌋ times for " +

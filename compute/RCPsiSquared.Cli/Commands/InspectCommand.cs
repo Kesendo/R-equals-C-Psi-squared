@@ -724,7 +724,8 @@ public static class InspectCommand
             c => new RecordLawWitness(c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false),
         new("divisor", "THE R90 FROZEN DIVISOR (F140, proof PROOF_R90_FROZEN_DIVISOR.md): a watching locus that " +
-            "pins ⌊N/2⌋ decay rates at EVERY coupling. On F91's anti-palindromic locus (every reflection pair of " +
+            "pins the decay rate −4γ̄ at EVERY coupling, at least ⌊N/2⌋ modes deep. On F91's anti-palindromic " +
+            "locus (every reflection pair of " +
             "site rates carrying the same total) the single-excitation corner block holds λ = −4γ̄, one frozen " +
             "mode per balanced pair, hearing only the MEAN watching: not J, not the individual rates, nothing of " +
             "the Hamiltonian. No symmetry is behind it: the cell mirror τQ fixes 2⌊N/2⌋ anti-diagonal cells, an " +
