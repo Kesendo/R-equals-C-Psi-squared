@@ -44,12 +44,35 @@
 #       (b) the exact second-order rung: rank(P_anti K P_{D-}) = 1 at even N,
 #           0 at odd N (only the distance-1 middle pair is one hop from the
 #           anti-diagonal), N = 4..7
+#   G11 the valuation law (proof doc Section 8), integer-exact:
+#       (a) Lemma 7 (the level grading phi = distance to the anti-diagonal):
+#           no G entry across two levels, J^0 part level-diagonal, N = 3..10
+#           both chains; Lemma 8 (the level census) against the closed form
+#       (b) Lemma 9 (the transport bound): exhaustively over ALL maximal row
+#           sets, ord_J det G_I >= its transport bound, the bound is >=
+#           floor(N^2/4) for every row set, and the measured minimum over row
+#           sets is exactly floor(N^2/4) (N = 3..6)
+#       (c) the theorem: ord_J det((X P_{O+} X)|_{V-}) = 2 floor(N^2/4),
+#           N = 3..10, Heisenberg and XY
+#       (d) the per-pair law: ord_J S_(c,c') = d_c + d_c' on the D- Schur
+#           complement, all pairs, N = 3..7
+#       (e) the corollary: at J = 0 the frozen root carries 2 floor(N/2), twice
+#           the generic multiplicity, so exactly floor(N/2) modes depart
+#           (float census; (a)-(d) and (f)-(g) are integer/Fraction exact)
+#       (f) Lemma 6 entry by entry, (X P_{O+} X)|_{V-} = Y^T D Y against an
+#           independent cell-basis build; and the generality of the hypothesis:
+#           a third h (non-uniform R-symmetric bonds, arbitrary R-symmetric
+#           diagonal) obeys the same grading and the same valuation, N = 4..6
+#       (g) the reduction of the open half: the leading Schur matrix is a
+#           positive-weight real Gram matrix of the ghat vectors, hence
+#           positive semidefinite, and it is positive definite at N = 4..6
 #
-# Runtime: ~5-8 min. Standalone except G0 (imports framework once).
+# Runtime: ~7-10 min. Standalone except G0 (imports framework once).
 import sys
 import math
 import random
 from fractions import Fraction
+from itertools import combinations
 
 import numpy as np
 
@@ -751,6 +774,418 @@ for N in (4, 5, 6, 7):
     rk = int(np.sum(s > 1e-10 * max(1.0, s[0])))
     check(f"N={N} rank(P_anti K P_D-) = {1 if N % 2 == 0 else 0}",
           rk == (1 if N % 2 == 0 else 0), f"rank {rk}")
+
+# ---------- G11: the valuation law (the walk to the anti-diagonal) ----------
+
+print("G11 valuation law: the Gram form, the level grading, the transport count")
+
+# Everything here is integer-exact. X is gamma-bar free, so only the
+# antisymmetric part delta of the profile enters, and scaling (z, delta)
+# jointly only scales the determinant: integer deltas suffice. With z := -i*J
+# the matrix X(z) = z*k - 2*Delta is REAL, k = i*K the one-hop part, and
+# ord_z = ord_J.
+
+WC_DELTA = {3: [2], 4: [2, -3], 5: [2, 3], 6: [2, -3, 5], 7: [2, -3, 5],
+            8: [2, -3, 5, -7], 9: [2, -3, 5, -7], 10: [2, -3, 5, -7, 11]}
+
+
+def wc_delta(N):
+    """Antisymmetric integer delta on the R90 locus."""
+    d = [0] * N
+    for i, v in enumerate(WC_DELTA[N][:N // 2]):
+        d[i], d[N - 1 - i] = v, -v
+    return d
+
+
+def wc_se_h(N, zz=True):
+    h = [[0] * N for _ in range(N)]
+    for a in range(N - 1):
+        h[a][a + 1] = h[a + 1][a] = 2
+    if zz:
+        for a in range(N):
+            h[a][a] = sum(-1 if (a == b or a == b + 1) else 1
+                          for b in range(N - 1))
+    return h
+
+
+def wc_build(N, zz=True, h=None, delta=None):
+    """Y_{y,x} = u_y^T X w_x as [c0, c1] in z, with row/column levels.
+
+    Rows: the O+ basis (anti-diagonal cells alone, off-diagonal tauQ pairs
+    summed). Columns: the V- basis (tauQ pairs differenced). Levels are
+    ell(a,b) = |a + b - (N+1)|, the distance of the cell to the anti-diagonal.
+    h and delta override the defaults (used for the generality check).
+    """
+    h = wc_se_h(N, zz) if h is None else h
+    delta = wc_delta(N) if delta is None else delta
+    n2 = N * N
+    k = [[0] * n2 for _ in range(n2)]
+    dl = [0] * n2
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                k[c * N + b][r] += h[a][c]
+                k[a * N + c][r] -= h[c][b]
+            if a != b:
+                dl[r] = delta[a] + delta[b]
+    tq = [(N - 1 - r % N) * N + (N - 1 - r // N) for r in range(n2)]
+    phi = [abs(r // N + r % N - (N - 1)) for r in range(n2)]
+    vm, op = [], []
+    for r in range(n2):
+        a, b, t = r // N, r % N, tq[r]
+        if t != r and r < t:
+            vm.append(((r, t), (1, -1), phi[r]))
+        if a == b:
+            continue
+        if t == r:
+            op.append(((r,), (1,), phi[r]))
+        elif r < t:
+            op.append(((r, t), (1, 1), phi[r]))
+    G = [[[0, 0] for _ in vm] for _ in op]
+    for iy, (sy, cy, _) in enumerate(op):
+        for ix, (sx, cx, _) in enumerate(vm):
+            c0 = c1 = 0
+            for ry, ay in zip(sy, cy):
+                for rx, ax in zip(sx, cx):
+                    c1 += ay * ax * k[ry][rx]
+                    if ry == rx:
+                        c0 -= 2 * ay * ax * dl[rx]
+            G[iy][ix] = [c0, c1]
+    diag_cols = [i for i, (s, _, _) in enumerate(vm) if s[0] // N == s[0] % N]
+    return (G, [lv for _, _, lv in op], [lv for _, _, lv in vm],
+            [len(s) for s, _, _ in op], diag_cols)
+
+
+def wc_det_int(M):
+    """Bareiss fraction-free determinant of an integer matrix."""
+    n = len(M)
+    if n == 0:
+        return 1
+    M = [row[:] for row in M]
+    sign, prev = 1, 1
+    for c in range(n - 1):
+        if M[c][c] == 0:
+            piv = next((r for r in range(c + 1, n) if M[r][c] != 0), None)
+            if piv is None:
+                return 0
+            M[c], M[piv] = M[piv], M[c]
+            sign = -sign
+        for r in range(c + 1, n):
+            for c2 in range(c + 1, n):
+                M[r][c2] = (M[r][c2] * M[c][c] - M[r][c] * M[c][c2]) // prev
+            M[r][c] = 0
+        prev = M[c][c]
+    return sign * M[n - 1][n - 1]
+
+
+def wc_det_frac(M):
+    n = len(M)
+    M = [row[:] for row in M]
+    det = Fraction(1)
+    for c in range(n):
+        piv = next((r for r in range(c, n) if M[r][c] != 0), None)
+        if piv is None:
+            return Fraction(0)
+        if piv != c:
+            M[c], M[piv] = M[piv], M[c]
+            det = -det
+        det *= M[c][c]
+        for r in range(c + 1, n):
+            if M[r][c] == 0:
+                continue
+            f = M[r][c] / M[c][c]
+            for c2 in range(c, n):
+                M[r][c2] -= f * M[c][c2]
+    return det
+
+
+def wc_ord_from_values(vals, deg):
+    """ord_z of the degree<=deg polynomial through (i, vals[i]), exactly."""
+    if all(v == 0 for v in vals):
+        return None
+    m = deg + 1
+    A = [[Fraction(i ** j) for j in range(m)] + [Fraction(vals[i])]
+         for i in range(m)]
+    for c in range(m):
+        piv = next(r for r in range(c, m) if A[r][c] != 0)
+        A[c], A[piv] = A[piv], A[c]
+        inv = 1 / A[c][c]
+        A[c] = [v * inv for v in A[c]]
+        for r in range(m):
+            if r != c and A[r][c] != 0:
+                f = A[r][c]
+                A[r] = [v - f * w for v, w in zip(A[r], A[c])]
+    for i in range(m):
+        if A[i][m] != 0:
+            return i
+    return None
+
+
+def wc_minor_ord(G, rowsel, colsel):
+    n = len(colsel)
+    vals = [wc_det_int([[G[y][x][0] + z * G[y][x][1] for x in colsel]
+                        for y in rowsel]) for z in range(n + 1)]
+    return wc_ord_from_values(vals, n)
+
+
+def wc_gram_ord(G, nrm, ci, cj):
+    """ord_z det of the (ci, cj) submatrix of G^T D G, D = 1/||u||^2."""
+    n, nr = len(ci), len(nrm)
+    vals = []
+    for z in range(2 * n + 1):
+        cI = [[G[y][x][0] + z * G[y][x][1] for y in range(nr)] for x in ci]
+        cJ = [[G[y][x][0] + z * G[y][x][1] for y in range(nr)] for x in cj]
+        vals.append(wc_det_frac(
+            [[sum(Fraction(cI[i][y] * cJ[j][y], nrm[y]) for y in range(nr))
+              for j in range(n)] for i in range(n)]))
+    return wc_ord_from_values(vals, 2 * n)
+
+
+def wc_transport(rows_I, cols):
+    """sum_j max(0, F_j): the flow lower bound of Lemma 9."""
+    top = max(list(cols) + list(rows_I))
+    return sum(max(0, sum(1 for c in cols if c >= j)
+                   - sum(1 for r in rows_I if r >= j))
+               for j in range(1, top + 1))
+
+
+# (a) Lemma 7: the level grading (no entry across two levels; the J^0 part is
+#     level-diagonal), and Lemma 8: the level census against the closed form
+for zz, lbl in ((True, "Heis"), (False, "XY  ")):
+    far = zero = cens = 0
+    for N in range(3, 11):
+        G, rows, cols, nrm, _ = wc_build(N, zz)
+        for y in range(len(rows)):
+            for x in range(len(cols)):
+                c0, c1 = G[y][x]
+                d = abs(rows[y] - cols[x])
+                far += 1 if (d >= 2 and (c0 or c1)) else 0
+                zero += 1 if (d >= 1 and c0) else 0
+        m = N // 2
+        for j in range(N):
+            eps = 1 if (j >= 1 and (N - 1 - j) % 2 == 0) else 0
+            n_pred = 0 if j == 0 else N - j
+            M_pred = 2 * m if j == 0 else N - j - eps
+            cens += 0 if (sum(1 for c in cols if c == j) == n_pred and
+                          sum(1 for r in rows if r == j) == M_pred) else 1
+    check(f"{lbl} grading: no G entry across two levels, N=3..10", far == 0,
+          f"violations {far}")
+    check(f"{lbl} grading: the J^0 part is level-diagonal, N=3..10", zero == 0,
+          f"violations {zero}")
+    check(f"{lbl} census n_j / M_j = closed form, N=3..10", cens == 0,
+          f"deviations {cens}")
+
+# the census identity behind the bound: sum over diagonal levels = floor(N^2/4)
+lvl_sum = all(sum(j for j in range(1, N) if (N - 1 - j) % 2 == 0)
+              == (N * N) // 4 for N in range(3, 21))
+check("sum of the diagonal levels d_c = floor(N^2/4), N=3..20", lvl_sum)
+
+# (b) Lemma 9: every maximal minor of G obeys its transport bound, and the
+#     minimum over ALL row sets is exactly floor(N^2/4)
+for N in range(3, 7):
+    G, rows, cols, nrm, _ = wc_build(N, True)
+    tgt = (N * N) // 4
+    viol, best, wb = 0, None, None
+    for I in combinations(range(len(rows)), len(cols)):
+        fb = wc_transport([rows[y] for y in I], cols)
+        wb = fb if wb is None else min(wb, fb)
+        o = wc_minor_ord(G, list(I), list(range(len(cols))))
+        if o is None:
+            continue
+        viol += 1 if o < fb else 0
+        best = o if best is None else min(best, o)
+    check(f"N={N} every maximal minor of G >= its transport bound", viol == 0,
+          f"violations {viol} over {math.comb(len(rows), len(cols))} minors")
+    check(f"N={N} transport bound over all row sets >= floor(N^2/4) = {tgt}",
+          wb >= tgt, f"min bound {wb}")
+    check(f"N={N} measured min ord_J det G_I = {tgt}", best == tgt,
+          f"measured {best}")
+
+# (c) the theorem: ord_J det((X P_{O+} X)|_{V-}) = 2 floor(N^2/4)
+for zz, lbl in ((True, "Heis"), (False, "XY  ")):
+    devs = []
+    for N in range(3, 11):
+        G, rows, cols, nrm, _ = wc_build(N, zz)
+        o = wc_gram_ord(G, nrm, list(range(len(cols))), list(range(len(cols))))
+        if o != 2 * ((N * N) // 4):
+            devs.append((N, o))
+    check(f"{lbl} ord_J det((X P_O+ X)|_V-) = 2 floor(N^2/4), N=3..10",
+          not devs, f"deviations {devs}")
+
+# (d) the per-pair law: ord_J S_(c,c') = d_c + d_c' on the D- Schur complement
+for N in range(3, 8):
+    G, rows, cols, nrm, dcols = wc_build(N, True)
+    ocols = [x for x in range(len(cols)) if x not in dcols]
+    base = wc_gram_ord(G, nrm, ocols, ocols)
+    bad = [(cols[c], cols[c2],
+            wc_gram_ord(G, nrm, ocols + [c], ocols + [c2]) - base)
+           for c in dcols for c2 in dcols
+           if wc_gram_ord(G, nrm, ocols + [c], ocols + [c2]) - base
+           != cols[c] + cols[c2]]
+    check(f"N={N} T_OO is a unit at J=0 (ord 0)", base == 0, f"ord {base}")
+    check(f"N={N} ord_J S_(c,c') = d_c + d_c' for all pairs", not bad,
+          f"deviations {bad}")
+
+# (f) Lemma 6 itself, entry by entry: (X P_{O+} X)|_{V-} = Y^T D Y against an
+#     independent build of the left side straight in the cell basis; plus the
+#     generality of the hypothesis (h real symmetric R-invariant tridiagonal):
+#     a third family with NON-UNIFORM R-symmetric bonds and an arbitrary
+#     R-symmetric diagonal must obey the same grading and the same valuation
+def wc_direct_T(N, delta, z, h):
+    """P_{V-} X P_{O+} X P_{V-} built directly in the cell basis (unnormalized
+    V- columns), the independent left-hand side of Lemma 6."""
+    k, dl = [[0] * (N * N) for _ in range(N * N)], [0] * (N * N)
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                k[c * N + b][r] += h[a][c]
+                k[a * N + c][r] -= h[c][b]
+            if a != b:
+                dl[r] = delta[a] + delta[b]
+    n2 = N * N
+    X = [[Fraction(z) * k[i][j] for j in range(n2)] for i in range(n2)]
+    for r in range(n2):
+        X[r][r] -= 2 * dl[r]
+    tq = [(N - 1 - r % N) * N + (N - 1 - r // N) for r in range(n2)]
+    vmc, opc = [], []
+    for r in range(n2):
+        a, b, t = r // N, r % N, tq[r]
+        if t != r and r < t:
+            vmc.append((r, t))
+        if a == b:
+            continue
+        opc.append((r,) if t == r else ((r, t) if r < t else None))
+    opc = [o for o in opc if o]
+
+    def proj(v):
+        out = [Fraction(0)] * n2
+        for sup in opc:
+            c = sum(v[i] for i in sup)
+            for i in sup:
+                out[i] += Fraction(c, len(sup))
+        return out
+
+    T = []
+    for r1, t1 in vmc:
+        w = [Fraction(0)] * n2
+        w[r1], w[t1] = Fraction(1), Fraction(-1)
+        Xw = [sum(X[r][c] * w[c] for c in range(n2)) for r in range(n2)]
+        PXw = proj(Xw)
+        XPXw = [sum(X[r][c] * PXw[c] for c in range(n2)) for r in range(n2)]
+        T.append([XPXw[r0] - XPXw[t0] for r0, t0 in vmc])
+    return T
+
+
+for N, hb, hd in ((4, [3, 5, 3], [2, -6, -6, 2]),
+                  (5, [3, 5, 5, 3], [1, 4, 9, 4, 1]),
+                  (6, [2, 7, 3, 7, 2], [5, -2, 8, 8, -2, 5])):
+    hcus = [[0] * N for _ in range(N)]
+    for a in range(N - 1):
+        hcus[a][a + 1] = hcus[a + 1][a] = hb[a]
+    for a in range(N):
+        hcus[a][a] = hd[a]
+    check(f"N={N} the third h is R-invariant (bonds and diagonal palindromic)",
+          hb == hb[::-1] and hd == hd[::-1])
+    for lbl, hh in (("Heisenberg", wc_se_h(N)), ("non-uniform bonds", hcus)):
+        G_, rows_, cols_, nrm_, _ = wc_build(N, h=hh)
+        zq = Fraction(3, 7)
+        Td = wc_direct_T(N, wc_delta(N), zq, hh)
+        n_ = len(cols_)
+        rhs = [[sum(Fraction((G_[y][i][0] + zq * G_[y][i][1])
+                             * (G_[y][j][0] + zq * G_[y][j][1]), nrm_[y])
+                    for y in range(len(rows_))) for j in range(n_)]
+               for i in range(n_)]
+        dev = max(abs(Td[i][j] - rhs[i][j]) for i in range(n_) for j in range(n_))
+        far_ = sum(1 for y in range(len(rows_)) for x in range(n_)
+                   if abs(rows_[y] - cols_[x]) >= 2
+                   and (G_[y][x][0] or G_[y][x][1]))
+        o_ = wc_gram_ord(G_, nrm_, list(range(n_)), list(range(n_)))
+        check(f"N={N} {lbl}: Lemma 6 identity exact, grading holds, "
+              f"ord = 2 floor(N^2/4)",
+              dev == 0 and far_ == 0 and o_ == 2 * ((N * N) // 4),
+              f"dev {dev}, grading violations {far_}, ord {o_}")
+
+# (g) the open half, reduced: the leading Schur matrix is a POSITIVE-weight
+#     real Gram matrix of the vectors ghat_I(c) = [z^{d_c}] det Y_{I, O- + c},
+#     so it is positive semidefinite and nonsingular exactly when those
+#     floor(N/2) vectors are linearly independent
+def wc_coeffs(vals, deg):
+    m = deg + 1
+    A = [[Fraction(i ** j) for j in range(m)] + [Fraction(vals[i])]
+         for i in range(m)]
+    for c in range(m):
+        piv = next(r for r in range(c, m) if A[r][c] != 0)
+        A[c], A[piv] = A[piv], A[c]
+        inv = 1 / A[c][c]
+        A[c] = [v * inv for v in A[c]]
+        for r in range(m):
+            if r != c and A[r][c] != 0:
+                f = A[r][c]
+                A[r] = [v - f * w for v, w in zip(A[r], A[c])]
+    return [A[i][m] for i in range(m)]
+
+
+def wc_lead(G, nrm, ci, cj, want):
+    n, nr = len(ci), len(nrm)
+    vals = []
+    for z in range(2 * n + 1):
+        cI = [[G[y][x][0] + z * G[y][x][1] for y in range(nr)] for x in ci]
+        cJ = [[G[y][x][0] + z * G[y][x][1] for y in range(nr)] for x in cj]
+        vals.append(wc_det_frac(
+            [[sum(Fraction(cI[i][y] * cJ[j][y], nrm[y]) for y in range(nr))
+              for j in range(n)] for i in range(n)]))
+    return wc_coeffs(vals, 2 * n)[want]
+
+
+for N in (4, 5, 6):
+    G, rows, cols, nrm, dcols = wc_build(N, True)
+    ocols = [x for x in range(len(cols)) if x not in dcols]
+    nR, nC = len(rows), len(ocols) + 1
+    gh, wt = {c: {} for c in dcols}, {}
+    for I in combinations(range(nR), nC):
+        wt[I] = Fraction(1)
+        for y in I:
+            wt[I] /= nrm[y]
+        for c in dcols:
+            cs = ocols + [c]
+            vals = [wc_det_int([[G[y][x][0] + z * G[y][x][1] for x in cs]
+                                for y in I]) for z in range(nC + 1)]
+            co = wc_coeffs(vals, nC)
+            gh[c][I] = co[cols[c]] if cols[c] < len(co) else Fraction(0)
+    Gram = [[sum(wt[I] * gh[c][I] * gh[c2][I] for I in wt) for c2 in dcols]
+            for c in dcols]
+    Sd = [[wc_lead(G, nrm, ocols + [c], ocols + [c2], cols[c] + cols[c2])
+           for c2 in dcols] for c in dcols]
+    base = wc_lead(G, nrm, ocols, ocols, 0)
+    m = len(dcols)
+    check(f"N={N} leading Schur matrix = positive-weight real Gram",
+          all(Sd[i][j] == Gram[i][j] for i in range(m) for j in range(m))
+          and base > 0, f"det T_OO(0) = {base}")
+    S0 = [[Fraction(Sd[i][j], base) for j in range(m)] for i in range(m)]
+    minors = [wc_det_frac([row[:kk + 1] for row in S0[:kk + 1]])
+              for kk in range(m)]
+    check(f"N={N} it is positive definite (all leading minors > 0)",
+          all(mm > 0 for mm in minors), f"minors {[str(mm) for mm in minors]}")
+
+# (e) what the order counts: at J = 0 the frozen root carries TWICE the
+#     generic multiplicity (the anti-diagonal cells off the centre), so exactly
+#     floor(N/2) modes depart as the coupling turns on
+for N in range(3, 7):
+    gl11 = r90_profile(N)
+    K11, G11m = corner_pieces(N, gl11)
+    gbar11 = sum(gl11) / N
+
+    def blk(J, K=K11, G=G11m):
+        return J * K - 2 * G
+
+    m0, c0 = frozen_count_at(blk, -4 * gbar11, J_list=(0.0,))
+    mJ, cJ = frozen_count_at(blk, -4 * gbar11)
+    check(f"N={N} frozen root multiplicity at J=0 is 2 floor(N/2)",
+          m0 == 2 * (N // 2), f"counts {c0} vs {cJ} at J != 0")
+    check(f"N={N} exactly floor(N/2) modes depart", m0 - mJ == N // 2,
+          f"{m0} -> {mJ}")
 
 # ---------- verdict ----------
 
