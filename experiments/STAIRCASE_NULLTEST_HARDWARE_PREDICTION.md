@@ -138,4 +138,24 @@ Gate verdict on these inputs: PASS. Detection context: Δ̂(10) at 9.9σ, Δ̂(0
 
 Gate verdict: PASS. Detection context: Δ̂(10) at 12.6σ, Δ̂(01) at 15.8σ. Family rates: P(≥1 MARGINAL) = 0.11, P(≥1 VIOLATED) = 0.007, P(B-block not clean) = 0.008. Min kept points 11. Certification: Γφ,1 = 1/32 − 1/336 = 2.8e-2 /µs, so 1σ = 1.6% of the near spectator's pure-dephasing rate (3σ = 4.8%); the derated spectator T2* makes this the tightest certification yardstick of the three gates.
 
+---
+
+## HARDWARE RECORD (2026-07-26, ibm_marrakesh, flown once)
+
+**Flight.** Job `d9ip713hdfks73chbfg0`, one Batch, line (35, 34, 33), 128 PUBs × 8192 shots, 0 PUB failures, billed 324 s = 5.4 QPU min (projection 5.6, cap 8). Counts persisted before analysis; archive complete (all 128 PUBs, day-of snapshot, constants source). An earlier same-design Kingston submission (`d9iidarhdfks73ch30ag`) was cancelled unstarted at 0 billed seconds after 8+ hours in a 167-job queue; see Amendment 1.
+
+**Committed verdict: B-BLOCK-INVALID.** Independently re-derived from the raw counts by an empty-context audit (machine-precision agreement with the persisted analysis, ≤ 8e-15 on every quantity). The B-block CLEAN conditions fail on both spectators: near (q34) fails bracket consistency, |bc1| = 3.87e-4 > 3 s_bracket = 2.12e-4 /µs (its effective T1 ran 160.7 → 172.3 µs between batch start and end); far (q33) fails bracket consistency, |bc2| = 7.90e-4 > 2.72e-4 /µs (T1 ran 132.9 → 115.1 µs, relaxation speeding up mid-batch) AND the pooled-fit residual, rms = 0.028 > 0.02, with a structured, non-single-exponential bow. Per the frozen truth table, P1/P3 are void (no trustworthy in-situ T1 reference) and the experiment is reported B-block-invalid regardless of P2. This is the mid-batch T1-telegraphing failure mode the bracketed B-block was added to catch (design round 1); the guard held, including against the temptation of the numbers below.
+
+**The voided numbers, recorded as observations, not verdicts:**
+
+    Δ̂(10) = +5.817e-3 /µs   in-situ pred = +5.836e-3   r1 = −1.9e-5   z1 = 0.02  (would HOLD)
+    Δ̂(11) − Δ̂(10) − Δ̂(01):  r2 = +1.1e-4   z2 = 0.13                            (HOLDS; P2 is B-block-free)
+    Δ̂(01) = +8.757e-3 /µs   in-situ pred = +7.558e-3   r3 = +1.2e-3   z3 = 2.60  (would be MARGINAL)
+    δf_near = −0.02373 rad/µs = −3.78 kHz   (P4 context: pred −3.90 kHz, sign and magnitude reproduced, 0.19 sf under)
+    δf_far  = +0.00575 rad/µs = +0.91 kHz   (P4 context: 1.4 sf_far from zero, within band)
+
+The near-arm dephasing-null lands on its reference to 0.3% and the additivity statistic holds at 0.13σ; the far-arm excess (+16%) sits exactly on the spectator whose T1 reference telegraphed hardest and carries the structured residual, consistent with the invalidation rather than with dephasing leakage. None of this is promoted to a verdict: the committed rule governs.
+
+**Standing after this flight.** The claim is neither confirmed nor falsified; the instrument worked end-to-end and the guard did its job. A re-flight draws a new T1-weather card at ~5.4 QPU min; if one is flown, candidate hardening (requires a re-registered amendment BEFORE that flight): interleave B-block circuits through the batch instead of two end brackets, and/or a single-excited B-block variant per spectator (the |011⟩-vs-single-excited caveat in the honesty notes, now with a matching observed residual signature on q33).
+
 *Gate lineage (committed together with this document, guard 7): `simulations/staircase_nulltest_feasibility.py` (v0 scout, 10/10 GREEN: exactness, uneven and collective-Z blindness at 1e-17, ZZ sorting, XY-on robustness, and the discovery of the post-selection normalization trap) and `simulations/staircase_nulltest_gate.py` (v3: flown construction, counts level, matched-pair estimator, quasi-static component, bracketed B-block; the constants above). Theory: [XY_FROZEN_BAND](XY_FROZEN_BAND.md), [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), F84.*
