@@ -183,4 +183,23 @@ Budget becomes 112 + 28 + 2 = 142 circuits × 8192 = 1,163,264 shots, projected 
 
 Gate verdict: PASS. Detection context: Δ̂(10) at 12.4σ, Δ̂(01) at 15.2σ. Family rates: P(≥1 MARGINAL) = 0.11, P(≥1 VIOLATED) = 0.007, P(B-block not clean) = 0.006. Min kept points 11.
 
+---
+
+## HARDWARE RECORD 2 (2026-07-26, ibm_marrakesh, flight 2 under Amendment 2)
+
+**Flight.** Job `d9iptdoii2cc73edtm20`, one Batch, line (35, 34, 33), 142 PUBs × 8192 shots, 0 PUB failures, billed 380 s = 6.3 QPU min (projection 6.6, cap 8). Counts persisted before analysis; archive complete; an empty-context audit re-derived the full committed pipeline from raw counts at ≤ 1e-15 on every quantity.
+
+**Committed verdict: B-BLOCK-INVALID** (again, by a different failure than flight 1). The hardened B-block PASSED everything Amendment 2 fixed: bracket consistency now clean on BOTH spectators (bc = −2.8e-5 / −1.2e-4, was +3.9e-4 / −7.9e-4), far rms cut 0.028 → 0.0209. But 0.0209 > 0.02: the far spectator (q33) fails clean-condition (iv) by 0.0009, a razor-thin margin on a still-structured residual, so P1/P3 are void per the frozen truth table. P2 (additivity, B-block-free) HOLDS at z2 = 1.19.
+
+**The voided numbers, recorded as observations, not verdicts:**
+
+    Δ̂(10) = +1.3346e-2 /µs   in-situ pred = +1.0962e-2   r1 = +2.38e-3   z1 = 5.20  (would be VIOLATED)
+    Δ̂(01) = +1.0247e-2 /µs   in-situ pred = +0.9574e-2   r3 = +6.7e-4    z3 = 1.39  (would HOLD)
+    δf_near = −0.02617 rad/µs = −4.17 kHz  (P4: pred −3.9 kHz, sign and magnitude again reproduced, 0.42 sf)
+    δf_far  = +0.01073 rad/µs = +1.71 kHz  (P4 context: 2.7 sf_far from zero, largest of both flights)
+
+**Diagnosis (audit, quantitative; no bands moved).** A genuine device excursion: q34's in-situ effective T1 collapsed to 89.3 µs against the 05:26 calibration's 167.7 (and against flight 1's in-situ ~171 two hours earlier); q33 fell 129.5 → 102. The device thereby left the design's validity window (T1 floor 100 µs) MID-BATCH, invisibly to guard 4 (which reads calibration) and visibly to the B-block gate, which is the intended backstop and fired. The voided z1 = 5.2 is consistent with this weather, not with dephasing leakage: the arm grid (0-80 µs) and the reference grid (40-600 µs) weight a non-exponential, collapsing T1 differently by construction (arm-window effective T1 ≈ 75 µs vs reference 89 µs → r1 > 0), and the sign ordering r1 > r3 > 0 matches Amendment 2's disclosed prep staggering under drift toward faster relaxation. The audit names the residual design tension honestly: with the reference window barely overlapping the arm window, a rate leak and a non-exponential reference are CONFOUNDED by construction; the separation test would be reference points inside the arm window (short B delays), a candidate Amendment 3 if a flight 3 is ever flown, together with an immediately-pre-batch calibration re-pull.
+
+**Standing after two flights.** The claim is neither confirmed nor falsified. Twice the guard refused to read a verdict off an invalid T1 reference, once against a 0.02σ beauty (flight 1) and once against a 5.2σ scare (flight 2); the additivity statistic held both times; the ZZ frequency sorting reproduced sign and magnitude both times. What the experiment certifiably needs is not a better claim but calmer T1 weather, and a reference that samples the arms' own time window.
+
 *Gate lineage (committed together with this document, guard 7): `simulations/staircase_nulltest_feasibility.py` (v0 scout, 10/10 GREEN: exactness, uneven and collective-Z blindness at 1e-17, ZZ sorting, XY-on robustness, and the discovery of the post-selection normalization trap) and `simulations/staircase_nulltest_gate.py` (v3: flown construction, counts level, matched-pair estimator, quasi-static component, bracketed B-block; the constants above). Theory: [XY_FROZEN_BAND](XY_FROZEN_BAND.md), [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), F84.*
