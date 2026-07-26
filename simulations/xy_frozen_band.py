@@ -40,8 +40,15 @@ importing it executes every check.
       with [Psi, Phi] = N - p - q, and carry the frozen subspace of a rung ONTO the one above.
       Three ladders of N-1 rungs, seeded at (1,1), (0,2) and (2,0), is the band. Includes the
       row that discriminates (a non-bipartite h keeps the DIAGONAL band, so the gate is on the
-      seed, not on the ladder), the Heisenberg control, and the ring, where the climber fails
-      and the band is full anyway
+      seed, not on the ladder), the Heisenberg control, the ring, where the climber fails
+      and the band is full anyway, and the PRICING rows: the ring's wrap bond and a range-2
+      bond, each read twice on one and the same h, once priced by occupation (sigma+ sigma-)
+      and once by order (the Jordan-Wigner sign of what is jumped over). Order-honest pricing
+      makes the climber commute EXACTLY and fills every rung; occupation pricing tears it, and
+      the two occupation rows then part, the ring keeping its band and the hop-over losing
+      everything but its two end rungs. The two N = 4 exceptions the missing ladder leaves are
+      read at five couplings on two profiles, beside the coincidence of the frozen root with
+      its fold partner that leaves room for them, and beside their absence at N = 5, 6, 7
   V9  the CEILING, one N at a time: an exact GF(p) rank is an UPPER bound on the rational
       nullity (rank can only drop under the reduction), which is the direction the proved floor
       cannot supply and a float nullity never could. So an exact read of floor(N/2) certifies
@@ -124,6 +131,16 @@ def h_ring(n):
     return h
 
 
+def h_hopover(n):
+    """The chain plus every range-2 bond, R-invariant. Read through the SPIN sector builder it
+    is bare next-nearest-neighbour XX; through the fermionic one it is an order-honest range-2
+    hop. Same matrix h either way: with one excitation nothing is ever jumped over."""
+    h = h_chain(n)
+    for a in range(n - 2):
+        h[a, a + 2] = h[a + 2, a] = 1
+    return h
+
+
 def is_bipartite_spectrum(h):
     lam = np.sort(np.linalg.eigvalsh(h.astype(float)))
     return bool(np.allclose(lam, -lam[::-1], atol=1e-9))
@@ -131,10 +148,17 @@ def is_bipartite_spectrum(h):
 
 # ---------- blocks ----------
 
-def sector(n, k, h):
+def sector(n, k, h, fermi=False):
     """H restricted to the k-excitation sector: hopping from h's off-diagonal plus h's
     on-site energies. The on-site term is what an R-invariant diagonal probe rides on;
-    dropping it would make V4's diagonal cases silent no-ops."""
+    dropping it would make V4's diagonal cases silent no-ops.
+
+    fermi=False PRICES A HOP BY OCCUPATION: the amplitude is h[site, tgt] whatever stands in
+    between, which is what sigma+ sigma- does. fermi=True prices it by ORDER instead, applying
+    the Slater sign of c+_tgt c_site in the same ordered-tuple convention _ladder uses. The two
+    agree on every open nearest-neighbour bond, since nothing is ever jumped over there, and
+    part on the wrap bond and on any range >= 2 bond. That difference is a row of the table
+    (V8 f4), not a convention: it decides whether the climber commutes."""
     st = list(combinations(range(n), k))
     idx = {s: i for i, s in enumerate(st)}
     H = np.zeros((len(st), len(st)), dtype=np.int64)
@@ -144,14 +168,17 @@ def sector(n, k, h):
             H[s, s] += h[site, site]
             for tgt in range(n):
                 if h[site, tgt] and tgt not in occ:
-                    H[idx[tuple(sorted((occ - {site}) | {tgt}))], s] += h[site, tgt]
+                    rest = occ - {site}
+                    sg = (-1) ** (sum(1 for x in occ if x < site)
+                                  + sum(1 for x in rest if x < tgt)) if fermi else 1
+                    H[idx[tuple(sorted(rest | {tgt}))], s] += sg * h[site, tgt]
     return st, idx, H
 
 
-def scaled_block(n, h, gnum, jnum, p, q):
+def scaled_block(n, h, gnum, jnum, p, q, fermi=False):
     """4*N*GRID * (L_(p,q)) as Gaussian integers, in the cell basis (ket, bra)."""
-    stk, ik, Hk = sector(n, p, h)
-    stb, ib, Hb = sector(n, q, h)
+    stk, ik, Hk = sector(n, p, h, fermi)
+    stb, ib, Hb = sector(n, q, h, fermi)
     f = 4 * n
     d = len(stk) * len(stb)
     re = np.zeros((d, d), dtype=np.int64)
@@ -217,7 +244,7 @@ def rank_mod_p(re, im, p):
     return rank
 
 
-def frozen(n, h, gnum, jnum, p, q, root_num):
+def frozen(n, h, gnum, jnum, p, q, root_num, fermi=False):
     """dim ker(L_(p,q) - root), the root given as its 4*N*GRID-scaled integer.
 
     Above EXACT_MAX the read is an SVD nullity, and a bare threshold is not enough: at N = 8
@@ -226,7 +253,7 @@ def frozen(n, h, gnum, jnum, p, q, root_num):
     ZERO_TOL and NONZERO_TOL); if it does not, escalate to the exact rank while that is
     affordable, and refuse the read otherwise rather than report a number it cannot support.
     """
-    re, im = scaled_block(n, h, gnum, jnum, p, q)
+    re, im = scaled_block(n, h, gnum, jnum, p, q, fermi)
     d = re.shape[0]
     re = re - root_num * np.eye(d, dtype=np.int64)
     if d <= EXACT_MAX:
@@ -509,9 +536,12 @@ for n in (5, 6, 7):
     check(f"N={n} at J = 0 the cells on the root are exactly the balanced-pair cells, and only "
           f"|A^B| = 2 ones", all(v >= 0 for v in counts.values()) and sizes_seen == {2},
           f"sizes {sorted(sizes_seen)}")
-    check(f"N={n} their number differs block to block, yet every block collapses to floor(N/2) "
-          f"= {m} at J > 0", len(set(counts.values())) > 1 and counts[(0, 2)] == m,
-          "; ".join(f"{pq}: {v}" for pq, v in counts.items()) + f" -> all {m}")
+    # Both operands here are J = 0 quantities, so this check is a J = 0 statement and its name
+    # says so: the collapse ITSELF, at J > 0, is V1's census and is not re-read here.
+    check(f"N={n} at J = 0 their number differs block to block, while the (0,2) seed already "
+          f"sits at floor(N/2) = {m} (the collapse of the others is V1's census, not this read)",
+          len(set(counts.values())) > 1 and counts[(0, 2)] == m,
+          "; ".join(f"{pq}: {v}" for pq, v in counts.items()))
 
     # (b) the (0,2) block: how does its frozen subspace sit against the pair cells, as J varies?
     # "Continuation" can only be a J -> 0 statement, and the two-sided form matters: at the
@@ -584,9 +614,14 @@ for n in (4, 5, 6):
                 for b in combinations(range(n), q):
                     if len(set(a) ^ set(b)) % 2 == 0:
                         even_dn.add(abs(p - q))
+    # Three of the six operands below (par, kmoved, even_dn) are SET identities, true for every
+    # N and every profile, and the name says which they are. They are here because they are the
+    # combinatorial half of the ladder's mechanism, not because they witness the operator: the
+    # operator-level statement, that Phi commutes with L, is V8 (a)'s exact zero.
     check(f"N={n} the root is the k=2 rung of the one diagonal (balanced pairs ON it, unbalanced "
-          f"two-sets OFF it), k and |p-q| share a parity, Phi leaves k exactly fixed, the rate "
-          f"diagonal IS the gamma-vector Absorption law, and the EVEN rail carries |p-q| = 2 too",
+          f"two-sets OFF it), the rate diagonal IS the gamma-vector Absorption law, and, by set "
+          f"algebra alone, k and |p-q| share a parity, adding a site to both indices leaves k "
+          f"fixed, and the EVEN rail carries |p-q| = 2 too",
           on_rung and off_rung and par == 0 and kmoved == 0 and absorb == 0
           and {0, 2} <= even_dn,
           f"rung -4*gbar = {-4*gbar/GRID:.4f}; a balanced pair pays "
@@ -645,6 +680,8 @@ print()
 print("V6  the other falsified candidate: the corner's room shortage does not extend")
 for n in (5, 6, 7):
     m = n // 2
+    gnum6 = locus(n)
+    r6, _ = roots(n, gnum6)
     R = lambda t: tuple(sorted(n - 1 - x for x in t))
     rows = []
     for (p, q) in ((1, 1), (2, 2), (3, 3), (0, 2), (1, 3)):
@@ -658,10 +695,17 @@ for n in (5, 6, 7):
                      if (R(c[1]), R(c[0])) == c and len(set(c[0]) ^ set(c[1])) == 2)
         predicted = fixed2 - fixed2 // 2          # surplus minus the tax that halves it
         rows.append(((p, q), len(cl), fixed2, predicted))
+    # The prediction side is structurally zero off the diagonal (tauQ fixes a cell only at
+    # |A| = |B|), so on its own it could not fail. The contrast the check is named for is
+    # therefore READ here rather than referred to: the same blocks' multiplicities, measured.
     offdiag_all_zero = all(pr == 0 for (pq, _, _, pr) in rows if pq[0] != pq[1])
-    check(f"N={n} the shortage predicts ZERO in every off-diagonal band pair, where floor(N/2) "
-          f"= {m} is measured", offdiag_all_zero,
-          "; ".join(f"{pq} dim {d} fixed2 {f} -> predicts {pr}" for (pq, d, f, pr) in rows))
+    measured = [((p, q), frozen(n, h_chain(n), gnum6, 768, p, q, r6)[0])
+                for (p, q) in ((0, 2), (1, 3))]
+    check(f"N={n} the shortage predicts ZERO in every off-diagonal band pair, and floor(N/2) "
+          f"= {m} is what those same blocks measure", offdiag_all_zero
+          and all(v == m for _, v in measured),
+          "; ".join(f"{pq} dim {d} fixed2 {f} -> predicts {pr}" for (pq, d, f, pr) in rows)
+          + f"; measured {measured}")
     # The diagonal half, scoped to the diagonal ONLY. Including the off-diagonal pairs here
     # would make the check vacuous, since their prediction is 0 != m by construction.
     diag = [(pq, pr) for (pq, _, _, pr) in rows if pq[0] == pq[1]]
@@ -705,8 +749,8 @@ def _ladder(n, p, q, up):
     return M
 
 
-def _dense(n, h, gnum, jnum, p, q):
-    re, im = scaled_block(n, h, gnum, jnum, p, q)
+def _dense(n, h, gnum, jnum, p, q, fermi=False):
+    re, im = scaled_block(n, h, gnum, jnum, p, q, fermi)
     return (re + 1j * im).astype(complex)
 
 
@@ -742,13 +786,13 @@ def _heis(n, gnum, jnum, p, q):
     return re, im
 
 
-def frozen_basis(n, h, gnum, jnum, p, q, root_num):
+def frozen_basis(n, h, gnum, jnum, p, q, root_num, fermi=False):
     """A basis of ker(L_(p,q) - root), its DIMENSION fixed by the exact/SVD read of frozen()."""
-    k = frozen(n, h, gnum, jnum, p, q, root_num)[0]
+    k = frozen(n, h, gnum, jnum, p, q, root_num, fermi)[0]
     d = comb(n, p) * comb(n, q)
     if k == 0:
         return np.zeros((d, 0), dtype=complex)
-    M = _dense(n, h, gnum, jnum, p, q) - root_num * np.eye(d)
+    M = _dense(n, h, gnum, jnum, p, q, fermi) - root_num * np.eye(d)
     return np.linalg.svd(M)[2][d - k:].conj().T
 
 
@@ -787,6 +831,67 @@ for n in (5, 6):
           worst_up == 0.0 and worst_dn == 0.0 and min(hz) > 1e-2,
           f"XY max |[L, Phi]| = {worst_up:.1e}, |[L, Psi]| = {worst_dn:.1e}; "
           f"Heisenberg relative {min(hz):.2e}")
+        # (a2) how far "quadratic" may be weakened, answered with the one term the BLOCK picture
+    # cannot hold: a pairing term c+_a c+_{a+1} is quadratic and does NOT conserve number, so it
+    # has no (p,q) block at all. Read in the full 2^N x 2^N Fock space instead, no blocks. The
+    # condition on the Hamiltonian is number-conserving quadratic, not quadratic, and the
+    # dephasing half of the argument is read here too, where it must hold with no condition.
+    if n == 5:
+        NF, gf, jf = 4, [0.13, 0.29, 0.07, 0.19], 0.7
+
+        def _cdag(l):
+            M = np.zeros((2 ** NF, 2 ** NF))
+            for s in range(2 ** NF):
+                if not (s >> l) & 1:
+                    M[s | (1 << l), s] = (-1) ** sum(1 for x in range(l) if (s >> x) & 1)
+            return M
+        CD = [_cdag(l) for l in range(NF)]
+        CC = [m.T for m in CD]
+        mask = np.array([[-2 * sum(gf[l] for l in range(NF)
+                                   if ((a >> l) & 1) != ((b >> l) & 1))
+                          for b in range(2 ** NF)] for a in range(2 ** NF)])
+
+        def _phi(r):
+            return sum(CD[l] @ r @ CC[l] for l in range(NF))
+        rng = np.random.default_rng(7)
+
+        def _res(HF):
+            w = 0.0
+            for _ in range(6):
+                r = (rng.normal(size=(2 ** NF,) * 2)
+                     + 1j * rng.normal(size=(2 ** NF,) * 2))
+                lhs = -1j * (HF @ _phi(r) - _phi(r) @ HF) + mask * _phi(r)
+                rhs = _phi(-1j * (HF @ r - r @ HF) + mask * r)
+                w = max(w, np.abs(lhs - rhs).max() / max(np.abs(rhs).max(), 1.0))
+            return w
+
+        def _quad(hm):
+            return sum(hm[a, b] * (CD[a] @ CC[b]) for a in range(NF) for b in range(NF))
+        # The reason is an index relabelling and asks NOTHING of h, so h is varied all the way
+        # to non-Hermitian: the eigenmode picture the note also gives would need normality here.
+        hs = rng.normal(size=(NF, NF))
+        hh = rng.normal(size=(NF, NF)) + 1j * rng.normal(size=(NF, NF))
+        variants = {"real symmetric": _quad(hs + hs.T),
+                    "complex Hermitian": _quad(hh + hh.conj().T),
+                    "non-Hermitian": _quad(hh)}
+        pair = sum(jf * (CD[a] @ CC[a + 1] + CD[a + 1] @ CC[a]) for a in range(NF - 1)) \
+            + sum(0.4 * (CD[a] @ CD[a + 1] + CC[a + 1] @ CC[a]) for a in range(NF - 1))
+        good = {k: _res(v) for k, v in variants.items()}
+        bad = _res(pair)
+        nonnormal = np.abs(variants["non-Hermitian"] @ variants["non-Hermitian"].conj().T
+                           - variants["non-Hermitian"].conj().T
+                           @ variants["non-Hermitian"]).max()
+        dep = max(np.abs(mask * _phi(r) - _phi(mask * r)).max() for r in
+                  [rng.normal(size=(2 ** NF,) * 2) + 1j * rng.normal(size=(2 ** NF,) * 2)
+                   for _ in range(6)])
+        check("N=4 in the FULL Fock space: the condition is number-conserving quadratic and NOT "
+              "quadratic (a pairing term is quadratic and breaks the climber), it asks nothing "
+              "of h (a non-Hermitian, non-normal h commutes just as exactly), and the dephasing "
+              "half holds with no condition at all",
+              max(good.values()) < 1e-12 < bad and dep < 1e-12 and nonnormal > 1e-2,
+              f"{ {k: f'{v:.1e}' for k, v in good.items()} }, with pairing {bad:.1e}, "
+              f"dephasing alone {dep:.1e}, non-normality of the third h {nonnormal:.1e}")
+
     # (b) the sl(2) relation that makes the ladder finite
     bad = 0.0
     for (p, q) in ((1, 1), (2, 2), (1, 3)):
@@ -820,8 +925,11 @@ for n, jn, jl in ((5, 768, "3/4"), (6, 768, "3/4"), (6, 1536, "3/2"), (7, 768, "
                     f"min cos {c.min():.9f}, control {cj.max():.3f}")
         ok = ok and F0.shape[1] == m and F1.shape[1] == m and c.min() > 1 - 1e-7 \
             and cj.max() < 0.9
+    # len(rows) is asserted so that a size filter which happened to skip every case would FAIL
+    # here rather than pass on an empty loop, the way (d) below asserts its list lengths.
     check(f"N={n} J={jl} Phi maps the frozen subspace ONTO the one above (and the same map "
-          f"applied off it does not)", ok, "; ".join(rows))
+          f"applied off it does not), on both ladder seeds",
+          ok and len(rows) == 2, "; ".join(rows))
 
 # (d) the ladder's ends and its full length: this is where 3(N-1) comes from.
 for n in (5, 6):
@@ -888,7 +996,10 @@ for n in (5, 6):
     gnum, m = locus(n), n // 2
     r0, _ = roots(n, gnum)
     rows = []
-    for (p, q) in ((1, 1), (0, 2), (2, 2), (1, 3)):
+    # (n-1, n-1) is in the list because it is F140's SECOND corner: leaving it out would let
+    # "everything but the corner is empty" pass while the top rung quietly carried floor(N/2),
+    # and the note's table reads that rung in its diagonal-band column.
+    for (p, q) in ((1, 1), (0, 2), (2, 2), (1, 3), (n - 1, n - 1)):
         if comb(n, p) * comb(n, q) > 520:
             continue
         # exact, like every other multiplicity here: the Heisenberg blocks are integer too, so
@@ -897,9 +1008,11 @@ for n in (5, 6):
         d = comb(n, p) * comb(n, q)
         re = re - r0 * np.eye(d, dtype=np.int64)
         rows.append(((p, q), d - max(rank_mod_p(re, im, pp) for pp in PRIMES)))
-    check(f"N={n} Heisenberg: the corner carries floor(N/2) = {m} and every other band block "
-          f"carries nothing, so the row that kills the ladder is the row that empties the band",
-          dict(rows)[(1, 1)] == m and all(v == 0 for pq, v in rows if pq != (1, 1)),
+    check(f"N={n} Heisenberg: BOTH corners carry floor(N/2) = {m} and every band block between "
+          f"them carries nothing, so the row that kills the ladder is the row that empties the "
+          f"band down to F140's two corners",
+          dict(rows)[(1, 1)] == m and dict(rows)[(n - 1, n - 1)] == m
+          and all(v == 0 for pq, v in rows if pq not in ((1, 1), (n - 1, n - 1))),
           f"{rows}")
 
 # (f3) the honest limit: on the RING the climber does not commute (the Jordan-Wigner string
@@ -926,6 +1039,168 @@ for n in (5, 6, 7):
           res > 1e-2 and c.min() < 0.9 and all(v == m for _, v in rungs) and len(rungs) >= 3,
           f"residual {res:.2e}, cos {np.array2string(np.sort(c)[::-1], precision=4)}, "
           f"rungs {rungs}")
+
+# (f4) THE PRICING ROWS, and they are the cleanest discriminator in this file: hold the bond
+# set fixed and change only what a hop OVER an occupied site costs. The single-excitation
+# matrix h is literally the same either way, since with one excitation nothing is ever jumped
+# over, so the corner is the same F140 corner and the seed gate reads the same spectrum of h.
+# Order-honest pricing (the Slater sign, sector(fermi=True)) leaves H quadratic in the fermions
+# and the climber commutes EXACTLY; occupation pricing (sigma+ sigma-, the JW string dropped)
+# does not. What the band then does is NOT the same in the two cases, which is why both rows
+# are here: the ring keeps its band anyway, the hop-over loses everything but the two ends.
+_SPIN_EXPECT = {
+    # name -> (predicate on the spin-priced rung list, what the row says)
+    "ring": (lambda g, m: all(v == m for v in g),
+             "keeps every rung full anyway"),
+    "hop-over": (lambda g, m: g[0] == m and g[-1] == m and all(v == 0 for v in g[1:-1]),
+                 "loses every rung but the two ends"),
+}
+for n in (5, 6, 7):
+    gnum, m = locus(n), n // 2
+    r0, _ = roots(n, gnum)
+    for lbl, h in (("ring", h_ring(n)), ("hop-over", h_hopover(n))):
+        out = {}
+        for fermi in (True, False):
+            res = 0.0
+            for (p, q) in ((1, 1), (0, 2), (2, 2), (1, 2)):
+                if p + 1 > n or q + 1 > n or comb(n, p + 1) * comb(n, q + 1) > 900:
+                    continue
+                U = _ladder(n, p, q, True)
+                up = _dense(n, h, gnum, 768, p + 1, q + 1, fermi)
+                res = max(res, np.abs(up @ U - U @ _dense(n, h, gnum, 768, p, q, fermi)).max()
+                          / max(np.abs(up).max(), 1.0))
+            rungs = [frozen(n, h, gnum, 768, p, p, r0, fermi)[0] for p in range(1, n)
+                     if comb(n, p) ** 2 <= EXACT_MAX]
+            out[fermi] = (res, rungs)
+        (rf, gf), (rs, gs) = out[True], out[False]
+        pred, says = _SPIN_EXPECT[lbl]
+        check(f"N={n} the {lbl} priced by ORDER: the climber commutes EXACTLY and every "
+              f"diagonal rung is floor(N/2) = {m}; priced by OCCUPATION, on the same h, it "
+              f"tears and the band {says}",
+              rf == 0.0 and all(v == m for v in gf) and rs > 1e-2 and pred(gs, m)
+              and len(gf) >= 4,
+              f"order-honest |[L, Phi]| = {rf:.1e}, rungs {gf}; occupation-priced "
+              f"{rs:.2e}, rungs {gs}")
+
+# (f4a) the off-diagonal column of the two order-honest rows, which the rung census above does
+# NOT imply: the (0,2) seed's two-excitation sector is where the two pricings part, so V4's
+# occupation-priced reading of it carries nothing over. The seed gate is read here in its own
+# right, and it holds: the order-honest ring follows the parity of N, exactly as its
+# occupation-priced twin does, while the hop-over's h has no symmetric spectrum at any N here.
+for n in (5, 6, 7, 8):
+    gnum, m = locus(n), n // 2
+    r0, _ = roots(n, gnum)
+    want = m if n % 2 == 0 else 0
+    got = {lbl: frozen(n, h, gnum, 768, 0, 2, r0, True)[0]
+           for lbl, h in (("ring", h_ring(n)), ("hop-over", h_hopover(n)))}
+    check(f"N={n} the off-diagonal seed of the order-honest rows: the ring carries "
+          f"{want} on the parity of N and the hop-over, whose h is never symmetric, carries 0",
+          got["ring"] == want and got["hop-over"] == 0
+          and is_bipartite_spectrum(h_ring(n)) == (n % 2 == 0)
+          and not is_bipartite_spectrum(h_hopover(n)), f"{got}")
+
+# (f4'') what the missing ladder costs, read where it shows: at N = 4 the occupation-priced
+# ring carries FOUR on its middle rung against floor(N/2) = 2, and the occupation-priced
+# hop-over carries ONE in the off-diagonal seed where its h-spectrum is not symmetric and the
+# seed gate says nothing should carry. Both are exact, both hold at five couplings and on two
+# locus profiles, and both are N = 4 only: at N = 5, 6, 7 the same reads are floor(N/2) and 0
+# on both profiles. Order-honest pricing has neither exception, which is the point of reading
+# them side by side: a rung count is held equal by the ladder, and where the ladder is gone
+# nothing holds it. N = 4 is also the one N where the frozen root and its fold partner
+# coincide (4*gbar - 2*sigma = -4*gbar exactly at N = 4), which is what leaves room for a count
+# above floor(N/2) there at all; the coincidence is checked beside the exceptions, since it
+# says the overshoot is not forbidden at N = 4, not that it has to happen.
+COUPLINGS = (256, 512, 768, 1536, 3072)
+PROFILES = ((29, -13, 7, 19), (41, -23, 11, 5))
+
+# (f4a2) N = 4 read WHOLE, because there it is not a handful of exceptions but a different
+# reading: the frozen root and its fold partner are the same number, so every block's kernel is
+# fed by both families and the table's N >= 5 cells do not apply. The census below is what the
+# note carries in place of per-cell footnotes. Note in particular that the occupation-priced
+# hop-over, which at N >= 5 keeps only F140's two corners, has its WHOLE diagonal here and half
+# the count off it; and that Heisenberg keeps four corner blocks, its own two and the two fold
+# corners it only meets at this N.
+_N4_CENSUS = {
+    "chain": {(0, 2): 2, (1, 1): 2, (1, 3): 2, (2, 0): 2, (2, 2): 2,
+              (2, 4): 2, (3, 1): 2, (3, 3): 2, (4, 2): 2},
+    "ring by occupation": {(0, 2): 2, (1, 1): 2, (1, 3): 2, (2, 0): 2, (2, 2): 4,
+                           (2, 4): 2, (3, 1): 2, (3, 3): 2, (4, 2): 2},
+    "ring by order": {(0, 2): 2, (1, 1): 2, (1, 3): 2, (2, 0): 2, (2, 2): 2,
+                      (2, 4): 2, (3, 1): 2, (3, 3): 2, (4, 2): 2},
+    "hop-over by occupation": {(0, 2): 1, (1, 1): 2, (1, 3): 2, (2, 0): 1, (2, 2): 2,
+                               (2, 4): 1, (3, 1): 2, (3, 3): 2, (4, 2): 1},
+    "hop-over by order": {(0, 2): 0, (1, 1): 2, (1, 3): 0, (2, 0): 0, (2, 2): 2,
+                          (2, 4): 0, (3, 1): 0, (3, 3): 2, (4, 2): 0},
+    "Heisenberg": {(0, 2): 0, (1, 1): 2, (1, 3): 2, (2, 0): 0, (2, 2): 0,
+                   (2, 4): 0, (3, 1): 2, (3, 3): 2, (4, 2): 0},
+}
+for half in PROFILES:
+    g4 = locus(4, half=half)
+    r4, rfold4 = roots(4, g4)
+
+    def _hk(p, q, _g=g4, _r=r4):
+        d = comb(4, p) * comb(4, q)
+        re, im = _heis(4, _g, 768, p, q)
+        re = re - _r * np.eye(d, dtype=np.int64)
+        return d - max(rank_mod_p(re, im, pp) for pp in PRIMES)
+    readers = {
+        "chain": lambda p, q: frozen(4, h_chain(4), g4, 768, p, q, r4, False)[0],
+        "ring by occupation": lambda p, q: frozen(4, h_ring(4), g4, 768, p, q, r4, False)[0],
+        "ring by order": lambda p, q: frozen(4, h_ring(4), g4, 768, p, q, r4, True)[0],
+        "hop-over by occupation":
+            lambda p, q: frozen(4, h_hopover(4), g4, 768, p, q, r4, False)[0],
+        "hop-over by order":
+            lambda p, q: frozen(4, h_hopover(4), g4, 768, p, q, r4, True)[0],
+        "Heisenberg": _hk,
+    }
+    got = {k: {pq: f(*pq) for pq in sorted(band(4))} for k, f in readers.items()}
+    check(f"N=4 offsets {half[:2]} the WHOLE band, model by model, where the frozen root and "
+          f"its fold partner coincide and the table's N >= 5 reading does not apply",
+          got == _N4_CENSUS and r4 == rfold4,
+          "; ".join(f"{k} {sorted(v.items())}" for k, v in got.items())
+          if got != _N4_CENSUS else f"six models x {len(band(4))} blocks, roots both {r4}")
+for half in PROFILES:
+    g4 = locus(4, half=half)
+    r4, rfold4 = roots(4, g4)
+    reads = [(J, frozen(4, h_ring(4), g4, J, 2, 2, r4, False)[0],
+              frozen(4, h_ring(4), g4, J, 2, 2, r4, True)[0],
+              frozen(4, h_hopover(4), g4, J, 0, 2, r4, False)[0],
+              frozen(4, h_hopover(4), g4, J, 0, 2, r4, True)[0]) for J in COUPLINGS]
+    check(f"N=4 offsets {half[:2]} the occupation-priced exceptions, which the order-honest "
+          f"pricing does not have, at all {len(COUPLINGS)} couplings: the ring's middle rung "
+          f"overshoots floor(N/2) = 2 and the hop-over's seed carries where its h-spectrum is "
+          f"not symmetric",
+          all(rs == 4 and ro == 2 and hs == 1 and ho == 0 for _, rs, ro, hs, ho in reads)
+          and r4 == rfold4,
+          f"(J, ring occ, ring ord, hop occ, hop ord) {reads}; the two roots coincide at "
+          f"N = 4, both {r4}")
+for n in (5, 6, 7):
+    rows, ok = [], True
+    for half in PROFILES:
+        g, (r0, rfold) = locus(n, half=half), roots(n, locus(n, half=half))
+        a = frozen(n, h_ring(n), g, 768, 2, 2, r0, False)[0]
+        b = frozen(n, h_hopover(n), g, 768, 0, 2, r0, False)[0]
+        rows.append(f"offsets {half[:2]}: ring (2,2) {a}, hop-over (0,2) {b}")
+        ok = ok and a == n // 2 and b == 0 and r0 != rfold
+    check(f"N={n} and both exceptions are N = 4 only, on both profiles: the same two reads are "
+          f"floor(N/2) = {n // 2} and 0 here, where the fold root no longer coincides with the "
+          f"frozen one", ok, "; ".join(rows))
+
+# (f4') and the transport that goes with it: on the order-honest ring the climber carries the
+# corner ONTO the rung above, which is exactly what (f3) measures it failing to do on the
+# occupation-priced one. Same bonds, same corner, and the ladder present or absent.
+for n in (5, 6):
+    gnum, m = locus(n), n // 2
+    r0, _ = roots(n, gnum)
+    rows, ok = [], True
+    for lbl, h in (("ring", h_ring(n)), ("hop-over", h_hopover(n))):
+        F1 = frozen_basis(n, h, gnum, 768, 1, 1, r0, True)
+        F2 = frozen_basis(n, h, gnum, 768, 2, 2, r0, True)
+        c = cosines(F2, _ladder(n, 1, 1, True) @ F1)
+        rows.append(f"{lbl} {F1.shape[1]}->{F2.shape[1]}, min cos {c.min():.9f}")
+        ok = ok and F1.shape[1] == m and F2.shape[1] == m and c.min() > 1 - 1e-7
+    check(f"N={n} order-honest pricing restores the transport on BOTH deformations: Phi maps "
+          f"the corner's frozen subspace ONTO the rung above", ok, "; ".join(rows))
 
 # (g) the ladder is wider than the theorem: it knows nothing about the R90 locus.
 for n in (5, 6):
@@ -979,13 +1254,13 @@ def _rank_reference(re, im, p):
     return rank
 
 
-def _M(n, h, gnum, jnum, p, q, root_num):
-    re, im = scaled_block(n, h, gnum, jnum, p, q)
+def _M(n, h, gnum, jnum, p, q, root_num, fermi=False):
+    re, im = scaled_block(n, h, gnum, jnum, p, q, fermi)
     d = re.shape[0]
     return re - root_num * np.eye(d, dtype=np.int64), im
 
 
-def certify(n, h, gnum, jnum, p, q, root_num, extra=None):
+def certify(n, h, gnum, jnum, p, q, root_num, extra=None, fermi=False):
     """The certified nullity: an exact GF(p) read, of the block alone or of the block STACKED
     with a second integer map, which reads dim(ker M cap ker extra) in one rank.
 
@@ -995,7 +1270,7 @@ def certify(n, h, gnum, jnum, p, q, root_num, extra=None):
     rank. That is invisible in a check that asserts a nullity of ZERO, which is exactly what
     the two sl(2) shapes assert, so the cast is what keeps them from passing vacuously. The
     entries of _ladder are 0 and +-1, so the cast itself is exact."""
-    re, im = _M(n, h, gnum, jnum, p, q, root_num)
+    re, im = _M(n, h, gnum, jnum, p, q, root_num, fermi)
     if extra is not None:
         re = np.vstack([re, extra]).astype(np.int64)
         im = np.vstack([im, np.zeros_like(extra)]).astype(np.int64)
@@ -1023,9 +1298,13 @@ for n in (5, 6, 7):
     off = {p: certify(n, h_chain(n), gnum, 768, p, p + 2, r0) for p in range(0, n - 1)
            if comb(n, p) * comb(n, p + 2) <= 1300}
     check(f"N={n} EXACT nullity floor(N/2) = {m} on every diagonal rung, so the ceiling there is "
-          f"certified and not measured", all(v == m for v in diag.values()), f"{sorted(diag.items())}")
-    check(f"N={n} the same certificate on the off-diagonal ladders, where it settles the ceiling "
-          f"and leaves the floor untouched", all(v == m for v in off.values()),
+          f"certified and not measured",
+          all(v == m for v in diag.values()) and len(diag) == n - 1, f"{sorted(diag.items())}")
+    # The rung count is asserted for the same reason it is in V8 (d): the size filter above must
+    # not be able to empty this loop and leave all() true on nothing.
+    check(f"N={n} the same certificate on the off-diagonal ladder, where it settles the ceiling "
+          f"and leaves the floor untouched (the transposed ladder follows by the fold)",
+          all(v == m for v in off.values()) and len(off) >= n - 2,
           f"{sorted(off.items())}")
 
 # (c) the two sl(2) shapes of the same fact, exactly rather than by principal cosines, and at
@@ -1138,7 +1417,8 @@ for n in (4, 5, 6):
 # (g) the reach, opt-in because it costs minutes rather than seconds: the same certificate at the
 # N the default run cannot afford. "python xy_frozen_band.py --deep" adds N = 8 (every diagonal
 # rung, the largest block 4900 x 4900, a few minutes); "--deep 9" adds N = 9, whose two middle
-# rungs are 15876 x 15876 and take the better part of an hour each. At N = 9 one of the two
+# rungs are 15876 x 15876 and take about an hour and forty minutes each, the whole run about
+# three and a half hours. At N = 9 one of the two
 # settles both, since rungs 4 and 5 sit at weights -1 and +1 of the same sl(2) module and weight
 # multiplicities are symmetric.
 if "--deep" in sys.argv:
@@ -1160,7 +1440,20 @@ if "--deep" in sys.argv:
             print(f"       N={n} ({p},{p}) d={comb(n, p) ** 2} nullity {got[p]} "
                   f"[{time.time() - t:.0f}s]", flush=True)
         check(f"N={n} EXACT nullity floor(N/2) = {m} on every diagonal rung",
-              all(v == m for v in got.values()), f"{sorted(got.items())}")
+              all(v == m for v in got.values()) and len(got) == n - 1,
+              f"{sorted(got.items())}")
+        # The rival reading of the N = 4 ring exception is "even N overshoots", and the middle
+        # rung of an even N is where it would show. At N = 8 it does not: both pricings read
+        # floor(N/2) there, so the overshoot stays with the one N whose two roots coincide.
+        if n % 2 == 0:
+            t = time.time()
+            ring = {lbl: certify(n, h_ring(n), gnum, 768, n // 2, n // 2, r0, fermi=fermi)
+                    for lbl, fermi in (("occupation", False), ("order", True))}
+            print(f"       N={n} ring ({n//2},{n//2}) d={comb(n, n // 2) ** 2} {ring} "
+                  f"[{time.time() - t:.0f}s]", flush=True)
+            check(f"N={n} the ring's middle rung reads floor(N/2) = {m} under BOTH pricings, so "
+                  f"the N = 4 overshoot is not an even-N effect",
+                  all(v == m for v in ring.values()), f"{ring}")
 
 print()
 if FAILURES:
