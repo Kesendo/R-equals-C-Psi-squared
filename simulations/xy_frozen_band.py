@@ -48,7 +48,8 @@ importing it executes every check.
       the ceiling at that point, and, the entries being polynomial in (J, gbar, delta), off a
       proper algebraic subset of them. Every rung of all three ladders at N = 5, 6, 7, the two
       sl(2) shapes as stacked-matrix nullities at every step, the room-1 free ceiling read
-      two-sided (it needs distinct offsets, and the shipped profile breaks that from N = 10),
+      two-sided (it needs offsets distinct in ABSOLUTE VALUE, and the shipped profile breaks
+      that from N = 10),
       the uniform point with and without an R-invariant diagonal, and the U*(D - (p-1))
       identity entry for entry. "--deep" adds N = 8, "--deep 9" the N = 9 middle rungs
   V5  a FALSIFIED candidate, kept because it is the obvious one: Xi(rho) = d_a rho d_b on a
@@ -1077,6 +1078,19 @@ for n in (5, 6, 7, 8, 9, 10, 12):
         else:
             check(f"N={n} with repeating offsets a NON-MIRROR pair balances too and the free "
                   f"ceiling loses its count", zeros > m, f"{zeros} zeros against floor(N/2) = {m}")
+
+# and the condition is on the offsets' ABSOLUTE VALUES, not on the offsets: two offsets that are
+# negatives of one another balance a non-mirror pair just as a repeated one does, so three
+# distinct numbers are not enough. This is the case the N = 10 row above cannot see.
+for half, lbl, want_free in (((5, -5, 7), "(5, -5, 7): distinct, but two of them cancel", False),
+                             ((29, -13, 7), "(29, -13, 7): distinct in absolute value", True)):
+    n, m = 6, 3
+    gnum = locus(n, half=half)
+    r0, _ = roots(n, gnum)
+    re0, im0 = _M(n, h_chain(n), gnum, 0, 0, 2, r0)
+    zeros = int(np.sum((np.diag(re0) == 0) & (np.diag(im0) == 0)))
+    check(f"N={n} the free ceiling's condition is on |offsets|, {lbl}",
+          (zeros == m) == want_free, f"{zeros} zeros against floor(N/2) = {m}")
 
 # (e) the uniform point delta = 0 lies ON the locus, and the count survives there. Since a
 # special point of a polynomial family can only carry MORE kernel, an all-N argument at the
