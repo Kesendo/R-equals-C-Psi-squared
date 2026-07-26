@@ -1,4 +1,9 @@
-# Staircase null-test: PRE-REGISTRATION GATE v3.
+# Staircase null-test: PRE-REGISTRATION GATE v4 (flight 2, Amendment 2).
+# v3 -> v4: B-block hardening after flight 1's B-BLOCK-INVALID (mid-batch T1
+# telegraphing): per-spectator SINGLE-EXCITED preparations |010> / |001> (was |011>
+# both-excited), each prep flown as two half-sets INTERLEAVED through the batch
+# (was two end brackets); 142 circuits (was 128). Estimator, arms, grids, verdict
+# machinery unchanged.
 # v2 -> v3 (round-2 review folds): ZZ convention fixed (the measured -3.9 kHz is the
 # CONDITIONAL SHIFT = 4*zeta_c, not the coefficient; v2 predicted 16*zeta_c), SIGMA_DELTA
 # sqrt(2) overshoot fixed, B-block CLEAN self-void rate and min-kept-points floor printed.
@@ -83,10 +88,15 @@ def rho0_arm(s):
                       else np.array([1, 0], dtype=complex))
     return np.outer(psi, psi.conj())
 
-def rho0_B():
-    psi = np.array([1, 0], dtype=complex)
-    for _ in range(2):
-        psi = np.kron(psi, np.array([0, 1], dtype=complex))
+def rho0_B(prep):
+    # Amendment 2 (flight 2): SINGLE-EXCITED B-block, one preparation per spectator.
+    # prep = 1 -> |010> (near spectator excited), prep = 2 -> |001> (far spectator excited).
+    # Flight 1's |011> both-excited block showed a structured residual on the short-T1
+    # spectator; each reference is now read in exactly its arm's configuration.
+    bits = (0, 1, 0) if prep == 1 else (0, 0, 1)
+    psi = np.array([1.0 + 0j])
+    for b in bits:
+        psi = np.kron(psi, np.array([0, 1], dtype=complex) if b else np.array([1, 0], dtype=complex))
     return np.outer(psi, psi.conj())
 
 HAD = np.array([[1, 1], [1, -1]], dtype=complex) / np.sqrt(2)
@@ -117,7 +127,7 @@ GH_X, GH_W = np.polynomial.hermite_e.hermegauss(15)
 NODES = GH_X * SIGMA_DELTA
 WEIGHTS = GH_W / GH_W.sum()
 
-print("== gate v3: building probability tables (quasi-static averaged) ==")
+print("== gate v4: building probability tables (quasi-static averaged) ==")
 P_ARM = {(a, b): {t: np.zeros(D) for t in T_ALL} for a in ARMS for b in ('X', 'Y')}
 for delta, w in zip(NODES, WEIGHTS):
     L = build_L(delta)
@@ -129,9 +139,10 @@ for delta, w in zip(NODES, WEIGHTS):
                 P_ARM[(a, b)][t] += w * probs_from_rho(rho_t, b)
 L0 = build_L(0.0)   # B-block populations are detuning-independent
 P_B = {}
-r0b = rho0_B().flatten('F')
-for t in T_B:
-    P_B[t] = probs_z((expm(L0 * t) @ r0b).reshape(D, D, order='F'))
+for prep in (1, 2):
+    r0b = rho0_B(prep).flatten('F')
+    for t in T_B:
+        P_B[(prep, t)] = probs_z((expm(L0 * t) @ r0b).reshape(D, D, order='F'))
 e0 = np.zeros(D); e0[0] = 1
 e1 = np.zeros(D); e1[-1] = 1
 P_CAL0 = probs_z(np.outer(e0, e0).astype(complex))
@@ -208,20 +219,22 @@ def one_mc():
         num = np.array([cells[a][t] for t in T_DENSE])
         den = np.array([cells["00"][t] for t in T_DENSE])
         dfreq[a] = ols_slope(T_DENSE, np.unwrap(np.angle(num / den)))
-    # B-block: two brackets (batch start + end), per-bracket fits + pooled fit
+    # B-block, Amendment 2: per-spectator SINGLE-EXCITED preps, each run twice
+    # (two half-sets, INTERLEAVED through the batch on hardware; the gate has no
+    # time axis, so a half-set is statistically a bracket). Spectator q reads its
+    # own prep's data only; per-half fits give the bracket-consistency statistic.
     brackets = {1: [], 2: []}
     zs = {1: [], 2: []}
-    for _bracket in (0, 1):
-        zb = {1: [], 2: []}
-        for t in T_B:
-            p = Mi @ (draw(P_B[t]) / SHOTS)
-            for q in (1, 2):
-                bit = N - 1 - q
-                zb[q].append(sum(p[o] * (1 - 2 * ((o >> bit) & 1)) for o in range(D)))
+    for _half in (0, 1):
         for q in (1, 2):
-            G, pinf, _, _ = fit_B(np.array(zb[q]), T_B)
+            zb = []
+            for t in T_B:
+                p = Mi @ (draw(P_B[(q, t)]) / SHOTS)
+                bit = N - 1 - q
+                zb.append(sum(p[o] * (1 - 2 * ((o >> bit) & 1)) for o in range(D)))
+            G, pinf, _, _ = fit_B(np.array(zb), T_B)
             brackets[q].append(G * (1 - 2 * pinf))
-            zs[q].append(zb[q])
+            zs[q].append(zb)
     pred = {}
     bclean = {}
     for q in (1, 2):
@@ -242,7 +255,7 @@ def one_mc():
         rail2=bclean[2]['railed'], pinf2=bclean[2]['pinf'], rms2=bclean[2]['rms'],
     )
 
-print(f"== gate v3: MC x {N_MC} over the flown construction ==")
+print(f"== gate v4: MC x {N_MC} over the flown construction ==")
 runs = [one_mc() for _ in range(N_MC)]
 def col(k): return np.array([r[k] for r in runs])
 
@@ -263,7 +276,7 @@ print(f"  Delta(01): {col('d01').mean():.6f} +- {col('d01').std(ddof=1):.6f}"
 print(f"  dfreq(10): {col('f10').mean():+.5f} +- {col('f10').std(ddof=1):.5f} rad/us (pred {4*ZZ:+.5f})")
 print(f"  dfreq(01): {col('f01').mean():+.5f} +- {col('f01').std(ddof=1):.5f} rad/us (pred 0)")
 print(f"  bracket consistency sigma: bc1 {col('bc1').std(ddof=1):.2e}  bc2 {col('bc2').std(ddof=1):.2e} /us")
-n_circ = len(T_ALL) * len(ARMS) * 2 + 2 * len(T_B) + 2
+n_circ = len(T_ALL) * len(ARMS) * 2 + 2 * 2 * len(T_B) + 2   # Amendment 2: 2 preps x 2 halves
 print(f"  circuits: {n_circ}  shots/circuit: {SHOTS}  total shots: {n_circ*SHOTS:,}")
 
 marg = viol = 0
@@ -284,7 +297,7 @@ print(f"  P(B-block NOT clean | H0) = {notclean/N_MC:.3f}   (self-void rate)")
 print(f"  min kept main-grid points over all arms/replicas: {mk}  "
       f"(day-of re-gate HARD abort if < 5)")
 
-print("\nFROZEN CONSTANTS v3 (this gate, seed 31415, N_MC=2000; centers m_i and bands s_i;")
+print("\nFROZEN CONSTANTS v4 (this gate, seed 31415, N_MC=2000; centers m_i and bands s_i;")
 print("quote to 2 significant figures; the verdict statistic is r_i - m_i;")
 print("m_i are a small day-of-rate-dependent curvature systematic, removed by centering):")
 for k, lbl in (('r1', '1'), ('r2', '2'), ('r3', '3')):
