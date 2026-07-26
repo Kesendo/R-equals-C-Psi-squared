@@ -4,8 +4,9 @@
 Verifier for experiments/XY_FROZEN_BAND.md: where the F140 frozen root -4*gbar lives once the
 chain is XY rather than Heisenberg, and what decides it.
 
-Prints "XY frozen band: ALL GREEN" when every check passes. Runtime about a minute. This file is
-a RUNNER, in the house style of the gates: importing it executes every check.
+Prints "XY frozen band: ALL GREEN" when every check passes. Runtime about two minutes; the
+opt-in "--deep" run adds minutes more. This file is a RUNNER, in the house style of the gates:
+importing it executes every check.
 
   V1  the band law, by full (p,q) census at N = 4..7: the blocks carrying -4*gbar are exactly
       |p - q| in {0, 2} minus the two 1x1 corners (0,0) and (N,N), each carrying floor(N/2)
@@ -41,6 +42,15 @@ a RUNNER, in the house style of the gates: importing it executes every check.
       row that discriminates (a non-bipartite h keeps the DIAGONAL band, so the gate is on the
       seed, not on the ladder), the Heisenberg control, and the ring, where the climber fails
       and the band is full anyway
+  V9  the CEILING, one N at a time: an exact GF(p) rank is an UPPER bound on the rational
+      nullity (rank can only drop under the reduction), which is the direction the proved floor
+      cannot supply and a float nullity never could. So an exact read of floor(N/2) certifies
+      the ceiling at that point, and, the entries being polynomial in (J, gbar, delta), off a
+      proper algebraic subset of them. Every rung of all three ladders at N = 5, 6, 7, the two
+      sl(2) shapes as stacked-matrix nullities at every step, the room-1 free ceiling read
+      two-sided (it needs distinct offsets, and the shipped profile breaks that from N = 10),
+      the uniform point with and without an R-invariant diagonal, and the U*(D - (p-1))
+      identity entry for entry. "--deep" adds N = 8, "--deep 9" the N = 9 middle rungs
   V5  a FALSIFIED candidate, kept because it is the obvious one: Xi(rho) = d_a rho d_b on a
       chiral pair commutes with the Hamiltonian part exactly (checked to machine zero, and
       against the predicted commutator off the chiral locus) yet does NOT carry the corner's
@@ -57,6 +67,8 @@ departing mode at 7.8e-8, under the 1e-7 cut this file used to apply, and the bl
 the exact rank is 4. See frozen(): the read now has to land in a moat, escalates to the exact
 rank when it does not, and refuses rather than guesses when it cannot afford to.
 """
+import sys
+import time
 from itertools import combinations
 from math import comb
 
@@ -64,14 +76,14 @@ import numpy as np
 
 GRID = 1024
 PRIMES = (998244353, 1004535809)
-EXACT_MAX = 260
+EXACT_MAX = 1300
 FLOAT_TOL = 1e-7
 # The moat a float nullity read has to land in, and how far it is worth escalating to the exact
 # rank when it does not. See frozen() for what a read inside the moat is worth and what a read
 # in it is not.
 ZERO_TOL = 1e-12
 NONZERO_TOL = 1e-6
-ESCALATE_MAX = 800
+ESCALATE_MAX = 5000
 
 FAILURES = []
 
@@ -175,25 +187,32 @@ def sqrt_minus_one(p):
 
 
 def rank_mod_p(re, im, p):
+    """Exact rank over GF(p), with i sent to a square root of -1. Vectorized on int64: the
+    trailing submatrix is updated in one numpy operation per pivot rather than row by row, which
+    is what lets the caps above reach the blocks the census used to hand to the SVD. Products
+    stay below p^2 < 2^60, so nothing overflows. Rectangular input is allowed: V9 reads the
+    nullity of a STACKED map that way."""
     r = sqrt_minus_one(p)
-    a = (((re % p) + r * (im % p)) % p).astype(object)
-    d = a.shape[0]
+    a = (((re % p) + r * (im % p)) % p).astype(np.int64)
+    rows, cols = a.shape
     rank = 0
-    for col in range(d):
-        piv = next((row for row in range(rank, d) if a[row, col] % p), None)
-        if piv is None:
+    for col in range(cols):
+        if rank >= rows:
+            break
+        nz = np.nonzero(a[rank:, col])[0]
+        if nz.size == 0:
             continue
+        piv = rank + int(nz[0])
         if piv != rank:
             a[[rank, piv]] = a[[piv, rank]]
         inv = modpow(int(a[rank, col]), p - 2, p)
         a[rank, col:] = (a[rank, col:] * inv) % p
-        for row in range(rank + 1, d):
-            f = int(a[row, col]) % p
-            if f:
-                a[row, col:] = (a[row, col:] - f * a[rank, col:]) % p
+        below = a[rank + 1:, col]
+        hit = np.nonzero(below)[0]
+        if hit.size:
+            a[rank + 1 + hit, col:] = (a[rank + 1 + hit, col:]
+                                       - below[hit, None] * a[rank, col:][None, :]) % p
         rank += 1
-        if rank == d:
-            break
     return rank
 
 
@@ -917,6 +936,217 @@ for n in (5, 6):
     check(f"N={n} off the R90 locus the ladder still commutes exactly, and freezes nothing: "
           f"the symmetry is wider than the theorem it serves",
           res == 0.0 and all(v == 0 for v in frz), f"residual {res:.1e}, dims {frz}")
+
+print()
+print("V9  the CEILING: what one exact rank buys, and where it is free")
+
+# The floor is an argument and holds at every coupling; the ceiling was a census. The gap is
+# shorter than it looks. With the dyadic scaling cleared the block is a Gaussian-integer matrix,
+# and reduction mod p is a ring homomorphism into a field, so rank can only DROP:
+#
+#     nullity over GF(p)  >=  nullity over Q(i).
+#
+# An exact read of floor(N/2) therefore CERTIFIES the rational nullity is at most floor(N/2),
+# which is the direction the ceiling was missing and the one a float nullity can never supply.
+# The floor supplies the other direction, so the two meet and one prime is enough: an unlucky
+# prime can only make the read too LARGE, and a too-large read certifies nothing instead of
+# certifying something false.
+
+
+def _rank_reference(re, im, p):
+    """The object-dtype elimination this file used before the vectorized one landed. Kept for
+    exactly one check: the fast routine carries every read above, so it needs a witness."""
+    r = sqrt_minus_one(p)
+    a = (((re % p) + r * (im % p)) % p).astype(object)
+    rows, cols = a.shape
+    rank = 0
+    for col in range(cols):
+        piv = next((row for row in range(rank, rows) if a[row, col] % p), None)
+        if piv is None:
+            continue
+        if piv != rank:
+            a[[rank, piv]] = a[[piv, rank]]
+        inv = modpow(int(a[rank, col]), p - 2, p)
+        a[rank, col:] = (a[rank, col:] * inv) % p
+        for row in range(rank + 1, rows):
+            f = int(a[row, col]) % p
+            if f:
+                a[row, col:] = (a[row, col:] - f * a[rank, col:]) % p
+        rank += 1
+        if rank == rows:
+            break
+    return rank
+
+
+def _M(n, h, gnum, jnum, p, q, root_num):
+    re, im = scaled_block(n, h, gnum, jnum, p, q)
+    d = re.shape[0]
+    return re - root_num * np.eye(d, dtype=np.int64), im
+
+
+def certify(n, h, gnum, jnum, p, q, root_num, extra=None):
+    """The certified nullity: an exact GF(p) read, of the block alone or of the block STACKED
+    with a second integer map, which reads dim(ker M cap ker extra) in one rank.
+
+    The astype is not decoration. _ladder builds its matrix without a dtype, so it is float64,
+    and stacking it under an int64 block silently upcasts the whole thing; the reduction at
+    r*(im mod p) then lands above 2^53 and the residues come out wrong, biased towards full
+    rank. That is invisible in a check that asserts a nullity of ZERO, which is exactly what
+    the two sl(2) shapes assert, so the cast is what keeps them from passing vacuously. The
+    entries of _ladder are 0 and +-1, so the cast itself is exact."""
+    re, im = _M(n, h, gnum, jnum, p, q, root_num)
+    if extra is not None:
+        re = np.vstack([re, extra]).astype(np.int64)
+        im = np.vstack([im, np.zeros_like(extra)]).astype(np.int64)
+    return re.shape[1] - max(rank_mod_p(re, im, pp) for pp in PRIMES)
+
+
+# (a) the witness for the routine that carries every read in this file
+for n, p, q in ((5, 2, 2), (4, 1, 3)):
+    gnum = locus(n)
+    r0, _ = roots(n, gnum)
+    re, im = _M(n, h_chain(n), gnum, 768, p, q, r0)
+    check(f"N={n} ({p},{q}) the vectorized elimination and the reference one agree exactly",
+          rank_mod_p(re, im, PRIMES[0]) == _rank_reference(re, im, PRIMES[0]),
+          f"rank {rank_mod_p(re, im, PRIMES[0])} of {re.shape[0]}")
+
+# (b) the certificate itself, every rung of all three ladders. What this settles is the ceiling
+# at THIS point of the (J, gbar, delta) space, and, since the entries are polynomial there,
+# everywhere off a proper algebraic subset of it. That is JOINT genericity in coupling AND
+# profile: it is weaker than the corner's own tightness theorem (PROOF_R90_FROZEN_DIVISOR
+# Section 7), which holds at every locus profile because a closed form does the work there.
+for n in (5, 6, 7):
+    gnum, m = locus(n), n // 2
+    r0, _ = roots(n, gnum)
+    diag = {p: certify(n, h_chain(n), gnum, 768, p, p, r0) for p in range(1, n)}
+    off = {p: certify(n, h_chain(n), gnum, 768, p, p + 2, r0) for p in range(0, n - 1)
+           if comb(n, p) * comb(n, p + 2) <= 1300}
+    check(f"N={n} EXACT nullity floor(N/2) = {m} on every diagonal rung, so the ceiling there is "
+          f"certified and not measured", all(v == m for v in diag.values()), f"{sorted(diag.items())}")
+    check(f"N={n} the same certificate on the off-diagonal ladders, where it settles the ceiling "
+          f"and leaves the floor untouched", all(v == m for v in off.values()),
+          f"{sorted(off.items())}")
+
+# (c) the two sl(2) shapes of the same fact, exactly rather than by principal cosines, and at
+# EVERY step of the ladder rather than the first. ker(M) cap ker(Psi) = 0 says no irreducible
+# component has its lowest weight above the seed; Phi injective on a frozen subspace of the same
+# dimension as the one above says Phi lands ONTO it.
+for n in (5, 6, 7):
+    gnum, m = locus(n), n // 2
+    r0, _ = roots(n, gnum)
+    lw = {p: certify(n, h_chain(n), gnum, 768, p, p, r0, _ladder(n, p, p, False))
+          for p in range(2, n)}
+    inj = {p: certify(n, h_chain(n), gnum, 768, p, p, r0, _ladder(n, p, p, True))
+           for p in range(1, n - 1)}
+    check(f"N={n} ker(M) cap ker(Psi) = 0 on every rung above the seed", all(v == 0 for v in lw.values()),
+          f"{sorted(lw.items())}")
+    check(f"N={n} Phi is injective on every rung's frozen subspace, hence onto the next one, at "
+          f"every step", all(v == 0 for v in inj.values()), f"{sorted(inj.items())}")
+    # The two checks above assert a nullity of ZERO, and a stacked read that has silently gone
+    # wrong returns zero too, so on their own they cannot tell a certificate from a corruption.
+    # These two run the SAME path and must come back NONZERO: at the two ends of the ladder the
+    # climber and the descender annihilate the frozen subspace whole, which V8 reads as a float
+    # norm and this reads exactly. They are the sl(2) statement and the witness at once.
+    ends = {"Phi at the top rung": certify(n, h_chain(n), gnum, 768, n - 1, n - 1, r0,
+                                           _ladder(n, n - 1, n - 1, True)),
+            "Psi at the seed": certify(n, h_chain(n), gnum, 768, 1, 1, r0,
+                                       _ladder(n, 1, 1, False))}
+    check(f"N={n} both ends annihilated, exactly: the stacked read returns the whole "
+          f"floor(N/2) = {m} there, which is also what keeps the two zero-checks honest",
+          all(v == m for v in ends.values()), f"{ends}")
+
+# (d) where the ceiling is free, and the condition that makes it so. At room 1 the J = 0 block is
+# DIAGONAL, and if no non-mirror pair of offsets cancels, its zeros are exactly the floor(N/2)
+# balanced-pair cells; rank can only rise, so floor(N/2) caps the nullity at every N with no
+# computation at all. The condition is not decoration: the profile this file ships repeats its
+# offsets from N = 10 on, and there the count breaks. Both sides are read.
+for n in (5, 6, 7, 8, 9, 10, 12):
+    m = n // 2
+    for half, lbl in (((29, -13, 7, 19, 41, 53), "distinct offsets"),
+                      ((29, -13, 7, 19), "the shipped offsets, which repeat from N = 10")):
+        gnum = locus(n, half=half)
+        r0, _ = roots(n, gnum)
+        re0, im0 = _M(n, h_chain(n), gnum, 0, 0, 2, r0)
+        zeros = int(np.sum((np.diag(re0) == 0) & (np.diag(im0) == 0)))
+        offd = int(np.abs(re0 - np.diag(np.diag(re0))).max() + np.abs(im0).max())
+        want = m if (lbl.startswith("distinct") or n < 10) else None
+        if want is not None:
+            check(f"N={n} at J=0 the room-1 seed (0,2) is diagonal with exactly floor(N/2) = {m} "
+                  f"zeros ({lbl})", zeros == m and offd == 0,
+                  f"{zeros} zeros, off-diagonal weight {offd}")
+        else:
+            check(f"N={n} with repeating offsets a NON-MIRROR pair balances too and the free "
+                  f"ceiling loses its count", zeros > m, f"{zeros} zeros against floor(N/2) = {m}")
+
+# (e) the uniform point delta = 0 lies ON the locus, and the count survives there. Since a
+# special point of a polynomial family can only carry MORE kernel, an all-N argument at the
+# uniform point alone would cap every rung generically. That move is the proof document's own at
+# the corner (Section 7, where it is sharper: a closed form, every J != 0); what is open is the
+# rungs above it. Note what does NOT survive the trip: at delta = 0 EVERY pair balances, so the
+# balanced-pair count that indexes the modes on a generic profile is not what counts here.
+for n in (5, 6, 7):
+    gu, m = [92] * n, n // 2
+    r0, _ = roots(n, gu)
+    plain = {p: certify(n, h_chain(n), gu, 768, p, p, r0) for p in range(1, n)
+             if comb(n, p) ** 2 <= 1300}
+    dg = [3 if a in (0, n - 1) else 0 for a in range(n)]
+    diag_h = {p: certify(n, h_chain(n, dg), gu, 768, p, p, r0) for p in range(1, n)
+              if comb(n, p) ** 2 <= 1300}
+    check(f"N={n} the uniform profile carries floor(N/2) = {m} on every diagonal rung, so the "
+          f"all-N question may be asked there", all(v == m for v in plain.values()),
+          f"{sorted(plain.items())}")
+    check(f"N={n} and it is not h's chiral pairs doing the counting: an R-invariant diagonal "
+          f"leaves none and the count stands", all(v == m for v in diag_h.values()),
+          f"{sorted(diag_h.items())}")
+
+# (f) what the uniform point IS, entry for entry: |A^B| = p + q - 2*D with D the cell's double
+# occupancy, so the recentred rate diagonal is exactly U*(D - (p-1)) with U = 4*gamma. Hence
+# M = i*J*K + U*D - U*(p-1): a frozen mode is an eigenvector of a Hubbard operator (hopping
+# inverted on the bra copy, interaction U) at the eigenvalue U*(p-1), and Phi is the eta-pairing
+# operator, which raises THAT energy by exactly U while leaving the Liouvillian's eigenvalue
+# alone. The two statements are about two different operators, E = M + U*(p-1) and M.
+for n in (4, 5, 6):
+    gu = [92] * n
+    r0, _ = roots(n, gu)
+    worst = 0
+    for p in range(1, n):
+        if comb(n, p) ** 2 > 1300:
+            continue
+        re, im = _M(n, h_chain(n), gu, 768, p, p, r0)
+        st = list(combinations(range(n), p))
+        f, u = 4 * n, 4 * 92
+        want = np.array([f * u * (len(set(a) & set(b)) - (p - 1)) for a in st for b in st])
+        worst = max(worst, int(np.abs(np.diag(re) - want).max()),
+                    int(np.abs(re - np.diag(np.diag(re))).max()))
+    check(f"N={n} at the uniform point the recentred rate diagonal is exactly U*(D - (p-1)), "
+          f"U = 4*gamma, and nothing else", worst == 0, f"max deviation {worst}")
+
+# (g) the reach, opt-in because it costs minutes rather than seconds: the same certificate at the
+# N the default run cannot afford. "python xy_frozen_band.py --deep" adds N = 8 (every diagonal
+# rung, the largest block 4900 x 4900, a few minutes); "--deep 9" adds N = 9, whose two middle
+# rungs are 15876 x 15876 and take the better part of an hour each. At N = 9 one of the two
+# settles both, since rungs 4 and 5 sit at weights -1 and +1 of the same sl(2) module and weight
+# multiplicities are symmetric.
+if "--deep" in sys.argv:
+    i = sys.argv.index("--deep")
+    rest = sys.argv[i + 1:]
+    if any(not a.isdigit() for a in rest):
+        raise SystemExit(f"--deep takes N values and nothing else, got {rest}")
+    deep_n = [int(a) for a in rest] or [8]
+    if any(n < 4 or n > 9 for n in deep_n):
+        raise SystemExit("--deep is meant for N = 8 and 9; N = 10 needs 290 GB for one block")
+    print(f"\nV9-deep  the certificate at N = {deep_n}")
+    for n in deep_n:
+        gnum, m = locus(n), n // 2
+        r0, _ = roots(n, gnum)
+        got = {}
+        for p in range(1, n):
+            t = time.time()
+            got[p] = certify(n, h_chain(n), gnum, 768, p, p, r0)
+            print(f"       N={n} ({p},{p}) d={comb(n, p) ** 2} nullity {got[p]} "
+                  f"[{time.time() - t:.0f}s]", flush=True)
+        check(f"N={n} EXACT nullity floor(N/2) = {m} on every diagonal rung",
+              all(v == m for v in got.values()), f"{sorted(got.items())}")
 
 print()
 if FAILURES:
