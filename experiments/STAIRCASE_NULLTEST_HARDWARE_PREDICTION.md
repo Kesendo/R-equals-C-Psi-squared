@@ -169,4 +169,18 @@ Registered BEFORE any flight-2 data exists, in response to flight 1's B-BLOCK-IN
 
 Budget becomes 112 + 28 + 2 = 142 circuits × 8192 = 1,163,264 shots, projected ≈ 6.6 QPU min (the runner's two-term projection, the governing number; pure anchor-scaling of the flight-1 billing gives 6.0), still under the 8-min hard abort. Gate v4 (committed) implements this construction; under the planning inputs it passes with detection 15.1σ / 9.8σ, self-void rate 0.004, and visibly smaller centering systematics (m3: +8.7e-7 vs v3's −1.1e-5, the single-excited reference removing curvature). The governing constants for flight 2 will be a day-of addendum 3 from the v4 gate, committed before that Batch opens; all flight-1 guards, Amendment 1 included, remain in force.
 
+## Day-of addendum 3 (2026-07-26, MARRAKESH, flight 2 under Amendment 2; these constants GOVERN)
+
+**Backend and line.** ibm_marrakesh, calibration `last_update 2026-07-26 05:26:42+02:00` (unchanged since addendum 2; re-verified at selection). Line (35, 34, 33) re-selected as the top rule-passing candidate; bonds re-confirmed. **Day-of re-gate inputs identical to addendum 2** (T1 = [238, 168, 129]; T2* = [124, 32, 62] = 0.4 × reported, target-only gating per Amendment 1; p∞ = [1.5, 2.0, 2.0] %; readout as addendum 2; ζ_shift = −3.9 kHz); the construction is gate v4 (Amendment 2).
+
+**Day-of frozen constants (GOVERNING, gate v4 output, 2 significant figures):**
+
+    m1 = −1.1e-5   s1 = 4.6e-4   /µs
+    m2 = +3.8e-6   s2 = 7.9e-4   /µs
+    m3 = −1.1e-5   s3 = 4.9e-4   /µs
+    sf_near = 4.0e-3   sf_far = 4.0e-3   rad/µs
+    s_bracket = [6.8e-5, 9.1e-5] /µs (near, far)
+
+Gate verdict: PASS. Detection context: Δ̂(10) at 12.4σ, Δ̂(01) at 15.2σ. Family rates: P(≥1 MARGINAL) = 0.11, P(≥1 VIOLATED) = 0.007, P(B-block not clean) = 0.006. Min kept points 11.
+
 *Gate lineage (committed together with this document, guard 7): `simulations/staircase_nulltest_feasibility.py` (v0 scout, 10/10 GREEN: exactness, uneven and collective-Z blindness at 1e-17, ZZ sorting, XY-on robustness, and the discovery of the post-selection normalization trap) and `simulations/staircase_nulltest_gate.py` (v3: flown construction, counts level, matched-pair estimator, quasi-static component, bracketed B-block; the constants above). Theory: [XY_FROZEN_BAND](XY_FROZEN_BAND.md), [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), F84.*
