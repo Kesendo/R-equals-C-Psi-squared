@@ -71,7 +71,7 @@ Constants from the committed gate `simulations/staircase_nulltest_gate.py` (v3, 
 1. **Fresh calibration pull.** Floors: every selected qubit T2* ≥ 60 µs, T1 ≥ 100 µs, readout error ≤ 2%.
 2. **Line rule.** Three adjacent qubits, q0 at an end of the selected 3-line; q0-q2 not directly coupled on the live coupling map.
 3. **Mandatory day-of re-gate (committed addendum).** Before the Batch opens, `staircase_nulltest_gate.py` is re-run with the day-of measured inputs (T1, T2*, readout from the fresh calibration; p∞ from CALIBRATION-class data only, never from the batch's own B-block, which would be circular; ζ_shift if available); the resulting m_i, s_i, sf, s_bracket REPLACE the planning constants above and are committed as an addendum to this document. The committed day-of constants govern the verdict. The re-gate also prints the min-kept-points floor (HARD abort if any arm keeps < 5 main-grid points) and the B-block self-void rate. (Statistics review: the σ bands scale ~1.25× when T2* drops 30% within the allowed floor window; planning bands do not preserve 2σ/3σ coverage across that window; a re-gate does, and it consumes only calibration inputs, so it is not data-peeking.)
-4. **Band-validity window (multi-dimensional).** If any selected qubit's day-of T1 ∉ [100, 500] µs, or T2* < 60 µs, or readout > 2%, the design itself is invalid: abort, redesign, re-register (grids and G-grid were sized for this window; the T1 floor coincides with guard 1's).
+4. **Band-validity window (multi-dimensional).** If any selected qubit's day-of T1 ∉ [100, 500] µs, or the TARGET qubit's T2* < 60 µs (scope per Amendment 1: spectator T2* enters no observable and does not gate), or any readout > 2%, the design itself is invalid: abort, redesign, re-register (grids and G-grid were sized for this window; the T1 floor coincides with guard 1's).
 5. **DD/echo off.** The runner asserts no dynamical decoupling and no scheduling-inserted echo on the delays; bare idle only. Backend max-delay must admit 600 µs.
 6. **Billing projection** re-measured against comparable-run billing (anchor above); abort above 8 QPU min.
 7. **Commit before flight.** This document (with the day-of addendum) AND both cited scripts (`simulations/staircase_nulltest_gate.py`, `simulations/staircase_nulltest_feasibility.py`) committed, real hash, BEFORE the Batch is opened; the committed constants govern the verdict even against any runner printout.
@@ -86,7 +86,15 @@ Constants from the committed gate `simulations/staircase_nulltest_gate.py` (v3, 
 
 ---
 
-## Day-of addendum (2026-07-25, guard 3; these constants GOVERN the verdict)
+## Amendment 1 (2026-07-26, pre-data; backend switch and floor scope)
+
+Recorded BEFORE any science data exists. The 2026-07-25 Kingston submission (job d9iidarhdfks73ch30ag) sat 8+ hours in a 167-job queue and was CANCELLED at 0 billed QPU seconds; no counts were ever produced. The flight moves to the twin Heron r2 backend, **ibm_marrakesh** (the repo's precedent for a pinned twin is the record-parity pre-registration; Marrakesh is also where the ζ = −3.9 kHz context value was measured, so P4 is read on its home chip).
+
+**Floor scope correction, with the physics reason:** guard 1's "every selected qubit T2* ≥ 60 µs" is hereby scoped to the TARGET qubit only. Spectator dephasing enters no observable of this experiment: the arm cells carry the spectators diagonally (a Z-channel acts trivially there, the structural fact all three review rounds verified), and the B-block reads populations, which are dephasing-blind. A spectator T2* floor is therefore physically vacuous, and under the frozen 0.4 T2*-derating it excluded every line on both twin backends for no physical reason. Spectator T2* values are still recorded in the day-of snapshot and in the re-gate inputs. All other floors (T1 window, readout, target T2*) are unchanged; the runner's presubmit check is updated to match (comment "Amendment 1" at the check).
+
+The Kingston day-of addendum below is retained as the record of the aborted attempt; the GOVERNING constants for the actual flight are in the Marrakesh addendum that follows it.
+
+## Day-of addendum (2026-07-25, KINGSTON, superseded by the cancelled queue; retained as record)
 
 **Backend and line.** ibm_kingston, fresh calibration `last_update 2026-07-25 20:33:34+02:00` (pulled 23:06 local, read-only). Selected line: **q0 = 104 (target, chain end), q1 = 105 (near spectator), q2 = 106 (far spectator)**; live coupling map confirms bonds (104,105) and (105,106) and NO (104,106). All floors pass (see inputs).
 
@@ -107,5 +115,27 @@ Constants from the committed gate `simulations/staircase_nulltest_gate.py` (v3, 
     s_bracket = [6.3e-5, 1.0e-4] /µs (near, far)
 
 Gate verdict on these inputs: PASS. Detection context: Δ̂(10) at 9.9σ, Δ̂(01) at 14.7σ (the far spectator's shorter T1 gives the larger splitting). Family rates: P(≥1 MARGINAL) = 0.10, P(≥1 VIOLATED) = 0.009, P(B-block not clean) = 0.005. Min kept points 11. Certification: s1/Γφ,1 with Γφ,1 = 1/70 − 1/380 = 1.17e-2 /µs gives 1σ = 4.4% of the near spectator's pure-dephasing rate (2σ = 8.8%, VIOLATED threshold 3σ = 13%).
+
+## Day-of addendum 2 (2026-07-26, MARRAKESH; these constants GOVERN the verdict)
+
+**Backend and line.** ibm_marrakesh (Heron r2), fresh calibration `last_update 2026-07-26 05:26:42+02:00`. Selected line under Amendment 1: **q0 = 35 (target, chain end), q1 = 34 (near spectator), q2 = 33 (far spectator)**; live coupling map confirms bonds (35,34), (34,33), NO (35,33). Queue at selection: 4 pending.
+
+**Day-of re-gate inputs** (DAY-OF INPUT block of the committed gate, seed 31415, N_MC = 2000, construction unchanged):
+
+- T1 = [238, 168, 129] µs (within [100, 500] ✓)
+- T2* = [124, 32, 62] µs = 0.4 × reported T2 [310, 80, 154] (same frozen derating as addendum 1; target 124 ≥ 60 ✓; spectator values recorded, not gating, per Amendment 1)
+- p∞ = [1.5, 2.0, 2.0] % (calibration-class assumption; not from the batch B-block)
+- readout (ε01, ε10) = [(0.29, 0.34), (0.24, 0.39), (0.10, 2.05)] %
+- ζ_shift = −3.9 kHz (measured on THIS backend, price-pair run 4)
+
+**Day-of frozen constants (GOVERNING; gate output, 2 significant figures):**
+
+    m1 = −1.0e-5   s1 = 4.5e-4   /µs
+    m2 = +1.2e-5   s2 = 7.5e-4   /µs
+    m3 = −3.0e-5   s3 = 4.7e-4   /µs
+    sf_near = 4.0e-3   sf_far = 4.1e-3   rad/µs
+    s_bracket = [7.1e-5, 9.1e-5] /µs (near, far)
+
+Gate verdict: PASS. Detection context: Δ̂(10) at 12.6σ, Δ̂(01) at 15.8σ. Family rates: P(≥1 MARGINAL) = 0.11, P(≥1 VIOLATED) = 0.007, P(B-block not clean) = 0.008. Min kept points 11. Certification: Γφ,1 = 1/32 − 1/336 = 2.8e-2 /µs, so 1σ = 1.6% of the near spectator's pure-dephasing rate (3σ = 4.8%); the derated spectator T2* makes this the tightest certification yardstick of the three gates.
 
 *Gate lineage (committed together with this document, guard 7): `simulations/staircase_nulltest_feasibility.py` (v0 scout, 10/10 GREEN: exactness, uneven and collective-Z blindness at 1e-17, ZZ sorting, XY-on robustness, and the discovery of the post-selection normalization trap) and `simulations/staircase_nulltest_gate.py` (v3: flown construction, counts level, matched-pair estimator, quasi-static component, bracketed B-block; the constants above). Theory: [XY_FROZEN_BAND](XY_FROZEN_BAND.md), [PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), F84.*
