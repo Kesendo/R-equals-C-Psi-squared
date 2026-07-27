@@ -6083,6 +6083,87 @@ Section 7 (Lemma 7.1, Proposition 7.2, Corollary 7.3).
 **Measured in** [ETA_CEILING_REDUCTION](../experiments/ETA_CEILING_REDUCTION.md), which also carries the vectors that attain the bound.
 **Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), blocks V10 (the grade lemma, exhaustively to N = 14, to N = 20 under `--deep`), V11 (the identity as an operator statement on LW_ℓ ∩ V₀, matrix against matrix, at machine zero, with the floor read against the measured minimum) and V12 (the bound attained, and the equality conditions holding on the whole saturating space).
 
+### F145. The seed triplet: every chiral pair carries a spin 1, and its middle is the frozen seed (minted 2026-07-27)
+
+On the open XY chain of N sites with M := N + 1, take a chiral pair of modes
+P = {a, ā} with ā = M − a. Three cell patterns survive the two chiral defect
+conditions of F144 on that pair,
+
+    **u₊(P) = both modes of P in the bra,   u₋(P) = both in the ket,**
+    **u₀(P) = (a in both) − (ā in both),**
+
+the fourth possibility being deleted and the two mixed ones being glued. They sit in
+the blocks (2,0), (1,1) and (0,2), and the SPIN ladder of F142 acts on them as one
+spin-1 multiplet:
+
+    **𝔖⁻ u₊ = ∓u₀,   𝔖⁻ u₀ = ∓2u₋,   𝔖⁻ u₋ = 0,   with 𝔖⁺ the mirror image.**
+
+The coefficients 1 and 2 rather than √2 and √2 are the normalization of u₀ as a
+difference of two cells; their product is 2, the basis-free spin-1 invariant.
+
+The middle of the triplet is not a new object: u₀ is the **seed** of F143, the
+difference of spectral projectors P_k − P_k̄, which has zero diagonal at every site,
+lives only on site pairs at odd distance, and commutes with the hopping matrix at
+every coupling. The outer two are the coherences that create and annihilate the same
+mirror pair out of the vacuum. Seed, birth, death.
+
+Reading: the second SU(2) of F142 is not merely present on the band, it is carried
+one triplet per mirror pair, and that is what makes the attainment count of F146 a
+singlet count.
+
+**Proved in** [PROOF_SCALAR_COUNT](proofs/PROOF_SCALAR_COUNT.md) Sections 1 and 2.
+**Measured in** [WHAT_REACHES_THE_CEILING](../experiments/WHAT_REACHES_THE_CEILING.md).
+**Verification:** [`simulations/scalar_count.py`](../simulations/scalar_count.py), block W1 (every chiral pair at N = 6, 8, 9, 10, 12, 15).
+
+---
+
+### F146. The scalar count: off the cosine resonances, what attains the disagreement floor are the rotation-invariant couplings of those spins (minted 2026-07-27)
+
+Let 𝓜(N, ℓ) be the space of states attaining the F144 floor 𝒦 = ℓ(N − ℓ)/(N + 1) on
+LW_ℓ ∩ V₀, and let R_ℓ be the Riordan number (A005043: 1, 1, 3, 6, 15, 36, 91, 232,
+603 for ℓ = 2..10). Call the rung **chiral-only** when two ℓ-subsets of modes can
+carry the same Slater energy only by exchanging whole chiral pairs; that holds at
+every rung for M prime, M = 2p and M = 2^a, and fails on the cosine resonances of
+F129's kind. Then, **at a chiral-only rung**,
+
+    **dim 𝓜(N, ℓ) = C(⌊N/2⌋, ℓ) · R_ℓ,**
+
+and 𝓜(N, ℓ) is spanned by the products of two connected blocks, one per part of a
+partition of the chosen ℓ chiral pairs into blocks of size 2 and 3. At a resonant rung
+the right-hand side is the dimension of the TRIPLET PART and a surplus sits beside it:
+the whole space has dimension 14 rather than 10 at N = 11, ℓ = 2, and 213 rather than
+105 at N = 14, ℓ = 4. In the F145
+triplet basis those two blocks are the two invariants that three dimensions have,
+
+    **2-block(P,Q) = u₀(P)u₀(Q) − 2[u₊(P)u₋(Q) + u₋(P)u₊(Q)]   (the metric),**
+    **3-block(P,Q,R) = −ε(P,Q,R)   (the volume, twelve terms with entries ±1),**
+
+so 𝓜(N, ℓ) is the space of multilinear SO(3) invariants of ℓ vectors: the count is the
+singlet count of the ℓ-fold tensor of the spin-1, the blocks stop at three by the
+first fundamental theorem, and the relations among the products are the classical
+syzygies, whose multilinear part begins with the vanishing 4 × 4 Gram determinant.
+That last point is where the sequence is decided: at ℓ = 8 the perfect matchings would
+give 105 and the true dimension is 91.
+
+That the rung is chiral-only is the ONE input depending on N, and it is **proved for
+M prime, for M = 2p and for M = 2^a** by the vanishing-sum classification of Lam-Leung
+in the idiom of F129, measured elsewhere. Where it fails the law is not violated but
+accompanied, as above. Resonance is monotone in the rung, and the minimal resonant
+rung j(M) is 2 exactly when 6 | M, 15 | M or 21 | M, measured for every N from 6 to 83
+and with M = 6 itself the one divisible exception, clean because its only coincidence
+is a swap of two whole chiral pairs.
+
+Reading: F144 says the watching charges every rung at least ℓ(N − ℓ)/(N + 1); F146
+says who pays exactly that, and the answer has no chain in it. What the chain
+contributes is the left factor, which of its mirror pairs are used; the right factor
+is a number the world fixes.
+
+**Proved in** [PROOF_SCALAR_COUNT](proofs/PROOF_SCALAR_COUNT.md) Sections 3 and 4.
+**Measured in** [WHAT_REACHES_THE_CEILING](../experiments/WHAT_REACHES_THE_CEILING.md), which carries the two readings that died on the way.
+**Verification:** [`simulations/scalar_count.py`](../simulations/scalar_count.py), blocks W2 (the blocks as the two invariants, 83 of them by default and 258 under `--deep`), W3 (every product a maximizer, over the integers), W4 (the count squeezed between a product rank from below and a condition nullity from above), W5 (the relation subspaces coinciding with the classical ones), W6 (the triplet sector, and the surplus at a resonant N) and W7 (the three proved families and the minimal resonant rung).
+
+---
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
