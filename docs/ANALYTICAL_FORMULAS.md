@@ -5901,6 +5901,142 @@ sampled, though no rank read can see the defectiveness at the exceptional
 couplings. The chain is selectable: `inspect --root divisor --N 5 --chain xy`
 is the invocation that shows the census failing off Heisenberg.
 
+### F141. The disagreement is eta-invariant: the ladder adds no disagreement, so the watching cannot see it (minted 2026-07-27)
+
+Write 𝒦 for the disagreement count of a coherence, the number of sites where
+the ket carries an excitation and the bra does not, so that the Z-dephasing
+part of the Liouvillian is exactly the diagonal −2·Σ_{l ∈ AΔB} γ_l on the cell
+|A⟩⟨B|. Write Φ for the eta-pairing ladder of the frozen band, adding one
+excitation to ket and bra at the same site. Then
+
+    [𝒦, Φ] = 0   and   [𝒦, Ψ] = 0,   at every rung.
+
+(𝒦 is the profile-independent integer count; the quantifier "at every rate
+profile" belongs to the stronger statement that the DISSIPATOR commutes with
+both ladders, which is where it is made.) In fermion language 𝒦 = n_↑ − D̂
+with D̂ the double occupancy, and the two
+commutators [n_↑, Φ] = Φ and [D̂, Φ] = Φ cancel: a matched pair added at an
+empty site raises the particle number by one and the double occupancy by one,
+so it raises their difference by nothing. The set-level reason is shorter
+still, and covers the spin ladder too: both ladders leave AΔB pointwise
+unchanged, so neither is visible to a diagonal that depends only on AΔB.
+
+**What it buys.** Φ, Ψ and 𝒦 close an sl(2) with 𝒦 acting only on the
+MULTIPLICITY spaces, so the spectrum of 𝒦 on a diagonal rung p is the union,
+with multiplicities, of its spectra on the lowest-weight spaces at rungs
+
+    0 ≤ ℓ ≤ min(p, N − p),
+
+both limits load-bearing: the upper is min(p, N−p) and not p, because a
+multiplet seeded at ℓ spans rungs ℓ through N−ℓ and does not reach higher;
+the lower is 0 and not 1, because the vacuum multiplet climbs every rung and
+contributes one mode at 𝒦 = 0, without which the union is short by exactly
+one dimension. A rung's spectrum is therefore inherited from the rungs below,
+and everything about deep rungs is a question about where multiplets START.
+
+**Two things it does NOT buy, both of which the ceiling needs and neither of
+which is this entry's.** "Frozen" is not the same as 𝒦 = 1: at finite coupling
+the frozen condition mixes 𝒦 with the hopping, and 𝒦 does not commute with the
+hopping, so the two coincide only on ker(ad_h), which is where the large-J
+reduction puts the question. And read on the FULL lowest-weight spaces the
+resulting criterion is vacuous, since 𝒦 is diagonal with integer entries there
+and the eigenvalue 1 occurs with large multiplicity at essentially every N,
+including every N where the ceiling holds. The usable criterion is on
+ker(ad_h) and runs ONE WAY (no such eigenvalue ⟹ the ceiling holds); its
+converse fails at N = 5.
+
+**Proved in** [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md)
+Section 4, with the reduction it enables measured in
+[ETA_CEILING_REDUCTION](../experiments/ETA_CEILING_REDUCTION.md).
+**Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), block V3.
+
+### F142. The frozen band CONTAINS one Spin(4) multiplet, and its sideways ladder needs a parity of the hopping matrix, not a symmetry of its spectrum (minted 2026-07-27)
+
+The dephasing XY chain is the Fermi-Hubbard model in disguise (read the ket
+index as one fermion species and the bra index as the other), so TWO commuting
+SU(2)s act, not one. The known ladder Φ = Σ_l d†_l ρ d_l is the eta-pairing,
+unstaggered here, and commutes with the turning for every single-excitation
+matrix h. Its partner is the spin ladder, staggered here,
+
+    S⁺(ρ) = Σ_l (−1)^l d†_l ρ d†_l,   (p, q) ↦ (p+1, q−1),
+
+which steps sideways off the diagonal onto the two neighbouring lines. Both
+commute with the dephasing at any rate profile (F141), and
+
+    [K, S⁺] = 0   ⟺   Σ h Σ = −h,   Σ := diag((−1)^l),
+
+that is, exactly when h connects only sites of OPPOSITE PARITY. Consequently
+the frozen band CONTAINS
+
+    ⌊N/2⌋ copies of the single irrep (j_eta, j_spin) = (N/2 − 1, 1)
+    of Spin(4) = SU(2) x SU(2),
+
+of dimension 3(N − 1). (At ODD N the eta-spin is half-integer, so the irrep is
+a genuine Spin(4) one and does not descend to SO(4) = Spin(4)/Z2; the name
+SO(4) follows standard Hubbard usage and the dimension count, which is what
+the argument uses, is the same either way.) That is one dimension in each of
+the 3(N − 1) band blocks: the three ladders are the three spin components of
+one object, and the band is three lines wide because j_spin = 1.
+
+**Floor, not equality.** What is derived is that those copies are PRESENT,
+which is the ⌊N/2⌋ floor. That the band holds nothing besides them is the
+per-N measured ceiling, open for all N; the verb matters, and the proof
+document scopes it at both places it is used.
+
+**What it decides, and what it does NOT.** Σ-oddness is SUFFICIENT for the
+off-diagonal floor through the spin ladder: where it holds, S⁺ carries the
+corner's frozen space into the neighbouring block, and INJECTIVELY, because
+the seeds are Sigma-ODD and for a symmetric Sigma-odd X the commutator is
+2*Sigma*X, never zero. So the floor there is inherited from the proved corner
+at every N, rather than measured at the N a census reaches. The matching
+EQUALITY on those blocks is the ceiling and stays measured. It is NOT NECESSARY for that block to be occupied, so it
+does not replace, correct or sharpen the measured band-existence gate of
+XY_FROZEN_BAND. The witness both ways is the STAR, one site joined to every
+other: bipartite, so its spectrum is symmetric about zero, but its two colours
+are centre-against-leaves rather than even-against-odd, so it is not Σ-odd and
+S⁺ does not commute there, and it fills the off-diagonal block anyway (2, 5 and
+9 frozen modes at N = 5, 6, 7). Read the entry as naming a mechanism, not a
+criterion for occupancy.
+
+**Scope.** j_spin ≤ 1 is the band statement |p − q| ∈ {0, 2} of
+[XY_FROZEN_BAND](../experiments/XY_FROZEN_BAND.md), which is measured with a
+mechanism argument for its edge, not proved; everything else here is derived.
+
+**Proved in** [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md)
+Sections 2 and 3.
+**Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), blocks V1 and V2, the injectivity in V2(b).
+
+### F143. The seed rung in closed form: the frozen kernel is the chiral-odd sector, and the gap above it is one over the transform length (minted 2026-07-27)
+
+Reduce the frozen question at large coupling to the commutant of the
+single-excitation matrix (PROOF_FROZEN_BAND_SO4 Section 5). At the seed rung
+the surviving operator is G = W² with W_{lk} = v_k(l)² the doubly stochastic
+matrix of squared mode amplitudes, and with M := N + 1 and R the chiral
+involution a ↦ M − a on modes,
+
+    **G = (1/M)·(J + (I + R)/2)**,   J the all-ones matrix,
+
+so, J and R commuting,
+
+    spec(G) = { 0 with multiplicity ⌊N/2⌋,  1/M with multiplicity ⌈N/2⌉ − 1,  1 simple }.
+
+The kernel is exactly the R-odd sector, spanned by the chiral differences
+e_k − e_{M−k}, one per mirror pair, with the self-paired middle mode at odd N
+contributing nothing: the same ⌊N/2⌋ the site picture counts as one frozen mode
+per balanced pair, and the same seat left empty. The gap above the frozen
+eigenvalue is
+
+    **1/M = 1/(N + 1)**,   for N ≥ 3
+
+(at N = 2 the middle band is empty and the gap is 1). That constant is not a
+property of the chain but the LENGTH of the discrete sine transform it
+diagonalises under, and it closes only linearly in N, so the moat a numeric
+rank read needs does not vanish as N grows.
+
+**Proved in** [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md)
+Section 6.
+**Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), block V5 (to N = 40 under `--deep`).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need
