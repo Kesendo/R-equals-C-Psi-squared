@@ -1,19 +1,21 @@
-"""Gate for F141, F142, F143 and the eta-ceiling reduction.
+"""Gate for F141, F142, F143, F144 and the eta-ceiling reduction.
 
 Self-contained: builds every object from scratch and imports nothing from
 the framework, so agreement with the other gates is evidence and not a
 shared bug.
 
 Run:
-    python simulations/eta_ceiling_reduction.py            # about a minute
-    python simulations/eta_ceiling_reduction.py --deep     # + the larger rungs
+    python simulations/eta_ceiling_reduction.py            # about ten seconds
+    python simulations/eta_ceiling_reduction.py --deep     # + the larger rungs, ~4 min
 
 What it checks, block by block:
 
   V1  the two SU(2)s.  Phi (eta-pairing, unstaggered) commutes with the
-      Liouvillian for any number-conserving quadratic H and ANY rate
-      profile; S+ (spin, staggered) commutes iff the single-excitation
-      matrix h is odd under Sigma = diag((-1)^l).  Sigma-oddness is
+      Liouvillian at every rate profile and for each of the SYMMETRIC h
+      this harness can build (block (a) reads the profile and the h; the
+      "any h, symmetric or not" half of Lemma 2.2 is analytic and is not
+      measured here); S+ (spin, staggered) commutes iff the
+      single-excitation matrix h is odd under Sigma = diag((-1)^l).  Sigma-oddness is
       SUFFICIENT for the off-diagonal floor through that ladder and NOT
       necessary for the off-diagonal band to be occupied: block (c) shows
       the star filling it without being Sigma-odd.
@@ -27,8 +29,9 @@ What it checks, block by block:
       overcounts on the upper half of the ladder.
   V4  the overlap closed form 2M*T_abcd, as an integer, against the
       analytic sine modes.
-  V5  F143: the reduced seed operator G = (1/M)(J + (I+R)/2), its
-      spectrum, and the gap 1/(N+1).
+  V5  F143: the reduced seed operator G = (1/M)(ones + (I+R)/2), with
+      ones the all-ones matrix (J is the coupling), its spectrum, and
+      the gap 1/(N+1).
   V6  the large-J reduction: order 1 bounds the multiplicity from above,
       every EVEN order vanishes by transpose parity, and order 3 closes
       the one N where order 1 is loose.
@@ -40,6 +43,19 @@ What it checks, block by block:
   V9  the maximizer in closed form: one vector per pair of chiral pairs,
       plus the exact rational nullity, which needs Q and not a prime
       because it asserts that vectors EXIST.
+  V10 F144, the grade lemma: an overlap T_abcd between two index pairs of
+      EQUAL energy grade survives only for the pair itself, its chiral
+      transpose, or two diagonal pairs.  Checked by exhausting quadruples.
+  V11 F144, the identity, as a MATRIX statement on LW_l cap V0 (the
+      objects Z and Psi are exact integers; the basis of the lowest-weight
+      space comes from an SVD, so the residual is machine zero, not zero):
+      M*Dhat = l(l+1) - |S- v|^2 - (1/4)sum|Y+_aa|^2 - (1/8)sum|Y+_a-abar|^2,
+      with Y+_ab := Y_ab + Y_{M-b,M-a}, plus the floor it yields read
+      against the measured minimum.  The whole deficit is the SPIN ladder.
+  V12 the floor is ATTAINED, and the saturating space is exactly the one
+      the identity predicts: both ladders annihilate it and the two
+      chiral defect terms vanish on all of it.  Also records that the
+      COUNT of maximizers exceeds C(floor(N/2), l) from l = 4 on.
 
 Conventions.  Open XY chain of N sites, H = (J/2) sum_b (X X + Y Y), so the
 single-excitation matrix h has hopping J on neighbours.  Site-resolved
@@ -404,16 +420,32 @@ def v1_two_su2():
                 ("R90 locus", lambda N: np.array([gam + 0.4 * gam * (1 if 2 * i < N - 1
                                                   else (-1 if 2 * i > N - 1 else 0))
                                                   for i in range(N)]))]
+    # (a) Phi commutes with L, read at several rate profiles AND several h.
+    # Which h belong here is not a free choice.  block_L prices a hop by
+    # OCCUPATION (it builds the spin sector through h_sector, which carries no
+    # Jordan-Wigner sign), while phi_matrix carries the JW signs, so the two
+    # agree only where the strings cancel, that is where every bond is between
+    # ADJACENT sites.  Range-2 bonds are therefore excluded on purpose, and
+    # they are not a counterexample to Lemma 2.2: they are the arc's pricing
+    # distinction, which XY_FROZEN_BAND establishes and owns.  The "any h,
+    # symmetric or not" half of Lemma 2.2 is analytic and is not measured here.
+    hvars_phi = [
+        ("chain", lambda N: h_chain(N, J)),
+        ("chain + on-site defect", lambda N: h_chain(N, J, diag=[0.9] + [0.0] * (N - 1))),
+        ("chain + alternating bonds", lambda N: h_chain(N, J, extra=[(l, l + 1, 0.55 * J)
+                                                                     for l in range(1, N - 1, 2)])),
+    ]
     for (pname, prof) in profiles:
-        for N in (4, 5, 6):
-            g = prof(N)
-            h = h_chain(N, J)
-            for (p, q) in [(1, 1), (2, 2)]:
-                Lo, _, _ = block_L(N, p, q, h, g)
-                Lu, _, _ = block_L(N, p + 1, q + 1, h, g)
-                P = phi_matrix(N, p, q)
-                check(f"(a) Phi commutes, {pname}, N={N}, ({p},{q})",
-                      rel(Lu @ P - P @ Lo, P) < 1e-10)
+        for (hname, hf) in hvars_phi:
+            for N in (4, 5, 6):
+                g = prof(N)
+                h = hf(N)
+                for (p, q) in [(1, 1), (2, 2)]:
+                    Lo, _, _ = block_L(N, p, q, h, g)
+                    Lu, _, _ = block_L(N, p + 1, q + 1, h, g)
+                    P = phi_matrix(N, p, q)
+                    check(f"(a) Phi commutes, {pname}, {hname}, N={N}, ({p},{q})",
+                          rel(Lu @ P - P @ Lo, P) < 1e-10)
     def star(N):
         """Centre 0 joined to every other site.  Bipartite, so its spectrum is
         symmetric about zero, but its two colours are centre-versus-leaves and
@@ -611,7 +643,7 @@ def v3b_full_space_is_vacuous():
     """The docs justify intersecting with V0 by saying the criterion is vacuous
     on the FULL lowest-weight space.  That is a load-bearing claim and was not
     computed anywhere, so compute it."""
-    print("\nV3(e) why the intersection with V0 is load-bearing: on the FULL "
+    print("\nV3(c) why the intersection with V0 is load-bearing: on the FULL "
           "lowest-weight space min K = 0 and the eigenvalue 1 is present")
     for N in (4, 6, 7, 8):
         p = 2
@@ -646,17 +678,17 @@ def v4_overlap_closed_form(deep):
 
 
 def v5_seed_spectrum(deep):
-    print("\nV5  F143: G = (1/M)(J + (I+R)/2), its spectrum, and the gap 1/(N+1)")
+    print("\nV5  F143: G = (1/M)(ones + (I+R)/2), its spectrum, and the gap 1/(N+1)")
     for N in list(range(2, 13)) + ([20, 40] if deep else []):
         M = N + 1
         _, V = modes(N)
         W = (V ** 2).T                      # W[l-1, a-1] = v_a(l)^2
         G = W.T @ W
-        Jm = np.ones((N, N))
+        Ones = np.ones((N, N))    # the all-ones matrix; J is the coupling
         R = np.zeros((N, N))
         for a in range(1, N + 1):
             R[a - 1, M - a - 1] = 1.0
-        closed = (Jm + (np.eye(N) + R) / 2) / M
+        closed = (Ones + (np.eye(N) + R) / 2) / M
         w = np.sort(np.linalg.eigvalsh(G))
         pred = np.sort(np.array([0.0] * (N // 2) + [1.0 / M] * ((N + 1) // 2 - 1) + [1.0]))
         check(f"N={N}: G matches the closed form, spectrum as predicted",
@@ -768,11 +800,153 @@ def v9_maximizer(deep):
         check(f"N={N}: exact rational nullity {nul}", nul == want, note)
 
 
+def _eps_reduced(N):
+    """eps_x = zeta^x + zeta^-x as a reduced element of Z[zeta]/Phi_2M, exactly."""
+    twoM = 2 * (N + 1)
+    out = {}
+    for x in range(1, N + 1):
+        v = [0] * twoM
+        v[x % twoM] += 1
+        v[(-x) % twoM] += 1
+        out[x] = v
+    return out, cyclotomic(twoM)
+
+
+def v10_grade_lemma(deep):
+    print("\nV10 the grade lemma: an overlap survives only for the pair itself or its "
+          "chiral transpose")
+    for N in range(3, 21 if deep else 15):
+        M, twoM = N + 1, 2 * (N + 1)
+        eps, phi = _eps_reduced(N)
+        bad, hits = 0, 0
+        for a in range(1, N + 1):
+            for b in range(1, N + 1):
+                for c in range(1, N + 1):
+                    for d in range(1, N + 1):
+                        if two_m_T(a, b, c, d, twoM) == 0:
+                            continue
+                        v = [0] * twoM
+                        for x, s in ((b, 1), (c, 1), (a, -1), (d, -1)):
+                            for i, t in enumerate(eps[x]):
+                                v[i] += s * t
+                        if any(poly_rem(v[::-1], phi)):
+                            continue                      # grades differ: no overlap
+                        hits += 1
+                        if not ((a == b and c == d) or (c, d) == (a, b)
+                                or (c, d) == (M - b, M - a)):
+                            bad += 1
+        check(f"N={N}: {hits} grade-matched quadruples with T != 0, {bad} outside "
+              f"the allowed set", bad == 0)
+
+
+def _lw_operators(N, l):
+    """X_ab and the spin ladder S- as matrices out of the V0 basis at rung l."""
+    pairs, ipair = v0_pairs(N, l)
+    lo = list(itertools.combinations(range(1, N + 1), l - 1))
+    ilo = {s: i for i, s in enumerate(lo)}
+    hi = list(itertools.combinations(range(1, N + 1), l + 1))
+    ihi = {s: i for i, s in enumerate(hi)}
+    nlo, nhi = len(lo), len(hi)
+
+    def X(a, b):
+        Xm = np.zeros((nlo * nlo, len(pairs)))
+        for col, (A, B) in enumerate(pairs):
+            if a in A and b in B:
+                A2 = tuple(x for x in A if x != a)
+                B2 = tuple(x for x in B if x != b)
+                Xm[ilo[A2] * nlo + ilo[B2], col] = sign_remove(A, a) * sign_remove(B, b)
+        return Xm
+
+    Sm = np.zeros((nlo * nhi, len(pairs)))
+    for col, (A, B) in enumerate(pairs):
+        for b in range(1, N + 1):
+            bb = N + 1 - b
+            if bb not in A or b in B:
+                continue
+            A2 = tuple(x for x in A if x != bb)
+            B2 = tuple(sorted(B + (b,)))
+            Sm[ilo[A2] * nhi + ihi[B2], col] += sign_remove(A, bb) * sign_remove(B2, b)
+    return pairs, X, Sm
+
+
+def v11_disagreement_floor(deep):
+    print("\nV11 the floor, exactly: M*Dhat = l(l+1) - |S- v|^2 - (1/4)sum|Y+_aa|^2 "
+          "- (1/8)sum|Y+_a-abar|^2 on LW_l cap V0")
+    cases = [(4, 2), (5, 2), (6, 2), (6, 3), (7, 2), (7, 3), (8, 2), (8, 3), (8, 4),
+             (9, 2), (9, 3), (9, 4), (10, 2), (10, 3)]
+    if deep:
+        cases += [(10, 4), (11, 2), (11, 3), (12, 2), (12, 3), (13, 2), (14, 2)]
+    for (N, l) in cases:
+        M = N + 1
+        Z, Psi, _ = integer_pieces(N, l)
+        n = Z.shape[0]
+        _, s, vh = np.linalg.svd(Psi.astype(float), full_matrices=True)
+        nk = n - int(np.sum(s > 1e-9))
+        if nk == 0:
+            continue
+        K = vh[n - nk:].T                                  # LW_l cap V0
+        _, X, Sm = _lw_operators(N, l)
+        acc = Z.astype(float) / 2.0 + Sm.T @ Sm
+        for a in range(1, N + 1):
+            Q = X(a, a) + X(M - a, M - a)
+            acc += (Q.T @ Q) / 4.0
+            if 2 * a != M:
+                Xc = X(a, M - a)
+                acc += (Xc.T @ Xc) / 2.0
+        R = K.T @ ((acc + acc.T) / 2.0) @ K
+        dev = float(np.max(np.abs(R - l * (l + 1) * np.eye(nk))))
+        # the bound the identity yields, against the measured minimum
+        Km = l * np.eye(n) - Z / (2.0 * M)
+        got = float(np.linalg.eigvalsh(K.T @ ((Km + Km.T) / 2) @ K).min())
+        check(f"N={N} l={l}: identity holds to {dev:.1e}, and min K = "
+              f"{Fr(got).limit_denominator(999)} >= l(N-l)/M = {Fr(l * (N - l), M)}",
+              dev < 1e-9 and got >= float(Fr(l * (N - l), M)) - 1e-9)
+
+
+def v12_attainment(deep):
+    print("\nV12 the floor is ATTAINED, and the saturating space is the one Cor 7.3 "
+          "describes")
+    for N in range(4, 12 if deep else 11):
+        for l in range(2, N // 2 + 1):
+            pairs, _ = v0_pairs(N, l)
+            if len(pairs) > (2200 if deep else 800):
+                continue
+            M = N + 1
+            Z, Psi, _ = integer_pieces(N, l)
+            n = Z.shape[0]
+            _, s, vh = np.linalg.svd(Psi.astype(float), full_matrices=True)
+            nk = n - int(np.sum(s > 1e-9))
+            if nk == 0:
+                continue
+            K = vh[n - nk:].T
+            Zc = K.T @ Z.astype(float) @ K
+            w, U = np.linalg.eigh((Zc + Zc.T) / 2)
+            top = 2 * l * (l + 1)
+            hit = np.abs(w - top) < 1e-7
+            mult = int(hit.sum())
+            if mult == 0:
+                check(f"N={N} l={l}: top of Z on LW = {w[-1]:.6f}, expected {top}", False)
+                continue
+            E = K @ U[:, hit]
+            _, X, Sm = _lw_operators(N, l)
+            dev = float(np.max(np.abs(Sm @ E)))
+            for a in range(1, N + 1):
+                dev = max(dev, float(np.max(np.abs((X(a, a) + X(M - a, M - a)) @ E))))
+                if 2 * a != M:
+                    dev = max(dev, float(np.max(np.abs(X(a, M - a) @ E))))
+            closed = comb(N // 2, l)
+            note = ("count matches C(floor(N/2),l)" if mult == closed
+                    else f"count {mult} EXCEEDS C(floor(N/2),l) = {closed}")
+            check(f"N={N} l={l}: max Z on LW = 2l(l+1) = {top}, attained on {mult} "
+                  f"dims, all three Cor 7.3 conditions vanish to {dev:.1e}",
+                  np.max(np.abs(w - top) < 1e-7) and dev < 1e-9, note)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--deep", action="store_true", help="larger N and larger rungs")
     args = ap.parse_args()
-    print("eta-ceiling reduction gate (F141, F142, F143)")
+    print("eta-ceiling reduction gate (F141, F142, F143, F144)")
     v1_two_su2()
     v2_so4_triplet()
     v2b_splus_injective()
@@ -784,6 +958,9 @@ def main():
     v7_ceiling_certificate(args.deep)
     v8_min_k_law(args.deep)
     v9_maximizer(args.deep)
+    v10_grade_lemma(args.deep)
+    v11_disagreement_floor(args.deep)
+    v12_attainment(args.deep)
     print()
     if FAILURES:
         print(f"eta-ceiling reduction gate: {len(FAILURES)} FAILURES")

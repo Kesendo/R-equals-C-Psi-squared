@@ -5978,9 +5978,13 @@ the argument uses, is the same either way.) That is one dimension in each of
 the 3(N − 1) band blocks: the three ladders are the three spin components of
 one object, and the band is three lines wide because j_spin = 1.
 
-**Floor, not equality.** What is derived is that those copies are PRESENT,
-which is the ⌊N/2⌋ floor. That the band holds nothing besides them is the
-per-N measured ceiling, open for all N; the verb matters, and the proof
+**Floor, not equality.** What is derived here is that those copies are
+PRESENT, which is the ⌊N/2⌋ floor. That the band holds nothing besides them
+is the ceiling, and it is not this entry's: F144 proves its arithmetic input
+for every N and makes the depth exactly ⌊N/2⌋ in the large-J regime, while
+generic coupling still passes through the upper-semicontinuity step
+named after PROOF_FROZEN_BAND_SO4 Proposition 5.1, that proposition
+itself being a proved upper bound at large J and nothing more. The verb matters, and the proof
 document scopes it at both places it is used.
 
 **What it decides, and what it does NOT.** Σ-oddness is SUFFICIENT for the
@@ -6014,9 +6018,10 @@ the surviving operator is G = W² with W_{lk} = v_k(l)² the doubly stochastic
 matrix of squared mode amplitudes, and with M := N + 1 and R the chiral
 involution a ↦ M − a on modes,
 
-    **G = (1/M)·(J + (I + R)/2)**,   J the all-ones matrix,
+    **G = (1/M)·(𝟏𝟏ᵀ + (I + R)/2)**,   𝟏 the all-ones vector,
 
-so, J and R commuting,
+so, 𝟏𝟏ᵀ and R commuting (the all-ones matrix is written as an outer
+product because the letter J it usually carries is the coupling here),
 
     spec(G) = { 0 with multiplicity ⌊N/2⌋,  1/M with multiplicity ⌈N/2⌉ − 1,  1 simple }.
 
@@ -6036,6 +6041,47 @@ rank read needs does not vanish as N grows.
 **Proved in** [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md)
 Section 6.
 **Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), block V5 (to N = 40 under `--deep`).
+
+---
+
+### F144. The disagreement has a floor, and the other ladder sets it: no multiplet starts above the seed at any N ≥ 6 (minted 2026-07-27)
+
+On the open XY chain of N sites, with M := N + 1, write 𝒦 for the
+disagreement count of F141, D̂ = ℓ − 𝒦 for the double occupancy on a
+diagonal rung, V₀ = ker(ad_h) for the commutant of the single-excitation
+matrix, and LW_ℓ for the lowest-weight space of the eta ladder at rung ℓ.
+Let 𝔖⁻ be the SPIN ladder of F142 lowering, let Y_{ab} := f_{b↓}f_{a↑}v,
+and pair each index pair with its chiral transpose,
+Y⁺_{ab} := Y_{ab} + Y_{M−b, M−a}. Then for every v in LW_ℓ ∩ V₀,
+
+    **M·⟨v, D̂ v⟩ = ℓ(ℓ+1)·‖v‖² − ‖𝔖⁻v‖² − ¼·Σ_a ‖Y⁺_{aa}‖² − ⅛·Σ_{a ≠ ā} ‖Y⁺_{a ā}‖²**
+
+and since every subtracted term is a square,
+
+    **𝒦 ≥ ℓ(N − ℓ)/(N + 1)   on LW_ℓ ∩ V₀,**
+
+with equality exactly on the vectors that both ladders annihilate and whose
+two chiral defect terms vanish. For N ≥ 6 and ℓ ≥ 2 the floor exceeds 1, so
+no lowest-weight space above the seed carries the frozen value 𝒦 = 1; the
+binding rung is ℓ = 2 and the threshold 2(N − 2) > N + 1 is where N ≥ 6
+comes from. N = 5 is the one chain length at which the floor lands on 1
+exactly, ℓ(N − ℓ) = N + 1 having no other solution with ℓ ≤ ⌊N/2⌋.
+
+This is the arithmetic input the ceiling needs, previously read as an exact
+rank one rung at a time. With it the multiplicity of 𝒦 = 1 on a diagonal
+band rung is exactly ⌊N/2⌋, all of it from the seed rung, so Proposition 5.1
+of PROOF_FROZEN_BAND_SO4 makes the depth exactly ⌊N/2⌋ **in the large-J
+regime** at every N ≥ 6, with no computation per N. Carrying that to generic
+coupling is the upper-semicontinuity step named after that proposition,
+which is asserted there and not argued.
+Reading: the frozen
+band's two SU(2)s hold the two ends of one statement, the eta ladder the
+floor of the band (F142, Lemma 2.5) and the spin ladder its ceiling.
+
+**Proved in** [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md)
+Section 7 (Lemma 7.1, Proposition 7.2, Corollary 7.3).
+**Measured in** [ETA_CEILING_REDUCTION](../experiments/ETA_CEILING_REDUCTION.md), which also carries the vectors that attain the bound.
+**Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), blocks V10 (the grade lemma, exhaustively to N = 14, to N = 20 under `--deep`), V11 (the identity as an operator statement on LW_ℓ ∩ V₀, matrix against matrix, at machine zero, with the floor read against the measured minimum) and V12 (the bound attained, and the equality conditions holding on the whole saturating space).
 
 ---
 
