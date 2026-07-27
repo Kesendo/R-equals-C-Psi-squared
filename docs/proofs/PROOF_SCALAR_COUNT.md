@@ -10,7 +10,7 @@ and takes well over an hour.
 Before the machinery, what this feels like. [F144](../ANALYTICAL_FORMULAS.md) says the
 watching charges every state on a rung at least ℓ(N − ℓ)/(N + 1), and leaves open who
 pays exactly that. The answer turns out not to be a list of vectors but an old object
-in a new place: **each mirror pair of standing waves carries a spin 1, and the states
+in a new place: **each chiral pair of standing waves carries a spin 1, and the states
 that pay the floor are the rotation-invariant couplings of those spins.** That last
 sentence has one condition on N, stated as step (A) in Section 4 and proved there for
 three families; on the cosine resonances of Section 7 those couplings are still all
@@ -38,6 +38,7 @@ chain keeps its longest-lived memories.
 | X(a,b) | the map (A,B) ↦ (A\a, B\b) with the fermionic signs, zero unless a ∈ A and b ∈ B |
 | R_ℓ | the Riordan number (A005043): 1, 0, 1, 1, 3, 6, 15, 36, 91, 232, 603 for ℓ = 0..10 |
 | p | in "M = 2p" and "j(M)" an odd prime; elsewhere ⌊N/2⌋, the number of chiral pairs. The two never appear in one formula |
+| block | bare, the repo's joint-popcount block (p, q), as in "the blocks (2,0), (1,1), (0,2)". With a prefix, **2-block** and **3-block** are the connected maximizers of this document, which Section 3 identifies with the metric and the volume. The two senses are unrelated and both are needed here |
 
 **The maximizer space** M(N, ℓ) is the set of v ∈ LW_ℓ ∩ V₀ attaining the F144 floor,
 equivalently the top eigenspace of D̂ there. By F144 (Corollary 7.3 of

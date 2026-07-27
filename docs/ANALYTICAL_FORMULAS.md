@@ -4592,7 +4592,7 @@ and fills the third dimension, with θ∘Ad_{Z^⊗N} = (−1)^{n_X} and θ∘Ad_
 That is why y_par was always the strange third axis: the F102-F111 family worked on the
 antiautomorphism dimension, invisible to every unitary conjugation, and needed its own
 tools. The truly criterion (n_Y even AND n_Z even) is the **joint-fixed cell** of the
-diagonal mirror pair: σ is truly iff both D and 𝓕D fix it. And 𝓕D = diag((−1)^{n_Z}),
+diagonal chiral pair: σ is truly iff both D and 𝓕D fix it. And 𝓕D = diag((−1)^{n_Z}),
 acting as ρ ↦ F·ρᵀ·F, is the fourth mirror, named here for the first time: its character
 carried the second leg of the truly criterion for weeks before the operator was ever
 written down.
@@ -4913,7 +4913,7 @@ The non-trivial content is **`λ_min = E`**: a staggered (zone-boundary, `q=π`)
 
 **Source:** [Proof](proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md); verifiers [`handshake_M_checksum.py`](../simulations/handshake_M_checksum.py), [`handshake_M_topology.py`](../simulations/handshake_M_topology.py), [`handshake_F124_adversarial.py`](../simulations/handshake_F124_adversarial.py); context [`hypotheses/HANDSHAKE_GEOMETRY.md`](../hypotheses/HANDSHAKE_GEOMETRY.md) (the `handshake_decoder` arc; the location dictionary is `k=2..N`). **Typed:** `BandEdgeTransitionInvariantClaim` (Tier1Derived, parents `KPartnerSelectionRuleClaim` + `ClockHandLadderClaim`) + live witness `inspect --root transition` (`compute/RCPsiSquared.Diagnostics/Foundation/BandEdgeTransitionInvariantWitness.cs`).
 
-**Resolution-limit reading** (the optics/signal facet, 2026-06-20): the same `M` read as a bond-recovery inverse problem has a defect-localization resolution limit. `λ_min = E = σ_min²(M)` is the worst-case reconstruction floor (the lower frame bound); the condition number `κ = λ_max/λ_min ~ N²` is the noise amplification; the contrast `σ_max/σ_min = √κ ~ N` is how many times harder a staggered q=π zone-boundary defect is to localize than a band-edge one (matched-filter SNR); the worst-conditioned direction is the staggered `λ_min` eigenvector (the q=π detail at the cutoff, the optician's diffraction limit); the floor vanishes as `σ_min ~ (N+1)^(−3/2)`, `E·(N+1)³ → 4π²`. One object in three trades (inverse problem / observability Gramian / optics MTF). **Typed:** `BandEdgeResolutionLimitClaim` (Tier1Derived, parent `BandEdgeTransitionInvariantClaim`) + live witness `inspect --root resolution`; gate-first verifier [`f124_inverse_problem_gate.py`](../simulations/f124_inverse_problem_gate.py). This is the FINITE conditioning of the full matrix, NOT the `DefectDecoder`'s 1.5 sign-location ambiguity (an α-rescaling artifact, gate-refuted; see the `f124_inverse_problem_resolution_seam` arc). Now de-lossed: `DefectDecoder.DecodeDeviation` reads the signed per-site purity-deviation profile and resolves the N=5 mirror pair with the correct sign (squared residual ratio ≈516 vs the α path's ≈1.5); the arc is Retired.
+**Resolution-limit reading** (the optics/signal facet, 2026-06-20): the same `M` read as a bond-recovery inverse problem has a defect-localization resolution limit. `λ_min = E = σ_min²(M)` is the worst-case reconstruction floor (the lower frame bound); the condition number `κ = λ_max/λ_min ~ N²` is the noise amplification; the contrast `σ_max/σ_min = √κ ~ N` is how many times harder a staggered q=π zone-boundary defect is to localize than a band-edge one (matched-filter SNR); the worst-conditioned direction is the staggered `λ_min` eigenvector (the q=π detail at the cutoff, the optician's diffraction limit); the floor vanishes as `σ_min ~ (N+1)^(−3/2)`, `E·(N+1)³ → 4π²`. One object in three trades (inverse problem / observability Gramian / optics MTF). **Typed:** `BandEdgeResolutionLimitClaim` (Tier1Derived, parent `BandEdgeTransitionInvariantClaim`) + live witness `inspect --root resolution`; gate-first verifier [`f124_inverse_problem_gate.py`](../simulations/f124_inverse_problem_gate.py). This is the FINITE conditioning of the full matrix, NOT the `DefectDecoder`'s 1.5 sign-location ambiguity (an α-rescaling artifact, gate-refuted; see the `f124_inverse_problem_resolution_seam` arc). Now de-lossed: `DefectDecoder.DecodeDeviation` reads the signed per-site purity-deviation profile and resolves the N=5 chiral pair with the correct sign (squared residual ratio ≈516 vs the α path's ≈1.5); the arc is Retired.
 
 ---
 
@@ -6026,7 +6026,7 @@ product because the letter J it usually carries is the coupling here),
     spec(G) = { 0 with multiplicity ⌊N/2⌋,  1/M with multiplicity ⌈N/2⌉ − 1,  1 simple }.
 
 The kernel is exactly the R-odd sector, spanned by the chiral differences
-e_k − e_{M−k}, one per mirror pair, with the self-paired middle mode at odd N
+e_k − e_{M−k}, one per chiral pair, with the self-paired middle mode at odd N
 contributing nothing: the same ⌊N/2⌋ the site picture counts as one frozen mode
 per balanced pair, and the same seat left empty. The gap above the frozen
 eigenvalue is
@@ -6105,10 +6105,10 @@ The middle of the triplet is not a new object: u₀ is the **seed** of F143, the
 difference of spectral projectors P_k − P_k̄, which has zero diagonal at every site,
 lives only on site pairs at odd distance, and commutes with the hopping matrix at
 every coupling. The outer two are the coherences that create and annihilate the same
-mirror pair out of the vacuum. Seed, birth, death.
+chiral pair out of the vacuum. Seed, birth, death.
 
 Reading: the second SU(2) of F142 is not merely present on the band, it is carried
-one triplet per mirror pair, and that is what makes the attainment count of F146 a
+one triplet per chiral pair, and that is what makes the attainment count of F146 a
 singlet count.
 
 **Proved in** [PROOF_SCALAR_COUNT](proofs/PROOF_SCALAR_COUNT.md) Sections 1 and 2.
@@ -6155,7 +6155,7 @@ is a swap of two whole chiral pairs.
 
 Reading: F144 says the watching charges every rung at least ℓ(N − ℓ)/(N + 1); F146
 says who pays exactly that, and the answer has no chain in it. What the chain
-contributes is the left factor, which of its mirror pairs are used; the right factor
+contributes is the left factor, which of its chiral pairs are used; the right factor
 is a number the world fixes.
 
 **Proved in** [PROOF_SCALAR_COUNT](proofs/PROOF_SCALAR_COUNT.md) Sections 3 and 4.

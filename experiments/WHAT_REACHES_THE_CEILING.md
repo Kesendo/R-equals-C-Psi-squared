@@ -6,6 +6,10 @@ the afternoon actually went, including the two readings that were written down a
 true and killed within the hour, because that is where the obvious interpretation
 breaks and the next person deserves to see it.
 
+One word does double duty below and the repo spends it elsewhere: **block** on its
+own is the joint-popcount block (p, q), while **2-block** and **3-block** always mean
+the connected maximizers, which turn out to be the metric and the volume of SO(3).
+
 The title says ceiling and F144 says floor, and they are the same states: the
 disagreement 𝒦 and the double occupancy D̂ add to ℓ on a diagonal rung, so the floor
 of what the watching charges is the ceiling of what survives it.
