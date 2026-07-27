@@ -3,7 +3,7 @@
 **Status:** F145 proved at every N; F146 proved at every rung for M = N + 1 prime,
 M = 2p and M = 2^a, and measured elsewhere. Gate:
 [`simulations/scalar_count.py`](../../simulations/scalar_count.py), 67 checks in
-about a minute; `--deep` adds the rungs ℓ = 9 and ℓ = 10, the M = 44
+about a minute; `--deep` reaches 78, adding the rungs ℓ = 9 and ℓ = 10, the M = 44
 prediction and a wider range of N in the block, product, relation and sector checks,
 and takes well over an hour.
 
