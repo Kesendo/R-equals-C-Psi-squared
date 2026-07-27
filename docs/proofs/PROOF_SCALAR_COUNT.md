@@ -4,7 +4,7 @@
 M = 2p and M = 2^a, and measured elsewhere. Gate:
 [`simulations/scalar_count.py`](../../simulations/scalar_count.py), 67 checks in
 about a minute; `--deep` reaches 78, adding the rungs ℓ = 9 and ℓ = 10, the M = 44
-prediction and a wider range of N in the block, product, relation and sector checks,
+prediction and a wider range of N in the checks W2, W3, W5 and W6,
 and takes well over an hour.
 
 Before the machinery, what this feels like. [F144](../ANALYTICAL_FORMULAS.md) says the

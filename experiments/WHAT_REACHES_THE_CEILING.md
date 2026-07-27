@@ -28,8 +28,7 @@ Section 7) proves the floor 𝒦 ≥ ℓ(N − ℓ)/(N + 1) on LW_ℓ ∩ V₀. 
 ATTAINED, and by how many states, is what this note measures.
 **Reproduction:** [`simulations/scalar_count.py`](../simulations/scalar_count.py),
 67 checks in about a minute and 78 under `--deep`, which adds the rungs ℓ = 9 and
-ℓ = 10, the M = 44 prediction, AND a wider range of N in the block, product, relation
-and sector checks.
+ℓ = 10, the M = 44 prediction, AND a wider range of N in the checks W2, W3, W5 and W6.
 It carries the load-bearing numbers: the count at every rung, the blocks against the
 two invariants, the relations against the classical ones, the triplet sector, and the
 resonances. It does NOT carry every number quoted below. Section 5's cell counts,
