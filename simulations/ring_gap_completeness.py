@@ -177,7 +177,7 @@ def main():
     # ============================================================ STAGE 2: completeness (V_1 vs full L)
     print("\n" + "=" * 100)
     print("STAGE 2 -- COMPLETENESS: does the n_XY=1 free-fermion family SPAN the exact-(-2g) subspace? Compare")
-    print("           V_1 dim_sub to the FULL Liouvillian count. N>=5: equal (spans, nothing exceeds 2J);")
+    print("           V_1 dim_sub to the FULL Liouvillian count. N=3 and N>=5: equal (spans, nothing exceeds 2J);")
     print("           N=4: full L has MORE (the {0,2} extras) and full max|Im| = 2sqrt2 J (the lone exception).")
     print("=" * 100)
 
@@ -192,7 +192,7 @@ def main():
         return int(at.sum()), (float(np.abs(ev.imag[at]).max()) if at.any() else float('nan'))
 
     print(f"{'N':>3} {'V_1 dim (n_XY=1)':>17} {'full-L dim':>11} {'spans?':>8} {'full max|Im|':>13} {'verdict':>22}")
-    for N in (4, 5, 6):
+    for N in (3, 4, 5, 6):
         full_dim, full_max = full_L_ring(N)
         spans = (full_dim == v1dims[N])
         if N == 4:
@@ -219,7 +219,7 @@ def main():
     else:
         print("ALL GATES PASS. Summary of the ring free-fermion COMPLETENESS (the open extension closed):")
         print("  * the V_1 (n_XY=1) machinery reproduces the chain's full-L exact-(-2g) subspace (32/50/72 + E1);")
-        print("  * RING COMPLETENESS, gate-verified N=5,6: V_1 dim_sub == full-L dim_sub, so the n_XY=1 free-")
+        print("  * RING COMPLETENESS, gate-verified N=3,5,6: V_1 dim_sub == full-L dim_sub, so the n_XY=1 free-")
         print("    fermion family IS the entire exact-(-2g) subspace (it SPANS) -- nothing exceeds 2J = J*rho;")
         print("  * the n_XY=1 dihedral lock (max|Im|=2J) carries to N=7 via V_1 (full L infeasible there);")
         print("  * N=4 is the LONE exception: full-L dim_sub > V_1 (the {0,2} extras) and full max|Im| = 2sqrt2 J,")

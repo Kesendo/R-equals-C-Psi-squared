@@ -1,13 +1,17 @@
 """Gate-first: the SECOND-CLOCK FLOOR FREQUENCY unifies the chain-N=3 and ring-N=4 specials.
 
 The chain gap-dominance proof (chain N=3) and the ring gap-dominance proof (ring N=4) each carry a lone
-small-N exception: a {0,2}-coherence sqrt-EP mode PINNED on the Re=−2γ floor (for all Q, because that
-sector's block closes there). Treated as two separate specials. This verifier shows they are ONE law:
+small-N exception: a {0,2}-coherence sqrt-EP mode PINNED on the Re=−2γ floor (above its own EP, i.e. for
+Q > Q* = 2J/B, because that sector's block closes there). Treated as two separate specials. This verifier
+shows they are ONE law:
 
-  THE SECOND-CLOCK FLOOR FREQUENCY:  |Im| = sqrt(B^2 − (2γ)^2),
-    a 2x2 {0,2}-block [[−2γ, ω],[−ω, −2γ]] (population <-> 2-Hamming coherence, coupling ω = sqrt(B^2−(2γ)^2)),
-    with B = the FREE-FERMION BAND TOP of the sector the {0,2} block lives in (γ→0 limit). The EP is at
-    B = 2γ (i.e. Q* = 2J/B). One envelope; only B is topology/sector-specific.
+  THE SECOND-CLOCK FLOOR FREQUENCY:  |Im| = sqrt(B^2 − (2γ)^2)  for B > 2γ,
+    the 2x2 {0,2}-block [[0, B], [−B, −4γ]]: a population (Hamming weight 0, dissipator cell 0) coupled to
+    a 2-Hamming coherence (dissipator cell −4γ) by the bare, γ-INDEPENDENT amplitude B. The two cells average
+    to −2γ, which is what puts the PAIR on the floor; the eigenvalues are −2γ ± sqrt((2γ)^2 − B^2), so the
+    pair oscillates at sqrt(B^2 − (2γ)^2) above the EP at B = 2γ (i.e. Q* = 2J/B), is DEFECTIVE there, and
+    below it splits along the real axis and leaves the floor. B = the FREE-FERMION BAND TOP of the sector
+    the {0,2} block lives in (the γ→0 coupling). One envelope; only B is topology/sector-specific.
 
   Three on-floor instances (the {0,2} pins to −2γ only at these special N):
     chain N=3 (1,1):  B = E1   = 2J cos(π/4) = √2 J   (single-particle band edge; floor freq BELOW E1)
@@ -20,6 +24,9 @@ sector's block closes there). Treated as two separate specials. This verifier sh
   STAGE 0  the envelope: |Im| at the floor = sqrt(B^2−(2γ)^2), B γ-INDEPENDENT (γ-sweep), at all 3 instances.
   STAGE 1  B = the free-fermion sector band top (closed forms): E1 / 2J / 2√2 J.
   STAGE 2  exceeds-the-first-clock iff B > J·ρ (ring (2,2) yes; the (1,1) cases marginal).
+  STAGE 3  the block itself: the two diagonal cells (0 and −4γ) read off the full Liouvillian, the defect at
+           B = 2γ, and the crossing (below the EP the pair leaves the floor) -- the discriminator against the
+           equal-diagonal form [[−2γ, ω], [−ω, −2γ]], which would keep the pair on the floor at every γ.
   Scope note: the {0,2} pins to the −2γ floor only at chain N=3 / ring N=4 (other N: it drifts off-floor);
   this is the unification of those two specials, not an all-N floor law.
 
@@ -99,7 +106,7 @@ for name, ring, N, p, B_pred, _ in INSTANCES:
     assert spread < 1e-6, f"STAGE 0 GATE FIRED: {name} B not gamma-independent (spread {spread:.2e})"
     print(f"{'':18} {'-->':>5} {'':>12} {Bs[0]:>18.6f} {f'spread {spread:.1e} OK':>18}")
 print("\nSTAGE 0 PASS: every on-floor {0,2} mode obeys |Im| = sqrt(B^2 - (2g)^2) with B gamma-INDEPENDENT")
-print("  (the 2x2 [[−2g, w],[−w,−2g]] envelope; B = the bare gamma->0 coupling).")
+print("  (the 2x2 [[0, B], [-B, -4g]] envelope; B = the bare gamma->0 coupling, the cells 0 / -4g average to -2g).")
 
 # ====================================================================================================
 # STAGE 1 -- B = the FREE-FERMION BAND TOP of the sector
@@ -134,6 +141,67 @@ assert E1_N3 <= 2 * cos(pi / 4) * J + 1e-9, "chain N=3 B should equal its own ba
 print("\nSTAGE 2 PASS: the ring (2,2) is the lone exceed-case (B=2sqrt2 > 2J = the anti-periodic two-fermion top")
 print("  overtaking the periodic band edge); the (1,1) instances have B = J*rho (the √-shift puts the floor freq")
 print("  just below). So 'second clock overtakes first' = 'a multi-fermion sector top exceeds J*rho'.")
+
+# ====================================================================================================
+# STAGE 3 -- THE BLOCK ITSELF: the cells 0 / -4g, the defect at B = 2g, the crossing off the floor.
+#   The equal-diagonal form [[-2g, w], [-w, -2g]] has eigenvalues -2g +/- i*w at EVERY g: it would hold the
+#   pair on the floor for all Q and leave no EP anywhere. The real block has UNEQUAL cells (0 and -4g,
+#   averaging to -2g), and the discriminator is the crossing: past B = 2g its eigenvalues turn real and the
+#   pair disappears from the floor.
+# ====================================================================================================
+print("\n" + "=" * 104)
+print("STAGE 3 -- the {0,2} block from below: the cells 0 / -4g, the defect at B = 2g, the crossing")
+print("=" * 104)
+
+
+def block(B, g):
+    return np.array([[0.0, B], [-B, -4.0 * g]], dtype=complex)
+
+
+g0 = 0.05
+H4, s4 = H_p(4, 2, True)
+n4 = len(s4)
+pop_cell = -2.0 * g0 * bin(s4[0] ^ s4[0]).count('1')
+coh = [(a, b) for a in range(n4) for b in range(n4) if bin(s4[a] ^ s4[b]).count('1') == 2]
+coh_cell = -2.0 * g0 * bin(s4[coh[0][0]] ^ s4[coh[0][1]]).count('1')
+print(f"  ring N=4 (2,2), g={g0}: dissipator cell of a population {pop_cell:+.4f}, of a 2-Hamming coherence "
+      f"{coh_cell:+.4f}, mean {0.5*(pop_cell+coh_cell):+.4f} = -2g")
+assert abs(pop_cell) < 1e-12 and abs(coh_cell + 4 * g0) < 1e-12, "STAGE 3 GATE FIRED: the cells are not 0 / -4g"
+assert abs(0.5 * (pop_cell + coh_cell) + 2 * g0) < 1e-12, "STAGE 3 GATE FIRED: the cells do not average to -2g"
+
+print(f"{'instance':18} {'B':>10} {'block |Im|':>12} {'measured |Im|':>14} {'match':>6}")
+for name, ring, N, p, B_pred, _ in INSTANCES:
+    im_meas = floor_freq(N, p, g0, ring)
+    w = np.linalg.eigvals(block(B_pred, g0))
+    im_block = float(np.abs(w.imag).max())
+    ok = abs(im_block - im_meas) < 1e-9
+    print(f"{name:18} {B_pred:>10.6f} {im_block:>12.6f} {im_meas:>14.6f} {('YES' if ok else 'NO'):>6}")
+    assert ok, f"STAGE 3 GATE FIRED: {name} block frequency {im_block} != measured {im_meas}"
+    # the block is defective exactly at B = 2g, and the equal-diagonal form is not
+    gEP = B_pred / 2
+    M = block(B_pred, gEP)
+    rank = np.linalg.matrix_rank(M + 2 * gEP * np.eye(2), tol=1e-9)
+    equal_diag = np.array([[-2 * gEP, B_pred], [-B_pred, -2 * gEP]], dtype=complex)
+    rank_eq = np.linalg.matrix_rank(equal_diag + 2 * gEP * np.eye(2), tol=1e-9)
+    assert rank == 1, f"STAGE 3 GATE FIRED: {name} block not defective at B = 2g"
+    assert rank_eq == 2, f"STAGE 3 GATE FIRED: the equal-diagonal form should stay semisimple at B = 2g"
+    print(f"{'':18} {'EP at g = B/2 =':>10} {gEP:.6f}: rank(M+2g) = {rank} (defective) vs {rank_eq} for "
+          f"[[-2g,w],[-w,-2g]] (semisimple, no EP)")
+
+# the crossing, measured on the real Liouvillian: below Q* the pair is gone from the floor
+print(f"\n{'instance':18} {'g':>8} {'2g vs B':>12} {'on-floor |Im|':>14}")
+for name, ring, N, p, B_pred, _ in INSTANCES:
+    for g in (0.9 * B_pred / 2, 1.1 * B_pred / 2):
+        im = floor_freq(N, p, g, ring)
+        rel = "2g < B (above EP)" if 2 * g < B_pred else "2g > B (below EP)"
+        print(f"{name:18} {g:>8.4f} {rel:>12} {(f'{im:.6f}' if im is not None else 'GONE from the floor'):>14}")
+        if 2 * g < B_pred:
+            assert im is not None and abs(im - sqrt(B_pred ** 2 - (2 * g) ** 2)) < 1e-6, \
+                f"STAGE 3 GATE FIRED: {name} should still ride the floor at g={g}"
+        else:
+            assert im is None, f"STAGE 3 GATE FIRED: {name} should have left the floor at g={g} (past its EP)"
+print("\nSTAGE 3 PASS: the block is [[0, B], [-B, -4g]] (cells 0 and -4g, mean -2g), defective exactly at")
+print("  B = 2g, and past its EP the pair leaves the floor -- which the equal-diagonal form cannot produce.")
 
 print("\n" + "=" * 104)
 print("UNIFIED: the chain-N=3 and ring-N=4 specials are ONE law -- the second-clock {0,2} sqrt-EP floor")

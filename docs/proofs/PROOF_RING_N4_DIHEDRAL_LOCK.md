@@ -13,7 +13,7 @@ The 4-cycle is the one ring size that coincides with the bipartite-complete grap
 
 independently of γ and Q = J/γ. The dissipator is pure dephasing, adding only real decay, so no eigenmode can exceed the Hamiltonian's spread: the bound is saturated, not approached.
 
-This is a finite-N exact, Q-universal lock with an exactly rational coefficient, the K_{2,2}-Casimir sibling of the star's point-focus bound Im_max = J·N/2 (3/4 vs 1/2, traced to the bipartite-complete K_{2,2} Casimir gap 3J versus the star's hub-spoke gap, not to bond count alone). (The historical name "dihedral lock" is a stable identifier inherited from the XY sibling; the operative mechanism here is the SU(2) Casimir multiplet structure on K_{2,2}, not the dihedral point group, D₄'s irreps cap at dimension 2 and cannot produce the 3-fold/5-fold degeneracies that set the 3J gap.) What does not carry to larger even rings is the rational closed form: they keep a Q-universal lock but at transcendental constants (ring N=6 at 0.7171·J·N, descending toward ln 2), because the bipartite-complete structure is special to N=4. Typed as RingN4DihedralLockClaim.
+This is a finite-N exact, Q-universal lock with an exactly rational coefficient, the K_{2,2}-Casimir sibling of the star's point-focus bound Im_max = J·N/2 (3/4 vs 1/2, traced to the bipartite-complete K_{2,2} Casimir gap 3J versus the star's hub-spoke gap, not to bond count alone). (The historical name "dihedral lock" is a stable identifier inherited from the XY sibling; the operative mechanism here is the SU(2) Casimir multiplet structure on K_{2,2}, not the dihedral point group, D₄'s irreps cap at dimension 2 and cannot produce the 3-fold/5-fold degeneracies that set the 3J gap.) What does not carry to larger even rings is the *rational* closed form: they keep a Q-universal lock but at irrational algebraic constants (ring N=6 at 0.7171·J·N = ((5+√13)/12)·J·N, descending toward ln 2), because the bipartite-complete structure is special to N=4. Typed as RingN4DihedralLockClaim.
 
 ## Statement
 
@@ -92,7 +92,7 @@ Maximum eigenvalue is +J (the ferromagnetic S_tot = 2 multiplet); minimum is −
 
 ### Section 4. Liouvillian eigenmode realising the bound
 
-The Lindblad Liouvillian L = −i[H, ·] + D where D[ρ] = Σ_l γ_l (Z_l ρ Z_l − ρ) is the pure-dephasing dissipator. For any pair of H-eigenstates |α⟩, |β⟩ with eigenvalues ω_α, ω_β, the rank-1 operator |α⟩⟨β| is an eigenoperator of `−i[H, ·]` with eigenvalue `−i(ω_α − ω_β)` (so Im(λ_L) = −(ω_α − ω_β)). The dissipator D acts diagonally in the joint-popcount basis and contributes only real decay (it commutes with the popcount projection and is hermitian-semi-definite in the operator inner product), hence the dephasing only adds Re(λ_L) corrections, never Im(λ_L).
+The Lindblad Liouvillian L = −i[H, ·] + D where D[ρ] = Σ_l γ_l (Z_l ρ Z_l − ρ) is the pure-dephasing dissipator. For any pair of H-eigenstates |α⟩, |β⟩ with eigenvalues ω_α, ω_β, the rank-1 operator |α⟩⟨β| is an eigenoperator of `−i[H, ·]` with eigenvalue `−i(ω_α − ω_β)` (so Im(λ_L) = −(ω_α − ω_β)). The dissipator D acts diagonally in the joint-popcount basis and is self-adjoint and negative-semidefinite in the operator inner product, so on this rank-1 operator it contributes real decay only. That is a statement about |α⟩⟨β|, not about every eigenmode: on a general eigenmode D mixes these products and does move the frequency. What survives in general is the bound of Section 5.
 
 In particular, the rank-1 operator |Ψ_+⟩⟨Ψ_−| with
 
@@ -103,7 +103,7 @@ is a Liouvillian eigenoperator with eigenvalue λ = γ_decay − i · (J − (�
 
 ### Section 5. No mode exceeds the bound
 
-Every Liouvillian eigenoperator with non-zero imaginary part is a linear combination of products |α⟩⟨β| with H-eigenstates α, β and Im(λ_L) entries in the set {−(ω_α − ω_β) : ω_α, ω_β ∈ σ(H)}. The maximum |Im(λ_L)| over the L-spectrum is therefore bounded by
+Write L = A + D on operator space with the Hilbert-Schmidt inner product, A = −i[H, ·] and D the dephasing dissipator. A is skew-adjoint with spectrum {−i(ω_α − ω_β)}, so ‖A‖ = ΔE_max(H); D is self-adjoint. For a unit right eigenvector v of L with eigenvalue λ, λ = ⟨v, Lv⟩ = ⟨v, Av⟩ + ⟨v, Dv⟩, and the second term is real. Hence Im(λ) = Im⟨v, Av⟩, and the maximum |Im(λ_L)| over the L-spectrum is bounded by
 
     max |Im(λ_L)|  ≤  max{|ω_α − ω_β| : ω_α, ω_β ∈ σ(H)}  =  ΔE_max(H).
 
@@ -111,7 +111,7 @@ For K_{2,2} this is 3J. Combined with the realising mode in Section 4, the bound
 
     Im_max(ring, N=4, J)  =  ΔE_max(H_K22)  =  3J  =  (3/4) · J · N.
 
-The same bound argument applies under non-uniform γ_l per site, as long as the dissipator is pure-dephasing (Z_l jump operators only). The L_H spectral spread is set entirely by H, and the dissipator dresses it with real decay.
+The same bound argument applies under non-uniform γ_l per site, as long as the dissipator is pure-dephasing (Z_l jump operators only): only self-adjointness of D was used, not the value of the rates. Read the bound for what it is, an interval and not a fixed point: individual frequencies do move under the watching, and most of them leave the difference set {ω_α − ω_β} (at N = 4, γ = 0.5, 28 of the 35 distinct imaginary parts are not in it). What no eigenmode can do is leave the interval.
 
 ### Section 6. Q-universality
 
@@ -128,11 +128,11 @@ The bipartite-complete structure C_4 = K_{2,2} relies on the 4-cycle having exac
 - 6-cycle has 6 bonds, K_{3,3} has 9: a 6-cycle is bipartite but NOT bipartite-complete.
 - 8-cycle has 8 bonds, K_{4,4} has 16: same story.
 
-For odd N (3-cycle, 5-cycle, ...) the ring is not even bipartite. So the K_{2,2} = C_4 coincidence is unique to N=4. Ring N=6, ring N=8 etc. show Q-universal locks too (empirically, [`hypotheses/F1_DISSIPATION_GAP_PATTERN.md`](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md): ring N=6 = 0.717129·J·N at 6 Q-anchors), but the per-N closed form requires Bethe ansatz on the cyclic dispersion rather than the simple Casimir argument that closes N=4.
+For odd N (3-cycle, 5-cycle, ...) the ring is not even bipartite. So the K_{2,2} = C_4 coincidence is unique to N=4. Ring N=6, ring N=8 etc. show Q-universal locks too (empirically, [`hypotheses/F1_DISSIPATION_GAP_PATTERN.md`](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md): ring N=6 = 0.717129·J·N at 6 Q-anchors), but the per-N constant is no longer rational, and no Casimir argument as simple as the N=4 one produces it. It does stay elementary for a while: 4H has integer entries, so E₀(N) is an algebraic number, and factoring the exact characteristic polynomial of the S_z = 0 sector over ℚ gives c₆ = (5+√13)/12 (from λ² + 8λ − 36), c₈ the largest root of 512c³ − 640c² + 232c − 25, and c₁₀ the largest root of a sextic (`ring_dihedral_lock_limit.py` STAGE 2, exact factors, residuals at machine precision). What needs Bethe ansatz is the N → ∞ limit, not the individual N.
 
 ## The N → ∞ limit: c_∞ = ln 2 (resolved 2026-06-04)
 
-Although the per-N value needs Bethe ansatz, the LIMIT is closed. Section 5 reduces the lock to the Hamiltonian alone, Im_max(L) = ΔE_max(H) = E_max − E_min (the dephasing adds only real decay), so the dimensionless constant is
+Although the per-N value needs Bethe ansatz, the LIMIT is closed. Section 5 gives the bound Im_max(L) ≤ ΔE_max(H) at every N (the dephasing adds only real decay); what turns the bound into the equality Im_max(L) = ΔE_max(H) = E_max − E_min, and so reduces the lock to the Hamiltonian alone, is saturation, which Section 4 proves at N = 4 and which is measured at N = 6 (full Liouvillian, `ring_dihedral_lock_limit.py --slow` STAGE 1: max|Im| = 4.302776 = ΔE_max at γ = 0.05 and at γ = 0.5) and at N = 8 (the Q = 2 anchor Im/σ = 1.4128 = 0.7064·Q of [F1_DISSIPATION_GAP_PATTERN](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)). On that footing the dimensionless constant is
 
     c_N  ≡  Im_max / (J·N)  =  (E_max − E_min) / (J·N)  =  1/4 − E₀(N)/(J·N),
 
@@ -152,7 +152,7 @@ Computing E₀(N) directly ([`simulations/ring_dihedral_lock_limit.py`](../../si
 | 14 | 0.69740 | +0.00425 |
 | 16 | 0.69639 | +0.00325 |
 
-The N=6 value 0.71713 reproduces the F1_DISSIPATION_GAP empirical 0.717129, validating the Im_max = ΔE_max(H) reduction. The sequence decreases monotonically to ln 2 with a clean 1/N² finite-size approach (c_N − ln 2 quarters as N doubles: 0.01324 at N=8 → 0.00325 at N=16). It crosses 1/√2 at N=8; 1/√2 is only a value the sequence passes through, not the limit (the same red-herring lesson as the birth-canal s* = 0.709). So the Q-universal ring dihedral lock, left open for general N, has the exact limit c_∞ = ln 2.
+The N=6 value 0.71713 reproduces the F1_DISSIPATION_GAP empirical 0.717129, validating the Im_max = ΔE_max(H) reduction there. From N = 10 on the table is the Hamiltonian spread alone; reading those rows as Im_max carries the saturation assumption with them, which is why the limit statement below is about ΔE_max/(J·N), exactly, and about Im_max only where saturation has been checked. The sequence decreases monotonically to ln 2 with a clean 1/N² finite-size approach (c_N − ln 2 quarters as N doubles: 0.01324 at N=8 → 0.00325 at N=16). It crosses 1/√2 at N=8; 1/√2 is only a value the sequence passes through, not the limit (the same red-herring lesson as the birth-canal s* = 0.709). So the Q-universal ring dihedral lock, left open for general N, has the exact limit c_∞ = ln 2.
 
 ## Relationship to the star saturation
 
@@ -168,6 +168,7 @@ The ratio between the two is `(3/4)·J·N / (J·N/2) = 3/2`: ring N=4 carries 50
 
 - Python anchor at 6 Q-values × γ₀=0.05: [`simulations/f1_q_sweep_anchor.py`](../../simulations/f1_q_sweep_anchor.py) → `simulations/results/q_sweep_anchor/ring_N4_Q*.json`.
 - Typed claim: [`compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs) (Tier 1 derived) with `Predict(J)` returning `(3/4) · J · N = 3J` at N=4.
+- The larger rings: [`simulations/ring_dihedral_lock_limit.py`](../../simulations/ring_dihedral_lock_limit.py). STAGE 0 the c_N sequence and its ln 2 limit; STAGE 1 saturation, the premise that lets c_N be read as Im_max (N=4 by default, N=6 under `--slow`, both at two γ); STAGE 2 the finite-N closed forms against their integer minimal polynomials.
 
 ## Cross-references
 

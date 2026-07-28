@@ -10,7 +10,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Absorption Theorem, cited not re-derived. Whether the clock/seam reads that band edge as ω_mem is a
 /// topology-specific regime (witnessed, not separately claimed): a Q-horizon for chain (all N), star
 /// (N≤5), and odd rings; a structural ceiling for star N≥6 (strict gap saturates below 2γ); a
-/// co-occupied-floor mismatch for ring N=4 (a (2,2) mode at the floor with Im=2√2·J > band edge). The
+/// co-occupied-floor mismatch for ring N=4 (a (2,2) mode at the floor with Im=2√2·J > band edge, on the
+/// Q > 1 side: its floor frequency √((2√2·J)²−(2γ)²) drops back under 2J at γ = J, and the block leaves the
+/// floor at its EP γ = √2·J; PROOF_RING_GAP_DOMINANCE, "the exception has a Q window"). The
 /// quantitative Re-side ceiling (the closed forms g2(K_N)=4/N, star √(N−1)→4/(N−1), K_4=2−2/√3, derived
 /// from the commutant rep structure) is the companion <see cref="StructuralCeilingClaim"/> (F122).
 ///
@@ -49,7 +51,7 @@ public sealed class TopologyBandEdgeClaim : Claim
                "band edge to any topology (the Im/L_H side; the Re=−2γ floor is the Absorption Theorem, n_XY=1). " +
                "Gap-dominance (whether ω_mem reads the band edge) is topology-specific and witnessed: Q-horizon " +
                "for chain (all N) / star (N≤5) / odd rings; structural ceiling for star N≥6; co-occupied floor " +
-               "for ring N=4 (a (2,2) mode at −2γ with Im=2√2·J > band edge).",
+               "for ring N=4 (a (2,2) mode at −2γ with Im=2√2·J > band edge, on the Q>1 side of that N).",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md (§4.3 gap=2γ above Q*_gap(N), §4.5 n_XY=Hamming, the −2γ floor) + " +
                "docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md (the chain gap-dominance proof that lifts the cap) + " +
