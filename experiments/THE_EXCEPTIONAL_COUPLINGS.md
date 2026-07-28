@@ -20,7 +20,10 @@ This note is the companion measuring, not a standalone document: the band, the f
 the two ladders Φ and S⁺ with their lowest-weight spaces, V₀ = ker(ad_h) and the transform
 length M = N + 1 are all defined in
 [PROOF_FROZEN_BAND_SO4](../docs/proofs/PROOF_FROZEN_BAND_SO4.md), Section 1, and are used here
-in exactly that sense.
+in exactly that sense. Two of its words are spent twice in this repository and its Section 1
+says which sense it means: **block** is the joint-popcount block (p, q), and **seed** is the
+bottom rung of a ladder with the frozen modes that start there, never MirrorWorld's `Seed`,
+which is a coupling-independent count and has nothing to do with this.
 
 ## What this is about, before any of the machinery
 

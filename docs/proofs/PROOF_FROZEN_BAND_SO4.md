@@ -172,7 +172,7 @@ What carries the step from one coupling to the others is not perturbation theory
 
 **Proposition 5.3 (one coupling fixes the generic count).** Read the block at the frozen root as the pencil **M(J) = C + i·J·A₀**, with C the rate diagonal shifted by −4γ̄ and A₀ the Hamiltonian part at J = 1, both integer. Then:
 
-1. dim ker M(J) is constant off a finite set of couplings and takes its minimum there. The entries of M are polynomials in J, so for r the rank over the field ℚ(i)(J) the r×r minors are polynomials not all identically zero, the rank equals r off their common zero set, which is finite, and the rank can only drop on it.
+1. dim ker M(J) is constant off a finite set of couplings and takes its minimum there. The entries of M are polynomials in J, so for r the rank over ℚ(i)(J), the rational functions of the coupling, the r×r minors are polynomials not all identically zero, the rank equals r off their common zero set, which is finite, and the rank can only drop on it.
 2. Section 3's floor gives dim ker M(J) ≥ ⌊N/2⌋ at every J ≠ 0, so the generic count is at least ⌊N/2⌋.
 3. The branches Proposition 5.1 counts are exactly the generic count, by the same finiteness, so with Corollary 7.3 the generic count is at most ⌊N/2⌋ for every N ≥ 6.
 
