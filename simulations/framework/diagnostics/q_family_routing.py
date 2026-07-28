@@ -211,6 +211,11 @@ def _normalize_term(term):
     for ch in letters:
         if ch not in LABEL_TO_INDEX:
             raise ValueError(f"unknown Pauli letter {ch!r} in term {term!r}")
+    if 'I' in letters:
+        raise ValueError(
+            f"term {term!r} contains an identity letter; the routing table is "
+            f"defined on the nine non-identity bilinears only"
+        )
     return letters
 
 
@@ -224,7 +229,9 @@ def classify_two_term_palindrome(term1, term2, N=3, gamma_0=0.05):
     parity-break cross-check.
 
     Args:
-        term1, term2: each a 2-char Pauli string ('XY') or 2-tuple (('X','Y')).
+        term1, term2: each a 2-char Pauli string ('XY') or 2-tuple (('X','Y')),
+            drawn from the nine non-identity bilinears; an identity letter
+            raises ValueError, since the routing table is not defined there.
         N: chain length, used only for the parity-break test (default 3).
         gamma_0: per-site dephasing rate. Carried for signature parity with the
             cockpit; the routing fate does not depend on it (default 0.05).

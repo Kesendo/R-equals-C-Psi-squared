@@ -4,8 +4,10 @@ These primitives factor the spectral-propagation hot loop shared by:
   - ptf.py (per-site purity trajectories)
   - bridge_dynamics.py (per-site Bloch trajectories)
 
-Vec convention: column-stack (matches `lindbladian_general`'s
-`np.kron(H, Id) - np.kron(Id, H.T)`).
+Vec convention: ROW-stack, numpy default. `lindbladian_general` builds
+`np.kron(H, Id) - np.kron(Id, H.T)`, which acts on `rho.flatten()`, NOT on
+`flatten('F')`. The two agree only for symmetric rho, so a state with complex
+off-diagonals silently propagates its conjugate if the wrong order is used.
 """
 from __future__ import annotations
 
@@ -16,14 +18,14 @@ def propagation_setup(L, rho_0):
     """Eigendecompose L and project ρ_0 into the eigenbasis.
 
     Args:
-        L: 4^N × 4^N Liouvillian (vec form, column-stack).
+        L: 4^N × 4^N Liouvillian (vec form, row-stack / numpy default).
         rho_0: 2^N × 2^N density matrix.
 
     Returns:
         (evals, R, R_inv, c0) where c0 = R⁻¹ · vec(ρ_0). Subsequent
-        evaluation: ρ(t) = (R · diag(exp(λ·t)) · c0).reshape(d, d, 'F').
+        evaluation: ρ(t) = (R · diag(exp(λ·t)) · c0).reshape(d, d).
     """
-    rho_vec = rho_0.flatten('F').astype(complex)
+    rho_vec = rho_0.flatten().astype(complex)
     evals, R = np.linalg.eig(L)
     R_inv = np.linalg.inv(R)
     c0 = R_inv @ rho_vec
@@ -34,7 +36,7 @@ def per_site_bloch_trajectory(evals, R, c0, t_grid, site_paulis_):
     """Per-site Bloch components ⟨X_i⟩, ⟨Y_i⟩, ⟨Z_i⟩ at each t.
 
     Spectral propagation: ρ(t) = R · diag(exp(λ·t)) · c0, reshaped to
-    d×d (column-stack), Hermitized for numerical safety, then traced
+    d×d (row-stack), Hermitized for numerical safety, then traced
     against per-site Pauli operators.
 
     Args:
@@ -53,7 +55,7 @@ def per_site_bloch_trajectory(evals, R, c0, t_grid, site_paulis_):
     n_t = len(t_grid)
     trajectory = np.zeros((N, n_t, 3))
     for ti, t in enumerate(t_grid):
-        rho_t = (R @ (np.exp(evals * t) * c0)).reshape(d_phys, d_phys, order='F')
+        rho_t = (R @ (np.exp(evals * t) * c0)).reshape(d_phys, d_phys)
         rho_t = 0.5 * (rho_t + rho_t.conj().T)
         for i, (Xi, Yi, Zi) in enumerate(site_paulis_):
             trajectory[i, ti, 0] = float(np.real(np.trace(Xi @ rho_t)))

@@ -37,8 +37,14 @@ def polarity_diagnostic(rho_or_psi, N=None):
               Marks sites sitting on the d=0 boundary itself.
           'aggregate_polarity': float, mean(|polarity_axis|) — how strongly
               the state sits at the polarity ends overall (1 = pure ±0).
-          'on_axis_fraction': float, 1 − mean(off_axis²) — what fraction of
-              the per-site Bloch length lives on the X-axis.
+          'on_axis_fraction': float, 1 − mean(off_axis²), the transverse
+              content subtracted from one. This is NOT a fraction of the Bloch
+              length: it is not divided by ‖Bloch‖, so it equals mean(⟨X⟩²)
+              only when every site is pure. The maximally mixed state, whose
+              Bloch vector vanishes at every site, scores 1.0 here, which reads
+              as "fully on-axis" for a state that has no axis at all. Read it as
+              absence of Y and Z content, and use 'site_blochs' when the Bloch
+              length matters.
           'site_blochs': array N×3, full (⟨X⟩, ⟨Y⟩, ⟨Z⟩) Bloch vectors per site.
     """
     rho, N = to_density_matrix(rho_or_psi, N)

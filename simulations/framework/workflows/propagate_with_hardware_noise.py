@@ -136,7 +136,7 @@ def propagate_with_hardware_noise(chain, rho_0, t, terms=None,
 
     # Build full Lindbladian and propagate
     L = lindbladian_general(H, c_ops)
-    rho_vec = rho_0_mat.flatten('F')
+    rho_vec = rho_0_mat.flatten()
     rho_t_vec = expm(L * float(t)) @ rho_vec
-    rho_t = rho_t_vec.reshape(d, d, order='F')
+    rho_t = rho_t_vec.reshape(d, d)
     return 0.5 * (rho_t + rho_t.conj().T)  # symmetrize numerical drift

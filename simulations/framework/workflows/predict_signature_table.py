@@ -33,11 +33,11 @@ def _trotter_step_unitary(N, bonds, terms, J, delta_t):
 
 
 def _vec_F(M):
-    return M.flatten('F')
+    return M.flatten()
 
 
 def _unvec_F(v, d):
-    return v.reshape((d, d), order='F')
+    return v.reshape((d, d))
 
 
 def predict_signature_table(

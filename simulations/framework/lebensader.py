@@ -53,7 +53,19 @@ def _validate_rho(rho, N, atol=1e-6):
 
 
 def _purity_psi_norm_cpsi(rho):
-    """CΨ glossary: Purity·Ψ-norm. Ψ-norm = L1(ρ)/(d-1)."""
+    """CΨ in the CORE_ALGEBRA reading: C = Tr(ρ²) (purity) times Ψ-norm = L1(ρ)/(d−1).
+
+    This is the ALGEBRA reading of CΨ, not the lens reading. docs/GLOSSARY.md gives
+    CΨ as concurrence × coherence; docs/THE_CPSI_LENS.md §Notation records both and
+    notes that the fixed-point structure and the ¼ bound hold for either real-valued
+    C. Purity is what generalises: Wootters concurrence is defined for two qubits
+    only, so cockpit_panel, which runs at arbitrary N, uses the algebra reading
+    throughout, and its 'cpsi' and 'theta' outputs are that reading.
+
+    The two part company on separable states: |+⟩|+⟩ has purity 1 and coherence 1,
+    so this returns 1 (θ = 60°), while concurrence is 0 there, so the lens reading
+    returns 0 (θ = 0°). Read θ here as purity-coherence geometry, not entanglement.
+    """
     p = float(np.real(np.trace(rho @ rho)))
     d = rho.shape[0]
     l1 = float(np.sum(np.abs(rho)) - np.sum(np.abs(np.diag(rho))))

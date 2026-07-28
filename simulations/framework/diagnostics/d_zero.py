@@ -94,14 +94,14 @@ def d_zero_decomposition(rho, chain, tol=1e-9):
           'kernel_dimension':  n_kernel
     """
     sm = stationary_modes(chain, tol=tol)
-    rho_vec = rho.flatten('F').astype(complex)
+    rho_vec = rho.flatten().astype(complex)
 
     # Projector onto kernel via biorthogonal basis: P = R_kernel · W_kernel
     P_kernel = sm['right_eigvecs'] @ sm['left_covecs']
 
     rho_d0_vec = P_kernel @ rho_vec
     d_phys = 2 ** chain.N
-    rho_d0 = rho_d0_vec.reshape(d_phys, d_phys, order='F')
+    rho_d0 = rho_d0_vec.reshape(d_phys, d_phys)
     rho_d0 = 0.5 * (rho_d0 + rho_d0.conj().T)
 
     rho_d2 = rho - rho_d0

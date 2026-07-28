@@ -156,7 +156,10 @@ def _vec_to_pauli_basis_transform(N):
 def pauli_basis_vector(rho, N):
     """Express ρ as a 4^N Pauli-basis coefficient vector.
 
-    vec[k] = (1/2^N) · Tr(σ_k · ρ), so that ρ = (1/2^N) · Σ_k vec[k] · σ_k.
+    vec[k] = (1/2^N) · Tr(σ_k · ρ), so that ρ = Σ_k vec[k] · σ_k.
+
+    The 1/2^N sits on the coefficient, not on the reconstruction: the basis is
+    orthogonal with Tr(σ_k σ_l) = 2^N δ_kl, so exactly one of the two carries it.
     """
     d2 = 4 ** N
     vec = np.zeros(d2, dtype=complex)

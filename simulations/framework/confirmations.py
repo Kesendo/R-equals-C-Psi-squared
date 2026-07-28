@@ -317,11 +317,11 @@ class Confirmations:
             'job_id': 'tomography_ibm_torino_20260209_131521 (data-file timestamp; no IBM job_id recorded for the Torino calibration-era runs)',
             'observable': 'CΨ(t) = Tr(ρ²)·L₁/(d−1) for |+⟩ under free decoherence; crossing time t* of the CΨ = ¼ boundary',
             'predicted_value': 't*/T₂* = 0.936 (generalized, r = T₂*/T₁ = 0.456); 0.858 in the pure-dephasing limit (x³+x = ½)',
-            'measured_value': 't* = 114.7 μs, t*/T₂* = 1.041 (11.3% above the generalized prediction); CΨ(0) = 0.885, C∞ = 0.740. Qubit 52: T1 = 221.2 μs, T2_echo = 298.2 μs, T2*(FID) = 110.7 μs',
+            'measured_value': 't* = 114.7 μs, t*/T₂* = 1.036 (10.7% above the generalized prediction); CΨ(0) = 0.885, C∞ = 0.740. Qubit 52: T1 = 221.2 μs, T2_echo = 298.2 μs, T2*(FID) = 110.7 μs',
             'hardware_data': 'data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json',
             'experiment_doc': 'experiments/IBM_QUANTUM_TOMOGRAPHY.md',
             'framework_primitive': 'F25 closed-form CΨ(t) + the CΨ = ¼ fold (K_fold dose)',
-            'description': 'The first CΨ = ¼ crossing ever seen on hardware, found in IBM Torino single-qubit calibration tomography (Heron r2, q52, 2026-02-09), predating the systematic April-June 2026 campaign. A QUALITATIVE confirmation that the ¼ fold is real on a physical device, not a precision match: t*/T₂* = 1.041 sits 11% above the generalized prediction 0.936 because the crossing was extracted from a calibration run, not a purpose-built sweep. No IBM job_id was recorded for the Torino-era runs; the data-file timestamp is the locator.',
+            'description': 'The first CΨ = ¼ crossing ever seen on hardware, found in IBM Torino single-qubit calibration tomography (Heron r2, q52, 2026-02-09), predating the systematic April-June 2026 campaign. A QUALITATIVE confirmation that the ¼ fold is real on a physical device, not a precision match: t*/T₂* = 1.036 = 114.7/110.7 sits 11% above the generalized prediction 0.936 because the crossing was extracted from a calibration run, not a purpose-built sweep. No IBM job_id was recorded for the Torino-era runs; the data-file timestamp is the locator.',
         },
         'absorption_theorem_ratio_torino': {
             'date': '2026-04-04',

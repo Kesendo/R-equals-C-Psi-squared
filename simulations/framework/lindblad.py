@@ -28,8 +28,9 @@ from .pauli import (
 def lindbladian_general(H, c_ops):
     """General Lindbladian L = -i[H,·] + Σ_k (c_k(·)c_k† − ½{c_k†c_k, ·}) in vec form.
 
-    Returns the 4^N × 4^N superoperator matrix using flatten('F') (column-stack)
-    convention, compatible with palindrome_residual.
+    Returns the 4^N × 4^N superoperator matrix in the ROW-stack convention,
+    i.e. it acts on rho.flatten() (numpy default, order='C').
+    Compatible with palindrome_residual.
     """
     if not np.allclose(H, H.conj().T):
         raise ValueError("Hamiltonian H must be Hermitian.")
