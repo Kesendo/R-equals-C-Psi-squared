@@ -5981,11 +5981,14 @@ one object, and the band is three lines wide because j_spin = 1.
 **Floor, not equality.** What is derived here is that those copies are
 PRESENT, which is the ⌊N/2⌋ floor. That the band holds nothing besides them
 is the ceiling, and it is not this entry's: F144 proves its arithmetic input
-for every N and makes the depth exactly ⌊N/2⌋ in the large-J regime, while
-generic coupling still passes through the upper-semicontinuity step
-named after PROOF_FROZEN_BAND_SO4 Proposition 5.1, that proposition
-itself being a proved upper bound at large J and nothing more. The verb matters, and the proof
-document scopes it at both places it is used.
+for every N and makes the depth exactly ⌊N/2⌋ in the large-J regime, and
+Proposition 5.3 of PROOF_FROZEN_BAND_SO4 carries that to all but finitely
+many couplings by the pencil alone, Proposition 5.1 itself remaining a proved
+upper bound at large J and nothing more. The remaining "finitely many" is
+real: exceptional couplings exist, and at one of them a single extra mode
+joins the diagonal rungs as a spin singlet, leaving the band statement and
+the side lines untouched (THE_EXCEPTIONAL_COUPLINGS). The verb matters, and
+the proof document scopes it at every place it is used.
 
 **What it decides, and what it does NOT.** Σ-oddness is SUFFICIENT for the
 off-diagonal floor through the spin ladder: where it holds, S⁺ carries the
@@ -6071,9 +6074,12 @@ This is the arithmetic input the ceiling needs, previously read as an exact
 rank one rung at a time. With it the multiplicity of 𝒦 = 1 on a diagonal
 band rung is exactly ⌊N/2⌋, all of it from the seed rung, so Proposition 5.1
 of PROOF_FROZEN_BAND_SO4 makes the depth exactly ⌊N/2⌋ **in the large-J
-regime** at every N ≥ 6, with no computation per N. Carrying that to generic
-coupling is the upper-semicontinuity step named after that proposition,
-which is asserted there and not argued.
+regime** at every N ≥ 6, with no computation per N. Proposition 5.3 there
+carries it to **all but finitely many** couplings, needing no limit: the
+block is linear in the coupling, so the frozen count is constant off a finite
+set and minimal on it, and one coupling with a small enough count fixes the
+generic value. That is the sharp form, since the exceptional set is not
+empty (THE_EXCEPTIONAL_COUPLINGS).
 Reading: the frozen
 band's two SU(2)s hold the two ends of one statement, the eta ladder the
 floor of the band (F142, Lemma 2.5) and the spin ladder its ceiling.
