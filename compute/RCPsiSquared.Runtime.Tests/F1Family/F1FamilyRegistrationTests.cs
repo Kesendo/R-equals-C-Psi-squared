@@ -32,7 +32,7 @@ public class F1FamilyRegistrationTests
         // K_{2,2} = C_4 bipartite-complete + Casimir spectrum closes the
         // (3/4)·J·N Im-max bound in closed form) +
         // StarImMaxBoundClaim (added 2026-05-19 from the same Q-sweep: SU(2)/
-        // Schur-Weyl hub-leaf Casimir on H_star = J·S⃗_0·S⃗_L closes the
+        // Schur-Weyl hub-leaf Casimir on H_star = J·S_0·S_L closes the
         // J·N/2 saturation in closed form, sister derivation to RingN4).
         // SingleBody scaling deliberately omitted (builder is type-keyed; see
         // F1FamilyRegistration XML docs for the Option-B rationale).

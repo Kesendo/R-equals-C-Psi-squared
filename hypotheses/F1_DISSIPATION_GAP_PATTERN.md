@@ -75,7 +75,7 @@ The Q-sweep surfaced two clean Q-universal patterns for ring topology that were 
     Im_max(ring, N=4, J)  =  (3/4)·J·N  =  3·J     (bit-exact at every Q tested)
     ↔  Im/σ  =  3Q/4
 
-verified at Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} to relative error < 5·10⁻¹⁵ (machine precision). This is a clean rational saturation: ring N=4 carries 50% more imaginary spread than star N=4 ((3/4)·J·N vs (1/2)·J·N), traceable to the bipartite-complete structure (4 bonds in K_{2,2} vs 3 in the N=4 star). Closed-form derivation via the Casimir spectrum `{−2J, −J, 0³, +J}` of `H = J·S⃗_A·S⃗_B` with sublattice totals S⃗_A = S⃗_0 + S⃗_2, S⃗_B = S⃗_1 + S⃗_3 (see [`docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`](../docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md)). Typed Tier 1 derived as [`RingN4DihedralLockClaim`](../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs) 2026-05-19.
+verified at Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} to relative error < 5·10⁻¹⁵ (machine precision). This is a clean rational saturation: ring N=4 carries 50% more imaginary spread than star N=4 ((3/4)·J·N vs (1/2)·J·N), traceable to the bipartite-complete structure (4 bonds in K_{2,2} vs 3 in the N=4 star). Closed-form derivation via the Casimir spectrum `{−2J, −J, 0³, +J}` of `H = J·S_A·S_B` with sublattice totals S_A = S_0 + S_2, S_B = S_1 + S_3 (see [`docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`](../docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md)). Typed Tier 1 derived as [`RingN4DihedralLockClaim`](../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs) 2026-05-19.
 
 **Ring N=6** (dihedral D_6 = D_3·Z_2):
 

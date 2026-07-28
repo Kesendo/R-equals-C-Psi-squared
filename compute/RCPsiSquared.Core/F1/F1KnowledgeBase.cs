@@ -60,7 +60,7 @@ namespace RCPsiSquared.Core.F1;
 ///   <item>Tier-1 derived topology Im-max bound: Star
 ///         (<see cref="StarImMaxBound"/>) saturates Im_max(star, N, J) = J·N/2
 ///         Q-universally for any N ≥ 3 via the SU(2)/Schur-Weyl hub-leaf Casimir
-///         factorisation H_star = J·S⃗_0·S⃗_L; 24 Q-sweep + 1 N=8 + 4 Python anchors
+///         factorisation H_star = J·S_0·S_L; 24 Q-sweep + 1 N=8 + 4 Python anchors
 ///         all bit-exact (29 anchors total). The Marrakesh-convention "Im/σ = 1
 ///         ↔ J = 2γ" reading is the Q = 2 specialization of the universal
 ///         Im/σ = Q/2 lock. See <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>.</item>
@@ -104,7 +104,7 @@ public sealed class F1KnowledgeBase : IInspectable
     /// <summary>Ring N=4 dihedral lock surfaced by the 2026-05-19 Q-sweep:
     /// Im_max(ring, N=4, J) = (3/4)·J·N = 3·J Q-universal. The 4-cycle is
     /// graph-isomorphic to the bipartite-complete graph K_{2,2}, so the Heisenberg
-    /// Hamiltonian factors through total sublattice spins (H = J·S⃗_A·S⃗_B). The
+    /// Hamiltonian factors through total sublattice spins (H = J·S_A·S_B). The
     /// Casimir spectrum {−2J, −J, 0³, +J} pins the maximum H eigenvalue gap to 3J,
     /// which the Liouvillian eigenmode |Ψ_+⟩⟨Ψ_−| between the S_tot=2 ferromagnet
     /// and the (S_A=1, S_B=1, S_tot=0) singlet realises exactly. Pure-dephasing
@@ -118,7 +118,7 @@ public sealed class F1KnowledgeBase : IInspectable
 
     /// <summary>Star Im-max saturation surfaced by the 2026-05-19 Q-sweep and the
     /// 2026-05-18 SLOW_N8 sweep: Im_max(star, N, J) = (1/2)·J·N Q-universally for
-    /// any N ≥ 3. The star Hamiltonian H_star = J·S⃗_0·S⃗_L (hub spin · total leaf
+    /// any N ≥ 3. The star Hamiltonian H_star = J·S_0·S_L (hub spin · total leaf
     /// spin) factors through SU(2)/Schur-Weyl Casimir; the maximum-leaf-spin
     /// S_L = (N-1)/2 ferromagnetic sector gives ΔE_max = J·N/2 realised by the
     /// Liouvillian eigenmode between the S_tot = N/2 fully-aligned state and the

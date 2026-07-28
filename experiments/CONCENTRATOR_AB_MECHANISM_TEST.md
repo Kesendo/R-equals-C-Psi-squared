@@ -102,7 +102,7 @@ object at small K is shared classical randomness, which even Reading A boosts);
 the structured K = 16 performs like iid K ≈ 32 (residual bias +0.004-0.016,
 below the effect and inside the counts-level bands). Implementation: ONE
 parameterized circuit per (t, basis), transpiled once with fixed seed_transpiler;
-config 3 = the φ⃗ = 0 binding, configs 4/5 = the 16 frozen vectors as SamplerV2
+config 3 = the φ ≡ 0 binding (every phase of every path set to zero), configs 4/5 = the 16 frozen vectors as SamplerV2
 parameter bindings; pre-flight asserts identical op counts and durations across
 bindings. The RZ sits adjacent to the last entangling gate of its step, never
 splitting an idle window.
@@ -223,7 +223,7 @@ LITERAL frozen sink construction:
   (median 0.034), drawn on all plots. (An earlier N = 100 pass, ± 0.047 /
   ± 0.053, was computed on the Q66-70 chain that later failed the day's rule;
   superseded together with that chain.)
-- **Aer parity (the actual circuits, noiseless): PASS.** All four φ⃗ = 0-equivalent
+- **Aer parity (the actual circuits, noiseless): PASS.** All four φ ≡ 0-equivalent
   arms give Sum-MI exactly 0.0000 (the fixed-point theorem, visible in the real
   circuits); the bound sink deviates as it must (+0.14-0.50 bits noiseless).
 - **Chain selection (same-day API calibration, 2026-07-05), with the
@@ -350,7 +350,7 @@ instrument otherwise, same bands recipe, ~13 QPU min.
 
 Flies the sharpened follow-up immediately (Tom: "es ist Dein Run"). Same
 instrument, same chain file (day-of rule hard-abort protects), same binding
-null bands (the null binds φ⃗ = 0 and is dose-independent). The one change:
+null bands (the null binds φ ≡ 0 and is dose-independent). The one change:
 **--dose-scale S = 0.270756**, solved so the frozen construction's exact
 per-step retention meets the γ₀ anchor: r(S) = 0.882497 = e^{−0.125},
 γ_step = N·γ₀·(J·dt) = 5 × 0.05 × 0.5 = 0.125000 exactly, machine-free
@@ -465,7 +465,7 @@ reproduces the Run-2 dose r = 0.882497 bit-for-bit as a control):
 **`--dose-scale 0.378105`** (target r* = 0.778801; achieved mean per-step
 r = 0.778800, γ_step = 0.250001).
 Same instrument, same day-of chain rule (hard-abort armed), same binding null
-bands (φ⃗ = 0, dose-independent: Δ_sel ± 0.0486, Δ_uni ± 0.0462).
+bands (φ ≡ 0, dose-independent: Δ_sel ± 0.0486, Δ_uni ± 0.0462).
 
 **Sim gate at the corrected dose (flight chain, seed 20260705, --quick):** Δ_sel =
 +0.150 / +0.238 / +0.302 / +0.266 / +0.217 at t = 1..5, all five CIs excluding 0
@@ -506,7 +506,7 @@ parameterized RZ survive transpile). Fresh day-of chain [50, 51, 58, 71, 72]
 different (better-uniformity) line. Data:
 [`ab_test_hardware_20260705_203200.json`](../data/ibm_ab_test_july2026/ab_test_hardware_20260705_203200.json),
 chain [`ab_test_chain_run3_20260705.json`](../data/ibm_ab_test_july2026/ab_test_chain_run3_20260705.json).
-Bands: the Run-2 binding null (φ⃗ = 0, dose-independent) reused, ± 0.0486 /
+Bands: the Run-2 binding null (φ ≡ 0, dose-independent) reused, ± 0.0486 /
 ± 0.0462; it was calibrated on [109..105] and is an estimator-noise spread
 (chain-independent to first order), applied here as pre-registered.
 
@@ -588,7 +588,7 @@ classical-mixing artifact of the frozen sink construction; the artifact
 fraction is dose-dependent.** Zero-QPU check
 ([`simulations/ab_classical_mixing_check.py`](../simulations/ab_classical_mixing_check.py),
 a noiseless exact density-matrix simulation of the flown circuit at all three
-doses; its φ⃗ = 0
+doses; its φ ≡ 0
 gate reproduces Sum-MI 0, the fixed-point theorem): at the Run-3 dose the flown
 struct-K16 sink gives Sum-MI 0.32-0.59 (t = 1..5), while a TRUE dephasing
 channel at the same per-step retention gives 0.02-0.12; the classical-mixing

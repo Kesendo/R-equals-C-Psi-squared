@@ -51,7 +51,7 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///         <c>Im_max(ring, N=4, J) = (3/4)·J·N = 3·J</c> Q-universal Im-spectral
 ///         saturation surfaced by the Q-sweep extension of the SLOW_N8 + N=9 chain
 ///         sprint. Closed form via the K_{2,2} = C_4 bipartite-complete graph
-///         isomorphism: <c>H = J·S⃗_A·S⃗_B</c> with sublattice total spins, Casimir
+///         isomorphism: <c>H = J·S_A·S_B</c> with sublattice total spins, Casimir
 ///         spectrum <c>{−2J, −J, 0³, +J}</c>, max gap 3J realised by the
 ///         <c>|Ψ_+⟩⟨Ψ_−|</c> Liouvillian eigenmode between the S_tot=2 ferromagnet
 ///         and the (S_A=1, S_B=1, S_tot=0) singlet. Pure-dephasing dissipator only
@@ -64,7 +64,7 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///         <c>Im_max(star, N, J) = J·N/2</c> Q-universal saturation surfaced by
 ///         the same Q-sweep (24 anchors at γ₀=0.05) plus the SLOW_N8 anchor at
 ///         <c>star_N8.json</c>. Closed form via the SU(2)/Schur-Weyl hub-leaf
-///         Casimir factorisation <c>H_star = J·S⃗_0·S⃗_L</c> on the star bipartite
+///         Casimir factorisation <c>H_star = J·S_0·S_L</c> on the star bipartite
 ///         split A = {hub}, B = {N-1 leaves}; maximum-leaf-spin S_L = (N-1)/2
 ///         ferromagnetic sector gives the ΔE_max = J·N/2 realised by the
 ///         <c>|Ψ_+⟩⟨Ψ_−|</c> eigenmode between the S_tot = N/2 fully-aligned and
@@ -214,7 +214,7 @@ public static class F1FamilyRegistration
                 // Star Im-max saturation surfaced by the 2026-05-19 Q-sweep extension
                 // of the F1 SLOW_N8 + N=9 chain bridge sprint: Im_max(star, N, J) =
                 // J·N/2 Q-universal for any N ≥ 3, derived from the SU(2)/Schur-Weyl
-                // hub-leaf Casimir factorisation H_star = J·S⃗_0·S⃗_L. The maximum-leaf-
+                // hub-leaf Casimir factorisation H_star = J·S_0·S_L. The maximum-leaf-
                 // spin S_L = (N-1)/2 ferromagnetic sector gives ΔE_max = J·N/2,
                 // realised by the Liouvillian eigenmode between the S_tot = N/2
                 // fully-aligned state and the S_tot = (N-2)/2 hub-anti-aligned state.

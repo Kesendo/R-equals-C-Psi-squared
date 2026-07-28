@@ -10,7 +10,7 @@ The star (one hub, N−1 spokes) is the point-focus member of the optical-cavity
 
     Im_max(star, N, J) ≡ max_{λ ∈ σ(L)} |Im(λ)| = J·N/2,   equivalently   Im_max/σ = Q/2  (σ = Nγ, Q = J/γ),
 
-independently of γ and of the dephasing-to-coupling ratio. The mechanism is geometric: every bond touches the hub, so the Hamiltonian factors through the hub-leaves total spins, H = J·S⃗_hub·S⃗_leaves, and its largest energy gap, J·N/2, is reached when all leaves align ferromagnetically (S_L = (N−1)/2). The Liouvillian eigenmode between the aligned and anti-aligned hub states realizes exactly that gap, and pure Z-dephasing adds only real decay, never imaginary part, so the gap survives untouched into the spectrum.
+independently of γ and of the dephasing-to-coupling ratio. The mechanism is geometric: every bond touches the hub, so the Hamiltonian factors through the hub-leaves total spins, H = J·S_hub·S_leaves, and its largest energy gap, J·N/2, is reached when all leaves align ferromagnetically (S_L = (N−1)/2). The Liouvillian eigenmode between the aligned and anti-aligned hub states realizes exactly that gap, and pure Z-dephasing adds only real decay, never imaginary part, so the gap survives untouched into the spectrum.
 
 In the optical-cavity reading the star converts the entire external illumination dose into coherent oscillation, the maximally resonant configuration; its sibling the N=4 ring (K_{2,2}) locks at the stronger 3J·N/4, from its bipartite-complete Casimir gap rather than from bond count alone. The bound is verified bit-exact at 29 anchors across N ∈ {3,4,5,6,8} and Q ∈ {0.5,…,2.5} and typed as StarImMaxBoundClaim.
 
@@ -53,17 +53,17 @@ All 24 anchors match Im/σ = Q/2 to machine precision. Output JSON files: `simul
 
 ### Section 1. Star Hamiltonian factors through hub-leaf total spins
 
-Label the star sites with hub site 0 and leaves {1, 2, ..., N−1}. The bond set is E = {(0, k) : k = 1, ..., N−1}, so every bond touches the hub. Using S⃗_i · S⃗_j = (1/4)(X_i X_j + Y_i Y_j + Z_i Z_j) for spin-1/2 operators, the bond Hamiltonian is J · S⃗_0 · S⃗_k for each leaf k, and the total Hamiltonian is
+Label the star sites with hub site 0 and leaves {1, 2, ..., N−1}. The bond set is E = {(0, k) : k = 1, ..., N−1}, so every bond touches the hub. Vector operators carry no arrow here: S_i = (S^x_i, S^y_i, S^z_i) and the leaf total S_L are three-component operators and the dot is their scalar product, while the same letters read as quantum numbers wherever they carry no dot and no square, as in S_L = (N−1)/2 or S_tot(S_tot+1) from Section 2 on. Using S_i · S_j = (1/4)(X_i X_j + Y_i Y_j + Z_i Z_j) for spin-1/2 operators, the bond Hamiltonian is J · S_0 · S_k for each leaf k, and the total Hamiltonian is
 
-    H_star  =  J · Σ_{k=1}^{N−1} S⃗_0 · S⃗_k  =  J · S⃗_0 · (Σ_{k=1}^{N−1} S⃗_k)  =  J · S⃗_0 · S⃗_L
+    H_star  =  J · Σ_{k=1}^{N−1} S_0 · S_k  =  J · S_0 · (Σ_{k=1}^{N−1} S_k)  =  J · S_0 · S_L
 
-where S⃗_L := Σ_{k=1}^{N−1} S⃗_k is the total leaf-spin operator. The Hamiltonian is bilinear in the hub spin and the total leaf spin, with no internal leaf-leaf coupling.
+where S_L := Σ_{k=1}^{N−1} S_k is the total leaf-spin operator. The Hamiltonian is bilinear in the hub spin and the total leaf spin, with no internal leaf-leaf coupling.
 
 This is the bipartite analogue of the Ring N=4 K_{2,2} construction (see [PROOF_RING_N4_DIHEDRAL_LOCK.md](PROOF_RING_N4_DIHEDRAL_LOCK.md) Section 2), with the sublattice sizes 1 (hub) and N−1 (leaves) instead of 2 and 2. The geometric source is the same: bipartite splitting plus all-pairs bonding within the bipartition gives a total-sublattice-spin form.
 
 ### Section 2. Casimir spectrum
 
-Using the standard total-spin Casimir identity S⃗_0 · S⃗_L = (1/2)(S²_tot − S²_0 − S²_L) with S⃗_tot := S⃗_0 + S⃗_L,
+Using the standard total-spin Casimir identity S_0 · S_L = (1/2)(S²_tot − S²_0 − S²_L) with S_tot := S_0 + S_L,
 
     H_star  =  (J/2) · (S²_tot − S²_0 − S²_L)
             =  (J/2) · (S_tot(S_tot+1) − 3/4 − S_L(S_L+1)).
@@ -130,7 +130,7 @@ This is the Q-universal lock observed in the 24-anchor Q-sweep table.
 
 ## Why star is the universal-saturator topology
 
-The same argument applies to any topology where the Heisenberg Hamiltonian factors through a single total-sublattice-spin bilinear `H = J · S⃗_A · S⃗_B`. This requires:
+The same argument applies to any topology where the Heisenberg Hamiltonian factors through a single total-sublattice-spin bilinear `H = J · S_A · S_B`. This requires:
 
 1. Bipartite splitting: sites partition into A ⊔ B with no internal bonds (no A-A or B-B edges).
 2. All-pairs bonding: every site in A is bonded to every site in B (bipartite-complete).

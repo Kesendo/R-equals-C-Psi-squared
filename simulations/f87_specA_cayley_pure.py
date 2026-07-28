@@ -15,8 +15,9 @@ Tests over MANY random S ⊆ 𝔽₂^N \ {0}:
       r=rank<S>; the per-coset sign is free (±), giving 2^(N−r) basis vectors. So cap counts
       cosets — matches probe-3 cap distribution {2,3,4,8,9} only after the physical missing
       edges split/merge cosets. Report both.
-  (C) the anti-diagonal pairing ī=i⊕1⃗: 1⃗∈<S> or not changes whether F·D stays within a
-      coset; check that bipartite ⟹ a nonzero solution always exists irrespective of 1⃗.
+  (C) the anti-diagonal pairing ī=i⊕1_N with 1_N the all-ones vector: 1_N∈<S> or not changes
+      whether F·D stays within a coset; check that bipartite ⟹ a nonzero solution always
+      exists irrespective of 1_N.
 """
 from __future__ import annotations
 import sys

@@ -74,15 +74,15 @@ Equivalently: `Im_max(star, N, J) = J·N/2` bit-exact. The Q-band has no effect 
 
 The isotropic Heisenberg coupling between sites i and j is
 
-    H_(i,j) = (J/4)·(X_i X_j + Y_i Y_j + Z_i Z_j) = J·S⃗_i · S⃗_j
+    H_(i,j) = (J/4)·(X_i X_j + Y_i Y_j + Z_i Z_j) = J·S_i · S_j
 
-(using S⃗_i · S⃗_j = (1/4)(X_i X_j + Y_i Y_j + Z_i Z_j) for spin-1/2; no constant term, no factor of 1/2). For the star topology with hub site 0 and N-1 leaf sites {1, ..., N-1}, the Hamiltonian is
+(using S_i · S_j = (1/4)(X_i X_j + Y_i Y_j + Z_i Z_j) for spin-1/2; no constant term, no factor of 1/2; vector operators carry no arrow here, so S_i = (S^x_i, S^y_i, S^z_i) is the three-component operator and the dot is its scalar product, while the same letters read as quantum numbers wherever they carry no dot and no square, as in S_L = (N-1)/2 below). For the star topology with hub site 0 and N-1 leaf sites {1, ..., N-1}, the Hamiltonian is
 
-    H_star = J · S⃗_0 · Σ_{k=1}^{N-1} S⃗_k = J · S⃗_0 · S⃗_L
+    H_star = J · S_0 · Σ_{k=1}^{N-1} S_k = J · S_0 · S_L
 
-where S⃗_L := Σ_{k=1}^{N-1} S⃗_k is the total leaf-spin operator. The full system decomposes into SU(2)-symmetric multiplets labelled by (S_L, S_tot) where S_tot is the total combined spin.
+where S_L := Σ_{k=1}^{N-1} S_k is the total leaf-spin operator. The full system decomposes into SU(2)-symmetric multiplets labelled by (S_L, S_tot) where S_tot is the total combined spin.
 
-Using S⃗_0 · S⃗_L = (1/2)(S⃗²_tot − S⃗²_0 − S⃗²_L):
+Using S_0 · S_L = (1/2)(S²_tot − S²_0 − S²_L):
 
     H_star = (J/2) · (S_tot(S_tot+1) − 3/4 − S_L(S_L+1))
 

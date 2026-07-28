@@ -4,20 +4,20 @@
 
 ## The statement
 
-Take the usual family: an XXZ chain under local Z-dephasing with per-site rates γ_l, σ = Σ_l γ_l. Two involutions act on the watching parameter:
+Take the usual family: an XXZ chain under local Z-dephasing with per-site rates γ_l, σ = Σ_l γ_l. The whole profile is written γ = (γ₁, ..., γ_N), without an arrow. Two involutions act on the watching parameter:
 
 - **s, the gain turn**: γ_l ↦ −γ_l (reflection through the unwatched zero; negative rates amplify),
 - **s₀, the anti-watch turn**: agreement watched instead of disagreement (the turned rule −2γ(N−k) of [LATTICE_OPENING_LAW](LATTICE_OPENING_LAW.md), site-resolved: −2·Σ_{l agrees} γ_l).
 
 They chain through one exact identity:
 
-  **L_anti(γ⃗) = L(−γ⃗) − 2σ·Id**,
+  **L_anti(γ) = L(−γ) − 2σ·Id**,
 
 and the trajectory wears the shift as a scalar veil:
 
-  **ρ_anti(t) = e^(−2σt) · ρ_gain(t)**  (gain = the same seed evolved at −γ⃗).
+  **ρ_anti(t) = e^(−2σt) · ρ_gain(t)**  (gain = the same seed evolved at −γ).
 
-*Derivation (one line, from committed pieces):* the Hamiltonian leg never sees γ, and on a coherence cell |i⟩⟨j| the turned rate is plain arithmetic: −2·Σ_{agree} γ_l = +2·Σ_{differ} γ_l − 2σ = (rate at −γ⃗) − 2σ. Both inputs are owned: the site-resolved rate −2·Σ_l γ_l·(bit l of i⊕j) is the Absorption Theorem's cost identity, and the turned rule is the Lattice adoption. ∎
+*Derivation (one line, from committed pieces):* the Hamiltonian leg never sees γ, and on a coherence cell |i⟩⟨j| the turned rate is plain arithmetic: −2·Σ_{agree} γ_l = +2·Σ_{differ} γ_l − 2σ = (rate at −γ) − 2σ. Both inputs are owned: the site-resolved rate −2·Σ_l γ_l·(bit l of i⊕j) is the Absorption Theorem's cost identity, and the turned rule is the Lattice adoption. ∎
 
 On the rate functions r the two turns read s: r ↦ −r and s₀: r ↦ −r − 2σ, so composing gain after the turn (s∘s₀) is the **translation r ↦ r + 2σ**: two mirrors make a translation, ⟨s, s₀⟩ is the infinite dihedral group (σ ≠ 0) with the full price 2σ as its step, and the fixed locus of s₀ is r = −σ, the palindrome center. This is exactly the two-mirror shape [F134](../docs/proofs/PROOF_F134_TWO_ROW_REFLECTION_LAW.md) carries on the character side (s: μ₁ ↦ −μ₁, s₀: μ₁ ↦ 22−μ₁, translation 22), now sitting on the home γ axis.
 

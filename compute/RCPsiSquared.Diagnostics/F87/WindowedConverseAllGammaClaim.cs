@@ -12,15 +12,15 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para>THE THEOREM: for a non-bipartite windowed diagonal-cell pair, every γ-coefficient of the
 /// first nonvanishing odd power-sum of M = A + γQ is non-negative; each surviving #Q = d class is
-/// the equal-leg-total Pascal-Gram sum of squares P_{m*,d} = (m*/d)·Σ_{l⃗}Σ_{k⃗}|U^{(l⃗)}_{k⃗}|²
-/// (U the binomial transform of the d-leg moments T^{(l⃗)}_{α⃗} = Tr(Z_{l₁}H^{α₁}···Z_{l_d}H^{α_d})),
+/// the equal-leg-total Pascal-Gram sum of squares P_{m*,d} = (m*/d)·Σ_{l}Σ_{k}|U^{(l)}_{k}|²
+/// (U the binomial transform of the d-leg moments T^{(l)}_{α} = Tr(Z_{l₁}H^{α₁}···Z_{l_d}H^{α_d})),
 /// and every other class vanishes exactly (parity mod 4, girth, or the cascade). At least one class
 /// is positive, so p_{m*}(γ) > 0 for every γ > 0: hard at one γ is hard at ALL γ.</para>
 ///
 /// <para>The proof chain: cyclic decomposition → leg factorization (A_L/A_R binomial + supertrace
 /// split) → Hermitian conjugacy (ket leg = conj bra leg, the F113-Lemma-C transpose-trick sibling)
 /// → leg parity (F-chirality: odd totals only) + leg girth (totals ≥ ℓ) → Vandermonde assembly
-/// (C(α+β,β) = Σ_k C(α,k)C(β,k), prefactor (−i)^u(+i)^u = +1) → slice inversion (U at |k⃗| = u IS
+/// (C(α_i+β_i,β_i) = Σ_{k_i} C(α_i,k_i)C(β_i,k_i) per slot, prefactor (−i)^u(+i)^u = +1) → slice inversion (U at |k| = u IS
 /// T) → cascade induction (p_m ≡ 0 below m* kills all lower-total moments). Selection rule
 /// corollary: classes fire only for d ≡ m*−2 (mod 4), d ≤ m*−2ℓ, so monomiality is DERIVED for
 /// deg ≤ 3 (every k=3 case); from deg = 5 two classes may coexist and positivity carries alone
@@ -69,7 +69,7 @@ public sealed class WindowedConverseAllGammaClaim : Claim
     /// <summary>The Pascal-Gram positivity theorem (2026-06-10, same day): R-sign resolved.</summary>
     public string PascalGramPositivity =>
         "RESOLVED R-sign ⟶ Pascal-Gram positivity (RIGOROUS-GENERAL): every coefficient P_{m,d} factorizes " +
-        "through d-leg moments T^{(l⃗)}_{α⃗} = Tr(Z_{l₁}H^{α₁}···Z_{l_d}H^{α_d}); at m* the cascade (p_m ≡ 0 " +
+        "through d-leg moments T^{(l)}_{α} = Tr(Z_{l₁}H^{α₁}···Z_{l_d}H^{α_d}); at m* the cascade (p_m ≡ 0 " +
         "below m* + slice inversion of the unitriangular binomial transform) kills every unequal-total block, " +
         "and the equal-total block is Σ|U|² with prefactor (−i)^u(+i)^u = +1. Verified exactly at d=1 " +
         "(IXXZ+XIXZ 573440), d=3 (K3 2064384, flux 589824, multi-Z 61440), d=5 (IIXY+ZXZY 86507520), plus the " +

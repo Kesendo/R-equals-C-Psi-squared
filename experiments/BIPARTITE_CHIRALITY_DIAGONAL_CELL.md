@@ -233,10 +233,10 @@ distance between Spec(L) and Spec(−L−2σ)), finer than any low moment. At lo
   registry F117, see the next bullet.*
 - **Pascal-Gram positivity (2026-06-10, later the same day): R-sign resolved, no residual remains
   (F117).** Every #Q = d class coefficient at the first nonvanishing odd moment m\* factorizes through
-  d-leg moments T^(l⃗)_α⃗ = Tr(Z_{l₁}H^{α₁}···Z_{l_d}H^{α_d}) and is either exactly zero (parity mod 4,
+  d-leg moments T^(l)_α = Tr(Z_{l₁}H^{α₁}···Z_{l_d}H^{α_d}) and is either exactly zero (parity mod 4,
   girth, cascade) or an equal-leg-total Pascal-Gram sum of squares
-  P_{m\*,d} = (m\*/d)·Σ_l⃗ Σ_k⃗ |U^(l⃗)_k⃗|² ≥ 0, with U the binomial (Vandermonde) transform of the
-  d-leg moments. At least one class is positive, so p_{m\*}(γ) > 0 for every γ > 0: hard at one γ is
+  P_{m\*,d} = (m\*/d)·Σ_l Σ_k |U^(l)_k|² ≥ 0, with U the binomial (Vandermonde) transform of the
+  d-leg moments (l, α, k here are d-tuples, one entry per leg, written without an arrow). At least one class is positive, so p_{m\*}(γ) > 0 for every γ > 0: hard at one γ is
   hard at **all** γ. The ladder law m\* = 2ℓ + deg thus holds with all classes non-negative, no residual;
   singleness (monomiality) is itself derived for deg ≤ 3 by a selection rule (d ≡ m\* − 2 mod 4,
   d ≤ m\* − 2ℓ), while from deg = 5 two classes may coexist and positivity alone carries (the γ⁵ witness

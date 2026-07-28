@@ -4508,11 +4508,13 @@ For a windowed diagonal-cell pair, recenter the dephased Liouvillian as M = A + 
 polynomial p_m(γ) = Tr(M^m) is not identically zero. Then **every** γ-coefficient of
 p_{m\*} is non-negative: for each #Q class d, either P_{m\*,d} = 0 exactly, or
 
-  P_{m\*,d} = (m\*/d) · Σ_{l⃗ ∈ [N]^d} Σ_{k⃗} |U^{(l⃗)}_{k⃗}|²,
-  U^{(l⃗)}_{k⃗} = Σ_{|α⃗| = u} ∏_i C(α_i, k_i) · T^{(l⃗)}_{α⃗},   u = (m\* − d)/2,
+  P_{m\*,d} = (m\*/d) · Σ_{l ∈ [N]^d} Σ_{k} |U^{(l)}_{k}|²,
+  U^{(l)}_{k} = Σ_{|α| = u} ∏_i C(α_i, k_i) · T^{(l)}_{α},   u = (m\* − d)/2,
 
-with T^{(l⃗)}_{α⃗} = Tr(Z_{l₁}H^{α₁}Z_{l₂}H^{α₂}···Z_{l_d}H^{α_d}) the **d-leg moments**
-of H. Since at least one class is positive, p_{m\*}(γ) > 0 for every γ > 0: **hard at one
+with T^{(l)}_{α} = Tr(Z_{l₁}H^{α₁}Z_{l₂}H^{α₂}···Z_{l_d}H^{α_d}) the **d-leg moments**
+of H. Multi-indices carry no arrow: l, a, α, β, k are d-tuples, one entry per leg, with
+entries l_i, α_i, ... and |α| = Σ_i α_i, while the l of Q above is a single site.
+Since at least one class is positive, p_{m\*}(γ) > 0 for every γ > 0: **hard at one
 γ is hard at all γ**, the windowed converse with no residual (this resolved R-sign, the
 last residual, on 2026-06-10; the same day's girth dichotomy had retired R-deg). The d = 1
 face is the girth-dichotomy sum of squares P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ²; the ℓ = 1
@@ -4522,12 +4524,12 @@ any H with a single-site-Z component breaks the palindrome at every γ > 0;
 [`simulations/f87_deg1_face_cell_free.py`](../simulations/f87_deg1_face_cell_free.py),
 the PTF Π-break Z-row made theorem-grade).
 
-**Proof chain (all steps exact):** cyclic decomposition P_{m,d} = (m/d)·Σ_{a⃗} Tr(QA^{a₁}···QA^{a_d});
+**Proof chain (all steps exact):** cyclic decomposition P_{m,d} = (m/d)·Σ_{a} Tr(QA^{a₁}···QA^{a_d});
 leg factorization (A_L, A_R commute, supertrace splits bra × ket); Hermitian conjugacy
 (ket leg = conj of bra leg at the same indices, the transpose-trick sibling of F113 Lemma C);
 leg parity (F-chirality: only odd totals) + leg girth (totals ≥ ℓ); Vandermonde assembly
-(C(α+β, β) = Σ_k C(α,k)C(β,k) per slot, prefactor (−i)^u(+i)^u = +1); slice inversion
-(U at |k⃗| = u **is** T, so a vanished Gram block kills every total-u moment); cascade
+(C(α_i+β_i, β_i) = Σ_{k_i} C(α_i,k_i)C(β_i,k_i) per slot, prefactor (−i)^u(+i)^u = +1); slice inversion
+(U at |k| = u **is** T, so a vanished Gram block kills every total-u moment); cascade
 induction (p_m ≡ 0 below m\* ⟹ all lower-total moments vanish ⟹ no cross terms at m\*).
 
 **Selection rule (corollary):** classes fire at m\* only for d ≡ m\* − 2 (mod 4) and

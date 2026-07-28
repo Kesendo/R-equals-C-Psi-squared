@@ -7,7 +7,7 @@
 
 ## Abstract
 
-The 4-cycle is the one ring size that coincides with the bipartite-complete graph K_{2,2}: two sublattices of two qubits, every inter-sublattice bond present, none within. On it the isotropic Heisenberg Hamiltonian factors through total sublattice spins, H = J·S⃗_A·S⃗_B, and the SU(2) Casimir spectrum {−2J, −J, 0, 0, 0, +J} has maximal gap 3J. Under uniform Z-dephasing the Liouvillian's largest imaginary eigenvalue is pinned exactly to that gap,
+The 4-cycle is the one ring size that coincides with the bipartite-complete graph K_{2,2}: two sublattices of two qubits, every inter-sublattice bond present, none within. On it the isotropic Heisenberg Hamiltonian factors through total sublattice spins, H = J·S_A·S_B, and the SU(2) Casimir spectrum {−2J, −J, 0, 0, 0, +J} has maximal gap 3J. Under uniform Z-dephasing the Liouvillian's largest imaginary eigenvalue is pinned exactly to that gap,
 
     Im_max(ring, N=4, J) = (3/4)·J·N = 3J,   equivalently   Im/σ = 3Q/4,
 
@@ -55,21 +55,21 @@ The 4-cycle C_4 and the bipartite-complete K_{2,2} are isomorphic as graphs. Thi
 
 ### Section 2. Total-sublattice-spin factorisation
 
-Let S⃗_i = (S^x_i, S^y_i, S^z_i) be the spin-1/2 operator on site i. Using S⃗_i · S⃗_j = (1/4)(X_i X_j + Y_i Y_j + Z_i Z_j), the bond Hamiltonian is J · S⃗_i · S⃗_j and the total Hamiltonian on K_{2,2} is
+Let S_i = (S^x_i, S^y_i, S^z_i) be the spin-1/2 operator on site i. Vector operators carry no arrow here: S_i and the sublattice totals S_A, S_B are three-component operators and the dot is their scalar product, while the same letters read as quantum numbers wherever they carry no dot and no square, as in S_A ∈ {0, 1} or S_tot(S_tot+1) in Section 3. Using S_i · S_j = (1/4)(X_i X_j + Y_i Y_j + Z_i Z_j), the bond Hamiltonian is J · S_i · S_j and the total Hamiltonian on K_{2,2} is
 
-    H  =  J · Σ_{a ∈ A, b ∈ B} S⃗_a · S⃗_b
-       =  J · (S⃗_0 + S⃗_2) · (S⃗_1 + S⃗_3)
-       =  J · S⃗_A · S⃗_B
+    H  =  J · Σ_{a ∈ A, b ∈ B} S_a · S_b
+       =  J · (S_0 + S_2) · (S_1 + S_3)
+       =  J · S_A · S_B
 
-with total sublattice spins S⃗_A := S⃗_0 + S⃗_2 and S⃗_B := S⃗_1 + S⃗_3. The Hamiltonian is bilinear in the sublattice total spins, with no within-sublattice term.
+with total sublattice spins S_A := S_0 + S_2 and S_B := S_1 + S_3. The Hamiltonian is bilinear in the sublattice total spins, with no within-sublattice term.
 
 ### Section 3. Casimir spectrum
 
-Using the standard total-spin Casimir identity S⃗_A · S⃗_B = (1/2)(S²_tot − S²_A − S²_B) with S⃗_tot := S⃗_A + S⃗_B,
+Using the standard total-spin Casimir identity S_A · S_B = (1/2)(S²_tot − S²_A − S²_B) with S_tot := S_A + S_B,
 
     H  =  (J/2) · (S²_tot − S²_A − S²_B).
 
-Each sublattice contains two spin-1/2 sites, so S_A, S_B ∈ {0, 1}. Each (S_A, S_B) pair has its own internal Clebsch-Gordan multiplicity m_inner from coupling 1/2 ⊗ 1/2 → S_A (and 1/2 ⊗ 1/2 → S_B): m_inner = 1 for the singlet S = 0, m_inner = 1 for the triplet S = 1 (there is exactly one way to make each from two spin-1/2). Then coupling S⃗_A and S⃗_B gives S_tot ∈ {|S_A − S_B|, ..., S_A + S_B}, with the (2S_tot + 1) M_tot states inside each S_tot multiplet. The full eigenvalue list and the dimensions are:
+Each sublattice contains two spin-1/2 sites, so S_A, S_B ∈ {0, 1}. Each (S_A, S_B) pair has its own internal Clebsch-Gordan multiplicity m_inner from coupling 1/2 ⊗ 1/2 → S_A (and 1/2 ⊗ 1/2 → S_B): m_inner = 1 for the singlet S = 0, m_inner = 1 for the triplet S = 1 (there is exactly one way to make each from two spin-1/2). Then coupling S_A and S_B gives S_tot ∈ {|S_A − S_B|, ..., S_A + S_B}, with the (2S_tot + 1) M_tot states inside each S_tot multiplet. The full eigenvalue list and the dimensions are:
 
 | (S_A, S_B) | S_tot | E = (J/2)·(S_tot(S_tot+1) − S_A(S_A+1) − S_B(S_B+1)) | dimension = m_inner(A) · m_inner(B) · (2S_tot+1) |
 |---|---:|---:|---:|
@@ -160,7 +160,7 @@ The N=6 value 0.71713 reproduces the F1_DISSIPATION_GAP empirical 0.717129, vali
 
     Im_max(star, N, J)  =  J·N/2
 
-via a parallel hub-spoke Casimir construction H = J · S⃗_0 · S⃗_L with S⃗_L = Σ leaf spins. The Casimir spectrum has max gap J·N/2 (the maximally-ferromagnetic-leaves S_L = (N-1)/2 sector flipping the hub). The ring N=4 result is structurally the same kind of object: a topology where the SU(2)-invariant Heisenberg Hamiltonian factors through a sum-of-Casimirs form, giving a closed Im-max spectral bound.
+via a parallel hub-spoke Casimir construction H = J · S_0 · S_L with S_L = Σ leaf spins. The Casimir spectrum has max gap J·N/2 (the maximally-ferromagnetic-leaves S_L = (N-1)/2 sector flipping the hub). The ring N=4 result is structurally the same kind of object: a topology where the SU(2)-invariant Heisenberg Hamiltonian factors through a sum-of-Casimirs form, giving a closed Im-max spectral bound.
 
 The ratio between the two is `(3/4)·J·N / (J·N/2) = 3/2`: ring N=4 carries 50% more imaginary spread than star N=4. The geometric reason is the larger bond count (4 in K_{2,2} vs N−1 = 3 in the N=4 star) combined with the bipartite-complete structure that maximises the inter-sublattice Casimir gap.
 

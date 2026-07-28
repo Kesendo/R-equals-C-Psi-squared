@@ -14,8 +14,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Equivalently <c>Im/σ = Q/2</c> with <c>σ = N·γ</c>.
 ///
 /// <para><b>Why this works.</b> The star Hamiltonian factors through the total
-/// leaf spin <c>S⃗_L = Σ_{k=1}^{N-1} S⃗_k</c>:
-/// <c>H_star = J · S⃗_0 · S⃗_L</c>. Its Casimir spectrum within each fixed-S_L
+/// leaf spin <c>S_L = Σ_{k=1}^{N-1} S_k</c>:
+/// <c>H_star = J · S_0 · S_L</c>. Its Casimir spectrum within each fixed-S_L
 /// sector is two-fold (S_tot = S_L ± 1/2), with energy gap <c>ΔE(S_L) =
 /// J·(S_L + 1/2)</c>. Maximum at S_L = (N-1)/2 (all leaves ferromagnetically
 /// aligned): <c>ΔE_max = J·N/2</c>. The Liouvillian eigenmode <c>|Ψ_+⟩⟨Ψ_−|</c>
@@ -43,7 +43,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// = 3·J saturation on the 4-cycle = K_{2,2}, where the sublattice split is
 /// |A| = |B| = 2 instead of star's |A| = 1, |B| = N-1. The two claims share
 /// the same proof skeleton: bipartite split → all-pairs bonding →
-/// H = J·S⃗_A·S⃗_B Casimir form → maximum-S_tot ferromagnet eigenmode
+/// H = J·S_A·S_B Casimir form → maximum-S_tot ferromagnet eigenmode
 /// realises the bound. See PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md
 /// "Why star is the universal-saturator topology" for the joint characterisation.</para>
 ///
@@ -171,7 +171,7 @@ public sealed class StarImMaxBoundClaim : Claim
     }
 
     public StarImMaxBoundClaim()
-        : base("Star saturates Im_max(star, N, J) = J·N/2 Q-universally; closed-form via H_star = J·S⃗_0·S⃗_L hub-leaf Casimir + max-S_L=(N-1)/2 ferromagnet eigenmode; bit-exact at 29 (N, Q) anchors from the 2026-05-19 Q-sweep and the SLOW_N8 sweep",
+        : base("Star saturates Im_max(star, N, J) = J·N/2 Q-universally; closed-form via H_star = J·S_0·S_L hub-leaf Casimir + max-S_L=(N-1)/2 ferromagnet eigenmode; bit-exact at 29 (N, Q) anchors from the 2026-05-19 Q-sweep and the SLOW_N8 sweep",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md (primary derivation) + " +
                "experiments/STAR_CONFOCAL_LIMIT.md (the cavity-picture sibling reading) + " +
@@ -185,7 +185,7 @@ public sealed class StarImMaxBoundClaim : Claim
         "Star Im-max saturation: Im_max(star, N, J) = J·N/2";
 
     public override string Summary =>
-        $"Im_max(star, N, J) = (1/2)·J·N Q-universal; closed-form via SU(2)/Schur-Weyl hub-leaf Casimir on H_star = J·S⃗_0·S⃗_L; verified bit-exact at 24 Q-sweep anchors (Q ∈ {{0.5, 1.0, 1.5, √3, 2.0, 2.5}} × N ∈ {{3, 4, 5, 6}}) plus N=8 at Q=2 from the SLOW_N8 sweep; {Tier.Label()}";
+        $"Im_max(star, N, J) = (1/2)·J·N Q-universal; closed-form via SU(2)/Schur-Weyl hub-leaf Casimir on H_star = J·S_0·S_L; verified bit-exact at 24 Q-sweep anchors (Q ∈ {{0.5, 1.0, 1.5, √3, 2.0, 2.5}} × N ∈ {{3, 4, 5, 6}}) plus N=8 at Q=2 from the SLOW_N8 sweep; {Tier.Label()}";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -195,10 +195,10 @@ public sealed class StarImMaxBoundClaim : Claim
                 summary: "Im_max(star, N, J) = (1/2)·J·N for all N ≥ 3, J ≥ 0; equivalently Im/σ = (1/2)·Q. Q-universal: independent of (J, γ) on the constant-Q ray.");
 
             yield return new InspectableNode("Tier 1 derived",
-                summary: "Closed form via star Casimir factorisation: H_star = J·S⃗_0·S⃗_L = (J/2)·(S²_tot − 3/4 − S²_L); within fixed S_L sector, hub couples to S_L ± 1/2 with gap J·(S_L + 1/2); maximum at S_L = (N-1)/2 gives ΔE_max = J·N/2. The Liouvillian eigenmode |Ψ_+⟩⟨Ψ_−| between the S_tot = N/2 ferromagnet and the S_tot = (N-2)/2 hub-anti-aligned state realises Im(λ) = J·N/2 exactly. Pure-dephasing dissipator only adds real decay so no L-mode can exceed the H-spread bound. See PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md for the full derivation.");
+                summary: "Closed form via star Casimir factorisation: H_star = J·S_0·S_L = (J/2)·(S²_tot − 3/4 − S²_L); within fixed S_L sector, hub couples to S_L ± 1/2 with gap J·(S_L + 1/2); maximum at S_L = (N-1)/2 gives ΔE_max = J·N/2. The Liouvillian eigenmode |Ψ_+⟩⟨Ψ_−| between the S_tot = N/2 ferromagnet and the S_tot = (N-2)/2 hub-anti-aligned state realises Im(λ) = J·N/2 exactly. Pure-dephasing dissipator only adds real decay so no L-mode can exceed the H-spread bound. See PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md for the full derivation.");
 
             yield return new InspectableNode("relationship to ring N=4",
-                summary: "Same proof skeleton (bipartite split → all-pairs bonding → H = J·S⃗_A·S⃗_B Casimir → maximum-S_tot ferromagnet eigenmode realises bound). Star uses sublattice sizes |A|=1, |B|=N-1; Ring N=4 uses |A|=|B|=2. Star gives (1/2)·J·N for any N; Ring N=4 gives (3/4)·J·N N=4-specifically (the bipartite-complete coincidence C_N = K_{N/2,N/2} fails for N > 4).");
+                summary: "Same proof skeleton (bipartite split → all-pairs bonding → H = J·S_A·S_B Casimir → maximum-S_tot ferromagnet eigenmode realises bound). Star uses sublattice sizes |A|=1, |B|=N-1; Ring N=4 uses |A|=|B|=2. Star gives (1/2)·J·N for any N; Ring N=4 gives (3/4)·J·N N=4-specifically (the bipartite-complete coincidence C_N = K_{N/2,N/2} fails for N > 4).");
 
             yield return new InspectableNode("Q-sweep anchor count",
                 summary: "24 anchors at γ₀=0.05 from the 2026-05-19 Q-sweep (Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} × N ∈ {3, 4, 5, 6}). All Im/σ = Q/2 bit-exact to machine precision.");

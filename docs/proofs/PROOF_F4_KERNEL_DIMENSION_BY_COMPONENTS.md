@@ -41,7 +41,7 @@ The first three rows verify the connected-component specialisation (kernel dim =
 
 The Heisenberg bond Hamiltonian on bond (i, j) is
 
-    H_(i,j) = J · (X_i X_j + Y_i Y_j + Z_i Z_j) = 2J · (S⃗_i · S⃗_j)  −  (J/2) · I.
+    H_(i,j) = J · (X_i X_j + Y_i Y_j + Z_i Z_j) = 2J · (S_i · S_j)  −  (J/2) · I.
 
 All three terms preserve the joint Z-popcount w(σ) := #{i : σ_i ↑} on any computational-basis state, hence the global popcount
 

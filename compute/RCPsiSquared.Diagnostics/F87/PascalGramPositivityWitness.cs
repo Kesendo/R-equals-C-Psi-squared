@@ -13,11 +13,12 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// pair, M = A + γQ has first nonvanishing odd power-sum at m* = 2ℓ + d, and the #Q = d class
 /// coefficient is the equal-leg-total Pascal-Gram sum of squares
 ///
-///   P_{m*,d} = (m*/d)·Σ_{l⃗∈[N]^d} Σ_{k⃗∈[0..ℓ]^d} |U^{(l⃗)}_{k⃗}|² ,
-///   U^{(l⃗)}_{k⃗} = Σ_{|α⃗|=ℓ, d parts} ∏_i C(α_i, k_i)·T^{(l⃗)}_{α⃗} ,
-///   T^{(l⃗)}_{α⃗} = Tr(Z_{l₁}H^{α₁} Z_{l₂}H^{α₂} ··· Z_{l_d}H^{α_d}) ,
+///   P_{m*,d} = (m*/d)·Σ_{l∈[N]^d} Σ_{k∈[0..ℓ]^d} |U^{(l)}_{k}|² ,
+///   U^{(l)}_{k} = Σ_{|α|=ℓ, d parts} ∏_i C(α_i, k_i)·T^{(l)}_{α} ,
+///   T^{(l)}_{α} = Tr(Z_{l₁}H^{α₁} Z_{l₂}H^{α₂} ··· Z_{l_d}H^{α_d}) ,
 ///
-/// manifestly ≥ 0. At least one class is positive ⟹ p_{m*}(γ) > 0 for every γ > 0 ⟹ hard at one γ
+/// manifestly ≥ 0. Multi-indices carry no arrow: l, α, k are d-tuples, one entry per leg, with
+/// entries l_i, α_i, k_i and |α| = Σ_i α_i. At least one class is positive ⟹ p_{m*}(γ) > 0 for every γ > 0 ⟹ hard at one γ
 /// is hard at ALL γ (the R-sign residual closed). The witness recomputes P_{m*,d} from H for the
 /// five canonical branch representatives (d = 1, 3, 5) and surfaces the positivity verdict + the
 /// mod-4 selection rule (d ≡ m*−2 (mod 4), d ≤ m*−2ℓ; singleness DERIVED for deg ≤ 3).
@@ -76,7 +77,7 @@ public sealed class PascalGramPositivityWitness : IInspectable
                 string single = allowed.Length == 1 ? "monomiality DERIVED" : $"allowed {{{string.Join(",", allowed)}}}, measured single";
                 yield return new InspectableNode(
                     $"{c.Name} (d={c.D}, N={c.N}, ℓ={c.Ell}, m*={c.MStar})",
-                    summary: $"P_{{{c.MStar},{c.D}}} = (m*/d)·Σ_l⃗ Σ_k⃗ |U|² = {got:0} " +
+                    summary: $"P_{{{c.MStar},{c.D}}} = (m*/d)·Σ_l Σ_k |U|² = {got:0} " +
                              $"(exact {c.Expected:0}, Δ={Math.Abs(got - c.Expected):0.0e+00}); > 0 ⟹ hard at every γ. " +
                              $"selection rule: d≡m*−2 (mod 4), d≤m*−2ℓ ⟹ {single}.",
                     payload: new InspectablePayload.Real($"P_{{{c.MStar},{c.D}}}", got, "0"));
@@ -93,8 +94,8 @@ public sealed class PascalGramPositivityWitness : IInspectable
     /// recomputed from H (no stored number). The cross-language ground truth is <see cref="Case.Expected"/>.</summary>
     public double Coefficient(int caseIndex) => _coefficients[caseIndex];
 
-    /// <summary>The Pascal-Gram value P_{m*,d} for a case, from the d-leg moments T^{(l⃗)}_{α⃗}
-    /// (|α⃗| = ℓ) through the binomial Vandermonde U and the sum of squares. Static so tests can
+    /// <summary>The Pascal-Gram value P_{m*,d} for a case, from the d-leg moments T^{(l)}_{α}
+    /// (|α| = ℓ) through the binomial Vandermonde U and the sum of squares. Static so tests can
     /// call it without constructing the witness.</summary>
     public static double ComputeCoefficient(Case c)
     {
@@ -119,10 +120,10 @@ public sealed class PascalGramPositivityWitness : IInspectable
         var cidx = new Dictionary<string, int>();
         for (int i = 0; i < comps.Count; i++) cidx[Key(comps[i])] = i;
 
-        // all d-leg moments T^{(l⃗)}_{α⃗}: dict (l-tuple) -> vector over compositions.
+        // all d-leg moments T^{(l)}_{α}: dict (l-tuple) -> vector over compositions.
         var moments = AllLegMoments(p, n, d, ell, comps, cidx);
 
-        // Vandermonde rows: all k⃗ ∈ [0..ℓ]^d; W[k⃗, α⃗] = ∏_i C(α_i, k_i). total = Σ_l⃗ Σ_k⃗ |U_k⃗|².
+        // Vandermonde rows: all k ∈ [0..ℓ]^d; W[k, α] = ∏_i C(α_i, k_i). total = Σ_l Σ_k |U_k|².
         var ks = Tuples(ell + 1, d);
         double total = 0.0;
         foreach (var vec in moments.Values)
