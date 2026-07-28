@@ -107,7 +107,7 @@ public sealed class F49bCenteredDissipatorPi2Inheritance : Claim, IZ2AxisClaim
         "F49b centered dissipator norm as Pi2-Foundation operator-space inheritance";
 
     public override string Summary =>
-        $"‖L_Dc‖² = γ²·4^N·N: 4^N = a_{{1−2N}} = d² für N qubits (direct OperatorSpaceMirror anchor); " +
+        $"‖L_Dc‖² = γ²·4^N·N: 4^N = a_{{1−2N}} = d² for N qubits (direct OperatorSpaceMirror anchor); " +
         $"N = chain length (not Pi2 anchor); γ² dimensional ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren

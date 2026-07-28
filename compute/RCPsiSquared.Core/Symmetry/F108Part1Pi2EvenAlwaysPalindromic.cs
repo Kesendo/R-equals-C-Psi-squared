@@ -167,7 +167,9 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
                          "Part 3 follows by operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact, " +
                          "bilinear set D-invariant); Part 2 follows by Hilbert-space Hadamard transport " +
                          "(U_op = U_H^⊗N ⊗ (U_H^⊗N)^* maps L_Z to L_X bit-exact, bilinear-set bijection). " +
-                         "Operator-level Q_zx and H do NOT swap Π_5b(Z) ↔ Π_5b(X) (negative result). " +
+                         "At the operator level Q_zx does NOT swap Π_5b(Z) ↔ Π_5b(X), but H does " +
+                         "(H · Π_5b(Z) · H = Π_5b(X) bit-exact), so Klein-V₄ acts on Π_5b as {I, D, H} " +
+                         "with D on Z↔Y and H on Z↔X; only Q_zx (= H·D) leaves the canonical set. " +
                          "Full proof: PROOF_F108_KLEIN_V4_EQUIVALENCE.md. The three typed Claims remain " +
                          "separate to preserve their independent integration edges, but cross-reference this proof.");
         }

@@ -26,27 +26,28 @@ public class F41PalindromicTimePi2InheritanceTests
     }
 
     [Theory]
-    // F41: ω_min = 4·J·sin²(π/(2N))
-    // N=2, J=1: sin²(π/4) = 1/2 → ω_min = 4·1·(1/2) = 2
-    // N=3, J=1: sin²(π/6) = 1/4 → ω_min = 4·1·(1/4) = 1
-    // N=4, J=1: sin²(π/8) ≈ 0.1464 → ω_min ≈ 0.586
-    [InlineData(2, 1.0, 2.0)]
-    [InlineData(3, 1.0, 1.0)]
-    [InlineData(3, 0.5, 0.5)]   // J scaling: ω_min ∝ J
-    [InlineData(4, 1.0, 4.0 * 0.14644660940672627)]
+    // F41: ω_min is the k=1 mode of the D10 w1 dispersion 4J(1 − cos(πk/N)),
+    // i.e. ω_min = 4·J·(1 − cos(π/N)) = 8·J·sin²(π/(2N)).
+    // N=2, J=1: sin²(π/4) = 1/2 → ω_min = 8·1·(1/2) = 4
+    // N=3, J=1: sin²(π/6) = 1/4 → ω_min = 8·1·(1/4) = 2
+    // N=4, J=1: sin²(π/8) ≈ 0.1464 → ω_min ≈ 1.1716
+    [InlineData(2, 1.0, 4.0)]
+    [InlineData(3, 1.0, 2.0)]
+    [InlineData(3, 0.5, 1.0)]   // J scaling: ω_min ∝ J
+    [InlineData(4, 1.0, 8.0 * 0.14644660940672627)]
     public void MinFrequency_MatchesClosedForm(int N, double J, double expected)
     {
         Assert.Equal(expected, BuildClaim().MinFrequency(N, J), precision: 12);
     }
 
     [Theory]
-    // F41: t_Pi = π/(2·J·sin²(π/(2N)))
-    // N=2, J=1: 2·sin²(π/4) = 1 → t_Pi = π
-    // N=3, J=1: 2·sin²(π/6) = 1/2 → t_Pi = 2π ≈ 6.283
-    // N=3, J=2: t_Pi = π / (4·(1/4)) = π
-    [InlineData(2, 1.0, Math.PI)]
-    [InlineData(3, 1.0, 2.0 * Math.PI)]
-    [InlineData(3, 2.0, Math.PI)]
+    // F41: t_Pi = 2π/ω_min = π/(4·J·sin²(π/(2N)))
+    // N=2, J=1: 4·sin²(π/4) = 2 → t_Pi = π/2
+    // N=3, J=1: 4·sin²(π/6) = 1 → t_Pi = π ≈ 3.1416, the F42 table's verified value
+    // N=3, J=2: 4·2·sin²(π/6) = 2 → t_Pi = π/2
+    [InlineData(2, 1.0, Math.PI / 2.0)]
+    [InlineData(3, 1.0, Math.PI)]
+    [InlineData(3, 2.0, Math.PI / 2.0)]
     public void PalindromicTime_MatchesClosedForm(int N, double J, double expected)
     {
         Assert.Equal(expected, BuildClaim().PalindromicTime(N, J), precision: 12);
@@ -77,11 +78,11 @@ public class F41PalindromicTimePi2InheritanceTests
     }
 
     [Theory]
-    // Asymptotic: t_Pi → 2N²/(π·J) for large N.
-    // N=20, J=1: asymptotic = 2·400/π ≈ 254.65
-    // N=100, J=1: asymptotic = 2·10000/π ≈ 6366.2
-    [InlineData(20, 1.0, 800.0 / Math.PI)]
-    [InlineData(100, 1.0, 20000.0 / Math.PI)]
+    // Asymptotic: t_Pi → N²/(π·J) for large N.
+    // N=20, J=1: asymptotic = 400/π ≈ 127.32
+    // N=100, J=1: asymptotic = 10000/π ≈ 3183.1
+    [InlineData(20, 1.0, 400.0 / Math.PI)]
+    [InlineData(100, 1.0, 10000.0 / Math.PI)]
     public void AsymptoticPalindromicTime_MatchesClosedForm(int N, double J, double expected)
     {
         Assert.Equal(expected, BuildClaim().AsymptoticPalindromicTime(N, J), precision: 12);

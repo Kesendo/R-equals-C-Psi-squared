@@ -35,7 +35,7 @@ public static class Pi2OpenQuestions
             "bilinear apex 1/2 in BOTH Π²_X axes. At N ≥ 4, the slowest 4·(N+1) non-kernel modes " +
             "concentrate in Π²_X = −1 only (Pp + Mp ≈ 0). What's the mechanism? Why does the " +
             "transition happen at N = 4? Possible connection to the 120-enum trichotomy stabilisation " +
-            "at N = 4 (per project_v_effect_combinatorial: 15/46/59 N-stable from N = 4 onward).",
+            "at N = 4 (per project_v_effect_combinatorial: 15/46/59 N-stable, already at N = 3 and through N = 5).",
             "Trace the slowest-window spectral structure as N grows; identify whether this is a " +
             "Petermann-factor effect (non-normality), a Klein-cell-density effect, or a deeper " +
             "structural transition.",

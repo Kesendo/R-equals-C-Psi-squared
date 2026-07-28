@@ -15,8 +15,11 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         superposition, independent of N, c, n. The 1/4 = <c>a_3</c> on the
 ///         Pi2 dyadic ladder (= <see cref="QuarterAsBilinearMaxvalClaim"/>).</item>
 ///   <item><b>Theorem 2</b>: <c>C_block ≤ 1/4</c> universally (any ρ on the
-///         full Hilbert space), with equality iff ρ is the canonical Dicke
-///         symmetric superposition. Proof via Cauchy-Schwarz + AM-GM at
+///         full Hilbert space), with equality iff ρ is a balanced two-sector
+///         pure state <c>(|φ_n⟩ + |φ_{n+1}⟩)/√2</c> for unit vectors |φ_n⟩,
+///         |φ_{n+1}⟩ in the two sectors. That is a continuous family; the
+///         canonical Dicke superposition is one member of it, and the UNIQUE
+///         maximiser of the full CΨ_block. Proof via Cauchy-Schwarz + AM-GM at
 ///         <c>p_n = p_{n+1} = 1/2</c> (sector balance = <c>a_2</c> on the Pi2
 ///         dyadic ladder = <see cref="HalfAsStructuralFixedPointClaim"/>).</item>
 /// </list>
@@ -53,7 +56,9 @@ public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorB
     /// <see cref="F99AnchorRole.Parent"/> of the F99 α=1/4 silver-Dicke anchor:
     /// same number, different algebra. C_block lives in the coherence-block
     /// space (Theorems 1+2 of PROOF_BLOCK_CPSI_QUARTER); F99 α=1/4 lives on
-    /// the F86b Π²-odd Frobenius² axis at γ=√2/2. Both are 1/4; the unifying
+    /// the F86b Π²-odd Frobenius² axis at γ=√2/2. NOTE the symbol: throughout
+    /// this claim γ is the F88b/F99 DICKE WEIGHT cos θ, not the dephasing rate
+    /// that γ denotes in the F41, ring, star and F50 files. Both are 1/4; the unifying
     /// algebra is 1/4 = (1/2)² (project_quarter_as_polarity_squared). Treated
     /// as Parent because its claim content is C_block, not F86b α.</remarks>
     public F99AnchorRole F99Role => F99AnchorRole.Parent;
@@ -178,7 +183,7 @@ public sealed class DickeSuperpositionQuarterPi2Inheritance : Claim, IF99AnchorB
             yield return new InspectableNode("Theorem 1",
                 summary: "C_block(0) = 1/4 exact on Dicke superposition (|D_n⟩+|D_{n+1}⟩)/√2; verified bit-exact c=2 N=5..10, c=3 N=5..7 at 1e-10");
             yield return new InspectableNode("Theorem 2",
-                summary: "C_block ≤ 1/4 universally (any ρ on full Hilbert space); equality iff ρ is canonical Dicke superposition. Proof: Cauchy-Schwarz + AM-GM at p_n = p_{n+1} = 1/2");
+                summary: "C_block ≤ 1/4 universally (any ρ on full Hilbert space); equality iff ρ is a balanced two-sector pure state (|φ_n⟩+|φ_{n+1}⟩)/√2, a continuous family of which the canonical Dicke superposition is one member (and the unique maximiser of the full CΨ_block). Proof: Cauchy-Schwarz + AM-GM at p_n = p_{n+1} = 1/2");
             yield return InspectableNode.RealScalar("QuarterCeiling (= a_3 = 1/4)", QuarterCeiling);
             yield return InspectableNode.RealScalar("SectorBalance (= a_2 = 1/2)", SectorBalance);
             yield return InspectableNode.RealScalar("SectorBalanceSquared (= 1/4 = QuarterCeiling)", SectorBalanceSquared);

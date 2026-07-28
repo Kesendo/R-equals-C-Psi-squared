@@ -3,7 +3,8 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F50 closed form (Tier 1 proven + verified N=2..7):
+/// <summary>F50 closed form (≥2N lower bound Tier 1 proven; the =2N equality Tier 2
+/// verified N=2..7, with the K_3 N=3 exception at 2N+2):
 ///
 /// <code>
 ///   d_real(Re = −2γ) = 2N                    Liouvillian eigenvalue count at the
@@ -167,7 +168,7 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
         "F50 weight-1 degeneracy 2N as Pi2-Foundation a_0 inheritance (twice)";
 
     public override string Summary =>
-        $"d_real(Re = −2γ) = 2N: 2 = a_0 (count multiplier and decay rate); SWAP-invariant T_c^{{(a)}} for a ∈ {{X, Y}}, c = 0..N−1; topology-universal for isotropic Heisenberg ({Tier.Label()})";
+        $"d_real(Re = −2γ) = 2N: 2 = a_0 (count multiplier and decay rate); SWAP-invariant T_c^{{(a)}} for a ∈ {{X, Y}}, c = 0..N−1. The ≥2N lower bound is topology-universal for isotropic Heisenberg; the =2N equality is Tier-2 verified, chain at all N and other connected graphs at N≥4, with the K_3 N=3 exception (=2N+2) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -182,7 +183,7 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("special cases",
                 summary: "T_0^{(X)} = 2·S_x, T_0^{(Y)} = 2·S_y (global SU(2) generators); T_{N−1}^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_{all others} (Jordan-Wigner-type)");
             yield return new InspectableNode("topology universality",
-                summary: "F50 holds for ANY connected graph (chain, star, ring, complete, tree) with isotropic Heisenberg + uniform Z-dephasing. Unique to k=0 and k=1 sectors. For k ≥ 2 the count becomes topology-dependent (Chain < Star < Ring < Complete; WEIGHT2_KERNEL).");
+                summary: "The ≥2N lower bound holds for any connected graph with isotropic Heisenberg + uniform Z-dephasing. The =2N equality holds for the chain at all N and for ring/star/complete/tree at N ≥ 4 (upper bound Tier2-verified), with the documented K_3 exception at N = 3, where the triangle (= ring = complete on 3 vertices) gives d_real = 8 = 2N+2. Unique to k=0 and k=1 sectors. For k ≥ 2 the count becomes topology-dependent (Chain < Star < Ring < Complete; WEIGHT2_KERNEL).");
             yield return new InspectableNode("breaks for anisotropic XXZ",
                 summary: "Δ ≠ 1: the ZZ term mixes X/Y types, breaking the SWAP-invariance argument; F50 closure fails");
             yield return new InspectableNode("N=3 verified",

@@ -76,7 +76,7 @@ public sealed class F87Pi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("F87 hardware confirmation",
                 summary: "Marrakesh d7mjnjjaq2pc73a1pk4g (2026-04-26) Δ(soft − truly) = −0.722; Kingston regime-uniformity (2026-05-05)");
             yield return new InspectableNode("V-Effect counts",
-                summary: "36-enum N=3 → 14/19/3 (truly/soft/hard); 120-enum N=3..5 → 15/46/59 N-stable (combinatorial proof commit 81caf67)");
+                summary: "36-enum N=3 → 14/19/3 (hard/soft/truly); 120-enum N=3..5 → 15/46/59 (truly/soft/hard) N-stable. The two enumerations are conventionally written in OPPOSITE order; the 120-enum's truly count is 15 = C(6,2), the pairs of the six two-site operators with #Y and #Z both even (II, IX, XI, XX, YY, ZZ), and 59 is its hard count (combinatorial proof commit 81caf67)");
             yield return new InspectableNode("F87 vs Klein cells",
                 summary: "distinct structures: F87 trichotomy (14/19/3, 36-enum) developed pre-Klein from Pauli-pair combinatorics; KleinFour 4-cell (Pp/Pm/Mp/Mm) is a separate Π²-eigenspace decomposition; no typed inheritance edge between them");
         }

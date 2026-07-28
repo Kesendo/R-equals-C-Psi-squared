@@ -1343,7 +1343,7 @@ The combinatorial enumeration grows (16 single-Paulis squared minus identities =
 
 **Status:** partially closed by experiment ([pi_protected_test_n4.py](../simulations/pi_protected_test_n4.py), commit 96ed6da)
 
-**Result at N=4:** Trichotomy structure preserved. Counts: **15 truly / 46 soft / 59 hard** out of 120 unordered two-Pauli-pair Hamiltonians (the enumeration at N=4 has more entries than at N=3 because more bond geometries are physically distinct). Counts grow non-linearly: truly × 5, soft × 2.4, hard × 4 from N=3.
+**Result at N=4:** Trichotomy structure preserved. Counts: **15 truly / 46 soft / 59 hard** out of 120 unordered two-Pauli-pair Hamiltonians. The 36-enum and the 120-enum are not the same enumeration at two chain lengths; they are different sample spaces over different alphabets, the 36 over the nine traceless bond bilinears and the 120 over the sixteen two-site strings. Both are N-stable, and the 120-enum already reads 15/46/59 at N=3, so the step from 3/19/14 to 15/46/59 is a change of alphabet, not growth with N.
 
 **Surprising new structure at N=4:** the soft category itself becomes granular via `pi_protected_observables`. The number of Π-protected Pauli-string observables ranges from 3 to 240 across the 46 soft cases, exposing a sub-spectrum invisible at N=3:
 - High-protected soft (YZ+ZY: 240 protected, 15 active): leaks only 15 of 255 Pauli observables; almost truly.

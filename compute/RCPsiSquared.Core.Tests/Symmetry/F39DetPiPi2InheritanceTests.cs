@@ -121,7 +121,7 @@ public class F39DetPiPi2InheritanceTests
         var f = Build();
         _out.WriteLine("");
         _out.WriteLine("    F39 closed form: det(Π) = (−1)^(N · 4^(N−1))");
-        _out.WriteLine("    Pi2-Anker: 4^(N−1) = a_{3−2N} = d² für (N−1) qubits");
+        _out.WriteLine("    Pi2 anchor: 4^(N−1) = a_{3−2N} = d² for (N−1) qubits");
         _out.WriteLine("");
         _out.WriteLine("     N | 4^(N−1) | ladder | qubit-count | exponent N·4^(N−1) | even? | det(Π)");
         _out.WriteLine("    ---|---------|--------|-------------|--------------------|-------|--------");

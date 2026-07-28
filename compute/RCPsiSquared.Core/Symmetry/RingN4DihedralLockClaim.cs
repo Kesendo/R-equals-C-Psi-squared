@@ -17,7 +17,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// bipartite-complete graph K_{2,2} with sublattices A = {0, 2}, B = {1, 3}.
 /// The Heisenberg Hamiltonian on K_{2,2} factors as
 /// <c>H = J · (S_0 + S_2) · (S_1 + S_3) = J · S_A · S_B</c>, whose Casimir
-/// spectrum is <c>{−2J, −J, 0, 0, 0, +J}</c>. Maximum H eigenvalue gap is
+/// spectrum is <c>{−2J, −J³, 0⁷, J⁵}</c> (multiplicities sum to 16 = 2⁴).
+/// Maximum H eigenvalue gap is
 /// <c>3J = (3/4)·J·N</c> (the all-aligned <c>S_tot=2</c> ferromagnetic state vs.
 /// the anti-aligned <c>S_A=1, S_B=1, S_tot=0</c> singlet). The Liouvillian
 /// eigenmode <c>|Ψ_+⟩⟨Ψ_−|</c> between these two extremal H-eigenstates
@@ -46,16 +47,20 @@ namespace RCPsiSquared.Core.Symmetry;
 /// {1,3,5}) but has only 6 bonds versus K_{3,3}'s 9, so the bipartite-complete
 /// Casimir factorisation fails. Ring N=6 still exhibits a Q-universal lock
 /// empirically (<c>Im_max = 0.717129·J·N</c> bit-exact at the same 6 Q-values)
-/// but its closed-form derivation needs Bethe-ansatz on the 6-cycle dispersion
-/// rather than the elementary Casimir argument that closes N=4. See the
+/// and its constant is still elementary, <c>c_6 = (5+√13)/12</c> from factoring the
+/// S_z=0 characteristic polynomial over ℚ, though not by the Casimir argument that
+/// closes N=4. Bethe ansatz is what the N → ∞ limit needs (<c>c_∞ = ln 2</c>),
+/// not the individual N. See the
 /// hypotheses/F1_DISSIPATION_GAP_PATTERN.md "Ring N=6 dihedral lock" section.</para>
 ///
 /// <para><b>Relationship to the star saturation.</b> The star topology saturates
 /// the analogous bound <c>Im_max(star, N, J) = J·N/2</c> via a parallel hub-spoke
 /// Casimir construction (see <c>experiments/STAR_CONFOCAL_LIMIT.md</c>). Ring N=4
-/// carries 50% more imaginary spread than star N=4 (3/4 vs 1/2 prefactor) because
-/// K_{2,2} has 4 bonds versus the N=4 star's 3 (and the bipartite-complete
-/// structure maximises the inter-sublattice Casimir gap). Both bounds are
+/// carries 50% more imaginary spread than star N=4 (3/4 vs 1/2 prefactor). The
+/// reason is the bipartite-complete K_{2,2} Casimir gap 3J, not the bond count:
+/// K_{2,2} does have 4 bonds against the star's 3, but scaling the star's 2J by
+/// 4/3 would give 2.67J, not the 3J the Casimir multiplet structure produces.
+/// Both bounds are
 /// Q-universal; both follow from the SU(2)-invariance of isotropic Heisenberg
 /// plus the pure-dephasing dissipator's "real-decay-only" property.</para>
 ///
@@ -147,7 +152,7 @@ public sealed class RingN4DihedralLockClaim : Claim
     }
 
     public RingN4DihedralLockClaim()
-        : base("Ring N=4 dihedral lock: Im_max(ring, N=4, J) = (3/4)·J·N = 3·J, Q-universal; closed form via K_{2,2} = C_4 bipartite-complete + Casimir spectrum {−2J, −J, 0³, J}; bit-exact at 6 Q-values from the 2026-05-19 Q-sweep",
+        : base("Ring N=4 dihedral lock: Im_max(ring, N=4, J) = (3/4)·J·N = 3·J, Q-universal; closed form via K_{2,2} = C_4 bipartite-complete + Casimir spectrum {−2J, −J³, 0⁷, J⁵} (multiplicities sum to 16 = 2⁴); bit-exact at 6 Q-values from the 2026-05-19 Q-sweep",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md (primary derivation) + " +
                "experiments/STAR_CONFOCAL_LIMIT.md (sister bound via the same Casimir technique) + " +
@@ -172,10 +177,10 @@ public sealed class RingN4DihedralLockClaim : Claim
                 summary: "Closed form via K_{2,2} = C_4 bipartite-complete graph isomorphism: H = J·S_A·S_B with sublattice totals; Casimir spectrum = {−2J, −J(triplet), 0(seven-fold), +J(quintuplet)}; max H gap = J − (−2J) = 3J = (3/4)·J·N. The Liouvillian eigenmode |Ψ_+⟩⟨Ψ_−| between the S_tot=2 ferromagnet and the (S_A=1, S_B=1, S_tot=0) singlet realises Im(λ) = 3J exactly. Pure-dephasing dissipator only adds real decay so no L-mode can exceed the H-spread bound. See PROOF_RING_N4_DIHEDRAL_LOCK.md for the full derivation.");
 
             yield return new InspectableNode("N=4 specificity",
-                summary: "The bipartite-complete coincidence C_N = K_{N/2,N/2} only holds for N=4. For N=6 the 6-cycle has 6 bonds versus K_{3,3}'s 9 (bipartite but not bipartite-complete); the Casimir factorisation fails. Ring N=6 still locks Q-universally at 0.717129·J·N empirically (Bethe-ansatz number, closed-form open); ring N=8 at 0.7064·J·N at Q=2. Three-point sequence c_4 = 0.75, c_6 = 0.7171, c_8 = 0.7064 is monotonically decreasing and passes through 1/√2 ≈ 0.7071 between N=6 and N=8; whether c_∞ settles at 1/√2 or below is open with current data.");
+                summary: "The bipartite-complete coincidence C_N = K_{N/2,N/2} only holds for N=4. For N=6 the 6-cycle has 6 bonds versus K_{3,3}'s 9 (bipartite but not bipartite-complete); the Casimir factorisation fails. Ring N=6 still locks Q-universally at 0.717129·J·N, and that constant is elementary, c_6 = (5+√13)/12 from factoring the S_z=0 characteristic polynomial over ℚ; ring N=8 at 0.7064·J·N at Q=2, the largest root of 512c³ − 640c² + 232c − 25. The sequence c_4 = 0.75, c_6 = 0.7171, c_8 = 0.7064 decreases monotonically past 1/√2 ≈ 0.7071 between N=6 and N=8 and continues below it: the limit is c_∞ = ln 2 = 0.693147, from the Hulthén per-bond ground energy, NOT 1/√2. Bethe ansatz is what the LIMIT needs, not the individual N.");
 
             yield return new InspectableNode("relationship to star saturation",
-                summary: "Star topology saturates Im_max(star, N, J) = J·N/2 via a parallel hub-spoke Casimir construction (STAR_CONFOCAL_LIMIT.md). Ring N=4 carries 1.5× more imaginary spread than star N=4 (3/4 vs 1/2 prefactor) because K_{2,2} has 4 bonds versus the N=4 star's 3, and the bipartite-complete structure maximises the inter-sublattice Casimir gap. Both bounds are Q-universal, both via SU(2)-invariance + pure-dephasing real-decay-only.");
+                summary: "Star topology saturates Im_max(star, N, J) = J·N/2 via a parallel hub-spoke Casimir construction (STAR_CONFOCAL_LIMIT.md). Ring N=4 carries 1.5× more imaginary spread than star N=4 (3/4 vs 1/2 prefactor). The reason is the bipartite-complete K_{2,2} Casimir gap of 3J, not the bond count: K_{2,2} has 4 bonds against the star's 3, but scaling the star's 2J by 4/3 gives 2.67J, not 3J. Both bounds are Q-universal, both via SU(2)-invariance + pure-dephasing real-decay-only.");
 
             foreach (var (label, _, pred, obs, rel) in EmpiricalAnchors)
                 yield return new InspectableNode($"Q-sweep anchor: {label}",

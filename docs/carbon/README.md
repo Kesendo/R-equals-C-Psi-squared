@@ -305,7 +305,7 @@ identification is the open structural question; there is no single canonical cho
    dephasing; verified on the C₄ and C₆ rings.
 
 3. **Is the V-Effect 14/19/3 trichotomy observable in benzene's electronic spectrum?**
-   The framework predicts 14 truly + 19 soft + 3 hard at N=3; what's the N=6 prediction
+   The framework predicts 14 hard + 19 soft + 3 truly at N=3; what's the N=6 prediction
    and does it match benzene's known electronic transition pattern (S₀ → S₁ at 4.8 eV,
    etc.)?
 

@@ -11,8 +11,11 @@ namespace RCPsiSquared.Core.F86;
 ///
 /// <para><b>Theorem 2 of PROOF_BLOCK_CPSI_QUARTER (Tier 1 derived):</b>
 /// <c>C_block ≤ 1/4</c> for ANY density matrix on the full 2^N Hilbert space, with
-/// equality iff ρ is the canonical Dicke superposition (|D_n⟩+|D_{n+1}⟩)/√2 (up to global
-/// phase). The 1/4 maxval is the universal Mandelbrot-cardioid ceiling instanced at the
+/// equality iff ρ is a balanced two-sector pure state (|φ_n⟩+|φ_{n+1}⟩)/√2 for unit
+/// vectors |φ_n⟩, |φ_{n+1}⟩ in the two sectors (up to global phase). That equality set is
+/// a continuous family; the canonical Dicke superposition (|D_n⟩+|D_{n+1}⟩)/√2 is one
+/// member of it, and the unique maximiser of the full CΨ_block.
+/// The 1/4 maxval is the universal Mandelbrot-cardioid ceiling instanced at the
 /// c-block level via the bilinear apex argmax/maxval pair (1/2, 1/4) of p·(1−p); see
 /// <see cref="Symmetry.QuarterAsBilinearMaxvalClaim"/> and
 /// <see cref="Symmetry.ArgmaxMaxvalPairClaim"/>.</para>

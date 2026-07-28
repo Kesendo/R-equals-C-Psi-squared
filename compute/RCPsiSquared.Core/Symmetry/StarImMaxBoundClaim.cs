@@ -25,7 +25,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c> for the full
 /// derivation.</para>
 ///
-/// <para><b>Empirical anchors (bit-exact at 29 (N, Q) combinations):</b></para>
+/// <para><b>Empirical anchors (bit-exact at 25 distinct (N, Q) combinations, over 29
+/// runs: the fourth bullet re-measures four points the Q-sweep already covers).</b></para>
 ///
 /// <list type="bullet">
 ///   <item>Q-sweep at γ₀ = 0.05, 24 anchors (Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}
@@ -171,7 +172,7 @@ public sealed class StarImMaxBoundClaim : Claim
     }
 
     public StarImMaxBoundClaim()
-        : base("Star saturates Im_max(star, N, J) = J·N/2 Q-universally; closed-form via H_star = J·S_0·S_L hub-leaf Casimir + max-S_L=(N-1)/2 ferromagnet eigenmode; bit-exact at 29 (N, Q) anchors from the 2026-05-19 Q-sweep and the SLOW_N8 sweep",
+        : base("Star saturates Im_max(star, N, J) = J·N/2 Q-universally; closed-form via H_star = J·S_0·S_L hub-leaf Casimir + max-S_L=(N-1)/2 ferromagnet eigenmode; bit-exact at 25 distinct (N, Q) anchors from the 2026-05-19 Q-sweep and the SLOW_N8 sweep (29 runs; four are Python cross-checks of points the sweep already covers)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md (primary derivation) + " +
                "experiments/STAR_CONFOCAL_LIMIT.md (the cavity-picture sibling reading) + " +

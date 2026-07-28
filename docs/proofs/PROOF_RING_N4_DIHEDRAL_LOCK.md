@@ -1,13 +1,13 @@
 # PROOF: Ring N=4 dihedral lock, Im_max(ring, N=4, J) = (3/4)·J·N = 3J
 
-**Status:** Tier 1 derived. The 4-cycle is the bipartite-complete graph K_{2,2}; its isotropic Heisenberg Hamiltonian factors through total sublattice spins via SU(2) Casimir, yielding a 6-eigenvalue spectrum {−2J, −J, 0, 0, 0, +J} with max gap 3J. The Liouvillian eigenmode realising this gap is the standard transition between the maximally-antialigned (S_A=1, S_B=1, S_tot=0) ground and the maximally-aligned (S_tot=2) ferromagnet, and the Z-dephasing dissipator only adds real decay so the gap survives into Im(λ).
+**Status:** Tier 1 derived. The 4-cycle is the bipartite-complete graph K_{2,2}; its isotropic Heisenberg Hamiltonian factors through total sublattice spins via SU(2) Casimir, yielding four distinct levels {−2J, −J³, 0⁷, J⁵}, whose multiplicities sum to 16 = 2⁴, with max gap 3J. The Liouvillian eigenmode realising this gap is the standard transition between the maximally-antialigned (S_A=1, S_B=1, S_tot=0) ground and the maximally-aligned (S_tot=2) ferromagnet, and the Z-dephasing dissipator only adds real decay so the gap survives into Im(λ).
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Distinct from:** [`PROOF_RING_GAP_DOMINANCE.md`](PROOF_RING_GAP_DOMINANCE.md), the *XY* ring gap-dominance result (max|Im| = 2J = J·ρ, the dihedral lock). Same words "ring N=4 dihedral lock", different Hamiltonian and different result; this proof is the *isotropic-Heisenberg* ring (max|Im| = 3J via the K_{2,2} Casimir gap).
 
 ## Abstract
 
-The 4-cycle is the one ring size that coincides with the bipartite-complete graph K_{2,2}: two sublattices of two qubits, every inter-sublattice bond present, none within. On it the isotropic Heisenberg Hamiltonian factors through total sublattice spins, H = J·S_A·S_B, and the SU(2) Casimir spectrum {−2J, −J, 0, 0, 0, +J} has maximal gap 3J. Under uniform Z-dephasing the Liouvillian's largest imaginary eigenvalue is pinned exactly to that gap,
+The 4-cycle is the one ring size that coincides with the bipartite-complete graph K_{2,2}: two sublattices of two qubits, every inter-sublattice bond present, none within. On it the isotropic Heisenberg Hamiltonian factors through total sublattice spins, H = J·S_A·S_B, and the SU(2) Casimir spectrum {−2J, −J³, 0⁷, J⁵} has maximal gap 3J. The six rows of the (S_A, S_B) table in Section 3 carry only four distinct values: three of those rows sit at 0, with dimensions 3 + 1 + 3, so the zero level is seven-fold. Under uniform Z-dephasing the Liouvillian's largest imaginary eigenvalue is pinned exactly to that gap,
 
     Im_max(ring, N=4, J) = (3/4)·J·N = 3J,   equivalently   Im/σ = 3Q/4,
 
@@ -162,7 +162,7 @@ The N=6 value 0.71713 reproduces the F1_DISSIPATION_GAP empirical 0.717129, vali
 
 via a parallel hub-spoke Casimir construction H = J · S_0 · S_L with S_L = Σ leaf spins. The Casimir spectrum has max gap J·N/2 (the maximally-ferromagnetic-leaves S_L = (N-1)/2 sector flipping the hub). The ring N=4 result is structurally the same kind of object: a topology where the SU(2)-invariant Heisenberg Hamiltonian factors through a sum-of-Casimirs form, giving a closed Im-max spectral bound.
 
-The ratio between the two is `(3/4)·J·N / (J·N/2) = 3/2`: ring N=4 carries 50% more imaginary spread than star N=4. The geometric reason is the larger bond count (4 in K_{2,2} vs N−1 = 3 in the N=4 star) combined with the bipartite-complete structure that maximises the inter-sublattice Casimir gap.
+The ratio between the two is `(3/4)·J·N / (J·N/2) = 3/2`: ring N=4 carries 50% more imaginary spread than star N=4. The reason is the bipartite-complete structure, which maximises the inter-sublattice Casimir gap, and not the larger bond count on its own: K_{2,2} has 4 bonds against the star's N−1 = 3, but scaling the star's 2J by 4/3 would give 2.67J rather than the 3J the Casimir multiplet structure actually produces.
 
 ## Verification
 
@@ -173,7 +173,7 @@ The ratio between the two is `(3/4)·J·N / (J·N/2) = 3/2`: ring N=4 carries 50
 ## Cross-references
 
 - Parent: [F1PalindromeIdentity](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs) (the F1 master under which this Im-max bound is verified by the same SLOW_N* sweep infrastructure).
-- Sister Im-max bound (open for formal Tier 1 derivation in the same style): [STAR_CONFOCAL_LIMIT.md](../../experiments/STAR_CONFOCAL_LIMIT.md).
+- Sister Im-max bound, closed in the same style on 2026-05-19: [the star optical-confocal saturation proof](PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md), with the record in [STAR_CONFOCAL_LIMIT.md](../../experiments/STAR_CONFOCAL_LIMIT.md).
 - Sister Q-universal lock (Tier 2 empirical, closed form open): ring N=6 at 0.717129·J·N (see [F1_DISSIPATION_GAP_PATTERN.md](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) "Ring N=6 dihedral lock" section).
 - Companion typed claim from the same May 2026 sharpening sprint: [F4KernelDimensionByComponentsClaim](../../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (kernel-dim factorisation across components, Tier 1 derived 2026-05-19).
 - Q-anchor canonical table: [`docs/Q_REGIME_ANCHORS.md`](../Q_REGIME_ANCHORS.md).

@@ -44,7 +44,7 @@ public sealed class QubitDimensionalAnchorClaim : Claim
             yield return new InspectableNode("layer 1: F1 palindrome shift",
                 summary: "Π·L·Π⁻¹ = −L − 2σ·I; the factor 2 carries d=2 dimensional structure");
             yield return new InspectableNode("layer 1: qubit purity floor",
-                summary: "C ≥ Ψ²/2 + 1/2 for qubits (CORE_ALGEBRA); concurrence cannot fall below 1/d");
+                summary: "C ≥ Ψ²/2 + 1/2 for qubits (CORE_ALGEBRA); a qubit's purity cannot fall below 1/d = 1/2, the maximally-mixed floor. That floor is purity, not concurrence: Wootters concurrence reaches 0 on any separable state and is not defined for a single qubit");
             yield return new InspectableNode("layer 2: F81 50/50 split",
                 summary: "‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 for pure Π²-odd; F-chain's flagship 1/2");
             yield return new InspectableNode("layer 2: F83 anti-fraction r=0 limit",
@@ -220,13 +220,13 @@ public sealed class KleinEightCellClaim : Claim, IZ2AxisClaim
             yield return new InspectableNode("(0,0,1) Mother / odd-Y",
                 summary: "Klein (0,0) y_par=1: requires #Y odd AND bit_a XOR bit_b = 0; only at odd k_body (k=3: XYZ-perms; k=5: ...)");
             yield return new InspectableNode("(0,1,0) Z-Klein / no-Y",
-                summary: "Klein (0,1) y_par=0: bit_a=0, bit_b=1, #Y even. Matches Z's Klein index. k_body=2: ZZ (truly under Z). k_body=3 even-Y: ZZZ etc.");
+                summary: "Klein (0,1) y_par=0: bit_a=0, bit_b=1, #Y even. Matches Z's Klein index. Only at odd k_body (0+1+0 is odd). k_body=1: Z. k_body=3 even-Y: ZZZ etc.");
             yield return new InspectableNode("(0,1,1) Z-Klein / odd-Y",
-                summary: "Klein (0,1) y_par=1: bit_a=0, bit_b=1, #Y odd. Only at odd k_body. k=3: requires #X+#Y even ∧ #Y+#Z odd ∧ #Y odd ⟹ #X odd, #Z even");
+                summary: "Klein (0,1) y_par=1: bit_a=0, bit_b=1, #Y odd. #X+#Y even ∧ #Y+#Z odd ∧ #Y odd ⟹ #X odd, #Z even, so k_body is EVEN. k=2: XY, YX (F88a's Mp)");
             yield return new InspectableNode("(1,0,0) X-Klein / no-Y",
-                summary: "Klein (1,0) y_par=0: bit_a=1, bit_b=0, #Y even. Matches X's Klein index. k_body=2: XX (truly under X)");
+                summary: "Klein (1,0) y_par=0: bit_a=1, bit_b=0, #Y even. Matches X's Klein index. Only at odd k_body (1+0+0 is odd). k_body=1: X");
             yield return new InspectableNode("(1,0,1) X-Klein / odd-Y",
-                summary: "Klein (1,0) y_par=1: bit_a=1, bit_b=0, #Y odd. Only at odd k_body. k=3: requires specific (#X, #Y, #Z) parities");
+                summary: "Klein (1,0) y_par=1: bit_a=1, bit_b=0, #Y odd ⟹ #X even, #Z odd, so k_body is EVEN. k=2: YZ, ZY (F88a's Pm)");
             yield return new InspectableNode("(1,1,0) Y-Klein / no-Y (paradoxical)",
                 summary: "Klein (1,1) y_par=0: matches Y's Klein index but #Y even. k_body=2: XZ (Π²-odd subgroup B). The cell exists despite Y-match because #Y can be 0 mod 2");
             yield return new InspectableNode("(1,1,1) Y-Klein / odd-Y (canonical Y-cell)",
@@ -236,7 +236,7 @@ public sealed class KleinEightCellClaim : Claim, IZ2AxisClaim
             yield return new InspectableNode("F87 Z₂³ refinement anchoring",
                 summary: "F103/F105/F106 enumerate (Klein × dephase × y_par × trichotomy) over Z₂³-homogeneous pairs; this 8-cell decomposition is the structural backdrop");
             yield return new InspectableNode("F88a relation",
-                summary: "F88a's Pp/Pm/Mp/Mm are the 4 (Klein, y_par-collapsed) cells at k_body=2: Pp=(0,0,0), Pm=(1,0,0), Mp=(0,1,0), Mm=(1,1,0). The 8-cell extends this with the y_par axis");
+                summary: "F88a's Pp/Pm/Mp/Mm are the 4 (Klein, y_par-collapsed) cells at k_body=2: Pp=(0,0,0), Pm=(1,0,1), Mp=(0,1,1), Mm=(1,1,0). Pm and Mp carry one Y each, so y_par=1 there, as the even-k collapse rule y_par = bit_a XOR bit_b requires. The 8-cell extends this with the y_par axis");
             yield return new InspectableNode("Klein2 → Cubic3 typed parent",
                 summary: $"KleinFourCellClaim ({Klein4Parent.Tier.Label()}): Z₂² Klein-Vierergruppe (bit_a, bit_b); KleinEightCellClaim lifts this with the third Z₂ axis y_par to produce Z₂³.");
         }
@@ -292,8 +292,14 @@ public sealed class BilinearApexClaim : Claim
 /// cardioid cusp where R = CΨ²'s discriminant 1 − 4CΨ vanishes (PROOF_ROADMAP_QUARTER_BOUNDARY
 /// Layer 1), the Theorem 2 ceiling on the (popcount-n, popcount-n+1) coherence-block CΨ
 /// over any density matrix on 2^N (operationalised in F86/BlockCpsiTrajectory.cs +
-/// F86/BlockCpsiClosedForm.cs), and the maximally-mixed-state purity Tr((I/d)²) = 1/d²
-/// at d = 2 (the asymptotic horizon of every dephasing process; PROOF_ASYMPTOTIC_SECTOR_PROJECTION).</summary>
+/// F86/BlockCpsiClosedForm.cs). Both are EXTREMA: a vanishing discriminant and an AM-GM
+/// maximum. A third layer was once counted here, the maximally-mixed purity at the dephasing
+/// horizon (PROOF_ASYMPTOTIC_SECTOR_PROJECTION), and it is withdrawn: Tr((I/d)²) = 1/d, which
+/// is 1/2 at d = 2 and reaches 1/4 only at d = 4. That is a value on a curve, not a maximum
+/// the structure forces, and the cited proof explicitly does not address CΨ = 1/4. It could be
+/// re-hung at d = 4, but then an extremum-list would carry one entry that is merely read off.
+/// Two forcing layers, not three, and that is the sharper statement: this framework's quarter
+/// comes from maximising a bilinear, not from counting a dimension.</summary>
 public sealed class QuarterAsBilinearMaxvalClaim : Claim, IF99AnchorBearing
 {
     /// <inheritdoc />
@@ -316,7 +322,7 @@ public sealed class QuarterAsBilinearMaxvalClaim : Claim, IF99AnchorBearing
     public override string DisplayName => "Maxval 1/4 of any bilinear form p·(1−p)";
 
     public override string Summary =>
-        "1/4 = (1/2)² is the universal maximum value of any bilinear form p·(1−p) on [0,1], attained at p = 1/2; surfaces at the Mandelbrot cardioid cusp, the c-block CΨ ceiling, and the maximally-mixed purity 1/d² at d = 2";
+        "1/4 = (1/2)² is the universal maximum value of any bilinear form p·(1−p) on [0,1], attained at p = 1/2; surfaces at the Mandelbrot cardioid cusp and the c-block CΨ ceiling. Two forcing layers: the maximally-mixed purity is NOT a third, since Tr((I/d)²) = 1/d is 1/2 at d = 2";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -329,7 +335,7 @@ public sealed class QuarterAsBilinearMaxvalClaim : Claim, IF99AnchorBearing
             yield return new InspectableNode("Theorem 2 c-block ceiling",
                 summary: "C_block ≤ p_n · p_{n+1} ≤ 1/4 over any density matrix on 2^N, AM-GM-saturated at p_n = p_{n+1} = 1/2; chromaticity-universal at c ≥ 2 (PROOF_BLOCK_CPSI_QUARTER Theorem 2; operationalised in F86.BlockCpsiTrajectory + F86.BlockCpsiClosedForm)");
             yield return new InspectableNode("maximally-mixed purity",
-                summary: "Tr((I/d)²) = 1/d² = 1/4 at d = 2; the asymptotic-horizon purity of ρ_mm = I/2 (PROOF_ASYMPTOTIC_SECTOR_PROJECTION); a genuine 1/d² instance distinct from the 1/d Pauli normalisation");
+                summary: "Tr((I/d)²) = 1/d, so the asymptotic-horizon purity of ρ_mm = I/2 is 1/2, not 1/4; the quarter appears in this family only at d = 4. NOT a third quarter-anchor beside the cardioid cusp and the Theorem 2 ceiling (PROOF_ASYMPTOTIC_SECTOR_PROJECTION does not address CΨ = 1/4)");
             yield return new InspectableNode("companion to BilinearApexClaim",
                 summary: "argmax/maxval pair: BilinearApexClaim names p = 1/2 as the argmax; this claim names 1/4 = (1/2)² as the maxval (ON_THE_HALF Coda 2026-05-07)");
         }
@@ -377,7 +383,7 @@ public sealed class ArgmaxMaxvalPairClaim : Claim
             yield return new InspectableNode("argmax side: BilinearApexClaim",
                 summary: "p = 1/2 is the universal argmax of p·(1−p); F81 50/50, F83 anti-fraction r=0, balanced Π² partition, slow-mode apex (Pi2KnowledgeBaseClaims.cs:130 BilinearApexClaim)");
             yield return new InspectableNode("maxval side: QuarterAsBilinearMaxvalClaim",
-                summary: "1/4 = (1/2)² is the universal maxval of p·(1−p); Mandelbrot cardioid cusp, Theorem 2 c-block ceiling, 1/d² at d=2 (Pi2KnowledgeBaseClaims.cs QuarterAsBilinearMaxvalClaim)");
+                summary: "1/4 = (1/2)² is the universal maxval of p·(1−p); Mandelbrot cardioid cusp and Theorem 2 c-block ceiling, two layers (the maximally-mixed purity Tr((I/d)²) = 1/d is not a third; it is 1/2 at d=2) (Pi2KnowledgeBaseClaims.cs QuarterAsBilinearMaxvalClaim)");
             yield return new InspectableNode("pair invariance",
                 summary: "every framework layer instancing the bilinear apex inherits both 1/2 and 1/4 together; the half is the axis, the quarter is the height; the parabola does not separate them");
             yield return new InspectableNode("Tom's coda (2026-05-07)",
@@ -424,7 +430,7 @@ public sealed class HalfIntegerMirrorClaim : Claim
             yield return new InspectableNode("w_XY",
                 summary: WXY.ToString("F1"));
             yield return new InspectableNode("framework anchor",
-                summary: "EQ-026 stage-fixing: N=3 introduces half-integer mirror, N=4 fixes 15/46/59 with integer mirror, N=5 inherits half-integer regime");
+                summary: "EQ-026 stage-fixing: N=3 introduces half-integer mirror, N=4 carries the integer mirror, N=5 inherits half-integer regime. The 120-enum trichotomy 15/46/59 is N-stable and already reads so at N=3; what N=4 fixes is the mirror stage, not the count");
         }
     }
 }

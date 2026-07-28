@@ -148,8 +148,8 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
    4n+2 vs 4n distinction.
 
 4. **Does the V-Effect 14/19/3 trichotomy show up in benzene's electronic spectrum?**
-   The framework's V-Effect splits N=3 Pauli-pair bilinears 14 truly + 19 soft + 3
-   hard. For N=6 (benzene): what's the prediction, and does it match benzene's
+   The framework's V-Effect splits N=3 Pauli-pair bilinears 14 hard + 19 soft + 3
+   truly. For N=6 (benzene): what's the prediction, and does it match benzene's
    known electronic-transition pattern?
 
 5. **The Frost-circle construction (1953) and the framework's mode dispersion.**

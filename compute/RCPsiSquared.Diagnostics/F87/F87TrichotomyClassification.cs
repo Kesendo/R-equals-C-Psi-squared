@@ -25,9 +25,12 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>Origin (2026-04-24 to 2026-05-03): V_EFFECT_FINE_STRUCTURE counted 14 hard / 22
 /// not-hard at N=3 over the 36-element bond-pair enumeration (commit 95386cd, 2026-04-25),
 /// and the 22 not-hard split into 19 soft + 3 truly under the strict operator-equation test.
-/// A separate 120-element ordered enumeration extended via Π-protected-observable testing
-/// (commit 96ed6da N=4, 2026-04-26; commit 6438fef N=5, 2026-04-26) gave 15 hard / 46 soft /
-/// 59 truly N-stable through N=3, 4, 5. Commit 81caf67 (2026-04-27) derived the partition
+/// A separate 120-element unordered enumeration extended via Π-protected-observable testing
+/// (commit 96ed6da N=4, 2026-04-26; commit 6438fef N=5, 2026-04-26) gave 15 truly / 46 soft /
+/// 59 hard N-stable through N=3, 4, 5. Note the order: the 36-enum is written hard-first and
+/// this one truly-first. The 15 is C(6,2), the pairs of the six two-site operators carrying
+/// #Y and #Z both even (II, IX, XI, XX, YY, ZZ), exactly as the 36-enum's 3 is C(3,2) over
+/// {XX, YY, ZZ}. Commit 81caf67 (2026-04-27) derived the partition
 /// combinatorially from Pauli-pair compatibility rules. Marrakesh hardware Δ(soft − truly)
 /// = −0.722 confirmation 2026-04-26 (job d7mjnjjaq2pc73a1pk4g). Registered as F87
 /// retrospectively 2026-05-03.</para>
@@ -58,7 +61,7 @@ public sealed class F87TrichotomyClassification : Claim
             yield return new InspectableNode("Klein resonance",
                 summary: "F87-hardness lives in the Klein cell matching the dephase letter (Z=(0,1), X=(1,0), Y=(1,1)); SU(2)-rotation-equivalent");
             yield return new InspectableNode("origin",
-                summary: "36-enum N=3 → 14/19/3 (V_EFFECT_FINE_STRUCTURE 95386cd); 120-enum N=3,4,5 → 15/46/59 N-stable (96ed6da, 6438fef); combinatorial proof 81caf67; Marrakesh Δ(soft−truly)=−0.722");
+                summary: "36-enum N=3 → 14/19/3 as hard/soft/truly (V_EFFECT_FINE_STRUCTURE 95386cd); 120-enum N=3,4,5 → 15/46/59 as truly/soft/hard, the opposite order, N-stable (96ed6da, 6438fef); combinatorial proof 81caf67; Marrakesh Δ(soft−truly)=−0.722");
             yield return new InspectableNode("classifier",
                 summary: "RCPsiSquared.Diagnostics.F87.PauliPairTrichotomy.Classify");
         }

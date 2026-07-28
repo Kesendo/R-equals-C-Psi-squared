@@ -1,7 +1,10 @@
 # D10: Weight-1 Dispersion Relation
 
-**Derives:** ω_k = 4J(1 − cos(πk/N)), k = 1, ..., N−1
+**Derives:** ω_k = 4J(1 − cos(πk/N)), k = 1, ..., N−1, on the (0,1) coherence block
 **From:** Heisenberg Hamiltonian structure + Z-dephasing diagonal in Pauli basis
+**Convention:** the Pauli normalisation H = J·Σ_⟨i,j⟩ (X_iX_j + Y_iY_j + Z_iZ_j).
+The spin convention H = J·Σ S_i·S_j used by the ring and star Im-max proofs is
+this one divided by 4, so its frequencies are a quarter of these.
 **Status:** PROVEN
 
 ---
@@ -9,13 +12,18 @@
 ## Statement
 
 For the N-qubit Heisenberg XXX chain with uniform Z-dephasing (rate γ
-per qubit), the Liouvillian restricted to the XY-weight-1 sector has
-exactly N−1 oscillating eigenvalues with frequencies:
+per qubit), the Liouvillian restricted to the (0,1) coherence block,
+spanned by the |0⟩⟨j| between the all-up state and the single-excitation
+states, carries N modes: one at zero frequency and exactly N−1 oscillating
+ones, with frequencies
 
     ω_k = 4J(1 − cos(πk/N)),    k = 1, ..., N−1
 
-and uniform decay rate d = 2γ. The eigenvectors are standing waves
-with amplitudes proportional to sin(πkj/N) at site j.
+and uniform decay rate d = 2γ. The eigenvectors are Neumann standing waves
+with amplitudes proportional to cos(πk(j − ½)/N) at site j.
+
+This block sits inside the XY-weight-1 sector but is not all of it; Step 6
+gives the scope.
 
 ## Definitions
 
@@ -46,11 +54,31 @@ Therefore L_D restricted to the w=1 sector is −2γ · I. All w=1 modes
 decay at the same rate 2γ. The frequencies are determined entirely
 by L_H.
 
-### Step 2: L_H on w=1 reduces to a nearest-neighbour hopping problem
+### Step 2: what is invariant is the popcount grading, not the XY weight
 
-Consider a basis string with X at site j and I elsewhere (the Y
-case is analogous). We compute [H, X_j ⊗ I_rest] for the Heisenberg
-Hamiltonian H = J Σ_{⟨i,j⟩} (X_i X_j + Y_i Y_j + Z_i Z_j).
+The XY weight is the right label for the dissipator, by Step 1, but it is
+NOT conserved by L_H, so it cannot by itself carve out an invariant block.
+One counterexample settles it. Take σ = X₀Z₁ at N=3, which has XY weight 1,
+and the bond term X₁X₂:
+
+    [X₁X₂, X₀Z₁] = X₀ ⊗ [X₁, Z₁] ⊗ X₂ = −2i · X₀Y₁X₂,
+
+a string of XY weight 3. The leak is not marginal: the largest matrix
+element of L_H out of the w=1 sector is 2.0 at N = 3, 4 and 5. What Step 3
+below does hold for is the bare string X_j with identities elsewhere, and
+that case is worth writing out, but the Z-dressed strings of the same
+sector do not follow it.
+
+What IS conserved is the total excitation number: H = J Σ (XX + YY + ZZ)
+commutes with Σ_l Z_l, so every coherence block between the popcount-p and
+popcount-q sectors is invariant under L_H, exactly (verified: the largest
+element of H between different popcounts is 0). The dephasing is diagonal
+on that grading too. The block this derivation uses is (p, q) = (0, 1).
+
+For orientation, here is the bare-string commutator algebra that gives the
+hopping amplitude. Consider a basis string with X at site j and I elsewhere
+(the Y case is analogous), for the Heisenberg Hamiltonian
+H = J Σ_{⟨i,j⟩} (X_i X_j + Y_i Y_j + Z_i Z_j).
 
 The key commutators of Pauli matrices are:
 
@@ -68,102 +96,93 @@ Similarly, for the bond (j−1, j):
     [Y_{j-1} Y_j, I_{j-1} ⊗ X_j] = Y_{j-1} ⊗ [Y_j, X_j] = −2i Y_{j-1} ⊗ Z_j
     [Z_{j-1} Z_j, I_{j-1} ⊗ X_j] = Z_{j-1} ⊗ [Z_j, X_j] = 2i Z_{j-1} ⊗ Y_j
 
-The Liouvillian commutator [H, ·] acting on X_j produces terms that
-are XY-weight 1 strings with the excitation at sites j−1 or j+1
-(the Y⊗Z and Z⊗Y terms both have XY-weight 1). It does NOT produce
-w=0 or w=2 strings.
+So [H, ·] on the bare string X_j moves the excitation to the neighbouring
+sites j±1 and dresses the vacated site with a Z: the outputs Z_j ⊗ Y_{j+1}
+and Y_{j-1} ⊗ Z_j still have XY weight 1. This is the hopping that Step 3
+recovers on the coherence block, with amplitude 2J per bond.
 
-**Critical observation:** The w=1 sector is closed under L_H for the
-Heisenberg Hamiltonian. This is because each bond term XX + YY + ZZ
-moves the single XY excitation to a neighbouring site without creating
-or destroying excitations.
+It is exactly the Z-dressed strings, whose weight the next commutator does
+raise, that make the XY-weight sector the wrong invariant object. The
+popcount block is the right one, and it is where the derivation continues.
 
-The Z-component strings in the output (Z_j ⊗ Y_{j+1}, Y_{j-1} ⊗ Z_j)
-are themselves w=1 basis elements. The action of L_H = −i[H, ·] on
-the w=1 sector is therefore a linear map within this sector.
+### Step 3: On the (0,1) block the generator is the graph Laplacian
 
-### Step 3: The effective Hamiltonian is tridiagonal
+Restrict to the coherence block spanned by |0⟩⟨j|, where |0⟩ is the
+all-up state and |j⟩ carries the single excitation at site j. This block
+is N-dimensional and closed under L, and it is the block the dispersion
+speaks about; Step 6 says why the rest of the w=1 sector is not.
 
-Group the w=1 basis by the position j of the XY excitation. For each j,
-the internal degrees of freedom (X vs Y at site j, I vs Z at the
-other sites) form a 2 · 2^(N−1)-dimensional subspace. However, by the
-SU(2) symmetry of the XXX Hamiltonian, the action of [H, ·] on these
-internal degrees of freedom is uniform: the commutator moves the
-excitation from site j to sites j±1 with the same amplitude regardless
-of the X/Y choice and the I/Z pattern on spectator sites.
+Since |0⟩ sits in the popcount-0 sector and |j⟩ in popcount-1, L_H acts
+on this block through the one-magnon Hamiltonian alone. In the site basis,
+the XXX chain gives
 
-Formally, define the "position" operator for the single excitation.
-L_H maps |j⟩ → c · |j−1⟩ + c · |j+1⟩ where c = 2J (the factor 2
-comes from the Y⊗Z + Z⊗Y contributions from each bond, and J is
-the coupling constant). The Liouvillian includes the −i prefactor:
-L_H|j⟩ = −i · 2J(|j−1⟩ + |j+1⟩ − 2|j⟩), where the diagonal −2|j⟩
-comes from the Z_j Z_{j±1} terms.
+    H|j⟩ = 2J (|j−1⟩ + |j+1⟩) + J [(N−1) − 2·deg(j)] |j⟩,
 
-Wait: let us be more careful. The full action at site j from both
-bonds (j−1,j) and (j,j+1) gives:
+the hopping 2J from the XX + YY terms of each incident bond, and the
+diagonal from the ZZ terms: a bond not touching j contributes +J, a bond
+touching j contributes −J, and site j has deg(j) incident bonds. The
+all-up state has H|0⟩ = J(N−1)|0⟩, so the oscillation frequency of
+|0⟩⟨j| is the gap below the ferromagnet:
 
-    −i[H, σ_j] = −i · 2J · (σ_{j-1} + σ_{j+1} − 2σ_j)
+    E_ferro·Id − H₁  =  2J · [ deg(j)·δ_{jj'} − A_{jj'} ]  =  2J · 𝓛,
 
-where σ_j denotes the w=1 excitation at site j. This is exactly the
-discrete Laplacian with hopping amplitude 2J, up to the −i factor.
+where A is the adjacency matrix of the chain and 𝓛 = D − A its graph
+Laplacian. The generator on the block is therefore
 
-For an open chain (sites 1 to N, with bonds 1-2, 2-3, ..., (N−1)-N),
-the boundary conditions are: σ_0 = 0 and σ_{N+1} = 0 (no site
-beyond the ends). This gives a tridiagonal hopping matrix:
+    L|₍₀,₁₎  =  −2iJ · 𝓛  −  2γ · Id,
 
-    H_eff = 2J · T_N
+the −2γ being Step 1: |0⟩ and |j⟩ differ in exactly one bit.
 
-where T_N is the N×N tridiagonal matrix with −2 on the diagonal
-and +1 on the off-diagonals, subject to open boundary conditions
-at j=1 and j=N.
+**The boundary condition is Neumann, not Dirichlet.** The end sites are
+not places where the amplitude is forced to vanish; they are sites with
+one neighbour instead of two, so the Laplacian diagonal reads
+(1, 2, ..., 2, 1), not 2 throughout. That is what puts N rather than N+1
+in the denominator below.
 
-**Correction:** The excitation lives on sites j = 1, ..., N (there
-are N sites), but the hopping is between adjacent sites via the
-N−1 bonds. The effective matrix is N×N.
+### Step 4: Exactly N−1 of the N modes oscillate
 
-### Step 4: Eigenvalues of the tridiagonal hopping matrix
+The path graph on N vertices has Laplacian spectrum
 
-The eigenvalues of the N×N tridiagonal matrix with 2 on the diagonal
-and −1 on the off-diagonals (open boundary conditions) are a textbook
-result (e.g., Strang, *Linear Algebra*, or any solid-state physics
-text on tight-binding chains):
+    λ_k = 2 − 2cos(πk/N),    k = 0, 1, ..., N−1,
 
-    ε_k = 2 − 2cos(πk/(N+1)),    k = 1, ..., N
+so the block carries N modes, all decaying at the same rate 2γ, with
+frequencies ω_k = 2J·λ_k = 4J(1 − cos(πk/N)).
 
-However, our boundary conditions need careful treatment. The w=1
-sector has excitations at sites j = 1, ..., N. But the structure
-of [H, ·] acting on single-excitation Liouvillian modes gives an
-effective hopping matrix of dimension (N−1), not N.
+**Why exactly N−1 oscillate.** A graph Laplacian is positive semidefinite
+and satisfies 𝓛·𝟙 = 0. For a CONNECTED graph its kernel is exactly the
+constants, hence one-dimensional; the chain is connected, so λ_0 = 0 is
+simple and every other λ_k is strictly positive. Exactly one mode sits at
+zero frequency and the remaining N−1 oscillate:
 
-**Why N−1:** The XY-weight-1 Liouvillian modes with specific oscillation
-frequencies form an (N−1)-dimensional subspace. This can be seen from
-the numerics: there are exactly N−1 distinct frequencies for the w=1
-sector. The zero-frequency (stationary) w=1 modes account for the
-remaining modes in the sector.
+    ω_k = 4J(1 − cos(πk/N)),    k = 1, ..., N−1.    ∎
 
-For the (N−1)-dimensional hopping problem with open boundary conditions
-(equivalent to a chain of N−1 "frequency sites"), the eigenvalues are:
+The kernel mode is not an accident of the algebra. Its eigenvector is the
+uniform one, Σ_j |0⟩⟨j|, which is the total lowering operator S⁻ applied
+to the ferromagnet; SU(2) makes it degenerate with |0⟩ itself, so it
+cannot oscillate. The count N−1 is the connectivity of the chain speaking.
 
-    ε_k = 2 − 2cos(πk/N),    k = 1, ..., N−1
+### Step 5: Eigenvectors are Neumann standing waves
 
-(This is the standard result for an (N−1)-site open chain, where
-the denominator is (N−1)+1 = N.)
+The eigenvectors of the path Laplacian are
 
-The Liouvillian frequencies are ω = 2J · ε_k (the factor 2J from the
-hopping amplitude, where the 2 comes from the commutator double-action
-and J from the coupling constant):
+    v_k(j) = cos( πk·(j − ½) / N ),    j = 1, ..., N,   k = 0, ..., N−1,
 
-    ω_k = 2J · (2 − 2cos(πk/N)) = 4J(1 − cos(πk/N))    ∎
+the Neumann standing waves of Step 3, with antinodes at the two open ends
+and k nodes in the interior. Mode 0 is the constant, the kernel of Step 4.
 
-### Step 5: Eigenvectors are standing waves
+The Dirichlet family sin(πkj/N) is NOT the eigenbasis here: it belongs to
+the boundary condition that forces the amplitude to vanish beyond the ends,
+which an open chain does not impose.
 
-The eigenvectors of the tridiagonal matrix with open boundary
-conditions are:
+### Step 6: Scope, and the rest of the XY-weight-1 sector
 
-    v_k(j) = sin(πkj/N),    j = 1, ..., N−1
-
-These are standing waves: mode k has k−1 nodes, with amplitude
-profiles that peak at the center (odd k) or edges (even k).
+The Pauli w=1 sector of the Definitions is much larger than this block: it
+is 2N·2^(N−1)-dimensional and holds the coherences between popcount p and
+p+1 for EVERY p, not only p = 0. Those higher blocks carry frequencies of
+their own, which are not given by ω_k. At N=5 the full w=1 sector shows 21
+distinct oscillation frequencies while the (0,1) block shows 5, four of
+them nonzero. This derivation is the (0,1) statement; it does not describe
+the XY-weight-1 sector as a whole.
 
 ## Corollaries
 
@@ -171,7 +190,8 @@ profiles that peak at the center (odd k) or edges (even k).
 = 2J/γ · (1 − cos(πk/N)).
 
 **F41** (Palindromic time): t_Π = 2π/ω_min = 2π/(4J(1−cos(π/N)))
-= π/(2J sin²(π/(2N))).
+= π/(4J sin²(π/(2N))), since 1−cos(π/N) = 2 sin²(π/(2N)) and so
+ω_min = 8J sin²(π/(2N)).
 
 **D01** (Bandwidth): BW = ω_max − ω_min = 4J(cos(π/N) − cos(π(N−1)/N))
 = 8J cos(π/N).

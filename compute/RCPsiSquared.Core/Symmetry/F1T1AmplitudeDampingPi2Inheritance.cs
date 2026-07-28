@@ -142,7 +142,7 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
         "F1 T1-amplitude-damping closed-form factors as Pi2-Foundation inheritance";
 
     public override string Summary =>
-        $"‖M‖² = 2^(N+2)·n_YZ·‖H‖² + 4^(N−1)·[3·Σγ² + 4·(Σγ)²]: 2^(N+2) = a_{{−(N+1)}}, 4^(N−1) = a_{{3−2N}} = d² für (N−1) qubits, 4 = a_{{−1}}; Pi2 ladder-index map: {Tier.Label()}";
+        $"‖M‖² = 2^(N+2)·n_YZ·‖H‖² + 4^(N−1)·[3·Σγ² + 4·(Σγ)²]: 2^(N+2) = a_{{−(N+1)}}, 4^(N−1) = a_{{3−2N}} = d² for (N−1) qubits, 4 = a_{{−1}}; Pi2 ladder-index map: {Tier.Label()}";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -151,7 +151,7 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("closed form",
                 summary: "‖M‖² = 2^(N+2)·n_YZ·‖H‖²_F + 4^(N−1)·[3·Σγ_T1² + 4·(Σγ_T1)²]; verified bit-exact N=3..6 and analytically derived in PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md (2026-05-18)");
             yield return new InspectableNode("Pi2-Foundation anchoring",
-                summary: "2^(N+2) = a_{−(N+1)} (ladder); 4^(N−1) = a_{3−2N} (ladder, = d² für (N−1) qubits via OperatorSpaceMirror); 4 = a_{−1}");
+                summary: "2^(N+2) = a_{−(N+1)} (ladder); 4^(N−1) = a_{3−2N} (ladder, = d² for (N−1) qubits via OperatorSpaceMirror); 4 = a_{−1}");
             yield return new InspectableNode("3 multiplier",
                 summary: "small integer from T1 dissipator algebra (‖M_l‖²_F − |tr(M_l)|²/4 = 7 − 4 = 3); documented but not a direct Pi2-Foundation anchor");
             yield return InspectableNode.RealScalar("FourMultiplier (= a_{-1})", FourMultiplier);

@@ -265,7 +265,7 @@ The numerical verifier [`simulations/f108_klein_v4_equivalence_verify.py`](../..
 F108 Parts 2 and 3 are Klein-V₄ corollaries of Part 1 via:
 - **Part 3 ↔ Part 1 via D** (operator-space Z↔Y intertwiner; bit_b-axis-preserving). The proof is D-equivariant.
 - **Part 2 ↔ Part 1 via Hadamard U_op = U_H^⊗N ⊗ (U_H^⊗N)^*** (Hilbert-space lift; bit_a ↔ bit_b swap on the bilinear set). Existence of an F108 palindrome operator for L_X follows; the canonical Π_5b(X) is a specific representative.
-- **Operator-space Q_zx, H do NOT swap Π_5b(Z) ↔ Π_5b(X)** (negative result; the action of Klein-V₄ on Π_5b is partial). The Welle-13 Route 1 / Route 2 distinction matters here as it did for F112.
+- **Operator-space Q_zx does NOT swap Π_5b(Z) ↔ Π_5b(X), but H does** (H · Π_5b(Z) · H = Π_5b(X) bit-exact, §(g)). The operator-space action of Klein-V₄ on Π_5b is permuted rather than partial: {I, D, H} acts, with D on Z↔Y and H on Z↔X, and only Q_zx (= H·D) leaves the canonical Π_5b set. The Welle-13 Route 1 / Route 2 distinction matters here as it did for F112: transport of the Lindbladian L still needs the Hilbert-space Hadamard, which only Q_zx carries.
 
 The three typed Claims remain separate in the registry to preserve their independent integration edges, but cross-reference this Klein-V₄ equivalence proof. The PROOF_KLEIN_V4 doc's conjecture about F108 cross-dephasing equivalence is now closed positively, with the precise mechanism distinction made explicit.
 

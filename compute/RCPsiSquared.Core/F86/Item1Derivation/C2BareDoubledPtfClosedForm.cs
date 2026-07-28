@@ -5,7 +5,8 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 
 /// <summary>F86 c=2 bare-doubled-PTF closed form for the K_b observable (Tier-1-Derived
 /// 2026-05-16). Provides the explicit analytical expression that underlies the universal
-/// constants <see cref="C2HwhmRatio.BareDoubledPtfXPeak"/> (= 2.196910329331) and
+/// constants <see cref="C2HwhmRatio.BareDoubledPtfXPeak"/> (= 2.196910329331, rounded as
+/// 2.196910 in <see cref="C2HwhmRatio"/>) and
 /// <see cref="C2HwhmRatio.BareDoubledPtfHwhmRatio"/> (= 0.671535517861, rounded as
 /// 0.671535 in <see cref="C2HwhmRatio"/>).
 ///
@@ -36,7 +37,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 ///
 /// <para>The post-EP and pre-EP forms are analytic continuations of each other under
 /// ξ ↔ iμ (cos → cosh, ξ² → −μ²). Both have the same removable singularity at the EP
-/// where (ξ² + 2)·cos(ξ) − 2 ~ −5ξ⁴/12 + 11ξ⁶/360 + O(ξ⁸) — the numerator vanishes at
+/// where (ξ² + 2)·cos(ξ) − 2 ~ −5ξ⁴/12 + 7ξ⁶/180 + O(ξ⁸) — the numerator vanishes at
 /// the same order as the denominator. Stable evaluation near the EP uses the Taylor
 /// expansion to avoid cancellation.</para>
 ///
@@ -110,7 +111,7 @@ public sealed class C2BareDoubledPtfClosedForm : Claim
                 double xi2 = xi * xi;
                 double xi4 = xi2 * xi2;
                 double xi6 = xi4 * xi2;
-                bracket = -5.0 * xi4 / 12.0 + 11.0 * xi6 / 360.0;
+                bracket = -5.0 * xi4 / 12.0 + 7.0 * xi6 / 180.0;
             }
             else
             {
@@ -129,7 +130,7 @@ public sealed class C2BareDoubledPtfClosedForm : Claim
                 double mu2 = mu * mu;
                 double mu4 = mu2 * mu2;
                 double mu6 = mu4 * mu2;
-                bracket = -5.0 * mu4 / 12.0 - 11.0 * mu6 / 360.0;
+                bracket = -5.0 * mu4 / 12.0 - 7.0 * mu6 / 180.0;
             }
             else
             {
@@ -162,7 +163,7 @@ public sealed class C2BareDoubledPtfClosedForm : Claim
             yield return new InspectableNode("Closed form pre-EP",
                 summary: "K_b(x) = e⁻² · x · [(2 − μ²)·cosh(μ) − 2] / μ⁴ with μ = √(1−x²), valid for x ∈ (0, 1)");
             yield return new InspectableNode("EP limit",
-                summary: "K_b(1) = −5·e⁻² / 12 ≈ −0.05636967 (removable singularity, common limit of both regimes)");
+                summary: "K_b(1) = −5·e⁻² / 12 ≈ −0.0563897 (removable singularity, common limit of both regimes)");
             yield return new InspectableNode("x_peak",
                 summary: $"{XPeakPrecise:F12} (ξ_peak = 1.956122438683 from dK/dξ = 0 transcendental)");
             yield return new InspectableNode("x_half (HWHM crossing)",

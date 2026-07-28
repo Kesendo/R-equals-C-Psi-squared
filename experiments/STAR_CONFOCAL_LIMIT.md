@@ -4,7 +4,7 @@
 SU(2) Schur-Weyl Heisenberg, confocal saturation, imaginary spectral bound,
 hub-spoke topology, 24 anchors Q-sweep, sigma equals N gamma, R=CPsi2 star -->
 
-**Status:** Tier 1 derived (formal proof written 2026-05-19 as [`PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md), typed as [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs); 29 empirical anchors bit-exact: N ∈ {3, 4, 5, 6, 8} at the Marrakesh convention plus a 24-point Q-sweep at γ₀=0.05; N=7 deferred)
+**Status:** Tier 1 derived (formal proof written 2026-05-19 as [`PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md), typed as [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs); 25 distinct empirical anchors bit-exact over 29 runs: a 24-point Q-sweep at γ₀=0.05 plus the N=8 Marrakesh-convention point, and four Python re-runs of the Q=2 column at N=3..6 that the sweep already covers; N=7 deferred)
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude
 **Depends on:** [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md),
@@ -128,9 +128,9 @@ The cavity dictionary extension:
 | Δw=±2 coupling | Free-space propagation along chain | All propagation through hub site |
 | Beam waist alignment | Even N = waist on grid (confocal) | All bonds focused on hub (point-focus) |
 | Numerical aperture | Grows with even N (30→262) | Saturated at maximum for fixed N |
-| Im(λ) bound | < σ (light spreads, decays) | = σ (all light converted to oscillation) |
+| Im(λ) vs σ | > σ from N = 4 (1.18 at N=4, 1.25 at N=6) | = σ exactly, Q-universally |
 
-The star topology converts the **entire external illumination σ into oscillation**, with no portion remaining in real-decay-only modes that would shrink |Im|. Other topologies waste some γ in real-decay modes (chain, ring) because their bond geometry distributes the dephasing.
+The star topology converts the **entire external illumination σ into oscillation**: Im/σ = 1 exactly, and Q-universally. The reading to avoid is that the other topologies fall short of this. They do not: chain and ring sit ABOVE σ from N = 4 on (the table in the cross-topology section). What distinguishes the star is that it meets its own Hamiltonian spread exactly, not that it extracts the most oscillation.
 
 ---
 
@@ -142,7 +142,7 @@ The star topology converts the **entire external illumination σ into oscillatio
 
 2. **Upper-bound rigour.** Section 5 of the proof file: every L-eigenoperator with non-zero Im part is a linear combination of rank-1 products `|α⟩⟨β|` with H-eigenstates; the maximum `|Im(λ_L)|` is bounded by `max{|ω_α − ω_β| : α, β ∈ σ(H)} = ΔE_max(H_star) = J·N/2`. Combined with the realising mode in step 1, the bound is achieved exactly.
 
-The saturation is Q-universal: `Im_max(star, N, J) = J·N/2` for any (J, γ); the Marrakesh-convention `Im/σ = 1 ↔ J = 2γ` reading is the Q=2 specialization. Verified at 29 (N, Q) anchors bit-exact (24 Q-sweep + 5 Marrakesh-convention).
+The saturation is Q-universal: `Im_max(star, N, J) = J·N/2` for any (J, γ); the Marrakesh-convention `Im/σ = 1 ↔ J = 2γ` reading is the Q=2 specialization. Verified bit-exact at 25 distinct (N, Q) anchors: 24 from the Q-sweep plus the N=8 Marrakesh-convention point. Four further Python runs at N=3..6 re-measure the Q=2 column the sweep already covers, so they are a port cross-check rather than four more anchors.
 
 ---
 
@@ -152,13 +152,28 @@ Generalising from star: the Im/σ = 1 saturation occurs iff the H spectrum's max
 
 | Topology | Max H gap | Im/σ (J=2γ) | Saturated? |
 |---|---|---|---|
-| Star (hub + N-1 leaves) | J·N/2 (Schur-Weyl) | 1.000 | ✓ |
-| Complete K_N (all-to-all) | ? J·N(N-1)/4 | > 1 expected | No, exceeds |
-| Chain (open) | < J·N/2 (Bethe ansatz) | < 1.5 | No |
-| Ring (closed) | similar to chain | < 1.5 | No |
+Values below are the max H gap in the spin normalisation H = J·Σ S_i·S_j, with
+Im/σ read at J = 2γ, so σ = N·J/2. The N = 3 to 6 columns are direct
+diagonalisations; the star row is the proven closed form.
+
+| Topology | Max H gap | Im/σ at N = 4, 5, 6 | Saturates J·N/2? |
+|---|---|---|---|
+| Star (hub + N-1 leaves) | J·N/2 (Schur-Weyl) | 1.000, 1.000, 1.000 | ✓ exactly, every N |
+| Chain (open) | above J·N/2 from N = 4 | 1.183, 1.171, 1.248 | No, exceeds |
+| Ring (closed) | 2·c_N·σ with c_4 = 3/4, c_6 = (5+√13)/12, c_∞ = ln 2 | 1.500, 1.247, 1.434 | No, exceeds |
+| Complete K_N (all-to-all) | J·N(N+2)/8 for even N, J·(N−1)(N+3)/8 for odd N | 1.500, 1.600, 2.000 | No, exceeds |
 | Disconnected components | Π per component | varies | varies |
 
-The star is uniquely on the boundary `Im(λ) ≤ J·N/2 = σ` and saturating. Complete K_N exceeds the bound (more bonds → more energy spread). Chain/ring stay strictly below. **Star is the threshold topology** between sub-saturating and over-saturating geometries.
+At N = 3 all four rows coincide at Im/σ = 1, because there are only two distinct
+graphs on three vertices: the star is the path, and the ring is K_3.
+
+The star does not sit between sub-saturating and over-saturating geometries. Of
+the connected topologies measured here it is the **floor**: from N = 4 on, chain,
+ring and K_N all carry MORE imaginary spread than J·N/2, and the star alone sits
+on it. What is special about the star is not that it is a threshold but that it
+saturates its own bound exactly and Q-universally, which none of the others do.
+Whether J·N/2 is the minimum over all connected graphs at fixed N is open here;
+it is a statement this table samples, not one it proves.
 
 ---
 
@@ -203,7 +218,7 @@ The optical-cavity framework is robust across topologies; we now have the empiri
 ## What we return to next time
 
 When we revisit this picture, the natural next steps are:
-- Write the Tier 1 formal proof and promote to `docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md` + typed claim in `compute/RCPsiSquared.Core/Symmetry/`
+- Type the N ≥ 9 anchors, once a run reaches them; the Tier 1 proof and the typed claim landed on 2026-05-19 as [the star optical-confocal saturation proof](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md) and `StarImMaxBoundClaim`
 - Type the J/(2γ) parameter sweep prediction
 - Cross-reference to F14 (K-invariance, the γ·t product)
 - Extend the cavity dictionary to disconnected graphs (K_4 + disjoint chain at N=8, the F4KernelDimensionByComponents data)

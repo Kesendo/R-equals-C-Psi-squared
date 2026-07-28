@@ -69,8 +69,9 @@ public class F41PalindromicTimePi2InheritanceRegistrationTests
     }
 
     [Theory]
-    [InlineData(2, 1.0, Math.PI)]
-    [InlineData(3, 1.0, 2.0 * Math.PI)]
+    // t_Pi = 2π/ω_min = π/(4J·sin²(π/(2N))): π/2 at N=2, π at N=3 (the F42 table value).
+    [InlineData(2, 1.0, Math.PI / 2.0)]
+    [InlineData(3, 1.0, Math.PI)]
     public void RegisterF41_PalindromicTimeAcrossRegistry(int N, double J, double expected)
     {
         var registry = BuildBaseRegistry()

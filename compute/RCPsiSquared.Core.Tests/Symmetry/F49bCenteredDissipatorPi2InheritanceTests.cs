@@ -109,7 +109,7 @@ public class F49bCenteredDissipatorPi2InheritanceTests
         var f = Build();
         _out.WriteLine("");
         _out.WriteLine("    F49b closed form: ‖L_Dc‖² = γ² · 4^N · N (Tier 1 proven)");
-        _out.WriteLine("    Pi2-Anker: 4^N = a_{1−2N} = d² für N qubits (direkt, no shift)");
+        _out.WriteLine("    Pi2 anchor: 4^N = a_{1−2N} = d² for N qubits (direct, no shift)");
         _out.WriteLine("");
         _out.WriteLine("     N | 4^N    | ladder    | scaling 4^N·N | OperatorSpaceMirror d²(N)");
         _out.WriteLine("    ---|--------|-----------|---------------|---------------------------");

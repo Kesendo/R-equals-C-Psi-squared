@@ -6,9 +6,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <summary>F41 closed form (Tier 1, corollary of D10):
 ///
 /// <code>
-///   t_Pi = 2π / ω_min = π / (2·J · sin²(π/(2N)))
+///   t_Pi = 2π / ω_min = π / (4·J · sin²(π/(2N)))
 ///
-///   ω_min = 4·J · sin²(π/(2N))     slowest palindromic SFF modulation frequency
+///   ω_min = 4·J · (1 − cos(π/N)) = 8·J · sin²(π/(2N))
+///                                  slowest palindromic SFF modulation frequency
 /// </code>
 ///
 /// <para>F41 is the period of the slowest palindromic modulation in the spectral
@@ -21,9 +22,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <code>
 ///   sin(π/(2N)) → π/(2N)  for N → ∞
 ///   sin²(π/(2N)) → π²/(4N²)
-///   t_Pi → π / (2·J · π²/(4N²)) = 2N² / (π·J)
+///   t_Pi → π / (4·J · π²/(4N²)) = N² / (π·J)
 /// </code>
-/// <para>So t_Pi grows as 2N²/(π·J), or equivalently ~N²/π² in J-units. The
+/// <para>So t_Pi grows as N²/(π·J), or equivalently N²/π at J = 1. The
 /// palindromic modulation is a short-time effect at any finite N (cf. F42's
 /// timescale-separation: t_Pi/t_H ~ N²/4^N → 0 for N → ∞).</para>
 ///
@@ -71,37 +72,42 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
     public Pi2DyadicLadderClaim Ladder { get; }
     public F1Pi2Inheritance F1 { get; }
 
-    /// <summary>The "2" hopping coefficient in 2·J denominator. Live from
-    /// Pi2DyadicLadder a_0. Same anchor as F1's TwoFactor.</summary>
+    /// <summary>The "2" hopping coefficient, the amplitude 2J that XX + YY gives
+    /// each bond. Live from Pi2DyadicLadder a_0; same anchor as F1's TwoFactor.
+    /// F41 prints its powers rather than a_0 itself: ω_min carries
+    /// a_0³ = 8 = a_{−2}, and t_Pi = 2π/ω_min carries a_0² = 4 = a_{−1}.
+    /// Three rungs, one anchor.</summary>
     public double HoppingCoefficient => Ladder.Term(0);
 
     /// <summary>Slowest palindromic SFF modulation frequency:
-    /// <c>ω_min = 4·J · sin²(π/(2N))</c>. Equals 2·HoppingCoefficient·J·sin²(π/(2N)).</summary>
+    /// <c>ω_min = 4·J · (1 − cos(π/N)) = 8·J · sin²(π/(2N))</c>, the k=1 mode of
+    /// the D10 w1 dispersion. Equals a_0²·J·(1 − cos(π/N)).</summary>
     public double MinFrequency(int N, double J)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F41 requires N ≥ 2.");
         if (J <= 0) throw new ArgumentOutOfRangeException(nameof(J), J, "J must be > 0.");
-        double s = Math.Sin(Math.PI / (HoppingCoefficient * N));
-        return HoppingCoefficient * HoppingCoefficient * J * s * s;
+        // omega_min is the k=1 mode of the D10 w1 dispersion omega_k = 4J(1 - cos(pi k / N)),
+        // and 1 - cos(pi/N) = 2 sin^2(pi/(2N)), so omega_min = 8 J sin^2(pi/(2N)).
+        return HoppingCoefficient * HoppingCoefficient * J * (1.0 - Math.Cos(Math.PI / N));
     }
 
-    /// <summary>Palindromic period: <c>t_Pi = π / (2·J · sin²(π/(2N)))</c>.
+    /// <summary>Palindromic period: <c>t_Pi = π / (4·J · sin²(π/(2N)))</c>.
     /// Period of the slowest palindromic modulation in the SFF.</summary>
     public double PalindromicTime(int N, double J)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F41 requires N ≥ 2.");
         if (J <= 0) throw new ArgumentOutOfRangeException(nameof(J), J, "J must be > 0.");
         double s = Math.Sin(Math.PI / (HoppingCoefficient * N));
-        return Math.PI / (HoppingCoefficient * J * s * s);
+        return Math.PI / (HoppingCoefficient * HoppingCoefficient * J * s * s);
     }
 
-    /// <summary>Asymptotic palindromic time at large N: <c>t_Pi → 2N² / (π·J)</c>.
+    /// <summary>Asymptotic palindromic time at large N: <c>t_Pi → N² / (π·J)</c>.
     /// The exact PalindromicTime(N, J) approaches this value as N → ∞.</summary>
     public double AsymptoticPalindromicTime(int N, double J)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F41 requires N ≥ 2.");
         if (J <= 0) throw new ArgumentOutOfRangeException(nameof(J), J, "J must be > 0.");
-        return HoppingCoefficient * N * N / (Math.PI * J);
+        return (double)N * N / (Math.PI * J);
     }
 
     /// <summary>Drift check: <c>t_Pi · ω_min = 2π</c> exactly (full-period definition).</summary>
@@ -114,7 +120,7 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
     public F41PalindromicTimePi2Inheritance(
         Pi2DyadicLadderClaim ladder,
         F1Pi2Inheritance f1)
-        : base("F41 palindromic time t_Pi = π/(2J·sin²(π/(2N))) as Pi2-Foundation a_0 + F1 inheritance (palindrome identity at time-domain level)",
+        : base("F41 palindromic time t_Pi = π/(4J·sin²(π/(2N))) as Pi2-Foundation a_0 in its powers (ω_min on a_0³ = a_{−2}, t_Pi on a_0² = a_{−1}) + F1 inheritance (palindrome identity at time-domain level)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F41 + " +
                "experiments/SPECTRAL_FORM_FACTOR.md + " +
@@ -130,25 +136,25 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
         "F41 palindromic time as Pi2-Foundation a_0 + F1 inheritance";
 
     public override string Summary =>
-        $"t_Pi = π/(2J·sin²(π/(2N))); 2 = a_0; ω_min = 4J·sin²(π/(2N)); F1 palindrome at time-domain level; asymptotic t_Pi → 2N²/(π·J) ({Tier.Label()})";
+        $"t_Pi = π/(4J·sin²(π/(2N))) in the Pauli normalisation H = J·Σ(XX+YY+ZZ); ω_min = 8J·sin²(π/(2N)); the anchor is a_0 = 2, the XX+YY hopping amplitude, and F41 prints its powers: a_0³ = 8 = a_{{−2}} in ω_min, a_0² = 4 = a_{{−1}} in the t_Pi denominator; F1 palindrome at time-domain level; asymptotic t_Pi → N²/(π·J). The ring and star Im-max claims use the spin normalisation J·Σ S_i·S_j, which is this J divided by 4 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("F41 closed form",
-                summary: "t_Pi = π/(2·J·sin²(π/(2N))); ω_min = 4·J·sin²(π/(2N)); period of slowest palindromic SFF modulation; FFT-confirmed <1% at N=2..4, 6");
+                summary: "t_Pi = π/(4·J·sin²(π/(2N))); ω_min = 8·J·sin²(π/(2N)) = 4·J·(1 − cos(π/N)); period of slowest palindromic SFF modulation; FFT-confirmed <1% at N=2..4, 6");
             yield return InspectableNode.RealScalar("HoppingCoefficient (= a_0 = 2)", HoppingCoefficient);
             yield return new InspectableNode("F1 palindrome at time domain",
                 summary: $"the palindromic modulation exists because F1 pairs eigenvalues λ ↔ −λ − 2σ; F41 reads the period of the slowest such pair-difference. F1's TwoFactor (= {F1.TwoFactor}) is the same '2' as F41's HoppingCoefficient.");
             yield return new InspectableNode("asymptotic scaling",
-                summary: "sin(π/(2N)) → π/(2N) for N → ∞; t_Pi → 2N²/(π·J); the palindromic modulation is a short-time effect at finite N; t_Pi/t_H ~ N²/4^N → 0 (F42 timescale separation)");
+                summary: "sin(π/(2N)) → π/(2N) for N → ∞; t_Pi → N²/(π·J); the palindromic modulation is a short-time effect at finite N; t_Pi/t_H ~ N²/4^N → 0 (F42 timescale separation)");
             yield return new InspectableNode("N=3, J=1 verified",
-                summary: $"sin²(π/6) = 1/4; ω_min = 4·1·(1/4) = 1; t_Pi = π/(2·1·(1/4)) = 2π ≈ {PalindromicTime(3, 1.0):G6}");
+                summary: $"sin²(π/6) = 1/4; ω_min = 8·1·(1/4) = 2; t_Pi = π/(4·1·(1/4)) = π ≈ {PalindromicTime(3, 1.0):G6}");
             yield return new InspectableNode("N=5, J=1 verified",
-                summary: $"sin²(π/10) ≈ 0.0955; ω_min ≈ 0.382; t_Pi ≈ {PalindromicTime(5, 1.0):G6}; asymptotic = {AsymptoticPalindromicTime(5, 1.0):G6}");
+                summary: $"sin²(π/10) ≈ 0.0955; ω_min = 8·0.0955 ≈ 0.764; t_Pi ≈ {PalindromicTime(5, 1.0):G6}; asymptotic = {AsymptoticPalindromicTime(5, 1.0):G6}");
             yield return new InspectableNode("N=20 large-N",
-                summary: $"t_Pi ≈ {PalindromicTime(20, 1.0):G6}; asymptotic 2·400/π = {AsymptoticPalindromicTime(20, 1.0):G6}; convergence ~1/N² to leading order");
+                summary: $"t_Pi ≈ {PalindromicTime(20, 1.0):G6}; asymptotic 400/π = {AsymptoticPalindromicTime(20, 1.0):G6}; convergence ~1/N² to leading order");
         }
     }
 }
