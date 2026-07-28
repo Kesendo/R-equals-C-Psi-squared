@@ -54,7 +54,7 @@ public sealed class W1Dispersion : Claim
     /// <summary>Q at k = N−1: 2J/γ · (1 + cos(π/N)).</summary>
     public double MaxQ { get; }
 
-    /// <summary>Q at k = 1: 2J/γ · (1 − cos(π/N)). Approaches 2Jπ²/(γN²) for large N.</summary>
+    /// <summary>Q at k = 1: 2J/γ · (1 − cos(π/N)). Approaches Jπ²/(γN²) for large N, since 1 − cos(π/N) → π²/(2N²).</summary>
     public double MinQ { get; }
 
     /// <summary>Mean Q across the N−1 modes: exactly 2J/γ (because Σ_{k=1}^{N−1} cos(πk/N) = 0).</summary>

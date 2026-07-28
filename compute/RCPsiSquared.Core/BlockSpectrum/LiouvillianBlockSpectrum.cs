@@ -27,9 +27,9 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <para><b>Cubic-cost speedup.</b> Naive full-L diagonalisation costs O((4^N)³). Block-wise
 /// the cost drops to Σ_{p_c, p_r} (C(N, p_c) · C(N, p_r))³. Indicative speedups:
 /// <list type="bullet">
-///   <item>N=5: full 4^N = 1024 → max block 100, total cost ratio ≈ 50× faster</item>
-///   <item>N=6: full 4^N = 4096 → max block 400, total cost ratio ≈ 110× faster</item>
-///   <item>N=7: full 4^N = 16384 → max block 1225, total cost ratio ≈ 250× faster</item>
+///   <item>N=5: full 4^N = 1024 → max block 100, total cost ratio ≈ 212× faster</item>
+///   <item>N=6: full 4^N = 4096 → max block 400, total cost ratio ≈ 298× faster</item>
+///   <item>N=7: full 4^N = 16384 → max block 1225, total cost ratio ≈ 399× faster</item>
 ///   <item>N=8: full 4^N = 65536 → max block 4900, total cost ratio ≈ 515× faster</item>
 /// </list>
 /// At N=8 the largest block fits in ~0.38 GB vs ~68.7 GB for the full L, removing the
@@ -534,7 +534,7 @@ public sealed class LiouvillianBlockSpectrum : Claim
             yield return new InspectableNode("witness",
                 summary: "bit-exact spectral equality vs full-L eig at N=3, 4, 5 (|Δλ| < 1e-9)");
             yield return new InspectableNode("cubic-cost speedup",
-                summary: "N=5: ≈ 50×, N=6: ≈ 110×, N=7: ≈ 250×, N=8: ≈ 515×");
+                summary: "N=5: ≈ 212×, N=6: ≈ 298×, N=7: ≈ 399×, N=8: ≈ 515×. These are FLOP ratios from the cost model above, (4^N)³ / Σ(C(N,p)·C(N,q))³; measured wall-clock speedups are a different and much smaller quantity, around 8× to 10× per BlockSpectrumPerformanceWitness");
             yield return new InspectableNode("N=8 max block",
                 summary: $"size {JointPopcountSectors.MaxSectorSize(8)} (vs full 4^8 = 65536)");
         }
