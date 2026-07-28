@@ -4827,8 +4827,9 @@ between the H-commutant and the population (diagonal) operators, giving `4/N`. F
 is the `(N−2)`-fold `0`-eigenvalue leaf manifold, giving `4/(N−1)` by the same computation.
 Gate-exact: `K_{5,6,7} = 4/5, 2/3, 4/7`; `star_{6,7,8} = 4/5, 4/6, 4/7` (`<10⁻⁹`).
 
-*Connectivity onset* (chain never `<` star `N≥6` `<` complete `N≥5`) is the growth of that
-degeneracy with edge count. *`N = 4` outlier*: the `4/N` ladder hits `1` at `N = 4`, so the
+*Connectivity onset* of the `(1,1)` ladder (chain and ring never `<` star `N≥6` `<` complete `N≥5`)
+is the growth of that degeneracy with edge count; the complete family itself ceilings from `N = 4`
+on, since at `N = 4` the half-filling sector takes over below the floor. *`N = 4` outlier*: the `4/N` ladder hits `1` at `N = 4`, so the
 ceiling is set instead by the `(2,2)` half-filling sector, the **same sector that makes ring-4
 special** (`K_4 = 2 − 2/√3 < 1` dips below the floor; ring-4 `= 1` co-occupies it). One
 mechanism, two topologies. *Not universal*: the tempting `4/(m+1)` in the degeneracy `m` fits

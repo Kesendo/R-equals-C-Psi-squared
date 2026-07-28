@@ -1,11 +1,11 @@
 # The Structural Ceiling: closed forms for the topology gap rate
 
-**Status:** Tier 1 derived (analytical proof + gate-exact numerical verification to machine precision, N=4..8). Resolves the `topology_band_edge` arc NextStep items 1, 2, 3.
+**Status:** Tier 1 derived (analytical proof + gate-exact numerical verification to machine precision, N=4..8; the global-over-all-sectors leg runs to N=7 for the complete family and to N=8 for the star and the ring, with `K_8` gated in the `(1,1)` commutant, which is where the ceiling lives). Resolves the `topology_band_edge` arc NextStep items 1, 2, 3.
 **Date:** 2026-06-16
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Statement:** `g2(K_N) = 4/N` (N≥5), `g2(star_N) = 4/(N−1)` (N≥6), `g2(K_4) = 2 − 2/√3`, where `g2 = strict_gap / 2γ` is the high-Q structural ceiling.
 **Typed claim:** [`StructuralCeilingClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/StructuralCeilingClaim.cs) (Tier 1 derived)
-**Verifier:** [`topology_ceiling_rep_derivation.py`](../../simulations/topology_ceiling_rep_derivation.py) (gate-first, all stages exact)
+**Verifier:** [`topology_ceiling_rep_derivation.py`](../../simulations/topology_ceiling_rep_derivation.py) (gate-first, all stages exact; it sweeps whole `(p,q)` sectors and takes well over ten minutes) and, for the ring family, the fast [`ring_ceiling_commutant_sweep.py`](../../simulations/ring_ceiling_commutant_sweep.py) (the `(p,q)` sweep giving `g2 = 1` at every `N = 4..11`, the `(1,1)` closed form, the half-filling seam)
 **Builds on:** [the Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) (the floor `Re = −2γ⟨n_XY⟩`); the [topology band edge](../../compute/RCPsiSquared.Core/Symmetry/TopologyBandEdgeClaim.cs) (the regime where the band edge loses gap-dominance).
 **Formula registry:** [F122 in `ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md).
 
@@ -21,7 +21,7 @@ Wire the network more tightly and something new appears. A dimmer pattern, one t
 
 The answer is a story about symmetry. The more interchangeable a network's parts are, the more ways these dim, nearly hidden patterns have to fold themselves away from the watching light, and the lower the ceiling drops. The fully-connected network, where every part touches every other, drops it furthest; the star, one hub with many spokes, less so; the plain chain, with no symmetry to exploit, never grows such a pattern at all and keeps ringing freely.
 
-Two surprises sit inside the story. At one particular small size, two networks that look nothing alike, the fully-connected one and the ring, go strange in the very same way and for the very same reason: a pattern built from two excitations, rather than one, takes the lead. And a tidy single rule that seems to predict every ceiling from how symmetric a network is almost works, then quietly fails for the ring, so we keep the honest shape-by-shape answers rather than the clean law that is not quite true.
+Two surprises sit inside the story. At one particular small size, two networks that look nothing alike, the fully-connected one and the ring, go strange in the very same way and for the very same reason: a pattern built from two excitations, rather than one, takes the lead. It lowers the lid only in the fully-connected one; on the ring it merely draws level with the ringing wave and changes its pitch. And a tidy single rule that seems to predict every ceiling from how symmetric a network is almost works, then quietly fails for the ring, whose symmetry stays the same at every size while the number it is supposed to predict keeps moving. So we keep the honest shape-by-shape answers rather than the clean law that is not quite true.
 
 ## Abstract
 
@@ -29,9 +29,9 @@ Under uniform Z-dephasing, the slowest non-steady Liouvillian mode of an XY spin
 
 The mechanism is degenerate perturbation theory at `γ ≪ J`. The decay rates are the eigenvalues of `N_XY` (the X/Y-counting operator, diagonal in the coherence basis with entry `hamming(a,b)`) restricted to each eigenspace of the Hamiltonian super-operator `ad_H`. Two kinds of slow mode result: the **band edge**, an `ad_H`-eigenblock inside the `(0,1)` excitation sector where every coherence has `hamming = 1`, so `N_XY = I` there and the rate is exactly `2γ` (`g2 = 1`) at all Q; and the **ceiling**, a coherence in the `ad_H` kernel (the H-commutant, `[H,A]=0`) with `⟨n_XY⟩ < 1`. The ceiling lives in the largest *degenerate single-particle level*: its coherences are the darkest because they can be made almost diagonal.
 
-For the complete graph `K_N` that level is the `(N−1)`-fold `−J` band (the `S_N` standard representation), and the darkest coherence has `⟨n_XY⟩ = 2(1 − λ₂) = 4/N`, where `λ₂ = (N−2)/N` is the second principal-angle overlap between the commutant and the population (diagonal) operators. For the star `K_{1,N−1}` the level is the `(N−2)`-fold `0`-eigenvalue leaf manifold, giving `4/(N−1)`. Both are exact to machine precision (`K_5,6,7 = 4/5, 2/3, 4/7`; `star_6,7,8 = 4/5, 4/6, 4/7`). The connectivity ordering of the ceiling onset, chain never `<` star `N≥6` `<` complete `N≥5`, is the growth of that degeneracy with edge count.
+For the complete graph `K_N` that level is the `(N−1)`-fold `−J` band (the `S_N` standard representation), and the darkest coherence has `⟨n_XY⟩ = 2(1 − λ₂) = 4/N`, where `λ₂ = (N−2)/N` is the second squared principal-angle overlap (a `cos²θ`, the eigenvalue of the projected diagonal) between the commutant and the population (diagonal) operators. For the star `K_{1,N−1}` the level is the `(N−2)`-fold `0`-eigenvalue leaf manifold, giving `4/(N−1)`. Both are exact to machine precision (`K_5,6,7 = 4/5, 2/3, 4/7`; `star_6,7,8 = 4/5, 4/6, 4/7`). The connectivity ordering of the ceiling onset, chain and ring never `<` star `N≥6` `<` complete `N≥5`, is the growth of that degeneracy with edge count. That ordering is about the `(1,1)` ladder alone; the complete graph in fact ceilings from `N = 4` on, since at `N = 4` the half-filling sector takes over with `2 − 2/√3 < 1` (§4).
 
-`N = 4` is the shared outlier of `K_4` and the ring: the `4/N` ladder reaches `1` exactly at `N = 4`, so the single-excitation ladder no longer dips below the band edge, and the ceiling is set instead by the `(2,2)` half-filling two-excitation sector, the same sector that makes ring-4 special. There `K_4 = 2 − 2/√3 ≈ 0.8453` (below the floor) while ring-4 `= 1` (co-occupying the floor). The tempting universal law `4/(m+1)` in the degeneracy `m` fits complete and star but is **not** general: the ring's Fourier-degenerate manifold breaks it.
+`N = 4` is the shared outlier of `K_4` and the ring: the `4/N` ladder reaches `1` exactly at `N = 4`, so the single-excitation ladder no longer dips below the band edge, and the ceiling is set instead by the `(2,2)` half-filling two-excitation sector, the same sector that makes ring-4 special. There `K_4 = 2 − 2/√3 ≈ 0.8453` (below the floor) while ring-4 `= 1` (co-occupying it, so the ring gets no ceiling out of `N = 4` either). The tempting universal law `4/(m+1)` in the degeneracy `m` fits complete and star but is **not** general: the ring holds `m = 2` at every `N` while its `(1,1)` commutant moves, `2(N−2)/N` for even `N` and `2(N−1)/N` for odd, always `≥ 1`. So the ring carries no structural ceiling at all.
 
 ## 1. Setup and the high-Q mechanism
 
@@ -62,7 +62,7 @@ On the `(1,1)` sector `N_XY` acts as `(N_XY M)_{ij} = 2(1−δ_{ij}) M_{ij}`, i.
 
     min nonzero eig of N_XY|_C = 2(1 − λ₂),
 
-with `λ₂` the second-largest eigenvalue of `P_C Diag P_C` (the largest, `λ₁ = 1`, is the steady `I_SE`). By Schur's lemma the `S_N` symmetry makes every traceless diagonal direction (the standard rep) have the same overlap, so we compute one. Take `d = |e_1⟩⟨e_1| − |e_2⟩⟨e_2|` (traceless, `‖d‖² = 2`). Its component in `C` is `P_⊥ d P_⊥` with `P_⊥ = I − |w⟩⟨w|` (the `|w⟩⟨w|` component vanishes since `⟨|w⟩⟨w|, d⟩ = 0`). Writing `u_i = P_⊥|e_i⟩`,
+with `λ₂` the second-largest eigenvalue of `P_C Diag P_C` (the largest, `λ₁ = 1`, is the steady `I_SE`; the spectrum of that operator is `{1, (N−2)/N with multiplicity N−1, 0}`, so nothing sits between them and `2(1 − λ₂)` really is the smallest nonzero rate on `C`). By Schur's lemma the `S_N` symmetry makes every traceless diagonal direction (the standard rep) have the same overlap, so we compute one. Take `d = |e_1⟩⟨e_1| − |e_2⟩⟨e_2|` (traceless, `‖d‖² = 2`). Its component in `C` is `P_⊥ d P_⊥` with `P_⊥ = I − |w⟩⟨w|` (the `|w⟩⟨w|` component vanishes since `⟨|w⟩⟨w|, d⟩ = 0`). Writing `u_i = P_⊥|e_i⟩`,
 
     ‖u_i‖² = 1 − 1/N,     ⟨u_1,u_2⟩ = −1/N,
     ‖P_⊥ d P_⊥‖² = ‖u_1‖⁴ + ‖u_2‖⁴ − 2|⟨u_1,u_2⟩|²
@@ -72,7 +72,9 @@ Therefore `λ₂ = ‖P_C d‖²/‖d‖² = (N−2)/N`, and
 
     g2(K_N) = 2(1 − λ₂) = 2·(2/N) = 4/N.    ∎
 
-This is `< 1` exactly when `N ≥ 5`. At `N = 4` it equals `1` (the band edge), so the `(1,1)` ladder produces no ceiling there; see §4. Verifier Stage 1 confirms `K_5,6,7 = 4/5, 2/3, 4/7` to `< 10⁻⁹`.
+This is `< 1` exactly when `N ≥ 5`. At `N = 4` it equals `1` (the band edge), so the `(1,1)` ladder produces no ceiling there; see §4. Verifier Stage 1 confirms `K_5,6,7 = 4/5, 2/3, 4/7` to `< 10⁻⁹`, and the `(1,1)` commutant value at `N = 8` alongside them.
+
+The same value sits twice. Particle-hole conjugation maps the `(1,1)` sector onto the hole sector `(N−1, N−1)`, and the darkest coherence there carries the identical `⟨n_XY⟩`: the ceiling mode is a pair, not a single mode (`K_5`, `K_6`: `(4,4)` and `(5,5)` give `4/5` and `2/3` exactly, as `(1,1)` does). Sector labels below name the `(1,1)` representative and mean both.
 
 ## 3. Theorem 2: the star, `g2(star_N) = 4/(N−1)`
 
@@ -85,17 +87,17 @@ This is `< 1` exactly when `N ≥ 6` (`star_5 = 4/4 = 1`, the band edge). Verifi
 
 ## 4. Theorem 3: the `N = 4` outlier is the half-filling sector
 
-The `(1,1)` ladders of both `K_4` (`4/4`) and ring-4 (`4/3 > 1`) fail to produce a ceiling at `N = 4`: `4/N = 1` exactly meets the band-edge floor. The actual `N = 4` ceiling comes from the **`(2,2)` half-filling two-excitation sector**, the same sector that makes ring-4 special:
+The `(1,1)` ladders of both `K_4` and ring-4 fail to produce a ceiling at `N = 4`, and they fail in the same way: both sit at exactly `1`, the band-edge floor. For `K_4` that is `4/N = 4/4`; for ring-4 it is the even-N ring value `2(N−2)/N` of §5 at `N = 4`. What is left below the floor at `N = 4` comes from the **`(2,2)` half-filling two-excitation sector**, the same sector that makes ring-4 special, and only for `K_4` does it actually go below:
 
 - **`K_4`**: the darkest `(2,2)` commutant coherence has `g2 = 2 − 2/√3 = 2(1 − 1/√3) ≈ 0.845299`, strictly below the floor. (The diagonal weight of that mode is `1/√3`.)
-- **ring-4**: the darkest `(2,2)` coherence has `g2 = 1` exactly, co-occupying the floor (the known ring-4 "co-occupied floor": a `(2,2)` mode at `Re = −2γ` with `|Im| = 2√2·J >` band edge `2J`, so the clock reads `2√2·J`, not the band edge).
+- **ring-4**: the darkest `(2,2)` coherence has `g2 = 1` exactly, co-occupying the floor rather than undercutting it, so the ring gets no ceiling here either (the known ring-4 "co-occupied floor": a `(2,2)` mode at `Re = −2γ` with `|Im| = 2√2·J >` band edge `2J`, so the clock reads `2√2·J`, not the band edge). That last reading is the weak-watching side: the block rides the floor only above its own exceptional point, the coupling where its two eigenvalues coalesce defectively (`Q > 1/√2`), and outranks the band edge only for `Q > 1`, the window of [Ring Gap-Dominance](PROOF_RING_GAP_DOMINANCE.md).
 
 **Where `2√2·J` comes from, and why it is a mirror pair.** The ring-4 `(2,2)` two-excitation energies are `{−2√2, 0, 0, 0, 0, +2√2}·J`, two readings of the same fact:
 
 - *The value* `2√2·J` is the top of the **anti-periodic** free-fermion band of the even-parity sector. Under Jordan-Wigner the parity string wraps the ring, so the even (two-excitation) sector carries anti-periodic boundary conditions and the single-fermion momenta shift to `k = π(2m+1)/N`. For `N = 4` this gives single-fermion energies `±√2·J` (`= 2J cos(π/4)`) and a two-fermion top `2√2·J`, which **exceeds the periodic single-excitation band edge** `2J` (`= 2J cos 0`, read in the odd sector). That overshoot is why the even-sector mode, not the band edge, holds the floor's clock hand.
-- *The symmetry* is the palindrome about `0`: the **chiral K-mirror** `K·H·K = −H ⟹ E ↔ −E` ([`ChiralKClaim`](../../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs), `PROOF_K_PARTNERSHIP.md`: the chain's "second mirror", a sibling of F1 acting on `H`, not the Liouvillian), which holds because the even cycle `C_4` is **bipartite**. So `±2√2·J` are a chiral mirror pair, both at `Re = −2γ`. The odd rings `C_3, C_5` are *not* bipartite, their spectra are not `±`-symmetric, and this is the bipartite root of the even/odd ring dichotomy (`PROOF_K_PARTNERSHIP.md` §XXZ, `PROOF_RING_N4_DIHEDRAL_LOCK.md`).
+- *The symmetry* is the palindrome about `0`: the **chiral K-mirror** `K·H·K = −H ⟹ E ↔ −E` ([`ChiralKClaim`](../../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs), `PROOF_K_PARTNERSHIP.md`: the chain's "second mirror", a sibling of F1 acting on `H`, not the Liouvillian), which holds because the even cycle `C_4` is **bipartite**. So `±2√2·J` are a chiral mirror pair, both at `Re = −2γ` on the weak-watching side named above. The odd rings `C_3, C_5` are *not* bipartite, their spectra are not `±`-symmetric, and this is the bipartite root of the even/odd ring dichotomy (`PROOF_K_PARTNERSHIP.md` §XXZ, `PROOF_RING_N4_DIHEDRAL_LOCK.md`).
 
-So the `N = 4` anomaly is one mechanism in two topologies: the single-excitation ladder vacates the sub-floor region at `N = 4`, leaving the half-filling sector to set the gap. Verifier Stage 2 gates `K_4 (1,1) = 1.0`, the global minimum in `(2,2)`, and `= 2 − 2/√3` to `< 10⁻⁷`; Stage 2b gates the ring-4 `(2,2)` spectrum `= {±2√2, 0⁴}·J` against the anti-periodic two-fermion sums (the chiral palindrome).
+So the `N = 4` anomaly is one mechanism in two topologies: the single-excitation ladder vacates the sub-floor region at `N = 4`, leaving the half-filling sector to answer. It answers differently in the two: for `K_4` it sets the gap (a genuine ceiling, `2 − 2/√3`), for ring-4 it only sets the clock hand (`g2` stays at `1`, `|Im|` becomes `2√2·J`). Verifier Stage 2 gates `K_4 (1,1) = 1.0`, the global minimum in `(2,2)`, and `= 2 − 2/√3` to `< 10⁻⁷`; Stage 2b gates the ring-4 `(2,2)` spectrum `= {±2√2, 0⁴}·J` against the anti-periodic two-fermion sums (the chiral palindrome).
 
 ## 5. The connectivity ordering, and what is not universal
 
@@ -104,11 +106,15 @@ The ceiling onset is the growth of the largest single-particle degeneracy `m` wi
 | topology | `m` (max adjacency degeneracy) | `(1,1)` ladder | ceiling onset |
 |---|---|---|---|
 | chain (path) | `1` (no degeneracy) | `> 1`, never dips | never |
-| ring (cycle) | `2` | `4/3 > 1`, never dips | only `N=4` via `(2,2)` |
+| ring (cycle) | `2` | `2(N−2)/N` even, `2(N−1)/N` odd; `≥ 1` always, `= 1` only at `N=4` | never (the `N=4` `(2,2)` mode co-occupies the floor, it does not undercut it) |
 | star `K_{1,N−1}` | `N−2` | `4/(N−1)` | `N ≥ 6` |
 | complete `K_N` | `N−1` | `4/N` | `N ≥ 5` (and `N=4` via `(2,2)`) |
 
-More edges → larger degenerate manifold → darker coherence → lower ceiling → earlier onset. It is tempting to read off a universal `g2 = 4/(m+1)` (it gives `4/N` for `K_N` with `m=N−1`, and `4/(N−1)` for the star with `m=N−2`). **This is not a general law.** The ring's degenerate manifold is built from Fourier modes `e^{2πikj/N}`, whose embedding in the site basis differs from the complete/star case, and the principal-angle overlap is different: ring-5's `(1,1)` commutant is `1.6 ≠ 4/3`, ring-7's is `12/7 ≠ 4/3`. The per-family closed forms `4/N` and `4/(N−1)` are the real results; the degeneracy gives the *intuition* (more degeneracy → darker) but not the *value*. (Verifier final diagnostic prints the ring values to make the break explicit.)
+More edges → larger degenerate manifold → darker coherence → lower ceiling → earlier onset. It is tempting to read off a universal `g2 = 4/(m+1)` (it gives `4/N` for `K_N` with `m=N−1`, and `4/(N−1)` for the star with `m=N−2`). **This is not a general law**, and the ring says so in the sharpest possible way: its degeneracy is `m = 2` at every `N`, yet its `(1,1)` commutant value is not one number but a sequence,
+
+    ring `(1,1)` commutant  =  2(N−2)/N   (even N),    2(N−1)/N   (odd N),
+
+so `1, 8/5, 4/3, 12/7, 3/2, 16/9, …` for `N = 4, 5, 6, 7, 8, 9`, machine-exact through `N = 11` in [`ring_ceiling_commutant_sweep.py`](../../simulations/ring_ceiling_commutant_sweep.py). A fixed `m` with a moving value is exactly what a `4/(m+1)` law forbids. The sequence also settles the ring's own status: it rises toward `2` rather than falling, it never goes below `1`, and it touches `1` only at `N = 4`, so **the ring has no structural ceiling at any N** and stays band-edge-protected like the chain; the ring's degenerate manifold is built from Fourier modes `e^{2πikj/N}`, and the two-fold `k ↔ −k` pairing is too little to fold a coherence away from the light. The per-family closed forms `4/N` and `4/(N−1)` are the real results; the degeneracy gives the *intuition* (more degeneracy → darker) but not the *value*. (Verifier final diagnostic prints the ring values to make the break explicit; the full ring picture, the `(p,q)` sweep and the half-filling seam, is the ring sweep and [F122](../ANALYTICAL_FORMULAS.md).)
 
 ## 6. Relation to the band edge and the Absorption Theorem
 
@@ -123,7 +129,7 @@ The chain has a **coherence horizon** `Q*(N)`: below it the band edge stops bein
 Instead the *same* `(1,1)`-commutant value `4/(N−1)` that sets the high-Q ceiling governs the star at **every** `Q`:
 
 - `4/(N−1) > 1` (`N = 4`): the sub-band mode is above the `2γ` floor, so the band edge protects down to a low-Q *crossing* near `Q ≈ 1.9` (a real, overdamped mode crosses the floor, not an EP).
-- `4/(N−1) = 1` (`N = 5`, marginal): the sub-band mode sits *exactly* on the floor and is pulled marginally below at finite `Q` as `g2 = 1 − 1/Q²`. There is no horizon and no oscillating memory at any finite `Q`, only asymptotic protection. (An apparent `Q* ≈ 316` read off a finite tolerance is an artifact of this `1/Q²` approach.)
+- `4/(N−1) = 1` (`N = 5`, marginal): the sub-band mode sits *exactly* on the floor and is pulled marginally below at finite `Q`, asymptotically as `g2 → 1 − 1/Q²` (exact through `O(1/Q²)`: six digits at `Q ≥ 50`, but already `1%` off at `Q = 3`). There is no horizon and no oscillating memory at any finite `Q`, only asymptotic protection. (An apparent `Q* ≈ 316` read off a finite tolerance is an artifact of this `1/Q²` approach.)
 - `4/(N−1) < 1` (`N ≥ 6`): the structural ceiling `g2 = 4/(N−1)` (§2–§3).
 - `N = 3` is the path `P_3`, i.e. a chain, the lone exception, with the genuine `{0,2}`-EP at `√2`.
 

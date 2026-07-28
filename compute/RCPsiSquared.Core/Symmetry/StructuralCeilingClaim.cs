@@ -20,7 +20,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// population (diagonal) operators, giving 4/N. For the star it is the (N−2)-fold 0-eigenvalue leaf manifold,
 /// giving 4/(N−1). The N=4 outlier of K_4 and the ring is the (2,2) HALF-FILLING two-excitation sector (the
 /// 4/N ladder reaches 1 at N=4, vacating the sub-floor region): K_4 = 2 − 2/√3 dips below the floor, ring-4
-/// = 1 co-occupies it. Not a universal 4/(m+1) law — the ring's Fourier-degenerate manifold breaks it.</para>
+/// = 1 co-occupies it, so the ring gets no ceiling out of N=4 either. Not a universal 4/(m+1) law — the ring
+/// holds m=2 at every N while its (1,1) commutant moves, 2(N−2)/N (even) / 2(N−1)/N (odd), never below 1.</para>
 ///
 /// <para>Map note (the 4 here is NOT the discriminant four — a see-cref, not a typed edge): the 4 in 4/N is
 /// 2·(2/N) = (the Hamming distance 2 between two single-excitation strings) × (the S_N angle 1 − λ₂ = 2/N),
@@ -56,12 +57,13 @@ public sealed class StructuralCeilingClaim : Claim
 
     public StructuralCeilingClaim(AbsorptionTheoremClaim absorption)
         : base("Structural ceiling closed forms: the high-Q gap rate g2 = strict_gap/2γ of an XY network " +
-               "under Z-dephasing. g2(K_N)=4/N (N≥5), g2(star_N)=4/(N−1) (N≥6), g2(K_4)=2−2/√3; chain never " +
-               "ceilings (g2=1, band edge protects). Derived: the slowest mode is the darkest [H,A]=0 coherence " +
+               "under Z-dephasing. g2(K_N)=4/N (N≥5), g2(star_N)=4/(N−1) (N≥6), g2(K_4)=2−2/√3; chain and ring " +
+               "never ceiling (g2=1, band edge protects). Derived: the slowest mode is the darkest [H,A]=0 coherence " +
                "in the largest degenerate single-particle level (band edge n_XY=1 is the (0,1) floor, g2≤1). " +
                "Complete (1,1) = S_N standard rep, g2=2(1−λ₂), λ₂=(N−2)/N; star (1,1) = the (N−2)-fold leaf " +
-               "manifold. The N=4 outlier (K_4 and ring-4) is the (2,2) half-filling sector. NOT a universal " +
-               "4/(m+1) law (the ring's Fourier manifold breaks it).",
+               "manifold. The N=4 outlier (K_4 and ring-4) is the (2,2) half-filling sector: it ceilings K_4 " +
+               "(2−2/√3) and only co-occupies the floor on the ring. NOT a universal 4/(m+1) law (the ring holds " +
+               "m=2 at every N while its (1,1) commutant moves, 2(N−2)/N even / 2(N−1)/N odd, never below 1).",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_STRUCTURAL_CEILING.md + " +
                "docs/ANALYTICAL_FORMULAS.md (F122) + " +
@@ -96,7 +98,9 @@ public sealed class StructuralCeilingClaim : Claim
                          "band-edge mode sits at g2=1 for every graph and all Q. A ceiling is a darker mode undercutting it.");
             yield return new InspectableNode("not universal: 4/(m+1) breaks on the ring",
                 summary: "the degeneracy m gives the intuition (more edges → darker), but the value depends on the " +
-                         "manifold's embedding: the ring's Fourier manifold gives ring-5 = 1.6 ≠ 4/3. Per-family forms are real.");
+                         "manifold's embedding: the ring holds m=2 at every N while its (1,1) commutant MOVES, " +
+                         "2(N−2)/N (even) / 2(N−1)/N (odd), always ≥ 1 and = 1 only at N=4. So the ring carries no " +
+                         "ceiling at all (band-edge-protected like the chain). Per-family forms are real.");
             yield return Absorption;   // typed parent edge (Tier1Derived)
         }
     }

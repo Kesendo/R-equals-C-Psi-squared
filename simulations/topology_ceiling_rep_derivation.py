@@ -210,8 +210,22 @@ for N in (5, 6, 7):
     assert abs(c11 - 4.0 / N) < 1e-9, f"STAGE 1 GATE FIRED: K_{N} (1,1) commutant {c11:.9f} != 4/{N}"
     assert gwin == (1, 1), f"STAGE 1 GATE FIRED: K_{N} global min not in (1,1) but {gwin}"
     assert abs(gmin - 4.0 / N) < 1e-9, f"STAGE 1 GATE FIRED: K_{N} global g2 {gmin:.9f} != 4/{N}"
-print(f"\nSTAGE 1 PASS: g2(K_N) = 4/N EXACTLY (machine precision) for N=5,6,7, the (1,1)-sector commutant "
-      f"darkest coherence. The closed form is derived from the S_N standard rep, no longer a fit.")
+# N=8 on the cheap: the ceiling value is a SINGLE-EXCITATION object, so the (1,1) commutant needs only the
+# N x N adjacency, not the 4^N Liouvillian. The global-minimum leg stays at N<=7 (the full sweep at N=8 is
+# a 4900x4900 half-filling block); the particle-hole twin (N-1,N-1) carries the same value by conjugation.
+A8 = np.ones((8, 8)) - np.eye(8)
+adH8 = np.kron(A8, np.eye(8)) - np.kron(np.eye(8), A8.T)
+nxy8 = np.array([0.0 if a == b else 2.0 for a in range(8) for b in range(8)])
+w8, V8 = np.linalg.eigh(adH8)
+ker8 = V8[:, np.abs(w8) < 1e-9]
+ev8 = np.sort(np.linalg.eigvalsh(ker8.T @ (nxy8[:, None] * ker8)).real)
+c11_8 = [x for x in ev8 if x > 1e-9][0]
+print(f"{8:>2} {c11_8:>16.9f} {4.0/8:>10.6f} {'(1,1) only':>11} {'-':>11} "
+      f"{('YES' if abs(c11_8 - 0.5) < 1e-9 else 'no'):>13}")
+assert abs(c11_8 - 4.0 / 8) < 1e-9, f"STAGE 1 GATE FIRED: K_8 (1,1) commutant {c11_8:.9f} != 4/8"
+print(f"\nSTAGE 1 PASS: g2(K_N) = 4/N EXACTLY (machine precision) for N=5,6,7 as the global minimum and at "
+      f"N=8 in the (1,1) commutant, the darkest coherence. The closed form is derived from the S_N standard "
+      f"rep, no longer a fit.")
 
 # =====================================================================================
 # STAGE 2 -- the N=4 UNIFICATION: K_4 ceiling = the (2,2) half-filling sector (ring-4's sector), 2 - 2/sqrt(3)
@@ -296,7 +310,7 @@ print(f"\nSTAGE 3 PASS: g2(star_N) = 4/(N-1) EXACTLY for N=6,7,8 (4/5, 4/6, 4/7)
 print("\n" + "-" * 100)
 print("DIAGNOSTIC (no universal m-law): ring (1,1) commutant vs the tempting 4/(m+1), m=max adjacency degeneracy")
 print("-" * 100)
-print(f"{'N':>2} {'ring (1,1) commutant':>22} {'4/(m+1) guess':>14} {'fits?':>6}")
+print(f"{'N':>2} {'ring (1,1) commutant':>22} {'4/(m+1) guess':>14} {'fits?':>6} {'closed form':>13} {'>= 1?':>6}")
 for N in (4, 5, 6, 7):
     Hf = H_full('ring', N, J=1.0)
     _, _, table = global_g2(Hf, N)
@@ -310,8 +324,17 @@ for N in (4, 5, 6, 7):
     guess = 4.0 / (m + 1)
     fits = "yes" if (c11 is not None and abs(c11 - guess) < 1e-6) else "NO"
     c11s = f"{c11:.9f}" if c11 is not None else "  -"
-    print(f"{N:>2} {c11s:>22} {guess:>14.6f} {fits:>6}")
-print("=> ring breaks 4/(m+1): the per-family closed forms (complete 4/N, star 4/(N-1)) are real; "
-      "the m-law is NOT universal. Ring protects via the band edge (1.0) except the N=4 (2,2) anomaly.")
+    # the ring's own closed form (ring_ceiling_commutant_sweep.py carries it to N=11): the value MOVES
+    # at fixed m = 2, which is what a 4/(m+1) law forbids, and it never goes below the band edge.
+    closed = 2 * (N - 2) / N if N % 2 == 0 else 2 * (N - 1) / N
+    print(f"{N:>2} {c11s:>22} {guess:>14.6f} {fits:>6} {closed:>13.6f} {str(c11 >= 1 - 1e-9):>6}")
+    assert abs(c11 - closed) < 1e-9, f"DIAGNOSTIC GATE FIRED: ring N={N} (1,1) commutant {c11} != {closed}"
+    assert c11 >= 1 - 1e-9, f"DIAGNOSTIC GATE FIRED: ring N={N} (1,1) commutant dips below the band edge"
+    assert m == 2, f"DIAGNOSTIC GATE FIRED: ring N={N} max adjacency degeneracy {m} != 2"
+print("=> ring breaks 4/(m+1) in the sharpest way: m = 2 at every N while the value MOVES, 2(N-2)/N (even)")
+print("   / 2(N-1)/N (odd), and it never dips below 1. So the per-family closed forms (complete 4/N, star")
+print("   4/(N-1)) are real and the ring has NO ceiling at all: it stays band-edge-protected like the chain,")
+print("   N=4 included, where the (2,2) mode co-occupies the floor rather than undercutting it (it moves the")
+print("   clock hand, not the gap).")
 
 print("\nDONE.")
