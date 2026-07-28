@@ -35,8 +35,11 @@ public sealed class TimeIrreversibilityExclusionClaim : Claim
         CrossTerm = crossTerm ?? throw new ArgumentNullException(nameof(crossTerm));
     }
 
-    /// <summary>The proof's relative cross-term R(N) = √((N−2)/(N·4^(N−1))): exactly 0 at N=2,
-    /// then ≈ 1.83% (N=3), 2.07% (N=4); γ- and topology-independent.</summary>
+    /// <summary>The proof's relative cross-term R(N) = ‖{L_H, L_Dc}‖ / (‖L_H‖·‖L_Dc‖)
+    /// = √((N−2)/(N·4^(N−1))): exactly 0 at N=2, then 1/√48 ≈ 14.43% (N=3), 8.84% (N=4),
+    /// DECREASING in N; γ- and topology-independent. Do not confuse it with the proof's
+    /// other column, cross term over ‖L_c²‖, which reads 1.83% (N=3) and 2.07% (N=4) and
+    /// grows: that is a different normalisation of the same cross term.</summary>
     public static double RelativeCrossTerm(int n) => Math.Sqrt((n - 2.0) / (n * Math.Pow(4.0, n - 1)));
 
     public override string DisplayName =>
@@ -44,7 +47,9 @@ public sealed class TimeIrreversibilityExclusionClaim : Claim
 
     public override string Summary =>
         "the anticommutator {L_H, L_Dc} = 0 exactly at N=2 (Frobenius-orthogonality, the Pythagorean split " +
-        "L_c² = L_H² + L_Dc²), growing for N>2 as R(N) = √((N−2)/(N·4^(N−1))) (γ- and topology-independent); but " +
+        "L_c² = L_H² + L_Dc²), and nonzero for N>2: ‖{L_H, L_Dc}‖² = 4γ²(N−2)‖L_H‖² grows with N, while the " +
+        "relative R(N) = ‖{L_H, L_Dc}‖/(‖L_H‖·‖L_Dc‖) = √((N−2)/(N·4^(N−1))) peaks at N=3 (1/√48 ≈ 14.43%) and " +
+        "then falls (8.84% at N=4, 4.84% at N=5); γ- and topology-independent; but " +
         "the commutator [L_H, L_Dc] ≠ 0 already at N=2, so the vanishing is orthogonality, NOT a " +
         "separability/reversibility criterion, and the naive arrow-of-time reading is EXCLUDED. The value is the " +
         "parent F49 4γ²(N−2)‖L_H‖²; this node types the reading + caveat (live: TimeIrreversibilityExclusionWitness).";
@@ -61,8 +66,10 @@ public sealed class TimeIrreversibilityExclusionClaim : Claim
                          "L_c² = L_H² + L_Dc² then holds exactly (‖·‖ = 0 verified at N=2).");
             yield return new InspectableNode("the break (N>2)",
                 summary: "for N>2 the w_XY-sum rule fails for some entries; ‖{L_H, L_Dc}‖² = 4γ²(N−2)‖L_H‖² (F49), so " +
-                         "the relative R(N) = √((N−2)/(N·4^(N−1))) is 0 at N=2, ≈ 1.83% (N=3), 2.07% (N=4), " +
-                         "γ- and topology-independent (chain = ring = star = complete).");
+                         "the relative R(N) = ‖{L_H, L_Dc}‖/(‖L_H‖·‖L_Dc‖) = √((N−2)/(N·4^(N−1))) is 0 at N=2, " +
+                         "1/√48 ≈ 14.43% (N=3), 8.84% (N=4), and falls from N=3 on. The proof's other column, " +
+                         "cross term over ‖L_c²‖, is a different normalisation and reads 1.83% (N=3), 2.07% (N=4). " +
+                         "Both are γ- and topology-independent (chain = ring = star = complete).");
             yield return new InspectableNode("the caveat: not reversibility",
                 summary: "the N=2 vanishing is a Frobenius-ORTHOGONALITY fact, NOT a separability/reversibility " +
                          "criterion. Separability of the flow is governed by the COMMUTATOR [L_H, L_Dc], and " +

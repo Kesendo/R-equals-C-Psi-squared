@@ -87,7 +87,7 @@ public sealed class F89Path3OcticEpClaim : Claim
     }
 
     public F89Path3OcticEpClaim(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
-        : base("F89 path-3 octic diabolic degeneracy (semisimple) at q² = (−1+√13)/6, q ≈ 0.658983, with merged eigenvalue λ_EP = −4γ + 2iJ; Re(λ_EP) = −4γ sits at the AT-spectral midpoint of rate 2γ (overlap) and rate 6γ (no-overlap)",
+        : base("F89 path-3 octic diabolic degeneracy (semisimple) at q² = (−1+√13)/6, q ≈ 0.658983, with merged eigenvalue λ_EP = −4γ + 2iJ; the EP subscript is a stable identifier inherited from the retracted 2026-06-21 reading, NOT a claim of defectiveness, the crossing is transversal and the eigenvectors stay independent; Re(λ_EP) = −4γ sits at the AT-spectral midpoint of rate 2γ (overlap) and rate 6γ (no-overlap)",
                Tier.Tier1Derived,
                "experiments/F89_PATH_K_GALOIS.md + " +
                "simulations/f89_path3_octic_galois.py + " +
@@ -99,7 +99,7 @@ public sealed class F89Path3OcticEpClaim : Claim
     }
 
     public override string DisplayName =>
-        "F89 path-3 octic diabolic degeneracy: q ≈ 0.659, λ_EP = −4γ + 2iJ at AT-rate-midpoint";
+        "F89 path-3 octic diabolic degeneracy (semisimple; the EP subscript is an inherited name, not defectiveness): q ≈ 0.659, λ_EP = −4γ + 2iJ at AT-rate-midpoint";
 
     public override string Summary =>
         $"q² = (−1+√13)/6 ≈ {QEpSquared:F4}, q ≈ {QEp:F6}, λ_EP = −4γ + 2iJ (rate at AT-midpoint between 2γ and 6γ) ({Tier.Label()})";
