@@ -8,9 +8,12 @@ Self-contained: every object is built from scratch here, including one construct
 full 4^N Liouvillian, so agreement with the other gates is evidence and not a shared bug.
 
 Run:
-    python simulations/exceptional_couplings.py            # 35 checks, about a minute
-    python simulations/exceptional_couplings.py --deep     # + N = 7 and the N = 6 whole-block
-                                                           #   enumeration, 41 checks, ~9 min
+    python simulations/exceptional_couplings.py            # the default set
+    python simulations/exceptional_couplings.py --deep     # + N = 7, the N = 6 whole-block
+                                                           #   enumeration and the N = 7 rung
+    python simulations/exceptional_couplings.py --slow     # + the two exact counts that cost
+                                                           #   about half an hour: N=7 rung 3, N=8
+The run prints how many checks it made, so no count is carried in prose anywhere.
 
 What it checks, block by block:
 
@@ -49,6 +52,17 @@ What it checks, block by block:
       positive root is simple wherever this block enumerates, so the count at an exceptional
       coupling is exactly floor(N/2) + 1 rather than at least that, at N = 5 and N = 6.
 
+  E9  a higher rung carries couplings of its own.  A block (p, p) sees only the rungs
+      l <= min(p, N-p), so the block (2,2) can carry the rung-2 couplings and no others.  At
+      N = 6 the eta-lowest-weight singlets of the block (3,3) carry four couplings of their
+      own, exactly, sharing no positive root with the rung-2 polynomial, and each of the four
+      raises (3,3) alone, which is the multiplet of a rung-3 lowest weight at eta-spin 0.
+      Deep adds the N = 7 counterpart, where that eta-spin is 1/2 and the multiplet is two
+      blocks wide.  So the counts of E5 and E8 are rung-2 counts and not the count.
+  E10 the two exact counts the other modes are too short for (slow).  The same Sturm route as
+      E5, at the rung-3 singlets of the block (3,3) at N = 7 and at the rung-2 singlets at
+      N = 8, which is where the exact route runs out.  Kept behind its own flag so that the
+      numbers it produces are in the record without lengthening --deep.
 Reading: PROOF_FROZEN_BAND_SO4 Section 5 (the pencil and the bridge) and Section 8
 (what is open), ETA_CEILING_REDUCTION (the per-rung certificate this replaces the limit of).
 """
@@ -61,13 +75,18 @@ from sympy import Matrix, Poly, QQ, Rational, factor_list, gcd, interpolate, oo,
 from sympy.polys.matrices import DomainMatrix
 
 DEEP = "--deep" in sys.argv
+SLOW = "--slow" in sys.argv
 PRIMES = (998244353, 1004535809)
 FAILURES = []
 T0 = time.time()
 
 
+CHECKS = []
+
+
 def check(label, ok, detail=""):
     print(f"  [{'ok' if ok else 'FAIL'}] {label}" + (f"  ({detail})" if detail else ""))
+    CHECKS.append(label)
     if not ok:
         FAILURES.append(label)
 
@@ -309,6 +328,23 @@ def e1_builders():
     vals = sorted(set(np.diag(C).tolist()))
     check("(c) C is diagonal, entries 4*gamma*(1 - k) on the disagreement k",
           diag_only and vals == [-4, 0, 4], f"entries {vals}")
+    # the chain is bipartite, so each sector's hopping is chiral-ODD: with the site parity
+    # G_p = diag(prod over the occupied sites of (-1)^site), P = G_p (x) G_q fixes C and flips
+    # A0.  det P = +-1, so det(C + z A0) = det(P (C + z A0) P) = det(C - z A0) and the
+    # determinant is EVEN in z, on every block and with no interpolation.  E5 measures the
+    # evenness case by case; this is the reason.
+    worst_p, all_inv = 0, True
+    for (N, p, q) in [(5, 2, 2), (5, 3, 3), (6, 2, 2), (6, 3, 3), (6, 2, 4), (7, 3, 3)]:
+        C, A0 = block_parts(N, p, q)
+        g = [np.diag([(-1) ** sum(l for l in bits(A, N)) for A in subsets(N, r)])
+             for r in (p, q)]
+        P = np.kron(g[0], g[1])
+        worst_p = max(worst_p, int(np.max(np.abs(P @ C @ P - C))),
+                      int(np.max(np.abs(P @ A0 @ P + A0))))
+        all_inv = all_inv and np.array_equal(P @ P, np.eye(P.shape[0], dtype=np.int64))
+    check("(d) the chiral involution P = G_p (x) G_q fixes C and flips A0 entry for entry, so "
+          "det(C + z A0) is EVEN in z on every block, side lines included",
+          worst_p == 0 and all_inv, f"worst entry {worst_p}, P^2 = I on all: {all_inv}")
 
 
 # ------------------------------------------------------------------- E2
@@ -331,6 +367,21 @@ def e2_reformulation():
         num = int(np.sum(s < 1e-9 * max(s[0], 1.0)))
         check(f"(b) N={N} ({p},{p}) J^2={J2}: exact rational count = complex nullity",
               exact == num, f"{exact} = {num}")
+    # C is gamma times an integer matrix and A0 carries no gamma, so C + iJ A0 =
+    # gamma*(C_1 + i(J/gamma) A0): the exceptional set is a set of RATIOS J/gamma and every
+    # number tabulated anywhere is at gamma = 1.  Checked exactly, not by scaling the output.
+    ratio_ok, moved = True, {}
+    for gam in (2, 3):
+        C, A0 = block_parts(5, 2, 2, gam=gam)
+        C1, A01 = block_parts(5, 2, 2, gam=1)
+        structural = np.array_equal(C, gam * C1) and np.array_equal(A0, A01)
+        here = rational_nullity(C, A0, Rational(3, 2) * gam ** 2)
+        there = rational_nullity(C, A0, Rational(3, 2))
+        moved[gam] = (here, there)
+        ratio_ok = ratio_ok and structural and here == 3 and there == 2
+    check("(c) only the ratio J/gamma enters: at gamma = 2 and 3 the N=5 point sits at "
+          "J^2 = (3/2)*gamma^2 and no longer at 3/2, exactly", ratio_ok,
+          f"(nullity at (3/2)g^2, at 3/2) = {moved}")
 
 
 # ------------------------------------------------------------------- E3
@@ -451,7 +502,8 @@ def e6_shape():
     check("(a) N=6: at this coupling the extra mode occupies the diagonal rungs 2 .. N-2 and "
           "nothing else (one coupling only; the all-J statement is E8, at N = 5)",
           raised == [(2, 2), (3, 3), (4, 4)], f"raised on {raised}")
-    check("(b) so it is an eta multiplet seeded at l = 2, of eta-spin N/2 - 2",
+    check("(b) so, a lowest weight at rung l spanning N - 2l + 1 blocks, it is an eta "
+          "multiplet seeded at l = 2 with eta-spin N/2 - 2: the arithmetic of (a)",
           len(raised) == 6 - 2 * 2 + 1)
     check("(c) and a SPIN SINGLET, since S+ commutes with L and no side line is raised",
           all(counts[(p, q)] == 3 for (p, q) in band(6) if p != q))
@@ -574,20 +626,105 @@ def e8_full_block():
               r["count"] == 6 and r["simple"] and r["clean"], f"{[round(x, 6) for x in r['roots']]}")
 
 
+# ------------------------------------------------------------------- E9
+
+def e9_higher_rungs():
+    print("E9  a higher rung carries couplings of its own: rung 3 at N = 6")
+    J = symbols('J')
+    g3, dimV3, q3, ok3, even3 = exceptional_polynomial(6, 3, J)
+    n3 = g3.count_roots(0, oo) - (1 if g3.eval(0) == 0 else 0)
+    roots3 = sorted(float(r) for r in g3.real_roots() if r.is_real and float(r) > 1e-9)
+    check("(a) N=6: the eta-lowest-weight singlets of the block (3,3) carry exactly four "
+          "exceptional couplings, by Sturm on an exact polynomial", n3 == 4 and ok3 and even3,
+          f"dim V = {dimV3}, deg q = {q3.degree()}, roots {[round(r, 9) for r in roots3]}")
+    g2, _, _, _, _ = exceptional_polynomial(6, 2, J)
+    # the two polynomials necessarily share the root J = 0, which is not a coupling, so the
+    # exact statement is that their gcd carries no POSITIVE root.
+    common = Poly(gcd(g2, g3), J)
+    shared = common.count_roots(0, oo) - (1 if common.eval(0) == 0 else 0)
+    check("(b) and they are NEW: the gcd of the rung-3 and rung-2 polynomials carries no "
+          "positive root, so none of the four is one of E5's six", shared == 0,
+          f"gcd of degree {common.degree()}, {shared} positive roots")
+    # a rung-3 lowest weight at N = 6 has eta-spin N/2 - 3 = 0, so its multiplet is a single
+    # block: it must raise (3,3) and nothing else, where E6's rung-2 mode raises 2 .. N-2.
+    shape_ok, seen = True, {}
+    for J0 in roots3:
+        counts = {}
+        for (p, q) in band(6):
+            C, A0 = block_parts(6, p, q)
+            s = np.linalg.svd(C + 1j * J0 * A0, compute_uv=False)
+            counts[(p, q)] = int(np.sum(s < 1e-8 * max(s[0], 1.0)))
+        raised = sorted(k for k, v in counts.items() if v > 3)
+        seen[round(J0, 9)] = raised
+        shape_ok = shape_ok and raised == [(3, 3)] and counts[(3, 3)] == 4
+    check("(c) at each of the four the nullity rises on (3,3) and on NO other block, which is "
+          "the multiplet of a rung-3 lowest weight at N = 6 (eta-spin 0) and cannot be a "
+          "rung-2 one, those occupying 2 .. N-2 (a numeric read of the shape)", shape_ok,
+          f"{seen}")
+    g2roots = sorted(float(r) for r in g2.real_roots() if r.is_real and float(r) > 1e-9)
+    also33 = True
+    for J0 in g2roots:
+        C, A0 = block_parts(6, 3, 3)
+        sv = np.linalg.svd(C + 1j * J0 * A0, compute_uv=False)
+        also33 = also33 and int(np.sum(sv < 1e-8 * sv[0])) > 3
+    check("(d) the six rung-2 couplings raise the block (3,3) as well, so that block carries "
+          "the six AND the four and the exceptional set at N = 6 has at least ten members: "
+          "the count on (2,2) is the rung-2 count and not the count",
+          also33 and n3 == 4 and shared == 0, f"six rung-2 roots raise (3,3): {also33}")
+    if DEEP:
+        # at N = 7 a rung-3 lowest weight has eta-spin N/2 - 3 = 1/2, so its multiplet is TWO
+        # blocks, 3 .. N-3.  This coupling is the smallest the (3,3) enumeration offers and is
+        # absent from the rung-2 list, so it must raise (3,3) and (4,4) and neither (2,2) nor
+        # (5,5).  A dip ratio, so nine digits of the root are enough and no tolerance is fixed.
+        J0, width = 0.473255094, {}
+        for (p, q) in [(2, 2), (3, 3), (4, 4), (5, 5)]:
+            C, A0 = block_parts(7, p, q)
+
+            def sm(x, C=C, A0=A0):
+                sv = np.sort(np.linalg.svd(C + 1j * x * A0, compute_uv=False))
+                return sv[3] / sv[-1]
+
+            width[(p, q)] = sm(J0) / max(min(sm(J0 * 0.999), sm(J0 * 1.001)), 1e-300)
+        check("(e) N=7: the smallest coupling of the block (3,3) collapses the fourth "
+              "singular value on (3,3) and (4,4) and on neither (2,2) nor (5,5), the two-block "
+              "multiplet of a rung-3 lowest weight at eta-spin 1/2 (a numeric read)",
+              width[(3, 3)] < 1e-3 and width[(4, 4)] < 1e-3
+              and width[(2, 2)] > 0.1 and width[(5, 5)] > 0.1,
+              f"dip ratios {[(b, f'{w:.1e}') for b, w in width.items()]}")
+
+
+def e10_slow_exact():
+    print("E10  the two exact counts the other modes are too short for")
+    J = symbols('J')
+    for (tag, N, p, expect, small) in [("a", 7, 3, 13, 0.473255094), ("b", 8, 2, 15, 0.790268421)]:
+        g, dimV, q, ok, even = exceptional_polynomial(N, p, J)
+        npos = g.count_roots(0, oo) - (1 if g.eval(0) == 0 else 0)
+        roots = sorted(float(r) for r in g.real_roots() if r.is_real and float(r) > 1e-9)
+        # the smallest is TABULATED, so it is asserted and not merely printed
+        pinned = bool(roots) and abs(roots[0] - small) < 1e-9
+        check(f"({tag}) N={N}, the rung-{p} singlets of the block ({p},{p}): the exact Sturm "
+              f"count of the exceptional couplings, and the smallest of them is the value the "
+              f"note tabulates", npos == expect and ok and even and pinned,
+              f"dim V = {dimV}, deg q = {q.degree()}, {npos} roots, smallest "
+              f"{roots[0]:.9f}" if roots else f"{npos} roots")
+
+
 def main():
-    print(f"exceptional couplings gate{'  (deep)' if DEEP else ''}\n")
+    print(f"exceptional couplings gate{'  (deep)' if DEEP else ''}"
+          f"{'  (slow)' if SLOW else ''}\n")
     for fn in (e1_builders, e2_reformulation, e3_n5_exact, e4_singlets, e5_polynomial,
-               e6_shape, e7_bridge, e8_full_block):
+               e6_shape, e7_bridge, e8_full_block, e9_higher_rungs,
+               *([e10_slow_exact] if SLOW else ())):
         fn()
         print()
     total = len(FAILURES)
-    print(f"{time.time() - T0:.1f} s")
+    print(f"{len(CHECKS)} checks in {time.time() - T0:.1f} s")
     if total:
-        print(f"exceptional couplings gate: {total} FAILED")
+        print(f"exceptional couplings gate: {total} of {len(CHECKS)} FAILED")
         for f in FAILURES:
             print(f"  - {f}")
         sys.exit(1)
-    print("exceptional couplings gate: ALL GREEN")
+    print(f"exceptional couplings gate: ALL GREEN, {len(CHECKS)} checks")
 
 
 if __name__ == "__main__":
