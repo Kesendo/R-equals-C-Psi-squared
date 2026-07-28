@@ -113,7 +113,7 @@ public sealed class NivenRationalityRootClaim : Claim
                          "the next ring polygon for N ≥ 4. Its golden is N=5 (angle π/N), not N=4.");
             yield return new InspectableNode("the hinge: N=4 = first golden (convention-dependent)",
                 summary: "N=4 is the first golden on the two SE faces at once (band edge IS φ = 2cos(π/5); rates " +
-                         "carry √5 = sin²(π/5)·8 leftover). The V-face golden is N=5 (different angle). 'First golden' " +
+                         "carry a √5 leftover through sin²(π/5)·8 = 5 − √5). The V-face golden is N=5 (different angle). 'First golden' " +
                          "is angle-convention-dependent; the golden ratio is forced by the cyclotomic geometry, not chosen.");
             yield return new InspectableNode("two roots, not one (the arc's answer)",
                 summary: "this number-theoretic root governs the band-edge/rate/V-Effect family; the (n,n)/{0,2} " +

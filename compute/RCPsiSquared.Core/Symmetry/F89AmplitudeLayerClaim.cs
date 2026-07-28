@@ -44,10 +44,11 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Why the F89c-amplitude analogue does NOT close the gap directly:
 /// the chiral pair-sum σ_n + σ_{k+2−n} reduces to 2·P_even(y_n)/[D·N²(N−1)],
-/// but this is rational only when y_n² is rational. By Niven's theorem,
-/// cos²(2πn/m) is rational only for m ∈ {1, 2, 3, 4, 6}, so the pair-sum is
-/// rational only at k ∈ {2, 4} (with the accidental k=6 from cos²(π/4)=1/2),
-/// and irrational for k ≥ 8. The amplitude layer's structure is genuinely
+/// but this is rational only when y_n² is rational. Niven applies to
+/// cos(4π/m), since cos²(2π/m) = (1 + cos(4π/m))/2, and gives rationality
+/// exactly for m ∈ {1, 2, 3, 4, 6, 8, 12}: so the pair-sum is rational at
+/// k ∈ {2, 4} and at k = 6 (the m = 8 member, cos²(π/4) = 1/2), and
+/// irrational for k ≥ 8. The amplitude layer's structure is genuinely
 /// richer than F89c's pair-sum form. See
 /// <c>simulations/f89c_amplitude_pair_sum_probe.py</c>.</para>
 ///
@@ -211,7 +212,7 @@ public sealed class F89AmplitudeLayerClaim : Claim
             yield return new InspectableNode("downstream instrument (legacy numerical)",
                 summary: "F86.Item1Derivation.C2FullBlockSigmaAnatomy.BuildFaOnly extracts σ_n numerically up to k=30; superseded as authoritative source by the analytical closed forms above and by F89PathPolynomialPipeline for D_k itself");
             yield return new InspectableNode("F89c amplitude-analogue rejection",
-                summary: "chiral pair-sum σ_n + σ_{k+2−n} is irrational for k ≥ 8 (Niven's theorem; cos²(2π/m) rational only for m ∈ {1,2,3,4,6}); orbit-sum is the only universal rationality anchor (typed as F89UnifiedFaClosedFormClaim.SigmaSum)");
+                summary: "chiral pair-sum σ_n + σ_{k+2−n} is irrational for k ≥ 8 (via Niven on cos(4π/m): cos²(2π/m) = (1+cos(4π/m))/2 is rational exactly for m ∈ {1,2,3,4,6,8,12}, the last two being why the cutoff sits at k ≥ 8 and not lower); orbit-sum is the only universal rationality anchor (typed as F89UnifiedFaClosedFormClaim.SigmaSum)");
         }
     }
 }

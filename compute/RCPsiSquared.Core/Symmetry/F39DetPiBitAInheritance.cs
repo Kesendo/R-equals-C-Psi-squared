@@ -14,12 +14,16 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>The determinant of the bit_a-axis conjugation operator Π_X equals the
 /// determinant of the bit_b-axis Π_Z exactly. Mechanism: <c>Π_X = H^⊗N · Π_Z · H^⊗N</c>
-/// with <c>H</c> the single-qubit Hadamard; H is unitary with det = 1 (real-orthogonal),
-/// so <c>det(H^⊗N) = 1</c> and <c>det(Π_X) = det(H^⊗N) · det(Π_Z) · det(H^⊗N) = det(Π_Z)</c>.</para>
+/// with <c>H</c> the single-qubit Hadamard. The determinant of the conjugator does not
+/// enter: conjugation by ANY invertible P leaves det alone, det(P·A·P⁻¹) = det(A), so
+/// <c>det(Π_X) = det(Π_Z)</c> follows with no condition on H. For the record H is
+/// real-orthogonal with <c>det(H) = −1</c>, hence <c>det(H^⊗N) = (−1)^(N·2^(N−1))</c>,
+/// which is −1 at N = 1 and +1 for N ≥ 2; it is NOT identically 1.</para>
 ///
 /// <para>This Claim is the bit_a sibling of the BitB Claim
 /// <see cref="F39DetPiPi2Inheritance"/>. The determinant identity is dimension-blind
-/// (the Hadamard isometry preserves orientation), so the closed form is exactly the
+/// (conjugation preserves det whatever the conjugator does to orientation, and at N = 1
+/// the Hadamard does reverse it), so the closed form is exactly the
 /// same numerical value at every N. The BitA twin makes the identity explicit at the
 /// typed-Claim level, completing the bit_a operator-identity triple (F38BitA, F39BitA,
 /// F61) that mirrors the bit_b F38 / F39 / F63 triple.</para>
@@ -57,7 +61,7 @@ public sealed class F39DetPiBitAInheritance : Claim, IZ2AxisClaim
     public string MirrorArgument =>
         "H is the single-qubit Hadamard; H is unitary (Hilbert-space symmetry) with " +
         "det(H) = −1 (H ∈ O(2) ∖ SO(2)). The tensor power has " +
-        "det(H^⊗N) = (det H)^{2^{N−1}} = (−1)^{2^{N−1}}, which is +1 for N ≥ 2 and −1 for N = 1. " +
+        "det(H^⊗N) = (det H)^{N·2^{N−1}} = (−1)^{N·2^{N−1}}, which is +1 for N ≥ 2 and −1 for N = 1. " +
         "The argument does NOT depend on det(H^⊗N): matrix conjugation by any " +
         "invertible P preserves the determinant: det(P · A · P^{−1}) = det(A). For " +
         "H^⊗N unitary, H^{−⊗N} = (H^⊗N)†, so " +
@@ -82,7 +86,7 @@ public sealed class F39DetPiBitAInheritance : Claim, IZ2AxisClaim
     public bool ExponentIsEven(int N) => ExponentValue(N) % 2 == 0;
 
     public F39DetPiBitAInheritance()
-        : base("F39 BitA twin: det(Π_X) = (−1)^{N · 4^{N−1}} = det(Π_Z); Z↔X mirror via Hadamard conjugation (det(H^⊗N) = 1)",
+        : base("F39 BitA twin: det(Π_X) = (−1)^{N · 4^{N−1}} = det(Π_Z); Z↔X mirror via Hadamard conjugation (conjugation by any invertible P preserves det; det(H^⊗N) itself is −1 at N=1, +1 for N≥2)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F39 + F61 + " +
                "compute/RCPsiSquared.Core/Symmetry/F39DetPiPi2Inheritance.cs (BitB twin)")
@@ -90,7 +94,7 @@ public sealed class F39DetPiBitAInheritance : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F39 BitA twin: det(Π_X) = det(Π_Z) (Hadamard isometry preserves det)";
+        "F39 BitA twin: det(Π_X) = det(Π_Z) (conjugation preserves det, for any invertible conjugator)";
 
     public override string Summary =>
         $"{Theorem} N=1 → −1, N ≥ 2 → +1 (exponent N · 4^{{N−1}} even by parity of 4^{{N−1}}) ({Tier.Label()})";

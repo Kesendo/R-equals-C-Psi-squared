@@ -19,7 +19,7 @@ public sealed class SymmetryFamilyInventory : Claim
         "SymmetryFamilyInventory: typed family of discrete L-symmetries on operator + parameter axes";
 
     public override string Summary =>
-        $"family inventory aggregating F71 + F91 + F92 + F93 + Z⊗N + X⊗N + F71_col×F71_row negative result; see docs/SYMMETRY_FAMILY_INVENTORY.md ({Tier.Label()})";
+        $"family inventory aggregating the five splitting axes U(1)×U(1) + F71 + F91 + F92 + F93, the two sector-pairing primitives Z⊗N + X⊗N, and the F71_col×F71_row negative result; see docs/SYMMETRY_FAMILY_INVENTORY.md ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

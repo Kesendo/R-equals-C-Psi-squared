@@ -264,7 +264,7 @@ public sealed class BilinearApexClaim : Claim
     public override string DisplayName => "Apex 1/2 of any bilinear form p·(1−p)";
 
     public override string Summary =>
-        "1/2 is the universal maximum of any bilinear form in a probability variable; appears as F81 50/50, F83 anti-fraction at r=0, balanced Π² partition, and slow-mode apex within active Π²_X axis";
+        "1/2 is the universal ARGMAX of any bilinear form p·(1−p) in a probability variable, the point where it peaks; the maximum VALUE there is 1/4 = (1/2)². Appears as F81 50/50, F83 anti-fraction at r=0, balanced Π² partition, and slow-mode apex within active Π²_X axis";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

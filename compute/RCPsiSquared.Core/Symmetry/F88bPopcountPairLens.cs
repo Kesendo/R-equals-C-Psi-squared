@@ -108,7 +108,7 @@ public sealed class F88bPopcountPairLens : Claim
             yield return InspectableNode.RealScalar("Alpha (Krawtchouk verifier)", AlphaVerifier);
             yield return InspectableNode.RealScalar("StaticFraction", StaticFraction);
             yield return new InspectableNode("Pi2-odd anchors",
-                summary: "popcount-mirror α=0 → Pi2-odd memory = 1/2; K-intermediate closed form; generic α=1/2 → Pi2-odd memory = (1/2 − s/2)/(1 − s)");
+                summary: "memory(α, s) = (1/2 − α·s)/(1 − s). popcount-mirror α=0 → 1/(2(1−s)), which is s-DEPENDENT and strictly above 1/2 (0.5714 at s = 0.125); K-intermediate closed form; generic α=1/2 → exactly 1/2, s-INDEPENDENT, since (1/2)(1−s)/(1−s) cancels. The s-dependence survives at the mirror and vanishes in the generic case, not the other way round");
             yield return new InspectableNode("HD = N anchor",
                 summary: "Pi2-odd memory = 0 at full bit-flip (GHZ_N, Bell, intra-complements)");
         }
