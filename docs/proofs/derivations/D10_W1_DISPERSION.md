@@ -108,9 +108,11 @@ popcount block is the right one, and it is where the derivation continues.
 ### Step 3: On the (0,1) block the generator is the graph Laplacian
 
 Restrict to the coherence block spanned by |0⟩⟨j|, where |0⟩ is the
-all-up state and |j⟩ carries the single excitation at site j. This block
-is N-dimensional and closed under L, and it is the block the dispersion
-speaks about; Step 6 says why the rest of the w=1 sector is not.
+all-up state and |j⟩ carries the single excitation at site j. This is the
+repository's own object: the joint-popcount block (p, q) = (0, 1) of
+[`compute/MirrorWorld/Block.cs`](../../../compute/MirrorWorld/Block.cs), of
+size C(N,0)·C(N,1) = N. It is closed under L, and it is the block the
+dispersion speaks about; Step 6 says why the rest of the w=1 sector is not.
 
 Since |0⟩ sits in the popcount-0 sector and |j⟩ in popcount-1, L_H acts
 on this block through the one-magnon Hamiltonian alone. In the site basis,
