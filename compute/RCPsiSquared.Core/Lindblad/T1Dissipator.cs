@@ -10,7 +10,8 @@ namespace RCPsiSquared.Core.Lindblad;
 /// L(ρ) = −i[H, ρ] + Σ_l γ_l (Z_l ρ Z_l − ρ)
 ///                 + Σ_l γ^{T1}_l (σ⁻_l ρ σ⁺_l − ½ {σ⁺_l σ⁻_l, ρ})
 ///
-/// σ⁻ = (X − iY)/2 = [[0, 1], [0, 0]] is the lowering operator (|1⟩→|0⟩). With γ^{T1}_l = 0
+/// σ⁻ = (X + iY)/2 = [[0, 1], [0, 0]] is the lowering operator (|1⟩→|0⟩), matching
+/// <c>lindbladian_z_plus_t1</c> in simulations/framework/lindblad.py. With γ^{T1}_l = 0
 /// reduces to <see cref="PauliDephasingDissipator.BuildZ"/>. T1 introduces palindrome-breaking;
 /// used to measure how Π-protected count shifts under amplitude damping.
 /// </summary>

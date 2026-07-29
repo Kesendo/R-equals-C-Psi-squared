@@ -51,11 +51,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para>Mechanism (T1 dissipator structure): single-site T1 acts on Pauli
-/// basis as I → −γZ, X → −γ/2 X, Y → −γ/2 Y, Z → −γZ. Under Π² conjugation
+/// basis as I → +γZ, X → −γ/2 X, Y → −γ/2 Y, Z → −γZ. Under Π² conjugation
 /// (signs (−1)^bit_b: I,X → +, Y,Z → −), only the (Z, I) entry flips sign.
-/// So D_{T1, local, odd} has matrix element −γ at (Z, I) and zero elsewhere.
+/// So D_{T1, local, odd} has matrix element +γ at (Z, I) and zero elsewhere.
 /// Multi-site: 4^(N−1) "rest of qubits unchanged" entries per site, summed
 /// orthogonally over sites.</para>
+///
+/// <para>The (Z, I) sign is the one entry here that follows a convention: the
+/// lowering operator is σ⁻ = (X+iY)/2 = [[0, 1], [0, 0]], taking |1⟩ → |0⟩. The
+/// other operator, (X−iY)/2 = [[0, 0], [1, 0]], the textbook σ⁻ when |0⟩ is read
+/// as spin-up rather than as the ground state, gives −γ. The other
+/// three rows are the same under either. The closed form reads only the
+/// magnitude and is convention-independent, which is exactly why a norm check
+/// cannot see this sign; PROOF_F82_T1_DISSIPATOR_CORRECTION derives it entry by
+/// entry, and PROOF_F113_COEFFICIENT_DERIVATION uses the same +γ as the
+/// population-pumping term D[σ⁻](I) = +Z.</para>
 ///
 /// <para>Tier1Derived: F82 is Tier 1 proven (PROOF_F82_T1_DISSIPATOR_CORRECTION),
 /// verified bit-exact at N=2..5 (5e-16 residual). The Pi2-Foundation anchoring
@@ -197,7 +207,7 @@ public sealed class F82T1AmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("Three diagnostic properties",
                 summary: "γ_z-independent (Master Lemma); H-independent (only T1 enters violation); linear in γ_T1 → hardware readout primitive γ_T1 = violation / (√N · 2^(N-1))");
             yield return new InspectableNode("Mechanism (T1 dissipator structure)",
-                summary: "T1 single-site: I→−γZ, X→−γ/2X, Y→−γ/2Y, Z→−γZ. Π² flips Y,Z signs. Only (Z, I) entry survives Π²-anti-symmetric extraction; 4^(N-1) such entries per site × N sites, summed orthogonally");
+                summary: "T1 single-site: I→+γZ, X→−γ/2X, Y→−γ/2Y, Z→−γZ. Π² flips Y,Z signs. Only (Z, I) entry survives Π²-anti-symmetric extraction, at +γ for the framework's σ⁻ = [[0,1],[0,0]] (|1⟩→|0⟩); 4^(N-1) such entries per site × N sites, summed orthogonally");
             // Verified table from F82
             for (int N = 2; N <= 5; N++)
             {
