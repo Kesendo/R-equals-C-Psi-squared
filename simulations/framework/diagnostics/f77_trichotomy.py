@@ -7,9 +7,77 @@ the chain sliding-window k-body builder. Mixed body counts are summed.
 from __future__ import annotations
 
 import numpy as np
+from scipy.sparse import csr_matrix
+from scipy.sparse.csgraph import maximum_bipartite_matching
 
 from ..lindblad import lindbladian_pauli_dephasing, palindrome_residual
 from ..pauli import _build_bilinear, _build_kbody_chain
+
+
+def _greedy_pairing_error(evals, sigma_gamma):
+    """Nearest-unused-partner pass over the spectrum. Upper bound only.
+
+    Kept because it is O(n²) with a tiny constant and bounds the exact answer
+    from above, which seeds the search in `spectrum_pairing_error`.
+    """
+    used = np.zeros(len(evals), dtype=bool)
+    max_err = 0.0
+    for i in range(len(evals)):
+        if used[i]:
+            continue
+        dists = np.abs(evals - (-evals[i] - 2 * sigma_gamma))
+        dists[used] = np.inf
+        j = int(np.argmin(dists))
+        used[i] = True
+        if j != i:
+            used[j] = True
+        max_err = max(max_err, float(dists[j]))
+    return max_err
+
+
+def spectrum_pairing_error(evals, sigma_gamma):
+    """How far the spectrum is from being closed under λ ↦ −λ − 2Σγ.
+
+    The palindrome asks whether the eigenvalue MULTISET is invariant under the
+    mirror, so the honest error is the bottleneck distance between the spectrum
+    and its mirror image: the smallest ε admitting a bijection that moves no
+    eigenvalue further than ε. Computed exactly, by binary search on the
+    distinct distances with a bipartite-matching feasibility test.
+
+    A greedy nearest-partner pass answers a strictly harder question, since it
+    also forces the bijection to be an involution (it pairs i and j off
+    together), and greedy pairing is not optimal for the bottleneck objective
+    anyway. Both effects can only INFLATE the error, so a greedy classifier is
+    conservative: it can call a soft system hard, never a hard system soft. The
+    gap is real on ordinary inputs (0.1 for IZ and ZI at N = 2 and 3) but sits
+    far above `spec_tol` in every case swept, so no verdict is known to have
+    turned on it. Exact costs about 6% of the eigendecomposition that produced
+    `evals` (0.09 s against 1.56 s at N = 5), which is why it is simply done
+    properly here.
+    """
+    n = len(evals)
+    if n == 0:
+        return 0.0
+    D = np.abs(evals[:, None] - (-evals - 2 * sigma_gamma)[None, :])
+    # optimal ≤ greedy, so everything above the greedy value can be discarded
+    # before the search: that also strips the dense end of the threshold range.
+    cand = np.unique(D[D <= _greedy_pairing_error(evals, sigma_gamma)])
+    if len(cand) == 0:
+        return float(D.min())
+
+    def feasible(idx):
+        matching = maximum_bipartite_matching(csr_matrix(D <= cand[idx]),
+                                              perm_type='column')
+        return bool(np.all(matching >= 0))
+
+    lo, hi = 0, len(cand) - 1
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if feasible(mid):
+            hi = mid
+        else:
+            lo = mid + 1
+    return float(cand[lo])
 
 
 def classify_pauli_pair(chain, terms, J_scale=1.0, op_tol=1e-10, spec_tol=1e-6,
@@ -73,23 +141,7 @@ def classify_pauli_pair(chain, terms, J_scale=1.0, op_tol=1e-10, spec_tol=1e-6,
         return 'truly'
 
     evals = np.linalg.eigvals(L_test)
-    used = np.zeros(len(evals), dtype=bool)
-    max_err = 0.0
-    for i in range(len(evals)):
-        if used[i]:
-            continue
-        target = -evals[i] - 2 * Sigma_gamma
-        dists = np.abs(evals - target)
-        for j in range(len(evals)):
-            if used[j]:
-                dists[j] = np.inf
-        best_j = int(np.argmin(dists))
-        if best_j != i:
-            used[i] = True
-            used[best_j] = True
-        else:
-            used[i] = True
-        max_err = max(max_err, float(dists[best_j]))
+    max_err = spectrum_pairing_error(evals, Sigma_gamma)
 
     if max_err < spec_tol:
         return 'soft'

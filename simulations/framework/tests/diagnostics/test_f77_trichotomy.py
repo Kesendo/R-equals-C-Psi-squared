@@ -4,6 +4,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
@@ -112,3 +113,53 @@ def test_F77_classify_empty_terms():
     """Empty term list is trivially truly (zero Hamiltonian)."""
     chain = fw.ChainSystem(N=3)
     assert fw.classify_pauli_pair(chain, []) == 'truly'
+
+
+# ----------------------------------------------------------------------
+# The spectrum-pairing error: exact bottleneck, not the old greedy pass.
+# ----------------------------------------------------------------------
+
+def test_pairing_error_is_zero_on_an_exactly_mirrored_spectrum():
+    """A spectrum built to be closed under λ ↦ −λ − 2Σγ must score 0."""
+    from framework.diagnostics.f77_trichotomy import spectrum_pairing_error
+    rng = np.random.default_rng(2)
+    sigma = 0.17
+    half = rng.normal(size=9) + 1j * rng.normal(size=9)
+    evals = np.concatenate([half, -half - 2 * sigma])
+    assert spectrum_pairing_error(evals, sigma) < 1e-12
+
+
+def test_pairing_error_never_exceeds_the_greedy_pass():
+    """The exact bottleneck is a minimum over bijections; greedy realises one of
+    them and additionally forces an involution, so greedy can only be larger.
+
+    This is what makes a greedy classifier conservative (soft may be reported as
+    hard, never the reverse), and it is the relation the search relies on to use
+    the greedy value as its upper bound.
+    """
+    from framework.diagnostics.f77_trichotomy import (
+        spectrum_pairing_error, _greedy_pairing_error,
+    )
+    rng = np.random.default_rng(11)
+    seen_strict = False
+    for _ in range(60):
+        n = int(rng.integers(4, 12))
+        sigma = float(rng.uniform(0.05, 0.4))
+        evals = rng.normal(size=n) + 1j * rng.normal(size=n)
+        exact = spectrum_pairing_error(evals, sigma)
+        greedy = _greedy_pairing_error(evals, sigma)
+        assert exact <= greedy + 1e-12, f"exact {exact} exceeded greedy {greedy}"
+        if exact < greedy - 1e-9:
+            seen_strict = True
+    assert seen_strict, "greedy never lost; the comparison would be vacuous"
+
+
+def test_pairing_error_detects_a_broken_mirror():
+    """Displace one eigenvalue and the bottleneck must see it, at its own size."""
+    from framework.diagnostics.f77_trichotomy import spectrum_pairing_error
+    sigma = 0.1
+    half = np.array([0.3 + 0.2j, -1.1 + 0.7j, 0.05 - 0.9j])
+    evals = np.concatenate([half, -half - 2 * sigma])
+    evals[0] += 0.25
+    err = spectrum_pairing_error(evals, sigma)
+    assert 0.1 < err < 0.6, f"expected an error of order the 0.25 displacement, got {err}"
