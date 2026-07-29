@@ -13,7 +13,7 @@ Setup spec (per the agent-recommended Realistic-Carbon plan):
   - Bath inventory (per c_k operator entering D[c_k] = c ρ c† − ½{c†c, ρ}):
       Holstein:        c_l = Z_l per site (single Pauli, bit_b-homogeneous)
       Peierls:         c_b = B_b = X_a X_b + Y_a Y_b per bond (bit_b-homog as composite)
-      σ⁻ T1:           c_l = σ⁻_l = (X_l − i Y_l) / 2 per site (bit_b-mixed)
+      σ⁻ T1:           c_l = σ⁻_l = (X_l + i Y_l) / 2 per site (bit_b-mixed)
       Holstein + σ⁻:   both above simultaneously
   - Observable: F112 asymmetry = ‖M_+1/2‖² − ‖M_−1/2‖², plus ‖M_anti‖²
     for context (asymmetry is meaningless if M_anti = 0 trivially).
@@ -21,6 +21,11 @@ Setup spec (per the agent-recommended Realistic-Carbon plan):
 Tooling: simulations/framework `polarity_coordinates_from_hc` workflow.
 Asks the algebra: where does the polarity balance hold, where does it
 break, as we span the realistic carbon Hamiltonian + bath inventory.
+
+σ⁻ = (X + iY)/2 = [[0,1],[0,0]] takes |1⟩ → |0⟩, the operator the framework's
+`lindbladian_z_plus_t1` builds and the one F113's signs are written for. Where
+the asymmetry is nonzero its SIGN is a pairing convention on top of that, see
+the note inside `polarity_coordinates_from_hc`.
 """
 from __future__ import annotations
 
@@ -69,8 +74,9 @@ def bond_op_B(N, a, b):
 
 
 def sigma_minus(N, l):
-    """σ⁻_l = (X_l − i Y_l) / 2 (lowering operator, bit_b-mixed)."""
-    return (site_op(N, l, "X") - 1j * site_op(N, l, "Y")) / 2.0
+    """σ⁻_l = (X_l + i Y_l) / 2 = [[0,1],[0,0]] (lowering operator |1⟩ → |0⟩,
+    bit_b-mixed)."""
+    return (site_op(N, l, "X") + 1j * site_op(N, l, "Y")) / 2.0
 
 
 # ---- Hamiltonian inventory ----

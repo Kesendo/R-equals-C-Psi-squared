@@ -8,13 +8,15 @@ to F114-Mixed Hamiltonians as long as the bath stays bit_b-homogeneous.
 
 This test inverts the experiment: keep H Hermitian (so F112's H-side
 hypothesis holds), but make the bath bit_b-mixed by using amplitude damping
-c_l = σ⁻_l = (X_l − i Y_l) / 2. This has X (bit_b=0) and Y (bit_b=1) terms
+c_l = σ⁻_l = (X_l + i Y_l) / 2. This has X (bit_b=0) and Y (bit_b=1) terms
 in the same operator, so c is bit_b-MIXED. F112's hypothesis is now
 violated. The algebra answers: does asymmetry become non-zero?
 
 Setup variations:
-  (A) H_0 only (Hückel ring) + σ⁻ bath: H is Π²-truly, M_anti=0 trivially
-      (vacuous test like the previous Peierls-on-Hückel attempt)
+  (A) H_0 only (Hückel ring) + σ⁻ bath: H is Π²-truly, so the H side
+      contributes no M_anti, but the bit_b-mixed bath does on its own
+      (‖M_anti‖² = 256 at N=4, 6144 at N=6). NOT vacuous, unlike the
+      previous Peierls-on-Hückel attempt, where the bath was homogeneous.
   (B) H_0 + h · Σ Y_l + σ⁻ bath: H has Π²-odd content from Zeeman_y,
       so M_anti ≠ 0, AND bath is bit_b-mixed → genuine F112-violation test
 
@@ -27,6 +29,24 @@ We also include reference cases for comparison:
 Predicted by F112 docstring (Tier1Derived Hermitian H + each c_k bit_b-
 homogeneous): (C) asym = 0 bit-exact; (A), (B), (D) NOT covered by F112's
 hypothesis, so asym could be non-zero. Algebra speaks.
+
+Two conventions this script is pinned to, both load-bearing:
+
+  σ⁻ = (X + iY)/2 = [[0,1],[0,0]], taking |1⟩ → |0⟩, the operator the
+  framework's `lindbladian_z_plus_t1` builds and the one F113's signs are
+  written for. The other matrix, (X − iY)/2 = [[0,0],[1,0]], RAISES, and
+  under this script's H = Σ_l Z_l it is the difference between the F113
+  control test closing at ratio 1 and reading −1.
+
+  The Pauli transform is order='F' against a row-stack Liouvillian, the same
+  deliberately mismatched pairing `polarity_coordinates_from_hc` carries. The
+  ±i projectors are exchanged by that twist, so the pairing decides which
+  component is called +1/2 and hence the SIGN of `asymmetry`. F113's stated
+  direction is written for THIS pairing; do not "align" it.
+
+One trap in the F113 control test at the end: F113 writes the drive as
+Σ_l (ω_l/2)·Z_l, so this script's H = Σ_l Z_l carries ω_l = 2, not 1. Reading
+it as 1 costs a factor 2 in the prediction, independently of the operator.
 """
 from __future__ import annotations
 
@@ -98,9 +118,9 @@ def zeeman_z_total(N):
 
 
 def sigma_minus_site(N, site):
-    """σ⁻_l = (X_l − i Y_l) / 2 (amplitude-damping lowering operator).
-    bit_b(X) = 0, bit_b(Y) = 1 → bit_b-MIXED."""
-    return (site_op(N, site, "X") - 1j * site_op(N, site, "Y")) / 2.0
+    """σ⁻_l = (X_l + i Y_l) / 2 = [[0,1],[0,0]], the amplitude-damping lowering
+    operator (|1⟩ → |0⟩). bit_b(X) = 0, bit_b(Y) = 1 → bit_b-MIXED."""
+    return (site_op(N, site, "X") + 1j * site_op(N, site, "Y")) / 2.0
 
 
 def letters_from_flat(k, N):
@@ -242,7 +262,7 @@ def main():
     print()
     print("F112 hypothesis: H Hermitian AND each c_k bit_b-homogeneous (all Pauli strings in c_k share parity)")
     print("  c_l = Z_l per site         : bit_b = 1 single Pauli, homogeneous ✓")
-    print("  c_l = σ⁻_l = (X − iY) / 2  : bit_b(X) = 0, bit_b(Y) = 1, MIXED ✗")
+    print("  c_l = σ⁻_l = (X + iY) / 2  : bit_b(X) = 0, bit_b(Y) = 1, MIXED ✗")
     print()
     print("F112 predicts asym = 0 bit-exact ONLY for the homogeneous case.")
     print("For mixed bath the algebra answers: does asym become non-zero?")
@@ -265,12 +285,12 @@ def main():
     print()
     print("F113 (Welle 4, 2026-05-26) predicts closed-form asymmetry for this exact setup:")
     print("    asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)")
-    print("With ω = 1.0 on each site, γ_pump = 0, γ_T1 = 1.0 → asymmetry = (4^N / 2) · N · (-1)")
-    print("                                                              = -N · 4^N / 2")
+    print("F113 writes the drive as Σ_l (ω_l / 2) · Z_l, so H = Σ_l Z_l means ω_l = 2 per site.")
+    print("With γ_pump = 0, γ_T1 = 1.0 → asymmetry = (4^N / 2) · (2N) · (−1) = −N · 4^N")
     print()
 
     for N in [2, 3]:  # small N for clear F113 magnitudes
-        print(f"N = {N}, H = Σ Z_l (ω = 1), c = σ⁻ at γ_T1 = 1, no Z-dephase:")
+        print(f"N = {N}, H = Σ Z_l (ω_l = 2), c = σ⁻ at γ_T1 = 1, no Z-dephase:")
         H_zdrive = zeeman_z_total(N)
         c_amp_damp = [sigma_minus_site(N, l) for l in range(N)]
         gammas_t1 = [1.0] * N
@@ -278,7 +298,7 @@ def main():
         sigma_eff = N * 0.5  # σ⁻'s effective dephase contribution
         pi_z = build_pi_z(N)
         results = measure_f112(N, H_zdrive, c_amp_damp, gammas_t1, sigma_eff, pi_z)
-        predicted_asym_f113 = -(4**N / 2) * N * 1.0  # ω = 1, (γ_pump − γ_T1) = -1, sum over N sites
+        predicted_asym_f113 = (4**N / 2) * (2.0 * N) * (-1.0)  # ω_l = 2, (γ_pump − γ_T1) = −1, N sites
         print(f"  ‖M_anti‖²    = {results[1]:.6e}")
         print(f"  ‖M_+1/2‖²    = {results[2]:.6e}")
         print(f"  ‖M_−1/2‖²    = {results[3]:.6e}")

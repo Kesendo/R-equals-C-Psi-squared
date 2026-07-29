@@ -122,7 +122,7 @@ For benzene's Hückel Hamiltonian, H = Σ B_b = Σ (XX + YY):
 
 D-conjugation anti-equivariates `L_H_Hückel`: `D · L_H · D = −L_H`. Physically: pure Hückel has no Y-content, no time-reversal-odd terms, and F114's sign is a clean −1.
 
-If we add a magnetic ring-current term (the canonical time-reversal-breaker), say `h · Σ_l (Y_l Z_{l+1} − Z_l Y_{l+1}) / 2i`, then each term has exactly one Y, giving n_Y = 1 (odd) per term, ε = +1. Mixing this with Hückel (ε = −1) gives a Hamiltonian where ε(H_total) is "mixed": D-conjugation no longer scales L_H by a single sign. **F114 detects the onset of broken time-reversal symmetry as a parity-mismatch in the commutator algebra.**
+If we add a magnetic ring-current term (the canonical time-reversal-breaker), say `h · Σ_l (Y_l Z_{l+1} − Z_l Y_{l+1})`, which is Hermitian as written and is the form the sweep below implements as its ring-current proxy, then each term has exactly one Y, giving n_Y = 1 (odd) per term, ε = +1. Mixing this with Hückel (ε = −1) gives a Hamiltonian where ε(H_total) is "mixed": D-conjugation no longer scales L_H by a single sign. **F114 detects the onset of broken time-reversal symmetry as a parity-mismatch in the commutator algebra.**
 
 This isn't speculative algebra: the n_Y-parity rule IS the time-reversal parity bookkeeping on the operator basis. F114 just makes the closed form explicit.
 
@@ -183,13 +183,34 @@ preserves a strict mirror symmetry between two halves of its relaxation
 response. The mirror is exact at machine precision: the two halves differ
 by a number that is bit-exactly zero, not merely small.
 
-The symmetry is non-trivial in forty-eight of the fifty-six configurations:
-the response itself is substantial (Frobenius-norm-squared between twenty and
-fifty thousand on the relaxing component), and it is mirrored perfectly. In
-the remaining eight configurations (those with pure Hückel hopping plus an
-on-site bath, or pure Hückel + ring-current term plus an on-site bath) the
-relaxing component is empty to begin with: there is nothing to mirror, so the
-mirror holds trivially.
+The symmetry is non-trivial in forty-four of the fifty-six configurations:
+the response itself is substantial (Frobenius-norm-squared between 20.48 and
+55,296 on the relaxing component), and it is mirrored perfectly. In the
+remaining twelve the relaxing component is empty to begin with, so the mirror
+holds trivially. Those twelve are the three Hamiltonians whose every Pauli
+term is bit_b-even (pure Hückel hopping, hopping plus Hubbard
+density-density, hopping plus the ring-current term), each crossed with the
+two phonon baths, on both rings: three times two times two.
+
+Both sides have to be quiet for a cell to be trivial, and they are quiet for
+different reasons. The Hamiltonian feeds the relaxing component only through
+its bit_b-odd terms, which is why the y-direction magnetic field and the
+spin-orbit cross-coupling put content back. The bath feeds it only when it is
+not bit_b-homogeneous, which is why both phonon baths add nothing while
+amplitude damping adds content on every Hamiltonian, trivial or not: no
+damping row is ever trivial, including the three above. In exact arithmetic
+all twelve vanish. Eight print a literal 0.0; the four ring-current rows
+print accumulated rounding instead, 2.5e-32 on C₄ and 4.8e-30 on C₆. The
+smallest full residual norm-squared anywhere in those same four rows is 164,
+so what they print is more than thirty orders below the quantity beside it.
+
+Worth pausing on the ring-current term, because this document has already put
+it on the other side. The F114 reading above counts Y letters: `Y_l Z_{l+1}`
+has one, so it is n_Y-odd, and F114 reads that as the onset of broken
+time-reversal symmetry. The relaxation mirror counts bit_b instead, and Y and
+Z both carry bit_b = 1 (the table above), so `Y_l Z_{l+1}` is bit_b-even. Two
+different parities, and it is only the mirrored halves that are blind to the
+term F114 flags.
 
 ### How robust this is
 
