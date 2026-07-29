@@ -163,7 +163,11 @@ def nonzero_entries(D, N, tol=1e-12):
 
 
 def h_drive(N, omega):
-    return (omega / 2.0) * sum(site_op(N, l, "Z") for l in range(N))
+    """The f95 drive: RZ on ONE qubit of the pair, matching f113_t1_extraction_kingston
+    (whose fit produced the rates used here). The dataset README says "per-chunk RZ
+    injection on the steering qubit" and its own predicted crossing angles follow
+    phi_0 - omega*t, not phi_0 - 2*omega*t."""
+    return (omega / 2.0) * site_op(N, 0, "Z")
 
 
 def main():
@@ -216,10 +220,10 @@ def main():
 
     # Documented F113 values (experiments/F113_T1_EXTRACTION_KINGSTON.md) for drift check
     doc_vals = {
-        "omega=0.13 A_mid q82-q83": (0.0980, 0.00574),
-        "omega=0.13 B_high q13-q14": (0.1402, 0.00616),
-        "omega=0.25 A_mid q82-q83": (0.3361, 0.00722),
-        "omega=0.25 B_high q13-q14": (3.5237, 0.00564),
+        "omega=0.13 A_mid q82-q83": (0.0163, 0.00577),
+        "omega=0.13 B_high q13-q14": (0.0123, 0.00615),
+        "omega=0.25 A_mid q82-q83": (0.0155, 0.00746),
+        "omega=0.25 B_high q13-q14": (0.0114, 0.00564),
     }
 
     rows = []

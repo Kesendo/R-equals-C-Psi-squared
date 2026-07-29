@@ -95,11 +95,50 @@ def log_log_scaling(xs, ys, label):
     return a, b, r2
 
 
+def isolation_cases(omega=0.13, gamma_T1=0.001, gamma_Z=0.005, N=2):
+    """The five-case isolation the F112 Kingston experiment quotes.
+
+    Each is a formula value at chosen parameters, not a fit: which of the two
+    ingredients (a single-site Z-drive, a σ⁻ channel) is present decides whether
+    the polarity balance breaks, and the Z-dephasing term is irrelevant to it.
+    """
+    def build(with_drive, with_t1, with_deph):
+        H = ((omega / 2.0) * sum(site_op(N, l, Z) for l in range(N))
+             if with_drive else np.zeros((2 ** N, 2 ** N), dtype=complex))
+        c_list, g_list = [], []
+        for l in range(N):
+            if with_deph:
+                c_list.append(site_op(N, l, Z))
+                g_list.append(gamma_Z)
+            if with_t1:
+                c_list.append(site_op(N, l, SIGMA_MINUS))
+                g_list.append(gamma_T1)
+        sigma = gamma_Z * N if with_deph else 0.0
+        r = fw.polarity_coordinates_from_hc(H, c_list, g_list, N, sigma=sigma)
+        return float(r['asymmetry']), float(r['norm_sq']['M'])
+
+    return [
+        ('A: Z-drive H + Z-deph', build(True, False, True)),
+        ('B: idle H + sigma- T1', build(False, True, False)),
+        ('C: Z-drive H + sigma- T1', build(True, True, False)),
+        ('D: idle H + Z-deph + sigma- T1', build(False, True, True)),
+        ('E: Z-drive H + Z-deph + sigma- T1', build(True, True, True)),
+    ]
+
+
 def main():
     print("F113 candidate: deriving the F112 counterexample asymmetry formula")
     print("=" * 78)
     print()
     print("Family: H = ω·(Z_0+Z_1)/2,  c = σ⁻ at γ_T1 + Z-deph at γ_Z (per site, N=2)")
+    print()
+
+    print("--- Isolation: which ingredient breaks the balance (ω=0.13, γ_T1=0.001) ---")
+    for label, (asym, m_sq) in isolation_cases():
+        rel = abs(asym) / m_sq if m_sq > 0 else 0.0
+        print(f"  {label:<38} rel asym = {rel:.3e}")
+    print("  C and E agree exactly: the Z-dephasing term contributes nothing to the")
+    print("  +i / -i content. The breaker is the Z-drive against the sigma- channel.")
     print()
 
     # ============================================================

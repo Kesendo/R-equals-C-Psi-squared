@@ -17,19 +17,34 @@ namespace RCPsiSquared.Core.Symmetry;
 /// turned by the square root of the 90° angle-anchor.</para>
 ///
 /// <para><b>The identity (bit-exact).</b> In the framework Pauli order [I, X, Z, Y], let P1 be
-/// the canonical Π (I↦X, X↦I, Z↦iY, Y↦iZ) and M the crossover mirror
-/// (I↦−(X+Y)/√2, X↦(I+iZ)/√2, Z↦i(X−Y)/√2, Y↦(I−iZ)/√2). Then
+/// the canonical Π (I↦X, X↦I, Z↦−iY, Y↦−iZ) and M the crossover mirror
+/// (I↦−(X−Y)/√2, X↦(I+iZ)/√2, Z↦i(X+Y)/√2, Y↦−(I−iZ)/√2). Then
 /// <c>S := M·P1⁻¹</c> is block-diagonal (a pure rotation, no dark{I,Z}↔light{X,Y} swap), it
-/// turns the light plane {X, Y} by exactly 45°, and</para>
+/// turns the light plane {X, Y} by 135°, or by −45° in the other branch of M's free sign
+/// (M and −M are both mirrors, and (−S)² = S²), a 45° magnitude either way, and</para>
 ///
 /// <code>
-///   S_light² = [[0, −1], [1, 0]] = the σ_x↔σ_y 90° rotation (X↦Y, Y↦−X)
-///            = the NinetyDegreeMirror itself        (residual ~3·10⁻¹⁶)
+///   S_light  = a 135° rotation, or −45° in the other branch of M's free sign
+///   S_light² = [[0, 1], [−1, 0]] = a σ_x↔σ_y 90° turn (X↦−Y, Y↦X)  (residual ~5·10⁻¹⁶)
 /// </code>
 ///
-/// <para>so <c>S_light = √(NinetyDegreeMirror)</c>. The crossover mirror is the canonical Π
-/// turned by HALF the framework's 90° angle-anchor, the 45° bisector between the discrete
-/// crossovers P1 (0°) and P4 (90°). The crossover Hamiltonian is the first object that lands on
+/// <para><b>This reading depends on pairing M with the RIGHT Π, and there are four
+/// pairings.</b> The Pauli-basis Liouvillian is exactly real, so Π and conj(Π) both
+/// palindromize it, and likewise for M. Enumerated against the P1 CODED BELOW (Z↦−iY):
+/// M with P1, and conj(M) with conj(P1), give the rotation above; M with conj(P1), and
+/// conj(M) with P1, give a REFLECTION (det −1, S_light² = I, a flip rather than a turn),
+/// which a global phase Π → iΠ turns into −I. The
+/// same phase on the matched pair keeps the 90° and reverses its sense, [[0,−1],[1,0]]. So
+/// the 90° is not convention-free either: it is what the matched pair produces, and its
+/// direction is free. The convention-free statement of this claim is the transport
+/// <see cref="TransportRotationSquaresToNinetyDegree"/>, Ad_V² = NinetyDegreeMirror, which
+/// carries no representative choice. The matrices below are the pair the framework's
+/// <c>crossover_map()</c> fixes.</para>
+///
+/// <para>So <c>S_light</c> is a square root of a 90° turn. The crossover mirror is the canonical Π
+/// turned by HALF the framework's 90° angle-anchor. The reading of P1 and P4 as marks at
+/// 0° and 90°, with the crossover as their 45° bisector, lives in the branch-blind |angle|
+/// register only; it does not survive the rotation-versus-reflection split above. The crossover Hamiltonian is the first object that lands on
 /// the 45° point the discrete <see cref="Pi2KnowledgeBase"/> Z₄ skips; the weighted bond
 /// a·XZ + b·YZ traces the whole continuous arc (the mirror's light turn tracks the bond
 /// direction). M itself is order 4 (<c>M² = −I</c>), carrying the angle-anchor's i⁴ = 1 algebra.</para>
@@ -73,23 +88,29 @@ public sealed class CrossoverMirrorSqrtNinetyClaim : Claim
 
     private const double S = 0.70710678118654752440; // 1/√2
 
-    /// <summary>Canonical Π (P1) in [I, X, Z, Y]: I↦X, X↦I, Z↦iY, Y↦iZ.</summary>
+    /// <summary>Π in [I, X, Z, Y] as I↦X, X↦I, Z↦−iY, Y↦−iZ. This is conj of the phase
+    /// convention <see cref="PiOperator"/> uses (Z↦+iY); the Pauli-basis Liouvillian is
+    /// exactly real, so both palindromize it and the choice is free. What is not free is
+    /// the pairing: this is the representative that squares S_light to a 90° turn against
+    /// <see cref="CrossoverMirror"/>. The other pairing gives a reflection, S² = I.</summary>
     private static Complex[,] P1()
     {
         var m = new Complex[4, 4];
-        m[1, 0] = 1; m[0, 1] = 1; m[3, 2] = Complex.ImaginaryOne; m[2, 3] = Complex.ImaginaryOne;
+        m[1, 0] = 1; m[0, 1] = 1; m[3, 2] = -Complex.ImaginaryOne; m[2, 3] = -Complex.ImaginaryOne;
         return m;
     }
 
-    /// <summary>The crossover mirror M in [I, X, Z, Y] (unitary, M² = −I).</summary>
+    /// <summary>The crossover mirror M in [I, X, Z, Y] (unitary, M² = −I), row-stack
+    /// representative, matching the framework's <c>crossover_map()</c>:
+    /// I↦−(X−Y)/√2, X↦(I+iZ)/√2, Z↦i(X+Y)/√2, Y↦−(I−iZ)/√2.</summary>
     private static Complex[,] CrossoverMirror()
     {
         var i = Complex.ImaginaryOne;
         var m = new Complex[4, 4];
-        m[0, 1] = S; m[0, 3] = S;
+        m[0, 1] = S; m[0, 3] = -S;
         m[1, 0] = -S; m[1, 2] = i * S;
-        m[2, 1] = i * S; m[2, 3] = -i * S;
-        m[3, 0] = -S; m[3, 2] = -i * S;
+        m[2, 1] = i * S; m[2, 3] = i * S;
+        m[3, 0] = S; m[3, 2] = i * S;
         return m;
     }
 
@@ -131,8 +152,13 @@ public sealed class CrossoverMirrorSqrtNinetyClaim : Claim
         return off < 1e-12;
     }
 
-    /// <summary>‖S_light² − [[0,−1],[1,0]]‖: distance from the light-plane square of S to the
-    /// σ_x↔σ_y 90° rotation (the NinetyDegreeMirror). ≈ 0 ⟹ S_light = √(NinetyDegreeMirror).</summary>
+    /// <summary>‖S_light² − [[0,1],[−1,0]]‖: distance from the light-plane square of S to a
+    /// σ_x↔σ_y 90° rotation. ≈ 0 ⟹ S_light is a square root of a 90° turn. This is the
+    /// inverse turn of the anchor <see cref="TransportRotationSquaresToNinetyDegree"/>
+    /// checks ([[0,−1],[1,0]]), which is not a second convention for the same thing: the
+    /// transport statement carries no representative choice, while this one holds only for
+    /// the matched (M, Π) pair (see <see cref="P1"/>) and degenerates to a reflection or to
+    /// −I for the other three pairings.</summary>
     public double LightPlaneSquareResidual()
     {
         var s = STurn();
@@ -143,9 +169,10 @@ public sealed class CrossoverMirrorSqrtNinetyClaim : Claim
         var sq01 = a * b + b * d;
         var sq10 = c * a + d * c;
         var sq11 = c * b + d * d;
-        // target σ_x↔σ_y 90° (X↦Y, Y↦−X) = [[0,−1],[1,0]]
-        double res = (sq00 - 0).Magnitude + (sq01 - (-1)).Magnitude
-                   + (sq10 - 1).Magnitude + (sq11 - 0).Magnitude;
+        // target σ_x↔σ_y 90° in the row-stack representative (X↦−Y, Y↦X) = [[0,1],[−1,0]].
+        // The 90° magnitude is convention-free; the sense follows the shared (M, Π) stacking.
+        double res = (sq00 - 0).Magnitude + (sq01 - 1).Magnitude
+                   + (sq10 - (-1)).Magnitude + (sq11 - 0).Magnitude;
         return res;
     }
 
@@ -187,7 +214,7 @@ public sealed class CrossoverMirrorSqrtNinetyClaim : Claim
         $"the crossover mirror is the XZ-bond mirror turned by √(NinetyDegreeMirror): " +
         $"Ad_{{R_z(π/4)}}² = σ_x↔σ_y 90° = the anchor ({TransportRotationSquaresToNinetyDegree()}), " +
         $"exact via the transport L_cross = Ad_V·L_XZ·Ad_V⁻¹. Witness: S = M·Π⁻¹ turns the light " +
-        $"plane 45°, S_light²=σ_x↔σ_y (residual {LightPlaneSquareResidual():E1}); M²=−I " +
+        $"plane 135° (−45° in the other sign branch of M), S_light²=σ_x↔σ_y (residual {LightPlaneSquareResidual():E1}); M²=−I " +
         $"({CrossoverMirrorIsOrderFour()}) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -199,9 +226,9 @@ public sealed class CrossoverMirrorSqrtNinetyClaim : Claim
             yield return new InspectableNode("the locality result",
                 summary: "XZ+YZ and ZX+ZY are LOCAL: a single continuous per-site unitary M with Π=M^⊗N mirrors the full Liouvillian (machine precision N=2..6), overturning the 'non-local rank 8-9' reading (an artifact of the discrete-permutation search + degenerate eigenvector pairing)");
             yield return new InspectableNode("S = M·Π⁻¹ is a pure rotation",
-                summary: $"block-diagonal (no dark↔light swap): {TurnIsBlockDiagonal()}; turns the light plane {{X,Y}} by 45°, the bisector between P1 (0°) and P4 (90°)");
+                summary: $"block-diagonal (no dark↔light swap): {TurnIsBlockDiagonal()}; turns the light plane {{X,Y}} by 135°, or −45° in the other sign branch of M. The P1 (0°) / P4 (90°) marks are a |angle| reading, blind to the rotation-versus-reflection split above: no single pairing makes all three of P1, P4 and M rotations");
             yield return new InspectableNode("the √-of-90° identity (bit-exact)",
-                summary: $"S_light² = [[0,−1],[1,0]] = σ_x↔σ_y 90° = the NinetyDegreeMirror; residual {LightPlaneSquareResidual():E2} ⟹ S_light = √(NinetyDegreeMirror)");
+                summary: $"S_light² = [[0,1],[−1,0]], a σ_x↔σ_y 90° turn; residual {LightPlaneSquareResidual():E2} ⟹ S_light is a square root of a 90° turn. Holds for the matched (M, Π) pair only: pairing M with the other Π representative gives a reflection (S² = I) and a global phase Π → iΠ gives −I, so the convention-free statement of this claim is the transport Ad_V² = NinetyDegreeMirror");
             yield return new InspectableNode("M is an 'i' (order 4)",
                 summary: $"M² = −I: {CrossoverMirrorIsOrderFour()}; M carries the angle-anchor's i⁴=1 algebra, a concrete 90°-type element");
             yield return new InspectableNode("the continuous dial",

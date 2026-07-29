@@ -47,7 +47,12 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
         M_sym  = (M + Π·M·Π⁻¹) / 2 = Π·L·Π⁻¹ + L_diss + L_{H_even} + 2Σγ·I
         M_anti = (M − Π·M·Π⁻¹) / 2 = L_{H_odd}    (when F81 holds)
 
-    with M_sym and M_anti Frobenius-orthogonal: ‖M‖² = ‖M_sym‖² + ‖M_anti‖².
+    The norms add, ‖M‖² = ‖M_sym‖² + ‖M_anti‖², and they always will: the
+    Hilbert-Schmidt inner product ⟨M_sym, M_anti⟩ = −i · asymmetry is PURELY
+    IMAGINARY, and only its real part enters the expansion of ‖M_sym + M_anti‖².
+    So the Pythagorean identity is safe while genuine orthogonality is not: the
+    inner product is nonzero exactly when the F113 asymmetry is, which is exactly
+    the Z-drive-plus-amplitude-damping regime.
 
     For non-Z dissipators (T1 amplitude damping in particular), F81 is no
     longer exact; the identity residual ‖M_anti − L_{H_odd}‖_F is positive

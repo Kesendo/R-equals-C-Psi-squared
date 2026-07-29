@@ -50,7 +50,7 @@ public class LindbladBitBPiBreakMagnitudeTests
     public void BitATwin_IsNull()
     {
         // F113 is intrinsically about Z-axis single-site drives crossed with σ⁻ / σ⁺
-        // amplitude damping. The commutator algebra [Z, σ⁻] = −2·σ⁻ has no meaningful
+        // amplitude damping. The commutator algebra [Z, σ⁻] = +2·σ⁻ has no meaningful
         // bit_a-axis analog; no twin exists by design, not by gap. Matches F108 Part 3.
         Assert.Null(Make().BitATwin);
     }
@@ -203,10 +203,12 @@ public class LindbladBitBPiBreakMagnitudeTests
     [Fact]
     public void PredictAsymmetry_MatchesPolarityCoordinatesDecompose_AtN2_UniformZDrive()
     {
-        // Welle 2 anchor: N=2, ω=0.13 per site, γ_T1=0.001 per site, γ_Z=0.005.
-        // Standard physics convention (σ⁻ = lowering): T1 cooling at positive
-        // ω gives NEGATIVE polarity asymmetry. F113-predicted = (1/2)·4^2 · 2 ·
-        // 0.13 · (0 − 0.001) = 16 · 0.13 · (−0.001) = −2.08e-3.
+        // N=2, ω=0.13 per site, γ_T1=0.001 per site, γ_Z=0.005. With σ⁻ = lowering
+        // and the pipeline's (row-stack L, order='F' transform) pairing, T1 cooling
+        // at positive ω gives NEGATIVE polarity asymmetry. F113-predicted =
+        // (1/2)·4^2 · 2 · 0.13 · (0 − 0.001) = 16 · 0.13 · (−0.001) = −2.08e-3.
+        // A consistent pairing would give +2.08e-3; the sign is pinned to the
+        // pairing, not to the physics (see PauliBasis).
         //
         // Cross-validation builds L via the same Lindblad pipeline that
         // PolarityCoordinates.Decompose uses (T1Dissipator + Z-dephasing,

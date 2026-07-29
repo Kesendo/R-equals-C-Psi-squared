@@ -4,7 +4,7 @@
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Script:** [`simulations/f113_break_formula_derivation.py`](../simulations/f113_break_formula_derivation.py)
-**Builds on:** F112 ([the F112 proof](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)) + the structural counterexample discovered in Welle 2 ([F112 hardware lens on Kingston](F112_HARDWARE_LENS_KINGSTON.md))
+**Builds on:** F112 ([the F112 proof](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md), [LindbladBitBPiBalance](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs)) + the structural counterexample, first noticed while fitting the Kingston f95 data ([F112 hardware lens on Kingston](F112_HARDWARE_LENS_KINGSTON.md)), whose protocol supplies the Z-drive
 
 ## Theorem (F113)
 
@@ -19,11 +19,11 @@ the F112 polarity-coordinate asymmetry has the closed form:
     asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖²
               = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)
 
-Bit-exactly. Verified at N=2, 3, 4 across multiple parameter samples (relative deviation < 1e-12, dominated by floating-point precision).
+Verified at N=2, 3, 4 across multiple parameter samples, to a relative deviation below 1e-12, which is floating-point noise in the Frobenius norms rather than an exact zero. The sign of the asymmetry depends on a convention, spelled out under Sign convention below; the magnitude does not.
 
 ## Empirical anchor (constructive verification)
 
-`simulations/f113_break_formula_derivation.py` runs three classes of test:
+`simulations/f113_break_formula_derivation.py` runs the isolation cases, the three univariate scans and the multivariate fit below. The N-scaling, per-site, cross-site and non-uniform tables that follow were computed the same way but are not printed by it; they are reproduced by evaluating `polarity_coordinates_from_hc` at the stated parameters.
 
 **1. Univariate scaling (each parameter independently):**
 
@@ -43,24 +43,26 @@ Implied constant `exp(2.7726) = 16.000` bit-exact (std 0.000000 across 60 sample
 
 **3. N-scaling (per-site contribution structure):**
 
-| N | predicted coefficient (N/2)·4^N | measured (5 random samples) | max deviation |
+Reported as asym / (ω · γ_T1), so the minus is the cooling sign of γ_pump − γ_T1.
+
+| N | predicted coefficient −(N/2)·4^N | measured (5 random samples) | max deviation |
 |---|---|---|---|
-| 2 | 16.0 | 16.000000 each | 7.46e-14 |
-| 3 | 96.0 | 96.000000 each | 3.07e-12 |
-| 4 | 512.0 | 512.000000 each | 3.18e-12 |
+| 2 | −16.0 | −16.000000 each | 7.46e-14 |
+| 3 | −96.0 | −96.000000 each | 3.07e-12 |
+| 4 | −512.0 | −512.000000 each | 3.18e-12 |
 
 **4. Per-site decomposition (single-site Z-drive on q_l + σ⁻ on q_l only):**
 
-| N | site l | observed asym / (ω · γ_T1) | predicted (1/2)·4^N |
+| N | site l | observed asym / (ω · γ_T1) | predicted −(1/2)·4^N |
 |---|---|---|---|
-| 3 | 0 | 32.0 | 32.0 |
-| 3 | 1 | 32.0 | 32.0 |
-| 3 | 2 | 32.0 | 32.0 |
+| 3 | 0 | −32.0 | −32.0 |
+| 3 | 1 | −32.0 | −32.0 |
+| 3 | 2 | −32.0 | −32.0 |
 
 **5. Cross-site (Z-drive on q_a, σ⁻ on q_b, a ≠ b):** asym = 0.0 bit-exact. The break is local: only same-site (Z-drive_l, σ⁻_l) pairs contribute.
 
 **6. Non-uniform rates:** for ω_l = (0.05, 0.1, 0.2), γ_T1,l = (0.001, 0.002, 0.003) at N=3:
-- Σ_l 0.5·4^N · ω_l · (0 − γ_T1,l) = −0.027200 (formula prediction; standard physics σ⁻ convention)
+- Σ_l 0.5·4^N · ω_l · (0 − γ_T1,l) = −0.027200 (formula prediction)
 - Measured asymmetry = −0.027200 (ratio 1.000000)
 
 ## Scope (what doesn't contribute to F113)
@@ -77,24 +79,42 @@ The formula is therefore additive in only two channels: single-site Z-drives cro
 
 ## Sign convention
 
-- Sign(asymmetry) = Sign(ω_l) for each l (verified by reversing ω_l: asymmetry flips sign exact).
-- σ⁺ contributes opposite sign to σ⁻ (asymmetry = −(4^N/2) · Σ_l ω_l · γ_T1,l with σ⁻ alone; same magnitude with sign flipped if c = σ⁺ instead).
+Two separate conventions sit on this number, and both have to be named.
 
-## Why X-drive and Y-drive give zero
+- **Which pairing builds the Liouvillian.** The pipeline reads a row-stack L against the order='F' Pauli transform. That pairing is mismatched, and the mismatch is exactly equivalent to conjugating Π. Either consistent pairing (column-stack L with order='F', or row-stack L with order='C') returns +2.08e-3 where this one returns −2.08e-3. Both Π and conj(Π) palindromize the Pauli-basis Liouvillian, which is exactly real, so neither is privileged and the direction is a choice, not a measurement. Everything below is stated in the pipeline's pairing.
+- **Which operator σ⁻ names.** With σ⁻ = (X+iY)/2 = [[0,1],[0,0]], taking |1⟩ → |0⟩, cooling gives a negative asymmetry; (X−iY)/2 flips it.
 
-For [Pauli_letter, σ⁻] commutators:
-- [Z, σ⁻] = -2·σ⁻ (proportional to σ⁻ itself, non-Hermitian)
-- [X, σ⁻] = Z (Hermitian)
-- [Y, σ⁻] = i·Z (imaginary Hermitian)
+Within one pairing the relative statements are firm: Sign(asymmetry) = −Sign(ω_l · γ_T1,l) per site (verified by reversing ω_l), and σ⁺ contributes opposite to σ⁻ at equal magnitude.
 
-The F112 break requires non-Hermitian Π-eigenspace coupling between H and c. Only Z-drive produces this structure: its commutator with σ⁻ is proportional to the non-Hermitian σ⁻ itself, which carries Π-eigenvalue +i / −i imbalance. X and Y drives produce Hermitian commutators that are F112-symmetric.
+## What selects a Hamiltonian
+
+The asymmetry reads H only through the single-site moment Tr(Z_l H). At N=2 with ω = 0.13 and γ_T1 = 0.001:
+
+| H | Tr(Z₀H) | asymmetry |
+|---|---|---|
+| Z-drive | 0.26 | −2.08e-3 |
+| Z-drive + XX bond | 0.26 | −2.08e-3 |
+| Z-drive + ZZ bond | 0.26 | −2.08e-3 |
+| Z-drive + Y-drive | 0.26 | −2.08e-3 |
+| X-drive, Y-drive, ZZ, XY+YX, XX+YY alone | 0 | 0 |
+| Z on site 0 only | 0.26 / 0 | −1.04e-3 |
+
+Three different additions leave the value bit-identical. That is not a coincidence to be checked case by case: F112 kills the H-only part of the quadratic form for any Hermitian H, and a σ⁻ dissipator alone gives 0, so what survives is bilinear in (H, D) and hence LINEAR in H. Which linear functional it is, the table then shows and a wider sweep confirms: over random Hermitian H drawn on all 4^N Pauli strings at N=2 and N=3, with per-site rates all distinct, the asymmetry matches (4^N/2)·Σ_l [Tr(Z_l H)/2^(N−1)]·(γ_pump,l − γ_T1,l) to a relative 2e-12.
+
+The mechanism behind the selector is the commutator algebra, for σ⁻ = (X+iY)/2 = [[0,1],[0,0]]:
+
+- [Z, σ⁻] = +2·σ⁻, proportional to σ⁻ itself
+- [X, σ⁻] = −Z
+- [Y, σ⁻] = −i·Z
+
+Only the first stays in the σ⁻ direction, and σ⁻ is the non-Hermitian object carrying the Π-eigenvalue +i / −i imbalance; X and Y drives leave it. Under σ⁻ = (X−iY)/2 the first two flip and [Y, σ⁻] = −i·Z is unchanged. Note that Hermiticity of the commutator is not the criterion: [Y, σ⁻] is anti-Hermitian and still gives zero.
 
 This is the structural origin of F113's restriction to Z-drives.
 
 ## Implications
 
-- **Hardware fingerprinting.** Any hardware protocol that combines a single-site Z-drive (deliberate or as a Stark shift) with amplitude damping will exhibit measurable F112 asymmetry. The asymmetry magnitude directly extracts ω · (γ_pump − γ_T1) / (predictable structural factor). At the f95 angle-steering parameters (ω = 0.13, γ_T1 ≈ 0.001 per μs, γ_pump = 0, N = 2 effective), predicted asymmetry is 16 · 0.13 · (0 − 0.001) = −2.08e-3, matching the Welle 2 hardware-fit value bit-exact in both sign and magnitude.
-- **Calibration tool.** Inverted: given measured F112 asymmetry on hardware-effective L, F113 directly gives γ_T1,l · ω_l from the measurement. Could become a per-site T1-extraction protocol when the drive parameters are known.
+- **Hardware fingerprinting.** Any hardware protocol that combines a single-site Z-drive (deliberate or as a Stark shift) with amplitude damping will exhibit measurable F112 asymmetry. The asymmetry magnitude directly extracts ω · (γ_pump − γ_T1) / (predictable structural factor). With ω = 0.13 on both sites, γ_T1 ≈ 0.001 per μs, γ_pump = 0, N = 2, the formula gives 16 · 0.13 · (0 − 0.001) = −2.08e-3. The f95 angle-steering protocol drives ONE qubit of its pair, so at its parameters the value is −1.04e-3. No hardware anchor exists for it yet. The [Kingston survey](F112_HARDWARE_LENS_KINGSTON.md) reports nonzero asymmetry only on its Z-drive runs, but the single-site Z there is handed to the fitter as a known drive rather than fitted, so the split follows from the model set rather than from the chip; and the same data need a per-qubit detuning, itself a single-site Z, that those models do not carry. A survey of that kind could anchor a magnitude in any case, never a direction: it publishes |asymmetry| / ‖M‖², which is identical for σ⁻ and σ⁺.
+- **Calibration tool, with one caveat that runs deep.** Inverted, F113 gives γ_T1,l · ω_l from the asymmetry. But the asymmetry is not an observable: it is a functional of a FITTED Liouvillian, and anyone holding a fitted L already holds γ_T1. The inversion is a consistency check on the fit, exact by construction, and it adds no calibration information the fit did not have. Could become a per-site T1-extraction protocol when the drive parameters are known.
 - **F112 typed-scope sharpening.** F112's typed Tier1Derived covers Hermitian H + bit_b-homogeneous c, giving asymmetry = 0. F112's empirical envelope was loosely "bit_b-mixed c also balances", refuted by Welle 2. F113 provides the exact closed-form for the regime where the envelope breaks; together F112 + F113 give a complete picture of the polarity-axis behavior across the standard Lindblad family.
 
 ## Universal-N status

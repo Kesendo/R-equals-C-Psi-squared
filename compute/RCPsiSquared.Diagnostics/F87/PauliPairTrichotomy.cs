@@ -73,7 +73,8 @@ public static class PauliPairTrichotomy
     /// <para>Pipeline identical to the k=2 overload: build H via ChainKBody,
     /// build L via dephasing dissipator, build M via palindrome residual, then
     /// truly-test (‖M‖_F &lt; opTolerance) followed by soft/hard test
-    /// (greedy multiset eigenvalue pairing).</para>
+    /// (greedy multiset eigenvalue pairing; see <see cref="SpectrumPairs"/> for how this
+    /// differs from the Python twin's exact bottleneck, and why the verdict is safe).</para>
     ///
     /// <para>Evaluated at the chain's single operating γ; for a windowed diagonal-cell
     /// pair a Hard verdict is γ-universal (hard at one γ is hard at every γ &gt; 0,
@@ -103,7 +104,19 @@ public static class PauliPairTrichotomy
 
     /// <summary>Greedy pairing: for each unused λ, find the closest unused λ' to the target
     /// −λ−2σ. A self-pair (λ ≈ −σ, fixed point of the involution) consumes only λ.
-    /// Returns true if every pairing distance is within <paramref name="tolerance"/>.</summary>
+    /// Returns true if every pairing distance is within <paramref name="tolerance"/>.
+    ///
+    /// <para>This answers a strictly harder question than the palindrome asks. Multiset
+    /// invariance under λ ↦ −λ−2σ needs only a permutation, while this pass forces an
+    /// involution (it pairs i and j off together), and greedy is not optimal for a
+    /// bottleneck objective anyway. Both effects can only INFLATE the reported error, so
+    /// the verdict here is conservative: Soft may be reported Hard, never the reverse.
+    /// The Python twin computes the exact bottleneck (binary search + bipartite matching,
+    /// <c>spectrum_pairing_error</c>); the two therefore compare against different
+    /// internal errors (0.3 exact against 0.4 greedy for IIZ+IZI at N=4, though only
+    /// the verdict leaves this method) but no divergent verdict has been observed over
+    /// the full two-letter enumeration at N=2,3 or the 3-letter sweeps at N=3,4, because
+    /// the gap opens only where the exact error already sits far above the tolerance.</para></summary>
     private static bool SpectrumPairs(Complex[] evals, double sigma, double tolerance)
     {
         var used = new bool[evals.Length];

@@ -84,7 +84,7 @@ public sealed class YParityIndependenceAtK3 : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F102 Y-parity term-level Z₂ classifier (collapses at k_body=2, independent at k_body≥3)";
+        "F102 Y-parity term-level Z₂ classifier (y_par = (k_body + bit_a XOR bit_b) mod 2: fixed by Klein within one k_body parity, independent only across both)";
 
     public override string Summary =>
         $"y_par = (#Y mod 2) per Pauli term; at k_body=2 equals bit_a XOR bit_b (Klein-derived); " +
@@ -105,7 +105,7 @@ public sealed class YParityIndependenceAtK3 : Claim, IZ2AxisClaim
             yield return new InspectableNode("Scope (out of scope)",
                 summary: "Stage 2a (bit_a twins), 2b (KleinEightCellClaim), 3b (Pi2KleinSpectralView 8-cell), 3c (F87 trichotomy in Z₂³) are separate specs.");
             yield return new InspectableNode("Cubic3 anchor parent",
-                summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition (bit_a, bit_b, y_par). F102 names the y_par axis where this Claim's third Z₂ classifier becomes independent at k_body ≥ 3.");
+                summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition (bit_a, bit_b, y_par). F102 names the y_par axis, on which this Claim's third Z₂ classifier is fixed by Klein within one k_body parity and independent only across both.");
         }
     }
 }

@@ -49,32 +49,40 @@ public static class PauliBasis
     /// <c>M_returned = D · conj(M_true) · D</c>. Frobenius norms, zero patterns and
     /// eigenvalue magnitudes survive; individual entry signs flip where
     /// n_Y(row) + n_Y(col) is odd, and every imaginary part is negated. Verified
-    /// entry-wise to 1e-16 at N=2,3 on Heisenberg, transverse-field and T1 Liouvillians;
-    /// the first two give a real residual where the conjugation is invisible, the T1 case
-    /// gives a genuinely complex one where it is not.</para>
+    /// entry-wise to 1e-16 at N=2,3 on Heisenberg, X-transverse-field, XZ+YZ and T1
+    /// Liouvillians. Note the first two are TRULY cases (‖M‖ = 0 exactly), so they
+    /// distinguish nothing (a Y-transverse field is NOT truly: ‖M‖_F = 3.394 at N=2,
+    /// h = 0.3, γ = 0.5); the load is carried by XZ+YZ (at N=2, J=1: ‖M‖_F = 13.8564
+    /// with max|Im| = 2.0; M is exactly linear in J, so the ratio 6.9282 is fixed) and by
+    /// T1, both of which give a genuinely complex residual where the conjugation is
+    /// visible.</para>
     ///
     /// <para>Consequences a new caller must respect. The Π-symmetric/antisymmetric split
     /// (M ± Π M Π†)/2 DOES commute with M ↦ D·conj(M)·D, so PiDecomposition's norms are
     /// safe. The finer ±i refinement (M_anti ∓ i·Π M_anti Π†)/2 does NOT: conj sends
     /// −i ↦ +i while D·conj(Π) = Π·D sends it back, which SWAPS the two projectors.
-    /// So which component is called +1/2 is fixed by the stacking, and
-    /// <c>Diagnostics.Polarity.PolarityCoordinates</c> reads its MPlusHalf / MMinusHalf
-    /// (hence the sign of Asymmetry) in the column-stack one.</para>
+    /// So which component is called +1/2 is fixed by the PAIRING of the two stackings,
+    /// the L's and the transform's, and <c>Diagnostics.Polarity.PolarityCoordinates</c>
+    /// takes its MPlusHalf / MMinusHalf (hence the sign of Asymmetry) from the pairing
+    /// spelled out below.</para>
     ///
-    /// <para><b>That convention is load-bearing, so do NOT "correct" it.</b> F113
-    /// (<see cref="Symmetry.LindbladBitBPiBreakMagnitude"/>) is a signed, nonzero,
-    /// hardware-anchored result living on exactly this quantity: for Hermitian H with
-    /// single-site Z-drives (ω_l/2)·Z_l plus σ⁻ amplitude damping, asymmetry =
-    /// (4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l), so cooling-dominant systems give a NEGATIVE
-    /// asymmetry. At ω = 0.13, γ_T1 = 0.001, N = 2 that is −2.08e-3, the Kingston fitted
-    /// value. Recomputed from below on 2026-07-29: the column-stack reading reproduces
-    /// −2.08e-3 (N=2) and −1.248e-2 (N=3) exactly, and a row-stack transform returns the
-    /// same magnitudes with the OPPOSITE sign. Switching this module to row-stack would
-    /// therefore flip a hardware-matched sign and silently break F113's agreement with
-    /// its own closed form. Note the counterexample domain is Hermitian H; the asymmetry
-    /// vanishes for bond Hamiltonians (Heisenberg, XXZ, with or without T1), which is why
-    /// a survey over bond families alone reports it as identically zero and misses
-    /// this.</para>
+    /// <para><b>That choice fixes a sign, so changing it moves published numbers.</b> The
+    /// pipeline pairs a row-stack L with this order='F' transform. That pairing is
+    /// mismatched, and the mismatch is exactly equivalent to conjugating Π: either
+    /// CONSISTENT pairing (column-stack L with order='F', or row-stack L with order='C')
+    /// gives the same magnitudes with the opposite sign. So the sign of Asymmetry is a
+    /// convention, set jointly by the two stackings and the phase convention of Π; the
+    /// magnitude and the zero/nonzero verdict are convention-free.</para>
+    ///
+    /// <para>F113 (<see cref="Symmetry.LindbladBitBPiBreakMagnitude"/>) states its
+    /// direction in THIS pairing: for Hermitian H with single-site Z-drives (ω_l/2)·Z_l
+    /// plus σ⁻ amplitude damping, asymmetry = (4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l), so
+    /// cooling gives a negative asymmetry, −2.08e-3 at ω = 0.13, γ_T1 = 0.001, N = 2 and
+    /// −1.248e-2 at N=3. Under a consistent pairing the same system reads +2.08e-3. A
+    /// caller who switches this module to row-stack must flip F113's stated sign with it.
+    /// Note the counterexample domain is Hermitian H; the asymmetry vanishes for bond
+    /// Hamiltonians (Heisenberg, XXZ, with or without T1), which is why a survey over bond
+    /// families alone reports it as identically zero and misses this.</para>
     ///
     /// <para>Two callers landed after the 2026-05-27 sweep and were re-checked on
     /// 2026-07-29: <c>Diagnostics.Foundation.SlowManifoldPauliContent</c> reads

@@ -30,7 +30,7 @@ def test_predict_residual_with_hardware_noise_t1_plus_tphi():
     sigma_x_2 = np.array([[0,1],[1,0]], dtype=complex)
     sigma_y_2 = np.array([[0,-1j],[1j,0]], dtype=complex)
     sigma_z_2 = np.array([[1,0],[0,-1]], dtype=complex)
-    sigma_minus = (sigma_x_2 - 1j*sigma_y_2)/2
+    sigma_minus = (sigma_x_2 + 1j*sigma_y_2)/2  # [[0,1],[0,0]], lowers |1> to |0>
 
     def site_op_local(N, l, op):
         I2 = np.eye(2, dtype=complex)
@@ -71,7 +71,7 @@ def test_predict_residual_with_hardware_noise_full_stack():
     sigma_x_2 = np.array([[0,1],[1,0]], dtype=complex)
     sigma_y_2 = np.array([[0,-1j],[1j,0]], dtype=complex)
     sigma_z_2 = np.array([[1,0],[0,-1]], dtype=complex)
-    sigma_minus = (sigma_x_2 - 1j*sigma_y_2)/2
+    sigma_minus = (sigma_x_2 + 1j*sigma_y_2)/2  # [[0,1],[0,0]], lowers |1> to |0>
     I2 = np.eye(2, dtype=complex)
 
     def site_op_local(N, l, op):

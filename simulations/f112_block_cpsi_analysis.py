@@ -25,13 +25,14 @@ Method:
   Transverse h_y is Hermitian H + bit_b-mixed H → also outside Hermitian
   bit_b-homogeneous H requirement of F112's exact statement.
 
-  The diagnostic: which model fits the data, and where does it sit relative
-  to F112's typed scope?
+  The diagnostic: where does a fitted model sit relative to F112's typed scope?
+  NOT which model fits best: the family has no per-qubit detuning, which this
+  dataset needs, so its ranking compares members of the wrong family.
 
 Output:
   Table per model: fit_RMS, F112 asymmetry, in_F112_scope flag.
-  Interpretation: which model best explains the 1.72× anomaly and what
-  F112 says about it.
+  Interpretation: what F112 says about where the fitted models sit. The 1.72×
+  anomaly is NOT explained here; see the companion experiment for why.
 """
 from __future__ import annotations
 
@@ -52,7 +53,14 @@ I2 = np.eye(2, dtype=complex)
 X = np.array([[0, 1], [1, 0]], dtype=complex)
 Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
 Z = np.array([[1, 0], [0, -1]], dtype=complex)
-SIGMA_MINUS = np.array([[0, 0], [1, 0]], dtype=complex)  # |0><1|
+SIGMA_MINUS = np.array([[0, 1], [0, 0]], dtype=complex)  # |0><1|, LOWERS |1> -> |0>
+# Corrected 2026-07-29. This file previously used [[0,0],[1,0]] = |1><0|, the RAISING
+# operator, mislabelled as |0><1|. Fitting a pump to relaxing data with rates clamped
+# non-negative forced gamma_T1 -> 0, which was read as 'amplitude damping is rejected'.
+# The model family below is still incomplete: it has no per-qubit Z detuning, which this
+# dataset needs (qubit 14's transverse expectations alternate in sign between samples).
+# The companion experiment's fit-quality half is withdrawn until that is added; do not
+# publish a model ranking from this script as it stands.
 PAULI = {'I': I2, 'X': X, 'Y': Y, 'Z': Z}
 
 DATA_PATH = Path('data/ibm_block_cpsi_saturation_may2026/'
@@ -148,11 +156,16 @@ def build_L_model(params, model):
     else:
         raise ValueError(f"Unknown model: {model}")
 
-    L_vec = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    # vec is COLUMN-stack (rho.flatten('F')), so the superoperator must be the
+    # column-stack one: vec_F(A X B) = (B^T (x) A) vec_F(X). The earlier row-stack
+    # form here integrated the commutator with -H^T, i.e. a sign-flipped drive for
+    # any real symmetric H (the fixed f95 Z-drive); Y and the free-sign ZZ were blind
+    # to it. Corrected 2026-07-29.
+    L_vec = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
     for c, g in zip(c_list, g_list):
         c_dag_c = c.conj().T @ c
-        anti = 0.5 * (np.kron(c_dag_c, Id) + np.kron(Id, c_dag_c.T))
-        L_vec = L_vec + g * (np.kron(c, c.conj()) - anti)
+        anti = 0.5 * (np.kron(Id, c_dag_c) + np.kron(c_dag_c.T, Id))
+        L_vec = L_vec + g * (np.kron(c.conj(), c) - anti)
     return L_vec, c_list, g_list, c_kind, H
 
 
@@ -209,14 +222,38 @@ def is_bit_b_homogeneous_pauli_label(label):
 
     bit_b = (#Y + #Z) mod 2 per Pauli string. Single-Pauli letters:
     X bit_b = 0; Y, Z bit_b = 1; I bit_b = 0.
-    sigma_minus = (X − iY)/2: mixed bit_b (X is 0, Y is 1) → False.
-    sigma_plus = (X + iY)/2: same.
+    sigma_minus = (X + iY)/2 = [[0,1],[0,0]]: mixed bit_b (X is 0, Y is 1) → False.
+    sigma_plus = (X - iY)/2 = [[0,0],[1,0]]: same mixture, same verdict.
     """
     if label.startswith('X@') or label.startswith('Y@') or label.startswith('Z@'):
         return True
     if label.startswith('sigma_'):
         return False
     return False
+
+
+def _to_row_stack(L_vec, d=4):
+    """Row-stack representative of a column-stack Liouvillian.
+
+    The propagator here is column-stack (rho.flatten('F')), which is what makes
+    exp(L t) correct. The F112/F113 polarity read is pinned to the OTHER pairing:
+    a row-stack L against the order='F' Pauli transform. That mismatch is
+    the pairing F113's stated direction is written for: it fixes which half is
+    called +1/2, hence the SIGN of Asymmetry (see PauliBasis.cs; F113 gives
+    -2.08e-3 at omega=0.13, gamma_T1=0.001, N=2 for cooling, and a consistent
+    pairing would give +2.08e-3).
+
+    vec_C(rho) = vec_F(rho^T) = T vec_F(rho) with T the transpose permutation, so
+    L_row = T L_col T exactly (T^2 = I). Converting here keeps the propagator
+    correct AND the reported asymmetry sign on its pin. Bond Hamiltonians give
+    asymmetry 0 either way, so only the Z-drive runs can see this.
+    """
+    import numpy as _np
+    T = _np.zeros((d * d, d * d))
+    for i in range(d):
+        for j in range(d):
+            T[j * d + i, i * d + j] = 1.0
+    return T @ L_vec @ T
 
 
 def run_polarity_on_L(L_vec, N=2, sigma=None):
@@ -259,8 +296,15 @@ def main():
         rms = float(np.sqrt(fit_loss / max(len(t_us) - 1, 1)))
 
         L_vec, c_list, g_list, c_kind, H = build_L_model(x_fit, model)
-        sigma = float(np.real(sum(g_list)))
-        pol = run_polarity_on_L(L_vec, N=2, sigma=sigma)
+        # The palindrome centre is the DEPHASING sum, so take the Z entries only.
+        # Including the T1 rates changes nothing measurable: `asym` is unchanged (the
+        # shift is a multiple of I, Ad_Pi-fixed, landing wholly in M_zero), and
+        # ||M||^2 is a parabola in sigma minimised at sum(gz) + sum(gt1)/2, so the two
+        # conventions sit symmetrically about the minimum, agreeing on ||M||^2 to
+        # machine precision (`asym` itself is bit-identical).
+        sigma = float(np.real(sum(g for g, k in zip(g_list, c_kind)
+                                  if k.startswith('Z@'))))
+        pol = run_polarity_on_L(_to_row_stack(L_vec), N=2, sigma=sigma)
         m_sq = pol['norm_sq']['M']
         asym = pol['asymmetry']
         rel = abs(asym) / max(m_sq, 1e-15)
@@ -291,6 +335,10 @@ def main():
 
     # Find best fit
     best_model = min(results, key=lambda m: results[m]['fit_rms'])
+    print("\nNOTE: the ranking below is NOT a channel finding. This model family has no")
+    print("      per-qubit Z detuning, which this dataset needs (qubit 14's transverse")
+    print("      expectations alternate in sign between samples), so it compares members")
+    print("      of the wrong family.")
     print(f"\nBest-fit model: {best_model}  (RMS = {results[best_model]['fit_rms']:.6f})")
     print(f"  In F112 typed scope (Hermitian H + bit_b-homogeneous c): "
           f"{'YES' if results[best_model]['in_F112_scope'] else 'NO'}")
@@ -315,7 +363,7 @@ def main():
 
     print()
     print("Note: F112 says HERMITIAN H + EACH c_k bit_b-homogeneous → asymmetry = 0 bit-exact.")
-    print("      σ⁻ amplitude damping (T1) c = σ⁻ = (X − iY)/2 has bit_b ∈ {0, 1} (mixed).")
+    print("      σ⁻ amplitude damping (T1) c = σ⁻ = (X + iY)/2 = [[0,1],[0,0]] has bit_b ∈ {0, 1} (mixed).")
     print("      All Z-only and Z+ZZ models are bit_b-homogeneous on c side.")
     print("      Single-site h_y · Y_l Hamiltonian is Hermitian; Y has bit_b=1 → H is bit_b-homogeneous.")
 

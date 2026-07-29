@@ -25,7 +25,10 @@ def _greedy_pairing_error(evals, sigma_gamma):
     for i in range(len(evals)):
         if used[i]:
             continue
-        dists = np.abs(evals - (-evals[i] - 2 * sigma_gamma))
+        # written as a SUM, bit-identical to the D matrix in `spectrum_pairing_error`:
+        # the subtracted form differs from it by ~1 ulp, which can prune the very edge
+        # this pass used and leave the binary search with no feasible candidate.
+        dists = np.abs(evals + evals[i] + 2 * sigma_gamma)
         dists[used] = np.inf
         j = int(np.argmin(dists))
         used[i] = True
@@ -49,16 +52,23 @@ def spectrum_pairing_error(evals, sigma_gamma):
     together), and greedy pairing is not optimal for the bottleneck objective
     anyway. Both effects can only INFLATE the error, so a greedy classifier is
     conservative: it can call a soft system hard, never a hard system soft. The
-    gap is real on ordinary inputs (0.1 for IZ and ZI at N = 2 and 3) but sits
-    far above `spec_tol` in every case swept, so no verdict is known to have
-    turned on it. Exact costs about 6% of the eigendecomposition that produced
-    `evals` (0.09 s against 1.56 s at N = 5), which is why it is simply done
+    gap is real on ordinary inputs (0.1 for the single-term systems IZ and ZI at
+    N = 2 and 3, and for the pair IIZ+IZI at N = 4, where exact gives 0.3 against
+    greedy's 0.4), but in every case swept the EXACT error itself already sits
+    far above `spec_tol`, so the gap never straddles the threshold and no verdict
+    is known to have turned on it. Exact costs 0.027-0.042 s at N = 5 on an idle machine, against
+    1.7 s for the eigendecomposition that produced `evals` on a generic pair, so
+    roughly 2.5% there. Near-diagonal systems invert that ratio, since their
+    eigendecomposition is itself fast (IZ+ZI: 0.015 s eigen, 0.027 s pairing).
+    Either way the absolute cost is small, which is why it is simply done
     properly here.
     """
     n = len(evals)
     if n == 0:
         return 0.0
-    D = np.abs(evals[:, None] - (-evals - 2 * sigma_gamma)[None, :])
+    # |λ_i − (−λ_j − 2σ)| written as a sum: exactly symmetric (IEEE addition commutes),
+    # so D[i,j] == D[j,i] to the bit and the greedy bound below is a true D entry.
+    D = np.abs(evals[:, None] + evals[None, :] + 2 * sigma_gamma)
     # optimal ≤ greedy, so everything above the greedy value can be discarded
     # before the search: that also strips the dense end of the threshold range.
     cand = np.unique(D[D <= _greedy_pairing_error(evals, sigma_gamma)])

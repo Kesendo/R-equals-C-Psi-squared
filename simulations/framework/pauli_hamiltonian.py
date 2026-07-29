@@ -10,11 +10,15 @@ Three independent Z₂ axes per Pauli term:
 
   bit_a parity: (#X + #Y) mod 2  — Z⊗N parity break count
   bit_b parity: (#Y + #Z) mod 2  — Π² parity (F-toolkit's bit_b)
-  Y-parity:     #Y mod 2          — independent at k ≥ 3
+  Y-parity:     #Y mod 2          : fixed by Klein within one non-identity-count parity
 
-At k = 2 (bilinears), Y-parity = (bit_a XOR bit_b), redundant with Klein.
-At k ≥ 3, Y-parity carries independent information; the full per-letter
-symmetry alphabet is Z₂³ (8 sectors), not Z₂² (4 Klein slots).
+Y-parity is tied to Klein by y_par = (n + bit_a XOR bit_b) mod 2, where n is the
+number of NON-IDENTITY letters (bit_a XOR bit_b = (#X + #Z) mod 2, and
+#X + #Y + #Z = n). At fixed n-parity it is therefore determined: it equals
+bit_a XOR bit_b for even n, its complement for odd n. Y-parity becomes an
+independent third axis only across terms of DIFFERING n-parity, and only such a
+mixture populates all eight Z₂³ sectors rather than four. Note `k_body` here is
+the string LENGTH, not n, so a two-letter term like IX has n = 1.
 
 Application-layer translations (Trinity, Klein-4, DNA, neural cell-types)
 are mappings on top of this raw structure, not part of it.
@@ -69,6 +73,13 @@ class PauliTerm:
         return len(self.letters)
 
     @property
+    def n_nonidentity(self) -> int:
+        """Number of non-identity letters. This is what C# `PauliTerm.KBody`
+        counts; the `k_body` above is the string length. Every parity law on
+        this page is stated in terms of THIS count."""
+        return sum(1 for L in self.letters if L != 'I')
+
+    @property
     def n_x(self) -> int:
         return sum(1 for L in self.letters if L == 'X')
 
@@ -97,8 +108,10 @@ class PauliTerm:
 
     @property
     def y_parity(self) -> int:
-        """Y-parity: #Y mod 2. At k≥3 this is an independent third Z₂ axis;
-        at k=2 it equals bit_a XOR bit_b (redundant with Klein index)."""
+        """Y-parity: #Y mod 2. Determined by Klein at fixed parity of the
+        non-identity-letter count n: equal to bit_a XOR bit_b for even n, its
+        complement for odd n. Independent only across terms of differing
+        n-parity."""
         return self.n_y % 2
 
     @property
@@ -115,9 +128,9 @@ class PauliTerm:
     def full_z2_signature(self) -> Tuple[int, int, int]:
         """Full Z₂³ structural signature: (bit_a, bit_b, y_parity).
 
-        At k=2 this carries the same information as klein_index alone.
-        At k≥3, y_parity becomes an independent axis and the full signature
-        labels 8 sectors instead of 4.
+        At fixed parity of the non-identity-letter count this carries the same
+        information as klein_index alone, whichever parity it is. Across terms
+        of both parities the signature separates 8 sectors instead of 4.
         """
         a, b = self.klein_index
         return (a, b, self.y_parity)
@@ -173,10 +186,24 @@ class PauliHamiltonian:
     def is_klein_homogeneous(self) -> bool:
         """True if all terms share the same Klein index.
 
-        Empirical structural fact (verified at k=2 full enumeration; k=3 sample):
-        Klein-homogeneous Hamiltonians are always F77 soft or F77 truly,
-        never F77 hard. Klein-inhomogeneity is necessary (not sufficient)
-        for F77 hardness.
+        Klein-homogeneity does NOT by itself imply F87 soft-or-truly. The rule
+        holds only for IDENTITY-FREE two-letter pairs: of the 21 Klein-homogeneous
+        two-letter pairs at N=3 that carry any content (the 3 pairing with 'II'
+        are a multiple of the identity and cannot move the spectrum), the 6
+        identity-free ones are 0/6 hard, while the 15 carrying an 'I' are 5/15
+        hard, N-stably. Counterexample: [('I','Z'),
+        ('Z','I')], both Klein (0,1), classifies hard at N=3 and N=4.
+
+        It fails at k≥3 too. The 294-pair Z₂³-homogeneous sweep at k=3 N=4
+        (PROOF_F103_F87_Z2_CUBED_REFINEMENT §3.2) finds 50 hard in the Klein-(0,1)
+        cell under Z-dephasing; AMONG Klein-homogeneous pairs, sitting in the dephase
+        letter's own cell is necessary for hardness but not sufficient: XY+YX sits
+        in Z's cell (0,1) and is soft at N=3, 4 and 5. Drop the homogeneity and
+        even necessity goes: 10 hard two-letter pairs at N=3 (IX+XZ, IY+YZ, ...)
+        have neither term in Z's cell. Counterexample: [('I','I','Z'), ('I','X','Y')].
+
+        So Klein-inhomogeneity is necessary for hardness only among identity-free
+        k=2 pairs; elsewhere the Klein index does not settle the class.
         """
         return len(self.klein_set) <= 1
 
@@ -184,8 +211,8 @@ class PauliHamiltonian:
     def y_parity_set(self) -> Set[int]:
         """Set of distinct Y-parities across terms.
 
-        At k≥3 this is an independent classification axis; at k=2 it is
-        determined by Klein index (redundant).
+        Redundant with the Klein index within any fixed parity of the
+        non-identity-letter count; informative only across a mixture of both.
         """
         return {t.y_parity for t in self.terms}
 
@@ -219,8 +246,11 @@ class PauliHamiltonian:
     def full_z2_signature_set(self) -> Set[Tuple[int, int, int]]:
         """Set of full Z₂³ signatures (bit_a, bit_b, y_parity) across terms.
 
-        For k=2 Hamiltonians this has the same number of elements as klein_set
-        (Y-parity redundant). For k≥3 Hamiltonians, may be finer.
+        Within one parity of the non-identity count this has the same number of
+        elements as klein_set. It is strictly finer when two terms SHARE a Klein
+        cell while differing in that parity, which two-letter terms can already
+        do: [('X','Y'), ('Z','I')] has klein_set {(0,1)} but signatures
+        {(0,1,1), (0,1,0)}.
         """
         return {t.full_z2_signature for t in self.terms}
 
@@ -228,7 +258,9 @@ class PauliHamiltonian:
     def is_z2_homogeneous(self) -> bool:
         """True if all terms share the same full Z₂³ signature.
 
-        Stronger than klein_homogeneous at k≥3.
+        Strictly stronger than klein_homogeneous whenever the terms differ in the
+        parity of their non-identity-letter count, which two-letter terms can
+        already do.
         """
         return len(self.full_z2_signature_set) <= 1
 

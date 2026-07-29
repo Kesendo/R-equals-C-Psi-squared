@@ -2438,7 +2438,7 @@ where L_{H_odd} = -i\[H_odd, ·\] is the unitary commutator induced by the Π²-
     M_sym  = (M + Π·M·Π⁻¹) / 2 = Π·L·Π⁻¹ + L_diss + L_{H_even} + 2Σγ·I
     M_anti = (M − Π·M·Π⁻¹) / 2 = L_{H_odd}
 
-The Π-antisymmetric component of M is exactly the unitary commutator induced by the Π²-odd Hamiltonian bilinears. The Π-symmetric component absorbs the mirror image, the dissipator, the Π²-even Hamiltonian commutator, and the dissipation shift. M_sym and M_anti are Frobenius-orthogonal: ‖M‖² = ‖M_sym‖² + ‖M_anti‖².
+The Π-antisymmetric component of M is exactly the unitary commutator induced by the Π²-odd Hamiltonian bilinears. The Π-symmetric component absorbs the mirror image, the dissipator, the Π²-even Hamiltonian commutator, and the dissipation shift. ‖M‖² = ‖M_sym‖² + ‖M_anti‖². The two parts are not Frobenius-orthogonal in general (⟨M_sym, M_anti⟩ = −i·asymmetry, the F113 quantity), but that inner product is purely imaginary and only its real part enters the expansion, so the norm identity holds regardless.
 
 **Verified instances** (N=3, γ_Z=0.1, Σγ=0.3, residuals at machine precision 1e-16):
 
@@ -4165,7 +4165,7 @@ resonance law + `polarity_coordinates_from_L` primitive
 
 Closed-form magnitude for the F112 polarity asymmetry in the regime where
 F112's typed scope is violated by single-site Z-drive × amplitude-damping
-interference. Discovered via Welle 2 Kingston hardware analysis (commit
+interference. First noticed while fitting the Kingston f95 data, whose protocol supplies the Z-drive (commit
 `a1a90a2`, 2026-05-26), derived constructively the same day via parameter-
 sweep regression (commit referencing this entry).
 
@@ -4182,19 +4182,36 @@ the F112 polarity asymmetry has the closed form
     asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖²
               = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)
 
-bit-exactly. Verified at N = 2, 3, 4 via parameter sweep (`simulations/
+to a relative deviation below 1e-12. Verified at N = 2, 3, 4 via parameter sweep (`simulations/
 f113_break_formula_derivation.py`); per-site decomposition, cross-site
 zero, sign flip on ω → −ω and on σ⁻ ↔ σ⁺, detailed-balance cancellation
-(γ_T1 = γ_pump → 0), and non-uniform-rate sum-formula all confirmed
-bit-exact.
+(γ_T1 = γ_pump → 0), and non-uniform-rate sum-formula all confirmed at the
+same precision (the sweep's largest ABSOLUTE deviation is 3.18e-12, on a coefficient
+of 512, i.e. 6e-15 relative).
 
-**Structural origin:** F112 break requires non-Hermitian Π-eigenspace
-coupling between H and c. Only the Z-drive commutator produces this:
-[Z, σ⁻] = −2σ⁻ (proportional to the non-Hermitian σ⁻ itself), while
-[X, σ⁻] = Z and [Y, σ⁻] = i·Z give Hermitian commutators that remain
-F112-symmetric. ZZ/XX/YY bilinears commute differently and produce 0
-contribution. Same-site locality of [Z_l, σ⁻_m] = −2σ⁻_m · δ_{lm} gives
-the per-site additive structure.
+**What selects a Hamiltonian:** the asymmetry reads H only through the
+single-site moment Tr(Z_l H). H therefore enters through the ω_l above and
+through nothing else: adding an XX, ZZ or Y-drive term to a Z-drive leaves
+the value bit-identical, and X-drives, Y-drives and every bond bilinear give
+exactly 0 on their own. The reason it is a linear functional at all: F112 kills the H-only part for
+Hermitian H and σ⁻ alone gives 0, so the asymmetry is bilinear in (H, D), hence
+linear in H. WHICH functional is then verified rather than derived here, over
+random Hermitian H on all 4^N Pauli strings at N=2 and N=3. The mechanism behind that selector is
+[Z, σ⁻] = +2σ⁻, the one commutator proportional to the non-Hermitian σ⁻
+itself and hence the only one carrying Π-eigenvalue ±i imbalance;
+[X, σ⁻] = −Z and [Y, σ⁻] = −i·Z leave the σ⁻ direction. Same-site locality of
+[Z_l, σ⁻_m] = +2σ⁻_m · δ_{lm} gives the per-site additive structure. Signs
+are for the lowering operator the framework builds, σ⁻ = (X+iY)/2 =
+[[0,1],[0,0]] taking |1⟩ → |0⟩; the other convention, (X−iY)/2, flips the
+first two and leaves [Y, σ⁻] = −i·Z unchanged.
+
+**The sign of the asymmetry is a convention:** the minus above holds in the
+pipeline's pairing, a row-stack L read against the order='F' Pauli transform,
+which is equivalent to conjugating Π. Either consistent pairing returns
++2.08e-3 where this one returns −2.08e-3, and both Π and conj(Π) palindromize
+the (exactly real) Pauli-basis Liouvillian, so neither is privileged. The
+magnitude and the zero-versus-nonzero verdict are convention-free; the
+direction is attached to the pairing.
 
 **Universal-N status (Welle 4, 2026-05-26):** Tier 1 derived for general
 N via [the F113 coefficient-derivation proof](proofs/PROOF_F113_COEFFICIENT_DERIVATION.md).
@@ -4220,13 +4237,18 @@ basis).
 **Hardware fingerprinting application:** asymmetry measurement directly
 extracts Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known;
 becomes a per-site amplitude-damping calibration tool when combined with
-ω_l knowledge. The Welle 2 hardware-fit value for f95 (ω=0.13, γ_T1≈0.001,
-γ_pump=0, N=2) gives F113-predicted (1/2)·4² · (2·0.13) · (0 − 0.001) = −2.08e−3
-(coefficient (1/2)·4² = 8 at N=2; drive on both q13, q14, so Σ_l ω_l = 2·0.13, the
-earlier-notation "16" folds the per-site coefficient 8 together with the two sites),
-matching the fitted value bit-exact (the rel asymmetry sign tracked
-correctly through both the Python derivation script and the C# pipeline
-after the 2026-05-26 convention reconciliation).
+ω_l knowledge. At ω = 0.13 on EVERY site with γ_T1 = 0.001, γ_pump = 0, N = 2 the
+formula gives (1/2)·4² · (2·0.13) · (0 − 0.001) = −2.08e−3 (coefficient (1/2)·4² = 8
+at N=2, times two driven sites; the earlier notation "16" folded the two together).
+Note the f95 protocol drives ONE qubit of the pair, so at its parameters the formula
+gives −1.04e−3, not −2.08e−3.
+There is no hardware anchor for this yet. The Kingston survey
+([F112_HARDWARE_LENS_KINGSTON](../experiments/F112_HARDWARE_LENS_KINGSTON.md))
+reports nonzero asymmetry only on its Z-drive runs, but the single-site Z there is
+handed to the fitter as a known drive rather than fitted, so the split follows from
+the model set; and the same survey's data need a per-qubit detuning, which is itself
+a single-site Z, that its models do not carry. What such a survey could anchor is a
+magnitude, since it publishes rel = |asymmetry| / ‖M‖², never a direction.
 
 **Sister claims:**
 - F112 (Tier 1 derived Hermitian H + bit_b-homogeneous c → asymmetry = 0)

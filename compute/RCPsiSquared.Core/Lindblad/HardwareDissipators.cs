@@ -17,14 +17,14 @@ public sealed record HardwareDissipator(string Name, Complex Alpha, Complex Beta
 public static class HardwareDissipators
 {
     public static readonly HardwareDissipator T1 = new(
-        "T1", Alpha: 0.5, Beta: new Complex(0, -0.5), Delta: 0.0,
+        "T1", Alpha: 0.5, Beta: new Complex(0, 0.5), Delta: 0.0,
         C1: 3.0, C2: 4.0,
-        Description: "amplitude relaxation σ⁻ = (X − iY)/2");
+        Description: "amplitude relaxation σ⁻ = (X + iY)/2 = [[0,1],[0,0]], |1⟩ → |0⟩");
 
     public static readonly HardwareDissipator T1Pump = new(
-        "T1pump", Alpha: 0.5, Beta: new Complex(0, 0.5), Delta: 0.0,
+        "T1pump", Alpha: 0.5, Beta: new Complex(0, -0.5), Delta: 0.0,
         C1: 3.0, C2: 4.0,
-        Description: "amplitude pumping σ⁺ = (X + iY)/2 (thermal excitation)");
+        Description: "amplitude pumping σ⁺ = (X − iY)/2 = [[0,0],[1,0]] (thermal excitation)");
 
     public static readonly HardwareDissipator Tphi = new(
         "Tphi", Alpha: 0.0, Beta: 0.0, Delta: 1.0,

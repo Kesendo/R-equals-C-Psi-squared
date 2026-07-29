@@ -2970,7 +2970,7 @@ public static class OpenArcsRegistry
                 "DONE 2026-07-05 (zero QPU): experiments/F81_VIOLATION_HARDWARE_BRIDGE.md, three legs. " +
                 "(1) Method demo on the F113-fitted Kingston Lindbladians: violation/F82(gamma_T1_fit) = " +
                 "1.000000000000 on all four pair-runs (the TAUTOLOGY of a Z+T1-parameterized fit, made exact); " +
-                "the physics that survives is the overshoot vs INDEPENDENT calibration 1/T1 (1.13-1.42, the " +
+                "the physics that survives is the overshoot vs INDEPENDENT calibration 1/T1 (1.14-1.47, the " +
                 "underfit dumping non-T1 noise into sigma-). (2) Grounding (f81_identity_velocity_grounding.py): " +
                 "the violation IS 2^(N-1) x the RMS velocity d<Z_l>/dt of the maximally mixed state (the fixed " +
                 "point of every unital channel), per site the net cooling flux gamma_down - gamma_up = z_inf/T1; " +

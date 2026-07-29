@@ -8,7 +8,8 @@ namespace RCPsiSquared.Core.Pauli;
 /// sequence and exposed as properties for diagnostic use:
 /// <list type="bullet">
 ///   <item><see cref="Pi2Parity"/>: selects **F87** Π²-class (truly / soft / hard)</item>
-///   <item><see cref="YParity"/> — independent at k≥3 (**F85** k-body generalization)</item>
+///   <item><see cref="YParity"/>, independent of Klein only across mixed k_body parity
+///         (**F85** k-body generalization)</item>
 ///   <item><see cref="TotalBitA"/> — Z⊗N parity (commutes/anti-commutes with global Z)</item>
 /// </list>
 /// See docs/ANALYTICAL_FORMULAS.md (F87, F81, F85) and the bit_a/bit_b convention in
@@ -44,11 +45,13 @@ public sealed record PauliTerm(IReadOnlyList<PauliLetter> Letters, Complex Coeff
     /// YZ/ZY → (1,0) (Π²-even non-truly), XZ/ZX → (1,1) (Π²-odd subset).</summary>
     public (int BitA, int BitB) KleinIndex => (TotalBitA & 1, Pi2Parity);
 
-    /// <summary>Full Z₂³ structural signature (bit_a, bit_b, Y-parity). At k=2 Y-parity
-    /// is determined by Klein; at k≥3 it is independent and the polarity is Z₂³ (8 sectors).</summary>
+    /// <summary>Full Z₂³ structural signature (bit_a, bit_b, Y-parity). Within one k_body
+    /// parity Y-parity is determined by Klein (y_par = (k_body + bit_a XOR bit_b) mod 2), so
+    /// the signature separates 8 sectors only across terms of both parities.</summary>
     public (int BitA, int BitB, int YParity) FullZ2Signature => (TotalBitA & 1, Pi2Parity, YParity);
 
-    /// <summary>Y-count modulo 2. Independent from Klein at k ≥ 3-body.</summary>
+    /// <summary>Y-count modulo 2. Equals (k_body + bit_a XOR bit_b) mod 2, hence determined
+    /// by Klein within one k_body parity and independent only across both.</summary>
     public int YParity => Ny & 1;
 
     public string Label => PauliLabel.Format(Letters);

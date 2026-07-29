@@ -210,7 +210,7 @@ fact that the hardware is literally a qubit inside a cavity being
 dephased by photons is not a confirmation we designed. It is what the
 mathematics was describing all along.
 
-The live record is the **Confirmations registry**: twenty
+The live record is the **Confirmations registry**: twenty-four
 hardware-confirmed predictions, each with a run identifier, predicted versus
 measured values, and the data archived in `data/`. Look them up; do not
 re-derive (`fw.Confirmations` in Python, `ConfirmationsRegistry` in C#).
@@ -224,7 +224,6 @@ they carry data-file timestamps rather than IBM job IDs):
 | Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) = 1 | 1.03 | ibm_torino |
 | Truly/soft/hard trichotomy, ⟨X₀Z₂⟩ fingerprint | all three classes resolved at 13-47σ | ibm_marrakesh, 2026-04 |
 | F25 cusp trajectory CΨ(t) closed form | RMS residual 0.0097 | ibm_kingston |
-| Transverse-field anomaly read through the F112 lens | block-CΨ 1.72× explained by h_y | ibm_kingston, 2026-05 |
 | EP onset: revival pinned at 1/N below Q_EP ≈ 1.5, liftoff above | 0.34 → 0.49 → 0.70 across the EP | ibm_kingston, 2026-05 |
 | Moment-tower pump channel: the double null + the firing rung | null at z = 0.04, girth 2 read from hardware | ibm_kingston, 2026-06 |
 

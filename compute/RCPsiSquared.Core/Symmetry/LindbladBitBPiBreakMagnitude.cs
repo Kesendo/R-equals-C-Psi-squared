@@ -24,26 +24,37 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>  asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖² =
 ///   (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)</para>
 ///
-/// <para>bit-exactly. Verified at N=2, 3, 4 via parameter sweep
-/// (<c>simulations/f113_break_formula_derivation.py</c>); per-site decomposition,
-/// cross-site zero, sign flip on ω → −ω and on σ⁻ ↔ σ⁺, detailed-balance
-/// cancellation (γ_T1 = γ_pump → 0), and non-uniform-rate sum-formula all confirmed
-/// bit-exact.</para>
+/// <para>to a relative deviation below 1e-12 (the sweep's largest ABSOLUTE deviation is
+/// 3.18e-12, on a coefficient of 512, i.e. 6e-15 relative). Verified at
+/// N=2, 3, 4 via parameter sweep (<c>simulations/f113_break_formula_derivation.py</c>);
+/// per-site decomposition, cross-site zero, sign flip on ω → −ω and on σ⁻ ↔ σ⁺,
+/// detailed-balance cancellation (γ_T1 = γ_pump → 0), and non-uniform-rate sum-formula
+/// all confirmed at that precision.</para>
 ///
-/// <para><b>Structural origin</b>: F112 break requires non-Hermitian Π-eigenspace
-/// coupling between H and c. Only the Z-drive commutator produces this:
-/// [Z, σ⁻] = −2·σ⁻ is proportional to the non-Hermitian σ⁻ itself, carrying Π-eigenvalue
-/// ±i imbalance. [X, σ⁻] = Z and [Y, σ⁻] = i·Z give Hermitian commutators that remain
-/// F112-symmetric. Bond bilinears ZZ / XX / YY commute differently and contribute 0.
-/// Same-site locality of [Z_l, σ⁻_m] = −2·σ⁻_m · δ_{lm} gives the per-site additive
-/// structure.</para>
+/// <para><b>The sign is a convention, the magnitude is not.</b> The minus above holds in
+/// the pipeline's pairing, a row-stack L read against the order='F' Pauli transform,
+/// which is equivalent to conjugating Π (see <see cref="Pauli.PauliBasis"/>). Either
+/// consistent pairing returns +2.08e-3 where this one returns −2.08e-3. Read the
+/// direction as attached to that pairing, never as a property of σ⁻.</para>
+///
+/// <para><b>What selects a Hamiltonian</b>: the asymmetry reads H only through the
+/// single-site moment Tr(Z_l H), so H enters exactly through the ω_l above and nothing
+/// else about it matters. Adding an XX, ZZ or Y-drive term to a Z-drive leaves the value
+/// bit-identical; X-drives, Y-drives and every bond bilinear give exactly 0 on their own.
+/// The mechanism behind that selector is [Z, σ⁻] = +2·σ⁻, the one commutator proportional
+/// to the non-Hermitian σ⁻ itself, hence the only one carrying Π-eigenvalue ±i imbalance;
+/// [X, σ⁻] = −Z and [Y, σ⁻] = −i·Z leave the σ⁻ direction. Same-site locality of
+/// [Z_l, σ⁻_m] = +2·σ⁻_m · δ_{lm} gives the per-site additive structure.</para>
 ///
 /// <para><b>Hardware fingerprinting</b>: asymmetry measurement directly extracts
 /// Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known; becomes a per-site
-/// amplitude-damping calibration tool when combined with ω_l knowledge. Welle 2 f95
-/// fit (ω=0.13, γ_T1≈0.001, N=2) gives F113-predicted 16·0.13·(0−0.001) = −2.08e-3,
-/// matching the Kingston hardware-fit value bit-exact (see
-/// <c>experiments/F112_HARDWARE_LENS_KINGSTON.md</c>).</para>
+/// amplitude-damping calibration tool when combined with ω_l knowledge. No hardware
+/// anchor exists for it yet. The Kingston survey
+/// (<c>experiments/F112_HARDWARE_LENS_KINGSTON.md</c>) reports nonzero asymmetry only on
+/// its Z-drive runs, but the single-site Z there is supplied to the fitter as a known
+/// drive rather than fitted, so that split follows from the model set, and the same
+/// survey's own data need a per-qubit detuning its models do not carry. For a γ_T1
+/// extraction see <c>experiments/F113_T1_EXTRACTION_KINGSTON.md</c>.</para>
 ///
 /// <para><b>Sister F112 on shared bit_b axis</b>: F112 (<see cref="LindbladBitBPiBalance"/>,
 /// Tier1Derived) closes the in-scope half of the standard Lindblad family
@@ -53,7 +64,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Universal-N status</b>: Tier1Derived for general N (Welle 4 structural
 /// decomposition; see the constructor + PROOF_F113). 4^N is the operator-space dimension
 /// d² (spectator sites contribute ‖I_4‖²=4 each); per-site additivity matches the locality
-/// of [Z_l, σ⁻_m] = −2·σ⁻_m · δ_{lm}. The cross-term reduction closes via the Π²-odd /
+/// of [Z_l, σ⁻_m] = +2·σ⁻_m · δ_{lm}. The cross-term reduction closes via the Π²-odd /
 /// Lindblad-input-vanishing argument; the T1-self-term vanishes for general N by the same
 /// single-site shifted-support + tensor-factorization argument. Bit-exact N=2..6.</para>
 ///
@@ -77,7 +88,7 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
 
     /// <summary>Override returning <see cref="BitATwinClassification.BitBSpecific"/>:
     /// the algebraic content (Z-drive × σ⁻ amplitude-damping commutator structure
-    /// [Z, σ⁻] = −2·σ⁻ producing the Π +i / −i imbalance) is intrinsically tied to
+    /// [Z, σ⁻] = +2·σ⁻ producing the Π +i / −i imbalance) is intrinsically tied to
     /// bit_b structure, no meaningful bit_a-axis analog exists.</summary>
     public BitATwinClassification BitATwinStatus => BitATwinClassification.BitBSpecific;
 
@@ -93,7 +104,9 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
         "asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l) for Lindblad-form L with " +
         "Hermitian H = Σ_l (ω_l/2)·Z_l + bit_b-homogeneous additions and dissipator c " +
         "with σ⁻_l rate γ_T1,l + σ⁺_l rate γ_pump,l per site (standard physics " +
-        "convention: σ⁻ is lowering). Bit-exact at N = 2, 3, 4.";
+        "convention: σ⁻ is lowering). Verified at N = 2, 3, 4 to a relative deviation " +
+        "below 1e-12. The MINUS is a convention of the pipeline's stacking pairing, " +
+        "not a property of σ⁻; the magnitude is convention-free.";
 
     /// <summary>What does NOT contribute to F113 (the F112-in-scope or cancelling
     /// terms). The closed form is additive in only two channels: single-site Z-drives
@@ -107,18 +120,23 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
     /// <summary>Structural origin: which commutator algebra produces the Π +i / −i
     /// imbalance and why the result is per-site additive.</summary>
     public string StructuralOrigin =>
-        "Only [Z, σ⁻] = −2·σ⁻ is proportional to the non-Hermitian σ⁻ itself, producing " +
-        "Π-eigenspace ±i imbalance. [X, σ⁻] = Z and [Y, σ⁻] = i·Z give Hermitian " +
-        "commutators that remain F112-symmetric. Same-site locality of " +
-        "[Z_l, σ⁻_m] = −2·σ⁻_m · δ_{lm} gives the per-site additive structure.";
+        "The asymmetry reads H only through Tr(Z_l H): adding an XX, ZZ or Y-drive term " +
+        "to a Z-drive leaves it bit-identical, and every bond bilinear alone gives 0. " +
+        "The mechanism is [Z, σ⁻] = +2·σ⁻, the one commutator proportional to the " +
+        "non-Hermitian σ⁻ itself and so the only one carrying Π-eigenspace ±i imbalance; " +
+        "[X, σ⁻] = −Z and [Y, σ⁻] = −i·Z leave the σ⁻ direction. Same-site locality of " +
+        "[Z_l, σ⁻_m] = +2·σ⁻_m · δ_{lm} gives the per-site additive structure. " +
+        "Signs are for σ⁻ = [[0,1],[0,0]], the operator this class documents; the " +
+        "(X−iY)/2 convention flips the first two, and the magnitude reads neither.";
 
     /// <summary>Hardware fingerprinting application: invert the formula to extract a
     /// per-site σ⁻ T1 rate from measured F112 asymmetry when drive ω_l is known.</summary>
     public string HardwareApplication =>
         "Inverts to extract per-site σ⁻ T1 rate from measured F112 asymmetry when " +
-        "drive ω_l is known. Welle 2 f95 hardware fit (ω=0.13, γ_T1≈0.001, N=2) gives " +
-        "F113-predicted 16·0.13·(0−0.001) = −2.08e-3, matching the Kingston fitted value " +
-        "bit-exact (see experiments/F112_HARDWARE_LENS_KINGSTON.md).";
+        "drive ω_l is known. No hardware anchor yet: the Kingston survey reports nonzero " +
+        "asymmetry only on its Z-drive runs, but that single-site Z is handed to the " +
+        "fitter as a known drive rather than fitted, so the split follows from the model " +
+        "set, and the same data need a per-qubit detuning those models do not carry.";
 
     // ============================================================
     // Static helpers: predict the F113 asymmetry magnitude
@@ -218,14 +236,15 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
                 summary: "Univariate scaling: asym ∝ ω^1 · γ_T1^1 · γ_Z^0 (R² = 1.000000). " +
                          "Multivariate fit on 60 random (ω, γ_T1, γ_Z) samples at N=2 gives " +
                          "implied constant exp(2.7726) = 16.000 bit-exact (std 0.000000). " +
-                         "N-scaling at uniform rates: N=2 → 16.0, N=3 → 96.0, N=4 → 512.0 " +
-                         "(predicted (N/2)·4^N), max deviation < 3.2e-12 across 5 random " +
-                         "(ω, γ_T1) samples per N. Per-site decomposition: single-site Z-drive " +
-                         "on q_l + σ⁻ on q_l only at N=3 gives asym / (ω · γ_T1) = 32.0 for " +
-                         "l = 0, 1, 2 (= (1/2)·4^3). Cross-site (Z-drive on q_a, σ⁻ on q_b, " +
-                         "a ≠ b): asym = 0.0 bit-exact (break is strictly same-site local). " +
-                         "Non-uniform rates at N=3: ω_l = (0.05, 0.1, 0.2), γ_T1,l = " +
-                         "(0.001, 0.002, 0.003) gives (1/2)·4^N · Σ_l ω_l · γ_T1,l = 0.027200 " +
+                         "N-scaling at uniform rates, as asym / (ω · γ_T1): N=2 → −16.0, " +
+                         "N=3 → −96.0, N=4 → −512.0 (predicted −(N/2)·4^N, the sign carried " +
+                         "by γ_pump − γ_T1 < 0 for cooling), max deviation < 3.2e-12 across 5 " +
+                         "random (ω, γ_T1) samples per N. Per-site decomposition: single-site " +
+                         "Z-drive on q_l + σ⁻ on q_l only at N=3 gives asym / (ω · γ_T1) = " +
+                         "−32.0 for l = 0, 1, 2 (= −(1/2)·4^3). Cross-site (Z-drive on q_a, " +
+                         "σ⁻ on q_b, a ≠ b): asym = 0.0 bit-exact (break is strictly same-site " +
+                         "local). Non-uniform rates at N=3: ω_l = (0.05, 0.1, 0.2), γ_T1,l = " +
+                         "(0.001, 0.002, 0.003) gives −(1/2)·4^N · Σ_l ω_l · γ_T1,l = −0.027200 " +
                          "matching measured asymmetry at ratio 1.000000.");
             yield return new InspectableNode("Hardware fingerprinting application",
                 summary: HardwareApplication);

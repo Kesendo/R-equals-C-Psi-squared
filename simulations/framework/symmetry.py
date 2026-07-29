@@ -581,10 +581,13 @@ def _pauli_tuple_pi2_class(letters):
 # four slots labeled by (bit_a, bit_b) ∈ {(0,0), (0,1), (1,0), (1,1)}.
 # Klein-product (vector sum mod 2) corresponds to operator-product structure.
 #
-# F77 hardness empirically requires Klein-INHOMOGENEOUS Hamiltonians (terms
-# with different Klein indices). Homogeneous Hamiltonians are always
-# soft or truly. Verified at k=2 (full enumeration of 36 V-Effect pairs)
-# and k=3 (sample, full enumeration would be 64²=4096 pairs).
+# Klein-homogeneity does NOT imply soft-or-truly. It holds for the 6
+# identity-free two-letter pairs (0/6 hard), but 5 of the 15 Klein-homogeneous
+# pairs carrying an identity are hard (IZ+ZI at N=3 and N=4), and at k=3 the
+# 294-pair Z₂³-homogeneous sweep has 50 hard in one Klein cell. Among Klein-HOMOGENEOUS pairs, sitting in the
+# dephase letter's own cell is necessary for hardness but not sufficient (XY+YX
+# sits in Z's cell and is soft); without homogeneity not even necessary (10 hard
+# two-letter pairs at N=3 have neither term in Z's cell).
 
 _LETTER_KLEIN_BITS = {'I': (0, 0), 'X': (1, 0), 'Y': (1, 1), 'Z': (0, 1)}
 

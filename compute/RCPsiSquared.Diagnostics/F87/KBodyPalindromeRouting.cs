@@ -95,7 +95,15 @@ public static class KBodyPalindromeRouting
     });
 
     /// <summary>M: the continuous, dense class-swapping map with M² = −I. With s = 1/√2:
-    /// I → −(X+Y)/√2, X → (I + iZ)/√2, Y → (I − iZ)/√2, Z → i(X − Y)/√2.</summary>
+    /// I → −(X+Y)/√2, X → (I + iZ)/√2, Y → (I − iZ)/√2, Z → i(X − Y)/√2.
+    ///
+    /// <para>This is the COLUMN-STACK representative. The framework's
+    /// <c>crossover_map()</c> and <see cref="RCPsiSquared.Core.Symmetry.CrossoverMirrorSqrtNinetyClaim"/>
+    /// hold the row-stack one, which differs by conjugation with diag(1,1,1,−1) on
+    /// [I,X,Z,Y]. The routing criterion below reads only Frobenius norms of Pauli
+    /// commutator/anticommutator brackets, which are bit-identical under either, so the
+    /// verdicts here are unaffected; only the printed closed form is representative-
+    /// dependent.</para></summary>
     private static readonly ComplexMatrix M = BuildM();
 
     private static ComplexMatrix BuildM()
@@ -450,8 +458,21 @@ public static class KBodyPalindromeRouting
     /// derivative-sign-free bracket [<paramref name="lo"/>, <paramref name="hi"/>] (the residual is a
     /// smooth positive function with a single zero at the metallic mean r(c) on r &gt; 0). Computed from the
     /// router construction alone, so its agreement with <see cref="MetallicMean"/> is a genuine check, not
-    /// a tautology. <paramref name="iterations"/> bisection steps give ≈ (hi−lo)·2^(−iterations) precision.
-    /// Default bracket [0.1, 12] covers r(c) for c ∈ [−2, 10].</summary>
+    /// a tautology. <paramref name="iterations"/> TERNARY contraction steps give ≈ (hi−lo)·(2/3)^iterations precision.
+    ///
+    /// <para><b>Domain caveat (2026-07-29).</b> The contraction below is TERNARY, which needs the
+    /// residual to be unimodal on the bracket, and it is not: at c = 10 the residual rises to an
+    /// interior local maximum near r ≈ 7 (f(0.1) = 45.3, f(7) = 3520, f(10.099) = 0.05, f(12) = 6267),
+    /// so <c>lo</c> is a competing local minimum and the method returns the endpoint 0.1. Verified
+    /// correct only for the weights actually shipped, c ∈ {0, 1, 2, 3} (<see cref="GoldenRouterWitness"/>
+    /// defaults and <c>GoldenRouterClaim</c> hard-code these); sweeping c in steps of 0.25 it also
+    /// returns 0.1 at c = 4.25, 4.5, 6.5, 6.75, 7.0, 9.5, 9.75, 10.0. The bracket does contain the
+    /// root throughout c ∈ [−2, 10]; what fails is the contraction, not the enclosure. The closed form itself is fine: the residual
+    /// is exactly zero at <see cref="MetallicMean"/>(c) (≤ 5.8e-13 at c = 10; the
+    /// f(10.099) = 0.05 above is not in tension with that, the residual being a norm
+    /// with slope ~3e3 there, so 2e-5 off the root already reads 0.06); only the root-finder is
+    /// unsound off the shipped weights. A caller passing custom weights must check the returned r
+    /// against the residual before trusting it.</para></summary>
     public static double LiveMetallicRatio(double c, double lo = 0.1, double hi = 12.0, int iterations = 80)
     {
         // The residual ‖{W, S}‖_F is ≥ 0 with a single interior zero at r = r(c); minimise it by golden-

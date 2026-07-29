@@ -20,7 +20,10 @@ namespace RCPsiSquared.Diagnostics.F81;
 ///
 /// <para>For Π²-even-only H: L_{H_odd} = 0 and M is its own Π-conjugate. For Π²-odd H:
 /// M_anti exactly equals the unitary commutator L_{H_odd} = −i[H_odd, ·]. M_sym and M_anti
-/// are Frobenius-orthogonal: ‖M‖² = ‖M_sym‖² + ‖M_anti‖².</para>
+/// satisfy ‖M‖² = ‖M_sym‖² + ‖M_anti‖². They are not Frobenius-orthogonal in general:
+/// ⟨M_sym, M_anti⟩ = −i·asymmetry, the F113 quantity. That inner product is purely
+/// imaginary and only its real part enters the expansion, so the norm identity holds
+/// regardless.</para>
 ///
 /// <para>For T1 amplitude damping, F81 is violated by the cooling/heating asymmetry:
 /// f81_violation = √(Σ (γ_↓ − γ_↑)²) · 2^(N−1) per F84. With detailed balance

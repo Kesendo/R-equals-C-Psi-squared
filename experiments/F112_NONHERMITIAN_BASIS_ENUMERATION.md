@@ -92,5 +92,5 @@ Runs N=2 + N=3 in under 5 seconds (both pipelines); N=4 in ~25 sec (Python) or ~
 ## Related
 
 - [the Lindblad bit-b Π-balance proof](../docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md): the parent theorem; this writeup fills the "Step 5 extension to non-Hermitian H" open item listed there.
-- [F112 hardware lens on Kingston](F112_HARDWARE_LENS_KINGSTON.md): hardware-side application of F112 that surfaced the first structural counterexample to the broader empirical envelope (Z-drive + σ⁻ T1). The non-Hermitian extension proven here is orthogonal to that counterexample (the counterexample concerns bit_b-mixed c with Hermitian H, not non-Hermitian H with bit_b-homogeneous c).
+- [F112 hardware lens on Kingston](F112_HARDWARE_LENS_KINGSTON.md): hardware-side application of F112 that first surfaced the structural counterexample to the broader empirical envelope (Z-drive + σ⁻ T1). The non-Hermitian extension proven here is orthogonal to that counterexample (the counterexample concerns bit_b-mixed c with Hermitian H, not non-Hermitian H with bit_b-homogeneous c).
 - [LindbladBitBPiBalance.cs](../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiBalance.cs): the typed Tier1Derived C# Claim; this writeup informs the NonHermitianExtension inspectable.

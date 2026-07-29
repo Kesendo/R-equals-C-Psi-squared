@@ -98,7 +98,7 @@ def polarity_fingerprint(
     H = PauliHamiltonian.from_letter_tuples(terms, chain_length=chain.N)
     h_bit_b_homog = H.is_bit_b_homogeneous
     # c is bit_b-homogeneous iff no σ⁻ / σ⁺ dissipators (Z-dephasing alone is
-    # single-Pauli Z, trivially bit_b-homogeneous; σ⁻ = (X − iY)/2 is mixed)
+    # single-Pauli Z, trivially bit_b-homogeneous; σ⁻ = (X + iY)/2 is mixed)
     c_bit_b_homog = (gamma_t1 is None or gamma_t1 == 0) and \
                     (gamma_pump is None or gamma_pump == 0)
     in_typed_scope = h_bit_b_homog and c_bit_b_homog

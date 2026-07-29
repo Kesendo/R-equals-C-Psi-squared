@@ -15,10 +15,15 @@ Two corollaries this script also confirms:
   2. The genuine k>=3 soft cases are Z-ROUTED (XZX+XZY+YZX, stable soft at N=4,5,6), the hidden-Q
      mechanism, a separate path from the lit chiral-K colouring.
 
-Pipeline is byte-identical to the C# authority PauliPairTrichotomy.Classify and the Python twin
-fw.classify_pauli_pair (same sliding-window k-body builder, same Σγ, same greedy spectrum pairing);
-this script only also reads out the magnitudes (residual ‖M‖ and max pairing-error) that the class
-hides. SLOW (~5 min): three N=6 dense eigendecompositions of the 4096² Liouvillian.
+Pipeline matches the C# authority PauliPairTrichotomy.Classify (same sliding-window k-body builder,
+same Σγ, same greedy spectrum pairing, inlined below); this script only also reads out the
+magnitudes (residual ‖M‖ and max pairing-error) that the class hides. NOTE the Python twin
+fw.classify_pauli_pair no longer matches: it computes the EXACT bottleneck pairing rather than the
+greedy one, so it reports smaller magnitudes for the same system (0.3 against 0.4 for IIZ+IZI at
+N=4). Greedy can only overstate the error, so the soft/hard verdicts here are unaffected: against
+the 1e-6 threshold the soft side sits seven orders below and the hard side five orders above, and
+a factor-of-two difference in the reported magnitude cannot cross that.
+SLOW (~5 min): three N=6 dense eigendecompositions of the 4096² Liouvillian.
 
 Companion experiment: experiments/SOFTNESS_IS_N_DEPENDENT.md.
 """

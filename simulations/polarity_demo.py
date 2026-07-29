@@ -1,12 +1,14 @@
 """Polarity {−1/2, 0, +1/2} demo via the three-way decomposition (Schicht 1).
 
-Decomposes M = Π·L·Π⁻¹ + L + 2σ·I into three Frobenius-orthogonal coordinates:
+Decomposes M = Π·L·Π⁻¹ + L + 2σ·I into three coordinates (whose norms add, though
+they are not mutually Frobenius-orthogonal):
 
     M_zero       = (M + Π·M·Π⁻¹) / 2                    (0-axis, F81 M_sym)
     M_plus_half  = (M_anti − i·Π·M_anti·Π⁻¹) / 2        (+1/2, Π eigenvalue +i)
     M_minus_half = (M_anti + i·Π·M_anti·Π⁻¹) / 2        (−1/2, Π eigenvalue −i)
 
-Frobenius-orthogonal: ‖M‖² = ‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖².
+Norm-sum identity: ‖M‖² = ‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖². It holds for
+any unitary Π and any M, so it is a wiring check, not evidence about Π.
 
 This demo sweeps 8 H families across 3 dissipator settings and reports the
 {0%, +1/2%, -1/2%} polarity profile plus the raw asymmetry.

@@ -93,7 +93,7 @@ public class PalindromeResidualTests
     [Fact]
     public void F1_Palindrome_BreaksFor_T1Dissipator()
     {
-        // T1 amplitude damping σ⁻ = (X − iY)/2 carries Y-component (bit_b=1) and breaks F1 trivially.
+        // T1 amplitude damping σ⁻ = (X + iY)/2 carries Y-component (bit_b=1) and breaks F1 trivially.
         int N = 2;
         double gammaZ = 0.05;
         double gammaT1 = 0.02;

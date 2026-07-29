@@ -19,7 +19,7 @@ namespace RCPsiSquared.Core.Tests.BlockSpectrum;
 /// eigenvalues, so <see cref="LiouvillianBlockSpectrum.ComputeSpectrum"/> still returns the
 /// correct full-L spectrum bit-exactly for T1.</para>
 ///
-/// <para><b>Math.</b> σ⁻ = (X − iY)/2 = [[0, 1], [0, 0]] flips |1⟩ → |0⟩, lowering Hilbert-side
+/// <para><b>Math.</b> σ⁻ = (X + iY)/2 = [[0, 1], [0, 0]] flips |1⟩ → |0⟩, lowering Hilbert-side
 /// popcount by 1. In the Lindblad super-operator <c>c ρ c† − ½ {c†c, ρ}</c>, the only off-block
 /// term is <c>c ⊗ c*</c> (the "jump"), and for σ⁻ this lowers BOTH ket popcount p_c AND bra
 /// popcount p_r by 1. The recycle <c>c†c ⊗ I</c> and <c>I ⊗ (c†c)^T</c> are diagonal in the

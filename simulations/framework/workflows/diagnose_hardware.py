@@ -29,11 +29,15 @@ def _structural_summary(terms, chain_length):
     Three independent Z₂ axes per term:
       bit_a: (#X + #Y) mod 2 — Z⊗N parity break
       bit_b: (#Y + #Z) mod 2 — Π² parity
-      Y-par: #Y mod 2          — independent at k ≥ 3
+      Y-par: #Y mod 2          : fixed by Klein at one non-identity-count parity
 
-    Klein-homogeneity (all terms share Klein index) is empirically necessary
-    (not sufficient) for F77 soft or truly. Verified k=2 full enumeration,
-    k=3 sample.
+    Klein-homogeneity (all terms share Klein index) forces soft-or-truly only
+    among identity-free two-letter pairs, and even there it is sufficient, never
+    necessary: plenty of Klein-INhomogeneous pairs are soft too. It does not
+    generalise: identity-bearing two-letter pairs are 5/15 hard (e.g. IZ+ZI,
+    Klein (0,1), hard at N=3 and N=4), and at k=3 the 294-pair Z₂³-homogeneous
+    sweep finds 50 hard. The reading below therefore reports the Klein structure,
+    not a verdict; call `classify_pauli_pair` for the class.
     """
     H = PauliHamiltonian.from_letter_tuples(terms, chain_length=chain_length)
 
@@ -49,13 +53,16 @@ def _structural_summary(terms, chain_length):
         klein_str = str(klein_set_sorted[0])
         reading = (
             f"Klein-homogeneous (all terms share Klein index {klein_str}); "
-            f"eigenvalue pairing preserved (F77 soft or truly guaranteed by structure)."
+            f"Klein index alone does NOT settle the F87 class here: it forces "
+            f"soft-or-truly only for identity-free two-letter pairs, and even "
+            f"there only one way round; call classify_pauli_pair for the verdict."
         )
         if not H.is_z2_homogeneous:
             reading += (
                 f" Klein-homogeneous but Z₂³-inhomogeneous: Y-parities differ "
                 f"({y_parity_set_sorted}), full Z₂³ signatures differ "
-                f"({z2_signature_set_sorted}); this distinction matters at k ≥ 3."
+                f"({z2_signature_set_sorted}); this already separates two-letter terms, "
+                f"e.g. XY against ZI."
             )
     else:
         klein_str = ', '.join(str(k) for k in klein_set_sorted)
@@ -221,11 +228,14 @@ def diagnose_hardware(
         # Typed Tier1Derived scope: Hermitian H + bit_b-homogeneous c_k implies
         # asymmetry = 0 bit-exact. chain.L's single-Pauli Z-dephasing is trivially
         # bit_b-homogeneous, so for pure Z-deph the lens predicts BALANCED. Adding
-        # T1 / T2 dissipators extends beyond F112's typed scope (σ⁻ = (X − iY)/2 is
-        # not bit_b-homogeneous), but the polarity balance is empirically preserved
-        # there as well per probes 1–14. Asymmetry ≠ 0 here would witness a
-        # framework-construction-channel breakdown; on hardware data it would
-        # require fitting an effective L outside the framework's standard pipeline.
+        # T1 / T2 dissipators leaves F112's typed scope (σ⁻ = (X + iY)/2 is not
+        # bit_b-homogeneous), and there the balance is NOT guaranteed: F113 gives
+        # the exact gap once H carries a single-site Z moment.
+        # Note this call cannot see that. It goes through the chain-bound entry
+        # point, whose `pi_decompose_M` keeps only terms of length ≥ 2, so a
+        # single-site ('Z',) is silently dropped and the reading is structurally
+        # pinned to BALANCED. Treat it as a wiring check on the terms given, not
+        # as evidence about the polarity axis; the L-bound entry point can break.
         pol = polarity_coordinates(chain, terms)
         m_sq = pol['norm_sq']['M']
         asym = pol['asymmetry']

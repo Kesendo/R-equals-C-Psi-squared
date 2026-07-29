@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 import framework as fw
 
 
-def test_confirmations_has_twenty_three_entries():
+def test_confirmations_has_twenty_four_entries():
     names = fw.Confirmations.list_names()
     assert len(names) == 24
     assert 'palindrome_trichotomy' in names

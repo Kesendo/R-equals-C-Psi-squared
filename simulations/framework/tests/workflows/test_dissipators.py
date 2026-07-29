@@ -34,9 +34,13 @@ def test_dissipator_c1_c2_scaling():
 
 
 def test_dissipator_c1_c2_sigma_minus_plus():
-    """σ⁻ = (X-iY)/2 and σ⁺ = (X+iY)/2 give identical (c1, c2) = (3, 4)."""
-    c1_sm, c2_sm = fw.dissipator_c1_c2_from_pauli(0.5, -0.5j, 0)
-    c1_sp, c2_sp = fw.dissipator_c1_c2_from_pauli(0.5, 0.5j, 0)
+    """σ⁻ = (X+iY)/2 and σ⁺ = (X-iY)/2 give identical (c1, c2) = (3, 4).
+
+    This blindness is why the HARDWARE_DISSIPATORS table could carry the two
+    labels swapped without any test noticing.
+    """
+    c1_sm, c2_sm = fw.dissipator_c1_c2_from_pauli(0.5, 0.5j, 0)
+    c1_sp, c2_sp = fw.dissipator_c1_c2_from_pauli(0.5, -0.5j, 0)
     assert abs(c1_sm - 3.0) < 1e-12 and abs(c2_sm - 4.0) < 1e-12
     assert abs(c1_sp - 3.0) < 1e-12 and abs(c2_sp - 4.0) < 1e-12
 

@@ -5,7 +5,14 @@ Tier-A datasets identified by the F112-hardware-inventory mapping (2026-05-26):
 
   1. block_cpsi_saturation     (2026-05-08, q13-q14, 5 t-points, idle/no-H)
   2. cusp_slowing               (2026-04-16, A_mid q124-q125 + B_high, 6 t-points, idle)
-  3. chain_gamma0               (2026-04-19, 4 pairs along chain Q12-Q19, 9 t-points, J·XY+YX bond H + Trotter)
+  3. chain_gamma0               (2026-04-19, 4 pairs along chain Q12-Q19, 9 t-points, (J/2)(XX+YY) bond H + Trotter)
+                                NOTE these four "pair-runs" are four ADJACENT PAIRS of one
+                                5-qubit chain (chain_phys [12,13,14,15,19]) carrying a
+                                propagating single excitation, so each is an open, overlapping
+                                marginal. A closed 2-qubit Lindblad fit is misspecified there
+                                in a way no added channel repairs; the F112 asymmetry is still
+                                well defined on whatever L comes out, which is all this survey
+                                reads from them.
   4. f95_angle_steering         (2026-05-16, q82-q83, 2 omega values × 6 t-points, RZ Z-drive per Δt)
 
 For each dataset / pair:
@@ -17,8 +24,9 @@ For each dataset / pair:
 Aggregate finding to surface:
   - Across all hardware-derived L's, does the standard Lindblad channel always
     preserve polarity balance (extending probes 1-14's empirical envelope)?
-  - Which noise model best fits each pair's data, and does the dominant
-    extra channel sit inside F112's typed Tier1Derived scope?
+  - (Withdrawn as a deliverable: which noise model best fits each pair's data.
+    The family has no per-qubit detuning, which this data needs, so its ranking
+    compares members of the wrong family. See the companion experiment.)
 
 No new QPU spend; pure analysis on existing data per feedback_qpu_conservative.
 """
@@ -40,7 +48,14 @@ I2 = np.eye(2, dtype=complex)
 X = np.array([[0, 1], [1, 0]], dtype=complex)
 Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
 Z = np.array([[1, 0], [0, -1]], dtype=complex)
-SIGMA_MINUS = np.array([[0, 0], [1, 0]], dtype=complex)
+SIGMA_MINUS = np.array([[0, 1], [0, 0]], dtype=complex)  # |0><1|, LOWERS |1> -> |0>
+# Corrected 2026-07-29. This file previously used [[0,0],[1,0]] = |1><0|, the RAISING
+# operator, mislabelled as |0><1|. Fitting a pump to relaxing data with rates clamped
+# non-negative forced gamma_T1 -> 0, which was read as 'amplitude damping is rejected'.
+# The model family below is still incomplete: it has no per-qubit Z detuning, which the
+# block_cpsi transverse expectations need (they alternate in sign between samples). The
+# companion experiment's fit-quality half is withdrawn until that is added; do not
+# publish a model ranking from this script as it stands.
 PAULI = {'I': I2, 'X': X, 'Y': Y, 'Z': Z}
 
 
@@ -124,11 +139,16 @@ def build_L_model(params, model, fixed_h=None):
     else:
         raise ValueError(f"Unknown model: {model}")
 
-    L_vec = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    # vec is COLUMN-stack (rho.flatten('F')), so the superoperator must be the
+    # column-stack one: vec_F(A X B) = (B^T (x) A) vec_F(X). The earlier row-stack
+    # form here integrated the commutator with -H^T, i.e. a sign-flipped drive for
+    # any real symmetric H (the fixed f95 Z-drive); Y and the free-sign ZZ were blind
+    # to it. Corrected 2026-07-29.
+    L_vec = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
     for c, g in zip(c_list, g_list):
         c_dag_c = c.conj().T @ c
-        anti = 0.5 * (np.kron(c_dag_c, Id) + np.kron(Id, c_dag_c.T))
-        L_vec = L_vec + g * (np.kron(c, c.conj()) - anti)
+        anti = 0.5 * (np.kron(Id, c_dag_c) + np.kron(c_dag_c.T, Id))
+        L_vec = L_vec + g * (np.kron(c.conj(), c) - anti)
     return L_vec, c_kind, H
 
 
@@ -176,6 +196,30 @@ def is_bit_b_homogeneous_label(label):
     return False
 
 
+def _to_row_stack(L_vec, d=4):
+    """Row-stack representative of a column-stack Liouvillian.
+
+    The propagator here is column-stack (rho.flatten('F')), which is what makes
+    exp(L t) correct. The F112/F113 polarity read is pinned to the OTHER pairing:
+    a row-stack L against the order='F' Pauli transform. That mismatch is
+    the pairing F113's stated direction is written for: it fixes which half is
+    called +1/2, hence the SIGN of Asymmetry (see PauliBasis.cs; F113 gives
+    -2.08e-3 at omega=0.13, gamma_T1=0.001, N=2 for cooling, and a consistent
+    pairing would give +2.08e-3).
+
+    vec_C(rho) = vec_F(rho^T) = T vec_F(rho) with T the transpose permutation, so
+    L_row = T L_col T exactly (T^2 = I). Converting here keeps the propagator
+    correct AND the reported asymmetry sign on its pin. Bond Hamiltonians give
+    asymmetry 0 either way, so only the Z-drive runs can see this.
+    """
+    import numpy as _np
+    T = _np.zeros((d * d, d * d))
+    for i in range(d):
+        for j in range(d):
+            T[j * d + i, i * d + j] = 1.0
+    return T @ L_vec @ T
+
+
 def run_polarity_on_L(L_vec, N=2, sigma=None):
     T = fw.pauli._vec_to_pauli_basis_transform(N)
     L_pauli = (T.conj().T @ L_vec @ T) / (2 ** N)
@@ -209,11 +253,15 @@ def analyze_trajectory(label, t_us, rhos, gz_init, gt1_init,
         x_fit, fit_loss = fit_one(model, t_us, rhos, x0, fixed_h)
         rms = float(np.sqrt(fit_loss / max(len(t_us) - 1, 1)))
         L_vec, c_kind, H = build_L_model(x_fit, model, fixed_h=fixed_h)
-        sigma = float(np.real(sum([
-            (x_fit[0] + x_fit[1]) if model in ('pure_Z', 'Z_plus_ZZ', 'Z_plus_hy')
-            else (x_fit[0] + x_fit[1] + x_fit[2] + x_fit[3])
-        ])))
-        pol = run_polarity_on_L(L_vec, N=2, sigma=sigma)
+        # The palindrome centre is the DEPHASING sum. Including the T1 rates as well
+        # is the other convention in use here, and it changes nothing: `asym` is
+        # untouched either way (the shift is a multiple of I, which is Ad_Pi-fixed and
+        # lands wholly in M_zero), and ||M||^2 is a parabola in sigma minimised at
+        # sum(gz) + sum(gt1)/2, so the two conventions sit symmetrically about the
+        # minimum and agree on ||M||^2 to machine precision (`asym` itself is
+        # bit-identical). Verified at N=2 and N=3.
+        sigma = float(np.real(x_fit[0] + x_fit[1]))
+        pol = run_polarity_on_L(_to_row_stack(L_vec), N=2, sigma=sigma)
         m_sq = pol['norm_sq']['M']
         asym = pol['asymmetry']
         rel = abs(asym) / max(m_sq, 1e-15)
@@ -276,13 +324,16 @@ def load_cusp_slowing():
 
 
 def load_chain_gamma0():
-    """2026-04-19 Kingston, 4 pairs along chain, 9 t-points each, J·XY+YX bond H via Trotter."""
+    """2026-04-19 Kingston, 4 pairs along chain, 9 t-points each, (J/2)(XX+YY) bond H via Trotter."""
     with open('data/ibm_chain_gamma0_april2026/'
               'chain_gamma0_hardware_20260419_110200.json',
               encoding='utf-8') as f:
         d = json.load(f)
     t_grid = np.array(d['t_us_grid'], dtype=float)
-    J = float(d['J_rad_per_us'])  # rad/μs, for XY+YX bond Hamiltonian
+    # The JSON field is named J_rad_per_us but the dataset README says in as many words
+    # that 1.838 is a FREQUENCY in MHz (cycles/us) and the angular rate would be 11.55.
+    # Convert, or the bond Hamiltonian handed to the fitter is 2*pi too weak.
+    J = 2.0 * np.pi * float(d['J_rad_per_us'])  # rad/us for the (J/2)(XX+YY) bond
     out = []
     for pair_label in d['pair_labels']:
         traj = d['hw_trajectories'][pair_label]
@@ -317,10 +368,14 @@ def load_f95():
             t_us = np.array([s['t_us'] for s in traj], dtype=float)
             rhos = [reconstruct_rho_from_real_imag(s['rho2_real'], s['rho2_imag'])
                     for s in traj]
-            # Applied H during free evolution: single-site Z drive at omega rate
-            # (effective Larmor precession on both qubits). Z bit_b=1, so the per-site
-            # h_z·Z_l Hamiltonian is bit_b-homogeneous.
-            H_z_drive = omega_per_us * (site_op(2, 0, Z) + site_op(2, 1, Z)) / 2.0
+            # Applied H during free evolution: the protocol injects RZ(omega*dt) on ONE
+            # qubit of the pair (data README: "per-chunk RZ injection on the steering
+            # qubit"), and the dataset's own predicted crossing angles match
+            # phi_0 - omega*t exactly, not phi_0 - 2*omega*t. Which site carries it is
+            # not observable here (the Bell coherence turns at the SUM of the two Z
+            # coefficients), so site 0 is a representative choice. Z has bit_b=1, so the
+            # drive is bit_b-homogeneous either way.
+            H_z_drive = omega_per_us * site_op(2, 0, Z) / 2.0
             label = f'f95 {pair_key} q{qubits[0]}-q{qubits[1]} ({omega_tag}, Kingston, 2026-05-16)'
             out.append((label, t_us, rhos, H_z_drive))
     return out
@@ -373,7 +428,9 @@ def main():
     print()
     from collections import Counter
     bm_counts = Counter(best_models)
-    print("  Best-fit model distribution across pair-runs:")
+    print("  Best-fit model distribution across pair-runs (NOT a channel finding:")
+    print("  the model family carries no per-qubit detuning, which this data needs,")
+    print("  so this ranking compares members of the wrong family):")
     for m, c in bm_counts.most_common():
         print(f"    {m:<22} : {c}")
 
@@ -417,17 +474,22 @@ def main():
   The broader empirical envelope (probes 1-14 conjecture: bit_b-mixed c
   with σ⁻ T1 ALSO preserves balance) has {out_scope_broken} counterexamples
   in this run. All {out_scope_broken} are f95-dataset fits where the applied
-  Hamiltonian includes a single-site Z drive (omega·Σ Z_l) combined with
+  Hamiltonian includes a Z drive on ONE qubit of the pair, (omega/2)·Z_0, combined with
   σ⁻ T1 amplitude damping. The Z-drive lives on bit_b=1, σ⁻ on bit_b ∈ {{0,1}}
   jointly; together they produce non-zero polarity asymmetry up to rel
   {max_rel_asym:.2e}.
 
   For idle and XY-bond Hamiltonians, σ⁻ T1 fits preserve balance bit-exact;
-  for Z-drive H, σ⁻ T1 fits do NOT. This sharpens the empirical envelope
-  beyond F112's typed scope: not "any bit_b-mixed c with Hermitian H gives
-  balance" (the loose probes-1-14 reading) but rather "bit_b-mixed c with
-  trivial or bit_b-homog Hermitian H gives balance; combined with bit_b-homog
-  H it does not."
+  for Z-drive H, σ⁻ T1 fits do NOT. That is F113's selector Tr(Z_l H) seen on
+  fitted Liouvillians. It is a statement about σ⁻, not about bit_b-mixed c in
+  general: a generic cross-bit_b collapse operator breaks the balance on a plain
+  Heisenberg bond, where Tr(Z_l H) = 0.
+
+  Note what this split is NOT: evidence about the chip. The single-site Z
+  reaches these models only as the known drive handed to the fitter, and no
+  other model in the set has one at all, so the split follows from the model
+  file. The same data need a per-qubit detuning, itself a single-site Z, that
+  none of these models carry.
 """)
     if broken_details:
         print("  Counterexamples (out-scope BROKEN cases):")

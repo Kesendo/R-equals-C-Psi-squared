@@ -211,10 +211,13 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
     ///         block_cpsi, chain_gamma0 Tier-A datasets): idle / XY-bond / Heisenberg-style
     ///         Hermitian H combined with σ⁻ T1 still balances bit-exact. Expected BALANCED.</item>
     ///   <item><b>Zdrive_with_T1_envelope_BROKEN</b>: H = ω·(Z₀+Z₁)/2 single-site Z-drive
-    ///         (ω = 0.13) + σ⁻ T1 (γ_T1 = 0.001). The structural counterexample discovered
-    ///         Welle 2, 2026-05-26, via the f95_angle_steering Tier-A dataset (Kingston,
-    ///         2026-05-16). Synthetic isolation in <c>f112_hardware_lens_multi.py</c>
-    ///         confirms rel asym ≈ 3.85e-3 bit-exact. Expected BROKEN.</item>
+    ///         (ω = 0.13) + σ⁻ T1 (γ_T1 = 0.001). The structural counterexample, first
+    ///         noticed while fitting the f95_angle_steering Tier-A dataset (Kingston,
+    ///         2026-05-16), whose protocol supplies a drive of this kind, though on ONE
+    ///         qubit of the pair rather than both, so its own value is half of this one. At these
+    ///         parameters rel asym ≈ 3.85e-3, a value of the F113 formula (identical for
+    ///         σ⁻ and σ⁺, since rel is an absolute value), reproduced by
+    ///         <c>simulations/f113_break_formula_derivation.py</c>. Expected BROKEN.</item>
     /// </list>
     /// All five use <see cref="Tolerance"/> = 1e-10 to keep the BALANCED/BROKEN cut at
     /// the bit-exact scale of F112 (any rel asym > 1e-10 counts as BROKEN).</summary>

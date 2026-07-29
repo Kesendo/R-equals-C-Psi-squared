@@ -15,22 +15,22 @@ The theorem chain F81 → F82 → F84 makes `f81_violation = ‖M_anti − L_{H_
 
 ## Leg 1: the method demo on the F113 Kingston fits (and the tautology, made visible)
 
-The F113 pipeline ([`f113_t1_extraction_kingston.py`](../simulations/f113_t1_extraction_kingston.py)) fit a minimal Z+T1 Lindblad model (known Z-drive ω, free γ_z and γ_T1) to the four f95 pair-run trajectories. We refit (values reproduce the F113 table to ≤0.05%) and compute the violation on each fitted L directly.
+The F113 pipeline ([`f113_t1_extraction_kingston.py`](../simulations/f113_t1_extraction_kingston.py)) fit a minimal Z+T1 Lindblad model (known Z-drive ω, free γ_z and γ_T1) to the four f95 pair-run trajectories. We refit (values reproduce the F113 table to ≤0.4%) and compute the violation on each fitted L directly.
 
-A technical note that matters for reuse: the f95 Hamiltonian is the 1-body drive H = (ω/2)·Σ_l Z_l, which `pi_decompose_M`'s terms interface cannot express (1-letter terms fall through its 2-body/k-body branches). The script therefore hand-rolls the decomposition from the same framework primitives (`palindrome_residual`, `build_pi_full`, the Pauli-basis transform), with H_odd projected from below via X^⊗N conjugation, and GATES the hand-rolled path against `pi_decompose_M` on a terms-expressible case first: agreement is bit-exact (diff 0.0).
+A technical note that matters for reuse: the f95 Hamiltonian is the 1-body drive H = (ω/2)·Z on the steering qubit, which `pi_decompose_M`'s terms interface cannot express (1-letter terms fall through its 2-body/k-body branches). The script therefore hand-rolls the decomposition from the same framework primitives (`palindrome_residual`, `build_pi_full`, the Pauli-basis transform), with H_odd projected from below via X^⊗N conjugation, and GATES the hand-rolled path against `pi_decompose_M` on a terms-expressible case first: agreement is bit-exact (diff 0.0).
 
 | Pair-run | γ_z fit | γ_T1 fit | violation (/µs) | violation / F82(γ_T1 fit) | γ_T1,RMS inverse | T1 implied | γ_T1 calib | overshoot |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| ω=0.13 A_mid q82-q83 | 0.0980 | 0.00574 | 1.623e-2 | **1.000000000000** | 0.00574 | 174.3 µs | 0.00507 | 1.13 |
-| ω=0.13 B_high q13-q14 | 0.1402 | 0.00616 | 1.742e-2 | **1.000000000000** | 0.00616 | 162.4 µs | 0.00464 | 1.33 |
-| ω=0.25 A_mid q82-q83 | 0.3361 | 0.00722 | 2.041e-2 | **1.000000000000** | 0.00722 | 138.6 µs | 0.00507 | 1.42 |
-| ω=0.25 B_high q13-q14 | 3.5237 | 0.00564 | 1.595e-2 | **1.000000000000** | 0.00564 | 177.4 µs | 0.00464 | 1.22 |
+| ω=0.13 A_mid q82-q83 | 0.0163 | 0.00577 | 1.633e-2 | **1.000000000000** | 0.00577 | 173.3 µs | 0.00507 | 1.14 |
+| ω=0.13 B_high q13-q14 | 0.0123 | 0.00615 | 1.740e-2 | **1.000000000000** | 0.00615 | 162.6 µs | 0.00464 | 1.33 |
+| ω=0.25 A_mid q82-q83 | 0.0155 | 0.00746 | 2.109e-2 | **1.000000000000** | 0.00746 | 134.1 µs | 0.00507 | 1.47 |
+| ω=0.25 B_high q13-q14 | 0.0114 | 0.00564 | 1.596e-2 | **1.000000000000** | 0.00564 | 177.2 µs | 0.00464 | 1.22 |
 
 Readings:
 
 1. **The ratio column is the tautology, confirmed to all digits.** On a Z+T1-parameterized fit the violation is the closed form of the fitted γ_T1. The pipeline (hardware fit → violation → inverse readout) runs end-to-end and is exact; as a measurement it carries no information beyond γ_T1_fit.
-2. **The physics that survives is the overshoot column:** the violation-implied γ_T1,RMS exceeds the independent calibration 1/T1 by 1.13-1.42, exactly the F113 underfit signature (the 2-parameter model dumps all non-T1 noise into the σ⁻ channel). The violation of a parameterized fit reads an EFFECTIVE non-unital content, an upper bound on the true σ± rates.
-3. One honesty note on the F113 narrative: the overshoot is ω-monotone on A_mid (1.13 → 1.42) but not on B_high (1.33 → 1.22, the run whose γ_z fit degenerated to 3.5/µs). "Higher drive → more absorbed noise" holds as a trend, not per-pair.
+2. **The physics that survives is the overshoot column:** the violation-implied γ_T1,RMS exceeds the independent calibration 1/T1 by 1.14-1.47, exactly the F113 underfit signature (the 2-parameter model dumps all non-T1 noise into the σ⁻ channel). The violation of a parameterized fit reads an EFFECTIVE non-unital content, an upper bound on the true σ± rates.
+3. One honesty note on the F113 narrative: the overshoot rises with ω on A_mid (1.14 → 1.47) and falls on B_high (1.33 → 1.22). With two pairs going opposite ways the pair-to-pair spread is as large as any drive dependence, so "higher drive → more absorbed noise" is not readable from this data.
 
 ## Leg 2: the grounding (what the number IS)
 

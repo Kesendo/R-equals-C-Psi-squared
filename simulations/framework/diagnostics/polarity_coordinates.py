@@ -2,11 +2,24 @@
 
 Refinement of F81: F81 splits M = M_sym + M_anti by Π-conjugation parity
 (eigenvalues ±1 of the linear map X ↦ Π·X·Π⁻¹). Π is order-4 on Liouville
-space (Π⁴ = I) so the full Π-eigenvalue spectrum is {+1, −1, +i, −i}.
-The +1 / −1 eigenspaces together form M_sym (Π²-even), and the +i / −i
-eigenspaces together form M_anti (Π²-odd). This primitive refines the
-±1 sub-split into the explicit +i / −i projections, giving the typed
-polarity triple {−1/2, 0, +1/2} at d=2:
+space (Π⁴ = I), so the conjugation map A := Ad_Π has spectrum {+1, −1, +i, −i}.
+
+CAREFUL (corrected 2026-07-29): because A has order 4, (1 ± A)/2 are NOT
+eigenprojections, and the three pieces below are NOT the A-eigenspaces they were
+once described as. Writing M = u + v + p + m for the true A-eigencomponents
+(+1, −1, +i, −i), what this module builds is
+
+    M_zero       = u + (1+i)p/2 + (1−i)m/2
+    M_plus_half  =     (1+i)v/2 + (1−i)p/2
+    M_minus_half =     (1−i)v/2 + (1+i)m/2
+
+so M_zero is not the Π²-even part (for XY+YX at N=3 it is entirely Π²-ODD), and
+the three are not mutually Frobenius-orthogonal. The Π²-even projector is
+(1 + A²)/2. What survives untouched is the quantity everything downstream reads:
+asymmetry = ½(‖P_{+i}M‖² − ‖P_{−i}M‖²), since the v contamination enters both
+halves equally and cancels; F112's zero and F113's (4^N/2) are unaffected.
+
+The typed polarity triple {−1/2, 0, +1/2} at d=2:
 
     M_zero       = (M + Π·M·Π⁻¹) / 2                      (0-axis, F81 M_sym)
     M_plus_half  = (M_anti − i · Π·M_anti·Π⁻¹) / 2        (Π eigenvalue +i, +1/2)
@@ -14,9 +27,13 @@ polarity triple {−1/2, 0, +1/2} at d=2:
 
 where M_anti = (M − Π·M·Π⁻¹) / 2 is the F81 antisymmetric part.
 
-Frobenius-orthogonal invariant:
+Norm-sum identity (NOT an orthogonality check):
 
     ‖M‖² = ‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖²
+
+This holds algebraically for ANY unitary Π and ANY M (the cross terms cancel
+identically), so `orthogonality_residual` is machine zero by construction and
+cannot fail. It is a wiring check on the arithmetic, not evidence about Π.
 
 Connection to F81:
     F81 M_sym  = M_zero
@@ -27,11 +44,22 @@ Working hypothesis (to be tested empirically by Task B):
     T1 cooling-only (γ_↓ ≠ γ_↑) → measurable asymmetry, F81 violation per F84
 
 Outcome (Task B+C, 2026-05-25): Hermitian-H balance CONFIRMED across all six bilinear
-H families; T1 asymmetry hypothesis REFUTED (asymmetry = 0.0 bit-exact across the 8 H
-families x 3 dissipator settings tested). F84's F81-violation IS measurable but does
-not split asymmetrically between +i and -i Π-eigenvalues. Structural reading: bra-ket
-exchange symmetry of any Lindbladian (Hermitian-superoperator) M. Reflection doc at
-reflections/POLARITY_COORDINATES.md.
+H families; T1 asymmetry measured 0.0 bit-exact across the 8 H families x 3 dissipator
+settings tested.
+
+SCOPE CORRECTION (2026-07-29): that sweep covered BOND Hamiltonians only, for which
+Tr(Z_l H) = 0, and the vanishing is a property of that family, NOT of Lindbladians in
+general. The earlier "structural reading: bra-ket exchange symmetry of any Lindbladian"
+is withdrawn: it is refuted by F113 below in this very module. Add single-site Z-drives
+and the asymmetry is nonzero and exactly linear,
+    asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l),
+e.g. −2.08e-3 at N=2 and −1.248e-2 at N=3 for ω = 0.13 on EVERY site and γ_T1 = 0.001
+(a drive on one site alone gives −1.04e-3 and −4.16e-3). Note the
+chain-bound `polarity_coordinates(chain, terms, ...)` entry point cannot exhibit the
+effect: pi_decompose_M keeps only len==2 and len>2 terms, so a single-site ('Z',) is
+SILENTLY DROPPED (it returns a decomposition of the zero Hamiltonian, no error, unlike
+the sister `classify_pauli_pair`, which raises for k<2). The L-bound entry point can.
+Reflection doc at reflections/POLARITY_COORDINATES.md.
 """
 from __future__ import annotations
 
@@ -45,13 +73,15 @@ from .f81_pi_decomposition import pi_decompose_M
 def polarity_coordinates(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, strict=None):
     """Three-way polarity decomposition of M = Π·L·Π⁻¹ + L + 2Σγ·I.
 
-    Refines F81's binary sym/anti split into three orthogonal components:
+    Refines F81's binary sym/anti split into three components (NOT orthogonal, and
+    NOT A-eigenspaces; see the module docstring):
 
-        M_zero       = M_sym = (M + Π·M·Π⁻¹) / 2            (0-axis, Π²-symmetric)
+        M_zero       = M_sym = (M + Π·M·Π⁻¹) / 2            (0-axis, F81 M_sym)
         M_plus_half  = (M_anti − i·Π·M_anti·Π⁻¹) / 2        (+1/2 polarity, Π eigenvalue +i)
         M_minus_half = (M_anti + i·Π·M_anti·Π⁻¹) / 2        (−1/2 polarity, Π eigenvalue −i)
 
-    Frobenius-orthogonal: ‖M‖² = ‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖².
+    Norm-sum identity (holds for any unitary Π, so it cannot fail):
+    ‖M‖² = ‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖².
 
     The ±i projections are the standard Π-eigenvalue projectors restricted
     to the Π²-odd subspace (where Π acts with eigenvalues ±i). Π is unitary,
@@ -71,13 +101,13 @@ def polarity_coordinates(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=N
     Returns:
         dict with keys:
             'M':                   full 4^N × 4^N residual in Pauli basis.
-            'M_zero':              0-axis component (Π²-symmetric, = F81 M_sym).
+            'M_zero':              0-axis component (= F81 M_sym; NOT the Π²-even part).
             'M_plus_half':         +1/2 polarity component (Π eigenvalue +i).
             'M_minus_half':        −1/2 polarity component (Π eigenvalue −i).
             'norm_sq':             dict of Frobenius norms² for M / M_zero / M_plus_half / M_minus_half.
             'asymmetry':           float ‖M_plus_half‖² − ‖M_minus_half‖² (zero for Hermitian H + pure Z-deph).
             'orthogonality_residual': float |‖M‖² − (‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖²)|
-                                      (machine precision when the invariant holds).
+                                      (machine zero by construction; cannot fail).
     """
     f81 = pi_decompose_M(
         chain, terms,
@@ -244,15 +274,16 @@ def polarity_coordinates_from_hc(H, c_ops, gammas, N, sigma=None, Pi=None):
         c_dag_c = c.conj().T @ c
         anti = 0.5 * (np.kron(c_dag_c, Id) + np.kron(Id, c_dag_c.T))
         L_vec = L_vec + g * (np.kron(c, c.conj()) - anti)
-    # Column-stack DELIBERATELY, and do not "align" this with the row-stack sites.
+    # The transform below is order='F' DELIBERATELY, against a row-stack L, and the
+    # mismatch must not be "aligned" away.
     # The ±i projectors that split M_anti into M_plus_half / M_minus_half are exchanged
-    # by the stacking twist, so the stacking decides which component is called +1/2 and
-    # hence the SIGN of `asymmetry`. F113 pins that choice: for Hermitian H with
-    # single-site Z-drives plus σ⁻ damping it predicts (4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l),
-    # negative when cooling dominates, and −2.08e-3 at ω=0.13, γ_T1=0.001, N=2 is the
-    # Kingston hardware-fit value. Column-stack reproduces that sign; row-stack returns
-    # the same magnitude negated. The asymmetry vanishes for bond Hamiltonians, so a
-    # check over Heisenberg/XXZ alone will not catch a flip here.
+    # by the stacking twist, so this pairing decides which component is called +1/2 and
+    # hence the SIGN of `asymmetry`. The pairing is mismatched on purpose, equivalent to
+    # conjugating Π: either consistent pairing returns +2.08e-3 where this one returns
+    # −2.08e-3 at ω=0.13, γ_T1=0.001, N=2. F113's stated direction (negative for cooling)
+    # is written for THIS pairing, so changing it here means changing F113's sign too.
+    # The asymmetry vanishes for bond Hamiltonians, so a check over Heisenberg/XXZ alone
+    # will not catch a flip here.
     T = _vec_to_pauli_basis_transform(N, order='F')
     L_pauli = (T.conj().T @ L_vec @ T) / (2 ** N)
     return polarity_coordinates_from_L(L_pauli, N, sigma, Pi=Pi)

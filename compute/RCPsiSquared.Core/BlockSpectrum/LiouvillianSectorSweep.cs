@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <see cref="F1.F1OpenQuestions"/> and witnessed at small N by
 /// <c>PalindromeResidualTests.F1_Palindrome_BreaksFor_T1Dissipator</c>):</para>
 /// <list type="bullet">
-///   <item><b>T1 amplitude damping</b> (Lindblad operator σ⁻ = (X − iY)/2 carries a Y
+///   <item><b>T1 amplitude damping</b> (Lindblad operator σ⁻ = (X + iY)/2 carries a Y
 ///         component, bit_b = 1) — F1 residual jumps from FP-noise to <c>O(γ_T1)</c>.</item>
 ///   <item><b>Depolarising noise</b> — F1 breaks with residual scaling (2/3)Σγ, linear
 ///         in γ and N (closed form is an F1OpenQuestions item).</item>

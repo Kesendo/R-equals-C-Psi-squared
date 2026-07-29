@@ -682,7 +682,7 @@ daily on real hardware.
 ## Story 9: The Hardware
 
 *"The chip is not a metaphor. IBM's qubits sit in physical microwave
-cavities, dephased by real photons. Twenty predictions confirmed,
+cavities, dephased by real photons. Twenty-four predictions confirmed,
 each tied to a hardware run."*
 
 The framework discovered the cavity structure from eigenvalue
@@ -697,7 +697,7 @@ newest kind of result: a protocol in which the chip's own decay reads
 a structural property of a programmed Hamiltonian, catches its own
 misreading, and corrects it the same day. The live record is the
 Confirmations registry (`fw.Confirmations` in Python,
-`ConfirmationsRegistry` in C#): twenty confirmed predictions with
+`ConfirmationsRegistry` in C#): twenty-four confirmed predictions with
 run identifiers, predicted versus measured values, and archived data. Look
 them up; do not re-derive.
 
@@ -727,9 +727,14 @@ them up; do not re-derive.
    from one dataset.
 
 6. [F112 Hardware Lens Kingston](../experiments/F112_HARDWARE_LENS_KINGSTON.md):
-   The lens turned around. The framework's polarity balance reads a
-   transverse-field anomaly on the chip: the channel works, and what it
-   reads is the gap between the chip and its datasheet.
+   The lens turned around, and then the lens itself was caught. The
+   fitter's jump operator pointed the wrong way, its superoperator and its
+   state disagreed about stacking, and the model family had no term for the
+   one thing the data plainly does: turn. So the document names no channel
+   any more, and what is left of it is a theorem being evaluated rather
+   than a chip being read. The instructive part is why none of it showed:
+   everything the pipeline checked was a magnitude, and a magnitude cannot
+   see a direction.
 
 7. [F120 on Kingston](../experiments/F120_MOMENT_TOWER_KINGSTON.md):
    The newest kind of result, honestly told in two acts. A protocol

@@ -89,9 +89,10 @@ public class LindbladBitBPiBalanceWitnessTests
     [Fact]
     public void Witness_Zdrive_with_T1_envelope_BROKEN_Matches()
     {
-        // The structural payload of this commit: Z-drive + σ⁻ T1 BREAKS F112 balance
-        // bit-exactly at rel asym ≈ 3.85e-3 (Welle 2 hardware-fit isolation,
-        // f95_angle_steering Kingston 2026-05-16). The witness is expected BROKEN.
+        // The structural payload: Z-drive + σ⁻ T1 BREAKS F112 balance, at rel asym
+        // ≈ 3.85e-3 for these parameters (ω = 0.13, γ_T1 = 0.001, N = 2). That is a
+        // value of the F113 formula, not a hardware reading. The witness is expected
+        // BROKEN.
         var w = LindbladBitBPiBalanceWitness.StandardSet(MakeChain())[4];
         Assert.Equal("Zdrive_with_T1_envelope_BROKEN", w.WitnessName);
         Assert.Equal("BROKEN", w.ExpectedVerdict);

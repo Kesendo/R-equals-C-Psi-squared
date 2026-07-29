@@ -371,10 +371,10 @@ def dissipator_d2_from_pauli(alpha1, beta1, delta1, alpha2, beta2, delta2):
 # Each entry: name → ((alpha, beta, delta), c1, c2). For class K with rate
 # γ_K_l per site l: per-class contribution = 4^(N-1)·[c1·Σγ²+c2·(Σγ)²].
 HARDWARE_DISSIPATORS = {
-    'T1':     {'pauli': (0.5, -0.5j, 0), 'c1': 3.0,  'c2': 4.0,
-               'desc': "amplitude relaxation σ⁻ = (X−iY)/2"},
-    'T1pump': {'pauli': (0.5, 0.5j, 0),  'c1': 3.0,  'c2': 4.0,
-               'desc': "amplitude pumping σ⁺ = (X+iY)/2 (thermal excitation)"},
+    'T1':     {'pauli': (0.5, 0.5j, 0),  'c1': 3.0,  'c2': 4.0,
+               'desc': "amplitude relaxation σ⁻ = (X+iY)/2 = [[0,1],[0,0]], |1⟩ → |0⟩"},
+    'T1pump': {'pauli': (0.5, -0.5j, 0), 'c1': 3.0,  'c2': 4.0,
+               'desc': "amplitude pumping σ⁺ = (X−iY)/2 = [[0,0],[1,0]] (thermal excitation)"},
     'Tphi':   {'pauli': (0, 0, 1),       'c1': 0.0,  'c2': 16.0,
                'desc': "pure dephasing σ_z (Π-respecting with σ_offset=γ; "
                        "c1=c2=0 there, but c2=16 with σ_offset=0)"},

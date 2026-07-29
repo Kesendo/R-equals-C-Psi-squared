@@ -22,7 +22,7 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void All_HasTwentyThreeEntries()
+    public void All_HasTwentyFourEntries()
     {
         // Union discipline with simulations/framework/confirmations.py: both registries
         // hold the same set. Reconciled to 15 on 2026-06-08; ibm_ep_onset_may2026

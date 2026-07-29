@@ -158,7 +158,7 @@ H = fw.PauliHamiltonian.from_letter_tuples(
 H.klein_set                          # → {(0, 1)};  bit_a=0, bit_b=1
 H.is_klein_homogeneous               # → True
 H.per_term_full_z2_signatures        # → [(0,1,1), (0,1,1)];  bit_a, bit_b, Y-par
-H.is_z2_homogeneous                  # → True at k=2 (redundant); independent at k≥3
+H.is_z2_homogeneous                  # → finer than Klein only across mixed k_body parity
 ```
 
 The framework operates on this multi-axis polarity throughout:
@@ -171,10 +171,12 @@ The framework operates on this multi-axis polarity throughout:
 - **F-discriminating observables** cluster on X-rotated combinations
   because the F83 hardware test selects the bit_a-polarity diagonalization;
   a different choice of test could probe the bit_b axis directly.
-- **Klein-homogeneity rule** (verified at k=2 full enumeration, k=3
-  sample): Hamiltonians whose terms all share one Klein index are
-  always F87 soft or truly. This is a structural fact, exposed via
-  `PauliHamiltonian.is_klein_homogeneous`.
+- **Klein-homogeneity** is a structural reading, not a verdict: sharing
+  one Klein index leaves the F87 class open. It does force soft-or-truly
+  among the identity-free two-letter pairs (0 of 6 hard), but 5 of the 15
+  Klein-homogeneous pairs carrying an identity are hard. Exposed via
+  `PauliHamiltonian.is_klein_homogeneous`; the class comes from
+  `classify_pauli_pair`.
 
 The X-basis is not "the" polarity layer; it is the natural
 diagonalization of one of the two (k=2) or three (k≥3) Z₂ axes that

@@ -27,7 +27,7 @@ where L_{H_odd} = -i[H_odd, ·] is the unitary commutator induced by the Π²-od
     M_sym  = (M + Π·M·Π⁻¹) / 2 = Π·L·Π⁻¹ + L_diss + L_{H_even} + 2Σγ·I
     M_anti = (M − Π·M·Π⁻¹) / 2 = L_{H_odd}
 
-with M_sym ⊥_F M_anti (Frobenius-orthogonal) and ‖M‖²_F = ‖M_sym‖²_F + ‖M_anti‖²_F.
+with ‖M‖² = ‖M_sym‖² + ‖M_anti‖² (the cross term is purely imaginary, so the norms add; the two are not Frobenius-orthogonal in general).
 
 ---
 

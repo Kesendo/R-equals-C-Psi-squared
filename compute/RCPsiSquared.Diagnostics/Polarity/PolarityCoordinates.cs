@@ -13,23 +13,31 @@ namespace RCPsiSquared.Diagnostics.Polarity;
 /// M = Π·L·Π⁻¹ + L + 2σ·I into the polarity-triple {−1/2, 0, +1/2} at d=2:
 ///
 /// <code>
-///   M_zero       = (M + Π·M·Π⁻¹) / 2                      (0-axis, Π²-symmetric = F81 M_sym)
-///   M_plus_half  = (M_anti − i · Π·M_anti·Π⁻¹) / 2        (+1/2 polarity, Π eigenvalue +i)
-///   M_minus_half = (M_anti + i · Π·M_anti·Π⁻¹) / 2        (−1/2 polarity, Π eigenvalue −i)
+///   M_zero       = (M + Π·M·Π⁻¹) / 2                      (0-axis, = F81 M_sym)
+///   M_plus_half  = (M_anti − i · Π·M_anti·Π⁻¹) / 2        (+1/2 polarity)
+///   M_minus_half = (M_anti + i · Π·M_anti·Π⁻¹) / 2        (−1/2 polarity)
 /// </code>
 ///
-/// <para>where M_anti = (M − Π·M·Π⁻¹) / 2 is the F81 antisymmetric part. Refinement of F81:
-/// F81 splits M = M_sym + M_anti by Π-conjugation parity (eigenvalues ±1 of the linear map
-/// X ↦ Π·X·Π⁻¹). Π is order-4 on Liouville space (Π⁴ = I), so the full Π-eigenvalue
-/// spectrum is {+1, −1, +i, −i}. The +1 / −1 eigenspaces together form M_sym (Π²-even),
-/// and the +i / −i eigenspaces together form M_anti (Π²-odd). This primitive refines the
-/// ±1 sub-split into the explicit +i / −i projections, giving the typed polarity triple.</para>
+/// <para>where M_anti = (M − Π·M·Π⁻¹) / 2 is the F81 antisymmetric part.</para>
 ///
-/// <para><b>Frobenius-orthogonal invariant</b>:
-/// ‖M‖² = ‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖². The
-/// <see cref="PolarityCoordinatesResult.OrthogonalityResidual"/> field records
-/// |‖M‖² − (‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖²)| as a numerical sanity check
-/// (machine precision when the invariant holds).</para>
+/// <para><b>These three are NOT the eigenspaces of the conjugation map.</b> A := Ad_Π has
+/// order 4 on Liouville space, so its spectrum is {+1, −1, +i, −i} and (1 ± A)/2 are not
+/// eigenprojections. Writing M = u + v + p + m for the true A-eigencomponents (+1, −1, +i,
+/// −i), what is built above is M_zero = u + (1+i)p/2 + (1−i)m/2, M_plus_half = (1+i)v/2 +
+/// (1−i)p/2, M_minus_half = (1−i)v/2 + (1+i)m/2. So M_zero is not the Π²-even part (for
+/// XY+YX at N=3 it is entirely Π²-ODD), and the three pieces are not mutually
+/// Frobenius-orthogonal. The Π²-even projector is (1 + A²)/2.</para>
+///
+/// <para>What survives untouched is the quantity everything downstream reads:
+/// <see cref="PolarityCoordinatesResult.Asymmetry"/> = ½(‖P_{+i}M‖² − ‖P_{−i}M‖²), since
+/// the v contamination enters both halves equally and cancels. F112's zero and F113's
+/// (4^N/2) are unaffected.</para>
+///
+/// <para><b>The norm-sum identity is not an orthogonality check</b>:
+/// ‖M‖² = ‖M_zero‖² + ‖M_plus_half‖² + ‖M_minus_half‖² holds algebraically for ANY unitary
+/// Π and ANY M, the cross terms cancelling identically, so
+/// <see cref="PolarityCoordinatesResult.OrthogonalityResidual"/> is machine zero by
+/// construction and cannot fail. It checks the arithmetic wiring, not Π.</para>
 ///
 /// <para><b>Connection to F81</b>:
 /// F81 M_sym = M_zero;

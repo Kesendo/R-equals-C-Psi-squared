@@ -92,7 +92,7 @@ public class LindbladBitBPiYBalanceWitnessTests
     public void Witness_Zdrive_with_T1_envelope_Y_BROKEN_Matches()
     {
         // The Y-deph analog of the F112-Z f95 counterexample: Z-drive + σ⁻ T1 produces
-        // non-Hermitian Π_Y-eigenspace coupling (the F113 [Z, σ⁻] = −2σ⁻ commutator
+        // non-Hermitian Π_Y-eigenspace coupling (the F113 [Z, σ⁻] = +2σ⁻ commutator
         // structure is dephase-letter independent at the H × c level).
         var w = LindbladBitBPiYBalanceWitness.StandardSet(MakeChain())[4];
         Assert.Equal("Zdrive_with_T1_envelope_Y_BROKEN", w.WitnessName);

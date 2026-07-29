@@ -17,14 +17,22 @@ public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
     public IReadOnlySet<(int BitA, int BitB)> KleinSet =>
         Terms.Where(t => t.KBody > 0).Select(t => t.KleinIndex).ToHashSet();
 
-    /// <summary>True if all non-identity terms share the same Klein index. Empirical
-    /// structural fact (k=2 full enumeration; k=3 sample): Klein-homogeneous Hamiltonians
-    /// under matched-Klein dephasing are always F87 soft or truly, never F87 hard.</summary>
+    /// <summary>True if all non-identity terms share the same Klein index. This does NOT
+    /// settle the F87 class. Among the 21 content-bearing Klein-homogeneous two-letter pairs at N=3 the 6
+    /// identity-free ones are 0/6 hard, but the 15 carrying an identity are 5/15 hard
+    /// (IZ+ZI is Klein (0,1) and hard at N=3 and N=4), and at k=3 the 294-pair
+    /// Z₂³-homogeneous sweep has 50 hard in the Klein-(0,1) cell under Z-dephasing.
+    /// Among Klein-HOMOGENEOUS pairs, sitting in the dephase letter's own cell is
+    /// necessary for hardness but not sufficient: XY+YX sits in Z's cell (0,1) and is
+    /// soft. Without homogeneity not even necessary: 10 hard two-letter pairs at N=3
+    /// have neither term in that cell. Use
+    /// <c>Diagnostics.F87.PauliPairTrichotomy.Classify</c> for the verdict.</summary>
     public bool IsKleinHomogeneous => KleinSet.Count <= 1;
 
     /// <summary>Set of distinct full Z₂³ signatures (bit_a, bit_b, Y-par) across non-identity
-    /// terms. At k=2 this has the same cardinality as <see cref="KleinSet"/>; at k≥3 it
-    /// can be strictly finer (Y-parity becomes independent).</summary>
+    /// terms. Within ONE parity of <see cref="PauliTerm.KBody"/>, either one, this has the same
+    /// cardinality as <see cref="KleinSet"/>; as soon as the terms differ in KBody parity
+    /// it can be strictly finer (Y-parity becomes independent).</summary>
     public IReadOnlySet<(int BitA, int BitB, int YParity)> FullZ2SignatureSet =>
         Terms.Where(t => t.KBody > 0).Select(t => t.FullZ2Signature).ToHashSet();
 

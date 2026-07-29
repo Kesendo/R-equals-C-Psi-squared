@@ -2,7 +2,9 @@
 
 Smoke + invariant tests for `polarity_coordinates`:
   - dict shape (expected keys present)
-  - Frobenius-orthogonality invariant: ‖M‖² = ‖M_zero‖² + ‖M_plus‖² + ‖M_minus‖²
+  - norm-sum identity: ‖M‖² = ‖M_zero‖² + ‖M_plus‖² + ‖M_minus‖² (a wiring
+    check: it holds for any unitary Π and any M, and the three pieces are NOT
+    mutually Frobenius-orthogonal)
   - Heisenberg (F1 truly) gives M = 0
   - F81 cross-check: F81 M_sym norm² equals polarity M_zero norm²
 """
@@ -57,8 +59,11 @@ def test_f81_match_M_sym_equals_M_zero():
     ("Heisenberg_plus_XY", [('X', 'X'), ('Y', 'Y'), ('Z', 'Z'), ('X', 'Y')]),
 ])
 def test_orthogonality_invariant_across_H_families(name, terms):
-    """Frobenius-orthogonality invariant: ||M||^2 = ||M_zero||^2 + ||M_plus||^2 + ||M_minus||^2
-    holds bit-exact across all bilinear H families under pure Z-dephasing."""
+    """Norm-sum identity across bilinear H families under pure Z-dephasing.
+
+    This CANNOT fail: the identity holds for any unitary Π and any M, the cross
+    terms cancelling algebraically. It pins the arithmetic wiring, nothing about
+    Π and nothing about orthogonality."""
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     result = fw.polarity_coordinates(chain, terms, gamma_z=0.05)
     assert result['orthogonality_residual'] < 1e-10, \

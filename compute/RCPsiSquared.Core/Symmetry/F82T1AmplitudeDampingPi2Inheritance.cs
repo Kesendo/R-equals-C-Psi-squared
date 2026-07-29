@@ -60,8 +60,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>The (Z, I) sign is the one entry here that follows a convention: the
 /// lowering operator is σ⁻ = (X+iY)/2 = [[0, 1], [0, 0]], taking |1⟩ → |0⟩. The
 /// other operator, (X−iY)/2 = [[0, 0], [1, 0]], the textbook σ⁻ when |0⟩ is read
-/// as spin-up rather than as the ground state, gives −γ. The other
-/// three rows are the same under either. The closed form reads only the
+/// as spin-up rather than as the ground state, gives −γ. Only the I input differs
+/// between the two conventions; the X, Y and Z images are identical under either.
+/// (Read as the matrix M[out, in], that is the I COLUMN; the (Z, I) cell named above
+/// is row Z, column I.) The closed form reads only the
 /// magnitude and is convention-independent, which is exactly why a norm check
 /// cannot see this sign; PROOF_F82_T1_DISSIPATOR_CORRECTION derives it entry by
 /// entry, and PROOF_F113_COEFFICIENT_DERIVATION uses the same +γ as the
