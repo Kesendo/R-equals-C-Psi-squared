@@ -134,10 +134,13 @@ For XZ+YZ and ZX+ZY, both X and Y land on the same site, and no single discrete 
 routes both. A continuous per-site unitary does. The same map M works for both cases and on
 every site, so Π = M^⊗N. In the framework Pauli order [I, X, Z, Y] its action is
 
-    I ↦ −(X + Y)/√2        X ↦ (I + iZ)/√2
-    Z ↦  i(X − Y)/√2       Y ↦ (I − iZ)/√2
+    I ↦ (−X + Y)/√2        X ↦ (I + iZ)/√2
+    Z ↦  i(X + Y)/√2       Y ↦ (−I + iZ)/√2
 
-with M unitary and M² = −I (an order-4 element, eigenvalues ±i).
+with M unitary and M² = −I (an order-4 element, eigenvalues ±i). The signs are read against
+the row-stack vec convention, the one the Liouvillians are built in; against a column-stack
+Pauli transform the same mirror wears the Y-flipped signs c·M·c, c = diag(1, 1, 1, −1). The
+rank-1 result below is untouched by the choice, since c·M·c is still a per-site map.
 
 | Hamiltonian | N | Product Π | Conjugation error | Rank |
 |-------------|---|------------|-------------------|------|

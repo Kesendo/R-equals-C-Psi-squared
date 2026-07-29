@@ -38,7 +38,11 @@ def pi_protected_observables(H, gamma_l, rho_0, N, threshold=1e-9, cluster_tol=1
     Identity (α=0) is excluded; ⟨I⟩ = 1 trivially.
     """
     L = lindbladian_z_dephasing(H, gamma_l)
-    M_basis = _vec_to_pauli_basis_transform(N)
+    # Row-stack: this generator acts on the coefficient vector from
+    # pauli_basis_vector below, and that one is row-stack-consistent. Building it
+    # column-stack instead expands the coefficients of ρᵀ (the conjugate state for
+    # Hermitian ρ), which is invisible for the real ρ the framework usually builds.
+    M_basis = _vec_to_pauli_basis_transform(N, order='C')
     L_pauli = (M_basis.conj().T @ L @ M_basis) / (2 ** N)
 
     evals, V = np.linalg.eig(L_pauli)

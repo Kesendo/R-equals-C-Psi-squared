@@ -34,14 +34,58 @@ public static class PauliBasis
     /// PauliDephasingDissipator.cs, PalindromeResidual.cs, PiDecomposition.cs,
     /// F112NonHermitianBasisEnumeration.cs). Reading T columns as vec_R implicitly maps
     /// σ_k ↦ σ_k^T, so the resulting Pauli-basis matrix is D · L_natural · D where
-    /// D = diag((−1)^n_Y(k)) is a real diagonal unitary involution. All current callers
-    /// compute D-conjugation-invariant quantities (Frobenius norms, inner products,
-    /// eigenvalues, zero patterns), so the convention twist is invisible — but a new
-    /// caller that reads individual matrix-entry SIGNS or compares against a
-    /// third-party natural L would need to apply the (−1)^(n_Y(row) + n_Y(col)) sign
-    /// correction (see <c>F112NonHermitianBasisEnumeration.BuildSparseLSigma</c> for the
-    /// applied form). A bonus structural identity surfaced: D · Π_Z · D = Π_Y, so the
-    /// twist coincides with the Z↔Y dephasing-letter swap on the operator space.</para></summary>
+    /// D = diag((−1)^n_Y(k)) is a real diagonal unitary involution. A bonus structural
+    /// identity surfaced: D · Π_Z · D = Π_Y, so the twist coincides with the Z↔Y
+    /// dephasing-letter swap on the operator space.</para>
+    ///
+    /// <para><b>Refinement (2026-07-29)</b>: the 2026-05-27 note above explained the
+    /// invisibility by D-conjugation invariance alone. That is the right account for a
+    /// bare sandwich, but NOT for anything that then applies Π. D does not commute with
+    /// Π (‖DΠ − ΠD‖ = 11.31 at N=3), so <see cref="Symmetry.PalindromeResidual"/> is not
+    /// D-conjugation-invariant and its returned matrix is not D · M_true · D. What
+    /// actually holds is stronger and carries a CONJUGATION: since D·Π_Z·D = Π_Y =
+    /// conj(Π_Z) and L_natural is REAL in the Pauli basis (a Hermiticity-preserving map
+    /// in a Hermitian basis), the returned residual is exactly
+    /// <c>M_returned = D · conj(M_true) · D</c>. Frobenius norms, zero patterns and
+    /// eigenvalue magnitudes survive; individual entry signs flip where
+    /// n_Y(row) + n_Y(col) is odd, and every imaginary part is negated. Verified
+    /// entry-wise to 1e-16 at N=2,3 on Heisenberg, transverse-field and T1 Liouvillians;
+    /// the first two give a real residual where the conjugation is invisible, the T1 case
+    /// gives a genuinely complex one where it is not.</para>
+    ///
+    /// <para>Consequences a new caller must respect. The Π-symmetric/antisymmetric split
+    /// (M ± Π M Π†)/2 DOES commute with M ↦ D·conj(M)·D, so PiDecomposition's norms are
+    /// safe. The finer ±i refinement (M_anti ∓ i·Π M_anti Π†)/2 does NOT: conj sends
+    /// −i ↦ +i while D·conj(Π) = Π·D sends it back, which SWAPS the two projectors.
+    /// So which component is called +1/2 is fixed by the stacking, and
+    /// <c>Diagnostics.Polarity.PolarityCoordinates</c> reads its MPlusHalf / MMinusHalf
+    /// (hence the sign of Asymmetry) in the column-stack one.</para>
+    ///
+    /// <para><b>That convention is load-bearing, so do NOT "correct" it.</b> F113
+    /// (<see cref="Symmetry.LindbladBitBPiBreakMagnitude"/>) is a signed, nonzero,
+    /// hardware-anchored result living on exactly this quantity: for Hermitian H with
+    /// single-site Z-drives (ω_l/2)·Z_l plus σ⁻ amplitude damping, asymmetry =
+    /// (4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l), so cooling-dominant systems give a NEGATIVE
+    /// asymmetry. At ω = 0.13, γ_T1 = 0.001, N = 2 that is −2.08e-3, the Kingston fitted
+    /// value. Recomputed from below on 2026-07-29: the column-stack reading reproduces
+    /// −2.08e-3 (N=2) and −1.248e-2 (N=3) exactly, and a row-stack transform returns the
+    /// same magnitudes with the OPPOSITE sign. Switching this module to row-stack would
+    /// therefore flip a hardware-matched sign and silently break F113's agreement with
+    /// its own closed form. Note the counterexample domain is Hermitian H; the asymmetry
+    /// vanishes for bond Hamiltonians (Heisenberg, XXZ, with or without T1), which is why
+    /// a survey over bond families alone reports it as identically zero and misses
+    /// this.</para>
+    ///
+    /// <para>Two callers landed after the 2026-05-27 sweep and were re-checked on
+    /// 2026-07-29: <c>Diagnostics.Foundation.SlowManifoldPauliContent</c> reads
+    /// this note and deliberately builds its own row-major projection instead (correct by
+    /// construction), and DirectSumDecompositionWitness reports only Frobenius and
+    /// parity-block norms (invariant; D is diagonal and never moves mass between blocks).
+    /// A caller that reads entry SIGNS or compares against a third-party natural L needs
+    /// the (−1)^(n_Y(row) + n_Y(col)) correction AND, past a Π, the conjugation (see
+    /// <c>F112NonHermitianBasisEnumeration.BuildSparseLSigma</c> for the sign half; it is
+    /// a sparse-vs-dense parity fix within the twisted convention, not a correction back
+    /// to L_natural).</para></summary>
     public static ComplexMatrix VecToPauliBasisTransform(int N) =>
         _transformCache.GetOrAdd(N, BuildVecToPauliBasisTransform);
 

@@ -153,7 +153,8 @@ def cockpit_panel(H, gamma_l, rho_0, N,
 
     if any(g != 0 for g in gamma_t1_l):
         L_t1 = lindbladian_z_plus_t1(H, gamma_l, gamma_t1_l)
-        M_basis = _vec_to_pauli_basis_transform(N)
+        # Row-stack: paired below with pauli_basis_vector, which is row-stack-consistent.
+        M_basis = _vec_to_pauli_basis_transform(N, order='C')
         L_t1_pauli = (M_basis.conj().T @ L_t1 @ M_basis) / (2 ** N)
         evals_t1, V_t1 = np.linalg.eig(L_t1_pauli)
         Vinv_t1 = np.linalg.inv(V_t1)
@@ -176,13 +177,13 @@ def cockpit_panel(H, gamma_l, rho_0, N,
     # Trace: θ-trajectory under L_t1 (if T1) else L_pure
     if any(g != 0 for g in gamma_t1_l):
         L_active = L_t1
-        M_basis = _vec_to_pauli_basis_transform(N)
+        M_basis = _vec_to_pauli_basis_transform(N, order='C')
         L_active_pauli = (M_basis.conj().T @ L_active @ M_basis) / (2 ** N)
         evals_active, V_active = np.linalg.eig(L_active_pauli)
         Vinv_active = np.linalg.inv(V_active)
     else:
         L_active = lindbladian_z_dephasing(H, gamma_l)
-        M_basis = _vec_to_pauli_basis_transform(N)
+        M_basis = _vec_to_pauli_basis_transform(N, order='C')
         L_active_pauli = (M_basis.conj().T @ L_active @ M_basis) / (2 ** N)
         evals_active, V_active = np.linalg.eig(L_active_pauli)
         Vinv_active = np.linalg.inv(V_active)

@@ -136,19 +136,44 @@ def _pauli_label(k, N):
 # ----------------------------------------------------------------------
 
 @lru_cache(maxsize=None)
-def _vec_to_pauli_basis_transform(N):
-    """Transformation matrix from Pauli-string basis to column-stack vec.
+def _vec_to_pauli_basis_transform(N, order='F'):
+    """Transformation matrix from Pauli-string basis to vec, in the chosen stacking.
 
     M (d² × 4^N) such that vec(σ_α) = M[:, α]. M†M = 2^N · I (orthogonality).
-    Cached by N; callers should treat the returned array as read-only.
+    Cached by (N, order); callers should treat the returned array as read-only.
+
+    **Pick `order` to match what the matrix is paired with.** The two stackings
+    differ by a diagonal sign: since σᵀ = (−1)^n_Y·σ letter-wise,
+
+        M_F = M_C · C,    C = diag((−1)^{n_Y(k)}),   C² = I
+
+    so a sandwich M_F†·L·M_F equals C·(M_C†·L·M_C)·C. That conjugation preserves
+    every Frobenius norm (whole or per block), every zero pattern and every
+    eigenvalue, which is why it stays invisible in norm-reading callers; it flips
+    the sign of each entry whose two Pauli strings differ in Y-parity.
+
+    - `order='C'` (row-stack, `vec[i·d + j] = A[i, j]`) is the convention EVERY
+      Liouvillian in this package uses, `lindbladian_general` and all builders on
+      top of it. It is also the one consistent with `pauli_basis_vector`:
+      `M_C @ pauli_basis_vector(ρ) == ρ.flatten()`. Use it whenever the result is
+      combined with a Liouvillian or with a Pauli-coefficient vector, above all
+      when building a generator that will propagate coefficients.
+    - `order='F'` (column-stack, the historical default) pairs with the reverse
+      unpacking `.reshape(d, d).T`. Note `M_F @ pauli_basis_vector(ρ)` is
+      `ρ.flatten('F')`, i.e. it reconstructs ρᵀ under a row-major reshape.
+
+    Mixing the two silently substitutes ρᵀ for ρ, which for a Hermitian state is
+    the conjugate state; `tests/primitives/test_m_convention.py` pins this.
     """
+    if order not in ('C', 'F'):
+        raise ValueError(f"order must be 'C' (row-stack) or 'F' (column-stack); got {order!r}")
     d2 = 4 ** N
     d = 2 ** N
     M = np.zeros((d * d, d2), dtype=complex)
     for k in range(d2):
         indices = _k_to_indices(k, N)
         sigma = pauli_string(list(indices))
-        M[:, k] = sigma.flatten('F')
+        M[:, k] = sigma.flatten(order)
     M.flags.writeable = False
     return M
 

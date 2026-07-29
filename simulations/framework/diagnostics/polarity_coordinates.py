@@ -244,6 +244,15 @@ def polarity_coordinates_from_hc(H, c_ops, gammas, N, sigma=None, Pi=None):
         c_dag_c = c.conj().T @ c
         anti = 0.5 * (np.kron(c_dag_c, Id) + np.kron(Id, c_dag_c.T))
         L_vec = L_vec + g * (np.kron(c, c.conj()) - anti)
-    T = _vec_to_pauli_basis_transform(N)
+    # Column-stack DELIBERATELY, and do not "align" this with the row-stack sites.
+    # The ±i projectors that split M_anti into M_plus_half / M_minus_half are exchanged
+    # by the stacking twist, so the stacking decides which component is called +1/2 and
+    # hence the SIGN of `asymmetry`. F113 pins that choice: for Hermitian H with
+    # single-site Z-drives plus σ⁻ damping it predicts (4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l),
+    # negative when cooling dominates, and −2.08e-3 at ω=0.13, γ_T1=0.001, N=2 is the
+    # Kingston hardware-fit value. Column-stack reproduces that sign; row-stack returns
+    # the same magnitude negated. The asymmetry vanishes for bond Hamiltonians, so a
+    # check over Heisenberg/XXZ alone will not catch a flip here.
+    T = _vec_to_pauli_basis_transform(N, order='F')
     L_pauli = (T.conj().T @ L_vec @ T) / (2 ** N)
     return polarity_coordinates_from_L(L_pauli, N, sigma, Pi=Pi)

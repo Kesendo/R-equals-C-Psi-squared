@@ -185,12 +185,20 @@ product mirror appears at once. A single uniform per-site unitary M, the same on
 gives Π = M^⊗N satisfying Π L Π⁻¹ = −L − 2Σγ·I to machine precision at N = 2..6. The two
 cases are **local**. In the framework Pauli order [I, X, Z, Y], M acts as
 
-    I ↦ −(X + Y)/√2        X ↦ (I + iZ)/√2
-    Z ↦  i(X − Y)/√2       Y ↦ (I − iZ)/√2
+    I ↦ (−X + Y)/√2        X ↦ (I + iZ)/√2
+    Z ↦  i(X + Y)/√2       Y ↦ (−I + iZ)/√2
 
 with M unitary and M² = −I. It is the diplexer crossover turned to the symmetric 45° point
 between the X-router and the Y-router, the one setting that serves both bands; the light
-combination (X + Y) it produces is the bond's own operator, since XZ + YZ = (X + Y)·Z.
+combination (X + Y) it produces is the bond's own operator, since XZ + YZ = (X + Y)·Z, and
+it is Z that carries it across.
+
+These signs are read against the row-stack vec convention, the one every Liouvillian in the
+repo is built in. The same mirror written against a column-stack Pauli transform wears the
+Y-flipped signs c·M·c with c = diag(1, 1, 1, −1): each closes the palindrome against its own
+stacking, and only the pairing decides which is which. The locality result is untouched by
+the choice, since c·M·c is still a per-site map and c^⊗N still a product, so the residual
+reads zero under either. `fw.crossover_map` returns the form printed here.
 
 The earlier "exhaustive search (512 discrete maps, continuous rotations, 16-parameter
 optimization) found no product" was not in fact exhaustive: section 4 of

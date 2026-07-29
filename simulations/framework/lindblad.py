@@ -170,6 +170,17 @@ def palindrome_residual(L, Sigma_gamma, N, dephase_letter='Z'):
     Returns the 4^N × 4^N residual matrix. For 'truly' Hamiltonians,
     ‖M‖ ≈ 0 to floating-point precision.
 
+    **Read norms off this, not signed entries.** It builds its Pauli basis
+    column-stacked while L is row-stack, so with C = diag((−1)^{n_Y}) and Π_Y =
+    conj(Π_Z) the matrix returned is exactly C·conj(M_true)·C. Every Frobenius
+    norm (whole or per block), the zero pattern and the eigenvalue magnitudes are
+    untouched, which is what every caller here uses and why the ‖M‖ ≈ 0 statement
+    above is convention-free. What is NOT untouched: the sign of each entry whose
+    two Pauli strings differ in Y-parity, and the sign of every imaginary part.
+    The conjugation is invisible whenever the residual is real (Heisenberg,
+    transverse field) and visible when it is not (T1). See
+    `_vec_to_pauli_basis_transform` for the full rule.
+
     Args:
         L: Liouvillian (4^N × 4^N) in vec form.
         Sigma_gamma: total dephasing rate Σ_l γ_l.

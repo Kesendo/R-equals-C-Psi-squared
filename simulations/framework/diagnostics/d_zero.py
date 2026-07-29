@@ -56,7 +56,12 @@ def stationary_modes(chain, L=None, tol=1e-9):
     R_inv = np.linalg.inv(R)
     kernel_idx = np.where(np.abs(evals) < tol)[0]
 
-    basis_transform = _vec_to_pauli_basis_transform(chain.N)
+    # Row-stack: R's columns are eigenvectors of the row-stack Liouvillian, and the
+    # coefficients below are documented as Tr(σ_k·mode)/2^N. The column-stack
+    # transform returns those with the sign of every odd-n_Y string flipped, which
+    # is exactly zero error while the kernel sits in {I, Z}^N but wrong for any
+    # Y-carrying kernel mode of an overridden L.
+    basis_transform = _vec_to_pauli_basis_transform(chain.N, order='C')
     pauli_decomp = np.zeros((len(kernel_idx), 4 ** chain.N), dtype=complex)
     for ii, k in enumerate(kernel_idx):
         pauli_decomp[ii] = (basis_transform.conj().T @ R[:, k]) / (2 ** chain.N)

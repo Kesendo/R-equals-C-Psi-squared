@@ -15,14 +15,21 @@ tested (2..6). The two cases are LOCAL.
 
 The closed form, in the framework Pauli order [I, X, Z, Y] (rows = output, cols = input):
 
-    I ↦ −(X + Y)/√2        X ↦ (I + iZ)/√2
-    Z ↦  i(X − Y)/√2       Y ↦ (I − iZ)/√2
+    I ↦ (−X + Y)/√2        X ↦ (I + iZ)/√2
+    Z ↦  i(X + Y)/√2       Y ↦ (−I + iZ)/√2
 
 M is unitary with M² = −I (an order-4 element, eigenvalues ±i). It swaps the dark bus
 {I, Z} and the light bus {X, Y} with a 45° rotation inside each: this is the diplexer
 turned to the symmetric point between the X-router (P1) and the Y-router (P4), the one
-setting that serves both bands at once. The light combination (X ± Y) echoes the bond
-operator itself, since XZ + YZ = (X + Y)·Z.
+setting that serves both bands at once. The light combination (X + Y) echoes the bond
+operator itself, since XZ + YZ = (X + Y)·Z, and it is Z that carries it.
+
+The signs are read against the row-stack vec convention, the one every Liouvillian in
+this package uses. Stated against a column-stack Pauli transform the same mirror wears
+the Y-flipped signs c·M·c, c = diag(1, 1, 1, −1): both close the palindrome, each
+against its own stacking, and only the pairing makes one of them right. Nothing about
+LOCAL depends on the choice, since c·M·c is still a per-site map and c^⊗N is still a
+product, which is why the residual read 0 under either.
 
 Public API:
   crossover_map()                              -> the 4×4 closed-form M
@@ -58,10 +65,10 @@ def crossover_map():
     """
     s = _INV_SQRT2
     M = np.zeros((4, 4), dtype=complex)
-    M[0, 1] = s;  M[0, 3] = s        # output I  ←  X, Y      (i.e. X,Y ↦ +I/√2)
-    M[1, 0] = -s; M[1, 2] = 1j * s   # output X  ←  I, Z      (I ↦ −X/√2, Z ↦ iX/√2)
-    M[2, 1] = 1j * s; M[2, 3] = -1j * s  # output Z  ←  X, Y
-    M[3, 0] = -s; M[3, 2] = -1j * s  # output Y  ←  I, Z
+    M[0, 1] = s;  M[0, 3] = -s       # output I  ←  X, Y
+    M[1, 0] = -s; M[1, 2] = 1j * s   # output X  ←  I, Z
+    M[2, 1] = 1j * s; M[2, 3] = 1j * s   # output Z  ←  X, Y
+    M[3, 0] = s;  M[3, 2] = 1j * s   # output Y  ←  I, Z
     return M
 
 
@@ -81,7 +88,7 @@ def _liouvillian_pauli(combo, N, gamma):
         H = H + site_op(N, i, a1) @ site_op(N, i + 1, b1)
         H = H + site_op(N, i, a2) @ site_op(N, i + 1, b2)
     L = lindbladian_z_dephasing(H, [gamma] * N)
-    V = _vec_to_pauli_basis_transform(N)
+    V = _vec_to_pauli_basis_transform(N, order='C')
     return (V.conj().T @ L @ V) / d, N * gamma
 
 
