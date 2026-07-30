@@ -4182,8 +4182,10 @@ the F112 polarity asymmetry has the closed form
     asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖²
               = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)
 
-to a relative deviation below 1e-12. Verified at N = 2, 3, 4 via parameter sweep (`simulations/
-f113_break_formula_derivation.py`); per-site decomposition, cross-site
+to a relative deviation below 1e-12. Verified at N = 2, 3, 4 via parameter sweep, whose
+table is `experiments/F113_BREAK_MAGNITUDE_FORMULA.md` (the script
+`simulations/f113_break_formula_derivation.py` carries the N = 2 derivation only);
+per-site decomposition, cross-site
 zero, sign flip on ω → −ω and on σ⁻ ↔ σ⁺, detailed-balance cancellation
 (γ_T1 = γ_pump → 0), and non-uniform-rate sum-formula all confirmed at the
 same precision (the sweep's largest ABSOLUTE deviation is 3.18e-12, on a coefficient
@@ -4237,7 +4239,22 @@ basis).
 **Hardware fingerprinting application:** asymmetry measurement directly
 extracts Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known;
 becomes a per-site amplitude-damping calibration tool when combined with
-ω_l knowledge. At ω = 0.13 on EVERY site with γ_T1 = 0.001, γ_pump = 0, N = 2 the
+ω_l knowledge, one weighted combination per drive profile: N independent profiles
+resolve N rates, but a SINGLE asymmetry returns Σ_l ω_l·γ_T1,l / Σ_l ω_l and no
+more. That ratio is a weighted MEAN only when the ω_l share a sign. With mixed
+signs the weights still sum to 1 but are individually unbounded, so the returned
+rate can leave the range of the true rates entirely: at N = 2 with true rates
+(0.001, 0.010) and ω = (0.13, −0.10) it is −0.029, a negative rate although both
+true rates are positive, and at ω = (0.13, −0.129) it is −1.16; swapping the two
+true rates gives +0.040 and +1.171, four and 117 times the larger of them.
+A single-site Z the caller did not declare, and a per-qubit detuning is one,
+enters ω_l and corrupts the inversion the same way. What the per-site weighting
+does keep readable when the drive profile has zero total is the ASYMMETRY, since
+the sum pairs the two profiles and does not factorise into (Σ_l ω_l)·(net rate);
+the collapse carried by `PredictAsymmetryUniform` assumes a uniform drive as well
+as uniform rates, so it is a special case and not a restatement. The extracted number is
+also a lab-frame reading: a change of rotating frame shifts every ω_l, hence the
+asymmetry, so both must be quoted in the frame the drive is defined in. At ω = 0.13 on EVERY site with γ_T1 = 0.001, γ_pump = 0, N = 2 the
 formula gives (1/2)·4² · (2·0.13) · (0 − 0.001) = −2.08e−3 (coefficient (1/2)·4² = 8
 at N=2, times two driven sites; the earlier notation "16" folded the two together).
 Note the f95 protocol drives ONE qubit of the pair, so at its parameters the formula
@@ -4702,36 +4719,65 @@ nothing but the chip's own damping. Three exact blindnesses: dephasing-blind (un
 evolution-blind (only the measured polynomial enters), detailed-balance closure (the
 weight is F84's net vacuum rate). **Rung one is F113**: within F113's scope the static
 Frobenius polarity asymmetry equals **−4^N · slope⟨H⟩** exactly (a static spectral
-imbalance IS a measurable pump rate). The first firing rung is the girth ℓ, certifying
-**hard at m\* = 2ℓ+1 for every γ > 0** (the F117 deg-1 sum of squares); honestly
+imbalance IS a measurable pump rate for the generator written down; on a device the two
+sides part company, since the slope reads the programmed polynomial while the asymmetry
+reads the actual generator, so an undeclared single-site Z moves one and not the other).
+The tower's first nonzero rung k certifies
+**hardness and BOUNDS the moment, m\* ≤ 2k+1** (the F117 deg-1 sum of squares
+P_{2k+1,1} = (2k+1)·C(2k,k)·Σ_l t_k² > 0). Three things it is NOT. (a) It is not m\*: the bound
+can be slack, as at Y₂ + Z₀Z₁Y₂ + Z₀Z₁Z₂ (N = 3: t₁ = t₂ = 0, t₃ = (0,0,16), so k = 3 and
+the bound is 7, but a higher-degree class fires below it, p₅ = 7680γ³, m\* = 5). When it is
+tight is OPEN: k = ℓ suffices and is not needed (the flight's own H_p = X₀+X₀Z₁+0.7X₁X₂
+has ℓ = 0 and k = 2, yet p₅ = 7680γ is a positive monomial and m\* = 5 = 2k+1 exactly).
+(b) The "hard at every γ > 0" clause travels with the monomial property and not with the
+bound: on the first witness p₇ = 35840γ − 322560γ³ + 161280γ⁵ changes sign between
+γ = 0.25 and 0.4. (c) k is not f87's ℓ, which is 1 for a nonzero diagonal else the
+shortest odd cycle; the dichotomy m\* = 2ℓ+1 holds only under its own condition t_ℓ ≠ 0. And the rung a SLOPE
+fires at can be later than k, since the slope reads Σ_l Δγ_l t_j(l) and that can cancel.
+Honestly
 one-sided: silence is not softness (IIXY+ZXZY is silent at every rung, hard at m\* = 11
 through deg-5). One order up the curvature is exactly affine in the generator and reads
 X/Y-flavored parasites linearly against the commutator probes [Z_l, H_p^j], while
 Z-flavored parasites are exactly invisible: **F113's balance channel and the pump
-curvature partition the single-site parasite algebra** into complementary linear
-readers. Hardware protocol (derived, parameter-free from T1 calibration): basis-state
+curvature never read the same parasite**, though they do NOT between them cover the
+single-site algebra (curvature visibility is a condition on H_p, not a flavor rule: at
+H_p = Z₀Z₁ the parasite Y₀ is invisible to both, and in F113's own pure-Z-drive scope the
+curvature side reads nothing). Hardware protocol (derived; its rates-from-T1-calibration
+step is the one layer the chip declined, the flight's parameter-free rate predictions
+firing 30% high on one arm and 42% low on the other, replaced in-situ by the
+prep-conditioned Γ): basis-state
 averaging, early-window slopes of Pauli-polynomial energy moments, per-site partial
 damping for site resolution.
 
-**Verified (exact):** pump directions and the law vs dense generators (N = 2, 3,
-site-dependent rates, all three channels); the blindnesses; the three-way F113 bridge
-(closed form = polarity decomposition = −4^N·slope, dev 0); girth-1/girth-2 witnesses
-plus the honest deg-5 negative control; curvature affinity + the probe law + the
-Z-invisibility; the finite-time protocol fit; detailed-balance closure.
+**Verified (exact):** pump directions and the law vs dense generators (N = 3,
+site-dependent rates, all three channels; the bridge block adds N = 2, the honest
+negative control N = 5 and the zero-total fence N = 4); the blindnesses; the three-way F113 bridge
+(closed form = polarity decomposition = −4^N·slope, the three routes agreeing to 5e-16 at
+N = 2, 3); rung-1/rung-2
+witnesses plus the honest deg-5 negative control; curvature affinity + the probe law + the
+Z-invisibility; the finite-time protocol fit; detailed-balance closure; and the
+zero-total-moment fence at N = 4 (a C₄ XX+YY ring with site energies Σ_l α_l·(I − Z_l)/2,
+α = (+0.1, −0.1, +0.1, −0.1), so Σ_l Tr(Z_l H) = 0 exactly; at γ_pump = 0 it is silent for
+γ_T1 = (1,1,1,1), reads −25.6 for (1,2,1,2), and is silent again for the equally non-uniform
+but moment-orthogonal (1,1,2,2); the three routes agree to 3e-14 at those rates, the
+verifier tying its tolerance to ‖M‖² rather than to this profile).
 
 **First hardware reading (2026-06-11, ibm_kingston q149/q13/q9, not one entangling
 gate):** the structural law CONFIRMED: the double null held (slope⟨H⟩ at z = +1.47 and
-−0.04), the second rung fired as exactly twice the middle qubit's pump (row-exact
-⟨H²⟩ identity), the girth read from hardware is 2, site tracking across two arms, and
+−0.04), the second rung fired as twice the middle qubit's pump, with the
+X-string dark (|⟨XXX⟩| ≤ 0.019; the ⟨H²⟩ identity itself is how the analysis file DERIVES
+⟨H²⟩, so it holds by construction and is not a check), the first firing rung read from hardware is 2, site tracking across two arms, and
 per-qubit pump rates reproducible to 0.3-5.7%. The rate layer told a two-act story:
 the first reading ("q13 violates pump ≤ Γ at 4-6σ") was **corrected the same day** by
 the prep-conditioned re-analysis: the 8-basis-state preparation contains the |0⟩- and
 |1⟩-branches, so **pump = (s₁+s₀)/2 and Γ = (s₁−s₀)/2 come from the same circuits**,
 epoch-matched (the bound is equivalent to s₀ ≤ 0), and it **holds everywhere in-situ**
-(worst pump/Γ = 0.996) with 1-3% margins that read the per-qubit thermal population
-(q13 1.7%, q149 1.1-1.4%, q9 0.2-0.3%). The cross-epoch comparison had actually
-detected **minute-scale T1 telegraphing** (q13: ~315 ↔ 430 μs; q9: ~172 ↔ ~75-100 μs;
-q149 stable): two-level Lindblad holds within epochs, the epoch was the hidden
+(worst pump/Γ = 0.996) with 0.4-3.5% margins whose half reads the per-qubit thermal
+population (q13 1.7%, q149 1.1-1.4%, q9 0.2-0.3%; at this shot budget only the first
+two are resolved from zero, q9 sits at 1.4-1.9σ). The cross-epoch comparison had actually
+detected **T1 telegraphing between epochs** (q13: ~315 ↔ 430 μs; q9: ~172 ↔ ~75-100 μs;
+q149: ~430 → ~285 μs at 10:02Z, so every qubit moved, the control included, by 1.2 to 1.4×; the morning's "q149 stable" was two epochs that happened to agree, and the flight
+retired it the same day): two-level Lindblad holds within epochs, the epoch was the hidden
 variable, and the protocol is **self-arbitrating** (pump, Γ, γ↑ from one circuit set).
 Registered as `f120_moment_tower_kingston_june2026` (both registries);
 [experiments/F120_MOMENT_TOWER_KINGSTON.md](../experiments/F120_MOMENT_TOWER_KINGSTON.md)

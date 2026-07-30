@@ -8,13 +8,13 @@
 
 ## Abstract
 
-[F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) showed that the polarity coordinates of the F1 residual balance bit-exactly whenever a Lindblad system is well-behaved in a specific sense: Hermitian Hamiltonian, plus collapse operators that respect a single Z₂ parity axis on the Pauli alphabet. F113 asks the natural follow-up: when the system is not well-behaved in that sense, by how much do the coordinates fall out of balance? The most physically relevant misbehaving case is a qubit driven on its Z-axis while losing energy through T1 amplitude damping; the standard σ⁻ collapse operator mixes two parity sectors at once, breaking F112's hypothesis. The result of this proof is that the imbalance is no longer just nonzero, it has a clean closed form: proportional to a system-size factor (the operator-space dimension) times a per-site sum of drive frequency × net pumping rate. Each piece of that formula traces to a specific structural origin: the system-size factor from spectator sites contributing their full local dimension, the per-site sum from per-site additivity (cross-site terms vanish), the pump-minus-decay sign structure from the σ⁻/σ⁺ symmetry, and the bilinear half-factor from a single surviving Pauli-basis cross term. The diagnostic upshot: any deviation between predicted and measured imbalance flags either the system being further outside F112's typed scope than the standard T1 model assumes, or a bug.
+[F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) showed that the polarity coordinates of the F1 residual balance bit-exactly whenever a Lindblad system is well-behaved in a specific sense: Hermitian Hamiltonian, plus collapse operators that respect a single Z₂ parity axis on the Pauli alphabet. F113 asks the natural follow-up: when the system is not well-behaved in that sense, by how much do the coordinates fall out of balance? The most physically relevant misbehaving case is a qubit driven on its Z-axis while losing energy through T1 amplitude damping; the standard σ⁻ collapse operator mixes two parity sectors at once, breaking F112's hypothesis. The result of this proof is that the imbalance is no longer just nonzero, it has a clean closed form: proportional to a system-size factor (the operator-space dimension) times a per-site sum of drive frequency × net pumping rate. Each piece of that formula traces to a specific structural origin: the 4^(N−1) part of the system-size factor from spectator sites contributing their full local dimension and the remaining 4 from the cross-term reduction, the per-site sum from per-site additivity (cross-site terms vanish), the pump-minus-decay sign structure from the σ⁻/σ⁺ symmetry, and the bilinear half-factor from the two surviving Pauli-basis cross entries, (Z,I) and (Y,X), contributing −ωγ/4 each. The diagnostic upshot: any deviation between predicted and measured imbalance flags either the system being further outside F112's typed scope than the standard T1 model assumes, or a bug.
 
 ## Introduction
 
 **The motivating question.** [F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) characterised *when* the polarity asymmetry vanishes (Hermitian H plus bit_b-homogeneous c). The natural next question, once the vanishing case is settled, is the magnitude case: for inputs that break the F112 hypothesis, how big is the resulting asymmetry, and how does it depend on the input parameters of L? The most important such input is the T1 σ⁻ jump operator, which is genuinely bit_b-mixed: σ⁻ has support on both X (bit_b = 0) and Y (bit_b = 1) Pauli components, so it is not bit_b-homogeneous.
 
-**The empirical anchor.** [F113 break-magnitude formula](../../experiments/F113_BREAK_MAGNITUDE_FORMULA.md) had already established the closed form to a relative deviation below 1e-12 across all (Z-drive, σ⁻/σ⁺ T1) configurations tested at N = 2, 3, 4: `asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump − γ_T1)`. The pattern was clean enough to type as Tier1Candidate. What was missing was the structural derivation that lifts the formula from "bit-exact at every N tested" to "general N".
+**The empirical anchor.** [F113 break-magnitude formula](../../experiments/F113_BREAK_MAGNITUDE_FORMULA.md) had already established the closed form to a relative deviation below 1e-12 across all (Z-drive, σ⁻/σ⁺ T1) configurations tested at N = 2, 3, 4: `asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)`. The pattern was clean enough to type as Tier1Candidate. What was missing was the structural derivation that lifts the formula from "bit-exact at every N tested" to "general N".
 
 **What this proof closes.** The argument does two things. First, it isolates the algebraic core via the cross-term reduction: PROOF_F112's Lemmas A and B plus the new Lemma C close the asymmetry to a single Frobenius cross term, independent of N. Second, it evaluates that cross term via per-site tensor factorization in the Pauli basis, with each factor in the final coefficient `(4^N / 2)` traceable to a specific structural origin:
 
@@ -32,7 +32,7 @@ For the Lindblad-form Liouvillian
 
     L = -i[H, ·] + Σ_l γ_T1,l · D[σ⁻_l] + Σ_l γ_pump,l · D[σ⁺_l] + (additional bit_b-homogeneous terms)
 
-with H = Σ_l (ω_l/2)·Z_l (single-site Z-drive Hamiltonian) and the additional terms (Z-dephasing, ZZ/XX/YY/XY/YZ/ZY bonds, single-site X- and Y-drives) being individually F112-symmetric, the polarity asymmetry has the universal-N closed form
+with H = Σ_l (ω_l/2)·Z_l (single-site Z-drive Hamiltonian) and the additional terms (Z-dephasing, ZZ/XX/YY/XY/YZ/ZY bonds, single-site X- and Y-drives) each contributing zero to the asymmetry individually (this is verified here, not inherited from F112: F112's hypothesis needs a bit_b-homogeneous c, and with c = σ⁻ in play it does not apply, so what is needed is the separate vanishing of the cross term ⟨L_{term,+i}, L_{T1,+i}⟩), the polarity asymmetry has the universal-N closed form
 
     asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖²
               = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l)
@@ -95,7 +95,7 @@ so L_H(P) = -i·(ω/2)·[Z, P] gives (with the framework's vec-convention sign, 
           ⎢ 0  0  0  0  ⎥
           ⎣ 0  -ω 0  0  ⎦
 
-i.e. L_H(Y) = ω·X and L_H(X) = -ω·Y. (The choice of overall sign on L_H is conventional; the structural argument and the magnitude of the inner product are unaffected.)
+i.e. L_H(Y) = ω·X and L_H(X) = -ω·Y. (The choice of overall sign on L_H is conventional, and the structural argument and the magnitude of the inner product are unaffected by it. The SIGN of the theorem below is not: the asymmetry is linear in L_H, so flipping this convention flips it. As the registry and the typed claim both fence it, the magnitude is convention-free and the sign is the pipeline's stacking pairing.)
 
 **σ⁻ dissipator action on each Pauli letter:**
 - `D[σ⁻](I) = +Z` (population pumping)
@@ -169,7 +169,7 @@ For Π-conjugation eigenmodes on a tensor product, the eigenvalues multiply. If 
 
     (A_l)_{embedded} = I_4 ⊗ ... ⊗ A_l ⊗ ... ⊗ I_4   ∈ Π_N-conj eigenspace λ · 1 · ... · 1 = λ
 
-Applying the projection P_{+i} = (1/4) Σ_k (1/i)^k Π_N^k · Π_N^{-k} commutes through the tensor structure (since Π_N factorizes), giving
+Applying the projection P_{+i}(A) = (1/4) Σ_k (1/i)^k Π_N^k A Π_N^{-k} commutes through the tensor structure (since Π_N factorizes), giving
 
     (L_H,l)_{+i} = I_4 ⊗ ... ⊗ (L_H,1)_{+i} ⊗ ... ⊗ I_4    (N=1 +i projection at site l, identities elsewhere)
     (L_T1,l)_{+i} = I_4 ⊗ ... ⊗ (L_T1,1)_{+i} ⊗ ... ⊗ I_4
@@ -337,7 +337,7 @@ Hence **cross_minus = −cross_plus** for general N. ∎
 The cross-term reduction `asymmetry = 4·Re⟨L_H,+i, L_T1,+i⟩` is now established algebraically without numerical anchoring. The closure relies only on:
 - Π unitary with Π^* = Π^{-1} (true for the canonical Z-dephase Π by construction);
 - Lemma A + Lemma B from PROOF_F112 (dagger swap and L_H anti-Hermiticity);
-- Lemma C reality of L_T1 in the Pauli basis;
+- Lemma C reality of L_T1 in the Pauli basis (true, and verified, but the C.1 + C.2 chain below does not use it: it needs only Lemmas A and B, the Π²-odd support of L_H,1 and L_T1,1, and tensor factorization);
 - Per-site additivity and tensor structure from Steps 4-6 of the main computation;
 - The single algebraic fact L_H[I, Z] = 0 (i.e. [Z, σ_Z] = 0) at single site.
 
@@ -359,7 +359,7 @@ The (1/2)·4^N coefficient arises as `4 · 4^(N-1) · (1/2)`:
 - factor 4^(N-1) from the (N-1) spectator-site identities in the Frobenius inner product `⟨I_4, I_4⟩ = 4` per site
 - factor 1/2 from the single-site N=1 inner product `⟨(L_H,1)_{+i}, (L_T1,1)_{+i}⟩ = -ωγ/2` (= 2 nonzero matrix entries × (-ωγ/4))
 
-The structural origin of 4^N is therefore: **the operator-space dimension 4^N enters the F113 formula because the spectator sites contribute their full local Pauli dimension 4 each (via Frobenius norm of single-site identity).**
+The structural origin of 4^N is therefore: **the N−1 spectator sites contribute their full local Pauli dimension 4 each (via the Frobenius norm of the single-site identity), giving 4^(N−1); the remaining factor 4 is the norm²-expansion plus sign-relation factor of the cross-term reduction, not a spectator.** The full accounting is the 4 · 4^(N−1) · (1/2) of the three steps above.
 
 The per-site additivity (Step 6) explains why only same-site (Z-drive, σ⁻) pairs contribute, matching F113's empirical anchor (cross-site asymmetry = 0 bit-exact).
 

@@ -30,9 +30,9 @@ is F113's complementary territory (its balance channel reads exactly the Z-drive
 parasites with overlap on the probe set are read linearly.
 
 THE GIRTH CERTIFICATE (one-sided, deg-1 face only). Scan j = 1..j_max; the first j where the
-slope fires is the girth ℓ (per the dichotomy: t_ℓ ≠ 0 somewhere ⟹ m* = 2ℓ+1, deg = 1, hard at
-every γ > 0). HONEST LIMIT: silence of the deg-1 tower is NOT softness; the k = 4 witness
-IIXY+ZXZY has t_j = 0 everywhere yet is hard at m* = 11 = 2ℓ+5 with p₁₁ = 86507520·γ⁵ (deg-5,
+nonzero rung is k (t_j = 0 below it ⟹ m* <= 2k+1; equality and deg = 1 need k to be the girth, hard at
+every γ > 0). HONEST LIMIT: silence of the deg-1 tower is NOT softness; the 4-body pair
+IIXY+ZXZY has t_j = 0 everywhere, so no first nonzero rung at all, yet is hard at m* = 11 = 2ℓ+5 with p₁₁ = 86507520·γ⁵ (deg-5,
 pinned exactly in f87_girth_dichotomy). Site-sum caveat: Σ_l Δγ_l t_ℓ(l) can cancel accidentally;
 site-resolved weights (per-qubit calibration Δγ_l, or selective per-site damping) resolve t_ℓ(l)
 individually (demonstrated in Block D).
@@ -52,9 +52,9 @@ Block ledger
                                         slope BIT-IDENTICAL (the diagonal columns of L carry no
                                         unitary or dephasing residue); detailed balance γ↑ = γ↓
                                         gives slope = 0 exactly
-  Block D  the girth certificate      : girth-1 (Z-drive) fires at j = 1 + the site-sum caveat
+  Block D  the rung certificate       : rung-1 (Z-drive) fires at j = 1 + the site-sum caveat
                                         (balanced ω cancels the uniform-weight sum; per-site
-                                        weights resolve it); girth-2 witness X₀ + X₀Z₁ + 0.7·X₁X₂
+                                        weights resolve it); the rung-2 witness X₀ + X₀Z₁ + 0.7·X₁X₂
                                         (t₁ ≡ 0, t₂ = [0, 16, 0]) silent at j = 1, fires at j = 2;
                                         HONEST negative IIXY+ZXZY (N = 5): t_j = 0 EXACTLY through
                                         j = 5, all slopes silent, yet hard at m* = 11 (deg-5)
@@ -74,8 +74,14 @@ Block ledger
                                         zero exactly (battery over H^j and random A); the pump
                                         weight Δγ_l IS F84's net vacuum rate (cross-tied against
                                         predict_amplitude_damping_violation)
+  Block I  zero TOTAL moment          : the mirror of the site-sum caveat. A C₄ hopping ring with
+                                        an alternating site-energy pattern has Σ_l Tr(Z_l H) = 0
+                                        exactly, yet fires against a rate profile it is not
+                                        orthogonal to (0 at (1,1,1,1), −25.6 at (1,2,1,2), and 0
+                                        again at the equally non-uniform but orthogonal (1,1,2,2)).
+                                        Each row pins its own value, so a silent channel fails.
 
-Provenance: 2026-06-11, hunt #2 of the connection-hunt (originating scout _pump_slope_scout.py, a WIP not retained in the repo).
+Provenance: 2026-06-11, hunt #2 of the connection-hunt (the originating scout was a local WIP, not retained in the repo).
 Framework diagnostic: simulations/framework/diagnostics/f120_moment_tower.py (F120).
 Run: python simulations/moment_tower_pump_channel.py (< 1 min).
 """
@@ -216,18 +222,22 @@ def block_B_slope_law():
     dg = [a - b for a, b in zip(g_dn, g_up)]
 
     M = rng.standard_normal((d, d)) + 1j * rng.standard_normal((d, d))
+    # Pin the operands: everything below compares slope against law, so both read 0.0
+    # for a zero H and the block would certify the law on nothing.
     H_rand = (M + M.conj().T) / 2
     H_chain = _build_bilinear(N, [(0, 1), (1, 2)],
                               [('X', 'X', 1.0), ('Y', 'Y', 1.0), ('Z', 'Z', 1.0)]) \
         + 0.4 * site_op(N, 0, 'Z')
     for name, H in (("random Hermitian", H_rand), ("Heisenberg chain + Z-field", H_chain)):
         L = build_L(H, N, g_deph, g_dn, g_up)
+        fired = 0
         for j in range(1, 5):
             A = np.linalg.matrix_power(H, j)
             lhs = slope_dense(A, L, d)
             rhs = slope_law(H, N, j, dg)
             dev = abs(lhs - rhs)
             assert dev <= 1e-14 * max(1.0, abs(lhs)), f"{name} j={j}: dev {dev:.2e}"
+            fired += abs(lhs) > 1e-3
             # cross-check t_j(l) against the f87 girth-dichotomy convention via an
             # independent evaluation path (einsum vs trace(matmul))
             Hp = np.linalg.matrix_power(H, j)
@@ -244,7 +254,11 @@ def block_B_slope_law():
         rhs = sum(dg[l] * np.trace(A @ site_op(N, l, 'Z')) for l in range(N)) / d
         dev = abs(lhs - rhs)
         assert dev <= 1e-14, f"{name} random A: dev {dev:.2e}"
-        print(f"  {name:26s} random Hermitian A: dev = {dev:.2e}")
+        assert fired >= 2, (
+            f"{name}: only {fired} of 4 rungs are nonzero, so the law is being checked "
+            "mostly against 0 == 0 (a zero H would pass this block entirely)")
+        assert abs(lhs) > 1e-3, f"{name}: the random-A slope does not fire ({lhs})"
+        print(f"  {name:26s} random Hermitian A: dev = {dev:.2e}  ({fired}/4 rungs nonzero)")
     print("BLOCK B PASS")
 
 
@@ -254,6 +268,8 @@ def block_B_slope_law():
 def block_C_blindnesses():
     print("-" * 92)
     print("BLOCK C  the three blindnesses  [deph-blind, evolution-blind, detailed-balance closure]")
+    # Everything here asserts that a slope does NOT move, which a zero H or an unchanged
+    # "change" satisfies trivially. Pin the operands and the perturbations.
     print("-" * 92)
     N, d = 3, 8
     g_deph = [0.21, 0.34, 0.15]
@@ -288,11 +304,11 @@ def block_C_blindnesses():
 
 
 # ======================================================================
-# BLOCK D -- the girth certificate (one-sided) + the honest negative control.
+# BLOCK D -- the rung certificate (one-sided) + the honest negative control.
 # ======================================================================
 def block_D_girth_certificate():
     print("-" * 92)
-    print("BLOCK D  the girth certificate  [first firing j = girth ℓ; silence is NOT softness]")
+    print("BLOCK D  the rung certificate  [first nonzero rung k ⟹ m* <= 2k+1; silence is NOT softness]")
     print("-" * 92)
     g_deph = [0.21, 0.34, 0.15]
     g_dn = [0.11, 0.27, 0.05]
@@ -338,13 +354,17 @@ def block_D_girth_certificate():
     assert abs(s_j2 - dg[1] * 16.0 / d) <= 1e-14 and abs(s_j2) > 1e-3, \
         "girth-2 witness: slope(H^2) does not fire with Δγ_1·16/d"
     print(f"  (ii)  girth-2 (X₀ + X₀Z₁ + 0.7·X₁X₂): t_1 ≡ 0, t_2 = [0, 16, 0]; "
-          f"slope(H^1) = 0.0 EXACT, slope(H^2) = {s_j2.real:+.4f} = Δγ_1·16/d  → ℓ = 2, m* = 5")
+          f"slope(H^1) = 0.0 EXACT, slope(H^2) = {s_j2.real:+.4f} = Δγ_1·16/d  → k = 2, m* <= 5")
 
-    # (iii) HONEST negative control: the k=4 pair IIXY+ZXZY (N = 5). The deg-1 tower is silent
+    # (iii) HONEST negative control: the 4-body pair IIXY+ZXZY (N = 5). The deg-1 tower is silent
     # through j = 5, yet the pair is HARD at m* = 11 = 2ℓ+5 with p_11 = 86507520·γ⁵ (deg-5;
     # pinned exactly in f87_girth_dichotomy Block 3). Silence certifies NOTHING about softness.
     N5, d5 = 5, 32
     H4 = _build_kbody_chain(N5, [('I', 'I', 'X', 'Y', 1.0), ('Z', 'X', 'Z', 'Y', 1.0)])
+    # Pin the witness itself. Everything below asserts that something VANISHES, so the
+    # zero Hamiltonian passed this control unchanged: a silence certificate has to show
+    # the operator is there before it shows the tower is not.
+    assert np.trace(H4 @ H4).real == 128.0, f"H4 is not the IIXY+ZXZY witness ({np.trace(H4 @ H4).real})"
     L4 = build_L(H4, N5, [0.2] * N5, [0.11, 0.27, 0.05, 0.18, 0.07], [0.02] * N5)
     for j in range(1, 6):
         ts = t_moment(H4, N5, j)
@@ -384,6 +404,10 @@ def block_E_f113_bridge():
 
         assert abs(closed - bridge) <= 1e-15, f"N={N}: closed vs slope-bridge {closed} {bridge}"
         assert abs(closed - actual) <= 1e-12, f"N={N}: closed vs Frobenius {closed} {actual}"
+        # This is a three-route CONSISTENCY check, so it agrees at zero too: with ω ≡ 0,
+        # or at detailed balance, all three read 0.0 and the block would certify a
+        # bridge that never fired. Pin that it fires, the way BLOCK I pins its rows.
+        assert abs(closed) > 1e-3, f"N={N}: the bridge does not fire ({closed})"
         print(f"  N={N}: closed form = {closed:+.12f}")
         print(f"        −4^N·slope  = {bridge:+.12f}   (|Δ| = {abs(closed - bridge):.1e})")
         print(f"        ‖M₊‖²−‖M₋‖² = {actual:+.12f}   (|Δ| = {abs(closed - actual):.1e})")
@@ -426,13 +450,16 @@ def block_F_curvature_fingerprint():
 
     # exact affinity in the generator: the curvature difference doubles bit-exactly with δ
     V = site_op(N, 0, 'Y')
-    A = H_p @ H_p
+    # A = H_p, not H_p²: with H_p² the probe law gives EXACTLY 0 for V = Y₀, so the
+    # affinity assert below read 0 == 2·0 and never tested the doubling it prints.
+    A = H_p
     diff_1 = curvature_dense(A, build_L(H_p + 0.05 * V, N, g_deph, g_dn, g_up), d) \
         - curvature_dense(A, L_p, d)
     diff_2 = curvature_dense(A, build_L(H_p + 0.10 * V, N, g_deph, g_dn, g_up), d) \
         - curvature_dense(A, L_p, d)
+    assert abs(diff_1) > 1e-3, f"the affinity row does not fire ({diff_1})"
     assert diff_2 == 2 * diff_1, "curvature difference not exactly affine in δ"
-    print(f"  affinity: diff(2δ) == 2·diff(δ) BIT-EXACT (δ = 0.05, V = Y₀, A = H_p²)")
+    print(f"  affinity: diff(2δ) == 2·diff(δ) BIT-EXACT (δ = 0.05, V = Y₀, A = H_p)")
 
     # X/Y-flavored parasites with probe overlap are read LINEARLY
     delta = 0.05
@@ -449,6 +476,9 @@ def block_F_curvature_fingerprint():
 
     # Z-flavored parasite: EXACTLY invisible ([Z, Z_l] = 0)
     V_z = site_op(N, 0, 'Z')
+    # The X/Y rows pin that they are read; this row asserts a vanishing, so pin that the
+    # parasite is actually present, else an ABSENT parasite earns the invisibility line.
+    assert abs(V_z).max() > 0.5, "the Z parasite is not there to be invisible"
     for j in (1, 2):
         A = np.linalg.matrix_power(H_p, j)
         L_c = build_L(H_p + delta * V_z, N, g_deph, g_dn, g_up)
@@ -548,12 +578,107 @@ def block_H_detailed_balance_f84():
     g_dn, g_up = [0.11, 0.27, 0.05], [0.02, 0.09, 0.13]
     dg = [a - b for a, b in zip(g_dn, g_up)]
     v_net = fw.predict_amplitude_damping_violation(chain, g_dn, g_up)
+    # and it must FIRE: at detailed balance every quantity below is 0.0 and each assert
+    # holds on nothing at all.
+    assert v_net > 1e-3, f"the F84 tie does not fire ({v_net})"
     v_expect = float(np.sqrt(sum(x * x for x in dg)) * 2 ** (N - 1))
     assert abs(v_net - v_expect) < 1e-12, "F84 tie: net violation != √(ΣΔγ²)·2^(N−1)"
+    # The line above only restates predict_amplitude_damping_violation's own formula, so
+    # it ties nothing to a generator. The actual cross-tie: the same Δγ read off a BUILT
+    # Liouvillian through the F81 decomposition. Both are magnitudes, so neither can see
+    # the sign of Δγ; the swap assert below pins that rather than pretending otherwise.
+    from framework import pi_decompose_M
+    measured = pi_decompose_M(chain, [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
+                              gamma_t1=g_dn, gamma_pump=g_up)['f81_violation']
+    assert abs(v_net - measured) < 1e-12, f"F84 tie: predictor {v_net} vs measured {measured}"
+    swapped = pi_decompose_M(chain, [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
+                             gamma_t1=g_up, gamma_pump=g_dn)['f81_violation']
+    assert abs(swapped - measured) < 1e-12, (
+        "f81_violation is ‖M_anti − L_H_odd‖, a norm, so swapping γ↓ and γ↑ must leave it "
+        f"put; if this fires the quantity is no longer a magnitude ({swapped} vs {measured})")
+    print(f"  F84 tie: predictor {v_net:.12f} == measured off a built L {measured:.12f}")
     print(f"  F84 tie: Δγ_l = (γ↓ − γ↑)_l drives BOTH the pump slope and the F84 violation")
     print(f"           balanced → F84 violation = 0.0;  net Δγ = {tuple(round(x, 2) for x in dg)}"
           f" → violation = {v_net:.4f} = √(ΣΔγ²)·2^(N−1)")
     print("BLOCK H PASS")
+
+
+def block_I_zero_total_moment():
+    """The §4 fence: a vanishing TOTAL moment does not silence the channel.
+
+    The slope reads the inner product (1/d)·Σ_l Δγ_l t_1(l), not the bare total
+    Σ_l t_1(l). So a site-energy pattern whose total moment is exactly zero reads
+    zero at uniform rates and nonzero against a rate profile it is not orthogonal
+    to. The firing condition is Σ_l ω_l·(γ_pump,l − γ_T1,l) ≠ 0 and nothing weaker:
+    the control profile below is just as non-uniform and returns exactly zero.
+    """
+    print("-" * 92)
+    print("BLOCK I  zero TOTAL moment, per-site rates  [firing iff Σ_l ω_l Δγ_l ≠ 0]")
+    print("-" * 92)
+    N = 4
+    d = 2 ** N
+    # C4 hopping ring plus site energies Σ_l α_l n_l, n_l = (I − Z_l)/2
+    alpha = [0.1, -0.1, 0.1, -0.1]
+    H = np.zeros((d, d), dtype=complex)
+    for a in range(N):
+        b = (a + 1) % N
+        H = H + 0.5 * (site_op(N, a, 'X') @ site_op(N, b, 'X')
+                       + site_op(N, a, 'Y') @ site_op(N, b, 'Y'))
+    eye_d = np.eye(d, dtype=complex)
+    for l, al in enumerate(alpha):
+        H = H + al * (eye_d - site_op(N, l, 'Z')) / 2.0
+
+    # the F113 drive variables ARE the moments: ω_l = Tr(Z_l H)/2^(N−1) = −α_l
+    omega = [np.trace(site_op(N, l, 'Z') @ H).real / 2 ** (N - 1) for l in range(N)]
+    total_moment = sum(np.trace(site_op(N, l, 'Z') @ H).real for l in range(N))
+    assert total_moment == 0.0, f"total moment not exactly zero: {total_moment}"
+    for l in range(N):
+        assert abs(omega[l] + alpha[l]) <= 1e-15, f"site {l}: ω_l ≠ −α_l"
+    print(f"  Σ_l Tr(Z_l H) = {total_moment:+.1e} (exactly zero); ω_l = −α_l = "
+          f"{[f'{w:+.2f}' for w in omega]}")
+
+    # Each row pins its OWN expected value, so a silent channel cannot pass: with
+    # α ≡ 0 every route would agree at 0 and the "unequal" row's expectation fails.
+    uniform_profile = [1.0, 1.0, 1.0, 1.0]
+    unequal_profile = [1.0, 2.0, 1.0, 2.0]
+    control_profile = [1.0, 1.0, 2.0, 2.0]
+    rows = ((f"uniform  {tuple(uniform_profile)}", uniform_profile, 0.0),
+            (f"unequal  {tuple(unequal_profile)}", unequal_profile, -25.6),
+            (f"control  {tuple(control_profile)}", control_profile, 0.0))
+    computed = {}
+    for label, gt1, expected in rows:
+        gpu = [0.0] * N
+        closed = (4 ** N / 2.0) * sum(omega[l] * (gpu[l] - gt1[l]) for l in range(N))
+        L = build_L(H, N, [0.0] * N, gt1, gpu)
+        bridge = -(4 ** N) * slope_dense(H, L, d).real
+        c_ops = [site_2x2(N, l, SM) for l in range(N)]
+        pol = polarity_coordinates_from_hc(H, c_ops, list(gt1), N)
+        actual = pol['asymmetry']
+        # Rounding here is one ULP of ‖M‖², which scales as γ², so the tolerances are
+        # tied to that scale rather than to the rates this block happens to use.
+        scale = max(1.0, float(pol['norm_sq']['M']))
+        assert abs(closed - expected) <= 1e-12 * scale, f"{label}: closed {closed} != {expected}"
+        assert abs(closed - bridge) <= 1e-14 * scale, f"{label}: closed vs slope {closed} {bridge}"
+        assert abs(closed - actual) <= 1e-14 * scale, f"{label}: closed vs Frobenius {closed} {actual}"
+        computed[label] = (closed, bridge, actual)
+        print(f"  γ_T1 {label}: asymmetry = {closed:+.6f}   "
+              f"−4^N·slope = {bridge:+.6f} (|Δ| = {abs(closed - bridge):.1e})   "
+              f"‖M₊‖²−‖M₋‖² = {actual:+.6f} (|Δ| = {abs(closed - actual):.1e})")
+    # the channel must actually FIRE on the unequal profile (all three routes), else the
+    # fence is vacuous: with α ≡ 0 everything below would be zero and this raises
+    for route, value in zip(("closed form", "slope", "Frobenius"),
+                            computed[rows[1][0]]):
+        assert abs(value) > 1.0, f"the unequal row's {route} does not fire: {value}"
+
+    # The criterion is the inner product, not the spread. Both facts are read off the
+    # profile the loop actually used, not off a repeated literal.
+    inner_control = sum(omega[l] * (0.0 - control_profile[l]) for l in range(N))
+    assert abs(inner_control) <= 1e-15, f"control not orthogonal: {inner_control}"
+    assert len(set(control_profile)) > 1, "control profile is not non-uniform"
+    assert len(set(unequal_profile)) > 1, "unequal profile is not non-uniform"
+    print("  the control is non-uniform AND orthogonal to the drive: exactly zero, so "
+          "non-uniformity is not the criterion")
+    print("BLOCK I PASS")
 
 
 def main():
@@ -568,6 +693,7 @@ def main():
     block_F_curvature_fingerprint()
     block_G_finite_time()
     block_H_detailed_balance_f84()
+    block_I_zero_total_moment()
     print("=" * 92)
     print("ALL BLOCKS PASS")
     print("=" * 92)

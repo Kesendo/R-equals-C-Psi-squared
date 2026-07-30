@@ -198,24 +198,27 @@ public sealed class LindbladBitBPiYBalanceWitness : Claim
     /// (F112-Y shares the bit_b-homogeneity hypothesis with F112-Z); only the dephase letter
     /// changes:
     /// <list type="number">
-    ///   <item><b>Heisenberg_pure_Y_balanced</b>: H = XX+YY+ZZ + pure Y-dephasing.
+    ///   <item><b>Heisenberg_pure_Y_balanced</b>: H = XX+YY+ZZ, read on the Π_Y axis.
     ///         Inside F112-Y typed scope. Expected BALANCED.</item>
     ///   <item><b>YZ_ZY_pi2even_Y_balanced</b>: H = YZ+ZY (Π²_Y-even).
     ///         Inside F112-Y typed scope. Expected BALANCED.</item>
     ///   <item><b>XY_pi2odd_Y_balanced</b>: H = XY (Π²_Y-odd). Inside F112-Y typed scope.
     ///         Expected BALANCED.</item>
-    ///   <item><b>Heisenberg_with_T1_envelope_Y_balanced</b>: H = Heisenberg + σ⁻ T1 (γ_T1=0.1)
-    ///         under Y-dephase. Under Y-deph the dephasing c is Y (bit_b = 1) per site; σ⁻
-    ///         is bit_b-mixed (σ⁻ = (X − i Y)/2, X has bit_b=0 and Y has bit_b=1).
+    ///   <item><b>Heisenberg_with_T1_envelope_Y_balanced</b>: H = Heisenberg + σ⁻ T1 (γ_T1=0.1),
+    ///         read on the Π_Y axis. The dephasing c stays Z here: dephaseLetter selects the
+    ///         Π axis and threads only through PalindromeResidual and PiOperator, not through
+    ///         the dissipator (PiDecomposition.cs). σ⁻ is bit_b-mixed either way
+    ///         (σ⁻ = (X + i Y)/2, X has bit_b=0 and Y has bit_b=1).
     ///         Outside the F112-Y typed Tier1Derived scope (bit_b-homogeneous c hypothesis
     ///         broken by σ⁻), but the broader empirical envelope (mirroring the F112-Z
     ///         envelope across probes 1-14) still gives BALANCED for idle / XY-bond /
     ///         Heisenberg-style Hermitian H. Expected BALANCED.</item>
     ///   <item><b>Zdrive_with_T1_envelope_Y_BROKEN</b>: H = ω·(Z₀+Z₁)/2 single-site Z-drive
-    ///         (ω = 0.13) + σ⁻ T1 (γ_T1 = 0.001) under Y-dephase. The Y-dephase analog of the
+    ///         (ω = 0.13) + σ⁻ T1 (γ_T1 = 0.001), read on the Π_Y axis (the dephasing c stays
+///         Z, as in witness 4). The Π_Y analog of the
     ///         F112-Z f95 BROKEN counterexample; both Z-drive and σ⁻ produce non-Hermitian
     ///         Π_Y-eigenspace coupling identically to the Z-dephase case (the F113 [Z, σ⁻]
-    ///         = −2σ⁻ commutator structure is dephase-letter independent at the H × c
+    ///         = +2σ⁻ commutator structure is dephase-letter independent at the H × c
     ///         interaction level, with the Y-deph Π_Y producing the same +i/−i imbalance
     ///         as the Z-deph Π_Z up to the Y/Z 2-cycle phase). Expected BROKEN.</item>
     /// </list>

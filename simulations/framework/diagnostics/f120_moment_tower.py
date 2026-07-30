@@ -26,7 +26,7 @@ def _resolve_per_site(values, N, name):
 
 
 def moment_tower(H, N, j_max, tol=1e-9):
-    """F120: the Z_l-weighted moment tower t_j(l) = Tr(Z_l H^j) and its deg-1 girth reading.
+    """F120: the Z_l-weighted moment tower t_j(l) = Tr(Z_l H^j) and its first firing rung.
 
     Theorem F120 (the pump-slope law, verified in
     simulations/moment_tower_pump_channel.py): under
@@ -35,12 +35,27 @@ def moment_tower(H, N, j_max, tol=1e-9):
 
         d/dt Tr(A ρ)|_{ρ = I/d} = (1/d) · Σ_l Δγ_l · Tr(A Z_l),   Δγ_l = γ↓_l − γ↑_l,
 
-    so with A = H^j the slope reads the tower t_j(l) LINEARLY. By the F87
-    girth dichotomy (simulations/f87_girth_dichotomy.py), the first j with
-    t_j ≠ 0 somewhere is the girth ℓ, and t_ℓ ≠ 0 ⟹ m* = 2ℓ+1, deg = 1:
-    hard at every γ > 0. The certificate is ONE-SIDED: silence of the deg-1
-    tower through j_max is NOT softness (the k = 4 witness IIXY+ZXZY has
-    t_j = 0 everywhere yet is hard at m* = 11 with p₁₁ = 86507520·γ⁵).
+    so with A = H^j the slope reads the tower t_j(l) LINEARLY. Call the first j
+    with t_j ≠ 0 somewhere the first nonzero rung k. Then p_{2k+1} carries the
+    sum of squares (2k+1)·C(2k,k)·Σ_l t_k² > 0, so the pair is HARD and the
+    hardness moment is BOUNDED: m* <= 2k+1. The certificate is ONE-SIDED:
+    silence of the deg-1 tower through j_max is NOT softness (the 4-body pair
+    IIXY+ZXZY has t_j = 0 everywhere, so it has no first nonzero rung at all, yet
+    it is hard at m* = 11 with p₁₁ = 86507520·γ⁵).
+
+    The bound is not an equality, which is why 'deg1_verdict' says <=. Equality
+    needs k to be the F87 girth ℓ, and k is NOT ℓ: f87's ℓ
+    (f87_windowed_monomial_converse.effective_ell) is 1 for a nonzero diagonal
+    and otherwise the shortest odd cycle, so it is never even; k routinely is.
+    At k > ℓ a higher-degree class fires BELOW 2k+1. H = Y₂ + Z₀Z₁Y₂ + Z₀Z₁Z₂ at
+    N = 3 has t₁ = t₂ = 0 and t₃ = (0,0,16), so k = 3 and the bound reads 7, but
+    the diagonal is nonzero so ℓ = 1 and p₅ = 7680·γ³ already fires: m* = 5. The
+    dichotomy's `deg = 1` half, and with it 'hard at every γ > 0', need ℓ
+    specifically and are not asserted here.
+
+    Note also that this reads the TOWER. The rung at which a measured slope
+    fires can be later, because the slope reads Σ_l Δγ_l t_j(l), which can
+    cancel at a rung where t_j ≠ 0.
 
     Args:
         H: Hamiltonian as a 2^N × 2^N numpy array (Hermitian H gives real t_j).
@@ -53,8 +68,9 @@ def moment_tower(H, N, j_max, tol=1e-9):
             't':            {j: [t_j(l) per site l]} for j = 1..j_max (complex,
                             the f87_girth_dichotomy t_moment convention; exact
                             integers for integer H).
-            'girth':        first j ≤ j_max with any |t_j(l)| > tol, or None.
-            'deg1_verdict': 'hard, m* = 2*girth+1' (with the number substituted)
+            'first_firing_rung': first j ≤ j_max with any |t_j(l)| > tol, or None.
+                            NOT the F87 girth; see above.
+            'deg1_verdict': 'hard, m* <= 2k+1' (with the number substituted)
                             if the tower fired, else the honest one-sided line
                             'deg-1 silent through j_max = ... (NOT a softness
                             certificate)'.
@@ -62,20 +78,24 @@ def moment_tower(H, N, j_max, tol=1e-9):
     Nh, _ = _n_from_H(H)
     if Nh != N:
         raise ValueError(f"N={N} does not match H dimension 2^{Nh}")
+    # Without this, j_max <= 0 returns the 'deg-1 silent' verdict from a scan that
+    # never ran, shape-indistinguishable from a genuine silence certificate.
+    if j_max < 1:
+        raise ValueError(f"j_max must be at least 1 to scan a rung; got {j_max}")
     Z_ops = [site_op(N, l, 'Z') for l in range(N)]
     t = {}
-    girth = None
+    first_firing_rung = None
     Hp = np.eye(H.shape[0], dtype=complex)
     for j in range(1, j_max + 1):
         Hp = Hp @ H
         t[j] = [complex(np.trace(Z @ Hp)) for Z in Z_ops]
-        if girth is None and max(abs(v) for v in t[j]) > tol:
-            girth = j
-    if girth is not None:
-        verdict = f"hard, m* = {2 * girth + 1}"
+        if first_firing_rung is None and max(abs(v) for v in t[j]) > tol:
+            first_firing_rung = j
+    if first_firing_rung is not None:
+        verdict = f"hard, m* <= {2 * first_firing_rung + 1}"
     else:
         verdict = f"deg-1 silent through j_max = {j_max} (NOT a softness certificate)"
-    return {'t': t, 'girth': girth, 'deg1_verdict': verdict}
+    return {'t': t, 'first_firing_rung': first_firing_rung, 'deg1_verdict': verdict}
 
 
 def predict_pump_slope(H, j, delta_gamma_l):

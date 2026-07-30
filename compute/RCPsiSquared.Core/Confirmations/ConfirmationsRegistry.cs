@@ -315,7 +315,7 @@ public static class ConfirmationsRegistry
             JobId: "d8l6c7rqv2lc73863acg (Arm A) + d8l6c832d42s73cb16a0 (Arm B) + d8l6h03nn5bs738rmrug (standard-T1 arbiter)",
             Observable:
                 "Energy-moment slopes d/dt⟨H_p^j⟩ from the maximally mixed state (8-basis-state average) under pure idle; " +
-                "H_p = X₀+X₀Z₁+0.7·X₁X₂ (girth-2 witness, H_p² = 2.49·I+2·Z₁+1.4·XXX exact, tower t₁ ≡ 0, t₂ = [0,16,0]); " +
+                "H_p = X₀+X₀Z₁+0.7·X₁X₂ (rung-2 witness, H_p² = 2.49·I+2·Z₁+1.4·XXX exact, tower t₁ ≡ 0, t₂ = [0,16,0]); " +
                 "qubits q149/q13/q9, NO two-qubit gates, dynamical decoupling disabled, τ ∈ {0..150} μs, two arms permuting the middle qubit",
             PredictedValue:
                 "Rung-1 null: slope⟨H_p⟩ = 0 at all τ (t₁ ≡ 0; evolution-blind, robust against all Z-flavored idle parasitics). " +
@@ -323,18 +323,19 @@ public static class ConfirmationsRegistry
                 "site tracking across arms. Rates-from-calibration Δγ_l = 1/T1_l was the textbook noise-model assumption (the layer the chip declined).",
             MeasuredValue:
                 "Double null HELD: slope⟨H⟩ = +2.4e-4/μs (z = +1.47, Arm A) and −6.8e-6/μs (z = −0.04, Arm B); |⟨XXX⟩| ≤ 0.02 throughout. " +
-                "Row identity exact in every measured row (τ=100 Arm A: 2.49+2·0.4147+1.4·0.0186 = 3.345 vs 3.3455). " +
+                "The row identity holds by construction (the analysis file derives ⟨H_p²⟩ from it), so it is not a check; " +
+                "what the data give is the X-string staying dark, |⟨XXX⟩| ≤ 0.019. " +
                 "Per-qubit pump slopes (Arm A / B, per μs): q149 2.327e-3 / 2.193e-3, q13 3.029e-3 / 3.090e-3, q9 5.794e-3 / 5.779e-3 " +
                 "(cross-arm reproducibility 5.7% / 1.9% / 0.3%). Arbiter standard T1: q149 424.6, q13 430.3, q9 99.9 μs. " +
                 "IN-SITU model test (prep-conditioned split of the same circuits; bound ⟺ s₀ ≤ 0): pump/Γ = 0.972-0.979 (q149), " +
-                "0.965-0.966 (q13), 0.994-0.996 (q9) — the bound HOLDS everywhere in-situ; the 1-3% margins read the per-qubit thermal " +
+                "0.965-0.966 (q13), 0.994-0.996 (q9): the bound HOLDS everywhere in-situ; the 0.4-3.5% margins have half reading the per-qubit thermal " +
                 "population (q13 1.7%, q149 1.1-1.4%, q9 0.2-0.3%). CORRECTED SAME DAY: the first reading (q13 violates pump ≤ Γ at " +
                 "4-6σ) compared the run against the 16-minutes-later arbiter and was an EPOCH ARTIFACT: T1 telegraphs on minute scale " +
                 "(q13 ~315 μs in-run vs 430 at the arbiter; q9 ~172 vs ~75-100; q149 stable across the morning epochs). " +
-                "Re-analysis: simulations/f120_prep_split_reanalysis.py. TELEGRAPH CHASE (12:02Z, job d8l8f7r2d42s73cb3q7g, " +
+                "Re-analysis: simulations/f120_prep_split_reanalysis.py. TELEGRAPH CHASE (10:02Z, job d8l8f7r2d42s73cb3q7g, " +
                 "16 self-arbitrating blocks): within-job Γ flat at the shot-noise floor (no switch in 75 s), s₀ ≤ 0 in 47/48 " +
                 "block-cells; across the day EVERY qubit moved, including the stable control (q149 430 → ~285 μs; q13 in a third " +
-                "state ~200 μs; q9 ~108). Verdict: q13 was never special, the device T1 landscape breathes everywhere by 1.5-2x " +
+                "state ~200 μs; q9 ~108). Verdict: q13 was never special, the device T1 landscape breathes everywhere by 1.2-1.4x in-situ against in-situ " +
                 "on minute-to-hour scales, the two-level model holds within any ~minute window; the hidden variable was time.",
             HardwareData:
                 "data/ibm_moment_tower_june2026/ (moment_tower_hardware_ibm_kingston_20260611T073908Z.json, " +
@@ -348,11 +349,11 @@ public static class ConfirmationsRegistry
                 "F120's first hardware reading, the cleanest protocol ever sent to a QPU from this project: not one entangling gate " +
                 "(X-gate preparation of all 8 basis states = exact I/d, pure idle as evolution, single-qubit basis rotations to read). " +
                 "The structural law confirmed: the first energy-moment rung stays silent (the double null) while the second fires as " +
-                "exactly twice the middle qubit's pump curve (row-exact identity), the girth read from hardware is 2, the firing follows " +
+                "exactly twice the middle qubit's pump curve with the X-string dark, the first nonzero rung read from hardware is 2, the firing follows " +
                 "the middle-qubit identity across arms, and the per-qubit pump rates reproduce across arms to 0.3-5.7%. " +
                 "The rate layer told a two-act story: the first reading (q13 violates pump ≤ Γ) was corrected the same day by the " +
                 "prep-conditioned re-analysis — the 8-basis-state preparation contains the |0⟩- and |1⟩-branches, so pump AND Γ come " +
-                "from the same circuits, epoch-matched, and the bound holds everywhere in-situ (worst 0.996) with margins that READ the " +
+                "from the same circuits, epoch-matched, and the bound holds everywhere in-situ (worst 0.996) with margins whose HALF reads the " +
                 "per-qubit thermal population. What the cross-epoch comparison had actually detected is minute-scale T1 telegraphing on " +
                 "q13 (~315 ↔ 430 μs) and q9 (~172 ↔ ~75-100 μs), once visible inside a single arm. Two lessons banked: the protocol is " +
                 "self-arbitrating (pump, Γ, γ↑ from one circuit set; the in-situ model test is s₀ ≤ 0), and the hardness rung of a " +

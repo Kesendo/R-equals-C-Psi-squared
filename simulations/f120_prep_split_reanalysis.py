@@ -13,19 +13,24 @@ for free:
     so pump <= Gamma  <=>  s0 <= 0,  measured IN-SITU, epoch-matched.
 
 Result (the correction): every qubit satisfies the bound in-situ
-(pump/Gamma = 0.965..0.996), the 1-3% margins read the per-qubit thermal
+(pump/Gamma = 0.965..0.996), the 0.4-3.5% margins, whose half read the per-qubit thermal
 excitation gamma_up = -s0/2, and the apparent violation was an epoch
 artifact: q13's T1 telegraphs between ~315 us (during the run) and ~430 us
 (at the arbiter); q9 switches the other way (~172 us in-run vs ~75-100 us
-at the arbiter); q149 is stable. Two-level Lindblad holds within epochs;
+at the arbiter); q149 looked stable across these two epochs, a reading the 10:02Z telegraph chase retired. Two-level Lindblad holds within epochs;
 the epoch was the hidden variable.
 
 BIT-ORDERING GOTCHA (for reproducers): both the preparation keys ('x000'..)
 and the measured bitstrings in the saved counts are little-endian relative
-to the chain order, so chain site s addresses string position (2 - s). The
-mapping is verified bit-exactly against the unconditioned curves of the
-main analysis (q13 mixed <Z_1> at tau = 50: (0.9947 + (-0.6737))/2 = 0.1605,
-the main table's value exactly).
+to the chain order, so chain site s addresses string position (2 - s). That spot-check
+below cannot settle the ordering by itself: it is chain site 1, the fixed
+point of (2 - s), so both candidate rules give it identically. What settles
+it is the cross-arm assert in main(): the two arms swap chain sites 1 and 2,
+so the SAME physical qubit must return the same in-situ Gamma in both. It
+agrees to ~5% under this mapping and to 28-59% under the reversed one. The
+spot-check still pins the conditioning itself against the unconditioned
+curves of the main analysis (q13 mixed <Z_1> at tau = 50:
+(0.9947 + (-0.6737))/2 = 0.1605, the main table's value exactly).
 
 Data: data/ibm_moment_tower_june2026/. Writeup: the Correction section of
 experiments/F120_MOMENT_TOWER_KINGSTON.md.
@@ -55,9 +60,9 @@ for r in csv.DictReader(open(DATA / "ibm_kingston_calibrations_2026-06-11T06_33_
     except (ValueError, KeyError):
         continue
 
-LAYOUT = {"A": [149, 13, 9], "B": [149, 9, 13]}
-TAUS = [0, 25, 50, 75, 100, 150]
-EARLY = 75.0
+LAYOUT = {a: RUN["arms"][a]["chain_to_physical"] for a in ("A", "B")}
+TAUS = [int(x) for x in RUN["tau_grid_us"]]   # count keys are "tau_0", "tau_25", ...
+EARLY = RUN["linear_fit_window_us"]
 ARBITER_GAMMA = {149: 1 / 424.6, 13: 1 / 430.3, 9: 1 / 99.9}   # 07:55Z, 16 min later
 
 
@@ -91,6 +96,7 @@ def main():
     print("=" * 96)
     worst_ratio = 0.0
     any_s0_positive = False
+    gamma_by_qubit = {}
     for arm in ("A", "B"):
         print(f"Arm {arm}: chain (0,1,2) = physical {LAYOUT[arm]}")
         for site in range(3):
@@ -105,6 +111,7 @@ def main():
             pump, gam = (s1 + s0) / 2, (s1 - s0) / 2
             ratio = pump / gam
             worst_ratio = max(worst_ratio, ratio)
+            gamma_by_qubit.setdefault(qubit, []).append(gam)
             if s0 > 2 * e0:
                 any_s0_positive = True
             pth = -s0 / 2 / gam * 100
@@ -112,11 +119,23 @@ def main():
                   f"  pump = {pump:.3e}  Γ_insitu = {gam:.3e}  pump/Γ = {ratio:.3f}"
                   f"  p_th ≈ {pth:.1f}%  (arbiter Γ = {ARBITER_GAMMA[qubit]:.3e})")
     print("=" * 96)
+    # The site -> bitstring-position mapping is the one thing no other check here can see:
+    # the orientation assert above applies the SAME pos to prep and measurement, so it
+    # tests that the two agree, not that either lands on the right chain site. The arms
+    # swap chain sites 1 and 2, so a per-qubit Gamma has to survive the swap. Under the
+    # reversed mapping every qubit is reported against another qubit's curve.
+    for qubit, gammas in sorted(gamma_by_qubit.items()):
+        spread = abs(gammas[0] - gammas[1]) / max(abs(g) for g in gammas)
+        print(f"  cross-arm Γ agreement q{qubit:>3}: {spread * 100:.1f}%")
+        assert spread < 0.15, (
+            f"q{qubit} disagrees across arms by {spread*100:.1f}%: the chain-site to "
+            f"bitstring-position mapping is wrong ({gammas})")
     assert not any_s0_positive, "a qubit shows <Z> rising from |0>: genuine two-level violation"
     assert worst_ratio < 1.0, f"in-situ pump/Gamma reached {worst_ratio:.3f} >= 1"
     print(f"IN-SITU BOUND HOLDS EVERYWHERE (worst pump/Γ = {worst_ratio:.3f}); the cross-epoch")
     print("'violation' was T1 telegraphing between the run and the arbiter (q13: ~315 vs 430 us;")
-    print("q9: ~172 vs ~75-100 us; q149 stable). The protocol self-arbitrates via prep-splitting.")
+    print("q9: ~172 vs ~75-100 us; q149 steady across THESE two epochs, a reading the")
+    print("10:02Z telegraph chase later retired). The protocol self-arbitrates by prep-splitting.")
 
 
 if __name__ == "__main__":

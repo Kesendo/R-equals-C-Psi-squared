@@ -20,7 +20,7 @@ Pipeline per dataset (f95 omega=0.13 + omega=0.25, A_mid q82-q83 + B_high q13-q1
      - γ_T1_F113 (inverted from polarity asymmetry of the fit's L)
      - γ_T1_calibration (from device characterization in dataset metadata: 1/T1)
 
-For self-consistency, γ_T1_fit and γ_T1_F113 should agree bit-exactly (the fit's
+For self-consistency, γ_T1_fit and γ_T1_F113 should agree to machine precision (the fit's
 L was used to compute the asymmetry, so F113 inversion just recovers the fit value).
 The interesting comparison is fit vs calibration: if they differ, the effective
 T1 acting in the Bell-state evolution differs from the isolated-qubit T1.
@@ -37,6 +37,19 @@ from scipy.optimize import minimize
 
 sys.path.insert(0, str(Path(__file__).parent))
 import framework as fw  # noqa: E402
+
+# Resolve data from the file, not the CWD: the sibling scripts do, and running
+# this one from simulations/ otherwise raises FileNotFoundError.
+_DATA = Path(__file__).resolve().parent.parent / 'data' / 'ibm_f95_angle_steering_may2026'
+
+# The script prints γ, δ, Σ and μ. Under a default cp1252 Windows stdout (any redirect,
+# or a non-UTF-8 console) that raises UnicodeEncodeError at the very first header line,
+# before any analysis runs. Same guard as moment_tower_pump_channel.py.
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 I2 = np.eye(2, dtype=complex)
 X = np.array([[0, 1], [1, 0]], dtype=complex)
@@ -148,8 +161,12 @@ def f113_invert_gamma_t1(asymmetry, omega, N=2):
     """Invert F113: γ_T1 = −asym / ((1/2)·4^N·ω), γ_pump = 0.
 
     ONE driven site, so the sum over l in F113 has a single term. With a uniform
-    γ_T1 the inversion returns that rate; with per-site rates it would return the
-    DRIVEN site's, which is finer than the per-pair reading this doc once claimed.
+    γ_T1 the inversion returns that rate; with per-site rates it returns the ω-weighted
+    combination, which in THIS model is the driven site's alone because the other site
+    carries ω = 0 exactly. That is a property of the model and not of the chip: admit a
+    per-qubit detuning and ω_l → ω_l + 2δ_l gives the second site a nonzero weight too.
+    The shipped fit imposes one γ_T1 on both qubits, so the per-pair number is the fit's
+    limit rather than the asymmetry's.
     """
     prefactor = 0.5 * (4 ** N) * omega
     if abs(prefactor) < 1e-15:
@@ -168,6 +185,12 @@ def analyze_pair(omega, t_us, rhos, pair_label, T1_calib_us):
     print(f"    Fit: γ_z = {gz_fit:.5f}, γ_T1_fit = {gt1_fit:.5f} per μs   (RMS = {rms:.4f})")
 
     asym, M_sq = asymmetry_of_L(omega, gz_fit, gt1_fit)
+    # The Reading section below PRINTS 'F113/fit = 1.000000' as fixed text. Without
+    # this the script would print a contradicting table and still exit 0: halving the
+    # inversion prefactor gives ratio 2.000000 under an unchanged conclusion.
+    _gt1_f113 = f113_invert_gamma_t1(asym, omega)
+    assert abs(_gt1_f113 / gt1_fit - 1.0) < 1e-12, (
+        f'F113 self-consistency broken: inverted {_gt1_f113} vs fitted {gt1_fit}')
     print(f"    Polarity asymmetry of fitted L: {asym:+.4e}  (||M||² = {M_sq:.4f}; rel asym = {abs(asym)/M_sq:.4e})")
 
     gt1_f113 = f113_invert_gamma_t1(asym, omega)
@@ -189,7 +212,10 @@ def analyze_pair(omega, t_us, rhos, pair_label, T1_calib_us):
 
 
 def build_L_z_t1_detuned(N, omega, gamma_z, gamma_t1, deltas):
-    """Z+T1 with one free Z coefficient per qubit: H = (omega/2)*sum_l Z_l + sum_l delta_l Z_l.
+    """Z+T1 with one free Z coefficient per qubit.
+
+    H = (omega/2)*Z_DRIVE_SITE + sum_l delta_l*Z_l: the applied drive sits on ONE qubit
+    (see DRIVE_SITE), the detunings on all of them.
 
     The shipped model has no detuning while this chip's coherences rotate, so this is
     the obvious missing channel. Same column-stack construction as build_L_z_plus_t1.
@@ -238,10 +264,10 @@ def fit_z_t1_detuned(omega, t_us, rhos, starts=12, seed=0):
 
 def load_f95():
     paths = [
-        ('omega=0.13', 'data/ibm_f95_angle_steering_may2026/'
-                       'cusp_complex_phase_hardware_ibm_kingston_omega0.130_20260516_204827.json'),
-        ('omega=0.25', 'data/ibm_f95_angle_steering_may2026/'
-                       'cusp_complex_phase_hardware_ibm_kingston_omega0.250_20260516_205705.json'),
+        ('omega=0.13', str(_DATA /
+            'cusp_complex_phase_hardware_ibm_kingston_omega0.130_20260516_204827.json')),
+        ('omega=0.25', str(_DATA /
+            'cusp_complex_phase_hardware_ibm_kingston_omega0.250_20260516_205705.json')),
     ]
     runs = []
     for omega_tag, path in paths:
@@ -265,10 +291,10 @@ def main():
     print("=" * 88)
     print()
     print("Welle 5.A: invert F113 closed form")
-    print("  γ_T1 = −asymmetry / ((N/2)·4^N·ω)")
+    print("  γ_T1 = −asymmetry / ((1/2)·4^N·ω)   [one driven site; see f113_invert_gamma_t1]")
     print("to extract a γ_T1 estimate from the measured polarity asymmetry of a")
     print("minimal Z+T1 Lindblad fit. Cross-check against fit-direct γ_T1 (should")
-    print("agree bit-exact: self-consistency check) and against device-calibrated")
+    print("agree to machine precision: self-consistency check) and against device-calibrated")
     print("γ_T1 = 1/T1 (the meaningful comparison: in-experiment effective T1 vs")
     print("isolated-qubit characterization).")
     print()
@@ -305,19 +331,23 @@ def main():
         print(f"{label:<46} {r['gt1_fit']:>10.5f} {x[1]:>10.5f} {x[1]/r['gt1_fit']:>7.3f} "
               f"{x[0]:>9.4f} {rms:>9.4f} {d_sum:>+9.4f} {omega + 2*d_sum:>+9.4f}")
     print()
-    print("  γ_T1 barely moves while γ_z collapses to calibration scale and the RMS")
-    print("  improves: the detuning is what γ_z was absorbing. Only the SUM of the two")
-    print("  δ is determined, the split between them being a gauge direction of this")
-    print("  model (the Bell coherence turns at the sum), which is why the table reports")
-    print("  Σδ and the effective drive ω + 2Σδ rather than δ_0 and δ_1 separately.")
+    print("  γ_T1 barely moves while γ_z falls toward calibration scale and the RMS")
+    print("  improves: the detuning is what γ_z was absorbing. The table reports Σδ and")
+    print("  the effective drive ω + 2Σδ because Σδ is the ROBUST part, not because the")
+    print("  split is unobservable: the prepared state carries single-excitation")
+    print("  coherences that turn at 2δ_0 and 2δ_1 separately, so least squares does")
+    print("  resolve the split, at a sharp minimum. What makes it unreliable is that on")
+    print("  B_high the landscape has a second, aliased minimum at the τ-grid's π/Δt.")
     print("  Caveat for the inversion: that effective drive is what F113 would divide")
-    print("  by, and the chip's own detuning cancels a good part of the applied one.")
+    print("  by, and the chip's own detuning largely cancels the applied one, on A_mid")
+    print("  down to ω + 2Σδ = +0.048 against an applied 0.13.")
 
     print()
     print("Reading:")
     print()
     print("  (1) F113/fit = 1.000000 across all 4 pair-runs: F113 inversion recovers")
-    print("      the fit's γ_T1 bit-exact. Self-consistency confirmed; F113 is a")
+    print("      the fit's γ_T1 to machine precision (<= 4e-15 relative on the four")
+    print("      runs). Self-consistency confirmed; F113 is a")
     print("      faithful closed form for the fitted Lindblad L.")
     print()
     print("  (2) fit/cal > 1 (range 1.14-1.47): the fit's γ_T1 is LARGER than the")
@@ -336,9 +366,12 @@ def main():
     print("  (4) Sharpened F113-as-diagnostic reading: F113-extracted γ_T1 is an")
     print("      EFFECTIVE-T1 number that equates ALL bit_b-mixed broken-balance")
     print("      noise to the σ⁻ T1 channel. The gap to device-calibrated 1/T1")
-    print("      bounds how much non-T1 noise the model is absorbing. Adding the one")
-    print("      channel we tested, a per-qubit detuning, moves it by under 3% and in")
-    print("      both directions, so the bound is stable but not one-sided.")
+    print("      bounds how much non-T1 noise the model is absorbing, for THIS model.")
+    print("      Adding the one channel we tested, a per-qubit detuning, moves the FIT's")
+    print("      rate by under 3%, but not the extracted one: the inversion still divides")
+    print("      by the applied ω while the detuned model's effective drive is ω + 2Σδ,")
+    print("      so the extracted rate moves by 23-63% across the four runs. A detuning-")
+    print("      bearing model needs the inversion rewritten with ω_l -> ω_l + 2*delta_l.")
 
 
 if __name__ == '__main__':

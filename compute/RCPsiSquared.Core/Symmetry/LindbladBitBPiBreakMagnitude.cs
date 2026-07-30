@@ -14,7 +14,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item>Hermitian H containing single-site Z-drives Σ_l (ω_l/2)·Z_l plus any
 ///         bit_b-homogeneous additions (X-drive, Y-drive, ZZ / XX / YY / XY bond
-///         bilinears, Z-dephasing): each contributes 0 individually by F112.</item>
+///         bilinears, Z-dephasing): each contributes 0 individually. Note this is NOT
+///         discharged by F112, whose hypothesis needs a bit_b-homogeneous c and so does
+///         not apply once c = σ⁻ is in play; the vanishing of those cross terms is
+///         verified here rather than inherited (see PROOF_F113 and the registry).</item>
 ///   <item>Dissipator c containing σ⁻_l at rate γ_T1,l and σ⁺_l at rate γ_pump,l
 ///         per site (amplitude damping / pumping).</item>
 /// </list>
@@ -47,8 +50,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// [Z_l, σ⁻_m] = +2·σ⁻_m · δ_{lm} gives the per-site additive structure.</para>
 ///
 /// <para><b>Hardware fingerprinting</b>: asymmetry measurement directly extracts
-/// Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known; becomes a per-site
-/// amplitude-damping calibration tool when combined with ω_l knowledge. No hardware
+/// Σ_l ω_l · (γ_pump,l − γ_T1,l) when drive parameters are known; becomes an
+/// amplitude-damping calibration tool when combined with ω_l knowledge, at one weighted
+/// combination per drive profile (a single asymmetry is a single number: it returns the NET
+/// rate Σ_l ω_l·(γ_T1,l − γ_pump,l) / Σ_l ω_l, which is a T1 rate only at γ_pump = 0, and
+/// N independent profiles are what resolve N rates, epoch-matched because F120's Kingston
+/// flight found the T1 landscape moving 1.2 to 1.4× within a day, in-situ against
+/// in-situ). No hardware
 /// anchor exists for it yet. The Kingston survey
 /// (<c>experiments/F112_HARDWARE_LENS_KINGSTON.md</c>) reports nonzero asymmetry only on
 /// its Z-drive runs, but the single-site Z there is supplied to the fitter as a known
@@ -62,8 +70,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// they give a complete polarity-axis description across the family.</para>
 ///
 /// <para><b>Universal-N status</b>: Tier1Derived for general N (Welle 4 structural
-/// decomposition; see the constructor + PROOF_F113). 4^N is the operator-space dimension
-/// d² (spectator sites contribute ‖I_4‖²=4 each); per-site additivity matches the locality
+/// decomposition; see the constructor + PROOF_F113). The coefficient factors as
+/// 4 · 4^(N−1) · (1/2): the N−1 spectator sites contribute ‖I_4‖²=4 each, giving 4^(N−1),
+/// and the remaining 4 is the cross-term reduction, not a spectator; per-site additivity matches the locality
 /// of [Z_l, σ⁻_m] = +2·σ⁻_m · δ_{lm}. The cross-term reduction closes via the Π²-odd /
 /// Lindblad-input-vanishing argument; the T1-self-term vanishes for general N by the same
 /// single-site shifted-support + tensor-factorization argument. Bit-exact N=2..6.</para>
@@ -130,10 +139,16 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
         "(X−iY)/2 convention flips the first two, and the magnitude reads neither.";
 
     /// <summary>Hardware fingerprinting application: invert the formula to extract a
-    /// per-site σ⁻ T1 rate from measured F112 asymmetry when drive ω_l is known.</summary>
+    /// drive-weighted NET damping rate from measured F112 asymmetry when drive ω_l is known.
+    /// One asymmetry is one number, so it returns the combination and not the N rates.</summary>
     public string HardwareApplication =>
-        "Inverts to extract per-site σ⁻ T1 rate from measured F112 asymmetry when " +
-        "drive ω_l is known. No hardware anchor yet: the Kingston survey reports nonzero " +
+        "Inverts to extract the drive-weighted net rate Σ_l ω_l·(γ_T1,l − γ_pump,l) / Σ_l ω_l " +
+        "from a measured F112 asymmetry when drive ω_l is known. It is a T1 rate only at " +
+        "γ_pump = 0; with pumping on it reads low by about twice the thermal population, and " +
+        "at γ_pump = γ_T1 it returns zero for any T1. Resolving N per-site rates needs " +
+        "N independent drive profiles, one weighted combination each, and epoch-matched: " +
+        "F120's Kingston flight found the T1 landscape moving 1.2 to 1.4× within a day. " +
+        "No hardware anchor yet: the Kingston survey reports nonzero " +
         "asymmetry only on its Z-drive runs, but that single-site Z is handed to the " +
         "fitter as a known drive rather than fitted, so the split follows from the model " +
         "set, and the same data need a per-qubit detuning those models do not carry.";
@@ -289,9 +304,13 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
                          "[[0, 0], [1, 0]] is the raising operator (the pumping channel). " +
                          "With this convention, T1 cooling (γ_T1 > 0, γ_pump = 0) and positive " +
                          "Z-drive (ω > 0) produce NEGATIVE polarity asymmetry of magnitude " +
-                         "(4^N / 2) · ω · γ_T1; pumping (γ_pump > γ_T1) flips to positive. " +
-                         "The (γ_pump − γ_T1) factor is the net heating rate; cooling-dominant " +
-                         "Lindblad systems give negative asymmetry. PredictAsymmetry and the C# " +
+                         "(4^N / 2) · Σ_l ω_l · γ_T1,l (per site, as in the Theorem: the " +
+                         "single-site form (4^N / 2) · ω · γ_T1 is one driven site, and an " +
+                         "N-site uniform drive is N times it); pumping (γ_pump > γ_T1) flips to " +
+                         "positive. The (γ_pump − γ_T1) factor is the net heating rate. That the " +
+                         "cooling-dominant direction is the NEGATIVE one is the pipeline's " +
+                         "stacking pairing, not a property of σ⁻: the magnitude is " +
+                         "convention-free, the sign is not. PredictAsymmetry and the C# " +
                          "Diagnostics-layer PolarityCoordinates.Decompose (using the same " +
                          "convention) agree bit-exactly in sign and magnitude (see cross-validation " +
                          "tests in LindbladBitBPiBreakMagnitudeTests).");
