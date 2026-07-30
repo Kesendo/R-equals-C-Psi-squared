@@ -34,7 +34,7 @@ gamma_pump = 0.1  # detailed balance: gamma_t1 == gamma_pump
 
 # ----------------------------------------------------------------------
 # H families (8 total). Each entry: (label, terms-or-None, note).
-# Case 7 (transverse h_y field) is API-blocked; see note.
+# Case 7 (transverse h_y field) is not expressible through `terms`; see note.
 # ----------------------------------------------------------------------
 H_families = [
     ("1. Heisenberg  XX+YY+ZZ          [truly, Pi2Z-even]",
@@ -49,9 +49,9 @@ H_families = [
      [('X', 'Y'), ('Y', 'X')], None),
     ("6. Heis + XY   XX+YY+ZZ+XY       [mixed even+odd]",
      [('X', 'X'), ('Y', 'Y'), ('Z', 'Z'), ('X', 'Y')], None),
-    ("7. Heis + h_y  XX+YY+ZZ+h_y*Y_l  [transverse, API-blocked]",
+    ("7. Heis + h_y  XX+YY+ZZ+h_y*Y_l  [transverse, not terms-expressible]",
      None, "API limitation: pi_decompose_M only accepts bilinear/k-body "
-           "tuples (len>=2); single-site terms silently drop. Skipped."),
+           "tuples (len>=2); a 1-body term is rejected by design. Skipped."),
     ("8. Heisenberg  XX+YY+ZZ + T1     [F1-truly H, T1 dissipator]",
      [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')], None),
 ]
@@ -111,7 +111,7 @@ print("-" * TABLE_W)
 
 for fam_label, terms, note in H_families:
     if terms is None:
-        # Case 7: API-blocked, single row with note in place of numbers.
+        # Case 7: not terms-expressible, single row with note in place of numbers.
         print(f"{fam_label:<{CASE_W}}  {'(SKIPPED, see NOTE)':<{DISS_W}}  "
               f"{'---':>10}  {'---':>7}  {'---':>7}  {'---':>7}  {'---':>10}")
         print(f"{'':<{CASE_W}}  NOTE: {note}")
@@ -188,7 +188,8 @@ print()
 print("     Candidates for breaking it (NOT yet tested by this demo):")
 print("       - non-Hermitian H (non-physical but mathematically allowed in L)")
 print("       - mixed dissipator letters where the X-dephasing and Z-dephasing rates differ")
-print("       - single-site terms (transverse h_x, h_y, h_z), pending API extension for case 7")
+print("       - single-site terms (transverse h_x, h_y, h_z): build H directly and use")
+print("         polarity_coordinates_from_L, as polarity_probe_transverse.py does for case 7")
 print("       - asymmetric collapse operators with no Z-axis preference (e.g. sigma^+ only on")
 print("         specific sites with rates that have no Hermitian-conjugate pair)")
 print()

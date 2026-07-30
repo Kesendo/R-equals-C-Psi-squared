@@ -66,11 +66,15 @@ public class BlochSignWalkTests
     [Fact]
     public void NonTrulyIdentityLetter_IsRejected()
     {
-        // (I, Y) has nY=1 odd → not truly → falls through to the I-check, which raises.
+        // (I, Y) has nY=1 odd → not truly → reaches the identity-leg check, which raises.
         // (I, X) is truly (nY=nZ=0 even) and is filtered earlier.
         var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
         var terms = new[] { new PauliPairBondTerm(PauliLetter.I, PauliLetter.Y) };
-        Assert.Throws<ArgumentException>(() => BlochSignWalk.PredictMSpectrumImaginaryParts(chain, terms));
+        var ex = Assert.Throws<ArgumentException>(
+            () => BlochSignWalk.PredictMSpectrumImaginaryParts(chain, terms));
+        // The wording carries a claim, that this is a bond term with an identity leg rather
+        // than a single-body term, so it is pinned here as the Python twin pins it.
+        Assert.Contains("identity leg", ex.Message);
     }
 
     [Fact]

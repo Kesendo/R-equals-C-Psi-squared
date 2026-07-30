@@ -1,8 +1,9 @@
 """Polarity probe #2: Single-site transverse field (h_y * sum_l Y_l).
 
 Tests whether the +/-1/2 polarity balance survives single-site Pauli terms.
-pi_decompose_M only accepts bilinear / k-body Pauli tuples; single-site
-contributions silently drop, so this case has never been measured.
+pi_decompose_M only accepts bilinear / k-body Pauli tuples and rejects a
+1-body term with a body-count error, so the field is built here and handed to
+the L-bound entry point instead.
 
 Construction: H = J*(XX+YY+ZZ chain) + h_y * sum_l Y_l at N=3. The transverse
 Y field breaks Z(x)N-mirror (zn_mirror_diagnostic detects this) and is the

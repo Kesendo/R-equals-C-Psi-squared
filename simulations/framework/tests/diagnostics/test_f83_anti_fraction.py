@@ -4,6 +4,9 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import numpy as np
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
 import framework as fw
@@ -13,7 +16,7 @@ def test_F83_pi_decomposition_anti_fraction_closed_form():
     """F83: anti-fraction = 1/(2 + 4·r) where r = ‖H_even_nontruly‖²/‖H_odd‖².
 
     Verifies the F83 closed form across the trichotomy + mixed configurations
-    at N=3 and N=4. The predicted anti-fraction matches the numerical
+    at N=3, 4 and 5. The predicted anti-fraction matches the numerical
     M_anti²/M² ratio bit-exact.
     """
     test_cases = [
@@ -150,3 +153,98 @@ def test_F83_topology_generalization():
                 num_anti_frac = num['norm_sq']['M_anti'] / num['norm_sq']['M']
                 assert abs(pred['anti_fraction'] - num_anti_frac) < 1e-9, \
                     f"topology={topology} {label} anti-fraction"
+
+
+def test_F83_identity_bearing_terms_are_in_scope():
+    """The F83/F85 closed form covers Π²-odd terms carrying an identity letter.
+
+    (Z, I) is a site field on each bond-left site. Its Π²-class is the parity
+    of the Y and Z counts, which the identity letter does not touch, so it is
+    Π²-odd exactly like (X, Z) and enters ‖H_odd‖² normally.
+
+    Guards the regression where these terms were dropped as "outside scope":
+    the predictor then returned a confident ‖M‖² = 0 for a Hamiltonian whose
+    residual is 512 on a chain at N=3.
+
+    The load-bearing assertion is against the numerical `pi_decompose_M`, which
+    is the only independent route. The F49 sibling
+    `predict_residual_norm_squared_from_terms` is asserted too, but it shares
+    this predictor's classifier and builders and agrees to exactly 0.0, so it
+    is a consistency tie, not a second opinion: it caught the drop historically
+    only because the drop lived in one of the two copies.
+    """
+    cases = [
+        [('Z', 'I')], [('I', 'Z')], [('Y', 'I')], [('I', 'Y')],
+        [('Z', 'I'), ('X', 'Y')], [('Z', 'I'), ('Y', 'Z')],
+        [('X', 'X'), ('Z', 'I')],
+    ]
+    for N in [3, 4]:
+        for topology in ['chain', 'ring', 'star']:
+            chain = fw.ChainSystem(N=N, topology=topology)
+            for terms in cases:
+                pred = fw.predict_pi_decomposition(chain, terms)
+                num = fw.pi_decompose_M(chain, terms, gamma_z=0.1)
+                assert pred['M_sq'] > 1.0, \
+                    f"N={N} {topology} {terms}: predicted ‖M‖² = 0 for a live residual"
+                np.testing.assert_allclose(
+                    pred['M_sq'], num['norm_sq']['M'], rtol=1e-9,
+                    err_msg=f"N={N} {topology} {terms}: ‖M‖² closed form vs numerical")
+                np.testing.assert_allclose(
+                    pred['M_anti_sq'], num['norm_sq']['M_anti'], rtol=1e-9,
+                    atol=1e-12 * num['norm_sq']['M'],
+                    err_msg=f"N={N} {topology} {terms}: ‖M_anti‖² closed form vs numerical")
+                f49 = fw.predict_residual_norm_squared_from_terms(chain, terms)
+                np.testing.assert_allclose(
+                    pred['M_sq'], f49, rtol=1e-9,
+                    err_msg=f"N={N} {topology} {terms}: F83 vs F49 sibling")
+
+    # k-body with identity letters, chain scope.
+    chain4 = fw.ChainSystem(N=4)
+    for terms in [[('Z', 'I', 'I')], [('X', 'I', 'Y')], [('Y', 'Z', 'I')]]:
+        pred = fw.predict_pi_decomposition(chain4, terms)
+        num = fw.pi_decompose_M(chain4, terms, gamma_z=0.1)
+        np.testing.assert_allclose(pred['M_sq'], num['norm_sq']['M'], rtol=1e-9)
+        np.testing.assert_allclose(pred['M_anti_sq'], num['norm_sq']['M_anti'],
+                                   rtol=1e-9, atol=1e-12 * num['norm_sq']['M'])
+
+    # Truly terms carrying an identity still drop out: (X, I) has #Y = #Z = 0.
+    pred_truly = fw.predict_pi_decomposition(chain4, [('X', 'I')])
+    assert pred_truly['M_sq'] < 1e-12
+
+
+def test_F83_single_letter_terms_are_refused_not_silently_dropped():
+    """The predictors must refuse 1-body terms rather than return a zero.
+
+    A 1-letter tuple matched neither the 2-body branch (`len == 3` with the
+    coefficient) nor the k-body one, so `('Z',)` contributed to no
+    sub-Hamiltonian and both predictors returned ‖M‖² = 0 for a term the
+    classifier calls Π²-odd. The closed form itself is not the problem; the
+    ambiguity is placement, since a 1-letter term has no bond to sit on, so
+    the primitives reject it exactly as `classify_pauli_pair` does.
+    """
+    chain = fw.ChainSystem(N=3)
+    for terms in [[('Z',)], [('X',)], [('Z',), ('X', 'Y')]]:
+        with pytest.raises(ValueError, match="body count"):
+            fw.predict_pi_decomposition(chain, terms)
+        with pytest.raises(ValueError, match="body count"):
+            fw.predict_residual_norm_squared_from_terms(chain, terms)
+    with pytest.raises(ValueError, match="body count"):
+        fw.predict_pi_decomposition(chain, [('X', 'Y', 'Z', 'X')])
+
+
+def test_F83_predictors_materialise_their_terms():
+    """A generator of terms must give the same answer as the list of them.
+
+    `predict_residual_norm_squared_from_terms` iterates `terms` once per
+    Π²-class, so a generator was empty by the second pass and the whole
+    even-non-truly group vanished: XY+YZ returned 512 instead of 1536, a
+    wrong number rather than an error.
+    """
+    chain = fw.ChainSystem(N=3)
+    terms = [('X', 'Y'), ('Y', 'Z')]
+    f49_list = fw.predict_residual_norm_squared_from_terms(chain, terms)
+    f49_gen = fw.predict_residual_norm_squared_from_terms(chain, (t for t in terms))
+    assert f49_list > 1.0
+    np.testing.assert_allclose(f49_gen, f49_list, rtol=1e-12)
+    f83_gen = fw.predict_pi_decomposition(chain, (t for t in terms))['M_sq']
+    np.testing.assert_allclose(f83_gen, f49_list, rtol=1e-12)

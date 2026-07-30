@@ -81,18 +81,22 @@ The framework's existing primitive `predict_residual_norm_squared_from_terms` (i
 
 where n_YZ(k) is the count of Y/Z letters (bit_b-odd letters) in Pauli pair k, summed over the two letters: 0 if both are X or I, 1 if exactly one is Y or Z, 2 if both are Y or Z.
 
-For non-truly Pauli pairs, n_YZ takes values 1 (Π²-odd: XY, YX, XZ, ZX) or 2 (Π²-even non-truly: YZ, ZY). Substituting:
+For non-truly Pauli pairs, n_YZ takes values 1 (Π²-odd: XY, YX, XZ, ZX, and the identity-leg pairs IY, YI, IZ, ZI) or 2 (Π²-even non-truly: YZ, ZY). Substituting:
 
   - Π²-odd non-truly term k: contribution 2^(N+2) · 1 · ‖H_k‖² = 4 · 2^N · ‖H_k‖².
   - Π²-even non-truly term k: contribution 2^(N+2) · 2 · ‖H_k‖² = 8 · 2^N · ‖H_k‖².
 
-Summing over distinct-letter Pauli strings (which are mutually orthogonal in Frobenius): Σ_{Π²-odd k} ‖H_k‖² = ‖H_odd‖² and Σ_{Π²-even non-truly k} ‖H_k‖² = ‖H_even_nontruly‖². Hence
+The per-class total is the norm of the class's combined sub-Hamiltonian, ‖H_odd‖² and ‖H_even_nontruly‖², not the sum of per-term norms. For terms built from distinct Pauli strings the two coincide, since distinct strings are Frobenius-orthogonal. They part company as soon as two terms in one class place the same string on the lattice, which an identity leg makes possible: on a chain at N=3, (Z,I) and (I,Z) both put a Z on site 1, so Σ_k ‖H_k‖² = 32 while ‖H_odd‖² = 48, and it is 48 that the closed form needs (‖M‖² = 4·2³·48 = 1536, matching the built residual). The same happens for a lone term on a topology whose bonds revisit a site: (Z,I) on a star at N=4 is 3·Z at the hub, ‖H‖² = 144 against a per-bond 48. So the statement is
+
+    Σ over the class first, then take the norm.
+
+Hence
 
     ‖M‖²_F = 4 · 2^N · ‖H_odd‖²_F + 8 · 2^N · ‖H_even_nontruly‖²_F. ∎
 
 ### Step 3: ‖M_sym‖² by Pythagoras
 
-By F81 Step 6, M_sym ⊥_F M_anti (Π-orthogonal decomposition), so
+By F81 Step 6 the norms add, ‖M‖² = ‖M_sym‖² + ‖M_anti‖². (That is not an orthogonality: the inner product is −i times the F113 asymmetry, purely imaginary, so only its real part enters the expansion and the sum still splits.) Hence
 
     ‖M_sym‖²_F = ‖M‖²_F − ‖M_anti‖²_F
                 = (4 · 2^N · ‖H_odd‖² + 8 · 2^N · ‖H_even_nontruly‖²) − (2 · 2^N · ‖H_odd‖²)

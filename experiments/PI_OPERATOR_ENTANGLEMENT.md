@@ -211,6 +211,14 @@ crossover.
 Liouvillian), is also valid; the space of valid operators is isomorphic to the commutant of
 L (all operators that commute with the Liouvillian).
 
+All rows are N=2, J=1, uniform Z-dephasing at γ=0.05 per site, so the Liouvillian is 16×16. The
+commutant column is the nullity of ad_L. For a diagonalizable L that equals Σ_i m_i² over the
+eigenvalue multiplicities, and for a defective one it is strictly smaller, so the two agreeing is
+what shows these rows are diagonalizable rather than it being assumed. Both numbers come from
+[`pi_operator_entanglement.py`](../simulations/pi_operator_entanglement.py) (block Q3.4, which
+prints the multiplicities beside the commutant): Heisenberg [4,3,3,2,2,1,1] → 44, Ising ZZ
+[4,4,4,4] → 64, XX / XY / XZ+YZ [4,2,2,2,2,2,2] → 40, XZ+ZY [4,2,2,2,2,1,1,1,1] → 36.
+
 | Hamiltonian | Commutant dim. | Distinct evals | Local? |
 |-------------|----------------|----------------|--------|
 | Heisenberg | 44 | 7 of 16 | yes (P1⊗P1) |
@@ -218,7 +226,7 @@ L (all operators that commute with the Liouvillian).
 | XX | 40 | 7 of 16 | yes (P1⊗P1) |
 | XY | 40 | 7 of 16 | yes (P1⊗M2) |
 | XZ+ZY | 36 | 9 of 16 | yes (P4⊗P1) |
-| XZ+YZ | 40 | 9 of 16 | yes (continuous M⊗M) |
+| XZ+YZ | 40 | 7 of 16 | yes (continuous M⊗M) |
 
 More eigenvalue degeneracy means a larger commutant and more freedom in choosing Π. Even
 the smallest commutant here (dimension 36) is vast. This is why numerical construction from
@@ -258,6 +266,7 @@ the conjugation equation sidesteps the eigenvector pairing entirely and is degen
 
 ```
 PYTHONIOENCODING=utf-8 python simulations/crossover_pair_local_pi.py
+python simulations/pi_operator_entanglement.py     # Section 5's table, block Q3.4
 ```
 
 The closed-form map M and its verification are the framework primitive

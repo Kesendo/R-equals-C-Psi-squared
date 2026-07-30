@@ -36,7 +36,7 @@ public static class BlochSignWalk
             if (t.IsTruly) continue;
             if (t.LetterA == PauliLetter.I || t.LetterB == PauliLetter.I)
                 throw new ArgumentException(
-                    $"term ({t.LetterA},{t.LetterB}) contains identity (single-body); F80 covers chain Π²-odd 2-body only");
+                    $"term ({t.LetterA},{t.LetterB}) carries an identity leg; F80's sign-walk is stated for the identity-free Π²-odd pairs (XY, XZ, YX, ZX)");
             if (t.Pi2Parity != 1)
                 throw new ArgumentException(
                     $"term ({t.LetterA},{t.LetterB}) is Π²-even non-truly; F80 covers Π²-odd only");

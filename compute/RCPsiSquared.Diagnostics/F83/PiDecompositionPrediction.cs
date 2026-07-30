@@ -48,7 +48,10 @@ public static class PiDecompositionPrediction
         foreach (var t in terms)
         {
             if (t.IsTruly) continue;
-            if (t.LetterA == PauliLetter.I || t.LetterB == PauliLetter.I) continue; // F83 scope: 2-body, no identity
+            // An identity leg is in scope: the Π²-class is a parity of the Y and Z counts,
+            // which an identity does not change, and the per-class Frobenius norms are read
+            // off the built sub-Hamiltonians either way. Excluding such terms returned a
+            // confident ‖M‖² = 0 for a Hamiltonian whose residual is 512 on a chain at N = 3.
             (t.Pi2Parity == 1 ? oddTerms : evenTerms).Add(t);
         }
 

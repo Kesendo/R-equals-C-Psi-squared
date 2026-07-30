@@ -14,6 +14,7 @@ from ..lindblad import (
 from ..pauli import (
     _build_bilinear,
     _build_kbody_chain,
+    _require_placeable_body_counts,
     _vec_to_pauli_basis_transform,
     site_op,
     ur_pauli,
@@ -28,7 +29,8 @@ from ..symmetry import (
 def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, strict=None):
     """F81: Decompose M under Π-conjugation into symmetric/antisymmetric parts.
 
-    Recurring question: for a given 2-bilinear Hamiltonian H, what is the
+    Recurring question: for a given Hamiltonian H of 2-body bond terms or
+    k-body window terms, what is the
     Π-conjugation behavior of M = Π·L·Π⁻¹ + L + 2Σγ·I? Is M its own Π-
     conjugate, or what is the explicit shift between M and Π·M·Π⁻¹?
 
@@ -71,7 +73,12 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
     net cooling rate, equivalent to the vacuum-fluctuation contribution.
 
     Args:
-        terms: list of (a, b) Pauli letter tuples; H = J·Σ_l Σ_terms (a_l b_(l+1)).
+        terms: Pauli letter tuples of body count 2 ≤ k ≤ N, mixed counts allowed;
+            anything else raises. 2-body terms follow the bond graph,
+            H = J·Σ_bonds Σ_terms (a_i b_j), so a term with an identity leg such
+            as (Z, I) is a Z on the left site of every bond, NOT a uniform site
+            field; k ≥ 3 uses the F85 chain sliding window. Consumed once, so a
+            generator is fine.
         gamma_z: per-site Z-dephasing rate (uniform if scalar; defaults to chain.gamma_0).
         gamma_t1: optional per-site T1 cooling rates (σ⁻ amplitude damping). None = no cooling.
         gamma_pump: optional per-site T1 heating rates (σ⁺ amplitude damping). None = no heating.
@@ -91,6 +98,11 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
 
     Raises (only when strict=True): RuntimeError if F81 violation > 1e-7.
     """
+    # Materialise once: `terms` is iterated several times below, and a generator
+    # would be empty by the second pass, leaving H = 0 to be decomposed while
+    # the F81 identity held vacuously (0 against 0) and strict never fired.
+    terms = [tuple(t) for t in terms]
+    _require_placeable_body_counts(chain, terms)
     gz = gamma_z if gamma_z is not None else chain.gamma_0
     gamma_l = [gz] * chain.N if np.isscalar(gz) else list(gz)
     Sigma_gamma = sum(gamma_l)
@@ -110,22 +122,25 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
         strict = not any_amplitude_damping
 
     # Classify terms: F85 generalization to k-body. Use _pauli_tuple_pi2_class.
-    all_terms_kbody = [tuple(t) + (chain.J,) for t in terms]
     bilinear_odd = []
     for term in terms:
         letters = tuple(term)
         if _pauli_tuple_is_truly(letters):
             continue
-        if 'I' in letters:
-            continue
+        # An identity letter does not touch the Π²-class: the class is a
+        # parity of the Y and Z counts, so (Z, I) is Π²-odd exactly like
+        # (X, Z) and belongs in H_odd. Skipping identity-bearing terms here
+        # left H_odd short and made the identity check raise against the
+        # theorem for terms the theorem covers.
         cls = _pauli_tuple_pi2_class(letters)
         if cls == 'pi2_odd':
             bilinear_odd.append(letters + (chain.J,))
 
     # Build H_full per term. 2-body terms use the bond graph
-    # (chain/ring/star/K_N via F49); k-body terms use chain sliding-window
-    # (F85 chain-only). If mixed body counts are present, build them
-    # separately and add to preserve non-chain topology for the 2-body part.
+    # (chain/ring/star/K_N via F49); k ≥ 3 uses the chain sliding-window
+    # builder (F85 chain-only). Body counts outside [2, N] are rejected up
+    # front, since they belong to neither builder and used to contribute
+    # nothing at all while the caller got a confident zero.
     d_full = 2 ** chain.N
     H_full = np.zeros((d_full, d_full), dtype=complex)
     two_body_terms_raw = [t for t in terms if len(t) == 2]
@@ -136,8 +151,6 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
     if kbody_terms_raw:
         kbody_all_with_coeff = [tuple(t) + (chain.J,) for t in kbody_terms_raw]
         H_full = H_full + _build_kbody_chain(chain.N, kbody_all_with_coeff)
-    # all_two_body kept for back-compat with later L_H_odd construction
-    all_two_body = (len(kbody_terms_raw) == 0)
     if any_pump:
         # Build via lindbladian_general with explicit cooling + heating channels
         d = 2 ** chain.N
@@ -177,7 +190,8 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
     Id_d = np.eye(d, dtype=complex)
     T = _vec_to_pauli_basis_transform(chain.N)
     if bilinear_odd:
-        # Same mixed-body splitting as H_full above
+        # Same mixed-body splitting as H_full above (entries carry a trailing
+        # coefficient, so a k-letter term has length k + 1).
         two_body_odd = [t for t in bilinear_odd if len(t) == 3]
         kbody_odd = [t for t in bilinear_odd if len(t) > 3]
         H_odd = np.zeros((d_full, d_full), dtype=complex)

@@ -219,7 +219,7 @@ uniform family, now provably, since the uniform emptiness is a theorem in
 The joining is one lens on the two sectors, the routing one: each wants a different per-site map. There is a
 second lens on exactly the same pair, one the framework already typed and hardware-confirmed.
 [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md) decomposes the canonical residual M = Π·L·Π⁻¹ + L + 2σ
-into a Π-symmetric and a Π-antisymmetric part, Frobenius-orthogonal, so ‖M‖² = ‖M_sym‖² + ‖M_anti‖². The
+into a Π-symmetric and a Π-antisymmetric part with ‖M‖² = ‖M_sym‖² + ‖M_anti‖² (which holds because their inner product is purely imaginary, not because they are orthogonal). The
 antisymmetric part is exactly the Π²-odd Hamiltonian commutator, M_anti = L_{H_odd}, and for the ceiling H_odd
 is the single Π²-odd term, XZX (or YZY for the sibling case). So the two Π²-sectors of the joining ARE the F81
 split: M_anti the Π²-odd half, M_sym the Π²-even half together with the dissipator.

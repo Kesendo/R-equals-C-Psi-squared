@@ -702,6 +702,10 @@ if __name__ == '__main__':
         ("N=2 XY", [(sx, sy)], 2),
         ("N=2 XZ+ZY", [(sx, sz), (sz, sy)], 2),
         ("N=2 YZ+ZX", [(sy, sz), (sz, sx)], 2),
+        # XZ+YZ is the row the experiment doc's Section 5 table carries; it
+        # is a different Hamiltonian from YZ+ZX above (commutant 40 vs 36),
+        # and without it the doc's last row had no script behind it.
+        ("N=2 XZ+YZ", [(sx, sz), (sy, sz)], 2),
     ]
 
     for name, terms, N in test_cases:
@@ -709,11 +713,25 @@ if __name__ == '__main__':
         c_ops, sg = build_z_dephasing(N, 0.05)
         L = build_liouvillian(H, c_ops)
         dim, sv = commutant_dimension(L)
-        # Count distinct eigenvalues to understand degeneracy
+        # Cluster the eigenvalues rather than rounding them: a pair straddling a
+        # rounding boundary would split into two, and the multiplicities are what
+        # the experiment doc's commutant column is read against.
         evals = np.linalg.eigvals(L)
-        n_distinct = len(set(np.round(evals, 8)))
+        clusters = []
+        for e in evals:
+            for c in clusters:
+                if abs(e - c[0]) < 1e-6:
+                    c[1] += 1
+                    break
+            else:
+                clusters.append([e, 1])
+        mults = sorted((c[1] for c in clusters), reverse=True)
+        sum_m_sq = sum(m * m for m in mults)
+        # For a diagonalizable L the commutant is Σ_i m_i²; a defective L gives
+        # strictly less, so printing both is what shows which case this is.
         print(f"  {name:25s}  commutant dim = {dim:3d}  "
-              f"(L has {n_distinct} distinct eigenvalues of {len(evals)})")
+              f"(L has {len(mults)} distinct eigenvalues of {len(evals)}, "
+              f"multiplicities {mults}, sum m^2 = {sum_m_sq})")
 
     # --- Summary ---
     print("\n" + "=" * 60)

@@ -1,6 +1,7 @@
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Diagnostics.F49;
+using RCPsiSquared.Diagnostics.F81;
 using RCPsiSquared.Diagnostics.F83;
 
 namespace RCPsiSquared.Diagnostics.Tests.F83;
@@ -82,5 +83,23 @@ public class PiDecompositionPredictionTests
         };
         var d = PiDecompositionPrediction.Predict(chain, terms);
         Assert.Equal(d.MSquared, d.MAntiSquared + d.MSymSquared, 10);
+    }
+
+    [Fact]
+    public void IdentityBearingTerms_AreInScope_NotSilentlyZero()
+    {
+        // Excluding an identity leg returned a confident ‖M‖² = 0 for a Hamiltonian whose
+        // residual is 512 on a chain at N = 3. The Π²-class is a parity of the Y and Z
+        // counts, which an identity does not change, so (Z, I) is Π²-odd like (X, Z).
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.1);
+        var terms = new[] { new PauliPairBondTerm(PauliLetter.Z, PauliLetter.I) };
+        var f = PiDecompositionPrediction.Predict(chain, terms);
+
+        Assert.Equal(512.0, f.MSquared, precision: 9);
+        Assert.Equal(256.0, f.MAntiSquared, precision: 9);
+        // Cross-tied to the numerical decomposition, which builds M without the classifier.
+        var d = PiDecomposition.Decompose(chain, terms);
+        Assert.Equal(d.MNormSquared, f.MSquared, precision: 9);
+        Assert.Equal(d.MAntiNormSquared, f.MAntiSquared, precision: 9);
     }
 }

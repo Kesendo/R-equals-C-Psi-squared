@@ -4,7 +4,7 @@ from __future__ import annotations
 import numpy as np
 
 from ..lindblad import palindrome_residual_norm_squared_factor_graph
-from ..pauli import _build_bilinear
+from ..pauli import _build_bilinear, _require_placeable_body_counts
 from ..symmetry import _pauli_tuple_is_truly, _pauli_tuple_pi2_class
 
 
@@ -56,8 +56,11 @@ def predict_residual_norm_squared_from_terms(chain, terms, gamma_t1=None):
     topology silently for the k-body group.
 
     Args:
-        terms: list of Pauli-letter tuples. Each tuple has length k ≥ 1.
-            Mixed body counts in the same call are supported.
+        terms: list of Pauli-letter tuples. Each tuple has length
+            2 ≤ k ≤ chain.N; a body count outside that range raises, since
+            neither builder can place it. Mixed body counts in the same call
+            are supported, and `terms` is materialised once so a generator
+            gives the same answer as the list.
         gamma_t1: optional T1 amplitude-damping rates. Scalar (uniform
                   across sites), list of length N, or None / 0 (no T1).
     """
@@ -72,6 +75,11 @@ def predict_residual_norm_squared_from_terms(chain, terms, gamma_t1=None):
     #      norm is the norm of the combined sub-Hamiltonian.
     #   4. Sum per-class contributions: factor 4·2^N for Π²-odd (c=1) and
     #      8·2^N for Π²-even non-truly (c=2).
+    # Materialise once: the loop below walks `terms` a second time for the
+    # other Π²-class, and a generator was empty by then, silently dropping a
+    # whole class (XY+YZ returned 512 instead of 1536).
+    terms = [tuple(t) for t in terms]
+    _require_placeable_body_counts(chain, terms)
     z_part = 0.0
     for cls in ('pi2_odd', 'pi2_even_nontruly'):
         group_terms = []

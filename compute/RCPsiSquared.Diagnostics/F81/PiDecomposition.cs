@@ -68,8 +68,12 @@ public static class PiDecomposition
         var mSym = (M + piMpi) / 2.0;
         var mAnti = (M - piMpi) / 2.0;
 
+        // An identity leg does not touch the Π²-class: the class is a parity of the Y and Z
+        // counts, so (Z, I) is Π²-odd exactly like (X, Z) and belongs in H_odd. Excluding such
+        // terms left H_odd short while M_anti was not, and the identity then read as violated
+        // by ‖M_anti‖ against an empty operator (16 at N = 3 for a single (Z, I) term).
         var oddTerms = terms
-            .Where(t => !t.IsTruly && t.LetterA != PauliLetter.I && t.LetterB != PauliLetter.I && t.Pi2Parity == 1)
+            .Where(t => !t.IsTruly && t.Pi2Parity == 1)
             .ToList();
 
         ComplexMatrix lHOdd;

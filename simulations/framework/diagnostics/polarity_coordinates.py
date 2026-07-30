@@ -55,10 +55,14 @@ and the asymmetry is nonzero and exactly linear,
     asymmetry = (4^N / 2) · Σ_l ω_l · (γ_pump,l − γ_T1,l),
 e.g. −2.08e-3 at N=2 and −1.248e-2 at N=3 for ω = 0.13 on EVERY site and γ_T1 = 0.001
 (a drive on one site alone gives −1.04e-3 and −4.16e-3). Note the
-chain-bound `polarity_coordinates(chain, terms, ...)` entry point cannot exhibit the
-effect: pi_decompose_M keeps only len==2 and len>2 terms, so a single-site ('Z',) is
-SILENTLY DROPPED (it returns a decomposition of the zero Hamiltonian, no error, unlike
-the sister `classify_pauli_pair`, which raises for k<2). The L-bound entry point can.
+chain-bound `polarity_coordinates(chain, terms, ...)` entry point reaches this through a
+bond term with an identity leg: ('Z','I') puts Z on the left site of every bond, which
+at N=2 on a chain is one site and on a ring is every site. With gamma_t1 on and
+chain.J = omega/2 it gives asymmetry = -1.04e-3 at N=2 chain and -1.248e-2 at N=3 ring,
+matching the closed form above. What has no spelling here is a bare single-site ('Z',):
+the builders place a term on every bond or every window, so a 1-body term is REJECTED
+with a body-count error, the same refusal the sister `classify_pauli_pair` gives. For a
+drive on one chosen site of a longer chain, use the L-bound entry point.
 Reflection doc at reflections/POLARITY_COORDINATES.md.
 """
 from __future__ import annotations
@@ -177,8 +181,10 @@ def polarity_coordinates_from_L(L_pauli, N, sigma, Pi=None):
         Same dict structure as polarity_coordinates, with 'M', 'M_zero',
         'M_plus_half', 'M_minus_half', 'norm_sq', 'asymmetry', 'orthogonality_residual'.
 
-    No F81-violation check (the F81 identity is a 2-body statement about L_{H_odd};
-    this entry point is for cases where that identity is expected to fail).
+    No F81-violation check: this entry point takes an externally built L, so there is
+    no terms list to project H_odd from, and it exists for exactly the cases where the
+    identity is not expected to hold anyway. (The identity itself is not 2-body-only;
+    it holds at k=3 and k=4, see test_F85_kbody_F81_identity_at_k3.)
     """
     if Pi is None:
         Pi = build_pi_full(N)

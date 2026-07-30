@@ -141,10 +141,13 @@ def test_F80_predict_M_spectrum_pi2_odd_method():
     pred_xy = fw.predict_M_spectrum_pi2_odd(chain3,[('X', 'Y')], c=1.0)
     assert pred_mixed == pred_xy, f"truly XX should be dropped: mixed {pred_mixed} vs XY {pred_xy}"
 
-    # Test 9-10: identity raises (single-body falls under F78, not F80)
-    with pytest.raises(ValueError, match="single-body"):
+    # Test 9-10: an identity leg raises. Note this is a SCOPE choice, not a
+    # limit of the formula: (I,Y) and (Z,I) are 2-body bond terms and are
+    # Π²-odd, and F80's spectrum law does hold for them; F80 is stated and
+    # verified for the identity-free four, so the primitive declines the rest.
+    with pytest.raises(ValueError, match="identity leg"):
         fw.predict_M_spectrum_pi2_odd(chain3,[('I', 'Y')], c=1.0)
-    with pytest.raises(ValueError, match="single-body"):
+    with pytest.raises(ValueError, match="identity leg"):
         fw.predict_M_spectrum_pi2_odd(chain3,[('Z', 'I')], c=1.0)
 
     # Test 11-12: Π²-even non-truly raises (YZ, ZY out of F80 scope)
@@ -198,3 +201,33 @@ def test_F80_kbody_spectrum_identity():
 
     # k=4 chain Π²-odd at N=5
     verify(5, ('X', 'X', 'X', 'Y'))
+
+
+def test_F80_spectrum_law_holds_for_identity_leg_terms_it_declines():
+    """The refusal above is a scope choice, and this is what pins that.
+
+    `predict_M_spectrum_pi2_odd` rejects a term with an identity leg, and the
+    docstring says the rejection is scope rather than a limit of the formula.
+    That is a claim, so it gets a witness: for (Z, I) and (I, Y), which are
+    Π²-odd 2-body bond terms, Spec(M) is {±2i·λ over Spec(H)} with multiplicity
+    2^N, exactly the law F80 states for the identity-free four.
+    """
+    from framework.pauli import _build_bilinear
+    from framework.lindblad import lindbladian_z_dephasing, palindrome_residual
+
+    for N in [3, 4]:
+        for topology in ['chain', 'ring']:
+            chain = fw.ChainSystem(N=N, topology=topology)
+            for term in [('Z', 'I'), ('I', 'Y')]:
+                H = _build_bilinear(N, chain.bonds, [(term[0], term[1], 1.0)])
+                L = lindbladian_z_dephasing(H, [0.05] * N)
+                M = palindrome_residual(L, N * 0.05, N)
+                assert np.linalg.norm(M) > 1.0, "the witness must not be trivially zero"
+
+                measured = np.sort_complex(np.round(np.linalg.eigvals(M), 8))
+                h_eigs = np.linalg.eigvalsh(H)
+                predicted = np.sort_complex(np.round(
+                    np.repeat(2j * h_eigs, 2 ** N), 8))
+                np.testing.assert_allclose(
+                    measured, predicted, atol=1e-7,
+                    err_msg=f"N={N} {topology} {term}: F80's spectrum law")

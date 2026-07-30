@@ -88,10 +88,12 @@ Both forms are forced by the same selection: respect both Z₂ parities. **The H
 
 What is *forbidden* by the same selection:
 
-- IX, XI, IY, YI (single transverse field): break bit_b parity.
-- IZ, ZI (single Z-detuning): break bit_a parity.
+- IX, XI (single transverse X field): break bit_a parity.
+- IY, YI (single transverse Y field): break both, since Y is (1, 1).
+- IZ, ZI (single Z-detuning): break bit_b parity, i.e. they are Π²-odd.
 - XY, YX (chiral terms): break bit_b parity.
-- ZX, ZY (mixed two-body): break bit_a parity.
+- ZY, YZ (mixed two-body): break bit_a parity.
+- ZX, XZ (mixed two-body): break both, since Z is (0, 1) and X is (1, 0).
 
 Any of these added to H produces [L, Π²] ≠ 0 or [L, n_XY-parity] ≠ 0, breaking the C²⊗C² doubling. The Heisenberg/XXZ family is exactly the set of Hamiltonians that preserves the doubling.
 

@@ -231,10 +231,11 @@ def diagnose_hardware(
         # T1 / T2 dissipators leaves F112's typed scope (σ⁻ = (X + iY)/2 is not
         # bit_b-homogeneous), and there the balance is NOT guaranteed: F113 gives
         # the exact gap once H carries a single-site Z moment.
-        # Note this call cannot see that. It goes through the chain-bound entry
-        # point, whose `pi_decompose_M` keeps only terms of length ≥ 2, so a
-        # single-site ('Z',) is silently dropped and the reading is structurally
-        # pinned to BALANCED. Treat it as a wiring check on the terms given, not
+        # Note this call cannot see that, but for the dissipator's sake, not the
+        # Hamiltonian's: it passes no gamma_t1, so F112's typed scope holds and
+        # BALANCED is forced whatever the terms carry. (A Z moment IS reachable
+        # through this entry point, as a bond term with an identity leg; it just
+        # needs an amplitude-damping channel beside it to show.) Treat it as a wiring check on the terms given, not
         # as evidence about the polarity axis; the L-bound entry point can break.
         pol = polarity_coordinates(chain, terms)
         m_sq = pol['norm_sq']['M']

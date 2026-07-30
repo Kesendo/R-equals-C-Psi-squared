@@ -11,7 +11,7 @@ from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import maximum_bipartite_matching
 
 from ..lindblad import lindbladian_pauli_dephasing, palindrome_residual
-from ..pauli import _build_bilinear, _build_kbody_chain
+from ..pauli import _build_bilinear, _build_kbody_chain, _require_placeable_body_counts
 
 
 def _greedy_pairing_error(evals, sigma_gamma):
@@ -119,14 +119,13 @@ def classify_pauli_pair(chain, terms, J_scale=1.0, op_tol=1e-10, spec_tol=1e-6,
     Raises:
         ValueError: if any term length exceeds chain.N or is < 2.
     """
+    # Materialise once: the body-count guard walks `terms`, and so does the build
+    # below, so a generator was empty by the second pass and an H that never got
+    # built classified as 'truly'.
+    terms = [tuple(t) for t in terms]
     if not terms:
         return 'truly'
-    body_counts = {len(t) for t in terms}
-    for k in body_counts:
-        if k < 2 or k > chain.N:
-            raise ValueError(
-                f"term body count {k} outside [2, chain.N={chain.N}]"
-            )
+    _require_placeable_body_counts(chain, terms)
 
     # Build H summing over body-count groups
     d = 2 ** chain.N

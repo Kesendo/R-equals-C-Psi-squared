@@ -16,11 +16,14 @@ closed form is evaluated at that declared drive, and γ_T1 is extracted by
 inversion only when the declared drive is the one `terms` actually carries
 (see 'f113_drive_matches_terms').
 
-Known limitation: with a single-site Z term in `terms` and NO amplitude damping,
-the underlying `polarity_coordinates` raises its strict F81 check. The cause is
-not a stray dissipator, which its message suggests, but `pi_decompose_M` skipping
-I-bearing terms when it builds H_odd, so L_H_odd = 0 while M_anti ≠ 0. Switch on
-the T1 channel the F113 reading needs anyway, or build H and c explicitly and call
+A term carrying an identity leg, such as ('Z', 'I'), is handled normally now:
+`pi_decompose_M` used to skip such terms when building H_odd, leaving L_H_odd = 0
+against a nonzero M_anti, so the strict F81 check raised and blamed a dissipator
+that was not there. What ('Z', 'I') builds is a Z on the left site of every bond,
+which is one site whenever the bonds share a left endpoint: a 2-site chain (one
+bond) or a star at any N, where it is (N-1)*Z on the hub. A bare
+1-body term ('Z',) is not expressible through `terms` at all and raises; for a drive
+on one chosen site of a longer chain, build H and c explicitly and call
 `polarity_coordinates_from_hc`.
 
 Cockpit-discipline recurring question this answers: "for this Lindblad

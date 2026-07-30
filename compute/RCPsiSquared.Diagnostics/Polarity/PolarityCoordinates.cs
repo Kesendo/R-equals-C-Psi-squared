@@ -124,10 +124,11 @@ public static class PolarityCoordinates
     /// Tier1Derived scope covers the gammaT1=null branch (single-Pauli dephasing is
     /// bit_b-homogeneous); the T1 branch is bit_b-mixed and out of F112 typed scope.</param>
     /// <param name="dephaseLetter">Dephasing letter for the Π operator; default Z.</param>
-    /// <remarks>No F81 inner check on this path: the F81 identity is a 2-body
-    /// statement built on bond-term H_odd; for k-body or single-site H the analogous
-    /// identity is open, and <see cref="PolarityCoordinatesResult.F81Violation"/> is
-    /// reported as 0 (sentinel, no closed-form prediction to compare against).</remarks>
+    /// <remarks>No F81 inner check on this path: it takes H and c directly, so there is no
+    /// term list to project H_odd from, and <see cref="PolarityCoordinatesResult.F81Violation"/>
+    /// is reported as 0 (sentinel, no closed-form prediction to compare against). The identity
+    /// itself is not 2-body-only; it holds at k = 3 and k = 4 (Python
+    /// test_F85_kbody_F81_identity_at_k3).</remarks>
     public static PolarityCoordinatesResult Decompose(
         ChainSystem chain,
         IReadOnlyList<PauliTerm> kBodyTerms,

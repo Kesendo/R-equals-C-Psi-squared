@@ -149,6 +149,23 @@ public class KBodyPalindromeRoutingTests
         Assert.Equal(TrichotomyClass.Hard, Spectral(terms));
     }
 
+    /// <summary>The hard set stays hard on a longer chain, and the per-term router still declines it
+    /// there. Every other test in this file is fixed at N = 4, so the class summary's statement about
+    /// the hard witness at N &gt; 4 had nothing under it; the soft/hard line is length-sensitive at
+    /// k ≥ 3 (experiments/SOFTNESS_IS_N_DEPENDENT.md), so "hard here" does not carry itself to the
+    /// next N and has to be measured. <see cref="KBodyPalindromeRouting.Routes"/> is the exception:
+    /// its check lives on the 4^k window, so its answer cannot move with N, and the assertion below
+    /// records that rather than re-deriving it.</summary>
+    [Fact]
+    public void SpectralHard_ForXXXPlusXXYPlusYXX_SurvivesN5()
+    {
+        var terms = H("XXX", "XXY", "YXX");
+        var verdict = PauliPairTrichotomy.Classify(
+            new ChainSystem(N: 5, J: 1.0, GammaZero: 0.05), terms, dephaseLetter: PauliLetter.Z);
+        Assert.Equal(TrichotomyClass.Hard, verdict);
+        Assert.False(KBodyPalindromeRouting.Routes(terms, n: 5));
+    }
+
     /// <summary>The single load-bearing assertion: <see cref="KBodyPalindromeRouting.Routes"/> never
     /// disagrees with the spectral authority across all 15 ground-truth witnesses. A Routes == true must be
     /// Soft (constructive soundness), and the 7 Routes == false witnesses are exactly the 2 Z-middle

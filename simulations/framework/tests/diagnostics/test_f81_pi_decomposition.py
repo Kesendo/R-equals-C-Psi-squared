@@ -271,3 +271,101 @@ def test_F81_recover_H_odd_from_M_anti_round_trip():
     for letters in expected_letter_tuples:
         assert abs(soft_coefs[letters] - 1.0) < 1e-10, \
             f"Coefficient for {letters} should be 1.0 (= J), got {soft_coefs[letters]}"
+
+
+def test_F81_identity_bearing_odd_terms_enter_H_odd():
+    """F81 covers Π²-odd terms that carry an identity letter, e.g. (Z, I).
+
+    The Π²-class is a parity of the Y and Z counts (`_pauli_tuple_pi2_class`),
+    which an identity letter does not touch: (Z, I) has n_Y = 0, n_Z = 1, so
+    bit_b parity 1, i.e. Π²-odd exactly like (X, Z). A term of this shape is
+    a site field on every bond-left site, and the identity M_anti = L_{H_odd}
+    holds for it bit-exactly.
+
+    Guards the regression where the classifier skipped any term containing an
+    identity: H_odd came out zero, M_anti did not, and the primitive raised a
+    RuntimeError naming the theorem for a term the theorem covers.
+
+    Non-vacuity: ‖M_anti‖² is pinned away from zero, so a silently empty
+    H_odd cannot pass by agreeing at zero.
+    """
+    expected_anti_sq = {  # ‖M_anti‖² = ‖L_{H_odd}‖², J = 1, γ_z = 0.1
+        (3, ('Z', 'I')): 256.0,
+        (3, ('I', 'Y')): 256.0,
+        (4, ('Z', 'I')): 1536.0,
+    }
+    for N in [3, 4]:
+        chain = fw.ChainSystem(N=N)
+        for term in [('Z', 'I'), ('I', 'Z'), ('Y', 'I'), ('I', 'Y')]:
+            d = fw.pi_decompose_M(chain, [term], gamma_z=0.1)
+            assert d['f81_violation'] < 1e-9, \
+                f"N={N} {term}: F81 violated by {d['f81_violation']:.3e} under pure Z-dephasing"
+            assert d['norm_sq']['M_anti'] > 1.0, \
+                f"N={N} {term}: M_anti vanished, the identity would hold vacuously"
+            np.testing.assert_allclose(
+                d['norm_sq']['L_H_odd'], d['norm_sq']['M_anti'], rtol=1e-12)
+            key = (N, term)
+            if key in expected_anti_sq:
+                np.testing.assert_allclose(
+                    d['norm_sq']['M_anti'], expected_anti_sq[key], rtol=1e-12)
+
+    # k-body with an identity letter: (Z, I, I) is Π²-odd by the same parity.
+    chain4 = fw.ChainSystem(N=4)
+    d_k3 = fw.pi_decompose_M(chain4, [('Z', 'I', 'I')], gamma_z=0.1)
+    assert d_k3['f81_violation'] < 1e-9
+    assert d_k3['norm_sq']['M_anti'] > 1.0
+
+    # Mixed: an identity-bearing odd term beside an identity-free even one.
+    d_mixed = fw.pi_decompose_M(chain4, [('Z', 'I'), ('Y', 'Z')], gamma_z=0.1)
+    assert d_mixed['f81_violation'] < 1e-9
+    assert d_mixed['norm_sq']['M_anti'] > 1.0
+
+    # Truly terms carrying an identity stay OUT of H_odd: (X, I) has
+    # n_Y = n_Z = 0, so it is truly and contributes no antisymmetric part.
+    d_truly_i = fw.pi_decompose_M(chain4, [('X', 'I')], gamma_z=0.1)
+    assert d_truly_i['norm_sq']['M_anti'] < 1e-18
+
+
+def test_F81_pi_decompose_M_materialises_its_terms():
+    """A generator of terms must give the same answer as the list of them.
+
+    `terms` was iterated more than once, so a generator was exhausted before H
+    was built: the primitive then decomposed the ZERO Hamiltonian, reported
+    ‖M‖² ≈ 1e-30 and a satisfied F81 identity, and `strict=True` did not fire
+    because a vanishing M_anti agrees with a vanishing L_H_odd. The sibling
+    `predict_pi_decomposition` handled generators correctly throughout, so the
+    two primitives disagreed by everything on the same input.
+    """
+    chain = fw.ChainSystem(N=3)
+    terms = [('X', 'Y'), ('Y', 'X')]
+    from_list = fw.pi_decompose_M(chain, terms, gamma_z=0.1)
+    from_gen = fw.pi_decompose_M(chain, (t for t in terms), gamma_z=0.1)
+    assert from_list['norm_sq']['M'] > 1.0, "the reference case must not be silent"
+    np.testing.assert_allclose(from_gen['norm_sq']['M'], from_list['norm_sq']['M'], rtol=1e-12)
+    np.testing.assert_allclose(from_gen['norm_sq']['M_anti'], from_list['norm_sq']['M_anti'], rtol=1e-12)
+
+
+def test_F81_single_letter_terms_are_refused_not_silently_dropped():
+    """A 1-body term is outside the builders' reach and must say so.
+
+    `('Z',)` matched neither the 2-body branch nor the k>=3 one, so it entered
+    no Hamiltonian: ‖M‖² came back ~1e-30 for a term the classifier happily
+    calls Π²-odd, and the F81 identity held vacuously, 0 against 0.
+
+    The refusal, not a silent zero, is the fix: the two builders place a term
+    on every bond (k=2) or on every window (k>=3), so a 1-letter term has no
+    unambiguous spelling here, and `classify_pauli_pair` already rejects the
+    same input with the same message. Callers that want a genuine site field
+    build the Hamiltonian themselves; `simulations/f81_violation_on_f113_fits.py`
+    is the worked example.
+    """
+    chain = fw.ChainSystem(N=3)
+    for terms in [[('Z',)], [('X',)], [('Z',), ('X', 'Y')]]:
+        with pytest.raises(ValueError, match="body count"):
+            fw.pi_decompose_M(chain, terms, gamma_z=0.1)
+    # An empty tuple is the same defect one step further and must not pass either.
+    with pytest.raises(ValueError, match="body count"):
+        fw.pi_decompose_M(chain, [()], gamma_z=0.1)
+    # A term longer than the chain cannot be placed at all.
+    with pytest.raises(ValueError, match="body count"):
+        fw.pi_decompose_M(chain, [('X', 'Y', 'Z', 'X')], gamma_z=0.1)

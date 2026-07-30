@@ -115,4 +115,40 @@ public class PiDecompositionTests
         Assert.Equal(d.MNormSquared / 2, d.MSymNormSquared, precision: 9);
         Assert.Equal(d.MNormSquared / 2, d.MAntiNormSquared, precision: 9);
     }
+
+    [Fact]
+    public void IdentityBearingOddTerm_EntersHOdd_SoTheIdentityHolds()
+    {
+        // (Z, I) is Π²-odd exactly like (X, Z): the class is a parity of the Y and Z counts,
+        // which an identity leg does not change. Excluding such terms left H_odd short while
+        // M_anti was not, so the F81 identity read as violated by ‖M_anti‖ = 16 at N = 3
+        // against an empty operator. The Python twin carried the same defect.
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.1);
+        var terms = new[] { new PauliPairBondTerm(PauliLetter.Z, PauliLetter.I) };
+        var d = PiDecomposition.Decompose(chain, terms);
+
+        // The discriminating pair: M_anti is built from M and Pi and reads 256.0 either way,
+        // so it is the AGREEMENT with L_H_odd that moves (0 before, 256.0 now), and the
+        // violation with it (16.0 before). The M_anti value is pinned only to keep the
+        // agreement from being satisfied by both sides vanishing.
+        Assert.True(d.F81Violation < 1e-9, $"F81 violated by {d.F81Violation}");
+        Assert.Equal(256.0, d.MAntiNormSquared, precision: 9);
+        Assert.Equal(d.MAntiNormSquared, d.LHOddNormSquared, precision: 9);
+    }
+
+    [Fact]
+    public void IdentityBearingTrulyTerm_StaysOutOfHOdd()
+    {
+        // (X, I) has #Y = #Z = 0, so it is truly and contributes no antisymmetric part.
+        // The counterpart of the test above: the widening must not swallow truly terms.
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.1);
+        var terms = new[] { new PauliPairBondTerm(PauliLetter.X, PauliLetter.I) };
+        var d = PiDecomposition.Decompose(chain, terms);
+
+        // Assert on L_H_odd, not on M_anti: M_anti is built from M and Pi before the odd-term
+        // filter runs, so it is 0 here whatever the filter does and cannot witness a widening.
+        // L_H_odd is the filter's own output, and it is what an over-widened filter would fill.
+        Assert.True(d.LHOddNormSquared < 1e-15, $"L_H_odd = {d.LHOddNormSquared}");
+        Assert.True(d.MAntiNormSquared < 1e-15, $"M_anti = {d.MAntiNormSquared}");
+    }
 }

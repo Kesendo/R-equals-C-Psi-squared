@@ -12,7 +12,7 @@
 
 F1 says the palindrome residual M closes to zero for palindromic Heisenberg Hamiltonians. When the Hamiltonian is NOT palindromic, M is non-zero, and the question becomes: what does M look like, and how does Π act on it?
 
-This proof writes down the answer. Split the Hamiltonian into its Π²-even and Π²-odd Pauli-bilinear parts (the bit_b grading on the Pauli alphabet). Π conjugation acts on M by subtracting twice the unitary commutator of the odd part: M minus its Π-conjugated image equals 2 · L_H_odd. Equivalently, M decomposes into its Π-symmetric and Π-antisymmetric pieces, and the antisymmetric piece is exactly the Π²-odd Hamiltonian commutator. The symmetric piece carries everything else (the dissipator, the Π²-even Hamiltonian content, the constant shift). The two pieces are Frobenius-orthogonal, so the total norm splits cleanly.
+This proof writes down the answer. Split the Hamiltonian into its Π²-even and Π²-odd Pauli-bilinear parts (the bit_b grading on the Pauli alphabet). Π conjugation acts on M by subtracting twice the unitary commutator of the odd part: M minus its Π-conjugated image equals 2 · L_H_odd. Equivalently, M decomposes into its Π-symmetric and Π-antisymmetric pieces, and the antisymmetric piece is exactly the Π²-odd Hamiltonian commutator. The symmetric piece carries everything else (the dissipator, the Π²-even Hamiltonian content, the constant shift). The total norm splits cleanly, ‖M‖² = ‖M_sym‖² + ‖M_anti‖², but not because the two pieces are orthogonal: their inner product is −i times the F113 asymmetry, purely imaginary, and only its real part enters the expansion. It is nonzero whenever that asymmetry is. Within the standard Lindblad family with a Pauli-term H, the route to a nonzero asymmetry is a Z-drive together with amplitude damping: a bond term with an identity leg such as (Z, I) at coupling J = ω/2 = 0.065 with γ_T1 = 0.001 on an N=2 chain reaches it, ⟨M_sym, M_anti⟩ = +1.04e-3·i against asymmetry −1.04e-3 (γ_z-free, by the Master Lemma). That is not the only route. [`polarity_probe_random_lindblad.py`](../../simulations/polarity_probe_random_lindblad.py) breaks the balance with a random Hermitian H and random Hermitian jump operators, no Z-drive and no amplitude damping anywhere, at relative asymmetries from 4.3×10⁻³ to 8.0×10⁻² across its N=2 trials. See the Statement below.
 
 The proof is direct algebra on the Π² action on Pauli strings. The Π²-odd content commutes with Π² with eigenvalue −1 (the bit_b grading), and that sign is what produces the −2·L_H_odd term when Π is applied once without squaring.
 
@@ -129,7 +129,7 @@ Subtracting 2·L_{H_odd} from M yields a similar matrix (related by Π-conjugati
 
 The 50/50 split ‖M_sym‖² = ‖M_anti‖² = ‖M‖²/2 holds for any 2-body chain Hamiltonian whose **non-truly bilinears are all Π²-odd**. This includes both pure Π²-odd H (H = H_odd) and mixed truly + Π²-odd H (H = H_truly + H_odd, e.g. XX+XY). The condition fails when H contains Π²-even non-truly bilinears (YZ-type), where M_anti shrinks relative to M_sym.
 
-Derivation: Frobenius orthogonality from Step 6 gives ‖M‖² = ‖M_sym‖² + ‖M_anti‖² always. M_anti = L_{H_odd} = -i[H_odd, ·] by F81. So 50/50 ⟺ ‖M_anti‖² = ‖M‖²/2 ⟺ ‖M‖² = 2·‖L_{H_odd}‖².
+Derivation: the norm split from Step 6 gives ‖M‖² = ‖M_sym‖² + ‖M_anti‖² always (the cross term is purely imaginary, so the norms add whether or not the two are orthogonal). M_anti = L_{H_odd} = -i[H_odd, ·] by F81. So 50/50 ⟺ ‖M_anti‖² = ‖M‖²/2 ⟺ ‖M‖² = 2·‖L_{H_odd}‖².
 
 Two ingredients:
 

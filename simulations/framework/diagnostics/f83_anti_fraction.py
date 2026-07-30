@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..pauli import _build_bilinear, _build_kbody_chain
+from ..pauli import _build_bilinear, _build_kbody_chain, _require_placeable_body_counts
 from ..symmetry import _pauli_tuple_is_truly, _pauli_tuple_pi2_class
 
 
@@ -24,7 +24,7 @@ def predict_pi_decomposition(chain, terms):
         r = ∞  (pure Π²-even non-truly):  anti = 0    (F81 100/0)
         r = 1  (equal-Frobenius mix):     anti = 1/6  (5/6+1/6 finding)
 
-    F85 generalization to k-body: terms can be tuples of any length k ≥ 2.
+    F85 generalization to k-body: terms can be tuples of any length 2 ≤ k ≤ N.
     Truly classification (M = 0 for term alone): #Y even AND #Z even.
     Π²-class determines factor c ∈ {0, 1, 2}, replacing F49's 2-body-
     coincidental n_YZ formula with the structurally correct c(k) formula.
@@ -37,15 +37,19 @@ def predict_pi_decomposition(chain, terms):
     at 2-body; chain at k = 3, 4 for higher-body).
 
     Args:
-        terms: list of Pauli-letter tuples. Each tuple has length k ≥ 1
-            and contains letters from {'I', 'X', 'Y', 'Z'}. Mixed body
-            counts in the same call are supported.
+        terms: list of Pauli-letter tuples. Each tuple has length
+            2 ≤ k ≤ chain.N and contains letters from {'I', 'X', 'Y', 'Z'};
+            a body count outside that range raises, since neither builder can
+            place it. Mixed body counts in the same call are supported, and
+            `terms` is materialised once so a generator is fine.
 
     Returns:
         dict with keys:
             'M_sq', 'M_anti_sq', 'M_sym_sq', 'anti_fraction',
             'h_odd_sq', 'h_even_nontruly_sq', 'r'.
     """
+    terms = [tuple(t) for t in terms]
+    _require_placeable_body_counts(chain, terms)
     # Group non-truly terms by Π²-class (truly drops, Π²-odd, Π²-even non-truly)
     odd_terms = []
     even_nontruly_terms = []
@@ -53,8 +57,10 @@ def predict_pi_decomposition(chain, terms):
         letters = tuple(term)
         if _pauli_tuple_is_truly(letters):
             continue
-        if 'I' in letters:
-            continue  # single-body or partial-identity outside F83/F85 scope
+        # Identity letters are in scope: the Π²-class is a parity of the Y
+        # and Z counts, which an identity does not touch, and the per-class
+        # Frobenius norms are read off the built sub-Hamiltonians either way.
+        # Verified against the numerical decomposition and the F49 sibling.
         cls = _pauli_tuple_pi2_class(letters)
         term_with_coeff = letters + (chain.J,)
         if cls == 'pi2_odd':

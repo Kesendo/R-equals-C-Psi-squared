@@ -43,10 +43,12 @@ print("-" * TABLE_W)
 
 for label, terms in kbody_cases:
     try:
-        # strict=False because F81 identity M_anti = L_{H_odd} was proven for
-        # 2-body H only; at k>=3 the identity has a non-zero residual which is
-        # itself a discovery channel.
-        result = fw.polarity_coordinates(chain, terms, gamma_z=gamma_z, strict=False)
+        # strict is left on: the F81 identity holds at k=3 for every family here
+        # (violation 9.2e-17). The residual this probe once reported at k>=3 was
+        # not a breakdown of the identity but an empty H_odd, because the builder
+        # skipped terms carrying an identity letter; XYI+IXY now checks against a
+        # live operator, ||M_anti|| = ||L_H_odd|| = 55.4256.
+        result = fw.polarity_coordinates(chain, terms, gamma_z=gamma_z)
         ns_M = result['norm_sq']['M']
         if ns_M > 1e-12:
             p0 = 100.0 * result['norm_sq']['M_zero'] / ns_M

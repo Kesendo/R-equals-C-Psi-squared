@@ -38,8 +38,10 @@ public enum Pi2Class
 {
     /// <summary>Every term is truly (#Y even AND #Z even per term). M = 0 by Master Lemma.</summary>
     Truly,
-    /// <summary>Every term has Π²-parity = 1 (Π²-odd). For 2-body bilinears these are the
-    /// 4 cases (X,Y), (X,Z), (Y,X), (Z,X). F80 sign-walk applies.</summary>
+    /// <summary>Every term has Π²-parity = 1 (Π²-odd). For 2-body bilinears these are the eight
+    /// pairs with one letter from {Y, Z} and the other from {I, X}: the four identity-free ones
+    /// (X,Y), (X,Z), (Y,X), (Z,X), plus (I,Y), (Y,I), (I,Z), (Z,I). F80's sign-walk is stated for
+    /// the identity-free four.</summary>
     Pi2OddPure,
     /// <summary>Every term has Π²-parity = 0 (Π²-even) and at least one is non-truly.
     /// For 2-body bilinears the non-truly Π²-even cases are (Y,Z) and (Z,Y).</summary>

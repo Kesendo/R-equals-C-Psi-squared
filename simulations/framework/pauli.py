@@ -217,6 +217,28 @@ def _build_bilinear(N, bonds, terms):
     return H
 
 
+def _require_placeable_body_counts(chain, terms):
+    """Reject term body counts the two builders cannot place, loudly.
+
+    The builders are `_build_bilinear` (a 2-letter term on every bond of the
+    topology) and `_build_kbody_chain` (a k-letter term on every window of the
+    chain). A body count of 0 or 1 belongs to neither, and a count above N
+    fits in no window, so such a term used to contribute nothing at all and
+    the caller received a confident zero for a Hamiltonian it thought it had
+    described. `classify_pauli_pair` calls this helper too, so the cockpit
+    answers one way by construction rather than by two copies agreeing.
+
+    A genuine single-site field is a legitimate Hamiltonian; it is simply not
+    expressible here, because these builders place a term everywhere. Build it
+    directly (see `simulations/f81_violation_on_f113_fits.py`).
+    """
+    for k in {len(t) for t in terms}:
+        if k < 2 or k > chain.N:
+            raise ValueError(
+                f"term body count {k} outside [2, chain.N={chain.N}]"
+            )
+
+
 def _build_kbody_chain(N, terms):
     """Build H = Σ_l Σ_term coeff · σ_{a_1}^l σ_{a_2}^{l+1} ... σ_{a_k}^{l+k-1}
     over a chain (sliding window of consecutive sites).

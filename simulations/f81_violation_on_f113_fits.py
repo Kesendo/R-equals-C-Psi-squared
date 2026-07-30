@@ -13,11 +13,17 @@ end-to-end method check, not a finding. The physics content is (b): the
 violation-implied gamma_T1,RMS vs the independent calibration T1 (expected
 OVERSHOOT, because the underfit minimal model dumps all non-T1 noise into T1).
 
-Why a hand-rolled decomposition path: the f95 fit's Hamiltonian is the 1-body
-Z-drive H = (omega/2)*sum_l Z_l, which pi_decompose_M's terms interface cannot
-express (1-letter terms fall through its 2-body/k-body branches). Section 0
-GATES the hand-rolled path against fw.pi_decompose_M on a terms-expressible
-case before it is trusted (no Hollywood).
+Why a hand-rolled decomposition path: the f95 fit's Hamiltonian is a SINGLE-SITE
+Z-drive, H = (omega/2)*Z_0, because the dataset drives one qubit of the pair
+(see h_drive below and f113_t1_extraction_kingston.py). At the N=2 used here it
+IS reachable through pi_decompose_M, as terms=[('Z','I')] with chain.J = omega/2:
+a 2-letter term with an identity leg puts the letter on the left site of every
+bond, and a 2-site chain has exactly one bond, so the two builds agree to 0.0 and
+so do their violations. That coincidence does not survive N > 2 (the same spelling
+becomes Z on every site but the last) nor a per-site omega profile (one coefficient
+covers all terms), and the hand-rolled path takes H as a matrix, so it holds for
+both. Section 0 GATES it against fw.pi_decompose_M on a terms-expressible case
+before it is trusted (no Hollywood).
 
 Run from anywhere (chdirs to repo root itself):
     python -X utf8 simulations/f81_violation_on_f113_fits.py
@@ -213,8 +219,8 @@ def main():
     print("Section 1: hardware-fit -> violation -> inverse readout, four f95 pair-runs")
     print("=" * 96)
     print()
-    print("  Fit = F113 minimal Z+T1 model (H = (omega/2)*sum Z_l known, gamma_z + gamma_T1 free),")
-    print("  refit here with the identical f113 pipeline. Violation computed on the FITTED L")
+    print("  Fit = F113 minimal Z+T1 model (H = (omega/2)*Z on the driven qubit, known;")
+    print("  gamma_z + gamma_T1 free), refit with the identical f113 pipeline. Violation on the FITTED L")
     print("  (drive H included; H is 1-body Z, entirely Pi^2-odd, subtracted exactly via L_H_odd).")
     print()
 

@@ -34,9 +34,19 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md + F116; the per-term <see cref="Routes"/> correctly returns
 /// false for them, a documented coverage gap of the per-term lens, NOT non-locality), the 2 I-heavy cases
 /// (IXI+IIY+YII, IYI+IIX+XII; soft, Routes returns false here, but LOCAL via the SingleSiteField strategy, a
-/// site-varying single-site-field product), and the hard XXX+XXY+YXX (Python derivation 2026-06-06; the
-/// decomposition residuals are 0.00e+00, the k-site residual equals the full-N residual, and the full
-/// palindrome holds at N = 4, 5, 6). EVERY soft member of this family is per-site routable: the I-heavy via
+/// site-varying single-site-field product), and XXX+XXY+YXX, the set the routing declines. At γ₀ = 0.05
+/// the spectral authority calls it Hard at N = 4 and N = 5, both pinned by tests in this file, with
+/// residual ‖M‖ = 64.0 and 156.8 and a spectrum that fails to pair by 2.0·10⁻² and 2.4·10⁻¹ under the
+/// greedy matcher, against spec_tol = 1e-6. (‖M‖ is exactly linear in the term coefficient and
+/// γ-independent; the pairing error scales with γ, and with the coefficient only weakly once
+/// J ≫ γ, drifting by ~25% once J falls to γ itself. Note the N-scope is not
+/// decoration: at N = 3, the shortest chain a k = 3 template fits, the same set is SOFT, ‖M‖ = 22.6 and
+/// pairing 1.8·10⁻¹⁴. A Hard verdict is measured per N and does not inherit either way, and at k = 4 the
+/// same family contains XXXX+XYYY+YYYX, soft at N = 5 and hard at N = 6; see
+/// experiments/SOFTNESS_IS_N_DEPENDENT.md.) <see cref="Routes"/> returning false for it IS N-free, since
+/// the per-term check lives on the 4^k window, which is exactly why a false answer cannot follow from it
+/// in the soft direction: the certifier is one-sided, and N = 3 is a live instance of that. EVERY soft
+/// member of this family is per-site routable: the I-heavy via
 /// single-site fields, the once-counted XIX+XIY+YIX, YIY+XIY+YIX via a continuous-uniform per-site Q, and
 /// the Z-middle pair via the golden router (<see cref="RoutesWindowSummed"/>), with the per-term Routes
 /// returning false on those six only because their routers are outside its per-term scalable strategies,

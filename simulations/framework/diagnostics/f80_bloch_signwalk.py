@@ -38,8 +38,11 @@ def predict_M_spectrum_pi2_odd(chain, terms, c=1.0):
         {0+0j: 4^N}; the trivially-paired truly case.
 
     Raises:
-        ValueError: if any non-truly term is not Π²-odd 2-body, or
-            contains an identity letter (single-body falls under F78).
+        ValueError: if any non-truly term is not Π²-odd, or carries an
+            identity letter. Such a term is a bond term, not a single-body one,
+            and it IS Π²-odd, but F80's sign-walk is stated and verified for the
+            identity-free four; the restriction is scope, not a limit of the
+            formula (see F78 for the single-body statement).
     """
     # Filter truly, validate remaining as Π²-odd 2-body
     non_truly_terms = []
@@ -48,8 +51,8 @@ def predict_M_spectrum_pi2_odd(chain, terms, c=1.0):
             continue
         if 'I' in (a, b):
             raise ValueError(
-                f"term ({a},{b}) contains identity (single-body); "
-                "F80 covers chain Π²-odd 2-body only; see F78 for single-body"
+                f"term ({a},{b}) carries an identity leg; F80's sign-walk is stated for "
+                "the identity-free Π²-odd pairs (XY, XZ, YX, ZX); see F78 for single-body"
             )
         from ..pauli import bit_b, _resolve
         ab_idx = _resolve(a)
