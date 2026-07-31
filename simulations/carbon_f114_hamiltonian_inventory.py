@@ -19,8 +19,9 @@ is precisely the time-reversal-parity sign of L_σ = −i[σ, ·] under D-conj:
 We let F114 classify a realistic Carbon Hamiltonian inventory: π-electron
 hopping after Jordan-Wigner, Hubbard density-density, Heisenberg spin
 exchange, external B-field Zeeman terms (each direction separately),
-spin-orbit type bilinears, magnetic ring current, Dzyaloshinskii-Moriya
-antisymmetric exchange, and realistic combinations.
+spin-orbit type bilinears, the cross-Pauli letter pairs of both
+Dzyaloshinskii-Moriya axes (the axial pair's antisymmetric combination being
+the bond current a magnetic flux induces), and realistic combinations.
 
 Each row reports:
   - Term (chemistry name + Pauli operator content)
@@ -36,6 +37,13 @@ import sys
 from pathlib import Path
 
 import numpy as np
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -203,18 +211,18 @@ INVENTORY = [
      [("Y", "X")],
      "single Y per term → TR-odd Pauli string"),
 
-    # === Magnetic ring current (induced current operator on a bond) ===
-    ("Ring current Y⊗Z + Z⊗Y",
+    # === Cross-Pauli bilinears on the two DM letter pairs.
+    #     `term_list` is summed unsigned, so each row builds the SYMMETRIC
+    #     combination. That is enough here: ε reads n_Y only, and the
+    #     antisymmetric partner shares every letter's n_Y, hence its ε. ===
+    ("Y⊗Z + Z⊗Y bilinear",
      [("Y", "Z"), ("Z", "Y")],
-     "induced magnetic current per bond (both terms n_Y = 1)"),
-    ("Ring current Y⊗Z − Z⊗Y",
-     [("Y", "Z"), ("Z", "Y")],
-     "antisymmetric ring current (same n_Y parity; signs don't change ε)"),
-
-    # === Dzyaloshinskii-Moriya ===
-    ("DM (X⊗Y + Y⊗X)",
+     "the D ∥ x̂ letter pair (both terms n_Y = 1); the antisymmetric "
+     "partner Y⊗Z − Z⊗Y shares this ε and is not a ring current"),
+    ("X⊗Y + Y⊗X bilinear",
      [("X", "Y"), ("Y", "X")],
-     "Dzyaloshinskii-Moriya antisymmetric exchange (both terms n_Y = 1)"),
+     "the D ∥ ẑ letter pair (both terms n_Y = 1); the antisymmetric "
+     "partner X⊗Y − Y⊗X is Dzyaloshinskii-Moriya and is the bond current"),
 
     # === Mixed-parity Hamiltonians (realistic Carbon) ===
     ("Hückel + Zeeman_y",
@@ -223,12 +231,12 @@ INVENTORY = [
     ("Heisenberg + Zeeman_y",
      [("X", "X"), ("Y", "Y"), ("Z", "Z"), ("Y", "I")],
      "isotropic exchange + y-field"),
-    ("Hückel + DM",
+    ("Hückel + X⊗Y",
      [("X", "X"), ("Y", "Y"), ("X", "Y")],
-     "Hückel + Dzyaloshinskii-Moriya (TR-breaking via cross-Pauli term)"),
-    ("Hückel + Ring current",
+     "Hückel + one cross-Pauli string, the D ∥ ẑ letter pair's ε class"),
+    ("Hückel + Y⊗Z + Z⊗Y",
      [("X", "X"), ("Y", "Y"), ("Y", "Z"), ("Z", "Y")],
-     "Hückel + induced ring current (magnetic-field-induced TR breaking)"),
+     "Hückel + the D ∥ x̂ letter pair (TR breaking; not the flux-induced term)"),
 ]
 
 
@@ -288,9 +296,10 @@ def main():
     print("x or z direction. These transform identically under D-conjugation: a pure −1.")
     print()
     print("The ε = +1 family (n_Y odd per term) groups all single-Y Pauli content:")
-    print("Zeeman in y direction, single-Y bilinears (XY, YX, YZ, ZY etc.), magnetic-")
-    print("field couplings to the imaginary axis of spin, induced ring currents,")
-    print("Dzyaloshinskii-Moriya antisymmetric exchange. These transform with a +1.")
+    print("Zeeman in y direction, single-Y bilinears (XY, YX, YZ, ZY), and magnetic-")
+    print("field couplings to the imaginary axis of spin. Those bilinears already cover")
+    print("Dzyaloshinskii-Moriya on either D axis, and hence the flux-induced bond")
+    print("current X⊗Y − Y⊗X. These transform with a +1.")
     print()
     print("Realistic Carbon Hamiltonians (Hückel + Zeeman_y, Heisenberg + DM, etc.)")
     print("often live in ε = Mixed: terms split across both parity classes, so the")

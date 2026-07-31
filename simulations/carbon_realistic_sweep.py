@@ -8,8 +8,8 @@ Setup spec (per the agent-recommended Realistic-Carbon plan):
       (a) Hückel baseline = Σ_b (X_a X_b + Y_a Y_b) per bond
       (b) + Hubbard density-density  = U · Σ_b Z_a Z_b
       (c) + Zeeman_y external field  = h · Σ_l Y_l
-      (d) + Spin-orbit-proxy bond    = λ · Σ_b (X_a Y_b − Y_a X_b)
-      (e) + Ring-current proxy       = κ · Σ_b (Y_a Z_b − Z_a Y_b)
+      (d) + DM axial bond            = λ · Σ_b (X_a Y_b − Y_a X_b)   (D ∥ ẑ)
+      (e) + DM transverse bond       = κ · Σ_b (Y_a Z_b − Z_a Y_b)   (D ∥ x̂)
   - Bath inventory (per c_k operator entering D[c_k] = c ρ c† − ½{c†c, ρ}):
       Holstein:        c_l = Z_l per site (single Pauli, bit_b-homogeneous)
       Peierls:         c_b = B_b = X_a X_b + Y_a Y_b per bond (bit_b-homog as composite)
@@ -33,6 +33,13 @@ import sys
 from pathlib import Path
 
 import numpy as np
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -110,9 +117,23 @@ def H_zeeman_y(N):
     return H
 
 
-def H_spin_orbit_proxy(N):
-    """Σ_b (X_a Y_b − Y_a X_b) antisymmetric cross-Pauli per bond.
-    Models a Dzyaloshinskii-Moriya-like spin-orbit term."""
+def H_dm_axial(N):
+    """Σ_b (X_a Y_b − Y_a X_b) antisymmetric cross-Pauli per bond:
+    Dzyaloshinskii-Moriya exchange with the D vector along ẑ, the spin-orbit
+    term of the carbon inventory.
+
+    On every Jordan-Wigner-adjacent bond this term IS the bond current:
+    i(c†_a c_b − c†_b c_a) = −½ (X_a Y_b − Y_a X_b), residual exactly 0.0 at
+    N = 2, 4, 6. It is therefore also the term a magnetic flux induces: a
+    Peierls phase t → t·e^(iφ) splits the hopping into cos φ times the usual
+    hopping plus sin φ times that same bond current, so for the standard
+    tight-binding form H = −t·Σ(e^(iφ) c†_a c_b + h.c.) the coefficient on
+    (X_a Y_b − Y_a X_b) is +½·t·sin φ.
+    The ring-closing bond is the JW boundary term and carries the parity
+    string, exactly as the Hückel hopping on that bond does; the identity is
+    bond-local and the ring closure is a spin-model wrap in this sweep.
+    It conserves π-electron number: ‖[N̂, ·]‖_F = 0 on every bond, with
+    N̂ = Σ_l (I − Z_l)/2."""
     d = 2**N
     H = np.zeros((d, d), dtype=complex)
     for a in range(N):
@@ -121,8 +142,16 @@ def H_spin_orbit_proxy(N):
     return H
 
 
-def H_ring_current(N):
-    """Σ_b (Y_a Z_b − Z_a Y_b) ring-current-induced bond term."""
+def H_dm_transverse(N):
+    """Σ_b (Y_a Z_b − Z_a Y_b) antisymmetric cross-Pauli per bond:
+    Dzyaloshinskii-Moriya exchange with the D vector along x̂, a second DM
+    axis beside `H_dm_axial`.
+
+    This term is NOT a ring current, a reading its letters invite and the
+    algebra refuses. Its Hilbert-Schmidt overlap with the bond-current
+    operator is exactly 0, and it does not conserve π-electron number:
+    ‖[N̂, ·]‖_F / ‖·‖_F = 1.0 per bond at every N, with N̂ = Σ_l (I − Z_l)/2.
+    What a magnetic flux induces on a π ring is `H_dm_axial`."""
     d = 2**N
     H = np.zeros((d, d), dtype=complex)
     for a in range(N):
@@ -158,13 +187,13 @@ H_CONFIGS = {
     "+ Hubbard 0.5·ZZ":       lambda N: H_hueckel(N) + 0.5 * H_hubbard_zz(N),
     "+ Zeeman_y 0.1":         lambda N: H_hueckel(N) + 0.1 * H_zeeman_y(N),
     "+ Zeeman_y 1.0":         lambda N: H_hueckel(N) + 1.0 * H_zeeman_y(N),
-    "+ Spin-orbit 0.1":       lambda N: H_hueckel(N) + 0.1 * H_spin_orbit_proxy(N),
-    "+ Ring current 0.1":     lambda N: H_hueckel(N) + 0.1 * H_ring_current(N),
+    "+ DM axial 0.1":         lambda N: H_hueckel(N) + 0.1 * H_dm_axial(N),
+    "+ DM transverse 0.1":    lambda N: H_hueckel(N) + 0.1 * H_dm_transverse(N),
     "Full mix (all above)":   lambda N: (H_hueckel(N)
                                           + 0.5 * H_hubbard_zz(N)
                                           + 0.1 * H_zeeman_y(N)
-                                          + 0.1 * H_spin_orbit_proxy(N)
-                                          + 0.1 * H_ring_current(N)),
+                                          + 0.1 * H_dm_axial(N)
+                                          + 0.1 * H_dm_transverse(N)),
 }
 
 BATH_CONFIGS = {
@@ -183,8 +212,6 @@ def run_sweep(N):
     print()
     print(f"{'H config':<25} {'bath':<18} {'‖M‖²':<14} {'‖M_anti‖²':<14} {'asymmetry':<16} {'rel asym':<14} {'verdict':<10}")
     print("-" * 105)
-
-    sigma_eff = N * 1.0  # rough σ_total for F1 centring (F112 asym is centre-independent)
 
     for h_name, h_builder in H_CONFIGS.items():
         H = h_builder(N)
@@ -217,8 +244,8 @@ def main():
     print("  + Hubbard 0.5·ZZ          = Hückel + 0.5·Σ_b Z⊗Z (density-density)")
     print("  + Zeeman_y 0.1            = Hückel + 0.1·Σ_l Y_l (weak y-magnetic field)")
     print("  + Zeeman_y 1.0            = Hückel + 1.0·Σ_l Y_l (strong y-magnetic field)")
-    print("  + Spin-orbit 0.1          = Hückel + 0.1·Σ_b (X⊗Y − Y⊗X) (DM-like cross term)")
-    print("  + Ring current 0.1        = Hückel + 0.1·Σ_b (Y⊗Z − Z⊗Y) (induced ring current)")
+    print("  + DM axial 0.1            = Hückel + 0.1·Σ_b (X⊗Y − Y⊗X) (D ∥ ẑ; the bond current)")
+    print("  + DM transverse 0.1       = Hückel + 0.1·Σ_b (Y⊗Z − Z⊗Y) (D ∥ x̂; NOT a ring current)")
     print("  Full mix                  = Hückel + Hubbard + all three perturbations together")
     print()
     print("Bath inventory:")

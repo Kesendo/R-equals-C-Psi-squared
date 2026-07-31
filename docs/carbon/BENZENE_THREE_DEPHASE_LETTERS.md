@@ -60,13 +60,13 @@ Standard, textbook, verified in [Benzene's open-system Liouvillian](BENZENE_LIOU
 
 ### X-dephase ↔ "hybridization-axis" coupling (Tier 4 candidate, less standard)
 
-Single-site X-dephase uses `D[σ_X]` with `σ_X = c† + c` in second-quantised language: the real part of the electron creation/annihilation operator. This is the "tunneling" operator that doesn't preserve electron count locally; it would correspond to a bath that fluctuates the local hybridization-state superposition rather than the density.
+Single-site X-dephase uses `D[σ_X]`, which in second-quantised language is `X_l = (∏_{k<l} Z_k)·(c†_l + c_l)`: the real part of the electron creation/annihilation operator, dressed with the Jordan-Wigner parity string. The bare `c† + c` reading holds only at the first site of the JW ordering; elsewhere the string is not optional. This is the "tunneling" operator that doesn't preserve electron count locally; it would correspond to a bath that fluctuates the local hybridization-state superposition rather than the density.
 
 In benzene this is non-standard but not absurd: a bath of orbital-mixing fluctuations (e.g., from another set of vibrational modes that couple to the electronic Hamiltonian's hopping structure rather than its on-site energies) would have an X-dephase character. The closest standard chemistry concept is **Peierls/SSH coupling**, but Peierls is a two-site (bond) operator, not single-site X-dephase. They're related but not identical.
 
 ### Y-dephase ↔ "current-axis" coupling (Tier 4 candidate, exotic)
 
-Single-site Y-dephase uses `D[σ_Y]` with `σ_Y = i(c† − c)`: the imaginary part, the local current operator. This is the unique time-reversal-odd Pauli letter (`σ_Y` anticommutes with complex conjugation, while `σ_X` and `σ_Z` commute with it).
+Single-site Y-dephase uses `D[σ_Y]`, which is `Y_l = (∏_{k<l} Z_k)·i(c†_l − c_l)`: the imaginary part, again carrying the parity string. That makes it a single-site Majorana operator, odd under fermion parity, and not itself a current: a current is intrinsically two-site, since charge on a site changes only by flowing to a neighbour. The ring current this section is reaching for is the bond object `−½·Σ_bonds (X_a Y_b − Y_a X_b)` that appears later in this document. This is the unique time-reversal-odd Pauli letter (`σ_Y` anticommutes with complex conjugation, while `σ_X` and `σ_Z` commute with it).
 
 In benzene this would correspond to phonons coupling to local angular-momentum / current fluctuations. A natural realization: **magnetic-noise dephasing of the π-ring current**. Benzene supports a delocalised π ring current; ambient magnetic-field fluctuations couple to that current, dephasing it. This is a real effect (it shows up in NMR ring-current shielding), but it's not usually framed as "Y-dephase". The framework's structural lens may give it a cleaner home.
 
@@ -88,7 +88,7 @@ In May we tested **F1 palindrome on the Liouvillian spectrum**: do the eigenvalu
 
 F112, which we closed in [Welle 11](../proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) just after the May result, lives at a different level: not on the Liouvillian spectrum but on the **matrix M** = `Π·L·Π⁻¹ + L + 2σ·I` itself (the "F1 residual matrix", which is the obstruction to perfect palindrome). F112 says:
 
-> **F112.** For any Lindblad system with Hermitian H and each bath operator `c_k` bit_b-homogeneous (every Pauli string in c_k shares the same bit_b parity), the matrix M splits into Π-eigenspaces M_+1/2 and M_−1/2 with equal Frobenius norms: `‖M_+1/2‖² = ‖M_−1/2‖²` bit-exact.
+> **F112.** For any Lindblad system with Hermitian H and each bath operator `c_k` bit_b-homogeneous (every Pauli string in c_k shares the same bit_b parity), the three-way polarity decomposition of M into `M_zero`, `M_+1/2` and `M_−1/2` satisfies `‖M_+1/2‖² = ‖M_−1/2‖²` bit-exact. (The three pieces are not Π-conjugation eigenspaces and are not mutually Frobenius-orthogonal: Π is order 4 on Liouville space, so `(1 ± Ad_Π)/2` are not eigenprojections. What is invariant is the asymmetry itself, because the contamination enters both halves equally and cancels.)
 
 In May we didn't know F112 yet. Today we do, and we can read benzene's two baths through it:
 
@@ -122,7 +122,7 @@ For benzene's Hückel Hamiltonian, H = Σ B_b = Σ (XX + YY):
 
 D-conjugation anti-equivariates `L_H_Hückel`: `D · L_H · D = −L_H`. Physically: pure Hückel has no Y-content, no time-reversal-odd terms, and F114's sign is a clean −1.
 
-If we add a magnetic ring-current term (the canonical time-reversal-breaker), say `h · Σ_l (Y_l Z_{l+1} − Z_l Y_{l+1})`, which is Hermitian as written and is the form the sweep below implements as its ring-current proxy, then each term has exactly one Y, giving n_Y = 1 (odd) per term, ε = +1. Mixing this with Hückel (ε = −1) gives a Hamiltonian where ε(H_total) is "mixed": D-conjugation no longer scales L_H by a single sign. **F114 detects the onset of broken time-reversal symmetry as a parity-mismatch in the commutator algebra.**
+If we add a magnetic ring-current term (the canonical time-reversal-breaker), say `h · Σ_l (X_l Y_{l+1} − Y_l X_{l+1})`, which is Hermitian as written and is what a magnetic flux actually induces on the ring (a Peierls phase `t → t·e^(iφ)` splits the hopping into `cos φ` times the usual hopping plus `sin φ` times the bond current `i(c†_l c_{l+1} − c†_{l+1} c_l)`, and that current is `−½·(X_l Y_{l+1} − Y_l X_{l+1})` on each Jordan-Wigner-adjacent bond), then each term has exactly one Y, giving n_Y = 1 (odd) per term, ε = +1. Mixing this with Hückel (ε = −1) gives a Hamiltonian where ε(H_total) is "mixed": D-conjugation no longer scales L_H by a single sign. **F114 detects the onset of broken time-reversal symmetry as a parity-mismatch in the commutator algebra.**
 
 This isn't speculative algebra: the n_Y-parity rule IS the time-reversal parity bookkeeping on the operator basis. F114 just makes the closed form explicit.
 
@@ -171,12 +171,23 @@ A systematic sweep over fifty-six configurations on cyclobutadiene (C₄) and
 benzene (C₆) rings combined seven Hamiltonian extensions with four bath types.
 The Hamiltonian inventory ranged from pure Hückel hopping through electronic
 correlation (Hubbard density-density), weak and strong external y-direction
-magnetic field, antisymmetric Dzyaloshinskii-Moriya-like spin-orbit
-cross-coupling, induced ring-current bond terms, and a full mixture of all
-five effects simultaneously. The bath inventory included on-site Holstein
-phonons (coupling to local π-density), bond Peierls phonons (coupling to the
-hopping integral), σ⁻ amplitude damping (excitation loss per site), and the
-combination of Holstein and σ⁻ together.
+magnetic field, and antisymmetric Dzyaloshinskii-Moriya cross-coupling on
+its two axes, plus a full mixture of all five effects simultaneously. The
+two DM axes are worth keeping apart, because only one of them is a current.
+The axial one, `X_a Y_b − Y_a X_b` (D ∥ ẑ), is the bond current: on every
+Jordan-Wigner-adjacent bond it equals `−2·i(c†_a c_b − c†_b c_a)` exactly,
+which is also the term a magnetic flux induces through the Peierls phase. The
+rings here are cyclic, so one of the N bonds is the Jordan-Wigner boundary
+term, where the fermionic operator carries the parity string and the identity
+does not hold; the Hückel hopping fails on that same bond in the same way, so
+the closure caveat is the baseline's, not this term's. The transverse one,
+`Y_a Z_b − Z_a Y_b` (D ∥ x̂), has zero overlap with that current on every bond
+and does not conserve π-electron number at all.
+
+The bath inventory included on-site Holstein phonons (coupling to local
+π-density), bond Peierls phonons (coupling to the hopping integral), σ⁻
+amplitude damping (excitation loss per site), and the combination of Holstein
+and σ⁻ together.
 
 In every single one of the fifty-six configurations the relaxing system
 preserves a strict mirror symmetry between two halves of its relaxation
@@ -189,28 +200,38 @@ the response itself is substantial (Frobenius-norm-squared between 20.48 and
 remaining twelve the relaxing component is empty to begin with, so the mirror
 holds trivially. Those twelve are the three Hamiltonians whose every Pauli
 term is bit_b-even (pure Hückel hopping, hopping plus Hubbard
-density-density, hopping plus the ring-current term), each crossed with the
+density-density, hopping plus the transverse DM term), each crossed with the
 two phonon baths, on both rings: three times two times two.
 
 Both sides have to be quiet for a cell to be trivial, and they are quiet for
 different reasons. The Hamiltonian feeds the relaxing component only through
 its bit_b-odd terms, which is why the y-direction magnetic field and the
-spin-orbit cross-coupling put content back. The bath feeds it only when it is
+axial DM term put content back. The bath feeds it only when it is
 not bit_b-homogeneous, which is why both phonon baths add nothing while
 amplitude damping adds content on every Hamiltonian, trivial or not: no
 damping row is ever trivial, including the three above. In exact arithmetic
-all twelve vanish. Eight print a literal 0.0; the four ring-current rows
+all twelve vanish. Eight print a literal 0.0; the four transverse-DM rows
 print accumulated rounding instead, 2.5e-32 on C₄ and 4.8e-30 on C₆. The
-smallest full residual norm-squared anywhere in those same four rows is 164,
-so what they print is more than thirty orders below the quantity beside it.
+smallest full residual norm-squared anywhere in those same four rows is
+163.84, so what they print is more than thirty orders below the quantity
+beside it.
 
-Worth pausing on the ring-current term, because this document has already put
-it on the other side. The F114 reading above counts Y letters: `Y_l Z_{l+1}`
+Worth pausing on the transverse DM term, because the two parities read it
+oppositely. The F114 reading counts Y letters: `Y_l Z_{l+1}`
 has one, so it is n_Y-odd, and F114 reads that as the onset of broken
 time-reversal symmetry. The relaxation mirror counts bit_b instead, and Y and
 Z both carry bit_b = 1 (the table above), so `Y_l Z_{l+1}` is bit_b-even. Two
 different parities, and it is only the mirrored halves that are blind to the
 term F114 flags.
+
+The same parity splits the two DM axes against each other. The axial term
+pairs one bit_b = 0 letter with one bit_b = 1 letter, so `X_l Y_{l+1}` is
+bit_b-odd and feeds the relaxing component; the transverse term pairs two
+bit_b = 1 letters and does not. That is visible in the sweep: under the
+Holstein bath on C₆ the axial row carries 983.04 of relaxing content and the
+transverse row carries the 4.8e-30 rounding. Of the two DM axes, then, the
+mirror sees exactly the one that is a bond current. The parity is doing the
+work, not the current, but the two coincide here.
 
 ### How robust this is
 
@@ -219,41 +240,66 @@ The mirror symmetry survives:
 - Adding density-density correlation to the bare hopping picture.
 - Switching on external magnetic field along the y-direction, weak (one-tenth
   of the hopping scale) and strong (full hopping scale).
-- Adding spin-orbit-style cross-axis coupling between neighbouring sites.
-- Adding induced ring-current bond terms (the canonical magnetic-field-
-  induced symmetry breaker on benzene).
-- Replacing the on-site phonon bath with a bond-coupled (Peierls) bath, even
-  though that switch destroys the classical Coulson-Rushbrooke MO mirror at
-  the spectrum level.
+- Adding the axial DM term between neighbouring sites, which is the bond
+  current a magnetic flux induces and the canonical time-reversal breaker
+  on benzene.
+- Adding the transverse DM term, the second antisymmetric-exchange axis.
+  This one is a spin-model perturbation only: it does not conserve
+  π-electron number, and under the two phonon baths its cells are among the
+  trivially balanced twelve, so the bullet is carried by its two σ⁻ rows.
+- Replacing the on-site phonon bath with a bond-coupled (Peierls) bath, the
+  switch that breaks the open-system F1 Liouvillian palindrome (2026-05-22).
 - Switching to amplitude damping (T1 excitation loss) instead of pure
   dephasing.
 - Combining all the above into one realistic noisy aromatic ring.
 
-The classical MO mirror (spectrum spiegelung um α) breaks under bond
-phonons and under several of the Hamiltonian perturbations. The deeper
-distribution mirror remains intact across all of them.
+The classical MO mirror (spectrum spiegelung um α) is a closed-system,
+Hamiltonian-level statement, and it is more robust than this document once
+said. It follows from the bipartite topology of the ring alone, so it
+survives arbitrary bond modulation and arbitrary Peierls phases: the pairing
+residual stays at machine zero for uniform, alternating and random hopping
+and with flux threaded, on both C₄ and C₆. A bath cannot touch it at all.
+What the Peierls bath breaks is the open-system F1 palindrome, one level up.
+The deeper distribution mirror remains intact across all of them.
 
 ### Where it would break
 
-The algebra shows the distribution mirror is not unbreakable. It does break
-under one specific configuration: a coherent z-axis drive (every spin
-precessing together around the z-axis) combined with T1 amplitude damping.
-This setup is the standard hardware-characterisation regime of a driven
-superconducting qubit array: a constant Larmor precession plus relaxation.
-It does not arise in the natural relaxation of an aromatic molecule. In the
-quantum-hardware context this break is the working diagnostic; in the
-carbon-chemistry context it sits outside the natural parameter range.
+None of the fifty-six configurations breaks the mirror. That is worth stating
+plainly, because it means the break described here is not a sweep result: it
+comes from [F113](../ANALYTICAL_FORMULAS.md#f113), whose closed form gives the
+break magnitude as `(4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l)`. The channel needs
+`Tr(Z_l H) ≠ 0`, a z-axis energy per site, and every Hamiltonian in this
+inventory has `Tr(Z_l H) = 0` exactly, so the channel is dead in all fifty-six
+cells before the bath is chosen.
+
+What F113 asks for is a coherent z-axis drive (every spin precessing together
+around the z-axis) combined with T1 amplitude damping. That is the standard
+hardware-characterisation regime of a driven superconducting qubit array, a
+constant Larmor precession plus relaxation. In the quantum-hardware context
+the break is the working diagnostic; a coherent global drive of that kind sits
+outside the parameter range an aromatic molecule relaxes in.
+
+The sweep does not settle the other direction either, and it is worth being
+explicit about why. Every bath operator in it is local, one site for Holstein
+and σ⁻ and one bond for Peierls, and every rate is uniform across the ring.
+None of them is a channel whose amplitude is spread coherently over the whole
+molecule, which is how a ring actually radiates. So what these fifty-six cells
+support is narrower than it first reads: they are all quiet, and they are
+quiet under a local bath at uniform rate against a Hamiltonian inventory that
+cannot drive F113's channel at all. Whether a collective channel can move the
+balance is not tested here and is open.
 
 ### What this leaves us with
 
-For aromatic carbon systems under realistic conditions, a deep mirror
-symmetry of the relaxation dynamics is preserved: in moderate magnetic
-fields, under typical thermal coupling, with realistic excitation loss.
-The classical spectrum mirror (Coulson-Rushbrooke around α) is one face of
-the carbon ring's symmetry, the one chemistry has read about for eighty-six
-years. The distribution mirror is a second, deeper face: it survives where
-the spectrum mirror breaks, and it requires a very specific external
-control regime (constant coherent z-driving) to be unsettled.
+For aromatic carbon systems coupled to a local bath, a deep mirror symmetry
+of the relaxation dynamics is preserved: in moderate magnetic fields, under
+typical thermal coupling, with realistic excitation loss. The classical
+spectrum mirror (Coulson-Rushbrooke around α) is one face of the carbon
+ring's symmetry, the one chemistry has read about for eighty-six years. The
+distribution mirror is a second, deeper face: it survives everywhere the
+spectrum mirror breaks in this inventory, and the one regime known to unsettle
+it is external control, constant coherent z-driving, which F113 predicts and
+which no configuration here contains.
 
 How a chemist would test it directly: the symmetry shows up not in the line
 positions of an NMR spectrum but in the full transfer-matrix structure of
@@ -267,7 +313,9 @@ magnitude is closed-form predictable from the drive amplitude and T1 rate.
 
 ### Algebra as the anchor
 
-Every claim above rests on the sweep result. The sweep is
+Every claim above about what holds rests on the sweep result; the one claim
+about what breaks rests on F113's closed form instead, and is marked as such
+where it is made. The sweep is
 [`simulations/carbon_realistic_sweep.py`](../../simulations/carbon_realistic_sweep.py),
 which iterates the fifty-six configurations and reports the relaxation-
 mirror asymmetry for each. The single-perturbation control tests sit in
