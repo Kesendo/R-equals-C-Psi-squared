@@ -8,8 +8,11 @@ spans the exact-(-2g) subspace).
 This closes the gate-verification to higher N by working in the n_XY=1 OPERATOR subspace V_1 (dim N*2^N,
 vs the full Liouville space 4^N -- N=8 is 2048 vs 65536), where the exact-(-2g) modes live:
 
-  An operator A is an exact L-eigenmode at Re=-2g  <=>  A is n_XY=1 (so L_D = -2g scalar) AND A is an
+  A is an exact L-eigenmode at Re=-2g  <==  A is n_XY=1 (so L_D = -2g scalar) AND A is an
   H-eigenoperator (so the n_XY=1->3 leak cancels): [H,A] = -i*omega*A, frequency |Im| = |omega|.
+  ONLY that direction: <n_XY> = 1 is weaker than n_XY == 1, and the ring N=4 {0,2} blocks are exact
+  floor modes that are NOT n_XY=1. So V_1 sees the exact-(-2g) subspace only where the two coincide,
+  which is what the dimension match against the full Liouvillian tests.
 
 So the exact-(-2g) eigenoperators are the LEAK-FREE eigenvectors of ad_H restricted to V_1: eigenvectors
 of M = P_1 ad_H P_1 for which the FULL ad_H(A) stays in V_1 (no n_XY=3 component). dim_sub = their count;
@@ -206,7 +209,7 @@ def main():
         gate(f"ring N={N}: " + ("the n_XY=1 family SPANS the floor and full max|Im|=2J (completeness)"
                                 if N != 4 else "full L has {0,2} extras and full max|Im|=2sqrt2 J (the lone exception)"),
              ok)
-    print("   => for N=5,6 the n_XY=1 free-fermion family IS the whole exact-(-2g) subspace (completeness):")
+    print("   => for N=3,5,6,7 the n_XY=1 free-fermion family IS the whole exact-(-2g) subspace (completeness):")
     print("      nothing exceeds the dihedral-locked band top 2J. The V_1 method carries the n_XY=1 sector to")
     print("      N=7 (max=2J); the {0,2} half-filling coherence lands on the -2g floor with excess ONLY at N=4")
     print("      (the unique even half-filling (2,2) on the floor; cf K_4's structural ceiling), so N=4 is the")
@@ -219,12 +222,13 @@ def main():
     else:
         print("ALL GATES PASS. Summary of the ring free-fermion COMPLETENESS (the open extension closed):")
         print("  * the V_1 (n_XY=1) machinery reproduces the chain's full-L exact-(-2g) subspace (32/50/72 + E1);")
-        print("  * RING COMPLETENESS, gate-verified N=3,5,6: V_1 dim_sub == full-L dim_sub, so the n_XY=1 free-")
+        print("  * RING COMPLETENESS, gate-verified N=3,5,6,7 (N=8 by squeeze): V_1 dim_sub == full-L dim_sub, so the n_XY=1 free-")
         print("    fermion family IS the entire exact-(-2g) subspace (it SPANS) -- nothing exceeds 2J = J*rho;")
         print("  * the n_XY=1 dihedral lock (max|Im|=2J) carries to N=7 via V_1 (full L infeasible there);")
         print("  * N=4 is the LONE exception: full-L dim_sub > V_1 (the {0,2} extras) and full max|Im| = 2sqrt2 J,")
         print("    the unique even half-filling (2,2) {0,2}-coherence that lands on the -2g floor (cf K_4 ceiling).")
-        print("  The all-N closure rests on this dim-match completeness (N=5,6) + the structural fact that only")
+        print("  The all-N closure rests on this dim-match completeness (N=3,5,6,7; N=8 by a squeeze between the")
+        print("  4N outer-sector modes and the sector walk) + the structural fact that only")
         print("  N=4 places a {0,2} half-filling block on the floor -- the cyclic analogue of the chain's span")
         print("  argument, with the periodic/anti-periodic parity split = the wrap-bond JW grading.")
     print("=" * 100)

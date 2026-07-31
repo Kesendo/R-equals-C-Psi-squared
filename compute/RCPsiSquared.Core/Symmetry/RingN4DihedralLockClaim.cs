@@ -29,6 +29,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Z_l being Hermitian; "adds only real decay" is not sufficient. See
 /// <c>docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md</c> for the full derivation.</para>
 ///
+/// <para><b>Name collision, deliberate.</b> "Ring N=4 dihedral lock" also names a different result: the
+/// XY ring of <c>docs/proofs/PROOF_RING_GAP_DOMINANCE.md</c>, carried by <see cref="TopologyBandEdgeClaim"/>,
+/// where max|Im| over the exactly-Re=−2γ modes is 2J = J·ρ and the N=4 exception reaches 2√2·J. Different
+/// Hamiltonian, different quantity, different number; the phrase is a historical identifier in both and
+/// names no mechanism in either.</para>
+///
 /// <para><b>Empirical anchors (6 Q-values × γ₀ = 0.05, machine precision):</b></para>
 ///
 /// <list type="table">

@@ -181,7 +181,7 @@ Re-running the sector diagnostic at the F86 Q_peak c=2 canonical anchor (`Q=1.5`
 | chain | 5 | (3, 3) | 0.0512 | 0.0495 | 1.035 |
 | chain | 6 | (3, 3) | 0.0355 | 0.0344 | 1.032 |
 | ring | 3 | (1, 1) | 0.4665 | 2·Q²/N² = 0.5000 | 0.933 |
-| ring | 4 | (2, 2) | 0.2413 | 0.2813 | 0.858 (dihedral lock interference) |
+| ring | 4 | (2, 2) | 0.2413 | 0.2813 | 0.858 (the Heisenberg ring-N=4 Im-max bound interferes) |
 | ring | 5 | (2, 2) F1=(3,3) | 0.1858 | 0.1800 | 1.033 |
 | ring | 6 | (3, 3) | 0.1337 | 0.1250 | 1.070 |
 | star | 3 | (2, 2) F1=(1,1) | 0.1462 | (boundary, no Q²/N² form) | – |

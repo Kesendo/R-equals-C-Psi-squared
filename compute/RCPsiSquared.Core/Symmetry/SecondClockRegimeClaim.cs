@@ -17,7 +17,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <see cref="StructuralCeilingClaim"/>: complete K_N = 4/N, star N≥6 = 4/(N−1); both = 4/(m+1) for the
 /// symmetric manifold, &lt; 1 iff m ≥ 4). Otherwise the second clock reaches the floor.</item>
 /// <item><b>Knob 2, DISPERSION (the low-Q character once it reaches the floor).</b> On a DISPERSIVE band
-/// (a real cosine spectrum: the chain m=1, the disordered chain, the ring, star N=4) the two clocks
+/// (a real cosine spectrum: the chain m=1, the disordered chain, the ring at N≥5, star N=4) the two clocks
 /// COALESCE — a square-root EP at a finite Q*(N), the COHERENCE HORIZON (<see cref="CoherenceHorizonClaim"/>):
 /// below Q* a real overdamped mode is the gap, above it the band edge protects, g2 → 1 SHARPLY. On a
 /// flat / marginal band (star N=5, m=3, 4/(m+1)=1) there is only ASYMPTOTIC protection (g2 = 1 − c/Q², no

@@ -138,8 +138,8 @@ for name, ring, N, p, B_pred, _ in INSTANCES:
 # the ring (2,2) is the ONLY one that exceeds -- the genuine "second clock overtakes first"
 assert (2 * sqrt(2) * J) > 2 * J + 1e-9, "ring (2,2) must exceed the ring band edge 2J"
 assert E1_N3 <= 2 * cos(pi / 4) * J + 1e-9, "chain N=3 B should equal its own band edge (not exceed)"
-print("\nSTAGE 2 PASS: the ring (2,2) is the lone exceed-case (B=2sqrt2 > 2J = the anti-periodic two-fermion top")
-print("  overtaking the periodic band edge); the (1,1) instances have B = J*rho (the √-shift puts the floor freq")
+print("\nSTAGE 2 PASS: the ring (2,2) is the lone exceed-case (its B = 2sqrt2 J, the anti-periodic TWO-fermion top,")
+print("  overtops the periodic band edge 2J); the (1,1) instances have B = J*rho (the sqrt-shift puts the floor freq")
 print("  just below). So 'second clock overtakes first' = 'a multi-fermion sector top exceeds J*rho'.")
 
 # ====================================================================================================

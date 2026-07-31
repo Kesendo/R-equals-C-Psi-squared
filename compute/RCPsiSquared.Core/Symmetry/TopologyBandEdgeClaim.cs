@@ -18,7 +18,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Map note (why the magnitude ρ suffices): the band edge uses only ρ = |E_max|. For BIPARTITE hopping
 /// graphs (chain, star, even rings) the single-particle spectrum is ±symmetric under the chiral K-mirror
-/// (<see cref="ChiralKClaim"/>: K·H·K = −H ⟹ E ↔ −E, the sibling of F1 acting on H), so ρ = E_max = −E_min
+/// (the two-colouring gauge K = diag((−1)^colour) gives K·A·K = −A on ANY bipartite graph, verified for
+/// chain, star, even ring and tree; <see cref="ChiralKClaim"/> states the chain case of it, which is where
+/// it was first typed), so ρ = E_max = −E_min
 /// and the band edge carries a mirror partner at −ρ; non-bipartite graphs (complete K_N, odd rings) have no
 /// such ±symmetry. The ring-4 (2,2) co-occupier 2√2·J is the anti-periodic even-sector image of this same
 /// chiral structure (PROOF_STRUCTURAL_CEILING §4).</para>
@@ -51,12 +53,16 @@ public sealed class TopologyBandEdgeClaim : Claim
                "band edge to any topology (the Im/L_H side; the Re=−2γ floor is the Absorption Theorem, n_XY=1). " +
                "Gap-dominance (whether ω_mem reads the band edge) is topology-specific and witnessed: Q-horizon " +
                "for chain (all N) / star (N≤5) / odd rings; structural ceiling for star N≥6; co-occupied floor " +
-               "for ring N=4 (a (2,2) mode at −2γ with Im=2√2·J > band edge, on the Q>1 side of that N).",
+               "for ring N=4 (a (2,2) mode at −2γ with Im=2√2·J > band edge, on the Q>1 side of that N, and only for the " +
+               "perfectly uniform 4-cycle: a wrap-bond detuning of 1e-4 removes it from the exact floor). Even rings " +
+               "N≥6 carry no such mismatch (N=6 and N=8 read J·ρ over every sector).",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md (§4.3 gap=2γ above Q*_gap(N), §4.5 n_XY=Hamming, the −2γ floor) + " +
                "docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md (the chain gap-dominance proof that lifts the cap) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/TopologyBandEdgeWitness.cs (inspect --root bandedge) + " +
-               "simulations/topology_band_edge_review.py (the gate-first verifier, full Q-sweep to Q=1000)")
+               "simulations/topology_band_edge_review.py (the gate-first verifier, full Q-sweep to Q=1000) + " +
+               "docs/proofs/PROOF_RING_GAP_DOMINANCE.md + simulations/ring_gap_dominance.py + " +
+               "simulations/ring_gap_completeness.py (the ring node and its N=4 exception)")
     {
         ChainInstance = chainInstance ?? throw new ArgumentNullException(nameof(chainInstance));
         Absorption = absorption ?? throw new ArgumentNullException(nameof(absorption));
@@ -66,7 +72,7 @@ public sealed class TopologyBandEdgeClaim : Claim
 
     public override string Summary =>
         $"band edge = J·ρ (chain 2cos(π/(N+1)), star √(N−1), ring 2); gap-dominance topology-specific " +
-        $"(chain/star≤5/odd-ring horizon, star≥6 ceiling, ring-4 co-occupied floor) ({Tier.Label()})";
+        $"(chain/star≤5/odd-ring horizon, star≥6 ceiling, ring-4 co-occupied floor on the Q>1 side only) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -81,16 +87,21 @@ public sealed class TopologyBandEdgeClaim : Claim
             yield return new InspectableNode("the gap-dominance map (witnessed)",
                 summary: "Q-horizon: chain (all N), star (N≤5), odd rings. Structural ceiling: star N≥6 " +
                          "(strict gap saturates g2=4/(N−1)·2γ, N-dependent: N=6→0.80). Co-occupied floor: ring N=4 (a (2,2) mode at −2γ, " +
-                         "Im=2√2·J > band edge). Live: inspect --root bandedge.");
+                         "Im=2√2·J > band edge, on the Q>1 side only; even rings N≥6 carry none). Live: inspect --root bandedge.");
             yield return new InspectableNode("ring gap-dominance (the dihedral lock, characterized 2026-06-17)",
-                summary: "PROOF_RING_GAP_DOMINANCE.md / ring_gap_dominance.py (gate-first N=3..6): max|Im| over the " +
+                summary: "PROOF_RING_GAP_DOMINANCE.md / ring_gap_dominance.py (gate-first N=3..6 by full L, N=7..8 by the " +
+                         "--slow sector walk): max|Im| over the " +
                          "exact-(−2γ) ring modes = 2J = J·ρ (the periodic band top = the k=0 uniform single-excitation " +
                          "mode fixed by C_N), reached via the (0,1) sector for general N, for all N EXCEPT N=4, the " +
                          "lone exception where the half-filling (2,2) {0,2} √-EP reaches 2√2·J > 2J (the same (2,2) " +
                          "sector as K_4's ceiling; the ring analogue of the chain's N=3 special, but ABOVE the band " +
-                         "top not below). The ring sibling of chain gap-dominance; both give max|Im| = J·ρ. " +
+                         "top not below). The ring sibling of chain gap-dominance. max|Im| = J·ρ ON THE FLOOR is not either " +
+                         "topology's: measured on all 38 connected labelled graphs at N=4, on star / complete / " +
+                         "asymmetric graphs at N=5,6 and under random bond weights, the three labellings of the " +
+                         "4-cycle are the only violations. Topology-specific is the closed form for ρ, and the exception. " +
                          "Free-fermion COMPLETENESS gate-verified 2026-06-20 (ring_gap_completeness.py): the n_XY=1 " +
-                         "family spans the exact-(−2γ) subspace (V_1 dim = full-L dim at N=5,6; chain sanity 32/50/72), " +
+                         "family spans the exact-(−2γ) subspace (V_1 dim = full-L dim at N=3,5,6,7, and at N=8 by a squeeze " +
+                         "between the 4N outer-sector modes and the sector walk; chain sanity 32/50/72), " +
                          "so nothing exceeds 2J; dihedral lock carried to N=7 in V_1; N=4 is the lone exception (full-L " +
                          "dim > V_1, the {0,2} extras). Residual all-N step = the chain's, split by wrap-bond parity.");
             yield return ChainInstance;   // typed parent edge

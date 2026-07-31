@@ -7,8 +7,9 @@ translation-invariant (cyclic C_N), so its single-particle band TOP is the k=0 u
 
 RESULT (gate-verified below):
   * For N != 4:  max|Im| over the exact-(-2g) modes = 2J  (the periodic band top, the k=0 uniform free-
-    fermion mode c_0^(dag).f(N_tot); reached exactly, gamma-independent). The dihedral C_N symmetry locks
-    the maximum to the uniform mode -- the "dihedral lock".
+    fermion mode c_0^(dag).f(N_tot); reached exactly, gamma-independent). No symmetry enters: the (0,1)
+    sector reaches J*rho on ANY connected graph, and "dihedral lock" is a historical label, not a mechanism
+    (at even N the max |E_k| is attained TWICE, m=0 and m=N/2, so C_N singles out nothing there).
   * N = 4 is the SPECIAL CASE (the ring analogue of the chain's N=3): the half-filling (2,2) {0,2}-coherence
     sqrt-EP mode reaches Im = sqrt((2sqrt2 J)^2 - (2g)^2) -> 2sqrt2 J > 2J, EXCEEDING the band top. This is
     the "co-occupied floor mismatch for ring N=4" that TopologyBandEdgeClaim records; 2sqrt2 = sum of the two
@@ -17,11 +18,14 @@ RESULT (gate-verified below):
 
   STAGE 0  the theorem (full Liouvillian): max|Im| at Re=-2g = 2J for N=3,5,6; = sqrt((2sqrt2)^2-(2g)^2) at N=4.
   STAGE 1  the band-top reach (general N): the k=0 uniform mode c_0^(dag).f(N_tot) is an exact -2g-/+i*2J
-           L-eigenmode -- so 2J = J*rho is always achieved (the dihedral lock).
+           L-eigenmode -- so 2J = J*rho is always achieved.
   STAGE 2  the N=4 exception: the (2,2) half-filling sqrt-EP at 2sqrt2 J (gamma-swept); N=6 (3,3) does NOT
            exceed 2J (the half-filling block closes on -2g only at N=4).
+  STAGE 3  the exception's Q window: the floor count 26 -> 18 -> 16 across the two EPs (gamma = J and
+           gamma = sqrt2 J) and the 16 + 2 + 8 split of the N=4 floor.
+  STAGE 4  (--slow) the sector walk past the wall: the whole floor at N=7 and N=8 by (a,b) blocks.
 
-Run: python simulations/ring_gap_dominance.py
+Run: python simulations/ring_gap_dominance.py [--slow]
 """
 import sys
 
@@ -278,9 +282,10 @@ if "--slow" in sys.argv:
     print("  wall: N=7 and N=8 read exactly 2J over EVERY (a,b) sector, so the exception really is N=4 alone.")
 
 print("\n" + "=" * 100)
-print("PROVEN (gate-verified N=3..6 + the general-N band-top reach): RING gap-dominance is the DIHEDRAL LOCK")
-print("  max|Im| over the exact-(-2g) modes = 2J = J*rho (the periodic band top = ring adjacency radius, the")
-print("  k=0 uniform mode fixed by C_N symmetry), for all N EXCEPT N=4, where the half-filling (2,2) {0,2}")
+print("GATE-VERIFIED (N=3..6 full L, N=7..8 by sector walk; the all-N step stays open, see the proof):")
+print("  max|Im| over the exact-(-2g) modes = 2J = J*rho (the periodic band top = ring adjacency radius,")
+print("  reached by the (0,1) sector -- which reaches J*rho on any connected graph, so this half is not the")
+print("  ring's), for all N EXCEPT N=4, where the half-filling (2,2) {0,2}")
 print("  sqrt-EP reaches 2sqrt2 J > 2J -- on the Q > 1 side of that N, the exception's own window (STAGE 3).")
 print("  Contrast the chain (open, no wrap): E1 = 2J cos(pi/(N+1)) < 2J, with")
 print("  its OWN lone exception at N=3. Scope: ring (cyclic C_N); JW wrap = the periodic/anti-periodic split.")

@@ -24,13 +24,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Jordan-Wigner is 1D. The N=3 extra family is one more entry in the chain's list of N=3 accidents.)</para>
 ///
 /// <para>Ring sibling (2026-06-17): the cyclic analogue is docs/proofs/PROOF_RING_GAP_DOMINANCE.md (verifier
-/// simulations/ring_gap_dominance.py). The dihedral lock pins the ring's max|Im| to the k=0 uniform single-
-/// excitation mode at 2J=J·ρ for general N, except N=4 where the half-filling (2,2) {0,2} √-EP reaches
-/// 2√2·J above the band top — the mirror of this chain's N=3 {0,2} exception, which sits below E1. Both
-/// topologies: max|Im|=J·ρ. The ring statement is typed into <see cref="TopologyBandEdgeClaim"/>. The ring
+/// simulations/ring_gap_dominance.py). The ring's floor max|Im| is 2J = J·ρ for general N, except N=4 where
+/// the half-filling (2,2) {0,2} √-EP reaches 2√2·J above the band top, the mirror of this chain's N=3 {0,2}
+/// exception, which sits below E1. max|Im| = J·ρ on the floor is not either topology's: it was measured on
+/// all 38 connected labelled graphs at N=4 (the three labellings of the 4-cycle the only violations), on
+/// star / complete / asymmetric graphs at N=5,6, and under random bond weights. Topology-specific is the
+/// closed form for ρ, and the exception. The "dihedral lock" name is historical: no reflection and no cyclic
+/// structure enters, the mechanism is Perron-Frobenius on a connected graph. The ring statement is typed into <see cref="TopologyBandEdgeClaim"/>. The ring
 /// free-fermion COMPLETENESS (that the n_XY=1 family spans the exact-(−2γ) subspace, so nothing exceeds 2J)
 /// is now gate-verified to the chain's standing (2026-06-20, simulations/ring_gap_completeness.py): the V_1
-/// operator-subspace dimension match (chain sanity 32/50/72; ring V_1 dim = full-L dim at N=5,6) plus the
+/// operator-subspace dimension match (chain sanity 32/50/72; ring V_1 dim = full-L dim at N=3,5,6,7, and at
+/// N=8 by a squeeze between the 4N outer-sector modes and the sector walk) plus the
 /// n_XY=1 dihedral lock carried to N=7; the residual genuinely-all-N step is the same one the chain leaves
 /// (a dimension count for every N, here split by the wrap-bond periodic/anti-periodic parity).</para>
 ///
