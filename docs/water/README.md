@@ -159,7 +159,7 @@ dipole, and its Liouvillian kernel is one-dimensional at every N tested. Fixed d
 is not zero motion: `XX+YY` moves protons across their bonds in correlated pairs whose
 displacements cancel. What crosses regardless is the F1 palindrome, machine-zero on the
 physical model included, broken by the double-well bias, which is the same dipole
-operator coupled to a field.
+operator coupled to a uniform electric field along the wire.
 
 The pass also narrowed an over-wide quantifier on F98 that had propagated from this
 README into three carbon docs and one typed claim; no verified number moved.
