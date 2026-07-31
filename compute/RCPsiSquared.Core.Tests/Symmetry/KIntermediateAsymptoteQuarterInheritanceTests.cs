@@ -42,7 +42,8 @@ public class KIntermediateAsymptoteQuarterInheritanceTests
     [InlineData(16, 9.0 / 34.0)]  // 18/68 = 9/34
     public void LongTimePi2OddRatio_MatchesClosedFormFractions(int N, double expected)
     {
-        // F98b: α(∞) = (N+2)/[4(N+1)] for KIntermediate Dicke under truly + Z-deph.
+        // F98b: α(∞) = (N+2)/[4(N+1)] for KIntermediate Dicke under a magnetization-
+        // conserving H + Z-deph on every site.
         // Verified against simulations/water/proton_chain_dicke_anchor.py output for N=4..16.
         Assert.Equal(expected, KIntermediateAsymptoteQuarterInheritance.LongTimePi2OddRatio(N), precision: 14);
     }

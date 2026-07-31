@@ -14,10 +14,17 @@ namespace RCPsiSquared.Core.Symmetry;
 ///     α(t → ∞, N → ∞)         → 1/4                       (QuarterAsBilinearMaxval)
 /// </code>
 ///
-/// The closed form holds for any truly-class (F87) Hamiltonian + uniform Z-dephasing
-/// on N qubits — bond topology drops out because the long-time limit projects onto
-/// <c>ker L = span(P_0, …, P_N)</c> per F4 for any connected graph (chain, ring, star,
-/// K_N, Petersen, etc.). The KIntermediate Dicke superposition
+/// The closed form holds for any Hamiltonian that conserves magnetization,
+/// <c>[H, Ŵ] = 0</c> with <c>Ŵ = Σ_l (I − Z_l)/2</c>, under Z-dephasing on every
+/// site. That single condition is the whole premise: the F87 palindrome class is not
+/// part of it, and neither is connectedness nor uniformity of γ (a soft DM chain, a
+/// disconnected Heisenberg bond set, non-uniform γ and even <c>H = 0</c> all give the
+/// F98 value exactly at N = 4). Conversely <c>H = Σ_a X_a X_{a+1}</c> IS truly-class,
+/// does not conserve magnetization, and sends the same state to <c>I/2^N</c>, giving
+/// α(∞) = 0. Bond topology drops out with the premise rather than via F4's kernel
+/// dimension: the disconnected case has <c>dim ker L = 9 ≠ N+1</c> and still lands on
+/// F98. Gate: <c>simulations/f98_scope.py</c>.
+/// The KIntermediate Dicke superposition
 /// <c>ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩)/√2</c> evolves under any such L from the static F86b
 /// anchor toward the universal Quarter, traversing the (N+2)/[4(N+1)] curve.
 ///
@@ -45,7 +52,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Bridge to F86b:</b> the morning's <see cref="DickeAnchor.KIntermediate"/>
 /// case <c>α_total = 3/8</c> was derived statically (Tier 1, X⊗N-eigenbasis decomposition
 /// of the symmetric Dicke superposition at <c>γ = 1/2</c>). F98 adds the temporal half
-/// of the same picture — the long-time fate of α_total under the canonical truly-class
+/// of the same picture: the long-time fate of α_total under magnetization-conserving
 /// dynamics. Both 3/8 and 1/4 sit on the polarity-squared algebra
 /// (<c>3/8 = (1/2)·(3/4) = (1/2)(1 − 1/4)</c>; <c>1/4 = (1/2)²</c>); the (N+2)/[4(N+1)]
 /// curve is the explicit N-trajectory between them.</para>
@@ -54,7 +61,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// verified bit-exact N = 4..16; F98b follows algebraically from F98a + Pascal +
 /// Krawtchouk parity. Discovered via the water/proton-chain inheritance test
 /// (<c>simulations/water/proton_chain_dicke_anchor.py</c>) which asked "what is α_total
-/// at t = ∞ under truly-class evolution" — a NEW question not addressed by the static
+/// at t = ∞ under dephasing" — a NEW question not addressed by the static
 /// F86b derivation.</para>
 ///
 /// <para>Anchors: <see cref="DickeAnchor"/> (static F86b 3/8 ingredient classifier);
@@ -100,7 +107,8 @@ public sealed class KIntermediateAsymptoteQuarterInheritance : Claim, IF99Anchor
     public DickeSuperpositionQuarterPi2Inheritance StaticSide { get; }
 
     /// <summary>F98b closed form: <c>α(∞)_KIntermediate(N even) = (N + 2) / [4·(N + 1)]</c>.
-    /// Bond-topology-independent under truly-class (F87) Hamiltonian + uniform Z-dephasing.</summary>
+    /// Bond-topology-independent under any magnetization-conserving Hamiltonian
+    /// + Z-dephasing on every site.</summary>
     public static double LongTimePi2OddRatio(int N)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 2.");
@@ -173,7 +181,7 @@ public sealed class KIntermediateAsymptoteQuarterInheritance : Claim, IF99Anchor
             yield return new InspectableNode("F86b partner",
                 summary: "α(t=0) = 3/8 = (1/2)·(3/4) — the X⊗N-eigenbasis γ = 1/2 Dicke superposition starts at 3/8 by the (1 − γ²)/2 F86b formula (DickeAnchor.KIntermediate, this morning's commit b9ba5f6).");
             yield return new InspectableNode("polarity-squared algebra",
-                summary: "3/8 and 1/4 both sit on the dyadic ladder: 3/8 = (1/2)(1 − 1/4), 1/4 = (1/2)². The (N+2)/[4(N+1)] curve is the explicit N-trajectory between them under truly-class dynamics.");
+                summary: "3/8 and 1/4 both sit on the dyadic ladder: 3/8 = (1/2)(1 − 1/4), 1/4 = (1/2)². The (N+2)/[4(N+1)] curve is the explicit N-trajectory between them under magnetization-conserving dynamics.");
             for (int N = 4; N <= 16; N += 2)
             {
                 yield return new InspectableNode($"N = {N}",

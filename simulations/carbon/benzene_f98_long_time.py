@@ -2,12 +2,12 @@
 
 F98 (docs/ANALYTICAL_FORMULAS.md): for even N, the KIntermediate Dicke
 superposition psi = (|D_{N/2-1}> + |D_{N/2}>)/sqrt(2), evolved under any
-truly-class (F87) Hamiltonian + uniform Z-dephasing, has a long-time Pi^2-odd
+magnetization-conserving Hamiltonian + Z-dephasing, has a long-time Pi^2-odd
 Frobenius^2 fraction
 
     alpha(inf) = (N + 2) / [4 (N + 1)]   ->  1/4  as N -> inf
 
-F98 was derived for any connected graph (the bond topology drops out: the
+F98 was derived for any bond graph (the topology drops out: the
 t -> inf limit projects onto ker L per F4) and verified bit-exact N = 4..16 on
 the Heisenberg CHAIN, in simulations/water/proton_chain_dicke_anchor.py.
 
@@ -15,7 +15,7 @@ Question 5 asks for the BENZENE instance. Benzene's Hueckel pi-system is the
 XX+YY RING (not the Heisenberg chain), and Holstein on-site dephasing is the
 framework's Z-dephasing (BENZENE_LIOUVILLIAN_PALINDROME.md: D[n_l] = 1/4 D[Z_l]).
 Both differ from the chain F98 was verified on. The benzene ring is still
-truly-class (XX, YY bilinears are Pi^2-even) and the Holstein bath is still
+magnetization-conserving (XX+YY commutes with the pi-electron number) and the Holstein bath is still
 Z-dephasing, so F98's preconditions hold and the long-time fraction should be
 (N+2)/[4(N+1)]: 3/10 for the C4 ring, 2/7 for the C6 benzene ring.
 
@@ -106,7 +106,7 @@ def benzene_ring_hamiltonian(N):
 
 def popcount_projector(n, N):
     """P_n = Sum_{popcount(b) = n} |b><b|. F4: ker L = span(P_0, ..., P_N) for a
-    truly-class Hamiltonian + Z-dephasing."""
+    magnetization-conserving Hamiltonian + Z-dephasing on every site."""
     d = 2 ** N
     diag = [1.0 if bin(b).count("1") == n else 0.0 for b in range(d)]
     return np.diag(diag).astype(complex)

@@ -320,7 +320,7 @@ identification is the open structural question; there is no single canonical cho
    0.770 should appear in K-point spectroscopy under appropriate dephasing.
 
 5. **Is there a carbon analog of the F98 (N+2)/[4(N+1)] → 1/4 long-time bridge?** The
-   bridge is bond-topology-agnostic (only requires truly-class Hamiltonian + Z-deph);
+   bridge is bond-topology-agnostic (it requires a magnetization-conserving Hamiltonian + Z-deph);
    any carbon substrate with the four embedding conditions would inherit it.
    **Answered 2026-05-22** ([benzene's F98 long-time state](BENZENE_F98_LONG_TIME.md)): yes,
    bit-exact. The KIntermediate Dicke state on the benzene XX+YY ring under Holstein

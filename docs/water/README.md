@@ -1,8 +1,9 @@
 # Water Domain (Hydrogen-Bond Qubit + Grotthuss Proton Chain)
 
 The framework's structural inheritance applied to water. Hydrogen bonds carry a
-proton between two wells (donor / acceptor); the proton IS a qubit (d=2), the
-F1 palindrome holds bit-exact, and the entire F-chain inherits to the chemistry.
+proton between two wells (donor / acceptor); the proton IS a qubit (d=2), and the
+F1 palindrome holds bit-exact. How far the rest of the F-chain follows, and what its
+grading means once it gets here, is [the crossing pass](PROTON_WIRE_CROSSING.md).
 
 ## Contents
 
@@ -12,6 +13,10 @@ F1 palindrome holds bit-exact, and the entire F-chain inherits to the chemistry.
 - [PROTON_WATER_CHAIN.md](PROTON_WATER_CHAIN.md) (Tier 2, 2026-04-01): Grotthuss
   proton chain N = 1..5 via Heisenberg (XX+YY+ZZ) and TFI (transverse-field
   Ising) mappings. V-Effect table, sacrifice zone, DNA-comparison Phase 6.
+- [PROTON_WIRE_CROSSING.md](PROTON_WIRE_CROSSING.md) (Tier 2, 2026-07-31): the
+  crossing pass. What the framework's popcount grading IS on a proton wire (the
+  dipole moment, exactly), which of this folder's results are therefore
+  fixed-dipole statements, and what crosses regardless.
 
 ## Scripts
 
@@ -27,6 +32,10 @@ In [`simulations/water/`](../../simulations/water/):
 - `proton_chain_dicke_anchor.py` (2026-05-17): F86b 3/8 Dicke-K-intermediate
   anchor inheritance at t = 0 plus the (N+2)/[4·(N+1)] long-time α(∞) decay
   (see Findings below). Bit-exact N = 4..16.
+- `proton_wire_crossing.py` (2026-07-31): the crossing-pass gate, 50 checks.
+  The dipole identity on every basis state, the currency table, the kernel
+  contrast between Heisenberg and the physical proton model, and the F1
+  palindrome across the inventory.
 - `proton_chain_ep_resonance.py` (2026-05-04 evening): F86 K_CC_pr per-bond
   Q-scan on the popcount-(2, 3) block (c = 3) at N = 5, plus the popcount-
   coherence-state state-level reading at the interior Q_peak. Confirms
@@ -48,7 +57,10 @@ conditions hold:
 
 Under these conditions the F-chain (F1 → F4 → F49 → F71 → F77 → F78 → F79 →
 F80 → F81 → F82 → F83 → F84 → F85 → F86 → F87 → F88a → F88b) inherits to the chemistry
-without re-derivation.
+without re-derivation. The inheritance is not uniform across that chain, and
+[the crossing pass](PROTON_WIRE_CROSSING.md) says where it divides: the members graded
+by the popcount (F4, F86b, F88b, F98) are statements about the wire's fixed-dipole
+sectors, while the palindrome members (F1, F87) hold on the physical proton model too.
 
 ## Comparison to Hardware
 
@@ -111,17 +123,46 @@ N→∞:  α(0) = 3/8          → α(∞) → 1/4            [universal boundar
 
 The water-chain experiment uncovered this because it asked a question that the
 abstract framework hadn't asked: not "what is α_total at t = 0" (the F86b
-question, closed in static form) but "what is α_total at t = ∞ under truly-class
-evolution". The four embedding conditions guarantee the inheritance the other way
-too: the closed form is universal across any truly-class Hamiltonian + Z-dephasing
-on N qubits, not specific to chain XY; the bond topology drops out because the
-long-time limit projects onto `ker L = span(P_0, …, P_N)` for any connected graph
-(per `F4`).
+question, closed in static form) but "what is α_total at t = ∞". The closed form is
+not specific to chain XY: it holds for any magnetization-conserving Hamiltonian with
+Z-dephasing on every site, and the bond topology drops out with it. That single
+condition is the whole premise; the palindrome class is not part of it, and neither
+is connectedness or uniform γ. `H = Σ_a X_a X_{a+1}` is truly-class and does not
+conserve magnetization, and it sends the same state to `I/2^N`, giving α(∞) = 0,
+while a soft DM chain and even `H = 0` land on the F98 value exactly; see
+[the F98 scope gate](../../simulations/f98_scope.py). The Heisenberg chain these
+water results were computed on conserves magnetization, which is why they hold.
 
 **Two new closed forms** (Tier 1 derived, bit-exact verified N=4..16):
 
 - `‖P_{N/2−1}_odd‖² = C(N, N/2−1) / 2`
 - `α(∞)_KIntermediate(N even) = (N + 2) / [4·(N + 1)]`
+
+## The crossing pass, 2026-07-31
+
+[The proton wire crossing](PROTON_WIRE_CROSSING.md) asks the question this folder had
+never asked of itself: what is the framework's grading, the popcount
+`Ŵ = Σ_l (I − Z_l)/2`, in a substrate whose qubit is a proton's **position** rather
+than a site's occupation? Nothing is being counted, so the operator cannot be a
+particle number the way it is in [carbon](../carbon/README.md).
+
+It is the wire's **electric dipole moment**, exactly: with the wire neutral in every
+configuration, `μ = Σ_j j·q_j` is origin-free and equals the popcount identically
+(verified on every basis state, N = 3..6). So `Ŵ` counts the protons that have crossed
+their own bond, and `[Ŵ, H] = 0` says not "the molecule does not ionize" but **the
+total dipole is fixed**.
+
+That relocates every popcount-graded result in this folder rather than removing any.
+F98, the F86b anchors, the F88b split and the F4 kernel are all bit-exact and all
+describe the wire's fixed-dipole sectors; the physical proton model (TFI) moves the
+dipole, and its Liouvillian kernel is one-dimensional at every N tested. Fixed dipole
+is not zero motion: `XX+YY` moves protons across their bonds in correlated pairs whose
+displacements cancel. What crosses regardless is the F1 palindrome, machine-zero on the
+physical model included, broken by the double-well bias, which is the same dipole
+operator coupled to a field.
+
+The pass also narrowed an over-wide quantifier on F98 that had propagated from this
+README into three carbon docs and one typed claim; no verified number moved.
 
 ## Deferred Threads
 

@@ -121,8 +121,8 @@ This is THREE STRUCTURALLY INDEPENDENT LAYERS converging on the same anchors:
    eigenbasis decomposition for Dicke superposition. Pure operator algebra
    on d = 2 Hilbert space.
 2. **Today evening, water-substrate level**: F98 derives `(N+2)/[4(N+1)] → 1/4`
-   for KIntermediate Dicke under truly-class evolution. Kernel projection
-   on `ker L = span(P_n)` via F4.
+   for KIntermediate Dicke under magnetization-conserving evolution, coming to
+   rest inside `span(P_n)`.
 3. **Tonight, atomic-shell level**: the same anchor fractions (1/4, 3/8, 1/2,
    3/4) appear as valence-electron / octet ratios of the period-2 and period-3
    elements that make up >99% of living matter.

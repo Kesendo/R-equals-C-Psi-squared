@@ -16,8 +16,8 @@ question 2 / [README](README.md) open question 5.
 ## The question
 
 F98 is the framework's long-time bridge. The KIntermediate Dicke superposition
-ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩)/√2, evolved under any truly-class (F87) Hamiltonian
-plus uniform Z-dephasing, ends at a Π²-odd Frobenius² fraction
+ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩)/√2, evolved under a magnetization-conserving
+Hamiltonian plus Z-dephasing on every site, ends at a Π²-odd Frobenius² fraction
 
 ```
 α(∞) = (N + 2) / [4(N + 1)]      →  1/4  as N → ∞
@@ -25,9 +25,9 @@ plus uniform Z-dephasing, ends at a Π²-odd Frobenius² fraction
 
 It is the dynamical partner of the static F86b 3/8 anchor: the same KIntermediate
 state begins at α(0) = 3/8 and decays along an N-dependent curve to (N+2)/[4(N+1)].
-F98 was derived for any connected graph, the bond topology dropping out because
-the t → ∞ limit projects onto ker L (F4), and verified bit-exact for N = 4..16 on
-the Heisenberg chain ([`proton_chain_dicke_anchor.py`](../../simulations/water/proton_chain_dicke_anchor.py)).
+F98 was derived for any bond graph, the topology dropping out because every
+magnetization-conserving H comes to rest inside span(P_n), and verified bit-exact
+for N = 4..16 on the Heisenberg chain ([`proton_chain_dicke_anchor.py`](../../simulations/water/proton_chain_dicke_anchor.py)).
 
 [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md) settled the F1
 palindrome on benzene's open-system Liouvillian. Question 5 asks the long-time
@@ -39,11 +39,13 @@ F98 was derived and verified on the Heisenberg chain. The benzene model differs 
 three ways. Its topology is the C₆ ring, not an open chain. Its Hamiltonian is the
 XX+YY Hückel ring, the Jordan-Wigner image of π-hopping, not the Heisenberg
 XX+YY+ZZ. And the substrate is carbon. F98's claim is that none of this matters:
-the bond topology drops out for any connected graph, and any truly-class
-Hamiltonian works. The XX+YY ring is truly-class (the XX and YY bilinears are both
-Π²-even), and Holstein on-site dephasing is the framework's Z-dephasing
+the bond topology drops out, and any Hamiltonian that conserves magnetization
+works. The XX+YY ring qualifies: the equal-coefficient combination XX+YY commutes
+with Ŵ = Σ_l (I − Z_l)/2, which is π-electron number here. That single condition
+is the whole requirement, and it is not automatic: XX alone misses it and lands at
+α(∞) = 0 instead. Holstein on-site dephasing is the framework's Z-dephasing
 (D[n_l] = ¼·D[Z_l], established in BENZENE_LIOUVILLIAN_PALINDROME). The
-preconditions hold, so benzene is a clean test of F98's asserted topology- and
+precondition holds, so benzene is a clean test of F98's asserted topology- and
 Hamiltonian-independence on a case it was not derived on.
 
 ## Result
@@ -83,9 +85,10 @@ derived on.
 
 - **Bond-topology independence on the ring.** F98 was proven for any connected
   graph and verified on the chain; the ring is now an explicit confirmed instance.
-- **Hamiltonian-class independence.** F98 was verified on the Heisenberg
-  Hamiltonian (XX+YY+ZZ); the XX+YY Hückel Hamiltonian, a different truly-class
-  Hamiltonian, gives the identical α(∞).
+- **Hamiltonian independence, within the magnetization-conserving class.** F98 was
+  verified on the Heisenberg Hamiltonian (XX+YY+ZZ); the XX+YY Hückel Hamiltonian,
+  a different member of that class, gives the identical α(∞). The class is the
+  premise, not the palindrome class: XX alone conserves nothing here and gives 0.
 - **The bridge is dynamical, not only combinatorial.** The water script verified
   the (N+2)/[4(N+1)] closed form by Krawtchouk enumeration, a topology-free
   counting identity. Here the benzene-ring Liouvillian's actual time evolution

@@ -3401,7 +3401,7 @@ By contrast, `|c(φ)|² = 5/16 − (1/4)·cos(φ)` is **not** invariant around t
 
 **Two paired closed forms bridging the F86b 3/8 K-intermediate Dicke anchor (static, t=0) to the QuarterAsBilinearMaxval 1/4 universal boundary (asymptotic, N→∞):**
 
-For even N, the Dicke superposition `ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩) / √2` evolved under any truly-class (F87) Hamiltonian + uniform Z-dephasing on N qubits projects onto `ker L = span(P_0, …, P_N)` (per F4). The Π²-odd Frobenius² fraction at t = ∞ takes a closed form determined by two purely combinatorial identities:
+For even N, the Dicke superposition `ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩) / √2` evolved under any **magnetization-conserving** Hamiltonian (`[H, Ŵ] = 0` with `Ŵ = Σ_l (I − Z_l)/2`) + Z-dephasing on every site comes to rest inside `span(P_0, …, P_N)`. The Π²-odd Frobenius² fraction at t = ∞ takes a closed form determined by two purely combinatorial identities:
 
 ```
 (F98a)  ‖P_{N/2−1}_odd‖² = C(N, N/2−1) / 2
@@ -3432,7 +3432,13 @@ Using Pascal's `C(N, m) + C(N, m+1) = C(N+1, m+1)`:
      = (N + 2) / [4·(N + 1)]    (F98b)
 ```
 
-Verified bit-exact for N = 4 (= 3/10), 6 (= 2/7), 8 (= 5/18), 10 (= 3/11), 12 (= 7/26), 14 (= 4/15), 16 (= 9/34) via [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py). The bond topology drops out because the long-time limit projects onto `ker L` for any connected graph (per F4); the formula holds for chain, ring, star, K_N, Petersen, etc.
+Verified bit-exact for N = 4 (= 3/10), 6 (= 2/7), 8 (= 5/18), 10 (= 3/11), 12 (= 7/26), 14 (= 4/15), 16 (= 9/34) via [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py). Read that verification precisely: the script builds one Hamiltonian, the Heisenberg **chain**, and evolves it at N = 4 and 6; the N = 8..16 rows verify the F98a/F98b combinatorial identities by direct Krawtchouk enumeration, with no dynamics and no other topology. The bond topology does drop out, but by the Valid-for premise below rather than by anything that script tests: any Heisenberg graph conserves `Ŵ`, so ring, star, K_N and Petersen inherit. The independent dynamical checks on a ring are the C₄ and C₆ instances in [benzene's F98 long-time state](carbon/BENZENE_F98_LONG_TIME.md).
+
+**Valid for:** the K-intermediate Dicke state under any `Ŵ`-conserving H with Z-dephasing on every site. **The palindrome class is not part of the premise**, and neither is connectedness nor uniform γ; all three are measured dispensable at N = 4. The soft DM chain `Σ(XY − YX)`, the non-truly `Σ(XX+YY) + Σ_l h_l Z_l` with random `h`, a Heisenberg chain on the disconnected bond set {(0,1), (2,3)}, a Heisenberg chain with γ = (0.1, 0.7, 0.3, 1.9), and even `H = 0` all land on `α(∞) = 0.3000000000` exactly.
+
+**Breaks for:** H that does not conserve `Ŵ`. `H = Σ_a X_a X_{a+1}` drives the same K-intermediate state to `ρ_∞ = I/2^N`, giving `α(∞) = 0`. Measured `‖ρ_∞ − I/2^N‖ = 3.1e-15` at N = 4 and `5.4e-15` at N = 6; `H = Σ_a (XX + ZZ)` behaves the same (`1.6e-14` at N = 4). Gate: [`simulations/f98_scope.py`](../simulations/f98_scope.py), 30 checks.
+
+**Why, and why not via F4's kernel dimension.** Dephasing on every site removes the Z-basis coherences; `[H, Ŵ] = 0` keeps the populations inside their popcount sectors; and this particular initial state already has a *uniform* diagonal within each of its two sectors, so it is already the `P_m` / `P_{m+1}` combination and nothing can move it. F4's `dim ker L = N+1` is one resting place for that argument, not its reason: the disconnected Heisenberg case above has `dim ker L = 9` and still gives F98 exactly. The sector-uniformity of the initial state is doing real work, so the statement does **not** extend to arbitrary initial states: off it, H must also mix within a sector. On `ψ = 0.8|0001⟩ + 0.6|0010⟩`, Heisenberg reaches `P_1/4` to `1.1e-14` while `Σ ZZ`, which is diagonal and mixes nothing, misses it by `5.4e-01`.
 
 **The 3/8 → 1/4 bridge:**
 
@@ -3443,7 +3449,7 @@ The morning's F86b 3/8 K-intermediate Dicke anchor (Tier 1 derived 2026-05-17 vi
 α(t → ∞) = (N+2)/[4(N+1)] → 1/4    (F98, tonight, long-time-limit bridge)
 ```
 
-`3/8` and `1/4` are not unrelated constants: they are the two endpoints of an explicit N-dependent decay curve traversed by KIntermediate Dicke states under truly-class Hamiltonian + Z-dephasing dynamics. Both sit on the dyadic-ladder / polarity-squared algebra:
+`3/8` and `1/4` are not unrelated constants: they are the two endpoints of an explicit N-dependent decay curve traversed by KIntermediate Dicke states under magnetization-conserving Hamiltonian + Z-dephasing dynamics. Both sit on the dyadic-ladder / polarity-squared algebra:
 
 - `3/8 = (1/2)·(3/4)` = `HalfAsStructuralFixedPoint · (1 − 1/4)`, the X⊗N-eigenbasis γ = 1/2 input combined with the `(1 − γ²)/2` F86b formula.
 - `1/4 = (1/2)² = HalfAsStructuralFixedPoint²` = `QuarterAsBilinearMaxval` = the Mandelbrot cardioid maxval. The maxval-side bilinear apex.

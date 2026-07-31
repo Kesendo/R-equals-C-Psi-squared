@@ -133,10 +133,9 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
    test on a carbon substrate.
 
 2. **Is there a benzene analog of the F98 (N+2)/[4(N+1)] → 1/4 long-time bridge?**
-   F98 was derived for any truly-class Hamiltonian + Z-deph on N qubits; the bond
-   topology drops out. If benzene's Liouvillian inherits the same truly-class
-   structure (which it should, since Hückel ring is alternant), F98 should hold with N = 6
-   giving α(∞) = 8/28 = 2/7.
+   F98 was derived for magnetization-conserving Hamiltonians + Z-deph on N qubits;
+   the bond topology drops out. The Hückel ring inherits because XX+YY conserves
+   π-electron number, so F98 should hold with N = 6 giving α(∞) = 8/28 = 2/7.
    **Answered 2026-05-22** ([Benzene and the F98 Long-Time Bridge](BENZENE_F98_LONG_TIME.md)): yes,
    bit-exact. The KIntermediate Dicke state on the benzene XX+YY ring under Holstein
    dephasing reaches α(∞) = 2/7 at N = 6 (and 3/10 for the C₄ ring), confirmed as
