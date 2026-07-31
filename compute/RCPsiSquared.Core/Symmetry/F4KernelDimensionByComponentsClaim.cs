@@ -80,9 +80,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// documents in <c>experiments/</c> and <c>hypotheses/</c> capture the other structural findings the same data
 /// surfaced, each extending an existing April 2026 framework rather than introducing new physics:
 /// <list type="bullet">
-///   <item><c>experiments/STAR_CONFOCAL_LIMIT.md</c> (Tier 1 candidate, 2026-05-19): star topology saturates
-///         <c>Im(λ) = σ = N·γ</c> exactly when J = 2γ, via SU(2) / Schur-Weyl hub-spoke decomposition.
-///         The point-focus limit of the OPTICAL_CAVITY_ANALYSIS framework. 5 anchors at N=3..6 + N=8.</item>
+///   <item><c>experiments/STAR_CONFOCAL_LIMIT.md</c> (Tier 1 derived, 2026-05-19): the star has
+///         <c>Im_max = J·N/2</c> at uniform γ, independent of γ (<c>Im(λ) = σ = N·γ</c> is the J = 2γ
+///         reading), via SU(2) / Schur-Weyl hub-spoke decomposition; J·N/2 is the minimum spread over
+///         connected graphs. 25 distinct (N, Q) anchors over 29 runs at N=3..6 + N=8.</item>
 ///   <item><c>hypotheses/F1_DISSIPATION_GAP_PATTERN.md</c> (Tier 3, extended 2026-05-19): cross-topology
 ///         cross-N gap data. Chain shows clean <c>gap × N² ≈ 2.20</c> for N ≥ 4 (5 anchors); ring and star
 ///         follow different scaling laws. Bond count alone does not predict the gap.</item>

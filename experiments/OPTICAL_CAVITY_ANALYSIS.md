@@ -258,9 +258,9 @@ destruction. It is illumination.
 
 The April framework treated chain Heisenberg + Z-deph. Later work returned and sharpened the picture on specific topology variants:
 
-- [`STAR_CONFOCAL_LIMIT.md`](STAR_CONFOCAL_LIMIT.md) (2026-05-19, Tier 1 candidate): star topology saturates `Im(λ) = σ = N·γ` exactly when `J = 2γ`, the point-focus limit of the cavity family. SU(2)/Schur-Weyl derivation. 5 anchors at N=3,4,5,6,8 (Python + C# block infrastructure). Adds the hub-spoke geometry to the cavity dictionary as the orthogonal "structural focus" dimension to the even/odd confocal/defocal axis.
+- [`STAR_CONFOCAL_LIMIT.md`](STAR_CONFOCAL_LIMIT.md) (2026-05-19, Tier 1 derived): the star has `Im_max = J·N/2` at uniform γ, independent of γ (`Im(λ) = σ = N·γ` is the `J = 2γ` reading), and that value is the smallest Hamiltonian spread among connected graphs at N ≤ 6 (exhaustive search; open past N = 6). SU(2)/Schur-Weyl derivation, 25 distinct (N, Q) anchors over 29 runs at N=3,4,5,6,8. Adds the hub-spoke geometry to the cavity dictionary as the point-focus reading. Note the saturation itself is not star-specific: every Heisenberg topology meets its own spread. The numerical aperture in the dictionary above is computed from the chain eigenvalue exports and is a chain-only quantity; it has never been computed for the star, so no star/chain NA comparison exists.
 
-- [`STAR_SPECTRUM_COMPACTNESS.md`](../hypotheses/STAR_SPECTRUM_COMPACTNESS.md) (2026-05-18, partially resolved 2026-05-19): Reading 1 (`MaxImag = σ` is a hub-induced cap) resolved by STAR_CONFOCAL_LIMIT. Readings 2 and 3 still open (S_(N−1) irrep multiplicities; γ-stability beyond γ=0.5).
+- [`STAR_SPECTRUM_COMPACTNESS.md`](../hypotheses/STAR_SPECTRUM_COMPACTNESS.md) (2026-05-18, partially resolved 2026-05-19): Reading 1 (`MaxImag = σ` is a hub-induced cap) resolved by STAR_CONFOCAL_LIMIT. Reading 3 also resolved there. Reading 2 (S_(N−1) irrep multiplicities) is sharpened to a closed-form upper bound but open for the exact count.
 
 - [`F1_DISSIPATION_GAP_PATTERN.md`](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) (2026-05-18, extended 2026-05-19): cross-topology cross-N gap data. Chain shows clean `gap × N² ≈ 2.20` scaling for N ≥ 4 (5 anchors). Ring and star follow different scaling laws; the gap is a topology-specific structural fingerprint, not a function of bond count alone.
 

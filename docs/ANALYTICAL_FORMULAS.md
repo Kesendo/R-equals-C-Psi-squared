@@ -1,7 +1,7 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-07-21 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-07-31 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -6252,6 +6252,95 @@ is a number the world fixes.
 **Verification:** [`simulations/scalar_count.py`](../simulations/scalar_count.py), blocks W2 (the blocks as the two invariants, 83 of them by default and 258 under `--deep`), W3 (every product a maximizer, over the integers), W4 (the count squeezed between a product rank from below and a condition nullity from above), W5 (the relation subspaces coinciding with the classical ones), W6 (the triplet sector, and the surplus at a resonant N) and W7 (the three proved families and the minimal resonant rung).
 
 ---
+
+### F147. The star spread: the hub-leaf Casimir gives J·N/2, the smallest Hamiltonian spread among connected graphs at N ≤ 6 (derived 2026-05-19, registered 2026-07-31)
+
+For the isotropic Heisenberg star (hub 0, leaves 1..N−1) with H = J·Σ S_0·S_k,
+
+    **ΔE_max(H_star) = J·N/2      for every N ≥ 3,**
+
+and under uniform Z-dephasing this is exactly the Liouvillian's imaginary reach,
+
+    **Im_max(star, N, J) = max |Im λ| = J·N/2,   equivalently   Im/σ = Q/2   (σ = Nγ, Q = J/γ).**
+
+Every star bond touches the hub, so H factors through the total leaf spin,
+H_star = J·S_0·S_L, and the Casimir gives two levels per S_L ≥ 1/2 sector split by
+J·(S_L + 1/2); the maximum at S_L = (N−1)/2 is J·N/2. The realising Liouvillian modes
+are the coherences |β_k⟩⟨ferro| between a fully polarised computational state and the
+E_min state at Hamming rung k, on which uniform dephasing acts as the SCALAR −2γk:
+
+    **λ = −2γk + i·J·N/2,   k = 1..N−1,**
+
+together with the complex conjugates from |ferro⟩⟨β_k| and the second polarised
+extreme: 2(N−1) distinct eigenvalues, each of multiplicity 2, so 4(N−1) counted with
+multiplicity.
+
+J·N/2 is the **minimum** of ΔE_max over connected graphs, with the star the unique
+minimiser, verified exhaustively at N = 4, 5, 6 (38, 728, 26704 connected labelled
+graphs). Whether the star remains the unique minimiser at every N is open; the
+minimality is a searched result at N ≤ 6, not a proved one.
+
+The star is also the graph for which E_min occupies **every** Hamming rung k = 1..N−1
+(its E_min multiplet has S_tot = (N−2)/2, whose S_z values span exactly those rungs),
+which is what makes the realiser count 4(N−1). On chain, ring and complete the global
+minimum sits only in the middle rung, so only that rung realises.
+
+Scope, all three fences gated: uniform γ is required (site-dependent γ_l breaks the
+equality while leaving the bound intact); the ferromagnetic extreme is required (XY
+and transverse-field Ising do not saturate); Hermitian jump operators are required or
+the bound itself fails (H = 0 with c = I + iY has spectrum {0, 0, −2±2i}).
+
+Tier 1 derived. Proof `docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`, typed as
+`StarImMaxBoundClaim`, gate `simulations/star_saturation_gate.py` (129 checks).
+The `Im/σ = 1` reading is the Q = 2 (Marrakesh) specialization, not the law.
+
+---
+
+### F148. The imaginary reach is the Hamiltonian spread, on every graph (minted 2026-07-31)
+
+For isotropic Heisenberg on **any** graph, connected or not, with uniform Z-dephasing
+at rate γ,
+
+    **max |Im λ_L| = ΔE_max(H)      exactly,**
+
+so the Liouvillian's oscillatory reach carries no information the Hamiltonian spectrum
+does not already carry, and no topology "saturates" more than another. Two halves.
+
+*Bound.* Write L = K + D with K = −i[H, ·]. Because the jump operators Z_l are
+Hermitian, D is self-adjoint in the Hilbert-Schmidt product and negative semidefinite,
+while K is anti-Hermitian and normal. For an eigenvector v, λ = ⟨v, Lv⟩/‖v‖² and
+⟨v, Dv⟩ is real, so Im λ lies in the convex hull of the finite set spec(K)/i, which
+is the interval [−ΔE_max, ΔE_max].
+This half needs only Hermitian jumps: it survives non-uniform γ_l.
+
+*Attainment.* A fully polarised computational state |ferro⟩ is a Z-product state, and
+for isotropic Heisenberg with J > 0 it is the **maximum** of H: each bond term has
+largest eigenvalue +J/4 on the triplet and |ferro⟩ is triplet on every bond at once, so
+it attains all of them simultaneously at J·B/4. Since H commutes with Σ_l Z_l, an E_min
+eigenvector can always be chosen inside a single Hamming rung; call that rung k* and the
+state |β⟩. Then |β⟩⟨ferro| has definite Hamming weight k*, uniform dephasing acts on it
+as the scalar −2γk*, and
+
+    **λ = −2γk* + i·ΔE_max      exactly.**
+
+This half needs both uniform γ and the polarised extreme.
+
+**k* is not free.** Only a rung containing the global minimum realises. On the star the
+E_min multiplet spans every rung 1..N−1, giving 4(N−1) realisers; on chain, ring and
+complete the minimum sits only in the middle rung (measured: rung [2] at N=4, [2,3] at
+N=5, [3] at N=6 for all three), so there the realiser is essentially unique.
+
+Measured for star, chain, ring and complete at N = 3..6, an asymmetric six-vertex graph
+(|Aut| = 1) and the disconnected K₃ ⊔ K₃ at N = 6, agreeing to the last printed digit
+throughout. It fails where the attainment hypothesis fails: XY chain 1.4398736 against a
+spread of 2.2360680 at N=4, transverse-field Ising 3.7344319 against 4.1883993. Spreads
+compose additively over disconnected components, K₄ ⊔ P₄ giving 3.0000000000 +
+2.3660254038 = 5.3660254038.
+
+Gate `simulations/star_saturation_gate.py`. Sibling F147 is the one graph family whose
+ΔE_max has a closed form and is minimal; this entry is why that minimality, not the
+saturation, is what distinguishes it.
+
 
 ---
 

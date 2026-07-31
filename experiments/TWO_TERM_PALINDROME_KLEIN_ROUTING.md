@@ -157,7 +157,7 @@ states the same axis-equivalence at k = 3 (and k = 4): F87-hardness lives in the
 dephasing letter's index (Z → (0,1), X → (1,0), Y → (1,1)). One disambiguation: the SU(2) here is the discrete
 Clifford / Klein-V₄ acting on the dephasing axis, not the Heisenberg chain's spin-rotation SU(2) (the
 total-S² Casimir), which Z-dephasing breaks and which the Star / Schur-Weyl results use only as a tool
-on H alone (see the clarifying note in [the star confocal limit](STAR_CONFOCAL_LIMIT.md)). Script:
+on H alone (see the note on SU(2) in [the star spread](STAR_CONFOCAL_LIMIT.md)). Script:
 [`simulations/q6_dephase_axis_rotation.py`](../simulations/q6_dephase_axis_rotation.py).
 
 ## What this is, and the tie to the rest

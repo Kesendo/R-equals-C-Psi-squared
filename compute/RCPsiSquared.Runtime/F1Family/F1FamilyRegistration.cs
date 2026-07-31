@@ -61,14 +61,14 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///         the eigenmode-construction machinery is shared with the F4 kernel-dim
 ///         sister bridge above. See <c>docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md</c>.</item>
 ///   <item><see cref="StarImMaxBoundClaim"/> (Tier 1 derived, 2026-05-19):
-///         <c>Im_max(star, N, J) = J·N/2</c> Q-universal saturation surfaced by
-///         the same Q-sweep (24 anchors at γ₀=0.05) plus the SLOW_N8 anchor at
-///         <c>star_N8.json</c>. Closed form via the SU(2)/Schur-Weyl hub-leaf
-///         Casimir factorisation <c>H_star = J·S_0·S_L</c> on the star bipartite
-///         split A = {hub}, B = {N-1 leaves}; maximum-leaf-spin S_L = (N-1)/2
-///         ferromagnetic sector gives the ΔE_max = J·N/2 realised by the
-///         <c>|Ψ_+⟩⟨Ψ_−|</c> eigenmode between the S_tot = N/2 fully-aligned and
-///         the S_tot = (N-2)/2 hub-anti-aligned states. Same proof skeleton as
+///         <c>Im_max(star, N, J) = J·N/2</c> at uniform γ, independent of γ,
+///         surfaced by the same Q-sweep (24 anchors at γ₀=0.05) plus the SLOW_N8
+///         anchor at <c>star_N8.json</c>. Closed form via the SU(2)/Schur-Weyl
+///         hub-leaf Casimir factorisation <c>H_star = J·S_0·S_L</c> on the star
+///         bipartite split A = {hub}, B = {N-1 leaves}; maximum-leaf-spin
+///         S_L = (N-1)/2 gives ΔE_max = J·N/2, realised by the
+///         <c>|β_k⟩⟨ferro|</c> coherences on which uniform dephasing acts as the
+///         scalar -2γk. Same proof skeleton as
 ///         <see cref="RingN4DihedralLockClaim"/> with sublattice sizes (1, N-1)
 ///         instead of (2, 2); the Marrakesh-convention <c>Im/σ = 1 ↔ J = 2γ</c>
 ///         reading is the Q=2 column of the universal <c>Im/σ = Q/2</c> lock.
@@ -211,21 +211,23 @@ public static class F1FamilyRegistration
             })
             .Register<StarImMaxBoundClaim>(b =>
             {
-                // Star Im-max saturation surfaced by the 2026-05-19 Q-sweep extension
+                // Star Im-max closed form surfaced by the 2026-05-19 Q-sweep extension
                 // of the F1 SLOW_N8 + N=9 chain bridge sprint: Im_max(star, N, J) =
-                // J·N/2 Q-universal for any N ≥ 3, derived from the SU(2)/Schur-Weyl
-                // hub-leaf Casimir factorisation H_star = J·S_0·S_L. The maximum-leaf-
-                // spin S_L = (N-1)/2 ferromagnetic sector gives ΔE_max = J·N/2,
-                // realised by the Liouvillian eigenmode between the S_tot = N/2
-                // fully-aligned state and the S_tot = (N-2)/2 hub-anti-aligned state.
-                // Pure-dephasing dissipator only adds real decay so no L-mode can
-                // exceed the H-spread bound. Tier 1 derived; see
+                // J·N/2 at uniform γ, independent of γ, for any N ≥ 3, derived from
+                // the SU(2)/Schur-Weyl hub-leaf Casimir factorisation H_star =
+                // J·S_0·S_L. The maximum-leaf-spin S_L = (N-1)/2 sector gives
+                // ΔE_max = J·N/2, realised by the |β_k⟩⟨ferro| coherences on which
+                // uniform dephasing acts as the scalar -2γk. The upper bound holds
+                // because D is Hilbert-Schmidt self-adjoint (Z_l Hermitian), not
+                // merely because it "adds real decay". J·N/2 is the minimum of
+                // ΔE_max over connected graphs; the saturation itself is common to
+                // every Heisenberg topology. Tier 1 derived; see
                 // PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md.
                 //
                 // Parent edge: F1PalindromeIdentity (Tier 1 derived, strength 5)
                 // serves, same as for the Ring N=4 sister bound above. The two
-                // claims share the same proof skeleton (bipartite split → all-pairs
-                // bonding → Casimir → maximum-S_tot ferromagnet eigenmode).
+                // claims share the same skeleton for the CLOSED FORM (bipartite
+                // split → all-pairs bonding → Casimir).
                 _ = b.Get<F1PalindromeIdentity>();
                 return new StarImMaxBoundClaim();
             });

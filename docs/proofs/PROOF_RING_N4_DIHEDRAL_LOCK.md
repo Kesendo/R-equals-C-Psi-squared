@@ -1,6 +1,6 @@
 # PROOF: Ring N=4 dihedral lock, Im_max(ring, N=4, J) = (3/4)·J·N = 3J
 
-**Status:** Tier 1 derived. The 4-cycle is the bipartite-complete graph K_{2,2}; its isotropic Heisenberg Hamiltonian factors through total sublattice spins via SU(2) Casimir, yielding four distinct levels {−2J, −J³, 0⁷, J⁵}, whose multiplicities sum to 16 = 2⁴, with max gap 3J. The Liouvillian eigenmode realising this gap is the standard transition between the maximally-antialigned (S_A=1, S_B=1, S_tot=0) ground and the maximally-aligned (S_tot=2) ferromagnet, and the Z-dephasing dissipator only adds real decay so the gap survives into Im(λ).
+**Status:** Tier 1 derived. The 4-cycle is the bipartite-complete graph K_{2,2}; its isotropic Heisenberg Hamiltonian factors through total sublattice spins via SU(2) Casimir, yielding four distinct levels {−2J, −J³, 0⁷, J⁵}, whose multiplicities sum to 16 = 2⁴, with max gap 3J. The Liouvillian eigenmode realising this gap is the coherence between the fully polarised state |0000⟩ (the S_z=2 member of the S_tot=2 multiplet, at E = +J) and the (S_A=1, S_B=1, S_tot=0) singlet at E = −2J, which carries definite Hamming weight 2 so that uniform dephasing acts on it as the scalar −4γ: λ = −4γ − 3iJ, residual 1.5e-15.
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Distinct from:** [`PROOF_RING_GAP_DOMINANCE.md`](PROOF_RING_GAP_DOMINANCE.md), the *XY* ring gap-dominance result (max|Im| = 2J = J·ρ, the dihedral lock). Same words "ring N=4 dihedral lock", different Hamiltonian and different result; this proof is the *isotropic-Heisenberg* ring (max|Im| = 3J via the K_{2,2} Casimir gap).
@@ -11,7 +11,7 @@ The 4-cycle is the one ring size that coincides with the bipartite-complete grap
 
     Im_max(ring, N=4, J) = (3/4)·J·N = 3J,   equivalently   Im/σ = 3Q/4,
 
-independently of γ and Q = J/γ. The dissipator is pure dephasing, adding only real decay, so no eigenmode can exceed the Hamiltonian's spread: the bound is saturated, not approached.
+independently of γ and Q = J/γ. Because the jump operators Z_l are Hermitian, the dissipator is self-adjoint in the Hilbert-Schmidt inner product, and no eigenmode can exceed the Hamiltonian's spread: the bound is saturated, not approached.
 
 This is a finite-N exact, Q-universal lock with an exactly rational coefficient, the K_{2,2}-Casimir sibling of the star's point-focus bound Im_max = J·N/2 (3/4 vs 1/2, traced to the bipartite-complete K_{2,2} Casimir gap 3J versus the star's hub-spoke gap, not to bond count alone). (The historical name "dihedral lock" is a stable identifier inherited from the XY sibling; the operative mechanism here is the SU(2) Casimir multiplet structure on K_{2,2}, not the dihedral point group, D₄'s irreps cap at dimension 2 and cannot produce the 3-fold/5-fold degeneracies that set the 3J gap.) What does not carry to larger even rings is the *rational* closed form: they keep a Q-universal lock but at irrational algebraic constants (ring N=6 at 0.7171·J·N = ((5+√13)/12)·J·N, descending toward ln 2), because the bipartite-complete structure is special to N=4. Typed as RingN4DihedralLockClaim.
 
@@ -22,7 +22,7 @@ For the open quantum system on N=4 qubits with
 - Hamiltonian: isotropic Heisenberg H = (J/4) Σ_{(i,j)∈E} (X_i X_j + Y_i Y_j + Z_i Z_j) on the 4-cycle bonds E = {(0,1), (1,2), (2,3), (3,0)};
 - Dissipation: uniform Z-dephasing γ per site;
 
-the Liouvillian L = −i[H, ·] + D[Z_l] satisfies the bit-exact saturation
+the Liouvillian L = −i[H, ·] + D[Z_l] satisfies the saturation
 
     Im_max(ring, N=4, J)  ≡  max_{λ ∈ σ(L)} |Im(λ)|  =  (3/4) · J · N  =  3 · J         (for N=4)
 
@@ -30,7 +30,7 @@ independently of γ and of the corresponding dimensionless ratio Q = J/γ. The e
 
     Im_max / σ  =  3Q/4              with σ = N·γ.
 
-## Empirical anchors (bit-exact at 6 Q-values × γ₀=0.05)
+## Empirical anchors (6 Q-values × γ₀=0.05, machine precision)
 
 Q-sweep on 2026-05-19 (`simulations/f1_q_sweep_anchor.py`, output under `simulations/results/q_sweep_anchor/ring_N4_Q*.json`):
 
@@ -92,7 +92,9 @@ Maximum eigenvalue is +J (the ferromagnetic S_tot = 2 multiplet); minimum is −
 
 ### Section 4. Liouvillian eigenmode realising the bound
 
-The Lindblad Liouvillian L = −i[H, ·] + D where D[ρ] = Σ_l γ_l (Z_l ρ Z_l − ρ) is the pure-dephasing dissipator. For any pair of H-eigenstates |α⟩, |β⟩ with eigenvalues ω_α, ω_β, the rank-1 operator |α⟩⟨β| is an eigenoperator of `−i[H, ·]` with eigenvalue `−i(ω_α − ω_β)` (so Im(λ_L) = −(ω_α − ω_β)). The dissipator D acts diagonally in the joint-popcount basis and is self-adjoint and negative-semidefinite in the operator inner product, so on this rank-1 operator it contributes real decay only. That is a statement about |α⟩⟨β|, not about every eigenmode: on a general eigenmode D mixes these products and does move the frequency. What survives in general is the bound of Section 5.
+The Lindblad Liouvillian L = −i[H, ·] + D where D[ρ] = Σ_l γ_l (Z_l ρ Z_l − ρ) is the pure-dephasing dissipator. For any pair of H-eigenstates |α⟩, |β⟩ with eigenvalues ω_α, ω_β, the rank-1 operator |α⟩⟨β| is an eigenoperator of `−i[H, ·]` with eigenvalue `−i(ω_α − ω_β)` (so Im(λ_L) = −(ω_α − ω_β)). D is self-adjoint and negative-semidefinite in the operator inner product, which is what gives the bound of Section 5.
+
+D acting as a **scalar** on such a rank-1 operator is a further condition, and it is not automatic: D is diagonal in the computational coherence basis, not in the H-eigenbasis, so for general |α⟩, |β⟩ it mixes these products and moves the frequency. The condition is that |α⟩⟨β| carry a definite Hamming weight, and the members below are chosen so that it does (see [PROOF_STAR_OPTICAL_CONFOCAL_SATURATION](PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md) Section 6 for the general form of this step).
 
 In particular, the rank-1 operator |Ψ_+⟩⟨Ψ_−| with
 
@@ -132,7 +134,7 @@ For odd N (3-cycle, 5-cycle, ...) the ring is not even bipartite. So the K_{2,2}
 
 ## The N → ∞ limit: c_∞ = ln 2 (resolved 2026-06-04)
 
-Although the per-N value needs Bethe ansatz, the LIMIT is closed. Section 5 gives the bound Im_max(L) ≤ ΔE_max(H) at every N (the dephasing adds only real decay); what turns the bound into the equality Im_max(L) = ΔE_max(H) = E_max − E_min, and so reduces the lock to the Hamiltonian alone, is saturation, which Section 4 proves at N = 4 and which is measured at N = 6 (full Liouvillian, `ring_dihedral_lock_limit.py --slow` STAGE 1: max|Im| = 4.302776 = ΔE_max at γ = 0.05 and at γ = 0.5) and at N = 8 (the Q = 2 anchor Im/σ = 1.4128 = 0.7064·Q of [F1_DISSIPATION_GAP_PATTERN](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)). On that footing the dimensionless constant is
+Although the per-N value needs Bethe ansatz, the LIMIT is closed. Section 5 gives the bound Im_max(L) ≤ ΔE_max(H) at every N (the jump operators are Hermitian, so D is self-adjoint in the operator inner product); what turns the bound into the equality Im_max(L) = ΔE_max(H) = E_max − E_min, and so reduces the lock to the Hamiltonian alone, is saturation, which Section 4 proves at N = 4 and which is measured at N = 6 (full Liouvillian, `ring_dihedral_lock_limit.py --slow` STAGE 1: max|Im| = 4.302776 = ΔE_max at γ = 0.05 and at γ = 0.5) and at N = 8 (the Q = 2 anchor Im/σ = 1.4128 = 0.7064·Q of [F1_DISSIPATION_GAP_PATTERN](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)). On that footing the dimensionless constant is
 
     c_N  ≡  Im_max / (J·N)  =  (E_max − E_min) / (J·N)  =  1/4 − E₀(N)/(J·N),
 

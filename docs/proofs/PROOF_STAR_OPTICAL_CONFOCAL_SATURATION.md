@@ -1,18 +1,20 @@
-# PROOF: Star topology saturates Im_max(star, N, J) = J·N/2 universally
+# PROOF: Im_max(star, N, J) = J·N/2 at uniform γ
 
-**Status:** Tier 1 derived. The star Hamiltonian factors through a hub-leaves Casimir structure on the bipartite split A = {hub}, B = {N−1 leaves}, identical in shape to the Ring N=4 K_{2,2} derivation but with the sublattice sizes 1 and N−1 instead of 2 and 2. The maximum H eigenvalue gap is J·N/2, realised by the Liouvillian eigenmode between the maximally-ferromagnetic S_tot = N/2 state and the S_tot = (N−2)/2 state at the same maximum leaf-spin S_L = (N−1)/2.
-**Date:** 2026-05-19
+**Status:** Tier 1 derived. The star Hamiltonian factors through a hub-leaves Casimir structure on the bipartite split A = {hub}, B = {N−1 leaves}, identical in shape to the Ring N=4 K_{2,2} derivation but with the sublattice sizes 1 and N−1 instead of 2 and 2. The maximum H eigenvalue gap is J·N/2, and it is realised in the Liouvillian spectrum by the coherences between a fully polarised computational state and the E_min states at each Hamming rung.
+**Date:** 2026-05-19 (Sections 1 to 3 and the anchors), 2026-07-31 (Sections 4 to 6, the scope fences and the minimiser search)
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
 ## Abstract
 
-The star (one hub, N−1 spokes) is the point-focus member of the optical-cavity family, and it saturates the Liouvillian's imaginary-spectrum bound exactly. Under isotropic Heisenberg coupling on the star bonds with uniform Z-dephasing,
+The star (one hub, N−1 spokes) has a closed-form Hamiltonian spectral spread, and among connected graphs on N ≤ 6 sites it is the unique smallest. Under isotropic Heisenberg coupling on the star bonds with uniform Z-dephasing,
 
     Im_max(star, N, J) ≡ max_{λ ∈ σ(L)} |Im(λ)| = J·N/2,   equivalently   Im_max/σ = Q/2  (σ = Nγ, Q = J/γ),
 
-independently of γ and of the dephasing-to-coupling ratio. The mechanism is geometric: every bond touches the hub, so the Hamiltonian factors through the hub-leaves total spins, H = J·S_hub·S_leaves, and its largest energy gap, J·N/2, is reached when all leaves align ferromagnetically (S_L = (N−1)/2). The Liouvillian eigenmode between the aligned and anti-aligned hub states realizes exactly that gap, and pure Z-dephasing adds only real decay, never imaginary part, so the gap survives untouched into the spectrum.
+independently of γ and of the dephasing-to-coupling ratio. The mechanism is geometric: every bond touches the hub, so the Hamiltonian factors through the hub-leaves total spins, H = J·S_hub·S_leaves, and its largest energy gap, J·N/2, is reached when all leaves align ferromagnetically (S_L = (N−1)/2).
 
-In the optical-cavity reading the star converts the entire external illumination dose into coherent oscillation, the maximally resonant configuration; its sibling the N=4 ring (K_{2,2}) locks at the stronger 3J·N/4, from its bipartite-complete Casimir gap rather than from bond count alone. The bound is verified bit-exact at 25 distinct anchors across N ∈ {3,4,5,6,8} and Q ∈ {0.5,…,2.5}, over 29 runs (four are Python cross-checks of points the Q-sweep already covers), and typed as StarImMaxBoundClaim.
+Three statements have to be kept apart. (i) ΔE_max(H_star) = J·N/2 is star-specific and exact at every N. (ii) The saturation `max|Im λ_L| = ΔE_max(H)` is **not** star-specific: it holds for every isotropic Heisenberg graph, connected or not, because the realising modes need only that a fully polarised state is an extreme of H, which Section 5b derives in general. (iii) What is star-specific besides the closed form is that J·N/2 is the **minimum** over connected graphs, searched exhaustively at N ≤ 6 with the star as the unique minimiser.
+
+The bound is verified at 25 distinct anchors across N ∈ {3,4,5,6,8} and Q ∈ {0.5,…,2.5}, over 29 runs (four are Python re-runs of points the Q-sweep already covers), agreeing to a worst relative deviation of 1.98e-14, and typed as StarImMaxBoundClaim. The sibling N=4 ring (K_{2,2}) locks at the larger 3J·N/4, from its bipartite-complete Casimir gap rather than from bond count alone.
 
 ## Statement
 
@@ -21,7 +23,7 @@ For the open quantum system on N ≥ 3 qubits with
 - Hamiltonian: isotropic Heisenberg H = (J/4) Σ_{(i,j)∈E} (X_i X_j + Y_i Y_j + Z_i Z_j) on the star bonds E = {(0, k) : k = 1, ..., N−1} (hub site 0, leaves k);
 - Dissipation: uniform Z-dephasing γ per site;
 
-the Liouvillian L = −i[H, ·] + D[Z_l] satisfies the bit-exact saturation
+the Liouvillian L = −i[H, ·] + D[Z_l] satisfies
 
     Im_max(star, N, J)  ≡  max_{λ ∈ σ(L)} |Im(λ)|  =  J · N / 2
 
@@ -31,7 +33,7 @@ independently of γ and of the corresponding dimensionless ratio Q = J/γ. The e
 
 ## Empirical anchors
 
-**Q-sweep at γ₀ = 0.05 (24 anchors bit-exact, 2026-05-19, `simulations/f1_q_sweep_anchor.py`):**
+**Q-sweep at γ₀ = 0.05 (24 anchors, 2026-05-19, `simulations/f1_q_sweep_anchor.py`):**
 
 | N \ Q | 0.5 | 1.0 | 1.5 | √3 | 2.0 | 2.5 |
 |---|---:|---:|---:|---:|---:|---:|
@@ -41,13 +43,15 @@ independently of γ and of the corresponding dimensionless ratio Q = J/γ. The e
 | **5** | 0.2500 | 0.5000 | 0.7500 | 0.8660 | 1.0000 | 1.2500 |
 | **6** | 0.2500 | 0.5000 | 0.7500 | 0.8660 | 1.0000 | 1.2500 |
 
-All 24 anchors match Im/σ = Q/2 to machine precision. Output JSON files: `simulations/results/q_sweep_anchor/star_N{3..6}_Q{0.5..2.5}.json`.
+All 24 anchors match Im/σ = Q/2 to machine precision. Output JSON files: `simulations/results/q_sweep_anchor/star_N{3..6}_Q{0.5..2.5}.json`. Five of the six Q values are canonical anchors from [`docs/Q_REGIME_ANCHORS.md`](../Q_REGIME_ANCHORS.md); Q = 0.5 is a below-onset probe that is not in that table.
 
-**N=8 Q=2 anchor (Marrakesh convention γ=0.5, J=1):** Im_max = 4.000000000000002, σ = N·γ = 4, Im/σ = 1.0 bit-exact (one bit at machine precision). From the SLOW_N8 sweep (`star_N8.json`, commit 89f725e). Equivalent statement: Im_max = J·N/2 = 4 at J=1, N=8.
+**N=8 Q=2 anchor (Marrakesh convention γ=0.5, J=1):** Im_max = 4.000000000000002, σ = N·γ = 4, so Im/σ = 1.0 to machine precision. From the SLOW_N8 sweep (`star_N8.json`, commit 89f725e). Equivalent statement: Im_max = J·N/2 = 4 at J=1, N=8.
 
-**Python redundant cross-checks at Q=2 (γ=0.5, J=1) for N=3..6:** `simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json` reproduce the Q=2 column of the Q-sweep table above (Im/σ = 1.0 bit-exact) via a different code path (`numpy.linalg.eigvals` on the full Liouvillian rather than the framework `lindbladian_z_dephasing` helper). 4 additional bit-exact anchors, useful as an independent-implementation cross-check.
+**Python re-runs at Q=2 (γ=0.5, J=1) for N=3..6:** `simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json` reproduce the Q=2 column of the Q-sweep table above. These are re-runs of the same code, not an independent implementation: `f1_q_sweep_anchor.py` imports its `run` from `f1_topology_heisenberg_small_n_anchor.py`, which builds the Liouvillian with the framework helper `framework.lindblad.lindbladian_z_dephasing`. Both paths therefore call the same function, so these four runs confirm reproducibility, not cross-implementation agreement.
 
-29 total bit-exact anchors across N ∈ {3, 4, 5, 6, 8} and Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}: 24 Q-sweep + 1 SLOW_N8 + 4 Python cross-checks (the Python anchors overlap with the Q-sweep at Q=2, so the 24 + 4 are 4 redundant verifications, not 28 independent points).
+25 distinct (N, Q) anchors across N ∈ {3, 4, 5, 6, 8} and Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}, over 29 runs: 24 Q-sweep + 1 SLOW_N8 + 4 Python re-runs of Q=2 points the sweep already covers.
+
+**Precision.** No stored anchor equals J·N/2 exactly in floating point, so these agreements are machine-precision, not bit-exact. The worst relative deviation across all 29 stored runs is **1.98e-14** (largest at N=6, where the Liouvillian is 4096 × 4096).
 
 ## Proof
 
@@ -72,9 +76,9 @@ The hub is a single spin-1/2 site, so S_0 = 1/2 always and S²_0 = 3/4. The leaf
 - integer values 0, 1, 2, ..., (N−1)/2 when N−1 is even (i.e. N odd);
 - half-integer values 1/2, 3/2, ..., (N−1)/2 when N−1 is odd (i.e. N even).
 
-In both cases the maximum is S_L,max = (N−1)/2 (the fully-aligned ferromagnetic leaf state). Coupling the spin-1/2 hub to S_L gives two possible totals: S_tot = S_L + 1/2 (hub aligned with leaves) or S_tot = S_L − 1/2 (hub anti-aligned, provided S_L ≥ 1/2; the S_L = 0 sector only has S_tot = 1/2).
+In both cases the maximum is S_L,max = (N−1)/2 (the fully-aligned ferromagnetic leaf state). Coupling the spin-1/2 hub to S_L gives two possible totals: S_tot = S_L + 1/2 (hub aligned with leaves) or S_tot = S_L − 1/2 (hub anti-aligned), the second requiring S_L ≥ 1/2.
 
-For each fixed S_L sector, H_star has exactly two eigenvalues:
+For each fixed S_L ≥ 1/2 sector, H_star has exactly two eigenvalues:
 
 | S_tot         | E = (J/2)·(S_tot(S_tot+1) − 3/4 − S_L(S_L+1))    |
 |---|---|
@@ -85,6 +89,8 @@ The energy gap within the fixed-S_L sector is
 
     ΔE(S_L)  =  E(S_L+1/2) − E(S_L−1/2)  =  J · (S_L + 1/2).
 
+The S_L = 0 sector, which exists whenever N is odd, is the exception: it admits only S_tot = 1/2 and so carries a single level, E = 0, with no gap defined. It is not the maximum and does not enter Section 3. (The measured star spectra confirm this: at N = 3, 5, 7 the value E = −J/2 that a two-levels-in-every-sector reading would predict is absent.)
+
 ### Section 3. Maximum H eigenvalue gap
 
 The largest gap occurs at maximum S_L = (N−1)/2 (all N−1 leaves fully aligned ferromagnetically):
@@ -93,34 +99,74 @@ The largest gap occurs at maximum S_L = (N−1)/2 (all N−1 leaves fully aligne
 
 The maximally-aligned state is the ferromagnetic eigenstate with S_tot = N/2 (energy +(J/2)·(N−1)/2 = +J·(N−1)/4); the anti-aligned state at the same S_L is S_tot = (N−2)/2 (energy −J·(N+1)/4). Their gap is J·N/2 exactly.
 
-### Section 4. Liouvillian eigenmode realising the bound
+### Section 4. No L-mode exceeds the bound
 
-Let |Ψ_+⟩ and |Ψ_−⟩ denote H-eigenstates with
+Write L = K + D with K = −i[H, ·] and D[ρ] = Σ_l γ_l (Z_l ρ Z_l − ρ), both as superoperators on the Hilbert-Schmidt space of operators.
 
-    |Ψ_+⟩  :  S_L = (N−1)/2, S_tot = N/2, energy +J·(N−1)/4
-    |Ψ_−⟩  :  S_L = (N−1)/2, S_tot = (N−2)/2, energy −J·(N+1)/4.
+Because each jump operator Z_l is Hermitian, D is **self-adjoint** with respect to the Hilbert-Schmidt inner product, and it is negative semidefinite. K is anti-Hermitian and normal, with spectrum {−i(ω_α − ω_β) : ω_α, ω_β ∈ σ(H)}.
 
-The rank-1 operator |Ψ_+⟩⟨Ψ_−| is an eigenoperator of `−i[H, ·]` with eigenvalue `−i(E_+ − E_−) = −i·J·N/2`, hence Im(λ_L) = J·N/2.
+Let v be an eigenvector of L with eigenvalue λ. Then λ = ⟨v, Lv⟩/‖v‖², and since ⟨v, Dv⟩ is real,
 
-The Lindblad dissipator D[ρ] = Σ_l γ_l (Z_l ρ Z_l − ρ) acts in the operator inner product as a hermitian-semi-definite operator: it contributes only real (negative) decay rates to λ_L, never imaginary parts. Concretely, in the Z-popcount basis the dissipator is diagonal with eigenvalues that are real linear combinations of γ_l. Hence the L eigenvalue at the |Ψ_+⟩⟨Ψ_−| mode is
+    Im(λ)  =  ⟨v, Kv⟩ / (i·‖v‖²)
 
-    λ_L(|Ψ_+⟩⟨Ψ_−|)  =  −γ_decay  −  i · J · N / 2
-
-with γ_decay real and ≥ 0. The imaginary part is exactly J·N/2, matching the empirical Im_max.
-
-### Section 5. No L-mode exceeds the bound
-
-Every Liouvillian eigenoperator with non-zero imaginary part decomposes in the H-eigenbasis as a linear combination of rank-1 products |α⟩⟨β| with H-eigenstates α, β. The imaginary part of L's eigenvalue on |α⟩⟨β| is exactly ω_α − ω_β (mod sign). Therefore
+which lies in the convex hull of spec(K)/i = {ω_β − ω_α}, i.e. in [−ΔE_max, +ΔE_max]. Hence
 
     max |Im(λ_L)|  ≤  max{|ω_α − ω_β| : ω_α, ω_β ∈ σ(H_star)}  =  ΔE_max(H_star)  =  J · N / 2.
 
-Combined with the realising mode in Section 4, the bound is achieved exactly:
+This is a field-of-values argument and it holds for any γ_l ≥ 0, uniform or not.
+
+**The hypothesis that carries it is the Hermiticity of the jump operators**, not the informal statement that the dissipator "only adds real decay". The informal version is false. Counterexample, verified in the gate: one qubit, H = 0 (so ΔE_max = 0), single jump operator c = I + iY. The generator is trace preserving, unital, has all Re λ ≤ 0 and no Hamiltonian part whatsoever, yet its spectrum is {0, 0, −2+2i, −2−2i}, so max|Im λ| = 2 > 0 = ΔE_max. What that dissipator lacks is self-adjointness: ‖D − D†‖ = 5.6569.
+
+### Section 5. Liouvillian eigenmodes realising the bound
+
+Equality in Section 4 forces v into the extremal eigenspace of K **and** forces v to be an eigenvector of D. That is a joint condition, and it is not automatic: the extremal H-coherence block is not D-invariant. A generic rank-1 product |Ψ_+⟩⟨Ψ_−| between the two extremal multiplets of Section 3 is therefore **not** an L-eigenoperator; the gate measures worst residuals of 0.94, 1.15 and 1.20 at N = 3, 4, 5 over all such products.
+
+The realisers are a specific sub-family, and what selects them is the Z-eigenbasis, not the Casimir structure. Let
+
+    |ferro⟩  :  a fully polarised computational state, |0…0⟩ or |1…1⟩
+    |β_k⟩    :  the E_min eigenstate in the Hamming-weight-k sector, k = 1, …, N−1.
+
+Two facts make this well posed. First, |ferro⟩ is the H **maximum**: each bond term J·S_i·S_j has largest eigenvalue +J/4 on the triplet, and |ferro⟩ is triplet on every bond simultaneously, so it attains all of them at once, at energy J·B/4 = J(N−1)/4 for the star's B = N−1 bonds. (With the convention J > 0 the fully polarised state is the top of the spectrum, not the ground state.) Second, |β_k⟩ exists at E_min for **every** k in 1..N−1: the E_min multiplet has S_tot = (N−2)/2 at S_L = (N−1)/2, and its S_z values run over −(N−2)/2 … +(N−2)/2, which relative to |0…0⟩ is exactly the Hamming rungs 1 … N−1. This is a star-specific fact and it is what fixes the mode count below; on the chain, ring and complete graph the global minimum sits only in the middle rung, so only that rung realises.
+
+|ferro⟩ is a Z-product state, so Z_l|ferro⟩ = ±|ferro⟩ for every l, and the weight-k sector is an eigenspace of Σ_l Z_l with eigenvalue N − 2k. Under **uniform** γ the dissipator therefore acts on |β_k⟩⟨ferro| as the scalar
+
+    D[ |β_k⟩⟨ferro| ]  =  γ·( (N − 2k) − N )·|β_k⟩⟨ferro|  =  −2γk · |β_k⟩⟨ferro|
+
+and since |β_k⟩ sits at E_min while |ferro⟩ sits at E_max,
+
+    L |β_k⟩⟨ferro|  =  ( −2γk  +  i · J·N/2 ) · |β_k⟩⟨ferro|
+
+exactly. Combined with Section 4, the bound is achieved:
 
     Im_max(star, N, J)  =  J · N / 2.
 
-The argument holds under uniform γ and equally under non-uniform per-site γ_l, as long as the dissipator is pure-dephasing (Z_l jump operators only): the L_H spectral spread is set entirely by H, and the dissipator dresses each eigenmode with real decay.
+Counting: two polarised extremes × (N−1) rungs × two signs of Im gives **4(N−1)** eigenvalues at |Im| = J·N/2 **counted with multiplicity**, measured as 8, 12, 16, 20 at N = 3, 4, 5, 6. The distinct values number 2(N−1), each of multiplicity 2.
 
-### Section 6. Q-universality
+**Uniform γ is required here.** Under site-dependent γ_l the dissipator acts on the weight-1 block as diag(−2γ_l) rather than as a scalar, no longer commutes with the one-magnon Hamiltonian, and the saturation fails. Measured (star, J = 1):
+
+| N | γ profile | max\|Im\| | J·N/2 |
+|---|---|---:|---:|
+| 3 | (2.0, 0.5, 0.5) | 1.032100016 | 1.5 |
+| 4 | (2.0, 0.5, 0.5, 0.5) | 1.592689809 | 2.0 |
+| 4 | (0.1, 0.2, 0.3, 0.4) | 1.981222484 | 2.0 |
+| 5 | (0.11, 0.29, 0.47, 0.65, 0.83) | 2.440907393 | 2.5 |
+
+Always strictly below, never equal. The Section 4 bound survives non-uniform γ; the Section 5 saturation does not.
+
+### Section 6. What the saturation is, and is not, a property of
+
+The equality `max|Im(λ_L)| = ΔE_max(H)` is **not** special to the star, and Sections 4 and 5 already prove it in general. Neither used the star geometry. Restating the two steps without it:
+
+- **Bound.** Section 4 used only that the jump operators are Hermitian. Any graph, any γ_l ≥ 0.
+- **Attainment.** Section 5 needed |ferro⟩ to be an extreme of H, that it be a Z-product state, and that the opposite extreme lie in a single Hamming rung. For isotropic Heisenberg on **any** graph: |ferro⟩ attains the maximum +J/4 of every bond term simultaneously, so it is the global maximum at J·B/4; H commutes with Σ_l Z_l, so an E_min eigenvector may always be chosen inside one rung k; and then |β⟩⟨ferro| has definite Hamming weight k and the dissipator acts on it as the scalar −2γk.
+
+So `max|Im λ_L| = ΔE_max(H)` for isotropic Heisenberg on any graph under uniform dephasing. Note the difference from the star case: in general only the rung containing the global minimum realises, whereas for the star every rung 1..N−1 does. Measured for chain, ring and complete at N = 3..6, an asymmetric six-vertex graph (|Aut| = 1) and a disconnected K₃ ⊔ K₃ at N = 6, agreeing to the last printed digit in every case.
+
+What is star-specific is the **value**: ΔE_max(H_star) = J·N/2, and by exhaustive search the star is the unique minimiser of ΔE_max at N = 4, 5, 6 (38, 728 and 26704 connected labelled graphs searched; minimum exactly J·N/2; minimisers exactly the N stars). That minimality is searched, not proved, and is open past N = 6.
+
+The hypothesis really in play is the polarised extreme, not "dephasing plus any H". Under the same uniform dephasing the XY chain does not saturate (max|Im| = 1.4398736 against spread 2.2360680 at N=4) and neither does the transverse-field Ising chain (3.7344319 against 4.1883993 at N=4). Whether the polarised extreme is also *necessary* is open.
+
+### Section 7. The dimensionless form
 
 The formula Im_max = J·N/2 depends on J but not on γ. Translating to the dimensionless ratio Im/σ where σ = N·γ:
 
@@ -128,9 +174,11 @@ The formula Im_max = J·N/2 depends on J but not on γ. Translating to the dimen
 
 This is the Q-universal lock observed in the 24-anchor Q-sweep table.
 
-## Why star is the universal-saturator topology
+## Which topologies admit the elementary Casimir derivation
 
-The same argument applies to any topology where the Heisenberg Hamiltonian factors through a single total-sublattice-spin bilinear `H = J · S_A · S_B`. This requires:
+This section is about which graphs give a *closed form* for ΔE_max by the argument of Sections 1 to 3. It is not about which graphs saturate: by Section 6, all of them do.
+
+The Casimir derivation applies to any topology where the Heisenberg Hamiltonian factors through a single total-sublattice-spin bilinear `H = J · S_A · S_B`. This requires:
 
 1. Bipartite splitting: sites partition into A ⊔ B with no internal bonds (no A-A or B-B edges).
 2. All-pairs bonding: every site in A is bonded to every site in B (bipartite-complete).
@@ -142,12 +190,15 @@ Two cases satisfy both:
 
 For longer cycles the bipartite-complete condition fails (the 6-cycle is bipartite but has only 6 bonds versus K_{3,3}'s 9; analogously for higher even cycles). For odd-N rings the bipartite condition itself fails. So star and ring N=4 are the only two topologies in the standard family that admit the elementary Casimir derivation.
 
-Other bipartite-complete graphs (K_{2,3}, K_{3,3}, K_{2,N−2}, ...) would also saturate analogous N-specific bounds; these are open for future characterisation.
+Other bipartite-complete graphs (K_{2,3}, K_{3,3}, K_{2,N−2}, ...) admit analogous N-specific closed forms; these are open for future characterisation.
+
+Among all connected graphs, the star's closed form is the **minimum**. Exhaustive search over every connected graph on N vertices (38 at N=4, 728 at N=5, 26704 at N=6) gives a minimum ΔE_max of exactly J·N/2 in each case, attained by the N stars and by nothing else. Whether the star remains the unique minimiser at every N is open.
 
 ## Verification
 
+- The gate: [`simulations/star_saturation_gate.py`](../../simulations/star_saturation_gate.py), 129 checks covering the Casimir closed form (N=3..7), the star law across (J, γ), the universality of the saturation across topologies, the realising modes and their count, all three scope fences (non-uniform γ, non-ferromagnetic H, non-Hermitian jumps), the minimiser search, the additive composition of disconnected components, and the stored-anchor precision.
 - Python anchors at 24 (N, Q) anchors × γ₀=0.05: [`simulations/f1_q_sweep_anchor.py`](../../simulations/f1_q_sweep_anchor.py) → `simulations/results/q_sweep_anchor/star_N{3..6}_Q{0.5..2.5}.json`.
-- C# N=8 anchor (Marrakesh convention): [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs`](../../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs) → `star_N8.json` (Im/σ = 1.0 bit-exact under the SLOW_N8 trait).
+- C# N=8 anchor (Marrakesh convention): [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs`](../../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs) → `star_N8.json`. That test asserts the F1 palindromic-pairing identity; `MaxImag` is one of the statistics it logs, not something it asserts, so it anchors this claim as recorded data rather than as a test.
 - Typed claim: [`compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs) (Tier 1 derived) with `Predict(N, J)` returning J·N/2 and `PredictImOverSigma(Q)` returning Q/2.
 
 ## Cross-references

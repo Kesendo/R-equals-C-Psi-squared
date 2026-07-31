@@ -127,14 +127,15 @@ public sealed class RingN4DihedralLockClaim : Claim
     /// <see cref="StarImMaxBoundClaim.EmpiricalAnchors"/>). Observed values are taken
     /// from the JSON <c>MaxImag</c> field of the data files listed in
     /// <see cref="AnchorDataFiles"/>, divided by <c>σ = N · γ₀ = 4 · 0.05 = 0.2</c>;
-    /// they match the prediction <c>(3/4)·Q</c> bit-exactly so the
-    /// <c>ObservedImOverSigma</c> column is just the predicted value (the rel-error
-    /// column carries the actual machine-precision deviation).</summary>
+    /// they match the prediction <c>(3/4)·Q</c> to machine precision, so the
+    /// <c>ObservedImOverSigma</c> column is just the predicted value and the
+    /// rel-error column is the one that carries the measurement.</summary>
     public IReadOnlyList<(string QLabel, double Q, double PredictedImOverSigma, double ObservedImOverSigma, double RelError)> EmpiricalAnchors { get; }
         = BuildEmpiricalAnchors();
 
     // Per-anchor relative errors observed in the Q-sweep at γ₀=0.05 (one per Q in
-    // CasimirBoundClaimHelpers.QSweepAnchorLabels, in order). All bit-exact.
+    // CasimirBoundClaimHelpers.QSweepAnchorLabels, in order). All at machine precision;
+    // none is exactly zero, so "bit-exact" would be the wrong word for them.
     private static readonly double[] _relErrors =
         new[] { 1.5e-16, 1.0e-15, 7.9e-16, 5.1e-16, 3.3e-15, 5.1e-15 };
 
@@ -180,11 +181,11 @@ public sealed class RingN4DihedralLockClaim : Claim
                 summary: "The bipartite-complete coincidence C_N = K_{N/2,N/2} only holds for N=4. For N=6 the 6-cycle has 6 bonds versus K_{3,3}'s 9 (bipartite but not bipartite-complete); the Casimir factorisation fails. Ring N=6 still locks Q-universally at 0.717129·J·N, and that constant is elementary, c_6 = (5+√13)/12 from factoring the S_z=0 characteristic polynomial over ℚ; ring N=8 at 0.7064·J·N at Q=2, the largest root of 512c³ − 640c² + 232c − 25. The sequence c_4 = 0.75, c_6 = 0.7171, c_8 = 0.7064 decreases monotonically past 1/√2 ≈ 0.7071 between N=6 and N=8 and continues below it: the limit is c_∞ = ln 2 = 0.693147, from the Hulthén per-bond ground energy, NOT 1/√2. Bethe ansatz is what the LIMIT needs, not the individual N.");
 
             yield return new InspectableNode("relationship to star saturation",
-                summary: "Star topology saturates Im_max(star, N, J) = J·N/2 via a parallel hub-spoke Casimir construction (STAR_CONFOCAL_LIMIT.md). Ring N=4 carries 1.5× more imaginary spread than star N=4 (3/4 vs 1/2 prefactor). The reason is the bipartite-complete K_{2,2} Casimir gap of 3J, not the bond count: K_{2,2} has 4 bonds against the star's 3, but scaling the star's 2J by 4/3 gives 2.67J, not 3J. Both bounds are Q-universal, both via SU(2)-invariance + pure-dephasing real-decay-only.");
+                summary: "The star has Im_max(star, N, J) = J·N/2 via a parallel hub-spoke Casimir construction (STAR_CONFOCAL_LIMIT.md). Ring N=4 carries 1.5× more imaginary spread than star N=4 (3/4 vs 1/2 prefactor). The reason is the bipartite-complete K_{2,2} Casimir gap of 3J, not the bond count: K_{2,2} has 4 bonds against the star's 3, but scaling the star's 2J by 4/3 gives 2.67J, not 3J. Both closed forms are γ-independent at uniform γ; the shared Casimir skeleton yields the GAP VALUE, while the saturation max|Im λ| = ΔE_max(H) needs only Hermitian jump operators plus a fully polarised H extreme and holds on every Heisenberg topology.");
 
             foreach (var (label, _, pred, obs, rel) in EmpiricalAnchors)
                 yield return new InspectableNode($"Q-sweep anchor: {label}",
-                    summary: $"predicted Im/σ = {pred:F6}, observed Im/σ = {obs:F6}, relative error = {rel:E1} (bit-exact)");
+                    summary: $"predicted Im/σ = {pred:F6}, observed Im/σ = {obs:F6}, relative error = {rel:E1} (machine precision, non-zero)");
 
             yield return new InspectableNode("anchor data files",
                 summary: string.Join("; ", AnchorDataFiles));

@@ -3,7 +3,9 @@
 Extends `f1_chain_heisenberg_small_n_anchor.py` to 3 topologies at N=3..6,
 giving us cross-topology + cross-N data for:
   - The `gap × N² ≈ 2.20` chain-Heisenberg scaling discovered 2026-05-19
-  - The "Im/σ = 1 for single-hub geometries" pattern (N=3 chain, all-N star)
+  - The "Im/σ = 1 for single-hub geometries" pattern (N=3 chain, all-N star).
+    That reading is the J = 2γ specialization: the law is Im_max = J·N/2 at
+    uniform γ (see experiments/STAR_CONFOCAL_LIMIT.md).
   - MinReal = −2σ universal (5+ datapoints per topology)
   - Kernel dim = N+1 for connected, Π_c(|c|+1) for disconnected (Tier1Candidate)
 

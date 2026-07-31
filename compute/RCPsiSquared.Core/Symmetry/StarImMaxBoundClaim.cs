@@ -3,40 +3,67 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>Star topology saturates the SU(2)/Schur-Weyl imaginary spectral spread
-/// of the isotropic Heisenberg + Z-dephasing Liouvillian at every (J, γ):
+/// <summary>The isotropic Heisenberg star under UNIFORM Z-dephasing has the
+/// imaginary spectral spread
 ///
 /// <code>
-///     Im_max(star, N, J)  =  J · N / 2          for all N ≥ 3, J ≥ 0.
+///     Im_max(star, N, J)  =  J · N / 2          for all N ≥ 3, J ≥ 0,
 /// </code>
 ///
-/// The bound is Q-universal: independent of γ on any constant-Q ray.
-/// Equivalently <c>Im/σ = Q/2</c> with <c>σ = N·γ</c>.
+/// independent of γ. Equivalently <c>Im/σ = Q/2</c> with <c>σ = N·γ</c>.
+///
+/// <para><b>What is star-specific and what is not.</b> Three statements have to be
+/// kept apart. (1) <c>ΔE_max(H_star) = J·N/2</c> is star-specific and exact.
+/// (2) The SATURATION <c>max|Im λ_L| = ΔE_max(H)</c> is NOT star-specific: it
+/// holds for every isotropic Heisenberg graph (chain, ring, complete, an
+/// asymmetric |Aut|=1 graph, disconnected), so saturating carries no star
+/// information; Section 6 of the proof derives it in general.
+/// (3) J·N/2 is the MINIMUM of ΔE_max over connected graphs, with the star the
+/// unique minimiser, verified exhaustively at N = 4, 5, 6.</para>
 ///
 /// <para><b>Why this works.</b> The star Hamiltonian factors through the total
-/// leaf spin <c>S_L = Σ_{k=1}^{N-1} S_k</c>:
-/// <c>H_star = J · S_0 · S_L</c>. Its Casimir spectrum within each fixed-S_L
-/// sector is two-fold (S_tot = S_L ± 1/2), with energy gap <c>ΔE(S_L) =
-/// J·(S_L + 1/2)</c>. Maximum at S_L = (N-1)/2 (all leaves ferromagnetically
-/// aligned): <c>ΔE_max = J·N/2</c>. The Liouvillian eigenmode <c>|Ψ_+⟩⟨Ψ_−|</c>
-/// between the S_tot = N/2 ferromagnet and the S_tot = (N-2)/2 hub-anti-aligned
-/// state realises Im(λ) = J·N/2 exactly. Pure-dephasing dissipator only adds
-/// real decay so no L-mode can exceed the H-spread bound. See
-/// <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c> for the full
-/// derivation.</para>
+/// leaf spin <c>S_L = Σ_{k=1}^{N-1} S_k</c>: <c>H_star = J · S_0 · S_L</c>. Its
+/// Casimir spectrum within each fixed-S_L ≥ 1/2 sector is two-fold
+/// (S_tot = S_L ± 1/2), with energy gap <c>ΔE(S_L) = J·(S_L + 1/2)</c>. Maximum
+/// at S_L = (N-1)/2: <c>ΔE_max = J·N/2</c>.
 ///
-/// <para><b>Empirical anchors (bit-exact at 25 distinct (N, Q) combinations, over 29
-/// runs: the fourth bullet re-measures four points the Q-sweep already covers).</b></para>
+/// The upper bound is a field-of-values argument: D is self-adjoint in the
+/// Hilbert-Schmidt product because the jump operators Z_l are HERMITIAN, so
+/// <c>Im λ = ⟨v,Kv⟩/i</c> lies in the convex hull of the spectrum of
+/// <c>K = -i[H,·]</c>. Hermiticity is the load-bearing hypothesis, not the
+/// informal "adds only real decay": for H = 0 and the non-Hermitian jump
+/// c = I + iY the spectrum is {0, 0, -2±2i}, breaking the bound outright.
+///
+/// The realisers are <c>|β_k⟩⟨ferro|</c>, where |ferro⟩ is a fully polarised
+/// computational state and |β_k⟩ the E_min state at Hamming rung k = 1..N-1;
+/// uniform dephasing acts on these as the SCALAR -2γk, giving
+/// <c>λ = -2γk + i·J·N/2</c> (the conjugate mode |ferro⟩⟨β_k| carries -i), giving
+/// 2(N-1) distinct eigenvalues of multiplicity 2, i.e. 4(N-1) with multiplicity. A generic
+/// <c>|Ψ_+⟩⟨Ψ_−|</c> between the extremal multiplets is NOT an eigenoperator
+/// (worst residual 0.94/1.15/1.20 at N=3/4/5); the extremal block is not
+/// D-invariant. See <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>.</para>
+///
+/// <para><b>Scope.</b> Uniform γ is required: with site-dependent γ_l the
+/// saturation fails (N=4, γ=(2.0,0.5,0.5,0.5) gives 1.5927 against 2.0), though
+/// the upper bound survives. The fully polarised extreme is required: XY and
+/// transverse-field Ising chains do not saturate under the same dephasing.</para>
+///
+/// <para><b>Empirical anchors: 25 distinct (N, Q) combinations over 29 runs, agreeing
+/// to a worst relative deviation of 1.98e-14. These are machine-precision agreements,
+/// not bit-exact: no stored anchor equals J·N/2 exactly in floating point.</b></para>
 ///
 /// <list type="bullet">
 ///   <item>Q-sweep at γ₀ = 0.05, 24 anchors (Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}
-///         × N ∈ {3, 4, 5, 6}): all Im/σ = Q/2 to machine precision (rel. err
-///         &lt; 1e-14). Files: <c>simulations/results/q_sweep_anchor/star_N{3..6}_Q*.json</c>.</item>
+///         × N ∈ {3, 4, 5, 6}): all Im/σ = Q/2 to machine precision (worst rel.
+///         err 1.98e-14, at N=6). Five of the six Q values are canonical anchors
+///         from <c>docs/Q_REGIME_ANCHORS.md</c>; Q = 0.5 is not in that table.
+///         Files: <c>simulations/results/q_sweep_anchor/star_N{3..6}_Q*.json</c>.</item>
 ///   <item>N=8 anchor at the Marrakesh convention (γ=0.5, J=1, Q=2): Im_max =
-///         4.000000000000002, σ = 4, Im/σ = 1.0 bit-exact. From the SLOW_N8
-///         sweep (commit 89f725e), file <c>star_N8.json</c>.</item>
-///   <item>Python anchors at γ=0.5/J=1 for N=3..6: <c>star_N{3..6}_python.json</c>
-///         (same Q=2 column as the sweep, redundant but useful cross-check).</item>
+///         4.000000000000002, σ = 4. From the SLOW_N8 sweep (commit 89f725e),
+///         file <c>star_N8.json</c>.</item>
+///   <item>Python re-runs at γ=0.5/J=1 for N=3..6: <c>star_N{3..6}_python.json</c>
+///         (the same Q=2 column as the sweep, and the same code path, so these
+///         confirm reproducibility rather than cross-implementation agreement).</item>
 /// </list>
 ///
 /// <para><b>Sister bound (same Casimir technique, N=4-specific).</b> The
@@ -46,14 +73,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the same proof skeleton: bipartite split → all-pairs bonding →
 /// H = J·S_A·S_B Casimir form → maximum-S_tot ferromagnet eigenmode
 /// realises the bound. See PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md
-/// "Why star is the universal-saturator topology" for the joint characterisation.</para>
+/// "Which topologies admit the elementary Casimir derivation" for the joint
+/// characterisation. Note that skeleton yields the CLOSED FORM; the saturation
+/// itself is common to every Heisenberg topology.</para>
 ///
 /// <para><b>Cavity-picture reading.</b> This claim is the typed-statement form of
 /// <c>experiments/STAR_CONFOCAL_LIMIT.md</c> (the point-focus limit of the
 /// optical-cavity framework). The Marrakesh-convention reading "Im/σ = 1 when
-/// J = 2γ" is the Q = 2 row of the universal Im/σ = Q/2 lock; the universal
-/// statement makes clear the saturation is a property of star geometry, not of
-/// any particular (J, γ) point.</para>
+/// J = 2γ" is the Q = 2 row of the Im/σ = Q/2 lock; the γ-independent statement
+/// makes clear the closed form is a property of star geometry, not of any
+/// particular (J, γ) point. The SATURATION, by contrast, is common to every
+/// Heisenberg topology and is not the star's (see the node below).</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c> (primary derivation) +
 /// <c>experiments/STAR_CONFOCAL_LIMIT.md</c> (the cavity-picture sibling reading) +
@@ -111,12 +141,11 @@ public sealed class StarImMaxBoundClaim : Claim
         "simulations/results/q_sweep_anchor/star_N6_Q2.5000.json",
         // N=8 Marrakesh-convention anchor (Q=2 at γ=0.5, J=1) from SLOW_N8 sweep.
         "simulations/results/f1_n8_n9_metrics/star_N8.json",
-        // Python redundant cross-checks at γ=0.5, J=1 (Q=2) for N=3..6. Same
-        // Q-column as the q_sweep_anchor Q=2 row above, but computed with a
-        // different code path (numpy dense eigvals on the full Liouvillian rather
-        // than the framework Lindbladian helper). Useful for independent verification
-        // that the Marrakesh-convention Im/σ = 1 reading is reproduced by two
-        // unrelated implementations.
+        // Python re-runs at γ=0.5, J=1 (Q=2) for N=3..6. Same Q-column as the
+        // q_sweep_anchor Q=2 row above AND the same code path: f1_q_sweep_anchor.py
+        // imports its `run` from f1_topology_heisenberg_small_n_anchor.py, which
+        // builds L with framework.lindblad.lindbladian_z_dephasing. So these four
+        // confirm reproducibility, not cross-implementation agreement.
         "simulations/results/f1_n8_n9_metrics/star_N3_python.json",
         "simulations/results/f1_n8_n9_metrics/star_N4_python.json",
         "simulations/results/f1_n8_n9_metrics/star_N5_python.json",
@@ -149,30 +178,37 @@ public sealed class StarImMaxBoundClaim : Claim
 
     /// <summary>The 24 Q-sweep anchor rows surfaced as a typed table for the
     /// inspectable tree (4 N-values × 6 Q-values). Each tuple is (Q label, N, Q value,
-    /// predicted Im/σ, observed Im/σ). All 24 hit bit-exact (rel. err &lt; 1e-14);
-    /// observed values are taken from the JSON <c>MaxImag</c> field of the data
-    /// files listed in <see cref="AnchorDataFiles"/>, divided by σ = N·γ₀. Q labels
-    /// and Q values come from <see cref="CasimirBoundClaimHelpers.QSweepAnchorLabels"/>
-    /// (shared with <see cref="RingN4DihedralLockClaim.EmpiricalAnchors"/>).</summary>
-    public IReadOnlyList<(string QLabel, int N, double Q, double PredictedImOverSigma, double ObservedImOverSigma)> EmpiricalAnchors { get; } =
+    /// predicted Im/σ). These are the PREDICTIONS of <see cref="PredictImOverSigma"/>,
+    /// not measurements: this class does not read the JSON files, and an earlier
+    /// version that reported an "observed" column was populating it from the
+    /// prediction, so it could never disagree. The measured agreement is recorded
+    /// once, as <see cref="WorstAnchorRelativeDeviation"/>; the raw numbers live in
+    /// the files listed in <see cref="AnchorDataFiles"/> and are re-checked by
+    /// <c>simulations/star_saturation_gate.py</c>. Q labels and Q values come from
+    /// <see cref="CasimirBoundClaimHelpers.QSweepAnchorLabels"/> (shared with
+    /// <see cref="RingN4DihedralLockClaim.EmpiricalAnchors"/>).</summary>
+    public IReadOnlyList<(string QLabel, int N, double Q, double PredictedImOverSigma)> EmpiricalAnchors { get; } =
         BuildEmpiricalAnchors();
 
-    private static (string, int, double, double, double)[] BuildEmpiricalAnchors()
+    /// <summary>The worst relative deviation between a stored anchor's <c>MaxImag</c>
+    /// and the predicted J·N/2, over all 29 runs (24 Q-sweep + N=8 + 4 Python
+    /// re-runs). Measured 1.98e-14, largest at N=6. Non-zero at every anchor, which
+    /// is why this claim says "machine precision" and not "bit-exact".</summary>
+    public double WorstAnchorRelativeDeviation { get; } = 1.98e-14;
+
+    private static (string, int, double, double)[] BuildEmpiricalAnchors()
     {
         var labels = CasimirBoundClaimHelpers.QSweepAnchorLabels;
-        var rows = new (string, int, double, double, double)[labels.Count * 4];
+        var rows = new (string, int, double, double)[labels.Count * 4];
         int i = 0;
         for (int N = 3; N <= 6; N++)
             foreach (var (label, q) in labels)
-            {
-                double pred = 0.5 * q;
-                rows[i++] = (label, N, q, pred, pred); // observed = predicted to machine precision
-            }
+                rows[i++] = (label, N, q, 0.5 * q);
         return rows;
     }
 
     public StarImMaxBoundClaim()
-        : base("Star saturates Im_max(star, N, J) = J·N/2 Q-universally; closed-form via H_star = J·S_0·S_L hub-leaf Casimir + max-S_L=(N-1)/2 ferromagnet eigenmode; bit-exact at 25 distinct (N, Q) anchors from the 2026-05-19 Q-sweep and the SLOW_N8 sweep (29 runs; four are Python cross-checks of points the sweep already covers)",
+        : base("Im_max(star, N, J) = J·N/2 at uniform γ, independent of γ; closed-form via the H_star = J·S_0·S_L hub-leaf Casimir, realised by the |β_k⟩⟨ferro| coherences; J·N/2 is the MINIMUM of ΔE_max over connected graphs (star the unique minimiser, exhaustive at N ≤ 6), while the saturation itself is common to every Heisenberg topology; 25 distinct (N, Q) anchors over 29 runs from the 2026-05-19 Q-sweep and the SLOW_N8 sweep, worst relative deviation 1.98e-14",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md (primary derivation) + " +
                "experiments/STAR_CONFOCAL_LIMIT.md (the cavity-picture sibling reading) + " +
@@ -183,29 +219,35 @@ public sealed class StarImMaxBoundClaim : Claim
     { }
 
     public override string DisplayName =>
-        "Star Im-max saturation: Im_max(star, N, J) = J·N/2";
+        "Star Im-max: Im_max(star, N, J) = J·N/2, the minimal Heisenberg spread";
 
     public override string Summary =>
-        $"Im_max(star, N, J) = (1/2)·J·N Q-universal; closed-form via SU(2)/Schur-Weyl hub-leaf Casimir on H_star = J·S_0·S_L; verified bit-exact at 24 Q-sweep anchors (Q ∈ {{0.5, 1.0, 1.5, √3, 2.0, 2.5}} × N ∈ {{3, 4, 5, 6}}) plus N=8 at Q=2 from the SLOW_N8 sweep; {Tier.Label()}";
+        $"Im_max(star, N, J) = (1/2)·J·N at uniform γ, independent of γ; closed-form via SU(2)/Schur-Weyl hub-leaf Casimir on H_star = J·S_0·S_L; J·N/2 is the minimum of ΔE_max over connected graphs (star the unique minimiser, exhaustive N ≤ 6), the saturation itself being common to every Heisenberg topology; verified at 24 Q-sweep anchors (Q ∈ {{0.5, 1.0, 1.5, √3, 2.0, 2.5}} × N ∈ {{3, 4, 5, 6}}) plus N=8 at Q=2, worst relative deviation 1.98e-14; {Tier.Label()}";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("statement",
-                summary: "Im_max(star, N, J) = (1/2)·J·N for all N ≥ 3, J ≥ 0; equivalently Im/σ = (1/2)·Q. Q-universal: independent of (J, γ) on the constant-Q ray.");
+                summary: "Im_max(star, N, J) = (1/2)·J·N for all N ≥ 3, J ≥ 0, under UNIFORM Z-dephasing; equivalently Im/σ = (1/2)·Q. Independent of γ.");
 
             yield return new InspectableNode("Tier 1 derived",
-                summary: "Closed form via star Casimir factorisation: H_star = J·S_0·S_L = (J/2)·(S²_tot − 3/4 − S²_L); within fixed S_L sector, hub couples to S_L ± 1/2 with gap J·(S_L + 1/2); maximum at S_L = (N-1)/2 gives ΔE_max = J·N/2. The Liouvillian eigenmode |Ψ_+⟩⟨Ψ_−| between the S_tot = N/2 ferromagnet and the S_tot = (N-2)/2 hub-anti-aligned state realises Im(λ) = J·N/2 exactly. Pure-dephasing dissipator only adds real decay so no L-mode can exceed the H-spread bound. See PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md for the full derivation.");
+                summary: "Closed form via star Casimir factorisation: H_star = J·S_0·S_L = (J/2)·(S²_tot − 3/4 − S²_L); within a fixed S_L ≥ 1/2 sector the hub couples to S_L ± 1/2 with gap J·(S_L + 1/2); maximum at S_L = (N-1)/2 gives ΔE_max = J·N/2. Upper bound by field of values: D is Hilbert-Schmidt self-adjoint because the jump operators Z_l are Hermitian, so Im λ lies in the convex hull of the spectrum of -i[H,·]. Realised by |β_k⟩⟨ferro| (fully polarised extreme against the E_min state at Hamming rung k), on which uniform dephasing acts as the scalar -2γk, giving λ = -2γk + i·J·N/2 (conjugate mode -i), i.e. 4(N-1) eigenvalues with multiplicity. See PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md.");
+
+            yield return new InspectableNode("what is NOT star-specific",
+                summary: "The saturation max|Im λ_L| = ΔE_max(H) holds for every isotropic Heisenberg topology tested (chain, ring, complete, T-shape, disconnected), so it carries no star information. Star-specific are the closed form ΔE_max(H_star) = J·N/2 and the fact that this is the MINIMUM over connected graphs: exhaustive search at N = 4, 5, 6 (38, 728, 26704 connected graphs) gives minimum exactly J·N/2, attained by the N stars and nothing else.");
+
+            yield return new InspectableNode("scope fences",
+                summary: "Uniform γ required: site-dependent γ_l breaks the saturation (N=4, γ=(2.0,0.5,0.5,0.5) gives 1.5927 vs 2.0), though the upper bound survives. Ferromagnetic extreme required: XY and transverse-field Ising chains do not saturate. Hermitian jumps required, or the BOUND fails: H = 0 with c = I + iY has spectrum {0, 0, -2±2i} against a bound of 0. Gate: simulations/star_saturation_gate.py, 129 checks.");
 
             yield return new InspectableNode("relationship to ring N=4",
-                summary: "Same proof skeleton (bipartite split → all-pairs bonding → H = J·S_A·S_B Casimir → maximum-S_tot ferromagnet eigenmode realises bound). Star uses sublattice sizes |A|=1, |B|=N-1; Ring N=4 uses |A|=|B|=2. Star gives (1/2)·J·N for any N; Ring N=4 gives (3/4)·J·N N=4-specifically (the bipartite-complete coincidence C_N = K_{N/2,N/2} fails for N > 4).");
+                summary: "Same skeleton for the CLOSED FORM (bipartite split → all-pairs bonding → H = J·S_A·S_B Casimir). Star uses sublattice sizes |A|=1, |B|=N-1; Ring N=4 uses |A|=|B|=2. Star gives (1/2)·J·N for any N; Ring N=4 gives (3/4)·J·N N=4-specifically (the bipartite-complete coincidence C_N = K_{N/2,N/2} fails for N > 4). What the skeleton yields is the gap value, not the saturation, which needs no bipartite structure.");
 
             yield return new InspectableNode("Q-sweep anchor count",
-                summary: "24 anchors at γ₀=0.05 from the 2026-05-19 Q-sweep (Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} × N ∈ {3, 4, 5, 6}). All Im/σ = Q/2 bit-exact to machine precision.");
+                summary: "24 anchors at γ₀=0.05 from the 2026-05-19 Q-sweep (Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} × N ∈ {3, 4, 5, 6}). All Im/σ = Q/2 to machine precision, worst relative deviation 1.98e-14.");
 
             yield return new InspectableNode("N=8 Marrakesh anchor",
-                summary: "Im_max = 4.000000000000002, σ = N·γ = 4, Im/σ = 1.0 bit-exact (one bit at machine precision). From the SLOW_N8 sweep 2026-05-18, star_N8.json. Equivalent statement: Im_max = J·N/2 = 4 at J=1, N=8.");
+                summary: "Im_max = 4.000000000000002, σ = N·γ = 4, so Im/σ = 1.0 to machine precision (relative deviation 4.4e-16). From the SLOW_N8 sweep 2026-05-18, star_N8.json. Equivalent statement: Im_max = J·N/2 = 4 at J=1, N=8.");
 
             yield return new InspectableNode("anchor data files",
                 summary: $"{AnchorDataFiles.Count} JSON files anchor this claim; see AnchorDataFiles property for full list.");

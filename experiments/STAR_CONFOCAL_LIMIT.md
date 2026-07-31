@@ -1,44 +1,52 @@
-# The Star Topology Saturates the Heisenberg Bound: Im_max = J·N/2 Universally
+# The Star Spread: Im_max = J·N/2, and What That Does and Does Not Distinguish
 
 <!-- Keywords: star topology Liouvillian spectrum, optical cavity point focus,
-SU(2) Schur-Weyl Heisenberg, confocal saturation, imaginary spectral bound,
-hub-spoke topology, 24 anchors Q-sweep, sigma equals N gamma, R=CPsi2 star -->
+SU(2) Schur-Weyl Heisenberg, imaginary spectral spread, hub-spoke topology,
+minimal energy gap connected graph, 24 anchors Q-sweep, R=CPsi2 star -->
 
-**Status:** Tier 1 derived (formal proof written 2026-05-19 as [`PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md), typed as [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs); 25 distinct empirical anchors bit-exact over 29 runs: a 24-point Q-sweep at γ₀=0.05 plus the N=8 Marrakesh-convention point, and four Python re-runs of the Q=2 column at N=3..6 that the sweep already covers; N=7 deferred)
-**Date:** 2026-05-19
+**Status:** Tier 1 derived. Formal proof [`PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md), typed as [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs).
+**Date:** 2026-05-19 (the closed form and the anchors), 2026-07-31 (the scope fences and the minimiser search)
 **Authors:** Thomas Wicht, Claude
 **Depends on:** [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md),
-[Degeneracy Palindrome](DEGENERACY_PALINDROME.md),
 [Proof: Weight-1 Degeneracy](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (the Heisenberg + Schur-Weyl substrate),
 [F50 typed claim](../compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs),
-[Q-Regime Anchor Map](../docs/Q_REGIME_ANCHORS.md) (the 9-anchor canonical Q-table the Q-sweep targets)
+[Q-Regime Anchor Map](../docs/Q_REGIME_ANCHORS.md) (the 10-anchor canonical Q-table)
 
-**Verification:**
-[`simulations/f1_topology_heisenberg_small_n_anchor.py`](../simulations/f1_topology_heisenberg_small_n_anchor.py) (N=3..6 Python anchor at the Marrakesh convention J=1, γ=0.5),
-[`simulations/f1_q_sweep_anchor.py`](../simulations/f1_q_sweep_anchor.py) (24-anchor Q-sweep at γ₀=0.05, Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}),
-[`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs`](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs) (N=8 C# block infrastructure),
-[`simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json`](../simulations/results/f1_n8_n9_metrics/) and `star_N8.json`,
-[`simulations/results/q_sweep_anchor/star_N{3..6}_Q*.json`](../simulations/results/q_sweep_anchor/) (the 24-point Q-sweep)
+**This page is the reading; the proof is the primary source.** The derivation, the scope fences and the counterexamples live in [the proof](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md); this page states what they amount to and places the result in the optical-cavity picture. Everything numeric on both pages is produced by one runnable gate, [`simulations/star_saturation_gate.py`](../simulations/star_saturation_gate.py).
+
+---
+
+## Conventions
+
+Fix these once, because two of them are easy to trip over.
+
+- **The Hamiltonian.** `H = J · Σ_bonds S_i · S_j = (J/4) · Σ_bonds (X_i X_j + Y_i Y_j + Z_i Z_j)`, with **J > 0**. In this sign the fully polarised computational state |0…0⟩ is the **maximum**-energy eigenstate, not the ground state: each bond term has maximum eigenvalue +J/4 on the triplet, and |0…0⟩ is triplet on every bond at once, so it attains all of them simultaneously. Below, "fully polarised extreme" always means this state (or |1…1⟩), and it sits at the top of the spectrum.
+- **The dissipation.** Uniform Z-dephasing at rate γ on every site: `D[ρ] = γ Σ_l (Z_l ρ Z_l − ρ)`. `σ := N·γ` is the palindrome center, and `ΔE_max(H)` denotes the spectral spread `E_max − E_min` of H.
+- **The ratio.** `Q := J/γ`, the dimensionless coupling-to-dephasing ratio. Note the canonical anchor table [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md) defines `Q = J/γ₀` against a **fixed** code-convention substrate `γ₀ = 0.05`; the two agree exactly when γ = γ₀, which is the setting of the Q-sweep below. The "Marrakesh convention" is the other setting used here, `J = 1, γ = 0.5` (so `Q = 2`), named for the hardware run the repo calibrated against.
 
 ---
 
 ## What this document is
 
-A sharpening of [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md). In April 2026 we identified the qubit chain under Heisenberg + Z-dephasing as a Fabry-Perot optical cavity: weight sectors are transverse planes, the Hamiltonian is free-space propagation (Δw = ±2 nearest-neighbour coupling), the degeneracy profile is the beam intensity I(z). Even N is confocal, odd N is defocal. The whole framework was developed for the chain topology.
+A sharpening of [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md). In April 2026 we read the qubit chain under Heisenberg + Z-dephasing as a Fabry-Perot optical cavity: weight sectors are transverse planes, the Hamiltonian is free-space propagation, the degeneracy profile is the beam intensity. That framework was developed for the chain.
 
-Today we return to the same picture and notice that the star topology occupies a distinguished position in the cavity family: it **saturates the SU(2)/Schur-Weyl imaginary-spectrum bound exactly at every (J, γ)**. The universal statement is
+Turning it on the star gives a closed form:
 
-    Im_max(star, N, J)  =  J·N/2     for all (N, J, γ).
+    Im_max(star, N, J)  =  J·N/2      for every N ≥ 3 and every (J, γ), at uniform γ
 
-The Q-sweep at γ₀=0.05 (24 anchors below) shows this as `Im/σ = Q/2` bit-exact across Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5}. The Marrakesh-convention specialization `J = 2γ` (Q = 2) is the point where Q/2 = 1, hence the historically convenient `Im/σ = 1` reading. **The saturation is a property of star topology, not of any particular (J, γ) point.**
+Three statements are tangled together in that line, and keeping them apart is the whole content of this page.
 
-The interpretation is a sharpening of the April picture, not a new physics: star topology is the **point-focus limit** of the cavity family. All N-1 bonds converge at the hub site, like all light rays converging on a single focal point. The maximally focused configuration is the one that ties the imaginary spectrum tightest to the Hamiltonian energy gap, regardless of the (J, γ) ratio.
+1. **The Casimir gap** (star-specific, exact, every N). `ΔE_max(H_star) = J·N/2`. A fact about H alone: no Liouvillian, no dephasing, no γ.
+2. **The saturation** (universal, not star-specific). `max |Im(λ_L)| = ΔE_max(H)` holds for **every** isotropic Heisenberg graph, so meeting one's own spread carries no star information. Chain, ring, complete, an asymmetric six-vertex graph and a disconnected one all do it.
+3. **The minimum** (star-specific, searched at N ≤ 6). Among all connected graphs on N sites, the star is the **unique** minimiser of `ΔE_max`, and its value is exactly J·N/2.
+
+The star's distinction is (1) and (3): the smallest Hamiltonian spread, with a clean closed form. It is not (2).
 
 ---
 
 ## Empirical anchors
 
-Heisenberg J=1, uniform Z-dephasing γ=0.5, σ = N·γ. Computed via dense numpy eigvals at small N (`f1_topology_heisenberg_small_n_anchor.py`) and `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` at N=8 (`F1GeneralTopologyN8BlockSpectrumTests.cs`).
+Heisenberg J=1, uniform Z-dephasing γ=0.5, σ = N·γ. Dense numpy eigvals at small N, `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` at N=8.
 
 | N | σ = N·γ | max \|Im(λ)\| | Im/σ | Other topologies (Im/σ) |
 |---|---:|---:|---:|---|
@@ -46,17 +54,17 @@ Heisenberg J=1, uniform Z-dephasing γ=0.5, σ = N·γ. Computed via dense numpy
 | 4 | 2.0 | 2.0000 | **1.0000** | chain=1.183, ring=1.500 |
 | 5 | 2.5 | 2.5000 | **1.0000** | chain=1.171, ring=1.247 |
 | 6 | 3.0 | 3.0000 | **1.0000** | chain=1.248, ring=1.434 |
-| 8 | 4.0 | 4.0000 | **1.0000** | chain=1.281, ring=1.413, K_4-disjoint=1.342 |
+| 8 | 4.0 | 4.0000 | **1.0000** | chain=1.281, ring=1.413, K₄ ⊔ P₄=1.342 |
 
-Star Im/σ = 1.0 exactly to machine precision at every N ≥ 3 tested.
+At N=3 the star equals the chain by graph isomorphism (path on 3 sites = star with 2 leaves), and the N=3 ring is K₃; all three coincide. For N ≥ 4 the star is the only one of these with Im/σ = 1 at J = 2γ.
 
-At N=3 the star equals the chain by graph isomorphism (path on 3 sites = Y-shape = star with 2 leaves). N=3 ring = K_3 = triangle and also saturates (Aut(K_3) = S_3 = the full permutation group). For N ≥ 4 star is the unique tested topology with Im/σ = 1 (N=3 chain and star are isomorphic Y-graphs and both saturate trivially; N=3 ring saturates separately via K_3's S_3 symmetry; only for N ≥ 4 does the star stand alone among the tested topologies).
+25 distinct (N, Q) anchors over 29 runs: a 24-point Q-sweep, the N=8 point, and four Python re-runs of the Q=2 column the sweep already covers. They agree with J·N/2 to a worst relative deviation of **1.98e-14**. None of them is exactly J·N/2 in floating point, so these are machine-precision agreements, not bit-exact ones.
 
 ---
 
-## Q-sweep verification: the universal statement (24 anchors, bit-exact)
+## Q-sweep: the value does not depend on γ (24 anchors)
 
-The 2026-05-19 Q-sweep (`f1_q_sweep_anchor.py`) tests `Im/σ = Q/2` at γ₀ = 0.05 across six canonical Q-anchors from [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md). All 24 (N, Q) combinations match the prediction to machine precision:
+The 2026-05-19 Q-sweep (`f1_q_sweep_anchor.py`) tests `Im/σ = Q/2` at γ₀ = 0.05 across six Q values. All 24 (N, Q) combinations match to machine precision:
 
 | N \ Q | 0.5 | 1.0 | 1.5 | √3 ≈ 1.732 | 2.0 | 2.5 |
 |---|---:|---:|---:|---:|---:|---:|
@@ -66,159 +74,114 @@ The 2026-05-19 Q-sweep (`f1_q_sweep_anchor.py`) tests `Im/σ = Q/2` at γ₀ = 0
 | **5** | 0.2500 | 0.5000 | 0.7500 | 0.8660 | 1.0000 | 1.2500 |
 | **6** | 0.2500 | 0.5000 | 0.7500 | 0.8660 | 1.0000 | 1.2500 |
 
-Equivalently: `Im_max(star, N, J) = J·N/2` bit-exact. The Q-band has no effect on the star saturation; it is a property of the hub-spoke geometry alone (the SU(2)/Schur-Weyl derivation below makes this manifest). The Marrakesh convention J=2γ is recovered as the column Q=2 (where `Im/σ = 1`).
+Five of the six Q values (1.0, 1.5, √3, 2.0, 2.5) are canonical anchors from the Q-regime table; Q = 0.5 is not in that table, sitting between its onset band (0.2 to 0.35) and its peak band (from 1.2).
+
+Two cautions about what this sweep is evidence for. First, `Im/σ = Q/2` and `Im_max = J·N/2` are the same statement: σ = N·γ makes N cancel identically, so the *ratio* Q/2 carries no N-dependence to confirm. The four N rows are still four genuine values of N for `Im_max = J·N/2`; what they are not is four independent confirmations of the dimensionless law, which is one identity. Second, the sweep varies **J** at fixed γ₀ = 0.05 (`f1_q_sweep_anchor.py` sets `J = Q · GAMMA_SUBSTRATE`); γ itself is never varied there. The γ-independence is checked separately in the gate, which holds J = 1 fixed and moves γ across γ ∈ {0.005, 0.05, 0.5, 5.0, 50.0}, four decades, with `Im_max` unchanged at J·N/2 throughout.
+
+The Marrakesh convention J = 2γ is the column Q = 2, where Im/σ = 1. That reading is the Q=2 specialization, not the law.
 
 ---
 
-## Analytical sketch via SU(2) and Schur-Weyl
+## The result in outline
 
-The isotropic Heisenberg coupling between sites i and j is
+The full derivation is in [the proof](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md); this is the shape of it.
 
-    H_(i,j) = (J/4)·(X_i X_j + Y_i Y_j + Z_i Z_j) = J·S_i · S_j
+**The gap.** Every star bond touches the hub, so `H_star = J · S_0 · S_L` with `S_L` the total leaf spin, and the Casimir identity gives two levels per `S_L ≥ 1/2` sector split by `J·(S_L + 1/2)`. The maximum at `S_L = (N−1)/2` is `ΔE_max = J·N/2`, between `E_max = +J(N−1)/4` and `E_min = −J(N+1)/4`.
 
-(using S_i · S_j = (1/4)(X_i X_j + Y_i Y_j + Z_i Z_j) for spin-1/2; no constant term, no factor of 1/2; vector operators carry no arrow here, so S_i = (S^x_i, S^y_i, S^z_i) is the three-component operator and the dot is its scalar product, while the same letters read as quantum numbers wherever they carry no dot and no square, as in S_L = (N-1)/2 below). For the star topology with hub site 0 and N-1 leaf sites {1, ..., N-1}, the Hamiltonian is
+**The bound.** Write `L = K + D` with `K = −i[H, ·]`. Because the jump operators `Z_l` are Hermitian, `D` is self-adjoint in the Hilbert-Schmidt inner product; `K` is anti-Hermitian and normal. For an eigenvector v, `λ = ⟨v, Lv⟩/‖v‖²` with `⟨v, Dv⟩` real, so `Im λ` lies in the numerical range of `K/i`, which for a normal operator is the convex hull of its spectrum, `[−ΔE_max, +ΔE_max]`. Hermiticity of the jumps is what carries this, not the informal "the dissipator adds only real decay": see the scope section for a dissipator that adds only real decay in that informal sense and violates the bound outright.
 
-    H_star = J · S_0 · Σ_{k=1}^{N-1} S_k = J · S_0 · S_L
+**The attainment.** Equality forces v into the extremal `K`-eigenspace *and* makes v an eigenvector of `D`. Both hold for `|β_k⟩⟨ferro|`, where |ferro⟩ is a fully polarised extreme and `|β_k⟩` the `E_min` eigenstate in the Hamming-weight-k sector. Uniform dephasing acts on that operator as the **scalar** `−2γk`, giving `λ = −2γk + i·J·N/2` exactly (the sign follows from |β_k⟩ sitting at E_min and |ferro⟩ at E_max, so [H, |β_k⟩⟨ferro|] = −ΔE_max·|β_k⟩⟨ferro|; the conjugate mode |ferro⟩⟨β_k| carries −i). For the star, `E_min` occupies every rung k = 1..N−1 (its multiplet has `S_tot = (N−2)/2`, whose `S_z` values span exactly those rungs), which is why there are `4(N−1)` such eigenvalues counted with multiplicity: 8, 12, 16, 20 at N = 3, 4, 5, 6. The distinct values number 2(N−1), each doubly degenerate.
 
-where S_L := Σ_{k=1}^{N-1} S_k is the total leaf-spin operator. The full system decomposes into SU(2)-symmetric multiplets labelled by (S_L, S_tot) where S_tot is the total combined spin.
+The choice of the polarised extreme is not cosmetic. Products between the two extremal multiplets generally fail to be eigenoperators at all: at N = 3, 4, 5 the gate finds most of them failing, with worst residuals 0.94, 1.15, 1.20. What makes the family above work is that a fully polarised state is a Z-eigenstate, so uniform dephasing cannot mix it.
 
-Using S_0 · S_L = (1/2)(S²_tot − S²_0 − S²_L):
-
-    H_star = (J/2) · (S_tot(S_tot+1) − 3/4 − S_L(S_L+1))
-
-Within each fixed (S_L) sector, H_star has exactly two eigenvalues corresponding to S_tot = S_L ± 1/2 (the hub spin couples to S_L either parallel or antiparallel). The energy splitting between these two levels is
-
-    ΔE(S_L) = J · (S_L + 1/2)
-
-Maximum splitting occurs at maximum S_L = (N-1)/2 (all leaves aligned):
-
-    ΔE_max = J · ((N-1)/2 + 1/2) = J·N/2
-
-The Liouvillian Im(λ) is bounded by the maximum energy gap of H_star (via Im(λ_L) = ω_α − ω_β for H_star eigenvalue differences):
-
-    max |Im(λ_L)| ≤ J·N/2
-
-For J = 1 (our convention): max |Im(λ_L)| ≤ N/2.
-
-With γ = 1/2 in our anchor data: σ = N·γ = N/2. So J·N/2 = σ exactly, and the bound saturates.
-
-In general (J, γ): max |Im(λ_L)| = J·N/2 saturates max |Im(λ_L)| = σ iff **J = 2γ**.
-
-Our convention J=1, γ=1/2 gives J = 2γ, hence the saturation. At other (J, γ) the bound is still saturated but Im/σ = J/(2γ) instead of 1.0.
-
-### A clarifying note on SU(2)
-
-[DEGENERACY_HUNT.md](DEGENERACY_HUNT.md) (April 12, 2026) records that **SU(2) is broken by Z-dephasing**: the dissipator jump operators Z_k do not commute with the total-spin Casimir S², so the full Liouvillian L = −i[H, ·] + D is NOT SU(2)-symmetric. The derivation above does not contradict this: we use the SU(2) symmetry of **H_star alone** (which is preserved; the Heisenberg Hamiltonian is SU(2)-invariant on any graph) to compute the H-spectrum spread via Schur-Weyl. The maximum imaginary part of L's spectrum is bounded by the maximum H eigenvalue gap (since `-i[H, ·]` contributes the oscillatory part of L's spectrum, and the dissipator D only adds real decay). So:
-
-    max |Im(λ_L)|  ≤  max{|ω_α − ω_β| : H |α⟩ = ω_α |α⟩, H |β⟩ = ω_β |β⟩}  =  ΔE_max(H_star)  =  J·N/2.
-
-H_star's SU(2) symmetry is the tool for computing ΔE_max(H_star); L's broken SU(2) is irrelevant for this bound. The bound holds whenever the dissipator is real-decay-only (which Z-dephasing is). The same argument generalises to any topology + dissipator combination where D adds only real decay.
+**On SU(2).** [DEGENERACY_HUNT.md](DEGENERACY_HUNT.md) records that Z-dephasing breaks SU(2): the jump operators Z_l do not commute with S², so L is not SU(2)-symmetric. Nothing above needs it to be. The Casimir argument uses the SU(2) symmetry of **H alone**, which is intact on any graph, and the bound and attainment arguments use only Hermiticity of the jumps and the Z-eigenbasis. Broken SU(2) for L would matter if the modes were being classified by total spin; they are not.
 
 ---
 
-## Why this is the point-focus limit
+## Scope: what the law actually needs
 
-In the April Optical Cavity Analysis, the chain N=8 (even) was identified as the maximally-confocal chain configuration (waist on grid, NA = 30 at N=4 growing to NA = 262 at N=6). Star takes this further: all N-1 bonds geometrically converge at the hub, producing a true point-focus limit in the graph-topology sense.
+Three hypotheses are load-bearing. Each one, dropped, breaks something, and the gate holds all three fences.
 
-The cavity dictionary extension:
+**Uniform γ is required.** With site-dependent γ_l the dissipator becomes diag(−2γ_l) on the weight-1 block, stops commuting with the one-magnon Hamiltonian, and the saturation fails:
 
-| Optics | Chain Qubit | Star Qubit (new) |
-|---|---|---|
-| Transverse planes | Weight sectors k=0..N | Same |
-| Δw=±2 coupling | Free-space propagation along chain | All propagation through hub site |
-| Beam waist alignment | Even N = waist on grid (confocal) | All bonds focused on hub (point-focus) |
-| Numerical aperture | Grows with even N (30→262) | Saturated at maximum for fixed N |
-| Im(λ) vs σ | > σ from N = 4 (1.18 at N=4, 1.25 at N=6) | = σ exactly, Q-universally |
+| N | γ profile | max\|Im\| | J·N/2 |
+|---|---|---:|---:|
+| 3 | (2.0, 0.5, 0.5) | 1.032100016 | 1.5 |
+| 4 | (2.0, 0.5, 0.5, 0.5) | 1.592689809 | 2.0 |
+| 4 | (0.1, 0.2, 0.3, 0.4) | 1.981222484 | 2.0 |
+| 5 | (0.11, 0.29, 0.47, 0.65, 0.83) | 2.440907393 | 2.5 |
 
-The star topology converts the **entire external illumination σ into oscillation**: Im/σ = 1 exactly, and Q-universally. The reading to avoid is that the other topologies fall short of this. They do not: chain and ring sit ABOVE σ from N = 4 on (the table in the cross-topology section). What distinguishes the star is that it meets its own Hamiltonian spread exactly, not that it extracts the most oscillation.
+Every sampled profile falls strictly below. The hub is the most expensive site to detune, and that comparison has to be made at equal perturbation to mean anything: raising one γ by δ = 0.05 from a uniform 0.5 gives 1.999063 (hub) against 1.999527 (leaf) at N=4, and at δ = 0.2, 1.985041 against 1.992691; the ordering repeats at N=5. What is measured is that these sampled profiles fall below, not a proof that no profile can attain the bound.
 
----
+The *bound* survives non-uniform γ, since the field-of-values argument needs only D self-adjoint. The *saturation* does not. Note the scope of this fence: it constrains statement (2), the Liouvillian equality. Statements (1) and (3), the Casimir gap and the minimality, are facts about H with no γ in them and are untouched.
 
-## Tier 1 derivation status
+**The polarised extreme is required.** The realising modes need the fully polarised state to be an extreme of H. Under the same uniform dephasing, models without that property do not saturate: the XY chain gives max|Im| = 1.4398736 against a spread of 2.2360680 (N=4) and 1.8812144 against 2.7320508 (N=5); the transverse-field Ising chain gives 3.7344319 against 4.1883993 (N=4). So the exact saturation belongs to isotropic Heisenberg, not to "dephasing plus any H".
 
-**Resolved 2026-05-19** as [`docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md) and typed as [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs) Tier 1 derived. The two formal steps the original sketch had left open are closed in the proof file:
-
-1. **Construction of the realising L-eigenmode.** The proof file Section 4 shows `|Ψ_+⟩⟨Ψ_−|` between the maximally-aligned ferromagnet (S_tot = N/2 at maximum S_L = (N-1)/2) and the hub-anti-aligned state (S_tot = (N-2)/2 at the same S_L) is an eigenoperator of `−i[H, ·]` with `Im(λ_L) = J·N/2` exactly. The pure-dephasing dissipator commutes with the H-eigenbasis projectors in the operator inner product and adds only real (negative) decay rates, so the imaginary part J·N/2 is preserved.
-
-2. **Upper-bound rigour.** Section 5 of the proof file: every L-eigenoperator with non-zero Im part is a linear combination of rank-1 products `|α⟩⟨β|` with H-eigenstates; the maximum `|Im(λ_L)|` is bounded by `max{|ω_α − ω_β| : α, β ∈ σ(H)} = ΔE_max(H_star) = J·N/2`. Combined with the realising mode in step 1, the bound is achieved exactly.
-
-The saturation is Q-universal: `Im_max(star, N, J) = J·N/2` for any (J, γ); the Marrakesh-convention `Im/σ = 1 ↔ J = 2γ` reading is the Q=2 specialization. Verified bit-exact at 25 distinct (N, Q) anchors: 24 from the Q-sweep plus the N=8 Marrakesh-convention point. Four further Python runs at N=3..6 re-measure the Q=2 column the sweep already covers, so they are a port cross-check rather than four more anchors.
+**Hermitian jump operators are required, or the bound itself fails.** Take a single qubit, H = 0 (so max H gap = 0), and the jump operator c = I + iY. The generator is trace preserving, unital, has all Re λ ≤ 0, and has no Hamiltonian part at all, so it "adds only real decay" in every informal sense. Its spectrum is {0, 0, −2+2i, −2−2i}: max|Im| = 2 against a bound of 0. What is missing is self-adjointness, ‖D − D†‖ = 5.6569.
 
 ---
 
-## Cross-topology saturation criterion
+## Cross-topology comparison
 
-Generalising from star: the Im/σ = 1 saturation occurs iff the H spectrum's maximum eigenvalue gap saturates J·N/2 for J=2γ. This requires the graph's Hamiltonian to support the "all spins aligned with one site flipping" configuration, which is the maximum-spin ladder of SU(2)-symmetric Heisenberg.
+Maximum H eigenvalue gap in the spin normalisation H = J·Σ S_i·S_j, with Im/σ read at J = 2γ, so σ = N·J/2. Both the Im/σ columns and the closed forms in the second column are checked in the gate.
 
-| Topology | Max H gap | Im/σ (J=2γ) | Saturated? |
+| Topology | Max H gap | Im/σ at N = 4, 5, 6 | Equals J·N/2? |
 |---|---|---|---|
-Values below are the max H gap in the spin normalisation H = J·Σ S_i·S_j, with
-Im/σ read at J = 2γ, so σ = N·J/2. The N = 3 to 6 columns are direct
-diagonalisations; the star row is the proven closed form.
+| Star (hub + N-1 leaves) | J·N/2 (Casimir) | 1.000, 1.000, 1.000 | ✓ exactly, every N |
+| Chain (open) | above J·N/2 from N = 4 | 1.183, 1.171, 1.248 | No, larger |
+| Ring (closed) | c_N·J·N, c_4 = 3/4, c_6 = (5+√13)/12 | 1.500, 1.247, 1.434 | No, larger |
+| Complete K_N | J·N(N+2)/8 (even N), J·(N−1)(N+3)/8 (odd N) | 1.500, 1.600, 2.000 | No, larger |
+| Disconnected | sum over components | varies | varies |
 
-| Topology | Max H gap | Im/σ at N = 4, 5, 6 | Saturates J·N/2? |
-|---|---|---|---|
-| Star (hub + N-1 leaves) | J·N/2 (Schur-Weyl) | 1.000, 1.000, 1.000 | ✓ exactly, every N |
-| Chain (open) | above J·N/2 from N = 4 | 1.183, 1.171, 1.248 | No, exceeds |
-| Ring (closed) | 2·c_N·σ with c_4 = 3/4, c_6 = (5+√13)/12, c_∞ = ln 2 | 1.500, 1.247, 1.434 | No, exceeds |
-| Complete K_N (all-to-all) | J·N(N+2)/8 for even N, J·(N−1)(N+3)/8 for odd N | 1.500, 1.600, 2.000 | No, exceeds |
-| Disconnected components | Π per component | varies | varies |
+At N = 3 all rows coincide at Im/σ = 1: there are only two distinct **connected** graphs on three vertices, the star is the path, and the ring is K₃.
 
-At N = 3 all four rows coincide at Im/σ = 1, because there are only two distinct
-graphs on three vertices: the star is the path, and the ring is K_3.
+The ring coefficient c_N approaches ln 2 ≈ 0.693147 in two branches, even N from above and decreasing (0.750000, 0.717129, 0.706387, 0.701545, 0.698949 at N = 4..12) and odd N from below and increasing (0.500000, 0.623607, 0.657883, 0.671922, 0.678994 at N = 3..11), so the c_5 = 0.6236 behind the table's own 1.247 sits below the limit while c_4 and c_6 sit above it.
 
-The star does not sit between sub-saturating and over-saturating geometries. Of
-the connected topologies measured here it is the **floor**: from N = 4 on, chain,
-ring and K_N all carry MORE imaginary spread than J·N/2, and the star alone sits
-on it. What is special about the star is not that it is a threshold but that it
-saturates its own bound exactly and Q-universally, which none of the others do.
-Whether J·N/2 is the minimum over all connected graphs at fixed N is open here;
-it is a statement this table samples, not one it proves.
+The disconnected row composes by **addition**, since H = H₁ ⊕ H₂ makes the spread additive. The K₄ ⊔ P₄ instance at N=8 has spread 3.0000000000 + 2.3660254038 = 5.3660254038, which divided by σ = 4 gives the Im/σ = 1.3415063509 recorded in the anchor table above (shown there rounded to 1.342).
+
+### The star is the minimum, and uniquely so
+
+Exhaustive search over every connected labelled graph on N vertices, comparing ΔE_max:
+
+| N | connected graphs searched | minimum ΔE_max | J·N/2 | minimisers |
+|---|---:|---:|---:|---|
+| 4 | 38 | 2.0000000000 | 2.0 | the 4 stars, nothing else |
+| 5 | 728 | 2.5000000000 | 2.5 | the 5 stars, nothing else |
+| 6 | 26704 | 3.0000000000 | 3.0 | the 6 stars, nothing else |
+
+At N ≤ 6 the star is the unique connected graph attaining the minimal Hamiltonian spread, and that minimum is exactly J·N/2. This is a searched result, not a proved one, and the search grows too fast to continue by brute force past N = 6.
 
 ---
 
-## What this sharpens about the April picture
+## The cavity reading
 
-The April Optical Cavity Analysis identified the cavity structure and the even/odd confocal/defocal split for the chain. It did not address topology variants beyond chain (though [Weight-2 Kernel](WEIGHT2_KERNEL.md) noted that d_real(2) is topology-dependent for k ≥ 2).
+An interpretive layer, and worth being explicit about how much of it carries content.
 
-What we add today:
-1. **Star occupies a distinguished position** in the topology family: point-focus limit of the cavity geometry, Im(λ) saturated exactly at σ.
-2. **The saturation has a clean SU(2)/Schur-Weyl derivation** via hub-spoke decomposition into total-spin sectors.
-3. **The cavity dictionary extends across topologies**: the chain's even-N confocal alignment is one dimension; star's hub-spoke point-focus is the orthogonal "structural focus" dimension.
-4. **The K_3 N=3 anomaly** (chain=ring=star=triangle isomorphism at N=3) is the small-N degeneration where all three pictures collapse to one.
+In the April cavity picture the star is the point-focus member of the family: all N−1 bonds converge on the hub, as rays converge on a focal point, and the resulting Hamiltonian spread is the smallest available. That much is a fair description of the graph, and the minimiser search is what stands behind it.
 
-The optical-cavity framework is robust across topologies; we now have the empirical and structural anchors to extend it formally.
+Two things the cavity picture does not deliver here. The first is any conversion story: Im_max is exactly independent of γ while σ = N·γ is exactly independent of J, so the two coincide only on the line J = 2γ, and at γ = 100, J = 1, N = 4 the "illumination" σ = 400 stands against an oscillation of 2. Nothing is being converted; the two numbers share units and a convention. The second is the numerical aperture, which in the parent analysis is computed from the chain eigenvalue exports and is defined for the chain only; it does not carry over to the star, and no star NA has been computed.
+
+What the dictionary does carry for the star is the weight-sector-as-transverse-plane correspondence, which is topology-independent, and the point-focus reading of the hub.
 
 ---
 
 ## Open questions
 
-1. ~~**Formal Tier 1 derivation.** Write up the SU(2)/Schur-Weyl proof properly with the L eigenmode construction. Cross-link to F50 SWAP-invariance framework (the T_c^{(a)} operators on star).~~ **Resolved 2026-05-19:** [`docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md) writes the SU(2)/Schur-Weyl derivation explicitly (hub-leaf Casimir + realising L-eigenmode + no-mode-exceeds-bound argument). Typed claim: [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs) Tier 1 derived.
+1. **Does the star remain the unique minimiser at every N?** Exhaustive at N = 4, 5, 6. A proof would presumably run through the Casimir structure: the star is the only connected graph whose Heisenberg Hamiltonian factors as J·S_A·S_B with |A| = 1.
 
-2. **J ≠ 2γ regime.** ~~The saturation Im/σ = J/(2γ) generalises but data only at J = 2γ. Verify with a J-sweep at fixed γ on star N=5, 6.~~ **Resolved 2026-05-19:** the Q-sweep table above verifies `Im/σ = Q/2` bit-exact at 24 anchors covering Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} for N=3..6. The saturation is Q-universal.
+2. **Is the fully polarised extreme also necessary for the universal saturation?** It is sufficient, and that direction is derived. XY and transverse-field Ising fail it and do not saturate, but that is two data points, not a converse. The clean question is whether some H without a polarised extreme can still attain `ΔE_max`.
 
-3. **Topology criterion.** Predict which connected graphs saturate Im/σ = 1. Necessary condition: graph admits a "single-site flip" eigenmode at maximum spin. Sufficient? Open.
+3. **How far past isotropic Heisenberg does the saturation extend?** The attainment argument needs an H that commutes with Σ Z_l and has a fully polarised extreme. XXZ satisfies both and should inherit; the boundary is unmapped.
 
-4. **Connection to K_3 weight-1 anomaly (PROOF_WEIGHT1_DEGENERACY appendix 2026-05-17).** K_3 = ring = star at N=3 also exhibits a +2 SWAP-invariant excess at weight-1 (S_3 standard 2-dim irrep). Is the Im/σ = 1 saturation related to the same Aut(K_3) = S_3 full symmetry?
+4. **Non-uniform γ.** The saturation breaks under the site-dependence sampled here, with the hub the most expensive site. The size of the deviation as a function of the γ profile is unstudied, and it is the quantity a hardware realisation would actually see. Whether *any* non-uniform profile can still attain J·N/2 is open.
 
-5. **N → ∞ thermodynamic limit.** Does star Im/σ = 1 hold in the thermodynamic limit, or does some N-finite effect break it? The SU(2) sketch suggests it holds at every N.
-
-6. **Connection to "gamma as light".** OPTICAL_CAVITY_ANALYSIS's Tier 3-4 observation: γ = external illumination. Star saturates Im(λ) = σ = N·γ. The interpretation: star **converts the entire external illumination dose into oscillation**, the maximally-resonant configuration. Connect to F14 (K-invariance) explicitly?
+5. **Connection to the K₃ weight-1 anomaly** (PROOF_WEIGHT1_DEGENERACY appendix 2026-05-17). K₃ = ring = star at N=3 also shows a +2 SWAP-invariant excess at weight-1 (S₃ standard 2-dim irrep). Whether that shares a source with the N=3 coincidence here is unexamined.
 
 ---
 
 ## Reproduction
 
-- Python anchor N=3..6 chain/ring/star: `python` [`simulations/f1_topology_heisenberg_small_n_anchor.py`](../simulations/f1_topology_heisenberg_small_n_anchor.py); outputs `star_N{3,4,5,6}_python.json`.
-- C# N=8 star: `dotnet test --filter "FullyQualifiedName~F1GeneralTopologyN8BlockSpectrumTests.Star"` (SLOW_N8 trait, opt-in).
-- Data: [`simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json`](../simulations/results/f1_n8_n9_metrics/) and `star_N8.json` (post-bridge); `MaxImag` field = `σ` field for every star JSON.
-
----
-
-## What we return to next time
-
-When we revisit this picture, the natural next steps are:
-- Type the N ≥ 9 anchors, once a run reaches them; the Tier 1 proof and the typed claim landed on 2026-05-19 as [the star optical-confocal saturation proof](../docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md) and `StarImMaxBoundClaim`
-- Type the J/(2γ) parameter sweep prediction
-- Cross-reference to F14 (K-invariance, the γ·t product)
-- Extend the cavity dictionary to disconnected graphs (K_4 + disjoint chain at N=8, the F4KernelDimensionByComponents data)
+- The gate: `python simulations/star_saturation_gate.py` (runs in a few minutes, the N=6 exhaustive search dominating).
+- Python anchors N=3..6 chain/ring/star: `python simulations/f1_topology_heisenberg_small_n_anchor.py`; outputs `star_N{3,4,5,6}_python.json`.
+- C# N=8 star: `dotnet test --filter "FullyQualifiedName~F1GeneralTopologyN8BlockSpectrumTests.Star"` (SLOW_N8 trait, opt-in). That test asserts the F1 palindromic-pairing identity; the `MaxImag` value used here is one of the statistics it logs, not something it asserts.
+- Data: `simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json` and `star_N8.json`; `simulations/results/q_sweep_anchor/star_N{3..6}_Q*.json`. In every star JSON the field `MaxImag` equals `N · GammaValue` at the Marrakesh convention. (There is no `σ` field; `SigmaShift` is the palindrome center −2Nγ, a different quantity.)

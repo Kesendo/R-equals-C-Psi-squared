@@ -2,8 +2,8 @@
 
 The 2026-05-19 N=9 chain sprint ran at the deep-quantum convention (γ=0.5, J=1,
 Q = J/γ = 2) which happens to sit exactly on the Q_EP idealized anchor (per
-`docs/Q_REGIME_ANCHORS.md` row Q=2.0). At that anchor, the star topology
-saturates the bound `MaxImag ≤ J·N/2` because J = 2γ ↔ J·N/2 = σ = N·γ.
+`docs/Q_REGIME_ANCHORS.md` row Q=2.0). The star has `MaxImag = J·N/2` at every Q;
+what is special about Q=2 is only that J = 2γ makes that value coincide with σ = N·γ.
 
 If we move the same four topologies to the framework's clean substrate
 convention γ₀ = 0.05 with two J-values:
@@ -12,8 +12,9 @@ convention γ₀ = 0.05 with two J-values:
            rescaled by γ ratio 1/10)
 
 we get the following structural separation:
-  - Star Im/σ at Q=2 should saturate to 1.0 exactly (J·N/2 = σ).
-  - Star Im/σ at Q=1.5 should drop to ≤ 0.75 (J·N/2 = 0.75·σ).
+  - Star Im/σ at Q=2 should be 1.0 exactly (J·N/2 = σ).
+  - Star Im/σ at Q=1.5 should be 0.75 exactly (J·N/2 = 0.75·σ). The law is the
+    equality Im/σ = Q/2 at every Q, not an upper bound.
   - The Q-invariant content (palindrome pairing, kernel dim, F1 identity) is
     identical between the two γ-conventions at the same Q.
   - The gap × N² constant of the chain is Q-dependent: at Q=2 with γ=0.5 it
@@ -118,9 +119,9 @@ def main() -> None:
     print("    Q-invariant statement: gap·N² / γ² is the same dimensionless ratio.")
     print(f"    At γ={GAMMA_SUBSTRATE}: predicted gap·N²/γ² ≈ 2.18/0.25 ≈ 8.72")
     print()
-    print("STAR Im/σ saturation check (at Q=2 only):")
-    print("    Q=2: star Im/σ should = 1.000 (saturation, J·N/2 = σ)")
-    print("    Q=1.5: star Im/σ should ≤ 0.750 (J·N/2 = 0.75·σ)")
+    print("STAR Im/σ check (the law is the equality Im/σ = Q/2 at every Q):")
+    print("    Q=2: star Im/σ should = 1.000 (J·N/2 = σ)")
+    print("    Q=1.5: star Im/σ should = 0.750 (J·N/2 = 0.75·σ)")
 
 
 if __name__ == "__main__":

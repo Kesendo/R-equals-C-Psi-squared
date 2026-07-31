@@ -57,13 +57,17 @@ namespace RCPsiSquared.Core.F1;
 ///         (3/4)·J·N = 3·J Q-universally via the C_4 = K_{2,2} bipartite-complete
 ///         Casimir factorisation; 6 Q-sweep anchors bit-exact. See
 ///         <c>docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md</c>.</item>
-///   <item>Tier-1 derived topology Im-max bound: Star
-///         (<see cref="StarImMaxBound"/>) saturates Im_max(star, N, J) = J·N/2
-///         Q-universally for any N ≥ 3 via the SU(2)/Schur-Weyl hub-leaf Casimir
-///         factorisation H_star = J·S_0·S_L; 24 Q-sweep + 1 N=8 + 4 Python anchors
-///         all bit-exact (29 anchors total). The Marrakesh-convention "Im/σ = 1
-///         ↔ J = 2γ" reading is the Q = 2 specialization of the universal
-///         Im/σ = Q/2 lock. See <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>.</item>
+///   <item>Tier-1 derived topology Im-max closed form: Star
+///         (<see cref="StarImMaxBound"/>) has Im_max(star, N, J) = J·N/2 for any
+///         N ≥ 3 at uniform γ, independent of γ, via the SU(2)/Schur-Weyl hub-leaf
+///         Casimir factorisation H_star = J·S_0·S_L; 24 Q-sweep + 1 N=8 + 4 Python
+///         re-runs = 25 distinct (N, Q) anchors over 29 runs, worst relative
+///         deviation 1.98e-14. J·N/2 is the MINIMUM of ΔE_max over connected graphs
+///         (star the unique minimiser, exhaustive at N ≤ 6); the saturation
+///         max|Im λ| = ΔE_max(H) is itself common to every Heisenberg topology and
+///         so is not the star's distinguishing property. The Marrakesh-convention
+///         "Im/σ = 1 ↔ J = 2γ" reading is the Q = 2 specialization of Im/σ = Q/2.
+///         See <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>.</item>
 /// </list>
 /// </summary>
 public sealed class F1KnowledgeBase : IInspectable
@@ -116,17 +120,21 @@ public sealed class F1KnowledgeBase : IInspectable
     /// saturation in <see cref="StarImMaxBound"/>.</summary>
     public RingN4DihedralLockClaim RingN4DihedralLock { get; }
 
-    /// <summary>Star Im-max saturation surfaced by the 2026-05-19 Q-sweep and the
-    /// 2026-05-18 SLOW_N8 sweep: Im_max(star, N, J) = (1/2)·J·N Q-universally for
-    /// any N ≥ 3. The star Hamiltonian H_star = J·S_0·S_L (hub spin · total leaf
-    /// spin) factors through SU(2)/Schur-Weyl Casimir; the maximum-leaf-spin
-    /// S_L = (N-1)/2 ferromagnetic sector gives ΔE_max = J·N/2 realised by the
-    /// Liouvillian eigenmode between the S_tot = N/2 fully-aligned state and the
-    /// S_tot = (N-2)/2 hub-anti-aligned state. Pure-dephasing dissipator only adds
-    /// real decay so no L-mode can exceed the H-spread bound. Tier 1 derived; see
-    /// <c>PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>. The Marrakesh-convention
-    /// reading <c>Im/σ = 1 ↔ J = 2γ</c> is the Q=2 specialization of the
-    /// universal <c>Im/σ = Q/2</c> lock. Sister bound to <see cref="RingN4DihedralLock"/>
+    /// <summary>Star Im-max closed form surfaced by the 2026-05-19 Q-sweep and the
+    /// 2026-05-18 SLOW_N8 sweep: Im_max(star, N, J) = (1/2)·J·N for any N ≥ 3 at
+    /// UNIFORM γ, independent of γ. The star Hamiltonian H_star = J·S_0·S_L (hub
+    /// spin · total leaf spin) factors through SU(2)/Schur-Weyl Casimir; the
+    /// maximum-leaf-spin S_L = (N-1)/2 sector gives ΔE_max = J·N/2, realised by the
+    /// <c>|β_k⟩⟨ferro|</c> coherences (fully polarised extreme against the E_min
+    /// state at Hamming rung k), on which uniform dephasing acts as the scalar
+    /// -2γk. The upper bound holds because D is Hilbert-Schmidt self-adjoint, the
+    /// jump operators Z_l being Hermitian; "adds only real decay" is not sufficient.
+    /// J·N/2 is the MINIMUM of ΔE_max over connected graphs (star the unique
+    /// minimiser, exhaustive at N ≤ 6), while the saturation itself holds for every
+    /// Heisenberg topology and so is not what distinguishes the star. Tier 1 derived;
+    /// see <c>PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>. The Marrakesh-convention
+    /// reading <c>Im/σ = 1 ↔ J = 2γ</c> is the Q=2 specialization of
+    /// <c>Im/σ = Q/2</c>. Sister closed form to <see cref="RingN4DihedralLock"/>
     /// via the same Casimir technique (star uses sublattice sizes |A|=1, |B|=N-1;
     /// ring N=4 uses |A|=|B|=2).</summary>
     public StarImMaxBoundClaim StarImMaxBound { get; }
