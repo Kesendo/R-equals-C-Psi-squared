@@ -113,7 +113,7 @@ Three hypotheses are load-bearing. Each one, dropped, breaks something, and the 
 
 Every sampled profile falls strictly below. The hub is the most expensive site to detune, and that comparison has to be made at equal perturbation to mean anything: raising one γ by δ = 0.05 from a uniform 0.5 gives 1.999063 (hub) against 1.999527 (leaf) at N=4, and at δ = 0.2, 1.985041 against 1.992691; the ordering repeats at N=5. What is measured is that these sampled profiles fall below, not a proof that no profile can attain the bound.
 
-The *bound* survives non-uniform γ, since the field-of-values argument needs only D self-adjoint. The *saturation* does not. Note the scope of this fence: it constrains statement (2), the Liouvillian equality. Statements (1) and (3), the Casimir gap and the minimality, are facts about H with no γ in them and are untouched.
+The *bound* survives non-uniform γ, since the numerical-range argument needs only D self-adjoint. The *saturation* does not. Note the scope of this fence: it constrains statement (2), the Liouvillian equality. Statements (1) and (3), the Casimir gap and the minimality, are facts about H with no γ in them and are untouched.
 
 **The polarised extreme is required.** The realising modes need the fully polarised state to be an extreme of H. Under the same uniform dephasing, models without that property do not saturate: the XY chain gives max|Im| = 1.4398736 against a spread of 2.2360680 (N=4) and 1.8812144 against 2.7320508 (N=5); the transverse-field Ising chain gives 3.7344319 against 4.1883993 (N=4). So the exact saturation belongs to isotropic Heisenberg, not to "dephasing plus any H".
 

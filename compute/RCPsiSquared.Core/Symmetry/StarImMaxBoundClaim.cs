@@ -27,7 +27,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (S_tot = S_L ± 1/2), with energy gap <c>ΔE(S_L) = J·(S_L + 1/2)</c>. Maximum
 /// at S_L = (N-1)/2: <c>ΔE_max = J·N/2</c>.
 ///
-/// The upper bound is a field-of-values argument: D is self-adjoint in the
+/// The upper bound is a numerical-range argument: D is self-adjoint in the
 /// Hilbert-Schmidt product because the jump operators Z_l are HERMITIAN, so
 /// <c>Im λ = ⟨v,Kv⟩/i</c> lies in the convex hull of the spectrum of
 /// <c>K = -i[H,·]</c>. Hermiticity is the load-bearing hypothesis, not the
@@ -232,7 +232,7 @@ public sealed class StarImMaxBoundClaim : Claim
                 summary: "Im_max(star, N, J) = (1/2)·J·N for all N ≥ 3, J ≥ 0, under UNIFORM Z-dephasing; equivalently Im/σ = (1/2)·Q. Independent of γ.");
 
             yield return new InspectableNode("Tier 1 derived",
-                summary: "Closed form via star Casimir factorisation: H_star = J·S_0·S_L = (J/2)·(S²_tot − 3/4 − S²_L); within a fixed S_L ≥ 1/2 sector the hub couples to S_L ± 1/2 with gap J·(S_L + 1/2); maximum at S_L = (N-1)/2 gives ΔE_max = J·N/2. Upper bound by field of values: D is Hilbert-Schmidt self-adjoint because the jump operators Z_l are Hermitian, so Im λ lies in the convex hull of the spectrum of -i[H,·]. Realised by |β_k⟩⟨ferro| (fully polarised extreme against the E_min state at Hamming rung k), on which uniform dephasing acts as the scalar -2γk, giving λ = -2γk + i·J·N/2 (conjugate mode -i), i.e. 4(N-1) eigenvalues with multiplicity. See PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md.");
+                summary: "Closed form via star Casimir factorisation: H_star = J·S_0·S_L = (J/2)·(S²_tot − 3/4 − S²_L); within a fixed S_L ≥ 1/2 sector the hub couples to S_L ± 1/2 with gap J·(S_L + 1/2); maximum at S_L = (N-1)/2 gives ΔE_max = J·N/2. Upper bound by numerical range: D is Hilbert-Schmidt self-adjoint because the jump operators Z_l are Hermitian, so Im λ lies in the convex hull of the spectrum of -i[H,·]. Realised by |β_k⟩⟨ferro| (fully polarised extreme against the E_min state at Hamming rung k), on which uniform dephasing acts as the scalar -2γk, giving λ = -2γk + i·J·N/2 (conjugate mode -i), i.e. 4(N-1) eigenvalues with multiplicity. See PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md.");
 
             yield return new InspectableNode("what is NOT star-specific",
                 summary: "The saturation max|Im λ_L| = ΔE_max(H) holds for every isotropic Heisenberg topology tested (chain, ring, complete, T-shape, disconnected), so it carries no star information. Star-specific are the closed form ΔE_max(H_star) = J·N/2 and the fact that this is the MINIMUM over connected graphs: exhaustive search at N = 4, 5, 6 (38, 728, 26704 connected graphs) gives minimum exactly J·N/2, attained by the N stars and nothing else.");

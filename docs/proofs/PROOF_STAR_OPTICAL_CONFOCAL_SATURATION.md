@@ -113,7 +113,7 @@ which lies in the convex hull of spec(K)/i = {ω_β − ω_α}, i.e. in [−ΔE_
 
     max |Im(λ_L)|  ≤  max{|ω_α − ω_β| : ω_α, ω_β ∈ σ(H_star)}  =  ΔE_max(H_star)  =  J · N / 2.
 
-This is a field-of-values argument and it holds for any γ_l ≥ 0, uniform or not.
+This is a numerical-range argument and it holds for any γ_l ≥ 0, uniform or not.
 
 **The hypothesis that carries it is the Hermiticity of the jump operators**, not the informal statement that the dissipator "only adds real decay". The informal version is false. Counterexample, verified in the gate: one qubit, H = 0 (so ΔE_max = 0), single jump operator c = I + iY. The generator is trace preserving, unital, has all Re λ ≤ 0 and no Hamiltonian part whatsoever, yet its spectrum is {0, 0, −2+2i, −2−2i}, so max|Im λ| = 2 > 0 = ΔE_max. What that dissipator lacks is self-adjointness: ‖D − D†‖ = 5.6569.
 
