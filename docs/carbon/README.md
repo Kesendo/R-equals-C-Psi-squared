@@ -105,14 +105,20 @@ We came back to benzene to see what they sharpen.
 
 What was one notion of "palindromic" in May (F1 spectrum, broken by Peierls) is
 now two: F1 at the spectrum level and F112 at the matrix-polarity level, with
-different robustness. Peierls breaks F1 spectrum but is predicted to preserve F112
-polarity, because the bond operator B = XX + YY is itself bit_b-homogeneous as a
-composite. F114 separately gives a closed-form sign rule ε(σ) = (−1)^(n_Y(σ) + 1)
-that reads as a time-reversal-parity bookkeeping for any Hamiltonian term: pure
-Hückel benzene has ε(H) = −1 (no Y, fully time-reversal-even); adding a magnetic
-ring-current term flips parity per term. The doc walks through the carbon analog
-of all three framework dephase letters (Z ↔ Holstein, X ↔ hybridization-axis
-candidate, Y ↔ current-axis candidate) and what each predicts for benzene.
+different robustness. Peierls breaks F1 spectrum and preserves F112 polarity,
+measured bit-exact, because the bond operator B = XX + YY is itself
+bit_b-homogeneous as a composite. F114 separately gives a closed-form sign rule
+ε(σ) = (−1)^(n_Y(σ) + 1) that classifies any Hamiltonian term by its content
+under complex conjugation: pure Hückel benzene has ε(H) = −1 (every term real);
+the flux-induced bond current is purely imaginary, so mixing the two reads
+Mixed. The doc walks through the carbon analog of all three framework dephase
+letters (Z ↔ Holstein, X ↔ hybridization-axis candidate, Y ↔ current-axis
+candidate), and then asks which of its own operators are π-electron objects at
+all. Number conservation rules four of its seven Hamiltonians out, and opening
+up the balanced quantity shows it is not one global norm: against a
+number-conserving bath it is block-diagonal in the pair of pi counts, and the
+balance holds bit-exact inside every block on its own, benzene's half-filled
+neutral block included.
 
 Later the same day, [the Painter alternation NMR bridge](PAINTER_ALTERNATION_NMR_BRIDGE.md)
 ends a translator bridge. A Painter view of the slow Liouvillian eigenmodes on the

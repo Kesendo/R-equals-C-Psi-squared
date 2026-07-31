@@ -6,8 +6,10 @@ Setup spec (per the agent-recommended Realistic-Carbon plan):
   - Rings: cyclobutadiene C₄, benzene C₆
   - H inventory:
       (a) Hückel baseline = Σ_b (X_a X_b + Y_a Y_b) per bond
-      (b) + Hubbard density-density  = U · Σ_b Z_a Z_b
-      (c) + Zeeman_y external field  = h · Σ_l Y_l
+      (b) + neighbour density-density = V · Σ_b Z_a Z_b (extended-Hubbard V,
+          not an on-site U: the spinless π model has none, since n² = n)
+      (c) + transverse field         = h · Σ_l Y_l (a pseudospin field; it is
+          number-violating, so it is not a magnetic field on a π system)
       (d) + DM axial bond            = λ · Σ_b (X_a Y_b − Y_a X_b)   (D ∥ ẑ)
       (e) + DM transverse bond       = κ · Σ_b (Y_a Z_b − Z_a Y_b)   (D ∥ x̂)
   - Bath inventory (per c_k operator entering D[c_k] = c ρ c† − ½{c†c, ρ}):
@@ -234,6 +236,68 @@ def run_sweep(N):
             print(f"{h_name:<25} {bath_name:<18} {norm_M:<14.4e} {norm_M_anti:<14.4e} {asym:+.4e}      {rel_asym:<14.3e} {verdict:<10}")
 
 
+def run_block_decomposition(N):
+    """Does the polarity balance survive restriction to one π-count block?
+
+    The sweep above reports one number per cell, a norm over the whole operator
+    space. That hides the structure a chemistry reading needs: against a
+    number-conserving bath, M_anti is block-diagonal in the pair of π counts
+    (n_bra, n_ket), and the balance holds inside each block on its own. The
+    half-filled block is the one a neutral molecule occupies.
+
+    M_plus_half / M_minus_half come back in the PAULI basis, so they are
+    transformed to vec first. `order='F'` matches the transform
+    `polarity_coordinates` itself uses, where vec index k = j·d + i holds
+    A[i, j]; the two stackings differ by a diagonal sign that leaves every
+    per-block Frobenius norm unchanged.
+    """
+    from framework.pauli import _vec_to_pauli_basis_transform
+
+    d = 2**N
+    T = _vec_to_pauli_basis_transform(N, order="F")
+    T_inv = T.conj().T / (2**N)
+    popcount = np.array([bin(i).count("1") for i in range(d * d) if i < d])
+    flat = np.arange(d * d)
+    bra = popcount[flat % d]
+    ket = popcount[flat // d]
+
+    H = H_hueckel(N) + 0.1 * H_dm_axial(N)
+    c_ops, gammas = bath_holstein(N, 1.0)
+    pol = fw.polarity_coordinates_from_hc(H, c_ops, gammas, N, sigma=N * 1.0)
+    M_plus = T @ np.asarray(pol["M_plus_half"]) @ T_inv
+    M_minus = T @ np.asarray(pol["M_minus_half"]) @ T_inv
+    M_anti = M_plus + M_minus
+    total = float(np.linalg.norm(M_anti) ** 2)
+
+    label = bra * (N + 1) + ket
+    off_block = float(np.sum(np.abs(M_anti[~(label[:, None] == label[None, :])]) ** 2))
+
+    print()
+    print("=" * 105)
+    print(f"N = {N}: does the balance survive restriction to one π-count block?")
+    print("=" * 105)
+    print("H = Hückel + 0.1·DM axial, Holstein bath (number-conserving on both sides)")
+    print(f"  ‖M_anti‖² = {total:.6f}      weight outside the (n_bra, n_ket) blocks = {off_block:.3e}")
+    print()
+    print(f"  {'block':<32} {'‖M_+1/2‖²':<16} {'‖M_−1/2‖²':<16} {'difference':<14} {'share':<8}")
+    print("-" * 90)
+
+    half = N // 2
+    blocks = [(f"(n_bra={half}, n_ket={half}) half filled", (bra == half) & (ket == half)),
+              (f"(n_bra={half}, n_ket={half - 1})", (bra == half) & (ket == half - 1)),
+              ("Δn = 0, all sectors", bra == ket),
+              ("Δn odd (π-parity forbidden)", (bra - ket) % 2 != 0),
+              ("Δn even, nonzero", ((bra - ket) % 2 == 0) & (bra != ket))]
+    for name, sel in blocks:
+        idx = np.ix_(sel, sel)
+        p = float(np.linalg.norm(M_plus[idx]) ** 2)
+        m = float(np.linalg.norm(M_minus[idx]) ** 2)
+        print(f"  {name:<32} {p:<16.6f} {m:<16.6f} {p - m:<+14.3e} {100 * (p + m) / total:6.2f}%")
+    print()
+    print("  Reading: every block balances on its own, so the unpreparable Δn-odd part")
+    print("  can be set aside and the neutral half-filled block still balances exactly.")
+
+
 def main():
     print("=" * 105)
     print("Realistic carbon Hamiltonian + bath sweep: F112 polarity balance")
@@ -241,9 +305,9 @@ def main():
     print()
     print("H inventory (each on top of Hückel ring):")
     print("  Hückel only                = Σ_b (X⊗X + Y⊗Y) on each bond")
-    print("  + Hubbard 0.5·ZZ          = Hückel + 0.5·Σ_b Z⊗Z (density-density)")
-    print("  + Zeeman_y 0.1            = Hückel + 0.1·Σ_l Y_l (weak y-magnetic field)")
-    print("  + Zeeman_y 1.0            = Hückel + 1.0·Σ_l Y_l (strong y-magnetic field)")
+    print("  + Hubbard 0.5·ZZ          = Hückel + 0.5·Σ_b Z⊗Z (neighbour density-density)")
+    print("  + Zeeman_y 0.1            = Hückel + 0.1·Σ_l Y_l (weak transverse pseudospin field)")
+    print("  + Zeeman_y 1.0            = Hückel + 1.0·Σ_l Y_l (strong transverse pseudospin field)")
     print("  + DM axial 0.1            = Hückel + 0.1·Σ_b (X⊗Y − Y⊗X) (D ∥ ẑ; the bond current)")
     print("  + DM transverse 0.1       = Hückel + 0.1·Σ_b (Y⊗Z − Z⊗Y) (D ∥ x̂; NOT a ring current)")
     print("  Full mix                  = Hückel + Hubbard + all three perturbations together")
@@ -267,6 +331,9 @@ def main():
     print("symmetry holds bit-exact; BROKEN means it breaks substantively.")
     print("‖M_anti‖² = 0 means the test is vacuous (no relaxing-component content to test).")
     print()
+
+    for N in [4, 6]:
+        run_block_decomposition(N)
 
 
 if __name__ == "__main__":
