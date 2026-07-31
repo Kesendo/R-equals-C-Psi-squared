@@ -3664,7 +3664,8 @@ trichotomy class).
 
 **Status (2026-06-05, closed 2026-06-10):** the 42:8 split is derived by a closed-form counting rule
 (PROOF §6); the bipartite-chirality mechanism (§7) derives the soft direction, N-stability
-is verified at N=5 (F105), and F106 is the k=4 sibling. The windowed (k<N) hard-direction
+is verified at N=5 (F105) and holds from N=4 up (the adjacency half of the rule needs k < N;
+at N=3 the diagonal cells read 34:0 and 21:21), and F106 is the k=4 sibling. The windowed (k<N) hard-direction
 converse non-bipartite ⟹ hard is now a **theorem with no residual** (the Phase B two-reflection
 theorem [the F87 windowed-converse proof](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md),
 2026-06-09, closed 2026-06-10): the threshold #A ≥ 2ℓ, the bipartite ⟹ soft re-proof, the monomial
@@ -3719,8 +3720,13 @@ k. F105 tests whether this lifts to the y_par sub-refinement.
 F105's 5 sub-statement counts at N=5 k=3 are bit-exactly identical to F103's at
 N=4 k=3 (truly 300 / 0 y_par=1; hard diagonal (42, 8) / (42, 8) / (8, 42);
 diagonal soft (13, 13) ×3; mother soft (0, 21) ×3; off-diagonal Pattern B +
-Pattern C cells unchanged). The cubic Z₂³ architecture is N-invariant in its
-sub-cell structure at k=3.
+Pattern C cells unchanged). The cubic Z₂³ architecture holds its sub-cell
+structure at k=3 from N=4 up, and through N=8 by F103 §7's criterion.
+
+**The floor (F105 §5, `simulations/f87_z2cubed_n_boundary.py`):** the two
+diagonal-cell records start at N=4, because F103 §6's adjacency rule (b) needs
+the term placed at two windows (k < N). At N=3 they read (34, 0) hard and
+(21, 21) soft. The other three records hold at N=3 as well.
 
 **Method:** 882 classifications via the SLOW_F105_BATCH tool; ~3h dense batch,
 accelerated to ~12 min via PLINQ in the Task 7 run.
@@ -3988,8 +3994,8 @@ letters), and pure-D templates have y_par = y_par(D) by construction. At k = 3
 the 42:8 dominance follows from the §6 counting rule (see Aspect C).
 
 **Aspect C (k-purity sharpening, §6 closed-form counting rule):** k=3 N=4 (F103): 42:8 biased; k=3
-N=5 (F105): identical 42:8 (N-stable); k=4 N=4 (F106): 228:0 fully pure with
-Y-inversion preserved.
+N=5 (F105): identical 42:8 (N-stable from N=4; N=3 reads 34:0, the split without the
+adjacency half); k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved.
 
 **Status (promoted Tier1Derived 2026-06-10):** the 42:8 (k=3) and 228:0 (k=4) ratios are derived by
 the §6 counting rule and the §7 bipartite mechanism; F111 closes the k=4 case at full support. The

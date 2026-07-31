@@ -35,6 +35,8 @@ public class F87Z2CubedRefinementN5K3Tests
         // chain on which we classify changes (N=4 to N=5). F85 predicts the
         // Pi2-class trichotomy is N-stable, so per-cell counts should match F103
         // bit-exactly. This was CONFIRMED by the Task 7 SLOW_F105_BATCH run.
+        // The floor is N=4, not N=3: see F105 §5 and the K3N3 tests in
+        // Diagnostics.Tests/F87/HardCellYInversionPatternEnumerationTests.cs.
         var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(5, claim.N);
         Assert.Equal(3, claim.K);
@@ -58,6 +60,8 @@ public class F87Z2CubedRefinementN5K3Tests
         // Hard appears only in the diagonal Klein cells (Klein matches dephase letter).
         // Z and X dephase split 42:8 (y_par=0 dominant); Y dephase inverts to 8:42
         // because Y carries y_par=1. Each sum equals 50. Bit-exact match to F103.
+        // This is the N >= 4 record: at N=3 the same cells read 34:0 (F105 §5), since
+        // F103 §6's clause (b) needs the template placed at two windows.
         var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal((42, 8), claim.HardDiagonal.ZDephKlein01);
         Assert.Equal((42, 8), claim.HardDiagonal.XDephKlein10);
@@ -77,7 +81,9 @@ public class F87Z2CubedRefinementN5K3Tests
     {
         // The same 3 diagonal cells that host hard 42:8 also host soft 13:13 (sum 26).
         // Unlike the hard 42:8 asymmetry, soft is y_par-symmetric in these cells.
-        // Bit-exact match to F103.
+        // Bit-exact match to F103. "Universal" here means across the three dephase
+        // letters, NOT across N: like the hard split this is the N >= 4 record, and
+        // at N=3 these cells read 21:21 (F105 §5).
         var claim = new F87Z2CubedRefinementN5K3(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal((13, 13), claim.DiagonalSoft.ZDephKlein01);
         Assert.Equal((13, 13), claim.DiagonalSoft.XDephKlein10);

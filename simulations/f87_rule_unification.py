@@ -10,6 +10,11 @@ ODD CYCLE in the hopping graph. This script verifies the exact correspondence
 
   rule (a)  ⟺  diagonal lift            (template term ⟹ diagonal H, has_diag)
   rule (b)  ⟺  odd cycle (K3 triangle)  (adjacent single-diagonal ⟹ triangle in S)
+
+Both equivalences are for the windowed regime k < N (this script runs at N=4). At N=3
+the k=3 window is full support: no triangle can form, the criterion calls all 16
+rule-(b) pairs bipartite, and they are soft. Rule (a) ⟺ diagonal lift has no such
+floor. See PROOF_F103 §6 and f87_z2cubed_n_boundary.py.
   §6-hard (a∨b)  ⟺  non-bipartite  ⟺  F87-hard
 
 over ALL diagonal-cell (Z-deph, Klein (0,1)) y_par-homogeneous pairs (templates included).

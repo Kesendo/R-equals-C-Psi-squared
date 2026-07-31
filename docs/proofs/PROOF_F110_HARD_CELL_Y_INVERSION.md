@@ -34,7 +34,7 @@ The diagnostic upshot is that y-parity completes the F87 trichotomy classificati
 
 **Aspect C (k-purity sharpening, derived via F103 §6/§7):**
 - k = 3, N = 4 (F103 anchor): 42:8 biased split per diagonal cell
-- k = 3, N = 5 (F105 anchor): identical 42:8 (N-stable per F85)
+- k = 3, N = 5 (F105 anchor): identical 42:8 (N-stable from N = 4 per F103 §6; F85's own N-stability is the per-term Π²-class, a different cut of the word, see `experiments/SOFTNESS_IS_N_DEPENDENT.md`)
 - k = 4, N = 4 (F106 anchor): 228:0 fully pure with Y-inversion preserved
 
 ## 2. Proof of Aspect A (closed-form)
@@ -75,6 +75,12 @@ From the F103/F105/F106 frozen count tables:
 | F106 N=4 k=4 | (1, 0) | X | (228, 0), fully pure y_par=0 |
 | F106 N=4 k=4 | (1, 1) | Y | (0, 228), fully pure y_par=1 (Y-INVERSION) |
 
+The three F105 rows read "N-stable" from N = 4 upward, and F103 §7's criterion carries
+them through N = 8. At N = 3 the same three cells read (34, 0), (34, 0) and (0, 34): the
+split with F103 §6's adjacency rule (b) absent, since a single window closes no odd cycle
+([F105 §5](PROOF_F105_F87_Z2_CUBED_REFINEMENT_N5K3.md)). The Y-inversion survives that
+step, because it comes from the templates' Y content rather than from the adjacency half.
+
 **Structural reading of Aspect B:** the dephase letter enters the dissipator as a single-letter "preferred" content; in the diagonal hard cell, the y_par favored by the dephase letter's own Y-content dominates. The Y-letter carries y_par = 1, which inverts the otherwise-y_par = 0-preferred pattern.
 
 **Aspect B at k = N = 4 (closed-form, Tier1Derived):** The sibling Claim F111 (HardCellPureDTemplate, 2026-05-25, Tier1Derived since 2026-06-10) sharpens Aspect B at k = N = 4: a pair (P, Q) in the diagonal cell is F87-hard iff at least one of P, Q is a "pure-D template" (length-4 string with only D and I letters). Pure-D templates have y_par = y_par(D) by construction, so the F106 N = 4 k = 4 228:0 split follows immediately. See [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md). (F111 was promoted to Tier1Derived once subclaim (d) Mixed+Mixed = soft closed modulo M via PROOF_F103 §7.4 and the hard-direction converse closed via WindowedConverseAllGammaClaim.) At k = 3 the 42:8 dominance is derived instead by the F103 §6 counting rule, not by F111's k = 4 rule: F111's Pure-D Template Rule is anchored at k = N = 4 and does not transport down to k = 3 as a 1:1 structural correspondence (the F103 enumeration at k_body=3 admits pure-D letter-sequences only as the single all-D string per diagonal cell, far short of the 8 pure-D templates the k = 4 rule relies on, so the 36 + 192 + 0 decomposition does not reproduce the F103 50-pair hard count).
@@ -83,7 +89,7 @@ From the F103/F105/F106 frozen count tables:
 
 ## 4. Empirical verification
 
-Bit-exact verification via the `HardCellYInversionPatternEnumerationTests` SLOW_F110 trait at all three anchors (k=3 N=4, k=3 N=5, k=4 N=4). The C# test class uses `Z2HomogeneousKBodyEnumeration.Enumerate(k)` + `PauliPairTrichotomy.Classify(chain, terms, dephase)` to re-classify every pair and assert per-cell hard counts match F110's expected split with Y-inversion. 7/7 SLOW_F110 tests pass (k=3 N=4 counts + diagonal-only, k=3 N=5 N-stability, k=4 N=4 counts + diagonal-only, dominant-y_par structural reading at k=3 and k=4).
+Bit-exact verification via the `HardCellYInversionPatternEnumerationTests` SLOW_F110 trait at four anchors (k=3 N=3, k=3 N=4, k=3 N=5, k=4 N=4). The C# test class uses `Z2HomogeneousKBodyEnumeration.Enumerate(k)` + `PauliPairTrichotomy.Classify(chain, terms, dephase)` to re-classify every pair and assert per-cell hard counts match F110's expected split with Y-inversion. 9/9 SLOW_F110 tests pass (k=3 N=4 counts + diagonal-only, k=3 N=5 N-stability, k=3 N=3 below the floor + the three records that hold there, k=4 N=4 counts + diagonal-only, dominant-y_par structural reading at k=3 and k=4).
 
 ## 5. Significance
 

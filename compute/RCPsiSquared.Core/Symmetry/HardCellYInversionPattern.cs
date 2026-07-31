@@ -21,7 +21,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         y_par=1. Structural reading: the dephase letter's own Y-content
 ///         determines which y_par value the F87-hard split favors.</item>
 ///   <item><b>Aspect C (k-purity sharpening, closed-form counting rule):</b> At k=3 N=4: 42:8
-///         biased (per F103). At k=3 N=5: identical 42:8 (N-stable per F105). At
+///         biased (per F103). At k=3 N=5: identical 42:8, and N-stable from N=4 up
+///         (per F105; at N=3 the same cells read 34:0, since rule (b) of the counting
+///         rule needs the term placed at two windows). At
 ///         k=4 N=4: 228:0 fully pure (per F106). These ratios are derived by the
 ///         diagonal-cell counting rule (F103 §6) and the bipartite-chirality
 ///         mechanism (§7); the windowed k&lt;N hard-direction converse, once the one
@@ -133,7 +135,7 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
             yield return new InspectableNode("Aspect B: Y-inversion structural reading",
                 summary: "Dominant y_par = y_par(dephase letter): Z/X → 0, Y → 1. The Y-letter's y_par=1 inverts the otherwise-y_par=0-preferred pattern. At k = N = 4 closed-form via sibling Claim F111 (HardCellPureDTemplate, 2026-05-25, Tier1Derived since 2026-06-10): hard pairs in diagonal cell contain at least one pure-D template, and pure-D templates have y_par = y_par(D) by construction. At k = 3 the 42:8 dominance follows from the F103 §6 counting rule (see Aspect C).");
             yield return new InspectableNode("Aspect C: k-purity sharpening (§6 closed-form counting rule)",
-                summary: "k=3 N=4 (F103): 42:8 biased per diagonal cell. k=3 N=5 (F105): identical 42:8 (N-stable). k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved.");
+                summary: "k=3 N=4 (F103): 42:8 biased per diagonal cell. k=3 N=5 (F105): identical 42:8, N-stable from N=4 up (at N=3 the cells read 34:0 and 21:21, the split without rule (b), which needs the term at two windows). k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved.");
             yield return new InspectableNode("Sibling YParity-axis claims",
                 summary: "F102 (YParityIndependenceAtK3, Tier1Derived), F103 (F87Z2CubedRefinementN4K3, Tier1Derived), F105 (F87Z2CubedRefinementN5K3, Tier1Derived), F106 (F87Z2CubedRefinementN4K4, Tier1Derived), F107 (TrulyYParityZeroPurity, Tier1Derived), F109 (MotherSoftYParityOnePurity, Tier1Derived), F110 (HardCellYInversionPattern, THIS Claim, Tier1Derived since 2026-06-10), F111 (HardCellPureDTemplate at k=N=4, Tier1Derived since 2026-06-10; sharpens Aspect B). Together the 8 YParity-axis Claims pin the y_par signature of all three F87 trichotomy classes.");
             yield return new InspectableNode("Cross-axis dependencies (BitB and BitA): F108 Parts",

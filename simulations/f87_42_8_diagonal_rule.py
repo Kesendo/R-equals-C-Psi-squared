@@ -6,12 +6,18 @@ call {I, D} the DIAGONAL letters (they commute with D-dephasing). A k=3 cell ter
 either 3 diagonal letters (an all-diagonal "pure-D template", n_X=n_Y=0) or exactly 1
 (two off-diagonal letters {X,Y} plus one {I,D}); the cell forces n_diagonal in {1,3}.
 
-    Hardness rule (verified bit-exact, 0 mismatches, at N=4 and N=5, for D in {Z,X,Y}):
+    Hardness rule (windowed regime k < N, i.e. N >= 4 at k=3; verified bit-exact,
+    0 mismatches, at N=4 and N=5, for D in {Z,X,Y}):
       a k=3 pair is F87-hard  iff
         (a) at least one term is all-diagonal (pure-D template), OR
         (b) both terms are single-diagonal AND their lone {I,D} letter sits at
             chain-ADJACENT window positions (|Δpos| = 1);
       otherwise soft.
+
+    Clause (b) needs the template placed at more than one sliding window, so it has a
+    floor: at N=3 (full support, one window) it still fires but its conclusion is false,
+    and the 16 pairs it calls hard are soft. Clause (a) holds at every N. See
+    PROOF_F103 §6 and f87_z2cubed_n_boundary.py.
 
 Consequences (the open 42:8 closed form):
   * single-diagonal pairs: 8 adjacent (hard) + 13 non-adjacent (soft), symmetric in y_par.

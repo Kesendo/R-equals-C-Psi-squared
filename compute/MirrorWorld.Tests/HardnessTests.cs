@@ -112,7 +112,7 @@ public class HardnessTests
     }
 
     // F110/F111 (with F105's N-stability): hard pairs live only in the diagonal Klein cell of
-    // the dephase letter, with the Y-inversion; the adopted splits are 42:8 at k=3 (identical at
+    // the dephase letter, with the Y-inversion; the adopted splits are 42:8 at k=3 from N=4 up (identical at
     // N=4 and N=5) and 228:0 at k=N=4 via the pure-D template rule, whose decomposition
     // 36 + 192 + 300 = 528 is the pairs arithmetic of 8 pure and 24 mixed cell members.
     [Fact]

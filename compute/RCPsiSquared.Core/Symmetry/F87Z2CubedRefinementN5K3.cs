@@ -81,9 +81,17 @@ public sealed class F87Z2CubedRefinementN5K3 : F87Z2CubedRefinementBase
             foreach (var child in base.ExtraChildren)
                 yield return child;
             yield return new InspectableNode("Scope (out-of-scope items)",
-                summary: "F106 covers N=4 k=4 (separate spec). F107+ open: N=6 k=3 (requires " +
-                         "block-spectrum Classify; N=5 k=4 batch ~42h). Closed-form derivation " +
-                         "of 42:8 (if N-stable) or N=5 split (if not) remains open.");
+                summary: "F106 covers N=4 k=4 (separate spec). F107+ open: N=6 k=3 spectrally " +
+                         "(requires block-spectrum Classify; N=5 k=4 batch ~42h). The closed-form " +
+                         "derivation of 42:8 is no longer open: F103 §6 derives it by counting " +
+                         "(2026-05-29), with the two halves of the rule reaching differently in N.");
+            yield return new InspectableNode("Floor in N (F105 §5)",
+                summary: "These counts are the N ≥ 4 record. The two diagonal-cell ones need " +
+                         "F103 §6's adjacency rule (b), which needs the term placed at more than " +
+                         "one window (k < N), so at N=3 the diagonal cells read 34:0 hard and " +
+                         "21:21 soft instead. The other three (truly y_par=0-pure with total 300, " +
+                         "mother soft 0:21, the six off-diagonal Pattern B/C cells) already hold " +
+                         "at N=3. Gate: simulations/f87_z2cubed_n_boundary.py.");
         }
     }
 }

@@ -1,8 +1,9 @@
 # Bipartite-Chirality of the F87 Diagonal Cell (k=3 and k=4)
 
 **Status:** The criterion *soft ⟺ H's hopping graph is bipartite in the dephasing basis* is
-verified bit-exact at k=3 (N=4 for all three dephase letters, N=5 for Z) and at k=4 (N=4, all
-three letters), with 0 mismatches throughout. The direction **bipartite ⟹ soft is derived**
+verified bit-exact at k=3 (N=3 and N=4 for all three dephase letters, N=5 for Z) and at k=4
+(N=4, all three letters), with 0 mismatches throughout; over the k=3 diagonal cell the criterion
+is also swept through N=8. The direction **bipartite ⟹ soft is derived**
 (the chiral K, modulo the F80 one-sidedness M = −2i(H⊗I), itself bit-exact). The converse
 splits by support: **at full support (k=N) it closes** , a Mixed+Mixed pair has only two flip
 generators, so it is always bipartite, hence soft (modulo M), which settles F111's blocked
@@ -15,6 +16,7 @@ still open. **[UPDATE: since closed 2026-06-10]** the windowed converse non-bipa
 - [`simulations/f87_k4_bipartite_bridge.py`](../simulations/f87_k4_bipartite_bridge.py) , k=4 criterion + the F111 template cross-check (N=4)
 - [`simulations/f87_bipartite_chiral_witness.py`](../simulations/f87_bipartite_chiral_witness.py) , the three derivation links and the optimal λ↔−λ−2σ pairing residual
 - [`simulations/f87_flip_generators.py`](../simulations/f87_flip_generators.py) , the flip-generator count |S|, full support (|S|≤2) vs windows (|S|≥3), and the GF(2) φ⟺bipartite check
+- [`simulations/f87_z2cubed_n_boundary.py`](../simulations/f87_z2cubed_n_boundary.py) , the floor in N: the spectral grid at N=3 and N=4, the criterion over the diagonal cell through N=8, and a four-pair spectral cross-check at N=6
 **Anchors:** [the F103 proof §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md),
 [the F111 proof](../docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md),
 [ChiralKClaim](../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs),
@@ -64,8 +66,13 @@ N=4   Y-deph:  hard=50  soft=26   mismatches=0
 N=5   Z-deph:  hard=50  soft=26   mismatches=0
 ```
 
-The cell counts are N-independent (the pair set is alphabet-only); the criterion holds bit-exact
-at both N.
+The pair set is alphabet-only, and the criterion holds bit-exact at both N. The cell counts hold
+from N=4 up, and the criterion carries them unchanged through N=8
+([`f87_z2cubed_n_boundary.py`](../simulations/f87_z2cubed_n_boundary.py)). At N=3 they move, to
+hard=34 soft=42, because the odd-cycle half of the rule needs the term placed at two windows and
+N=3 offers one. The criterion tracks that move too, and at N=6 four representative pairs are
+classified spectrally and agree with it; those two checks are what license reading the criterion
+above the spectrally measured range.
 
 ### k=4 (the F111 cell), N=4
 

@@ -10,7 +10,8 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// assert F110's Aspect A (hard only in diagonal cell), Aspect B (Y-inversion),
 /// and Aspect C (k-purity sharpening 42:8 to 228:0) bit-exactly.
 ///
-/// <para>Runtime: ~10s for k=3 N=4, ~30s for k=3 N=5, ~3min PLINQ for k=4 N=4.
+/// <para>Runtime: seconds for k=3 N=3 (the floor, F105 §5), ~10s for k=3 N=4, ~30s
+/// for k=3 N=5, ~3min PLINQ for k=4 N=4.
 /// Skip-by-default in CI; manual re-run via
 /// <c>dotnet test "compute/RCPsiSquared.Diagnostics.Tests" -c Release --filter "Category=SLOW_F110"</c>.</para></summary>
 [Trait("Category", "SLOW_F110")]
@@ -62,6 +63,61 @@ public class HardCellYInversionPatternEnumerationTests :
         Assert.Equal((42, 8), HardCounts(counts, (0, 1), 'Z'));
         Assert.Equal((42, 8), HardCounts(counts, (1, 0), 'X'));
         Assert.Equal((8, 42), HardCounts(counts, (1, 1), 'Y'));
+    }
+
+    [Fact]
+    public void K3N3_HardDiagonalCounts_Read34_0_BelowTheFloor()
+    {
+        // The floor under the test above (F105 §5). F103 §6's rule has two halves:
+        // (a) fires at every N, (b) needs the term placed at more than one window
+        // (k < N). At k=3, N=3 is full support, so (b) contributes nothing and the
+        // 8 adjacent pairs stay soft: 34:0 hard, and the diagonal soft is 21:21
+        // rather than 13:13. The Y-inversion survives, since it comes from the
+        // templates' Y content and not from the adjacency half.
+        var counts = _fixture.CountsK3N3;
+        Assert.Equal((34, 0), HardCounts(counts, (0, 1), 'Z'));
+        Assert.Equal((34, 0), HardCounts(counts, (1, 0), 'X'));
+        Assert.Equal((0, 34), HardCounts(counts, (1, 1), 'Y'));
+
+        Assert.Equal(21, SoftCount(counts, (0, 1), 'Z', 0));
+        Assert.Equal(21, SoftCount(counts, (0, 1), 'Z', 1));
+
+        // Non-vacuity: the N=4 record this bounds is genuinely different, so the
+        // test cannot pass by a classifier that has stopped discriminating.
+        Assert.NotEqual(HardCounts(_fixture.CountsK3N4, (0, 1), 'Z'),
+                        HardCounts(counts, (0, 1), 'Z'));
+    }
+
+    [Fact]
+    public void K3N3_AlphabetDrivenRecords_AlreadyHoldBelowTheFloor()
+    {
+        // The three records that need no floor: truly stays y_par=0-pure with
+        // total 300, mother soft stays 0:21, and the six off-diagonal Pattern B /
+        // Pattern C cells keep their counts.
+        var counts = _fixture.CountsK3N3;
+
+        int trulyTotal = 0;
+        foreach (var klein in AllKleinCells)
+            foreach (var dephase in new[] { 'Z', 'X', 'Y' })
+            {
+                trulyTotal += ClassCount(counts, klein, dephase, 0, TrichotomyClass.Truly);
+                Assert.Equal(0, ClassCount(counts, klein, dephase, 1, TrichotomyClass.Truly));
+            }
+        Assert.Equal(300, trulyTotal);
+
+        foreach (var dephase in new[] { 'Z', 'X', 'Y' })
+        {
+            Assert.Equal(0, SoftCount(counts, (0, 0), dephase, 0));
+            Assert.Equal(21, SoftCount(counts, (0, 0), dephase, 1));
+        }
+
+        // Pattern B (proportional to the enumeration split) and Pattern C (y_par=1-pure).
+        Assert.Equal((55, 21), SoftCounts(counts, (0, 1), 'Y'));
+        Assert.Equal((21, 55), SoftCounts(counts, (1, 1), 'Z'));
+        Assert.Equal((21, 55), SoftCounts(counts, (1, 1), 'X'));
+        Assert.Equal((0, 21), SoftCounts(counts, (0, 1), 'X'));
+        Assert.Equal((0, 21), SoftCounts(counts, (1, 0), 'Z'));
+        Assert.Equal((0, 21), SoftCounts(counts, (1, 0), 'Y'));
     }
 
     [Fact]
@@ -157,10 +213,25 @@ public class HardCellYInversionPatternEnumerationTests :
     private static int HardCount(
         IReadOnlyDictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> counts,
         (int, int) klein, char dephase, int yPar) =>
-        counts.GetValueOrDefault(((klein.Item1, klein.Item2), dephase, yPar, TrichotomyClass.Hard));
+        ClassCount(counts, klein, dephase, yPar, TrichotomyClass.Hard);
+
+    private static (int yPar0, int yPar1) SoftCounts(
+        IReadOnlyDictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> counts,
+        (int, int) klein, char dephase) =>
+        (SoftCount(counts, klein, dephase, 0), SoftCount(counts, klein, dephase, 1));
+
+    private static int SoftCount(
+        IReadOnlyDictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> counts,
+        (int, int) klein, char dephase, int yPar) =>
+        ClassCount(counts, klein, dephase, yPar, TrichotomyClass.Soft);
+
+    private static int ClassCount(
+        IReadOnlyDictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> counts,
+        (int, int) klein, char dephase, int yPar, TrichotomyClass cls) =>
+        counts.GetValueOrDefault(((klein.Item1, klein.Item2), dephase, yPar, cls));
 }
 
-/// <summary>Shared lazy classification grids at (N=4, k=3), (N=5, k=3), and (N=4, k=4).
+/// <summary>Shared lazy classification grids at (N=3, k=3), (N=4, k=3), (N=5, k=3), and (N=4, k=4).
 /// Each grid is computed once on first access; subsequent test methods reuse the
 /// same dictionary. Thread-safe via <see cref="Lazy{T}"/>.</summary>
 public sealed class HardCellYInversionPatternCountsFixture
@@ -168,12 +239,15 @@ public sealed class HardCellYInversionPatternCountsFixture
     private static readonly PauliLetter[] DephaseLetters =
         { PauliLetter.Z, PauliLetter.X, PauliLetter.Y };
 
+    private readonly Lazy<Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int>> _countsK3N3;
     private readonly Lazy<Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int>> _countsK3N4;
     private readonly Lazy<Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int>> _countsK3N5;
     private readonly Lazy<Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int>> _countsK4N4;
 
     public HardCellYInversionPatternCountsFixture()
     {
+        _countsK3N3 = new Lazy<Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int>>(
+            () => ClassifyAndGroup(N: 3, k: 3), System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
         _countsK3N4 = new Lazy<Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int>>(
             () => ClassifyAndGroup(N: 4, k: 3), System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
         _countsK3N5 = new Lazy<Dictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int>>(
@@ -182,6 +256,7 @@ public sealed class HardCellYInversionPatternCountsFixture
             () => ClassifyAndGroup(N: 4, k: 4), System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
+    public IReadOnlyDictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> CountsK3N3 => _countsK3N3.Value;
     public IReadOnlyDictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> CountsK3N4 => _countsK3N4.Value;
     public IReadOnlyDictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> CountsK3N5 => _countsK3N5.Value;
     public IReadOnlyDictionary<((int A, int B) Klein, char Dephase, int YPar, TrichotomyClass Cls), int> CountsK4N4 => _countsK4N4.Value;

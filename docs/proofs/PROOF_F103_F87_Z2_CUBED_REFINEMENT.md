@@ -11,7 +11,7 @@ F87 classifies Pauli pairs into three buckets (truly, soft, hard) based on how t
 
 The answer is yes, the trichotomy splits cleanly, with five structural patterns that survive across all three dephase letters. The 294 Pauli pairs (this count depends only on the k=3 letter alphabet, not on N) divide into three trichotomy classes, and inside each class, the y-parity axis carves the cells into sub-cells with recognizable shape: truly always lands in y_par = 0, mother-soft always in y_par = 1, the diagonal hard cells split 42:8 with a Y-inversion on the Y-dephasing diagonal, the diagonal soft cells split symmetrically 13:13, and the off-diagonal soft cells split into two named sub-patterns B and C.
 
-The proof begins empirical at the (N=4, k=3) anchor (an exhaustive enumeration verified bit-exactly) and is then closed: §6 gives a closed-form counting rule for the 42:8 split, and §7 supplies the bipartite-chirality mechanism (the soft direction, bipartite ⟹ soft, is derived; the windowed k<N hard-direction converse has since closed in stages, full support §7.4, genericity §7.5/§7.6, and all γ > 0 with no residual via the [two-reflection theorem + Pascal-Gram positivity](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md), closed 2026-06-10). The question whether the pattern is k-stable and N-stable is answered by F105 (N=5, k=3, N-stable) and F106 (N=4, k=4, sharpening to 228:0) as sibling anchors. Together the three anchors map out which parts of the Z₂³ structure are N-stable, which are k-stable, and which depend on the specific (N, k) regime.
+The proof begins empirical at the (N=4, k=3) anchor (an exhaustive enumeration verified bit-exactly) and is then closed: §6 gives a closed-form counting rule for the 42:8 split, and §7 supplies the bipartite-chirality mechanism (the soft direction, bipartite ⟹ soft, is derived; the windowed k<N hard-direction converse has since closed in stages, full support §7.4, genericity §7.5/§7.6, and all γ > 0 with no residual via the [two-reflection theorem + Pascal-Gram positivity](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md), closed 2026-06-10). The question whether the pattern is k-stable and N-stable is answered by F105 (N=5, k=3, N-stable, with the diagonal-cell half of it starting at N=4, §6 below) and F106 (N=4, k=4, sharpening to 228:0) as sibling anchors. Together the three anchors map out which parts of the Z₂³ structure are N-stable, which are k-stable, and which depend on the specific (N, k) regime.
 
 The diagnostic upshot is that the polarity cube has real teeth on the F87 trichotomy. Knowing the Klein signature alone leaves a 50-50 mix in the diagonal hard cells; adding the y-parity axis sharpens that to 42:8. The y-parity refinement is therefore not just a structural curiosity but a tighter classifier for hardware-relevant Pauli-pair analysis.
 
@@ -205,17 +205,21 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
 ## 5. Open Questions
 
 1. **Closed-form derivation of 42:8. ANSWERED 2026-05-29 (§6), mechanism in §7.** A
-   diagonal-cell hardness rule (hard iff an all-diagonal pure-D template is present, or
-   both terms are single-diagonal with their {I,D} letter at chain-adjacent positions)
+   diagonal-cell hardness rule (on a chain of N ≥ 4: hard iff an all-diagonal pure-D
+   template is present, or both terms are single-diagonal with their {I,D} letter at
+   chain-adjacent positions; the second clause needs two windows, see §6)
    derives the 42:8 and the Y-inversion by counting, verified bit-exact at N=4 and N=5.
    §7 then unifies the two atomic sub-rules into one bipartite-chirality criterion and
    derives the bipartite ⟹ soft direction from the palindrome; the converse is the one
    remaining open edge.
 
-2. **N>4 and k>3 universality.** The (42, 8, 50) numbers are N=4 k=3
-   specific. Does the structural pattern (asymmetric hard split + Y-inversion)
-   carry to other (N, k)? Cheap enumeration to test: run the same script with
-   N∈{5, 6}, k∈{3, 4} and observe.
+2. **N>4 and k>3 universality. ANSWERED in N, OPEN in k.** In N: the (42, 8, 50)
+   numbers hold at N=5 (F105's anchor, spectrally) and through N=8 (§7's criterion,
+   with a four-pair spectral cross-check at N=6). Below the floor they change, N=3 reading
+   34:0 hard and 21:21 soft, per the §6 N-stability paragraph and
+   [F105 §5](PROOF_F105_F87_Z2_CUBED_REFINEMENT_N5K3.md). The Y-inversion itself
+   carries all the way down, since it comes from the templates' Y content. In k:
+   F106 anchors k=4 at N=4 only (228:0), and no k=4 N-sweep exists.
 
 3. **Pattern B vs Pattern C selection rule for off-diagonal soft.** Six cells
    partition into B (proportional) and C (y_par=1-pure); the (pair Klein,
@@ -235,7 +239,7 @@ the D-dissipator). A k=3 term in the diagonal Klein cell has n_diagonal ∈ {1, 
 all three letters are diagonal (a **pure-D template**, n_X = n_Y = 0), or exactly one is
 (two off-diagonal {X, Y} plus one {I, D}).
 
-**Rule.** A k=3 pair is F87-hard iff
+**Rule (windowed regime, k < N).** A k=3 pair on a chain of N ≥ 4 sites is F87-hard iff
 
 - (a) at least one term is a pure-D template (all-diagonal), **or**
 - (b) both terms are single-diagonal and their lone {I, D} letter sits at chain-**adjacent**
@@ -243,6 +247,12 @@ all three letters are diagonal (a **pure-D template**, n_X = n_Y = 0), or exactl
 
 otherwise soft. Verified bit-exact (0 mismatches) at N=4 **and** N=5, for D ∈ {Z, X, Y}
 ([`f87_42_8_diagonal_rule.py`](../../simulations/f87_42_8_diagonal_rule.py)).
+
+**The floor is part of the rule, not a caveat on it.** Clause (b) is well defined at N=3 and
+still fires there, but its conclusion is false: a single window closes no odd cycle, so all 16
+pairs it calls hard are soft at N=3. Applied literally below N=4 the rule box misclassifies
+those 16 of 76. Clause (a) has no such floor and holds at every N. See the N-stability paragraph
+at the end of this section.
 
 **The split follows by counting.** In the cell's favoured y_par (10 terms = 4 pure-D
 templates + 6 single-diagonal): pairs involving ≥1 template number 55 − 21 = 34, all hard
@@ -256,11 +266,17 @@ y_par = 0; for D = Y the template is built of Y's, n_Y odd, so it sits in y_par 
 template pairs therefore land in y_par = 0 for Z/X dephasing (42 : 8) and in y_par = 1 for
 Y dephasing (8 : 42). The §3.2 Y-inversion is the same rule with Y carrying y_par = 1.
 
-**N-stability.** Rule and counts are identical at N=4 and N=5 (the pair set is alphabet-only,
-N-independent, and the rule reads only the k=3 window's internal structure). This is the
-structural reason the F105 N=5 anchor reproduces F103; it closes Open Question 1 for all the
-k=3 anchors (F103, F105, and the k=3 parts of F107 / F110). The k=4 228:0 split (F106) is the
-sibling case of rule (a) at k=4, i.e. F111's pure-D template rule.
+**N-stability, and where it starts.** Rule and counts are identical at N=4 and N=5, and §7's
+criterion carries them unchanged through N=8. The pair set is alphabet-only and N-independent,
+but the rule is not, and the two halves differ: (a) fires at every N, while (b) needs the term
+placed at more than one window, i.e. k < N (§7.4). At k=3 that puts the floor at N=4. N=3 reads
+**34:0** hard and **21:21** soft instead, exactly the split with (b)'s contribution removed, the
+8 adjacent pairs staying soft and joining the 13 (measured over the same 294 pairs in
+[F105 §5](PROOF_F105_F87_Z2_CUBED_REFINEMENT_N5K3.md)). Above that floor this is the structural
+reason the F105 N=5 anchor reproduces F103; it closes Open Question 1 for the k=3 anchors (F103,
+F105, and the k=3 parts of F107 / F110), with the floor applying to the diagonal-cell counts
+alone: F107's truly-forces-y_par=0 is a theorem at every N and needs none. The k=4 228:0 split
+(F106) is the sibling case of rule (a) at k=4, i.e. F111's pure-D template rule.
 
 **Remaining.** §7 supplies the palindrome-level mechanism the §6 rule was missing: the two
 atomic sub-rules turn out to be the two ways of breaking a single criterion (bipartiteness of
@@ -284,7 +300,10 @@ basis state, an edge a–b wherever H[a,b] ≠ 0.
 **Criterion.** A diagonal-cell pair is soft iff G_H is bipartite (2-colourable, zero diagonal);
 hard iff not. Verified bit-exact with zero mismatches over the entire diagonal cell at N=4 (all
 three dephase letters) and N=5
-([`f87_42_8_bipartite_fullcell.py`](../../simulations/f87_42_8_bipartite_fullcell.py)).
+([`f87_42_8_bipartite_fullcell.py`](../../simulations/f87_42_8_bipartite_fullcell.py)), and
+pair by pair at N=3 as well, where it correctly tracks the counts down to 34:0 and 21:21; the
+criterion's cell counts are swept to N=8
+([`f87_z2cubed_n_boundary.py`](../../simulations/f87_z2cubed_n_boundary.py)).
 
 ### 7.1 Why bipartite ⟹ soft (derived)
 
@@ -328,7 +347,8 @@ plus the 2-colouring construction. For a y_par = 1 cell the residual sits on the
   so the only obstruction is an odd cycle. The {I, D} letter's window-position parity is exactly
   the 2-colouring parity: same-parity positions close even hopping cycles (bipartite, soft);
   opposite parity closes an **odd** cycle (non-bipartite, hard). The §6 adjacency rule is the
-  odd-cycle obstruction read at the chain level.
+  odd-cycle obstruction read at the chain level. The cycle needs a third flip generator, hence a
+  term placed at two windows, which is why this clause starts at N=4 and (a) does not (§7.4).
 
 Both halves are verified bit-exact over the whole N=4 diagonal cell (76 y_par-homogeneous
 pairs: 50 hard = 34 via the diagonal lift (a) + 16 via the odd cycle (b), the two mechanisms
@@ -404,8 +424,9 @@ every pair (0 mismatches).
 
 **Where the odd cycle lives.** An odd cycle needs |S| ≥ 3 generators with an odd relation, and a
 third mask appears only when a term is placed at more than one **window**, i.e. when k < N. The
-contrast is sharpest at body count k = 3: at N = 3 it is full support (one window, |S| ≤ 2, all
-soft), while at N = 4 the sliding window gives |S| up to 4 and 16 hard pairs. So rule (b)'s odd
+contrast is sharpest at body count k = 3: at N = 3 it is full support (one window, |S| ≤ 2, every
+Mixed+Mixed pair soft, though the diagonal cell still carries its 34 template-driven hard pairs by
+rule (a)), while at N = 4 the sliding window gives |S| up to 4 and 16 hard pairs. So rule (b)'s odd
 cycle is a *windowed* phenomenon (k < N), not a property of the body count itself. The genuinely
 open part of §7.3 is therefore exactly the windowed regime; full support is settled.
 

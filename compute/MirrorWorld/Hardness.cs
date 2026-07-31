@@ -114,7 +114,9 @@ public sealed class Hardness : GameObject
     public static bool IsPureTemplate(char[] letters, char dephase)
         => letters.All(c => c == 'I' || c == dephase) && letters.Any(c => c == dephase);
 
-    // the adopted census constants: the k=3 diagonal hard split (N-stable, F103 = F105 bit-exact)
+    // the adopted census constants: the k=3 diagonal hard split (N-stable from N=4 up,
+    // F103 = F105 bit-exact; at N=3 the same cell reads 34:0, the split without the
+    // adjacency half of F103 §6's rule, which needs the term placed at two windows)
     // and the k=N=4 template decomposition 36 + 192 + 300 = 528 with 228:0 purity (F106/F111).
     public static (int Dominant, int Recessive) HardSplitK3 => (42, 8);
     public static (int PurePure, int PureMixed, int MixedMixed) TemplateDecompositionK4 => (36, 192, 300);
