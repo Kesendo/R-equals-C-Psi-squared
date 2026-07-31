@@ -18,15 +18,20 @@ In the limit the per-bond ground energy is the Hulthen/Bethe value E0/(J*N) -> 1
 
     c_inf = 1/4 - (1/4 - ln2) = ln 2 = 0.693147...   (NOT 1/sqrt(2) = 0.707107)
 
-The finite-N sequence c_4=3/4, c_6=0.7171, c_8=0.7064 DECREASES through 1/sqrt(2) toward ln2.
-1/sqrt(2) is only a value it passes through (the same red-herring lesson as s*=0.709). We confirm
-by computing the AFM Heisenberg ring ground state E0(N) up to N=16 (sparse, S_z=0 ground state)
+The EVEN sequence c_4=3/4, c_6=0.7171, c_8=0.7064 DECREASES through 1/sqrt(2) toward ln2.
+1/sqrt(2) is only a value it passes through (the same red-herring lesson as s*=0.709). The ODD
+rings are frustrated, so their AFM ground state sits higher and their spread is smaller: c_5=0.6236,
+c_7=0.6579, c_9=0.6719 lie BELOW ln2 and RISE toward it. Two monotone branches closing on the same
+limit from opposite sides, which is why reading the even rows alone as one descent is wrong. We
+confirm by computing the AFM Heisenberg ring ground state E0(N) (sparse, minimal-S_z ground state)
 and forming c_N.
 
-  STAGE 0  the c_N sequence and its ln2 limit (the Hamiltonian side, N = 4..16).
+  STAGE 0  the c_N sequence and its ln2 limit (the Hamiltonian side): the even branch N = 4..16
+           and the odd branch N = 5..13, with the two-branch structure asserted.
   STAGE 1  saturation, i.e. the premise: max|Im| of the FULL Liouvillian vs DeltaE_max(H). N=4 by
            default (256x256), N=6 with --slow (4096x4096, a minute or two), each at two gammas, since
            saturation is what licenses reading the c_N table as Im_max at all.
+  STAGE 2  the finite-N constants against their integer minimal polynomials in c (N = 6, 8, 10).
 
 Run: python simulations/ring_dihedral_lock_limit.py [--slow]
 """
@@ -98,7 +103,7 @@ def main() -> None:
     LN2 = math.log(2.0)
     INV_SQRT2 = 1.0 / math.sqrt(2.0)
     print("=" * 78)
-    print("  Ring dihedral-lock constant c_N = 1/4 - E0/(J*N),  J = 1")
+    print("  STAGE 0 -- ring dihedral-lock constant c_N = 1/4 - E0/(J*N),  J = 1")
     print(f"  candidates: ln2 = {LN2:.6f}   1/sqrt(2) = {INV_SQRT2:.6f}")
     print("=" * 78)
     print(f"  {'N':>3} {'E0':>11} {'E0/N':>10} {'c_N':>10} {'c_N - ln2':>11} {'c_N - 1/√2':>11}")
@@ -112,9 +117,22 @@ def main() -> None:
         print(f"  {N:>3} {e0:>11.5f} {e0/N:>10.5f} {cN:>10.5f} {cN-LN2:>+11.5f} {cN-INV_SQRT2:>+11.5f}{cross}")
         prev = cN
     print()
-    print("  reading: c_N decreases monotonically and converges to ln2 = 0.6931 (the Hulthen")
-    print("  per-bond AFM ground energy 1/4 - ln2), passing THROUGH 1/sqrt(2)=0.7071 on the way.")
-    print("  The N->inf limit is ln2, not 1/sqrt(2); 1/sqrt(2) is a value it crosses, like s*.")
+    print("  The ODD branch, which the even table above does not see (frustrated rings:")
+    print("  a higher AFM ground state, so a SMALLER spread, and c_N BELOW ln2 rising):")
+    prev_odd = None
+    for N in range(5, 14, 2):
+        e0 = heisenberg_ring_ground_energy(N)
+        cN = 0.25 - e0 / N
+        assert cN < LN2, f"STAGE 0 GATE FIRED at N={N}: odd-ring c_N {cN} is not below ln2"
+        if prev_odd is not None:
+            assert cN > prev_odd, f"STAGE 0 GATE FIRED at N={N}: odd branch is not rising"
+        print(f"  {N:>3} {e0:>11.5f} {e0/N:>10.5f} {cN:>10.5f} {cN-LN2:>+11.5f} {cN-INV_SQRT2:>+11.5f}")
+        prev_odd = cN
+    print()
+    print("  reading: TWO monotone branches, not one. The even c_N fall to ln2 = 0.6931 (the")
+    print("  Hulthen per-bond AFM ground energy 1/4 - ln2) from above, passing THROUGH")
+    print("  1/sqrt(2)=0.7071 on the way; the odd ones rise to it from below. The N->inf limit")
+    print("  is ln2, not 1/sqrt(2); 1/sqrt(2) is a value the even branch crosses, like s*.")
 
     # ---------------------------------------------------------------- STAGE 1: the premise itself
     print()
@@ -160,6 +178,9 @@ def main() -> None:
         print(f"  N={N:>2}: c_N = {cN:.15f}   nearest root = {near:.15f}   |diff| = {abs(near - cN):.2e}")
         print(f"        {label}")
         assert abs(near - cN) < 1e-9, f"STAGE 2 GATE FIRED at N={N}: c_N is not a root of its minimal polynomial"
+        assert abs(max(roots) - cN) < 1e-9, (
+            f"STAGE 2 GATE FIRED at N={N}: c_N is a root but not the LARGEST one, which is what "
+            f"the documents state (roots {sorted(roots)})")
     c6 = 0.25 - heisenberg_ring_ground_energy(6) / 6
     assert abs(c6 - (5 + math.sqrt(13)) / 12) < 1e-12, "STAGE 2 GATE FIRED: c_6 != (5+sqrt13)/12"
     print("  STAGE 2 PASS: c_6 is a quadratic surd, c_8 a cubic and c_10 a sextic algebraic number.")

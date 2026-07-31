@@ -6318,12 +6318,24 @@ for isotropic Heisenberg with J > 0 it is the **maximum** of H: each bond term h
 largest eigenvalue +J/4 on the triplet and |ferro⟩ is triplet on every bond at once, so
 it attains all of them simultaneously at J·B/4. Since H commutes with Σ_l Z_l, an E_min
 eigenvector can always be chosen inside a single Hamming rung; call that rung k* and the
-state |β⟩. Then |β⟩⟨ferro| has definite Hamming weight k*, uniform dephasing acts on it
-as the scalar −2γk*, and
+state |β⟩. Then every basis pair in |β⟩⟨ferro| has the same popcount(i⊕j) = k*, which is
+what makes uniform dephasing act on it as the scalar −2γk* (definite Hamming weight of
+each factor separately is not enough; a ket that is a single computational state is), and
 
     **λ = −2γk* + i·ΔE_max      exactly.**
 
-This half needs both uniform γ and the polarised extreme.
+This half needs uniform γ across the **full single-site set {Z_l}** and the polarised
+extreme. Both are load-bearing and both are cheap to break: at N=4 on the ring, Z_0 alone
+gives 2.8961214544 and γ = (1, 0.5, 0.5, 0.5) gives 2.7247448714, against ΔE_max = 3.
+
+**Isotropy is not among the hypotheses.** The argument uses only [H, Σ_l Z_l] = 0 and a
+polarised extreme, so it reaches past Heisenberg. Measured on the 4-cycle at γ = 0.05,
+0.5 and 2, saturating exactly at all three: XXZ at Δ = 2 (spread 4.7320508076), XXZ at
+Δ = −1 (3.0000000000), pure Ising (2.0000000000). Failing: XXZ at Δ = 0.5 (2.8672194968
+down to 2.1861406616 against a spread of 2.8722813233) and transverse-field Ising, which
+does not commute with Σ_l Z_l. The dividing line is exactly whether |0…0⟩ or |1…1⟩ is an
+extremal eigenvector of H, which for XXZ means |Δ| ≥ 1. Saturation and γ-independence
+stand or fall together: every non-saturating row above is also γ-dependent.
 
 **k* is not free.** Only a rung containing the global minimum realises. On the star the
 E_min multiplet spans every rung 1..N−1, giving 4(N−1) realisers; on chain, ring and
@@ -6337,9 +6349,64 @@ spread of 2.2360680 at N=4, transverse-field Ising 3.7344319 against 4.1883993. 
 compose additively over disconnected components, K₄ ⊔ P₄ giving 3.0000000000 +
 2.3660254038 = 5.3660254038.
 
-Gate `simulations/star_saturation_gate.py`. Sibling F147 is the one graph family whose
+Gate `simulations/star_saturation_gate.py`, extended for the non-isotropic rows by
+`simulations/ring_n4_lock_gate.py`. Sibling F147 is the one graph family whose
 ΔE_max has a closed form and is minimal; this entry is why that minimality, not the
 saturation, is what distinguishes it.
+
+---
+
+### F149. The ring spread ladder: 3J at N=4, and two parity branches closing on ln 2 (derived 2026-05-19 and 2026-06-04, registered 2026-07-31)
+
+For the isotropic Heisenberg ring C_N with H = J·Σ S_i·S_j, write the dimensionless spread
+
+    **c_N  ≡  ΔE_max(H_ring) / (J·N)  =  1/4 − E₀(N)/(J·N),**
+
+with E₀ the antiferromagnetic ground state (E_max = J·N/4 is the ferromagnet, exact, since
+a ring has N bonds). Under uniform Z-dephasing this is the Liouvillian's imaginary reach by
+[F148](#f148-the-imaginary-reach-is-the-hamiltonian-spread-on-every-graph-minted-2026-07-31), so `Im_max = c_N·J·N` and, with σ = Nγ, `Im_max/σ = c_N·J/γ = c_N·Q`.
+
+**At N=4 the value is rational.** The 4-cycle is the one ring that coincides with a
+bipartite-complete graph, C_4 = K_{2,2}, so H = J·S_A·S_B with sublattice totals and the
+SU(2) Casimir gives four levels {−2J, −J³, 0⁷, J⁵}, multiplicities summing to 16 = 2⁴:
+
+    **c_4 = 3/4,   Im_max(ring, N=4, J) = 3J,   Im/σ = 3Q/4,**
+
+realised by |0000⟩⟨Ψ_−| at λ = −4γ − 3iJ. Six Q-anchors at γ₀ = 0.05 hit it to ≤ 5.1e-15.
+
+**Past N=4 the constants stay algebraic, but stop being rational.** Factoring the exact
+characteristic polynomial of the S_z = 0 sector over ℚ: c₆ = (5+√13)/12 = 0.717129 (minimal
+polynomial 12c² − 10c + 1), c₈ the largest root of 512c³ − 640c² + 232c − 25 = 0.706387,
+c₁₀ the largest root of a sextic = 0.701545. Bethe ansatz is what the limit needs, not the
+individual N.
+
+**The ladder has two branches, not one.** The even rings fall to ln 2 from above with a
+1/N² approach; the odd rings are frustrated, their ground state sits higher, their spread
+is smaller, and they rise to the same limit from below:
+
+| N | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|---|---|---|---|---|---|---|---|---|---|
+| c_N | 0.750000 | 0.623607 | 0.717129 | 0.657883 | 0.706387 | 0.671922 | 0.701545 | 0.678994 | 0.698949 |
+
+    **c_∞ = 1/4 − (1/4 − ln 2) = ln 2 = 0.693147…**
+
+from the Hulthén per-bond ground energy, approached from both sides. 1/√2 = 0.707107 is only
+a value the even branch steps across between N=6 and N=8; no N sits on it. The even rows alone
+do not determine the shape of the sequence.
+
+**Scope.** 3J is the **maximum** of ΔE_max over the 38 connected labelled graphs on four
+vertices, but that is an N=4 statement and not even a sharp one: ten of them tie at 3J (three labellings of
+C_4, six of the diamond K_4 − e, and K_4 itself, which is not bipartite). So
+bipartite-completeness computes the number without causing it. At N=5 the ring is already far
+from the top, 3.1180339887 against K_5's 4.0000000000. The mirror statement to
+[F147](#f147-the-star-spread-the-hub-leaf-casimir-gives-jn2-the-smallest-hamiltonian-spread-among-connected-graphs-at-n--6-derived-2026-05-19-registered-2026-07-31)
+is the one that holds: the star is the unique **minimiser** at every N ≤ 6, while the maximiser
+is neither unique nor the ring. The complete graph carries the third elementary Casimir closed
+form, ΔE_max(K_N) = J·N(N+2)/8 at even N and J·(N−1)(N+3)/8 at odd N, checked at N = 3..8.
+
+Tier 1 derived. Proof `docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`, typed as
+`RingN4DihedralLockClaim`, gates `simulations/ring_n4_lock_gate.py` and
+`simulations/ring_dihedral_lock_limit.py`.
 
 
 ---

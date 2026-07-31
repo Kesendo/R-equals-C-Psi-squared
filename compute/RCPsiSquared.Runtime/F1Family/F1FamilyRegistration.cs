@@ -48,14 +48,16 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///         strength 3) cannot serve as direct parent; the sister-relationship is
 ///         documented in the claim's XML doc and proof file instead.</item>
 ///   <item><see cref="RingN4DihedralLockClaim"/> (Tier 1 derived, 2026-05-19):
-///         <c>Im_max(ring, N=4, J) = (3/4)·J·N = 3·J</c> Q-universal Im-spectral
-///         saturation surfaced by the Q-sweep extension of the SLOW_N8 + N=9 chain
-///         sprint. Closed form via the K_{2,2} = C_4 bipartite-complete graph
-///         isomorphism: <c>H = J·S_A·S_B</c> with sublattice total spins, Casimir
-///         spectrum <c>{−2J, −J, 0³, +J}</c>, max gap 3J realised by the
-///         <c>|Ψ_+⟩⟨Ψ_−|</c> Liouvillian eigenmode between the S_tot=2 ferromagnet
-///         and the (S_A=1, S_B=1, S_tot=0) singlet. Pure-dephasing dissipator only
-///         adds real decay so no L-mode exceeds the H-spread bound. Parent edge:
+///         <c>Im_max(ring, N=4, J) = 3·J</c>, which at N=4 is <c>(3/4)·J·N</c>,
+///         Q-universal Im-spectral saturation surfaced by the Q-sweep extension of
+///         the SLOW_N8 + N=9 chain sprint. Closed form via the K_{2,2} = C_4
+///         bipartite-complete graph isomorphism: <c>H = J·S_A·S_B</c> with sublattice
+///         total spins, Casimir spectrum <c>{−2J, −J³, 0⁷, J⁵}</c> (multiplicities
+///         summing to 16), max gap 3J realised by the <c>|0000⟩⟨Ψ_−|</c> Liouvillian
+///         eigenmode between the fully polarised state and the
+///         (S_A=1, S_B=1, S_tot=0) singlet, at λ = −4γ − 3i·J. The bound holds
+///         because D is Hilbert-Schmidt self-adjoint, the Z_l being Hermitian.
+///         Parent edge:
 ///         <see cref="F1PalindromeIdentity"/> (Tier 1 derived, strength 5); the
 ///         Im-max bound lives in the L-spectrum the F1 palindrome partitions, and
 ///         the eigenmode-construction machinery is shared with the F4 kernel-dim
@@ -193,13 +195,15 @@ public static class F1FamilyRegistration
             {
                 // Ring N=4 dihedral lock surfaced by the 2026-05-19 Q-sweep extension
                 // of the F1 SLOW_N8 + N=9 chain bridge sprint: Im_max(ring, N=4, J) =
-                // (3/4)·J·N = 3·J Q-universal, derived from the K_{2,2} = C_4 bipartite-
-                // complete graph isomorphism and the resulting Casimir spectrum {−2J,
-                // −J, 0³, +J} with max gap 3J. The Liouvillian eigenmode realising the
-                // bound is the standard transition between S_tot=2 ferromagnet and
-                // (S_A=1, S_B=1, S_tot=0) singlet. Pure-dephasing dissipator only adds
-                // real decay so no L-mode can exceed the H-spread bound. Tier 1
-                // derived; see PROOF_RING_N4_DIHEDRAL_LOCK.md.
+                // 3·J, which at N=4 is (3/4)·J·N, Q-universal, derived from the
+                // K_{2,2} = C_4 bipartite-complete graph isomorphism and the resulting
+                // Casimir spectrum {−2J, −J³, 0⁷, J⁵} (multiplicities summing to 16)
+                // with max gap 3J. The Liouvillian eigenmode realising the bound is
+                // |0000⟩⟨Ψ_−|, the fully polarised state against the (S_A=1, S_B=1,
+                // S_tot=0) singlet, at λ = −4γ − 3i·J; the ket must be a Z-product
+                // state or the dephasing does not act as a scalar. The bound holds
+                // because D is Hilbert-Schmidt self-adjoint, the Z_l being Hermitian.
+                // Tier 1 derived; see PROOF_RING_N4_DIHEDRAL_LOCK.md.
                 //
                 // Parent edge: F1PalindromeIdentity (Tier 1 derived, strength 5)
                 // serves; the Im-max bound lives in the same L-spectrum the F1

@@ -188,7 +188,9 @@ Two cases satisfy both:
 - **Star** (|A| = 1, |B| = N−1): hub-only A with all N−1 leaves in B, all (hub, leaf) bonds present. Always bipartite-complete for any star. Max H gap = J·N/2.
 - **Ring N=4 / K_{2,2}** (|A| = |B| = 2): the 4-cycle has exactly 4 bonds = all (A, B) pairs. Max H gap = 3J = (3/4)·J·N at N=4.
 
-For longer cycles the bipartite-complete condition fails (the 6-cycle is bipartite but has only 6 bonds versus K_{3,3}'s 9; analogously for higher even cycles). For odd-N rings the bipartite condition itself fails. So star and ring N=4 are the only two topologies in the standard family that admit the elementary Casimir derivation.
+For longer cycles the bipartite-complete condition fails (the 6-cycle is bipartite but has only 6 bonds versus K_{3,3}'s 9; analogously for higher even cycles). For odd-N rings the bipartite condition itself fails. Among the *rings*, then, only N=4 admits the derivation.
+
+- **Complete K_N**: the whole graph is one block, H = (J/2)(S²_tot − 3N/4), the simplest Casimir of the three. It gives ΔE_max = J·N(N+2)/8 at even N and J·(N−1)(N+3)/8 at odd N, verified at N = 3..8 (1.5, 3, 4, 6, 7.5, 10). At N=4 this coincides with the ring's 3J, which is why bipartite-completeness cannot be what produces that value.
 
 Other bipartite-complete graphs (K_{2,3}, K_{3,3}, K_{2,N−2}, ...) admit analogous N-specific closed forms; these are open for future characterisation.
 
@@ -205,7 +207,7 @@ Among all connected graphs, the star's closed form is the **minimum**. Exhaustiv
 
 - Parent: [F1PalindromeIdentity](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs) (the F1 master under which this Im-max bound is verified by the same SLOW_N* sweep infrastructure that scaffolded the Q-sweep).
 - Sister Im-max bound (same Casimir technique, N=4-specific): [PROOF_RING_N4_DIHEDRAL_LOCK.md](PROOF_RING_N4_DIHEDRAL_LOCK.md) and [`RingN4DihedralLockClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs).
-- Sister Q-universal lock (Tier 2 empirical, closed form open via Bethe ansatz): ring N=6 at 0.717129·J·N (see [`hypotheses/F1_DISSIPATION_GAP_PATTERN.md`](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) "Ring N=6 dihedral lock" section).
+- Sister Q-universal lock: ring N=6 at 0.717129·J·N = ((5+√13)/12)·J·N, a quadratic surd from the exact S_z=0 characteristic polynomial, no Bethe ansatz needed at that N (see [`hypotheses/F1_DISSIPATION_GAP_PATTERN.md`](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) "Ring N=6 dihedral lock" section). Bethe is what the general-N constant needs.
 - Companion typed claim from the same May 2026 sharpening sprint: [F4KernelDimensionByComponentsClaim](../../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (kernel-dim factorisation across components, Tier 1 derived 2026-05-19).
 - Cavity picture this Im-max bound lives inside: [`experiments/STAR_CONFOCAL_LIMIT.md`](../../experiments/STAR_CONFOCAL_LIMIT.md) (the point-focus reading of the optical-cavity framework).
 - Cavity framework parent: [`experiments/OPTICAL_CAVITY_ANALYSIS.md`](../../experiments/OPTICAL_CAVITY_ANALYSIS.md) (the April 2026 Fabry-Perot reading of qubit chains under Heisenberg + Z-dephasing).

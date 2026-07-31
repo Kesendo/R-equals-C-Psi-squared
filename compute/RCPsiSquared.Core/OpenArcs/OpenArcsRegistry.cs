@@ -2521,7 +2521,9 @@ public static class OpenArcsRegistry
                 "COMPLETE K_N N>=4 (more edges -> earlier ceiling; K_3=triangle=ring(3) protects). NEW CLOSED FORM g2(K_N)=4/N " +
                 "for N>=5 (K_5,6,7 = 4/5, 2/3, 4/7 exact, gate-verified); K_4=0.8453 the N=4 OUTLIER, the same N=4 anomaly as " +
                 "the ring (both K_4 and ring-N=4 special). Benzene ring N=6 PROTECTS (so ring-N=4 co-occupation is N=4-specific, " +
-                "the K_2,2 dihedral lock, not a general even-ring pattern). Read the RATE not the Im (the band edge is " +
+                "not a general even-ring pattern; this is the XY co-occupied floor of PROOF_RING_GAP_DOMINANCE, NOT the " +
+                "K_2,2 Casimir lock of PROOF_RING_N4_DIHEDRAL_LOCK, which is the isotropic-Heisenberg result at 3J). " +
+                "Read the RATE not the Im (the band edge is " +
                 "Re-degenerate at -2gamma). " +
                 "DERIVATION RESOLVED (2026-06-16, F122 + PROOF_STRUCTURAL_CEILING + StructuralCeilingClaim Tier1Derived + " +
                 "gate-first verifier simulations/topology_ceiling_rep_derivation.py): the high-Q ceiling = min nonzero eigenvalue " +

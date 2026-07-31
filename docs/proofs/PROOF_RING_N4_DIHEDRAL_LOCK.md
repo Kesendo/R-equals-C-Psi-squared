@@ -1,6 +1,6 @@
-# PROOF: Ring N=4 dihedral lock, Im_max(ring, N=4, J) = (3/4)·J·N = 3J
+# PROOF: Ring N=4 dihedral lock, Im_max(ring, N=4, J) = 3J, which at N=4 is (3/4)·J·N
 
-**Status:** Tier 1 derived. The 4-cycle is the bipartite-complete graph K_{2,2}; its isotropic Heisenberg Hamiltonian factors through total sublattice spins via SU(2) Casimir, yielding four distinct levels {−2J, −J³, 0⁷, J⁵}, whose multiplicities sum to 16 = 2⁴, with max gap 3J. The Liouvillian eigenmode realising this gap is the coherence between the fully polarised state |0000⟩ (the S_z=2 member of the S_tot=2 multiplet, at E = +J) and the (S_A=1, S_B=1, S_tot=0) singlet at E = −2J, which carries definite Hamming weight 2 so that uniform dephasing acts on it as the scalar −4γ: λ = −4γ − 3iJ, residual 1.5e-15.
+**Status:** Tier 1 derived. The 4-cycle is the bipartite-complete graph K_{2,2}; its isotropic Heisenberg Hamiltonian factors through total sublattice spins via SU(2) Casimir, yielding four distinct levels {−2J, −J³, 0⁷, J⁵}, whose multiplicities sum to 16 = 2⁴, with max gap 3J. The Liouvillian eigenmode realising this gap is the coherence |0000⟩⟨Ψ_−| between the fully polarised state |0000⟩ (the S_z=2 member of the S_tot=2 multiplet, at E = +J) and the (S_A=1, S_B=1, S_tot=0) singlet Ψ_− at E = −2J: every basis pair (i, j) in its support has the same popcount(i⊕j) = 2, so uniform dephasing acts on the whole operator as the scalar −4γ, and λ = −4γ − 3iJ, with the eigenoperator residual at machine precision across γ = 0.005 to 50 (`simulations/ring_n4_lock_gate.py` §3). The reversed ordering carries the conjugate.
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Distinct from:** [`PROOF_RING_GAP_DOMINANCE.md`](PROOF_RING_GAP_DOMINANCE.md), the *XY* ring gap-dominance result (max|Im| = 2J = J·ρ, the dihedral lock). Same words "ring N=4 dihedral lock", different Hamiltonian and different result; this proof is the *isotropic-Heisenberg* ring (max|Im| = 3J via the K_{2,2} Casimir gap).
@@ -11,9 +11,9 @@ The 4-cycle is the one ring size that coincides with the bipartite-complete grap
 
     Im_max(ring, N=4, J) = (3/4)·J·N = 3J,   equivalently   Im/σ = 3Q/4,
 
-independently of γ and Q = J/γ. Because the jump operators Z_l are Hermitian, the dissipator is self-adjoint in the Hilbert-Schmidt inner product, and no eigenmode can exceed the Hamiltonian's spread: the bound is saturated, not approached.
+independently of γ and Q = J/γ. Because the jump operators Z_l are Hermitian, the dissipator is self-adjoint in the Hilbert-Schmidt inner product, and no eigenmode can exceed the Hamiltonian's spread. That the bound is reached rather than approached takes two further hypotheses, uniform γ across the full single-site jump set and a fully polarised H extreme, both discharged in Section 4 and fenced in "Scope".
 
-This is a finite-N exact, Q-universal lock with an exactly rational coefficient, the K_{2,2}-Casimir sibling of the star's point-focus bound Im_max = J·N/2 (3/4 vs 1/2, traced to the bipartite-complete K_{2,2} Casimir gap 3J versus the star's hub-spoke gap, not to bond count alone). (The historical name "dihedral lock" is a stable identifier inherited from the XY sibling; the operative mechanism here is the SU(2) Casimir multiplet structure on K_{2,2}, not the dihedral point group, D₄'s irreps cap at dimension 2 and cannot produce the 3-fold/5-fold degeneracies that set the 3J gap.) What does not carry to larger even rings is the *rational* closed form: they keep a Q-universal lock but at irrational algebraic constants (ring N=6 at 0.7171·J·N = ((5+√13)/12)·J·N, descending toward ln 2), because the bipartite-complete structure is special to N=4. Typed as RingN4DihedralLockClaim.
+What is the 4-cycle's own here is the closed form 3J, and nothing else in the sentence. The equality max|Im λ_L| = ΔE_max(H) is [F148](../ANALYTICAL_FORMULAS.md#f148-the-imaginary-reach-is-the-hamiltonian-spread-on-every-graph-minted-2026-07-31), which holds on every graph, so the Liouvillian half of this proof is not N=4's and not the ring's. Nor does the *value* 3J single the ring out: it is the maximum of ΔE_max over connected graphs at N=4, and ten of the 38 connected labelled graphs attain it, among them the complete K_4, which is not bipartite and whose Casimir multiplet structure {−1.5², −0.5⁹, +1.5⁵} is entirely different. Bipartite-completeness therefore cannot be the cause of the number; it is one route to computing it. (The historical name "dihedral lock" is a stable identifier inherited from the XY sibling; the operative mechanism here is the SU(2) Casimir multiplet structure on K_{2,2}, not the dihedral point group, D₄'s irreps cap at dimension 2 and cannot produce the 3-fold/5-fold degeneracies that set the 3J gap.) What does not carry to larger even rings is the *rational* closed form: they keep a Q-universal lock but at irrational algebraic constants (ring N=6 at 0.7171·J·N = ((5+√13)/12)·J·N, descending toward ln 2), because the bipartite-complete structure is special to N=4. Typed as RingN4DihedralLockClaim.
 
 ## Statement
 
@@ -36,14 +36,16 @@ Q-sweep on 2026-05-19 (`simulations/f1_q_sweep_anchor.py`, output under `simulat
 
 | Q | predicted 3Q/4 | observed Im/σ | rel. error |
 |---:|---:|---:|---:|
-| 0.5    | 0.375000 | 0.375000 | 1.5e-16 |
-| 1.0    | 0.750000 | 0.750000 | 1.0e-15 |
+| 0.5    | 0.375000 | 0.375000 | 1.2e-15 |
+| 1.0    | 0.750000 | 0.750000 | 1.5e-16 |
 | 1.5    | 1.125000 | 1.125000 | 7.9e-16 |
-| √3     | 1.299038 | 1.299038 | 5.1e-16 |
+| √3     | 1.299038 | 1.299038 | 1.0e-15 |
 | 2.0    | 1.500000 | 1.500000 | 3.3e-15 |
 | 2.5    | 1.875000 | 1.875000 | 5.1e-15 |
 
 All six anchors hit the prediction to within machine precision (relative error < 1e-14). The lock is Q-universal: the absolute Im_max value scales with J, but the dimensionless `Im/σ = 3Q/4` ratio is exact at every Q.
+
+The observed column is the two-sided `max|Im λ|` the Statement is about, read off the stored sweep as `max(MaxImag, |MinImag|)`; at Q = 0.5, 1.0 and √3 it is `|MinImag|` that is marginally the larger, which is why those three error entries differ from the sweep's one-sided `MaxImag` reading. The distinction lives in the last bit and moves nothing else. `simulations/ring_n4_lock_gate.py` §8 rebuilds both columns from the JSON and checks them against the values the typed claim stores.
 
 ## Proof
 
@@ -94,14 +96,20 @@ Maximum eigenvalue is +J (the ferromagnetic S_tot = 2 multiplet); minimum is −
 
 The Lindblad Liouvillian L = −i[H, ·] + D where D[ρ] = Σ_l γ_l (Z_l ρ Z_l − ρ) is the pure-dephasing dissipator. For any pair of H-eigenstates |α⟩, |β⟩ with eigenvalues ω_α, ω_β, the rank-1 operator |α⟩⟨β| is an eigenoperator of `−i[H, ·]` with eigenvalue `−i(ω_α − ω_β)` (so Im(λ_L) = −(ω_α − ω_β)). D is self-adjoint and negative-semidefinite in the operator inner product, which is what gives the bound of Section 5.
 
-D acting as a **scalar** on such a rank-1 operator is a further condition, and it is not automatic: D is diagonal in the computational coherence basis, not in the H-eigenbasis, so for general |α⟩, |β⟩ it mixes these products and moves the frequency. The condition is that |α⟩⟨β| carry a definite Hamming weight, and the members below are chosen so that it does (see [PROOF_STAR_OPTICAL_CONFOCAL_SATURATION](PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md) Section 6 for the general form of this step).
+D acting as a **scalar** on such a rank-1 operator is a further condition, and it is not automatic: D is diagonal in the computational coherence basis, not in the H-eigenbasis, so for general |α⟩, |β⟩ it mixes these products and moves the frequency. Since D acts on |i⟩⟨j| by the rate −2γ·popcount(i⊕j), the condition is that **popcount(i⊕j) be constant across the support** of |α⟩⟨β| (see [PROOF_STAR_OPTICAL_CONFOCAL_SATURATION](PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md) Section 6 for the general form of this step).
 
-In particular, the rank-1 operator |Ψ_+⟩⟨Ψ_−| with
+Definite Hamming weight of each factor separately is not enough, and at N=4 it fails: |Ψ_−⟩ has definite weight 2, and so does the M=0 member of the quintuplet, yet their coherence spreads over popcount(i⊕j) ∈ {0, 2, 4} and carries three different rates at once.
 
-    |Ψ_+⟩  ∈  the S_tot = 2 ferromagnetic multiplet (E = +J),
-    |Ψ_−⟩  ∈  the (S_A=1, S_B=1, S_tot=0) singlet (E = −2J),
+The operator that does satisfy the condition is
 
-is a Liouvillian eigenoperator with eigenvalue λ = γ_decay − i · (J − (−2J)) = γ_decay − 3i·J. The imaginary part is exactly 3J, matching the empirical Im_max = (3/4)·J·N.
+    |Ψ_+⟩  =  |0000⟩,  the fully polarised S_z = +2 member of the S_tot = 2 multiplet (E = +J),
+    |Ψ_−⟩  =  the (S_A=1, S_B=1, S_tot=0) singlet (E = −2J), of definite Hamming weight 2,
+
+because a ket that is a single computational state forces popcount(i⊕j) = 2 throughout. Then |0000⟩⟨Ψ_−| is a Liouvillian eigenoperator with
+
+    λ  =  −2γ·2 − i · (J − (−2J))  =  −4γ − 3i·J,        |Im λ| = 3J,
+
+matching the empirical Im_max = (3/4)·J·N. The same holds for |1111⟩, and the reversed orderings give the conjugates. **The other three members of the quintuplet do not work**: measured eigenoperator residuals at γ = 0.5 are 1.000 (M = ±1) and 1.155 = 2/√3 (M = 0) against machine precision for M = ±2, so the failure is structural and not numerical. Note that all five have the same Rayleigh quotient ⟨v, Lv⟩ = −4γ − 3iJ, so a Rayleigh-quotient check does not see the difference; the residual does.
 
 ### Section 5. No mode exceeds the bound
 
@@ -113,7 +121,9 @@ For K_{2,2} this is 3J. Combined with the realising mode in Section 4, the bound
 
     Im_max(ring, N=4, J)  =  ΔE_max(H_K22)  =  3J  =  (3/4) · J · N.
 
-The same bound argument applies under non-uniform γ_l per site, as long as the dissipator is pure-dephasing (Z_l jump operators only): only self-adjointness of D was used, not the value of the rates. Read the bound for what it is, an interval and not a fixed point: individual frequencies do move under the watching, and most of them leave the difference set {ω_α − ω_β} (at N = 4, γ = 0.5, 28 of the 35 distinct imaginary parts are not in it). What no eigenmode can do is leave the interval.
+The same bound argument applies under non-uniform γ_l per site, as long as the dissipator is pure-dephasing (Z_l jump operators only): only self-adjointness of D was used, not the value of the rates. Read the bound for what it is, an interval and not a fixed point: individual frequencies do move under the watching, and most of them leave the difference set {ω_α − ω_β} (at N = 4, J = 1, γ = 0.5, 28 of the 35 distinct signed imaginary parts are not in it, counting values as distinct at a separation of 1e-6). What no eigenmode can do is leave the interval.
+
+**Only the bound survives non-uniform rates, not the saturation.** Section 4's realiser needs D to act on the coherence as one scalar, and site-dependent γ_l destroys that. Measured at J = 1: γ = (1, 0.5, 0.5, 0.5) gives 2.7247448714 and γ = (1, 0.1, 1, 0.1) gives 2.3285347127, both strictly below 3J and both under the bound. Setting a rate to zero is the same break seen from the other side, since it removes that site's jump operator altogether: γ = (2, 0, 0, 0) is Z_0 alone at rate 2, and gives 2.3827292861. Even the full jump set is not enough if it is not the single-site one: the two-body Z_0Z_1 at rate 0.5 gives 2.9433995088, and Z_0 alone at that rate gives 2.8961214544. All of these are rate-dependent, as they must be once the mode is no longer an eigenoperator: Z_0 alone climbs to 2.9990042309 at rate 0.05. The hypothesis the equality needs is the **full single-site set {Z_l} at one common rate**, and only there is the value γ-independent.
 
 ### Section 6. Q-universality
 
@@ -123,6 +133,15 @@ The formula Im_max = (3/4)·J·N depends on J but not on γ. Translating into th
 
 This is the Q-universal lock observed in the Q-sweep table (Section "Empirical anchors").
 
+## Scope: four hypotheses, each with a fence
+
+Everything above is stated at uniform γ with the full single-site jump set. Each of the four hypotheses below is load-bearing, and each fence is a measurement in `simulations/ring_n4_lock_gate.py`.
+
+- **Uniform γ across all N sites.** Required for the equality; the bound survives without it. γ = (1, 0.5, 0.5, 0.5) gives 2.7247448714 against 3J (§5).
+- **The full single-site set {Z_l}.** Required for the equality. At a common rate 0.5, Z_0 alone gives 2.8961214544 and the two-body Z_0Z_1 gives 2.9433995088, both Hermitian. Neither value is γ-universal, which is the same break read off the other axis.
+- **A fully polarised H extreme.** Required. This, not isotropy, is what carries the attainment: XXZ at Δ = 2 saturates its own spread 4.7320508076 = 3 + √3 exactly at γ = 0.05, 0.5 and 2, Δ = −1 saturates at 3.0000000000, pure Ising at 2.0000000000, while Δ = 0.5 fails (2.8672194968 at γ=0.05 down to 2.1861406616 at γ=2, against a spread of 2.8722813233) and the transverse-field Ising fails. The dividing line is exactly whether |0000⟩ or |1111⟩ is an extremal eigenvector of H, which for XXZ means |Δ| ≥ 1. Saturation and γ-independence stand or fall together: every non-saturating row is also γ-dependent.
+- **Hermitian jump operators.** Required, or the **bound itself** fails. H = 0 on one qubit with c = I + iY has spectrum {0, 0, −2 ± 2i}, so max|Im| = 2 against a bound of 0. The informal justification that the dissipator "adds only real decay" would have licensed the bound there too; the load-bearing fact is that D is Hilbert-Schmidt self-adjoint, and there ‖D − D†‖_F = 4√2 = 5.6569.
+
 ## Why this is N=4-specific
 
 The bipartite-complete structure C_4 = K_{2,2} relies on the 4-cycle having exactly 4 bonds (one per (A, B) pair). For longer cycles:
@@ -130,7 +149,7 @@ The bipartite-complete structure C_4 = K_{2,2} relies on the 4-cycle having exac
 - 6-cycle has 6 bonds, K_{3,3} has 9: a 6-cycle is bipartite but NOT bipartite-complete.
 - 8-cycle has 8 bonds, K_{4,4} has 16: same story.
 
-For odd N (3-cycle, 5-cycle, ...) the ring is not even bipartite. So the K_{2,2} = C_4 coincidence is unique to N=4. Ring N=6, ring N=8 etc. show Q-universal locks too (empirically, [`hypotheses/F1_DISSIPATION_GAP_PATTERN.md`](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md): ring N=6 = 0.717129·J·N at 6 Q-anchors), but the per-N constant is no longer rational, and no Casimir argument as simple as the N=4 one produces it. It does stay elementary for a while: 4H has integer entries, so E₀(N) is an algebraic number, and factoring the exact characteristic polynomial of the S_z = 0 sector over ℚ gives c₆ = (5+√13)/12 (from λ² + 8λ − 36), c₈ the largest root of 512c³ − 640c² + 232c − 25, and c₁₀ the largest root of a sextic (`ring_dihedral_lock_limit.py` STAGE 2, exact factors, residuals at machine precision). What needs Bethe ansatz is the N → ∞ limit, not the individual N.
+For odd N (3-cycle, 5-cycle, ...) the ring is not even bipartite. So the K_{2,2} = C_4 coincidence is unique to N=4. Ring N=6, ring N=8 etc. show Q-universal locks too (empirically, [`hypotheses/F1_DISSIPATION_GAP_PATTERN.md`](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md): ring N=6 = 0.717129·J·N at 6 Q-anchors), but the per-N constant is no longer rational, and no Casimir argument as simple as the N=4 one produces it. It does stay elementary for a while: 4H has integer entries, so E₀(N) is an algebraic number, and factoring the exact characteristic polynomial of the S_z = 0 sector over ℚ gives c₆ = (5+√13)/12 (the ground-state factor is λ² + 8λ − 36 **in units of 4H**, i.e. 12c² − 10c + 1 in c itself), c₈ the largest root of 512c³ − 640c² + 232c − 25, and c₁₀ the largest root of a sextic (`ring_dihedral_lock_limit.py` STAGE 2 checks each c_N against its minimal polynomial in c; the 4H-scaled factors are not printed there). What needs Bethe ansatz is the N → ∞ limit, not the individual N.
 
 ## The N → ∞ limit: c_∞ = ln 2 (resolved 2026-06-04)
 
@@ -154,7 +173,15 @@ Computing E₀(N) directly ([`simulations/ring_dihedral_lock_limit.py`](../../si
 | 14 | 0.69740 | +0.00425 |
 | 16 | 0.69639 | +0.00325 |
 
-The N=6 value 0.71713 reproduces the F1_DISSIPATION_GAP empirical 0.717129, validating the Im_max = ΔE_max(H) reduction there. From N = 10 on the table is the Hamiltonian spread alone; reading those rows as Im_max carries the saturation assumption with them, which is why the limit statement below is about ΔE_max/(J·N), exactly, and about Im_max only where saturation has been checked. The sequence decreases monotonically to ln 2 with a clean 1/N² finite-size approach (c_N − ln 2 quarters as N doubles: 0.01324 at N=8 → 0.00325 at N=16). It crosses 1/√2 at N=8; 1/√2 is only a value the sequence passes through, not the limit (the same red-herring lesson as the birth-canal s* = 0.709). So the Q-universal ring dihedral lock, left open for general N, has the exact limit c_∞ = ln 2.
+The N=6 value 0.71713 reproduces the F1_DISSIPATION_GAP empirical 0.717129, validating the Im_max = ΔE_max(H) reduction there. From N = 10 on the table is the Hamiltonian spread alone; reading those rows as Im_max carries the saturation assumption with them, which is why the limit statement below is about ΔE_max/(J·N), exactly, and about Im_max only where saturation has been checked. Along the even N the sequence decreases to ln 2 with a clean 1/N² finite-size approach (c_N − ln 2 quarters as N doubles: 0.01324 at N=8 → 0.00325 at N=16). It passes 1/√2 between N=6 and N=8 (c₆ = 0.717129 above, c₈ = 0.706387 below, and no N sits on it); 1/√2 is only a value the sequence steps across, not the limit (the same red-herring lesson as the birth-canal s* = 0.709). So the Q-universal ring dihedral lock, left open for general N, has the exact limit c_∞ = ln 2.
+
+**The table is the even branch, and the sequence over all N is not monotone.** The odd rings are frustrated, their antiferromagnetic ground state sits higher, and their spread is correspondingly smaller: c₅ = 0.623607, c₇ = 0.657883, c₉ = 0.671922, c₁₁ = 0.678994. Those lie **below** ln 2 and rise toward it while the even ones fall toward it. Two monotone branches closing on the same limit from opposite sides, not one descent:
+
+| N | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|---|---|---|---|---|---|---|---|---|---|
+| c_N | 0.750000 | 0.623607 | 0.717129 | 0.657883 | 0.706387 | 0.671922 | 0.701545 | 0.678994 | 0.698949 |
+
+The even rows alone do not determine the shape of the sequence. The neighbouring parity does, and it runs the other way.
 
 ## Relationship to the star saturation
 
@@ -162,12 +189,15 @@ The N=6 value 0.71713 reproduces the F1_DISSIPATION_GAP empirical 0.717129, vali
 
     Im_max(star, N, J)  =  J·N/2
 
-via a parallel hub-spoke Casimir construction H = J · S_0 · S_L with S_L = Σ leaf spins. The Casimir spectrum has max gap J·N/2 (the maximally-ferromagnetic-leaves S_L = (N-1)/2 sector flipping the hub). The ring N=4 result is structurally the same kind of object: a topology where the SU(2)-invariant Heisenberg Hamiltonian factors through a sum-of-Casimirs form, giving a closed Im-max spectral bound.
+via a parallel hub-spoke Casimir construction H = J · S_0 · S_L with S_L = Σ leaf spins. The Casimir spectrum has max gap J·N/2 (the maximally-ferromagnetic-leaves S_L = (N-1)/2 sector flipping the hub). The ring N=4 result is structurally the same kind of object: a topology where the SU(2)-invariant Heisenberg Hamiltonian factors through a sum-of-Casimirs form, so that ΔE_max has a closed form. What turns ΔE_max into Im_max is F148 in both cases, not the Casimir.
 
-The ratio between the two is `(3/4)·J·N / (J·N/2) = 3/2`: ring N=4 carries 50% more imaginary spread than star N=4. The reason is the bipartite-complete structure, which maximises the inter-sublattice Casimir gap, and not the larger bond count on its own: K_{2,2} has 4 bonds against the star's N−1 = 3, but scaling the star's 2J by 4/3 would give 2.67J rather than the 3J the Casimir multiplet structure actually produces.
+The ratio between the two is `(3/4)·J·N / (J·N/2) = 3/2`: ring N=4 carries 50% more imaginary spread than star N=4. Both sit at an end of the same range. J·N/2 is the **minimum** of ΔE_max over connected graphs, with the star its unique minimiser ([F147](../ANALYTICAL_FORMULAS.md#f147-the-star-spread-the-hub-leaf-casimir-gives-jn2-the-smallest-hamiltonian-spread-among-connected-graphs-at-n--6-derived-2026-05-19-registered-2026-07-31), exhaustive at N ≤ 6); at N=4 the 4-cycle sits at the **maximum** of the same quantity. The two ends are 2J and 3J, and the ratio is that of the two ends, not a property either graph carries alone.
+
+The maximum, unlike the minimum, has no unique attainer and does not survive the next N. Ten of the 38 connected labelled graphs on four vertices reach 3J: the three labellings of C_4, the six of the diamond K_4 − e, and K_4. And at N=5 the ring is not even close to the top, 3.1180339887 against K_5's 4.0000000000; at N=6, 4.3027756377 against 6.0000000000. So the coincidence "the 4-cycle is a maximiser" belongs to N=4 alone, exactly like the rational value.
 
 ## Verification
 
+- Gate: [`simulations/ring_n4_lock_gate.py`](../../simulations/ring_n4_lock_gate.py). Every number this document states is produced there: the Casimir table with its multiplicities, the lock over J and over four decades of γ, the six Q-anchors against the stored JSON, the realiser and the three quintuplet members that fail it, the 10-of-38 tie at 3J, the four scope fences, the 28-of-35 count, and the c_N ladder with both parity branches.
 - Python anchor at 6 Q-values × γ₀=0.05: [`simulations/f1_q_sweep_anchor.py`](../../simulations/f1_q_sweep_anchor.py) → `simulations/results/q_sweep_anchor/ring_N4_Q*.json`.
 - Typed claim: [`compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs) (Tier 1 derived) with `Predict(J)` returning `(3/4) · J · N = 3J` at N=4.
 - The larger rings: [`simulations/ring_dihedral_lock_limit.py`](../../simulations/ring_dihedral_lock_limit.py). STAGE 0 the c_N sequence and its ln 2 limit; STAGE 1 saturation, the premise that lets c_N be read as Im_max (N=4 by default, N=6 under `--slow`, both at two γ); STAGE 2 the finite-N closed forms against their integer minimal polynomials.
@@ -176,6 +206,6 @@ The ratio between the two is `(3/4)·J·N / (J·N/2) = 3/2`: ring N=4 carries 50
 
 - Parent: [F1PalindromeIdentity](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs) (the F1 master under which this Im-max bound is verified by the same SLOW_N* sweep infrastructure).
 - Sister Im-max bound, closed in the same style on 2026-05-19: [the star optical-confocal saturation proof](PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md), with the record in [STAR_CONFOCAL_LIMIT.md](../../experiments/STAR_CONFOCAL_LIMIT.md).
-- Sister Q-universal lock (Tier 2 empirical, closed form open): ring N=6 at 0.717129·J·N (see [F1_DISSIPATION_GAP_PATTERN.md](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) "Ring N=6 dihedral lock" section).
+- Sister Q-universal lock: ring N=6 at 0.717129·J·N = ((5+√13)/12)·J·N, a quadratic surd from the exact S_z=0 characteristic polynomial (see [F1_DISSIPATION_GAP_PATTERN.md](../../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) "Ring N=6 dihedral lock" section). The constant that stays open is the general-N one.
 - Companion typed claim from the same May 2026 sharpening sprint: [F4KernelDimensionByComponentsClaim](../../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (kernel-dim factorisation across components, Tier 1 derived 2026-05-19).
 - Q-anchor canonical table: [`docs/Q_REGIME_ANCHORS.md`](../Q_REGIME_ANCHORS.md).

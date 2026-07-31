@@ -54,8 +54,9 @@ namespace RCPsiSquared.Core.F1;
 ///         <see cref="F4StationaryModeCountPi2Inheritance"/>).</item>
 ///   <item>Tier-1 derived topology Im-max bound: Ring N=4
 ///         (<see cref="RingN4DihedralLock"/>) saturates Im_max(ring, N=4, J) =
-///         (3/4)·J·N = 3·J Q-universally via the C_4 = K_{2,2} bipartite-complete
-///         Casimir factorisation; 6 Q-sweep anchors bit-exact. See
+///         3·J = (3/4)·J·N at N=4, Q-universally, via the C_4 = K_{2,2}
+///         bipartite-complete Casimir factorisation; 6 Q-sweep anchors at machine
+///         precision (rel. err ≤ 5.1e-15). See
 ///         <c>docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md</c>.</item>
 ///   <item>Tier-1 derived topology Im-max closed form: Star
 ///         (<see cref="StarImMaxBound"/>) has Im_max(star, N, J) = J·N/2 for any
@@ -106,13 +107,18 @@ public sealed class F1KnowledgeBase : IInspectable
     public F4KernelDimensionByComponentsClaim KernelDimensionByComponents { get; }
 
     /// <summary>Ring N=4 dihedral lock surfaced by the 2026-05-19 Q-sweep:
-    /// Im_max(ring, N=4, J) = (3/4)·J·N = 3·J Q-universal. The 4-cycle is
-    /// graph-isomorphic to the bipartite-complete graph K_{2,2}, so the Heisenberg
-    /// Hamiltonian factors through total sublattice spins (H = J·S_A·S_B). The
-    /// Casimir spectrum {−2J, −J, 0³, +J} pins the maximum H eigenvalue gap to 3J,
-    /// which the Liouvillian eigenmode |Ψ_+⟩⟨Ψ_−| between the S_tot=2 ferromagnet
-    /// and the (S_A=1, S_B=1, S_tot=0) singlet realises exactly. Pure-dephasing
-    /// dissipator only adds real decay so no L-mode can exceed the H-spread bound.
+    /// Im_max(ring, N=4, J) = 3·J, which at N=4 is (3/4)·J·N, Q-universal. The
+    /// 4-cycle is graph-isomorphic to the bipartite-complete graph K_{2,2}, so the
+    /// Heisenberg Hamiltonian factors through total sublattice spins (H = J·S_A·S_B).
+    /// The Casimir spectrum {−2J, −J³, 0⁷, J⁵} (multiplicities summing to 16 = 2⁴)
+    /// pins the maximum H eigenvalue gap to 3J, which the Liouvillian eigenmode
+    /// <c>|0000⟩⟨Ψ_−|</c> between the fully polarised state and the
+    /// (S_A=1, S_B=1, S_tot=0) singlet realises exactly, at λ = −4γ − 3i·J. The
+    /// upper bound holds because D is Hilbert-Schmidt self-adjoint, the jump
+    /// operators Z_l being Hermitian; "adds only real decay" is not sufficient.
+    /// 3J is also the MAXIMUM of ΔE_max over connected graphs at N=4, but unlike the
+    /// star's minimum it has no unique attainer (ten of 38 labelled graphs, K_4 among
+    /// them) and does not survive N=5.
     /// Tier 1 derived; see <c>PROOF_RING_N4_DIHEDRAL_LOCK.md</c>. Surfaces on the
     /// F1 KB alongside <see cref="KernelDimensionByComponents"/> because the
     /// empirical anchors come from the same Q-sweep that the F1 family scaffolded;
