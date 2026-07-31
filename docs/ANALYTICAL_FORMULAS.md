@@ -6398,10 +6398,11 @@ do not determine the shape of the sequence.
 vertices, but that is an N=4 statement and not even a sharp one: ten of them tie at 3J (three labellings of
 C_4, six of the diamond K_4 − e, and K_4 itself, which is not bipartite). So
 bipartite-completeness computes the number without causing it. At N=5 the ring is already far
-from the top, 3.1180339887 against K_5's 4.0000000000. The mirror statement to
-[F147](#f147-the-star-spread-the-hub-leaf-casimir-gives-jn2-the-smallest-hamiltonian-spread-among-connected-graphs-at-n--6-derived-2026-05-19-registered-2026-07-31)
-is the one that holds: the star is the unique **minimiser** at every N ≤ 6, while the maximiser
-is neither unique nor the ring. The complete graph carries the third elementary Casimir closed
+from the top, 3.1180339887 against K_5's 4.0000000000. The statement at the other end of the
+range is the one that holds,
+[F147](#f147-the-star-spread-the-hub-leaf-casimir-gives-jn2-the-smallest-hamiltonian-spread-among-connected-graphs-at-n--6-derived-2026-05-19-registered-2026-07-31):
+the star is the unique **minimiser** at every N ≤ 6, while the maximiser is neither unique nor
+the ring. The complete graph carries the third elementary Casimir closed
 form, ΔE_max(K_N) = J·N(N+2)/8 at even N and J·(N−1)(N+3)/8 at odd N, checked at N = 3..8.
 
 Tier 1 derived. Proof `docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`, typed as
