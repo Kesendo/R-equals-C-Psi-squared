@@ -599,8 +599,9 @@ public static class KnowledgeRegistryFactory
             // Pi2KleinV4DephaseSwapGroup (Welle 12's D), both registered earlier.
             .RegisterMirrorGroupD4Claim()
             // Three dephasing diagonals as one orbit (2026-06-14): {Q_X,Q_Y,Q_Z} is one orbit of the
-            // single-qubit Clifford basis-change S3 <h_zx,h_yz>; the three readings are the mirror D4
-            // within a diagonal (the structure is S3 |x| D4). Its TWO typed parents are the physics edge
+            // single-qubit letter moves <h_zx,h_yz> (order 24; the genuine letter-S3 is <h_zx,t_yz>);
+            // the three readings are the mirror D4 within a diagonal. The two three-folds do NOT form
+            // S3 |x| D4: the letter moves do not normalize D4. Its TWO typed parents are the physics edge
             // welding the mirror-group and absorption clusters (previously joined only at d^2-2d=0):
             // MirrorGroupD4Claim (directly above) + AbsorptionTheoremClaim (registered ~line 174). Anchor
             // simulations/one_diagonal_mirror_group.py (the physics-first gate that corrected the first

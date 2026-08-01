@@ -27,7 +27,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///         −2Σγ shift itself lives in the un-recentered L_diss, see <c>--root mirrorgroup</c>), the {D, 𝓕D}
 ///         joint-fixed cell (n_Y even ∧ n_Z even) is truly (the judge reading).</item>
 ///   <item><b>the orbit</b>: {Q_X, Q_Y, Q_Z} (Q_P = Σ_l kron(P_l, P_lᵀ)) is one orbit of the single-qubit
-///         Clifford basis-change S₃ ⟨h_zx, h_yz⟩, hence same spectrum; the structure is S₃ ⋉ D₄.</item>
+///         letter moves ⟨h_zx, h_yz⟩ (order 24; the genuine letter-S₃ is the order-6 ⟨h_zx, t_yz⟩), hence
+///         same spectrum. The letter three-fold and the mirror-D₄ do NOT form a semidirect product: the
+///         letter moves do not normalize D₄ (corrected 2026-08-01).</item>
 ///   <item><b>the dynamics</b> (the COMPLEMENT): L_H = −i[H,·] connects rung k ↔ {k, k±2} — EVEN steps
 ///         (a hop flips two bits), never k±1 — so the disagreement-count PARITY is conserved (U(1) feature);
 ///         the band edge (k=1, odd) and the {0,2} survivor (even) are parity-split → a level crossing; and
@@ -89,7 +91,7 @@ public sealed class DiagonalWitness : IInspectable
             int orbit = OrbitSize(_qZ, new[] { _hZX, _hYZ });
             bool parity = ParityConserved();
             return $"N={N}: {N + 1} rungs (rate −2γk); readings hold (D-fix {dRate:0.0e+00}, R-anti {dMirror:0.0e+00}); "
-                 + $"orbit(Q_Z)={orbit} (=3 ⟹ basis-S₃); L_H even-step, k-parity {(parity ? "CONSERVED" : "BROKEN")} (S₃⋉D₄)";
+                 + $"orbit(Q_Z)={orbit} (=3 ⟹ one letter orbit); L_H even-step, k-parity {(parity ? "CONSERVED" : "BROKEN")}";
         }
     }
 
@@ -138,12 +140,14 @@ public sealed class DiagonalWitness : IInspectable
             long mult = (1L << N) * Binom(N, k);   // 2^N * C(N,k) coherences at rung k
             string note = k == 0 ? " (populations, dark)" : k == 1 ? " (the band-edge floor = 2γ)" : "";
             nodes.Add(new InspectableNode($"rung k={k}",
-                summary: $"rate Re λ = −2γk = {(-2 * Gamma * k).ToString("0.####", Inv)}; "
+                summary: $"L_D rate −2γk = {(-2 * Gamma * k).ToString("0.####", Inv)}; "
                        + $"multiplicity 2^N·C(N,k) = {mult}{note}"));
         }
         return new InspectableNode("the rungs (the one diagonal)",
-            summary: $"k = popcount(i⊕j) ∈ {{0..{N}}}; L_D = γ·(Q − N·I), Re λ = −2γk (AbsorptionTheorem §4.7); "
-                   + "the light sets the rungs (topology-free).",
+            summary: $"k = popcount(i⊕j) ∈ {{0..{N}}}; L_D = γ·(Q − N·I) is diagonal with entries −2γk "
+                   + "(AbsorptionTheorem §4.7). These are the dissipator's own levels; they are rates of "
+                   + "L = L_H + L_D only where H does not mix weight sectors, the theorem's general form "
+                   + "being Re λ = −2γ⟨n_XY⟩_v. The light sets the rungs (topology-free).",
             children: nodes);
     }
 
@@ -169,7 +173,7 @@ public sealed class DiagonalWitness : IInspectable
             });
     }
 
-    // ---------------------------------------------------------------- node 3: the orbit (basis-S₃)
+    // ---------------------------------------------------------------- node 3: the orbit (the letter moves)
     private IInspectable TheOrbit()
     {
         double dZX = MaxAbsDiff(_hZX * _qZ * _hZX.ConjugateTranspose(), _qX);
@@ -177,8 +181,9 @@ public sealed class DiagonalWitness : IInspectable
         int orbit = OrbitSize(_qZ, new[] { _hZX, _hYZ });
         bool sameSpec = SpectraEqual(_qX, _qY) && SpectraEqual(_qX, _qZ);
         return new InspectableNode("the orbit ({Q_X, Q_Y, Q_Z} one orbit, the three diagonals)",
-            summary: $"orbit(Q_Z) under the basis-change S₃ ⟨h_zx, h_yz⟩ = {orbit} (=3 ⟹ the three diagonals are one orbit); "
-                   + $"same spectrum = {sameSpec}; the structure is S₃ ⋉ D₄.",
+            summary: $"orbit(Q_Z) under the letter moves ⟨h_zx, h_yz⟩ = {orbit} (=3 ⟹ the three diagonals are one orbit); "
+                   + $"same spectrum = {sameSpec}. The letter three-fold and the mirror-D₄ do not form S₃ ⋉ D₄; "
+                   + "the letter moves do not normalize D₄.",
             children: new IInspectable[]
             {
                 new InspectableNode("h_zx : Q_Z → Q_X (the Z↔X Hadamard move)", summary: $"dev = {dZX:0.0e+00}"),

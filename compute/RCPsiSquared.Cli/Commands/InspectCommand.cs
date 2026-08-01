@@ -762,9 +762,10 @@ public static class InspectCommand
         new("glossary", "the house language: load-bearing terms in plain words for a stranger (start here)",
             _ => GlossaryInspectableNode.Build(), RequiresN: false),
         new("diagonal", "the one diagonal, recomputed live: the rungs k=popcount(i^j) (rate -2gk), the three " +
-            "readings (D-fix/R-anti/judge = the mirror group D4 within a diagonal), the basis-S3 orbit " +
+            "readings (D-fix/R-anti/judge = the mirror group D4 within a diagonal), the letter orbit " +
             "{Q_X,Q_Y,Q_Z}, and the L_H even-step dynamics (k-parity conserved) - the whole functioning, " +
-            "symmetry + dynamics, S3 |x| D4 (typed: ThreeDephasingDiagonalsOrbitClaim)",
+            "symmetry + dynamics, two three-folds that do NOT form S3 |x| D4 " +
+            "(typed: ThreeDephasingDiagonalsOrbitClaim)",
             c => new DiagonalWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                      c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false, HonorsOptionalN: true),

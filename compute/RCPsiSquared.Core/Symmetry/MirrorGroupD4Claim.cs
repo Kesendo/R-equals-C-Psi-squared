@@ -66,8 +66,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// provably cannot), the crossover mirror M (continuous R_z(π/4) object), F71's spatial
 /// bond mirror, and the dephase-letter swaps Q_zx / Q_yx of
 /// <see cref="Pi2KleinV4DephaseSwapGroup"/> (the Z↔Y transposition is D itself and is
-/// inside; the other two need the X↔Z basis permutation and are outside; adjoining them is
-/// the named-open S₃ ⋉ D₄ completion).</para>
+/// inside; the other two need the X↔Z basis permutation and are outside). Adjoining them was
+/// expected to give an S₃ ⋉ D₄ completion; §5 of the proof disproved that on 2026-06-15, since
+/// the letter moves do not normalize D₄ and the closure has order 96·2^N, not 48.</para>
 ///
 /// <para><b>Layer note:</b> the windowed-converse spine claim
 /// (WindowedConverseThresholdClaim) lives in RCPsiSquared.Diagnostics, which Core cannot
@@ -190,7 +191,8 @@ public sealed class MirrorGroupD4Claim : Claim
                 summary: "K₁ sublattice chirality (grades by site), the F116 golden router W (two-sided, " +
                          "non-involutive; covers the n_Z-odd ceiling scope D₄ provably cannot enter), the " +
                          "crossover mirror M (continuous R_z(π/4)), F71's spatial bond mirror, and the " +
-                         "Q_zx/Q_yx dephase swaps (S₃ ⋉ D₄ completion named open in the proof §5).");
+                         "Q_zx/Q_yx dephase swaps (the expected S₃ ⋉ D₄ completion; the proof §5 disproved "
+                       + "it, the letter moves do not normalize D₄ and the closure is 96·2^N, not 48).");
             yield return new InspectableNode("Live witness (inspect --root mirrorgroup)",
                 summary: "MirrorGroupWitness recomputes this whole structure at inspect time, N-parameterized: " +
                          "the factorization Π_Z = R·D, the dihedral inversion D·Π_Z·D = Π_Y, the order-8 closure, " +

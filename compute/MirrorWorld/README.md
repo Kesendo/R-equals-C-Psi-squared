@@ -139,8 +139,10 @@ an eigen-story but exact rearrangements, phases in {±1, ±i}, compared with no 
 F119 (the antilinear triangle θ / conj / †, with the transport law as its engine) docks on as the
 antilinear double D₄ × Z₂. The R row of the palindrome split carries the same constant the fold
 legs pay as the price: the two objects are one mirror read at two altitudes, block lattice below,
-operator algebra above. Still outside, and named open in F118 itself: the letter group S₃ (the
-completion S₃ ⋉ D₄).
+operator algebra above. Still outside: the letter group S₃. F118 named it open as the completion
+S₃ ⋉ D₄; that shape was disproved in the proof's §5, because the letter moves do not normalize D₄
+(the coherence-space closure has order 96·2^N, not 48), so what stays outside is the letter S₃
+itself, not a product waiting to be built.
 
 **The third structural adoption (2026-07-04): `ParameterKlein.cs` (F91 + F92 + F93).** The same
 genre test again: the proofs' sharper conclusion is entry-wise (the F71-refined diagonal-block

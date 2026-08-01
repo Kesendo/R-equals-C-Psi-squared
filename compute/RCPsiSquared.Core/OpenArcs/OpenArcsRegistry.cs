@@ -1875,10 +1875,13 @@ public static class OpenArcsRegistry
                 "reading), it does NOT permute them. The ParkedAt's 'the S3 meets D4 in the Z<->Y swap (=D)' was " +
                 "a conflation of D's action on the palindromizer Pi (D Pi_Z D = Pi_Y) with its action on the " +
                 "diagonal Q. RESULT: {Q_X,Q_Y,Q_Z} is EXACTLY one orbit of the basis-S3 (verified N=2,3; same " +
-                "spectrum N=2..4), and the structure is S3 |x| D4 (semidirect: [h_zx,D]=0 but [h_zx,R]!=0; " +
-                "[h_yz,R]=0 but [h_yz,D]!=0) - the three DIAGONALS (basis-S3) and the three READINGS (mirror-D4 " +
-                "within a diagonal) are TWO DISTINCT factors, not the same S3. The headline survives ('the one " +
-                "diagonal is one of three'); the mechanism is the basis-S3 + the Y-transpose. TYPED: " +
+                "spectrum N=2..4) - the three DIAGONALS (the letter three-fold) and the three READINGS " +
+                "(mirror-D4 within a diagonal) are TWO DISTINCT structures, not the same S3. Each letter move " +
+                "commutes with one mirror generator and not the other ([h_zx,D]=0 but [h_zx,R]!=0; [h_yz,R]=0 " +
+                "but [h_yz,D]!=0), which is NOT a semidirect product: the letter moves do not NORMALIZE D4 " +
+                "(h_zx*R*h_zx^-1 = one-sided Z^N, outside <R,D>; closure order 96*2^N, not 48). The headline " +
+                "survives ('the one diagonal is one of three'); the mechanism is the letter orbit + the " +
+                "Y-transpose. TYPED: " +
                 "ThreeDephasingDiagonalsOrbitClaim (Tier1Derived, dual parents MirrorGroupD4Claim + " +
                 "AbsorptionTheoremClaim = the physics edge that WELDS the two clusters, previously joined only " +
                 "at d^2-2d=0; live battery 7/7, registration test 4/4 green; knowledge ancestors confirms both " +
@@ -1896,7 +1899,7 @@ public static class OpenArcsRegistry
                 "is the fixed/reflected CENTER of the mirror group <R,D> = D4 (D fixes Q = the rate reading; " +
                 "R reflects R*Q*R = -Q carrying the -2*Sum(gamma) palindrome shift = the mirror reading; the " +
                 "F87 truly cell = the joint-fixed cell = the judge reading), so 'one diagonal read three times' " +
-                "IS 'one diagonal moved three ways by D4'. Typed ThreeDephasingDiagonalsOrbitClaim (the S3 |x| D4 " +
+                "IS 'one diagonal moved three ways by D4'. Typed ThreeDephasingDiagonalsOrbitClaim (the " +
                 "weld edge, dual parents MirrorGroupD4Claim + AbsorptionTheoremClaim); the U(1) sibling (even-step " +
                 "ladder k<->k,k+-2, a transverse field breaks the disagreement parity) and the three-ladder hinge " +
                 "(ThreeLadderHingeClaim) both resolved; live witnesses inspect --root diagonal / mirrorgroup / " +
