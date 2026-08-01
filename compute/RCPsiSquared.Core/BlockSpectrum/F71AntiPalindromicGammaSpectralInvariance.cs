@@ -7,8 +7,11 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// 2026-05-12; empirical witness 2026-05-11): for chain XY + Z-dephasing Liouvillian on
 /// N qubits, the <b>F71-refined diagonal-block spectrum</b> (the multiset of eigenvalues
 /// of the (F71-even, F71-odd) diagonal sub-blocks of <c>Q^T L Q</c>) depends on the
-/// per-site γ-distribution only through the multiset of F71-pair-sums
-/// <c>S_l := γ_l + γ_{N-1-l}</c>; cross-block entries depend on pair-differences
+/// per-site γ-distribution only through the INDEXED F71-pair-sums, the assignment
+/// <c>l ↦ S_l := γ_l + γ_{N-1-l}</c> and NOT the bare multiset {S_l} (corrected 2026-08-01;
+/// counterexample at N=6, same multiset and same Σγ, different assignment:
+/// γ_A = [0.7, 0.2, 0.5, 0.3, 0.6, 0.4] against γ_B = [0.4, 0.4, 0.55, 0.55, 0.4, 0.4],
+/// diagonal-block spectra apart by 8.69); cross-block entries depend on pair-differences
 /// <c>D_l := γ_l − γ_{N-1-l}</c>. As a corollary, the spectrum is invariant under any
 /// γ-distribution satisfying <c>γ_l + γ_{N-1-l} = 2·γ_avg</c> for all l ∈ {0..N−1},
 /// where <c>γ_avg = (1/N)·Σ γ_l</c>. We call such γ-distributions <i>F71-anti-palindromic
