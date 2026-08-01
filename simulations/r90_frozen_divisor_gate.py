@@ -91,11 +91,18 @@
 #       every (cell, pair); each support = the interval between that
 #       pair's own sites; and the strict nesting giving triangularity
 #   G15 the index reading (proof doc Section 3.1): trace(tauQ) = the fixed-cell
-#       count = dim(+) - dim(-) = N (N = 3..10); and the physics taken away --
+#       count = dim(+) - dim(-) = N (N = 3..10); and the physics taken away:
 #       a RANDOM tauQ-odd matrix keeps the whole effect (kernel N bare,
 #       floor(N/2) with the even defect), while a NOT-odd one keeps nothing
+#   G16 the zero-mean stratum gbar = 0 (proof doc Sections 5, 6, 9, 12): the
+#       corner count N against floor(N/2), semisimple at both, exact over GF(p)
+#       at two primes; the whole-block oddness that is the mechanism; the two
+#       block-grid mirrors and their C(N,p) fixed cells on both chains; the
+#       opened census (Heisenberg N = 4, 5, 6; XY N = 4, 5); and the stratum's
+#       OWN exceptional coupling J* = 2/75 at N = 3, where the Jordan block has
+#       size three, one larger than the taxed stratum's
 #
-# Runtime: ~8-12 min. Standalone except G0 (imports framework once).
+# Runtime: about 2 minutes. Standalone except G0 (imports framework once).
 import sys
 import math
 import random
@@ -203,9 +210,12 @@ def tauQ_perm(N):
     return TQ
 
 
-def r90_profile(N):
-    """A non-AP R90-fixed profile: pairs sum to 2*gbar, gbar = 0.09."""
-    tg = 0.18
+def r90_profile(N, tg=0.18):
+    """A non-AP R90-fixed profile: every reflection pair sums to tg = 2*gbar.
+    The default gbar = 0.09 is what G1-G14 run on. tg is a parameter and not a
+    constant because gbar = 0 is a point of the locus in its own right (the rates
+    are nowhere asked to be positive): there the even defect 4*gbar*P_D vanishes
+    and the count changes, which is what G16 measures."""
     half = [0.04, 0.06, 0.07][:N // 2]
     return half + ([tg / 2] if N % 2 else []) + [tg - g for g in reversed(half)]
 
@@ -1776,6 +1786,313 @@ for N in range(3, 9):
           set(taxed) == {N // 2}, f"kernels {sorted(set(taxed))}")
     check(f"N={N} a NOT-odd operator freezes nothing", set(generic) == {0},
           f"kernels {sorted(set(generic))}")
+
+# ---------- G16: the zero-mean stratum (proof doc Sections 5, 6, 9, 12) ----------
+
+print("G16 gbar = 0: the tax is not charged, the count is N, the census opens")
+
+# G15(b) took the physics away and found that odd noise WITHOUT the even defect freezes
+# N directions rather than floor(N/2). That regime is reachable inside the theorem's own
+# hypotheses: Section 1 never asks the rates to be positive, so gbar = 0 is a profile on
+# the locus, and there 4*gbar*P_D is the zero matrix. This group runs it.
+#
+# Ranks are exact over GF(p) with r standing for a square root of -1 (integer profiles,
+# integer J, so every entry lies in Z[i]). A float rank is the least trustworthy
+# measurement available here, since the departing modes sit at spacing J^(2d) from the
+# root; and rank mod p can only fall below the rank over Q, so a nullity measured this
+# way can only overstate the multiplicity, which is why (a) runs two primes.
+
+P16 = (10 ** 9 + 9, 998244353)      # both = 1 (mod 4), so -1 is a square mod p
+
+
+def _sqrt_m1(p):
+    for a in range(2, 500):
+        r = pow(a, (p - 1) // 4, p)
+        if (r * r) % p == p - 1:
+            return r
+    raise RuntimeError(f"no square root of -1 mod {p}")
+
+
+def _r90_profile_int(N, tg):
+    """r90_profile scaled by 100, in integers. Pair with J scaled by 100 as well:
+    scaling rates and coupling together scales L, which moves no rank."""
+    half = [4, 6, 7][:N // 2]
+    return half + ([tg // 2] if N % 2 else []) + [tg - g for g in reversed(half)]
+
+
+def _block_modp(N, gl, J, pq, pmod, r, Hbuild=build_H):
+    """general_block(), but over GF(pmod) with r for i. gl and J integers."""
+    d = 2 ** N
+    H = Hbuild(N)
+    pp, qq = pq
+    cells = [(i, j) for i in range(d) for j in range(d)
+             if bin(i).count('1') == pp and bin(j).count('1') == qq]
+    idx = {c: k for k, c in enumerate(cells)}
+    n = len(cells)
+    M = [[0] * n for _ in range(n)]
+    for a2, (i, j) in enumerate(cells):
+        for k in range(d):
+            hik = int(round(H[i, k])) * J
+            if hik and (k, j) in idx:
+                c2 = idx[(k, j)]
+                M[a2][c2] = (M[a2][c2] - r * hik) % pmod
+            hkj = int(round(H[k, j])) * J
+            if hkj and (i, k) in idx:
+                c2 = idx[(i, k)]
+                M[a2][c2] = (M[a2][c2] + r * hkj) % pmod
+        t = i ^ j
+        M[a2][a2] = (M[a2][a2]
+                     - 2 * sum(gl[m] for m in range(N) if (t >> (N - 1 - m)) & 1)) % pmod
+    return M, n
+
+
+def _rank_modp(M, pmod):
+    M = [row[:] for row in M]
+    n = len(M)
+    if n == 0:
+        return 0
+    rank = 0
+    for col in range(len(M[0])):
+        piv = next((rr for rr in range(rank, n) if M[rr][col]), None)
+        if piv is None:
+            continue
+        M[rank], M[piv] = M[piv], M[rank]
+        inv = pow(M[rank][col], pmod - 2, pmod)
+        M[rank] = [(v * inv) % pmod for v in M[rank]]
+        for rr in range(n):
+            if rr != rank and M[rr][col]:
+                f = M[rr][col]
+                M[rr] = [(x - f * y) % pmod for x, y in zip(M[rr], M[rank])]
+        rank += 1
+        if rank == n:
+            break
+    return rank
+
+
+def _matmul_modp(A, B, pmod):
+    Bt = list(zip(*B))
+    return [[sum(x * y for x, y in zip(row, col)) % pmod for col in Bt] for row in A]
+
+
+def _rank_modp_np(M, pmod):
+    """Same elimination over GF(pmod), vectorised. Exact: every entry stays an int64
+    residue and the pivot inverse is a modular inverse, so this is the pure-Python
+    routine's answer, not an approximation of it. Needed for the census at N = 6,
+    where the middle block is 400 x 400 and row-at-a-time Python is minutes."""
+    A = np.asarray(M, dtype=np.int64) % pmod
+    n, m = A.shape
+    rk = 0
+    for col in range(m):
+        nz = np.nonzero(A[rk:, col])[0]
+        if nz.size == 0:
+            continue
+        pr = rk + int(nz[0])
+        if pr != rk:
+            A[[rk, pr]] = A[[pr, rk]]
+        A[rk] = (A[rk] * pow(int(A[rk, col]), pmod - 2, pmod)) % pmod
+        hit = np.nonzero(A[:, col])[0]
+        hit = hit[hit != rk]
+        if hit.size:
+            A[hit] = (A[hit] - np.outer(A[hit, col], A[rk])) % pmod
+        rk += 1
+        if rk == n:
+            break
+    return rk
+
+
+# the integer profile is the committed one, scaled: keeps G16 on the same locus as G1-G14
+for N in range(3, 8):
+    for tg in (18, 0):
+        check(f"N={N} integer profile at tg={tg} matches r90_profile scaled by 100",
+              _r90_profile_int(N, tg) == [round(100 * g) for g in r90_profile(N, tg / 100)],
+              f"{_r90_profile_int(N, tg)} vs {[round(100 * g) for g in r90_profile(N, tg / 100)]}")
+
+# (a) the corner block: floor(N/2) at gbar != 0, exactly N at gbar = 0, both chains,
+#     and SEMISIMPLE in both cases (the nullity of M~^k does not grow with k).
+for Hb, cname in ((build_H, "Heisenberg"), (build_H_xy, "XY")):
+    for N in range(3, 8):
+        for tg, want in ((18, N // 2), (0, N)):
+            gl = _r90_profile_int(N, tg)
+            gbar2 = 2 * sum(gl) // N          # 2*gbar in the integer scale; = tg
+            ok = True
+            seen = []
+            for J in (100, 230):
+                for pmod in P16:
+                    r = _sqrt_m1(pmod)
+                    M, n = _block_modp(N, gl, J, (1, 1), pmod, r, Hbuild=Hb)
+                    # recentre at the frozen root -4*gbar: M~ = L_block + 4*gbar
+                    for i2 in range(n):
+                        M[i2][i2] = (M[i2][i2] + 2 * gbar2) % pmod
+                    nl, P = [], [row[:] for row in M]
+                    for _ in range(3):
+                        nl.append(n - _rank_modp(P, pmod))
+                        P = _matmul_modp(P, M, pmod)
+                    seen.append(tuple(nl))
+                    ok &= (nl == [want, want, want])
+            check(f"N={N} {cname} gbar={'0' if tg == 0 else '0.09'}: "
+                  f"multiplicity {want}, semisimple", ok, f"nullities {sorted(set(seen))}")
+
+# (b) the mechanism, entry-wise and without an eigensolver: at gbar = 0 the mirror
+#     identity of G1 loses its defect, so M~ is tauQ-odd on the WHOLE corner block,
+#     diagonal cells included, and the index that bounds the kernel is trace(tauQ) = N.
+for N in range(3, 8):
+    gl = r90_profile(N, tg=0.0)
+    check(f"N={N} zero-mean profile is on the locus with gbar = 0",
+          all(abs(gl[l] + gl[N - 1 - l]) < 1e-15 for l in range(N))
+          and abs(sum(gl)) < 1e-15, f"profile {gl}")
+    K, G = corner_pieces(N, gl)
+    M = 0.83 * K - 2 * G                      # M~ = L_block + 4*gbar = L_block here
+    TQ = tauQ_perm(N)
+    resid = np.max(np.abs(TQ @ M @ TQ + M))
+    check(f"N={N} M~ is tauQ-odd on the whole block (no even defect)",
+          resid < 1e-12, f"residual {resid:.1e}")
+    # dim(+) - dim(-) for an involution IS its trace, so no eigensolver is needed and none
+    # is used: the count below is a sum of N^2 integers.
+    index = int(round(np.trace(TQ)))
+    check(f"N={N} the index the count attains is dim(+) - dim(-) = trace(tauQ) = {N}",
+          index == N, f"trace {index}")
+
+# (c) the two mirrors that make the census open. At gbar = 0 the center's |S|-dependence
+#     (4*gbar*|S|) is gone, so the recentering that Section 5 could only afford on the
+#     corners is free on EVERY block. Two involutions serve, one per diagonal of the block
+#     grid, and each has C(N,p) fixed cells, so Section 3.1's index gives >= C(N,p) there:
+#       on (p,p)    : tauQ itself, (i,j) -> (R(j), R(i))
+#       on (p,N-p)  : tauQ after the two-sided X^N bridge, (i,j) -> (R(~j), R(~i))
+#     Both must FAIL to be odd at gbar != 0, which is the control that says gbar is what
+#     buys them. Residuals are exact residues mod p, so "odd" here means identically zero.
+def _rev(i, N):
+    return int(f"{i:0{N}b}"[::-1], 2)
+
+
+for Hb, cname in ((build_H, "Heisenberg"), (build_H_xy, "XY")):
+  for N in (3, 4, 5):
+    pmod = P16[0]
+    r = _sqrt_m1(pmod)
+    full = (1 << N) - 1
+    for tg, want_odd in ((0, True), (18, False)):
+        gl = _r90_profile_int(N, tg)
+        gbar2 = 2 * sum(gl) // N
+        odd_pp, odd_anti, fixed_ok = [], [], True
+        for pp in range(N + 1):
+            for is_tauQ, pq, f in (
+                    (True, (pp, pp), lambda c: (_rev(c[1], N), _rev(c[0], N))),
+                    (False, (pp, N - pp),
+                     lambda c: (_rev(c[1] ^ full, N), _rev(c[0] ^ full, N)))):
+                M, n = _block_modp(N, gl, 100, pq, pmod, r, Hbuild=Hb)
+                d2 = 1 << N
+                pc = [bin(i).count('1') for i in range(d2)]
+                cells = [(i, j) for i in range(d2) for j in range(d2)
+                         if (pc[i], pc[j]) == pq]
+                idx = {c: k for k, c in enumerate(cells)}
+                if any(f(c) not in idx for c in cells):
+                    continue
+                perm = [idx[f(c)] for c in cells]
+                # recentre at the root -4*gbar, then test P M P + M == 0
+                A = [[(M[a][b] + (2 * gbar2 if a == b else 0)) % pmod for b in range(n)]
+                     for a in range(n)]
+                resid = max((A[perm[a]][perm[b]] + A[a][b]) % pmod
+                            for a in range(n) for b in range(n))
+                (odd_pp if is_tauQ else odd_anti).append(resid == 0)
+                fixed_ok &= (sum(1 for c in cells if f(c) == c) == math.comb(N, pp))
+        lbl = "0" if tg == 0 else "0.09"
+        check(f"N={N} {cname} gbar={lbl}: every (p,p) block tauQ-odd = {want_odd}",
+              all(o == want_odd for o in odd_pp), f"{odd_pp}")
+        check(f"N={N} {cname} gbar={lbl}: every (p,N-p) block odd under the bridge = {want_odd}",
+              all(o == want_odd for o in odd_anti), f"{odd_anti}")
+        if tg == 0:
+            check(f"N={N} {cname} both mirrors have C(N,p) fixed cells", fixed_ok)
+
+# (d) and the census itself: at gbar = 0 the carriers on the Heisenberg chain are exactly
+#     those blocks, each holding C(N,p). The bound above is a theorem; that these are the
+#     ONLY carriers and that the bound is ATTAINED is what this measures. One prime.
+for N in (4, 5, 6):
+    gl = _r90_profile_int(N, 0)
+    pmod = P16[0]
+    r = _sqrt_m1(pmod)
+    carriers, mults_ok = [], True
+    for pp in range(N + 1):
+        for qq in range(N + 1):
+            M, n = _block_modp(N, gl, 100, (pp, qq), pmod, r)
+            m = n - _rank_modp_np(M, pmod)    # the root is 0 at gbar = 0
+            if m:
+                carriers.append((pp, qq))
+                mults_ok &= (m == math.comb(N, pp))
+    want = [(pp, qq) for pp in range(N + 1) for qq in range(N + 1)
+            if qq == pp or qq == N - pp]
+    check(f"N={N} gbar=0 Heisenberg carriers are q = p and q = N - p "
+          f"({len(want)} of {(N + 1) ** 2})", carriers == want, f"got {carriers}")
+    check(f"N={N} gbar=0 each carrier holds C(N,p), so the index bound is attained", mults_ok)
+
+# (e) the same census on the XY chain, because Section 12 quotes its figures. The two mirrors of
+#     (c) are chain-free (they need only that h is real, symmetric and R-invariant), so the
+#     C(N,p) floor holds here too; what the XY chain does NOT do is stop there.
+for N in (4, 5):
+    gl = _r90_profile_int(N, 0)
+    pmod = P16[0]
+    r = _sqrt_m1(pmod)
+    xy_carriers, floor_ok = [], True
+    for pp in range(N + 1):
+        for qq in range(N + 1):
+            M, n = _block_modp(N, gl, 100, (pp, qq), pmod, r, Hbuild=build_H_xy)
+            m = n - _rank_modp_np(M, pmod)
+            if m:
+                xy_carriers.append((pp, qq))
+            # the floor is checked on EVERY two-diagonal block, carrying or not: guarding it
+            # behind "if m" would let a block that carries NOTHING pass the floor vacuously.
+            if qq == pp or qq == N - pp:
+                floor_ok &= (m >= math.comb(N, pp))
+    want_xy = 13 if N == 4 else 36
+    check(f"N={N} gbar=0 XY carries on {want_xy} of {(N + 1) ** 2} blocks",
+          len(xy_carriers) == want_xy, f"got {len(xy_carriers)}: {xy_carriers}")
+    check(f"N={N} gbar=0 XY still meets the C(N,p) floor on the two diagonals", floor_ok)
+
+# (f) the zero-mean stratum is NOT semisimple everywhere: it has exceptional couplings of its
+#     own, and no cofactor can find them, because q(0) vanishes identically at gbar = 0. On the
+#     gate's own N=3 zero-mean profile gamma = (1/25, 0, -1/25) the coefficient of lambda^3 in
+#     det(lambda I - Mtilde) is (256/625)*J^4*(75J-2)*(75J+2), so J* = 2/75 is real and nonzero.
+#     There the kernel dimensions of Mtilde^k run (3, 4, 5): geometric 3 = N, algebraic 5, ONE
+#     JORDAN BLOCK OF SIZE THREE, one larger than the taxed stratum's (proof doc Section 9).
+#     Scale gamma and J by 75 together (a rank does not see it): gamma -> (3, 0, -3), J* -> 2.
+# FIVE powers, not three: (3, 4, 5) alone leaves the block sizes open, since it fixes only
+# that some block has size >= 3. The chain has to be seen to STOP for the sizes {3, 1, 1} to
+# follow, and it stops at k = 3.
+for Jsc, want, label in ((2, (3, 4, 5, 5, 5), "J* = 2/75, the exceptional coupling"),
+                         (1, (3, 3, 3, 3, 3), "J = 1/75, control"),
+                         (75, (3, 3, 3, 3, 3), "J = 1, control"),
+                         (173, (3, 3, 3, 3, 3), "J = 173/75, control")):
+    seen = []
+    for pmod in P16:
+        r = _sqrt_m1(pmod)
+        M, n = _block_modp(3, [3, 0, -3], Jsc, (1, 1), pmod, r)
+        nl, P = [], [row[:] for row in M]
+        for _ in range(5):
+            nl.append(n - _rank_modp(P, pmod))
+            P = _matmul_modp(P, M, pmod)
+        seen.append(tuple(nl))
+    check(f"N=3 gbar=0 Heisenberg, {label}: dim ker Mtilde^k = {want}",
+          all(t == want for t in seen), f"{seen}")
+
+# and the closed form the coupling comes from, symbolically exact.
+g3 = [sp.Rational(1, 25), 0, sp.Rational(-1, 25)]
+h3 = [[0, 2, 0], [2, 0, 2], [0, 2, 0]]
+for a in range(3):
+    deg = (1 if a > 0 else 0) + (1 if a < 2 else 0)
+    h3[a][a] = 2 - 2 * deg
+Jsym, lamsym = sp.symbols('Jz lamz')
+Msym = sp.zeros(9, 9)
+for a in range(3):
+    for b in range(3):
+        i = a * 3 + b
+        for c in range(3):
+            Msym[c * 3 + b, i] += -sp.I * Jsym * h3[a][c]
+            Msym[a * 3 + c, i] += sp.I * Jsym * h3[c][b]
+        if a != b:
+            Msym[i, i] += -2 * (g3[a] + g3[b])
+c3 = sp.Poly(sp.expand((lamsym * sp.eye(9) - Msym).det(method='berkowitz')),
+             lamsym).coeff_monomial(lamsym**3)
+target3 = sp.Rational(256, 625) * Jsym**4 * (75 * Jsym - 2) * (75 * Jsym + 2)
+check("N=3 gbar=0 coefficient of lambda^3 = (256/625) J^4 (75J-2)(75J+2)",
+      sp.simplify(c3 - target3) == 0, f"{sp.factor(sp.simplify(c3))}")
 
 # ---------- verdict ----------
 

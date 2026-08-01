@@ -133,6 +133,95 @@ public class DivisorTests
     public void Small_Coupling_On_A_Long_Chain_Still_Counts_Right(int n, long jNum)
         => Assert.Equal(n / 2, Make(n, jNum).KernelDimension());
 
+    // ---- the zero-mean stratum: where the tax is not there to be paid ----
+    // The locus never asks the site rates to be positive, so gbar = 0 is a point of it, and there the
+    // even defect 4*gbar*P_D is the zero matrix: the whole block is odd, the diagonal cells charge
+    // nothing, and the count is N (one per SITE) rather than floor(N/2) (one per balanced pair). The
+    // room count has to say so on its own, without the rank being consulted.
+    static Divisor Zero(int n, long jNum = JNum)
+        => new(new Mirror(W, n, 1.0, 0.5), n, jNum, Divisor.Locus(n, 0, 2, -3, 5), Den);
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void Zero_Mean_Is_Still_The_Locus(int n)
+    {
+        var d = Zero(n);
+        Assert.Equal(0.0, d.Sigma);
+        Assert.Equal(0.0, d.GBar);
+        Assert.Equal(0.0, d.Root);
+        Assert.Equal(d.Root, d.FoldRoot);                  // the fold partner collapses onto it
+        Assert.True(d.OddnessResidual().Rate < 1e-12);     // still on the locus, entry by entry
+    }
+
+    // the mechanism, and the read that can actually SEE it. OddnessResidual skips the diagonal
+    // cells, so it reads machine zero on both strata and discriminates nothing; the whole-block
+    // residual is zero only where the even defect is absent, and O(gbar) where it is not.
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void Only_The_Zero_Mean_Block_Is_Odd_All_The_Way_Through(int n)
+    {
+        Assert.True(Zero(n).WholeBlockOddnessResidual() < 1e-12);
+        // not merely nonzero: the defect is exactly 8*gbar, the proof's own G1 constant.
+        Assert.Equal(8 * 0.09, Make(n).WholeBlockOddnessResidual(), 12);
+        Assert.True(Make(n).OddnessResidual().Rate < 1e-12);   // the blind read, both strata
+        Assert.True(Zero(n).OddnessResidual().Rate < 1e-12);
+    }
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void Zero_Mean_Charges_No_Tax_And_Freezes_N(int n)
+    {
+        var (_, _, _, surplus, tax, frozen) = Zero(n).Rooms();
+        Assert.Equal(2 * (n / 2), surplus);                 // the surplus is the mirror's, unchanged
+        Assert.Equal(-(n % 2), tax);                        // the diagonal cells PAY here, they do
+        Assert.Equal(surplus - tax, frozen);                // not charge; the identity still holds
+        Assert.Equal(n, frozen);                            // one per site, and NOT 2*floor(n/2)
+        var taxed = Make(n).Rooms();
+        Assert.Equal(n / 2, taxed.Tax);                     // the taxed stratum is untouched
+        Assert.Equal(taxed.Surplus - taxed.Tax, taxed.Frozen);
+        Assert.Equal(n / 2, taxed.Frozen);
+    }
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void Zero_Mean_Kernel_Matches_The_Untaxed_Room_Count(int n)
+    {
+        var d = Zero(n);
+        Assert.Equal(n, d.KernelDimension());
+        Assert.Equal(d.Rooms().Frozen, d.KernelDimension());
+    }
+
+    // and the coupling still cannot move it, on this stratum either.
+    [Theory]
+    [InlineData(1)]          // J = 1/100
+    [InlineData(100)]        // J = 1
+    [InlineData(750)]        // J = 7.5
+    public void Zero_Mean_Count_Does_Not_Depend_On_The_Coupling(long jNum)
+    {
+        for (int n = 3; n <= 9; n++)
+            Assert.Equal(n, Zero(n, jNum).KernelDimension());
+    }
+
     // past the wall: the spectrum died at N=8, the corner block is N^2, the divisor does not notice.
     [Theory]
     [InlineData(10)]

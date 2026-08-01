@@ -7,7 +7,9 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// (F140, proof <c>docs/proofs/PROOF_R90_FROZEN_DIVISOR.md</c>): on the anti-palindromic watching
 /// locus of F91, the single-excitation corner block holds λ = −4γ̄ with multiplicity at least
 /// ⌊N/2⌋ at every coupling, one frozen mode per balanced pair, and exactly ⌊N/2⌋ away from the
-/// finitely many exceptional couplings (of which J = 0, where it doubles, is one).
+/// finitely many exceptional couplings (of which J = 0, where it doubles, is one). Every read here
+/// is on the taxed stratum γ̄ &gt; 0, which the witness enforces; at γ̄ = 0 the count is N and the
+/// stratum is pinned by the gate's G16 and MirrorWorld's <c>Divisor</c> instead.
 ///
 /// <para>Two-sided throughout: every ⌊N/2⌋ read sits beside a zero that a broken rank routine, a
 /// mislabelled root or a lost locus condition could not produce, plus the J = 0 corollary

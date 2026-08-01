@@ -8,9 +8,13 @@ namespace MirrorWorld;
 // This holds a third thing the same mirror leaves behind, and it is neither a fold nor a seed: a VALUE
 // the Hamiltonian cannot move. On the R90 locus (every reflection pair of site rates carrying the same
 // total, gamma_l + gamma_{R(l)} = 2*gbar) the corner block carries lambda = -4*gbar with multiplicity
-// AT LEAST floor(N/2) for EVERY coupling J, and exactly floor(N/2) away from finitely many couplings.
-// One frozen mode per balanced pair. Two of the exceptions are visible from here: at J = 0 the count
-// below doubles, and at the real exceptional couplings the root goes defective without the rank moving.
+// AT LEAST floor(N/2) for EVERY coupling J, and, when gbar != 0, exactly floor(N/2) away from finitely
+// many couplings. One frozen mode per balanced pair. Three of the exceptions are visible from here:
+// at J = 0 the count below doubles, at the real exceptional couplings the root goes defective without
+// the rank moving, and at gbar = 0 the diagonal cells stop charging Rooms() and start paying it, so
+// the count is N for all but finitely many J
+// (at J = 0 it is N + 2*floor(N/2); that stratum has defective couplings of its own,
+// with a size-3 Jordan block at N = 3, which is the proof's Section 9).
 //
 // THE PARENT IS THE MIRROR, not the frame. (Marginal got to a non-frame parent first, on 2026-07-12,
 // hanging on the running cloud it reads; this is the second, and the first among the closed-form
@@ -102,8 +106,26 @@ public sealed class Divisor : GameObject
             }
         int dimOPlus = (o - fixedCells) / 2 + fixedCells;
         int dimOMinus = (o - fixedCells) / 2;
-        int tax = N / 2;                                    // dim D-, the diagonal cells' mirror pairs
-        return (fixedCells, dimOPlus, dimOMinus, dimOPlus - dimOMinus, tax, dimOPlus - dimOMinus - tax);
+        int surplus = dimOPlus - dimOMinus;
+
+        // The diagonal cells decide the rest, and WHICH WAY they decide it is gbar's doing.
+        // With the even defect 4*gbar*P_D present they are even where everything else is odd, so
+        // D- cuts floor(N/2) conditions off the surplus: that is the tax, and the count is one
+        // frozen mode per balanced PAIR. At gbar = 0 there is no defect to be even, the whole
+        // block is odd, and D pays a surplus of its own instead (ceil(N/2) - floor(N/2), the
+        // odd-N centre's room), so the count is N: one frozen mode per SITE. Note it is NOT
+        // 2*floor(N/2): at odd N the centre room is what makes up the difference. The locus
+        // reaches gbar = 0 because it never asks the site rates to be positive.
+        // Tax is what the diagonal cells take OUT of the surplus, so frozen = surplus - tax on
+        // both strata; on the untaxed one they put in instead, and the tax is MINUS what they pay,
+        // -(ceil(N/2) - floor(N/2)). That is the odd-N centre's own room, so it is -1 at odd N and
+        // 0 at even N, where there is no centre cell to pay it. One caveat on the names: Surplus
+        // stays the O-side count 2*floor(N/2) on both strata, so on the untaxed one it is no
+        // longer the whole index that produces Frozen; the missing piece is exactly this Tax.
+        bool taxed = gNum.Sum() != 0;
+        int tax = taxed ? N / 2 : -((N + 1) / 2 - N / 2);
+        int frozen = surplus - tax;
+        return (fixedCells, dimOPlus, dimOMinus, surplus, tax, frozen);
     }
 
     // ---- the hypothesis, entry by entry: is the generator odd under the cell mirror? ----
@@ -131,6 +153,38 @@ public sealed class Divisor : GameObject
                 rate = Math.Max(rate, Math.Abs(there + here));
             }
         return (hop, rate);
+    }
+
+    // ---- the mechanism on the untaxed stratum, entry by entry ----
+    // OddnessResidual above deliberately skips the diagonal cells, because on the taxed stratum
+    // they are EXACTLY where the oddness fails: that failure is the tax. So it cannot tell the
+    // two strata apart. This one reads the WHOLE recentered block, D included, which is odd only
+    // when the even defect 4*gbar*P_D is absent. Worst-case residual, no eigensolver.
+    public double WholeBlockOddnessResidual()
+    {
+        int n2 = N * N;
+        var k = BuildK();
+        var tq = TauQ();
+        double gbar = GBar, worst = 0;
+        double Entry(int r, int c)
+        {
+            // M~ = J*K - 2*Gamma + 4*gbar on the cell basis; only the diagonal carries the rest.
+            double v = 0;
+            if (r == c)
+            {
+                int a = r / N, b = r % N;
+                v = 4 * gbar - (a == b ? 0 : 2 * (gNum[a] + gNum[b]) / (double)den);
+            }
+            return v;
+        }
+        for (int i = 0; i < n2; i++)
+            for (int j = 0; j < n2; j++)
+            {
+                Complex here = J * k[i, j] + new Complex(Entry(i, j), 0);
+                Complex there = J * k[tq[i], tq[j]] + new Complex(Entry(tq[i], tq[j]), 0);
+                worst = Math.Max(worst, (there + here).Magnitude);
+            }
+        return worst;
     }
 
     // ---- the multiplicity, by an EXACT rank ----

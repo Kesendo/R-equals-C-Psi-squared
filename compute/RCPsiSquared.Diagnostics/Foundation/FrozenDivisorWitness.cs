@@ -31,12 +31,14 @@ public enum DivisorChain
 ///     λ = −4γ̄   with multiplicity ≥ ⌊N/2⌋,   at EVERY coupling J
 /// </code>
 ///
-/// one frozen mode per balanced pair, and exactly ⌊N/2⌋ for all but finitely many J (the proof's
-/// Sections 6 and 7). Two of the exceptions are visible from here: J = 0, where the multiplicity
-/// merely doubles to 2⌊N/2⌋ and stays semisimple, and the real exceptional couplings of Section 9,
-/// where the root goes defective without its kernel dimension moving. The value hears only the
-/// MEAN watching: no J, no individual
-/// rate, nothing of the Hamiltonian. Nothing symmetric is behind it; what pins it is a room
+/// one frozen mode per balanced pair, and, for γ̄ ≠ 0, exactly ⌊N/2⌋ for all but finitely many J
+/// (the proof's Sections 6 and 7). Two of the three exceptions are visible from here: J = 0, where
+/// the multiplicity merely doubles to 2⌊N/2⌋ and stays semisimple, and the real exceptional
+/// couplings of Section 9, where the root goes defective without its kernel dimension moving. The
+/// third is a whole stratum rather than a point and this witness does not enter it: at γ̄ = 0 the
+/// count is N for all but finitely many J (see the constructor, and MirrorWorld's
+/// <c>Divisor</c>). The value hears only the MEAN watching: no J, no individual rate, nothing of
+/// the Hamiltonian. Nothing symmetric is behind it; what pins it is a room
 /// shortage of the cell mirror τQ : (a,b) ↦ (R(b), R(a)), which fixes exactly the 2⌊N/2⌋
 /// anti-diagonal coherences, so an odd operator has more even rooms than odd ones and the surplus
 /// must freeze. The diagonal cells' mirror pairs are EVEN, not odd, and tax away half:
@@ -79,13 +81,20 @@ public enum DivisorChain
 /// which exactly ⌊N/2⌋ modes depart as the coupling turns on) is a third kind of read: not a zero,
 /// not the theorem's number, and wrong under either mistake.</para>
 ///
-/// <para><b>Scope.</b> This witness types the divisor BOUND (≥ ⌊N/2⌋ at every coupling) and the
-/// fold-parity placement of the corners. Tightness is a theorem too (Sections 6 and 7), and the
+/// <para><b>Scope.</b> This witness types the divisor BOUND (≥ ⌊N/2⌋ at every coupling, which
+/// holds at every γ̄) and the fold-parity placement of the corners. Its READS are all taken at
+/// γ̄ &gt; 0, the part of the taxed stratum γ̄ ≠ 0 where every site rate can also be positive.
+/// Tightness is a theorem too (Sections 6 and 7, and it is the half that needs γ̄ ≠ 0), and the
 /// ranks here meet it at every coupling sampled, but sampling is not what proves it. What no rank
 /// read here can see: at the real exceptional couplings the root goes DEFECTIVE while its kernel
-/// dimension does not move. The analytic half (the cofactor determinant, the two boundary clocks,
-/// those defective couplings) is eigen-work and stays in the proof document, as does the one item
-/// still open there, the upper half of the valuation law.</para></summary>
+/// dimension does not move. What this witness deliberately does not REACH: the zero-mean stratum
+/// γ̄ = 0, where the count is N rather than ⌊N/2⌋ and every ⌊N/2⌋ read below would be a mismatch.
+/// The constructor closes that door rather than branching on it, because the whole read-set here
+/// is built around one number; the stratum is pinned instead by the gate's G16 and by MirrorWorld's
+/// <c>Divisor.Rooms()</c>, which carries both counts. The analytic half (the cofactor determinant,
+/// the two boundary clocks, those defective couplings) is eigen-work and stays in the proof
+/// document, as does the one item still open there, the upper half of the valuation
+/// law.</para></summary>
 public sealed class FrozenDivisorWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -170,7 +179,8 @@ public sealed class FrozenDivisorWitness : IInspectable
 
     // ---- the exact reads ----
 
-    /// <summary>dim ker(L₍₁,₁₎ + 4γ̄) at <see cref="J"/>, exact. The theorem: ⌊N/2⌋.</summary>
+    /// <summary>dim ker(L₍₁,₁₎ + 4γ̄) at <see cref="J"/>, exact. The theorem on this stratum: ⌊N/2⌋.
+    /// </summary>
     public int KernelDimension { get; }
     /// <summary>The same at <see cref="SecondJ"/>: the coupling cannot move the value.</summary>
     public int SecondCouplingKernelDimension { get; }
@@ -232,9 +242,15 @@ public sealed class FrozenDivisorWitness : IInspectable
         if (n < MinN || n > MaxN)
             throw new ArgumentOutOfRangeException(nameof(n),
                 $"N must satisfy {MinN} ≤ N ≤ {MaxN} (the live build materialises the 2^N Hamiltonian); got {n}");
+        // γ̄ > 0 is this witness's scope, not the locus's. The locus itself is happy at γ̄ ≤ 0 (the
+        // proof's Section 1 never uses positivity), and at γ̄ = 0 the corner kernel is N rather than
+        // ⌊N/2⌋, and every read here is built around that one number, so it would mismatch. The
+        // stratum belongs to the gate's G16 and to MirrorWorld's Divisor.Rooms(), which counts both.
         if (!(gammaBar > 0.0) || gammaBar > 1.0)
             throw new ArgumentOutOfRangeException(nameof(gammaBar), gammaBar,
-                "γ̄ must lie in (0, 1]: it is the mean watching, and the locus needs every site rate positive");
+                "γ̄ must lie in (0, 1]: it is the mean watching, and this witness reads the taxed stratum, " +
+                "where the frozen count is ⌊N/2⌋. At γ̄ = 0 it is N instead; that stratum is pinned " +
+                "by simulations/r90_frozen_divisor_gate.py (G16) and by MirrorWorld's Divisor, not here");
         if (!(j > 0.0) || j > 2.0)
             throw new ArgumentOutOfRangeException(nameof(j), j,
                 "J must lie in (0, 2]: the J-independence face reads the same block at 4·J, which then stays " +
@@ -249,8 +265,9 @@ public sealed class FrozenDivisorWitness : IInspectable
         long smallest = MaxHalfMagnitude(m);
         if (gBarNum <= smallest)
             throw new ArgumentOutOfRangeException(nameof(gammaBar), gammaBar,
-                $"γ̄ snaps to {gBarNum}/{Grid}, at or below the largest half-profile step {smallest}/{Grid} the " +
-                $"locus needs at N = {n}; a site rate would come out non-positive. Use " +
+                $"γ̄ snaps to {gBarNum}/{Grid}, at or below the largest half-profile step {smallest}/{Grid} this " +
+                $"witness's profile uses at N = {n}; a site rate would come out non-positive, and positive " +
+                $"rates are this witness's scope, not the locus's. Use " +
                 $"γ̄ > {((smallest + 1) / (double)Grid).ToString("0.######", Inv)}.");
         long jNum = SnapToGrid(j);
         if (jNum <= 0)
@@ -586,7 +603,7 @@ public sealed class FrozenDivisorWitness : IInspectable
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(
-                displayName: $"the exact multiplicity: dim ker(L₍₁,₁₎ + 4γ̄) = {KernelDimension} at every coupling",
+                displayName: $"the exact multiplicity: dim ker(L₍₁,₁₎ + 4γ̄) = {KernelDimension} at both couplings",
                 summary: $"J = {Fmt(J)} → {KernelDimension}, J = {Fmt(SecondJ)} → {SecondCouplingKernelDimension}, " +
                          $"and a DIFFERENT on-locus profile at the same γ̄ → {SecondProfileKernelDimension}: the " +
                          "value hears the mean watching and nothing else, not the coupling and not the " +
@@ -666,9 +683,14 @@ public sealed class FrozenDivisorWitness : IInspectable
             yield return new InspectableNode(
                 displayName: "the remaining open ink (scope of this witness)",
                 summary: "this witness types the divisor BOUND (≥ ⌊N/2⌋ at every coupling) and the " +
-                         "fold-parity placement of the corners. Tightness (exactly ⌊N/2⌋ for all but " +
-                         "finitely many J) is a theorem too, by the proof's Sections 6 and 7; the ranks " +
+                         "fold-parity placement of the corners; the bound holds at every γ̄, " +
+                         "and every read here is taken at γ̄ > 0. Tightness " +
+                         "(exactly ⌊N/2⌋ for all but finitely many J, and only for γ̄ ≠ 0) " +
+                         "is a theorem too, by the proof's Sections 6 and 7; the ranks " +
                          "above meet it at every coupling sampled, but sampling is not what proves it. " +
+                         "What this witness does not REACH: γ̄ = 0, where the even defect is absent, the " +
+                         "whole block is τQ-odd and the count is N. The constructor closes that door; " +
+                         "MirrorWorld's Divisor.Rooms() and the gate's G16 carry the stratum. " +
                          "What no rank read here can see: at the real exceptional couplings the root goes " +
                          "DEFECTIVE (one 2×2 Jordan block) while its kernel dimension does not move, so " +
                          "this witness cannot tell that failure from a healthy coupling. Still open in the " +

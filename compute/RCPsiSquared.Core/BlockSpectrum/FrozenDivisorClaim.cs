@@ -12,9 +12,13 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///     λ = −4γ̄   with multiplicity ≥ ⌊N/2⌋,   for EVERY coupling J
 /// </code>
 ///
-/// one frozen mode per balanced pair, and exactly ⌊N/2⌋ for all but finitely many J. The value
-/// hears only the MEAN watching: not the coupling, not the individual rates, nothing of the
-/// Hamiltonian.
+/// one frozen mode per balanced pair, and, for γ̄ ≠ 0, exactly ⌊N/2⌋ for all but finitely many J.
+/// The value hears only the MEAN watching: not the coupling, not the individual rates, nothing of
+/// the Hamiltonian. At γ̄ = 0 the count is N instead, one per SITE, again for all but finitely
+/// many J: the locus
+/// never asks the rates to be positive, so the mean may be zero, and then the even defect that
+/// taxes half the rooms away is not there to charge (Section 6 of the proof). N is not twice
+/// ⌊N/2⌋ at odd N; the diagonal cells stop charging their ⌊N/2⌋ and pay one room back.
 ///
 /// <para><b>No symmetry is behind it.</b> The eigenvectors move with J, the block spectrum is not
 /// palindromic about the root, and no invariant subspace carries the modes. What pins the value is
@@ -50,7 +54,12 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///
 /// <para><b>The cofactor and the ladder.</b> det(εI − M̃) = ε^⌊N/2⌋·q(ε) with
 /// q(0) = (−1)^N·(4γ̄)^⌈N/2⌉·det((X P_{O₊} X)|_{V₋}), one N(N−1)/2 determinant free of γ̄; its
-/// nonvanishing IS tightness, and it gives semisimplicity. As J → 0 that determinant vanishes to
+/// nonvanishing IS tightness for γ̄ ≠ 0, and it gives semisimplicity. The γ̄ the determinant is
+/// free of sits in the prefactor, which is the other way q(0) can die: at γ̄ = 0 the whole block
+/// is τQ-odd and the kernel is the bare index dim V₊ − dim V₋ = N, attained for all but finitely
+/// many J. That stratum has exceptional couplings of its own, and at N = 3 the Jordan block there
+/// has size THREE, larger than the taxed stratum's two.
+/// As J → 0 that determinant vanishes to
 /// order 2⌊N²/4⌋ = 2 Σ_c d_c with d_c = N + 1 − 2c the site distance of the balanced pair
 /// (c, R(c)): a frozen mode cannot move until the coupling has walked the excitation across its
 /// own pair, so it departs at order J^{2d_c} and <b>the far pair is the most protected</b>. At the
@@ -67,7 +76,9 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///
 /// <para><b>Scope, and what stays open.</b> The bound and tightness are both theorems: the bound
 /// by the τQ pencil argument of Section 3, tightness by Section 7's closed form for the cofactor's
-/// leading coefficient, which makes it a nonzero polynomial at every N on the two chains. What
+/// leading coefficient, which makes it a nonzero polynomial at every N on the two chains, at every
+/// γ̄ ≠ 0. Tightness is the half that carries that hypothesis; the bound does not, and at γ̄ = 0
+/// the count is N rather than ⌊N/2⌋, for all but finitely many J. What
 /// tightness does NOT say is which couplings the finitely many exceptions are, and there the story
 /// is unfinished: at the real exceptional couplings the root goes DEFECTIVE (one 2×2 Jordan block,
 /// exact at N = 3, 4) while its kernel dimension does not move, so the criterion cannot tell that
@@ -78,7 +89,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// a single nonvanishing (each pair reaching its OWN outer anti-diagonal cell). That one concerns
 /// the ladder, not the multiplicity.</para>
 ///
-/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (212 checks, G0..G15). Live:
+/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (302 checks, G0..G16). Live:
 /// <c>inspect --root divisor</c> (<c>FrozenDivisorWitness</c>, the counts recomputed by exact
 /// GF(p) ranks at inspect time). Adopted as a MirrorWorld object: run mode
 /// <c>divisor N</c>.</para></summary>
@@ -97,8 +108,11 @@ public sealed class FrozenDivisorClaim : Claim
                "(gamma_l + gamma_{R(l)} = 2*gbar for every l) the single-excitation corner block of the " +
                "Z-dephasing Liouvillian, on either the Heisenberg or the XY chain, carries " +
                "lambda = -4*gbar with multiplicity at least " +
-               "floor(N/2) for EVERY coupling J, one frozen mode per balanced pair, and exactly " +
-               "floor(N/2) for all but finitely many J; no symmetry is behind it, the value is forced " +
+               "floor(N/2) for EVERY coupling J, one frozen mode per balanced pair, and, for " +
+               "gbar != 0, exactly floor(N/2) for all but finitely many J (at gbar = 0 the even " +
+               "defect is absent and the count is N, one per site, measured at every coupling " +
+               "sampled and proved only as a lower bound); " +
+               "no symmetry is behind it, the value is forced " +
                "by a room shortage of the cell mirror tauQ (2*floor(N/2) fixed anti-diagonal cells, " +
                "floor(N/2) taxed away by the even diagonal pairs), so the modes hear only the mean " +
                "watching and nothing of the Hamiltonian; the four corner blocks p,q in {1, N-1} " +
@@ -115,7 +129,12 @@ public sealed class FrozenDivisorClaim : Claim
         Sectors = sectors ?? throw new ArgumentNullException(nameof(sectors));
     }
 
-    /// <summary>The frozen multiplicity ⌊N/2⌋: one mode per balanced reflection pair.</summary>
+    /// <summary>The frozen multiplicity ⌊N/2⌋ on the taxed stratum γ̄ ≠ 0: one mode per balanced
+    /// reflection pair. It takes no γ̄ because that stratum is the whole subject of this claim.
+    /// Two consequences worth naming: on the zero-mean stratum the count is N instead, a room
+    /// count MirrorWorld's <c>Divisor.Rooms()</c> makes and this arithmetic does not; and
+    /// <see cref="MirrorFixedCells"/> below reads 2⌊N/2⌋ off it as a pure τQ fixed-cell count,
+    /// which is stratum-independent and would be the same number written out by hand.</summary>
     public static int FrozenMultiplicity(int n) =>
         n >= 1 ? n / 2 : throw new ArgumentOutOfRangeException(nameof(n), n, "N must be ≥ 1.");
 
@@ -147,7 +166,8 @@ public sealed class FrozenDivisorClaim : Claim
 
     public override string Summary =>
         "on F91's anti-palindromic γ-locus the corner block holds λ = −4γ̄ at least ⌊N/2⌋ times for " +
-        "every J, and exactly ⌊N/2⌋ for all but finitely many J (at J = 0 it doubles), one " +
+        "every J, and, for γ̄ ≠ 0, exactly ⌊N/2⌋ for all but finitely many J (at J = 0 it doubles; " +
+        "at γ̄ = 0 it is N for all but finitely many J), one " +
         "frozen mode per balanced pair; no symmetry behind it, only a room shortage of the cell mirror τQ " +
         "(2⌊N/2⌋ fixed anti-diagonal cells minus the ⌊N/2⌋ even diagonal pairs), so the modes hear the mean " +
         "watching and nothing else; the four corners carry, the root picked by gamma-fold parity, and on the " +
@@ -197,7 +217,8 @@ public sealed class FrozenDivisorClaim : Claim
                          "the exact (N+1)² block decomposition, which is also what puts the divisor past " +
                          "the spectral wall.");
             yield return new InspectableNode("what stays open",
-                summary: "not tightness, which Section 7 turned into a theorem at every N, but WHICH " +
+                summary: "not tightness, which Section 7 turned into a theorem at every N and every " +
+                         "γ̄ ≠ 0, but WHICH " +
                          "couplings the finitely many exceptions are: at the real ones the root goes " +
                          "defective, one 2×2 Jordan block, its kernel dimension unmoved, so the criterion " +
                          "cannot tell that failure from the harmless one at J = 0; and how many are real " +

@@ -5839,8 +5839,11 @@ the single-excitation corner block of the Liouvillian carries
 
     lambda = -4*gbar   with multiplicity >= floor(N/2),   for EVERY J,
 
-exactly floor(N/2) for all but finitely many J. One frozen mode per balanced
-pair. **No symmetry is behind it.** The eigenvectors move with J, the block
+and, **when gbar != 0**, exactly floor(N/2) for all but finitely many J: one
+frozen mode per balanced pair. At gbar = 0, which the locus permits because the
+rates are nowhere asked to be positive, the count is N instead, one per site,
+again for all but finitely many J (below; at J = 0 it is N + 2*floor(N/2), which
+is a doubling only at even N). **No symmetry is behind it.** The eigenvectors move with J, the block
 spectrum is not palindromic about the root, and no invariant subspace carries
 the modes; what pins the value is a dimension bottleneck of the cell mirror
 tauQ: (a,b) -> (Rb, Ra) has 2*floor(N/2) fixed rooms in the off-diagonal cells
@@ -5853,9 +5856,19 @@ p,q in {1, N-1}: (1,1) and (N-1,N-1) at -4*gbar, (1,N-1) and (N-1,1) at
 4*gbar - 2*sigma, the root chosen by the parity of how many one-sided gamma
 folds separate the block from (1,1), each fold sending r -> -r - 2*sigma.
 Every one of the remaining (N+1)^2 - 4 blocks carries nothing at either root
-(full census, N = 4, 5, 6), **on the Heisenberg chain**. The confinement is
-the ZZ diagonal's doing, not the divisor's: drop it and on the XY chain the
-two roots are carried at the same multiplicity by many more blocks, counting a
+(full census, N = 4, 5, 6), **on the Heisenberg chain and for gbar != 0**. The
+confinement goes with the tightness, and for a reason: what stops the
+recentering at the corners is the center's |S|-dependence, and the center is
+-2*gbar*|S| (the corner's |S| = 2 is where the root -4*gbar comes from).
+At gbar = 0 the two roots collapse onto one (sigma = N*gbar) and every block
+recenters, two mirrors serving the two diagonals of the block grid, tauQ on
+(p,p) and its two-sided X^N bridge on (p,N-p), each with C(N,p) fixed cells.
+So the same index gives multiplicity at least C(N,p) on every block with q = p
+or q = N - p. Measured, not derived: that the bound is ATTAINED and that no
+other block carries (Heisenberg, N = 4, 5, 6). The confinement is
+the ZZ diagonal's doing, not the divisor's: drop it and on the XY chain, still
+at gbar != 0, the two roots are carried at the same multiplicity by many more
+blocks, counting a
 block that carries either: nine of twenty-five at N = 4, twenty-four of
 thirty-six at N = 5, twenty-one of forty-nine at N = 6, of which nine, twelve
 and fifteen carry the unfolded root itself. Never partially, and -4*gbar appears
@@ -5866,7 +5879,15 @@ structure disappears entirely on either chain: partial balance yields nothing.
 **The cofactor, in closed form.** det(eps*I - Mtilde) = eps^floor(N/2) * q(eps)
 with q(0) = (-1)^N * (4*gbar)^ceil(N/2) * det((X P_{O+} X)|_{V-}), a single
 N(N-1)/2 determinant free of gbar (X = J*K - 2*Delta is the tauQ-odd part).
-Its nonvanishing IS tightness, and it gives semisimplicity. At the uniform
+Its nonvanishing IS tightness for gbar != 0, and it gives semisimplicity. The
+gbar the determinant is free of sits in the prefactor instead, and that is the
+other way q(0) can die: at gbar = 0 the even defect 4*gbar*P_D vanishes, Mtilde
+is tauQ-odd on the WHOLE corner block, and the kernel bound becomes the bare
+index dim V+ - dim V- = trace(tauQ) = N, and the KERNEL attains it at every
+coupling measured (exact GF(p), N = 3..7, both chains). Semisimple there too,
+but NOT everywhere: that stratum has its own defective couplings, where the
+ALGEBRAIC count rises above N while the kernel stays put, below. The halving is the populations' cut, and there is none
+to take when the mean rate is zero. At the uniform
 endpoint it collapses to J^{N(N-1)} * D_N with
 
     D_N = (-1)^{N(N-1)/2} * disc(h) * M^{-floor((N-1)/2)}  != 0,
@@ -5889,7 +5910,8 @@ the debt must be walked down, one power of J per hop. **The far pair is the
 most protected: distance buys immunity, and the two ends of the chain are the
 last to let go.** Corollary: at J = 0 the root carries twice the multiplicity,
 2*floor(N/2), all semisimple, and exactly floor(N/2) modes depart as the
-coupling turns on. Sharpness is reduced to a single nonvanishing by a second,
+coupling turns on (at gbar = 0 that kernel is N + 2*floor(N/2) and twice as many
+depart). Sharpness is reduced to a single nonvanishing by a second,
 pointed grading: chi_x(a,b) = |a-x| + |b-R(x)| gives
 ord det Y_(I_x, A_c) = max(d_c, d_x), so each pair reaches exactly the
 anti-diagonal cells between its own two sites, those intervals are nested, and
@@ -5900,29 +5922,46 @@ artifact of "all but finitely many": at N = 3 the cofactor 2^12*gbar^2*J^4*
 (3J^2 - d1^2) puts them at J = +- delta_1/sqrt(3) in closed form. There the
 divisor is **defective**, one Jordan block of size two (exact over Q(sqrt(s),i)
 at N = 3, 4; at N = 4 confirmed twice, once from the characteristic polynomial).
-The tightness criterion vanishes at two different kinds of place and **cannot
+The tightness criterion vanishes at three different kinds of place and **cannot
 tell them apart**: at J = 0 the multiplicity merely doubles and stays
-semisimple. How many of the nonzero roots are real is not a function of N: two
-generic profiles on the same N = 6 locus give two real pairs and four (exact
-Sturm counts).
+semisimple; at gbar = 0 it is N for all but finitely many J, and there it is the
+prefactor rather than the determinant that dies (N is not twice floor(N/2) at odd
+N: the diagonal cells stop charging AND pay one room back). The count meant there
+is the algebraic one; the kernel is N at every coupling measured, exceptional
+ones included. That stratum has
+defective couplings of its OWN, which no cofactor can find since q(0) vanishes
+identically there: at N = 3 on the gate's profile the coefficient of lambda^3 is
+(256/625)*J^4*(75J-2)*(75J+2), and at J = 2/75 the kernel dimensions run
+(3, 4, 5): geometric 3, algebraic 5, ONE JORDAN BLOCK OF SIZE THREE, larger
+than anything the taxed stratum shows. So "only the exceptional couplings are
+defective" is a statement about each stratum separately, and each has its own
+set. How many of the nonzero roots are real is not a
+function of N: two generic profiles on the same N = 6 locus give two real pairs
+and four (exact Sturm counts).
 
 **Grade:** Tier 1 derived (the divisor bound, the cofactor closed form, the
-tightness criterion and semisimplicity, the boundary-clock constants and
-tightness for generic J at every N, the valuation lower bound total and per
-pair, the pointed-grading staircase); exact-computed (the four-corner census,
-the defectiveness at the exceptional couplings, the Sturm counts).
+tightness criterion and semisimplicity for gbar != 0, the boundary-clock
+constants and tightness for generic J at every N, that one for gbar != 0 too,
+the valuation lower bound
+total and per pair, the pointed-grading staircase); exact-computed (the
+four-corner census, the defectiveness at the exceptional couplings, the Sturm
+counts, the gbar = 0 count N and its opened census).
 **Open:** the one nonvanishing that would make the valuation law two-sided
 (each pair reaching its own outer anti-diagonal cell; the route is the
 uniqueness of the monotone walk); the uniform-endpoint embedding into the
 committed d_real profiles of DEGENERACY_PALINDROME; a counting law for the
-real exceptional couplings.
+real exceptional couplings; whether the gbar = 0 carriers are one object rather
+than a list (C(N,p) is the popcount-p sector dimension and the corner's N is its
+p = 1 entry); and whether any DISSIPATING generator holds N modes at one rate,
+the trivial gamma == 0 being completely positive and already on the stratum,
+every other point of it carrying a negative rate.
 **Gate:** [`r90_frozen_divisor_gate.py`](../simulations/r90_frozen_divisor_gate.py)
-(~8-12 min, 212 checks; G0 builder, G1 the mirror identity, G2 the census,
+(~2 min, 302 checks; G0 builder, G1 the mirror identity, G2 the census,
 G3/G4 pencil and eigenvector by-products, G5 partial-balance nulls, G6/G7
 exact small-N, G8 the cofactor theorem, G9 the two clocks, G10 the valuation
 discriminators, G11 the valuation law, G12 the exceptional couplings, G13 the
-Sturm counts, G14 the pointed grading, G15 the index reading; G2c, the XY
-census, was added when the typing found it).
+Sturm counts, G14 the pointed grading, G15 the index reading, G16 the zero-mean
+stratum; G2c, the XY census, was added when the typing found it).
 **Naming (2026-07-25, the day it was minted; the first title lasted hours).**
 The title first read "pins floor(N/2) decay rates at every coupling". That was
 painted true from the stance of having just proved the bound and Section 7's

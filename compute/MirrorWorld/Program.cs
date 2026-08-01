@@ -388,7 +388,9 @@ if (args.Length > 0 && args[0] == "seed")
 // ---- run mode "divisor": the value the Hamiltonian cannot move ----
 // Mirror gave the between-block folds, Seed the within-block self-duality. This is the third thing the
 // same mirror leaves behind: on the R90 locus the corner block carries lambda = -4*gbar with
-// multiplicity floor(N/2) for EVERY coupling. The point of running it here is the ontology: the object
+// multiplicity floor(N/2) for EVERY coupling, and with multiplicity N on the locus's zero-mean
+// stratum, where the diagonal cells pay into the count instead of charging it. The point of running it
+// here is the ontology: the object
 // is the first in this world that hangs on ANOTHER object, because the room shortage that does the
 // freezing is the mirror's fixed-room count, not the divisor's. Adopted 2026-07-25 (registry F140).
 if (args.Length > 0 && args[0] == "divisor")
@@ -420,11 +422,47 @@ if (args.Length > 0 && args[0] == "divisor")
         Console.WriteLine($"  {n,3} {fx,6} {dp,7} {dm,7} {sur,8} {tax,4} {fr,7} {rks,5}  {hop,10:E1} / {rate,9:E1}");
     }
     Console.WriteLine();
-    Console.WriteLine("  surplus = fixed: the shortage IS the mirror's trace. tax = dim D-, the diagonal cells' pairs,");
-    Console.WriteLine("  which are EVEN under the mirror, not odd, and eat half. frozen = surplus - tax = floor(N/2),");
-    Console.WriteLine("  one per balanced pair. rank = dim ker(L_block + 4*gbar), by elimination, never a spectrum.");
+    Console.WriteLine("  surplus = fixed: the shortage IS the mirror's fixed-cell count on the COHERENCES. (Its");
+    Console.WriteLine("  trace over the whole block counts the diagonal cells too and is N, which is the number");
+    Console.WriteLine("  the zero-mean column below reads.) tax = dim D-, the diagonal cells' mirror pairs, which");
+    Console.WriteLine("  are EVEN under the mirror rather than odd, and eat half: frozen = surplus - tax =");
+    Console.WriteLine("  floor(N/2), one per balanced pair. The identity holds on both strata, but tax = dim D-");
+    Console.WriteLine("  does not: below, the diagonal cells pay rather than charge, so the tax is -1 at odd N");
+    Console.WriteLine("  (the centre cell's own room) and 0 at even N, where there is no centre cell to pay it.");
+    Console.WriteLine("  rank = dim ker(L_block + 4*gbar), by elimination, never a spectrum.");
     Console.WriteLine("  The two residuals are the hypothesis checked cell by cell: the hop part is odd always, the rate");
     Console.WriteLine("  part is odd EXACTLY on the locus. Step off the locus and the second one is what breaks.");
+
+    Console.WriteLine();
+    Console.WriteLine("  THE ZERO-MEAN STRATUM. The tax is charged by the diagonal cells, and it is charged because");
+    Console.WriteLine("  their recentered value is the constant -4*gbar: even under the mirror where everything else");
+    Console.WriteLine("  is odd. Set gbar = 0, which this locus permits as soon as the rates may change sign, and");
+    Console.WriteLine("  there is nothing there to be even. The whole block is odd, nothing is taken out of the");
+    Console.WriteLine("  surplus, and at odd N the centre cell puts one room back in, so the count is N: one frozen");
+    Console.WriteLine("  mode per SITE instead of one per balanced pair. Note N is not twice floor(N/2) at odd N.");
+    Console.WriteLine();
+    Console.WriteLine($"  {"",3} {"--- gbar = 0.09 ---",-19}  {"--- gbar = 0 ------",-19}");
+    Console.WriteLine($"  {"N",3} {"tax",4} {"frozen",7} {"rank",5}  {"tax",4} {"frozen",7} {"rank",5}  " +
+                      $"{"whole-block odd?"}");
+    for (int n = 3; n <= Math.Min(dnMax, 8); n++)
+    {
+        var mz = new Mirror(dworld, n, 1.0, 0.5);
+        var paid = new Divisor(mz, n, dj, Divisor.Locus(n, 9, 2, -3, 5), dden);
+        var free = new Divisor(mz, n, dj, Divisor.Locus(n, 0, 2, -3, 5), dden);
+        var (_, _, _, _, txP, frP) = paid.Rooms();
+        var (_, _, _, _, txF, frF) = free.Rooms();
+        Console.WriteLine($"  {n,3} {txP,4} {frP,7} {paid.KernelDimension(),5}  " +
+                          $"{txF,4} {frF,7} {free.KernelDimension(),5}  " +
+                          $"{paid.WholeBlockOddnessResidual(),9:E1} vs {free.WholeBlockOddnessResidual(),9:E1}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  The last column is the discriminator, and it is the mechanism itself: tauQ M~ tauQ + M~ over");
+    Console.WriteLine("  the WHOLE block, diagonal cells included. On the left it is 8*gbar, and that defect is");
+    Console.WriteLine("  what CREATES the tax; on the right it is machine zero, so nothing is charged. (The usual");
+    Console.WriteLine("  rate residual cannot see this: it skips the diagonal cells, which is exactly where the");
+    Console.WriteLine("  two strata differ.)");
+    Console.WriteLine("  Negative site rates are the price of the right-hand column, except at its one degenerate");
+    Console.WriteLine("  point gamma == 0, so it is arithmetic and not a dissipating channel.");
 
     int shown = dnMax;
     var mw = new Mirror(dworld, shown, 1.0, 0.5);
