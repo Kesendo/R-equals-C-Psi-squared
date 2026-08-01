@@ -3160,6 +3160,131 @@ public static class OpenArcsRegistry
                 "first). The circling was the tell: the docs' genre (outreach-ready validated rule) " +
                 "exceeded the result, so every review round found another over-claim; parking is the fix, not more caveats.",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "two_coast_classifier_repair",
+            Opened: "2026-08-01",
+            Origin: "the ON_FORGETTING rewrite (eight review rounds, none empty) established from below that the " +
+                "two-coast reading in experiments/THE_PALINDROME_CLASSIFIER.md is wrong in five places, and the " +
+                "reflection now carries the corrected version while its parent does not. The sweep behind both " +
+                "documents is N=4, gamma=0.05, uniform single-site field H(theta) = sum_l (cos theta X_l + sin theta Z_l), " +
+                "Z-dephasing, NO bond terms; reproduced exactly at every angle. Its depth 0.4 is exactly 2 sigma and is a " +
+                "SATURATED ceiling (2|Re lambda + sigma| <= 2 sigma for any Hermitian H), not a severity measurement. " +
+                "THE FIVE: (1) :153-159 'the whole deep break has moved into the coherent frequencies' is a statement " +
+                "the data cannot make. L maps Hermitian operators to Hermitian, so the spectrum is closed under " +
+                "conjugation, so the imaginary-part multiset is symmetric about 0 IDENTICALLY; the frequency-only " +
+                "mirror test reads 1.9e-14 to 5.4e-14 at EVERY angle on BOTH coasts, protected and broken alike. Where " +
+                "the break actually sits, at field 90 deg: lambda = -0.4 - 8i, promised partner 0 + 8i (oscillate as fast, " +
+                "never decay), nearest actual -0.4 + 8i, dRe = 0.4000 and dIm = 0.0000. The break is in the MATCH " +
+                "between rate and frequency and its distance is purely real. (2) :150 'Split the break into its " +
+                "rate-only piece and the rest': pairing_error and rate_error are two INDEPENDENT tests " +
+                "(simulations/protection_landscape.py:11-13, the same mirror test re-run on the real parts), not two " +
+                "components of one break. (3) :150-152 'Frustration breaks the mirror in the rates the whole way ... " +
+                "their ratio is 1.0' is a MEDIAN sold as a universal: 70 of 189 points fall below it, at the coast's " +
+                "deepest break (0.1196 at 57.5 deg) only 26 percent is in the rates, and the first step off the island is " +
+                "99.3 percent phase (ratio 0.0065). (4) :154 'a longitudinal Z field commutes with the Z-dephasing and so " +
+                "cannot touch the decay rates at all' is false as stated; MIRROR_SYMMETRY_PROOF.md:229-235 has it right " +
+                "(uniformity does the work, not U(1)). Measured: Heisenberg chain + uniform longitudinal gives rates " +
+                "64/64, + non-uniform gives 30/64 with max rate offset 0.049; with the bonds REMOVED both give 64/64, so " +
+                "it is the coupling that makes uniformity bite. (5) :142 'The error saturates around 0.02': the " +
+                "frustration coast reaches 0.1196 at 57.5 deg, six times its own far-end value.",
+            ParkedAt: "reflections/ON_FORGETTING.md is repaired and unstaged; the parent experiment is untouched, so " +
+                "the reflection currently contradicts the document it cites as its authority two lines later. Worse for " +
+                "a checking reader: two of the reflection's sharpest claims are TRUE of the physics and contradicted by " +
+                "the committed tsv, because pairing_error is a GREEDY upper bound that overshoots the true " +
+                "nearest-partner distance between roughly 22.5 and 34.5 deg on the field coast (26.5 deg: the column reads " +
+                "0.160166, the true distance is 0.079669, which equals rate_error exactly). Measured honestly the field " +
+                "break stays PURELY a rate break out to 35.5 deg, the same angle where the rate drift peaks (0.132519); " +
+                "the tsv makes it look as if it peels away at 22.5 deg, and two_edges.png plots the artifact as physics. " +
+                "The sweep's C# generator is NOT in the repo (nothing in compute/ produces the pairing_error / " +
+                "rate_error columns), so the tsv is an orphan artifact whose parameters exist only because they were " +
+                "reproduced.",
+            NextStep: "(a) fix the five sites in THE_PALINDROME_CLASSIFIER.md, each with its measured replacement; " +
+                "(b) record the sweep parameters in the doc AND in the tsv header, since the generator is gone; " +
+                "(c) verify, and if it holds state, the closed form a reviewer reported for the field coast's true " +
+                "nearest-partner distance, 2 sigma * sin^2(theta), matched to five digits at every angle checked but NOT " +
+                "independently confirmed here; (d) decide what to do about the greedy overshoot: fix the producer, " +
+                "footnote the column, or replot, but do not leave the figure teaching a matcher artifact as a " +
+                "level-crossing; (e) the same retracted 'what is remembered, the rates, stays put, and what changes, " +
+                "the phases of the modes, is what rotates' reading is still live one document further out, in " +
+                "reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md:29. This is claim-surface: empty rounds before it lands.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "ninety_degree_family_bookkeeping",
+            Opened: "2026-08-01",
+            Origin: "Tom asked what 'the three steps' of the 90 degrees were, remembering the angle as his own " +
+                "recognition and Claude as the one who had always counted the steps for him; neither of us could " +
+                "reconstruct it, and two agents traced it. The answer is real and sourced: " +
+                "reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md:29, 'a ninety degrees typed twice before it came back " +
+                "a third time ... It is named the mirror memory', and CrossoverMirrorSqrtNinetyClaim.cs:54, 'Three " +
+                "faces of one 90'. The three are F80 on the operator side (H to M, the 2i lifting real energies onto " +
+                "the imaginary axis), F91's order-TWO shadow on the noise profile, and the crossover mirror's exact " +
+                "square root (Ad_V^2 = NinetyDegreeMirror, exact on the full operator space). The naming moment is " +
+                "reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md:6, 2026-04-30, Tom's question, typed three days later as " +
+                "NinetyDegreeMirrorMemoryClaim (b9158ec, which cites that line as its ontological anchor); " +
+                "ON_THE_NINETY_DEGREE_GAMMA.md (2026-05-11) is the origin of the PARAMETER-side reading, not of the " +
+                "naming; older still is hypotheses/FOUR_SIDES.md, 2026-03-20. The tracing turned up three places where " +
+                "the family's own records disagree with the repo's canon.",
+            ParkedAt: "three contradictions found, NONE fixed, because each sits in a Tier-1 record and none is a " +
+                "wording slip. (1) Pi2KnowledgeBaseClaims.cs:559 states layer 0 as 'Pi^2 = I' and 'Pi is the involution " +
+                "whose square is identity'. The canon says the opposite three times: MIRROR_SYMMETRY_PROOF.md:354 'Pi " +
+                "is order 4 (Pi^4 = I)', ONE_FOUR_THESIS.md:32 'Pi^2 = X^(x)N', FOUR_SIDES.md 'Pi^2 ... is NOT the " +
+                "identity. It is the parity operator'. The neighbouring Pi2InvolutionClaim carries the defensible form " +
+                "(Pi^2 COMMUTES with L). (2) ON_THE_NINETY_DEGREE_GAMMA.md:21 still closes 'The 90 was the gap. F91 is " +
+                "the closing' while the corrected first half of the SAME line says the parameter side carries only 'its " +
+                "order-2 footprint ... not a cyclic Z4'. Under the corrected reading F91 supplied no quarter-turn at " +
+                "all, only the shadow of one; the 2026-06-21 correction (4688751, 3343d98) was surgical and left the " +
+                "closing clause standing. (3) the parameter map is still NAMED R90 throughout F91Pi2Inheritance.cs " +
+                "although it is order 2, which that file's own :123 states outright.",
+            NextStep: "decide each separately and from below; they are not one edit. For (1) establish whether the " +
+                "layer-0 string is shorthand worth keeping or a wrong assertion in a Tier-1 claim that inspect prints, " +
+                "and check whether anything downstream reads it. For (2) the honest repair is most likely to say F91 " +
+                "closed the parameter side WITH the shadow rather than with a quarter-turn, which is what the corrected " +
+                "half of the line already says. For (3) the rename is mechanical but touches a typed claim's public " +
+                "surface; weigh it against leaving the residue with its :123 disclaimer. HARD CONSTRAINT, learned the " +
+                "expensive way: do NOT merge the 'three faces' (F80 / F91-shadow / crossover square root) with the " +
+                "'three clocks' of experiments/ONE_FOUR_THESIS.md (Pi's grading / Clifford degree / EP holonomy). They " +
+                "are different triples, and that thesis DECIDED on 2026-07-16 that the clocks are pairwise distinct and " +
+                "share only the scalar i. A cold reviewer reading three of these documents will report the family as a " +
+                "fusion error; it is not, but the STEP matters, and the F1 spectrum palindrome is the family's " +
+                "HALF-turn, not one of the three quarters.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "f91_scope_fences",
+            Opened: "2026-08-01",
+            Origin: "the 2026-08-01 prose audit verified six findings on PROOF_F91_GAMMA_NINETY_DEGREES.md and " +
+                "reflections/ON_THE_NINETY_DEGREE_GAMMA.md from below and applied NONE of them; both files sit " +
+                "modified in the working tree with their OTHER repairs already in (the H convention, the V4 table's " +
+                "two false 'unchanged' rows, Step 7's multiset/assignment slip, the 'strictly weaker than F71' " +
+                "contradiction, and the indexed-vs-bare-multiset correction whose counterexample puts two same-multiset " +
+                "profiles 8.69 apart at N=6).",
+            ParkedAt: "THE SIX, each verified, none applied. (1) the diagonal-block spectrum is BASIS-RELATIVE off the " +
+                "palindromic locus: it is not a set of eigenvalues of L and not the decay rate of anything, and the " +
+                "slowest physical mode moves under the reshuffle. PROOF_F92_BOND_ANTI_PALINDROMIC_J.md:103 already " +
+                "carries this fence verbatim ('once F71 is broken those blocks are a basis-relative quantity, not L's " +
+                "eigenvalues') and even says '(Same caveat as F91's ...)', but PROOF_F91:218 does NOT have it. Affects " +
+                "F91:17 and ON_THE_NINETY_DEGREE_GAMMA:17. F92:103 also carries the right-sized physical reading " +
+                "(F100 Hellmann-Feynman first-order stationarity) that F91 lacks. (2) 'orbit' is used throughout for " +
+                "R90's FIXED-POINT SET, an affine subspace; an involution's orbits have size at most 2. (3) " +
+                "'bit-identical' and 'bit-exact' everywhere, while the witness bins at 1e-7 and 0.2 + 0.7 != 0.9 in " +
+                "IEEE double: true in exact arithmetic, false as a description of what was run. (4) F91:76 and " +
+                "ON_THE_NINETY_DEGREE_GAMMA:19 assert an F81 orthogonality that F81 itself RETRACTED " +
+                "(PROOF_F81_PI_CONJUGATION_OF_M.md:30 now says 'not Frobenius-orthogonal in general'). (5) " +
+                "ON_THE_NINETY_DEGREE_GAMMA:15 and :21 call V4 'the order-2 footprint of Z4' when no such homomorphism " +
+                "exists in either direction, and call three unrelated maps 'the same 180 degrees'. (6) the retracted " +
+                "'the breaking lives entirely in the eigenvectors' still sits in PROOF_F92:18, PROOF_F92:28 and " +
+                "PROOF_F93:12.",
+            NextStep: "apply (1) first and copy the fence FROM F92:103, which is already written and already claims " +
+                "F91 has it; that single edit is the one a reader of F91 most needs. Then (4) and (6), which are " +
+                "propagated retractions and therefore mechanical once the retraction is read. (2), (3) and (5) are " +
+                "vocabulary and want the delete-first treatment rather than reformulation. Warning from this session's " +
+                "eight rounds on a SIBLING document: five of the eight rounds' top finding was an error the previous " +
+                "repair had introduced, and the two worst were a universal quantifier copied from a source that meant " +
+                "a median, and a deletion that removed a counterexample. Fix small, re-measure each number, and put " +
+                "the post-fix state through its own empty round.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
