@@ -112,8 +112,9 @@ under **both** IBM sacrifice and uniform noise. The profile does not
 depend on the noise distribution. It depends on the chain geometry.
 
 The chain creates modes with different spatial profiles through
-standing wave patterns (sin(πkj/N) eigenstates of the tight-binding
-w=1 sector). Some modes concentrate on the center, others on the
+standing wave patterns: the Neumann modes cos(πk(j−½)/N), the eigenbasis of
+the open chain's Laplacian and so of the tight-binding (0,1) coherence block
+(D10 §Step 5). Some modes concentrate on the center, others on the
 edges. This is a property of the Hamiltonian, not the noise. When
 asymmetric noise is applied, it selectively damps the edge-heavy
 modes (because the sacrifice qubit is on the edge). The center-heavy

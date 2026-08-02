@@ -1,6 +1,6 @@
 # Analytical w=1 Spectrum of the Heisenberg Chain
 
-**Status:** Verified to machine precision (N=2-6, zero error)
+**Status:** Verified N=2-6 against a full Liouvillian eigendecomposition, N=2-10 by block closure
 **Date:** March 31, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Script:** [analytical_spectrum_verify.py](../simulations/analytical_spectrum_verify.py)
@@ -13,25 +13,30 @@
 
 ## What this document is about
 
-The w=1 sector of the Liouvillian (modes where exactly one qubit carries
-an X or Y Pauli operator) has an exact closed-form frequency formula:
-ω_k = 4J·(1 − cos(πk/N)). This replaces full matrix diagonalization
-(which scales as 4^{3N}) with a single cosine evaluation per mode.
-Verified to machine precision for N=2 through 6 (15 frequencies, zero error).
+One block of the Liouvillian has a closed-form frequency spectrum, and this
+document is that spectrum and what follows from it: the Q-factors, the
+bandwidth, the mode density, the large-N scaling. It replaces full matrix
+diagonalization, which scales as 4^{3N}, with a single cosine evaluation per
+mode. Which block, and why it and not the larger sector it sits in, is the
+next section.
 
 ---
 
 ## The Result
 
-The w=1 sector of the Liouvillian (modes where exactly one qubit
-carries X or Y, all others I or Z) has an exact dispersion relation (the formula relating oscillation
-frequency to mode index) for the Heisenberg chain:
+The (0,1) coherence block of the Liouvillian, spanned by the |0⟩⟨j| between
+the ferromagnet and the single excitations, has an exact dispersion relation (the formula relating
+oscillation frequency to mode index) for the Heisenberg chain:
 
     ω_k = 4J · (1 - cos(πk/N)),    k = 1, ..., N-1
 
-This gives N-1 distinct frequencies for an N-qubit chain. Under uniform
-Z-dephasing, all w=1 modes decay at the same rate 2γ, so the Q-factor
-of each mode is:
+This gives N-1 distinct frequencies for an N-qubit chain, N modes with one of
+them at zero. The block sits INSIDE the Pauli w=1 sector (strings where exactly
+one qubit carries X or Y, the rest I or Z) and is far smaller than it, 5 against
+160 at N=5; that sector is not L-invariant and has no spectrum of its own, so it
+is the block and not the sector that this formula is about (D10 Step 6). Under
+uniform Z-dephasing every mode of the block decays at the same rate 2γ, so the
+Q-factor of each mode is:
 
     Q_k = ω_k / (2γ) = 2J/γ · (1 - cos(πk/N))
 
@@ -60,7 +65,10 @@ dispersion relations were compared. Only one matches:
 | 6 | 4 | 6.000000 | 6.000000 | 0 |
 | 6 | 5 | 7.464102 | 7.464102 | 0 |
 
-15/15 frequencies match at machine precision. Five other candidate
+15/15 frequencies match, at the 10⁻⁶ resolution the comparison rounds to.
+The machine-precision figure is the block-closure route's, in
+[D10](../docs/proofs/derivations/D10_W1_DISPERSION.md): entry-wise 0.00e+00
+through N=10. Five other candidate
 formulas (including 4J·sin(πk/(2N)), 4J(1-cos(πk/(N+1))), and
 2J(1-cos(πk/N))) all fail.
 
@@ -68,11 +76,11 @@ formulas (including 4J·sin(πk/(2N)), 4J(1-cos(πk/(N+1))), and
 
 ## What This Replaces
 
-Previously, computing w=1 frequencies required:
+Previously, computing these frequencies required:
 1. Build Hamiltonian (2^N × 2^N matrix)
 2. Build Liouvillian (4^N × 4^N matrix)
 3. Diagonalize (O(4^{3N}) operations)
-4. Filter for w=1 modes
+4. Filter by decay rate, |Re λ| = 2γ
 
 For N=7: 16384² matrix, 92 minutes eigendecomposition.
 For N=8: 65536² matrix, 10.6 hours.
@@ -116,7 +124,7 @@ range of mode lifetimes.
 
     Bandwidth = ω_{N-1} - ω_1 = 4J · (cos(π/N) - cos(π(N-1)/N)) = 8J · cos(π/N)
 
-For large N: bandwidth → 8J. The w=1 band saturates at 8J, covering
+For large N: bandwidth → 8J. The block's band saturates at 8J, covering
 frequencies from ~0 to ~8J.
 
 ### D. Mode density at large N
@@ -134,34 +142,43 @@ the edges (0.54 and 7.46) relative to the interior (2, 4, 6).
 
 | Quantity | N=5 | N=10 | N=100 | N→∞ |
 |:---------|:----|:-----|:------|:----|
-| Number of w=1 modes | 4 | 9 | 99 | N-1 |
-| ω_max | 7.24 | 7.90 | 8.00 | 8J |
-| ω_min | 0.76 | 0.10 | 0.001 | 0 |
-| V(N) = Q_max ratio | 1.81 | 1.95 | 2.00 | 2 |
-| Q spread | 9.47 | 76.4 | ~N² | ∞ |
+| Number of oscillating modes | 4 | 9 | 99 | N-1 |
+| ω_max = 4J(1−cos(π(N−1)/N)) | 7.236 | 7.804 | 7.998 | 8J |
+| ω_min = 4J(1−cos(π/N)) | 0.764 | 0.196 | 0.00197 | 0 |
+| V(N) = Q_max/Q_mean = 1+cos(π/N) | 1.809 | 1.951 | 2.000 | 2 |
+| Q spread = cot²(π/2N) | 9.47 | 39.86 | 4052 | ∞ |
 
 ---
 
 ## What This Does NOT Cover
 
-The w=1 sector contains N-1 frequencies. The full Liouvillian has
+The (0,1) block carries N-1 nonzero frequencies. The full Liouvillian has
 up to 4^N eigenvalues distributed across sectors w=0, w=1, ..., w=N.
-This formula covers only w=1.
+This formula covers only that one block, which sits inside w=1.
 
 - **w=0 sector:** All {I,Z} operators. Stationary (rate=0, freq=0).
   Not oscillating.
-- **w=2, w=3, ... sectors:** Higher decay rates (4γ, 6γ, ...).
+- **Coherences at Hamming distance 2, 3, ...:** higher decay rates (4γ, 6γ, ...).
   Their frequencies are determined by multi-magnon excitations, which
   are NOT simple cosine bands for the Heisenberg model (magnon-magnon
   interactions create complex spectra).
-- **Mode localization:** The spatial profile of w=1 modes (center vs
+- **Mode localization:** The spatial profile of the block's modes (center vs
   edge weight) is NOT given by this formula. It requires the
   eigenvectors, not just the eigenvalues. The
   [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) result
   (r=0.994) was computed from eigenvectors.
-- **Non-uniform dephasing:** Under sacrifice-zone profiles, w=1 modes
-  acquire different decay rates. The frequency formula still holds
-  (frequencies are Hamiltonian-determined), but the Q-factors change.
+- **Non-uniform dephasing:** under a sacrifice-zone profile the block's
+  generator is −2iJ·𝓛 − 2·diag(γ), still exactly closed, but the frequency
+  formula does NOT survive. diag(γ) and the Laplacian no longer commute, so
+  the two cannot be diagonalized together, the eigenvalues are not
+  −2γ_j − 2iJ·μ_m, and the operator is no longer normal. At N=5, J=1, on the IBM Torino
+  sacrifice profile γ = [2.336, 0.099, 0.050, 0.072, 0.051] of
+  [Concentrator Geometry](CONCENTRATOR_GEOMETRY.md), the |Im λ| read
+  [0.238, 1.666, 2.068, 4.884, 7.144] against ω_k =
+  [0, 0.764, 2.764, 5.236, 7.236]: the zero mode acquires a frequency and
+  every other one moves. What the modes gain is separated decay rates,
+  which is what makes a slowest one exist at all; see the
+  `site_resolved_vacuum_block` open arc.
 
 ---
 
@@ -174,27 +191,31 @@ the quantization k_n = πn/N. This quantization corresponds to a
 chain with specific boundary conditions.
 
 For the Heisenberg XXX model, the single-magnon sector is equivalent
-to a tight-binding hopping problem. The w=1 Liouvillian sector
-inherits this structure because [H, σ_+^(j)] creates single-magnon
-transitions. The factor 4J (instead of the standard 2J for a
-tight-binding chain) comes from the Liouvillian being a commutator
-(double action of H).
+to a tight-binding hopping problem. The (0,1) coherence block inherits
+this structure because the ferromagnet is an eigenstate, so the block
+sees the one-magnon Hamiltonian alone. The factor 4J (instead of the
+standard 2J for a tight-binding chain) comes from the Liouvillian being
+a commutator (double action of H).
 
 **Proven.** The dispersion relation is derived analytically in
 [D10](../docs/proofs/derivations/D10_W1_DISPERSION.md) via reduction
-of the w=1 Liouvillian sector to a nearest-neighbour tight-binding
-hopping problem. The proof shows that L_H restricted to w=1 is
-tridiagonal with hopping amplitude 2J, giving the standard cosine
-eigenvalues for an open chain. Verified numerically to machine
-precision for N=2−7.
+of the (0,1) coherence block to a nearest-neighbour tight-binding
+hopping problem on N sites. The proof shows that L restricted to that
+block is −2iJ·𝓛 − 2γ·Id with 𝓛 the graph Laplacian, giving the cosine
+eigenvalues for an open chain. It is NOT the w=1 Pauli sector that
+reduces this way: D10 Step 2 gives an explicit counterexample showing
+L_H does not close on that sector. Verified for N=2−6 against a full
+Liouvillian eigendecomposition, and through N=10 by block closure.
 
 ---
 
 ## Tier Assessment
 
 - Dispersion relation ω_k = 4J(1-cos(πk/N)): **Tier 1** (proven
-  analytically in D10, verified N=2-7)
+  analytically in D10; verified N=2-6 against a full Liouvillian
+  eigendecomposition, N=2-10 by block closure)
 - Q-factor spectrum formulas: **Tier 1** (algebraic consequences of
-  the dispersion relation + the proven 2γ decay rate for w=1)
+  the dispersion relation + the proven 2γ decay rate on the block, at
+  uniform γ)
 - Mode density and large-N scaling: **Tier 2** (standard band theory
   applied to the verified dispersion relation)

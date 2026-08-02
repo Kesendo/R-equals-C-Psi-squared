@@ -38,8 +38,8 @@ The cavity mode localization result (r = 0.994, profile [0.52, 0.63,
 0.70, 0.63, 0.52] invariant under noise profiles) looks topological.
 Five independent tests show it is not:
 
-1. **SSH analogy fails.** The w=1 sector is tight-binding with uniform
-   hopping (no alternating structure). No SSH topology.
+1. **SSH analogy fails.** The (0,1) coherence block is tight-binding with
+   uniform hopping (no alternating structure). No SSH topology.
 
 2. **Chiral blocks have full rank (N=5).** The off-diagonal blocks of
    L_c in the Pi-eigenbasis have no zero singular values. Winding
@@ -64,13 +64,17 @@ Five independent tests show it is not:
 ## Phase 1: SSH Analogy
 
 The SSH model (Su-Schrieffer-Heeger, 1979) requires alternating
-coupling t1-t2. The Heisenberg chain has uniform coupling J. The w=1
-sector dispersion is:
+coupling t1-t2. The Heisenberg chain has uniform coupling J. The
+dispersion on the (0,1) coherence block is:
 
     omega_k = 4J(1 - cos(pi*k/N)),    k = 1, ..., N-1
 
 This is tight-binding with hopping 2J, quantized on an open chain.
-The eigenstates are standing waves: psi_k(j) proportional to sin(pi*k*j/(N+1)).
+The eigenstates are the NEUMANN standing waves
+psi_k(j) proportional to cos(pi*k*(j - 1/2)/N), the eigenbasis of the open
+chain's Laplacian (D10 Step 5). The Dirichlet family sin(pi*k*j/(N+1)) is a
+different object's, the XY single-excitation Hamiltonian's (F2b); it is not
+the eigenbasis here, and the denominator is the tell.
 
 For the highest-frequency mode (k = N-1): amplitude peaks at the
 chain center and vanishes at the edges. For the lowest (k = 1):

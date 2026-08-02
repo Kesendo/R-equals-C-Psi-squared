@@ -303,7 +303,10 @@ for pn, P, qn, Qm in [("X", X, "Y", Y), ("X", X, "Z", Z),
     print(f"    ({pn},{qn}): s = {s}")
 
 # Heatmaps.
-outdir = "simulations/results/f80_step5_recon"
+# Anchored to this file, not to the working directory: run from simulations/ and a
+# cwd-relative path silently builds simulations/simulations/results/ instead.
+outdir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                      "results", "f80_step5_recon")
 os.makedirs(outdir, exist_ok=True)
 fig, axes = plt.subplots(1, 3, figsize=(19, 6))
 for ax, A, t in [(axes[0], LH_e, "L_H"), (axes[1], Pi_e, "Π"), (axes[2], M_e, "M")]:

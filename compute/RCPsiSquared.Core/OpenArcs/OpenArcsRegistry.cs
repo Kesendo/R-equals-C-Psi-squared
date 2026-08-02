@@ -3509,6 +3509,131 @@ public static class OpenArcsRegistry
                 "two-coast rounds: do not let a tier repair turn into a rewrite of the physics. Every number in " +
                 "these documents may well be right; what is wrong is what they are being asked to support.",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "site_resolved_vacuum_block",
+            Opened: "2026-08-02",
+            Origin: "THE OBJECT: the (0,1) coherence block, the N-dimensional span of the |0><j| between the " +
+                "ferromagnet and the single excitations, under a Z-dephasing PROFILE rather than a uniform " +
+                "rate. Two owners hold one half each and neither holds both. D10 " +
+                "(docs/proofs/derivations/D10_W1_DISPERSION.md Step 3) has L|(0,1) = -2iJ*Laplacian - " +
+                "2*gamma*Id: the graph Laplacian rather than the adjacency matrix because the ZZ term supplies " +
+                "the degree diagonal, but scoped to UNIFORM gamma (its Statement, first paragraph), so its " +
+                "dissipator is the scalar -2*gamma*Id. VacuumBlockReductionClaim has the profile and no degree " +
+                "term (below). The composite is what this arc is about. HOW IT OPENED: a review round derived " +
+                "that generator from below and reported it as new. It was not new, it was D10 reached by the " +
+                "same route, with two registry faces, both Tier 1: F2 the frequencies, F7 the Q-factors. A " +
+                "prior-work survey caught it before anything landed; experiments/VEFFECT_CAVITY_MODES.md now " +
+                "cites D10 instead of deriving it again, and what that section legitimately adds is the " +
+                "graph-general reading (star mu_max = N, gated by simulations/veffect_finesse_law.py).",
+            ParkedAt: "with a gamma PROFILE the block operator is M = -2iJ*Laplacian - 2*diag(gamma), " +
+                "entry-wise against the full Liouvillian at machine zero on chain, star, ring and complete " +
+                "graphs. THAT PART IS COMMITTED: simulations/d10_block_closure_verify.py gates the closure and " +
+                "the profile form, and D10's verification section names it. Everything else below was " +
+                "reproduced locally and is NOT committed; under cockpit rule 5 the load-bearing pieces want a " +
+                "C# witness, and naming which is the first piece of work here. Three things follow. " +
+                "(1) IT IS THE MISSING HALF BETWEEN TWO OWNERS, not a new object. The markdown survey said no " +
+                "document treats the site-resolved block as an operator; the TYPED survey overruled it, and the " +
+                "typed layer wins: VacuumBlockReductionClaim (Tier1Derived, parent AbsorptionTheoremClaim, " +
+                "witness SectorReductionWitness, inspect --root reduction) already states " +
+                "L_(1,0) = -iQ*h - 2*diag(gamma) with a gamma PROFILE, where Q is that claim's own coupling " +
+                "symbol and NOT the repository's Q-factor J/gamma_0, verified bit-exact at N=5 (worst gap " +
+                "5.9e-12, 80 grid points), and the retired arc birth_canal_horizon_junction is where it came " +
+                "from. But its h is the XY HOPPING matrix: that claim's Hamiltonian is XY, so it has no degree " +
+                "term. D10 has the degree term and no gamma profile; VacuumBlockReduction has the gamma profile " +
+                "and no degree term. Neither carries both, and the composite is what was measured here at " +
+                "residual 0. Related open ends the typed survey names: no F-number states the OPERATOR identity " +
+                "(F2 and F7 cover the block's frequencies and Q-factors, not M itself), and " +
+                "OneSidedSectorClosedForm's closed form (lambda_k = -2*gamma - 2iJ*cos(pi k/(N+1))) is " +
+                "uniform-gamma and chain-XY only, so the SPECTRUM of the non-normal site-resolved operator has no " +
+                "closed form anywhere. (2) IT GIVES psi_opt A CLOSED FORM. " +
+                "experiments/CONCENTRATOR_GEOMETRY.md:180 records H_eff = -J*adjacency - i*diag(gamma) as " +
+                "FALSIFIED at cosine similarity 0.925 and concludes 'psi_opt has no known closed form' (carried " +
+                "into review/OPEN_QUESTIONS_INDEX.md:1646). Reproduced here: the adjacency form gives 0.9249 and " +
+                "the Laplacian form gives 1.0000. The falsified hypothesis was one term short and the missing " +
+                "term is the ZZ degree. The slowest eigenvector of M reproduces the IBM row " +
+                "[0.099, 0.239, 0.428, 0.572, 0.651] and the F9 N=7 row " +
+                "[0.118, 0.332, 0.481, 0.535, 0.482, 0.334, 0.119] at overlap 1.0000, the N=7 one to every " +
+                "printed digit, WITH the alternating signs Complex.Abs discards. (3) IT WOULD MAKE THE LENS WELL " +
+                "POSED and break its N-wall: no 4^N eigendecomposition, no SE filter, no first-match tie-break in " +
+                "a degenerate eigenspace (see concentrator_amplitude_signs), and the slow mode is separated by " +
+                "0.057 at the IBM profile. At uniform gamma all N modes share Re = -2*gamma exactly, so there is " +
+                "no slowest one: that is the concentrator's reason for existing, stated spectrally. BUT NOT THE " +
+                "RATE, and this is the sharpest thing measured here. M's slowest EIGENVALUE is " +
+                "-0.166384 - 0.238470i, which is CONCENTRATOR_GEOMETRY:176's 'Slow 2', the odd-parity mode that " +
+                "document records as NOT SE-accessible. The lens reads 'Slow 1' at -0.318 instead. Both are " +
+                "right and they are different objects: the (0,1) block is number-CHANGING, hence odd, hence " +
+                "forbidden; what the lens reads is the (1,1) block's slowest non-kernel mode, measured here at " +
+                "-0.317904, and the dominant singular vector of ITS eigenmatrix is psi_opt at overlap 1.000000 " +
+                "and M's slowest eigenvector at 0.999996. So M hands over the AMPLITUDE and not the rate; the " +
+                "rate is near 2*Re(lambda_M) = -0.3328, shifted to -0.3179 by the population term of (a). A " +
+                "closed form for psi_opt does not by itself make the lens well posed.",
+            NextStep: "the first move is DONE (2026-08-02, the edit is in D10) and it was small: exactly ONE " +
+                "sentence of D10 changes, the close of Step 1. " +
+                "Z_l|0><j|Z_l = z_l(0)*z_l(j)*|0><j| and only site j flips, so the dissipator eigenvalue " +
+                "is -2*gamma_j per basis element, diagonal instead of scalar. Steps 2, 3, 5 and 6 are gamma-blind " +
+                "because L_H does not see gamma. What breaks is Step 4's 'all decaying at the same rate', and " +
+                "with it normality: diag(gamma) and the Laplacian no longer commute, so they cannot be diagonalized " +
+                "together and the eigenvalues of M are NOT -2*gamma_j - 2iJ*mu_m, which is why the slow mode " +
+                "has to be diagonalized for rather than read off. Remaining: (a) the structural gap between the " +
+                "block M lives in and the block the lens reads. M is the (0,1) vacuum coherence; LensAnalysis.cs " +
+                "reads the (1,1) SE-SE block of an eigenvector; CHAIN_GAP_SECTOR_DIAGNOSTIC:106 says the slow mode " +
+                "lives in a diagonal-popcount sector. The bridge is measured AND explained: L_(1,1) equals " +
+                "I(x)M + conj(M)(x)I exactly off the population rows and differs only on them, because dephasing " +
+                "does not touch populations while the tensor form charges them -4*gamma_i; the discrepancy norm " +
+                "is exactly 4*||gamma||_2, which is 9.361181 at N=5 on the profile CONCENTRATOR_GEOMETRY prints " +
+                "(the trailing digits follow that profile's rounding, so quote the identity and not the number). " +
+                "It is a bookkeeping term and not a coupling. Two things stay open on top of it: whether the " +
+                "population term explains the shift from 2*Re(lambda_M) to the lens rate in closed form, and " +
+                "whether the amplitude agreement is a theorem rather than a numerical coincidence at this " +
+                "profile. Also note the tensor ORDER: I(x)M + conj(M)(x)I is the one that holds; the other " +
+                "order is off by 4.0 on the off-population entries, so do not paraphrase it. " +
+                "(b) The engine already builds this: PerBlockLiouvillianBuilder.BuildBlockZ on the (0,1) flat " +
+                "index list with a Heisenberg H returns M today, site-resolved gamma included. A caller exists " +
+                "but not for the profile: BlockSpectrumWitness.BandEdgeSectorReSpan builds exactly this block " +
+                "with a Heisenberg H and then passes Enumerable.Repeat(gamma, n). Widen that call rather than " +
+                "writing an engine. (c) Two scope fences that must ride " +
+                "along: VacuumBlockReductionClaim scopes (0,1) dominance to N=5 and at N>=6 a {0,2}-coherence in " +
+                "the (2,2) block can be the global slowest (simulations/birth_canal_n6_mode_crossing.py); and D10 " +
+                "Step 6 says the (0,1) block is NOT the whole XY-weight-1 sector (5 dimensions against 160 at " +
+                "N=5). (d) Repo hygiene the survey turned up. DONE 2026-08-02, in the commit that opened this " +
+                "arc: D10 Step 6 had backed its correct scope claim with 21 'frequencies of the w=1 sector', " +
+                "which are the spectrum of a COMPRESSION onto a span D10's own Step 2 proves non-invariant (leak " +
+                "39.2 at N=5) and whose uniform Re = -2*gamma the compression manufactures; D10's verification " +
+                "record claimed N=7 while its cited script stopped at N=6, now N=2..6 by full eigendecomposition " +
+                "plus N=2..10 by block closure (simulations/d10_block_closure_verify.py); and F2's note, F7's " +
+                "scope line, W1Dispersion.cs, F2W1DispersionPi2Inheritance.cs and ANALYTICAL_SPECTRUM all named " +
+                "the w=1 SECTOR as the object whose spectrum this is. STILL OPEN, and this is the LARGEST " +
+                "remaining item: the same mislabel survives in roughly twenty places the commit did not reach, " +
+                "and two of them assert more than a name. THERMAL_BREAKING.md builds the whole V(N) chain on " +
+                "'ALL w=1 modes decay at 2*gamma' with a table headed omega_max(w=1). Also: experiments/README, " +
+                "SPECTRAL_FORM_FACTOR, D07_Q_DISTRIBUTION, RANDOM_MATRIX_THEORY, OPTICAL_CAVITY_ANALYSIS, " +
+                "review/OPEN_QUESTIONS_INDEX:1736, the two Runtime registration files, MirrorWorld/Formulas.cs " +
+                "(its F7 is now out of step with the repaired registry F7), and the scripts " +
+                "topological_edge_modes.py, verify_derivations.py, sacrifice_zone_optics.py, " +
+                "eq021_obc_sine_basis.py. A half-done rename reads as disagreement rather than as work in " +
+                "progress, so finish it in one pass rather than opportunistically. Also still open: " +
+                "CONCENTRATOR_GEOMETRY:180 keeps the verdict 'psi_opt has no known closed form', which item (2) " +
+                "above contradicts; it needs the same repair as OPEN_QUESTIONS_INDEX:1646, and neither should be " +
+                "touched before the amplitude claim has a committed witness. D10 Step 3 and " +
+                "PROOF_R90_FROZEN_DIVISOR Lemma 5 derive the same N x N matrix independently and cite neither " +
+                "each other nor a common source; GLOSSARY, READING_GUIDE and SYMMETRY_FAMILY_INVENTORY have no " +
+                "entry for this block at all, so nothing routes a reader to D10; and OPEN_QUESTIONS_INDEX:1646 " +
+                "reads as if any single-particle model were ruled out for this block when what was falsified was " +
+                "one particular single-particle model, the adjacency one. HAZARD, and the reason this arc " +
+                "exists: the same object has been derived from below three times in this repository by people " +
+                "who did not know of the other two. Search by the PRIMITIVE (the |0><j| coherence, the popcount " +
+                "block, the one-magnon Hamiltonian), never by the result's name. And note the trap the typed " +
+                "survey found, which is THREE objects plus a stale label, not four: (0,1) dim N is this one, and " +
+                "F2 is its frequencies (the 'w=1 sector, dim N-1' that the registry used to name is the stale " +
+                "label for exactly this block, N-1 being its oscillating-mode count and not anyone's dimension); " +
+                "(1,1) dim N^2 is the Haken-Strobl density block that Cone.cs and LensAnalysis.cs actually use, " +
+                "and F140's 'single-excitation corner block' is that one under a fourth name; h_SE dim N is the " +
+                "HAMILTONIAN, and that one splits again, which is the trap inside the trap: F2b's h_SE is XY, " +
+                "no degree term, modulus N+1, while PROOF_R90_FROZEN_DIVISOR Lemma 5's is Heisenberg, carries " +
+                "the ZZ degree term, modulus N. Naming h_SE without saying which Hamiltonian is the same mistake " +
+                "one level down. Say which one every time.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

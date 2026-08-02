@@ -39,4 +39,4 @@ Script: [`simulations/verify_derivations.py`](../../../simulations/verify_deriva
 
 ## Replaces
 
-Numerical mode density estimation for the w=1 sector.
+Numerical mode density estimation for the (0,1) coherence block.

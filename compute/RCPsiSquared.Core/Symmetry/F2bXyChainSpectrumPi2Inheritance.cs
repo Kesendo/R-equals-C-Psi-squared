@@ -21,8 +21,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// |ΔN| = 1 Liouvillian coherences (|vac⟩⟨ψ_k| sector), the dominant modes
 /// for per-site purity dynamics from single-excitation initial states.</para>
 ///
-/// <para><b>Distinction from F2:</b> F2 is the w=1 LIOUVILLIAN sector for
-/// HEISENBERG, dimension N−1, argument π·k/N. F2b is the single-excitation
+/// <para><b>Distinction from F2:</b> F2 is the (0,1) LIOUVILLIAN coherence block
+/// for HEISENBERG, dimension N with N−1 oscillating modes, argument π·k/N. F2b is the single-excitation
 /// HAMILTONIAN sector for XY, dimension N, argument π·k/(N+1). The (N+1)
 /// denominator in F2b comes from OBC Dirichlet boundaries: ψ_k(−1) = ψ_k(N) = 0
 /// requires N+2 effective sites with two fixed endpoints, giving N interior
@@ -144,7 +144,7 @@ public sealed class F2bXyChainSpectrumPi2Inheritance : Claim, IZ2AxisClaim
                 summary: "E_k = 2J·cos(πk/(N+1)) eigenvalues; ψ_k(i) = √(2/(N+1))·sin(πk(i+1)/(N+1)) eigenvectors; XY chain SE Hamiltonian, OBC; verified residual < 10⁻¹⁵ N=3..6");
             yield return InspectableNode.RealScalar("HoppingFactor (= a_0 = 2)", HoppingFactor);
             yield return new InspectableNode("F2 vs F2b distinction",
-                summary: "F2: w=1 LIOUVILLIAN, Heisenberg, dim N−1, π·k/N. F2b: SE HAMILTONIAN, XY, dim N, π·k/(N+1). Different operators, different sectors, different boundary conditions arising from the same OBC structure.");
+                summary: "F2: the (0,1) LIOUVILLIAN coherence block, Heisenberg, dim N, π·k/N. F2b: SE HAMILTONIAN, XY, dim N, π·k/(N+1). Different operators, different sectors, different boundary conditions arising from the same OBC structure.");
             yield return new InspectableNode("F65 sibling edge",
                 summary: $"F2b's |ψ_k(i)|² = (2/(N+1))·sin²(πk(i+1)/(N+1)) IS F65.BondingModePopulation(N, k, i). At N=3, k=1, site=0: F2b ψ² = {EigenvectorAmplitude(3, 1, 0) * EigenvectorAmplitude(3, 1, 0):G6}; F65 = {F65.BondingModePopulation(3, 1, 0):G6}");
             yield return new InspectableNode("OBC Dirichlet boundary",

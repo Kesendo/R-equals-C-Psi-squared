@@ -3,14 +3,17 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Spectrum;
 
-/// <summary>Closed-form dispersion of the w=1 Liouvillian sector for an isotropic
-/// Heisenberg chain (Δ = 1) of length N under uniform per-site Z-dephasing γ. The w=1 sector
-/// contains all Pauli strings with exactly one site carrying X or Y; under chain Heisenberg +
-/// uniform Z-dephasing it reduces to a single-magnon nearest-neighbour tight-binding problem
-/// with hopping 2J, giving N−1 oscillation modes plus the universal palindromic decay 2γ.
-/// (Δ = 1 is required: the ZZ term acts inside the w=1 operator sector via [Z·Z, X] ∝ Y·Z, so
-/// for anisotropic XXZ Δ ≠ 1 the clean ω_k = 4J(1 − cos(πk/N)) band does NOT survive, the
-/// n_XY=1 spectrum is strongly Δ-dependent and the formula is Heisenberg-specific.)
+/// <summary>Closed-form dispersion of the (0,1) coherence block for an isotropic
+/// Heisenberg chain (Δ = 1) of length N under uniform per-site Z-dephasing γ. The object is
+/// the N-dimensional block spanned by the |0⟩⟨j| between the ferromagnet and the single
+/// excitations: a single-magnon nearest-neighbour tight-binding problem with hopping 2J,
+/// giving N−1 oscillation modes plus the universal palindromic decay 2γ. It sits INSIDE the
+/// Pauli w=1 sector (every string with exactly one site carrying X or Y, 2N·2^(N−1)-dimensional,
+/// 160 against 5 at N=5) and is far smaller than it; that sector is not L-invariant and carries
+/// no spectrum of its own, so the w=1 in this type's name is historical. D10 Step 6 has the scope.
+/// (Δ = 1 is required: on this block the ZZ term is exactly the −2J·deg(j) diagonal that
+/// turns the adjacency matrix into the Laplacian, so at anisotropic XXZ Δ ≠ 1 the clean
+/// ω_k = 4J(1 − cos(πk/N)) band does NOT survive and the formula is Heisenberg-specific.)
 ///
 /// <list type="bullet">
 ///   <item><see cref="Frequencies"/>: ω_k = 4J·(1 − cos(πk/N)) for k = 1..N−1.</item>
@@ -23,8 +26,9 @@ namespace RCPsiSquared.Core.Spectrum;
 ///
 /// <para>Tier 1 derived: the dispersion is proved analytically in
 /// <c>docs/proofs/derivations/D10_W1_DISPERSION.md</c> via reduction to the tight-binding
-/// chain; verified to machine precision for N=2..6 (15/15 frequencies, zero error) in
-/// <c>experiments/ANALYTICAL_SPECTRUM.md</c>. The N≥3 ctor pre-condition rejects N≤1 (no
+/// chain; verified for N=2..6 against a full Liouvillian eigendecomposition (15/15
+/// frequencies, zero error) in <c>experiments/ANALYTICAL_SPECTRUM.md</c>, and entry-wise
+/// through N=10 by block closure (<c>simulations/d10_block_closure_verify.py</c>). The N≥3 ctor pre-condition rejects N≤1 (no
 /// modes) and N≥0 sanity. J=0 is allowed (gives flat zero spectrum, modes exist as labels);
 /// γ&gt;0 is required because Q-factors and decay rate divide by γ.</para>
 ///
@@ -43,11 +47,11 @@ public sealed class W1Dispersion : Claim
     /// <summary>The N−1 mode frequencies ω_k = 4J·(1 − cos(πk/N)), k = 1..N−1.</summary>
     public IReadOnlyList<double> Frequencies { get; }
 
-    /// <summary>Per-mode quality factor Q_k = ω_k / (2γ). All w=1 modes share the same
+    /// <summary>Per-mode quality factor Q_k = ω_k / (2γ). All modes of the block share the same
     /// <see cref="UniformDecayRate"/>; the Q-spread is purely from the frequency dispersion.</summary>
     public IReadOnlyList<double> QFactors { get; }
 
-    /// <summary>Universal w=1-sector decay rate (= 2γ); k-independent. This is the anchor
+    /// <summary>Universal decay rate on the block (= 2γ) at uniform γ; k-independent. This is the anchor
     /// for the Lorentzian-width Γ used by <c>JwBondQPeakUnified</c>'s NEW-NEW regime.</summary>
     public double UniformDecayRate { get; }
 
@@ -71,7 +75,7 @@ public sealed class W1Dispersion : Claim
     {
         if (N < 2)
             throw new ArgumentOutOfRangeException(
-                nameof(N), N, "W1Dispersion requires N ≥ 2 (the w=1 sector is empty at N=1).");
+                nameof(N), N, "W1Dispersion requires N ≥ 2 (the block carries no oscillating mode at N=1).");
         if (gammaZero <= 0)
             throw new ArgumentOutOfRangeException(
                 nameof(gammaZero), gammaZero,

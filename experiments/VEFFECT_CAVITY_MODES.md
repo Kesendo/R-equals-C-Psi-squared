@@ -126,9 +126,10 @@ skeleton; gamma adds flesh.
 
 At γ = 0, the Liouvillian reduces to L = −i[H, ·] and all eigenvalues
 are purely imaginary. These are the natural resonances of the
-unilluminated instrument, determined by J alone. The analytical formula for weight-1
-modes ω_k = 4J(1 − cos(πk/N)) accounts for all cold-cavity w=1
-frequencies (verified 100% for N = 2, ..., 5).
+unilluminated instrument, determined by J alone. The (0,1) block's formula
+ω_k = 4J(1 − cos(πk/N)) is found in the cold spectrum at every k (verified for
+N = 2, ..., 5). That is the direction checked: each predicted frequency is
+there, not that the block accounts for all of them.
 
 ---
 
@@ -161,32 +162,79 @@ the lightest modes (weight 1) have the highest Q, and the heaviest ones
 have lower Q but more frequencies. This is the cavity trade-off, and it
 is a statement about weight alone.
 
-The highest-Q mode is always at weight 1, and its value is not a fit. On the
-single-excitation sector the Heisenberg Hamiltonian is exactly
-H = J(N−1)·I − 2J·L_graph, because the ZZ term supplies −2J·deg(j) and turns
-the adjacency matrix into the **graph Laplacian**. That block is invariant
-(H conserves magnetization) and the dephasing is flat at −2γ across it, so
+The highest-Q mode is always at weight 1, and its value is not a fit: it is a
+corollary of a result this repository already owns. The block between the
+ferromagnet and the single excitations, the (0,1) block spanned by the |0⟩⟨j|, has
+its generator derived in
+[D10](../docs/proofs/derivations/D10_W1_DISPERSION.md) §Step 3:
 
-    λ_m = −2γ − 2iJ·μ_m          and          Q_max = J · μ_max / γ
+    L|₍₀,₁₎ = −2iJ·𝓛 − 2γ·Id
 
-with μ the Laplacian spectrum of the coupling graph. Everything follows from
-which graph:
+with 𝓛 = D − A the graph Laplacian. The Laplacian rather than the adjacency
+matrix, because the ZZ term supplies the −2J·deg(j) diagonal; D10 spells that
+out. The registry carries both faces of it for the chain, both Tier 1:
+[F2](../docs/ANALYTICAL_FORMULAS.md) the frequencies, which is what D10 proves,
+and F7 the Q-factors, which D10 lists as a corollary. So λ_m = −2γ − 2iJ·μ_m,
+every mode of that block decays at 2γ under uniform γ, and
+
+    Q_max = |Im λ| / |Re λ| = J · μ_max / γ
+
+That is a law about ONE sub-block, and D10 §Step 6 is explicit that the sub-block
+is not the sector: at N = 5 it is 5-dimensional inside a 160-dimensional
+XY-weight-1 Pauli space. But the shell counted in the table above is not that
+space either. The shell is a decay class, the eigenvalues with Re λ ≈ −2γk, and
+not a Pauli sector at all. Against the shell the law can supply more than the
+maximum, and at N = 5 it supplies all of it. The shell there holds 28
+eigenvalues, 16 of them oscillating, and those 16 carry exactly four distinct
+frequencies: 0.7639, 2.7639, 5.2361, 7.2361, the four nonzero 2J·μ of this
+block's Laplacian. Four-fold each, because four blocks carry that generator:
+(0,1) and the ferromagnet's mirror (N,N−1) as written, their two transposes
+conjugated, each entry-wise at machine zero
+([`simulations/d10_block_closure_verify.py`](../simulations/d10_block_closure_verify.py)).
+Four values, four times each, is why the shell's median Q is
+(27.64 + 52.36)/2 = 40.0 and its maximum 72.36.
+
+That the shell has nothing else in it is N=5's and N=6's, not a law. The Result 4
+dump counts 5 distinct shell frequencies at N=3 against the block's 2, and 6 at
+N=4 against 3. What holds at every N is the maximum, and that is what the gate
+checks.
+
+What this section adds is the graph-general reading. D10, F2 and F7 are all scoped
+to the chain, and one line of the derivation is not: E_ferro·Id − H₁ = 2J·𝓛 holds
+on any coupling graph, because the bond count cancels between the ferromagnet and
+the one-magnon diagonal. Everything downstream of that line in D10, the path
+spectrum and the Neumann waves, is the chain's. So μ_max is whatever the coupling
+graph's own Laplacian gives, and the dump's other topologies are the test:
 
 | graph | μ_max | Q_max at J=1, γ=0.05 |
 |---|---|---|
-| path P_N (the chain) | 2(1 + cos(π/N)) | 40.0, 60.0, 68.28, 72.36, 74.64 at N=2..6 |
-| star S_N | N | 60.0, 80.0, 100.0 at N=3,4,5 |
+| path on N sites (the chain) | 2(1 + cos(π/N)) | 40.0, 60.0, 68.28, 72.36, 74.64 at N=2..6 |
+| star on N sites, K_{1,N−1} | N | 60.0, 80.0, 100.0 at N=3,4,5 |
 
-Both columns are the dump's, to the printed digits, including the star rows
-in Result 5 that no chain-only fit could have reached. Checked by
+The μ_max column is the closed form; the Q column is it evaluated at J=1, γ=0.05
+and printed past the dump's one decimal. The dump agrees wherever it reaches: its
+topology table covers N=3..5, and the chain's N=2 and N=6 come from its highest-Q
+lines. The star rows in Result 5 are the ones no chain-only fit could have reached.
+Checked by
 [`simulations/veffect_finesse_law.py`](../simulations/veffect_finesse_law.py).
 
-Two corrections this derivation forces. The cos(π/N) is the open path's own
-LAPLACIAN spectrum, the free-end one; cos(π/(N+1)) belongs to its adjacency
-matrix, which is the wrong operator here precisely because the degree term is
-present. And the finesse limit 4J/γ, which is 80 here, bounds the CHAIN only,
-since μ_max < 4 on a path. The star is not bounded by it: at N=4 it reaches
-80.0 exactly and at N=5 it is 100.0, both in this document's own Result 5.
+Two things D10 settles. The cos(π/N) is
+the open path's own LAPLACIAN spectrum, the free-end one, and D10 §Step 5 gives
+its Neumann eigenvectors cos(πk(j−½)/N) explicitly; cos(π/(N+1)) belongs to the
+adjacency matrix, the wrong operator here precisely because the degree term is
+present, and it is the XY sibling's answer (F2b), not this one's. And the ceiling
+4J/γ, which is 80 here, is not the chain's; what it bounds is DEGREE. Since μ_max
+never exceeds the largest bond sum deg(u) + deg(v), every graph whose sites have at
+most two neighbours obeys it: strictly on the path, where μ_max = 2(1 + cos(π/N))
+< 4, and with equality on the even rings, which sit at exactly 80.0 from N=4 on.
+Above degree 2 it stops being a bound. The star breaks it at N=5, where μ_max = N
+gives the 100.0 of this document's own Result 5; its N=4 row sits exactly ON the
+ceiling, where μ_max = N coincides with 4. Degree 3 is
+already enough, and the star is not even the first: `Topology.BinaryTree` at N=5
+reaches 83.4 with maximum degree 3, which is a smallest breach on five sites, and
+K_{2,3} reaches the star's own 100.0 there with a smaller maximum degree than the
+star has. From degree 4 a breach is forced rather than merely possible, since
+μ_max ≥ Δ+1.
 
 ---
 

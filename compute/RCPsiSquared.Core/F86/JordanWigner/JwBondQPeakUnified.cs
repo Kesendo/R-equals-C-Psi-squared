@@ -53,8 +53,9 @@ public sealed class JwBondQPeakUnified : Claim
 
     /// <summary>Lorentzian width for the NEW-NEW regime sum, structurally anchored in
     /// `experiments/ANALYTICAL_SPECTRUM.md` + `docs/proofs/derivations/D10_W1_DISPERSION.md`:
-    /// the w=1 Liouvillian sector has uniform decay rate 2γ (Tier1Derived in D10 via
-    /// reduction to nearest-neighbour tight-binding). In Q-units (Q = J/γ) this becomes
+    /// the (0,1) coherence block has uniform decay rate 2γ at uniform γ (Tier1Derived in D10
+    /// via reduction to nearest-neighbour tight-binding; the larger Pauli w=1 sector is not
+    /// L-invariant and is not what carries the reduction, see D10 Step 6). In Q-units (Q = J/γ) this becomes
     /// Γ = 2. Empirical comparison vs the previous heuristic Γ=0.5: worst-case relative
     /// residual drops from 49.8% (N=4 b=1) to 22.4% (N=6 truly-innermost b=2); flanking-
     /// innermost bonds (N=5,6 b=1,3) drop to 3.8-4.8%; all Endpoint bonds stay ≤ 14.5%.
@@ -189,7 +190,7 @@ public sealed class JwBondQPeakUnified : Claim
             {
                 // Innermost NEW-NEW: Lorentzian sum × 2.197 over top K pairs with width
                 // Γ = LorentzianWidth = 2 (Q-units), anchored in ANALYTICAL_SPECTRUM.md
-                // (w=1 sector uniform decay 2γ via D10 tight-binding reduction). T16 attempt
+                // ((0,1) block uniform decay 2γ via D10 tight-binding reduction). T16 attempt
                 // with palindrome-derived per-pair Γ = |Re(λ_at_EP)|/γ regressed N=5; the
                 // simpler universal Γ=2 (decay-rate-derived) outperforms both heuristic 0.5
                 // and per-pair palindrome-width on average across N=4..6.

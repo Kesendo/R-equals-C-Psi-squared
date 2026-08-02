@@ -81,28 +81,39 @@ any N; non-uniform γ per qubit. Two Π families (P1, P4).
 - Closes the last F1 OpenQuestion ("general topology beyond chain/ring/star/K_N"); F1 family open-question count is ZERO as of 2026-05-18 (first time empty).
 - Anchor: [the general-topology proof](proofs/PROOF_F1_GENERAL_TOPOLOGY.md); verification: [simulations/f1_general_topology_verify.py](../simulations/f1_general_topology_verify.py) + [F1GeneralTopologyN7BlockSpectrumTests](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs); typed: F1GeneralTopologyVerifiedClaim (Tier 2 verified).
 
-### F2. w=1 Liouvillian dispersion relation (Tier 1, proven D10)
+### F2. (0,1) coherence block dispersion relation (Tier 1, proven D10)
 
     omega_k = 4J * (1 - cos(pi*k/N)),    k = 1, ..., N-1
 
-N-1 distinct frequencies for the Heisenberg chain w=1 Liouvillian sector.
-Machine-precision match for 15 frequencies (N=2-6). Tight-binding model
+N-1 distinct frequencies on the Heisenberg chain's (0,1) coherence block,
+the N-dimensional span of the |0><j| between the ferromagnet and the single
+excitations. Machine-precision match for 15 frequencies (N=2-6). Tight-binding model
 with hopping 2J.
 Three independent validations: (1) eigenvalue match < 1e-12, (2) Poisson
-spacing in w=1 sector (RMT), (3) SFF modulation peak at omega_1 matches
+spacing in the w=1 Pauli span (RMT; that is a statistic of the compression
+onto a non-invariant span, not of the block), (3) SFF modulation peak at omega_1 matches
 to <1% for N=2-4, 6 ([Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)).
 
-**Note (2026-04-20):** F2 describes the w=1 sector of the Heisenberg
-LIOUVILLIAN (Pauli strings with exactly one X or Y factor), NOT the
-single-excitation Hamiltonian eigenvalues. The w=1 sector is
-(N-1)-dimensional (N-1 oscillatory modes), giving denominator
-(N-1)+1 = N in the cosine argument. The ZZ term in the Heisenberg
-Hamiltonian produces a diagonal shift in the effective hopping matrix
-that is absent in the XY case. For the XY chain single-excitation
-Hamiltonian spectrum, see F2b below.
+**Note:** F2 describes the Heisenberg
+LIOUVILLIAN, NOT the single-excitation Hamiltonian eigenvalues. Its object
+is the (0,1) coherence block spanned by the |0><j| between the ferromagnet
+and the single excitations: N-dimensional, one zero mode and N-1
+oscillating ones. That block sits INSIDE the Pauli w=1 sector (strings with
+exactly one X or Y factor) and is far smaller than it, 5 against 160 at
+N=5; the sector itself is not L-invariant and has no spectrum of its own.
+D10 Step 6 carries the scope. The denominator N in the cosine comes from
+the NEUMANN boundary condition of the open chain's Laplacian (D10 Step 3
+and Step 5), not from a dimension count. The ZZ term in the Heisenberg
+Hamiltonian supplies the diagonal shift that turns the adjacency matrix
+into that Laplacian, and it is absent in the XY case. For the XY chain
+single-excitation Hamiltonian spectrum, see F2b below.
 
-**Valid for:** Heisenberg chain, open boundaries, all N (verified N=2-6).
-**Replaces:** full Liouvillian diagonalization for w=1 frequencies.
+**Valid for:** Heisenberg chain, open boundaries, uniform gamma, all N
+(verified N=2-6 against a full Liouvillian eigendecomposition, N=2-10 by
+block closure). With a gamma PROFILE the block stays exactly closed, but
+diag(gamma) and the Laplacian no longer commute, so this formula does not
+survive; see the `site_resolved_vacuum_block` open arc.
+**Replaces:** full Liouvillian diagonalization for the block's frequencies.
 O(N) instead of O(4^{3N}).
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md),
 [the Weight-1 Dispersion derivation](proofs/derivations/D10_W1_DISPERSION.md)
@@ -131,10 +142,10 @@ sine formula above: ψ_k(−1) = sin(0) = 0 and ψ_k(N) = sin(π·k) = 0.
 The effective chain length is therefore N+2 with two fixed endpoints,
 yielding N interior modes with wavenumber spacing π/(N+1).
 
-**Distinction from F2:** F2 describes the w=1 LIOUVILLIAN sector for
-Heisenberg, with dimension N−1 and argument π·k/N. F2b describes the
-single-excitation HAMILTONIAN sector for XY, with dimension N and
-argument π·k/(N+1). They describe different mathematical objects in
+**Distinction from F2:** F2 describes the (0,1) LIOUVILLIAN coherence block
+for Heisenberg, N-dimensional with N−1 oscillating modes and argument π·k/N.
+F2b describes the single-excitation HAMILTONIAN sector for XY, with
+dimension N and argument π·k/(N+1). They describe different mathematical objects in
 different Hamiltonians.
 
 **Valid for:** XY chain (H = (J/2)(XX+YY)), open boundaries, all N.
@@ -579,7 +590,10 @@ match ([Proton Water Chain](water/PROTON_WATER_CHAIN.md)).
     Q_mean = 2*J/gamma  (exactly, from sum of cos = 0)
     Q_spread = Q_max/Q_min = cot^2(pi/(2N))  (~4N^2/pi^2 for large N)
 
-**Valid for:** Heisenberg chain, uniform Z-dephasing, w=1 sector.
+**Valid for:** Heisenberg chain, uniform Z-dephasing, the (0,1) coherence
+block (F2's object, not the whole Pauli w=1 sector). The graph-general form
+Q_max = J*mu_max/gamma, with mu the coupling graph's own Laplacian spectrum,
+is read off in [the cavity modes experiment](../experiments/VEFFECT_CAVITY_MODES.md).
 **Replaces:** Q-factor computation from eigenvalues.
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md)
 
@@ -1056,7 +1070,7 @@ Van Hove singularities (peaks in the density of states where the
 dispersion curve is flat) at band edges. Exact 1D tight-binding
 density of states. Max frequency error < 5e-9.
 
-**Valid for:** Heisenberg chain, w=1 sector, large N.
+**Valid for:** Heisenberg chain, the (0,1) coherence block, large N.
 **Replaces:** numerical mode density estimation.
 
 ### D2. V-Effect = Q_max / Q_mean (from F6 + F7) [VERIFIED]
@@ -1125,7 +1139,7 @@ See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) §4.3.
 Arcsine distribution (U-shaped). Modes cluster at band edges,
 not at the mean. Converges with N (variance rel. error < 2% at N=50).
 
-**Valid for:** Heisenberg chain, w=1 sector, large N.
+**Valid for:** Heisenberg chain, the (0,1) coherence block, large N.
 **Replaces:** numerical Q-factor histogram.
 **Source:** [D07 Derivation](proofs/derivations/D07_Q_DISTRIBUTION.md)
 
@@ -1190,7 +1204,7 @@ diverges at exceptional points) peaks at K = 403 at gamma/gamma_crit ~ 1.46 (nea
 Period of the slowest palindromic modulation in the SFF. Grows as
 ~N^2/(pi*J) for large N. Confirmed by FFT peak matching (<1% for N=2-4, 6).
 
-**Valid for:** Heisenberg chain, w=1 sector.
+**Valid for:** Heisenberg chain, the (0,1) coherence block.
 **Replaces:** numerical FFT of SFF for modulation period.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
