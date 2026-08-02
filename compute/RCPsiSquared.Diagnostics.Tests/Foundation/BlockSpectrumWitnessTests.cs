@@ -21,12 +21,13 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// threshold (3d-scale), the Bendixson and trace corollaries (3e), and the N=2 case where the floor
 /// line does NOT open (3f). Two things are deliberate. The graph rows: on a uniform-J chain or ring
 /// a global site-versus-bit reversal cancels, so the per-bond-J and star rows are what make the
-/// ordering falsifiable. And which gates carry a SCALED threshold, which took two rounds and a
-/// measurement off the dyadic grid to settle: ONE of the three residuals is bit-exact, the
-/// Hermitian-part one, structurally and at every J (3c asserts an exact 0.0). The other two grow
-/// with J and are scaled — the generator residual linearly once the coupling is not binary-exact
-/// (0.0 at J=1e8 but 6.0e-08 at pi*1e8), the per-mode one as eps·‖M‖. Measuring only on
-/// powers of ten shows three zeros and invites exactly the wrong conclusion.</para></summary>
+/// ordering falsifiable. And which gates carry a SCALED threshold, which took three rounds to
+/// settle: ONE of the three residuals is bit-exact, the Hermitian-part one, structurally and at
+/// every J (3c asserts an exact 0.0). The other two grow and are scaled — the generator residual
+/// linearly in J once the coupling is not binary-exact (0.0 at J=1e8 but 6.0e-08 at pi*1e8, and
+/// already 1e-16 at J=1 on the ring, star and per-bond rows), the per-mode one as eps·‖M‖.
+/// Measuring only on powers of ten shows three zeros and invites exactly the wrong
+/// conclusion.</para></summary>
 public class BlockSpectrumWitnessTests
 {
     [Fact]
@@ -202,14 +203,20 @@ public class BlockSpectrumWitnessTests
     //
     // Read the last row before believing any of the others. The residual lives entirely on the
     // diagonal, where H[r,r] - H[0,0] (a floating sum over bond terms) is compared against the
-    // directly summed degree: two different summations of the same exact value. For couplings that
-    // divide by 4 and add without rounding -- 1, 0.7, 1.3, 0.4+0.9b, 1e5, 1e8 are all such -- the
-    // two agree bit for bit and the residual is 0.0, which is why the powers-of-ten rows below say
-    // nothing about scaling. Take a coupling off that grid and it appears and grows LINEARLY in J:
-    // measured 0.0 at J=pi, 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8. An earlier
-    // round measured only the dyadic rows, read the zeros as exactness, and wrote that this gate's
-    // scaled threshold was "a loosening with nothing behind it". It is not; the pi*1e8 row below
-    // fails a flat 1e-12 by four orders.
+    // directly summed degree: two different summations of the same exact value. Whether they agree
+    // bit for bit depends on the coupling. MEASURED, not inferred: the UNIFORM-CHAIN rows at J = 1,
+    // 1e5 and 1e8 read exactly 0.0 (those three are binary-exact and their degree sums are too),
+    // while the ring 0.7, star 1.3 and per-bond 0.4+0.9b rows already read 1.1e-16 to 4.4e-16 at
+    // J=1. So the powers-of-ten rows say nothing about scaling -- they are the exact ones. Take a
+    // coupling off that grid AND scale it and the residual grows LINEARLY in J: 0.0 at J=pi,
+    // 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8.
+    //
+    // Two rounds got this wrong in opposite directions and both times by not reading a number that
+    // was already printed. One measured only the dyadic rows, read the zeros as exactness, and
+    // deleted the scaling as "a loosening with nothing behind it". The next reinstated the scaling
+    // but wrote 0.7, 1.3 and 0.4+0.9b into the list of exact couplings, contradicting its own probe
+    // output and the sibling sentence in Gate 3c twelve lines below. The pi*1e8 row is what settles
+    // it: it fails a flat 1e-12 by nearly five orders.
     [Theory]
     [InlineData(4, 1e5)]
     [InlineData(6, 1e8)]
@@ -267,13 +274,17 @@ public class BlockSpectrumWitnessTests
     // corollaries of this; asserting only them leaves a theorem standing in for a gate.
     //
     // BIT-EXACT, and the assertion says so rather than allowing a tolerance. It is exact by
-    // construction, not by luck, and it takes four legs: (a) on this block every basis element has
-    // col = 0, so only the first H term fires and an off-diagonal is exactly -i*H[row_r,row_c];
-    // (b) H is real symmetric with its two mirror entries accumulated from the same terms in the
-    // same order, so (m[r,c] + conj(m[c,r]))/2 cancels bit for bit; (c) the bra-ket disagreement
-    // here has popcount 1, so the dephasing contribution is the SINGLE term -2*gamma_site and not a
-    // sum that could round; (d) the H diagonal adds exactly +0.0 to the real part. (c) and (d) are
-    // why this holds on the star and per-bond rows too, where the GENERATOR residual does not. Measured 0.0 at J = 1e8 as well as at J=1,
+    // construction, not by luck. Setting the FORM: on this block every basis element has col = 0,
+    // so an off-diagonal is exactly -i*H[row_r,row_c]. (That one entry fires is true in any
+    // joint-popcount block, not just this one, so it is not what makes the result exact.) Three
+    // legs carry the exactness: (a) H is real symmetric with its two mirror entries accumulated
+    // from the same terms in the same order, so (m[r,c] + conj(m[c,r]))/2 cancels bit for bit;
+    // (b) the bra-ket disagreement here has popcount 1, so the dephasing contribution is the SINGLE
+    // term -2*gamma_site and not a sum that could round -- at popcount 3 a re-summation of the same
+    // diagonal differs by up to 1.8e-15; (c) the H diagonal adds exactly +0.0 to the real part.
+    // (a)-(c) are why this holds on the star and per-bond rows too, where the GENERATOR residual
+    // does not. One reachable exception, pathological: a coupling large enough to overflow the H
+    // diagonal sum makes the real part NaN, and NaN == 0.0 is false. Everything finite is clean. Measured 0.0 at J = 1e8 as well as at J=1,
     // so a SCALED threshold here would be a loosening with nothing behind it -- an earlier round put
     // one in, with a J=1e5 row whose stated justification ("a flat 1e-14 would fail on rounding
     // alone") was simply false. If this ever stops being exact, that is a real finding about the
@@ -292,6 +303,7 @@ public class BlockSpectrumWitnessTests
     [Theory]
     [InlineData(4, 1e5)]
     [InlineData(6, 1e8)]
+    [InlineData(6, 3.141592653589793e8)]   // OFF the exact grid, where the generator residual is 6e-8
     public void SiteResolvedBandEdge_HermitianPart_StaysExactAtLargeJ(int n, double j)
     {
         var gamma = AsymmetricGamma(n);

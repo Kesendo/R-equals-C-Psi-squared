@@ -3536,7 +3536,11 @@ public static class OpenArcsRegistry
                 "prior-work survey caught it before anything landed; experiments/VEFFECT_CAVITY_MODES.md now " +
                 "cites D10 instead of deriving it again, and what that section legitimately adds is the " +
                 "graph-general reading (star mu_max = N, gated by simulations/veffect_finesse_law.py).",
-            ParkedAt: "with a gamma PROFILE the block operator is M = -2iJ*Laplacian - 2*diag(gamma), " +
+            ParkedAt: "with a gamma PROFILE the block operator is M = -2iJ*Laplacian - 2*diag(gamma), "
+                + "IN D10'S CONVENTION, which is the conjugate orientation and the Pauli normalisation; "
+                + "the live witness writes the same operator as +i*(1/2)*WeightedLaplacian - 2*diag(gamma), "
+                + "and item (ii) of the NextStep is why those are one object and not two. Read that before "
+                + "reconciling any sign. Verified " +
                 "entry-wise against the full Liouvillian at machine zero on chain, star, ring and complete " +
                 "graphs. THAT PART IS COMMITTED: simulations/d10_block_closure_verify.py gates the closure and " +
                 "the profile form, and D10's verification section names it. Everything else below was " +
@@ -3584,14 +3588,14 @@ public static class OpenArcsRegistry
             NextStep: "RESUMPTION POINT (2026-08-02, end of session). FOUR THINGS ARE DONE and are not to be " +
                 "redone: the D10 Step-1 edit; the whole prose rename off the w=1 mislabel, both halves, " +
                 "landed in 26 files (commit f0a9160); the PROOF_CHAIN_GAP_DOMINANCE section-4 redo " +
-                "with its fence in fourteen sites and its promoted gate (commit cadaa98); and, as of " +
-                "this commit, THE WITNESS (b) ASKED FOR. BlockSpectrumWitness now carries the " +
+                "with its fence in fourteen sites and its promoted gate (commit cadaa98); and, landed " +
+                "across 2026-08-02 in bf8528b and six review rounds after it, THE WITNESS (b) ASKED FOR. BlockSpectrumWitness now carries the " +
                 "site-resolved block: BandEdgeSectorBlock returns M itself for a gamma PROFILE, " +
                 "BandEdgeSectorReSpan takes a profile (the uniform call is now an overload), " +
                 "GeneratorResidual / HermitianPartResidual / PerModeAbsorptionResidual recompute the " +
                 "identities live, and a new inspect node 'the site-resolved band edge' (the fifth of six " +
                 "children) renders them (inspect --root blockspectrum). FIVE THINGS THE " +
-                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (92 cases green), and the " +
+                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (93 cases green), and the " +
                 "gates run on chain, per-bond-J chain, ring and star at N = 3..7 so nothing here is " +
                 "chain-only or scratch-file-only. " +
                 "(i) THE COMPOSITE IS EXACT AND IT IS THE LAPLACIAN ONE: with H = sum_b (J_b/4)*(XX+YY+ZZ), " +
@@ -3614,14 +3618,19 @@ public static class OpenArcsRegistry
                 "series, uniform chain N=6 gives 1.3e-15 at J=1, 1.1e-10 at 1e5, 3.4e-8 at 1e8. " +
                 "The GENERATOR residual is the one that fooled two rounds in OPPOSITE directions. All " +
                 "of it sits on the diagonal, where H[r,r] - H[0,0], a floating sum over bond terms, is " +
-                "compared against a directly summed degree; for any coupling that divides by 4 and adds " +
-                "without rounding (1, 0.7, 1.3, 0.4+0.9b, 1e5 and 1e8 are ALL such) the two agree bit " +
-                "for bit and it reads 0.0. Off that grid it appears and grows linearly in J: 0.0 at " +
-                "J=pi, 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8. So its scaled threshold " +
-                "IS earned. An earlier round measured only dyadic rows, read the zeros as exactness, " +
-                "and wrote that the scaling was 'a loosening with nothing behind it'; the gate now " +
-                "carries a pi*1e8 row that fails a flat 1e-12 by four orders. Three zeros on powers of " +
-                "ten is what the wrong conclusion looks like from the inside. " +
+                "compared against a directly summed degree, and whether those agree bit for bit depends " +
+                "on the coupling. MEASURED, not inferred: the UNIFORM-CHAIN rows at J = 1, 1e5 and 1e8 " +
+                "read exactly 0.0, while the ring 0.7, star 1.3 and per-bond 0.4+0.9b rows already read " +
+                "1.1e-16 to 4.4e-16 at J = 1. Off the exact grid AND scaled, it grows linearly in J: " +
+                "0.0 at J=pi, 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8. So its scaled " +
+                "threshold IS earned, and the gate now carries a pi*1e8 row that fails a flat 1e-12 by " +
+                "nearly five orders. TWO ROUNDS GOT THIS WRONG IN OPPOSITE DIRECTIONS, both by not " +
+                "reading a number that was already printed: one measured only the powers-of-ten rows, " +
+                "read the zeros as exactness and deleted the scaling as 'a loosening with nothing " +
+                "behind it'; the next reinstated the scaling but listed 0.7, 1.3 and 0.4+0.9b among the " +
+                "exact couplings, contradicting its own probe output and its own test file in the same " +
+                "commit. Three zeros on powers of ten is what the wrong conclusion looks like from the " +
+                "inside. " +
                 "(ii) ORIENTATION, AND IT IS A LABEL COLLISION, not just a sign. The convention here is " +
                 "JointPopcountSectorBuilder's (PCol, PRow) = (bra, ket), which agrees with MirrorWorld's " +
                 "Block (P = bra, Q = ket), so (0,1) here is |1-exc><vac| and carries +i. D10:139 writes " +
@@ -3722,12 +3731,21 @@ public static class OpenArcsRegistry
                 "(3) THE ADJACENCY LEG IS NOT ON THAT AXIS AT ALL, and this paragraph named only two " +
                 "conventions on its first pass while opening with a warning against naming only one. " +
                 "The falsified hypothesis is H_eff = -J*adjacency - i*diag(gamma), and its 0.9249 is at " +
-                "hopping amplitude 1, not at the Laplacian form's J. THE TWO MEANINGFUL LEGS ARE 0.9249 at hopping 1, which is the " +
-                "recorded number, and 0.8991 at hopping 2, which is the amplitude matching this physical " +
-                "system because the Laplacian form's -2*A absorbs the factor. Carrying the adjacency form " +
-                "to 'J = 4' gives 0.8784, and that number belongs to NO scale of the recorded system: it " +
-                "is precisely the naive factor-4 carry this paragraph forbids, and it is listed here only " +
-                "so nobody rediscovers it and believes it. Do not read 0.9249 as a Pauli-J=1 number. " +
+                "hopping amplitude 1, not at the Laplacian form's J. " +
+                "THE CLEAN WAY TO BUILD THE ADJACENCY LEG IS NOT TO REBUILD IT. Take the witness " +
+                "generator at the SAME J = 4 and drop the ZZ degree diagonal, keeping both factors: " +
+                "M_adj = -i*(J/2)*A - 2*diag(gamma) gives 0.924928, which is the recorded 0.9249 " +
+                "exactly. It has to, because an overall rescaling does not move eigenvectors: what " +
+                "picks one out is the RATIO of coupling to gamma, and the factor 2 hits both. THAT " +
+                "MAKES ParkedAt (2) EXACT rather than approximate: removing the degree term at matched " +
+                "scale moves the overlap 0.999996 -> 0.924928, so 'the falsified hypothesis was one " +
+                "term short and the missing term is the ZZ degree' is a measurement, not an argument. " +
+                "REBUILDING IT SEPARATELY IS WHERE THE CARRIES BITE, and both wrong answers are " +
+                "recorded here so nobody rediscovers one and believes it: -t*A - i*diag(gamma) gives " +
+                "0.8991 at t = 2 and 0.8784 at t = 4, and NEITHER is a scale of the recorded system " +
+                "(they are the system with gamma halved and quartered). An earlier draft of this item " +
+                "named 0.8991 'the matched scale', which is the same naive carry the item was written " +
+                "to forbid, with 2 in place of 4. Do not read 0.9249 as a Pauli-J=1 number either. " +
                 "When the repairs are made, note that the closed form is for M and NOT " +
                 "for its spectrum: M is non-normal, diag(gamma) " +
                 "and the Laplacian do not commute, so psi_opt is still diagonalized for and not read " +
