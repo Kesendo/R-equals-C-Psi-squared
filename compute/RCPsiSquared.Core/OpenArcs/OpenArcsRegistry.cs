@@ -3537,10 +3537,11 @@ public static class OpenArcsRegistry
                 "cites D10 instead of deriving it again, and what that section legitimately adds is the " +
                 "graph-general reading (star mu_max = N, gated by simulations/veffect_finesse_law.py).",
             ParkedAt: "with a gamma PROFILE the block operator is M = -2iJ*Laplacian - 2*diag(gamma), "
-                + "IN D10'S CONVENTION, which is the conjugate orientation and the Pauli normalisation; "
-                + "the live witness writes the same operator as +i*(1/2)*WeightedLaplacian - 2*diag(gamma), "
-                + "and item (ii) of the NextStep is why those are one object and not two. Read that before "
-                + "reconciling any sign. Verified " +
+                + "IN D10'S CONVENTION, which is the Pauli normalisation AND the conjugate orientation; the "
+                + "live witness builds the CONJUGATE PARTNER and writes it "
+                + "+i*(1/2)*WeightedLaplacian - 2*diag(gamma). Same Re, mirrored frequencies, and item (ii) "
+                + "of the NextStep says why the two must never have a sign copied between them. Read that "
+                + "before reconciling anything here. Verified " +
                 "entry-wise against the full Liouvillian at machine zero on chain, star, ring and complete " +
                 "graphs. THAT PART IS COMMITTED: simulations/d10_block_closure_verify.py gates the closure and " +
                 "the profile form, and D10's verification section names it. Everything else below was " +
@@ -3577,7 +3578,7 @@ public static class OpenArcsRegistry
                 "0.057 at the IBM profile. At uniform gamma all N modes share Re = -2*gamma exactly, so there is " +
                 "no slowest one: that is the concentrator's reason for existing, stated spectrally. BUT NOT THE " +
                 "RATE, and this is the sharpest thing measured here. M's slowest EIGENVALUE is " +
-                "-0.166384 - 0.238470i, which is CONCENTRATOR_GEOMETRY:176's 'Slow 2', the odd-parity mode that " +
+                "-0.166384 - 0.238470i, which is CONCENTRATOR_GEOMETRY:176's 'Slow 2' up to the Im sign (that table records +0.238; this line is in D10's conjugate convention, see the preface above), the odd-parity mode that " +
                 "document records as NOT SE-accessible. The lens reads 'Slow 1' at -0.318 instead. Both are " +
                 "right and they are different objects: the (0,1) block is number-CHANGING, hence odd, hence " +
                 "forbidden; what the lens reads is the (1,1) block's slowest non-kernel mode, measured here at " +
@@ -3620,8 +3621,10 @@ public static class OpenArcsRegistry
                 "of it sits on the diagonal, where H[r,r] - H[0,0], a floating sum over bond terms, is " +
                 "compared against a directly summed degree, and whether those agree bit for bit depends " +
                 "on the coupling. MEASURED, not inferred: the UNIFORM-CHAIN rows at J = 1, 1e5 and 1e8 " +
-                "read exactly 0.0, while the ring 0.7, star 1.3 and per-bond 0.4+0.9b rows already read " +
-                "1.1e-16 to 4.4e-16 at J = 1. Off the exact grid AND scaled, it grows linearly in J: " +
+                "read exactly 0.0 at every N, while the other three families are nonzero from N=4 or N=5 up " +
+                "(ring and star are exactly 0.0 at N=3, ring again at N=4) and where nonzero run 2.8e-17 " +
+                "to 4.4e-16 at J = 1. Quoting a family's MAXIMUM as if it were every row of that family " +
+                "is how the previous version of this sentence was wrong. Off the exact grid AND scaled, it grows linearly in J: " +
                 "0.0 at J=pi, 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8. So its scaled " +
                 "threshold IS earned, and the gate now carries a pi*1e8 row that fails a flat 1e-12 by " +
                 "nearly five orders. TWO ROUNDS GOT THIS WRONG IN OPPOSITE DIRECTIONS, both by not " +
@@ -3699,7 +3702,8 @@ public static class OpenArcsRegistry
                 "known closed form') rest on a different number: the overlap at the IBM Torino profile " +
                 "[2.336, 0.099, 0.050, 0.072, 0.051], where the adjacency form gives 0.9249 at its own hopping " +
                 "amplitude 1 and the Laplacian form 1.0000 at witness J = 4 (the two live on DIFFERENT " +
-                "scales, see item (3) below before building anything). The witness renders the open chain at a deep-edge profile, so it " +
+                "scales; item (3) below says how to get the adjacency leg WITHOUT rebuilding it, which " +
+                "is the move that avoids the whole scale question). The witness renders the open chain at a deep-edge profile, so it " +
                 "does NOT reproduce that comparison, and nothing committed does. THE NEXT MOVE is " +
                 "therefore that gate: the IBM-profile overlap between the slowest eigenvector of M and " +
                 "the recorded psi_opt row, as a witness node or a test, and only then the two prose " +
@@ -3734,9 +3738,20 @@ public static class OpenArcsRegistry
                 "hopping amplitude 1, not at the Laplacian form's J. " +
                 "THE CLEAN WAY TO BUILD THE ADJACENCY LEG IS NOT TO REBUILD IT. Take the witness " +
                 "generator at the SAME J = 4 and drop the ZZ degree diagonal, keeping both factors: " +
-                "M_adj = -i*(J/2)*A - 2*diag(gamma) gives 0.924928, which is the recorded 0.9249 " +
-                "exactly. It has to, because an overall rescaling does not move eigenvectors: what " +
-                "picks one out is the RATIO of coupling to gamma, and the factor 2 hits both. THAT " +
+                "M_adj = -i*(J/2)*A - 2*diag(gamma) gives 0.924928, against the recorded 0.9249. EVERY SIX-DIGIT NUMBER IN THIS ENTRY IS ON THE ROUNDED PROFILE printed by CONCENTRATOR_GEOMETRY, [2.336, 0.099, 0.050, 0.072, 0.051]; the recorded targets came from the exact 1/(2*T2) profile, which gives 0.924935 and -0.166525 + 0.238470i instead. Both round to the record, so nothing is wrong, but do not read 'exactly' as agreement at six digits between two different gamma inputs. " +
+                "AND THE REASON IS THREE STEPS, NOT ONE. An earlier draft of this sentence said 'an " +
+                "overall rescaling does not move eigenvectors', which is false here: there is NO " +
+                "scalar c with M_adj = c*H_eff, the ratio is +2i on the coupling entry and -2i on the " +
+                "gamma entry. The exact relation, residual 0.0, is " +
+                "M_adj(J=4) = 2*conj(-i*H_eff(hopping 1)): the -i that turns a Hamiltonian into a " +
+                "generator, then a CONJUGATION, which is item (ii)'s orientation flip, and only then " +
+                "the factor 2. The conjugation is not cosmetic, the two slow eigenvectors differ " +
+                "componentwise by 1.15 at unit norm; what coincides is their MAGNITUDE profiles, to " +
+                "5e-16, which is exactly what the recorded overlap reads (item (1)). So the item that " +
+                "opens by warning against naming one axis had, on its first pass, named the scale axis " +
+                "and dropped the orientation axis. The agreement is NOT a coincidence at this profile: " +
+                "checked at N=3..8 on chain, ring, star and random-weighted graphs with random gamma " +
+                "profiles, the two magnitude profiles agree to 1.1e-14 throughout. THAT " +
                 "MAKES ParkedAt (2) EXACT rather than approximate: removing the degree term at matched " +
                 "scale moves the overlap 0.999996 -> 0.924928, so 'the falsified hypothesis was one " +
                 "term short and the missing term is the ZZ degree' is a measurement, not an argument. " +
@@ -3745,7 +3760,9 @@ public static class OpenArcsRegistry
                 "0.8991 at t = 2 and 0.8784 at t = 4, and NEITHER is a scale of the recorded system " +
                 "(they are the system with gamma halved and quartered). An earlier draft of this item " +
                 "named 0.8991 'the matched scale', which is the same naive carry the item was written " +
-                "to forbid, with 2 in place of 4. Do not read 0.9249 as a Pauli-J=1 number either. " +
+                "to forbid, with 2 in place of 4. (0.9249 IS a Pauli-J=1 number in this entry's own " +
+                "bookkeeping, since witness J = 4 is Pauli J = 1; an earlier draft closed this item by " +
+                "denying that, a leftover from the version that held the two forms on different scales.) " +
                 "When the repairs are made, note that the closed form is for M and NOT " +
                 "for its spectrum: M is non-normal, diag(gamma) " +
                 "and the Laplacian do not commute, so psi_opt is still diagonalized for and not read " +

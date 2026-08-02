@@ -25,7 +25,8 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// settle: ONE of the three residuals is bit-exact, the Hermitian-part one, structurally and at
 /// every J (3c asserts an exact 0.0). The other two grow and are scaled — the generator residual
 /// linearly in J once the coupling is not binary-exact (0.0 at J=1e8 but 6.0e-08 at pi*1e8, and
-/// already 1e-16 at J=1 on the ring, star and per-bond rows), the per-mode one as eps·‖M‖.
+/// already up to 4.4e-16 at J=1 on the larger-N ring, star and per-bond rows), the per-mode one as
+/// eps·‖M‖.
 /// Measuring only on powers of ten shows three zeros and invites exactly the wrong
 /// conclusion.</para></summary>
 public class BlockSpectrumWitnessTests
@@ -204,10 +205,14 @@ public class BlockSpectrumWitnessTests
     // Read the last row before believing any of the others. The residual lives entirely on the
     // diagonal, where H[r,r] - H[0,0] (a floating sum over bond terms) is compared against the
     // directly summed degree: two different summations of the same exact value. Whether they agree
-    // bit for bit depends on the coupling. MEASURED, not inferred: the UNIFORM-CHAIN rows at J = 1,
-    // 1e5 and 1e8 read exactly 0.0 (those three are binary-exact and their degree sums are too),
-    // while the ring 0.7, star 1.3 and per-bond 0.4+0.9b rows already read 1.1e-16 to 4.4e-16 at
-    // J=1. So the powers-of-ten rows say nothing about scaling -- they are the exact ones. Take a
+    // bit for bit depends on the coupling AND on N. MEASURED row by row, not inferred: the
+    // UNIFORM-CHAIN rows read exactly 0.0 at every N and at J = 1, 1e5 and 1e8 (those couplings are
+    // binary-exact and their degree sums are too). The other three families are not uniformly
+    // nonzero either -- ring and star read exactly 0.0 at N=3, ring again at N=4 -- and where they
+    // are nonzero at J=1 they run from 2.8e-17 (per-bond, N=3) to 4.4e-16 (per-bond, N>=5). Quoting
+    // a family's maximum as if it were every row of that family is how the previous version of this
+    // comment was wrong. So the powers-of-ten rows say nothing about scaling: they are the exact
+    // ones. Take a
     // coupling off that grid AND scale it and the residual grows LINEARLY in J: 0.0 at J=pi,
     // 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8.
     //
@@ -215,7 +220,7 @@ public class BlockSpectrumWitnessTests
     // was already printed. One measured only the dyadic rows, read the zeros as exactness, and
     // deleted the scaling as "a loosening with nothing behind it". The next reinstated the scaling
     // but wrote 0.7, 1.3 and 0.4+0.9b into the list of exact couplings, contradicting its own probe
-    // output and the sibling sentence in Gate 3c twelve lines below. The pi*1e8 row is what settles
+    // output and the sibling sentence in Gate 3c below. The pi*1e8 row is what settles
     // it: it fails a flat 1e-12 by nearly five orders.
     [Theory]
     [InlineData(4, 1e5)]
@@ -280,8 +285,10 @@ public class BlockSpectrumWitnessTests
     // legs carry the exactness: (a) H is real symmetric with its two mirror entries accumulated
     // from the same terms in the same order, so (m[r,c] + conj(m[c,r]))/2 cancels bit for bit;
     // (b) the bra-ket disagreement here has popcount 1, so the dephasing contribution is the SINGLE
-    // term -2*gamma_site and not a sum that could round -- at popcount 3 a re-summation of the same
-    // diagonal differs by up to 1.8e-15; (c) the H diagonal adds exactly +0.0 to the real part.
+    // term -2*gamma_site and not a sum that could round (at higher popcount the same diagonal is a
+    // sum of several gammas, where a re-summation in a different order need not agree bit for bit --
+    // no row here leaves the (0,1) block, so that is stated as the mechanism, not as a measurement
+    // this file took); (c) the H diagonal adds exactly +0.0 to the real part.
     // (a)-(c) are why this holds on the star and per-bond rows too, where the GENERATOR residual
     // does not. One reachable exception, pathological: a coupling large enough to overflow the H
     // diagonal sum makes the real part NaN, and NaN == 0.0 is false. Everything finite is clean. Measured 0.0 at J = 1e8 as well as at J=1,
