@@ -3562,12 +3562,12 @@ public static class OpenArcsRegistry
                 "closed form anywhere. (2) IT GIVES psi_opt A CLOSED FORM. " +
                 "experiments/CONCENTRATOR_GEOMETRY.md:180 records H_eff = -J*adjacency - i*diag(gamma) as " +
                 "FALSIFIED at cosine similarity 0.925 and concludes 'psi_opt has no known closed form' (carried " +
-                "into review/OPEN_QUESTIONS_INDEX.md:1646). Reproduced here: the adjacency form gives 0.9249 and " +
+                "into review/OPEN_QUESTIONS_INDEX.md:1646). Reproduced here, and mind the scales, which the NextStep's item (3) spells out: at ITS OWN hopping amplitude 1 the adjacency form gives 0.9249 and " +
                 "the Laplacian form gives 1.0000. The falsified hypothesis was one term short and the missing " +
                 "term is the ZZ degree. The slowest eigenvector of M reproduces the IBM row " +
                 "[0.099, 0.239, 0.428, 0.572, 0.651] and the F9 N=7 row " +
                 "[0.118, 0.332, 0.481, 0.535, 0.482, 0.334, 0.119] at overlap 1.0000, the N=7 one to every " +
-                "printed digit, WITH the alternating signs Complex.Abs discards. (3) IT WOULD MAKE THE LENS WELL " +
+                "printed digit. WHAT Complex.Abs DISCARDS HERE IS A PHASE, NOT A SIGN, and an earlier draft of this line said 'the alternating signs': measured, neither row alternates in sign, and what the modulus throws away is site 0 sitting near quadrature (-96 degrees at witness J=1, -88 at J=4, phase fixed on the largest component) while the rest are within 20 degrees of real. (3) IT WOULD MAKE THE LENS WELL " +
                 "POSED and break its N-wall: no 4^N eigendecomposition, no SE filter, no first-match tie-break in " +
                 "a degenerate eigenspace (see concentrator_amplitude_signs), and the slow mode is separated by " +
                 "0.057 at the IBM profile. At uniform gamma all N modes share Re = -2*gamma exactly, so there is " +
@@ -3591,7 +3591,7 @@ public static class OpenArcsRegistry
                 "GeneratorResidual / HermitianPartResidual / PerModeAbsorptionResidual recompute the " +
                 "identities live, and a new inspect node 'the site-resolved band edge' (the fifth of six " +
                 "children) renders them (inspect --root blockspectrum). FIVE THINGS THE " +
-                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (91 cases green), and the " +
+                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (92 cases green), and the " +
                 "gates run on chain, per-bond-J chain, ring and star at N = 3..7 so nothing here is " +
                 "chain-only or scratch-file-only. " +
                 "(i) THE COMPOSITE IS EXACT AND IT IS THE LAPLACIAN ONE: with H = sum_b (J_b/4)*(XX+YY+ZZ), " +
@@ -3600,17 +3600,28 @@ public static class OpenArcsRegistry
                 "TYPED owner carried; ANALYTICAL_SPECTRUM already wrote the formula, see the Origin. " +
                 "SCOPE: XXX only. The Laplacian appears because " +
                 "the ZZ coefficient equals the XY one; for XXZ it is Delta*diag(deg) - A, not a Laplacian. " +
-                "WHICH GATE CARRIES A SCALED THRESHOLD IS ITSELF A MEASURED FACT, and two rounds got " +
-                "it backwards before measuring. The generator residual and the Hermitian-part residual " +
-                "are BIT-EXACT zeros on every graph and at every J tried up to 1e8, so a scaled " +
-                "threshold on them is a loosening with nothing behind it; the Hermitian one is now " +
-                "asserted as an exact 0.0, and the reason is structural (BuildBlockZ writes the two " +
-                "mirror off-diagonals from the same terms in the same order, and the diagonal rate " +
-                "directly). The ONLY residual that grows with J is the per-mode one, an eigensolver " +
-                "quantity at about eps*norm(M): 5.3e-15 at J=1, 1.1e-10 at 1e5, 3.4e-8 at 1e8. So the " +
-                "scaling law lives there, with its own large-J row, and the earlier claim that a " +
-                "J = 1e5 generator row 'proves the scaling' was false, that row has the SMALLEST " +
-                "residual in the suite. " +
+                "WHICH GATE CARRIES A SCALED THRESHOLD IS ITSELF A MEASURED FACT, and it took THREE " +
+                "rounds and a measurement off the powers-of-ten grid to settle, so read all of this " +
+                "before changing a threshold. EXACTLY ONE of the three residuals is bit-exact: the " +
+                "HERMITIAN-PART one, 0.0 on every graph and at every J including pi*1e8, and " +
+                "structurally so (on this block every basis element has col = 0, so an off-diagonal is " +
+                "-i*H[r,c] with H real and symmetric bit-for-bit; the bra-ket disagreement has popcount " +
+                "1, so the dephasing contribution is the SINGLE term -2*gamma_site and not a sum; and " +
+                "the H diagonal adds exactly +0.0 to the real part). It is asserted as an exact 0.0, " +
+                "and if it ever stops being exact that is a finding about the builder, not a tolerance " +
+                "to widen. THE OTHER TWO GROW WITH J AND ARE SCALED. The per-mode residual is an " +
+                "eigensolver quantity at about eps*norm(M): on ONE family, so that the series is a " +
+                "series, uniform chain N=6 gives 1.3e-15 at J=1, 1.1e-10 at 1e5, 3.4e-8 at 1e8. " +
+                "The GENERATOR residual is the one that fooled two rounds in OPPOSITE directions. All " +
+                "of it sits on the diagonal, where H[r,r] - H[0,0], a floating sum over bond terms, is " +
+                "compared against a directly summed degree; for any coupling that divides by 4 and adds " +
+                "without rounding (1, 0.7, 1.3, 0.4+0.9b, 1e5 and 1e8 are ALL such) the two agree bit " +
+                "for bit and it reads 0.0. Off that grid it appears and grows linearly in J: 0.0 at " +
+                "J=pi, 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8. So its scaled threshold " +
+                "IS earned. An earlier round measured only dyadic rows, read the zeros as exactness, " +
+                "and wrote that the scaling was 'a loosening with nothing behind it'; the gate now " +
+                "carries a pi*1e8 row that fails a flat 1e-12 by four orders. Three zeros on powers of " +
+                "ten is what the wrong conclusion looks like from the inside. " +
                 "(ii) ORIENTATION, AND IT IS A LABEL COLLISION, not just a sign. The convention here is " +
                 "JointPopcountSectorBuilder's (PCol, PRow) = (bra, ket), which agrees with MirrorWorld's " +
                 "Block (P = bra, Q = ket), so (0,1) here is |1-exc><vac| and carries +i. D10:139 writes " +
@@ -3634,7 +3645,7 @@ public static class OpenArcsRegistry
                 "M is not orthonormal. " +
                 "Non-normality costs nothing, because Re lambda is the Rayleigh quotient of " +
                 "Herm(M) = -2*diag(gamma) on the right eigenvector, eigenvector by eigenvector. Herm(M) " +
-                "is now gated DIRECTLY (residual < 1e-14) rather than through a bracket with slack, since " +
+                "is now gated DIRECTLY, as an EXACT 0.0, rather than through a bracket with slack, since " +
                 "Bendixson is a theorem and a theorem standing in for a gate cannot fail. " +
                 "(iv) 'A PROFILE OPENS THE FLOOR LINE' IS FALSE IN GENERAL. At N=2 the 2x2 block has " +
                 "Re-split 2*sqrt(d^2 - J^2/4), d = |gamma_1 - gamma_0| the PLAIN difference of the two rates "
@@ -3677,8 +3688,9 @@ public static class OpenArcsRegistry
                 "STILL NOT UNBLOCKED, and the reason is sharper than before. The OPERATOR is now " +
                 "witnessed, but CONCENTRATOR_GEOMETRY:180 and OPEN_QUESTIONS_INDEX:1646 ('psi_opt has no " +
                 "known closed form') rest on a different number: the overlap at the IBM Torino profile " +
-                "[2.336, 0.099, 0.050, 0.072, 0.051], where the adjacency form gives 0.9249 and the " +
-                "Laplacian form 1.0000. The witness renders the open chain at a deep-edge profile, so it " +
+                "[2.336, 0.099, 0.050, 0.072, 0.051], where the adjacency form gives 0.9249 at its own hopping " +
+                "amplitude 1 and the Laplacian form 1.0000 at witness J = 4 (the two live on DIFFERENT " +
+                "scales, see item (3) below before building anything). The witness renders the open chain at a deep-edge profile, so it " +
                 "does NOT reproduce that comparison, and nothing committed does. THE NEXT MOVE is " +
                 "therefore that gate: the IBM-profile overlap between the slowest eigenvector of M and " +
                 "the recorded psi_opt row, as a witness node or a test, and only then the two prose " +
@@ -3710,10 +3722,12 @@ public static class OpenArcsRegistry
                 "(3) THE ADJACENCY LEG IS NOT ON THAT AXIS AT ALL, and this paragraph named only two " +
                 "conventions on its first pass while opening with a warning against naming only one. " +
                 "The falsified hypothesis is H_eff = -J*adjacency - i*diag(gamma), and its 0.9249 is at " +
-                "hopping amplitude 1, not at the Laplacian form's J. Carried to J = 4 it gives 0.8784, " +
-                "and at hopping 2 (the amplitude the Laplacian form's -2*A matches at Pauli J = 1) it " +
-                "gives 0.8991. A gate that reproduces BOTH legs of the falsification has to hold the " +
-                "two forms on their own scales; do not read 0.9249 as a Pauli-J=1 number. " +
+                "hopping amplitude 1, not at the Laplacian form's J. THE TWO MEANINGFUL LEGS ARE 0.9249 at hopping 1, which is the " +
+                "recorded number, and 0.8991 at hopping 2, which is the amplitude matching this physical " +
+                "system because the Laplacian form's -2*A absorbs the factor. Carrying the adjacency form " +
+                "to 'J = 4' gives 0.8784, and that number belongs to NO scale of the recorded system: it " +
+                "is precisely the naive factor-4 carry this paragraph forbids, and it is listed here only " +
+                "so nobody rediscovers it and believes it. Do not read 0.9249 as a Pauli-J=1 number. " +
                 "When the repairs are made, note that the closed form is for M and NOT " +
                 "for its spectrum: M is non-normal, diag(gamma) " +
                 "and the Laplacian do not commute, so psi_opt is still diagonalized for and not read " +

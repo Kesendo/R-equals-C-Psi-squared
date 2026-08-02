@@ -219,8 +219,9 @@ public sealed class BlockSpectrumWitness : IInspectable
     /// COUNT d_real = 2N on that line, a different statement);
     /// a profile generally opens it into an interval around the same −2·γ̄. GENERALLY, not always:
     /// at N=2 the 2×2 block splits by 2·√(d² − c²/4), with d = |γ₁ − γ₀| the plain difference of the
-    /// two rates and c the TOTAL coupling between the two sites (the sum over bonds, since this
-    /// method takes an H and not a J), and stays closed once |c| ≥ 2d. Read the measured span rather
+    /// two rates and c the total coupling between the two sites, which for a general H is
+    /// c = 2·|H[|10⟩, |01⟩]| (the ZZ part never reaches Re at all) and for any XXX bond list is the
+    /// sum of the bond couplings, and stays closed once |c| ≥ 2d. Read the measured span rather
     /// than assuming it opened.</summary>
     public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(ComplexMatrix h, int n, IReadOnlyList<double> gammaPerSite)
     {

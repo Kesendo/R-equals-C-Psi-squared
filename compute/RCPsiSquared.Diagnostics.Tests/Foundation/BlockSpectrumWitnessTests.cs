@@ -21,10 +21,12 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// threshold (3d-scale), the Bendixson and trace corollaries (3e), and the N=2 case where the floor
 /// line does NOT open (3f). Two things are deliberate. The graph rows: on a uniform-J chain or ring
 /// a global site-versus-bit reversal cancels, so the per-bond-J and star rows are what make the
-/// ordering falsifiable. And which gates carry a SCALED threshold: measured, the generator and
-/// Hermitian-part residuals are bit-exact zeros even at J=1e8, so only the per-mode residual (an
-/// eigensolver quantity, ~eps·‖M‖) actually grows with J, and only it is scaled. An earlier round
-/// had this backwards and scaled the two exact ones.</para></summary>
+/// ordering falsifiable. And which gates carry a SCALED threshold, which took two rounds and a
+/// measurement off the dyadic grid to settle: ONE of the three residuals is bit-exact, the
+/// Hermitian-part one, structurally and at every J (3c asserts an exact 0.0). The other two grow
+/// with J and are scaled — the generator residual linearly once the coupling is not binary-exact
+/// (0.0 at J=1e8 but 6.0e-08 at pi*1e8), the per-mode one as eps·‖M‖. Measuring only on
+/// powers of ten shows three zeros and invites exactly the wrong conclusion.</para></summary>
 public class BlockSpectrumWitnessTests
 {
     [Fact]
@@ -196,17 +198,23 @@ public class BlockSpectrumWitnessTests
             $"[{label} N={n}] entry-wise generator residual {residual:E3} exceeds 1e-13*scale ({1e-13 * scale:E3})");
     }
 
-    // Gate 3b-large-J: the same identity far off J=1. Measured, this residual is bit-exact 0.0 on a
-    // UNIFORM chain at every J tried including 1e8 (J/4, the Laplacian's integer sums and the factor
-    // 1/2 are all exact in binary); the only rows carrying a nonzero residual are the non-dyadic
-    // per-bond and star ones, at ~4e-16 regardless of J. So these rows are coverage at another
-    // magnitude, NOT the proof that the threshold must scale -- an earlier round claimed they were,
-    // and the J=1e5 row in fact has the smallest residual in the suite. The gate that genuinely
-    // needs a scaled threshold is 3d.
+    // Gate 3b-large-J: the same identity far off J=1, and the row that EARNS 3b's scaled threshold.
+    //
+    // Read the last row before believing any of the others. The residual lives entirely on the
+    // diagonal, where H[r,r] - H[0,0] (a floating sum over bond terms) is compared against the
+    // directly summed degree: two different summations of the same exact value. For couplings that
+    // divide by 4 and add without rounding -- 1, 0.7, 1.3, 0.4+0.9b, 1e5, 1e8 are all such -- the
+    // two agree bit for bit and the residual is 0.0, which is why the powers-of-ten rows below say
+    // nothing about scaling. Take a coupling off that grid and it appears and grows LINEARLY in J:
+    // measured 0.0 at J=pi, 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8. An earlier
+    // round measured only the dyadic rows, read the zeros as exactness, and wrote that this gate's
+    // scaled threshold was "a loosening with nothing behind it". It is not; the pi*1e8 row below
+    // fails a flat 1e-12 by four orders.
     [Theory]
     [InlineData(4, 1e5)]
     [InlineData(6, 1e8)]
     [InlineData(6, 1e-4)]
+    [InlineData(6, 3.141592653589793e8)]
     public void SiteResolvedBandEdgeBlock_GeneratorIdentity_HoldsFarFromJEqualsOne(int n, double j)
     {
         var gamma = AsymmetricGamma(n);
@@ -259,10 +267,13 @@ public class BlockSpectrumWitnessTests
     // corollaries of this; asserting only them leaves a theorem standing in for a gate.
     //
     // BIT-EXACT, and the assertion says so rather than allowing a tolerance. It is exact by
-    // construction, not by luck: BuildBlockZ writes the off-diagonals as -i*H[r,c] with H real and
-    // its two mirror entries accumulated from the same terms in the same order, so (m[r,c] +
-    // conj(m[c,r]))/2 cancels bit for bit; and the diagonal real part is the dephasing sum written
-    // directly, so adding 2*gamma[site] gives exactly 0. Measured 0.0 at J = 1e8 as well as at J=1,
+    // construction, not by luck, and it takes four legs: (a) on this block every basis element has
+    // col = 0, so only the first H term fires and an off-diagonal is exactly -i*H[row_r,row_c];
+    // (b) H is real symmetric with its two mirror entries accumulated from the same terms in the
+    // same order, so (m[r,c] + conj(m[c,r]))/2 cancels bit for bit; (c) the bra-ket disagreement
+    // here has popcount 1, so the dephasing contribution is the SINGLE term -2*gamma_site and not a
+    // sum that could round; (d) the H diagonal adds exactly +0.0 to the real part. (c) and (d) are
+    // why this holds on the star and per-bond rows too, where the GENERATOR residual does not. Measured 0.0 at J = 1e8 as well as at J=1,
     // so a SCALED threshold here would be a loosening with nothing behind it -- an earlier round put
     // one in, with a J=1e5 row whose stated justification ("a flat 1e-14 would fail on rounding
     // alone") was simply false. If this ever stops being exact, that is a real finding about the
@@ -273,7 +284,7 @@ public class BlockSpectrumWitnessTests
     {
         var gamma = AsymmetricGamma(n);
         double residual = BlockSpectrumWitness.HermitianPartResidual(n, bonds, gamma);
-        Assert.Equal(0.0, residual);
+        Assert.True(residual == 0.0, $"[{label} N={n}] Herm(M) + 2*diag(gamma) is not bit-exact 0: {residual:E3}");
     }
 
     // Gate 3c-large-J: the same exactness at J = 1e5 and 1e8, where the entries are 13 orders above
@@ -284,7 +295,8 @@ public class BlockSpectrumWitnessTests
     public void SiteResolvedBandEdge_HermitianPart_StaysExactAtLargeJ(int n, double j)
     {
         var gamma = AsymmetricGamma(n);
-        Assert.Equal(0.0, BlockSpectrumWitness.HermitianPartResidual(n, Chain(n, _ => j), gamma));
+        double residual = BlockSpectrumWitness.HermitianPartResidual(n, Chain(n, _ => j), gamma);
+        Assert.True(residual == 0.0, $"[N={n} J={j}] Herm(M) + 2*diag(gamma) is not bit-exact 0: {residual:E3}");
     }
 
     // Gate 3d: the MASTER statement, and it belongs to AbsorptionTheoremClaim, not to this witness:
@@ -298,10 +310,11 @@ public class BlockSpectrumWitnessTests
     // cross-check that ties this block to its typed parent's per-channel law, and as the executable
     // form of "non-normality costs nothing here", not as independent evidence.
     //
-    // This is the ONE of the three residuals that is genuinely inexact and genuinely grows with J,
-    // which is the opposite of what an earlier round assumed: measured 5.3e-15 at J=1, 1.1e-10 at
-    // J=1e5, 3.4e-8 at J=1e8, while the other two are bit-exact zeros throughout. So the scaled
-    // threshold belongs HERE, and the large-J row below is what earns it. The error model is plain
+    // This residual is inexact at every J and grows as eps*||M||. On ONE graph family so the series
+    // is a series: uniform chain N=6, 1.3e-15 at J=1, 1.1e-10 at J=1e5, 3.4e-8 at J=1e8. (An earlier
+    // round anchored this same series at 5.3e-15, which is the chain-perbond row -- a different
+    // family, four times the J=1 baseline. Do not mix rows inside a scaling claim.) So the scaled
+    // threshold belongs here, and the large-J row below is what earns it. The error model is plain
     // backward error: the residual compares an eigenvalue against the Rayleigh quotient of the SAME
     // computed eigenvector, so writing r = Mv - lambda*v it is bounded by ||r||/||v|| ~ eps*||M||.
     // The eigenvector conditioning does NOT enter -- an earlier round claimed it did and used that
@@ -373,8 +386,12 @@ public class BlockSpectrumWitnessTests
     }
 
     // Gate 3f: the N=2 exception the prose must not paper over. The 2x2 block splits by
-    // 2*sqrt(d^2 - J^2/4) with d = |gamma_1 - gamma_0| the plain difference of the two rates, so for J >= 2d the two
-    // eigenvalues have EQUAL Re and the line does not open at all. So "a profile opens the line" is
+    // 2*sqrt(d^2 - J^2/4) with d = |gamma_1 - gamma_0| the plain difference of the two rates, so once
+    // |J| >= 2d the two eigenvalues have EQUAL Re and the line does not open at all. (|J|, not J:
+    // the sign of the coupling never reaches Re, which is why the witness's own doc states the
+    // criterion in the total coupling |c| -- BandEdgeSectorReSpan takes an H and not a J, and for a
+    // multi-bond two-site graph c is the SUM of the bond couplings. This gate scans positive J.)
+    // So "a profile opens the line" is
     // false in general, and the witness renders that sentence conditionally on the measured width.
     [Theory]
     [InlineData(1.0)]            // below 2d = 1.5: the line opens
