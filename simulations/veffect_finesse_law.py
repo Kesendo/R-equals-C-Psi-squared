@@ -67,6 +67,33 @@ def ring_laplacian(n):
 LAPLACIAN = {"chain": path_laplacian, "star": star_laplacian, "ring": ring_laplacian}
 
 
+def _liouvillian(n, gamma, j=J):
+    """Full 4^N Liouvillian of the Heisenberg chain under uniform Z-dephasing, row-major vec.
+    Only needed for the decay-class check below; everything else here is N x N Laplacians."""
+    i2 = np.eye(2, dtype=complex)
+    px = np.array([[0, 1], [1, 0]], dtype=complex)
+    py = np.array([[0, -1j], [1j, 0]], dtype=complex)
+    pz = np.array([[1, 0], [0, -1]], dtype=complex)
+
+    def at(op, site):
+        m = np.array([[1.0 + 0j]])
+        for k in range(n):
+            m = np.kron(m, op if k == site else i2)
+        return m
+
+    d = 2 ** n
+    h = np.zeros((d, d), dtype=complex)
+    for b in range(n - 1):
+        for p in (px, py, pz):
+            h += j * at(p, b) @ at(p, b + 1)
+    idm = np.eye(d, dtype=complex)
+    lio = -1j * (np.kron(h, idm) - np.kron(idm, h.T))
+    for l in range(n):
+        zl = at(pz, l)
+        lio += gamma * (np.kron(zl, zl.T) - np.kron(idm, idm))
+    return lio
+
+
 def bond_laplacian(n, bonds):
     """Laplacian of an arbitrary bond list, for the degree-bound counterexamples below."""
     L = np.zeros((n, n))
@@ -220,5 +247,65 @@ if __name__ == "__main__":
     ok &= good
     print(f"  {'PASS' if good else 'FAIL'}  random max-degree-2 graphs ({len(spectra)} distinct "
           f"Laplacian spectra): worst Q {worst:.4f} <= {ceiling:.0f}")
+    # The shell is a ROUNDING (assign_grid rounds -Re/2gamma to the nearest integer), and a
+    # rounding is not a decay class. On the exact line Re = -2*gamma the count agrees with the
+    # (0,1) block at every N from 3 up; the dump's richer shell counts at N=3 and N=4 are other
+    # decay classes rounded into bin k=1. N=2 is the one real overlap: there the (1,1) block
+    # mixes a population (Re 0) with a distance-2 coherence (Re -4*gamma) and leaves the pair
+    # at the midpoint -2*gamma. Two gammas, so a coincidence at one of them cannot pass.
+    # The shell is a rounded BIN (assign_grid rounds -Re/2gamma to the nearest integer), so it
+    # is not the rate line. Three separate things are asserted here, because an earlier version
+    # of this check asserted only the oscillating count and so could pass while the statement
+    # about the line as a whole was false:
+    #   (1) the line's TOTAL content on the chain is 6N-4, not 4N: the four distance-1 blocks
+    #       contribute 4N, and the remaining 2(N-2) are the total-spin ladder S^- P_m, which
+    #       commutes with H and is built from distance-1 coherences only;
+    #   (2) its OSCILLATING content is the (0,1) block's, 4(N-1) modes with N-1 frequencies;
+    #   (3) what the bin collects beyond the line is gamma-dependent, so the quoted numbers are
+    #       pinned rather than printed.
+    PULLED = {(3, GAMMA): 14, (4, GAMMA): 15, (4, 0.137): 25}
+    print("\nthe rate line Re = -2*gamma against the shell's rounded bin k=1 (chain)")
+    for n in range(3, 6):
+        for gam in (GAMMA, 0.137):
+            w = np.linalg.eigvals(_liouvillian(n, gam))
+            on_line = w[np.abs(w.real + 2 * gam) < 1e-9]
+            osc = on_line[np.abs(on_line.imag) > 1e-9]
+            f_line = np.unique(np.round(np.abs(osc.imag), 6))
+            mu = np.linalg.eigvalsh(path_laplacian(n))
+            f_blk = np.unique(np.round(2 * J * mu[mu > 1e-9], 6))
+            pulled = int((np.rint(-w.real / (2 * gam)) == 1).sum()) - len(on_line)
+            good = (len(on_line) == 6 * n - 4
+                    and len(osc) == 4 * (n - 1)
+                    and len(f_line) == len(f_blk) and np.allclose(f_line, f_blk, atol=1e-6)
+                    and pulled == PULLED.get((n, gam), pulled))
+            ok &= good
+            print(f"  {'PASS' if good else 'FAIL'}  N={n} gamma={gam:<5} line holds "
+                  f"{len(on_line):>2} (6N-4 = {6*n-4}), {len(osc):>2} oscillating "
+                  f"(4(N-1) = {4*(n-1)}), {len(f_line)} distinct (block has {len(f_blk)}); "
+                  f"bin pulls in {pulled}")
+
+    print("  the extra 2(N-2) are the total-spin ladder, exactly on the line:")
+    for n in (3, 4, 5):
+        worst = 0.0
+        for gam in (GAMMA, 0.9):
+            lio = _liouvillian(n, gam)
+            d = 2 ** n
+            for m in range(1, n + 1):
+                v = np.zeros((d, d), dtype=complex)
+                for s in range(d):
+                    if bin(s).count("1") != m:
+                        continue
+                    for l in range(n):
+                        if (s >> l) & 1:
+                            v[s ^ (1 << l), s] += 1.0
+                if not v.any():
+                    continue
+                vec = v.reshape(-1) / np.linalg.norm(v)
+                worst = max(worst, float(np.abs(lio @ vec + 2 * gam * vec).max()))
+        good = worst == 0.0
+        ok &= good
+        print(f"  {'PASS' if good else 'FAIL'}  N={n} max |L(S^- P_m) + 2*gamma*S^- P_m| "
+              f"= {worst:.1e} at gamma = {GAMMA} and 0.9")
+
     print("\nall checks pass" if ok else "\nFAILURES above")
     sys.exit(0 if ok else 1)

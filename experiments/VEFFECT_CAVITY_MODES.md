@@ -182,9 +182,9 @@ every mode of that block decays at 2γ under uniform γ, and
 That is a law about ONE sub-block, and D10 §Step 6 is explicit that the sub-block
 is not the sector: at N = 5 it is 5-dimensional inside a 160-dimensional
 XY-weight-1 Pauli space. But the shell counted in the table above is not that
-space either. The shell is a decay class, the eigenvalues with Re λ ≈ −2γk, and
-not a Pauli sector at all. Against the shell the law can supply more than the
-maximum, and at N = 5 it supplies all of it. The shell there holds 28
+space either. The shell is a rounded bin around a decay rate, the eigenvalues whose
+Re λ / 2γ rounds to k, and not a Pauli sector at all. Against the shell the law
+can supply more than the maximum, and at N = 5 it supplies all of it. The shell there holds 28
 eigenvalues, 16 of them oscillating, and those 16 carry exactly four distinct
 frequencies: 0.7639, 2.7639, 5.2361, 7.2361, the four nonzero 2J·μ of this
 block's Laplacian. Four-fold each, because four blocks carry that generator:
@@ -194,10 +194,26 @@ conjugated, each entry-wise at machine zero
 Four values, four times each, is why the shell's median Q is
 (27.64 + 52.36)/2 = 40.0 and its maximum 72.36.
 
-That the shell has nothing else in it is N=5's and N=6's, not a law. The Result 4
-dump counts 5 distinct shell frequencies at N=3 against the block's 2, and 6 at
-N=4 against 3. What holds at every N is the maximum, and that is what the gate
-checks.
+The dump's counts make N=3 and N=4 look like exceptions: 5 distinct shell
+frequencies at N=3 against the block's 2, and 6 at N=4 against 3. They are not.
+A mode enters shell k by rounding Re λ / 2γ to the nearest integer, so the shell
+is a bin and not a rate. On the exact line Re λ = −2γ the chain's OSCILLATING
+content is this block's: 4(N−1) modes carrying its N−1 frequencies, measured at
+N = 3, 4, 5 and at γ = 0.05 and γ = 0.137 alike. What bin k=1 additionally
+collects has a real part that is no multiple of 2γ at all, and how much it
+collects depends on γ: at γ = 0.05 it is 14 modes at N=3 and 15 at N=4, at
+γ = 0.137 it is 25 at N=4.
+
+The line carries more than the four blocks, though nothing else that oscillates.
+On the chain it holds 6N−4 eigenvalues, the extra 2(N−2) being the total-spin
+ladder S⁻P_m, which commutes with H and is built entirely from distance-1
+coherences, so it sits at −2γ for the same reason the blocks do (residual exactly
+0, at γ = 0.05 and γ = 0.9). The full composition of that line, including how a
+mode of MIXED light content can reach it (the repository's {0,2}-coherence, whose
+n_diff histogram {0: ½, 2: ½} averages to 1), belongs to the Absorption Theorem
+and is the `site_resolved_vacuum_block` arc's, not this document's. Both readings
+above are the CHAIN's; the ring at N=4 puts extra oscillating modes on the same
+line.
 
 What this section adds is the graph-general reading. D10, F2 and F7 are all scoped
 to the chain, and one line of the derivation is not: E_ferro·Id − H₁ = 2J·𝓛 holds

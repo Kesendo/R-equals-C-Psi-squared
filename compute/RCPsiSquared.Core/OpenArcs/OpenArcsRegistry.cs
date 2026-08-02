@@ -3596,7 +3596,28 @@ public static class OpenArcsRegistry
                 "along: VacuumBlockReductionClaim scopes (0,1) dominance to N=5 and at N>=6 a {0,2}-coherence in " +
                 "the (2,2) block can be the global slowest (simulations/birth_canal_n6_mode_crossing.py); and D10 " +
                 "Step 6 says the (0,1) block is NOT the whole XY-weight-1 sector (5 dimensions against 160 at " +
-                "N=5). (d) Repo hygiene the survey turned up. DONE 2026-08-02, in the commit that opened this " +
+                "N=5). (c2) WHAT THE -2*gamma LINE IS MADE OF, opened by Tom reading the Absorption Theorem " +
+                "into it (2026-08-02) and the reason the F50 fence in (c) is still too weak. The line is " +
+                "Re = -2*gamma, and by the Absorption Theorem (Re = -2*gamma*<n_XY>, with n_XY(|A><B|) the " +
+                "Hamming distance) that is the <n_XY> = 1 line: AVERAGE light content 1, not weight 1. Two ways " +
+                "to sit on it, and the repo already names both halves without ever stating the dichotomy. PURE " +
+                "distance-1 content: the four blocks, plus, measured here and not previously noted in this " +
+                "corner, the total-spin ladder S^-P_m, which commutes with H and is built from distance-1 " +
+                "coherences alone, so L(S^-P_m) = -2*gamma*S^-P_m at residual EXACTLY 0 (gamma = 0.05 and 0.9, " +
+                "N = 3,4,5). On the chain the line holds 6N-4 eigenvalues: 4N from the blocks, 2(N-2) from the " +
+                "ladder, and the oscillating ones are the blocks' 4(N-1) alone. MIXED content averaging to 1: " +
+                "the repo's {0,2}-coherence, histogram {0: 1/2, 2: 1/2}, named in ANALYTICAL_FORMULAS' " +
+                "coherence-horizon entry, CoherenceHorizonClaim and PROOF_CHAIN_GAP_DOMINANCE, which says " +
+                "outright that the band edge and the {0,2} EP share Re = -2*gamma 'only because the Absorption " +
+                "Theorem pins both'. THE CONTRADICTION WORTH FIXING FIRST, and partly fixed in this commit: " +
+                "AbsorptionTheoremClaim's own docstring stated as a general rule that mixing across weight " +
+                "sectors gives non-integer <n_XY> and lands BETWEEN the rungs. Four typed objects exhibit the " +
+                "opposite (the {0,2} family, LEffMirrorAxisClaim at <n_XY> = 2, WEIGHT2_KERNEL's non-pure mode " +
+                "at -4*gamma, HandoverFloorClaim's arrival at the floor). The docstring is repaired; what is " +
+                "NOT done is the converse fence on F50 itself, which several places still assert as a " +
+                "biconditional (simulations/f50_weight1_commutant_efficient.py and PROOF_WEIGHT1_DEGENERACY, " +
+                "both safe only because they restrict to REAL lambda, and neither says so). " +
+                "(d) Repo hygiene the survey turned up. DONE 2026-08-02, in the commit that opened this " +
                 "arc: D10 Step 6 had backed its correct scope claim with 21 'frequencies of the w=1 sector', " +
                 "which are the spectrum of a COMPRESSION onto a span D10's own Step 2 proves non-invariant (leak " +
                 "39.2 at N=5) and whose uniform Re = -2*gamma the compression manufactures; D10's verification " +
