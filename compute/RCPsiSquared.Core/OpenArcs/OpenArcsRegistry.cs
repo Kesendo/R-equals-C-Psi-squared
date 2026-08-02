@@ -3208,7 +3208,75 @@ public static class OpenArcsRegistry
                 "level-crossing; (e) the same retracted 'what is remembered, the rates, stays put, and what changes, " +
                 "the phases of the modes, is what rotates' reading is still live one document further out, in " +
                 "reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md:29. This is claim-surface: empty rounds before it lands.",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-08-01, after five review rounds, none of them empty. " +
+                "WHAT LANDED: the five sites in experiments/THE_PALINDROME_CLASSIFIER.md are repaired, and the " +
+                "orphan artifact is an orphan no longer. simulations/two_coast_sweep.py recomputes both coasts " +
+                "from below, with the parameters in its header, the nine radian-ladder angles recovered exactly " +
+                "from the source column four-decimal rounding, and OPTIMAL (bottleneck) pairing adapted onto the " +
+                "cockpit own spectrum_pairing_error; it writes simulations/results/two_coast_sweep.tsv and " +
+                "replots two_edges.png. The superseded greedy plotter simulations/protection_landscape.py is " +
+                "deleted. tilt_sweep_csharp.tsv stays as the verdicts source only, and its runner is still not in " +
+                "the repo. reflections/ON_FORGETTING.md and reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md were " +
+                "carried along. " +
+                "DO NOT QUOTE THE NUMBERS IN ParkedAt ABOVE: three of them are the greedy matcher, not the " +
+                "physics. Deepest break 0.1196 at 57.5 deg is greedy (optimal: 0.035329 at 38.0 deg); 26 " +
+                "percent in the rates at that point is greedy (optimal: 1.0000); 70 of 189 below the median is " +
+                "greedy (optimal: 19 of 189). " +
+                "THE FINAL READING, every number measured under the optimal metric at N=4, gamma=0.05, 190 angles " +
+                "per coast. The greedy column overshoots by more than a percent at 26 of the 190 field angles and " +
+                "56 of the 190 frustration angles. FIELD: the break is exactly 2 sigma*theta^2 (1.218347e-4 at 1 " +
+                "deg, a factor 99 by 10 deg, the law good to a percent out to 10 deg); depth 0.400000 = 2 sigma at " +
+                "90 deg, which is the meter CEILING for any Hermitian H (pair each lambda with its conjugate: " +
+                "|2 Re lambda + 2 sigma| <= 2 sigma); rate-only 5.055e-15 there; the break is purely a rate break " +
+                "out to 35.0 deg and parts at 35.5 deg, exactly where the rate drift peaks at 0.132519. " +
+                "FRUSTRATION: quadratic too, 2.79*phi^2 in degrees, but that law is good to a percent only below " +
+                "2.6e-4 deg and is already 20 percent low at 1e-3 deg; the handover is NON-MONOTONE (3.0028e-5 at " +
+                "2.1e-3 deg down to 1.9105e-5 at 2.7e-3 deg, a third, in the optimal meter); then a shoulder from " +
+                "3e-5 at 0.006 deg to 8e-5 at 0.06 deg; deepest 0.035329 at 38.0 deg with rate share 1.0000, " +
+                "0.013750 at 80 deg, 0.019856 at 90 deg. First sampled step 3.083413e-5 against the field " +
+                "3.9588e-9, a factor 7744. Rates are the whole break at 170 of the 189 angles off the protected " +
+                "point; the exceptions are 17 angles below 4 deg plus 80.5 and 81.0. VERDICTS: the Soft-to-Hard " +
+                "step is the 1e-6 tolerance crossed on a continuous ramp, at 0.0906 deg on the field (the grid " +
+                "first records Hard at 0.1146 deg) and near 0.0006 deg on frustration; only the truly label, an " +
+                "exact operator identity, switches at zero. BUDGET: a 1 deg field tilt costs 1.2e-4 and " +
+                "frustration costs that at about 0.08 deg, so 12x at device scale; the asymptotic ratio is 151x " +
+                "and goes as gamma^-2 (9.5 / 151.4 / 605.0 at gamma = 0.2 / 0.05 / 0.025) while the device-scale " +
+                "one barely moves (11 / 12 / 25), so their order swaps at gamma=0.2 and the device-scale figure is " +
+                "the one to design against. AGGREGATE, which the worst-case meter hides: at field 90 deg 230 of " +
+                "the 256 eigenvalues sit exactly on the mirror and of the 26 that do not, 24 miss by 0.20 and 2 by " +
+                "0.40; at frustration 38 deg none of the 256 is exact and the median miss is 4.061e-4. CONTROLS: " +
+                "the frequency-only test is 1.3e-13 or below at every angle on both coasts and CANNOT fail (L " +
+                "maps Hermitian to Hermitian, so the spectrum is conjugate-closed and the imaginary-part multiset " +
+                "is symmetric identically); the rate-only test is a RELAXATION of the full one, not an independent " +
+                "test, since projecting a matching onto the real axis cannot lengthen an edge. The 90 deg witness: " +
+                "lambda = -0.4 - 8i, promised 0 + 8i, nearest actual -0.4 + 8i, dRe = 0.4000, dIm = 0.0000. " +
+                "MECHANISM: a longitudinal field commuting with the rest of the Hamiltonian is INERT on the rate " +
+                "list (the derivation gives unchanged, which is all it gives); it does NOT put the rates on the " +
+                "mirror. Counterexample: the frustration Hamiltonian at 38 deg on three sites plus h*Z on the " +
+                "fourth commutes trivially by disjoint support and the rate break stays 1.170227e-2 at h = 0, " +
+                "0.5, 1 and 5 alike. Uniformity is how a U(1)-conserving chain comes by that commutation (the N=3 " +
+                "case MIRROR_SYMMETRY_PROOF:229 records) and is not the criterion: an Ising ZZ chain keeps the " +
+                "rates under every longitudinal profile. Nor is uniform-or-not a switch: 1.8e-4 at eps=0.01 and " +
+                "1.3e-6 at eps=1e-4 for the profile (1,1,1,1+eps). NOT ADOPTED: the closed form 2 sigma*sin^2 " +
+                "(theta) for the field coast is exact at 0 and 90 deg and 6.25e-4 relative off at 45 deg, so it " +
+                "stayed out. " +
+                "WHAT THE ROUNDS COST, and it is the durable part. THREE separate readings in this document were " +
+                "the sampling grid talking and nothing else: the frustration cliff, the 99.3 percent phase " +
+                "doorstep, and the Soft-to-Hard switch. Two of the three were written IN THIS SESSION as " +
+                "repairs of the first. A grid first point is not a limit and a tolerance crossing is not a " +
+                "discontinuity; follow the transition BELOW the grid before calling it discrete. The mechanism " +
+                "claim rested on four bond sets that were ALL rate-mirror-symmetric on their own, so within that " +
+                "sample inertness and protection could not come apart: ask what your cases quietly share before " +
+                "generalising. An asymptotic law was spent outside its own validity range twice, the second time " +
+                "in the paragraph next to the one warning about it. My own overshoot count of 106/116 counted the " +
+                "rounding of a seven-digit column as overshoot. And a line-range edit silently TRUNCATED a " +
+                "paragraph mid-sentence, caught only by a reviewer. See the memory " +
+                "corrections_introduce_errors_of_the_same_shape, entries 39 to 42. " +
+                "HANDED OFF: the F115 scope questions to the new arc f115_valuation_gate_width; the corrected " +
+                "parameter-side wording, as a template for F91 own fence, to f91_scope_fences; and one small " +
+                "open thread, that the sweep has no bond terms so its Liouvillian factorizes over sites and an " +
+                "EXACT closed form for the field coast is reachable from the single-site Bloch generator."),
 
         new OpenArc(
             Name: "ninety_degree_family_bookkeeping",
@@ -3248,7 +3316,14 @@ public static class OpenArcsRegistry
                 "are different triples, and that thesis DECIDED on 2026-07-16 that the clocks are pairwise distinct and " +
                 "share only the scalar i. A cold reviewer reading three of these documents will report the family as a " +
                 "fusion error; it is not, but the STEP matters, and the F1 spectrum palindrome is the family's " +
-                "HALF-turn, not one of the three quarters.",
+                "HALF-turn, not one of the three quarters. UPDATE 2026-08-01 evening, so a later session does not " +
+                "re-derive from a wording that is gone: the F91 clause of the anchor line " +
+                "ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md:29 has been repaired (it carried the retracted 'what is " +
+                "remembered, the rates, stays put'; it now names the mirror-pair totals, see f91_scope_fences for " +
+                "the exact wording and why the two intermediate versions were wrong). The counting sentence " +
+                "itself, 'a ninety degrees typed twice before it came back a third time', and the naming, 'It is " +
+                "named the mirror memory', are UNTOUCHED and are still what this arc's Origin cites. The three " +
+                "contradictions below are all still open.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
@@ -3283,7 +3358,130 @@ public static class OpenArcsRegistry
                 "eight rounds on a SIBLING document: five of the eight rounds' top finding was an error the previous " +
                 "repair had introduced, and the two worst were a universal quantifier copied from a source that meant " +
                 "a median, and a deletion that removed a counterexample. Fix small, re-measure each number, and put " +
-                "the post-fix state through its own empty round.",
+                "the post-fix state through its own empty round. UPDATE 2026-08-01 evening: a SIBLING document now " +
+                "carries the corrected parameter-side wording, and it is the template for fence (1) here. " +
+                "reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md used to say 'rotate the noise distribution by " +
+                "ninety degrees and the spectrum holds while only the forms turn'; a first repair made that 'the " +
+                "diagonal blocks hold, cell for cell', which a review then showed is VACUOUS on the locus (R90 is " +
+                "the identity there, finding (2) of this arc's own list) and false off it. What it says now is the " +
+                "form to copy: 'the reshuffle gamma_l -> 2*gamma_avg - gamma_{N-1-l}, which leaves every mirror " +
+                "pair's total unmoved, and any two profiles that agree on those totals pair by pair carry the same " +
+                "F71-refined diagonal blocks of the Liouvillian, cell for cell'. Note what that phrasing avoids: " +
+                "it never says R90 ACTS to preserve anything, it names the invariant (the indexed pair-sums) and " +
+                "the object (the F71-refined diagonal blocks), and it keeps the ninety in the sentence so the " +
+                "three-faces link survives. The basis-relative fence still has to be added beside it.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "f115_valuation_gate_width",
+            Opened: "2026-08-01",
+            Origin: "scoping the closed-form section of experiments/THE_PALINDROME_CLASSIFIER.md to what the code " +
+                "actually certifies (the two_coast_classifier_repair rounds) opened two gaps between F115's " +
+                "registry statement and the shipped certifier. Both are about how WIDE the (1+x)-valuation " +
+                "criterion really is, neither is the experiment's business, and the experiment no longer " +
+                "over-claims: it now states the gate as the code has it and carries the window floor.",
+            ParkedAt: "TWO GAPS, both open. (1) THE Y-PARITY GATE. " +
+                "PalindromeSoftCertifier.CertifyHardByDiagonalCellValuation requires terms.Count == 2, " +
+                "IsBitBHomogeneous, AND yPar0 == yPar1; ANALYTICAL_FORMULAS F115 statement 1 states the criterion " +
+                "with no y-parity condition ('a Z-dephasing diagonal-cell Mixed pair is hard iff the valuations " +
+                "differ'). Enumerated from below here, over the IXYZ alphabet with the CellTerms gate (X/Y count " +
+                "even and >= 2, #(Y/Z) odd): strings 12 / 56 / 240 at k = 3 / 4 / 5, distinct masks 3 / 7 / 15, " +
+                "hard MASK-pairs 2 / 14 / 70 = A203241 exactly as the registry says. But hard STRING-pairs by the " +
+                "valuation alone are 32 / 896 / 17920, and the y-parity-HOMOGENEOUS ones are 16 / 448 / 8960 = " +
+                "exactly 2^(2k-3)*A203241. So the registry's 'dressed by the Klein / y-parity factor this is the " +
+                "hard count itself' counts the homogeneous HALF, while the criterion as stated marks twice as " +
+                "many. A review reports the valuation nevertheless predicting the spectral verdict on all 66 " +
+                "diagonal-cell pairs at k=3, N=4 INCLUDING the 16 y-parity-mismatched ones (breaks 8.0e-2 to " +
+                "1.0e-1); that half is NOT verified here. (2) THE WINDOW FLOOR. Statement 1 is unconditional in N, " +
+                "but WindowedObstructionScan's own comment records 'IXZX+XIZX is open yet soft below N = 6', i.e. " +
+                "a k-body pair needs enough windows for the odd relation to close (W = N-k+1 >= k-1, so N >= 2k-2); " +
+                "below that a valuation-DIFFERENT pair is genuinely soft and the soft cascade " +
+                "(CertifyByLinearSiteColoring) is what catches it, so the code is sound and the prose is the loose " +
+                "part. Also not re-verified spectrally here.",
+            NextStep: "settle (1) first, because it is a COUNT inside a Tier-1 registry entry and the two readings " +
+                "differ by a factor of exactly 2 at every k. The test is cheap and spectral, no new theory: build " +
+                "all 66 diagonal-cell Mixed pairs at k=3, N=4, classify each by the OPTIMAL bottleneck at 1e-6 " +
+                "(simulations/two_coast_sweep.py adapts the cockpit's spectrum_pairing_error; do not use a greedy " +
+                "pairing here, the gap between the two is exactly the kind of thing that would decide this " +
+                "wrongly), and compare with the valuation. The 16 y-parity-mismatched pairs are the whole " +
+                "question: if they are spectrally hard, F115's criterion is wider than its own count and the " +
+                "certifier is conservative BY CHOICE, which should be said in both places; if they are not, " +
+                "statement 1 needs the y-parity condition written into it. For (2), check whether " +
+                "PROOF_F87_WINDOWED_MONOMIAL_CONVERSE already carries the window premise, and if it does, carry it " +
+                "up into the registry statement rather than deriving it again. Hazard from the rounds that opened " +
+                "this: every count here was enumerated over the alphabet INCLUDING the identity letter; an " +
+                "enumeration over XYZ alone gives 6 / 20 / 60 strings and 8 / 128 / 1180 hard pairs, none of which " +
+                "match anything, and that mismatch is silent. The census is simulations/f115_diagonal_cell_census.py, " +
+                "which gates all three columns at k = 3, 4, 5.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "concentrator_amplitude_signs",
+            Opened: "2026-08-01",
+            Origin: "the biggest single unfixed finding of the 2026-08-01 prose audit, now verified from below: " +
+                "every psi_opt tabulated in experiments/CONCENTRATOR_GEOMETRY.md is the componentwise MAGNITUDE of " +
+                "the lens eigenvector, not the eigenvector. LensAnalysis.cs takes Complex.Abs of each component " +
+                "before normalising, a step that appears in no derivation in the document. Measured at N=5 and N=6 " +
+                "and at every F9 (gamma_base, epsilon) pair tried: on symmetric edge-concentrator profiles the " +
+                "eigenvector is real to within 2 percent of its norm and ALTERNATES in sign. The N=7 row the " +
+                "document prints is the case in point: the recomputation returns |v| = [0.118, 0.332, 0.481, " +
+                "0.535, 0.482, 0.334, 0.119], the surveyed numbers to every printed digit, from " +
+                "v = [-0.117, +0.332, -0.481, +0.535, -0.482, +0.334, -0.119], a momentum-pi standing wave. So " +
+                "|v| is very nearly orthogonal to v: fidelity |<|v|, v>|^2 = 0.0002 at N=7, 0.0000 at N=6, " +
+                "0.0022 at N=5. The verifier is simulations/lens_sign_check.py, which reproduces the recipe from " +
+                "below and gates the three fidelities. On the IBM Torino " +
+                "sacrifice profile [2.336, 0.099, 0.050, 0.072, 0.051] the components share a sign and |v| " +
+                "reproduces v to 0.974, which is why the AUC table is unaffected in substance and why this went " +
+                "unnoticed for months; note that the tabulated 0.099 at site 0 is imaginary content, its real part " +
+                "being 0.001.",
+            ParkedAt: "the DOCUMENT is repaired (it now says the tables are magnitude profiles, carries the " +
+                "fidelities, and scopes the 'the prepared state is the eigenmode's shape' mechanism sentence to " +
+                "the gradient profile) and LensAnalysis.cs carries the measurement as a comment beside the line " +
+                "that does it. The QUESTION the finding opens is untouched: whether the SIGNED state is the better " +
+                "preparation. Nobody has evolved it. The AUC results in the document were measured on the " +
+                "magnitude state, so they stand as measurements of that state and say nothing about the other one.",
+            NextStep: "time-evolve BOTH states on a symmetric F9 profile at N=5 and N=6, where the alternation is " +
+                "clean, and compare concurrence AUC exactly the way the document's step 8 does. All three outcomes " +
+                "are informative: if the signed state wins, the pipeline has been leaving performance on the table " +
+                "and the survey should carry signs; if the magnitude state wins, the Complex.Abs is doing real " +
+                "work and deserves a derivation rather than a hidden line; if they tie, the SE-sector dynamics " +
+                "does not see the relative sign, which is itself a statement about that block worth having. Then " +
+                "decide whether LensAnalysis should return the signed vector beside the magnitudes: " +
+                "LensResult.Amplitudes is a double[] today, so that is an API change and the lens_survey/ outputs " +
+                "change shape with it. HAZARD, easy to miss: the SE-accessibility number `proj` in the same method " +
+                "is built from the MAGNITUDE vector too, so whatever is decided has to move both, and the survey's " +
+                "accessibility column is currently a statement about the magnitude state as well.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "f55_cavity_tier_chain",
+            Opened: "2026-08-01",
+            Origin: "the 2026-08-01 prose audit's one finding that is a CHAIN rather than a sentence, left for its " +
+                "own pass because every link sits in a different document and the repair is a tier decision, not " +
+                "a wording fix. Verified: ANALYTICAL_FORMULAS.md:1457 stamps 'F55. Absorption dose K_death (Tier 1 " +
+                "above Q*_gap(N), from D6)'. Its source experiments/TRAPPED_LIGHT_LOCALIZATION.md:19 stamps ITSELF " +
+                "'Tier: 4-5 (structural exploration, not proof)', while that same document's own numbered list at " +
+                "the end tiers its results 2 to 4-5 item by item. D6, the derivation F55 cites, is marked in the " +
+                "registry as quoted rather than verified. So a Tier-1 registry entry rests on a document that " +
+                "calls itself Tier 4-5, through a derivation nobody re-derived.",
+            ParkedAt: "nothing applied, deliberately: raising or lowering a tier is a claim about confidence KIND, " +
+                "and the audit's own rule is that FALSE gets retracted while UNVERIFIED-but-open gets demoted, so " +
+                "the first job is finding out which this is. A second link belongs to the same chain and is worse " +
+                "than a tier mismatch: hypotheses/GAMMA_IS_LIGHT.md narrates the cavity evidence as measured " +
+                "rather than assumed, while experiments/OPTICAL_CAVITY_ANALYSIS.md's own table carries a FAILED " +
+                "row, 'Even N = confocal' marked with a cross because N=3 odd (56 percent) beats N=6 even (50 " +
+                "percent). Four of five cavity tests pass; the narration rounds that to the cavity reading being " +
+                "established. The one hunk of docs/ANALYTICAL_FORMULAS.md left unstaged from the older four-commit " +
+                "split is this F55 hunk, so it belongs here rather than with F140.",
+            NextStep: "start at D6, because everything above it inherits from there: re-derive it or find who did, " +
+                "and record which. Then the tier follows almost mechanically. If D6 holds, F55's Tier 1 is fine " +
+                "and TRAPPED_LIGHT's self-stamp is the loose end (its Tier 4-5 preface is about the mass reading, " +
+                "not about K_death, which is a different scope and should say so). If D6 does not hold, F55 is " +
+                "UNVERIFIED-but-open, which is a demotion to Tier 3 / OpenQuestion, not a retraction. Separately " +
+                "and independently: fix the GAMMA_IS_LIGHT narration to carry the failed row, which is a one-" +
+                "sentence repair and does not need the tier question settled first. Hazard, learned in the " +
+                "two-coast rounds: do not let a tier repair turn into a rewrite of the physics. Every number in " +
+                "these documents may well be right; what is wrong is what they are being asked to support.",
             Status: OpenArcStatus.Open),
     };
 

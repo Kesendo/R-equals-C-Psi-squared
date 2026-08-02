@@ -98,7 +98,7 @@ The verification anchor is [`simulations/antilinear_triangle.py`](../../simulati
 
 The triangle above is a qubit statement: on a Pauli string θ(σ) = conj(σ) = (−1)^{n_Y}σ, †(σ) = σ. That sign is the d = 2 shadow of a lattice action the Weyl-Heisenberg algebra carries at every local dimension d.
 
-Replace the Pauli basis by the **Weyl-Heisenberg operators** P_{a,b} = X^a Z^b (a, b ∈ Z_d), where X is the clock shift |x⟩ ↦ |x+1⟩, Z = diag(ω^x) with ω = e^{2πi/d}, and ZX = ωXZ. They span the d² operators per site and generalize {I, X, Y, Z} = {P_{0,0}, P_{1,0}, P_{1,1}, P_{0,1}} (d = 2, ω = −1, Y = XZ up to phase). The three involutions act on the labels with a **symplectic phase**:
+Replace the Pauli basis by the **Weyl-Heisenberg operators** P_{a,b} = X^a Z^b (a, b ∈ Z_d), where X is the shift |x⟩ ↦ |x+1⟩ and Z = diag(ω^x) the clock operator, with ω = e^{2πi/d}, and ZX = ωXZ. They span the d² operators per site and generalize {I, X, Y, Z} = {P_{0,0}, P_{1,0}, P_{1,1}, P_{0,1}} (d = 2, ω = −1, Y = XZ up to phase). The three involutions act on the labels with a **symplectic phase**:
 
   θ(P_{a,b}) = ω^{−ab} P_{−a, b},  conj(P_{a,b}) = P_{a, −b},  †(P_{a,b}) = ω^{ab} P_{−a, −b},
 
@@ -108,6 +108,6 @@ Two things become clear at once. First, **the qubit (−1)^{n_Y} is the degenera
 
 This dovetails with the [qudit mirror group](PROOF_QUDIT_PARTIAL_PALINDROME.md) (F121's Z_d ≀ Z₂): the mirror generator Π_d = ρᵀ·Shift^{⊗N} is the lattice **translation** a ↦ a + 1 composed with θ, while θ and conj are its **reflections**, so ⟨Π_d, D⟩ acts as the symmetry group of the Weyl-Heisenberg lattice, with the qubit D₄ = ⟨R, D⟩ its d = 2 cell.
 
-**Open (the arc this opens, named for re-entry):** the **antilinear double** ⟨Π_d, D, 𝒦⟩ over general d (F119's D₄ × Z₂ is the d = 2 case), and whether the clock Z_d, as d → ∞, becomes the continuous rotation circle the [S₃ ⋉ D₄ completion](PROOF_PI_FACTORS_AS_R_TIMES_D.md) §5 must thicken: the discrete phase-space lattice Z_d × Z_d limiting to the continuous torus, the mirror group's two axes (local dimension and rotation) becoming one.
+**Open (the arc this opens, named for re-entry):** the **antilinear double** ⟨Π_d, D, 𝒦⟩ over general d (F119's D₄ × Z₂ is the d = 2 case), and whether the Weyl-Heisenberg clock operator Z_d (not the F95 clock), as d → ∞, becomes the continuous rotation circle the [S₃ ⋉ D₄ completion](PROOF_PI_FACTORS_AS_R_TIMES_D.md) §5 must thicken: the discrete phase-space lattice Z_d × Z_d limiting to the continuous torus, the mirror group's two axes (local dimension and rotation) becoming one.
 
 The verification anchor is [`simulations/qudit_mirror_group_family.py`](../../simulations/qudit_mirror_group_family.py) (self-validating: the symplectic-phase label action d = 2..5, the d = 2 collapse to (−1)^{n_Y}, the universal transport law, and the d > 2 label permutation).
