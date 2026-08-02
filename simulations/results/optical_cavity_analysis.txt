@@ -40,30 +40,47 @@ N=7: d_total = [np.int64(8), np.int64(38), np.int64(102), np.int64(156), np.int6
 STEP 2: WEIGHT-SECTOR COUPLING STRUCTURE
 ===========================================================================
 
-N=4: Hamiltonian coupling between weight sectors
+N=4: Hamiltonian coupling between weight sectors (exact, all 256 Pauli strings)
   Coupling matrix (nonzero elements between sectors):
           w=0   w=1   w=2   w=3   w=4
-  w=0       .     .    12     .     .
-  w=1       .    42     .    16     .
-  w=2      12     .    48     .     .
-  w=3       .    16     .    20     .
-  w=4       .     .     .     .     .
+  w=0       .     .    48     .     .
+  w=1       .   192     .    96     .
+  w=2      48     .   384     .    48
+  w=3       .    96     .   192     .
+  w=4       .     .    48     .     .
 
-  Coupling summary: diagonal=110, Δw=±2: 56, other: 0
-  [H, .] couples w ↔ w±2 only: ✓
+  Coupling summary: Δw=0 (diagonal): 768, Δw=±2: 384, |Δw| odd: 0, |Δw| even and >2: 0
+  [H, .] changes the XY-weight by an EVEN amount only: yes
+  [H, .] couples w to w±2 ONLY (no diagonal): NO, the diagonal carries 768
 
-N=5: Hamiltonian coupling between weight sectors
+N=5: Hamiltonian coupling between weight sectors (exact, all 1024 Pauli strings)
   Coupling matrix (nonzero elements between sectors):
           w=0   w=1   w=2   w=3   w=4   w=5
-  w=0       .     .    12     .     .     .
-  w=1       .    42     .    16     .     .
-  w=2      12     .    48     .     .     .
-  w=3       .    16     .    20     .     .
-  w=4       .     .     .     .     .     .
-  w=5       .     .     .     .     .     .
+  w=0       .     .   128     .     .     .
+  w=1       .   512     .   384     .     .
+  w=2     128     .  1536     .   384     .
+  w=3       .   384     .  1536     .   128
+  w=4       .     .   384     .   512     .
+  w=5       .     .     .   128     .     .
 
-  Coupling summary: diagonal=110, Δw=±2: 56, other: 0
-  [H, .] couples w ↔ w±2 only: ✓
+  Coupling summary: Δw=0 (diagonal): 4096, Δw=±2: 2048, |Δw| odd: 0, |Δw| even and >2: 0
+  [H, .] changes the XY-weight by an EVEN amount only: yes
+  [H, .] couples w to w±2 ONLY (no diagonal): NO, the diagonal carries 4096
+
+N=6: Hamiltonian coupling between weight sectors (exact, all 4096 Pauli strings)
+  Coupling matrix (nonzero elements between sectors):
+          w=0   w=1   w=2   w=3   w=4   w=5   w=6
+  w=0       .     .   320     .     .     .     .
+  w=1       .  1280     .  1280     .     .     .
+  w=2     320     .  5120     .  1920     .     .
+  w=3       .  1280     .  7680     .  1280     .
+  w=4       .     .  1920     .  5120     .   320
+  w=5       .     .     .  1280     .  1280     .
+  w=6       .     .     .     .   320     .     .
+
+  Coupling summary: Δw=0 (diagonal): 20480, Δw=±2: 10240, |Δw| odd: 0, |Δw| even and >2: 0
+  [H, .] changes the XY-weight by an EVEN amount only: yes
+  [H, .] couples w to w±2 ONLY (no diagonal): NO, the diagonal carries 20480
 
 ===========================================================================
 STEP 3: GOUY PHASE ANALOG
@@ -135,12 +152,13 @@ Negative r means: smaller defocus → higher grid fraction (confocal = better fo
 SUMMARY: HOW GOOD IS THE FABRY-PEROT ANALOGY?
 ===========================================================================
 
-Analogy scorecard: 4/5 checks pass
+Analogy scorecard: 4/6 checks pass
 
   ✓ Gaussian beam profile: avg R² = 0.998
-  ✓ [H,.] couples Δw = ±2 only: verified at N=4,5
+  ✓ [H,.] changes XY-weight by an even amount only: exact over all Pauli strings, N=[4, 5, 6]
+  ✗ [H,.] couples Δw = ±2 only (no diagonal): diagonal: N=4: 768, N=5: 4096, N=6: 20480
   ✓ Gouy phase (arctan fit): R² = 0.808 at N=7
   ✗ Even N = confocal (higher grid fraction): even min=50.4% > odd max=56.2%
   ✓ NA increases with N (even): NAs = ['30.4', '262.3']
 
-RESULT: Strong quantitative analogy. The chain IS an optical cavity.
+RESULT: Partial analogy. Some optical quantities map correctly.

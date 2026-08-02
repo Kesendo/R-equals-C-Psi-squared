@@ -11,7 +11,8 @@ their original names.
 impedance matching dephasing, Q-factor enhancement concentrator, mode-selective transmission,
 AR coating quantum noise, dispersive cavity scaling, R=CPsi2 concentrator optics -->
 
-**Status:** Structural analog confirmed; not quantitatively classical AR
+**Status:** Partial. The absorption side holds; the frequency side does not, and
+the edge is not singled out by either metric (open question, see Result 1)
 **Date:** April 4, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -50,10 +51,13 @@ chain is a Fabry-Perot cavity (two mirrors facing each other, light
 bouncing between them). This document tests whether the concentrator
 is the anti-reflection (AR) coating of that cavity.
 
-The answer: structurally yes, quantitatively no. The concentrator
-functions like an AR coating (smooth entry, frequency preservation,
-Q enhancement) but uses linear impedance accumulation instead of the
-geometric mean of classical optics.
+The answer: partly, and on the absorption side. There the concentrator does
+what an AR coating does, and does it better as the chain grows (smooth entry,
+a longer-lived best mode). Two things keep it from being the coating. It
+matches impedance by linear accumulation instead of the geometric mean of
+classical optics. And it does not hold the resonance frequencies fixed, which
+a coating does. Any NON-uniform profile moves them, this one included, by an
+amount that is small up to N=7 and larger than a linewidth above it.
 
 ---
 
@@ -77,9 +81,12 @@ at all).
 | 6 | uniform | 787 | 164 | 75 | 13.3 | 0.960 |
 | 6 | concentrator | 748 | 108 | 500 | 13.3 | 0.974 |
 
-The concentrator increases T_eff at every N: fewer modes are
-"reflected" (absorbed without oscillation), more are "transmitted"
-(sustained as resonant modes).
+The concentrator increases T_eff at every N: a larger fraction of the
+spectrum is "transmitted" (oscillating) rather than "reflected" (absorbed
+without ringing). The count of distinct frequencies does not follow it
+everywhere, dropping 787 → 748 at N=6, and the *median* Q falls at N=3, 4
+and 6. What rises at every N is the fraction that rings and the lifetime of
+the best mode, not the typical mode.
 
 **Q_max enhancement grows with N (4 points, N=3-6, chain; roughly linear over this range):**
 
@@ -91,8 +98,16 @@ The concentrator increases T_eff at every N: fewer modes are
 | 6 | 6.7x |
 
 The best cavity mode lives ~7x longer under the concentrator at N=6.
-This is the AR coating effect: smoother entry of light means less
-energy lost at the surface, more energy available for resonance.
+
+Neither column singles out the EDGE, which the entrance-pupil reading needs.
+At the same budget, T_eff takes the identical value for every non-uniform
+profile tested, including one barely uneven at all: [0.06, 0.0467, 0.0467,
+0.0467] at N=4 gives exactly the concentrator's 0.8984. It registers whether
+the profile is uniform, and nothing finer. And Q_max is not maximal at the
+edge: at N=5 the same budget placed on the MIDDLE site gives 2618 against the
+edge's 352. Both numbers above are real; what they measure is not settled.
+That is an open question, carried in the open arc
+`unfalsifiable_verification_gates`, not a result of this document.
 
 ---
 
@@ -114,25 +129,84 @@ a fundamental difference: the classical AR coating is a single layer
 optimized for one frequency. The concentrator is a linear accumulator
 that scales with the cavity length.
 
-The ratio γ_edge / √(γJ) crosses 1.0 near N = 5, which is coincidentally
-where the concentrator improvement peaks. This might suggest a
-crossover from "under-matched" (N < 5) to "over-matched" (N > 5)
-regimes, but the data does not clearly support a geometric mean
-interpretation.
+The ratio γ_edge / √(γJ) crosses 1.0 near N = 5. Nothing in this document
+peaks there: the Q_max ratio rises monotonically through N=6 and the T ratio
+falls monotonically from N=3. The crossing is a property of the formula, and
+the data does not support a geometric mean interpretation.
 
 ---
 
-## Result 3: Frequencies preserved, absorption rates shifted
+## Result 3: The concentrator moves both parts, not only the absorption
 
-The concentrator changes the absorption rates (Re(λ)) of Liouvillian
-eigenvalues while preserving their oscillation frequencies (Im(λ)).
-In optical language: it changes the reflectivity of the cavity surfaces
-without moving the resonance frequencies.
+An AR coating changes how much light enters and how long it stays. It does
+not change which wavelengths resonate: those belong to the cavity length.
+The question for this section is whether the concentrator is that kind of
+change, acting on Re(λ) and leaving Im(λ) alone.
 
-This is structurally identical to an AR coating: the coating does not
-change which wavelengths resonate in the cavity (those are determined
-by the cavity length = J topology). It changes how much light enters
-and how long it stays.
+It is not. The measurement runs on the (0,1) coherence block, the
+N-dimensional space spanned by |vacuum⟩⟨one excitation|. Both γ profiles
+leave it exactly closed (no column carries weight out of it, to the last
+bit), and both carry the same total budget Σγ = N·γ_base, so what is compared
+is the redistribution and not a change of dose. The block is N×N, so the
+range costs nothing: it runs to N=12.
+
+| N | uniform \|Im\| | concentrator \|Im\| | max \|Δω\| |
+|---|--------------|-------------------|----------|
+| 3 | 0, 2.00000, 6.00000 | 0.00802, 1.99458, 5.99740 | 0.00802 |
+| 4 | 0, 1.17157, 4.00000, 6.82843 | 0.01684, 1.16420, 3.99278, 6.82618 | 0.01684 |
+| 5 | 0, 0.76393, 2.76393, 5.23607, 7.23607 | 0.02859, 0.75611, 2.75189, 5.22926, 7.23415 | 0.02859 |
+
+Every level moves. The absorption rates spread at the same time: at N=5 the
+flat uniform Re = −0.1 becomes a spread from −0.18561 to −0.02053.
+
+The mechanism is one line. On this block the dephasing is −2·diag(γ), because
+a coherence |vacuum⟩⟨site j| disagrees at exactly one site. Under uniform γ
+that diagonal is a multiple of the identity, so it shifts Re and can do
+nothing else. Under a profile it is not, it does not commute with the
+hopping, the eigenvectors turn, and the frequencies come with them. This is
+the same non-commutation the γ-profile fence on
+[F2](../docs/ANALYTICAL_FORMULAS.md) already states.
+
+Then the question is how far that reaches, and the answer is not "a little,
+everywhere". Three readings that the three-row table above invites, and what
+the full range says instead.
+
+**How big it is depends on N, and it stops being small at N=8.** Divided by
+each level's own half-width, the largest move is 0.080, 0.171, 0.303 at
+N=3,4,5. That is small: at N=5 the ω = 0 level acquires a frequency of 0.029
+against a decay rate of 0.094, a quality factor of 0.3, so it does not
+complete a radian of phase before it is gone. But the ratio keeps climbing,
+crosses 1 at **N=8** (1.115) and reaches 2.73 at N=12. Above N=7 the shift is
+larger than the level's own linewidth, which is the scale at which a
+resonance has moved in any sense a measurement could see. The concentrator's
+own working range in this repository runs to N=15.
+
+**Which level moves most is not fixed, and past N=8 the question stops being
+well posed.** It is the ω = 0 level for N=3 to 8 and the next one up from N=9.
+But the level spacing on this block shrinks like N⁻², so from N=9 the shift is
+no longer small against it, the level-for-level pairing is no longer
+trustworthy, and the numbers above N=8 should be read as a size and not as a
+map of which level went where.
+
+**The size follows the unevenness of the profile; the N-trend does not have a
+clean sign.** At fixed N=5 and fixed budget, sweeping the edge rate from
+uniform to extreme gives 0, 0.00030, 0.00120, 0.00367, 0.00906, 0.01681,
+0.02917: monotone in how uneven the profile is. Holding the shape fixed
+instead (edge/rest = 9 at every N, same budget) the shift rises from 0.00441
+at N=3 to 0.02369 at N=11 and then falls, so it is not monotone in N either.
+The concentrator's own table conflates the two, because its edge rate is
+N·γ_base by construction and its unevenness therefore grows with the chain.
+
+**And it is not particular to this profile.** The statement that γ can only
+damp is a statement about this block, where uniform γ enters as a multiple of
+the identity. It is not a statement about the cavity. On the full 4^N
+Liouvillian the dephasing diagonal is −2γ·popcount(i⊕j), which does not
+commute with H, and uniform dephasing moves frequencies there too, by a
+comparable amount: at N=4, doubling a uniform γ moves the spectrum by 0.0856
+where the concentrator's equal-budget redistribution moves it by 0.0744, and
+at N=3 the concentrator moves it more (0.0080 against 0.0048). Moving
+resonances is what dephasing does. The concentrator is not the exception, and
+this measurement does not make it one.
 
 ---
 
@@ -160,6 +234,17 @@ improves the coupling between outside and inside.
   (γ_edge ~ N), not geometric (√(γJ)). The analogy is structural,
   not quantitative.
 
+- **The resonances are not held fixed either**, which a coating would do.
+  They move (Result 3), by less than a linewidth in the range measured, and
+  by an amount that follows the profile's unevenness. This is a fence on the
+  analogy rather than a property of the concentrator: uniform dephasing moves
+  them harder.
+
+- **The gain is in the best mode, not the typical one.** T_eff and Q_max rise
+  at every N, but the *median* Q falls at N=3, 4 and 6. The concentrator buys
+  a longer-lived best mode and more modes that ring at all; it does not lift
+  the distribution.
+
 - **Mode-selective per-shell comparison inconclusive.** Under the
   concentrator, eigenvalues shift off the uniform absorption-rate grid
   (because γ varies per site), making shell-by-shell comparison
@@ -180,7 +265,8 @@ instrument.
 
 The 360× simulation improvement (peak created Sum-MI, ε→0 ideal; ~2-3× on hardware) is not "less damage." It is "better resonance."
 The same light, entering through a matched surface instead of a raw
-edge, excites the same standing waves 7x longer (Q_max at N=6).
+edge, rings 7x longer (Q_max at N=6). Not in quite the same standing
+waves: the profile turns them slightly as well (Result 3).
 
 ---
 

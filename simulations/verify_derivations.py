@@ -57,6 +57,15 @@ def build_L(H, gamma, noise_pauli=None):
     return L
 
 
+def block01_indices(N):
+    """Column-major vec indices of |0><j| with popcount(j) = 1.
+
+    build_L stacks vec column-major, so rho[i, j] sits at j*d + i.
+    """
+    d = 2 ** N
+    return [j * d + 0 for j in range(d) if bin(j).count("1") == 1]
+
+
 def stat_count(N):
     """Stat(N) = Sum_J m(J,N) * (2J+1)^2 (formula 4)."""
     total = 0.0
@@ -97,44 +106,74 @@ def verify_D1(out, J=1.0, gamma=0.05):
         L = build_L(H, gamma)
         evals = np.linalg.eigvals(L)
 
-        rates = -evals.real
-        freqs = np.abs(evals.imag)
-
-        # w=1 modes: rate ~ 2*gamma
-        tol = 0.3 * gamma
-        w1 = [(r, f) for r, f in zip(rates, freqs)
-               if abs(r - 2 * gamma) < tol and f > 1e-8]
-        w1_freqs = sorted(set(round(f, 8) for _, f in w1))
+        # Formula 2 lives on the (0,1) coherence block, the N-dimensional
+        # space spanned by |vac><one excitation|, which the Heisenberg chain
+        # and the Z-dephasing leave exactly closed. Selecting it by index is
+        # exact; selecting by a window around the rate 2*gamma is not, and
+        # admitted a neighbour at N=2 (rate 0.09875 against 2*gamma = 0.1).
+        blk = block01_indices(N)
+        sub = L[np.ix_(blk, blk)]
+        # Invariance is a statement about the COLUMNS: no weight may leave the
+        # block. Measure it as the largest off-block column entry. A difference
+        # of two large squared Frobenius norms cannot resolve a small leak: at
+        # N=4 an injected leak of 1e-9 makes that difference print exactly 0.0.
+        leak = float(np.max(np.abs(np.delete(L[:, blk], blk, axis=0))))
+        blk_evals = np.linalg.eigvals(sub)
+        w1_freqs = sorted(f for f in np.abs(blk_evals.imag) if f > 1e-8)
 
         # Analytical
         analytical = sorted(4 * J * (1 - np.cos(np.pi * k / N))
                             for k in range(1, N))
 
         # Bandwidth
-        if len(w1_freqs) >= 2:
-            bw_num = w1_freqs[-1] - w1_freqs[0]
-        else:
-            bw_num = 0.0
+        # A bandwidth needs two frequencies. At N=2 there is one, so there is
+        # nothing to measure and the check is reported as not applicable
+        # rather than passed: comparing a hard-coded 0.0 against a formula
+        # that also happens to vanish (cos(pi/2) = 0) is not a test.
+        bw_measurable = len(w1_freqs) >= 2
+        bw_num = w1_freqs[-1] - w1_freqs[0] if bw_measurable else float('nan')
         bw_formula = 8 * J * np.cos(np.pi / N)
 
-        # Frequency match
-        freq_err = 0.0
-        if len(w1_freqs) == len(analytical):
-            freq_err = max(abs(a - n) for a, n in
-                          zip(analytical, w1_freqs))
+        # Frequency match. A count mismatch is a FAILURE, not a reason to
+        # skip the comparison: the count is part of what formula 2 asserts.
+        count_ok = len(w1_freqs) == len(analytical)
+        freq_err = max(abs(a - n) for a, n in zip(analytical, w1_freqs)) \
+            if count_ok else float('nan')
+        bw_err = abs(bw_num - bw_formula) if bw_measurable else float('nan')
 
-        out.append(f"\n  N={N}: {len(w1_freqs)} w=1 frequencies "
+        out.append(f"\n  N={N}: {len(w1_freqs)} (0,1)-block frequencies "
                    f"(expected {N-1})")
+        out.append(f"    block closure leak: {leak:.2e}")
         out.append(f"    numerical:  {[round(f,6) for f in w1_freqs]}")
         out.append(f"    formula 2:  {[round(f,6) for f in analytical]}")
         out.append(f"    max freq error: {freq_err:.2e}")
-        out.append(f"    BW numerical:   {bw_num:.10f}")
-        out.append(f"    BW formula:     {bw_formula:.10f}")
+        if bw_measurable:
+            out.append(f"    BW numerical:   {bw_num:.10f}")
+            out.append(f"    BW formula:     {bw_formula:.10f}")
+            out.append(f"    BW error:       {bw_err:.2e}")
+        else:
+            out.append(f"    BW formula:     {bw_formula:.10f}")
+            out.append(f"    BW: NOT APPLICABLE, one frequency has no spread; "
+                       f"this N does not test the bandwidth")
         out.append(f"    BW/8J = {bw_formula/(8*J):.6f}")
 
-        if freq_err > 1e-6:
+        if not count_ok:
+            all_ok = False
+            out.append(f"    *** FREQUENCY COUNT MISMATCH: "
+                       f"{len(w1_freqs)} found, {len(analytical)} expected ***")
+        elif freq_err > 1e-6:
             all_ok = False
             out.append(f"    *** FREQUENCY MISMATCH > 1e-6 ***")
+        if leak > 1e-12:
+            all_ok = False
+            out.append(f"    *** (0,1) BLOCK NOT CLOSED ***")
+        # D1 IS the bandwidth claim, so the bandwidth has to be checked, not
+        # only printed. At N=2 both sides are 0 for different reasons (one
+        # frequency has no spread; cos(pi/2) = 0), so the agreement there is
+        # degenerate and the check only bites from N=3 on.
+        if bw_measurable and bw_err > 1e-6:
+            all_ok = False
+            out.append(f"    *** BANDWIDTH MISMATCH > 1e-6 ***")
 
     status = "VERIFIED" if all_ok else "FAILED"
     out.append(f"\n  D1 STATUS: {status}\n")

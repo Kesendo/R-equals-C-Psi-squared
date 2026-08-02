@@ -5,7 +5,7 @@ defocal cavity even odd parity, Gouy phase dispersion, numerical aperture degene
 weight sector coupling nearest neighbor, optical cavity quantum decoherence,
 beam quality M-squared, R=CPsi2 optical cavity -->
 
-**Status:** Quantitative analogy confirmed (4/5 checks pass)
+**Status:** Partial analogy (4/6 checks pass)
 **Date:** April 3, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -27,11 +27,14 @@ waist, Lorentzian profile. Odd chains place the focus between grid points
 This feels artificial because it is an instrument. Instruments are precise.
 But this one was not built. The algebra enforces it.
 
-Four of five standard optical quantities match quantitatively: beam profile
-(R² = 0.998), nearest-neighbor coupling (Δw = ±2 exclusively), numerical
+Four of six standard optical quantities match quantitatively: beam profile
+(R² = 0.998), even-only weight coupling (Δw never odd), numerical
 aperture (growing with N), and Gouy phase accumulation (arctan profile).
-Only the strict confocal inequality fails, because N = 3 is too small for
-the asymptotic pattern.
+Two fail. The strict confocal inequality fails because N = 3 is too small
+for the asymptotic pattern. And the propagation picture fails in a way the
+analogy cannot absorb: the coupling between weight shells is dominated by
+each shell talking to itself, not by the two-step hop that would be the
+free-space propagation (Result 2).
 
 The starting point of the full story is in
 [Degeneracy Palindrome](DEGENERACY_PALINDROME.md).
@@ -41,13 +44,14 @@ The starting point of the full story is in
 ## What this document is about
 
 The degeneracy profile d(k) of the Liouvillian spectrum looks like a beam
-profile. The Hamiltonian couples weight sectors in nearest-neighbor
-fashion (Δw = ±2). The even/odd parity split in grid fraction looks like
+profile. The Hamiltonian moves a weight sector only by an even amount,
+never an odd one (Δw ∈ {0, ±2}). The even/odd parity split in grid fraction looks like
 confocal versus defocal cavity alignment. This document tests whether
 these observations form a quantitative optical analogy, where the qubit
 chain is a Fabry-Perot resonator (a cavity formed by two parallel mirrors that selects which frequencies of light resonate between them) and the weight sectors are transverse planes.
 
-The answer: 4 of 5 optical quantities match. The analogy is quantitative.
+The answer: 4 of 6 optical quantities match. The analogy is quantitative
+where it holds, and it does not hold everywhere.
 
 ---
 
@@ -60,7 +64,7 @@ The answer: 4 of 5 optical quantities match. The analogy is quantitative.
 | Beam waist | Center degeneracy spike |
 | Cavity length L | N (number of qubits) |
 | Mirror reflectivity | Boundary degeneracy d(0) = N+1 |
-| Intracavity propagation | [H, ·] coupling Δw = ±2 |
+| Intracavity propagation | [H, ·] coupling, Δw ∈ {0, ±2} |
 | Confocal alignment | Even N (focus on grid point) |
 | Defocal misalignment | Odd N (focus between grid points) |
 | Numerical aperture | d_total(center) / d_total(edge) |
@@ -91,28 +95,37 @@ optics lens.
 
 ---
 
-## Result 2: Nearest-neighbor coupling in weight space
+## Result 2: The XY-weight changes by an even amount, never an odd one
 
-The Heisenberg Hamiltonian commutator [H, ·] couples weight sectors
-exclusively by Δw = ±2:
+The Heisenberg Hamiltonian commutator [H, ·] moves a Pauli string between
+weight shells. Which moves does it allow? Two Pauli strings either commute
+or anticommute, and when they anticommute [A, B] = 2AB is a single Pauli
+string, so the whole question is exact string algebra over all 4^N strings,
+with no eigensolver and no sampling. Counting the distinct shell-to-shell
+matrix elements:
 
 ```
-N=4 coupling matrix:         N=5 coupling matrix:
-      w=0  w=1  w=2  w=3  w=4       w=0  w=1  w=2  w=3  w=4  w=5
-w=0:   .    .   ✓    .    .    w=0:   .    .   ✓    .    .    .
-w=1:   .   ✓    .   ✓    .    w=1:   .   ✓    .   ✓    .    .
-w=2:  ✓    .   ✓    .    .    w=2:  ✓    .   ✓    .    .    .
-w=3:   .   ✓    .   ✓    .    ...
-w=4:   .    .    .    .    .
+N=4                                N=5
+     w=0  w=1  w=2  w=3  w=4            w=0  w=1  w=2  w=3  w=4  w=5
+w=0    .    .   48    .    .      w=0     .    .  128    .    .    .
+w=1    .  192    .   96    .      w=1     .  512    .  384    .    .
+w=2   48    .  384    .   48      w=2   128    .  1536   .  384    .
+w=3    .   96    .  192    .      w=3     .  384    .  1536   .  128
+w=4    .    .   48    .    .      w=4     .    .  384    .  512    .
+                                  w=5     .    .    .  128    .    .
 ```
 
-No coupling at Δw = ±1, ±3, or ±4. Zero exceptions.
+Every odd offset is empty: Δw = ±1, ±3, ±5 carry exactly zero, at N=4, N=5
+and N=6. What [H, ·] conserves is the **parity** of the XY-weight. The
+Heisenberg XX + YY terms flip two Pauli letters at once, so the weight can
+only move in steps of two, and the ZZ term moves it not at all.
 
-This is the cavity propagation structure: each "transverse plane" (weight
-shell) interacts only with its second neighbor, like light bouncing
-between optical elements in a resonator. The Δw = ±2 (not ±1) arises
-because the Heisenberg XX + YY terms flip two Pauli operators
-simultaneously.
+The diagonal is not empty, and it is the larger channel: 768 against 384 at
+N=4, 4096 against 2048 at N=5. So the shells are not a chain of second
+neighbours passing light along; each shell talks to itself more than to
+anything else, and the two-step moves are the smaller traffic on top of that.
+The cavity reading has to live with a propagation structure whose dominant
+term is a shell staying where it is.
 
 ---
 
@@ -189,29 +202,34 @@ transition.
 | Check | Pass? | Detail |
 |---|---|---|
 | Beam profile (Gaussian/Lorentzian) | ✓ | avg R² = 0.998 |
-| [H,·] couples Δw = ±2 only | ✓ | verified N = 4, 5 |
+| [H,·] changes the XY-weight by an even amount only | ✓ | exact over all Pauli strings, N = 4, 5, 6 |
+| [H,·] couples Δw = ±2 only (no diagonal) | ✗ | the diagonal is the larger channel (768 vs 384 at N=4) |
 | Gouy phase (arctan profile) | ✓ | R² = 0.81 |
 | Even N = confocal | ✗ | N=3 odd (56%) beats N=6 even (50%) |
 | NA increases with even N | ✓ | 30 → 262 |
 
-4/5 checks pass. The confocal check fails strictly because N = 3 is a
-boundary case (too small for the asymptotic pattern).
+4/6 checks pass. The confocal check fails strictly because N = 3 is a
+boundary case (too small for the asymptotic pattern). The propagation check
+fails for a reason that is not a boundary case: the dominant coupling is a
+shell to itself.
 
 ---
 
 ## What the analogy means
 
-The qubit chain under Z-dephasing is not *like* an optical cavity. It
-*is* one, in a precise mathematical sense:
+The qubit chain under Z-dephasing carries a good deal of cavity structure,
+precisely enough to be worth the dictionary, and it is not a cavity:
 
 1. The weight sectors are transverse planes in the cavity.
-2. The Hamiltonian provides nearest-neighbor coupling (Δw = ±2) between
-   planes, the analog of free-space propagation.
+2. The Hamiltonian couples planes only in even steps, mostly Δw = 0 and
+   otherwise Δw = ±2. The analogy to free-space propagation covers the
+   two-step traffic and not the dominant self-coupling.
 3. The palindromic degeneracy profile is the beam profile, peaked at the
    center and symmetric around it.
-4. Even N places the "waist" on a grid point (confocal alignment), giving
-   tight focus and high grid fraction. Odd N misaligns the waist,
-   spreading eigenvalues off-grid.
+4. Even N places the "waist" on a grid point (confocal alignment) and odd N
+   between grid points. The placement holds exactly, the consequence does
+   not: the grid fraction does not order itself by parity, and N = 3 (56%)
+   beats N = 6 (50%).
 
 The decoherence process is a beam propagating through this cavity:
 starting from the "mirrors" (weight 0 and N), passing through the "lens"

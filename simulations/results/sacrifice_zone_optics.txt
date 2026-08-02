@@ -30,6 +30,26 @@ Sacrifice zone improvement over uniform:
   5         4.87x         1.00x         1.07x        1.034x
   6         6.70x         1.00x         0.95x        1.014x
 
+Placement control: same budget, where the concentrated site sits.
+    N          placement  sum(gamma)    T_eff      Q_max
+    4            uniform      0.2000   0.8203       68.3
+    4 edge (concentrator)      0.2000   0.8984      223.5
+    4           far edge      0.2000   0.8984      223.5
+    4             middle      0.2000   0.8984       47.3
+    4      barely uneven      0.2000   0.8984       71.7
+
+    5            uniform      0.2500   0.9062       72.4
+    5 edge (concentrator)      0.2500   0.9375      352.4
+    5           far edge      0.2500   0.9375      352.4
+    5             middle      0.2500   0.9375     2618.0
+    5      barely uneven      0.2500   0.9375       75.4
+
+  T_eff is IDENTICAL for every non-uniform placement, including the
+  barely uneven one. It registers whether the profile is uniform, and
+  nothing finer: it does not single out the edge.
+  Q_max is NOT highest at the edge: at N=[5] another placement beats
+  it. So neither metric establishes the edge as the special seat.
+
 ===========================================================================
 STEP 2: IMPEDANCE MATCHING ANALYSIS
 ===========================================================================
@@ -59,37 +79,94 @@ STEP 3: MODE-SELECTIVE TRANSMISSION
 N=4: Mode quality comparison by weight shell
     k  uniform Q_max  sacrif Q_max   ratio  uniform modes  sacrif modes
     0            0.0           0.0     0.0x              0             0
-    1           68.3          40.0     0.6x              0             0
-    2           47.3          47.3     1.0x              0             0
-    3           22.8          13.3     0.6x              0             0
+    1           68.3          40.0     0.6x              3             3
+    2           47.3          47.3     1.0x             41            40
+    3           22.8          13.3     0.6x              3             3
     4            0.0           0.0     0.0x              0             0
   High-Q modes (Q>10): uniform=164, sacrifice=156, ratio=0.95x
 
 N=5: Mode quality comparison by weight shell
     k  uniform Q_max  sacrif Q_max   ratio  uniform modes  sacrif modes
     0            0.0           0.0     0.0x              0             0
-    1           72.4          66.7     0.9x              0             0
-    2           58.6          36.0     0.6x              0             0
-    3           39.0          24.3     0.6x              0             0
-    4           18.1          18.4     1.0x              0             0
+    1           72.4          66.7     0.9x              4             4
+    2           58.6          36.0     0.6x              9            12
+    3           39.0          24.3     0.6x              9            12
+    4           18.1          18.4     1.0x              4             4
     5            0.0           0.0     0.0x              0             0
   High-Q modes (Q>10): uniform=596, sacrifice=608, ratio=1.02x
 
 ===========================================================================
-STEP 4: TRANSFER MATRIX ATTEMPT (weight-1 sector)
+STEP 4: DOES THE CONCENTRATOR MOVE THE RESONANCE FREQUENCIES?
 ===========================================================================
 
-N=4: Weight-1 sector under sacrifice zone
-  Uniform: 20 eigenvalues at Re=-0.1
-  Uniform frequencies: []
+Block check against the full Liouvillian, N=3,4,5, both profiles:
+  closed form vs extracted block: max |diff| = 5.55e-17 (ok)
+  closure, max off-block column entry: 0.00e+00 (closed)
 
-N=5: Weight-1 sector under sacrifice zone
-  Uniform: 26 eigenvalues at Re=-0.1
-  Uniform frequencies: []
+N=3: sum(gamma)=0.1500
+  Uniform      |Im| = [0.00000, 2.00000, 6.00000]
+  Concentrator |Im| = [0.00802, 1.99458, 5.99740]
+  Uniform      Re   = [-0.10000, -0.10000, -0.10000]
+  Concentrator Re   = [-0.09971, -0.14940, -0.05089]
+  Frequency shift per level: [0.00802, 0.00542, 0.00260]
+N=3: max |delta_omega| = 0.008022 at level 0; over that level's half-width 0.080; pairing ok (min level gap 2.00000)
 
-Transfer matrix verdict: The sacrifice zone changes decay rates
-(reflectivity) without shifting frequencies (cavity length).
-This is structurally identical to an AR coating.
+N=4: sum(gamma)=0.2000
+  Uniform      |Im| = [0.00000, 1.17157, 4.00000, 6.82843]
+  Concentrator |Im| = [0.01684, 1.16420, 3.99278, 6.82618]
+  Uniform      Re   = [-0.10000, -0.10000, -0.10000, -0.10000]
+  Concentrator Re   = [-0.09831, -0.17139, -0.09976, -0.03054]
+  Frequency shift per level: [0.01684, 0.00738, 0.00722, 0.00225]
+N=4: max |delta_omega| = 0.016844 at level 0; over that level's half-width 0.171; pairing ok (min level gap 1.17157)
+
+N=5: sum(gamma)=0.2500
+  Uniform      |Im| = [0.00000, 0.76393, 2.76393, 5.23607, 7.23607]
+  Concentrator |Im| = [0.02859, 0.75611, 2.75189, 5.22926, 7.23415]
+  Uniform      Re   = [-0.10000, -0.10000, -0.10000, -0.10000, -0.10000]
+  Concentrator Re   = [-0.09435, -0.18561, -0.13031, -0.06920, -0.02053]
+  Frequency shift per level: [0.02859, 0.00782, 0.01204, 0.00681, 0.00192]
+N=5: max |delta_omega| = 0.028591 at level 0; over that level's half-width 0.303; pairing ok (min level gap 0.76393)
+
+N=6: max |delta_omega| = 0.042029 at level 0; over that level's half-width 0.490; pairing ok (min level gap 0.53590)
+
+N=7: max |delta_omega| = 0.053457 at level 0; over that level's half-width 0.758; pairing ok (min level gap 0.39612)
+
+N=8: max |delta_omega| = 0.057347 at level 0; over that level's half-width 1.115; pairing ok (min level gap 0.30448)
+
+N=9: max |delta_omega| = 0.064347 at level 1; over that level's half-width 1.524; pairing UNRELIABLE (min level gap 0.24123)
+
+N=10: max |delta_omega| = 0.113577 at level 1; over that level's half-width 1.944; pairing UNRELIABLE (min level gap 0.19577)
+
+N=11: max |delta_omega| = 0.168144 at level 1; over that level's half-width 2.352; pairing UNRELIABLE (min level gap 0.16203)
+
+N=12: max |delta_omega| = 0.176041 at level 1; over that level's half-width 2.734; pairing UNRELIABLE (min level gap 0.13630)
+
+Verdict: the frequencies move, at N=[3, 4, 5, 6, 7, 8, 9, 10, 11, 12] of [3, 4, 5, 6, 7, 8, 9, 10, 11, 12].
+  The shift exceeds the level's own half-width from N=8 on
+  (N=[8, 9, 10, 11, 12]) and stays under it below that. So it is NOT a
+  uniformly small effect: small at N=3..7, resolvable above.
+  The level that moves most is not fixed: {3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 1, 10: 1, 11: 1, 12: 1}.
+  CAUTION: at N=[9, 10, 11, 12] the shift is not small against the level
+  spacing, so the level-for-level pairing there is not reliable and
+  those rows must not be read as per-level shifts.
+
+Control A: shape held fixed (edge/rest = 9 at every N, same budget).
+  N=3: 0.00441, N=4: 0.00779, N=5: 0.01134, N=6: 0.01480, N=7: 0.01796, N=8: 0.02061, N=9: 0.02254, N=10: 0.02359, N=11: 0.02369, N=12: 0.02297
+  At fixed shape the trend is not monotone in N.
+
+Control B: at N=5, same budget, unevenness swept.
+  std/mean: 0.000, 0.200, 0.400, 0.700, 1.100, 1.500, 1.980
+  shift:    0.00000, 0.00030, 0.00120, 0.00367, 0.00906, 0.01681, 0.02917
+  Monotone in unevenness: yes.
+
+Control C: the full Liouvillian, sorted |Im|, N=3 and N=4.
+  N=3: uniform gamma doubled (dose x2)      max shift = 0.004845
+  N=3: uniform -> concentrator (same dose)  max shift = 0.008022
+  N=4: uniform gamma doubled (dose x2)      max shift = 0.085555
+  N=4: uniform -> concentrator (same dose)  max shift = 0.074440
+  Uniform dephasing moves the full spectrum too, by a comparable amount.
+  On the (0,1) block it cannot, because there uniform gamma is a multiple
+  of the identity. That is a property of the block, not of the concentrator.
 
 ===========================================================================
 STEP 5: SCALING EXPONENT
@@ -116,24 +193,37 @@ Thin-film comparison:
 SUMMARY
 ===========================================================================
 
-1. REFLECTION/TRANSMISSION: The sacrifice zone increases the oscillating
-   fraction and Q-factor at every N. It is a better-matched cavity.
+1. REFLECTION/TRANSMISSION (N in [3, 4, 5, 6]):
+   T_eff up at every N: yes. Q_max up at every N: yes.
+   Q_med up at every N: NO, it FALLS at N=[3, 4, 6]. The gain is in
+   the best mode and in how many modes ring, not in the typical mode.
 
 2. IMPEDANCE MATCHING: gamma_edge ~ N*gamma_base (linear, not geometric
    mean). The sacrifice zone is a linear accumulator, not a classical
    AR coating. But it achieves the same effect: smooth entry of light.
 
-3. MODE-SELECTIVE: The sacrifice zone preserves oscillation FREQUENCIES
-   while dramatically changing DECAY RATES. Structurally identical to
-   an AR coating that changes reflectivity without moving resonances.
+3. ABSORPTION RATES: the flat uniform Re = -2*gamma_base becomes a spread.
+   Concentrator Re range on the (0,1) block: N=3: [-0.14940, -0.05089], N=4: [-0.17139, -0.03054], N=5: [-0.18561, -0.02053]
 
-4. TRANSFER MATRIX: Frequencies unchanged, decay rates shifted.
-   The sacrifice zone acts on Re(lambda) only, leaving Im(lambda)
-   invariant. This is the entrance pupil / AR coating mechanism.
+4. FREQUENCIES: measured level for level on the (0,1) block, checked against
+   the full Liouvillian at N=3,4,5, at equal total budget. They MOVE at
+   every N tested (N=3: 0.00802, N=4: 0.01684, N=5: 0.02859, N=6: 0.04203, N=7: 0.05346, N=8: 0.05735, N=9: 0.06435, N=10: 0.11358, N=11: 0.16814, N=12: 0.17604).
+   The move stays under the level's own half-width only up to N=7;
+   from N=8 it exceeds it. It is not a uniformly small effect.
+   At N=[9, 10, 11, 12] the pairing itself is unreliable (shift not small
+   against the level spacing), so those rows are a size, not a per-level map.
+   Controls: the size is monotone in how uneven the profile is (Control B),
+   the N-trend at fixed shape is not monotone (Control A), and raising a
+   uniform gamma moves the full spectrum by a comparable amount (Control C).
+   So what an AR coating would hold fixed is touched, and not by this
+   profile in particular.
 
 5. SCALING: Quadratic (N^2), not exponential. The cavity is dispersive,
    not a simple dielectric stack.
 
-VERDICT: The sacrifice zone IS the entrance pupil of the cavity.
-Structural analog to AR coating confirmed. Not quantitatively identical
-(linear scaling vs geometric mean), but functionally equivalent.
+VERDICT: The concentrator is the entrance pupil of the cavity on the
+absorption side: it raises Q_max and T_eff at every N in [3, 4, 5, 6].
+The analogy is neither quantitative (linear accumulation, not the
+geometric mean) nor complete: it moves the resonance frequencies too,
+which an AR coating does not. But moving them is not special to the
+concentrator, it is what a dephasing profile does.

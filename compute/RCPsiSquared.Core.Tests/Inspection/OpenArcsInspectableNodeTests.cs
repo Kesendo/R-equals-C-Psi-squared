@@ -7,15 +7,16 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasThirtyEightEntries()
+    public void Registry_HasThirtyNineEntries()
     {
-        Assert.Equal(38, OpenArcsRegistry.All.Count);   // +two_coast_classifier_repair,
+        Assert.Equal(39, OpenArcsRegistry.All.Count);   // +two_coast_classifier_repair,
                                                         // +ninety_degree_family_bookkeeping,
                                                         // +f91_scope_fences,
                                                         // +f115_valuation_gate_width,
                                                         // +concentrator_amplitude_signs,
                                                         // +f55_cavity_tier_chain (2026-08-01),
-                                                        // +site_resolved_vacuum_block (2026-08-02)
+                                                        // +site_resolved_vacuum_block (2026-08-02),
+                                                        // +unfalsifiable_verification_gates (2026-08-02)
     }
 
     [Fact]

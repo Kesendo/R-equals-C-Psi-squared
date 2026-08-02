@@ -149,43 +149,55 @@ def all_pauli_strings(N):
         strings.append(''.join(reversed(chars)))
     return strings
 
-for N in [4, 5]:
-    d = 2**N
-    # Build Hamiltonian
-    H = np.zeros((d, d), dtype=complex)
-    for i in range(N - 1):
-        for P in [Xm, Ym, Zm]:
-            ops = [I2] * N
-            ops[i] = P
-            ops[i + 1] = P
-            H += J * kron_chain(ops)
+# Pauli letter product, result letter only (the phase does not change the
+# XY-weight, which is all this step reads).
+_LETTER_PRODUCT = {
+    ('I', 'I'): 'I', ('I', 'X'): 'X', ('I', 'Y'): 'Y', ('I', 'Z'): 'Z',
+    ('X', 'I'): 'X', ('Y', 'I'): 'Y', ('Z', 'I'): 'Z',
+    ('X', 'X'): 'I', ('Y', 'Y'): 'I', ('Z', 'Z'): 'I',
+    ('X', 'Y'): 'Z', ('Y', 'X'): 'Z',
+    ('Y', 'Z'): 'X', ('Z', 'Y'): 'X',
+    ('Z', 'X'): 'Y', ('X', 'Z'): 'Y',
+}
 
+
+def string_product(a, b):
+    return ''.join(_LETTER_PRODUCT[(x, y)] for x, y in zip(a, b))
+
+
+def anticommute(a, b):
+    """Two Pauli strings anticommute iff they differ, both non-I, at an odd
+    number of positions."""
+    n = sum(1 for x, y in zip(a, b) if x != 'I' and y != 'I' and x != y)
+    return n % 2 == 1
+
+
+coupling_checks = {}
+
+for N in [4, 5, 6]:
     labels = all_pauli_strings(N)
     weights = np.array([pauli_weight(l) for l in labels])
 
-    # For each pair of weight sectors (w, w'), count nonzero [H, P_s] projections
-    # This tells us which sectors are coupled by the Hamiltonian
-    log(f"N={N}: Hamiltonian coupling between weight sectors")
+    # Which weight sectors does [H, .] connect? Two Pauli strings either
+    # commute or anticommute, and when they anticommute [A, B] = 2AB is a
+    # SINGLE Pauli string. So the whole coupling matrix is exact string
+    # algebra over ALL 4^N strings: no eigensolver, no sampling window.
+    # (It used to be built from the first 20 strings of each weight, in and
+    # out, which made the matrix a function of the enumeration order: N=4 and
+    # N=5 printed the identical matrix.)
+    log(f"N={N}: Hamiltonian coupling between weight sectors "
+        f"(exact, all {4**N} Pauli strings)")
     coupling = np.zeros((N + 1, N + 1))
+    bond_terms = [(''.join(P if q in (i, i + 1) else 'I' for q in range(N)))
+                  for i in range(N - 1) for P in ('X', 'Y', 'Z')]
 
-    # Sample: compute [H, P] for a subset of Pauli strings per weight
-    for w_in in range(N + 1):
-        idx_in = np.where(weights == w_in)[0]
-        if len(idx_in) == 0:
-            continue
-        # Sample up to 20 strings per weight
-        sample = idx_in[:min(20, len(idx_in))]
-        for si in sample:
-            P = kron_chain([{'I': I2, 'X': Xm, 'Y': Ym, 'Z': Zm}[c] for c in labels[si]])
-            comm = H @ P - P @ H
-            # Project onto each weight sector
-            for w_out in range(N + 1):
-                idx_out = np.where(weights == w_out)[0]
-                for sj in idx_out[:min(20, len(idx_out))]:
-                    Pj = kron_chain([{'I': I2, 'X': Xm, 'Y': Ym, 'Z': Zm}[c] for c in labels[sj]])
-                    proj = np.abs(np.trace(Pj.conj().T @ comm)) / d
-                    if proj > TOL:
-                        coupling[w_in, w_out] += 1
+    for si, lab in enumerate(labels):
+        outs = set()
+        for term in bond_terms:
+            if anticommute(term, lab):
+                outs.add(string_product(term, lab))
+        for o in outs:
+            coupling[weights[si], pauli_weight(o)] += 1
 
     # Normalize
     log(f"  Coupling matrix (nonzero elements between sectors):")
@@ -202,10 +214,23 @@ for N in [4, 5]:
     off_by_2 = sum(coupling[w, w2] for w in range(N+1) for w2 in range(N+1)
                    if abs(w - w2) == 2)
     diagonal = sum(coupling[w, w] for w in range(N+1))
+    odd = sum(coupling[w, w2] for w in range(N+1) for w2 in range(N+1)
+              if abs(w - w2) % 2 == 1)
     off_by_other = coupling.sum() - off_by_2 - diagonal
-    log(f"\n  Coupling summary: diagonal={diagonal:.0f}, Δw=±2: {off_by_2:.0f}, other: {off_by_other:.0f}")
-    log(f"  [H, .] couples w ↔ w±2 only: {'✓' if off_by_other < 1 else '✗'}")
+    log(f"\n  Coupling summary: Δw=0 (diagonal): {diagonal:.0f}, "
+        f"Δw=±2: {off_by_2:.0f}, |Δw| odd: {odd:.0f}, "
+        f"|Δw| even and >2: {off_by_other - odd:.0f}")
+    # The old headline, "[H,.] couples w to w±2 only", counts the diagonal as
+    # if it were not a coupling: Δw = 0 is subtracted out before "other" is
+    # formed, so it can never register as an exception, and it is the LARGER
+    # channel. What is actually conserved is the PARITY of the XY-weight.
+    log(f"  [H, .] changes the XY-weight by an EVEN amount only: "
+        f"{'yes' if odd < 1 else 'NO'}")
+    log(f"  [H, .] couples w to w±2 ONLY (no diagonal): "
+        f"{'yes' if diagonal < 1 and off_by_other - odd < 1 else 'NO'}"
+        f"{'' if diagonal < 1 else f', the diagonal carries {diagonal:.0f}'}")
     log()
+    coupling_checks[N] = (odd, diagonal, off_by_other - odd)
 
 # ─────────────────────────────────────────────
 # Step 3: Gouy phase analog
@@ -360,7 +385,13 @@ avg_r2 = np.mean([beam_params[N]['r2_g'] for N in range(3, 8)])
 checks.append(("Gaussian beam profile", avg_r2 > 0.8, f"avg R² = {avg_r2:.3f}"))
 
 # 2. Coupling is w ↔ w±2 (like nearest-neighbor in a cavity)
-checks.append(("[H,.] couples Δw = ±2 only", True, "verified at N=4,5"))
+_odd_free = all(v[0] < 1 for v in coupling_checks.values())
+_ns_c = sorted(coupling_checks)
+checks.append(("[H,.] changes XY-weight by an even amount only", _odd_free,
+               f"exact over all Pauli strings, N={_ns_c}"))
+_diag_free = all(v[1] < 1 for v in coupling_checks.values())
+checks.append(("[H,.] couples Δw = ±2 only (no diagonal)", _diag_free,
+               "diagonal: " + ", ".join(f"N={n}: {coupling_checks[n][1]:.0f}" for n in _ns_c)))
 
 # 3. Gouy phase
 checks.append(("Gouy phase (arctan fit)", r2_gouy > 0.8, f"R² = {r2_gouy:.3f} at N=7"))
@@ -383,9 +414,12 @@ for name, ok, detail in checks:
     log(f"  {'✓' if ok else '✗'} {name}: {detail}")
 
 log()
-if n_pass >= 4:
+# A fraction, not a count: the threshold used to be "4 or more" when there
+# were five checks, so adding a check silently lowered the bar.
+_frac = n_pass / len(checks)
+if _frac >= 0.8:
     log("RESULT: Strong quantitative analogy. The chain IS an optical cavity.")
-elif n_pass >= 2:
+elif _frac >= 0.5:
     log("RESULT: Partial analogy. Some optical quantities map correctly.")
 else:
     log("RESULT: Metaphor only. No quantitative Fabry-Perot structure.")

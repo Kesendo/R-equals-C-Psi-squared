@@ -475,8 +475,8 @@ explains what previously required separate derivations.
 
 3. [Concentrator Optics](../experiments/CONCENTRATOR_OPTICS.md):
    The concentrator is an entrance pupil. Q improves 2-7×, effective
-   transmission increases, frequencies are preserved. The cavity focuses
-   light into the interior.
+   transmission increases. The cavity focuses light into the interior,
+   and turns it slightly on the way: the resonance frequencies move too.
 
 4. [Born Rule Shadow](../experiments/BORN_RULE_SHADOW.md):
    The Born rule is a shadow, not a hologram. Zero interference in

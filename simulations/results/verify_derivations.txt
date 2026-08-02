@@ -7,36 +7,43 @@ D1: Bandwidth = 8J*cos(pi/N) -> 8J as N -> inf
     from formula 2: omega_k = 4J*(1 - cos(pi*k/N))
 ============================================================
 
-  N=2: 2 w=1 frequencies (expected 1)
-    numerical:  [np.float64(3.99875), np.float64(4.0)]
+  N=2: 1 (0,1)-block frequencies (expected 1)
+    block closure leak: 0.00e+00
+    numerical:  [np.float64(4.0)]
     formula 2:  [np.float64(4.0)]
     max freq error: 0.00e+00
-    BW numerical:   0.0012502000
     BW formula:     0.0000000000
+    BW: NOT APPLICABLE, one frequency has no spread; this N does not test the bandwidth
     BW/8J = 0.000000
 
-  N=3: 2 w=1 frequencies (expected 2)
+  N=3: 2 (0,1)-block frequencies (expected 2)
+    block closure leak: 0.00e+00
     numerical:  [np.float64(2.0), np.float64(6.0)]
     formula 2:  [np.float64(2.0), np.float64(6.0)]
-    max freq error: 8.88e-16
+    max freq error: 1.78e-15
     BW numerical:   4.0000000000
     BW formula:     4.0000000000
+    BW error:       2.22e-15
     BW/8J = 0.500000
 
-  N=4: 3 w=1 frequencies (expected 3)
+  N=4: 3 (0,1)-block frequencies (expected 3)
+    block closure leak: 0.00e+00
     numerical:  [np.float64(1.171573), np.float64(4.0), np.float64(6.828427)]
     formula 2:  [np.float64(1.171573), np.float64(4.0), np.float64(6.828427)]
-    max freq error: 4.75e-09
-    BW numerical:   5.6568542400
+    max freq error: 4.44e-15
+    BW numerical:   5.6568542495
     BW formula:     5.6568542495
+    BW error:       5.33e-15
     BW/8J = 0.707107
 
-  N=5: 4 w=1 frequencies (expected 4)
+  N=5: 4 (0,1)-block frequencies (expected 4)
+    block closure leak: 0.00e+00
     numerical:  [np.float64(0.763932), np.float64(2.763932), np.float64(5.236068), np.float64(7.236068)]
     formula 2:  [np.float64(0.763932), np.float64(2.763932), np.float64(5.236068), np.float64(7.236068)]
-    max freq error: 2.50e-09
-    BW numerical:   6.4721359600
+    max freq error: 5.33e-15
+    BW numerical:   6.4721359550
     BW formula:     6.4721359550
+    BW error:       5.33e-15
     BW/8J = 0.809017
 
   D1 STATUS: VERIFIED

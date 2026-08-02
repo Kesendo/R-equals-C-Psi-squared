@@ -3726,36 +3726,16 @@ public static class OpenArcsRegistry
                 "local as simulations/_mixed02_block_threshold.py; harden the two weak gates (tighten " +
                 "TOL, sweep gamma and bond profiles, drop the G4 check that is G3's algebra restated) " +
                 "before it is promoted and cited. " +
-                "GATES THAT CANNOT FAIL, found 2026-08-02 by the triage that was only meant to rename " +
-                "these scripts: three in the scripts below plus a fourth in optical_cavity_analysis " +
-                "(recorded in the doc half further down), all verified from below, NONE fixed. This is the biggest thing the arc " +
-                "carries now and it is not a naming item. (1) sacrifice_zone_optics.py:276 calls " +
-                "distinct_frequencies(w1_u.imag), but that function takes .imag itself, so it receives an " +
-                "already-real array whose .imag is all zeros. uniform_freqs comes back empty, the match loop " +
-                "never runs, and the whole 'if matched_s:' body is skipped; the tracked output " +
-                "results/sacrifice_zone_optics.txt prints 'Uniform frequencies: []' at :84 (N=4) and :88 (N=5). The " +
-                "verdict at :312-314 is then logged unconditionally. AND THE VERDICT IS FALSE, measured here " +
-                "on the (0,1) block at equal total budget sum(gamma)=N*0.05: at N=5 uniform |Im| = [0, 0.76393, " +
-                "2.76393, 5.23607, 7.23607] against concentrator [0.02859, 0.75611, 2.75189, 5.22926, 7.23415], " +
-                "the zero mode ACQUIRES a frequency and every other one shifts, while Re spreads from a flat " +
-                "-0.1 to [-0.18561 .. -0.02053]. Same picture at N=3 and N=4. So the concentrator moves BOTH " +
-                "parts, which is the same non-commutation of diag(gamma) with the Laplacian that F2's own " +
-                "gamma-profile fence already states. experiments/CONCENTRATOR_OPTICS.md Result 3 'Frequencies " +
-                "preserved, absorption rates shifted' and the abstract's 'frequency preservation' as one of " +
-                "three supports for 'structurally yes' therefore rest on a dead code path AND assert something " +
-                "false; repairing the script alone would leave the document standing. (2) verify_derivations.py: " +
-                "the selection window |rate - 2*gamma| < 0.3*gamma admits a neighbour at N=2, and because " +
-                "len(w1_freqs) != len(analytical) the comparison at :122 is SKIPPED rather than failed, so " +
-                "freq_err keeps its initial 0.0 and the run prints 'max freq error: 0.00e+00' and reports D1 " +
-                "VERIFIED. The tracked output states the mismatch ('N=2: 2 w=1 frequencies (expected 1)') on " +
-                "the same page as the clean verdict. A length mismatch must fail, not skip. (3) " +
-                "topological_edge_modes.py:178 evaluates the DIRICHLET family sin(pi k j/(N+1)), which is F2b's " +
-                "object, where the (0,1) block wants NEUMANN cos(pi k (j-1/2)/N) (D10 Step 5); the printed N=5 " +
-                "profile [1.25,1.25,0,1.25,1.25] is edge-heavy with a central node and contradicts the script's " +
-                "own line 172 ('peaks at center'), and :218 logs 'The profiles match.' as a constant string with " +
-                "nothing compared. experiments/TOPOLOGICAL_EDGE_MODES.md already carries the correction; the " +
-                "script lags its own document. ORDER: fix the gate, re-run, then decide what the document says, " +
-                "in that order, because (1)'s document currently states the opposite of the measurement. " +
+                "GATES THAT CANNOT FAIL: found here 2026-08-02 by the triage that was only meant to rename " +
+                "these scripts, and MOVED OUT the same day, because eight review rounds showed it is not " +
+                "this arc s topic but a habit of its own. All four are repaired; the arc " +
+                "unfalsifiable_verification_gates carries them, the errors the repairs themselves " +
+                "introduced, the ones still standing in the parts not touched, and the prose family " +
+                "that asserts frequency immunity without its uniform-gamma scope. One result from it " +
+                "belongs here: on the (0,1) block a gamma PROFILE moves the frequencies and a uniform " +
+                "gamma provably cannot, the move is monotone in the unevenness, and it passes the " +
+                "level s own half-width at N=8. experiments/CONCENTRATOR_OPTICS.md Result 3 now states " +
+                "that, with its range and its three fences. " +
                 "THE DOC HALF, triaged 2026-08-02 and NOT applied: five agents read the named files and the " +
                 "sweep found the arc's own list short by nine doc sites plus four C# ones, so do not treat any " +
                 "list here as complete. Six places assert more than a name and each needs a decision, not a " +
@@ -3808,6 +3788,101 @@ public static class OpenArcsRegistry
                 "no degree term, modulus N+1, while PROOF_R90_FROZEN_DIVISOR Lemma 5's is Heisenberg, carries " +
                 "the ZZ degree term, modulus N. Naming h_SE without saying which Hamiltonian is the same mistake " +
                 "one level down. Say which one every time.",
+            Status: OpenArcStatus.Open),
+        new OpenArc(
+            Name: "unfalsifiable_verification_gates",
+            Opened: "2026-08-02",
+            Origin: "A triage that was only meant to RENAME four scripts found that they were not " +
+                "checking anything. sacrifice_zone_optics.py fed an already-real array to a function " +
+                "that takes .imag itself, so its Step 4 computed nothing and logged its verdict anyway; " +
+                "verify_derivations.py skipped its frequency comparison on a length mismatch, leaving " +
+                "freq_err at its initial 0.0 and printing 'D1 VERIFIED' on the same page as the mismatch; " +
+                "topological_edge_modes.py logged 'The profiles match.' as a constant string while the two " +
+                "profiles it named were different mode sets in different normalisations; and " +
+                "optical_cavity_analysis.py appended a literal True labelled 'verified at N=4,5' for a " +
+                "coupling claim its own matrix contradicted. All four are now repaired and each was worse " +
+                "underneath than the surface defect: the coupling matrix was sampled from the first 20 " +
+                "Pauli strings per weight, so N=4 and N=5 printed the IDENTICAL matrix; the 'four slowest " +
+                "modes' were drawn by argsort out of SIXTEEN that share the rate exactly, making the " +
+                "average an eigensolver-ordering artifact; and D1, titled 'Bandwidth = 8J*cos(pi/N)', never " +
+                "compared the two bandwidths at all. WHAT THIS ARC IS: eight fresh-reviewer rounds over " +
+                "those repairs found the SAME disease throughout the parts that were never touched. It is " +
+                "not a list of bugs, it is one habit, and the habit is ours: a verdict written as prose " +
+                "next to a computation, rather than out of it.",
+            ParkedAt: "REPAIRED AND COMMITTED: the four gates above, plus the errors the repairs " +
+                "themselves introduced, which were of the same shape and are the reason this arc is " +
+                "phrased as a habit. Three of mine, all caught by review and verified from below before " +
+                "being accepted: (i) a 'fixed shape' control whose shape was not fixed (edge = 3*gamma_base " +
+                "with the rest sharing the remainder has std/mean falling 1.414 -> 0.603 over N=3..12), so " +
+                "it measured falling unevenness and was read as 'N does not matter'; at genuinely fixed " +
+                "shape the trend is not monotone, rising to N=11 and turning over. (ii) A size comparison " +
+                "that changed object, N and dose in one sentence ('three times' was a full-4^N " +
+                "dose-doubling at N=4 against a block redistribution at N=5); measured like for like the " +
+                "factor is 1.15 at N=4 and REVERSES at N=3. (iii) The column-leak metric fixed in one " +
+                "script and left as the discarded row-norm difference in its sibling, where an injected " +
+                "leak of 1e-9 prints exactly 0.0 and passes. Also fixed: a threshold 'n_pass >= 4' written " +
+                "when there were five checks, which adding a sixth silently turned into a lower bar. " +
+                "MEASUREMENTS THAT SURVIVED and are now in the docs: the (0,1) block is exactly closed " +
+                "under any gamma profile (max off-block column entry 0.0), a gamma PROFILE moves its " +
+                "frequencies while a uniform gamma provably cannot (it enters as a multiple of the " +
+                "identity there, and on the (0,2) and (0,3) blocks equally), the move is monotone in the " +
+                "profile's unevenness, it exceeds the level's own half-width from N=8, the pairing that " +
+                "reads it per-level stops being reliable from N=9, and on the FULL Liouvillian uniform " +
+                "dephasing moves frequencies by a comparable amount, so none of this is the concentrator's " +
+                "doing. And the exact Pauli-string algebra replacing the sampled coupling matrix: [H,.] " +
+                "changes the XY-weight by an EVEN amount only (odd offsets exactly 0 at N=4,5,6), so the " +
+                "conserved thing is the weight PARITY, and the 'couples w to w+-2 only' headline is false " +
+                "because the diagonal is the larger channel (768 against 384 at N=4).",
+            NextStep: "STILL UNFALSIFIABLE, found by review, verified, NOT fixed, in the parts this pass " +
+                "did not touch. verify_derivations.py: D3 prints VERIFIED when the propagation crossing is " +
+                "never reached, because the cross-check sits behind 'if t_Z and t_X:' and is skipped rather " +
+                "than failed (demonstrated at gamma = 1e-6); D4's gate is an algebraic identity, cpsi_1q = " +
+                "f1*(1+f1^2)/2 where f1 solves f(1+f^2) = 0.5, so it is 0.25 by construction and no input " +
+                "can make D4 fail; D2's N=2 row sets V_num to the literal 1.0 whenever fewer than two Q " +
+                "values matched, which is always at N=2, and its Q_mean deviation is printed and never " +
+                "gated (an XX-only H at N=2 gives Q_mean 20 against the header's 40 and still passes); " +
+                "D5's third check is the first two subtracted from 4^N, an identity that cannot fire; D6's " +
+                "Zeno branch needs Q <= 0.1, which is below every threshold entry, so it is dead code at " +
+                "any parameter. topological_edge_modes.py: the whole SUMMARY block is constant text and " +
+                "three of its five statements are contradicted by numbers printed above it in the same " +
+                "run (it says the off-diagonal blocks have full rank where Phase 2 printed four zero " +
+                "singular values; it says the protection varies smoothly where Phase 5 printed a sharp " +
+                "transition; it says the localisation profile is identical at all gamma profiles where the " +
+                "third profile printed is centre-DIPPED); Phase 3's Berry phase is not gauge invariant " +
+                "because the theta path is open, so the same code returns -7.34, +27.06 or -10.03 " +
+                "depending on the phase LAPACK hands back, and it grows with grid density instead of " +
+                "converging; Phase 5's 'sharp transition' test fires on any curve with a tail, including " +
+                "the analytic hyperbola the sweep actually produces; Phase 4's 'centre-localised' fraction " +
+                "is 33% or 88% depending on a tolerance, the 88% coming from exact ties at N=4 where " +
+                "reflection symmetry exchanges the two middle sites. sacrifice_zone_optics.py: Step 2's " +
+                "conclusion is a tautology on its own defining formula, Step 5 fits only a quadratic and " +
+                "then rejects an exponential it never fitted (linear R^2 = 0.9948 against quadratic " +
+                "0.99928 on the same ten points, and SIGNAL_ANALYSIS_SCALING fits the same series with an " +
+                "N^2 coefficient 2.6x larger while calling the growth clearly sub-quadratic), and Step 3's " +
+                "shell table selects the two profiles through windows differing by a factor 10^6, dropping " +
+                "the modes that carry the high Q. THE OTHER HALF, prose rather than code: a family of " +
+                "unqualified 'the frequencies are immune to noise' statements that are true only for " +
+                "UNIFORM gamma. Verified sites: STRUCTURAL_CARTOGRAPHY:716/721/722 (whose own SWEEP 4 uses " +
+                "a profile, and whose table prints three decimals, one order too coarse to see the shifts), " +
+                "CAVITY_MODES_FORMULA:246-248, QUANTUM_SONAR:119-123, IBM_CAVITY_SPECTRAL_ANALYSIS:41/62/" +
+                "180/186 (which runs the IBM concentrator profile and whose own table already refutes it), " +
+                "ANALYTICAL_FORMULAS F11 at :652-659 ('valid for ALL Z-dephasing profiles', the exact " +
+                "converse of the mechanism), and GPT_Prompts/PROMPT_GPT_APPLICATIONS:12/16-17, which is " +
+                "outward-facing. ibm_cavity_analysis.py:262 prints its version as a hardcoded string and " +
+                "bins with freq_tol = 0.1, an order of magnitude above the shifts it would need to see. " +
+                "AND ONE OPEN QUESTION, not a defect: the entrance-pupil reading in CONCENTRATOR_OPTICS " +
+                "needs the EDGE to be the special seat, and neither Result 1 metric gives it that. At equal " +
+                "budget T_eff is IDENTICAL for every non-uniform profile, including a barely uneven one, so " +
+                "it registers only whether the profile is uniform; and Q_max is not maximal at the edge, " +
+                "the middle site giving 2618 against 352 at N=5. Result 1 now says so and points here. " +
+                "Whether the reading is fenced or withdrawn is Tom's call and is the first thing to settle. " +
+                "HOW TO WORK THIS ARC: the rule that found all of it is to say what a gate is SENSITIVE to " +
+                "before believing it, and the cheapest test is the mutation test, which is how the repaired " +
+                "D1 was accepted (a wrong dispersion and a wrong block both make it FAIL). Two failure " +
+                "shapes recur and are worth greping for directly: a conclusion stated as a literal next to " +
+                "a computation instead of derived from it, and a SAMPLE or a WINDOW or an N-range narrow " +
+                "enough to hide the exception, which is what kept the (0,1) block at N<=5 when the block is " +
+                "N-by-N and the interesting crossing is at N=8.",
             Status: OpenArcStatus.Open),
     };
 

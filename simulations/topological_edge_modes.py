@@ -168,14 +168,18 @@ log("  The w=1 sector dispersion: ω_k = 4J(1-cos(πk/N)), k=1..N-1")
 log("  This is tight-binding with UNIFORM hopping 2J.")
 log("  SSH requires ALTERNATING hopping t1-t2.")
 log()
-log("  Standing wave eigenstates: ψ_k(j) ∝ sin(πkj/(N+1))")
-log("  For the highest mode (k=N-1): peaks at center, nodes at edges.")
+log("  Standing wave eigenstates: ψ_k(j) ∝ cos(πk(j-½)/N), the NEUMANN family.")
+log("  These are the eigenvectors of the open chain's Laplacian, and so of")
+log("  the (0,1) coherence block, which is what ω_k above is the spectrum of.")
+log("  The Dirichlet family sin(πkj/(N+1)) belongs to the chain's ADJACENCY")
+log("  matrix (F2b) and diagonalizes a different operator.")
+log("  For the highest mode (k=N-1): peaks at center, shallow at the edges.")
 log()
 
 for N in [4, 5]:
     freqs = [4 * (1 - np.cos(np.pi * k / N)) for k in range(1, N)]
     # Standing wave profile for highest mode (k=N-1)
-    profile = [np.sin(np.pi * (N - 1) * j / (N + 1))**2
+    profile = [np.cos(np.pi * (N - 1) * (j - 0.5) / N)**2
                for j in range(1, N + 1)]
     profile = np.array(profile) / np.sum(profile) * N
 
@@ -210,12 +214,47 @@ if np.any(osc_mask):
     slow_freq = np.mean(np.abs(w_all[slow4_idx].imag))
     slow_rate = np.mean(-w_all[slow4_idx].real)
 
+    # How many modes share the slowest rate? Taking "the 4 slowest" out of a
+    # degenerate set makes the average a function of the eigensolver's
+    # ordering, not of the physics, so the count has to be printed.
+    slowest = np.min(rates)
+    n_tied = int(np.sum(np.abs(rates - slowest) < 1e-8))
+    tied_freqs = sorted(set(np.round(np.abs(w_all[osc_mask][
+        np.abs(rates - slowest) < 1e-8].imag), 6)))
+
     log(f"  Actual Liouvillian (N={N}, uniform γ=0.05, {clock.time()-t0:.1f}s):")
-    log(f"    Slowest oscillating modes: rate={slow_rate:.4f}, freq={slow_freq:.3f}")
-    log(f"    Localization: {['%.3f' % p for p in avg_profile]}")
-    log(f"    Compare with: [0.519, 0.631, 0.700, 0.631, 0.519] (CAVITY_MODE)")
+    # slow_rate is well defined (the tied modes share it exactly); a MEAN over
+    # their frequencies is not a frequency of anything, so the set is printed.
+    log(f"    Slowest oscillating modes: rate={slow_rate:.4f}")
+    log(f"    Modes sharing the slowest rate {slowest:.4f}: {n_tied}")
+    log(f"    Their frequencies: {['%.3f' % f for f in tied_freqs]}")
+    log(f"    Localization (4 of them, averaged): {['%.3f' % p for p in avg_profile]}")
+
+    # CAVITY_MODE_LOCALIZATION reports its profile in its own normalization
+    # (it sums to 3.0, not to N), and for a DIFFERENT mode set: rate 0.0456,
+    # freq 7.234J. Put both on sum = N before comparing anything.
+    cavity_ref = np.array([0.519, 0.631, 0.700, 0.631, 0.519])
+    cavity_ref_n = cavity_ref / np.sum(cavity_ref) * N
+    dev = float(np.max(np.abs(avg_profile - cavity_ref_n)))
+    log(f"    CAVITY_MODE reference, renormalized to sum={N}: "
+        f"{['%.3f' % p for p in cavity_ref_n]}")
+    log(f"    Max deviation: {dev:.3f}")
     log()
-    log("  The profiles match. Center-localization is a standing wave effect.")
+    if n_tied > 4:
+        log(f"  The {n_tied} modes at the slowest rate are degenerate in rate, so")
+        log("  'the 4 slowest' is an eigensolver-ordering artifact and the average")
+        log("  above is not a well-defined object. It is reported, not compared.")
+    elif dev < 0.05:
+        log("  The profiles match. Center-localization is a standing wave effect.")
+    else:
+        _centre = avg_profile[N // 2]
+        _shape = ("centre-peaked" if _centre >= avg_profile.max() - 1e-9
+                  else "not centre-peaked")
+        log(f"  The profiles do NOT match (max deviation {dev:.3f}). The set measured")
+        log(f"  here sits at rate {slowest:.4f} and is {_shape} "
+            f"(centre {_centre:.3f} against max {avg_profile.max():.3f}).")
+        log("  CAVITY_MODE's profile belongs to a different mode set; comparing them")
+        log("  needs that set selected here, which this step does not do.")
 
 
 # ========================================================================
