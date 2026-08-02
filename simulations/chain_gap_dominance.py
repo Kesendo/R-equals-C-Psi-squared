@@ -1,5 +1,8 @@
 """Gate-first PROOF of chain gap-dominance: the maximum oscillation frequency among the exactly-Re=-2g
-Liouvillian modes of the open XY chain under Z-dephasing equals the band edge E1 = 2J*cos(pi/(N+1)).
+Liouvillian modes of the open XY chain under Z-dephasing equals the band edge E1 = 2J*cos(pi/(N+1)),
+for N >= 3, which is the range this script builds. At N = 2 the statement is FALSE for
+Q = J/gamma > 2/sqrt(3): see PROOF_CHAIN_GAP_DOMINANCE section 4.2 and the companion verifier
+simulations/mixed02_block_threshold.py, which is the gate for that half.
 
 This was the open lemma capping ClockHandLadderClaim / TopologyBandEdgeClaim / CoherenceHorizonClaim at
 Tier1Candidate ("the general proof that the max frequency in the protected n_XY=1 subspace is E1; L_H leaks
@@ -11,7 +14,7 @@ n_XY=1->3, no free-fermion shortcut"). The shortcut DOES exist, restricted to th
     is n_XY=1 (a single fermion op, n_XY 0 dressing) AND an H-eigenoperator (f(N_tot) commutes with H):
     [H, c_k^(dag) f(N_tot)] = -/+ E_k (.). So each is an EXACT L-eigenmode at -2g -/+ iE_k, |Im|=E_k<=E1.
   * COMPLETENESS: for N>=4 these SPAN the whole exactly-(-2g) eigenspace (dim_span == dim_sub), so
-    max|Im| = E1 exactly. N=3 is the SPECIAL CASE: 18 free-fermion modes PLUS 4 extra (n,n)
+    max|Im| = E1 exactly (N >= 3). N=3 is the low-N case this script reaches: 18 free-fermion modes PLUS 4 extra (n,n)
     equal-particle-number coherence modes at sqrt(E1^2-(2g)^2) < E1 (the {0,2} square-root-EP family;
     in N=3 the (1,1) sector's n_XY=2 is maximal so the {0,2} block closes and lands exactly on -2g).
     Both families are <= E1, so the maximum is E1 for N=3 too.
@@ -171,7 +174,10 @@ print("STAGE 4 PASS: the N=3 extra (n,n) modes sit at sqrt(E1^2-(2g)^2) < E1 (th
 print("             so even in the special case the maximum is E1 (achieved by the free-fermion (0,1) ladder).")
 
 print("\n" + "=" * 96)
-print("PROVEN: max|Im| over the exactly-(-2g) (n_XY=1) modes = E1. The exactly-(-2g) subspace is the")
-print("free-fermion family c_k^(dag).f(N_tot) (oscillating at +-E_k, spanning for N>=4); N=3 adds the")
+print("PROVEN for N >= 3: max|Im| over the exactly-(-2g) (n_XY=1) modes = E1. The exactly-(-2g)")
+print("subspace is the free-fermion family c_k^(dag).f(N_tot) (oscillating at +-E_k, spanning for")
+print("N>=4); N=3 adds the")
 print("{0,2} sqrt-EP family at sqrt(E1^2-(2g)^2) < E1. The band edge is gap-dominant. (chain; JW is 1D.)")
+print("N=2 is NOT covered here and is NOT gap-dominant for Q > 2/sqrt(3): its own {0,2} pair sits at")
+print("2*sqrt(J^2-g^2) > E1=J. Gate: simulations/mixed02_block_threshold.py.")
 print("DONE.")

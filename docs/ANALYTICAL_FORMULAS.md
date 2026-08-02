@@ -172,9 +172,13 @@ takes the gap and the band edge ceases to be the coherence hand, the
 higher rungs leaving first (live: `inspect --root clock --J 1 --gamma 0.5`
 shows N=5 gone at Q=2). The mechanism is derived, and gap-dominance, that
 the band edge is the fastest oscillation on the −2γ floor, is now PROVEN
-via free fermions (max|Im| = E1 for all N; the floor modes are
+via free fermions (max|Im| = E1 for N ≥ 3; the floor modes are
 c_k^(†)·f(N_tot) at ±E_k, see
-[the Chain Gap-Dominance proof](proofs/PROOF_CHAIN_GAP_DOMINANCE.md)). Above the
+[the Chain Gap-Dominance proof](proofs/PROOF_CHAIN_GAP_DOMINANCE.md)).
+At N = 2 it holds only for Q ≤ 2/√3: there the {0,2} pair sits at
+2√(J²−γ²), which overtakes E1 = J above that ratio, and the floor's
+maximum is the pair rather than the band edge. That is the same
+crossover the ω_mem entry below states for the N = 2 hand. Above the
 Coherence Horizon Q*(N) the floor is the strict gap and the clock reads the
 band edge; below it a slower real mode takes the gap.
 

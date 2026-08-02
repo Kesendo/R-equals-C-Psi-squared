@@ -10,7 +10,9 @@ RESULT (gate-verified below):
     fermion mode c_0^(dag).f(N_tot); reached exactly, gamma-independent). No symmetry enters: the (0,1)
     sector reaches J*rho on ANY connected graph, and "dihedral lock" is a historical label, not a mechanism
     (at even N the max |E_k| is attained TWICE, m=0 and m=N/2, so C_N singles out nothing there).
-  * N = 4 is the SPECIAL CASE (the ring analogue of the chain's N=3): the half-filling (2,2) {0,2}-coherence
+  * N = 4 is the SPECIAL CASE (the ring analogue of the chain's N=2, which also exceeds its
+    band top for Q > 2/sqrt(3); the chain's N=3 case faces the other way and stays below E1):
+    the half-filling (2,2) {0,2}-coherence
     sqrt-EP mode reaches Im = sqrt((2sqrt2 J)^2 - (2g)^2) -> 2sqrt2 J > 2J, EXCEEDING the band top. This is
     the "co-occupied floor mismatch for ring N=4" that TopologyBandEdgeClaim records; 2sqrt2 = sum of the two
     largest anti-periodic single-fermion energies (the even-parity / anti-periodic JW sector wraps the ring).
@@ -103,7 +105,8 @@ for N in (3, 4, 5, 6):
     print(f"{N:>2} {mx:>13.6f} {pred:>13.6f} {which:>28} {d:>9.1e}")
     assert d < 1e-5, f"STAGE 0 GATE FIRED at N={N}: max|Im| {mx} != prediction {pred}"
 print("STAGE 0 PASS: ring max|Im| = 2J (=J*rho, periodic band top) for N=3,5,6; N=4 = sqrt((2sqrt2)^2-(2g)^2)")
-print("  -> 2sqrt2 J > 2J (the (2,2) half-filling sqrt-EP, the ring analogue of the chain's N=3 special).")
+print("  -> 2sqrt2 J > 2J (the (2,2) half-filling sqrt-EP, the ring analogue of the chain's N=2")
+print("     special, which also exceeds its band top; the chain N=3 one stays below E1).")
 
 # ====================================================================================================
 # STAGE 1 -- THE BAND-TOP REACH (general N): the (0,1) vacuum<->single-excitation sector reaches J*rho = 2J.

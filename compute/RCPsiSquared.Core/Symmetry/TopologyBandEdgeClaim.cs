@@ -8,7 +8,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// radius ρ: chain 2cos(π/(N+1)), star √(N−1), ring 2, generalizing the chain-only F2b band edge to any
 /// topology. This is the Im/L_H side; the Re=−2γ floor (the band-edge coherence has n_XY=1) is the
 /// Absorption Theorem, cited not re-derived. Whether the clock/seam reads that band edge as ω_mem is a
-/// topology-specific regime (witnessed, not separately claimed): a Q-horizon for chain (all N), star
+/// topology-specific regime (witnessed, not separately claimed): a Q-horizon for chain (N≥3; at N=2 the
+/// {0,2} pair overtakes the band edge for Q>2/√3, so the band edge is not the floor max there), star
 /// (N≤5), and odd rings; a structural ceiling for star N≥6 (strict gap saturates below 2γ); a
 /// co-occupied-floor mismatch for ring N=4 (a (2,2) mode at the floor with Im=2√2·J > band edge, on the
 /// Q > 1 side: its floor frequency √((2√2·J)²−(2γ)²) drops back under 2J at γ = J, and the block leaves the
@@ -28,7 +29,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Tier: Tier1Derived (2026-06-16). The band-edge LAW (SE block of XY = J·adjacency) is exact; the
 /// Re=−2γ floor is the Tier1Derived <see cref="AbsorptionTheoremClaim"/>; and the chain gap-dominance that its
 /// parent <see cref="ClockHandLadderClaim"/> had left open is now PROVEN (docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md:
-/// the exact-(−2γ) modes are free fermions c_k^(†)·f(N_tot) at ±E_k, max E1), so ClockHandLadder graduated to
+/// the exact-(−2γ) modes are free fermions c_k^(†)·f(N_tot) at ±E_k, max E1 for N≥3; N=2 excepted for
+/// Q>2/√3, §4.2 there), so ClockHandLadder graduated to
 /// Tier1Derived and this inherited cap is lifted. The topology-specific gap-dominance map (below) is
 /// witnessed, and independently understood: the star has no coherence horizon (flat band,
 /// PROOF_STRUCTURAL_CEILING §7), and complete/star structurally ceiling (g2=4/N, 4/(N−1); F122 /
@@ -52,7 +54,7 @@ public sealed class TopologyBandEdgeClaim : Claim
                "spectral radius ρ (chain 2cos(π/(N+1)), star √(N−1), ring 2), generalizing the chain-only F2b " +
                "band edge to any topology (the Im/L_H side; the Re=−2γ floor is the Absorption Theorem, n_XY=1). " +
                "Gap-dominance (whether ω_mem reads the band edge) is topology-specific and witnessed: Q-horizon " +
-               "for chain (all N) / star (N≤5) / odd rings; structural ceiling for star N≥6; co-occupied floor " +
+               "for chain (N≥3; N=2 excepted for Q>2/√3) / star (N≤5) / odd rings; structural ceiling for star N≥6; co-occupied floor " +
                "for ring N=4 (a (2,2) mode at −2γ with Im=2√2·J > band edge, on the Q>1 side of that N, and only for the " +
                "perfectly uniform 4-cycle: a wrap-bond detuning of 1e-4 removes it from the exact floor). Even rings " +
                "N≥6 carry no such mismatch (N=6 and N=8 read J·ρ over every sector).",
@@ -72,7 +74,8 @@ public sealed class TopologyBandEdgeClaim : Claim
 
     public override string Summary =>
         $"band edge = J·ρ (chain 2cos(π/(N+1)), star √(N−1), ring 2); gap-dominance topology-specific " +
-        $"(chain/star≤5/odd-ring horizon, star≥6 ceiling, ring-4 co-occupied floor on the Q>1 side only) ({Tier.Label()})";
+        $"(chain N≥3 / star≤5 / odd-ring horizon, star≥6 ceiling, ring-4 co-occupied floor on the Q>1 side only, " +
+        $"chain N=2 likewise co-occupied for Q>2/√3) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -85,7 +88,7 @@ public sealed class TopologyBandEdgeClaim : Claim
                 summary: "the band-edge coherence |vac⟩⟨ψ_k| has n_XY=1, so it sits at Re=−2γ for any topology " +
                          "(PROOF_ABSORPTION_THEOREM.md §4.3/§4.5). Cited, not re-derived.");
             yield return new InspectableNode("the gap-dominance map (witnessed)",
-                summary: "Q-horizon: chain (all N), star (N≤5), odd rings. Structural ceiling: star N≥6 " +
+                summary: "Q-horizon: chain (N≥3; N=2 excepted for Q>2/√3), star (N≤5), odd rings. Structural ceiling: star N≥6 " +
                          "(strict gap saturates g2=4/(N−1)·2γ, N-dependent: N=6→0.80). Co-occupied floor: ring N=4 (a (2,2) mode at −2γ, " +
                          "Im=2√2·J > band edge, on the Q>1 side only; even rings N≥6 carry none). Live: inspect --root bandedge.");
             yield return new InspectableNode("ring gap-dominance (the dihedral lock, characterized 2026-06-17)",
@@ -98,7 +101,9 @@ public sealed class TopologyBandEdgeClaim : Claim
                          "top not below). The ring sibling of chain gap-dominance. max|Im| = J·ρ ON THE FLOOR is not either " +
                          "topology's: measured on all 38 connected labelled graphs at N=4, on star / complete / " +
                          "asymmetric graphs at N=5,6 and under random bond weights, the three labellings of the " +
-                         "4-cycle are the only violations. Topology-specific is the closed form for ρ, and the exception. " +
+                         "4-cycle are the only violations IN THAT SWEEP, which begins at N=4; across N the two-site " +
+                         "chain P₂ exceeds its own band top for Q>2/√3 and is a second violation. " +
+                         "Topology-specific is the closed form for ρ, and the exceptions. " +
                          "Free-fermion COMPLETENESS gate-verified 2026-06-20 (ring_gap_completeness.py): the n_XY=1 " +
                          "family spans the exact-(−2γ) subspace (V_1 dim = full-L dim at N=3,5,6,7, and at N=8 by a squeeze " +
                          "between the 4N outer-sector modes and the sector walk; chain sanity 32/50/72), " +

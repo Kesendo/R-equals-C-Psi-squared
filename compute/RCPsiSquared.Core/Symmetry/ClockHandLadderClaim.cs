@@ -20,14 +20,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// subspace L_D=−2γ is a scalar so L=L_H−2γ acts freely; via Jordan-Wigner the modes c_k^(†)·f(N_tot)
 /// (a single fermion dressed by a function of the total number) are exactly that subspace, oscillating at the
 /// single-particle energies ±E_k≤E1 (they SPAN it for N≥4; N=3 adds a {0,2} √-EP family at
-/// √(E1²−(2γ)²)<E1). So max|Im|=E1: the band edge is gap-dominant. Hence Tier1Derived. (Scope: the chain;
-/// Jordan-Wigner is 1D. The N=3 extra family is one more entry in the chain's list of N=3 accidents.)</para>
+/// √(E1²−(2γ)²)<E1). So max|Im|=E1 for N≥3: the band edge is gap-dominant there. Hence Tier1Derived.
+/// (Scope: the chain; Jordan-Wigner is 1D. N=2 is NOT covered: its own {0,2} pair sits at 2√(J²−γ²),
+/// which EXCEEDS E1=J for Q>2/√3, so max|Im|≠E1 there; see PROOF_CHAIN_GAP_DOMINANCE §4.2, and the N=2
+/// fence this same file already carries on the hand itself. The low-N extras are not an N=3 accident:
+/// the rung moves with the model (XY at N=2,3; Heisenberg at N=2 only), the SE ZZ diagonal being
+/// constant at N=2 and NOT constant at N=3. Not constant is weaker than non-degenerate: (0,-J,0)
+/// repeats 0. Constancy is what decides it, since a constant diagonal acts as a multiple of the
+/// identity on the sector.)</para>
 ///
 /// <para>Ring sibling (2026-06-17): the cyclic analogue is docs/proofs/PROOF_RING_GAP_DOMINANCE.md (verifier
 /// simulations/ring_gap_dominance.py). The ring's floor max|Im| is 2J = J·ρ for general N, except N=4 where
-/// the half-filling (2,2) {0,2} √-EP reaches 2√2·J above the band top, the mirror of this chain's N=3 {0,2}
-/// exception, which sits below E1. max|Im| = J·ρ on the floor is not either topology's: it was measured on
-/// all 38 connected labelled graphs at N=4 (the three labellings of the 4-cycle the only violations), on
+/// the half-filling (2,2) {0,2} √-EP reaches 2√2·J above the band top, the mirror of this chain's N=2 {0,2}
+/// exception, which also exceeds its band top; the chain's N=3 one faces the other way and sits below E1. max|Im| = J·ρ on the floor is not either topology's: it was measured on
+/// all 38 connected labelled graphs at N=4 (the three labellings of the 4-cycle the only violations IN THAT
+/// SWEEP, which starts at N=4; across N the two-site chain P₂ is a second violation, for Q>2/√3), on
 /// star / complete / asymmetric graphs at N=5,6, and under random bond weights. Topology-specific is the
 /// closed form for ρ, and the exception. The "dihedral lock" name is historical: no reflection and no cyclic
 /// structure enters, the mechanism is Perron-Frobenius on a connected graph. The ring statement is typed into <see cref="TopologyBandEdgeClaim"/>. The ring

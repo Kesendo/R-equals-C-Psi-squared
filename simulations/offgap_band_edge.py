@@ -6,7 +6,9 @@ E1 = 2J·cos(π/(N+1)) for N≥3. The mechanism (the |vac⟩⟨ψ_k| modes are s
 gap rate 2γ oscillates faster than the band edge. That is the open remainder.
 
 WHAT IS CONFIRMED HERE (gate-first, full 4^N Liouvillian, N=3,4,5):
-  (ii) max|Im| among the modes at EXACTLY Re=−2γ equals the band edge E1 (√2 / φ / √3 at N=3/4/5);
+  (ii) max|Im| among the modes at EXACTLY Re=−2γ equals the band edge E1 (√2 / φ / √3 at N=3/4/5).
+       This holds for N >= 3, the range swept here. At N = 2 it is FALSE for Q > 2/sqrt(3):
+       PROOF_CHAIN_GAP_DOMINANCE section 4.2, gate simulations/mixed02_block_threshold.py;
   the vacuum-anchored |vac⟩⟨ψ_k| ladder are exact eigenoperators at −2γ+iE_k (residual ~1e-16);
   (i)  the Q-FLOOR is the COHERENCE HORIZON Q*(N): the band edge is the gap (the coherence hand) only
        above Q*(N) (1.879 / 2.374 at N=4/5, → 2N/π); the numerical floor brackets Q*(N) exactly. Below it

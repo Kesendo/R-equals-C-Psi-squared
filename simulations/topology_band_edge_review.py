@@ -92,6 +92,8 @@ def analyze(topo, N, Q):
 # ---------- LAW ----------
 print("=" * 100)
 print("LAW: J*rho(adjacency) == closed form == max|Im| of vac<->SE coherence line")
+print("     (chain: N >= 3. At N = 2 the {0,2} pair exceeds it for Q > 2/sqrt(3);")
+print("      PROOF_CHAIN_GAP_DOMINANCE section 4.2.)")
 print("=" * 100)
 for topo in ('chain', 'star', 'ring'):
     for N in (3, 4, 5, 6):

@@ -11,7 +11,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <summary>The topology generalization of <see cref="ClockHandLadderWitness"/> (typed home:
 /// <c>TopologyBandEdgeClaim</c>). The single-excitation band edge = J × the hopping-graph adjacency
 /// spectral radius ρ (chain 2cos(π/(N+1)), star √(N−1), ring 2). Whether the clock reads it as ω_mem (the
-/// band edge is the strict gap mode) is topology-specific: a Q-horizon for chain / star N≤5 / odd rings, a
+/// band edge is the strict gap mode) is topology-specific: a Q-horizon for chain N≥3 / star N≤5 / odd rings, a
 /// structural ceiling for star N≥6, and a co-occupied floor for ring N=4. The witness reads ω_mem at two
 /// Q points (the operating Q and ×50) so it can label horizon (climbing) vs co-occupied honestly; N=6 (the
 /// cleanest ceiling) is exercised in the test suite (4^6 dense, too slow for the live map). The Re=−2γ floor
@@ -142,7 +142,7 @@ public sealed class TopologyBandEdgeWitness : IInspectable
                     summary: $"at Q={qLo.ToString("0", Inv)}: ω_mem/J = {(OmegaAtGap(topo, n, qLo) / J).ToString("0.####", Inv)}, " +
                              $"band edge/J = {(BandEdge(topo, n) / J).ToString("0.####", Inv)} → {Regime(topo, n, qLo, qHi)}"));
         return new InspectableNode("the gap-dominance map (is the band edge the strict gap mode?)",
-            summary: "is the band edge the strict gap mode? At Q=20: PROTECTED = chain (all N), star N≤4, odd rings. " +
+            summary: "is the band edge the strict gap mode? At Q=20: PROTECTED = chain (N≥3; this sweep runs N=3,4,5 and does NOT build N=2, where at Q=20 the {0,2} pair EXCEEDS the band edge), star N≤4, odd rings. " +
                      "Q-horizon (broken at Q=20, climbs to the band edge by high Q) = star N=5. " +
                      "Co-occupied floor (a different mode at −2γ, never the band edge) = ring N=4 (a (2,2) mode, Im=2√2·J > band edge). " +
                      "Structural ceiling (gap saturates below 2γ) = star N≥6 (test suite only).",

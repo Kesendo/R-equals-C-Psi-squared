@@ -1,0 +1,111 @@
+==========================================================================
+THE {0,2} EXTRAS: A LOW-N THRESHOLD WHOSE RUNG MOVES WITH THE MODEL
+==========================================================================
+
+G1 + G2  where the extras are, and what they are (gamma-swept)
+--------------------------------------------------------------------------
+    gamma=0.02  N=2 xy         extras= 2  |Im| = [np.float64(1.9996)]
+    gamma=0.02  N=3 xy         extras= 4  |Im| = [np.float64(1.413648)]
+    gamma=0.02  N=4 xy         extras= 0  |Im| = []
+    gamma=0.02  N=5 xy         extras= 0  |Im| = []
+    gamma=0.02  N=2 heisenberg extras= 2  |Im| = [np.float64(1.9996)]
+    gamma=0.02  N=3 heisenberg extras= 0  |Im| = []
+    gamma=0.02  N=4 heisenberg extras= 0  |Im| = []
+    gamma=0.02  N=5 heisenberg extras= 0  |Im| = []
+    gamma=0.05  N=2 xy         extras= 2  |Im| = [np.float64(1.997498)]
+    gamma=0.05  N=3 xy         extras= 4  |Im| = [np.float64(1.410674)]
+    gamma=0.05  N=4 xy         extras= 0  |Im| = []
+    gamma=0.05  N=5 xy         extras= 0  |Im| = []
+    gamma=0.05  N=2 heisenberg extras= 2  |Im| = [np.float64(1.997498)]
+    gamma=0.05  N=3 heisenberg extras= 0  |Im| = []
+    gamma=0.05  N=4 heisenberg extras= 0  |Im| = []
+    gamma=0.05  N=5 heisenberg extras= 0  |Im| = []
+    gamma=0.2   N=2 xy         extras= 2  |Im| = [np.float64(1.959592)]
+    gamma=0.2   N=3 xy         extras= 4  |Im| = [np.float64(1.356466)]
+    gamma=0.2   N=4 xy         extras= 0  |Im| = []
+    gamma=0.2   N=5 xy         extras= 0  |Im| = []
+    gamma=0.2   N=2 heisenberg extras= 2  |Im| = [np.float64(1.959592)]
+    gamma=0.2   N=3 heisenberg extras= 0  |Im| = []
+    gamma=0.2   N=4 heisenberg extras= 0  |Im| = []
+    gamma=0.2   N=5 heisenberg extras= 0  |Im| = []
+  [PASS] G1 threshold: extras exactly at [('heisenberg', 2), ('xy', 2), ('xy', 3)] at every gamma swept (Q = 50, 20, 5). SCOPE: this is a HIGH-Q statement. Each block has its own Q* below which the pair coalesces off the floor (Q*(2)=1, Q*(3)=sqrt2), so at gamma=0.8 the N=3 extras are already gone and at gamma=1.5 all of them are. The counts are functions of (N, Q), not of N alone.
+  [PASS] G2 histogram: every extra has n_XY histogram {0: 1/2, 2: 1/2}
+
+G3  the closed form sqrt(c^2 - (2 gamma)^2), gamma-swept
+--------------------------------------------------------------------------
+  [PASS] G3 heisenberg N=2 gamma=0.05: c=2.000000  measured 1.997498436  closed form 1.997498436
+  [PASS] G3 heisenberg N=2 gamma=0.1: c=2.000000  measured 1.989974874  closed form 1.989974874
+  [PASS] G3 heisenberg N=2 gamma=0.2: c=2.000000  measured 1.959591794  closed form 1.959591794
+  [PASS] G3 xy N=2 gamma=0.05: c=2.000000  measured 1.997498436  closed form 1.997498436
+  [PASS] G3 xy N=2 gamma=0.1: c=2.000000  measured 1.989974874  closed form 1.989974874
+  [PASS] G3 xy N=2 gamma=0.2: c=2.000000  measured 1.959591794  closed form 1.959591794
+  [PASS] G3 xy N=3 gamma=0.05: c=1.414214  measured 1.410673598  closed form 1.410673598
+  [PASS] G3 xy N=3 gamma=0.1: c=1.414214  measured 1.400000000  closed form 1.400000000
+  [PASS] G3 xy N=3 gamma=0.2: c=1.414214  measured 1.356465997  closed form 1.356465997
+
+G4  THE CROSSOVER at N = 2: above E1 exactly for Q > 2/sqrt(3)
+--------------------------------------------------------------------------
+    E1(N=2) = 1.000000, predicted crossover at Q = 1.154701  (gamma = 0.866025)
+    Below Q = 1 the extras do not merely drop below E1: the two-level
+    block's square root turns real, the pair coalesces and LEAVES the
+    floor. So the statement is true below Q = 2/sqrt(3) for two different
+    reasons, and the floor max is E1 in both.
+    Q=0.5    gamma=2.000000  floor dim= 8  extras |Im|=none       FLOOR max|Im|=1.000000  at or below E1   predicted at or below   ok
+    Q=0.8    gamma=1.250000  floor dim= 8  extras |Im|=none       FLOOR max|Im|=1.000000  at or below E1   predicted at or below   ok
+    Q=0.95   gamma=1.052632  floor dim= 8  extras |Im|=none       FLOOR max|Im|=1.000000  at or below E1   predicted at or below   ok
+    Q=1.05   gamma=0.952381  floor dim=10  extras |Im|=0.609821   FLOOR max|Im|=1.000000  at or below E1   predicted at or below   ok
+    Q=1.1    gamma=0.909091  floor dim=10  extras |Im|=0.833196   FLOOR max|Im|=1.000000  at or below E1   predicted at or below   ok
+    Q=1.15   gamma=0.869565  floor dim=10  extras |Im|=0.987636   FLOOR max|Im|=1.000000  at or below E1   predicted at or below   ok
+    Q=1.16   gamma=0.862069  floor dim=10  extras |Im|=1.013582   FLOOR max|Im|=1.013582  ABOVE E1   predicted ABOVE   ok
+    Q=1.2    gamma=0.833333  floor dim=10  extras |Im|=1.105542   FLOOR max|Im|=1.105542  ABOVE E1   predicted ABOVE   ok
+    Q=1.5    gamma=0.666667  floor dim=10  extras |Im|=1.490712   FLOOR max|Im|=1.490712  ABOVE E1   predicted ABOVE   ok
+    Q=2.0    gamma=0.500000  floor dim=10  extras |Im|=1.732051   FLOOR max|Im|=1.732051  ABOVE E1   predicted ABOVE   ok
+    Q=5.0    gamma=0.200000  floor dim=10  extras |Im|=1.959592   FLOOR max|Im|=1.959592  ABOVE E1   predicted ABOVE   ok
+    Q=20.0   gamma=0.050000  floor dim=10  extras |Im|=1.997498   FLOOR max|Im|=1.997498  ABOVE E1   predicted ABOVE   ok
+  [PASS] G4 crossover: the facing flips at Q = 2/sqrt(3) and nowhere else in the swept range
+  [PASS] G4 coalescence: the extras leave the floor entirely below Q = 1 (the Q*(2) EP): floor dim 10 above it, 8 below
+
+G5  THE N=3 EXTRAS NEED UNIFORM BONDS: the drift law, which is tolerance-free
+--------------------------------------------------------------------------
+    Detuning one bond by delta moves the would-be extras OFF the floor. Any
+    fixed membership tolerance is therefore a window on delta, and quoting
+    'the extras are gone' without the law just moves the blindness one decade
+    down. So measure the drift itself and fit its power.
+    delta=0.01     max |Re + 2gamma| among the {0,2} modes = 9.944e-06   (admitted by a tolerance of 1e-05 or looser)
+    delta=0.001    max |Re + 2gamma| among the {0,2} modes = 1.003e-07   (admitted by a tolerance of 1e-07 or looser)
+    delta=0.0001   max |Re + 2gamma| among the {0,2} modes = 1.004e-09   (admitted by a tolerance of 1e-09 or looser)
+    delta=1e-05    max |Re + 2gamma| among the {0,2} modes = 1.005e-11   (admitted by a tolerance of 1e-11 or looser)
+    delta=1e-06    max |Re + 2gamma| among the {0,2} modes = 1.023e-13   (admitted by a tolerance of 1e-13 or looser)
+  [PASS] G5 drift law: the drift is O(delta^1.999), i.e. QUADRATIC in the detuning
+  [PASS] G5 detuning: so at delta=1e-4 the drift is 1.0e-09 and this script's TOL=1e-11 correctly rejects all four
+  [PASS] G5 tolerance window: while the earlier TOL=1e-8 admitted them, which is why THAT gate could not fail. Ours fails in turn at delta below ~1e-5, where the drift falls under 1e-11: the quadratic law above is the statement without a window
+
+G6  THE MECHANISM: the single-excitation ZZ diagonal
+--------------------------------------------------------------------------
+    N=2: ZZ diagonal on the SE sector (proof units) = [-0.5 -0.5]   CONSTANT
+    N=3: ZZ diagonal on the SE sector (proof units) = [ 0. -1.  0.]   not constant
+    N=4: ZZ diagonal on the SE sector (proof units) = [ 0.5 -0.5 -0.5  0.5]   not constant
+  [PASS] G6 diagonal: constant at N=2 (ZZ cannot break the block), not constant at N=3 (it does). NOTE: not constant is not the same as non-degenerate -- (0,-J,0) repeats 0, and N=4 reads (J/2,-J/2,-J/2,J/2). Constancy is what matters and what is tested.
+  [PASS] G6 consequence (derivation check, follows from G6 diagonal): Heisenberg N=2 |Im|=1.997498435544 equals XY N=2 |Im|=1.997498435544
+  [PASS] G6 one rung: and Heisenberg has no extras at N=3: the ZZ term costs exactly one rung
+
+G7  BOND DISORDER: the maximality survives it (only the extras do not)
+--------------------------------------------------------------------------
+    N=4 trial 0: floor max|Im|=1.255885122  weighted band top=1.255885122  ok
+    N=4 trial 1: floor max|Im|=2.143296574  weighted band top=2.143296574  ok
+    N=4 trial 2: floor max|Im|=2.106710883  weighted band top=2.106710883  ok
+    N=5 trial 0: floor max|Im|=2.004522109  weighted band top=2.004522109  ok
+    N=5 trial 1: floor max|Im|=1.725789685  weighted band top=1.725789685  ok
+    N=5 trial 2: floor max|Im|=1.739932490  weighted band top=1.739932490  ok
+  [PASS] G7 bond disorder: floor max|Im| = the weighted hopping matrix's band top at N=4,5, so section 4.3's fence is on the extras only
+
+==========================================================================
+ALL GATES PASS
+
+Reading. The {0,2} extras are not an N = 3 accident. They are the low-N end
+of a closure condition on the (n,n) sectors, met by XY at N = 2 and 3 and by
+Heisenberg at N = 2 only, the difference being the SE ZZ diagonal (G6). And
+at N = 2 they sit ABOVE the band edge whenever Q > 2/sqrt(3) (G4), so the
+chain has a second band-edge counterexample beside the ring's 4-cycle, in
+that regime. Uniform bonds are part of the statement, not a convenience (G5).
+==========================================================================
