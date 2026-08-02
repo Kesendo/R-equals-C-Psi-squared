@@ -1,4 +1,4 @@
-# D10: Weight-1 Dispersion Relation
+# D10: The (0,1) Coherence Block Dispersion Relation
 
 **Derives:** ω_k = 4J(1 − cos(πk/N)), k = 1, ..., N−1, on the (0,1) coherence block
 **From:** Heisenberg Hamiltonian structure + Z-dephasing diagonal in Pauli basis

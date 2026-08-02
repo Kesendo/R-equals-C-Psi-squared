@@ -1,13 +1,17 @@
 """
-Analytical w=1 Spectrum Verification.
+Analytical Spectrum Verification for the (0,1) Coherence Block.
 
-Extract ALL w=1 Liouvillian frequencies (XY-weight 1) for the
-Heisenberg chain at N=2 through N=6. Compare with candidate
+Extract the Liouvillian frequencies sitting on the Re = -2*gamma line for
+the Heisenberg chain at N=2 through N=6, and compare them with candidate
 dispersion relations to find the exact analytical form.
 
-w=1 modes: exactly one qubit carries X or Y, rest I or Z.
-Under uniform Z-dephasing, all w=1 modes decay at rate 2*gamma.
-Their frequencies come from the Hamiltonian structure.
+What the -2*gamma line is: by the Absorption Theorem the decay rate is
+2*gamma*<n_XY>, so this line is the shell of AVERAGE light content 1, not
+the Pauli XY-weight-1 sector (which is not L-invariant and has no spectrum
+of its own; see D10 Step 6). On the Heisenberg chain its oscillating modes
+are the (0,1) coherence block's, the N-dimensional span of the |0><j|
+between the ferromagnet and the single excitations, and those N-1
+frequencies are what the candidates below are fitted against.
 """
 
 import numpy as np
@@ -54,25 +58,25 @@ def build_L(H, gammas):
     return L
 
 
-def extract_w1_frequencies(N, J=1.0, gamma=0.001):
-    """Extract all w=1 Liouvillian frequencies for N-qubit chain."""
+def extract_shell_frequencies(N, J=1.0, gamma=0.001):
+    """Extract the Liouvillian frequencies on the Re = -2*gamma shell."""
     H = build_H(N, J)
     L = build_L(H, [gamma] * N)
     evals = np.linalg.eigvals(L)
 
-    # w=1 modes have rate = 2*gamma (within tolerance)
+    # The shell: rate = 2*gamma (within tolerance)
     target_rate = 2 * gamma
     tol = 0.1 * gamma  # 10% tolerance
 
-    w1_freqs = []
+    shell_freqs = []
     for ev in evals:
         rate = -ev.real
         freq = abs(ev.imag)
         if abs(rate - target_rate) < tol and freq > 1e-8:
-            w1_freqs.append(round(freq, 8))
+            shell_freqs.append(round(freq, 8))
 
     # Remove duplicates (conjugate pairs give same |freq|)
-    unique = sorted(set(round(f, 6) for f in w1_freqs))
+    unique = sorted(set(round(f, 6) for f in shell_freqs))
     return unique
 
 
@@ -87,22 +91,22 @@ def main():
         lines.append(s)
 
     out("=" * 70)
-    out("ANALYTICAL w=1 SPECTRUM VERIFICATION")
+    out("ANALYTICAL SPECTRUM VERIFICATION: THE (0,1) COHERENCE BLOCK")
     out("=" * 70)
 
     J = 1.0
 
     # ================================================================
-    # Step 1: Extract all w=1 frequencies for N=2 through N=6
+    # Step 1: Extract the Re = -2*gamma shell frequencies for N=2 through N=6
     # ================================================================
-    out("\n--- STEP 1: Extract w=1 frequencies ---")
+    out("\n--- STEP 1: Extract the Re = -2*gamma shell frequencies ---")
 
     all_freqs = {}
     for N in range(2, 7):
         out(f"\nComputing N={N}...", )
-        freqs = extract_w1_frequencies(N, J, gamma=0.001)
+        freqs = extract_shell_frequencies(N, J, gamma=0.001)
         all_freqs[N] = freqs
-        out(f"  N={N}: {len(freqs)} distinct w=1 frequencies")
+        out(f"  N={N}: {len(freqs)} distinct frequencies on the shell")
         for i, f in enumerate(freqs):
             out(f"    f[{i}] = {f:.6f}")
 
@@ -130,7 +134,7 @@ def main():
     }
 
     out(f"\nFor each candidate: generate predicted frequencies,")
-    out(f"sort, and compare with numerically extracted w=1 frequencies.")
+    out(f"sort, and compare with the numerically extracted shell frequencies.")
 
     for name, formula in candidates.items():
         out(f"\n--- {name} ---")

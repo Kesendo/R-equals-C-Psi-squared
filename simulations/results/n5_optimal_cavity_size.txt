@@ -31,7 +31,7 @@ Crossing point g_edge/sqrt(gJ) = 1 as function of gamma:
      0.500        2               1.4128
 
 ===========================================================================
-STEP 2: WEIGHT-1 MODE FREQUENCY RATIOS
+STEP 2: (0,1) COHERENCE BLOCK MODE FREQUENCY RATIOS
 ===========================================================================
 
 N=3: omega = [2.0000, 6.0000]
@@ -109,7 +109,7 @@ Claim 1: Impedance crossing at N=5
   gamma=0.01: crossing near N=10 (ratio=0.910)
   gamma=0.1: crossing near N=3 (ratio=0.942)
 
-Claim 2: Golden ratio in w=1 frequency ratios at N=5
+Claim 2: Golden ratio in the (0,1) block frequency ratios at N=5
   Ratios: ['3.6180', '1.8944', '1.3820']
   phi or 1/phi found: NO
 

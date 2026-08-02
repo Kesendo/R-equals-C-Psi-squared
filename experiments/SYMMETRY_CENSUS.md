@@ -132,7 +132,7 @@ The [lens exit](CONCENTRATOR_GEOMETRY.md) is the approach to the w=1 attractor v
 
 Product states and W states are already "pre-sorted" into a single sector and reach their attractor without drama. Multi-sector states (GHZ, Bell+, |+⟩⊗N) exhibit cusp-like dynamics as coherences between sectors decay at rates proportional to the sector separation.
 
-The off-diagonal sectors (w ≠ w') carry the coherences between excitation sectors. These always decay, but at different rates: adjacent sectors (|w − w'| = 1) decay slowest (rate 0.200 for uniform γ at N=5), while maximally separated sectors (|w − w'| = N) decay fastest (rate N × γ).
+The off-diagonal sectors (w ≠ w') carry the coherences between excitation sectors. These always decay, and the Absorption Theorem sets the scale: a coherence at Hamming distance m decays at 2γm, so the sector's SLOWEST rate is 2γ·|w − w'|. Adjacent sectors (|w − w'| = 1) are the slowest, floored at 2γ = 0.200 for uniform γ = 0.1 at N=5; the fully separated sector (|w − w'| = N) is a single coherence at distance N and sits at 2γN = 1.000. Only the two end sectors (0,1) and (N−1,N) are flat at their floor. The interior ones spread above it: measured at N=5, γ = 0.1, the (1,2) sector runs 0.200 to 0.600 and (2,3) runs 0.200 to 1.000.
 
 ---
 

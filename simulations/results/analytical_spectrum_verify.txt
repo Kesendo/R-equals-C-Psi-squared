@@ -1,33 +1,33 @@
 ======================================================================
-ANALYTICAL w=1 SPECTRUM VERIFICATION
+ANALYTICAL SPECTRUM VERIFICATION: THE (0,1) COHERENCE BLOCK
 ======================================================================
 
---- STEP 1: Extract w=1 frequencies ---
+--- STEP 1: Extract the Re = -2*gamma shell frequencies ---
 
 Computing N=2...
-  N=2: 1 distinct w=1 frequencies
+  N=2: 1 distinct frequencies on the shell
     f[0] = 4.000000
 
 Computing N=3...
-  N=3: 2 distinct w=1 frequencies
+  N=3: 2 distinct frequencies on the shell
     f[0] = 2.000000
     f[1] = 6.000000
 
 Computing N=4...
-  N=4: 3 distinct w=1 frequencies
+  N=4: 3 distinct frequencies on the shell
     f[0] = 1.171573
     f[1] = 4.000000
     f[2] = 6.828427
 
 Computing N=5...
-  N=5: 4 distinct w=1 frequencies
+  N=5: 4 distinct frequencies on the shell
     f[0] = 0.763932
     f[1] = 2.763932
     f[2] = 5.236068
     f[3] = 7.236068
 
 Computing N=6...
-  N=6: 5 distinct w=1 frequencies
+  N=6: 5 distinct frequencies on the shell
     f[0] = 0.535898
     f[1] = 2.000000
     f[2] = 4.000000
@@ -39,7 +39,7 @@ STEP 2: Test candidate dispersion relations
 ======================================================================
 
 For each candidate: generate predicted frequencies,
-sort, and compare with numerically extracted w=1 frequencies.
+sort, and compare with the numerically extracted shell frequencies.
 
 --- A: 4J(1-cos(pi*k/N)) ---
   N=2: MATCH (k=1..N-1), max_err=0.00e+00, 1 frequencies

@@ -142,7 +142,7 @@ exactly. Combined with Section 4, the bound is achieved:
 
 Counting: two polarised extremes × (N−1) rungs × two signs of Im gives **4(N−1)** eigenvalues at |Im| = J·N/2 **counted with multiplicity**, measured as 8, 12, 16, 20 at N = 3, 4, 5, 6. The distinct values number 2(N−1), each of multiplicity 2.
 
-**Uniform γ is required here.** Under site-dependent γ_l the dissipator acts on the weight-1 block as diag(−2γ_l) rather than as a scalar, no longer commutes with the one-magnon Hamiltonian, and the saturation fails. Measured (star, J = 1):
+**Uniform γ is required here.** Under site-dependent γ_l the dissipator acts on the (0,1) coherence block as diag(−2γ_l) rather than as a scalar, no longer commutes with the one-magnon Hamiltonian, and the saturation fails. Measured (star, J = 1):
 
 | N | γ profile | max\|Im\| | J·N/2 |
 |---|---|---:|---:|

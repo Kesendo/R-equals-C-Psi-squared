@@ -410,9 +410,8 @@
 ### OQ-229
 
 **Question:** Formal proof that omega_max(w=1) = 4J·(1+cos(pi/N)) holds for all N. Verified N=2-6 numerically.  
-**Source:** `experiments/THERMAL_BREAKING.md` (line 480)  
-**Proposed status:** needs-human  
-**Justification:** Cross-batch duplicate of OQ-228 (math-proof tag, same source file, same formula). OQ-228 says "Analytical (proof needed)" and OQ-229 provides the formula and numerical evidence. Candidate for merge.
+**Source:** `experiments/THERMAL_BREAKING.md`, Open Questions  
+**Proposed status:** resolved 2026-08-02. omega_max is the k = N-1 member of F2's dispersion omega_k = 4J(1 - cos(pi*k/N)), derived in `docs/proofs/derivations/D10_W1_DISPERSION.md` (April 2026). The premise carried the "w=1" mislabel: the object is the (0,1) coherence block, not the Pauli XY-weight-1 sector, which is not L-invariant. OQ-228 is the same question scraped from the section header one line up; both are closed by the same proof. What THERMAL_BREAKING now asks in that slot is a different question: whether any other joint-popcount block reaches a higher Q than the (0,1) block (measured true at N=2-5, unproven in general).
 
 ---
 

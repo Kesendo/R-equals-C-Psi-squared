@@ -57,19 +57,19 @@ STEP 3: COLD CAVITY (γ=0) VS ILLUMINATED (γ=0.05)
 
 N=2: cold=1 modes, warm=2 modes, matched=1/1 (100%)
   Cold cavity max|Re|: 2.22e-16 (should be ~0)
-  Analytical w=1 modes: 1, found in cold: 1
+  Analytical (0,1) block modes: 1, found in cold: 1
 
 N=3: cold=3 modes, warm=5 modes, matched=3/3 (100%)
   Cold cavity max|Re|: 2.14e-15 (should be ~0)
-  Analytical w=1 modes: 2, found in cold: 2
+  Analytical (0,1) block modes: 2, found in cold: 2
 
 N=4: cold=14 modes, warm=47 modes, matched=14/14 (100%)
   Cold cavity max|Re|: 1.35e-14 (should be ~0)
-  Analytical w=1 modes: 3, found in cold: 3
+  Analytical (0,1) block modes: 3, found in cold: 3
 
 N=5: cold=43 modes, warm=112 modes, matched=43/43 (100%)
   Cold cavity max|Re|: 2.23e-14 (should be ~0)
-  Analytical w=1 modes: 4, found in cold: 4
+  Analytical (0,1) block modes: 4, found in cold: 4
 
 ===========================================================================
 STEP 4: Q-FACTOR DISTRIBUTION

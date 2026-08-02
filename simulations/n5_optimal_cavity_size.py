@@ -120,7 +120,7 @@ log()
 # ─────────────────────────────────────────────
 
 log("=" * 75)
-log("STEP 2: WEIGHT-1 MODE FREQUENCY RATIOS")
+log("STEP 2: (0,1) COHERENCE BLOCK MODE FREQUENCY RATIOS")
 log("=" * 75)
 log()
 
@@ -292,7 +292,7 @@ for gamma_val in [0.01, 0.05, 0.1, 0.5]:
             break
 log()
 
-log("Claim 2: Golden ratio in w=1 frequency ratios at N=5")
+log("Claim 2: Golden ratio in the (0,1) block frequency ratios at N=5")
 m5 = np.arange(1, 5)
 omega5 = 4 * J * (1 - np.cos(np.pi * m5 / 5))
 ratios5 = omega5[1:] / omega5[:-1]

@@ -13,14 +13,15 @@ Heisenberg SE either.
 Four phases executed, all numerical verifications to machine precision:
 
 1. **Phase 1 (spectral constants):** XY chain SE eigenvalues follow
-   E_k = 2J·cos(πk/(N+1)), k=1..N exactly (residual 10⁻¹⁵). The w=1
-   Liouvillian oscillatory modes sit at Im(λ) = |E_k|, confirming the
-   mode-decomposition finding from EQ-021 Phase 1. **F2 does NOT match
-   Heisenberg SE eigenvalues either**: F2 predicts N−1 values, the
-   Heisenberg SE Hamiltonian has N eigenvalues, and the values
-   differ. F2 must describe a different quantity (w=1 Liouvillian
-   spacing or SFF peak; needs separate verification). Recommendation
-   below.
+   E_k = 2J·cos(πk/(N+1)), k=1..N exactly (residual 10⁻¹⁵). The
+   Liouvillian oscillatory modes on the Re = −2γ line sit at
+   Im(λ) = |E_k|, confirming the mode-decomposition finding from EQ-021
+   Phase 1. **F2 does NOT match Heisenberg SE eigenvalues either**: F2
+   predicts N−1 values, the Heisenberg SE Hamiltonian has N
+   eigenvalues, and the values differ. F2's object was settled after
+   this task: it is the (0,1) coherence block, whose frequencies are
+   single-magnon energies measured from the ferromagnetic vacuum. See
+   the verdict in Phase 1 below.
 
 2. **Phase 2 (matrix elements):** The closed form
    `⟨ψ_k|T_b|ψ_m⟩ = ψ_k(b)·ψ_m(b+1) + ψ_k(b+1)·ψ_m(b)` is exact
@@ -72,7 +73,7 @@ Eigenvalues (verified numerically to 10⁻¹⁵ at N=3..6):
 | 5 | ±1.732, ±1.000, 0                      |
 | 6 | ±1.802, ±1.247, ±0.445                 |
 
-### w=1 Liouvillian oscillatory frequencies (XY)
+### Liouvillian oscillatory frequencies on the Re = −2γ line (XY)
 
 Modes with Re(λ) = −2γ₀ (one-excitation coherences |vac⟩⟨ψ_k|) have:
 
@@ -113,14 +114,27 @@ themselves do not coincide. F2 therefore does not describe Heisenberg
 SE spectrum directly.
 
 **Verdict on F2:** F2 is valid (per the proof D10 and the SFF match
-cited in ANALYTICAL_FORMULAS.md), but it describes a w=1 Liouvillian
-quantity that is NOT the SE Hamiltonian eigenvalues. A plausible
-interpretation is that F2 describes energy DIFFERENCES between
-adjacent SE modes, or the w=1 sector of the Lindblad spectrum under
-a specific Pauli-string convention. This task does not resolve
-that interpretation; it only shows that the SE eigenvalues are the
-quantity actually appearing in the XY mode decomposition, and they
-are 2J·cos(πk/(N+1)), not F2.
+cited in ANALYTICAL_FORMULAS.md) and it is not the SE Hamiltonian
+eigenvalues. What it IS was settled afterwards: its object is the
+chain's **(0,1) coherence block**, the N-dimensional span of the
+|0⟩⟨j| between the ferromagnet and the single excitations, carrying
+one zero mode and N−1 oscillating ones. That is why there are N−1
+values, and why they are not the N SE eigenvalues: a |0⟩⟨j| coherence
+oscillates at the single-magnon energy measured from the ferromagnetic
+vacuum, the vacuum being an eigenstate, which is a difference of two
+Hamiltonian eigenvalues and not one of them.
+
+The interpretation this section left open is therefore closed, and
+neither of the two candidates it named was right. F2 is not a
+difference between ADJACENT SE modes (it is a difference from the
+vacuum), and "the w=1 sector of the Lindblad spectrum" names no
+object at all: the Pauli XY-weight-1 span is not L-invariant, so it
+has no spectrum (D10 Step 6; the block sits inside it and is far
+smaller, 5 dimensions against 160 at N=5).
+
+What this task shows stands unchanged: the SE eigenvalues
+2J·cos(πk/(N+1)) are the quantity actually appearing in the XY mode
+decomposition, and they are F2b's object, not F2's.
 
 ## Phase 2: sine-basis matrix elements
 
@@ -323,17 +337,23 @@ task.
        E_k = 2J · cos(πk / (N+1)),   k = 1, ..., N
        (XY chain with OBC, hopping J from H = (J/2)(XX+YY))
 
-   This is the quantity appearing in the w=1 Liouvillian
-   oscillatory modes for XY, distinct from F2 (which is for
-   Heisenberg and describes a different quantity).
+   This is the quantity appearing in the XY chain's oscillatory
+   Liouvillian modes on the Re = −2γ shell, distinct from F2 (which
+   is for Heisenberg and describes a different object).
 
-2. **Clarify F2:** add a note that F2 refers to the Heisenberg w=1
-   sector with a specific boundary/Pauli-string convention, NOT the
-   single-excitation Hamiltonian eigenvalues. The relation
-   ω_k = 4J(1−cos(πk/N)), k=1..N−1 gives N−1 values while the
-   Heis SE Hamiltonian has N eigenvalues; the actual quantity F2
-   describes should be resolved (via proof D10 review) and stated
-   explicitly.
+   **Done.** This is F2b in
+   [`docs/ANALYTICAL_FORMULAS.md`](../docs/ANALYTICAL_FORMULAS.md),
+   typed as `F2bXyChainSpectrumPi2Inheritance`.
+
+2. ~~**Clarify F2:**~~ **Done, and the answer is not what this
+   recommendation guessed.** It asked for a note that F2 refers to
+   "the Heisenberg w=1 sector with a specific boundary/Pauli-string
+   convention". There is no such object: the Pauli XY-weight-1 span
+   is not L-invariant and has no spectrum. F2's object is the (0,1)
+   coherence block, N-dimensional with N−1 oscillating modes, which
+   is why the count is N−1 and not N. D10 carries the derivation and
+   its Step 6 carries the scope; ANALYTICAL_FORMULAS F2 states it.
+   See the Phase 1 verdict above.
 
 3. **Add the mirror-symmetry identity for c_1:**
 

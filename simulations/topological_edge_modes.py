@@ -5,7 +5,7 @@ Topological Edge Modes Analysis
 Is the mode localization [0.52, 0.63, 0.70, 0.63, 0.52] topologically
 protected, or is it geometric (standing wave pattern on a chain)?
 
-Phase 1: SSH analogy (w=1 sector = tight-binding, uniform hopping → trivial)
+Phase 1: SSH analogy ((0,1) coherence block = tight-binding, uniform hopping → trivial)
 Phase 2: Chiral block structure (Π eigenspaces, off-diagonal blocks, singular values)
 Phase 3: Berry phase along uniform → sacrifice path
 Phase 4: Mode counting for N=3,4,5
@@ -161,10 +161,10 @@ log("=" * 72)
 # ========================================================================
 log()
 log("=" * 72)
-log("PHASE 1: SSH ANALOGY CHECK (w=1 SECTOR)")
+log("PHASE 1: SSH ANALOGY CHECK ((0,1) COHERENCE BLOCK)")
 log("=" * 72)
 log()
-log("  The w=1 sector dispersion: ω_k = 4J(1-cos(πk/N)), k=1..N-1")
+log("  The (0,1) coherence block's dispersion: ω_k = 4J(1-cos(πk/N)), k=1..N-1")
 log("  This is tight-binding with UNIFORM hopping 2J.")
 log("  SSH requires ALTERNATING hopping t1-t2.")
 log()
@@ -196,7 +196,7 @@ log()
 # Compare with actual Liouvillian eigenvector profile
 N = 5
 gamma_uniform = [0.05] * N
-t0 = clock.time()
+t0 = clock.perf_counter()
 L_vec = build_liouvillian_vec(N, gamma_uniform)
 w_all, vr_all = eig(L_vec, right=True)
 
@@ -222,7 +222,7 @@ if np.any(osc_mask):
     tied_freqs = sorted(set(np.round(np.abs(w_all[osc_mask][
         np.abs(rates - slowest) < 1e-8].imag), 6)))
 
-    log(f"  Actual Liouvillian (N={N}, uniform γ=0.05, {clock.time()-t0:.1f}s):")
+    log(f"  Actual Liouvillian (N={N}, uniform γ=0.05, {clock.perf_counter()-t0:.1f}s):")
     # slow_rate is well defined (the tied modes share it exactly); a MEAN over
     # their frequencies is not a frequency of anything, so the set is printed.
     log(f"    Slowest oscillating modes: rate={slow_rate:.4f}")
@@ -275,7 +275,7 @@ log("  If det(A)=0: topological zero modes. If full rank: trivial.")
 log()
 
 for N in [4, 5]:
-    t0 = clock.time()
+    t0 = clock.perf_counter()
     H = build_hamiltonian(N)
     gammas = [0.05] * N
     L = build_liouvillian_pauli(N, H, gammas)
@@ -336,7 +336,7 @@ for N in [4, 5]:
         else:
             log(f"      Full rank → NO topological zero modes (trivial)")
 
-    log(f"    ({clock.time()-t0:.1f}s)")
+    log(f"    ({clock.perf_counter()-t0:.1f}s)")
 
 
 # ========================================================================
@@ -374,7 +374,7 @@ log()
 log(f"  {'θ':>6}  {'Re(λ)':>10}  {'Im(λ)':>10}  {'Δφ':>10}  {'accum φ':>10}")
 log(f"  {'─'*50}")
 
-t0 = clock.time()
+t0 = clock.perf_counter()
 for ti, theta in enumerate(thetas):
     gammas = [(1 - theta) * gamma_uniform_path[k] + theta * gamma_sacrifice[k]
               for k in range(N)]
@@ -420,7 +420,7 @@ for ti, theta in enumerate(thetas):
 log()
 log(f"  Total Berry phase: φ = {berry_phase_accum:.6f}")
 log(f"  φ/π = {berry_phase_accum/np.pi:.6f}")
-log(f"  ({clock.time()-t0:.1f}s)")
+log(f"  ({clock.perf_counter()-t0:.1f}s)")
 log()
 if abs(berry_phase_accum) < 0.1 or abs(abs(berry_phase_accum) - np.pi) < 0.1:
     log(f"  Berry phase ≈ {'0' if abs(berry_phase_accum) < 0.1 else 'π'}"
@@ -458,7 +458,7 @@ log(f"  {'θ':>6}  {'min rate':>10}  {'max rate':>10}  {'prot. factor':>12}"
     f"  {'gap':>10}")
 log(f"  {'─'*55}")
 
-t0 = clock.time()
+t0 = clock.perf_counter()
 prot_factors = np.zeros(n_sweep)
 min_rates = np.zeros(n_sweep)
 spectral_gaps = np.zeros(n_sweep)
@@ -495,7 +495,7 @@ for ti, theta in enumerate(thetas_sweep):
         log(f"  {theta:>+6.2f}  {min_r:>10.4f}  {max_r:>10.4f}"
             f"  {prot:>12.2f}  {gap:>10.4f}")
 
-log(f"  ({clock.time()-t0:.1f}s)")
+log(f"  ({clock.perf_counter()-t0:.1f}s)")
 
 # Check for sharp transition
 dprot = np.diff(prot_factors)
@@ -588,9 +588,10 @@ log("=" * 72)
 log("SUMMARY")
 log("=" * 72)
 log()
-log("Phase 1: w=1 sector is tight-binding with UNIFORM hopping.")
+log("Phase 1: the (0,1) coherence block is tight-binding with UNIFORM hopping.")
 log("  No alternating structure → no SSH topology.")
-log("  Localization profile matches sin standing wave patterns.")
+log("  Localization profile matches the cos (Neumann) standing waves this")
+log("  phase computes, not the Dirichlet sin family, which belongs to F2b.")
 log()
 log("Phase 2: Chiral block structure exists (Π eigenspaces give")
 log("  off-diagonal L_c), but off-diagonal blocks have FULL RANK")

@@ -1,4 +1,4 @@
-# Analytical w=1 Spectrum of the Heisenberg Chain
+# Analytical Spectrum of the Heisenberg Chain's (0,1) Coherence Block
 
 **Status:** Verified N=2-6 against a full Liouvillian eigendecomposition, N=2-10 by block closure
 **Date:** March 31, 2026
@@ -193,9 +193,21 @@ chain with specific boundary conditions.
 For the Heisenberg XXX model, the single-magnon sector is equivalent
 to a tight-binding hopping problem. The (0,1) coherence block inherits
 this structure because the ferromagnet is an eigenstate, so the block
-sees the one-magnon Hamiltonian alone. The factor 4J (instead of the
-standard 2J for a tight-binding chain) comes from the Liouvillian being
-a commutator (double action of H).
+sees the one-magnon Hamiltonian alone: a |0⟩⟨j| coherence oscillates at
+E_magnon − E_vac, and ω_k IS that energy, with no doubling.
+
+So the 4J is not a commutator effect, and it is worth saying because it
+would be an easy one to assume. The Liouvillian acts on |0⟩⟨j| from
+both sides, but one of those sides is the vacuum and contributes only
+the constant E_vac; the frequency is a single energy difference, not
+twice one. The 4 is two independent 2s from the Hamiltonian itself:
+XX + YY each contribute J to the hop, so the hopping amplitude is 2J,
+and the open-path Laplacian's eigenvalues are 2(1 − cos(πk/N)). Their
+product is 4J·(1 − cos(πk/N)). The ZZ term is what supplies the degree
+diagonal that makes it a Laplacian rather than an adjacency matrix.
+The equivalent entry-wise statement, that L restricted to the block is
+exactly −2iJ·𝓛 − 2γ·Id, is gated at N=2 through 10 by
+[`simulations/d10_block_closure_verify.py`](../simulations/d10_block_closure_verify.py).
 
 **Proven.** The dispersion relation is derived analytically in
 [D10](../docs/proofs/derivations/D10_W1_DISPERSION.md) via reduction

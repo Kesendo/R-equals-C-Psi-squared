@@ -132,7 +132,13 @@ term is a shell staying where it is.
 ## Result 3: Gouy phase analog
 
 The oscillation frequencies ω_m = 4J(1 − cos(πm/N)) accumulate a
-Gouy phase (the gradual phase shift a focused beam picks up as it passes through its waist) profile along the weight axis:
+Gouy phase (the gradual phase shift a focused beam picks up as it passes through its waist) profile along the BLOCK's mode index m = 1..N−1.
+
+That axis is not the weight axis the rest of this document runs on, and the
+two were collapsed here until 2026-08-02. ω_m belongs to the (0,1) coherence
+block, which carries N−1 oscillating modes; the weight axis w = 0..N indexes
+light content and is one entry longer. Only the first of the two accumulates
+below:
 
 | N | Phase at midpoint | Total phase | Ratio mid/total |
 |---|------------------|------------|-----------------|

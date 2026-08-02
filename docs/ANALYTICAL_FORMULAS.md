@@ -115,7 +115,7 @@ survive; see the `site_resolved_vacuum_block` open arc.
 **Replaces:** full Liouvillian diagonalization for the block's frequencies.
 O(N) instead of O(4^{3N}).
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md),
-[the Weight-1 Dispersion derivation](proofs/derivations/D10_W1_DISPERSION.md)
+[the (0,1) coherence block dispersion derivation](proofs/derivations/D10_W1_DISPERSION.md)
 
 ### F2b. XY chain single-excitation spectrum (Tier 1, proven)
 
@@ -1133,7 +1133,8 @@ See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) §4.3.
 
     Q_min = 2*J/gamma * (1 - cos(pi/N))
     Q_max = 2*J/gamma * (1 + cos(pi/N))
-    Variance = (Q_max - Q_min)^2 / 8
+    Variance = A^2 (N-2) / (2(N-1)),   A = 2*J/gamma   (exact at every finite N)
+             -> (Q_max - Q_min)^2 / 8 = A^2 cos^2(pi/N) / 2   (arcsine, N -> inf)
 
 Arcsine distribution (U-shaped). Modes cluster at band edges,
 not at the mean. Converges with N (variance rel. error < 2% at N=50).

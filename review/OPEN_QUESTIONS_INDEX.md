@@ -16,12 +16,13 @@ verified against its source doc. This section is the live view; the per-entry `S
 below are not yet updated. The inventory also holds ~165 non-question scrape artifacts; a full
 re-classification is still pending.
 
-**Counts:** ~20 resolved, 5 stale/retired/falsified, ~165 scrape artifacts, ~137 genuinely open.
+**Counts:** ~22 resolved, 5 stale/retired/falsified, ~165 scrape artifacts, ~135 genuinely open. (Updated 2026-08-02: OQ-228 and OQ-229 closed, see the table below.)
 
 ### Resolved (close)
 
 | Topic | OQ-IDs | Resolution + source |
 |---|---|---|
+| ω_max of the (0,1) coherence block | OQ-228, 229 | ω_max = 4J(1+cos(π/N)) is the k = N−1 member of F2's dispersion, proven in `docs/proofs/derivations/D10_W1_DISPERSION.md`. Both entries were the same question, scraped twice from `experiments/THERMAL_BREAKING.md`, and both carried the "w=1" mislabel: the object is the (0,1) coherence block. Closed 2026-08-02 |
 | Crossing speed → dwell time | OQ-051, 106, 107, 108, 112, 113 | t_dwell = 2δ/\|dCΨ/dt\|, K-invariant (γ cancels), prefactor 1.0801. `experiments/CRITICAL_SLOWING_AT_THE_CUSP.md` §8 |
 | Symmetric vs asymmetric decoherence | OQ-142 | Only γ_total for symmetric H; star topology differs. `experiments/MATHEMATICAL_FINDINGS.md` §9 (2026-03-08) |
 | Collective noise / amplitude damping vs Type A | OQ-144, 145, 148 | No (Bell+ is an eigenstate); taxonomy preserved, rates differ. `experiments/NOISE_ROBUSTNESS.md` (2026-03-08) |
@@ -1735,11 +1736,11 @@ these earn the "open" stamp.
 
 **Question:** Formal proof that ω_max(w=1) = 4J·(1+cos(π/N)) holds for all N. Verified N=2-6 numerically. Likely derivable from Heisenberg chain magnon spectrum or Clebsch-Gordan decomposition (the standard method for combining angular momenta in quantum mechanics).
 
-**Source:** `experiments/THERMAL_BREAKING.md` (line 480)
+**Source:** `experiments/THERMAL_BREAKING.md`, Open Questions
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** numerical-verification
-**Status:** unclassified
+**Status:** resolved. ω_max is the k = N−1 member of F2's dispersion ω_k = 4J·(1 − cos(πk/N)), derived from the (0,1) coherence block's tight-binding reduction in `docs/proofs/derivations/D10_W1_DISPERSION.md` (April 2026). The question's own premise carried the "w=1" mislabel: the object is that block, not the Pauli XY-weight-1 sector, which is not L-invariant. What THERMAL_BREAKING now asks in this slot is the step that was never taken: whether any other joint-popcount block reaches a higher Q than the (0,1) block.
 
 ### OQ-230
 
@@ -2197,11 +2198,11 @@ these earn the "open" stamp.
 
 **Question:** Analytical (proof needed)
 
-**Source:** `experiments/THERMAL_BREAKING.md` (line 478)
+**Source:** `experiments/THERMAL_BREAKING.md`, Open Questions
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** math-proof
-**Status:** unclassified
+**Status:** resolved 2026-08-02. omega_max is the k = N-1 member of F2's dispersion omega_k = 4J(1 - cos(pi*k/N)), derived in `docs/proofs/derivations/D10_W1_DISPERSION.md` (April 2026). The premise carried the "w=1" mislabel: the object is the (0,1) coherence block, not the Pauli XY-weight-1 sector, which is not L-invariant. OQ-228 is the same question scraped from the section header one line up; both are closed by the same proof. What THERMAL_BREAKING now asks in that slot is a different question: whether any other joint-popcount block reaches a higher Q than the (0,1) block (measured true at N=2-5, unproven in general).
 
 ### OQ-245
 

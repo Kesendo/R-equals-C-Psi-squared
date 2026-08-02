@@ -3,7 +3,7 @@
 **Status:** Tier 1 candidate (3 structural findings, bit-exact at N=4, 5, 6; closed-form prefactor 0.55·Q²/N² ≈ matches to ~1%). Closes the "which weight sector hosts the slow mode" question from F1_DISSIPATION_GAP_PATTERN.md Q5.
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [the weight-1 degeneracy proof](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (F50 w=1 floor at 2γ), [the F1 dissipation-gap pattern](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)
+**Depends on:** [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [the weight-1 degeneracy proof](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (F50's 2γ floor on the distance-1 coherences), [the F1 dissipation-gap pattern](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)
 
 **Verification:** [`simulations/chain_gap_sector_diagnostic.py`](../simulations/chain_gap_sector_diagnostic.py) (chain N=4, 5, 6 at γ=0.5, J=1, Q=2)
 
@@ -25,7 +25,9 @@ At chain N=4, 5, 6 with γ=0.5, J=1 (Q=2), the slow mode sits in the `(⌈N/2⌉
 | 5 | (3, 3) | 100 | 0.08837 |
 | 6 | (3, 3) | 400 | 0.06069 |
 
-This is the **largest** joint-popcount block, of dimension `C(N, ⌈N/2⌉)²` (the binomial-squared central peak). The slow mode is NOT in any off-diagonal-popcount sector `(k, k±1)`, NOT in any boundary `(0, 0)` or `(N, N)` sector. Every off-diagonal-popcount sector `(k, k+1)` saturates at exactly `2γ` (the F50 w=1 floor), confirming that F50 pins the off-diagonal sectors and the diagonal sectors carry the actual gap structure.
+This is the **largest** joint-popcount block, of dimension `C(N, ⌈N/2⌉)²` (the binomial-squared central peak). The slow mode is NOT in any off-diagonal-popcount sector `(k, k±1)`, NOT in any boundary `(0, 0)` or `(N, N)` sector.
+
+Every off-diagonal-popcount sector `(k, k±1)` has its **slowest** mode at exactly `2γ`, and that is a floor rather than a description of the sector. The floor follows: an operator in `(k, k±1)` is built from coherences `|α⟩⟨β|` whose popcounts differ, so their Hamming distance is at least 1, so `⟨n_XY⟩ ≥ 1`, so `Re ≤ −2γ` by the Absorption Theorem, with equality exactly on the distance-1 coherences F50 pins. The sectors spread well above their floor: at N=5, γ=0.05 the `(1,2)` sector's 50 eigenvalues run `Re ∈ [−0.300, −0.100]`. Only the two END sectors, `(0,1)` and `(N−1,N)`, are distance-1 throughout and therefore sit at `−2γ` as a whole. Checked at N=3, 4, 5 over four (J, γ) pairs: every off-diagonal sector is exactly closed, every one attains `2γ` as its smallest `|Re|`, and the flat ones are the two end sectors and no others. Either way the diagonal sectors carry the actual gap structure, because the gap is below `2γ` and no off-diagonal sector can go there.
 
 The F1-palindromic pairing `(k, k) ↔ (N−k, N−k)` is bit-exact at the sector level: e.g. for N=6, sectors `(2, 2)` and `(4, 4)` both report slow eigenvalue −0.0626 to machine precision; `(1, 1)` and `(5, 5)` both report −0.0681. The slow mode of the full L is the smallest of these palindromic-paired per-sector minima, which is always the central `(⌈N/2⌉, ⌈N/2⌉)` block.
 
@@ -88,26 +90,15 @@ The admixture is therefore **the unique decay channel** for the otherwise-conser
 Each of the May 2026 typed claims plays an explicit role in the admixture's structure, and together they form a self-consistent decomposition of the slow mode:
 
 - **F50** (`PROOF_WEIGHT1_DEGENERACY`): if the admixture lived alone in an off-diagonal popcount sector, it would be pinned at Re = −2γ exactly. The relation is an inclusion and not an equivalence: a weight-1 Pauli string carries one X or Y letter, so on a computational-basis state |α⟩⟨β| it flips exactly one bit, and the weight-1 operators span the coherences at Hamming distance 1. Those sit inside the off-diagonal popcount sectors `(k, k±1)` but do not fill them, because a popcount step of ±1 also admits Hamming distance 3, 5, and so on: at N=5 the weight-1 span is 160-dimensional against the sectors' 420. Only the two end sectors, `(0,1)` and `(N−1,N)`, lie at distance 1 throughout, and only they sit at Re = −2γ as a whole; the interior ones do not. Measured at N=5, γ=0.05, the `(1,2)` sector's 50 eigenvalues run Re ∈ [−0.300, −0.100]. So F50 pins the distance-1 coherences, not whole popcount sectors, and D10 Step 6 carries the scope. The admixture inherits this 2γ scale; the slow-mode rate is `2γ × (admixture weight)`.
-- **F2** (`F2W1DispersionPi2Inheritance`): the magnon component carries the open-chain dispersion `ω_k = 4J·(1 − cos(πk/N))`. The slowest magnon mode is at k = 1 with ω_1 ≈ 2π²·J/N², which is the "kinetic" frequency that drives the mixing. F2 explains why the admixture-amplitude scales as `Q/N`: the mixing is set by the ratio of H's hopping rate (k_min × J) to the dissipator's decay rate (2γ).
+- **F2** (`F2W1DispersionPi2Inheritance`): the magnon component carries the open-chain dispersion `ω_k = 4J·(1 − cos(πk/N))`. The slowest magnon mode is at k = 1 with ω_1 ≈ 2π²·J/N², which is the "kinetic" frequency that drives the mixing. F2 explains why the admixture-amplitude scales as `Q/N`: the mixing is set by the ratio of H's hopping rate (k_min × J) to the dissipator's decay rate (2γ). F2 does not describe the slow mode itself, in two separate ways. Its object is the `(0,1)` coherence block, not any off-diagonal sector as a whole, and the slow mode is not in an off-diagonal sector at all; and the slow mode has `Im(λ) ≈ 0` to machine precision, because it lives in a diagonal-popcount sector where nothing oscillates. What F2 supplies here is the magnon's intrinsic frequency scale, borrowed.
 - **F3 / Absorption Theorem**: the operator-level identity `Re(λ) = −2γ·⟨n_XY⟩` reads the decay rate of any Lindblad eigenmode directly from its Pauli-basis light content. Applied to the slow mode (`⟨n_XY⟩ ≈ 2·w_2`), it gives the bit-exact gap.
 - **F1 palindrome**: the slow mode at sector `(k, k)` is partnered by the F1 conjugation with a mode at sector `(N−k, N−k)` with identical decay rate. The per-block analysis confirms this bit-exactly: e.g. for N=6, sectors `(2, 2)` and `(4, 4)` both give slow eigenvalue −0.0626; `(1, 1)` and `(5, 5)` both give −0.0681. The admixture obeys the F1 mirror symmetry by inheriting it from its host population.
 
-Read together: **F1 organises sectors palindromically around the center, F50 pins off-diagonal popcount sectors at the 2γ floor, F2 governs the magnon's intrinsic frequency, F3 / Absorption Theorem reads decay from light content, and the admixture is where all four meet.** The slow mode at the central diagonal popcount block (⌈N/2⌉, ⌈N/2⌉) is the unique operator where each formula contributes one structural ingredient and all four must compose consistently. The fact that the four contributions reproduce the empirical `gap ≈ 1.10·γ·Q²/N²` to ~1% is the bit-exact multi-formula synthesis check.
+Read together: **F1 organises sectors palindromically around the center, F50 puts a 2γ floor under the off-diagonal popcount sectors, F2 governs the magnon's intrinsic frequency, F3 / Absorption Theorem reads decay from light content, and the admixture is where all four meet.** The slow mode at the central diagonal popcount block (⌈N/2⌉, ⌈N/2⌉) is the unique operator where each formula contributes one structural ingredient and all four must compose consistently. The fact that the four contributions reproduce the empirical `gap ≈ 1.10·γ·Q²/N²` to ~1% is the bit-exact multi-formula synthesis check.
 
 This is also why the empirical 0.55 constant is non-trivial: it is the product of four structural inputs (F1 sector pairing, F50 2γ floor, F2 k_min² coefficient, F3 light-content scale) plus an XXX-specific Bethe-amplitude correction. A closed form follows from doing the perturbation-theory product explicitly.
 
 ---
-
-## Connection to F2 / F3 / F50 / Absorption Theorem (per-formula detail)
-
-Each of the May 2026 typed claims now plays an explicit role in the gap story:
-
-- **F50** (`PROOF_WEIGHT1_DEGENERACY`): pins the **off-diagonal popcount sectors `(k, k±1)` at Re = −2γ**. Empirically confirmed: every off-diagonal sector in the per-block analysis lands at exactly −1.0 = −2γ (for γ=0.5). F50 is the right structural floor, but for the off-diagonal w=1 sector, not for the dissipation gap.
-- **F2** (`F2W1DispersionPi2Inheritance`): the `ω_k = 4J·(1 − cos(πk/N))` w=1 dispersion describes the **Im(λ) structure** within the off-diagonal popcount sectors, not the slow mode (which has Im(λ) ≈ 0 to machine precision because it lives in a diagonal-popcount sector with no oscillation).
-- **F3 / Absorption Theorem**: `Re(λ) = −2γ·⟨n_XY⟩` is the **operator-light-content reading**. The slow mode is in the **diagonal popcount sector** with `⟨n_XY⟩ ≪ 1`, far below F3's pure-w=1 minimum of 2γ. The Absorption Theorem applies bit-exactly with the small fractional `⟨n_XY⟩` from the magnon admixture.
-- **F1 palindrome**: `Π · L · Π⁻¹ = −L − 2σ·I` pairs `(k, k)` with `(N−k, N−k)` at the sector level; per-block slow eigenvalues confirm the palindromic pairing bit-exactly.
-
-The four structural objects (F50 floor, F2 dispersion, F3 light content, F1 palindrome) compose: F1 organises sectors palindromically around the center, F50 pins off-diagonal popcount sectors at the 2γ floor, F2 describes oscillation within those sectors, and F3/Absorption Theorem reads decay rates from `⟨n_XY⟩` directly. The dissipation gap is what survives in the diagonal-popcount sector after all four floors and ceilings are applied: the near-stationary mode with a small magnon admixture.
 
 ## Extensions (resolved 2026-05-19) and remaining open work
 
@@ -217,8 +208,8 @@ Runs N=4, 5, 6 chain at γ=0.5, J=1; outputs the slow-mode sector + light conten
 - Parent doc (the open question that surfaced this finding): [`hypotheses/F1_DISSIPATION_GAP_PATTERN.md`](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) Q5.
 - Companion Tier-1-derived Im_max bounds from the same sprint: [`RingN4DihedralLockClaim`](../compute/RCPsiSquared.Core/Symmetry/RingN4DihedralLockClaim.cs), [`StarImMaxBoundClaim`](../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs).
 - Absorption Theorem (the engine of Finding 2): [`docs/proofs/PROOF_ABSORPTION_THEOREM.md`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).
-- F50 w=1 floor (the engine of the per-sector hierarchy in Finding 1): [`docs/proofs/PROOF_WEIGHT1_DEGENERACY.md`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
-- F2 dispersion (the Im(λ) structure of the off-diagonal popcount sectors): [`compute/RCPsiSquared.Core/Symmetry/F2W1DispersionPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F2W1DispersionPi2Inheritance.cs).
+- F50's 2γ floor (the engine of the per-sector hierarchy in Finding 1): [`docs/proofs/PROOF_WEIGHT1_DEGENERACY.md`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
+- F2 dispersion (the Im(λ) structure of the (0,1) coherence block): [`compute/RCPsiSquared.Core/Symmetry/F2W1DispersionPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F2W1DispersionPi2Inheritance.cs).
 - Q-anchor canonical table: [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md).
 - Earlier slow-mode work (different Q regime, different sector concept): [`experiments/SLOW_MODE_R_PARITY.md`](SLOW_MODE_R_PARITY.md), [`simulations/slow_modes_r_parity.py`](../simulations/slow_modes_r_parity.py), [`compute/RCPsiSquared.Compute/LensAnalysis.cs`](../compute/RCPsiSquared.Compute/LensAnalysis.cs).
 - External literature anchors: MEP 2016 (`arXiv:1606.09122`, exact Bethe-ansatz for periodic XX + dephasing); Žnidarič 2024 (`arXiv:2311.07375`, local-dephasing → diffusive 1/N²); Bortz-Stolze 2008 (`arXiv:cond-mat/0612382`, central-spin model for the star scaling family).

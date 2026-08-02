@@ -136,17 +136,20 @@ def phase1(N_list=(3, 4, 5, 6)):
         f2 = f2_formula(N, J=1.0)
         print(f"  F2: omega_k = 4J(1-cos(pi k/N)) k=1..N-1: {np.sort(f2).round(4)}")
 
-        # w=1 Liouvillian oscillatory frequencies (XY, take the ones with
-        # smallest Re(lambda) > ... to avoid stationary modes)
+        # Oscillatory Liouvillian modes sitting exactly on the Re = -2*gamma
+        # line.  That line is NOT a weight sector: by the Absorption Theorem
+        # Re = -2*gamma*<n_XY>, so it is the exact line of average light content 1
+        # (an exact mask, not a tolerance band like the one rmt_analysis uses).
+        # It holds the (0,1) coherence block's frequencies, and at small N it
+        # can also hold mixed-content modes averaging to 1 (the {0,2} family:
+        # XY has them at N=2 and N=3, Heisenberg at N=2 only).
         H_full = build_H_XY([1.0] * (N - 1), N)
         L = build_liouvillian_matrix(H_full, GAMMA_0, N)
         eigvals = np.linalg.eigvals(L)
-        # Sort by Im then by |Re|
-        # The w=1 oscillatory modes have Re(lambda) = -2 gamma and Im(lambda) in the SE spectrum
         mask = np.abs(np.real(eigvals) + 2 * GAMMA_0) < 1e-8
         im_vals = np.sort(np.imag(eigvals[mask]))
         im_positive = im_vals[im_vals > 1e-8]
-        print(f"  L w=1 osc modes (Re(lam)=-2gamma_0): Im(lam) = {im_positive.round(4)}")
+        print(f"  L modes on the Re(lam)=-2gamma_0 line: Im(lam) = {im_positive.round(4)}")
 
         results[N] = {
             "xy_se_numeric": ev_xy_se.tolist(),

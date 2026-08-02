@@ -2,7 +2,7 @@
 
 **What this derivation is about:** The oscillatory modes of a spin chain span a finite frequency range (the bandwidth). This derivation shows that the bandwidth approaches 8J (eight times the coupling strength) as the chain grows, and that modes pile up at the band edges (van Hove singularities), not in the middle. Both results follow algebraically from the cosine dispersion relation.
 
-**Source formulas:** 2 (w=1 dispersion)
+**Source formulas:** 2 ((0,1) coherence block dispersion)
 **Tier:** 1 (algebraic consequence of F2)
 **Status:** VERIFIED (N=2-5, max frequency error < 5e-9)
 

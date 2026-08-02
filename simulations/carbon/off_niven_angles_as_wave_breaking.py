@@ -122,7 +122,7 @@ def survey_v_effect_angles():
     print("  V-Effect angles π/(2N) for ring C_N: where the wave-breaking lives")
     print("=" * 86)
     print()
-    print("  Per THERMAL_BREAKING.md: V(N) = ω_max(w=1) / ω_max(w=1, N=2)")
+    print("  Per THERMAL_BREAKING.md: V(N) = ω_max(N) / ω_max(N=2), on the (0,1) block")
     print("                          = 2·cos²(π/(2N))")
     print()
     print(f"  {'N':>3} {'π/(2N)':>10} {'V(N) = 2cos²(π/(2N))':<32} {'Niven?'}")

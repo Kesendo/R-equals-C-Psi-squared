@@ -1,6 +1,6 @@
 ========================================================================
 SPECTRAL FORM FACTOR OF THE PALINDROMIC LIOUVILLIAN
-Started: 2026-04-01 17:07:22
+Started: 2026-08-02 17:14:50
 ========================================================================
 
 ========================================================================
@@ -161,7 +161,7 @@ PHASE 4: COMPARISON WITH POISSON AND GUE
 
 
 ========================================================================
-PHASE 5: SECTOR-RESOLVED SFF (N=3, 4, 5)
+PHASE 5: BAND-RESOLVED SFF (N=3, 4, 5)
 ========================================================================
 
   N=3 (64 eigenvalues, 0.0s):
@@ -169,13 +169,13 @@ PHASE 5: SECTOR-RESOLVED SFF (N=3, 4, 5)
     w=2: 28 eigenvalues, <K>=0.1749, std=0.2802, min=2.5691e-06
     w=3: 4 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
 
-  N=4 (256 eigenvalues, 0.2s):
+  N=4 (256 eigenvalues, 0.1s):
     w=1: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
     w=2: 176 eigenvalues, <K>=0.0500, std=0.1073, min=2.1244e-07
     w=3: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
     w=4: 5 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
 
-  N=5 (1024 eigenvalues, 2.8s):
+  N=5 (1024 eigenvalues, 2.3s):
     w=1: 28 eigenvalues, <K>=0.2271, std=0.1864, min=4.1380e-05
     w=2: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
     w=3: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
@@ -225,7 +225,7 @@ PHASE 7: CONNECTION TO PREVIOUS RESULTS
 
   Analytical formulas: ω_min = 4J(1-cos(π/N)) (formula 2, k=1).
   If the SFF modulation peak matches ω_min, that confirms the
-  w=1 dispersion relation in the time domain.
+  (0,1) coherence block's dispersion relation in the time domain.
 
 
 ========================================================================
@@ -240,5 +240,5 @@ SUMMARY
   Palindromic modulation provides time-domain fingerprint of
   the spectral pairing lambda <-> -(lambda + 2*Sigma_gamma).
 
-Completed: 2026-04-01 17:07:27
+Completed: 2026-08-02 17:14:55
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\spectral_form_factor.txt

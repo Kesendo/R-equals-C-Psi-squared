@@ -1,13 +1,13 @@
 ========================================================================
 TOPOLOGICAL EDGE MODES ANALYSIS
-Started: 2026-08-02 14:32:38
+Started: 2026-08-02 16:53:46
 ========================================================================
 
 ========================================================================
-PHASE 1: SSH ANALOGY CHECK (w=1 SECTOR)
+PHASE 1: SSH ANALOGY CHECK ((0,1) COHERENCE BLOCK)
 ========================================================================
 
-  The w=1 sector dispersion: ω_k = 4J(1-cos(πk/N)), k=1..N-1
+  The (0,1) coherence block's dispersion: ω_k = 4J(1-cos(πk/N)), k=1..N-1
   This is tight-binding with UNIFORM hopping 2J.
   SSH requires ALTERNATING hopping t1-t2.
 
@@ -29,7 +29,7 @@ PHASE 1: SSH ANALOGY CHECK (w=1 SECTOR)
   This is the standard 1D standing wave pattern. No alternating
   structure, no sublattice, no SSH topology.
 
-  Actual Liouvillian (N=5, uniform γ=0.05, 2.1s):
+  Actual Liouvillian (N=5, uniform γ=0.05, 1.9s):
     Slowest oscillating modes: rate=0.1000
     Modes sharing the slowest rate 0.1000: 16
     Their frequencies: ['0.764', '2.764', '5.236', '7.236']
@@ -74,7 +74,7 @@ PHASE 2: CHIRAL BLOCK STRUCTURE
       On-diagonal residual: 3.93e-16  (0 = perfect off-diagonal)
       Singular values of A: min=2.3812e-03, max=1.1713e+01, zero count=0
       Full rank → NO topological zero modes (trivial)
-    (2.3s)
+    (2.4s)
 
 
 ========================================================================
@@ -97,7 +97,7 @@ PHASE 3: BERRY PHASE (BIORTHOGONAL)
 
   Total Berry phase: φ = -0.771673
   φ/π = -0.245631
-  (122.5s)
+  (112.4s)
 
   Berry phase = -0.7717 (NOT quantized → geometric)
 
@@ -124,7 +124,7 @@ PHASE 5: ROBUSTNESS SWEEP
    +0.60      0.1205      1.0800          8.96      0.1205
    +0.80      0.0884      1.0800         12.22      0.0884
    +1.00      0.0560      1.0800         19.30      0.0560
-  (60.6s)
+  (56.6s)
 
   Max protection factor jump: 17.76 at θ ≈ -0.97
   Relatively sharp transition → POSSIBLE topological boundary
@@ -150,9 +150,10 @@ PHASE 4: CENTER-LOCALIZED MODE COUNT
 SUMMARY
 ========================================================================
 
-Phase 1: w=1 sector is tight-binding with UNIFORM hopping.
+Phase 1: the (0,1) coherence block is tight-binding with UNIFORM hopping.
   No alternating structure → no SSH topology.
-  Localization profile matches sin standing wave patterns.
+  Localization profile matches the cos (Neumann) standing waves this
+  phase computes, not the Dirichlet sin family, which belongs to F2b.
 
 Phase 2: Chiral block structure exists (Π eigenspaces give
   off-diagonal L_c), but off-diagonal blocks have FULL RANK
@@ -176,5 +177,5 @@ EXPLOITS this geometry by placing noise where fast modes live
 topology provides the mode structure. The noise provides the
 selection pressure. No topological invariant protects anything.
 
-Completed: 2026-08-02 14:36:39
+Completed: 2026-08-02 16:57:32
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\topological_edge_modes.txt

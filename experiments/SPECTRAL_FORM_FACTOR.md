@@ -14,7 +14,7 @@ time, R=CPsi2 spectral form factor -->
 **Depends on:**
 - [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) (Poisson, class AIII)
 - [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Pi chiral, palindromic pairing)
-- [Analytical Spectrum](ANALYTICAL_SPECTRUM.md) (w=1 dispersion: ω_k = 4J(1-cos(πk/N)))
+- [Analytical Spectrum](ANALYTICAL_SPECTRUM.md) ((0,1) coherence block dispersion: ω_k = 4J(1-cos(πk/N)))
 
 ---
 
@@ -55,9 +55,12 @@ K_freq(t) = (1/N²)|Σ exp(i·Im(λ_k)·t)|² and find:
    t_Π/t_H → 0: the palindromic structure lives in the short-time
    regime, invisible to long-time diagnostics.
 
-4. **Sector SFF confirms palindromic pairing.** Sectors w and N-w have
-   identical SFF statistics (same mean, same variance). The XOR sector
-   (w=N) has K=1.0 exactly (all eigenvalues degenerate at rate 2Nγ).
+4. **Shell SFF confirms palindromic pairing.** The shells at
+   ⟨n_XY⟩ = w and N−w have identical SFF statistics (same mean, same
+   variance). The XOR shell (w=N) has K=1.0 exactly (all eigenvalues
+   degenerate at rate 2Nγ). The shells are decay-rate bins, which by
+   the Absorption Theorem select average light content and not Pauli
+   weight; the two agree on pure modes and part on mixed ones.
 
 5. **Neither Poisson nor GUE.** The SFF does not match the Poisson
    prediction (K=1/N, flat) nor the GUE prediction (dip-ramp-plateau).
@@ -98,7 +101,7 @@ Each palindromic pair (μ, -μ) in the centered spectrum contributes:
 
 The SFF therefore contains cosine components at every palindromic
 frequency, with the dominant modulation at the lowest frequency
-ω_min = 4J(1-cos(π/N)) (the k=1 mode of the w=1 sector, F2).
+ω_min = 4J(1-cos(π/N)) (the k=1 mode of the (0,1) coherence block, F2).
 
 ### FFT verification
 
@@ -160,14 +163,14 @@ the fast dynamics; Poisson governs the slow dynamics.
 
 ---
 
-## Result 3: Sector-Resolved SFF
+## Result 3: Shell-Resolved SFF
 
-The SFF computed separately for each XY-weight sector confirms the
-palindromic pairing at the sector level:
+The SFF computed separately for each decay-rate shell confirms the
+palindromic pairing at the shell level:
 
-### N=5 sector analysis
+### N=5 shell analysis
 
-| Sector w | Eigenvalues | <K_freq> | std(K) |
+| Shell w | Eigenvalues | <K_freq> | std(K) |
 |----------|-------------|----------|--------|
 | w=1 | 28 | 0.227 | 0.186 |
 | w=2 | 478 | 0.023 | 0.064 |
@@ -177,14 +180,14 @@ palindromic pairing at the sector level:
 
 **Palindromic pairing:** w=1 and w=4 have identical SFF statistics.
 w=2 and w=3 have identical SFF statistics. This is the palindromic
-symmetry in the time domain: Π maps w → N-w, so sectors w and N-w
+symmetry in the time domain: Π maps w → N-w, so the bands at w and N-w
 must have the same spectral structure.
 
-**XOR sector (w=N):** K=1.000 exactly, with zero variance. All XOR
+**XOR band (w=N):** K=1.000 exactly, with zero variance. All XOR
 eigenvalues are degenerate at rate 2Nγ (the maximum decay rate). They
 oscillate at exactly the same frequency → perfect correlation → K=1.
 
-**Interior sectors (w=2,3):** Much lower K (0.023), indicating more
+**Interior bands (w=2,3):** Much lower K (0.023), indicating more
 spectral diversity (many distinct frequencies, less correlation).
 
 ---
@@ -220,7 +223,7 @@ the level statistics sees it as Poisson; the Π operator explains both.
 
 **Analytical spectrum (F2):** The modulation frequency ω_min
 matches the predicted 4J(1-cos(π/N)) to within 1% for N=2-4, 6. This
-confirms the w=1 dispersion relation in the time domain.
+confirms the (0,1) coherence block's dispersion relation in the time domain.
 
 **Topological analysis (geometric):** The SFF is independent of spatial
 localization (it measures spectral correlations, not mode profiles).

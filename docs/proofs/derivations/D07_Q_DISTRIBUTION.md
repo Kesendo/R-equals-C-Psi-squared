@@ -1,10 +1,10 @@
 # D7: Q-Factor Distribution (Arcsine)
 
-**What this derivation is about:** The Q-factor (quality factor: how many oscillations a mode completes before it decays to half amplitude) of all palindromic modes follows an arcsine distribution: most modes cluster at the extremes (very high Q or very low Q), with few in the middle. This is derived analytically from the dispersion relation and verified numerically for N=5 through N=50.
+**What this derivation is about:** The Q-factor (quality factor: how many oscillations a mode completes before it decays to half amplitude) of the modes F7 describes follows an arcsine distribution: most modes cluster at the extremes (very high Q or very low Q), with few in the middle. Those modes are the N-1 oscillating ones of the chain's (0,1) coherence block, the N-dimensional span of the |0><j| between the ferromagnet and the single excitations; this derivation says nothing about the rest of the Liouvillian's palindromic modes. It is derived analytically from the dispersion relation, and the distribution's finite-N statistics are checked against their closed forms for N=5 through N=50.
 
-**Source formulas:** 2 (w=1 dispersion), 7 (Q-factor spectrum)
+**Source formulas:** 2 ((0,1) coherence block dispersion), 7 (Q-factor spectrum)
 **Tier:** 1-2 (algebraic, converges with N)
-**Status:** VERIFIED (N=5-50). Shape is arcsine; endpoints and mean are exact at all N; the finite-N variance is now closed exactly as A^2(N-2)/(2(N-1)), with the arcsine value A^2 cos^2(pi/N)/2 its N -> infinity limit.
+**Status:** VERIFIED (N=5-50) in the following sense, and it is worth being exact about which step each part rests on. Shape is arcsine; endpoints and mean are exact at all N; the finite-N variance is closed exactly as A^2(N-2)/(2(N-1)), with the arcsine value A^2 cos^2(pi/N)/2 its N -> infinity limit. All of that is algebra on top of F7's closed form, and the table below compares two closed forms to each other, so it cannot and does not test the SCOPE claim (which modes these are). What pins F7's Q_k to actual Liouvillian eigenvalues is D10 and F2: a full eigendecomposition at N=2-6 and block closure at N=2-10.
 **Origin:** Cascade A (derivation_cascades.py)
 
 ## Derivation
@@ -60,8 +60,17 @@ Script: [`simulations/derivation_cascades.py`](../../../simulations/derivation_c
 
 ## Replaces
 
-Numerical Q-factor histogram construction. The distribution is
-fully characterized by Q_min and Q_max (two parameters from
-formulas 2 + 7). The U-shape means most modes are near the
-extremes, not near the mean. This is relevant for sacrifice-zone
-design (edge modes dominate both fast and slow Q regimes).
+Numerical Q-factor histogram construction for the (0,1) coherence
+block. The distribution is fully characterized by Q_min and Q_max (two
+parameters from formulas 2 + 7). The U-shape means most modes are near
+the extremes, not near the mean.
+
+**Scope.** Uniform gamma, open Heisenberg chain. Both parent formulas
+are uniform-gamma statements, and the reason is structural rather than
+a missing measurement: under a gamma PROFILE the block stays exactly
+closed, but diag(gamma) stops commuting with the block's Laplacian, so
+Q_k is no longer (frequency)/(2 gamma) with a common denominator. The
+frequencies move as well
+([Concentrator Optics](../../../experiments/CONCENTRATOR_OPTICS.md)
+Result 3). So the arcsine shape carries no prediction for
+sacrifice-zone design, which is a profile by construction.

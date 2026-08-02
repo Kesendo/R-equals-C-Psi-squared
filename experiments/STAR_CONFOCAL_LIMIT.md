@@ -102,7 +102,7 @@ The choice of the polarised extreme is not cosmetic. Products between the two ex
 
 Three hypotheses are load-bearing. Each one, dropped, breaks something, and the gate holds all three fences.
 
-**Uniform γ is required.** With site-dependent γ_l the dissipator becomes diag(−2γ_l) on the weight-1 block, stops commuting with the one-magnon Hamiltonian, and the saturation fails:
+**Uniform γ is required.** With site-dependent γ_l the dissipator becomes diag(−2γ_l) on the (0,1) coherence block, stops commuting with the one-magnon Hamiltonian, and the saturation fails:
 
 | N | γ profile | max\|Im\| | J·N/2 |
 |---|---|---:|---:|

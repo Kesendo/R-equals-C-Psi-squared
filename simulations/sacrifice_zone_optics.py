@@ -310,7 +310,7 @@ for N in [4, 5]:
     log()
 
 # ─────────────────────────────────────────────
-# Step 4: Transfer matrix attempt (weight-1)
+# Step 4: Transfer matrix attempt (the (0,1) coherence block)
 # ─────────────────────────────────────────────
 
 log("=" * 75)

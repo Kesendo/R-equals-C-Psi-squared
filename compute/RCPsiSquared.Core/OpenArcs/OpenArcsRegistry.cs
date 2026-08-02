@@ -3644,15 +3644,11 @@ public static class OpenArcsRegistry
                 "record claimed N=7 while its cited script stopped at N=6, now N=2..6 by full eigendecomposition " +
                 "plus N=2..10 by block closure (simulations/d10_block_closure_verify.py); and F2's note, F7's " +
                 "scope line, W1Dispersion.cs, F2W1DispersionPi2Inheritance.cs and ANALYTICAL_SPECTRUM all named " +
-                "the w=1 SECTOR as the object whose spectrum this is. STILL OPEN, and this is the LARGEST " +
-                "remaining item: the same mislabel survives in roughly twenty places the commit did not reach, " +
-                "and two of them assert more than a name. THERMAL_BREAKING.md builds the whole V(N) chain on " +
-                "'ALL w=1 modes decay at 2*gamma' with a table headed omega_max(w=1). Also: experiments/README, " +
-                "SPECTRAL_FORM_FACTOR, D07_Q_DISTRIBUTION, RANDOM_MATRIX_THEORY, OPTICAL_CAVITY_ANALYSIS, " +
-                "review/OPEN_QUESTIONS_INDEX:1736, and the scripts " +
-                "topological_edge_modes.py, verify_derivations.py, sacrifice_zone_optics.py, " +
-                "eq021_obc_sine_basis.py. A half-done rename reads as disagreement rather than as work in " +
-                "progress, so finish it in one pass rather than opportunistically. THE C# HALF IS DONE " +
+                "the w=1 SECTOR as the object whose spectrum this is. THE PROSE RENAME IS NOW CLOSED on both " +
+                "sides; what the doc pass found while closing it is under THE DOC HALF IS DONE below, and it " +
+                "was more than a rename in six places. The canonical repaired wording is " +
+                "docs/ANALYTICAL_FORMULAS F2, 'the (0,1) coherence block'; use it rather than inventing a " +
+                "seventh phrasing. THE C# HALF IS DONE " +
                 "(2026-08-02): both Runtime registration files, MirrorWorld/Formulas.cs (F2, F7, D1), " +
                 "W1Dispersion's own claim Name + DisplayName, F2W1's DisplayName + XML doc + InspectableNode, " +
                 "and F41's tier-justification comments plus its MinFrequency doc; green under " +
@@ -3736,7 +3732,71 @@ public static class OpenArcsRegistry
                 "gamma provably cannot, the move is monotone in the unevenness, and it passes the " +
                 "level s own half-width at N=8. experiments/CONCENTRATOR_OPTICS.md Result 3 now states " +
                 "that, with its range and its three fences. " +
-                "THE DOC HALF, triaged 2026-08-02 and NOT applied: five agents read the named files and the " +
+                "THE DOC HALF IS DONE (2026-08-02, the same day it was triaged), and four things came out of " +
+                "it that the triage had not seen. (1) The off-diagonal popcount sectors are not pinned at " +
+                "2*gamma, they are FLOORED there, and the floor has a one-line derivation: everything in a " +
+                "(k, k+-1) sector changes the popcount, so its Hamming distance is at least 1, so " +
+                "<n_XY> >= 1, so Re <= -2*gamma by the Absorption Theorem, with equality exactly on the " +
+                "distance-1 coherences F50 pins. Gated at N=3,4,5 over four (J, gamma) pairs: every " +
+                "off-diagonal sector is exactly closed, every one ATTAINS 2*gamma as its smallest |Re|, and " +
+                "the flat ones are the two end sectors (0,1) and (N-1,N) and no others. The gate is " +
+                "two-sided (it also fires if an end sector is not flat). This turned the repair from a " +
+                "rename into a sharpening, and the conclusion the old premise carried survives it: the gap " +
+                "is BELOW 2*gamma, so no off-diagonal sector can host it. " +
+                "(2) ANALYTICAL_SPECTRUM's mechanism paragraph was FALSE and nothing had flagged it: it " +
+                "said the 4J prefactor 'comes from the Liouvillian being a commutator (double action of H)'. " +
+                "Measured at N=2..6 against a direct one-magnon diagonalisation, F2's omega_k EQUALS " +
+                "|E_magnon - E_vac| with no doubling at all. The Liouvillian does act from both sides, but " +
+                "one side is the vacuum and contributes only the constant E_vac. The 4 is two other 2s: " +
+                "XX + YY each give J to the hop so the hopping is 2J, and the open-path Laplacian's " +
+                "eigenvalues are 2(1 - cos(pi k/N)). Repaired in place. " +
+                "(3) SYMMETRY_CENSUS:135 had the fully-separated sector decaying at N*gamma; measured at " +
+                "N=5, gamma=0.1 it is 2*gamma*N = 1.000, a factor of two, and its 'adjacent sectors decay at " +
+                "0.200' was the floor read as the rate. Both repaired with the measured spreads beside them. " +
+                "(4) RANDOM_MATRIX_THEORY's within-sector readings are SHELLS, not sectors: the script bins " +
+                "the full spectrum by decay rate, and by the Absorption Theorem a rate bin selects average " +
+                "light content, so it collects pure weight-w modes AND mixed modes averaging to w. The " +
+                "measurement is untouched and the verdict stands; what changed is the name of the set, " +
+                "throughout that document and in SPECTRAL_FORM_FACTOR's Result 3, which bins the same way. " +
+                "Its 'why Poisson' section blamed the palindrome, which pairs rather than separates; the " +
+                "gradings that actually cut L into non-interacting pieces are the joint popcount and the " +
+                "XY-weight parity, and its 'the spectrum is fully determined' was an overclaim (one block " +
+                "has a closed form). " +
+                "DELIBERATELY NOT TOUCHED: the HISTORICAL-NAME layer (the type W1Dispersion, " +
+                "F2W1DispersionPi2Inheritance, the file D10_W1_DISPERSION.md and their test/registration " +
+                "siblings), because those are code renames with cross-file references and W1Dispersion's own " +
+                "docstring already declares the name historical; and docs/CAUGHT_ERRORS.md:233, which is a " +
+                "dated record of a gate that was run, not a live claim. " +
+                "TWO REVIEW ROUNDS ON THE DOC PASS ITSELF found thirteen more things, and the " +
+                "instructive half is that three were errors the REPAIRS introduced, of the same " +
+                "shape as what they repaired. The 'why Poisson' fix replaced one wrong mechanism " +
+                "(the palindrome) with a right one plus a VACUOUS one: XY-weight parity is not a " +
+                "second grading, because inside the block (p, q) every Pauli component already has " +
+                "n_XY congruent to p - q mod 2, so parity is a function of the block (checked N=3,4,5: " +
+                "no block carries both). The 'shell' rename was also wrong: rmt_analysis admits " +
+                "|rate - 2w*gamma| < 0.3*gamma, so the bin is a BAND of width ~1 in light content, not " +
+                "a shell at a rung, and most of its members are not at w; the word is now 'band'. And " +
+                "the {0,2} illustration written into RMT is false at N>=3 for Heisenberg (checked: every " +
+                "Re = -2*gamma mode at N=3,4,5 has ODD popcount difference); the honest witness, measured, " +
+                "is at N=4 on the 4*gamma rung with histogram {1: 1/2, 3: 1/2} and <n_XY> = 2 exactly. " +
+                "Two more were mine: 'only the two end sectors are flat' was imported from the |dp| = 1 " +
+                "case into a paragraph about ALL off-diagonal sectors, where it is false ((0,2), (0,5) " +
+                "and every sector touching the vacuum or the full state is flat too, at 2*gamma*|dp|); " +
+                "and 'every Q_max in this document is that block's own' ignored the thermal Q_max values " +
+                "THERMAL_BREAKING quotes from other documents' runs. The general flatness rule that came " +
+                "out of it: a sector is flat exactly when min(p,q) = 0 or max(p,q) = N, because then one " +
+                "index is pinned to a single basis state and every coherence sits at distance exactly " +
+                "|p - q|. The gate is now a committed script, simulations/offdiag_sector_floor.py, which " +
+                "checks closure, floor and the flatness rule in BOTH directions over N=3,4,5 and four " +
+                "(J, gamma) pairs; it had none when the claim first landed, which was the review's " +
+                "sharpest procedural catch. Also caught: a doc-level claim of a one-magnon check with no " +
+                "verifier named (now routed to d10_block_closure_verify.py), and the step from the block's " +
+                "best Q to the LIOUVILLIAN's, which I had called untaken when it is measured and holds at " +
+                "N=2..5 (40, 60, 68.284271, 72.360680 at gamma=0.05, exactly the block's value); only the " +
+                "general-N proof is missing. " +
+                "WHAT WAS TRIAGED, all of it now APPLIED (the list below is the record of what the triage " +
+                "found, in its original present tense; every 'needs' and 'still says' in it has since been " +
+                "acted on, OPTICAL_CAVITY_ANALYSIS's conflated Gouy axis included): five agents read the named files and the " +
                 "sweep found the arc's own list short by nine doc sites plus four C# ones, so do not treat any " +
                 "list here as complete. Six places assert more than a name and each needs a decision, not a " +
                 "rename. THERMAL_BREAKING:97-100 needs the premise swapped (its omega_max(w=1) table head sits at :126; its 'ALL w=1 modes decay at 2gamma' " +

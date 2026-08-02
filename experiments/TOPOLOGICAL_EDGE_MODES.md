@@ -14,7 +14,7 @@ R=CPsi2 topological edge modes -->
 - [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994, the question)
 - [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Pi is chiral, class AIII)
 - [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) (Poisson, integrable)
-- [Analytical Spectrum](ANALYTICAL_SPECTRUM.md) (w=1 dispersion)
+- [Analytical Spectrum](ANALYTICAL_SPECTRUM.md) ((0,1) coherence block dispersion)
 
 ---
 

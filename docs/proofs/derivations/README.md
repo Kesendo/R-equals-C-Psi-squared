@@ -44,7 +44,7 @@ F3 (decay bounds) -/
                         \--> D8 (Crooks rate identity)
                         \--> D9 (sector SFF pairing)
 
-Tight-binding reduction -----> D10 (w=1 dispersion)
+Tight-binding reduction -----> D10 ((0,1) block dispersion)
                                 |---> F7 (Q spectrum)
                                 |---> F41 (palindromic time)
                                 \---> D1 (bandwidth)

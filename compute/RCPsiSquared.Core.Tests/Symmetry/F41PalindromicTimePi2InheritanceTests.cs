@@ -26,7 +26,7 @@ public class F41PalindromicTimePi2InheritanceTests
     }
 
     [Theory]
-    // F41: ω_min is the k=1 mode of the D10 w1 dispersion 4J(1 − cos(πk/N)),
+    // F41: ω_min is the k=1 mode of D10's (0,1) block dispersion 4J(1 − cos(πk/N)),
     // i.e. ω_min = 4·J·(1 − cos(π/N)) = 8·J·sin²(π/(2N)).
     // N=2, J=1: sin²(π/4) = 1/2 → ω_min = 8·1·(1/2) = 4
     // N=3, J=1: sin²(π/6) = 1/4 → ω_min = 8·1·(1/4) = 2

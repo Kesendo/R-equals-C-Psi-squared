@@ -3,15 +3,15 @@
 <!-- Keywords: random matrix theory Liouvillian, spacing ratio palindromic
 spectrum, Poisson level statistics open quantum, integrable Lindbladian
 spectral statistics, chiral symmetry Liouvillian eigenvalues, XY-weight
-sector universality class, Heisenberg dephasing RMT analysis,
+light-content band universality class, Heisenberg dephasing RMT analysis,
 R=CPsi2 random matrix theory -->
 
 **Status:** Computationally verified (N=2-7, 21,840 eigenvalues, Heisenberg chain)
-**Date:** April 1, 2026 (updated June 30, 2026: dissipative chaos located as a FILLING threshold, Result 5; the within-sector GOE hint resolved as a small-sample artifact June 27, Result 3)
+**Date:** April 1, 2026 (updated June 30, 2026: dissipative chaos located as a FILLING threshold, Result 5; the within-band GOE hint resolved as a small-sample artifact June 27, Result 3)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** compute/RCPsiSquared.Compute (C# eigenvalue export),
 [`simulations/rmt_analysis.py`](../simulations/rmt_analysis.py) (Python spacing analysis),
-[`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.py) (sector GOE-hint verdict: bootstrap + larger-N)
+[`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.py) (band GOE-hint verdict: bootstrap + larger-N)
 
 ---
 
@@ -21,12 +21,12 @@ This document asks whether the palindromic Liouvillian spectrum looks
 chaotic or integrable, using the standard diagnostic from random matrix
 theory: the spacing ratio between consecutive eigenvalues. The answer:
 the spectrum is Poisson (integrable, eigenvalues cluster rather than
-repel), confirming that the palindromic symmetry provides enough
-conserved quantities to fully determine the spectrum. An early small-N
-read hinted at GOE-like repulsion within individual weight sectors, but
-driving it to a verdict (bootstrap + larger samples) shows it was
-small-sample noise: the sectors are integrable too, with no chaotic
-transition (Result 3).
+repel), which is what a Liouvillian cut into non-interacting blocks by
+its conserved quantities should look like. An early small-N read hinted
+at GOE-like repulsion inside individual decay-rate bands, but driving it
+to a verdict (bootstrap + larger samples) shows it was small-sample
+noise: the bands are integrable too, with no chaotic transition
+(Result 3).
 
 ---
 
@@ -39,17 +39,21 @@ MKL/OpenBLAS (N=2 through N=7, up to 16,384 eigenvalues), we find
 that the decay rate spectrum is **Poisson** (integrable, no level
 repulsion) at every system size tested. The mean spacing ratio
 converges to ⟨r⟩ = 0.36-0.39, consistent with the Poisson value
-0.386 and far from GOE (0.536) or GUE (0.603). The palindromic
-constraint creates an exactly integrable spectral structure: the
-Liouvillian decomposes into non-interacting sectors that prevent
-eigenvalue repulsion. The chiral symmetry (centered spectrum has
+0.386 and far from GOE (0.536) or GUE (0.603). The decomposition that
+does this is the **joint-popcount grading**: the Hamiltonian conserves
+excitation number and Z-dephasing does not move it either, so L is
+block-diagonal across the (N+1)² blocks indexed by the popcounts of
+ρ's row and column, and eigenvalues from different blocks never see
+each other. The palindrome is a separate fact and not this one: it
+pairs λ with −λ−2Σγ across the whole spectrum rather than splitting it
+into non-interacting parts. The chiral symmetry (centered spectrum has
 exact ± pairing) is confirmed to machine precision. An early
-sector-resolved read at N=5 showed an apparent GOE-like ⟨r⟩ = 0.513
-within individual weight sectors; driven to a verdict it is a
+band-resolved read at N=5 showed an apparent GOE-like ⟨r⟩ = 0.513
+inside individual decay-rate bands; driven to a verdict it is a
 small-sample artifact (the n=15 value is a 1.5σ Poisson fluctuation, and
-the same sectors read Poisson/sub-Poisson at N=6-7 with hundreds of
+the same bands read Poisson/sub-Poisson at N=6-7 with hundreds of
 frequencies). There is no integrable-to-chaotic transition: the spectrum
-is integrable at every sector and every tested N.
+is integrable in every band and at every tested N.
 
 ---
 
@@ -75,8 +79,10 @@ a single number that distinguishes the three classes.
 The palindromic Liouvillian has:
 - Exact eigenvalue pairing: λ + λ' = −2Σγ
   ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
-- Weight-sector structure: XY-weight w determines the decay rate
-  envelope 2wγ ([F3](../docs/ANALYTICAL_FORMULAS.md))
+- Light-content structure: the decay rate is 2γ·⟨n_XY⟩ exactly (the
+  Absorption Theorem), so a mode of PURE XY-weight w sits at 2wγ
+  ([F3](../docs/ANALYTICAL_FORMULAS.md)) and a mode of mixed content
+  sits at its average, which need not be an integer
 - Weight-parity mixing: the Hamiltonian mixes sectors w with w±2
   (discovered during [derivation verification](../docs/proofs/derivations/D05_DYNAMIC_MODE_COUNT.md))
 - Does not fit any of the 38 Sa-Ribeiro-Prosen classes
@@ -117,12 +123,18 @@ For decay rates (Re parts of eigenvalues):
 No spectral unfolding needed. The spacing ratio is invariant under
 smooth transformations of the spectrum.
 
-### Sector analysis
+### Band analysis
 
-For N=2-5 (Python eigenvalues): classify modes by nearest integer
-XY-weight w (rate ~ 2*w*gamma), then analyze FREQUENCIES (imaginary
-parts) within each sector. Rates are degenerate within a sector;
-frequencies carry the spectral information.
+For N=2-5 (Python eigenvalues): bin modes by nearest integer w
+(rate ≈ 2·w·γ), then analyze FREQUENCIES (imaginary parts) within each
+bin. Rates are degenerate inside a bin by construction; frequencies
+carry the spectral information.
+
+The bin is a **band** around average light content ⟨n_XY⟩ = w, not a
+weight sector. Modes of pure weight w land in it, and so does any mixed
+mode within the tolerance, including mixed modes exactly on the rung.
+Everything below reads bands; the distinction does not affect the
+statistics but it does decide what the sets are called.
 
 ---
 
@@ -149,17 +161,32 @@ of the palindromic doubling.
 
 ### Why Poisson?
 
-The palindromic symmetry decomposes the Liouvillian into effectively
-independent sectors. The conserved quantities (XY-weight parity,
-palindromic pairing) prevent the eigenvalue interactions that would
-produce level repulsion. This is the same mechanism that makes
-integrable quantum systems Poisson: enough conserved quantities to
-prevent chaos.
+ONE grading cuts the Liouvillian into pieces that never interact: the
+**joint popcount**. H conserves excitation number and Z-dephasing acts
+diagonally on ρ's indices, so L is block-diagonal across the (N+1)²
+blocks indexed by (popcount(row), popcount(col)). Levels in different
+blocks are unrelated by construction and have no reason to repel; that
+is what produces Poisson, and it is the same reason integrable systems
+are Poisson.
 
-The spacing statistics confirm what the analytical formulas already
-implied: the Liouvillian spectrum is fully determined by the sector
-structure (formulas 1-5, 22-23, 33) plus the dispersion relation
-within each sector (F2). There is no residual randomness.
+XY-weight parity does not add a second cut, though it is easy to think
+it does. (−1)^n_XY does commute with L, but it is not independent of
+the grading above: inside the block (p, q) every Pauli component has
+n_XY ≡ p − q (mod 2), so the parity is a function of the block and
+splits nothing. Checked at N=3, 4, 5: no joint-popcount block carries
+both parities.
+
+The palindrome is not one of these. Π conjugation sends λ to −λ−2Σγ
+and so relates the two halves of the spectrum; it pairs levels rather
+than separating them, and a pairing does not by itself suppress
+repulsion. That the two halves are individually Poisson (measured
+above) is evidence for exactly this reading.
+
+The spacing statistics are consistent with what the analytical
+formulas already implied. They do not establish that the spectrum is
+fully determined: only the (0,1) coherence block has a closed form
+(F2), and the interior blocks do not. What is Poisson is the level
+STATISTICS, which is a much weaker statement than knowing the levels.
 
 ---
 
@@ -190,12 +217,12 @@ system.
 
 ---
 
-## Result 3: The Within-Sector GOE Hint, Resolved (Artifact)
+## Result 3: The Within-Band GOE Hint, Resolved (Artifact)
 
-Within individual XY-weight sectors, frequencies (not rates) were measured
+Within individual decay-rate bands, frequencies (not rates) were measured
 with the spacing ratio ⟨r⟩. An early small-N read looked GOE-like:
 
-| N | Sector | Unique freq | ⟨r⟩ | Class |
+| N | Band | Unique freq | ⟨r⟩ | Class |
 |---|--------|-------------|-----|-------|
 | 4 | w=2 | 41 | 0.130 | sub-Poisson |
 | 5 | w=2 | 15 | 0.513 | GOE |
@@ -208,7 +235,7 @@ in [`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.p
 1. **The two "GOE" rows are one sample, not two.** At N=5, w=2 and w=N−2=3 are
    palindromic partners with identical frequency content (the F43 sector pairing
    K_freq(w,t) = K_freq(N−w,t)), so they read identically (0.513 on the same 15
-   frequencies). There was never an independent second sector.
+   frequencies). There was never an independent second band.
 
 2. **0.513 on 15 frequencies is a Poisson fluctuation.** The Poisson sampling
    band for ⟨r⟩ at n=15 (Monte Carlo over a homogeneous Poisson process, same
@@ -216,20 +243,30 @@ in [`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.p
    The observed 0.513 sits inside the band; the one-sided p(Poisson ≥ 0.513) =
    0.076, a ~1.5σ upward fluctuation, not significant.
 
-3. **Larger samples read Poisson, not GOE.** The decay rate assigns the weight
-   exactly (rate = 2wγ, by the Absorption Theorem), so the sectors can be read
-   off the full Liouvillian spectrum at N=6-7 with no eigenvectors and no extra
-   memory (this is the obstacle the original write-up wrongly thought blocked the
-   check). The same sector then has hundreds of frequencies: N=6 w=3 (546 freq)
-   → ⟨r⟩ = 0.272, N=7 w=3,4 (414 freq) → 0.283. The reading does not approach
-   GOE (0.536); it converges to Poisson and below (sub-Poisson = level
-   clustering, the opposite of repulsion, the signature of a strongly degenerate
-   integrable additive spectrum, consistent with the N=4 w=2 row). The tiny
-   w=1 / w=N−1 sectors (5-6 frequencies) throw a spurious "GUE" ⟨r⟩ > 0.79,
-   plainly small-sample noise.
+3. **Larger samples read Poisson, not GOE.** The decay rate can be read off the
+   full Liouvillian spectrum at N=6-7 with no eigenvectors and no extra memory
+   (this is the obstacle the original write-up wrongly thought blocked the
+   check), so the binning is cheap. What it selects needs saying precisely,
+   because the earlier wording here got it wrong twice over. The Absorption
+   Theorem gives rate = 2γ·⟨n_XY⟩, the AVERAGE light content, not the weight,
+   so a rate bin does not select a weight sector. And the bin is a BAND, not a
+   rung: `rmt_analysis.py` admits |rate − 2wγ| < 0.3γ, so it collects every
+   mode whose ⟨n_XY⟩ falls within 0.3 of w, and most of those are not at w.
+   So these are **bands** around ⟨n_XY⟩ = w. Sitting exactly ON the rung while
+   being mixed is possible and does happen: at N=4, γ=0.05 the 4γ rung carries
+   modes with histogram {1: ½, 3: ½} and ⟨n_XY⟩ = 2.000000 exactly, beside the
+   pure weight-2 ones. The measurement is unaffected: a band is still a
+   well-defined set of genuine eigenvalues of the full Liouvillian, and it is
+   still large. N=6 band 3 (546 freq) → ⟨r⟩ = 0.272, N=7 bands 3 and 4
+   (414 freq) → 0.283. The reading does not approach GOE (0.536); it converges
+   to Poisson and below (sub-Poisson = level clustering, the opposite of
+   repulsion, the signature of a strongly degenerate integrable additive
+   spectrum, consistent with the N=4 band-2 row). The tiny bands 1 and N−1
+   (5-6 frequencies) throw a spurious "GUE" ⟨r⟩ > 0.79, plainly small-sample
+   noise.
 
-**Verdict: no within-sector chaos.** The system is integrable at every sector
-and every tested N; the earlier GOE hint was small-sample noise. This matches
+**Verdict: no within-band chaos.** The system is integrable in every band and
+at every tested N; the earlier GOE hint was small-sample noise. This matches
 the global Poisson result above and the sector-resolved non-Hermitian test (the
 `galoischaos` witness, `inspect --root galoischaos`), which independently reads
 the Galois-S_n half of the (SE,DE) block Poisson-like / sub-Poisson, not
@@ -280,9 +317,9 @@ the disordered conjugation-match fraction is ≈ 0). Live:
 
 ## What This Does Not Answer
 
-The sector GOE question that earlier topped this list (does the
-within-sector ⟨r⟩ approach GOE/GUE as N grows?) is resolved in
-Result 3: it does not, the dilute sectors stay integrable. The dissipative-chaos
+The GOE question that earlier topped this list (does the within-band
+⟨r⟩ approach GOE/GUE as N grows?) is resolved in
+Result 3: it does not, the dilute bands stay integrable. The dissipative-chaos
 question is resolved in Result 5: a dense (extensive-filling) coherence sector of
 the same Liouvillian does reach toward GinUE; chaos is a filling threshold. Two
 genuinely open items remain.
@@ -303,18 +340,21 @@ genuinely open items remain.
 
 ## Connection to the Framework
 
-The Poisson result closes a loop: the
-[analytical formulas](../docs/ANALYTICAL_FORMULAS.md) give exact
-closed-form expressions for
-eigenvalues in each sector. Exact formulas imply integrability.
-Integrability implies Poisson. The RMT analysis confirms this
-chain of reasoning numerically.
+The Poisson result is consistent with the picture the
+[analytical formulas](../docs/ANALYTICAL_FORMULAS.md) draw, and it is
+worth stating the implication in the direction it actually runs.
+Closed forms would imply integrability, and integrability implies
+Poisson; the measurement gives Poisson, which is the weakest of the
+three and does not run back up the chain. In fact the repository has a
+closed form for ONE block, the (0,1) coherence block (F2); the interior
+blocks have none.
 
-The palindromic constraint (F1) is not just a symmetry; it
-is an integrability constraint. It provides enough conserved quantities
-(weight-parity sectors, palindromic pairing) to fully determine the
-spectrum, leaving no room for the randomness that produces level
-repulsion.
+What does the work is the conserved structure, and the palindrome is
+not it. The joint popcount cuts the Liouvillian into blocks that never
+interact, and levels in different blocks have no reason to repel. The
+palindromic constraint (F1) pairs the two halves of the spectrum
+instead; it is a strong symmetry but it is not the one that suppresses
+repulsion here.
 
 This explains why the system does not fit any of the 38
 Sa-Ribeiro-Prosen classes: those classes assume random matrix
@@ -326,7 +366,7 @@ standard cases.
 **Update (April 2026):** The spectral form factor (SFF) confirms
 integrability (no dip-ramp-plateau) but reveals richer structure than
 Poisson alone: palindromic modulation at ω_min = 4J(1-cos(π/N)),
-w ↔ N-w sector pairing in the time domain, and visibility scaling
+w ↔ N-w band pairing in the time domain, and visibility scaling
 as ~1/4^N. The spacing ratio (Poisson) describes local correlations;
 the SFF describes global spectral structure. Both are consistent:
 integrable + chiral = unique palindromic signature, neither standard
@@ -364,6 +404,8 @@ Poisson nor GUE. See [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md).
 ---
 
 *The 21,840 eigenvalues answer the question nobody asked: the
-palindromic Liouvillian is integrable. The symmetry that pairs every
-decay mode also prevents chaos. The spectrum is not random. It is
-exactly what the formulas predict.*
+palindromic Liouvillian is integrable. What prevents chaos is the
+joint-popcount grading, which cuts the spectrum into blocks that never
+interact; the palindrome pairs those levels rather than separating
+them. The spectrum is not random, and one of its blocks is in closed
+form.*

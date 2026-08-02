@@ -180,7 +180,7 @@ for N in range(2, 6):
         f"matched={matched}/{n_cold} ({matched/max(n_cold,1)*100:.0f}%)")
     log(f"  Cold cavity max|Re|: {max_re_cold:.2e} (should be ~0)")
 
-    # Analytical w=1 formula check
+    # Analytical (0,1) coherence block formula check
     m_vals = np.arange(1, N)
     omega_analytic = 4 * J * (1 - np.cos(np.pi * m_vals / N))
     if len(omega_analytic) > 0:
@@ -188,7 +188,7 @@ for N in range(2, 6):
         for om in omega_analytic:
             if len(freqs_cold) > 0 and np.min(np.abs(freqs_cold - om)) < 0.01:
                 found_in_cold += 1
-        log(f"  Analytical w=1 modes: {len(omega_analytic)}, found in cold: {found_in_cold}")
+        log(f"  Analytical (0,1) block modes: {len(omega_analytic)}, found in cold: {found_in_cold}")
     log()
 
 # ─────────────────────────────────────────────

@@ -58,7 +58,7 @@ the Lindblad master equation, unifies an entire family of spectral
 results: the boundaries (F3), the palindromic sum rule (10,748
 pairs), the 2× decay law (F8), the mode classification by Pauli
 weight, the N=3 rate ladder (F33), and via later derivation the
-weight-1 degeneracy count (F50), the weight-1 dispersion relation
+weight-1 degeneracy count (F50), the (0,1) coherence block dispersion relation
 (F2), the GHZ XOR-drain (F22), the n_XY chromaticity (F74), and the
 F89 path-k closures including the F89c Hamming-complement pair-sum.
 Two relatives sit just outside that list: the spectral gap (D6) and

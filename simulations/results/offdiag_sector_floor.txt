@@ -1,0 +1,162 @@
+==========================================================================
+OFF-DIAGONAL JOINT-POPCOUNT SECTORS: FLOOR AND FLATNESS
+==========================================================================
+
+  floor(p,q)  = 2*gamma*|p-q|, attained (Absorption Theorem + Hamming)
+  flat(p,q)  <=> min(p,q) = 0 or max(p,q) = N (touches vacuum / full)
+
+--- N=3, J=1.0, gamma=0.5 (12 off-diagonal sectors) ---
+    (0,1) dim=   3  |Re| in [1.000000, 1.000000]  floor=1.000000  FLAT
+    (0,2) dim=   3  |Re| in [2.000000, 2.000000]  floor=2.000000  FLAT
+    (0,3) dim=   1  |Re| in [3.000000, 3.000000]  floor=3.000000  FLAT
+    (1,2) dim=   9  |Re| in [1.000000, 3.000000]  floor=1.000000  spread
+    (1,3) dim=   3  |Re| in [2.000000, 2.000000]  floor=2.000000  FLAT
+    (2,3) dim=   3  |Re| in [1.000000, 1.000000]  floor=1.000000  FLAT
+
+--- N=3, J=1.0, gamma=0.05 (12 off-diagonal sectors) ---
+    (0,1) dim=   3  |Re| in [0.100000, 0.100000]  floor=0.100000  FLAT
+    (0,2) dim=   3  |Re| in [0.200000, 0.200000]  floor=0.200000  FLAT
+    (0,3) dim=   1  |Re| in [0.300000, 0.300000]  floor=0.300000  FLAT
+    (1,2) dim=   9  |Re| in [0.100000, 0.300000]  floor=0.100000  spread
+    (1,3) dim=   3  |Re| in [0.200000, 0.200000]  floor=0.200000  FLAT
+    (2,3) dim=   3  |Re| in [0.100000, 0.100000]  floor=0.100000  FLAT
+
+--- N=3, J=0.3, gamma=0.7 (12 off-diagonal sectors) ---
+    (0,1) dim=   3  |Re| in [1.400000, 1.400000]  floor=1.400000  FLAT
+    (0,2) dim=   3  |Re| in [2.800000, 2.800000]  floor=2.800000  FLAT
+    (0,3) dim=   1  |Re| in [4.200000, 4.200000]  floor=4.200000  FLAT
+    (1,2) dim=   9  |Re| in [1.400000, 4.200000]  floor=1.400000  spread
+    (1,3) dim=   3  |Re| in [2.800000, 2.800000]  floor=2.800000  FLAT
+    (2,3) dim=   3  |Re| in [1.400000, 1.400000]  floor=1.400000  FLAT
+
+--- N=3, J=2.0, gamma=0.11 (12 off-diagonal sectors) ---
+    (0,1) dim=   3  |Re| in [0.220000, 0.220000]  floor=0.220000  FLAT
+    (0,2) dim=   3  |Re| in [0.440000, 0.440000]  floor=0.440000  FLAT
+    (0,3) dim=   1  |Re| in [0.660000, 0.660000]  floor=0.660000  FLAT
+    (1,2) dim=   9  |Re| in [0.220000, 0.660000]  floor=0.220000  spread
+    (1,3) dim=   3  |Re| in [0.440000, 0.440000]  floor=0.440000  FLAT
+    (2,3) dim=   3  |Re| in [0.220000, 0.220000]  floor=0.220000  FLAT
+
+--- N=4, J=1.0, gamma=0.5 (20 off-diagonal sectors) ---
+    (0,1) dim=   4  |Re| in [1.000000, 1.000000]  floor=1.000000  FLAT
+    (0,2) dim=   6  |Re| in [2.000000, 2.000000]  floor=2.000000  FLAT
+    (0,3) dim=   4  |Re| in [3.000000, 3.000000]  floor=3.000000  FLAT
+    (0,4) dim=   1  |Re| in [4.000000, 4.000000]  floor=4.000000  FLAT
+    (1,2) dim=  24  |Re| in [1.000000, 3.000000]  floor=1.000000  spread
+    (1,3) dim=  16  |Re| in [2.000000, 4.000000]  floor=2.000000  spread
+    (1,4) dim=   4  |Re| in [3.000000, 3.000000]  floor=3.000000  FLAT
+    (2,3) dim=  24  |Re| in [1.000000, 3.000000]  floor=1.000000  spread
+    (2,4) dim=   6  |Re| in [2.000000, 2.000000]  floor=2.000000  FLAT
+    (3,4) dim=   4  |Re| in [1.000000, 1.000000]  floor=1.000000  FLAT
+
+--- N=4, J=1.0, gamma=0.05 (20 off-diagonal sectors) ---
+    (0,1) dim=   4  |Re| in [0.100000, 0.100000]  floor=0.100000  FLAT
+    (0,2) dim=   6  |Re| in [0.200000, 0.200000]  floor=0.200000  FLAT
+    (0,3) dim=   4  |Re| in [0.300000, 0.300000]  floor=0.300000  FLAT
+    (0,4) dim=   1  |Re| in [0.400000, 0.400000]  floor=0.400000  FLAT
+    (1,2) dim=  24  |Re| in [0.100000, 0.300000]  floor=0.100000  spread
+    (1,3) dim=  16  |Re| in [0.200000, 0.400000]  floor=0.200000  spread
+    (1,4) dim=   4  |Re| in [0.300000, 0.300000]  floor=0.300000  FLAT
+    (2,3) dim=  24  |Re| in [0.100000, 0.300000]  floor=0.100000  spread
+    (2,4) dim=   6  |Re| in [0.200000, 0.200000]  floor=0.200000  FLAT
+    (3,4) dim=   4  |Re| in [0.100000, 0.100000]  floor=0.100000  FLAT
+
+--- N=4, J=0.3, gamma=0.7 (20 off-diagonal sectors) ---
+    (0,1) dim=   4  |Re| in [1.400000, 1.400000]  floor=1.400000  FLAT
+    (0,2) dim=   6  |Re| in [2.800000, 2.800000]  floor=2.800000  FLAT
+    (0,3) dim=   4  |Re| in [4.200000, 4.200000]  floor=4.200000  FLAT
+    (0,4) dim=   1  |Re| in [5.600000, 5.600000]  floor=5.600000  FLAT
+    (1,2) dim=  24  |Re| in [1.400000, 4.200000]  floor=1.400000  spread
+    (1,3) dim=  16  |Re| in [2.800000, 5.600000]  floor=2.800000  spread
+    (1,4) dim=   4  |Re| in [4.200000, 4.200000]  floor=4.200000  FLAT
+    (2,3) dim=  24  |Re| in [1.400000, 4.200000]  floor=1.400000  spread
+    (2,4) dim=   6  |Re| in [2.800000, 2.800000]  floor=2.800000  FLAT
+    (3,4) dim=   4  |Re| in [1.400000, 1.400000]  floor=1.400000  FLAT
+
+--- N=4, J=2.0, gamma=0.11 (20 off-diagonal sectors) ---
+    (0,1) dim=   4  |Re| in [0.220000, 0.220000]  floor=0.220000  FLAT
+    (0,2) dim=   6  |Re| in [0.440000, 0.440000]  floor=0.440000  FLAT
+    (0,3) dim=   4  |Re| in [0.660000, 0.660000]  floor=0.660000  FLAT
+    (0,4) dim=   1  |Re| in [0.880000, 0.880000]  floor=0.880000  FLAT
+    (1,2) dim=  24  |Re| in [0.220000, 0.660000]  floor=0.220000  spread
+    (1,3) dim=  16  |Re| in [0.440000, 0.880000]  floor=0.440000  spread
+    (1,4) dim=   4  |Re| in [0.660000, 0.660000]  floor=0.660000  FLAT
+    (2,3) dim=  24  |Re| in [0.220000, 0.660000]  floor=0.220000  spread
+    (2,4) dim=   6  |Re| in [0.440000, 0.440000]  floor=0.440000  FLAT
+    (3,4) dim=   4  |Re| in [0.220000, 0.220000]  floor=0.220000  FLAT
+
+--- N=5, J=1.0, gamma=0.5 (30 off-diagonal sectors) ---
+    (0,1) dim=   5  |Re| in [1.000000, 1.000000]  floor=1.000000  FLAT
+    (0,2) dim=  10  |Re| in [2.000000, 2.000000]  floor=2.000000  FLAT
+    (0,3) dim=  10  |Re| in [3.000000, 3.000000]  floor=3.000000  FLAT
+    (0,4) dim=   5  |Re| in [4.000000, 4.000000]  floor=4.000000  FLAT
+    (0,5) dim=   1  |Re| in [5.000000, 5.000000]  floor=5.000000  FLAT
+    (1,2) dim=  50  |Re| in [1.000000, 3.000000]  floor=1.000000  spread
+    (1,3) dim=  50  |Re| in [2.000000, 4.000000]  floor=2.000000  spread
+    (1,4) dim=  25  |Re| in [3.000000, 5.000000]  floor=3.000000  spread
+    (1,5) dim=   5  |Re| in [4.000000, 4.000000]  floor=4.000000  FLAT
+    (2,3) dim= 100  |Re| in [1.000000, 5.000000]  floor=1.000000  spread
+    (2,4) dim=  50  |Re| in [2.000000, 4.000000]  floor=2.000000  spread
+    (2,5) dim=  10  |Re| in [3.000000, 3.000000]  floor=3.000000  FLAT
+    (3,4) dim=  50  |Re| in [1.000000, 3.000000]  floor=1.000000  spread
+    (3,5) dim=  10  |Re| in [2.000000, 2.000000]  floor=2.000000  FLAT
+    (4,5) dim=   5  |Re| in [1.000000, 1.000000]  floor=1.000000  FLAT
+
+--- N=5, J=1.0, gamma=0.05 (30 off-diagonal sectors) ---
+    (0,1) dim=   5  |Re| in [0.100000, 0.100000]  floor=0.100000  FLAT
+    (0,2) dim=  10  |Re| in [0.200000, 0.200000]  floor=0.200000  FLAT
+    (0,3) dim=  10  |Re| in [0.300000, 0.300000]  floor=0.300000  FLAT
+    (0,4) dim=   5  |Re| in [0.400000, 0.400000]  floor=0.400000  FLAT
+    (0,5) dim=   1  |Re| in [0.500000, 0.500000]  floor=0.500000  FLAT
+    (1,2) dim=  50  |Re| in [0.100000, 0.300000]  floor=0.100000  spread
+    (1,3) dim=  50  |Re| in [0.200000, 0.400000]  floor=0.200000  spread
+    (1,4) dim=  25  |Re| in [0.300000, 0.500000]  floor=0.300000  spread
+    (1,5) dim=   5  |Re| in [0.400000, 0.400000]  floor=0.400000  FLAT
+    (2,3) dim= 100  |Re| in [0.100000, 0.500000]  floor=0.100000  spread
+    (2,4) dim=  50  |Re| in [0.200000, 0.400000]  floor=0.200000  spread
+    (2,5) dim=  10  |Re| in [0.300000, 0.300000]  floor=0.300000  FLAT
+    (3,4) dim=  50  |Re| in [0.100000, 0.300000]  floor=0.100000  spread
+    (3,5) dim=  10  |Re| in [0.200000, 0.200000]  floor=0.200000  FLAT
+    (4,5) dim=   5  |Re| in [0.100000, 0.100000]  floor=0.100000  FLAT
+
+--- N=5, J=0.3, gamma=0.7 (30 off-diagonal sectors) ---
+    (0,1) dim=   5  |Re| in [1.400000, 1.400000]  floor=1.400000  FLAT
+    (0,2) dim=  10  |Re| in [2.800000, 2.800000]  floor=2.800000  FLAT
+    (0,3) dim=  10  |Re| in [4.200000, 4.200000]  floor=4.200000  FLAT
+    (0,4) dim=   5  |Re| in [5.600000, 5.600000]  floor=5.600000  FLAT
+    (0,5) dim=   1  |Re| in [7.000000, 7.000000]  floor=7.000000  FLAT
+    (1,2) dim=  50  |Re| in [1.400000, 4.200000]  floor=1.400000  spread
+    (1,3) dim=  50  |Re| in [2.800000, 5.600000]  floor=2.800000  spread
+    (1,4) dim=  25  |Re| in [4.200000, 7.000000]  floor=4.200000  spread
+    (1,5) dim=   5  |Re| in [5.600000, 5.600000]  floor=5.600000  FLAT
+    (2,3) dim= 100  |Re| in [1.400000, 7.000000]  floor=1.400000  spread
+    (2,4) dim=  50  |Re| in [2.800000, 5.600000]  floor=2.800000  spread
+    (2,5) dim=  10  |Re| in [4.200000, 4.200000]  floor=4.200000  FLAT
+    (3,4) dim=  50  |Re| in [1.400000, 4.200000]  floor=1.400000  spread
+    (3,5) dim=  10  |Re| in [2.800000, 2.800000]  floor=2.800000  FLAT
+    (4,5) dim=   5  |Re| in [1.400000, 1.400000]  floor=1.400000  FLAT
+
+--- N=5, J=2.0, gamma=0.11 (30 off-diagonal sectors) ---
+    (0,1) dim=   5  |Re| in [0.220000, 0.220000]  floor=0.220000  FLAT
+    (0,2) dim=  10  |Re| in [0.440000, 0.440000]  floor=0.440000  FLAT
+    (0,3) dim=  10  |Re| in [0.660000, 0.660000]  floor=0.660000  FLAT
+    (0,4) dim=   5  |Re| in [0.880000, 0.880000]  floor=0.880000  FLAT
+    (0,5) dim=   1  |Re| in [1.100000, 1.100000]  floor=1.100000  FLAT
+    (1,2) dim=  50  |Re| in [0.220000, 0.660000]  floor=0.220000  spread
+    (1,3) dim=  50  |Re| in [0.440000, 0.880000]  floor=0.440000  spread
+    (1,4) dim=  25  |Re| in [0.660000, 1.100000]  floor=0.660000  spread
+    (1,5) dim=   5  |Re| in [0.880000, 0.880000]  floor=0.880000  FLAT
+    (2,3) dim= 100  |Re| in [0.220000, 1.100000]  floor=0.220000  spread
+    (2,4) dim=  50  |Re| in [0.440000, 0.880000]  floor=0.440000  spread
+    (2,5) dim=  10  |Re| in [0.660000, 0.660000]  floor=0.660000  FLAT
+    (3,4) dim=  50  |Re| in [0.220000, 0.660000]  floor=0.220000  spread
+    (3,5) dim=  10  |Re| in [0.440000, 0.440000]  floor=0.440000  FLAT
+    (4,5) dim=   5  |Re| in [0.220000, 0.220000]  floor=0.220000  FLAT
+
+==========================================================================
+ALL CHECKS PASSED: every off-diagonal sector is exactly closed, every
+one attains 2*gamma*|dp| as its smallest |Re|, and a sector is flat at
+that value exactly when it touches the vacuum or the fully excited
+state. Among the ADJACENT sectors (|dp| = 1) that leaves only (0,1)
+and (N-1,N) flat, at every (N, J, gamma) swept.
+==========================================================================

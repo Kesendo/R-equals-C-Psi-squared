@@ -36,8 +36,9 @@ their interaction reveals a trade-off between resonator quality and
 frequency diversity that has not been described before.
 
 1. **Coupling** (V-Effect): creates palindromic pairs. Amplifies
-   Q-factor by exactly 1.81x for a 5-qubit Heisenberg chain. This
-   ratio is a geometric constant, independent of noise.
+   Q-factor by exactly 1.81x for a 5-qubit Heisenberg chain. Under
+   uniform dephasing this ratio is a geometric constant and the rate γ
+   cancels out of it; under a γ profile it does not survive.
 2. **Z-dephasing** (γ): lifts frequency degeneracies (50 to 112
    distinct frequencies at N=5). Preserves palindromic pairing exactly.
 3. **Thermal excitation** (n_bar > 0): breaks the 1.81x constant.
@@ -94,25 +95,44 @@ to 1.81x throughout this document for readability.
 
 ### Why γ cancels
 
-The maximum Q eigenvalue always sits in the w=1 sector (XY-weight 1:
-exactly one qubit carries an X or Y Pauli operator, the rest I or Z).
-Under uniform Z-dephasing, ALL w=1 modes decay at the same rate 2γ,
-regardless of their oscillation frequency. Therefore:
+The Q_max in the V(N) argument is the best Q on the chain's **(0,1)
+coherence block**: the N-dimensional span of the |0⟩⟨j| between the
+ferromagnet and the single excitations, which is the object F2's
+dispersion describes
+([D10](../docs/proofs/derivations/D10_W1_DISPERSION.md)). Under uniform
+Z-dephasing every mode of that block decays at the same rate 2γ,
+regardless of its oscillation frequency, because a |0⟩⟨j| coherence
+disagrees at exactly one site, so the dissipator is the scalar −2γ·I
+there (D10 Step 1). Therefore:
 
-    Q_max = ω_max(w=1) / (2γ)
+    Q_max = ω_max / (2γ)
 
 The factor 2γ is identical for N=2 and N=5. It cancels in the ratio:
 
-    V(N) = Q_max(N) / Q_max(2) = ω_max(w=1, N) / ω_max(w=1, 2)
+    V(N) = Q_max(N) / Q_max(2) = ω_max(N) / ω_max(2)
 
-The gain is purely a frequency ratio, independent of noise.
+The gain is purely a frequency ratio, independent of the dephasing
+RATE. It is not independent of the dephasing PROFILE; see the
+non-uniform paragraph below.
 
-This cancellation holds for uniform dephasing. Under non-uniform
-profiles (sacrifice zone), w=1 modes acquire different decay rates
-depending on their spatial localization
-([Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md)). The 1.81x
-ratio then applies only to the extremal (best-Q) mode, not to all
-w=1 modes equally. At biological temperature (310 K, n̄ ~ 1.5-2):
+The block is not the XY-weight-1 Pauli sector, which is far larger (160
+dimensions against 5 at N=5), is not L-invariant, and therefore has no
+spectrum of its own; D10 Step 6 carries that scope. Whether some other
+joint-popcount block reaches a higher Q than this one at some N is a
+separate question and is not settled here (Open Question 7 below).
+
+This cancellation holds for uniform dephasing and for that alone. Under
+a non-uniform profile (sacrifice zone) diag(γ) stops commuting with the
+block's Laplacian, and both halves of the argument go at once: the decay
+rates spread ([Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md))
+AND the frequencies themselves move, measured level by level and growing
+with the profile's unevenness ([Concentrator Optics](CONCENTRATOR_OPTICS.md)
+Result 3). So the 1.81x ratio does not survive by retreating to the
+extremal mode: ω_max moves too, and V(N) = 1 + cos(π/N) is a uniform-γ
+statement.
+
+What replaces it under real conditions is measured rather than derived.
+At biological temperature (310 K, n̄ ~ 1.5-2):
 G-C DNA base pair has Q_max = 0.57 (down from 1.95 cold), with
 frequency diversity increasing from 15 to 26
 ([DNA Base Pairing](DNA_BASE_PAIRING.md)). N=3 water chain: Q_max
@@ -120,10 +140,10 @@ frequency diversity increasing from 15 to 26
 
 ### The exact formula
 
-Computing ω_max(w=1) for the Heisenberg chain at each N reveals an
-exact pattern (verified N=2 through N=6):
+Computing the block's ω_max for the Heisenberg chain at each N reveals
+an exact pattern (verified N=2 through N=6):
 
-| N | ω_max(w=1) | Exact form | V(N) = ω/ω(N=2) |
+| N | ω_max | Exact form | V(N) = ω/ω(N=2) |
 |:--|:-----------|:-----------|:-----------------|
 | 2 | 4.0000 | 4J | 1.000 |
 | 3 | 6.0000 | 4J + 4J·cos(π/3) = 6J | 1.500 |
@@ -133,7 +153,7 @@ exact pattern (verified N=2 through N=6):
 
 The formula:
 
-    ω_max(w=1, N) = 4J · (1 + cos(π/N)) = 8J · cos²(π/(2N))
+    ω_max(N) = 4J · (1 + cos(π/N)) = 8J · cos²(π/(2N))
 
 And the V-Effect gain:
 
@@ -158,9 +178,12 @@ The value 1.809 is:
 - A smooth function of 1/N, approaching 2
 
 It is a geometric constant of the Heisenberg chain spectrum, not a
-topological invariant. The correct characterization: it is the ratio
-of maximum w=1 Liouvillian frequencies, which are eigenfrequencies
-of the single-magnon sector (states where exactly one spin is flipped, the simplest excitations of the chain).
+topological invariant. The correct characterization: it is the ratio of
+the (0,1) coherence block's maximum Liouvillian frequencies, and those
+are the single-magnon energies measured from the ferromagnetic vacuum
+(states where exactly one spin is flipped, the simplest excitations of
+the chain), because the block's generator is 2J times the chain's graph
+Laplacian and the Laplacian is that one-magnon Hamiltonian.
 
 This holds for Z-dephasing and for zero-temperature amplitude damping
 (n_bar=0). Cold dissipation does not break it.
@@ -438,7 +461,8 @@ Life operates in between.
 
 1. ~~Can 1.81x be derived analytically?~~ **ANSWERED (March 31).**
    V(N) = 1 + cos(π/N). For N=5: (5+√5)/4 ≈ 1.80902. The gain is
-   the ratio of maximum w=1 Liouvillian frequencies, which follow
+   the ratio of the (0,1) coherence block's maximum Liouvillian
+   frequencies, which follow
    ω_max = 4J·(1+cos(π/N)). Verified N=2 through N=6. The golden
    ratio appears: cos(π/5) = φ/2. See derivation above.
 
@@ -477,9 +501,21 @@ Life operates in between.
 
 ### Analytical (proof needed)
 
-7. Formal proof that ω_max(w=1) = 4J·(1+cos(π/N)) holds for all N.
-   Verified N=2-6 numerically. Likely derivable from Heisenberg
-   chain magnon spectrum or Clebsch-Gordan decomposition (the standard method for combining angular momenta in quantum mechanics).
+7. Does any other joint-popcount block of the Liouvillian reach a
+   higher Q than the (0,1) coherence block? The V(N) argument reads
+   Q_max off that block alone, and the step from "best on the block"
+   to "best in the Liouvillian" has never been taken. It is the one
+   the V-Effect reading needs. (The thermal and sacrifice-zone Q_max
+   values quoted above come from other documents' runs under
+   amplitude damping or a gamma profile, where neither the block's
+   closed form nor this question applies as stated.)
+
+   What used to stand here, a formal proof that
+   ω_max = 4J·(1+cos(π/N)) for all N, was settled in April and is no
+   longer open: ω_max is the k = N−1 member of F2's dispersion
+   ω_k = 4J·(1 − cos(πk/N)), derived from the block's tight-binding
+   reduction in
+   [D10](../docs/proofs/derivations/D10_W1_DISPERSION.md).
 
 ---
 
@@ -487,8 +523,10 @@ Life operates in between.
 
 - 1.81x geometric constant: **Tier 1-2** (exact formula
   V(N) = 1+cos(π/N), verified N=2-6 to machine precision.
-  Analytical derivation from Liouvillian w=1 sector eigenfrequencies.
-  Formal proof that ω_max = 4J(1+cos(π/N)) for all N: open)
+  Analytical derivation from the (0,1) coherence block's Liouvillian
+  eigenfrequencies; ω_max = 4J(1+cos(π/N)) is proven for all N in D10.
+  What keeps it off a clean Tier 1 is the unproven step from that
+  block's best Q to the Liouvillian's, Open Question 7)
 - Frequency diversity γ dependence: **Tier 2**
 - Thermal breaking of 1.81x: **Tier 2** (11 n_bar values, three
   noise configurations)

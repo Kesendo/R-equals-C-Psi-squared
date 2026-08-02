@@ -6,7 +6,7 @@ Phase 1: Load eigenvalues from RMT CSVs (N=2-7)
 Phase 2: Compute dissipative + frequency SFF
 Phase 3: Identify palindromic modulation
 Phase 4: Compare with Poisson/GUE references
-Phase 5: Sector-resolved SFF (N=3-5, via Python eigendecomposition)
+Phase 5: Band-resolved SFF (N=3-5, via Python eigendecomposition)
 Phase 6: Extract timescales (Thouless, Heisenberg, palindromic)
 Phase 7: Connection to previous results
 
@@ -346,11 +346,11 @@ for N in sorted(sff_results.keys()):
 
 
 # ========================================================================
-# PHASE 5: SECTOR-RESOLVED SFF
+# PHASE 5: BAND-RESOLVED SFF
 # ========================================================================
 log()
 log("=" * 72)
-log("PHASE 5: SECTOR-RESOLVED SFF (N=3, 4, 5)")
+log("PHASE 5: BAND-RESOLVED SFF (N=3, 4, 5)")
 log("=" * 72)
 log()
 
@@ -375,7 +375,10 @@ for N in [3, 4, 5]:
 
     log(f"  N={N} ({4**N} eigenvalues, {clock.time()-t0:.1f}s):")
 
-    # For each weight sector w, the expected decay rate is ~2wγ
+    # For each light-content band w, the expected decay rate is ~2wγ.  The bin is
+    # a BAND, not a weight sector: the Absorption Theorem gives
+    # rate = 2*gamma*<n_XY>, so |rate - 2wγ| < band_width admits every mode whose
+    # AVERAGE light content is near w, pure or mixed.
     for w in weights:
         if w == 0:
             continue
@@ -468,7 +471,7 @@ log("  not spatial profiles).")
 log()
 log("  Analytical formulas: ω_min = 4J(1-cos(π/N)) (formula 2, k=1).")
 log("  If the SFF modulation peak matches ω_min, that confirms the")
-log("  w=1 dispersion relation in the time domain.")
+log("  (0,1) coherence block's dispersion relation in the time domain.")
 
 
 # ========================================================================
