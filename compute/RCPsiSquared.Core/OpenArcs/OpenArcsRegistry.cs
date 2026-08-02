@@ -3609,7 +3609,22 @@ public static class OpenArcsRegistry
                 "the repo's {0,2}-coherence, histogram {0: 1/2, 2: 1/2}, named in ANALYTICAL_FORMULAS' " +
                 "coherence-horizon entry, CoherenceHorizonClaim and PROOF_CHAIN_GAP_DOMINANCE, which says " +
                 "outright that the band edge and the {0,2} EP share Re = -2*gamma 'only because the Absorption " +
-                "Theorem pins both'. THE CONTRADICTION WORTH FIXING FIRST, and partly fixed in this commit: " +
+                "Theorem pins both'. WHEN THE MIXED HALF IS THERE AT ALL, measured 2026-08-02 by the " +
+                "interpretive round (Pauli convention H = J*sum(XX+YY+ZZ); halve every frequency for the " +
+                "J/2 convention): the mixed modes appear only while the {0,2} two-level block CLOSES, which " +
+                "needs the (1,1) sector's coherences to be n_diff = 2 throughout. Heisenberg has them at N=2 " +
+                "only, 2 modes at |Im| = 3.998750 = sqrt((4J)^2 - (2*gamma)^2); XY has them at N=2 AND N=3, " +
+                "the N=3 pair being 4 modes at 2.826659 = sqrt((2*sqrt(2)*J)^2 - (2*gamma)^2); neither model " +
+                "has any at N >= 4. So the ZZ term costs exactly one rung: what the XY chain shows at N=3, " +
+                "Heisenberg shows at N=2, for the reason PROOF_CHAIN_GAP_DOMINANCE section 4 already gives. " +
+                "THAT PROOF FILES IT WRONG and it is the same word-error this arc is about: it calls its own " +
+                "case 'one more entry in the chain's list of N = 3 accidents' and parks it in the " +
+                "n3_special_cases arc. It is not an accident and not N=3's. It is a low-N structural " +
+                "condition whose threshold moves with the model, and the Heisenberg N=2 sighting is what " +
+                "shows the threshold moving. Twenty lines of numpy; the strengthening costs no compute. " +
+                "The same pair is also the coherence horizon's coalescer at Q*(2) = 1 (CoherenceHorizonClaim), " +
+                "so it is one object with four faces and 'exception' was the wrong word on all four. " +
+                "THE CONTRADICTION WORTH FIXING FIRST, and partly fixed in this commit: " +
                 "AbsorptionTheoremClaim's own docstring stated as a general rule that mixing across weight " +
                 "sectors gives non-integer <n_XY> and lands BETWEEN the rungs. Four typed objects exhibit the " +
                 "opposite (the {0,2} family, LEffMirrorAxisClaim at <n_XY> = 2, WEIGHT2_KERNEL's non-pure mode " +
