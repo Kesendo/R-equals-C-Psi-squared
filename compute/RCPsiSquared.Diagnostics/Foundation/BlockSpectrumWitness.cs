@@ -218,8 +218,10 @@ public sealed class BlockSpectrumWitness : IInspectable
     /// the bracket closes on a point and the whole sector sits at Re = −2γ (the Absorption Theorem at ⟨n_XY⟩ = 1; F50 is the DEGENERACY
     /// COUNT d_real = 2N on that line, a different statement);
     /// a profile generally opens it into an interval around the same −2·γ̄. GENERALLY, not always:
-    /// at N=2 the 2×2 block splits by 2·√(d² − J²/4) with d = |γ₁ − γ₀| the plain difference of the two rates, and stays closed for J ≥ 2d, so read
-    /// the measured span rather than assuming it opened.</summary>
+    /// at N=2 the 2×2 block splits by 2·√(d² − c²/4), with d = |γ₁ − γ₀| the plain difference of the
+    /// two rates and c the TOTAL coupling between the two sites (the sum over bonds, since this
+    /// method takes an H and not a J), and stays closed once |c| ≥ 2d. Read the measured span rather
+    /// than assuming it opened.</summary>
     public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(ComplexMatrix h, int n, IReadOnlyList<double> gammaPerSite)
     {
         var block = BandEdgeSectorBlock(h, n, gammaPerSite);
@@ -649,7 +651,7 @@ public sealed class BlockSpectrumWitness : IInspectable
                      (width > 1e-9
                         ? $"has opened into the interval [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}]"
                         : $"has NOT opened here; the measured span is still a point at {minRe.ToString("0.0000", Inv)} " +
-                          "(at N=2 the 2×2 block stays closed for J ≥ 2·|γ₁ − γ₀|)") +
+                          "(at N=2 the 2×2 block stays closed once the total coupling reaches |c| ≥ 2·|γ₁ − γ₀|)") +
                      $", bracketed by Bendixson at [{(-2 * gMax).ToString("0.0000", Inv)}, {(-2 * gMin).ToString("0.0000", Inv)}] " +
                      $"and with its MEAN pinned by the trace at −2·γ̄ = {(-2 * gBar).ToString("0.000", Inv)} (the mean " +
                      "of the eigenvalues, NOT the midpoint of the bracket, which is a different number). Both are corollaries " +

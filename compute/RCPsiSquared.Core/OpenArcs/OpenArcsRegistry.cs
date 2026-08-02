@@ -3543,8 +3543,11 @@ public static class OpenArcsRegistry
                 "reproduced locally and is NOT committed; under cockpit rule 5 the load-bearing pieces want a " +
                 "C# witness, and naming which is the first piece of work here. Three things follow. " +
                 "(1) IT IS THE MISSING HALF BETWEEN TWO OWNERS, not a new object. The markdown survey said no " +
-                "document treats the site-resolved block as an operator; the TYPED survey overruled it, and the " +
-                "typed layer wins: VacuumBlockReductionClaim (Tier1Derived, parent AbsorptionTheoremClaim, " +
+                "document treats the site-resolved block as an operator and the TYPED survey overruled it, so an " +
+                "earlier draft here drew the lesson 'the typed layer wins'. THAT LESSON IS WRONG, and the 2026-08-02 " +
+                "review rounds showed it: experiments/ANALYTICAL_SPECTRUM.md writes the composite operator " +
+                "-2iJ*Laplacian - 2*diag(gamma) outright, so the markdown survey was wrong on MARKDOWN'S OWN " +
+                "TERMS. What the typed layer gave was not the only home, it was the findable one. The typed side: VacuumBlockReductionClaim (Tier1Derived, parent AbsorptionTheoremClaim, " +
                 "witness SectorReductionWitness, inspect --root reduction) already states " +
                 "L_(1,0) = -iQ*h - 2*diag(gamma) with a gamma PROFILE, where Q is that claim's own coupling " +
                 "symbol and NOT the repository's Q-factor J/gamma_0, verified bit-exact at N=5 (worst gap " +
@@ -3588,7 +3591,7 @@ public static class OpenArcsRegistry
                 "GeneratorResidual / HermitianPartResidual / PerModeAbsorptionResidual recompute the " +
                 "identities live, and a new inspect node 'the site-resolved band edge' (the fifth of six " +
                 "children) renders them (inspect --root blockspectrum). FIVE THINGS THE " +
-                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (89 cases green), and the " +
+                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (91 cases green), and the " +
                 "gates run on chain, per-bond-J chain, ring and star at N = 3..7 so nothing here is " +
                 "chain-only or scratch-file-only. " +
                 "(i) THE COMPOSITE IS EXACT AND IT IS THE LAPLACIAN ONE: with H = sum_b (J_b/4)*(XX+YY+ZZ), " +
@@ -3597,8 +3600,17 @@ public static class OpenArcsRegistry
                 "TYPED owner carried; ANALYTICAL_SPECTRUM already wrote the formula, see the Origin. " +
                 "SCOPE: XXX only. The Laplacian appears because " +
                 "the ZZ coefficient equals the XY one; for XXZ it is Delta*diag(deg) - A, not a Laplacian. " +
-                "The residual gate is a SCALING LAW, not a constant (1e-13*(J*N + 2*max gamma)), with a " +
-                "J = 1e5 row proving the scaling rather than moving the blind spot one decade. " +
+                "WHICH GATE CARRIES A SCALED THRESHOLD IS ITSELF A MEASURED FACT, and two rounds got " +
+                "it backwards before measuring. The generator residual and the Hermitian-part residual " +
+                "are BIT-EXACT zeros on every graph and at every J tried up to 1e8, so a scaled " +
+                "threshold on them is a loosening with nothing behind it; the Hermitian one is now " +
+                "asserted as an exact 0.0, and the reason is structural (BuildBlockZ writes the two " +
+                "mirror off-diagonals from the same terms in the same order, and the diagonal rate " +
+                "directly). The ONLY residual that grows with J is the per-mode one, an eigensolver " +
+                "quantity at about eps*norm(M): 5.3e-15 at J=1, 1.1e-10 at 1e5, 3.4e-8 at 1e8. So the " +
+                "scaling law lives there, with its own large-J row, and the earlier claim that a " +
+                "J = 1e5 generator row 'proves the scaling' was false, that row has the SMALLEST " +
+                "residual in the suite. " +
                 "(ii) ORIENTATION, AND IT IS A LABEL COLLISION, not just a sign. The convention here is " +
                 "JointPopcountSectorBuilder's (PCol, PRow) = (bra, ket), which agrees with MirrorWorld's " +
                 "Block (P = bra, Q = ket), so (0,1) here is |1-exc><vac| and carries +i. D10:139 writes " +
@@ -3625,7 +3637,8 @@ public static class OpenArcsRegistry
                 "is now gated DIRECTLY (residual < 1e-14) rather than through a bracket with slack, since " +
                 "Bendixson is a theorem and a theorem standing in for a gate cannot fail. " +
                 "(iv) 'A PROFILE OPENS THE FLOOR LINE' IS FALSE IN GENERAL. At N=2 the 2x2 block has " +
-                "Re-split 2*sqrt(d^2 - J^2/4), d the half-difference of the two rates, so at and above " +
+                "Re-split 2*sqrt(d^2 - J^2/4), d = |gamma_1 - gamma_0| the PLAIN difference of the two rates "
+                + "(an earlier draft wrote half-difference at this site and plain at the other), so at and above " +
                 "J = 2d the two modes coalesce in Re and the line does not open at all. The witness " +
                 "renders that sentence conditionally on the measured width, and the gate walks J across " +
                 "the coalescence (where the numerically resolved split goes as sqrt(eps), a defective " +
@@ -3672,7 +3685,7 @@ public static class OpenArcsRegistry
                 "repairs, citing it. " +
                 "AND BUILD IT ON THE RIGHT SIDE OF THE FACTOR 4, or it will fail against its own target " +
                 "numbers. Every recorded value in this arc (the slowest eigenvalue -0.166384 - 0.238470i, " +
-                "the 0.9249 adjacency overlap, the 1.0000 Laplacian overlap, the 0.057 separation) is in " +
+                "the 1.0000 Laplacian overlap, the 0.057 separation) is in " +
                 "the PAULI normalisation H = J*sum(XX+YY+ZZ) at J = 1. The witness's convention is " +
                 "H = sum_b (J_b/4)*(XX+YY+ZZ), so the same system is J = 4 there. Measured on the IBM " +
                 "Torino profile at N=5: the witness convention at J = 1 gives slowest " +
@@ -3683,13 +3696,24 @@ public static class OpenArcsRegistry
                 "the error this paragraph exists to prevent. (1) The recorded overlap is on MAGNITUDES, " +
                 "|v| . psi, not the complex |<v, psi>|: the complex form gives 0.9934 at J=1 and 0.9879 " +
                 "at J=4, so a gate written the natural way misses the 1.0000 it is aiming at. The " +
-                "amplitude SIGNS are a separate recorded fact (see the ParkedAt) and Complex.Abs " +
-                "discards them, so a gate that wants them must read them separately. (2) The eigenvector " +
+                "amplitude signs are a separate recorded fact (see the ParkedAt) and Complex.Abs " +
+                "discards them, so a gate that wants them must read them separately. But SIGN is the wrong word " +
+                "for what is discarded on this row: the slow eigenvector is not real up to a global phase. With " +
+                "the phase fixed on the largest component, site 0 sits near quadrature (-96 degrees at J=1, -88 " +
+                "at J=4) while the rest are within 20 degrees of real, and that quadrature component is most of " +
+                "the magnitude-versus-complex gap above. Read a PHASE, not a sign. (2) The eigenvector " +
                 "comes out in BLOCK order, site N-1 down to site 0, and must be permuted through " +
                 "BandEdgeSectorSiteOrder before it touches the site-ordered psi_opt row. The IBM profile " +
                 "is strongly asymmetric, so this is not cosmetic: unpermuted the overlap reads 0.531 at " +
                 "J=1 and 0.587 at J=4. The J=4 separation, for the record, is 0.0574, which is the " +
                 "recorded 0.057; at J=1 it is 0.019. " +
+                "(3) THE ADJACENCY LEG IS NOT ON THAT AXIS AT ALL, and this paragraph named only two " +
+                "conventions on its first pass while opening with a warning against naming only one. " +
+                "The falsified hypothesis is H_eff = -J*adjacency - i*diag(gamma), and its 0.9249 is at " +
+                "hopping amplitude 1, not at the Laplacian form's J. Carried to J = 4 it gives 0.8784, " +
+                "and at hopping 2 (the amplitude the Laplacian form's -2*A matches at Pauli J = 1) it " +
+                "gives 0.8991. A gate that reproduces BOTH legs of the falsification has to hold the " +
+                "two forms on their own scales; do not read 0.9249 as a Pauli-J=1 number. " +
                 "When the repairs are made, note that the closed form is for M and NOT " +
                 "for its spectrum: M is non-normal, diag(gamma) " +
                 "and the Laplacian do not commute, so psi_opt is still diagonalized for and not read " +
