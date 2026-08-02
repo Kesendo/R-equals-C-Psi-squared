@@ -141,8 +141,14 @@ across the shells while the degeneracy is palindromic. Shells 1 and 4 look
 like the case in point, 72.4 against 18.1, and they are the worst example
 to pick: 18.1 is 72.4/4 exactly, because Q divides |Im λ| by |Re λ| ≈ 2γk
 and the |Im| profile itself IS palindromic. The monotone fall is the 1/k
-denominator. Where the profiles genuinely come apart is inside, at k = 2
-against k = 3:
+denominator. The inner pair k = 2 against k = 3 looks like a better case and is
+not one either: their |Im| maxima are identical to five decimals, 11.71155 both,
+exactly as the palindrome requires. What differs is the denominator, and not by
+the factor 3/2 the label would suggest: the k=3 champion sits at |Re λ| = 0.26,
+not 0.30, so the ratio is 58.56/45.04 = 1.300. That is the shell showing what it
+is. It is a bin, round(−Re λ / 2γ), and only the outermost shells sit on the grid
+exactly. So the two profiles never come apart in this table at all; what falls is
+1/|Re λ|, and |Re λ| is only approximately 2γk:
 
 For N = 5 (chain):
 
@@ -159,10 +165,13 @@ For N = 5 (chain):
 
 Q_max decreases with the weight, not with the distance from the center:
 the lightest modes (weight 1) have the highest Q, and the heaviest ones
-have lower Q but more frequencies. This is the cavity trade-off, and it
-is a statement about weight alone.
+have lower Q but more frequencies. This is the cavity trade-off. It orders the
+shells by weight alone, but it does not fix their values: the next section shows
+Q_max at weight 1 is the coupling graph's, 72.4 on the N=5 chain against 100.0 on
+the N=5 star.
 
-The highest-Q mode is always at weight 1, and its value is not a fit: it is a
+The highest-Q mode sits at weight 1 in every case this document runs, and its
+value is not a fit: it is a
 corollary of a result this repository already owns. The block between the
 ferromagnet and the single excitations, the (0,1) block spanned by the |0⟩⟨j|, has
 its generator derived in
@@ -249,8 +258,19 @@ ceiling, where μ_max = N coincides with 4. Degree 3 is
 already enough, and the star is not even the first: `Topology.BinaryTree` at N=5
 reaches 83.4 with maximum degree 3, which is a smallest breach on five sites, and
 K_{2,3} reaches the star's own 100.0 there with a smaller maximum degree than the
-star has. From degree 4 a breach is forced rather than merely possible, since
-μ_max ≥ Δ+1.
+star has. From maximum degree 4 a breach is forced rather than merely possible,
+since μ_max ≥ d_max + 1, writing d_max for the largest degree: Δ in this project
+is the XXZ anisotropy, and everything here holds at Δ = 1 only. The universal
+bound is the vertex count, μ_max ≤ N, so Q_max ≤ J·N/γ on any graph, attained by
+the star and by K_N.
+
+One scope fence the graph-general reading does not lift. Uniform γ is load-bearing
+in a way uniform J is not. Site-dependent BOND strengths generalise cleanly, since
+the Laplacian simply becomes the weighted one; a site-dependent γ does not, because
+the block stops being flat in its real part and the winner leaves the line
+entirely. At N=5 with γ = [0.02, 0.05, 0.09, 0.05, 0.02] the highest Q measures
+62.77, at Re λ = −0.0834, against the 78.65 the law would give for the mean γ. The
+site-resolved case is the `site_resolved_vacuum_block` arc's.
 
 ---
 
