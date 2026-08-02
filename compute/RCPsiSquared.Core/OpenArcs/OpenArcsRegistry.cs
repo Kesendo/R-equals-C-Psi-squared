@@ -3596,7 +3596,7 @@ public static class OpenArcsRegistry
                 "GeneratorResidual / HermitianPartResidual / PerModeAbsorptionResidual recompute the " +
                 "identities live, and a new inspect node 'the site-resolved band edge' (the fifth of six " +
                 "children) renders them (inspect --root blockspectrum). FIVE THINGS THE " +
-                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (93 cases green), and the " +
+                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (100 cases green), and the " +
                 "gates run on chain, per-bond-J chain, ring and star at N = 3..7 so nothing here is " +
                 "chain-only or scratch-file-only. " +
                 "(i) THE COMPOSITE IS EXACT AND IT IS THE LAPLACIAN ONE: with H = sum_b (J_b/4)*(XX+YY+ZZ), " +
@@ -3621,10 +3621,12 @@ public static class OpenArcsRegistry
                 "of it sits on the diagonal, where H[r,r] - H[0,0], a floating sum over bond terms, is " +
                 "compared against a directly summed degree, and whether those agree bit for bit depends " +
                 "on the coupling. MEASURED, not inferred: the UNIFORM-CHAIN rows at J = 1, 1e5 and 1e8 " +
-                "read exactly 0.0 at every N, while the other three families are nonzero from N=4 or N=5 up " +
-                "(ring and star are exactly 0.0 at N=3, ring again at N=4) and where nonzero run 2.8e-17 " +
-                "to 4.4e-16 at J = 1. Quoting a family's MAXIMUM as if it were every row of that family " +
-                "is how the previous version of this sentence was wrong. Off the exact grid AND scaled, it grows linearly in J: " +
+                "read exactly 0.0 at every N. The other three do not share one onset, so here they are row by " +
+                "row at J = 1: per-bond is nonzero at EVERY N (2.8e-17 at N=3, 5.6e-17 at N=4, 4.4e-16 " +
+                "from N=5); ring is exactly 0.0 at N=3 and N=4, then 1.1e-16 at N=5 and 2.2e-16 from N=6; " +
+                "star is exactly 0.0 at N=3, then 1.1e-16 from N=4. Two drafts of this sentence were wrong " +
+                "in the same way one notch apart, first a family MAXIMUM projected onto every row, then a " +
+                "family ONSET projected onto a member that does not have it. Off the exact grid AND scaled, it grows linearly in J: " +
                 "0.0 at J=pi, 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8. So its scaled " +
                 "threshold IS earned, and the gate now carries a pi*1e8 row that fails a flat 1e-12 by " +
                 "nearly five orders. TWO ROUNDS GOT THIS WRONG IN OPPOSITE DIRECTIONS, both by not " +
@@ -3702,8 +3704,9 @@ public static class OpenArcsRegistry
                 "known closed form') rest on a different number: the overlap at the IBM Torino profile " +
                 "[2.336, 0.099, 0.050, 0.072, 0.051], where the adjacency form gives 0.9249 at its own hopping " +
                 "amplitude 1 and the Laplacian form 1.0000 at witness J = 4 (the two live on DIFFERENT " +
-                "scales; item (3) below says how to get the adjacency leg WITHOUT rebuilding it, which " +
-                "is the move that avoids the whole scale question). The witness renders the open chain at a deep-edge profile, so it " +
+                "scales IF you rebuild the adjacency form separately; item (3) below says not to, and at the " +
+                "witness's own J = 4 both legs are read off ONE generator, 0.924928 without the degree " +
+                "term and 0.999996 with it). The witness renders the open chain at a deep-edge profile, so it " +
                 "does NOT reproduce that comparison, and nothing committed does. THE NEXT MOVE is " +
                 "therefore that gate: the IBM-profile overlap between the slowest eigenvector of M and " +
                 "the recorded psi_opt row, as a witness node or a test, and only then the two prose " +
@@ -3738,7 +3741,17 @@ public static class OpenArcsRegistry
                 "hopping amplitude 1, not at the Laplacian form's J. " +
                 "THE CLEAN WAY TO BUILD THE ADJACENCY LEG IS NOT TO REBUILD IT. Take the witness " +
                 "generator at the SAME J = 4 and drop the ZZ degree diagonal, keeping both factors: " +
-                "M_adj = -i*(J/2)*A - 2*diag(gamma) gives 0.924928, against the recorded 0.9249. EVERY SIX-DIGIT NUMBER IN THIS ENTRY IS ON THE ROUNDED PROFILE printed by CONCENTRATOR_GEOMETRY, [2.336, 0.099, 0.050, 0.072, 0.051]; the recorded targets came from the exact 1/(2*T2) profile, which gives 0.924935 and -0.166525 + 0.238470i instead. Both round to the record, so nothing is wrong, but do not read 'exactly' as agreement at six digits between two different gamma inputs. " +
+                "M_adj = -i*(J/2)*A - 2*diag(gamma) gives 0.924928, against the recorded 0.9249. " +
+                "EVERY SIX-DIGIT NUMBER IN THIS ENTRY IS ON THE ROUNDED PROFILE printed by " +
+                "CONCENTRATOR_GEOMETRY, [2.336, 0.099, 0.050, 0.072, 0.051]; the recorded targets came " +
+                "from the exact 1/(2*T2) profile (simulations/boundary_straddling_sweep.py), which " +
+                "gives 0.924935 and -0.166525 + 0.238470i instead. THE OVERLAP IS SAFE EITHER WAY, both " +
+                "round to 0.9249. THE EIGENVALUE IS NOT: the record is -0.167, and only the " +
+                "EXACT-profile -0.166525 rounds to it, while the rounded-profile -0.166384 rounds to " +
+                "-0.166. An earlier draft of this very fence said 'both round to the record', which " +
+                "fails on the one quantity the fence was needed for. So when identifying M's slowest " +
+                "mode with CONCENTRATOR_GEOMETRY's Slow 2, quote the IDENTITY and not the number, " +
+                "exactly as item (a) already instructs for the 9.361181. " +
                 "AND THE REASON IS THREE STEPS, NOT ONE. An earlier draft of this sentence said 'an " +
                 "overall rescaling does not move eigenvectors', which is false here: there is NO " +
                 "scalar c with M_adj = c*H_eff, the ratio is +2i on the coupling entry and -2i on the " +
@@ -3746,12 +3759,16 @@ public static class OpenArcsRegistry
                 "M_adj(J=4) = 2*conj(-i*H_eff(hopping 1)): the -i that turns a Hamiltonian into a " +
                 "generator, then a CONJUGATION, which is item (ii)'s orientation flip, and only then " +
                 "the factor 2. The conjugation is not cosmetic, the two slow eigenvectors differ " +
-                "componentwise by 1.15 at unit norm; what coincides is their MAGNITUDE profiles, to " +
-                "5e-16, which is exactly what the recorded overlap reads (item (1)). So the item that " +
-                "opens by warning against naming one axis had, on its first pass, named the scale axis " +
-                "and dropped the orientation axis. The agreement is NOT a coincidence at this profile: " +
-                "checked at N=3..8 on chain, ring, star and random-weighted graphs with random gamma " +
-                "profiles, the two magnitude profiles agree to 1.1e-14 throughout. THAT " +
+                "componentwise by 1.15 at unit norm (phase fixed on the largest component); what " +
+                "coincides is their MAGNITUDE profiles, to 5e-16, which is exactly what the recorded " +
+                "overlap reads (item (1)). So the item that opens by warning against naming one axis " +
+                "had, on its first pass, named the scale axis and dropped the orientation axis. To be " +
+                "precise about what changed: the factor 2 IS an overall rescaling and does not move " +
+                "eigenvectors, so the old sentence was incomplete rather than false; the missing leg is " +
+                "the conjugation. AND THE GENERALITY IS FORCED, NOT MEASURED: entry-wise conjugation " +
+                "conjugates eigenvectors, so equal magnitude profiles follow from the identity above. " +
+                "The N=3..8 sweep over chain, ring, star and random-weighted graphs (agreement 3.1e-15) " +
+                "is a spot-check of that identity, not independent evidence for it. THAT " +
                 "MAKES ParkedAt (2) EXACT rather than approximate: removing the degree term at matched " +
                 "scale moves the overlap 0.999996 -> 0.924928, so 'the falsified hypothesis was one " +
                 "term short and the missing term is the ZZ degree' is a measurement, not an argument. " +

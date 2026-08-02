@@ -26,9 +26,9 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// every J (3c asserts an exact 0.0). The other two grow and are scaled — the generator residual
 /// linearly in J once the coupling is not binary-exact (0.0 at J=1e8 but 6.0e-08 at pi*1e8, and
 /// already up to 4.4e-16 at J=1 on the larger-N ring, star and per-bond rows), the per-mode one as
-/// eps·‖M‖.
-/// Measuring only on powers of ten shows three zeros and invites exactly the wrong
-/// conclusion.</para></summary>
+/// eps·‖M‖. Measuring only on powers of ten shows three zeros and invites exactly the wrong
+/// conclusion; the exactness that IS structural is pinned by 3b-exact and 3c, and the rest is
+/// deliberately left free to move.</para></summary>
 public class BlockSpectrumWitnessTests
 {
     [Fact]
@@ -237,6 +237,29 @@ public class BlockSpectrumWitnessTests
             $"[N={n} J={j}] residual {residual:E3} exceeds 1e-13*scale ({1e-13 * scale:E3})");
     }
 
+    // Gate 3b-exact: the uniform-chain generator residual is exactly 0.0, at every N and at the
+    // binary-exact couplings. Three rounds of prose got the exactness map wrong in three different
+    // ways while no gate held any of it -- 3b's one-sided 1e-13*scale bound sits three orders above
+    // these values, so a change in the builder's accumulation order could move them to 1e-16 and
+    // stale the comment again in silence. This is the falsifiable half of that map. The other rows
+    // are deliberately NOT pinned to their current values: they are nonzero and allowed to move.
+    [Theory]
+    [InlineData(3, 1.0)]
+    [InlineData(4, 1.0)]
+    [InlineData(5, 1.0)]
+    [InlineData(6, 1.0)]
+    [InlineData(7, 1.0)]
+    [InlineData(6, 1e5)]
+    [InlineData(6, 1e8)]
+    public void GeneratorResidual_OnTheUniformChain_IsExactlyZero(int n, double j)
+    {
+        var gamma = AsymmetricGamma(n);
+        double residual = BlockSpectrumWitness.GeneratorResidual(n, Chain(n, _ => j), gamma);
+        Assert.True(residual == 0.0,
+            $"[chain-uniform N={n} J={j}] expected a bit-exact 0.0, got {residual:E3} -- if this is a " +
+            "deliberate builder change, the exactness map in the comments above needs remeasuring");
+    }
+
     // Gate 3b': the block's basis order is NOT site order. The sector's flat indices row*d + col
     // with row = 1<<b sort ascending, and site l sits at bit n-1-l, so the block runs site n-1 down
     // to site 0. Two halves, because the first alone is arithmetically forced by the implementation
@@ -289,8 +312,9 @@ public class BlockSpectrumWitnessTests
     // sum of several gammas, where a re-summation in a different order need not agree bit for bit --
     // no row here leaves the (0,1) block, so that is stated as the mechanism, not as a measurement
     // this file took); (c) the H diagonal adds exactly +0.0 to the real part.
-    // (a)-(c) are why this holds on the star and per-bond rows too, where the GENERATOR residual
-    // does not. One reachable exception, pathological: a coupling large enough to overflow the H
+    // (a)-(c) are why this holds on the star and per-bond rows too, where the GENERATOR residual is
+    // generally nonzero (generally: star N=3 is exactly 0.0 as well -- the two exactness maps
+    // overlap, they are not complements). One reachable exception, pathological: a coupling large enough to overflow the H
     // diagonal sum makes the real part NaN, and NaN == 0.0 is false. Everything finite is clean. Measured 0.0 at J = 1e8 as well as at J=1,
     // so a SCALED threshold here would be a loosening with nothing behind it -- an earlier round put
     // one in, with a J=1e5 row whose stated justification ("a flat 1e-14 would fail on rounding
