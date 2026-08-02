@@ -10,7 +10,7 @@ result files keep their original names as the provenance of the runs.
 
 **What this document is about:** The concentrator in a dephasing profile is not "better dephasing distribution". It is a controlled symmetry break that creates one slow Liouvillian eigenmode with a specific spatial shape. The optimal initial state for concurrence preservation is the left eigenvector of that slow mode, projected onto the single-excitation sector. This is the lens method. It is verified across 69 configurations (chain N=2-7, ring N=2-6, star N=3-6, complete N=3-4, four γ profiles each, plus the IBM-sacrifice profile at N=5 chain). The accessibility boundary that limits single-excitation states to a subset of slow modes is exact and provable for any N and topology from the n_XY parity selection rule.
 
-**Tier:** 1-2 (lens method, accessibility boundary, SE fraction scaling are computed and proven; psi_opt shapes are empirical)
+**Tier:** 1-2 (lens method, accessibility boundary, SE fraction scaling are computed and proven; psi_opt shapes are empirical, and are magnitude profiles rather than the eigenvectors themselves)
 **Status:** Experiment. Universal framing validated across 69 configurations (N=2-7, four topologies, four γ profiles).
 **Date:** April 9-10, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
@@ -26,7 +26,7 @@ result files keep their original names as the provenance of the runs.
 
 ## Executive summary
 
-When one qubit in a Heisenberg chain receives disproportionate dephasing (the concentrator), the Liouvillian's translational symmetry breaks. A formerly degenerate eigenvalue cluster splits, and one mode slows dramatically. This mode lives almost entirely in the single-excitation (SE) coherence sector (>98% Frobenius norm ratio for N=3-6 across all tested topologies). Its left eigenvector, restricted to the SE sector, gives the optimal initial-state amplitudes directly, without optimization.
+When one qubit in a Heisenberg chain receives disproportionate dephasing (the concentrator), the γ-weighting stops being uniform. A formerly degenerate rung of the absorption ladder splits, and one mode slows dramatically. This mode lives almost entirely in the single-excitation (SE) coherence sector (>98% Frobenius norm ratio for N=3-6, in all cases where a lens mode exists). Its left eigenvector, restricted to the SE sector, gives the optimal initial-state amplitudes directly, without optimization. Every psi_opt tabulated below is that eigenvector's componentwise MAGNITUDE, which for the symmetric profiles is a different state from the eigenvector itself; the shape survey says how different.
 
 The lens method has been tested across 69 configurations (chain N=2-7, ring N=2-6, star N=3-6, complete N=3-4, four γ profiles each, plus the IBM-sacrifice profile at N=5 chain). Three universal results emerge:
 
@@ -48,7 +48,7 @@ Given: N-qubit Heisenberg chain (or star, ring, complete graph), coupling J, sit
 4. **Pre-screen for SE content:** for each slow mode, extract the N x N block of the right eigenvector indexed by SE basis states |e_k> = |0...1_k...0>. Modes with block Frobenius norm ratio > 0.01 are SE-accessible candidates.
 5. **Compute left co-vector:** for the first SE-accessible mode, compute row k of R^{-1} (the left eigenvector in the Hilbert-Schmidt inner product).
 6. **Extract the SE block:** reshape the left co-vector to d x d, extract the N x N block at SE indices.
-7. **Hermitize and diagonalize:** M = (block + block^H) / 2. The eigenvector with largest absolute eigenvalue gives the optimal amplitudes psi_opt.
+7. **Hermitize and diagonalize:** M = (block + block^H) / 2. The eigenvector v with largest absolute eigenvalue gives the optimal amplitudes. What is reported as psi_opt is |v| componentwise: `LensAnalysis.cs` takes `Complex.Abs` of each component before normalising, so the signs and phases of v do not reach the tables. That step is not part of the derivation above and it is not free, as the next section shows.
 8. **Verify:** time-evolve psi_opt and compare concurrence AUC to baselines.
 
 ### Implementation
@@ -90,6 +90,11 @@ All 60 configurations with a distinct second slow mode have it SE-inaccessible (
 
 The shape is always dictated by the slow mode's left eigenvector structure, not by any closed-form formula. The effective Hamiltonian approximation (H_eff = −J·adjacency − i·diag(γ)) gives only 92.5% cosine similarity (see closed-form verdict below).
 
+**These are magnitudes, and for the symmetric profiles the mode is not.** Recomputed from below
+([`simulations/lens_sign_check.py`](../simulations/lens_sign_check.py)), the F9 eigenvector is real to within 2% of its norm and its components ALTERNATE in sign. The N=7 row printed just above is the case in point: the recomputation returns |v| = [0.118, 0.332, 0.481, 0.535, 0.482, 0.334, 0.119], the tabulated numbers to every printed digit, from v = [−0.117, +0.332, −0.481, +0.535, −0.482, +0.334, −0.119], a momentum-π standing wave. The symmetric bell shape is |v|, and |v| is very nearly orthogonal to v: the fidelity |⟨|v|, v⟩|² is 0.0002 at N=7, 0.0000 at N=6 and 0.0022 at N=5, and stays between 0.0018 and 0.0022 across every (γ_base, ε) pair tried. So a reader who builds a state from the F9 row does not build the lens mode; they build its silhouette. The gradient row is the opposite case and is why this went unnoticed: on the IBM Torino profile the components share a sign, |v| reproduces v to a fidelity of 0.974, and the only component that disagrees is site 0, whose tabulated 0.099 is almost entirely imaginary (its real part is 0.001).
+
+What this does and does not touch: the AUC results below were measured on the state that was actually evolved, which is the magnitude state, so they stand as measurements. What is not established is the mechanism sentence they are usually read with, that the prepared state is the eigenmode's shape. For the gradient profile it nearly is; for the symmetric ones it is not.
+
 ---
 
 ## The Parity Selection Rule
@@ -109,9 +114,9 @@ The inaccessible modes found numerically (rate -0.167 at N=5 IBM, etc.) are odd-
 
 ### Level 1: The cluster split
 
-Under uniform dephasing, the Heisenberg chain's Liouvillian has translational symmetry. This produces a degenerate eigenvalue cluster (for N=5 at Sg=2.608: 14 modes at rate -2.087 with integer <n_XY> = 2.000). The absorption theorem (AT) predicts the cluster rate: Re(lambda) = -2 <gamma * 1_XY>.
+Under uniform dephasing the Liouvillian has a degenerate eigenvalue cluster, and it is a rung of the absorption ladder rather than a translation multiplet: this chain is open, so it carries no translational symmetry at all (its site symmetry is the F71 reflection l ↦ N−1−l). With uniform γ the rate depends on the weight alone, so every mode of integer weight pays the same (for N=5 at Sg=2.608: 14 modes at rate -2.087 with integer <n_XY> = 2.000). The absorption theorem (AT) predicts the cluster rate: Re(lambda) = -2 <gamma * 1_XY>.
 
-A concentrator profile breaks translational symmetry. The cluster splits: most modes accelerate, but one slows. This surviving slow mode concentrates its X/Y Pauli content on quiet sites and minimizes the absorption-weighted sum, making it the spectral minimum. This is spectral surgery, not dephasing budgeting. The [concentrator formula](../docs/ANALYTICAL_FORMULAS.md) (F9: γ_edge = N·γ_base − (N−1)·ε) describes the optimal dephasing allocation analytically.
+A concentrator profile makes the γ-weighting non-uniform, so the rate stops depending on the weight alone. The cluster splits: most modes accelerate, but one slows. This surviving slow mode concentrates its X/Y Pauli content on quiet sites and minimizes the absorption-weighted sum, making it the spectral minimum. This is spectral surgery, not dephasing budgeting. The [concentrator formula](../docs/ANALYTICAL_FORMULAS.md) (F9: γ_edge = N·γ_base − (N−1)·ε) describes the optimal dephasing allocation analytically.
 
 ### Level 2: Structured construction
 
@@ -123,7 +128,7 @@ Two-excitation symmetric states fail completely (AUC < 0.09). They couple to a d
 
 Instead of guessing the optimal state, extract it from the slow mode's left eigenvector. The SE-sector restriction gives a N-dimensional eigenvalue problem. No optimizer needed. The answer is one matrix diagonalization away.
 
-This works because the concentrator geometry is a lens: it bends the Liouvillian flow around the noisy qubit, producing a slow [standing-wave](../docs/STANDING_WAVE_THEORY.md)-like eigenmode. The optimal initial state is the mirror of that eigenmode's shape. The concept was motivated by the entrance-pupil/[Fabry-Perot](OPTICAL_CAVITY_ANALYSIS.md) framing in [Concentrator Optics](CONCENTRATOR_OPTICS.md). The [dephasing entering from outside](../hypotheses/GAMMA_IS_LIGHT.md) is literally the light illuminating this optical system.
+This works because the concentrator geometry is a lens: it bends the Liouvillian flow around the noisy qubit, producing a slow [standing-wave](../docs/STANDING_WAVE_THEORY.md)-like eigenmode. The prepared state is the mirror of that eigenmode's SHAPE, its magnitude profile, which on the gradient profile used here is also very nearly the eigenmode itself; on the symmetric profiles the two come apart, as the shape survey records. The concept was motivated by the entrance-pupil/[Fabry-Perot](OPTICAL_CAVITY_ANALYSIS.md) framing in [Concentrator Optics](CONCENTRATOR_OPTICS.md). The [dephasing entering from outside](../docs/proofs/INCOMPLETENESS_PROOF.md) is what illuminates this optical system in the cavity reading (γ plays light's structural role; the identification itself is Tier 4).
 
 ---
 
@@ -149,7 +154,7 @@ Scripts: `simulations/ibm_april_predictions.py` (infrastructure), `simulations/s
 | 4 | W2_sites_34 | 1.000 | 1.018 | 1.056 | +13.6% |
 | 5 | W5_full | 0.400 | 0.896 | 0.932 | reference |
 
-The lens state psi_opt = [0.099, 0.239, 0.428, 0.572, 0.651] is monotonically increasing from the concentrator end (site 0) to the quiet end (site 4). This monotonic gradient is specific to the IBM T2 dephasing gradient and does not appear under symmetric concentrator profiles (see the survey results above).
+The lens state psi_opt = [0.099, 0.239, 0.428, 0.572, 0.651] is monotonically increasing from the concentrator end (site 0) to the quiet end (site 4). It is a magnitude profile: the eigenvector behind it is [0.001, 0.223, 0.424, 0.571, 0.651] in its real part with a small imaginary tail, so site 0's 0.099 is imaginary content and the real profile starts at essentially zero. This monotonic gradient is specific to the IBM T2 dephasing gradient and does not appear under symmetric concentrator profiles (see the survey results above).
 
 ### Why slow-band weight is the wrong metric (IBM Torino chain)
 

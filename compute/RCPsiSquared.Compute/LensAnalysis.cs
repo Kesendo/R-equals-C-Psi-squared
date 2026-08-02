@@ -174,6 +174,17 @@ public static class LensAnalysis
             if (a > bestAbs) { bestAbs = a; bestIdx = k; }
         }
 
+        // What leaves here is the componentwise MAGNITUDE of the eigenvector, not the eigenvector:
+        // the signs and phases are discarded on the next line. That is a choice, not a derivation,
+        // and it is not free. Measured 2026-08-01 (N=5, 6, 7, every F9 (gamma_base, epsilon) tried):
+        // on symmetric edge-concentrator profiles the eigenvector is real to within 2% of its norm
+        // and ALTERNATES in sign (N=7: v = [-0.117, +0.332, -0.481, +0.535, -0.482, +0.334, -0.119],
+        // the momentum-pi standing wave, whose |v| reproduces the surveyed row to every printed
+        // digit), so |v| is nearly orthogonal to v: fidelity |<|v|, v>|^2 = 0.0002 at N=7, 0.0000 at
+        // N=6, 0.0022 at N=5. On the IBM Torino gradient the components share a sign and |v| reproduces v
+        // to 0.974, which is why the survey tables read as if they carried the mode. Whether the
+        // SIGNED state is the better preparation is untested; see the concentrator_amplitude_signs
+        // open arc, and experiments/CONCENTRATOR_GEOMETRY.md for the reader-facing scope.
         var amps = new double[nQubits];
         double norm = 0;
         for (int k = 0; k < nQubits; k++)
