@@ -4,11 +4,21 @@
 **Date:** 2026-06-08
 **Status:** the classifier is settled C# machinery; this writeup is its first reading as a tool: the protected
 interior it draws, and the two coasts where the protection ends.
-**Data, figure, plotter:** the tilt sweep [`simulations/results/tilt_sweep_csharp.tsv`](../simulations/results/tilt_sweep_csharp.tsv),
-the two-coasts figure [`simulations/results/two_edges.png`](../simulations/results/two_edges.png), and the
-plotter [`simulations/protection_landscape.py`](../simulations/protection_landscape.py). The classifications,
-verdicts, and breaking measures below come from the C# engine (`PauliPairTrichotomy.Classify`,
-`PalindromeSoftCertifier.Certify`).
+**Data, figure, generator:** the two-coast sweep
+[`simulations/results/two_coast_sweep.tsv`](../simulations/results/two_coast_sweep.tsv) and its figure
+[`simulations/results/two_edges.png`](../simulations/results/two_edges.png), both written by
+[`simulations/two_coast_sweep.py`](../simulations/two_coast_sweep.py). The numbers quoted below that
+the sweep grid does not carry (the sub-grid laws, the other Hamiltonians, the other γ values) have
+their own gate, [`simulations/two_coast_claims.py`](../simulations/two_coast_claims.py), which
+recomputes each one and compares it to what this document says. The sweep is N=4, γ=0.05
+(so σ = Nγ = 0.2), Z-dephasing on every site and **no bond terms**; the field coast is
+H(θ) = Σ_l (cos θ·X_l + sin θ·Z_l) and the frustration coast
+H(φ) = Σ_w (cos φ·XIX + sin φ·XXX + XXY + YXX) over the 3-site windows. The classifications and verdicts
+come from the C# engine (`PauliPairTrichotomy.Classify`, `PalindromeSoftCertifier.Certify`) and are
+carried over by angle from an older dump,
+[`tilt_sweep_csharp.tsv`](../simulations/results/tilt_sweep_csharp.tsv), whose runner is no longer in the
+repo: that column is the one thing here a reader cannot regenerate, and the parameters above were recovered
+by reproducing its numbers rather than read off a source.
 
 ## The mirror, and the question
 
@@ -87,7 +97,7 @@ span and additivity covers every chain length (the permanent guard is the millio
 `Certify_ZMiddle_IsRoutingWindowSummed_AtAnyN_TheGoldenRouterIsNFree`). The hard verdict is N-free in the strongest sense of all: its check (the F115
 (1+x)-valuation on the two k-bit masks) takes no N argument whatsoever, so it is N-free by construction, not
 merely by measurement, returning in about a ten-thousandth of a millisecond at any length. The spectral test
-for the same million-site Hamiltonian would need a matrix with 4^(1000000) entries; it does not exist and
+for the same million-site Hamiltonian would need a matrix of side 4^(1000000); it does not exist and
 never will. The classifier answers in microseconds to milliseconds; it turns an impossible question into a
 structural one, and the structure is small.
 
@@ -124,48 +134,154 @@ character.
 
 A verdict is a yes or a no, but a parameter is a dial, and the physics is in how the no arrives as you turn
 the dial off the island. So we took two paths off the protected interior and walked them continuously,
-driving each Hamiltonian through the C# analyzer and recording the pairing error: the worst distance of any
-rate from its mirror partner, the same quantity the soft-or-hard verdict thresholds.
+recording the pairing error: over all the ways of pairing the spectrum with its mirror image, the smallest
+worst-partner distance any of them achieves. It is zero exactly when the palindrome holds, and it is the
+quantity the soft-or-hard verdict thresholds, at 10⁻⁶ and in a cheaper version: `SpectrumPairs` pairs
+greedily and forces the pairing to be an involution, which can only inflate the number, so the verdict errs
+toward Hard and never the other way.
 
 ![the two coasts](../simulations/results/two_edges.png)
 
+*A word on the meter, because it decides what the picture says. Greedy pairing gives an upper bound rather
+than the distance, and it overshoots by more than a percent at 26 of the 190 field angles and 56 of the 190
+frustration angles, widely enough to invent structure: it is what puts jagged level-crossings on the
+frustration coast and what moves that coast's deepest break. The curves above pair optimally. The other
+thing worth knowing about the meter is its ceiling: every eigenvalue of this Liouvillian has its real part
+in [−2σ, 0], and the spectrum is closed under conjugation, so pairing each λ with the conjugate λ\* already
+achieves |2Re λ + 2σ| ≤ 2σ. The meter can therefore never read more than 2σ, whatever the Hamiltonian.*
+
 **The field coast, transverse X to longitudinal Z.** At the transverse end the uniform field is truly, the
 mirror exact. Tilt it toward longitudinal, H = cosθ·X + sinθ·Z on every site, and the pairing error grows as
-θ², a gentle quadratic ramp; call it a moat. A one-degree tilt barely registers, and the protection degrades
-slowly and predictably. But it keeps going, and at the longitudinal end the break is deep, 0.40, the mirror
-fully gone. A long, gentle shore that ends in deep water.
+θ², a gentle quadratic ramp; call it a moat. A one-degree tilt barely registers (1.2·10⁻⁴, and a factor of
+99 more at ten degrees), and the protection degrades slowly and predictably. But it keeps going, and at the
+longitudinal end the break is 0.40, which is exactly 2σ: the meter's ceiling, from the paragraph above. A
+long, gentle shore that ends as deep as this water gets.
 
 **The frustration coast, soft 3-body to frustrated XXX.** Here the dial is a frustration angle, from the soft
-set XIX+XXY+YXX toward the frustrated hard set XXX+XXY+YXX. The instant you turn it the mirror breaks: at the
-first step off the protected point the pairing error is already nearly eight thousand times the field's at
-the same angle, over the soft-hard line at once. There is no gentle approach; it is a cliff face. But the
-fall is shallow. The error saturates around 0.02, jagged with level-crossings, and never reaches the field's
-depth. A sheer cliff, but into ankle-deep water.
+set XIX+XXY+YXX toward the frustrated hard set XXX+XXY+YXX. The classifier reads Hard at the very first
+sampled angle, 0.0057°, where the field at the same angle is still Soft, and the break there is already
+nearly eight thousand times the field's (3.1·10⁻⁵ against 4.0·10⁻⁹). It is tempting to call that a cliff and
+leave it, and the sweep alone cannot tell you whether it is one.
 
-So the two coasts are told apart by two clean numbers off the committed sweep: the onset (the field gentle as
-θ², frustration instant) and the depth (the field deep at 0.40, frustration shallow near 0.02).
+Followed below the grid it is not, though what replaces the cliff is not the field's law either. Down toward
+zero the frustration break is quadratic too, 2.79·φ² with the angle in degrees, against the field's
+1.22·10⁻⁴·θ² (which is 2σ·θ² with the angle in radians): a prefactor about twenty thousand times larger. That
+law is a limit, and a narrow one: it is good to a percent only below about 2.6·10⁻⁴°, and already twenty
+percent low at 10⁻³°. The field's own 2σ·θ² is good to a percent all the way out to 10° and to ten percent at
+32°, though it too runs out (23% high at 45°, and past 57.3° it exceeds the meter's own ceiling). Both laws
+describe a corner of their coast; the corners differ in size by four orders of magnitude in angle.
+
+Leaving that corner, the frustration curve does not climb smoothly. It overshoots to 3.0·10⁻⁵ at 2.1·10⁻³°,
+falls back by a third to 1.9·10⁻⁵ at 2.7·10⁻³°, and only then settles onto a shoulder that runs from
+3·10⁻⁵ at 0.006° to 8·10⁻⁵ at 0.06°, a factor of 2.5 across a tenfold change in angle where the parabola
+would have given a hundred, before rising again. That wobble is in the optimal meter, so it is structure
+rather than the matcher, and it is the shoulder behind it that makes the coast look vertical at every angle
+the sweep samples: by the time the grid starts, the break has already arrived.
+
+The verdicts change where each curve crosses the classifier's 10⁻⁶ tolerance, between 0.0573° and 0.1146° on
+the field and near 0.0006° here, so the Soft-to-Hard step is a threshold being crossed rather than a
+discontinuity in the physics. Only the **truly** label switches genuinely at zero, and it is not a spectral
+measurement at all but an exact operator identity. Both mirrors are exact at the protected point and inexact
+at every angle beyond it. So the frustration coast is not a cliff in the size of the break. It is a much
+steeper ramp with an early shoulder, which is the more useful thing to know.
+
+And the fall is shallow. The error climbs to 0.0353 at 38°, dips back to 0.0138 at 80°, ends at 0.0199 fully
+frustrated, and stays an order of magnitude short of the field's ceiling the whole way. Steep, but into
+ankle-deep water.
+
+Shallow and deep are worst cases, though, and it pays to see what that hides. At the field's longitudinal end
+230 of the 256 eigenvalues still sit exactly on the mirror; of the 26 that do not, two miss by the full 0.40
+and twenty-four by 0.20. At frustration's deepest point not one eigenvalue of the 256 has an exact partner,
+and the median miss is 4·10⁻⁴. The field tears the mirror in a few places and leaves the rest exact;
+frustration leaves nothing exact and nothing far off. Which of the two counts as worse is a question about a
+device, not about the spectrum, and the meter answers only the first.
+
+So the two coasts are told apart in two ways, neither of them the one we started with: the onset (quadratic
+on both in the limit, with a prefactor twenty thousand times larger on the frustration side, and a shoulder
+there that brings the break forward at every angle the sweep can reach) and the depth (the field at the
+meter's ceiling of 0.40, frustration shallow at 0.035).
 
 There is a third, finer reading, if you ask where each break sits. Every eigenvalue has two parts: a rate
 (its real part, how fast that mode decays) and a frequency (its imaginary part, how fast it oscillates), and
-the mirror pairs both. Split the break into its rate-only piece and the rest (the dashed lines in the figure)
-and something neat appears. Frustration breaks the mirror in the rates the whole way: it is an off-diagonal
-interaction, it nudges the decay rates themselves off their mirror, and the rate-only break tracks the full
-break almost exactly (their ratio is 1.0). The field, fully tilted, is the opposite: a longitudinal Z field
-commutes with the Z-dephasing and so cannot touch the decay rates at all, and at the fully longitudinal point
-they sit back exactly on their mirror (the rate-only break falls to 10⁻¹⁵) while the whole deep break has
-moved into the coherent frequencies, the energy splittings the field adds. (Mid-tilt the rates do wander,
-since the transverse part of the field does not commute; the clean statement is at the longitudinal end.) So
-frustration breaks the mirror through the rates and stays shallow; the field, fully tilted, breaks it through
-the frequencies and runs deep.
+the mirror pairs both. Run the same mirror test on the rates alone (the dashed lines in the figure) and the
+two coasts separate again. It asks whether the list of rates is balanced about the centre and says nothing
+about which frequency each rate is carrying, so it is not a piece you can subtract from the full break; it is
+a relaxation of it. Projecting a pairing onto the real axis cannot lengthen any edge, so the rate-only break
+is a lower bound on the full one, always. Where the two coincide, the break lives entirely in the rates.
 
-## The frustration coast, in closed form
+Frustration breaks the mirror in the rates almost everywhere. It is an off-diagonal interaction, it nudges
+the decay rates themselves off their mirror, and the rate-only break equals the full break at 170 of the 189
+sampled angles off the island, the deepest point included (0.0353 at 38°, entirely in the rates). The
+exceptions are 17 angles inside the first four degrees, where the phase part takes over for a stretch: at the
+first sampled angle, 0.0057°, only 0.65% of the break is in the rates. That stretch has a floor as well as a
+ceiling. Keep going down, below about 10⁻³°, and the rates are the whole break again, exactly as they are
+above 4.5°. The phase-dominated window is a feature of the middle of the approach, not of the doorstep, and
+two further angles near 80.5° fall a few percent short of the whole.
 
-There is a reason the frustration coast is a cliff and not a moat, and it is the same reason we can chart it
-without ever building a spectrum. Frustration is a discrete fact: the hopping graph either carries an odd
-cycle or it does not, and that one bit is the whole verdict. Read each term's X/Y pattern as a polynomial
-over GF(2), one bit per site, and soft-or-hard collapses to a single integer comparison, the number of times
-(1+x) divides each pattern; equal is soft, different is hard. There is no halfway value, so there is no gentle
-approach. The cliff is that discreteness made visible.
+The field is the opposite at its far end, and gets there gradually. Out to 35° its break is purely a rate
+break, the dashed line lying on the solid one. They part at 35.5°, exactly where the rate drift peaks at
+0.1325, and from there the rate-only break falls away to 5·10⁻¹⁵ at the fully longitudinal point while the
+full break keeps climbing to 0.40. At that end the rates sit back exactly on their mirror and the break is
+entirely in which rate is paired with which frequency.
+
+What does *not* happen there is the break moving into the frequencies. No spectrum of this kind can do that:
+L maps Hermitian operators to Hermitian ones, so its spectrum is closed under conjugation, so the
+imaginary-part multiset is symmetric about zero identically, and the frequency-only mirror test reads
+1.3·10⁻¹³ or below at every angle on both coasts, protected and broken alike. The frequency list cannot come apart.
+What breaks is the match. At the longitudinal end λ = −0.4 − 8i is promised a partner at 0 + 8i, a mode that
+oscillates just as fast and never decays; the nearest the spectrum actually offers is −0.4 + 8i, a distance
+of 0.4000 that is purely real. Every frequency is there, wearing the wrong rate.
+
+And the mechanism at that end is worth naming exactly, because the obvious reading is the wrong one. A
+longitudinal Z field does commute with the Z-dephasing, and that is not what protects the rates. What
+commuting settles is something weaker and more useful: whether the field can move them at all, and the
+operator it has to commute with is the rest of the Hamiltonian. A field diagonal in Z acts diagonally on the
+coherence basis, which is where the dissipator is diagonal too, so once it also commutes with the bonds it
+commutes with the whole Liouvillian; being anti-Hermitian it can then only add imaginary parts, and the rate
+list is exactly what the bonds alone would give.
+
+That is inertness, not protection, and the gap between the two is easy to miss. Put such a field on bonds
+whose own rates are already off the mirror and they stay off it, unmoved, at any strength: the frustration
+Hamiltonian at 38° on three sites plus h·Z on the fourth commutes trivially, having disjoint support, and the
+rate break reads 1.17·10⁻² at h = 0, 0.5, 1 and 5 alike. The full break does move, from 1.17·10⁻² to
+1.12·10⁻¹, so the field is inert on the rates only. Whether the mirror holds there is the bonds' business.
+
+Four cases show both halves, at N=4, unit bonds, γ=0.05. With no bonds every longitudinal profile
+keeps the rates on the mirror (3·10⁻¹⁷), there being nothing to break it. On an Ising ZZ chain so does every
+profile, because ZZ commutes with all of them and its own rates are already mirrored. On an XY or a
+Heisenberg chain only the uniform field commutes, and only there do the rates stay (10⁻¹⁴, against 8.9·10⁻²
+and 1.0·10⁻¹ for the profile (1,2,3,4)). Uniformity is how a U(1)-conserving chain comes by that commutation,
+which is the case [the mirror symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) records at N=3; it is
+not the criterion itself. Nor is uniform-or-not a switch: raise one site of a Heisenberg chain's field to
+1+ε with the others at 1, and the rate break shrinks continuously with ε, 1.8·10⁻⁴ at ε=0.01 and 1.3·10⁻⁶ at
+ε=10⁻⁴. The field coast's far end is uniform and bond-free, so it is the first of those cases outright: there
+are no bonds whose rates could have been off the mirror to begin with.
+
+So frustration breaks the mirror through the rates and stays shallow, while the field, fully tilted, leaves
+both lists balanced and breaks only the pairing between them. Balanced is not unchanged: by the longitudinal
+end the rate list has collapsed onto the bare dephasing ladder, evenly spaced about its own centre. And this
+is a statement about the two far ends. In between it is the field that moves the rates furthest: its rate
+break peaks at 0.1325, 3.75 times deeper than anything frustration reaches anywhere.
+
+## The hard side, in closed form
+
+Frustration is a discrete fact about a term-set: the hopping graph either carries an odd cycle or it does
+not, and for one gated family that one bit is the whole verdict, readable without ever building a spectrum.
+Take a Z-dephasing diagonal-cell Mixed **pair**: exactly two terms, each carrying an even number of X/Y
+letters (at least two) and an odd number of Y/Z letters, and the two agreeing in the parity of their
+Y-count. Read each term's X/Y pattern as a polynomial over GF(2), one bit per site, and
+soft-or-hard collapses to a single integer comparison, the number of times (1+x) divides each pattern; equal
+is soft, different is hard. There is no halfway value. Two fences come with it. Outside that gate
+`PalindromeSoftCertifier` returns no verdict and defers to the spectral authority, so the family below is the
+certified one, not everything the comparison might decide. And the comparison needs room: a chain with too
+few windows for the obstruction to close is soft whatever the valuations say, which for a k-body pair means
+N ≥ 2k−2 (`WindowedObstructionScan` records the case, IXZX+XIZX being soft below N=6 and hard from there).
+
+The seam with the coast above is worth stating rather than glossing, because the two are easy to merge. The
+frustration coast runs between two three-term sets and carries four terms at every angle in between, on a
+continuous dial, so it sits outside that gate twice over. That is why its own row in the table above reads
+"(none)" and its verdicts come from the spectral authority. The discreteness lives in the classification of
+term-sets. It does not descend to a dial between two of them, where the break is a ramp.
 
 This closes a quadrant the rest of the classifier leaves open. The N-free certifier above proves a spectrum
 soft without ever building it but never proves it hard; the spectral authority proves both, soft and hard,
@@ -173,14 +289,19 @@ but only while the Liouvillian fits in memory, which gives out around eight site
 valuation proves *hard* without a spectrum at all, the missing N-free hard verdict, the symmetric twin of the
 N-free soft proof.
 
-And the closed form carries more than a yes or no. It counts: of all the k-body X/Y term-patterns, a
-closed-form expression (the integer sequence A203241) says exactly how many fall off the island, and the
-smallest frustrating cycle has a size law of its own, 2k − 3, shrinking by two for every frequency the two
-terms already share. What the algebra deliberately does not tell you is how deep the water is past the cliff:
+And the closed form carries more than a yes or no. It counts: among the even-popcount k-bit X/Y masks of the
+diagonal cell, a closed-form expression (the integer sequence A203241) counts exactly the hard mask-pairs,
+2, 14 and 70 at k = 3, 4, 5, and dressed by the Klein and y-parity factor this gives the hard count of the
+gated family, 448 at k=4. The dressing is where the gate shows up in the arithmetic: enumerating the strings
+directly, 896 of the k=4 diagonal-cell pairs have differing valuations, and exactly the 448 of them that also
+share their Y-count parity are the ones the certifier will speak for. And the hardness
+obstruction, the smallest odd relation among the windowed shifts, has a size law of its own: over hard pairs
+its maximum is min(2W − 1, 2k − 3 − 2d), where W is the number of windows and d the degree of the shared
+non-(1+x) factor of the two masks. Each shared degree shrinks it by two; the d = 0 face is 2k − 3, which at
+k=3 gives the always-triangle 3. What the algebra deliberately does not tell you is how deep the water is:
 the obstruction's size is a purely combinatorial fact and reaches nothing in the spectrum beyond the
 yes-or-no. That depth is what the spectral sweep above measures, and it is what stays shallow. So the two
-readings sit hand in hand: the algebra says whether you fall and how the coastline is shaped, the spectrum
-says how far down.
+readings sit hand in hand: the algebra says whether you fall, the spectrum says how far down.
 
 ## Reading the coasts: what the classifier is for
 
@@ -189,13 +310,28 @@ for. The classifier finds the protected point. The landscape tells you the chara
 leave it, and the two characters call for opposite engineering instincts.
 
 A longitudinal field error (a stray Z-component in the drive, a small detuning) is forgiving. The quadratic
-moat means a real device sitting a degree or two off transverse keeps almost all of its protection; the
-mirror degrades as the square of the error, not linearly, so you do not have to fight it hard. Frustration is
-the opposite: it is a binary switch, with no safe neighbourhood, so a structure that needs the mirror exact
-has to forbid frustration by construction rather than tune it away. The consolation is that frustration's
-damage is bounded: the break is shallow, the mirror only slightly off, not destroyed. Design rule, then, for
-anything that wants to keep this mirror: do not sweat small field tilts, forbid frustration if you need the
-mirror exact, and know that even past the frustration cliff the break stays shallow.
+moat means a real device sitting a degree or two off transverse still has a mirror broken only in the fourth
+decimal; the mirror degrades as the square of the error, not linearly, so you do not have to fight it hard.
+(The classifier will nonetheless cross into Hard at about 0.09°, first recorded by the sweep's grid at
+0.1146°. Its verdict is a yes-or-no about exactness, and
+a device does not need exactness; that is the whole reason for measuring the depth beside the verdict.)
+
+Frustration is not a switch, and calling it one was the sweep's grid talking. The budget is the honest way to
+say what it is instead. At this sweep's N=4 and γ=0.05 a 1° field tilt costs 1.2·10⁻⁴, and the frustration
+angle that costs the same is about 0.08°: at the scale a device lives at the budget is roughly twelve times
+tighter, and that number is the shoulder talking, not the parabola. Deep below the shoulder the parabolas
+take over and the ratio widens to 151. Neither figure is universal, and they do not move together: the
+asymptotic ratio goes as γ⁻², running 9.7 at γ=0.2 and 605 at γ=0.025, while the device-scale one barely
+stirs, 11 and 25 at the same two points. Their order even swaps at γ=0.2, where the asymptotic ratio drops
+below the device-scale one. The device-scale figure is the stable one and the one to design against: across
+that whole range you cannot tune frustration down to where a field tilt sits without controlling it more than
+an order of magnitude more finely, so a structure that needs this mirror should forbid frustration by construction. The
+consolation is that its damage is bounded even so: the break stays shallow, and at its deepest it is the
+whole spectrum slightly off rather than any part of it far off.
+
+Design rule, then, for anything that wants to keep this mirror: do not sweat small field tilts, forbid
+frustration by construction rather than budgeting for it, and read the depth, not the verdict, when the
+question is how much protection is left.
 
 ## The seam with the literature
 
@@ -218,7 +354,7 @@ operators were already drawing.
 
 - The formula: [the F-formula registry](../docs/ANALYTICAL_FORMULAS.md) F87 (the trichotomy registry entry)
 - The refinement proof: [the F103 refinement of F87](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)
-- The frustration coast in closed form: [F115](../docs/ANALYTICAL_FORMULAS.md) (the windowed-hardness GF(2)[x] theory: the one-number (1+x)-valuation criterion, the A203241 hard-count census, the 2k−3−2d obstruction-size law; C# `WindowedObstructionScan`)
+- The hard side in closed form: [F115](../docs/ANALYTICAL_FORMULAS.md) (the windowed-hardness GF(2)[x] theory: the one-number (1+x)-valuation criterion, the A203241 hard-count census, the 2k−3−2d obstruction-size law; C# `WindowedObstructionScan`)
 - The discovery: [the V-Effect fine structure](V_EFFECT_FINE_STRUCTURE.md) (the 3 truly / 19 soft / 14 hard split)
 - The locality ceiling: [the four non-local cases](CEILING_FOUR_NONLOCAL_CASES.md) (the 6 → 4 → 2 → 0 arc; the 2 Z-middle cases route via the golden router, [the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md))
 - The verdict is (H, N): [softness is N-dependent](SOFTNESS_IS_N_DEPENDENT.md) (a finite-size crossing)
