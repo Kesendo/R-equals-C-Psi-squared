@@ -146,7 +146,7 @@ public class BlockSpectrumWitnessTests
         Assert.Equal(-2.0 * gamma, maxRe, 9);
     }
 
-    // The three graphs the site-resolved gates run on. Chain and ring at uniform J are
+    // The four graph families the site-resolved gates run on. Chain and ring at uniform J are
     // REVERSAL-INVARIANT, which is what lets a site<->bit mix-up hide; the per-bond J variants
     // below are not, and neither is the star.
     public static IEnumerable<object[]> BandEdgeGraphs()
@@ -248,26 +248,38 @@ public class BlockSpectrumWitnessTests
     // Gate 3c: the sharp statement the profile case rests on, gated directly rather than through a
     // consequence with slack -- Herm(M) = -2*diag(gamma) EXACTLY, on every graph. Bendixson and the
     // trace are corollaries of this; asserting only them leaves a theorem standing in for a gate.
+    // Threshold scaled like 3b, for the same reason: the entries are O(J*N), so a constant would
+    // quietly become a real tolerance at large J even though the cancellation here is exact today.
     [Theory]
     [MemberData(nameof(BandEdgeGraphs))]
     public void SiteResolvedBandEdge_HermitianPartIsExactlyMinusTwoDiagGamma(int n, string label, Bond[] bonds)
     {
         var gamma = AsymmetricGamma(n);
+        double scale = bonds.Max(b => Math.Abs(b.Coupling)) * n + 2.0 * gamma.Max();
         double residual = BlockSpectrumWitness.HermitianPartResidual(n, bonds, gamma);
-        Assert.True(residual < 1e-14, $"[{label} N={n}] Herm(M) + 2*diag(gamma) residual {residual:E3}");
+        Assert.True(residual < 1e-14 * scale,
+            $"[{label} N={n}] Herm(M) + 2*diag(gamma) residual {residual:E3} exceeds 1e-14*scale ({1e-14 * scale:E3})");
     }
 
     // Gate 3d: the MASTER statement, and it belongs to AbsorptionTheoremClaim, not to this witness:
-    // -Re(lambda_k) = 2*sum_l gamma_l*<Delta_l>_k with <Delta_l>_k the mode's site occupancy. The
-    // mode-by-mode equality does not die under a profile; it becomes a gamma-weighted average. Real
-    // eigenvectors of a NON-normal M, so this also gates that non-normality costs nothing here.
+    // -Re(lambda_k) = 2*sum_l gamma_l*<Delta_l>_k with <Delta_l>_k the mode's site occupancy, on the
+    // RIGHT eigenvectors of a non-normal M.
+    //
+    // WHAT THIS CAN AND CANNOT CATCH, stated because it would otherwise read stronger than it is:
+    // given Gate 3c, this is a linear-algebra identity (Re lambda is the Rayleigh quotient of
+    // Herm(M) on an eigenvector), so it CANNOT fail independently -- the only things that fire it
+    // are a broken eigensolver or the same gamma-index error 3c already catches. It is kept as the
+    // cross-check that ties this block to its typed parent's per-channel law, and as the executable
+    // form of "non-normality costs nothing here", not as independent evidence.
     [Theory]
     [MemberData(nameof(BandEdgeGraphs))]
     public void SiteResolvedBandEdge_ObeysThePerModeAbsorptionLaw(int n, string label, Bond[] bonds)
     {
         var gamma = AsymmetricGamma(n);
+        double scale = bonds.Max(b => Math.Abs(b.Coupling)) * n + 2.0 * gamma.Max();
         double residual = BlockSpectrumWitness.PerModeAbsorptionResidual(n, bonds, gamma);
-        Assert.True(residual < 1e-12, $"[{label} N={n}] per-mode absorption residual {residual:E3}");
+        Assert.True(residual < 1e-13 * scale,
+            $"[{label} N={n}] per-mode absorption residual {residual:E3} exceeds 1e-13*scale ({1e-13 * scale:E3})");
     }
 
     // Gate 3e: what the profile does to the floor, as the two corollaries. Bendixson brackets every

@@ -32,7 +32,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   live node shows the cap-fitting sub-spectrum, which is itself Π-closed so still pairs);</item>
 ///   <item>the (0,1) band-edge sector sitting entirely at Re = −2γ AT UNIFORM γ (the Absorption
 ///   floor: every coherence there disagrees in exactly one bit, so L_D = −2γ·I is scalar on the
-///   block; under a profile it is −2·diag(γ), still normal but no longer scalar);</item>
+///   block; under a profile it is −2·diag(γ), which is normal BY ITSELF but no longer scalar, and
+///   scalarness is what the arguments built on this block actually use);</item>
 ///   <item>that same sector under a per-site γ PROFILE, where the dissipator is diagonal instead of
 ///   scalar: the generator is still exactly M = +i·(1/2)·𝓛 − 2·diag(γ) entry-wise, with 𝓛 the
 ///   WEIGHTED graph Laplacian diag(deg) − A whose degree DIAGONAL is what the ZZ term supplies
@@ -184,7 +185,8 @@ public sealed class BlockSpectrumWitness : IInspectable
 
     /// <summary>The (p_c=0, p_r=1) band-edge sector block itself, the N×N operator M on the
     /// |1-excitation⟩⟨vacuum| coherences, with a SITE-RESOLVED γ profile
-    /// (<paramref name="gammaPerSite"/>[l] is site l, the leftmost Kronecker factor). This is the
+    /// (<paramref name="gammaPerSite"/>[l] is site l; site 0 is the leftmost Kronecker factor, so site l
+    /// occupies bit n−1−l). This is the
     /// operator the <c>site_resolved_vacuum_block</c> arc is about: the engine
     /// (<see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>) has always returned it site-resolved;
     /// only the callers here were uniform-only.</summary>
@@ -213,9 +215,10 @@ public sealed class BlockSpectrumWitness : IInspectable
     /// Two corollaries follow, and they are corollaries: an occupancy is a probability distribution,
     /// so Re λ is a convex combination of the −2γ_l, i.e. the Bendixson bracket
     /// Re λ ∈ [−2·max γ, −2·min γ]; and the trace pins Σ Re λ = −2σ, mean Re = −2·γ̄. At uniform γ
-    /// the bracket closes on a point and the whole sector sits at Re = −2γ (the F50 weight-1 floor);
+    /// the bracket closes on a point and the whole sector sits at Re = −2γ (the Absorption Theorem at ⟨n_XY⟩ = 1; F50 is the DEGENERACY
+    /// COUNT d_real = 2N on that line, a different statement);
     /// a profile generally opens it into an interval around the same −2·γ̄. GENERALLY, not always:
-    /// at N=2 the 2×2 block splits by 2·√(γ̄_diff² − J²/4) and stays closed for J ≥ 2·γ̄_diff, so read
+    /// at N=2 the 2×2 block splits by 2·√(γ̄_diff² − J²/4) and stays closed for J ≥ 2·(γ₁ − γ₀), the plain difference of the two rates, so read
     /// the measured span rather than assuming it opened.</summary>
     public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(ComplexMatrix h, int n, IReadOnlyList<double> gammaPerSite)
     {
@@ -229,7 +232,7 @@ public sealed class BlockSpectrumWitness : IInspectable
         return (min, max);
     }
 
-    /// <summary>Uniform-γ overload (the F50 weight-1 floor case: MinRe = MaxRe = −2γ).</summary>
+    /// <summary>Uniform-γ overload (the Absorption floor case: MinRe = MaxRe = −2γ).</summary>
     public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(ComplexMatrix h, int n, double gamma) =>
         BandEdgeSectorReSpan(h, n, Enumerable.Repeat(gamma, n).ToArray());
 
@@ -257,8 +260,8 @@ public sealed class BlockSpectrumWitness : IInspectable
 
     /// <summary>Which SITE is excited in each row of the (0,1) block, in the block's own basis
     /// order. The order is not site order: the sector's flat indices are row·d + col with
-    /// row = 1&lt;&lt;b, sorted ascending, and site l occupies bit n−1−l (l is the leftmost Kronecker
-    /// factor), so the block runs from site n−1 down to site 0. Any site-indexed quantity, a γ
+    /// row = 1&lt;&lt;b, sorted ascending, and site l occupies bit n−1−l (site 0 is the leftmost Kronecker
+    /// factor, hence the most significant bit), so the block runs from site n−1 down to site 0. Any site-indexed quantity, a γ
     /// profile or a weighted Laplacian, must be permuted through this before it can be compared with
     /// the block entry-wise. What the permutation actually bites on is worth stating: a SYMMETRIC γ
     /// profile cannot see it, and neither can a uniform-J chain or ring Laplacian, which is
@@ -289,9 +292,13 @@ public sealed class BlockSpectrumWitness : IInspectable
     /// graph, with this witness's convention H = Σ_b (J_b/4)·(XX+YY+ZZ):
     /// <para>M = +i·(1/2)·𝓛 − 2·diag(γ), 𝓛 the WEIGHTED graph Laplacian diag(deg) − A (at uniform
     /// J: +i·(J/2)·𝓛_unweighted).</para>
-    /// This is the composite the arc <c>site_resolved_vacuum_block</c> names as owned by neither
-    /// side: D10 (<c>D10_W1_DISPERSION.md</c>) has the ZZ degree term but uniform γ;
-    /// <see cref="VacuumBlockReductionClaim"/> has the γ profile but an XY H, hence no degree term.
+    /// The two TYPED owners each carry half of this: D10 (<c>D10_W1_DISPERSION.md</c>) has the ZZ
+    /// degree term but uniform γ; <see cref="VacuumBlockReductionClaim"/> has the γ profile but an
+    /// XY H, hence no degree term. The composite itself is NOT new prose, and the arc's older
+    /// "neither owner carries it" framing was too strong: <c>experiments/ANALYTICAL_SPECTRUM.md</c>
+    /// writes −2iJ·𝓛 − 2·diag(γ) outright in its non-uniform-dephasing paragraph. What is new here
+    /// is that it is entry-wise under a LIVE witness, gated across four graph families, and read
+    /// back to its parent claim by <see cref="PerModeAbsorptionResidual"/>.
     /// Recomputed live against <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>. The residual is
     /// ABSOLUTE and built from cancelling O(J·N) terms, so it is machine zero relative to the entry
     /// scale J·N + 2·max γ, not relative to 1; a gate on it must scale with that, and the gates do.
@@ -331,10 +338,6 @@ public sealed class BlockSpectrumWitness : IInspectable
             }
         return worst;
     }
-
-    /// <summary>Uniform-J open-chain overload of <see cref="GeneratorResidual"/>.</summary>
-    public static double ChainGeneratorResidual(int n, double j, IReadOnlyList<double> gammaPerSite) =>
-        GeneratorResidual(n, ChainBonds(n, j), gammaPerSite);
 
     /// <summary>The entry-wise residual of Herm(M) = (M + M†)/2 = −2·diag(γ): the sharp statement
     /// the Bendixson bracket and the trace identity are both corollaries of, and the one place
@@ -559,7 +562,7 @@ public sealed class BlockSpectrumWitness : IInspectable
             summary: $"at UNIFORM γ, the (0,1) band-edge sector, the |1-exc⟩⟨vac| coherences, {N}-dim, sits entirely at " +
                      $"Re ∈ [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}] = −2γ = " +
                      $"{(-2 * Gamma).ToString("0.###", Inv)} (every coherence disagrees in one bit, so L_D = −2γ·I " +
-                     "is scalar there; the F50 weight-1 floor / Absorption Theorem). The decay GAP lives instead " +
+                     "is scalar there; the Absorption Theorem at ⟨n_XY⟩ = 1). The decay GAP lives instead " +
                      "in the diagonal (k,k) sectors.",
             provenance: NodeProvenance.Live);
     }
@@ -583,9 +586,12 @@ public sealed class BlockSpectrumWitness : IInspectable
         {
             new InspectableNode("the generator, entry-wise",
                 summary: $"M = +i·(J/2)·𝓛 − 2·diag(γ) on the open chain (𝓛 = diag(deg) − A): residual " +
-                         $"{residual.ToString("E3", Inv)}. The composite neither owner carries: D10 has the ZZ " +
+                         $"{residual.ToString("E3", Inv)}. The two typed owners carry half each: D10 has the ZZ " +
                          "degree term at uniform γ, VacuumBlockReductionClaim has the γ profile with an XY H " +
-                         "(no degree term). XXX only: for XXZ the ZZ coefficient no longer matches the XY one " +
+                         "(no degree term). The composite in PROSE is not new; experiments/ANALYTICAL_SPECTRUM.md " +
+                         "writes it in its non-uniform-dephasing paragraph. What is new is entry-wise, live, and " +
+                         "gated across four graph families. " +
+                         "XXX only: for XXZ the ZZ coefficient no longer matches the XY one " +
                          "and Δ·diag(deg) − A is not a Laplacian. THE BLOCK GOES BY FOUR NAMES and two of them " +
                          "are the same label on conjugate operators: (0,1) here is (p_c, p_r) = (bra, ket) = " +
                          "|1-exc⟩⟨vac| and carries +i; D10:139's −2iJ𝓛 is the conjugate |vac⟩⟨1-exc|, which " +
@@ -618,8 +624,10 @@ public sealed class BlockSpectrumWitness : IInspectable
                 summary: $"an occupancy is a probability distribution over sites, so Re λ is a CONVEX COMBINATION " +
                          $"of the −2γ_l and hence lies in [−2·max γ, −2·min γ] = " +
                          $"[{(-2 * gMax).ToString("0.0000", Inv)}, {(-2 * gMin).ToString("0.0000", Inv)}]; " +
-                         $"measured span [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}]. The " +
-                         "same lemma the F89 block lattice uses with n_diff in place of γ."),
+                         $"measured span [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}]. Not a " +
+                         "new lemma: PROOF_CODIM1_BY_ADDITIVITY's rate window is this bracket with n_diff in " +
+                         "place of γ, and it already names the scalar case (its Edge lemma) as the zero-width " +
+                         "one. The F89 block lattice carries the same window."),
             new InspectableNode("the trace (corollary)",
                 summary: $"Σ Re λ = {traceRe.ToString("0.000000", Inv)} = Re tr(M) read off the diagonal without " +
                          $"an eigensolver ({traceDirect.ToString("0.000000", Inv)}) = −2σ = " +
@@ -639,7 +647,7 @@ public sealed class BlockSpectrumWitness : IInspectable
                      (width > 1e-9
                         ? $"has opened into the interval [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}]"
                         : $"has NOT opened here; the measured span is still a point at {minRe.ToString("0.0000", Inv)} " +
-                          "(at N=2 the 2×2 block stays closed for J ≥ 2·γ̄_diff)") +
+                          "(at N=2 the 2×2 block stays closed for J ≥ 2·(γ₁ − γ₀))") +
                      $", bracketed by Bendixson at [{(-2 * gMax).ToString("0.0000", Inv)}, {(-2 * gMin).ToString("0.0000", Inv)}] " +
                      $"and with its MEAN pinned by the trace at −2·γ̄ = {(-2 * gBar).ToString("0.000", Inv)} (the mean " +
                      "of the eigenvalues, NOT the midpoint of the bracket, which is a different number). Both are corollaries " +

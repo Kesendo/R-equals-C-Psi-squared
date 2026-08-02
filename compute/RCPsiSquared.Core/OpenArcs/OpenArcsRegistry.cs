@@ -3582,9 +3582,10 @@ public static class OpenArcsRegistry
                 "this commit, THE WITNESS (b) ASKED FOR. BlockSpectrumWitness now carries the " +
                 "site-resolved block: BandEdgeSectorBlock returns M itself for a gamma PROFILE, " +
                 "BandEdgeSectorReSpan takes a profile (the uniform call is now an overload), " +
-                "ChainGeneratorResidual recomputes the composite identity live, and a sixth inspect node " +
-                "'the site-resolved band edge' renders it (inspect --root blockspectrum). FIVE THINGS THE " +
-                "WITNESS SETTLED, every one gated in BlockSpectrumWitnessTests (87 green), and the " +
+                "GeneratorResidual / HermitianPartResidual / PerModeAbsorptionResidual recompute the " +
+                "identities live, and a new inspect node 'the site-resolved band edge' (the fifth of six " +
+                "children) renders them (inspect --root blockspectrum). FIVE THINGS THE " +
+                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (87 cases green), and the " +
                 "gates run on chain, per-bond-J chain, ring and star at N = 3..7 so nothing here is " +
                 "chain-only or scratch-file-only. " +
                 "(i) THE COMPOSITE IS EXACT AND IT IS THE LAPLACIAN ONE: with H = sum_b (J_b/4)*(XX+YY+ZZ), " +
@@ -3659,7 +3660,17 @@ public static class OpenArcsRegistry
                 "does NOT reproduce that comparison, and nothing committed does. THE NEXT MOVE is " +
                 "therefore that gate: the IBM-profile overlap between the slowest eigenvector of M and " +
                 "the recorded psi_opt row, as a witness node or a test, and only then the two prose " +
-                "repairs, citing it. When they are repaired, note that the closed form is for M and NOT " +
+                "repairs, citing it. " +
+                "AND BUILD IT ON THE RIGHT SIDE OF THE FACTOR 4, or it will fail against its own target " +
+                "numbers. Every recorded value in this arc (the slowest eigenvalue -0.166384 - 0.238470i, " +
+                "the 0.9249 adjacency overlap, the 1.0000 Laplacian overlap, the 0.057 separation) is in " +
+                "the PAULI normalisation H = J*sum(XX+YY+ZZ) at J = 1. The witness's convention is " +
+                "H = sum_b (J_b/4)*(XX+YY+ZZ), so the same system is J = 4 there. Measured on the IBM " +
+                "Torino profile at N=5: the witness convention at J = 1 gives slowest " +
+                "lambda = -0.123378 + 0.061449i and overlap 0.9971, which is NOT the record; at J = 4 it " +
+                "gives -0.166384 + 0.238470i and overlap 0.999996, which is. The sign of Im is the " +
+                "orientation flip of item (ii), not an error. " +
+                "When the repairs are made, note that the closed form is for M and NOT " +
                 "for its spectrum: M is non-normal, diag(gamma) " +
                 "and the Laplacian do not commute, so psi_opt is still diagonalized for and not read " +
                 "off. Then the two genuinely open " +
@@ -3686,7 +3697,7 @@ public static class OpenArcsRegistry
                 "whether the amplitude agreement is a theorem rather than a numerical coincidence at this " +
                 "profile. Also note the tensor ORDER: I(x)M + conj(M)(x)I is the one that holds; the other " +
                 "order is off by 4.0 on the off-population entries, so do not paraphrase it. " +
-                "(b) DONE 2026-08-02, see the four settled items at the top of this NextStep. The engine " +
+                "(b) DONE 2026-08-02, see the five settled items at the top of this NextStep. The engine " +
                 "already built this: PerBlockLiouvillianBuilder.BuildBlockZ on the (0,1) flat " +
                 "index list with a Heisenberg H returns M, site-resolved gamma included; only the caller " +
                 "BlockSpectrumWitness.BandEdgeSectorReSpan was uniform-only, and widening that call was the " +
@@ -3695,13 +3706,24 @@ public static class OpenArcsRegistry
                 "(2026-08-02). This is an inventory, not a verdict; every site below is CORRECT in its " +
                 "own uniform-gamma context, and the work is fencing, not repair. Do it as its own pass " +
                 "with its own review rounds, not as a rider. " +
-                "FIRST AND MOST USEFUL: three tracked places justify a conclusion by the premise that " +
-                "the dissipator is SCALAR on the edge blocks, which a gamma profile retires while " +
-                "leaving the conclusion standing (under a profile it is -2*diag(gamma): still NORMAL, so " +
-                "the normality arguments survive, but not for the stated reason). They are " +
-                "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY's edge lemma and its verbatim duplicate in " +
-                "docs/ANALYTICAL_FORMULAS, and SpectatorIntertwinerClaim (twice); StructuralCeilingClaim " +
-                "is a near-miss, its 'uniform' modifying hamming rather than gamma. " +
+                "FIRST AND MOST USEFUL, AND THE CONCLUSION IS AT RISK, not just the reason. Three " +
+                "tracked places justify a no-Jordan conclusion by the premise that the dissipator is " +
+                "SCALAR on the edge blocks. Under a profile it is -2*diag(gamma). That matrix is normal " +
+                "BY ITSELF, and an earlier draft of this note stopped there and told a future session " +
+                "the conclusion survives. It does not follow. What the Edge lemma uses is normality of " +
+                "the PENCIL L(q) = A + q*C, and a scalar A commutes with C while a diagonal one does " +
+                "not, so under a profile the pencil is NOT normal and 'no defective EP can live on an " +
+                "edge block' is no longer forbidden a priori. The witness says as much about its own " +
+                "block two sentences later (diag(gamma) and the Laplacian do not commute, so M is " +
+                "non-normal), which is exactly the same statement. Settle it before fencing, do not " +
+                "assume either way. The sites are docs/proofs/PROOF_CODIM1_BY_ADDITIVITY's Edge lemma " +
+                "and its verbatim duplicate in docs/ANALYTICAL_FORMULAS, and SpectatorIntertwinerClaim " +
+                "(twice); StructuralCeilingClaim is a near-miss, its 'uniform' modifying hamming rather " +
+                "than gamma. NOTE ALSO, because it is the sharper home of the Bendixson reading this " +
+                "witness renders: that same proof's rate-window paragraph already derives " +
+                "Re lambda = v*Av/v*v in [-2*n_max, -2*n_min] per eigenvalue and says outright that the " +
+                "Edge lemma is its ZERO-WIDTH case. The gamma-profile bracket is that window with " +
+                "gamma in place of n_diff. Cite it rather than re-deriving it a third time. " +
                 "SECOND: whole-sector Re = -2*gamma asserted without a uniform-gamma fence, the sharpest " +
                 "being experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC (twice, 'sit at -2*gamma as a whole'), " +
                 "then XXZ_AXIS_BANDEDGE_TO_LEBENSADER ('universal, topology-free'), TopologyBandEdgeClaim " +
@@ -3709,7 +3731,10 @@ public static class OpenArcsRegistry
                 "reflections/ON_THE_ADMIXTURE_AS_LEBENSADER, and the docstrings of " +
                 "simulations/topology_band_edge_review.py and simulations/carbon/handover_q.py. " +
                 "Counter-evidence already in the repo for whoever fences them: LIGHT_DOSE_RESPONSE " +
-                "measures the (0,1) sector at 0.167 on a profile whose 2*gamma_bar is about 0.1. " +
+                "reads the (0,1) block's slowest rate as 0.167 on the IBM Torino profile, where " +
+                "2*gamma_bar = 1.043 (0.1 is 2*gamma_MIN, a factor of ten below the mean, and an " +
+                "earlier draft of this note quoted that as the mean). Inside the Bendixson bracket " +
+                "[0.1, 4.672], nowhere near -2*gamma_bar. " +
                 "The model to copy is simulations/d10_block_closure_verify.py, which is the one place " +
                 "that TESTS the fence rather than asserting it. " +
                 "THIRD, and verify before touching: CarrierVectorPortfolio's convention bridge says " +
