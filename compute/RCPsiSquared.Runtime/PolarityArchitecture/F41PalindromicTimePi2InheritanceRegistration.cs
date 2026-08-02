@@ -24,7 +24,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// domain (period). All three are F1-spectral-consequences with distinct
 /// closed-form readings.</para>
 ///
-/// <para>Tier consistency: F41 is Tier 1 corollary of D10's w=1 dispersion
+/// <para>Tier consistency: F41 is Tier 1 corollary of D10's (0,1) coherence block dispersion
 /// derivation; FFT-confirmed &lt;1% at N=2..4, 6 in
 /// <c>experiments/SPECTRAL_FORM_FACTOR.md</c>. Both parent claims Tier1Derived.</para>
 ///

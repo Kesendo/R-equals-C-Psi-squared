@@ -4,7 +4,7 @@ namespace MirrorWorld;
 // matrix computation. No interpretation, just the formula and its tier.
 public static class Formulas
 {
-    // F2 (T1, D10): w=1 Liouvillian dispersion, Heisenberg chain. omega_k = 4J(1 - cos(pi k/N)), k=1..N-1.
+    // F2 (T1, D10): (0,1) coherence block dispersion, Heisenberg chain. omega_k = 4J(1 - cos(pi k/N)), k=1..N-1.
     public static double[] F2_Dispersion(int n, double j)
     {
         var w = new double[n - 1];
@@ -68,8 +68,9 @@ public static class Formulas
     // F50 (T1 lower bound): weight-1 degeneracy d_real(-2γ) = 2N (chain); 8 for the K_3 triangle (N=3).
     public static int F50_Weight1Degeneracy(int n, bool triangleK3 = false) => triangleK3 && n == 3 ? 8 : 2 * n;
 
-    // F7 (T1): w=1 Q-factor spectrum. Q_max=2J/g(1+cos pi/N), Q_min=2J/g(1-cos pi/N), Q_mean=2J/g,
-    // Q_spread = Q_max/Q_min = cot^2(pi/(2N)).
+    // F7 (T1, corollary of D10): Q-factor spectrum of the (0,1) coherence block (F2's object,
+    // not the whole Pauli w=1 sector). Q_max=2J/g(1+cos pi/N), Q_min=2J/g(1-cos pi/N), Q_mean=2J/g,
+    // Q_spread = Q_max/Q_min = cot^2(pi/(2N)) (~4N^2/pi^2 at large N).
     public static (double Max, double Min, double Mean, double Spread) F7_QSpectrum(int n, double j, double gamma)
     {
         double s = 2.0 * j / gamma, c = Math.Cos(Math.PI / n), cot = 1.0 / Math.Tan(Math.PI / (2.0 * n));
@@ -107,7 +108,7 @@ public static class Formulas
     // dephasing needs exactly 2 immune (I,Z) and 2 decaying (X,Y) per site, fixing d=2. The polarity root.
     public static int[] F34_QubitNecessity() => new[] { 0, 2 };
 
-    // D1 (T1, from F2): w=1 bandwidth = omega_{N-1} - omega_1 = 8J cos(pi/N) -> 8J at large N.
+    // D1 (T1, from F2): (0,1) block bandwidth = omega_{N-1} - omega_1 = 8J cos(pi/N) -> 8J at large N.
     public static double D1_Bandwidth(int n, double j) => 8.0 * j * Math.Cos(Math.PI / n);
 
     // D4 (T1): the crossing condition scales with Hilbert dimension as (d-1)/2. d=2: f*(1+f*^2)=1/2; d=4: =3/2.

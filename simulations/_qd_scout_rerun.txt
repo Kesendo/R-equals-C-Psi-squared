@@ -1,0 +1,183 @@
+QD scout  N=8  (1 system + 7 environment)  dt=0.005  delta=0.1
+Metric: genuine von Neumann I(S:F) on reduced states (no proxies).
+
+====================================================================================================
+SCENARIO A star J=0 (Zurek)   J=0.0  Delta=1.0  gammas=0  S=site 0
+====================================================================================================
+  t= 0.250  I(S:E_j) singletons: j=1:3.69e-01  j=2:3.69e-01  j=3:3.69e-01  j=4:3.69e-01  j=5:3.69e-01  j=6:3.69e-01  j=7:3.69e-01
+    [GATE star-analytic] max|numeric - closed-form| over all E_k = 5.08e-09  OK
+    [sanity t=0.25] trace-1=-1.67e-15  herm=0.00e+00  eig_min=-1.22e-08  OK
+  t= 0.250 [A star J=0 (Zurek)]  S(rho_S)=0.8808  H_pointer=1.000000
+    Ibar(m): m=1:0.3692  m=2:0.6007  m=3:0.7912  m=4:0.9703  m=5:1.1608  m=6:1.3923  m=7:1.7615
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+  t= 0.785  I(S:E_j) singletons: j=1:1.00e+00  j=2:1.00e+00  j=3:1.00e+00  j=4:1.00e+00  j=5:1.00e+00  j=6:1.00e+00  j=7:1.00e+00
+    [GATE star-analytic] max|numeric - closed-form| over all E_k = 2.15e-10  OK
+    [sanity t=0.79] trace-1=-1.67e-15  herm=0.00e+00  eig_min=-3.84e-08  OK
+  t= 0.785 [A star J=0 (Zurek)]  S(rho_S)=1.0000  H_pointer=1.000000
+    Ibar(m): m=1:1.0000  m=2:1.0000  m=3:1.0000  m=4:1.0000  m=5:1.0000  m=6:1.0000  m=7:2.0000
+    m_delta=1  R_delta=7.000   (delta=0.1, threshold=0.90 bit)
+  t= 1.500  I(S:E_j) singletons: j=1:6.87e-02  j=2:6.87e-02  j=3:6.87e-02  j=4:6.87e-02  j=5:6.87e-02  j=6:6.87e-02  j=7:6.87e-02
+    [GATE star-analytic] max|numeric - closed-form| over all E_k = 3.76e-08  OK
+    [sanity t=1.50] trace-1=-1.67e-15  herm=0.00e+00  eig_min=-7.34e-08  OK
+  t= 1.500 [A star J=0 (Zurek)]  S(rho_S)=0.2140  H_pointer=1.000000
+    Ibar(m): m=1:0.0687  m=2:0.1284  m=3:0.1857  m=4:0.2424  m=5:0.2997  m=6:0.3594  m=7:0.4281
+    m_delta=None  R_delta=0.000   (delta=0.1, threshold=0.90 bit)
+  note: J=0 star is periodic (period pi/2 in the record overlap cos 2*Delta*t);
+        perfect records at t = pi/4; recurrence (records erased) at t = pi/2.
+
+====================================================================================================
+SCENARIO B chain J=0 (no-broadcast)   J=0.0  Delta=1.0  gammas=0  S=site 3
+====================================================================================================
+  t= 0.785  I(S:E_j) singletons: j=0:4.44e-16  j=1:2.91e-13  j=2:9.15e-07  j=4:9.15e-07  j=5:2.91e-13  j=6:4.44e-16  j=7:4.44e-16
+    [sanity t=0.79] trace-1=-1.67e-15  herm=0.00e+00  eig_min=-3.84e-08  OK
+  t= 0.785 [B chain J=0 (no-broadcast)]  S(rho_S)=1.0000  H_pointer=1.000000
+    Ibar(m): m=1:0.0000  m=2:0.1905  m=3:0.6571  m=4:1.3429  m=5:1.8095  m=6:2.0000  m=7:2.0000
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+  t= 2.000  I(S:E_j) singletons: j=0:-6.66e-16  j=1:5.02e-02  j=2:3.98e-01  j=4:3.98e-01  j=5:5.02e-02  j=6:2.22e-16  j=7:-8.88e-16
+  t= 5.000  I(S:E_j) singletons: j=0:6.22e-15  j=1:5.19e-02  j=2:4.02e-01  j=4:4.02e-01  j=5:5.19e-02  j=6:1.71e-14  j=7:6.22e-15
+    [sanity t=5.00] trace-1=-1.67e-15  herm=0.00e+00  eig_min=-2.45e-07  OK
+  t= 5.000 [B chain J=0 (no-broadcast)]  S(rho_S)=0.6048  H_pointer=1.000000
+    Ibar(m): m=1:0.1297  m=2:0.2974  m=3:0.4974  m=4:0.7121  m=5:0.9121  m=6:1.0799  m=7:1.2095
+    m_delta=5  R_delta=1.400   (delta=0.1, threshold=0.90 bit)
+  [GATE shared-dresser] max|I| at distance>=3: 1.71e-14 (must be ~0);  min I at distance<=2: 0.0519 (must be >0)  OK
+
+====================================================================================================
+SCENARIO C1 chain J=0.25 (record current, pointer regime)   J=0.25  Delta=1.0  gammas=0  S=site 3
+====================================================================================================
+  t= 0.500  I(S:E_j) singletons: j=0:1.82e-02  j=1:7.19e-02  j=2:3.01e-01  j=4:3.00e-01  j=5:7.08e-02  j=6:8.91e-03  j=7:7.22e-04
+  t= 1.000  I(S:E_j) singletons: j=0:3.93e-02  j=1:3.89e-02  j=2:4.42e-02  j=4:4.30e-02  j=5:4.55e-02  j=6:2.60e-02  j=7:2.21e-02
+    [sanity t=1.00] trace-1=-1.33e-15  herm=0.00e+00  eig_min=-2.17e-08  OK
+  t= 1.000 [C1 chain J=0.25 (record current, pointer regime)]  S(rho_S)=0.9495  H_pointer=1.000000
+    Ibar(m): m=1:0.0370  m=2:0.2427  m=3:0.6675  m=4:1.2314  m=5:1.6562  m=6:1.8619  m=7:1.8989
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+  t= 2.000  I(S:E_j) singletons: j=0:5.56e-02  j=1:8.78e-02  j=2:5.92e-02  j=4:9.50e-02  j=5:5.61e-02  j=6:6.31e-02  j=7:1.10e-02
+    [sanity t=2.00] trace-1=-1.11e-15  herm=0.00e+00  eig_min=-4.33e-08  OK
+  t= 2.000 [C1 chain J=0.25 (record current, pointer regime)]  S(rho_S)=0.5234  H_pointer=1.000000
+    Ibar(m): m=1:0.0611  m=2:0.1727  m=3:0.3738  m=4:0.6729  m=5:0.8740  m=6:0.9857  m=7:1.0468
+    m_delta=6  R_delta=1.167   (delta=0.1, threshold=0.90 bit)
+  t= 4.000  I(S:E_j) singletons: j=0:8.75e-02  j=1:8.43e-02  j=2:1.87e-01  j=4:2.04e-01  j=5:1.60e-01  j=6:6.12e-02  j=7:1.44e-02
+    [sanity t=4.00] trace-1=-1.33e-15  herm=0.00e+00  eig_min=-8.66e-08  OK
+  t= 4.000 [C1 chain J=0.25 (record current, pointer regime)]  S(rho_S)=0.7651  H_pointer=1.000000
+    Ibar(m): m=1:0.1140  m=2:0.2724  m=3:0.5452  m=4:0.9851  m=5:1.2579  m=6:1.4162  m=7:1.5303
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+  t= 8.000  I(S:E_j) singletons: j=0:6.96e-02  j=1:3.92e-02  j=2:1.57e-01  j=4:1.94e-01  j=5:5.08e-02  j=6:3.65e-02  j=7:2.96e-02
+    [sanity t=8.00] trace-1=-1.78e-15  herm=0.00e+00  eig_min=-1.73e-07  OK
+  t= 8.000 [C1 chain J=0.25 (record current, pointer regime)]  S(rho_S)=0.8271  H_pointer=1.000000
+    Ibar(m): m=1:0.0824  m=2:0.2268  m=3:0.5489  m=4:1.1053  m=5:1.4274  m=6:1.5717  m=7:1.6542
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+
+====================================================================================================
+SCENARIO C2 chain J=1.0 Delta=0.25 (hopping-dominant)   J=1.0  Delta=0.25  gammas=0  S=site 3
+====================================================================================================
+  t= 0.500  I(S:E_j) singletons: j=0:6.98e-02  j=1:1.20e-01  j=2:3.87e-01  j=4:3.87e-01  j=5:1.17e-01  j=6:3.54e-02  j=7:1.07e-02
+  t= 1.000  I(S:E_j) singletons: j=0:1.68e-01  j=1:1.51e-01  j=2:4.16e-01  j=4:4.30e-01  j=5:1.45e-01  j=6:8.07e-02  j=7:1.25e-01
+    [sanity t=1.00] trace-1=-1.11e-15  herm=0.00e+00  eig_min=-3.62e-08  OK
+  t= 1.000 [C2 chain J=1.0 Delta=0.25 (hopping-dominant)]  S(rho_S)=0.9248  H_pointer=1.000000
+    Ibar(m): m=1:0.2166  m=2:0.4661  m=3:0.7624  m=4:1.0871  m=5:1.3834  m=6:1.6329  m=7:1.8495
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+  t= 2.000  I(S:E_j) singletons: j=0:8.39e-02  j=1:1.44e-01  j=2:4.28e-01  j=4:3.74e-01  j=5:1.38e-01  j=6:4.43e-02  j=7:5.71e-02
+    [sanity t=2.00] trace-1=-1.11e-15  herm=0.00e+00  eig_min=-7.24e-08  OK
+  t= 2.000 [C2 chain J=1.0 Delta=0.25 (hopping-dominant)]  S(rho_S)=0.9997  H_pointer=1.000000
+    Ibar(m): m=1:0.1815  m=2:0.4272  m=3:0.7602  m=4:1.2392  m=5:1.5722  m=6:1.8179  m=7:1.9994
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+  t= 4.000  I(S:E_j) singletons: j=0:6.89e-02  j=1:1.65e-01  j=2:5.17e-01  j=4:4.34e-01  j=5:2.15e-01  j=6:1.02e-01  j=7:3.58e-02
+    [sanity t=4.00] trace-1=-1.11e-15  herm=0.00e+00  eig_min=-1.45e-07  OK
+  t= 4.000 [C2 chain J=1.0 Delta=0.25 (hopping-dominant)]  S(rho_S)=1.0000  H_pointer=1.000000
+    Ibar(m): m=1:0.2196  m=2:0.4820  m=3:0.8032  m=4:1.1968  m=5:1.5180  m=6:1.7804  m=7:2.0000
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+
+====================================================================================================
+SCENARIO D1 chain J=0.25, gamma on S only (S watched from outside)   J=0.25  Delta=1.0  gammas=0.0  S=site 3
+====================================================================================================
+  t= 0.500  I(S:E_j) singletons: j=0:1.69e-02  j=1:6.66e-02  j=2:2.85e-01  j=4:2.85e-01  j=5:6.56e-02  j=6:8.26e-03  j=7:6.61e-04
+  t= 1.000  I(S:E_j) singletons: j=0:3.80e-02  j=1:3.88e-02  j=2:4.11e-02  j=4:4.02e-02  j=5:4.48e-02  j=6:2.44e-02  j=7:2.05e-02
+    [sanity t=1.00] trace-1=-1.11e-15  herm=0.00e+00  eig_min=-1.33e-08  OK
+  t= 1.000 [D1 chain J=0.25, gamma on S only (S watched from outside)]  S(rho_S)=0.9554  H_pointer=1.000000
+    Ibar(m): m=1:0.0354  m=2:0.2264  m=3:0.6077  m=4:1.0924  m=5:1.4587  m=6:1.6398  m=7:1.6820
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+  t= 2.000  I(S:E_j) singletons: j=0:4.95e-02  j=1:6.55e-02  j=2:4.96e-02  j=4:7.76e-02  j=5:4.10e-02  j=6:4.80e-02  j=7:7.18e-03
+  t= 4.000  I(S:E_j) singletons: j=0:5.68e-02  j=1:5.63e-02  j=2:1.32e-01  j=4:1.44e-01  j=5:9.95e-02  j=6:3.25e-02  j=7:9.64e-03
+    [sanity t=4.00] trace-1=-1.33e-15  herm=0.00e+00  eig_min=-2.00e-08  OK
+  t= 4.000 [D1 chain J=0.25, gamma on S only (S watched from outside)]  S(rho_S)=0.8415  H_pointer=1.000000
+    Ibar(m): m=1:0.0758  m=2:0.1817  m=3:0.3592  m=4:0.6643  m=5:0.9602  m=6:1.1607  m=7:1.2914
+    m_delta=5  R_delta=1.400   (delta=0.1, threshold=0.90 bit)
+  t= 8.000  I(S:E_j) singletons: j=0:4.28e-02  j=1:2.31e-02  j=2:9.25e-02  j=4:9.16e-02  j=5:2.19e-02  j=6:1.47e-02  j=7:1.55e-02
+    [sanity t=8.00] trace-1=-1.11e-15  herm=0.00e+00  eig_min=-1.39e-09  OK
+  t= 8.000 [D1 chain J=0.25, gamma on S only (S watched from outside)]  S(rho_S)=0.9269  H_pointer=1.000000
+    Ibar(m): m=1:0.0432  m=2:0.1207  m=3:0.2806  m=4:0.5890  m=5:0.9611  m=6:1.2029  m=7:1.3304
+    m_delta=5  R_delta=1.400   (delta=0.1, threshold=0.90 bit)
+
+====================================================================================================
+SCENARIO D2 chain J=0.25, gamma on E only (records watched away = GC)   J=0.25  Delta=1.0  gammas=0.05  S=site 3
+====================================================================================================
+  t= 0.500  I(S:E_j) singletons: j=0:1.52e-02  j=1:6.43e-02  j=2:2.82e-01  j=4:2.82e-01  j=5:6.34e-02  j=6:7.59e-03  j=7:5.74e-04
+  t= 1.000  I(S:E_j) singletons: j=0:2.80e-02  j=1:3.24e-02  j=2:3.86e-02  j=4:3.77e-02  j=5:3.85e-02  j=6:1.99e-02  j=7:1.50e-02
+    [sanity t=1.00] trace-1=-1.55e-15  herm=0.00e+00  eig_min=+1.12e-08  OK
+  t= 1.000 [D2 chain J=0.25, gamma on E only (records watched away = GC)]  S(rho_S)=0.9525  H_pointer=1.000000
+    Ibar(m): m=1:0.0300  m=2:0.1849  m=3:0.4892  m=4:0.8914  m=5:1.2753  m=6:1.5615  m=7:1.7307
+    m_delta=5  R_delta=1.400   (delta=0.1, threshold=0.90 bit)
+  t= 2.000  I(S:E_j) singletons: j=0:3.18e-02  j=1:5.28e-02  j=2:4.84e-02  j=4:6.08e-02  j=5:3.92e-02  j=6:3.04e-02  j=7:3.71e-03
+  t= 4.000  I(S:E_j) singletons: j=0:3.09e-02  j=1:3.65e-02  j=2:6.69e-02  j=4:5.86e-02  j=5:4.23e-02  j=6:1.35e-02  j=7:1.71e-03
+    [sanity t=4.00] trace-1=-1.55e-15  herm=0.00e+00  eig_min=+1.36e-05  OK
+  t= 4.000 [D2 chain J=0.25, gamma on E only (records watched away = GC)]  S(rho_S)=0.8514  H_pointer=1.000000
+    Ibar(m): m=1:0.0358  m=2:0.0849  m=3:0.1568  m=4:0.2721  m=5:0.4416  m=6:0.6603  m=7:0.9080
+    m_delta=7  R_delta=1.000   (delta=0.1, threshold=0.90 bit)
+  t= 8.000  I(S:E_j) singletons: j=0:1.02e-02  j=1:4.95e-03  j=2:3.20e-02  j=4:3.63e-02  j=5:4.57e-03  j=6:2.86e-03  j=7:8.41e-04
+    [sanity t=8.00] trace-1=-1.44e-15  herm=0.00e+00  eig_min=+7.99e-05  OK
+  t= 8.000 [D2 chain J=0.25, gamma on E only (records watched away = GC)]  S(rho_S)=0.9329  H_pointer=1.000000
+    Ibar(m): m=1:0.0131  m=2:0.0354  m=3:0.0709  m=4:0.1273  m=5:0.2160  m=6:0.3466  m=7:0.5249
+    m_delta=None  R_delta=0.000   (delta=0.1, threshold=0.90 bit)
+
+====================================================================================================
+SCENARIO D3 chain J=0.25, uniform gamma=0.05 (the canonical world)   J=0.25  Delta=1.0  gammas=0.05  S=site 3
+====================================================================================================
+  t= 1.000  I(S:E_j) singletons: j=0:2.70e-02  j=1:3.23e-02  j=2:3.57e-02  j=4:3.50e-02  j=5:3.78e-02  j=6:1.86e-02  j=7:1.40e-02
+    [sanity t=1.00] trace-1=-1.33e-15  herm=0.00e+00  eig_min=+3.58e-08  OK
+  t= 1.000 [D3 chain J=0.25, uniform gamma=0.05 (the canonical world)]  S(rho_S)=0.9582  H_pointer=1.000000
+    Ibar(m): m=1:0.0286  m=2:0.1716  m=3:0.4453  m=4:0.7982  m=5:1.1273  m=6:1.3678  m=7:1.5086
+    m_delta=5  R_delta=1.400   (delta=0.1, threshold=0.90 bit)
+  t= 4.000  I(S:E_j) singletons: j=0:2.19e-02  j=1:2.68e-02  j=2:5.07e-02  j=4:4.57e-02  j=5:2.88e-02  j=6:8.54e-03  j=7:1.13e-03
+    [sanity t=4.00] trace-1=-1.11e-15  herm=0.00e+00  eig_min=+8.06e-05  OK
+  t= 4.000 [D3 chain J=0.25, uniform gamma=0.05 (the canonical world)]  S(rho_S)=0.9041  H_pointer=1.000000
+    Ibar(m): m=1:0.0262  m=2:0.0614  m=3:0.1117  m=4:0.1914  m=5:0.3110  m=6:0.4708  m=7:0.6602
+    m_delta=None  R_delta=0.000   (delta=0.1, threshold=0.90 bit)
+  t= 8.000  I(S:E_j) singletons: j=0:8.13e-03  j=1:3.53e-03  j=2:2.56e-02  j=4:2.46e-02  j=5:3.21e-03  j=6:2.33e-03  j=7:9.16e-04
+    [sanity t=8.00] trace-1=-1.33e-15  herm=0.00e+00  eig_min=+5.62e-04  OK
+  t= 8.000 [D3 chain J=0.25, uniform gamma=0.05 (the canonical world)]  S(rho_S)=0.9734  H_pointer=1.000000
+    Ibar(m): m=1:0.0098  m=2:0.0240  m=3:0.0448  m=4:0.0765  m=5:0.1256  m=6:0.1993  m=7:0.3044
+    m_delta=None  R_delta=0.000   (delta=0.1, threshold=0.90 bit)
+
+====================================================================================================
+SCENARIO E1 tree J=0 (record horizon in tree geometry)   J=0.0  Delta=1.0  gammas=0  S=site 0
+====================================================================================================
+  t= 0.785  I(S:E_j) singletons: j=1:4.57e-07  j=2:4.57e-07  j=3:2.91e-13  j=4:4.57e-07  j=5:4.57e-07  j=6:4.57e-07  j=7:4.44e-16
+  t= 2.000  I(S:E_j) singletons: j=1:2.78e-01  j=2:2.78e-01  j=3:5.02e-02  j=4:1.37e-01  j=5:1.37e-01  j=6:1.37e-01  j=7:-2.22e-16
+  t= 5.000  I(S:E_j) singletons: j=1:3.27e-01  j=2:3.27e-01  j=3:5.19e-02  j=4:9.29e-02  j=5:9.29e-02  j=6:9.29e-02  j=7:6.22e-15
+    [sanity t=5.00] trace-1=-1.67e-15  herm=0.00e+00  eig_min=-2.45e-07  OK
+  t= 5.000 [E1 tree J=0 (record horizon in tree geometry)]  S(rho_S)=0.6048  H_pointer=1.000000
+    Ibar(m): m=1:0.1407  m=2:0.3147  m=3:0.5071  m=4:0.7024  m=5:0.8949  m=6:1.0688  m=7:1.2095
+    m_delta=6  R_delta=1.167   (delta=0.1, threshold=0.90 bit)
+  [GATE shared-dresser tree] |I(S:E_7)|=6.22e-15 (must be ~0);  min I over sites 1-6: 0.0519 (must be >0)  OK
+
+====================================================================================================
+SCENARIO E2 tree J=0.25 (record current on the tree)   J=0.25  Delta=1.0  gammas=0  S=site 0
+====================================================================================================
+  t= 0.500  I(S:E_j) singletons: j=1:2.15e-01  j=2:2.14e-01  j=3:6.56e-02  j=4:1.50e-01  j=5:1.49e-01  j=6:1.49e-01  j=7:1.61e-02
+  t= 1.000  I(S:E_j) singletons: j=1:1.02e-01  j=2:1.13e-01  j=3:7.57e-04  j=4:1.02e-01  j=5:1.19e-01  j=6:1.19e-01  j=7:1.28e-02
+    [sanity t=1.00] trace-1=-1.44e-15  herm=0.00e+00  eig_min=-2.45e-08  OK
+  t= 1.000 [E2 tree J=0.25 (record current on the tree)]  S(rho_S)=0.9544  H_pointer=1.000000
+    Ibar(m): m=1:0.0813  m=2:0.3522  m=3:0.7389  m=4:1.1698  m=5:1.5565  m=6:1.8274  m=7:1.9087
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+  t= 2.000  I(S:E_j) singletons: j=1:1.55e-01  j=2:3.72e-01  j=3:6.03e-02  j=4:7.43e-02  j=5:5.75e-02  j=6:5.75e-02  j=7:5.93e-02
+  t= 4.000  I(S:E_j) singletons: j=1:1.22e-01  j=2:1.34e-01  j=3:2.09e-02  j=4:1.77e-01  j=5:1.88e-01  j=6:1.88e-01  j=7:8.65e-02
+    [sanity t=4.00] trace-1=-1.55e-15  herm=0.00e+00  eig_min=-9.81e-08  OK
+  t= 4.000 [E2 tree J=0.25 (record current on the tree)]  S(rho_S)=0.9794  H_pointer=1.000000
+    Ibar(m): m=1:0.1309  m=2:0.3450  m=3:0.7202  m=4:1.2385  m=5:1.6137  m=6:1.8279  m=7:1.9588
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+  t= 8.000  I(S:E_j) singletons: j=1:2.47e-01  j=2:6.20e-02  j=3:2.35e-02  j=4:1.21e-01  j=5:5.12e-02  j=6:5.12e-02  j=7:1.42e-01
+    [sanity t=8.00] trace-1=-1.78e-15  herm=0.00e+00  eig_min=-1.96e-07  OK
+  t= 8.000 [E2 tree J=0.25 (record current on the tree)]  S(rho_S)=0.9946  H_pointer=1.000000
+    Ibar(m): m=1:0.0997  m=2:0.2901  m=3:0.6777  m=4:1.3116  m=5:1.6992  m=6:1.8896  m=7:1.9893
+    m_delta=4  R_delta=1.750   (delta=0.1, threshold=0.90 bit)
+
+total wall time: 147.7 s

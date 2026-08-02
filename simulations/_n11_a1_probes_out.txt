@@ -1,0 +1,34 @@
+[E] A1: deg 586
+  p=33554393: partition head [1, 4, 9, 68, 188, 316]... -> possible degs [0, 1, 4, 5, 9, 10, 13, 14]...
+  p=33554383: partition head [1, 5, 117, 158, 305]... -> possible degs [0, 1, 5, 581, 585, 586]
+  p=33554371: partition head [1, 1, 1, 1, 2, 2, 3, 7]... -> possible degs [0, 1, 5, 581, 585, 586]
+  p=33554347: partition head [5, 7, 24, 550]... -> possible degs [0, 5, 581, 586]
+  p=33554341: partition head [1, 2, 4, 9, 12, 41, 182, 335]... -> possible degs [0, 5, 581, 586]
+  p=33554317: partition head [1, 8, 29, 46, 55, 447]... -> possible degs [0, 586]
+[E] A1 (deg 586): IRREDUCIBLE over Q (6 good primes)
+[E] alternating-sign pattern: True; content 1
+[E] lc  = {2: 225, 3: 316, 5: 16, 7: 6, 11: 2, 13: 20, 37: 4, 199: 2, 21102244601021: 2}
+[E] A1(0) = {2: 2241, 3: 192, 5: 39}
+[E] Newton polygon p=2: v(const)=2241, v(lc)=225, 17 segments [(160, '-8'), (40, '-7'), (2, '-6'), (33, '-5'), (16, '-17/4'), (32, '-4')]
+[E] Newton polygon p=3: v(const)=192, v(lc)=316, 10 segments [(63, '-2'), (44, '-3/2'), (339, '0'), (8, '5/8'), (48, '3/2'), (36, '2')]
+
+[O] A1: deg 581
+  p=33554393: partition head [2, 6, 7, 9, 193, 364]... -> possible degs [0, 2, 6, 7, 8, 9, 11, 13]...
+  p=33554383: partition head [1, 2, 2, 3, 8, 10, 16, 123]... -> possible degs [0, 2, 6, 7, 8, 9, 11, 13]...
+  p=33554371: partition head [1, 1, 1, 5, 7, 15, 17, 32]... -> possible degs [0, 2, 6, 7, 8, 9, 13, 15]...
+  p=33554347: partition head [1, 2, 578]... -> possible degs [0, 2, 579, 581]
+  p=33554341: partition head [2, 5, 7, 9, 30, 30, 153, 345]... -> possible degs [0, 2, 579, 581]
+  p=33554317: partition head [1, 2, 578]... -> possible degs [0, 2, 579, 581]
+  p=33554291: partition head [1, 1, 8, 9, 15, 70, 477]... -> possible degs [0, 2, 579, 581]
+  p=33554273: partition head [2, 2, 5, 21, 45, 506]... -> possible degs [0, 2, 579, 581]
+  p=33554267: partition head [2, 3, 4, 38, 154, 380]... -> possible degs [0, 2, 579, 581]
+  p=33554249: partition head [1, 2, 59, 233, 286]... -> possible degs [0, 2, 579, 581]
+  p=33554239: partition head [24, 30, 44, 230, 253]... -> possible degs [0, 581]
+[O] A1 (deg 581): IRREDUCIBLE over Q (11 good primes)
+[O] alternating-sign pattern: True; content 1
+[O] lc  = {2: 236, 3: 386, 7: 4, 13: 2, 97: 4, 109: 2, 10588150423224676087: 2}
+[O] A1(0) = {2: 2245, 3: 213, 5: 37}
+[O] Newton polygon p=2: v(const)=2245, v(lc)=236, 17 segments [(160, '-8'), (40, '-7'), (2, '-6'), (32, '-5'), (16, '-17/4'), (32, '-4')]
+[O] Newton polygon p=3: v(const)=213, v(lc)=386, 14 segments [(72, '-2'), (46, '-3/2'), (207, '0'), (60, '1/5'), (24, '1/4'), (3, '2/3')]
+
+# Source: _n11_a1_probes.py on _n11_discharge_cache/{E,O}/layers.pkl, run 2026-07-19.

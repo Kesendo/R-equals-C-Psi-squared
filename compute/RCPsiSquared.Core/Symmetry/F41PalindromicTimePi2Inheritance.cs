@@ -46,7 +46,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// wouldn't pair as λ ↔ −λ − 2σ, and there would be no palindromic modulation
 /// in the SFF. F41 reads F1 in the time domain.</para>
 ///
-/// <para>Tier1Derived: F41 is Tier 1 corollary of D10's w=1 dispersion derivation;
+/// <para>Tier1Derived: F41 is Tier 1 corollary of D10's (0,1) coherence block dispersion derivation;
 /// confirmed by FFT peak matching &lt;1% for N=2..4, 6 in
 /// <c>experiments/SPECTRAL_FORM_FACTOR.md</c>. Pi2-Foundation anchoring is
 /// algebraic-trivial composition through the 2·J coefficient.</para>
@@ -81,12 +81,12 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>Slowest palindromic SFF modulation frequency:
     /// <c>ω_min = 4·J · (1 − cos(π/N)) = 8·J · sin²(π/(2N))</c>, the k=1 mode of
-    /// the D10 w1 dispersion. Equals a_0²·J·(1 − cos(π/N)).</summary>
+    /// the D10 (0,1) coherence block dispersion. Equals a_0²·J·(1 − cos(π/N)).</summary>
     public double MinFrequency(int N, double J)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F41 requires N ≥ 2.");
         if (J <= 0) throw new ArgumentOutOfRangeException(nameof(J), J, "J must be > 0.");
-        // omega_min is the k=1 mode of the D10 w1 dispersion omega_k = 4J(1 - cos(pi k / N)),
+        // omega_min is the k=1 mode of the D10 (0,1) block dispersion omega_k = 4J(1 - cos(pi k / N)),
         // and 1 - cos(pi/N) = 2 sin^2(pi/(2N)), so omega_min = 8 J sin^2(pi/(2N)).
         return HoppingCoefficient * HoppingCoefficient * J * (1.0 - Math.Cos(Math.PI / N));
     }

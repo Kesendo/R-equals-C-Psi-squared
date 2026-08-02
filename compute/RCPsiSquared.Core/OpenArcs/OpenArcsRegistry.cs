@@ -3610,8 +3610,11 @@ public static class OpenArcsRegistry
                 "coherence-horizon entry, CoherenceHorizonClaim and PROOF_CHAIN_GAP_DOMINANCE, which says " +
                 "outright that the band edge and the {0,2} EP share Re = -2*gamma 'only because the Absorption " +
                 "Theorem pins both'. WHEN THE MIXED HALF IS THERE AT ALL, measured 2026-08-02 by the " +
-                "interpretive round (Pauli convention H = J*sum(XX+YY+ZZ); halve every frequency for the " +
-                "J/2 convention): the mixed modes appear only while the {0,2} two-level block CLOSES, which " +
+                "interpretive round (Pauli convention H = J*sum(XX+YY+ZZ); to reach the J/2 convention halve " +
+                "J and recompute, do NOT halve the frequency, because gamma does not scale with J: " +
+                "sqrt((2*sqrt2*J)^2-(2g)^2)/2 = 1.413329 but the J/2-convention value is 1.410674, which is " +
+                "the value PROOF_CHAIN_GAP_DOMINANCE section 4 carries to five places as 1.41067): the mixed modes appear only " +
+                "while the {0,2} two-level block CLOSES, which " +
                 "needs the (1,1) sector's coherences to be n_diff = 2 throughout. Heisenberg has them at N=2 " +
                 "only, 2 modes at |Im| = 3.998750 = sqrt((4J)^2 - (2*gamma)^2); XY has them at N=2 AND N=3, " +
                 "the N=3 pair being 4 modes at 2.826659 = sqrt((2*sqrt(2)*J)^2 - (2*gamma)^2); neither model " +
@@ -3621,7 +3624,9 @@ public static class OpenArcsRegistry
                 "case 'one more entry in the chain's list of N = 3 accidents' and parks it in the " +
                 "n3_special_cases arc. It is not an accident and not N=3's. It is a low-N structural " +
                 "condition whose threshold moves with the model, and the Heisenberg N=2 sighting is what " +
-                "shows the threshold moving. Twenty lines of numpy; the strengthening costs no compute. " +
+                "shows the threshold moving. The numbers are now measured and reproduced independently, but the " +
+                "write-up was reverted; see THE SECTION-4 REPAIR WAS BUILT, REVIEWED AND REVERTED below " +
+                "for the four reasons and for the mechanism to use instead. " +
                 "The same pair is also the coherence horizon's coalescer at Q*(2) = 1 (CoherenceHorizonClaim), " +
                 "so it is one object with four faces and 'exception' was the wrong word on all four. " +
                 "THE CONTRADICTION WORTH FIXING FIRST, and partly fixed in this commit: " +
@@ -3644,11 +3649,145 @@ public static class OpenArcsRegistry
                 "and two of them assert more than a name. THERMAL_BREAKING.md builds the whole V(N) chain on " +
                 "'ALL w=1 modes decay at 2*gamma' with a table headed omega_max(w=1). Also: experiments/README, " +
                 "SPECTRAL_FORM_FACTOR, D07_Q_DISTRIBUTION, RANDOM_MATRIX_THEORY, OPTICAL_CAVITY_ANALYSIS, " +
-                "review/OPEN_QUESTIONS_INDEX:1736, the two Runtime registration files, MirrorWorld/Formulas.cs " +
-                "(its F7 is now out of step with the repaired registry F7), and the scripts " +
+                "review/OPEN_QUESTIONS_INDEX:1736, and the scripts " +
                 "topological_edge_modes.py, verify_derivations.py, sacrifice_zone_optics.py, " +
                 "eq021_obc_sine_basis.py. A half-done rename reads as disagreement rather than as work in " +
-                "progress, so finish it in one pass rather than opportunistically. Also still open: " +
+                "progress, so finish it in one pass rather than opportunistically. THE C# HALF IS DONE " +
+                "(2026-08-02): both Runtime registration files, MirrorWorld/Formulas.cs (F2, F7, D1), " +
+                "W1Dispersion's own claim Name + DisplayName, F2W1's DisplayName + XML doc + InspectableNode, " +
+                "and F41's tier-justification comments plus its MinFrequency doc; green under " +
+                "--filter 'FullyQualifiedName~W1Dispersion|~F41Palindromic|~F2W1|~F2bXy' (104 Core), the " +
+                "same filter on Runtime (20), and the full MirrorWorld.Tests suite (321). Two of those " +
+                "were more than a name. (i) W1DispersionRegistration promised the dispersion 'holds for any " +
+                "Heisenberg/XXZ chain' while the repaired parent requires Delta = 1. Measured at N=5 before " +
+                "repairing: the block stays exactly closed at EVERY Delta (leak 0.0) and its Re stays -2*gamma, " +
+                "so the decay rate is Delta-blind, but omega_k = 4J(1-cos(pi k/N)) holds ONLY at Delta = 1 " +
+                "(Delta = 0.5, 0, 2 all fail; but Delta = -1 REPRODUCES it exactly, because the generator is " +
+                "2J(Delta*D - A) and at Delta = -1 that is the signless Laplacian D+A, cospectral with " +
+                "D-A on a bipartite graph, so the fence is |Delta| = 1 and not Delta = 1). Closure, rate " +
+                "and dispersion are three different scopes and the sentence had merged them. (ii) A REGRESSION INTRODUCED BY 30101e8 WHILE REPAIRING THE ORIGINAL, itself now repaired in docs/ANALYTICAL_FORMULAS F2, in F2W1DispersionPi2Inheritance's XML doc AND in its live InspectableNode (the first attempt reached only the markdown and the DisplayName, which left the typed claim contradicting the registry it cites): F2's " +
+                "validation (2) was rewritten to 'a statistic of the compression onto a non-invariant span'. " +
+                "No RMT script compresses. rmt_analysis.py:287 masks |Re - 2*w*gamma| < 0.3*gamma (tol at :280) over the FULL " +
+                "Liouvillian spectrum and spectral_form_factor.py:384 does the same with band_width = gamma (:383), so " +
+                "both bin genuine eigenvalues by decay RATE. Naming that a compression was a new error of the " +
+                "same shape as the one being repaired, invented while repairing it. The bin is the Absorption " +
+                "Theorem's average-light-content bin: under rmt_analysis's own 0.3*gamma window it holds " +
+                "26 = 6N-4 eigenvalues at N=5, and the only nonzero frequencies among them are this " +
+                "block's four omega_k AT N=3,4,5,6 BUT NOT AT N=2, where it also holds 3.9987498 = " +
+                "sqrt((4J)^2-(2g)^2), which is the Heisenberg N=2 {0,2} extra. Do NOT quote 28: that is " +
+                "the SFF's wider band_width = gamma, which at N=4 also drags in 2.82835 and 3.99969, so " +
+                "the count and the clean-frequency property belong to different windows. Pick ONE word " +
+                "for it before the doc pass runs (VEFFECT_CAVITY_MODES already says 'shell', defined as " +
+                "round(-Re/2gamma)). AND THE OUTCOME WAS A DELETION, NOT A THIRD WORDING. F2 claimed " +
+                "THREE validations and (2) was 'Poisson spacing in the w=1 sector'. 30101e8 reworded it " +
+                "to 'a compression'; that was wrong. The next attempt named the decay-rate bin; that was " +
+                "wrong too, in two ways a reviewer caught: rmt_analysis.py:295 requires >= 5 unique " +
+                "frequencies before it computes any spacing ratio, and the 2*gamma bin has 2/2/3/4 unique " +
+                "frequencies at N=2..5, so results/rmt_analysis.txt:131-149 prints 'too few for NNSD' and " +
+                "NO Poisson verdict is EVER produced in that bin at any N; and the clean-frequency claim " +
+                "fails at N=2 as above. So validation (2) never existed, under any of its three names. It " +
+                "is now DELETED from docs/ANALYTICAL_FORMULAS F2 and from F2W1DispersionPi2Inheritance's " +
+                "XML doc and InspectableNode; F2 reads TWO validations. The lesson is rule 27 the hard " +
+                "way: for a prose error, deleting is safer than rewording, because every reformulation is " +
+                "a NEW assertion that has to be true, and two in a row were not. " +
+                "THE SECTION-4 REPAIR WAS BUILT, REVIEWED AND REVERTED, and the measurements are the " +
+                "part worth keeping. What was written: PROOF_CHAIN_GAP_DOMINANCE section 4 reframed from " +
+                "'N=3 accident' to a threshold, plus an N>=3 fence on the Statement. Both numbers survived " +
+                "an independent from-scratch Pauli-basis rebuild (extras 2/4/2/0/0 for XY N=2, XY N=3, " +
+                "Heisenberg N=2, N=4, N=5; histograms exactly {0:1/2, 2:1/2}; N=2 at 2*sqrt(J^2-g^2), N=3 " +
+                "at sqrt(E1^2-(2g)^2)). FOUR THINGS KILLED THE TEXT, none of them the numbers. (a) THE " +
+                "N=2 SENTENCE IS gamma-SCOPED and was written unscoped: the pulled pair beats the " +
+                "free-fermion line at Im = E1 = J only while 2*sqrt(J^2-g^2) > J, i.e. Q > 2/sqrt3 ~ " +
+                "1.1547; at gamma >= (sqrt3/2)J the N=2 maximum IS E1 and the ORIGINAL unfenced statement " +
+                "is true there. The repo already knew this (the REGIME-HONESTY ROUND of 2026-06-12 in the " +
+                "clock_hand_ladder arc, ClockHandLadderWitness and ANALYTICAL_FORMULAS F2b corollary all " +
+                "carry the Q=2/sqrt3 crossover); the repair borrowed the closed form and left the caveat. " +
+                "(b) THE MECHANISM DOES NOT FOLLOW. The stated condition, that the equal-particle-number " +
+                "coherences be n_XY = 2 throughout, is 2*min(n,N-n) <= 2, pure bit-string combinatorics " +
+                "with no Hamiltonian in it, so it holds iff N <= 3 and CANNOT move with the model, which " +
+                "was the whole point of the retitling. The real mechanism is one line and is the thing to " +
+                "write next time: in the (1,1) sector the ZZ diagonal energies are (0,-J,0) at N=3, " +
+                "non-degenerate, so ZZ breaks the block, and (-J/2,-J/2) at N=2, CONSTANT on the sector, " +
+                "so ZZ does nothing at all, which is exactly why Heisenberg N=2 reproduces the XY value " +
+                "to the last digit. (c) IT IS NOT ONLY A CONDITION ON N: it needs uniform bonds too. " +
+                "Detuning one bond by 1e-4 at N=3 moves the modes off the floor, and the verifier's " +
+                "TOL = 1e-8 still admitted them, so two of its four gates PASSED on input where the thing " +
+                "they test is false. The ring sibling PROOF_RING_GAP_DOMINANCE already records this " +
+                "fine-tuning for its own case; the chain repair was weaker than the proof it cites. " +
+                "(d) SEVEN OTHER PLACES ASSERT THE UNFENCED FORM and would have been left contradicting " +
+                "it: ANALYTICAL_FORMULAS:181 ('max|Im| = E1 for all N', in the file the same change set " +
+                "edited), PROOF_RING_GAP_DOMINANCE:6/20/26/65/71/89/93 (which also calls the 4-cycle the " +
+                "UNIQUE counterexample, and chain N=2 would be a second), ClockHandLadderClaim:22-24, " +
+                "TopologyBandEdgeClaim:31/97, the n3_special_cases arc, and the changed document's own " +
+                "abstract:23 and :17. A Tier-1 fence has to land in all of them at once or not at all. " +
+                "ALSO SURFACED, unresolved and NOT this arc's: CoherenceHorizonClaim:31-36 says the " +
+                "{0,2} mode shares Re = -2gamma at ALL N=2..5; two independent censuses find ZERO such " +
+                "modes at N=4 or N=5 at any gamma in [0.01, 3] in either model. The verifier is parked " +
+                "local as simulations/_mixed02_block_threshold.py; harden the two weak gates (tighten " +
+                "TOL, sweep gamma and bond profiles, drop the G4 check that is G3's algebra restated) " +
+                "before it is promoted and cited. " +
+                "GATES THAT CANNOT FAIL, found 2026-08-02 by the triage that was only meant to rename " +
+                "these scripts: three in the scripts below plus a fourth in optical_cavity_analysis " +
+                "(recorded in the doc half further down), all verified from below, NONE fixed. This is the biggest thing the arc " +
+                "carries now and it is not a naming item. (1) sacrifice_zone_optics.py:276 calls " +
+                "distinct_frequencies(w1_u.imag), but that function takes .imag itself, so it receives an " +
+                "already-real array whose .imag is all zeros. uniform_freqs comes back empty, the match loop " +
+                "never runs, and the whole 'if matched_s:' body is skipped; the tracked output " +
+                "results/sacrifice_zone_optics.txt prints 'Uniform frequencies: []' at :84 (N=4) and :88 (N=5). The " +
+                "verdict at :312-314 is then logged unconditionally. AND THE VERDICT IS FALSE, measured here " +
+                "on the (0,1) block at equal total budget sum(gamma)=N*0.05: at N=5 uniform |Im| = [0, 0.76393, " +
+                "2.76393, 5.23607, 7.23607] against concentrator [0.02859, 0.75611, 2.75189, 5.22926, 7.23415], " +
+                "the zero mode ACQUIRES a frequency and every other one shifts, while Re spreads from a flat " +
+                "-0.1 to [-0.18561 .. -0.02053]. Same picture at N=3 and N=4. So the concentrator moves BOTH " +
+                "parts, which is the same non-commutation of diag(gamma) with the Laplacian that F2's own " +
+                "gamma-profile fence already states. experiments/CONCENTRATOR_OPTICS.md Result 3 'Frequencies " +
+                "preserved, absorption rates shifted' and the abstract's 'frequency preservation' as one of " +
+                "three supports for 'structurally yes' therefore rest on a dead code path AND assert something " +
+                "false; repairing the script alone would leave the document standing. (2) verify_derivations.py: " +
+                "the selection window |rate - 2*gamma| < 0.3*gamma admits a neighbour at N=2, and because " +
+                "len(w1_freqs) != len(analytical) the comparison at :122 is SKIPPED rather than failed, so " +
+                "freq_err keeps its initial 0.0 and the run prints 'max freq error: 0.00e+00' and reports D1 " +
+                "VERIFIED. The tracked output states the mismatch ('N=2: 2 w=1 frequencies (expected 1)') on " +
+                "the same page as the clean verdict. A length mismatch must fail, not skip. (3) " +
+                "topological_edge_modes.py:178 evaluates the DIRICHLET family sin(pi k j/(N+1)), which is F2b's " +
+                "object, where the (0,1) block wants NEUMANN cos(pi k (j-1/2)/N) (D10 Step 5); the printed N=5 " +
+                "profile [1.25,1.25,0,1.25,1.25] is edge-heavy with a central node and contradicts the script's " +
+                "own line 172 ('peaks at center'), and :218 logs 'The profiles match.' as a constant string with " +
+                "nothing compared. experiments/TOPOLOGICAL_EDGE_MODES.md already carries the correction; the " +
+                "script lags its own document. ORDER: fix the gate, re-run, then decide what the document says, " +
+                "in that order, because (1)'s document currently states the opposite of the measurement. " +
+                "THE DOC HALF, triaged 2026-08-02 and NOT applied: five agents read the named files and the " +
+                "sweep found the arc's own list short by nine doc sites plus four C# ones, so do not treat any " +
+                "list here as complete. Six places assert more than a name and each needs a decision, not a " +
+                "rename. THERMAL_BREAKING:97-100 needs the premise swapped (its omega_max(w=1) table head sits at :126; its 'ALL w=1 modes decay at 2gamma' " +
+                "is false, but the weaker 'the mode carrying omega_max decays at 2gamma' is PROVEN on the block, " +
+                "so V(N) survives), while its :110-115 claim that the 1.81x ratio still applies to the extremal " +
+                "mode under a profile does NOT survive (the doc RESTRICTS the ratio to the extremal mode there; the restriction is what fails, because the frequencies move too), and its :480 open question was answered by D10 in April " +
+                "while the genuinely open step (that no other block outruns this one in Q) was never stated. " +
+                "RANDOM_MATRIX_THEORY:44+152-162 offers the sector decomposition as the MECHANISM for its " +
+                "Poisson verdict; the measurement is untouched but the explanation must become the joint-" +
+                "popcount grading, and :219-221's 'the decay rate assigns the weight exactly' is the average-" +
+                "light-content error again. OPTICAL_CAVITY_ANALYSIS:121-122 accumulates the Gouy phase along " +
+                "the BLOCK's mode index (m=1..N-1) while every other result runs on the rate axis (k=0..N), two " +
+                "coordinates of different length under one name; and its Result 2 gate computes " +
+                "off_by_other = total - off_by_2 - diagonal, so Delta w = 0 can never register as an exception " +
+                "although the run's own output shows it is the LARGER channel (110 against 56 at N=4, in " +
+                "results/optical_cavity_analysis.txt:52, not in the .md, whose matrix prints no numbers). " +
+                "THAT IS THE FOURTH CANNOT-FAIL GATE named above: the same " +
+                "output reprints the IDENTICAL matrix and the identical 110/56 for N=5 (:55-65), which no " +
+                "N=5 coupling matrix can equal, and optical_cavity_analysis.py:363 hardcodes True with the " +
+                "label 'verified at N=4,5'. " +
+                "D07_Q_DISTRIBUTION:3 says 'all palindromic modes' where the derivation only ever touches the " +
+                "block's N-1 modes, and its Cascade A compares closed form to closed form, so that gate cannot " +
+                "reach the scope claim at all. OBC_SINE_BASIS_FINDINGS:115-123 offers 'the w=1 sector of the " +
+                "Lindblad spectrum' as a candidate for what F2 IS, which is a non-object, and it is a cited " +
+                "anchor of the typed F2bXyChainSpectrumPi2Inheritance, so a repaired claim currently points at " +
+                "a document that teaches the mislabel. CHAIN_GAP_SECTOR_DIAGNOSTIC contradicts itself inside " +
+                "one file: :90 is already repaired and gives the counter-measurement ((1,2) runs Re in " +
+                "[-0.300,-0.100] at N=5), while :28, :95, :105, :106 still say the off-diagonal sectors sit at " +
+                "-2gamma as a whole and that F2 describes them. Finally ANALYTICAL_SPECTRUM:1 still TITLES " +
+                "itself 'Analytical w=1 Spectrum' although its body now says the sector has no spectrum, and it " +
+                "is W1Dispersion's own AnchorPath. Also still open: " +
                 "CONCENTRATOR_GEOMETRY:180 keeps the verdict 'psi_opt has no known closed form', which item (2) " +
                 "above contradicts; it needs the same repair as OPEN_QUESTIONS_INDEX:1646, and neither should be " +
                 "touched before the amplitude claim has a committed witness. D10 Step 3 and " +

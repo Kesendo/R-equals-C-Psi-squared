@@ -5,7 +5,7 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F2W1DispersionPi2Inheritance"/>:
-/// F2 w=1 Liouvillian dispersion ω_k = 4J·(1−cos(πk/N)). Two typed parent edges:
+/// F2 (0,1) coherence block dispersion ω_k = 4J·(1−cos(πk/N)). Two typed parent edges:
 ///
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_{−1} = 4</c>

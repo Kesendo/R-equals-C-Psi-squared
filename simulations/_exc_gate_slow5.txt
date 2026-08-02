@@ -1,0 +1,68 @@
+exceptional couplings gate  (slow)
+
+E1  the builders, from below
+  [ok] (a) block generator = the dense 4^N Liouvillian, cut to the block  (max |difference| = 0.0)
+  [ok] (b) L + 4*gbar = C + i*J*A0 with C, A0 integer and the J dependence linear
+  [ok] (c) C is diagonal, entries 4*gamma*(1 - k) on the disagreement k  (entries [-4, 0, 4])
+  [ok] (d) the chiral involution P = G_p (x) G_q fixes C and flips A0 entry for entry, so det(C + z A0) is EVEN in z on every block, side lines included  (worst entry 0, P^2 = I on all: True)
+
+E2  the rational reformulation, only J^2 enters
+  [ok] (a) (C + iJ A0)(x + iJ w) = (C x - J^2 A0 w) + iJ (A0 x + C w)
+  [ok] (b) N=4 (2,2) J^2=1: exact rational count = complex nullity  (2 = 2)
+  [ok] (b) N=5 (2,2) J^2=1: exact rational count = complex nullity  (2 = 2)
+  [ok] (b) N=5 (2,2) J^2=3/2: exact rational count = complex nullity  (3 = 3)
+  [ok] (c) only the ratio J/gamma enters: at gamma = 2 and 3 the N=5 point sits at J^2 = (3/2)*gamma^2 and no longer at 3/2, exactly  ((nullity at (3/2)g^2, at 3/2) = {2: (3, 2), 3: (3, 2)})
+
+E3  N = 5, the whole band, exactly
+  [ok] (a) the exact table over the band at J^2 = 1, 3/2, 2
+  [ok] (b) at J^2 = 3/2 the count exceeds floor(N/2) on exactly two blocks  ([(2, 2), (3, 3)])
+  [ok] (c) so the exceptional set is NOT empty, and the ceiling is a generic-J statement
+
+E4  the singlet subspace, and why a frozen vector in it is an extra one
+  [ok] (a) N=5: both halves of L restrict to V exactly  (dim V = 35 of 100)
+  [ok] (a) N=6: both halves of L restrict to V exactly  (dim V = 84 of 225)
+  [ok] (b) V is a proper subspace at both N  ({5: 35, 6: 84})
+  [ok] (c) N=5: Psi Phi is injective on the corner frozen space, so no seed combination is eta-lowest-weight at rung 2  (2 seeds, smallest sv 3.000)
+  [ok] (c) N=6: Psi Phi is injective on the corner frozen space, so no seed combination is eta-lowest-weight at rung 2  (3 seeds, smallest sv 4.000)
+
+E5  the exact determinant polynomial and its real roots
+  [ok] (a) N=5: q(z) = det(C_V + z A_V) is even in z, so q(iJ) is real  (dim V = 35, deg q = 30)
+  [ok] (b) N=5: exact count of exceptional couplings J > 0, by Sturm sequences  (3, expected 3)
+  [ok] (c) N=5: at every exact root the full block is singular beyond the floor, so it carries AT LEAST floor(N/2)+1 frozen modes (a numeric read of a lower bound; the exact count is E8's)  (largest surplus singular value 1.17e-16)
+  [ok] (d) N=5: the smallest exceptional coupling is the root of 2J^2 - 3, which is E3's J^2 = 3/2 by a different route  (2*J**2 - 3)
+  [ok] (a) N=6: q(z) = det(C_V + z A_V) is even in z, so q(iJ) is real  (dim V = 84, deg q = 78)
+  [ok] (b) N=6: exact count of exceptional couplings J > 0, by Sturm sequences  (6, expected 6)
+  [ok] (c) N=6: at every exact root the full block is singular beyond the floor, so it carries AT LEAST floor(N/2)+1 frozen modes (a numeric read of a lower bound; the exact count is E8's)  (largest surplus singular value 1.32e-16)
+  [ok] (f) N=6: the smallest exceptional coupling is the value the note tabulates  (0.749042443688)
+  [ok] (e) N=6: BOTH factors carrying a coupling have degree 12, so every one of the six is algebraic of that degree and no small closed form appears  (degrees [12, 12])
+
+E6  the shape of the failure: an l = 2 multiplet that is a spin singlet
+  [ok] (a) N=6: at this coupling the extra mode occupies the diagonal rungs 2 .. N-2 and nothing else (one coupling only; the all-J statement is E8, at N = 5)  (raised on [(2, 2), (3, 3), (4, 4)])
+  [ok] (b) so, a lowest weight at rung l spanning N - 2l + 1 blocks, it is an eta multiplet seeded at l = 2 with eta-spin N/2 - 2: the arithmetic of (a)
+  [ok] (c) and a SPIN SINGLET, since S+ commutes with L and no side line is raised
+
+E7  the one coupling the bridge needs
+  [ok] (a) N=4: an exact GF(p) rank at J = 1 gives nullity floor(N/2) on every band block it reaches  (all 2)
+  [ok] (a) N=5: an exact GF(p) rank at J = 1 gives nullity floor(N/2) on every band block it reaches  (all 2)
+  [ok] (a) N=6: an exact GF(p) rank at J = 1 gives nullity floor(N/2) on every band block it reaches  (all 3)
+  [--] a GF(p) rank bounds the count from ABOVE over QQ, so one coupling fixes the generic value, and the floor closes it to an equality. That step is the pencil argument of Proposition 5.3 and is not measured here.
+
+E8  the WHOLE block, exactly, at every coupling at once
+  [ok] (a) N=5: ker C n ker A0 is rational of dimension floor(N/2) on every band block, and the congruence that removes it is clean
+  [ok] (b) N=5: over ALL couplings, only the two diagonal blocks carry exceptional couplings, and exactly three each  ({(2, 2): 3, (3, 3): 3})
+  [ok] (c) N=5: every factor of E5's SINGLET polynomial that carries a coupling divides the whole block's polynomial, and the counts agree, so the singlets are not merely among the exceptional modes but all of them  ([1.224744871, 1.516931387, 1.72863396])
+  [ok] (d) N=5: every positive root is simple, so at an exceptional coupling the count is EXACTLY floor(N/2)+1 and not merely at least that
+  [ok] (e) N=5: no side line carries an exceptional coupling at any J, which the sampled couplings of E3 could not have decided
+
+E9  a higher rung carries couplings of its own: rung 3 at N = 6
+  [ok] (a) N=6: the eta-lowest-weight singlets of the block (3,3) carry exactly four exceptional couplings, by Sturm on an exact polynomial  (dim V = 70, deg q = 68, roots [0.804151383, 0.969363535, 1.405807973, 2.473408936])
+  [ok] (b) and they are NEW: the gcd of the rung-3 and rung-2 polynomials carries no positive root, so none of the four is one of E5's six  (gcd of degree 36, 0 positive roots)
+  [ok] (c) at each of the four the nullity rises on (3,3) and on NO other block, which is the multiplet of a rung-3 lowest weight at N = 6 (eta-spin 0) and cannot be a rung-2 one, those occupying 2 .. N-2 (a numeric read of the shape)  ({0.804151383: [(3, 3)], 0.969363535: [(3, 3)], 1.405807973: [(3, 3)], 2.473408936: [(3, 3)]})
+  [ok] (d) the six rung-2 couplings raise the block (3,3) as well, so that block carries the six AND the four and the exceptional set at N = 6 has at least ten members: the count on (2,2) is the rung-2 count and not the count  (six rung-2 roots raise (3,3): True)
+
+E10  the two exact counts the other modes are too short for
+  [ok] (a) N=7, the rung-3 singlets of the block (3,3): the exact Sturm count of the exceptional couplings, and the smallest of them is the value the note tabulates  (dim V = 294, deg q = 286, 13 roots, smallest 0.473255094)
+  [ok] (b) N=8, the rung-2 singlets of the block (2,2): the exact Sturm count of the exceptional couplings, and the smallest of them is the value the note tabulates  (dim V = 300, deg q = 288, 15 roots, smallest 0.790268421)
+
+43 checks in 1924.3 s
+exceptional couplings gate: ALL GREEN, 43 checks

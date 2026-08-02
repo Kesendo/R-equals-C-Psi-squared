@@ -1,0 +1,115 @@
+========================================================================
+STAGE 0 - HANDSHAKE GATE: reproduce published pair_mi from raw_counts
+========================================================================
+   selective_dd t=1.0: sum_mi recomputed 0.075946251915  published 0.075946251915  |d|=0.00e+00  [OK]
+   selective_dd t=2.0: sum_mi recomputed 0.050389311250  published 0.050389311250  |d|=0.00e+00  [OK]
+   selective_dd t=3.0: sum_mi recomputed 0.054222405649  published 0.054222405649  |d|=0.00e+00  [OK]
+   selective_dd t=4.0: sum_mi recomputed 0.050089175552  published 0.050089175552  |d|=0.00e+00  [OK]
+   selective_dd t=5.0: sum_mi recomputed 0.037730278889  published 0.037730278889  |d|=0.00e+00  [OK]
+     uniform_dd t=1.0: sum_mi recomputed 0.047467262904  published 0.047467262904  |d|=0.00e+00  [OK]
+     uniform_dd t=2.0: sum_mi recomputed 0.035185666508  published 0.035185666508  |d|=0.00e+00  [OK]
+     uniform_dd t=3.0: sum_mi recomputed 0.021158010135  published 0.021158010135  |d|=0.00e+00  [OK]
+     uniform_dd t=4.0: sum_mi recomputed 0.015716177613  published 0.015716177613  |d|=0.00e+00  [OK]
+     uniform_dd t=5.0: sum_mi recomputed 0.013129354512  published 0.013129354512  |d|=0.00e+00  [OK]
+          no_dd t=1.0: sum_mi recomputed 0.074259380833  published 0.074259380833  |d|=0.00e+00  [OK]
+          no_dd t=2.0: sum_mi recomputed 0.043142570735  published 0.043142570735  |d|=0.00e+00  [OK]
+          no_dd t=3.0: sum_mi recomputed 0.036585459361  published 0.036585459361  |d|=0.00e+00  [OK]
+          no_dd t=4.0: sum_mi recomputed 0.035249375995  published 0.035249375995  |d|=0.00e+00  [OK]
+          no_dd t=5.0: sum_mi recomputed 0.037337456870  published 0.037337456870  |d|=0.00e+00  [OK]
+
+  worst deviation (sum_mi and per-pair): 0.000e+00
+  GATE PASSED - estimator and data ordering verified.
+
+========================================================================
+STAGE 1 - BOOTSTRAP (1000 replicates, full-counts multinomial)
+========================================================================
+
+  selective_dd: published / boot mean +- sd / [2.5%, 97.5%]
+    t=1.0: 0.0759 / 0.0864 +- 0.0098 / [0.0678, 0.1051]
+    t=2.0: 0.0504 / 0.0591 +- 0.0074 / [0.0447, 0.0733]
+    t=3.0: 0.0542 / 0.0623 +- 0.0079 / [0.0482, 0.0789]
+    t=4.0: 0.0501 / 0.0579 +- 0.0072 / [0.0442, 0.0723]
+    t=5.0: 0.0377 / 0.0454 +- 0.0062 / [0.0336, 0.0579]
+
+  uniform_dd: published / boot mean +- sd / [2.5%, 97.5%]
+    t=1.0: 0.0475 / 0.0578 +- 0.0079 / [0.0429, 0.0732]
+    t=2.0: 0.0352 / 0.0427 +- 0.0059 / [0.0313, 0.0544]
+    t=3.0: 0.0212 / 0.0283 +- 0.0045 / [0.0200, 0.0377]
+    t=4.0: 0.0157 / 0.0229 +- 0.0037 / [0.0162, 0.0303]
+    t=5.0: 0.0131 / 0.0198 +- 0.0035 / [0.0134, 0.0269]
+
+  no_dd: published / boot mean +- sd / [2.5%, 97.5%]
+    t=1.0: 0.0743 / 0.0845 +- 0.0094 / [0.0668, 0.1029]
+    t=2.0: 0.0431 / 0.0518 +- 0.0067 / [0.0399, 0.0659]
+    t=3.0: 0.0366 / 0.0444 +- 0.0062 / [0.0332, 0.0566]
+    t=4.0: 0.0352 / 0.0432 +- 0.0060 / [0.0323, 0.0560]
+    t=5.0: 0.0373 / 0.0449 +- 0.0058 / [0.0350, 0.0573]
+
+========================================================================
+STAGE 2 - NULL BIAS FLOOR (1000 draws, zero-true-MI product nulls)
+========================================================================
+
+  selective_dd: floor mean +- sd / [2.5%, 97.5%] / published / excess
+    t=1.0: 0.0155 +- 0.0038 / [0.0088, 0.0238] / 0.0759 / +0.0605
+    t=2.0: 0.0099 +- 0.0024 / [0.0058, 0.0152] / 0.0504 / +0.0405
+    t=3.0: 0.0088 +- 0.0021 / [0.0051, 0.0134] / 0.0542 / +0.0454
+    t=4.0: 0.0079 +- 0.0018 / [0.0047, 0.0117] / 0.0501 / +0.0422
+    t=5.0: 0.0082 +- 0.0020 / [0.0047, 0.0124] / 0.0377 / +0.0295
+
+  uniform_dd: floor mean +- sd / [2.5%, 97.5%] / published / excess
+    t=1.0: 0.0142 +- 0.0036 / [0.0086, 0.0219] / 0.0475 / +0.0333
+    t=2.0: 0.0081 +- 0.0018 / [0.0050, 0.0122] / 0.0352 / +0.0271
+    t=3.0: 0.0072 +- 0.0017 / [0.0042, 0.0107] / 0.0212 / +0.0140
+    t=4.0: 0.0070 +- 0.0016 / [0.0042, 0.0106] / 0.0157 / +0.0087
+    t=5.0: 0.0067 +- 0.0016 / [0.0041, 0.0101] / 0.0131 / +0.0064
+
+  no_dd: floor mean +- sd / [2.5%, 97.5%] / published / excess
+    t=1.0: 0.0129 +- 0.0031 / [0.0077, 0.0196] / 0.0743 / +0.0613
+    t=2.0: 0.0095 +- 0.0023 / [0.0056, 0.0142] / 0.0431 / +0.0337
+    t=3.0: 0.0082 +- 0.0020 / [0.0048, 0.0128] / 0.0366 / +0.0284
+    t=4.0: 0.0081 +- 0.0019 / [0.0048, 0.0121] / 0.0352 / +0.0271
+    t=5.0: 0.0081 +- 0.0019 / [0.0047, 0.0122] / 0.0373 / +0.0292
+
+========================================================================
+STAGE 3 - VERDICTS
+========================================================================
+
+  (a) Ordering selective > uniform, bootstrap ordering confidence.
+      raw = P(sel_b > uni_b); floor-adjusted shifts by the
+      config-dependent floor-mean difference (see docstring).
+    t=1.0: P_raw = 0.986  P_adj = 0.985;  diff +0.0285  percentile CI [+0.0045, +0.0537]  pivotal CI [+0.0033, +0.0525]
+    t=2.0: P_raw = 0.964  P_adj = 0.952;  diff +0.0152  percentile CI [-0.0022, +0.0360]  pivotal CI [-0.0056, +0.0326]
+    t=3.0: P_raw = 1.000  P_adj = 1.000;  diff +0.0331  percentile CI [+0.0169, +0.0522]  pivotal CI [+0.0139, +0.0492]
+    t=4.0: P_raw = 1.000  P_adj = 1.000;  diff +0.0344  percentile CI [+0.0194, +0.0497]  pivotal CI [+0.0191, +0.0494]
+    t=5.0: P_raw = 1.000  P_adj = 1.000;  diff +0.0246  percentile CI [+0.0122, +0.0398]  pivotal CI [+0.0094, +0.0370]
+    joint (all 5 simultaneously): P_raw = 0.950  P_adj = 0.938
+
+  (b) Is the uniform row consistent with the ZERO-true-MI floor?
+    t=1.0: uniform 0.0475  floor 0.0142 +- 0.0036  P(floor >= measured) = 0.000
+    t=2.0: uniform 0.0352  floor 0.0081 +- 0.0018  P(floor >= measured) = 0.000
+    t=3.0: uniform 0.0212  floor 0.0072 +- 0.0017  P(floor >= measured) = 0.000
+    t=4.0: uniform 0.0157  floor 0.0070 +- 0.0016  P(floor >= measured) = 0.000
+    t=5.0: uniform 0.0131  floor 0.0067 +- 0.0016  P(floor >= measured) = 0.000
+
+  (c) Floor-corrected Sum-MI (published - own floor mean), per config.
+      Parenthesis = shot-noise SE of the measured value (boot sd);
+      the floor MEAN's own SE is floor_sd/sqrt(N_NULL), negligible.
+     selective_dd: +0.0605(0.0098)  +0.0405(0.0074)  +0.0454(0.0079)  +0.0422(0.0072)  +0.0295(0.0062)
+       uniform_dd: +0.0333(0.0079)  +0.0271(0.0059)  +0.0140(0.0045)  +0.0087(0.0037)  +0.0064(0.0035)
+            no_dd: +0.0613(0.0094)  +0.0337(0.0067)  +0.0284(0.0062)  +0.0271(0.0060)  +0.0292(0.0058)
+
+  (d) Ratio sel/uni raw vs floor-corrected (point estimates):
+    t=1.0: raw 1.60  floor-corrected 1.82
+    t=2.0: raw 1.43  floor-corrected 1.50
+    t=3.0: raw 2.56  floor-corrected 3.24
+    t=4.0: raw 3.19  floor-corrected 4.84
+    t=5.0: raw 2.87  floor-corrected 4.63
+
+  (e) Selective vs no_dd (the quieter comparison):
+    t=1.0: sel 0.0759 vs no_dd 0.0743  P(sel_b > no_dd_b) = 0.568
+    t=2.0: sel 0.0504 vs no_dd 0.0431  P(sel_b > no_dd_b) = 0.768
+    t=3.0: sel 0.0542 vs no_dd 0.0366  P(sel_b > no_dd_b) = 0.958
+    t=4.0: sel 0.0501 vs no_dd 0.0352  P(sel_b > no_dd_b) = 0.937
+    t=5.0: sel 0.0377 vs no_dd 0.0373  P(sel_b > no_dd_b) = 0.536
+
+  summary written: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\_concentrator_reanalysis_out.json

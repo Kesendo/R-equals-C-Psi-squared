@@ -89,9 +89,8 @@ N-1 distinct frequencies on the Heisenberg chain's (0,1) coherence block,
 the N-dimensional span of the |0><j| between the ferromagnet and the single
 excitations. Machine-precision match for 15 frequencies (N=2-6). Tight-binding model
 with hopping 2J.
-Three independent validations: (1) eigenvalue match < 1e-12, (2) Poisson
-spacing in the w=1 Pauli span (RMT; that is a statistic of the compression
-onto a non-invariant span, not of the block), (3) SFF modulation peak at omega_1 matches
+Two independent validations: (1) eigenvalue match < 1e-12,
+(2) SFF modulation peak at omega_1 matches
 to <1% for N=2-4, 6 ([Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)).
 
 **Note:** F2 describes the Heisenberg

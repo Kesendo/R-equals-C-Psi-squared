@@ -1,0 +1,43 @@
+================================================================================
+DETERMINISTIC GRID SWEEP (25 residue components + 3 endpoint slices x 17 primes)
+================================================================================
+[structure] 25 components; primes (17, 30-bit =1mod4): 1073741833..1073742353
+================================================================================
+COEFFICIENT-HEIGHT BOUND (independent, tight, per item) -- CRT sufficiency
+================================================================================
+item        log2(H)   2H<prod?   primes_needed(prod>2H)
+C00            51.3       True   2
+C01            51.3       True   2
+C02            51.3       True   2
+C03            51.3       True   2
+C04            69.1       True   3
+C05            69.1       True   3
+C06            79.8       True   3
+C07            79.8       True   3
+C08            68.4       True   3
+C09            68.4       True   3
+C10           147.1       True   5
+C11           147.1       True   5
+C12           230.8       True   8
+C13           140.0       True   5
+C14           140.0       True   5
+C15           140.8       True   5
+C16           139.7       True   5
+C17           140.8       True   5
+C18           139.7       True   5
+C19           140.8       True   5
+C20           140.8       True   5
+C21           140.0       True   5
+C22           140.8       True   5
+C23           140.0       True   5
+C24           140.8       True   5
+E0_w2         233.3       True   8
+E0_w3         262.8       True   9
+E0_w5         304.6       True   11
+E1_w2         229.8       True   8
+E1_w3         258.4       True   9
+E1_w5         299.0       True   10
+--------------------------------------------------------------------------------
+product of 17 primes = 2^510.0  (each ~30-bit, p = 1 mod 4)
+worst item E0_w5: log2(H) = 304.6; 2H = 2^305.6 < 2^510.0
+VERDICT: 17 primes SUFFICE for all items (worst item needs 11 primes; 17 used)

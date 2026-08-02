@@ -1,0 +1,91 @@
+FL + rational-reconstruction self-tests OK
+
+================================ N = 5 ================================
+  [E] dim=26: CRT at 8 primes; PROOF condition prod(p) = 2^199 > 2*B = 2^85 (l1 bounds: chi 2^83, S6 2^83, S2 2^83, ST 2^84); stability +3 slack also asserted  [0.1s]
+  [E] exact integer FLV over Z at 14 w-nodes: equals the CRT result (N=5 base polynomials PROOF grade); exact max|coeff| <= l1 bound validated for all four polys  [0.1s]
+  [E] fresh-prime extra-node verification (u=[14, -1]) OK
+  [O] dim=24: CRT at 8 primes; PROOF condition prod(p) = 2^199 > 2*B = 2^77 (l1 bounds: chi 2^75, S6 2^75, S2 2^75, ST 2^76); stability +3 slack also asserted  [0.1s]
+  [O] exact integer FLV over Z at 13 w-nodes: equals the CRT result (N=5 base polynomials PROOF grade); exact max|coeff| <= l1 bound validated for all four polys  [0.1s]
+  [O] fresh-prime extra-node verification (u=[13, -1]) OK
+  50-digit full-block adjugate check: 3/3 points OK
+  [E] chi = AT(deg 8) * F_res(deg 18, w-deg 9), F_res monic  [0.0s]
+  [E] S6: content 4, prefactors [('ATfac(deg 2,1)', 1, '+')], core G deg (23,11)
+    [E] S6 core G: IRREDUCIBLE over Q (specialization Q2=2, subset-sum certificate, 7 primes)
+  [O] chi = AT(deg 7) * F_res(deg 17, w-deg 7), F_res monic  [0.0s]
+  [O] S6: content 2, prefactors [('(lam+2)', 1, '-'), ('(lam+6)', 1, '+'), ('ATfac(deg 2,1)', 1, '+')], core G deg (19,8)
+    [O] S6 core G: IRREDUCIBLE over Q (specialization Q2=2, subset-sum certificate, 5 primes)
+  mod-p kit + psc self-tests OK
+  [E] EXACT disc over Z: deg 137, layers (v=77, A1=28, A2=16), A1 and A2 irreducible; A1 real>0 roots ['1.541958', '4.645014'] = seed loci; A2 real>0 roots []  [0.2s]
+  [E] layer Stage L: lifted at 12 primes (stable under 2 extra); deg A1 28, deg A2 16  [1s]
+  [E] layer B_D = 2^1548 validated from below (exact max|coeff(disc)| = 2^430)
+  [E] layer IDENTITY disc = C * w^77 * A1 * A2^2 mod all 62 pool primes, prod = 2^1549 > B_D + B_R (2^1548 + 2^436) => exact over Z; C: 50 digits, sign +  [3s]
+  [E] layer SHAPE: A1, A2 squarefree, coprime, nonzero at w = 0 (good-prime Gauss lift, asserted at 3) => mult-1 layer IS A1, mult-2 IS A2 over Q: layer identification PROVED
+  [E] reconstructed (C, A1, A2) == the exact-Z inventory (N=5 cross-check)
+  [E] p=33554371: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_O), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [0.4s]
+  [E] p=33554347: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_O), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [0.3s]
+  [E] p=33554341: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_O), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [0.3s]
+  [E] deg gcd(Res(F,S6), disc) = 109 = v + 2*deg A2 (the EXACT N=5 split, asserted)
+  [E] A1 (deg 28): IRREDUCIBLE over Q (subset-sum certificate, 4 primes, exact-A1 reductions)
+  [O] EXACT disc over Z: deg 123, layers (v=69, A1=28, A2=13), A1 and A2 irreducible; A1 real>0 roots ['1.653988', '31.469594'] = seed loci; A2 real>0 roots ['5.100831']  [0.1s]
+  [O] A2 root w=5.10083102: exactly ONE real double lambda-root of F_res at lam=-4.79196037 (diabolic class, no coincident pair)
+  [O] layer Stage L: lifted at 11 primes (stable under 2 extra); deg A1 28, deg A2 13  [0s]
+  [O] layer B_D = 2^1393 validated from below (exact max|coeff(disc)| = 2^372)
+  [O] layer IDENTITY disc = C * w^69 * A1 * A2^2 mod all 56 pool primes, prod = 2^1399 > B_D + B_R (2^1393 + 2^380) => exact over Z; C: 43 digits, sign -  [2s]
+  [O] layer SHAPE: A1, A2 squarefree, coprime, nonzero at w = 0 (good-prime Gauss lift, asserted at 3) => mult-1 layer IS A1, mult-2 IS A2 over Q: layer identification PROVED
+  [O] reconstructed (C, A1, A2) == the exact-Z inventory (N=5 cross-check)
+  [O] p=33554371: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_E), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [0.3s]
+  [O] p=33554347: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_E), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [0.3s]
+  [O] p=33554341: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_E), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [0.2s]
+  [O] deg gcd(Res(F,S6), disc) = 95 = v + 2*deg A2 (the EXACT N=5 split, asserted)
+  [O] A1 (deg 28): IRREDUCIBLE over Q (subset-sum certificate, 2 primes, exact-A1 reductions)
+           q*        lam* sec         S6_s         ST_s   kappa_-2  kappa_ref
+  1.241756014 -4.618885645 R-E     2.627e+7    -8.353e+7  +0.314463  +0.314463
+  1.286074467 -3.819587235 R-O     2.109e+7    -1.504e+8  +0.140184  +0.140184
+  2.155229499 -3.791692178 R-E   -1.408e+13    4.001e+13  +0.351821  +0.351821
+  5.609776645 -4.488213629 R-O    4.798e+16   -7.624e+17  +0.062939  +0.062939
+  Coincident-EP2 pairs excluded at every w != 0 (both sectors, psc_1 certificate), N=5 inventory exact over Z.
+
+O2B NONVANISHING CERTIFIED at N=5: S6 != 0 on the entire simple disc layer (all seeds), geometric multiplicity 1 full-block, s6 != 0 at every forced seed. PASS  [13s]
+
+================================ N = 7 ================================
+  [E] dim=75: CRT at 11 primes; PROOF condition prod(p) = 2^274 > 2*B = 2^255 (l1 bounds: chi 2^251, S6 2^253, S2 2^253, ST 2^254); stability +3 slack also asserted  [6.8s]
+  [E] fresh-prime extra-node verification (u=[38, -1]) OK
+  [O] dim=72: CRT at 11 primes; PROOF condition prod(p) = 2^274 > 2*B = 2^243 (l1 bounds: chi 2^239, S6 2^241, S2 2^241, ST 2^242); stability +3 slack also asserted  [6.8s]
+  [O] fresh-prime extra-node verification (u=[37, -1]) OK
+  50-digit full-block adjugate check: 2/2 points OK
+  [E] chi = AT(deg 22) * F_res(deg 53, w-deg 24), F_res monic  [0.6s]
+  [E] S6: content 2, prefactors [('(lam+2)', 1, '-'), ('(lam+6)', 2, '+'), ('ATfac(deg 2,1)', 1, '+'), ('ATfac(deg 2,1)', 1, '+')], core G deg (67,31)
+    [E] S6 core G: IRREDUCIBLE over Q (specialization Q2=2, subset-sum certificate, 7 primes)
+  [O] chi = AT(deg 20) * F_res(deg 52, w-deg 26), F_res monic  [0.6s]
+  [O] S6: content 1, prefactors [('ATfac(deg 4,2)', 1, '+'), ('ATfac(deg 4,2)', 1, '+')], core G deg (63,31)
+    [O] S6 core G: IRREDUCIBLE over Q (specialization Q2=2, subset-sum certificate, 4 primes)
+  mod-p kit + psc self-tests OK
+  [E] layer Stage L: lifted at 60 primes (stable under 2 extra); deg A1 114, deg A2 210  [88s]
+  [E] layer IDENTITY disc = C * w^772 * A1 * A2^2 mod all 569 pool primes, prod = 2^14224 > B_D + B_R (2^14200 + 2^3618) => exact over Z; C: 442 digits, sign +  [776s]
+  [E] layer SHAPE: A1, A2 squarefree, coprime, nonzero at w = 0 (good-prime Gauss lift, asserted at 3) => mult-1 layer IS A1, mult-2 IS A2 over Q: layer identification PROVED
+  [E] p=33554371: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_O), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [13.0s]
+  [E] p=33554347: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_O), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [13.1s]
+  [E] p=33554341: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_O), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [12.7s]
+  [E] deg gcd(Res(F,S6), disc) = 1192 (prediction v + 2*deg A2 = 1192; multi-prime EVIDENCE, not asserted)
+  [E] A1 (deg 114): IRREDUCIBLE over Q (subset-sum certificate, 3 primes, exact-A1 reductions)
+  [O] layer Stage L: lifted at 57 primes (stable under 2 extra); deg A1 111, deg A2 195  [85s]
+  [O] layer IDENTITY disc = C * w^753 * A1 * A2^2 mod all 549 pool primes, prod = 2^13724 > B_D + B_R (2^13723 + 2^3439) => exact over Z; C: 408 digits, sign +  [800s]
+  [O] layer SHAPE: A1, A2 squarefree, coprime, nonzero at w = 0 (good-prime Gauss lift, asserted at 3) => mult-1 layer IS A1, mult-2 IS A2 over Q: layer identification PROVED
+  [O] p=33554371: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_E), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [14.7s]
+  [O] p=33554347: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_E), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [14.6s]
+  [O] p=33554341: disc layers OK (max mult 2), gcd(Res(F,S6), A1) = 1, gcd(Res(F,chi_E), A1) = 1, gcd(disc~, psc_1~) = 1 (no coincident EP2 pair)  [15.1s]
+  [O] deg gcd(Res(F,S6), disc) = 1143 (prediction v + 2*deg A2 = 1143; multi-prime EVIDENCE, not asserted)
+  [O] A1 (deg 111): IRREDUCIBLE over Q (subset-sum certificate, 7 primes, exact-A1 reductions)
+           q*        lam* sec         S6_s         ST_s   kappa_-2  kappa_ref
+  1.077392182 -3.981589793 R-E   -6.416e+24    7.112e+25  +0.090208  +0.090208
+  1.200757895 -4.922789093 R-O   -3.948e+19    1.658e+20  +0.238066  +0.238066
+  1.447106918 -4.860868212 R-O    9.586e+23   -5.208e+24  +0.184075  +0.184075
+  1.848214793 -4.661516017 R-E    -2.59e+31    4.252e+32  +0.060903  +0.060903
+  3.029666533 -4.884556074 R-E    7.507e+42   -2.969e+44  +0.025288  +0.025288
+  3.181704793 -3.899834959 R-O    -5.08e+47    1.347e+48  +0.377212  +0.377212
+  11.35515008 -4.855253454 R-E   -2.271e+79    4.516e+80  +0.050276  +0.050276
+  Coincident-EP2 pairs excluded at every w != 0 (both sectors, psc_1 certificate).
+
+O2B NONVANISHING CERTIFIED at N=7: S6 != 0 on the entire simple disc layer (all seeds), geometric multiplicity 1 full-block, s6 != 0 at every forced seed. PASS (base polynomials PROOF grade + layer identification PROVED by reconstruct-and-verify, both 2026-07-16: no premise of this certificate's bookkeeping left; H1 and the F_res-reality premise of the EP2 reading are tracked in the experiment doc)  [1930s]
+
+All assertions passed at N in [5, 7].

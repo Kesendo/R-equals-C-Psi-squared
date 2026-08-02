@@ -1,0 +1,57 @@
+==============================================================================
+STATEMENT 1  (S5 atom decomposition, exact)
+  float pin: |atom_sum - cross_form| worst rel 1.57e-14
+  wiring pin: committed -70.877958, reduced -70.877958, cross_form -70.877958
+  EXACT: LEM proved  =>  committed_block == committed_reduced_block (per fold)
+  EXACT: all 72 terms  reduced_term == atom  over Q(i)  (1.0s)
+  [S1 PASS] cross_form equals the 72-atom S5 decomposition, exactly.
+==============================================================================
+STATEMENT 2  (per-sheet residue sum = flip-T, exact, all 32 sheets)
+  32 canonical sheets, events per sheet: [9]
+  every sheet carries exactly one event per (i,j) -> per-event correspondence
+  float pin: sum_w / (1/4 T) = +1.0000   (expected -prod L = +1)
+  EXACT: all 32 sheets x 9 events  weight == -(prod L)/4 * T_ij(L o x)  (3.9s)
+  [S2 PASS] every sheet's residue sum is the flipped core T, exactly (term by term).
+==============================================================================
+STATEMENT 3  (oddness under b1->-b1 and b1<->b2, exact bijection)
+  float pin: b1->-b1 residual 3.55e-15, b1<->b2 residual 3.55e-15
+  EXACT: both sign-flipping bijections verified atom-by-atom (9.6s)
+    b1->-b1: 72 atoms, 24 fixed points; sample (atom -> partner):
+      (0, 0, 'psum', 'psum', 1)  ->  (0, 0, 'psum', 'psum', 1)
+      (0, 0, 'psum', 'psum', -1)  ->  (0, 0, 'psum', 'psum', -1)
+      (0, 0, 'psum', 'pdif', 1)  ->  (0, 0, 'psum', 'pdif', 1)
+      (0, 0, 'psum', 'pdif', -1)  ->  (0, 0, 'psum', 'pdif', -1)
+    b1<->b2: 72 atoms, 12 fixed points; sample (atom -> partner):
+      (0, 0, 'psum', 'psum', 1)  ->  (0, 1, 'psum', 'psum', 1)
+      (0, 0, 'psum', 'psum', -1)  ->  (0, 1, 'psum', 'psum', -1)
+      (0, 0, 'psum', 'pdif', 1)  ->  (0, 1, 'psum', 'pdif', 1)
+      (0, 0, 'psum', 'pdif', -1)  ->  (0, 1, 'psum', 'pdif', -1)
+  [S3 PASS] cross_form is odd under both b-operations, exactly.
+==============================================================================
+STATEMENT 4  (mirror specialisation, exact, per block)
+  float pin: |cross_form(mirror) - 1/2 mirror_form| worst rel 2.41e-15
+  wiring pin: mf_reduced -182.84885, mirror_form_sym -182.84885, mirror_form -182.84885
+  EXACT: LEM + tanLEM + all 9 blocks under sigma(i,j)=(i,2-j)  (14.2s)
+  [S4 PASS] cross_form(a; mirror) == 1/2 mirror_form(a), exactly.
+==============================================================================
+STATEMENT 5  (b3->-b3 oddness, exact bijection)
+  float pin: b3->-b3 residual 6.05e-15
+  EXACT: sign-flipping bijection verified atom-by-atom (4.8s)
+    b3->-b3: 72 atoms, 24 fixed points; sample (atom -> partner):
+      (0, 0, 'psum', 'psum', 1)  ->  (0, 0, 'psum', 'pdif', -1)
+      (0, 0, 'psum', 'psum', -1)  ->  (0, 0, 'psum', 'pdif', 1)
+      (0, 0, 'psum', 'pdif', 1)  ->  (0, 0, 'psum', 'psum', -1)
+      (0, 0, 'psum', 'pdif', -1)  ->  (0, 0, 'psum', 'psum', 1)
+  [S5 PASS] cross_form is odd under b3->-b3, exactly.
+==============================================================================
+STATEMENT 6  (b1<->b3 transposition oddness, exact bijection)
+  float pin: b1<->b3 residual 0.00e+00
+  EXACT: sign-flipping bijection verified atom-by-atom (4.9s)
+    b1<->b3: 72 atoms, 12 fixed points; sample (atom -> partner):
+      (0, 0, 'psum', 'psum', 1)  ->  (0, 2, 'psum', 'psum', 1)
+      (0, 0, 'psum', 'psum', -1)  ->  (0, 2, 'psum', 'psum', -1)
+      (0, 0, 'psum', 'pdif', 1)  ->  (0, 2, 'psum', 'pdif', -1)
+      (0, 0, 'psum', 'pdif', -1)  ->  (0, 2, 'psum', 'pdif', 1)
+  [S6 PASS] cross_form is odd under the b1<->b3 transposition, exactly.
+==============================================================================
+ALL SIX STATEMENTS PROVED EXACTLY OVER Q(i)   (total 40.1s)

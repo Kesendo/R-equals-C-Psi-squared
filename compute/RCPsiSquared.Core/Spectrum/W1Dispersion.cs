@@ -71,7 +71,7 @@ public sealed class W1Dispersion : Claim
     public double Bandwidth { get; }
 
     public W1Dispersion(int N, double J, double gammaZero)
-        : base("w=1 Liouvillian dispersion", Tier.Tier1Derived, AnchorPath)
+        : base("(0,1) coherence block dispersion", Tier.Tier1Derived, AnchorPath)
     {
         if (N < 2)
             throw new ArgumentOutOfRangeException(
@@ -107,7 +107,7 @@ public sealed class W1Dispersion : Claim
     }
 
     public override string DisplayName =>
-        $"w=1 dispersion (N={N}, J={J}, γ={GammaZero})";
+        $"(0,1) block dispersion (N={N}, J={J}, γ={GammaZero})";
 
     public override string Summary =>
         $"{N - 1} modes, decay {UniformDecayRate} (= 2γ), Q ∈ [{MinQ:F4}, {MaxQ:F4}], " +

@@ -27,9 +27,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Hamiltonian, dimension N, argument π·k/(N+1). Different mathematical
 /// objects in different Hamiltonians.</para>
 ///
-/// <para>Three independent validations of F2: (1) eigenvalue match &lt; 10⁻¹²,
-/// (2) Poisson spacing in the w=1 Pauli span (RMT signature; a statistic of the
-/// compression onto a non-invariant span), (3) SFF modulation peak
+/// <para>Two independent validations of F2: (1) eigenvalue match &lt; 10⁻¹²,
+/// (2) SFF modulation peak
 /// at ω_1 matches to &lt;1% for N=2-4, 6.</para>
 ///
 /// <para>Pi2-Foundation anchors:</para>
@@ -125,7 +124,7 @@ public sealed class F2W1DispersionPi2Inheritance : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F2 w=1 dispersion as Pi2-Foundation a_{-1} + a_0 + W1Dispersion inheritance";
+        "F2 (0,1) coherence block dispersion as Pi2-Foundation a_{-1} + a_0 + W1Dispersion inheritance";
 
     public override string Summary =>
         $"ω_k = 4J·(1−cos(πk/N)), k=1..N−1; 4 = a_{{-1}} (= {BandwidthPrefactor}); 2J hopping = a_0 (= {HoppingFactor}); N−1 distinct frequencies; Heisenberg (0,1) LIOUVILLIAN coherence block ({Tier.Label()})";
@@ -142,8 +141,8 @@ public sealed class F2W1DispersionPi2Inheritance : Claim, IZ2AxisClaim
                 summary: $"F2 IS W1Dispersion's content at the F-formula registry level. W1Dispersion at (N={W1.N}, J={W1.J}, γ={W1.GammaZero}) gives ω_1 = {W1.Frequencies[0]:G6}; F2.Frequency(N, J, 1) = {Frequency(W1.N, W1.J, 1):G6}; drift check: MatchesW1DispersionParent = {MatchesW1DispersionParent()}");
             yield return new InspectableNode("F2 vs F2b distinction",
                 summary: "F2: the (0,1) LIOUVILLIAN coherence block, Heisenberg, dim N, argument πk/N. F2b: single-excitation HAMILTONIAN, XY, dim N, argument πk/(N+1). Different operators, different sectors, different boundary conditions.");
-            yield return new InspectableNode("three independent validations",
-                summary: "(1) eigenvalue match < 10⁻¹², (2) Poisson spacing in the w=1 Pauli span (RMT, a compression statistic), (3) SFF modulation peak at ω_1 < 1% N=2..4, 6");
+            yield return new InspectableNode("two independent validations",
+                summary: "(1) eigenvalue match < 10⁻¹², (2) SFF modulation peak at ω_1 < 1% N=2..4, 6");
             yield return new InspectableNode("verified frequencies",
                 summary: $"N=4: ω_1 = {Frequency(4, 1.0, 1):G6}, ω_2 = {Frequency(4, 1.0, 2):G6}, ω_3 = {Frequency(4, 1.0, 3):G6}; mode count = {ModeCount(4)}");
         }

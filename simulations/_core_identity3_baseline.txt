@@ -1,0 +1,11 @@
+[A] assembling N ...
+    N: 540 terms, deg_z3 = 9
+    gate N vs float T: worst rel err 1.60e-14
+    reduced mod Qz: r0/r1 obtained
+    E numerator: 3128 terms; Res numerator: 51 terms
+[B] testing E on random branches of {Res = 0} ...
+    branches: 32 vanish, 0 do not
+[B] E vanishes on ALL branches of Res=0  ->  divisibility expected.
+[C] exact division E mod Res over QQ_I ...
+    remainder zero: True
+*** CORE IDENTITY PROVED over Q(i): Res | E, i.e. T = 0 on the variety. ***

@@ -1,0 +1,59 @@
+
+===== N = 4 (Liouville 256 x 256) =====
+T0  the conjugation identity + parities
+  [PASS] (R x R) L(+t) (R x R) = L(-t): residual 0.00e+00
+  [PASS] prep operator-R-even: rho0
+  [PASS] readout parities q = +1 / -1: O_even / O_odd
+  [PASS] gamma-scan corollary (F91 axis): residual 0.00e+00
+T1  full spectrum even in t (multiset matching)
+  [PASS] spec L(+t) = spec L(-t): worst matched diff 6.41e-14
+T2  trajectory parities (cells (+,-) and (-,-))
+  [PASS] <O_even> even in t: worst 5.55e-16
+  [PASS] <O_odd> odd in t: worst 1.67e-16
+  [PASS] odd cell non-vacuous: max |<O_odd>| = 0.5593
+T3  the zero cell (-,+)
+  [PASS] <O_odd>(time) = 0 identically: worst 1.11e-16
+T4  the leak: exactly affine in eps, leading O(eps*t)
+  [PASS] leak exists: slope(eps=0.02) = +2.487e-02
+  [PASS] leak affine in eps (ratio 2): ratio 2.000000
+  [PASS] leading term O(eps*t) (t-halving converges): slope t=0.05: +2.4870e-02, t=0.025: +2.4907e-02 (drift 0.1%)
+
+===== N = 5 (Liouville 1024 x 1024) =====
+T0  the conjugation identity + parities
+  [PASS] (R x R) L(+t) (R x R) = L(-t): residual 0.00e+00
+  [PASS] prep operator-R-even: rho0
+  [PASS] readout parities q = +1 / -1: O_even / O_odd
+  [PASS] gamma-scan corollary (F91 axis): residual 5.55e-17
+T1  full spectrum even in t (multiset matching)
+  [PASS] spec L(+t) = spec L(-t): worst matched diff 1.33e-13
+T2  trajectory parities (cells (+,-) and (-,-))
+  [PASS] <O_even> even in t: worst 4.44e-16
+  [PASS] <O_odd> odd in t: worst 3.89e-16
+  [PASS] odd cell non-vacuous: max |<O_odd>| = 0.7216
+T3  the zero cell (-,+)
+  [PASS] <O_odd>(time) = 0 identically: worst 2.78e-16
+T4  the leak: exactly affine in eps, leading O(eps*t)
+  [PASS] leak exists: slope(eps=0.02) = +2.387e-02
+  [PASS] leak affine in eps (ratio 2): ratio 2.000000
+  [PASS] leading term O(eps*t) (t-halving converges): slope t=0.05: +2.3866e-02, t=0.025: +2.3884e-02 (drift 0.1%)
+
+===== N = 6 (Liouville 4096 x 4096) =====
+T0  the conjugation identity + parities
+  [PASS] (R x R) L(+t) (R x R) = L(-t): residual 1.11e-16
+  [PASS] prep operator-R-even: rho0
+  [PASS] readout parities q = +1 / -1: O_even / O_odd
+  [PASS] gamma-scan corollary (F91 axis): residual 1.11e-16
+T1  full spectrum even in t (multiset matching)
+  [PASS] spec L(+t) = spec L(-t): worst matched diff 3.68e-13
+T2  trajectory parities (cells (+,-) and (-,-))
+  [PASS] <O_even> even in t: worst 4.44e-16
+  [PASS] <O_odd> odd in t: worst 4.44e-16
+  [PASS] odd cell non-vacuous: max |<O_odd>| = 0.6377
+T3  the zero cell (-,+)
+  [PASS] <O_odd>(time) = 0 identically: worst 2.08e-16
+T4  the leak: exactly affine in eps, leading O(eps*t)
+  [PASS] leak exists: slope(eps=0.02) = +2.334e-02
+  [PASS] leak affine in eps (ratio 2): ratio 2.000000
+  [PASS] leading term O(eps*t) (t-halving converges): slope t=0.05: +2.3342e-02, t=0.025: +2.3352e-02 (drift 0.0%)
+
+GATE PASS: the order-sorting law holds from below at N = [4, 5, 6].
