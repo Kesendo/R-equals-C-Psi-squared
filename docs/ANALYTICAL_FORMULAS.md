@@ -1480,9 +1480,11 @@ N-dependent coupling threshold Q*_gap(N). Below it the slowest mortal mode is
 Zeno-suppressed and the dose is correspondingly larger, so K_death = ln(10)
 is universal in the strong-coupling regime, not at every Q.
 
-N+1 modes have exactly zero absorption rate (pure {I,Z} content,
-invisible to the light). Complete absorption is impossible while the
-palindrome holds. The cavity always retains light.
+N+1 modes have exactly zero absorption rate. They are invisible to the
+light (pure {I,Z} content), but invisibility alone does not select them:
+all 2^N such strings are, and what cuts the kernel to N+1 is commuting
+with H as well. Complete absorption is impossible: the Liouvillian always
+has a kernel. What the cavity always retains is lens content, never light.
 
 **Valid for:** any Heisenberg chain, Z-dephasing, all N, in the strong-coupling
 regime Q > Q*_gap(N); below it the slowest mortal mode is Zeno-suppressed and the

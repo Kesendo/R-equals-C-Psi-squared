@@ -45,8 +45,7 @@ outside) does not create any of these modes. They exist in the dark,
 in silence, as possibilities. The light only makes them audible. Every
 mode that exists in the unilluminated instrument survives when the
 light is turned on. Not one is lost. The light adds absorption, not
-destruction. It reveals the voice of the instrument without changing
-a single note.
+destruction.
 
 ---
 
@@ -105,7 +104,7 @@ The center spike at even N is the modal peak of the cavity.
 
 ---
 
-## Result 3: Gamma illuminates; it does not create modes
+## Result 3: Gamma illuminates; it destroys no mode
 
 Comparing the cold cavity (γ = 0) to the illuminated cavity (γ = 0.05):
 
@@ -119,8 +118,10 @@ Comparing the cold cavity (γ = 0) to the illuminated cavity (γ = 0.05):
 *Source: [`veffect_cavity_modes.txt`](../simulations/results/veffect_cavity_modes.txt), "Cold vs warm cavity"*
 
 Every cold-cavity frequency survives when dephasing is turned on. Gamma
-adds new modes (from the dephasing interaction mixing weight sectors),
-but it does not destroy or shift existing ones. The cold modes are the
+adds new modes and destroys none. Whether it also shifts them is not
+something this table can decide: the cold-to-warm match accepts a
+distance of 0.1 while γ = 0.05, so the acceptance window is twice the
+perturbation under test. The cold modes are the
 skeleton; gamma adds flesh.
 
 At γ = 0, the Liouvillian reduces to L = −i[H, ·] and all eigenvalues
@@ -131,10 +132,13 @@ frequencies (verified 100% for N = 2, ..., 5).
 
 ---
 
-## Result 4: Q-factor is palindromic across weight shells
+## Result 4: Q-factor falls monotonically where the degeneracy is palindromic
 
 The Q-factor (how many times the light bounces inside the cavity before
-being absorbed) shows a palindromic profile mirroring the degeneracy:
+being absorbed) does NOT mirror the degeneracy. It falls monotonically
+across the shells while the degeneracy is palindromic, so the two profiles
+come apart, and shells 1 and 4 are the case to look at: the degeneracy
+pairs them (16 and 16), the Q-factor does not (72.4 against 18.1):
 
 For N = 5 (chain):
 
@@ -149,14 +153,25 @@ For N = 5 (chain):
 
 *Source: [`veffect_cavity_modes.txt`](../simulations/results/veffect_cavity_modes.txt), "Q-factor by weight shell"*
 
-Q_max decreases from the boundary toward the center: the lightest modes
-(weight 1, near the "mirrors") have the highest Q. The heaviest modes
-(near the center) have lower Q but more frequencies. This is the
-cavity trade-off: boundary modes are sharp but few; center modes are
-broad but many.
+Q_max decreases with the weight, not with the distance from the center:
+the lightest modes (weight 1) have the highest Q, and the heaviest ones
+have lower Q but more frequencies. This is the cavity trade-off, and it
+is a statement about weight alone.
 
-The highest-Q mode is always at weight 1, with Q_max ≈ 4J/γ_grid
-converging toward 75 as N grows. This is the cavity finesse limit.
+The highest-Q mode is always at weight 1, and its value is exact rather
+than approximate:
+
+    Q_max(N) = 2J (1 + cos(π/N)) / γ
+
+verified by [`simulations/veffect_finesse_law.py`](../simulations/veffect_finesse_law.py)
+against every N the sweep carries (J = 1, γ = 0.05): 40.0, 60.0,
+68.2843, 72.3607, 74.6410 at N = 2 to 6, matching the measured 40.0, 60.0,
+68.3, 72.4, 74.6 to the printed digits. The cavity finesse limit is
+therefore 4J/γ, which is 80 here, approached from below and not reached at
+any computed N. One thing this form leaves open: the chain is OPEN
+(N−1 bonds), yet cos(π/N) is the ring dispersion rather than the open
+chain's cos(π/(N+1)). The law fits five points exactly and its mechanism
+is unexplained.
 
 ---
 

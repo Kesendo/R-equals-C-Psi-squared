@@ -66,9 +66,14 @@ N = 5:
 | 3 | 0.001 | 0.220 |
 | 4 | 0.001 | 0.165 |
 
-Center/edge ratio: 1.37 (N=4), 1.30 (N=5). The entrance pupil (site 0,
-highest gamma) has the LEAST surviving mode energy. Light enters there
-and concentrates in the center. The surface is a window, not a wall.
+Center/edge ratio: 1.37 (N=4), 1.30 (N=5), taken against the mean of the
+two edges. What the profile shows is edge suppression at BOTH ends, and
+the entrance pupil is not the lower of the two: at N=4 site 0 reads 0.213
+against site 3's 0.209, at N=5 site 0 reads 0.174 against site 4's 0.165.
+So the surviving energy concentrates in the center, and the tables above
+do not single out the site the light enters by. The surface is a window,
+not a wall, but that reading rests on the sacrifice-zone comparison below,
+not on this profile.
 
 Under uniform gamma: ALL mode energy is absorbed by t = 20. No spatial
 structure. The sacrifice zone (entrance pupil) is necessary for any
@@ -118,8 +123,8 @@ it, but the dose is a strong-coupling result; below the threshold rate_min is
 Zeno-suppressed and the dose is larger.
 
 N+1 modes with zero absorption rate (Re = 0) are immortal at every N.
-The cavity ALWAYS retains light. Complete absorption is impossible
-while the palindrome holds.
+Complete absorption is impossible: the Liouvillian always has a kernel.
+What the cavity always retains is lens content, never light.
 
 *Source: [`trapped_light_localization.py`](../simulations/trapped_light_localization.py). K_death = ln(10) = 2.303 (proven from D6: rate_min = 2γ, so K = γ·ln(100)/(2γ) = ln(10)).*
 
@@ -131,8 +136,7 @@ The N+1 immortal modes (zero absorption rate) are the operators that
 describe the system's overall state and the conserved quantities in each
 magnetization sector. They never absorb because they contain no
 transverse (X,Y) content: they are pure structure, invisible to the
-light. In the mass = trapped light picture, they are massless: always
-moving, never resting.
+light. In the mass = trapped light picture, they are massless.
 
 The palindrome protects paired modes from complete absorption. At any
 finite time, each pair retains amplitude. The cavity resists total
