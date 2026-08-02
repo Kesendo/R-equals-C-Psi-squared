@@ -3605,37 +3605,29 @@ public static class OpenArcsRegistry
                 "TYPED owner carried; ANALYTICAL_SPECTRUM already wrote the formula, see the Origin. " +
                 "SCOPE: XXX only. The Laplacian appears because " +
                 "the ZZ coefficient equals the XY one; for XXZ it is Delta*diag(deg) - A, not a Laplacian. " +
-                "WHICH GATE CARRIES A SCALED THRESHOLD IS ITSELF A MEASURED FACT, and it took THREE " +
-                "rounds and a measurement off the powers-of-ten grid to settle, so read all of this " +
-                "before changing a threshold. EXACTLY ONE of the three residuals is bit-exact: the " +
-                "HERMITIAN-PART one, 0.0 on every graph and at every J including pi*1e8, and " +
-                "structurally so (on this block every basis element has col = 0, so an off-diagonal is " +
-                "-i*H[r,c] with H real and symmetric bit-for-bit; the bra-ket disagreement has popcount " +
-                "1, so the dephasing contribution is the SINGLE term -2*gamma_site and not a sum; and " +
-                "the H diagonal adds exactly +0.0 to the real part). It is asserted as an exact 0.0, " +
-                "and if it ever stops being exact that is a finding about the builder, not a tolerance " +
-                "to widen. THE OTHER TWO GROW WITH J AND ARE SCALED. The per-mode residual is an " +
-                "eigensolver quantity at about eps*norm(M): on ONE family, so that the series is a " +
-                "series, uniform chain N=6 gives 1.3e-15 at J=1, 1.1e-10 at 1e5, 3.4e-8 at 1e8. " +
-                "The GENERATOR residual is the one that fooled two rounds in OPPOSITE directions. All " +
-                "of it sits on the diagonal, where H[r,r] - H[0,0], a floating sum over bond terms, is " +
-                "compared against a directly summed degree, and whether those agree bit for bit depends " +
-                "on the coupling. MEASURED, not inferred: the UNIFORM-CHAIN rows at J = 1, 1e5 and 1e8 " +
-                "read exactly 0.0 at every N. The other three do not share one onset, so here they are row by " +
-                "row at J = 1: per-bond is nonzero at EVERY N (2.8e-17 at N=3, 5.6e-17 at N=4, 4.4e-16 " +
-                "from N=5); ring is exactly 0.0 at N=3 and N=4, then 1.1e-16 at N=5 and 2.2e-16 from N=6; " +
-                "star is exactly 0.0 at N=3, then 1.1e-16 from N=4. Two drafts of this sentence were wrong " +
-                "in the same way one notch apart, first a family MAXIMUM projected onto every row, then a " +
-                "family ONSET projected onto a member that does not have it. Off the exact grid AND scaled, it grows linearly in J: " +
-                "0.0 at J=pi, 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8. So its scaled " +
-                "threshold IS earned, and the gate now carries a pi*1e8 row that fails a flat 1e-12 by " +
-                "nearly five orders. TWO ROUNDS GOT THIS WRONG IN OPPOSITE DIRECTIONS, both by not " +
-                "reading a number that was already printed: one measured only the powers-of-ten rows, " +
-                "read the zeros as exactness and deleted the scaling as 'a loosening with nothing " +
-                "behind it'; the next reinstated the scaling but listed 0.7, 1.3 and 0.4+0.9b among the " +
-                "exact couplings, contradicting its own probe output and its own test file in the same " +
-                "commit. Three zeros on powers of ten is what the wrong conclusion looks like from the " +
-                "inside. " +
+                "WHICH RESIDUAL IS EXACT IS A STATEMENT ABOUT THE CONSTRUCTION, NOT ABOUT THE IDENTITY, and " +
+                "the three split cleanly. The HERMITIAN-PART residual is bit-exact, 0.0 on every graph and " +
+                "every coupling tried including pi*1e8, and structurally so: on this block every basis element " +
+                "has col = 0, so an off-diagonal is -i*H[r,c] with H real and symmetric bit for bit; the bra-ket " +
+                "disagreement has popcount 1, so the dephasing contribution is a SINGLE term and not a sum; and " +
+                "the H diagonal adds exactly +0.0 to the real part. It is asserted as an exact 0.0, and if it " +
+                "ever stops being exact that is a finding about the builder, not a tolerance to widen. The " +
+                "PER-MODE residual has no exact route at all, an eigensolver on a non-normal M, and tracks " +
+                "eps*norm(M): uniform chain N=6 gives 1.3e-15 at J=1, 1.1e-10 at 1e5, 3.4e-8 at 1e8. " +
+                "THE GENERATOR RESIDUAL IS NEITHER, AND THAT IS THE FINDING. Its whole content sits on the " +
+                "diagonal, where a site accumulates (+q, -q) for every bond it does NOT touch and those pairs " +
+                "cancel around a running sum. Whether it is exact therefore depends on the ORDER the bonds " +
+                "arrive in, and on nothing else about the physics. Decisive measurement: one graph, one coupling " +
+                "set, one gamma profile, changing ONLY the list order gives 1.7e-16 on the chain-end site " +
+                "ascending in |J| and exactly 0.0 descending. No ordering is exact in general (sorting " +
+                "descending fixes the ascending chain and breaks N=3 and N=4, which were exact), so the scaled " +
+                "threshold bounds THE ROUTE and not the claim. Two constructions were removed to get this far " +
+                "and both were real: the vacuum constant E0 = sum(J_b)/4, which made every diagonal a difference " +
+                "of two full sums and cost digits in proportion to J (the witness now writes the bond term as " +
+                "(J/4)(ZZ - I), a free gauge since a constant commutes out of -i[H,rho]); and a prediction that " +
+                "halved a total where the block quarters per bond. What is left is the order, and it is worth " +
+                "keeping as a diagnostic rather than tuning away: it is the one quantity here that reads " +
+                "something the value does not contain. " +
                 "(ii) ORIENTATION, AND IT IS A LABEL COLLISION, not just a sign. The convention here is " +
                 "JointPopcountSectorBuilder's (PCol, PRow) = (bra, ket), which agrees with MirrorWorld's " +
                 "Block (P = bra, Q = ket), so (0,1) here is |1-exc><vac| and carries +i. D10:139 writes " +

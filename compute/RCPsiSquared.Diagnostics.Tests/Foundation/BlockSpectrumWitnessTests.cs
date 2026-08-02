@@ -21,14 +21,11 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// threshold (3d-scale), the Bendixson and trace corollaries (3e), and the N=2 case where the floor
 /// line does NOT open (3f). Two things are deliberate. The graph rows: on a uniform-J chain or ring
 /// a global site-versus-bit reversal cancels, so the per-bond-J and star rows are what make the
-/// ordering falsifiable. And which gates carry a SCALED threshold, which took three rounds to
-/// settle: ONE of the three residuals is bit-exact, the Hermitian-part one, structurally and at
-/// every J (3c asserts an exact 0.0). The other two grow and are scaled — the generator residual
-/// linearly in J once the coupling is not binary-exact (0.0 at J=1e8 but 6.0e-08 at pi*1e8, and
-/// already up to 4.4e-16 at J=1 on the larger-N ring, star and per-bond rows), the per-mode one as
-/// eps·‖M‖. Measuring only on powers of ten shows three zeros and invites exactly the wrong
-/// conclusion; the exactness that IS structural is pinned by 3b-exact and 3c, and the rest is
-/// deliberately left free to move.</para></summary>
+/// ordering falsifiable. And which residual is EXACT and which is not, which is a statement about
+/// the construction rather than about the identity. Herm(M) = −2·diag(γ) is bit-exact always and is
+/// asserted as an exact 0.0. The per-mode residual has no exact route at all (an eigensolver on a
+/// non-normal M) and is bounded by eps·‖M‖. The generator residual is the interesting one and it
+/// has its own note at Gate 3b-large-J.</para></summary>
 public class BlockSpectrumWitnessTests
 {
     [Fact]
@@ -202,26 +199,18 @@ public class BlockSpectrumWitnessTests
 
     // Gate 3b-large-J: the same identity far off J=1, and the row that EARNS 3b's scaled threshold.
     //
-    // Read the last row before believing any of the others. The residual lives entirely on the
-    // diagonal, where H[r,r] - H[0,0] (a floating sum over bond terms) is compared against the
-    // directly summed degree: two different summations of the same exact value. Whether they agree
-    // bit for bit depends on the coupling AND on N. MEASURED row by row, not inferred: the
-    // UNIFORM-CHAIN rows read exactly 0.0 at every N and at J = 1, 1e5 and 1e8 (those couplings are
-    // binary-exact and their degree sums are too). The other three families are not uniformly
-    // nonzero either -- ring and star read exactly 0.0 at N=3, ring again at N=4 -- and where they
-    // are nonzero at J=1 they run from 2.8e-17 (per-bond, N=3) to 4.4e-16 (per-bond, N>=5). Quoting
-    // a family's maximum as if it were every row of that family is how the previous version of this
-    // comment was wrong. So the powers-of-ten rows say nothing about scaling: they are the exact
-    // ones. Take a
-    // coupling off that grid AND scale it and the residual grows LINEARLY in J: 0.0 at J=pi,
-    // 5.7e-14 at pi*1e2, 5.8e-11 at pi*1e5, 6.0e-08 at pi*1e8.
+    // THE RESIDUAL HERE IS NOT NOISE, IT IS A READING OF HOW H WAS ASSEMBLED. A site's diagonal
+    // accumulates (+q, −q) for every bond it does NOT touch, and those pairs cancel around a running
+    // sum. Whether they cancel bit for bit therefore depends on the ORDER the bonds arrive in, and
+    // on nothing else about the physics: measured on one graph with one coupling set, changing only
+    // the list order, ascending |J| leaves 1.7e-16 on the chain-end site and descending leaves 0.0.
     //
-    // Two rounds got this wrong in opposite directions and both times by not reading a number that
-    // was already printed. One measured only the dyadic rows, read the zeros as exactness, and
-    // deleted the scaling as "a loosening with nothing behind it". The next reinstated the scaling
-    // but wrote 0.7, 1.3 and 0.4+0.9b into the list of exact couplings, contradicting its own probe
-    // output and the sibling sentence in Gate 3c below. The pi*1e8 row is what settles
-    // it: it fails a flat 1e-12 by nearly five orders.
+    // No ordering is exact in general -- sorting descending fixes the ascending chain and breaks
+    // N=3 and N=4, which were exact -- so the identity is exact while the route to it is not, and
+    // this gate's scaled threshold bounds the route, not the claim. Two constructions were removed
+    // to get this far and both were real: the vacuum constant E0 = Σ J_b/4, which made every
+    // diagonal a difference of two full sums (see HeisenbergGraph), and a prediction that halved a
+    // total where the block quarters per bond (see PredictedGenerator). What is left is the order.
     [Theory]
     [InlineData(4, 1e5)]
     [InlineData(6, 1e8)]

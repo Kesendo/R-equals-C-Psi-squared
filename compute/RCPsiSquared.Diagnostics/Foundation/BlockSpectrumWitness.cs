@@ -111,17 +111,43 @@ public sealed class BlockSpectrumWitness : IInspectable
     public static Bond[] ChainBonds(int n, double j) =>
         Enumerable.Range(0, n - 1).Select(i => new Bond(i, i + 1, j)).ToArray();
 
-    /// <summary>H = Σ_b (J_b/4)·(X_aX_b + Y_aY_b + Z_aZ_b) on an arbitrary bond list, the coupling
+    /// <summary>H = Σ_b (J_b/4)·(X_aX_b + Y_aY_b + Z_aZ_b − I) on an arbitrary bond list, the coupling
     /// read PER BOND from <see cref="Bond.Coupling"/>. XXX only: the ZZ coefficient must equal the
     /// XY one, otherwise the (0,1) block's generator is +i·(1/2)·(Δ·diag(deg) − A), which is not a
     /// graph Laplacian. Popcount-conserving, so it lives inside the
-    /// <see cref="JointPopcountSectorBuilder"/> block infrastructure.</summary>
+    /// <see cref="JointPopcountSectorBuilder"/> block infrastructure.
+    ///
+    /// <para>THE −I IS A GAUGE CHOICE AND IT COSTS NOTHING PHYSICALLY: an additive constant commutes
+    /// with everything, so [c·I, ρ] = 0 and the Liouvillian L = −i[H, ·] + D is IDENTICAL with or
+    /// without it. What it buys is exactness. Written without it, the ferromagnetic vacuum carries
+    /// E₀ = Σ_b J_b/4, every block diagonal is the DIFFERENCE of two rounded full sums
+    /// (H[r,r] − E₀), and the identity has to survive a cancellation that costs digits in proportion
+    /// to J: measured, the (0,1) generator residual was 6.0e-08 at J = π·10⁸ on the uniform chain.
+    /// With the −I the vacuum sits at exactly 0 and that whole cancellation is gone: the uniform
+    /// chain is now bit-exact at every J tried, π·10⁸ included.
+    /// <para>IT DOES NOT MAKE THE RESIDUAL VANISH IN GENERAL, and saying so would be the mistake
+    /// this class documents elsewhere. A site's diagonal still receives (+q, −q) from every bond it
+    /// does NOT touch, and those pairs cancel around a running sum, so the assembly stays
+    /// order-sensitive: on random per-bond chains with shuffled bond order roughly a quarter of the
+    /// cases land nonzero, up to 4.4e-16. What the gauge removes is one specific double route, not
+    /// the order.</para></summary>
     private static ComplexMatrix HeisenbergGraph(int n, IReadOnlyList<Bond> bonds)
     {
-        var terms = new List<PauliTerm>(bonds.Count * 3);
+        var terms = new List<PauliTerm>(bonds.Count * 4);
+        // The bond list is used AS GIVEN, deliberately. A site's diagonal accumulates (+q, −q) for
+        // every bond it does not touch, and those pairs cancel around a running sum, so the assembly
+        // is order-sensitive: the same graph with the same couplings in a different list order gives
+        // a different last bit. Sorting by descending |J| makes the ascending chain exact and makes
+        // N=3 and N=4 worse, so there is no ordering that is exact in general and picking one would
+        // be a false precision. What the order-sensitivity IS good for is reading the residual: see
+        // GeneratorResidual.
         foreach (var b in bonds)
+        {
             foreach (var p in new[] { PauliLetter.X, PauliLetter.Y, PauliLetter.Z })
                 terms.Add(PauliTerm.TwoSite(n, b.Site1, p, b.Site2, p, b.Coupling / 4.0));
+            // the gauge term, immediately after its own ZZ so the vacuum cancels PAIRWISE and exactly
+            terms.Add(PauliTerm.TwoSite(n, b.Site1, PauliLetter.I, b.Site2, PauliLetter.I, -b.Coupling / 4.0));
+        }
         return new PauliHamiltonian(n, terms).ToMatrix();
     }
 
@@ -247,18 +273,32 @@ public sealed class BlockSpectrumWitness : IInspectable
     public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(int n, IReadOnlyList<double> gammaPerSite, double j) =>
         BandEdgeSectorReSpan(HeisenbergChain(n, j), n, gammaPerSite);
 
-    /// <summary>The WEIGHTED graph Laplacian 𝓛 = diag(deg) − A of a bond list, each bond entering
-    /// with its own <see cref="Bond.Coupling"/>. At uniform J this is J·(the unweighted Laplacian),
-    /// so the generator below reads +i·(J/2)·𝓛_unweighted there.</summary>
-    private static ComplexMatrix WeightedLaplacian(int n, IReadOnlyList<Bond> bonds)
+    /// <summary>The predicted (0,1) generator +i·(1/2)·𝓛 with 𝓛 = diag(deg) − A the WEIGHTED graph
+    /// Laplacian, built straight from the bond list and never from H.
+    ///
+    /// <para>WHY IT IS ACCUMULATED IN QUARTERS instead of the obvious Σ J_b followed by a factor ½:
+    /// because ½·(J₁ + J₂ + …) and (J₁/4 + J₁/4) + (J₂/4 + J₂/4) + … are the same rational number by
+    /// two different floating routes, and the block reaches it by the second one, a bond at a time
+    /// through the XX, YY and ZZ terms. Writing the prediction the first way and calling the
+    /// difference a tolerance is the mistake this method exists to refuse: the deviation would not
+    /// be noise, it would be the record of a quantity computed twice. Mirroring removes that route
+    /// (the ring and star rows go to exactly 0.0); what survives it is the bond ORDER, which is the
+    /// thing worth reading rather than tuning.</para></summary>
+    private static ComplexMatrix PredictedGenerator(int n, IReadOnlyList<Bond> bonds)
     {
-        var l = MathNet.Numerics.LinearAlgebra.Matrix<Complex>.Build.Dense(n, n);
+        var m = MathNet.Numerics.LinearAlgebra.Matrix<Complex>.Build.Dense(n, n);
+        var i = Complex.ImaginaryOne;
         foreach (var b in bonds)
         {
-            l[b.Site1, b.Site2] -= b.Coupling; l[b.Site2, b.Site1] -= b.Coupling;
-            l[b.Site1, b.Site1] += b.Coupling; l[b.Site2, b.Site2] += b.Coupling;
+            double q = b.Coupling / 4.0;          // the coefficient the Hamiltonian's terms carry
+            // the hop: XX and YY each put q on the pair, and the generator's −i turns it over
+            m[b.Site1, b.Site2] -= i * q; m[b.Site1, b.Site2] -= i * q;
+            m[b.Site2, b.Site1] -= i * q; m[b.Site2, b.Site1] -= i * q;
+            // the degree: ZZ and the gauge term each put −q on an incident diagonal
+            m[b.Site1, b.Site1] += i * q; m[b.Site1, b.Site1] += i * q;
+            m[b.Site2, b.Site2] += i * q; m[b.Site2, b.Site2] += i * q;
         }
-        return l;
+        return m;
     }
 
     /// <summary>Which SITE is excited in each row of the (0,1) block, in the block's own basis
@@ -292,7 +332,7 @@ public sealed class BlockSpectrumWitness : IInspectable
     }
 
     /// <summary>The entry-wise residual of the site-resolved generator identity on ANY XXX bond
-    /// graph, with this witness's convention H = Σ_b (J_b/4)·(XX+YY+ZZ):
+    /// graph, with this witness's convention H = Σ_b (J_b/4)·(XX+YY+ZZ−I):
     /// <para>M = +i·(1/2)·𝓛 − 2·diag(γ), 𝓛 the WEIGHTED graph Laplacian diag(deg) − A (at uniform
     /// J: +i·(J/2)·𝓛_unweighted).</para>
     /// The two TYPED owners each carry half of this: D10 (<c>D10_W1_DISPERSION.md</c>) has the ZZ
@@ -331,13 +371,13 @@ public sealed class BlockSpectrumWitness : IInspectable
     public static double GeneratorResidual(int n, IReadOnlyList<Bond> bonds, IReadOnlyList<double> gammaPerSite)
     {
         var m = BandEdgeSectorBlock(HeisenbergGraph(n, bonds), n, gammaPerSite);
-        var lap = WeightedLaplacian(n, bonds);
+        var pred = PredictedGenerator(n, bonds);
         var sites = BandEdgeSectorSiteOrder(n);   // the block's basis order is not site order
         double worst = 0.0;
         for (int r = 0; r < n; r++)
             for (int c = 0; c < n; c++)
             {
-                var predicted = Complex.ImaginaryOne * 0.5 * lap[sites[r], sites[c]];
+                var predicted = pred[sites[r], sites[c]];
                 if (r == c) predicted -= 2.0 * gammaPerSite[sites[r]];
                 worst = Math.Max(worst, (m[r, c] - predicted).Magnitude);
             }
