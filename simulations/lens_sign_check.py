@@ -124,6 +124,43 @@ def check(label, n, gammas, expected, tol=5e-4):
     return ok
 
 
+def degeneracy_report(label, n, gammas):
+    """How many eigenvalues share the one the recipe selects, and does another solver agree?
+
+    This is the part of the recipe nobody had looked at. The selected slow mode sits in a
+    DEGENERATE eigenvalue, so 'the first SE-accessible mode' names a subspace, not a vector, and
+    which basis vector comes out is whatever the eigensolver emitted first. scipy and numpy
+    disagree on the IBM profile: SE ratio 0.0351 against 1.0000, fidelity 0.2806 against 0.9741.
+    The same recipe and the same 0.01 SE threshold are in LensAnalysis.cs, so the surveyed rows
+    inherit it. Reported here rather than gated, because the fix is a research decision (pick the
+    SE-maximising representative? something else?) and belongs in the open arc, not in a tolerance.
+    """
+    import scipy.linalg as sla
+    d = 2 ** n
+    L = liouvillian(heisenberg(n), gammas, n)
+    for name, solver in (("numpy", np.linalg.eig), ("scipy", sla.eig)):
+        vals, R = solver(L)
+        Rinv = np.linalg.inv(R)
+        idx = se_indices(n)
+        for m in np.argsort(np.abs(vals.real)):
+            if abs(vals[m].real) < 1e-9:
+                continue
+            vec = R[:, m].reshape(d, d, order="F")
+            se = np.linalg.norm(vec[np.ix_(idx, idx)]) / np.linalg.norm(vec)
+            if se <= 0.01:
+                continue
+            mult = int((np.abs(vals - vals[m]) < 1e-10).sum())
+            left = Rinv[m, :].reshape(d, d, order="F")
+            M = left[np.ix_(idx, idx)]
+            M = (M + M.conj().T) / 2
+            w, v = np.linalg.eigh(M)
+            psi = v[:, int(np.argmax(np.abs(w)))]
+            a = np.abs(psi) / np.linalg.norm(np.abs(psi))
+            print(f"    {label} {name:5s}: eigenvalue multiplicity {mult}, SE {se:.4f}, "
+                  f"fidelity {abs(np.vdot(a, psi))**2:.4f}")
+            break
+
+
 if __name__ == "__main__":
     print("F9 edge concentrator: gamma_edge = N*gamma_base - (N-1)*eps, gamma_other = eps")
     for n in (5, 6):
@@ -133,7 +170,12 @@ if __name__ == "__main__":
     print("IBM Torino sacrifice profile at N=5 (the one the AUC table uses)")
     report("IBM Torino", 5, [2.336, 0.099, 0.050, 0.072, 0.051])
     print()
-    print("Gate: the fidelities the document and the arc quote")
+    print("The selection is not well posed: the slow mode sits in a degenerate eigenvalue")
+    gb, eps = 0.05, 0.01
+    degeneracy_report("F9  N=5", 5, [5 * gb - 4 * eps] + [eps] * 4)
+    degeneracy_report("IBM N=5", 5, [2.336, 0.099, 0.050, 0.072, 0.051])
+    print()
+    print("Gate: the fidelities the document and the arc quote (numpy's selection)")
     gb, eps = 0.05, 0.01
     passed = [
         check("F9", 5, [5 * gb - 4 * eps] + [eps] * 4, DOCUMENTED[("F9", 5)]),

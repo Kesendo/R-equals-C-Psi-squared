@@ -3234,14 +3234,17 @@ public static class OpenArcsRegistry
                 "2.6e-4 deg and is already 20 percent low at 1e-3 deg; the handover is NON-MONOTONE (3.0028e-5 at " +
                 "2.1e-3 deg down to 1.9105e-5 at 2.7e-3 deg, a third, in the optimal meter); then a shoulder from " +
                 "3e-5 at 0.006 deg to 8e-5 at 0.06 deg; deepest 0.035329 at 38.0 deg with rate share 1.0000, " +
-                "0.013750 at 80 deg, 0.019856 at 90 deg. First sampled step 3.083413e-5 against the field " +
-                "3.9588e-9, a factor 7744. Rates are the whole break at 170 of the 189 angles off the protected " +
-                "point; the exceptions are 17 angles below 4 deg plus 80.5 and 81.0. VERDICTS: the Soft-to-Hard " +
+                "0.013750 at 80 deg, 0.019856 at 90 deg. First sampled step 3.097521e-5 against the field " +
+                "4.000000e-9, a factor 7744, both read off the committed tsv at its exact angle (evaluating " +
+                "the ROUNDED 0.0057 deg instead gives 3.083413e-5 and 3.9588e-9, ratio 7789). Rates are the " +
+                "whole break at 170 of the 189 angles off the protected " +
+                "point; the exceptions are 17 angles inside the first four degrees (16 strictly below 4.0, " +
+                "plus 4.0 itself) and 80.5 and 81.0. VERDICTS: the Soft-to-Hard " +
                 "step is the 1e-6 tolerance crossed on a continuous ramp, at 0.0906 deg on the field (the grid " +
                 "first records Hard at 0.1146 deg) and near 0.0006 deg on frustration; only the truly label, an " +
                 "exact operator identity, switches at zero. BUDGET: a 1 deg field tilt costs 1.2e-4 and " +
                 "frustration costs that at about 0.08 deg, so 12x at device scale; the asymptotic ratio is 151x " +
-                "and goes as gamma^-2 (9.5 / 151.4 / 605.0 at gamma = 0.2 / 0.05 / 0.025) while the device-scale " +
+                "and goes as gamma^-2 (9.65 / 151.4 / 605.0 at gamma = 0.2 / 0.05 / 0.025) while the device-scale " +
                 "one barely moves (11 / 12 / 25), so their order swaps at gamma=0.2 and the device-scale figure is " +
                 "the one to design against. AGGREGATE, which the worst-case meter hides: at field 90 deg 230 of " +
                 "the 256 eigenvalues sit exactly on the mirror and of the 26 that do not, 24 miss by 0.20 and 2 by " +
@@ -3263,7 +3266,9 @@ public static class OpenArcsRegistry
                 "stayed out. " +
                 "WHAT THE ROUNDS COST, and it is the durable part. THREE separate readings in this document were " +
                 "the sampling grid talking and nothing else: the frustration cliff, the 99.3 percent phase " +
-                "doorstep, and the Soft-to-Hard switch. Two of the three were written IN THIS SESSION as " +
+                "doorstep, and the Soft-to-Hard switch. ONE of the three, the doorstep, was written in this " +
+                "session as a repair of the first; the Soft-to-Hard reading is older (9fb805e, 2026-06-08) " +
+                "and this session removed it. Two were inherited. " +
                 "repairs of the first. A grid first point is not a limit and a tolerance crossing is not a " +
                 "discontinuity; follow the transition BELOW the grid before calling it discrete. The mechanism " +
                 "claim rested on four bond sets that were ALL rate-mirror-symmetric on their own, so within that " +
@@ -3360,6 +3365,7 @@ public static class OpenArcsRegistry
                 "a median, and a deletion that removed a counterexample. Fix small, re-measure each number, and put " +
                 "the post-fix state through its own empty round. UPDATE 2026-08-01 evening: a SIBLING document now " +
                 "carries the corrected parameter-side wording, and it is the template for fence (1) here. " +
+                "WARNING before anyone writes a fourth version, because three in a row were wrong: " +
                 "reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md used to say 'rotate the noise distribution by " +
                 "ninety degrees and the spectrum holds while only the forms turn'; a first repair made that 'the " +
                 "diagonal blocks hold, cell for cell', which a review then showed is VACUOUS on the locus (R90 is " +
@@ -3429,7 +3435,9 @@ public static class OpenArcsRegistry
                 "v = [-0.117, +0.332, -0.481, +0.535, -0.482, +0.334, -0.119], a momentum-pi standing wave. So " +
                 "|v| is very nearly orthogonal to v: fidelity |<|v|, v>|^2 = 0.0002 at N=7, 0.0000 at N=6, " +
                 "0.0022 at N=5. The verifier is simulations/lens_sign_check.py, which reproduces the recipe from " +
-                "below and gates the three fidelities. On the IBM Torino " +
+                "below and gates three of these: F9 at N=5, F9 at N=6, and the IBM profile. The N=7 numbers, " +
+                "including the vector quoted above, need about 8 GB and are NOT reproducible from the " +
+                "committed gate. On the IBM Torino " +
                 "sacrifice profile [2.336, 0.099, 0.050, 0.072, 0.051] the components share a sign and |v| " +
                 "reproduces v to 0.974, which is why the AUC table is unaffected in substance and why this went " +
                 "unnoticed for months; note that the tabulated 0.099 at site 0 is imaginary content, its real part " +
@@ -3440,7 +3448,18 @@ public static class OpenArcsRegistry
                 "that does it. The QUESTION the finding opens is untouched: whether the SIGNED state is the better " +
                 "preparation. Nobody has evolved it. The AUC results in the document were measured on the " +
                 "magnitude state, so they stand as measurements of that state and say nothing about the other one.",
-            NextStep: "time-evolve BOTH states on a symmetric F9 profile at N=5 and N=6, where the alternation is " +
+            NextStep: "FIRST, and this outranks the sign question: make the selection WELL POSED. A review round " +
+                "found that the selected slow mode sits in a DOUBLY DEGENERATE eigenvalue, so 'the first " +
+                "SE-accessible mode' names a two-dimensional subspace and not a vector, and which basis vector " +
+                "comes out is whatever the eigensolver emitted first. Verified here on the IBM Torino profile at " +
+                "N=5: numpy gives SE ratio 1.0000 and fidelity 0.9741, scipy gives 0.0351 and 0.2806, same " +
+                "recipe, same threshold, same matrix. The F9 rows happen to agree across solvers (0.0022 both " +
+                "ways) but that is luck, not well-posedness. LensAnalysis.cs runs the same first-match rule at the " +
+                "same 0.01 SE threshold, so every surveyed row inherits it. Until a representative is PICKED (the " +
+                "SE-maximising one is the obvious candidate, and simulations/lens_sign_check.py now prints the " +
+                "multiplicity so the ambiguity is visible), any AUC comparison is comparing arbitrary basis " +
+                "vectors. THEN, once that is settled: time-evolve BOTH states on a symmetric F9 profile at N=5 " +
+                "and N=6, where the alternation is " +
                 "clean, and compare concurrence AUC exactly the way the document's step 8 does. All three outcomes " +
                 "are informative: if the signed state wins, the pipeline has been leaving performance on the table " +
                 "and the survey should carry signs; if the magnitude state wins, the Complex.Abs is doing real " +
@@ -3463,7 +3482,14 @@ public static class OpenArcsRegistry
                 "'Tier: 4-5 (structural exploration, not proof)', while that same document's own numbered list at " +
                 "the end tiers its results 2 to 4-5 item by item. D6, the derivation F55 cites, is marked in the " +
                 "registry as quoted rather than verified. So a Tier-1 registry entry rests on a document that " +
-                "calls itself Tier 4-5, through a derivation nobody re-derived.",
+                "calls itself Tier 4-5, through a derivation whose label is SPLIT. Correction, verified after " +
+                "this arc was written and before acting on it: D6 reads [gap VERIFIED above Q*_gap(N); " +
+                "mixing-time bound quoted, not verified], and F55 uses ONLY the gap (rate_min = 2 gamma). " +
+                "So the quoted-not-verified half is not the half F55 stands on, and the NextStep below is " +
+                "aimed too wide. The genuine caveat is narrower and already recorded in D06_SPECTRAL_GAP.md: " +
+                "Q*_gap(N) is bisected numerically and no lower bound on min<n_XY> is derived anywhere. The " +
+                "tier gap is smaller too: TRAPPED_LIGHT tiers K_death at Tier 2 in its own item list (:186), " +
+                "so it is Tier 1 against Tier 2, not against the document header's Tier 4-5.",
             ParkedAt: "nothing applied, deliberately: raising or lowering a tier is a claim about confidence KIND, " +
                 "and the audit's own rule is that FALSE gets retracted while UNVERIFIED-but-open gets demoted, so " +
                 "the first job is finding out which this is. A second link belongs to the same chain and is worse " +
@@ -3472,7 +3498,7 @@ public static class OpenArcsRegistry
                 "row, 'Even N = confocal' marked with a cross because N=3 odd (56 percent) beats N=6 even (50 " +
                 "percent). Four of five cavity tests pass; the narration rounds that to the cavity reading being " +
                 "established. The one hunk of docs/ANALYTICAL_FORMULAS.md left unstaged from the older four-commit " +
-                "split is this F55 hunk, so it belongs here rather than with F140.",
+                "split was this F55 hunk; it landed in 78dc31c, so it is not in the working tree to look for.",
             NextStep: "start at D6, because everything above it inherits from there: re-derive it or find who did, " +
                 "and record which. Then the tier follows almost mechanically. If D6 holds, F55's Tier 1 is fine " +
                 "and TRAPPED_LIGHT's self-stamp is the loose end (its Tier 4-5 preface is about the mass reading, " +

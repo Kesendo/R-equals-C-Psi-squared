@@ -83,7 +83,13 @@ if __name__ == "__main__":
     for k in (3, 4, 5):
         strings, masks, hard_masks, hard_pairs, homog = census(k)
         dressed = 2 ** (2 * k - 3) * hard_masks
+        # The string and mask counts are what catch an alphabet regression (over XYZ alone they
+        # come out 6/20/60 and nothing downstream notices), so they are asserted, not just printed.
+        ok &= len(strings) == {3: 12, 4: 56, 5: 240}[k]
+        ok &= len(masks) == {3: 3, 4: 7, 5: 15}[k]
         ok &= hard_masks == a203241(k)
+        # anchor the dressing on the CLOSED FORM, not on the measured hard_masks
+        ok &= len(homog) == 2 ** (2 * k - 3) * a203241(k)
         ok &= len(homog) == dressed
         ok &= len(hard_pairs) == 2 * len(homog)
         print(f"{k:>2} {len(strings):>8} {len(masks):>6} {hard_masks:>11} {a203241(k):>8} "

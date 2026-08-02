@@ -274,8 +274,10 @@ soft-or-hard collapses to a single integer comparison, the number of times (1+x)
 is soft, different is hard. There is no halfway value. Two fences come with it. Outside that gate
 `PalindromeSoftCertifier` returns no verdict and defers to the spectral authority, so the family below is the
 certified one, not everything the comparison might decide. And the comparison needs room: a chain with too
-few windows for the obstruction to close is soft whatever the valuations say, which for a k-body pair means
-N ≥ 2k−2 (`WindowedObstructionScan` records the case, IXZX+XIZX being soft below N=6 and hard from there).
+few windows for the obstruction to close is soft whatever the valuations say. How much room is pair-dependent,
+not uniform. N ≥ 2k−2 is a worst case that suffices for all of them; most close earlier (at k=4, six of the
+fourteen valuation-different mask pairs are already hard at N=5). `WindowedObstructionScan` records one that
+needs the worst case: IXZX+XIZX is soft below N=6 and hard from there.
 
 The seam with the coast above is worth stating rather than glossing, because the two are easy to merge. The
 frustration coast runs between two three-term sets and carries four terms at every angle in between, on a

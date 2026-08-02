@@ -136,9 +136,12 @@ frequencies (verified 100% for N = 2, ..., 5).
 
 The Q-factor (how many times the light bounces inside the cavity before
 being absorbed) does NOT mirror the degeneracy. It falls monotonically
-across the shells while the degeneracy is palindromic, so the two profiles
-come apart, and shells 1 and 4 are the case to look at: the degeneracy
-pairs them (16 and 16), the Q-factor does not (72.4 against 18.1):
+across the shells while the degeneracy is palindromic. Shells 1 and 4 look
+like the case in point, 72.4 against 18.1, and they are the worst example
+to pick: 18.1 is 72.4/4 exactly, because Q divides |Im λ| by |Re λ| ≈ 2γk
+and the |Im| profile itself IS palindromic. The monotone fall is the 1/k
+denominator. Where the profiles genuinely come apart is inside, at k = 2
+against k = 3:
 
 For N = 5 (chain):
 
@@ -158,20 +161,32 @@ the lightest modes (weight 1) have the highest Q, and the heaviest ones
 have lower Q but more frequencies. This is the cavity trade-off, and it
 is a statement about weight alone.
 
-The highest-Q mode is always at weight 1, and its value is exact rather
-than approximate:
+The highest-Q mode is always at weight 1, and its value is not a fit. On the
+single-excitation sector the Heisenberg Hamiltonian is exactly
+H = J(N−1)·I − 2J·L_graph, because the ZZ term supplies −2J·deg(j) and turns
+the adjacency matrix into the **graph Laplacian**. That block is invariant
+(H conserves magnetization) and the dephasing is flat at −2γ across it, so
 
-    Q_max(N) = 2J (1 + cos(π/N)) / γ
+    λ_m = −2γ − 2iJ·μ_m          and          Q_max = J · μ_max / γ
 
-verified by [`simulations/veffect_finesse_law.py`](../simulations/veffect_finesse_law.py)
-against every N the sweep carries (J = 1, γ = 0.05): 40.0, 60.0,
-68.2843, 72.3607, 74.6410 at N = 2 to 6, matching the measured 40.0, 60.0,
-68.3, 72.4, 74.6 to the printed digits. The cavity finesse limit is
-therefore 4J/γ, which is 80 here, approached from below and not reached at
-any computed N. One thing this form leaves open: the chain is OPEN
-(N−1 bonds), yet cos(π/N) is the ring dispersion rather than the open
-chain's cos(π/(N+1)). The law fits five points exactly and its mechanism
-is unexplained.
+with μ the Laplacian spectrum of the coupling graph. Everything follows from
+which graph:
+
+| graph | μ_max | Q_max at J=1, γ=0.05 |
+|---|---|---|
+| path P_N (the chain) | 2(1 + cos(π/N)) | 40.0, 60.0, 68.28, 72.36, 74.64 at N=2..6 |
+| star S_N | N | 60.0, 80.0, 100.0 at N=3,4,5 |
+
+Both columns are the dump's, to the printed digits, including the star rows
+in Result 5 that no chain-only fit could have reached. Checked by
+[`simulations/veffect_finesse_law.py`](../simulations/veffect_finesse_law.py).
+
+Two corrections this derivation forces. The cos(π/N) is the open path's own
+LAPLACIAN spectrum, the free-end one; cos(π/(N+1)) belongs to its adjacency
+matrix, which is the wrong operator here precisely because the degree term is
+present. And the finesse limit 4J/γ, which is 80 here, bounds the CHAIN only,
+since μ_max < 4 on a path. The star is not bounded by it: at N=4 it reaches
+80.0 exactly and at N=5 it is 100.0, both in this document's own Result 5.
 
 ---
 

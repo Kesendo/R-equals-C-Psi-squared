@@ -52,28 +52,25 @@ Under the sacrifice zone at t = 20:
 N = 4:
 | Site | γ | XY energy (surviving) |
 |------|------|----------------------|
-| 0 (edge) | 0.197 | 0.213 |
+| 0 (edge) | 0.197 | 0.209 |
 | 1 | 0.001 | 0.290 |
 | 2 | 0.001 | 0.288 |
-| 3 | 0.001 | 0.209 |
+| 3 | 0.001 | 0.213 |
 
 N = 5:
 | Site | γ | XY energy (surviving) |
 |------|------|----------------------|
-| 0 (edge) | 0.246 | 0.174 |
+| 0 (edge) | 0.246 | 0.165 |
 | 1 | 0.001 | 0.221 |
 | 2 | 0.001 | 0.220 |
 | 3 | 0.001 | 0.220 |
-| 4 | 0.001 | 0.165 |
+| 4 | 0.001 | 0.174 |
 
 Center/edge ratio: 1.37 (N=4), 1.30 (N=5), taken against the mean of the
-two edges. What the profile shows is edge suppression at BOTH ends, and
-the entrance pupil is not the lower of the two: at N=4 site 0 reads 0.213
-against site 3's 0.209, at N=5 site 0 reads 0.174 against site 4's 0.165.
-So the surviving energy concentrates in the center, and the tables above
-do not single out the site the light enters by. The surface is a window,
-not a wall, but that reading rests on the sacrifice-zone comparison below,
-not on this profile.
+two edges. Both edges hold less surviving mode energy than the centre, and
+the entrance pupil is the lower of the two: 0.209 against site 3's 0.213 at
+N=4, 0.165 against site 4's 0.174 at N=5. Light enters there and
+concentrates in the center. The surface is a window, not a wall.
 
 Under uniform gamma: ALL mode energy is absorbed by t = 20. No spatial
 structure. The sacrifice zone (entrance pupil) is necessary for any

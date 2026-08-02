@@ -44,8 +44,15 @@ def xy_weight_per_site(eigvec, N):
     weight localized at each site.
 
     XY-weight at site q: the eigenvector component contributes to site q
-    if the density matrix element (i,j) has i_q != j_q (i.e., the q-th
-    bit differs between row and column, meaning an off-diagonal in that qubit).
+    if the density matrix element (i,j) has i_q != j_q (i.e., the bit belonging
+    to site q differs between row and column, meaning an off-diagonal there).
+
+    Site q is the q-th TENSOR FACTOR, because build_liouvillian places gammas[k]
+    on ops[k] and kron_chain runs ops[0] (x) ops[1] (x) ... So site q owns bit
+    N-1-q of the basis index, not bit q. Reading bit q instead returns the whole
+    profile reversed, which is silent: it looks like a plausible profile and only
+    an asymmetric gamma anchor exposes it (huge gamma on site 0 must suppress
+    site 0).
     """
     d = 2**N
     site_weight = np.zeros(N)
@@ -56,8 +63,9 @@ def xy_weight_per_site(eigvec, N):
         if amp2 < 1e-30:
             continue
         for q in range(N):
-            iq = (i >> q) & 1
-            jq = (j >> q) & 1
+            bit = N - 1 - q
+            iq = (i >> bit) & 1
+            jq = (j >> bit) & 1
             if iq != jq:  # off-diagonal at site q = X or Y coherence
                 site_weight[q] += amp2
     return site_weight
