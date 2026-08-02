@@ -664,7 +664,9 @@ public static class InspectCommand
         new("blockspectrum", "the joint-popcount block spectrum, live: the (N+1)² sector decomposition " +
             "(halved by X⊗N, quartered by the F1 Π orbit -- the 100->50->25 story at N=9), the F1 palindrome " +
             "{λ}={−2σ−λ} reconstructed sector-by-sector (full at N≤7), the (0,1) band-edge Absorption floor " +
-            "Re=−2γ, and the N=9 banked headline read live from chain_N9.json -- the browsable face of the " +
+            "Re=−2γ at UNIFORM γ, the same sector site-resolved under a γ profile (the generator stays exactly " +
+            "+i·(1/2)·𝓛 − 2·diag(γ); the rate law is the Absorption Theorem's per-channel one), and the N=9 " +
+            "banked headline read live from chain_N9.json -- the browsable face of the " +
             "SLOW_N9 result (arc block_spectrum_n9)",
             c => new BlockSpectrumWitness(
                     c.Parser.HasFlag("N") ? c.N : 6,

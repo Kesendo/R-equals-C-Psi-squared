@@ -3575,19 +3575,94 @@ public static class OpenArcsRegistry
                 "and M's slowest eigenvector at 0.999996. So M hands over the AMPLITUDE and not the rate; the " +
                 "rate is near 2*Re(lambda_M) = -0.3328, shifted to -0.3179 by the population term of (a). A " +
                 "closed form for psi_opt does not by itself make the lens well posed.",
-            NextStep: "RESUMPTION POINT (2026-08-02, end of session). THREE THINGS ARE DONE and are not to be " +
+            NextStep: "RESUMPTION POINT (2026-08-02, end of session). FOUR THINGS ARE DONE and are not to be " +
                 "redone: the D10 Step-1 edit; the whole prose rename off the w=1 mislabel, both halves, " +
-                "landed in 26 files (commit f0a9160); and the PROOF_CHAIN_GAP_DOMINANCE section-4 redo " +
-                "with its fence in fourteen sites and its promoted gate (commit cadaa98). " +
-                "THE NEXT MOVE IS (b) BELOW, and it is a C# witness, not a script: widen " +
-                "BlockSpectrumWitness.BandEdgeSectorReSpan to take a gamma PROFILE instead of " +
-                "Enumerable.Repeat(gamma, n). That is the smallest edit that puts the site-resolved " +
-                "block under a live witness, and cockpit rule 5 wants it there before anything else in " +
-                "this arc lands: items (2) and (3) of the ParkedAt (the psi_opt closed form, the " +
-                "well-posed lens) are still reproduced-locally-only, and CONCENTRATOR_GEOMETRY:180 plus " +
-                "OPEN_QUESTIONS_INDEX:1646 must NOT be repaired before that witness exists, because " +
-                "their current verdict ('psi_opt has no known closed form') is the only thing standing " +
-                "between the repo and an uncited claim. After the witness, the two genuinely open " +
+                "landed in 26 files (commit f0a9160); the PROOF_CHAIN_GAP_DOMINANCE section-4 redo " +
+                "with its fence in fourteen sites and its promoted gate (commit cadaa98); and, as of " +
+                "this commit, THE WITNESS (b) ASKED FOR. BlockSpectrumWitness now carries the " +
+                "site-resolved block: BandEdgeSectorBlock returns M itself for a gamma PROFILE, " +
+                "BandEdgeSectorReSpan takes a profile (the uniform call is now an overload), " +
+                "ChainGeneratorResidual recomputes the composite identity live, and a sixth inspect node " +
+                "'the site-resolved band edge' renders it (inspect --root blockspectrum). FIVE THINGS THE " +
+                "WITNESS SETTLED, every one gated in BlockSpectrumWitnessTests (87 green), and the " +
+                "gates run on chain, per-bond-J chain, ring and star at N = 3..7 so nothing here is " +
+                "chain-only or scratch-file-only. " +
+                "(i) THE COMPOSITE IS EXACT AND IT IS THE LAPLACIAN ONE: with H = sum_b (J_b/4)*(XX+YY+ZZ), " +
+                "M = +i*(1/2)*WeightedLaplacian - 2*diag(gamma) entry-wise, on every one of those graphs. " +
+                "That is D10's degree term AND VacuumBlockReduction's profile in one operator, which is " +
+                "exactly the half neither owner carried. SCOPE: XXX only. The Laplacian appears because " +
+                "the ZZ coefficient equals the XY one; for XXZ it is Delta*diag(deg) - A, not a Laplacian. " +
+                "The residual gate is a SCALING LAW, not a constant (1e-13*(J*N + 2*max gamma)), with a " +
+                "J = 1e5 row proving the scaling rather than moving the blind spot one decade. " +
+                "(ii) ORIENTATION, AND IT IS A LABEL COLLISION, not just a sign. The convention here is " +
+                "JointPopcountSectorBuilder's (PCol, PRow) = (bra, ket), which agrees with MirrorWorld's " +
+                "Block (P = bra, Q = ket), so (0,1) here is |1-exc><vac| and carries +i. D10:139 writes " +
+                "-2iJ*Laplacian, which is the CONJUGATE operator |vac><1-exc| (D10:112 derives |0><j|), " +
+                "and labels it '(0,1)' as well. The same written label names conjugate operators in two " +
+                "tracked files. Same Re, mirrored frequencies; never copy a sign between them, and do not " +
+                "'fix' D10's sign on the strength of this witness. D10's normalisation also differs: its " +
+                "H = J*sum(XX+YY+ZZ) makes its J a quarter of this one. " +
+                "(iii) THE MASTER STATEMENT IS THE PARENT'S, NOT A NEW ONE, and the first draft of this " +
+                "arc got it backwards. AbsorptionTheoremClaim's per-channel law ('the carrier is a " +
+                "vector', 2026-05-29) already says -Re(lambda_k) = 2*sum_l gamma_l*<Delta_l>_k. On this " +
+                "block <Delta_l>_k is just the mode's SITE OCCUPANCY, because every basis element " +
+                "disagrees at exactly its own site. So the mode-by-mode equality does NOT die under a " +
+                "profile, it becomes a gamma-weighted average over the mode's own occupancy, and the two " +
+                "statements the first draft advertised are its corollaries: an occupancy is a probability " +
+                "distribution, so Re lambda is a CONVEX COMBINATION of the -2*gamma_l, which is the " +
+                "Bendixson bracket; and the trace, sum(Re lambda) = -2*sigma, which comes from " +
+                "Re tr(M) = tr(Herm(M)) and NOT from summing occupancies. That distinction was itself a " +
+                "second-draft error caught by measuring: the per-site occupancies do NOT close to 1 " +
+                "across modes (1.08 and 0.92 at N=6), because a right-eigenvector basis of a non-normal " +
+                "M is not orthonormal. " +
+                "Non-normality costs nothing, because Re lambda is the Rayleigh quotient of " +
+                "Herm(M) = -2*diag(gamma) on the right eigenvector, eigenvector by eigenvector. Herm(M) " +
+                "is now gated DIRECTLY (residual < 1e-14) rather than through a bracket with slack, since " +
+                "Bendixson is a theorem and a theorem standing in for a gate cannot fail. " +
+                "(iv) 'A PROFILE OPENS THE FLOOR LINE' IS FALSE IN GENERAL. At N=2 the 2x2 block has " +
+                "Re-split 2*sqrt(d^2 - J^2/4), d the half-difference of the two rates, so at and above " +
+                "J = 2d the two modes coalesce in Re and the line does not open at all. The witness " +
+                "renders that sentence conditionally on the measured width, and the gate walks J across " +
+                "the coalescence (where the numerically resolved split goes as sqrt(eps), a defective " +
+                "2x2, so the tolerance there is sqrt-scaled and says so). " +
+                "(v) THE BLOCK'S BASIS ORDER IS NOT SITE ORDER, AND THIS IS NOT A NEW FINDING: the " +
+                "sector's flat indices row*d + col " +
+                "with row = 1<<b sort ascending and site l sits at bit N-1-l, so the block runs site N-1 " +
+                "down to site 0. PerBlockLiouvillianBuilder's own gamma-index-convention paragraph states " +
+                "it, PerBlockLiouvillianBuilderGammaOrderTests gates it with a two-sided mutation control, " +
+                "and simulations/sacrifice_zone_optics.py writes it out. What is new here is only the " +
+                "exposed permutation for entry-wise comparisons against THIS block. " +
+                "The first version of the comparison was written in site order and the " +
+                "gate failed on it. What that gate could NOT have caught is a GLOBAL site<->bit reversal " +
+                "(builder and decoder both wrong), because a uniform-J chain or ring Laplacian is " +
+                "reversal-invariant and the two errors cancel; the per-bond-J and star rows exist to " +
+                "close exactly that hole. BandEdgeSectorSiteOrder(n) exposes the permutation, a gate pins " +
+                "it, and a mutation check (a site-ordered prediction must NOT match, on a non-palindromic " +
+                "per-bond J) rides along so it cannot go vacuous. " +
+                "WHAT IS AND IS NOT NEW, overall, because three reviews all landed on this: the " +
+                "non-normality under a profile is ALREADY written, in experiments/ANALYTICAL_SPECTRUM.md's " +
+                "non-uniform-dephasing paragraph and in docs/ANALYTICAL_FORMULAS' F2 fence, both of which " +
+                "say the block stays exactly closed while diag(gamma) and the Laplacian stop commuting. " +
+                "New here: the entry-wise identity under a LIVE witness, gated across four graph " +
+                "families, and the per-mode reading that ties it back to the parent claim. " +
+                "AND BEFORE ANYONE READS A SIGN CONFLICT between this witness and its siblings, separate " +
+                "the TWO axes. The i-sign alone means nothing, because Laplacian = diag(deg) - A carries " +
+                "the opposite off-diagonal sign to the bare hopping h: VacuumBlockReduction's -iQ*h and " +
+                "this +i*(J/2)*Laplacian AGREE off the diagonal and the ZZ degree diagonal is the whole " +
+                "difference. Orientation is the other axis. Both must be named or the warning manufactures " +
+                "the confusion it is trying to prevent. " +
+                "STILL NOT UNBLOCKED, and the reason is sharper than before. The OPERATOR is now " +
+                "witnessed, but CONCENTRATOR_GEOMETRY:180 and OPEN_QUESTIONS_INDEX:1646 ('psi_opt has no " +
+                "known closed form') rest on a different number: the overlap at the IBM Torino profile " +
+                "[2.336, 0.099, 0.050, 0.072, 0.051], where the adjacency form gives 0.9249 and the " +
+                "Laplacian form 1.0000. The witness renders the open chain at a deep-edge profile, so it " +
+                "does NOT reproduce that comparison, and nothing committed does. THE NEXT MOVE is " +
+                "therefore that gate: the IBM-profile overlap between the slowest eigenvector of M and " +
+                "the recorded psi_opt row, as a witness node or a test, and only then the two prose " +
+                "repairs, citing it. When they are repaired, note that the closed form is for M and NOT " +
+                "for its spectrum: M is non-normal, diag(gamma) " +
+                "and the Laplacian do not commute, so psi_opt is still diagonalized for and not read " +
+                "off. Then the two genuinely open " +
                 "questions are named in (a): whether the population term explains the rate shift in " +
                 "closed form, and whether the amplitude agreement is a theorem or a coincidence at this " +
                 "one profile. " +
@@ -3611,11 +3686,45 @@ public static class OpenArcsRegistry
                 "whether the amplitude agreement is a theorem rather than a numerical coincidence at this " +
                 "profile. Also note the tensor ORDER: I(x)M + conj(M)(x)I is the one that holds; the other " +
                 "order is off by 4.0 on the off-population entries, so do not paraphrase it. " +
-                "(b) The engine already builds this: PerBlockLiouvillianBuilder.BuildBlockZ on the (0,1) flat " +
-                "index list with a Heisenberg H returns M today, site-resolved gamma included. A caller exists " +
-                "but not for the profile: BlockSpectrumWitness.BandEdgeSectorReSpan builds exactly this block " +
-                "with a Heisenberg H and then passes Enumerable.Repeat(gamma, n). Widen that call rather than " +
-                "writing an engine. (c) Two scope fences that must ride " +
+                "(b) DONE 2026-08-02, see the four settled items at the top of this NextStep. The engine " +
+                "already built this: PerBlockLiouvillianBuilder.BuildBlockZ on the (0,1) flat " +
+                "index list with a Heisenberg H returns M, site-resolved gamma included; only the caller " +
+                "BlockSpectrumWitness.BandEdgeSectorReSpan was uniform-only, and widening that call was the " +
+                "whole edit. No engine was written. " +
+                "(b2) WHAT THE WITNESS OPENED AND DID NOT CLOSE, from the three review rounds on it " +
+                "(2026-08-02). This is an inventory, not a verdict; every site below is CORRECT in its " +
+                "own uniform-gamma context, and the work is fencing, not repair. Do it as its own pass " +
+                "with its own review rounds, not as a rider. " +
+                "FIRST AND MOST USEFUL: three tracked places justify a conclusion by the premise that " +
+                "the dissipator is SCALAR on the edge blocks, which a gamma profile retires while " +
+                "leaving the conclusion standing (under a profile it is -2*diag(gamma): still NORMAL, so " +
+                "the normality arguments survive, but not for the stated reason). They are " +
+                "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY's edge lemma and its verbatim duplicate in " +
+                "docs/ANALYTICAL_FORMULAS, and SpectatorIntertwinerClaim (twice); StructuralCeilingClaim " +
+                "is a near-miss, its 'uniform' modifying hamming rather than gamma. " +
+                "SECOND: whole-sector Re = -2*gamma asserted without a uniform-gamma fence, the sharpest " +
+                "being experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC (twice, 'sit at -2*gamma as a whole'), " +
+                "then XXZ_AXIS_BANDEDGE_TO_LEBENSADER ('universal, topology-free'), TopologyBandEdgeClaim " +
+                "('on any graph'), HandoverFloorClaim (throughout), ANALYTICAL_FORMULAS in three places, " +
+                "reflections/ON_THE_ADMIXTURE_AS_LEBENSADER, and the docstrings of " +
+                "simulations/topology_band_edge_review.py and simulations/carbon/handover_q.py. " +
+                "Counter-evidence already in the repo for whoever fences them: LIGHT_DOSE_RESPONSE " +
+                "measures the (0,1) sector at 0.167 on a profile whose 2*gamma_bar is about 0.1. " +
+                "The model to copy is simulations/d10_block_closure_verify.py, which is the one place " +
+                "that TESTS the fence rather than asserting it. " +
+                "THIRD, and verify before touching: CarrierVectorPortfolio's convention bridge says " +
+                "'BuildBlockZ labels site l at bit l (LSB)', which is the pre-2026-07-25 convention and " +
+                "the opposite of what PerBlockLiouvillianBuilder now documents; it then reverses the " +
+                "carrier to compensate. Two reviewers flagged it independently. It may net out, since " +
+                "the activity read is also bit-indexed, and it can only bite on a NON-UNIFORM profile. " +
+                "Settle it with a non-uniform, non-palindromic gate before editing either the code or " +
+                "the sentence. " +
+                "FOURTH, cheap: the block goes by four names in tracked files. (0,1) here and in " +
+                "MirrorWorld's Block is (bra, ket) = |1-exc><vac|; D10 labels the CONJUGATE operator " +
+                "(0,1) as well; VacuumBlockReductionClaim writes L_(1,0); " +
+                "simulations/birth_canal_vacuum_block_verifier.py writes (1,0). One canonical wording " +
+                "would retire the whole class of confusion. " +
+                "(c) Two scope fences that must ride " +
                 "along: VacuumBlockReductionClaim scopes (0,1) dominance to N=5 and at N>=6 a {0,2}-coherence in " +
                 "the (2,2) block can be the global slowest (simulations/birth_canal_n6_mode_crossing.py); and D10 " +
                 "Step 6 says the (0,1) block is NOT the whole XY-weight-1 sector (5 dimensions against 160 at " +

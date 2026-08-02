@@ -30,8 +30,17 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   for sectors within the live-eig cap, and the F1 palindrome {λ} = {−2σ − λ} checked on it
 ///   (full at N ≤ 7; at N=9 the central C(9,4)² = 15876² block needs the 3 h SLOW_N9 run, so the
 ///   live node shows the cap-fitting sub-spectrum, which is itself Π-closed so still pairs);</item>
-///   <item>the (0,1) band-edge sector sitting entirely at Re = −2γ (the Absorption floor: every
-///   coherence there disagrees in exactly one bit, so L_D = −2γ·I is scalar on the block).</item>
+///   <item>the (0,1) band-edge sector sitting entirely at Re = −2γ AT UNIFORM γ (the Absorption
+///   floor: every coherence there disagrees in exactly one bit, so L_D = −2γ·I is scalar on the
+///   block; under a profile it is −2·diag(γ), still normal but no longer scalar);</item>
+///   <item>that same sector under a per-site γ PROFILE, where the dissipator is diagonal instead of
+///   scalar: the generator is still exactly M = +i·(1/2)·𝓛 − 2·diag(γ) entry-wise, with 𝓛 the
+///   WEIGHTED graph Laplacian diag(deg) − A whose degree DIAGONAL is what the ZZ term supplies
+///   (XXX only), and the rate law is <see cref="AbsorptionTheoremClaim"/>'s per-channel one read on
+///   this block: Re λ_k is the γ-weighted average of the mode's site occupancy, with the Bendixson
+///   bracket and the trace (which pins the MEAN, not the bracket's midpoint) as its two corollaries.
+///   The arc <c>site_resolved_vacuum_block</c>'s composite: D10 has the degree
+///   term at uniform γ, <see cref="VacuumBlockReductionClaim"/> has the profile with an XY H.</item>
 /// </list>
 ///
 /// <para>The full N=9 headline (262144 eigenvalues, the palindrome held bit-exact about −2σ = −9,
@@ -94,16 +103,25 @@ public sealed class BlockSpectrumWitness : IInspectable
     /// <summary>H = (J/4)·Σ_b (X_bX_{b+1}+Y_bY_{b+1}+Z_bZ_{b+1}) on the open chain — the N=9 banked
     /// Heisenberg XXX system. Popcount-conserving, so it lives inside the
     /// <see cref="JointPopcountSectorBuilder"/> block infrastructure.</summary>
-    private static ComplexMatrix HeisenbergChain(int n, double j)
+    private static ComplexMatrix HeisenbergChain(int n, double j) =>
+        HeisenbergGraph(n, ChainBonds(n, j));
+
+    /// <summary>The open-chain bond list at uniform coupling J.</summary>
+    public static Bond[] ChainBonds(int n, double j) =>
+        Enumerable.Range(0, n - 1).Select(i => new Bond(i, i + 1, j)).ToArray();
+
+    /// <summary>H = Σ_b (J_b/4)·(X_aX_b + Y_aY_b + Z_aZ_b) on an arbitrary bond list, the coupling
+    /// read PER BOND from <see cref="Bond.Coupling"/>. XXX only: the ZZ coefficient must equal the
+    /// XY one, otherwise the (0,1) block's generator is +i·(1/2)·(Δ·diag(deg) − A), which is not a
+    /// graph Laplacian. Popcount-conserving, so it lives inside the
+    /// <see cref="JointPopcountSectorBuilder"/> block infrastructure.</summary>
+    private static ComplexMatrix HeisenbergGraph(int n, IReadOnlyList<Bond> bonds)
     {
-        var bonds = Enumerable.Range(0, n - 1).Select(i => new Bond(i, i + 1, 1.0)).ToArray();
-        var terms = new (PauliLetter, PauliLetter, Complex)[]
-        {
-            (PauliLetter.X, PauliLetter.X, j / 4.0),
-            (PauliLetter.Y, PauliLetter.Y, j / 4.0),
-            (PauliLetter.Z, PauliLetter.Z, j / 4.0),
-        };
-        return PauliHamiltonian.Bilinear(n, bonds, terms).ToMatrix();
+        var terms = new List<PauliTerm>(bonds.Count * 3);
+        foreach (var b in bonds)
+            foreach (var p in new[] { PauliLetter.X, PauliLetter.Y, PauliLetter.Z })
+                terms.Add(PauliTerm.TwoSite(n, b.Site1, p, b.Site2, p, b.Coupling / 4.0));
+        return new PauliHamiltonian(n, terms).ToMatrix();
     }
 
     private static int[] SectorFlat(JointPopcountSectorBuilder.Decomposition decomp, JointPopcountSectorBuilder.SectorRange s)
@@ -164,16 +182,44 @@ public sealed class BlockSpectrumWitness : IInspectable
     public static double PalindromePairingDistance(Complex[] spectrum, double sigma) =>
         F1SpectrumStatistics.MaxF1PairingDistance(spectrum, sigma);
 
-    /// <summary>The Re-span of the (p_c=0, p_r=1) band-edge sector — the |1-excitation⟩⟨vacuum⟩
-    /// coherences. Every basis element there disagrees in exactly one bit, so with uniform γ the
-    /// dissipator is L_D = −2γ·I (scalar) on the block and L_H restricted is anti-Hermitian, so
-    /// every eigenvalue has Re = −2γ exactly (the F50 weight-1 Absorption floor).</summary>
-    public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(ComplexMatrix h, int n, double gamma)
+    /// <summary>The (p_c=0, p_r=1) band-edge sector block itself, the N×N operator M on the
+    /// |1-excitation⟩⟨vacuum| coherences, with a SITE-RESOLVED γ profile
+    /// (<paramref name="gammaPerSite"/>[l] is site l, the leftmost Kronecker factor). This is the
+    /// operator the <c>site_resolved_vacuum_block</c> arc is about: the engine
+    /// (<see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>) has always returned it site-resolved;
+    /// only the callers here were uniform-only.</summary>
+    public static ComplexMatrix BandEdgeSectorBlock(ComplexMatrix h, int n, IReadOnlyList<double> gammaPerSite)
     {
-        var gammaPerSite = Enumerable.Repeat(gamma, n).ToArray();
+        if (gammaPerSite.Count != n)
+            throw new ArgumentException($"gamma profile has {gammaPerSite.Count} entries, expected N={n}", nameof(gammaPerSite));
         var decomp = JointPopcountSectorBuilder.Build(n);
         var s = decomp.SectorRanges.First(r => r.PCol == 0 && r.PRow == 1);
-        var block = PerBlockLiouvillianBuilder.BuildBlockZ(h, gammaPerSite, SectorFlat(decomp, s));
+        return PerBlockLiouvillianBuilder.BuildBlockZ(h, gammaPerSite, SectorFlat(decomp, s));
+    }
+
+    /// <summary>Convenience overload that builds the Heisenberg chain H (for tests / direct callers).</summary>
+    public static ComplexMatrix BandEdgeSectorBlock(int n, IReadOnlyList<double> gammaPerSite, double j) =>
+        BandEdgeSectorBlock(HeisenbergChain(n, j), n, gammaPerSite);
+
+    /// <summary>Convenience overload on an arbitrary XXX bond graph, the coupling per bond.</summary>
+    public static ComplexMatrix BandEdgeSectorBlock(int n, IReadOnlyList<Bond> bonds, IReadOnlyList<double> gammaPerSite) =>
+        BandEdgeSectorBlock(HeisenbergGraph(n, bonds), n, gammaPerSite);
+
+    /// <summary>The Re-span of the (p_c=0, p_r=1) band-edge sector under a γ PROFILE. Every basis
+    /// element there disagrees in exactly one bit, so the dissipator contributes −2γ_j per element:
+    /// diagonal, not scalar. The Hermitian part of M is then exactly −2·diag(γ), which is
+    /// <see cref="AbsorptionTheoremClaim"/>'s per-channel law on this block: Re λ_k is the
+    /// γ-weighted average of the mode's own site occupancy (<see cref="PerModeAbsorptionResidual"/>).
+    /// Two corollaries follow, and they are corollaries: an occupancy is a probability distribution,
+    /// so Re λ is a convex combination of the −2γ_l, i.e. the Bendixson bracket
+    /// Re λ ∈ [−2·max γ, −2·min γ]; and the trace pins Σ Re λ = −2σ, mean Re = −2·γ̄. At uniform γ
+    /// the bracket closes on a point and the whole sector sits at Re = −2γ (the F50 weight-1 floor);
+    /// a profile generally opens it into an interval around the same −2·γ̄. GENERALLY, not always:
+    /// at N=2 the 2×2 block splits by 2·√(γ̄_diff² − J²/4) and stays closed for J ≥ 2·γ̄_diff, so read
+    /// the measured span rather than assuming it opened.</summary>
+    public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(ComplexMatrix h, int n, IReadOnlyList<double> gammaPerSite)
+    {
+        var block = BandEdgeSectorBlock(h, n, gammaPerSite);
         double min = double.PositiveInfinity, max = double.NegativeInfinity;
         foreach (var z in block.Evd().EigenValues)
         {
@@ -183,9 +229,180 @@ public sealed class BlockSpectrumWitness : IInspectable
         return (min, max);
     }
 
+    /// <summary>Uniform-γ overload (the F50 weight-1 floor case: MinRe = MaxRe = −2γ).</summary>
+    public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(ComplexMatrix h, int n, double gamma) =>
+        BandEdgeSectorReSpan(h, n, Enumerable.Repeat(gamma, n).ToArray());
+
     /// <summary>Convenience overload that builds the Heisenberg chain H (for tests / direct callers).</summary>
     public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(int n, double gamma, double j) =>
         BandEdgeSectorReSpan(HeisenbergChain(n, j), n, gamma);
+
+    /// <summary>Convenience overload that builds the Heisenberg chain H and takes a γ profile.</summary>
+    public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(int n, IReadOnlyList<double> gammaPerSite, double j) =>
+        BandEdgeSectorReSpan(HeisenbergChain(n, j), n, gammaPerSite);
+
+    /// <summary>The WEIGHTED graph Laplacian 𝓛 = diag(deg) − A of a bond list, each bond entering
+    /// with its own <see cref="Bond.Coupling"/>. At uniform J this is J·(the unweighted Laplacian),
+    /// so the generator below reads +i·(J/2)·𝓛_unweighted there.</summary>
+    private static ComplexMatrix WeightedLaplacian(int n, IReadOnlyList<Bond> bonds)
+    {
+        var l = MathNet.Numerics.LinearAlgebra.Matrix<Complex>.Build.Dense(n, n);
+        foreach (var b in bonds)
+        {
+            l[b.Site1, b.Site2] -= b.Coupling; l[b.Site2, b.Site1] -= b.Coupling;
+            l[b.Site1, b.Site1] += b.Coupling; l[b.Site2, b.Site2] += b.Coupling;
+        }
+        return l;
+    }
+
+    /// <summary>Which SITE is excited in each row of the (0,1) block, in the block's own basis
+    /// order. The order is not site order: the sector's flat indices are row·d + col with
+    /// row = 1&lt;&lt;b, sorted ascending, and site l occupies bit n−1−l (l is the leftmost Kronecker
+    /// factor), so the block runs from site n−1 down to site 0. Any site-indexed quantity, a γ
+    /// profile or a weighted Laplacian, must be permuted through this before it can be compared with
+    /// the block entry-wise. What the permutation actually bites on is worth stating: a SYMMETRIC γ
+    /// profile cannot see it, and neither can a uniform-J chain or ring Laplacian, which is
+    /// reversal-invariant. It takes an asymmetric γ or a non-palindromic per-bond J to make the
+    /// difference visible, and the gates use both.
+    /// <para>NOT A NEW FINDING. The same site-versus-bit ordering is stated in
+    /// <see cref="PerBlockLiouvillianBuilder"/>'s own γ-index-convention paragraph, gated by
+    /// <c>PerBlockLiouvillianBuilderGammaOrderTests</c> (which carries a two-sided mutation control
+    /// of exactly this shape), and written out in <c>simulations/sacrifice_zone_optics.py</c>. This
+    /// method exposes the permutation for entry-wise comparisons against the (0,1) block; it does
+    /// not discover the convention.</para></summary>
+    public static int[] BandEdgeSectorSiteOrder(int n)
+    {
+        int d = 1 << n;
+        var decomp = JointPopcountSectorBuilder.Build(n);
+        var s = decomp.SectorRanges.First(r => r.PCol == 0 && r.PRow == 1);
+        var flat = SectorFlat(decomp, s);
+        var sites = new int[flat.Length];
+        for (int k = 0; k < flat.Length; k++)
+        {
+            int row = flat[k] / d;
+            sites[k] = n - 1 - System.Numerics.BitOperations.TrailingZeroCount((uint)row);
+        }
+        return sites;
+    }
+
+    /// <summary>The entry-wise residual of the site-resolved generator identity on ANY XXX bond
+    /// graph, with this witness's convention H = Σ_b (J_b/4)·(XX+YY+ZZ):
+    /// <para>M = +i·(1/2)·𝓛 − 2·diag(γ), 𝓛 the WEIGHTED graph Laplacian diag(deg) − A (at uniform
+    /// J: +i·(J/2)·𝓛_unweighted).</para>
+    /// This is the composite the arc <c>site_resolved_vacuum_block</c> names as owned by neither
+    /// side: D10 (<c>D10_W1_DISPERSION.md</c>) has the ZZ degree term but uniform γ;
+    /// <see cref="VacuumBlockReductionClaim"/> has the γ profile but an XY H, hence no degree term.
+    /// Recomputed live against <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>. The residual is
+    /// ABSOLUTE and built from cancelling O(J·N) terms, so it is machine zero relative to the entry
+    /// scale J·N + 2·max γ, not relative to 1; a gate on it must scale with that, and the gates do.
+    /// <para>SCOPE: XXX only. The Laplacian appears because the ZZ coefficient equals the XY one;
+    /// for XXZ the generator is +i·(1/2)·(Δ·diag(deg) − A), which is not a Laplacian.</para>
+    /// <para>The non-normality this makes visible is not new here: <c>experiments/ANALYTICAL_SPECTRUM.md</c>
+    /// (the non-uniform-dephasing paragraph) and <c>docs/ANALYTICAL_FORMULAS.md</c>'s F2 fence both
+    /// already state that under a profile the block stays exactly closed while diag(γ) and 𝓛 stop
+    /// commuting, so the eigenvalues are not −2γ_j − 2iJ·μ_m. What is new here is the entry-wise
+    /// identity under a live witness, gated across graphs, and the per-mode reading below.</para>
+    /// <para>BEFORE READING A SIGN CONFLICT, separate the two axes. The i-sign is meaningless on its
+    /// own, because 𝓛 = diag(deg) − A carries the opposite off-diagonal sign to the bare hopping h:
+    /// <see cref="VacuumBlockReductionClaim"/>'s −iQ·h and this +i·(J/2)·𝓛 AGREE off the diagonal,
+    /// and the degree diagonal that ZZ supplies is the whole difference. The other axis is
+    /// ORIENTATION, and it is also a label collision. The sector selected here is
+    /// (p_c=0, p_r=1) = (popcount of the bra, popcount of the ket) = |1-exc⟩⟨vac|, which carries
+    /// <c>+i</c>; the conjugate orientation |vac⟩⟨1-exc| carries <c>−i</c>. D10:139 writes
+    /// <c>−2iJ·𝓛</c>, i.e. the conjugate operator, and labels it "(0,1)" too, because the object it
+    /// derives is |0⟩⟨j| (D10:112). So the SAME written label names conjugate operators in the two
+    /// places. Same Re, mirrored frequencies; never copy a sign between them. The convention here
+    /// is <c>JointPopcountSectorBuilder</c>'s (PCol, PRow) = (bra, ket), which agrees with
+    /// MirrorWorld's <c>Block</c> (P = bra, Q = ket); D10 uses the label in the other order. Its
+    /// normalisation also differs: D10's H = J·Σ(XX+YY+ZZ) makes its J a quarter of this one, so
+    /// its −2iJ𝓛 is this −i(J/2)𝓛.</para></summary>
+    public static double GeneratorResidual(int n, IReadOnlyList<Bond> bonds, IReadOnlyList<double> gammaPerSite)
+    {
+        var m = BandEdgeSectorBlock(HeisenbergGraph(n, bonds), n, gammaPerSite);
+        var lap = WeightedLaplacian(n, bonds);
+        var sites = BandEdgeSectorSiteOrder(n);   // the block's basis order is not site order
+        double worst = 0.0;
+        for (int r = 0; r < n; r++)
+            for (int c = 0; c < n; c++)
+            {
+                var predicted = Complex.ImaginaryOne * 0.5 * lap[sites[r], sites[c]];
+                if (r == c) predicted -= 2.0 * gammaPerSite[sites[r]];
+                worst = Math.Max(worst, (m[r, c] - predicted).Magnitude);
+            }
+        return worst;
+    }
+
+    /// <summary>Uniform-J open-chain overload of <see cref="GeneratorResidual"/>.</summary>
+    public static double ChainGeneratorResidual(int n, double j, IReadOnlyList<double> gammaPerSite) =>
+        GeneratorResidual(n, ChainBonds(n, j), gammaPerSite);
+
+    /// <summary>The entry-wise residual of Herm(M) = (M + M†)/2 = −2·diag(γ): the sharp statement
+    /// the Bendixson bracket and the trace identity are both corollaries of, and the one place
+    /// where <see cref="AbsorptionTheoremClaim"/>'s per-channel law meets this block. All of the
+    /// coupling is anti-Hermitian, whatever the graph and whatever the per-bond J.</summary>
+    public static double HermitianPartResidual(int n, IReadOnlyList<Bond> bonds, IReadOnlyList<double> gammaPerSite)
+    {
+        var m = BandEdgeSectorBlock(HeisenbergGraph(n, bonds), n, gammaPerSite);
+        var sites = BandEdgeSectorSiteOrder(n);
+        double worst = 0.0;
+        for (int r = 0; r < n; r++)
+            for (int c = 0; c < n; c++)
+            {
+                var herm = 0.5 * (m[r, c] + Complex.Conjugate(m[c, r]));
+                if (r == c) herm += 2.0 * gammaPerSite[sites[r]];
+                worst = Math.Max(worst, herm.Magnitude);
+            }
+        return worst;
+    }
+
+    /// <summary>The residual of <see cref="AbsorptionTheoremClaim"/>'s per-channel absorption law
+    /// on this block, mode by mode:
+    /// <para>−Re(λ_k) = 2·Σ_l γ_l·⟨Δ_l⟩_k, with ⟨Δ_l⟩_k = ⟨v_k|N_l|v_k⟩/‖v_k‖².</para>
+    /// On the (0,1) block ⟨Δ_l⟩_k is just the mode's SITE OCCUPANCY |v_k(l)|²/‖v_k‖², because every
+    /// basis element disagrees at exactly its own site. This is the master statement here, and it
+    /// is the typed parent's, not a new one: the mode-by-mode equality does not die under a
+    /// profile, it becomes a γ-weighted average over the mode's own occupancy. Since the occupancy
+    /// is a probability distribution over sites, Re λ_k is a convex combination of the −2γ_l, which
+    /// IS the Bendixson bracket, derived sharper. Non-normality of M costs nothing: Re λ is the
+    /// Rayleigh quotient of Herm(M) on the RIGHT eigenvector for any eigenvector at all.</summary>
+    public static double PerModeAbsorptionResidual(int n, IReadOnlyList<Bond> bonds, IReadOnlyList<double> gammaPerSite)
+    {
+        var m = BandEdgeSectorBlock(HeisenbergGraph(n, bonds), n, gammaPerSite);
+        var sites = BandEdgeSectorSiteOrder(n);
+        var evd = m.Evd();
+        double worst = 0.0;
+        for (int k = 0; k < n; k++)
+        {
+            var v = evd.EigenVectors.Column(k);
+            double norm2 = v.Sum(z => z.Real * z.Real + z.Imaginary * z.Imaginary);
+            double predicted = 0.0;
+            for (int r = 0; r < n; r++)
+                predicted -= 2.0 * gammaPerSite[sites[r]] * (v[r].Real * v[r].Real + v[r].Imaginary * v[r].Imaginary) / norm2;
+            worst = Math.Max(worst, Math.Abs(evd.EigenValues[k].Real - predicted));
+        }
+        return worst;
+    }
+
+    /// <summary>A deterministic non-uniform γ profile with the SAME total σ = N·γ as the uniform
+    /// one, so the palindrome center −σ is untouched and only the band-edge line splits: the
+    /// "deep-edge" shape (both chain ends depressed to γ/4, the bulk flat to make up the sum) that
+    /// <see cref="SectorReductionWitness"/> uses as its general-N sibling of the N=5 canal anchor,
+    /// here scaled to mean γ. Deep-edge, canal and uniform are three distinct profiles in this repo;
+    /// this is the deep-edge one. At γ=1 it is that profile entry for entry, and at N=5 it coincides
+    /// with the canal anchor
+    /// [0.25, 1.5, 1.5, 1.5, 0.25]. At N=2 there is no bulk to carry the remainder, so the shape
+    /// degenerates to [γ/4, 7γ/4]: site 1 is not an end in the sense the shape means, it is
+    /// whatever is left. N ≥ 2.</summary>
+    public static double[] DeepEdgeProfile(int n, double gamma)
+    {
+        if (n < 2) throw new ArgumentOutOfRangeException(nameof(n), n, "the deep-edge shape needs at least two sites");
+        var p = new double[n];
+        double edge = 0.25 * gamma;
+        if (n == 2) { p[0] = edge; p[1] = n * gamma - edge; return p; }
+        double rest = (n * gamma - 2 * edge) / (n - 2);
+        for (int i = 0; i < n; i++) p[i] = (i == 0 || i == n - 1) ? edge : rest;
+        return p;
+    }
 
     // ---- the banked N=9 headline (live read of the committed artifact) ----
 
@@ -280,8 +497,9 @@ public sealed class BlockSpectrumWitness : IInspectable
         {
             new InspectableNode("(0,1) — the band edge",
                 summary: "inspect --root reduction (SectorReductionWitness): the |1-exc⟩⟨vac| birth-canal " +
-                         "boundary mode; the whole sector sits at Re=−2γ (the Absorption floor). Its {0,2} " +
-                         "junction at N≥6 crosses into the (2,2) sector."),
+                         "boundary mode; at UNIFORM γ the whole sector sits at Re=−2γ (the Absorption floor), " +
+                         "and a per-site γ opens that line into an interval around −2·γ̄ (the site-resolved " +
+                         "node below). Its {0,2} junction at N≥6 crosses into the (2,2) sector."),
             new InspectableNode("(1,1) — single-excitation: the {0,2}-coherence, two regimes",
                 summary: "the single-excitation populations (n_diff=0) + coherences (n_diff=2) — ONE sector, two " +
                          "regimes: inspect --root ceiling (StructuralCeilingWitness) reads the HIGH-Q dark [H,A]=0 " +
@@ -338,11 +556,98 @@ public sealed class BlockSpectrumWitness : IInspectable
     {
         var (minRe, maxRe) = BandEdgeSectorReSpan(h, N, Gamma);
         return new InspectableNode("the per-sector Absorption floor (Re = −2γ)",
-            summary: $"the (0,1) band-edge sector — the |1-exc⟩⟨vac| coherences, {N}-dim — sits entirely at " +
+            summary: $"at UNIFORM γ, the (0,1) band-edge sector, the |1-exc⟩⟨vac| coherences, {N}-dim, sits entirely at " +
                      $"Re ∈ [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}] = −2γ = " +
                      $"{(-2 * Gamma).ToString("0.###", Inv)} (every coherence disagrees in one bit, so L_D = −2γ·I " +
                      "is scalar there; the F50 weight-1 floor / Absorption Theorem). The decay GAP lives instead " +
                      "in the diagonal (k,k) sectors.",
+            provenance: NodeProvenance.Live);
+    }
+
+    private InspectableNode TheSiteResolvedBandEdgeNode(ComplexMatrix h)
+    {
+        var bonds = ChainBonds(N, J);
+        var g = DeepEdgeProfile(N, Gamma);
+        var (minRe, maxRe) = BandEdgeSectorReSpan(h, N, g);
+        double residual = GeneratorResidual(N, bonds, g);
+        double hermResidual = HermitianPartResidual(N, bonds, g);
+        double perMode = PerModeAbsorptionResidual(N, bonds, g);
+        double gMin = g.Min(), gMax = g.Max(), gBar = g.Average();
+        var m = BandEdgeSectorBlock(h, N, g);
+        double traceRe = m.Evd().EigenValues.Sum(z => z.Real);
+        // read the trace a second time WITHOUT the eigensolver, so the identity below is not just
+        // the eigensolver agreeing with itself
+        double traceDirect = Enumerable.Range(0, N).Sum(i => m[i, i].Real);
+        double width = maxRe - minRe;
+        var kids = new List<IInspectable>
+        {
+            new InspectableNode("the generator, entry-wise",
+                summary: $"M = +i·(J/2)·𝓛 − 2·diag(γ) on the open chain (𝓛 = diag(deg) − A): residual " +
+                         $"{residual.ToString("E3", Inv)}. The composite neither owner carries: D10 has the ZZ " +
+                         "degree term at uniform γ, VacuumBlockReductionClaim has the γ profile with an XY H " +
+                         "(no degree term). XXX only: for XXZ the ZZ coefficient no longer matches the XY one " +
+                         "and Δ·diag(deg) − A is not a Laplacian. THE BLOCK GOES BY FOUR NAMES and two of them " +
+                         "are the same label on conjugate operators: (0,1) here is (p_c, p_r) = (bra, ket) = " +
+                         "|1-exc⟩⟨vac| and carries +i; D10:139's −2iJ𝓛 is the conjugate |vac⟩⟨1-exc|, which " +
+                         "D10:112 ALSO calls (0,1); VacuumBlockReductionClaim writes L_(1,0); and " +
+                         "simulations/birth_canal_vacuum_block_verifier.py calls it (1,0). Before reading a sign " +
+                         "conflict, separate the two axes: ORIENTATION flips i, and 𝓛 = D − A versus the bare " +
+                         "hopping h differs on the DEGREE DIAGONAL only. VacuumBlockReduction's −iQ·h and this " +
+                         "+i·(J/2)·𝓛 agree off the diagonal; the ZZ degree term is the whole difference, not a " +
+                         "sign disagreement."),
+            new InspectableNode("the profile",
+                summary: $"deep-edge, γ = [{string.Join(", ", g.Select(x => x.ToString("0.###", Inv)))}] by SITE " +
+                         "(SectorReductionWitness's general-N deep-edge shape, the sibling of its N=5 canal " +
+                         "anchor, scaled to mean γ); " +
+                         $"Σγ = σ = {(N * Gamma).ToString("0.###", Inv)} unchanged, so the F1 palindrome center " +
+                         "−σ does not move. The block's own basis order is site N−1 down to site 0 " +
+                         $"([{string.Join(", ", BandEdgeSectorSiteOrder(N))}]), not site order: any site-indexed " +
+                         "quantity must be permuted through it before an entry-wise comparison. What that " +
+                         "permutation bites on is the γ diagonal; a uniform-J chain Laplacian is " +
+                         "reversal-invariant and cannot see it, which is why the gates also use a " +
+                         "non-palindromic per-bond J."),
+            new InspectableNode("the per-mode absorption law (the master statement)",
+                summary: $"−Re λ_k = 2·Σ_l γ_l·⟨Δ_l⟩_k with ⟨Δ_l⟩_k the mode's site occupancy: residual " +
+                         $"{perMode.ToString("E3", Inv)}. This is AbsorptionTheoremClaim's per-channel law " +
+                         "(\"the carrier is a vector\"), which is this block's typed parent, not a new statement. " +
+                         "The mode-by-mode equality does NOT die under a profile: it becomes a γ-weighted average " +
+                         "over the mode's own occupancy. Non-normality costs nothing, because Re λ is the Rayleigh " +
+                         $"quotient of Herm(M) = −2·diag(γ) (residual {hermResidual.ToString("E3", Inv)}) on the " +
+                         "right eigenvector, eigenvector by eigenvector."),
+            new InspectableNode("Bendixson bracket (corollary)",
+                summary: $"an occupancy is a probability distribution over sites, so Re λ is a CONVEX COMBINATION " +
+                         $"of the −2γ_l and hence lies in [−2·max γ, −2·min γ] = " +
+                         $"[{(-2 * gMax).ToString("0.0000", Inv)}, {(-2 * gMin).ToString("0.0000", Inv)}]; " +
+                         $"measured span [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}]. The " +
+                         "same lemma the F89 block lattice uses with n_diff in place of γ."),
+            new InspectableNode("the trace (corollary)",
+                summary: $"Σ Re λ = {traceRe.ToString("0.000000", Inv)} = Re tr(M) read off the diagonal without " +
+                         $"an eigensolver ({traceDirect.ToString("0.000000", Inv)}) = −2σ = " +
+                         $"{(-2 * N * Gamma).ToString("0.000", Inv)}, i.e. MEAN Re = −2·γ̄ = " +
+                         $"{(-2 * gBar).ToString("0.000", Inv)}, because Re tr(M) = tr(Herm(M)) = −2σ. Note what " +
+                         "this is NOT: the per-site occupancies do not close to 1 across modes (measured 1.08 and " +
+                         "0.92 at N=6), because a right-eigenvector basis of a non-normal M is not orthonormal. " +
+                         "The trace route is the correct one; the occupancy route is not available here. And the " +
+                         "object is THIS BLOCK's eigenvalue mean, not the whole spectrum's exactly-Re=−2γ̄ SET, " +
+                         "which a profile can empty outright (PROOF_RING_GAP_DOMINANCE's scope section: one site " +
+                         "detuned leaves it empty at N=4 and N=5). Do not read the one as rescuing the other."),
+        };
+        return new InspectableNode("the site-resolved band edge (a γ profile)",
+            summary: $"the same (0,1) sector with a per-site γ instead of one number: the generator is still " +
+                     $"exactly M = +i·(J/2)·𝓛 − 2·diag(γ) (residual {residual.ToString("E3", Inv)}), but the " +
+                     $"dissipator is now diagonal rather than scalar, so the Re = −2γ line " +
+                     (width > 1e-9
+                        ? $"has opened into the interval [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}]"
+                        : $"has NOT opened here; the measured span is still a point at {minRe.ToString("0.0000", Inv)} " +
+                          "(at N=2 the 2×2 block stays closed for J ≥ 2·γ̄_diff)") +
+                     $", bracketed by Bendixson at [{(-2 * gMax).ToString("0.0000", Inv)}, {(-2 * gMin).ToString("0.0000", Inv)}] " +
+                     $"and with its MEAN pinned by the trace at −2·γ̄ = {(-2 * gBar).ToString("0.000", Inv)} (the mean " +
+                     "of the eigenvalues, NOT the midpoint of the bracket, which is a different number). Both are corollaries " +
+                     "of the per-mode law below, which is the Absorption Theorem's own per-channel reading. " +
+                     "diag(γ) and 𝓛 do " +
+                     "not commute, so M is non-normal and its eigenvalues are NOT −2γ_j − i·(J/2)·μ_m: the slow " +
+                     "mode has to be diagonalized for, not read off (arc site_resolved_vacuum_block).",
+            children: kids,
             provenance: NodeProvenance.Live);
     }
 
@@ -385,7 +690,10 @@ public sealed class BlockSpectrumWitness : IInspectable
         "quartered by the F1 Π orbit), a sector map indexing the sector-specific witnesses (reduction / " +
         "ceiling / horizon / survivor / secondclock each max-zoom one sector of this decomposition), the " +
         "F1 palindrome {λ} = {−2σ − λ} reconstructed sector-by-sector (full at N ≤ 7), the (0,1) band-edge " +
-        "Absorption floor Re = −2γ, and the N=9 banked headline read live from chain_N9.json. The browsable " +
+        "Absorption floor Re = −2γ AT UNIFORM γ, and the same sector site-resolved (a γ profile: the generator " +
+        "stays exactly +i·(1/2)·𝓛 − 2·diag(γ) on any XXX bond graph, and the rate law is the Absorption Theorem's " +
+        "per-channel one, Re λ_k = the γ-weighted average of the mode's site occupancy), and the N=9 " +
+        "banked headline read live from chain_N9.json. The browsable " +
         "overview face of the SLOW_N9 result (arc block_spectrum_n9).";
 
     public IEnumerable<IInspectable> Children
@@ -398,6 +706,7 @@ public sealed class BlockSpectrumWitness : IInspectable
             var h = HeisenbergChain(N, J);
             yield return ThePalindromeNode(h);
             yield return TheAbsorptionFloorNode(h);
+            yield return TheSiteResolvedBandEdgeNode(h);
             yield return TheBankedN9Node();
         }
     }
