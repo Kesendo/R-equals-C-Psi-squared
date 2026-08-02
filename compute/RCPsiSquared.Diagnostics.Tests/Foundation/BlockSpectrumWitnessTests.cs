@@ -261,6 +261,22 @@ public class BlockSpectrumWitnessTests
             $"[{label} N={n}] Herm(M) + 2*diag(gamma) residual {residual:E3} exceeds 1e-14*scale ({1e-14 * scale:E3})");
     }
 
+    // Gate 3c-scale: the row that earns 3c's scaled threshold. Without it, scaling by J*N + 2*max
+    // gamma is a 4.5x to 38x LOOSENING on every case actually run, justified by a large-J argument
+    // no row exercises. Here J = 1e5, where a flat 1e-14 would fail on rounding alone.
+    [Theory]
+    [InlineData(4, 1e5)]
+    [InlineData(6, 1e5)]
+    public void SiteResolvedBandEdge_HermitianPart_ScalesWithJ(int n, double j)
+    {
+        var gamma = AsymmetricGamma(n);
+        var bonds = Chain(n, _ => j);
+        double scale = j * n + 2.0 * gamma.Max();
+        double residual = BlockSpectrumWitness.HermitianPartResidual(n, bonds, gamma);
+        Assert.True(residual < 1e-14 * scale,
+            $"[N={n} J={j}] Herm residual {residual:E3} exceeds 1e-14*scale ({1e-14 * scale:E3})");
+    }
+
     // Gate 3d: the MASTER statement, and it belongs to AbsorptionTheoremClaim, not to this witness:
     // -Re(lambda_k) = 2*sum_l gamma_l*<Delta_l>_k with <Delta_l>_k the mode's site occupancy, on the
     // RIGHT eigenvectors of a non-normal M.
@@ -271,6 +287,11 @@ public class BlockSpectrumWitnessTests
     // are a broken eigensolver or the same gamma-index error 3c already catches. It is kept as the
     // cross-check that ties this block to its typed parent's per-channel law, and as the executable
     // form of "non-normality costs nothing here", not as independent evidence.
+    //
+    // Its threshold is scaled like 3b/3c, but note the scale is only a PROXY here: this residual is
+    // an eigensolver quantity on a deliberately non-normal M, so the governing size is
+    // eps*||M||*cond(V), not ||M||. J*N + 2*max gamma tracks ||M|| and leaves the conditioning out,
+    // which is why this gate is given a decade more room than 3c rather than the same.
     [Theory]
     [MemberData(nameof(BandEdgeGraphs))]
     public void SiteResolvedBandEdge_ObeysThePerModeAbsorptionLaw(int n, string label, Bond[] bonds)

@@ -218,7 +218,7 @@ public sealed class BlockSpectrumWitness : IInspectable
     /// the bracket closes on a point and the whole sector sits at Re = −2γ (the Absorption Theorem at ⟨n_XY⟩ = 1; F50 is the DEGENERACY
     /// COUNT d_real = 2N on that line, a different statement);
     /// a profile generally opens it into an interval around the same −2·γ̄. GENERALLY, not always:
-    /// at N=2 the 2×2 block splits by 2·√(γ̄_diff² − J²/4) and stays closed for J ≥ 2·(γ₁ − γ₀), the plain difference of the two rates, so read
+    /// at N=2 the 2×2 block splits by 2·√(d² − J²/4) with d = |γ₁ − γ₀| the plain difference of the two rates, and stays closed for J ≥ 2d, so read
     /// the measured span rather than assuming it opened.</summary>
     public static (double MinRe, double MaxRe) BandEdgeSectorReSpan(ComplexMatrix h, int n, IReadOnlyList<double> gammaPerSite)
     {
@@ -296,7 +296,9 @@ public sealed class BlockSpectrumWitness : IInspectable
     /// degree term but uniform γ; <see cref="VacuumBlockReductionClaim"/> has the γ profile but an
     /// XY H, hence no degree term. The composite itself is NOT new prose, and the arc's older
     /// "neither owner carries it" framing was too strong: <c>experiments/ANALYTICAL_SPECTRUM.md</c>
-    /// writes −2iJ·𝓛 − 2·diag(γ) outright in its non-uniform-dephasing paragraph. What is new here
+    /// writes −2iJ·𝓛 − 2·diag(γ) outright in its non-uniform-dephasing paragraph, in D10's
+    /// convention: the CONJUGATE orientation and the Pauli normalisation, which is why its sign is
+    /// −i and its J is a quarter of this one. Do not copy that sign here either. What is new here
     /// is that it is entry-wise under a LIVE witness, gated across four graph families, and read
     /// back to its parent claim by <see cref="PerModeAbsorptionResidual"/>.
     /// Recomputed live against <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>. The residual is
@@ -627,7 +629,7 @@ public sealed class BlockSpectrumWitness : IInspectable
                          $"measured span [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}]. Not a " +
                          "new lemma: PROOF_CODIM1_BY_ADDITIVITY's rate window is this bracket with n_diff in " +
                          "place of γ, and it already names the scalar case (its Edge lemma) as the zero-width " +
-                         "one. The F89 block lattice carries the same window."),
+                         "one. The proof's own cross-reference is to the F89 multi-sector monodromy census's 'lambda from below' reading."),
             new InspectableNode("the trace (corollary)",
                 summary: $"Σ Re λ = {traceRe.ToString("0.000000", Inv)} = Re tr(M) read off the diagonal without " +
                          $"an eigensolver ({traceDirect.ToString("0.000000", Inv)}) = −2σ = " +
@@ -647,7 +649,7 @@ public sealed class BlockSpectrumWitness : IInspectable
                      (width > 1e-9
                         ? $"has opened into the interval [{minRe.ToString("0.0000", Inv)}, {maxRe.ToString("0.0000", Inv)}]"
                         : $"has NOT opened here; the measured span is still a point at {minRe.ToString("0.0000", Inv)} " +
-                          "(at N=2 the 2×2 block stays closed for J ≥ 2·(γ₁ − γ₀))") +
+                          "(at N=2 the 2×2 block stays closed for J ≥ 2·|γ₁ − γ₀|)") +
                      $", bracketed by Bendixson at [{(-2 * gMax).ToString("0.0000", Inv)}, {(-2 * gMin).ToString("0.0000", Inv)}] " +
                      $"and with its MEAN pinned by the trace at −2·γ̄ = {(-2 * gBar).ToString("0.000", Inv)} (the mean " +
                      "of the eigenvalues, NOT the midpoint of the bracket, which is a different number). Both are corollaries " +

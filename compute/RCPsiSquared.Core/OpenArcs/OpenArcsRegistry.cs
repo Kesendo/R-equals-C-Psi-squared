@@ -3522,7 +3522,10 @@ public static class OpenArcsRegistry
             Opened: "2026-08-02",
             Origin: "THE OBJECT: the (0,1) coherence block, the N-dimensional span of the |0><j| between the " +
                 "ferromagnet and the single excitations, under a Z-dephasing PROFILE rather than a uniform " +
-                "rate. Two owners hold one half each and neither holds both. D10 " +
+                "rate. Two TYPED owners hold one half each and neither holds both, but the composite is not "
+                + "unwritten prose: experiments/ANALYTICAL_SPECTRUM.md's non-uniform-dephasing paragraph "
+                + "states -2iJ*Laplacian - 2*diag(gamma) outright. What was missing is a live, gated "
+                + "OPERATOR, not the formula. D10 " +
                 "(docs/proofs/derivations/D10_W1_DISPERSION.md Step 3) has L|(0,1) = -2iJ*Laplacian - " +
                 "2*gamma*Id: the graph Laplacian rather than the adjacency matrix because the ZZ term supplies " +
                 "the degree diagonal, but scoped to UNIFORM gamma (its Statement, first paragraph), so its " +
@@ -3585,13 +3588,14 @@ public static class OpenArcsRegistry
                 "GeneratorResidual / HermitianPartResidual / PerModeAbsorptionResidual recompute the " +
                 "identities live, and a new inspect node 'the site-resolved band edge' (the fifth of six " +
                 "children) renders them (inspect --root blockspectrum). FIVE THINGS THE " +
-                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (87 cases green), and the " +
+                "WITNESS SETTLED, gated in BlockSpectrumWitnessTests (89 cases green), and the " +
                 "gates run on chain, per-bond-J chain, ring and star at N = 3..7 so nothing here is " +
                 "chain-only or scratch-file-only. " +
                 "(i) THE COMPOSITE IS EXACT AND IT IS THE LAPLACIAN ONE: with H = sum_b (J_b/4)*(XX+YY+ZZ), " +
                 "M = +i*(1/2)*WeightedLaplacian - 2*diag(gamma) entry-wise, on every one of those graphs. " +
-                "That is D10's degree term AND VacuumBlockReduction's profile in one operator, which is " +
-                "exactly the half neither owner carried. SCOPE: XXX only. The Laplacian appears because " +
+                "That is D10's degree term AND VacuumBlockReduction's profile in one operator, the half neither " +
+                "TYPED owner carried; ANALYTICAL_SPECTRUM already wrote the formula, see the Origin. " +
+                "SCOPE: XXX only. The Laplacian appears because " +
                 "the ZZ coefficient equals the XY one; for XXZ it is Delta*diag(deg) - A, not a Laplacian. " +
                 "The residual gate is a SCALING LAW, not a constant (1e-13*(J*N + 2*max gamma)), with a " +
                 "J = 1e5 row proving the scaling rather than moving the blind spot one decade. " +
@@ -3644,6 +3648,11 @@ public static class OpenArcsRegistry
                 "non-normality under a profile is ALREADY written, in experiments/ANALYTICAL_SPECTRUM.md's " +
                 "non-uniform-dephasing paragraph and in docs/ANALYTICAL_FORMULAS' F2 fence, both of which " +
                 "say the block stays exactly closed while diag(gamma) and the Laplacian stop commuting. " +
+                "AND SO IS THE GENERATOR ITSELF: that same ANALYTICAL_SPECTRUM paragraph writes " +
+                "-2iJ*Laplacian - 2*diag(gamma), the degree term and the profile together, in its own " +
+                "(conjugate orientation, Pauli normalisation) convention. An earlier draft of this arc " +
+                "said the composite was carried by nobody; that was false, and the true statement is " +
+                "narrower: no TYPED owner carried it. " +
                 "New here: the entry-wise identity under a LIVE witness, gated across four graph " +
                 "families, and the per-mode reading that ties it back to the parent claim. " +
                 "AND BEFORE ANYONE READS A SIGN CONFLICT between this witness and its siblings, separate " +
@@ -3670,6 +3679,17 @@ public static class OpenArcsRegistry
                 "lambda = -0.123378 + 0.061449i and overlap 0.9971, which is NOT the record; at J = 4 it " +
                 "gives -0.166384 + 0.238470i and overlap 0.999996, which is. The sign of Im is the " +
                 "orientation flip of item (ii), not an error. " +
+                "TWO MORE CONVENTIONS IN THAT SAME BUILD, because naming only the factor 4 would repeat " +
+                "the error this paragraph exists to prevent. (1) The recorded overlap is on MAGNITUDES, " +
+                "|v| . psi, not the complex |<v, psi>|: the complex form gives 0.9934 at J=1 and 0.9879 " +
+                "at J=4, so a gate written the natural way misses the 1.0000 it is aiming at. The " +
+                "amplitude SIGNS are a separate recorded fact (see the ParkedAt) and Complex.Abs " +
+                "discards them, so a gate that wants them must read them separately. (2) The eigenvector " +
+                "comes out in BLOCK order, site N-1 down to site 0, and must be permuted through " +
+                "BandEdgeSectorSiteOrder before it touches the site-ordered psi_opt row. The IBM profile " +
+                "is strongly asymmetric, so this is not cosmetic: unpermuted the overlap reads 0.531 at " +
+                "J=1 and 0.587 at J=4. The J=4 separation, for the record, is 0.0574, which is the " +
+                "recorded 0.057; at J=1 it is 0.019. " +
                 "When the repairs are made, note that the closed form is for M and NOT " +
                 "for its spectrum: M is non-normal, diag(gamma) " +
                 "and the Laplacian do not commute, so psi_opt is still diagonalized for and not read " +
