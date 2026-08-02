@@ -3575,8 +3575,24 @@ public static class OpenArcsRegistry
                 "and M's slowest eigenvector at 0.999996. So M hands over the AMPLITUDE and not the rate; the " +
                 "rate is near 2*Re(lambda_M) = -0.3328, shifted to -0.3179 by the population term of (a). A " +
                 "closed form for psi_opt does not by itself make the lens well posed.",
-            NextStep: "the first move is DONE (2026-08-02, the edit is in D10) and it was small: exactly ONE " +
-                "sentence of D10 changes, the close of Step 1. " +
+            NextStep: "RESUMPTION POINT (2026-08-02, end of session). THREE THINGS ARE DONE and are not to be " +
+                "redone: the D10 Step-1 edit; the whole prose rename off the w=1 mislabel, both halves, " +
+                "landed in 26 files (commit f0a9160); and the PROOF_CHAIN_GAP_DOMINANCE section-4 redo " +
+                "with its fence in fourteen sites and its promoted gate (commit cadaa98). " +
+                "THE NEXT MOVE IS (b) BELOW, and it is a C# witness, not a script: widen " +
+                "BlockSpectrumWitness.BandEdgeSectorReSpan to take a gamma PROFILE instead of " +
+                "Enumerable.Repeat(gamma, n). That is the smallest edit that puts the site-resolved " +
+                "block under a live witness, and cockpit rule 5 wants it there before anything else in " +
+                "this arc lands: items (2) and (3) of the ParkedAt (the psi_opt closed form, the " +
+                "well-posed lens) are still reproduced-locally-only, and CONCENTRATOR_GEOMETRY:180 plus " +
+                "OPEN_QUESTIONS_INDEX:1646 must NOT be repaired before that witness exists, because " +
+                "their current verdict ('psi_opt has no known closed form') is the only thing standing " +
+                "between the repo and an uncited claim. After the witness, the two genuinely open " +
+                "questions are named in (a): whether the population term explains the rate shift in " +
+                "closed form, and whether the amplitude agreement is a theorem or a coincidence at this " +
+                "one profile. " +
+                "The D10 first move, for the record, was small: exactly ONE " +
+                "sentence of D10 changed, the close of Step 1. " +
                 "Z_l|0><j|Z_l = z_l(0)*z_l(j)*|0><j| and only site j flips, so the dissipator eigenvalue " +
                 "is -2*gamma_j per basis element, diagonal instead of scalar. Steps 2, 3, 5 and 6 are gamma-blind " +
                 "because L_H does not see gamma. What breaks is Step 4's 'all decaying at the same rate', and " +
