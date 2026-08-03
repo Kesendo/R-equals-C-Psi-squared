@@ -427,11 +427,11 @@ neutral block included, 57.600000 against 57.600000 with difference exactly
 zero. That block is what a molecule occupies, so the claim can be made there
 rather than about a norm spread over charge states.
 
-The classical spectrum mirror (Coulson-Rushbrooke around α) is one face of the
-carbon ring's symmetry, the one chemistry has read about for eighty-six years,
-and it holds at the closed-system level from bipartiteness alone. The polarity
-balance is a second face, one level up in the open system, and where the two
-have been checked together on admissible carbon operators they hold together.
+The classical spectrum mirror (Coulson-Rushbrooke around α) is the symmetry
+chemistry has read about for eighty-six years, and it holds at the closed-system
+level from bipartiteness alone. The polarity balance is a separate symmetry in the
+open system, with its own trigger, and where the two have been checked together on
+admissible carbon operators they hold together.
 
 How a chemist would test it directly is not settled, and two obvious routes do
 not work. Process tomography on isotopically labelled ¹³C-benzene reconstructs
@@ -492,7 +492,7 @@ A complementary Hamiltonian-term classification inventory sits in
 
 - **2026-05-22 [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)**: the F1 spectrum result stands, holding to the eigensolver floor with F1 proving it exact. The "Peierls breaks the palindrome" framing is precise at the spectrum level; today we add the F112 polarity layer, where Peierls does preserve the balance even where the F1 spectrum breaks.
 - **2026-05-17 [Where 1/4 and 1/2 Appear in Carbon](QUARTER_HALF_IN_CARBON.md)**: benzene's HOMO at −1/2 sits exactly on the framework's polarity-half anchor. The Klein-V₄ we use today operates on the same polarity-half axis: both the half-anchor and the Klein-V₄ symmetry live on one Z₂ ladder.
-- **2026-05-17 [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)**: Coulson-Rushbrooke at the carbon level corresponds to F1 at the qubit level. Today we add Klein-V₄ at the qubit level; the open question is whether there's a Coulson-Rushbrooke-level analog, a chemistry-side discrete symmetry that intertwines different dephase-coupling regimes.
+- **2026-05-17 [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)**: Coulson-Rushbrooke at the carbon level sits beside F1 at the qubit level, one implication with two triggers. Today we add Klein-V₄ at the qubit level; the open question is whether there's a Coulson-Rushbrooke-level analog, a chemistry-side discrete symmetry that intertwines different dephase-coupling regimes.
 
 ---
 

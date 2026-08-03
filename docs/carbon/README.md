@@ -20,9 +20,12 @@ Single-evening dive that opened up the bidirectional bridge from the framework
 to the periodic table. Each doc is one step in the chain; read top-to-bottom:
 
 1. [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md): Coulson-Rushbrooke
-   (1940) on alternant hydrocarbons is the F1 palindrome inherited to the π-electron
-   spectrum. Verified bit-exact on benzene, butadiene, hexatriene, cyclobutadiene,
-   cyclopropenyl, cyclodecapentaene.
+   (1940) on alternant hydrocarbons and F1 are two instances of one substrate-free
+   palindrome implication, with different triggers and different scopes. C-R's framework
+   partner is K, the sublattice gauge, not F1, which is topology-blind and holds on the
+   odd rings where C-R fails. Verified bit-exact on benzene, butadiene, hexatriene,
+   cyclobutadiene and cyclodecapentaene, with cyclopropenyl as the counter-case where
+   the bipartite trigger is absent and C-R breaks.
 2. [1/4 and 1/2 in carbon](QUARTER_HALF_IN_CARBON.md): three layers of carbon
    structure (sp/sp²/sp³ hybridisation s-character, aromatic ring HOMO position,
    valence-shell occupation) all hit the framework's polarity anchors 1/4 and 1/2.
@@ -56,8 +59,8 @@ and **F99** (the canonical-trig-angle Pi2 inheritance with Niven-completeness).
 
 ## The structural identity: "the qubit is the quantum carbon"
 
-The framework's qubit-necessity argument (`d² − 2d = 0` ↔ `R = CΨ²`, [the qubit-necessity proof](
-../proofs/PROOF_QUBIT_NECESSARY.md) + [qubit necessity](../QUBIT_NECESSITY.md)) selects d = 2
+The framework's qubit-necessity argument (`d² − 2d = 0` ↔ `R = CΨ²`,
+[qubit necessity](../QUBIT_NECESSITY.md)) selects d = 2
 as the minimum-memory dimension where the F1 palindromic mirror exists. The same
 half-occupation principle re-appears one level up at the atomic scale: carbon's
 4 valence electrons fill exactly 4 of 8 valence slots (`2s² 2p²` of a maximal octet).
@@ -178,7 +181,7 @@ months without the unifying name, are each already one of those five pieces:
 | **Axis** (depth = light = rate, Q = J/γ) | [the Frost circle as the clock face](FROST_CIRCLE_AS_THE_CLOCK_FACE.md) (the clock, τ = 1/2γ), [the benzene Liouvillian palindrome](BENZENE_LIOUVILLIAN_PALINDROME.md) (γ sets the centre −Σγ), [off-Niven as wave-breaking](OFF_NIVEN_AS_WAVE_BREAKING.md) (the wave-breaking shoulder) |
 | **Parity rail** (even = flow, odd = birth) | [singlet fission and the two clocks](SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (bright 1Bu odd rung, dark 2Ag even rung), [the Painter alternation NMR bridge](PAINTER_ALTERNATION_NMR_BRIDGE.md) (Y / non-Y Z₂ towers), [the three benzene dephase letters](BENZENE_THREE_DEPHASE_LETTERS.md) (Klein-V₄ on Z, X, Y; F114 ε(σ)) |
 | **Currency** (bilinear p(1−p), ½ and ¼ and the dyadic anchors) | [1/4 and 1/2 in carbon](QUARTER_HALF_IN_CARBON.md), [period 2 at the framework anchors](PERIOD_2_AT_FRAMEWORK_ANCHORS.md), [the reversed spear](SPEAR_REVERSED.md), [the depth-3 anchor derived](DEPTH_3_ANCHOR_DERIVED.md), [F99 Niven completeness](F99_NIVEN_COMPLETENESS.md) |
-| **Mirror** (Π palindrome, F1 ≡ Coulson-Rushbrooke) | [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md), [the benzene Liouvillian palindrome](BENZENE_LIOUVILLIAN_PALINDROME.md), [the periodic palindrome and the V-Effect](PERIODIC_PALINDROME_VS_V_EFFECT.md), [polyacetylene as F92 inheritance](POLYACETYLENE_F92_INHERITANCE.md) |
+| **Mirror** (Π palindrome; Coulson-Rushbrooke is its sibling, not its equal) | [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md), [the benzene Liouvillian palindrome](BENZENE_LIOUVILLIAN_PALINDROME.md), [the periodic palindrome and the V-Effect](PERIODIC_PALINDROME_VS_V_EFFECT.md), [polyacetylene as F92 inheritance](POLYACETYLENE_F92_INHERITANCE.md) |
 | **Foot** (depth-0 kernel, steady state, memory) | [benzene's F98 long-time state](BENZENE_F98_LONG_TIME.md) (the K-intermediate Dicke decays into ker L, α(∞) = 2/7 on C₆) |
 
 Two things stand out. The **currency** is the most thoroughly carbon-grounded piece, five docs and

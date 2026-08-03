@@ -146,8 +146,11 @@ symmetry breaks. The reason is the same on both layers, and it is the trace.
 
 In the quantum Liouvillian L = −i[H, ·] + dephasing, the Hamiltonian enters only
 through the commutator superoperator H⊗I − I⊗H^T, which is **traceless for any H**
-(its trace is d·Tr(H) − d·Tr(H) = 0). So the trace of L, hence the palindrome
-center 2Σγ, is set entirely by the bath, never by the Hamiltonian. In the neural
+(its trace is d·Tr(H) − d·Tr(H) = 0). So the trace of L, hence the spectral mean
+−Σγ, is set entirely by the bath, never by the Hamiltonian; and where the spectrum
+is palindromic, which is F1's statement and not the trace's, that mean is also the
+palindrome centre ([Absorption Theorem §4.4](../docs/proofs/PROOF_ABSORPTION_THEOREM.md),
+which states the same centre as +Σγ in its decay-rate convention). In the neural
 Jacobian the synaptic graph W enters only the off-diagonal, which contributes
 nothing to the trace; so the spectral center −S is set entirely by the membranes,
 never by the wiring. The center cannot see the graph on either layer.

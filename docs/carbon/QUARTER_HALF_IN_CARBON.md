@@ -189,7 +189,7 @@ preferences, several predictions follow:
 ## Anchor
 
 - Script: [`simulations/carbon/carbon_quarter_half_search.py`](../../simulations/carbon/carbon_quarter_half_search.py)
-- Sister doc: [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) (Coulson-Rushbrooke ≡ F1)
+- Sister doc: [the benzene Hückel framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) (Coulson-Rushbrooke beside F1)
 - Framework anchors: [QuarterAsBilinearMaxvalClaim](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs),
   [HalfAsStructuralFixedPointClaim](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs),
   [F98](../ANALYTICAL_FORMULAS.md#f98), [F86b DickeAnchor](../../compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs)

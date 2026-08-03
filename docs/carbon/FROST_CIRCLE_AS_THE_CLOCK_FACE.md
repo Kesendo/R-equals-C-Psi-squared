@@ -7,7 +7,7 @@
 benzene C₆, butadiene C₄, the five-carbon chain, and hexatriene C₆.
 **Script:** [`simulations/carbon/frost_circle_as_clock.py`](../../simulations/carbon/frost_circle_as_clock.py)
 **Builds on:** [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
-(Coulson-Rushbrooke = F1, the spectrum level), [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)
+(Coulson-Rushbrooke beside F1, the spectrum level), [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)
 (the open-system π-qubit map), and the clock voices on
 [`MirrorSystem`](../../compute/RCPsiSquared.Diagnostics/Foundation/MirrorSystem.cs).
 

@@ -12,10 +12,10 @@ hydrocarbons (bipartite C-frameworks) the MO spectrum is palindromic around the
 on-site Coulomb integral α. This is widely-known organic-chemistry fact, but
 through framework eyes:
 
-  Coulson-Rushbrooke palindrome  ↔  F1 palindrome inheritance at Carbon Level 1
+  Coulson-Rushbrooke palindrome  ↔  F1 palindrome, siblings with different triggers
   α (on-site Coulomb integral)   ↔  −Σγ analog (palindrome centre)
   β (resonance integral)         ↔  J (framework coupling)
-  bipartite carbon framework     ↔  truly-class Hamiltonian + Z-deph (F87)
+  bipartite carbon framework     ↔  K H K = −H, the sublattice gauge (not F87)
   4n+2 aromaticity stability     ↔  ??? (half-filled, candidate Klein constraint)
 
 This script:
@@ -161,7 +161,7 @@ def analyse(name: str, H: np.ndarray, topology: str, N: int, n_electrons: int):
     print(f"  Max deviation from Frost circle: {max_dev:.2e}  {'✓ match' if max_dev < 1e-10 else '✗ MISMATCH'}")
     print()
 
-    # 2. Coulson-Rushbrooke palindrome around α (= F1 inheritance at Carbon Level 1)
+    # 2. Coulson-Rushbrooke palindrome around α (F1's sibling, bipartite-triggered)
     is_bipartite = is_bipartite_ring(N) if topology == "ring" else is_bipartite_chain(N)
     is_pal, pairs = coulson_rushbrooke_palindrome_check(eigvals)
     print(f"  Coulson-Rushbrooke palindrome around α = {ALPHA}: " +
@@ -217,8 +217,8 @@ def analyse(name: str, H: np.ndarray, topology: str, N: int, n_electrons: int):
     print(f"  ─── Framework-lens reading ───")
     print(f"    α (Hückel on-site Coulomb)    ≡ −Σγ analog (palindrome centre)")
     print(f"    β (Hückel resonance integral) ≡ J (framework coupling)")
-    print(f"    bipartite C-framework         ≡ truly-class Hamiltonian (F87)")
-    print(f"    Coulson-Rushbrooke palindrome ≡ F1 inheritance at Carbon Level 1")
+    print(f"    bipartite C-framework         ≡ K H K = −H, the sublattice gauge")
+    print(f"    Coulson-Rushbrooke palindrome ≡ F1's sibling, not F1 (F1 is topology-blind)")
     if topology == "ring" and N % 2 == 0:
         # KIntermediate Dicke anchor candidate inheritance
         m = N // 2 - 1
@@ -236,12 +236,13 @@ def main():
     print(" Hückel (1931): π-electron MOs by diagonalising α·I + β·A (A = adjacency matrix)")
     print(" Coulson-Rushbrooke (1940): alternant (bipartite) C-frameworks have palindromic")
     print("   MO spectrum around α — pair (α+x, α−x) for every x in spectrum.")
-    print(" R=CΨ² F1 (2026): spec(L) palindromic around −Σγ for chain XY + Z-deph Liouvillian.")
+    print(" R=CΨ² F1 (2026): spec(L) palindromic around −Σγ under Z-deph, on any graph.")
     print()
-    print(" Reading the 86-year-old C-R theorem through framework eyes: SAME palindrome,")
-    print(" different physical level. C-R sits at carbon Level 1 (molecular orbitals);")
-    print(" F1 sits at qubit Level 0 (Liouvillian eigenvalues). Both come from bipartite-")
-    print(" graph Z₂ involution; both pin every eigenvalue to its mirror partner around a")
+    print(" Reading the 86-year-old C-R theorem through framework eyes: SIBLING palindromes,")
+    print(" one implication and two triggers. C-R sits at carbon Level 1 (molecular")
+    print(" orbitals) and is triggered by the bipartite graph; F1 sits at qubit Level 0")
+    print(" (Liouvillian eigenvalues) and is triggered by the letter content of H, being")
+    print(" topology-blind. Both pin every eigenvalue to its mirror partner around a")
     print(" structural centre (α for C-R, −Σγ for F1).")
     print()
     print()
@@ -273,14 +274,13 @@ def main():
     print("=" * 78)
     print()
     print(" • Bipartite rings (even N) + chains (any N) all show Coulson-Rushbrooke")
-    print("   palindrome bit-exact around α = 0. This IS F1 palindrome inheritance at")
-    print("   carbon Level 1 — same structural Z₂ involution, different physical level.")
+    print("   palindrome bit-exact around α = 0. Its framework partner is K, the sublattice")
+    print("   gauge, which carries the same bipartiteness trigger.")
     print()
     print(" • Cyclopropenyl C₃ (odd-N ring, non-bipartite) breaks the palindrome — the")
-    print("   eigenvalues are {α + 2β, α − β, α − β}; pair sum (α + 2β) + (α − β) = 2α − β,")
-    print("   not 2α. The bipartite-graph mechanism F1 inherits from is explicitly violated.")
-    print("   This is the carbon-Level-1 analog of F87-Brecher: even when palindrome looks")
-    print("   nearly there empirically, the structural mechanism is broken.")
+    print("   eigenvalues are {α + 2β, α − β, α − β}; pair sum (α + 2β) + (α − β) = 2α + β,")
+    print("   not 2α. The bipartite trigger is gone, so K goes with it. NOT an F1 Brecher:")
+    print("   F1 is topology-blind and its palindrome holds on this ring.")
     print()
     print(" • The Hückel 4n+2 aromaticity rule lives in the OCCUPATION-COUNT axis, not the")
     print("   palindrome-symmetry axis. Benzene (6π, 4n+2) is aromatic; cyclobutadiene")

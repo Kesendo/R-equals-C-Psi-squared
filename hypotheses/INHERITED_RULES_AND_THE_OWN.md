@@ -97,10 +97,11 @@ out the one candidate it had. What survives is not the symmetry but its trigger.
 holds because the chain is bipartite, and bipartiteness is not ours; it is a property of the
 graph we chose, put in before anything ran, and it shows up wherever that graph shape does,
 including in 1940, where Coulson-Rushbrooke pairs the Hückel spectrum of an alternant
-hydrocarbon about α and breaks on a non-alternant ring. Whether our
-[benzene reading](../docs/carbon/BENZENE_HUCKEL_FRAMEWORK_LENS.md) is right that this makes
-C-R and F1 "the same theorem at two physical levels" is not settled here and is parked as the
-open arc `benzene_center_tier_upgrade`. This document needs only the weaker half: the trigger
+hydrocarbon about α and breaks on a non-alternant ring. Our
+[benzene reading](../docs/carbon/BENZENE_HUCKEL_FRAMEWORK_LENS.md) once called C-R and F1
+"the same theorem at two physical levels"; that has since been settled the other way. They
+share the implication and not the trigger, and it is C-R's trigger, bipartiteness, that F1
+does not have: F1 holds on the odd rings where C-R breaks. This document needs only the weaker half: the trigger
 is the graph's bipartiteness, and the trigger was inherited.
 
 ## Links

@@ -2,7 +2,7 @@
 show the F1 palindrome under vibrational dephasing?
 
 BENZENE_HUCKEL_FRAMEWORK_LENS.md settled the closed system (the Hueckel MO spectrum
-is palindromic, Coulson-Rushbrooke = F1 on H). Question 2 is the OPEN system: build
+is palindromic, Coulson-Rushbrooke beside F1, on H). Question 2 is the OPEN system: build
 the benzene-pi + vibrational-dephasing Liouvillian and check the F1 palindrome
 Spec(L) closed under lambda -> -lambda - 2*Sigma_gamma.
 

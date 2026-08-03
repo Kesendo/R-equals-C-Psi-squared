@@ -17,8 +17,8 @@ question 1 / [README](README.md) open question 2.
 
 [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) showed that the
 **closed-system** Hückel MO spectrum of an alternant hydrocarbon is palindromic
-(Coulson-Rushbrooke, 1940) and that this is structurally the same Z₂ palindrome as
-the framework's F1. But Coulson-Rushbrooke is the closed-system, Hamiltonian-level
+(Coulson-Rushbrooke, 1940) and that this is a Z₂ palindrome of the same shape as
+the framework's F1, with a different trigger. But Coulson-Rushbrooke is the closed-system, Hamiltonian-level
 statement. F1 is the **open-system** claim: the Liouvillian spectrum of an XY-class
 Hamiltonian under Z-dephasing is closed under λ → −λ − 2Σγ, palindromic about the
 centre −Σγ.
@@ -76,9 +76,11 @@ even the most generous reflection leaves a residual of order the spectral width.
 
 **Yes, conditionally.** Benzene's open-system Liouvillian inherits the F1 palindrome
 exactly when its vibrational bath couples on-site (Holstein, to the π-density), and
-not when it couples to the bond (Peierls, to the hopping). The closed-system
-Coulson-Rushbrooke palindrome lifts to the open-system F1 palindrome under, and only
-under, on-site dephasing.
+not when it couples to the bond (Peierls, to the hopping). On this graph, which is bipartite, the closed-system
+Coulson-Rushbrooke palindrome and the open-system F1 palindrome hold together under,
+and only under, on-site dephasing. They are siblings and not one lifting into the
+other: F1 holds on odd rings too, where Coulson-Rushbrooke fails (see
+[the framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)).
 
 ## The structure of the Peierls break
 
