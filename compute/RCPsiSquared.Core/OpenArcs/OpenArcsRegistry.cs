@@ -3643,6 +3643,74 @@ public static class OpenArcsRegistry
                 + "and never recomputed, which does not reproduce on any grid: verify the reviewer too."),
 
         new OpenArc(
+            Name: "f138_clause_two_sweep",
+            Opened: "2026-08-03",
+            Origin: "F138 (the boundary law of the dephasing palindrome) is minted with its two clauses graded "
+                + "DIFFERENTLY, and its own title says so: clause 1 (at most two dephasing axes per component) is "
+                + "exhaustive, every 3^N per-site assignment at N=3 on chain, ring and complete plus N=4 chain, zero "
+                + "exceptions; clause 2 (the on-site field has a single common axis within the component, orthogonal "
+                + "to every dephasing axis present) is SPOT-CHECKED, resting on chosen axis-pattern and "
+                + "field-direction combinations, an angle sweep and the per-component controls. The registry says "
+                + "treat clause 1 as measured and clause 2 as well supported but spot-checked. HOW IT OPENED: the "
+                + "retired benzene_center_tier_upgrade needed to say what the framework counterpart of a lifted "
+                + "Huckel diagonal is, which is exactly a clause-2 question, and produced FOUR wrong statements in "
+                + "four review rounds trying to say it from a handful of N=3 rows before cutting the excursion "
+                + "entirely. The traps it walked into are worth more than the statements it failed to make, and they "
+                + "are listed in NextStep. Clause 2 is also the clause the F1 registry entry now points at for its "
+                + "own Breaks-for line, so it carries weight it has not been swept for.",
+            ParkedAt: "NOT attempted. What exists: simulations/carbon/huckel_palindrome_conditions.py has a working "
+                + "_pairing_count (paired / total against -2*sigma - lambda, minimum-cost matching on the complex "
+                + "spectrum, the 64/64 form MIRROR_SYMMETRY_PROOF reports in) and a _liouvillian that took an on-site "
+                + "field with per-site letters until the excursion was cut; the field support was REMOVED in that cut "
+                + "and is a few lines to restore from the commit. The natural home is not that carbon script anyway: "
+                + "F138 already has simulations/pauli_weight_conjugation.py and conjugation_proof.txt for clause 1, "
+                + "and clause 2 belongs beside it. FOUR TRAPS, each of which produced a wrong statement that a review "
+                + "round had to kill. (i) transverse-good-longitudinal-bad is TOO COARSE and the mirror proof says so "
+                + "in its own words (transverse and longitudinal are not two facts; dephase along X and Y and the "
+                + "free axis inverts): a mixed h_x/h_y/h_x pattern is transverse at every site and still breaks, "
+                + "0/64 at N=3. Clause 2 asks for a single COMMON axis, and the failure of the mixed pattern is "
+                + "clause 2 doing its work, not a counterexample to it. (ii) DO NOT QUOTE A BREAK MAGNITUDE without "
+                + "checking it moves with the field. Sorting the two complex multisets independently gives 2*N*h_z, "
+                + "a systematic mis-assignment growing without limit. Matching them by minimum-cost assignment and "
+                + "taking the max SATURATES at 2*Sigma(gamma) once the break exceeds it, so above h_z ~ gamma it "
+                + "reports gamma and not the field; below that it does equal 2*N*h_z and is meaningful. Either quote "
+                + "it only in the weak-field regime with the crossover named, or report the count. (iii) THE COUNT IS "
+                + "NOT ALL-OR-NOTHING, and reading it as sharp is an accident of ODD RINGS. At gamma = 0.05 and "
+                + "h_z = 0.3: C3 ring 0 of 64, C5 ring 0, but the C4 ring pairs 182 of 256 and the 4-chain 157 of "
+                + "256. The partial regime is where the law actually lives and it is the regime a min-SUM matching "
+                + "under-counts (max-cardinality matching gives a different number there), so a clause-2 sweep needs "
+                + "a matcher chosen for it. (iv) THE TOLERANCE NEEDS A STATED MODEL. There is no exact route (a "
+                + "non-normal generator through an eigensolver). Measured: the worst matched distance over "
+                + "N = 3..5 x {chain, ring, star, complete} x gamma from 1e-3 to 50 x Delta in {0, 1, 5} plus random "
+                + "gamma profiles is 636 * eps*||L||; the carbon script gates 2048 * eps*||L|| on that basis. An "
+                + "earlier version wrote 64 * eps*||L|| * 4**n, which is a fitted number wearing a formula.",
+            NextStep: "START BY DECIDING THE SHAPE OF THE SWEEP, because clause 2 has more axes than clause 1 and a naive "
+                + "product is not affordable. Clause 1 sweeps 3^N dephasing-axis assignments; clause 2 adds a field "
+                + "DIRECTION per site (continuous), so the exhaustive object is not the same kind of thing. Two "
+                + "honest targets, in order. (1) THE DISCRETE CORE: fix the dephasing pattern, sweep the field over "
+                + "the 3^N letter assignments x / y / z per site plus the sign patterns, at N=3 and N=4, on chain / "
+                + "ring / star / complete, and check the clause-2 predicate (single common axis, orthogonal to every "
+                + "present dephasing axis) against the measured pairing count. That is finite, it is the same shape "
+                + "as clause 1 evidence, and it would move clause 2 from spot-checked to measured on the discrete "
+                + "part. (2) THE CONTINUOUS PART separately: the angle sweep F138 already has, extended to tilted "
+                + "fields at several sites at once, which is where a single-common-axis law can fail without any "
+                + "letter assignment noticing (a 45-degree field in the XY plane lies along neither dephasing axis "
+                + "and the proof already records it dying). Report the two as different evidence classes; do not "
+                + "blend them into one count. THE PREDICATE MUST BE COMPUTED, NOT ASSUMED: write the clause-2 "
+                + "condition as a function of (dephasing axes, field directions) and gate the sweep as "
+                + "predicate == palindrome, both directions, so a false NEGATIVE (predicate says break, palindrome "
+                + "holds) is as loud as a false positive. Clause 1 evidence is stated that way, zero exceptions in "
+                + "EITHER direction, and clause 2 should match. Read ParkedAt first, all four traps; they cost four "
+                + "review rounds and every one of them looked like a finding at the time. Prior work in order: "
+                + "ANALYTICAL_FORMULAS F138 and its Evidence paragraph, MIRROR_SYMMETRY_PROOF clause-2 discussion "
+                + "(the transverse-and-longitudinal-are-not-two-facts bullet and the orthogonality-not-avoidance "
+                + "one), simulations/pauli_weight_conjugation.py, then simulations/carbon/huckel_palindrome_"
+                + "conditions.py for the pairing-count machinery. IF THE SWEEP CONFIRMS, the deliverable is F138 own "
+                + "title and Evidence paragraph, which currently say spot-checked, plus the F1 Breaks-for line that "
+                + "leans on it. If it does not, the counterexample is the finding and it is a bigger one.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "site_resolved_vacuum_block",
             Opened: "2026-08-02",
             Origin: "THE OBJECT: the (0,1) coherence block, the N-dimensional span of the |0><j| between the " +
