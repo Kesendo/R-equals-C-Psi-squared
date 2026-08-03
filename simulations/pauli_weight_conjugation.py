@@ -190,6 +190,23 @@ def arbitrary_graph_spectrum(N, edges, axes_per_site, gammas, delta=1.0,
     the topology helpers cannot express: disconnected graphs, several dephasing
     axes on one site, and transverse or longitudinal on-site fields.
     """
+    L, shift = arbitrary_graph_liouvillian(N, edges, axes_per_site, gammas,
+                                           delta=delta, field=field,
+                                           field_axis=field_axis, J=J,
+                                           bond_terms=bond_terms)
+    return np.linalg.eigvals(L), shift
+
+
+def arbitrary_graph_liouvillian(N, edges, axes_per_site, gammas, delta=1.0,
+                                field=None, field_axis=3, J=None,
+                                bond_terms=(1, 2, 3), field_dirs=None):
+    """The generator behind arbitrary_graph_spectrum, returned unsolved.
+
+    Split out because a tolerance stated as a multiple of eps·‖L‖ needs ‖L‖, and
+    the eigenvalues alone do not carry it: for a non-normal generator the largest
+    eigenvalue modulus is not the norm. Callers wanting the spectrum should keep
+    using arbitrary_graph_spectrum, which is this plus one eigensolve.
+    """
     dim = 2**N
     ident = np.eye(dim, dtype=complex)
     H = np.zeros((dim, dim), dtype=complex)
@@ -203,11 +220,36 @@ def arbitrary_graph_spectrum(N, edges, axes_per_site, gammas, delta=1.0,
             for k in range(N):
                 term = np.kron(term, pauli if k in (i, j) else I2)
             H += jj * (delta if tidx == 3 else 1.0) * term
-    if field is not None:
+    if field_dirs is not None:
+        # The continuous face of clause 2: an arbitrary UNIT DIRECTION per site
+        # rather than a letter. Needed because the letters can only ever land on
+        # the three coordinate axes, and clause 2 can fail without any letter
+        # noticing: a field at 45 degrees in the XY plane lies along neither
+        # dephasing axis and still dies. Separate parameter rather than an
+        # overload of field_axis, because a list of three numbers at N=3 would
+        # be ambiguous between per-site letters and one global vector.
         for site in range(N):
+            nx, ny, nz = field_dirs[site]
+            onsite = nx * Xm + ny * Ym + nz * Zm
             term = np.eye(1, dtype=complex)
             for k in range(N):
-                term = np.kron(term, AXIS_MATRIX[field_axis] if k == site else I2)
+                term = np.kron(term, onsite if k == site else I2)
+            H += field[site] * term
+    elif field is not None:
+        for site in range(N):
+            # field_axis is either ONE letter for the whole graph (the historical
+            # form, kept for every existing caller) or one letter per site, which
+            # is what clause 2 needs: the clause asks the field for a single
+            # COMMON axis within a component, and a condition on a quantity that
+            # cannot vary is not testable. Letter 0 means this site carries no
+            # field term at all, hence contributes no axis to the clause.
+            axis = (field_axis[site] if isinstance(field_axis, (list, tuple))
+                    else field_axis)
+            if axis == 0:
+                continue
+            term = np.eye(1, dtype=complex)
+            for k in range(N):
+                term = np.kron(term, AXIS_MATRIX[axis] if k == site else I2)
             H += field[site] * term
     L = -1j * (np.kron(H, ident) - np.kron(ident, H.T))
     shift = 0.0
@@ -218,7 +260,7 @@ def arbitrary_graph_spectrum(N, edges, axes_per_site, gammas, delta=1.0,
                 A = np.kron(A, AXIS_MATRIX[axis] if k == site else I2)
             L += gammas[site] * (np.kron(A, A.T) - np.kron(ident, ident))
             shift += gammas[site]
-    return np.linalg.eigvals(L), 2 * shift
+    return L, 2 * shift
 
 
 def field_identity_residual(N, edges, field, field_axis, gamma=0.05,

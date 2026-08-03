@@ -1,0 +1,185 @@
+F138 clause 2, decided over several primes
+==========================================================================
+F138 states the boundary law of the dephasing palindrome, and grades its two
+clauses differently: clause 1 exhaustively swept, clause 2 spot-checked. This
+sweeps clause 2.
+
+THE ROUTE. The palindrome is spec(L) = {-lambda - s}, so with p(x) = det(xI-L)
+and 4^N even it is exactly the polynomial identity p(x) == p(-x - s). Every
+entry of L is a Gaussian rational here (gamma = 1/20, magnitudes 30/100,
+22/100, 41/100, 17/100, 35/100, J and delta integers), so L maps into GF(p)
+with i a square root of -1 and the identity is tested by comparing
+determinants. An earlier version of this sweep instead ran an eigensolver and
+built a calibrated tolerance on the premise that no exact route existed. The
+premise was false, and CLAUDE.md's rounding rule asks for exactly the question
+that would have caught it: why is there anything to tolerate?
+
+WHAT THE VERDICTS ARE WORTH. Asymmetric, and the asymmetry is the point:
+
+  BREAKS ARE PROVED. One witness x with p(x) != p(-x-s) mod any prime rules the
+  identity out over Q(i) as well.
+
+  HOLDS ARE CERTIFIED, NOT DECIDED. Two escape channels: Schwartz-Zippel (two
+  distinct degree-n polynomials agree at at most n of the p elements) and the
+  modulus itself (q = p(x) - p(-x-s) can be nonzero over Q(i) yet vanish
+  identically mod one prime, which no number of points can see; the witness is
+  guard 3 of f138_exact_palindrome_test.py). Hence THREE independent primes and
+  two points each: a false HOLDS must escape in EVERY prime, and to escape
+  structurally it would need every coefficient of q divisible by all three.
+  Per prime the Schwartz-Zippel bound is (n/p)^2, so with the smallest prime
+  used it is 1.9e-14 at n = 64 and 3.0e-13 at n = 256, and a row survives all
+  three only below 6e-42 and 3e-38 respectively. Stated per n because the
+  dimension differs by stage: Stage B runs at n = 256, not 64.
+
+  The asymmetry runs the safe way for the headline. The load-bearing result is
+  'no false positives', i.e. no row where the predicate says HOLD and the
+  spectrum breaks. Those are the PROVED verdicts.
+
+SCOPE HELD FIXED, and named so it can be read: J = 1 and delta = 1 on every
+bond and gamma equal on every dephasing site, except in Stage E, which repeats
+the N=3 grid with non-uniform rational J and gamma because F138 quantifies
+over those and a law tested at one point of an axis is not tested on it.
+
+## Stage A: N=3, exhaustive, full Heisenberg bond
+
+  Every 4^3 dephasing assignment x every 4^3 field assignment x
+  every DISTINCT sign pattern, on each distinct graph. Signs are
+  varied only where a field term exists, so these are distinct
+  configurations rather than re-runs.
+
+  P3 (chain=star)                    rows= 21952  false+=    0  false-=    0
+  K3 (ring=complete)                 rows= 21952  false+=    0  false-=    0
+  bond+isolate                       rows= 21952  false+=    0  false-=    0
+
+## Stage B: N=4, stated cross-section, full Heisenberg bond
+
+  18 named dephasing patterns x every 4^4 field assignment. NOT
+  exhaustive and not claimed to be; signs are exhaustive at N=3.
+
+  P4 chain                           rows=  4608  false+=    0  false-=    0
+  C4 ring                            rows=  4608  false+=    0  false-=    0
+  two bonds                          rows=  4608  false+=    0  false-=    0
+
+## Stage E: the coupling axis F138 quantifies over
+
+  The N=3 grid again with non-uniform rational J per bond and
+  non-uniform rational gamma per site. Uniform couplings ADD
+  symmetry, which biases toward the palindrome, i.e. toward hiding
+  exactly the false positives the headline rests on.
+
+  P3 (chain=star) non-uniform J,gamma rows=  4096  false+=    0  false-=    0
+  K3 (ring=complete) non-uniform J,gamma rows=  4096  false+=    0  false-=    0
+  bond+isolate non-uniform J,gamma   rows=  4096  false+=    0  false-=    0
+
+## Stage C: tightness against bond content, INSIDE the domain
+
+  F138 reads "For H a sum of bond terms ... holds exactly when",
+  and its two-term proviso conditions only the CEILING in clause 1,
+  not the reach of the law. So a two-term bond such as XX+YY is
+  squarely inside the stated domain, and a row there where the
+  predicate forbids and the spectrum pairs is a counterexample to
+  the "only when" direction, not an out-of-scope curiosity.
+
+  XX+YY+ZZ / P3 (chain=star)         rows=  4096  false+=    0  false-=    0
+  XX+YY+ZZ / K3 (ring=complete)      rows=  4096  false+=    0  false-=    0
+  XX+YY+ZZ / bond+isolate            rows=  4096  false+=    0  false-=    0
+
+  XX+YY / P3 (chain=star)            rows=  4096  false+=    0  false-=   22
+      FALSE NEGATIVE: deph=..X field=Y.Z signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=YZ. signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=YZZ signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..Y field=X.Z signs=all+ (clause2-not-common)
+      ... and 18 more of the same kind
+  XX+YY / K3 (ring=complete)         rows=  4096  false+=    0  false-=    0
+  XX+YY / bond+isolate               rows=  4096  false+=    0  false-=  104
+      FALSE NEGATIVE: deph=.X. field=YZ. signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=YZX signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=YZY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=YZZ signs=all+ (clause2-not-common)
+      ... and 100 more of the same kind
+
+  XX+ZZ / P3 (chain=star)            rows=  4096  false+=    0  false-=   22
+      FALSE NEGATIVE: deph=..X field=Z.Y signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=ZY. signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=ZYY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..Y field=X.Z signs=all+ (clause2-not-common)
+      ... and 18 more of the same kind
+  XX+ZZ / K3 (ring=complete)         rows=  4096  false+=    0  false-=    0
+  XX+ZZ / bond+isolate               rows=  4096  false+=    0  false-=  104
+      FALSE NEGATIVE: deph=.X. field=ZY. signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=ZYX signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=ZYY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=ZYZ signs=all+ (clause2-not-common)
+      ... and 100 more of the same kind
+
+  YY+ZZ / P3 (chain=star)            rows=  4096  false+=    0  false-=   22
+      FALSE NEGATIVE: deph=..X field=Y.Z signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=Z.Y signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..Y field=Z.X signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..Y field=ZX. signs=all+ (clause2-not-common)
+      ... and 18 more of the same kind
+  YY+ZZ / K3 (ring=complete)         rows=  4096  false+=    0  false-=    0
+  YY+ZZ / bond+isolate               rows=  4096  false+=    0  false-=  104
+      FALSE NEGATIVE: deph=.X. field=YZ. signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=YZX signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=YZY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=YZZ signs=all+ (clause2-not-common)
+      ... and 100 more of the same kind
+
+  XX / P3 (chain=star)               rows=  4096  false+=    0  false-=  776
+      FALSE NEGATIVE: deph=..X field=.YZ signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.ZY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=Y.Z signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=YYZ signs=all+ (clause2-not-common)
+      ... and 772 more of the same kind
+  XX / K3 (ring=complete)            rows=  4096  false+=    0  false-=  732
+      FALSE NEGATIVE: deph=..X field=.YZ signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.ZY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=Y.Z signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=YYZ signs=all+ (clause2-not-common)
+      ... and 728 more of the same kind
+  XX / bond+isolate                  rows=  4096  false+=    0  false-=  520
+      FALSE NEGATIVE: deph=.X. field=YZ. signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=YZX signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=YZY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=YZZ signs=all+ (clause2-not-common)
+      ... and 516 more of the same kind
+
+  YY / P3 (chain=star)               rows=  4096  false+=    0  false-=  776
+      FALSE NEGATIVE: deph=..X field=.X. signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=..X field=.XY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.XZ signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.YZ signs=all+ (clause2-not-common)
+      ... and 772 more of the same kind
+  YY / K3 (ring=complete)            rows=  4096  false+=    0  false-=  732
+      FALSE NEGATIVE: deph=..X field=.X. signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=..X field=.XY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.XZ signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.YZ signs=all+ (clause2-not-common)
+      ... and 728 more of the same kind
+  YY / bond+isolate                  rows=  4096  false+=    0  false-=  520
+      FALSE NEGATIVE: deph=.X. field=X.. signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=X.X signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=X.Y signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=X.Z signs=all+ (clause2-not-orthogonal)
+      ... and 516 more of the same kind
+
+  ZZ / P3 (chain=star)               rows=  4096  false+=    0  false-=  776
+      FALSE NEGATIVE: deph=..X field=.X. signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=..X field=.XY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.XZ signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.YZ signs=all+ (clause2-not-common)
+      ... and 772 more of the same kind
+  ZZ / K3 (ring=complete)            rows=  4096  false+=    0  false-=  732
+      FALSE NEGATIVE: deph=..X field=.X. signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=..X field=.XY signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.XZ signs=all+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=.YZ signs=all+ (clause2-not-common)
+      ... and 728 more of the same kind
+  ZZ / bond+isolate                  rows=  4096  false+=    0  false-=  520
+      FALSE NEGATIVE: deph=.X. field=X.. signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=X.X signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=X.Y signs=all+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=X.Z signs=all+ (clause2-not-orthogonal)
+      ... and 516 more of the same kind
+
