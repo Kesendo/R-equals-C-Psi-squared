@@ -16,7 +16,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (<see cref="F1GeneralTopologyVerifiedClaim"/>, <c>F1GeneralTopologyN9BlockSpectrumChainTests</c>)
 /// banks but never exposes for browsing — the <c>block_spectrum_n9</c> open arc's NextStep.
 ///
-/// <para>The Heisenberg XXX chain H = (J/4)·Σ_b (X_bX_{b+1}+Y_bY_{b+1}+Z_bZ_{b+1}) under uniform
+/// <para>The Heisenberg XXX chain H = (J/4)·Σ_b (X_bX_{b+1}+Y_bY_{b+1}+Z_bZ_{b+1}−I) under uniform
 /// Z-dephasing γ (the N=9 banked system: J=1, γ=0.5) is exactly block-diagonal in the joint label
 /// (popcount_col, popcount_row): <see cref="JointPopcountSectors"/>, (N+1)² sectors summing to 4^N.
 /// What is genuinely recomputed live, cheaply, at any N:</para>
@@ -44,7 +44,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   term at uniform γ, <see cref="VacuumBlockReductionClaim"/> has the profile with an XY H.</item>
 /// </list>
 ///
-/// <para>The full N=9 headline (262144 eigenvalues, the palindrome held bit-exact about −2σ = −9,
+/// <para>The full N=9 headline (262144 eigenvalues, the palindrome held bit-exact about −σ = −4.5,
 /// kernel 10 = N+1, gap 0.0273, 645.95× speedup) is READ live from the committed
 /// <c>simulations/results/f1_n8_n9_metrics/chain_N9.json</c> (a [stored] artifact, not recomputed —
 /// the run is 3 h), degrading to a "not in this checkout" note if absent. Breadcrumbed from
@@ -101,7 +101,7 @@ public sealed class BlockSpectrumWitness : IInspectable
 
     // ---- live spectrum reconstruction, sector by sector ----
 
-    /// <summary>H = (J/4)·Σ_b (X_bX_{b+1}+Y_bY_{b+1}+Z_bZ_{b+1}) on the open chain — the N=9 banked
+    /// <summary>H = (J/4)·Σ_b (X_bX_{b+1}+Y_bY_{b+1}+Z_bZ_{b+1}−I) on the open chain — the N=9 banked
     /// Heisenberg XXX system. Popcount-conserving, so it lives inside the
     /// <see cref="JointPopcountSectorBuilder"/> block infrastructure.</summary>
     private static ComplexMatrix HeisenbergChain(int n, double j) =>
@@ -118,8 +118,9 @@ public sealed class BlockSpectrumWitness : IInspectable
     /// <see cref="JointPopcountSectorBuilder"/> block infrastructure.
     ///
     /// <para>THE −I IS A GAUGE CHOICE AND IT COSTS NOTHING PHYSICALLY: an additive constant commutes
-    /// with everything, so [c·I, ρ] = 0 and the Liouvillian L = −i[H, ·] + D is IDENTICAL with or
-    /// without it. What it buys is exactness. Written without it, the ferromagnetic vacuum carries
+    /// with everything, so [c·I, ρ] = 0 and the Liouvillian L = −i[H, ·] + D is the same MATHEMATICAL
+    /// object with or without it. Not the same computed one, which is the whole point below: the two
+    /// routes to it round differently. What the gauge buys is exactness. Written without it, the ferromagnetic vacuum carries
     /// E₀ = Σ_b J_b/4, every block diagonal is the DIFFERENCE of two rounded full sums
     /// (H[r,r] − E₀), and the identity has to survive a cancellation that costs digits in proportion
     /// to J: measured, the (0,1) generator residual was 6.0e-08 at J = π·10⁸ on the uniform chain.
@@ -137,9 +138,11 @@ public sealed class BlockSpectrumWitness : IInspectable
         // The bond list is used AS GIVEN, deliberately. A site's diagonal accumulates (+q, −q) for
         // every bond it does not touch, and those pairs cancel around a running sum, so the assembly
         // is order-sensitive: the same graph with the same couplings in a different list order gives
-        // a different last bit. Sorting by descending |J| makes the ascending chain exact and makes
-        // N=3 and N=4 worse, so there is no ordering that is exact in general and picking one would
-        // be a false precision. What the order-sensitivity IS good for is reading the residual: see
+        // a different last bit. Sorting by descending |J| makes the J~1 chain rows in the test file
+        // exact but makes the large-J row eight times worse, and on random graphs lands nonzero about
+        // as often as ascending does, so there is no ordering that is exact in general and picking one
+        // would be a false precision.
+        // What the order-sensitivity IS good for is reading the residual: see
         // GeneratorResidual.
         foreach (var b in bonds)
         {
@@ -698,7 +701,7 @@ public sealed class BlockSpectrumWitness : IInspectable
                      "of the eigenvalues, NOT the midpoint of the bracket, which is a different number). Both are corollaries " +
                      "of the per-mode law below, which is the Absorption Theorem's own per-channel reading. " +
                      "diag(γ) and 𝓛 do " +
-                     "not commute, so M is non-normal and its eigenvalues are NOT −2γ_j − i·(J/2)·μ_m: the slow " +
+                     "not commute, so M is non-normal and its eigenvalues are NOT −2γ_j + i·(J/2)·μ_m: the slow " +
                      "mode has to be diagonalized for, not read off (arc site_resolved_vacuum_block).",
             children: kids,
             provenance: NodeProvenance.Live);
@@ -727,7 +730,8 @@ public sealed class BlockSpectrumWitness : IInspectable
         };
         return new InspectableNode("the N=9 banked headline [chain_N9.json]",
             summary: $"[stored] the full {b.SpectrumSize}-eigenvalue N=9 chain run (Heisenberg XXX, J=1, γ=0.5): " +
-                     $"the F1 palindrome held bit-exact about −2σ = {b.MinReal.ToString("0.#", Inv)} (max pairing " +
+                     $"the F1 palindrome held bit-exact about −σ = {(b.MinReal / 2.0).ToString("0.#", Inv)}, the floor " +
+                     $"at −2σ = {b.MinReal.ToString("0.#", Inv)} (max pairing " +
                      $"distance {b.MaxPairingDistance.ToString("E2", Inv)}, {b.OutlierPairCount} outliers), kernel " +
                      $"{b.KernelDimension} = N+1, gap {b.DissipationGap.ToString("0.0000", Inv)}, {b.SectorCount} " +
                      $"sectors via {b.EffectiveSpeedup.ToString("0.0", Inv)}× cubic-cost speedup. Wall " +

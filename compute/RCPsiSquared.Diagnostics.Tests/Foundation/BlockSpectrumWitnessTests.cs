@@ -77,7 +77,7 @@ public class BlockSpectrumWitnessTests
     // BuildBlockZ) and it obeys F1: the multiset is symmetric about the center -sigma. A real
     // gate -- a wrong sector-flat-index extraction or a wrong H gives a spectrum that fails this.
     [Fact]
-    public void ReconstructSpectrum_AtN5_IsFull_ObeysTheF1Palindrome_AboutMinusTwoSigma()
+    public void ReconstructSpectrum_AtN5_IsFull_ObeysTheF1Palindrome_AboutMinusSigma()
     {
         const int n = 5;
         const double gamma = 0.5, j = 1.0;
@@ -175,7 +175,7 @@ public class BlockSpectrumWitnessTests
 
     // Gate 3b: the SITE-RESOLVED (0,1) block on ANY XXX bond graph. The engine has always returned
     // it with a per-site gamma; the witness caller was uniform-only. The generator identity, in
-    // this witness's convention H = sum_b (J_b/4)*(XX+YY+ZZ), is M = +i*(1/2)*WeightedLaplacian
+    // this witness's convention H = sum_b (J_b/4)*(XX+YY+ZZ-I), is M = +i*(1/2)*WeightedLaplacian
     // - 2*diag(gamma), entry-wise. It fires on a wrong sign, a wrong J factor, a missing ZZ degree
     // term (which would leave the adjacency form, D10's recorded failure mode), a REVERSED gamma
     // profile (the failure PerBlockLiouvillianBuilder's own gamma-index-convention paragraph
@@ -184,8 +184,9 @@ public class BlockSpectrumWitnessTests
     //
     // The threshold is a SCALING LAW, not a constant: the residual is an absolute quantity built
     // from cancelling O(J*N) terms, so a fixed 1e-12 would silently become a real tolerance at
-    // large J. Scale = J_max*N + 2*max(gamma), and the large-J row below is what proves the scaling
-    // is the right one rather than the blind spot being moved one decade.
+    // large J. Scale = J_max*N + 2*max(gamma). What carries that argument is Gate 3b-earns-the-scale
+    // further down, which spans two decades on the NON-uniform profile; the four uniform large-J rows
+    // immediately below are all exactly 0.0 and prove nothing about the scaling.
     [Theory]
     [MemberData(nameof(BandEdgeGraphs))]
     public void SiteResolvedBandEdgeBlock_IsExactlyTheLaplacianPlusDiagGammaGenerator(int n, string label, Bond[] bonds)
@@ -197,7 +198,9 @@ public class BlockSpectrumWitnessTests
             $"[{label} N={n}] entry-wise generator residual {residual:E3} exceeds 1e-13*scale ({1e-13 * scale:E3})");
     }
 
-    // Gate 3b-large-J: the same identity far off J=1, and the row that EARNS 3b's scaled threshold.
+    // Gate 3b-large-J: the same identity far off J=1. These four rows are all UNIFORM chains and all
+    // measure exactly 0.0, so they do not exercise the scaled threshold at all -- a flat 1e-13 would
+    // pass every one of them. The row that earns it is the non-uniform one below.
     //
     // THE RESIDUAL HERE IS NOT NOISE, IT IS A READING OF HOW H WAS ASSEMBLED. A site's diagonal
     // accumulates (+q, −q) for every bond it does NOT touch, and those pairs cancel around a running
@@ -205,8 +208,15 @@ public class BlockSpectrumWitnessTests
     // on nothing else about the physics: measured on one graph with one coupling set, changing only
     // the list order, ascending |J| leaves 1.7e-16 on the chain-end site and descending leaves 0.0.
     //
-    // No ordering is exact in general -- sorting descending fixes the ascending chain and breaks
-    // N=3 and N=4, which were exact -- so the identity is exact while the route to it is not, and
+    // No ordering is exact in general: sorting the list descending by |J| makes the J~1 chain rows in
+    // this file exact, but it makes the large-J one EIGHT TIMES WORSE (chain-perbond at J = pi*1e8,
+    // N=5: 7.5e-09 as given, 5.96e-08 sorted descending), and on random graphs with random couplings
+    // it lands nonzero about as often as ascending does. Descending is a property of particular rows,
+    // not an ordering rule.
+    // Note what the residual is NOT sensitive to: GeneratorResidual hands ONE list to both routes, so
+    // a sort applied here moves H and the prediction together. Sorting inside the H builder alone is a
+    // different measurement and gives different numbers; the two must not be quoted as one experiment.
+    // So the identity is exact while the route to it is not, and
     // this gate's scaled threshold bounds the route, not the claim. Two constructions were removed
     // to get this far and both were real: the vacuum constant E0 = Σ J_b/4, which made every
     // diagonal a difference of two full sums (see HeisenbergGraph), and a prediction that halved a
@@ -226,12 +236,55 @@ public class BlockSpectrumWitnessTests
             $"[N={n} J={j}] residual {residual:E3} exceeds 1e-13*scale ({1e-13 * scale:E3})");
     }
 
+    // Gate 3b-earns-the-scale: the rows a FLAT threshold would fail. The non-palindromic per-bond
+    // profile at large J rounds -- at N=7, J_max ~ 1.5e9, the residual is 2.2e-08, five orders above a
+    // flat 1e-13 -- while its ratio to J_max stays around 1e-18 to 2e-18. TWO decades are gated, not
+    // one, because a single scale cannot tell eps*J_max*N apart from a constant or from J_max^2.
+    //
+    // What the upper bound is and is NOT. Over pi*10^k, k = 0..9, the ratio residual/(eps*J_max*N)
+    // ranges from exactly 0.0 up to 0.14. That is an ENVELOPE, not a constant, so this is not a case-2
+    // error model in the sense the rounding rule means; the residual is the file's case-3 object, a
+    // reading. The bound below is therefore a ceiling on that envelope, and the second assertion is
+    // the one carrying the argument: these rows must stay ABOVE a flat 1e-13, or the claim that the
+    // threshold has to scale has no witness left in the file.
+    [Theory]
+    [InlineData(5, 3.141592653589793e7)]
+    [InlineData(6, 3.141592653589793e7)]
+    [InlineData(7, 3.141592653589793e7)]
+    [InlineData(5, 3.141592653589793e8)]
+    [InlineData(6, 3.141592653589793e8)]
+    [InlineData(7, 3.141592653589793e8)]
+    public void SiteResolvedBandEdgeBlock_GeneratorIdentity_ScalesWithTheCouplingNotWithAConstant(int n, double j0)
+    {
+        // These scales specifically. The residual is a rounding artefact, so it VANISHES at some scales
+        // by luck -- pi*1e9 gives exactly 0.0 at N=5 while sitting at 2.4e-07 for N=6 and N=7. This gate
+        // does not claim the residual is always nonzero; it holds two scales at which it demonstrably
+        // is. A zero here means the luck changed, not that the law did.
+        var gamma = AsymmetricGamma(n);
+        var bonds = Chain(n, b => (0.4 + 0.9 * b) * j0);
+        double jMax = bonds.Max(b => Math.Abs(b.Coupling));
+        double residual = BlockSpectrumWitness.GeneratorResidual(n, bonds, gamma);
+
+        double eps = Math.Pow(2, -52);
+        Assert.True(residual < 1.0 * eps * jMax * n,
+            $"[chain-perbond N={n} J_max={jMax:E3}] residual {residual:E3} exceeds eps*J_max*N " +
+            $"({eps * jMax * n:E3}) -- the error model, not a tuned number, has broken");
+        Assert.True(residual > 1e-13,
+            $"[chain-perbond N={n}] residual {residual:E3} no longer exceeds a flat 1e-13, so this " +
+            "row has stopped earning the scaled threshold and Gate 3b's scaling has no witness left");
+    }
+
     // Gate 3b-exact: the uniform-chain generator residual is exactly 0.0, at every N and at the
     // binary-exact couplings. Three rounds of prose got the exactness map wrong in three different
     // ways while no gate held any of it -- 3b's one-sided 1e-13*scale bound sits three orders above
     // these values, so a change in the builder's accumulation order could move them to 1e-16 and
-    // stale the comment again in silence. This is the falsifiable half of that map. The other rows
-    // are deliberately NOT pinned to their current values: they are nonzero and allowed to move.
+    // stale the comment again in silence. This is the falsifiable half of that map.
+    //
+    // The map itself, measured on the 20 Gate-3b rows: SEVENTEEN are exactly 0.0 -- every ring row,
+    // every star row, chain-uniform at every N, and chain-perbond at N=3 and N=4. The three that are
+    // not are chain-perbond at N=5, 6, 7 (5.6e-17, 5.6e-17, 1.7e-16). Those seventeen have an exact
+    // route, so by the repository's rounding rule they are compared exactly and not tolerated: see
+    // GeneratorResidual_OnTheRowsWithAnExactRoute_IsExactlyZero below.
     [Theory]
     [InlineData(3, 1.0)]
     [InlineData(4, 1.0)]
@@ -247,6 +300,41 @@ public class BlockSpectrumWitnessTests
         Assert.True(residual == 0.0,
             $"[chain-uniform N={n} J={j}] expected a bit-exact 0.0, got {residual:E3} -- if this is a " +
             "deliberate builder change, the exactness map in the comments above needs remeasuring");
+    }
+
+    // The seventeen Gate-3b fixtures that currently measure exactly 0.0. This PINS those fixtures; it
+    // does not claim a law, and no law is known here. Equal couplings are not sufficient: at equal J
+    // the complete graph K_4 is nonzero for J = 0.4, 0.7, 1.3, -2.7 and exact for J = 1, 2, e, pi,
+    // so the outcome depends on the coupling's mantissa and on the degree jointly. The mechanism is
+    // that a site's H diagonal also receives (+q, -q) from bonds it does NOT touch while the
+    // prediction receives only incident bonds, so exactness is whether those pairs cancel bit for bit
+    // in a running sum. Chains and stars at these sizes do; K_4 and up need not.
+    //
+    // Why pin them anyway: Gate 3b bounds all twenty by a scaled threshold that sits three orders
+    // above these values, so a builder change could move any of them off 0.0 in silence. A failure
+    // here is a finding about the construction to be read, not a tolerance to widen. The three rows
+    // deliberately absent (chain-perbond at N=5, 6, 7) are the ones that round today; they stay under 3b.
+    public static IEnumerable<object[]> ExactRouteGraphs()
+    {
+        foreach (int n in new[] { 3, 4, 5, 6, 7 })
+        {
+            yield return new object[] { n, "chain-uniform", Chain(n, _ => 1.0) };
+            yield return new object[] { n, "ring", Enumerable.Range(0, n).Select(i => new Bond(i, (i + 1) % n, 0.7)).ToArray() };
+            yield return new object[] { n, "star", Enumerable.Range(1, n - 1).Select(i => new Bond(0, i, 1.3)).ToArray() };
+        }
+        foreach (int n in new[] { 3, 4 })
+            yield return new object[] { n, "chain-perbond", Chain(n, b => 0.4 + 0.9 * b) };
+    }
+
+    [Theory]
+    [MemberData(nameof(ExactRouteGraphs))]
+    public void GeneratorResidual_OnTheRowsWithAnExactRoute_IsExactlyZero(int n, string label, Bond[] bonds)
+    {
+        var gamma = AsymmetricGamma(n);
+        double residual = BlockSpectrumWitness.GeneratorResidual(n, bonds, gamma);
+        Assert.True(residual == 0.0,
+            $"[{label} N={n}] expected a bit-exact 0.0, got {residual:E3} -- the exact route this row " +
+            "had is gone, which is a finding about the builder and not a threshold to widen");
     }
 
     // Gate 3b': the block's basis order is NOT site order. The sector's flat indices row*d + col
@@ -301,9 +389,10 @@ public class BlockSpectrumWitnessTests
     // sum of several gammas, where a re-summation in a different order need not agree bit for bit --
     // no row here leaves the (0,1) block, so that is stated as the mechanism, not as a measurement
     // this file took); (c) the H diagonal adds exactly +0.0 to the real part.
-    // (a)-(c) are why this holds on the star and per-bond rows too, where the GENERATOR residual is
-    // generally nonzero (generally: star N=3 is exactly 0.0 as well -- the two exactness maps
-    // overlap, they are not complements). One reachable exception, pathological: a coupling large enough to overflow the H
+    // (a)-(c) are why this holds on the star and per-bond rows too. Do not read that as the two
+    // exactness maps being complements: the GENERATOR residual is nonzero on only three of the twenty
+    // rows (chain-perbond at N=5, 6, 7), so on seventeen of them both maps say exact, for unrelated
+    // reasons. This one is exact by (a)-(c) on every row, including the three. One reachable exception, pathological: a coupling large enough to overflow the H
     // diagonal sum makes the real part NaN, and NaN == 0.0 is false. Everything finite is clean. Measured 0.0 at J = 1e8 as well as at J=1,
     // so a SCALED threshold here would be a loosening with nothing behind it -- an earlier round put
     // one in, with a J=1e5 row whose stated justification ("a flat 1e-14 would fail on rounding
@@ -323,7 +412,7 @@ public class BlockSpectrumWitnessTests
     [Theory]
     [InlineData(4, 1e5)]
     [InlineData(6, 1e8)]
-    [InlineData(6, 3.141592653589793e8)]   // OFF the exact grid, where the generator residual is 6e-8
+    [InlineData(6, 3.141592653589793e8)]   // OFF the exact grid, where the generator residual WAS 6e-8 before the gauge
     public void SiteResolvedBandEdge_HermitianPart_StaysExactAtLargeJ(int n, double j)
     {
         var gamma = AsymmetricGamma(n);

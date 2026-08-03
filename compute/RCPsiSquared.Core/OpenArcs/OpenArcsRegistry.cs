@@ -3518,6 +3518,45 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
+            Name: "benzene_center_tier_upgrade",
+            Opened: "2026-08-03",
+            Origin: "docs/carbon/BENZENE_HUCKEL_FRAMEWORK_LENS.md pairs Coulson-Rushbrooke (1940) with F1 and "
+                + "grades the two halves differently: the PAIR SUMS 2*alpha <-> -2*Sigma(gamma) are called a "
+                + "'Tier 1 algebraic match', the CENTRES alpha <-> -Sigma(gamma) only a 'Tier 2 structural "
+                + "identification'. The question is whether that second grade is too weak. Huckel H = alpha*I + "
+                + "beta*A has a traceless adjacency, so alpha = tr(H)/N EXACTLY, and the repository already owns "
+                + "the same route on its own side: PROOF_ABSORPTION_THEOREM.md section 4.4 gets the spectral mean "
+                + "Sigma(gamma) from Tr(L_H) = 0 for ANY Hermitian H, NEURAL_CLOCK_TWO_HANDS.md is titled 'the "
+                + "Takt Is the Trace', and UNIVERSAL_PALINDROME_CONDITION.md closes with 'one fact, the trace'. "
+                + "Measured: Huckel N=6 pairing centre -11.4 = tr/N to all digits; F1 at N=4 tr/dim = "
+                + "-5.391021484618063 = -Sigma(gamma). If both centres are the same formula rather than an "
+                + "analogy, the Tier 2 line understates what we have. HOW IT OPENED: Tom's reading that benzene "
+                + "is not a citation but a CALIBRATION OBJECT, the one place we know both the old side (1940, no "
+                + "dissipation, no gamma) and the new one, so the difference between them is readable at all.",
+            ParkedAt: "NOT attempted, deliberately. Three cautions, all earned the same night. (i) The word "
+                + "'trace' does not occur anywhere in docs/carbon/, so this is a genuine gap and not a missing "
+                + "cross-link. (ii) PROOF_ABSORPTION_THEOREM.md section 4.4 carries the distinction any upgrade "
+                + "must respect: the trace gives the spectral MEAN, F1 gives the PAIRING, and the two coincide "
+                + "only when the spectrum is palindromic -- so 'same centre formula' does not by itself license "
+                + "'same theorem'. (iii) The repository is split on the underlying question and the split is "
+                + "load-bearing: BENZENE_HUCKEL_FRAMEWORK_LENS.md says C-R and F1 are 'the same theorem at two "
+                + "physical levels', PROOF_K_PARTNERSHIP.md:259 says the involutions are independent maps on "
+                + "distinct objects. An upgrade written without settling that will read as taking a side by "
+                + "accident. The session that opened this arc had just retracted four successive 'findings', "
+                + "every one an equality claim between two objects, which is why it stopped here.",
+            NextStep: "Fresh session, and it should start by DISAGREEING with this arc rather than executing it. "
+                + "First question, before any editing: is 'the centre is tr/dim' a THEOREM about these systems or "
+                + "a restatement of 'every non-identity basis element is traceless'? If the latter, the Tier 2 "
+                + "line is correctly graded and this arc retires with a one-line note instead of an upgrade. "
+                + "Second, if it survives: does the trace route reach the PAIRING or only the mean, for C-R "
+                + "specifically? C-R pairs eigenvalues; a statement about the mean is weaker and would not lift "
+                + "the grade. Third, only then, the wording, and it belongs in docs/carbon/ next to the existing "
+                + "table rather than in a new document. Do not open a new file for this. Prior work to read "
+                + "first, in this order: PROOF_ABSORPTION_THEOREM.md section 4.4, PROOF_K_PARTNERSHIP.md, "
+                + "UNIVERSAL_PALINDROME_CONDITION.md, then the benzene lens itself.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
             Name: "site_resolved_vacuum_block",
             Opened: "2026-08-02",
             Origin: "THE OBJECT: the (0,1) coherence block, the N-dimensional span of the |0><j| between the " +

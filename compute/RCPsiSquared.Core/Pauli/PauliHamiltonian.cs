@@ -115,7 +115,20 @@ public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
     /// have length N − 1. Scalar overload <see cref="HeisenbergChain(int, double)"/> calls this
     /// with a uniform list. Throws <see cref="ArgumentOutOfRangeException"/> for N &lt; 1 before
     /// the length check so that N = 0 / empty bondJ does not slip through as a silent no-op
-    /// Hamiltonian.</summary>
+    /// Hamiltonian.
+    ///
+    /// <para>NO GAUGE TERM HERE, and the repository has a second builder that carries one:
+    /// <c>Diagnostics.BlockSpectrumWitness.HeisenbergGraph</c> writes Σ_b (J_b/4)(XX+YY+ZZ−I).
+    /// The −I is the occupation-versus-spin convention — per bond,
+    /// (J/4)(ZZ−I) = J·n_a n_b − (J/2)(n_a + n_b) with n = (I−Z)/2 — so the two builders differ by
+    /// the constant Σ_b J_b/4 and by nothing else. This one has tr H = 0, so the MEAN eigenvalue is 0
+    /// (not a palindrome — the XXX spectrum is not symmetric about it), and the ferromagnetic vacuum
+    /// sits at +Σ_b J_b/4; that one puts the vacuum at exactly 0. What that buys is not
+    /// block-diagonality, which is a symmetry of any number-conserving H and holds either way, but the
+    /// BIT-exactness of the witness's (0,1) generator identity: 6.0e-08 without the gauge at
+    /// J = π·10⁸, exactly 0.0 with it. The two agree as mathematical objects ([c·I, ρ] = 0) but not as
+    /// computed ones, which is the whole reason the gauge is there; anything reading H's own diagonal
+    /// must know which side it is on.</para></summary>
     public static PauliHamiltonian HeisenbergChain(int N, IReadOnlyList<double> bondJ)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");

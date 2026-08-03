@@ -81,17 +81,27 @@ the only place something can be that was not.
 The thing to look for is a quantity the VALUE leaves undetermined and the ROUTE fixes. In the
 numerical instance that is exactly what happened: the bond order is nowhere in the value.
 
-The candidate raised on the first night does not have that shape, and saying so is more
-useful than leaving it standing. `H_eff = −A − i·diag(γ)` on the chain does carry an exact
-symmetry, `S·conj(H_eff)·S = −H_eff` with `S = diag((−1)^l)`, residual 0.0 at N = 4..8 for
-random γ and random per-bond J. But it pairs λ with −conj(λ): same imaginary part, OPPOSITE
-real part. The partners are separated in Re by order 2 to 4, there is no degeneracy, and what
-distinguishes them is manifestly in the spectrum. Two further scope notes: this is the XY
-object, not the XXX block this arc is about (adding the degree diagonal breaks the identity
-by O(1)), and the symmetry is the chain's bipartite staggering, so it is not expected to
-survive an odd cycle.
+The candidate raised on the first night is dead, and it is worth one paragraph because of how
+it died. `H_eff = −A − i·diag(γ)` carries an exact antilinear symmetry pairing λ with −conj(λ),
+which at odd N forces a mode with Re λ = 0. That looked like a place where a symmetry could
+carry something the spectrum does not show. It is not, because `H_eff` is not the object: the
+real (0,1) generator keeps the ZZ degree diagonal, its Hermitian part is exactly `−2·diag(γ)`,
+and Bendixson then confines every eigenvalue to `Re λ ∈ [−2γ_max, −2γ_min]`. For γ > 0 that
+excludes `Re λ = 0` outright. The seat exists only in the operator that drops the degree term,
+which is the same defect `site_resolved_vacuum_block` had already recorded.
 
-A better candidate has not been found yet.
+The bound is in the witness file this document is about, and it was there the whole time.
+
+So the arc's next test is still unbuilt, and this section's contribution is negative: it rules
+out the one candidate it had. What survives is not the symmetry but its trigger. The identity
+holds because the chain is bipartite, and bipartiteness is not ours; it is a property of the
+graph we chose, put in before anything ran, and it shows up wherever that graph shape does,
+including in 1940, where Coulson-Rushbrooke pairs the Hückel spectrum of an alternant
+hydrocarbon about α and breaks on a non-alternant ring. Whether our
+[benzene reading](../docs/carbon/BENZENE_HUCKEL_FRAMEWORK_LENS.md) is right that this makes
+C-R and F1 "the same theorem at two physical levels" is not settled here and is parked as the
+open arc `benzene_center_tier_upgrade`. This document needs only the weaker half: the trigger
+is the graph's bipartiteness, and the trigger was inherited.
 
 ## Links
 
