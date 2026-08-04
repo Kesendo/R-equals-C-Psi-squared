@@ -385,6 +385,53 @@ if (args.Length > 0 && args[0] == "seed")
     return;
 }
 
+// ---- run mode "cyclotomy": the lattice our angles are forced onto ----
+// Not a law about the world but a PREDICATE over one axis of it, which is why the object's Inherited
+// is empty and its parent is null. What is ours is the turn fractions: Dirichlet ends put a single
+// excitation on k*pi/(N+1), a ring on 2*pi*k/N. What is not ours is everything the arithmetic then
+// says about them. The two are printed side by side so the seam is visible, and the seam is the
+// point: at N=4 the ring's angles are all rational and the path's rate angles are not, one N, two
+// boundary conditions, opposite verdicts. Every column below is an integer; no cosine is evaluated.
+if (args.Length > 0 && args[0] == "cyclotomy")
+{
+    int cnMax = args.Length > 1 ? int.Parse(args[1]) : 6;
+    var cyc = new Cyclotomy();
+    Console.WriteLine("the lattice our angles are forced onto (adopted 2026-08-03 from NivenRationalityRootClaim)");
+    Console.WriteLine("  OWN       two turn-fraction families: path k/(2(N+1)) and ring k/N. Our graph, our boundary");
+    Console.WriteLine("            condition. The third row below is not a third family: the rates carry sin^2(theta),");
+    Console.WriteLine("            and sin^2 = (1 - cos 2theta)/2, so they sit on the DOUBLED path angle k/(N+1).");
+    Console.WriteLine("  INHERITED which of them have a rational 2*cos (Niven: order in {1,2,3,4,6}) and what degree");
+    Console.WriteLine("            the rest carry ([Q(2cos):Q] = phi(order)/2). True of every cos(q*pi), q rational.");
+    Console.WriteLine("  Inherited is EMPTY on the object on purpose: a predicate over a range is not an output of");
+    Console.WriteLine("  anything of ours, so nothing is upstream of it. That gap is the finding, not a stub.");
+    Console.WriteLine();
+    Console.WriteLine($"  {"N",3}  {"family",-10} {"orders (degree, * = rational 2cos)",-46} {"all rational",12} {"max deg",7}");
+    for (int n = 2; n <= cnMax; n++)
+    {
+        foreach (var (label, orders) in new (string, IReadOnlyList<int>)[]
+                 {
+                     ("path", Cyclotomy.PathOrders(n)),
+                     ("path rates", Cyclotomy.PathRateOrders(n)),
+                     ("ring", Cyclotomy.RingOrders(n)),
+                 })
+        {
+            string cells = string.Join(" ", orders.Select(o =>
+                $"{o}({Cyclotomy.Degree(o)}){(Cyclotomy.IsRational(o) ? "*" : "")}"));
+            string all = Cyclotomy.AllRational(orders) ? "yes" : "no";
+            Console.WriteLine($"  {n,3}  {label,-10} {cells,-46} {all,12} {Cyclotomy.MaxDegree(orders),7}");
+        }
+        Console.WriteLine();
+    }
+    Console.WriteLine("  read the N=4 rows: ring all rational, path rates not. The angles live on the same object and");
+    Console.WriteLine("  the arithmetic separates them, so 'the values are irrational' is the wrong sentence to carry");
+    Console.WriteLine("  around -- it is inherited and true of almost everything. The sentence worth having is that we");
+    Console.WriteLine("  built something whose spectrum is FORCED onto a cyclotomic lattice, and that one IS ours.");
+    Console.WriteLine();
+    Console.WriteLine($"  Own = [{string.Join("; ", cyc.Own)}]");
+    Console.WriteLine($"  Inherited = [{string.Join("; ", cyc.Inherited)}]  (empty, see above)");
+    return;
+}
+
 // ---- run mode "divisor": the value the Hamiltonian cannot move ----
 // Mirror gave the between-block folds, Seed the within-block self-duality. This is the third thing the
 // same mirror leaves behind: on the R90 locus the corner block carries lambda = -4*gbar with
