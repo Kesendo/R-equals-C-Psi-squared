@@ -1,6 +1,36 @@
-# Pre-registration: the record parity trichotomy on hardware — the SIGNED angle law (v29, BANKED 2026-07-18 — design campaign rounds 1–27 folded; not flown)
+# Pre-registration: the record parity trichotomy on hardware — the SIGNED angle law (v33 — sim-gate stage, round-31 four-lens fold on the re-opened loop; not flown)
 
-**Status:** v29 — DESIGN CAMPAIGN BANKED (Tom's call, 2026-07-18: the loop that truth
+**Status:** v33 — SIM-GATE STAGE (2026-08-04): the flight was called by Tom
+("IBM ist freigeschaltet, lass uns das Uhren Experiment fahren"; advance go
+08:12, quoted in full at the HARDWARE RECORD when it exists) and the loop
+re-opened exactly where the bank note says it must, at the sim-gate stage.
+The sim-gate machinery is built and REHEARSED at the pinned scales: ONE
+sim-gate module (circuits, estimator, verdict, band freezing:
+`simulations/record_parity_gates.py`, PROMOTED at the round-31 fold — prior-work
+M4: the rehearsal numbers below are its outputs and the pinned empty round on the
+frozen numbers needs a repo artifact to run against; F129's committed gate scripts
+are the precedent; it enters the repo with the next commit, BEFORE the binding
+freeze) plus the Aer-parity/η_nom reader in the external pipeline
+home (its VALUES and provenance enter the frozen-constants table; the
+external home is named under Runner home below). Rehearsal record (local,
+regenerated deterministically by the module's freeze-full mode; scales qualified
+round 31, stats m1 — the run predates the round-30/31 control-axis extensions, so
+its 1.2×10⁶ is 12 banks of 10⁵ against a pinned axis set that now demands more; the
+UCB 3.0×10⁻⁵ is PER BANK at n = 10⁵; the binding freeze runs the full pinned set):
+joint power
+0.9834 at the worst-admitted corner, negative controls 0 CONFIRMED across those
+12 banks. Round 28 folded TWO
+pinned-rule amendments, both found from below by the gate itself (the guard
+band coverage envelope and the η_nom profile arithmetic; see the Revision
+notes and the amended sites). Rehearsal numbers are NOT frozen: the binding
+freeze runs under these amended rules from a fresh calibration snapshot with
+the representative line re-pinned, and appends the frozen-constants table
+here. Design rounds 28–31 of the re-opened loop are FOLDED (v30–v33, the
+Revision notes hold the ledger; round 31 ran FOUR lenses — the prior-work/
+repo-consistency lens is a standing member from round 31 on); the loop stays open
+until an empty round — round 32 runs on this state. The v29 status below stands
+as history.
+**Status (v29):** DESIGN CAMPAIGN BANKED (Tom's call, 2026-07-18: the loop that truth
 cannot end, ended by decision from outside it; recorded as a decision, not as a clean
 round). Rounds 1–27 folded; every reviewer finding recomputed from below before
 folding; the physics is closed — exact from-below recomputes CLEAN in rounds 7 through
@@ -10,7 +40,10 @@ Round 27 found the SIXTH sign-class instance — the clause-(b) fallback band,
 verdict-bearing and unswept ONE round after the sign accounting was declared
 "complete" — so the completeness claim is RETIRED: sign-sweep membership is ENUMERATED
 (b_blind, b_curve's SUP, T̂, the floors, LR, V_S, the (b)-fallback band, the negative
-controls), never again declared complete. Round-27 stats verdict: "essentially CLEAN …
+controls), never again declared complete — and the enumeration gained a SECOND sign
+AXIS in round 31: beside the readout-bias sign, the coherent watcher-angle sign
+(ε_w-negative grid members; |ρ̂(1.75)| is first-order in it, everything else checked
+second-order or symmetric). Round-27 stats verdict: "essentially CLEAN …
 nothing blocks the freeze" (joint power ≥ 0.9946 reproduced from below;
 false-CONFIRMED 0/2×10⁵ at both signs). Banked, not flown; if the flight ever
 proceeds, the loop re-opens at the sim-gate stage and stays behind Tom's explicit GO.
@@ -24,15 +57,29 @@ control only. Flight only
 after: design rounds converge → sim/null/Aer gates recorded → pre-reg committed → fresh
 calibration + Class-1 pre-flight aborts → Tom's explicit go → ONE Batch job → Class-2
 in-job VOID gates → verdict (terminal rule at the gate order).
-**Backend (pinned from Tom's fresh pulls, 2026-07-18 08:35):** primary **ibm_kingston**
+**Backend (pinned from Tom's fresh pulls, 2026-07-18 08:35; the quoted calibration
+figures are that pull's HISTORICAL values — the binding freeze re-pins the line from a
+fresh snapshot and the Class-1 aborts consume only day-of values, round 30):** primary
+**ibm_kingston**
 (2q median 1.90e-3, readout 0.745%, T1/T2 238/136 µs; maintenance 7/21 15:00–19:00), twin
 **ibm_fez**; `rzz` is a basis gate on both pinned Herons (native fractional; VERIFY at runner
-stage that θ = π/2 is INCLUSIVE in the fractional range). Twin-submit, fly whichever queue
+stage that θ = π/2 is INCLUSIVE in the fractional range — already read green at the
+2026-08-04 rehearsal transpile, re-verified at runner stage). Twin-submit, fly whichever queue
 empties, cancel the other (normally unbilled; if both complete, both bill — tie-break
 pinned, rounds 11/13/15, and SCOPED here (round-27): the tie-break governs ONLY the
 both-complete case, so first-to-complete and earliest-submit are never rival selectors —
 the job with the EARLIEST SUBMIT-RECORD TIMESTAMP governs,
-fixed at submit, fully data-independent; the other is discarded unanalyzed, recorded). **Band rule: each device gets its own band set
+fixed at submit, fully data-independent; the SUBMIT ORDER itself pinned round 31,
+spec m8 — the tie-break is data-independent only if the order is: the PRIMARY,
+ibm_kingston, is always submitted first, before any day-of information is
+consulted; the other is discarded unanalyzed, recorded). Twin-submit RECONCILED
+with F129's posture (round 31, prior-work: [IBM_F129_RAMSEY_FRINGE](IBM_F129_RAMSEY_FRINGE.md)
+§9 pins "one device, one job, one lab; no cross-device claims" — that is a SCOPE
+sentence about claims, and this design keeps it: ONE analyzed job, the flown
+device's own band set governs, no cross-device claim is ever assembled; the twin is
+a queue hedge, not a second lab — and STAIRCASE_NULLTEST already cites this file as
+the pinned-twin precedent, which this sentence makes explicit rather than
+accidental). **Band rule: each device gets its own band set
 (Kingston + Fez), frozen at the sim gate and committed before flight; the flown device's
 set governs.**
 **Runner home (when built):** external pipeline `...\ibm_quantum_tomography\run_record_parity.py`,
@@ -42,13 +89,52 @@ face D_j(t*) = β_j = |cos(r·π/2)| (in the proof D_j = β_j·|sin θ_w|; the f
 θ_w = π/2 makes trace distance and record radius coincide; this is the single-watcher,
 γ = 0 face of the general radius;
 [PROOF_RECORD_PARITY_LAW](../docs/proofs/PROOF_RECORD_PARITY_LAW.md)).
+**The independent sibling law, cited (round 31, prior-work — this document had
+re-derived its sign discriminator without naming the repo's second gated law for
+exactly this geometry):** F136, the record LETTER law
+([PROOF_RECORD_LETTER_LAW](../docs/proofs/PROOF_RECORD_LETTER_LAW.md), 87/87
+pre-registered gates; registry entry F136 in
+[ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md)): the flown line k–j–S–j′ is
+F136's pointer branch (dressers D = ∅, private watchers P = {k}, controls Q = {j′}),
+for which F136 independently predicts a pointer record in the ZY CHANNEL with sign
+Π(−1)^{r/2} — the r = 2 rotation-by-π, "F135's signed-coherence corollary made
+observable" in F136's own words, i.e. the entire flown discriminator as a second
+gated theorem; the direct correlator ⟨Z_S Y_j⟩ that F136 states is what this
+design's conditional-Bloch estimator reconstructs. GAUGE-BASELINE divergence named:
+F136 pins signs relative to the r = 1 baseline, F135's corollary relative to r = 0;
+this design uses r = 0 (correct per F135, and the r = 0 arm is the flown
+normalizer). One F136 consequence is used directly at the η bundle (its clause
+(iv), the S-idle note there).
 The flown carrier ρ̂ is SIGNED (round-4): its magnitude is the trace-distance face, and its
 sign carries additional law content, pinned to the proof's **signed-coherence corollary**
 (PROOF_RECORD_PARITY_LAW, the Signed-coherence corollary inside the Law A section): the
 watcher multiplier cos(r·π/2) is
 negative for r ∈ (1, 2], i.e. the record returns at the even parity ROTATED BY π in the
 equatorial plane (ideal multiplier ρ(2) = −1, not +1; the flown fixpoint is −η(2)); the
-sign is gauge-free referenced to the r = 0 record. The flip is a prediction no magnitude-only impostor can fake. NOT a
+sign is gauge-free referenced to the r = 0 record. The flip is a prediction no
+magnitude-only impostor WITH A SUPERPOSED WATCHER can fake (scoped round 29, physics
+M3: a Z-POLARISED, never-watching k — H on k missing, k reset, or fully Z-relaxed —
+reproduces the ENTIRE signed curve exactly, flip included, with η ≡ 1: j's coherence
+ROTATES by rπ/2 instead of attenuating, and the r = 0-fitted axis projection cannot
+tell the two apart; the polarisation leaks ONLY into |⟨Z_k⟩| (m ≡ ⟨Z_k⟩, the watcher's
+Z-polarisation) and the transverse
+channel (T̂_j = −m·sin(rπ/2)) — the |⟨Z_k⟩| guard is the superposition
+certificate FOR THE m-POLARISED BRANCH of this class ONLY (scope narrowed round 30,
+physics BLOCKER: at m = 0 — the maximally MIXED never-watching k — the leak vanishes
+identically, |⟨Z_k⟩| = 0 and T̂_j = 0, and every flown science/guard PUB is Z-diagonal
+on k, so it sees only diag(ρ_k), where |+⟩⟨+| and I/2 COINCIDE: the m = 0 member is
+invisible to the entire Z-diagonal PUB set and reproduces the law's curve exactly),
+its band capped by the pinned z_k DISCRIMINATION CEILING (round 30, stats BLOCKER —
+the eighth protection-interaction instance: the coverage rule makes a TO-FREEZE guard
+band as LARGE as possible, which here WIDENS the impostor's escape window m < band;
+the ceiling is the opposite-direction pin, guard_z_k ≤ 0.05, an envelope above it is
+unfreezable; the boundary control below quantifies the escape at m = the frozen band);
+the m ≈ 0 discrimination is carried by the WATCHER-TOMOGRAPH PUB pair (its own
+paragraph in the guard section: ⟨Y_k Z_j⟩, +1 at r = 1 for a superposed watcher,
+identically 0 for ANY Z-diagonal k — DIAGNOSTIC-only, it gates the mechanism sentence,
+never the record verdict, so the flown VERDICT tests the record-radius law on j and
+the watching MECHANISM is claimed only under the tomograph certificate); a
+decoding-table row names the class). NOT a
 mutual-information measurement. The MI
 reading "the record survives watching" (Law A's I = 1 − h₂((1+β)/2)) is a corollary that
 additionally needs the classical-quantum premise V_S = 0; that premise is GUARDED in-flight
@@ -58,8 +144,9 @@ not invoked anywhere in this design. Higher parities than r = 1, 2
 are extrapolations of the fitted curve, not flown. Hardware cannot falsify the theorem; a
 deviation reads "the device does not realize the angle law."
 **The seeing over it (labeled, not the claim):** Tom's fixpoint frame (2026-07-18): stability
-comes from pinning to agreed reference points; the Niven endpoints (cos ∈ {0, ±1}) are the
-Grenzen; watching at the agreed (even) angle PRESERVES the watched record; the odd angle
+comes from pinning to agreed reference points; the fixpoint endpoints cos ∈ {0, ±1}
+are the Grenzen (Niven's rational set is {0, ±½, ±1}; the flown endpoints are its
+extremes — labeled precisely round 31, physics NIT); watching at the agreed (even) angle PRESERVES the watched record; the odd angle
 erases; between them "das Leben je nach Blickwinkel."
 
 ## The claim in one line
@@ -140,7 +227,25 @@ signal-model injection is the ONLY place a coefficient enters, and it uses the w
 reviewed one; the residual bias itself is read SIM-GATE-measured; the SINGLE frozen
 injected coefficient is recorded in the ledger at freeze — the range is review history,
 never a frozen input, round-20), and one
-sign EASES clause (b)): handled by PINNED SIGNS, not center surgery (round-12 rebuild —
+sign EASES clause (b)): **the injected QUANTITY pinned in one equation (round 29,
+physics M1 — "a percent of WHAT" was undefined and two quoted figures sat on bases 2×
+apart: the then-current 0.065 b_blind envelope on the narrower, the 0.043 ρ̂(1.75)
+shift on the wider — historical figures quoted for the RATIO argument only, round
+31 spec n4; the operative envelope is the coverage-grid value): the ceiling, the injection, and the in-job crosstalk pair's abort compare are
+ALL in the S-branch assignment differential Δ ≡ the shift of
+[p(w=1 | S=0) − p(w=1 | S=1)], which equals the induced offset on Ŝ; "2%" means
+Δ = 0.02, the WIDER (conservative) of the two readings; the crosstalk REDUCTION is a
+FOUR-CIRCUIT combination, pinned (round 31, spec BLOCKER + physics minor, converging:
+the pair alone cannot identify Δ — it flips S and the witness prep TOGETHER, so two
+of the four (S, w-prep) cells are missing, and the missing cells come from CAL0 and
+CAL1, which the reduction therefore consumes as inputs): per witness w, with
+e01(S) = p(w reads 1 | w prepared 0, S) and e10(S) = p(w reads 0 | w prepared 1, S),
+the pair's two circuits give e01(S=1) and e10(S=0), CAL0 gives e01(S=0), CAL1 gives
+e10(S=1), and **Δ̂ = ½·[(e01(0) − e01(1)) + (e10(1) − e10(0))]** (the equal-weight
+form matching the ~50/50 conditional branch populations of the science arms) is what
+the ≤ 2% Class-2 compare consumes; historical per-% figures quoted in this document are review
+MC on mixed bases and are superseded by the gate's own frozen values** — handled by
+PINNED SIGNS, not center surgery (round-12 rebuild —
 the rounds-8–10 band-center-shift mandate is DROPPED as redundant AND power-fatal: an
 easing-sign MC returns 0/20000 false CONFIRMED for null and every impostor on UNSHIFTED
 bands, because a constant additive bias cannot jointly fake the flip, the r = 1 minimum,
@@ -161,20 +266,38 @@ out) — freezes from the UPPER ENVELOPE over the sign axis {−2%, 0, +2%}, i.e
 the ε_w-center-ALIGNED worst case; the LR threshold joins the sign sweep round-26 (its
 own section); the SIGN envelope and the SE edge are INDEPENDENT axes taken in OPPOSITE
 directions — the envelope buys coverage, the SE edge buys conservatism; never conflate
-them into one direction (round-26) (round-24 BLOCKER: the round-23 floor fix did not
+them into one direction (round-26; magnitudes stated honestly, round 30, stats n16:
+the two are not comparable in size — the sign envelope moves a band by tens of percent,
+~45% on b_blind, while the SE edge moves it ~1%) (round-24 BLOCKER: the round-23 floor fix did not
 reach b_blind; the additive offset shifts ρ̂(1) nearly 1:1 and the (b)-HARDENING sign is
 the (a)-EASING sign, so the uniform hardening freeze gave b_blind ≈ 0.042 instead of
 ≈ 0.065 and routed valid aligned-sign devices to INCONCLUSIVE up to ~40%, end-to-end
 joint power 0.57 at the ±2% endpoint — UNFREEZABLE as written, since the sign-swept gate
 would read 0.57 and the ladder cannot move a mis-signed center; envelope fix: joint
-0.996, false-CONFIRMED untouched at 0/2×10⁵); b_forgive KEEPS the CONFIRM-HARDENING sign
-(verified sign-robust: (b) power ≥ 0.995 at both signs); the VOID FLOORS keep their
+0.996, false-CONFIRMED untouched at 0/2×10⁵); b_forgive freezes from the LOWER
+ENVELOPE over the sign axis (the gloss resolved round 30, spec M5 + stats M6 — the
+sign wording had inverted a THIRD time, and the resolution retires the label rather
+than rewording it again: for a LOWER cut like b_forgive the sign axis is a COVERAGE
+axis, so the frozen threshold is the minimum over {−2%, 0, +2%} of the per-sign
+p0.13 quantiles — the "CONFIRM-HARDENING sign" LABEL is RETIRED as a mislabel, the
+envelope needs no sign name; the never-ease-CONFIRMED duty lives in the +SE edge,
+which shifts the frozen value UP, and — the load-bearing point — clause (b)'s
+false-CONFIRMED protection rests on the SIGN of ρ̂(2) (a non-law device cannot fake
+the flip) and is CERTIFIED by the sign-swept negative controls' measured ≤ 0.1% UCB,
+never by the threshold's sign choice; verified sign-robust: (b) power ≥ 0.995 at both
+signs); the VOID FLOORS keep their
 round-23 per-floor worst sign. Asymmetry stated (round-24): floors are ladder-EXEMPT and
 terminal, hence direct worst-sign construction; b_forgive is ladder-remediable and
-gate-watched — do NOT "fix" it to a worst sign, that would break the
-never-ease-CONFIRMED rule. All injections sit at the UPPER end of the reviewed
-coefficient range — the worst reviewed correlation model, never a point estimate
-(round-13: a benign model + a high true coefficient wastes the flight to INCONCLUSIVE);
+gate-watched. What is FROZEN is the pinned Δ-mechanism at the Δ = 0.02 ceiling — the
+r-independent S-antisymmetric additive channel, whose sim-gate-measured coefficient
+(~5.5 SE per 2%) is an OUTPUT of that model (restated round 31, stats m5: the old
+sentence here, "all injections sit at the upper end of the reviewed coefficient
+range", described the round-13 state — the reviewed 0.7–9-SE range is history, its
+9-SE high end is NOT what is injected, and no domination of the other reviewed
+models at equal Δ is claimed; the protection against a WORSE-than-modeled
+correlation is the coefficient-FREE negative-control UCB, per the round-14 split)
+(round-13 context: a benign model + a high true coefficient wastes the flight to
+INCONCLUSIVE);
 the NEGATIVE
 controls SWEEP the injection sign {−2%, 0, +2%} and take the bound at the WORST
 (highest-rate) sign (round-27, "swept, not assumed" extended from the round-26 LR rule;
@@ -215,22 +338,31 @@ kept; ~half shots per branch).
   round-19).
 - **SIGNED record projection** (round-3 constructive fix; zero floor, Gaussian at the crux):
   Ŝ(w; r) = ½·(b₀(w) − b₁(w))·û_w. The folded D̂ = |Ŝ| appears only where a magnitude is
-  required (denominators of the inner ratio). (Notation: D̂(w; r) with a hat is this
+  required — in the VERDICT CARRIER that means the denominators of the inner ratio;
+  the informational-only R̂ = D̂(j; r)/D̂(j′; r) additionally uses D̂(j) as a numerator
+  (scope stated round 30, spec n2). (Notation: D̂(w; r) with a hat is this
   folded ESTIMATOR; the proof's un-hatted D_j is the physics distinguishability.) The r = 0 normalizer is the split-sample
   projection defined above — the sole definition (the stale "½|b₀−b₁| by construction"
   reading was removed in round 6).
 - **VERDICT CARRIER — the signed double ratio:**
   ρ̂(r) = [Ŝ(j; r)/D̂(j′; r)] / [Ŝ(j; 0)/D̂(j′; 0)].
   The inner ratio cancels slow common drift; dividing by the r = 0 arm cancels the static
-  write-edge/qubit asymmetry. What remains one-sided in ρ̂(r > 0) is the watcher factor η —
+  write-edge/qubit asymmetry. (Cost stated, round 30, physics NIT: the inner j′ ratio
+  buys the drift cancellation at a ~√2 SE price per arm relative to the bare Ŝ(j)
+  projection — accepted, the drift systematic is the larger enemy.) What remains one-sided in ρ̂(r > 0) is the watcher factor η —
   which BUNDLES the two watcher gates AND the r-arm depth differential (j′ and S idle
   ~140 ns extra during the watcher layer relative to the 2-gate r = 0 arm: ~10⁻³ per side
   at calibration T2 ≈ 136 µs (the day-of floor is T2* ≥ 70 µs; at a 140 ns idle the two
-  give 1.0e-3 vs 2.0e-3 — same order), three orders above the write-edge duration residual
+  give 1.0e-3 vs 2.0e-3 — same order; the S side's DEPHASING part is exactly ZERO by
+  F136(iv) — "γ on dressers, watchers, or any other traced site is exactly
+  invisible" to the pointer record (round 31, prior-work: a gated law zeroes what
+  this bundle budgeted; only S's T1 part and the j′ side survive, both Aer-absorbed
+  — conservative padding, kept)), three orders above the write-edge duration residual
   ~10⁻⁶ (an order-of-magnitude assertion, round-24 — non-load-bearing, it sits three
   orders below the idle term and both are Aer-absorbed); both absorbed
   into η_nom(r) by the Aer parity on the actual transpiled circuits, not double-counted).
-- Factor collapse floors — D̂(j′; r) (min over arms), D̂(j′; 0), and Ŝ(j; 0), each
+- Factor collapse floors — D̂(j′; r) (min over the EIGHT r > 0 arms, the scope pinned
+  at the guard bank), D̂(j′; 0), and Ŝ(j; 0), each
   factor of the double ratio floored separately (D̂(j′; 0) is algebraically a NUMERATOR
   factor: these are noise-quality floors on every NORMALIZER factor, not only
   divide-by-zero guards — the signed numerator Ŝ(j; r) is deliberately unfloored, it is
@@ -252,10 +384,33 @@ kept; ~half shots per branch).
   gate structurally blind because no gate ever ran a valid device at that sign; the fix
   is the fewer-false-void rule applied to the injected-bias SIGN: for Ŝ(j; 0) the
   easing/lowering sign — equivalently, each floor freezes from the lower envelope over
-  the sign axis {−2%, 0, +2%}); sanity pin: the frozen Ŝ(j; 0) floor must sit ≥ 10σ
-  BELOW the worst-sign valid mean AND ≥ 10σ ABOVE the null — the ~1.2×10²σ law-null
-  separation makes both trivially satisfiable (review MC: a floor at 0.80–0.90 routes
-  the null identically, 0/2×10⁵ escapes, and false-VOIDs no admitted device).**
+  the sign axis {−2%, 0, +2%}).** **Round 29 extends the floors' lower envelope to the
+  remaining axes (stats M3 + m3): the j-vs-j′ calibration-spread DRAW is a mixture and
+  a device has ONE fixed j′ — a fixed bad-j′ valid device against a mixture-frozen
+  floor read ~0.26% terminal false-VOID per floor at a ±1% spread, and TWO of the three
+  floors ride j′ — so FIXED-j′-CORNER banks (j′ parameters at the draw's admitted
+  extremes, no draw) and the grid freeze halves join the envelope — since round 31
+  the floors' lower envelope runs over THE COVERAGE GRID, the one definition at the
+  band procedure (box, η-top, and ε_w-sign members included); the per-arm
+  D̂(j′; r) min is thereby also slope-covered. The round-25 sanity pin on Ŝ(j; 0)
+  (≥ 10 SHOT-SE below the worst valid mean, ≥ 10 above the null) becomes a
+  CONSTRUCTION, not a check, in its below-valid leg (framing repaired round 30,
+  stats m13: a p0.03 cut sits ~3.4 of its own SDs below its source mean BY
+  DEFINITION — that is what a 0.03% quantile IS, not a defect; the real reason to
+  combine is a UNIT mismatch: the pin is in SHOT-SE of Ŝ(j; 0), several times
+  smaller than the systematics-broadened bank SD the envelope lives on):
+  floor_Ŝ(j;0) = min(the envelope, worst valid mean − 10·shot-SE), with the BANKS
+  NAMED (round 30, spec m2): the worst valid mean is taken over the held-out
+  worst-basis sign banks AND every grid freeze half; the shot-SE is read from the
+  fixed-j′-corner banks (fixed device, spread 0 — the systematics-broadened bank SD
+  is NOT the pin's unit); the ≥ 10-above-null leg REMAINS A CHECK, measured against
+  the null bank in the same shot-SE unit;
+  lowering is the fewer-false-void side, and the null routing keeps ~1.2×10² shot-SE
+  (review MC: a floor at 0.80–0.90 routes the null identically, 0/2×10⁵ escapes);
+  the loosened floor is additionally certified against a NEAR-DEGENERATE VALID
+  device, not only the null (round 30, stats m13: the fixed-j′-corner held-out banks
+  run through the GATES — power and false-VOID measured there, see the sim gate
+  section).**
 
 ## Prediction and systematics
 
@@ -268,9 +423,19 @@ band is its p0.13 quantile; η is INCOHERENT-ONLY throughout — η_nom, η_min,
 λ-map — per the round-23 no-double-count guard, propagated round-24: coherent residuals
 are covered SOLELY by the ε_w ledger, the ±s_res axis, and the sign-swept gate, NEVER by
 η headroom; the 0.92 lower edge is margin for INCOHERENT modeling error below the ≈ 0.96
-abort-implied nominal, and a device below η_min lands INCONCLUSIVE, never
+abort-implied nominal, with the RULE pinned (round 31, spec M5: 0.92 was asserted
+without a derivation while feeding b_forgive directly): **η_min ≡ 1 − 2·(1 −
+η_nominal-worst)**, i.e. the abort-implied worst-case incoherent LOSS is DOUBLED as
+the modeling-error allowance (1 − 0.96 = 4% → 8% → 0.92); if the binding freeze's
+abort-implied nominal differs from 0.96, η_min moves with it by this rule, and a
+device below η_min lands INCONCLUSIVE, never
 false-CONFIRMED);
-η_max ≡ 1, the IDEAL ceiling (round-21 BLOCKER fix: the round-20 calibration-MEDIAN
+η_max ≡ 1, the IDEAL ceiling (round 29 note on the sentence below: "ANGLE-DEPENDENT and
+worst at r = 2" was the PREDICTION; the round-28 representative-line measurement read the
+fractional-rzz duration ANGLE-INDEPENDENT at 68 ns, the ~r-flat case the VERIFY list
+anticipated — freezing b_forgive from the r = 2 arm is conservative in BOTH cases, which
+is why the pin does not move; the binding freeze re-reads this on the freeze-time line)
+(round-21 BLOCKER fix: the round-20 calibration-MEDIAN
 computation contradicted "best-admitted" — the lexicographic line selection flies the
 BEST edges, so the flown device sat systematically ABOVE the swept range, silently
 reopening the round-15 power leak with the gate structurally blind to it; no abort
@@ -278,8 +443,10 @@ bounds a device from ABOVE, so the ideal edge is the only coverage-complete uppe
 the sweep runs [η_min, 1], the mid-range target = its midpoint ≈ 0.96, minimax over the
 full COVERAGE family (round-25 label; the admitted family's own midpoint would be 0.95)
 — and the freeze-time estimation this replaces can no longer be wrong). Hat convention throughout: ρ̂/Ŝ/D̂/σ̂/R̂
-are ESTIMATORS; un-hatted ρ/D_j are predictions/physics. η(r) is ANGLE-DEPENDENT and worst at r = 2
-(each half-gate at π/2, the top of the range):
+are ESTIMATORS; un-hatted ρ/D_j are predictions/physics. η(r) is angle-dependent and
+worst at r = 2 IN THE PREDICTED CASE (each half-gate at π/2, the top of the range;
+the round-28 representative-line read was ~r-FLAT at 68 ns — hedged here too, round
+30: either case leaves the r = 2 freeze conservative):
 b_forgive is frozen from the r = 2 arm specifically; the abort's RZZ-error metric is
 referenced to the π/2 gate. η_min from worst-admitted calibration + differential
 witness-idle/T2, via the SIGNAL model's incoherent injection; η_nom(r) read off the Aer
@@ -287,19 +454,47 @@ parity (the η_nom analog of the τ two-reading pattern, round-14: frozen from t
 representative line — the flown-line difference rides clause (c)'s fail-safe direction,
 stated there).
 
-**The r = 1 point is first-order fragile:** signed ρ̂(1) ≈ −sin ε_w + Gaussian noise
-(cos(π/2 + ε) = −sin ε; the sign consistent with clause (a)'s center), ε_w = ε_ZZ + ε_watch
+**The r = 1 point is first-order fragile:** signed ρ̂(1) = −sin(ε_watch + ε_ZZ)/cos(ε_ZZ)
+EXACTLY + Gaussian noise (round 29 exactification of the "≈ −sin ε_w" gloss: the static
+ε_ZZ acts on the r = 0 reference arm too and pays the 1/cos(ε_ZZ) factor — a pure-static
+miss reads −tan; at the budgets the gap to −sin ε_w is ~1.5×10⁻⁶, ~0.0002 SE
+(figure corrected round 30, physics m1: the earlier ~1.4×10⁻⁵ was computed at
+ε_ZZ = 0.03 = 3× the pinned budget; at ε_ZZ = 0.01 the gap is
+sin(0.03)·(1/cos(0.01) − 1) ≈ 1.5×10⁻⁶),
+anti-conservative on b_blind's center, and the signal model injects the exact channel
+anyway; the sign consistent with clause (a)'s center), ε_w = ε_ZZ + ε_watch
 (ε_watch = 2·ε_cal, the circuit section's two half-gates; ε_ZZ ≡ θ_static = π·Δf·τ, the
 static-ZZ equivalent watcher angle of the ζ book, this passage). **The ζ factor-2 book, pinned (round-3 physics):** the price-pair
 conditional-Ramsey observable is the fringe-frequency DIFFERENCE Δf (kHz). For H = ζ_P·Z_jZ_k
 the conditional angular frequencies are ±2ζ_P, so 2π·Δf = 4ζ_P, and the equivalent watcher
 angle over window τ is θ_static = 2ζ_P·τ = **π·Δf·τ** (at Δf = 3.9 kHz, τ = 400 ns:
-0.0049 rad; the wrong book, 2π·Δf·τ, would double it). ζ_jk is MEASURED in-job
+0.0049 rad; the wrong book, 2π·Δf·τ, would double it — and the wrong book is not
+hypothetical, round 31 prior-work BLOCKER, reconciled here BY NAME: the price-pair
+run-4 record
+([PRICE_PAIR_HARDWARE_PREDICTION](PRICE_PAIR_HARDWARE_PREDICTION.md), RUN 4) defines
+ζ as the conditional |0⟩-vs-|1⟩ fringe-frequency DIFFERENCE, which for H = c·Z⊗Z is
+2c/π, so c = πζ/2 — consistent with that record's own cos(πζt) attenuation and with
+THIS book; but [IBM_F129_RAMSEY_FRINGE](IBM_F129_RAMSEY_FRINGE.md) pins
+"H_ZZ = πζ·Z_iZ_j, the convention of the price_pair conditional-Ramsey measurement"
+and its gate injects rzz(2πζτ) per step — at the transferred 3.6–3.9 kHz numbers
+that DOUBLES the physical coupling, so F129's b_zz2 bias budget carries an
+unintended extra 4× beyond its deliberate 2×-ζ headroom; re-read performed at this
+fold: F129's clause-(a) verdict SURVIVES the correction (A0 deviation +0.0114
+against a corrected window upper edge 3σ_a + b_zz2/4 + b_qs = 0.0192, and 0.0182
+even at b_zz2 = 0), while its v2.6 gloss "b_zz2 ≈ 38% of the excess" reads ~9%
+corrected — the F129-side repairs ride this file's freeze commit; the 3.9 kHz
+context value is a MARRAKESH measurement (the price-pair confirmation) quoted here
+as a representative magnitude only, never a frozen input — the flown-line ζ_jk is
+measured in-job, per this section). ζ_jk is MEASURED in-job
 (conditional-Ramsey PUB pair on (j, k)); **the FROZEN ε_ZZ budget is pinned to the
 Class-2 abort ceiling itself, ε_ZZ budget ≡ 0.01 rad (round-27: a frozen band cannot
 take the in-job Δf as an input — the in-job read feeds ONLY the Class-2 abort and the
 decoding table, never a frozen band; the abort then guarantees every non-VOID flight
-sits at or below the budgeted ceiling, ~2× the representative 0.0049 rad)**; **τ has two pinned readings (round-9: the flown
+sits at or below the budgeted ceiling, ~2× the representative 0.0049 rad)**
+(single-ε_ZZ assumption noted, round 30, physics NIT: the r = 0 arm runs 2 gates
+against the r > 0 arms' 4, so its always-on-ZZ window is shorter and the effective
+ε_ZZ differs by ~1.7×10⁻³ rad between the reference arm and the watched arms — inside
+the ledger's worst-case sweep, which budgets the full window on every arm); **τ has two pinned readings (round-9: the flown
 line does not exist at freeze):** τ_freeze from the REPRESENTATIVE-line transpiled
 schedule's full H-to-pre-rotation window (one number; the band/ledger input), and
 τ_dayof RE-READ from the FLOWN line's actual schedule (the abort input — the product
@@ -316,9 +511,26 @@ coherent anchor — their deviations are covered by the fail-safe direction (the
 |ρ̂(1)| toward INCONCLUSIVE) plus the duration-vs-angle VERIFY; the day-of "RZZ error
 ≤ 0.5%" is pinned as gate INFIDELITY (EPC), a separate quantity. Residual ε_cal drift risk is fail-safe:
 it inflates |ρ̂(1)| toward INCONCLUSIVE, never toward a false CONFIRMED.
-ρ̂(2) is second-order flat in ε_w.
+ρ̂(2) is second-order flat in ε_w. **The amplification pair's READ pinned (round 29,
+physics M2 — the k preparation was unstated, and the natural |+⟩ preparation reads
+cos(8ε): second-order BLIND at ε = 0, the same blindness class the round-4 V_S fix
+removed, 12.5× less sensitive at the threshold): the PAIR is k prepared in |0⟩ and in
+|1⟩ (Z eigenstates), the j read is the conditional-Ramsey phase (sin route, SIGNED,
+first-order at ε = 0), the two preparations combined in ONE pinned equation (round
+31, physics MAJOR: the branches are ANTISYMMETRIC, ⟨Y_j⟩ = ±sin(8ε_cal), so their
+raw DIFFERENCE is 2·sin(8ε_cal) — the old wording here, "taken like the ζ pair's
+branches", would read the abort quantity at twice its value and abort at HALF the
+budget; the factor-2 trap is the ζ book's sibling and gets the same
+one-equation treatment): **½·[⟨Y_j⟩_{k=|0⟩} − ⟨Y_j⟩_{k=|1⟩}] = sin(8·ε_cal)**, and
+the Class-2 compare is |8·ε_cal| from THAT half-difference against 0.08 rad;
+a runner-VERIFY line asserts the preparation, the signed extraction, AND the ½
+factor (beside the Δf-is-a-difference line).**
 
-**The V_S guard (the CQ premise, guarded not assumed — round-4 order fix):** the premise
+**The V_S guard (the CQ premise, guarded not assumed — round-4 order fix; FRAMING
+sharpened round 31, prior-work: in PROOF_RECORD_PARITY_LAW V_S = 0 is a DERIVED
+consequence of Law A's hypotheses — equal write couplings, deg(S) ≥ 2, exact t* —
+not an independent premise; guarding it in-flight therefore guards the CALIBRATION
+INPUTS to that derivation, which is exactly what a hardware guard is for):** the premise
 for the (S, j) record is the per-pair V_S^{(j)} = cos(θ_Sj′), FIRST order in a write-angle
 miss δ (θ_Sw = the (S, w) write angle, nominal π/2 — the proof's θ_w per pair); the unconditional ⟨X_S⟩ = cos(θ_Sj)·cos(θ_Sj′) is O(δ²) and would be ~1/δ blind —
 ~100× at the 0.01-rad abort scale (20× already at δ = 0.05; the quoted ratios assume
@@ -328,11 +540,39 @@ PUBs with S pre-rotated to X (and Y) and the witnesses measured in Z, at r ∈ {
 statistic |b(S | z_j)| is first-order in δ (prediction 0; threshold from the SIGNAL model
 at the budgeted δ = ε_cal = 0.01 rad — round-25 pin: the write gates share the watcher's
 coherent-angle budget; the guard bounds false MI-denial on a valid device; the V_S
-threshold INHERITS the worst-sign rule, round-26 — S-adjacent and
+threshold freezes from the upper-guard COVERAGE ENVELOPE — the round-28 rule, which
+SUPERSEDES the round-26 worst-sign-only wording this site previously carried (site
+refreshed round 30, spec m3); S-adjacent and
 witness-readout-conditioned, hence plausibly sign-sensitive; it gates only the MI
-corollary, but the one-clause rule costs nothing).
+corollary, but the one-clause rule costs nothing; its tail family is assigned to the
+GEV/empirical branch explicitly, round 30, stats m12 — a folded 2-vector norm, never
+Gaussian-fitted).
 Exceedance → the MI corollary is NOT claimed (the record-radius verdict stands on its own;
 the flight report separates the two sentences).
+
+**The watcher-tomograph pair (the mechanism certificate — round 30, physics BLOCKER):**
+every science and guard PUB above is Z-DIAGONAL on k (all gates commute with Z_k; k is
+measured in Z or not at all), so the entire flown set sees only diag(ρ_k) — and
+|+⟩⟨+| and I/2 share the diagonal: a maximally mixed, never-watching k (m = 0) is
+INVISIBLE to the whole design and reproduces the signed curve exactly (a classical
+mixture of ±rπ/2 phase kicks multiplies j's coherence by cos(rπ/2), the law's own
+factor). The separating correlator is ⟨Y_k Z_j⟩: +1 at r = 1 for a SUPERPOSED watcher
+(the claim section's perfect classical bit), identically 0 for ANY Z-diagonal k, at
+every m. Two PUBs measure it: the r ∈ {0, 1} science circuits with k pre-rotated
+**Sdg then H** (reads Y_k; same order convention as variant B) and j, S, j′ measured
+raw in Z; statistic = ⟨Y_k Z_j⟩ at the r = 1 PUB, prediction +1 (dressed) — and ROBUST, not
+sensitive (order of response corrected round 31, physics m1, before the vocabulary
+repeated the round-29 amplification confusion in the opposite direction: from below
+⟨Y_k Z_j⟩ = sin(rπ/2 + ε_w) exactly, so at r = 1 it sits at the sine's extremum,
+SECOND-order flat in ε_w — cos(0.03) ≈ 0.99955 at budget — and it is EXACTLY
+write-miss-independent; flatness is a virtue for a lower cut pinned at +1);
+~10 s of budget. DIAGNOSTIC-ONLY, exactly like V_S: the frozen
+tomograph threshold (a LOWER cut, p0.03 − SE lower envelope over the coverage sources)
+gates ONLY the mechanism sentence — "the watcher demonstrably watched in superposition"
+— never the record-radius verdict; if the pair were ever dropped, the flight report
+carries a Not-tested line: the watcher's superposition is then unverified and the
+flight tests the record-radius law on j alone. The r = 0 tomograph PUB is the
+reference/consistency read (prediction 0).
 
 ## Arms and shots
 
@@ -340,14 +580,26 @@ r ∈ {0, 0.25, ..., 2.0} (9 arms) × 2 variants = 18 science circuits + CAL0/CA
 pair + ζ_jk conditional-Ramsey pair + V_S guard PUBs (S in X and Y × r ∈ {0, 2} = 4) +
 watcher-angle amplification pair (the |8·ε_cal| abort input) + S↔witness crosstalk pair
 (round-9: S = |1⟩ rest |0⟩ and S = |0⟩ rest |1⟩ — the S-correlated witness assignment
-differential, the day-of input of the readout-correlation abort) + in-situ T1/Ramsey
+differential, the day-of input of the readout-correlation abort) + watcher-tomograph
+pair (round 30: r ∈ {0, 1} with k pre-rotated Sdg·H, the mechanism certificate — its
+own paragraph above) + in-situ T1/Ramsey
 PUBs (diagnostic/provenance ONLY, round-21: they cross-check the calibration values the
-aborts consumed and feed the flight report — they gate nothing); ~34–36 total, exact
+aborts consumed and feed the flight report — they gate nothing); ~36–38 total, exact
 count pinned at freeze (ranges are draft placeholders; the
 committed pre-reg carries the frozen numbers). **Interleave order PINNED (round-18: the drift-slot anchor needs a deterministic
-schedule, not a rule family):** per variant, the fixed arm order
-[1.0, 0.5, 1.5, 0.25, 0, 0.75, 2, 1.25, 1.75] — r = 0 at slot 5, r = 2 at slot 7 (the
-two-slot separation the drift-leak figure anchors to), neither fixpoint first. The
+schedule, not a rule family; slots of r = 1.75 and r = 0.25 SWAPPED round 30, physics
+m4 — the round-18 order put r = 1.75 at the MAXIMUM drift distance d = 4 from the
+r = 0 anchor, which EASES the clause-(b) raw ordering |ρ̂(2)| > |ρ̂(1.75)| by ~+0.012
+at budget drift and suppresses the fallback center ~2%; drift must never ease a
+CONFIRMED-bearing comparison):** per variant, the fixed arm order
+[1.0, 0.5, 1.5, 1.75, 0, 0.75, 2, 1.25, 0.25] — r = 0 at slot 5, r = 2 at slot 7 (the
+two-slot separation the drift-leak figure anchors to), r = 1.75 at slot 4 (d = 1 from
+the anchor), the maximum-distance slots d = 4 now carrying r = 1.0 and r = 0.25,
+neither ENDPOINT fixpoint (r = 0, r = 2) first (wording repaired round 31, physics
+m3: r = 1.0 IS a listed fixpoint, ρ(1) = 0, and it sits first — and at d = 4 the
+budget drift LOWERS |ρ̂(1)| by ~6×10⁻⁴, an (a)-EASING direction, stated and
+accepted: 0.7% of the b_blind envelope, and clause (a)'s false-CONFIRMED duty is
+~zero with the swept controls certifying the residue). The
 inter-PUB order (CAL/guard/diagnostic PUBs among the science arms) is DELIBERATELY
 unpinned (round-23: delivered order need not equal temporal order anyway, the drift
 benefit is secondary, and the drift systematic is day-of-anchored through the
@@ -373,13 +625,19 @@ demands more (recorded).
 ## Verdict rule (VOID precedence; ONE conjunction; pinned freezing rules)
 
 **Precedence (full order, evaluated in sequence): VOID → CONFIRMED → DEVICE-DEVIATION →
-INCONCLUSIVE.** Any trip of the POOLED GUARD BANK below voids regardless of the physics
+INCONCLUSIVE.** Any trip of the GUARD BANK below (named precisely, round 30: the bank
+holds 5 POOLED statistics plus 3 INDIVIDUAL floors — "pooled guard bank" was the old
+shorthand and misnamed the floors) voids regardless of the physics
 clauses (the V_S guard is a separate track: it gates only the MI corollary, never the
 record-radius verdict); DEVICE-DEVIATION is
 assessed only after CONFIRMED has failed; the catch-all takes the residue. **The guard bank
 is POOLED (round-5 stats: per-(stream × arm × variant) counting gives ~90 thin-tail tests
 and a ~11% union-bound false VOID — unacceptable on a paid one-shot):** one pooled
-transverse statistic per witness (the SUP of T̂(w; r) over arms, banded as a SUP), one
+transverse statistic per witness (the SUP of T̂(w; r) over ALL NINE arms, r = 0
+included — its transverse read comes from the eval half against the fit-half axis;
+arm set pinned round 31, spec M6: leaving it open moves both the frozen band and a
+terminal trip probability, and the 8-test accounting is untouched because the SUP
+is ONE pooled test whatever its arm count — banded as a SUP), one
 pooled ⟨Z⟩ sanity statistic each for k and S ONLY (round-7 fix of a j↔S slip: k and S are
 the two qubits MEASURED in Z, both ideal 0 — H then Z-diagonal gates leave their
 populations at ½; the pre-rotated witnesses j and j′ have no Z stream, their measured
@@ -387,8 +645,13 @@ axis IS X/Y; the |⟨Z_S⟩| stream doubles as the branch-balance sanity on the 
 qubit), the Z-leak pair as one statistic (DEFINED: two extra circuits = the r = 0 and
 r = 2 arms with NO pre-rotation on any qubit, all four measured raw in Z; statistic = max
 over witnesses {j, j′} and both circuits of |⟨Z_w⟩|, ideal 0 for the same Z-diagonal
-reason; leak = rotation/T1 error moving population), and THREE
-individual floors — D̂(j′; r) (its min over arms), D̂(j′; 0), and Ŝ(j; 0) (each factor of
+reason (k and S are measured too but excluded from THIS statistic — their Z streams
+already feed the pooled sanity guards from the science arms, and double-counting them
+would break the 8-test accounting, scope stated round 30); leak = rotation/T1 error
+moving population), and THREE
+individual floors — D̂(j′; r) (its min over the EIGHT r > 0 arms — scope pinned round
+29: r = 0 carries its own dedicated floor at 2× shots, and double-counting it would
+break the 8-test accounting), D̂(j′; 0), and Ŝ(j; 0) (each factor of
 the double ratio floored separately; a jointly-small pair must not hide). 8 tests (5
 pooled statistics + 3 individual floors);
 the sim gate MEASURES the aggregate false-VOID empirically (correlations included), pinned
@@ -428,11 +691,17 @@ unestimable at real SNR and Cauchy-like where estimable):**
   easing sign lives only in the negative controls — round-12). Sources ALL fluctuation
   widths: the b_blind tail (read at the r = 1 arm:
   write present, watcher erasing, denominator intact — clean Gaussian, verified),
-  SE_contrast, b_forgive, b_curve, b_sym, η_min, the denominator floors, and the guard
+  SE_contrast (its freeze takes the LARGER, conservative side across the sign banks —
+  inflation direction pinned round 30, stats n15), b_forgive, b_curve, b_sym, η_min,
+  the denominator floors, the guard
   bands (a guard's job is bounding false VOIDs on a VALID device; b_sym listed round-22
   — its omission was an oversight, it sources like every width and stays
-  informational-only).
-- **Deterministic centers** (the b_blind center max|−sin ε_w|, all ε budgets): the
+  informational-only), the LR thresholds' reference distribution, the clause-(b)
+  fallback band, and the watcher-tomograph threshold (the last three listed round 30,
+  spec m4 — the sources list must be exhaustive over frozen constants).
+- **Deterministic centers** (the b_blind center max over the budgets of
+  |−sin(ε_watch + ε_ZZ)/cos(ε_ZZ)| — the exact r = 1 form, round 30 spec n1; the
+  |−sin ε_w| gloss differs by 1.5×10⁻⁶ at budget): the
   systematics ledger — a deterministic worst-case sweep, no model sampling.
 - **NULL model** (the no-record device: the (S, j) write's conditional phase zeroed, all
   else identical) sources NO band. Its one job is the **mandated NEGATIVE control**: the
@@ -441,15 +710,40 @@ unestimable at real SNR and Cauchy-like where estimable):**
   the 95% Poisson upper confidence bound of the measured rate must sit below 0.1% (a raw
   measured 0.1% at 10⁵ seeds is under-resolved: ~100 events carry ~10% count error); the
   null and each impostor run WITH the worst-case S-correlated readout-bias injection at
-  its 2% ceiling, SWEPT over the sign axis {−2%, 0, +2%} with the pinned ≤ 0.1% UCB
-  required at EVERY sign (round-27: "swept, not assumed" — rounds 11–12 identified the
+  its 2% ceiling, SWEPT over the sign axis {−2%, 0, +2%} AND over the CONFIG axis
+  {worst-admitted, ideal, fixed-j′ corner, box corner, η-top-null} — the control
+  AXIS SET pinned (round 30, spec M6, EXTENDED round 31, spec BLOCKER: the round-30
+  fold widened the verdict bands over the corner sources while the controls still
+  swept sign × level ends only — a control certifies the SAME band set that is
+  committed, so every config the bands were widened over joins the control sweep;
+  the corner configs run device-FIXED, spread 0; slope's effect on a NON-LAW device
+  remains covered by the level ends, pinned; interior levels are an OWNED assumption,
+  round 31 spec m4, stated rather than silently monotonized: η only attenuates a
+  non-law curve, every listed alternative dies at a sign/flip/guard requirement that
+  attenuation cannot manufacture, and the certification is the measured zero-event
+  record across the full config × sign sweep, never a monotonicity theorem) — with
+  the pinned ≤ 0.1% UCB
+  required PER BANK at EVERY swept point (per-bank, never pooled: pooling across
+  banks would let a hot bank hide, the juxtaposition stated round 30, stats
+  n14) (round-27: "swept, not assumed" — rounds 11–12 identified the
   CONFIRM-EASING sign as the one mode easing clause (b) and ran it alone; the round-27
   review MC confirms that sign is empirically the more adverse, 94.0 vs 103.5 SE from
-  the (b) boundary, so the sweep costs two cheap extra banks and changes nothing —
+  the (b) boundary, so the sweep costs cheap extra banks and changes nothing —
   this measured bound IS the false-CONFIRMED protection for that
   mode; round-12 MC: 0/20000 across null + all impostors, both signs, unshifted bands;
-  round-13 MC: still 0 at a 0.10 bias, above the 9-SE coefficient high end); seed floor
-  pinned (round-13: below ~3001 seeds the strict < 0.1% UCB is unsatisfiable even at
+  round-13 MC: still 0 at a 0.10 bias, above the 9-SE coefficient high end). The
+  Z-POLARISED never-watching class (impz, H on k omitted) is the FOURTH control kind
+  (round 30, spec M2+M3: the class previously sat in NO control bank and NO detection
+  gate while the scoping sentence leaned on its guard): impz runs in the same
+  sign × level control sweep at m = 1 under the same ≤ 0.1% per-bank UCB; because the
+  LR cannot see it, the gate ADDITIONALLY measures its DETECTION — P(VOID via the z_k
+  guard | impz, m = 1) ≥ 0.999, asserted — and a BOUNDARY control runs impz at
+  m = the frozen z_k band value, its P(CONFIRMED) REPORTED as the honest escape rate
+  of the discrimination window (round 30, stats BLOCKER; the m ≈ 0 member is scoped
+  to the watcher-tomograph diagnostic and the mechanism sentence, never to the record
+  verdict); seed floor
+  pinned (round-13, exactified round 31 stats n2: below 2996 seeds — 2.9957/n <
+  0.001, exact binomial agreeing — the strict < 0.1% UCB is unsatisfiable even at
   zero events) — the 10⁵ default governs, never below 10⁴;
   symmetric with the positive control (a null run correctly lands in VOID/INCONCLUSIVE,
   never CONFIRMED).
@@ -471,29 +765,61 @@ p ≥ 0.01 on the fitted tail AND the fitted p99.87 within 2 bootstrap SEs of th
 DEFAULT-SEED empirical quantile AT THE STATISTIC'S OPERATING POINT — p99.87/p0.13 for
 physics bands against the 10⁵-seed bank, p99.97/p0.03 for guards and floors against
 their ≥ 10⁶-seed bank (rounds 21–22: the GoF pin predated the guard flip and the seed
-raise; the comparison bank is always the freeze bank) — either failure → next branch; roles labeled: the
+raise; the comparison bank is always the freeze bank — reconciled with the seed-cost
+scheme round 31, spec m2: "the freeze bank" means the bank the frozen value was READ
+FROM, and under the argmax-deep-seed rule the operative band value always comes from
+a deep bank — the worst-basis banks by default, or the argmax grid point re-run at
+≥ 10⁶; non-argmax 10⁵ sources never carry the frozen value, so the ≥ 10⁶ GoF demand
+attaches exactly where a value is read) — either failure → next branch; roles labeled: the
 quantile-agreement condition is PRIMARY, the AD leg is only an egregious-misfit screen;
 expected operative path (round-18): at the default seeds AD rejects nearly any imperfect
 parametric family, so the empirical branch with bootstrap SE is the NORM and the
 parametric apparatus the exception; the guard/floor freeze at the p0.03 tail runs at
 ≥ 10⁶ seeds (round-21: 10⁵ gives ~30 tail events at ~18% count error — sim seeds are
-cheap, 10⁶ gives ~300 at ~6%; the physics bands stay at the 10⁵ default) — at a 0.13% tail and 2000 seeds the tail COUNT carries ~62% Poisson
+cheap, 10⁶ gives ~300 at ~6%; the physics bands stay at the 10⁵ default; the SEED-COST
+SCHEME pinned, round 30, stats m11 — a uniform ≥ 10⁶ across every envelope source
+would be ≥ 2×10⁸ evaluations, unaffordable as written: the DEEP ≥ 10⁶ tail runs on
+the worst-basis sign banks, the grid/corner sources enter the envelope at their
+10⁵-per-point scale, the gate REPORTS the envelope-ARGMAX source per guard band, and
+an argmax landing on a shallow source is re-run at the deep seeds before freezing —
+the remedy-ladder line for freeze-bank cost; deep-seeding off-argmax buys nothing) — at a 0.13% tail and 2000 seeds the tail COUNT carries ~62% Poisson
 error and the raw empirical quantile VALUE ~6% (round-7 relabel: the two must not be
 conflated), which the parametric fit + SE inflation absorbs); the denominator-floor
 margins are this same quantile-SE (no free knob). **SE-inflation direction per decision
-role (pinned, stated once and unambiguously): the side that makes CONFIRMED easier is
-never taken** ("inflated" throughout = SE-shifted toward the conservative edge, which for
+role (pinned; SCOPED round 31, spec M8 — the old absolute sentence and the floors'
+rule below self-cancelled on exactly one statistic, and this is the round-30 "self-
+cancelling sentence" located and discharged: lowering the Ŝ(j; 0) floor is
+simultaneously the fewer-false-void side AND a CONFIRMED-easing move, since that
+floor routes the Cauchy null to VOID before CONFIRMED is evaluated): for every
+CONFIRMED-bearing BAND, the side that makes CONFIRMED easier is
+never taken; the VOID FLOORS follow the fewer-false-void rule instead, and on
+Ŝ(j; 0), where the two rules pull opposite ways, the resolution is PINNED — the
+floor takes the fewer-false-void (lower) side but is guarded from below by the
+≥ 10-shot-SE-above-null CHECK — whose failure HALTS the freeze for diagnosis
+(round 31, spec m7: the floor is ladder-exempt, so a failed above-null check
+indicts the null bank or the construction, never a threshold to loosen) — and the
+null routing is CERTIFIED
+empirically at every freeze (~1.2×10² shot-SE, 0/2×10⁵ escapes), so the easing
+direction is measured shut, never argued shut** ("inflated" throughout = SE-shifted toward the conservative edge, which for
 a ceiling like b_blind means the LOWER edge; b_blind takes its lower edge, b_forgive its
 upper edge; the projected power absorbs the cost; acknowledged round-25: clause (a)
 carries ~zero false-CONFIRMED duty — the impostors sit two orders above the ceiling —
 so b_blind's lower edge is pure convention cost, kept for rule-uniformity and certified
-by the swept gate); VOID floors take the fewer-false-void
+by the swept gate; figure re-based round 30, physics m2, superseding the round-29 7.7×/10.9× which used
+the pre-envelope 0.065: at r = 1 the impostors sit at
+0.5 and 0.707 against the coverage-envelope ceiling — ≈ 6.2× and 8.8× at the
+rehearsal envelope 0.0802 (the frozen value governs; 0.5/0.0802 = 6.2,
+0.707/0.0802 = 8.8), not "two orders" — and the
+sign-flat impostor (iii) PASSES clause (a) exactly (its |cos(π/2)| = 0 matches the law
+there); the conclusion stands because (iii) dies at clause (b)'s sign and the others at
+(a), but the protection is the CONJUNCTION, never clause (a) alone); VOID floors take the fewer-false-void
 side. Tail family per statistic: Gaussian ONLY
 for statistics whose SOURCE model shows them symmetric with Gaussian tails (the signed
 ρ̂(1) qualifies under the signal model, verified excess kurtosis ≈ 0; symmetry alone does
 not imply Gaussian tails); any
 |·|-folded or near-zero statistic (denominator floors, transverse guards, Z-leak, the
-pooled |⟨Z_k⟩|/|⟨Z_S⟩| sanity statistics) starts at the GEV/empirical branch (empirical
+pooled |⟨Z_k⟩|/|⟨Z_S⟩| sanity statistics, and the V_S guard — its folded 2-vector norm
+assigned explicitly, round 30, stats m12) starts at the GEV/empirical branch (empirical
 fallback: SE = bootstrap of the empirical quantile; at 10⁴ seeds the 0.13% tail COUNT
 still carries ~28% Poisson error — the ~2.7% VALUE figure is Gaussian-at-3σ illustrative
 only and does not transfer to folded/GEV tails, whose operative quantile-value SE is the
@@ -509,9 +835,47 @@ POISONED clause (c)'s shape: with angle-dependent η the profile η(r)/η(2) dep
 η LEVEL, so a worst-edge target makes a BETTER-than-worst valid device deviate
 systematically — ~2× b_curve at η(2) = 0.98 vs a 0.92 target; the better the hardware,
 the likelier INCONCLUSIVE, and a single-basis power gate is blind to it — the
-destructive protection interaction the rounds hunt for):** MAGNITUDE bands and floors
-(b_forgive, b_blind, the factor floors, the guard bands) stay frozen at the
-worst-admitted basis; the clause-(c) TARGET η_nom(r)/η_nom(2) is frozen at the MID-RANGE
+destructive protection interaction the rounds hunt for):** the LOWER magnitude band
+b_forgive stays frozen at the worst-admitted basis, as the LOWER ENVELOPE over the
+readout-sign axis + SE up (round 31, spec M2: this site still carried the retired
+"hardening sign" label one version after its retirement — the estimator section's
+sign-envelope construction is the one rule, restated here by reference; for a lower
+cut the worst basis is the level envelope); the FLOORS freeze from their lower envelope (sign axis +
+the round-29 extensions stated at the floors section); b_blind — an UPPER cut whose
+center |sin(ε_w)|·(record level) rides the level axis exactly like T̂'s drift term —
+joins the coverage-range UPPER envelope (round 29, stats m1: the worst-basis freeze was
+coverage-correct only through an unpinned cancellation between the center's rise and
+the width's fall with device quality; an envelope needs no such coincidence; clause
+(a)'s false-CONFIRMED duty is ~zero, so the envelope's easing side is certified by the
+swept negative controls); the UPPER GUARD BANDS (the pooled per-witness transverse T̂, the
+|⟨Z_k⟩| and |⟨Z_S⟩| sanity statistics, the Z-leak statistic, the V_S threshold) freeze
+from the p99.97 + SE UPPER ENVELOPE over the FULL coverage range, i.e. the worst-admitted
+basis AND every member of THE COVERAGE GRID (the one definition at the band
+procedure; the |⟨Z_k⟩| envelope is additionally CAPPED by the
+pinned discrimination ceiling guard_z_k ≤ 0.05, round 30 stats BLOCKER; the ceiling
+PINNED PROPERLY round 31, spec M3 — a bare number is not a rule: (i) DERIVATION —
+0.05 is the accepted-set semantics made numeric, "an escaping Z-diagonal watcher
+must be ≥ 95% maximally mixed", sized against the shot-noise-only pooled envelope
+≈ 0.034–0.037 at pinned shots (headroom ~1.35×, measured and reported at every
+freeze); (ii) SEMANTICS — the ceiling is a FREEZE GATE, never a clip: envelope >
+ceiling HALTS the freeze, the band is never silently set to 0.05; (iii) REMEDIES,
+named, all envelope-LOWERING: narrow the pooled z_k scope to the fixpoint arms
+(the remedy ladder's existing first step), raise the guard seeds (shrinks the SE
+edge), or tighten the k readout/T1 Class-1 aborts (shrinks the systematic part) —
+raising the ceiling is never a remedy) (round 28, sim-gate stage
+2026-08-04: the SEVENTH instance of the protection-interaction class, and the first found
+by the gate itself rather than a reviewer; T̂'s drift term scales with the RECORD LEVEL,
+so the earlier worst-basis-only pin terminally VOIDed the BEST admitted device: exact
+distribution-level centers sup|T̂_j| = 0.190 at the worst basis vs 0.235 at the
+(η(2) = 1, slope −1%, sign −2%) corner against a frozen 0.244, corner joint power 0.10,
+VOID:t_sup_j in 269 of 300 runs (decomposition flagged round 31, stats m4: the
+level + sign terms of the stated sup-model account for ~0.204 of the 0.235 — the
+residue rides the slope term and the folded-tail offset the distribution-level
+center carries beyond the sup-model; the pair is RE-READ at the binding freeze and
+the frozen artifact carries the decomposition); the fewer-false-void rule thereby extends to the LEVEL
+axis: a valid device lives anywhere in [η_min, 1], so the guard's envelope must too; the
+FLOORS are unaffected, since for a LOWER cut the worst basis IS the lower envelope,
+verified: the post-fix corner breakdown shows no floor trips); the clause-(c) TARGET η_nom(r)/η_nom(2) is frozen at the MID-RANGE
 basis (RE-PINNED round-22 in OUTPUT-η space — the round-17 per-parameter recipe broke at
 η_max ≡ 1, where a per-parameter midpoint is undefined for time constants: the target
 basis is η(2) = (η_min + 1)/2 ≈ 0.96, realized by scaling the representative-line Aer
@@ -528,25 +892,69 @@ offset is shot-INDEPENDENT, so more shots tighten a pooled band and LOWER corner
 97.1% → 95.7% on doubling; round-18 fixed the remaining dimension: a LEVEL-only sweep
 does not cover the SHAPE mode the joint-power gate stresses — review MC: the floor
 crossed at a ~1.4% slope residual, on the GOOD device again, and the earlier cited ~93%
-shape figure was itself below the floor): b_curve = the MAX over the 2-D grid — the
+shape figure was itself below the floor): b_curve = the MAX over the FULL 3-D grid —
+the
 η(2) LEVEL over [η_min, 1] (the coverage range, round-22 label: the sweep intentionally
 overshoots the admitted ≈[0.92, 0.98] to the ideal, since no abort bounds from above) ×
-the SHAPE/slope residual over ±s_res — of that point's
+the SHAPE/slope residual over ±s_res × the readout-bias SIGN {−2%, 0, +2%} (the sign
+axis stated at b_curve's own site round 30, spec M1: this passage still read 2-D/35
+while the general per-statistic sign rule and the machinery already ran 3-D) — of that
+point's
 p99.87 of the SUP, each SE-inflated (SE-inflation direction pinned, round-22: b_curve
 takes its LOWER edge per the global never-ease-CONFIRMED rule; the power protection
 lives in the max-over-grid construction and is certified by the swept ≥ 95% gate, never
-by loosening the SE step; the max of 35 finite-seed quantile estimates carries a MODEST
-POWER-SAFE upward selection bias, ≈ 2.1 × the per-point quantile SE (round-25 sizing) —
-do not "correct" it — and the finite grid suffices
+by loosening the SE step; the max of the coverage grid's ~120 finite-seed quantile
+estimates carries a MODEST
+POWER-SAFE upward selection bias, E[max] ≈ 2.5–2.6 × the per-point quantile SE
+(re-sized round 30, stats m10 at 105 points → 2.53, and re-counted round 31, spec
+n2, after the corner members joined — the exact member count is the freeze report's;
+at ~210 it would be ≈ 2.76) —
+do not "correct" it — and this upward step is ACKNOWLEDGED as the one deliberate
+exception to the never-ease-CONFIRMED rule (round 31, stats n3: net ≈ +1.5–1.8 SE
+upward on an upper cut, under 1% of b_curve, moving the accepted scale window by
+~0.03 pp — landing on the continuous neighborhood no negative control bounds, which
+is exactly why it is named here rather than left implicit) — and the finite grid suffices
 because η's level/slope dependence is physically smooth) (grid resolution PINNED, round-20: 7 uniform level
-points × 5 uniform slope points = 35 grid points — a max-over-grid band needs its grid
-fixed; the residual axis is LINEAR slope — assumption stated, round-21: curvature
+points × 5 uniform slope points × 3 signs = 105 grid points, JOINED (round 30, stats
+M2+M3 + physics m3) by the device-fixed corners — the fixed-j′ corners, the
+off-diagonal BOX corner (best coherence λ = 0 × worst readout FIXED, the BASE
+stated exactly, round 31 stats B1 — a reviewer computed this corner from the
+backend-median readout and read a 3.2× coverage gap; the actual base is the
+WORST-ADMITTED basis, whose readout sits AT the Class-1 abort ceilings, S (1.5%,
+2%) and witnesses/k (2%, 3%), and the box corner multiplies THOSE by the draw
+factor 1.25, witness up to (2.5%, 3.75%) — coverage on the readout axis therefore
+EXCEEDS the abort-admitted set, no gap × slope extremes × signs: the λ one-knob
+family is a CURVE through
+the admitted box, it ties all incoherent rates together, and the box corner is an
+admitted device the curve-with-draw only visits transiently — the guard-envelope
+arithmetic read up to ~9.6% terminal VOID there under an unpinned width
+decomposition), and the η-TOP point (a j′-only differential config, η(2) ≈ 1.002:
+η = a_j/a_j′ and no abort enforces a_j ≤ a_j′, so η sits STRUCTURALLY above 1 by up
+to ~0.001–0.002 — the λ map cannot realize it, the j′-idle config does) — a
+max-over-grid band needs its grid
+fixed; **this list — the 105 level × slope × readout-sign points, the fixed-j′
+corners, the box corner, the η-top point, and the ε_w-sign members — IS "the
+COVERAGE GRID", the ONE definition, and every band/threshold site in this document
+that says "coverage grid" or "coverage envelope" means exactly this set (round 31,
+spec M1: six sites had drifted into six different axis enumerations; the per-site
+lists are hereby superseded by this reference)**; the FIXED-vs-DRAWN law pinned
+with it (round 30, stats M2): every
+device-FIXED nuisance enters the freeze as a CORNER at its admitted extremes, only
+SHOT noise (and the explicitly-declared calibration-spread mixture) is drawn — the
+declaration: edge EPCs, T2s, and witness readout ride the ±25% DRAW as a mixture AND
+their extremes enter as corners; the readout-bias sign, the box corner, and the j′
+asymmetry extremes are FIXED corners; RZ statics and the drift rate are FIXED at
+budget (day-of-anchored through the transverse guard, never drawn); the residual axis is LINEAR slope — assumption stated, round-21: curvature
 residuals ride η_nom's per-arm Aer read, so only the device-vs-Aer residual needs
 sweeping and a slope axis spans it at the VERIFY-bounded magnitude; a non-monotone
 duration scaling found at the runner VERIFY re-reads η_nom PER-ARM, folding the
 measured shape into the deterministic target — a linear s_res rescale cannot cover a
 non-monotone residual (round-26 remedy fix) — and re-derives s_res pre-commit; the SUP's
-reference distribution is the (b)-PASSING subset — the bands are sourced through the
+reference distribution is the (a)∧(b)-PASSING subset (label matched to the code
+round 31, stats m6: under the short-circuit the SUP is only ever evaluated after
+BOTH (a) and (b) pass, so the conditional quantile's conditioning set includes
+clause (a) and its order check; the difference is negligible on a valid device and
+the label now says what the code does) — the bands are sourced through the
 frozen verdict code, which short-circuits (a)→(b)→(c); stated round-25); s_res has the τ-pattern TWO READINGS (round-19: the
 runner stage sits AFTER the band freeze, so a runner-read input cannot feed a frozen
 band): s_res_freeze = the REPRESENTATIVE-line transpiled schedule's duration-slope
@@ -569,8 +977,10 @@ by the Ŝ(j; 0) floor at ~1.2×10²σ:
 widening (c) cannot create a false CONFIRMED through either path (round-19 precision);
 the whole leak family vanishes
 identically if the runner VERIFY finds r-flat/padded durations). Re-freeze trigger
-PINNED (round-12; the f129 rule made local — "f129-style" was an unresolved
-cross-reference): a frozen band is re-derived only if its verification bootstrap returns
+PINNED (round-12 made the f129 rule local by DELETING the reference — restored
+round 31, prior-work M3: the trigger is F129's, verbatim,
+[IBM_F129_RAMSEY_FRINGE](IBM_F129_RAMSEY_FRINGE.md) "re-freeze trigger (bootstrap
+SE > 1.3× analytic)"): a frozen band is re-derived only if its verification bootstrap returns
 SE > 1.3× the fitted-model SE, or the goodness-of-fit gate fails post-freeze, or the
 joint-power floor fails, or a runner-VERIFY finding invalidates a frozen INPUT
 (round-22: e.g. non-monotone duration scaling re-deriving s_res — the fourth trigger the
@@ -583,25 +993,43 @@ the previous magnitude-typed clauses would have returned INCONCLUSIVE on a perfe
 device; evaluation order PINNED (round-9): (a) → (b) → (c) with short-circuit on first
 failure, so (c)'s σ̂ = ρ̂/|ρ̂(2)| is computed only after (b) has passed, which guarantees
 |ρ̂(2)| > b_forgive > 0 — no NaN path exists):
-(a) **Blindness:** |ρ̂(1)| < b_blind, where b_blind = max over the ε_w budget of
-    |−sin ε_w| (the signed center; note the sign of the linearization) + the SIGNAL
+(a) **Blindness:** |ρ̂(1)| < b_blind, where b_blind = max over the budgets of
+    |−sin(ε_watch + ε_ZZ)/cos(ε_ZZ)| (the exact signed center — ONE formula with the
+    band procedure's, round 31 spec m1/physics m6; the |−sin ε_w| gloss this site
+    carried differs by 1.5×10⁻⁶ and is retired; note the sign of the
+    linearization) + the SIGNAL
     model's upper tail HALF-WIDTH about the model's own center, the whole construction
-    taken as the UPPER ENVELOPE over the readout-sign axis (round-24: the r = 1 tail is
-    read at the ε_w-ALIGNED worst sign, never the (b)-hardening sign — that one is (a)'s
-    easing sign; envelope ≈ 0.065 vs 0.042 single-sign in review MC) — pinned arithmetic
+    taken as the UPPER ENVELOPE over the FULL coverage grid — the sign axis (round-24:
+    the r = 1 tail is
+    read at the ε_w-ALIGNED worst sign, never the (b)-envelope sign — that one is (a)'s
+    easing sign; envelope ≈ 0.065 vs 0.042 single-sign in review MC — the sign-only
+    figure; the full coverage envelope reads ≈ 0.080 at rehearsal, round 30 stats m9:
+    arguments quoting 0.065 forward are superseded) AND every other member of THE
+    COVERAGE GRID (the one definition at the band procedure — round 31, spec M1
+    replaced this site's own axis list, which had drifted; round 29, stats m1 brought
+    b_blind here; the derivation-basis
+    clause UNIFIED round 30, spec BLOCKER: this site still said "the band's derivation
+    point is the worst basis" one round after the band joined the coverage envelope —
+    the envelope site in the band procedure is the ONE derivation basis, and the old
+    worst-basis sentence is retired) — pinned arithmetic
     (round-7): half-width = (p99.87 − model center), quantile-SE inflated; the coherent
     center enters ONCE (the signal model already injects ε_w, so adding its raw p99.87
     would double-count the center and loosen the ceiling — the one anti-conservative
-    direction in the band set; algebraically the construction collapses to ONE number,
-    the SE-inflated p99.87 quantile of |ρ̂(1)| under the signal model — it is stated as
-    center + half-width only to pin the no-double-count arithmetic; the ledger center and
-    the signal-model center COINCIDE because both run at the worst-admitted basis — two
-    sources, one number, no double-count; the band's derivation point is the worst
-    basis, where the injected ε_w center sits ~3–4σ off zero and folding is negligible —
+    direction in the band set; algebraically the construction collapses to ONE number
+    PER SOURCE BANK — each coverage-grid source's SE-shifted p99.87 quantile of |ρ̂(1)|
+    under the signal model, the frozen band = the MAXIMUM over sources — it is stated as
+    center + half-width only to pin the no-double-count arithmetic; the two-sources-
+    one-number coincidence argument holds PER SOURCE, each bank injecting its own ε_w
+    center, and stops being a single global statement on an envelope, round 30; at
+    every source carrying the budget ε_w the injected center sits ~3–4σ off zero and
+    folding is negligible —
     the folded-near-zero regime of a very good device only passes MORE easily under a
     ceiling, round-19) — a magnitude ceiling
     built from the signed statistic's two-sided band; AND the parameter-free order check
-    min(|ρ̂(0.75)|, |ρ̂(1.25)|) > |ρ̂(1)| (the floor is a local minimum in magnitude);
+    min(|ρ̂(0.75)|, |ρ̂(1.25)|) > |ρ̂(1)| (the floor is a local minimum in magnitude;
+    its power is REPORTED per coverage-grid member like clause (b)'s, round 31 spec
+    m3 — no fallback is needed because the margin is structural, ~0.7·η against
+    ~0.03, and the report measures rather than asserts that);
 (b) **Forgiveness with the flip:** ρ̂(2) < −b_forgive (the signed even fixpoint:
     watcher-dressed magnitude η(2), flipped sign — ideal: full; b_forgive from the signal
     model at η_min, frozen from the
@@ -619,10 +1047,24 @@ failure, so (c)'s σ̂ = ρ̂/|ρ̂(2)| is computed only after (b) has passed, w
     T2* ≥ 70 µs imply η ≈ 0.92–0.98), because the
     absolute gap is η(1.75)·(ratio − 0.924); the raw GAP vanishes entirely at cos(π/8) ≈
     0.924; the branch is routed on the MEASURED power, never on these illustrative
-    numbers); if < 99.5%, the PINNED fallback replaces the pairwise sample comparison:
-    |ρ̂(1.75)| must lie inside its own signal-model two-sided band (p99.87, SE-inflated,
-    computed under the readout-bias sign sweep {−2%, 0, +2%} and frozen at the
-    PER-STATISTIC WORST SIGN — round-27, the SIXTH sign-class instance: ρ̂(1.75) is the
+    numbers — the SELECTOR pinned, round 31 spec m5: the routing power is the
+    MINIMUM over the coverage grid, the module's order_check_min_power, never a
+    single-basis read); if < 99.5%, the PINNED fallback replaces the pairwise sample comparison:
+    |ρ̂(1.75)| must lie inside its own signal-model two-sided band (p99.87, SE-inflated;
+    round 29, stats M4 supersedes the round-27 single-worst-sign freeze: |ρ̂(1.75)| is
+    an UNNORMALIZED magnitude whose center rides the LEVEL axis directly — the level
+    shift over the coverage range, 0.074, is 1.7× the 0.043 sign shift round 27 graded
+    MAJOR — and "worst sign" is undefined for a two-sided band, whose single-sign edges
+    barely overlap; the band is therefore the UNION-OF-EDGES envelope: each edge takes
+    its own extreme of the per-grid-point SE-inflated quantiles over the FULL
+    coverage grid — level × slope × readout-sign plus the corners AND the coherent
+    ε_w SIGN members (round 31, physics MAJOR: |ρ̂(1.75)| = cos(π/8 ∓ ε_w) is FIRST
+    order in the watcher-angle sign — the raw-order gap swings ±0.0115 at budget and
+    −ε_w is the EASING sign, the same class as the drift finding and the SECOND sign
+    axis beside the readout one; ρ̂(2) is second-order flat in ε_w, so b_forgive is
+    untouched; the ε_w-negative banks join the grid, so the fallback union, the
+    order-power report, b_curve, and the LR reference all see the sign) — round-27,
+    the SIXTH sign-class instance, had found: ρ̂(1.75) is the
     same signed double ratio the round-24 b_blind fix protects, and the additive
     S-antisymmetric offset survives the double ratio here too (the watched arm's
     magnitude 0.85 and the r = 0 normalizer 0.92 weight it differently): |ρ̂(1.75)|
@@ -635,9 +1077,11 @@ failure, so (c)'s σ̂ = ρ̂/|ρ̂(2)| is computed only after (b) has passed, w
     re-measured on the SWEPT band at freeze); the
     fallback's own power is reported beside the raw check's, the branch taken is
     recorded at freeze, and the sim gate ASSERTS whether the fallback ever engages on
-    the η×sign grid (round-27 from below: never in coverage — the raw ordering holds at
-    ~5.5σ across the admitted range, the < 99.5% trigger is reached only near
-    η(2) ≲ 0.42, far below η_min; if it ever fires, the swept worst-sign freeze above
+    the coverage grid (round-27 from below: never in coverage — the raw ordering held
+    at ~5.5σ in the round-27 read, ~12σ in the round-29 from-below recompute; the pair
+    is RE-MEASURED at freeze and the frozen value governs (round-29 physics m3 debt,
+    recorded round 30) — the < 99.5% trigger is reached only near
+    η(2) ≲ 0.42, far below η_min; if it ever fires, the union-of-edges envelope above
     governs));
 (c) **Shape:** the SUP statistic over the SEVEN INTERIOR arms r ∈ {0.25, …, 1.75}
     (ρ̂(0) ≡ 1 by construction — σ̂(0) = 1/|ρ̂(2)| carries no shape information — and
@@ -667,10 +1111,34 @@ failure, so (c)'s σ̂ = ρ̂/|ρ̂(2)| is computed only after (b) has passed, w
     cheap backstop, its ~100σ margin making it effectively free, rounds 18–19;
     SE_contrast's sign-sensitivity is dominated by the swept end-to-end gate — both
     controls run both signs and the margin is non-binding, round-26).
+**The ACCEPTED SET, stated (round 30, stats M5; made honest round 31, stats M2 +
+physics m4):** the conjunction (a) ∧ (b) ∧ (c) accepts (i) the signed-cosine family
+with the watcher-angle SCALE inside a TWO-SIDED, mildly asymmetric window — from
+below ≈ [−3.9%, +3.75%] at b_curve = 0.070 and ≈ [−4.5%, +4.3%] at the rehearsal
+0.0802; the frozen b_curve sets it (clause
+(c)'s SUP is what binds the scale — a scale miss walks the interior arms off the
+target curve before it moves the fixpoints; clause (a) alone would tolerate far more)
+AND the r = 2 sign flip; and (ii) — stated plainly, because the previous version's
+"guard-separated impz class" wording overstated the separation — the ENTIRE
+Z-DIAGONAL never-watching class at polarisation m BELOW the frozen z_k band
+(window m ≲ 0.037 from below at rehearsal): such a device reproduces the signed
+curve exactly with η ≡ 1 and reaches CONFIRMED with probability ≈ 1; the z_k guard
+separates only the m-polarised branch (detection ≥ 0.999 asserted at m = 1, the
+boundary escape at m = band measured and reported), and the ONLY discrimination
+against the m ≈ 0 branch is the watcher-tomograph pair, which is DIAGNOSTIC-ONLY:
+it gates the mechanism sentence, never the verdict. The negative-control ≤ 0.1%
+headline is therefore a statement about the four named remote point alternatives
+(null + three impostors) and the m-polarised impz branch — never about the
+continuous scale neighborhood and never about the m ≈ 0 branch; the three
+protections are different in kind and all stated.
+
 Calibration check, not law-content: |R̂(2) − R̂(0)| < b_sym, with R̂(r) = D̂(j; r)/D̂(j′; r)
 the unnormalized single ratio (defined here; b_sym from the same gate procedure;
 INFORMATIONAL ONLY — its exceedance is recorded in the flight report and triggers no
-verdict action).
+verdict action; RELABELED round 29, stats n1: algebraically R̂(2) − R̂(0) =
+(η(2) − 1)·a/a′, so the statistic reads the η(2) LEVEL, not j-vs-j′ symmetry — it
+duplicates the decoding table's η-anomaly entry and is kept under its honest name,
+"the unnormalized η(2) level check").
 **DEVICE-DEVIATION:** trigger = a frozen likelihood-ratio statistic: LR(impostor vs law)
 > the pinned threshold for any named impostor. **The threshold is pinned like every band
 (round-6):** reference distribution = the LR values under the SIGNAL model; threshold =
@@ -706,23 +1174,43 @@ MID-RANGE basis — the same basis as clause (c)'s target, round-18 — the LR s
 SHAPE and SIGN, never the common attenuation), sharing ONE covariance Σ — the 8×8 empirical
 covariance of ρ̂ from the held-out signal-model seed bank (the arms correlate through
 the shared r = 0 normalizer; a diagonal Σ would misweight):
-LR_i = ½[(ρ̂−μ_law)ᵀΣ⁻¹(ρ̂−μ_law) − (ρ̂−μ_i)ᵀΣ⁻¹(ρ̂−μ_i)]. The LR threshold's
-signal-model reference distribution is computed WITH the η(2) sweep (round-17: a
-single-point μ_law under-measures the family exceedance for off-η_nom valid devices)
-AND with the readout-bias SIGN swept as a third axis {−2%, 0, +2%}, the threshold
-frozen at the worst sign (round-26, the FIFTH sign-class instance, found independently
-by two lenses: the LR is linear in ρ̂ and hence sign-sensitive, yet its ≤ 0.13% family
-exceedance was certified at the hardening sign only; review MC suggests the hardening
-sign is already LR-adverse — exceedance 0.0013 vs 0.0000 — but b_blind is the standing
-proof that a default sign is never reliably the adverse one: swept, not assumed).
+LR_i = ½[(ρ̂−μ_law)ᵀΣ⁻¹(ρ̂−μ_law) − (ρ̂−μ_i)ᵀΣ⁻¹(ρ̂−μ_i)]. The LR threshold is
+CORNER-CONDITIONAL over the FULL coverage grid — the level × slope × sign points plus
+the round-30 fixed-j′/box/η-top corners (round 29, stats M1 — the
+slope axis was the one axis the LR reference never swept, on the statistic whose whole
+job is shape: a law-realising device at the admitted −1% slope corner read family
+DEVICE-DEVIATION at ~1% against the 0.13% pin, WORSENING with shots — the b_curve
+shot-independent-offset signature; pooling the slope into the reference does NOT repair
+it, ~0.56% residual at the corner — only b_curve's max-over-grid construction does):
+per grid point the p99.87 + SE of the LR values under the signal model, the threshold =
+the grid MAXIMUM per impostor (history of the axes: round-17 added the η(2) sweep;
+round-26, the FIFTH sign-class instance, added the sign axis after the ≤ 0.13% family
+exceedance had been certified at the hardening sign only — swept, not assumed; round 29
+completes the grid with the slope axis and replaces pooling by the corner-conditional
+maximum).
 **Catch-all:** anything matching neither CONFIRMED nor DEVICE-DEVIATION nor VOID →
 INCONCLUSIVE, never a physics verdict.
 
 Decoding table (diagnostic only, never upgrades): watcher-angle residual → measured ζ_jk +
 curve-zero fit; η anomaly → unnormalized D̂(j) r = 2 vs 0; generic points off → Z-leak +
-transverse guards; zeros displaced → transpiled-angle record.
+transverse guards; zeros displaced → transpiled-angle record; Z-polarised watcher
+(the impz class, round 30) → |⟨Z_k⟩| against its capped band (the m-polarised branch)
++ the watcher-tomograph ⟨Y_k Z_j⟩ (+1 superposed, 0 Z-diagonal — the m ≈ 0 branch).
 
 ## Sim gate specification (pinned)
+
+This gate is the house **7a** stage and the counts-level gate below is the house
+**7b**, the two-gate standard of the prior flights (round 31, prior-work M3 —
+thirty rounds had re-derived the architecture anonymously after round 12 deleted
+the one cross-reference instead of resolving it; the citations restored:
+[IBM_F129_RAMSEY_FRINGE](IBM_F129_RAMSEY_FRINGE.md) §"7a"/§"7b" — "7b (counts
+level): the actual runner's circuits ... counts through the actual estimator code;
+hard pre-flight abort if 7b contradicts 7a" — and
+[IBM_CONCENTRATOR_RELOADED](IBM_CONCENTRATOR_RELOADED.md), whose
+representative-background band pin is the precedent for this document's
+representative-line / τ_freeze-vs-τ_dayof pattern; the price-pair reviewer list is
+the origin of the counts-level-null / Aer-parity / instrument-failure-path
+requirements re-derived here).
 
 Full estimator end-to-end: asymmetric confusion incl. CAL finite-shot noise → mitigation
 inversion → distribution-level quasi-probability conditioning (as the pipeline) →
@@ -739,10 +1227,23 @@ estimator must be certified against inter-arm frame drift, not only statics;
 drift budget PINNED, rounds 16–17: ≤ 0.05 rad PER-ARM increment, the guard covering the
 ACCUMULATED tilt at each arm's interleave slot — the power cliff sits near a 0.2 rad
 per-arm rate, clause (c) breaking first — and the drift IS day-of-anchored through the
-transverse guard: sin(φ)·|record| leaks into T̂(w; r) (~0.18 = 0.9·sin(0.2): the
-η-dressed record ≈ 0.9 at the two-slot accumulated tilt, at a 0.1 rad/arm rate at
-r = 2's interleave slot, ~2 slots after the r = 0 anchor under the pinned interleave
-order — round-22 arithmetic made explicit),
+transverse guard: sin(φ_r)·|record_r| leaks into T̂(w; r), the operative leak the SUP's
+worst arm — the worked example RESTATED round 30, stats M4 (the round-22 example
+multiplied the wrong arm by the wrong rate, two errors compensating to the same 0.18):
+sup over arms of sin(rate·d_r)·|dressed record_r| with d_r = the arm's slot distance
+from the r = 0 anchor; under the pinned order the maximum distance d = 4 carries
+r = 1.0 (record ≈ 0, no leak) and r = 0.25 (dressed record ≈ 0.9), so at the 0.05
+budget the worst accumulated tilt is 4 × 0.05 = 0.2 rad at r = 0.25 and the leak is
+≈ 0.9·sin(0.2) ≈ 0.18; the trip-point algebra implied by the band is AMBIGUOUS by ~2×
+(0.069 vs 0.137 rad/arm depending on which arm trips first), so the pinned criterion
+is the MEASURED probe, never the algebra: the T̂ bank must trip with P ≥ 0.99 at the
+0.2 rad/arm cliff rate (round 30, spec m5 pins the number); an UNTRIPPED 0.10 rad/arm
+device carries a clause-(c) systematic of ~0.056 against b_curve ≈ 0.070 — inside the
+band, stated, and the INTERVAL ownership stated with it (round 31, spec m9: between
+the 0.05 budget the band covers and the 0.2 cliff the probe certifies, coverage is
+the ±s_res axis plus the swept power gate, and the 0.10 spot value is one point of
+that composition, not an envelope — an intermediate-rate device that neither trips
+nor stays inside the (c) systematics lands INCONCLUSIVE, the fail-safe direction);
 so the frozen T̂ band is REQUIRED to cover the 0.05 budget while tripping beyond it;
 fail-safe both ways) +
 incoherent T1/T2/depolarizing at the worst-admitted basis with j-vs-j′ asymmetry drawn from
@@ -767,7 +1268,16 @@ differential on hardware day-of — a Class-2 in-job VOID gate at > 2%, recorded
 provenance — and the
 injection covers the model side). Aer parity on the ACTUAL
 transpiled circuits asserts: variant B recovers Y; both writes exactly RZZ(π/2); 2q counts
-equal budget; η_nom(r) read here. **POSITIVE CONTROL (round-4, mandatory; round-6 two-branch split —
+equal budget; η_nom(r) read here (the profile ARITHMETIC pinned, round 28: η_nom(r) =
+|ρ̂_Aer(r)/cos(r·π/2)| with the r = 1 point interpolated from its neighbors — the
+RULE pinned (round 31, spec M7: the "0/0 is harmless" justification covers only
+clause (c), but η_nom(1) ALSO dresses the LR hypotheses, where impostor_i(1) is 0.5
+and 0.707, far from zero): **η_nom(1) = ½·(η_nom(0.75) + η_nom(1.25))**, the linear
+neighbor mean in η, exactly what the module computes — where
+cos = 0 makes the division 0/0 while the (c)-target term cos·η_nom is 0 regardless;
+NEVER the raw |ρ̂_Aer| profile: the first freeze rehearsal stored |cos·η| as η_nom and
+bent the clause-(c) target into a cos·|cos| curve, corner power 0.10, caught by the
+sign-and-level-swept power gate before anything froze). **POSITIVE CONTROL (round-4, mandatory; round-6 two-branch split —
 the ideal signal has η ≡ 1 and may legitimately sit outside bands frozen at the noisy
 budget, so the two branches check different things):** (branch 1, flight-realistic
 FEASIBILITY SMOKE TEST) the Aer-noisy signal is run once through the ACTUAL frozen
@@ -775,9 +1285,19 @@ verdict code against the FROZEN bands; a non-CONFIRMED outcome halts with a
 NON-DISCRETIONARY response (round-12: re-run once with the next pinned seed; two
 consecutive non-CONFIRMED → treated as a joint-power failure → the re-freeze path,
 recorded; a single draw at ~96–98% joint power fails a few percent of the time by design
-— the statistical gate is the JOINT POWER below, not this draw); (branch 2,
+— the statistical gate is the JOINT POWER below, not this draw); branch 1 additionally
+carries a BANK comparison (round 30, stats M7: a single draw cannot certify the
+model's correlation structure, and an 8×8 ρ̂-correlation misspecification is worth up
+to ~14% of b_curve through the LR covariance and the SUP): an Aer seed bank's
+first two ρ̂ moments per arm and its 8×8 correlation matrix are compared to the dm
+model's bank, each entry within 5 combined finite-bank SEs (a loud-only screen — the
+tolerance is the two banks' own sampling law, never a hand-set number; exceedance →
+the model's injection bank is re-examined before freeze); (branch 2,
 code-consistency) the ideal signal against η ≡ 1 targets
-(the same verdict code with η_nom set to 1; a check of clause logic and signs, not of the
+(the same verdict code with η_nom set to 1; the OTHER constants pinned round 31,
+spec m6: branch 2 runs the WIRING-level band set — the module's provisional bands,
+never the frozen ones, since an ideal device against noise-frozen bands can
+legitimately miss clause (c); a check of clause logic and signs, not of the
 bands) must return CONFIRMED. Each of the three named impostors must return
 DEVICE-DEVIATION at the pinned LR threshold — asserted by the gate, so any
 sign/normalization regression in the verdict rules is self-catching before flight. The gate also reports the AGGREGATE false-VOID probability of
@@ -785,21 +1305,45 @@ the whole guard bank on valid runs (the 8 guard tests — 5 pooled + 3 floors �
 quantiles compound); pinned
 ceiling 0.5% at the p99.97/p0.03 default (round-21 re-derivation; the old 2% was the
 p0.13-era figure), exceedance escalating directly to the remedy ladder with recorded
-provenance. The gate
+provenance; **the aggregate is MEASURED AT EVERY POINT of the coverage grid and the
+corner maximum GATED at the same pinned 0.5% ceiling (round 29, spec m5 measured it;
+round 30, spec M4 makes the corner maximum a GATE — a reported-only corner could
+exceed the ceiling exactly where round 28's blindness lived); the held-out
+FIXED-j′-CORNER twins run through the gates too (round 30, stats M2: power and
+false-VOID measured on the fixed corners, not only the draw mixture — this is also
+the near-degenerate-valid certification of the floor construction, stats m13); the
+gate additionally measures guard DETECTION power — a probe bank at the
+0.2 rad/arm drift cliff must trip the T̂ bank with P ≥ 0.99 (the numeric criterion
+pinned round 30, spec m5; round 29, spec
+m6 + stats m2: the T̂ band's pinned duty is two-sided, cover the budget AND trip
+beyond it, and no gate previously measured the second half) — and the impz DETECTION
+and BOUNDARY measurements plus the watcher-tomograph separation (signal claim rate
+vs the Z-diagonal class's claim rate ≤ 0.1%) per the negative-control section; the
+SE(ρ̂(1))/SE(ρ̂(2)) ratio is REPORTED with its provenance isolated (round 30, physics
+MAJOR: the gate reports the ratio under BOTH provenances, the full chain AND a
+no-readout-layer isolation bank; measured reads have spanned 0.88 (full chain,
+round-29) through 0.94/0.94 (both provenances, the v32 validate) to the reviewer's
+own shot-noise model's 1.20–1.26 — the ratio is configuration-dependent, not
+structural in either direction, and no assert rides it).** The gate
 further reports: the (b)-order-check power at frozen shots (fallback rule in clause (b))
 and the family exceedance of the LR thresholds on signal-model runs (≤ 0.13%).
 **JOINT POWER, assembled and pinned (round-7 stats):** the negative control is a measured
 probability, so the positive side must be too — branch 1's single draw proves feasibility,
-never power. The gate runs the FROZEN verdict code over the full signal-model seed bank with the
-device η(2) SWEPT across the coverage range [η_min, 1] AND the readout-bias SIGN swept
-as a third axis {−2%, 0, +2%} on valid devices (round-23: the sign axis was the second
+never power. The gate runs the FROZEN verdict code over the full signal-model seed bank at EVERY
+member of THE COVERAGE GRID (round 31, stats M1: this site's old "[η_min, 1] × sign"
+wording described a strictly smaller space than the band grid — the box corner, the
+design's hottest VOID point, was power-blind, and the η-top member sits at
+η(2) ≈ 1.002, literally OUTSIDE an interval whose top is 1; the swept set and the
+band-freezing set are now the SAME set by construction, and the level range's true
+top is the η-top member, above 1) (round-23: the sign axis was the second
 gate-blindness — no gate ever ran a valid device at the easing sign, where the
 hardening-frozen floor terminally VOIDed it; round-15: a single-basis
 measurement is blind to the clause-(c) device-vs-target shape mismatch — the gate must
 exercise it; the floor must hold at EVERY sweep point of every axis, reported as the
 minimum) and
-reports P(CONFIRMED | valid device) as ONE number over the coverage range [η_min, 1]
-(round-22 label fix: not "the admitted range" — the sweep overshoots to the ideal) — the
+reports P(CONFIRMED | valid device) as ONE number over the coverage grid
+(round-22 label fix: not "the admitted range" — the sweep overshoots to the ideal,
+and since round 31 past it, to the η-top member) — the
 END-TO-END measured CONFIRMED
 fraction through the frozen code, never a product formula (round-21: the gloss
 "clause power × (1 − false-VOID)" is NOT exact — the Ŝ(j; 0) floor and clause (b) are
@@ -836,22 +1380,32 @@ seeds are recorded in the committed pre-reg (the verdict is RNG-free, but the fr
 band VALUES must be reproducible).**
 
 ## Abort gates (day-of, hard, no override — TWO CLASSES, round-15: a Batch has no
-mid-batch conditional logic, so the in-job thresholds cannot prevent the spend)
+mid-batch conditional logic, so the in-job thresholds cannot prevent the spend; the
+class NUMBERS name the evaluation position — 1 = pre-submit, prevents the spend;
+2 = in-job, protects the verdict — never a severity ranking, round 30)
 
 **Class 1 — PRE-FLIGHT aborts (evaluated before submit; they PREVENT the spend).** All
 inputs exist pre-submit: the fresh calibration values, the local transpile, the runner
 state. Fresh same-day calibration; line selection PINNED (round-8; "house score" was undefined):
 enumerate candidate 4-qubit lines from the fresh calibration, drop any failing the abort
 thresholds below, score the survivors lexicographically — (1) max write-edge RZZ EPC
-(minimize), (2) watcher-edge EPC, (3) S readout assignment error, (4) min T2* over the
-four — with BOTH role assignments of each physical line scored (k–j–S–j′ vs its mirror;
+(minimize), (2) watcher-edge EPC (minimize), (3) S readout assignment error (minimize),
+(4) min T2* over the four (MAXIMIZE; direction pinned round 29 — read uniformly as
+minimize, item 4 would select the worst line), (5) max WITNESS readout assignment
+error (minimize; added round 31, stats B1's true kernel: witness readout was the
+one abort-bounded nuisance the score never ranked — coverage was already complete
+without it, the freeze corner sits above the abort ceiling, but zero selection
+pressure on a ranked axis was a free give-away) — with BOTH role assignments of each physical line scored (k–j–S–j′ vs its mirror;
 the writes must sit on the two best edges); the runner records the full score table and
 the chosen assignment. Flown-line duration-slope × 1.25 within the frozen ±s_res
 (round-19: the s_res day-of reconciliation, see the band procedure). Abort-to-η mapping
 one-liner (round-19; NOMINAL/approximate — the EPC-to-attenuation map is
 channel-dependent, and the Aer-measured sweep is what governs): two watcher gates at
-EPC ≤ 0.5% ≈ 1–2% amplitude loss + 140 ns at
-T2* ≥ 70 µs ≈ 0.2–0.4% ⇒ η(2) ≳ 0.96 nominal; the 0.92 lower edge adds headroom for
+EPC ≤ 0.5% ≈ 1–2% amplitude loss ⇒ η(2) ≳ 0.96 nominal (idle-term sign corrected
+round 31, physics m2: the old line ADDED the 140 ns idle's 0.2–0.4% as an η loss,
+but that idle sits on j′ and S — j′ is in η's DENOMINATOR, so its idle RAISES η,
+the η-top member's own mechanism, and S carries no η weight; the 0.96 figure keeps
+its padding and is NOMINAL anyway); the 0.92 lower edge adds headroom for
 INCOHERENT modeling error only (round-25 propagation of the round-24 incoherent-only
 pin — this was its last surviving stale site; coherent residuals live solely in the
 ε_w ledger, the ±s_res axis, and the sign-swept gate; the sweep's corner minimum makes
@@ -880,15 +1434,16 @@ mode the double ratio does not cancel has a hardware bound).
 
 ## Cost (by measurement)
 
-Shots-ratio vs f129 (1.05M shots ≈ 297 billed s): ~34–36 PUBs × 16384 (with the two
-r = 0 arms at 32768, i.e. +16384 EXTRA each, not additive circuits) ≈ 590–625k shots → linear anchor ~167–177 s; with per-PUB overhead margin
-~170–215 s ≈ **~2.8–3.6 QPU minutes** (round-8: shots doubled for power margin; round-9:
-crosstalk pair + 2× r = 0; the linear anchor is the tight figure, the range carries
+Shots-ratio vs f129 (1.05M shots ≈ 297 billed s): ~36–38 PUBs × 16384 (with the two
+r = 0 arms at 32768, i.e. +16384 EXTRA each, not additive circuits) ≈ 620–655k shots → linear anchor ~176–185 s; with per-PUB overhead margin
+~180–225 s ≈ **~3.0–3.75 QPU minutes** (round-8: shots doubled for power margin; round-9:
+crosstalk pair + 2× r = 0; round 30: + the watcher-tomograph pair, ~10 s; the linear
+anchor is the tight figure, the range carries
 overhead). Account state reconciled at freeze via the EXTERNAL pipeline's
 `_query_billing.py` (ibm_quantum_tomography, outside this repo — not a repo-file
 reference; measured, not the stale May figure); the flight is ~2% of the
 remaining annual gift — worst case if the cancel loses the race (both twin jobs
-complete and bill): ~2× ≈ 5.6–7.2 min ≈ 4% of the gift, accepted and recorded
+complete and bill): ~2× ≈ 6.0–7.5 min ≈ 4% of the gift, accepted and recorded
 (round-17).
 
 ## Runner-stage VERIFY list (pinned; each check loud, each recorded)
@@ -896,6 +1451,9 @@ complete and bill): ~2× ≈ 5.6–7.2 min ≈ 4% of the gift, accepted and reco
 - **Δf is extracted as the conditional fringe-frequency DIFFERENCE** — both conditional
   branches fit separately, the difference taken; the entire ζ factor-2 book
   (θ_static = π·Δf·τ) hinges on Δf being a difference, not a single-branch frequency.
+- **The amplification statistic carries the ½ factor** — the abort input is the
+  HALF-difference ½·[⟨Y_j⟩_{k=|0⟩} − ⟨Y_j⟩_{k=|1⟩}] = sin(8·ε_cal), never the raw
+  branch difference (which is 2× it; round 31).
 - **Fractional-rzz duration-vs-angle scaling** read from the transpiled schedule (decides
   whether η is worst at r = 2 or ~r-flat; either way b_forgive frozen at r = 2 stays
   conservative — recorded, not assumed).
@@ -904,9 +1462,17 @@ complete and bill): ~2× ≈ 5.6–7.2 min ≈ 4% of the gift, accepted and reco
 - **The native fractional-rzz path is actually taken** (flag set + verified; no in-house
   runner has set it before; a CZ fallback is NO-FLIGHT — no CZ bands exist).
 - **Variant B pre-rotation order** (Sdg THEN H) and transpiled 2q gate counts vs budget.
+- **Watcher-tomograph pre-rotation order on k** (Sdg THEN H, the same convention) and
+  the raw-Z measurement of j in that pair (round 30 — the ⟨Y_k Z_j⟩ sign convention is
+  load-bearing: prediction +1, not −1).
 - **τ read as ONE number** from the transpiled schedule (full H-to-pre-rotation window).
 - **Per-shot memory ON for every PUB** (stable delivered order) — the even/odd split is
-  undefined on aggregated counts (round-18). Flag names verified against the runtime
+  undefined on aggregated counts (round-18); persistence BYPASSES `get_counts()`
+  aggregation — the Concentrator's burned trap, named (round 31, prior-work:
+  [IBM_CONCENTRATOR_RELOADED](IBM_CONCENTRATOR_RELOADED.md) persisted pooled
+  per-cell histograms because SamplerV2's `get_counts()` aggregated at save time,
+  silently no-op-ing a pre-registered analysis leg — the raw per-shot arrays are
+  what this design persists). Flag names verified against the runtime
   version at runner stage (round-19: on SamplerV2 per-shot data is the BitArray default
   and resilience_level is not a Sampler knob; memory=True is the V1 idiom — the pinned
   REQUIREMENT is per-shot data + no runtime mitigation, whatever the current API calls
@@ -919,23 +1485,47 @@ complete and bill): ~2× ≈ 5.6–7.2 min ≈ 4% of the gift, accepted and reco
 
 ## Gate order (pinned)
 
-design rounds converge → sim gate per spec → bands frozen (per device, worst-admitted
-basis, provenance recorded) → EMPTY ROUND on the frozen numbers themselves
+design rounds converge → sim gate per spec → bands frozen (per device, per the
+ROLE-SPLIT basis rule of the band procedure — worst-admitted for magnitude bands,
+coverage-range envelopes for the upper guards and ceilings, mid-range for the (c)
+target; round 29 fixed this line, which still carried the one-basis wording the
+round-15 note names as the leak's cause — provenance recorded) → EMPTY ROUND on the frozen numbers themselves
 (numbers-against-rules: fresh reviewers check every frozen constant against this
 document's pinned rules — round-12; the design rounds covered the rules, the committed
-artifact's numbers need their own outside cut) → runner + counts-level gate → empty
+artifact's numbers need their own outside cut) → runner + counts-level gate (the house 7b,
+[IBM_F129_RAMSEY_FRINGE](IBM_F129_RAMSEY_FRINGE.md) §7b — DEFINED for this flight
+round 29: the runner's analysis path fed with synthetic counts/per-shot memory from
+the sim-gate models, same seeds, THROUGH the imported verdict module, must reproduce
+the sim gate's estimator outputs bit-for-bit before any hardware data exists) → empty
 rounds on runner + records
 → pre-reg committed (hash in banner; the commit carries or follows the signed-coherence
 corollary edits in PROOF_RECORD_PARITY_LAW + the F135 registry clause — the load-bearing
-dependency must be in the repo before the hash points at it) → fresh calibration + hard aborts → **Tom's explicit
-go** → ONE ANALYZED Batch job (twin-submit: two submitted, at most one analyzed —
+dependency must be in the repo before the hash points at it, DISCHARGED (round 30,
+spec m7): the corollary and registry edits are committed, base df63957 + the v29 bank
+4d55b14; the freeze commit additionally carries the F135 registry entry's inbound
+link to this file (round 30, spec n5: the pre-reg had no inbound link from the
+registry); **CODE-IDENTITY PIN, round
+29, stats M2: the runner IMPORTS the promoted sim-gate module's verdict function and
+estimator — the measured joint power and negative-control rates are properties of that
+code object, and a re-implementation would void their transfer; the promoted module
+is `simulations/record_parity_gates.py` (round 31) and the freeze commit hash binds
+it; a runner-VERIFY line asserts the import**)
+→ fresh calibration + hard aborts → **Tom's explicit
+go** (the GO POSITION pinned, round 30, spec m8: Tom's 2026-08-04 08:12 advance go —
+"Du hast das Go für alles", quoted in full at the HARDWARE RECORD — DISCHARGES this
+gate-order go PROVIDED every pinned gate before the submit is green; a red gate
+ABORTS and reports, and the advance go never overrides an abort) → ONE ANALYZED Batch job (twin-submit: two submitted, at most one analyzed —
 normally whichever queue empties, the earliest-submit tie-break governing only IF BOTH
 COMPLETE, round-23 scoping; cancel loser normally unbilled) → IN-JOB VOID GATES evaluated
 (the three Class-2 thresholds from the Batch's own characterization PUBs; any trip →
 VOID, no verdict claimed — round-15: these cannot precede the spend, a Batch has no
 mid-batch conditionals) → HARDWARE RECORD → post-flight
 empty rounds against the COMMITTED bands (the committed rule governs even against the
-runner's own printout).
+runner's own printout) → on a CONFIRMED (or DEVICE-DEVIATION) record, the
+Confirmations entry lands in BOTH registries — `fw.Confirmations` (Python) and
+`ConfirmationsRegistry` (C#, count-asserted) — per cockpit rule 3 (round 31,
+prior-work m9: the registry is where future sessions look it up instead of
+re-deriving).
 
 **Terminal rule (rounds 16–17; the campaign-level false-CONFIRMED door closes here):**
 this is a SINGLE TERMINAL flight. A VOID from a re-fly-ELIGIBLE cause (enumerated,
@@ -949,10 +1539,210 @@ inherits the SAME machinery unchanged (round-23: same committed bands, same twin
 + tie-break, same aborts — no post-data discretion over the re-fly's device). CONFIRMED
 and DEVICE-DEVIATION are terminal by nature. The campaign-level false-CONFIRMED rate is
 thereby bounded at ~0.2% campaign-wide (two near-mutually-exclusive flights at ≤ 0.1%
-each; round-18 arithmetic) — never "fly until it confirms."
+each; round-18 arithmetic; SCOPED round 31, spec M9, exactly as the accepted-set
+paragraph scopes the per-flight bound: this is a bound over the named point
+alternatives and the m-polarised impz branch — never over the continuous scale
+neighborhood or the m ≈ 0 Z-diagonal branch, which the accepted set states) — never
+"fly until it confirms."
 
 ## Revision notes
 
+- **v33 (2026-08-04, round 31 — FOUR lenses for the first time: physics / spec /
+  stats plus the NEW prior-work/repo-consistency lens (Tom's call: "das Experiment
+  erfindet in Teilen das Rad neu" — confirmed, the lens is a standing member from
+  here); NOT clean: spec 2B/9M, stats 1B/2M, physics 0B/2M (core re-confirmed to
+  machine precision), prior-work 1B/4M; every finding recomputed from below, TWO
+  reviewer numbers refuted in the process):** prior-work BLOCKER = the ζ-book
+  collision reconciled BY NAME (price-pair's measured ζ is the conditional
+  difference ⟹ H = (πζ/2)·ZZ, this book; F129's H_ZZ = πζ·ZZ pin doubled it — the
+  F129 v2.7 correction, the gate-script comment, and the ζ²-proof convention note
+  ride this fold; F129's flown verdict re-read and it stands, +0.0114 vs the
+  corrected 0.0192 window); spec B1 = the negative controls now sweep the CONFIG
+  axis {worst, ideal, fixed-j′, box, η-top-null} so the ≤ 0.1% UCB certifies the
+  band set actually committed; spec B2 + physics m5 = the crosstalk Δ reduction
+  pinned as the FOUR-circuit combination (the pair + CAL0/CAL1; the pair alone
+  cannot identify Δ); stats B1 = REFUTED in its number (the box corner's readout
+  base is the abort ceilings, not the backend median — coverage exceeds the
+  admitted set), its true kernel kept: witness readout joins the lexicographic
+  line score as item 5; physics M1 = the coherent ε_w SIGN is the second sign
+  axis (|ρ̂(1.75)| = cos(π/8 ∓ ε_w) first-order, −ε_w eases (b) by +0.0114 —
+  ε_w-negative banks join the coverage grid); physics M2 = the amplification
+  statistic pinned in one equation, ½·[⟨Y_j⟩_{k=|0⟩} − ⟨Y_j⟩_{k=|1⟩}] =
+  sin(8ε_cal) (the raw branch difference is 2× and would abort at half budget);
+  stats M1 = the power sweep IS the coverage grid now (box was power-blind, η-top
+  sat outside "[η_min, 1]"); stats M2 = the accepted-set sentence made honest
+  (the m < band Z-diagonal branch CONFIRMS; the tomograph is the only
+  discrimination and gates no verdict); spec M1 = THE COVERAGE GRID defined once,
+  six drifted per-site axis lists superseded by reference; spec M2 = b_forgive's
+  stale second construction retired; spec M3 = the z_k ceiling got derivation /
+  freeze-gate semantics / named envelope-lowering remedies; spec M5 = η_min
+  pinned as 1 − 2·(1 − η_nominal-worst); spec M6 = T̂'s SUP over ALL NINE arms;
+  spec M7 = η_nom(1) = the linear neighbor mean, stated where the LR consumes it;
+  spec M8 = the round-30 "self-cancelling sentence" LOCATED and discharged (the
+  never-ease rule scoped to CONFIRMED-bearing bands; the s_j0 floor's opposite
+  pull resolved by the above-null check as a freeze-halting guard); spec M9 = the
+  campaign ~0.2% bound scoped like the accepted set; prior-work M2 = F136 cited
+  (the flown line is its pointer branch — the sign law as a second gated theorem;
+  gauge baselines named; F136(iv) zeroes the S-idle dephasing the η bundle
+  budgeted); prior-work M3 = the 7a/7b house architecture citations restored
+  (F129/Concentrator; the re-freeze trigger is F129's verbatim); prior-work M4 =
+  the module PROMOTED (`simulations/record_parity_gates.py`, F129's
+  committed-gate precedent; enters the repo before the binding freeze);
+  prior-work M5 = twin-submit reconciled with F129 §9 (one ANALYZED job, scope
+  sentence kept; Kingston always submitted first, spec m8); minors: branch-1
+  bands = the wiring set (m6), fallback selector = the grid-minimum power (m5),
+  (a)-order-check power reported (m3), GoF-vs-seed-cost reconciled (m2), interior
+  control levels owned (m4), drift-interval composition owned (m9), rehearsal
+  banner scales qualified (stats m1), the frozen-injection sentence restated
+  (stats m5), (a)∧(b)-passing label (stats m6), the 0.235 decomposition flagged
+  for the freeze re-read (stats m4), seed floor 2996 (stats n2), the max-bias
+  never-ease exception acknowledged (stats n3), tomograph = second-order ROBUST
+  (physics m1), the idle sign in the abort-to-η line corrected (physics m2),
+  "neither fixpoint first" repaired + the (a)-easing at d = 4 stated (physics
+  m3), the accepted window two-sided (physics m4), b_blind's center = ONE exact
+  formula at both sites (m1/m6), the write-miss cancellation recognized as an
+  algebraic identity (physics N1), Niven's set labeled precisely (N2), the
+  get_counts() trap named on the VERIFY list (prior-work m6), the Marrakesh
+  provenance labeled (m8), the Confirmations double-entry added to the gate
+  order (m9), GLOSSARY anchors minted for band / VOID / double ratio / watcher
+  factor / 7a-7b / record radius (m10). REFUTED from below, folds refused: stats
+  B1's 3.2× readout-coverage gap (wrong base) and stats m1's claim that the PUB
+  range was left unbumped (34–36 → 36–38 had already moved). Machinery: control
+  config axis, ε_w-sign banks, (a)-order power report, corner banks into
+  b_curve/LR/fallback via grid_and_corners. Debt carried: em dashes now 544 (the
+  v32 count 460 was true at its fold; the round-31 reviewer's 461 counted the
+  post-validate edits; this fold added more — one style campaign, one sweep, later)
+  and prior-work n12 (CLAUDE.md names docs/engineering/, which does not exist —
+  not this file's defect, noted for the repo). Post-fix states are new work —
+  round 32 follows, WITH the prior-work lens.
+- **v32 (2026-08-04, round 30 — three fresh lenses on v31, NOT clean: spec 1 BLOCKER /
+  6 MAJOR, stats 1 BLOCKER / 6 MAJOR, physics 1 BLOCKER / 1 MAJOR; every finding
+  recomputed from below before folding; the physics core re-confirmed exactly, the
+  write-miss cancellation verified to 1.5 rad — RECOGNIZED in round 31 as an
+  ALGEBRAIC IDENTITY, not a probed range: the write angle enters Ŝ(j; r) only as
+  the common factor sin θ_Sj, which divides out against the r = 0 normalizer, for
+  ALL θ_Sj ∈ (0, π) and for single-write misses too; the verified-range framing is
+  retired so no future round "extends" it):** physics BLOCKER — the deepest
+  find of the campaign: a maximally MIXED k (m = 0) never watches and is INVISIBLE to
+  every flown PUB (all Z-diagonal on k; |+⟩ and I/2 share diag(ρ_k)), so the flown
+  data alone cannot distinguish "watcher watched and forgave" from "classical noise
+  that never watched" — folded as the WATCHER-TOMOGRAPH PUB pair (⟨Y_k Z_j⟩, +1 at
+  r = 1 superposed, 0 for any Z-diagonal k; diagnostic-only, gates the mechanism
+  sentence like V_S gates MI), the round-29 "Z_k = THE superposition certificate"
+  sentence re-scoped to the m-polarised branch; stats BLOCKER — impz's escape window
+  was uncomputed while the coverage rule made its sole discriminating band as large
+  as possible (the EIGHTH protection-interaction instance, the first BETWEEN two
+  consecutive amendments): the z_k DISCRIMINATION CEILING pinned (guard_z_k ≤ 0.05,
+  envelope-above-ceiling unfreezable) + the impz BOUNDARY control at m = the frozen
+  band value with P(CONFIRMED) reported; spec BLOCKER — b_blind carried TWO
+  derivation bases one round after joining the coverage envelope (clause (a)'s old
+  worst-basis sentence retired; the per-source collapse argument restated). MAJORs:
+  the fixed-j′ corners enter the GATES (power/false-VOID on held-out corner twins,
+  the fixed-vs-drawn nuisance law pinned); the off-diagonal BOX corner (λ = 0 ×
+  worst fixed readout) and the η-TOP point (j′-differential, η(2) ≈ 1.002 — η can
+  structurally exceed 1) join the coverage grid; b_curve's own site now names the
+  full 3-D grid (105 points; E[max] re-sized 2.53×, 210 → 2.76×); the negative
+  controls sweep sign × level with impz as the FOURTH control kind (detection
+  ≥ 0.999 asserted) and per-bank UCB stated; the false-VOID corner maximum now GATES
+  at 0.5%; the interleave slots of r = 1.75 and r = 0.25 swapped (drift was EASING
+  the (b) raw ordering by ~+0.012); the T̂ worked example restated (wrong-arm ×
+  wrong-rate had compensated; the sup's worst slot distance is 4, the probe P ≥ 0.99
+  criterion is the pinned trip rule); the ACCEPTED-SET sentence stated (+3.7%
+  watcher-angle scale ∧ the flip; clause (c) binds); branch 1 gains the Aer-vs-model
+  BANK comparison (moments + 8×8 correlation, 5-SE loud-only screen); the v31
+  "REFUTED" SE-ratio wording softened to configuration-dependent (the round-29 full
+  chain 0.88, the reviewer's shot-only model 1.20–1.26, the v32 gate's no-readout
+  isolation 0.94 — three configurations, three answers; the gate reports both of its
+  own, no assert rides it); b_forgive's sign gloss resolved by RETIRING the "CONFIRM-HARDENING" label
+  (lower envelope over signs; never-ease lives in the +SE edge; (b)'s
+  false-CONFIRMED duty rests on the sign of ρ̂(2), certified by the swept controls);
+  the seed-cost scheme pinned (deep ≥ 10⁶ on worst-basis banks, argmax-source
+  reported, shallow argmax re-run deep). Numbers: the −sin gap 1.4×10⁻⁵ → 1.5×10⁻⁶
+  (was computed at 3× budget); impostor margins re-based 6.2×/8.8× at the rehearsal
+  envelope 0.0802; the raw-order margin pair (5.5σ vs 12σ) marked re-measure-at-
+  freeze. Round-29 line-item debt paid: the stale line-776 reference named by role;
+  the guard bank named precisely (5 pooled + 3 floors, the floors were never
+  pooled); the abort class numbers glossed (position, not severity); supersession
+  tags added (v26 hardening label, v29 fallback sign); the Z-leak all-four scope
+  stated; V_S assigned to the GEV/empirical branch; the F135 registry inbound link
+  added (rides this file's freeze commit); the GO position pinned at the gate order
+  (the 08:12 advance go discharges it only with every gate green). Debt carried,
+  recorded: the em-dash count (460 at this fold, a style campaign patient) and round-30 spec n3
+  (a self-cancelling sentence the banked verdict names without quoting — to be
+  located or discharged in round 31). Machinery folds validated by rerun; post-fix
+  states are new work — round 31 follows this fold.
+- **v31 (2026-08-04, round 29 — the FIRST empty round on the amended v30; three
+  fresh lenses, NOT clean: spec 5 MAJOR / physics 3 MAJOR / stats 4 MAJOR, every
+  finding recomputed from below before folding, and TWO reviewer claims REFUTED
+  from below in the process):** stats M1 = the LR threshold was the one band never
+  swept over the SLOPE axis (valid device at the −1% slope corner: family
+  DEVICE-DEVIATION ~1% vs the 0.13% pin, worsening with shots) — LR now
+  corner-conditional max-over-grid like b_curve; stats M3+m3 = the j-vs-j′ draw is
+  a MIXTURE and a device has one fixed j′ — fixed-j′-corner banks + grid halves
+  join the floors' lower envelope; stats M4 = the (b)-fallback band rides the
+  level axis and "worst sign" is undefined two-sided — union-of-edges envelope
+  over the full grid; stats m1 = b_blind joins the coverage envelope (upper cut,
+  level-riding center); physics M1 = the readout-bias basis pinned in one
+  equation (Δ = the S-branch assignment differential; "2%" = Δ = 0.02, the wider
+  reading; abort compares in Δ); physics M2 = the amplification pair's k
+  preparation pinned (Z-eigenstate pair, signed conditional read — the |+⟩
+  reading is second-order blind); physics M3 = the Z-POLARISED never-watching k
+  reproduces the whole signed curve exactly (|⟨Z_k⟩| re-scoped as the watcher's
+  superposition certificate; the "no impostor can fake the flip" sentence
+  scoped); spec M1 = the gate-order line still carried the one-basis wording;
+  spec M2 = the "η worst at r = 2" prediction reconciled with the round-28 flat
+  measurement; spec M3 = the v30 edit had eaten the v29 revision-note header
+  (restored); spec M4 = rehearsal readings are NOT frozen-constants entries;
+  spec M5 = WIP paths removed from this tracked file; plus: the counts-level
+  gate defined; D̂(j′; r) floor scope = the eight r > 0 arms; lexicographic item
+  4 direction = MAXIMIZE; false-VOID measured at every coverage point; the T̂
+  detection probe added; the round-25 floor sanity pin became a CONSTRUCTION
+  (floor = min(envelope, worst valid mean − 10·shot-SE) — a p0.03 envelope
+  alone sits only ~3.4 own-SDs below its source mean, so pin and envelope must
+  combine); ρ̂(1) center exactified to −sin(ε_watch+ε_ZZ)/cos(ε_ZZ); the
+  clause-(a) "two orders" figure corrected (7.7×/10.9×; impostor (iii) passes
+  (a) and dies at (b)); b_sym relabeled (it reads the η(2) level); b_forgive's
+  self-contradictory sign warning reworded. REFUTED FROM BELOW, folds refused:
+  the reviewer-proposed SE(ρ̂(1)) > SE(ρ̂(2)) assert (true for the NUMERATOR
+  records; the double ratio weights denominator/normalizer noise by the value
+  and inverts it, measured 0.88 fixed-device — demoted to a report; SOFTENED in
+  v32, round-30 physics MAJOR: "refuted" over-claimed in the other direction —
+  the 0.88 is the FULL chain incl. confusion + CAL + mitigation, the reviewer's
+  shot-noise-only model reads 1.20–1.26, and the v32 gate's own no-readout
+  isolation reads 0.94; the ratio is CONFIGURATION-DEPENDENT,
+  not structural either way, and the gate now reports both provenances) and the
+  −tan(ε_w) center (exact only for a pure-static miss; the exact center is the
+  mixed form above). Physics core re-confirmed exactly by the physics lens
+  (its whole table, incl. write-miss cancellation now verified to 1.2 rad,
+  round-27's 0.3 understated). Machinery folds validated by rerun; post-fix
+  states are new work — the next empty round follows this fold.
+- **v30 (2026-08-04, round 28 — the SIM-GATE stage; the finder was the GATE,
+  not a reviewer: both findings surfaced as a joint-power collapse to 0.10 at
+  a corner of the sign-and-level-swept end-to-end power measurement, exactly
+  the blindness class the round-23/24 sweeps were built to catch):**
+  (1) GUARD-BAND BASIS AMENDED — the v29 role-split sentence froze the guard
+  bands at the worst-admitted basis alongside the magnitude bands, but T̂'s
+  drift term scales with the RECORD LEVEL (exact centers: sup|T̂_j| = 0.190
+  worst-basis vs 0.235 at the best-admitted corner, band 0.244 → the BEST
+  valid device terminally VOIDed in 269/300 runs); the upper guard bands
+  (T̂ per witness, |⟨Z_k⟩|, |⟨Z_S⟩|, Z-leak, V_S) now freeze from the
+  p99.97 + SE upper envelope over the FULL coverage range (worst basis +
+  the level × slope × sign grid); floors unaffected (lower cut: the worst
+  basis IS the envelope; verified, no floor trips post-fix). The SEVENTH
+  protection-interaction instance; the class stays ENUMERATED, never closed.
+  (2) η_nom PROFILE ARITHMETIC PINNED — η_nom(r) = |ρ̂_Aer(r)/cos(r·π/2)|
+  with r = 1 neighbor-interpolated, never the raw |ρ̂| profile (the rehearsal
+  briefly stored |cos·η|, bending the (c) target into cos·|cos|; corner power
+  0.10 before the gate caught it). Also recorded at this stage (REHEARSAL
+  readings, not frozen values — the binding freeze re-derives every one of
+  them from the freeze-time snapshot and its re-pinned line, round 29): the
+  representative line by the pinned rule on the 2026-08-04T06:07Z snapshot is
+  Kingston k–j–S–j′ = 92–93–94–95; transpile VERIFY all-green against the
+  real target (rzz-native, budgets exact, writes exactly RZZ(π/2), two
+  distinct watcher pulses, no routing; noiseless Aer parity 5.8×10⁻¹⁶); rzz
+  duration 68 ns per edge, ANGLE-INDEPENDENT → η ~r-flat (the conservative
+  case the VERIFY list anticipated) and the duration-slope reading is ~0 →
+  s_res_freeze takes the pinned 1% absolute floor.
 - **v29 (2026-07-18, round 27 — the BANK: physics CLEAN twenty-first consecutive,
   verified BEYOND the claim (the double-ratio verdict exact under static write misses
   to 0.3 rad — the r-independent miss cancels); stats "essentially CLEAN … nothing
@@ -965,7 +1755,8 @@ each; round-18 arithmetic) — never "fly until it confirms."
   round after the accounting was declared "complete", independently converged on by
   the stats lens; verified from below by hand: ∓0.043 shift at δ = ±2%, odd in the
   sign, the round-24 mechanism at r = 1.75 — folded: the fallback band joins the sweep
-  at the per-statistic worst sign, the sim gate asserts whether the branch ever
+  at the per-statistic worst sign (SUPERSEDED in v31, stats M4: union-of-edges
+  envelope over the full grid — "worst sign" is undefined for a two-sided band), the sim gate asserts whether the branch ever
   engages on the η×sign grid (from below: never in coverage, trigger near
   η(2) ≲ 0.42), and the completeness claim is RETIRED — membership is ENUMERATED,
   never again "complete" (the lesson's third strike: never declare a class closed,
@@ -1007,8 +1798,10 @@ each; round-18 arithmetic) — never "fly until it confirms."
   variant-A/X channel at full magnitude; a single-sign-frozen T̂ band terminally VOIDed
   admitted devices at up to ~96% in review MC); the readout-bias injection pinned
   TWO-CHANNEL (X and Y — a Y-only injection freezes the transverse band blind at every
-  sign); Z-leak/⟨Z⟩ exempted with reason (S-symmetric, the offset averages out); line
-  776's "coherent headroom" — the sole survivor of the round-24 "end to end" sweep —
+  sign); Z-leak/⟨Z⟩ exempted with reason (S-symmetric, the offset averages out); the
+  η_min "coherent headroom" wording at the abort-to-η one-liner — the sole survivor
+  of the round-24 "end to end" sweep; named by role, round 30 spec debt: the old
+  line-number reference went stale with every edit —
   reconciled to INCOHERENT-only; s_res day-of zero-headroom algebra stated as
   deliberate; the V_S budgeted δ pinned = ε_cal = 0.01 rad; σ-scale disambiguation
   (shot-SE sanity pin vs systematics-broadened p0.03 cut); b_blind's lower-edge
@@ -1029,7 +1822,8 @@ each; round-18 arithmetic) — never "fly until it confirms."
   at its PER-STATISTIC worst sign-combination — magnitude ceilings (b_blind, b_curve's
   SUP) from the UPPER ENVELOPE over {−2%, 0, +2%} (envelope fix verified: joint 0.996,
   false-CONFIRMED untouched 0/2×10⁵), b_forgive at hardening (verified sign-robust,
-  ≥ 0.995 both signs), floors at their per-floor worst; the floor-vs-band asymmetry
+  ≥ 0.995 both signs; the "hardening" LABEL retired in v32 — the rule is the lower
+  envelope over signs), floors at their per-floor worst; the floor-vs-band asymmetry
   stated (ladder-exempt ⟹ direct construction; remediable ⟹ gate-watched); spec MAJOR
   = η pinned INCOHERENT-ONLY end to end (η_min's "coherent headroom" wording
   contradicted the round-23 no-double-count guard — coherent residuals live solely in

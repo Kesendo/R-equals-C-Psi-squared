@@ -5659,7 +5659,11 @@ the plaquette + its anti-pointer channel, t_opt); the door and sightings
 [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) §4.5; fragment side F70).
 **Typed:** `RecordParityLawClaim` (Tier1Derived, parent `AbsorptionTheoremClaim`: Proposition 1
 is the absorption substrate on a pair page); live `inspect --root record` (`RecordLawWitness`,
-the pair battery closed-form-vs-full-state at inspect time). Open: the refcount-by-topology
+the pair battery closed-form-vs-full-state at inspect time).
+**Hardware pre-registration:** the signed angle law's IBM flight design (chain k–j–S–j′,
+the ρ̂ double ratio, the r = 2 flip) is banked at
+[experiments/RECORD_PARITY_HARDWARE_PREDICTION.md](../experiments/RECORD_PARITY_HARDWARE_PREDICTION.md)
+(not flown; the pre-reg's own banner holds its state). Open: the refcount-by-topology
 N-scaling and the (Δ, J, γ) plateau corner.
 
 ---
