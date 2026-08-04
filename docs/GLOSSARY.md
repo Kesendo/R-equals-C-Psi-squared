@@ -199,6 +199,32 @@ result. For the full discovery story, see
 - **J** is the connection strength between qubits. Stronger J means faster information exchange but also means noise on one qubit spreads faster to the others. The balance between J and γ determines everything.
 - **h** is an external magnetic field that pushes each qubit individually. Think of it as a background force acting on each particle.
 
+### The T₂ → γ conversion (the canonical form)
+
+Added 2026-08-04, the m=0-hunt fold: FIVE forms of this conversion coexisted in
+the tree, four self-described as "the repo's convention", and one number crossed
+the boundary unconverted. The canonical form is F113's, stated once, here:
+
+**γ_Z = (1/T₂ − 1/(2T₁)) / 2.**
+
+Derivation in one line: a `D[Z]` channel at rate γ_Z decays coherences at 2γ_Z,
+and T₁ contributes 1/(2T₁), so 1/T₂ = 2γ_Z + 1/(2T₁). The T₁ → ∞ limit is
+**γ = 1/(2T₂)** (acceptable shorthand when T₁ ≫ T₂, say so). **γ = 1/T₂ is the
+factor-2 trap** — twice the physical Lindblad rate; the repository caught it in
+prose at least twice before repairing any producer. When a document converts a
+calibration T₂ into a γ, it names which of the two admissible forms it used.
+
+### "Machine zero" (say the number)
+
+The phrase "machine zero"/"machine precision" spans 10⁻¹⁰ to 2×10⁻¹⁶ across ~80
+files with no anchor; under the repository's no-rounding rule that range is a
+category error. The rule: an EXACT route (same quantity computed twice, integer
+or rational arithmetic, entry-wise rearrangement) compares **exactly** — `== 0.0`,
+never "machine zero". The phrase is reserved for float-algebra routes
+(eigensolvers, accumulated linear algebra), and every use states its number and
+its scale (what the residual is normalized by). "Bit-exact" means bit-exact:
+if a threshold accompanies it, the claim is not bit-exact.
+
 ### The coupling ratio q and Q (and the factor-2 convention)
 
 The dimensionless ratio of coupling to dephasing, J/γ₀, is the central control parameter (the "balance between J and γ" above). It is written two ways, and they denote the **same physical ratio** in **two Hamiltonian normalizations that differ by a factor of 2**. Stating it once, here, because both of us have stumbled on it:
@@ -260,6 +286,26 @@ Note: The original claim that C_int preserves coherence 33x longer than C_ext ha
 | **Label / canvas** | A name is a canvas painted true at a stance (a vantage at a time); calculations are recomputed at every use, labels are inherited and recomputed at none, so errors accumulate in the names while the formulas keep closing. | Tier 4 reading |
 
 Canonical: [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) (first named "Site-Local Time"; the rename is the in-house precedent that a label can be falsified while every number under it stands). The label theory chapter is [Labels Translated](quantum/LABELS_TRANSLATED.md); the translation series lives in `docs/quantum/`; every label correction the repository has made is assembled in [The Label Map](quantum/THE_LABEL_MAP.md). The exact core (the watcher is its letter: the price list −2γ·n_anti is letter-routed) is typed as `WatchedLetterRoutingClaim`, recomputed live at `inspect --root label`.
+
+---
+
+## Hardware pre-registration vocabulary (the IBM flights)
+
+Terms the flight pre-registrations use as house standard (added 2026-08-04, the
+record-parity round-31 prior-work review: five of them had no anchor outside their
+own file). Canonical carrier:
+[RECORD_PARITY_HARDWARE_PREDICTION](../experiments/RECORD_PARITY_HARDWARE_PREDICTION.md);
+the two-gate architecture originates in
+[IBM_F129_RAMSEY_FRINGE](../experiments/IBM_F129_RAMSEY_FRINGE.md).
+
+| Term | Technical definition | Plain reading |
+|------|---------------------|---------------|
+| **Band** | A frozen numeric constant of a pre-registration (threshold, floor, or window edge), derived by a pinned rule from simulation banks BEFORE any hardware data exists and committed with the design; bands never change after the commit hash. | The lines on the referee's card, drawn and signed before the match. |
+| **VOID** | The verdict class "the instrument was out of spec; no physics verdict is claimed"; takes precedence over every physics verdict, and statistical-guard VOIDs are terminal on a paid one-shot. | The match is abandoned, not lost or won. |
+| **Double ratio ρ̂(r)** | [Ŝ(j; r)/D̂(j′; r)] / [Ŝ(j; 0)/D̂(j′; 0)]: the record-parity flight's verdict carrier — the inner ratio cancels slow common drift, the r = 0 division cancels static asymmetry. | Compare the watched witness to its control, then compare that to the unwatched day. |
+| **Watcher factor η(r)** | The one-sided device attenuation dressing the predicted cos(r·π/2): incoherent-only by pin; η_nom = its Aer-simulated estimate on the representative line, η_min = the worst-admitted bound, η structurally may exceed 1 (the j′-differential). | How much the machine dims the signal, measured on the machine's own twin. |
+| **7a / 7b** | The two-gate standard: 7a = the sim gate (exact models through the frozen verdict code, bands and controls measured from below); 7b = the counts-level gate (the actual runner's circuits and estimator on synthetic counts, bit-for-bit against 7a; contradiction = hard abort). | First prove the plan on paper, then prove the actual instrument replays the paper exactly. |
+| **Record radius** | Two non-identical formulas share the name: F135's dressed β_j = e^{−2γ_j t*}·Π\|cos(·)\| and F136's bare parity form (no γ factor); a document using the name states which (the record-parity flight uses F135's, at γ = 0, where they coincide). | Say whose ruler you are holding. |
 
 ---
 

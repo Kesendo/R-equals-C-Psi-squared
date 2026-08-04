@@ -10,6 +10,11 @@
 #     memory, light ...). Same reason as 4, one layer down: the coiner cannot feel
 #     a collision, because from the native stance the word fits. Ordinary-looking
 #     words only; the term-shaped ones get looked up unprompted anyway.
+#  6. a staged arc doc cited by files it never cites back (the missing BACK-EDGE,
+#     the 2026-08-04 m=0-hunt structural find: openers edited after their
+#     successors landed still list as open what the successors closed; ~300
+#     one-directional pairs at the sweep. Same reason as 4, one layer out: the
+#     opener cannot feel its successors).
 # Enable once with:  git config core.hooksPath .githooks
 root="$(git rev-parse --show-toplevel)" || exit 0
 if command -v python >/dev/null 2>&1; then PY=python
@@ -20,4 +25,6 @@ else exit 0; fi
 "$PY" "$root/.githooks/check_broken_tables.py"
 "$PY" "$root/.githooks/check_empty_round.py"
 "$PY" "$root/.githooks/check_spent_words.py"
+"$PY" "$root/.githooks/check_back_edges.py"
+"$PY" "$root/.githooks/check_coupling.py"
 exit 0

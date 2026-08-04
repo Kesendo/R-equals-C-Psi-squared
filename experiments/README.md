@@ -19,6 +19,9 @@ information channels.
 All experiments are reproducible using Python, NumPy, and SciPy.
 Scripts are in [`simulations/`](../simulations/), results in [`simulations/results/`](../simulations/results/).
 
+**Index coverage:** 209 experiment writeups are tracked in this folder; all 209 are
+linked below (index swept and completed 2026-08-04).
+
 ---
 
 ## Headline Results
@@ -106,6 +109,11 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) | Two distinct decoherence exits proven from sector conservation: lens (SE states, CΨ ≈ 0.07, slow Liouvillian mode, preserves excitation count) and cusp (multi-sector states, CΨ ≈ 0.33, cross 1/4 fold, only population distribution survives). Geometrically separated, not complementary halves |
 | [CΨ in the Complex Plane](CPSI_COMPLEX_PLANE.md) | Complex-valued CΨ extends the boundary to 2D: trajectories spiral in c-plane around \|c\|=1/4 circle with rotation rate Ω/(4γ). Observed on ibm_kingston with two Bell⁺ pairs at opposite 7.59 kHz and 4.36 kHz z-detuning |
 | [GHZ+W Sector Mix](GHZ_W_SECTOR_MIX.md) | Family \|ψ(α)⟩ = α\|GHZ_3⟩ + √(1−α²)\|W_3⟩ reaches min pair-CΨ(0) = 0.320 (1.28× above fold) at α²_opt satisfying irreducible sextic 2900x⁶ − ... = 0. The 0.320 value is GHZ+W-slice specific to N=3; other slices (central-Dicke triples) lift cpsi above 1/4 at every N (cpsi(N) → 0.4312 at N→∞, also a sextic root). All saddles on the full sphere |
+| [Fold and Cusp: Two Seams](FOLD_AND_CUSP_TWO_SEAMS.md) | The palindrome fold at Re = −Nγ and the coherence-horizon merge cusp coincide only at N=2 and separate as N grows; the cusp drifts −2γ → −4γ. Tier 1 for the computed geometry, Tier 2 for the reading |
+| [Envelope Rise Boundary](ENVELOPE_RISE_BOUNDARY.md) | Where the full-state CΨ envelope starts to rise: certified a pure (N, Q=J/γ) observable, with an N ≥ 4 floor (N=3 never rises even at Q=2000) and a Q_c(N) contour, Q_c(4) ≈ 27, Q_c(5) ≈ 45 |
+| [Operator Rigidity Across the Cusp](OPERATOR_RIGIDITY_ACROSS_CUSP.md) | EQ-031: the 120-Pauli-pair F87 trichotomy interrogated across the CΨ = 1/4 cusp and the N=3 → N=4 regime boundary. Tier 1 simulation, 0/120 category shifts; 15 truly / 46 soft / 59 hard fully stable |
+| [Coherence Horizon: the EP-Sensor Debate](COHERENCE_HORIZON_EP_SENSOR_DEBATE.md) | The coherence-horizon exceptional point Q*(N) taken to the EP-sensor debate: genuinely defective by four routes at N=2-5, Petermann factor diverges in kind only, peak height a grid artifact. Geometry Tier 1, debate contribution Tier 2, no metrological verdict |
+| [R=CΨ² as Decoherence Readout](RCPSI_DECOHERENCE_READOUT.md) | The Born-rule deviation C = R/Ψ² read as a γ-meter grounded in F94. Tier 2/3: leading order Tier-1 proven, invertibility gate-verified numerically rather than analytically, and convention-dependent |
 
 ### Palindromic Spectral Structure
 
@@ -152,6 +160,23 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [U(1) Breaking](U1_BREAKING.md) | U(1) decoupling at ε=0 is a knife edge. Transverse field H(ε)=H_Heis + ε·Σ X_k breaks sector block-diagonal structure: slow-mode SE fraction drops 1.0 → 0.46 at ε=1.0. Bell-pair coupling emerges linearly in ε (slope ≈1); central pair (1,2) stronger than edge pairs |
 | [F73 U(1) Generalization](F73_U1_GENERALIZATION.md) | (vac, S_1) coherence purity closure Σ_i 2\|ρ_coh,i(t)\|² = (1/2)·exp(−4γ₀t) holds exactly at N=5 for Heisenberg, XXZ (Δ ∈ [0.5, 2.0]), inhomogeneous J, Haar-random probes. Requires only [H, N_total]=0 and uniform γ₀ |
 | [Degeneracy Hunt](DEGENERACY_HUNT.md) | The 14-fold degeneracy at N=5 is not structural. SU(2) broken by Z-dephasing. All degeneracies are accidental coincidences from absorption-theorem rate formula Re(λ) = −2γ⟨n_XY⟩ placing modes with identical ⟨n_XY⟩ at the same decay rate |
+| [The Atmosphere-Cluster](ATMOSPHERE_CLUSTER.md) | Tier 2 structural characterization of a 32-mode (N=6) / 24-mode (N=5) intrinsic F1-mirror-pair cluster: intrinsic to uniform γ, ε only shifts \|Im\|. Four findings verified; closed form \|Im\|(N, J, γ) still open |
+| [Gamma Fold: a Pair of Mirrors](GAMMA_FOLD_PAIR_OF_MIRRORS.md) | The two involutions on the γ axis, the gain turn and the anti-watch turn, chained by the exact identity L_anti(γ) = L(−γ) − 2σ·Id; composing them translates by 2σ. Adopted into MirrorWorld as `GammaFold` |
+| [Majorana Axis Modes](MAJORANA_AXIS_MODES.md) | Empirically verified at N=4, bit-exact: site-reflection R sorts the 94 axis modes into 58 even and 36 odd, all 18 silent modes are R-even, and Im(λ) decomposes into integer combinations of the golden-ratio Majorana dispersion {±φ, ±1/φ} |
+| [Survivor Flip and Reflection-Odd](SURVIVOR_FLIP_AND_REFLECTION_ODD.md) | Gate-first verified at N=4, 6 for chain and ring: the half-filling survivor is X^⊗N-odd, reflection-odd, not fixed by staggered particle-hole, and dark with real λ; one antisymmetric Neumann density wave read three ways |
+| [Slow-Mode R-Parity](SLOW_MODE_R_PARITY.md) | Slow-mode spectrum decomposed by site-reflection parity at N=4, 5, 6: the stationary subspace is exclusively R-even (dim N+1), the first slow band R-balanced, F86 lives entirely in R-even, leaving a parallel R-odd channel awaiting a probe |
+| [V-Effect Boundary Localization](V_EFFECT_BOUNDARY_LOCALIZATION.md) | Computational (Tier 1-2), residual 10⁻¹⁵ at N=3, 4: the palindrome holds exactly in the extreme XY-weight sectors w = 0 and w = N for every 2-body H; all breaking is confined to 0 < w < N and needs bit_b-parity-violating terms |
+| [V-Effect Fine Structure](V_EFFECT_FINE_STRUCTURE.md) | Computational (Tier 1-2): the 36 two-term combos re-run under the strict operator equation give 33 broken vs 3, against the V-Effect's 14 vs 22; the gap is a new 19-case soft-break class the spectrum-pairing test missed |
+| [Two-Term Palindrome: Klein Routing](TWO_TERM_PALINDROME_KLEIN_ROUTING.md) | Computed (Tier 2), bit-exact at N=3, 4, 5: the 12 two-term Hamiltonians that break X-parity yet keep the mirror are routed onto their hidden-symmetry Q families by the Klein-Vierergruppe index of their bilinears |
+| [The Palindrome Classifier](THE_PALINDROME_CLASSIFIER.md) | First reading of the settled C# palindrome classifier as a tool: it reads Hamiltonian terms, not the 4^N spectrum, so it never meets the N=8 wall. Charts the protected interior and the two coasts (field, frustration) where protection ends |
+| [PTF Palindrome-Breaking Perturbations](PTF_PALINDROME_BREAKING_PERTURBATIONS.md) | Tier 2 computed: a single-site transverse field breaks the PTF time-rescaling closure Σ ln α ≈ 0 entirely (up to +5.6, RMSE blows up), but the surprise is that the field does NOT break the palindrome |
+| [Z⊗N Partnership](Z_N_PARTNERSHIP.md) | Simulation only (Aer/numpy), hardware sketch open: Z⊗N is a strong symmetry whenever every H term and jump operator carries an even number of X/Y factors, so the X-basis Néel mirror pair diagnoses single transverse fields, which break it |
+| [Chain Gap Sector Diagnostic](CHAIN_GAP_SECTOR_DIAGNOSTIC.md) | Tier 1 candidate: the chain dissipation-gap slow mode lives in the central diagonal popcount block, the Absorption Theorem matches it bit-exact at N=4, 5, 6, prefactor ⟨n_XY⟩ ≈ 0.55·Q²/N² to ~1% |
+| [XXZ Axis: Band-Edge to Lebensader](XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md) | Tier 2 computational, bit-exact at N=4, 5 (the two-clocks charge/spin reading Tier 3): walking Δ along the XXZ axis, the slowest mode relays from the bright band-edge to the Lebensader at a handover Δ* read by bisection |
+| [Filling Threshold Chaos](FILLING_THRESHOLD_CHAOS.md) | Tier 1, live-witnessed (`inspect --root fillcsr`): dissipative quantum chaos in the XXZ dephasing spectrum turns on with filling, the excitation density, not with breaking integrability. The Galois door-C question returned a clean null |
+| [τ_max and the Spectral Gap](TAU_MAX_SPECTRAL_GAP.md) | Rejected: the auto-extracted τ_max = ħ/√(λ₂·J²) is wrong twice over (square root, spurious 1/J). The relaxation clock is τ = 1/λ₂ = 1/(2γ), set by γ alone; J sets frequencies, not rates |
+| [The Shared Skeleton](THE_SHARED_SKELETON.md) | Six small systems (chain, water, benzene, butadiene, cyclobutadiene, hexatriene) at Q = 1.5 with their Liouvillian spectra overlaid: what is shared is law (F1 palindrome, absorption rungs, the real-axis diagonal); the fine structure is each Hamiltonian's own |
+| [The One-Four Thesis](ONE_FOUR_THESIS.md) | Asks whether every period-4 structure in the repo is the same quarter-turn of i. Closed: the strong sameness form is refuted at every N in closed form (deviation ±2^(N−1)); the factorization form V_g = Ad(U_g)∘Π²∘K is derived and exact |
 
 ### Decoherence Diagnostics (Cockpit Framework)
 
@@ -177,6 +202,8 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md) | θ connects to the channel (r=0.87 with fidelity), not to the echo |
 | [Orphaned Results](ORPHANED_RESULTS.md) | Topology as gatekeeper, antiferromagnet crossing, echo characterization |
 | [Optimal QST Encoding](OPTIMAL_QST_ENCODING.md) | Negative result: standard encoding already near-optimal |
+| [Star Confocal Limit](STAR_CONFOCAL_LIMIT.md) | Tier 1 derived: the star's Casimir gap gives Im_max = J·N/2 for every N ≥ 3 and every (J, γ). Saturation max\|Im λ\| = ΔE_max is universal, but the star uniquely minimises ΔE_max among connected graphs (searched N ≤ 6) |
+| [The Hub Kills the Horizon](THE_HUB_KILLS_THE_HORIZON.md) | Refuted (Tier 2, numerical) at N=5, 6, 7: the wheel graph builds no coherence-horizon bridge from star to ring at any ε ∈ [0.1, 50]. The hub, not the bandwidth, is decisive; removing it restores a finite Q* |
 
 ### IBM Quantum Hardware
 
@@ -189,6 +216,31 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Chain Selection Test](CHAIN_SELECTION_TEST.md) | Sacrifice-top vs mean-T2-top chain (no DD, real IBM gammas). Protection 2.86x confirmed spectrally. Sacrifice score is within-chain metric; between chains, total noise dominates |
 | [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | Shadow investigation, IBM skeleton analysis |
 | [IBM Absorption Theorem](IBM_ABSORPTION_THEOREM.md) | Absorption Theorem ratio 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs period. 2.8% slow tail at resolution limit |
+| [IBM Concentrator Reloaded](IBM_CONCENTRATOR_RELOADED.md) | Site-resolved Absorption-Theorem pricing flown on ibm_kingston 2026-07-11 after a committed pre-registration: A-sign CONFIRMED at ≈ 5.8σ, A-magnitude off-prediction and marginal, L null-consistent |
+| [IBM F129 Ramsey Fringe](IBM_F129_RAMSEY_FRINGE.md) | The F129 level collision (1,5,7) ~ (2,4,8) at n = 9 as a standing Ramsey fringe. Pre-registered before the shot, flown and confirmed on ibm_kingston 2026-07-15 |
+| [IBM Block-CΨ Saturation](IBM_BLOCK_CPSI_SATURATION.md) | Tier 2, hardware-verified: block-CΨ on ibm_kingston q13-q14 reaches 88.2% of the 1/4 ceiling at t = 0, and the closed-form (1/4)·exp(−4γt) trajectory fits 5 t-points at R² = 0.9977 |
+| [IBM K-Partnership Sketch](IBM_K_PARTNERSHIP_SKETCH.md) | K-partnership folding of the F67 receiver menu cross-validated on ibm_marrakesh: partner-pair deviations 15% and 46% Δ/mean on hardware versus 0.02 to 0.25% on Aer, making site and bond asymmetry measurable |
+| [IBM Receiver Engineering Sketch](IBM_RECEIVER_ENGINEERING_SKETCH.md) | First receiver-engineering flight on ibm_kingston at N=5: bonding:2 beats the alt-z-bits baseline on MI(0, 4) by 2.80×, so the receiver advantage survives real hardware decoherence |
+| [Marrakesh: Three Layers](MARRAKESH_THREE_LAYERS.md) | Tier 1 hardware-grounded synthesis: the ibm_marrakesh soft-break dataset re-read through three nested layers, F87 trichotomy → F80 M-spectrum → 7 observable categories; also shows the dataset's original T1-amplification hardening hypothesis is quantitatively wrong (Trotter n=3 discretization) |
+| [Polarity Fingerprint (Tier-B Marrakesh)](POLARITY_FINGERPRINT_TIERB_MARRAKESH.md) | `fw.polarity_fingerprint` applied to 11 hardware-tested Hamiltonians across 3 Tier-B Marrakesh/Kingston datasets: 11/11 F112 BALANCED bit-exact, 8/11 in typed scope, so F112's typed scope is sufficient but not necessary |
+| [F112 Hardware Lens (Kingston)](F112_HARDWARE_LENS_KINGSTON.md) | F112 polarity diagnostic run on Liouvillians fitted to Kingston hardware trajectories. Status: the model family is wrong for this data, so it identifies no noise channel; the channel question is open and needs a redo |
+| [F113 T1 Extraction (Kingston)](F113_T1_EXTRACTION_KINGSTON.md) | First hardware use of the F113 closed form as a diagnostic: inverting it on Kingston f95 data recovers γ_T1 self-consistently to machine precision; the fit-versus-calibration gap (1.14 to 1.47) is read as absorbed non-T1 noise, not separable from epoch drift |
+| [F120 Moment Tower (Kingston)](F120_MOMENT_TOWER_KINGSTON.md) | F120's moment tower flown on ibm_kingston with no two-qubit gates: the structural law is confirmed (rung 1 silent, rung 2 fires, m* ≤ 5). The first rate-layer reading of a pump-bound violation was corrected the same day to T1 telegraphing between epochs |
+| [F81 Violation: Hardware Bridge](F81_VIOLATION_HARDWARE_BRIDGE.md) | Grounds the f81_violation operator diagnostic into a measurable number: it IS 2^(N−1) times the RMS identity-escape velocity. The missing heating leg was flown twice, closing the attribution and giving V_σ± = 0.02491 ± 0.00015 /µs on Marrakesh |
+| [γ₀ Is Always There](GAMMA0_IS_ALWAYS_THERE.md) | Reading the carrier Q = J/γ₀ off its only lever J on ibm_kingston q13-q14: the coherent swing is born exactly at Q = 1, and the first-peak step halves as J doubles |
+| [Clock Field: Site-Owned](CLOCK_FIELD_SITE_OWNED.md) | Three pre-registered questions put to four IBM calibration histories: 1/T2 is site-owned on all four (ICC 0.74-0.87), no compensation anywhere, Kingston and Fez common-mode, Torino independent. The PTF label is flagged as a reading |
+| [Concentrator A/B Mechanism Test](CONCENTRATOR_AB_MECHANISM_TEST.md) | Negative result plus methods lesson, arc PARKED: three ibm_kingston runs failed to settle concentrator mechanism A vs B; created-MI was 56-96% classical-mixing artifact and measures transport, not protection |
+| [Fold Shadow in Existing Hardware](FOLD_SHADOW_IN_EXISTING_HARDWARE.md) | Tier 2 honest record, deliberately NOT a Confirmations entry: a sweep of ~96 existing hardware files finds the F89d fold/price signature present but degraded, broken by the SPAM noise floor, so the pre-registered price-pair run is genuinely needed |
+
+### Hardware Pre-Registrations (predictions frozen before the shot)
+
+| Experiment | Key finding |
+|-----------|------------|
+| [Record Parity](RECORD_PARITY_HARDWARE_PREDICTION.md) | Pre-registration of the signed record-parity angle law on IBM hardware. v33, SIM-GATE STAGE, NOT FLOWN: design rounds 1 through 31 folded, sim gate built and rehearsed (joint power 0.9834 at the worst corner); binding freeze and Tom's explicit go still ahead |
+| [Price Pair](PRICE_PAIR_HARDWARE_PREDICTION.md) | Pre-registered test of the F89d price law Γ(D) + Γ(D̄) = Σγ_j as a device invariant; since flown, four runs on ibm_marrakesh 2026-07-04. The law held wherever noise was local; deviations decoded into drift, quasi-static dephasing and coherent nearest-neighbour ZZ ≈ 4 kHz |
+| [Staircase Null-Test](STAIRCASE_NULLTEST_HARDWARE_PREDICTION.md) | Pre-registration (v3, no hardware data): the conditional-Ramsey rate side on ibm_kingston, testing the exact dephasing null Δ(m) = Γ_tot,m(1 − 2p∞,m). Protocol, estimator and σ bands frozen |
+| [Chiral Mirror](CHIRAL_MIRROR_HARDWARE_PREDICTION.md) | Tier 1 kinematic prediction from K_1 symmetry: K_1-paired sine modes give ⟨X_i⟩ → +(−1)^i, ⟨Y_i⟩ → −(−1)^i, ⟨Z_i⟩ identical. Verified in simulation to 10⁻¹⁶; hardware protocol proposed on Heron r2, not yet flown |
+| [F130 Hardware Infeasibility](F130_HW_INFEASIBILITY.md) | Design-stage null result, no QPU spent: the F130 beat protocol cannot fly on Heron-class hardware. The collision survives Trotterization but the beat amplitude dies, redirecting the hardware question to a first-order observable |
 
 ### Benchmarks and Comparisons
 
@@ -198,6 +250,60 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Localizable Entanglement](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) | LE vs CΨ comparison: three-layer separation (CoA/LE/CΨ) |
 | [Metric Discrimination](METRIC_DISCRIMINATION.md) | Null result: single-system simulation cannot discriminate metric forms locally. K-invariance confirmed across 50× γ range (R²=0.9999) |
 | [Q-Scale Three Bands](Q_SCALE_THREE_BANDS.md) | Dimensionless scale Q = J/γ₀ governs dynamics; three algebraic bands: pre-onset Q<0.3 (no mixing), transition Q∈[1.2,2.0] (maximal H-mixing), plateau Q>2. Peak responsiveness is chromaticity-specific: Q_peak(c=2)=1.5, Q_peak(c=3)=1.6, Q_peak(c=4)=1.8, stable N=4-8. Enables γ₀-extraction via J*/Q_peak(c) |
+| [Naked vs Chain Benchmark](NAKED_VS_CHAIN_BENCHMARK.md) | A naked Bell pair under Z-dephasing against F67 bonding-mode chain encoding with dephasing only at the far end: protection 4.0× at N=3, 7.2× at N=4, 12.0× at N=5, at the cost of reduced initial concurrence |
+| [Receiver vs γ-Sacrifice](RECEIVER_VS_GAMMA_SACRIFICE.md) | γ-profile sacrifice-zone engineering against receiver choice at uniform γ₀, via C# brecher scans at N=5, 7, 9. Tier 2: receiver choice wins by 11.5× in absolute Peak Sum-MI, 15.4× with moderate J-modulation. Carries a correction note on superseded coarse-grid Python numbers |
+| [Dicke vs Endpoint Probe (JW, N=11)](DICKE_VS_ENDPOINT_PROBE_JW_N11.md) | JW algebraic comparison of Dicke against endpoint-localized probes at N=11. The critical finding is negative: the \|C_b\|² formula is F71-invariant but inverted at Center, so it cannot predict the F86 g_eff bond dependence; the signed sum shows interference at Orbit 2, not Center |
+| [J-Blind Receiver Classes](J_BLIND_RECEIVER_CLASSES.md) | Tier 2: states whose observables do not respond to J at all, sorted into three mechanisms (DFS plus bond-eigenstate, H-degenerate subspace closed under L_D, M_α-polynomial). The single-mechanism reading was wrong; chromaticity and N-scaling stay open |
+
+### The F89 Family (the octic, its monodromy, its Galois group, its seeds)
+
+| Experiment | Key finding |
+|-----------|------------|
+| [Path-K Galois](F89_PATH_K_GALOIS.md) | Tier 1 derived: the algebraic certificate Gal(F₈/ℚ(i)(q)) = S₈, with path-3..6 giving S₈/S₁₈/S₃₂/S₅₃, all non-solvable, so the H_B-mixed relaxation rates are unwritable in radicals. Tier 2 for the amplitude q-dependence |
+| [Path-K Diabolic](F89_PATH_K_DIABOLIC.md) | Tier 1 for the mechanism, Tier 2 for completeness: free-fermion integrability keeps the diabolic crossings at every N, Δ-verified; their placement on the physical real q axis is parity-gated, odd N ≥ 7 |
+| [Monodromy Mirror](F89_MONODROMY_MIRROR.md) | Tier 1 derived: octic monodromy generates S₈ from eigenvalue braids, and the mirror's base-space face q ↦ −q̄ intertwines it; but the Re λ = −4 fibre fold does not commute with the braiding, so the mirror splits at the Galois boundary |
+| [Multi-Sector Monodromy](F89_MULTI_SECTOR_MONODROMY.md) | Tier 1 derived multi-sector census: the S₈ braid is confined to the D₄ orbit at N=4 but spreads to a 12-sector joint-popcount diamond at N=5. Exclusion half derived at N=5, census evidence through N=11 |
+| [Branch Locus Palindrome](F89_BRANCH_LOCUS_PALINDROME.md) | Tier 1 derived: the path-3 octic's EP and diabolic branch locus mirrors about Re λ = −4, forced by the F1 palindrome carried antiunitarily; verified on the committed octic to 4·10⁻¹³, no orphan |
+| [Beta-Exotic Genericity](F89_BETA_EXOTIC_GENERICITY.md) | Asks whether each count-dropping F89 seed is a generic √-type EP2. Reduces to s₆ ≠ 0, settled unconditionally over ℚ at N = 5, 7, 9 for both R-parities; open for all N |
+| [Seed Existence Reduction](F89_SEED_EXISTENCE_REDUCTION.md) | Turns the codim-1 corollary's one numerical input into an exact counting identity: a real defective seed is forced at every odd N because a path graph on odd vertices carries a zero mode, modulo a genericity check and the literal-count reading premise |
+| [Topology Controls Galois Writability](F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md) | Tier 1 derived: bond-graph topology controls radical-writability. The complete graph caps factor degrees at 4 (writable for all N), the star at a fixed S₉, while ring and chain grow into full S_n. Tier 2 for the exact growth forms |
+| [Topology Orbit Closure](F89_TOPOLOGY_ORBIT_CLOSURE.md) | Tier 1 derived: the spatial-sum coherence S(t) depends only on the S_N orbit (topology class) of the bond set, not on bond placement; verified bit-identical at N=7 across all 14 classes and at N=4 across all 6 site pairs |
+| [Seed Holonomy: the Third Clock](SEED_HOLONOMY_THIRD_CLOCK.md) | Closed: the i⁴ = 1 eigenvector-frame holonomy around the defective seed is generic complex-symmetric EP2 geometry, a third clock of its own, not Π's Z₄; gated by 24 checks plus C# pins |
+
+### The Lattice Thread (bridged worlds, dead sets, the opening law)
+
+| Experiment | Key finding |
+|-----------|------------|
+| [Lattice Opening Law](LATTICE_OPENING_LAW.md) | Verified from below, with a C# pin: on the cat pair the lattice opening is exactly max(cos²θ, sin²θ) − cosθ·sinθ·e^(−2Γt), the heavier sock minus the living spook, J-blind because the cat sector is H-dead |
+| [Dead-Set Rule](LATTICE_DEAD_SET_RULE.md) | Verified from below and minted as F132 (necessity Tier 1 derived, sufficiency Tier 2 gated): three conserved structures decide which Pauli readouts die identically. The inherited hand-spotted candidate rule was falsified |
+| [Dead Set at h = 0](LATTICE_DEAD_SET_H_ZERO.md) | Verified from below: the F132 dead-set law is generic along the h axis (allowed readouts ≥ 5·10⁻³, forbidden at machine zero), and at h = 0 it refines because the Majorana hopping graph disconnects into two components |
+| [Dead Set: the ZZ Face](LATTICE_DEAD_SET_ZZ_FACE.md) | Verified from below: turning on ZZ makes the F132 dead set jump to its full revived size already at zz = 10⁻⁴, while magnitudes cross over as zz^m with exact integer Majorana-degree orders, worst slope deviation 0.0006 |
+| [Lattice H-Thread](LATTICE_H_THREAD.md) | Verified from below: X^N is a third mirror of the F131 order-sorting law. With a field the one-sided reading leaves the world-family entirely, satisfying a mixed two-field pencil, and a second antiunitary mirror forces 48 of 63 readouts to zero |
+
+### The Frozen Band and the Ceiling
+
+| Experiment | Key finding |
+|-----------|------------|
+| [What Reaches the Ceiling](WHAT_REACHES_THE_CEILING.md) | The measurement side of F145 and F146 (proof in [PROOF_SCALAR_COUNT](../docs/proofs/PROOF_SCALAR_COUNT.md)), kept in the order the afternoon went, including two readings killed within the hour: the floor-attaining states are one spin-1 per chiral pair, counted C(⌊N/2⌋, ℓ)·R_ℓ with R the Riordan number |
+| [The Exceptional Couplings](THE_EXCEPTIONAL_COUPLINGS.md) | The measuring, deliberately unnamed and given no F number: the frozen-band ceiling fails at isolated real couplings. Existence proved, the (2,2)-singlet count exact through N = 8, the complete all-rung count exact only at N = 5 |
+| [η-Ceiling Reduction](ETA_CEILING_REDUCTION.md) | The frozen-band ceiling certificate moved off the block onto V₀ = ker(ad_h), certified per rung by exact GF(q) rank; the law min 𝒦 on LW_ℓ ∩ V₀ = ℓ(N−ℓ)/(N+1) closes the ceiling for all N ≥ 6, its inequality half now proved, attainment still measured |
+| [XY Frozen Band](XY_FROZEN_BAND.md) | On the R₉₀ locus the XY chain carries λ = −4γ̄ not just in F140's corner blocks but across the whole band \|p − q\| ∈ {0, 2}, 3(N − 1) blocks at depth ⌊N/2⌋. Census N = 4 to 7, band-edge probes N = 8, 9, 10, ceiling by exact GF(p) rank |
+| [Ceiling: Four Non-Local Cases](CEILING_FOUR_NONLOCAL_CASES.md) | The palindrome ceiling of non-local k-body cases, narrowed 6 → 4 → 2 → 0: the last Z-middle pair is palindromized by the period-4 golden router, so the arc is closed at zero non-local cases |
+
+### F-Registry Readings (F64 through F130)
+
+| Experiment | Key finding |
+|-----------|------------|
+| [F64 Topology Generalization](F64_TOPOLOGY_GENERALIZATION.md) | Tier 1: F64's cavity-mode-exposure rate α_k = 2γ_B·\|a_B(ψ_k)\|² generalizes to chain, star, ring, complete and Y-tree at N=5 and N=7, max relative error < 0.001 in the first-order regime |
+| [F86: the EP Through the Clock](F86_EP_THROUGH_THE_CLOCK.md) | Reads F86a's exceptional point through the clock's Takt and Rotation hands. Status says a seeing, not a proof and not a closed form, with γ_crit(N) and K(N) deliberately left open |
+| [F87 Windowed Converse per Block](F87_WINDOWED_CONVERSE_PER_BLOCK.md) | Localizes where the F87 palindrome pairing breaks, per frequency block, via the transpose relation M(−ω) = M(ω)^T, bit-exact at N=4. A sharpening, not a proof; superseded 2026-06-09 and closed by the two-reflection monomial theorem |
+| [Bipartite Chirality, Diagonal Cell](BIPARTITE_CHIRALITY_DIAGONAL_CELL.md) | F87 soft ⟺ H's hopping graph is bipartite in the dephasing basis, bit-exact at k=3 and k=4 with zero mismatches. Bipartite ⟹ soft derived; the windowed converse closed as a theorem 2026-06-10 |
+| [Softness Is N-Dependent](SOFTNESS_IS_N_DEPENDENT.md) | Tier 2 computed, bit-exact: the F87 soft/hard verdict is not stamped on the Hamiltonian. The 4-body witness XXXX+XYYY+YYYX is genuinely soft at N=5 (pairErr 8.7×10⁻¹⁴) and genuinely hard at N=6 (0.2), a finite-size crossing, not a tolerance artifact |
+| [F112 Non-Hermitian Basis Enumeration](F112_NONHERMITIAN_BASIS_ENUMERATION.md) | F112's non-Hermitian extension: Tier-1 derived for all N via a two-lemma structural proof, with the N=2..6 basis enumeration (8,950,568 pair F-values, all bit-exact 0 or < 1e-10) preserved as the empirical anchor |
+| [F113 Break-Magnitude Formula](F113_BREAK_MAGNITUDE_FORMULA.md) | Closed form for the F112 polarity-asymmetry break when the typed scope is violated: asymmetry = (4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l). Tier 1 derived at N=2, 3, 4 by constructive parameter sweep |
+| [F115 Obstruction Distribution](F115_OBSTRUCTION_DISTRIBUTION.md) | Tier 2 (computed, in progress): the F115 obstruction-size distribution collapses to the d=0 layer, the Δ-bucket count and the size-3 floor are closed, and the middle sizes are located as a number-theoretic hard core, not closed |
+| [F129 Family Inventory](F129_FAMILY_INVENTORY.md) | Counts every F129 level-collision family: thirteen families with exact closed forms, the family list forced at every n, counts verified on every firing n ≤ 140 plus n = 150 and 210, and since derived |
+| [F130 Time-Domain Decoupling](F130_TIME_DOMAIN_DECOUPLING.md) | F130 read as dynamics for the first time: a generic mode pair couples as q², the equal-level pair as q⁴ with the q² and q³ terms exactly absent, two orders of perturbation theory removed |
 
 ### Additional Experiments
 
@@ -237,6 +343,14 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Hydrogen Bond Qubit](HYDROGEN_BOND_QUBIT.md) | Zundel cation proton crosses CΨ = 1/4 fold 6 times in 21 fs; every water molecule produces ~10-70 fold crossings per picosecond |
 | [Primordial Qubit Algebra](PRIMORDIAL_QUBIT_ALGEBRA.md) | Π creates proper Z₂-graded super-algebra M_{2\|2}(ℂ) with block-off-diagonal L_c; Tomita-Takesaki connection ruled out (Π linear, J anti-linear) |
 | [N=5 Check](N_EQUALS_FIVE_CHECK.md) | All six N-scaling metrics (max multiplicity, fraction distinct, slow-mode rate, slow/Σγ, max sector dimension) are monotonic with N. N=5 is not extremal on any axis; repeated N=5 appearance is selection bias from IBM Torino chain hardware, not physics |
+| [Exchange from the V-Effect](EXCHANGE_FROM_V_EFFECT.md) | Tier 1-2: the V-Effect bridge between two Heisenberg pairs generates an effective exchange J_eff = (3/8)α²/J, the 3/8 prefactor derived from Pauli algebra alone, numerics at N=4 matching second-order PT to 1.4% at α=0.05 |
+| [Asymmetric Exchange from the V-Effect](ASYMMETRIC_EXCHANGE_FROM_V_EFFECT.md) | Second-order PT for two asymmetric Heisenberg pairs bridged by α: δE_GS = −3α²/(4(J_A+J_B)), matching exact N=4 diagonalization to 0.2-0.8% at α=0.025. Tier 1-2, computational plus analytical |
+| [Coupling Defect: the Walk-Time Step](COUPLING_DEFECT_WALK_TIME_STEP.md) | Pre-registered and computationally verified at N=7, 20, 60, 120: a single-bond defect δJ writes a pure downstream arrival-time step −δ/(2J), exact at first order. It is NOT the PTF's α_i object, which responds smoothly and nonlocally |
+| [Front Pedigree](FRONT_PEDIGREE.md) | Computationally verified by three methods: the F126 renewal ladder resolved by catch count. Front survivors are mostly rebirths, lightly caught (⟨j⟩ = 1.38 against Γt* = 5), with last rebirths spread across the whole trip |
+| [Quantum Darwinism: the Pointer Door](QUANTUM_DARWINISM_POINTER_DOOR.md) | Zurek's redundancy refcount computed in our N=8 chain. The arc minted F135 (record parity trichotomy) and F136 (record letter law): transport never broadcasts, fully-witnessed worlds are exactly the stars and complete graphs, the heavy-hex bulk is dark |
+| [Neural Clock: Two Hands](NEURAL_CLOCK_TWO_HANDS.md) | Splits the neural Jacobian eigenvalue into a Takt hand and a Rotation hand. Tier 2 computational: the Takt identity mean Re λ = trace(J)/d = −S is exact and wiring-independent, confirmed to six decimals on three graphs |
+| [Flavor-Resolved T2 Inheritance](FLAVOR_RESOLVED_T2_INHERITANCE.md) | Tier 2 numerical inheritance, N = 1..6: the two-flavor T2 lifetime split of the carbon ring reappears on a water proton wire and a neural network. The hoped-for clean fractions 4/3, 8/7 do NOT hold; the water and neural readings are Tier 3 |
+| [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md) | Seen, not yet understood; parked for future us. Numbers verified to machine precision, interpretation deliberately left open: the settled state is never reached yet already present at t = 0, and only the closed forms sit at the two edges |
 
 ---
 
