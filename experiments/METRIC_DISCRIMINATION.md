@@ -41,7 +41,7 @@ is the Lindblad scaling symmetry τ = γ·t.
 Nine Lindblad simulations spanning a 50× range in dephasing rate γ (0.01 to
 0.50) confirm that γ·t_cross = K is constant (measured 0.039 ± 0.0006 in
 the tool's feedback model, R² = 0.9999, power-law exponent α = −0.992;
-exact standard-Lindblad K = 0.036, see the reproducibility note in §3.1). This K-invariance is a mathematical identity
+exact standard-Lindblad K = ln(4/3)/8 = 0.03596, see the reproducibility note in §3.1). This K-invariance is a mathematical identity
 of the Lindblad equation: solutions depend only on the product γ·t, so the
 crossing time scales as 1/γ by construction. A single quantum system at a
 single location cannot distinguish different functional forms of γ(r), which
@@ -241,7 +241,7 @@ Bell+ with Ising + transverse field (h=0.5) shows wild oscillations in C, Ψ, an
 
 | What we tested | Result |
 |---|---|
-| γ * t_cross = K across 50x range in γ | CONFIRMED (K = 0.039, R^2 = 0.9999) |
+| γ * t_cross = K across 50x range in γ | CONFIRMED (R^2 = 0.9999). K = 0.039 in the February tool's feedback model, 0.0360 in standard Lindblad; the constancy holds in both books, only the constant differs (§3.1) |
 | Power law exponent α = -1.00 | CONFIRMED (α = -0.992) |
 | Can single-system sims discriminate metric forms? | NO (mathematical identity) |
 | Is K state-dependent? | NO (Bell+ = Bell- for symmetric noise) |
@@ -251,7 +251,7 @@ Bell+ with Ising + transverse field (h=0.5) shows wild oscillations in C, Ψ, an
 
 **UPDATE**: The self-consistency approach (Path 5.2) succeeded. See [Self-Consistency: Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md) (Tier 4, not restored). [FALLEN]
 
-**UPDATE 2026-02-18**: K-invariance has been extended to all three crossing bridges (concurrence K=0.039, mutual_info K=0.033, correlation K=0.072). More importantly, K-invariance is now understood as a consequence of Lindblad scaling symmetry τ = γ·t, not a specific property of the ¼ boundary. See [Crossing Taxonomy](CROSSING_TAXONOMY.md).
+**UPDATE 2026-02-18**: K-invariance has been extended to all three crossing bridges (concurrence K=0.039, mutual_info K=0.033, correlation K=0.072; all three are the February tool's feedback-model readings, the standard-Lindblad values being 0.03596 / 0.02966 / 0.07192). More importantly, K-invariance is now understood as a consequence of Lindblad scaling symmetry τ = γ·t, not a specific property of the ¼ boundary. See [Crossing Taxonomy](CROSSING_TAXONOMY.md).
 
 ## 8. Recommended Next Steps
 

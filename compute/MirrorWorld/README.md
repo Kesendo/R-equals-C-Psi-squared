@@ -45,7 +45,7 @@ x/y/z; that is the inheritance edge System → Object.
 | `PauliMode.cs` | the symmetry-adapted superposition (a Pauli string of XY-weight k), four Klein cells; `Enumerate` the shared 4^N basis |
 | `Block.cs` | Grading B, the (N+1)² joint-popcount blocks C(N,p)·C(N,q) |
 | `Redistribution.cs`, `Clock.cs`, `Survivor.cs` | the static dynamics readings (H-on grid-leaving folds, θ = arctan Q, the survivor + the coherence horizon Q\*(N)) |
-| `Formulas.cs` | the adopted F-registry closed forms (94 members), each verbatim and tier-tagged |
+| `Formulas.cs` | the adopted F-registry closed forms (99 members over 62 distinct F/D ids, plus the two helpers `OmegaMem` and `Qstar`, so 101 public members), each verbatim and tier-tagged. The ids are NOT contiguous: 33 of F1..F71 are absent, so this file is a chosen subset of the registry and not a prefix of it. Count them by scanning every `public` line for an `F<n>_`/`D<n>_` identifier; a regex keyed on the return type misses the four tuple-returning members (F3, F7, F8, F63) and lands on 95/59/36 |
 | `Field.cs` | **the empty world, running**: weights on pairs, one `Step` is the disagreement-decay; structure (diagonal) stays, novelty (off-diagonal) fades |
 | `DoubleSlit.cs` | **the double slit, composed** (2026-07-12): `Field` at N=1 named under the phenomenon so it is recognizable where the atoms alone were not; humps = the immortal diagonal, fringe = the between paying −2γ, V = 2\|ρ_LR\|. Nothing new computed; meaning in `docs/quantum/DOUBLE_SLIT_TRANSLATED.md`, run mode `doubleslit` |
 | `Cat.cs` | **Schrodinger's cat, composed** (2026-07-12): `Field` at N, the k=N twin of `DoubleSlit` -- two definite branches \|0..0>,\|1..1> (the immortal diagonal) + the coherence between them (k=N) paying −2Nγ, dying N× faster than the slit's k=1. Nothing new computed; meaning in `docs/quantum/SCHRODINGERS_CAT_TRANSLATED.md`, run mode `cat N` |
@@ -76,8 +76,9 @@ x/y/z; that is the inheritance edge System → Object.
 ## The closed-form base (the stopping line 2026-06-28; coverage closed 2026-07-04)
 
 **The 2026-06-28 computable list is fully collected.** Every F-registry entry the stopping line
-counted as a "number or formula per N replacing a matrix computation" is in `Formulas.cs`: F1-F71
-contiguous (the core), the k-body residual trichotomy F85, the Mandelbrot cardioid F97,
+counted as a "number or formula per N replacing a matrix computation" is in `Formulas.cs`: the
+core out of F1-F71 (38 of the 71, NOT contiguous, the other 33 ids being registry entries the
+stopping line did not count as computable), the k-body residual trichotomy F85, the Mandelbrot cardioid F97,
 plus the tail F98 (Dicke asymptote), F121 (qudit palindrome), F122 (structural ceiling),
 F124 (band-edge invariant, whose end-weight E is exactly the k=1 rung of the already-adopted
 F65 ladder), and the D-relations D1/D4/D6. The last three remnants (F85, F97, F124), reserved

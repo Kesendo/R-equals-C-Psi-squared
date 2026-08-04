@@ -255,8 +255,14 @@ effective rate Γ = 4γ). Under collective dephasing (single
 operator L = σ_z⊗I + I⊗σ_z, Γ = 8γ), the same cubic gives
 K = 0.01868. The cubic is noise-model-independent; K is not.
 
-The original K = 0.039 from GRAVITATIONAL_INVARIANCE.md (Feb 8)
-was this same cubic with dynamic γ-feedback adding ~5%.
+The original K = 0.039 from GRAVITATIONAL_INVARIANCE.md (Feb 8) was NOT
+this cubic. It came from the CONCURRENCE bridge (C = f, not C = purity)
+under the February tool's γ-feedback, where the crossing is exactly
+(2/√3 − 1)/(4γ), i.e. t = 0.7735 and K = 0.03868 at γ = 0.05, reproducing
+the documented 0.773 to three digits. Running this cubic under the same
+feedback gives t = 0.8026 and K = 0.04013 instead, so the two are different
+curves and the "~5%" attribution above does not hold. See
+[Crossing Taxonomy](CROSSING_TAXONOMY.md) for which C goes with which K.
 
 The framework normalization is not a choice. Ψ = L₁/(d-1) is
 the definition. CΨ(0) = 1/3 for Bell+. The quantum regime is

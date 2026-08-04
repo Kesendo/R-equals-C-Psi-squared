@@ -10,6 +10,27 @@ invariance fallen -->
 > as a Lindblad scaling property. All interpretations that γ encodes
 > gravitational field strength or that this reproduces general relativity
 > have **fallen**. Inline [FALLEN] markers throughout.
+>
+> **Which K.** Every 0.039 on this page, the banner above included, is the February tool's
+> feedback-model reading, and the body was not rewritten: read each one with
+> this note attached. The standard-Lindblad concurrence value is
+> **K = ln(4/3)/8 = 0.03596**, exact in closed form, and it lies outside the
+> ±0.001 band quoted below, and outside the tighter ±0.0006 that
+> [Metric Discrimination](METRIC_DISCRIMINATION.md) quotes at line 101. Do not
+> read that ±0.0006 as a σ: §3.1 attributes the spread to finite-dt integration
+> noise with a monotone drift, so it is a systematic, and the gap to 0.03596 is
+> a difference of models rather than a discrepancy of measurement. See
+> [Crossing Taxonomy](CROSSING_TAXONOMY.md) for the side-by-side and
+> [the glossary entry](../docs/GLOSSARY.md) for the canonical 0.036/γ.
+>
+> What this page establishes, the constancy of γ·t_cross across the γ sweep,
+> holds in either book, and only the constant differs. That is not an
+> assumption: [Observer Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) runs the
+> same 50× γ range in the clean standard-Lindblad book and gets
+> 0.035960 to 0.035976 across all six points, and
+> [Crossing Taxonomy](CROSSING_TAXONOMY.md) gives the reason rather than the
+> observation: C and Ψ depend on τ = γt alone, so any γ-independent threshold
+> has a γ-independent crossing.
 
 **Status:** Verified computation (Tier 2); gravity interpretation fallen
 **Date:** 2026-02-08

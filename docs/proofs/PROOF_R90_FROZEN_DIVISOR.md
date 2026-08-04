@@ -188,6 +188,12 @@ B is doubly stochastic (B𝟙 = Bᵀ𝟙 = 𝟙), the anti-symmetric space is ki
 
 so rank G = ⌈N/2⌉ and **pdet(G) = M^{−⌊(N−1)/2⌋}**. ∎
 
+The XY half of this lemma was re-derived five days later, on its own, as [F143](../ANALYTICAL_FORMULAS.md#f143-the-seed-rung-in-closed-form-the-frozen-kernel-is-the-chiral-odd-sector-and-the-gap-above-it-is-one-over-the-transform-length-minted-2026-07-27) in [PROOF_FROZEN_BAND_SO4](PROOF_FROZEN_BAND_SO4.md) Section 6 (this lemma: 2026-07-22, commit `55451e4`; F143: 2026-07-27, commit `d831277`), which writes G = (1/M)·(𝟙𝟙ᵀ + (I + R)/2) without citing this one. At M = N + 1 the two expressions are equal and not merely cospectral, since (1 − 1/M)/N = 1/M there. The note is recorded in both directions so the pair is not read as two independent results.
+
+Two cautions when carrying F143's reading across. First, the law above is stated for the SITE-indexed B Bᵀ, while F143's G = W² is MODE-indexed; on the XY chain B is symmetric and the two coincide, but on the Heisenberg chain B Bᵀ ≠ Bᵀ B, so only B Bᵀ satisfies it. Second, F143 reads the kernel as the mode-chiral-odd sector, and that is an XY-only reading: under DST-I the mode swap k ↦ M − k is a symmetry of B, whereas the Heisenberg modes are k = 0..N − 1, where k ↦ N − k sends 0 out of range and is not an involution at all, so no mode-chiral sector exists there (site reversal acts on those modes as the diagonal sign (−1)^k, not as a permutation).
+
+In the site index the chirality needs no scan: 𝟙 is R-even, so the law makes ker(B Bᵀ) exactly the R-odd site space at every N on both chains. Together with the ⌊N/2⌋ count and the 1/M gap, that is what F143's picture keeps when it moves to the Heisenberg chain, and the mode-index chirality is what it loses.
+
 **Theorem (uniform-endpoint constants).** For every N ≥ 3, on the Heisenberg (M = N) and XY (M = N+1) open chains,
 
   **D_N = (−1)^{N(N−1)/2} · Π_{i<j}(λ_i−λ_j)² · M^{−⌊(N−1)/2⌋} ≠ 0.**

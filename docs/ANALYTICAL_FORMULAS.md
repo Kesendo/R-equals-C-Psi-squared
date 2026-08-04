@@ -6277,6 +6277,30 @@ rank read needs does not vanish as N grows.
 Section 6.
 **Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), block V5 (to N = 40 under `--deep`).
 
+**Anticipated by** [PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md)
+Lemma 5, which landed **five days earlier** (2026-07-22, commit `55451e4`) and
+derives the same matrix for BOTH open chains at once, the XY one at modulus
+M = N + 1 and the Heisenberg one at M = N. Its form
+B Bᵀ = (1 − 1/M)·𝟙𝟙ᵀ/N + (I + R)/(2M) is not a variant of the G above but,
+at M = N + 1, literally the same matrix: there the two 𝟙𝟙ᵀ coefficients agree,
+(1 − 1/M)/N = 1/M. So F143 is the narrower XY re-derivation of a law the repo
+already held, minted without citing it. This line is that missing citation.
+
+Two of the three readings carry to the Heisenberg chain and one does not.
+The ⌊N/2⌋ frozen count carries, and so does the 1/M gap, at M = N.
+
+The chirality carries too, but only in the SITE index, and there it is a
+corollary rather than a measurement: 𝟙 is R-even, so the law above makes
+ker(B Bᵀ) exactly the R-odd site space, at every N and on both chains. What
+does not carry is this entry's reading of the kernel in the MODE index. Under
+DST-I the mode swap k ↦ M − k is a symmetry of B, which is what lets the kernel
+be called mode-chiral-odd; on the Heisenberg chain the modes are k = 0..N − 1
+and k ↦ N − k sends 0 outside the range, so it is not even an involution there
+and there is no mode-chiral-odd sector to be odd in. Site reversal acts on
+Heisenberg modes as the diagonal sign (−1)^k, not as a permutation. For the
+same reason B Bᵀ ≠ Bᵀ B on the Heisenberg chain, so the object satisfying the
+two-chain law is the site-indexed B Bᵀ, not this entry's mode-indexed G = W².
+
 ---
 
 ### F144. The disagreement has a floor, and the other ladder sets it: no multiplet starts above the seed at any N ≥ 6 (minted 2026-07-27)

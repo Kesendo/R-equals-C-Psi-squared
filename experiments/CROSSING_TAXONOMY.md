@@ -39,8 +39,8 @@ information, both C and Ψ decay jointly), and Type C (mutual purity and
 overlap, initial CΨ already below 1/4, never cross). The dimensionless
 product K = γ × t_cross is constant within each type across a 20× range
 of dephasing rates (K_A = 0.072, K_B = 0.039 and 0.033 as measured by
-the February tool; the standard-Lindblad exact values are 0.0719 /
-0.0360 / 0.0297, see the reproducibility note at the K-table). This
+the February tool; the standard-Lindblad exact values are 0.07192 /
+0.03596 / 0.02966, see the reproducibility note at the K-table). This
 K-invariance is not a deep property of R = CΨ² but a trivial consequence
 of Lindblad scaling symmetry: all observables depend on the product
 τ = γt, not on γ and t separately. The depth lies in the 1/4 boundary
@@ -78,9 +78,22 @@ K-invariance follows trivially from the Lindblad equation's scaling
 symmetry. The dissipator is linear in γ, and the Hamiltonian is independent
 of γ. Therefore all observables depend on τ = γt, making K = γ × t_cross
 a constant by construction. The value is a property of concurrence
-applied to Bell+, not a universal constant (exact K = 0.0360; the
-February tool read 0.039 through its feedback model, see the
-reproducibility note at the K-table).
+applied to Bell+, not a universal constant. On the concurrence bridge the
+exact value is **K = ln(4/3)/8 = 0.03596**: there C = f with f = e^(−4γt),
+so C·Ψ = f²/3 and the ¼ crossing is at f = √3/2, giving K = −ln(√3/2)/4.
+Quote it as 0.03596, not 0.0360, when the word "exact" is attached.
+The February tool read 0.039 through its feedback model, see the
+reproducibility note at the K-table.
+
+**Which C, before which book.** The bridge choice comes first. Reading C as
+the Wootters concurrence gives the 0.03596 above. Reading C as purity, which
+is the framework's own CΨ = f(1+f²)/6, gives a different crossing entirely:
+f\* = 0.8612 and **K = 0.03735**, which is [F25](../docs/ANALYTICAL_FORMULAS.md)
+and F27, both Tier 1 proven, and the t\* = 0.747 landing in
+[Boundary Navigation](BOUNDARY_NAVIGATION.md). So for one state and one
+channel this repo holds three constants, 0.03596 / 0.03735 / 0.0387, and none
+of them supersedes another: the first two are two definitions of C and the
+third is a different integrator on the first. Name the C before quoting a K.
 
 ---
 
@@ -135,9 +148,9 @@ exact values are:
 
 | Bridge | K (standard Lindblad) | t at γ = 0.05 | K (tool, feedback) |
 |--------|----------------------|---------------|--------------------|
-| mutual_info | 0.0297 | 0.593 | 0.033 |
-| concurrence | 0.0360 | 0.719 | 0.039 |
-| correlation | 0.0719 | 1.438 | 0.072 (identical: C ≡ 1 makes the feedback inert) |
+| mutual_info | 0.02966 | 0.593 | 0.033 |
+| concurrence | 0.03596 = ln(4/3)/8 | 0.719 | 0.039 |
+| correlation | 0.07192 | 1.438 | 0.072 (identical: C ≡ 1 makes the feedback inert) |
 
 Probe: [crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py)
 computes both models for all five bridges. K-invariance is exact in BOTH
@@ -204,7 +217,7 @@ Both C and Ψ decay simultaneously. The crossing happens faster than
 Type A because two quantities shrink instead of one. (The crossing row
 above is the tool's feedback-model value; the standard-Lindblad exact
 crossing is t = 0.719 with C = f = 0.866.) The spread in K (2.2× in the
-tool's values, 2.4× in the exact ones: 0.0297 to 0.0719) reflects how
+tool's values, 2.4× in the exact ones: 0.02966 to 0.07192) reflects how
 much the bridge metric C contributes to the decay versus leaving it
 entirely to Ψ.
 
@@ -224,8 +237,8 @@ to the label ambiguity: every reading keeps C constant and below 3/4.
 
 | Class | Mechanism | C at crossing | Bridges | K (tool) | K (exact) |
 |-------|-----------|---------------|---------|------|------|
-| **Type A** | C stable, only Ψ decays | 1.000 | correlation | 0.072 | 0.0719 |
-| **Type B** | C and Ψ both decay | 0.85-0.89 | concurrence, mutual_info | 0.039, 0.033 | 0.0360, 0.0297 |
+| **Type A** | C stable, only Ψ decays | 1.000 | correlation | 0.072 | 0.07192 |
+| **Type B** | C and Ψ both decay | 0.85-0.89 | concurrence, mutual_info | 0.039, 0.033 | 0.03596, 0.02966 |
 | **Type C** | CΨ(0) < 1/4 already | n/a | mutual_purity, overlap | never | never |
 
 ---

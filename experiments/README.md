@@ -95,7 +95,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 
 | Experiment | Key finding |
 |-----------|------------|
-| [Crossing Taxonomy](CROSSING_TAXONOMY.md) | Three observer types: Type A (pure-Ψ, K=0.072), Type B (mixed, K=0.039), Type C (never crosses). K-invariance from Lindblad scaling |
+| [Crossing Taxonomy](CROSSING_TAXONOMY.md) | Three observer types: Type A (pure-Ψ, K=0.072), Type B (mixed, K=0.039 in the February tool's feedback model, ln(4/3)/8 = 0.03596 in standard Lindblad), Type C (never crosses). K-invariance from Lindblad scaling |
 | [Boundary Navigation](BOUNDARY_NAVIGATION.md) | θ = arctan(√(4CΨ−1)) as compass to the 1/4 transition. Triangulation: WHERE (1/4), HOW FAR (θ), HOW LONG (t_coh) |
 | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) | Crossing is local to entangled pairs, not a whole-system property |
 | [N-Scaling Barrier](N_SCALING_BARRIER.md) | Full-system CΨ drops below 1/4 at large N due to Hilbert space dimension, but subsystem pairs still cross |

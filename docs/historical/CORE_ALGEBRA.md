@@ -289,7 +289,10 @@ Therefore the dimensionless product:
 
 Computationally verified: τ_cross = 0.039 ± 0.001 across 50× range of γ
 (from γ = 0.01 to γ = 0.5), with power law t_cross = 0.0398·γ^(−0.992),
-R² = 0.9999.
+R² = 0.9999. The constancy is what survives; the constant is the February
+tool's feedback-model reading. In standard Lindblad the same crossing sits at
+K = ln(4/3)/8 = 0.03596, outside the ±0.001 band above. See
+[Crossing Taxonomy](../../experiments/CROSSING_TAXONOMY.md).
 
 The θ trajectory collapses onto a universal curve when plotted against
 τ = γ·t. All systems follow the same path from quantum to classical,
