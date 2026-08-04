@@ -64,11 +64,17 @@ def analyze(N, Q, profile, label):
     slow = idx[np.argmax(w[idx].real)]
     lam = w[slow]
     v = V[:, slow]
-    rho = v.reshape(d, d)                      # row-major vec: rho[a,b] = vec[a*d+b]
+    rho = v.reshape(d, d, order='F')   # column-major vec, matching L above
     wts = np.abs(rho) ** 2
     wts /= wts.sum()
     pc = np.array([bin(x).count("1") for x in range(d)])
-    # (popcount_ket, popcount_bra) block weights and n_diff histogram
+    # (popcount_ket, popcount_bra) block weights and n_diff histogram.
+    # NOTE the order: this script prints (ket, bra), so the number-changing band
+    # edge |1-exc><vac| appears here as (1, 0). The repo's canonical name for the
+    # same object is "(0,1)", which is (bra, ket); see BlockSpectrumWitness.cs
+    # and JointPopcountSectorBuilder's (PCol, PRow). Same block, two orders.
+    # Before the vec convention was fixed this printed (0, 1), which looked like
+    # the canonical name but was the transpose under this script's own header.
     blk = {}
     ndiff = {}
     for a in range(d):

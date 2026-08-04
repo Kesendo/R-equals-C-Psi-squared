@@ -120,7 +120,7 @@ def count_heartbeat(gammas, J, qi, qj, rho0, t_max=40.0, dt=0.05):
     d = 2**N
     H = build_heisenberg_chain(N, J)
     L = build_liouvillian(H, gammas)
-    rho0_vec = rho0.flatten()
+    rho0_vec = rho0.flatten(order='F')
 
     crossings = 0
     above = None
@@ -132,7 +132,7 @@ def count_heartbeat(gammas, J, qi, qj, rho0, t_max=40.0, dt=0.05):
             rho_vec = rho0_vec.copy()
         else:
             rho_vec = expm(L * t) @ rho0_vec
-        rho = rho_vec.reshape(d, d)
+        rho = rho_vec.reshape(d, d, order='F')
         rho = (rho + rho.conj().T) / 2
         cpsi = compute_cpsi(rho, qi, qj, N)
         peak_cpsi = max(peak_cpsi, cpsi)

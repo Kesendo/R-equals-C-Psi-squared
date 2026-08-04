@@ -139,7 +139,7 @@ def run_scenario(label, gammas, times, n_qubits, J, out):
     assert abs(np.trace(rho0) - 1.0) < 1e-10, "rho0 trace != 1"
     assert abs(np.real(np.trace(rho0 @ rho0)) - 1.0) < 1e-10, "rho0 not pure"
 
-    rho0_vec = rho0.flatten()
+    rho0_vec = rho0.flatten(order='F')
 
     # Time evolution via matrix exponential
     results = []
@@ -149,7 +149,7 @@ def run_scenario(label, gammas, times, n_qubits, J, out):
         else:
             rho_vec = expm(L * t) @ rho0_vec
 
-        rho = rho_vec.reshape(d, d)
+        rho = rho_vec.reshape(d, d, order='F')
         # Enforce hermiticity
         rho = (rho + rho.conj().T) / 2
 

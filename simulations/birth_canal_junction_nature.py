@@ -256,7 +256,7 @@ def _global_slowest_sector(N, Q, profile):
     w, V = np.linalg.eig(_full_L(N, Q, profile))
     idx = np.where(np.abs(w) > 1e-7)[0]
     slow = idx[np.argmax(w[idx].real)]
-    rho = V[:, slow].reshape(d, d)
+    rho = V[:, slow].reshape(d, d, order='F')
     wts = np.abs(rho) ** 2
     pc = np.array([bin(x).count("1") for x in range(d)])
     blk = {}

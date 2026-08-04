@@ -71,7 +71,7 @@ def find_steady_state(L, d):
     # Find eigenvalue closest to 0
     idx = np.argmin(np.abs(evals))
     rho_vec = evecs[:, idx]
-    rho = rho_vec.reshape(d, d)
+    rho = rho_vec.reshape(d, d, order='F')
     rho = (rho + rho.conj().T) / 2  # enforce hermiticity
     rho /= np.trace(rho)  # normalize
     return rho

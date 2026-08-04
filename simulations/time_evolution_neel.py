@@ -116,7 +116,7 @@ def run_scenario(label, gammas, times, n_qubits, J, rho0_vec, d, out):
             rho_vec = rho0_vec.copy()
         else:
             rho_vec = expm(L * t) @ rho0_vec
-        rho = rho_vec.reshape(d, d)
+        rho = rho_vec.reshape(d, d, order='F')
         rho = (rho + rho.conj().T) / 2
         obs = compute_observables(rho, n_qubits)
         obs['t'] = t
@@ -157,8 +157,8 @@ def main():
 
     rho0_01 = np.outer(psi_01, psi_01.conj())
     rho0_10 = np.outer(psi_10, psi_10.conj())
-    rho0_01_vec = rho0_01.flatten()
-    rho0_10_vec = rho0_10.flatten()
+    rho0_01_vec = rho0_01.flatten(order='F')
+    rho0_10_vec = rho0_10.flatten(order='F')
 
     # === VALIDATION: gamma=0 ===
     out(f"\n{'='*70}")
@@ -170,7 +170,7 @@ def main():
     L_zero = build_liouvillian(H, gammas_zero)
 
     rho_vec_05 = expm(L_zero * 0.5) @ rho0_01_vec
-    rho_05 = rho_vec_05.reshape(d, d)
+    rho_05 = rho_vec_05.reshape(d, d, order='F')
     rho_05 = (rho_05 + rho_05.conj().T) / 2
     purity_05 = np.real(np.trace(rho_05 @ rho_05))
     obs_05 = compute_observables(rho_05, N)

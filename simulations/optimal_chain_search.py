@@ -156,14 +156,14 @@ def time_evolution(gammas, rho0, times, J=1.0):
     d = 2**N
     H = build_heisenberg_chain(N, J)
     L = build_liouvillian(H, gammas)
-    rho0_vec = rho0.flatten()
+    rho0_vec = rho0.flatten(order='F')
     results = []
     for t in times:
         if t == 0:
             rho_vec = rho0_vec.copy()
         else:
             rho_vec = expm(L * t) @ rho0_vec
-        rho = rho_vec.reshape(d, d)
+        rho = rho_vec.reshape(d, d, order='F')
         rho = (rho + rho.conj().T) / 2
         obs = compute_observables(rho, N)
         obs['t'] = t

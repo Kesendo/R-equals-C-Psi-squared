@@ -71,7 +71,7 @@ def slowest_modes(N, bonds, Q, gamma, rate_tol=1e-6):
     nz = np.where(np.abs(w) > TOL)[0]
     rate = w[nz].real.max()                       # = -decay; slowest = largest (least negative) Re
     sel = nz[np.abs(w[nz].real - rate) < rate_tol]
-    rhos = [V[:, i].reshape(d, d) for i in sel]
+    rhos = [V[:, i].reshape(d, d, order='F') for i in sel]
     ims = [abs(w[i].imag) for i in sel]
     return -rate, rhos, ims
 

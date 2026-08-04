@@ -44,10 +44,12 @@ def kron2(a, b):
 def lindbladian(H, c_list, gamma):
     d = H.shape[0]
     Id = np.eye(d, dtype=complex)
-    L = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    # Column-stack (vec_F): vec(A rho B) = (B^T (x) A) vec(rho); the callers
+    # below vectorise with order='F'.
+    L = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
     for c in c_list:
         cdc = c.conj().T @ c
-        L = L + gamma * (np.kron(c, c.conj()) - 0.5 * (np.kron(cdc, Id) + np.kron(Id, cdc.T)))
+        L = L + gamma * (np.kron(c.conj(), c) - 0.5 * (np.kron(Id, cdc) + np.kron(cdc.T, Id)))
     return L
 
 

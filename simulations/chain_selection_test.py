@@ -130,14 +130,14 @@ def make_neel_state(n_qubits, pattern='01'):
 def time_evolution(L, rho0, times, n_qubits):
     """Run Lindblad time evolution and compute observables."""
     d = 2**n_qubits
-    rho0_vec = rho0.flatten()
+    rho0_vec = rho0.flatten(order='F')
     results = []
     for t in times:
         if t == 0:
             rho_vec = rho0_vec.copy()
         else:
             rho_vec = expm(L * t) @ rho0_vec
-        rho = rho_vec.reshape(d, d)
+        rho = rho_vec.reshape(d, d, order='F')
         rho = (rho + rho.conj().T) / 2
         obs = compute_observables(rho, n_qubits)
         obs['t'] = t
@@ -233,7 +233,7 @@ def eigenvector_localization(gammas, J=1.0):
         if abs(ev.real) < 1e-10 and freq < 1e-10:
             continue  # skip stationary
 
-        V = evecs[:, i].reshape(d, d)
+        V = evecs[:, i].reshape(d, d, order='F')
         weights = np.zeros(N)
         total_w = 0.0
         for name, active, P in pauli_strings:

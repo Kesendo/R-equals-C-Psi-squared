@@ -74,7 +74,7 @@ def generate_pauli_strings(n_qubits):
 def compute_qubit_weights(eigvec, pauli_strings, n_qubits, d):
     """Compute per-qubit weight of a Liouvillian eigenvector."""
     # Reshape eigenvector to operator
-    V = eigvec.reshape(d, d)
+    V = eigvec.reshape(d, d, order='F')
 
     # Pauli decomposition: c_j = Tr(P_j^dag @ V) / d
     weights = np.zeros(n_qubits)
