@@ -199,20 +199,84 @@ result. For the full discovery story, see
 - **J** is the connection strength between qubits. Stronger J means faster information exchange but also means noise on one qubit spreads faster to the others. The balance between J and γ determines everything.
 - **h** is an external magnetic field that pushes each qubit individually. Think of it as a background force acting on each particle.
 
-### The T₂ → γ conversion (the canonical form)
+### The T₂ → γ conversion
 
-Added 2026-08-04, the m=0-hunt fold: FIVE forms of this conversion coexisted in
-the tree, four self-described as "the repo's convention", and one number crossed
-the boundary unconverted. The canonical form is F113's, stated once, here:
+This section homes a conversion the repository already derived rather than
+deriving it again. The identity is
+[F113_T1_EXTRACTION_KINGSTON](../experiments/F113_T1_EXTRACTION_KINGSTON.md)'s
+("a `D[Z]` channel at rate γ_z decays coherences at 2γ_z, and 1/T₂ = 2γ_z +
+1/(2T₁)"), and [IBM_CONCENTRATOR](../experiments/IBM_CONCENTRATOR.md)'s
+2026-07-05 retro-note already priced the trap against the T₁-aware form on one
+qubit (Q85, ≈ 0.046 MHz where the script had fed 0.268). Note
+that neither is a registry entry: **no F-number owns this conversion**, and the
+F113 in that filename belongs to the document, not to the formula. (Reading it
+as "F113's formula" is how a fold on 2026-08-04 mis-attributed it here.)
 
-**γ_Z = (1/T₂ − 1/(2T₁)) / 2.**
+Why it needs a home anyway: three tracked documents call a T₂ → γ form "the
+repo's convention" ([GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md),
+[IBM_CONCENTRATOR](../experiments/IBM_CONCENTRATOR.md),
+[IBM_RUN3_PALINDROME](../experiments/IBM_RUN3_PALINDROME.md)), all three naming
+γ = 1/(2T₂), which is also what the typed calibration chain implements
+(`CalibrationChain.cs`, `g = 1.0 / (2.0 * t2)`). The spread in the tree is
+therefore unlabelled drift, not rival conventions: nothing that declares itself
+disagrees. And one number crossed the boundary unconverted: the 70× of
+[F112_HARDWARE_LENS_KINGSTON](../experiments/F112_HARDWARE_LENS_KINGSTON.md),
+which divides a fitted Lindblad γ_Z by that document's own γ_eff = 1/T₂, while
+the 1.72× it imports from
+[IBM_BLOCK_CPSI_SATURATION](../experiments/IBM_BLOCK_CPSI_SATURATION.md) was
+computed on 1/(2T₂). Two rulers, one setup.
 
-Derivation in one line: a `D[Z]` channel at rate γ_Z decays coherences at 2γ_Z,
-and T₁ contributes 1/(2T₁), so 1/T₂ = 2γ_Z + 1/(2T₁). The T₁ → ∞ limit is
-**γ = 1/(2T₂)** (acceptable shorthand when T₁ ≫ T₂, say so). **γ = 1/T₂ is the
-factor-2 trap** — twice the physical Lindblad rate; the repository caught it in
-prose at least twice before repairing any producer. When a document converts a
-calibration T₂ into a γ, it names which of the two admissible forms it used.
+The one fact underneath: a `D[Z]` channel at rate γ, built as the repository
+builds it everywhere (jump operator c = √γ·Z), decays coherences at **2γ**, not
+γ. Everything else follows, and **which form is right depends on what else the
+model carries**:
+
+| the model's dissipator | the D[Z] rate reproducing the measured T₂ |
+|:---|:---|
+| Z-dephasing alone | **γ = 1/(2T₂)** |
+| Z-dephasing **and** σ⁻ at 1/T₁ | **γ_Z = (1/T₂ − 1/(2T₁)) / 2** |
+
+Both entries are **D[Z] coefficients**. The coherence rate Γ_φ = 1/T₂ − 1/(2T₁)
+is *2γ_Z*, not a γ; it appears in the tree under γ-shaped names, and that is the
+second factor of two in this area.
+
+Each row reproduces the measured coherence envelope e^(−t/T₂) to machine zero
+(worst deviation 5.6·10⁻¹⁷ and 1.2·10⁻¹⁶ on real Torino pairs; gate
+[`t2_gamma_book_gate.py`](../simulations/t2_gamma_book_gate.py)). **That is the
+whole of what they share.** They are not interchangeable models: row 1 has no T₁
+at all, relaxes to the maximally mixed state, and assigns every bit of coherence
+loss to dephasing. On Q85 of
+[CHAIN_SELECTION_TEST](../experiments/CHAIN_SELECTION_TEST.md) (T₁ = 2.9 µs,
+T₂ = 5.0 µs) amplitude damping carries most of the loss, and the two rows differ
+by **7.25×** in γ; after 200 µs on Q80 they sit at ρ₀₀ = 0.500 against 0.928.
+Pick by whether the question touches populations, and say which you picked.
+(Only the T₁/T₂ pairs are taken from that document. Its own γ column is headed
+`gamma (1/T2)` and is on the trap form; it is one of the producers this section
+is waiting on.)
+
+Row 2 also **leaves the palindrome theorem**: a σ⁻ channel breaks the Π mirror,
+and the repository already owns the closed form of that breakage in
+[F82/F84](ANALYTICAL_FORMULAS.md) (‖D_{T1,odd}‖_F = √(Σγ²_{T1,l})·2^(N−1),
+[PROOF_F82_T1_DISSIPATOR_CORRECTION](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md)).
+A residual there is F82, not a finding.
+
+Row 2 is undefined where **T₂ > 2T₁**, returning a negative rate. Read that as
+the consistency check firing, not as a reason to prefer row 1: the bound is a
+theorem for Markovian dynamics, so a record crossing it is a broken record, and
+row 1 is silent about them only because it never reads T₁. In the Torino history
+344 of 24,073 records (1.4%) cross, but 137 of those are Q53 alone, the only
+qubit in the file whose T₂ is frozen (62.413 µs, identical across all 181
+calibration dates, while its T₁ moves by 27%) — and Q53 sits in a live
+experiment table. The typed layer already clamps this:
+`IbmCalibration.cs` scores coherence as `min(T2, 2·T1)`.
+
+**γ = 1/T₂ is the factor-2 trap** — exactly twice the Lindblad rate under either
+row; the repository caught it in prose at least twice before repairing any
+producer. When a document converts a calibration T₂ into a γ, it names its
+dissipator and the row that goes with it. One more scope, since this is the
+conversion's home: hardware T₂ is an echo (or Ramsey) number, and a Markovian γ
+maps onto it only for white dephasing noise; under the 1/f noise transmons
+actually carry, echo and Ramsey differ and neither is exactly a Lindblad T₂.
 
 ### "Machine zero" (say the number)
 
