@@ -5,9 +5,12 @@ clauses differently: clause 1 exhaustively swept, clause 2 spot-checked. This
 sweeps clause 2.
 
 THE ROUTE. The palindrome is spec(L) = {-lambda - s}, so with p(x) = det(xI-L)
-and 4^N even it is exactly the polynomial identity p(x) == p(-x - s). Every
-entry of L is a Gaussian rational here (gamma = 1/20, magnitudes 30/100,
-22/100, 41/100, 17/100, 35/100, J and delta integers), so L maps into GF(p)
+and 4^N even it is the polynomial identity p(x) == p(-x - s) on the char poly,
+which is the eigenvalue multiset statement, one notch stronger than the SET
+statement the palindrome is usually written as and one notch weaker than F1's
+operator identity, which sees the Jordan structure and this does not. Every
+entry of L is a Gaussian rational here (gamma and the field magnitudes in
+hundredths, J = 1 except in Stage E where it is rational too), so L maps into GF(p)
 with i a square root of -1 and the identity is tested by comparing
 determinants. An earlier version of this sweep instead ran an eigensolver and
 built a calibrated tolerance on the premise that no exact route existed. The
@@ -37,8 +40,15 @@ WHAT THE VERDICTS ARE WORTH. Asymmetric, and the asymmetry is the point:
 
 SCOPE HELD FIXED, and named so it can be read: J = 1 and delta = 1 on every
 bond and gamma equal on every dephasing site, except in Stage E, which repeats
-the N=3 grid with non-uniform rational J and gamma because F138 quantifies
-over those and a law tested at one point of an axis is not tested on it.
+the N=3 letter grid (all signs positive) with non-uniform rational J and gamma
+because F138 quantifies over those and a law tested at one point of an axis is
+not tested on it. That sentence was written and then not applied to the FIELD
+MAGNITUDES, which every stage but F holds at the single tuple (30, 22, 41)/100.
+Stage F sweeps them, and it is where the law's converse fails on the full
+Heisenberg bond; the exceptions there track the graph's own automorphisms.
+Also still fixed everywhere, and so still unswept: the anisotropy (there is no
+delta in build_L, every bond weight is 1) and the dephasing AXES, which are
+coordinate letters throughout, though clause 2's own word is 'orthogonal'.
 
 ## Stage A: N=3, exhaustive, full Heisenberg bond
 
@@ -73,12 +83,20 @@ over those and a law tested at one point of an axis is not tested on it.
 
 ## Stage C: tightness against bond content, INSIDE the domain
 
-  F138 reads "For H a sum of bond terms ... holds exactly when",
-  and its two-term proviso conditions only the CEILING in clause 1,
-  not the reach of the law. So a two-term bond such as XX+YY is
-  squarely inside the stated domain, and a row there where the
-  predicate forbids and the spectrum pairs is a counterexample to
-  the "only when" direction, not an out-of-scope curiosity.
+  F138 was minted reading "For H a sum of bond terms ... holds
+  exactly when", and its two-term proviso conditions only the
+  CEILING in clause 1, not the reach of the law. So a two-term bond
+  such as XX+YY is squarely inside the stated domain, and a row
+  there where the predicate forbids and the spectrum pairs is a
+  counterexample to the "only when" direction, not an out-of-scope
+  curiosity. This stage found such rows, Stage F found more of them
+  at the full bond, and the registry entry now reads "holds when":
+  an implication whose converse is scoped, not an iff. Two of the
+  22 rows below are labelled clause1, not clause2 -- three dephasing
+  axes in one component, NO field, pairing at a two-letter bond, so
+  clause 1's ceiling is sufficient and not necessary in the same
+  way. Only the first four examples per row are printed, and at two
+  letters all four happen to be clause-2 ones.
 
   XX+YY+ZZ / P3 (chain=star)         rows=  4096  false+=    0  false-=    0
   XX+YY+ZZ / K3 (ring=complete)      rows=  4096  false+=    0  false-=    0
@@ -182,4 +200,60 @@ over those and a law tested at one point of an axis is not tested on it.
       FALSE NEGATIVE: deph=.X. field=X.Y signs=all+ (clause2-not-orthogonal)
       FALSE NEGATIVE: deph=.X. field=X.Z signs=all+ (clause2-not-orthogonal)
       ... and 516 more of the same kind
+
+## Stage F: the field-magnitude axis, which every other stage holds fixed
+
+  Stage E exists because "a law tested at one point of an axis is
+  not tested on it", and it applied that to J and gamma. The field
+  MAGNITUDES were the axis the sentence did not cover: every stage
+  above runs at the one tuple (30, 22, 41)/100. They are not a
+  detail. On the FULL Heisenberg bond, where Stage C finds nothing,
+  making two magnitudes coincide breaks the law's "only when"
+  direction, and which two decides how badly: the count follows the
+  graph's own automorphisms, one block of exceptions per site pair
+  the graph can exchange. False positives stay at 0 throughout, so
+  what moves is the converse and never the physics.
+
+  full 21952-row grid (signs included), XX+YY+ZZ bond
+
+  all distinct (the other stages) / P3 (chain=star) rows= 21952  false+=    0  false-=    0
+  all distinct (the other stages) / K3 (ring=complete) rows= 21952  false+=    0  false-=    0
+  all distinct (the other stages) / bond+isolate rows= 21952  false+=    0  false-=    0
+
+  all three equal / P3 (chain=star)  rows= 21952  false+=    0  false-=   78
+      FALSE NEGATIVE: deph=.X. field=X.X signs=++- (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=X.X signs=-++ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=XYX signs=++- (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=XYX signs=+-- (clause2-not-common)
+      ... and 74 more of the same kind
+  all three equal / K3 (ring=complete) rows= 21952  false+=    0  false-=  234
+      FALSE NEGATIVE: deph=..X field=XX. signs=+-+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=..X field=XX. signs=-++ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=..X field=XXY signs=+-+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=XXY signs=+-- (clause2-not-common)
+      ... and 230 more of the same kind
+  all three equal / bond+isolate     rows= 21952  false+=    0  false-=    0
+
+  sites 0,2 equal (P3: the two ends) / P3 (chain=star) rows= 21952  false+=    0  false-=   78
+      FALSE NEGATIVE: deph=.X. field=X.X signs=++- (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=X.X signs=-++ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=XYX signs=++- (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=XYX signs=+-- (clause2-not-common)
+      ... and 74 more of the same kind
+  sites 0,2 equal (P3: the two ends) / K3 (ring=complete) rows= 21952  false+=    0  false-=   78
+      FALSE NEGATIVE: deph=.X. field=X.X signs=++- (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=X.X signs=-++ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=.X. field=XYX signs=++- (clause2-not-common)
+      FALSE NEGATIVE: deph=.X. field=XYX signs=+-- (clause2-not-common)
+      ... and 74 more of the same kind
+  sites 0,2 equal (P3: the two ends) / bond+isolate rows= 21952  false+=    0  false-=    0
+
+  sites 0,1 equal (P3: end + middle) / P3 (chain=star) rows= 21952  false+=    0  false-=    0
+  sites 0,1 equal (P3: end + middle) / K3 (ring=complete) rows= 21952  false+=    0  false-=   78
+      FALSE NEGATIVE: deph=..X field=XX. signs=+-+ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=..X field=XX. signs=-++ (clause2-not-orthogonal)
+      FALSE NEGATIVE: deph=..X field=XXY signs=+-+ (clause2-not-common)
+      FALSE NEGATIVE: deph=..X field=XXY signs=+-- (clause2-not-common)
+      ... and 74 more of the same kind
+  sites 0,1 equal (P3: end + middle) / bond+isolate rows= 21952  false+=    0  false-=    0
 

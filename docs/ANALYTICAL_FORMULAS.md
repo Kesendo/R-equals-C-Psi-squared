@@ -27,8 +27,12 @@ Every decay rate d pairs with 2Σγ - d.
 any N; non-uniform γ per qubit. Two Π families (P1, P4).
 **See also:** [The Three Diagonals](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
 **Breaks for:** depolarizing noise (error = (2/3)Σγ, linear in γ and N); an
-on-site field that does not satisfy F138's clause 2, which is stated there (and
-recorded there as spot-checked rather than swept).
+on-site field that does not satisfy F138's clause 2 (a single common axis within
+the component, orthogonal to every dephasing axis present) **on the full
+three-letter bond, at the one field-magnitude tuple swept**: that is the
+direction F138 measures to FAIL elsewhere, not one it establishes. Drop a bond
+letter, or let two sites the graph can exchange carry the same field magnitude,
+and there are fields violating clause 2 whose spectrum pairs regardless.
 **Replaces:** palindrome verification (87,376 eigenvalues, N=2..8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
@@ -5764,43 +5768,123 @@ typing; a proof of the H ≠ 0 case.
 
 ---
 
-### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (clause 1 exhaustive, 3^N sweeps zero exceptions; clause 2 spot-checked; minted 2026-07-21)
+### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (the SUFFICIENT direction measured and never once broken; the *only when* direction measured to FAIL, at fewer bond letters and at coincident field magnitudes, so the law is an implication whose converse is open, not the iff it was minted as; minted 2026-07-21, clause 2 swept and the converse withdrawn 2026-08-03)
 
-For H a sum of bond terms, the dephasing palindrome about −Σγᵢ holds exactly
-when, in every connected component that carries dephasing at all: **(1)** at
+For H a sum of bond terms, the dephasing palindrome about −Σγᵢ holds **when**,
+in every connected component that carries dephasing at all: **(1)** at
 most two distinct dephasing axes appear, a ceiling that exists only when the
 bonds carry at least two terms, and **(2)** the on-site field has a single common axis within the
 component, orthogonal to every dephasing axis present. Five load-bearing
 qualifiers, grounded in the artifact's counterexample and control rows (the
-axis-not-arrow case implicitly, via the mixed-sign field used throughout): *component*
+axis-not-arrow case implicitly, via the mixed-sign fields of Stages A and F): *component*
 means connected by nonzero coupling (a J=0 gap is not an edge, 256/256 across
 it vs 1/256 connected); *present* means nonzero rate (64/64 with the field
 along a γ=0 axis, 0/64 once that rate is switched on); *axis*, not arrow
 (antiparallel fields on different sites are fine); a dephasing-free component
 constrains nothing (its spectrum is λ ↦ −λ-symmetric for any H); and the
-two-term proviso forces the ceiling: a single-term bond (the Ising bond ZZ)
-tolerates all three axes at once (all 18 three-axis assignments at N=4 hold,
-18/0, where Heisenberg, XX+ZZ and XX+YY fail 0/18), but a three-axis
-component must then be field-free,
-clause 2 being unsatisfiable there (64/64 with no field, 0/64 under X or Y).
+two-term proviso is where the ceiling bites: a single-term bond (the Ising bond ZZ)
+tolerates all three axes at once, where Heisenberg, XX+ZZ and XX+YY do not (the
+gate runs 18 of the 36 three-axis assignments at N=4, those with the repeated
+axis on the end site, 18/0 for ZZ against 0/18 for the others; the exhaustive
+clause-1 table reports the Heisenberg side of the same object as 0/36). But a
+three-axis component must then be field-free, clause 2 being unsatisfiable
+there: 64/64 with no field, 0/64 under X or Y, and 8/64 under Z, the one row that
+is neither all nor nothing and which the artifact reports without explaining.
 The depolarizing *channel* is clause 1 failing, three axes inside one
-component, not a separate phenomenon. Evidence: clause 1 is swept exhaustively, every 3^N
-per-site axis assignment at N=3 (chain, ring, complete) and N=4 (chain), zero
-exceptions in either direction plus disconnected controls; clause 2 rests on
-chosen axis-pattern and field-direction combinations, the angle sweep, and the
-per-component controls. Treat clause 1 as measured, clause 2 as well supported
-but spot-checked. Sibling theorem, same slogan: the
+component, not a separate phenomenon.
+
+**The two directions are not equally strong, and the entry was minted as though
+they were.** The sufficient direction, conditions ⟹ palindrome, has never once
+broken: in no row of any sweep below, at any bond-letter count, on any graph, at
+any of the magnitude tuples of Stage F, are the conditions met and the spectrum
+fails to pair. That direction is the physics and it is solid. The
+converse, palindrome ⟹ conditions, is FALSE as stated, and two separate things
+break it. **(a)** Fewer bond letters: at a two-letter bond such as XX+YY, which
+the statement admits and which F1 names in its own validity list, there are
+configurations the conditions forbid whose spectrum pairs anyway, 22 of 4096 on
+P₃ and 104 on a bond plus an isolated site, while K₃ has none; at one letter,
+776 on P₃, 732 on K₃ and 520 on the bond plus isolated site.
+**(b)** Coincident field magnitudes, and this one reaches the
+full XX+YY+ZZ bond where (a) does not: giving the field the SAME magnitude on
+P₃'s two end sites produces 78 such rows out of 21,952, where the committed
+magnitudes (30, 22, 41 in hundredths) produce none. What matters is WHICH two
+sites coincide, not that two do: on P₃ the two ends give 78 and an end with the
+middle gives none, and the ends are exactly the pair the path can exchange,
+while K₃, which can exchange any pair, gives 78 per equal pair and 234 when all
+three coincide. A bond plus an isolated site gives none even when all three
+coincide, and it has such a pair too, so the graph's symmetry is where the
+exceptions live without being sufficient to produce them. There is no
+established condition under which the converse DOES hold: what is measured is
+one magnitude tuple, (30, 22, 41) in hundredths, at which it holds on all three
+graphs at the full bond, and three tuples with a repeat, at which it fails on two
+graphs, two graphs and one. Calling that tuple generic would be inferring an open dense set from a
+single point, on the very axis this entry has just shown to be load-bearing.
+What the two failures have in common is
+measured and no more than that: the exceptions track the graph's own
+automorphisms and the bond's letter count, so the conditions look sufficient
+always and necessary only where the configuration carries no symmetry of its
+own, a reading and not a result. No operator
+explaining the exceptions has been exhibited, and the first candidate for one,
+the bare site reflection, was refuted from below. Both
+failures are collected in
+[an open arc](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
+(`f138_converse_failures`); the mechanism is a candidate
+there, not a result here. Also caught by that reading: two of the 22 two-letter
+rows are not clause-2 rows at all but clause-1 rows, three distinct dephasing
+axes in one component with NO field (dephasing XZY and YZX on P₃), pairing at a
+two-letter bond. So clause 1's ceiling of two is sufficient rather than
+necessary in the same way, and the two-term proviso above states when the
+ceiling BITES, not when it is forced.
+
+Evidence, and it is worth separating what was swept from what was
+held fixed while sweeping. Clause 1: exhaustively, every 3^N per-site axis
+assignment at N=3 on chain, ring and complete, which are two distinct graphs and
+not three (at N=3 chain = star = P₃ and ring = complete = K₃), and at N=4 on the
+chain; zero exceptions in either direction plus disconnected controls, at the
+full bond. Clause 2:
+exhaustively at N=3, every 4³ dephasing assignment × every 4³ field assignment ×
+every distinct sign pattern, 21,952 rows on each of P₃, K₃ and bond+isolated-site;
+an N=4 cross-section, 18 named dephasing patterns × every 4⁴ field assignment on
+P₄, C₄ and two disjoint bonds; and the N=3 letter grid, all signs positive,
+repeated under non-uniform rational J per bond and non-uniform rational γ per
+site, because uniform couplings add symmetry and bias toward the palindrome; and
+Stage F, the field-magnitude axis, where the full 21,952-row grid is run again at
+four magnitude tuples and the (b) counts above come from.
+Zero exceptions in either direction wherever the bond carries all three letters
+and the magnitudes are the committed tuple, which is every stage but C and the
+degenerate rows of F, and those two are exactly the counterexamples (a) and (b)
+above rather than further confirmations. What was held fixed while all of that
+swept: the field magnitudes, one tuple outside Stage F; the sign axis, varied
+only in Stages A and F and all-positive in B, C and E; and the bond weights, one
+value per stage, with no anisotropy axis anywhere in the builder at all. The clause-2 sweep is not gated anywhere,
+and that is its point: the palindrome is the polynomial identity p(x) = p(−x−s),
+p the characteristic polynomial of L and s = 2Σγ, and every entry of L is a
+Gaussian rational, so the identity is tested in GF(p) over three fixed primes
+with i a square root of −1. A break is then PROVED outright. A hold is a
+CERTIFICATE and not a decision, over two escape channels the kernel names and
+guards: the evaluation points (Schwartz-Zippel, bounded below 6·10⁻⁴² at 4³ and
+3·10⁻³⁸ at 4⁴, the N=4 stage being four orders weaker) and the moduli
+themselves, which carry no probability at all, the primes being fixed rather
+than drawn. Clause 1's own evidence, by contrast, IS gated, at 10⁻⁷ and 10⁻¹⁰ in
+its artifact. Sibling theorem, same slogan: the
 [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) "at most
 two axes" is per *site* (a rate-pairing on one site's four rates, the route
 by which the depolarizing channel breaks); clause 1
 here is per *component*, a single axis per site with the axes differing
-between sites. Pairing fractions as in F137: mirror-paired eigenvalues out
-of the full 4^N.
+between sites. Pairing fractions of the form 64/64 are as in F137,
+mirror-paired eigenvalues out of the full 4^N; the 18/0 and 0/18 above are
+not fractions of that kind but counts of CONFIGURATIONS that hold and fail.
 
 **Gate:** [`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
 → [`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt)
-(the mixed-axes, Ising, qualifier and per-component sections; artifact
-self-total 105/105).
+(the mixed-axes, Ising, qualifier and per-component sections; the artifact's
+own 105/105 self-total covers its sections 1-3, which are not those four);
+clause 2:
+[`simulations/f138_clause_two_sweep.py`](../simulations/f138_clause_two_sweep.py)
+→ [`f138_clause_two_sweep.txt`](../simulations/results/f138_clause_two_sweep.txt),
+on the exact kernel
+[`simulations/f138_exact_palindrome_test.py`](../simulations/f138_exact_palindrome_test.py)
+(run it directly, it self-tests its own escape channels).
 **Proof:** the Scope paragraphs of
 [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
 (`1c7dcf9`, field-free clause refined in `08db70e`). **Typed:** not yet

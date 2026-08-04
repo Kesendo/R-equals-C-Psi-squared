@@ -24,8 +24,9 @@ namespace RCPsiSquared.Core.F1;
 /// <para>Validity: Heisenberg, XY, Ising, XXZ Hamiltonians on any graph, bond terms, PLUS any
 /// TRANSVERSE on-site field (any direction in the XY plane against Z-dephasing), so the identity
 /// covers strictly more than the bond-only statement. The field's DIRECTION must be the same
-/// on every site (magnitudes are free); let it vary between sites and the palindrome itself
-/// goes, 4/64 at N=3. Under this fixed Π an X-field reads
+/// on every site OF A CONNECTED COMPONENT (F138 clause 2 is per component, so two components may
+/// carry different directions; magnitudes are free); let it vary within one, and the palindrome
+/// itself goes, 4/64 at N=3. Under this fixed Π an X-field reads
 /// residual 0 and a Y-field reads 2·max|h|, but that is a gauge artifact: R_z(π/2) per site maps
 /// one to the other and is a symmetry of the dephasing, the two Liouvillians are unitarily
 /// equivalent with identical spectra, and the correspondingly rotated Π satisfies the identity
@@ -68,9 +69,9 @@ public sealed class F1PalindromeIdentity : Claim
             yield return new InspectableNode("Π operator",
                 summary: "RCPsiSquared.Core.Symmetry.PiOperator: unitary order-4, signed permutation in Pauli basis");
             yield return new InspectableNode("validity",
-                summary: "Heisenberg/XY/Ising/XXZ on any graph, bond terms plus a uniformly directed transverse on-site field; uniform or site-dependent Z-dephasing");
+                summary: "Heisenberg/XY/Ising/XXZ on any graph, bond terms plus a transverse on-site field directed uniformly WITHIN EACH CONNECTED COMPONENT (F138 clause 2 is per component; two components may differ, magnitudes are free); uniform or site-dependent Z-dephasing");
             yield return new InspectableNode("breaks for",
-                summary: "depolarizing noise (γ/3 per axis) → max residual (2/3)Σγ in the Pauli basis, linear in γ and N; an on-site field not orthogonal to every dephasing axis in play; T1 alongside CO-AXIAL dephasing (transverse dephasing composes with T1 exactly) or T1 with any on-site field");
+                summary: "depolarizing noise (γ/3 per axis) → max residual (2/3)Σγ in the Pauli basis, linear in γ and N; an on-site field failing either half of F138's clause 2 (not on a single common axis within the component, or on one not orthogonal to every dephasing axis in play) ON THE FULL THREE-LETTER BOND AT THE ONE MAGNITUDE TUPLE SWEPT -- drop a bond letter, or let two sites the GRAPH CAN EXCHANGE carry the same field magnitude, and clause-2 violations exist whose spectrum pairs anyway (which two sites decides it: on the 3-path the two ends do it and an end with the middle does not), so this half is measured to FAIL outside that scope rather than established inside it. Note the genre: F138's sweep decides the SPECTRUM (the char-poly identity, multiplicities included), while this claim is the OPERATOR identity, which also sees the Jordan structure. A row where the spectrum pairs anyway falsifies the spectral converse and says nothing about whether Π conjugates L there; T1 alongside CO-AXIAL dephasing (transverse dephasing composes with T1 exactly) or T1 with any on-site field");
             yield return new InspectableNode("verification",
                 summary: "replaces brute-force palindrome scan at N=8 (all 65,536 eigenvalues paired, zero exceptions; chain, star, ring, K₄ plus disjoint 4-chain)");
         }

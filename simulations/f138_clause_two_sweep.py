@@ -5,9 +5,12 @@ clauses differently: clause 1 exhaustively swept, clause 2 spot-checked. This
 sweeps clause 2.
 
 THE ROUTE. The palindrome is spec(L) = {-lambda - s}, so with p(x) = det(xI-L)
-and 4^N even it is exactly the polynomial identity p(x) == p(-x - s). Every
-entry of L is a Gaussian rational here (gamma = 1/20, magnitudes 30/100,
-22/100, 41/100, 17/100, 35/100, J and delta integers), so L maps into GF(p)
+and 4^N even it is the polynomial identity p(x) == p(-x - s) on the char poly,
+which is the eigenvalue multiset statement, one notch stronger than the SET
+statement the palindrome is usually written as and one notch weaker than F1's
+operator identity, which sees the Jordan structure and this does not. Every
+entry of L is a Gaussian rational here (gamma and the field magnitudes in
+hundredths, J = 1 except in Stage E where it is rational too), so L maps into GF(p)
 with i a square root of -1 and the identity is tested by comparing
 determinants. An earlier version of this sweep instead ran an eigensolver and
 built a calibrated tolerance on the premise that no exact route existed. The
@@ -37,8 +40,15 @@ WHAT THE VERDICTS ARE WORTH. Asymmetric, and the asymmetry is the point:
 
 SCOPE HELD FIXED, and named so it can be read: J = 1 and delta = 1 on every
 bond and gamma equal on every dephasing site, except in Stage E, which repeats
-the N=3 grid with non-uniform rational J and gamma because F138 quantifies
-over those and a law tested at one point of an axis is not tested on it.
+the N=3 letter grid (all signs positive) with non-uniform rational J and gamma
+because F138 quantifies over those and a law tested at one point of an axis is
+not tested on it. That sentence was written and then not applied to the FIELD
+MAGNITUDES, which every stage but F holds at the single tuple (30, 22, 41)/100.
+Stage F sweeps them, and it is where the law's converse fails on the full
+Heisenberg bond; the exceptions there track the graph's own automorphisms.
+Also still fixed everywhere, and so still unswept: the anisotropy (there is no
+delta in build_L, every bond weight is 1) and the dephasing AXES, which are
+coordinate letters throughout, though clause 2's own word is 'orthogonal'.
 """
 
 import itertools
@@ -90,8 +100,15 @@ def bond_op(op, a, c, n, p):
 
 
 def build_L(n, edges, deph, field_letters, p, signs=None,
-            bond_terms=(1, 2, 3), j_num=None, gamma_num=None):
-    """(L mod p, shift mod p). j_num / gamma_num give the non-uniform variants."""
+            bond_terms=(1, 2, 3), j_num=None, gamma_num=None, field_num=None):
+    """(L mod p, shift mod p). j_num / gamma_num give the non-uniform variants.
+
+    field_num overrides the field MAGNITUDES. It is a parameter rather than a
+    constant because it is an axis F138 quantifies over and the first version of
+    this sweep held it fixed at one tuple without saying so, which is exactly
+    where the law's converse turned out to fail (Stage F).
+    """
+    mags = FIELD_NUM if field_num is None else field_num
     PA, i_img = pauli(p)
     dim = 2 ** n
     H = np.zeros((dim, dim), dtype=np.int64)
@@ -102,7 +119,7 @@ def build_L(n, edges, deph, field_letters, p, signs=None,
     for s in range(n):
         if field_letters[s] == 0:
             continue
-        mag = FIELD_NUM[s] * (1 if signs is None else signs[s])
+        mag = mags[s] * (1 if signs is None else signs[s])
         h = (mag * inv_p(FIELD_DEN, p)) % p
         H = (H + h * site_op(PA[field_letters[s]], s, n, p)) % p
     ident = np.eye(dim, dtype=np.int64)
@@ -125,12 +142,12 @@ def build_L(n, edges, deph, field_letters, p, signs=None,
 
 
 def palindromic(n, edges, deph, fld, signs=None, bond_terms=(1, 2, 3),
-                j_num=None, gamma_num=None):
+                j_num=None, gamma_num=None, field_num=None):
     """False is a PROOF of a break; True is a certificate, see the header."""
     for p in PRIMES:
         L, shift = build_L(n, edges, deph, fld, p, signs=signs,
                            bond_terms=bond_terms, j_num=j_num,
-                           gamma_num=gamma_num)
+                           gamma_num=gamma_num, field_num=field_num)
         eye = np.eye(L.shape[0], dtype=np.int64)
         for _ in range(POINTS):
             x = int(rng.integers(0, p))
@@ -211,12 +228,13 @@ def sign_patterns(fld):
         yield tuple(signs)
 
 
-def score(n, edges, cases, bond_terms=(1, 2, 3), j_num=None, gamma_num=None):
+def score(n, edges, cases, bond_terms=(1, 2, 3), j_num=None, gamma_num=None,
+          field_num=None):
     fp, fn, seen = [], [], 0
     for deph, fld, signs in cases:
         measured = palindromic(n, edges, deph, fld, signs=signs,
                                bond_terms=bond_terms, j_num=j_num,
-                               gamma_num=gamma_num)
+                               gamma_num=gamma_num, field_num=field_num)
         predicted, reason = predicate(n, edges, deph, fld,
                                       bond_terms=bond_terms)
         seen += 1
@@ -292,12 +310,20 @@ def main():
     print()
     print('## Stage C: tightness against bond content, INSIDE the domain')
     print()
-    print('  F138 reads "For H a sum of bond terms ... holds exactly when",')
-    print('  and its two-term proviso conditions only the CEILING in clause 1,')
-    print('  not the reach of the law. So a two-term bond such as XX+YY is')
-    print('  squarely inside the stated domain, and a row there where the')
-    print('  predicate forbids and the spectrum pairs is a counterexample to')
-    print('  the "only when" direction, not an out-of-scope curiosity.')
+    print('  F138 was minted reading "For H a sum of bond terms ... holds')
+    print('  exactly when", and its two-term proviso conditions only the')
+    print('  CEILING in clause 1, not the reach of the law. So a two-term bond')
+    print('  such as XX+YY is squarely inside the stated domain, and a row')
+    print('  there where the predicate forbids and the spectrum pairs is a')
+    print('  counterexample to the "only when" direction, not an out-of-scope')
+    print('  curiosity. This stage found such rows, Stage F found more of them')
+    print('  at the full bond, and the registry entry now reads "holds when":')
+    print('  an implication whose converse is scoped, not an iff. Two of the')
+    print('  22 rows below are labelled clause1, not clause2 -- three dephasing')
+    print('  axes in one component, NO field, pairing at a two-letter bond, so')
+    print('  clause 1\'s ceiling is sufficient and not necessary in the same')
+    print('  way. Only the first four examples per row are printed, and at two')
+    print('  letters all four happen to be clause-2 ones.')
     print()
     for bond_terms, bname in BOND_SETS:
         for name, edges in GRAPHS_N3:
@@ -306,6 +332,29 @@ def main():
                      for f in itertools.product(LETTERS, repeat=3)]
             show(f'{bname} / {name}',
                  *score(3, edges, cases, bond_terms=bond_terms))
+        print()
+    print('## Stage F: the field-magnitude axis, which every other stage holds fixed')
+    print()
+    print('  Stage E exists because "a law tested at one point of an axis is')
+    print('  not tested on it", and it applied that to J and gamma. The field')
+    print('  MAGNITUDES were the axis the sentence did not cover: every stage')
+    print('  above runs at the one tuple (30, 22, 41)/100. They are not a')
+    print('  detail. On the FULL Heisenberg bond, where Stage C finds nothing,')
+    print('  making two magnitudes coincide breaks the law\'s "only when"')
+    print('  direction, and which two decides how badly: the count follows the')
+    print('  graph\'s own automorphisms, one block of exceptions per site pair')
+    print('  the graph can exchange. False positives stay at 0 throughout, so')
+    print('  what moves is the converse and never the physics.')
+    print()
+    print('  full 21952-row grid (signs included), XX+YY+ZZ bond')
+    print()
+    for mags, mname in (((30, 22, 41), 'all distinct (the other stages)'),
+                        ((30, 30, 30), 'all three equal'),
+                        ((30, 22, 30), 'sites 0,2 equal (P3: the two ends)'),
+                        ((30, 30, 41), 'sites 0,1 equal (P3: end + middle)')):
+        for name, edges in GRAPHS_N3:
+            show(f'{mname} / {name}',
+                 *score(3, edges, grid3(), field_num=mags))
         print()
 
 
