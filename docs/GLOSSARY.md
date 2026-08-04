@@ -266,11 +266,11 @@ theorem for Markovian dynamics, so a record crossing it is a broken record, and
 row 1 is silent about them only because it never reads T₁. In the Torino history
 344 of 24,073 records (1.4%) cross, but 137 of those are Q53 alone, the only
 qubit in the file whose T₂ is frozen (62.413 µs, identical across all 181
-calibration dates, while its T₁ moves by 27%) — and Q53 sits in a live
+calibration dates, while its T₁ moves by 27%), and Q53 sits in a live
 experiment table. The typed layer already clamps this:
 `IbmCalibration.cs` scores coherence as `min(T2, 2·T1)`.
 
-**γ = 1/T₂ is the factor-2 trap** — exactly twice the Lindblad rate under either
+**γ = 1/T₂ is the factor-2 trap**: exactly twice the Lindblad rate under either
 row; the repository caught it in prose at least twice before repairing any
 producer. When a document converts a calibration T₂ into a γ, it names its
 dissipator and the row that goes with it. One more scope, since this is the
