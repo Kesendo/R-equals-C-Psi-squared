@@ -13,8 +13,14 @@ depolarizing p2 = 0.3% on CX + thermal relaxation T1 = 200 us / T2 = 70 us with
 Heron-era durations (CX 150 ns, 1q 50 ns; NO idle padding, tau_step = 0.7 us
 wall) + readout error 1% (corrected by the cal PUBs) + COHERENT site-dependent
 NN ZZ crosstalk zeta_i ~ 3.8 kHz +-30% (fixed seed), injected as noise-free RZZ
-each step in the Ramsey-shift convention H_ZZ = pi zeta Z_i Z_j (the convention
-of the price_pair conditional-Ramsey measurement; rzz(2 pi zeta tau)).
+each step as rzz(2 pi zeta tau), i.e. H_ZZ = pi zeta Z_i Z_j. CONVENTION
+CORRECTION (2026-08-04, v2.7 of the experiment doc; code untouched, this is the
+flown record): the price_pair conditional-Ramsey zeta is the |0>-vs-|1>
+fringe-frequency DIFFERENCE, for which H = (pi zeta / 2) Z_i Z_j -- the
+injection here therefore ran at 2x the device angle implied by the transferred
+3.6-3.9 kHz, and B_ZZ2 is ~4x the corrected-transfer value on top of its
+deliberate 2x-zeta headroom (conservative for the budget's width; the flown
+verdict re-read stands, see the doc's v2.7 note).
 
 ESTIMATOR (verbatim section 5): readout-corrected <X>, <Y> -> phi = atan2, V;
 per-arm weighted LSQ with PREDICTED-V weights; theta-hat from A2 (pinned linear

@@ -78,9 +78,17 @@ same-sign always-on regime: over 40 all-positive ζ draws the gate finds the bia
 strictly positive, while mixed-sign ζ patterns push at most ~1.3·10⁻³ downward
 at the 1.2 µs normalization point (gate-printed, 40 mixed-sign draws at
 |ζ| ≤ 7.6 kHz), i.e. ~5·10⁻⁴ at the flown τ_step = 0.7 µs, which the two-sided
-b_qs budget covers. Convention, pinned: ζ is the Ramsey-shift ZZ, H_ZZ = πζ·Z_iZ_j,
+b_qs budget covers. Convention, pinned AT DESIGN as: ζ is the Ramsey-shift ZZ,
+H_ZZ = πζ·Z_iZ_j,
 the convention of the price_pair conditional-Ramsey measurement that anchors
-the 3.6-3.9 kHz transfer. At the flown τ_step = 0.7 µs the nominal bias is
+the 3.6-3.9 kHz transfer — CORRECTED 2026-08-04 (v2.7, found by the record-parity
+pre-registration's prior-work review): the price-pair run-4 ζ is the conditional
+|0⟩-vs-|1⟩ fringe-frequency DIFFERENCE, for which H = (πζ/2)·Z_iZ_j (that record's
+own cos(πζt) attenuation carries the same normalization), so this pin doubled the
+physical coupling at the transferred numbers and the injected rzz(2πζτ) ran at 2×
+the device's angle: b_zz2 carries an unintended extra 4× beyond its deliberate
+2×-ζ headroom. The flown verdict is unaffected (see the v2.7 note: A0 +0.0114 vs
+the corrected window 0.0192; 0.0182 even at b_zz2 = 0). At the flown τ_step = 0.7 µs the nominal bias is
 9·10⁻⁴; it is budgeted in clause (a), not assumed away. The pair is resonant (S = 0); what the
 fringe measures is the level EQUALITY, and resonance is simply this pair's value of it.
 
@@ -480,7 +488,28 @@ the runner printout agreed):**
 
 ## Revision notes
 
-- **v2.6 (2026-07-16, post-flight; no verdict-bearing number changed):** the ζ²
+- **v2.7 (2026-08-04, post-flight; no verdict-bearing number changed — the ζ
+  NORMALIZATION corrected, found from below by the record-parity pre-registration's
+  prior-work review round and verified against the price-pair run-4 record):** the
+  §2 convention line pinned H_ZZ = πζ·Z_iZ_j while claiming price-pair's
+  conditional-Ramsey convention; price-pair's measured ζ is the conditional
+  fringe-frequency DIFFERENCE, for which H = (πζ/2)·Z_iZ_j (its own cos(πζt)
+  formula and F135's watcher-angle book θ_static = π·Δf·τ both carry this
+  normalization). Consequence: the gate's rzz(2πζτ) injections ran at 2× the
+  device angle implied by the transferred 3.6–3.9 kHz, so the flown
+  b_zz2 = 0.00427 is ~4× the corrected-transfer value (~0.00107) on top of its
+  deliberate 2×-ζ headroom — direction: widened clause (a)'s tolerance. RE-READ
+  of the flown record under the correction: A0 deviation +0.0114 sits inside the
+  corrected window upper edge 3σ_a + b_zz2/4 + b_qs = 0.0192, and inside
+  3σ_a + b_qs = 0.0182 even with b_zz2 struck entirely — **STANDING FRINGE
+  CONFIRMED stands**. Superseded in place, record untouched: the v2.6 reading
+  "b_zz2 ≈ 38% of the excess" reads ~9% corrected (the excess attribution shifts
+  further toward the unknown-sign b_qs draw); the ζ² law's physics constant is
+  convention-internal and unaffected — only the kHz-labeling of ζ moves. Sibling
+  repairs in the same change: the gate script's convention comment
+  (`simulations/f129_ramsey_7a_gate.py`, code untouched — the flown code is the
+  record) and the convention line in
+  [PROOF_ZETA2_ANTI_PROTECTION](../docs/proofs/PROOF_ZETA2_ANTI_PROTECTION.md). the ζ²
   anti-protection law got its own derived surface,
   [PROOF_ZETA2_ANTI_PROTECTION](../docs/proofs/PROOF_ZETA2_ANTI_PROTECTION.md)
   + gate `zeta2_anti_protection.py` (design round: 3 fresh lenses, math/physics/

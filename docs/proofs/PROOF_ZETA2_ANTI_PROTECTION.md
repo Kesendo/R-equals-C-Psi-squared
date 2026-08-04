@@ -30,6 +30,12 @@ a **Θ-mirror pair**: ν is the image of τ under the mode mirror k ↔ N+1−k.
 The perturbation is the always-on ZZ crosstalk, injected per step as
 rzz(2πζ_i·τ_step) on each bond: an **occupation-diagonal** phase operator A
 (diagonal in the site-occupation basis), with site-dependent rates ζ_i.
+(Convention note, 2026-08-04: this rzz(2πζτ) writing is H_ZZ = πζ·ZZ, the F129
+design pin; the price-pair conditional-Ramsey ζ — the measured |0⟩-vs-|1⟩
+fringe-frequency difference — carries H = (πζ/2)·ZZ, half this angle. The law
+derived here is convention-internal (the ζ² evenness and the coefficient are
+properties of the injected angle); only the kHz-labeling of a TRANSFERRED
+price-pair ζ moves, see IBM_F129_RAMSEY_FRINGE v2.7.)
 The observable is the fringe phase difference of the pair; per step it is the
 quasi-energy difference Δ(ζ) = θ_τ(ζ) − θ_ν(ζ).
 
