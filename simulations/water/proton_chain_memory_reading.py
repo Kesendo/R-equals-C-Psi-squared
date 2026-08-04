@@ -56,10 +56,15 @@ def z_dephasing_lindblad(H, gamma, N):
     """L superoperator (vec_F) for dot(rho) = -i[H,rho] + gamma * Sum_l (Z_l rho Z_l - rho)."""
     d = 2**N
     eye = np.eye(d, dtype=complex)
-    L = -1j * (np.kron(H, eye) - np.kron(eye, H.T))
+    # Column-stack (vec_F) convention: vec(A rho B) = (B^T (x) A) vec(rho),
+    # so -i[H, rho] is -i (I (x) H - H^T (x) I) and gamma * Z rho Z is
+    # gamma * (conj(Z) (x) Z). The row-stack spelling kron(Z, conj(Z)) happens to
+    # agree here only because Z is real; it is wrong for a jump operator that is
+    # neither real nor purely imaginary, e.g. (X + Y)/sqrt(2).
+    L = -1j * (np.kron(eye, H) - np.kron(H.T, eye))
     for k in range(N):
         Zk = site_op(SZ, k, N)
-        L += gamma * (np.kron(Zk, Zk.conj()) - np.kron(eye, eye))
+        L += gamma * (np.kron(Zk.conj(), Zk) - np.kron(eye, eye))
     return L
 
 

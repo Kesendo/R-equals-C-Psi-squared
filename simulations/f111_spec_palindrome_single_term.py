@@ -158,6 +158,18 @@ def spec_pairs(evals, sigma, tol):
     return max_err < tol, max_err
 
 
+def has_anti_steady(evals, sigma, tol=1e-8):
+    """Is -2*sigma in the spectrum?
+
+    Every Liouvillian carries the steady eigenvalue 0. Its image under the
+    palindromic reflection lambda -> -2*sigma - lambda is -2*sigma, the
+    anti-steady mode. A palindromic spectrum must contain it, so its absence
+    is a single-eigenvalue witness for non-palindromy. This is the witness
+    behind PROOF_F111 Step 3.
+    """
+    return bool(np.abs(np.asarray(evals) - (-2.0 * sigma)).min() < tol)
+
+
 def classify(N, template, dephase, gamma=0.05,
              op_tol=1e-10, spec_tol=1e-6):
     H = build_chain_k_body(N, template)
@@ -167,12 +179,13 @@ def classify(N, template, dephase, gamma=0.05,
     Pi_inv = np.linalg.inv(Pi)
     M = Pi @ L @ Pi_inv + L + 2 * sigma * np.eye(L.shape[0])
     op_norm = np.linalg.norm(M)
-    if op_norm < op_tol:
-        return "truly", op_norm, 0.0
     evals = np.linalg.eigvals(L)
+    anti = has_anti_steady(evals, sigma)
+    if op_norm < op_tol:
+        return "truly", op_norm, 0.0, anti
     paired, max_err = spec_pairs(evals, sigma, spec_tol)
     cls = "soft" if paired else "hard"
-    return cls, op_norm, max_err
+    return cls, op_norm, max_err, anti
 
 
 def enumerate_k_terms_in_cell(k, klein, y_par):
@@ -217,13 +230,27 @@ def main():
             log(f"\n-- {y_par_label} (y_par={y_par_val}): {len(templates)} templates --")
             classes = Counter()
             sample_records = defaultdict(list)
+            anti_by_purity = {True: Counter(), False: Counter()}
             for template in templates:
-                cls, op_norm, spec_err = classify(N, template, dephase, gamma)
+                cls, op_norm, spec_err, anti = classify(
+                    N, template, dephase, gamma)
                 classes[cls] += 1
                 sample_records[cls].append((template, op_norm, spec_err))
+                is_pure = set(template) <= {dephase, "I"}
+                anti_by_purity[is_pure][anti] += 1
             for cls in ["truly", "soft", "hard"]:
                 cnt = classes[cls]
                 log(f"    {cls:>5s}: {cnt:>4d}")
+            # PROOF_F111 Step 3 witness: the anti-steady eigenvalue -2*sigma is
+            # the palindromic partner of the always-present 0, so a palindromic
+            # spectrum must contain it. It is absent for exactly the pure-D
+            # templates and present for every mixed one.
+            for is_pure, label in [(True, "pure-D"), (False, "mixed ")]:
+                c = anti_by_purity[is_pure]
+                tot = c[True] + c[False]
+                if tot:
+                    log(f"    -2*sigma in spec, {label}: "
+                        f"{c[True]:>3d}/{tot:<3d} present")
             for cls in ["hard", "soft"]:
                 if sample_records[cls]:
                     log(f"    Sample {cls} templates:")

@@ -45,13 +45,16 @@ def build_H(N, J):
 def build_L(N, H, gamma):
     d = 2**N
     Id = np.eye(d, dtype=complex)
-    L_H = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    # Column-stack (vec_F): vec(A rho B) = (B^T (x) A) vec(rho), so -i[H, rho]
+    # is -i (I (x) H - H^T (x) I) and gamma * Z rho Z is gamma * (conj(Z) (x) Z).
+    # The row-stack spelling kron(Z, conj(Z)) agrees only because Z is real.
+    L_H = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
     L_D = np.zeros((d * d, d * d), dtype=complex)
     for k in range(N):
         ops = [I2] * N
         ops[k] = Zm
         Zk = kron_chain(ops)
-        L_D += gamma * (np.kron(Zk, Zk.T) - np.kron(Id, Id))
+        L_D += gamma * (np.kron(Zk.conj(), Zk) - np.kron(Id, Id))
     return L_H + L_D
 
 def build_pauli_basis(N):

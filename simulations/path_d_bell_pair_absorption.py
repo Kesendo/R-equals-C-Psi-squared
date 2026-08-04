@@ -94,12 +94,14 @@ def build_H(N, J):
 # ----- Build Liouvillian L (column-stacking vec convention) -----
 # vec(A B C) = (C^T (x) A) vec(B)
 # So d/dt vec(rho) = L vec(rho), with
-#   L = -i (H (x) I - I (x) H^T)             [Hamiltonian part]
-#     + sum_k gamma_k [ Z_k (x) Z_k^T - I ]  [pure dephasing on each qubit]
+#   L = -i (I (x) H - H^T (x) I)                    [Hamiltonian part]
+#     + sum_k gamma_k [ conj(Z_k) (x) Z_k - I ]     [pure dephasing on each qubit]
+# The row-stack spelling kron(Z, conj(Z)) agrees with this only because Z is real;
+# it is wrong for a jump operator that is neither real nor purely imaginary.
 def build_L(N, H, gamma):
     d = 2**N
     Id = np.eye(d, dtype=complex)
-    L_H = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    L_H = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
     L_D = np.zeros((d * d, d * d), dtype=complex)
     for k in range(N):
         ops = [I2] * N
@@ -107,7 +109,7 @@ def build_L(N, H, gamma):
         Zk = kron_chain(ops)
         # Pure dephasing Lindblad with single Hermitian L = sqrt(gamma) Z_k:
         # D[rho] = gamma (Z rho Z - rho)
-        L_D += gamma * (np.kron(Zk, Zk.T) - np.kron(Id, Id))
+        L_D += gamma * (np.kron(Zk.conj(), Zk) - np.kron(Id, Id))
     return L_H + L_D
 
 
