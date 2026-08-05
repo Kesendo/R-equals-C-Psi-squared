@@ -32,7 +32,7 @@ STEP 2: Spectral analysis (Liouvillian eigenvalues)
 
                    Metric      Chain A      Chain B      A/B
 ------------------------- ------------ ------------ --------
-         Palindrome score          98%          85%         
+         Palindrome (eps)         71.1         66.9      tie
                Sum(gamma)     0.133950     0.012087   11.08x
          Stationary modes            6            6         
         Oscillating modes          960          960         
@@ -158,7 +158,7 @@ STEP 5: Summary
       Gamma contrast (max/min)        43.8x         1.9x        A
                     Sum(gamma)       0.1339       0.0121        B
              Protection factor        2.86x        1.06x        A
-                    Palindrome          98%          85%        A
+              Palindrome (eps)         71.1         66.9      tie
             Peak SumMI (|+>^5)     0.054972     0.000146        A
           Peak SumMI (|01010>)     2.712458     2.753821        B
 

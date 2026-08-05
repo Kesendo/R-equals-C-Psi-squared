@@ -13,19 +13,25 @@ gamma decays coherences at 2*gamma. See docs/GLOSSARY.md, "The T2 -> gamma
 conversion", and the gate simulations/t2_gamma_book_gate.py. The CSV column is
 "T2_us" with no echo/Ramsey marker, so this code does not assume which it is.
 
-Known defect, NOT the conversion: the palindrome score below is measuring its own
-matcher, not the palindrome. spectral_analysis pairs each rate with the FIRST
+Repaired 2026-08-05, and it was NOT the conversion: the palindrome score used to
+measure its own matcher. spectral_analysis paired each rate with the FIRST
 partner within an absolute 1e-4, while 927 of 959 nearest-neighbour level gaps
-are smaller than that, so 362 of the 410 accepted PAIRS are wrong by more than
-1e-12 (410 pairs = 820 of the 960 rates = the published 85.4%). Read as a
-sorted-multiset comparison the symmetry is exact (residual 1.8e-14). The fix is
-to read that residual, not to retune the tolerance.
+are smaller than that, so 362 of the 410 accepted pairs were wrong by more than
+1e-12 (410 pairs = 820 of the 960 rates = the published 85.4%). The column now
+reports the repo's canonical F1 distance (a port of
+F1SpectrumStatistics.MaxF1PairingDistance, see max_f1_pairing_distance below) in
+units of eps * spectral radius. A rates-only sorted-multiset residual stood here
+between those two states for part of the same day and is a strictly weaker test;
+see the comment at the palindrome check in spectral_analysis for the error model,
+and experiments/CONCENTRATOR_MAPPING.md for the working.
 """
 
 import numpy as np
 import csv
 from pathlib import Path
 from collections import defaultdict
+
+EPS = np.finfo(float).eps
 
 
 # ================================================================
@@ -69,6 +75,51 @@ def build_liouvillian(H, gammas):
     return L
 
 
+def max_f1_pairing_distance(spectrum, sigma):
+    """The repo's CANONICAL F1 symmetry distance, ported from C#.
+
+    Port of `F1SpectrumStatistics.MaxF1PairingDistance`
+    (compute/RCPsiSquared.Core/F1/F1SpectrumStatistics.cs), which its own summary
+    calls "the canonical F1 check", and which is the matcher behind
+    `MultisetAssert.NearestNeighbourEqual` and the live witness
+    `BlockSpectrumWitness.PalindromePairingDistance`. Committed reference values
+    live in simulations/results/f1_n8_n9_metrics/.
+
+    Max greedy nearest-neighbour distance, WITH REMOVAL, between the multiset of
+    eigenvalues and its F1 reflection {-2*sigma - lambda}. Multiplicity-aware by
+    construction: each mirror point is consumed once, so a dropped or duplicated
+    eigenvalue leaves an unmatched point and surfaces as a large distance, which
+    a set or Hausdorff distance would miss.
+
+    Note this runs on the FULL COMPLEX spectrum. A rates-only version (comparing
+    only -Re(lambda) as a sorted multiset) is a strictly WEAKER test: it is blind
+    to the imaginary parts, and halving one eigenvalue's Im leaves it unchanged.
+    That weaker version stood here briefly on 2026-08-05 and was replaced by this
+    one, because the repo already owned the check.
+    """
+    spectrum = np.asarray(spectrum)
+    # Guard, because a NaN would otherwise pass SILENTLY. np.argmin selects a NaN
+    # index and `nan > worst` is False, so a broken spectrum cannot raise the
+    # metric: measured, one NaN among four eigenvalues returns 11.0 rather than a
+    # failure. The C# returns double.MaxValue in that situation. A metric whose
+    # job is to catch a broken spectrum must not fail quiet.
+    if not np.all(np.isfinite(spectrum)):
+        raise ValueError(
+            "spectrum contains non-finite values; the F1 distance is undefined "
+            "and would otherwise be silently understated")
+    reflected = -2.0 * sigma - spectrum
+    taken = np.zeros(len(spectrum), dtype=bool)
+    worst = 0.0
+    for x in spectrum:
+        d = np.abs(x - reflected)
+        d[taken] = np.inf
+        j = int(np.argmin(d))
+        taken[j] = True
+        if d[j] > worst:
+            worst = d[j]
+    return float(worst)
+
+
 def spectral_analysis(gammas, J=1.0):
     """Compute key spectral metrics for a 5-qubit chain."""
     N = len(gammas)
@@ -79,21 +130,55 @@ def spectral_analysis(gammas, J=1.0):
     sum_g = sum(gammas)
     center = sum_g
 
-    # Palindrome check
-    rates = sorted(-ev.real for ev in evals if abs(ev.imag) > 1e-10)
-    paired = 0
-    used = [False] * len(rates)
-    for i in range(len(rates)):
-        if used[i]:
-            continue
-        partner = 2 * center - rates[i]
-        for j in range(len(rates)):
-            if not used[j] and j != i and abs(rates[j] - partner) < 1e-4:
-                paired += 2
-                used[i] = True
-                used[j] = True
-                break
-    pal_score = paired / max(len(rates), 1)
+    # Palindrome check: the repo's CANONICAL F1 symmetry distance (2026-08-05).
+    #
+    # `max_f1_pairing_distance` above is a port of
+    # F1SpectrumStatistics.MaxF1PairingDistance, which the C# calls the canonical
+    # F1 check and which is already surfaced as a live witness
+    # (BlockSpectrumWitness.PalindromePairingDistance). The repo owned this
+    # metric; this file previously did not use it.
+    #
+    # What it replaced, twice over. First a greedy first-fit matcher against an
+    # ABSOLUTE 1e-4 tolerance, reported as a percentage: 927 of 959
+    # nearest-neighbour level gaps are below that, so 362 of the 410 accepted
+    # pairs were wrong by more than 1e-12 (410 pairs = 820 of 960 rates = the
+    # published 85.4%). It was measuring its own matcher, reading 91.7%, 94.0%,
+    # 100% and 100% on four chains whose true residuals are all ~1e-14. No
+    # tolerance could fix it: any window below the level spacing returns exactly
+    # 100% and hides the same clustering. Then, briefly the same day, a
+    # rates-only sorted-multiset residual, which is a correct identity but a
+    # strictly WEAKER test than F1: it discards the imaginary parts entirely.
+    #
+    # There is no exact route (a non-Hermitian eigensolver), so per the repo's
+    # no-rounding rule the number carries its ERROR MODEL rather than a
+    # threshold. It is reported in units of eps * spectral radius, and the
+    # normalisation is not free: normalising by max|rate| instead spreads the
+    # same ten chains by 15.0x, because max|rate| is only the real part while the
+    # spectrum is dominated by |Im| (rho / max|rate| is 47x to 600x here). The
+    # spectral radius brings them to 1.43x,
+    # which is the floor rather than a residual error: permuting only the ORDER
+    # in which the five jump operators are summed into L, same physics and same
+    # gammas, moves this number over all 120 orders from 51.2 to 90.9, a 1.77x
+    # spread (one chain, and identical under in-place and out-of-place
+    # accumulation), MORE than the 1.43x separating the ten chains. And the greedy
+    # matcher has a second sensitivity of its own: permuting only the ARRAY ORDER
+    # of the eigenvalues, same spectrum, gives 58.9 against 75.8 on one chain
+    # (1.29x). Greedy matching is order-dependent by construction, so this metric
+    # still partly measures its matcher; it is reported anyway because it is the
+    # repo's canonical check and because both sensitivities point the same way.
+    # That order-dependence is
+    # this repo's documented case-3 residual, a deterministic function of an
+    # input the physics does not contain.
+    #
+    # Reading: the value is O(10) to O(100) eps here. The palindrome holds to the
+    # eigensolver's own accuracy on every chain, and NO chain ranks above another
+    # on it; ranking it would be ranking arithmetic order. It is NOT a proof of
+    # exactness: a genuine violation below roughly 1e-13 absolute would sit
+    # inside the same band. F1 is proven analytically; this is the numerical
+    # check, not the theorem.
+    pal_distance = max_f1_pairing_distance(evals, sum_g)
+    rho = max(abs(e) for e in evals)
+    pal_backward_eps = (pal_distance / (rho * EPS)) if rho > 0 else 0.0
 
     # Oscillating modes
     osc = [(-ev.real, abs(ev.imag)) for ev in evals if abs(ev.imag) > 1e-10]
@@ -113,7 +198,8 @@ def spectral_analysis(gammas, J=1.0):
     n_protected_uni = sum(1 for r, _ in osc_uni if r < threshold)
 
     return {
-        'palindrome': pal_score,
+        'palindrome_distance': pal_distance,
+        'palindrome_backward_eps': pal_backward_eps,
         'slowest_rate': slowest_rate,
         'slowest_uni': slowest_uni,
         'protection': protection,
@@ -364,7 +450,7 @@ def main():
     out(f"\n{'='*80}")
     out("SPECTRAL VERIFICATION (Top 5 each)")
     out(f"{'='*80}")
-    out(f"\n{'Chain':>25} {'Method':>10} {'Palindrome':>10} {'Slowest':>10} {'Uni_slow':>10} {'Protect':>8} {'Prot_modes':>10}")
+    out(f"\n{'Chain':>25} {'Method':>10} {'Pal/eps':>9} {'Slowest':>10} {'Uni_slow':>10} {'Protect':>8} {'Prot_modes':>10}")
 
     verified = []
     for label, ranking in [("Sacrifice", by_sacrifice), ("Mean-T2", by_mean_t2)]:
@@ -372,7 +458,7 @@ def main():
             g = np.array(cs['gammas'])
             result = spectral_analysis(g)
             chain_str = str(cs['chain'])
-            out(f"{chain_str:>25} {label:>10} {result['palindrome']:10.0%} {result['slowest_rate']:10.6f} {result['slowest_uni']:10.6f} {result['protection']:8.2f}x {result['n_protected']:10d}")
+            out(f"{chain_str:>25} {label:>10} {result['palindrome_backward_eps']:9.1f} {result['slowest_rate']:10.6f} {result['slowest_uni']:10.6f} {result['protection']:8.2f}x {result['n_protected']:10d}")
             verified.append({**cs, **result, 'method': label})
 
     # Step 7: Time stability (3 dates)

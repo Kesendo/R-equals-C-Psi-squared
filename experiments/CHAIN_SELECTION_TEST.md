@@ -72,33 +72,49 @@ Sum(gamma) = 0.012, contrast (max/min) = 1.9x, score = 1.06x
 | Metric | Chain A | Chain B | A/B |
 |:-------|:--------|:--------|:----|
 | Protection factor | 2.86x | 1.06x | 2.70x |
-| Palindrome score (void, see below) | 98% | 85% | |
+| Palindrome (ε, see below) | 71.1 | 66.9 | tie |
 | Distinct frequencies | 117 | 52 | |
 | Slowest osc. rate | 0.0188 | 0.0046 | |
 | Correlation (edge weight vs rate) | r = 0.994 | r = 0.841 | |
 
 The protection factor (2.86x vs 1.06x) matches the mapping exactly.
 
-**The palindrome row carries no information and should not be read.** The
+**The palindrome row was void and has been replaced (2026-08-05).** The
 sentence that stood here called the sub-100% scores "numerical tolerance
 artifacts at different noise scales". The tolerance part is right and the
 mechanism is not, and the difference decides what the repair is. Measured on
-Chain B's spectrum (2026-08-05): the palindromic symmetry is **exact**, a
-sorted-multiset residual of 1.8e-14 between the oscillatory rates and their
-mirror 2·Σγ − rate. The percentage is produced by `spectral_analysis` pairing
+Chain B's spectrum (2026-08-05): the palindromic symmetry holds **to the
+eigensolver's own accuracy**, a sorted-multiset residual of 1.8e-14 between the
+oscillatory rates and their mirror 2·Σγ − rate. (F1 is proven analytically;
+a numerical check cannot establish exactness, and this one could not see a
+violation below about 1e-13.) The percentage is produced by `spectral_analysis` pairing
 each rate with the **first** partner within an **absolute** 1e-4, while 927 of
 the 959 nearest-neighbour level gaps are smaller than that, so 362 of the 410
 accepted PAIRS are wrong by more than 1e-12 (410 pairs cover 820 of the 960
-rates, and 820/960 = 85.4%, the published score). It is a measure of how a greedy
+rates, and 820/960 = 85.4%, the published score). It was a measure of how a greedy
 first-fit scrambles in a clustered spectrum, and under the γ-book repair it
-moved **upward** on some chains. Since an exact route exists, the residual
-should be read rather than gated; a smaller or scale-relative tolerance returns
-100% and hides the same clustering. That a *tighter* window admits *more* pairs
+moved **upward** on some chains. That a *tighter* window admits *more* pairs
 (410 at 1e-4 leaving 140 rates orphaned, against 480 at 1e-6 leaving none) looks
 impossible and is the defect showing itself: under greedy first-fit a rate that
 seizes a non-mirror partner consumes it, and that partner's own true mate can be
 left with nothing available. The orphan count is measured, not inferred from the
-362 mispairings. Full working in
+362 mispairings.
+
+**The row now reports the repo's canonical F1 distance, with its error model.**
+It is the max greedy nearest-neighbour distance, with removal, between the
+eigenvalue multiset and its F1 reflection {−2σ − λ}, on the **full complex**
+spectrum. That is `F1SpectrumStatistics.MaxF1PairingDistance`, which the C# calls
+the canonical F1 check and already surfaces as a live witness; these scripts had
+simply not been using it. No threshold enters. Because a non-Hermitian
+eigensolver offers no exact route, the number is published against the standard
+backward-error model O(ε·‖L‖), i.e. in units of ε · spectral radius: **71.1 ε for
+Chain A and 66.9 ε for Chain B**, both at eigensolver noise. The winner column
+says **tie by construction**, because ranking two chains on this number would be
+ranking the arithmetic. Permuting only the order in which the jump operators are
+summed into L moves this number by 1.77× at fixed physics (one chain, all 120
+orders), and permuting only the ARRAY ORDER of the eigenvalues, same spectrum, by
+a further 1.29×. Both exceed
+the 1.43× that separates the ten chains in the mapping run. Full working in
 [Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md).
 
 ### 2. Mode localization is geometric (chain-determined)

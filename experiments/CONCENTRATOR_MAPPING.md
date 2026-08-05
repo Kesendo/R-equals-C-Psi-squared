@@ -20,7 +20,7 @@ test pending)
 [IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)
 **Read on from here:** [Chain Selection Test](CHAIN_SELECTION_TEST.md), which
 takes the two chains ranked here to a head-to-head and shares this run's
-palindrome scorer, hence the same void column
+palindrome check, hence the same backward-error column
 **Script:** [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py)
 **Data:** [sacrifice_zone_mapping.txt](../simulations/results/sacrifice_zone_mapping.txt)
 **Calibration data:** [ibm_torino_history.csv](../data/ibm_history/ibm_torino_history.csv) (24,073 records, 181 days, 133 qubits)
@@ -106,7 +106,7 @@ dephasing-only form is silent about it only because it never reads T₁.
 ### Spectral verification
 
 For the top-5 chains in each ranking, we compute the full Liouvillian
-(N=5 chain, real γ values) and extract: palindrome score, slowest
+(N=5 chain, real γ values) and extract: palindrome backward error, slowest
 oscillating mode rate, and protection factor vs uniform noise.
 
 ---
@@ -146,18 +146,20 @@ provide long T2 but no differential protection.
 | Mean protection factor | **2.53x** | 1.18x |
 | Mean T2 | 87.6 us | 205.8 us |
 | Mean concentrator score | 14.6 | 0.9 |
-| Palindrome score (void, see below) | 96-98% | 85-92% |
+| Palindrome backward error (see below) | 53.3-73.1 ε | 60.2-76.5 ε |
 
 The concentrator chains have 2.3x lower mean T2 but 2.15x higher
 protection. Choosing "worse" qubits with the right spatial pattern
 outperforms choosing the "best" qubits naively.
 
-**The palindrome column is void, in both conventions.** It reports 96-98% for
-concentrator chains and 85-92% for mean-T2 chains, and neither number measures
-the palindrome. Measured on the mean-T2 top chain [18, 89, 19, 90, 60], the
-palindromic symmetry is **exact**: comparing the 960 oscillatory rates against
-their mirror image 2·Σγ − rate as sorted multisets gives a residual of
-**1.8e-14**. The theorem holds to machine precision, as it must.
+**The palindrome column was void and has been replaced (2026-08-05).** It used
+to report 96-98% for concentrator chains and 85-92% for mean-T2 chains, and
+neither number measured the palindrome. Measured on the mean-T2 top chain
+[18, 89, 19, 90, 60], the
+palindromic symmetry holds **to the eigensolver's own accuracy**: comparing the
+960 oscillatory rates against their mirror image 2·Σγ − rate as sorted multisets
+gives a residual of **1.8e-14**. The theorem is proven analytically; what this
+measures is that nothing in the numerics contradicts it at that scale.
 
 What the percentage measures is the matcher. `spectral_analysis` pairs each rate
 with the **first** partner it finds within an **absolute** 1e-4, and the spectrum
@@ -170,35 +172,136 @@ inside the level clustering, which is why it can move in either direction: acros
 the ten chains the 2026-08-05 γ-book repair moved it by 0, 1, 2, 3 and 4 points,
 and **upward** on two of them.
 
-The repair this wants is therefore **not** a scale-relative tolerance. An exact
-route exists, so the residual should be read rather than gated (the repo's "a
-deviation is a sign" rule, case 1): the sorted-multiset comparison above gives
-the answer with no threshold in it. Any tolerance below the minimum level spacing
-returns exactly 100% and hides the same clustering, and 1e-6, 1e-8 and a
-scale-relative 1e-4·Σγ all do.
+The repair was therefore **not** a retuned tolerance, and the column now reports
+the residual itself. Any tolerance below the minimum level spacing returns
+exactly 100% and hides the same clustering, and 1e-6, 1e-8 and a scale-relative
+1e-4·Σγ all do, so no threshold could have been the answer.
 
-**That last sentence looks impossible and is not, and the reason it is not is
-the defect itself.** Tightening an acceptance window should admit fewer pairs;
-here it admits more. Measured on this chain:
+**What the column reports now, and whose it is.** The check is
+`F1SpectrumStatistics.MaxF1PairingDistance`
+(`compute/RCPsiSquared.Core/F1/F1SpectrumStatistics.cs`), which the C# summary
+calls the canonical F1 check, which stands behind
+`MultisetAssert.NearestNeighbourEqual`, and which is already a live witness as
+`BlockSpectrumWitness.PalindromePairingDistance` with committed values in
+[`f1_n8_n9_metrics/`](../simulations/results/f1_n8_n9_metrics/). **The repo owned
+this metric and these scripts were not using it**; they are now, via a port
+carrying that provenance in its docstring. It is the max greedy
+nearest-neighbour distance, WITH REMOVAL, between the eigenvalue multiset and its
+F1 reflection {−2σ − λ}, on the **full complex** spectrum, so it is
+multiplicity-aware and a dropped or duplicated eigenvalue cannot hide in it.
+
+A rates-only version stood here for part of 2026-08-05: comparing only −Re(λ) as
+a sorted multiset, which for a sorted list is exactly r[k] + r[n−1−k] = 2·Σγ.
+That identity is correct and is the optimal pairing in one dimension, but it is a
+strictly **weaker** test than F1, because it discards the imaginary parts: halving
+one eigenvalue's Im leaves it bit-identical. It is recorded here because inventing
+a metric next to one the repo already owns is the failure this column exists to
+illustrate, twice in one day.
+
+**The error model, since there is no exact route** (a non-Hermitian eigensolver).
+Per the repo's no-rounding rule the number is published with its model rather than
+against a threshold: the standard eigenvalue backward error is O(ε·‖L‖), so the
+column is the distance in units of ε · spectral radius. Normalising instead by
+max|rate| spreads the same ten chains by **15.0×**, because max|rate| is only the
+real part while the spectrum is dominated by |Im| (ρ / max|rate| is 47× to 600×
+here).
+
+Measured: **53.3 to 76.5 ε** across the ten chains, a **1.43×** band. That band
+is at its floor, not merely small, and **two independent sensitivities of the
+measurement are each larger than it**.
+
+Permuting only the ORDER in which the five jump operators are summed into L, at
+identical physics and identical γ, moves this same number across all 120 orders
+from 51.2 to 90.9, a **1.77×** spread. (Measured on the mean-T2 top chain
+[18, 89, 19, 90, 60]; one chain, all 120 orders, and identical under both
+in-place and out-of-place accumulation.) Ten physically different chains vary
+less than one re-associated sum on a single chain. That is this repo's documented case-3 residual, a
+deterministic function of an input the physics does not contain.
+
+The second is a property of the matcher itself, and it is stated rather than left
+implicit because this column has now been caught twice on measuring its matcher:
+greedy nearest-neighbour is **order-dependent by construction**. Permuting only
+the ARRAY ORDER of the eigenvalues, same L and same spectrum, gives 58.9 against
+75.8 on one chain, a **1.29×** spread with no physics in it at all. So even the
+canonical check partly measures its own matcher. It is used anyway: it is the
+repo's canonical check, it is multiplicity-aware where the alternatives are not,
+and both sensitivities push the same conclusion.
+
+The reading is therefore the same for every chain: the palindrome holds to the
+eigensolver's own accuracy, and **no chain ranks above another on this column**.
+Ranking it would be ranking arithmetic order, which is why the sibling table in
+[Chain Selection Test](CHAIN_SELECTION_TEST.md) prints "tie" there by
+construction. What the number does **not** license is a claim of exactness: a
+genuine violation below roughly 1e-13 absolute would sit inside the same band. F1
+is proven analytically; this column is the numerical check, not the theorem.
+
+**The defective scorer is a family of at least fifteen, and this repair reached
+two of them.** Named here rather than left quiet, because a substitution that
+converts some sites and not others is worse than consistent wrongness: the
+inconsistency reads as deliberate. The count grew from "two" to "five" to this
+over three review rounds on 2026-08-05, so treat it as a floor and not as a
+census; it was produced by grepping two code shapes, and a third shape would not
+have been seen.
+
+**Fixed here:** `sacrifice_zone_mapping.py` and `chain_selection_test.py` (this
+document and [Chain Selection Test](CHAIN_SELECTION_TEST.md)).
+
+**Shape A**, greedy first-fit inside a tolerance, reported as a percentage,
+`simulations/`: `ibm_cavity_analysis.py` (1e-6, and its 100% / 100% / 100% row in
+[IBM Cavity Spectral Analysis](IBM_CAVITY_SPECTRAL_ANALYSIS.md) is the saturation
+artefact described above), `optimal_chain_search.py` (1e-4, the old code
+verbatim, same function name), `combined_optimization.py`
+(`max(1e-4, 1e-3·center)`, precisely the scale-relative retune ruled out above,
+publishing 89%, 85%, 92%, 96%, 94%, 95% for **these same chains**),
+`v_effect_thermal.py` (1e-3, feeding [Thermal Breaking](THERMAL_BREAKING.md),
+whose 91% already carries a footnote calling it a tolerance artefact: the right
+instinct attached to the wrong mechanism, since the tolerance saturates rather
+than degrades).
+
+**Shape B**, nearest-partner **without removal** (so several rates may claim the
+same partner and it is not multiplicity-aware), with a `999` sentinel and only
+the below-centre half scored: `analytical_spectrum_verify.py`,
+`deep_band_structure.py`, `deep_computation.py`, `frequency_test.py`,
+`mirror_symmetry_deep.py`, `mirror_transition.py`, `n5_optimal_cavity_size.py`,
+`nested_mirror_asymptote.py`, `overnight_computation.py`.
+
+**In C#**, and this is where it matters most: `MirrorAnalysis.CheckSymmetry`
+(`compute/RCPsiSquared.Compute/MirrorAnalysis.cs`) is Shape B at a tolerance of
+0.005, and `FillingThresholdCsr.ConjugationMatchFraction`
+(`compute/RCPsiSquared.Diagnostics/`) is a first-fit variant sitting in the
+**live** Diagnostics layer with a witness on top of it.
+
+All of them should call `F1SpectrumStatistics.MaxF1PairingDistance`, which the
+same solution already contains.
+
+**The tolerance table below looks impossible and is not, and the reason it is
+not is the defect itself.** Tightening an acceptance window should admit fewer
+pairs; here it admits more. Measured on this chain:
 
 | tolerance | pairs accepted | rates paired | rates orphaned | score |
 |:---|---:|---:|---:|---:|
-| 1e-4 (current) | 410 | 820 | **140** | 85.4% |
+| 1e-4 (the retired default) | 410 | 820 | **140** | 85.4% |
 | 1e-6 | 480 | 960 | 0 | 100% |
 
 The cause is the greedy first-fit. A loose window lets a rate seize a partner
 that is not its mirror; that partner is then consumed, and its own true mate can
-be left with nothing available. Tighten the window below the level spacing and
-no rate can reach a wrong partner, so every rate finds its own and the score is
-100% by construction, which is exactly why 100% is not evidence of anything
-either.
+be left with nothing available. Tighten the window and every rate finds *some*
+partner, so the score reaches 100% by construction, which is exactly why 100% is
+not evidence of anything either.
+
+**It is not, however, true that a tight window makes every rate find its own**,
+and that sentence stood here until 2026-08-05. Measured on this chain, at
+tolerance 1e-6 the scorer accepts 480 pairs and prints 100%, yet **56 of those
+480 are still wrong by more than 1e-12**; at 1e-8, 8 of 480 still are. The
+mispairing rate falls from 71% to 12% to 2% while the printed score sits at 100%
+throughout. Saturation, not correctness, is what the tighter window buys.
 
 The two counts are **not** derivable from one another, and it is worth saying so
 because the obvious guess is wrong: 362 mispairings do not imply 724 orphans.
 Only 140 rates end unpaired, because a mispairing can itself join two rates that
 would otherwise both have been orphaned. Both numbers are measured, not counted
-from each other. Until the scorer is replaced, treat these
-percentages as carrying no information, ordinal or otherwise.
+from each other. These percentages carry no information, ordinal or otherwise,
+and are kept only as the record of what the retired scorer produced.
 
 **What the γ-book repair changed here.** The 2026-08-05 repair halved every rate
 in this run (γ = 1/T₂ → the D[Z] rate 1/(2T₂); see
