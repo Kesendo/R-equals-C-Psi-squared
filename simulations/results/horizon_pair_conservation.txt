@@ -1,0 +1,57 @@
+=== THE HORIZON READING, MEASURED ===
+N=4 Heisenberg chain, uniform Z-dephasing gamma=0.05, Sigma_gamma=0.2
+
+--- 1. the pair sum is F1's real part, and the separation is what grows ---
+    r1 + r2 = 2*sigma follows from lambda -> -2*sigma - lambda in one line.
+    The matching below is BUILT by nearest reflection, so the deviation of
+    the sum from 2*sigma is the palindrome residual itself. Read the
+    residual against eps * spectral radius, the eigensolver's error model,
+    not against a digit count.
+      coupling   max|sum - 2sig|   in eps*rho   min|r1-r2|   max|r1-r2|
+    J=0                5.551e-17         0.62    0.000e+00     0.400000
+    J=1                1.921e-14         9.14    5.551e-17     0.400000
+    J=5                1.650e-13        15.70    0.000e+00     0.400000
+    J=50               1.160e-12        11.04    7.772e-16     0.400000
+    2*Sigma_gamma = 0.400000000000
+    The deviation grows with the spectral radius and stays at the floor in
+    eps*rho, which is the law; the raw digits do not survive J=50 and were
+    never the point. An exact route exists where the rates are rational:
+    p(2c - x) == p(x) over Q(i), implemented in thermal_palindrome_centre.py.
+    The separation runs from 0 (a self-paired mode sits at the centre) to
+    2*sigma (the extreme pair). That spread is the whole content of the
+    reading: the binding never loosens, the fates diverge.
+--- 2. the coupling moves everything except the horizon ---
+      coupling             centre   max|Im lambda|
+    J=0           -0.200000000000            0.000
+    J=1           -0.200000000000            9.464
+    J=5           -0.200000000000           47.321
+    J=50          -0.200000000000          473.205
+    The dynamics spans a factor of 50 in max|Im| and the centre does not
+    move a digit. Not a coincidence: the centre is trace(L)/dim and the
+    commutator part of L is traceless, so it is fixed by the dissipator
+    alone. The illumination sets the horizon; the Hamiltonian cannot.
+
+--- 3. the extremes are equally occupied WHILE the palindrome holds ---
+                       channel     centre   rate=0  rate=2c   max rate
+                   Z-dephasing    -0.2000        5        5   0.400000
+             amplitude damping    -0.1000        1        1   0.200000
+                  thermal bath    -0.1500        1        1   0.300000
+       BROKEN: T1 + co-axial Z    -0.3000        1        0   0.500000
+    (the full spectrum is 4^N = 256 modes)
+    Equality is forced by the palindrome, which maps the rate-0 set onto
+    the rate-2c set bijectively, so it is the pairing restated and not an
+    independent finding. The last row is the point of printing it: where
+    the palindrome breaks the equality goes too.
+
+    A caution the census itself raises, about the surviving set. The I/Z
+    sector has 2^N Pauli strings of dissipator rate 0, and at J = 0 that
+    is exactly what survives. With the Hamiltonian on it is NOT:
+       N      J=0    J=0.5      J=1      2^N      N+1
+       2        4        3        3        4        3
+       3        8        4        4        8        4
+       4       16        5        5       16        5
+       5       32        6        6       32        6
+    The survivors number N+1, not 2^N: the Hamiltonian empties the sector
+    down to the total-Sz projectors. Measured directly, -i[H, Z_1] puts
+    100.0000% of its weight on X/Y-containing strings. So 'the immune
+    sector survives forever' is a statement about the dissipator alone.
