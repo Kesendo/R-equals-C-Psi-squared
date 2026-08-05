@@ -5,6 +5,20 @@ Uses real T2 calibration data and heavy-hex topology to find 5-qubit
 chains where a naturally noisy qubit sits at the edge (sacrifice zone)
 and quiet qubits in the center. Compares sacrifice-zone ranking with
 naive mean-T2 ranking. Spectral verification via Liouvillian eigvals.
+
+Convention: gamma_k = 1/(2*T2_k). The model here is dephasing-only (the only
+jump operators are sqrt(gamma_k)*Z_k; T1 is never read at all), so this is the
+D[Z] rate that reproduces the measured coherence decay: a D[Z] channel at rate
+gamma decays coherences at 2*gamma. See docs/GLOSSARY.md, "The T2 -> gamma
+conversion", and the gate simulations/t2_gamma_book_gate.py. The CSV column is
+"T2_us" with no echo/Ramsey marker, so this code does not assume which it is.
+
+Known defect, NOT the conversion: the palindrome score below is measuring its own
+matcher, not the palindrome. spectral_analysis pairs each rate with the FIRST
+partner within an absolute 1e-4, while 927 of 959 nearest-neighbour level gaps
+are smaller than that, so 362 of the 410 accepted matches are wrong by more than
+1e-12. Read as a sorted-multiset comparison the symmetry is exact (residual
+1.8e-14). The fix is to read that residual, not to retune the tolerance.
 """
 
 import numpy as np
@@ -254,7 +268,7 @@ def main():
     # Compute gammas
     gammas = {}
     for q, d in data.items():
-        gammas[q] = 1.0 / d['T2']
+        gammas[q] = 1.0 / (2.0 * d['T2'])
 
     # Step 3: Find all 5-qubit chains
     out("\nStep 3: Finding all 5-qubit chains...")
@@ -379,7 +393,7 @@ def main():
         if date in qubit_data:
             dd = qubit_data[date]
             if all(q in dd for q in best_chain):
-                g = [1.0 / dd[q]['T2'] for q in best_chain]
+                g = [1.0 / (2.0 * dd[q]['T2']) for q in best_chain]
                 t2 = [dd[q]['T2'] for q in best_chain]
                 mean_int = np.mean(g[1:4])
                 score = max(g[0], g[4]) / mean_int if mean_int > 0 else 0

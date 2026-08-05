@@ -2,7 +2,7 @@
   SECTOR-MIX TEST: KINGSTON PIPELINE SIMULATION
 ============================================================================
 
-  calibration: ibm_kingston_calibrations_2026-04-16T15_25_15Z.csv
+  calibration: ibm_kingston_calibrations_2026-04-16T15_25_15Z.csv  (pinned via RCPSI_KINGSTON_CALIB)
   best 3-qubit chain: [13, 14, 15]  T2=[375, 537, 381] μs, T1=[363, 350, 381] μs
   CZ errors: ['0.0012', '0.0032']
 
@@ -14,13 +14,13 @@
 
   ── |+>^3 (product) ──
     t=   0.0 μs   analyt=1.0000       full-noise=0.9998       pure-T2=1.0000
-    t=   3.0 μs   analyt=0.9563       full-noise=0.9775       pure-T2=0.9777
-    t=   7.0 μs   analyt=0.9016       full-noise=0.9490       pure-T2=0.9488
-    t=  11.0 μs   analyt=0.8507       full-noise=0.9217       pure-T2=0.9210
-    t=  15.0 μs   analyt=0.8032       full-noise=0.8955       pure-T2=0.8942
-    t=  20.0 μs   analyt=0.7484       full-noise=0.8645       pure-T2=0.8620
-    t=  30.0 μs   analyt=0.6519       full-noise=0.8071       pure-T2=0.8017
-    t=  50.0 μs   analyt=0.5013       full-noise=0.7091       pure-T2=0.6959
+    t=   3.0 μs   analyt=0.9779       full-noise=0.9775       pure-T2=0.9777
+    t=   7.0 μs   analyt=0.9493       full-noise=0.9490       pure-T2=0.9488
+    t=  11.0 μs   analyt=0.9217       full-noise=0.9217       pure-T2=0.9210
+    t=  15.0 μs   analyt=0.8951       full-noise=0.8955       pure-T2=0.8942
+    t=  20.0 μs   analyt=0.8631       full-noise=0.8645       pure-T2=0.8620
+    t=  30.0 μs   analyt=0.8032       full-noise=0.8071       pure-T2=0.8017
+    t=  50.0 μs   analyt=0.6981       full-noise=0.7091       pure-T2=0.6959
 
   ── GHZ_3 ──
     t=   0.0 μs   analyt=0.0000  *    full-noise=0.0001  *    pure-T2=0.0000
@@ -34,28 +34,28 @@
 
   ── W_3 ──
     t=   0.0 μs   analyt=0.1235  *    full-noise=0.1233  *    pure-T2=0.1235
-    t=   3.0 μs   analyt=0.1177       full-noise=0.1204       pure-T2=0.1205
-    t=   7.0 μs   analyt=0.1105       full-noise=0.1166       pure-T2=0.1167
-    t=  11.0 μs   analyt=0.1038       full-noise=0.1130       pure-T2=0.1130
-    t=  15.0 μs   analyt=0.0977       full-noise=0.1096       pure-T2=0.1095
-    t=  20.0 μs   analyt=0.0907       full-noise=0.1056       pure-T2=0.1053
-    t=  30.0 μs   analyt=0.0786       full-noise=0.0983       pure-T2=0.0975
-    t=  50.0 μs   analyt=0.0601       full-noise=0.0861       pure-T2=0.0841
+    t=   3.0 μs   analyt=0.1205       full-noise=0.1204       pure-T2=0.1205
+    t=   7.0 μs   analyt=0.1167       full-noise=0.1166       pure-T2=0.1167
+    t=  11.0 μs   analyt=0.1131       full-noise=0.1130       pure-T2=0.1130
+    t=  15.0 μs   analyt=0.1096       full-noise=0.1096       pure-T2=0.1095
+    t=  20.0 μs   analyt=0.1054       full-noise=0.1056       pure-T2=0.1053
+    t=  30.0 μs   analyt=0.0977       full-noise=0.0983       pure-T2=0.0975
+    t=  50.0 μs   analyt=0.0844       full-noise=0.0861       pure-T2=0.0841
 
   ── OPT (0.6125·GHZ + 0.7905·W) ──
     t=   0.0 μs   analyt=0.3204       full-noise=0.3199       pure-T2=0.3204
-    t=   3.0 μs   analyt=0.3073       full-noise=0.3140       pure-T2=0.3137
-    t=   7.0 μs   analyt=0.2909       full-noise=0.3064       pure-T2=0.3050
-    t=  11.0 μs   analyt=0.2756       full-noise=0.2991       pure-T2=0.2967
-    t=  15.0 μs   analyt=0.2614       full-noise=0.2922       pure-T2=0.2886
-    t=  20.0 μs   analyt=0.2450  *    full-noise=0.2838       pure-T2=0.2790
-    t=  30.0 μs   analyt=0.2162       full-noise=0.2685       pure-T2=0.2609
-    t=  50.0 μs   analyt=0.1710       full-noise=0.2421  *    pure-T2=0.2293
+    t=   3.0 μs   analyt=0.3138       full-noise=0.3140       pure-T2=0.3137
+    t=   7.0 μs   analyt=0.3052       full-noise=0.3064       pure-T2=0.3050
+    t=  11.0 μs   analyt=0.2969       full-noise=0.2991       pure-T2=0.2967
+    t=  15.0 μs   analyt=0.2889       full-noise=0.2922       pure-T2=0.2886
+    t=  20.0 μs   analyt=0.2793       full-noise=0.2838       pure-T2=0.2790
+    t=  30.0 μs   analyt=0.2614       full-noise=0.2685       pure-T2=0.2609
+    t=  50.0 μs   analyt=0.2300  *    full-noise=0.2421  *    pure-T2=0.2293
 
 ============================================================================
   OPT state crossing summary
 ============================================================================
-  analyt                  CΨ(0) = 0.3204   t*(CΨ=1/4) = 18.48 μs
+  analyt                  CΨ(0) = 0.3204   t*(CΨ=1/4) = 37.26 μs
   aer_full (gates+T2)     CΨ(0) = 0.3199   t*(CΨ=1/4) = 44.02 μs
   aer_pure-T2             CΨ(0) = 0.3204   t*(CΨ=1/4) = 36.92 μs
 

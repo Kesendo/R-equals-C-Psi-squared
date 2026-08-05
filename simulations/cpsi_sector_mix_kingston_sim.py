@@ -23,6 +23,7 @@ from __future__ import annotations
 import csv
 import itertools
 import math
+import os
 import re
 import sys
 from pathlib import Path
@@ -92,10 +93,28 @@ def _parse_neighbors(s: str):
 
 
 def load_calibration():
+    """
+    Load a Kingston calibration CSV.
+
+    Defaults to the newest file in the directory, which is what a pre-flight
+    check wants. That default also means the script is not reproducible on its
+    own output: when a newer CSV lands, the chain selection changes and the run
+    silently answers a different question. Set RCPSI_KINGSTON_CALIB to a
+    filename (as printed in the run header) to pin it, which is how a previous
+    run is re-derived without the calibration moving underneath it.
+    """
     csvs = sorted(CALIB_DIR.glob("ibm_kingston_calibrations_*.csv"))
     if not csvs:
         raise FileNotFoundError("No Kingston calibration CSV")
-    latest = csvs[-1]
+    pin = os.environ.get("RCPSI_KINGSTON_CALIB")
+    if pin:
+        matches = [p for p in csvs if p.name == pin]
+        if not matches:
+            raise FileNotFoundError(
+                f"RCPSI_KINGSTON_CALIB={pin} not found in {CALIB_DIR}")
+        latest = matches[0]
+    else:
+        latest = csvs[-1]
     qubits = {}
     edges = {}
     with open(latest, "r", encoding="utf-8") as f:
@@ -267,7 +286,13 @@ if __name__ == "__main__":
         log("=" * 76)
 
         cal = load_calibration()
-        log(f"\n  calibration: {Path(cal['src']).name}")
+        cal_name = Path(cal['src']).name
+        pinned = os.environ.get("RCPSI_KINGSTON_CALIB")
+        log(f"\n  calibration: {cal_name}"
+            + (f"  (pinned via RCPSI_KINGSTON_CALIB)" if pinned else "  (newest available)"))
+        if not pinned:
+            log("  to reproduce this run later, pin it:"
+                f" RCPSI_KINGSTON_CALIB={cal_name}")
         chain = best_3_chain(cal)
         log(f"  best 3-qubit chain: {chain['path']}  "
             f"T2=[{', '.join(f'{x:.0f}' for x in chain['t2s_us'])}] μs, "
@@ -287,10 +312,16 @@ if __name__ == "__main__":
         log(f"  shots per circuit: {SHOTS}")
         log()
 
-        # Analytical reference (Lindblad, no gate errors)
-        gammas = [1.0 / (t * 1e-6) for t in chain["t2s_us"]]  # rad/s → 1/s
-        # convert to 1/μs for convenience:
-        gammas_per_us = [1.0 / t for t in chain["t2s_us"]]
+        # Analytical reference (Lindblad, no gate errors).
+        # gamma = 1/(2*T2): lindblad_op builds sqrt(gamma)*Z jump operators and
+        # nothing else, so a D[Z] channel at rate gamma decays coherences at
+        # 2*gamma and this is the rate reproducing the measured T2. The Aer
+        # "pure-T2" column below is the independent check on that choice, since
+        # thermal_relaxation_error takes T1 and T2 directly and carries none of
+        # our conventions: on the committed [13, 14, 15] chain the two columns
+        # agree to 0.0021 under this form and are off by 0.1946 under 1/T2.
+        # See docs/GLOSSARY.md, "The T2 -> gamma conversion".
+        gammas_per_us = [1.0 / (2.0 * t) for t in chain["t2s_us"]]
         L_us = lindblad_op(gammas_per_us, 3)
         log("  Column legend for each state:")
         log("    t        CΨ_analytical   CΨ_gates+T2     CΨ_pure-T2")

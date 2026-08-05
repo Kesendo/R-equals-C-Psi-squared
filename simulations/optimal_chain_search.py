@@ -9,6 +9,14 @@ The Chain Selection Test showed:
 This script searches all 330 chains on IBM Torino heavy-hex for the
 optimal combined score, then validates the best candidate with full
 spectral analysis and time evolution.
+
+Convention: gamma_k = 1/(2*T2_k). The model here is dephasing-only (the only
+jump operators are sqrt(gamma_k)*Z_k; T1 never enters the generator, though it
+does gate which qubits are admitted, see load_all_t2), so this is the D[Z] rate
+that reproduces the measured coherence decay: a D[Z] channel at rate gamma
+decays coherences at 2*gamma. See docs/GLOSSARY.md, "The T2 -> gamma
+conversion", and the gate simulations/t2_gamma_book_gate.py. The CSV column is
+"T2_us" with no echo/Ramsey marker, so this code does not assume which it is.
 """
 
 import numpy as np
@@ -276,7 +284,7 @@ def main():
 
     scored = []
     for chain in chains:
-        g = np.array([1.0 / data[q]['T2'] for q in chain])
+        g = np.array([1.0 / (2.0 * data[q]['T2']) for q in chain])
         t2 = np.array([data[q]['T2'] for q in chain])
 
         # Identify sacrifice end
@@ -363,7 +371,7 @@ def main():
     for label, chain in ref_chains.items():
         key = tuple(chain)
         if key not in candidates:
-            g = np.array([1.0 / data[q]['T2'] for q in chain])
+            g = np.array([1.0 / (2.0 * data[q]['T2']) for q in chain])
             candidates[key] = {
                 'chain': chain, 'gammas': g,
                 'sum_gamma': np.sum(g), 'mean_t2': np.mean(
@@ -374,7 +382,7 @@ def main():
     out(f"\nComputing spectral analysis for {len(candidates)} unique chains...")
     verified = []
     for key, s in candidates.items():
-        g = np.array([1.0 / data[q]['T2'] for q in s['chain']])
+        g = np.array([1.0 / (2.0 * data[q]['T2']) for q in s['chain']])
         spec = spectral_analysis(g, J)
         verified.append({**s, **spec})
         chain_str = str(s['chain'])[:25]
@@ -456,9 +464,9 @@ def main():
     rho_plus = make_plus_state(N)
     rho_neel = make_neel_state(N)
 
-    gammas_W = np.array([1.0 / data[q]['T2'] for q in winner['chain']])
-    gammas_A = np.array([1.0 / data[q]['T2'] for q in [80, 8, 79, 53, 85]])
-    gammas_B = np.array([1.0 / data[q]['T2'] for q in [18, 89, 19, 90, 60]])
+    gammas_W = np.array([1.0 / (2.0 * data[q]['T2']) for q in winner['chain']])
+    gammas_A = np.array([1.0 / (2.0 * data[q]['T2']) for q in [80, 8, 79, 53, 85]])
+    gammas_B = np.array([1.0 / (2.0 * data[q]['T2']) for q in [18, 89, 19, 90, 60]])
 
     out(f"\nWinner: {winner['chain']}")
     out(f"gammas: [{', '.join(f'{g:.6f}' for g in gammas_W)}]")
@@ -506,10 +514,16 @@ def main():
     # ================================================================
     out("\n--- STEP 7: Selective DD on winner ---")
 
-    # DD reduces effective gamma to ~1/T2echo on protected qubits
-    # Without DD: gamma = 1/T2echo (already our convention)
-    # With DD: gamma_protected ~ 1/(2*T2echo) (factor 2 reduction)
-    # Sacrifice qubit: no DD, stays at 1/T2echo
+    # ASSUMPTION, not a measurement: DD is modelled as halving gamma on the
+    # protected qubits (a factor-2 gain on top of the CSV's T2). It is stated
+    # here because the old comment stated it too and this run depends on it, but
+    # nothing in this repository supports the factor, and the tracked sibling
+    # simulations/combined_optimization.py models DD DIFFERENTLY: there the
+    # factor 2 takes you FROM T2* TO T2echo rather than starting from T2echo.
+    # Both cannot be right. Treat the DD rows below as illustrative.
+    # Independent of all that: the 0.5 is a RELATIVE reduction and does not
+    # interact with the T2 -> gamma conversion, which is applied once at the
+    # gamma sites above. The sacrifice qubit gets no DD and keeps its gamma.
     sac_end = 0 if gammas_W[0] > gammas_W[4] else 4
 
     gammas_W_dd = gammas_W.copy()
@@ -570,7 +584,7 @@ def main():
     for date in test_dates:
         dd = all_data.get(date, {})
         if all(q in dd for q in winner['chain']):
-            g = [1.0 / dd[q]['T2'] for q in winner['chain']]
+            g = [1.0 / (2.0 * dd[q]['T2']) for q in winner['chain']]
             t2 = [dd[q]['T2'] for q in winner['chain']]
             sum_g = sum(g)
             contrast = max(g) / min(g)
