@@ -180,6 +180,23 @@ def fit_residual(params, model, t_us, rhos, fixed_h):
 
 
 def fit_one(model, t_us, rhos, x0, fixed_h):
+    # STILL SINGLE-START, deliberately, and this is the sibling of
+    # f112_block_cpsi_analysis.py, which went multi-start on 2026-08-05. Two
+    # defects are known here and neither is repaired by a starting point:
+    # (a) this script's fits show nesting violations (a superset fitting WORSE
+    #     than its subset: on `chain_gamma0 Q13-Q14` Z_plus_T1 gives RMS
+    #     0.628598 against pure_Z's 0.628012, and Z_plus_T1_plus_ZZ gives
+    #     0.628018 against Z_plus_ZZ's 0.626140), so several rows are not
+    #     converged at all;
+    # (b) on block_cpsi the second Z rate is not identified from above: the
+    #     optimiser raises it until the model predicts no transverse coherence
+    #     (the least-squares answer to a sign-alternating sequence it cannot
+    #     turn), and the objective then goes bit-identical to its
+    #     gamma -> infinity limit, so no optimiser can locate it.
+    # F112_HARDWARE_LENS_KINGSTON.md lists converged multistart, per-qubit Z
+    # detuning, matched-parameter-count comparison and uncertainties as one
+    # redo. Adding multistart alone here would make (a) quieter without making
+    # any ranking mean more, so it waits for that redo.
     result = minimize(
         fit_residual, x0, args=(model, t_us, rhos, fixed_h),
         method='Nelder-Mead',

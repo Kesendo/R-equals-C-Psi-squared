@@ -472,21 +472,48 @@ The retro-note that follows stood here from 2026-07-05 and diagnosed the defect
 correctly; nobody had changed the script. `simulations/ibm_formula_test.py` now
 uses γ = 1/(2·T₂), and the numbers moved: Q85 goes from 0.268 to **0.134 MHz**
 (0.192 → 0.0958 under uniform DD), the interior from 0.004-0.008 to
-0.002-0.004, and the fitted J from 0.5 to **0.05 MHz**. Two things are worth
+0.002-0.004, and the grid's argmin in J from 0.5 MHz down to the grid's lower
+edge (0.05 MHz then, 10⁻⁴ MHz after the extension described below; the argmin is
+the J → 0 limit, not a coupling). Two things are worth
 more than the numbers. First, the line the defect was recorded against
 (`gamma_hw`) turned out to be **printed in the header and never simulated**;
 the rates the run uses are built thirty lines further down from `T2star` and
 `T2_echo`, and fixing only the flagged line left the output bit-identical.
-Second, the new fitted J = 0.05 is the **smallest value in the scan grid**. It
-attains the lowest error on that grid, but it wins by very little and it sits on
-the lower edge, so the grid does not bracket the optimum and "best J" should not
-be read as a fitted coupling until the grid is extended downward. The honest
-comparison is against the runner-up, not the worst point: **1.6600 at J = 0.05
-against 1.6900 at J = 0.5**, a gap of 0.03 on an objective whose spread across
-the whole grid is only 1.66 to 1.74. The error is also **not** monotone in J (it
-falls from 1.7000 at J = 0.3 to 1.6900 at J = 0.5, and from 1.7400 at J = 2.0 to
-1.7300 at J = 3.0). A shallow, bumpy surface whose winner sits on the boundary is
-not a located minimum.
+Second, the new fitted J = 0.05 was the **smallest value in the scan grid**, so
+the grid did not bracket its own winner. **Extended downward on 2026-08-05, and
+the answer is that there is nothing to bracket.** In this regime SumMI scales as
+J² (5.743306·10⁻¹¹ at J = 10⁻⁵ against 5.743180·10⁻⁷ at J = 10⁻³, a factor 10⁴
+for a factor 100 in J, and the selective t=1 SumMI/J² constant to four digits), so the *ratio* of
+two SumMI is J-free and the objective has a genuine J → 0 limit, reached to four
+digits at both J = 10⁻⁴ and J = 10⁻³ (1.6274). The argmin is that limit. "Best
+J" is therefore not a fitted coupling at any grid resolution, and no extension
+will make it one.
+
+The grid stops at 10⁻⁴, and the binding floor is not the one you would guess.
+Underneath, both SumMI eventually reach double-precision noise near 5·10⁻¹⁵ (measured
+asymptote 4.87·10⁻¹⁵ selective, 5.09·10⁻¹⁵ uniform), but
+the script never gets that far: its ratio guard `uni > 1e-10` trips first. At
+J = 10⁻⁴ the t=1 uniform SumMI is 3.81·10⁻⁹, only **38×** above that guard, and
+one decade lower it trips, whereupon the ratio is set to 0 and the objective
+reads 3.1343 at J = 10⁻⁵ and 4.4737 at J = 10⁻⁶ and below. Those are the guard
+firing, not the limit. So 10⁻⁴ is the lowest grid point that means anything here,
+by a margin of 38 and not of 10⁶. And the objective is **not** monotone in
+J: it falls from 1.7017 at J = 0.3 to 1.6922 at J = 0.5, and from 1.7423 at
+J = 2.0 to 1.7354 at J = 3.0.
+
+The deeper reading is in what the objective is made of, which the script now
+prints as two columns rather than one sum. Across seventeen values of J spanning
+four and a half decades the total moves only from 1.6274 to 1.7423, and the t=5 half never
+falls below 1.5242: the simulation reaches r(5) ≈ 1.29 to 1.35 against an IBM
+r(5) of 2.87, for **every** J. At the argmin the t=5 half is **94.3%** of the
+total error, and the smallest t=5 miss anywhere on the grid, 1.5242, is on its
+own **87.5%** of even the worst total. So the argmin is being chosen inside a
+residual no coupling removes. (The error values
+quoted here until 2026-08-05 (1.6600, 1.6900, 1.7000, 1.7400, 1.7300) were
+recomputed by hand from the ratios as printed to two decimals, because the script
+did not print its own objective; they are all exact multiples of 0.01 for that
+reason. The non-monotonicity they were cited for survives at full precision, the
+values do not.)
 
 **Retro-note (2026-07-05, from the A-vs-B reckoning's review; read before the
 table):** this section's rates put COHERENCE rates in Lindblad slots: the

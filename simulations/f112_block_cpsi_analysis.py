@@ -32,8 +32,21 @@ Method:
   NOT which model fits best: the family has no per-qubit detuning, which this
   dataset needs, so its ranking compares members of the wrong family.
 
+Fitting (repaired 2026-08-05):
+  The fit is MULTI-START (`seed_set`), because single-start was seed-dependent:
+  `Z_plus_T1` reached RMS 0.274109 from the 1/T2 seed and 0.307329 from the
+  1/(2*T2) seed, a different local minimum and a worse fit. Both conventions are
+  now seeds among many, so which one a caller passes cannot decide the answer.
+  Multi-start changes no published RMS: all five models land on the same minima.
+
+  It does NOT fix, and cannot fix, the second Z rate, which this data does not
+  identify from above at all. `identifiability_profile` reports that beside the
+  table rather than hiding it in a converged-looking number.
+
 Output:
   Table per model: fit_RMS, F112 asymmetry, in_F112_scope flag.
+  Identifiability profile per parameter: relative objective change under a
+  factor-of-ten rescaling, up and down.
   Interpretation: what F112 says about where the fitted models sit. The 1.72×
   anomaly is NOT explained here; see the companion experiment for why.
 """
@@ -73,6 +86,12 @@ PAULI = {'I': I2, 'X': X, 'Y': Y, 'Z': Z}
 
 DATA_PATH = Path('data/ibm_block_cpsi_saturation_may2026/'
                  'block_cpsi_saturation_hardware_ibm_kingston_20260508T032749Z.json')
+
+# The flown calibration. Asserted against the JSON in main(), so this constant
+# cannot silently drift away from the record it describes. The house D[Z] rate
+# is 1/(2*T2); the JSON stores 1/T2 under the superseded convention. Both are
+# used as multi-start seeds, which is why neither is privileged here.
+T2_MIN_US = 480.0
 
 
 def load_trajectory():
@@ -214,14 +233,128 @@ def fit_residual(params, model, t_us, rhos):
     return total
 
 
-def fit_model(model, t_us, rhos, x0):
-    """Local minimization from initial guess x0."""
+def _fit_once(model, t_us, rhos, x0):
+    """Local minimization from a single initial guess x0."""
     result = minimize(
         fit_residual, x0, args=(model, t_us, rhos),
         method='Nelder-Mead',
         options={'xatol': 1e-7, 'fatol': 1e-10, 'maxiter': 5000},
     )
     return result.x, float(result.fun)
+
+
+def seed_set(model, n_random=40, rng_seed=20260805):
+    """Deterministic multi-start seeds for `model`.
+
+    Both T2 -> gamma conventions are included as seeds (1/T2 and 1/(2*T2)), so
+    the fit no longer depends on which one a caller passes: they are two members
+    of one set. The rest are log-uniform over 1e-4 .. 0.5 per us.
+
+    That range does NOT bracket everything, and this says so rather than claiming
+    a coverage it does not have: `Z_plus_T1_plus_ZZ` wins at a second Z rate of
+    13.59, 27x above the range's top. It gets there because the simplex is free
+    to leave its starting box, and because that parameter sits on a flat plateau
+    (see `identifiability_profile`) where any large value is as good as any
+    other. Basin counts REACHABLE FROM THIS SEED SET, measured by running it
+    (losses distinct at 6 dp): 2, 6, 3, 21 and 3 for the five models in the order
+    used in main(). That is a count of what these seeds find, not a claim about
+    how many basins exist.
+    """
+    n_rate = {'pure_Z': 2, 'Z_plus_T1': 4, 'Z_plus_ZZ': 2,
+              'Z_plus_T1_plus_ZZ': 4, 'Z_plus_hy': 2}[model]
+    n_par = {'pure_Z': 2, 'Z_plus_T1': 4, 'Z_plus_ZZ': 3,
+             'Z_plus_T1_plus_ZZ': 5, 'Z_plus_hy': 3}[model]
+
+    seeds = []
+    # Written as 2/T2 and 1/T2 when first landed, which is neither pair: the two
+    # conventions are 1/T2 (old book) and 1/(2*T2) (house). Corrected 2026-08-05.
+    # The factor of two slipped into the repair that exists because of it.
+    for g in (1.0 / T2_MIN_US, 1.0 / (2.0 * T2_MIN_US)):   # old book, house book
+        rates = [g, g] + ([0.5 * g, 0.5 * g] if 'T1' in model else [])
+        extra = [0.0005] * ('ZZ' in model) + [0.001] * ('hy' in model)
+        seeds.append(np.array(rates + extra, dtype=float))
+
+    rng = np.random.default_rng(rng_seed)
+    for _ in range(n_random):
+        rates = 10 ** rng.uniform(-4, -0.3, size=n_rate)
+        extra = rng.uniform(-0.01, 0.01, size=n_par - n_rate)
+        seeds.append(np.concatenate([rates, extra]))
+    return seeds
+
+
+def fit_model(model, t_us, rhos, x0=None):
+    """Multi-start minimization; returns the best (x, loss) over `seed_set`.
+
+    Single-start was seed-dependent and quietly so: `Z_plus_T1` reaches RMS
+    0.274109 from one convention's seed and 0.307329 from the other's, a
+    different local minimum and a worse fit. Multi-start removes the dependence
+    on WHICH seed; it does not remove a flat direction, which is what
+    `identifiability_profile` below reports separately.
+    """
+    seeds = seed_set(model)
+    if x0 is not None:
+        seeds = [np.asarray(x0, dtype=float)] + seeds
+    best_x, best_loss = None, np.inf
+    for s in seeds:
+        x, loss = _fit_once(model, t_us, rhos, s)
+        if loss < best_loss:
+            best_x, best_loss = x, loss
+    return best_x, best_loss
+
+
+def identifiability_profile(x, model, t_us, rhos, factor=10.0):
+    """Per-parameter relative loss change when the parameter is scaled.
+
+    Returned per index: (up, down), the RELATIVE objective CHANGE on scaling that
+    parameter by `factor` and by 1/`factor`, the other parameters held. The change
+    can be negative when the fit sits just below a flat region (`Z_plus_T1`'s
+    second Z rate prints -1.8e-16), so this is a change, not an increase.
+
+    This is READ, not gated, and deliberately so. In FOUR of the five models here
+    (`Z_plus_hy` is the exception, below) the second Z rate is not identified from
+    above. Against a sign-alternating sequence the least-squares optimum for a
+    purely decaying model is zero, so the optimiser raises that rate until the
+    model predicts no transverse coherence at all: it is switching a prediction
+    off, not fitting a rate. The data itself says the coherence is alive there
+    (57% of its t=0 magnitude at the first 120 us delay, decaying log-linearly
+    with T2 about 170 us). `Z_plus_hy` is the exception: its second Z rate sits at
+    an interior minimum near 0.0152, with gamma -> infinity about 6% WORSE. Do not
+    read that as the Y-field representing the alternation. It does not turn the
+    transverse coherence at all (it tips X toward Z), and the interior minimum's
+    whole advantage sits in the slot-1 LONGITUDINAL Paulis: +0.0277 of the +0.0275
+    total, while on the transverse block the fit is 0.0002 worse than the
+    plateau's exact zero. Two tidy causal stories for this exception were written
+    and withdrawn under review on 2026-08-05; it is left as a decomposition.
+
+    Where the objective goes exactly flat is ARITHMETIC, not physics: it is where
+    the model's own coherence factor exp(-2*g*120) falls under the ULP of the
+    objective, near 1e-16. No value is quoted for that onset because it does not
+    carry digits: it is model-dependent, and at fixed model it moves by 8% under a
+    relative 1e-8 jitter of the OTHER rate. In higher precision it moves again. So
+    a binary "is it bit-identical" test would report a property of float64, and a
+    threshold would only move the arbitrariness elsewhere. The precision-free
+    statement is the flattening itself: at 0.05 per us the objective is already
+    within 2e-6 relative of its limit.
+
+    The numbers below let a reader see that directly: `up` at or near zero means
+    the fitted digits are where the simplex stopped, and the value has stopped
+    denoting a rate. It is NOT a bound on that qubit's T2.
+
+    One blind spot, since the probe is multiplicative: a parameter fitted at
+    exactly 0 returns (0.0, 0.0) and so wears the plateau's signature without
+    being on a plateau. No fitted parameter here is 0; check before reading the
+    legend if that ever changes.
+    """
+    base = fit_residual(x, model, t_us, rhos)
+    prof = []
+    for i in range(len(x)):
+        vals = []
+        for f in (factor, 1.0 / factor):
+            probe = np.array(x, dtype=float)
+            probe[i] = probe[i] * f
+            vals.append((fit_residual(probe, model, t_us, rhos) - base) / base)
+        prof.append(tuple(vals))
+    return prof
 
 
 def is_bit_b_homogeneous_pauli_label(label):
@@ -281,51 +414,38 @@ def main():
           f"γ_eff_cal = {raw['gamma_eff_per_us_calibration']:.6f} /μs")
     print()
 
-    # Initial guesses (from T2 calibration).
+    # Starting points: NONE is privileged any more. `fit_model` runs a
+    # deterministic multi-start (see `seed_set`), because single-start was
+    # seed-dependent: `Z_plus_T1` reached RMS 0.274109 from the 1/T2 seed and
+    # 0.307329 from the 1/(2*T2) seed, a different local minimum and a worse
+    # fit. Which T2 -> gamma convention seeds the fit is therefore no longer a
+    # question this script can get wrong; both conventions are seeds.
     #
-    # TWO KNOWN DEFECTS HERE, NEITHER FIXED, because fixing one moves published
-    # numbers and the other has to be understood first (2026-08-05).
-    #
-    # (1) WRONG BOOK. The JSON's `gamma_eff_per_us_calibration` is
-    #     1/480 = 0.0020833 /μs, i.e. 1/T2_min under the SUPERSEDED convention.
-    #     The D[Z] rate reproducing that T2 is 1/(2*T2_min) = 0.0010417 /μs.
-    #     The JSON is a record of what was actually flown and must NOT be
-    #     edited; the halving belongs here, in the consumer.
-    #     See docs/GLOSSARY.md, "The T2 -> gamma conversion".
-    #
-    # (2) THE FIT IS SEED-DEPENDENT, so (1) is not a free correction. Measured:
-    #     halving g_z_cal moves `Z_plus_T1` from RMS 0.274109 to 0.307329 and
-    #     its first fitted rate from 0.00292 to 0.21774, i.e. a different local
-    #     minimum and a WORSE fit. `pure_Z`, `Z_plus_ZZ` and `Z_plus_T1_plus_ZZ`
-    #     keep their RMS to six digits while their second parameter still moves
-    #     (0.14597 -> 0.14958 for pure_Z), which says there is a flat direction
-    #     as well as multiple minima. A least-squares starting point is supposed
-    #     to be irrelevant; here it is not, and that is a finding about this
-    #     analysis, not about the conversion.
-    #
-    # So the value below is left on the old book deliberately, to keep the
-    # published fit reproducible. The correct repair is to make the fit
-    # seed-independent (multi-start, or bounds that exclude the 0.21 basin) and
-    # THEN halve the seed, checking what moves.
-    g_z_cal = raw['gamma_eff_per_us_calibration']  # 1/T2_min, old book: see above
-    g_t1_cal = g_z_cal * 0.5  # weaker initial guess
-    j_zz_cal = 0.0005
-    hy_cal = 0.001
+    # What multi-start does NOT fix, and what `identifiability_profile` reports
+    # beside the table: in four of the five models the second Z rate is not
+    # identified from above. The optimiser raises it until the model predicts no
+    # transverse coherence, which is the least-squares answer to a
+    # sign-alternating sequence it cannot turn; the objective then goes
+    # bit-identical to its gamma -> infinity limit, at a threshold set by
+    # double-precision epsilon rather than by the data. A value printed inside
+    # that plateau is a stopping point, not a measurement, and it is NOT a bound
+    # on that qubit's T2: the same data gives that qubit T2 about 170 us from the
+    # decay of its coherence MAGNITUDE. `Z_plus_hy` has no plateau at all, and the
+    # docstring of `identifiability_profile` says what that does and does NOT
+    # mean. See docs/GLOSSARY.md, "The T2 -> gamma conversion", for the convention
+    # this whole thread hangs on.
+    assert raw['t2_min_us_calibration'] == T2_MIN_US, (
+        f"calibration record moved: JSON says {raw['t2_min_us_calibration']}, "
+        f"this script's constant says {T2_MIN_US}")
 
-    models_and_x0 = [
-        ('pure_Z', [g_z_cal, g_z_cal]),
-        ('Z_plus_T1', [g_z_cal, g_z_cal, g_t1_cal, g_t1_cal]),
-        ('Z_plus_ZZ', [g_z_cal, g_z_cal, j_zz_cal]),
-        ('Z_plus_T1_plus_ZZ', [g_z_cal, g_z_cal, g_t1_cal, g_t1_cal, j_zz_cal]),
-        ('Z_plus_hy', [g_z_cal, g_z_cal, hy_cal]),
-    ]
+    models = ['pure_Z', 'Z_plus_T1', 'Z_plus_ZZ', 'Z_plus_T1_plus_ZZ', 'Z_plus_hy']
 
     print(f"{'Model':<22} {'fit RMS':>12} {'in F112 scope':>15} {'F112 asym':>15} {'F112 rel asym':>15}  fitted params")
     print('-' * 130)
 
     results = {}
-    for model, x0 in models_and_x0:
-        x_fit, fit_loss = fit_model(model, t_us, rhos, x0)
+    for model in models:
+        x_fit, fit_loss = fit_model(model, t_us, rhos)
         rms = float(np.sqrt(fit_loss / max(len(t_us) - 1, 1)))
 
         L_vec, c_list, g_list, c_kind, H = build_L_model(x_fit, model)
@@ -347,7 +467,10 @@ def main():
         all_c_bit_b_homog = all(is_bit_b_homogeneous_pauli_label(k) for k in c_kind)
         in_scope = h_is_hermitian and all_c_bit_b_homog
 
+        prof = identifiability_profile(x_fit, model, t_us, rhos)
+
         results[model] = {
+            'identifiability': prof,
             'fit_rms': rms,
             'fit_loss': fit_loss,
             'params': x_fit.tolist(),
@@ -360,6 +483,22 @@ def main():
 
         scope_str = 'YES' if in_scope else 'no'
         print(f"{model:<22} {rms:>12.6f} {scope_str:>15} {asym:>+15.6e} {rel:>15.4e}  {[f'{p:.5f}' for p in x_fit]}")
+
+    print()
+    print("=" * 130)
+    print("Identifiability: relative change of the objective when one parameter is scaled")
+    print("=" * 130)
+    print("A parameter whose x10 column is ~0 is NOT identified from above: the fitted digits")
+    print("are where the simplex stopped on a flat plateau, and the data carries a lower bound")
+    print("with no upper one. Read the numbers; there is no threshold here.")
+    print()
+    for model in models:
+        kinds = results[model]['param_kinds']
+        print(f"  {model}")
+        for i, (up, down) in enumerate(results[model]['identifiability']):
+            name = kinds[i] if i < len(kinds) else f'p{i}'
+            print(f"    {name:<18} value {results[model]['params'][i]:>12.5f}   "
+                  f"x10: {up:>12.3e}   /10: {down:>12.3e}")
 
     print()
     print("=" * 130)

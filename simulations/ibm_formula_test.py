@@ -14,6 +14,7 @@ Three configurations measured:
 We run the Lindblad simulation with IBM's ACTUAL dephasing rates
 and compare SumMI.
 """
+import math
 import numpy as np
 from scipy.linalg import expm
 import json
@@ -256,8 +257,9 @@ rho0 = np.outer(psi0, psi0.conj())
 # Sweep J to find the best match
 print(f"\nSweeping J to find best match with IBM data:")
 print(f"  {'J (MHz)':>8s}  {'J/g_ctr':>8s}  {'Sel(t=1)':>9s}  {'Uni(t=1)':>9s}  "
-      f"{'Ratio(1)':>8s}  {'Ratio(5)':>8s}  {'IBM r(1)':>8s}  {'IBM r(5)':>8s}")
-print(f"  {'-'*75}")
+      f"{'Ratio(1)':>8s}  {'Ratio(5)':>8s}  {'IBM r(1)':>8s}  {'IBM r(5)':>8s}  "
+      f"{'|dr1|':>7s}  {'|dr5|':>7s}  {'err':>7s}")
+print(f"  {'-'*102}")
 
 ibm_ratio_1 = ibm_data['selective']['sum_mi'][0] / ibm_data['uniform']['sum_mi'][0]
 ibm_ratio_5 = ibm_data['selective']['sum_mi'][4] / ibm_data['uniform']['sum_mi'][4]
@@ -265,7 +267,31 @@ ibm_ratio_5 = ibm_data['selective']['sum_mi'][4] / ibm_data['uniform']['sum_mi']
 best_J = None
 best_err = np.inf
 
-for J in [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0, 3.0]:
+# The grid reaches down to 1e-4, from a former lower end of 0.05, because the
+# fit landed exactly on that end and so did not bracket its own optimum.
+#
+# It stops at 1e-4 rather than at 0, and the reason is a floor, not a taste.
+# SumMI here scales as J^2 (measured: 5.743306e-11 at J = 1e-5 against
+# 5.743180e-07 at J = 1e-3, the selective t=1 SumMI/J^2 constant to four
+# digits), so the RATIO of
+# two SumMI is J-free in that regime and the objective has a genuine J -> 0
+# limit, reached to four digits at both 1e-4 and 1e-3.
+#
+# The binding floor is NOT the arithmetic one. Both SumMI do eventually reach
+# double-precision noise near 5e-15, but the ratio guard `uni > 1e-10` twenty
+# lines below trips long before that: at J = 1e-4 the t=1 uniform SumMI is
+# 3.81e-9, only 38x above the guard, and one decade lower it trips and the
+# ratio is set to 0, so err reads 3.1343 at 1e-5 and 4.4737 at 1e-6 and below.
+# Those rows are the guard firing, not the limit. 1e-4 is the lowest grid point
+# that means anything, by a margin of 38 and not of 1e6.
+#
+# The reading printed under the table is the point of the extension: the
+# argmin is the J -> 0 limit, so there is no interior optimum to bracket, and
+# most of the error is a residual no J can remove.
+J_GRID = [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.02, 0.03,
+          0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0, 3.0]
+rows = []
+for J in J_GRID:
     H = build_heisenberg_chain(N, J=J)
 
     results = {}
@@ -283,28 +309,60 @@ for J in [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0, 3.0]:
     r1 = results['sel'][1.0] / results['uni'][1.0] if results['uni'][1.0] > 1e-10 else 0
     r5 = results['sel'][5.0] / results['uni'][5.0] if results['uni'][5.0] > 1e-10 else 0
 
-    err = abs(r1 - ibm_ratio_1) + abs(r5 - ibm_ratio_5)
+    d1 = abs(r1 - ibm_ratio_1)
+    d5 = abs(r5 - ibm_ratio_5)
+    err = d1 + d5
     if err < best_err and r1 > 0 and r5 > 0:
         best_err = err
         best_J = J
+    rows.append((J, d1, d5, err))
 
     jg = J / np.mean(gamma_selective[1:])
-    print(f"  {J:8.2f}  {jg:8.1f}  {results['sel'][1.0]:9.4f}  {results['uni'][1.0]:9.4f}  "
-          f"{r1:8.2f}x  {r5:8.2f}x  {ibm_ratio_1:8.2f}x  {ibm_ratio_5:8.2f}x")
+    print(f"  {J:8.4f}  {jg:8.1f}  {results['sel'][1.0]:9.4f}  {results['uni'][1.0]:9.4f}  "
+          f"{r1:8.2f}x  {r5:8.2f}x  {ibm_ratio_1:8.2f}x  {ibm_ratio_5:8.2f}x  "
+          f"{d1:7.4f}  {d5:7.4f}  {err:7.4f}")
 
-print(f"\n  Best J: {best_J} MHz")
+print(f"\n  Best J: {best_J} MHz  (err = {best_err:.4f})")
+
+# What the objective is actually made of. Reading this is the point of the two
+# extra columns: if one half of the sum never falls, the argmin is chosen inside
+# a residual no J can remove, and "best J" is not a fitted coupling.
+d5_min, d5_max = min(r[2] for r in rows), max(r[2] for r in rows)
+d1_min, d1_max = min(r[1] for r in rows), max(r[1] for r in rows)
+err_min, err_max = min(r[3] for r in rows), max(r[3] for r in rows)
+print(f"  Across the whole grid ({len(rows)} values of J spanning "
+      f"{J_GRID[0]} to {J_GRID[-1]} MHz):")
+print(f"    |dr1| ranges {d1_min:.4f} to {d1_max:.4f}")
+print(f"    |dr5| ranges {d5_min:.4f} to {d5_max:.4f}")
+print(f"    err   ranges {err_min:.4f} to {err_max:.4f}, i.e. it varies by "
+      f"{err_max - err_min:.4f} over the {math.log10(J_GRID[-1]/J_GRID[0]):.1f} decades it spans")
+if best_J == J_GRID[0]:
+    print("  The argmin sits on the grid's lower edge, and extending the grid does not")
+    print("  move it: SumMI scales as J^2 here, so the ratio of two SumMI is J-free and")
+    print("  the objective's argmin is the J -> 0 LIMIT. There is no interior GLOBAL")
+    print("  optimum to bracket (interior LOCAL ones exist: the surface is not monotone),")
+    print("  so 'best J' is not a fitted coupling. Going lower does not help: the ratio")
+    print("  guard `uni > 1e-10` trips one decade below this grid's lower edge.")
+elif best_J == J_GRID[-1]:
+    print("  WARNING: the argmin sits on the grid's UPPER edge, so the grid does not")
+    print("  bracket the optimum. Extend it upward before reading 'best J' as a coupling.")
 
 # Full time sweep at best J
 if best_J:
     print(f"\n{'=' * 65}")
     print(f"FULL TIME SWEEP at J = {best_J} MHz")
     print("=" * 65)
+    if best_J == J_GRID[0]:
+        print("  This J is the objective's J -> 0 limit, not a fitted coupling, so the")
+        print("  simulated SumMI columns are near zero in absolute terms (they vanish as")
+        print("  J^2). They are printed in scientific notation for that reason. Only the")
+        print("  ratio column carries content here, which is also all the objective used.")
 
     H = build_heisenberg_chain(N, J=best_J)
 
-    print(f"\n  {'t(us)':>6s}  {'Sel(sim)':>9s}  {'Sel(IBM)':>9s}  "
-          f"{'Uni(sim)':>9s}  {'Uni(IBM)':>9s}  {'r(sim)':>7s}  {'r(IBM)':>7s}")
-    print(f"  {'-'*65}")
+    print(f"\n  {'t(us)':>6s}  {'Sel(sim)':>11s}  {'Sel(IBM)':>9s}  "
+          f"{'Uni(sim)':>11s}  {'Uni(IBM)':>9s}  {'r(sim)':>7s}  {'r(IBM)':>7s}")
+    print(f"  {'-'*69}")
 
     for k in range(5):
         t_us = ibm_data['selective']['time_points'][k]
@@ -321,5 +379,5 @@ if best_J:
         r_sim = results_t['sel'] / results_t['uni'] if results_t['uni'] > 1e-10 else 0
         r_ibm = smi_ibm_sel / smi_ibm_uni if smi_ibm_uni > 0 else 0
 
-        print(f"  {t_us:6.1f}  {results_t['sel']:9.4f}  {smi_ibm_sel:9.4f}  "
-              f"{results_t['uni']:9.4f}  {smi_ibm_uni:9.4f}  {r_sim:7.2f}x  {r_ibm:7.2f}x")
+        print(f"  {t_us:6.1f}  {results_t['sel']:11.4e}  {smi_ibm_sel:9.4f}  "
+              f"{results_t['uni']:11.4e}  {smi_ibm_uni:9.4f}  {r_sim:7.2f}x  {r_ibm:7.2f}x")

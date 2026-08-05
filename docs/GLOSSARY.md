@@ -225,9 +225,15 @@ disagrees. One number had crossed the boundary unconverted: the 70× of
 which divided a fitted Lindblad γ_Z by that document's own γ_eff = 1/T₂, while
 the 1.72× it imports from
 [IBM_BLOCK_CPSI_SATURATION](../experiments/IBM_BLOCK_CPSI_SATURATION.md) was
-computed on 1/(2T₂). Two rulers, one setup. **Corrected 2026-08-05:** that
-ratio is 140× (133× to 141× across the four models), and doubling it only
-sharpens the point it was making. The 1.72× was right and is unchanged.
+computed on 1/(2T₂). Two rulers, one setup. **Corrected 2026-08-05:** the denominator was **halved**,
+from 1/T₂ to 1/(2T₂), which doubles the ratio and only sharpens the point it was
+making. The ratio
+itself is no longer quoted as a value, because its numerator turned out not to
+be a rate at all: the optimiser drives that parameter up until the model
+predicts no coherence, and the published figure was where double-precision
+arithmetic stopped changing. The lesson the entry exists for is the one that
+survives, and the ruler crossing was real: two rulers in one setup. The 1.72×
+was right and is unchanged.
 
 The one fact underneath: a `D[Z]` channel at rate γ, built as the repository
 builds it everywhere (jump operator c = √γ·Z), decays coherences at **2γ**, not
