@@ -114,7 +114,7 @@ ranking the arithmetic. Permuting only the order in which the jump operators are
 summed into L moves this number by 1.77× at fixed physics (one chain, all 120
 orders), and permuting only the ARRAY ORDER of the eigenvalues, same spectrum, by
 a further 1.29×. Both exceed
-the 1.43× that separates the ten chains in the mapping run. Full working in
+the 1.44× that separates the ten chains in the mapping run. Full working in
 [Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md).
 
 ### 2. Mode localization is geometric (chain-determined)

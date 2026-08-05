@@ -206,7 +206,7 @@ max|rate| spreads the same ten chains by **15.0×**, because max|rate| is only t
 real part while the spectrum is dominated by |Im| (ρ / max|rate| is 47× to 600×
 here).
 
-Measured: **53.3 to 76.5 ε** across the ten chains, a **1.43×** band. That band
+Measured: **53.3 to 76.5 ε** across the ten chains, a **1.44×** band (1.4353). That band
 is at its floor, not merely small: **one sensitivity of the measurement alone
 exceeds it, and a second is of the same size**.
 

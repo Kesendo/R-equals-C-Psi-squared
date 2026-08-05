@@ -155,12 +155,12 @@ def spectral_analysis(gammas, J=1.0):
     # normalisation is not free: normalising by max|rate| instead spreads the
     # same ten chains by 15.0x, because max|rate| is only the real part while the
     # spectrum is dominated by |Im| (rho / max|rate| is 47x to 600x here). The
-    # spectral radius brings them to 1.43x,
+    # spectral radius brings them to 1.44x (1.4353),
     # which is the floor rather than a residual error: permuting only the ORDER
     # in which the five jump operators are summed into L, same physics and same
     # gammas, moves this number over all 120 orders from 51.2 to 90.9, a 1.77x
     # spread (one chain, and identical under in-place and out-of-place
-    # accumulation), MORE than the 1.43x separating the ten chains. And the greedy
+    # accumulation), MORE than the 1.44x separating the ten chains. And the greedy
     # matcher has a second sensitivity of its own: permuting only the ARRAY ORDER
     # of the eigenvalues, same spectrum, gives 58.9 against 75.8 on one chain
     # (1.29x). Greedy matching is order-dependent by construction, so this metric
