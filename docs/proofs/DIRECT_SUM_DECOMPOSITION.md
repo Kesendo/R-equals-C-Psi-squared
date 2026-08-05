@@ -399,8 +399,9 @@ and the two standard perturbations break OPPOSITE halves of the structure
   bilinearly (σ₋ ρ σ₋† puts an odd-parity operator on both sides of ρ,
   net parity change even, and σ₋†σ₋ = (I−Z)/2 is parity-even), so the
   n_XY grading and \[P_XY, L\] = 0 survive EXACTLY, and with them the
-  direct-sum decomposition. What T₁ breaks is the palindrome content of
-  Statements 2/3 (a damping channel has a fixed arrow of time; closed-form
+  direct-sum decomposition. What T₁ breaks is the Π content of
+  Statements 2/3 (the operator, not the spectral palindrome, which T₁ alone
+  preserves at a halved centre, F137) (a damping channel has a fixed arrow of time; closed-form
   residuals in F82/F84), so the two sectors persist but stop being mirror
   images of each other.
 - The purely combinatorial parts (Statement 1's dimension count, Step 4's

@@ -393,8 +393,8 @@
 
 **Question:** What is the critical n_bar where the palindromic pairing drops below 50%?  
 **Source:** `experiments/THERMAL_BREAKING.md` (line 454)  
-**Proposed status:** open  
-**Justification:** Listed in Open Questions as "Straightforward: sweep n_bar with finer resolution." The finer sweep has not been executed.
+**Proposed status:** ANSWERED 2026-08-05  
+**Justification:** The question presupposes a drop that does not happen. Under a thermal bath the pairing is exact at every n_bar, at the centre -Sum(gamma_down + gamma_up)/2 (F137, extended); the apparent temperature dependence was the greedy palindrome scorer. Producer: `simulations/thermal_palindrome_centre.py`. Matches the status already recorded at `OPEN_QUESTIONS_INDEX.md` OQ-223.
 
 ---
 

@@ -31,10 +31,10 @@
 **Proposed Status:** partially-resolved
 **Confidence:** high
 **Resolving documents:**
-- `docs/proofs/PROOF_PARITY_SELECTION_RULE.md` (lines 186-193): proves amplitude damping breaks the palindrome (jump operator sigma_minus has n_XY = 1, odd parity)
+- `docs/proofs/PROOF_PARITY_SELECTION_RULE.md` (lines 186-193): proves the sigma_minus jump operator is parity-odd, hence breaks the Pi OPERATOR. It does not prove the spectral palindrome breaks, and that does not follow: T1 alone preserves it at a halved centre (F137).
 - `experiments/NOISE_ROBUSTNESS.md` (lines 215-250): amplitude damping tested, preserves taxonomy but with different decay rates
 - `experiments/DEPOLARIZING_PALINDROME.md`: depolarizing noise fully characterized (error = (2/3)N*gamma, Hamiltonian-independent)
-**Rationale:** Amplitude damping is proven to break the palindromic symmetry via the parity selection rule, and depolarizing noise is fully characterized. However, thermal baths and non-Markovian environments remain untested. The broader scope (all non-dephasing dissipators) is only partially covered.
+**Rationale:** Amplitude damping is proven to break the Pi operator via the parity selection rule, NOT the spectral palindrome, which it preserves at the halved centre -Sum(gamma)/2 (F137). Depolarizing noise is fully characterized. Thermal baths are no longer untested (F137 extended, 2026-08-05, exact at N=2,3); non-Markovian environments remain untested. The broader scope (all non-dephasing dissipators) is only partially covered.
 **Search terms used:** "amplitude damping", "thermal bath", "non-Markovian", "parity selection", "DEPOLARIZING_PALINDROME"
 
 ---

@@ -49,9 +49,12 @@ Six results:
    structure exists but is invisible: no coherent oscillation survives
    dephasing at 310 K.
 
-4. **Thermal breaking at 310 K.** Amplitude damping (n_bar ~ 1.5-2)
-   breaks the palindrome partially and reduces Q from 1.9 to 0.6.
-   Frequency diversity increases (15 to 26 for G-C).
+4. **Thermal breaking at 310 K.** The warm channel set reduces Q from
+   1.9 to 0.6 and raises frequency diversity from 15 to 26 for G-C. It also
+   breaks the palindrome, but not because of the heat: that set runs
+   amplitude damping *alongside* the co-axial Z-dephasing, and it is the
+   shared axis that breaks. Amplitude damping alone keeps the palindrome, at
+   a centre of −Σγ/2 ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)).
 
 5. **Sacrifice zone works in G-C.** Edge sacrifice (outer H-bonds noisy,
    central protected) gives Q_max = 7.4 vs uniform 1.9 (3.8x). Same
@@ -153,7 +156,7 @@ occupation). Adding amplitude damping:
 
 | Property | Cold (Z only) | Warm (310 K) |
 |----------|--------------|--------------|
-| G-C palindrome | exact | partially broken |
+| G-C palindrome | exact | broken (by the shared axis, not by the heat) |
 | G-C frequencies | 15 | 26 |
 | G-C Q_max | 1.95 | 0.57 |
 | G-C rate range | 58-300 | 211-627 |

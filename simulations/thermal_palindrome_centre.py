@@ -63,7 +63,11 @@ gamma_down + gamma_up; F84's Pi-conjugation violation follows the NET
 difference. Section 4 shows why, and it is not a coincidence of two formulas:
 in the (I, X, Y, Z) Pauli basis the one-site thermal dissipator is TRIANGULAR,
 with the sum on the diagonal and the net rate as its only off-diagonal entry,
-where it cannot move an eigenvalue. That also resolves KMS's summary table
+where it cannot move an eigenvalue. The repo's name for that general fact is
+the SOFT BREAK (reflections/ON_THE_SOFT_BREAK.md, 2026-04-25); the entry itself
+was tabulated in PROOF_F82 Step 3 (2026-04-30) and the sum/difference split is
+the single-qubit Bloch equation in experiments/F81_VIOLATION_HARDWARE_BRIDGE.md
+(2026-07-05). Only the join is new. That also resolves KMS's summary table
 against its own body: the obstruction it names is against Pi, not the pairing.
 
 Run: python simulations/thermal_palindrome_centre.py   (~2 min, the exact

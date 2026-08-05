@@ -5796,10 +5796,21 @@ floor for every thermal case to N=5.
 
 **Which rate, and why it is not F84's.** The centre follows the **sum**
 γ↓ + γ↑; [F84](#f84)'s Π-conjugation violation follows the **net** rate
-γ↓ − γ↑. The mechanism, not a coincidence of two formulas: in the (I, X, Y, Z)
-Pauli basis the one-site thermal dissipator is **triangular**, carrying
-[0, −r/2, −r/2, −r] on the diagonal and the net rate as its single off-diagonal
-entry, at (Z, I), where it cannot move an eigenvalue. Detailed balance separates
+γ↓ − γ↑. The mechanism is the repo's own
+[soft break](../reflections/ON_THE_SOFT_BREAK.md), read one level down: in the
+(I, X, Y, Z) Pauli basis the one-site thermal dissipator is **triangular**,
+carrying [0, −r/2, −r/2, −r] on the diagonal and the net rate as its single
+off-diagonal entry, at (Z, I), where it cannot move an eigenvalue. That entry
+is not new here.
+[PROOF_F82](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md) Step 3 printed this
+exact table on 2026-04-30 and identified (Z, I) as the dissipator's entire
+Π²-antisymmetric content; what it did not say is that the entry sits *below*
+the diagonal. And the sum/difference split is already the single-qubit Bloch
+equation dz/dt = a − b·z with a = γ↓ − γ↑ and b = γ↓ + γ↑ = 1/T₁, written out
+in [the F81 hardware bridge](../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md):
+the sum is the decay rate, the difference is the affine constant. So the only
+new sentence is the join, and it is the reason F137's centre and F84's
+violation can never be the same rate. Detailed balance separates
 the two cleanly: at γ↓ = γ↑ F84's violation is exactly zero, the centre is
 **not** zero but −Σγ↓, and the pairing is exact (proven above). That is F137's
 own "Π fails ≠ the palindrome fails", read in the other direction.

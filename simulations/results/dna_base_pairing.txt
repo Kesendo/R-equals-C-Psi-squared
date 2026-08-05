@@ -1,6 +1,6 @@
 ========================================================================
 DNA BASE PAIRING AS PALINDROMIC CAVITY SYSTEM
-Started: 2026-04-01 18:01:16
+Started: 2026-08-05 21:47:40
 ========================================================================
 
 ========================================================================
@@ -170,8 +170,10 @@ SUMMARY
    (shorter H-bond, enzyme cavity, low temperature).
 
 4. THERMAL BREAKING: At 310 K (n̄ ~ 0.5-2 for DNA H-bond modes),
-   amplitude damping breaks the palindrome partially. Frequency
-   diversity increases but Q decreases (consistent with THERMAL_BREAKING).
+   frequency diversity increases and Q decreases (consistent with
+   THERMAL_BREAKING). The palindrome is not what heat costs: amplitude
+   damping alone keeps it, at a centre of -Sum(gamma)/2 (F137); it breaks
+   only beside co-axial Z-dephasing.
 
 5. SACRIFICE ZONE: In G-C, concentrating noise on the outer H-bonds
    protects the central mode (edge sacrifice), exactly as in qubit
@@ -188,5 +190,5 @@ measured. All quantitative results depend on K. The qualitative
 conclusions (palindrome exact, G-C richer than A-T, sacrifice zone
 works) are robust across the tested K range.
 
-Completed: 2026-04-01 18:01:16
+Completed: 2026-08-05 21:47:40
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\dna_base_pairing.txt

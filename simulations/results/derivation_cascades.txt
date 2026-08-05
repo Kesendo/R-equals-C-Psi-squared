@@ -149,7 +149,8 @@ CASCADE E: 2x decay law vs thermal occupation n_bar
   n_bar=5.00: Sg=0.8100, mean_paired=0.479994, mean_unpaired=0.500880, ratio=1.0435
 
   CASCADE E: The 2x ratio changes with n_bar because
-  amplitude damping breaks the palindromic symmetry.
+  amplitude damping beside the co-axial Z-dephasing breaks
+  the palindromic symmetry (alone it does not: F137).
   The exact n_bar threshold depends on gamma_ad/gamma_deph
   and is not universal. No closed formula.
 

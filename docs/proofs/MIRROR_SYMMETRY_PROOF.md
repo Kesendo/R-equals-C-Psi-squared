@@ -309,10 +309,13 @@ because it is a different channel rather than another axis:
   give the same centre to every digit, and only the first breaks.
 
   The rate that appears is the **sum**, not the net γ↓ − γ↑ that governs the
-  Π-conjugation violation of F82/F84, and the reason is structural. In the
-  (I, X, Y, Z) Pauli basis the one-site thermal dissipator is triangular: the
-  sum sits on the diagonal, the net rate is its only off-diagonal entry, at
-  (Z, I), where it cannot move an eigenvalue. Detailed balance separates them
+  Π-conjugation violation of F82/F84, and the reason is the
+  [soft break](../../reflections/ON_THE_SOFT_BREAK.md): in the (I, X, Y, Z)
+  Pauli basis the one-site thermal dissipator is triangular, the sum on the
+  diagonal and the net rate as its only off-diagonal entry, at (Z, I), where it
+  cannot move an eigenvalue. That entry is the one
+  [PROOF_F82](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) Step 3 tabulated in April;
+  only its position below the diagonal is read here. Detailed balance separates them
   completely: at γ↓ = γ↑ that violation is exactly zero while the centre is
   −Σγ↓, not zero, and the pairing is exact. The paragraph above says Π can fail
   where the palindrome holds; this is the same sentence read backwards.
