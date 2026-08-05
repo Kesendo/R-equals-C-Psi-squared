@@ -207,7 +207,8 @@ deriving it again. The identity is
 ("a `D[Z]` channel at rate γ_z decays coherences at 2γ_z, and 1/T₂ = 2γ_z +
 1/(2T₁)"), and [IBM_CONCENTRATOR](../experiments/IBM_CONCENTRATOR.md)'s
 2026-07-05 retro-note already priced the trap against the T₁-aware form on one
-qubit (Q85, ≈ 0.046 MHz where the script had fed 0.268). Note
+qubit (Q85, ≈ 0.046 MHz where the script had fed 0.268; that script was
+repaired 2026-08-05 and now feeds the dephasing-only 0.134). Note
 that neither is a registry entry: **no F-number owns this conversion**, and the
 F113 in that filename belongs to the document, not to the formula. (Reading it
 as "F113's formula" is how a fold on 2026-08-04 mis-attributed it here.)

@@ -161,10 +161,24 @@ chain = [85, 86, 87, 88, 94]
 T2star = [3.73, 61.35, 97.54, 67.99, 95.03]  # microseconds
 T1 = [2.84, 211.22, 272.92, 155.53, 295.90]
 
-# Dephasing rates: gamma = 1/(2*T2*) for pure dephasing
-# (factor 2 because T2* = 1/(1/(2T1) + gamma_phi), and we want gamma_phi)
-# Simplified: use gamma = 1/T2* as effective dephasing rate
-gamma_hw = [1.0/t for t in T2star]  # in MHz (1/us)
+# Dephasing rates: gamma = 1/(2*T2*).
+#
+# This line read `1.0/t` until 2026-08-05, i.e. twice the Lindblad rate, under
+# a comment that stated the correct form and then said "Simplified". It was not
+# a simplification: build_liouvillian above uses c = sqrt(gamma)*Z and nothing
+# else, so a D[Z] channel at rate gamma decays coherences at 2*gamma, and
+# 1/T2* makes the model decay at twice the measured rate.
+#
+# Why 1/(2*T2*) and not the T1-aware (1/T2* - 1/(2*T1))/2: the discriminator is
+# STRUCTURAL, not a regime. This model has NO T1 channel. The T1 list below is
+# declared and never used; the only jump operators are the Z's. The T1-aware
+# form is correct for a model that also carries sigma-, which this is not.
+#
+# NOT fixed here, and a DIFFERENT question from the rate convention: these are
+# T2* (Ramsey) numbers, not T2echo. Those are two measurements of the chip and
+# the distinction carries its own factor of ~2 on this chip. Do not merge the
+# two twos. See docs/GLOSSARY.md, "The T2 -> gamma conversion".
+gamma_hw = [1.0/(2.0*t) for t in T2star]  # in MHz (1/us)
 
 print("=" * 65)
 print("IBM SACRIFICE ZONE: Formula vs Hardware")
@@ -206,8 +220,10 @@ print("CORRECTED: Echo-aware gamma profiles")
 print("=" * 65)
 
 T2_echo = [5.22, 122.70, 243.85, 169.97, 237.57]  # T2 with echo (us)
-gamma_T2star = [1.0/t for t in T2star]   # no DD
-gamma_T2echo = [1.0/t for t in T2_echo]  # with DD
+# gamma = 1/(2*T2), same reasoning as the gamma_hw comment above. THESE are the
+# rates the simulation actually runs on; gamma_hw is only printed in the header.
+gamma_T2star = [1.0/(2.0*t) for t in T2star]   # no DD
+gamma_T2echo = [1.0/(2.0*t) for t in T2_echo]  # with DD
 
 # Three profiles matching IBM configurations:
 gamma_selective = [gamma_T2star[0]] + [gamma_T2echo[i] for i in range(1, N)]

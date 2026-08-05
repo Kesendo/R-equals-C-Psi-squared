@@ -467,13 +467,30 @@ unrun.)
 
 ## Formula Validation (March 28, 2026)
 
+**Rate convention: REPAIRED 2026-08-05, and the table below is the new run.**
+The retro-note that follows stood here from 2026-07-05 and diagnosed the defect
+correctly; nobody had changed the script. `simulations/ibm_formula_test.py` now
+uses γ = 1/(2·T₂), and the numbers moved: Q85 goes from 0.268 to **0.134 MHz**
+(0.192 → 0.0958 under uniform DD), the interior from 0.004-0.008 to
+0.002-0.004, and the fitted J from 0.5 to **0.05 MHz**. Two things are worth
+more than the numbers. First, the line the defect was recorded against
+(`gamma_hw`) turned out to be **printed in the header and never simulated**;
+the rates the run uses are built thirty lines further down from `T2star` and
+`T2_echo`, and fixing only the flagged line left the output bit-identical.
+Second, the new fitted J = 0.05 is the **smallest value in the scan grid**, and
+the fit error decreases monotonically toward it, so it is a boundary, not a
+minimum: the grid no longer contains the optimum, and "best J" should not be
+read as a fitted coupling until the grid is extended downward.
+
 **Retro-note (2026-07-05, from the A-vs-B reckoning's review; read before the
 table):** this section's rates put COHERENCE rates in Lindblad slots: the
-script builds c = √γ·Z (coherence decays e^{−2γt}) and feeds it γ = 1/T2*,
+script builds c = √γ·Z (coherence decays e^{−2γt}) and fed it γ = 1/T2*,
 double the physical rate; the repo's canonical convention is γ = 1/(2·T₂),
-and the script's own comment concedes the simplification. It also subtracts
+and the script's own comment conceded the simplification. (That half is now
+fixed; everything below still stands.) It also subtracts
 no T1 contribution (for the T1-limited Q85 the pure-dephasing rate would be
-≈ 0.046, not 0.268 MHz) and contains no amplitude damping. Further, J was
+≈ 0.046, against the 0.134 MHz the dephasing-only form now gives) and contains
+no amplitude damping. Further, J was
 selected by fitting to the same hardware ratios the table reports agreement
 against (the fit objective is the t = 1 and t = 5 hardware ratios, so both
 those rows are circular; t = 1 is the only row that both entered the fit and
@@ -487,17 +504,24 @@ costume.
 The concentrator formula (Lindblad simulation with per-qubit gamma)
 was compared quantitatively against the hardware measurements.
 
-Echo-aware gamma profiles used:
-- Selective DD: Q85 at gamma = 1/T2* = 0.268 MHz, others at 1/T2 ~ 0.004-0.008 MHz
-- Uniform DD: all at 1/T2 (Q85 at 0.192 MHz, others same as selective)
+Echo-aware gamma profiles used (γ = 1/(2·T₂) throughout, see the note above):
+- Selective DD: Q85 at 1/(2·T2*) = 0.134 MHz, others at 1/(2·T2echo) ~ 0.002-0.004 MHz
+- Uniform DD: all at 1/(2·T2echo) (Q85 at 0.0958 MHz, others same as selective)
 
 | t (μs) | Simulation ratio | Hardware ratio | Agreement |
 |--------|-----------------|----------------|-----------|
-| 1.0 | 1.39x | 1.60x | 13% |
-| 2.0 | 1.35x | 1.43x | 6% |
-| 3.0 | 1.31x | 2.56x | Diverges |
-| 4.0 | 1.29x | 3.19x | Diverges |
-| 5.0 | 1.33x | 2.87x | Diverges |
+| 1.0 | 1.50x | 1.60x | 6% |
+| 2.0 | 1.44x | 1.43x | 1% |
+| 3.0 | 1.39x | 2.56x | Diverges |
+| 4.0 | 1.34x | 3.19x | Diverges |
+| 5.0 | 1.31x | 2.87x | Diverges |
+
+The two agreeing rows improved (13% → 6% and 6% → 1%) and the three diverging
+rows still diverge. Do **not** read that improvement as the corrected physics
+matching better: t = 1 and t = 5 are the two rows the J scan fits, so t = 1
+remains circular, and J landed on the grid boundary. The shape of the result is
+unchanged, which is the honest summary: a one-parameter fit reproduces the
+early ratios and misses the late ones by a factor of two or more.
 
 (The t = 4.0 row was missing from the March table; added 2026-07-11 from the
 same script, so the table shows all five measured points: 2 of 5 within the

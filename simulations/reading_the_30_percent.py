@@ -714,13 +714,26 @@ def run_test_5(N=3):
     # Scenario 2: Q80-Q102-Q80_mirror (using March 18 data, assuming mirror qubit)
     # Scenario 3: Temporal drift (March 12 vs March 18 for same qubits)
 
-    # Convert T2* to gamma (in same units as Hamiltonian J=1)
-    # We normalize: set J=1, so gamma_i = J / (T2*_i * some_freq)
-    # For relative analysis, ratios matter. Use gamma = 1/T2* (arbitrary units)
-    # then rescale so mean gamma = 0.05
+    # Convert T2* to gamma (in same units as Hamiltonian J=1).
+    #
+    # This conversion is INVARIANT under the T2 -> gamma rate convention, and
+    # that is worth stating rather than leaving for the next sweep to
+    # rediscover. Only the RATIOS of the rates survive here: the profile is
+    # rescaled so that mean(gamma) hits the canonical gamma_0 = 0.05, so a
+    # common factor on every raw rate cancels in raw/mean(raw). Feeding
+    # 1/(2*T2) instead of 1/T2 changes this function's output by exactly 0.0
+    # (verified: the whole script's output is byte-identical apart from its
+    # timestamp). The factor 2.0 is written in anyway, so the file is on the
+    # house book and a grep for the trap does not stop here.
+    # See docs/GLOSSARY.md, "The T2 -> gamma conversion".
+    #
+    # SEPARATE and NOT addressed: these are T2* (Ramsey) numbers, not T2echo.
+    # That is a different measurement of the chip and a different question from
+    # the rate convention; since only ratios survive the rescale, it does not
+    # affect this script either, but do not let the two twos merge elsewhere.
 
     def t2_to_gammas(t2_values, target_mean=0.05):
-        raw = [1.0 / t for t in t2_values]
+        raw = [1.0 / (2.0 * t) for t in t2_values]
         scale = target_mean / np.mean(raw)
         return [r * scale for r in raw]
 
