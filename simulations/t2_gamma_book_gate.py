@@ -260,8 +260,9 @@ def check_form_C_domain():
         frozen == [53] and q53_crossings > 0.3 * crossing,
         f"qubits with a single distinct T2 over >10 dates: {frozen}; Q53 holds "
         f"T2 = {sorted(per_qubit_t2[53])[0]} across {len(per_qubit_t1[53])} dates "
-        f"while its T1 moves {min(per_qubit_t1[53]):.1f}..{max(per_qubit_t1[53]):.1f}, "
-        f"and supplies {q53_crossings} of the {crossing} crossings",
+        f"while its T1 ranges over {min(per_qubit_t1[53]):.1f} to "
+        f"{max(per_qubit_t1[53]):.1f} us, and supplies {q53_crossings} of the "
+        f"{crossing} crossings",
     )
     print(
         f"      residue: {seen} rows read, {total} carried a usable (T1, T2), "
