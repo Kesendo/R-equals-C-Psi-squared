@@ -21,7 +21,7 @@ qubits with high noise contrast (one very noisy "sacrifice" qubit
 protecting the others). This document tests both strategies head-to-head
 using real IBM Torino calibration data, without any active error
 suppression. The answer depends on what you are trying to do: if noise
-itself is the signal, contrast wins by 300×; if you need the Hamiltonian
+itself is the signal, contrast wins by nearly 400×; if you need the Hamiltonian
 to transport information, quiet wins.
 
 ---
@@ -39,27 +39,27 @@ using real IBM Torino calibration data (2026-02-10):
 
 ### Chain A (Sacrifice-Top): [80, 8, 79, 53, 85]
 
-| Qubit | T1 (us) | T2 (us) | r = T2/2T1 | gamma (1/T2) |
+| Qubit | T1 (us) | T2 (us) | r = T2/2T1 | gamma = 1/(2T2) |
 |:------|:--------|:--------|:-----------|:-------------|
-| Q80   | 103.3   | 27.7    | 0.134      | 0.0361       |
-| Q8    | 204.1   | 218.7   | 0.536      | 0.0046       |
-| Q79   | 77.5    | 91.9    | 0.593      | 0.0109       |
-| Q53   | 22.4    | 62.4    | 1.395      | 0.0160       |
-| Q85   | 2.9     | 5.0     | 0.853      | 0.2003       |
+| Q80   | 103.3   | 27.7    | 0.134      | 0.0181          |
+| Q8    | 204.1   | 218.7   | 0.536      | 0.0023          |
+| Q79   | 77.5    | 91.9    | 0.593      | 0.0054          |
+| Q53   | 22.4    | 62.4    | 1.395      | 0.0080          |
+| Q85   | 2.9     | 5.0     | 0.853      | 0.1001          |
 
-Sum(gamma) = 0.268, contrast (max/min) = 43.8x, score = 2.86x
+Sum(gamma) = 0.134, contrast (max/min) = 43.8x, score = 2.86x
 
 ### Chain B (Mean-T2-Top): [18, 89, 19, 90, 60]
 
-| Qubit | T1 (us) | T2 (us) | r = T2/2T1 | gamma (1/T2) |
+| Qubit | T1 (us) | T2 (us) | r = T2/2T1 | gamma = 1/(2T2) |
 |:------|:--------|:--------|:-----------|:-------------|
-| Q18   | 267.6   | 211.3   | 0.395      | 0.0047       |
-| Q89   | 189.9   | 141.5   | 0.373      | 0.0071       |
-| Q19   | 140.2   | 219.9   | 0.784      | 0.0045       |
-| Q90   | 267.0   | 275.4   | 0.516      | 0.0036       |
-| Q60   | 196.1   | 238.3   | 0.608      | 0.0042       |
+| Q18   | 267.6   | 211.3   | 0.395      | 0.0024          |
+| Q89   | 189.9   | 141.5   | 0.373      | 0.0035          |
+| Q19   | 140.2   | 219.9   | 0.784      | 0.0023          |
+| Q90   | 267.0   | 275.4   | 0.516      | 0.0018          |
+| Q60   | 196.1   | 238.3   | 0.608      | 0.0021          |
 
-Sum(gamma) = 0.024, contrast (max/min) = 1.9x, score = 1.06x
+Sum(gamma) = 0.012, contrast (max/min) = 1.9x, score = 1.06x
 
 **Chain A has 11.1x more total noise than Chain B.**
 
@@ -72,10 +72,10 @@ Sum(gamma) = 0.024, contrast (max/min) = 1.9x, score = 1.06x
 | Metric | Chain A | Chain B | A/B |
 |:-------|:--------|:--------|:----|
 | Protection factor | 2.86x | 1.06x | 2.70x |
-| Palindrome score | 98% | 89% | |
-| Distinct frequencies | 119 | 60 | |
-| Slowest osc. rate | 0.0375 | 0.0091 | |
-| Correlation (edge weight vs rate) | r = 0.988 | r = 0.837 | |
+| Palindrome score | 98% | 85% | |
+| Distinct frequencies | 117 | 52 | |
+| Slowest osc. rate | 0.0188 | 0.0046 | |
+| Correlation (edge weight vs rate) | r = 0.994 | r = 0.841 | |
 
 The protection factor (2.86x vs 1.06x) matches the mapping exactly.
 Palindrome scores below 100% are numerical tolerance artifacts at
@@ -104,12 +104,12 @@ asymmetric noise shape.
 
 | t | A SumMI (total mutual information across all qubit pairs) | B SumMI | A/B |
 |:--|:--------|:--------|:----|
-| 0.2 | 0.0049 | 0.000022 | 220x |
-| 1.0 | 0.0757 | 0.000165 | 460x |
-| 2.0 | 0.0764 | 0.000239 | 319x |
-| 5.0 | 0.0481 | 0.000087 | 556x |
+| 0.2 | 0.00250 | 0.000011 | 224x |
+| 1.0 | 0.04189 | 0.000083 | 504x |
+| 2.0 | 0.04633 | 0.000122 | 381x |
+| 5.0 | 0.03726 | 0.000045 | 830x |
 
-**Peak SumMI: A = 0.093 (t=1.6), B = 0.000287 (t=1.6). Ratio: 324x.**
+**Peak SumMI: A = 0.055 (t=1.6), B = 0.000146 (t=1.6). Ratio: 377x.**
 
 Chain A wins massively. This is expected: |+>^5 is a Heisenberg
 eigenstate with zero energy variance. Without noise, nothing happens.
@@ -120,27 +120,29 @@ creates orders of magnitude more dynamics.
 
 | t | A SumMI | B SumMI | A/B |
 |:--|:--------|:--------|:----|
-| 0.2 | 2.671 | 2.748 | 0.97x |
-| 1.0 | 1.258 | 1.429 | 0.88x |
-| 2.0 | 0.986 | 1.389 | 0.71x |
-| 5.0 | 0.653 | 1.326 | 0.49x |
-| 10.0 | 0.470 | 1.125 | 0.42x |
+| 0.2 | 2.712 | 2.754 | 0.98x |
+| 1.0 | 1.349 | 1.443 | 0.93x |
+| 2.0 | 1.173 | 1.429 | 0.82x |
+| 5.0 | 0.897 | 1.439 | 0.62x |
+| 10.0 | 0.726 | 1.215 | 0.60x |
 
-**Peak SumMI: A = 2.671 (t=0.2), B = 2.748 (t=0.2). Ratio: 0.97x.**
+**Peak SumMI: A = 2.712 (t=0.2), B = 2.754 (t=0.2). Ratio: 0.98x.**
 
-Chain B wins. At early times, both are similar (the Hamiltonian
-dominates). At later times, Chain A's 11x more noise kills coherence
-faster. The 2.86x protection factor does not compensate for having
-11x more total noise.
+Chain B wins on the peak and at t = 10. At early times both are similar
+(the Hamiltonian dominates), and over most of the window Chain A's 11x more
+total noise costs it more than its 2.86x protection factor returns. The
+late-time approach is not monotone, though: the sampled A/B ratio dips to
+0.54x at t = 9 and rises above 1 at t = 7 (1.36x), so "A falls behind and
+stays behind" is not what the trajectory does.
 
 ### 4. Per-pair MI at peak (|01010>)
 
 | Pair | Chain A | Chain B | A/B |
 |:-----|:--------|:--------|:----|
-| MI(0,1) | 0.841 | 0.851 | 0.99x |
-| MI(1,2) | 0.522 | 0.522 | 1.00x |
+| MI(0,1) | 0.848 | 0.853 | 0.99x |
+| MI(1,2) | 0.523 | 0.523 | 1.00x |
 | MI(2,3) | 0.523 | 0.523 | 1.00x |
-| MI(3,4) | 0.786 | 0.853 | 0.92x |
+| MI(3,4) | 0.818 | 0.854 | 0.96x |
 
 The early dynamics are nearly identical. The difference shows at the
 edges: pair (3,4) is weaker in Chain A because Q85 (the sacrifice
@@ -154,20 +156,20 @@ qubit with T2=5 us) decoheres the adjacent pair faster.
 
 The sacrifice-zone mapping score compares each chain to its OWN uniform
 version (same total gamma, spread evenly). Chain A's 2.86x protection
-means its slowest modes decay 2.86x slower than if you spread its 0.268
+means its slowest modes decay 2.86x slower than if you spread its 0.134
 total gamma uniformly. This is a real spectral effect.
 
 But it is a WITHIN-chain metric, not a between-chain comparison.
 Chain B has 11x less total noise. Even with Chain B's low 1.06x
-protection, its slowest modes (rate 0.0091) are 4x longer-lived than
-Chain A's protected modes (rate 0.0375) in absolute terms.
+protection, its slowest modes (rate 0.0046) are 4x longer-lived than
+Chain A's protected modes (rate 0.0188) in absolute terms.
 
 ### Two different experiments
 
 | Initial state | What it tests | Winner |
 |:-------------|:-------------|:-------|
-| \|+>^5 | Noise as motor (gamma-as-signal) | Chain A (324x) |
-| \|01010> | Hamiltonian transport with noise | Chain B (1.4x at t=2) |
+| \|+>^5 | Noise as motor (gamma-as-signal) | Chain A (377x) |
+| \|01010> | Hamiltonian transport with noise | Chain B (1.2x at t=2) |
 
 These are genuinely different experiments testing different physics:
 

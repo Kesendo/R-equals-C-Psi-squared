@@ -337,7 +337,12 @@ if __name__ == "__main__":
         log("── Part 4: Kingston-grade T2 decoherence: when does CΨ_min cross 1/4? ──")
         # Three Kingston qubits with typical T2 values (from recent calibration)
         T2s_us = [310.0, 320.0, 240.0]  # representative good Kingston trio
-        gammas = [1.0 / T2 for T2 in T2s_us]  # per μs
+        # γ = 1/(2·T2): the model here is dephasing-only, and a D[Z] channel at
+        # rate γ decays coherences at 2γ (docs/GLOSSARY.md, "The T₂ → γ
+        # conversion"; gate simulations/t2_gamma_book_gate.py). Until
+        # 2026-08-05 this read 1.0/T2, twice the Lindblad rate, which put the
+        # published crossing time at half its value.
+        gammas = [1.0 / (2.0 * T2) for T2 in T2s_us]  # per μs
         times = np.linspace(0, 200, 51)
         log(f"  T2 [μs] per qubit: {T2s_us}")
         log(f"  γ [1/μs] = {[f'{g:.4f}' for g in gammas]}")

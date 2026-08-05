@@ -10,9 +10,28 @@ Three analyses:
   2. Liouvillian spectral analysis -- eigenvalues, palindrome, protection
   3. Cavity mode localization -- eigenvector decomposition
 
-Convention: gamma_k = 1/T2echo_k (same as sacrifice_zone_mapping.py).
-Under free decoherence, effective gamma would be ~2x larger (T2* ~ T2echo/2).
-The chain COMPARISON is convention-independent (same J=1.0 for both).
+Convention: gamma_k = 1/(2*T2echo_k). The model here is dephasing-only (the only
+jump operators are sqrt(gamma_k)*Z_k; T1 is read from the CSV for the displayed
+r = T2/2T1 column and never enters the generator), so this is the D[Z] rate that
+reproduces the measured coherence decay: a D[Z] channel at rate gamma decays
+coherences at 2*gamma. See docs/GLOSSARY.md, "The T2 -> gamma conversion", and
+the gate simulations/t2_gamma_book_gate.py. Note in passing that the T1-aware
+form could not be applied to this chain as the CSV stands: Q53 reports
+T2 = 62.4 > 2*T1 = 44.8, where that form returns a negative rate. That is the
+consistency check firing on a suspect calibration record, not an argument for
+the dephasing-only form; the argument for it is the model, which has no T1
+channel.
+
+This is a DIFFERENT factor of two from the T2echo/T2* distinction: that one is
+two different measurements of the chip, this one is the rate convention.
+
+The chain comparison is only PARTLY convention-independent, so re-read the
+numbers rather than assuming they scale. J is held at 1.0, so changing gamma
+moves Q = J/gamma and slides both chains along the Q axis. Quantities built from
+gamma RATIOS are exactly invariant (the contrast, the protection factors, the
+Sum(gamma) ratio); the spectral, dynamical and correlation readings all move,
+and not by a common factor (Max/2*sum_gamma, which is dimensionless, moves in
+the fourth decimal).
 """
 
 import numpy as np
@@ -324,12 +343,12 @@ def main():
         for q in chain:
             d = t2_data[q]
             r = d['T2'] / (2 * d['T1'])
-            gamma = 1.0 / d['T2']
+            gamma = 1.0 / (2.0 * d['T2'])
             out(f"  Q{q:>4d} {d['T1']:8.1f} {d['T2']:8.1f} {r:10.4f}"
                 f" {gamma:10.6f}")
 
-    gammas_A = np.array([1.0 / t2_data[q]['T2'] for q in chain_A])
-    gammas_B = np.array([1.0 / t2_data[q]['T2'] for q in chain_B])
+    gammas_A = np.array([1.0 / (2.0 * t2_data[q]['T2']) for q in chain_A])
+    gammas_B = np.array([1.0 / (2.0 * t2_data[q]['T2']) for q in chain_B])
 
     out(f"\ngamma_A: [{', '.join(f'{g:.6f}' for g in gammas_A)}]"
         f"  sum={sum(gammas_A):.6f}")

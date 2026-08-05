@@ -250,9 +250,8 @@ loss to dephasing. On Q85 of
 T₂ = 5.0 µs) amplitude damping carries most of the loss, and the two rows differ
 by **7.25×** in γ; after 200 µs on Q80 they sit at ρ₀₀ = 0.500 against 0.928.
 Pick by whether the question touches populations, and say which you picked.
-(Only the T₁/T₂ pairs are taken from that document. Its own γ column is headed
-`gamma (1/T2)` and is on the trap form; it is one of the producers this section
-is waiting on.)
+(Only the T₁/T₂ pairs are taken from that document; its own γ column carries
+row 1.)
 
 Row 2 also **leaves the palindrome theorem**: a σ⁻ channel breaks the Π mirror,
 and the repository already owns the closed form of that breakage in

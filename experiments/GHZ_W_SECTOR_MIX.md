@@ -226,7 +226,7 @@ The supremum = 1 at the product manifold is a separate observation about pair-C�
 
 ## Hardware relevance
 
-Under Kingston-grade Z-dephasing (T₂ ∈ [240, 320] μs, γ ∈ [3.1, 4.2] × 10⁻³ μs⁻¹), the optimum state starts above the fold and crosses CΨ = 1/4 monotonically at t* ≈ 11.2 μs (data from `cpsi_sector_mix_optimization.py` Part 4). This is short compared to the bonding-mode T₂ ~ (N+1)³/(4π²γ) ≈ 2 ms at N = 3. F69 is not a protection result; it is an *above-fold starting condition* result.
+Under Kingston-grade Z-dephasing (T₂ ∈ [240, 320] μs, γ = 1/(2T₂) ∈ [1.6, 2.1] × 10⁻³ μs⁻¹), the optimum state starts above the fold and crosses CΨ = 1/4 monotonically at t* ≈ 22.4 μs (data from `cpsi_sector_mix_optimization.py` Part 4). This is short compared to the bonding-mode T₂ ~ (N+1)³/(4π²γ) ≈ 0.8 to 1.0 ms at N = 3 over that γ range. F69 is not a protection result; it is an *above-fold starting condition* result.
 
 **The significance for a hardware experiment** is that pair tomography at t = 0 *alone* distinguishes the optimum state from GHZ_3 and W_3: F69 sits at pair-CΨ(0) ≈ 0.320, GHZ_3 at 0, W_3 at 0.123. The three points in pair-CΨ space are machine-resolvable in any reasonable tomography (few-percent statistical noise). No delay, no timing, no T₂ measurement needed. A minimal validation circuit:
 
