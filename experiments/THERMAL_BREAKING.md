@@ -306,6 +306,22 @@ with a palindromic partner within tolerance 1e-3):
 \* Should be 100% (proven). The 91% is a numerical artifact of the
 pairing tolerance at γ=0.1.
 
+**Sharpened 2026-08-05, and the whole table inherits it.** That footnote had the
+right instinct and the wrong mechanism, and the difference matters because it
+inverts what a HIGH score means. The scorer here (`v_effect_thermal.py`) pairs
+each rate with the first partner inside an absolute tolerance, and the spectrum
+is far denser than the tolerance, so a rate almost never grabs its true mirror.
+Loosening or tightening does not degrade the score, it **saturates** it: measured
+on the sibling scan in
+[Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md), a tolerance of 1e-6 prints
+100% while 56 of its 480 accepted pairs are still wrong by more than 1e-12. So
+the 100% entries in the rows above are not stronger evidence than the 91%; they
+are the same artifact one notch further into saturation. The near-zero
+"Z-deph + amplitude" row still carries its finding, because a score that collapses
+to 0-10% cannot be produced by saturation. The repair, and the canonical check
+these should call (`F1SpectrumStatistics.MaxF1PairingDistance`), is described in
+that document; this script is one of the copies it lists as not yet converted.
+
 **Caution:** The palindrome check requires knowing the spectral
 center (the point around which rates pair). For Z-dephasing, the
 center is analytically known (Σγ). For thermal channels,
