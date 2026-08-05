@@ -4525,15 +4525,16 @@ public static class OpenArcsRegistry
                 "shell table selects the two profiles through windows differing by a factor 10^6, dropping " +
                 "the modes that carry the high Q. THE OTHER HALF, prose rather than code: a family of " +
                 "unqualified 'the frequencies are immune to noise' statements that are true only for " +
-                "UNIFORM gamma. Verified sites: STRUCTURAL_CARTOGRAPHY:716/721/722 (whose own SWEEP 4 uses " +
+                "UNIFORM gamma. Verified sites: STRUCTURAL_CARTOGRAPHY (\"immune to any sigma_z dephasing " +
+                "configuration\", \"Gamma only damps, never shifts frequencies\", \"Asymmetric gamma changes " +
+                "nothing\"; its own SWEEP 4 uses " +
                 "a profile, and whose table prints three decimals, one order too coarse to see the shifts), " +
                 "CAVITY_MODES_FORMULA:246-248, QUANTUM_SONAR:119-123, IBM_CAVITY_SPECTRAL_ANALYSIS " +
                 "(four sentences, cited by phrase rather than by line because line numbers there have " +
-                "now gone stale twice: \"the same 43 cavity mode frequencies exist under all noise " +
-                "profiles\", \"When noise is turned on, the same frequencies persist\", \"Noise damps " +
+                "now gone stale twice: \"frequencies exist under all noise profiles\", \"When noise is turned on, the same frequencies persist\", \"Noise damps " +
                 "these modes without changing their frequencies\", \"It does not change the notes\"; " +
                 "the page runs the IBM concentrator profile and its own table already refutes it), " +
-                "ANALYTICAL_FORMULAS F11 at :652-659 ('valid for ALL Z-dephasing profiles', the exact " +
+                "ANALYTICAL_FORMULAS F11 (\"Valid for:** N=5 Heisenberg chain, ALL Z-dephasing profiles.\", the exact " +
                 "converse of the mechanism), and GPT_Prompts/PROMPT_GPT_APPLICATIONS:12/16-17, which is " +
                 "outward-facing. ibm_cavity_analysis.py prints \"The same 43 frequencies exist under all " +
                 "three profiles\" as a hardcoded string and bins with freq_tol = 0.1 in " +

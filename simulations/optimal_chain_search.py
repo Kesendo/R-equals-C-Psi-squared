@@ -136,8 +136,8 @@ def spectral_analysis(gammas, J=1.0):
     # bit-identical without it. It was one of the seventeen sites of the
     # defective scorer inventoried in experiments/CONCENTRATOR_MAPPING.md, and
     # the only one that published nothing. Deleting is the repair; the canonical
-    # check is F1SpectrumStatistics.MaxF1PairingDistance, ported into
-    # simulations/sacrifice_zone_mapping.py for the sites that do publish.
+    # check is F1SpectrumStatistics.MaxF1PairingDistance, ported once as
+    # fw.max_f1_pairing_distance for the sites that do publish.
 
     osc = [(-ev.real, abs(ev.imag)) for ev in evals if abs(ev.imag) > 1e-10]
     slowest = min(r for r, _ in osc) if osc else float('inf')

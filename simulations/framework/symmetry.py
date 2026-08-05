@@ -666,7 +666,7 @@ def k_partner(N, k):
 # as the live witness BlockSpectrumWitness.PalindromePairingDistance with
 # committed reference values in simulations/results/f1_n8_n9_metrics/.
 #
-# It lives here because the Python side had grown four hand-copies of the same
+# It lives here because the Python side had grown three hand-copies of the same
 # port while converting the defective greedy palindrome scorers inventoried in
 # experiments/CONCENTRATOR_MAPPING.md, which is precisely the cockpit signal
 # that a primitive was missing.
@@ -684,16 +684,19 @@ def max_f1_pairing_distance(spectrum, sigma):
     leaves an unmatched point and surfaces as a large distance, which a set
     distance or a Hausdorff distance would miss.
 
-    TWO BLIND SPOTS, because the spectrum is compared against ITS OWN
-    reflection rather than against an independent one:
+    ONE BLIND SPOT, because the spectrum is compared against ITS OWN
+    reflection rather than against an independent one: a corruption that
+    RESPECTS the reflection is invisible. Dropping one mirror pair while
+    duplicating another leaves the result bit-identical. That is the shape a
+    BLOCK solver would produce, since it builds symmetry-respecting spectra by
+    construction, so this number does not certify a block spectrum against a
+    dense one. (Nothing here measures a block solver; the point is what the
+    metric cannot see, not what any solver did.)
 
-    * A corruption that RESPECTS the reflection is invisible. Dropping one
-      mirror pair while duplicating another leaves the result bit-identical.
-      That is the failure mode of a BLOCK solver, which produces
-      symmetry-respecting spectra by construction, so this number does not
-      certify a block spectrum against a dense one.
-    * Duplicating onto a NUMERICALLY DEGENERATE neighbour is a no-op, since
-      the copy lands where a partner already sits.
+    A near-degeneracy is NOT a second blind spot, though it reads like one.
+    Duplicating onto an EXACTLY equal neighbour leaves the multiset unchanged,
+    so there is no corruption to miss; at a separation of 1e-15 the result does
+    move. The C# summary says the same and is right.
 
     It is also greedy, hence order-dependent: permuting only the array order of
     the eigenvalues, identical spectrum, moves the result. Measured on an N=5

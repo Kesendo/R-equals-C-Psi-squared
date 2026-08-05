@@ -82,8 +82,9 @@ def analyze(gammas, J=1.0):
     center = sum_g
 
     # Palindrome check: the repo's canonical F1 distance, in eps * spectral
-    # radius. See max_f1_pairing_distance below for the port and for what the
-    # number is blind to. It replaced a greedy first-fit percentage inside
+    # radius. See fw.max_f1_pairing_distance in simulations/framework/symmetry.py
+    # for the port and for what the number is blind to. It replaced a greedy
+    # first-fit percentage inside
     # max(1e-4, 1e-3 * center), which published 89%, 85%, 92%, 96%, 94%, 95%
     # for the six scenarios; that score was measuring its own matcher, and a
     # scale-relative tolerance does not repair it, since tightening SATURATES

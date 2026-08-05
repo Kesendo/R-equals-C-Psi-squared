@@ -14,9 +14,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-# The canonical F1 check. It lived as a hand-copy in this file until the
-# fourth copy made the missing primitive obvious; the port, its blind spots
-# and its tests now live in one place (cockpit rule 2).
+# The canonical F1 check. It lived as a hand-copy in this file until three
+# copies made the missing primitive obvious; the port, its blind spot and
+# its tests now live in one place (cockpit rule 2).
 from framework import max_f1_pairing_distance, f1_distance_in_eps  # noqa: E402, F401
 
 EPS = np.finfo(float).eps

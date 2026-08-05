@@ -127,8 +127,7 @@ them is smaller than the metric's own sensitivity to bookkeeping that
 carries no physics, and the left column is a different test rather than
 the best of the three. See
 [the reading of that number](#the-palindrome-under-asymmetric-noise)
-below, which also explains why the zero-noise column is a different test
-rather than the best of the three.
+below.
 
 ### The 2.81x protection factor
 
@@ -193,7 +192,8 @@ The three profiles must not be ranked by it. Their spread is 1.16x
 eigenvalues, one spectrum, pure bookkeeping with no physics in it,
 already moves the zero-noise column by more than that: 60.2 to 83.5,
 a factor 1.39, over 200 random permutations. Uniform moves 1.19x, IBM
-only 1.01x. Greedy matching is order-dependent by construction, so a
+only 1.01x. Those are sample extrema at one seed and they widen with the
+sample, so read them as lower bounds. Greedy matching is order-dependent by construction, so a
 difference of this size between two columns is not a difference between
 two systems.
 
@@ -216,8 +216,10 @@ the unit was chosen for. And the F1 reflection degenerates to λ ↦ −λ,
 which holds for **any** Hermitian H: the Liouvillian spectrum is
 {−i(E_a − E_b)}, so swapping the two indices negates every eigenvalue.
 The column therefore carries no information about dephasing at all.
-Checked numerically as well: five random real-symmetric H that are not
-Heisenberg chains score 36.3 to 48.0 ε · ρ at Σγ = 0, the same floor.
+The numerical check agrees: random real-symmetric H that are not
+Heisenberg chains land at the same floor at Σγ = 0. No band is quoted
+for them, because the theorem above is the claim and any band would be
+an artifact of how many H were drawn.
 
 The band is also not an N-independent constant. The same measurement
 over two decades of J gives 1.5 to 3.9 at N=2 and 51.3 to 68.9 at N=5,

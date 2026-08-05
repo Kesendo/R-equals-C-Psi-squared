@@ -257,7 +257,8 @@ proof it was dead. That is a caution about this inventory, not just about that
 script, since the list was built by grepping for the code shape and a site's
 presence here does not establish that a table depends on it.
 
-All five now call one implementation. The port had reached four hand-copies,
+The four that still compute the check call one implementation; the fifth has
+no check to call. The port had reached three hand-copies,
 which is the cockpit signal that a primitive was missing, so it lives in
 `simulations/framework/symmetry.py` as `fw.max_f1_pairing_distance` /
 `fw.f1_distance_in_eps`, with its blind spots pinned in

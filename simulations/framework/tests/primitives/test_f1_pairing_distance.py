@@ -58,6 +58,27 @@ def test_wrong_sigma_is_detected():
     assert fw.max_f1_pairing_distance(spec, sigma + 1e-6) > 1e-7
 
 
+def test_removal_is_what_catches_a_contested_partner():
+    """The one test that fails if `taken[]` is dropped.
+
+    Written after a mutation pass showed that the two tests below both pass
+    against a matcher WITHOUT removal, i.e. neither pinned the property the
+    docstring calls the metric's reason to exist. Removal is what makes it
+    multiset-aware: here two copies of x compete for a single mirror point,
+    so a matcher that lets both claim it reports ~0 and a matcher that
+    consumes it reports the full mirror separation.
+    """
+    sigma = 0.25
+    x = 1.0 + 0.5j
+    spec = np.array([x, x, -2.0 * sigma - x])
+    d = fw.max_f1_pairing_distance(spec, sigma)
+    # without removal every point finds a partner at distance ~0
+    reflected = -2.0 * sigma - spec
+    no_removal = max(float(np.min(np.abs(p - reflected))) for p in spec)
+    assert no_removal < 1e-12
+    assert d > 1.0, "removal must leave the second copy of x unmatched"
+
+
 def test_asymmetric_duplication_is_caught():
     sigma = 0.25
     spec = _palindromic_spectrum(sigma)
@@ -108,8 +129,24 @@ def test_greedy_matcher_is_order_dependent_on_a_real_spectrum():
     N = 4
     d = 2 ** N
     rng = np.random.default_rng(1)
-    H = rng.normal(size=(d, d))
-    H = H + H.T
+    # A HEISENBERG chain, not a random symmetric matrix. F1 is a theorem about
+    # the Heisenberg/XXZ generator under Z-dephasing; a generic H gives a
+    # spectrum that is not palindromic at all, and an earlier version of this
+    # test measured the order-spread of that meaningless number instead.
+    X = np.array([[0, 1], [1, 0]], dtype=complex)
+    Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
+    Zp = np.array([[1, 0], [0, -1]], dtype=complex)
+
+    def at(op, site):
+        m = np.eye(1, dtype=complex)
+        for s in range(N):
+            m = np.kron(m, op if s == site else np.eye(2, dtype=complex))
+        return m
+
+    H = np.zeros((d, d), dtype=complex)
+    for b in range(N - 1):
+        for P in (X, Y, Zp):
+            H = H + at(P, b) @ at(P, b + 1)
     gammas = np.array([0.2681, 0.0163, 0.0103, 0.0147])[:N]
     Id = np.eye(d, dtype=complex)
     L = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
@@ -125,7 +162,15 @@ def test_greedy_matcher_is_order_dependent_on_a_real_spectrum():
     sigma = float(sum(gammas))
     vals = [fw.f1_distance_in_eps(rng.permutation(evals), sigma)[0] for _ in range(40)]
     assert max(vals) > min(vals), "order dependence is a property of the matcher"
-    assert max(vals) / min(vals) < 10.0, "but it stays inside the solver floor"
+    # The bound that means something: the whole order-induced spread must stay
+    # far below what an actual corruption produces, or the metric could not
+    # separate bookkeeping from a real violation. A fixed numeric ceiling here
+    # would be a threshold that cannot fail; this one is measured against the
+    # signal it has to beat.
+    corrupted = evals.copy()
+    corrupted[3] = evals[0]
+    signal = fw.f1_distance_in_eps(corrupted, sigma)[0]
+    assert max(vals) < signal / 1000.0
 
 
 def test_zero_spectrum_at_nonzero_sigma_is_a_maximal_violation():
