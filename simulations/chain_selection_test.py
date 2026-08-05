@@ -174,7 +174,16 @@ def spectral_analysis(gammas, J=1.0):
     sum_g = sum(gammas)
     center = sum_g
 
-    # Palindrome check
+    # Palindrome check.
+    # KNOWN DEFECT (2026-08-05): this score measures its own matcher, not the
+    # palindrome. It pairs each rate with the FIRST partner within an absolute
+    # 1e-4, while 927 of 959 nearest-neighbour level gaps are smaller than that,
+    # so 362 of the 410 accepted matches are wrong by more than 1e-12. Read as a
+    # sorted-multiset comparison against 2*center - rate the symmetry is exact
+    # (residual 1.8e-14). The repair is to read that residual, NOT to retune the
+    # tolerance: any tolerance below the level spacing returns 100% and hides the
+    # same clustering. Same scorer in sacrifice_zone_mapping.py; working in
+    # experiments/CONCENTRATOR_MAPPING.md.
     rates = sorted(-ev.real for ev in evals if abs(ev.imag) > 1e-10)
     paired = 0
     used = [False] * len(rates)

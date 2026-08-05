@@ -72,14 +72,28 @@ Sum(gamma) = 0.012, contrast (max/min) = 1.9x, score = 1.06x
 | Metric | Chain A | Chain B | A/B |
 |:-------|:--------|:--------|:----|
 | Protection factor | 2.86x | 1.06x | 2.70x |
-| Palindrome score | 98% | 85% | |
+| Palindrome score (void, see below) | 98% | 85% | |
 | Distinct frequencies | 117 | 52 | |
 | Slowest osc. rate | 0.0188 | 0.0046 | |
 | Correlation (edge weight vs rate) | r = 0.994 | r = 0.841 | |
 
 The protection factor (2.86x vs 1.06x) matches the mapping exactly.
-Palindrome scores below 100% are numerical tolerance artifacts at
-different noise scales -- the proof guarantees 100% for any Z-dephasing.
+
+**The palindrome row carries no information and should not be read.** The
+sentence that stood here called the sub-100% scores "numerical tolerance
+artifacts at different noise scales". The tolerance part is right and the
+mechanism is not, and the difference decides what the repair is. Measured on
+Chain B's spectrum (2026-08-05): the palindromic symmetry is **exact**, a
+sorted-multiset residual of 1.8e-14 between the oscillatory rates and their
+mirror 2·Σγ − rate. The percentage is produced by `spectral_analysis` pairing
+each rate with the **first** partner within an **absolute** 1e-4, while 927 of
+the 959 nearest-neighbour level gaps are smaller than that, so 362 of the 410
+accepted matches are wrong by more than 1e-12. It is a measure of how a greedy
+first-fit scrambles in a clustered spectrum, and under the γ-book repair it
+moved **upward** on some chains. Since an exact route exists, the residual
+should be read rather than gated; a smaller or scale-relative tolerance returns
+100% and hides the same clustering. Full working in
+[Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md).
 
 ### 2. Mode localization is geometric (chain-determined)
 

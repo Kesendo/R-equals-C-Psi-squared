@@ -18,6 +18,9 @@ test pending)
 **Depends on:** [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md),
 [IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md),
 [IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)
+**Read on from here:** [Chain Selection Test](CHAIN_SELECTION_TEST.md), which
+takes the two chains ranked here to a head-to-head and shares this run's
+palindrome scorer, hence the same void column
 **Script:** [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py)
 **Data:** [sacrifice_zone_mapping.txt](../simulations/results/sacrifice_zone_mapping.txt)
 **Calibration data:** [ibm_torino_history.csv](../data/ibm_history/ibm_torino_history.csv) (24,073 records, 181 days, 133 qubits)
@@ -143,7 +146,7 @@ provide long T2 but no differential protection.
 | Mean protection factor | **2.53x** | 1.18x |
 | Mean T2 | 87.6 us | 205.8 us |
 | Mean concentrator score | 14.6 | 0.9 |
-| Palindrome score | 96-98% | 85-92% |
+| Palindrome score (void, see below) | 96-98% | 85-92% |
 
 The concentrator chains have 2.3x lower mean T2 but 2.15x higher
 protection. Choosing "worse" qubits with the right spatial pattern
