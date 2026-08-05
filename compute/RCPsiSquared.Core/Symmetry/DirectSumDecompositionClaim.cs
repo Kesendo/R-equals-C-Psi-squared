@@ -100,7 +100,7 @@ public sealed class DirectSumDecompositionClaim : Claim
             yield return new InspectableNode("statement 4: superselection",
                 summary: $"[P_XY, L] = 0 with {SuperselectionCharge}; the two sectors are dynamically disconnected");
             yield return new InspectableNode("selective breaking",
-                summary: "transverse field: kills the sum, keeps the palindrome; amplitude damping: keeps the sum EXACTLY, kills the palindrome (direct_sum_scope_probe.py); the wall and the mirror are separate prisoners");
+                summary: "transverse field: kills the sum, keeps the palindrome; amplitude damping: keeps the sum EXACTLY, kills the Pi OPERATOR (direct_sum_scope_probe.py, which runs T1 beside co-axial Z-dephasing); the spectral palindrome is a different claim and survives T1 alone at a halved centre, F137; the wall and the mirror are separate prisoners");
             yield return new InspectableNode("finer structure",
                 summary: "V_even/V_odd = mod-2 coarsening of the U(1) joint-popcount grading; bit_b (F63) refines to the Klein-V₄ four-sector split 4^(N−1) each");
             for (int n = 2; n <= 6; n++)

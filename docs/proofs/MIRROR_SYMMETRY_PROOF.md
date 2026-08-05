@@ -289,6 +289,35 @@ because it is a different channel rather than another axis:
   part is not a site-wise tensor sum, so with the Heisenberg H actually used
   in those runs the result is measured rather than proved.
 
+  **A thermal bath changes only which rate appears.** Add the heating channel
+  σ⁺ beside σ⁻, with per-site rates γ↓ and γ↑. The single-site Pauli rates
+  become [0, r/2, r/2, r] with r = γ↓ + γ↑, computed in
+  [KMS_DETAILED_BALANCE](../KMS_DETAILED_BALANCE.md), still mirrored about
+  −r/2, so the same tensor sum settles H = 0 and the centre is
+  −Σᵢ(γ↓ᵢ + γ↑ᵢ)/2. At γ↑ = 0 it is the line above.
+
+  With the Heisenberg H the thermal case does better than "measured". At
+  rational rates the Liouvillian is rational over ℚ(i), so its characteristic
+  polynomial is exact and the palindrome is the identity p(2c − x) ≡ p(x): it
+  holds at N=2 and N=3 with no eigensolver anywhere, and fails for T1 + Z, so
+  the break is proven too. To N=5 the canonical F1 distance sits at the floor.
+
+  Two things this section deliberately keeps apart. The **centre** is a trace
+  identity, and the trace of the commutator part is zero, so it is fixed by the
+  dissipator alone and needs no proof at H ≠ 0. The **pairing** is the claim.
+  The centre alone decides nothing: T1 with co-axial Z and T1 with transverse X
+  give the same centre to every digit, and only the first breaks.
+
+  The rate that appears is the **sum**, not the net γ↓ − γ↑ that governs the
+  Π-conjugation violation of F82/F84, and the reason is structural. In the
+  (I, X, Y, Z) Pauli basis the one-site thermal dissipator is triangular: the
+  sum sits on the diagonal, the net rate is its only off-diagonal entry, at
+  (Z, I), where it cannot move an eigenvalue. Detailed balance separates them
+  completely: at γ↓ = γ↑ that violation is exactly zero while the centre is
+  −Σγ↓, not zero, and the pairing is exact. The paragraph above says Π can fail
+  where the palindrome holds; this is the same sentence read backwards.
+  ([`thermal_palindrome_centre.py`](../../simulations/thermal_palindrome_centre.py))
+
 - **T1 with dephasing** depends entirely on the axis, and the obvious guess
   is wrong. Dephasing *transverse* to T1 composes with it exactly: T1 plus
   X-dephasing and T1 plus Y-dephasing both pair 64/64, as does T1 plus a

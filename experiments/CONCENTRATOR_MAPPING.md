@@ -95,8 +95,12 @@ qubit in four of the five headline chains, T₁ = 2.9 µs against T₂ = 5.0 µs
 the 1/(2T₁) term carries most of the coherence decay, while the interior qubits
 sit near 40%. Under that model Q85's D[Z] rate would fall several-fold more than
 the interior's and the ranking would not survive. A σ⁻ channel also breaks the Π
-mirror (F82/F84), so the palindrome column would not survive either. Everything
-below is a statement about the dephasing-only model these scripts implement.
+operator (F82/F84), and beside the co-axial Z-dephasing these chains carry it
+breaks the spectral palindrome too, so the column below would not survive
+either. (σ⁻ *alone* would not break it: it would move the centre to
+−Σγ/2, [F137](../docs/ANALYTICAL_FORMULAS.md#f137). It is the co-axial pair
+that breaks.) Everything below is a statement about the dephasing-only model
+these scripts implement.
 
 Related, and unhandled by either script: Q53, which appears in two of the five
 headline chains, reports T₂ = 62.4 > 2·T₁ = 44.8 on this calibration date. That
@@ -235,8 +239,8 @@ construction. What the number does **not** license is a claim of exactness: a
 genuine violation below roughly 1e-13 absolute would sit inside the same band. F1
 is proven analytically; this column is the numerical check, not the theorem.
 
-**The defective scorer is a family of at least seventeen. Five of them are
-converted; the twelve listed below still stand.** Named here rather than left quiet, because a substitution that
+**The defective scorer is a family of at least seventeen. Six of them are
+converted; the eleven listed below still stand.** Named here rather than left quiet, because a substitution that
 converts some sites and not others is worse than consistent wrongness: the
 inconsistency reads as deliberate. The count grew from "two" to "five" to this
 over three review rounds on 2026-08-05, so treat it as a floor and not as a
@@ -265,11 +269,13 @@ which is the cockpit signal that a primitive was missing, so it lives in
 `framework/tests/primitives/test_f1_pairing_distance.py`. The remaining Python
 sites should import it rather than copy it again.
 
-**Shape A**, greedy first-fit inside a tolerance, reported as a percentage,
-`simulations/`: `v_effect_thermal.py` (1e-3, feeding [Thermal Breaking](THERMAL_BREAKING.md),
-whose 91% already carries a footnote calling it a tolerance artefact: the right
-instinct attached to the wrong mechanism, since the tolerance saturates rather
-than degrades).
+**Shape A** is empty. Its last member, `v_effect_thermal.py` (1e-3, feeding
+[Thermal Breaking](THERMAL_BREAKING.md)), was converted on 2026-08-05, and it
+carried a second defect the tolerance had hidden: three of its four call sites
+scored a spectrum with an amplitude-damping channel against the *Z-dephasing*
+centre. Converting it turned a symmetry that reads as decaying with temperature
+(100% / 93% / 93% / 98%) into one that is exact at every temperature, which is
+the largest thing this scorer family has hidden so far.
 
 **Shape B**, nearest-partner **without removal** (so several rates may claim the
 same partner and it is not multiplicity-aware), with a `999` sentinel and only
@@ -285,8 +291,8 @@ the below-centre half scored: `analytical_spectrum_verify.py`,
 **live** Diagnostics layer with a witness on top of it.
 
 The two C# sites should call `F1SpectrumStatistics.MaxF1PairingDistance`, which
-the same solution already contains; the ten Python sites should import
-`fw.max_f1_pairing_distance`, which is that same check ported once.
+the same solution already contains; the nine remaining Python sites should
+import `fw.max_f1_pairing_distance`, which is that same check ported once.
 
 **The tolerance table below looks impossible and is not, and the reason it is
 not is the defect itself.** Tightening an acceptance window should admit fewer

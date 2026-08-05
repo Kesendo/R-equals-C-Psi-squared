@@ -4,7 +4,7 @@
 Liouvillian, quantum detailed balance Alicki 1977, Roberts hidden time-reversal
 symmetry PRX Quantum 2021, tenfold Lindbladian classification Sa Prosen 2023,
 Buca-Prosen weak strong symmetry gap, infinite temperature dephasing bath,
-finite temperature obstruction 2:2 split, maximum entropy production rate
+finite temperature obstruction 2:2 split Pi operator not palindrome, maximum entropy production rate
 2Sgamma, R=CPsi2 KMS detailed balance -->
 
 **Status:** Literature review + formal analysis complete
@@ -44,9 +44,12 @@ Lindbladian classification (Sá-Prosen 2023, 38 classes) does not contain
 Π due to the constant shift 2Sγ (though the shifted-spectrum SHAPE ±λ + ia is
 itself the "shifted sublattice symmetry" of Kawasaki-Mochizuki-Obuse 2022, a
 noninteracting cross-check we found afterward; the interacting Π and its per-site
-locality are new, see Question 1). Finite-temperature generalization faces
-a fundamental obstruction: the 2:2 per-site Pauli split that makes Π work
-is specific to pure dephasing (T=∞). The quantity 2Sγ equals the maximum
+locality are new, see Question 1). Finite-temperature generalization of **Π**
+faces a fundamental obstruction: the 2:2 per-site Pauli split that makes Π work
+is specific to pure dephasing (T=∞). The spectral palindrome is a separate
+question and is not obstructed; it survives a thermal bath at the centre
+−Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md#f137)), which is the pairing this
+document's own body computes. The quantity 2Sγ equals the maximum
 entropy production rate in the system.
 
 ---
@@ -346,7 +349,9 @@ The palindrome might be partially restored if:
 The Roberts et al. hidden TRS is conceptually the right direction for
 finite T. Their framework is defined in the doubled Hilbert space and
 involves an antiunitary operator that depends on the bath temperature.
-Whether this produces a palindromic spectrum is an open question.
+Whether *their* construction produces a palindromic spectrum is still open.
+That the spectrum IS palindromic under a thermal bath is not: it is, at the
+centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md#f137)).
 
 ### Assessment
 
@@ -357,9 +362,14 @@ for the thermal bath rates but are incompatible with Hamiltonian
 anti-commutation. A fundamentally different approach (e.g., Pauli-mixing
 Π, or working in the thermofield double) would be needed.
 
-**Numerical test recommended:** Compute the Liouvillian spectrum for
-XXZ + thermal bath at various temperatures and check whether any
-palindromic structure survives, even approximately. If approximate
+**Numerical test recommended, and run on 2026-08-05:** compute the Liouvillian
+spectrum for XXZ + thermal bath at various temperatures and check whether any
+palindromic structure survives. It does, and not only approximately: exactly,
+about the centre −Σ(γ↓+γ↑)/2, proven by rational characteristic polynomial at
+N=2 and N=3 ([`thermal_palindrome_centre.py`](../simulations/thermal_palindrome_centre.py),
+[F137](ANALYTICAL_FORMULAS.md#f137)). The rate that appears is the sum γ↓+γ↑,
+which is the r this document computed. What remains open below is the operator
+question, not the spectral one. If approximate
 palindrome is observed, construct Π numerically from eigenvector
 pairing (the fallback construction in NON_HEISENBERG_PALINDROME.md; note it
 returns an entangled representative under spectral degeneracy even when a
@@ -517,7 +527,8 @@ dynamics. No palindromic structures.
 | 1. Is Π a known symmetry type? | Closest to Q₋ anti-pseudo-Hermiticity + shift; no exact match in existing classifications | **PLAUSIBLE** (new variant) |
 | 2. Is Π related to quantum detailed balance? | Structurally parallel (both relate to time reversal) but formally distinct (DB uses L†, Π uses -L) | **UNLIKELY** (different symmetries) |
 | 3. Does KMS at β=0 reduce to Π? | No. KMS at β=0 gives L†=L (real spectrum). Π gives palindromic complex spectrum. Different conditions | **UNLIKELY** |
-| 4. Finite-T generalization? | Obstructed: thermal bath gives 1:3 per-site split, breaking palindrome for any T < ∞ | **UNLIKELY** (fundamental obstruction) |
+| 4. Finite-T generalization of **Π**? | Obstructed: the thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y), a map that commutes with [H, ·] instead of anti-commuting, so no Π of this shape exists at T < ∞ | **UNLIKELY** (fundamental obstruction, and it is against Π) |
+| 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md#f137) | **CONFIRMED** (H = 0 derived here, H ≠ 0 measured N=2–5) |
 | 5. What is 2Sγ thermodynamically? | Maximum entropy production rate; total "thermodynamic distance" between most classical and most quantum modes | **PLAUSIBLE** (consistent but not proven) |
 | 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá et al. (tenfold), MEP (η-pairing). None have the exact Π structure | **CONFIRMED** (relatives exist; Π is new) |
 
@@ -538,10 +549,20 @@ violate standard detailed balance. Establishing the formal connection
 and doubled Hilbert space) is the most promising direction for connecting
 Π to the broader literature.
 
-The finite-temperature obstruction is real and fundamental: the 2:2 per-site
-split that makes Π work is a property of pure dephasing (infinite T) that
-cannot be reproduced by a thermal bath at finite T. This makes Π an
-intrinsically infinite-temperature phenomenon.
+The finite-temperature obstruction is real and fundamental, and it is an
+obstruction **to Π**: the 2:2 per-site split that makes Π work is a property of
+pure dephasing (infinite T) that cannot be reproduced by a thermal bath at
+finite T. This makes Π an intrinsically infinite-temperature phenomenon.
+
+**It is not an obstruction to the palindrome, and this document nearly said so
+itself.** The section above computes the thermal per-site rates
+[0, r/2, r/2, r] with r = γ(2n̄+1), notices that (0, r) and (r/2, r/2) both sum
+to r, and concludes that rate-pairing is possible in principle. It is: r is the
+total per-site rate γ↓ + γ↑, the tensor sum over sites gives a palindrome
+centred at −Σ(γ↓ᵢ + γ↑ᵢ)/2, and that survives the Heisenberg Hamiltonian too,
+measured at N = 2 through 5. See [F137](ANALYTICAL_FORMULAS.md#f137). What is
+lost at finite T is the operator, not the symmetry of the spectrum, which is
+the distinction F137 was minted to draw.
 
 ---
 

@@ -4,14 +4,21 @@ V-Effect with thermal breaking.
 Three types of symmetry breaking:
   1. Bond breaking (V-Effect): coupling creates new palindromic pairs
   2. Dephasing (gamma_z): lifts degeneracies, preserves pairing (exact)
-  3. Thermal (n_bar > 0): amplitude damping breaks pairing, adds energy
+  3. Thermal (n_bar > 0): amplitude damping adds energy and explodes the
+     frequency count. It does NOT break the pairing: the palindrome survives
+     at a centre of -Sum(gamma_down + gamma_up)/2 (F137, extended 2026-08-05).
+     What breaks the pairing is amplitude damping beside CO-AXIAL Z-dephasing
 
 Question: Does heat change the V-Effect gain (1.81x)?
 Does thermal breaking create frequencies that dephasing alone cannot?
 """
 
+import sys
 import numpy as np
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from framework import f1_distance_in_eps  # noqa: E402
 
 
 # === Pauli matrices ===
@@ -112,25 +119,32 @@ def spectral_metrics(evals):
     }
 
 
-def palindrome_check(evals, center):
-    """Check palindromic pairing around center."""
-    rates = sorted(-ev.real for ev in evals if abs(ev.imag) > 1e-10)
-    if not rates:
-        return 1.0, 0
+def palindrome_reading(evals):
+    """Canonical F1 distance about the spectrum's OWN centre, in eps * rho.
 
-    paired = 0
-    used = [False] * len(rates)
-    for i in range(len(rates)):
-        if used[i]:
-            continue
-        partner = 2 * center - rates[i]
-        for j in range(len(rates)):
-            if not used[j] and j != i and abs(rates[j] - partner) < 1e-3:
-                paired += 2
-                used[i] = True
-                used[j] = True
-                break
-    return paired / max(len(rates), 1), paired // 2
+    Two repairs in one, both from 2026-08-05.
+
+    THE SCORER. A greedy first-fit percentage inside an absolute tolerance of
+    1e-3 stood here. It measured its own matcher: the spectrum is far denser
+    than the tolerance, so a rate rarely grabbed its true mirror, and tightening
+    the tolerance SATURATES the printed percentage long before it fixes the
+    pairing. A 100% therefore carried less information than a 91%. See
+    experiments/CONCENTRATOR_MAPPING.md; the check used instead is the repo's
+    canonical one, fw.max_f1_pairing_distance.
+
+    THE CENTRE. The old call sites passed the Z-dephasing centre even for rows
+    with an amplitude-damping channel running, which is the "centre is
+    estimated" caveat experiments/THERMAL_BREAKING.md warned about. It need not
+    be estimated at all: a multiset closed under lambda -> 2c - lambda has
+    sum(lambda) = n*c, so c = mean(lambda) EXACTLY. There is one candidate
+    centre and it is read off the trace, whatever the channels are. A large
+    distance at that centre means no centre works.
+
+    Returns (distance_in_eps_rho, centre).
+    """
+    centre = float(np.mean(evals).real)
+    dist, _radius = f1_distance_in_eps(evals, -centre)
+    return dist, centre
 
 
 def main():
@@ -165,7 +179,7 @@ def main():
     gamma_amp = 0.1
 
     out(f"\n{'n_bar':>6} | {'-- N=2 --':>16} | {'-- N=3 --':>16}"
-        f" | {'-- N=5 --':>16} | {'V52':>5} {'pal5':>5}")
+        f" | {'-- N=5 --':>16} | {'V52':>5} {'F1 eps*rho':>10}")
     out(f"{'':>6} | {'maxQ':>5} {'frq':>4} {'hiQ':>4}"
         f" | {'maxQ':>5} {'frq':>4} {'hiQ':>4}"
         f" | {'maxQ':>5} {'frq':>4} {'hiQ':>4}"
@@ -183,9 +197,7 @@ def main():
             row[f'h_{N}'] = m['n_high_Q']
 
             if N == 5:
-                center = N * gamma_amp * (1 + 2 * n_bar) / 2
-                pal, _ = palindrome_check(evals, center)
-                row['pal'] = pal
+                row['pal'], row['centre'] = palindrome_reading(evals)
 
         vg = row['Q_5'] / row['Q_2'] if row['Q_2'] > 0.01 else 0
 
@@ -195,7 +207,7 @@ def main():
             f" {row['h_3']:4d}"
             f" | {row['Q_5']:5.1f} {row['f_5']:4d}"
             f" {row['h_5']:4d}"
-            f" | {vg:5.2f} {row.get('pal', 0):5.0%}")
+            f" | {vg:5.2f} {row.get('pal', 0):10.2e}")
 
     # ================================================================
     # Part 2: Z-dephasing + thermal sweep
@@ -209,7 +221,7 @@ def main():
     gamma_amp_val = 0.05
 
     out(f"\n{'n_bar':>6} | {'-- N=2 --':>16} | {'-- N=3 --':>16}"
-        f" | {'-- N=5 --':>16} | {'V52':>5} {'pal5':>5}")
+        f" | {'-- N=5 --':>16} | {'V52':>5} {'F1 eps*rho':>10}")
     out(f"{'':>6} | {'maxQ':>5} {'frq':>4} {'hiQ':>4}"
         f" | {'maxQ':>5} {'frq':>4} {'hiQ':>4}"
         f" | {'maxQ':>5} {'frq':>4} {'hiQ':>4}"
@@ -228,10 +240,7 @@ def main():
             row[f'h_{N}'] = m['n_high_Q']
 
             if N == 5:
-                # Approximate center for palindrome check
-                center = N * gamma_z_val
-                pal, _ = palindrome_check(evals, center)
-                row['pal'] = pal
+                row['pal'], row['centre'] = palindrome_reading(evals)
 
         vg = row['Q_5'] / row['Q_2'] if row['Q_2'] > 0.01 else 0
 
@@ -241,7 +250,7 @@ def main():
             f" {row['h_3']:4d}"
             f" | {row['Q_5']:5.1f} {row['f_5']:4d}"
             f" {row['h_5']:4d}"
-            f" | {vg:5.2f} {row.get('pal', 0):5.0%}")
+            f" | {vg:5.2f} {row.get('pal', 0):10.2e}")
 
     # ================================================================
     # Part 3: What breaks the 1.81x constant?
@@ -274,7 +283,7 @@ def main():
 
     out(f"\n{'Config':>45} | {'Q_N2':>6} {'Q_N5':>6}"
         f" {'V-gain':>7} | {'f_N2':>5} {'f_N5':>5}"
-        f" {'f-gain':>7} | {'pal5':>5}")
+        f" {'f-gain':>7} | {'F1 eps*rho':>10}")
 
     for label, cfg in configs:
         row = {}
@@ -288,16 +297,14 @@ def main():
             row[f'f_{N}'] = m['n_freq']
 
             if N == 5:
-                center = N * cfg['gamma_z']
-                pal, _ = palindrome_check(evals, center)
-                row['pal'] = pal
+                row['pal'], row['centre'] = palindrome_reading(evals)
 
         vg_q = row['Q_5'] / row['Q_2'] if row['Q_2'] > 0.01 else 0
         vg_f = row['f_5'] / row['f_2'] if row['f_2'] > 0 else 0
 
         out(f"{label:>45} | {row['Q_2']:6.1f} {row['Q_5']:6.1f}"
             f" {vg_q:7.2f}x | {row['f_2']:5d} {row['f_5']:5d}"
-            f" {vg_f:7.1f}x | {row.get('pal', 0):5.0%}")
+            f" {vg_f:7.1f}x | {row.get('pal', 0):10.2e}")
 
     # ================================================================
     # Part 4: Sacrifice + thermal (the full picture)
@@ -313,8 +320,8 @@ def main():
 
     out(f"\n{'n_bar':>6} | {'-- Sacrifice --':>22} | {'-- Uniform --':>22}"
         f" | {'S/U':>5}")
-    out(f"{'':>6} | {'maxQ':>6} {'frq':>4} {'hiQ':>4} {'pal':>5}"
-        f" | {'maxQ':>6} {'frq':>4} {'hiQ':>4} {'pal':>5}"
+    out(f"{'':>6} | {'maxQ':>6} {'frq':>4} {'hiQ':>4} {'F1eps':>9}"
+        f" | {'maxQ':>6} {'frq':>4} {'hiQ':>4} {'F1eps':>9}"
         f" | {'Qrat':>5}")
 
     for n_bar in n_bar_values:
@@ -324,20 +331,20 @@ def main():
         L_sac = build_liouvillian_thermal(H, gz_sac, ga, n_bar)
         ev_sac = np.linalg.eigvals(L_sac)
         m_sac = spectral_metrics(ev_sac)
-        pal_sac, _ = palindrome_check(ev_sac, sum(gz_sac))
+        pal_sac, _ = palindrome_reading(ev_sac)
 
         L_uni = build_liouvillian_thermal(H, gz_uni, ga, n_bar)
         ev_uni = np.linalg.eigvals(L_uni)
         m_uni = spectral_metrics(ev_uni)
-        pal_uni, _ = palindrome_check(ev_uni, sum(gz_uni))
+        pal_uni, _ = palindrome_reading(ev_uni)
 
         q_rat = (m_sac['max_Q'] / m_uni['max_Q']
                  if m_uni['max_Q'] > 0.01 else 0)
 
         out(f"{n_bar:6.2f} | {m_sac['max_Q']:6.1f} {m_sac['n_freq']:4d}"
-            f" {m_sac['n_high_Q']:4d} {pal_sac:5.0%}"
+            f" {m_sac['n_high_Q']:4d} {pal_sac:10.2e}"
             f" | {m_uni['max_Q']:6.1f} {m_uni['n_freq']:4d}"
-            f" {m_uni['n_high_Q']:4d} {pal_uni:5.0%}"
+            f" {m_uni['n_high_Q']:4d} {pal_uni:10.2e}"
             f" | {q_rat:5.2f}")
 
     out("\n=== DONE ===")

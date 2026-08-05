@@ -1,0 +1,84 @@
+=== THE PALINDROME CENTRE UNDER A THERMAL BATH ===
+F137 extended from sigma^- to sigma^- + sigma^+.
+
+--- 1. the centre is an IDENTITY, not evidence ---
+    trace(L)/dim is the mean eigenvalue, hence the only possible centre,
+    and the commutator part of L is traceless: the centre is fixed by the
+    dissipator alone and does not depend on H. Shown by varying J at fixed
+    rates. The residual below is float arithmetic on a sum, NOT a reading
+    about any symmetry; a broken spectrum has the same centre (section 6).
+    case                                  predicted        trace/dim    residual
+    J=0    thermal                     -0.5750000000    -0.5750000000    0.00e+00
+    J=0    thermal + Z                 -0.8750000000    -0.8750000000    0.00e+00
+    J=1    thermal                     -0.5750000000    -0.5750000000    0.00e+00
+    J=1    thermal + Z                 -0.8750000000    -0.8750000000    0.00e+00
+    J=5    thermal                     -0.5750000000    -0.5750000000    0.00e+00
+    J=5    thermal + Z                 -0.8750000000    -0.8750000000    0.00e+00
+
+--- 2. EXACT, no eigensolver: p(2c - x) == p(x) over the rationals ---
+    Rational rates and rational J make L rational over Q(i), so the
+    characteristic polynomial is exact and the palindrome becomes a
+    polynomial identity instead of a small number.
+    N=2 thermal                centre   -17/40   EXACT palindrome, p(2c-x) == p(x)
+    N=2 cooling only (F137)    centre     -1/4   EXACT palindrome, p(2c-x) == p(x)
+    N=2 detailed balance       centre     -2/5   EXACT palindrome, p(2c-x) == p(x)
+    N=3 thermal                centre   -23/40   EXACT palindrome, p(2c-x) == p(x)
+    N=2 thermal + Z            centre     -5/8   BROKEN, neither identity holds
+    At these N the thermal palindrome is PROVEN for the Heisenberg H,
+    not measured, and the Z + amplitude break is proven too. The last
+    row is the case that must fail; without it the section could not.
+
+--- 3. larger N, where only the eigensolver reaches ---
+    case                                     centre      F1 dist
+    N=2 thermal, trial 0               -0.5259462948        11.40
+    N=2 thermal, trial 1               -0.4712151096         8.46
+    N=3 thermal, trial 0               -0.7736868182        29.69
+    N=3 thermal, trial 1               -0.6472893771        11.26
+    N=4 thermal, trial 0               -1.0400518439        48.16
+    N=4 thermal, trial 1               -1.0989176896        31.13
+    N=5 thermal, trial 0               -0.9320988204        73.15
+    N=5 thermal, trial 1               -0.9517564106        56.16
+    Read each row against its own N: the eigensolver floor grows with N,
+    and greedy matching adds an order-dependence spread on top, so these
+    are all 'at the floor' and are not comparable with each other.
+
+--- 4. WHY the spectrum sees the sum: the net rate is triangular ---
+    one-site thermal dissipator on the (I, X, Y, Z) Pauli basis,
+    gamma_down = 0.37, gamma_up = 0.13:
+      [ +0.0000   +0.0000   +0.0000   +0.0000]
+      [ +0.0000   -0.2500   +0.0000   +0.0000]
+      [ +0.0000   +0.0000   -0.2500   +0.0000]
+      [ +0.2400   +0.0000   +0.0000   -0.5000]
+    diagonal = [0, -r/2, -r/2, -r] with r = gd + gu = 0.50
+    the single off-diagonal entry is (Z, I) = +0.240000 = gd - gu, the NET rate
+    In this ordering that entry sits strictly below the diagonal, so the
+    matrix is TRIANGULAR and the net rate cannot move an eigenvalue.
+    That is the mechanism: the spectrum sees only the sum while F84's
+    Pi-conjugation violation sees only the difference. Not two readings
+    of one quantity; two different entries of one matrix.
+
+--- 5. the sum/net separation, against F84's own closed form ---
+    F84 violation ||D_odd||_F = sqrt(sum (gd-gu)^2)*2^(N-1) = 4.000000
+    palindrome centre                                      = -0.625000
+    F1 distance there                                      = 65.46
+    at detailed balance, gamma_down = gamma_up:
+      F84 violation     = 0.000000   exactly zero, its rate is the net
+      palindrome centre = -0.750000   NOT zero, its rate is the sum
+      F1 distance there = 60.33
+    Section 2 settles that balanced case exactly, so this is not a
+    tolerance question. F84's number here is its published closed form
+    evaluated on these rates, not a re-derivation of it.
+
+--- 6. the centre alone decides nothing ---
+    thermal alone              centre -0.60350014   F1 dist          44.78
+    thermal + Z  (co-axial)    centre -1.12014414   F1 dist      4.388e+14
+    thermal + X  (transverse)  centre -1.12014414   F1 dist          26.98
+    thermal + Y  (transverse)  centre -1.12014414   F1 dist          26.17
+    The three added-channel rows share a centre to every digit, because
+    the centre is the trace and all three add the same total rate. Only
+    the co-axial one breaks the pairing. So the centre must be computed
+    AND the distance checked; neither decides alone. WHICH axis survives
+    is MIRROR_SYMMETRY_PROOF's composition rule, measured there on a
+    pairing-fraction metric with sigma^- at N=3; this is the same
+    statement read with the F1 distance on a thermal bath at N=4, not a
+    reproduction of those counts.

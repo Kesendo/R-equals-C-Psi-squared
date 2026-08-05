@@ -1,14 +1,18 @@
 # Thermal Breaking: Heat Trades Q-Factor for Frequency Diversity
 
-**Status:** Computationally verified (N=2, N=3, N=5; Heisenberg chain)
+**Status:** Computationally verified (N=2 to N=5; Heisenberg chain). The
+palindrome section is stronger: exact at N=2 and N=3, by rational characteristic
+polynomial rather than by an eigensolver.
 **Date:** March 30, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Scripts:** [v_effect_gamma_sweep.py](../simulations/v_effect_gamma_sweep.py),
 [v_effect_thermal.py](../simulations/v_effect_thermal.py),
-[self_heating_fixpoint.py](../simulations/self_heating_fixpoint.py)
+[self_heating_fixpoint.py](../simulations/self_heating_fixpoint.py),
+[thermal_palindrome_centre.py](../simulations/thermal_palindrome_centre.py)
 **Results:** [v_effect_gamma_sweep.txt](../simulations/results/v_effect_gamma_sweep.txt),
 [v_effect_thermal.txt](../simulations/results/v_effect_thermal.txt),
-[self_heating_fixpoint.txt](../simulations/results/self_heating_fixpoint.txt)
+[self_heating_fixpoint.txt](../simulations/results/self_heating_fixpoint.txt),
+[thermal_palindrome_centre.txt](../simulations/results/thermal_palindrome_centre.txt)
 **Depends on:** [V-Effect](V_EFFECT_PALINDROME.md),
 [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md),
 [Energy Partition](../hypotheses/ENERGY_PARTITION.md)
@@ -294,55 +298,102 @@ operators). Thermal channels introduce σ₊ (stimulated
 absorption) and σ₋ (spontaneous decay) operators that lie
 outside the scope of this proof.
 
-Computed palindrome scores (N=5, percentage of oscillating modes
-with a palindromic partner within tolerance 1e-3):
+The reading below is the canonical F1 pairing distance about the spectrum's own
+centre, in units of ε · spectral radius (N=5). At this N the eigensolver floor
+is O(10-100), so a value in that range means "palindromic, to the accuracy the
+solver can offer", and 1e14 means broken:
 
-| Noise type | n_bar=0 | n_bar=0.5 | n_bar=2 | n_bar=10 |
-|:-----------|:--------|:----------|:--------|:---------|
-| Pure Z-dephasing | 91%* | n/a | n/a | n/a |
-| Pure amplitude damping | 100% | 93% | 93% | 98% |
-| Z-deph + amplitude | 10% | 2% | 0% | 0% |
+| Noise type | n̄=0 | n̄=0.5 | n̄=2 | n̄=10 |
+|:-----------|:----|:------|:----|:-----|
+| Pure Z-dephasing | 55 | n/a | n/a | n/a |
+| Pure amplitude damping | 98 | 57 | 72 | 69 |
+| Z-dephasing **and** amplitude | 4.1e14 | 1.1e15 | 1.1e15 | 2.7e15 |
 
-\* Should be 100% (proven). The 91% is a numerical artifact of the
-pairing tolerance at γ=0.1.
+**The column used to report a greedy first-fit percentage inside an absolute
+tolerance of 1e-3, and that percentage measured its own matcher.** The spectrum
+is far denser than the tolerance, so a rate rarely grabbed its true mirror, and
+tightening the tolerance *saturates* the printed score long before it fixes the
+pairing, which inverts what a high score means: measured on the sibling scan in
+[Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md), at 1e-6 the scorer prints
+100% while 56 of 480 accepted pairs are still wrong by more than 1e-12. The
+amplitude-damping row therefore read as a symmetry weakening with temperature
+when the pairing is exact at every n̄.
 
-**Sharpened 2026-08-05, and the whole table inherits it.** That footnote had the
-right instinct and the wrong mechanism, and the difference matters because it
-inverts what a HIGH score means. The scorer here (`v_effect_thermal.py`) pairs
-each rate with the first partner inside an absolute tolerance, and the spectrum
-is far denser than the tolerance, so a rate almost never grabs its true mirror.
-Tightening the tolerance does improve the underlying pairing, but it **saturates
-the printed score long before it fixes it**, so the score stops carrying the
-improvement: measured on the sibling scan in
-[Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md), a tolerance of 1e-6 prints
-100% while 56 of its 480 accepted pairs are still wrong by more than 1e-12, and
-1e-8 still prints 100% with 8 of 480 wrong. The score reads the same at both. So
-the 100% entries in the rows above are not stronger evidence than the 91%; they
-are the same artifact one notch further into saturation. The near-zero
-"Z-deph + amplitude" row still carries its finding, because a score that collapses
-to 0-10% cannot be produced by saturation. The repair, and the canonical check
-these should call (`F1SpectrumStatistics.MaxF1PairingDistance`), is described in
-that document; this script is one of the copies it lists as not yet converted.
+Worth naming, because it is the more interesting half: that row was scored
+against the **right** centre all along. The script computed
+`N·γ_amp·(1 + 2n̄)/2`, which is exactly Σ(γ↓+γ↑)/2, before anyone had written
+that expression down as a centre. The centre was in the code and the claim was
+in no document. Two of the other call sites did pass the Z-dephasing centre for
+rows with an amplitude channel running; all of them read the centre off the
+trace now, which removes the choice.
 
-**Caution:** The palindrome check requires knowing the spectral
-center (the point around which rates pair). For Z-dephasing, the
-center is analytically known (Σγ). For thermal channels,
-the center is estimated and scores are center-dependent. The low
-scores for "Z-deph + amplitude" may reflect center estimation error
-rather than true symmetry breaking.
+**Answered 2026-08-05, and the answer is a shifted centre.** The paragraph that
+stood here called the thermal status open and cautioned that the centre was
+only estimated, so the low scores might be centre error rather than broken
+symmetry. Both halves are settled now, and the caution was the more important
+of the two.
 
-What is clear:
-- Pure Z-dephasing: pairing exact (proven, numerics confirm)
-- Cold amplitude damping alone: pairing appears intact (100%)
-- Combined Z + amplitude: pairing breaks or center shifts
-- [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) shows that
-  depolarizing noise (X+Y+Z) breaks pairing, but error < 0.1% at
-  typical IBM γ values
+**The centre is not estimated; it is read off the trace.** If a multiset is
+closed under λ ↦ 2c − λ then every pair sums to 2c, so Σλ = n·c and
+c = mean(λ) exactly. There is one candidate centre, not a fitted one, which
+turns "is it palindromic?" from a search into a check: a large distance at that
+centre means **no** centre works.
 
-The palindromic status of thermal channels is **open**. Analytical
-work is needed to determine whether σ₊/σ₋ preserve
-a modified palindromic structure with a shifted center, or whether
-they genuinely break the pairing.
+**σ₊/σ₋ do preserve a modified palindromic structure with a shifted centre**,
+which is the first of the two possibilities this section named:
+
+| Channel | Palindrome centre | Status |
+|:--------|:------------------|:-------|
+| Z-dephasing | −Σγ | F1, proven |
+| Amplitude damping, T = 0 | −Σγ/2 | [F137](../docs/ANALYTICAL_FORMULAS.md#f137) |
+| Thermal bath, σ₋ and σ₊ | −Σ(γ↓ + γ↑)/2 | F137 extended, 2026-08-05 |
+| Z-dephasing **and** amplitude damping | none exists | breaks |
+
+Dephasing pays the full shift, amplitude damping half of it, and the thermal
+bath half of the **total** per-site rate γ↓ + γ↑. Measured with the Heisenberg
+H at N = 2 through 5 with independently drawn per-site rates: predicted centre
+matching the trace to 1e-15, pairing at the eigensolver floor
+([`thermal_palindrome_centre.py`](../simulations/thermal_palindrome_centre.py)).
+The H = 0 case needs nothing new; it follows from the thermal per-site rates
+[0, r/2, r/2, r], r = γ↓ + γ↑, which
+[KMS_DETAILED_BALANCE](../docs/KMS_DETAILED_BALANCE.md) had already computed.
+
+Better than measured, where the rates are rational: the characteristic
+polynomial is then exact and the palindrome is the identity p(2c − x) ≡ p(x),
+which holds at N=2 and N=3 with the Heisenberg H and no eigensolver anywhere.
+The same test returns "neither" for Z + amplitude, so that break is proven, not
+merely large.
+
+**The "Z-deph + amplitude" row is the hardware case, and it genuinely breaks:**
+no centre pairs it.
+[MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) has the reason,
+and it is sharper than "two channels are worse than one". *Transverse* dephasing
+composes with T1 exactly, 64 of 64 configurations there; only **co-axial**
+Z-dephasing breaks it, 8 of 64. Two channels break the mirror when they share an
+axis, not because there are two of them.
+
+**A trap, since a centre is now easy to compute.** T1 with co-axial Z and T1
+with transverse X give the *same* centre to every digit, and only the first
+breaks the pairing: the centre is the trace, and all three additions carry the
+same total rate. The centre must be computed **and** the distance checked;
+neither alone decides.
+
+Where this leaves temperature: the palindrome's *existence* does not depend on
+n̄, only on the total rate γ↓ + γ↑, and the centre moves with it since
+γ↓ + γ↑ = γ(2n̄ + 1). There is no critical temperature to look for. And the
+hardware operating point is not the hot one: a flown two-leg protocol
+(`fw.Confirmations.lookup('f84_heating_leg_attribution_kingston_july2026')`)
+found γ↑ consistent with zero and thermal populations of 0.23 to 0.83%. The
+regime that matters on real machines is T1 beside co-axial Z, the one
+combination that fails.
+
+Still open: a proof of the H ≠ 0 pairing at general N. The *centre* at H ≠ 0 is
+not open; it is a trace identity, and the commutator part of the Liouvillian is
+traceless, so the centre never depended on H at all.
+
+For contrast, [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) shows that
+depolarizing noise (X+Y+Z) breaks pairing, with error < 0.1% at typical IBM γ
+values.
 
 ---
 
@@ -470,7 +521,9 @@ The three mechanisms map to three levels of the
 3. Heat creates diversity (breaks structure, enables complexity)
 
 At zero temperature: structure dominates (Q = 1.81x, exact pairing).
-At high temperature: diversity dominates (445 frequencies, no pairing).
+At high temperature: diversity dominates (445 frequencies). The pairing is
+not what heat costs: under the thermal bath alone it survives at every n_bar,
+at a centre that moves with the total rate.
 Life operates in between.
 
 ---
@@ -493,10 +546,11 @@ Life operates in between.
 
 ### Computable (no hardware needed)
 
-3. What is the critical n_bar where the palindromic pairing drops
-   below 50%? The data suggests a smooth transition, not a phase
-   boundary. (Straightforward: sweep n_bar with finer resolution,
-   compute palindrome score at each point.)
+3. ~~What is the critical n_bar where the palindromic pairing drops
+   below 50%?~~ Answered 2026-08-05: there is none. The pairing under a
+   thermal bath is exact at every n_bar, and the smooth transition the old
+   data suggested was the greedy scorer, not the physics. See the palindrome
+   section above.
 
 4. What external cooling rate stabilizes the system at a given
    n_bar? The fixed-point computation shows divergence without

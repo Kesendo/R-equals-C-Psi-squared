@@ -27,7 +27,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>The gate is two-sided via the two scope controls (the selective-breaking
 /// cross of <c>simulations/direct_sum_scope_probe.py</c>): adding amplitude
 /// damping keeps the off-parity block at exactly 0 while the palindrome residual
-/// jumps to O(γ_T1) (T1 breaks the mirror, not the wall); adding a transverse
+/// jumps to O(γ_T1) (T1 breaks the Pi mirror, not the wall; the spectral
+/// palindrome is a separate claim and survives T1 alone, F137); adding a transverse
 /// field breaks the off-parity block at O(h) while the palindrome residual stays
 /// machine-zero (the field the wall, not the mirror). A construction error
 /// (scrambled parity index, wrong Π sign) fails one of the four cells.</para></summary>
@@ -74,7 +75,7 @@ public sealed class DirectSumDecompositionWitness : IInspectable
     public double AdOffParityNorm { get; }
 
     /// <summary>Control cell: palindrome residual with amplitude damping. O(γ_T1) &gt; 0 —
-    /// T1 breaks the mirror.</summary>
+    /// T1 breaks the Pi mirror (not the spectral palindrome, F137).</summary>
     public double AdPalindromeNorm { get; }
 
     /// <summary>Control cell: off-parity norm with a transverse field h·Σ X_l. O(h) &gt; 0 —
@@ -224,7 +225,7 @@ public sealed class DirectSumDecompositionWitness : IInspectable
                          (N % 2 == 1 ? " — the (odd,odd) block is exactly ‖Π·L_even·Π⁻¹ + L_odd + 2Σγ·I‖" : " — each sector self-palindromic"));
 
             yield return new InspectableNode(
-                displayName: "control: T1 breaks the mirror, not the wall",
+                displayName: "control: T1 breaks the Pi mirror, not the wall",
                 summary: $"with uniform amplitude damping 0.07: off-parity ‖·‖ = {AdOffParityNorm.ToString("e3", Inv)} " +
                          $"(the direct sum survives EXACTLY; bilinear sandwich, σ∓ bit_a-homogeneous) while the palindrome " +
                          $"residual = {AdPalindromeNorm.ToString("e3", Inv)} > 0 (the sectors persist but stop being mirror images)");

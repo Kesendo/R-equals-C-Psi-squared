@@ -343,7 +343,9 @@ Ising, XXZ, DM, transverse/Y fields, magnetic flux, L_H is anti-Hermitian for
 *every* Hermitian H, since Step 1 needs only H^T = H*); Z-dephasing; any graph;
 any N; non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × \[σ_k ∈ {X,Y}\]).
 **Breaks for:** non-dephasing dissipators (amplitude damping T1, depolarizing),
-which add a non-diagonal part to L_D and shift the rate (see F82, F84). No
+which add a non-diagonal part to L_D and shift the rate (see F82, F84). The
+sum rule's *form* is what breaks, not the pairing itself: under T1 alone the
+spectrum stays palindromic about a halved centre ([F137](#f137)). No
 Hamiltonian, real or complex, breaks it; the genuine boundary is the dissipator
 (caveat closed 2026-05-28, bit-exact against a random complex Hermitian H).
 **Replaces:** nothing computationally, since <n_XY> is read off the eigenvector; what it replaces is the separate derivation of the palindromic sum rule and
@@ -1684,7 +1686,7 @@ bit_b (w_YZ parity, F63). Combined, they decompose the operator space into
 
 **Valid for:** any isotropic Heisenberg (XX+YY+ZZ) or XY (XX+YY) model,
 any graph topology, any site-dependent Z-dephasing gamma_k, any N.
-**Breaks for:** transverse fields (odd-n_XY Hamiltonian terms enter the commutator one-sided and mix the sectors). NOT broken by amplitude damping (T1): a dissipator acts bilinearly and σ∓'s Pauli components share odd parity, so the n_XY grading survives exactly (off-parity block exactly zero, [`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py)); what T1 breaks is the Π palindrome (F82/F84) and the U(1) popcount grading, not this one.
+**Breaks for:** transverse fields (odd-n_XY Hamiltonian terms enter the commutator one-sided and mix the sectors). NOT broken by amplitude damping (T1): a dissipator acts bilinearly and σ∓'s Pauli components share odd parity, so the n_XY grading survives exactly (off-parity block exactly zero, [`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py)); what T1 breaks is the Π operator's identity (F82/F84) and the U(1) popcount grading, not this one, and not the spectral palindrome either ([F137](#f137): T1 alone keeps it, at a halved centre).
 **Verified:** 69 configurations (chain N=2-7, ring N=2-6, star N=3-6,
 complete N=3-4, 4 gamma profiles each, plus the IBM-sacrifice profile at
 N=5 chain). Zero violations: all 60 configs with a distinct second slow
@@ -5733,7 +5735,7 @@ sober base.
 
 ---
 
-### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (H=0 derived by tensor sum; with XXZ H measured, 18/18 configurations N=2–5; minted 2026-07-21)
+### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (H=0 derived by tensor sum; with XXZ H measured, 18/18 configurations N=2–5; minted 2026-07-21, extended from the vacuum bath to a thermal one 2026-08-05)
 
 Pure amplitude damping (T1, jump σ⁻ per site, rates γᵢ) leaves the Liouvillian
 spectrum an exact palindrome, centered at **Re λ = −Σγᵢ/2**: half the dephasing
@@ -5761,14 +5763,67 @@ on the other bond 256/256); no on-site field in T1's component (transverse
 pairs the rates, the real parts, 64/64, but not the complex eigenvalues,
 28/64).
 
+**Extended to a thermal bath (2026-08-05; the thermal pairing PROVEN exact at
+N=2,3 with the Heisenberg H, measured to N=5).** With a heating channel σ⁺
+beside the cooling channel σ⁻, per-site rates γ↓ᵢ and γ↑ᵢ, the palindrome
+survives and the centre becomes
+
+    Re λ = −Σᵢ (γ↓ᵢ + γ↑ᵢ) / 2
+
+which is the line above with γᵢ replaced by the *total* per-site rate, and
+reduces to it at γ↑ = 0. The H = 0 face needs nothing new: the thermal
+single-site Pauli rates are **[0, r/2, r/2, r] with r = γ↓ + γ↑**, already
+worked out in [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md), so the same
+tensor-sum argument applies with r in place of γ.
+
+**The centre is an identity and carries no evidence.** A multiset closed under
+λ ↦ 2c − λ has Σλ = n·c, so c = mean(λ) = trace(L)/dim exactly; and the
+commutator part of L is traceless, so the centre is fixed by the *dissipator
+alone*, independently of H. It therefore needs no proof at H ≠ 0, and it is
+equally well-defined for a spectrum that does **not** pair: T1 with co-axial Z
+and T1 with transverse X share a centre to every digit while only the first
+breaks. What the identity buys is that exactly **one** candidate centre exists,
+so a large distance at it means no centre works: "broken" becomes a measurement
+rather than a failed search.
+
+**The pairing is the claim, and at rational rates it is exact.** With rational
+γ and J the Liouvillian is rational over ℚ(i), so its characteristic polynomial
+is exact and the palindrome is the polynomial identity p(2c − x) ≡ p(x), with
+no eigensolver and no tolerance. It holds for N=2 thermal, N=2 cooling-only,
+N=2 detailed balance and N=3 thermal, and fails ("neither identity") for
+N=2 thermal + Z. Beyond that the canonical F1 distance sits at the eigensolver
+floor for every thermal case to N=5.
+
+**Which rate, and why it is not F84's.** The centre follows the **sum**
+γ↓ + γ↑; [F84](#f84)'s Π-conjugation violation follows the **net** rate
+γ↓ − γ↑. The mechanism, not a coincidence of two formulas: in the (I, X, Y, Z)
+Pauli basis the one-site thermal dissipator is **triangular**, carrying
+[0, −r/2, −r/2, −r] on the diagonal and the net rate as its single off-diagonal
+entry, at (Z, I), where it cannot move an eigenvalue. Detailed balance separates
+the two cleanly: at γ↓ = γ↑ F84's violation is exactly zero, the centre is
+**not** zero but −Σγ↓, and the pairing is exact (proven above). That is F137's
+own "Π fails ≠ the palindrome fails", read in the other direction.
+
+Caveat, because "different objects" invites over-reading: at H ≠ 0 the
+*spectrum* does depend on the net rate; only the *centre* does not.
+
 **Gate:** [`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
 → the T1 and per-component sections of
-[`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt).
+[`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt); the
+thermal extension in
+[`simulations/thermal_palindrome_centre.py`](../simulations/thermal_palindrome_centre.py)
+→ [`thermal_palindrome_centre.txt`](../simulations/results/thermal_palindrome_centre.txt).
 **Proof:** the Scope paragraphs of
 [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
 (the boundary-law rewrite, `1c7dcf9`); the H=0 face is derived there, the
-Heisenberg face is measured. **Typed:** not yet (Tier1Candidate). Open:
-typing; a proof of the H ≠ 0 case.
+Heisenberg face is measured. **Typed:** not yet (Tier1Candidate). Open: typing;
+a proof of the H ≠ 0 **pairing** at general N. Not open, and previously listed
+here in error: the centre at H ≠ 0, which is the trace identity above and needs
+no proof; and the H ≠ 0 pairing at N=2 and N=3, now settled exactly.
+**Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
+which had carried this as an open question since 2026-03-30, and
+[KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md), whose summary row called the
+thermal case obstructed while its own body computed the valid pairing.
 
 ---
 

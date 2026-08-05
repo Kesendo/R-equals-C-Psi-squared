@@ -128,13 +128,26 @@ def feature_trajectory(gammas, hx, ad):
 
 
 def palindrome_residual(hx, ad):
+    """Residual about the CORRECT centre for whichever channels are running.
+
+    Every run here carries GAMMA0 Z-dephasing, so `ad > 0` is amplitude damping
+    beside CO-AXIAL Z-dephasing, never amplitude damping alone. That matters for
+    reading the output: the amplitude-damping row below measures the co-axial
+    PAIR, which is the combination that genuinely breaks (F137). A sigma^-
+    channel on its own would keep the palindrome, at a centre of -Sum(gamma)/2.
+
+    The centre is not a choice either. A multiset closed under lambda -> 2c - x
+    has c = mean(lambda) exactly, so it is read off the trace; the old fixed
+    -2*N*GAMMA0 was the Z-only centre and ignored the amplitude channel.
+    """
     H = build_H(hx)
     jumps = [(GAMMA0, op(Z, k)) for k in range(N)]
     jumps += [(ad, op(SM, k)) for k in range(N)]
     L = build_L(H, jumps)
-    re = np.sort(np.linalg.eigvals(L).real)
-    # palindromic pairing: sorted real parts satisfy re[i] + re[-1-i] = -2 Sigma gamma
-    return np.max(np.abs(re + re[::-1] + 2 * N * GAMMA0))
+    ev = np.linalg.eigvals(L)
+    centre = float(np.mean(ev).real)
+    re = np.sort(ev.real)
+    return np.max(np.abs(re + re[::-1] - 2 * centre))
 
 
 def jacobian_svd(hx, ad):
@@ -163,11 +176,14 @@ def main():
         print(f"{name:<28s} {resid:12.3e} {s[0]:8.3f} {s[-1]:8.3f} "
               f"{rank:>4d}/5 {s[0] / s[-1]:7.1f}")
     print()
-    print("Reading: amplitude damping destroys the palindrome (residual ~1e-1)")
-    print("yet the gamma-Jacobian stays full rank with comparable conditioning.")
-    print("Full rank is generic for independent local rate perturbations; the")
-    print("palindrome is not its mechanism. The transverse-field row is a")
-    print("control: hx does not break the spectral palindrome (wall, not mirror).")
+    print("Reading: amplitude damping BESIDE the co-axial Z-dephasing every row")
+    print("carries destroys the palindrome, yet the gamma-Jacobian stays full")
+    print("rank with comparable conditioning. Full rank is generic for")
+    print("independent local rate perturbations; the palindrome is not its")
+    print("mechanism. Two scope notes: amplitude damping ALONE would not break")
+    print("the palindrome (F137, it moves the centre to -Sum(gamma)/2), so the")
+    print("breaking here belongs to the co-axial pair; and the transverse-field")
+    print("row is a control, hx does not break it (wall, not mirror).")
 
 
 if __name__ == "__main__":

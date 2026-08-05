@@ -1720,7 +1720,7 @@ these earn the "open" stamp.
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** numerical-verification
-**Status:** unclassified
+**Status:** ANSWERED 2026-08-05: there is no such n_bar. Under a thermal bath the pairing is exact at every n_bar, at the centre -Sum(gamma_down + gamma_up)/2 (F137, extended); the smooth transition the old data suggested was the greedy palindrome scorer, not the physics. See `simulations/thermal_palindrome_centre.py`.
 
 ### OQ-224
 

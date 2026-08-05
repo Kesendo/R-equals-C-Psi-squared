@@ -108,7 +108,7 @@ The accessibility boundary has an analytical explanation. The [n_XY Parity Selec
 3. Every single-excitation density matrix has purely even n_XY content (because bit flips from SE states always come in even numbers).
 4. Therefore no SE state can excite an odd-n_XY eigenmode. The overlap is exactly zero, not approximately zero.
 
-The inaccessible modes found numerically (rate -0.167 at N=5 IBM, etc.) are odd-n_XY modes. The selection rule explains why no optimizer, no ansatz, and no trick within the SE family can reach them. This is valid for any N, any topology, and any Z-dephasing profile. It breaks for transverse-field Hamiltonians (odd-n_XY terms); amplitude damping (T1) leaves the parity wall itself intact and breaks the mirror instead ([`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py)).
+The inaccessible modes found numerically (rate -0.167 at N=5 IBM, etc.) are odd-n_XY modes. The selection rule explains why no optimizer, no ansatz, and no trick within the SE family can reach them. This is valid for any N, any topology, and any Z-dephasing profile. It breaks for transverse-field Hamiltonians (odd-n_XY terms); amplitude damping (T1) leaves the parity wall itself intact and breaks the Π mirror instead ([`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py)): the Π operator, not the spectral palindrome, which survives T1 at a halved centre ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)).
 
 ---
 

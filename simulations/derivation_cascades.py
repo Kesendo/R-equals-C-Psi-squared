@@ -374,7 +374,8 @@ def cascade_E(out, J=1.0):
                        f"for ratio analysis")
 
     out.append(f"\n  CASCADE E: The 2x ratio changes with n_bar because")
-    out.append(f"  amplitude damping breaks the palindromic symmetry.")
+    out.append(f"  amplitude damping beside the co-axial Z-dephasing breaks")
+    out.append(f"  the palindromic symmetry (alone it does not: F137).")
     out.append(f"  The exact n_bar threshold depends on gamma_ad/gamma_deph")
     out.append(f"  and is not universal. No closed formula.\n")
 

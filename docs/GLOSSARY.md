@@ -268,6 +268,13 @@ and the repository already owns the closed form of that breakage in
 [PROOF_F82_T1_DISSIPATOR_CORRECTION](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md)).
 A residual there is F82, not a finding.
 
+Read that sentence exactly: it says **Π** breaks, not the palindrome. By
+[F137](ANALYTICAL_FORMULAS.md#f137) a σ⁻ channel on its own leaves the spectrum
+palindromic, at the halved centre −Σγ/2, and a thermal bath at −Σ(γ↓+γ↑)/2.
+What breaks the spectrum is σ⁻ beside **co-axial** Z-dephasing, which is row 2's
+actual situation; transverse dephasing composes with it exactly. The two claims
+are separate, and F137 exists to keep them apart.
+
 Row 2 is undefined where **T₂ > 2T₁**, returning a negative rate. Read that as
 the consistency check firing, not as a reason to prefer row 1: the bound is a
 theorem for Markovian dynamics, so a record crossing it is a broken record, and

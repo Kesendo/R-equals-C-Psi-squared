@@ -794,7 +794,7 @@ public static class InspectCommand
         new("directsum", "the direct-sum decomposition live: L = L_even ⊕ L_odd by n_XY parity (off-parity block " +
             "exactly 0, sectors 2^(2N−1) each), Π sector map checked column-complete (odd N exchanges, even N " +
             "preserves), sector-restricted palindrome machine-zero, plus the selective-breaking cross as controls " +
-            "(T1 breaks the mirror not the wall; a transverse field the wall not the mirror) " +
+            "(T1 breaks the Pi mirror not the wall; a transverse field the wall not the mirror) " +
             "(typed: DirectSumDecompositionClaim)",
             c => new DirectSumDecompositionWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                                    c.Parser.OptionalDouble("gamma") ?? 0.05),
