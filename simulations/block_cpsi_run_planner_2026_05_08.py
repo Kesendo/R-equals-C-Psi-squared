@@ -12,7 +12,7 @@ Tier-1 bound (C_block(0) = 1/4 exactly per Theorem 1).
 This script reads the 2026-05-08 morning IBM calibration CSVs (Marrakesh,
 Kingston, Fez) and recommends per-backend the best 2-qubit pair for the run:
 maximises min coherence, minimises CZ + single-qubit gate errors. Outputs an
-estimated γ_eff = 1/T2_min and a t-grid spanning the decoherence window so
+estimated γ_eff = 1/(2·T2_min) and a t-grid spanning the decoherence window so
 the trajectory has both the ceiling-saturation point (t ≈ 0) and a clear
 decay tail.
 """
@@ -51,9 +51,13 @@ def t_grid_for_t2(t2_min_us: float, n_points: int = 5) -> list[float]:
     """Recommend evolution times spanning the decoherence window. We want the
     full range from "fresh" (t ≈ 0) to "well-decayed" (t ≈ T2). Uniform
     spacing on [0, T2_min] with n_points samples gives a fit-friendly grid;
-    a linear spacing here is sufficient because exp(−4γt) over [0, T2] covers
-    [1.00 → e^{−4} = 0.018], so the curve is sampled across more than two
-    orders of magnitude on a linear t-grid of 5 points."""
+    a linear spacing here is sufficient because with γ = 1/(2·T2) the factor
+    exp(−4γt) over [0, T2] covers [1.00 → e^{−2} = 0.135], so the curve drops
+    by a factor of 7.4 across a linear t-grid of 5 points. (Under the
+    superseded γ = 1/T2 this docstring claimed e^{−4} = 0.018 and "more than
+    two orders of magnitude"; that was the doubled rate talking, and the real
+    span is well under one order.) The grid itself is a function of T2 alone
+    and is unchanged by the conversion."""
     return [k * t2_min_us / (n_points - 1) for k in range(n_points)]
 
 
@@ -98,7 +102,12 @@ def main() -> None:
         path, score, q1, q2, cz_err = best_pair_for_backend(qubits)
         t2_min = min(q1.t2_us, q2.t2_us)
         t1_min = min(q1.t1_us, q2.t1_us)
-        gamma_eff = 1.0 / t2_min  # per microsecond
+        # gamma = 1/(2*T2): the D[Z] rate reproducing the measured T2. The
+        # closed form below is PROOF_BLOCK_CPSI_QUARTER Theorem 3, whose gamma
+        # is the per-site Lindblad D[Z] rate; its factor 4 is the |.|^2 doubling
+        # of an amplitude decaying at 2*gamma (F73), so the 4 does NOT already
+        # absorb this 2. See docs/GLOSSARY.md, "The T2 -> gamma conversion".
+        gamma_eff = 1.0 / (2.0 * t2_min)  # per microsecond
         sx_err_sum = q1.sx_error + q2.sx_error
         readout_err_max = max(q1.readout_error, q2.readout_error)
 
@@ -113,7 +122,7 @@ def main() -> None:
              f"sx err = {q2.sx_error:.2e}, readout err = {q2.readout_error:.3f}")
         emit(f"  CZ({path[0]},{path[1]}) error: {cz_err:.2e}")
         emit(f"  pair coherence floor: T1_min = {t1_min:6.1f} μs, T2_min = {t2_min:6.1f} μs")
-        emit(f"  effective Z-dephasing rate: γ_eff = 1/T2_min = {gamma_eff:.4e} μs⁻¹")
+        emit(f"  effective Z-dephasing rate: γ_eff = 1/(2·T2_min) = {gamma_eff:.4e} μs⁻¹")
         emit(f"  recommended t-grid (μs): {[f'{t:.1f}' for t in t_grid]}")
         emit(f"  predicted C_block(t):    {[f'{predict_c_block(gamma_eff, t):.4f}' for t in t_grid]}")
         emit()
@@ -145,7 +154,7 @@ def main() -> None:
     emit("  1. Theorem 1 saturation: at t=0, hardware ρ_q0q1 must satisfy C_block ≈ 1/4")
     emit("     (state-prep + readout fidelity bound; no decoherence).")
     emit("  2. Theorem 3 trajectory fit: log(C_block(t)) vs t is linear with slope −4γ_fit;")
-    emit("     compare γ_fit against γ_eff = 1/T2_min from calibration.")
+    emit("     compare γ_fit against γ_eff = 1/(2·T2_min) from calibration.")
     emit("     A clean fit confirms the universal-shape closed form (Tier-1-grade evidence).")
     emit("  3. Per-backend γ_fit comparison: differences across Marrakesh/Kingston/Fez")
     emit("     diagnose whether T2 alone explains decoherence or extra noise channels.")

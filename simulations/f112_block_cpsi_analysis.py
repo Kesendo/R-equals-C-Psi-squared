@@ -40,6 +40,11 @@ import json
 import sys
 from pathlib import Path
 
+# This script prints rho, gamma and mu; the Windows console default is cp1252
+# and raises on the first one. Same guard as block_cpsi_run_planner_2026_05_08.
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 import numpy as np
 from scipy.linalg import expm
 from scipy.optimize import minimize
@@ -273,8 +278,33 @@ def main():
           f"γ_eff_cal = {raw['gamma_eff_per_us_calibration']:.6f} /μs")
     print()
 
-    # Initial guesses (from T2 calibration)
-    g_z_cal = raw['gamma_eff_per_us_calibration']  # ~0.00208 /μs
+    # Initial guesses (from T2 calibration).
+    #
+    # TWO KNOWN DEFECTS HERE, NEITHER FIXED, because fixing one moves published
+    # numbers and the other has to be understood first (2026-08-05).
+    #
+    # (1) WRONG BOOK. The JSON's `gamma_eff_per_us_calibration` is
+    #     1/480 = 0.0020833 /μs, i.e. 1/T2_min under the SUPERSEDED convention.
+    #     The D[Z] rate reproducing that T2 is 1/(2*T2_min) = 0.0010417 /μs.
+    #     The JSON is a record of what was actually flown and must NOT be
+    #     edited; the halving belongs here, in the consumer.
+    #     See docs/GLOSSARY.md, "The T2 -> gamma conversion".
+    #
+    # (2) THE FIT IS SEED-DEPENDENT, so (1) is not a free correction. Measured:
+    #     halving g_z_cal moves `Z_plus_T1` from RMS 0.274109 to 0.307329 and
+    #     its first fitted rate from 0.00292 to 0.21774, i.e. a different local
+    #     minimum and a WORSE fit. `pure_Z`, `Z_plus_ZZ` and `Z_plus_T1_plus_ZZ`
+    #     keep their RMS to six digits while their second parameter still moves
+    #     (0.14597 -> 0.14958 for pure_Z), which says there is a flat direction
+    #     as well as multiple minima. A least-squares starting point is supposed
+    #     to be irrelevant; here it is not, and that is a finding about this
+    #     analysis, not about the conversion.
+    #
+    # So the value below is left on the old book deliberately, to keep the
+    # published fit reproducible. The correct repair is to make the fit
+    # seed-independent (multi-start, or bounds that exclude the 0.21 basin) and
+    # THEN halve the seed, checking what moves.
+    g_z_cal = raw['gamma_eff_per_us_calibration']  # 1/T2_min, old book: see above
     g_t1_cal = g_z_cal * 0.5  # weaker initial guess
     j_zz_cal = 0.0005
     hy_cal = 0.001

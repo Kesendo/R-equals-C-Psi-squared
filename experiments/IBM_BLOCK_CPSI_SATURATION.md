@@ -49,6 +49,8 @@ Tr(ρ) = 1.000 at every point (sanity check on the reconstruction).
 
 Hardware decoheres on this protocol about **1.72× faster** than pure single-qubit T2 alone predicts. The gap quantifies the contributions from CZ-gate noise during prep, tomography-basis rotations, readout, and any correlated dephasing channels beyond the per-qubit T2 model.
 
+**Note (2026-08-05): the analysis above is on the right book, but the pre-flight planner was not, and the difference would have inverted this finding.** `simulations/block_cpsi_run_planner_2026_05_08.py` estimated the target rate as γ_eff = 1/T2_min = 2.0833e-3 μs⁻¹, and instructed in as many words to "compare γ_fit against γ_eff from calibration". Run literally, that comparison gives γ_fit/γ_eff = 0.862: the hardware would read as **13.8% better than its own T2**, which a protocol carrying state prep, basis rotations and readout cannot be. The D[Z] rate reproducing T2_min = 480 μs is 1/(2·T2_min) = 1.0417e-3 μs⁻¹, and against that γ_fit/γ_eff = 1.72, which is the number this section already reports, because the conversion `T2_eff = 1/(2·γ_fit)` used here was correct all along. The planner is now on the same book (its pre-flight prediction at t = T2_min moves from C_block = 0.0046 to 0.0338, against the measured 0.0074). Nothing in the measured trajectory, the fit, or the 1.72× conclusion changes. Recorded because the doubled rate happened to land the pre-flight prediction *near* the measurement and so would have hidden the 1.72× overhead entirely: see `docs/GLOSSARY.md`, "The T2 → γ conversion".
+
 ## Reading
 
 This is the first hardware run that places a state *on* the 1/4 ceiling and watches it slide. Three structural takeaways:
