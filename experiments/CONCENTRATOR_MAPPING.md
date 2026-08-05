@@ -175,7 +175,17 @@ route exists, so the residual should be read rather than gated (the repo's "a
 deviation is a sign" rule, case 1): the sorted-multiset comparison above gives
 the answer with no threshold in it. Any tolerance below the minimum level spacing
 returns exactly 100% and hides the same clustering, and 1e-6, 1e-8 and a
-scale-relative 1e-4·Σγ all do. Until the scorer is replaced, treat these
+scale-relative 1e-4·Σγ all do.
+
+**That last sentence looks impossible and is not, and the reason it is not is
+the defect itself.** Tightening an acceptance window should admit fewer pairs;
+here it admits more, 410 at 1e-4 against 480 at 1e-6 (480 pairs = all 960 rates
+= 100%). The cause is the greedy first-fit: a loose window lets a rate seize a
+partner that is not its mirror, and that single wrong match consumes two slots,
+so it orphans the seized rate's true partner as well. Each bad match therefore
+costs two pairs, not one. Tighten the window below the level spacing and no rate
+can reach a wrong partner, so every rate finds its own and the score is 100% by
+construction, which is exactly why 100% here is not evidence of anything either. Until the scorer is replaced, treat these
 percentages as carrying no information, ordinal or otherwise.
 
 **What the γ-book repair changed here.** The 2026-08-05 repair halved every rate

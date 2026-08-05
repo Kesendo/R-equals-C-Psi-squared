@@ -478,13 +478,15 @@ more than the numbers. First, the line the defect was recorded against
 the rates the run uses are built thirty lines further down from `T2star` and
 `T2_echo`, and fixing only the flagged line left the output bit-identical.
 Second, the new fitted J = 0.05 is the **smallest value in the scan grid**. It
-attains the lowest error on that grid (1.6600, against 1.7400 at J = 2.0), but
-it sits on the lower edge, so the grid does not bracket the optimum and "best J"
-should not be read as a fitted coupling until the grid is extended downward. The
-error is **not** monotone in J (it falls from 1.7000 at J = 0.3 to 1.6900 at
-J = 0.5, and from 1.7400 at J = 2.0 to 1.7300 at J = 3.0), so the surface is
-shallow and bumpy at the grid's resolution, which is a second reason not to read
-the winner as a located minimum.
+attains the lowest error on that grid, but it wins by very little and it sits on
+the lower edge, so the grid does not bracket the optimum and "best J" should not
+be read as a fitted coupling until the grid is extended downward. The honest
+comparison is against the runner-up, not the worst point: **1.6600 at J = 0.05
+against 1.6900 at J = 0.5**, a gap of 0.03 on an objective whose spread across
+the whole grid is only 1.66 to 1.74. The error is also **not** monotone in J (it
+falls from 1.7000 at J = 0.3 to 1.6900 at J = 0.5, and from 1.7400 at J = 2.0 to
+1.7300 at J = 3.0). A shallow, bumpy surface whose winner sits on the boundary is
+not a located minimum.
 
 **Retro-note (2026-07-05, from the A-vs-B reckoning's review; read before the
 table):** this section's rates put COHERENCE rates in Lindblad slots: the
