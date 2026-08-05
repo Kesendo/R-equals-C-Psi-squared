@@ -235,8 +235,8 @@ construction. What the number does **not** license is a claim of exactness: a
 genuine violation below roughly 1e-13 absolute would sit inside the same band. F1
 is proven analytically; this column is the numerical check, not the theorem.
 
-**The defective scorer is a family of at least fifteen, and this repair reached
-two of them.** Named here rather than left quiet, because a substitution that
+**The defective scorer is a family of at least seventeen. This repair reached
+two of them; the fifteen listed below still stand.** Named here rather than left quiet, because a substitution that
 converts some sites and not others is worse than consistent wrongness: the
 inconsistency reads as deliberate. The count grew from "two" to "five" to this
 over three review rounds on 2026-08-05, so treat it as a floor and not as a
