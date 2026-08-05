@@ -163,8 +163,9 @@ What the percentage measures is the matcher. `spectral_analysis` pairs each rate
 with the **first** partner it finds within an **absolute** 1e-4, and the spectrum
 is far denser than that: **927 of the 959** nearest-neighbour gaps are below
 1e-4. So a rate almost never grabs its true partner, and it orphans that
-partner's mate. Of the 410 matches the scorer accepts on that chain, **362 are
-wrong by more than 1e-12**. The column measures how a greedy first-fit scrambles
+partner's mate. Of the 410 PAIRS the scorer accepts on that chain, **362 are
+wrong by more than 1e-12**. (410 pairs cover 820 of the 960 rates, and
+820/960 = 85.4%: that is where the published percentage comes from.) The column measures how a greedy first-fit scrambles
 inside the level clustering, which is why it can move in either direction: across
 the ten chains the 2026-08-05 γ-book repair moved it by 0, 1, 2, 3 and 4 points,
 and **upward** on two of them.

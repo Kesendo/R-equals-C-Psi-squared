@@ -16,9 +16,10 @@ conversion", and the gate simulations/t2_gamma_book_gate.py. The CSV column is
 Known defect, NOT the conversion: the palindrome score below is measuring its own
 matcher, not the palindrome. spectral_analysis pairs each rate with the FIRST
 partner within an absolute 1e-4, while 927 of 959 nearest-neighbour level gaps
-are smaller than that, so 362 of the 410 accepted matches are wrong by more than
-1e-12. Read as a sorted-multiset comparison the symmetry is exact (residual
-1.8e-14). The fix is to read that residual, not to retune the tolerance.
+are smaller than that, so 362 of the 410 accepted PAIRS are wrong by more than
+1e-12 (410 pairs = 820 of the 960 rates = the published 85.4%). Read as a
+sorted-multiset comparison the symmetry is exact (residual 1.8e-14). The fix is
+to read that residual, not to retune the tolerance.
 """
 
 import numpy as np

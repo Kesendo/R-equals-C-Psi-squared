@@ -88,7 +88,8 @@ sorted-multiset residual of 1.8e-14 between the oscillatory rates and their
 mirror 2·Σγ − rate. The percentage is produced by `spectral_analysis` pairing
 each rate with the **first** partner within an **absolute** 1e-4, while 927 of
 the 959 nearest-neighbour level gaps are smaller than that, so 362 of the 410
-accepted matches are wrong by more than 1e-12. It is a measure of how a greedy
+accepted PAIRS are wrong by more than 1e-12 (410 pairs cover 820 of the 960
+rates, and 820/960 = 85.4%, the published score). It is a measure of how a greedy
 first-fit scrambles in a clustered spectrum, and under the γ-book repair it
 moved **upward** on some chains. Since an exact route exists, the residual
 should be read rather than gated; a smaller or scale-relative tolerance returns

@@ -477,10 +477,14 @@ more than the numbers. First, the line the defect was recorded against
 (`gamma_hw`) turned out to be **printed in the header and never simulated**;
 the rates the run uses are built thirty lines further down from `T2star` and
 `T2_echo`, and fixing only the flagged line left the output bit-identical.
-Second, the new fitted J = 0.05 is the **smallest value in the scan grid**, and
-the fit error decreases monotonically toward it, so it is a boundary, not a
-minimum: the grid no longer contains the optimum, and "best J" should not be
-read as a fitted coupling until the grid is extended downward.
+Second, the new fitted J = 0.05 is the **smallest value in the scan grid**. It
+attains the lowest error on that grid (1.6600, against 1.7400 at J = 2.0), but
+it sits on the lower edge, so the grid does not bracket the optimum and "best J"
+should not be read as a fitted coupling until the grid is extended downward. The
+error is **not** monotone in J (it falls from 1.7000 at J = 0.3 to 1.6900 at
+J = 0.5, and from 1.7400 at J = 2.0 to 1.7300 at J = 3.0), so the surface is
+shallow and bumpy at the grid's resolution, which is a second reason not to read
+the winner as a located minimum.
 
 **Retro-note (2026-07-05, from the A-vs-B reckoning's review; read before the
 table):** this section's rates put COHERENCE rates in Lindblad slots: the
