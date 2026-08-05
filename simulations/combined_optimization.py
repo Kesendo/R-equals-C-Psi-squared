@@ -8,6 +8,18 @@ Six scenarios comparing chain selection and DD strategies:
 4. Sacrifice chain, no DD (mapping only)
 5. Sacrifice chain, uniform DD
 6. Sacrifice chain, selective DD (the combination)
+
+Convention: gamma_k = 1/(2*T2_k). The model here is dephasing-only (the only
+jump operators are sqrt(gamma_k)*Z_k), so this is the D[Z] rate reproducing the
+measured coherence decay: a D[Z] channel at rate gamma decays coherences at
+2*gamma. See docs/GLOSSARY.md, "The T2 -> gamma conversion", and the gate
+simulations/t2_gamma_book_gate.py.
+
+Two DIFFERENT factors of two meet in this file and must not be merged. The one
+above is the rate convention and applies to every scenario. The other is the DD
+model, T2* vs T2echo, which selects WHICH T2 a scenario feeds in (here
+T2* = T2echo/2, an assumption of this script, not a measurement). Repairing the
+first leaves the second exactly as it was.
 """
 
 import numpy as np
@@ -163,35 +175,35 @@ def main():
     scenarios = []
 
     # Scenario 1: Mean-T2, no DD
-    g1 = [1.0 / t for t in t2_T2star]
+    g1 = [1.0/(2.0*t) for t in t2_T2star]
     scenarios.append(("1 Base    ", "Mean-T2", "None   ", g1, t2_chain))
 
     # Scenario 2: Mean-T2, uniform DD (all qubits get T2echo)
-    g2 = [1.0 / t for t in t2_T2echo]
+    g2 = [1.0/(2.0*t) for t in t2_T2echo]
     scenarios.append(("2 T2+DD   ", "Mean-T2", "All    ", g2, t2_chain))
 
     # Scenario 3: Mean-T2, selective DD (DD on inner 3 only)
-    g3 = [1.0 / t2_T2star[0],   # edge: no DD
-          1.0 / t2_T2echo[1],   # inner: DD
-          1.0 / t2_T2echo[2],   # inner: DD
-          1.0 / t2_T2echo[3],   # inner: DD
-          1.0 / t2_T2star[4]]   # edge: no DD
+    g3 = [1.0/(2.0*t2_T2star[0]),   # edge: no DD
+          1.0/(2.0*t2_T2echo[1]),   # inner: DD
+          1.0/(2.0*t2_T2echo[2]),   # inner: DD
+          1.0/(2.0*t2_T2echo[3]),   # inner: DD
+          1.0/(2.0*t2_T2star[4])]   # edge: no DD
     scenarios.append(("3 T2+Sel  ", "Mean-T2", "Select ", g3, t2_chain))
 
     # Scenario 4: Sacrifice, no DD
-    g4 = [1.0 / t for t in sac_T2star]
+    g4 = [1.0/(2.0*t) for t in sac_T2star]
     scenarios.append(("4 Sac     ", "Sacrif ", "None   ", g4, sac_chain))
 
     # Scenario 5: Sacrifice, uniform DD
-    g5 = [1.0 / t for t in sac_T2echo]
+    g5 = [1.0/(2.0*t) for t in sac_T2echo]
     scenarios.append(("5 Sac+DD  ", "Sacrif ", "All    ", g5, sac_chain))
 
     # Scenario 6: Sacrifice, selective DD (DD on inner, no DD on sacrifice Q85)
-    g6 = [1.0 / sac_T2star[0],   # sacrifice: no DD
-          1.0 / sac_T2echo[1],   # inner: DD
-          1.0 / sac_T2echo[2],   # inner: DD
-          1.0 / sac_T2echo[3],   # inner: DD
-          1.0 / sac_T2echo[4]]   # quiet edge: DD
+    g6 = [1.0/(2.0*sac_T2star[0]),   # sacrifice: no DD
+          1.0/(2.0*sac_T2echo[1]),   # inner: DD
+          1.0/(2.0*sac_T2echo[2]),   # inner: DD
+          1.0/(2.0*sac_T2echo[3]),   # inner: DD
+          1.0/(2.0*sac_T2echo[4])]   # quiet edge: DD
     scenarios.append(("6 Sac+Sel ", "Sacrif ", "Select ", g6, sac_chain))
 
     # === Run analysis ===

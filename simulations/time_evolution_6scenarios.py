@@ -4,6 +4,18 @@ Time evolution for 6 optimization scenarios.
 Simulates rho(t) = expm(L*t) @ rho(0) for all 6 combinations of
 chain selection x DD strategy. Extracts SumMI, purity, CPsi at
 each time point. Produces the curves that will be measured on IBM.
+
+Convention: gamma_k = 1/(2*T2_k). The model here is dephasing-only (the only
+jump operators are sqrt(gamma_k)*Z_k), so this is the D[Z] rate reproducing the
+measured coherence decay: a D[Z] channel at rate gamma decays coherences at
+2*gamma. See docs/GLOSSARY.md, "The T2 -> gamma conversion", and the gate
+simulations/t2_gamma_book_gate.py.
+
+Two DIFFERENT factors of two meet in this file and must not be merged. The one
+above is the rate convention and applies to every scenario. The other is the DD
+model, T2* vs T2echo, which selects WHICH T2 a scenario feeds in (here
+T2* = T2echo/2, an assumption of this script, not a measurement). Repairing the
+first leaves the second exactly as it was.
 """
 
 import numpy as np
@@ -216,12 +228,12 @@ def main():
 
     # Build 6 scenarios
     scenarios = [
-        ("1 Mean-T2, No DD", [1/t for t in t2_T2star]),
-        ("2 Mean-T2, Uniform DD", [1/t for t in t2_T2echo]),
-        ("3 Mean-T2, Selective DD", [1/t2_T2star[0], 1/t2_T2echo[1], 1/t2_T2echo[2], 1/t2_T2echo[3], 1/t2_T2star[4]]),
-        ("4 Sacrifice, No DD", [1/t for t in sac_T2star]),
-        ("5 Sacrifice, Uniform DD", [1/t for t in sac_T2echo]),
-        ("6 Sacrifice, Selective DD", [1/sac_T2star[0], 1/sac_T2echo[1], 1/sac_T2echo[2], 1/sac_T2echo[3], 1/sac_T2echo[4]]),
+        ("1 Mean-T2, No DD", [1.0/(2.0*t) for t in t2_T2star]),
+        ("2 Mean-T2, Uniform DD", [1.0/(2.0*t) for t in t2_T2echo]),
+        ("3 Mean-T2, Selective DD", [1.0/(2.0*t2_T2star[0]), 1.0/(2.0*t2_T2echo[1]), 1.0/(2.0*t2_T2echo[2]), 1.0/(2.0*t2_T2echo[3]), 1.0/(2.0*t2_T2star[4])]),
+        ("4 Sacrifice, No DD", [1.0/(2.0*t) for t in sac_T2star]),
+        ("5 Sacrifice, Uniform DD", [1.0/(2.0*t) for t in sac_T2echo]),
+        ("6 Sacrifice, Selective DD", [1.0/(2.0*sac_T2star[0]), 1.0/(2.0*sac_T2echo[1]), 1.0/(2.0*sac_T2echo[2]), 1.0/(2.0*sac_T2echo[3]), 1.0/(2.0*sac_T2echo[4])]),
     ]
 
     all_results = {}

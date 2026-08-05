@@ -15,24 +15,24 @@ SCENARIO ANALYSIS
 ==========================================================================================
 
   Scenario    Chain       DD    sum_g    Slowest   Uni_slow   vs_uni Palindrome
-1 Base      Mean-T2  None      0.0483   0.018261   0.019340     1.06x        92%
-2 T2+DD     Mean-T2  All       0.0242   0.009131   0.009670     1.06x        89%
-3 T2+Sel    Mean-T2  Select    0.0331   0.010604   0.013242     1.25x        94%
-4 Sac       Sacrif   None      0.3198   0.045500   0.127931     2.81x        98%
-5 Sac+DD    Sacrif   All       0.2138   0.025491   0.085521     3.35x        95%
-6 Sac+Sel   Sacrif   Select    0.2904   0.031190   0.116155     3.72x        94%
+1 Base      Mean-T2  None      0.0242   0.009131   0.009670     1.06x        89%
+2 T2+DD     Mean-T2  All       0.0121   0.004565   0.004835     1.06x        85%
+3 T2+Sel    Mean-T2  Select    0.0166   0.005302   0.006621     1.25x        92%
+4 Sac       Sacrif   None      0.1599   0.022832   0.063966     2.80x        96%
+5 Sac+DD    Sacrif   All       0.1069   0.012777   0.042761     3.35x        94%
+6 Sac+Sel   Sacrif   Select    0.1452   0.015684   0.058078     3.70x        95%
 
 ==========================================================================================
 COMPARISON vs BASELINE (Scenario 1)
 ==========================================================================================
 
   Scenario  vs_baseline   vs_uniform    sum_g    Slowest
-    1 Base         1.00x         1.06x   0.0483   0.018261
-   2 T2+DD         2.00x         1.06x   0.0242   0.009131
-  3 T2+Sel         1.72x         1.25x   0.0331   0.010604
-     4 Sac         0.40x         2.81x   0.3198   0.045500
-  5 Sac+DD         0.72x         3.35x   0.2138   0.025491
- 6 Sac+Sel         0.59x         3.72x   0.2904   0.031190
+    1 Base         1.00x         1.06x   0.0242   0.009131
+   2 T2+DD         2.00x         1.06x   0.0121   0.004565
+  3 T2+Sel         1.72x         1.25x   0.0166   0.005302
+     4 Sac         0.40x         2.80x   0.1599   0.022832
+  5 Sac+DD         0.71x         3.35x   0.1069   0.012777
+ 6 Sac+Sel         0.58x         3.70x   0.1452   0.015684
 
 ==========================================================================================
 KEY COMPARISONS
@@ -40,7 +40,7 @@ KEY COMPARISONS
 
 Mapping only (4) vs Baseline (1): 0.40x
 Best T2 + DD (2) vs Baseline (1): 2.00x
-Mapping + Selective DD (6) vs Baseline (1): 0.59x
+Mapping + Selective DD (6) vs Baseline (1): 0.58x
 Mapping + Selective DD (6) vs Mapping only (4): 1.46x
 
 SELECTIVE DD ADDS 1.46x ON TOP OF MAPPING.
@@ -75,7 +75,7 @@ OBSERVABLE: Mutual information between adjacent pairs (SumMI)
   Compute from bitstring statistics via reduced density matrix tomography.
 
 EXPECTED RESULTS (from simulation):
-  Sacrifice + Selective DD: 0.59x vs baseline
+  Sacrifice + Selective DD: 0.58x vs baseline
   Sacrifice + No DD:        0.40x vs baseline
   Mean-T2 + Uniform DD:     2.00x vs baseline
   Mean-T2 + No DD:          1.00x (baseline)

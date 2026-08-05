@@ -44,6 +44,17 @@ WHAT THIS TOOL CAN GET WRONG, which is the part to read before believing it.
    states how many it found, so their absence is asserted rather than assumed.
 3. A match is not a reading. A token can agree with the run and still be
    attached to the wrong claim in the sentence around it.
+4. A WENT STALE hit is a QUESTION, not a verdict, and the first thing to ask is
+   provenance: does this document actually get that number from this run? A real
+   case, 2026-08-05: this tool reported 36 tokens "went stale" in
+   IBM_HARDWARE_SYNTHESIS.md against the time-evolution runs. Every one was a
+   collision. That document's table is HARDWARE-MEASURED mutual information, it
+   simply lives in the same numeric range as the simulated trajectories, and the
+   old runs happened to print 0.2052 near its 0.205 while the new runs did not.
+   Acting on that report would have rewritten a hardware record to match a
+   simulation it has nothing to do with. Check what produced the number before
+   changing it. Pooling several run files raises this risk, since every extra
+   run adds values to collide against while the document stays the same size.
 
 Deliberately NOT done: filtering out years, dates and small integers. An earlier
 version skipped those to reduce noise and thereby stopped checking 73% of the
