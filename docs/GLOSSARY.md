@@ -219,12 +219,14 @@ repo's convention" ([GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md),
 γ = 1/(2T₂), which is also what the typed calibration chain implements
 (`CalibrationChain.cs`, `g = 1.0 / (2.0 * t2)`). The spread in the tree is
 therefore unlabelled drift, not rival conventions: nothing that declares itself
-disagrees. And one number crossed the boundary unconverted: the 70× of
+disagrees. One number had crossed the boundary unconverted: the 70× of
 [F112_HARDWARE_LENS_KINGSTON](../experiments/F112_HARDWARE_LENS_KINGSTON.md),
-which divides a fitted Lindblad γ_Z by that document's own γ_eff = 1/T₂, while
+which divided a fitted Lindblad γ_Z by that document's own γ_eff = 1/T₂, while
 the 1.72× it imports from
 [IBM_BLOCK_CPSI_SATURATION](../experiments/IBM_BLOCK_CPSI_SATURATION.md) was
-computed on 1/(2T₂). Two rulers, one setup.
+computed on 1/(2T₂). Two rulers, one setup. **Corrected 2026-08-05:** that
+ratio is 140× (133× to 141× across the four models), and doubling it only
+sharpens the point it was making. The 1.72× was right and is unchanged.
 
 The one fact underneath: a `D[Z]` channel at rate γ, built as the repository
 builds it everywhere (jump operator c = √γ·Z), decays coherences at **2γ**, not
@@ -282,7 +284,7 @@ actually carry, echo and Ramsey differ and neither is exactly a Lindblad T₂.
 The phrase "machine zero"/"machine precision" spans 10⁻¹⁰ to 2×10⁻¹⁶ across ~80
 files with no anchor; under the repository's no-rounding rule that range is a
 category error. The rule: an EXACT route (same quantity computed twice, integer
-or rational arithmetic, entry-wise rearrangement) compares **exactly** — `== 0.0`,
+or rational arithmetic, entry-wise rearrangement) compares **exactly**, `== 0.0`,
 never "machine zero". The phrase is reserved for float-algebra routes
 (eigensolvers, accumulated linear algebra), and every use states its number and
 its scale (what the residual is normalized by). "Bit-exact" means bit-exact:
@@ -365,7 +367,7 @@ the two-gate architecture originates in
 |------|---------------------|---------------|
 | **Band** | A frozen numeric constant of a pre-registration (threshold, floor, or window edge), derived by a pinned rule from simulation banks BEFORE any hardware data exists and committed with the design; bands never change after the commit hash. | The lines on the referee's card, drawn and signed before the match. |
 | **VOID** | The verdict class "the instrument was out of spec; no physics verdict is claimed"; takes precedence over every physics verdict, and statistical-guard VOIDs are terminal on a paid one-shot. | The match is abandoned, not lost or won. |
-| **Double ratio ρ̂(r)** | [Ŝ(j; r)/D̂(j′; r)] / [Ŝ(j; 0)/D̂(j′; 0)]: the record-parity flight's verdict carrier — the inner ratio cancels slow common drift, the r = 0 division cancels static asymmetry. | Compare the watched witness to its control, then compare that to the unwatched day. |
+| **Double ratio ρ̂(r)** | [Ŝ(j; r)/D̂(j′; r)] / [Ŝ(j; 0)/D̂(j′; 0)]: the record-parity flight's verdict carrier: the inner ratio cancels slow common drift, the r = 0 division cancels static asymmetry. | Compare the watched witness to its control, then compare that to the unwatched day. |
 | **Watcher factor η(r)** | The one-sided device attenuation dressing the predicted cos(r·π/2): incoherent-only by pin; η_nom = its Aer-simulated estimate on the representative line, η_min = the worst-admitted bound, η structurally may exceed 1 (the j′-differential). | How much the machine dims the signal, measured on the machine's own twin. |
 | **7a / 7b** | The two-gate standard: 7a = the sim gate (exact models through the frozen verdict code, bands and controls measured from below); 7b = the counts-level gate (the actual runner's circuits and estimator on synthetic counts, bit-for-bit against 7a; contradiction = hard abort). | First prove the plan on paper, then prove the actual instrument replays the paper exactly. |
 | **Record radius** | Two non-identical formulas share the name: F135's dressed β_j = e^{−2γ_j t*}·Π\|cos(·)\| and F136's bare parity form (no γ factor); a document using the name states which (the record-parity flight uses F135's, at γ = 0, where they coincide). | Say whose ruler you are holding. |

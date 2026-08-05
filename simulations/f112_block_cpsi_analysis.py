@@ -4,7 +4,10 @@ Dataset: `data/ibm_block_cpsi_saturation_may2026/block_cpsi_saturation_hardware_
 - Initial state: (|D_0⟩ + |D_1⟩)/√2 = (|00⟩ + (|01⟩+|10⟩)/√2)/√2 on Kingston qubits 13, 14
 - 5 t-points: 0, 120, 240, 360, 480 μs
 - 16 Pauli expectations per t-point (full 2-qubit tomography)
-- T2_min calibration: 480 μs; γ_eff = 1/T2 ≈ 0.00208 per μs
+- T2_min calibration: 480 μs; the D[Z] rate reproducing it is
+  γ_eff = 1/(2·T2) ≈ 0.00104 per μs. (The flown JSON stores 0.00208, which is
+  1/T2, the superseded convention. It is a record and is not edited; see the
+  note on g_z_cal in main().)
 - Documented anomaly: hardware C_block decays ~1.72× faster than pure-T2 predicts
 
 F112 hypothesis to test:

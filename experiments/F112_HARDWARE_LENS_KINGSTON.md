@@ -24,7 +24,7 @@ The block_cpsi protocol:
 - Pure-decoherence idle (no applied Hamiltonian during the delay)
 - 5 t-points: 0, 120, 240, 360, 480 μs
 - 16 Pauli expectations per t-point (full 2-qubit tomography)
-- Calibrated T2_min = 480 μs, γ_eff = 1/T2 ≈ 0.00208 per μs
+- Calibrated T2_min = 480 μs, so the D[Z] rate reproducing it is γ_eff = 1/(2·T2) ≈ 0.00104 per μs (this line read `1/T2 ≈ 0.00208` until 2026-08-05, which is twice the Lindblad rate; see `docs/GLOSSARY.md`, "The T2 → γ conversion"). The distinction matters below, because a ratio is taken against this number and the 1.72× imported on the next line was computed on 1/(2·T2): two rulers in one setup was exactly the defect.
 - Documented anomaly (in [`IBM_BLOCK_CPSI_SATURATION.md`](IBM_BLOCK_CPSI_SATURATION.md); the data directory has no README): hardware C_block decays ~1.72× faster than pure-T2 predicts
 
 Two questions are asked of this data, and they are independent. The **structural** one: does the fitted Liouvillian sit inside F112's typed Tier1Derived scope (Hermitian H + bit_b-homogeneous c), and does the polarity balance hold? The **fit-quality** one: which candidate channel actually explains the trajectory?
@@ -59,7 +59,7 @@ t (μs)      0      120     240     360     480
 <I,Y>    0.010  -0.136   0.188  -0.080   0.024
 ```
 
-That is a coherence turning about half a revolution per 120 μs sample, aliased by the sampling. Qubit 13 turns too, more slowly and without aliasing: its transverse angle walks −35.3°, −35.2°, −36.2° and then −48.9° across the four steps. Neither dephasing nor amplitude damping can turn a coherence at all, and a ZZ coupling turns both qubits at nearly the same rate, which these two do not do. So no member of the family above can represent what the data plainly does, and whatever the optimiser cannot represent lands in the parameters it has: on the aliased qubit the fitted γ_Z lands between 0.138 and 0.147 per μs in four of the five models, about 70× the calibrated 1/T2 ≈ 0.00208.
+That is a coherence turning about half a revolution per 120 μs sample, aliased by the sampling. Qubit 13 turns too, more slowly and without aliasing: its transverse angle walks −35.3°, −35.2°, −36.2° and then −48.9° across the four steps. Neither dephasing nor amplitude damping can turn a coherence at all, and a ZZ coupling turns both qubits at nearly the same rate, which these two do not do. So no member of the family above can represent what the data plainly does, and whatever the optimiser cannot represent lands in the parameters it has: on the aliased qubit the fitted γ_Z lands between 0.138 and 0.147 per μs in four of the five models, about **140×** the calibrated D[Z] rate 1/(2·T2) ≈ 0.00104 (133× to 141× across those four). This ratio read "about 70×" until 2026-08-05, when it was dividing by 1/T2, i.e. by twice the Lindblad rate. The correction doubles the ratio and so only sharpens the point being made: the optimiser is not fitting dephasing at all, it is parking an unrepresentable rotation in the one parameter it has.
 
 A re-fit with the corrected scripts is therefore not enough. Every RMS ranking this experiment produced is a comparison within the wrong family, and no replacement channel identification is offered. **A redo needs:** one free Z coefficient per qubit, converged multistart (the fits still show nesting violations, a superset fitting worse than its subset, in the current output as well as the old), model comparison at matched parameter count (AIC/BIC), and uncertainties.
 
