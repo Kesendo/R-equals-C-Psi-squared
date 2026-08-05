@@ -207,8 +207,8 @@ real part while the spectrum is dominated by |Im| (ρ / max|rate| is 47× to 600
 here).
 
 Measured: **53.3 to 76.5 ε** across the ten chains, a **1.43×** band. That band
-is at its floor, not merely small, and **two independent sensitivities of the
-measurement are each larger than it**.
+is at its floor, not merely small: **one sensitivity of the measurement alone
+exceeds it, and a second is of the same size**.
 
 Permuting only the ORDER in which the five jump operators are summed into L, at
 identical physics and identical γ, moves this same number across all 120 orders

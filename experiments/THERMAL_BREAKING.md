@@ -311,10 +311,12 @@ right instinct and the wrong mechanism, and the difference matters because it
 inverts what a HIGH score means. The scorer here (`v_effect_thermal.py`) pairs
 each rate with the first partner inside an absolute tolerance, and the spectrum
 is far denser than the tolerance, so a rate almost never grabs its true mirror.
-Loosening or tightening does not degrade the score, it **saturates** it: measured
-on the sibling scan in
+Tightening the tolerance does improve the underlying pairing, but it **saturates
+the printed score long before it fixes it**, so the score stops carrying the
+improvement: measured on the sibling scan in
 [Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md), a tolerance of 1e-6 prints
-100% while 56 of its 480 accepted pairs are still wrong by more than 1e-12. So
+100% while 56 of its 480 accepted pairs are still wrong by more than 1e-12, and
+1e-8 still prints 100% with 8 of 480 wrong. The score reads the same at both. So
 the 100% entries in the rows above are not stronger evidence than the 91%; they
 are the same artifact one notch further into saturation. The near-zero
 "Z-deph + amplitude" row still carries its finding, because a score that collapses
