@@ -129,20 +129,15 @@ def spectral_analysis(gammas, J=1.0):
     evals = np.linalg.eigvals(L)
 
     center = sum(gammas)
-    rates = sorted(-ev.real for ev in evals if abs(ev.imag) > 1e-10)
-    paired = 0
-    used = [False] * len(rates)
-    for i in range(len(rates)):
-        if used[i]:
-            continue
-        partner = 2 * center - rates[i]
-        for j in range(len(rates)):
-            if not used[j] and j != i and abs(rates[j] - partner) < 1e-4:
-                paired += 2
-                used[i] = True
-                used[j] = True
-                break
-    pal = paired / max(len(rates), 1)
+
+    # A greedy first-fit palindrome percentage (tolerance 1e-4) stood here and
+    # was DELETED rather than converted, because nothing read it: its value
+    # reached no printed line and no results file, so the script's output is
+    # bit-identical without it. It was one of the seventeen sites of the
+    # defective scorer inventoried in experiments/CONCENTRATOR_MAPPING.md, and
+    # the only one that published nothing. Deleting is the repair; the canonical
+    # check is F1SpectrumStatistics.MaxF1PairingDistance, ported into
+    # simulations/sacrifice_zone_mapping.py for the sites that do publish.
 
     osc = [(-ev.real, abs(ev.imag)) for ev in evals if abs(ev.imag) > 1e-10]
     slowest = min(r for r, _ in osc) if osc else float('inf')
@@ -155,7 +150,7 @@ def spectral_analysis(gammas, J=1.0):
     slowest_uni = min(r for r, _ in osc_uni) if osc_uni else float('inf')
     protection = slowest_uni / slowest if slowest > 1e-15 else 0
 
-    return {'palindrome': pal, 'slowest': slowest, 'slowest_uni': slowest_uni,
+    return {'slowest': slowest, 'slowest_uni': slowest_uni,
             'protection': protection, 'sum_gamma': center}
 
 

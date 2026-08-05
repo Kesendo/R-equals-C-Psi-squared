@@ -14,13 +14,13 @@ Mean-T2 chain: [18, 89, 19, 90, 60]
 SCENARIO ANALYSIS
 ==========================================================================================
 
-  Scenario    Chain       DD    sum_g    Slowest   Uni_slow   vs_uni Palindrome
-1 Base      Mean-T2  None      0.0242   0.009131   0.009670     1.06x        89%
-2 T2+DD     Mean-T2  All       0.0121   0.004565   0.004835     1.06x        85%
-3 T2+Sel    Mean-T2  Select    0.0166   0.005302   0.006621     1.25x        92%
-4 Sac       Sacrif   None      0.1599   0.022832   0.063966     2.80x        96%
-5 Sac+DD    Sacrif   All       0.1069   0.012777   0.042761     3.35x        94%
-6 Sac+Sel   Sacrif   Select    0.1452   0.015684   0.058078     3.70x        95%
+  Scenario    Chain       DD    sum_g    Slowest   Uni_slow   vs_uni  F1(eps*rho)
+1 Base      Mean-T2  None      0.0242   0.009131   0.009670     1.06x         60.8
+2 T2+DD     Mean-T2  All       0.0121   0.004565   0.004835     1.06x         66.9
+3 T2+Sel    Mean-T2  Select    0.0166   0.005302   0.006621     1.25x         78.0
+4 Sac       Sacrif   None      0.1599   0.022832   0.063966     2.80x         72.0
+5 Sac+DD    Sacrif   All       0.1069   0.012777   0.042761     3.35x         62.2
+6 Sac+Sel   Sacrif   Select    0.1452   0.015684   0.058078     3.70x         68.0
 
 ==========================================================================================
 COMPARISON vs BASELINE (Scenario 1)

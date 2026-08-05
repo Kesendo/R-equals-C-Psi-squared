@@ -109,7 +109,7 @@ Trotter steps: [2, 4, 6, 8, 10] at dt = 0.5 us.
 | Stationary modes | 120 | 6 | 6 |
 | Oscillating modes | 904 | 1018 | 1018 |
 | Distinct frequencies | 43 | 120 | 112 |
-| F1 pairing distance (ε · ρ), all tie | 67.5 | 59.6 | 58.4 |
+| F1 pairing distance (ε · ρ), do not rank | 67.5 | 59.6 | 58.4 |
 | Palindrome center | 0.0000 | 0.3199 | 0.3199 |
 | Min decay rate (osc.) | 0 | 0.0455 | 0.1280 |
 | Max decay rate (osc.) | 0 | 0.5943 | 0.5118 |
@@ -121,10 +121,11 @@ non-oscillating modes (freq = 0) that represent pure decay. The
 oscillating modes have lower maximum rates (0.5943 sacrifice,
 0.5118 uniform).
 
-Note on the F1 row: the three entries are a **tie**, and the "all tie"
-in the row label is there so the table cannot be read as a ranking. The
-spread between them is smaller than the metric's own sensitivity to
-bookkeeping that carries no physics. See
+Note on the F1 row: the "do not rank" in the label is there so three
+numbers side by side cannot be read as a ranking. The spread between
+them is smaller than the metric's own sensitivity to bookkeeping that
+carries no physics, and the left column is a different test rather than
+the best of the three. See
 [the reading of that number](#the-palindrome-under-asymmetric-noise)
 below, which also explains why the zero-noise column is a different test
 rather than the best of the three.
@@ -188,27 +189,41 @@ absolute would sit inside the same band. F1 is proven analytically; this
 is the numerical check, not the theorem.
 
 The three profiles must not be ranked by it. Their spread is 1.16x
-(67.5 / 58.4), while permuting only the summation order of the jump
-operators, identical physics, spreads the IBM number 2.39x on its own
-(47.9 to 114.5 over all 120 orders, measured on these very profiles).
-Permuting only the eigenvalue array order, pure bookkeeping on one
-spectrum, adds 1.47x on zero noise and 1.27x on uniform, because greedy
-matching is order-dependent by construction. The same two sensitivities
-were found on a different chain in
+(67.5 / 58.4), and permuting only the **array order** of the
+eigenvalues, one spectrum, pure bookkeeping with no physics in it,
+already moves the zero-noise column by more than that: 60.2 to 83.5,
+a factor 1.39, over 200 random permutations. Uniform moves 1.19x, IBM
+only 1.01x. Greedy matching is order-dependent by construction, so a
+difference of this size between two columns is not a difference between
+two systems.
+
+Permuting the summation order of the jump operators spreads the IBM
+number further, 2.39x over all 120 orders (47.9 to 114.5). That sweep
+speaks only for the IBM column: on uniform every γ is equal and on zero
+noise every jump operator is the zero matrix, so all 120 orders assemble
+a bit-identical L and the ratio is exactly 1.0000 in both. The
+array-order sweep above is the one that covers all three. The same two
+sensitivities were found on a different chain in
 [CONCENTRATOR_MAPPING](CONCENTRATOR_MAPPING.md).
 
 Two further reasons not to read the three columns against each other.
 The 67.5 that anchors the top of the 1.16x spread is the **zero-noise**
 column, and that column is a different test: at Σγ = 0 the Liouvillian
-is exactly anti-Hermitian, hence normal (‖[L, L†]‖ = 0.0 against 5.05
-under the IBM profile), so it is not the non-normal case the unit was
-chosen for; and the F1 reflection degenerates to λ ↦ −λ, which holds for
-**any** Hamiltonian by the index swap and carries no information about
-dephasing at all. Verified from below: a random real-symmetric H that is
-not a Heisenberg chain scores 48.0 ε · ρ at Σγ = 0. And the band is not
-an N-independent constant: the same measurement over two decades of J
-gives 1.5 to 3.9 at N=2 and 51.3 to 68.9 at N=5, so a larger chain must
-be graded against its own N.
+is exactly anti-Hermitian, hence normal (spectral norm of the commutator
+‖[L, L†]‖₂ = 0.0 against 5.05 under the IBM profile; in the Frobenius
+norm the contrast is 0.0 against 69.2), so it is not the non-normal case
+the unit was chosen for. And the F1 reflection degenerates to λ ↦ −λ,
+which holds for **any** Hermitian H: the Liouvillian spectrum is
+{−i(E_a − E_b)}, so swapping the two indices negates every eigenvalue.
+The column therefore carries no information about dephasing at all.
+Checked numerically as well: five random real-symmetric H that are not
+Heisenberg chains score 36.3 to 48.0 ε · ρ at Σγ = 0, the same floor.
+
+The band is also not an N-independent constant. The same measurement
+over two decades of J gives 1.5 to 3.9 at N=2 and 51.3 to 68.9 at N=5,
+so a larger chain must be graded against its own N. Comparing at matched
+J the growth from N=2 to N=5 is 13.5x, 39.7x and 17.7x at J = 0.1, 1
+and 10; the point is the growth, not any one of those ratios.
 
 This column previously read "100% / 100% / 100%", from a greedy
 first-fit inside an absolute tolerance of 1e-6. That score was measuring
@@ -219,7 +234,9 @@ evidence than a 91% one, not stronger.
 The max decay rate for non-oscillating modes equals 2 x Σγ (0.6398).
 That one **is** exact, but by the theorem rather than by the printed
 digits: the Liouvillian has a stationary mode at λ = 0, so F1 puts a
-mode at λ = −2Σγ, and no rate exceeds it. Read off the run instead, the
+mode at λ = −2Σγ. And none decays faster, because every Lindbladian
+eigenvalue has Re λ ≤ 0, so its F1 partner −2Σγ − λ does too, which is
+exactly Re λ ≥ −2Σγ. Read off the run instead, the
 same eigensolver floor applies as everywhere else on this page: the
 computed maximum is 0.6398000000000041 against 2Σγ = 0.6397999999999999,
 a gap of 4.2e-15, about 1.6 ε · spectral radius. These are the pure decay modes at maximum Pauli

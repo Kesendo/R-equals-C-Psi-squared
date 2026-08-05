@@ -34,12 +34,19 @@ and not by a common factor (Max/2*sum_gamma, which is dimensionless, moves in
 the fourth decimal).
 """
 
+import sys
 import numpy as np
 from scipy.linalg import expm, eig
 from scipy.stats import pearsonr
 import csv
 import itertools
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+# The canonical F1 check. It lived as a hand-copy in this file until the
+# fourth copy made the missing primitive obvious; the port, its blind spots
+# and its tests now live in one place (cockpit rule 2).
+from framework import max_f1_pairing_distance, f1_distance_in_eps  # noqa: E402, F401
 
 EPS = np.finfo(float).eps
 
@@ -164,53 +171,6 @@ def time_evolution(L, rho0, times, n_qubits):
         obs['t'] = t
         results.append(obs)
     return results
-
-
-def max_f1_pairing_distance(spectrum, sigma):
-    """The repo's CANONICAL F1 symmetry distance, ported from C#.
-
-    Port of `F1SpectrumStatistics.MaxF1PairingDistance`
-    (compute/RCPsiSquared.Core/F1/F1SpectrumStatistics.cs), which its own summary
-    calls "the canonical F1 check", and which is the matcher behind
-    `MultisetAssert.NearestNeighbourEqual` and the live witness
-    `BlockSpectrumWitness.PalindromePairingDistance`. Committed reference values
-    live in simulations/results/f1_n8_n9_metrics/.
-
-    Max greedy nearest-neighbour distance, WITH REMOVAL, between the multiset of
-    eigenvalues and its F1 reflection {-2*sigma - lambda}. Multiplicity-aware by
-    construction: each mirror point is consumed once, so a dropped or duplicated
-    eigenvalue leaves an unmatched point and surfaces as a large distance, which
-    a set or Hausdorff distance would miss.
-
-    Note this runs on the FULL COMPLEX spectrum. A rates-only version (comparing
-    only -Re(lambda) as a sorted multiset) is a strictly WEAKER test: it is blind
-    to the imaginary parts, and halving one eigenvalue's Im leaves it unchanged.
-    That weaker version stood here briefly on 2026-08-05 and was replaced by this
-    one, because the repo already owned the check.
-    """
-    spectrum = np.asarray(spectrum)
-    # Guard, because a NaN would otherwise pass SILENTLY. np.argmin selects a NaN
-    # index and `nan > worst` is False, so a broken spectrum cannot raise the
-    # metric: measured, one NaN among four eigenvalues returns 11.0 rather than a
-    # failure. The C# does not return a sentinel there, it THROWS
-    # (F1SpectrumStatistics.cs:383: a NaN distance fails the `d < bestDist` test,
-    # so bestIdx stays -1 and it raises "no candidate"). A metric whose
-    # job is to catch a broken spectrum must not fail quiet.
-    if not np.all(np.isfinite(spectrum)):
-        raise ValueError(
-            "spectrum contains non-finite values; the F1 distance is undefined "
-            "and would otherwise be silently understated")
-    reflected = -2.0 * sigma - spectrum
-    taken = np.zeros(len(spectrum), dtype=bool)
-    worst = 0.0
-    for x in spectrum:
-        d = np.abs(x - reflected)
-        d[taken] = np.inf
-        j = int(np.argmin(d))
-        taken[j] = True
-        if d[j] > worst:
-            worst = d[j]
-    return float(worst)
 
 
 def spectral_analysis(gammas, J=1.0):

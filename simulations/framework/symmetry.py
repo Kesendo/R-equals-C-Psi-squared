@@ -655,3 +655,126 @@ def k_partner(N, k):
     if not 1 <= k <= N:
         raise ValueError(f"k={k} outside [1, N={N}]")
     return N + 1 - k
+
+
+# ----------------------------------------------------------------------
+# F1 pairing distance (the canonical numerical palindrome check)
+# ----------------------------------------------------------------------
+# The C# side owns this check: F1SpectrumStatistics.MaxF1PairingDistance in
+# compute/RCPsiSquared.Core/F1/, which its own summary calls "the canonical F1
+# check", which backs MultisetAssert.NearestNeighbourEqual, and which surfaces
+# as the live witness BlockSpectrumWitness.PalindromePairingDistance with
+# committed reference values in simulations/results/f1_n8_n9_metrics/.
+#
+# It lives here because the Python side had grown four hand-copies of the same
+# port while converting the defective greedy palindrome scorers inventoried in
+# experiments/CONCENTRATOR_MAPPING.md, which is precisely the cockpit signal
+# that a primitive was missing.
+
+def max_f1_pairing_distance(spectrum, sigma):
+    """Distance between a spectrum and its F1 mirror image.
+
+    F1: the Liouvillian eigenvalue multiset is closed under λ ↦ −2σ − λ, with
+    σ the dephasing centre (the sum of the per-site γ). This returns the max
+    greedy nearest-neighbour distance, WITH REMOVAL, between the spectrum and
+    its reflection {−2σ − λ}, on the FULL COMPLEX spectrum.
+
+    Removal is what makes it multiplicity-aware against an ASYMMETRIC error:
+    each mirror point is consumed once, so a duplicated or dropped eigenvalue
+    leaves an unmatched point and surfaces as a large distance, which a set
+    distance or a Hausdorff distance would miss.
+
+    TWO BLIND SPOTS, because the spectrum is compared against ITS OWN
+    reflection rather than against an independent one:
+
+    * A corruption that RESPECTS the reflection is invisible. Dropping one
+      mirror pair while duplicating another leaves the result bit-identical.
+      That is the failure mode of a BLOCK solver, which produces
+      symmetry-respecting spectra by construction, so this number does not
+      certify a block spectrum against a dense one.
+    * Duplicating onto a NUMERICALLY DEGENERATE neighbour is a no-op, since
+      the copy lands where a partner already sits.
+
+    It is also greedy, hence order-dependent: permuting only the array order of
+    the eigenvalues, identical spectrum, moves the result. Measured on an N=5
+    chain over 200 random permutations, the spread is 1.39× at γ = 0, 1.19×
+    under a uniform profile and 1.01× under a strongly asymmetric one; those
+    are sample extrema and grow with the sample. Do not rank two systems by
+    differences of that size.
+
+    Args:
+        spectrum: eigenvalues, any array-like of complex.
+        sigma: the dephasing centre, sum of the per-site γ.
+
+    Returns:
+        The distance in absolute units. Divide by eps * spectral radius, or
+        call f1_distance_in_eps, to compare against the eigensolver's floor.
+
+    Raises:
+        ValueError: if the spectrum holds a non-finite value. This is not
+            defensive tidiness: np.argmin selects a NaN index and `nan > worst`
+            is False, so without the guard a broken spectrum silently returns a
+            small number instead of a large one. The C# throws in the same
+            situation (F1SpectrumStatistics.cs:383, "no candidate").
+    """
+    spectrum = np.asarray(spectrum)
+    if not np.all(np.isfinite(spectrum)):
+        raise ValueError(
+            "spectrum contains non-finite values; the F1 distance is undefined "
+            "and would otherwise be silently understated")
+    reflected = -2.0 * sigma - spectrum
+    taken = np.zeros(len(spectrum), dtype=bool)
+    worst = 0.0
+    for x in spectrum:
+        d = np.abs(x - reflected)
+        d[taken] = np.inf
+        j = int(np.argmin(d))
+        taken[j] = True
+        if d[j] > worst:
+            worst = d[j]
+    return float(worst)
+
+
+def f1_distance_in_eps(evals, sigma):
+    """F1 pairing distance in units of eps * spectral radius.
+
+    An eigensolver on a non-normal matrix has no exact route to the spectrum,
+    so the honest way to publish this distance is against its backward-error
+    model rather than against a threshold: the returned value is dimensionless,
+    and "at the solver's floor" is an N-DEPENDENT band, not a universal one
+    (measured on an IBM γ profile over two decades of J: 1.5 to 3.9 at N=2,
+    51.3 to 68.9 at N=5). Grade a reading against its own N.
+
+    Two cases where the unit's justification does not apply, both worth
+    checking before quoting the number:
+
+    * At σ = 0 with a real symmetric H the Liouvillian is exactly
+      anti-Hermitian, hence NORMAL, so the non-normal argument for the unit
+      lapses; and the reflection degenerates to λ ↦ −λ, which holds for any
+      Hamiltonian by the index swap and carries no information about dephasing.
+    * A zero spectral radius means every eigenvalue is 0, so the reflection is
+      the constant −2σ and the F1 distance is 2|σ|, which is a MAXIMAL
+      violation, not a clean one. There is no eps * rho to divide by, so the
+      raw distance is returned and the caller must not print it as eps * rho.
+      Unreachable for a Lindbladian with σ > 0, whose spectrum is not the zero
+      matrix; reachable if the primitive is reused on synthetic input.
+
+    Args:
+        evals: eigenvalues, any array-like of complex.
+        sigma: the dephasing centre, sum of the per-site γ.
+
+    Returns:
+        (distance_in_eps_rho, spectral_radius), except when the radius is 0,
+        where the first element is the RAW distance 2|sigma| (see above).
+    """
+    evals = np.asarray(evals)
+    radius = float(np.max(np.abs(evals))) if len(evals) else 0.0
+    scale = np.finfo(float).eps * radius
+    dist = max_f1_pairing_distance(evals, sigma)
+    if scale == 0.0:
+        # Not "the distance is zero too": with every eigenvalue at 0 the
+        # reflection sits at -2*sigma and the distance is 2|sigma|. Returning
+        # 0.0 here would report a perfect score for a maximal violation, in a
+        # function whose sibling guard exists precisely so it cannot fail quiet.
+        return dist, radius
+    return dist / scale, radius

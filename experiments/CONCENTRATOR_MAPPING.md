@@ -235,8 +235,8 @@ construction. What the number does **not** license is a claim of exactness: a
 genuine violation below roughly 1e-13 absolute would sit inside the same band. F1
 is proven analytically; this column is the numerical check, not the theorem.
 
-**The defective scorer is a family of at least seventeen. Three of them are
-converted; the fourteen listed below still stand.** Named here rather than left quiet, because a substitution that
+**The defective scorer is a family of at least seventeen. Five of them are
+converted; the twelve listed below still stand.** Named here rather than left quiet, because a substitution that
 converts some sites and not others is worse than consistent wrongness: the
 inconsistency reads as deliberate. The count grew from "two" to "five" to this
 over three review rounds on 2026-08-05, so treat it as a floor and not as a
@@ -244,17 +244,28 @@ census; it was produced by grepping two code shapes, and a third shape would not
 have been seen.
 
 **Converted:** `sacrifice_zone_mapping.py` and `chain_selection_test.py` (this
-document and [Chain Selection Test](CHAIN_SELECTION_TEST.md)), and
+document and [Chain Selection Test](CHAIN_SELECTION_TEST.md));
 `ibm_cavity_analysis.py`, whose 100% / 100% / 100% row in
 [IBM Cavity Spectral Analysis](IBM_CAVITY_SPECTRAL_ANALYSIS.md) was the
-saturation artefact described above and now reads 67.5 / 59.6 / 58.4 eps·ρ.
+saturation artefact described above and now reads 67.5 / 59.6 / 58.4 ε·ρ;
+`combined_optimization.py`, whose 89% / 85% / 92% / 96% / 94% / 95% row now
+reads 60.8 / 66.9 / 78.0 / 72.0 / 62.2 / 68.0 ε·ρ, all six at the floor; and
+`optimal_chain_search.py`, which is the one entry that turned out to publish
+**nothing**. Its score was computed and never printed: deleting the fifteen
+lines leaves the results file bit-identical, which is both the repair and the
+proof it was dead. That is a caution about this inventory, not just about that
+script, since the list was built by grepping for the code shape and a site's
+presence here does not establish that a table depends on it.
+
+All five now call one implementation. The port had reached four hand-copies,
+which is the cockpit signal that a primitive was missing, so it lives in
+`simulations/framework/symmetry.py` as `fw.max_f1_pairing_distance` /
+`fw.f1_distance_in_eps`, with its blind spots pinned in
+`framework/tests/primitives/test_f1_pairing_distance.py`. The remaining Python
+sites should import it rather than copy it again.
 
 **Shape A**, greedy first-fit inside a tolerance, reported as a percentage,
-`simulations/`: `optimal_chain_search.py` (1e-4, the old code
-verbatim, same function name), `combined_optimization.py`
-(`max(1e-4, 1e-3·center)`, precisely the scale-relative retune ruled out above,
-publishing 89%, 85%, 92%, 96%, 94%, 95% for **these same chains**),
-`v_effect_thermal.py` (1e-3, feeding [Thermal Breaking](THERMAL_BREAKING.md),
+`simulations/`: `v_effect_thermal.py` (1e-3, feeding [Thermal Breaking](THERMAL_BREAKING.md),
 whose 91% already carries a footnote calling it a tolerance artefact: the right
 instinct attached to the wrong mechanism, since the tolerance saturates rather
 than degrades).
@@ -272,8 +283,9 @@ the below-centre half scored: `analytical_spectrum_verify.py`,
 (`compute/RCPsiSquared.Diagnostics/`) is a first-fit variant sitting in the
 **live** Diagnostics layer with a witness on top of it.
 
-All of them should call `F1SpectrumStatistics.MaxF1PairingDistance`, which the
-same solution already contains.
+The two C# sites should call `F1SpectrumStatistics.MaxF1PairingDistance`, which
+the same solution already contains; the ten Python sites should import
+`fw.max_f1_pairing_distance`, which is that same check ported once.
 
 **The tolerance table below looks impossible and is not, and the reason it is
 not is the defect itself.** Tightening an acceptance window should admit fewer

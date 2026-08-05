@@ -25,7 +25,11 @@ first leaves the second exactly as it was.
 import numpy as np
 import json
 import csv
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from framework import f1_distance_in_eps  # noqa: E402
 
 
 # === Physics (from ibm_cavity_analysis.py) ===
@@ -77,21 +81,14 @@ def analyze(gammas, J=1.0):
     sum_g = sum(gammas)
     center = sum_g
 
-    # Palindrome check
-    rates = sorted(-ev.real for ev in evals if abs(ev.imag) > 1e-10)
-    paired = 0
-    used = [False] * len(rates)
-    for i in range(len(rates)):
-        if used[i]:
-            continue
-        partner = 2 * center - rates[i]
-        for j in range(len(rates)):
-            if not used[j] and j != i and abs(rates[j] - partner) < max(1e-4, 1e-3 * center):
-                paired += 2
-                used[i] = True
-                used[j] = True
-                break
-    pal_score = paired / max(len(rates), 1)
+    # Palindrome check: the repo's canonical F1 distance, in eps * spectral
+    # radius. See max_f1_pairing_distance below for the port and for what the
+    # number is blind to. It replaced a greedy first-fit percentage inside
+    # max(1e-4, 1e-3 * center), which published 89%, 85%, 92%, 96%, 94%, 95%
+    # for the six scenarios; that score was measuring its own matcher, and a
+    # scale-relative tolerance does not repair it, since tightening SATURATES
+    # the printed percentage long before it fixes the pairing.
+    pal_score, _radius = f1_distance_in_eps(evals, center)
 
     osc = [(-ev.real, abs(ev.imag)) for ev in evals if abs(ev.imag) > 1e-10]
     slowest = min(r for r, _ in osc) if osc else float('inf')
@@ -211,7 +208,7 @@ def main():
     out("SCENARIO ANALYSIS")
     out(f"{'='*90}")
     out()
-    out(f"{'Scenario':>10} {'Chain':>8} {'DD':>8} {'sum_g':>8} {'Slowest':>10} {'Uni_slow':>10} {'vs_uni':>8} {'Palindrome':>10}")
+    out(f"{'Scenario':>10} {'Chain':>8} {'DD':>8} {'sum_g':>8} {'Slowest':>10} {'Uni_slow':>10} {'vs_uni':>8} {'F1(eps*rho)':>12}")
 
     baseline_slowest = None
     results = []
@@ -222,7 +219,7 @@ def main():
             baseline_slowest = r['slowest']
         vs_baseline = baseline_slowest / r['slowest'] if r['slowest'] > 1e-15 else 0
 
-        out(f"{label:>10} {chain_type:>8} {dd:>8} {r['sum_gamma']:8.4f} {r['slowest']:10.6f} {r['slowest_uni']:10.6f} {r['vs_uniform']:8.2f}x {r['palindrome']:10.0%}")
+        out(f"{label:>10} {chain_type:>8} {dd:>8} {r['sum_gamma']:8.4f} {r['slowest']:10.6f} {r['slowest_uni']:10.6f} {r['vs_uniform']:8.2f}x {r['palindrome']:12.1f}")
 
         results.append({
             'label': label.strip(),
