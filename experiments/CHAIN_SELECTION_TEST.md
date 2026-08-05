@@ -94,10 +94,11 @@ first-fit scrambles in a clustered spectrum, and under the γ-book repair it
 moved **upward** on some chains. Since an exact route exists, the residual
 should be read rather than gated; a smaller or scale-relative tolerance returns
 100% and hides the same clustering. That a *tighter* window admits *more* pairs
-(410 at 1e-4, 480 at 1e-6, and 480 pairs is all 960 rates) looks impossible and
-is the defect showing itself: under greedy first-fit a rate that seizes a
-non-mirror partner consumes two slots and orphans that partner's true mate, so
-every bad match costs two pairs. Full working in
+(410 at 1e-4 leaving 140 rates orphaned, against 480 at 1e-6 leaving none) looks
+impossible and is the defect showing itself: under greedy first-fit a rate that
+seizes a non-mirror partner consumes it, and that partner's own true mate can be
+left with nothing available. The orphan count is measured, not inferred from the
+362 mispairings. Full working in
 [Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md).
 
 ### 2. Mode localization is geometric (chain-determined)

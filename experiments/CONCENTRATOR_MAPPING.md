@@ -179,13 +179,25 @@ scale-relative 1e-4·Σγ all do.
 
 **That last sentence looks impossible and is not, and the reason it is not is
 the defect itself.** Tightening an acceptance window should admit fewer pairs;
-here it admits more, 410 at 1e-4 against 480 at 1e-6 (480 pairs = all 960 rates
-= 100%). The cause is the greedy first-fit: a loose window lets a rate seize a
-partner that is not its mirror, and that single wrong match consumes two slots,
-so it orphans the seized rate's true partner as well. Each bad match therefore
-costs two pairs, not one. Tighten the window below the level spacing and no rate
-can reach a wrong partner, so every rate finds its own and the score is 100% by
-construction, which is exactly why 100% here is not evidence of anything either. Until the scorer is replaced, treat these
+here it admits more. Measured on this chain:
+
+| tolerance | pairs accepted | rates paired | rates orphaned | score |
+|:---|---:|---:|---:|---:|
+| 1e-4 (current) | 410 | 820 | **140** | 85.4% |
+| 1e-6 | 480 | 960 | 0 | 100% |
+
+The cause is the greedy first-fit. A loose window lets a rate seize a partner
+that is not its mirror; that partner is then consumed, and its own true mate can
+be left with nothing available. Tighten the window below the level spacing and
+no rate can reach a wrong partner, so every rate finds its own and the score is
+100% by construction, which is exactly why 100% is not evidence of anything
+either.
+
+The two counts are **not** derivable from one another, and it is worth saying so
+because the obvious guess is wrong: 362 mispairings do not imply 724 orphans.
+Only 140 rates end unpaired, because a mispairing can itself join two rates that
+would otherwise both have been orphaned. Both numbers are measured, not counted
+from each other. Until the scorer is replaced, treat these
 percentages as carrying no information, ordinal or otherwise.
 
 **What the γ-book repair changed here.** The 2026-08-05 repair halved every rate
