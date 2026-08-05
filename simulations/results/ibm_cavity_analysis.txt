@@ -13,7 +13,7 @@ Stationary (immune): 120
 Oscillating+decaying: 904
 Distinct frequencies: 43
 Palindrome center: 0.0000
-Palindrome score: 100.0% (452 pairs)
+F1 pairing distance: 67.5 eps*rho (spectral radius 11.7115)
 
 Top 20 slowest oscillating modes:
   #       Rate       Freq   Freq/J
@@ -61,7 +61,7 @@ Stationary (immune): 6
 Oscillating+decaying: 1018
 Distinct frequencies: 120
 Palindrome center: 0.3199
-Palindrome score: 100.0% (480 pairs)
+F1 pairing distance: 59.6 eps*rho (spectral radius 11.7082)
 Min decay rate: 0.045536
 Max decay rate: 0.594264
 Expected max (2*sum_gamma): 0.639800
@@ -116,7 +116,7 @@ Stationary (immune): 6
 Oscillating+decaying: 1018
 Distinct frequencies: 112
 Palindrome center: 0.3199
-Palindrome score: 100.0% (464 pairs)
+F1 pairing distance: 58.4 eps*rho (spectral radius 11.7178)
 Min decay rate: 0.127960
 Max decay rate: 0.511840
 Expected max (2*sum_gamma): 0.639800
@@ -237,8 +237,8 @@ Slowest 10 modes: IBM sacrifice vs Uniform
 SUMMARY
 ============================================================
 Cavity modes at gamma=0: 120 stationary, 904 oscillating, 43 frequencies
-IBM sacrifice zone: 6 immune, palindrome 100%
-Uniform: 6 immune, palindrome 100%
+IBM sacrifice zone: 6 immune, F1 distance 59.6 eps*rho
+Uniform: 6 immune, F1 distance 58.4 eps*rho
 Slowest oscillating mode: IBM 0.045536 vs Uniform 0.127960 (ratio 2.81x)
 Protected modes (rate<0.05): IBM 4 vs Uniform 0 (+4)
 

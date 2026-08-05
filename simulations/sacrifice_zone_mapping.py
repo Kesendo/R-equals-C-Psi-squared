@@ -101,7 +101,9 @@ def max_f1_pairing_distance(spectrum, sigma):
     # Guard, because a NaN would otherwise pass SILENTLY. np.argmin selects a NaN
     # index and `nan > worst` is False, so a broken spectrum cannot raise the
     # metric: measured, one NaN among four eigenvalues returns 11.0 rather than a
-    # failure. The C# returns double.MaxValue in that situation. A metric whose
+    # failure. The C# does not return a sentinel there, it THROWS
+    # (F1SpectrumStatistics.cs:383: a NaN distance fails the `d < bestDist` test,
+    # so bestIdx stays -1 and it raises "no candidate"). A metric whose
     # job is to catch a broken spectrum must not fail quiet.
     if not np.all(np.isfinite(spectrum)):
         raise ValueError(

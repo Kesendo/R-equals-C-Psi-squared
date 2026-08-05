@@ -13,6 +13,8 @@ import numpy as np
 import sys
 from pathlib import Path
 
+EPS = np.finfo(float).eps
+
 # === Pauli matrices ===
 I2 = np.eye(2, dtype=complex)
 X = np.array([[0, 1], [1, 0]], dtype=complex)
@@ -80,26 +82,106 @@ def classify_modes(evals, eps=1e-10, freq_tol=1e-8):
     return stationary, oscillating, unique_freqs
 
 
-def palindrome_check(evals, center, tol=1e-6):
-    """Check palindromic pairing around center."""
-    rates = sorted(-ev.real for ev in evals if abs(ev.imag) > 1e-10)
-    if len(rates) == 0:
-        return 1.0, 0
+def max_f1_pairing_distance(spectrum, sigma):
+    """The repo's CANONICAL F1 symmetry distance, ported from C#.
 
-    paired = 0
-    used = [False] * len(rates)
-    for i in range(len(rates)):
-        if used[i]:
-            continue
-        partner = 2 * center - rates[i]
-        for j in range(len(rates)):
-            if not used[j] and j != i and abs(rates[j] - partner) < tol:
-                paired += 2
-                used[i] = True
-                used[j] = True
-                break
+    Port of `F1SpectrumStatistics.MaxF1PairingDistance`
+    (compute/RCPsiSquared.Core/F1/F1SpectrumStatistics.cs), which its own summary
+    calls "the canonical F1 check", and which is the matcher behind
+    `MultisetAssert.NearestNeighbourEqual` and the live witness
+    `BlockSpectrumWitness.PalindromePairingDistance`. Committed reference values
+    live in simulations/results/f1_n8_n9_metrics/. The same port stands in
+    simulations/sacrifice_zone_mapping.py.
 
-    return paired / len(rates), paired // 2
+    Max greedy nearest-neighbour distance, WITH REMOVAL, between the multiset of
+    eigenvalues and its F1 reflection {-2*sigma - lambda}. Each mirror point is
+    consumed once, so an ASYMMETRIC multiplicity error leaves an unmatched point
+    and surfaces as a large distance, which a set or Hausdorff distance would
+    miss. Measured on the IBM profile below, against a base of 59.6 eps*rho:
+    duplicating one eigenvalue onto an unrelated one gives 3.4e14 to 3.6e15 over
+    five random trials, and deleting one gives 3.4e15. It runs on the FULL
+    COMPLEX spectrum; a rates-only variant is strictly weaker, being blind to
+    the imaginary parts.
+
+    TWO BLIND SPOTS, both measured on that same profile, because the metric
+    compares the spectrum against ITS OWN reflection:
+      * A corruption that RESPECTS the reflection is invisible. Dropping one
+        mirror pair while duplicating another leaves the result bit-identical
+        (1.549738e-13 either way). That is the plausible failure mode of a BLOCK
+        solver, which produces symmetry-respecting spectra by construction, so
+        this number does not certify a block spectrum against a dense one.
+      * Duplicating onto a NUMERICALLY DEGENERATE neighbour is a no-op, since
+        the copy lands where a partner already sits.
+    Resolution, for the same reason: perturbing one eigenvalue by 1e-13 leaves
+    the number unchanged at 59.6, 1e-12 raises it to 383.5. A genuine violation
+    below about 1e-13 absolute sits inside the floor and cannot be seen here.
+
+    This REPLACED a greedy first-fit percentage inside an absolute tolerance
+    (1e-6 here). That score was measuring its own matcher: tightening the
+    tolerance SATURATES the printed percentage long before it fixes the pairing,
+    so a 100% entry is weaker evidence than a 91% one, not stronger. See
+    experiments/CONCENTRATOR_MAPPING.md ("family of at least seventeen").
+    """
+    spectrum = np.asarray(spectrum)
+    # Guard, because a NaN would otherwise pass SILENTLY. np.argmin selects a NaN
+    # index and `nan > worst` is False, so a broken spectrum cannot raise the
+    # metric: measured, one NaN among four eigenvalues returns 11.0 rather than a
+    # failure. The C# does not return a sentinel there, it THROWS
+    # (F1SpectrumStatistics.cs:383: a NaN distance fails the `d < bestDist` test,
+    # so bestIdx stays -1 and it raises "no candidate"). A metric whose
+    # job is to catch a broken spectrum must not fail quiet.
+    if not np.all(np.isfinite(spectrum)):
+        raise ValueError(
+            "spectrum contains non-finite values; the F1 distance is undefined "
+            "and would otherwise be silently understated")
+    reflected = -2.0 * sigma - spectrum
+    taken = np.zeros(len(spectrum), dtype=bool)
+    worst = 0.0
+    for x in spectrum:
+        d = np.abs(x - reflected)
+        d[taken] = np.inf
+        j = int(np.argmin(d))
+        taken[j] = True
+        if d[j] > worst:
+            worst = d[j]
+    return float(worst)
+
+
+def f1_distance_in_eps(evals, sigma):
+    """F1 distance in units of eps * spectral radius (the error model).
+
+    An eigensolver on a non-normal matrix has no exact route, so the number is
+    published against its backward-error model rather than against a threshold:
+    the value is dimensionless, and "at the floor" is an N-DEPENDENT band, not a
+    universal one. Measured here over two decades of J (0.1, 1, 10) on the
+    leading sites of the IBM profile: N=2 gives 1.5 to 3.9, N=3 gives 19.3 to
+    33.1, N=4 gives 31.7 to 54.9, N=5 gives 51.3 to 68.9. So the floor grows by
+    a factor ~40 from N=2 to N=5, and an N=7 or N=8 reading must be graded
+    against its own N rather than against "O(10-100)". Within a fixed N the
+    J-dependence is 1.34x (N=5) to 2.56x (N=2), which is the same size as the
+    matcher sensitivities below: the number says "at the floor" and separates
+    nothing finer than that.
+
+    Two independent sensitivities of this matcher, both measured IN PLACE on the
+    three profiles below rather than imported: permuting only the summation
+    order of the jump operators spreads the IBM number 2.39x over all 120 orders
+    (47.9 to 114.5), and permuting only the eigenvalue ARRAY ORDER, identical
+    spectrum and no physics at all, spreads it 1.47x on the zero-noise profile
+    and 1.27x on uniform, because greedy matching is order-dependent by
+    construction. Do not rank profiles by it. (The array-order figure is
+    profile-dependent and happens to be 1.01x on the IBM profile itself, which
+    is why the jump-operator sweep, not this one, carries the argument.)
+    """
+    radius = float(np.max(np.abs(evals))) if len(evals) else 0.0
+    scale = EPS * radius
+    dist = max_f1_pairing_distance(evals, sigma)
+    if scale == 0.0:
+        # A zero radius means a zero spectrum, so the distance is zero too.
+        # Returning `dist` raw here would print an ABSOLUTE number under an
+        # eps*rho label; the sibling port in sacrifice_zone_mapping.py returns
+        # 0.0, and this now agrees with it.
+        return 0.0, radius
+    return dist / scale, radius
 
 
 def analyze_profile(name, gammas, H, n_qubits, out):
@@ -115,16 +197,16 @@ def analyze_profile(name, gammas, H, n_qubits, out):
 
     stationary, oscillating, unique_freqs = classify_modes(evals)
 
-    # Palindrome check
+    # Palindrome check (canonical F1 distance, see f1_distance_in_eps)
     center = sum(gammas)
-    score, n_pairs = palindrome_check(evals, center)
+    f1_eps, radius = f1_distance_in_eps(evals, center)
 
     out(f"\nTotal eigenvalues: {len(evals)}")
     out(f"Stationary (immune): {len(stationary)}")
     out(f"Oscillating+decaying: {len(oscillating)}")
     out(f"Distinct frequencies: {len(unique_freqs)}")
     out(f"Palindrome center: {center:.4f}")
-    out(f"Palindrome score: {score:.1%} ({n_pairs} pairs)")
+    out(f"F1 pairing distance: {f1_eps:.1f} eps*rho (spectral radius {radius:.4f})")
 
     if sum(gammas) > 0:
         rates = sorted(-ev.real for ev in evals if abs(ev.imag) > 1e-10)
@@ -162,6 +244,16 @@ def frequency_group_analysis(osc_sacrifice, osc_uniform, unique_freqs, out):
     out(f"\n{'='*60}")
     out("FREQUENCY GROUP ANALYSIS: Sacrifice vs Uniform")
     out(f"{'='*60}")
+    # This note was hand-written into the results file by commit 5d57555 and was
+    # not produced by any script, so a re-run silently dropped it. It is emitted
+    # here instead, which is what makes this artifact reproducible.
+    out()
+    out("NOTE: All ratios are 1.00x because the palindromic pairing forces")
+    out("the MEAN decay rate of each frequency group to equal Sigma_gamma")
+    out("(every mode at rate r has a partner at 2S-r, so the average is S).")
+    out("The sacrifice zone effect is visible in the SPREAD within each group,")
+    out("not in the mean. See MODE SURVIVAL COMPARISON below for the")
+    out("physically meaningful comparison.")
     out(f"\n{'Freq/J':>8} {'Sac_rate':>10} {'Uni_rate':>10} {'Ratio':>8} {'Modes':>6}")
 
     freq_tol = 0.1
@@ -241,8 +333,8 @@ def main():
     out("SUMMARY")
     out(f"{'='*60}")
     out(f"Cavity modes at gamma=0: {len(stat_zero)} stationary, {len(osc_zero)} oscillating, {len(freq_zero)} frequencies")
-    out(f"IBM sacrifice zone: {len(stat_ibm)} immune, palindrome {palindrome_check(ev_ibm, total_gamma)[0]:.0%}")
-    out(f"Uniform: {len(stat_uni)} immune, palindrome {palindrome_check(ev_uni, total_gamma)[0]:.0%}")
+    out(f"IBM sacrifice zone: {len(stat_ibm)} immune, F1 distance {f1_distance_in_eps(ev_ibm, total_gamma)[0]:.1f} eps*rho")
+    out(f"Uniform: {len(stat_uni)} immune, F1 distance {f1_distance_in_eps(ev_uni, total_gamma)[0]:.1f} eps*rho")
 
     if osc_ibm and osc_uni:
         ibm_min = min(r for r, _, _ in osc_ibm)

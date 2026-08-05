@@ -42,12 +42,14 @@ frequencies exist under all noise profiles. Only the damping changes.
 The sacrifice zone does not protect qubits. It protects **cavity modes**.
 
 Key results:
-- 100% palindromic under strongly asymmetric IBM gammas (Q85 has 26x
+- Palindromic to the eigensolver's floor under strongly asymmetric IBM
+  gammas (F1 pairing distance 59.6 eps x spectral radius; Q85 has 26x
   more dephasing than Q87)
 - Slowest oscillating mode: 2.81x longer lifetime under sacrifice vs
   uniform (0.046 vs 0.128)
 - 4 protected modes (rate < 0.05) under sacrifice, 0 under uniform
-- Max decay rate = 2 x Σγ exactly (palindrome upper bound)
+- Max decay rate = 2 x Σγ, exact by the palindrome rather than by the
+  digits: the stationary mode at λ = 0 has an F1 partner at −2Σγ
 
 ---
 
@@ -107,7 +109,7 @@ Trotter steps: [2, 4, 6, 8, 10] at dt = 0.5 us.
 | Stationary modes | 120 | 6 | 6 |
 | Oscillating modes | 904 | 1018 | 1018 |
 | Distinct frequencies | 43 | 120 | 112 |
-| Palindrome score | 100% | 100% | 100% |
+| F1 pairing distance (ε · ρ), all tie | 67.5 | 59.6 | 58.4 |
 | Palindrome center | 0.0000 | 0.3199 | 0.3199 |
 | Min decay rate (osc.) | 0 | 0.0455 | 0.1280 |
 | Max decay rate (osc.) | 0 | 0.5943 | 0.5118 |
@@ -118,6 +120,14 @@ Note: Max decay rate (all) = 2 x Σγ = 0.6398 applies to
 non-oscillating modes (freq = 0) that represent pure decay. The
 oscillating modes have lower maximum rates (0.5943 sacrifice,
 0.5118 uniform).
+
+Note on the F1 row: the three entries are a **tie**, and the "all tie"
+in the row label is there so the table cannot be read as a ranking. The
+spread between them is smaller than the metric's own sensitivity to
+bookkeeping that carries no physics. See
+[the reading of that number](#the-palindrome-under-asymmetric-noise)
+below, which also explains why the zero-noise column is a different test
+rather than the best of the three.
 
 ### The 2.81x protection factor
 
@@ -159,13 +169,60 @@ the oscillating modes over the decaying ones.
 ## The palindrome under asymmetric noise
 
 The IBM sacrifice profile has Q85 at 26x more dephasing than Q87.
-Despite this extreme asymmetry, the palindrome is **exactly preserved**:
-all eigenvalue pairs sum to -2 x Σγ = -0.6398. This confirms
-the analytical proof: the palindrome depends on the SUM of gammas,
-not their distribution.
+Despite this extreme asymmetry, the palindrome survives to the
+eigensolver's floor: every eigenvalue finds a partner summing to
+-2 x Σγ = -0.6398, with a worst pairing distance of 59.6 eps x spectral
+radius. This confirms the analytical proof: the palindrome depends on
+the SUM of gammas, not their distribution.
 
-The max decay rate for non-oscillating modes equals 2 x Σγ
-exactly (0.6398). These are the pure decay modes at maximum Pauli
+**How that number should be read.** It is the repo's canonical F1
+check, `F1SpectrumStatistics.MaxF1PairingDistance` (greedy
+nearest-neighbour WITH removal, on the full complex spectrum, so it is
+multiplicity-aware and not blind to the imaginary parts), reported
+against its backward-error model: an eigensolver on a non-normal matrix
+has no exact route, so the honest unit is eps x spectral radius rather
+than a threshold. At N=5 the floor is O(10-100); the band is
+N-dependent, so that range does not transfer (see below). It does **not**
+license the word "exact": a genuine violation below about 1e-13
+absolute would sit inside the same band. F1 is proven analytically; this
+is the numerical check, not the theorem.
+
+The three profiles must not be ranked by it. Their spread is 1.16x
+(67.5 / 58.4), while permuting only the summation order of the jump
+operators, identical physics, spreads the IBM number 2.39x on its own
+(47.9 to 114.5 over all 120 orders, measured on these very profiles).
+Permuting only the eigenvalue array order, pure bookkeeping on one
+spectrum, adds 1.47x on zero noise and 1.27x on uniform, because greedy
+matching is order-dependent by construction. The same two sensitivities
+were found on a different chain in
+[CONCENTRATOR_MAPPING](CONCENTRATOR_MAPPING.md).
+
+Two further reasons not to read the three columns against each other.
+The 67.5 that anchors the top of the 1.16x spread is the **zero-noise**
+column, and that column is a different test: at Σγ = 0 the Liouvillian
+is exactly anti-Hermitian, hence normal (‖[L, L†]‖ = 0.0 against 5.05
+under the IBM profile), so it is not the non-normal case the unit was
+chosen for; and the F1 reflection degenerates to λ ↦ −λ, which holds for
+**any** Hamiltonian by the index swap and carries no information about
+dephasing at all. Verified from below: a random real-symmetric H that is
+not a Heisenberg chain scores 48.0 ε · ρ at Σγ = 0. And the band is not
+an N-independent constant: the same measurement over two decades of J
+gives 1.5 to 3.9 at N=2 and 51.3 to 68.9 at N=5, so a larger chain must
+be graded against its own N.
+
+This column previously read "100% / 100% / 100%", from a greedy
+first-fit inside an absolute tolerance of 1e-6. That score was measuring
+its own matcher: tightening the tolerance saturates the printed
+percentage long before it fixes the pairing, so a 100% entry was weaker
+evidence than a 91% one, not stronger.
+
+The max decay rate for non-oscillating modes equals 2 x Σγ (0.6398).
+That one **is** exact, but by the theorem rather than by the printed
+digits: the Liouvillian has a stationary mode at λ = 0, so F1 puts a
+mode at λ = −2Σγ, and no rate exceeds it. Read off the run instead, the
+same eigensolver floor applies as everywhere else on this page: the
+computed maximum is 0.6398000000000041 against 2Σγ = 0.6397999999999999,
+a gap of 4.2e-15, about 1.6 ε · spectral radius. These are the pure decay modes at maximum Pauli
 weight (XOR drain, the modes where every qubit carries an X or Y operator and dephasing is strongest). The oscillating modes reach at most 0.5943
 (sacrifice) and 0.5118 (uniform), always below this ceiling.
 

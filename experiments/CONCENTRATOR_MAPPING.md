@@ -235,21 +235,22 @@ construction. What the number does **not** license is a claim of exactness: a
 genuine violation below roughly 1e-13 absolute would sit inside the same band. F1
 is proven analytically; this column is the numerical check, not the theorem.
 
-**The defective scorer is a family of at least seventeen. This repair reached
-two of them; the fifteen listed below still stand.** Named here rather than left quiet, because a substitution that
+**The defective scorer is a family of at least seventeen. Three of them are
+converted; the fourteen listed below still stand.** Named here rather than left quiet, because a substitution that
 converts some sites and not others is worse than consistent wrongness: the
 inconsistency reads as deliberate. The count grew from "two" to "five" to this
 over three review rounds on 2026-08-05, so treat it as a floor and not as a
 census; it was produced by grepping two code shapes, and a third shape would not
 have been seen.
 
-**Fixed here:** `sacrifice_zone_mapping.py` and `chain_selection_test.py` (this
-document and [Chain Selection Test](CHAIN_SELECTION_TEST.md)).
+**Converted:** `sacrifice_zone_mapping.py` and `chain_selection_test.py` (this
+document and [Chain Selection Test](CHAIN_SELECTION_TEST.md)), and
+`ibm_cavity_analysis.py`, whose 100% / 100% / 100% row in
+[IBM Cavity Spectral Analysis](IBM_CAVITY_SPECTRAL_ANALYSIS.md) was the
+saturation artefact described above and now reads 67.5 / 59.6 / 58.4 eps·ρ.
 
 **Shape A**, greedy first-fit inside a tolerance, reported as a percentage,
-`simulations/`: `ibm_cavity_analysis.py` (1e-6, and its 100% / 100% / 100% row in
-[IBM Cavity Spectral Analysis](IBM_CAVITY_SPECTRAL_ANALYSIS.md) is the saturation
-artefact described above), `optimal_chain_search.py` (1e-4, the old code
+`simulations/`: `optimal_chain_search.py` (1e-4, the old code
 verbatim, same function name), `combined_optimization.py`
 (`max(1e-4, 1e-3·center)`, precisely the scale-relative retune ruled out above,
 publishing 89%, 85%, 92%, 96%, 94%, 95% for **these same chains**),
