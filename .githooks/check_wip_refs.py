@@ -16,8 +16,25 @@ import subprocess
 import sys
 
 ALL = "--all" in sys.argv
-# a concrete _<name>.py (won't match the glob `_*.py` in .gitignore itself)
-PATH = re.compile(r"simulations/_[A-Za-z0-9][A-Za-z0-9_]*\.py")
+# A reference to a local-only WIP file, in the three shapes docs actually write.
+#
+# The original pattern demanded a CONCRETE `_<name>.py` and so had a blind spot
+# that swallowed the worst cases, found 2026-08-06: a doc that cites a GLOB
+# ("simulations/_polarity_probe_*.py", "simulations/_f89_edgeA_*") or a non-.py
+# WIP file ("simulations/_atmosphere_cluster_notes.md") was invisible to it. The
+# --all sweep therefore reported CLEAN while five tracked files, three of them in
+# docs/proofs/ and one the formula registry, named glob-shaped WIP scripts as
+# their stated empirical anchor. Those scripts are not in the repo and, checked
+# that day, no longer on the machine either.
+#
+# Three alternatives, in order: a concrete _name.py; a glob _name_*(.py); a
+# non-.py WIP file. The trailing (?![*\w]) on the first keeps a glob from being
+# reported twice.
+PATH = re.compile(
+    r"simulations/_[A-Za-z0-9][A-Za-z0-9_]*\.py(?![*\w])"
+    r"|simulations/_[A-Za-z0-9][A-Za-z0-9_]*\*(?:\.py)?"
+    r"|simulations/_[A-Za-z0-9][A-Za-z0-9_]*\.(?:md|txt|json|ipynb|cmd)"
+)
 SKIP_EXT = (".png", ".jpg", ".jpeg", ".gif", ".pdf", ".csv", ".npy", ".npz",
             ".zip", ".dll", ".pyc", ".bin", ".ico", ".svg")
 # exclude files that legitimately spell the pattern (the rule + this checker)
