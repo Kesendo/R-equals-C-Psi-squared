@@ -4585,11 +4585,54 @@ public static class OpenArcsRegistry
                 "residual NORM bit-exact over a 1e-6 relative gate with no test file at all (note that is " +
                 "a different object from the pairing distance, so it does not contradict " +
                 "F1GeneralTopologyVerifiedClaim:20; an earlier draft of this arc said it did). " +
-                "Two generators keep producing new ones: diagnose_hardware.py:245 emits the literal string " +
-                "'BALANCED (asymmetry bit-exact 0)' from a rel < 1e-10 branch and a test asserts on that string, " +
-                "and chain_gap_sector_diagnostic.py formats a relative error as :.3f so anything under 5e-6 " +
-                "prints '0.000%', which doc lines then read as bit-exactness (F1_DISSIPATION_GAP_PATTERN.md " +
-                ":114 and :139 are the two confirmed; the wider count is unverified).",
+                "ONE GENERATOR CLOSED, ONE INSTANCE OF THE OTHER (2026-08-06 afternoon; an earlier draft of " +
+                "this entry said BOTH, and a review caught it). diagnose_hardware.py:245 now prints the " +
+                "measured 'BALANCED (rel asymmetry ...)' instead of the literal 'bit-exact 0'; no test broke, " +
+                "because the test asserted on verdict.split(' ')[0] and never on the literal. But the GENERATOR " +
+                "is the construct 'a rel < 1e-10 branch emitting the word', and it survives at five more " +
+                "committed Python sites (f112_block_cpsi_analysis.py:531, f112_hardware_lens_multi.py:443, " +
+                "carbon_realistic_sweep.py:322, q6_hidden_q_construction.py:151, " +
+                "water/proton_wire_crossing.py:338) plus the four C# witness doc-comments, ALL running through " +
+                "the same saturated denominator described below. Fix the denominator once, then these follow. " +
+                "chain_gap_sector_diagnostic.py now prints the deviation as :.3e instead of a :.3f percentage, " +
+                "and the script was RUN so its consumers carry measured numbers rather than a reworded " +
+                "adjective: the Absorption-Theorem agreement is 1.8e-15 / 6.8e-14 / 1.0e-13 at N=4/5/6, which " +
+                "GROWS with N and was published as '0.000% relative error, bit-exact'. Its consumers were four " +
+                "sites in F1_DISSIPATION_GAP_PATTERN.md (not the two the earlier note listed) plus ten in " +
+                "experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md, all repaired. A guard now exists: " +
+                ".githooks/check_bit_exact.py, wired into pre-commit, warns when a line spends the word beside " +
+                "a tolerance, a residual, a percentage or 'machine precision', exempting negated uses because " +
+                "denying the word beside the number is the model wording (the first draft of the hook reported " +
+                "StarImMaxBoundClaim's own model sentence as a defect, because a quote sits between the " +
+                "denial and the word, and the re.X flag silently deleted the spaces inside 'rather than' and " +
+                "'no longer'; --self-test now pins twelve cases, seven of them model sentences). " +
+                "READ ITS COVERAGE HONESTLY: it fires on 126 lines out of the 1717 that use the word over " +
+                "tracked .cs/.md/.py, i.e. 7 percent, because it only sees word and threshold on the SAME " +
+                "PHYSICAL LINE. It is a tripwire for the self-refuting sentence, NOT the leaf worklist; a " +
+                "'bit-exact' whose number sits one line down is invisible to it, and three such live in " +
+                "framework/diagnostics/polarity_coordinates.py alone (:47, :246, :251). Hand-classifying ~30 " +
+                "of the 126 gave about 1 in 6 false positives, in four classes: this arc's own bookkeeping " +
+                "quoting the bad wording, '0.00e+00' read as a threshold when it is an exact zero on a " +
+                "permitted integer or permutation route, the word 'tolerance' inside the phrase 'no rounding " +
+                "tolerance', and 300-character lines where the word and the number belong to different claims. " +
+                "TWO FINDINGS FROM THE F112 SCOUT THAT ARE NOT VOCABULARY, both re-measured from below and both " +
+                "bigger than the mislabel that surfaced them. (1) THE GATE IS SATURATED AND THE RATIO IS NOT A " +
+                "RATIO: rel_asymmetry = |asym| / max(||M||^2, 1e-15), but M is the F81 residual, which VANISHES " +
+                "for Heisenberg + Z-dephasing, so ||M||^2 is ~1e-31 at N=2..5 and the 1e-15 FLOOR is what the " +
+                "division actually uses. In that regime rel < 1e-10 is satisfied by any |asym| < 1e-25, seven " +
+                "orders above the float noise, so the flagship BALANCED verdict is a threshold on a matrix that " +
+                "is identically zero. (2) THE EXACTNESS IS A PROPERTY OF THE INPUTS, NOT OF THE ROUTE: asym is " +
+                "exactly 0.0 on every bilinear-Pauli H the repo tests, but random Hermitian H inside F112's " +
+                "TYPED SCOPE (per-site Z c-ops, random gamma) give a nonzero asymmetry in a few percent of " +
+                "draws. DO NOT QUOTE A COUNT: an earlier draft of this entry wrote '3/60 at N=3 and 2/60 at " +
+                "N=4' into three files from a single draw, and re-running over five master seeds gives 2..5 " +
+                "of 60 at N=3 and 0..5 of 60 at N=4. The seed-independent part is the RELATIVE size, ~1e-17, " +
+                "and the sign of the effect: it is nonzero, and it is rare. The absolute size is meaningless " +
+                "without pinning the ensemble, since it scales with the drawn H norm. So f112_f87_orthogonality.py's three " +
+                "'assert asymmetry == 0.0' pass by the domain they sample, not by construction. This is the " +
+                "standing 'sampling hides an isolated exception' shape landing on the F112 axis, and it means " +
+                "the three Lindblad*PiBalanceWitness classes (BitA, BitB, BitBY: three siblings, not two) need " +
+                "their DENOMINATOR fixed before their wording, since retuning 1e-10 over a floor buys nothing.",
             NextStep:
                 "TRIAGE BY THE OBJECT, NOT BY THE SENTENCE. The word splits cleanly by what kind of quantity " +
                 "the row is about, which sorts the bulk without opening every backing assertion: integers, " +

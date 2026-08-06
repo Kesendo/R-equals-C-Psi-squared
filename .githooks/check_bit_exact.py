@@ -40,6 +40,13 @@ ALL = "--all" in sys.argv
 
 SCOPE = re.compile(r"\.(cs|md|py)$")
 
+# This file is a catalogue of the shape it hunts: its docstring quotes four real
+# defects and SELF_TEST below carries five more as fixtures. Without this line the
+# hook reports ten hits against itself on every commit that touches it, which is
+# how a warn-only check gets ignored. It is the only self-exemption, and it is
+# safe because nothing here is a claim about the physics.
+SELF = "githooks/check_bit_exact.py"
+
 # The word in its four spellings, plus the noun form.
 WORD = re.compile(r"bit[-\s]?(exact(ly|ness)?|identical|for[-\s]bit)", re.I)
 
@@ -137,7 +144,7 @@ else:
 
 hits = []  # (file, line_no, excerpt)
 for f in files:
-    if not SCOPE.search(f):
+    if not SCOPE.search(f) or f.replace("\\", "/").endswith(SELF):
         continue
     for i, line in enumerate(content(f).splitlines(), 1):
         if not flags(line):

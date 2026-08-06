@@ -226,7 +226,8 @@ def diagnose_hardware(
 
         # F112 lens: polarity Π-eigenvalue +i/−i balance on the framework-predicted L.
         # Typed Tier1Derived scope: Hermitian H + bit_b-homogeneous c_k implies
-        # asymmetry = 0 bit-exact. chain.L's single-Pauli Z-dephasing is trivially
+        # asymmetry = 0 exactly AS A THEOREM (the computed value is a float difference
+        # and is a different question; see the branch below). chain.L's single-Pauli Z-dephasing is trivially
         # bit_b-homogeneous, so for pure Z-deph the lens predicts BALANCED. Adding
         # T1 / T2 dissipators leaves F112's typed scope (σ⁻ = (X + iY)/2 is not
         # bit_b-homogeneous), and there the balance is NOT guaranteed: F113 gives
@@ -241,8 +242,23 @@ def diagnose_hardware(
         m_sq = pol['norm_sq']['M']
         asym = pol['asymmetry']
         rel_asym = abs(asym) / max(m_sq, 1e-15)
+        # Report the measured number, never the word. F112's THEOREM is exact, but this
+        # branch is a threshold on a float difference of two Frobenius norms and cannot
+        # witness exactness; GLOSSARY.md:304 is the governing rule. Two things measured on
+        # 2026-08-06 that the old 'bit-exact 0' literal hid:
+        #   - the asymmetry is exactly 0.0 on the bilinear-Pauli Hamiltonians the repo
+        #     tests, but NOT in general inside F112's typed scope: random Hermitian H
+        #     with per-site Z c-ops give a nonzero asymmetry in a few percent of draws
+        #     (2..5 of 60 at N=3, 0..5 of 60 at N=4 over five master seeds; the count is
+        #     seed noise, the ~1e-17 RELATIVE size is not). Exactly-zero here is a
+        #     property of those inputs, not of the float route.
+        #   - rel_asym is not a ratio on the case this workflow runs most. For Heisenberg
+        #     + pure Z-dephasing, M is the F81 residual, which VANISHES, so ||M||^2 is
+        #     ~1e-31 and max(...,1e-15) always returns the floor. There 1e-10 is satisfied
+        #     by any |asym| < 1e-25 and the gate is saturated seven orders over the noise.
+        # Both are recorded in the bit_exact_vocabulary arc; neither is fixed by this line.
         if rel_asym < 1e-10:
-            verdict = 'BALANCED (asymmetry bit-exact 0)'
+            verdict = f'BALANCED (rel asymmetry {rel_asym:.2e})'
         elif rel_asym < 1e-6:
             verdict = f'near-BALANCED (rel {rel_asym:.2e})'
         else:

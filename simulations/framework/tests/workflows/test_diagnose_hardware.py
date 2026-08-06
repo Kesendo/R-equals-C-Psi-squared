@@ -297,8 +297,9 @@ def test_diagnose_hardware_synthetic_round_trip():
 def test_diagnose_hardware_F112_lens_reads_balanced_on_z_dephase():
     """F112 lens row: for the framework's standard chain.L (Hermitian H +
     single-Pauli Z-dephasing on each site, trivially bit_b-homogeneous), the
-    polarity asymmetry is bit-exact 0. The lens row is present in every
-    category's readings, and its verdict is BALANCED.
+    polarity asymmetry vanishes by F112 and is measured at exactly 0.0 on these
+    inputs. The lens row is present in every category's readings, and its
+    verdict is BALANCED.
     """
     measured = _load_f83_measured()
     chain = fw.ChainSystem(N=3)
@@ -316,11 +317,25 @@ def test_diagnose_hardware_F112_lens_reads_balanced_on_z_dephase():
         assert 'rel_asymmetry' in row
         assert 'verdict' in row
         assert 'h_bit_b_homogeneous' in row
-        # F112 says asymmetry = 0 bit-exact for Hermitian H + bit_b-homogeneous c.
-        # chain.L is Z-dephasing per site (single-Pauli Z, bit_b-homogeneous).
-        # Default gamma_z=0.1 with no T1, so we're in the typed Tier1Derived regime.
+        # F112 says asymmetry = 0 exactly, as a theorem, for Hermitian H +
+        # bit_b-homogeneous c. chain.L is Z-dephasing per site (single-Pauli Z,
+        # bit_b-homogeneous). Default gamma_z=0.1 with no T1, so we're in the typed
+        # Tier1Derived regime.
+        #
+        # The 1e-10 gate below is SATURATED and is kept only as a regression pin,
+        # measured 2026-08-06. Two readings, neither of which the gate can see:
+        # the asymmetry on these bilinear-Pauli inputs is exactly 0.0, so an exact
+        # comparison is available here; and inside F112's typed scope more widely it
+        # is NOT exact: random Hermitian H give a nonzero asymmetry in a few percent
+        # of draws (2..5 of 60 at N=3, 0..5 at N=4 over five master seeds, so the count
+        # is seed noise; the ~1e-17 relative size is the stable part). So exactness
+        # here is a property of these inputs. Worse, rel_asymmetry is not a ratio in
+        # this regime at all: M is the F81 residual, which vanishes for Heisenberg +
+        # Z-dephasing, so ||M||^2 ~ 1e-31 and the max(..., 1e-15) floor is what the
+        # division actually uses. Tightening this number without fixing the
+        # denominator would buy nothing; the arc bit_exact_vocabulary carries it.
         assert row['verdict'] == 'BALANCED', \
             f"{cat}: expected BALANCED verdict on standard chain.L, got {row['verdict']} " \
             f"(asymmetry={row['asymmetry']}, rel={row['rel_asymmetry']})"
         assert abs(row['rel_asymmetry']) < 1e-10, \
-            f"{cat}: F112 rel asymmetry {row['rel_asymmetry']} exceeds machine precision"
+            f"{cat}: F112 rel asymmetry {row['rel_asymmetry']} exceeds the saturated 1e-10 pin"

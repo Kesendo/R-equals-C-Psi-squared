@@ -44,8 +44,9 @@ Working hypothesis (to be tested empirically by Task B):
     T1 cooling-only (γ_↓ ≠ γ_↑) → measurable asymmetry, F81 violation per F84
 
 Outcome (Task B+C, 2026-05-25): Hermitian-H balance CONFIRMED across all six bilinear
-H families; T1 asymmetry measured 0.0 bit-exact across the 8 H families x 3 dissipator
-settings tested.
+H families; T1 asymmetry measured at exactly 0.0 across the 8 H families x 3 dissipator
+settings tested. That exact zero is a property of the SAMPLED inputs, not of this
+float route: see the note on `asymmetry` in the Returns section below.
 
 SCOPE CORRECTION (2026-07-29): that sweep covered BOND Hamiltonians only, for which
 Tr(Z_l H) = 0, and the vanishing is a property of that family, NOT of Lindbladians in
@@ -243,13 +244,18 @@ def polarity_coordinates_from_hc(H, c_ops, gammas, N, sigma=None, Pi=None):
     in vec(ρ) basis (the standard Lindblad / GKSL dissipator, trace-preserving
     for Hermitian H + arbitrary c), transforms to Pauli basis, and delegates
     to polarity_coordinates_from_L. Matches the chain-bound
-    polarity_coordinates path bit-exactly for Hermitian Pauli-letter c with
-    matching σ = Σ γ_k. Absorbs the build_L_standard_lindblad pattern that
+    polarity_coordinates path to the last bit for Hermitian Pauli-letter c with
+    matching σ = Σ γ_k (two float pipelines agreeing, not an exact route). Absorbs the build_L_standard_lindblad pattern that
     probe scripts 1, 5, 7, 9–14 hand-roll inline.
 
     F112 (Hermitian H + each c_k bit_b-homogeneous) predicts asymmetry = 0
-    bit-exact. Asymmetry ≠ 0 here is the precise witness for non-Hermitian
-    H, non-bit_b-homogeneous c, or both. To check bit_b-homogeneity of c
+    exactly, AS A THEOREM. The COMPUTED value is a different question and is
+    NOT reliably zero inside that same typed scope: random Hermitian H with
+    per-site Z c-ops return a nonzero asymmetry in a few percent of draws
+    (measured 2026-08-06; the relative size is ~1e-17, the count per 60 draws
+    varies with the seed). So `asymmetry != 0` is a witness for non-Hermitian
+    H or non-bit_b-homogeneous c only ABOVE that float floor; a bare `!= 0`
+    test reads cancellation noise as a physics violation. To check bit_b-homogeneity of c
     when c is given as a PauliHamiltonian, use its is_bit_b_homogeneous
     property; this wrapper accepts c as raw matrices and does not perform
     the check.
