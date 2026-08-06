@@ -594,12 +594,60 @@ public sealed class BlockSpectrumWitness : IInspectable
                 summary: full
                     ? $"{kernel} = N+1 = {N + 1} (the connected-chain steady states)"
                     : $"{kernel} in this {used}-sector sub-spectrum (the full connected-chain kernel N+1 = {N + 1} is in the banked headline)"),
+            TheRateProjectionNode(spectrum, sigma, pairing),
         };
         return new InspectableNode("the F1 palindrome, reconstructed live",
             summary: $"{scope}; F1 holds: max pairing distance {pairing.ToString("E3", Inv)}, " +
                      $"MinReal {minRe.ToString("0.0000", Inv)}" + (full ? $" = −2σ = {(-2 * sigma).ToString("0.###", Inv)}" : "") +
                      $", kernel {kernel}{(full ? $" = N+1 = {N + 1}" : "")}.",
             children: kids,
+            provenance: NodeProvenance.Live);
+    }
+
+    /// <summary>What the SAME spectrum reads once it is projected to decay rates d = −Re λ, the
+    /// weaker object the RCPsiSquared.Compute oscillatory-rate suite scores. It is here because
+    /// the two numbers were confused for each other: the rate reading was carried as if it were
+    /// the full-spectrum verification, and nothing in the object manager showed the gap.
+    ///
+    /// <para>Costs nothing extra; it re-reads the spectrum this node already reconstructed. The
+    /// oscillatory cut is |Im λ| &gt; <see cref="F1SpectrumStatistics.MachineZeroTolerance"/> =
+    /// 1e-9, NOT the Compute suite's coarser 0.05, so this is the projection at its most
+    /// generous and is not literally what that suite reads; it discards strictly less.</para>
+    ///
+    /// <para>The cut itself is F1-covariant: the reflection sends Im to −Im and leaves |Im|
+    /// alone, so the surviving set is F1-invariant and no partner is separated from its mate by
+    /// the cut alone. The exposure is a mode whose true |Im| sits AT 1e-9, where solver error of
+    /// order 1e-14 can put one partner on each side. That is a real physical band, not a
+    /// noise-width one, so a spectrum with genuinely slow oscillations wants the cut restated
+    /// before this node is trusted.</para></summary>
+    private InspectableNode TheRateProjectionNode(Complex[] spectrum, double sigma, double fullPairing)
+    {
+        var rates = new List<double>();
+        foreach (var lam in spectrum)
+            if (Math.Abs(lam.Imaginary) > F1SpectrumStatistics.MachineZeroTolerance)
+                rates.Add(-lam.Real);
+
+        if (rates.Count == 0)
+            return new InspectableNode("the rate projection (what the oscillatory-rate suite would read)",
+                summary: "no oscillatory modes above machine zero in this spectrum, so the projection has " +
+                         "nothing to score. Not a clean reading: an empty multiset has no pairing distance.",
+                provenance: NodeProvenance.Live);
+
+        double ratePairing = F1SpectrumStatistics.MaxF1RatePairingDistance(rates, sigma);
+        int dropped = spectrum.Length - rates.Count;
+
+        return new InspectableNode("the rate projection (the weaker object, on this same spectrum)",
+            summary: $"projected to rates d = −Re λ, centred on σ = {sigma.ToString("0.###", Inv)} with partners " +
+                     $"summing to 2σ, this spectrum pairs to {ratePairing.ToString("E3", Inv)}; the full complex " +
+                     $"check on the same eigenvalues reads {fullPairing.ToString("E3", Inv)}. Do NOT read a ratio " +
+                     "off those two: where F1 holds they are both eigensolver backward error, and a quotient of " +
+                     "two noise floors has no error model. What makes the projection weaker is structural and " +
+                     $"holds however close the two numbers sit. It loses twice. It DROPS the {dropped} " +
+                     $"non-oscillating eigenvalues of {spectrum.Length} outright (the kernel and the real modes), " +
+                     $"scoring only the {rates.Count} that survive |Im λ| > machine zero; and among those it " +
+                     "MERGES any that share a decay rate at different frequencies, so a break living purely in " +
+                     "the frequencies is invisible to it. Read the rate number as a sanity check and the full " +
+                     "number as the verification, never the other way round.",
             provenance: NodeProvenance.Live);
     }
 

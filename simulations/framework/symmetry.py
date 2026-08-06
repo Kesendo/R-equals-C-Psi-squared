@@ -718,7 +718,9 @@ def max_f1_pairing_distance(spectrum, sigma):
             defensive tidiness: np.argmin selects a NaN index and `nan > worst`
             is False, so without the guard a broken spectrum silently returns a
             small number instead of a large one. The C# throws in the same
-            situation (F1SpectrumStatistics.cs:383, "no candidate").
+            situation: see the "no candidate" throw inside
+            F1SpectrumStatistics.NearestNeighbourDistances. (Named by phrase, not
+            by line: an insertion above it moved that line once already.)
     """
     spectrum = np.asarray(spectrum)
     if not np.all(np.isfinite(spectrum)):

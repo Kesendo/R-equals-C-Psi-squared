@@ -9,7 +9,9 @@ namespace RCPsiSquared.Compute;
 /// </summary>
 public static class MirrorAnalysis
 {
-    /// <summary>Machine epsilon for double, the unit the eigensolver's backward error is measured in.</summary>
+    /// <summary>Machine epsilon for double. It is the unit <see cref="MirrorResult.DistanceInEps"/>
+    /// is expressed in, and NOT a claim that the eigensolver's backward error is what that ratio
+    /// measures; see the note on <see cref="CheckSymmetry"/> for why it is not.</summary>
     private const double Eps = 2.220446049250313e-16;
 
     public record MirrorResult(
@@ -22,17 +24,14 @@ public static class MirrorAnalysis
 
     /// <summary>
     /// The F1 pairing distance of a rate multiset around a center, computed by the canonical
-    /// check <see cref="F1SpectrumStatistics.MaxF1PairingDistance"/>: greedy nearest-neighbour
+    /// check <see cref="F1SpectrumStatistics.MaxF1RatePairingDistance"/>: greedy nearest-neighbour
     /// matching WITH REMOVAL between the multiset and its own F1 reflection. Returns a DISTANCE;
     /// ~0 means the multiset is closed under the reflection, and a large value means it is not.
     ///
-    /// <para>The embedding, since the canonical check reflects λ ↦ −2σ − λ on complex
-    /// eigenvalues while this method receives decay RATES d = −Re λ: pass λ = −d, for which
-    /// −2σ − λ = d − 2σ = −(2σ − d) is exactly the embedding of the mirrored rate. So the
-    /// canon computes the rate palindrome with no local re-derivation. The equality of the two
-    /// routes is EXACT, not approximate, because d ↦ −d is an isometry and preserves the index
-    /// order the greedy matcher walks; <c>simulations/f1_rate_embedding_check.py</c> is the
-    /// producer that reproduces it on chain and star at N=2..5.</para>
+    /// <para>The rate embedding is NOT this class's: it lives in Core beside the canon, as
+    /// <see cref="F1SpectrumStatistics.MaxF1RatePairingDistance"/>, and is pinned there. What
+    /// this method adds over that call is the eps ratio, the rate radius and count it is read
+    /// beside, and the empty-input policy below.</para>
     ///
     /// <para>This is a PROJECTION and stays weaker than the full-spectrum check: the imaginary
     /// parts are discarded upstream by <c>Liouvillian.ExtractRates</c>, so two eigenvalues at
@@ -57,25 +56,24 @@ public static class MirrorAnalysis
     {
         if (rates is null) throw new ArgumentNullException(nameof(rates));
 
-        // An empty multiset has no distance. Returning 0.0 would print the BEST possible
-        // reading for a spectrum that was never scored, which is how a metric fails quiet.
-        // NOTE a divergence, not a shared contract: the Python sibling
-        // fw.max_f1_pairing_distance returns 0.0 on an empty input rather than NaN, because
-        // np.all(np.isfinite([])) is True and its loop never runs. This side is the stricter
-        // of the two; closing the gap on the Python side is open.
+        // An empty multiset has no distance. Three answers are live and they are NOT one
+        // contract, so state which is which. Core THROWS on empty, in both the rate and the
+        // complex entry point. This method returns NaN instead, because it is a reporting
+        // wrapper whose caller prints a table row and should see a hole rather than a crash.
+        // The Python sibling fw.max_f1_pairing_distance still returns 0.0, the best possible
+        // reading, because np.all(np.isfinite([])) is True and its loop never runs; that one
+        // is a genuine gap and closing it is open. What no route may do is return 0.0 here.
         if (rates.Count == 0)
             return new MirrorResult(double.NaN, double.NaN, 0.0, 0, center);
 
-        var embedded = new Complex[rates.Count];
         double radius = 0.0;
         for (int i = 0; i < rates.Count; i++)
         {
-            embedded[i] = new Complex(-rates[i], 0.0);
             double m = Math.Abs(rates[i]);
             if (m > radius) radius = m;
         }
 
-        double distance = F1SpectrumStatistics.MaxF1PairingDistance(embedded, center);
+        double distance = F1SpectrumStatistics.MaxF1RatePairingDistance(rates, center);
 
         // A zero radius means every rate is 0, so there is no eps·ρ to divide by. Report the
         // raw distance and let the caller see NaN rather than an invented unit.

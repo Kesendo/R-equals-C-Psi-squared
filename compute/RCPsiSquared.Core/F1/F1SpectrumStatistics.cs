@@ -349,12 +349,56 @@ public static class F1SpectrumStatistics
     public static double MaxF1PairingDistance(Complex[] spectrum, double sigma)
     {
         if (spectrum is null) throw new ArgumentNullException(nameof(spectrum));
+        // An empty spectrum has no pairing distance. Without this the method returns 0.0, the
+        // BEST possible reading, for a spectrum that was never scored: the loop body never runs
+        // and `max` keeps its seed. That is the quiet failure this whole family exists to avoid,
+        // and it was here until 2026-08-06 while the rate sibling below already rejected it.
+        if (spectrum.Length == 0)
+            throw new ArgumentException(
+                "an empty spectrum has no pairing distance; returning 0.0 would report a perfect " +
+                "palindrome for a spectrum that was never scored. The caller must decide what an " +
+                "empty input means.", nameof(spectrum));
+
         var reflected = new Complex[spectrum.Length];
         for (int i = 0; i < spectrum.Length; i++) reflected[i] = -2.0 * sigma - spectrum[i];
         double max = 0.0;
         foreach (var d in NearestNeighbourDistances(spectrum, reflected))
             if (d > max) max = d;
         return max;
+    }
+
+    /// <summary>The same F1 distance read on a DECAY RATE multiset d = −Re λ instead of on
+    /// eigenvalues: the max nearest-neighbour distance WITH REMOVAL between {d} and its rate
+    /// reflection {2σ − d}. ~0 iff the rates are closed as a multiset under d ↦ 2σ − d.
+    ///
+    /// <para>It does not re-derive the matcher. Rates are embedded as λ = −d and handed to
+    /// <see cref="MaxF1PairingDistance"/>, because with that embedding
+    /// −2σ − λ = d − 2σ = −(2σ − d), which is the embedding of the mirrored rate. The embedding
+    /// is an ISOMETRY and preserves the index order the greedy walk consumes, so the two routes
+    /// agree EXACTLY, not to a tolerance. <c>simulations/f1_rate_embedding_check.py</c>
+    /// reproduces that equality on chain and star at N=2..5.</para>
+    ///
+    /// <para>Read it as the WEAKER sibling of <see cref="MaxF1PairingDistance"/>, and reach for
+    /// the eigenvalue form whenever the imaginary parts are still in hand: projecting to rates
+    /// merges every pair of eigenvalues that share a decay rate at different frequencies, so a
+    /// break that moves only a frequency is invisible here. It exists because a rate multiset is
+    /// what several producers actually hold, the oscillatory-rate suite in RCPsiSquared.Compute
+    /// among them.</para>
+    ///
+    /// <para><paramref name="sigma"/> is the dephasing centre, the SUM of the per-site γ and not
+    /// half of it: the rate reflection carries the factor of two as 2σ − d.</para></summary>
+    public static double MaxF1RatePairingDistance(IReadOnlyList<double> rates, double sigma)
+    {
+        if (rates is null) throw new ArgumentNullException(nameof(rates));
+        if (rates.Count == 0)
+            throw new ArgumentException(
+                "an empty rate multiset has no pairing distance; returning 0.0 would report the " +
+                "best possible reading for a spectrum that was never scored. The caller must " +
+                "decide what an empty input means.", nameof(rates));
+
+        var embedded = new Complex[rates.Count];
+        for (int i = 0; i < rates.Count; i++) embedded[i] = new Complex(-rates[i], 0.0);
+        return MaxF1PairingDistance(embedded, sigma);
     }
 
     /// <summary>Greedy nearest-neighbour matching: for each <c>actual[i]</c>, find the

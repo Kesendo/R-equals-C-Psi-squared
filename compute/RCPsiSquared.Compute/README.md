@@ -8,7 +8,7 @@ This engine is where the R=CPsi^2 project's central question was first put to a 
 
 Two modes answer that question at different strengths, and only one of them is the default suite, so it is worth being explicit about which run carries which evidence.
 
-The **default suite** scores the OSCILLATORY RATE SUBSET, d = −Re λ for the modes with |Im λ| > 0.05, and reports an F1 pairing distance in absolute units through the canonical check `F1SpectrumStatistics.MaxF1PairingDistance`. That is a projection, the imaginary parts discarded, so it is a sanity check rather than a verification; its N=8 row scored 54,118 oscillatory rates of a star, not the full spectrum.
+The **default suite** scores the OSCILLATORY RATE SUBSET, d = −Re λ for the modes with |Im λ| > 0.05, and reports an F1 pairing distance in absolute units through `F1SpectrumStatistics.MaxF1RatePairingDistance`, the rate-space entry point beside the canonical complex check. That is a projection, the imaginary parts discarded, so it is a sanity check rather than a verification; its N=8 row scored 54,118 oscillatory rates of a star, not the full spectrum.
 
 The **`rmt` mode** exports the complete spectra for N=2..7 as CSV, and those are the artifact behind the full-eigenvalue pairing at those sizes (4,096/4,096 at N=6 and 16,384/16,384 at N=7, at 1e-7): exported here, checked downstream. At N=8 the full-spectrum verification is the per-sector block spectra in [`f1_n8_n9_metrics/`](../../simulations/results/f1_n8_n9_metrics/), computed by RCPsiSquared.Core rather than by this project. Together those cover the project's canonical 87,376 = Σ4^N over N=2..8. [`MIRROR_SYMMETRY_PROOF.md`](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md) sets out which row of evidence carries what, and is the place to start.
 
@@ -152,7 +152,7 @@ dotnet run -c Release -- ptf
 | Topology.cs | Star, Chain, Ring, Complete, Tree, ChainXY (PTF convention) bond generators |
 | Liouvillian.cs | Lindblad superoperator: three build paths by N. `GetAllEigenvalues()` for RMT export, `GetAllEigenvaluesAndVectors()` for eigvec, `GetAllEigenvaluesLeftRightMklRaw()` for PTF, `GetCavityModes()` for zero-noise eigenfrequencies |
 | LensAnalysis.cs | Slow-mode lens pipeline: extracts the optimal single-excitation state from the slowest eigenmode (`RunFullLensPipeline`, `FindSlowModes`) |
-| MirrorAnalysis.cs | F1 pairing distance of the rate spectrum, through the canonical `F1SpectrumStatistics.MaxF1PairingDistance` in Core (rates embedded as λ = −d) |
+| MirrorAnalysis.cs | F1 pairing distance of the rate spectrum, through `F1SpectrumStatistics.MaxF1RatePairingDistance` in Core, which owns the λ = −d embedding |
 | Program.cs | Dispatch: default suite (benchmark + topology survey + stress + N=8), `validate`, `n8`, `rmt`, `cavity`, `eigvec`, `lens`, `ptf` |
 
 The direct LAPACK P/Invoke layer (LP64 + ILP64 with backend auto-detection) used to live here as `MklDirect.cs`; it was promoted to [`RCPsiSquared.Core/Numerics/MklDirect.cs`](../RCPsiSquared.Core/Numerics/MklDirect.cs) once Core's block-spectrum bridge needed it, and is referenced from there.

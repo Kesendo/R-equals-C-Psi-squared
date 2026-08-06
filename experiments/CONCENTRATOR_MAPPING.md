@@ -290,20 +290,31 @@ the below-centre half scored: `analytical_spectrum_verify.py`,
 this list said it was.**
 
 `MirrorAnalysis.CheckSymmetry` (`compute/RCPsiSquared.Compute/MirrorAnalysis.cs`)
-was Shape B at a tolerance of 0.005 and genuinely an F1 scorer: its centre is σ
-and its reflection d ↦ 2σ − d is F1's real part. It now calls
-`F1SpectrumStatistics.MaxF1PairingDistance`. The rates are embedded as λ = −d,
-for which −2σ − λ = −(2σ − d) is exactly the mirrored rate, so the canonical
-check computes the rate palindrome with nothing re-derived locally. The producer
+was Shape B at a tolerance of 0.005 and genuinely an F1 scorer: its reflection
+d ↦ 2σ − d is F1's real part, centred on σ with partners summing to 2σ.
+
+The embedding that carries rates into the canonical complex check, λ = −d, for
+which −2σ − λ = −(2σ − d) is exactly the mirrored rate, did not stay in that
+class. It lives in Core as `F1SpectrumStatistics.MaxF1RatePairingDistance`,
+beside the canon it delegates to, and `MirrorAnalysis` is a thin caller adding
+only the eps ratio and its empty-input policy. Six tests in
+`Core.Tests/F1/F1SpectrumStatisticsTests.cs` pin it, and four of them were
+checked against mutants rather than trusted: flipping the embedding sign kills
+four, disabling the matcher's removal kills three. The producer
 [`f1_rate_embedding_check.py`](../simulations/f1_rate_embedding_check.py) runs
-the embedded route against a direct with-removal matcher on chain and star at
-N=2..5 and reports EXACT equality on all eight rows, as the algebra requires,
-since d ↦ −d is an isometry and preserves the index order the greedy matcher
-walks. It also prints what the projection costs, the full complex distance over
-the rate-only one, which runs 1.74 to 9.56 across those rows: a per-system
-reading, not a constant, so no single factor should be quoted for it. A C# pin
-for the same identity is still missing; `MirrorAnalysis` has no test coverage at
-all, which is the gap to close next under the C#-witness-first rule. `MirrorAnalysis.Analyze` went with it,
+the same identity on chain and star at N=2..5 and reports EXACT equality on all
+eight rows, as the algebra requires, since d ↦ −d is an isometry and preserves
+the index order the greedy matcher walks.
+
+Two things fell out of doing it. The canonical complex check was itself
+returning 0.0, a perfect score, for an EMPTY spectrum, which is the same quiet
+failure the rate sibling's guard had just been written to forbid; both throw
+now. And what the projection costs is not a number: the producer measures 1.74
+to 9.56 across its eight rows, while the live witness at N=6, γ=0.5 reads 1.0.
+The projection's weakness is structural, not measured, so no factor should be
+quoted for it at all. `BlockSpectrumWitness` carries the two readings side by
+side now (`inspect --root blockspectrum`), with the reason it must not be read
+as a ratio. `MirrorAnalysis.Analyze` went with it,
 as dead code; its output string had never been emitted anywhere in the repo.
 
 `FillingThresholdCsr.ConjugationMatchFraction`

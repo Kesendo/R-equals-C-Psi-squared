@@ -90,6 +90,56 @@ public sealed class Mirror : GameObject
     public double KetFoldResidual(int p, int q)
         => LegResidual(p, q, N - p, q, (a, b) => (Complement(a), b), sign: -1, shift: Price);
 
+    // ---- where a RATE reading is still the whole truth, and where it stops being one ----
+    //
+    // The rate is the pair's OWN output, counted off the disagreement, and the block's diagonal is
+    // built from exactly that (BuildBlock). The question this answers is not whether J moves the
+    // diagonal (it cannot: the diagonal is written before J is read) but whether J moves the
+    // SPECTRUM away from the diagonal, because that is what a rate reading would then be missing.
+    //
+    // It does not always. Pin ONE side -- p in {0, N} leaves a single ket, q in {0, N} a single
+    // bra -- and every cell of the block carries the SAME disagreement, so the diagonal is a
+    // constant c times the identity. The surviving side's hops enter as +-iJ, so the block is
+    // L = c*Id + i*J*A with A REAL and SYMMETRIC, whose eigenvalues are c + i*J*mu with mu real.
+    // The real part is exactly c at EVERY coupling: on those blocks the rate reading is whole,
+    // and the Hamiltonian only turns the phase.
+    //
+    // That is 4N of the (N+1)^2 blocks (2 pinned rows + 2 pinned columns, less the 4 corners
+    // counted twice), the corners among them, where the block is 1x1 and there is nothing to
+    // turn. On the remaining (N-1)^2 both sides can hop, A is no longer the whole off-diagonal
+    // story, and the real parts leave the diagonal: there a rate reading is the empty world's
+    // answer offered in a world that has a Hamiltonian.
+    //
+    // All three tests below are ENTRY-WISE, which is why no eigensolver appears: a constant
+    // diagonal plus a purely imaginary, symmetric off-diagonal IS the proof that the real part
+    // cannot move, and each is checkable cell by cell.
+    //
+    // Returns (diagonalSpread, offDiagonalRealMass, offDiagonalAsymmetry): all three exactly 0.0
+    // is the certificate that this block's rate reading is whole at any J.
+    public (double DiagonalSpread, double OffDiagonalRealMass, double OffDiagonalAsymmetry)
+        RateReadingSplit(int p, int q)
+    {
+        var l = BuildBlock(p, q, out var kets, out var bras);
+        int dim = kets.Count * bras.Count;
+
+        double lo = double.MaxValue, hi = double.MinValue, realMass = 0.0, asym = 0.0;
+        for (int r = 0; r < dim; r++)
+            for (int c = 0; c < dim; c++)
+            {
+                if (r == c)
+                {
+                    lo = Math.Min(lo, l[r, c].Real);
+                    hi = Math.Max(hi, l[r, c].Real);
+                }
+                else
+                {
+                    realMass = Math.Max(realMass, Math.Abs(l[r, c].Real));
+                    asym = Math.Max(asym, (l[r, c] - l[c, r]).Magnitude);
+                }
+            }
+        return (hi - lo, realMass, asym);
+    }
+
     // f_P f_Q = the Klein full flip: both complemented, same q-couplings, no gauge, no price.
     public double KleinResidual(int p, int q)
     {
