@@ -15,6 +15,12 @@
 #     successors landed still list as open what the successors closed; ~300
 #     one-directional pairs at the sweep. Same reason as 4, one layer out: the
 #     opener cannot feel its successors).
+#  7. a staged line calling something "bit-exact" while quoting the threshold that
+#     refutes it. The repo's own rule (docs/GLOSSARY.md:304) has said "if a
+#     threshold accompanies it, the claim is not bit-exact" for a long time and was
+#     never enforced; the 2026-08-06 census found the same self-refuting sentence
+#     shape at ~130 lines. Negated uses are not flagged, because denying the word
+#     beside the residual is the model wording.
 # Enable once with:  git config core.hooksPath .githooks
 root="$(git rev-parse --show-toplevel)" || exit 0
 if command -v python >/dev/null 2>&1; then PY=python
@@ -27,4 +33,5 @@ else exit 0; fi
 "$PY" "$root/.githooks/check_spent_words.py"
 "$PY" "$root/.githooks/check_back_edges.py"
 "$PY" "$root/.githooks/check_coupling.py"
+"$PY" "$root/.githooks/check_bit_exact.py"
 exit 0
