@@ -5,7 +5,7 @@ dissipative spectral statistics, dip ramp plateau integrable, Heisenberg
 chain Lindblad SFF, XY-weight sector spectral, Heisenberg time palindromic
 time, R=CPsi2 spectral form factor -->
 
-**Status:** Computationally verified (Tier 2). N=2-7 (21,832 eigenvalues).
+**Status:** Computationally verified (Tier 2). N=2-7 (21,840 eigenvalues).
 **Date:** April 1, 2026
 **Script:** [spectral_form_factor.py](../simulations/spectral_form_factor.py)
 **Data:** [spectral_form_factor.txt](../simulations/results/spectral_form_factor.txt)
@@ -35,7 +35,7 @@ proven); its FFT signature fades as the system grows (~1/4^N) but never vanishes
 ## Abstract
 
 The spectral form factor (SFF) is the standard time-domain diagnostic
-for spectral statistics. Using the 21,832 complex Liouvillian eigenvalues
+for spectral statistics. Using the 21,840 complex Liouvillian eigenvalues
 from the RMT analysis (N=2 through N=7), we compute the frequency SFF
 K_freq(t) = (1/N²)|Σ exp(i·Im(λ_k)·t)|² and find:
 

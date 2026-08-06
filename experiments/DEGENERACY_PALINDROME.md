@@ -6,7 +6,7 @@ dephasing rate quantization, Pauli weight sector, spectral midpoint attractor,
 grid fraction alternation, closed form degeneracy, XOR sector boundary, open
 quantum system spectral structure, R=CPsi2 degeneracy palindrome -->
 
-**Status:** Verified (computational, N = 2 through 7, 21,844 eigenvalues)
+**Status:** Verified (computational, N = 2 through 7, 21,840 eigenvalues)
 **Date:** April 3, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -98,7 +98,7 @@ Additional structural results:
 **System:** N-site Heisenberg (XXX) spin chain, coupling J = 1, uniform
 Z-dephasing at rate γ = 0.1 per site. Open boundary conditions.
 
-**Data:** 21,844 eigenvalues across N = 2 through 7 (4^N each), computed
+**Data:** 21,840 eigenvalues across N = 2 through 7 (4^N each), computed
 via exact eigendecomposition in C# with MKL/OpenBLAS LAPACK
 (`dotnet run -c Release -- rmt`).
 

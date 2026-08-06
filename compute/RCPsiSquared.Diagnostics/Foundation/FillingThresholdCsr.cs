@@ -77,19 +77,39 @@ public static class FillingThresholdCsr
 
     /// <summary>The fraction of eigenvalues λ whose conjugate λ* is also in the spectrum (within tol). ≈ 1 ⟹
     /// conjugation-symmetric (free-fermion Δ=0, no field), ≈ 0 ⟹ broken (a field or Δ≠0). The class-A guard: a
-    /// near-zero fraction confirms no residual antiunitary, so the GinUE (class A) reference is the right target.</summary>
+    /// near-zero fraction confirms no residual antiunitary, so the GinUE (class A) reference is the right target.
+    ///
+    /// <para>The involution here is λ ↦ λ*, NOT the F1 palindrome λ ↦ −2σ − λ, so this is a different object
+    /// from <c>F1SpectrumStatistics.MaxF1PairingDistance</c> and must not be replaced by it. What it does share
+    /// with the F1 scorers is the matcher, and that is the part repaired: the match is now MULTISET matching WITH
+    /// REMOVAL, each conjugate partner consumed once. Without removal a single self-conjugate (real) eigenvalue
+    /// could answer for arbitrarily many λ, which inflates the fraction in one direction only. Both readers of
+    /// this number test it against ≈ 0, so the old defect could never have manufactured their conclusion, only
+    /// hidden a real symmetry. Do not read the repair as making the number exact in both directions:
+    /// greedy-with-removal is not a maximum-cardinality matching and is order-dependent, so on a
+    /// near-degenerate but genuinely conjugation-symmetric spectrum it can now come out BELOW 1. That
+    /// is the ≈ 1 direction this summary opens with, and it is what the repair leaves open; both live
+    /// consumers read against ≈ 0 and are unaffected.</para></summary>
     public static double ConjugationMatchFraction(int n, int wKet, int wBra, double q, double delta, double[]? field)
     {
         var spec = Matrix<Complex>.Build
             .DenseOfArray(WeightCoherenceBlock.Build(n, wKet, wBra, new Complex(q, 0), delta, field))
             .Evd().EigenValues;
         const double tol = 1e-6;
+        var taken = new bool[spec.Count];
         int matched = 0;
         for (int i = 0; i < spec.Count; i++)
         {
             var c = Complex.Conjugate(spec[i]);
+            int best = -1;
+            double bestDist = double.MaxValue;
             for (int j = 0; j < spec.Count; j++)
-                if ((spec[j] - c).Magnitude < tol) { matched++; break; }
+            {
+                if (taken[j]) continue;
+                double d = (spec[j] - c).Magnitude;
+                if (d < bestDist) { bestDist = d; best = j; }
+            }
+            if (best >= 0 && bestDist < tol) { taken[best] = true; matched++; }
         }
         return spec.Count == 0 ? double.NaN : (double)matched / spec.Count;
     }

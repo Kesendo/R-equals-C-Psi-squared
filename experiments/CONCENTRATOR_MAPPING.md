@@ -239,8 +239,8 @@ construction. What the number does **not** license is a claim of exactness: a
 genuine violation below roughly 1e-13 absolute would sit inside the same band. F1
 is proven analytically; this column is the numerical check, not the theorem.
 
-**The defective scorer is a family of at least seventeen. Six of them are
-converted; the eleven listed below still stand.** Named here rather than left quiet, because a substitution that
+**The defective scorer is a family of at least seventeen. Eight of them are
+converted; the nine listed below still stand.** Named here rather than left quiet, because a substitution that
 converts some sites and not others is worse than consistent wrongness: the
 inconsistency reads as deliberate. The count grew from "two" to "five" to this
 over three review rounds on 2026-08-05, so treat it as a floor and not as a
@@ -259,10 +259,12 @@ reads 60.8 / 66.9 / 78.0 / 72.0 / 62.2 / 68.0 ε·ρ, all six at the floor; and
 lines leaves the results file bit-identical, which is both the repair and the
 proof it was dead. That is a caution about this inventory, not just about that
 script, since the list was built by grepping for the code shape and a site's
-presence here does not establish that a table depends on it.
+presence here does not establish that a table depends on it. `v_effect_thermal.py`
+is the sixth, under Shape A below; the two C# sites are the seventh and eighth,
+and what they turned out to be is set out further down.
 
-The four that still compute the check call one implementation; the fifth has
-no check to call. The port had reached three hand-copies,
+The five that still compute the check call one implementation;
+`optimal_chain_search.py` has no check to call. The port had reached three hand-copies,
 which is the cockpit signal that a primitive was missing, so it lives in
 `simulations/framework/symmetry.py` as `fw.max_f1_pairing_distance` /
 `fw.f1_distance_in_eps`, with its blind spots pinned in
@@ -284,15 +286,45 @@ the below-centre half scored: `analytical_spectrum_verify.py`,
 `mirror_symmetry_deep.py`, `mirror_transition.py`, `n5_optimal_cavity_size.py`,
 `nested_mirror_asymptote.py`, `overnight_computation.py`.
 
-**In C#**, and this is where it matters most: `MirrorAnalysis.CheckSymmetry`
-(`compute/RCPsiSquared.Compute/MirrorAnalysis.cs`) is Shape B at a tolerance of
-0.005, and `FillingThresholdCsr.ConjugationMatchFraction`
-(`compute/RCPsiSquared.Diagnostics/`) is a first-fit variant sitting in the
-**live** Diagnostics layer with a witness on top of it.
+**The two C# sites were dealt with on 2026-08-06, and only one of them was what
+this list said it was.**
 
-The two C# sites should call `F1SpectrumStatistics.MaxF1PairingDistance`, which
-the same solution already contains; the nine remaining Python sites should
-import `fw.max_f1_pairing_distance`, which is that same check ported once.
+`MirrorAnalysis.CheckSymmetry` (`compute/RCPsiSquared.Compute/MirrorAnalysis.cs`)
+was Shape B at a tolerance of 0.005 and genuinely an F1 scorer: its centre is σ
+and its reflection d ↦ 2σ − d is F1's real part. It now calls
+`F1SpectrumStatistics.MaxF1PairingDistance`. The rates are embedded as λ = −d,
+for which −2σ − λ = −(2σ − d) is exactly the mirrored rate, so the canonical
+check computes the rate palindrome with nothing re-derived locally. The producer
+[`f1_rate_embedding_check.py`](../simulations/f1_rate_embedding_check.py) runs
+the embedded route against a direct with-removal matcher on chain and star at
+N=2..5 and reports EXACT equality on all eight rows, as the algebra requires,
+since d ↦ −d is an isometry and preserves the index order the greedy matcher
+walks. It also prints what the projection costs, the full complex distance over
+the rate-only one, which runs 1.74 to 9.56 across those rows: a per-system
+reading, not a constant, so no single factor should be quoted for it. A C# pin
+for the same identity is still missing; `MirrorAnalysis` has no test coverage at
+all, which is the gap to close next under the C#-witness-first rule. `MirrorAnalysis.Analyze` went with it,
+as dead code; its output string had never been emitted anywhere in the repo.
+
+`FillingThresholdCsr.ConjugationMatchFraction`
+(`compute/RCPsiSquared.Diagnostics/`) is **not** an F1 scorer, and the earlier
+instruction to point it at `MaxF1PairingDistance` was wrong. Its involution is
+λ ↦ λ*, complex conjugation, not λ ↦ −2σ − λ; substituting the F1 check there
+would have computed a different mathematical object. What it shares with the
+family is only the matcher, and that is what was repaired: the match is
+multiset matching with removal now. The repair is inert, which is the honest
+reading and was measured rather than assumed. Against the pre-repair first-fit
+matcher the fraction is unchanged to the printed digit on all three
+configurations probed: 100.00% on the clean block at Δ=0, 1.00% clean at Δ=1,
+and 0.00% under a random field. Only the last of those three is a configuration
+the code actually runs, since both call sites pass a disorder field; the other
+two were built for the probe. The defect never fired on the live input, and it
+could not have: without removal the fraction can only be inflated, while both
+consumers, the `FillingThresholdWitness` class-A gate and the `frac < 0.1`
+test, read it against ≈ 0.
+
+The nine remaining Python sites should import `fw.max_f1_pairing_distance`,
+which is that same check ported once.
 
 **The tolerance table below looks impossible and is not, and the reason it is
 not is the defect itself.** Tightening an acceptance window should admit fewer

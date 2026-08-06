@@ -1,0 +1,21 @@
+F1 rate-embedding check
+==============================================================================
+gamma = 0.05, J = 1.0, |Im| > 0.05, Pauli-J convention
+
+topology    N  rates        direct      embedded  equal  full complex   ratio
+------------------------------------------------------------------------------
+chain       2      6  1.054712e-15  1.054712e-15   True  1.838584e-15    1.74
+chain       3     40  7.188694e-15  7.188694e-15   True  1.437066e-14    2.00
+chain       4    202  3.022582e-14  3.022582e-14   True  9.309371e-14    3.08
+chain       5    904  2.597922e-14  2.597922e-14   True  1.457256e-13    5.61
+star        2      6  1.054712e-15  1.054712e-15   True  1.838584e-15    1.74
+star        3     40  1.104672e-14  1.104672e-14   True  3.248651e-14    2.94
+star        4    182  2.220446e-14  2.220446e-14   True  8.970870e-14    4.04
+star        5    776  2.620126e-14  2.620126e-14   True  2.504675e-13    9.56
+
+embedded route equals direct route on every row: True
+
+Reading. The 'equal' column is an EXACT equality, not a tolerance, and that
+is the point: the embedding is an isometry, so there is nothing to round.
+The 'ratio' column is what the projection to rates costs on that one system.
+It varies across these rows, so do not quote a single value for it.

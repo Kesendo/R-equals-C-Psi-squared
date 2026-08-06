@@ -73,7 +73,7 @@ Tested: 69 configurations (chain N=2-7, ring N=2-6, star N=3-6, complete N=3-4),
 | 6 | 1.000 | exact |
 | 7 | 1.000 | exact |
 
-All four N=7 chain profiles (uniform, edge concentrator, center concentrator, moderate asymmetry) give SE = 1.000. The lens extraction is exact through N=7 (d^2 = 16384, 87376 eigenvalues).
+All four N=7 chain profiles (uniform, edge concentrator, center concentrator, moderate asymmetry) give SE = 1.000. The lens extraction is exact through N=7 (d^2 = 16384, so 16,384 eigenvalues in the largest case; 21,840 over N=2..7).
 
 For non-chain topologies and other profiles (N=2-6): SE fraction > 0.98 in all cases where a lens mode exists. The lens extraction is robust across all tested configurations.
 

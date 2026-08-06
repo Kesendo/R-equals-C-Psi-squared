@@ -580,7 +580,7 @@ different runs that should not be conflated:
 | Source | Sizes | γ | Method | What is checked |
 |--------|-------|---|--------|-----------------|
 | [`rmt_eigenvalues_N6.csv`](../../simulations/results/rmt_eigenvalues_N6.csv) and [N7](../../simulations/results/rmt_eigenvalues_N7.csv) | N=6,7 chain | 0.05 | exported full spectra | every eigenvalue pairs, λ ↦ −λ − 2Σγ, at 1e-7: 4096/4096 and 16384/16384 |
-| default C# suite | N=6,7,8 star | 0.05 | dense eigendecomposition | rate pairing on the oscillatory subset, tolerance 0.005 |
+| default C# suite | N=6,7,8 star | 0.05 | dense eigendecomposition | rate pairing on the oscillatory subset, as an F1 pairing distance in absolute units |
 | [`f1_n8_n9_metrics/`](../../simulations/results/f1_n8_n9_metrics/) | N=8 chain, star, ring, K₄+4-chain | 0.5 | per-sector block spectra | all 65,536 eigenvalues paired, tolerance 1e-6 |
 
 The first row is the one a reader can re-run without any engine: the
@@ -616,12 +616,62 @@ whose worst pair is 2e-13.
 
 The claim "every one of the 65,536 eigenvalues is paired" rests on the
 block-spectrum runs, not on the default suite. The default suite scores
-mirror symmetry on the oscillatory rates only, at a loose 0.005, and reports
-its result as a pair count rather than an eigenvalue count, so it is a sanity
-check rather than a verification of the full spectrum. The block-spectrum
+mirror symmetry on the oscillatory rates only, so it is a sanity check
+rather than a verification of the full spectrum.
+
+Until 2026-08-06 that suite reported a percentage, and what it took to
+replace it is worth recording, because the percentage was not the thing
+most wrong with it.
+
+The score matched each rate to its nearest partner inside a 0.005 tolerance
+WITHOUT removal, so it was not multiplicity-aware, and it scored only the
+below-centre half of the spectrum. Replacing it with the canonical
+`F1SpectrumStatistics.MaxF1PairingDistance`, a nearest-neighbour match with
+removal, was the obvious repair and it was not the one that mattered. Two
+filters upstream in `Liouvillian.ExtractRates` decided what the metric
+could see: a `Math.Round(rate, 6)` quantized every rate onto a 1e-6 grid,
+and a `rate > 0.0001` floor discarded the slowest modes. The rounding was
+invisible to a scorer whose acceptance window was 0.005, coarser than the
+grid; against a distance reported near machine epsilon it is fatal, ten
+decades finer than the data. Measured on the star at γ=0.05, the rounding
+pinned the distance at one or two ULPs across the whole range, so the reading
+carried no N-dependence at all, while the real distance grows by a factor of
+250 from N=2 to N=6. The floor is the more dangerous of
+the two: the reflection is d ↦ 2σ − d, so cutting the low-d end while
+keeping the high-d end deletes one member of a pair. It is silent at
+γ=0.05, where the smallest rate is 2γ, and at γ=3e-5 on the N=4 star it
+drops 36 of 182 rates and reports 1.2e-4 on a system where F1 holds
+exactly. Both were removed with the scorer; no published rate count moves,
+because at γ=0.05 the floor was never dropping anything.
+
+With all three fixed the suite reports an absolute distance, and on the
+star at γ=0.05 it reads 5.0e-16 / 6.7e-15 / 1.6e-14 / 4.3e-14 / 1.3e-13
+over N=2..6, rising with N as a backward error should. That number is
+published in absolute units deliberately. A ratio to eps·max|rate| is also
+computed, but it is a scale-free convenience and not a solver floor: the
+backward-error scale of `zgeev` on a strongly non-normal L is eps·‖L‖
+amplified by the eigenvalue condition number, ‖L‖ tracks J rather than γ,
+and the ratio is not constant across N, so there is no law here to gate
+against.
+
+Two things this paragraph asserted in its first draft and that measurement
+refuted, kept because the corrections are the useful part. The first was
+that the old scorer saturated, tightening the tolerance driving the score
+UP. That happens elsewhere in the scorer family and it does not happen
+here: run at 5e-3, 1e-3, 1e-4, 1e-6, 1e-9 and 1e-12 on the suite's own
+N=4, 5 and 6 star rates it is flat at 100% throughout. The mechanism here
+was the rounding, not the tolerance. The second was that the star's rates
+are exact integer multiples of γ. Only the two endpoints are: the rates run
+from 2γ to 2(N−1)γ exactly, and the whole rate set holds 6 distinct values at
+N=3, 13 at N=4, 72 at N=5 and 123 at N=6, of which only 2, 3, 4 and 5
+respectively are integer multiples, the two endpoints among them. The rest are J-dependent and irrational
+in units of γ.
+
+(The committed `csharp_compute.txt` still holds the pre-change percentage
+log; it regenerates only with the ~10.6 h N=8 run.) The block-spectrum
 runs report max pairing distances of 4.2e-13 (chain), 2.6e-13 (ring),
 3.2e-13 (star) and 2.6e-7 (the disconnected graph) against a 1e-6 tolerance.
-That last one passes with a margin of 5 while the others pass with a margin
+That last one passes with a margin of 3.9 while the others pass with a margin
 of several million; the disconnected graph is the hardest case here and worth
 watching if this is ever pushed further.
 

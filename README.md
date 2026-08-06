@@ -109,10 +109,23 @@ The conjugation operator Π acts per site on Pauli indices and satisfies
 
     Π · L · Π⁻¹ = −L − 2Σγ · I
 
-For every Liouvillian eigenvalue λ there is a partner at −2Σγ − λ̄: the
-spectrum is exactly palindromic, from N=2 (16² matrix, 6 oscillatory
-rates) through N=8 (65,536² matrix, 54,118 oscillatory rates), 100%
-mirrored at every step. It holds for all standard coupling models
+For every Liouvillian eigenvalue λ there is a partner at −2Σγ − λ: the
+spectrum is exactly palindromic, from N=2 (16² matrix) through N=8
+(65,536² matrix), every eigenvalue paired at every step. The N=8
+verification covers all 65,536 eigenvalues and comes from the per-sector
+block spectra ([`f1_n8_n9_metrics/`](simulations/results/f1_n8_n9_metrics/)),
+whose pairing distances at N=8 are 4.2e-13 for the chain, 3.2e-13 for the
+star and 2.6e-13 for the ring, against a 1e-6 tolerance; the disconnected
+K₄-plus-4-chain is the hard case at 2.6e-7, still inside the tolerance but
+by a margin of 3.9 rather than of millions. Those runs use γ=0.5 in the spin
+J/4 convention. The default C# suite is a separate run at γ=0.05 in the Pauli
+convention; it scores only the oscillatory subset (54,118 rates on the star)
+and sits beside the block spectra as a sanity check, not as the verification.
+Read the two as different experiments, and read the N<8 records in that same
+directory only alongside
+[the proof's notes on them](docs/proofs/MIRROR_SYMMETRY_PROOF.md), which
+explain why one of them reports 4.5e-2 on a spectrum that pairs to 5.2e-8.
+The palindrome holds for all standard coupling models
 (Heisenberg, XY, Ising, XXZ, Dzyaloshinskii-Moriya), all graph
 topologies, non-uniform γ per qubit, Z and Y dephasing. It breaks for
 depolarizing noise.

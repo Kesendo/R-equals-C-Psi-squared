@@ -101,7 +101,7 @@ if (!n8Only && !validateOnly)
 // BENCHMARK N=2 to N=7
 // ============================================================
 Log("\n### BENCHMARK: Liouvillian eigendecomposition timing");
-Log($"{"N",4} | {"Matrix",8} | {"Build(ms)",10} | {"Eigen(ms)",10} | {"Total(ms)",10} | {"Rates",7} | {"Mirror",7}");
+Log($"{"N",4} | {"Matrix",8} | {"Build(ms)",10} | {"Eigen(ms)",10} | {"Total(ms)",10} | {"Rates",7} | {"F1 dist",10}");
 Log(new string('-', 70));
 
 for (int nQ = 2; nQ <= 7; nQ++)
@@ -126,7 +126,7 @@ for (int nQ = 2; nQ <= 7; nQ++)
 
         var mirror = MirrorAnalysis.CheckSymmetry(rates, nQ * gamma);
         rateCounts[nQ] = rates.Count;
-        Log($"{nQ,4} | {d2,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.Score,7:P0}");
+        Log($"{nQ,4} | {d2,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.MaxPairingDistance,10:E2}");
     }
     else
     {
@@ -147,7 +147,7 @@ for (int nQ = 2; nQ <= 7; nQ++)
 
             var mirror = MirrorAnalysis.CheckSymmetry(rates, nQ * gamma);
             rateCounts[nQ] = rates.Count;
-            Log($"{nQ,4} | {d2,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.Score,7:P0}");
+            Log($"{nQ,4} | {d2,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.MaxPairingDistance,10:E2}");
         }
         else
         {
@@ -315,9 +315,9 @@ if (mklAvailable)
             var mirror = MirrorAnalysis.CheckSymmetry(rates, nQ8 * gamma);
             rateCounts[nQ8] = rates.Count;
             Log($"\n  N=8 RESULT:");
-            Log($"  {nQ8,4} | {d2_8,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.Score,7:P0}");
+            Log($"  {nQ8,4} | {d2_8,8} | {buildMs,10} | {eigenMs,10} | {buildMs + eigenMs,10} | {rates.Count,7} | {mirror.MaxPairingDistance,10:E2}");
             Log($"  Min rate: {rates.Min() / gamma:F3}g  Max rate: {rates.Max() / gamma:F3}g  BW: {(rates.Max() - rates.Min()) / gamma:F3}g");
-            Log($"  Palindrome: {mirror.Score:P1} ({mirror.Matched} pairs matched)");
+            Log($"  F1 pairing distance: {mirror.MaxPairingDistance:E3} over {mirror.Count} rates ({mirror.DistanceInEps:F1} x eps*max|rate|, a scale-free ratio, NOT the solver floor)");
         }
     }
     catch (OutOfMemoryException ex)
@@ -347,7 +347,7 @@ Log("\n### TOPOLOGY SURVEY: Star, Chain, Ring, Complete, Tree");
 foreach (int nQ in new[] { 4, 5, 6 })
 {
     Log($"\n  N={nQ}:");
-    Log($"  {"Topo",10} | {"Rates",7} | {"Min/g",7} | {"Max/g",7} | {"BW/g",7} | {"Mirror",7} | {"ms",7}");
+    Log($"  {"Topo",10} | {"Rates",7} | {"Min/g",7} | {"Max/g",7} | {"BW/g",7} | {"F1 dist",10} | {"ms",7}");
     Log("  " + new string('-', 65));
 
     var gammas = Enumerable.Repeat(gamma, nQ).ToArray();
@@ -375,7 +375,7 @@ foreach (int nQ in new[] { 4, 5, 6 })
             {
                 var mirror = MirrorAnalysis.CheckSymmetry(rates, nQ * gamma);
                 Log($"  {name,10} | {rates.Count,7} | {rates.Min() / gamma,7:F3} | {rates.Max() / gamma,7:F3} | " +
-                    $"{(rates.Max() - rates.Min()) / gamma,7:F3} | {mirror.Score,7:P0} | {ms,7}");
+                    $"{(rates.Max() - rates.Min()) / gamma,7:F3} | {mirror.MaxPairingDistance,10:E2} | {ms,7}");
             }
         }
         catch (Exception ex) { Log($"  {name,10} | FAILED: {ex.Message}"); }
@@ -410,7 +410,7 @@ foreach (int nQ in new[] { 4, 5, 6 })
             var symSum = MirrorAnalysis.CheckSymmetry(rates, sumG);
             Log($"  N={nQ} J=[{string.Join(",", J.Select(j => j.ToString("F2")))}] " +
                 $"g=[{string.Join(",", G.Select(g => g.ToString("F3")))}]");
-            Log($"    sum(g)={sumG:F4}, mid={mid:F5}, sym@sum={symSum.Score:P0}, sum==mid={Math.Abs(sumG - mid) < 0.001}");
+            Log($"    sum(g)={sumG:F4}, mid={mid:F5}, F1@sum={symSum.MaxPairingDistance:E2}, sum==mid={Math.Abs(sumG - mid) < 0.001}");
         }
     }
 }

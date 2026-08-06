@@ -402,17 +402,34 @@ public static class Liouvillian
         return MklDirect.EigenvaluesLeftRightDirectRaw(columnMajorData, n, log);
     }
 
+    /// <summary>
+    /// The oscillatory decay rates d = −Re λ of the modes with |Im λ| > <paramref name="threshold"/>.
+    ///
+    /// <para>Two filters that used to sit here were removed on 2026-08-06, both because they
+    /// destroyed the F1 palindrome reading downstream (<see cref="MirrorAnalysis"/>).</para>
+    ///
+    /// <para>A <c>Math.Round(rate, 6)</c> quantized every rate onto a 1e-6 grid. That was
+    /// invisible to the old percentage scorer, whose acceptance window was 0.005, i.e. coarser
+    /// than the grid; it is fatal to a distance metric reported against machine epsilon, ten
+    /// decades finer. Measured on the star at γ=0.05, the rounding pinned the F1 pairing
+    /// distance at one or two ULPs across the whole range, so the reading carried no
+    /// N-dependence at all, while the true distance grows by a factor of 250 from N=2 to N=6.
+    /// The metric was reading its own rounding.</para>
+    ///
+    /// <para>A <c>rate > 0.0001</c> floor discarded the slowest modes. That cut is not
+    /// F1-covariant: the reflection is d ↦ 2σ − d, so removing the low-d end while keeping the
+    /// high-d end deletes one member of a pair and fabricates a violation. It is silent at the
+    /// suite's γ=0.05, where the smallest rate is 2γ = 0.1, and it bites below γ ≈ 5e-5: at
+    /// γ=3e-5 on the N=4 star it drops 36 of 182 rates and reports 1.2e-4 on a system where F1
+    /// holds exactly. Removing it leaves every published rate count unchanged.</para>
+    /// </summary>
     private static List<double> ExtractRates(IEnumerable<Complex> evals, double threshold)
     {
         var rates = new List<double>();
         foreach (var ev in evals)
         {
             if (Math.Abs(ev.Imaginary) > threshold)
-            {
-                double rate = -ev.Real;
-                if (rate > 0.0001)
-                    rates.Add(Math.Round(rate, 6));
-            }
+                rates.Add(-ev.Real);
         }
         rates.Sort();
         return rates;

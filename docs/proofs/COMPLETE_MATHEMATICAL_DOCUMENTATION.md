@@ -420,7 +420,7 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | Relay improvement | +83% | [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) |
 | V-shape improvement | +124% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
 | DD M+Recv improvement | +132% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
-| N=8 eigenvalues (100% paired) | 65,536 | [C# Compute](../../compute/RCPsiSquared.Compute/) |
+| N=8 eigenvalues (100% paired) | 65,536 | [block spectra](../../simulations/results/f1_n8_n9_metrics/) (RCPsiSquared.Core; the default C# Compute suite scores only the 54,118-rate oscillatory subset) |
 | Mediator bridge error | 1.41e-13 | [mediator_bridge.py](../../simulations/mediator_bridge.py) |
 | γ channel capacity (N=5, 1%) | 15.5 bits | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
 | SVD information modes | 5 | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |

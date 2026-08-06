@@ -191,7 +191,7 @@
 **Proposed Status:** partially-resolved
 **Confidence:** medium
 **Resolving documents:**
-- `experiments/CONCENTRATOR_GEOMETRY.md`: SE sector extraction exact through N=7 (87,376 eigenvalues); SE = 1.000 for all four N=7 chain profiles
+- `experiments/CONCENTRATOR_GEOMETRY.md`: SE sector extraction exact through N=7 (21,840 eigenvalues over N=2..7); SE = 1.000 for all four N=7 chain profiles
 **Rationale:** Exact SE sector locking is verified through N=7, but the asymptotic question (does protection hold as N/2^N -> 0?) is explicitly left open. The empirical evidence covers finite N only.
 **Search terms used:** "sector locking", "SE sector", "exponentially shrinking", "lens protection", "N-scaling"
 

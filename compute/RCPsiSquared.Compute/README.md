@@ -1,12 +1,18 @@
 # RCPsiSquared.Compute
 
-C# compute engine for Liouvillian spectral analysis of open quantum networks (2-8 qubits). Constructs the Lindblad superoperator, diagonalizes it via native LAPACK, and verifies palindromic mirror symmetry of the decay rate spectrum.
+C# compute engine for Liouvillian spectral analysis of open quantum networks (2-8 qubits). Constructs the Lindblad superoperator, diagonalizes it via native LAPACK, and scores the palindromic mirror symmetry of the decay rate spectrum.
 
 ## What it does
 
-This engine answered the central question of the R=CPsi^2 project: is the Liouvillian decay spectrum exactly palindromic? It diagonalizes the full superoperator for N=2 through N=8 (matrices up to 65536x65536, 87,376 eigenvalues total) and confirms 100% palindromic symmetry across all tested topologies, coupling models, and noise configurations. Zero exceptions.
+This engine is where the R=CPsi^2 project's central question was first put to a machine: is the Liouvillian decay spectrum exactly palindromic? It diagonalizes the full superoperator for N=2 through N=8 (matrices up to 65536x65536) and finds the palindrome intact across every topology, coupling model and noise configuration it runs.
 
-The results feed directly into the [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md), which provides the analytical explanation via the conjugation operator Pi. This engine supplied the numerical verification that motivated and validated that proof.
+Two modes answer that question at different strengths, and only one of them is the default suite, so it is worth being explicit about which run carries which evidence.
+
+The **default suite** scores the OSCILLATORY RATE SUBSET, d = −Re λ for the modes with |Im λ| > 0.05, and reports an F1 pairing distance in absolute units through the canonical check `F1SpectrumStatistics.MaxF1PairingDistance`. That is a projection, the imaginary parts discarded, so it is a sanity check rather than a verification; its N=8 row scored 54,118 oscillatory rates of a star, not the full spectrum.
+
+The **`rmt` mode** exports the complete spectra for N=2..7 as CSV, and those are the artifact behind the full-eigenvalue pairing at those sizes (4,096/4,096 at N=6 and 16,384/16,384 at N=7, at 1e-7): exported here, checked downstream. At N=8 the full-spectrum verification is the per-sector block spectra in [`f1_n8_n9_metrics/`](../../simulations/results/f1_n8_n9_metrics/), computed by RCPsiSquared.Core rather than by this project. Together those cover the project's canonical 87,376 = Σ4^N over N=2..8. [`MIRROR_SYMMETRY_PROOF.md`](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md) sets out which row of evidence carries what, and is the place to start.
+
+The results feed directly into the [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md), which provides the analytical explanation via the conjugation operator Pi. This engine supplied the numerics that motivated that proof, and its exported spectra remain part of the evidence behind it.
 
 For time-domain dynamics (information flow, relay protocols, sacrifice-zone formula scaling), see [RCPsiSquared.Propagate](../RCPsiSquared.Propagate/README.md).
 
@@ -130,7 +136,7 @@ dotnet run -c Release -- ptf
 ```
 
 `eigvec`, `lens`, and `ptf` print progress to stdout and write their artifacts under `simulations/results/`. Results are written to:
-- `simulations/results/csharp_compute.txt` (main suite)
+- `simulations/results/csharp_compute.txt` (main suite). The committed copy predates the switch from a percentage score to the F1 pairing distance, so its `Palindrome: 100,0 %` line is a log of the old scorer and no longer reproducible; regenerating it means re-running the N=8 eigendecomposition, about 10.6 hours.
 - `simulations/results/rmt_eigenvalues_N{2..7}.csv` (RMT export, Chain); `rmt_eigenvalues_{star,ring,complete}_N{3..6}.csv` (other topologies)
 - `simulations/results/cavity_modes_zero_noise.txt` (cavity modes)
 - `simulations/results/cavity_modes_tests.txt` (cavity tests)
@@ -146,7 +152,7 @@ dotnet run -c Release -- ptf
 | Topology.cs | Star, Chain, Ring, Complete, Tree, ChainXY (PTF convention) bond generators |
 | Liouvillian.cs | Lindblad superoperator: three build paths by N. `GetAllEigenvalues()` for RMT export, `GetAllEigenvaluesAndVectors()` for eigvec, `GetAllEigenvaluesLeftRightMklRaw()` for PTF, `GetCavityModes()` for zero-noise eigenfrequencies |
 | LensAnalysis.cs | Slow-mode lens pipeline: extracts the optimal single-excitation state from the slowest eigenmode (`RunFullLensPipeline`, `FindSlowModes`) |
-| MirrorAnalysis.cs | Mirror symmetry scoring and spectral statistics |
+| MirrorAnalysis.cs | F1 pairing distance of the rate spectrum, through the canonical `F1SpectrumStatistics.MaxF1PairingDistance` in Core (rates embedded as λ = −d) |
 | Program.cs | Dispatch: default suite (benchmark + topology survey + stress + N=8), `validate`, `n8`, `rmt`, `cavity`, `eigvec`, `lens`, `ptf` |
 
 The direct LAPACK P/Invoke layer (LP64 + ILP64 with backend auto-detection) used to live here as `MklDirect.cs`; it was promoted to [`RCPsiSquared.Core/Numerics/MklDirect.cs`](../RCPsiSquared.Core/Numerics/MklDirect.cs) once Core's block-spectrum bridge needed it, and is referenced from there.
@@ -193,7 +199,7 @@ All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 
 | [Cavity Modes Formula](../../experiments/CAVITY_MODES_FORMULA.md) | Zero-noise eigenfrequencies N=2-7. Closed-form via Clebsch-Gordan. Topology comparison |
 | [IBM Cavity Spectral](../../experiments/IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Sacrifice zone protects cavity modes at 2.81x. Real IBM T2* data |
 | [Cavity Mode Localization](../../experiments/CAVITY_MODE_LOCALIZATION.md) | Eigenvector Pauli decomposition: protected modes are center-localized (r = 0.994) |
-| [Random Matrix Theory](../../experiments/RANDOM_MATRIX_THEORY.md) | RMT analysis of 21,832 eigenvalues (N=2-7): Poisson level statistics, chiral symmetry class AIII. Uses `rmt` CSV export |
+| [Random Matrix Theory](../../experiments/RANDOM_MATRIX_THEORY.md) | RMT analysis of 21,840 eigenvalues (N=2-7): Poisson level statistics, chiral symmetry class AIII. Uses `rmt` CSV export |
 | [PTF Palindrome-Breaking Perturbations](../../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md) | Full left+right eigendecomposition at N=7 (XY chain, PTF convention) for EP / channel-uniform mode geometry. Uses `ptf` binary export |
 
 ## See also
