@@ -4589,11 +4589,17 @@ public static class OpenArcsRegistry
                 "this entry said BOTH, and a review caught it). diagnose_hardware.py:245 now prints the " +
                 "measured 'BALANCED (rel asymmetry ...)' instead of the literal 'bit-exact 0'; no test broke, " +
                 "because the test asserted on verdict.split(' ')[0] and never on the literal. But the GENERATOR " +
-                "is the construct 'a rel < 1e-10 branch emitting the word', and it survives at five more " +
+                "is the construct 'a rel < 1e-10 branch emitting the word', and it survives at three " +
                 "committed Python sites (f112_block_cpsi_analysis.py:531, f112_hardware_lens_multi.py:443, " +
-                "carbon_realistic_sweep.py:322, q6_hidden_q_construction.py:151, " +
-                "water/proton_wire_crossing.py:338) plus the four C# witness doc-comments, ALL running through " +
-                "the same saturated denominator described below. Fix the denominator once, then these follow. " +
+                "carbon_realistic_sweep.py:322). TWO SITES THIS ENTRY USED TO NAME HERE ARE NOT THIS FAMILY, " +
+                "checked 2026-08-06 by opening them: q6_hidden_q_construction.py:151 is a tolerance on the " +
+                "Q-palindrome residual relative to ||RHS|| and has no asym variable at all, and " +
+                "water/proton_wire_crossing.py:338 gates the F1 palindrome residual norm. Both are genuine " +
+                "bit-exact-vocabulary leaves, neither runs through the F112 denominator, and neither will " +
+                "follow from fixing it. 'Fix the denominator once, then these follow' was ALSO wrong as a " +
+                "prediction: the denominator was fixed in the C# definition and the two framework workflows " +
+                "on 2026-08-06 and the twelve one-shot Python sites did NOT follow, because nothing links " +
+                "them. " +
                 "chain_gap_sector_diagnostic.py now prints the deviation as :.3e instead of a :.3f percentage, " +
                 "and the script was RUN so its consumers carry measured numbers rather than a reworded " +
                 "adjective: the Absorption-Theorem agreement is 1.8e-15 / 6.8e-14 / 1.0e-13 at N=4/5/6, which " +
@@ -4616,12 +4622,27 @@ public static class OpenArcsRegistry
                 "permitted integer or permutation route, the word 'tolerance' inside the phrase 'no rounding " +
                 "tolerance', and 300-character lines where the word and the number belong to different claims. " +
                 "TWO FINDINGS FROM THE F112 SCOUT THAT ARE NOT VOCABULARY, both re-measured from below and both " +
-                "bigger than the mislabel that surfaced them. (1) THE GATE IS SATURATED AND THE RATIO IS NOT A " +
-                "RATIO: rel_asymmetry = |asym| / max(||M||^2, 1e-15), but M is the F81 residual, which VANISHES " +
-                "for Heisenberg + Z-dephasing, so ||M||^2 is ~1e-31 at N=2..5 and the 1e-15 FLOOR is what the " +
-                "division actually uses. In that regime rel < 1e-10 is satisfied by any |asym| < 1e-25, seven " +
-                "orders above the float noise, so the flagship BALANCED verdict is a threshold on a matrix that " +
-                "is identically zero. (2) THE EXACTNESS IS A PROPERTY OF THE INPUTS, NOT OF THE ROUTE: asym is " +
+                "bigger than the mislabel that surfaced them. (1) THE GATE WAS SATURATED AND THE RATIO WAS NOT " +
+                "A RATIO, FIXED 2026-08-06 IN THE DEFINITION, STILL LIVE IN TWELVE ONE-SHOT SCRIPTS: " +
+                "rel_asymmetry = |asym| / max(||M||^2, 1e-15), but M is the F81 residual, which VANISHES " +
+                "for Heisenberg + Z-dephasing (||M||^2 is exactly 0.0 at N=2 and ~1e-31 at N=3..5), so the " +
+                "1e-15 FLOOR is what the division used. In that regime rel < 1e-10 is satisfied by any " +
+                "|asym| < 1e-25. THE SHARPER FORM, and the reason ||M||^2 was the wrong scale even where it " +
+                "does NOT vanish: asym can only see M_anti, and M_anti = L_{H_odd} vanishes for EVERY " +
+                "Pi^2-even H, including non-truly ones like YZ+ZY where ||M||^2 = 256 at N=2. There the old " +
+                "ratio divided by 256 and the vacuity was invisible. Two of the five standard witnesses are " +
+                "degenerate, not one. PolarityCoordinatesResult now divides by the polarity content " +
+                "||M_anti||^2 = ||M_+||^2 + ||M_-||^2 and carries IsPolarityDegenerate plus the exact " +
+                "structural companion HasNoPi2OddPart (||L_HOdd||^2 == 0, bilinear path only). PRIOR ART THE " +
+                "REPO ALREADY HELD AND THE FIX RE-DERIVED: simulations/polarity_step5_stress.py:86 has always " +
+                "divided by norm_plus_i + norm_minus_i, and it is the Step-5 verification cited by " +
+                "PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md. CONVERSION, so no legacy number needs a re-run: " +
+                "||M||^2/||M_anti||^2 = 2 + 4r by F83s anti-fraction, measured exactly 2.0 at r=0 and 6.0 at " +
+                "r=1 for N=2,3,4, on the pure-dephasing bilinear family ONLY (with T1 the factor drifts, " +
+                "2.000266 on the two-site Z-drive witness). STILL OPEN on this axis: the twelve one-shot " +
+                "scripts, and the four committed sites quoting numbers from them " +
+                "(F112_HARDWARE_LENS_KINGSTON.md:91,:93,:100, f113_break_formula_derivation.py:11, " +
+                "reflections/POLARITY_COORDINATES.md:165). (2) THE EXACTNESS IS A PROPERTY OF THE INPUTS, NOT OF THE ROUTE: asym is " +
                 "exactly 0.0 on every bilinear-Pauli H the repo tests, but random Hermitian H inside F112's " +
                 "TYPED SCOPE (per-site Z c-ops, random gamma) give a nonzero asymmetry in a few percent of " +
                 "draws. DO NOT QUOTE A COUNT: an earlier draft of this entry wrote '3/60 at N=3 and 2/60 at " +
@@ -4631,8 +4652,14 @@ public static class OpenArcsRegistry
                 "without pinning the ensemble, since it scales with the drawn H norm. So f112_f87_orthogonality.py's three " +
                 "'assert asymmetry == 0.0' pass by the domain they sample, not by construction. This is the " +
                 "standing 'sampling hides an isolated exception' shape landing on the F112 axis, and it means " +
-                "the three Lindblad*PiBalanceWitness classes (BitA, BitB, BitBY: three siblings, not two) need " +
-                "their DENOMINATOR fixed before their wording, since retuning 1e-10 over a floor buys nothing.",
+                "the three Lindblad*PiBalanceWitness classes (BitA, BitB, BitBY: three siblings, not two) needed " +
+                "their DENOMINATOR fixed before their wording; done 2026-08-06. A THIRD FINDING FELL OUT OF " +
+                "doing it: two sibling tests certified a zero as 'substantive' using ||M||^2, which cannot " +
+                "see substance. Measured: LindbladBitAPiBalanceWitnessTests had ||M||^2 = 0.32 with " +
+                "||M_anti||^2 EXACTLY 0, and PiDecompositionDephaseLetterTests ||M||^2 = 1.28 with " +
+                "||M_anti||^2 exactly 0. Both guarded assertions that are vacuous. Repaired, and one test " +
+                "renamed Substantive_ -> Vacuous_. The right instrument was already in the same file, one " +
+                "test below: Y_Dephase_Equivariance_Substantive_M_Anti guards with ||M_anti||, not ||M||.",
             NextStep:
                 "TRIAGE BY THE OBJECT, NOT BY THE SENTENCE. The word splits cleanly by what kind of quantity " +
                 "the row is about, which sorts the bulk without opening every backing assertion: integers, " +

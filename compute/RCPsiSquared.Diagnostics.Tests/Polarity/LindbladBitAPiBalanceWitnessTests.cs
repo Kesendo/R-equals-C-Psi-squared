@@ -105,15 +105,27 @@ public class LindbladBitAPiBalanceWitnessTests
     }
 
     [Fact]
-    public void Substantive_X_Dephase_Asymmetry_Zero_For_Bit_A_Homogeneous_Heisenberg_At_N_Equals_2()
+    public void Vacuous_X_Dephase_Asymmetry_Zero_For_Bit_A_Homogeneous_Heisenberg_At_N_Equals_2()
     {
-        // Hardening test: assert M is non-trivial so the bit-exact 0 assertion is substantive.
+        // This test used to "harden" the zero below by asserting ‖M‖² > 1e-6, on the reading
+        // that a non-trivial M makes the zero substantive. Measured 2026-08-06, that reading
+        // is wrong here, and the numbers are the argument: ‖M‖² = 3.200000e-1, comfortably
+        // over the old bar, while ‖M_anti‖² is EXACTLY 0. The asymmetry is a difference of
+        // the two halves of M_anti and can see nothing else, so ‖M‖² cannot certify that a
+        // zero asymmetry means anything; here it does not. Keep the ‖M‖² line as the record
+        // of that (it is a true fact about this fixture, just not a hardening), and assert
+        // the honest reading beside it.
         var w = LindbladBitAPiBalanceWitness.StandardSet(MakeChain())[0];
         var pol = w.Polarity.Value;
         Assert.True(pol.MNormSquared > 1e-6,
-            $"M should be non-trivial; got ‖M‖² = {pol.MNormSquared:E3}");
-        Assert.True(w.ActualRelativeAsymmetry < 1e-12,
-            $"F112-X in-scope rel asym should be bit-exact 0; got {w.ActualRelativeAsymmetry:E3}");
+            $"M is non-trivial on this fixture; got ‖M‖² = {pol.MNormSquared:E3}");
+        Assert.True(pol.MAntiNormSquared == 0.0,
+            $"Heisenberg is Π²-even ⇒ no polarity content; got ‖M_anti‖² = {pol.MAntiNormSquared:E3}");
+        Assert.True(w.IsDegenerate,
+            "so the zero below is 0 = 0, not a balance the tolerance earned; this witness is "
+            + "NOT a substantive test of F112-X and must not be cited as one");
+        Assert.True(w.ActualRelativeAsymmetry == 0.0,
+            $"degenerate ⇒ exactly 0.0 by construction; got {w.ActualRelativeAsymmetry:E3}");
     }
 
     [Fact]

@@ -62,24 +62,29 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
     public bool ExpectedBalanced => ExpectedVerdict == "BALANCED";
 
     /// <summary>Relative-asymmetry threshold below which the witness reads as
-    /// <c>"BALANCED"</c>. Default 1e-10 matches the bit-exact balance scale of F112-X's
-    /// typed scope.</summary>
+    /// <c>"BALANCED"</c>, applied to
+    /// <see cref="PolarityCoordinatesResult.RelativeAsymmetry"/>, the contrast ratio
+    /// |asymmetry| / ‖M_anti‖². Default 1e-10 matches the bit-exact balance scale of F112-X's
+    /// typed scope. Where the witness is polarity-degenerate
+    /// (<see cref="IsDegenerate"/>) the threshold decides nothing: both halves are the zero
+    /// matrix, so the ratio is exactly 0.0.</summary>
     public double Tolerance { get; }
 
     /// <summary>Lazily computed polarity decomposition result. First access triggers the
     /// L-build and Π_X-decomposition via <see cref="PolarityCoordinates.Decompose"/>.</summary>
     public Lazy<PolarityCoordinatesResult> Polarity => _polarity;
 
-    /// <summary>Actual relative asymmetry: |Asymmetry| / max(‖M‖², 1e-15). Forces lazy
-    /// evaluation of <see cref="Polarity"/>.</summary>
-    public double ActualRelativeAsymmetry
-    {
-        get
-        {
-            var pol = _polarity.Value;
-            return Math.Abs(pol.Asymmetry) / Math.Max(pol.MNormSquared, 1e-15);
-        }
-    }
+    /// <summary>Actual relative asymmetry, the contrast ratio
+    /// <see cref="PolarityCoordinatesResult.RelativeAsymmetry"/>. Forces lazy evaluation of
+    /// <see cref="Polarity"/>.</summary>
+    public double ActualRelativeAsymmetry => _polarity.Value.RelativeAsymmetry;
+
+    /// <summary>True when this witness has no polarity content to balance: both halves of
+    /// M_anti are the zero matrix, so the asymmetry is 0 − 0 and
+    /// <see cref="ActualVerdict"/> reads <c>"BALANCED"</c> vacuously. See
+    /// <see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/>. Forces lazy
+    /// evaluation.</summary>
+    public bool IsDegenerate => _polarity.Value.IsPolarityDegenerate;
 
     /// <summary>Actual verdict: <c>"BALANCED"</c> if
     /// <see cref="ActualRelativeAsymmetry"/> ≤ <see cref="Tolerance"/>, else
@@ -187,6 +192,15 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
             yield return new InspectableNode("agreement", summary: Matches ? "PASS" : "FAIL");
             yield return InspectableNode.RealScalar(
                 "relative asymmetry", ActualRelativeAsymmetry, format: "E6");
+            yield return InspectableNode.RealScalar(
+                "polarity content ‖M_anti‖²", Polarity.Value.MAntiNormSquared, format: "E6");
+            yield return new InspectableNode("polarity-degenerate",
+                summary: IsDegenerate
+                    ? "yes: both halves are the zero matrix, so the balance is vacuous "
+                      + "(H has no Π²-odd part); the tolerance decides nothing here"
+                    : "not detected: ‖M_anti‖² is non-zero, but this flag is sufficient and "
+                      + "not necessary, so read this as \"undecided\" rather than as "
+                      + "\"there is polarity content\"");
             yield return InspectableNode.RealScalar("tolerance", Tolerance, format: "E2");
             yield return new InspectableNode("γ_T1", summary: FormatGamma(GammaT1));
             yield return new InspectableNode("terms",

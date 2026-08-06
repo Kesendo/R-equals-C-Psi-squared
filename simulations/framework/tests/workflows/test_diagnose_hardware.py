@@ -322,20 +322,50 @@ def test_diagnose_hardware_F112_lens_reads_balanced_on_z_dephase():
         # bit_b-homogeneous). Default gamma_z=0.1 with no T1, so we're in the typed
         # Tier1Derived regime.
         #
-        # The 1e-10 gate below is SATURATED and is kept only as a regression pin,
-        # measured 2026-08-06. Two readings, neither of which the gate can see:
-        # the asymmetry on these bilinear-Pauli inputs is exactly 0.0, so an exact
-        # comparison is available here; and inside F112's typed scope more widely it
-        # is NOT exact: random Hermitian H give a nonzero asymmetry in a few percent
-        # of draws (2..5 of 60 at N=3, 0..5 at N=4 over five master seeds, so the count
-        # is seed noise; the ~1e-17 relative size is the stable part). So exactness
-        # here is a property of these inputs. Worse, rel_asymmetry is not a ratio in
-        # this regime at all: M is the F81 residual, which vanishes for Heisenberg +
-        # Z-dephasing, so ||M||^2 ~ 1e-31 and the max(..., 1e-15) floor is what the
-        # division actually uses. Tightening this number without fixing the
-        # denominator would buy nothing; the arc bit_exact_vocabulary carries it.
+        # The denominator was fixed on 2026-08-06: rel_asymmetry now divides by the
+        # polarity content ||M_anti||^2 rather than by max(||M||^2, 1e-15), which was
+        # saturated wherever M vanishes. What the gate still cannot see, and what the
+        # 'polarity_degenerate' assertion below is here to expose: on these inputs the
+        # asymmetry is exactly 0.0, so an exact comparison is available; but inside
+        # F112's typed scope more widely it is NOT exact, random Hermitian H giving a
+        # nonzero asymmetry in a few percent of draws (the COUNT is seed noise and must
+        # not be quoted; the ~1e-17 relative size is the stable part). Exactness here is
+        # a property of these inputs. The arc bit_exact_vocabulary carries the rest.
         assert row['verdict'] == 'BALANCED', \
             f"{cat}: expected BALANCED verdict on standard chain.L, got {row['verdict']} " \
             f"(asymmetry={row['asymmetry']}, rel={row['rel_asymmetry']})"
-        assert abs(row['rel_asymmetry']) < 1e-10, \
-            f"{cat}: F112 rel asymmetry {row['rel_asymmetry']} exceeds the saturated 1e-10 pin"
+        # Exact route: the asymmetry is a difference of two float sums that come out
+        # bit-identical on these inputs. Compare exactly rather than gating (convention
+        # case 1), so a regression shows up as a value, not as a threshold near-miss.
+        assert row['rel_asymmetry'] == 0.0, \
+            f"{cat}: F112 rel asymmetry is {row['rel_asymmetry']}, expected exactly 0.0"
+        # WHICH kind of zero it is, is not decidable from ||M_anti||^2 alone, and that is
+        # itself the finding. Measured here at N=3, gamma_z=0.1: the two Pi^2-EVEN rows
+        # carry NO polarity content as physics (H_odd = 0, so M_anti = L_{H_odd} = 0 by
+        # F81), yet ||M_anti||^2 comes out at ~1e-33 rather than 0.0, because M_anti is a
+        # difference of two rounded matrices while L_{H_odd} is built from H directly.
+        # So 'polarity_degenerate', which tests ||M_anti||^2 == 0.0, reads False on
+        # exactly the rows it exists for. It is SUFFICIENT, not necessary. The exact
+        # route is ||L_HOdd||^2, which measures 0.0 on these rows and is available on the
+        # bilinear path only; wiring it through is open. Until then, do not read a False
+        # here as "there is polarity content".
+        # NOTE, measured by mutation on 2026-08-06: this fixture CANNOT distinguish the
+        # current denominator from the retired max(||M||^2, 1e-15). Its asymmetry is exactly
+        # 0.0 on all four categories, so rel_asymmetry is 0.0 whichever denominator divides
+        # it, and reverting the workflow leaves every assertion here green. Any guard placed
+        # here would be decorative with respect to that change; the discriminating pin lives
+        # in test_polarity_fingerprint.py, on a Z-drive + T1 fixture where the numerator is
+        # non-zero. What this file legitimately pins is the SHAPE below, not the repair.
+        m_sq, m_anti_sq = row['M_norm_sq'], row['M_anti_norm_sq']
+        assert row['polarity_degenerate'] == (m_anti_sq == 0.0)
+        if m_anti_sq > 1e-20:
+            # Pi^2-odd row: real polarity content, and F83's anti-fraction fixes the ratio of
+            # the two candidate denominators exactly, ||M||^2/||M_anti||^2 = 2 + 4r.
+            ratio = m_sq / m_anti_sq
+            assert abs(ratio - round(ratio)) < 1e-9 and round(ratio) in (2, 6), \
+                f"{cat}: ||M||^2/||M_anti||^2 = {ratio}, expected the F83 factor 2+4r"
+        else:
+            # Pi^2-even row: ||M_anti||^2 is rounding (~1e-33) where the physics is 0, so
+            # 'polarity_degenerate' reads False here. That is the documented
+            # sufficient-not-necessary gap, pinned so it cannot silently change.
+            assert m_anti_sq < 1e-25, f"{cat}: expected rounding-level, got {m_anti_sq}"

@@ -239,30 +239,47 @@ def diagnose_hardware(
         # needs an amplitude-damping channel beside it to show.) Treat it as a wiring check on the terms given, not
         # as evidence about the polarity axis; the L-bound entry point can break.
         pol = polarity_coordinates(chain, terms)
-        m_sq = pol['norm_sq']['M']
+        m_sq = pol['norm_sq']['M']  # reported below; not the denominator any more
         asym = pol['asymmetry']
-        rel_asym = abs(asym) / max(m_sq, 1e-15)
+        # The denominator is the POLARITY CONTENT ||M_anti||^2 = ||M_+||^2 + ||M_-||^2, the
+        # whole of what asym is a difference of, so rel_asym is a contrast ratio in [0, 1]
+        # with no tolerance constant in it. It replaces max(||M||^2, 1e-15), which was
+        # saturated: for the Heisenberg + pure Z-dephasing case this workflow runs most, M is
+        # the F81 residual and 'truly' H makes it vanish by the F83 closed form, so ||M||^2 is
+        # exactly 0.0 at N=2 and ~1e-31 at N=3..5 (do NOT write 'exactly 0.0' unqualified; an
+        # earlier draft of this comment did and contradicted OpenArcsRegistry's own 1e-31).
+        # Either way the 1e-15 FLOOR was the divisor and the 1e-10 cut admitted any |asym|
+        # below 1e-25. The two denominators convert by F83's anti-fraction, new = old*(2+4r)
+        # with r = ||H_even_nontruly||^2/||H_odd||^2. Mirrors
+        # PolarityCoordinatesResult.RelativeAsymmetry in C#; the same denominator has been in
+        # simulations/polarity_step5_stress.py line 86 since it was written.
+        m_anti_sq = pol['norm_sq']['M_plus_half'] + pol['norm_sq']['M_minus_half']
+        degenerate = (m_anti_sq == 0.0)
+        # Exact, not a floor: both halves are sums of squared moduli, so their sum is 0.0
+        # only when each is 0.0, and then asym is exactly 0.0 - 0.0.
+        rel_asym = 0.0 if degenerate else abs(asym) / m_anti_sq
         # Report the measured number, never the word. F112's THEOREM is exact, but this
         # branch is a threshold on a float difference of two Frobenius norms and cannot
-        # witness exactness; GLOSSARY.md:304 is the governing rule. Two things measured on
-        # 2026-08-06 that the old 'bit-exact 0' literal hid:
-        #   - the asymmetry is exactly 0.0 on the bilinear-Pauli Hamiltonians the repo
-        #     tests, but NOT in general inside F112's typed scope: random Hermitian H
-        #     with per-site Z c-ops give a nonzero asymmetry in a few percent of draws
-        #     (2..5 of 60 at N=3, 0..5 of 60 at N=4 over five master seeds; the count is
-        #     seed noise, the ~1e-17 RELATIVE size is not). Exactly-zero here is a
-        #     property of those inputs, not of the float route.
-        #   - rel_asym is not a ratio on the case this workflow runs most. For Heisenberg
-        #     + pure Z-dephasing, M is the F81 residual, which VANISHES, so ||M||^2 is
-        #     ~1e-31 and max(...,1e-15) always returns the floor. There 1e-10 is satisfied
-        #     by any |asym| < 1e-25 and the gate is saturated seven orders over the noise.
-        # Both are recorded in the bit_exact_vocabulary arc; neither is fixed by this line.
+        # witness exactness; GLOSSARY.md:304 is the governing rule. Measured 2026-08-06,
+        # and what the old 'bit-exact 0' literal hid: the asymmetry is exactly 0.0 on the
+        # bilinear-Pauli Hamiltonians the repo tests, but NOT in general inside F112's typed
+        # scope: random Hermitian H with per-site Z c-ops give a nonzero asymmetry in a few
+        # percent of draws (the COUNT is seed noise and must not be quoted; the ~1e-17
+        # RELATIVE size is not). Exactly-zero here is a property of those inputs, not of the
+        # float route. Recorded in the bit_exact_vocabulary arc.
         if rel_asym < 1e-10:
             verdict = f'BALANCED (rel asymmetry {rel_asym:.2e})'
         elif rel_asym < 1e-6:
             verdict = f'near-BALANCED (rel {rel_asym:.2e})'
         else:
             verdict = f'BROKEN (rel asymmetry {rel_asym:.2e})'
+        if degenerate:
+            # Keep the verdict two-valued, mirroring the C# witnesses, which expose the
+            # degeneracy as a separate field rather than a third verdict. But say it: a
+            # genuine balance and a vacuous one both print 0.0, and only this note tells
+            # them apart.
+            verdict += (' [vacuous: no polarity content, ||M_anti||^2 = 0, H carries no '
+                        'Pi^2-odd part; the threshold decided nothing]')
         bit_b_homog = struct['bit_b_homogeneous_h']
         scope_note = (
             'H is bit_b-homogeneous (terms share bit_b parity)'
@@ -274,6 +291,11 @@ def diagnose_hardware(
             'reading': f"polarity asymmetry = {verdict}; {scope_note}",
             'asymmetry': float(asym),
             'rel_asymmetry': float(rel_asym),
+            'M_norm_sq': float(m_sq),
+            'M_anti_norm_sq': float(m_anti_sq),
+            # Read WITH 'verdict': a genuine balance and a vacuous one both report 0.0, and
+            # this is the only field that tells them apart.
+            'polarity_degenerate': bool(degenerate),
             'verdict': verdict.split(' ', 1)[0],
             'h_bit_b_homogeneous': bool(bit_b_homog),
         })

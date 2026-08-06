@@ -69,7 +69,103 @@ public sealed record PolarityCoordinatesResult(
     double MMinusHalfNormSquared,
     double Asymmetry,
     double OrthogonalityResidual,
-    double F81Violation);
+    double F81Violation,
+    double? LHOddNormSquared = null)
+{
+    /// <summary>‖M_anti‖² = ‖M_plus_half‖² + ‖M_minus_half‖², the total polarity content:
+    /// the whole of what <see cref="Asymmetry"/> is a difference of, and equal to M_anti's own
+    /// norm². With A = M_anti and B = Π·A·Π⁻¹ the halves are (A ∓ iB)/2, so the parallelogram
+    /// law gives ‖(A−iB)/2‖² + ‖(A+iB)/2‖² = (‖A‖² + ‖B‖²)/2, and Π unitary gives ‖B‖² = ‖A‖²;
+    /// the sum is therefore ‖A‖² in exact arithmetic. In FLOAT it is not bit-identical to a
+    /// direct ‖M_anti‖² and must not be claimed as such: each half costs a separate
+    /// <c>Math.Pow(FrobeniusNorm(), 2)</c> (two roundings), so the two routes agree to a few ulp
+    /// (measured 0 to 12 ulp over the Heisenberg / YZ+ZY / XY / Heisenberg+T1 / Z-drive+T1 cases
+    /// at N=2 and N=3), and agree exactly only where both sides are 0.0 or land on a power of
+    /// two. An earlier version of this comment said "bit-identical"; that was read off fixtures
+    /// whose halves are exact powers of two, which cannot break it.</summary>
+    public double MAntiNormSquared => MPlusHalfNormSquared + MMinusHalfNormSquared;
+
+    /// <summary>True when H carries no Π²-odd part, so there is no polarity content and the
+    /// balance <see cref="RelativeAsymmetry"/> reports is vacuous: it compares 0 against 0.
+    ///
+    /// <para>Decided by the EXACT route where one exists. By F81 M_anti = L_{H_odd}, and
+    /// <see cref="LHOddNormSquared"/> is built from H directly, so it is exactly 0.0 whenever
+    /// H_odd is the zero operator. ‖M_anti‖² is NOT a substitute: it is a difference of two
+    /// rounded matrices and carries rounding where the physics is zero (measured at N=3,
+    /// γ_z=0.1, YZ+ZY: ‖M_anti‖² = 5.8e-33 against ‖L_HOdd‖² = 0.0). Only where the exact
+    /// route is unavailable does this fall back to ‖M_anti‖² == 0.0, which is then
+    /// sufficient but not necessary.</para>
+    ///
+    /// <para>This is the generic case for Π²-even H, not an edge case: for <i>truly</i> H
+    /// (Heisenberg, XX, ZZ), where M itself vanishes by the F83 closed form
+    /// (<c>docs/ANALYTICAL_FORMULAS.md</c>, F83 special-cases table: "truly | undefined
+    /// (M=0)"), and equally for <i>non-truly Π²-even</i> H such as YZ+ZY, where ‖M‖² is large
+    /// (256 at N=2, J=1, γ-independent) while M_anti still vanishes. That second family is why
+    /// ‖M‖² is the wrong scale for <see cref="RelativeAsymmetry"/>: it can be far from zero
+    /// while the object the asymmetry measures is empty.</para>
+    ///
+    /// <para><b>Scope of the F81 route</b>: M_anti = L_{H_odd} is a Z-dephase, no-T1 statement.
+    /// Heisenberg WITH γ_T1 = 0.1 measures ‖M_anti‖² = 8.0e-2 and is NOT degenerate although
+    /// H_odd = 0, and the cross-dephase (Π_X / Π_Y) paths have no closed-form F81 prediction.
+    /// <see cref="LHOddNormSquared"/> is null on every path where the projection is not
+    /// made, and the fallback governs there.</para></summary>
+    public bool IsPolarityDegenerate => MAntiNormSquared == 0.0;
+
+    /// <summary>The EXACT structural companion to <see cref="IsPolarityDegenerate"/>, and a
+    /// statement about H alone: <c>true</c> when H carries no Π²-odd part, i.e.
+    /// <see cref="LHOddNormSquared"/> is exactly 0.0. <c>null</c> where no H_odd projection was
+    /// made, which is every path except the bilinear-bond one.
+    ///
+    /// <para>Why both exist. This one is exact but answers only "does H have an odd part";
+    /// <see cref="IsPolarityDegenerate"/> is a float reading of the M_anti that was actually
+    /// built, and the two come apart in BOTH directions. At N=3, γ_z=0.1, YZ+ZY: this is
+    /// <c>true</c> while <see cref="IsPolarityDegenerate"/> is <c>false</c>, because M_anti
+    /// carries 5.8e-33 of rounding where the physics is zero. With γ_T1 = 0.1 on Heisenberg:
+    /// this is <c>true</c> while ‖M_anti‖² = 8.0e-2 is genuinely non-zero, because
+    /// M_anti = L_{H_odd} is an F81 identity that holds on the Z-dephase, no-T1 path and
+    /// nowhere else. So a <c>true</c> here does NOT license skipping the division; read the two
+    /// together, and read this one as "H is the reason" rather than "the number is zero".</para></summary>
+    public bool? HasNoPi2OddPart => LHOddNormSquared is double lhOdd ? lhOdd == 0.0 : null;
+
+    /// <summary>Contrast ratio |Asymmetry| / (‖M_plus_half‖² + ‖M_minus_half‖²), in [0, 1]:
+    /// the imbalance of the two polarity halves relative to their own total. No tolerance
+    /// constant enters the denominator.
+    ///
+    /// <para><b>It is NOT scale-free in H.</b> The numerator is linear in the drive by F113
+    /// while the denominator is quadratic, so the ratio goes like 1/ω: measured on the
+    /// Z-drive + T1 fixture, scaling ω by 0.5 / 1 / 2 / 4 gives 1.538279e-2, 7.692080e-3,
+    /// 3.846125e-3, 1.923073e-3. A WEAKER physical break therefore reads as a LARGER ratio.
+    /// Use it to compare against a threshold at fixed parameters, never to rank two drives.
+    /// (The retired ‖M‖² denominator was not scale-free either; this is a property to know,
+    /// not a regression.)</para>
+    ///
+    /// <para><b>The degenerate branch is exact, not a floor.</b> Both half-norms are
+    /// <c>Math.Pow(FrobeniusNorm(), 2)</c> of a finite matrix, hence non-negative, so their sum
+    /// is exactly 0.0 only when each is exactly 0.0, and then <see cref="Asymmetry"/> is
+    /// exactly 0.0 − 0.0 = 0.0. Returning 0.0 there states a computed fact rather than
+    /// dividing by a constant. Read it together with <see cref="IsPolarityDegenerate"/>: a 0.0
+    /// with the flag set means "nothing to balance", which is weaker than a 0.0 with the flag
+    /// clear. (Underflow caveat: <c>Math.Pow(x, 2)</c> is 0.0 for x below about 2.2e-162, so a
+    /// preposterously small J would set the flag on a non-zero M_anti.)</para>
+    ///
+    /// <para>Replaces the earlier |Asymmetry| / max(‖M‖², 1e-15), which was saturated: on the
+    /// flagship Heisenberg + Z-dephasing case ‖M‖² is exactly 0.0 at N=2 and ~1e-31 at N=3..5,
+    /// so the 1e-15 floor was the divisor and a threshold of 1e-10 admitted any |Asymmetry|
+    /// below 1e-25. The two denominators are related in closed form by F83's anti-fraction:
+    /// ‖M‖² / ‖M_anti‖² = 2 + 4r with r = ‖H_even_nontruly‖² / ‖H_odd‖², so
+    /// <c>new = old · (2 + 4r)</c> converts a legacy number without a re-run: measured exactly
+    /// 2.0 at r=0 and 6.0 at r=1 for N=2,3,4. <b>Scope</b>: that is the pure-dephasing
+    /// bilinear family F83 models. With T1 the identity does not hold, because the damping
+    /// puts content into M that the anti-fraction does not describe; on the Z-drive + T1
+    /// witness the measured factor is 2.000266, not 2.</para>
+    ///
+    /// <para>Prior art, and it predates this property: <c>simulations/polarity_step5_stress.py</c>
+    /// line 86 has always divided by <c>norm_plus_i + norm_minus_i</c>, the same polarity
+    /// content. That script is the Step-5 verification cited by
+    /// <c>docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md</c>.</para></summary>
+    public double RelativeAsymmetry =>
+        IsPolarityDegenerate ? 0.0 : Math.Abs(Asymmetry) / MAntiNormSquared;
+}
 
 /// <summary>Matrix-level compute primitive for the F112 polarity decomposition.
 /// Mirrors the Python <c>polarity_coordinates_from_L</c> family by delegating M /
@@ -104,7 +200,8 @@ public static class PolarityCoordinates
 
         var pi = PiDecomposition.Decompose(chain, terms, gammaT1PerSite, dephaseLetter: dephaseLetter);
         var piOp = PiOperator.BuildFull(chain.N, dephaseLetter);
-        return RefineMAnti(pi.M, pi.MSym, pi.MAnti, piOp, pi.F81Violation);
+        return RefineMAnti(pi.M, pi.MSym, pi.MAnti, piOp, pi.F81Violation,
+            lHOddNormSquared: pi.LHOddNormSquared);
     }
 
     /// <summary>Decompose M for a general k-body Pauli Hamiltonian. Builds H from
@@ -166,13 +263,16 @@ public static class PolarityCoordinates
         var mAnti = (M - piMpi) / 2.0;
 
         // No F81 inner check on this path (k-body / single-site H_odd identity is open).
-        return RefineMAnti(M, mSym, mAnti, piOp, f81Violation: 0.0);
+        // No H_odd projection on this path, so the exact degeneracy predicate is
+        // unavailable: pass null rather than a zero that would read as "no polarity content".
+        return RefineMAnti(M, mSym, mAnti, piOp, f81Violation: 0.0, lHOddNormSquared: null);
     }
 
     /// <summary>Shared core: given M, M_sym, M_anti and Π, compute the ±i
     /// Π-eigenvalue projectors on M_anti and assemble the result record.</summary>
     private static PolarityCoordinatesResult RefineMAnti(
-        ComplexMatrix M, ComplexMatrix mSym, ComplexMatrix mAnti, ComplexMatrix piOp, double f81Violation)
+        ComplexMatrix M, ComplexMatrix mSym, ComplexMatrix mAnti, ComplexMatrix piOp, double f81Violation,
+        double? lHOddNormSquared)
     {
         var piInv = piOp.ConjugateTranspose(); // Π is a unitary signed permutation; Π⁻¹ = Π†.
         var piMAntiPiInv = piOp * mAnti * piInv;
@@ -199,6 +299,7 @@ public static class PolarityCoordinates
             MMinusHalfNormSquared: normMinus,
             Asymmetry: asymmetry,
             OrthogonalityResidual: orthogonalityResidual,
-            F81Violation: f81Violation);
+            F81Violation: f81Violation,
+            LHOddNormSquared: lHOddNormSquared);
     }
 }

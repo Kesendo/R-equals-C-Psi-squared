@@ -29,8 +29,42 @@ def test_polarity_fingerprint_returns_expected_keys():
         'f112_verdict', 'in_f112_typed_scope', 'h_bit_b_homogeneous',
         'c_bit_b_homogeneous', 'f113_applies', 'f113_predicted',
         'f113_extracted_gamma_t1', 'reading',
+        'f112_M_anti_norm_sq', 'f112_polarity_degenerate',
     }
     assert expected_keys.issubset(result.keys())
+
+
+def test_polarity_fingerprint_rel_asymmetry_divides_by_the_polarity_content():
+    """The denominator of f112_rel_asymmetry is ||M_anti||^2, not ||M||^2.
+
+    This is the discriminating pin for the 2026-08-06 denominator change, and it is here
+    rather than in test_diagnose_hardware because it needs a fixture whose asymmetry is
+    NON-zero: where asym == 0.0 the ratio is 0.0 under either denominator and no assertion
+    can see the difference (measured by mutation).
+
+    A single-site Z-drive plus T1 is Pi^2-odd, so it has real polarity content and a
+    non-zero F113 asymmetry. Reverting the denominator to max(||M||^2, 1e-15) turns the
+    equality below red by the F83 factor 2 + 4r.
+    """
+    omega, gamma_t1 = 0.13, 0.001
+    chain = fw.ChainSystem(N=2, J=omega / 2.0, gamma_0=0.05)
+    result = fw.polarity_fingerprint(chain, [('Z', 'I')], gamma_t1=gamma_t1)
+
+    assert result['f112_asymmetry'] != 0.0,         'fixture must have a non-zero numerator or this test cannot discriminate'
+    assert result['f112_polarity_degenerate'] is False
+    m_anti = result['f112_M_anti_norm_sq']
+    assert m_anti > 1e-6, f'Pi^2-odd drive must carry polarity content; got {m_anti}'
+
+    expected = abs(result['f112_asymmetry']) / m_anti
+    assert result['f112_rel_asymmetry'] == pytest.approx(expected, rel=1e-12)
+    # And it is NOT the retired quantity. The two differ by ||M||^2 / ||M_anti||^2, which is
+    # F83's 2 + 4r on the pure-dephasing bilinear family but NOT here: this fixture carries
+    # T1, which puts content into M that F83's anti-fraction does not model, so the measured
+    # factor is 2.000533 on THIS fixture (a one-site drive at N=2) rather than 2. Pin the
+    # separation, not a law that does not apply. Note the factor is fixture-specific: the C#
+    # witness drives BOTH sites and measures 2.000266, so do not carry either number across.
+    retired = abs(result['f112_asymmetry']) / result['f112_M_norm_sq']
+    assert result['f112_rel_asymmetry'] / retired == pytest.approx(2.000533, rel=1e-5)
 
 
 def test_polarity_fingerprint_heisenberg_pure_z_in_scope_balanced():

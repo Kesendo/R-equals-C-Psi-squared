@@ -48,6 +48,14 @@ public class LindbladBitBPiBalanceWitnessTests
         Assert.True(w.Matches,
             $"witness '{w.WitnessName}' expected {w.ExpectedVerdict}, got {w.ActualVerdict} " +
             $"(rel asym = {w.ActualRelativeAsymmetry:E3})");
+
+        // Heisenberg is truly, so M itself vanishes by the F83 closed form and there is no
+        // polarity content: this BALANCED is 0 = 0, carrying no information about the
+        // tolerance. Recorded rather than left implicit, because for two and a half months
+        // the ‖M‖² denominator hid it behind a 1e-15 floor.
+        Assert.True(w.IsDegenerate, "Heisenberg + pure Z ⇒ M ≡ 0 ⇒ no polarity content");
+        Assert.True(w.Polarity.Value.MNormSquared == 0.0,
+            $"truly ⇒ M ≡ 0; got ‖M‖² = {w.Polarity.Value.MNormSquared:E3}");
     }
 
     [Fact]
@@ -60,6 +68,14 @@ public class LindbladBitBPiBalanceWitnessTests
         Assert.True(w.Matches,
             $"witness '{w.WitnessName}' expected {w.ExpectedVerdict}, got {w.ActualVerdict} " +
             $"(rel asym = {w.ActualRelativeAsymmetry:E3})");
+
+        // Degenerate for a different reason than witness 1, and this is the pair that shows
+        // ‖M‖² was the wrong scale: YZ+ZY is Π²-EVEN but not truly, so ‖M‖² is LARGE while
+        // M_anti = L_{H_odd} is still exactly zero. The old denominator divided by that
+        // large number and the vacuity was invisible.
+        Assert.True(w.IsDegenerate, "Π²-even ⇒ H_odd = 0 ⇒ M_anti = 0 ⇒ no polarity content");
+        Assert.True(w.Polarity.Value.MNormSquared > 1.0,
+            $"non-truly Π²-even ⇒ ‖M‖² is large; got {w.Polarity.Value.MNormSquared:E3}");
     }
 
     [Fact]
@@ -89,19 +105,32 @@ public class LindbladBitBPiBalanceWitnessTests
     [Fact]
     public void Witness_Zdrive_with_T1_envelope_BROKEN_Matches()
     {
-        // The structural payload: Z-drive + σ⁻ T1 BREAKS F112 balance, at rel asym
-        // ≈ 3.85e-3 for these parameters (ω = 0.13, γ_T1 = 0.001, N = 2). That is a
-        // value of the F113 formula, not a hardware reading. The witness is expected
-        // BROKEN.
+        // The structural payload: Z-drive + σ⁻ T1 BREAKS F112 balance for these parameters
+        // (ω = 0.13, γ_T1 = 0.001, N = 2). What F113 predicts is the ABSOLUTE asymmetry,
+        // (4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l); the ratio below is that divided by the
+        // polarity content. Neither is a hardware reading. The witness is expected BROKEN.
         var w = LindbladBitBPiBalanceWitness.StandardSet(MakeChain())[4];
         Assert.Equal("Zdrive_with_T1_envelope_BROKEN", w.WitnessName);
         Assert.Equal("BROKEN", w.ExpectedVerdict);
         Assert.Equal("BROKEN", w.ActualVerdict);
         Assert.True(w.Matches,
             $"witness '{w.WitnessName}' expected {w.ExpectedVerdict}, got {w.ActualVerdict} " +
-            $"(rel asym = {w.ActualRelativeAsymmetry:E3}; expected ~3.85e-3)");
+            $"(rel asym = {w.ActualRelativeAsymmetry:E3})");
+
+        // A single-site Z-drive is Π²-odd, so unlike witnesses 1 and 2 this one has real
+        // polarity content and its ratio is a genuine contrast, not a 0/0.
+        Assert.False(w.IsDegenerate,
+            $"Z-drive is Π²-odd; ‖M_anti‖² = {w.Polarity.Value.MAntiNormSquared:E3}");
         Assert.True(w.ActualRelativeAsymmetry > 1e-6,
             $"Z-drive + T1 should produce structurally non-zero rel asym; got {w.ActualRelativeAsymmetry:E3}");
+
+        // Value pin, so the number quoted in the witness docstring stays honest. It moved
+        // when the denominator changed from max(‖M‖², 1e-15) to ‖M_anti‖²: on this fixture
+        // ‖M‖² = 5.408880e-1 against ‖M_anti‖² = 2.704080e-1, so the old reading was
+        // 3.845528e-3, a factor 2.000266 lower. (NOT exactly half: ‖M‖² = ‖M_zero‖² +
+        // ‖M_anti‖², and the two parts merely happen to be close on this fixture.) This
+        // line therefore also fails on a revert.
+        Assert.Equal(7.69208011597269e-3, w.ActualRelativeAsymmetry, precision: 12);
     }
 
     [Fact]

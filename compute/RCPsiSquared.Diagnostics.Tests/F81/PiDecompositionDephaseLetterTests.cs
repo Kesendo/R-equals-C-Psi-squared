@@ -94,8 +94,20 @@ public class PiDecompositionDephaseLetterTests
         var terms = new[] { new PauliPairBondTerm(PauliLetter.X, PauliLetter.X) };
 
         var pol = PolarityCoordinates.Decompose(chain, terms, dephaseLetter: PauliLetter.X);
+        // ‖M‖² > 1e-6 was written here as "test design: so the asymmetry assertion is
+        // substantive". Measured 2026-08-06, it is not that. ‖M‖² = 1.280000e0 while
+        // ‖M_anti‖² is EXACTLY 0, and the asymmetry is a difference of the two halves of
+        // M_anti and can see nothing else. So the zero below is vacuous, and this is the
+        // same reading that Y_Dephase_Equivariance_Substantive_M_Anti_At_N_Equals_2, the
+        // very next test in this file, already applies to the ZZ fixtures: it calls
+        // D·0·D = 0 vacuous and guards with ‖M_anti‖, not with ‖M‖.
         Assert.True(pol.MNormSquared > 1e-6,
-            "test design: M should be non-trivial so the asymmetry assertion is substantive");
+            $"M is non-trivial on this fixture; got ‖M‖² = {pol.MNormSquared:E3}");
+        Assert.True(pol.MAntiNormSquared == 0.0,
+            $"XX is Π²-even ⇒ no polarity content; got ‖M_anti‖² = {pol.MAntiNormSquared:E3}");
+        Assert.True(pol.IsPolarityDegenerate,
+            "so the asymmetry zero below is 0 = 0; this fixture does not test F112-X "
+            + "substantively and must not be cited as the C# evidence for it");
         Assert.True(Math.Abs(pol.Asymmetry) < 1e-12,
             $"F112-X in-scope asymmetry {pol.Asymmetry:E3} exceeds 1e-12");
     }

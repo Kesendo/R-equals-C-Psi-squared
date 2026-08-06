@@ -56,25 +56,33 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
     public bool ExpectedBalanced => ExpectedVerdict == "BALANCED";
 
     /// <summary>Relative-asymmetry threshold below which the witness reads as
-    /// <c>"BALANCED"</c>. Computed as |asymmetry| / max(‖M‖², 1e-15) per
-    /// <c>f112_hardware_lens_multi.py</c>. Default 1e-10 matches the bit-exact balance
-    /// scale of F112's typed scope.</summary>
+    /// <c>"BALANCED"</c>, applied to
+    /// <see cref="PolarityCoordinatesResult.RelativeAsymmetry"/>, the contrast ratio
+    /// |asymmetry| / ‖M_anti‖². Default 1e-10 matches the bit-exact balance scale of F112's
+    /// typed scope.
+    ///
+    /// <para>Where the witness is polarity-degenerate
+    /// (<see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/>) the threshold decides
+    /// nothing: the ratio is exactly 0.0 because both halves are the zero matrix. Witnesses 1
+    /// and 2 below are in that case. Read
+    /// <see cref="ActualVerdict"/> together with <see cref="IsDegenerate"/>.</para></summary>
     public double Tolerance { get; }
 
     /// <summary>Lazily computed polarity decomposition result. First access triggers the
     /// L-build and Π-decomposition via <see cref="PolarityCoordinates.Decompose"/>.</summary>
     public Lazy<PolarityCoordinatesResult> Polarity => _polarity;
 
-    /// <summary>Actual relative asymmetry: |Asymmetry| / max(‖M‖², 1e-15). Forces lazy
-    /// evaluation of <see cref="Polarity"/>.</summary>
-    public double ActualRelativeAsymmetry
-    {
-        get
-        {
-            var pol = _polarity.Value;
-            return Math.Abs(pol.Asymmetry) / Math.Max(pol.MNormSquared, 1e-15);
-        }
-    }
+    /// <summary>Actual relative asymmetry, the contrast ratio
+    /// <see cref="PolarityCoordinatesResult.RelativeAsymmetry"/>. Forces lazy evaluation of
+    /// <see cref="Polarity"/>.</summary>
+    public double ActualRelativeAsymmetry => _polarity.Value.RelativeAsymmetry;
+
+    /// <summary>True when this witness has no polarity content to balance: both halves of
+    /// M_anti are the zero matrix, so the asymmetry is 0 − 0 and
+    /// <see cref="ActualVerdict"/> reads <c>"BALANCED"</c> vacuously. See
+    /// <see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/>. Forces lazy
+    /// evaluation.</summary>
+    public bool IsDegenerate => _polarity.Value.IsPolarityDegenerate;
 
     /// <summary>Actual verdict: <c>"BALANCED"</c> if
     /// <see cref="ActualRelativeAsymmetry"/> ≤ <see cref="Tolerance"/>, else
@@ -187,6 +195,15 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
             yield return new InspectableNode("agreement", summary: Matches ? "PASS" : "FAIL");
             yield return InspectableNode.RealScalar(
                 "relative asymmetry", ActualRelativeAsymmetry, format: "E6");
+            yield return InspectableNode.RealScalar(
+                "polarity content ‖M_anti‖²", Polarity.Value.MAntiNormSquared, format: "E6");
+            yield return new InspectableNode("polarity-degenerate",
+                summary: IsDegenerate
+                    ? "yes: both halves are the zero matrix, so the balance is vacuous "
+                      + "(H has no Π²-odd part); the tolerance decides nothing here"
+                    : "not detected: ‖M_anti‖² is non-zero, but this flag is sufficient and "
+                      + "not necessary, so read this as \"undecided\" rather than as "
+                      + "\"there is polarity content\"");
             yield return InspectableNode.RealScalar("tolerance", Tolerance, format: "E2");
             yield return new InspectableNode("γ_T1", summary: FormatGamma(GammaT1));
             yield return new InspectableNode("terms",
@@ -200,9 +217,16 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
     /// <summary>The five named witnesses spanning the F112 BALANCED / BROKEN axes:
     /// <list type="number">
     ///   <item><b>Heisenberg_pure_Z_balanced</b>: H = XX+YY+ZZ Heisenberg + pure Z-dephasing.
-    ///         Inside F112 typed scope (Hermitian Heisenberg, single-Pauli Z dephase). Expected BALANCED.</item>
+    ///         Inside F112 typed scope (Hermitian Heisenberg, single-Pauli Z dephase). Expected BALANCED,
+    ///         but <b>polarity-degenerate</b>: Heisenberg is <i>truly</i>, so M itself vanishes by the
+    ///         F83 closed form and both halves are the zero matrix. The verdict is exactly 0 = 0,
+    ///         carrying no information about the threshold.</item>
     ///   <item><b>YZ_ZY_pi2even_balanced</b>: H = YZ+ZY (F108 non-truly Π²-even).
-    ///         Inside F112 typed scope. Expected BALANCED.</item>
+    ///         Inside F112 typed scope. Expected BALANCED, and <b>also polarity-degenerate</b>, for a
+    ///         different reason worth keeping apart: ‖M‖² is large here (256 at N=2, J=1) but Π²-even H
+    ///         has no Π²-odd part, so M_anti = L_{H_odd} = 0 by F81 and the halves vanish anyway. This
+    ///         is the witness that shows ‖M‖² is the wrong scale: it is nonzero while the object the
+    ///         asymmetry measures is empty.</item>
     ///   <item><b>XY_pi2odd_balanced</b>: H = XY (Π²-odd). Inside F112 typed scope.
     ///         Expected BALANCED.</item>
     ///   <item><b>Heisenberg_with_T1_envelope_balanced</b>: H = Heisenberg + σ⁻ T1 (γ_T1=0.1).
@@ -214,10 +238,21 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
     ///         (ω = 0.13) + σ⁻ T1 (γ_T1 = 0.001). The structural counterexample, first
     ///         noticed while fitting the f95_angle_steering Tier-A dataset (Kingston,
     ///         2026-05-16), whose protocol supplies a drive of this kind, though on ONE
-    ///         qubit of the pair rather than both, so its own value is half of this one. At these
-    ///         parameters rel asym ≈ 3.85e-3, a value of the F113 formula (identical for
-    ///         σ⁻ and σ⁺, since rel is an absolute value), reproduced by
-    ///         <c>simulations/f113_break_formula_derivation.py</c>. Expected BROKEN.</item>
+    ///         qubit of the pair rather than both, so its own value is half of this one. The
+    ///         quantity F113 predicts is the <i>absolute</i> asymmetry, not the ratio:
+    ///         asymmetry = (4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l), reproduced by
+    ///         <c>simulations/f113_break_formula_derivation.py</c>. <b>Mind the factor 2 in
+    ///         ω_l</b>: it is the Larmor rate, and the two terms carry ω/2 each as their Pauli
+    ///         coefficient, so ω_l = ω on each site and Σ_l ω_l = 2ω = 0.26, not 0.13. That
+    ///         gives (16/2)·0.26·(−0.001) = −2.08e-3, met to 2.7e-14 relative
+    ///         (−2.079999999999943e-3). Dividing by the polarity content
+    ///         ‖M_anti‖² = 2.704080e-1 gives rel asym = 7.692080e-3. (Under the retired ‖M‖²
+    ///         denominator the same witness read 3.845528e-3, a factor 2.000266 lower
+    ///         (‖M‖² = 5.408880e-1 against ‖M_anti‖² = 2.704080e-1). NOT exactly half, and the
+    ///         two quoted values refute that on their own: 3.845528e-3 × 2 = 7.691056e-3. Both are far above any threshold, so the verdict is
+    ///         unchanged; this one is a real contrast rather than a ratio against a part of M
+    ///         the asymmetry never touches.) Not degenerate: a single-site Z-drive is Π²-odd,
+    ///         so the halves are 1.341640e-1 and 1.362440e-1. Expected BROKEN.</item>
     /// </list>
     /// All five use <see cref="Tolerance"/> = 1e-10 to keep the BALANCED/BROKEN cut at
     /// the bit-exact scale of F112 (any rel asym > 1e-10 counts as BROKEN).</summary>

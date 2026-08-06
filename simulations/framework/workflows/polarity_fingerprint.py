@@ -34,8 +34,15 @@ relevance.
 Returns a dict with keys:
   'f87_class':              str  ('truly' | 'soft' | 'hard')
   'f112_asymmetry':         float (signed ‖M_+1/2‖² − ‖M_−1/2‖²)
-  'f112_rel_asymmetry':     float (|asym| / ‖M‖²)
+  'f112_rel_asymmetry':     float (|asym| / ‖M_anti‖², a contrast ratio in [0, 1]; 0.0 when
+                            'f112_polarity_degenerate')
   'f112_M_norm_sq':         float (‖M‖²)
+  'f112_M_anti_norm_sq':    float (‖M_anti‖² = ‖M_+1/2‖² + ‖M_−1/2‖², the polarity content
+                            and the denominator above)
+  'f112_polarity_degenerate': bool (‖M_anti‖² is exactly 0, so both halves are the zero
+                            matrix and the verdict below is vacuous: H has no Π²-odd part.
+                            Read it WITH the verdict; a genuine balance and a vacuous one
+                            both report 0.0)
   'f112_verdict':           str  ('BALANCED' | 'near-BALANCED' | 'BROKEN')
   'in_f112_typed_scope':    bool (Hermitian H + bit_b-homogeneous c)
   'h_bit_b_homogeneous':    bool (PauliHamiltonian check on terms)
@@ -212,7 +219,18 @@ def polarity_fingerprint(
     )
     asym = float(pol['asymmetry'])
     M_sq = float(pol['norm_sq']['M'])
-    rel_asym = abs(asym) / max(M_sq, 1e-15)
+    # Denominator is the POLARITY CONTENT ||M_anti||^2 = ||M_+||^2 + ||M_-||^2, the whole of
+    # what asym is a difference of, so rel_asym is a contrast ratio in [0, 1] with no
+    # tolerance constant in it. Replaces max(||M||^2, 1e-15), which was saturated wherever M
+    # vanishes (F83: 'truly' H gives M = 0 identically), and which was also the wrong SCALE
+    # even where it did not vanish: for Pi^2-even non-truly H such as YZ+ZY, ||M||^2 is large
+    # while M_anti = L_{H_odd} is exactly zero. Mirrors
+    # PolarityCoordinatesResult.RelativeAsymmetry in C#.
+    M_anti_sq = float(pol['norm_sq']['M_plus_half'] + pol['norm_sq']['M_minus_half'])
+    # Exact, not a floor: both halves are sums of squared moduli, so the sum is 0.0 only when
+    # each is 0.0, and then asym is exactly 0.0 - 0.0.
+    polarity_degenerate = (M_anti_sq == 0.0)
+    rel_asym = 0.0 if polarity_degenerate else abs(asym) / M_anti_sq
     if rel_asym < tol:
         f112_verdict = 'BALANCED'
     elif rel_asym < 1e-6:
@@ -325,6 +343,8 @@ def polarity_fingerprint(
         'f112_asymmetry': asym,
         'f112_rel_asymmetry': rel_asym,
         'f112_M_norm_sq': M_sq,
+        'f112_M_anti_norm_sq': M_anti_sq,
+        'f112_polarity_degenerate': polarity_degenerate,
         'f112_verdict': f112_verdict,
         'in_f112_typed_scope': in_typed_scope,
         'h_bit_b_homogeneous': h_bit_b_homog,
