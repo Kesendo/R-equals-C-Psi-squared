@@ -58,8 +58,13 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
     /// <summary>Relative-asymmetry threshold below which the witness reads as
     /// <c>"BALANCED"</c>, applied to
     /// <see cref="PolarityCoordinatesResult.RelativeAsymmetry"/>, the contrast ratio
-    /// |asymmetry| / ‖M_anti‖². Default 1e-10 matches the bit-exact balance scale of F112's
-    /// typed scope.
+    /// |asymmetry| / ‖M_anti‖². Default 1e-10 is not a bit-exact scale and must not be called one: it is a
+    /// SEPARATION. The in-scope witnesses measure rel asym exactly 0.0 and the
+    /// counterexample measures 7.692080e-3, so 1e-10 sits about seven orders below the
+    /// smallest break and eight above the float noise; anything above it is a break, not
+    /// rounding. The theorem it serves (asymmetry exactly 0 in F112's typed scope) IS exact,
+    /// but a threshold on a float difference of two Frobenius norms cannot witness that;
+    /// docs/GLOSSARY.md:304 is the governing rule.
     ///
     /// <para>Where the witness is polarity-degenerate
     /// (<see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/>) the threshold decides
@@ -254,8 +259,10 @@ public sealed class LindbladBitBPiBalanceWitness : Claim
     ///         the asymmetry never touches.) Not degenerate: a single-site Z-drive is Π²-odd,
     ///         so the halves are 1.341640e-1 and 1.362440e-1. Expected BROKEN.</item>
     /// </list>
-    /// All five use <see cref="Tolerance"/> = 1e-10 to keep the BALANCED/BROKEN cut at
-    /// the bit-exact scale of F112 (any rel asym > 1e-10 counts as BROKEN).</summary>
+    /// All five use <see cref="Tolerance"/> = 1e-10. That number separates the measured
+    /// values rather than certifying exactness: witnesses 1-4 read exactly 0.0 and witness 5
+    /// reads 7.692080e-3, so the cut has about seven orders of room on either side and any
+    /// rel asym above it counts as BROKEN.</summary>
     public static IReadOnlyList<LindbladBitBPiBalanceWitness> StandardSet(ChainSystem chain)
     {
         if (chain is null) throw new ArgumentNullException(nameof(chain));
