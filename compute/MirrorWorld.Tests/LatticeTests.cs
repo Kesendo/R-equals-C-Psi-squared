@@ -51,10 +51,23 @@ public class LatticeTests
     // compute/MirrorWorld/README.md so it does not live only in a test file.
     const double BridgeBound = 32.0 * Eps;
 
-    // every bridge of the V4 is exact at every probed tick, and the four vertices are genuinely
-    // four different matrices (the bridges are not vacuous). Exact rather than bounded because the
+    // every bridge of the V4 is exact at every probed tick, and the four vertices are four
+    // different matrices (the bridges are not vacuous). Exact rather than bounded because the
     // seed is a single excitation at zz = 0, the sparse regime where the contraction cannot
     // reorder; that is a property of THIS configuration, not of the identity in general.
+    //
+    // Read the separation guard for what it is. At a single-excitation seed the four worlds are
+    // seeded into DISJOINT joint-popcount blocks and Restless.Alive keeps them there, so at every
+    // cell at most one of any two worlds is nonzero and the pairwise max reduces to the larger of
+    // the two peak magnitudes; the min over pairs is then the second-smallest of the four peaks.
+    // The bridges asserted above make all four peaks EQUAL (l, r and lr are exact entry
+    // relabellings of e), so here VertexSeparation is just max|e|, and this guard and the
+    // liveness gate at the end of the file are two bounds on that one scalar.
+    //
+    // So it is a measurement of the run, but of the amplitude's DECAY and not of distinctness.
+    // What keeps it off 0 is conservation rather than the seeding: trace(e) = 1 over a block of
+    // C(N,1) non-negative diagonal cells forces max|e| >= 1/N, which is >= 1/6 at every N used in
+    // this file and cannot approach the 0.1 below.
     [Fact]
     public void All_Bridges_Are_Exact_And_The_Vertices_Are_Distinct()
     {
@@ -209,12 +222,15 @@ public class LatticeTests
         //
         // No VertexSeparation guard in this loop, and that is a fact about the lattice rather than
         // an omission, though the reason is RELAXATION and not the seed alone. Half filling is
-        // necessary, since the seed and its complement then carry the same popcount and live in the
-        // same sector, but it is not sufficient: N=4, seed 0b0011, zz=0, gamma=0.5, J=1 separates
-        // by 0.43 at 30 ticks and only falls to 7.6e-5 by 200, as both worlds approach a common
-        // steady state. 17 of the 320 cells end under 0.1, the smallest being seed 0b0101 at 200
-        // ticks (2.5e-5). The guard belongs on the single-excitation pins above, where separation
-        // is 0.44 and it does discriminate. What keeps THIS test non-vacuous is the exactly-0.0
+        // necessary, since the seed and its complement then carry the same popcount and the four
+        // worlds land in the SAME joint-popcount block instead of four disjoint ones, so their
+        // supports overlap and the separation can fall. It is not sufficient: N=4, seed 0b0011,
+        // zz=0, gamma=0.5, J=1 separates by 0.43 at 30 ticks and only falls to 7.6e-5 by 200, as
+        // both worlds approach a common steady state. 17 of the 320 cells end under 0.1, the
+        // smallest being seed 0b0101 at 200 ticks (2.5e-5). Away from half filling the supports
+        // stay disjoint, the separation reduces to max|e| (see the note on the first test), and
+        // conservation floors that at 1/N, so the guard could not fail there whatever the run
+        // does. It is never the thing keeping a row honest. What keeps THIS test non-vacuous is the exactly-0.0
         // sparse rows at its top and The_Turned_Rule_Is_LoadBearing_For_The_OneSided_Vertices,
         // which breaks a bridge at O(1).
         double worst = 0.0;
@@ -257,6 +273,48 @@ public class LatticeTests
         Assert.True(longRun > shortRun,
             $"at gamma=0 nothing damps the accumulated rounding, so the running maximum must keep "
             + $"growing: {shortRun / Eps:F2} eps at 1000 ticks, {longRun / Eps:F2} eps at 16000");
+    }
+
+    // Liveness. A review stubbed Restless.Step to a no-op and SIX of the ten tests then in this
+    // file still passed, because most of what they assert is a relabelling identity between four
+    // matrices and a relabelling holds just as well when nothing moves. The VertexSeparation guard
+    // in the first test does not catch it either: the four worlds are seeded into four DISJOINT
+    // joint-popcount blocks (Restless.Alive keeps each one there forever), so no two of them ever
+    // share a nonzero cell, and the separation is already 1.0 before a single step.
+    //
+    // The frozen reading is exact, which is why this compares with ==, and distinct seed CELLS are
+    // all that takes; the disjoint blocks above are stronger than needed for it.
+    // The claim is NOT that no arithmetic has run at ticks = 0 -- the bridge, unit and separation
+    // loops all run at tick 0. It is that no STEP has run (Lattice.Run breaks before the first
+    // Step when tick == ticks), so every cell is either 0 or the seeded 1.0, and every pairwise
+    // difference is (1,0) - (0,0), whose Magnitude is returned unmodified. Nothing rounds.
+    //
+    // What this gates, measured by stubbing rather than argued: a lattice that stops moving as a
+    // whole. Under a no-op Step the live separation is exactly 1.0 too, so the discriminator is
+    // the exact `< 1.0` and no threshold is needed. What it does NOT gate, also measured, with
+    // who does gate it, so nobody reads this as the file's liveness guarantee:
+    //   - the dissipator. Dropping the mask term from Restless.Rhs leaves this test green (all
+    //     four seed cells sit on the zero-rate set: e and LR are diagonal at k=0, L and R are at
+    //     k=N where the turned rate -2*gamma*(N-k) vanishes), so the drop below is driven by the
+    //     hopping alone. The_Opening_Law_Holds_On_The_Cat_Pair and
+    //     The_Turned_Rule_Is_LoadBearing_For_The_OneSided_Vertices both fail on that mutation.
+    //   - one or two of the four worlds freezing. A frozen world keeps the LARGEST peak, so the
+    //     min-over-pairs lands on a live pair and this test stays green. Freezing L and R fails
+    //     four of the bridge tests instead, which is where a broken vertex belongs.
+    // For the record and not asserted: the live separation here is 0.438077.
+    [Fact]
+    public void The_Integrator_Actually_Moves_The_Worlds()
+    {
+        var lattice = new Lattice(W, 4);
+        var frozen = lattice.Run(seed: 0b0001, dt: 0.05, ticks: 0);
+        var live = lattice.Run(seed: 0b0001, dt: 0.05, ticks: 30);
+
+        Assert.True(frozen.VertexSeparation == 1.0,
+            $"before any step the four vertices are four distinct basis cells of amplitude 1 in "
+            + $"disjoint blocks, so the separation is exactly 1.0; got {frozen.VertexSeparation:E17}");
+        Assert.True(live.VertexSeparation < 1.0,
+            $"30 ticks must move the worlds, and a stopped integrator leaves the separation at "
+            + $"exactly 1.0; got {live.VertexSeparation:E17}");
     }
 
     // ontology: the lattice's own outputs.
