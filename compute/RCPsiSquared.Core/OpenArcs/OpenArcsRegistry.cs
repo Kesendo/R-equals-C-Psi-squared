@@ -4675,9 +4675,18 @@ public static class OpenArcsRegistry
                 "break-input proving the exact half is not vacuous). A CAUTION EARNED THIS SESSION: the fix is " +
                 "a definition plus a guard, not a sweep. Six rounds of review on a ten-site repair found a real " +
                 "defect every round, and five of six times the defect was in the repair rather than in the " +
-                "material repaired. There is no hook keyed on the word today, and .githooks/ has zero " +
-                "occurrences, so a check_spent_words-style guard is free to add and is what would make this " +
-                "stay fixed.",
+                "material repaired, and three more rounds on the F112 denominator on 08-06 held that ratio. " +
+                "THE GUARD NOW EXISTS and this sentence used to deny it while ParkedAt above announced it: " +
+                ".githooks/check_bit_exact.py, wired into pre-commit, --self-test pins 16 cases. It fires " +
+                "same-line only, so it is a tripwire and NOT the worklist. Its negation exemption has had " +
+                "two holes, both found by it firing on the commit that was repairing the very line it " +
+                "flagged: re.X eating the spaces inside 'rather than' and 'no longer' (fixed 20d7fca), " +
+                "and an article standing between the denial and the word, so 'is not A bit-exact scale' " +
+                "never matched (fixed f5cd2df). Assume a third hole rather than that the exemption is " +
+                "complete. Tom widened the scope on 08-06 evening from 'definition plus guard' to the " +
+                "sweep: the twelve one-shot scripts and the four quoting docs are now IN, and the worklist " +
+                "with the regeneration command lives in .remember/remember.md under 'The twelve sites and " +
+                "the four quotes'.",
             Status: OpenArcStatus.Open),
     };
 
