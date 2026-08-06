@@ -382,7 +382,7 @@ The full V_inter (on the full HD=1 × HD=3 operator subspace, not just c=2) deco
 
 For each c (chromaticity = number of distinct popcount-difference HD-channels), the same F71-mirror argument applies. JwBlockBasis is currently typed only for c=2; analogous per-c primitives would be needed to make the per-stratum argument rigorous at higher c. The structural mechanism is identical at every c-stratum.
 
-**Status of Step 6: closed on c=2 stratum, mechanism extends.** The c=2 verification is bit-exact at machine precision for N=3..6. The full-V_inter parity-of-N effect (also verified empirically in [V_inter SVD R-parity scan](#v_inter-svd-r-parity-decomposition-parity-of-n-split)) reduces to a sum of per-c-stratum statements, each closed by the same F71-mirror cluster-equivalence argument. The remaining technical work (typing analogous primitives at c=3, 4, 5) is bounded.
+**Status of Step 6: closed on c=2 stratum, mechanism extends.** The c=2 verification is at machine precision for N=3..6. The full-V_inter parity-of-N effect (also verified empirically in [V_inter SVD R-parity scan](#v_inter-svd-r-parity-decomposition-parity-of-n-split)) reduces to a sum of per-c-stratum statements, each closed by the same F71-mirror cluster-equivalence argument. The remaining technical work (typing analogous primitives at c=3, 4, 5) is bounded.
 
 ---
 

@@ -568,7 +568,17 @@ public class BlockSpectrumWitnessTests
         Assert.Equal(10, b.KernelDimension);              // = N+1, the F4 connected-chain kernel
         Assert.Equal(0.02727562511208863, b.DissipationGap, 9);
         Assert.Equal(5.736321706379341, b.MaxImag, 6);
-        Assert.True(b.MaxPairingDistance < 1e-12);        // 3.48e-13: the F1 pairing held bit-exact
+        // The palindrome held to 3.48e-13 across the real span |MinReal| = 2*sigma = 9 (the radius
+        // about the centre -sigma is 4.5), i.e. ~174 eps*2sigma. That is a BACKWARD ERROR from a
+        // non-normal eigensolver: not zero, and not bit-exact. The physics behind the artifact has
+        // no exact route, but THIS assertion does: the value is deserialized from a committed JSON
+        // and cannot move at all unless the artifact is regenerated. So it is a PROVENANCE pin, not
+        // a quality gate: it fires on any change to the artifact, better or worse, which is what is
+        // wanted from a stored number. The neighbours above gate on 6 to 9 digits because their
+        // values carry eigensolver noise in the last places (MinReal is -9.000000000000062); this
+        // one is compared exactly because nothing recomputes it.
+        Assert.True(b.MaxPairingDistance == 3.476966116100645E-13,
+            $"the banked pairing distance moved: {b.MaxPairingDistance:E16}");
         Assert.Equal(0, b.OutlierPairCount);
         Assert.Equal(100, b.SectorCount);
         Assert.Equal(50, b.PrimarySectorCount);           // X(x)N order-2 classes

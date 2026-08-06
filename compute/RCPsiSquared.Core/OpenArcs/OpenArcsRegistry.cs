@@ -2125,7 +2125,8 @@ public static class OpenArcsRegistry
                 "sector-by-sector via PerBlockLiouvillianBuilder.BuildBlockZ (full at N≤7, a Π-closed sub-spectrum " +
                 "at higher N since the cap-fitting sectors are themselves Π-closed); the (0,1) band-edge sector " +
                 "sitting entirely at Re=−2γ (the Absorption floor, L_D scalar there). The full N=9 headline " +
-                "(262144 eigenvalues, palindrome bit-exact about −2σ=−9, kernel 10=N+1, gap 0.0273, 645.95× " +
+                "(262144 eigenvalues, palindrome about −σ=−4.5 with the floor at −2σ=−9, max pairing distance 3.48e-13, i.e. " +
+                "~174 eps·2σ and NOT bit-exact, kernel 10=N+1, gap 0.0273, 645.95× " +
                 "speedup) is read live from the committed chain_N9.json (a [stored] artifact, the run is ~3 h), " +
                 "degrading gracefully if absent. Breadcrumbed from F1GeneralTopologyVerifiedClaim; no new claim " +
                 "(surfaces already-typed results: F1, JointPopcountSectors, the Π-orbit pairing, the Absorption " +
@@ -4552,6 +4553,61 @@ public static class OpenArcsRegistry
                 "a computation instead of derived from it, and a SAMPLE or a WINDOW or an N-range narrow " +
                 "enough to hide the exception, which is what kept the (0,1) block at N<=5 when the block is " +
                 "N-by-N and the interesting crossing is at N=8.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "bit_exact_vocabulary",
+            Opened: "2026-08-06",
+            Origin:
+                "Found while repairing ONE mislabel in BlockSpectrumWitness (the N=9 headline called the F1 " +
+                "palindrome 'bit-exact' beside its own 3.48e-13). A repo-wide census then returned 2203 " +
+                "occurrences of bit-exact / bit-exactly / bit-identical across the whole tree including gitignored " +
+                "and generated files; counted over tracked .cs/.md/.py only it is about 2015. Roughly 70 " +
+                "percent of the claim-bearing ones are backed by a tolerance. " +
+                "The repo already forbids this in writing: docs/GLOSSARY.md:304 says 'if a threshold accompanies " +
+                "it, the claim is not bit-exact'. It had been caught four times before (OpenArcsRegistry's own " +
+                "f91_scope_fences finding 3, two superpowers review logs, a daily note) and never propagated.",
+            ParkedAt:
+                "THE ROOT IS FIXED, THE LEAVES ARE NOT. Core/Knowledge/Tier.cs:8 defined Tier1Derived as " +
+                "'analytic proof, bit-exact verified', mirrored to the user in Cli GlossaryInspectableNode; " +
+                "about 40 percent of all hits are boilerplate inheriting that adjective from the tier rather " +
+                "than from a computation. Both lines were corrected on 2026-08-06, so leaf fixes no longer " +
+                "regrow from the definition. Also corrected that day: the two self-contradicting N=9 headline " +
+                "restatements, PROOF_F1_GENERAL_TOPOLOGY's verdict cell, and seven instances of the phrase " +
+                "'bit-exact at/to machine precision', which cannot be both. That is roughly ten sites of 2203. " +
+                "UNTOUCHED AND RANKED BY WHAT DEPENDS ON THEM: the three F112 Lindblad*BalanceWitness classes, " +
+                "whose 1e-10 verdict knob is documented AS 'the bit-exact balance scale' and rendered live; " +
+                "VacuumBlockReductionClaim, whose 'VERIFIED bit-exact' battery rounds to six decimals and " +
+                "string-compares (the cde415c defect shape, in a different file); PopcountCoherenceClaim:48, " +
+                "which prints 'bit-exact ... max deviation 8.88e-16' in one summary; SectorReductionWitness:98; " +
+                "CrossoverMirrorSqrtNinetyClaim:230, a live node titled 'the sqrt-of-90 identity (bit-exact)' " +
+                "over a 1e-9 gate; and PalindromeResidualScalingClaim:111, whose node calls the Frobenius " +
+                "residual NORM bit-exact over a 1e-6 relative gate with no test file at all (note that is " +
+                "a different object from the pairing distance, so it does not contradict " +
+                "F1GeneralTopologyVerifiedClaim:20; an earlier draft of this arc said it did). " +
+                "Two generators keep producing new ones: diagnose_hardware.py:245 emits the literal string " +
+                "'BALANCED (asymmetry bit-exact 0)' from a rel < 1e-10 branch and a test asserts on that string, " +
+                "and chain_gap_sector_diagnostic.py formats a relative error as :.3f so anything under 5e-6 " +
+                "prints '0.000%', which doc lines then read as bit-exactness (F1_DISSIPATION_GAP_PATTERN.md " +
+                ":114 and :139 are the two confirmed; the wider count is unverified).",
+            NextStep:
+                "TRIAGE BY THE OBJECT, NOT BY THE SENTENCE. The word splits cleanly by what kind of quantity " +
+                "the row is about, which sorts the bulk without opening every backing assertion: integers, " +
+                "rationals, BigInteger, GF(p) ranks, exact permutation rearrangements and symbolic identities " +
+                "use it CORRECTLY (F4 kernel dimensions, the F89 path polynomials, Krawtchouk counts, the " +
+                "F94/F96/F97 algebraic derivations); anything that passed through an eigensolver or a time " +
+                "evolution uses it WRONGLY (F80, F86c, F88b, F90, F112, the F1 pairing). Take the two live " +
+                "generators first, since they manufacture new instances every run. Then the ~40 typed Claim " +
+                "and IInspectable strings, because those are what a reader is shown. The models to copy are " +
+                "already in the repo and need no invention: BlockSpectrumWitness plus its tests (exact == 0.0 " +
+                "where an exact route exists, a named error model where it does not), StarImMaxBoundClaim:196 " +
+                "('why this claim says machine precision and not bit-exact'), and MirrorTests (== 0.0 plus a " +
+                "break-input proving the exact half is not vacuous). A CAUTION EARNED THIS SESSION: the fix is " +
+                "a definition plus a guard, not a sweep. Six rounds of review on a ten-site repair found a real " +
+                "defect every round, and five of six times the defect was in the repair rather than in the " +
+                "material repaired. There is no hook keyed on the word today, and .githooks/ has zero " +
+                "occurrences, so a check_spent_words-style guard is free to add and is what would make this " +
+                "stay fixed.",
             Status: OpenArcStatus.Open),
     };
 

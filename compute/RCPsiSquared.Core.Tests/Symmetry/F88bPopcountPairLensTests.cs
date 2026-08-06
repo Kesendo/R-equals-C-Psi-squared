@@ -64,7 +64,7 @@ public class F88bPopcountPairLensTests
     public void AlphaAnchor_BitExactMatchesKrawtchouk(int N, int np, int nq)
     {
         // The closed-form α (anchor) must match the universal Krawtchouk verifier
-        // bit-exactly to machine precision; drift between the two indicates a regression
+        // to machine precision; drift between the two indicates a regression
         // in the classification logic.
         var lens = new F88bPopcountPairLens(N, np, nq);
         Assert.Equal(lens.AlphaVerifier, lens.Alpha, precision: 14);

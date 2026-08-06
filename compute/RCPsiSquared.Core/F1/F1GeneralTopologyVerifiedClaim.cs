@@ -14,6 +14,12 @@ namespace RCPsiSquared.Core.F1;
 /// beyond chain/ring/star/K_N") on the numerical side.</para>
 ///
 /// <list type="bullet">
+/// <para><b>On the word "bit-exact" in the list below.</b> Those entries describe the RESIDUAL
+/// NORM closed form checked against a computed Frobenius norm, a different object from the
+/// eigenvalue pairing, and they have not been re-measured. Do not read them as claims about the
+/// palindrome pairing, which is an eigensolver backward error and is never bit-exact; the pairing
+/// numbers live in <c>simulations/results/f1_n8_n9_metrics/</c> and run 1e-14 to 4.5e-2.</para>
+///
 ///   <item><b>Named graphs at N=5, 6:</b> path, cycle, star, K_N, K_{2,N−2}
 ///         (10 graphs total) verified bit-exact via the Python script.</item>
 ///   <item><b>Random connected Erdős-Rényi at N=5, 6:</b> 30 random graphs per N
@@ -59,7 +65,7 @@ namespace RCPsiSquared.Core.F1;
 ///         to <see cref="BlockSpectrum.PerBlockLiouvillianBuilder.BuildBlockZIntoNativeMemory"/>
 ///         + <c>RCPsiSquared.Core.Numerics.MklDirect.EigenvaluesOnlyNative</c> (NativeMemory
 ///         + ILP64-aware zgeev). The full 262 144-eigenvalue spectrum is computed, F1
-///         palindromic pairing {λ_k} = {−2σ − λ_k} verified bit-exact across all eigenvalues
+///         palindromic pairing {λ_k} = {−2σ − λ_k} verified across all eigenvalues
 ///         to tolerance 1e-5 (observed max pairing distance ≈ 3.5e-13). Wall time 3h 24m on
 ///         the 128 GB / 24-core dev machine; effective speedup over the dense N=9 Liouvillian
 ///         (which would be 262 144² × 16 B ≈ 1.1 TB) is ≈ 645×, exceeding the LiouvillianBlockSpectrum
@@ -168,8 +174,14 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
 
     /// <summary>Disconnected component verification: two disjoint 3-chains at N=6
     /// (Python) + triangle + disjoint bond at N=5 (C#) + K_4 + disjoint 3-chain at N=7
-    /// (C#) + K_4 + disjoint 4-chain at N=8 (C#, opt-in SLOW_N8). All bit-exact / within
-    /// tight tolerance.</summary>
+    /// (C#) + K_4 + disjoint 4-chain at N=8 (C#, opt-in SLOW_N8). All verified within the
+    /// sweep's 1e-6 tolerance, and NOT bit-exact: the N=8 disconnected instance is the worst of the
+    /// four N=8 anchors, at max pairing distance 2.56e-07
+    /// with 1746 of 65536 pairs flagged as histogram outliers (distance above 100x the median, NOT
+    /// failures: all 65536 pass the 1e-6 gate), against ~3e-13 and zero flags for the connected N=8
+    /// topologies. The median stays at 2.2e-14, so the loss is localized to a few pairs; the cause is
+    /// not established, see PROOF_F1_GENERAL_TOPOLOGY.md item 2. Larger anchors exist elsewhere in
+    /// that directory (ring_N6_python reaches 4.5e-2).</summary>
     public bool DisconnectedComponentsVerified { get; } = true;
 
     /// <summary>Weighted edges verified: N=4 chain with per-bond couplings J = (1, 2, 3)
@@ -177,7 +189,7 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     public bool WeightedEdgesVerified { get; } = true;
 
     /// <summary>Single-body class verified at N=5 chain with IY+YI per-bond bilinear:
-    /// F = (D2/2)·4^(N−2) bit-exact at machine precision.</summary>
+    /// F = (D2/2)·4^(N−2) to machine precision.</summary>
     public bool SingleBodyClassVerified { get; } = true;
 
     /// <summary>Anchor script path (Python verification, sections 1-6).</summary>

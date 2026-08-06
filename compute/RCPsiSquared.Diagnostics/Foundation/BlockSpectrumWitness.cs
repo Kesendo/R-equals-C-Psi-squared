@@ -44,7 +44,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   term at uniform γ, <see cref="VacuumBlockReductionClaim"/> has the profile with an XY H.</item>
 /// </list>
 ///
-/// <para>The full N=9 headline (262144 eigenvalues, the palindrome held bit-exact about −σ = −4.5,
+/// <para>The full N=9 headline (262144 eigenvalues, the palindrome held about −σ = −4.5 to a max
+/// pairing distance of 3.48e-13, i.e. ~174 eps·2σ and NOT bit-exact,
 /// kernel 10 = N+1, gap 0.0273, 645.95× speedup) is READ live from the committed
 /// <c>simulations/results/f1_n8_n9_metrics/chain_N9.json</c> (a [stored] artifact, not recomputed —
 /// the run is 3 h), degrading to a "not in this checkout" note if absent. Breadcrumbed from
@@ -770,15 +771,17 @@ public sealed class BlockSpectrumWitness : IInspectable
             InspectableNode.RealScalar("kernel dimension (= N+1)", b.KernelDimension),
             InspectableNode.RealScalar("dissipation gap", b.DissipationGap, "0.00000000"),
             InspectableNode.RealScalar("max |Im|", b.MaxImag, "0.000000"),
-            new InspectableNode("F1 pairing (bit-exact)",
-                summary: $"max pairing distance {b.MaxPairingDistance.ToString("E3", Inv)}, {b.OutlierPairCount} outliers"),
+            new InspectableNode("F1 pairing (backward error, not zero)",
+                summary: $"max pairing distance {b.MaxPairingDistance.ToString("E3", Inv)}, {b.OutlierPairCount} outliers "
+                       + $"(≈ {(b.MaxPairingDistance / (Math.Abs(b.MinReal) * 2.220446049250313e-16)).ToString("0", Inv)} eps·2σ)"),
             new InspectableNode("block structure",
                 summary: $"{b.SectorCount} sectors, {b.PrimarySectorCount} X⊗N classes, max block {b.MaxBlockSize}² at ({b.MaxPc},{b.MaxPr})"),
             InspectableNode.RealScalar("effective speedup over dense (4^9)³", b.EffectiveSpeedup, "0.0"),
         };
         return new InspectableNode("the N=9 banked headline [chain_N9.json]",
             summary: $"[stored] the full {b.SpectrumSize}-eigenvalue N=9 chain run (Heisenberg XXX, J=1, γ=0.5): " +
-                     $"the F1 palindrome held bit-exact about −σ = {(b.MinReal / 2.0).ToString("0.#", Inv)}, the floor " +
+                     $"the F1 palindrome held about −σ = {(b.MinReal / 2.0).ToString("0.#", Inv)} to a backward error of " +
+                     $"{(b.MaxPairingDistance / (Math.Abs(b.MinReal) * 2.220446049250313e-16)).ToString("0", Inv)} eps·2σ, the floor " +
                      $"at −2σ = {b.MinReal.ToString("0.#", Inv)} (max pairing " +
                      $"distance {b.MaxPairingDistance.ToString("E2", Inv)}, {b.OutlierPairCount} outliers), kernel " +
                      $"{b.KernelDimension} = N+1, gap {b.DissipationGap.ToString("0.0000", Inv)}, {b.SectorCount} " +

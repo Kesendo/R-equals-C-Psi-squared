@@ -21,7 +21,7 @@ public static class GlossaryInspectableNode
                 "--claim <ClassName>; the whole list lives under --root world."),
 
             ("tier",
-                "The evidence scale on every claim. Tier 1 (derived) = proven analytically, bit-exact; " +
+                "The evidence scale on every claim. Tier 1 (derived) = proven analytically, numerically verified; " +
                 "Tier 1 (candidate) = strong numerical witness, proof not yet closed; Tier 2 (empirical) = " +
                 "a pattern seen across cases without proof; Tier 2 (hardware-verified) = predicted, then " +
                 "measured on a real quantum chip; Open question = a known gap with a plan; Retracted = " +

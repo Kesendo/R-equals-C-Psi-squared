@@ -32,7 +32,7 @@ namespace RCPsiSquared.Core.F1;
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md</c> (Steps 1-7).
 /// Verification: <c>simulations/f1_depol_residual_verify.py</c> (seven sections,
-/// bit-exact match to machine precision N = 2..5 across uniform and non-uniform γ).</para>
+/// match to machine precision N = 2..5 across uniform and non-uniform γ).</para>
 /// </summary>
 public sealed class F1DepolResidualClosedForm : Claim
 {

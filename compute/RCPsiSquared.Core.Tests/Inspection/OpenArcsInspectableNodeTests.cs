@@ -7,9 +7,10 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasFortyTwoEntries()
+    public void Registry_HasFortyThreeEntries()
     {
-        Assert.Equal(42, OpenArcsRegistry.All.Count);   // +f138_converse_failures (2026-08-03),
+        Assert.Equal(43, OpenArcsRegistry.All.Count);   // +bit_exact_vocabulary (2026-08-06),
+                                                        // +f138_converse_failures (2026-08-03),
                                                         // +f138_clause_two_sweep (2026-08-03),
                                                         // +benzene_center_tier_upgrade (2026-08-03),
                                                         // +two_coast_classifier_repair,

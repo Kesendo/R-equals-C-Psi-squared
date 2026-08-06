@@ -393,7 +393,7 @@ Pure exp(−4γ₀ t) decay, **no oscillation**. The Parseval cancellation Σ_l 
 3. Time evolve each |0⟩⟨ψ_k| → exp(+iE_k t − 2γt) |0⟩⟨ψ_k|
 4. Σ_l 2|(ρ_l(t))^{(vac,SE)}_{0,1}|² = N_block·(N_E·pre)²/2 · Σ_k|⟨ψ_k|α⟩|² · exp(−4γt) = N_block·(N_E·pre)²/2·1·exp(−4γt) (Parseval = 1)
 
-**Verification**: bit-exact at machine precision (4·10⁻¹⁷ to 6·10⁻¹⁶) across all (k, N) ∈ {(1,3..7), (2,4..8), (3,5..9), (4,6..10), (5,7..11)} via [`f89_vac_se_parseval_closed.py`](../simulations/f89_vac_se_parseval_closed.py).
+**Verification**: at machine precision (4·10⁻¹⁷ to 6·10⁻¹⁶, so not bit-exact) across all (k, N) ∈ {(1,3..7), (2,4..8), (3,5..9), (4,6..10), (5,7..11)} via [`f89_vac_se_parseval_closed.py`](../simulations/f89_vac_se_parseval_closed.py).
 
 **What this gives us**: a clean analytical "skeleton" of S_(k)(t) for any pure path-k:
 
@@ -606,7 +606,7 @@ Each requirement is necessary; relaxing any one breaks orbit invariance:
 
 **Tier 1 derived** for the **mixed-topology additive identity** S_T(t) = Σ_i S_(k_i)(t) − (m − 1)·N·S_bare(t; N) with S_bare = (N−1)/N²·exp(−4γ₀t). Reduces all 14 N=7 mixed-topology closed forms to 6 pure-path-k forms + 1 universal rule. Verified across all 27 N=7 bond-isolate CSVs (excluding path-6) at the precision floor.
 
-**Tier 1 derived** for the **path-k (vac, SE) Parseval self-contribution** (k+1)·(N−k−1)²/(N²(N−1))·exp(−4γ₀t). Pure-exponential analytical formula valid for all path-k via Parseval orthogonality; verified bit-exact at machine precision (4·10⁻¹⁷ to 6·10⁻¹⁶) across 15 (k, N) pairs.
+**Tier 1 derived** for the **path-k (vac, SE) Parseval self-contribution** (k+1)·(N−k−1)²/(N²(N−1))·exp(−4γ₀t). Pure-exponential analytical formula valid for all path-k via Parseval orthogonality; verified at machine precision (4·10⁻¹⁷ to 6·10⁻¹⁶, so not bit-exact) across 15 (k, N) pairs.
 
 **Tier 1 derived** for the **path-2 (SE, DE) cubic-Cardano factorisation** char(λ) = −(λ+2γ)(λ+6γ)·[cubic in λ with J/γ-dependent coefficients]. Path-2 is fully analytically tractable in radicals.
 

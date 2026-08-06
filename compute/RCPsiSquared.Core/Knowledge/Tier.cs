@@ -5,7 +5,13 @@ namespace RCPsiSquared.Core.Knowledge;
 /// docs). Used by <see cref="Claim"/> and every F-theorem KB.
 ///
 /// <list type="bullet">
-///   <item><see cref="Tier1Derived"/>: analytic proof, bit-exact verified.</item>
+///   <item><see cref="Tier1Derived"/>: analytic proof, with a numerical verification.
+///         NOT "bit-exact verified", which is what this line used to say and what roughly a
+///         thousand claim strings across the repo inherited from it: most Tier-1 verifications
+///         run an eigensolver or a Frobenius norm against a tolerance, and per
+///         <c>docs/GLOSSARY.md</c> a claim accompanied by a threshold is not bit-exact. Some
+///         Tier-1 results ARE exact (integer, GF(p), BigInteger, entry-wise rearrangement) and
+///         may say so; the tier itself does not confer it.</item>
 ///   <item><see cref="Tier1Candidate"/>: strong numerical witness, no full algebraic
 ///         derivation yet; promotion to Tier 1 needs the missing piece.</item>
 ///   <item><see cref="Tier2Empirical"/>: empirical pattern across (c, N) without proof.</item>

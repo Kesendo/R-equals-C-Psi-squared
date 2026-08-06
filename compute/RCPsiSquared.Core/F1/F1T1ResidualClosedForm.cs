@@ -25,7 +25,7 @@ namespace RCPsiSquared.Core.F1;
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md</c> (Steps 1-5).
 /// Verification: <c>simulations/f1_t1_residual_verify.py</c> (six sections,
-/// bit-exact match to machine precision N = 2..5 across uniform and non-uniform γ_T1).</para>
+/// match to machine precision N = 2..5 across uniform and non-uniform γ_T1).</para>
 /// </summary>
 public sealed class F1T1ResidualClosedForm : Claim
 {

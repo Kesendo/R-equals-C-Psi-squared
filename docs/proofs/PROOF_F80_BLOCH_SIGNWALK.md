@@ -284,7 +284,7 @@ The originally-imagined route to Step 5 was an explicit T_Π factorization in th
 
     Spec(M) = ±2i · Spec_{nontrivial}(H_{state-level})
 
-and the eventual proof (Step 5 above) is a per-site Pauli computation deriving Π·[H,·]·Π⁻¹ = ±{H,·} directly, with no Bogoliubov construction and no projection at all; numerical verification at N=3, 4, 5, 6, 7 (all 4 Pauli pairs) is bit-exact at machine precision.
+and the eventual proof (Step 5 above) is a per-site Pauli computation deriving Π·[H,·]·Π⁻¹ = ±{H,·} directly, with no Bogoliubov construction and no projection at all; numerical verification at N=3, 4, 5, 6, 7 (all 4 Pauli pairs) is at machine precision.
 
 What enabled the discovery: comparing M's eigenvalues directly to H's many-body eigenvalues, instead of decomposing M into Bogoliubov modes and trying to factor T_Π through that basis. The brute-force data sweep at higher N made the relationship visible; the numerical signature was so clean because the structure was simpler than it looked.
 
