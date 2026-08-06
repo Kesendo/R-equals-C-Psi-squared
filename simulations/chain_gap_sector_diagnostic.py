@@ -178,8 +178,16 @@ def run(N: int, J: float, gamma: float) -> dict:
     n_xy_avg = float((overlaps * n_xy_arr).sum() / overlap_sum)
     print(f"{time.time()-t0:.2f}s, normalised sum {overlap_sum:.6f}")
     print(f"  ⟨n_XY⟩_slow = {n_xy_avg:.6f}")
+    # Report the relative deviation in scientific notation, never as a percentage with a fixed
+    # width. As "{:.3f}%" it printed "0.000%" for anything under 5e-6, and doc lines then read
+    # that printf width as exactness: hypotheses/F1_DISSIPATION_GAP_PATTERN.md called the
+    # Absorption Theorem "bit-exact (0.000% relative error)" on the strength of this line. The
+    # theorem IS exact (see the module docstring); what this compares is two floating-point
+    # readings of it, one from an eigensolver and one from a Pauli-basis projection, so the
+    # deviation is an error floor and must stay legible as one.
+    rel_dev = abs(2 * gamma * n_xy_avg - gap) / gap
     print(f"  predicted gap from Absorption Theorem (-2γ·⟨n_XY⟩) "
-          f"= {2 * gamma * n_xy_avg:.6e}  (match within {abs(2*gamma*n_xy_avg - gap)/gap*100:.3f}%)")
+          f"= {2 * gamma * n_xy_avg:.6e}  (relative deviation {rel_dev:.3e})")
     print(f"  closed-form prediction ⟨n_XY⟩ ≈ 0.55·Q²/N² = {0.55*Q*Q/(N*N):.6f}")
 
     # Distribution of ⟨n_XY⟩ across Pauli weights for the slow mode
@@ -233,8 +241,9 @@ def main() -> None:
               f"{r['n_xy_avg']:10.6f}  {r['predicted_n_xy']:10.6f}  "
               f"{r['im_slow']:+10.6f}")
 
-    print("\nAbsorption Theorem reading: gap = 2γ·⟨n_XY⟩_slow → "
-          "matches gap value to machine precision (or close).")
+    print("\nAbsorption Theorem reading: gap = 2γ·⟨n_XY⟩_slow holds exactly as a theorem; the "
+          "per-N relative deviations printed above are the floor of the two float routes "
+          "compared (eigensolver vs Pauli projection), not a measure of the theorem.")
     print(f"Closed-form conjecture ⟨n_XY⟩ ≈ 0.55·Q²/N² should be accurate to ~1%.")
 
 
