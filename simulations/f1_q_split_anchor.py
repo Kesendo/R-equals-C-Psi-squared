@@ -1,9 +1,15 @@
 """Q=1.5 vs Q=2.0 split test at the canonical γ₀=0.05 substrate scale.
 
-The 2026-05-19 N=9 chain sprint ran at the deep-quantum convention (γ=0.5, J=1,
-Q = J/γ = 2) which happens to sit exactly on the Q_EP idealized anchor (per
+The 2026-05-19 N=9 chain sprint ran at γ=0.5, J=1, so Q = J/γ = 2, which happens
+to sit exactly on the Q_EP idealized anchor (per
 `docs/Q_REGIME_ANCHORS.md` row Q=2.0). The star has `MaxImag = J·N/2` at every Q;
 what is special about Q=2 is only that J = 2γ makes that value coincide with σ = N·γ.
+
+That setting is written out rather than named, on purpose. It used to be called the
+"deep-quantum convention" here, but `docs/Q_REGIME_ANCHORS.md` fixes deep-quantum at
+Q = J/γ₀ = 20, a factor of ten away; the collision comes from J = 1 meaning a
+different Q depending on which γ it is divided by. See the naming note in
+`experiments/STAR_CONFOCAL_LIMIT.md` for the same setting's other retired name.
 
 If we move the same four topologies to the framework's clean substrate
 convention γ₀ = 0.05 with two J-values:

@@ -157,9 +157,9 @@ Q-sweep at chain N=5, γ₀=0.05, across the six canonical Q-anchors gives `⟨n
 | 2.0  | 0.08837 | 0.08800 | **1.004** |
 | 2.5  | 0.13352 | 0.13750 | **0.971** |
 
-The "0.55" coefficient is therefore Q-specific: ~0.59 at Q=0.5, exactly 0.55 at Q=2 (the Marrakesh-convention anchor), ~0.53 at Q=2.5. The drift matches the ~10% sub-Q² drift in the chain plateau f(Q)/Q² documented separately in `F1_DISSIPATION_GAP_PATTERN.md`. Closed-form derivation needs to produce a c(Q) function, not just a single number.
+The "0.55" coefficient is therefore Q-specific: ~0.59 at Q=0.5, exactly 0.55 at Q=2, ~0.53 at Q=2.5. The drift matches the ~10% sub-Q² drift in the chain plateau f(Q)/Q² documented separately in `F1_DISSIPATION_GAP_PATTERN.md`. Closed-form derivation needs to produce a c(Q) function, not just a single number.
 
-The Q-sweep also surfaces that the slow-mode sector at N=5 alternates between `(2, 2)` and `(3, 3)` across Q values. Both are F1-paired (N=5 central is `⌈5/2⌉ = 3` so `(2, 2)` and `(3, 3)` are F1 partners with bit-exact identical eigenvalues), so the "winner" is numerical chance from the eigensolver. The sector identity is "(2,2)+(3,3) F1-pair", not a single block.
+The Q-sweep also surfaces that the slow-mode sector at N=5 alternates between `(2, 2)` and `(3, 3)` across Q values. Both are F1-paired (N=5 central is `⌈5/2⌉ = 3` so `(2, 2)` and `(3, 3)` are F1 partners carrying the same spectrum up to eigensolver noise, the two blocks being diagonalised separately), so the "winner" is numerical chance from the eigensolver. The sector identity is "(2,2)+(3,3) F1-pair", not a single block.
 
 ### Framework-convention cross-check at Q=1.5 (γ₀=0.05, J=0.075)
 

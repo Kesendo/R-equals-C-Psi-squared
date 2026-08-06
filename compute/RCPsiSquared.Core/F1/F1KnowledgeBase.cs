@@ -66,7 +66,7 @@ namespace RCPsiSquared.Core.F1;
 ///         deviation 1.98e-14. J·N/2 is the MINIMUM of ΔE_max over connected graphs
 ///         (star the unique minimiser, exhaustive at N ≤ 6); the saturation
 ///         max|Im λ| = ΔE_max(H) is itself common to every Heisenberg topology and
-///         so is not the star's distinguishing property. The Marrakesh-convention
+///         so is not the star's distinguishing property. The γ=0.5, J=1
 ///         "Im/σ = 1 ↔ J = 2γ" reading is the Q = 2 specialization of Im/σ = Q/2.
 ///         See <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>.</item>
 /// </list>
@@ -96,7 +96,7 @@ public sealed class F1KnowledgeBase : IInspectable
     /// (2026-05-18): dim ker L_H = Π_c (|c|+1) over connected components c. The
     /// formula itself is structurally a child of F4 (parent
     /// <see cref="F4StationaryModeCountPi2Inheritance"/>), but it surfaces on the
-    /// F1 KB as a bridge because the four bit-exact N=8 anchors live in the same
+    /// F1 KB as a bridge because the four N=8 anchors live in the same
     /// JSON files written by the F1 sweep (see
     /// <see cref="F1GeneralTopologyVerifiedClaim.SpectrumMetricsDataFiles"/>).
     /// Tier 1 derived (promoted 2026-05-19): connected-case upper bound closed by
@@ -138,7 +138,7 @@ public sealed class F1KnowledgeBase : IInspectable
     /// J·N/2 is the MINIMUM of ΔE_max over connected graphs (star the unique
     /// minimiser, exhaustive at N ≤ 6), while the saturation itself holds for every
     /// Heisenberg topology and so is not what distinguishes the star. Tier 1 derived;
-    /// see <c>PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>. The Marrakesh-convention
+    /// see <c>PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>. The γ=0.5, J=1
     /// reading <c>Im/σ = 1 ↔ J = 2γ</c> is the Q=2 specialization of
     /// <c>Im/σ = Q/2</c>. Sister closed form to <see cref="RingN4DihedralLock"/>
     /// via the same Casimir technique (star uses sublattice sizes |A|=1, |B|=N-1;

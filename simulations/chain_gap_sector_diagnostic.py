@@ -3,9 +3,9 @@
 The 2026-05-19 Q-sweep + Absorption Theorem reading suggests the slow mode of
 the chain Heisenberg + Z-dephasing Liouvillian is NOT in the pure w=1 sector
 (F50 pins those at Re = -2γ); it lives in a mixed-content sector with
-fractional ⟨n_XY⟩ ≪ 1. The bit-exact prediction at Q=2:
+fractional ⟨n_XY⟩ ≪ 1. The prediction at Q=2, empirical to <1% (see below):
 
-    ⟨n_XY⟩_slow ≈ 0.55·Q²/N²    (chain, Marrakesh convention)
+    ⟨n_XY⟩_slow ≈ 0.55·Q²/N²    (chain, γ=0.5, J=1)
 
 which reproduces the empirical gap = 2γ·⟨n_XY⟩_slow = 1.10·γ·Q²/N² to <1%.
 
@@ -216,7 +216,7 @@ def main() -> None:
     print("Goal: identify joint-popcount sector + Pauli light content of the slow mode")
     print()
 
-    # Marrakesh-convention anchors (γ=0.5, J=1, Q=2) for N=4, 5, 6
+    # anchors at γ=0.5, J=1, Q=2 for N=4, 5, 6
     # We pick Q=2 because today's typed claims are anchored there.
     results = []
     for N in (4, 5, 6):
@@ -224,7 +224,7 @@ def main() -> None:
         results.append(r)
 
     print("\n" + "=" * 80)
-    print("Summary (Marrakesh convention γ=0.5, J=1, Q=2):")
+    print("Summary (γ=0.5, J=1, Q=2):")
     print(f"{'N':>3}  {'gap':>10}  {'sector':>12}  {'⟨n_XY⟩':>10}  "
           f"{'predicted':>10}  {'Im_slow':>10}")
     for r in results:

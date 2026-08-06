@@ -45,7 +45,7 @@ independently of γ and of the corresponding dimensionless ratio Q = J/γ. The e
 
 All 24 anchors match Im/σ = Q/2 to machine precision. Output JSON files: `simulations/results/q_sweep_anchor/star_N{3..6}_Q{0.5..2.5}.json`. Five of the six Q values are canonical anchors from [`docs/Q_REGIME_ANCHORS.md`](../Q_REGIME_ANCHORS.md); Q = 0.5 is a below-onset probe that is not in that table.
 
-**N=8 Q=2 anchor (Marrakesh convention γ=0.5, J=1):** Im_max = 4.000000000000002, σ = N·γ = 4, so Im/σ = 1.0 to machine precision. From the SLOW_N8 sweep (`star_N8.json`, commit 89f725e). Equivalent statement: Im_max = J·N/2 = 4 at J=1, N=8.
+**N=8 Q=2 anchor (γ=0.5, J=1):** Im_max = 4.000000000000002, σ = N·γ = 4, so Im/σ = 1.0 to machine precision. From the SLOW_N8 sweep (`star_N8.json`, commit 89f725e). Equivalent statement: Im_max = J·N/2 = 4 at J=1, N=8.
 
 **Python re-runs at Q=2 (γ=0.5, J=1) for N=3..6:** `simulations/results/f1_n8_n9_metrics/star_N{3..6}_python.json` reproduce the Q=2 column of the Q-sweep table above. These are re-runs of the same code, not an independent implementation: `f1_q_sweep_anchor.py` imports its `run` from `f1_topology_heisenberg_small_n_anchor.py`, which builds the Liouvillian with the framework helper `framework.lindblad.lindbladian_z_dephasing`. Both paths therefore call the same function, so these four runs confirm reproducibility, not cross-implementation agreement.
 
@@ -200,7 +200,7 @@ Among all connected graphs, the star's closed form is the **minimum**. Exhaustiv
 
 - The gate: [`simulations/star_saturation_gate.py`](../../simulations/star_saturation_gate.py), 129 checks covering the Casimir closed form (N=3..7), the star law across (J, γ), the universality of the saturation across topologies, the realising modes and their count, all three scope fences (non-uniform γ, non-ferromagnetic H, non-Hermitian jumps), the minimiser search, the additive composition of disconnected components, and the stored-anchor precision.
 - Python anchors at 24 (N, Q) anchors × γ₀=0.05: [`simulations/f1_q_sweep_anchor.py`](../../simulations/f1_q_sweep_anchor.py) → `simulations/results/q_sweep_anchor/star_N{3..6}_Q{0.5..2.5}.json`.
-- C# N=8 anchor (Marrakesh convention): [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs`](../../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs) → `star_N8.json`. That test asserts the F1 palindromic-pairing identity; `MaxImag` is one of the statistics it logs, not something it asserts, so it anchors this claim as recorded data rather than as a test.
+- C# N=8 anchor (γ=0.5, J=1): [`compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs`](../../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN8BlockSpectrumTests.cs) → `star_N8.json`. That test asserts the F1 palindromic-pairing identity; `MaxImag` is one of the statistics it logs, not something it asserts, so it anchors this claim as recorded data rather than as a test.
 - Typed claim: [`compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/StarImMaxBoundClaim.cs) (Tier 1 derived) with `Predict(N, J)` returning J·N/2 and `PredictImOverSigma(Q)` returning Q/2.
 
 ## Cross-references

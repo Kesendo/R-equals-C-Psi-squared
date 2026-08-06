@@ -2,7 +2,7 @@
 
 **Tier 3 (reading) sharpened to Tier 3 (empirical scaling).** Observation surfaced from the F1 SLOW_N8 sweep on 2026-05-18 (commit 89f725e) with the 4 N=8 anchors. Extended 2026-05-19 first with chain/ring/star × N=3..6 Python anchors plus the N=9 chain run via the MklDirect bridge (commit abb2d52), then with a 72-point Q-sweep across the 6 canonical Q-anchors from [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md). The structural picture has two layers:
 
-1. **Chain plateau is Q-quadratic, not a single constant.** The "gap × N² ≈ 2.20" originally reported was the Q=2 plateau at the Marrakesh convention γ=0.5, J=1. The Q-invariant statement is `gap · N² / γ ≈ 1.1 · Q²` (chain plateau N≥4, residual ~10% finite-N).
+1. **Chain plateau is Q-quadratic, not a single constant.** The "gap × N² ≈ 2.20" originally reported was the Q=2 plateau at γ=0.5, J=1. The Q-invariant statement is `gap · N² / γ ≈ 1.1 · Q²` (chain plateau N≥4; the ~10% is the drift of f(Q)/Q² ACROSS Q, 1.183 at Q=0.5 down to 1.057 at Q=2.5, not a finite-N residual, which runs about 1.4% over N = 4..9).
 2. **Ring N=4 and N=6 exhibit Q-independent dihedral locks.** Ring N=4 saturates `Im_max = (3/4)·J·N = 3·J` at every Q tested, to machine precision (= `Im/σ = 3Q/4`); ring N=6 saturates `Im_max = 0.717129... · J · N` the same way. Both are Q-universal topology-N specific saturation laws; ring N=4 is typed Tier 1 as `RingN4DihedralLockClaim`.
 
 Bond count alone does not predict any of this; the per-topology dispersion structure (open-chain modes, cyclic Bogoliubov modes, hub-spoke SU(2)) is the structural fingerprint.
@@ -60,11 +60,11 @@ with the chain plateau f(Q) values from the 24-anchor Q-sweep (N=4..6 mean per Q
 
 `f(Q) / Q²` drifts from 1.183 at Q=0.5 down to 1.057 at Q=2.5, a roughly 10% drift across the band. The dominant scaling is `f(Q) ≈ c·Q²` with `c ≈ 1.10` and a sub-leading correction that pulls the ratio down at high Q (closed form open; expect a finite-N residual and a Bethe-dispersion correction at the chain edges).
 
-**Marrakesh-convention "2.20" recovered as Q=2 plateau:** `f(Q=2) ≈ 4.38` at γ₀=0.05 rescales to `gap·N² ≈ 4.38·γ_{Marrakesh} = 4.38·0.5 = 2.19` at the J=1, γ=0.5 convention, recovering the originally observed "2.20" plateau (4-anchor agreement N=4..6 + N=8 + N=9 from the 2026-05-19 N=9 bridge run). The 2.20 reading is the value of `f(Q=2)·γ` at γ=0.5, not a universal chain constant.
+**The γ=0.5, J=1 "2.20" recovered as Q=2 plateau:** `f(Q=2) ≈ 4.38` at γ₀=0.05 rescales to `gap·N² ≈ 4.38·γ = 4.38·0.5 = 2.19` at the J=1, γ=0.5 convention, recovering the originally observed "2.20" plateau (4-anchor agreement N=4..6 + N=8 + N=9 from the 2026-05-19 N=9 bridge run). The 2.20 reading is the value of `f(Q=2)·γ` at γ=0.5, not a universal chain constant.
 
 **Physical interpretation.** A 1D dispersive chain Hamiltonian + per-site Z-dephasing produces a "diffusive" Liouvillian. The slowest decay mode has wavevector k_min ∝ 1/N (open-boundary modes); the decay rate scales as γ · k_min² ∝ J²/(γ·N²) → gap·N²/γ ∝ Q². The Q² scaling is dispersion-rooted; the precise prefactor c ≈ 1.10 with sub-leading correction is open (likely a Bethe-ansatz / magnon-dispersion result).
 
-**N=9 chain verification at Q=2 (2026-05-19, landed):** prediction `gap ≈ 2.18/81 = 0.0269` versus observed `gap = 0.02728` from the MklDirect bridge run (γ=0.5, J=1). Match within ~1%. The chain Q=2 plateau spans N ∈ {4, 5, 6, 8, 9} bit-exact.
+**N=9 chain verification at Q=2 (2026-05-19, landed):** prediction `gap ≈ 2.18/81 = 0.0269` versus observed `gap = 0.02728` from the MklDirect bridge run (γ=0.5, J=1). Match within ~1%. The chain Q=2 plateau spans N ∈ {4, 5, 6, 8, 9}, holding to about 1.5% across that range (2.18 to 2.21 in the table above); it is an empirical plateau, not an exact identity.
 
 ## Ring-topology dihedral locks: Q-universal saturation laws (bonus discoveries 2026-05-19)
 
@@ -178,7 +178,7 @@ The chain and ring gap closed forms would naturally share a parent abstraction `
 
 ## Cross-references
 
-- Anchor data Q=2 (Marrakesh convention): `simulations/results/f1_n8_n9_metrics/{chain,ring,star,k4_plus_disjoint_4chain}_N8.json` + the `_N{3..6}_python.json` companions; `chain_N9.json` for the N=9 bridge run.
+- Anchor data Q=2 (γ=0.5, J=1): `simulations/results/f1_n8_n9_metrics/{chain,ring,star,k4_plus_disjoint_4chain}_N8.json` + the `_N{3..6}_python.json` companions; `chain_N9.json` for the N=9 bridge run.
 - Anchor data Q-sweep (γ₀=0.05 substrate convention): `simulations/results/q_sweep_anchor/{chain,ring,star}_N{3..6}_Q{0.5..2.5}.json` (72 files, 24 per topology) and `f1_q_sweep_anchor.py` plus `q_sweep_anchor_console.log`.
 - Canonical Q-anchor map: [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md).
 - Companion typed claim from the same sweep (the closed-form discovery that did promote): [F4KernelDimensionByComponentsClaim](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs) (Tier 1 derived as of 2026-05-19; landed Tier 1 candidate 2026-05-18, promoted after DEGENERACY_PALINDROME Result 2 was identified as the connected-case upper-bound closure; kernel-dim factorisation across components).

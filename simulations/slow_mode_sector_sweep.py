@@ -1,7 +1,7 @@
 """Slow-mode sector sweep: ring + star + Q-sweep + N=7 chain.
 
 Batched runner for tasks #69-#72:
-  - Ring N=4..6 at Q=2 (Marrakesh convention, γ=0.5, J=1).
+  - Ring N=4..6 at Q=2 (γ=0.5, J=1).
   - Star N=3..6 at Q=2.
   - Chain N=5 across 6 canonical Q-anchors {0.5, 1.0, 1.5, √3, 2.0, 2.5}.
   - Chain N=7 at Q=2 (last N before block-spectrum bridge required).
@@ -38,7 +38,7 @@ def main() -> None:
 
     results = {}
 
-    # Task #69: Ring N=4..6 at Q=2 (Marrakesh convention)
+    # Task #69: Ring N=4..6 at Q=2 (γ=0.5, J=1)
     print("\n[Task 69] RING N=4..6 at Q=2")
     print("-" * 100)
     for N in (4, 5, 6):
@@ -67,7 +67,7 @@ def main() -> None:
         J = Q * gamma_substrate
         results[("chain", 5, Q)] = run("chain", N=5, J=J, gamma=gamma_substrate)
 
-    # Task #72: N=7 chain at Q=2 (Marrakesh convention)
+    # Task #72: N=7 chain at Q=2 (γ=0.5, J=1)
     print("\n[Task 72] CHAIN N=7 at Q=2 (will take ~5-10s for Pauli projection)")
     print("-" * 100)
     results[("chain", 7, 2.0)] = run("chain", N=7, J=1.0, gamma=0.5)

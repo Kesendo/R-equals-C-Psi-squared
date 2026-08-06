@@ -6531,7 +6531,7 @@ the bound itself fails (H = 0 with c = I + iY has spectrum {0, 0, −2±2i}).
 
 Tier 1 derived. Proof `docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md`, typed as
 `StarImMaxBoundClaim`, gate `simulations/star_saturation_gate.py` (129 checks).
-The `Im/σ = 1` reading is the Q = 2 (Marrakesh) specialization, not the law.
+The `Im/σ = 1` reading is the Q = 2 specialization (γ = 0.5, J = 1), not the law.
 
 ---
 

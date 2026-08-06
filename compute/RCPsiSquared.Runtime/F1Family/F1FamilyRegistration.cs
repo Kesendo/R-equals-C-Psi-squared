@@ -72,7 +72,7 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///         <c>|β_k⟩⟨ferro|</c> coherences on which uniform dephasing acts as the
 ///         scalar -2γk. Same proof skeleton as
 ///         <see cref="RingN4DihedralLockClaim"/> with sublattice sizes (1, N-1)
-///         instead of (2, 2); the Marrakesh-convention <c>Im/σ = 1 ↔ J = 2γ</c>
+///         instead of (2, 2); the γ=0.5, J=1 <c>Im/σ = 1 ↔ J = 2γ</c>
 ///         reading is the Q=2 column of the universal <c>Im/σ = Q/2</c> lock.
 ///         Parent edge: <see cref="F1PalindromeIdentity"/> (Tier 1 derived,
 ///         strength 5). See <c>docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md</c>.</item>

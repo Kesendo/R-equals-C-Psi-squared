@@ -58,7 +58,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         err 1.98e-14, at N=6). Five of the six Q values are canonical anchors
 ///         from <c>docs/Q_REGIME_ANCHORS.md</c>; Q = 0.5 is not in that table.
 ///         Files: <c>simulations/results/q_sweep_anchor/star_N{3..6}_Q*.json</c>.</item>
-///   <item>N=8 anchor at the Marrakesh convention (γ=0.5, J=1, Q=2): Im_max =
+///   <item>N=8 anchor at γ=0.5, J=1 (Q=2): Im_max =
 ///         4.000000000000002, σ = 4. From the SLOW_N8 sweep (commit 89f725e),
 ///         file <c>star_N8.json</c>.</item>
 ///   <item>Python re-runs at γ=0.5/J=1 for N=3..6: <c>star_N{3..6}_python.json</c>
@@ -79,7 +79,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>Cavity-picture reading.</b> This claim is the typed-statement form of
 /// <c>experiments/STAR_CONFOCAL_LIMIT.md</c> (the point-focus limit of the
-/// optical-cavity framework). The Marrakesh-convention reading "Im/σ = 1 when
+/// optical-cavity framework). The γ=0.5, J=1 reading "Im/σ = 1 when
 /// J = 2γ" is the Q = 2 row of the Im/σ = Q/2 lock; the γ-independent statement
 /// makes clear the closed form is a property of star geometry, not of any
 /// particular (J, γ) point. The SATURATION, by contrast, is common to every
@@ -109,7 +109,7 @@ public sealed class StarImMaxBoundClaim : Claim
     /// case where chain and ring also saturate (triangle = K_3 symmetry).</summary>
     public int MinN { get; } = 3;
 
-    /// <summary>Repo-relative paths of the Q-sweep + Marrakesh-convention JSON
+    /// <summary>Repo-relative paths of the Q-sweep + γ=0.5/J=1 JSON
     /// files whose <c>MaxImag</c> fields anchor this claim. Look here for the raw
     /// numbers; do not re-derive.</summary>
     public IReadOnlyList<string> AnchorDataFiles { get; } = new[]
@@ -139,7 +139,7 @@ public sealed class StarImMaxBoundClaim : Claim
         "simulations/results/q_sweep_anchor/star_N6_Q1.7321.json",
         "simulations/results/q_sweep_anchor/star_N6_Q2.0000.json",
         "simulations/results/q_sweep_anchor/star_N6_Q2.5000.json",
-        // N=8 Marrakesh-convention anchor (Q=2 at γ=0.5, J=1) from SLOW_N8 sweep.
+        // N=8 anchor at Q=2 (γ=0.5, J=1) from SLOW_N8 sweep.
         "simulations/results/f1_n8_n9_metrics/star_N8.json",
         // Python re-runs at γ=0.5, J=1 (Q=2) for N=3..6. Same Q-column as the
         // q_sweep_anchor Q=2 row above AND the same code path: f1_q_sweep_anchor.py
@@ -246,7 +246,7 @@ public sealed class StarImMaxBoundClaim : Claim
             yield return new InspectableNode("Q-sweep anchor count",
                 summary: "24 anchors at γ₀=0.05 from the 2026-05-19 Q-sweep (Q ∈ {0.5, 1.0, 1.5, √3, 2.0, 2.5} × N ∈ {3, 4, 5, 6}). All Im/σ = Q/2 to machine precision, worst relative deviation 1.98e-14.");
 
-            yield return new InspectableNode("N=8 Marrakesh anchor",
+            yield return new InspectableNode("N=8 anchor at gamma=0.5, J=1",
                 summary: "Im_max = 4.000000000000002, σ = N·γ = 4, so Im/σ = 1.0 to machine precision (relative deviation 4.4e-16). From the SLOW_N8 sweep 2026-05-18, star_N8.json. Equivalent statement: Im_max = J·N/2 = 4 at J=1, N=8.");
 
             yield return new InspectableNode("anchor data files",
