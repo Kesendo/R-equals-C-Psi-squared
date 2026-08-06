@@ -88,16 +88,18 @@ The part that is clean is the synthetic isolation below, because it evaluates th
 ```
 Case A: Z-drive H + Z-deph             rel asym = 0.000        (in F112 scope: BALANCED)
 Case B: idle H + σ⁻ T1                 rel asym = 0.000        (out of scope, still BALANCED)
-Case C: Z-drive H + σ⁻ T1              rel asym = 3.85e-03     (out of scope, BROKEN)
+Case C: Z-drive H + σ⁻ T1              rel asym = 7.69e-03     (out of scope, BROKEN)
 Case D: idle H + Z-deph + σ⁻ T1        rel asym = 0.000        (out of scope, still BALANCED)
-Case E: Z-drive H + Z-deph + σ⁻ T1     rel asym = 3.85e-03     (out of scope, BROKEN)
+Case E: Z-drive H + Z-deph + σ⁻ T1     rel asym = 7.69e-03     (out of scope, BROKEN)
 ```
 
 C and E agree exactly, so the Z-dephasing term contributes nothing to the +i / −i content; the breaker is the Z-drive against the σ⁻ collapse operator, through [Z, σ⁻] = +2σ⁻.
 
 ## Why none of this showed
 
-The quantity the structural thread reports is `rel = |asymmetry| / ‖M‖²`, an absolute value, identical for σ⁻ and σ⁺. A magnitude cannot see a direction. The RMS ranking did move when the operator was corrected, so the pipeline was not blind to it in principle; what was missing is any check that pointed OUTWARD, comparing a fitted rate against the device's own calibration. That is the transferable lesson, and it is worth more than the reading it cost.
+The quantity the structural thread reports is `rel = |asymmetry| / ‖M_anti‖²`, where `‖M_anti‖² = ‖M_+‖² + ‖M_−‖²` is the polarity content, the whole of what the asymmetry is a difference of. It is an absolute value, identical for σ⁻ and σ⁺. A magnitude cannot see a direction.
+
+*(Until 2026-08-06 that denominator was `max(‖M‖², 1e-15)`, a different scale which additionally saturated on its own floor wherever M vanishes. The two cases above were published under it as `3.85e-03`; the ratio between the two readings is `‖M‖²/‖M_anti‖² = 2.000266` at these parameters. The excess over 2 is the σ⁻ channel's own contribution to M, and it is **asymptotically quadratic** in γ_T1. Holding ω and γ_Z fixed, the ratio runs 4.054795, 2.026549, 2.000266, 2.000003, 2.000000 at γ_T1 = 10⁻¹ down to 10⁻⁵, so the excess over 2 is 2.05e+00, 2.65e-02, 2.66e-04, 2.66e-06, 2.66e-08. It falls by exactly 100 per decade from 10⁻² downward; the first step, 10⁻¹ → 10⁻², is only a factor of 77, so the quadratic law is the small-γ limit and not a fit to all five points. It is NOT F83's anti-fraction: that `2 + 4r` is a Hamiltonian-only, γ-independent quantity derived for bilinear H under pure Z-dephasing, and neither hypothesis holds here. Every absolute asymmetry in this document is untouched by the change.)* The RMS ranking did move when the operator was corrected, so the pipeline was not blind to it in principle; what was missing is any check that pointed OUTWARD, comparing a fitted rate against the device's own calibration. That is the transferable lesson, and it is worth more than the reading it cost.
 
 ## Connections
 

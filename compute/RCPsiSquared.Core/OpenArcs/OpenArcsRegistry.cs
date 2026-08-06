@@ -4598,7 +4598,7 @@ public static class OpenArcsRegistry
                 "bit-exact-vocabulary leaves, neither runs through the F112 denominator, and neither will " +
                 "follow from fixing it. 'Fix the denominator once, then these follow' was ALSO wrong as a " +
                 "prediction: the denominator was fixed in the C# definition and the two framework workflows " +
-                "on 2026-08-06 and the twelve one-shot Python sites did NOT follow, because nothing links " +
+                "on 2026-08-06 and the one-shot Python sites did NOT follow, because nothing links " +
                 "them. " +
                 "chain_gap_sector_diagnostic.py now prints the deviation as :.3e instead of a :.3f percentage, " +
                 "and the script was RUN so its consumers carry measured numbers rather than a reworded " +
@@ -4623,7 +4623,10 @@ public static class OpenArcsRegistry
                 "tolerance', and 300-character lines where the word and the number belong to different claims. " +
                 "TWO FINDINGS FROM THE F112 SCOUT THAT ARE NOT VOCABULARY, both re-measured from below and both " +
                 "bigger than the mislabel that surfaced them. (1) THE GATE WAS SATURATED AND THE RATIO WAS NOT " +
-                "A RATIO, FIXED 2026-08-06 IN THE DEFINITION, STILL LIVE IN TWELVE ONE-SHOT SCRIPTS: " +
+                "A RATIO, FIXED 2026-08-06 IN THE DEFINITION AND THAT EVENING IN ALL FOURTEEN ONE-SHOT " +
+                "SCRIPTS (this headline read 'STILL LIVE IN TWELVE ONE-SHOT SCRIPTS' while the body below " +
+                "already recorded them as done; one entry, two states, caught in review, and the count " +
+                "itself then moved twice more): " +
                 "rel_asymmetry = |asym| / max(||M||^2, 1e-15), but M is the F81 residual, which VANISHES " +
                 "for Heisenberg + Z-dephasing (||M||^2 is exactly 0.0 at N=2 and ~1e-31 at N=3..5), so the " +
                 "1e-15 FLOOR is what the division used. In that regime rel < 1e-10 is satisfied by any " +
@@ -4639,10 +4642,68 @@ public static class OpenArcsRegistry
                 "PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md. CONVERSION, so no legacy number needs a re-run: " +
                 "||M||^2/||M_anti||^2 = 2 + 4r by F83s anti-fraction, measured exactly 2.0 at r=0 and 6.0 at " +
                 "r=1 for N=2,3,4, on the pure-dephasing bilinear family ONLY (with T1 the factor drifts, " +
-                "2.000266 on the two-site Z-drive witness). STILL OPEN on this axis: the twelve one-shot " +
-                "scripts, and the four committed sites quoting numbers from them " +
-                "(F112_HARDWARE_LENS_KINGSTON.md:91,:93,:100, f113_break_formula_derivation.py:11, " +
-                "reflections/POLARITY_COORDINATES.md:165). (2) THE EXACTNESS IS A PROPERTY OF THE INPUTS, NOT OF THE ROUTE: asym is " +
+                "2.000266 on the two-site Z-drive witness). THE SCRIPTS AND THE QUOTING DOCS ARE " +
+                "DONE (2026-08-06 evening, Tom's widened scope). Every site was measured under BOTH " +
+                "denominators before it was touched, and the classification 'record vs live tool' was " +
+                "decided by whether a published number MOVES, not by whether a doc names the script: " +
+                "thirteen of the fourteen sites took the denominator directly, and the quoting docs carry " +
+                "the re-measured " +
+                "values (Kingston:91,:93 3.85e-03 -> 7.69e-03, ratio 2.000266; the excess over 2 is the " +
+                "sigma-minus channel's own contribution to M and is QUADRATIC in gamma_T1, the ratio running " +
+                "4.054795 / 2.026549 / 2.000266 / 2.000003 at gamma_T1 = 1e-1..1e-4 so the EXCESS falls " +
+                "by 100 per decade (2.65e-2 / 2.66e-4 / 2.66e-6 / 2.66e-8), exactly 2.000000 in the " +
+                "limit; a draft called it gamma-LINEAR from the four ratios without checking the " +
+                "exponent. It is " +
+                "NOT F83's anti-fraction, which is Hamiltonian-only and gamma-independent and derived for " +
+                "bilinear H under pure Z-dephasing; a first draft of this entry wrote 2.000533 from a " +
+                "SINGLE-site drive while the published cases drive BOTH sites, and named F83 as the cause; " +
+                "f113 docstring likewise; POLARITY_COORDINATES.md:165 8.7 percent -> 39.9 percent with the " +
+                "240/240 COUNT untouched because it is denominator-independent; PROOF_F81:15's range " +
+                "4.3e-3..8.0e-2 -> 9.6e-3..4.0e-1 over its 20 Hermitian-H/Hermitian-c N=2 trials, a site " +
+                "the earlier worklist did not name, and one whose subset the sentence had not stated). " +
+                "THE TWELFTH SITE REFUSED THE EDIT AND THAT IS THE FINDING: polarity_probe_z2cubed_scaling.py " +
+                "runs a Pi^2-even Heisenberg H with bit_b-homogeneous c, and it is the PAIR of conditions " +
+                "that empties the polarity content, both halves and not merely their difference (proof " +
+                "Steps 3 and 4). NEITHER HALF SUFFICES, and saying 'F112's scope test on c' alone is FALSE " +
+                "inside F112's own scope, whose hypothesis is an arbitrary Hermitian H: at N=2, H = 0.7*ZI " +
+                "with c = ZZ is homogeneous and Pi^2-ODD in H, giving ||M_anti||^2 = 15.68 with asymmetry " +
+                "exactly 0.0, a substantive confirmation that a c-only test would mislabel DEGEN. Across " +
+                "the 192 within-cell rows at N=3,4 (Sweep A AND Sweep C build c inside one cell; a draft counted "
+                + "only Sweep A's 144) the computed ||M_anti||^2 runs from EXACTLY 0.0 (one row, " +
+                "then 9.3e-68 and 7.5e-36) up to 1.5e-29 against a ||M||^2 of 2.6 to 2.2e+03; an earlier " +
+                "draft quoted the floor as 9.0e-36, which is the FOURTH smallest. The old denominator read " +
+                "that noise as " +
+                "BALANCED at ~1e-34; the new one alone flips three of the SAME rows to a spurious BROKEN at " +
+                "1.8e-02, 4.3e-03, 2.0e-03. A denominator swap without a structural test trades a vacuous " +
+                "pass for a false alarm, which is correction-shape 73 landing exactly where it was predicted. " +
+                "The script now decides by an EXACT integer test on the Pauli letters (is_bit_b_homogeneous, " +
+                "no tolerance) and reports DEGEN, with assert_pi2_even_H pinning the H half rather than " +
+                "assuming it. THAT GUARD WAS ITSELF A TAUTOLOGY IN ITS FIRST VERSION and a review caught " +
+                "it: it tested bit_b_parity on a DOUBLED letter, which is 0 for X, Y, Z and I alike, so " +
+                "the odd-list was always empty; worse, the mutation test that certified it mutated the " +
+                "parity HELPER instead of the H being guarded, which is why it looked alive. It now reads " +
+                "the actual summands of H through a heisenberg_terms list and the framework's own " +
+                "total_bit_b_parity, and the honest mutant (append a Pi^2-odd Y_l term to H) makes it " +
+                "fire. Correction-shape 72 landing on the repair's own guard, one round after the same " +
+                "shape was recorded in it. The 132 genuinely " +
+                "breaking rows are unchanged ROW FOR ROW across N=2,3,4 (36+48+48), and the published " +
+                "'171/171 BALANCED' (PROOF_F112:59, POLARITY_COORDINATES.md:215) was Sweep A's 27+72+72 " +
+                "rows of nothing and now says so; the sweep's 321 DEGEN is a LARGER set, adding the " +
+                "degenerate Sweep B and C rows that were never part of that claim. A COST TO STATE: BAL is " +
+                "now unreachable in that script (132 BREAK, 321 DEGEN, 0 BAL), so half of 'the split " +
+                "partitions by bit_b parity' holds by construction and probe 12 anchors only the converse; " +
+                "the substantive in-scope confirmations are probes 10 and 13. NOTE THE REVIEWER WAS RIGHT " +
+                "AFTER ALL: this is the " +
+                "'false BROKEN verdicts' report that an earlier entry recorded as not reproducing. It does " +
+                "not reproduce on the polarity_coordinates_from_hc random-H ensemble that was tried; it " +
+                "reproduces on this one. An ensemble-bound non-reproduction is not a refutation. " +
+                "A PARTIAL VACUITY FOUND WHILE CHECKING THE SAME QUESTION NEXT DOOR, and it stayed a " +
+                "strengthening rather than a retraction: probe 10's '136/136 preserve, bit-exact' is carried " +
+                "by the 64 pairs with genuine content (||M_anti||^2 up to 0.32, asymmetry exactly 0.0); the " +
+                "other 72 are degenerate. Both quoting docs now say which. carbon_realistic_sweep.py's " +
+                "fifty-six rows needed no such note: BENZENE_THREE_DEPHASE_LETTERS.md already separated the " +
+                "44 non-trivial from the 12 trivial, and the count and the 20.48..55296 range reproduce " +
+                "exactly from below. (2) THE EXACTNESS IS A PROPERTY OF THE INPUTS, NOT OF THE ROUTE: asym is " +
                 "exactly 0.0 on every bilinear-Pauli H the repo tests, but random Hermitian H inside F112's " +
                 "TYPED SCOPE (per-site Z c-ops, random gamma) give a nonzero asymmetry in a few percent of " +
                 "draws. DO NOT QUOTE A COUNT: an earlier draft of this entry wrote '3/60 at N=3 and 2/60 at " +
@@ -4684,9 +4745,50 @@ public static class OpenArcsRegistry
                 "and an article standing between the denial and the word, so 'is not A bit-exact scale' " +
                 "never matched (fixed f5cd2df). Assume a third hole rather than that the exemption is " +
                 "complete. Tom widened the scope on 08-06 evening from 'definition plus guard' to the " +
-                "sweep: the twelve one-shot scripts and the four quoting docs are now IN, and the worklist " +
-                "with the regeneration command lives in .remember/remember.md under 'The twelve sites and " +
-                "the four quotes'.",
+                "sweep. THE SWEEP WAS TWELVE SITES AND IT WAS THIRTEEN: a draft of this entry declared it " +
+                "CLOSED on the grounds that the regeneration command returned nothing, and a review then " +
+                "found f113_t1_extraction_kingston.py:194, tracked, committed, cited from its own " +
+                "experiment doc, on the same Kingston/F113 axis. THE COMMAND COULD NOT SEE IT, twice over: " +
+                "the local is M_sq with a capital M where the regex wanted lowercase m_sq, and there is no " +
+                "max( in it. That is the lesson worth more than the site: a regeneration grep written from " +
+                "the shape of the sites already found certifies its own coverage, and 'the command returns " +
+                "nothing' is evidence about the command. Its published form ALSO carried a " +
+                "grep -v filter naming the very denominator under audit, which is what had hidden " +
+                "polarity_step5_stress.py:86's 1e-15 floor. A shape-agnostic sweep " +
+                "(grep -rnE \"abs\\(\\s*asym[a-z_]*\\s*\\)\\s*/\" over .py and .cs, minus the anti/plus_i " +
+                "spellings) is what found the thirteenth. A FOURTH ROUND FOUND A FOURTEENTH, invisible to " +
+                "that shape as well: f112_nojump_cancellation_gate.py:151 already divided by the RIGHT " +
+                "denominator but guarded it with a 1e-300 FLOOR, and its numerator is a bare `a`, so no " +
+                "regex keyed on the word asym could reach it. THREE SUCCESSIVE SWEEPS EACH CERTIFIED " +
+                "COMPLETENESS AND EACH WAS WRONG; the count went 12, 13, 14. A search built from the known " +
+                "instances measures the search, not the codebase. All fourteen are now converted, plus the " +
+                "three floors next door (polarity_step5_stress.py, polarity_proof_verify.py, " +
+                "f112_nojump_cancellation_gate.py; all three output-unchanged, the floor never having been " +
+                "reached, so each guard is now exact instead of lucky), and " +
+                "no tracked prose still names |asymmetry| / ||M||^2 as the definition. WHAT THE F112 " +
+                "DENOMINATOR AXIS STILL OWES, and it is one question, not a list: the scripts got " +
+                "the exact structural companion only where it was forced (z2cubed), so any OTHER site " +
+                "whose L carries no Pi^2-odd content can still divide noise by noise without saying so. " +
+                "Nor can a reader always catch it by eye: the fourteen differ in what they print beside the " +
+                "ratio, some the polarity content, some ||M||^2, some no norm at all, so whether a printed " +
+                "row is self-checking has to be read off the header rather than assumed. Two drafts of " +
+                "this sentence enumerated which scripts do which and BOTH were wrong (first three-and- " +
+                "nine, then four-and-eight, each stale within hours of an edit elsewhere); the list is " +
+                "not the durable statement, the rule is: a ratio without its denominator in the same row " +
+                "cannot be audited from the output. DO NOT GENERALISE " +
+                "is_bit_b_homogeneous AS THE INSTRUMENT: it tests c only, and the H side needs Pi^2-EVEN, " +
+                "a DIFFERENT predicate from Pi^2-homogeneous (H = ZI is homogeneous and odd, and is " +
+                "exactly the mislabel case above). The single predicate that covers both is 'L has no " +
+                "Pi^2-odd content', since M_anti = (L - Pi^2 L Pi^-2)/2 identically; HasNoPi2OddPart on " +
+                "the C# side is that shape. Neither is wired into polarity_fingerprint.py's verdict, which " +
+                "still guards on m_anti == 0.0 exactly. HOW OFTEN THAT EXACT GUARD FIRES IS A PROPERTY OF " +
+                "THE PIPELINE, and the two must not be conflated: polarity_fingerprint.py calls the " +
+                "chain-bound polarity_coordinates and NEVER polarity_coordinates_from_L, which is what the " +
+                "z2cubed probe uses; through THAT path the guard catches 1 of the 192 within-cell rows " +
+                "(20 of all 321 degenerate rows across the three sweeps), the rest arriving as ~1e-30 " +
+                "rather than 0.0. A draft of this entry credited the 1-of-192 to polarity_fingerprint, " +
+                "which is a statement about a pipeline it does not use. That is the next real step on " +
+                "this axis, and it is a DEFINITION step, not a sweep.",
             Status: OpenArcStatus.Open),
     };
 

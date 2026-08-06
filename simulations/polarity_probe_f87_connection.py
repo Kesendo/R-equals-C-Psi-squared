@@ -125,7 +125,10 @@ def main():
         result = polarity_coordinates_from_L(L_pauli, N, sigma)
         ns_M = result['norm_sq']['M']
         asym = result['asymmetry']
-        rel = abs(asym) / max(ns_M, 1e-15)
+        # Denominator is the polarity content ||M_anti||^2, not ||M||^2; see
+        # simulations/framework/workflows/polarity_fingerprint.py for why.
+        ns_anti = float(result['norm_sq']['M_plus_half'] + result['norm_sq']['M_minus_half'])
+        rel = 0.0 if ns_anti == 0.0 else abs(asym) / ns_anti
         f112_marker = "BAL" if rel < 1e-10 else "BREAK"
 
         # Classify F87 status: M = 0 -> truly; M != 0 -> need to check palindrome

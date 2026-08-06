@@ -8,7 +8,10 @@ envelope. Synthetic isolation gives:
   c = σ⁻ on each qubit at rate γ_T1
   + optionally γ_Z Z-dephasing per site
 
-Observed at (ω, γ_T1, γ_Z) = (0.13, 0.001, 0.005): rel asymmetry ≈ 3.85e-3.
+Observed at (ω, γ_T1, γ_Z) = (0.13, 0.001, 0.005): rel asymmetry ≈ 7.69e-3,
+where rel divides by the polarity content ‖M_anti‖² = ‖M_+‖² + ‖M_−‖². Published
+as 3.85e-3 before 2026-08-06, when the denominator was ‖M‖², a different scale.
+The ABSOLUTE asymmetry, which is what F113's closed form predicts, is unchanged.
 
 This script:
   1. Sweeps (ω, γ_T1, γ_Z) over a grid at N=2
@@ -69,11 +72,15 @@ def f112_setup(omega, gamma_T1, gamma_Z, N=2):
 
 
 def asymmetry_at(omega, gamma_T1, gamma_Z, N=2):
-    """Compute F112 asymmetry (absolute, not relative) and ‖M‖² for the
-    counterexample family at the given parameters."""
+    """Compute F112 asymmetry (absolute, not relative), ‖M‖² and the polarity
+    content ‖M_anti‖² = ‖M_+‖² + ‖M_−‖² for the counterexample family at the
+    given parameters. The relative asymmetry divides by the THIRD element: it is
+    the whole of what the asymmetry is a difference of, where ‖M‖² is a different
+    scale entirely (see simulations/framework/workflows/polarity_fingerprint.py)."""
     H, c_list, g_list, sigma = f112_setup(omega, gamma_T1, gamma_Z, N=N)
     r = fw.polarity_coordinates_from_hc(H, c_list, g_list, N, sigma=sigma)
-    return float(r['asymmetry']), float(r['norm_sq']['M'])
+    return (float(r['asymmetry']), float(r['norm_sq']['M']),
+            float(r['norm_sq']['M_plus_half'] + r['norm_sq']['M_minus_half']))
 
 
 def log_log_scaling(xs, ys, label):
@@ -115,7 +122,8 @@ def isolation_cases(omega=0.13, gamma_T1=0.001, gamma_Z=0.005, N=2):
                 g_list.append(gamma_T1)
         sigma = gamma_Z * N if with_deph else 0.0
         r = fw.polarity_coordinates_from_hc(H, c_list, g_list, N, sigma=sigma)
-        return float(r['asymmetry']), float(r['norm_sq']['M'])
+        return (float(r['asymmetry']), float(r['norm_sq']['M']),
+                float(r['norm_sq']['M_plus_half'] + r['norm_sq']['M_minus_half']))
 
     return [
         ('A: Z-drive H + Z-deph', build(True, False, True)),
@@ -134,8 +142,8 @@ def main():
     print()
 
     print("--- Isolation: which ingredient breaks the balance (ω=0.13, γ_T1=0.001) ---")
-    for label, (asym, m_sq) in isolation_cases():
-        rel = abs(asym) / m_sq if m_sq > 0 else 0.0
+    for label, (asym, m_sq, m_anti) in isolation_cases():
+        rel = 0.0 if m_anti == 0.0 else abs(asym) / m_anti
         print(f"  {label:<38} rel asym = {rel:.3e}")
     print("  C and E agree exactly: the Z-dephasing term contributes nothing to the")
     print("  +i / -i content. The breaker is the Z-drive against the sigma- channel.")
@@ -223,9 +231,11 @@ def main():
     # Check ‖M‖² scaling too (denominator of relative asymmetry)
     # ============================================================
     print("--- ‖M‖² scaling at the same sweep points ---")
-    m_pts = np.array([asymmetry_at(o, g1, gz)[1]
-                      for o, g1, gz in zip(omg_pts, gt1_pts, gz_pts)])
+    _sweep = [asymmetry_at(o, g1, gz) for o, g1, gz in zip(omg_pts, gt1_pts, gz_pts)]
+    m_pts = np.array([s[1] for s in _sweep])
+    ma_pts = np.array([s[2] for s in _sweep])
     mask_m = m_pts > 1e-15
+    mask_a = ma_pts > 0.0
     if mask_m.sum() > 4:
         X_m = np.column_stack([
             np.ones(mask_m.sum()),
@@ -241,8 +251,8 @@ def main():
     # Rel asymmetry scaling
     # ============================================================
     print()
-    print("--- Relative asymmetry = asym / ‖M‖² ---")
-    rel_pts = np.where(mask_m, np.abs(asym_pts) / np.where(mask_m, m_pts, 1.0), 0.0)
+    print("--- Relative asymmetry = asym / ‖M_anti‖² ---")
+    rel_pts = np.where(mask_a, np.abs(asym_pts) / np.where(mask_a, ma_pts, 1.0), 0.0)
     rel_mask = rel_pts > 1e-15
     if rel_mask.sum() > 4:
         X_r = np.column_stack([

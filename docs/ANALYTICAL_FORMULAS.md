@@ -4305,7 +4305,7 @@ reports nonzero asymmetry only on its Z-drive runs, but the single-site Z there 
 handed to the fitter as a known drive rather than fitted, so the split follows from
 the model set; and the same survey's data need a per-qubit detuning, which is itself
 a single-site Z, that its models do not carry. What such a survey could anchor is a
-magnitude, since it publishes rel = |asymmetry| / ‖M‖², never a direction.
+magnitude, since it publishes rel = |asymmetry| / ‖M_anti‖², never a direction.
 
 **Sister claims:**
 - F112 (Tier 1 derived Hermitian H + bit_b-homogeneous c → asymmetry = 0)

@@ -82,8 +82,11 @@ def test_dissipator_Pi2_homogeneity(N, c_paulis, label, Pi):
     norm_plus = np.sum(np.abs(diss_Pi2_plus) ** 2)
     norm_minus = np.sum(np.abs(diss_Pi2_minus) ** 2)
 
-    pct_plus = 100 * norm_plus / max(norm_total, 1e-15)
-    pct_minus = 100 * norm_minus / max(norm_total, 1e-15)
+    # Exact guard, not a floor: norm_total is a sum of squared moduli, so it is 0.0
+    # only when every part is, and then both percentages are 0 by definition rather
+    # than by division against 1e-15.
+    pct_plus = 0.0 if norm_total == 0.0 else 100 * norm_plus / norm_total
+    pct_minus = 0.0 if norm_total == 0.0 else 100 * norm_minus / norm_total
 
     bit_bs = [bit_b(p) for p in c_paulis]
     bit_b_set = sorted(set(bit_bs))

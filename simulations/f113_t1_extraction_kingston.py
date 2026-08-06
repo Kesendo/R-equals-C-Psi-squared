@@ -154,7 +154,8 @@ def asymmetry_of_L(omega, gamma_z, gamma_t1, N=2):
     # to the bit.
     sigma = sum(g for c, g in zip(c_list, g_list) if np.allclose(c, c.conj().T))
     r = fw.polarity_coordinates_from_hc(H, c_list, g_list, N, sigma=sigma)
-    return float(r['asymmetry']), float(r['norm_sq']['M'])
+    return (float(r['asymmetry']), float(r['norm_sq']['M']),
+            float(r['norm_sq']['M_plus_half'] + r['norm_sq']['M_minus_half']))
 
 
 def f113_invert_gamma_t1(asymmetry, omega, N=2):
@@ -184,14 +185,20 @@ def analyze_pair(omega, t_us, rhos, pair_label, T1_calib_us):
     rms = np.sqrt(fit_loss / max(len(t_us) - 1, 1))
     print(f"    Fit: γ_z = {gz_fit:.5f}, γ_T1_fit = {gt1_fit:.5f} per μs   (RMS = {rms:.4f})")
 
-    asym, M_sq = asymmetry_of_L(omega, gz_fit, gt1_fit)
+    asym, M_sq, M_anti_sq = asymmetry_of_L(omega, gz_fit, gt1_fit)
     # The Reading section below PRINTS 'F113/fit = 1.000000' as fixed text. Without
     # this the script would print a contradicting table and still exit 0: halving the
     # inversion prefactor gives ratio 2.000000 under an unchanged conclusion.
     _gt1_f113 = f113_invert_gamma_t1(asym, omega)
     assert abs(_gt1_f113 / gt1_fit - 1.0) < 1e-12, (
         f'F113 self-consistency broken: inverted {_gt1_f113} vs fitted {gt1_fit}')
-    print(f"    Polarity asymmetry of fitted L: {asym:+.4e}  (||M||² = {M_sq:.4f}; rel asym = {abs(asym)/M_sq:.4e})")
+    # rel divides by the POLARITY CONTENT, not by ||M||^2; see
+    # simulations/framework/workflows/polarity_fingerprint.py. This site survived the
+    # 2026-08-06 sweep because that sweep's regeneration grep looked for a lowercase
+    # m_sq inside a max(), a search written from the shape of the sites already found.
+    _rel = 0.0 if M_anti_sq == 0.0 else abs(asym) / M_anti_sq
+    print(f"    Polarity asymmetry of fitted L: {asym:+.4e}  "
+          f"(||M_anti||² = {M_anti_sq:.4f}; rel asym = {_rel:.4e})")
 
     gt1_f113 = f113_invert_gamma_t1(asym, omega)
     print(f"    F113 inverted γ_T1: {gt1_f113:.5f} per μs")

@@ -231,7 +231,9 @@ def run_sweep(N):
             norm_M = float(pol['norm_sq']['M'])
             norm_M_anti = float(pol['norm_sq'].get('M_anti', pol['norm_sq']['M_plus_half'] + pol['norm_sq']['M_minus_half']))
             asym = float(pol['asymmetry'])
-            rel_asym = abs(asym) / max(norm_M, 1e-15)
+            # Denominator is the polarity content ||M_anti||^2, not ||M||^2; see
+            # simulations/framework/workflows/polarity_fingerprint.py for why.
+            rel_asym = 0.0 if norm_M_anti == 0.0 else abs(asym) / norm_M_anti
             verdict = "BALANCED" if rel_asym < 1e-10 else ("near-BAL" if rel_asym < 1e-6 else "BROKEN")
             print(f"{h_name:<25} {bath_name:<18} {norm_M:<14.4e} {norm_M_anti:<14.4e} {asym:+.4e}      {rel_asym:<14.3e} {verdict:<10}")
 
@@ -329,7 +331,10 @@ def main():
     print("=" * 105)
     print("Reading: for each (H, bath) cell, BALANCED means the polarity-balance")
     print("symmetry holds bit-exact; BROKEN means it breaks substantively.")
-    print("‖M_anti‖² = 0 means the test is vacuous (no relaxing-component content to test).")
+    print("A ‖M_anti‖² at float-noise level means the test is vacuous (no relaxing-")
+    print("component content to test). Read the column, not a literal zero: 8 of the 56")
+    print("rows print exactly 0.0 and 4 more print 2.5e-32 / 4.8e-30, which are equally")
+    print("vacuous. The 44 rows above 1e-20 are the ones carrying a real reading.")
     print()
 
     for N in [4, 6]:

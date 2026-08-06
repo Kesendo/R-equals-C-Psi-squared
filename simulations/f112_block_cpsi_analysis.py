@@ -460,7 +460,10 @@ def main():
         pol = run_polarity_on_L(_to_row_stack(L_vec), N=2, sigma=sigma)
         m_sq = pol['norm_sq']['M']
         asym = pol['asymmetry']
-        rel = abs(asym) / max(m_sq, 1e-15)
+        # Denominator is the polarity content ||M_anti||^2, not ||M||^2; see
+        # simulations/framework/workflows/polarity_fingerprint.py for why.
+        m_anti = float(pol['norm_sq']['M_plus_half'] + pol['norm_sq']['M_minus_half'])
+        rel = 0.0 if m_anti == 0.0 else abs(asym) / m_anti
 
         # F112 scope: Hermitian H AND every c bit_b-homogeneous
         h_is_hermitian = np.allclose(H, H.conj().T)

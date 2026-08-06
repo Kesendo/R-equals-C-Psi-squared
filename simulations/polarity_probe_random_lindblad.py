@@ -103,7 +103,7 @@ def main():
 
     print(f"Random Lindblad-form sweep: {len(configs)} configs x 5 random seeds each = {len(configs)*5} trials")
     print()
-    print(f"{'N':>2}  {'jumps':>5}  {'H-herm':>7}  {'c-herm':>7}  {'seed':>5}  {'||M||^2':>14}  {'asym':>14}  {'asym/||M||^2':>14}")
+    print(f"{'N':>2}  {'jumps':>5}  {'H-herm':>7}  {'c-herm':>7}  {'seed':>5}  {'||M||^2':>14}  {'asym':>14}  {'||M_anti||^2':>14}  {'asym/||M_anti||^2':>18}")
     print("-" * 110)
 
     max_relative_asym = 0.0
@@ -121,11 +121,15 @@ def main():
                 )
                 ns_M = result['norm_sq']['M']
                 asym = result['asymmetry']
-                rel_asym = abs(asym) / max(ns_M, 1e-15)
+                # Denominator is the polarity content ||M_anti||^2, not ||M||^2; see
+                # simulations/framework/workflows/polarity_fingerprint.py for why.
+                ns_anti = float(result['norm_sq']['M_plus_half'] + result['norm_sq']['M_minus_half'])
+                rel_asym = 0.0 if ns_anti == 0.0 else abs(asym) / ns_anti
                 max_relative_asym = max(max_relative_asym, rel_asym)
                 marker = " " if rel_asym < 1e-10 else " *** BROKEN ***"
                 print(f"{N:>2}  {n_jumps:>5}  {str(H_herm):>7}  {str(jump_herm):>7}  {trial:>5}  "
-                      f"{ns_M:>14.4f}  {asym:>+14.4e}  {rel_asym:>14.4e}{marker}")
+                      f"{ns_M:>14.4f}  {asym:>+14.4e}  {ns_anti:>14.4e}  "
+                      f"{rel_asym:>18.4e}{marker}")
                 if rel_asym > 1e-10:
                     broken_configs.append((N, n_jumps, H_herm, jump_herm, trial, rel_asym))
             except Exception as e:

@@ -213,7 +213,9 @@ def measure_f112(N, H, c_list, gammas, sigma_total, pi_z):
     norm_plus = np.linalg.norm(M_plus) ** 2
     norm_minus = np.linalg.norm(M_minus) ** 2
     asym = norm_plus - norm_minus
-    rel_asym = abs(asym) / max(norm_M, 1e-15)
+    # Denominator is the polarity content ||M_anti||^2, not ||M||^2; see
+    # simulations/framework/workflows/polarity_fingerprint.py for why.
+    rel_asym = 0.0 if norm_M_anti == 0.0 else abs(asym) / norm_M_anti
     return norm_M, norm_M_anti, norm_plus, norm_minus, asym, rel_asym
 
 
@@ -312,9 +314,11 @@ def main():
     print("READING")
     print("=" * 100)
     print()
-    print("rel asym = |‖M_+‖² − ‖M_−‖²| / ‖M‖² is the dimensionless F112-break magnitude.")
-    print("  < 1e-12 : F112 holds bit-exact (homogeneous bath confirmation)")
-    print("  > 1e-6  : F112 broken substantively (mixed bath / out-of-scope)")
+    print("rel asym = |‖M_+‖² − ‖M_−‖²| / ‖M_anti‖² is the dimensionless F112-break")
+    print("magnitude: the polarity content is the whole of what the asymmetry is a")
+    print("difference of, so the ratio is a contrast ratio in [0, 1].")
+    print("  Read it against the ‖M_anti‖² column: where that is at float-noise level")
+    print("  the ratio is noise over noise and the row carries no reading either way.")
     print()
     print("If σ⁻ rows show rel asym >> Holstein rows, F112 hypothesis is the right gate:")
     print("crossing into bit_b-mixed c regime substantively breaks the polarity balance.")

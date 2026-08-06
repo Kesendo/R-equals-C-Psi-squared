@@ -148,7 +148,10 @@ def measure(L_vec, N, sigma, Pi):
     res = polarity_coordinates_from_L(Lp, N, sigma, Pi=Pi)
     a = res["asymmetry"]
     denom = res["norm_sq"]["M_plus_half"] + res["norm_sq"]["M_minus_half"]
-    eta = (a / denom) if denom > 1e-300 else 0.0
+    # Exact guard, not a floor: denom is a sum of squared moduli, so it is 0.0 only
+    # when each part is, and then `a` is exactly 0.0 - 0.0. The 1e-300 threshold was
+    # the same shape as the max(||M||^2, 1e-15) retired on 2026-08-06.
+    eta = (a / denom) if denom != 0.0 else 0.0
     return {
         "asym": float(a),
         "eta": float(eta),

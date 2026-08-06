@@ -281,7 +281,12 @@ def analyze_trajectory(label, t_us, rhos, gz_init, gt1_init,
         pol = run_polarity_on_L(_to_row_stack(L_vec), N=2, sigma=sigma)
         m_sq = pol['norm_sq']['M']
         asym = pol['asymmetry']
-        rel = abs(asym) / max(m_sq, 1e-15)
+        # Denominator is the POLARITY CONTENT ||M_anti||^2 = ||M_+||^2 + ||M_-||^2, the whole of
+        # what asym is a difference of, so rel is a contrast ratio in [0, 1]. The retired
+        # max(||M||^2, 1e-15) was the wrong scale and saturated on its own floor wherever M
+        # vanishes. Shape and rationale: simulations/framework/workflows/polarity_fingerprint.py.
+        m_anti = float(pol['norm_sq']['M_plus_half'] + pol['norm_sq']['M_minus_half'])
+        rel = 0.0 if m_anti == 0.0 else abs(asym) / m_anti
         h_herm = np.allclose(H, H.conj().T, atol=1e-12)
         all_c_homog = all(is_bit_b_homogeneous_label(k) for k in c_kind)
         in_scope = h_herm and all_c_homog

@@ -59,7 +59,10 @@ def test_pair(N, p_alpha, p_beta, a, b, H, sigma):
     L_pauli = L_vec_to_pauli(L_vec, N)
     result = polarity_coordinates_from_L(L_pauli, N, sigma)
     ns_M = result['norm_sq']['M']
-    rel_asym = abs(result['asymmetry']) / max(ns_M, 1e-15)
+    # Denominator is the polarity content ||M_anti||^2, not ||M||^2; see
+    # simulations/framework/workflows/polarity_fingerprint.py for why.
+    ns_anti = float(result['norm_sq']['M_plus_half'] + result['norm_sq']['M_minus_half'])
+    rel_asym = 0.0 if ns_anti == 0.0 else abs(result['asymmetry']) / ns_anti
     return ns_M, rel_asym
 
 

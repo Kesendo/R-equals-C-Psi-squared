@@ -50,7 +50,10 @@ def test_config(label, H, jump_ops, gammas, sigma, N):
     result = polarity_coordinates_from_L(L_pauli, N, sigma)
     ns_M = result['norm_sq']['M']
     asym = result['asymmetry']
-    rel_asym = abs(asym) / max(ns_M, 1e-15)
+    # Denominator is the polarity content ||M_anti||^2, not ||M||^2; see
+    # simulations/framework/workflows/polarity_fingerprint.py for why.
+    ns_anti = float(result['norm_sq']['M_plus_half'] + result['norm_sq']['M_minus_half'])
+    rel_asym = 0.0 if ns_anti == 0.0 else abs(asym) / ns_anti
     marker = "BALANCE" if rel_asym < 1e-10 else "BROKEN "
     print(f"  {label:<60}  ||M||^2={ns_M:>12.4f}  rel_asym={rel_asym:>10.3e}  [{marker}]")
 

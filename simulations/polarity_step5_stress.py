@@ -83,7 +83,12 @@ def test_H_Step5(H, N, Pi, label):
     norm_plus_i = float(np.sum(np.abs(L_H_plus_i) ** 2))
     norm_minus_i = float(np.sum(np.abs(L_H_minus_i) ** 2))
     asym = norm_plus_i - norm_minus_i
-    rel_asym = abs(asym) / max(norm_plus_i + norm_minus_i, 1e-15)
+    # Exact guard, not a floor: both terms are sums of squared moduli, so the sum is
+    # 0.0 only when each is, and then asym is exactly 0.0 - 0.0. The retired
+    # max(..., 1e-15) turned that case into a division by the floor. This file already
+    # divided by the right QUANTITY before 2026-08-06; only the floor was wrong.
+    denom = norm_plus_i + norm_minus_i
+    rel_asym = 0.0 if denom == 0.0 else abs(asym) / denom
     is_hermitian = np.allclose(H, H.conj().T)
     marker = "BAL" if rel_asym < 1e-10 else "BREAK"
     print(f"  {label:<70}  Herm={is_hermitian!s:<5}  "
