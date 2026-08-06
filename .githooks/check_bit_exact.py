@@ -79,8 +79,15 @@ TOLERANCE = re.compile(
 # that bug, and it hit exactly the sentences the exemption exists for: the model
 # wording in F113_T1_EXTRACTION_KINGSTON.md is "machine precision RATHER THAN
 # bit-identical". The self-test at the bottom of this file covers all of them.
+# An ARTICLE may stand between the denial and the word, and the plainest denial in
+# English has one: "is not A bit-exact scale". The first version anchored the
+# negation immediately against the phrase, so every "not a" / "not the" sentence was
+# reported as a defect. Found 2026-08-06 by the hook firing on the commit that was
+# rewriting exactly such a line. The determiner is optional and eats no more than one
+# word, so "not the place; bit-exact holds" is still reported (the semicolon breaks it).
 NEGATION = re.compile(
-    r"""(not|n't|never|no longer|rather than|instead of|isn't|aren't)[\s"'`*_(\[]*$""",
+    r"""(not|n't|never|no longer|rather than|instead of|isn't|aren't)"""
+    r"""[\s"'`*_(\[]*(a|an|the)?[\s"'`*_(\[]*$""",
     re.I,
 )
 
@@ -107,6 +114,11 @@ SELF_TEST = [
     (False, 'reports the residual instead of bit-exactness (max deviation 8.9e-16)'),
     (False, 'the residual is *not* **bit-exact** (1e-12)'),
     (False, 'bit-exact at N=4, 5, 6 over the 4^N Pauli basis'),
+    # The article gap, and its boundary: a denial may carry one determiner, no more.
+    (False, 'Default 1e-10 is not a bit-exact scale (the break is at 7.7e-3)'),
+    (False, 'this is not an bit-exact route, the gate is 1e-9'),
+    (False, 'reports machine precision rather than the bit-exact claim (1e-12)'),
+    (True, 'not the place to say it; bit-exact holds to 1e-9 here'),
     (True, "/// Default 1e-10 matches the bit-exact balance scale of F112-X's"),
     (True, "prints 'bit-exact ... max deviation 8.88e-16' in one summary"),
     (True, 'the Absorption Theorem holds bit-exact (0.000% relative error)'),
