@@ -13,6 +13,10 @@ Run:
                                                            #   enumeration and the N = 7 rung
     python simulations/exceptional_couplings.py --slow     # + the two exact counts that cost
                                                            #   about half an hour: N=7 rung 3, N=8
+    python simulations/exceptional_couplings.py --rungs    # + the numeric per-rung counts at
+                                                           #   N = 8 up to the middle block; it
+                                                           #   turns on --deep and --slow too,
+                                                           #   about an hour and a half in all
 The run prints how many checks it made, so no count is carried in prose anywhere.
 
 What it checks, block by block:
@@ -63,6 +67,18 @@ What it checks, block by block:
       E5, at the rung-3 singlets of the block (3,3) at N = 7 and at the rung-2 singlets at
       N = 8, which is where the exact route runs out.  Kept behind its own flag so that the
       numbers it produces are in the record without lengthening --deep.
+  E11 past the exact route: the middle block at N = 8, numerically (rungs).  Detection is the
+      finite spectrum of the same pencil rather than a polynomial, and every candidate is
+      verified on its own by a SIGN BRACKET of the determinant, so an accepted root is
+      certified real.  Nothing certifies that no root was MISSED, so every count here is a
+      verified LOWER bound and the block says so.  Three things make that word earn its keep
+      rather than be asserted.  The expected values it validates against are READ OUT of the
+      exact blocks of the same run and none is typed here, which is why --rungs turns on --deep
+      and --slow.  The subtraction that turns block counts into rung counts is itself validated
+      wherever an exact rung count exists, at N = 6 and N = 7, and no such check can exist for
+      rung 4.  And the two premises a lower bound silently needs are measured as margins: that
+      each root's +-z pair MERGED, since a split pair is counted twice and inflates the count,
+      and that no two bracket windows OVERLAP, since then one root certifies two candidates.
 Reading: PROOF_FROZEN_BAND_SO4 Section 5 (the pencil and the bridge) and Section 8
 (what is open), ETA_CEILING_REDUCTION (the per-rung certificate this replaces the limit of).
 """
@@ -71,11 +87,21 @@ import sys
 import time
 
 import numpy as np
+import scipy.linalg as sla
 from sympy import Matrix, Poly, QQ, Rational, factor_list, gcd, interpolate, oo, symbols
 from sympy.polys.matrices import DomainMatrix
 
-DEEP = "--deep" in sys.argv
-SLOW = "--slow" in sys.argv
+RUNGS = "--rungs" in sys.argv
+# --rungs IMPLIES the two exact tiers, and not for convenience.  E11 validates a numeric
+# detector against counts this file proves exactly, and a validation compared against integers
+# typed into E11 could not catch a stale one: the run that is the record has to COMPUTE both
+# sides.  So the exact counts are published into EXACT_SINGLET / EXACT_BLOCK by the blocks that
+# prove them, and E11 reads them from there and fails if one it needs is absent.
+DEEP = "--deep" in sys.argv or RUNGS
+SLOW = "--slow" in sys.argv or RUNGS
+
+EXACT_SINGLET = {}       # (N, p) -> exact Sturm count on the rung-p singlet space of (p,p)
+EXACT_BLOCK = {}         # (N, p, q) -> exact count of the WHOLE block, over QQ
 PRIMES = (998244353, 1004535809)
 FAILURES = []
 T0 = time.time()
@@ -452,6 +478,7 @@ def e5_polynomial():
         check(f"(a) N={N}: q(z) = det(C_V + z A_V) is even in z, so q(iJ) is real",
               even and restrict_ok, f"dim V = {dimV}, deg q = {q.degree()}")
         npos = g.count_roots(0, oo) - (1 if g.eval(0) == 0 else 0)
+        EXACT_SINGLET[(N, 2)] = npos
         check(f"(b) N={N}: exact count of exceptional couplings J > 0, by Sturm sequences",
               npos == expect[N], f"{npos}, expected {expect[N]}")
         roots = sorted(float(r) for r in g.real_roots() if r.is_real and float(r) > 1e-9)
@@ -585,6 +612,8 @@ def e8_full_block():
     N, m = 5, 2
     J = symbols('J')
     res = {b: full_block_roots(N, *b, J) for b in band(N)}
+    for b, r in res.items():
+        EXACT_BLOCK[(N, *b)] = r["count"]
     ok = all(r["clean"] and r["m"] == m and r["even"] for r in res.values())
     check("(a) N=5: ker C n ker A0 is rational of dimension floor(N/2) on every band block, "
           "and the congruence that removes it is clean", ok)
@@ -621,6 +650,7 @@ def e8_full_block():
           all(res[b]["count"] == 0 for b in band(N) if b[0] != b[1]))
     if DEEP:
         r = full_block_roots(6, 2, 2, J)
+        EXACT_BLOCK[(6, 2, 2)] = r["count"]
         check("(f) N=6: the whole block (2,2) carries exactly six exceptional couplings, all "
               "simple, which is again the singlet count",
               r["count"] == 6 and r["simple"] and r["clean"], f"{[round(x, 6) for x in r['roots']]}")
@@ -633,6 +663,7 @@ def e9_higher_rungs():
     J = symbols('J')
     g3, dimV3, q3, ok3, even3 = exceptional_polynomial(6, 3, J)
     n3 = g3.count_roots(0, oo) - (1 if g3.eval(0) == 0 else 0)
+    EXACT_SINGLET[(6, 3)] = n3
     roots3 = sorted(float(r) for r in g3.real_roots() if r.is_real and float(r) > 1e-9)
     check("(a) N=6: the eta-lowest-weight singlets of the block (3,3) carry exactly four "
           "exceptional couplings, by Sturm on an exact polynomial", n3 == 4 and ok3 and even3,
@@ -699,6 +730,7 @@ def e10_slow_exact():
     for (tag, N, p, expect, small) in [("a", 7, 3, 13, 0.473255094), ("b", 8, 2, 15, 0.790268421)]:
         g, dimV, q, ok, even = exceptional_polynomial(N, p, J)
         npos = g.count_roots(0, oo) - (1 if g.eval(0) == 0 else 0)
+        EXACT_SINGLET[(N, p)] = npos
         roots = sorted(float(r) for r in g.real_roots() if r.is_real and float(r) > 1e-9)
         # the smallest is TABULATED, so it is asserted and not merely printed
         pinned = bool(roots) and abs(roots[0] - small) < 1e-9
@@ -709,12 +741,259 @@ def e10_slow_exact():
               f"{roots[0]:.9f}" if roots else f"{npos} roots")
 
 
+# ------------------------------------------------------------------- E11
+
+def deflate_orthogonal(C, A0):
+    """An orthonormal restriction to (ker C n ker A0)^perp.
+
+    C + z A0 is real SYMMETRIC, so the common kernel is annihilated on both sides and the rank
+    is the rank of the restriction at every z.  Orthonormal, so the deflation itself spends no
+    conditioning.  This is E8's `deflate` with the exact congruence replaced by a numerical
+    one, which is what buys the blocks the interpolation cannot reach."""
+    S = np.vstack([C, A0]).astype(float)
+    _, s, vh = sla.svd(S, full_matrices=True)
+    tol = max(S.shape) * np.finfo(float).eps * (s[0] if s.size else 1.0)
+    s_full = np.zeros(S.shape[1])
+    s_full[: s.size] = s
+    Q = vh[s_full > tol].conj().T
+    return Q.T @ C @ Q, Q.T @ A0 @ Q, C.shape[0] - Q.shape[1]
+
+
+def det_sign(Cg, Ag, x):
+    """The sign of det(C_G + i x A_G), real because E1(d) makes the polynomial even in z.
+    Carried as a phase, so the modulus may overflow freely; the second value reports how far
+    the phase strays from the real axis, which is a measured check and not an assumption."""
+    lu, piv = sla.lu_factor(Cg + 1j * x * Ag)
+    d = np.diag(lu)
+    phase = float(np.sum(np.angle(d))) + np.pi * (int(np.sum(piv != np.arange(len(piv)))) % 2)
+    c = np.cos(phase)
+    return (1.0 if c > 0 else -1.0), abs(abs(c) - 1.0)
+
+
+def numeric_block_roots(N, p, q, loose=1e-3, smallj=0.05, eps=1e-5):
+    """The exceptional couplings of the WHOLE block (p,q), numerically but each one certified.
+
+    Detection: the finite spectrum of the deflated pencil.  z = iJ is a root of an even real
+    polynomial, so a purely imaginary z is a real NEGATIVE z^2, a well-conditioned question
+    where "is the real part small" is not.  Candidacy is deliberately LOOSE, since a cluster of
+    close roots at dimension 4900 pushes a genuine z^2 off the real axis; a loose net costs two
+    LU factorisations per false candidate and a tight one loses roots silently.
+
+    Certification: a SIGN BRACKET of the determinant across J(1 +- eps).  A sign change over a
+    window narrower than the gap to the next root proves an odd-order root inside it, so every
+    ACCEPTED root is real.  Nothing here certifies that no root was missed, so the returned
+    count is a LOWER bound -- but only if nothing is counted TWICE, and that is not free.  Two
+    premises stand between this routine and the word "bound", and both are returned as measured
+    margins rather than assumed:
+
+      * PARITY.  The pencil spectrum carries every root as the pair +-z, so |z| arrives twice
+        and the two copies are merged.  If a pair is resolved to worse than the merge threshold
+        it splits into two candidates; if the split is narrower than the bracket window, BOTH
+        windows straddle the same true root, both flip, and one root is counted twice.  So
+        `mults` reports how many pencil eigenvalues each accepted root merged, and anything but
+        an even number at least 2 breaks the bound.  This is not hypothetical: the z = 0 smear
+        at N = 8 (4,4) arrives as two unmerged copies, and only the smallj rule catches them.
+      * DISJOINTNESS.  Two accepted windows that overlap can certify each other from one root.
+        `window_ratio` is the smallest gap between consecutive accepted roots divided by the
+        width of the two windows it must separate, so a value above 1 is the premise holding
+        and the number says by how much.
+
+    Rejected on purpose: J below `smallj`.  C is diagonal and vanishes wherever the
+    disagreement is 2, so z = 0 is a root of high multiplicity whose numerical image smears to
+    about 1e-4 (Jordan blocks of size four, the fourth root of machine epsilon).  Counting the
+    smear is how a law that is not there gets restored.  The threshold sits two decades above
+    the smear it removes, so `smear_ratio` reports the true separation actually measured: the
+    smallest accepted root over the largest rejected one, which is the number that says whether
+    the cut had room, where 0.05 on its own says nothing."""
+    C, A0 = block_parts(N, p, q)
+    Cg, Ag, ker = deflate_orthogonal(C.astype(float), A0.astype(float))
+    _, _, alpha, beta, _, _ = sla.ordqz(Cg, -Ag, output="complex")
+    fin = np.abs(beta) > 1e-10 * max(np.abs(beta).max(), 1e-300)
+    z2 = (alpha[fin] / beta[fin]) ** 2
+    rel = np.abs(z2.imag) / np.maximum(np.abs(z2), 1e-300)
+    ok = (rel < loose) & (z2.real < -1e-12)
+    merged = []                                  # every root gives +-z, so z^2 appears twice
+    for j, r in sorted(zip(np.sqrt(-z2.real[ok]), rel[ok])):
+        if merged and j - merged[-1][0] <= 1e-7 * max(j, 1.0):
+            merged[-1][1] += 1
+            merged[-1][2] = min(merged[-1][2], float(r))
+        else:
+            merged.append([float(j), 1, float(r)])
+    kept, mults, rejected, stray = [], [], [], 0.0
+    for j, mult, r in merged:
+        if j < smallj:
+            rejected.append((j, mult, "inside the z = 0 smear"))
+            continue
+        a, sa = det_sign(Cg, Ag, j * (1 - eps))
+        b, sb = det_sign(Cg, Ag, j * (1 + eps))
+        stray = max(stray, sa, sb)
+        if a != b:
+            kept.append(j)
+            mults.append(mult)
+        else:
+            rejected.append((j, mult, "the sign bracket did not flip"))
+    # the two premises, as measured margins.  A gap must separate two windows of half-width
+    # eps*J each, so the width to clear is eps*(J_i + J_i+1).
+    ratios = [(kept[i + 1] - kept[i]) / (eps * (kept[i] + kept[i + 1]))
+              for i in range(len(kept) - 1)]
+    below = [j for j, _, _ in rejected]
+    return dict(roots=kept, mults=mults, rejected=rejected, ker=ker, dim=C.shape[0], stray=stray,
+                parity_ok=all(m >= 2 and m % 2 == 0 for m in mults),
+                window_ratio=min(ratios) if ratios else float("inf"),
+                smear_ratio=(min(kept) / max(below)) if kept and below else float("inf"))
+
+
+def nested(small, large, tol=1e-5):
+    """Every root of the smaller block matched to one of the larger, ONE TO ONE.
+
+    The matching has to be injective or the nesting proves less than it looks: two roots of the
+    small list both matching one root of the large list would pass a per-root test while the
+    set difference is one larger than the count difference.  The tolerance is the bracket's own
+    reach, 1e-5 relative, since that is how well an accepted value is placed; anything tighter
+    would trust the values better than they are certified."""
+    taken, miss = set(), []
+    for j in small:
+        hit = next((i for i, k in enumerate(large)
+                    if i not in taken and abs(j - k) <= tol * max(j, 1.0)), None)
+        if hit is None:
+            miss.append(j)
+        else:
+            taken.add(hit)
+    return not miss, miss
+
+
+def e11_numeric_rungs():
+    print("E11  past the exact route: the middle block at N = 8, numerically")
+    J = symbols('J')
+    # (a) the detector against this file's own exact roots, digit for digit and not by count.
+    #     N = 6, block (3,3) carries the six of rung 2 (E5) and the four of rung 3 (E9), and
+    #     both lists are exact here, so a numeric count of ten is not enough: the ten VALUES
+    #     must be the ten exact ones.
+    exact6 = sorted([float(r) for g in (exceptional_polynomial(6, 2, J)[0],
+                                        exceptional_polynomial(6, 3, J)[0])
+                     for r in g.real_roots() if r.is_real and float(r) > 1e-9])
+    r6 = numeric_block_roots(6, 3, 3)
+    same = (len(r6["roots"]) == len(exact6)
+            and all(abs(a - b) < 1e-9 * max(a, 1.0) for a, b in zip(r6["roots"], exact6)))
+    check("(a) N=6 (3,3): the pencil detector returns exactly the ten roots the exact "
+          "polynomials of E5 and E9 give, value for value and not merely ten of them",
+          same and len(exact6) == 10,
+          f"{len(r6['roots'])} numeric vs {len(exact6)} exact, worst relative difference "
+          f"{max((abs(a - b) / max(a, 1.0) for a, b in zip(r6['roots'], exact6)), default=0):.1e}"
+          f", {len(r6['rejected'])} rejected")
+    # (b) the counts the exact route reaches, by the numeric route.  Every expected value is
+    #     READ OUT of the exact blocks of this same run and none is typed here, so a stale
+    #     literal cannot hide in the validation.  The N = 8 entry is the one that matters: the
+    #     detector is validated AT the N it is then trusted at, on the block below the ones
+    #     being measured, against E10(b)'s Sturm count.
+    #     Where the WHOLE block was enumerated over QQ (N = 5, and N = 6 under deep) the
+    #     comparison is like for like.  From N = 7 on only the singlet space is exact, so the
+    #     comparison additionally assumes the singlets are all of it, which is the note's own
+    #     open identification and is said here rather than buried.
+    table = [(5, 2, 2, lambda: EXACT_BLOCK[(5, 2, 2)], "E8, the whole block over QQ"),
+             (6, 2, 2, lambda: EXACT_BLOCK[(6, 2, 2)], "E8(f), the whole block over QQ"),
+             (7, 2, 2, lambda: EXACT_SINGLET[(7, 2)], "E5, the singlet space"),
+             (7, 3, 3, lambda: EXACT_SINGLET[(7, 2)] + EXACT_SINGLET[(7, 3)],
+              "E5 + E10(a), rung 2 plus rung 3 on the singlet spaces"),
+             (8, 2, 2, lambda: EXACT_SINGLET[(8, 2)], "E10(b), the singlet space")]
+    for (N, p, q, want_fn, where) in table:
+        try:
+            want = want_fn()
+        except KeyError as miss:
+            check(f"(b) N={N} ({p},{q}): the exact count this validation needs was computed in "
+                  f"this run", False, f"missing {miss}")
+            continue
+        r = numeric_block_roots(N, p, q)
+        check(f"(b) N={N} ({p},{q}): the numeric count is the exact one, {want} from {where}",
+              len(r["roots"]) == want, f"{len(r['roots'])}, ker {r['ker']} of {r['dim']}, "
+              f"worst phase stray {r['stray']:.1e}, {len(r['rejected'])} rejected, "
+              f"window margin {r['window_ratio']:.1f}x")
+    # (b2) the METHOD, not the detector: wherever an exact rung count exists, the difference of
+    #      two numeric block counts must reproduce it.  This is the only place the subtraction
+    #      itself is tested, and it tests both premises it rests on at once, completeness of the
+    #      smaller list and disjointness of the two rungs.  It exists at N = 6 and N = 7 and can
+    #      exist for no rung 4 anywhere: at N = 8 the rung-4 multiplet has eta-spin 0 and lives
+    #      in (4,4) alone, so the twelve has no second route of any kind.
+    for (N, want_fn, where) in [(6, lambda: EXACT_SINGLET[(6, 3)], "E9(a)"),
+                                (7, lambda: EXACT_SINGLET[(7, 3)], "E10(a)")]:
+        got = len(numeric_block_roots(N, 3, 3)["roots"]) - len(numeric_block_roots(N, 2, 2)["roots"])
+        want = want_fn()
+        check(f"(b2) N={N}: the DIFFERENCE of the numeric (3,3) and (2,2) counts is the exact "
+              f"rung-3 count, {want} from {where}, so the subtraction that produces the N = 8 "
+              f"rung numbers is itself validated where an exact rung count exists",
+              got == want, f"{got} vs {want}")
+    # (c) the two blocks past the exact route.  A rung-l multiplet spans the blocks l .. N-l,
+    #     so a block (p,p) sees only the rungs l <= min(p, N-p) and a bigger block sees strictly
+    #     more.  The per-rung count is therefore a DIFFERENCE of nested block counts, and the
+    #     nesting has to be checked rather than assumed.
+    counts, roots, res8 = {}, {}, {}
+    for (p, q) in [(2, 2), (3, 3), (4, 4)]:
+        t0 = time.time()
+        r = numeric_block_roots(8, p, q)
+        counts[(p, q)], roots[(p, q)], res8[(p, q)] = len(r["roots"]), r["roots"], r
+        print(f"      N=8 ({p},{q}) dim {r['dim']} ker {r['ker']}: {len(r['roots'])} accepted, "
+              f"{len(r['rejected'])} rejected, phase stray {r['stray']:.1e}, smallest accepted "
+              f"{min(r['roots']):.9f}, largest {max(r['roots']):.9f} ({time.time() - t0:.0f} s)")
+        for j, mult, why in r["rejected"]:
+            print(f"        REJECTED J = {j:.6f} (merged {mult}): {why}")
+    ok23, miss23 = nested(roots[(2, 2)], roots[(3, 3)])
+    ok34, miss34 = nested(roots[(3, 3)], roots[(4, 4)])
+    check("(c) N=8: the roots of each block sit inside the next one's, value for value and one "
+          "to one, so the three lists are nested and a difference of counts is a count of what "
+          "the bigger block adds", ok23 and ok34,
+          f"missing from (3,3): {miss23}, from (4,4): {miss34}")
+    # (d) the two premises the word "bound" rests on, measured on each of the three blocks.
+    #     PARITY first: a root arrives as the pair +-z, and a pair that fails to merge is
+    #     counted twice, which breaks the bound in the direction that inflates it.  Then
+    #     DISJOINTNESS: overlapping windows let one root certify two candidates.  Both are
+    #     margins, so the numbers are printed and not just the verdict.
+    par = all(res8[b]["parity_ok"] for b in res8)
+    wr = min(res8[b]["window_ratio"] for b in res8)
+    sr = min(res8[b]["smear_ratio"] for b in res8)
+    check("(d) N=8: every accepted root merged an EVEN number of pencil eigenvalues, at least "
+          "two, so no root is counted twice, and no two bracket windows overlap", par and wr > 1,
+          f"multiplicities {sorted(set(m for b in res8 for m in res8[b]['mults']))}, smallest "
+          f"gap between consecutive accepted roots is {wr:.1f}x the width of the two windows "
+          f"it separates")
+    check("(e) N=8: the smallj cut has room, so nothing near it was decided by the threshold: "
+          "the smallest ACCEPTED root and the largest REJECTED one are decades apart",
+          sr > 100, f"ratio {sr:.0f}x, cut at 0.05, smallest accepted "
+          f"{min(min(roots[b]) for b in roots):.9f}")
+    # (f) one-sided on purpose.  Each count is a LOWER bound, so a later run finding one more
+    #     root is new information and not a regression; a run finding one FEWER is.  Pinning
+    #     equality would invert that and make the gate fail on the good news.
+    rec = {(2, 2): 15, (3, 3): 40, (4, 4): 52}
+    check("(f) N=8: every block count is at least the recorded one, 15 on (2,2), 40 on (3,3) "
+          "and 52 on the middle block (4,4); the test is one-sided because the counts are",
+          all(counts[b] >= rec[b] for b in rec), f"{counts}, recorded {rec}")
+    if any(counts[b] > rec[b] for b in rec):
+        print(f"  [!!] a block count EXCEEDS the recorded one: {counts} against {rec}. That is "
+              f"new information, not a failure, and the note's numbers need updating.")
+    rung3 = counts[(3, 3)] - counts[(2, 2)]
+    rung4 = counts[(4, 4)] - counts[(3, 3)]
+    check("(g) N=8: the differences are 25 and 12, the first reproducing the rung-3 count "
+          "measured at this N on the singlet space of (3,3) rather than on the whole block, "
+          "and the second a rung no block below (4,4) could see",
+          rung3 == 25 and rung4 == 12, f"(3,3) - (2,2) = {rung3}, (4,4) - (3,3) = {rung4}")
+    print("  [--] a sign bracket certifies each ACCEPTED root and certifies nothing about a "
+          "MISSED one, so every BLOCK count above is a verified lower bound. A DIFFERENCE of "
+          "two lower bounds is bounded in neither direction, and the two above are differences: "
+          "what the run supports with nothing further assumed is that at least 25 certified "
+          "roots of (3,3) lie outside the accepted (2,2) list and at least 12 of (4,4) outside "
+          "the accepted (3,3) list. Assume the SMALLER list complete and the difference becomes "
+          "a lower bound on the rung; equality needs BOTH lists complete AND the two rungs to "
+          "share no coupling, which E9(b) checks exactly at N = 6 by a gcd and which nothing "
+          "checks here. A growth law fitted to these numbers is fitted to counts that may be "
+          "truncated.")
+
+
 def main():
     print(f"exceptional couplings gate{'  (deep)' if DEEP else ''}"
-          f"{'  (slow)' if SLOW else ''}\n")
+          f"{'  (slow)' if SLOW else ''}{'  (rungs)' if RUNGS else ''}\n")
     for fn in (e1_builders, e2_reformulation, e3_n5_exact, e4_singlets, e5_polynomial,
                e6_shape, e7_bridge, e8_full_block, e9_higher_rungs,
-               *([e10_slow_exact] if SLOW else ())):
+               *([e10_slow_exact] if SLOW else ()),
+               *([e11_numeric_rungs] if RUNGS else ())):
         fn()
         print()
     total = len(FAILURES)

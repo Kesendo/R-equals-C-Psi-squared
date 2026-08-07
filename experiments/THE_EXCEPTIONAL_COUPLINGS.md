@@ -3,8 +3,11 @@
 **Status:** the measuring, deliberately unnamed. The existence is proved. The count on the
 singlet space of the block (2,2) is exact through N = 8 and measured beyond, and it is the
 full rung-2 count provably through N = 6, where the whole block was enumerated. The complete
-count, over all rungs, is exact only at N = 5, where the whole band was enumerated at every
-coupling at once. No F number, because
+count, over all rungs, is read through N = 8 and exact only at N = 5, where the whole band was
+enumerated at every coupling at once; every numeric BLOCK count anywhere below is a verified
+LOWER bound, and a difference of two of them is bounded in neither direction, for the reason
+given in
+[beyond the exact reach](#beyond-the-exact-reach-and-the-laws-that-died). No F number, because
 no law is known for any of the counts and because from N = 6 on no small closed form appears
 for the couplings themselves, so the registry of closed forms is the wrong home for either.
 (Not proved: that no radical expression exists. What is shown, at N = 6, is that the minimal
@@ -17,9 +20,15 @@ What is proved and what is measured are separated below and should stay that way
 number is carried here to drift). The default run reaches N = 6; `--deep` adds N = 7, the
 whole-block enumeration at N = 6 and a numeric read of the N = 7 rung; `--slow` adds the two
 exact counts that cost about half an hour, the rung-3 count at N = 7 and the rung-2 count at
-N = 8. What remains a session measurement,
-in no mode of the gate, is the whole band at N = 7, the rung-3 count at N = 8, and the
-continuation of the rung-2 count past N = 8; those are recorded here as observations.
+N = 8; `--rungs` adds the numeric block counts at N = 8 up to the middle block, where the
+polynomial is out of reach and the pencil is not, and turns the other two flags on with it,
+about an hour and a half in all. It needs them: it validates a numeric detector against counts
+this note proves exactly, and it reads every one of those expected values out of the exact
+blocks of the same run rather than carrying them as literals, so a stale one cannot survive
+in the validation. What remains a session
+measurement, in no mode of the gate, is the whole band at N = 7, the continuation of the rung-2
+count past N = 8, the grid detector, the mode-field factorisations at N = 6 and the dead
+small-J criterion; those are recorded here as observations.
 **Grew out of:** the step from large J to generic J. Section 5 of
 [PROOF_FROZEN_BAND_SO4](../docs/proofs/PROOF_FROZEN_BAND_SO4.md) marked it asserted and not
 argued and its Section 8 listed it first among the open items; it now carries it as
@@ -171,11 +180,13 @@ WHOLE block with nothing assumed. Reading it gives:
   blocks (2,2) and (3,3) and on no other, side lines and corner included. So at N = 5 the
   absence on the side lines is a statement about all J and not about the couplings sampled.
 - **N = 6, the block (2,2):** six, which is the singlet count.
-- **Every positive root is simple**, wherever the whole block has been enumerated, so the
-  count at an exceptional coupling is EXACTLY ⌊N/2⌋ + 1 there: a kernel of dimension
-  ⌊N/2⌋ + k would force the determinant to have a root of multiplicity k. That is the whole
-  band at N = 5 and the block (2,2) at N = 6. At N = 7 simplicity is not tested anywhere, so
-  only "at least one more" holds.
+- **Every positive root is simple**, wherever the whole block has been enumerated EXACTLY,
+  over ℚ, so the count at an exceptional coupling is EXACTLY ⌊N/2⌋ + 1 there: a kernel of
+  dimension ⌊N/2⌋ + k would force the determinant to have a root of multiplicity k. That is
+  the whole band at N = 5 and the block (2,2) at N = 6, and nowhere else. At N = 7 and N = 8
+  simplicity is not tested anywhere, so only "at least one more" holds. The numeric block
+  reads there do not extend it: a sign change proves a root of ODD order, which is not the
+  same as a simple one.
 
 The two lists then coincide with no numerical comparison anywhere. At N = 5 the gate checks
 that by DIVISIBILITY of the exact polynomials rather than by comparing digits; at N = 6 the
@@ -194,8 +205,12 @@ N − ℓ, so a block (p, p) carries the rungs ℓ ≤ min(p, N − p) and no ot
 block (2,2) therefore sees rung 2 alone, by construction, and so does its chiral partner
 (4,4), for which min(4, 2) = 2 as well.
 
-The block (3,3) sees rung 3 too, and it carries **ten** couplings: the six of rung 2, digit
-for digit, and four more. The four are exact. The η-lowest-weight singlets of (3,3) form a
+The block (3,3) sees rung 3 too, and it carries **at least ten** couplings: the six of rung 2,
+digit for digit, and four more. Both lists are exact, so the ten are certain; what is not
+proved is that there is no eleventh, since the whole block (3,3) was never enumerated over ℚ
+at N = 6. It was read numerically, and the read returns those ten and nothing else, value for
+value to fifteen digits, which is the validation the numeric detector is put through before it
+is trusted at N = 8. The four are exact. The η-lowest-weight singlets of (3,3) form a
 space of dimension 70, both halves of L restrict to it, and Sturm on the exact determinant
 polynomial counts exactly four positive roots,
 
@@ -211,39 +226,118 @@ So higher rungs do contribute, and the numbers the sections above report are the
 count** rather than the count. At N = 7 the whole band was enumerated numerically, every
 block of it: the chiral partners (2,2) and (5,5) carry the same eleven, the partners (3,3)
 and (4,4) carry the same twenty-four, containing those eleven, and every side line carries
-none at any coupling. The complete count per N, which lives in the middle block, then reads
+none at any coupling. At N = 8 the three diagonal blocks (2,2), (3,3) and (4,4), of dimensions
+784, 3136 and 4900, were read the same way, and their root lists nest value for value; that is
+gate block E11 under `--rungs`, and only those three blocks were read there, no side line and
+no partner. The complete count per N, which lives in the middle block, then reads
 
-| N | rung 2 | rung 3 | complete |
-|---|--------|--------|----------|
-| 5 | 3 | (no rung 3) | 3 |
-| 6 | 6 | 4 | 10 |
-| 7 | 11 | 13 | 24 |
-| 8 | 15 | 25 | not read |
+| N | rung 2 | rung 3 | rung 4 | complete |
+|---|--------|--------|--------|----------|
+| 5 | 3 | (no rung 3) | (no rung 4) | 3 |
+| 6 | 6 | 4 | (no rung 4) | 10 |
+| 7 | 11 | 13 | (no rung 4) | 24 |
+| 8 | 15 | 25 | 12 | 52 |
 
-Every cell of the two rung columns is an exact Sturm count on an η-lowest-weight singlet
+The empty cells are empty by construction and not for want of measuring: a rung-ℓ multiplet
+spans the blocks ℓ through N − ℓ, so a rung needs ℓ ≤ ⌊N/2⌋ to exist at all, and rung 4 first
+becomes possible at N = 8.
+
+Every cell of the three rung columns is an exact Sturm count on an η-lowest-weight singlet
 space, of dimension 70 for rung 3 at N = 6 and 294 for rung 3 at N = 7, except the rung-3
-twenty-five at N = 8, which is measured; the rung-2 fifteen beside it is exact.
+twenty-five and the rung-4 twelve at N = 8, which are measured; the rung-2 fifteen beside them
+is exact. The twenty-five is now reached twice: the session measurement on the singlet space
+of (3,3), and, inside the gate, the difference of the numeric (3,3) and (2,2) counts. Those two
+routes share the pencil detector, so the agreement is a check on the singlet identification and
+not a second detection.
 
-The complete column is a different kind of number in its first row than in the two below it.
-At N = 5 it is exact and it is everything: the whole band was enumerated over ℚ at every
-coupling. At N = 6 and N = 7 it is the whole-block count of the middle block read numerically,
-and what the exact rung counts add up to, 6 + 4 and 11 + 13, meets it. That the sum is
+**What the two differences at N = 8 do and do not license.** The three block counts nest, so
+40 − 15 counts what (3,3) adds over (2,2) and 52 − 40 counts what (4,4) adds over (3,3). Each
+accepted root is certified on its own by a sign change of the determinant, and nothing
+certifies that no root was MISSED, so each block count is a lower bound on its block. **A
+difference of two lower bounds is bounded in neither direction**, and that is the whole of the
+caution here: if the (2,2) list is short the true rung 3 is smaller than 25, and if the (3,3)
+list is short it is larger. What the measurement supports with nothing further assumed is only
+this: at least 25 certified roots of (3,3) lie outside (2,2)'s list, and at least 12 of (4,4)
+lie outside (3,3)'s. Add the assumption that the SMALLER list is complete and the difference
+becomes a lower bound on the rung. Equality, that is calling 25 and 12 the rung counts, needs
+two further things: both lists complete, and the two rungs sharing no coupling. The second is
+easy to overlook and is not implied by the first. A coupling exceptional for a rung-2 mode AND
+a rung-3 one would sit in (2,2)'s list, be subtracted away, and leave the true rung-3 count
+above 25. At N = 6 the note checks exactly that, by taking the gcd of the two exact polynomials
+and finding no positive root; at N = 8 there is no exact polynomial to take a gcd of, and
+nothing checks it.
+
+**The twelve is the one number in the table with no second route.** The subtraction that
+produces it is itself validated wherever an exact rung count exists to validate it against:
+10 − 6 = 4 at N = 6 and 24 − 11 = 13 at N = 7 both reproduce the exact Sturm count on the
+rung-3 singlet space, which tests completeness and disjointness together, twice, and the gate
+runs both. No such check exists for rung 4 at N = 8 and none can: the rung-4 multiplet there
+has η-spin 0, so it lives in (4,4) alone and there is no larger block to read it against. The
+one route that would give the twelve a second reading is a Sturm count on the rung-4 singlet
+space of (4,4), the same machinery one rung up; it has not been run, and its dimension is what
+would decide whether it can be.
+
+The complete column is a different kind of number in each of its four rows, and the gradient
+runs one way. At N = 5 it is exact and it is everything: the whole band was enumerated over ℚ
+at every coupling. At N = 6 and N = 7 it is the middle block read numerically, and what the two
+EXACT rung counts add up to, 6 + 4 and 11 + 13, meets it independently. At N = 8 that
+independent meeting is weaker, because only the rung-2 fifteen is exact there: 15 + 25 = 40 is
+the (3,3) count and nothing outside the (4,4) read itself meets the 52. That the sum is
 everything, that no exceptional mode outside the singlet spaces hides in those blocks, is what
-the agreement supports and does not prove. Every rung is visible in the middle block, since a
-rung-ℓ multiplet spans the blocks ℓ through N − ℓ; at N = 8 that block is (4,4) of dimension
-4900 and rung 4 lives nowhere else, so the complete count there is not read at all, and the
-twenty-five is only what the block (3,3) adds over the rung-2 fifteen.
+the agreement supports and does not prove.
+
+The word **complete** in that column means the rung inventory is closed, and at N = 8 it is.
+Every rung is visible in the middle block, since min(⌊N/2⌋, N − ⌊N/2⌋) = ⌊N/2⌋. The rungs that
+could carry anything run ℓ = 2 through ⌊N/2⌋ = 4: rung 0 is the vacuum cell, where C acts as
++4γ̄ and A₀ as zero, so it is never frozen at any coupling, and rung 1 is the corner, which is
+excluded by a theorem rather than by a scan, `PROOF_R90_FROZEN_DIVISOR` §7 making the
+determinant a J-monomial at the uniform point so that the multiplicity is exactly ⌊N/2⌋ for
+every J ≠ 0 (see [the word that is already
+spent](#the-word-that-is-already-spent)). So 15 + 25 + 12 is all of it. Closed as an inventory
+of rungs, which is a statement about which rungs can exist and not about how well any of them
+was counted: the fifteen is exact on the singlet space, and the twenty-five and the twelve
+carry the caution of the paragraph above.
 
 ## Beyond the exact reach, and the laws that died
 
 The exact route runs out after N = 8, where dim V reaches 300 and the determinant is
 interpolated from 301 exact rational determinants, one per node; the dimensions grow 35, 84,
 168, 300 and the cost with their fourth power. The pencil is still readable well past that, so the rung-2
-count continues, by two detectors that share only the two builders: the finite spectrum of the
-deflated pencil, and a sign bracket on the determinant, which is a real even polynomial in J
-so that a simple root is a sign change. At N = 8, where the exact count is also available,
-all three agree on fifteen, the third being a count of the determinant's sign changes over the
-whole range on a fine grid, which uses no pencil at all.
+count continues. The route has two parts and they are not the same kind of thing. **Detection**
+is the finite spectrum of the deflated pencil, which offers every candidate at once.
+**Certification** is a sign bracket on the determinant, which is a real even polynomial in J so
+that a root of odd order is a sign change; it is applied only to candidates the pencil already
+proposed, so it can confirm one and can never find one. The independent second detector is a
+different tool again: a count of the determinant's sign changes over the whole range on a fine
+grid, which uses no pencil at all. At N = 8, where the exact count is also available, the
+pencil, the grid and the exact polynomial agree on fifteen. The grid is not a safety net for
+what the pencil misses, since a grid under-detects in its own way, two roots inside one cell
+showing as no sign change at all.
+
+**Every numeric count in this note is a verified lower bound, and the asymmetry is
+structural.** The sign bracket certifies each ACCEPTED root, since a sign change across a
+window narrower than the gap to the next root proves an odd-order root inside it; nothing
+certifies that no root was MISSED, because detection is by a pencil spectrum and a genuine
+root can be pushed off the real axis by a nearby cluster. So the numbers below, the numeric
+block counts at N = 7 and N = 8, and the complete counts that rest on them, are bounds from
+one side only. This matters most where a law is being fitted: a curve through counts that may
+be truncated can fit perfectly because the truncation delivered the number the curve wanted.
+
+Being a bound in that one direction is not free either, and two premises stand under it that
+are worth stating with the margins actually measured rather than as thresholds that happen to
+pass. First, **parity**: the pencil carries every root as the pair ±z, and the two copies are
+merged before counting. A pair resolved too poorly to merge becomes two candidates whose
+windows both straddle the same root, both flip sign, and the root is counted TWICE, which
+breaks the bound in the direction that inflates it. This is not a hypothetical. At N = 8 the
+z = 0 smear arrives at the middle block as exactly such a split pair, and the gate's record
+shows it, the two rejected candidates merging one pencil eigenvalue each where all 52 accepted
+roots merge two. It was harmless only because the small-J cut caught both copies. Second,
+**disjointness**: two overlapping windows let one root certify two candidates. The gate now
+measures both. The tightest number is the second: at N = 8 the smallest gap between consecutive
+accepted roots is **2.8 times** the width of the two windows it has to separate, a margin of a
+factor and not of decades, and the one to watch at N = 9. The small-J cut, by contrast, has
+room to spare: the smallest accepted root sits 2065 times above the largest rejected one, so
+nothing there was decided by the threshold 0.05 itself.
 
 | N | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
 |---|---|---|---|---|---|----|----|
@@ -251,11 +345,23 @@ whole range on a fine grid, which uses no pencil at all.
 
 exact through N = 8, measured from N = 9. Exact means the count on the singlet space, which
 is the rung-2 count itself only where the whole block has been enumerated, at N = 5 and N = 6;
-from N = 7 on the identification rests on the side lines staying empty and is not proved. No law is visible and several natural ones die:
+from N = 7 on it rests on the numeric whole-block read returning exactly the singlet count, at
+N = 7 and at N = 8 alike, and is not proved. (The empty side lines are not what supports it:
+the forced implication runs from singlet-ness to the emptiness, not back.) No law is visible
+and several natural ones die:
 (N − 4)² + 2 and ⌊((N − 2)² − 3)/2⌋ both fail first at N = 8, C(N − 2, 2) fails at N = 7, and
 the quadratic fitted through the three odd values predicts 39 at N = 11 where the measurement
 gives 38. Three points fixing a three-parameter family is a prediction and never evidence,
 which is the only use those fits were put to.
+
+The complete count, now that it reads 3, 10, 24, 52 at N = 5 through 8, has one live
+candidate: those four satisfy a(N + 1) = 2·a(N) + 4, that is a(N) = 7·2^(N−5) − 4, exactly.
+It is a candidate and stays one, for three reasons stacked the same way. Four points against a
+two-parameter family is two degrees of confirmation. This arc has already buried three laws
+that fitted every point they were fitted to, listed just above. And three of the four points
+are lower bounds, so the exactness of the fit is a reason for suspicion rather than for
+comfort. The value it predicts at N = 9 is 108, on the block (4,4) of dimension 15876, which
+cubic scaling puts near twenty hours and which has not been run.
 
 One reading of the couplings themselves also dies here. At N = 5 all three squared couplings
 lie in ℚ(cos(π/6)) = ℚ(√3), the field of the mode energies ε_a = 2J·cos(πa/M), and the √3 in
@@ -274,7 +380,11 @@ so z = 0 is a root of the determinant with high multiplicity, and its numerical 
 over a radius of about 10⁻⁴, which is the fourth root of the machine epsilon and so the size a
 root with Jordan blocks of size four smears to. The candidate
 at 2.4·10⁻⁴ at N = 8 is that smear and not a coupling; counting it turns the fifteen into a
-sixteen and restores a law that is not there. The tempting exact test, comparing the nullity
+sixteen and restores a law that is not there. The gate rejects it by name rather than silently
+and prints each rejection of the three blocks it measures: at N = 8 that is one candidate on
+(2,2), one on (3,3) and two on (4,4), all of them between 2.4 and 2.9·10⁻⁴. Every rejection in
+the run is one of these; at the smaller N the detector produces no candidate down there at all.
+The tempting exact test, comparing the nullity
 of A₀ compressed to ker C against the floor, is not a test: that surplus is large at every N
 including N = 5 and N = 6, where the exact count says there is no small root. Singularity
 there raises the multiplicity of the root AT zero and says nothing about a root beside it.
@@ -287,11 +397,22 @@ there raises the multiplicity of the root AT zero and says nothing about a root 
 - At **N = 7** only the singlet list is exact. The whole band there has been enumerated
   numerically, block by block and at every coupling at once, which is what says the side lines
   stay empty and what gives the twenty-four of the middle blocks; over ℚ none of that is run.
-- The continuation of the rung-2 count past N = 8, and the rung-3 count at N = 8, are numeric
-  throughout. Two detectors agree on every value, and at N = 8, where the rung-2 count is also
-  exact, all three agree there. That is evidence and not a proof. The rung-3 count at N = 7 is
-  not in this list: it is exact, by the same Sturm route, under `--slow`.
-- WHICH blocks are raised at N = 6 is read numerically, at one coupling. The corresponding
+  The twenty-four is now inside the gate as well, under `--rungs`, where it also serves as the
+  detector's validation; the side-line statement over the whole band there remains a session
+  measurement.
+- The continuation of the rung-2 count past N = 8 is numeric throughout. The pencil and the
+  grid, which detect independently, agree on every value, and at N = 8, where the rung-2 count
+  is also exact, all three agree there. That is evidence and not a proof. The rung-3 count at N = 7 is not in this list: it is exact,
+  by the same Sturm route, under `--slow`.
+- At **N = 8** the block counts 40 and 52, and with them the rung-3 twenty-five, the rung-4
+  twelve and the complete fifty-two, are numeric. They are gated under `--rungs` rather than
+  left to a session, and inside that gate the detector is first made to reproduce counts this
+  note proves exactly elsewhere, including the fifteen at the very N it then measures. Each
+  accepted root is certified and each BLOCK count is a lower bound; the two differences are
+  not bounded in either direction, for the reason given with the table.
+- WHICH blocks are raised at N = 6 is read numerically, coupling by coupling: at one of the
+  rung-2 couplings in gate block E6, and at all four rung-3 ones and all six rung-2 ones in
+  E9. The corresponding
   N = 5 statement is exact and over all J. The N = 6 COUNT is exact under `--deep`, where the
   whole block (2,2) is enumerated over ℚ; only the block-by-block reading there is numerical.
 - Whether the exceptional points are semisimple or defective is not read here. The
@@ -314,16 +435,29 @@ carries ⌊N/2⌋ at every coupling tested, and the extra mode appears first at 
 ## What is open
 
 1. **A law for either count.** The rung-2 count reads 3, 6, 11, 15, 23, 29, 38 at N = 5
-   through 11 and the complete count 3, 10, 24 at N = 5, 6, 7. Nothing is known about how
-   either grows, and the candidates tried are dead ones, listed above.
+   through 11 and the complete count 3, 10, 24, 52 at N = 5 through 8. For the rung-2 count
+   nothing is known and every candidate tried is dead, listed above. For the complete count
+   there is one live candidate, 7·2^(N−5) − 4, which is fitted to four points of which three
+   are lower bounds and is therefore not evidence of anything yet; the section above says why,
+   and the number that would test it is 108 at N = 9.
 2. **How far up do the rungs go?** Rung 3 carries couplings of its own, four at N = 6 and
-   thirteen at N = 7. No rung above 3 has been read at any N, and nothing yet says whether
-   every rung ℓ ≤ ⌊N/2⌋ carries some or whether the contribution stops.
+   thirteen at N = 7, and rung 4 carries twelve at N = 8, the first N at which it can exist.
+   Rung 5 is unread and needs N = 10. So no rung yet reached is empty, and nothing says
+   whether every rung ℓ ≤ ⌊N/2⌋ carries some or whether the contribution stops.
 3. **Semisimple or defective** at the exceptional point, and whether the answer differs from
    §9's, where the corner's exceptional points are defective.
 4. **The off-diagonal side lines.** At N = 5 they carry no exceptional coupling at ANY J,
-   exactly. At N = 7 the same is now read numerically over the whole band. If the extra mode
-   is always a singlet the absence is forced, but the forcing has not been written down.
+   exactly. At N = 7 the same is now read numerically over the whole band. At N = 8 they were
+   not read at all, which is why the complete count there rests on three diagonal blocks where
+   the N = 5 one rests on the whole band. If the extra mode is always a singlet the absence is
+   forced, but the forcing has not been written down. There is a proposed argument that would
+   close the N = 8 gap without measuring anything, and it is recorded here as proposed and not
+   as established: S± commutes with L and shifts p − q by 2, so every frozen multiplet carries
+   INTEGER spin and therefore has a nonzero zero-weight component on a diagonal block, at a
+   rung the middle block sees. If that holds, no exceptional coupling of the band can be
+   invisible to (4,4), and completeness never needed the side lines to be empty, only that they
+   add nothing new. Worth checking before it is used; the same shape of gift has been wrong in
+   this arc before.
 5. **What it means.** A coupling at which the chain freezes one more mode than it generically
    can is a resonance between the turning and the watching, and the note has not asked what
    the resonance is between.
