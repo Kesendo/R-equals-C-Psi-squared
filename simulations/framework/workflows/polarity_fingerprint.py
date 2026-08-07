@@ -238,8 +238,12 @@ def polarity_fingerprint(
     # the Pauli letters and is N-independent; the float `== 0.0` below only fires at N = 2,
     # because the structurally-zero M_anti arrives as ~1e-33 at N=3 and ~1e-31 at N=5. With
     # only the float test a silent configuration reports a ratio of two noise quantities,
-    # which can land anywhere: on a Pi^2-even H with per-bond-varying J at N=4 that reaches
-    # rel ~ 0.29, i.e. a BROKEN verdict on the very hypothesis F112 proves to be balanced.
+    # which can land anywhere: on a Pi^2-even H with per-bond-varying J at N=4 it reaches
+    # 0.327 (526 of 800 draws, per-bond J ~ U(0.2, 2.0) on XX+YY+ZZ with per-site
+    # gamma_z ~ U(0.01, 1.0), seeds 1000..1019), i.e. a BROKEN verdict on the very
+    # hypothesis F112 proves to be balanced. The ensemble is part of that number:
+    # a uniform-J draw gives 0 hits, and the pinned fixture in
+    # test_polarity_fingerprint.py reaches 0.255 on one specific triple.
     structurally_silent = is_structurally_degenerate(terms, gamma_t1, gamma_pump)
     polarity_degenerate = structurally_silent or (M_anti_sq == 0.0)
     rel_asym = 0.0 if polarity_degenerate else abs(asym) / M_anti_sq

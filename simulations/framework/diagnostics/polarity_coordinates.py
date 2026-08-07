@@ -103,19 +103,40 @@ def is_structurally_degenerate(terms, gamma_t1=None, gamma_pump=None):
     """
     if any(total_bit_b_parity(list(t)) != 0 for t in terms):
         return False
-    for g in (gamma_t1, gamma_pump):
-        if g is None:
-            continue
-        # Accept a scalar OR any sequence (list, tuple, ndarray): polarity_coordinates itself
+    def _rates(g):
+        # Accept a scalar OR any sequence (list, tuple, ndarray): polarity_coordinates
         # takes per-site rates, and testing isinstance(g, (list, tuple)) alone raised a
         # TypeError on an ndarray by falling through to float().
+        if g is None:
+            return None
         try:
-            rates = [float(x) for x in g]
+            return [float(x) for x in g]
         except TypeError:
-            rates = [float(g)]
-        if any(r != 0.0 for r in rates):
-            return False
-    return True
+            return [float(g)]
+
+    t1, pump = _rates(gamma_t1), _rates(gamma_pump)
+    t1_on = t1 is not None and any(r != 0.0 for r in t1)
+    pump_on = pump is not None and any(r != 0.0 for r in pump)
+    if not t1_on and not pump_on:
+        return True
+
+    # DETAILED BALANCE is silent too, and per-channel homogeneity cannot see it. sigma^-
+    # and sigma^+ are each bit_b-MIXED, but their Pi^2-odd contributions are equal and
+    # opposite, so at gamma_T1 == gamma_pump they cancel and M_anti vanishes after all.
+    # Measured: the cancellation is exact SITE BY SITE, not in the totals. At N=3 with
+    # equal per-site rates ||M_anti||^2 = 1.9e-31 (noise); permute those same rates
+    # between sites and it is 0.96; give the sites equal totals but different values and
+    # it is 0.32. So compare the profiles elementwise.
+    #
+    # Without this branch a standard thermal bath reported a vacuous BALANCED, and on a
+    # non-uniform chain a spurious BROKEN -- the very defect the gate exists for, one
+    # channel over. Found by review 2026-08-07; the predicate had been written as an iff
+    # and was only a sufficient condition.
+    if t1 is None or pump is None:
+        return False
+    if len(t1) != len(pump):
+        return False
+    return all(a == b for a, b in zip(t1, pump))
 
 
 def polarity_coordinates(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, strict=None):

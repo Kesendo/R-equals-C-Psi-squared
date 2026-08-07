@@ -545,3 +545,46 @@ def test_uniform_coupling_leaves_the_cancellation_intact():
     result = fw.polarity_fingerprint(chain, heisenberg, gamma_z=0.6383)
     assert result['f112_asymmetry'] == 0.0
     assert result['f112_verdict'] == 'DEGENERATE'
+
+
+def test_detailed_balance_is_silent_even_though_each_channel_is_mixed():
+    """Per-channel homogeneity is SUFFICIENT for silence, not necessary.
+
+    σ⁻ and σ⁺ are each bit_b-MIXED, so a channel-by-channel test says "there is content
+    here". But their Π²-odd contributions are equal and opposite, so at γ_T1 = γ_pump they
+    cancel and M_anti vanishes after all. The predicate was written as an iff and was only
+    one direction; found by review 2026-08-07.
+
+    Before the fix this row reported a vacuous BALANCED, and the same configuration on a
+    non-uniform chain reported a spurious BROKEN — the exact defect the gate exists for,
+    one channel over.
+    """
+    heisenberg = [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')]
+    result = fw.polarity_fingerprint(fw.ChainSystem(N=3), heisenberg,
+                                     gamma_t1=0.1, gamma_pump=0.1)
+    assert result['f112_verdict'] == 'DEGENERATE'
+    assert result['f112_M_anti_norm_sq'] < 1e-25
+
+    # Break the balance by any amount and the content is real again.
+    broken = fw.polarity_fingerprint(fw.ChainSystem(N=3), heisenberg,
+                                     gamma_t1=0.1, gamma_pump=0.05)
+    assert broken['f112_verdict'] != 'DEGENERATE'
+    assert broken['f112_M_anti_norm_sq'] > 1e-3
+
+
+def test_detailed_balance_cancels_site_by_site_not_in_the_total():
+    """The comparison has to be elementwise, and that is measured, not assumed.
+
+    Equal per-site profiles cancel (‖M_anti‖² = 1.9e-31, noise). The SAME rates permuted
+    between sites do not (0.96), and profiles with equal totals but different per-site
+    values do not (0.32). A predicate comparing sums would call all three silent.
+    """
+    heisenberg = [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')]
+    chain = fw.ChainSystem(N=3)
+    equal = fw.polarity_fingerprint(chain, heisenberg,
+                                    gamma_t1=[0.1, 0.2, 0.3], gamma_pump=[0.1, 0.2, 0.3])
+    permuted = fw.polarity_fingerprint(chain, heisenberg,
+                                       gamma_t1=[0.1, 0.2, 0.3], gamma_pump=[0.3, 0.1, 0.2])
+    assert equal['f112_verdict'] == 'DEGENERATE'
+    assert permuted['f112_verdict'] != 'DEGENERATE'
+    assert permuted['f112_M_anti_norm_sq'] > 1e-3

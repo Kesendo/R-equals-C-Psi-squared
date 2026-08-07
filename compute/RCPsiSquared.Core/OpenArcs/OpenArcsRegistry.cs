@@ -4636,7 +4636,8 @@ public static class OpenArcsRegistry
                 "ratio divided by 256 and the vacuity was invisible. Two of the five standard witnesses are " +
                 "degenerate, not one. PolarityCoordinatesResult now divides by the polarity content " +
                 "||M_anti||^2 = ||M_+||^2 + ||M_-||^2 and carries IsPolarityDegenerate plus the exact " +
-                "structural companion HasNoPi2OddPart (||L_HOdd||^2 == 0, bilinear path only). PRIOR ART THE " +
+                "companion HasNoPi2OddPart (||L_HOdd||^2 == 0, bilinear path only) -- which is NOT the exact " +
+                "silence predicate, see the correction further down; it reads H alone. PRIOR ART THE " +
                 "REPO ALREADY HELD AND THE FIX RE-DERIVED: simulations/polarity_step5_stress.py:86 has always " +
                 "divided by norm_plus_i + norm_minus_i, and it is the Step-5 verification cited by " +
                 "PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md. CONVERSION, so no legacy number needs a re-run: " +
@@ -4661,7 +4662,9 @@ public static class OpenArcsRegistry
                 "240/240 COUNT untouched because it is denominator-independent; PROOF_F81:15's range " +
                 "4.3e-3..8.0e-2 -> 9.6e-3..4.0e-1 over its 20 Hermitian-H/Hermitian-c N=2 trials, a site " +
                 "the earlier worklist did not name, and one whose subset the sentence had not stated). " +
-                "THE TWELFTH SITE REFUSED THE EDIT AND THAT IS THE FINDING: polarity_probe_z2cubed_scaling.py " +
+                "ONE SITE REFUSED THE EDIT AND THAT IS THE FINDING (the twelfth as the list stood that hour; " +
+                "the sweep later grew to fourteen, so do not read this ordinal as an identity): " +
+                "polarity_probe_z2cubed_scaling.py " +
                 "runs a Pi^2-even Heisenberg H with bit_b-homogeneous c, and it is the PAIR of conditions " +
                 "that empties the polarity content, both halves and not merely their difference (proof " +
                 "Steps 3 and 4). NEITHER HALF SUFFICES, and saying 'F112's scope test on c' alone is FALSE " +
@@ -4789,7 +4792,8 @@ public static class OpenArcsRegistry
                 "half of it. An axis-dependence falls out of the same fact and is worth carrying: " +
                 "sigma-minus has Pauli support {X, Y}, bit_b-mixed (0 vs 1) but bit_a-HOMOGENEOUS (1 and 1), " +
                 "so adding T1 rescues a Heisenberg fixture from vacuity on the BitB axis and NOT on the " +
-                "BitA one. Neither predicate is wired into polarity_fingerprint.py's verdict, which " +
+                "BitA one. THIS SENTENCE DESCRIBES THE STATE BEFORE 2026-08-07 and is superseded below: " +
+                "at the time neither predicate was wired into polarity_fingerprint.py's verdict, which " +
                 "still guards on m_anti == 0.0 exactly. HOW OFTEN THAT EXACT GUARD FIRES IS A PROPERTY OF " +
                 "THE PIPELINE, and the two must not be conflated: polarity_fingerprint.py calls the " +
                 "chain-bound polarity_coordinates and NEVER polarity_coordinates_from_L, which is what the " +
@@ -4866,7 +4870,38 @@ public static class OpenArcsRegistry
                 "same change; and the predicate read term.Letters without term.Coefficient, so a " +
                 "ZERO-weighted Pi^2-odd term flipped it to not-silent and handed the verdict back to the " +
                 "ratio. All four fixed. Cancelling coefficient pairs (+c, -c) remain a known false " +
-                "negative and fail SAFE: the ratio is consulted rather than a silence asserted wrongly.",
+                "negative and fail SAFE: the ratio is consulted rather than a silence asserted wrongly. " +
+                "FOUR REVIEW ROUNDS OVER ALL THREE COMMITS, 2026-08-07, and the headline findings were " +
+                "again in the repair. (a) A REAL REGRESSION, fixed: moving the 2-body coupling into a " +
+                "per-bond weight silently dropped it for K-BODY Pi^2-odd terms, whose builder places on " +
+                "windows and has no bond to weigh, so H_odd was built at 1.0 against an H_full at J, the " +
+                "F81 identity broke for every J != 1, and polarity_fingerprint hard-crashed under strict. " +
+                "The suite was green because EVERY k-body test runs at the default J = 1.0, the one value " +
+                "that cannot distinguish the two spellings; a parametrised-J test now exists. " +
+                "(b) THE SILENCE PREDICATE WAS NOT AN IFF, only sufficient: DETAILED BALANCE " +
+                "(gamma_T1 == gamma_pump) is silent because sigma-minus and sigma-plus contribute equal " +
+                "and opposite Pi^2-odd content, while a channel-by-channel homogeneity test says there is " +
+                "content. On a standard thermal bath that gave a vacuous BALANCED, and on a non-uniform " +
+                "chain a spurious BROKEN: the defect the gate exists for, one channel over. The " +
+                "cancellation is exact SITE BY SITE, not in the totals (equal per-site profiles give " +
+                "1.9e-31; the same rates permuted give 0.96; equal totals with different per-site values " +
+                "give 0.32), so the comparison is elementwise. Fixed and pinned. " +
+                "(c) A 3150-configuration sweep over N=2..5, four topologies, k-body, non-Hermitian H and " +
+                "all three axes found ZERO false positives: the predicate never claims silence where " +
+                "there IS content, which is the direction that matters. " +
+                "STILL OWED, NAMED RATHER THAN QUIETLY LEFT: the C# RelativeAsymmetry is still gated on " +
+                "the FLOAT IsPolarityDegenerate only, so at N >= 3 the two languages report different " +
+                "numbers for the same silent row, and the C# predicate has no pump argument so it cannot " +
+                "see detailed balance at all; rel_asym is OVERWRITTEN with a synthetic 0.0 on a silent " +
+                "row, which is the same move as the retired 1e-15 floor (NaN, or the raw ratio beside a " +
+                "flag, keeps the information); the three-valued verdict flattens two independent bits, " +
+                "is-it-balanced and is-it-informative, and a reviewer argued for verdict + " +
+                "informative:bool instead; the _NonUniformCoupling sentinel leaks through " +
+                "abs/round/format/comparisons, with min and max silently returning the sentinel, though " +
+                "no live caller takes those routes; ChainSystem.H and .L RAISE on a non-uniform chain, so " +
+                "the entity accepts a configuration whose own Hamiltonian it will not build; seven " +
+                "committed probe scripts still carry the float guard only; and experiments/README.md, " +
+                "docs/carbon/README.md and the tierB per-class block still quote retired strengths.",
             Status: OpenArcStatus.Open),
     };
 

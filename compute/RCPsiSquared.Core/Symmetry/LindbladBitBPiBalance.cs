@@ -315,8 +315,10 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                 summary: "14 probes in simulations/_polarity_probe_*.py, polarity_proof_verify.py, " +
                          "polarity_step5_stress.py: candidate-breakers (1-5), hand-engineered non-Lindblad " +
                          "L (6), random c with full Pauli rank (7-8), k_max boundary (9), exhaustive 136-pair " +
-                         "N=2 enumeration (10), coefficient sweep (11), Z₂³-cell N=3, 4 scaling (12, 171 / 171 " +
-                         "balanced within-cell), Π²-content verification (13, 100.00% Π²=+1 for bit_b-homogeneous " +
+                         "N=2 enumeration (10, of which 64 carry genuine polarity content), coefficient " +
+                         "sweep (11), Z₂³-cell N=3, 4 scaling (12: 132 breaking rows, all cross-bit_b, " +
+                         "and 321 within-cell rows that are structurally SILENT rather than balanced, read " +
+                         "as 171/171 balanced until 2026-08-07), Π²-content verification (13, 100.00% Π²=+1 for bit_b-homogeneous " +
                          "c), and direct Π-eigenspace L_H projection across 30 random H (10 Hermitian + 10 " +
                          "non-Hermitian Pauli + 10 random complex matrix) at N=2, 3 (14, all bit-exact).");
             yield return new InspectableNode("F87 orthogonality", summary: F87Orthogonality);

@@ -180,3 +180,38 @@ class TestNonUniformCoupling:
         varied = pi_decompose_M(fw.ChainSystem(N=4, J=[0.4, 1.7, 0.9]), terms, gamma_z=0.05)
         import numpy as np
         assert not np.allclose(uniform['M'], varied['M'])
+
+
+class TestKBodyCouplingRegression:
+    """The F81 identity must hold at J != 1, which is the input the suite did not have.
+
+    `47cac08` moved the 2-body coupling out of the term coefficient and into a per-bond
+    weight. The Π²-odd term list is shared by 2-body AND k-body terms, so the k-body ones
+    silently lost their coupling: H_odd was built at 1.0 while H_full used chain.J, and the
+    F81 identity M_anti == L_H_odd broke for every J != 1. The whole 375-test suite stayed
+    green because every k-body test ran at the default J = 1.0, where the two spellings are
+    the same number — the repo's own recorded trap of concluding exactness from an input
+    that cannot break it.
+    """
+
+    KBODY_ODD = [('I', 'X', 'Y')]
+
+    @pytest.mark.parametrize('J', [1.0, 2.0, 0.5, 0.13])
+    def test_f81_identity_holds_for_kbody_at_every_J(self, J):
+        from framework.diagnostics.f81_pi_decomposition import pi_decompose_M
+        import numpy as np
+        # strict=True raises if ‖M_anti − L_H_odd‖ exceeds 1e-7, so reaching the assert
+        # at all is most of the test; the value pins how far below it sits.
+        result = pi_decompose_M(fw.ChainSystem(N=4, J=J), self.KBODY_ODD,
+                                gamma_z=0.05, strict=True)
+        residual = float(np.linalg.norm(result['M_anti'] - result['L_H_odd']))
+        assert residual < 1e-10, f"F81 identity broken at J={J}: residual {residual:.3e}"
+
+    def test_kbody_on_a_non_uniform_chain_fails_loudly(self):
+        """k-body terms are placed on sliding windows, not bonds, so there is no per-bond
+        weight for them to take. Rather than silently using some other coupling, the
+        sentinel makes the attempt raise and name J_per_bond."""
+        from framework.diagnostics.f81_pi_decomposition import pi_decompose_M
+        with pytest.raises(ValueError, match="non-uniform coupling"):
+            pi_decompose_M(fw.ChainSystem(N=4, J=[0.4, 1.7, 0.9]), self.KBODY_ODD,
+                           gamma_z=0.05)

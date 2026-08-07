@@ -134,7 +134,16 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
         # theorem for terms the theorem covers.
         cls = _pauli_tuple_pi2_class(letters)
         if cls == 'pi2_odd':
-            bilinear_odd.append(letters + (1.0,))
+            # 2-body terms carry coefficient 1.0 and take the coupling as a PER-BOND
+            # weight below; k-body terms have no bond to weigh, so they keep chain.J
+            # exactly as H_full does. Getting this wrong is not a rounding matter: a
+            # k-body H_odd built at 1.0 against an H_full built at J breaks the F81
+            # identity M_anti == L_H_odd for every J != 1, which `strict` then raises
+            # on. It shipped that way in 47cac08 and no test saw it, because every
+            # k-body test runs at the default J = 1.0, the one value that cannot
+            # distinguish the two.
+            coeff = 1.0 if len(letters) == 2 else chain.J
+            bilinear_odd.append(letters + (coeff,))
 
     # Build H_full per term. 2-body terms use the bond graph
     # (chain/ring/star/K_N via F49); k ≥ 3 uses the chain sliding-window
