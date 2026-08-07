@@ -71,6 +71,8 @@ Two maps on cells, both raising:
 
 Φ is Yang's η-pairing without the staggering, S⁺ is the spin raising with it. The swap of which one carries the stagger is the partial particle-hole transformation that turns this Liouvillian into a Hubbard Hamiltonian: the ↓ species hops with the opposite sign here, and that sign is exactly what moves the stagger from one SU(2) to the other.
 
+Φ is also the site-summed spectator W of [PROOF_CODIM1_BY_ADDITIVITY](PROOF_CODIM1_BY_ADDITIVITY.md), written three weeks earlier from Jordan transport across the F89 monodromy diamond, whose Theorem B is Lemma 2.2 below together with the Φ case of Lemma 2.1. What it adds here: the transport premise is sharp (a Jordan chain moves iff its eigenvector avoids ker Φ), and its §6 writes S⁺ down WITHOUT the stagger, as V = Σ_l d†_l(·)d†_l (that document writes the chain fermion c where this one writes d), records that [D,V] = 0 and [H,V] ≠ 0, and reasons from that failure. The (−1)^l of Lemma 2.3 is exactly what repairs it, on the pure-hopping opposite-parity h this section names.
+
 **Lemma 2.1 (both are blind to the watching, at any profile).** Φ and S⁺ commute with the dissipator for every rate profile γ_l, and not only for the uniform one.
 
 *Proof.* The dissipator is diagonal on cells with entry −2Σ_{l ∈ AΔB} γ_l, so it suffices that both maps leave AΔB unchanged. Φ acts on a cell only at a site l with l ∉ A and l ∉ B, so l ∉ AΔB before, and afterwards l lies in both A and B, so l ∉ AΔB again; no other site moves. S⁺ acts only at a site l with l ∉ A and l ∈ B, so l ∈ B \ A ⊆ AΔB before, and afterwards l ∈ A \ B ⊆ AΔB; again no other site moves. ∎

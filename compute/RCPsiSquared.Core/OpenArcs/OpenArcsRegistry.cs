@@ -5051,6 +5051,119 @@ public static class OpenArcsRegistry
                 "quotes retired strengths; experiments/README.md and the tierB doc are corrected as of " +
                 "2026-08-07.",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "sideways_spin_ladder",
+            Opened: "2026-08-07",
+            Origin:
+                "An adjacency sweep asked not for errors but for two results about the SAME object that never " +
+                "cite each other, and returned F125 and F142. They are the same map written twice: F125's " +
+                "site-summed spectator W(rho) = sum_l c_l^dag rho c_l (PROOF_CODIM1_BY_ADDITIVITY, 2026-07-02, " +
+                "from Jordan transport across the F89 monodromy diamond) IS F142's eta-pairing ladder Phi " +
+                "(PROOF_FROZEN_BAND_SO4, 2026-07-27, from Hubbard representation theory), read by taking the " +
+                "bra index as the second fermion species. Theorem B's intertwining half splits as the Phi case " +
+                "of Lemma 2.1 plus Lemma 2.2, and Lemma 2.1 is strictly stronger, covering the spin ladder " +
+                "against the dissipator too. Verified by grep in BOTH directions before believing it: neither " +
+                "arc cited the other in any file, although experiments/XY_FROZEN_BAND already titled a section " +
+                "with the word 'spectator', so the adjacency was one grep away for months. " +
+                "WHAT IS NOT TRUE, and a first draft said it in five places: that F142 carries a sideways " +
+                "ladder F125 has no generator for. F125 section 6 item (ii) WRITES IT DOWN, " +
+                "V = sum_l c_l^dag (.) c_l^dag, records that it closes its own sl(2), that [D,V] = 0 by the " +
+                "same string-sign squaring as W, and that [H,V] != 0. V is F142's S+ WITHOUT the stagger, so " +
+                "the missing piece was never the ladder, it was the (-1)^l. THAT is this arc's one new " +
+                "operator fact, and it is small; three further 'findings' of the first draft were already " +
+                "written in section 6 of the very document being extended, two sections from the one being " +
+                "read.",
+            ParkedAt:
+                "MEASURED, NOT TYPED. The evidence is committed and runnable: simulations/eta_ladder_blocks.py " +
+                "is the block-local tool, simulations/eta_ladder_chain.py GATES the multiplet reading and " +
+                "the sigma_min rejection below at N=5 and N=7 and exits non-zero if a check fails, and " +
+                "simulations/eta_ladder_breakinput.py is the break-input table. What is NOT gated, and " +
+                "prints rather than asserts: the full rung sweep and the break-input rows. Block-local method, which is what makes N=7 cheap: " +
+                "build L, Phi and S+ on a joint-popcount block and read the residual L_target M - M L_source. " +
+                "N = 5, 6, 7, both ladders, NON-UNIFORM J_b and gamma_l, 220 rungs (2N^2 per N, so 50 + 72 " +
+                "+ 98): residual 0.0 on every " +
+                "rung, rank = min(dim_source, dim_target) on every rung with zero violations, shared " +
+                "eigenvalues = min(dims) on every rung, so the smaller block's spectrum embeds whole in the " +
+                "larger. Controls: Phi's own commutator, which both arcs prove is zero, and the block-local " +
+                "rebuild reproducing a dense N=5 run, which was a one-off scout and is NOT committed, so " +
+                "that control cannot be re-run from the repo. Likewise measured once and not " +
+                "committed: S- = (S+)^dag intertwines, residual 0.0. " +
+                "BREAK-INPUTS, because an exactness claim with none is a claim about the inputs tried. Phi is " +
+                "0.0 on every hopping matrix tried, which is F125's 'any quadratic particle-conserving H' seen " +
+                "from below; S+ breaks at O(10) exactly where Sigma h Sigma = -h fails. A next-nearest bond " +
+                "breaks it, an on-site potential breaks it, the ring breaks it at ODD N and holds at EVEN N, " +
+                "the star breaks it at the one labelling tried, centre at site 0, which is weaker than " +
+                "F142 Corollary 2.4's statement over all orderings: five geometries, both " +
+                "verdicts, at N=5 and N=6. Read as h, hopping matrices, NOT as spin chains, and that " +
+                "distinction is load-bearing: the first build used sigma+_i sigma-_j for a long bond, which is " +
+                "the fermionic hop only for ADJACENT sites, and the Phi control failed on exactly the " +
+                "non-adjacent rows and caught it. SCOPE, therefore, stated once and not softened: S+ does NOT " +
+                "cover F125's H class. F125 allows on-site potentials, disorder and any coefficient matrix h; " +
+                "F142's Lemma 2.3 is stated for REAL SYMMETRIC h and needs Sigma-oddness. S+ covers the " +
+                "pure-hopping opposite-parity part of that class and no more. " +
+                "THE MULTIPLET READING, and most of it is F125's already. Section 6 carries the heading " +
+                "'Kernel death is highest-weight annihilation', the Schur decomposition M_lambda = sum_j U_j " +
+                "tensor V_j, and the sentence 'the band chain is spin 1 (weights -2, 0, +2) ... and W " +
+                "annihilates its two extreme weights'. So the multiplet, the highest-weight death and the " +
+                "weight bookkeeping are all committed since 2026-07-02, for the ETA side. What this arc adds " +
+                "is the mirror and an N-formula: the FOLD half is two S+ multiplets, one per anti-diagonal " +
+                "p+q = N-1 and p+q = N+1, the BAND half is two eta multiplets, one per diagonal d = +-1, all " +
+                "four chains have interior length N-2, so all four carry spin l = (N-3)/2 and F125's 'spin 1' " +
+                "is the N=5 case. That makes 4(N-2) = 4N-8, which is F125's stated orbit size at odd N, and " +
+                "the transport norms on any of the four are the Clebsch-Gordan coefficients " +
+                "sqrt(l(l+1) - m(m+1)): predicted in writing before the N=7 run, measured there as 2, sqrt6, " +
+                "sqrt6, 2 with the fold set equal to the predicted set. " +
+                "WHAT F125's sigma_min IS NOT: a review round proposed that " +
+                "SpectatorIntertwinerClaim.SigmaMinClimbingRungN5 = sqrt(2) at N=5 and the recorded 1 at N=4 ARE " +
+                "the eta-side CG coefficients, a free two-point confirmation. MEASURED BEFORE ADOPTING, and it is " +
+                "false: sigma_min is the smallest singular value of the WHOLE rung map, and a block carries several " +
+                "multiplets, so it reads the weakest direction present. It equals the CG value at N=4, at both N=5 " +
+                "rungs and at the two OUTER rungs at N=7 (2.000000), and DISAGREES on the two middle N=7 rungs, " +
+                "where sigma_min = 1.414214 against a CG value of 2.449490. So F125's sqrt(2) coincides by " +
+                "SMALLNESS at N=5 and is not a confirmation of the multiplet reading; it must not be quoted as one. " +
+                "The untested reading it suggests instead: a rung's singular values should be the union of the CG " +
+                "coefficients over the multiplets that block carries, sigma_min their minimum. " +
+                "The chain terminates AT THE EIGENSOLVER FLOOR at the step into a boundary block, ratio to " +
+                "the interior steps 8.7e-16 .. 2.1e-15 across N=5 and N=7, flat. Not an exact zero and it " +
+                "cannot be: the intertwining residual IS 0.0 because it is an operator identity cancelling " +
+                "pairwise, but this v comes from an eigensolver, so the meaningful quantity is that ratio. " +
+                "FOUR ERRORS ON THE WAY, kept because each has a tell worth recognising: the fold sectors " +
+                "were framed as OUTSIDE the braid set when they are members (the section 7 scoping paragraph " +
+                "names the four interior non-members as (1,1),(4,4),(1,4),(4,1); cited by SECTION because a " +
+                "line number rots on the next edit, as this very reference did within one session); the " +
+                "smallest right singular vector of (L - lambda) was read as the eigenvector on a strongly " +
+                "non-normal block and gave a false 'S+ annihilates the seed', the tell being sigma_min = " +
+                "2.09e-11 against a 1.76e-07 distance to the nearest eigenvalue, four orders apart where a " +
+                "NORMAL matrix puts them equal; the fold sectors were searched for lambda_A instead of the " +
+                "partner -lambda-2N; and a claimed gap in section 6's argument was not one, see NextStep.",
+            NextStep:
+                "SECTION 6 NEEDS NOTHING, and the first draft of this entry said it needed a second leg. Its " +
+                "item (ii) notes that two natural shortcuts fail; that is a route-unavailability remark, not " +
+                "a step in the exclusion, and the exclusion itself is closed at N=5 by the fold-resultant and " +
+                "identity-composition certificates at every branch locus of both parities, gate " +
+                "RemainderR4InteriorExclusionTests. The conclusion is also immune for a reason simpler than " +
+                "anything measured here: S+ PRESERVES p+q, band blocks have p+q odd and the diagonal cores " +
+                "p+q even, so no staggered ladder connects the two at any N. The only offer worth making to " +
+                "that document is one clause in item (ii): the sibling that carries the stagger DOES commute, " +
+                "so the sentence should rest on the parity argument rather than on V's failure. " +
+                "EVEN N IS UNTESTED, and the tension must be stated against what the repo holds rather than " +
+                "as fresh: PROOF_CODIM1_BY_ADDITIVITY already records that at even N the four members around " +
+                "half filling are simultaneously band and fold image and carry BOTH values, which is most of " +
+                "the answer to why the p+q = N-1 chain at N=6 looks like it mixes families. What is missing " +
+                "is an even-N defective locus: RealDefectiveSeeds lists N = 5,7,9,11 and its own summary " +
+                "calls the lists LOWER BOUNDS over a q window, so the honest statement is that no even-N seed " +
+                "is RECORDED, not that none exists, and that proof's N=6 12-set presupposes one. " +
+                "The falsifiable prediction is N=9, l=3: chain norms sqrt6, sqrt10, sqrt12, sqrt12, sqrt10, " +
+                "sqrt6, seven sectors per chain, 14 fold + 14 band = 28 = 4*9-8. The middle block (4,4) is " +
+                "126^2 = 15876, too big for a dense eigensolver, so it needs shift-invert rather than more " +
+                "hours. " +
+                "By cockpit rule 5 this belongs in a C# witness, and the estimate must not be understated: " +
+                "WeightCoherenceBlock.Build hard-codes uniform gamma = 1 and ONE scalar coupling on " +
+                "nearest-neighbour bonds, while the measurement and the theorem's scope both need " +
+                "site-dependent gamma_j and an arbitrary bond profile, so the builder needs extending before " +
+                "the rectangular ladder and the residual go on top.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

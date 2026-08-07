@@ -46,6 +46,8 @@ This argument uses no property of the chain, and that is its scope: on ANY chain
 
 ## What fills the band: a spectator neither the watching nor the turning can see
 
+The word is shared with another arc and so is the operator: the η ladder Φ used below is the site-summed spectator W of [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md), which proves the same two commutations directly and then adds what this note does not have: the sharp premise for moving a Jordan chain along the ladder.
+
 The edge argument says which blocks *can* carry. This section says what *does*, on the open chain, and it is a single exact symmetry.
 
 Write Φ for the map that adds one excitation to the ket and one to the bra **at the same site**, summed over sites, and Ψ for the one that removes such a pair:

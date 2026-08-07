@@ -16,6 +16,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// H = Σ h_{ml} c_m†c_l (arbitrary bond profile, on-site potentials, disorder; no symmetry of h) and ANY
 /// site-dependent rates γ_j. W shifts the joint-popcount blocks (p,q̃) → (p+1,q̃+1).
 ///
+/// <para><b>W is the η-pairing ladder, and F142 is where its name lives.</b> Reading the bra index as a
+/// second fermion species turns Σ_l c_l†ρc_l into Σ_l c†_{l↑}c†_{l↓}, so this map IS Yang's η-pairing,
+/// unstaggered: the Φ of <c>docs/proofs/PROOF_FROZEN_BAND_SO4.md</c> §2, whose Lemma 2.2 with the Φ case of
+/// Lemma 2.1 is the identity above, reached there from Hubbard representation theory instead.
+/// That section also carries the SIDEWAYS ladder S⁺(ρ) = Σ_l (−1)^l d†_lρd†_l, which is the V of
+/// PROOF_CODIM1_BY_ADDITIVITY §6 with the stagger restored: V fails on the Hamiltonian part, S⁺ does not.
+/// The price is SCOPE, so do not read S⁺ as covering this claim's H class: it needs ΣhΣ = −h, hence only
+/// pure hopping between opposite-parity sites, with the on-site potentials and disorder above excluded.</para>
+///
 /// <para><b>Jordan transport (Lemma 3, the sharp premise).</b> If L₂W = WL₁ and x₁, …, x_m is a Jordan chain of
 /// L₁ at λ with <b>Wx₁ ≠ 0</b> (x₁ the eigenvector; kernel hits are downward-closed along a chain, so this single
 /// condition is necessary AND sufficient), then Wx₁, …, Wx_m is a Jordan chain of L₂ at the SAME λ. On the
