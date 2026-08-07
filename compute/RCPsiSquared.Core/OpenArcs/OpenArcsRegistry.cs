@@ -4838,11 +4838,24 @@ public static class OpenArcsRegistry
                 "its conclusion ('if Peierls asymmetry is small the prediction holds') was never a test " +
                 "of that prediction, which BENZENE_THREE_DEPHASE_LETTERS.md now says in place of 'the " +
                 "balance holds bit-exact in every one'. " +
-                "STILL OPEN, and smaller than what closed: the framework path builds H from letter tuples " +
-                "with uniform coefficients, so the false-BROKEN regime is reachable only through " +
-                "polarity_coordinates_from_hc with a hand-built non-uniform H. The cockpit is safe today " +
-                "because the NUMERATOR cancels exactly there, which is luck of the input rather than a " +
-                "property of the guard. THIS ROUND'S OWN DEFECTS, since the ratio held again: the benzene " +
+                "THE COCKPIT PATH IS BUILT, 2026-08-07, and this was the last open item: the framework " +
+                "could only express a UNIFORM chain, so the false-BROKEN regime was unreachable through " +
+                "it and the gate protected a room nothing could enter. ChainSystem now takes J as a " +
+                "scalar OR a per-bond sequence (J_per_bond, is_uniform_coupling), _build_bilinear takes " +
+                "bond_weights, and pi_decompose_M carries them; a uniform chain is bit-identical to " +
+                "before (||M||^2 = 1.508003146e-31 at N=3, 512 for XY, unchanged). MEASURED WHICH KNOB " +
+                "ACTUALLY REACHES IT, because three plausible ones do not: over 60 draws at N=4, " +
+                "uniform J with random per-site gamma_z gives 0 hits, random PER-TERM coefficients give " +
+                "0, and random PER-BOND J gives 26 of 60 (45 of 60 with random gamma_z on top). Only the " +
+                "bond variation breaks the exact cancellation of the numerator. Through the workflow, " +
+                "15 of 40 draws now land in the regime and ALL 15 are caught as DEGENERATE. " +
+                "chain.J does NOT become a mean on a non-uniform chain: it becomes a float subclass that " +
+                "RAISES and names J_per_bond, because about twenty places read it as a number to build " +
+                "an H or evaluate a uniform-chain closed form (F49, F83) and a mean would make them " +
+                "quietly wrong. Pinned by test_non_uniform_coupling_reaches_the_noise_regime_and_is_gated " +
+                "with its couplings [1.6277, 1.7127, 0.5423] at gamma_z = 0.6383 load-bearing (raw ratio " +
+                "0.255; not every non-uniform triple lands there, most still cancel), and removing the " +
+                "gate breaks four tests. The guard is now a guard rather than luck of the input. THIS ROUND'S OWN DEFECTS, since the ratio held again: the benzene " +
                 "paragraph quoted 3.4e-32 / 9.8e-31 for the two halves while the script it describes " +
                 "prints exactly 0.0 four lines above (the numbers came from a scratch construction beside " +
                 "the script, the same measure-one-object-cite-another shape as the 2.000533 ratio); a " +

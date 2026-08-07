@@ -487,3 +487,61 @@ def test_polarity_fingerprint_drive_scale_floor_and_both_sides():
     wrong = fw.polarity_fingerprint(tiny, [('Z', 'I')], gamma_t1=0.001,
                                     z_drive_omegas_per_site=[0.0, 0.0])
     assert wrong['f113_drive_matches_terms'] is False
+
+
+def test_non_uniform_coupling_reaches_the_noise_regime_and_is_gated():
+    """The gate earns its keep here, and nowhere else in the cockpit.
+
+    On a UNIFORM chain a Π²-even H gives an asymmetry that cancels to exactly 0.0, so the
+    ratio reads 0.0 whatever the denominator is and the cockpit is safe by luck of the
+    input. Break the uniformity and the cancellation goes: the numerator becomes float
+    noise (~1e-31) over a denominator that is also float noise (~1e-30), and their ratio
+    is arbitrary. Measured here, it exceeds the BROKEN cut by orders of magnitude.
+
+    Everything below is still squarely inside F112's typed scope, where the THEOREM says
+    the asymmetry is zero. So without the structural gate the cockpit would report BROKEN
+    on the very hypothesis F112 proves. Per-bond J is the only knob that reaches this:
+    per-term coefficients and per-site γ both leave the cancellation intact.
+    """
+    heisenberg = [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')]
+    # These exact couplings are load-bearing: not every non-uniform triple reaches the
+    # regime, because the cancellation survives for many of them. This one gives a raw
+    # ratio of 0.255, i.e. a BROKEN by a wide margin, from a numerator of 2.4e-30.
+    chain = fw.ChainSystem(N=4, J=[1.6277, 1.7127, 0.5423], gamma_0=0.05)
+    assert not chain.is_uniform_coupling()
+
+    result = fw.polarity_fingerprint(chain, heisenberg, gamma_z=0.6383)
+
+    # The raw ratio, i.e. what the verdict would be without the structural gate.
+    m_anti = result['f112_M_anti_norm_sq']
+    raw_ratio = abs(result['f112_asymmetry']) / m_anti
+    assert raw_ratio > 1e-2, (
+        "fixture no longer reaches the noise/noise regime it exists to pin; "
+        f"raw ratio {raw_ratio:.3e}. Re-pick the couplings: not every non-uniform "
+        "triple lands here.")
+
+    # Both quantities are noise, which is why their ratio means nothing.
+    assert m_anti < 1e-25, f"denominator should be float noise, got {m_anti:.3e}"
+    assert abs(result['f112_asymmetry']) < 1e-25
+
+    # And the gate calls it: SILENT, not BROKEN.
+    assert result['f112_verdict'] == 'DEGENERATE'
+    assert result['f112_polarity_degenerate'] is True
+    assert result['f112_rel_asymmetry'] == 0.0
+    # Still in the typed scope: this is not an out-of-scope configuration.
+    assert result['in_f112_typed_scope'] is True
+
+
+def test_uniform_coupling_leaves_the_cancellation_intact():
+    """The contrast case, so the fixture above is not mistaken for a general property.
+
+    Same H, same γ, uniform J: the asymmetry cancels EXACTLY and there is no noise ratio
+    to guard against. The row is still silent, and still reported as such, but for the
+    structural reason rather than because a threshold was dodged.
+    """
+    heisenberg = [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')]
+    chain = fw.ChainSystem(N=4, J=1.0, gamma_0=0.05)
+    assert chain.is_uniform_coupling()
+    result = fw.polarity_fingerprint(chain, heisenberg, gamma_z=0.6383)
+    assert result['f112_asymmetry'] == 0.0
+    assert result['f112_verdict'] == 'DEGENERATE'

@@ -8,6 +8,37 @@ import numpy as np
 from .pauli import pauli_matrix, _site_op_kron
 
 
+class _NonUniformCoupling(float):
+    """What `chain.J` becomes on a non-uniform chain: a float subclass that refuses to
+    be used as one.
+
+    It is not None and not a mean. A mean would be silently wrong in the ~20 places that
+    read `chain.J` to build an H or evaluate a uniform-chain closed form; None would fail
+    with an unhelpful TypeError far from the cause. This fails at the point of use and
+    says what to use instead.
+    """
+
+    def __new__(cls, per_bond, topology):
+        obj = super().__new__(cls, float('nan'))
+        obj._per_bond = list(per_bond)
+        obj._topology = topology
+        return obj
+
+    def _complain(self, *_args, **_kwargs):
+        raise ValueError(
+            "this chain has a non-uniform coupling, so `chain.J` is not a number: "
+            f"J per bond = {self._per_bond} on topology {self._topology!r}. "
+            "Use `chain.J_per_bond` (one entry per bond, in chain.bonds order), or "
+            "`chain.is_uniform_coupling()` to branch. Closed forms derived for a "
+            "uniform chain (F49, F83) do not apply here and should not be handed a mean.")
+
+    __float__ = _complain
+    __add__ = __radd__ = __mul__ = __rmul__ = __sub__ = __rsub__ = _complain
+    __truediv__ = __rtruediv__ = __pow__ = __neg__ = _complain
+    def __repr__(self):
+        return f"<non-uniform J per bond: {self._per_bond}>"
+
+
 class ChainSystem:
     """Encapsulates a quantum chain at fixed (N, γ, J, topology, H_type).
 
@@ -19,7 +50,13 @@ class ChainSystem:
     Args:
         N: number of qubits.
         gamma_0: uniform Z-dephasing rate per site (default 0.05).
-        J: bond coupling (uniform; default 1.0).
+        J: bond coupling. A scalar makes every bond equal; pass a sequence of
+            length B (one entry per bond, in `self.bonds` order) for a
+            NON-UNIFORM chain. Non-uniform is not decoration: it is the only
+            knob measured to reach the F112 noise/noise regime, where a Π²-even
+            H can report a false BROKEN because the exact cancellation of the
+            asymmetry depends on the bonds being equal. Per-term coefficients
+            and per-site γ do NOT reach it; per-bond J does.
         topology: 'chain' (default), 'ring', 'star', 'complete'.
         H_type: 'heisenberg' (XX+YY+ZZ) or 'xy' (XX+YY scaled by J/2).
 
@@ -33,7 +70,7 @@ class ChainSystem:
     """
 
     _FROZEN = frozenset({'N', 'd', 'd2', 'gamma_0', 'J', 'topology', 'H_type',
-                          'bonds', 'B', 'degrees', 'D2'})
+                          'bonds', 'B', 'degrees', 'D2', 'J_per_bond'})
 
     def __init__(self, N, gamma_0=0.05, J=1.0, topology='chain', H_type='heisenberg'):
         if N < 2:
@@ -58,10 +95,11 @@ class ChainSystem:
         self.d = 2 ** N
         self.d2 = self.d * self.d
         self.gamma_0 = float(gamma_0)
-        self.J = float(J)
         self.topology = topology
         self.H_type = H_type
         self._build_topology()
+        # J AFTER _build_topology, because a per-bond J has to be checked against B.
+        self._set_coupling(J)
         self._H_cache = None
         self._L_cache = None
         object.__setattr__(self, '_initialized', True)
@@ -78,6 +116,36 @@ class ChainSystem:
                 f"Make a new ChainSystem(...) with the desired {name}."
             )
         object.__setattr__(self, name, value)
+
+    def _set_coupling(self, J):
+        """Store the coupling as a per-bond list, and `J` as a scalar only if it IS one.
+
+        `chain.J` is read as a float in ~20 places that build a Hamiltonian or evaluate a
+        closed form derived for a uniform chain. Silently handing those a mean, or a
+        sequence, would make them wrong without saying so, which is the failure this
+        repo keeps recording. So on a non-uniform chain `J` RAISES and names its
+        replacement instead.
+        """
+        try:
+            per_bond = [float(x) for x in J]
+        except TypeError:
+            object.__setattr__(self, 'J', float(J))
+            object.__setattr__(self, 'J_per_bond', [float(J)] * self.B)
+            return
+        if len(per_bond) != self.B:
+            raise ValueError(
+                f"J as a sequence must give one coupling per bond: got {len(per_bond)} "
+                f"for {self.B} bond(s) on topology {self.topology!r}")
+        object.__setattr__(self, 'J_per_bond', per_bond)
+        if len(set(per_bond)) == 1:
+            object.__setattr__(self, 'J', per_bond[0])
+        else:
+            object.__setattr__(self, 'J', _NonUniformCoupling(per_bond, self.topology))
+
+    def is_uniform_coupling(self):
+        """True iff every bond carries the same J. Exact comparison, no tolerance:
+        the bonds either were given the same number or they were not."""
+        return len(set(self.J_per_bond)) == 1
 
     def _build_topology(self):
         N = self.N

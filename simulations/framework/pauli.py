@@ -198,22 +198,32 @@ def pauli_basis_vector(rho, N):
 # Hamiltonian builder from Pauli-pair bilinears
 # ----------------------------------------------------------------------
 
-def _build_bilinear(N, bonds, terms):
-    """Build H = Σ_bond Σ_term coeff · σ_a^l σ_b^{l+1}.
+def _build_bilinear(N, bonds, terms, bond_weights=None):
+    """Build H = Σ_bond w_bond · Σ_term coeff · σ_a^l σ_b^{l+1}.
 
     Args:
         N: number of qubits
         bonds: list of (i, j) bond tuples
         terms: list of (label1, label2, coeff) triples
+        bond_weights: optional one weight per bond, in `bonds` order, for a
+            NON-UNIFORM chain. None means every bond weighs 1, which is the
+            uniform case and leaves the result bit-identical to before this
+            parameter existed (the multiplication is skipped, not done by 1.0).
 
     Returns:
         2^N × 2^N Hermitian matrix.
     """
     d = 2 ** N
     H = np.zeros((d, d), dtype=complex)
-    for (i, j) in bonds:
+    if bond_weights is not None and len(bond_weights) != len(bonds):
+        raise ValueError(
+            f"bond_weights must give one weight per bond: got {len(bond_weights)} "
+            f"for {len(bonds)} bond(s)")
+    for b, (i, j) in enumerate(bonds):
+        w = 1.0 if bond_weights is None else bond_weights[b]
         for (la, lb, coeff) in terms:
-            H = H + coeff * site_op(N, i, la) @ site_op(N, j, lb)
+            block = coeff * site_op(N, i, la) @ site_op(N, j, lb)
+            H = H + (block if bond_weights is None else w * block)
     return H
 
 

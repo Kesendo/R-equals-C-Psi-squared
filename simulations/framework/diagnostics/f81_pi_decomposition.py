@@ -134,7 +134,7 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
         # theorem for terms the theorem covers.
         cls = _pauli_tuple_pi2_class(letters)
         if cls == 'pi2_odd':
-            bilinear_odd.append(letters + (chain.J,))
+            bilinear_odd.append(letters + (1.0,))
 
     # Build H_full per term. 2-body terms use the bond graph
     # (chain/ring/star/K_N via F49); k ≥ 3 uses the chain sliding-window
@@ -146,8 +146,12 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
     two_body_terms_raw = [t for t in terms if len(t) == 2]
     kbody_terms_raw = [t for t in terms if len(t) > 2]
     if two_body_terms_raw:
-        two_body_all = [(t[0], t[1], chain.J) for t in two_body_terms_raw]
-        H_full = H_full + _build_bilinear(chain.N, chain.bonds, two_body_all)
+        # Coefficient 1.0 per term with the coupling carried as a PER-BOND weight, so a
+        # non-uniform chain is expressible here. On a uniform chain J_per_bond is a
+        # constant list and this is the same H as `coeff = chain.J` gave before.
+        two_body_all = [(t[0], t[1], 1.0) for t in two_body_terms_raw]
+        H_full = H_full + _build_bilinear(chain.N, chain.bonds, two_body_all,
+                                          bond_weights=chain.J_per_bond)
     if kbody_terms_raw:
         kbody_all_with_coeff = [tuple(t) + (chain.J,) for t in kbody_terms_raw]
         H_full = H_full + _build_kbody_chain(chain.N, kbody_all_with_coeff)
@@ -197,7 +201,8 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
         H_odd = np.zeros((d_full, d_full), dtype=complex)
         if two_body_odd:
             tbo = [(t[0], t[1], t[-1]) for t in two_body_odd]
-            H_odd = H_odd + _build_bilinear(chain.N, chain.bonds, tbo)
+            H_odd = H_odd + _build_bilinear(chain.N, chain.bonds, tbo,
+                                            bond_weights=chain.J_per_bond)
         if kbody_odd:
             H_odd = H_odd + _build_kbody_chain(chain.N, kbody_odd)
         L_H_odd_vec = -1j * (np.kron(H_odd, Id_d) - np.kron(Id_d, H_odd.T))

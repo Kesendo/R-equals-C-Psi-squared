@@ -124,3 +124,59 @@ def test_residual_norm_squared_with_t1_matches_predict():
                 num = fw.residual_norm_squared(chain, terms, gamma_t1=gT1)
                 assert abs(pred - num) < 1e-6, \
                     f"N={N} terms={terms} gT1={gT1}: pred={pred} num={num}"
+
+
+class TestNonUniformCoupling:
+    """Per-bond J: the one input that reaches the F112 noise/noise regime.
+
+    Added 2026-08-07. Before it the cockpit could only build uniform chains, and a
+    Π²-even H there gives an asymmetry that cancels to exactly 0.0 — so the F112
+    degeneracy gate protected a regime nothing could enter. Making the input
+    expressible is what turns the gate from decoration into a guard.
+    """
+
+    def test_scalar_J_is_uniform_and_unchanged(self):
+        chain = fw.ChainSystem(N=4, J=1.5)
+        assert chain.J == 1.5
+        assert chain.J_per_bond == [1.5, 1.5, 1.5]
+        assert chain.is_uniform_coupling()
+
+    def test_sequence_J_gives_one_coupling_per_bond(self):
+        chain = fw.ChainSystem(N=4, J=[0.4, 1.7, 0.9])
+        assert chain.J_per_bond == [0.4, 1.7, 0.9]
+        assert not chain.is_uniform_coupling()
+
+    def test_a_constant_sequence_is_still_uniform(self):
+        # Same chain, spelled two ways: the predicate reads the values, not the shape.
+        chain = fw.ChainSystem(N=4, J=[0.8, 0.8, 0.8])
+        assert chain.is_uniform_coupling()
+        assert chain.J == 0.8
+
+    def test_wrong_length_is_rejected_loudly(self):
+        with pytest.raises(ValueError, match="one coupling per bond"):
+            fw.ChainSystem(N=4, J=[1.0, 2.0])
+
+    def test_ring_takes_N_couplings_not_N_minus_one(self):
+        # The count follows the topology's bond list, not the site count.
+        ring = fw.ChainSystem(N=4, J=[1.0, 2.0, 3.0, 4.0], topology='ring')
+        assert ring.J_per_bond == [1.0, 2.0, 3.0, 4.0]
+        with pytest.raises(ValueError, match="one coupling per bond"):
+            fw.ChainSystem(N=4, J=[1.0, 2.0, 3.0], topology='ring')
+
+    def test_chain_J_refuses_to_be_a_number_when_non_uniform(self):
+        """The point of the sentinel: ~20 places read chain.J as a float to build an H
+        or evaluate a uniform-chain closed form. A mean would make them quietly wrong."""
+        chain = fw.ChainSystem(N=4, J=[0.4, 1.7, 0.9])
+        with pytest.raises(ValueError, match="non-uniform coupling"):
+            float(chain.J)
+        with pytest.raises(ValueError, match="J_per_bond"):
+            _ = chain.J * 2.0
+
+    def test_non_uniform_J_changes_the_hamiltonian(self):
+        """Guard against the coupling being accepted and then silently ignored."""
+        from framework.diagnostics.f81_pi_decomposition import pi_decompose_M
+        terms = [('X', 'Y')]
+        uniform = pi_decompose_M(fw.ChainSystem(N=4, J=1.0), terms, gamma_z=0.05)
+        varied = pi_decompose_M(fw.ChainSystem(N=4, J=[0.4, 1.7, 0.9]), terms, gamma_z=0.05)
+        import numpy as np
+        assert not np.allclose(uniform['M'], varied['M'])
