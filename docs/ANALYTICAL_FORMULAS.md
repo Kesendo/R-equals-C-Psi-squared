@@ -4181,7 +4181,7 @@ candidate-breakers (1-5), hand-engineered non-Lindblad L (6), random c with
 full Pauli rank (7-8), k_max boundary (9), exhaustive 136-pair N=2 enumeration
 (10, of which **64 carry genuine polarity content**), coefficient sweep (11),
 Z₂³-cell N=3, 4 scaling (12: **132 breaking rows, all cross-bit_b; the 321
-within-cell rows are structurally SILENT rather than balanced** — read as
+within-cell rows are structurally SILENT rather than balanced**, read as
 171 / 171 balanced within-cell until 2026-08-07), Π²-content verification (13, 100.00% Π²=+1 for
 bit_b-homogeneous c), and direct Π-eigenspace L_H projection across 30
 random H (10 Hermitian + 10 non-Hermitian Pauli + 10 random complex matrix)
