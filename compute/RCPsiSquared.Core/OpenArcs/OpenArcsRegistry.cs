@@ -4913,7 +4913,15 @@ public static class OpenArcsRegistry
                 "the same predicate and the difference is named rather than smoothed: C# skips " +
                 "zero-coefficient terms and Python reads letters only; Python takes gamma_pump and " +
                 "tests detailed balance elementwise, C# cannot; Python is Z-fixed while C# takes a " +
-                "dephaseLetter that the F112-X and F112-Y witnesses use. The N >= 3 divergence is " +
+                "dephaseLetter that the F112-X and F112-Y witnesses use. A FOURTH difference was " +
+                "found and CLOSED in the same pass, and it is recorded here because a handover " +
+                "claimed the fix while this authority did not carry it: the bond-term and " +
+                "PauliTerm overloads of IsStructurallyDegenerate gave OPPOSITE exact verdicts at " +
+                "J = 0 (the PauliTerm one skips zero-coefficient terms and answered 'silent'; the " +
+                "bond one has no coefficient to skip and answered 'not silent' off the letters). " +
+                "Two public entry points, one physics, contradictory exact verdicts. The bond " +
+                "overload now takes the coupling, so the divergence is removed rather than " +
+                "documented. The N >= 3 divergence is " +
                 "pinned by PolarityCoordinatesTests.Decompose_SilentAtNAboveTwo_..., the first " +
                 "IsPolarityDegenerate assertion in that file not sited at N=2 (an N=3 silence " +
                 "assertion already existed there), carrying N=2 as its own row at the SAME gamma so " +
