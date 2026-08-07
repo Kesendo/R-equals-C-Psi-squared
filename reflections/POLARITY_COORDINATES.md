@@ -226,7 +226,7 @@ One consequence worth stating plainly, because it limits what this probe can sti
 
 **Probe 14 ([`polarity_step5_stress.py`](../simulations/polarity_step5_stress.py)):** the proof's Step 5 stress test. Direct Π-eigenspace projection of L_H for 30 random H configurations (10 Hermitian Pauli, 10 non-Hermitian Pauli, 10 random complex matrix) at N=2, 3. All 30 give ‖L_{H,+i}‖² = ‖L_{H,-i}‖² bit-exact, including the non-Hermitian Pauli and random complex matrix cases. The Hermitian case has a clean structural reason (Step 5 below); the non-Hermitian case is empirical and reduces to an open identity.
 
-**F87 ↔ F112 orthogonality probe ([`polarity_probe_f87_connection.py`](../simulations/polarity_probe_f87_connection.py)):** all three F87 trichotomy classes (truly, soft, hard) at N=3 under standard Z-deph give F112 balance asymmetry = 0 bit-exact. F87 lives in ‖M‖_F + spec(L) palindromy; F112 lives in M_anti's Π +i/−i Frobenius split. The two are orthogonal axes on the same bit_b Z₂-grading.
+**F87 ↔ F112 orthogonality probe ([`polarity_probe_f87_connection.py`](../simulations/polarity_probe_f87_connection.py)):** all three F87 trichotomy classes (truly, soft, hard) at N=3 under standard Z-deph give F112 balance asymmetry = 0 bit-exact. Four of the seven cases carry genuine polarity content; the `truly` and `soft` ones are Π²-even and therefore silent rather than balanced (2026-08-07). F87 lives in ‖M‖_F + spec(L) palindromy; F112 lives in M_anti's Π +i/−i Frobenius split. The two are orthogonal axes on the same bit_b Z₂-grading.
 
 ### The theorem
 

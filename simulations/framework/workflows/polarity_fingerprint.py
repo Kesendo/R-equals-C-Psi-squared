@@ -39,11 +39,15 @@ Returns a dict with keys:
   'f112_M_norm_sq':         float (‖M‖²)
   'f112_M_anti_norm_sq':    float (‖M_anti‖² = ‖M_+1/2‖² + ‖M_−1/2‖², the polarity content
                             and the denominator above)
-  'f112_polarity_degenerate': bool (‖M_anti‖² is exactly 0, so both halves are the zero
-                            matrix and the verdict below is vacuous: H has no Π²-odd part.
-                            Read it WITH the verdict; a genuine balance and a vacuous one
-                            both report 0.0)
-  'f112_verdict':           str  ('BALANCED' | 'near-BALANCED' | 'BROKEN')
+  'f112_polarity_degenerate': bool (there is no polarity content to balance: H is Π²-even
+                            AND every c is bit_b-homogeneous, so both halves of M_anti
+                            vanish as a theorem. Decided STRUCTURALLY from the Pauli
+                            letters, with the float ‖M_anti‖² == 0.0 only as a fallback,
+                            because the structural zero reaches exact 0.0 at N = 2 alone)
+  'f112_verdict':           str  ('DEGENERATE' | 'BALANCED' | 'near-BALANCED' | 'BROKEN').
+                            DEGENERATE means SILENT, not balanced: no verdict may be read
+                            off such a row and counting it as an F112 confirmation counts
+                            nothing. It outranks the ratio.
   'in_f112_typed_scope':    bool (Hermitian H + bit_b-homogeneous c)
   'h_bit_b_homogeneous':    bool (PauliHamiltonian check on terms)
   'c_bit_b_homogeneous':    bool (true iff dissipator has no σ⁻/σ⁺)
@@ -70,7 +74,10 @@ from typing import Iterable, List, Optional, Sequence
 import numpy as np
 
 from ..diagnostics.f77_trichotomy import classify_pauli_pair
-from ..diagnostics.polarity_coordinates import polarity_coordinates
+from ..diagnostics.polarity_coordinates import (
+    polarity_coordinates,
+    is_structurally_degenerate,
+)
 from ..pauli_hamiltonian import PauliHamiltonian
 
 
@@ -227,11 +234,21 @@ def polarity_fingerprint(
     # while M_anti = L_{H_odd} is exactly zero. Mirrors
     # PolarityCoordinatesResult.RelativeAsymmetry in C#.
     M_anti_sq = float(pol['norm_sq']['M_plus_half'] + pol['norm_sq']['M_minus_half'])
-    # Exact, not a floor: both halves are sums of squared moduli, so the sum is 0.0 only when
-    # each is 0.0, and then asym is exactly 0.0 - 0.0.
-    polarity_degenerate = (M_anti_sq == 0.0)
+    # STRUCTURAL first, float second, and the order is the whole point. The exact test reads
+    # the Pauli letters and is N-independent; the float `== 0.0` below only fires at N = 2,
+    # because the structurally-zero M_anti arrives as ~1e-33 at N=3 and ~1e-31 at N=5. With
+    # only the float test a silent configuration reports a ratio of two noise quantities,
+    # which can land anywhere: on a Pi^2-even H with per-bond-varying J at N=4 that reaches
+    # rel ~ 0.29, i.e. a BROKEN verdict on the very hypothesis F112 proves to be balanced.
+    structurally_silent = is_structurally_degenerate(terms, gamma_t1, gamma_pump)
+    polarity_degenerate = structurally_silent or (M_anti_sq == 0.0)
     rel_asym = 0.0 if polarity_degenerate else abs(asym) / M_anti_sq
-    if rel_asym < tol:
+    if structurally_silent:
+        # Not balanced: SILENT. There is no polarity content to be balanced or broken, so
+        # neither verdict may be read off this row, and counting it as a confirmation of
+        # F112 counts nothing.
+        f112_verdict = 'DEGENERATE'
+    elif rel_asym < tol:
         f112_verdict = 'BALANCED'
     elif rel_asym < 1e-6:
         f112_verdict = 'near-BALANCED'

@@ -39,12 +39,16 @@ public class LindbladBitBPiBalanceWitnessTests
     }
 
     [Fact]
-    public void Witness_Heisenberg_pure_Z_balanced_Matches()
+    public void Witness_Heisenberg_pure_Z_DEGENERATE_Matches()
     {
         var w = LindbladBitBPiBalanceWitness.StandardSet(MakeChain())[0];
-        Assert.Equal("Heisenberg_pure_Z_balanced", w.WitnessName);
-        Assert.Equal("BALANCED", w.ExpectedVerdict);
-        Assert.Equal("BALANCED", w.ActualVerdict);
+        Assert.Equal("Heisenberg_pure_Z_DEGENERATE", w.WitnessName);
+        // Structural, not a float reading: decided from the Pauli letters, so it holds
+        // at every N. The float IsDegenerate only reaches exact 0.0 at N = 2.
+        Assert.True(w.IsStructurallyDegenerate,
+            "Heisenberg_pure_Z: Pi^2-even H with homogeneous c carries no polarity content");
+        Assert.Equal("DEGENERATE", w.ExpectedVerdict);
+        Assert.Equal("DEGENERATE", w.ActualVerdict);
         Assert.True(w.Matches,
             $"witness '{w.WitnessName}' expected {w.ExpectedVerdict}, got {w.ActualVerdict} " +
             $"(rel asym = {w.ActualRelativeAsymmetry:E3})");
@@ -59,12 +63,16 @@ public class LindbladBitBPiBalanceWitnessTests
     }
 
     [Fact]
-    public void Witness_YZ_ZY_pi2even_balanced_Matches()
+    public void Witness_YZ_ZY_pi2even_DEGENERATE_Matches()
     {
         var w = LindbladBitBPiBalanceWitness.StandardSet(MakeChain())[1];
-        Assert.Equal("YZ_ZY_pi2even_balanced", w.WitnessName);
-        Assert.Equal("BALANCED", w.ExpectedVerdict);
-        Assert.Equal("BALANCED", w.ActualVerdict);
+        Assert.Equal("YZ_ZY_pi2even_DEGENERATE", w.WitnessName);
+        // Structural, not a float reading: decided from the Pauli letters, so it holds
+        // at every N. The float IsDegenerate only reaches exact 0.0 at N = 2.
+        Assert.True(w.IsStructurallyDegenerate,
+            "YZ_ZY_pi2even: Pi^2-even H with homogeneous c carries no polarity content");
+        Assert.Equal("DEGENERATE", w.ExpectedVerdict);
+        Assert.Equal("DEGENERATE", w.ActualVerdict);
         Assert.True(w.Matches,
             $"witness '{w.WitnessName}' expected {w.ExpectedVerdict}, got {w.ActualVerdict} " +
             $"(rel asym = {w.ActualRelativeAsymmetry:E3})");
@@ -164,10 +172,29 @@ public class LindbladBitBPiBalanceWitnessTests
     [Fact]
     public void Lazy_Polarity_DoesNotComputeUntilAccessed()
     {
-        // Construction is cheap; the L-build runs only on first access to .Polarity / .ActualVerdict.
-        var w = LindbladBitBPiBalanceWitness.StandardSet(MakeChain())[0];
+        // Construction is cheap; the L-build runs only on first access to .Polarity /
+        // .ActualVerdict. Witness [2] on purpose: it is NOT structurally degenerate, so
+        // reaching its verdict genuinely needs the decomposition. Witness [0] would pass
+        // this test for the wrong reason after the DEGENERATE short-circuit landed.
+        var w = LindbladBitBPiBalanceWitness.StandardSet(MakeChain())[2];
+        Assert.Equal("XY_pi2odd_balanced", w.WitnessName);
+        Assert.False(w.IsStructurallyDegenerate);
         Assert.False(w.Polarity.IsValueCreated);
         _ = w.ActualVerdict;
         Assert.True(w.Polarity.IsValueCreated);
+    }
+
+    [Fact]
+    public void Degenerate_Witness_Reaches_Its_Verdict_Without_Building_L()
+    {
+        // The structural test is exact and cheap, so a silent configuration is known to be
+        // silent before any Liouvillian is assembled. This pins that the short-circuit is
+        // real and not incidental: no decomposition is forced, and the verdict is not
+        // BALANCED.
+        var w = LindbladBitBPiBalanceWitness.StandardSet(MakeChain())[0];
+        Assert.True(w.IsStructurallyDegenerate);
+        Assert.False(w.Polarity.IsValueCreated);
+        Assert.Equal("DEGENERATE", w.ActualVerdict);
+        Assert.False(w.Polarity.IsValueCreated);
     }
 }

@@ -4779,8 +4779,17 @@ public static class OpenArcsRegistry
                 "is_bit_b_homogeneous AS THE INSTRUMENT: it tests c only, and the H side needs Pi^2-EVEN, " +
                 "a DIFFERENT predicate from Pi^2-homogeneous (H = ZI is homogeneous and odd, and is " +
                 "exactly the mislabel case above). The single predicate that covers both is 'L has no " +
-                "Pi^2-odd content', since M_anti = (L - Pi^2 L Pi^-2)/2 identically; HasNoPi2OddPart on " +
-                "the C# side is that shape. Neither is wired into polarity_fingerprint.py's verdict, which " +
+                "Pi^2-odd content', since M_anti = (L - Pi^2 L Pi^-2)/2 identically, and it needs H AND c " +
+                "TOGETHER: H Pi^2-EVEN and every c bit_b-HOMOGENEOUS, verified in both directions over six " +
+                "families at N=3. AND HasNoPi2OddPart IS NOT THAT PREDICATE, which a draft of this entry " +
+                "asserted while reaching for the nearest matching NAME: it reads ||L_HOdd||^2 == 0, a " +
+                "statement about H ALONE, and its own docstring already says 'a true here does NOT license " +
+                "skipping the division'. Measured: Heisenberg has H_odd = 0 either way, yet ||M_anti||^2 is " +
+                "0 without T1 and 0.08 at gamma_T1 = 0.1, because sigma-minus is bit_b-MIXED. The c decides " +
+                "half of it. An axis-dependence falls out of the same fact and is worth carrying: " +
+                "sigma-minus has Pauli support {X, Y}, bit_b-mixed (0 vs 1) but bit_a-HOMOGENEOUS (1 and 1), " +
+                "so adding T1 rescues a Heisenberg fixture from vacuity on the BitB axis and NOT on the " +
+                "BitA one. Neither predicate is wired into polarity_fingerprint.py's verdict, which " +
                 "still guards on m_anti == 0.0 exactly. HOW OFTEN THAT EXACT GUARD FIRES IS A PROPERTY OF " +
                 "THE PIPELINE, and the two must not be conflated: polarity_fingerprint.py calls the " +
                 "chain-bound polarity_coordinates and NEVER polarity_coordinates_from_L, which is what the " +
@@ -4788,7 +4797,63 @@ public static class OpenArcsRegistry
                 "(20 of all 321 degenerate rows across the three sweeps), the rest arriving as ~1e-30 " +
                 "rather than 0.0. A draft of this entry credited the 1-of-192 to polarity_fingerprint, " +
                 "which is a statement about a pipeline it does not use. That is the next real step on " +
-                "this axis, and it is a DEFINITION step, not a sweep.",
+                "this axis, and it is a DEFINITION step, not a sweep. DONE 2026-08-07, and it was the " +
+                "larger half. THE GATE IS THE FIX, NOT THE DENOMINATOR: " +
+                "PolarityCoordinates.IsStructurallyDegenerate (C#) and " +
+                "framework.diagnostics.polarity_coordinates.is_structurally_degenerate (Python) decide " +
+                "silence from the Pauli letters alone (H Pi^2-EVEN on the axis AND every c homogeneous " +
+                "on it) and now OUTRANK the ratio in both verdict paths. THE FLOAT GUARD WAS AN N=2 " +
+                "GUARD, which is why this mattered: on Heisenberg + Z-dephasing ||M_anti||^2 is exactly " +
+                "0.0 at N=2 but 1.4e-33 at N=3, 8.5e-33 at N=4, 2.2e-31 at N=5, so m_anti == 0.0 went " +
+                "silent from N=3 up. Reachable, not hypothetical: a Pi^2-even H with PER-BOND random J " +
+                "and per-site Z c-ops, squarely inside F112's typed scope, gives a false BROKEN at N=4 " +
+                "in 526 of 800 draws over 20 seeds, max rel 0.327. THE ENSEMBLE IS PART OF THAT NUMBER and " +
+                "a review round quoted a max of 0.038 from a different one: per-bond J ~ U(0.2, 2.0) on " +
+                "XX+YY+ZZ, per-site gamma_z ~ U(0.01, 1.0), N=4, seeds 1000..1019. A UNIFORM-J draw gives " +
+                "0 of 80, because there the NUMERATOR cancels exactly. So neither the count nor the " +
+                "magnitude travels; the reachability does. That is the THIRD independent ensemble showing " +
+                "the effect this arc once recorded as not reproducing. " +
+                "WHAT LANDED: a third verdict word DEGENERATE in all three Lindblad*PiBalanceWitness " +
+                "classes, short-circuiting before the Liouvillian is built (pinned by a test); seven of " +
+                "the fifteen StandardSet fixtures retagged AND renamed, since a fixture called " +
+                "..._balanced that is silent is the mislabel this arc is about; the nine-row bilinear " +
+                "Theory split into four substantive and five silent rows, the five having been unable to " +
+                "fail; polarity_fingerprint and diagnose_hardware wired on the Python side. The predicate " +
+                "is mutation-tested in BOTH directions (constant-true and constant-false each break " +
+                "tests), which the two-sided split is what makes possible. " +
+                "THE AXIS ASYMMETRY IS REAL, NOT A CONVENTION: sigma-minus has support {X, Y}, " +
+                "bit_b-MIXED but bit_a-HOMOGENEOUS, so T1 rescues a Heisenberg fixture from silence on " +
+                "BitB/BitBY and NOT on BitA. Hence the BitA sibling had three silent fixtures of five " +
+                "against its siblings' two, and its own 'envelope' argument rested on 0 = 0. Its stated " +
+                "fixture is also not its run fixture: it documents c = X per site while the code always " +
+                "calls BuildZ, dephaseLetter threading only into Pi. The conclusion survives because Z is " +
+                "homogeneous on both axes, i.e. by luck. " +
+                "EVIDENCE RE-WEIGHED, NO CLAIM WITHDRAWN: the tierB Marrakesh headline was 11/11 and is " +
+                "6 of 11 substantive, and those six are 3 soft + 3 hard with NO truly at all, which is a " +
+                "sharper loss than five rows: truly means M itself vanishes (F83), so that class can " +
+                "never carry polarity content on this path. The F87-orthogonality probe is 4 of 7, the " +
+                "silent three being the two truly rows and the ONE Pi^2-even soft row; note soft is NOT " +
+                "a Pi^2-even class (XY+YX is soft and odd and does contribute), and a draft of these " +
+                "corrections wrote it as one. benzene_peierls_f112_polarity_test.py is silent in EVERY row and " +
+                "its conclusion ('if Peierls asymmetry is small the prediction holds') was never a test " +
+                "of that prediction, which BENZENE_THREE_DEPHASE_LETTERS.md now says in place of 'the " +
+                "balance holds bit-exact in every one'. " +
+                "STILL OPEN, and smaller than what closed: the framework path builds H from letter tuples " +
+                "with uniform coefficients, so the false-BROKEN regime is reachable only through " +
+                "polarity_coordinates_from_hc with a hand-built non-uniform H. The cockpit is safe today " +
+                "because the NUMERATOR cancels exactly there, which is luck of the input rather than a " +
+                "property of the guard. THIS ROUND'S OWN DEFECTS, since the ratio held again: the benzene " +
+                "paragraph quoted 3.4e-32 / 9.8e-31 for the two halves while the script it describes " +
+                "prints exactly 0.0 four lines above (the numbers came from a scratch construction beside " +
+                "the script, the same measure-one-object-cite-another shape as the 2.000533 ratio); a " +
+                "THIRD can-not-fail guard was written, `assert X if 'verdict_note' in row else True` on " +
+                "a key that does not exist, i.e. assert True; diagnose_hardware stored " +
+                "verdict.split(' ')[0] and so still reported BALANCED on silent rows while its comment " +
+                "justified staying two-valued by pointing at C#, which had gained the third word in the " +
+                "same change; and the predicate read term.Letters without term.Coefficient, so a " +
+                "ZERO-weighted Pi^2-odd term flipped it to not-silent and handed the verdict back to the " +
+                "ratio. All four fixed. Cancelling coefficient pairs (+c, -c) remain a known false " +
+                "negative and fail SAFE: the ratio is consulted rather than a silence asserted wrongly.",
             Status: OpenArcStatus.Open),
     };
 

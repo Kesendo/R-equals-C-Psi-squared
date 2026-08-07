@@ -129,7 +129,12 @@ def main():
         # simulations/framework/workflows/polarity_fingerprint.py for why.
         ns_anti = float(result['norm_sq']['M_plus_half'] + result['norm_sq']['M_minus_half'])
         rel = 0.0 if ns_anti == 0.0 else abs(asym) / ns_anti
-        f112_marker = "BAL" if rel < 1e-10 else "BREAK"
+        # Structural first: with a Pi^2-even H and this single-letter (hence homogeneous)
+        # dephasing, M_anti vanishes as a theorem and the ratio is 0/0. Those rows are
+        # SILENT, not balanced, and counting them as F112 confirmations counts nothing.
+        silent = all((sum(l.count("Y") + l.count("Z") for l in t)) % 2 == 0
+                     for t in pair_letters)
+        f112_marker = "DEGEN" if silent else ("BAL" if rel < 1e-10 else "BREAK")
 
         # Classify F87 status: M = 0 -> truly; M != 0 -> need to check palindrome
         if ns_M < 1e-10:
@@ -153,7 +158,14 @@ def main():
     print()
     print("F87 <-> F112 connection summary:")
     print("=" * 80)
-    print("If all asym = 0 across truly/soft/hard:")
+    print("Read the DEGEN rows out of this first (2026-08-07): a Pi^2-even H against this")
+    print("single-letter, hence homogeneous, dephasing has no polarity content at all, so")
+    print("its asymmetry is 0 - 0 and it is not evidence in either direction. That takes")
+    print("both `truly` rows and the Pi^2-even `soft` row (YZ+ZY) out of the count; note")
+    print("`soft` is not a Pi^2-even class, XY+YX is soft and Pi^2-odd and does contribute,")
+    print("while `truly` can NEVER contribute because M itself vanishes there (F83).")
+    print()
+    print("On the four rows that do carry content, all with asym = 0:")
     print("  F112 polarity balance is INSENSITIVE to F87 trichotomy.")
     print("  F87 lives in ||M||^2 magnitude + spectrum palindrome.")
     print("  F112 lives in M_anti's Pi +i/-i split.")

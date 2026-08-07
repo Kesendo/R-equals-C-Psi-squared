@@ -1,6 +1,6 @@
 # polarity_fingerprint on Tier-B Marrakesh/Kingston Hamiltonians
 
-**Status:** Welle 6 application of the typed `fw.polarity_fingerprint` workflow to 11 real-hardware-tested Hamiltonians across 3 Tier-B datasets. Extends the F87↔F112 orthogonality empirical anchor from 1 synthetic instance to 11 hardware-instances; surfaces 3 bit_b-inhomogeneous-H cases that are still F112 BALANCED bit-exact, confirming the "F112 typed scope is sufficient but not necessary" reading.
+**Status:** Welle 6 application of the typed `fw.polarity_fingerprint` workflow to 11 real-hardware-tested Hamiltonians across 3 Tier-B datasets. Extends the F87↔F112 orthogonality empirical anchor from 1 synthetic instance to 11 hardware-instances, **6 of which carry a genuine polarity content and 5 of which do not** (see the reading below, corrected 2026-08-07); surfaces 3 bit_b-inhomogeneous-H cases that are still F112 BALANCED, confirming the "F112 typed scope is sufficient but not necessary" reading.
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Script:** [`simulations/polarity_fingerprint_tierB_marrakesh.py`](../simulations/polarity_fingerprint_tierB_marrakesh.py)
@@ -36,24 +36,24 @@ The framework is ChainSystem(N=3, gamma_0=0.05) with default Z-dephasing dissipa
 ```
 soft_break Marrakesh (2026-04-26, path [48, 49, 50])
   Category                    Terms       F87      F112       rel asym    In typed scope
-  truly_unbroken              XX YY       truly    BALANCED   0.0000e+00  True
-  soft_broken                 XY YX       soft     BALANCED   0.0000e+00  True
-  hard_broken                 XX XY       hard     BALANCED   0.0000e+00  False  (bit_b-mixed H)
+  truly_unbroken              XX YY       truly    DEGENERATE   0.0000e+00  True
+  soft_broken                 XY YX       soft     BALANCED     0.0000e+00  True
+  hard_broken                 XX XY       hard     BALANCED     0.0000e+00  False  (bit_b-mixed H)
 
 f83_signature Marrakesh (2026-04-30, path [4, 5, 6])
-  truly_unbroken              XX YY       truly    BALANCED   0.0000e+00  True
-  pi2_odd_pure                XY YX       soft     BALANCED   0.0000e+00  True
-  pi2_even_nontruly           YZ ZY       soft     BALANCED   0.0000e+00  True
-  mixed_anti_one_sixth        XY YZ       hard     BALANCED   0.0000e+00  False  (bit_b-mixed H)
+  truly_unbroken              XX YY       truly    DEGENERATE   0.0000e+00  True
+  pi2_odd_pure                XY YX       soft     BALANCED     0.0000e+00  True
+  pi2_even_nontruly           YZ ZY       soft     DEGENERATE   0.0000e+00  True
+  mixed_anti_one_sixth        XY YZ       hard     BALANCED     0.0000e+00  False  (bit_b-mixed H)
 
 soft_break Kingston (2026-05-05, path [43, 56, 63])
-  truly_unbroken              XX YY       truly    BALANCED   0.0000e+00  True
-  pi2_odd_pure                XY YX       soft     BALANCED   0.0000e+00  True
-  pi2_even_nontruly           YZ ZY       soft     BALANCED   0.0000e+00  True
-  mixed_anti_one_sixth        XY YZ       hard     BALANCED   0.0000e+00  False
+  truly_unbroken              XX YY       truly    DEGENERATE   0.0000e+00  True
+  pi2_odd_pure                XY YX       soft     BALANCED     0.0000e+00  True
+  pi2_even_nontruly           YZ ZY       soft     DEGENERATE   0.0000e+00  True
+  mixed_anti_one_sixth        XY YZ       hard     BALANCED     0.0000e+00  False
 ```
 
-**Aggregate:** 11 / 11 F112 BALANCED bit-exact; 8 / 11 in F112 typed scope; 3 / 11 out of typed scope but still BALANCED.
+**Aggregate:** 6 / 11 F112 BALANCED with genuine polarity content, 5 / 11 structurally DEGENERATE (Π²-even H against a homogeneous bath: nothing to balance); 8 / 11 in F112 typed scope; 3 / 11 out of typed scope and still not broken. Read as "11 / 11 BALANCED bit-exact" until 2026-08-07.
 
 F112 reading per F87 class:
 - F87 truly (3 instances): max rel asym = 0.0000e+00
@@ -64,7 +64,11 @@ F112 reading per F87 class:
 
 ### (1) F87↔F112 orthogonality empirically extended to real hardware
 
-The `polarity_probe_f87_connection.py` script (Welle 1) established F87↔F112 orthogonality on synthetic Hamiltonians (3 F87 classes × 1 instance each at N=3, asymmetry = 0 bit-exact). Welle 6 extends this anchor to 11 hardware-tested Hamiltonians across 3 datasets / 2 IBM backends: F87 classification varies (3 truly, 5 soft, 3 hard); F112 polarity verdict stays BALANCED bit-exact regardless. The two axes are independent on the bit_b Z₂-grading of the Pauli group, as the typed structural argument predicted, and this independence holds for every Hamiltonian we have actually measured on hardware.
+The `polarity_probe_f87_connection.py` script (Welle 1) established F87↔F112 orthogonality on synthetic Hamiltonians (3 F87 classes × 1 instance each at N=3, asymmetry = 0 bit-exact). Welle 6 extends this anchor to 11 hardware-tested Hamiltonians across 3 datasets / 2 IBM backends: F87 classification varies (3 truly, 5 soft, 3 hard); F112 polarity verdict never breaks.
+
+**How many of those 11 are evidence, corrected 2026-08-07.** Six. The other five have a Π²-EVEN H, and against this workflow's bit_b-homogeneous Z-dephasing that empties the polarity content as a theorem: their asymmetry is 0 − 0, so they read as DEGENERATE rather than BALANCED and confirm nothing. This document said "all 11 BALANCED bit-exact" until the workflow gained an exact structural test; the five silent rows were never counter-evidence, they were simply never evidence.
+
+The six that remain are **3 soft + 3 hard, and no `truly` at all**, which is a sharper loss than five rows. `truly` means M itself vanishes (F83's closed form), so a `truly` Hamiltonian can never carry polarity content on this path: the class is not under-sampled here, it is structurally unable to contribute. What this anchor still shows is that the F112 verdict does not track the soft/hard split, on the two classes that can be weighed at all. The two axes are independent on the bit_b Z₂-grading of the Pauli group, as the typed structural argument predicted, and this independence holds for every Hamiltonian we have actually measured on hardware.
 
 ### (2) "F112 typed scope sufficient but not necessary": confirmed on 3 hardware instances
 
@@ -89,7 +93,7 @@ In principle, time-sweep variants of these 4 F83 categories on Marrakesh + Kings
 
 ## Connection to existing readings
 
-- **F87↔F112 orthogonality** (`polarity_probe_f87_connection.py`, Welle 1): synthetic 3-instance anchor; Welle 6 extends to 11 hardware-instances.
+- **F87↔F112 orthogonality** (`polarity_probe_f87_connection.py`, Welle 1): synthetic 3-instance anchor, of which 1 is structurally silent; Welle 6 extends to 11 hardware-instances, 6 of them substantive.
 - **F112 typed Tier1Derived** (`LindbladBitBPiBalance.cs`): Hermitian H + bit_b-homog c → asymmetry = 0; this experiment confirms predicted reading on real hardware Hamiltonians.
 - **F113 break formula** (`LindbladBitBPiBreakMagnitude.cs`, `PROOF_F113_COEFFICIENT_DERIVATION.md`): tells us why bit_b-mixed H without σ⁻/σ⁺ c still gives balance (F113 break requires both ingredients).
 - **F87 classification origin** (`project_v_effect_combinatorial`): V-Effect 14/19/3 split at N=3 fully derived from Pauli-pair combinatorics; the hardware datasets exercise canonical representatives of each class.

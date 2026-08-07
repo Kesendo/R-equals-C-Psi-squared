@@ -155,28 +155,61 @@ public class PolarityCoordinatesTests
         Assert.True(Math.Abs(pol.Asymmetry) < 1e-18);
     }
 
+    /// <summary>The SUBSTANTIVE half of the bilinear sweep: Π²-ODD bonds, where F112's
+    /// prediction has something to predict. Each of these carries a genuinely non-zero
+    /// polarity content and the asymmetry vanishes on top of it, which is the confirmation.
+    /// Split out from a nine-row theory on 2026-08-07: the other five rows are Π²-EVEN, so
+    /// their M_anti is zero by construction and their "asymmetry ≈ 0" could not have failed.
+    /// They are pinned below as degenerate instead, which is a different statement.</summary>
     [Theory]
-    [InlineData("XX", PauliLetter.X, PauliLetter.X)]
     [InlineData("XY", PauliLetter.X, PauliLetter.Y)]
     [InlineData("YX", PauliLetter.Y, PauliLetter.X)]
+    [InlineData("XZ", PauliLetter.X, PauliLetter.Z)]
+    [InlineData("ZX", PauliLetter.Z, PauliLetter.X)]
+    public void Decompose_F112Scope_AsymmetryIsZero_OnPi2OddBilinears(
+        string label, PauliLetter a, PauliLetter b)
+    {
+        var chain = MakeChain();
+        var terms = new[] { new PauliPairBondTerm(a, b) };
+        var pol = PolarityCoordinates.Decompose(chain, terms);
+        Assert.False(IsSilent(chain, terms),
+            $"{label} must carry polarity content for this assertion to mean anything");
+        Assert.True(pol.MAntiNormSquared > 1.0,
+            $"{label}: polarity content ‖M_anti‖² = {pol.MAntiNormSquared:E3} is not substantive");
+        Assert.True(Math.Abs(pol.Asymmetry) < 1e-12,
+            $"F112 in-scope asymmetry for {label} = {pol.Asymmetry:E3} exceeds 1e-12");
+    }
+
+    /// <summary>The Π²-EVEN bilinears. These are in F112's typed scope too, but they carry NO
+    /// polarity content, so the right statement about them is that they are SILENT, not that
+    /// they are balanced. Asserting "asymmetry ≈ 0" here is asserting 0 − 0 &lt; 1e-12, which no
+    /// change to the physics could break. Note ZZ and YZ/ZY have a large ‖M‖²: this is not the
+    /// M-vanishes case, it is the polarity-content-vanishes case, and only the second one is
+    /// what the relative asymmetry divides by.</summary>
+    [Theory]
+    [InlineData("XX", PauliLetter.X, PauliLetter.X)]
     [InlineData("YY", PauliLetter.Y, PauliLetter.Y)]
     [InlineData("YZ", PauliLetter.Y, PauliLetter.Z)]
     [InlineData("ZY", PauliLetter.Z, PauliLetter.Y)]
     [InlineData("ZZ", PauliLetter.Z, PauliLetter.Z)]
-    [InlineData("XZ", PauliLetter.X, PauliLetter.Z)]
-    [InlineData("ZX", PauliLetter.Z, PauliLetter.X)]
-    public void Decompose_F112Scope_AsymmetryIsZero_AcrossBilinearFamilies(
+    public void Decompose_Pi2EvenBilinears_AreSilent_NotBalanced(
         string label, PauliLetter a, PauliLetter b)
     {
-        // Every bilinear bond Hamiltonian with real coefficient is Hermitian; single-Pauli
-        // Z-dephasing is bit_b-homogeneous (Z has bit_b=1, the only c_op). F112 predicts
-        // Asymmetry = 0 bit-exact across all such H, irrespective of trichotomy class.
         var chain = MakeChain();
         var terms = new[] { new PauliPairBondTerm(a, b) };
         var pol = PolarityCoordinates.Decompose(chain, terms);
-        Assert.True(Math.Abs(pol.Asymmetry) < 1e-12,
-            $"F112 in-scope asymmetry for {label} = {pol.Asymmetry:E3} exceeds 1e-12");
+        Assert.True(IsSilent(chain, terms),
+            $"{label} is Π²-even under Z-dephasing and must read as structurally silent");
+        Assert.True(pol.MAntiNormSquared < 1e-18,
+            $"{label}: ‖M_anti‖² = {pol.MAntiNormSquared:E3} should be structurally zero");
     }
+
+    /// <summary>Structural silence via the production path, not a re-implementation: build the
+    /// witness the same way StandardSet does and read its exact predicate.</summary>
+    private static bool IsSilent(ChainSystem chain, IReadOnlyList<PauliPairBondTerm> bondTerms) =>
+        new LindbladBitBPiBalanceWitness(
+            witnessName: "probe", chain: chain, bondTerms: bondTerms,
+            gammaT1: null, expectedVerdict: "DEGENERATE").IsStructurallyDegenerate;
 
     [Fact]
     public void Decompose_F81ViolationMatches_PiDecomposition()

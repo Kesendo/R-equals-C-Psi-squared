@@ -86,16 +86,37 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
 
     /// <summary>True when this witness has no polarity content to balance: both halves of
     /// M_anti are the zero matrix, so the asymmetry is 0 − 0 and
-    /// <see cref="ActualVerdict"/> reads <c>"BALANCED"</c> vacuously. See
+    /// <see cref="ActualVerdict"/> used to read <c>"BALANCED"</c> vacuously; since
+    /// 2026-08-07 it reads <c>"DEGENERATE"</c>, decided structurally. See
     /// <see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/>. Forces lazy
     /// evaluation.</summary>
     public bool IsDegenerate => _polarity.Value.IsPolarityDegenerate;
 
+    /// <para><b>DEGENERATE, added 2026-08-07.</b> A witness whose H is Π²-even on this axis
+    /// AND whose collapse operators are all Π²-homogeneous on it has NO polarity content:
+    /// both halves of M_anti vanish as a theorem, the asymmetry is 0 − 0, and the ratio is a
+    /// quotient of two zeros. Such a witness reports <c>"DEGENERATE"</c>, decided by
+    /// <see cref="IsStructurallyDegenerate"/> from the Pauli letters alone and BEFORE the
+    /// Liouvillian is built. It is not a balance and must not be counted as one. The float
+    /// <see cref="IsDegenerate"/> is kept as a reading but is not the decider: it only reaches
+    /// exact 0.0 at N = 2.</para>
     /// <summary>Actual verdict: <c>"BALANCED"</c> if
     /// <see cref="ActualRelativeAsymmetry"/> ≤ <see cref="Tolerance"/>, else
     /// <c>"BROKEN"</c>. Forces lazy evaluation.</summary>
     public string ActualVerdict =>
-        ActualRelativeAsymmetry <= Tolerance ? "BALANCED" : "BROKEN";
+        IsStructurallyDegenerate ? "DEGENERATE"
+            : ActualRelativeAsymmetry <= Tolerance ? "BALANCED" : "BROKEN";
+
+    /// <summary>EXACT structural verdict, decided from Pauli letters alone: this
+    /// configuration has no polarity content, so it is SILENT rather than balanced.
+    /// Outranks <see cref="ActualRelativeAsymmetry"/> in <see cref="ActualVerdict"/>,
+    /// because on the Π_X axis the ratio is then a quotient of two zeros and reports
+    /// nothing in either direction. Unlike <see cref="IsDegenerate"/>, which reads the
+    /// float M_anti and only reaches exact 0.0 at N = 2, this is N-independent.
+    /// See <see cref="PolarityCoordinates.IsStructurallyDegenerate"/>.</summary>
+    public bool IsStructurallyDegenerate =>
+        PolarityCoordinates.IsStructurallyDegenerate(
+            Terms, GammaT1.HasValue && GammaT1.Value != 0.0, PauliLetter.X);
 
     /// <summary>True iff <see cref="ActualVerdict"/> matches
     /// <see cref="ExpectedVerdict"/> bit-exactly.</summary>
@@ -120,9 +141,11 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
     {
         if (string.IsNullOrWhiteSpace(witnessName))
             throw new ArgumentException("witnessName must be non-empty", nameof(witnessName));
-        if (expectedVerdict != "BALANCED" && expectedVerdict != "BROKEN")
+        if (expectedVerdict != "BALANCED" && expectedVerdict != "BROKEN"
+            && expectedVerdict != "DEGENERATE")
             throw new ArgumentException(
-                $"expectedVerdict must be 'BALANCED' or 'BROKEN'; got '{expectedVerdict}'",
+                $"expectedVerdict must be 'BALANCED', 'BROKEN' or 'DEGENERATE'; " +
+                $"got '{expectedVerdict}'",
                 nameof(expectedVerdict));
         if (tolerance < 0)
             throw new ArgumentOutOfRangeException(nameof(tolerance),
@@ -200,12 +223,15 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
             yield return InspectableNode.RealScalar(
                 "polarity content ‖M_anti‖²", Polarity.Value.MAntiNormSquared, format: "E6");
             yield return new InspectableNode("polarity-degenerate",
-                summary: IsDegenerate
-                    ? "yes: both halves are the zero matrix, so the balance is vacuous "
-                      + "(H has no Π²-odd part); the tolerance decides nothing here"
-                    : "not detected: ‖M_anti‖² is non-zero, but this flag is sufficient and "
-                      + "not necessary, so read this as \"undecided\" rather than as "
-                      + "\"there is polarity content\"");
+                summary: IsStructurallyDegenerate
+                    ? "yes, STRUCTURALLY: H is Π²-even on this axis and every c is "
+                      + "Π²-homogeneous on it, so both halves of M_anti vanish as a "
+                      + "theorem. The verdict is DEGENERATE, not BALANCED, and the tolerance "
+                      + $"decides nothing. The float reading agrees: {IsDegenerate}."
+                    : "no: this configuration carries polarity content, so the relative "
+                      + $"asymmetry is a real measurement. Float ‖M_anti‖² == 0.0: {IsDegenerate} "
+                      + "(that float test alone reaches exact 0.0 only at N = 2, which is why "
+                      + "the structural one decides).");
             yield return InspectableNode.RealScalar("tolerance", Tolerance, format: "E2");
             yield return new InspectableNode("γ_T1", summary: FormatGamma(GammaT1));
             yield return new InspectableNode("terms",
@@ -218,16 +244,16 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
 
     /// <summary>Five named witnesses spanning the F112-X BALANCED axis under X-dephase:
     /// <list type="number">
-    ///   <item><b>Heisenberg_pure_X_balanced</b>: H = XX+YY+ZZ Heisenberg + pure X-dephasing.
+    ///   <item><b>Heisenberg_pure_X_DEGENERATE</b>: H = XX+YY+ZZ Heisenberg + pure X-dephasing.
     ///         All three bilinears are bit_a-homogeneous (XX:0, YY:0, ZZ:0 → all even).
     ///         Inside F112-X typed scope. Expected BALANCED.</item>
     ///   <item><b>YZ_ZY_bit_a_odd_balanced</b>: H = YZ+ZY. Both bilinears are bit_a-odd
     ///         (YZ: 1+0=1; ZY: 0+1=1). Bit_a-homogeneous (both odd) and inside F112-X scope.
     ///         Expected BALANCED.</item>
-    ///   <item><b>XY_bit_a_even_balanced</b>: H = XY. bit_a-even (1+1=0); the canonical
+    ///   <item><b>XY_bit_a_even_DEGENERATE</b>: H = XY. bit_a-even (1+1=0); the canonical
     ///         Π²_X-even bilinear handled by F108 Part 2 + bit_a-homogeneous. Inside F112-X scope.
     ///         Expected BALANCED.</item>
-    ///   <item><b>Heisenberg_with_T1_envelope_balanced</b>: H = Heisenberg + σ⁻ T1 (γ_T1=0.1).
+    ///   <item><b>Heisenberg_with_T1_envelope_DEGENERATE</b>: H = Heisenberg + σ⁻ T1 (γ_T1=0.1).
     ///         Under X-dephase the dissipator c includes c = X (bit_a=1) per site plus σ⁻
     ///         (bit_a=1; σ⁻ = (X − i Y)/2, both X and Y have bit_a=1). c is bit_a-homogeneous;
     ///         F112-X covers this case Tier1Derived. Expected BALANCED.</item>
@@ -278,11 +304,11 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
         return new[]
         {
             new LindbladBitAPiBalanceWitness(
-                witnessName: "Heisenberg_pure_X_balanced",
+                witnessName: "Heisenberg_pure_X_DEGENERATE",
                 chain: chain,
                 bondTerms: heisenbergTerms,
                 gammaT1: null,
-                expectedVerdict: "BALANCED"),
+                expectedVerdict: "DEGENERATE"),
             new LindbladBitAPiBalanceWitness(
                 witnessName: "YZ_ZY_bit_a_odd_balanced",
                 chain: chain,
@@ -290,17 +316,17 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
                 gammaT1: null,
                 expectedVerdict: "BALANCED"),
             new LindbladBitAPiBalanceWitness(
-                witnessName: "XY_bit_a_even_balanced",
+                witnessName: "XY_bit_a_even_DEGENERATE",
                 chain: chain,
                 bondTerms: xyTerms,
                 gammaT1: null,
-                expectedVerdict: "BALANCED"),
+                expectedVerdict: "DEGENERATE"),
             new LindbladBitAPiBalanceWitness(
-                witnessName: "Heisenberg_with_T1_envelope_balanced",
+                witnessName: "Heisenberg_with_T1_envelope_DEGENERATE",
                 chain: chain,
                 bondTerms: heisenbergTerms,
                 gammaT1: 0.1,
-                expectedVerdict: "BALANCED"),
+                expectedVerdict: "DEGENERATE"),
             new LindbladBitAPiBalanceWitness(
                 witnessName: "Xdrive_with_T1_envelope_balanced",
                 chain: chain,

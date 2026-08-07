@@ -71,8 +71,51 @@ from __future__ import annotations
 import numpy as np
 
 from ..symmetry import build_pi_full
-from ..pauli import _vec_to_pauli_basis_transform
+from ..pauli import _vec_to_pauli_basis_transform, total_bit_b_parity
 from .f81_pi_decomposition import pi_decompose_M
+
+
+def is_structurally_degenerate(terms, gamma_t1=None, gamma_pump=None):
+    """EXACT test for "this configuration has no polarity content", from letters alone.
+
+    M_anti is the Pi^2-odd part of L, M_anti = (L - Pi^2 L Pi^-2)/2, so it vanishes exactly
+    when L carries no Pi^2-odd content. That needs BOTH halves:
+
+      * H is Pi^2-even   -- every term has total_bit_b_parity == 0, and
+      * every c is bit_b-homogeneous -- on this Z-dephasing path that means no sigma^-
+        or sigma^+ channel, since Z is single-letter (trivially homogeneous) while
+        sigma^- = (X + iY)/2 has support {X, Y} and those two disagree on bit_b.
+
+    Where this returns True the asymmetry is 0 - 0 and the relative asymmetry is a ratio
+    of two zeros: the configuration is not balanced, it is SILENT, and reading a BALANCED
+    verdict off it confirms nothing.
+
+    Why this and not the float guard `M_anti_sq == 0.0`: the structurally-zero case only
+    reaches exact 0.0 at N = 2. Measured on Heisenberg + Z-dephasing, ||M_anti||^2 is
+    0.0 at N=2 but 1.4e-33 at N=3, 8.5e-33 at N=4 and 2.2e-31 at N=5, so the float guard
+    is silent from N=3 up and a noise/noise ratio can then exceed any threshold. This
+    predicate is N-independent. Mirrors PolarityCoordinates.IsStructurallyDegenerate in C#.
+
+    Note it is NOT the same question as F112's scope: F112 asks for a HERMITIAN H plus
+    homogeneous c and gives asymmetry = 0 as a theorem. The silent case is the strictly
+    smaller one where H is additionally Pi^2-EVEN. A Pi^2-odd H inside F112's scope gives
+    a genuine content with an exactly vanishing difference, which is a real confirmation.
+    """
+    if any(total_bit_b_parity(list(t)) != 0 for t in terms):
+        return False
+    for g in (gamma_t1, gamma_pump):
+        if g is None:
+            continue
+        # Accept a scalar OR any sequence (list, tuple, ndarray): polarity_coordinates itself
+        # takes per-site rates, and testing isinstance(g, (list, tuple)) alone raised a
+        # TypeError on an ndarray by falling through to float().
+        try:
+            rates = [float(x) for x in g]
+        except TypeError:
+            rates = [float(g)]
+        if any(r != 0.0 for r in rates):
+            return False
+    return True
 
 
 def polarity_coordinates(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, strict=None):

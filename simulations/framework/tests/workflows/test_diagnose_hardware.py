@@ -331,24 +331,32 @@ def test_diagnose_hardware_F112_lens_reads_balanced_on_z_dephase():
         # nonzero asymmetry in a few percent of draws (the COUNT is seed noise and must
         # not be quoted; the ~1e-17 relative size is the stable part). Exactness here is
         # a property of these inputs. The arc bit_exact_vocabulary carries the rest.
-        assert row['verdict'] == 'BALANCED', \
-            f"{cat}: expected BALANCED verdict on standard chain.L, got {row['verdict']} " \
+        # Two of the four categories are Π²-EVEN (truly_unbroken, pi2_even_nontruly), so
+        # against this workflow's homogeneous Z-dephasing they carry no polarity content and
+        # must read DEGENERATE. The other two are Π²-odd and carry a real balance. Asserting
+        # BALANCED across all four, as this line did until 2026-08-07, counted two vacuous
+        # rows as confirmations of F112.
+        expected_verdict = 'DEGENERATE' if row['polarity_degenerate'] else 'BALANCED'
+        assert row['verdict'] == expected_verdict, \
+            f"{cat}: expected {expected_verdict} on standard chain.L, got {row['verdict']} " \
             f"(asymmetry={row['asymmetry']}, rel={row['rel_asymmetry']})"
         # Exact route: the asymmetry is a difference of two float sums that come out
         # bit-identical on these inputs. Compare exactly rather than gating (convention
         # case 1), so a regression shows up as a value, not as a threshold near-miss.
         assert row['rel_asymmetry'] == 0.0, \
             f"{cat}: F112 rel asymmetry is {row['rel_asymmetry']}, expected exactly 0.0"
-        # WHICH kind of zero it is, is not decidable from ||M_anti||^2 alone, and that is
+        # WHICH kind of zero it is, is not decidable from ||M_anti||^2 alone, and that was
         # itself the finding. Measured here at N=3, gamma_z=0.1: the two Pi^2-EVEN rows
         # carry NO polarity content as physics (H_odd = 0, so M_anti = L_{H_odd} = 0 by
         # F81), yet ||M_anti||^2 comes out at ~1e-33 rather than 0.0, because M_anti is a
         # difference of two rounded matrices while L_{H_odd} is built from H directly.
-        # So 'polarity_degenerate', which tests ||M_anti||^2 == 0.0, reads False on
-        # exactly the rows it exists for. It is SUFFICIENT, not necessary. The exact
-        # route is ||L_HOdd||^2, which measures 0.0 on these rows and is available on the
-        # bilinear path only; wiring it through is open. Until then, do not read a False
-        # here as "there is polarity content".
+        # So the float test ||M_anti||^2 == 0.0 read False on exactly the rows it existed
+        # for: sufficient, not necessary. CLOSED 2026-08-07. 'polarity_degenerate' now
+        # takes the STRUCTURAL route first (is_structurally_degenerate on the Pauli
+        # letters, N-independent) and falls back to the float test, so it reads True on
+        # the Pi^2-even rows where the physics says silent, and the two answers now come
+        # apart exactly there. That divergence is asserted below rather than smoothed
+        # over: it is the whole reason the structural test exists.
         # NOTE, measured by mutation on 2026-08-06: this fixture CANNOT distinguish the
         # current denominator from the retired max(||M||^2, 1e-15). Its asymmetry is exactly
         # 0.0 on all four categories, so rel_asymmetry is 0.0 whichever denominator divides
@@ -357,7 +365,24 @@ def test_diagnose_hardware_F112_lens_reads_balanced_on_z_dephase():
         # in test_polarity_fingerprint.py, on a Z-drive + T1 fixture where the numerator is
         # non-zero. What this file legitimately pins is the SHAPE below, not the repair.
         m_sq, m_anti_sq = row['M_norm_sq'], row['M_anti_norm_sq']
-        assert row['polarity_degenerate'] == (m_anti_sq == 0.0)
+        if m_anti_sq > 1e-20:
+            # Genuine content: both routes agree it is not degenerate.
+            assert row['polarity_degenerate'] is False
+        else:
+            # Structurally silent. The STRUCTURAL route says so at every N; the float route
+            # only agrees where the rounding happens to land on exact 0.0, which at this N
+            # it does not. A regression to the float-only guard shows up right here.
+            assert row['polarity_degenerate'] is True, (
+                f"{cat}: Pi^2-even row must read degenerate structurally, not by luck")
+            # The vacuous note lives in row['reading'], not in a 'verdict_note' key. A first
+            # version of this line guarded row['verdict_note'] behind an `if ... in row`
+            # else True, i.e. it asserted True: the third can't-fail guard of this repair
+            # pass. Assert on the key that exists.
+            assert '[vacuous' in row['reading'], (
+                f"{cat}: silent row must carry the vacuity note; got {row['reading']!r}")
+            # And the verdict word itself, which is what a counter would read.
+            assert row['verdict'] == 'DEGENERATE', (
+                f"{cat}: silent row must not report {row['verdict']!r}")
         if m_anti_sq > 1e-20:
             # Pi^2-odd row: real polarity content, and F83's anti-fraction fixes the ratio of
             # the two candidate denominators exactly, ||M||^2/||M_anti||^2 = 2 + 4r.

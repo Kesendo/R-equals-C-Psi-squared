@@ -67,24 +67,46 @@ def test_polarity_fingerprint_rel_asymmetry_divides_by_the_polarity_content():
     assert result['f112_rel_asymmetry'] / retired == pytest.approx(2.000533, rel=1e-5)
 
 
-def test_polarity_fingerprint_heisenberg_pure_z_in_scope_balanced():
-    """Heisenberg + pure Z-deph: classic F112 typed-scope case."""
+def test_polarity_fingerprint_heisenberg_pure_z_in_scope_is_silent_not_balanced():
+    """Heisenberg + pure Z-deph: in F112's typed scope, and carrying NO polarity content.
+
+    The classic case, and the one that reads wrongly if the verdict is taken off the ratio.
+    H is Pi^2-even and c is bit_b-homogeneous, so M_anti vanishes as a theorem and the
+    asymmetry is 0 - 0. That is DEGENERATE, not BALANCED: a balanced reading here would be a
+    confirmation of F112 drawn from a row where there is nothing to confirm. Read as
+    BALANCED until 2026-08-07.
+    """
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     result = fw.polarity_fingerprint(chain, [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')])
     assert result['f87_class'] == 'truly'
-    assert result['f112_verdict'] == 'BALANCED'
+    assert result['f112_verdict'] == 'DEGENERATE'
+    assert result['f112_polarity_degenerate'] is True
+    # N=3 on purpose: the float guard alone would MISS this one. ||M_anti||^2 arrives as
+    # ~1e-33 rather than exact 0.0, and only the structural test is N-independent.
+    assert result['f112_M_anti_norm_sq'] != 0.0
+    assert result['f112_M_anti_norm_sq'] < 1e-30
     assert result['in_f112_typed_scope'] is True
     assert result['h_bit_b_homogeneous'] is True
     assert result['c_bit_b_homogeneous'] is True
     assert result['f113_applies'] is False  # no z_drive_omegas_per_site
 
 
-def test_polarity_fingerprint_yz_zy_pi2_even_in_scope_balanced():
-    """YZ + ZY (F108 non-truly Π²-even): F87 soft, F112 BALANCED."""
+def test_polarity_fingerprint_yz_zy_pi2_even_in_scope_is_silent_not_balanced():
+    """YZ + ZY (F108 non-truly Π²-even): F87 soft, and F112-SILENT.
+
+    Sharper than the Heisenberg case above and the reason ‖M‖² was the wrong scale even
+    where it does not vanish: here ‖M‖² is large (YZ+ZY is non-truly, so M is far from
+    zero) while the POLARITY content is nil, because the Pi^2-even H puts nothing into
+    M's ±i halves. Dividing by ‖M‖² hid that behind a big denominator instead of a floor.
+    """
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     result = fw.polarity_fingerprint(chain, [('Y', 'Z'), ('Z', 'Y')])
     assert result['f87_class'] == 'soft'
-    assert result['f112_verdict'] == 'BALANCED'
+    assert result['f112_polarity_degenerate'] is True
+    assert result['f112_verdict'] == 'DEGENERATE'
+    # The discriminating pair: M is substantial, its polarity content is not.
+    assert result['f112_M_norm_sq'] > 1.0
+    assert result['f112_M_anti_norm_sq'] < 1e-30
     assert result['in_f112_typed_scope'] is True
 
 

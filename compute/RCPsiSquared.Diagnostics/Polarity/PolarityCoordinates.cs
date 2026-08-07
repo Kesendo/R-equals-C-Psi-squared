@@ -173,6 +173,68 @@ public sealed record PolarityCoordinatesResult(
 /// and adding the +i / −i Π-eigenvalue refinement of M_anti on top.</summary>
 public static class PolarityCoordinates
 {
+    /// <summary>EXACT structural test for "this configuration has no polarity content to
+    /// read", decided from Pauli letters and integer parities alone. No float, no tolerance.
+    ///
+    /// <para>M_anti is the Π²-odd part of L, M_anti = (L − Π²LΠ⁻²)/2, so it vanishes exactly
+    /// when L carries no Π²-odd content, and that needs BOTH halves: H must be Π²-even on the
+    /// axis AND every collapse operator must be Π²-homogeneous on it. Where this returns true
+    /// the asymmetry is 0 − 0 and the relative asymmetry is a ratio of two zeros: the
+    /// configuration is not balanced, it is SILENT, and a "BALANCED" reading there is vacuous.</para>
+    ///
+    /// <para>Why this and not <see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/>: that
+    /// one reads the float M_anti actually built, and the structurally-zero case only reaches
+    /// exact 0.0 at N = 2. Measured on Heisenberg + Z-dephasing: 0.0 at N=2, but 1.4e-33 at
+    /// N=3, 8.5e-33 at N=4 and 2.2e-31 at N=5, so the float guard is silent from N=3 up and a
+    /// noise/noise ratio can exceed any threshold. This predicate is N-independent.</para>
+    ///
+    /// <para>Why not <see cref="PolarityCoordinatesResult.HasNoPi2OddPart"/>: that is a statement
+    /// about H ALONE (‖L_HOdd‖² == 0) and cannot see the c side. Heisenberg has H_odd = 0 either
+    /// way, yet ‖M_anti‖² is 0 without T1 and 8.0e-2 with γ_T1 = 0.1, because σ⁻ is bit_b-mixed.</para>
+    ///
+    /// <para>The axis matters and the asymmetry between the two axes is real, not a convention:
+    /// σ⁻ = (X ∓ iY)/2 has Pauli support {X, Y}, which is bit_b-MIXED (X and Y disagree) but
+    /// bit_a-HOMOGENEOUS (both are 1). So amplitude damping rescues a Π²-even H from silence on
+    /// the Π_Z / Π_Y axis and does NOT on the Π_X axis. Both facts fall out of
+    /// <see cref="PiOperator.SquaredEigenvalue"/> rather than being hard-coded here.</para></summary>
+    /// <param name="hTerms">The Hamiltonian's Pauli terms.</param>
+    /// <param name="hasAmplitudeDamping">Whether a σ⁻ (or σ⁺) channel is present. The
+    /// Z-dephasing collapse operators are single-letter and therefore homogeneous on every
+    /// axis; only amplitude damping can break c-homogeneity.</param>
+    /// <param name="dephaseLetter">The Π axis: X grades by bit_a, Y and Z by bit_b.</param>
+    public static bool IsStructurallyDegenerate(
+        IReadOnlyList<PauliTerm> hTerms,
+        bool hasAmplitudeDamping,
+        PauliLetter dephaseLetter = PauliLetter.Z)
+    {
+        if (hTerms is null) throw new ArgumentNullException(nameof(hTerms));
+
+        // H side: every term that actually CONTRIBUTES must be Π²-even on this axis. A term
+        // with a zero coefficient is not in H at all, and skipping it is not a nicety: a first
+        // version of this test read the letters only, so appending a zero-weighted Π²-odd term
+        // flipped the answer to "not silent" and handed the verdict straight back to the
+        // noise/noise ratio it exists to bypass. Cancelling pairs (+c and −c on the same
+        // string) are NOT handled here and remain a known false negative; they fail safe, in
+        // that the ratio is consulted rather than a silence being asserted wrongly.
+        foreach (var term in hTerms)
+        {
+            if (term is null || term.Letters is null) return false;
+            if (term.Coefficient == Complex.Zero) continue;
+            if (PiOperator.SquaredEigenvalue(term.Letters, dephaseLetter) != +1) return false;
+        }
+
+        // c side: Z-dephasing is single-letter, hence homogeneous on every axis. Amplitude
+        // damping carries support {X, Y} and is homogeneous only where those two agree.
+        if (hasAmplitudeDamping)
+        {
+            int sx = PiOperator.SquaredEigenvalue(new[] { PauliLetter.X }, dephaseLetter);
+            int sy = PiOperator.SquaredEigenvalue(new[] { PauliLetter.Y }, dephaseLetter);
+            if (sx != sy) return false;
+        }
+
+        return true;
+    }
+
     /// <summary>Decompose M for a chain-built Hamiltonian from bilinear bond terms.
     /// Delegates to <see cref="PiDecomposition.Decompose"/> for M / M_sym / M_anti /
     /// L_HOdd / F81Violation, then computes the +i / −i Π-eigenvalue refinement

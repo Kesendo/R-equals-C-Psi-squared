@@ -14,7 +14,10 @@ import numpy as np
 
 from ..diagnostics.f77_trichotomy import classify_pauli_pair
 from ..diagnostics.f83_anti_fraction import predict_pi_decomposition
-from ..diagnostics.polarity_coordinates import polarity_coordinates
+from ..diagnostics.polarity_coordinates import (
+    polarity_coordinates,
+    is_structurally_degenerate,
+)
 from ..pauli_hamiltonian import PauliHamiltonian, PauliTerm
 from .predict_signature_table import predict_signature_table
 
@@ -254,9 +257,15 @@ def diagnose_hardware(
         # PolarityCoordinatesResult.RelativeAsymmetry in C#; the same denominator has been in
         # simulations/polarity_step5_stress.py line 86 since it was written.
         m_anti_sq = pol['norm_sq']['M_plus_half'] + pol['norm_sq']['M_minus_half']
-        degenerate = (m_anti_sq == 0.0)
-        # Exact, not a floor: both halves are sums of squared moduli, so their sum is 0.0
-        # only when each is 0.0, and then asym is exactly 0.0 - 0.0.
+        # STRUCTURAL first, float second. The exact test reads the Pauli letters and holds
+        # at every N; the float `== 0.0` fallback only fires at N = 2, because the
+        # structurally-zero M_anti arrives as ~1e-33 at N=3 and ~1e-31 at N=5. Keeping only
+        # the float test would let a silent row report a ratio of two noise quantities.
+        # This entry point passes no amplitude damping (the call above is
+        # polarity_coordinates(chain, terms)), so c is pure Z-dephasing and always
+        # bit_b-homogeneous; the H parity alone decides.
+        structurally_silent = is_structurally_degenerate(terms)
+        degenerate = structurally_silent or (m_anti_sq == 0.0)
         rel_asym = 0.0 if degenerate else abs(asym) / m_anti_sq
         # Report the measured number, never the word. F112's THEOREM is exact, but this
         # branch is a threshold on a float difference of two Frobenius norms and cannot
@@ -274,12 +283,16 @@ def diagnose_hardware(
         else:
             verdict = f'BROKEN (rel asymmetry {rel_asym:.2e})'
         if degenerate:
-            # Keep the verdict two-valued, mirroring the C# witnesses, which expose the
-            # degeneracy as a separate field rather than a third verdict. But say it: a
-            # genuine balance and a vacuous one both print 0.0, and only this note tells
-            # them apart.
-            verdict += (' [vacuous: no polarity content, ||M_anti||^2 = 0, H carries no '
-                        'Pi^2-odd part; the threshold decided nothing]')
+            # A third verdict word, matching the C# witnesses, which gained DEGENERATE on
+            # 2026-08-07. The earlier comment here said the opposite and justified staying
+            # two-valued by pointing at C#; that stopped being true in the same change.
+            # It matters because the stored 'verdict' below is verdict.split(' ')[0], so a
+            # two-valued word made a silent row report 'BALANCED' with the note truncated off.
+            verdict = 'DEGENERATE' + verdict[verdict.index(' '):]
+            verdict += (' [vacuous: no polarity content, ||M_anti||^2 = '
+                        f'{m_anti_sq:.2e}; H is Pi^2-even and c is bit_b-homogeneous, so '
+                        'both halves vanish as a theorem and the threshold decided '
+                        'nothing]')
         bit_b_homog = struct['bit_b_homogeneous_h']
         scope_note = (
             'H is bit_b-homogeneous (terms share bit_b parity)'

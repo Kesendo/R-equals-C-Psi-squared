@@ -100,7 +100,13 @@ So F112 predicts that **the Peierls Liouvillian on benzene's Hückel ring preser
 
 This is a real sharpening. In May we had one "palindromic" notion and Peierls broke it. With the F112 results in hand we have two notions (F1 at the spectrum level, F112 at the matrix-polarity level) with different robustness. Peierls is predicted to break the first but preserve the second.
 
-The sweep below tests it: Peierls-bath rows on both rings, and the balance holds bit-exact in every one.
+The sweep below reports it: Peierls-bath rows on both rings, and the balance holds in every one.
+
+**But that sweep cannot test the prediction, and saying so is the honest version of this section (2026-08-07).** The polarity balance is a statement about M's two ±i halves, and on the Hückel ring there are no such halves to compare. F112's hypothesis is a Hermitian H plus a homogeneous c; the *content* it balances vanishes under the strictly narrower condition that H is additionally Π²-EVEN. The Hückel ring, Σ_b (XX + YY), is exactly that: both its bond letters sit in the bit_b = 0 class, the same class the Peierls bath sits in. So M_anti is zero as a theorem, both halves and not merely their difference, and the measured asymmetry is 0 − 0. The script prints both halves and they are exactly `0.000000e+00` at N = 4 under either bath, so this is not a rounding question here: there is simply nothing in the ±i sectors to weigh. (A first version of this paragraph quoted 3.4e-32 and 9.8e-31 for those halves. Those came from a different construction run beside the script rather than from the script, whose own output four lines above contradicts them; the correction-shape is measuring one object and citing another.)
+
+Nothing above is withdrawn. F112 still predicts what it predicts, Peierls really is bit_b-homogeneous, and the F1 spectrum palindrome really does break where the polarity does not. What changes is the evidential weight of these particular rows: they are consistent with the prediction and they are not evidence for it, because they would look identical if it were false. A row that can only come out one way is not a test.
+
+The repo already holds the two ways to make it one, and both are next door: give the ring a Π²-odd term ([`benzene_b_field_f112_mixing_test.py`](../../simulations/benzene_b_field_f112_mixing_test.py) turns on a transverse h·ΣY and was written knowing this), or use a bit_b-mixed bath ([`benzene_bit_b_mixed_bath_test.py`](../../simulations/benzene_bit_b_mixed_bath_test.py) uses σ⁻). The forty-four non-trivial rows reported further down are the ones that carry real polarity content.
 
 ---
 

@@ -9,6 +9,16 @@ B_b = X_aX_b + Y_aY_b is bit_b-homogeneous (XX bit_b sum = 0, YY bit_b sum
 bath operators is "each c_k bit_b-homogeneous", which B_b satisfies even
 though it is a composite two-site operator.
 
+WHAT THIS SCRIPT CANNOT DECIDE, established 2026-08-07 and stated up front
+because the conclusion block at the bottom used to claim otherwise: the
+homogeneous bath is only HALF of what makes the polarity content vanish.
+The Hückel H is itself Π²-even, and a Π²-even H with a homogeneous c leaves
+M_anti zero as a theorem -- both halves, not merely their difference. So
+every row below has nothing to be balanced, the asymmetry is 0 - 0, and a
+near-zero reading is not evidence for the prediction above. It is not
+evidence against it either. The F1 palindrome residual column is unaffected
+and remains a real measurement.
+
 This script measures F112 asymmetry on cyclobutadiene C₄ and benzene C₆
 rings under both Holstein (Z-dephase per site) and Peierls (D[B_b] per
 bond) baths. It also reports the F1 spectrum palindrome residual for
@@ -278,9 +288,24 @@ def main():
         print(f"{N:<4} {'Peierls':<12} {r['asym_peierls']:+.3e}            {r['spec_res_peierls']:.3e}")
 
     print()
-    print("Read the asymmetry column. If Peierls F112 asymmetry ≈ 1e-10 or smaller,")
-    print("the F112 prediction holds. If it's >> 1e-10, the prediction is wrong and")
-    print("the doc needs revision (B as composite bath operator does NOT inherit F112).")
+    print("READ THIS BEFORE READING THE ASYMMETRY COLUMN (2026-08-07).")
+    print("Every row here is structurally SILENT, so a small asymmetry confirms nothing.")
+    print("The Hückel ring H = Σ_b (XX + YY) is Π²-EVEN, and BOTH baths are")
+    print("bit_b-homogeneous (Holstein Z_l trivially; Peierls B_b = XX + YY because both")
+    print("its terms sit in the bit_b = 0 class). Those two facts together empty the")
+    print("polarity content: both ‖M_+i‖² and ‖M_−i‖² are zero as a theorem, and on this")
+    print("script's own route they come out EXACTLY 0.0 (see the two columns above). So the")
+    print("asymmetry below is 0 − 0, and it would read the same whether or not F112 held.")
+    print()
+    print("The original conclusion of this script -- 'if Peierls asymmetry ≈ 1e-10 or")
+    print("smaller, the F112 prediction holds' -- was therefore never a test of that")
+    print("prediction. What the numbers DO show is the F1 spectrum-palindrome residual in")
+    print("the second column, which is a different object and is genuinely measured here.")
+    print()
+    print("To turn this into a real F112 test, break exactly one of the two conditions:")
+    print("give the ring a Π²-ODD term (benzene_b_field_f112_mixing_test.py does this with")
+    print("a transverse h·ΣY and is the model to copy), or use a bit_b-MIXED bath such as")
+    print("σ⁻ amplitude damping (benzene_bit_b_mixed_bath_test.py).")
 
 
 if __name__ == "__main__":
