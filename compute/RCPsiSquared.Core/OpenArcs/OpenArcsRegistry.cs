@@ -4970,9 +4970,46 @@ public static class OpenArcsRegistry
                 "log floor dropped, but LATENT and measured as such: a review claimed the branch " +
                 "fires in the strong-dephasing limit and it does not (N=5, Q = 1e-6 .. 1, no zero " +
                 "rate shift, CV 1.2e-3 .. 1.1e-2, slope tightening onto 2.0000000003). " +
-                "REPORTED BUT NOT YET VERIFIED FROM BELOW, so treat as leads and not findings: a " +
-                "provenance scout reports mirror_transition.py's best_sym = 100% coming from an " +
-                "EMPTY below-set at best_ctr == min_r (quoted in hypotheses/archive), a f128 gate " +
+                "VERIFIED FROM BELOW AND SETTLED, 2026-08-07, the mirror_transition lead of the " +
+                "list below: its best_sym = 100% measures nothing, and the DIAGNOSIS is settled " +
+                "while the script is NOT converted, so it still stands in the Shape B census of " +
+                "experiments/CONCENTRATOR_MAPPING.md and its committed output still prints 100% " +
+                "with no marker. The mechanism needs no count, which is why none is quoted: " +
+                "check_mirror_symmetry scores ANY center at or below min(rates) + tol against an " +
+                "empty below-set and returns 1.0 from that branch alone, best_symmetry_center's " +
+                "offset scan reaches that window, and 1.0 is the ceiling; the same 1.0 is " +
+                "hardcoded in its fewer-than-two-rates early return, so the pinning is unqualified " +
+                "and the column could never have fallen. It reads a flat 100% on TEST 2's " +
+                "dephasing-to-depolarizing blend too, which the depolarizing theorem proves does " +
+                "break, so the vacuity is visible more than once inside one output file. " +
+                "RESCORED with fw.max_f1_pairing_distance, and the physics is the repo's settled " +
+                "position rather than the archive's. Do NOT search for the center here: evaluate " +
+                "at the closed form, because a bounded minimiser's own tolerance lands ~1e-10 and " +
+                "reads as a five-order anomaly that is not there. At the closed-form centers, " +
+                "gamma = 0.05, Heisenberg chain: alpha = 0 at c = N*gamma gives 3.1e-15 / 1.1e-14 " +
+                "/ 1.7e-14 (N=3/4/5) and alpha = 1 at c = N*gamma/2, which is F137, gives " +
+                "5.8e-15 / 1.0e-14 / 1.8e-14, the same order, both eigensolver floor. " +
+                "The interior is a LAW and not a band: at c = N*gamma*(1 - alpha/2) the distance " +
+                "is linear in alpha with slope 1.2493e-02 (N=3) and 1.2491e-02 (N=4), constant " +
+                "across alpha = 1e-5 .. 1e-1, five decades, so the break is immediate and " +
+                "threshold-free, the same shape DEPOLARIZING_PALINDROME proves for its own blend. " +
+                "At N=5 three of those six alphas sit on that slope and three run 1.6x to 3.6x " +
+                "high, which is the greedy metric's documented order-dependence (its own summary " +
+                "quotes a 1.39x spread) and not a second law; it is stated rather than smoothed. " +
+                "ATTRIBUTION, because the word matters: the channel geometry IS the co-axial case " +
+                "(both channels on every site), but the repo's exact eigensolver-free break is one " +
+                "N=2 thermal-plus-Z configuration, so this N=3,4,5 cooling-only reading is " +
+                "MEASURED and THERMAL_BREAKING's 'proven' does not extend to it. " +
+                "hypotheses/archive/THE_INTERPRETATION_ARCHIVE.md's note now says so; the diary " +
+                "sentence under it stays, because that file is a March-13 record. " +
+                "NAMED RATHER THAN QUIETLY LEFT, and deliberately not followed up here: " +
+                "simulations/triage_recovered.py uses this same mirrors_never_break claim as " +
+                "GROUND TRUTH to sort 44 recovered documents into PROVEN/PARTIAL/SPECULATIVE/" +
+                "FALLEN, and simulations/results/triage.txt carries the verdict lines. Sized so " +
+                "it is not read as bigger than it is: it fires in 7 of the 44 blocks at weights " +
+                "1 to 4, and removing it flips no verdict. " +
+                "REPORTED BUT NOT YET VERIFIED FROM BELOW, so treat as leads and not findings: " +
+                "an f128 gate " +
                 "residual 17x too small from a /max(1.0,|F|) mixed norm (quoted in " +
                 "PROOF_F128_FLIP_SUM_FACTORIZATION), F112 probes 9 and 11 carrying vacuous BALANCE " +
                 "rows that the 08-06/07 pass annotated in probes 10/12/13 but not in these two " +

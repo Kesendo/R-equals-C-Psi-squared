@@ -130,8 +130,26 @@ Script: simulations/z_star_identity.py
 
 ## The mirrors never break (March 13)
 
-*Note: This was the numerical discovery. The analytical proof came on
-March 14 (see main document).*
+*Note: the 100% is the scorer, not the physics. best_symmetry_center
+scores any center at or below min(rates) + tol against an EMPTY below-set,
+where check_mirror_symmetry returns 1.0 from that branch alone, and its
+search reaches that window; 1.0 is also what it hardcodes when it is given
+fewer than two rates. So best_sym is pinned at 100% for every input and
+could never have fallen. The same column reads a flat 100% on TEST 2's
+depolarizing blend in this run, which
+[DEPOLARIZING_PALINDROME](../../experiments/DEPOLARIZING_PALINDROME.md)
+proves does break, so the vacuity is visible twice in one output file.
+The center observation is the half of this entry that survived: amplitude
+damping alone keeps the palindrome, at Ng/2, which is
+[F137](../../docs/ANALYTICAL_FORMULAS.md#f137). The blend does break,
+and the reason needs no new measurement: every alpha strictly between the
+endpoints carries BOTH channels on EVERY site, which is the co-axial row
+"Z-dephasing and amplitude damping: none exists" in
+[THERMAL_BREAKING](../../experiments/THERMAL_BREAKING.md). That is why the
+next entry, reading the same physics at the fixed center Ng, reports
+amplitude damping as breaking: 0% at Ng and 100% at the midpoint is F137's
+halved center seen from the wrong one. The fallen claim still votes
+downstream, in simulations/triage_recovered.py.*
 
 Mirror transition experiment (dephasing -> amplitude damping, 101 alpha
 values, N=3,4,5): best_sym = 100% at EVERY alpha. The mirrors never
