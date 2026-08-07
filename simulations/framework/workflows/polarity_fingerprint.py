@@ -34,8 +34,18 @@ relevance.
 Returns a dict with keys:
   'f87_class':              str  ('truly' | 'soft' | 'hard')
   'f112_asymmetry':         float (signed ‖M_+1/2‖² − ‖M_−1/2‖²)
-  'f112_rel_asymmetry':     float (|asym| / ‖M_anti‖², a contrast ratio in [0, 1]; 0.0 when
-                            'f112_polarity_degenerate')
+  'f112_rel_asymmetry':     float (|asym| / ‖M_anti‖², a contrast ratio in [0, 1]; NaN when
+                            'f112_polarity_degenerate', because there the quotient is 0/0
+                            and NO number is the honest entry. A 0.0 there would read as
+                            "perfectly balanced", which is the vacuous confirmation the
+                            DEGENERATE verdict exists to refuse; NaN says "no number" in
+                            the field's own language and propagates instead of averaging in.
+                            BRANCH ON 'f112_polarity_degenerate', not on math.isnan of this
+                            field: the implication runs one way only. A NaN rate reaching the
+                            measurement (gamma_z is not range-checked, unlike gamma_t1 and
+                            gamma_pump) also lands a NaN here, on a row that is NOT silent and
+                            whose verdict is a confident BROKEN. isnan cannot tell the two
+                            apart; the bool can)
   'f112_M_norm_sq':         float (‖M‖²)
   'f112_M_anti_norm_sq':    float (‖M_anti‖² = ‖M_+1/2‖² + ‖M_−1/2‖², the polarity content
                             and the denominator above)
@@ -246,11 +256,26 @@ def polarity_fingerprint(
     # test_polarity_fingerprint.py reaches 0.255 on one specific triple.
     structurally_silent = is_structurally_degenerate(terms, gamma_t1, gamma_pump)
     polarity_degenerate = structurally_silent or (M_anti_sq == 0.0)
-    rel_asym = 0.0 if polarity_degenerate else abs(asym) / M_anti_sq
-    if structurally_silent:
+    # NaN, not 0.0. Where there is no polarity content the quotient is 0/0, and writing a
+    # 0.0 into a field whose whole meaning is "how far apart are the two halves, relative to
+    # how much there is of them" states the one reading the DEGENERATE verdict forbids:
+    # perfect balance. It is the same move as the retired max(‖M‖², 1e-15) floor, replacing an
+    # uninterpretable number with a comfortable one. NaN carries the absence into every
+    # consumer (it fails every comparison and poisons any mean it enters) instead of hiding it.
+    rel_asym = math.nan if polarity_degenerate else abs(asym) / M_anti_sq
+    if polarity_degenerate:
         # Not balanced: SILENT. There is no polarity content to be balanced or broken, so
         # neither verdict may be read off this row, and counting it as a confirmation of
-        # F112 counts nothing.
+        # F112 counts nothing. Widened from `structurally_silent` to `polarity_degenerate` on
+        # 2026-08-07 so that the float branch (M_anti_sq exactly 0.0 where the structural test
+        # did not fire) reaches the same verdict instead of falling through to the ratio and
+        # reporting BALANCED off a 0/0. It is CONSISTENCY, not a live path, and the difference
+        # matters for anyone deciding whether to test it: through this entry point the branch
+        # is currently unreachable. Searched at N=2 and N=3, with and without T1, over all 15
+        # single terms and the 105 unordered pairs of the 15 two-letter strings other than II:
+        # zero cases with M_anti_sq == 0.0 and the structural test False. The real false negatives
+        # the C# names (cancelling +c/-c pairs) live on the JUMP-OPERATOR side, which `terms`
+        # cannot express; they are reachable only through polarity_coordinates_from_hc.
         f112_verdict = 'DEGENERATE'
     elif rel_asym < tol:
         f112_verdict = 'BALANCED'

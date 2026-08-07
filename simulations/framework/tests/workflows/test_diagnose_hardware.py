@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -340,11 +341,18 @@ def test_diagnose_hardware_F112_lens_reads_balanced_on_z_dephase():
         assert row['verdict'] == expected_verdict, \
             f"{cat}: expected {expected_verdict} on standard chain.L, got {row['verdict']} " \
             f"(asymmetry={row['asymmetry']}, rel={row['rel_asymmetry']})"
-        # Exact route: the asymmetry is a difference of two float sums that come out
-        # bit-identical on these inputs. Compare exactly rather than gating (convention
-        # case 1), so a regression shows up as a value, not as a threshold near-miss.
-        assert row['rel_asymmetry'] == 0.0, \
-            f"{cat}: F112 rel asymmetry is {row['rel_asymmetry']}, expected exactly 0.0"
+        # Exact route on the rows that HAVE a ratio: the asymmetry is a difference of two
+        # float sums that come out bit-identical on these inputs. Compare exactly rather
+        # than gating (convention case 1), so a regression shows up as a value, not as a
+        # threshold near-miss. The silent rows have no ratio at all and carry NaN since
+        # 2026-08-07; asserting 0.0 across all four, as this line did until then, put a
+        # number that reads as "perfectly balanced" on two rows that measured nothing.
+        if row['polarity_degenerate']:
+            assert math.isnan(row['rel_asymmetry']), \
+                f"{cat}: a silent row must carry NO ratio, got {row['rel_asymmetry']}"
+        else:
+            assert row['rel_asymmetry'] == 0.0, \
+                f"{cat}: F112 rel asymmetry is {row['rel_asymmetry']}, expected exactly 0.0"
         # WHICH kind of zero it is, is not decidable from ||M_anti||^2 alone, and that was
         # itself the finding. Measured here at N=3, gamma_z=0.1: the two Pi^2-EVEN rows
         # carry NO polarity content as physics (H_odd = 0, so M_anti = L_{H_odd} = 0 by

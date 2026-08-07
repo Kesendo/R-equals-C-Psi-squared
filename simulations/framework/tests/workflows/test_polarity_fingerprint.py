@@ -11,6 +11,7 @@ Smoke + invariant tests:
 """
 from __future__ import annotations
 
+import math
 import sys
 from pathlib import Path
 
@@ -527,7 +528,12 @@ def test_non_uniform_coupling_reaches_the_noise_regime_and_is_gated():
     # And the gate calls it: SILENT, not BROKEN.
     assert result['f112_verdict'] == 'DEGENERATE'
     assert result['f112_polarity_degenerate'] is True
-    assert result['f112_rel_asymmetry'] == 0.0
+    # NaN, not 0.0, and the distinction is the point of the whole gate: the raw ratio
+    # asserted above is 0.255, so any FINITE entry here is a fiction, and 0.0 in particular
+    # is the one fiction that reads as "perfectly balanced". Read as 0.0 until 2026-08-07.
+    assert math.isnan(result['f112_rel_asymmetry']), (
+        "a silent row must carry NO number here, not a comfortable one; got "
+        f"{result['f112_rel_asymmetry']}")
     # Still in the typed scope: this is not an out-of-scope configuration.
     assert result['in_f112_typed_scope'] is True
 

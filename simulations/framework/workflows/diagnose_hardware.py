@@ -8,6 +8,7 @@ exposes structural facts.
 """
 from __future__ import annotations
 
+import math
 from typing import Optional
 
 import numpy as np
@@ -266,33 +267,45 @@ def diagnose_hardware(
         # bit_b-homogeneous; the H parity alone decides.
         structurally_silent = is_structurally_degenerate(terms)
         degenerate = structurally_silent or (m_anti_sq == 0.0)
-        rel_asym = 0.0 if degenerate else abs(asym) / m_anti_sq
-        # Report the measured number, never the word. F112's THEOREM is exact, but this
-        # branch is a threshold on a float difference of two Frobenius norms and cannot
-        # witness exactness; GLOSSARY.md:304 is the governing rule. Measured 2026-08-06,
-        # and what the old 'bit-exact 0' literal hid: the asymmetry is exactly 0.0 on the
-        # bilinear-Pauli Hamiltonians the repo tests, but NOT in general inside F112's typed
-        # scope: random Hermitian H with per-site Z c-ops give a nonzero asymmetry in a few
-        # percent of draws (the COUNT is seed noise and must not be quoted; the ~1e-17
-        # RELATIVE size is not). Exactly-zero here is a property of those inputs, not of the
-        # float route. Recorded in the bit_exact_vocabulary arc.
-        if rel_asym < 1e-10:
-            verdict = f'BALANCED (rel asymmetry {rel_asym:.2e})'
-        elif rel_asym < 1e-6:
-            verdict = f'near-BALANCED (rel {rel_asym:.2e})'
-        else:
-            verdict = f'BROKEN (rel asymmetry {rel_asym:.2e})'
+        # NaN, not 0.0, and for the same reason as in polarity_fingerprint: where there is
+        # no polarity content the quotient is 0/0, and a 0.0 in a contrast-ratio field reads
+        # as "perfectly balanced", the one reading DEGENERATE exists to refuse. NaN says
+        # "no number" and cannot be silently aggregated away (it loses every comparison, so
+        # a max() or a mean() over mixed rows shows it instead of hiding it).
+        rel_asym = math.nan if degenerate else abs(asym) / m_anti_sq
         if degenerate:
             # A third verdict word, matching the C# witnesses, which gained DEGENERATE on
             # 2026-08-07. The earlier comment here said the opposite and justified staying
             # two-valued by pointing at C#; that stopped being true in the same change.
             # It matters because the stored 'verdict' below is verdict.split(' ')[0], so a
             # two-valued word made a silent row report 'BALANCED' with the note truncated off.
-            verdict = 'DEGENERATE' + verdict[verdict.index(' '):]
-            verdict += (' [vacuous: no polarity content, ||M_anti||^2 = '
-                        f'{m_anti_sq:.2e}; H is Pi^2-even and c is bit_b-homogeneous, so '
-                        'both halves vanish as a theorem and the threshold decided '
-                        'nothing]')
+            # Decided BEFORE the thresholds, not patched on after: rel_asym is NaN here and
+            # NaN fails every comparison, so running the ladder first would route a silent
+            # row through the BROKEN branch to reach the same word by the wrong road.
+            # The REASON is stated only when the structural test is what fired. Reached
+            # through the float arm instead, all that is known is the measured zero, and
+            # naming a structural cause there would assert what the flag does not carry.
+            why = ('H is Pi^2-even and c is bit_b-homogeneous, so both halves vanish as a '
+                   'theorem' if structurally_silent else
+                   'both halves measured exactly 0.0, though the structural test did not fire')
+            verdict = ('DEGENERATE (no ratio) [vacuous: no polarity content, ||M_anti||^2 = '
+                       f'{m_anti_sq:.2e}; {why}, and there is nothing for a threshold '
+                       'to decide]')
+        # Report the measured number, never the word. F112's THEOREM is exact, but the ladder
+        # below is a threshold on a float difference of two Frobenius norms and cannot witness
+        # exactness; GLOSSARY.md:304 is the governing rule. Measured 2026-08-06, and what the
+        # old 'bit-exact 0' literal hid: the asymmetry is exactly 0.0 on the bilinear-Pauli
+        # Hamiltonians the repo tests, but NOT in general inside F112's typed scope: random
+        # Hermitian H with per-site Z c-ops give a nonzero asymmetry in a few percent of draws
+        # (the COUNT is seed noise and must not be quoted; the ~1e-17 RELATIVE size is not).
+        # Exactly-zero here is a property of those inputs, not of the float route. Recorded in
+        # the bit_exact_vocabulary arc.
+        elif rel_asym < 1e-10:
+            verdict = f'BALANCED (rel asymmetry {rel_asym:.2e})'
+        elif rel_asym < 1e-6:
+            verdict = f'near-BALANCED (rel {rel_asym:.2e})'
+        else:
+            verdict = f'BROKEN (rel asymmetry {rel_asym:.2e})'
         bit_b_homog = struct['bit_b_homogeneous_h']
         scope_note = (
             'H is bit_b-homogeneous (terms share bit_b parity)'
@@ -306,8 +319,9 @@ def diagnose_hardware(
             'rel_asymmetry': float(rel_asym),
             'M_norm_sq': float(m_sq),
             'M_anti_norm_sq': float(m_anti_sq),
-            # Read WITH 'verdict': a genuine balance and a vacuous one both report 0.0, and
-            # this is the only field that tells them apart.
+            # Read WITH 'verdict'. Since 2026-08-07 'rel_asymmetry' also tells the two apart
+            # on its own (a vacuous row carries NaN, a genuine balance a real 0.0), but this
+            # flag is the one to branch on: it is a bool, and NaN needs math.isnan.
             'polarity_degenerate': bool(degenerate),
             'verdict': verdict.split(' ', 1)[0],
             'h_bit_b_homogeneous': bool(bit_b_homog),

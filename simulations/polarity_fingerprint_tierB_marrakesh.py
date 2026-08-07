@@ -21,12 +21,15 @@ For each Hamiltonian:
   2. Report joint reading + cross-check that framework F87 matches the
      dataset's category label (which is itself an F87 classification name)
 
-Expected finding (per project_f112_welle2 + F87↔F112 orthogonality probe):
-F112 asymmetry = 0 BALANCED bit-exact across all 11 Hamiltonians (because
-chain.L is standard Z-dephasing, bit_b-homogeneous), regardless of F87
-class. This extends the orthogonality empirical anchor from synthetic
-(polarity_probe_f87_connection.py) to 11 real-hardware-Hamiltonian
-instances, all tested on Marrakesh/Kingston in April-May 2026.
+What this was expected to find, and what it actually finds (corrected 2026-08-07):
+the expectation was "F112 asymmetry = 0 BALANCED across all 11", on the reading
+that chain.L is standard bit_b-homogeneous Z-dephasing whatever the F87 class.
+Six of the eleven come out that way. The other five have a Pi^2-EVEN H, which
+against that same homogeneous c leaves no polarity content to balance: they are
+SILENT, and a BALANCED read off them would have confirmed nothing. The
+orthogonality anchor this extends (polarity_probe_f87_connection.py, 7 synthetic
+cases of which 4 are substantive) therefore reaches 6 substantive
+hardware-Hamiltonian instances, all tested on Marrakesh/Kingston in April-May 2026.
 """
 from __future__ import annotations
 
@@ -106,9 +109,20 @@ def main():
     n_balanced = sum(1 for _, _, _, r in all_rows if r['f112_verdict'] == 'BALANCED')
     n_in_scope = sum(1 for _, _, _, r in all_rows if r['in_f112_typed_scope'])
 
+    # Split by silence BEFORE aggregating. A silent row's relative asymmetry is NaN (0/0,
+    # there is no polarity content to form a ratio of), and NaN loses every comparison, so
+    # feeding it to max() hides it whenever a finite value happens to come first: with the
+    # soft class ordered as it is, two silent rows would vanish behind a 0.0 and the class
+    # would look fully measured. Count them instead.
     by_f87 = {}
+    silent_by_f87 = {}
     for _, _, _, r in all_rows:
-        by_f87.setdefault(r['f87_class'], []).append(r['f112_rel_asymmetry'])
+        by_f87.setdefault(r['f87_class'], [])
+        silent_by_f87.setdefault(r['f87_class'], 0)
+        if r['f112_verdict'] == 'DEGENERATE':
+            silent_by_f87[r['f87_class']] += 1
+        else:
+            by_f87[r['f87_class']].append(r['f112_rel_asymmetry'])
 
     n_silent = sum(1 for _, _, _, r in all_rows if r['f112_verdict'] == 'DEGENERATE')
     print(f"  Total Hamiltonian-instances: {n_total}")
@@ -116,10 +130,15 @@ def main():
     print(f"  Structurally SILENT (no content to balance): {n_silent} / {n_total}")
     print(f"  In F112 typed scope (Hermitian H + bit_b-homog c): {n_in_scope} / {n_total}")
     print()
-    print("  F112 reading per F87 class (max relative asymmetry):")
+    print("  F112 reading per F87 class (max relative asymmetry over the MEASURABLE rows):")
     for f87_class, rels in sorted(by_f87.items()):
-        max_rel = max(rels)
-        print(f"    F87 {f87_class:<12}: {len(rels)} instances, max rel asym = {max_rel:.4e}")
+        n_silent_here = silent_by_f87[f87_class]
+        if rels:
+            print(f"    F87 {f87_class:<12}: {len(rels)} measurable, max rel asym = "
+                  f"{max(rels):.4e}, {n_silent_here} silent")
+        else:
+            print(f"    F87 {f87_class:<12}: 0 measurable, {n_silent_here} silent, so this "
+                  "class carries NO F112 evidence here")
 
     print()
     print(f"{'=' * 100}")
@@ -138,11 +157,37 @@ def main():
     print("  they are simply not evidence.")
     print()
     print("  This extends the F87↔F112 orthogonality empirical anchor from synthetic")
-    print("  (simulations/polarity_probe_f87_connection.py, 3 F87 classes × 1 instance each)")
-    print("  to 11 real-hardware-tested Hamiltonian instances across 3 datasets / 3 backends.")
-    print("  F87 trichotomy classification varies across instances; F112 polarity verdict")
-    print("  stays BALANCED bit-exact regardless. The two axes are independent on the bit_b")
-    print("  Z₂-grading of the Pauli group, as the typed structural argument predicted.")
+    print("  (simulations/polarity_probe_f87_connection.py: 7 cases, 3 of them silent and 4")
+    print("  substantive, per that script's own printed conclusion)")
+    print("  to 11 real-hardware-tested Hamiltonian instances across 3 datasets / 2 IBM")
+    print("  backends (Marrakesh twice, Kingston once). The extension is narrower than that")
+    print("  sentence reads, in two ways that have to be said in the same breath.")
+    print()
+    print("  First, the anchor rests on the measurable rows alone, and there are 6 of them.")
+    print("  F87 classification varies across them while the F112 verdict stays BALANCED,")
+    print("  which is the orthogonality. But the F87 'truly' class contributes NO measurable")
+    print("  row. The Pi^2 parity of a term is (#Y + #Z) mod 2, and a truly term has #Y even")
+    print("  AND #Z even, so its sum is even too: every truly H is Pi^2-EVEN, and every")
+    print("  Pi^2-even H is silent against this homogeneous c. Not a biconditional, though:")
+    print("  silence is the WIDER condition. YZ+ZY is soft and silent too, and over the 15")
+    print("  two-letter bond strings other than II, of their 105 unordered pairs 11 are silent")
+    print("  without being truly while 0 are truly without being silent. Only the silence half")
+    print("  of that is a letter count and N-independent; `truly` here comes from")
+    print("  classify_pauli_pair, a thresholded spectral verdict, so the 11 is an observation")
+    print("  on this classifier (checked at N = 2, 3, 4 at unit coupling), not a derivation.")
+    print("  The independence of the two axes is therefore anchored on 'soft' and 'hard' only,")
+    print("  and a truly-class instance needs a c that is NOT bit_b-homogeneous before it can")
+    print("  say anything at all.")
+    print()
+    print("  Second, the 11 rows are not 11 Hamiltonians. Every fingerprint here is taken at")
+    print("  default rates and no declared drive, so within THIS run the reading is a function")
+    print("  of (chain, terms) alone; the workflow itself also takes gamma_z, gamma_T1,")
+    print("  gamma_pump, a drive profile and a tolerance. The three datasets reuse the same term")
+    print("  sets, so the 6 measurable rows are 3 DISTINCT Hamiltonians: XY+YX counted three")
+    print("  times, XX+XY once, XY+YZ twice. The soft class in particular is one Hamiltonian")
+    print("  counted three times. The dataset multiplicity is real hardware provenance but")
+    print("  carries no extra information for THIS reading, which never touches the")
+    print("  measurements (see the 'does NOT do' section of the experiment writeup).")
     print()
     print("  Hardware-effective L (with non-standard noise channels measured on these")
     print("  backends) would require trajectory data to fit, which Tier-B snapshot datasets")

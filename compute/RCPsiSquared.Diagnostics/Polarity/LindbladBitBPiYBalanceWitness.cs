@@ -61,14 +61,16 @@ public sealed class LindbladBitBPiYBalanceWitness : Claim
     /// <c>"BALANCED"</c>, applied to
     /// <see cref="PolarityCoordinatesResult.RelativeAsymmetry"/>, the contrast ratio
     /// |asymmetry| / ‖M_anti‖². Default 1e-10 is not a bit-exact scale and must not be called one: it is a
-    /// SEPARATION. The in-scope witnesses measure rel asym exactly 0.0 and the
-    /// counterexample measures 7.692080e-3, so 1e-10 sits about seven orders below the
-    /// smallest break and eight above the float noise; anything above it is a break, not
-    /// rounding. The theorem it serves (asymmetry exactly 0 in F112-Y's typed scope) IS exact,
+    /// SEPARATION. The in-scope witnesses that carry polarity content measure rel asym
+    /// exactly 0.0 (the DEGENERATE ones measure no ratio at all, and read NaN) while this
+    /// axis's BROKEN witness is pinned only as greater than 1e-6, six orders above the cut.
+    /// An earlier version of this paragraph gave that witness's value as 7.692080e-3; that is
+    /// the Pi_Z number reused digit for digit under Pi_Y, and nothing measures it here.
+    /// What the cut rests on is the six orders, not a transplanted decimal. The theorem it serves (asymmetry exactly 0 in F112-Y's typed scope) IS exact,
     /// but a threshold on a float difference of two Frobenius norms cannot witness that;
     /// docs/GLOSSARY.md:304 is the governing rule. Where the witness is polarity-degenerate
-    /// (<see cref="IsDegenerate"/>) the threshold decides nothing: both halves are the zero
-    /// matrix, so the ratio is exactly 0.0.</summary>
+    /// (<see cref="IsDegenerate"/>) the threshold decides nothing and is not consulted: the
+    /// ratio is 0/0 and <see cref="ActualRelativeAsymmetry"/> is NaN.</summary>
     public double Tolerance { get; }
 
     /// <summary>Lazily computed polarity decomposition result. First access triggers the
@@ -80,28 +82,45 @@ public sealed class LindbladBitBPiYBalanceWitness : Claim
     /// <see cref="Polarity"/>.</summary>
     public double ActualRelativeAsymmetry => _polarity.Value.RelativeAsymmetry;
 
-    /// <summary>True when this witness has no polarity content to balance: both halves of
-    /// M_anti are the zero matrix, so the asymmetry is 0 − 0 and
-    /// <see cref="ActualVerdict"/> used to read <c>"BALANCED"</c> vacuously; since
-    /// 2026-08-07 it reads <c>"DEGENERATE"</c>, decided structurally. See
-    /// <see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/>. Forces lazy
-    /// evaluation.</summary>
+    /// <summary>True when this witness has no polarity content to balance, so the asymmetry
+    /// is 0 − 0 and <see cref="ActualVerdict"/> used to read <c>"BALANCED"</c> vacuously;
+    /// since 2026-08-07 it reads <c>"DEGENERATE"</c>. This is the DECIDER, and since
+    /// 2026-08-07 it is no longer a float-only reading:
+    /// <see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/> now takes the exact
+    /// structural verdict carried in from the term list, with the float ‖M_anti‖² == 0.0 test
+    /// beneath it in the disjunction. Forces lazy evaluation.</summary>
     public bool IsDegenerate => _polarity.Value.IsPolarityDegenerate;
 
     /// <para><b>DEGENERATE, added 2026-08-07.</b> A witness whose H is Π²-even on this axis
     /// AND whose collapse operators are all Π²-homogeneous on it has NO polarity content:
     /// both halves of M_anti vanish as a theorem, the asymmetry is 0 − 0, and the ratio is a
-    /// quotient of two zeros. Such a witness reports <c>"DEGENERATE"</c>, decided by
+    /// quotient of two zeros. It is not a balance and must not be counted as one. Decided by
     /// <see cref="IsStructurallyDegenerate"/> from the Pauli letters alone and BEFORE the
-    /// Liouvillian is built. It is not a balance and must not be counted as one. The float
-    /// <see cref="IsDegenerate"/> is kept as a reading but is not the decider: it only reaches
-    /// exact 0.0 at N = 2.</para>
+    /// Liouvillian is built, with <see cref="IsDegenerate"/> as a second arm beneath it for
+    /// the structural test's known false negatives (cancelling +c/−c pairs on the c side,
+    /// reachable through the k-body constructor but not through the bond one) where the
+    /// float ‖M_anti‖² lands on exact 0.0; routing those through the threshold instead would
+    /// compare NaN and report BROKEN.</para>
     /// <summary>Actual verdict: <c>"BALANCED"</c> if
     /// <see cref="ActualRelativeAsymmetry"/> ≤ <see cref="Tolerance"/>, else
     /// <c>"BROKEN"</c>. Forces lazy evaluation.</summary>
     public string ActualVerdict =>
+        // The EXACT test first, and it must stay first: it reads Pauli letters, so a silent
+        // witness reaches its verdict without ever assembling the 4^N Liouvillian, and
+        // Degenerate_Witness_Reaches_Its_Verdict_Without_Building_L pins that. `IsDegenerate`
+        // beneath it forces the decomposition. Read it as the FLOAT arm, not as a second
+        // structural one: IsPolarityDegenerate is (IsStructurallySilent ?? false) || ‖M_anti‖²
+        // == 0.0, and on every witness its first disjunct is computed from the same inputs as
+        // arm 1 above, so reaching here at all means arm 1 said false and only the float test
+        // can still fire. It exists for the structural test's false negatives (cancelling
+        // +c/-c pairs on the c side); without it those rows would reach the threshold, compare
+        // NaN, and report BROKEN off a 0/0. NOTE it is dead in the current suite and reachable
+        // only through the k-body constructor; J = 0 does NOT reach it, because the bond
+        // constructor expands to PauliTerms at coefficient J and the PauliTerm overload skips
+        // zero-coefficient terms, so the FIRST arm fires there.
         IsStructurallyDegenerate ? "DEGENERATE"
-            : ActualRelativeAsymmetry <= Tolerance ? "BALANCED" : "BROKEN";
+            : IsDegenerate ? "DEGENERATE"
+                : ActualRelativeAsymmetry <= Tolerance ? "BALANCED" : "BROKEN";
 
     /// <summary>EXACT structural verdict, decided from Pauli letters alone: this
     /// configuration has no polarity content, so it is SILENT rather than balanced.

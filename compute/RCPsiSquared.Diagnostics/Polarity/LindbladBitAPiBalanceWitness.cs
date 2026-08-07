@@ -65,14 +65,18 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
     /// <c>"BALANCED"</c>, applied to
     /// <see cref="PolarityCoordinatesResult.RelativeAsymmetry"/>, the contrast ratio
     /// |asymmetry| / ‖M_anti‖². Default 1e-10 is not a bit-exact scale and must not be called one: it is a
-    /// SEPARATION. The in-scope witnesses measure rel asym exactly 0.0 and the
-    /// counterexample measures 7.692080e-3, so 1e-10 sits about seven orders below the
-    /// smallest break and eight above the float noise; anything above it is a break, not
-    /// rounding. The theorem it serves (asymmetry exactly 0 in F112-X's typed scope) IS exact,
+    /// SEPARATION, and on THIS axis it currently separates nothing: <see cref="StandardSet"/>
+    /// has no BROKEN witness at all (three DEGENERATE, two BALANCED), the two BALANCED ones
+    /// measure rel asym exactly 0.0 and the three DEGENERATE ones measure no ratio and read
+    /// NaN. An earlier version of this paragraph quoted "the counterexample measures
+    /// 7.692080e-3"; that number is the Pi_Z axis's, transplanted from
+    /// <see cref="LindbladBitBPiBalanceWitness"/>, and F112-X has no analogue because the
+    /// F113-style break does not trigger under X-dephase (witness 5 below is the sighting).
+    /// The tolerance is therefore a guard against a future break, not a measured separation. The theorem it serves (asymmetry exactly 0 in F112-X's typed scope) IS exact,
     /// but a threshold on a float difference of two Frobenius norms cannot witness that;
     /// docs/GLOSSARY.md:304 is the governing rule. Where the witness is polarity-degenerate
-    /// (<see cref="IsDegenerate"/>) the threshold decides nothing: both halves are the zero
-    /// matrix, so the ratio is exactly 0.0.</summary>
+    /// (<see cref="IsDegenerate"/>) the threshold decides nothing and is not consulted: the
+    /// ratio is 0/0 and <see cref="ActualRelativeAsymmetry"/> is NaN.</summary>
     public double Tolerance { get; }
 
     /// <summary>Lazily computed polarity decomposition result. First access triggers the
@@ -84,28 +88,45 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
     /// <see cref="Polarity"/>.</summary>
     public double ActualRelativeAsymmetry => _polarity.Value.RelativeAsymmetry;
 
-    /// <summary>True when this witness has no polarity content to balance: both halves of
-    /// M_anti are the zero matrix, so the asymmetry is 0 − 0 and
-    /// <see cref="ActualVerdict"/> used to read <c>"BALANCED"</c> vacuously; since
-    /// 2026-08-07 it reads <c>"DEGENERATE"</c>, decided structurally. See
-    /// <see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/>. Forces lazy
-    /// evaluation.</summary>
+    /// <summary>True when this witness has no polarity content to balance, so the asymmetry
+    /// is 0 − 0 and <see cref="ActualVerdict"/> used to read <c>"BALANCED"</c> vacuously;
+    /// since 2026-08-07 it reads <c>"DEGENERATE"</c>. This is the DECIDER, and since
+    /// 2026-08-07 it is no longer a float-only reading:
+    /// <see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/> now takes the exact
+    /// structural verdict carried in from the term list, with the float ‖M_anti‖² == 0.0 test
+    /// beneath it in the disjunction. Forces lazy evaluation.</summary>
     public bool IsDegenerate => _polarity.Value.IsPolarityDegenerate;
 
     /// <para><b>DEGENERATE, added 2026-08-07.</b> A witness whose H is Π²-even on this axis
     /// AND whose collapse operators are all Π²-homogeneous on it has NO polarity content:
     /// both halves of M_anti vanish as a theorem, the asymmetry is 0 − 0, and the ratio is a
-    /// quotient of two zeros. Such a witness reports <c>"DEGENERATE"</c>, decided by
+    /// quotient of two zeros. It is not a balance and must not be counted as one. Decided by
     /// <see cref="IsStructurallyDegenerate"/> from the Pauli letters alone and BEFORE the
-    /// Liouvillian is built. It is not a balance and must not be counted as one. The float
-    /// <see cref="IsDegenerate"/> is kept as a reading but is not the decider: it only reaches
-    /// exact 0.0 at N = 2.</para>
+    /// Liouvillian is built, with <see cref="IsDegenerate"/> as a second arm beneath it for
+    /// the structural test's known false negatives (cancelling +c/−c pairs on the c side,
+    /// reachable through the k-body constructor but not through the bond one) where the
+    /// float ‖M_anti‖² lands on exact 0.0; routing those through the threshold instead would
+    /// compare NaN and report BROKEN.</para>
     /// <summary>Actual verdict: <c>"BALANCED"</c> if
     /// <see cref="ActualRelativeAsymmetry"/> ≤ <see cref="Tolerance"/>, else
     /// <c>"BROKEN"</c>. Forces lazy evaluation.</summary>
     public string ActualVerdict =>
+        // The EXACT test first, and it must stay first: it reads Pauli letters, so a silent
+        // witness reaches its verdict without ever assembling the 4^N Liouvillian, and
+        // Degenerate_Witness_Reaches_Its_Verdict_Without_Building_L pins that. `IsDegenerate`
+        // beneath it forces the decomposition. Read it as the FLOAT arm, not as a second
+        // structural one: IsPolarityDegenerate is (IsStructurallySilent ?? false) || ‖M_anti‖²
+        // == 0.0, and on every witness its first disjunct is computed from the same inputs as
+        // arm 1 above, so reaching here at all means arm 1 said false and only the float test
+        // can still fire. It exists for the structural test's false negatives (cancelling
+        // +c/-c pairs on the c side); without it those rows would reach the threshold, compare
+        // NaN, and report BROKEN off a 0/0. NOTE it is dead in the current suite and reachable
+        // only through the k-body constructor; J = 0 does NOT reach it, because the bond
+        // constructor expands to PauliTerms at coefficient J and the PauliTerm overload skips
+        // zero-coefficient terms, so the FIRST arm fires there.
         IsStructurallyDegenerate ? "DEGENERATE"
-            : ActualRelativeAsymmetry <= Tolerance ? "BALANCED" : "BROKEN";
+            : IsDegenerate ? "DEGENERATE"
+                : ActualRelativeAsymmetry <= Tolerance ? "BALANCED" : "BROKEN";
 
     /// <summary>EXACT structural verdict, decided from Pauli letters alone: this
     /// configuration has no polarity content, so it is SILENT rather than balanced.
@@ -246,17 +267,20 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
     /// <list type="number">
     ///   <item><b>Heisenberg_pure_X_DEGENERATE</b>: H = XX+YY+ZZ Heisenberg + pure X-dephasing.
     ///         All three bilinears are bit_a-homogeneous (XX:0, YY:0, ZZ:0 → all even).
-    ///         Inside F112-X typed scope. Expected BALANCED.</item>
+    ///         Inside F112-X typed scope, and SILENT within it: bit_a-homogeneous H against a
+    ///         bit_a-homogeneous c leaves no polarity content. Expected DEGENERATE (this line
+    ///         said BALANCED while the constructor already said DEGENERATE).</item>
     ///   <item><b>YZ_ZY_bit_a_odd_balanced</b>: H = YZ+ZY. Both bilinears are bit_a-odd
     ///         (YZ: 1+0=1; ZY: 0+1=1). Bit_a-homogeneous (both odd) and inside F112-X scope.
     ///         Expected BALANCED.</item>
     ///   <item><b>XY_bit_a_even_DEGENERATE</b>: H = XY. bit_a-even (1+1=0); the canonical
-    ///         Π²_X-even bilinear handled by F108 Part 2 + bit_a-homogeneous. Inside F112-X scope.
-    ///         Expected BALANCED.</item>
+    ///         Π²_X-even bilinear handled by F108 Part 2 + bit_a-homogeneous. Inside F112-X scope
+    ///         and silent within it. Expected DEGENERATE.</item>
     ///   <item><b>Heisenberg_with_T1_envelope_DEGENERATE</b>: H = Heisenberg + σ⁻ T1 (γ_T1=0.1).
     ///         Under X-dephase the dissipator c includes c = X (bit_a=1) per site plus σ⁻
     ///         (bit_a=1; σ⁻ = (X − i Y)/2, both X and Y have bit_a=1). c is bit_a-homogeneous;
-    ///         F112-X covers this case Tier1Derived. Expected BALANCED.</item>
+    ///         F112-X covers this case Tier1Derived, and it is silent within it. Expected
+    ///         DEGENERATE.</item>
     ///   <item><b>Xdrive_with_T1_envelope_balanced</b>: H = ω·(X₀+X₁)/2 single-site X-drive
     ///         (ω = 0.13) + σ⁻ T1 (γ_T1 = 0.001). The X-axis analog of F112-Z's f95
     ///         counterexample setup; under X-dephase, X-drive aligns with the dephase axis
@@ -265,8 +289,11 @@ public sealed class LindbladBitAPiBalanceWitness : Claim
     ///         mechanism does NOT trigger on the bit_a axis under X-deph (the analog of
     ///         the BitB Zdrive+T1 BROKEN witness is BALANCED here). Expected BALANCED.</item>
     /// </list>
-    /// All five use <see cref="Tolerance"/> = 1e-10 to keep the BALANCED/BROKEN cut at
-    /// the bit-exact scale of F112-X.</summary>
+    /// All five use <see cref="Tolerance"/> = 1e-10. Three of them never reach it (DEGENERATE
+    /// outranks the ratio) and the other two measure exactly 0.0, so on this axis the number
+    /// is an unexercised guard rather than a cut between measured values; see
+    /// <see cref="Tolerance"/>. It is NOT a bit-exact scale, and an earlier version of this
+    /// sentence called it one.</summary>
     public static IReadOnlyList<LindbladBitAPiBalanceWitness> StandardSet(ChainSystem chain)
     {
         if (chain is null) throw new ArgumentNullException(nameof(chain));

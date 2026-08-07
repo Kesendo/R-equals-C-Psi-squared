@@ -85,8 +85,11 @@ public class PolarityCoordinatesTests
         // both half-norms exactly 0.0, and 0.0 survives every rounding route, so == is safe.
         Assert.True(pol.MAntiNormSquared == 0.0, $"{because}: got {pol.MAntiNormSquared:E3}");
         Assert.True(pol.IsPolarityDegenerate, because);
-        Assert.True(pol.RelativeAsymmetry == 0.0,
-            $"{because}: degenerate ⇒ the ratio is exactly 0.0, got {pol.RelativeAsymmetry:E3}");
+        // NaN, not 0.0, since 2026-08-07: with no polarity content the ratio is 0/0 and
+        // there is no number to report. A 0.0 here read as "perfectly balanced", the one
+        // reading this whole fixture pair exists to deny.
+        Assert.True(double.IsNaN(pol.RelativeAsymmetry),
+            $"{because}: degenerate ⇒ NO ratio, got {pol.RelativeAsymmetry:E3}");
 
         // The discriminating half. ‖M‖² is 0 on the truly row and 256 on the non-truly one,
         // yet BOTH are degenerate; so ‖M‖² cannot tell the two states of the balance apart
@@ -301,5 +304,58 @@ public class PolarityCoordinatesTests
         double rel = pol.RelativeAsymmetry;
         Assert.True(rel > 1e-6,
             $"Z-drive + T1 should break F112 balance; got rel asym = {rel:E3} (no break)");
+    }
+
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void Decompose_SilentAtNAboveTwo_IsDegenerateStructurally_NotByTheFloat(int n)
+    {
+        // Why this test exists: at N=2 a structurally silent M_anti lands on exact 0.0, so the
+        // float test IsPolarityDegenerate was already right there, and until 2026-08-07 every
+        // IsPolarityDegenerate assertion in this file sat at that one N, the one that cannot
+        // break the claim. From N=3 up the same physics arrives as rounding (~1e-33), the
+        // float test reads False, and before 2026-08-07 RelativeAsymmetry returned
+        // |noise| / noise: a number with no meaning, free to exceed any threshold, on the
+        // very hypothesis F112 proves balanced.
+        //
+        // N=2 is a row here rather than an assumption about a neighbouring file, and it is
+        // held at the SAME γ as the others: the contrast has to be N and nothing else. The
+        // old N=2 fixture in this file runs at γ = 0.5, a dyadic, which is an input that
+        // cannot break an exactness claim (CLAUDE.md, "no rounding"); γ = 0.1 is not dyadic,
+        // so the exact 0.0 asserted below at N=2 is a real property of the cancellation.
+        var chain = MakeChain(N: n, gammaZero: 0.1);
+        var heisenberg = new[]
+        {
+            new PauliPairBondTerm(PauliLetter.X, PauliLetter.X),
+            new PauliPairBondTerm(PauliLetter.Y, PauliLetter.Y),
+            new PauliPairBondTerm(PauliLetter.Z, PauliLetter.Z),
+        };
+        var pol = PolarityCoordinates.Decompose(chain, heisenberg);
+
+        // The premise, asserted rather than assumed, and it is the whole discriminator: the
+        // float route sees it at N=2 and does NOT from N=3 up. If either half ever goes red
+        // the test has stopped discriminating and must be re-sited, not relaxed.
+        if (n == 2)
+        {
+            Assert.True(pol.MAntiNormSquared == 0.0,
+                $"N=2: the cancellation is exact here, which is why the float test sufficed; "
+                + $"got ‖M_anti‖² = {pol.MAntiNormSquared:E3}");
+        }
+        else
+        {
+            Assert.True(pol.MAntiNormSquared != 0.0 && pol.MAntiNormSquared < 1e-25,
+                $"N={n}: the fixture must sit in the rounding regime the float test misses; "
+                + $"got ‖M_anti‖² = {pol.MAntiNormSquared:E3}");
+        }
+
+        Assert.True(pol.IsStructurallySilent,
+            $"N={n}: Heisenberg is Π²-even and Z-dephasing is homogeneous, so the exact "
+            + "predicate must carry through from the term list");
+        Assert.True(pol.IsPolarityDegenerate,
+            $"N={n}: the structural verdict must govern, not the float ‖M_anti‖² == 0.0");
+        Assert.True(double.IsNaN(pol.RelativeAsymmetry),
+            $"N={n}: no polarity content ⇒ no ratio; got {pol.RelativeAsymmetry:E3}");
     }
 }

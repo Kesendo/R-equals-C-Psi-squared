@@ -28,6 +28,7 @@ If false (e.g., F87-hard sometimes breaks polarity balance):
 F112 is a finer classification within F87-hard.
 """
 
+import math
 import sys
 sys.path.insert(0, 'simulations')
 
@@ -128,13 +129,17 @@ def main():
         # Denominator is the polarity content ||M_anti||^2, not ||M||^2; see
         # simulations/framework/workflows/polarity_fingerprint.py for why.
         ns_anti = float(result['norm_sq']['M_plus_half'] + result['norm_sq']['M_minus_half'])
-        rel = 0.0 if ns_anti == 0.0 else abs(asym) / ns_anti
         # Structural first: with a Pi^2-even H and this single-letter (hence homogeneous)
         # dephasing, M_anti vanishes as a theorem and the ratio is 0/0. Those rows are
         # SILENT, not balanced, and counting them as F112 confirmations counts nothing.
         silent = all((sum(l.count("Y") + l.count("Z") for l in t)) % 2 == 0
                      for t in pair_letters)
-        f112_marker = "DEGEN" if silent else ("BAL" if rel < 1e-10 else "BREAK")
+        # NaN on a silent row, not 0.0 (2026-08-07): a 0.0 in the rel_asym column reads as
+        # perfect balance, which is the one thing the DEGEN marker is here to withhold. The
+        # marker was already right; the number printed beside it still said the retired thing.
+        degenerate = silent or ns_anti == 0.0
+        rel = math.nan if degenerate else abs(asym) / ns_anti
+        f112_marker = "DEGEN" if degenerate else ("BAL" if rel < 1e-10 else "BREAK")
 
         # Classify F87 status: M = 0 -> truly; M != 0 -> need to check palindrome
         if ns_M < 1e-10:
@@ -163,7 +168,12 @@ def main():
     print("its asymmetry is 0 - 0 and it is not evidence in either direction. That takes")
     print("both `truly` rows and the Pi^2-even `soft` row (YZ+ZY) out of the count; note")
     print("`soft` is not a Pi^2-even class, XY+YX is soft and Pi^2-odd and does contribute,")
-    print("while `truly` can NEVER contribute because M itself vanishes there (F83).")
+    print("while `truly` can NEVER contribute: a truly term has #Y and #Z each even, so its")
+    print("Pi^2 parity (#Y + #Z) mod 2 is even too, and every Pi^2-even H is silent here.")
+    print("The SILENCER is that Pi^2-evenness, not the vanishing of M. Until 2026-08-07 this")
+    print("paragraph gave M-vanishing as the reason, which covers only the truly half of the")
+    print("silent set and is contradicted by the table above it: ||M||^2 reads 23.04 on both")
+    print("truly rows and 2071.04 on the equally silent YZ+ZY.")
     print()
     print("On the four rows that do carry content, all with asym = 0:")
     print("  F112 polarity balance is INSENSITIVE to F87 trichotomy.")

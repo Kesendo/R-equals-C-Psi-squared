@@ -136,8 +136,9 @@ public class LindbladBitAPiBalanceWitnessTests
         Assert.True(w.IsDegenerate,
             "so the zero below is 0 = 0, not a balance the tolerance earned; this witness is "
             + "NOT a substantive test of F112-X and must not be cited as one");
-        Assert.True(w.ActualRelativeAsymmetry == 0.0,
-            $"degenerate ⇒ exactly 0.0 by construction; got {w.ActualRelativeAsymmetry:E3}");
+        Assert.True(double.IsNaN(w.ActualRelativeAsymmetry),
+            "degenerate ⇒ NO ratio at all (0/0), and since 2026-08-07 the field says so "
+            + $"instead of reporting a 0.0 that reads as balance; got {w.ActualRelativeAsymmetry:E3}");
     }
 
     [Fact]

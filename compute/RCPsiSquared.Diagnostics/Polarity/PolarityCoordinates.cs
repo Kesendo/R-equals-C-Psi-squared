@@ -58,6 +58,11 @@ namespace RCPsiSquared.Diagnostics.Polarity;
 /// (<see cref="PauliBasis.VecToPauliBasisTransform"/>).</para>
 /// </summary>
 /// <param name="F81Violation">F81 closed-form ‖M_anti − L_{H_odd}‖_F on Z-dephase; numerical diagnostic only on X / Y (see <see cref="PiDecomposition.Decompose"/>).</param>
+/// <param name="IsStructurallySilent">The EXACT verdict of
+/// <see cref="PolarityCoordinates.IsStructurallyDegenerate"/> on the inputs this result was
+/// built from, carried in because the record holds only matrices and cannot re-derive it from
+/// Pauli letters it never saw. <c>null</c> on any path that had no term list, and the float
+/// <see cref="PolarityCoordinatesResult.MAntiNormSquared"/> == 0.0 test governs there.</param>
 public sealed record PolarityCoordinatesResult(
     ComplexMatrix M,
     ComplexMatrix MZero,
@@ -70,7 +75,8 @@ public sealed record PolarityCoordinatesResult(
     double Asymmetry,
     double OrthogonalityResidual,
     double F81Violation,
-    double? LHOddNormSquared = null)
+    double? LHOddNormSquared = null,
+    bool? IsStructurallySilent = null)
 {
     /// <summary>‖M_anti‖² = ‖M_plus_half‖² + ‖M_minus_half‖², the total polarity content:
     /// the whole of what <see cref="Asymmetry"/> is a difference of, and equal to M_anti's own
@@ -85,16 +91,24 @@ public sealed record PolarityCoordinatesResult(
     /// whose halves are exact powers of two, which cannot break it.</summary>
     public double MAntiNormSquared => MPlusHalfNormSquared + MMinusHalfNormSquared;
 
-    /// <summary>True when H carries no Π²-odd part, so there is no polarity content and the
-    /// balance <see cref="RelativeAsymmetry"/> reports is vacuous: it compares 0 against 0.
+    /// <summary>True when L carries no Π²-odd content at all, so there is no polarity content
+    /// and the balance <see cref="RelativeAsymmetry"/> would report is vacuous: it compares 0
+    /// against 0.
     ///
-    /// <para>Decided by the EXACT route where one exists. By F81 M_anti = L_{H_odd}, and
-    /// <see cref="LHOddNormSquared"/> is built from H directly, so it is exactly 0.0 whenever
-    /// H_odd is the zero operator. ‖M_anti‖² is NOT a substitute: it is a difference of two
-    /// rounded matrices and carries rounding where the physics is zero (measured at N=3,
-    /// γ_z=0.1, YZ+ZY: ‖M_anti‖² = 5.8e-33 against ‖L_HOdd‖² = 0.0). Only where the exact
-    /// route is unavailable does this fall back to ‖M_anti‖² == 0.0, which is then
-    /// sufficient but not necessary.</para>
+    /// <para><b>STRUCTURAL first, float second, and the order is the whole point.</b>
+    /// <see cref="IsStructurallySilent"/> is decided from the Pauli letters
+    /// (<see cref="PolarityCoordinates.IsStructurallyDegenerate"/>), is exact and
+    /// N-independent, and a <c>true</c> from it settles the question on its own. The float
+    /// ‖M_anti‖² == 0.0 stays in the disjunction beneath it (and is the only test left where
+    /// the flag is <c>null</c>, i.e. on a path with no term list), because the structural test
+    /// has known false negatives, cancelling +c/−c pairs among them. That float test is
+    /// sufficient but NOT necessary: ‖M_anti‖² is a difference of two rounded matrices and
+    /// carries rounding where the physics is zero, so on Heisenberg + Z-dephasing it reaches
+    /// exact 0.0 at N = 2 alone (the per-N figures are quoted once, on
+    /// <see cref="PolarityCoordinates.IsStructurallyDegenerate"/>, rather than twice here).
+    /// Read alone it is an N=2 guard. Mirrors the Python <c>polarity_degenerate</c> in
+    /// <c>simulations/framework/workflows/polarity_fingerprint.py</c>, which composes the
+    /// same two tests in the same order.</para>
     ///
     /// <para>This is the generic case for Π²-even H, not an edge case: for <i>truly</i> H
     /// (Heisenberg, XX, ZZ), where M itself vanishes by the F83 closed form
@@ -104,12 +118,13 @@ public sealed record PolarityCoordinatesResult(
     /// ‖M‖² is the wrong scale for <see cref="RelativeAsymmetry"/>: it can be far from zero
     /// while the object the asymmetry measures is empty.</para>
     ///
-    /// <para><b>Scope of the F81 route</b>: M_anti = L_{H_odd} is a Z-dephase, no-T1 statement.
+    /// <para><b>Not the same question as "H has no odd part"</b>, which is
+    /// <see cref="HasNoPi2OddPart"/>: M_anti = L_{H_odd} is a Z-dephase, no-T1 identity.
     /// Heisenberg WITH γ_T1 = 0.1 measures ‖M_anti‖² = 8.0e-2 and is NOT degenerate although
-    /// H_odd = 0, and the cross-dephase (Π_X / Π_Y) paths have no closed-form F81 prediction.
-    /// <see cref="LHOddNormSquared"/> is null on every path where the projection is not
-    /// made, and the fallback governs there.</para></summary>
-    public bool IsPolarityDegenerate => MAntiNormSquared == 0.0;
+    /// H_odd = 0, and the cross-dephase (Π_X / Π_Y) paths have no closed-form F81
+    /// prediction.</para></summary>
+    public bool IsPolarityDegenerate =>
+        (IsStructurallySilent ?? false) || MAntiNormSquared == 0.0;
 
     /// <summary>The EXACT structural companion to <see cref="IsPolarityDegenerate"/>, and a
     /// statement about H alone: <c>true</c> when H carries no Π²-odd part, i.e.
@@ -139,14 +154,23 @@ public sealed record PolarityCoordinatesResult(
     /// (The retired ‖M‖² denominator was not scale-free either; this is a property to know,
     /// not a regression.)</para>
     ///
-    /// <para><b>The degenerate branch is exact, not a floor.</b> Both half-norms are
-    /// <c>Math.Pow(FrobeniusNorm(), 2)</c> of a finite matrix, hence non-negative, so their sum
-    /// is exactly 0.0 only when each is exactly 0.0, and then <see cref="Asymmetry"/> is
-    /// exactly 0.0 − 0.0 = 0.0. Returning 0.0 there states a computed fact rather than
-    /// dividing by a constant. Read it together with <see cref="IsPolarityDegenerate"/>: a 0.0
-    /// with the flag set means "nothing to balance", which is weaker than a 0.0 with the flag
-    /// clear. (Underflow caveat: <c>Math.Pow(x, 2)</c> is 0.0 for x below about 2.2e-162, so a
-    /// preposterously small J would set the flag on a non-zero M_anti.)</para>
+    /// <para><b>The degenerate branch returns NaN, not 0.0</b>, since 2026-08-07. Where
+    /// <see cref="IsPolarityDegenerate"/> holds there is nothing for the two halves to be a
+    /// contrast BETWEEN, and the quotient is 0/0: NaN is the entry that says so. A 0.0 there
+    /// reads as "perfectly balanced", which is precisely the vacuous confirmation the
+    /// DEGENERATE verdict exists to refuse, and it is the same move as the retired
+    /// max(‖M‖², 1e-15) floor, a comfortable number in place of an uninterpretable one. NaN
+    /// also cannot be aggregated away in silence: it loses every comparison, so a mean or a
+    /// max over mixed rows surfaces it instead of hiding it behind a finite neighbour.
+    /// <b>Branch on <see cref="IsPolarityDegenerate"/>, not on <c>double.IsNaN</c> of this
+    /// value</b>: the implication runs one way only. A NaN rate or a NaN entry in H also lands
+    /// a NaN here, on a row that is NOT silent and whose verdict is a confident "BROKEN"
+    /// (<c>NaN &lt;= tolerance</c> is false), and IsNaN cannot tell the two apart while the bool
+    /// can. The Python sibling carries the same warning and refuses a NaN gamma_T1 or
+    /// gamma_pump at its entry point, though not a NaN gamma_z; on this side there is no guard
+    /// at all. (Underflow caveat, unchanged:
+    /// <c>Math.Pow(x, 2)</c> is 0.0 for x below about 2.2e-162, so a preposterously small J
+    /// would set the float half of the flag on a non-zero M_anti.)</para>
     ///
     /// <para>Replaces the earlier |Asymmetry| / max(‖M‖², 1e-15), which was saturated: on the
     /// flagship Heisenberg + Z-dephasing case ‖M‖² is exactly 0.0 at N=2 and ~1e-31 at N=3..5,
@@ -164,7 +188,7 @@ public sealed record PolarityCoordinatesResult(
     /// content. That script is the Step-5 verification cited by
     /// <c>docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md</c>.</para></summary>
     public double RelativeAsymmetry =>
-        IsPolarityDegenerate ? 0.0 : Math.Abs(Asymmetry) / MAntiNormSquared;
+        IsPolarityDegenerate ? double.NaN : Math.Abs(Asymmetry) / MAntiNormSquared;
 }
 
 /// <summary>Matrix-level compute primitive for the F112 polarity decomposition.
@@ -184,9 +208,14 @@ public static class PolarityCoordinates
     ///
     /// <para>Why this and not <see cref="PolarityCoordinatesResult.IsPolarityDegenerate"/>: that
     /// one reads the float M_anti actually built, and the structurally-zero case only reaches
-    /// exact 0.0 at N = 2. Measured on Heisenberg + Z-dephasing: 0.0 at N=2, but 1.4e-33 at
-    /// N=3, 8.5e-33 at N=4 and 2.2e-31 at N=5, so the float guard is silent from N=3 up and a
-    /// noise/noise ratio can exceed any threshold. This predicate is N-independent.</para>
+    /// exact 0.0 at N = 2. Measured on Heisenberg + Z-dephasing through the PYTHON sibling at
+    /// its own defaults (γ₀ = 0.05, Pauli-J convention): 0.0 at N=2, but 1.4e-33 at N=3,
+    /// 8.5e-33 at N=4 and 2.2e-31 at N=5. Those are the sibling's numbers, quoted for the
+    /// SHAPE (exact only at N=2, rounding above it) and not as this path's measurements, which
+    /// build H at J/4 with a different γ default; what is pinned on this side is the shape
+    /// itself, by Decompose_SilentAtNAboveTwo_... at N = 2, 3 and 4. Either way the float guard
+    /// is silent from N=3 up and a noise/noise ratio can exceed any threshold. This predicate
+    /// is N-independent.</para>
     ///
     /// <para>Why not <see cref="PolarityCoordinatesResult.HasNoPi2OddPart"/>: that is a statement
     /// about H ALONE (‖L_HOdd‖² == 0) and cannot see the c side. Heisenberg has H_odd = 0 either
@@ -196,7 +225,27 @@ public static class PolarityCoordinates
     /// σ⁻ = (X ∓ iY)/2 has Pauli support {X, Y}, which is bit_b-MIXED (X and Y disagree) but
     /// bit_a-HOMOGENEOUS (both are 1). So amplitude damping rescues a Π²-even H from silence on
     /// the Π_Z / Π_Y axis and does NOT on the Π_X axis. Both facts fall out of
-    /// <see cref="PiOperator.SquaredEigenvalue"/> rather than being hard-coded here.</para></summary>
+    /// <see cref="PiOperator.SquaredEigenvalue"/> rather than being hard-coded here.</para>
+    ///
+    /// <para><b>Detailed balance is a third silent case this cannot reach, and deliberately
+    /// carries no parameter for it.</b> σ⁻ and σ⁺ are each Π²-MIXED on the Z axis, yet their
+    /// Π²-odd contributions are equal and opposite, so at γ_T1 = γ_pump SITE BY SITE they
+    /// cancel and M_anti vanishes after all. The Python sibling
+    /// (<c>framework.diagnostics.polarity_coordinates.is_structurally_degenerate</c>) takes
+    /// both rate profiles and tests that elementwise. No path INTO this predicate can build
+    /// such an L, and that narrower statement is the whole justification. This method is
+    /// public and the witnesses call it directly, so the claim is not "every caller comes
+    /// through <see cref="PolarityCoordinates.Decompose"/>"; it is that every place a
+    /// LIOUVILLIAN is built on this axis does, and Decompose reaches only
+    /// <see cref="PauliDephasingDissipator.BuildZ"/> and <see cref="T1Dissipator.Build"/>, the
+    /// latter taking γ_Z and γ_T1 only. A caller passing <c>hasAmplitudeDamping: true</c> is
+    /// describing a σ⁻, because that is the only damping the pipeline can have produced. A γ_pump parameter here would therefore be
+    /// unreachable code that reads as coverage. The REPO is not without a σ⁺: Core carries a
+    /// typed <c>HardwareDissipators.T1Pump</c> (σ⁺ = (X − iY)/2) and
+    /// <see cref="LindbladianBuilder.Build"/> takes arbitrary collapse operators, so the pump
+    /// arrives here the moment a Decompose overload accepts one, and this predicate gains the
+    /// parameter in that same change.</para>
+    /// </summary>
     /// <param name="hTerms">The Hamiltonian's Pauli terms.</param>
     /// <param name="hasAmplitudeDamping">Whether a σ⁻ (or σ⁺) channel is present. The
     /// Z-dephasing collapse operators are single-letter and therefore homogeneous on every
@@ -235,6 +284,50 @@ public static class PolarityCoordinates
         return true;
     }
 
+    /// <summary>The same exact predicate for the bilinear bond-term representation; see the
+    /// <see cref="IsStructurallyDegenerate(IReadOnlyList{PauliTerm}, bool, PauliLetter)"/>
+    /// overload for what it decides and why.
+    ///
+    /// <para>A <see cref="PauliPairBondTerm"/> carries no coefficient of its own (every bond
+    /// term enters at the chain's J), so <paramref name="coupling"/> supplies the one thing the
+    /// letters cannot: at J = 0 the Hamiltonian is the zero operator and therefore silent, and
+    /// without the parameter this overload would answer "not silent" on a Π²-odd letter pair
+    /// where the <see cref="PauliTerm"/> overload (which skips zero-coefficient terms) answers
+    /// "silent". Two public entry points must not give opposite exact verdicts on the same
+    /// physics, so the coupling is required rather than defaulted.</para></summary>
+    /// <param name="bondTerms">The Hamiltonian's bilinear bond terms.</param>
+    /// <param name="coupling">The coupling every bond term enters at, i.e. the chain's J.
+    /// A zero here means H = 0, which is silent whatever the letters say.</param>
+    /// <param name="hasAmplitudeDamping">As in the <see cref="PauliTerm"/> overload.</param>
+    /// <param name="dephaseLetter">As in the <see cref="PauliTerm"/> overload.</param>
+    public static bool IsStructurallyDegenerate(
+        IReadOnlyList<PauliPairBondTerm> bondTerms,
+        double coupling,
+        bool hasAmplitudeDamping,
+        PauliLetter dephaseLetter = PauliLetter.Z)
+    {
+        if (bondTerms is null) throw new ArgumentNullException(nameof(bondTerms));
+
+        if (coupling != 0.0)
+        {
+            foreach (var term in bondTerms)
+            {
+                if (term is null) return false;
+                if (PiOperator.SquaredEigenvalue(
+                        new[] { term.LetterA, term.LetterB }, dephaseLetter) != +1) return false;
+            }
+        }
+
+        if (hasAmplitudeDamping)
+        {
+            int sx = PiOperator.SquaredEigenvalue(new[] { PauliLetter.X }, dephaseLetter);
+            int sy = PiOperator.SquaredEigenvalue(new[] { PauliLetter.Y }, dephaseLetter);
+            if (sx != sy) return false;
+        }
+
+        return true;
+    }
+
     /// <summary>Decompose M for a chain-built Hamiltonian from bilinear bond terms.
     /// Delegates to <see cref="PiDecomposition.Decompose"/> for M / M_sym / M_anti /
     /// L_HOdd / F81Violation, then computes the +i / −i Π-eigenvalue refinement
@@ -263,7 +356,9 @@ public static class PolarityCoordinates
         var pi = PiDecomposition.Decompose(chain, terms, gammaT1PerSite, dephaseLetter: dephaseLetter);
         var piOp = PiOperator.BuildFull(chain.N, dephaseLetter);
         return RefineMAnti(pi.M, pi.MSym, pi.MAnti, piOp, pi.F81Violation,
-            lHOddNormSquared: pi.LHOddNormSquared);
+            lHOddNormSquared: pi.LHOddNormSquared,
+            isStructurallySilent: IsStructurallyDegenerate(
+                terms, chain.J, gammaT1PerSite is not null, dephaseLetter));
     }
 
     /// <summary>Decompose M for a general k-body Pauli Hamiltonian. Builds H from
@@ -324,17 +419,20 @@ public static class PolarityCoordinates
         var mSym = (M + piMpi) / 2.0;
         var mAnti = (M - piMpi) / 2.0;
 
-        // No F81 inner check on this path (k-body / single-site H_odd identity is open).
-        // No H_odd projection on this path, so the exact degeneracy predicate is
-        // unavailable: pass null rather than a zero that would read as "no polarity content".
-        return RefineMAnti(M, mSym, mAnti, piOp, f81Violation: 0.0, lHOddNormSquared: null);
+        // No F81 inner check on this path (k-body / single-site H_odd identity is open), so
+        // LHOddNormSquared stays null rather than a zero that would read as "no polarity
+        // content". The STRUCTURAL predicate is available here regardless: it reads the Pauli
+        // letters of kBodyTerms and never needs the H_odd projection.
+        return RefineMAnti(M, mSym, mAnti, piOp, f81Violation: 0.0, lHOddNormSquared: null,
+            isStructurallySilent: IsStructurallyDegenerate(
+                kBodyTerms, gammaT1.HasValue && gammaT1.Value != 0.0, dephaseLetter));
     }
 
     /// <summary>Shared core: given M, M_sym, M_anti and Π, compute the ±i
     /// Π-eigenvalue projectors on M_anti and assemble the result record.</summary>
     private static PolarityCoordinatesResult RefineMAnti(
         ComplexMatrix M, ComplexMatrix mSym, ComplexMatrix mAnti, ComplexMatrix piOp, double f81Violation,
-        double? lHOddNormSquared)
+        double? lHOddNormSquared, bool? isStructurallySilent = null)
     {
         var piInv = piOp.ConjugateTranspose(); // Π is a unitary signed permutation; Π⁻¹ = Π†.
         var piMAntiPiInv = piOp * mAnti * piInv;
@@ -362,6 +460,7 @@ public static class PolarityCoordinates
             Asymmetry: asymmetry,
             OrthogonalityResidual: orthogonalityResidual,
             F81Violation: f81Violation,
-            LHOddNormSquared: lHOddNormSquared);
+            LHOddNormSquared: lHOddNormSquared,
+            IsStructurallySilent: isStructurallySilent);
     }
 }

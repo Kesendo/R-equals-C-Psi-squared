@@ -4834,8 +4834,14 @@ public static class OpenArcsRegistry
                 "homogeneous on both axes, i.e. by luck. " +
                 "EVIDENCE RE-WEIGHED, NO CLAIM WITHDRAWN: the tierB Marrakesh headline was 11/11 and is " +
                 "6 of 11 substantive, and those six are 3 soft + 3 hard with NO truly at all, which is a " +
-                "sharper loss than five rows: truly means M itself vanishes (F83), so that class can " +
-                "never carry polarity content on this path. The F87-orthogonality probe is 4 of 7, the " +
+                "sharper loss than five rows: a truly term has #Y and #Z each even, so its Pi^2 parity " +
+                "(#Y + #Z) mod 2 is even too, and every Pi^2-even H is silent against this homogeneous " +
+                "bath, so that class can never carry polarity content on this path. The SILENCER is " +
+                "that Pi^2-evenness and not the vanishing of M, which is the strictly stronger " +
+                "condition: truly is a proper subset of silent, and YZ+ZY is the witness that the " +
+                "containment is proper (Pi^2-even, silent, ||M||^2 = 2048). An earlier wording here " +
+                "gave M-vanishing as the mechanism, which covers only the truly half of the silent " +
+                "set. The F87-orthogonality probe is 4 of 7, the " +
                 "silent three being the two truly rows and the ONE Pi^2-even soft row; note soft is NOT " +
                 "a Pi^2-even class (XY+YX is soft and odd and does contribute), and a draft of these " +
                 "corrections wrote it as one. benzene_peierls_f112_polarity_test.py is silent in EVERY row and " +
@@ -4889,19 +4895,70 @@ public static class OpenArcsRegistry
                 "(c) A 3150-configuration sweep over N=2..5, four topologies, k-body, non-Hermitian H and " +
                 "all three axes found ZERO false positives: the predicate never claims silence where " +
                 "there IS content, which is the direction that matters. " +
-                "STILL OWED, NAMED RATHER THAN QUIETLY LEFT: the C# RelativeAsymmetry is still gated on " +
-                "the FLOAT IsPolarityDegenerate only, so at N >= 3 the two languages report different " +
-                "numbers for the same silent row, and the C# predicate has no pump argument so it cannot " +
-                "see detailed balance at all; rel_asym is OVERWRITTEN with a synthetic 0.0 on a silent " +
-                "row, which is the same move as the retired 1e-15 floor (NaN, or the raw ratio beside a " +
-                "flag, keeps the information); the three-valued verdict flattens two independent bits, " +
+                "SECOND WAVE 2026-08-07, TWO ITEMS OFF THE OWED LIST (the arc stays Open; two more " +
+                "items in the list below were REWRITTEN rather than closed, the script sweep and the " +
+                "doc corrections). (1) The synthetic 0.0 on a silent row is gone. Both " +
+                "languages now report NaN there (Python polarity_fingerprint + diagnose_hardware, C# " +
+                "PolarityCoordinatesResult.RelativeAsymmetry), because the quantity is structurally " +
+                "0/0 and a 0.0 in a contrast-ratio field reads as perfect balance, the one verdict " +
+                "DEGENERATE withholds; it was the retired 1e-15 floor's move, one field over. Both " +
+                "sides warn that the implication runs ONE WAY: a NaN rate also lands a NaN there on a " +
+                "row that is not silent, so consumers branch on the degeneracy BOOL, never on IsNaN " +
+                "(Python refuses a NaN gamma_T1 or gamma_pump at the entry point but does NOT " +
+                "range-check gamma_z, and C# has no guard at all; both gaps are now named in the " +
+                "docs rather than implied away). (2) The C# result CARRIES the exact structural " +
+                "verdict (new record member IsStructurallySilent, set by both Decompose overloads), so " +
+                "IsPolarityDegenerate is structural-or-float instead of float-only and the two " +
+                "languages no longer disagree at N >= 3, which was the reachable defect. They are NOT " +
+                "the same predicate and the difference is named rather than smoothed: C# skips " +
+                "zero-coefficient terms and Python reads letters only; Python takes gamma_pump and " +
+                "tests detailed balance elementwise, C# cannot; Python is Z-fixed while C# takes a " +
+                "dephaseLetter that the F112-X and F112-Y witnesses use. The N >= 3 divergence is " +
+                "pinned by PolarityCoordinatesTests.Decompose_SilentAtNAboveTwo_..., the first " +
+                "IsPolarityDegenerate assertion in that file not sited at N=2 (an N=3 silence " +
+                "assertion already existed there), carrying N=2 as its own row at the SAME gamma so " +
+                "the contrast is N and not the coupling. The witnesses keep the cheap exact " +
+                "short-circuit (a silent witness reaches DEGENERATE without assembling L) with " +
+                "IsDegenerate as a second arm beneath it; that arm is dead in the suite and the " +
+                "comment says so. The pump argument is DELIBERATELY NOT ADDED, and the claim is the " +
+                "NARROW one: no path INTO this predicate can build a sigma-plus channel, since " +
+                "Decompose reaches only PauliDephasingDissipator.BuildZ and T1Dissipator.Build. The " +
+                "REPO has a sigma-plus (Core's typed HardwareDissipators.T1Pump, plus " +
+                "LindbladianBuilder.Build over arbitrary collapse operators), so the parameter lands " +
+                "the moment a Decompose overload accepts one. A first draft of this paragraph claimed " +
+                "the impossibility repo-wide and was refuted one directory over. " +
+                "STILL OWED, NAMED RATHER THAN QUIETLY LEFT: " +
+                "the three-valued verdict flattens two independent bits, " +
                 "is-it-balanced and is-it-informative, and a reviewer argued for verdict + " +
                 "informative:bool instead; the _NonUniformCoupling sentinel leaks through " +
                 "abs/round/format/comparisons, with min and max silently returning the sentinel, though " +
                 "no live caller takes those routes; ChainSystem.H and .L RAISE on a non-uniform chain, so " +
-                "the entity accepts a configuration whose own Hamiltonian it will not build; seven " +
-                "committed probe scripts still carry the float guard only; and experiments/README.md, " +
-                "docs/carbon/README.md and the tierB per-class block still quote retired strengths.",
+                "the entity accepts a configuration whose own Hamiltonian it will not build; committed " +
+                "simulations scripts still carry the retired synthetic zero, and the COUNT IS NOT " +
+                "QUOTED HERE, the CRITERION and its command are, because a curated list is exactly " +
+                "what kept being wrong: " +
+                "grep -rn \"0[.]0 if .*== 0[.]0 else abs[(]\" simulations/*.py " +
+                "returned 14 when the criterion was first written down and returns 13 now, one " +
+                "having been fixed in the same pass (polarity_probe_f87_connection.py, because the " +
+                "tierB doc cites it as an authority and it was contradicting itself: it printed a " +
+                "structural DEGEN marker beside a synthetic 0.0, and gave the retired MECHANISM " +
+                "'truly can NEVER contribute because M itself vanishes' directly under a table " +
+                "showing ||M||^2 = 23.04 on both truly rows). The count moved seven to ten to eleven " +
+                "to fourteen in ONE session, and the movement is the finding, not the number: each " +
+                "revision was a fresh sweep, and each sweep silently used a different criterion (the " +
+                "first was 'still carries the float guard only', which is a different property from " +
+                "'writes a synthetic zero'). polarity_probe_z2cubed_scaling.py is degeneracy-aware in " +
+                "its VERDICT and still carries the zero in the ratio, so 'degeneracy-aware' and " +
+                "'clean' are not the same test either. Adjacent and outside the criterion: " +
+                "polarity_proof_verify.py " +
+                "runs the same shape on a percentage rather than on the F112 ratio. In compute/ the " +
+                "shape appears as a guarded division in SectorWitnessTransport.cs, EpCharacter.cs and " +
+                "F83/PiDecompositionPrediction.cs (a null matrix reported as norm^2 = 0.0), and as the " +
+                "retired FLOOR verbatim, Math.Max(x, 1e-300) in a denominator, in MirrorWorld/Mirror.cs " +
+                "and Cli/ShellCensusCommand.cs; a first draft of this sentence called EpCharacter the " +
+                "floor and it is the guarded division. All unadjudicated. docs/carbon/README.md still " +
+                "quotes retired strengths; experiments/README.md and the tierB doc are corrected as of " +
+                "2026-08-07.",
             Status: OpenArcStatus.Open),
     };
 
