@@ -4927,6 +4927,52 @@ public static class OpenArcsRegistry
                 "LindbladianBuilder.Build over arbitrary collapse operators), so the parameter lands " +
                 "the moment a Decompose overload accepts one. A first draft of this paragraph claimed " +
                 "the impossibility repo-wide and was refuted one directory over. " +
+                "THE SWEEP, 2026-08-07 afternoon, and its result is a DISTINCTION rather than a " +
+                "number. Rebuilt from the SPELLINGS of a guarded division (twelve patterns, fixed " +
+                "before looking at any site) instead of from the sites already known: 452 lines " +
+                "guard a division, and 122 of those replace the quotient with a comfortable number " +
+                "(99 a floored denominator, 21 a literal zero, 2 false positives). The 13 this arc " +
+                "kept recounting are a subset of ONE spelling. " +
+                "THE SHARPENED QUESTION, which the spelling does not answer: which way does the " +
+                "guard LIE? A floored denominator makes the quotient BLOW UP, which fails loud. The " +
+                "dangerous corner is a substituted zero, or a floor with a numerator that vanishes " +
+                "TOO, because then the value lands on the one that means good / balanced / exact / " +
+                "converged. The retired max(||M||^2, 1e-15) was that corner exactly: 0/1e-15 = 0 = " +
+                "BALANCED. " +
+                "AND THE DISTINCTION THAT DECIDES THE FIX, learned by nearly making the wrong one: " +
+                "is the comfortable value a LIMIT of the closed form, or a SUBSTITUTION where no " +
+                "value exists? F83's anti-fraction is the limit case: r -> infinity genuinely gives " +
+                "0, so the 0 belongs there, and the repo ALREADY owns the ambiguity as a typed " +
+                "Pitfall-1 detector (F89F87BreakPredictionFromF83.WouldAntiFractionAloneMissBreak, " +
+                "whose claim name says 'AntiFraction alone is insufficient: it conflates Truly with " +
+                "pure Pi^2-even-non-truly'). Changing it to NaN would have broken a Tier-1 limit. " +
+                "F112's contrast ratio is the substitution case: 0/0 has no direction, and NaN is " +
+                "right. Seven sites in the repo already answered 0/0 with NaN before this arc " +
+                "(FillingThresholdCsr, PathKMonodromyScout, five simulations scripts), so the fix " +
+                "was a return to an idiom the repo had, not a new convention; the sharpest exhibit " +
+                "is two least-squares slopes with the same degenerate case answering it oppositely, " +
+                "F86HwhmAlphaExtraction.cs:146 (0.0) against PathKMonodromyScout.cs:461 (NaN). " +
+                "FIXED IN THE SWEEP: f113_break_formula_derivation.py printed R^2 = 1.000000 for " +
+                "the gamma_Z scan, where ss_tot is EXACTLY 0.0 (measured, floor confirmed firing) " +
+                "because the asymmetry is bit-identically constant. That manufactured 1.000000 had " +
+                "reached experiments/F113_BREAK_MAGNITUDE_FORMULA.md's table AND this very " +
+                "assembly's LindbladBitBPiBreakMagnitude claim string. All three now say undefined, " +
+                "and say why the constancy is the STRONGER reading: the gamma_Z exponent is exact, " +
+                "not fitted. SurvivorDiffusionGradientWitness's CV floor is changed to NaN and its " +
+                "log floor dropped, but LATENT and measured as such: a review claimed the branch " +
+                "fires in the strong-dephasing limit and it does not (N=5, Q = 1e-6 .. 1, no zero " +
+                "rate shift, CV 1.2e-3 .. 1.1e-2, slope tightening onto 2.0000000003). " +
+                "REPORTED BUT NOT YET VERIFIED FROM BELOW, so treat as leads and not findings: a " +
+                "provenance scout reports mirror_transition.py's best_sym = 100% coming from an " +
+                "EMPTY below-set at best_ctr == min_r (quoted in hypotheses/archive), a f128 gate " +
+                "residual 17x too small from a /max(1.0,|F|) mixed norm (quoted in " +
+                "PROOF_F128_FLIP_SUM_FACTORIZATION), F112 probes 9 and 11 carrying vacuous BALANCE " +
+                "rows that the 08-06/07 pass annotated in probes 10/12/13 but not in these two " +
+                "(quoted in PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE and reflections/" +
+                "POLARITY_COORDINATES), an EpCharacter.cs:205 mixed norm that flips a verdict at " +
+                "the canonical gamma_0 = 0.05, and rmt_analysis.py printing GUE where " +
+                "RANDOM_MATRIX_THEORY.md reads Poisson. Each needs the same treatment the two fixed " +
+                "ones got: reproduce, measure whether the guard fires, then decide. " +
                 "STILL OWED, NAMED RATHER THAN QUIETLY LEFT: " +
                 "the three-valued verdict flattens two independent bits, " +
                 "is-it-balanced and is-it-informative, and a reviewer argued for verdict + " +

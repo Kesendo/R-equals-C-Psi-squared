@@ -84,7 +84,25 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
             if (r.Length < 2) return double.NaN;
             double mean = r.Average();
             double var = r.Select(x => (x - mean) * (x - mean)).Sum() / r.Length;
-            return Math.Sqrt(var) / Math.Max(Math.Abs(mean), 1e-15);
+            // NaN, not a floored denominator, and the idiom is this property's own: two lines
+            // up it already returns NaN for "fewer than two points", and PowerSlope does the
+            // same for a degenerate abscissa. A coefficient of variation about a ZERO mean is
+            // the same kind of absence. The floor would give sqrt(0)/1e-15 = 0.0 there, i.e.
+            // "perfectly bond-independent", and LawHolds (0.0 < 0.15) would report the
+            // diffusion-Rayleigh law CONFIRMED on a set of measurements that are all zero.
+            // With NaN every comparison below is false and the law reads as NOT holding,
+            // which is what "we measured nothing" should look like.
+            //
+            // LATENT, not live, and measured rather than assumed (2026-08-07). A review
+            // argued the branch fires in the strong-dephasing limit, where dRe(b) was said to
+            // vanish for every bond. It does not: at N=5 and Q = 1e-6, 1e-4, 0.01, 0.1, 0.3, 1
+            // no bond has a zero rate shift and the CV reads 1.2e-3, 2.1e-7, 7.4e-7, 7.4e-5,
+            // 6.9e-4, 1.1e-2, with the log-log slope tightening ONTO 2 as Q falls
+            // (2.0000000003 at Q = 1e-4). So nothing here is a live wrong number, and no test
+            // pins the branch, because no reachable configuration reaches it. It is changed
+            // because a floor that can only ever produce the value meaning "confirmed" does
+            // not belong in the quantity LawHolds reads.
+            return mean == 0.0 ? double.NaN : Math.Sqrt(var) / Math.Abs(mean);
         }
     }
 
@@ -93,8 +111,12 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
     {
         get
         {
-            var pts = Bonds.Where(b => b.GradSq > 1e-12)
-                .Select(b => (x: 0.5 * Math.Log(b.GradSq), y: Math.Log(Math.Max(b.RateShift, 1e-30)))).ToArray();
+            // A bond whose rate shift is exactly zero is DROPPED, not floored. Math.Max(., 1e-30)
+            // turned it into the finite log point -69.08, a manufactured outlier in the only
+            // regression that guards RatioCv; the y-filter is the same kind of exclusion the
+            // x-filter has always applied.
+            var pts = Bonds.Where(b => b.GradSq > 1e-12 && b.RateShift > 0.0)
+                .Select(b => (x: 0.5 * Math.Log(b.GradSq), y: Math.Log(b.RateShift))).ToArray();
             if (pts.Length < 2) return double.NaN;
             double mx = pts.Average(p => p.x), my = pts.Average(p => p.y);
             double cov = pts.Sum(p => (p.x - mx) * (p.y - my));

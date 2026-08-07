@@ -31,7 +31,9 @@ Verified at N=2, 3, 4 across multiple parameter samples, to a relative deviation
 |---|---|---|
 | ω (fix γ_T1=0.001, γ_Z=0.005) | asym ∝ ω¹ | 1.000000 |
 | γ_T1 (fix ω=0.13, γ_Z=0.005) | asym ∝ γ_T1¹ | 1.000000 |
-| γ_Z (fix ω=0.13, γ_T1=0.001) | asym ∝ γ_Z⁰ (independent) | 1.000000 |
+| γ_Z (fix ω=0.13, γ_T1=0.001) | asym ∝ γ_Z⁰ (independent) | undefined, and that is the stronger reading |
+
+The γ_Z row carried 1.000000 until 2026-08-07. It was not a fit: the asymmetry is bit-identically constant across that scan, so the total sum of squares is exactly 0 and R² is 0/0. A floor in the denominator turned it into the value meaning "perfect fit". The constancy itself is the finding, and it is sharper than an R² can be: the γ_Z exponent is exactly zero, not fitted to lie near zero.
 
 **2. Multivariate fit on 60 random (ω, γ_T1, γ_Z) samples at N=2:**
 

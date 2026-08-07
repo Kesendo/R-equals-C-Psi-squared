@@ -248,7 +248,11 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
             yield return new InspectableNode("Structural origin",
                 summary: StructuralOrigin);
             yield return new InspectableNode("Empirical anchor (N=2, 3, 4 bit-exact)",
-                summary: "Univariate scaling: asym ∝ ω^1 · γ_T1^1 · γ_Z^0 (R² = 1.000000). " +
+                summary: "Univariate scaling: asym ∝ ω^1 · γ_T1^1 (R² = 1.000000 on both) · γ_Z^0, " +
+                         "where the γ_Z exponent is EXACT rather than fitted: the asymmetry is " +
+                         "bit-identically constant across that scan, so R² is 0/0 and undefined. " +
+                         "This string quoted R² = 1.000000 for it until 2026-08-07, a number a " +
+                         "floored denominator manufactured. " +
                          "Multivariate fit on 60 random (ω, γ_T1, γ_Z) samples at N=2 gives " +
                          "implied constant exp(2.7726) = 16.000 bit-exact (std 0.000000). " +
                          "N-scaling at uniform rates, as asym / (ω · γ_T1): N=2 → −16.0, " +

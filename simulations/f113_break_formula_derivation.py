@@ -96,8 +96,14 @@ def log_log_scaling(xs, ys, label):
     pred = a * lx + b
     ss_res = float(np.sum((ly - pred) ** 2))
     ss_tot = float(np.sum((ly - ly.mean()) ** 2))
-    r2 = 1 - ss_res / max(ss_tot, 1e-15)
-    print(f"  {label}: log|y| = {a:.4f}·log(x) + {b:.4f}  (R² = {r2:.6f})")
+    # ss_tot == 0 means the response is bit-identically CONSTANT across the scan, and R^2
+    # is then 0/0: there is no variance for a fit to explain. The floored form printed
+    # 1.000000, the value meaning "perfect fit", on the one scan that never fitted anything.
+    # What the constancy shows is STRONGER than any R^2: the exponent is exactly 0, not
+    # fitted to be near 0. Reported as None, and the caller prints it as such.
+    r2 = None if ss_tot == 0.0 else 1 - ss_res / ss_tot
+    r2_str = "undefined (response exactly constant, no variance to explain)"         if r2 is None else f"{r2:.6f}"
+    print(f"  {label}: log|y| = {a:.4f}·log(x) + {b:.4f}  (R² = {r2_str})")
     print(f"           → |y| ≈ {np.exp(b):.4e} · x^{a:.4f}")
     return a, b, r2
 
@@ -200,9 +206,11 @@ def main():
     pred = X_mat @ coefs
     ss_res = float(np.sum((y_vec - pred) ** 2))
     ss_tot = float(np.sum((y_vec - y_vec.mean()) ** 2))
-    r2 = 1 - ss_res / max(ss_tot, 1e-15)
+    # Same rule as the univariate fitter above: no variance, no R^2. Floored, this printed
+    # 1.000000 for a constant response.
+    r2 = None if ss_tot == 0.0 else 1 - ss_res / ss_tot
     print(f"  log|asym| = {A:.4f} + {a:.4f}·log(ω) + {b:.4f}·log(γ_T1) + {c:.4f}·log(γ_Z)")
-    print(f"  R² = {r2:.6f}")
+    print("  R² = " + ("undefined (response exactly constant)" if r2 is None else f"{r2:.6f}"))
     print(f"  → |asym| ≈ {np.exp(A):.4e} · ω^{a:.4f} · γ_T1^{b:.4f} · γ_Z^{c:.4f}")
     print()
 
@@ -266,9 +274,9 @@ def main():
         pred_r = X_r @ coefs_r
         ss_res_r = float(np.sum((np.log(rel_pts[rel_mask]) - pred_r) ** 2))
         ss_tot_r = float(np.sum((np.log(rel_pts[rel_mask]) - np.log(rel_pts[rel_mask]).mean()) ** 2))
-        r2_r = 1 - ss_res_r / max(ss_tot_r, 1e-15)
+        r2_r = None if ss_tot_r == 0.0 else 1 - ss_res_r / ss_tot_r
         print(f"  log(rel asym) = {Ar:.4f} + {ar:.4f}·log(ω) + {br:.4f}·log(γ_T1) + {cr:.4f}·log(γ_Z)")
-        print(f"  R² = {r2_r:.6f}")
+        print("  R² = " + ("undefined (response exactly constant)" if r2_r is None else f"{r2_r:.6f}"))
         print(f"  → rel asym ≈ {np.exp(Ar):.4e} · ω^{ar:.4f} · γ_T1^{br:.4f} · γ_Z^{cr:.4f}")
 
 
