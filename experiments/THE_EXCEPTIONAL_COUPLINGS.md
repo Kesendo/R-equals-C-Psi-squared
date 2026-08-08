@@ -17,7 +17,11 @@ What is proved and what is measured are separated below and should stay that way
 **Date:** 2026-07-28
 **Verification:** [`simulations/exceptional_couplings.py`](../simulations/exceptional_couplings.py)
 (must print "exceptional couplings gate: ALL GREEN"; the run states its own check count, so no
-number is carried here to drift). The default run reaches N = 6; `--deep` adds N = 7, the
+number is carried here to drift). Under `--rungs` that criterion covers the numbers in the
+table two ways, and deliberately by two separate checks: one fails if a block count came out
+BELOW what is recorded here, which is the detector regressing, and one fails if it came out
+ABOVE, which is not a regression at all but means this note is out of date and the new root
+wants writing up. A single one-sided check would have let the second case pass green. The default run reaches N = 6; `--deep` adds N = 7, the
 whole-block enumeration at N = 6 and a numeric read of the N = 7 rung; `--slow` adds the two
 exact counts that cost about half an hour, the rung-3 count at N = 7 and the rung-2 count at
 N = 8; `--rungs` adds the numeric block counts at N = 8 up to the middle block, where the
@@ -41,7 +45,9 @@ length M = N + 1 are all defined in
 in exactly that sense. Two of its words are spent twice in this repository and its Section 1
 says which sense it means: **block** is the joint-popcount block (p, q), and **seed** is the
 bottom rung of a ladder with the frozen modes that start there, never MirrorWorld's `Seed`,
-which is a coupling-independent count and has nothing to do with this. A third word joins
+which is a coupling-independent count and has nothing to do with this. A **pair** in the
+sections on the numeric route is always the ±z pair a single root arrives as in the pencil
+spectrum, never MirrorWorld's `Pair`, which is a bare coherence |i⟩⟨j|. A fourth word joins
 them below: **field** is always the algebraic one, a number field such as ℚ(cos(π/M)), never
 MirrorWorld's `Field`, which is the empty world running. Two shapes are used
 here throughout: the **side lines** are the band's two off-diagonal lines |p − q| = 2, against
@@ -83,7 +89,7 @@ Two things make it worth a note rather than a footnote:
    statement |p − q| ∈ {0, 2} is untouched, and so is the count on the two side lines. Read as
    physics rather than as ladders, that says what the extra freezing IS: a coherence between
    two states of the same excitation number, never one bridging different particle numbers. That
-   last sentence is exact over all couplings at N = 5, read at one coupling at N = 6, and
+   last sentence is exact over all couplings at N = 5, read at five couplings at N = 6, and
    read numerically over the whole band at N = 7; the sections below keep those apart.
 2. The bridge that was open becomes elementary once the failure is known. Nullity of a
    matrix pencil is constant and minimal off a finite set, and larger on it, and the floor holds
@@ -209,8 +215,8 @@ The block (3,3) sees rung 3 too, and it carries **at least ten** couplings: the 
 digit for digit, and four more. Both lists are exact, so the ten are certain; what is not
 proved is that there is no eleventh, since the whole block (3,3) was never enumerated over ℚ
 at N = 6. It was read numerically, and the read returns those ten and nothing else, value for
-value to fifteen digits, which is the validation the numeric detector is put through before it
-is trusted at N = 8. The four are exact. The η-lowest-weight singlets of (3,3) form a
+value: the gate requires agreement to 10⁻⁹ relative and the run reads 4·10⁻¹⁵. That is the
+validation the numeric detector is put through before it is trusted at N = 8. The four are exact. The η-lowest-weight singlets of (3,3) form a
 space of dimension 70, both halves of L restrict to it, and Sturm on the exact determinant
 polynomial counts exactly four positive roots,
 
@@ -245,10 +251,12 @@ becomes possible at N = 8.
 Every cell of the three rung columns is an exact Sturm count on an η-lowest-weight singlet
 space, of dimension 70 for rung 3 at N = 6 and 294 for rung 3 at N = 7, except the rung-3
 twenty-five and the rung-4 twelve at N = 8, which are measured; the rung-2 fifteen beside them
-is exact. The twenty-five is now reached twice: the session measurement on the singlet space
-of (3,3), and, inside the gate, the difference of the numeric (3,3) and (2,2) counts. Those two
-routes share the pencil detector, so the agreement is a check on the singlet identification and
-not a second detection.
+is exact. The twenty-five has been reached twice, and only one of the two is in the gate: the
+session measurement on the singlet space of (3,3) at N = 8, and the difference of the numeric
+(3,3) and (2,2) counts, which is what the gate computes. Their agreement checks the singlet
+identification at that block, since the two spaces are different; it is not a second detection,
+the pencil being the same in both. Inside the gate alone the twenty-five is the subtraction and
+nothing else, which is why the gate prints it rather than asserting it as a reproduction.
 
 **What the two differences at N = 8 do and do not license.** The three block counts nest, so
 40 − 15 counts what (3,3) adds over (2,2) and 52 − 40 counts what (4,4) adds over (3,3). Each
@@ -263,15 +271,18 @@ becomes a lower bound on the rung. Equality, that is calling 25 and 12 the rung 
 two further things: both lists complete, and the two rungs sharing no coupling. The second is
 easy to overlook and is not implied by the first. A coupling exceptional for a rung-2 mode AND
 a rung-3 one would sit in (2,2)'s list, be subtracted away, and leave the true rung-3 count
-above 25. At N = 6 the note checks exactly that, by taking the gcd of the two exact polynomials
-and finding no positive root; at N = 8 there is no exact polynomial to take a gcd of, and
-nothing checks it.
+above 25. The note checks exactly that at N = 6 and at N = 7, by taking the gcd of the two
+exact polynomials and finding no positive root, N = 7 being the last N where both polynomials
+exist; at N = 8 there is no exact polynomial to take a gcd of, and nothing checks it.
 
-**The twelve is the one number in the table with no second route.** The subtraction that
-produces it is itself validated wherever an exact rung count exists to validate it against:
+**The twelve is the one number in the table that has never been read a second way at all.** The
+twenty-five has the session measurement beside it, sharing the detector; the twelve has nothing
+beside it. The subtraction that produces it is itself validated wherever an exact rung count
+exists to validate it against:
 10 − 6 = 4 at N = 6 and 24 − 11 = 13 at N = 7 both reproduce the exact Sturm count on the
-rung-3 singlet space, which tests completeness and disjointness together, twice, and the gate
-runs both. No such check exists for rung 4 at N = 8 and none can: the rung-4 multiplet there
+rung-3 singlet space, and the gate runs both. Taken alone each tests completeness and
+disjointness together, so a failure could not say which; the gcd above separates them at both
+N, leaving completeness as what the agreement actually tests. No such check exists for rung 4 at N = 8 and none can: the rung-4 multiplet there
 has η-spin 0, so it lives in (4,4) alone and there is no larger block to read it against. The
 one route that would give the twelve a second reading is a Sturm count on the rung-4 singlet
 space of (4,4), the same machinery one rung up; it has not been run, and its dimension is what
@@ -280,9 +291,9 @@ would decide whether it can be.
 The complete column is a different kind of number in each of its four rows, and the gradient
 runs one way. At N = 5 it is exact and it is everything: the whole band was enumerated over ℚ
 at every coupling. At N = 6 and N = 7 it is the middle block read numerically, and what the two
-EXACT rung counts add up to, 6 + 4 and 11 + 13, meets it independently. At N = 8 that
-independent meeting is weaker, because only the rung-2 fifteen is exact there: 15 + 25 = 40 is
-the (3,3) count and nothing outside the (4,4) read itself meets the 52. That the sum is
+EXACT rung counts add up to, 6 + 4 and 11 + 13, meets it independently. At N = 8 there is no
+such meeting at all, because only the rung-2 fifteen is exact there: 15 + 25 = 40 is the (3,3)
+count, and nothing outside the (4,4) read itself says anything about the 52. That the sum is
 everything, that no exceptional mode outside the singlet spaces hides in those blocks, is what
 the agreement supports and does not prove.
 
@@ -314,8 +325,10 @@ pencil, the grid and the exact polynomial agree on fifteen. The grid is not a sa
 what the pencil misses, since a grid under-detects in its own way, two roots inside one cell
 showing as no sign change at all.
 
-**Every numeric count in this note is a verified lower bound, and the asymmetry is
-structural.** The sign bracket certifies each ACCEPTED root, since a sign change across a
+**Every numeric BLOCK count in this note is a verified lower bound, and the asymmetry is
+structural.** The word block is doing work: the rung counts 25 and 12 are differences of two
+such bounds and are not bounds themselves, as the section on the table sets out. The sign
+bracket certifies each ACCEPTED root, since a sign change across a
 window narrower than the gap to the next root proves an odd-order root inside it; nothing
 certifies that no root was MISSED, because detection is by a pencil spectrum and a genuine
 root can be pushed off the real axis by a nearby cluster. So the numbers below, the numeric
@@ -323,21 +336,32 @@ block counts at N = 7 and N = 8, and the complete counts that rest on them, are 
 one side only. This matters most where a law is being fitted: a curve through counts that may
 be truncated can fit perfectly because the truncation delivered the number the curve wanted.
 
-Being a bound in that one direction is not free either, and two premises stand under it that
-are worth stating with the margins actually measured rather than as thresholds that happen to
-pass. First, **parity**: the pencil carries every root as the pair ±z, and the two copies are
-merged before counting. A pair resolved too poorly to merge becomes two candidates whose
-windows both straddle the same root, both flip sign, and the root is counted TWICE, which
-breaks the bound in the direction that inflates it. This is not a hypothetical. At N = 8 the
-z = 0 smear arrives at the middle block as exactly such a split pair, and the gate's record
-shows it, the two rejected candidates merging one pencil eigenvalue each where all 52 accepted
-roots merge two. It was harmless only because the small-J cut caught both copies. Second,
-**disjointness**: two overlapping windows let one root certify two candidates. The gate now
-measures both. The tightest number is the second: at N = 8 the smallest gap between consecutive
-accepted roots is **2.8 times** the width of the two windows it has to separate, a margin of a
-factor and not of decades, and the one to watch at N = 9. The small-J cut, by contrast, has
-room to spare: the smallest accepted root sits 2065 times above the largest rejected one, so
-nothing there was decided by the threshold 0.05 itself.
+Being a bound even in that one direction is not free, and exactly one premise stands under it.
+A count is too high if one root is certified twice, and two windows that both flip can only be
+one root twice if they both contain it; if they both contain ρ then J₂(1 − ε) ≤ ρ ≤ J₁(1 + ε),
+so their gap is at most ε(J₁ + J₂). **Disjoint windows therefore contain distinct roots and the
+count is a lower bound**, and the gate measures the disjointness rather than assuming it. It is
+sufficient and not equivalent, which is worth saying since the tempting stronger claim is
+false: two overlapping windows each holding a root of its own outside the overlap also count
+correctly, so an overlap would mean the premise is no longer measured, not that the bound has
+failed. Sufficient is all the count needs. The margin is the tight number of the whole
+construction: at N = 8 the smallest gap between consecutive accepted roots is 2.8 times the
+distance ε·J the two windows reach toward each other, which is **1.4 times their combined
+width**. A factor, not decades, and the one to watch at N = 9, where ε is a fixed constant and
+the roots are getting denser.
+
+Two things sit beside that premise without being it. The **±z parity**: the pencil carries
+every root as a pair and the two copies are merged before counting. A pair that fails to merge
+does happen, and at exactly the block that matters, the z = 0 smear arriving at (4,4) as two
+unmerged candidates, which the gate's record now shows as merged 1 where all 52 accepted roots
+show merged 2. But a split pair that survived would be caught by the disjointness above, and a
+LOST copy is under-detection, which a lower bound tolerates. So parity is detector health, not
+a second premise, and the note does not lean on it. And the **small-J cut**, which is read
+rather than trusted: the threshold 0.05 says nothing on its own, but the smallest accepted root
+sits 2065 times above the largest candidate rejected as smear, so nothing there was decided by
+the threshold. Those two split copies would in any case not have been certified: their windows
+sit at 2.6·10⁻⁴ ± 1e-5 relative and do not contain 0, so the determinant does not change sign
+across either.
 
 | N | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
 |---|---|---|---|---|---|----|----|
@@ -368,7 +392,7 @@ lie in ℚ(cos(π/6)) = ℚ(√3), the field of the mode energies ε_a = 2J·cos
 the section above invites reading that as structure. At N = 6 not one of the six lies in the
 mode field: each squared coupling is algebraic of degree 6 over ℚ while ℚ(cos(π/7)) has
 degree 3, and 6 does not divide 3. The two irreducible factors do sit differently beside it, which is worth having.
-The one carrying four roots splits over the mode field into quadratics, so each of those four
+The one carrying four roots splits over the mode field into quadratics in J², so each of those
 generates a field CONTAINING it; the one carrying two stays irreducible of degree 6 there, so
 those two generate a field meeting it in ℚ alone. Either way the containment runs the wrong
 way for the reading N = 5 invited. N = 5 is a coincidence of the smallest case, which is the N
@@ -407,12 +431,16 @@ there raises the multiplicity of the root AT zero and says nothing about a root 
 - At **N = 8** the block counts 40 and 52, and with them the rung-3 twenty-five, the rung-4
   twelve and the complete fifty-two, are numeric. They are gated under `--rungs` rather than
   left to a session, and inside that gate the detector is first made to reproduce counts this
-  note proves exactly elsewhere, including the fifteen at the very N it then measures. Each
+  note proves exactly elsewhere, including the fifteen at the very N it then measures, though
+  on the block BELOW the two being measured, 784 against 3136 and 4900, and conditioning is the
+  stated risk. That row also compares a whole-block numeric count against a singlet exact one,
+  so it carries the open identification with it. Each
   accepted root is certified and each BLOCK count is a lower bound; the two differences are
   not bounded in either direction, for the reason given with the table.
-- WHICH blocks are raised at N = 6 is read numerically, coupling by coupling: at one of the
-  rung-2 couplings in gate block E6, and at all four rung-3 ones and all six rung-2 ones in
-  E9. The corresponding
+- WHICH blocks are raised at N = 6 is read numerically at five couplings, and over the whole
+  band at each: one rung-2 coupling in gate block E6 and all four rung-3 ones in E9(c). At the
+  other six E9 reads one block only, whether (3,3) is raised, which is a smaller statement.
+  The corresponding
   N = 5 statement is exact and over all J. The N = 6 COUNT is exact under `--deep`, where the
   whole block (2,2) is enumerated over ℚ; only the block-by-block reading there is numerical.
 - Whether the exceptional points are semisimple or defective is not read here. The
