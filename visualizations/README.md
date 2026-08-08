@@ -262,13 +262,13 @@ The whole figure is symmetric under q → −q and q → q̄ because the discrim
 
 ![The F89 octic spectrum in the λ-plane at q = 1.5, time-killed, in the symphony reel palette: AT-locked roots cyan on the absorption rungs, the H_B-mixed octic pink between them.](f89_octic_spectrum_lambda.png)
 
-The same block, but now every mode's whole life is compressed to one point λ (time-killed), at the fixed operating point q = 1.5, drawn in the reel palette so it lays beside the molecule spectra of [THE_SHARED_SKELETON](../experiments/THE_SHARED_SKELETON.md). Re λ is the dephasing diagonal (the axis the system is watched along, z); Im λ is the Hamiltonian's coherent motion (x, y); the palindrome centre is Re λ = −4γ.
+The same block, but now every mode's whole life is compressed to one point λ (time-killed), at the fixed operating point q = 1.5, drawn in the reel palette so it lays beside the molecule spectra of [THE_SHARED_SKELETON](../experiments/THE_SHARED_SKELETON.md). Re λ is the dephasing diagonal (the axis the light arrives along, z); Im λ is the Hamiltonian's coherent motion (x, y); the palindrome centre is Re λ = −4γ.
 
 **Cyan, the AT-locked roots,** pinned to the absorption rungs Re λ = −2γ (overlap) and −6γ (no-overlap), the free-fermion part with closed-form rates. **Pink, the H_B-mixed octic,** the eight rates that spread between the rungs, the part whose Galois group is S₈ with no radical closure.
 
 ### The duality
 
-The two images are the fibre and the branch locus of one spectral covering λ(q). The λ-plane is the spectrum at a fixed q (the fibre); the q-plane is the set of q where that spectrum degenerates (the branch locus in the base). The same dephased-Liouvillian object, once in the output plane (λ, where it is watched) and once in the control plane (q = J/γ, the ratio of motion to watching). The branch-locus skeleton here is kin to the shared-skeleton diagonal of THE_SHARED_SKELETON: both are the sparse critical set that carries the whole structure, recognisable across the colour filter.
+The two images are the fibre and the branch locus of one spectral covering λ(q). The λ-plane is the spectrum at a fixed q (the fibre); the q-plane is the set of q where that spectrum degenerates (the branch locus in the base). The same dephased-Liouvillian object, once in the output plane (λ, where the spectrum is read off) and once in the control plane (q = J/γ, the ratio of motion to arriving light). The branch-locus skeleton here is kin to the shared-skeleton diagonal of THE_SHARED_SKELETON: both are the sparse critical set that carries the whole structure, recognisable across the colour filter.
 
 ### The mirror and the braiding (the C-T witness)
 

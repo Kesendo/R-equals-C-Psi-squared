@@ -6011,9 +6011,9 @@ compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`
 
 ---
 
-### F140. The R90 frozen divisor: a watching locus that pins the decay rate -4*gbar at every coupling, at least floor(N/2) modes deep (a room count of the cell mirror, no symmetry behind it; minted 2026-07-25, retitled 2026-07-25)
+### F140. The R90 frozen divisor: a dephasing locus that pins the decay rate -4*gbar at every coupling, at least floor(N/2) modes deep (a room count of the cell mirror, no symmetry behind it; minted 2026-07-25, retitled 2026-07-25)
 
-On the anti-palindromic watching locus of F91, every reflection pair of site
+On the anti-palindromic dephasing locus of F91, every reflection pair of site
 rates carrying the same total (gamma_l + gamma_{R(l)} = 2*gbar for every l),
 the single-excitation corner block of the Liouvillian carries
 
@@ -6147,9 +6147,12 @@ The title first read "pins floor(N/2) decay rates at every coupling". That was
 painted true from the stance of having just proved the bound and Section 7's
 tightness, where the generic picture IS exactly floor(N/2) and the whole point
 is the contrast: the coupling turns, these rates do not. Three of its words are
-load-bearing and are kept. **watching locus**, because the condition is on
-gamma, on how one looks, not on what the thing is; the instrument reading hangs
-on that word. **pins**, because nothing here is conserved and no subspace is
+load-bearing and are kept. **The locus word**, because the condition is on
+gamma, not on what the thing is; the instrument reading hangs on it. That day it
+read "watching locus", and its reason read "on how one looks". The job was right
+and the reason was wrong: gamma sits at the sending end, so the condition is on
+what arrives, not on an eye. The word now reads **dephasing locus**, renamed
+2026-08-08 with the sender correction, markdown and typed strings together. **pins**, because nothing here is conserved and no subspace is
 invariant: a value is held. **at every coupling**, because the Hamiltonian is
 exactly what one expects to move a spectrum, and it cannot move this.
 What failed is the grammatical role of the NUMBER. "pins floor(N/2) rates"

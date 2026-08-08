@@ -4,7 +4,7 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.BlockSpectrum;
 
 /// <summary>F140, typed (Tier 1 derived): <b>the R90 frozen divisor</b>. On the anti-palindromic
-/// watching locus of F91 (every reflection pair of site rates carrying the same total,
+/// dephasing locus of F91 (every reflection pair of site rates carrying the same total,
 /// γ_l + γ_{R(l)} = 2γ̄ for every l), the single-excitation corner block of the Z-dephasing
 /// Liouvillian, on either chain of the proof's Section 1 (Heisenberg or XY), carries
 ///
@@ -104,7 +104,7 @@ public sealed class FrozenDivisorClaim : Claim
     public FrozenDivisorClaim(
         F71AntiPalindromicGammaSpectralInvariance antiPalindromicLocus,
         JointPopcountSectors sectors)
-        : base("The R90 frozen divisor (F140): on F91's anti-palindromic watching locus " +
+        : base("The R90 frozen divisor (F140): on F91's anti-palindromic dephasing locus " +
                "(gamma_l + gamma_{R(l)} = 2*gbar for every l) the single-excitation corner block of the " +
                "Z-dephasing Liouvillian, on either the Heisenberg or the XY chain, carries " +
                "lambda = -4*gbar with multiplicity at least " +
@@ -161,7 +161,7 @@ public sealed class FrozenDivisorClaim : Claim
     public static int TotalValuation(int n) => 2 * (n * n / 4);
 
     public override string DisplayName =>
-        "The R90 frozen divisor (F140): a watching locus that pins the decay rate −4γ̄ at every coupling, " +
+        "The R90 frozen divisor (F140): a dephasing locus that pins the decay rate −4γ̄ at every coupling, " +
         "at least ⌊N/2⌋ modes deep";
 
     public override string Summary =>

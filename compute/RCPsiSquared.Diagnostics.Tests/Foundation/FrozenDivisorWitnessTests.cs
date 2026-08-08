@@ -4,7 +4,7 @@ using Xunit;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>Gate for <see cref="FrozenDivisorWitness"/>, the live lab of the R90 frozen divisor
-/// (F140, proof <c>docs/proofs/PROOF_R90_FROZEN_DIVISOR.md</c>): on the anti-palindromic watching
+/// (F140, proof <c>docs/proofs/PROOF_R90_FROZEN_DIVISOR.md</c>): on the anti-palindromic dephasing
 /// locus of F91, the single-excitation corner block holds λ = −4γ̄ with multiplicity at least
 /// ⌊N/2⌋ at every coupling, one frozen mode per balanced pair, and exactly ⌊N/2⌋ away from the
 /// finitely many exceptional couplings (of which J = 0, where it doubles, is one). Every read here
@@ -153,7 +153,7 @@ public class FrozenDivisorWitnessTests
         Assert.Equal(n == 4, w.RootsCoincide);
     }
 
-    /// <summary>The root value itself: −4γ̄ = −4σ/N, the mean watching and nothing else.</summary>
+    /// <summary>The root value itself: −4γ̄ = −4σ/N, the mean dephasing rate and nothing else.</summary>
     [Fact]
     public void Root_IsMinusFourTimesTheMeanWatching()
     {

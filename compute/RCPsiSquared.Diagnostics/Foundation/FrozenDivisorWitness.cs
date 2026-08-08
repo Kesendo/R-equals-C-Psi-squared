@@ -23,7 +23,7 @@ public enum DivisorChain
 
 /// <summary>The live lab for the R90 frozen divisor (F140, proof
 /// <c>docs/proofs/PROOF_R90_FROZEN_DIVISOR.md</c>, gate
-/// <c>simulations/r90_frozen_divisor_gate.py</c>): on the anti-palindromic watching locus of F91
+/// <c>simulations/r90_frozen_divisor_gate.py</c>): on the anti-palindromic dephasing locus of F91
 /// (every reflection pair of site rates carrying the same total, γ_l + γ_{R(l)} = 2γ̄), the
 /// single-excitation corner block of the Liouvillian carries
 ///

@@ -5229,21 +5229,53 @@ public static class OpenArcsRegistry
                 "set, at any profile', and Section 7 carries a third reading naming the agreement ceiling as " +
                 "the identity's primitive form. The one outside citer of the old lemma title, the comment " +
                 "at eta_ceiling_reduction.py:515, moved with it; no printed gate label changed, so no " +
-                "re-run is owed. Still in this file and NOT yet moved: 'the uniform watching point' " +
-                "at :183, which belongs to the watching-locus family of instance (2). " +
-                "(2) ANALYTICAL_FORMULAS:6145, F140's naming note declares the word load-bearing IN WRITING: " +
-                "'watching locus, because the condition is on gamma, on how one looks, not on what the thing " +
-                "is; the instrument reading hangs on that word', and PROOF_R90_FROZEN_DIVISOR's formal " +
-                "Statement carries 'watching locus'. (3) F126 'the watched walk', F141 'so the watching " +
+                "re-run is owed. NOT yet moved: 'the uniform watching point' at " +
+                "PROOF_FROZEN_BAND_SO4:183 and THE_EXCEPTIONAL_COUPLINGS:118, which belongs to the locus " +
+                "family of instance (2). (An earlier draft of this entry placed that phrase at " +
+                "eta_ceiling_reduction.py:183, inheriting 'this file' from the sentence before it; that " +
+                "script contains no occurrence of 'watch' at all, and :183 there is a helper def.) " +
+                "(2) TAKEN 2026-08-08, Tom's call, markdown and typed strings together so no doc/code drift " +
+                "opens: 'watching locus' -> 'DEPHASING LOCUS' at twelve sites, five markdown " +
+                "(ANALYTICAL_FORMULAS:6014 title + :6016 + the naming note, PROOF_R90_FROZEN_DIVISOR's " +
+                "formal Statement, XY_FROZEN_BAND:7) and SEVEN typed (FrozenDivisorClaim:7/:107/:164, " +
+                "InspectCommand:728, FrozenDivisorWitness:26, KnowledgeRegistryFactory:417, " +
+                "FrozenDivisorWitnessTests:7). METHOD NOTE, because the first sweep missed the last two: " +
+                "the phrase WRAPS ACROSS THE LINE BREAK there ('watching' ends the line, 'locus' opens the " +
+                "next), so a single-line grep cannot see them and reports the job done. Check with a " +
+                "multiline pattern, watching[\\s/*]{0,14}locus. The note at :6145 had declared the word " +
+                "load-bearing IN WRITING, 'because the condition is on gamma, on how one looks, not on what " +
+                "the thing is; the instrument reading hangs on that word'. That was the arc in miniature: " +
+                "the WORD'S JOB was right (the condition is on gamma, not on the object) and its REASON was " +
+                "wrong (gamma is not how one looks). 'Dephasing locus' keeps the job and drops the eye; the " +
+                "note now says so. The F140 PROOF was pulled in with the name, since a document whose " +
+                "Statement and whose one-sentence gloss of the same condition disagree in register is the " +
+                "very drift this move exists to close: PROOF_R90_FROZEN_DIVISOR's TITLE ('watching " +
+                "profiles' -> 'dephasing profiles') and its plain-words :14/:16/:89/:160, plus " +
+                "XY_FROZEN_BAND:3 and :66 where the same object is named. Left standing and RECORDED rather " +
+                "than silent: 'the uniform watching point' at PROOF_FROZEN_BAND_SO4:183 and " +
+                "THE_EXCEPTIONAL_COUPLINGS:118, and XY_FROZEN_BAND:47/:59/:60, where 'the watching' means " +
+                "the dephasing part of the generator generally and belongs to the register campaign below, " +
+                "not to this name. (3) F126 'the watched walk', F141 'so the watching " +
                 "cannot see it', F144 'the watching charges', F71 'the total watching'. (4) TYPED C# API: " +
                 "WatchedLetterRoutingClaim + WatchedLetterRoutingWitness + registration + two test classes, " +
                 "named canonical at GLOSSARY:369. (5) OpenArcsRegistry ~2667 (felt_time_dimensions), " +
                 "REPAIRED 2026-08-08 by the Q2 answer in NextStep, ENTRY-LOCAL: the watch-axis is now the " +
                 "light's axis, the HINGE reads 'the rate of arriving light (z) sets the unit of felt time " +
                 "(t)', and 'strong watching' reads 'in strong light'; the dated DONE record at ~2745 keeps " +
-                "its historical wording, and the same axis sentence still lives in four docs for the " +
-                "doc-level pass (THE_SHARED_SKELETON:38, ON_THE_ONE_DIAGONAL:35, ON_THE_FOUR_DIRECTIONS:17, " +
-                "visualizations/README:265). " +
+                "its historical wording. The axis sentence was TAKEN in three of its four docs 2026-08-08 " +
+                "(THE_SHARED_SKELETON:38 and :58, ON_THE_ONE_DIAGONAL:35 twice, visualizations/README:265 " +
+                "and :271, all to the arriving-light register; six instances, not three, because the arc's " +
+                "grep pattern 'watched along' saw only one phrase per document and the neighbouring one " +
+                "stood in the same sentence-block). ON_THE_FOUR_DIRECTIONS:17 is the one left, and it is a " +
+                "DIFFERENT KIND OF JOB: six occurrences in 23 lines, the register IS that reflection's " +
+                "voice, so it needs a rewrite with its own review rounds, not a phrase swap (Tom, " +
+                "2026-08-08: later, as its own pass). Note what the completion grep does and does not " +
+                "measure: it checks the AXIS SENTENCE, not the register. A sweep of the neighbouring forms " +
+                "(observing/watching light, being watched) finds the old register throughout the proofs' " +
+                "plain-words prefaces (STRUCTURAL_CEILING, RING_GAP_DOMINANCE, RING_HANDOVER_SLOPE, " +
+                "CHAIN_GAP_DOMINANCE, DIFFUSION_RAYLEIGH_CLOSURE), the docs/quantum translations and " +
+                "several reflections, matching the 481-in-92-files measurement that opened this arc. That " +
+                "is a campaign with its own decision, deliberately NOT folded into this pass. " +
                 "THE REPO ALREADY WARNED ITSELF AND WAS NOT HEARD: DEPHASING_TRANSLATED:271, in the very " +
                 "document that canonised the word, reads \"'Watching' imports a watcher, an agent with...\", " +
                 "and SCHRODINGERS_CAT_TRANSLATED:361 says a box 'full of watchers' may read at some later " +
@@ -5459,9 +5491,31 @@ public static class OpenArcsRegistry
                 "which are API and need Tom's call (instance (4)'s WatchedLetterRouting pair, Q2's " +
                 "UniversalCarrierClaim:52, Q4's TwoReadingsClaim:35-37). Leave (a)-legitimate alone: 'watcher' as a graph role in " +
                 "the record laws is a different object and renaming it would be the error running backwards. " +
-                "One open factual thread: whether ON_WHO_WATCHES_WHOM is cited as the SOURCE of the naming by " +
-                "anything besides DEPHASING_TRANSLATED:215; its other ~18 citers cite it for the F89 branch " +
-                "locus, a different topic.",
+                "The naming-source thread is CLOSED (2026-08-08). Method and scope, so the " +
+                "answer can be re-run rather than believed: grep -rn ON_WHO_WATCHES_WHOM over *.md and *.cs, " +
+                "excluding the document itself, the machine-local .remember/ buffer and the gitignored " +
+                "docs/superpowers/ tree (a clone does not have it; counting it is the tracked-cites-untracked " +
+                "mistake in census form), returns 31 citation lines in 14 files, one of which is this " +
+                "sentence; each was classified at source, not from the grep line. Exactly one " +
+                "attributes CANONICITY: DEPHASING_TRANSLATED:215-219, which quotes the two sentences and then " +
+                "says 'This is the repository's own canonical word for the object'. Every other citation is " +
+                "the F89 branch-locus / monodromy topic, where the document is cited as the plain-words " +
+                "sibling of an exact result (the claims and witnesses BranchLocusPalindrome / MonodromyMirror, " +
+                "F89_BRANCH_LOCUS_PALINDROME, F89_MONODROMY_MIRROR, DIABOLIC_BY_INTEGRABILITY, " +
+                "ANALYTICAL_FORMULAS:3148, visualizations/README:277, ON_LEAVING_THE_CIRCLE:23/:61), plus " +
+                "this arc's own record and ON_THE_SENDING_END. One near-miss worth naming " +
+                "because it is where a future reader would pick the old frame up again: " +
+                "F89_BRANCH_LOCUS_PALINDROME:74 carries the gloss forward in its Related list ('the " +
+                "plain-words reading (γ as the watching, the seams where observer and observed exchange)'). " +
+                "It claims no canonicity, and :66 of the same document already fences its own use " +
+                "('that reading is a seeing, not a claim, but the mirror structure under it is exact'), which " +
+                "is this arc's ruling written before the arc existed. Markdown, so not on the Tom gate; it " +
+                "belongs to the doc-level pass, not to a separate item. A second near-miss sits OUTSIDE the " +
+                "census scope, in the gitignored drafts tree: ON_WHAT_ONLY_TOUCHING_CAN_SEE:106 cites the " +
+                "document as 'the watcher who turns out to be the watched', in running prose and with no " +
+                "self-fence. Machine-local, so it reaches no clone and no reader but us; recorded here " +
+                "because it is the observer/observed reading rather than the F89 topic, and would otherwise " +
+                "look like a hole in the dichotomy above.",
             Status: OpenArcStatus.Open),
     };
 
