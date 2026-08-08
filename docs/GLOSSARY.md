@@ -370,6 +370,33 @@ Canonical: [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) (
 
 ---
 
+## The record laws (F135/F136, July 2026)
+
+The two laws' own object, defined here in the frame the algebra uses (added
+2026-08-08, the γ-arc's Q1: the store whose job is defining had entries for the
+"Watcher factor" and the "Record radius" but never for the record itself).
+Canonical carriers: [PROOF_RECORD_PARITY_LAW](proofs/PROOF_RECORD_PARITY_LAW.md),
+[PROOF_RECORD_LETTER_LAW](proofs/PROOF_RECORD_LETTER_LAW.md), the F135/F136
+entries of [ANALYTICAL_FORMULAS](ANALYTICAL_FORMULAS.md); typed as
+`RecordParityLawClaim` + `RecordLetterLawClaim`, recomputed live at
+`inspect --root record`.
+
+| Term | Technical definition | Plain reading |
+|------|---------------------|---------------|
+| **Record** | The separation the arriving light has effected between two conditional faces of a pair page ρ_Sj, held in the state itself, in exactly two 1-bit forms: the pointer form separates the Z_S faces, the Bell form the anti-pointer X_S/Y_S ones. Pointer record: classical-quantum, distinguishability D_j(t) = β_j(t)·\|sin θ_w(t)\| (a trace distance; β_j is F135's dressed record radius, see that entry below), the bit written in j's equator (the ZY channel), blind to γ_S. Bell record: a rank-2 Bell mixture ½Φ+½Ψ of magnitude κ = e^{−2(γ_S+γ_j)t*}, zero pointer content (D_j = 0), letter XX or YY by dresser count m mod 2, paying both sites. No load-bearing step of either law invokes a reader: the forced verdicts are integer-parity arithmetic on the coupling ratios r_k = Δ_jk/Δ_S plus graph conditions (the write bond and deg(S) ≥ 2 for the pointer; Q = ∅ and m ≥ 1 for Bell), evaluated at the readout point t* = π/(4Δ_S) with every S-bond at the one write coupling Δ_S, which at uniform coupling is the graph-state instant. | A difference the arriving light has separated into a neighbor's page, in one of two shapes. Nothing in the formalism reads it, and it does not need a reader to exist. |
+| **Held or not** | At integer ratios the values are forced: a full bit (pointer or Bell) or an exact zero, dark (a mixed-parity D, an odd private watcher, or a nonempty Q for the Bell form, each a cosine of an arriving angle landing on a zero; or a missing write bond, the sine that never leaves zero, no writer; all γ-independent). Non-integer ratios give the free in-between, 0 < I < 1: parities forced, in-betweens generic, with one gated exception at the fully-shared m = 1 corner, where the bit stays forced at every ratio and only its channel rotates. At γ = 0 nothing is ever lost, the cosines turn and recur, and an even-parity return is whole, at worst rotated by π. The only true loss is γ on the pair's own two sites (the Bell record pays both, the pointer only the witness; every traced site's γ is exactly invisible). | Forced or free: the light separates the difference fully, or not at all, or partway between the angles. The turning is reversible; only the page's own standing in light costs. |
+| **Watcher (graph role)** | N(j)∖{S}, the witness's other neighbors, read off the bond list; not an agent, and distinct from the hardware "Watcher factor" η(r) below. F136 splits the set: the shared dressers D (adjacent to both S and j) select the family by parity (all even with the write bond → pointer; all odd with Q = ∅, m ≥ 1 → Bell; mixed → dark), and the private watchers P must be even for either record to survive (one odd private watcher kills both). F135's even-forgiven / odd-blind / else-generic trichotomy is the D = ∅ column, under Law A's hypotheses (uniform Δ_S at S, deg(S) ≥ 2, γ = 0, triangle-free at S). | The neighbors whose angles decide the parity: the shared ones pick the record's shape, the private ones decide whether it survives. |
+
+The reader enters only downstream of the laws: Zurek's redundancy R_δ (how many
+fragments a reader could consult) and the Holevo bound are imported bookkeeping
+on top of the closed form, and the one design that ever implemented a conditional readout is
+the unflown record-parity flight, which itself refuses to promote mutual
+information to a measured claim. When a reader steps forward, the translation
+from qubit to observer is allowed by the algebra, not forced by it
+([Observer Inheritance](../reflections/OBSERVER_INHERITANCE.md)).
+
+---
+
 ## Hardware pre-registration vocabulary (the IBM flights)
 
 Terms the flight pre-registrations use as house standard (added 2026-08-04, the

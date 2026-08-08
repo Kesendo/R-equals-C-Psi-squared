@@ -5215,7 +5215,7 @@ public static class OpenArcsRegistry
                 "docs/proofs/ ~74, experiments/ ~156, reflections/ 65, hypotheses/ 13, MirrorWorld README 13. " +
                 "A LARGE FRACTION IS LEGITIMATE AND IS NOT THE TARGET: the quantum-Darwinism 'watcher' is a " +
                 "DEFINED GRAPH ROLE (PROOF_RECORD_PARITY_LAW:25, 'its watchers are its other neighbors " +
-                "N(j) minus S'), the star-topology observers are real qubits, GLOSSARY:386 'Watcher factor' " +
+                "N(j) minus S'), the star-topology observers are real qubits, GLOSSARY:414 'Watcher factor' " +
                 "is hardware readout, docs/historical/ is the archived C_int/C_ext era. The TARGET is where " +
                 "gamma or the dissipator ITSELF is made the agent, confirmed across docs/quantum/*_TRANSLATED " +
                 "(titles included: 'The Watching, Not the Noise', 'The Watching's Price', 'A Box Full of " +
@@ -5249,17 +5249,54 @@ public static class OpenArcsRegistry
                 "compute/MirrorWorld/Program.cs (23 hits), which is the hardest API surface to move.",
             NextStep:
                 "DO NOT START WITH A RENAME. The rename is the cheap half and it is not why this is open. " +
-                "Start with the four questions the corrected frame makes askable, because Tom's point is that " +
+                "Start with the four questions the corrected frame makes askable (Q1 and Q3 are answered " +
+                "below, 2026-08-08; Q2 and Q4 remain), because Tom's point is that " +
                 "the wrong word made us look in the wrong DIRECTION. A specimen from the day it was found: " +
                 "the item-4 work spent a day on a RECEIVING question (what is visible from the middle block, " +
                 "where can something hide) and the answer turned out to be a SENDING statement (an odd " +
                 "block's bill is always odd, the frozen bill is even, so they can never coincide). It was " +
                 "measured before it was understood. " +
-                "Q1 WHERE IS THE RECORD IF NOBODY READS? F135/F136 ask who records and what. Under watching " +
-                "the environment is a reader; under sending, NOTHING in the formalism reads. Then a record is " +
-                "a difference the arriving light separates, held or not. Testable hook: that arithmetic came " +
-                "out as pure cosine parity with NO propagator, which is what a frame with no reader to model " +
-                "would predict. " +
+                "Q1 ANSWERED 2026-08-08: the record lives in the pair page, as a held separation, and " +
+                "nothing in the laws reads. Every load-bearing step of F135/F136 classifies as pure algebra " +
+                "on generator and graph; the reader-shaped items inside the proofs are literature " +
+                "glosses (the Helstrom phrase at PROOF_RECORD_PARITY_LAW:99 and 'accessible ... (Holevo)' " +
+                "at :92, each with its agent-free surrogate beside it, trace distance and conditional-state " +
+                "identity + correlators; plus the Zwolak-Zurek packaging line at " +
+                "PROOF_RECORD_LETTER_LAW:105), plus the imported redundancy R_delta (also inside, at " +
+                "PROOF_RECORD_PARITY_LAW:111). The record IS defined as a separation, held in the state, " +
+                "in two 1-bit forms: the pointer's D_j = beta_j*|sin theta_w| (a trace distance between " +
+                "conditional pages, no readout performed) and the Bell mixture of magnitude kappa with " +
+                "D_j = 0, zero pointer content. The testable hook CONFIRMED with a precision: 'no " +
+                "propagator' does not mean statics or t->infinity, it means the generator is already " +
+                "diagonal in the coherence basis, evolution is per-entry multiplication, and the t*-laws " +
+                "are the exact trajectory at the readout point t* = pi/(4*Delta_S) (at uniform coupling " +
+                "the graph-state instant, the reader-free name the corpus already carried, " +
+                "PROOF_RECORD_LETTER_LAW:95); Law C is the same closed form swept over all t. 'Held or " +
+                "not' is the forced/free law of one closed form: at integer ratios a full bit or an exact " +
+                "dark zero (a mixed-parity D, an odd private watcher, or a nonempty Q a cosine landing on " +
+                "a zero; a missing write bond the sine that never leaves it, no writer; all " +
+                "gamma-independent), non-integer ratios " +
+                "the free in-between; at gamma = 0 nothing is lost, even parity returns the difference " +
+                "whole, at worst pi-rotated; the only true loss is gamma on the pair's own two sites " +
+                "(Bell pays both, the pointer only the witness; traced-site gamma exactly invisible). " +
+                "ANSWER ARTIFACT: the GLOSSARY " +
+                "section 'The record laws (F135/F136, July 2026)' now defines Record, Held or not, and " +
+                "Watcher (graph role); the store whose job is defining had never defined the record. THE " +
+                "REPO SAID IT EARLY AND WAS NOT HEARD, three times: OBSERVER_INHERITANCE:15 (2026-04-12, " +
+                "'when a reader steps forward, the translation from qubit to observer is allowed by the " +
+                "algebra, not forced by it', ten weeks before the agent register), " +
+                "QUANTUM_DARWINISM_POINTER_DOOR:49 ('light can be aimed, but not kept private'), " +
+                "SCHRODINGERS_CAT_TRANSLATED:147 ('by the time a human lifts the lid, the bill has been " +
+                "paid'). The ONE surviving reader-premise is Zurek's own: 'objective = readable copy' " +
+                "motivating R_delta (POINTER_DOOR:10); the repo's results already decouple record-existence " +
+                "from readability (R_perfect vs R_delta, perfect records where a typical fragment sees " +
+                "nothing). No hardware ever measured a record-law quantity (Confirmations: zero entries); " +
+                "the only implemented reader is the sealed unflown v33 design, which itself claims MI only " +
+                "as a derived reading under its guard, never as a second measured claim. SWEEP (2026-08-08): both proofs read in full + verified at source; " +
+                "F135/F136 registry entries; GLOSSARY (Record had NO entry; Watcher factor and Record " +
+                "radius did); Confirmations (nothing); experiments incl. POINTER_DOOR and the sealed flight " +
+                "(skimmed for definitions only, not touched); reflections and docs/quantum for the reader " +
+                "language; OpenArcs (this arc only); CAUGHT_ERRORS (nothing new). " +
                 "Q2 WHOSE TIME IS THE PROPER TIME? 'A site that takes on more light runs at a faster time.' " +
                 "Under watching, time hangs on attention, someone chose to look harder here. Under sending it " +
                 "is a property of the FIELD the site stands in and the agent leaves the time story entirely. " +
