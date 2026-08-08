@@ -5244,16 +5244,22 @@ public static class OpenArcsRegistry
                 "this arc is a condition on the dephasing rates, so the word named the ambient category " +
                 "and discriminated nothing. Tom read it cold and said it sounded ungraspable; that " +
                 "complaint is the label layer's ONLY error signal, since a wrong name fails silently, and " +
-                "it was right. The sweep behind the second move: 'balanced pair' is already the repo's " +
-                "word in 61 places INCLUDING F140's own counting unit ('one frozen mode per balanced " +
-                "pair') and the gate's G5 label ('partial balance yields nothing'), so the balance " +
-                "language was everywhere except in the name; 'dephasing diagonal' is already the repo's " +
-                "name for the real-rate part of L in 74 places (grep over *.md/*.cs/*.py excluding " +
-                ".remember/ and the GITIGNORED docs/superpowers/, this sentence included; counting the " +
-                "ignored tree gives 100 and is the same not-reproducible-from-a-clone mistake this very " +
-                "entry was repaired for once tonight, made twice in one evening), a different object one " +
-                "word away; 'mirror-balanced' was free. 'Locus' stayed " +
-                "(32 uses of 'R90 locus', and it is the word doing the surviving job). Where " +
+                "it was right. THE COUNTING CONVENTION FOR EVERY NUMBER BELOW, stated because three of " +
+                "them were wrong without it and a cold read caught all three: " +
+                "git grep -io \"<phrase>\" -- \"*.md\" \"*.cs\" \"*.py\", counting OCCURRENCES on TRACKED " +
+                "files. It is the only convention a clone reproduces exactly, since it cannot reach " +
+                ".remember/, the gitignored docs/superpowers/, or the gitignored simulations/_*.py. " +
+                "(The first draft counted the ignored trees and said 61/74/32, and 'dephasing diagonal' " +
+                "was even quoted WITH its article, which counts a different string, 18 not 70. That is " +
+                "the not-reproducible-from-a-clone shape THREE times in one evening in this one entry, " +
+                "twice after being repaired for it. The convention is the fix; a bare number is not a " +
+                "number.) The sweep behind the second move: 'balanced pair' 54, already the repo's word " +
+                "INCLUDING F140's own counting unit ('one frozen mode per balanced pair') and the gate's " +
+                "G5 label ('partial balance yields nothing'), so the balance language was everywhere " +
+                "except in the name; 'dephasing diagonal' 70, the repo's name for the real-rate part of " +
+                "L, a different object one word away; 'mirror-balanced' 0, free. 'Locus' stayed " +
+                "(R(90|_90) locus 27 with the Unicode subscript folded in, 21 for the ASCII form alone, " +
+                "and it is the word doing the surviving job). Where " +
                 "'anti-palindromic' already preceded the name, the word was simply redundant and is now " +
                 "the parenthetical gloss instead. METHOD NOTE, because the first sweep missed two sites: " +
                 "the phrase WRAPS ACROSS THE LINE BREAK there ('watching' ends the line, 'locus' opens the " +
