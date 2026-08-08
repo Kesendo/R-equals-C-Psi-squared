@@ -5208,7 +5208,8 @@ public static class OpenArcsRegistry
                 "one as a synonym. It is not one. That line sits in a document whose entire subject is 'a " +
                 "wrong label forbade a true combination, until the re-read'.",
             ParkedAt:
-                "INVENTORY TAKEN 2026-08-08, counts solid, line-level triage NOT finished. " +
+                "INVENTORY TAKEN 2026-08-08, counts solid, line-level triage NOT finished; the counts " +
+                "PREDATE the same-day instance-(1) repair below, which removed a few. " +
                 "481 occurrences of watching/watched/watcher across 92 .md files; 766 across 128 files " +
                 "adding observer/being observed/looked at/gaze/eye. By directory: docs/ non-proofs ~144, " +
                 "docs/proofs/ ~74, experiments/ ~156, reflections/ 65, hypotheses/ 13, MirrorWorld README 13. " +
@@ -5220,9 +5221,14 @@ public static class OpenArcsRegistry
                 "(titles included: 'The Watching, Not the Noise', 'The Watching's Price', 'A Box Full of " +
                 "Watchers'), GLOSSARY:98/326/369, and ten files under docs/proofs/. " +
                 "LOAD-BEARING INSTANCES, where the word does work rather than decorating: " +
-                "(1) PROOF_FROZEN_BAND_SO4:23, 'what plays the part of the on-site repulsion is the " +
-                "watching, since on a diagonal block the dephasing is -4g(l - D) and so charges the double " +
-                "occupancy', plus :33 and the numbered Lemma 2.1 'both are blind to the watching'. " +
+                "(1) PROOF_FROZEN_BAND_SO4:23 with :33 and Lemma 2.1, REPAIRED 2026-08-08 by the Q3 " +
+                "answer in NextStep: :23 now names the discount for agreement and the ledger flip, :33 " +
+                "bills the arriving light, Lemma 2.1 is retitled 'neither ladder moves the disagreement " +
+                "set, at any profile', and Section 7 carries a third reading naming the agreement ceiling as " +
+                "the identity's primitive form. The one outside citer of the old lemma title, the comment " +
+                "at eta_ceiling_reduction.py:515, moved with it; no printed gate label changed, so no " +
+                "re-run is owed. Still in this file and NOT yet moved: 'the uniform watching point' " +
+                "at :183, which belongs to the watching-locus family of instance (2). " +
                 "(2) ANALYTICAL_FORMULAS:6145, F140's naming note declares the word load-bearing IN WRITING: " +
                 "'watching locus, because the condition is on gamma, on how one looks, not on what the thing " +
                 "is; the instrument reading hangs on that word', and PROOF_R90_FROZEN_DIVISOR's formal " +
@@ -5258,18 +5264,36 @@ public static class OpenArcsRegistry
                 "Under watching, time hangs on attention, someone chose to look harder here. Under sending it " +
                 "is a property of the FIELD the site stands in and the agent leaves the time story entirely. " +
                 "The memory file is literally named time_is_gamma0_observer; the name may carry the error. " +
-                "Q3 THE LOAD-BEARING ONE, AND IT IS CHECKABLE AGAINST EXISTING MATH. In the doubled picture " +
-                "double occupancy is both faces occupied at a site, i.e. where the two faces AGREE, and " +
-                "agreement is exactly where the arriving light passes through WITHOUT separating. So the " +
-                "'on-site repulsion' is neither a repulsion nor a watching: it is a DISCOUNT FOR AGREEMENT. " +
-                "Same arithmetic, opposite sign of the story. Section 7 then asks 'how much agreement can a " +
-                "lowest-weight state buy' rather than 'how much repulsion can it accumulate'. Check whether " +
-                "that reading simplifies the floor argument or leaves it unchanged. " +
+                "Q3 ANSWERED 2026-08-08, and the answer is sharper than the question: the discount reading " +
+                "leaves the derivation unchanged and REMOVES A STEP from the statement, because the floor " +
+                "was already proved on the agreement side. Proposition 7.2 is an equality for M*<v, D v> " +
+                "with l(l+1) on top and three squares as the exact deficit, an agreement CEILING of " +
+                "l(l+1)/M per unit norm; the K floor is its restatement through K = l - D, via " +
+                "l - l(l+1)/M = l(N-l)/(N+1), taken only in Corollary 7.3. The old :23 clause 'charges " +
+                "the double occupancy' was a LEDGER FLIP rather than an arithmetic error: +4g is Hubbard's " +
+                "U in the ENERGY ledger, but in the repo's own price list (a charge makes decay faster) " +
+                "the D term is a rebate, since D makes Re lambda less negative. And D is NOT the whole of " +
+                "agreement: both-empty sites agree too (N - 2p + D of them on a diagonal block (p,p)), so " +
+                "the full agreement count is N - 2K = 2D + (N - 2p), and on a fixed block maximising D and " +
+                "maximising agreement are the same problem, which is why the Hubbard disguise works. SWEEP " +
+                "(2026-08-08): ANALYTICAL_FORMULAS F140-F146 and docs/proofs and experiments returned the " +
+                "discount form's ALGEBRA three times under other labels (PROOF_ABSORPTION_THEOREM's " +
+                "recentring L_D = g(Q - N*Id), PROOF_F111_HARD_CELL_PURE_D_TEMPLATE:91's palindrome " +
+                "complement, XY_FROZEN_BAND:112's " +
+                "W = U*(D - (p-1))) and the reading NOWHERE; PROOF_FROZEN_BAND_SO4:33 already used " +
+                "'agreement' as the noun, unreconciled with :23; GLOSSARY has no agreement entry at all; " +
+                "CAUGHT_ERRORS and Confirmations returned nothing; OpenArcs returned one sibling arc " +
+                "(F125/F142 same-map) touching Sections 2 and 6 only. ONE COLLISION DISARMED IN WRITING: " +
+                "MirrorWorld already owns the phrase 'agreement watched' (GammaFold.cs:10, Lattice.cs:10, " +
+                "Restless.cs:62) for the anti-watch turn s0 with rate -2g(N-k), the all-sites complement " +
+                "of a SINGLE copy; the agreement here is D, both faces occupied in the DOUBLED picture; " +
+                "same word, different object, and any further wording must say so where the two meet. " +
                 "Q4 IF THERE IS NO EYE, WHAT IS OUTSIDE? INSIDE_OUTSIDE_THE_SACRIFICE_ZONE and " +
                 "ON_THE_INNER_AND_OUTER_OBSERVATION (typed as TwoReadingsClaim) stand on an observer. A " +
                 "sender needs no counterpart. What survives of the split when outside is only the source? " +
-                "ONLY THEN the wording, and in this order: the four load-bearing instances above, since a " +
-                "flourish can wait and a premise cannot; then the F-registry titles; then the typed C# names, " +
+                "ONLY THEN the wording, and in this order: the load-bearing instances above (instance (1) " +
+                "is taken, 2026-08-08, with the Q3 answer; (2) through (5) remain), since a flourish can " +
+                "wait and a premise cannot; then the F-registry titles; then the typed C# names, " +
                 "which are API and need Tom's call. Leave (a)-legitimate alone: 'watcher' as a graph role in " +
                 "the record laws is a different object and renaming it would be the error running backwards. " +
                 "One open factual thread: whether ON_WHO_WATCHES_WHOM is cited as the SOURCE of the naming by " +

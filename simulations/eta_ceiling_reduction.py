@@ -512,7 +512,7 @@ def v1_two_su2():
               "so Sigma-oddness is sufficient for the LADDER, not necessary for "
               "the BAND; it does not replace the measured band-existence gate")
 
-    # (d) Lemma 2.1 claims BOTH ladders are blind to the watching at ANY profile.
+    # (d) Lemma 2.1 claims NEITHER ladder moves the disagreement set, at ANY profile.
     # Phi is exercised on a non-uniform profile above; do the same for S+.
     for N in (4, 5, 6):
         gg = np.array([gam * (1 + 0.3 * i) for i in range(N)])
