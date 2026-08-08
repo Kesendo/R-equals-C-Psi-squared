@@ -5175,6 +5175,107 @@ public static class OpenArcsRegistry
                 "general side line. Gate checks E6(d) to E6(h) of simulations/exceptional_couplings.py carry " +
                 "the inequality and not the generic depths.",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "gamma_is_the_sender_not_the_watching",
+            Opened: "2026-08-08",
+            Origin:
+                "Tom, correcting a zoom-out in which I had written 'gamma is the watching': gamma is not the " +
+                "looking, it is the SENDING. It sits at the emitting end, not at the eye. 'Watching' smuggles " +
+                "in an agent with a gaze, someone who could have looked elsewhere; a sender sends " +
+                "unconditionally, does not select, has no attention that could be elsewhere. The chain is not " +
+                "looked at BY someone, it STANDS IN LIGHT. His diagnosis of how it spread: the phrase is not " +
+                "in the training data, it only SOUNDED good, and then it carried itself forward because each " +
+                "new document cited the last. And: 'bei dem Fehler haben wir in die falsche Richtung " +
+                "geschaut', which is the point of this arc. It is not a word cleanup. " +
+                "THE CHRONOLOGY IS GIT-VERIFIED, NOT SUPPOSED, and it says the sending frame came FIRST. " +
+                "docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md (2026-03-21), experiments/GAMMA_AS_SIGNAL.md (03-22) and " +
+                "hypotheses/GAMMA_IS_LIGHT.md (04-03) carry ZERO occurrences of watching/watched/watcher. On " +
+                "2026-03-21 a label was already recomputed once here, 'noise' -> SIGNAL, and it unlocked the " +
+                "whole applied side: the relay protocol the same day, the antenna reading the next ('before " +
+                "this result we had a symmetry, after it we had a communication channel'), the concentrator " +
+                "two days later. The agent register was OVERLAID on that in June: prose first " +
+                "(reflections/ON_THE_LIFETIME_OF_THE_NEW.md, 05-31), then the plain-words proof openers " +
+                "(THE_THREE_DIAGONALS 06-15, PROOF_STRUCTURAL_CEILING and PROOF_CHAIN_GAP_DOMINANCE 06-16), " +
+                "then reflections/ON_WHO_WATCHES_WHOM.md (06-24, 'to turn the knob is to decide how closely " +
+                "to look'). It CRYSTALLISED in ONE commit, 8d7692c on 2026-07-05, which created " +
+                "docs/quantum/DEPHASING_TRANSLATED.md (declaring it 'the repository's own canonical word for " +
+                "the object') AND the C# class WatchedLetterRoutingClaim. The April hit that would have moved " +
+                "the origin earlier is NOT one: hypotheses/WHAT_QUBITS_EXPERIENCE.md (04-01) says 'a third " +
+                "qubit arrives. It watches' about a spectator SPIN, a modelled party, not gamma. " +
+                "And the sharpest artifact: hypotheses/COMBINATION_VALENCE.md:82 (2026-07-05) restates the " +
+                "March relabel as '\"Noise\" -> signal / the watching', gluing the June word onto the March " +
+                "one as a synonym. It is not one. That line sits in a document whose entire subject is 'a " +
+                "wrong label forbade a true combination, until the re-read'.",
+            ParkedAt:
+                "INVENTORY TAKEN 2026-08-08, counts solid, line-level triage NOT finished. " +
+                "481 occurrences of watching/watched/watcher across 92 .md files; 766 across 128 files " +
+                "adding observer/being observed/looked at/gaze/eye. By directory: docs/ non-proofs ~144, " +
+                "docs/proofs/ ~74, experiments/ ~156, reflections/ 65, hypotheses/ 13, MirrorWorld README 13. " +
+                "A LARGE FRACTION IS LEGITIMATE AND IS NOT THE TARGET: the quantum-Darwinism 'watcher' is a " +
+                "DEFINED GRAPH ROLE (PROOF_RECORD_PARITY_LAW:25, 'its watchers are its other neighbors " +
+                "N(j) minus S'), the star-topology observers are real qubits, GLOSSARY:386 'Watcher factor' " +
+                "is hardware readout, docs/historical/ is the archived C_int/C_ext era. The TARGET is where " +
+                "gamma or the dissipator ITSELF is made the agent, confirmed across docs/quantum/*_TRANSLATED " +
+                "(titles included: 'The Watching, Not the Noise', 'The Watching's Price', 'A Box Full of " +
+                "Watchers'), GLOSSARY:98/326/369, and ten files under docs/proofs/. " +
+                "LOAD-BEARING INSTANCES, where the word does work rather than decorating: " +
+                "(1) PROOF_FROZEN_BAND_SO4:23, 'what plays the part of the on-site repulsion is the " +
+                "watching, since on a diagonal block the dephasing is -4g(l - D) and so charges the double " +
+                "occupancy', plus :33 and the numbered Lemma 2.1 'both are blind to the watching'. " +
+                "(2) ANALYTICAL_FORMULAS:6145, F140's naming note declares the word load-bearing IN WRITING: " +
+                "'watching locus, because the condition is on gamma, on how one looks, not on what the thing " +
+                "is; the instrument reading hangs on that word', and PROOF_R90_FROZEN_DIVISOR's formal " +
+                "Statement carries 'watching locus'. (3) F126 'the watched walk', F141 'so the watching " +
+                "cannot see it', F144 'the watching charges', F71 'the total watching'. (4) TYPED C# API: " +
+                "WatchedLetterRoutingClaim + WatchedLetterRoutingWitness + registration + two test classes, " +
+                "named canonical at GLOSSARY:369. (5) OpenArcsRegistry ~2667, 'the axis the environment " +
+                "watches along', 'the watch-axis', 'gamma0 is the HINGE: the rate of watching sets the unit " +
+                "of felt time'. " +
+                "THE REPO ALREADY WARNED ITSELF AND WAS NOT HEARD: DEPHASING_TRANSLATED:271, in the very " +
+                "document that canonised the word, reads \"'Watching' imports a watcher, an agent with...\", " +
+                "and SCHRODINGERS_CAT_TRANSLATED:361 says a box 'full of watchers' may read at some later " +
+                "stance as a surveillance story. " +
+                "NOT DONE: line-level legitimate/suspect/neutral split for experiments/, reflections/, " +
+                "hypotheses/, recovered/ (unswept), root .md, simulations/, compute/*.cs; the claim and " +
+                "witness STRINGS in RecordParityLawClaim/RecordLetterLawClaim/KnowledgeRegistryFactory/" +
+                "ConfirmationsRegistry/MirrorWorld; and the run-mode and printed strings in " +
+                "compute/MirrorWorld/Program.cs (23 hits), which is the hardest API surface to move.",
+            NextStep:
+                "DO NOT START WITH A RENAME. The rename is the cheap half and it is not why this is open. " +
+                "Start with the four questions the corrected frame makes askable, because Tom's point is that " +
+                "the wrong word made us look in the wrong DIRECTION. A specimen from the day it was found: " +
+                "the item-4 work spent a day on a RECEIVING question (what is visible from the middle block, " +
+                "where can something hide) and the answer turned out to be a SENDING statement (an odd " +
+                "block's bill is always odd, the frozen bill is even, so they can never coincide). It was " +
+                "measured before it was understood. " +
+                "Q1 WHERE IS THE RECORD IF NOBODY READS? F135/F136 ask who records and what. Under watching " +
+                "the environment is a reader; under sending, NOTHING in the formalism reads. Then a record is " +
+                "a difference the arriving light separates, held or not. Testable hook: that arithmetic came " +
+                "out as pure cosine parity with NO propagator, which is what a frame with no reader to model " +
+                "would predict. " +
+                "Q2 WHOSE TIME IS THE PROPER TIME? 'A site that takes on more light runs at a faster time.' " +
+                "Under watching, time hangs on attention, someone chose to look harder here. Under sending it " +
+                "is a property of the FIELD the site stands in and the agent leaves the time story entirely. " +
+                "The memory file is literally named time_is_gamma0_observer; the name may carry the error. " +
+                "Q3 THE LOAD-BEARING ONE, AND IT IS CHECKABLE AGAINST EXISTING MATH. In the doubled picture " +
+                "double occupancy is both faces occupied at a site, i.e. where the two faces AGREE, and " +
+                "agreement is exactly where the arriving light passes through WITHOUT separating. So the " +
+                "'on-site repulsion' is neither a repulsion nor a watching: it is a DISCOUNT FOR AGREEMENT. " +
+                "Same arithmetic, opposite sign of the story. Section 7 then asks 'how much agreement can a " +
+                "lowest-weight state buy' rather than 'how much repulsion can it accumulate'. Check whether " +
+                "that reading simplifies the floor argument or leaves it unchanged. " +
+                "Q4 IF THERE IS NO EYE, WHAT IS OUTSIDE? INSIDE_OUTSIDE_THE_SACRIFICE_ZONE and " +
+                "ON_THE_INNER_AND_OUTER_OBSERVATION (typed as TwoReadingsClaim) stand on an observer. A " +
+                "sender needs no counterpart. What survives of the split when outside is only the source? " +
+                "ONLY THEN the wording, and in this order: the four load-bearing instances above, since a " +
+                "flourish can wait and a premise cannot; then the F-registry titles; then the typed C# names, " +
+                "which are API and need Tom's call. Leave (a)-legitimate alone: 'watcher' as a graph role in " +
+                "the record laws is a different object and renaming it would be the error running backwards. " +
+                "One open factual thread: whether ON_WHO_WATCHES_WHOM is cited as the SOURCE of the naming by " +
+                "anything besides DEPHASING_TRANSLATED:215; its other ~18 citers cite it for the F89 branch " +
+                "locus, a different topic.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

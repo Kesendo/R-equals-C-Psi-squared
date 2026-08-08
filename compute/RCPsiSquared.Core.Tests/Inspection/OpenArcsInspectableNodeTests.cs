@@ -7,9 +7,10 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasFortyFourEntries()
+    public void Registry_HasFortyFiveEntries()
     {
-        Assert.Equal(44, OpenArcsRegistry.All.Count);   // +sideways_spin_ladder (2026-08-07),
+        Assert.Equal(45, OpenArcsRegistry.All.Count);   // +gamma_is_the_sender_not_the_watching (2026-08-08),
+                                                        // +sideways_spin_ladder (2026-08-07),
                                                         // +bit_exact_vocabulary (2026-08-06),
                                                         // +f138_converse_failures (2026-08-03),
                                                         // +f138_clause_two_sweep (2026-08-03),
