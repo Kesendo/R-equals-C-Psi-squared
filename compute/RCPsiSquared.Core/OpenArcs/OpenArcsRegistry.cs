@@ -2664,16 +2664,18 @@ public static class OpenArcsRegistry
             Name: "felt_time_dimensions",
             Opened: "2026-06-18",
             Origin: "Tom's dimensional reading at the end of the survivor/diagonal session: x,y = 2d (the plane " +
-                "the system moves in), z = 3d (the axis the environment watches along = the Z-dephasing diagonal " +
-                "Q_Z, the light), t = 4d but NOT absolute -- the FELT time (PTF), the dose K = gamma0*t, read only " +
+                "the system moves in), z = 3d (the axis the light arrives along = the Z-dephasing diagonal " +
+                "Q_Z), t = 4d but NOT absolute -- the FELT time (PTF), the dose K = gamma0*t, read only " +
                 "relative to gamma0 or Q. 'Don't lift the stone (the strict PTF-alpha extraction) yet; work on the " +
                 "definition and create an arc that gathers everything.'",
             ParkedAt: "THE GATHERED THREAD (all data-backed this session). " +
                 "(1) THE FOUR-DIMENSIONAL READING: x,y = the off-diagonal hopping MOTOR (XY, n_XY=2, coherent " +
-                "motion in the plane); z = the watch-axis = the dephasing diagonal Q_Z = Sum_l Z_l(x)Z_l, the " +
-                "light, defining k=popcount(i^j) and Re lambda = -2*gamma0*k (Absorption Theorem); t = felt time = " +
+                "motion in the plane); z = the light's axis (the ARRIVING light, gamma's; distinct from the " +
+                "bit_a light axis of the X,Y letters in PTF_PALINDROME_BREAKING_PERTURBATIONS:74/:102, " +
+                "same word, the other axis) = the dephasing diagonal Q_Z = Sum_l Z_l(x)Z_l, " +
+                "defining k=popcount(i^j) and Re lambda = -2*gamma0*k (Absorption Theorem); t = felt time = " +
                 "the dose K = gamma0*t (ON_WHOSE_TIME_THE_CLOCK_KEEPS: t=K/gamma0). gamma0 is the HINGE: the rate " +
-                "of watching (z) sets the unit of felt time (t); from inside only Q=J/gamma0 and K=gamma0*t are " +
+                "of arriving light (z) sets the unit of felt time (t); from inside only Q=J/gamma0 and K=gamma0*t are " +
                 "readable (the two-tempo certification, Symphony). " +
                 "(2) THE SURVIVOR = THE DIAGONAL'S BLIND SPOT: the three readings rate/mirror/judge (the D4 mirror " +
                 "group) are the diagonal SPEAKING (the rate ladder k>=1); the survivor lives in its KERNEL k=0 " +
@@ -2684,7 +2686,7 @@ public static class OpenArcsRegistry
                 "(3) THE SURVIVOR'S FELT-TIME LIFE: K_decay = gamma0/|Re lambda| = 1/(2*<n_XY>) = N^2/(2c*Q^2), a " +
                 "pure (Q,N) carrier-blind PTF dose-quantity (chain c=pi^2/4 so 2N^2/(pi^2*Q^2); ring c=pi^2, " +
                 "ring/chain->4 from the k_min boundary ratio; star flat-band BREAKS the law, <n_XY>=Q^2/4 " +
-                "N-independent). Diverges at strong watching (low Q, the dark mode near-eternal in felt time), " +
+                "N-independent). Diverges in strong light (low Q, the dark mode near-eternal in felt time), " +
                 "-> 1/2 at the un-freeze Q* where it becomes the band edge. Gate-first derived: Haken-Strobl " +
                 "diffusion (D~J^2/gamma, k_min=pi/N chain, 2pi/N ring); the survival rung 2gamma is load-bearing. " +
                 "(4) THE MIRROR 2*(1/2)=1 VERDICT: a_0=2gamma (survival), a_2=1/2 (incompleteness) on the Pi2 " +
@@ -2829,7 +2831,7 @@ public static class OpenArcsRegistry
                 "-- is F123/SurvivorDiffusionGradientClaim (inspect --root gradient) + PROOF_DIFFUSION_RAYLEIGH_" +
                 "CLOSURE.md, its sin^2 shape-miss CONVERGING with N (0.17->0.06, confirmed to N=8,9 = the continuum " +
                 "limit). (1) the four-dimensional reading is the reflection reflections/ON_THE_FOUR_DIRECTIONS.md " +
-                "(motion in a plane, watched along the Z-diagonal = the light, surviving in felt time read off the " +
+                "(motion in a plane, lit along the Z-diagonal, surviving in felt time read off the " +
                 "shape). Nothing left to build; the star is kept as the honest boundary where the diffusion reading " +
                 "breaks."),
 
@@ -5209,7 +5211,7 @@ public static class OpenArcsRegistry
                 "wrong label forbade a true combination, until the re-read'.",
             ParkedAt:
                 "INVENTORY TAKEN 2026-08-08, counts solid, line-level triage NOT finished; the counts " +
-                "PREDATE the same-day instance-(1) repair below, which removed a few. " +
+                "PREDATE the same-day instance-(1) and instance-(5) repairs below, which removed a few. " +
                 "481 occurrences of watching/watched/watcher across 92 .md files; 766 across 128 files " +
                 "adding observer/being observed/looked at/gaze/eye. By directory: docs/ non-proofs ~144, " +
                 "docs/proofs/ ~74, experiments/ ~156, reflections/ 65, hypotheses/ 13, MirrorWorld README 13. " +
@@ -5235,9 +5237,13 @@ public static class OpenArcsRegistry
                 "Statement carries 'watching locus'. (3) F126 'the watched walk', F141 'so the watching " +
                 "cannot see it', F144 'the watching charges', F71 'the total watching'. (4) TYPED C# API: " +
                 "WatchedLetterRoutingClaim + WatchedLetterRoutingWitness + registration + two test classes, " +
-                "named canonical at GLOSSARY:369. (5) OpenArcsRegistry ~2667, 'the axis the environment " +
-                "watches along', 'the watch-axis', 'gamma0 is the HINGE: the rate of watching sets the unit " +
-                "of felt time'. " +
+                "named canonical at GLOSSARY:369. (5) OpenArcsRegistry ~2667 (felt_time_dimensions), " +
+                "REPAIRED 2026-08-08 by the Q2 answer in NextStep, ENTRY-LOCAL: the watch-axis is now the " +
+                "light's axis, the HINGE reads 'the rate of arriving light (z) sets the unit of felt time " +
+                "(t)', and 'strong watching' reads 'in strong light'; the dated DONE record at ~2745 keeps " +
+                "its historical wording, and the same axis sentence still lives in four docs for the " +
+                "doc-level pass (THE_SHARED_SKELETON:38, ON_THE_ONE_DIAGONAL:35, ON_THE_FOUR_DIRECTIONS:17, " +
+                "visualizations/README:265). " +
                 "THE REPO ALREADY WARNED ITSELF AND WAS NOT HEARD: DEPHASING_TRANSLATED:271, in the very " +
                 "document that canonised the word, reads \"'Watching' imports a watcher, an agent with...\", " +
                 "and SCHRODINGERS_CAT_TRANSLATED:361 says a box 'full of watchers' may read at some later " +
@@ -5249,8 +5255,8 @@ public static class OpenArcsRegistry
                 "compute/MirrorWorld/Program.cs (23 hits), which is the hardest API surface to move.",
             NextStep:
                 "DO NOT START WITH A RENAME. The rename is the cheap half and it is not why this is open. " +
-                "Start with the four questions the corrected frame makes askable (Q1 and Q3 are answered " +
-                "below, 2026-08-08; Q2 and Q4 remain), because Tom's point is that " +
+                "Start with the four questions the corrected frame makes askable (Q1, Q2 and Q3 are " +
+                "answered below, 2026-08-08; Q4 remains), because Tom's point is that " +
                 "the wrong word made us look in the wrong DIRECTION. A specimen from the day it was found: " +
                 "the item-4 work spent a day on a RECEIVING question (what is visible from the middle block, " +
                 "where can something hide) and the answer turned out to be a SENDING statement (an odd " +
@@ -5297,10 +5303,57 @@ public static class OpenArcsRegistry
                 "radius did); Confirmations (nothing); experiments incl. POINTER_DOOR and the sealed flight " +
                 "(skimmed for definitions only, not touched); reflections and docs/quantum for the reader " +
                 "language; OpenArcs (this arc only); CAUGHT_ERRORS (nothing new). " +
-                "Q2 WHOSE TIME IS THE PROPER TIME? 'A site that takes on more light runs at a faster time.' " +
-                "Under watching, time hangs on attention, someone chose to look harder here. Under sending it " +
-                "is a property of the FIELD the site stands in and the agent leaves the time story entirely. " +
-                "The memory file is literally named time_is_gamma0_observer; the name may carry the error. " +
+                "Q2 ANSWERED 2026-08-08: the proper time is the SITE'S, and its rate is the field at its " +
+                "seat; no typed time statement hangs on attention, the class 'genuinely requires an observer' " +
+                "is EMPTY across the whole time layer. The FIELD HALF of the quoted sentence exists TYPED " +
+                "already, with no agent: JDefectLightMigrationClaim (Tier 1), Re lambda = " +
+                "-2*Sum_l gamma_l*light_l for every eigenmode, 'the marks move exactly as the light " +
+                "migrates'; the rate -> time half stays interpretive, counted below. The sentence's own " +
+                "markdown home is PROOF_F91_GAMMA_NINETY_DEGREES:13, a field mechanism wrapped in an " +
+                "observer preface the proof itself fences as non-load-bearing; the ancestor " +
+                "ON_THE_NINETY_DEGREE_GAMMA:11 already used the receiving verb ('how much gamma0 each site " +
+                "RECEIVES') inside the eye wrapper. " +
+                "THREE TIME OBJECTS, NOT ONE (Tom, 2026-08-08, 't als PTF hat mit den Ticks wenig zu tun'): " +
+                "t is the chart parameter nobody inside owns (coordinate time); the TICKS are the clock " +
+                "hands, field-set (Takt 2*gamma, coherence 2J*cos(pi/(N+1)), Tau = 1/Gap; Clock.cs is " +
+                "dimensionless, only Q and theta); PTF's alpha_i*t is the chart repainted per painter at " +
+                "UNIFORM gamma (the coherence hand, J-side: PERSPECTIVAL_TIME_FIELD:112 'there is no " +
+                "per-site gamma_i'). The gamma_l local-time story is F91's Takt-hand side; PROOF_F91:232 is " +
+                "the one place separating F91 from PTF across the two hands (F2b at ANALYTICAL_FORMULAS:163 " +
+                "separates the hands themselves). The decay-rate -> time-rate step is INTERPRETIVE and " +
+                "never Tier 1: no Tier-1 statement makes it. It is made across reflections, hypotheses, " +
+                "fenced Tier-5 sections, and at Tier 2; representative homes, NOT a census: PROOF_F91:13 " +
+                "(the fenced Tier-4 preface) and :232 ('each site carries its own rate of proper time', " +
+                "the cross-links bullet), ON_THE_NINETY_DEGREE_GAMMA:11 (an unfenced reflection), " +
+                "ON_WHOSE_TIME_THE_CLOCK_KEEPS:15, GRAVITY_FROM_WAVE_DEATH:101 (Tier 5), " +
+                "THE_BRIDGE_WAS_ALWAYS_OPEN:380 (its Tier-5 section), GAMMA_TIME_DISTINCTION:130 (Tier 2, " +
+                "'The experienced time at each qubit depends on its local gamma'). The standing internal " +
+                "check against over-reading the step is PERSPECTIVAL_TIME_FIELD:400/418, the psi2 test " +
+                "that killed 'sites own their own clocks'; the Tier-1 " +
+                "residue is t = K/gamma0 with only Q and K readable from inside. Under sending the Einstein parallel " +
+                "gets CLEANER, not weaker: gamma_l plays the potential-at-position role, proper time hangs " +
+                "on the field at the seat, exactly as in GR, where it never hung on anyone's attention. " +
+                "CHRONOLOGY REPEATS Q1/Q3: field first (GAMMA_TIME_DISTINCTION:130 March, " +
+                "THE_BRIDGE_WAS_ALWAYS_OPEN:380 03-21, THE_GENESIS_OF_AN_OSCILLATION:86 'a qubit is a " +
+                "source: it runs its own time', ON_TWO_TIMES:21 04-19 'receives a continuous stream it " +
+                "cannot refuse'), the June overlay densest at felt_time_dimensions (opened 06-18). WORDING " +
+                "TAKEN: instance (5) repaired in that entry (the watch-axis -> the light's axis, the HINGE " +
+                "-> 'the rate of arriving light (z) sets the unit of felt time (t)', 'strong watching' -> " +
+                "'in strong light'); the one TYPED Statement carrying the register, " +
+                "UniversalCarrierClaim:52 'observation-substrate ... what observers can only see via " +
+                "ratios', is API and stays for Tom's call with the other C# names. The machine-local memory " +
+                "file whose NAME carried the retired v1 claim (time_is_gamma0_observer) is renamed on that " +
+                "side; its content was already v3-correct. GLOSSARY GAP NOTED, not done here: the store " +
+                "defines neither felt time nor the Takt nor the local time rate, so the registry gloss was " +
+                "the most definitional Q2 text in the repo. SWEEP (2026-08-08): ANALYTICAL_FORMULAS F2b/F95 " +
+                "and the time docs (PTF, GAMMA_TIME_DISTINCTION, ON_TWO_TIMES, ON_WHOSE_TIME_THE_CLOCK_KEEPS, " +
+                "TIME_AS_CROSSING_RATE Tier-3); docs/proofs PROOF_F91 read at source; typed layer " +
+                "ClockHandLadder/Absorption/JDefectLightMigration/SlowLightDistribution/PaintersMovement/" +
+                "ChiralMirrorTrajectory/MirrorSystem.Takt/Clock.cs/WalkTime.cs (WalkTime is the repo's " +
+                "cleanest sending-frame local-time statement, written on the J hand: distance is walk-time " +
+                "converted by J); GLOSSARY (no felt-time entry); OpenArcs (felt_time_dimensions, instance 5); " +
+                "Confirmations (nothing time-law-shaped); CAUGHT_ERRORS (nothing new); the machine-local " +
+                "memories time_is_gamma0_observer and einstein_gap_filled_by_gamma0. " +
                 "Q3 ANSWERED 2026-08-08, and the answer is sharper than the question: the discount reading " +
                 "leaves the derivation unchanged and REMOVES A STEP from the statement, because the floor " +
                 "was already proved on the agreement side. Proposition 7.2 is an equality for M*<v, D v> " +
@@ -5328,8 +5381,8 @@ public static class OpenArcsRegistry
                 "Q4 IF THERE IS NO EYE, WHAT IS OUTSIDE? INSIDE_OUTSIDE_THE_SACRIFICE_ZONE and " +
                 "ON_THE_INNER_AND_OUTER_OBSERVATION (typed as TwoReadingsClaim) stand on an observer. A " +
                 "sender needs no counterpart. What survives of the split when outside is only the source? " +
-                "ONLY THEN the wording, and in this order: the load-bearing instances above (instance (1) " +
-                "is taken, 2026-08-08, with the Q3 answer; (2) through (5) remain), since a flourish can " +
+                "ONLY THEN the wording, and in this order: the load-bearing instances above (instances (1) " +
+                "and (5) are taken, 2026-08-08, with the Q3 and Q2 answers; (2) through (4) remain), since a flourish can " +
                 "wait and a premise cannot; then the F-registry titles; then the typed C# names, " +
                 "which are API and need Tom's call. Leave (a)-legitimate alone: 'watcher' as a graph role in " +
                 "the record laws is a different object and renaming it would be the error running backwards. " +
