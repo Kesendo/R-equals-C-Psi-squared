@@ -6294,7 +6294,17 @@ upper bound at large J and nothing more. The remaining "finitely many" is
 real: exceptional couplings exist, and at one of them a single extra mode
 joins the diagonal rungs as a spin singlet, leaving the band statement and
 the side lines untouched (THE_EXCEPTIONAL_COUPLINGS). The verb matters, and
-the proof document scopes it at every place it is used.
+the proof document scopes it at every place it is used. "Leaving the side
+lines untouched" is MEASURED, at N = 5, 6, 7 only. What is derived at every
+N, from the spin ladder rather than from a scan, is the weaker statement:
+within one p + q the block IS the su(2) weight, so mult(0) ≥ mult(m) makes
+every off-diagonal count at most the diagonal one at every coupling. The
+extra mode may therefore still step sideways for all that says; it cannot
+step sideways ALONE. Sharpening that to "a coupling visible only on a side
+line cannot exist" is a statement about EXCESSES and needs the two generic
+depths to agree, which holds at N ≥ 6 and imports the band statement for a
+general side line (open item 4 of THE_EXCEPTIONAL_COUPLINGS; gate checks
+E6(d) to E6(h) carry the inequality, not the generic depths).
 
 **What it decides, and what it does NOT.** Σ-oddness is SUFFICIENT for the
 off-diagonal floor through the spin ladder: where it holds, S⁺ carries the

@@ -85,6 +85,7 @@ if hits:
       "coupling (the m=0 signature, or honest novelty; read and decide):\n")
     for f, refs, words, cpk in hits:
         w(f"    {f}: {refs} refs in {words} words ({cpk:.1f}/1000w)\n")
-    w("  A claim-bearing doc opens with 'What the repo already holds' "
-      "(CLAUDE.md Stage-0 gate).\n\n")
+    w("  A claim-bearing doc RECORDS its sweep near the top: which stores it went "
+      "to and what each returned, 'nothing' included (CLAUDE.md Stage-0 gate). "
+      "The OpenArcs registry is one of the stores.\n\n")
 sys.exit(0)

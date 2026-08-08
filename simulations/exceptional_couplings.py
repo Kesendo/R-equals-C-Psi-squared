@@ -39,8 +39,14 @@ What it checks, block by block:
       the real roots of q(iJ), counted by Sturm sequences, are the exceptional couplings:
       3 of them at N = 5, 6 at N = 6, 11 at N = 7 (deep).  At N = 5 the smallest is the root
       of 2J^2 - 3, which is E3's J^2 = 3/2 reached by a completely different route.
-  E6  the shape of the failure.  The extra mode sits on the diagonal rungs l .. N-l with
-      l = 2 and on no side line, which is an eta multiplet that is a SPIN SINGLET.
+  E6  the shape of the failure, and the two ladders that give it that shape.  The extra mode
+      sits on the diagonal rungs l .. N-l with l = 2 and on no side line, which is an eta
+      multiplet that is a SPIN SINGLET.  Then the operator facts the singlet reading rests on,
+      exactly and in integers: S+- commutes with L on EVERY block, [S+, S-] = 2*S_z so the two
+      generate su(2), and a break-input (one next-nearest bond, which breaks Sigma h Sigma =
+      -h) that fails the first of those and leaves the dissipator half untouched.  Together
+      they give mult(m=0) >= mult(m=1) on the frozen space, which is what closes open item 4
+      of the note: a coupling visible only on a side line does not exist.
   E7  the one coupling the bridge needs.  Nullity of a pencil is constant off a finite set
       and minimal there, and the floor holds everywhere, so a single coupling with nullity
       <= floor(N/2) fixes the generic value.  An exact GF(p) rank at J = 1 supplies one at
@@ -63,6 +69,16 @@ What it checks, block by block:
       raises (3,3) alone, which is the multiplet of a rung-3 lowest weight at eta-spin 0.
       Deep adds the N = 7 counterpart, where that eta-spin is 1/2 and the multiplet is two
       blocks wide.  So the counts of E5 and E8 are rung-2 counts and not the count.
+      Then OUTSIDE the band, which no check of this file reached before 2026-08-08, every one
+      of them having looped over band(N): at none of the thirteen couplings of N = 5 and N = 6
+      does a block with p - q ODD or |p - q| > 2 gain a mode.  The N = 6 half of that measures
+      nothing on its own, since no off-band block there crosses the frozen value at ANY J; the
+      N = 5 half is the one the positive control certifies, and that control is built from
+      those blocks' OWN crossings rather than from the side lines.  And the trap beside it,
+      since the exact route DOES return positive roots on an off-band block: those are ordinary
+      level crossings, and what says so is exact and has no threshold.  A band block's frozen
+      space contains a COUPLING-INDEPENDENT part, ker C n ker A0, of dimension floor(N/2);
+      off the band that intersection is zero.
   E10 the two exact counts the other modes are too short for (slow).  The same Sturm route as
       E5, at the rung-3 singlets of the block (3,3) at N = 7 and at the rung-2 singlets at
       N = 8, which is where the exact route runs out.  Kept behind its own flag so that the
@@ -208,6 +224,63 @@ def splus_matrix(N, p, q):
     return M
 
 
+def ladder_plus(N, p, q):
+    """S+ : (p,q) -> (p+1,q-1), and the ZERO map where the target block does not exist."""
+    if p + 1 > N or q - 1 < 0:
+        return np.zeros((0, len(subsets(N, p)) * len(subsets(N, q))), dtype=np.int64)
+    return splus_matrix(N, p, q)
+
+
+def ladder_minus(N, p, q):
+    """S- : (p,q) -> (p-1,q+1), as the transpose of the S+ that lands in this block."""
+    if p - 1 < 0 or q + 1 > N:
+        return np.zeros((0, len(subsets(N, p)) * len(subsets(N, q))), dtype=np.int64)
+    return ladder_plus(N, p - 1, q + 1).T
+
+
+def general_parts(N, p, q, bonds, gammas):
+    """(D, A) with L_(p,q) = D + i*A, for an arbitrary bond list [(x,y,J)] and rate profile.
+
+    The gate's block_parts is the uniform case with the frozen root already subtracted; this is
+    the unshifted generator at an arbitrary profile, and it exists so that the ladder checks can
+    ask Lemma 2.1's stronger question (any gamma_l) and Lemma 2.3's break-input (a bond that
+    joins two sites of the SAME parity)."""
+    def hop(r):
+        # The JORDAN-WIGNER STRING is the whole reason this is not h_sector with a bond list.
+        # On an open chain with nearest-neighbour bonds the strings cancel and h_sector may omit
+        # them; across a bond that skips sites they do not, and omitting them makes EVERY added
+        # bond break the ladder by 2*J whatever its parity, so a break-input built on the naive
+        # hop tests "a bond was added" and not "Sigma h Sigma = -h failed".  With the string the
+        # measured verdicts are the ones PROOF_FROZEN_BAND_SO4 Lemma 2.3 predicts and the ones
+        # the `sideways_spin_ladder` arc recorded, the ring among them.
+        basis = subsets(N, r)
+        idx = {b: i for i, b in enumerate(basis)}
+        H = np.zeros((len(basis), len(basis)))
+        for A in basis:
+            for (u, v, J) in bonds:
+                for (x, y) in ((u, v), (v, u)):
+                    if x == y:
+                        # an ON-SITE term, (l, l, h): diagonal, and it breaks Sigma h Sigma = -h
+                        # because Sigma-oddness forces a zero diagonal.  It is one of the five
+                        # geometries the arc names, and the first version of this builder could
+                        # not express it: the hop condition below is never true for x == y, so a
+                        # self-bond was silently a no-op.
+                        if (A >> x) & 1:
+                            H[idx[A], idx[A]] += J
+                        break
+                    if (A >> x) & 1 and not (A >> y) & 1:
+                        lo, hi = min(x, y), max(x, y)
+                        between = bin(A & (((1 << hi) - 1) ^ ((1 << (lo + 1)) - 1))).count("1")
+                        H[idx[A ^ (1 << x) ^ (1 << y)], idx[A]] += J * (-1) ** between
+        return H
+
+    Hp, Hq = hop(p), hop(q)
+    A = -(np.kron(Hp, np.eye(len(subsets(N, q)))) - np.kron(np.eye(len(subsets(N, p))), Hq.T))
+    D = np.diag([-2.0 * sum(gammas[l] for l in bits(X ^ Y, N))
+                 for X in subsets(N, p) for Y in subsets(N, q)])
+    return D, A
+
+
 def band(N):
     return sorted({(p, q) for p in range(N + 1) for q in range(N + 1)
                    if abs(p - q) in (0, 2)} - {(0, 0), (N, N)})
@@ -340,7 +413,11 @@ def exceptional_polynomial(N, p, J):
 def e1_builders():
     print("E1  the builders, from below")
     worst = 0.0
-    for (N, p, q) in [(4, 2, 2), (4, 3, 1), (5, 2, 2), (5, 3, 3), (5, 2, 0)]:
+    # (5,2,3) and (5,1,2) are OFF the band, p - q odd.  They are here because E9(g) makes a
+    # statement about the roots those blocks carry, and a builder check that only ever saw band
+    # blocks cannot support it.
+    for (N, p, q) in [(4, 2, 2), (4, 3, 1), (5, 2, 2), (5, 3, 3), (5, 2, 0),
+                      (5, 2, 3), (5, 1, 2)]:
         C, A0 = block_parts(N, p, q)
         for J in (1, 2):
             mine = C - 4 * np.eye(C.shape[0], dtype=np.int64) + 1j * J * A0
@@ -502,15 +579,18 @@ def e5_polynomial():
             check("(d) N=5: the smallest exceptional coupling is the root of 2J^2 - 3, which "
                   "is E3's J^2 = 3/2 by a different route", match,
                   f"{fac[0] if fac else None}")
+        # (a) to (c) repeat per N; (d) to (g) are per-N SPECIALS and so must be distinct.  They
+        # were duplicated and out of order until 2026-08-08: N = 5 and N = 7 both printed a
+        # (d), and N = 6 printed (f) before (e).
         if N == 7:
-            check("(d) N=7: the smallest exceptional coupling is the value the note tabulates",
+            check("(g) N=7: the smallest exceptional coupling is the value the note tabulates",
                   abs(roots[0] - 0.952056678) < 1e-9, f"{roots[0]:.12f}")
         if N == 6:
-            check("(f) N=6: the smallest exceptional coupling is the value the note tabulates",
+            check("(e) N=6: the smallest exceptional coupling is the value the note tabulates",
                   abs(roots[0] - 0.749042443688) < 1e-11, f"{roots[0]:.12f}")
             degs = sorted(Poly(f, J).degree() for f, _ in factor_list(g.as_expr())[1]
                           if any(float(r) > 1e-9 for r in Poly(f, J).real_roots() if r.is_real))
-            check("(e) N=6: BOTH factors carrying a coupling have degree 12, so every one of "
+            check("(f) N=6: BOTH factors carrying a coupling have degree 12, so every one of "
                   "the six is algebraic of that degree and no small closed form appears",
                   degs == [12, 12], f"degrees {degs}")
 
@@ -535,8 +615,296 @@ def e6_shape():
     check("(b) so, a lowest weight at rung l spanning N - 2l + 1 blocks, it is an eta "
           "multiplet seeded at l = 2 with eta-spin N/2 - 2: the arithmetic of (a)",
           len(raised) == 6 - 2 * 2 + 1)
-    check("(c) and a SPIN SINGLET, since S+ commutes with L and no side line is raised",
+    check("(c) no side line is raised: every band block with p != q keeps the generic "
+          "floor(N/2). The SINGLET reading of this is (d) to (h) below, which compute the "
+          "premise this check used to carry in its own label and never verified",
           all(counts[(p, q)] == 3 for (p, q) in band(6) if p != q))
+
+    # (d) to (f): the premise, computed.  Until 2026-08-08 the label of (c) read "since S+
+    # commutes with L", and no commutator was computed anywhere in this file: S+ entered it
+    # only through singlet_basis.  The three checks below are what that sentence asserts, and
+    # (f) is the input built to make (d) fail, because a guard nobody can break is worth
+    # nothing.  They also supply what open item 4 of the note needs; see the note.
+    worst, npairs = 0, 0
+    for Nc in (4, 5, 6):
+        for p in range(Nc + 1):
+            for q in range(Nc + 1):
+                C, A0 = block_parts(Nc, p, q)
+                for (M, tp, tq) in ((ladder_plus(Nc, p, q), p + 1, q - 1),
+                                    (ladder_minus(Nc, p, q), p - 1, q + 1)):
+                    if M.shape[0] == 0:
+                        continue
+                    Ct, At = block_parts(Nc, tp, tq)
+                    worst = max(worst, int(np.max(np.abs(M @ C - Ct @ M))),
+                                int(np.max(np.abs(M @ A0 - At @ M))))
+                    npairs += 1
+    check("(d) N = 4, 5, 6, EVERY block and both ladders: S+-.L = L.S+- entry for entry. The "
+          "shift 4*gbar is a scalar, so C and A0 carry the whole question, and both are "
+          "integer, so this is an exact 0 and not a tolerance",
+          worst == 0, f"worst |entry| = {worst} over {npairs} block pairs")
+
+    worst2, nblk = 0, 0
+    for Nc in (4, 5, 6):
+        for p in range(Nc + 1):
+            for q in range(Nc + 1):
+                d = len(subsets(Nc, p)) * len(subsets(Nc, q))
+                lhs = np.zeros((d, d), dtype=np.int64)
+                if p + 1 <= Nc and q - 1 >= 0:
+                    lhs -= ladder_minus(Nc, p + 1, q - 1) @ ladder_plus(Nc, p, q)
+                if p - 1 >= 0 and q + 1 <= Nc:
+                    lhs += ladder_plus(Nc, p - 1, q + 1) @ ladder_minus(Nc, p, q)
+                worst2 = max(worst2, int(np.max(np.abs(lhs - (p - q) * np.eye(d, dtype=np.int64)))))
+                nblk += 1
+    # This is what makes "integer spin" mean anything.  "S+ shifts p - q by 2" alone does not
+    # exclude a module living at one weight and nothing else; the algebra does, since such a
+    # module would make [S+, S-] = 2*S_z read 0 = 2.  What FOLLOWS from it, that the weight
+    # multiplicities of a finite-dimensional su(2) module obey mult(0) >= mult(1), is
+    # representation theory and is deliberately NOT claimed in this label: it is measured
+    # separately in (h).  A label that carries its own consequence is the defect this block
+    # was written to repair.
+    # Count the trivial slots rather than deriving them from a formula: only the blocks where
+    # BOTH ladder products are absent are 0 == 0, and that is the corners, not every p = q.  A
+    # p = q block with both products PRESENT is the Cartan relation cancelling, which is the
+    # most substantive cell in the check.  The first version of this annotation said 18 by a
+    # formula that never looked at a block; it is 6.
+    trivial = sum(1 for Nc in (4, 5, 6) for p in range(Nc + 1) for q in range(Nc + 1)
+                  if not (p + 1 <= Nc and q - 1 >= 0) and not (p - 1 >= 0 and q + 1 <= Nc))
+    check("(e) N = 4, 5, 6, every block: [S+, S-] = (p - q)*I = 2*S_z, exactly, so the two "
+          "ladders generate su(2) and the weights are the block labels",
+          worst2 == 0, f"worst |entry| = {worst2} over {nblk} blocks, of which {trivial} are "
+          f"the corners where both ladder products are absent")
+
+    def ladder_break(Nb, bonds, gam):
+        """(dissipator half, turning half) of the S+- commutator, at an arbitrary profile."""
+        wd = wh = 0.0
+        for p in range(Nb + 1):
+            for q in range(Nb + 1):
+                D, A = general_parts(Nb, p, q, bonds, gam)
+                for (M, tp, tq) in ((ladder_plus(Nb, p, q), p + 1, q - 1),
+                                    (ladder_minus(Nb, p, q), p - 1, q + 1)):
+                    if M.shape[0] == 0:
+                        continue
+                    Dt, At = general_parts(Nb, tp, tq, bonds, gam)
+                    wd = max(wd, float(np.max(np.abs(M @ D - Dt @ M))))
+                    wh = max(wh, float(np.max(np.abs(M @ A - At @ M))))
+        return wd, wh
+
+    Nb, gam = 5, [0.25, 1.5, 0.75, 2.0, 0.5]
+    nn = [(l, l + 1, 0.5 + 0.25 * l) for l in range(Nb - 1)]
+    # The break-input is a PARITY test, not an "a bond was added" test, and the difference is
+    # the whole content of Lemma 2.3.  Both kinds of extra bond are run: same-parity ones must
+    # break Sigma h Sigma = -h and opposite-parity ones must NOT.  The ring is run at odd and
+    # even N for the same reason, and reproduces the verdicts the `sideways_spin_ladder` arc
+    # recorded on 2026-08-07 (breaks at odd N, holds at even).
+    # Keyed on the BONDS, never on the printed label: the first version selected the conjuncts
+    # with k.startswith("same") / ("opposite"), so renaming a print string emptied both lists
+    # and made two all(...) vacuously true.  A guard that a rename can silence is not a guard.
+    nn_break = ladder_break(Nb, nn, gam)
+    # sites are 0 .. Nb-1; same parity: (0,2), (1,3), (2,4), (0,4); opposite: (0,3), (1,4)
+    extras = [(0, 2, 0.9), (1, 3, 0.9), (2, 4, 0.9), (0, 4, 0.9), (0, 3, 0.9), (1, 4, 0.9)]
+    same, opp, broke = [], [], {"nearest neighbour": nn_break}
+    for (x, y, Jb) in extras:
+        v = ladder_break(Nb, nn + [(x, y, Jb)], gam)
+        broke[f"bond ({x},{y})"] = v
+        ((same if (x - y) % 2 == 0 else opp)).append(v[1])
+    onsite = ladder_break(Nb, nn + [(2, 2, 0.7)], gam)
+    broke["on-site (2,2)"] = onsite
+    rings = {}
+    for Nr in (4, 5, 6):
+        rings[Nr] = ladder_break(Nr, [(l, (l + 1) % Nr, 1.0) for l in range(Nr)], [1.0] * Nr)[1]
+    # The dissipator column is bond-INDEPENDENT by construction: general_parts builds D from
+    # the rate profile and the disagreement set alone, and S+- leaves that set fixed, which is
+    # Lemma 2.1 entry-wise.  So the two rows agreeing there is not a contrast between them, and
+    # the label must not draw one.  What the break-input tests is the TURNING half only.  The
+    # threshold is exact (> 0): a small next-nearest J would break the physics by a small
+    # number, and a fixed cutoff would then fail on a correct object.
+    # The arc `sideways_spin_ladder` (compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs,
+    # opened 2026-08-07) ran this break the day before, on five geometries: a next-nearest
+    # bond, an on-site potential, the ring at odd N (it holds at even N) and the star.  This
+    # is one of those five, kept here because this gate must be able to fail on its own.
+    check("(f) the break-input, so (d) is a guard that CAN fail, and it tests the PARITY rather "
+          "than the presence of a bond: on the open chain with nearest-neighbour bonds the "
+          "turning half commutes exactly; a SAME-parity bond breaks Sigma h Sigma = -h and must "
+          "break it; an OPPOSITE-parity one must not, and is exactly 0; an ON-SITE term breaks "
+          "it, Sigma-oddness forcing a zero diagonal; and the ring breaks at odd N and holds at "
+          "even (PROOF_FROZEN_BAND_SO4 Lemma 2.3, and four of the five verdicts the "
+          "sideways_spin_ladder arc recorded). The gamma profile is non-uniform throughout, but "
+          "that is the DISSIPATOR's business: its column is bond-independent by construction "
+          "and is printed, not contrasted",
+          nn_break[1] == 0.0 and all(v > 0 for v in same) and all(v == 0.0 for v in opp)
+          and onsite[1] > 0 and rings[5] > 0 and rings[4] == 0.0 and rings[6] == 0.0,
+          f"turning half: NN {nn_break[1]}, same-parity {same}, opposite-parity {opp}, on-site "
+          f"{onsite[1]}, rings {rings}; dissipator column (bond-free) "
+          f"{sorted({v[0] for v in broke.values()})}")
+
+    # (g) the OTHER ladder, which the note's item-4 argument needs and which had the same gap
+    # (h) closes on the spin side: the step from a diagonal block to the MIDDLE one is Phi, not
+    # S+, and for ker(L - lambda) to be an sl(2)_eta module BOTH Phi and its adjoint Psi must
+    # commute with L.  PROOF_FROZEN_BAND_SO4 proves [K, Phi] = 0 (Lemma 2.2) and [Kcount, Psi]
+    # = 0 (Theorem 4.1, the integer count, not L).  Neither is [L, Psi] = 0.
+    worst3, npair3 = 0, 0
+    for Nc in (4, 5, 6):
+        for p in range(Nc + 1):
+            for q in range(Nc + 1):
+                C, A0 = block_parts(Nc, p, q)
+                legs = []
+                if p + 1 <= Nc and q + 1 <= Nc:
+                    legs.append((phi_matrix(Nc, p, q), p + 1, q + 1))
+                if p - 1 >= 0 and q - 1 >= 0:
+                    legs.append((phi_matrix(Nc, p - 1, q - 1).T, p - 1, q - 1))
+                for (M, tp, tq) in legs:
+                    Ct, At = block_parts(Nc, tp, tq)
+                    worst3 = max(worst3, int(np.max(np.abs(M @ C - Ct @ M))),
+                                 int(np.max(np.abs(M @ A0 - At @ M))))
+                    npair3 += 1
+    check("(g) N = 4, 5, 6, every block: the eta ladder Phi AND its adjoint Psi commute with L "
+          "entry for entry, so ker(L - lambda) is an sl(2)_eta module too. Every eta multiplet "
+          "spans the rungs N/2 - j to N/2 + j and so contains the MIDDLE rung at every j, which "
+          "is the step from a diagonal block to (floor(N/2), floor(N/2))",
+          worst3 == 0, f"worst |entry| = {worst3} over {npair3} block pairs")
+
+    # (h) the consequence, MEASURED rather than carried in a label.  mult(0) >= mult(1) is
+    # representation theory once (d), (e) hold; what a gate can do is read it off the object.
+    # Both the generic couplings and the exceptional ones, since the exceptional ones are the
+    # whole point: at each, the diagonal block at a given p + q must carry at least as many
+    # frozen modes as the side line beside it.
+    viol, seen_pairs = [], 0
+    for Jx in [0.6, 1.3172583, 2.4] + roots:
+        for p in range(1, 6):
+            nul = {}
+            for b in ((p, p), (p + 1, p - 1), (p - 1, p + 1)):
+                C, A0 = block_parts(6, *b)
+                s = np.linalg.svd(C + 1j * Jx * A0, compute_uv=False)
+                nul[b] = int(np.sum(s < 1e-9 * max(s[0], 1.0)))
+            seen_pairs += 1
+            if nul[(p, p)] < max(nul[(p + 1, p - 1)], nul[(p - 1, p + 1)]):
+                viol.append((round(Jx, 9), p, nul))
+    # TWO controls, and the first is the one that matters, because two earlier versions of this
+    # comment asserted there was none.  There IS an object that breaks the inequality: add the
+    # bond (1,3) or (2,4) to the chain and at N = 6 the side lines carry 2 where the diagonal
+    # carries 1, at p = 1 and p = 5.  That is mult(m=1) > mult(m=0), on an object where the
+    # theorem has nothing to say because [L, S+-] is no longer 0.
+    #
+    # Say WHY carefully, because the first version of this comment said it wrong and said it in
+    # the same shape the file corrects elsewhere.  This control is built in the pricing
+    # block_parts uses, by OCCUPATION, and there an added bond breaks the ladder whatever its
+    # parity.  The check COMPUTES that for the two bonds it uses and requires it (the ladder
+    # residual is in the detail line).  Read off-gate on 2026-08-08 and recorded as an
+    # observation, not gated: (0,2), (1,3), (2,4), (0,4), (0,3), (1,4), (2,5) all give exactly
+    # 2.0 at N = 6, J = 1.  Parity does no work in this pricing, and that is exactly what
+    # general_parts exists to fix for E6(f).  So the honest statement is: any added bond makes
+    # this a non-su(2) object, and on two of them the inequality visibly fails.  Which two is
+    # not predicted here; they were found.
+    #
+    # Not every mutation does it.  The bond (0,2) collapses the sides to 0 and breaks nothing
+    # visible; the STAR breaks Sigma-oddness and satisfies the inequality anyway, priced either
+    # way: by occupation (no Jordan-Wigner string) N = 6 reads diag 12/11/12/11/12 against sides
+    # 5/0/1/0/5, and by order (the fermionic hop general_parts builds) diag 12/13/17/13/12
+    # against sides 7/7/7/7/7, the same split PROOF_FROZEN_BAND_SO4 section 2 names as 2/5/9
+    # against 4/7/11.  So a mutation that fails to break this proves nothing, and the specific
+    # one that does is the control.
+    #
+    # The second control is the PAIRING, which is what could be silently wrong: the whole
+    # content is that (p,p) and (p+1,p-1) sit at the same p + q and so are two weights of ONE
+    # module.  Pair the diagonal with the next DIAGONAL block instead, the eta ladder's step and
+    # a different p + q, and the same inequality must hold generically and fail at the
+    # exceptional couplings.
+    def wrong_pairing(Js):
+        """Violations of the same inequality across the ETA step, a DIFFERENT p + q."""
+        out = []
+        for Jx in Js:
+            for p in range(1, 5):
+                n = []
+                for tgt in ((p, p), (p + 1, p + 1)):
+                    C, A0 = block_parts(6, *tgt)
+                    s = np.linalg.svd(C + 1j * Jx * A0, compute_uv=False)
+                    n.append(int(np.sum(s < 1e-9 * max(s[0], 1.0))))
+                if n[0] < n[1]:
+                    out.append((round(Jx, 9), p, n[0], n[1]))
+        return out
+
+    wrong = wrong_pairing(roots)
+    wrong_generic = wrong_pairing([0.6, 1.3172583, 2.4])
+
+    def broken_object_violates(extra):
+        """Does THIS extra bond break mult(0) >= mult(1)?  For (1,3) and (2,4) at N = 6 it does.
+
+        NOT a parity statement, and an earlier version of this line said it was: (0,2) has the
+        same parity as (1,3) and produces no violation at all.  What is true is that any added
+        bond makes [L, S+-] nonzero in this pricing, so the su(2) theorem stops protecting the
+        inequality; whether it then breaks is a fact about the particular bond, and this
+        function is how the two that do were found rather than predicted.
+
+        Built in the SAME pricing as block_parts, by occupation, because that is the object
+        (h) checks.  The distinction is load-bearing here and not pedantry: priced by ORDER,
+        with the Jordan-Wigner string general_parts carries, the same bond does NOT produce a
+        violation, so a break-input taken from the other builder would have proved nothing."""
+        N6, bonds = 6, [(l, l + 1, 1.0) for l in range(5)] + [extra]
+
+        def hop(r):
+            basis = subsets(N6, r)
+            idx = {b: i for i, b in enumerate(basis)}
+            H = np.zeros((len(basis), len(basis)))
+            for A in basis:
+                for (u, v, Jb) in bonds:
+                    for (x, y) in ((u, v), (v, u)):
+                        if (A >> x) & 1 and not (A >> y) & 1:
+                            H[idx[A ^ (1 << x) ^ (1 << y)], idx[A]] += Jb
+            return H
+
+        def nullity(p, q):
+            Hp, Hq = hop(p), hop(q)
+            A = -(np.kron(Hp, np.eye(len(subsets(N6, q))))
+                  - np.kron(np.eye(len(subsets(N6, p))), Hq.T))
+            rate = np.array([[2 * bin(X ^ Y).count("1") for Y in subsets(N6, q)]
+                             for X in subsets(N6, p)]).reshape(-1)
+            s = np.linalg.svd(np.diag(-rate + 4.0) + 1j * A, compute_uv=False)
+            return int(np.sum(s < 1e-9 * max(s[0], 1.0)))
+
+        # The PREMISE of the control, computed and not asserted: on this mutated object the
+        # ladder no longer commutes with L, so ker(L - lambda) is not an su(2) module and the
+        # theorem is silent.  Without this the control would be a mutation with no stated
+        # reason to expect anything, and the label would be carrying its cause again.
+        ladder_resid = 0.0
+        for p in range(N6 + 1):
+            for q in range(N6 + 1):
+                A = -(np.kron(hop(p), np.eye(len(subsets(N6, q))))
+                      - np.kron(np.eye(len(subsets(N6, p))), hop(q).T))
+                for (M, tp, tq) in ((ladder_plus(N6, p, q), p + 1, q - 1),
+                                    (ladder_minus(N6, p, q), p - 1, q + 1)):
+                    if M.shape[0] == 0:
+                        continue
+                    At = -(np.kron(hop(tp), np.eye(len(subsets(N6, tq))))
+                           - np.kron(np.eye(len(subsets(N6, tp))), hop(tq).T))
+                    ladder_resid = max(ladder_resid, float(np.max(np.abs(M @ A - At @ M))))
+
+        out = []
+        for p in range(1, 6):
+            d, up, dn = nullity(p, p), nullity(p + 1, p - 1), nullity(p - 1, p + 1)
+            if d < max(up, dn):                 # report BOTH sides: the condition maxes them
+                out.append((p, d, up, dn))
+        return out, ladder_resid
+
+    broken = {e[:2]: broken_object_violates(e) for e in ((1, 3, 1.0), (2, 4, 1.0))}
+    check("(h) N=6, at three generic couplings and at the six RUNG-2 couplings (the rung-3 ones "
+          "of E9 are a different check's and are not in reach here): the diagonal "
+          "block (p,p) carries at least as many frozen modes as BOTH side lines at the same "
+          "p + q, which is mult(m=0) >= mult(m=1) read off the object, the inequality open "
+          "item 4 of the note rests on and the one (e) deliberately does not assert. TWO "
+          "controls, both required. The OBJECT control: add the bond (1,3) or (2,4). The "
+          "ladder commutator on that object is COMPUTED here and is nonzero, so ker(L - lambda) "
+          "is not an su(2) module and the theorem is silent; the inequality then does break, at "
+          "p = 1 and p = 5. It is not that any broken object must break it, and the comment "
+          "above names four added bonds that leave it standing: these two were FOUND, not "
+          "predicted. The PAIRING control: pair the diagonal with the next DIAGONAL block, a "
+          "different p + q, and the same inequality must hold generically and FAIL at the "
+          "exceptional couplings",
+          not viol and not wrong_generic and len(wrong) > 0
+          and all(len(v) > 0 and r > 0 for v, r in broken.values()),
+          f"{seen_pairs} weight triples, violations {viol}; object control "
+          f"{'; '.join(f'{k}: {v} at ladder residual {r:.3g}' for k, (v, r) in broken.items())}; "
+          f"wrong pairing: {len(wrong_generic)} violations generic (must be 0), {len(wrong)} "
+          f"exceptional (must be > 0), e.g. {wrong[:2]}")
 
 
 # ------------------------------------------------------------------- E7
@@ -582,6 +950,33 @@ def deflate(C, A0, K):
     clean = all(CT[i, j] == 0 and AT[i, j] == 0 and CT[j, i] == 0 and AT[j, i] == 0
                 for i in range(m) for j in range(d))
     return CT[m:, m:], AT[m:, m:], clean, T.det() != 0
+
+
+def crossings_of_module(N, p, q, loose=1e-6):
+    """The couplings at which the FROZEN value is an eigenvalue of this block, numerically.
+
+    On a band block this is empty by construction: the coupling-independent part of the frozen
+    space is ker C n ker A0, which the deflation removes.  Off the band it is the set of isolated
+    crossings, and E9(g) is what says those are not freezings.
+
+    It UNDER-counts, deliberately and by a named amount.  A multiple root leaves ordqz with an
+    imaginary ratio around 1e-5, above the candidacy cutoff, so the triple root at 2/sqrt3 on
+    (2,3) at N = 5 is dropped and this returns five where E8(g) proves six.  Nothing here rests
+    on the count: E9(e) needs the list to be NON-EMPTY, which is a verdict a cutoff cannot move.
+    The j > 0.05 filter is the z = 0 smear of the second trap in the note, not a tuning knob."""
+    C, A0 = block_parts(N, p, q)
+    Cg, Ag, _ = deflate_orthogonal(C.astype(float), A0.astype(float))
+    if Cg.shape[0] == 0:
+        return []
+    _, _, al, be, _, _ = sla.ordqz(Cg, -Ag, output="complex")
+    fin = np.abs(be) > 1e-10 * max(np.abs(be).max(), 1e-300)
+    z2 = (al[fin] / be[fin]) ** 2
+    ok = (np.abs(z2.imag) / np.maximum(np.abs(z2), 1e-300) < loose) & (z2.real < -1e-12)
+    out = []
+    for j in np.sort(np.sqrt(-z2.real[ok])):
+        if j > 0.05 and not (out and j - out[-1] <= 1e-7 * max(j, 1.0)):
+            out.append(float(j))
+    return out
 
 
 def full_block_roots(N, p, q, J):
@@ -657,6 +1052,56 @@ def e8_full_block():
         check("(f) N=6: the whole block (2,2) carries exactly six exceptional couplings, all "
               "simple, which is again the singlet count",
               r["count"] == 6 and r["simple"] and r["clean"], f"{[round(x, 6) for x in r['roots']]}")
+        # (g) the OFF-BAND count, exactly, because E9(g) makes a statement about these roots and
+        # a number carried in a label is not a measurement.  It also pins the gap between the
+        # exact route and the numeric one: the pencil detector of E9(e) finds FEWER, because the
+        # triple root at 2/sqrt3 leaves ordqz with an imaginary ratio around 1e-5 and the
+        # candidacy cutoff there is 1e-6.  That gap is why E9(e) needs only non-emptiness.
+        off = {b: full_block_roots(5, *b, J) for b in ((2, 3), (1, 2))}
+        found = crossings_of_module(5, 2, 3)
+        numeric = len(found)
+        # The root the numeric route drops is pinned EXACTLY, not to a tolerance: it is the
+        # factor 3J^2 - 4 of the block's own polynomial, and its multiplicity is read off the
+        # factorisation rather than asserted in prose.  A float comparison here would have been
+        # a gate on a residual, where the comparison installed below has residual exactly 0.0
+        # because both floats come from the same CRootOf.  (A float compare against the
+        # LITERAL 2/sqrt(3) would have been off by one ulp, 2.2e-16, and would have needed a
+        # threshold; the literal is not what is used.)
+        # Watch the two senses of "six": full_block_roots COUNTS distinct roots by Sturm and
+        # LISTS them with multiplicity, so `count` is 6 while `roots` has 8 entries.  The first
+        # version of this check asserted one dropped entry and got three, all equal, which is
+        # the better statement anyway: the number dropped IS the multiplicity of the factor.
+        fl = {Poly(f, J).as_expr(): m for f, m in factor_list(off[(2, 3)]["poly"].as_expr())[1]}
+        triple = fl.get(3 * J ** 2 - 4)
+        missing = [r for r in off[(2, 3)]["roots"] if all(abs(r - f) > 1e-6 for f in found)]
+        # TIE the dropped value to the factor rather than printing the identification beside it:
+        # both floats descend from the same exact algebraic number, 2*sqrt(3)/3, so they are
+        # bit-identical and == is the right comparison.  Without this the check would pass on
+        # any multiplicity-3 factor that happened to sit there.
+        # The first two terms of `tied` are CRASH GUARDS and not measurements: a quadratic
+        # literal always has one positive root, and `missing` is already pinned non-empty by
+        # len(missing) == triple below.  They are here so that max()/[0] cannot raise, because
+        # a check that raises aborts the run instead of printing a FAIL, which is worse than a
+        # check that cannot fail.  The measurement is the third term.
+        tri_root = [float(r) for r in Poly(3 * J ** 2 - 4, J).real_roots() if float(r) > 0]
+        tied = len(tri_root) == 1 and bool(missing) and max(missing) == tri_root[0] == min(missing)
+        check("(g) N=5, OFF the band: the whole blocks (2,3) and (1,2) carry six and four "
+              "DISTINCT positive roots, over all couplings at once. They are real and the "
+              "eigenvalue there is -4*gbar; E9(g) is what says they are crossings and not "
+              "freezings. The numeric pencil route finds fewer, and the difference is a "
+              "multiple root and not a disagreement: what it drops is the whole multiplicity-3 "
+              "factor 3J^2 - 4, the number of dropped entries IS that multiplicity, and the "
+              "value dropped IS that factor's positive root, compared exactly because both "
+              "floats descend from the same algebraic number. The one part NOT exact is the "
+              "numeric count itself, and it is pinned as an equality on purpose: if the pencil "
+              "ever resolves the triple root this must fail loudly and be read, not pass",
+              off[(2, 3)]["count"] == 6 and off[(1, 2)]["count"] == 4
+              and off[(2, 3)]["clean"] and off[(1, 2)]["clean"] and numeric == 5
+              and triple == 3 and len(missing) == triple and tied,
+              f"(2,3) exact {off[(2, 3)]['count']} distinct against numeric {numeric}; "
+              f"{len(missing)} dropped entries, all equal: {tied}, value "
+              f"{missing[0] if missing else 'NONE'}, factor multiplicity {triple}; (1,2) exact "
+              f"{off[(1, 2)]['count']}")
 
 
 # ------------------------------------------------------------------- E9
@@ -687,7 +1132,7 @@ def e9_higher_rungs():
         for (p, q) in band(6):
             C, A0 = block_parts(6, p, q)
             s = np.linalg.svd(C + 1j * J0 * A0, compute_uv=False)
-            counts[(p, q)] = int(np.sum(s < 1e-8 * max(s[0], 1.0)))
+            counts[(p, q)] = int(np.sum(s < 1e-9 * max(s[0], 1.0)))
         raised = sorted(k for k, v in counts.items() if v > 3)
         seen[round(J0, 9)] = raised
         shape_ok = shape_ok and raised == [(3, 3)] and counts[(3, 3)] == 4
@@ -700,11 +1145,122 @@ def e9_higher_rungs():
     for J0 in g2roots:
         C, A0 = block_parts(6, 3, 3)
         sv = np.linalg.svd(C + 1j * J0 * A0, compute_uv=False)
-        also33 = also33 and int(np.sum(sv < 1e-8 * sv[0])) > 3
+        also33 = also33 and int(np.sum(sv < 1e-9 * max(sv[0], 1.0))) > 3
     check("(d) the six rung-2 couplings raise the block (3,3) as well, so that block carries "
           "the six AND the four and the exceptional set at N = 6 has at least ten members: "
           "the count on (2,2) is the rung-2 count and not the count",
           also33 and n3 == 4 and shared == 0, f"six rung-2 roots raise (3,3): {also33}")
+
+    # (f) and (g): OUTSIDE the band.  Every side-line statement this file makes, here and in
+    # E6 and E8(e), loops over band(N), so until 2026-08-08 no block with |p - q| > 2 and no
+    # block with p - q ODD had been looked at, at any N.  That is exactly the case the m = 0
+    # argument of the note's open item 4 cannot reach: a half-integer weight lives there and
+    # its multiplet has no zero-weight member, so an exceptional coupling hiding there would be
+    # invisible to every diagonal block including the middle one.
+    def offband_scan(N, couplings, generic):
+        """Which off-band blocks gain a mode at these couplings, over the generic baseline."""
+        base, hits = {}, []
+        for p in range(N + 1):
+            for q in range(N + 1):
+                if abs(p - q) in (0, 2):
+                    continue
+                C, A0 = block_parts(N, p, q)
+                s = np.linalg.svd(C + 1j * generic * A0, compute_uv=False)
+                base[(p, q)] = int(np.sum(s < 1e-9 * max(s[0], 1.0)))
+        for J0 in couplings:
+            for b in base:
+                C, A0 = block_parts(N, *b)
+                s = np.linalg.svd(C + 1j * J0 * A0, compute_uv=False)
+                if int(np.sum(s < 1e-9 * max(s[0], 1.0))) > base[b]:
+                    hits.append((round(J0, 9), b))
+        return hits, base
+
+    # 1.3172583 is a control coupling and nothing more: it is not near any known root at N = 5
+    # or N = 6, band or OFF-band: the nearest is 1.372601, a crossing of (2,3), 0.0553 away. The
+    # off-band roots count here because this baseline is taken over off-band blocks; the first
+    # version of this comment quoted 0.0885, the distance to the nearest BAND root, before
+    # E8(g) made the off-band ones known. If a future N puts a root beside it, the baseline
+    # inflates silently, so any extension of this check re-picks it.
+    generic = 1.3172583
+    ten = sorted(roots3 + g2roots)
+    n5roots = sorted(float(r) for r in EXACT_POLY[(5, 2)].real_roots()
+                     if r.is_real and float(r) > 1e-9)
+    offband_crossings = crossings_of_module(5, 2, 3)
+    hits6, base6 = offband_scan(6, ten, generic)
+    hits5, base5 = offband_scan(5, n5roots, generic)
+    # The POSITIVE CONTROL, and it has to be built from the same detector on the same blocks,
+    # not from the side lines: those are band blocks and say nothing about whether the detector
+    # fires off-band.  At N = 5 the off-band blocks DO carry isolated crossings of the frozen
+    # value, at couplings of their own (see (g)); feeding those to the same scan must produce
+    # hits.  Without this the whole check passes on random couplings, which is what the first
+    # version at N = 6 did: no off-band block there crosses at ANY J, so there was nothing to
+    # see and ten random numbers scored the same as the ten exceptional ones.
+    ctrl_hits, _ = offband_scan(5, offband_crossings, generic)
+    check("(e) POSITIVE CONTROL for (f), on the SAME blocks with the SAME detector: at N = 5 "
+          "the off-band blocks do cross the frozen value, at couplings of their own, and the "
+          "scan finds them. Without this (f) passes on any list of numbers, which is what its "
+          "first version did at N = 6, where no off-band block crosses at ANY J",
+          len(ctrl_hits) > 0,
+          f"{len(ctrl_hits)} off-band hits at the {len(offband_crossings)} crossing couplings "
+          f"of (2,3), e.g. {ctrl_hits[:3]}")
+    check("(f) N=5 and N=6: at NONE of the thirteen exceptional couplings does a block with "
+          "p - q ODD or with |p - q| > 2 gain a mode, so the extra mode stays inside the band "
+          "and not merely inside the blocks that were scanned. The N=6 half measures nothing "
+          "on its own, since no off-band block there crosses at any J; the N=5 half is the one "
+          "(e) certifies",
+          not hits5 and not hits6,
+          f"N=5 {hits5} over {len(base5)} blocks at {len(n5roots)} couplings, N=6 {hits6} over "
+          f"{len(base6)} blocks at {len(ten)} couplings")
+
+    # (g) the trap, recorded because walking into it costs an afternoon and a false alarm.  Run
+    # the EXACT route of E8 on an OFF-BAND block and it returns positive roots: at N = 5 the
+    # block (2,3) yields six, (1,2) and (3,4) four each, against a complete count of three for
+    # the whole chain.  They are real, and the eigenvalue there really is -4*gbar.  They are
+    # also content-free, and the discriminator is exact and needs no threshold at all: on a
+    # band block the frozen space is ker C n ker A0, which does not depend on the coupling and
+    # is there at EVERY J, while off the band that intersection is ZERO and the roots are
+    # isolated crossings of a value that is nothing in particular for that block to pass
+    # through.  A CROSSING IS NOT A FREEZING.  Integer matrices, exact GF(p) rank, and the rank
+    # over GF(p) can only be smaller than over QQ, so a zero read here IS zero over QQ.
+    def common_kernel_dim(N, p, q):
+        """dim(ker C n ker A0), exactly over QQ.
+
+        Called on 143 blocks, the 6 corners (0,0) and (N,N) falling through both branches
+        below; about thirteen seconds in all.
+
+        The first version read this over GF(p), where rank_p <= rank_QQ and so nullity_p >=
+        nullity_QQ.  That direction is sound for the OFF-BAND half, where a measured 0 forces 0
+        over QQ, and unsound for the BAND half, where it would give only "at most floor(N/2)"
+        while the label asserts equality.  Rather than state the two halves differently, the
+        whole thing is exact."""
+        C, A0 = block_parts(N, p, q)
+        S = np.vstack([C, A0]).astype(int)
+        dm = DomainMatrix.from_Matrix(Matrix(S.tolist())).convert_to(QQ)
+        return S.shape[1] - len(dm.rref()[1])
+
+    inband, offb, skipped = {}, {}, []
+    for Nk in (5, 6, 7):
+        for p in range(Nk + 1):
+            for q in range(Nk + 1):
+                if len(subsets(Nk, p)) * len(subsets(Nk, q)) > 1300:
+                    skipped.append((Nk, p, q))       # never fires below N = 8; announced, not silent
+                    continue
+                if abs(p - q) in (0, 2) and (p, q) not in ((0, 0), (Nk, Nk)):
+                    inband[(Nk, p, q)] = common_kernel_dim(Nk, p, q)
+                elif abs(p - q) not in (0, 2):
+                    offb[(Nk, p, q)] = common_kernel_dim(Nk, p, q)
+    band_ok = all(v == k[0] // 2 for k, v in inband.items())
+    off_ok = all(v == 0 for v in offb.values())
+    check("(g) the trap, and its exact resolution: the exact route of E8 run on an OFF-BAND "
+          "block returns positive roots, real, and the eigenvalue there really is -4*gbar (the "
+          "count is E8(g) under --deep), yet they are ordinary level crossings and not "
+          "freezings. The discriminator carries no threshold and is exact over QQ: a band "
+          "block's frozen space contains a COUPLING-INDEPENDENT part, ker C n ker A0, of "
+          "dimension floor(N/2), and off the band that intersection is ZERO",
+          band_ok and off_ok and not skipped,
+          f"N=5,6,7: {len(inband)} band blocks all at floor(N/2), {len(offb)} off-band blocks "
+          f"all at 0; worst off-band {max(offb.values())}; blocks skipped by the size cap "
+          f"{skipped}")
     if DEEP:
         # at N = 7 a rung-3 lowest weight has eta-spin N/2 - 3 = 1/2, so its multiplet is TWO
         # blocks, 3 .. N-3.  This coupling is the smallest the (3,3) enumeration offers and is
@@ -719,7 +1275,7 @@ def e9_higher_rungs():
                 return sv[3] / sv[-1]
 
             width[(p, q)] = sm(J0) / max(min(sm(J0 * 0.999), sm(J0 * 1.001)), 1e-300)
-        check("(e) N=7: the smallest coupling of the block (3,3) collapses the fourth "
+        check("(h) N=7: the smallest coupling of the block (3,3) collapses the fourth "
               "singular value on (3,3) and (4,4) and on neither (2,2) nor (5,5), the two-block "
               "multiplet of a rung-3 lowest weight at eta-spin 1/2 (a numeric read)",
               width[(3, 3)] < 1e-3 and width[(4, 4)] < 1e-3

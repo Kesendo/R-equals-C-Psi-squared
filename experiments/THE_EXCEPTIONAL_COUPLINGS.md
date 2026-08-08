@@ -38,6 +38,49 @@ small-J criterion; those are recorded here as observations.
 argued and its Section 8 listed it first among the open items; it now carries it as
 Proposition 5.3, and what that proposition leaves finite is this note.
 
+## What the repo already holds
+
+Store by store, because a sweep that is not written down is a sweep that gets skipped, and this
+note is where the convention requiring it was rewritten on 2026-08-08. The OpenArcs registry
+joined the named stores that day, as the sixth, precisely because this document missed it; that
+convention lives in `CLAUDE.md`, which is machine-local and untracked, so the only tracked trace
+of it is the pre-commit hook `.githooks/check_coupling.py` and this section.
+
+- **`docs/ANALYTICAL_FORMULAS.md`**: F142 owns the band as ⌊N/2⌋ copies of the Spin(4) irrep
+  (N/2 − 1, 1), and F144 the floor its ceiling needs. F145 and F146 own what SATURATES that
+  floor. None of them owns the exceptional set; that absence is why this note exists and why it
+  deliberately has no F number.
+- **`docs/proofs/`**: [PROOF_FROZEN_BAND_SO4](../docs/proofs/PROOF_FROZEN_BAND_SO4.md) is the
+  parent and defines every object used here; its Proposition 5.3 is what leaves the finite set
+  this note measures, and its Section 8 carries what stays open.
+  [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md) already decomposes
+  a generalized λ-eigenspace as an sl(2) module by Schur, which is the skeleton open item 4
+  reuses across the lines instead of along them.
+  [PROOF_R90_FROZEN_DIVISOR](../docs/proofs/PROOF_R90_FROZEN_DIVISOR.md) §7 excludes the corner
+  by a theorem, and its §9 spends the word "exceptional" on a different object.
+- **`experiments/`, null results included**: [XY_FROZEN_BAND](XY_FROZEN_BAND.md) establishes the
+  band statement |p − q| ∈ {0, 2} by census, not by a proof of the null, and at its line 78
+  already reads per-rung frozen dimensions as weight multiplicities, symmetric and unimodal.
+  [WHAT_REACHES_THE_CEILING](WHAT_REACHES_THE_CEILING.md) records a spin-singlet reading that
+  DIED, with numbers, and warns that a spin statement on a diagonal rung is usually a
+  restatement; open item 4 was checked against it and is a different statement.
+  [DEGENERACY_HUNT](DEGENERACY_HUNT.md) records that the chain's OWN total spin is not a
+  symmetry of the Liouvillian, which is the word this note must keep apart from its own.
+- **The OpenArcs registry**, `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`: the arc
+  `sideways_spin_ladder`, opened 2026-08-07, holds both ladders' intertwining measured over 220
+  rungs at N = 5, 6, 7 with non-uniform J and γ, and the break-input on five geometries, among
+  them a next-nearest bond, an on-site potential, the ring and the star. It also records
+  S⁻ = (S⁺)† intertwining as measured once and NOT committed, which is why open item 4 rebuilds
+  it here rather than citing it as evidence. Open item 4 rebuilt two of those from scratch
+  before finding this entry at all.
+- **`docs/CAUGHT_ERRORS.md`**: it answers, and the sweep's first draft said it did not. Its
+  entry 6, "the typed C# layer had a witness that could not fail", is the shape this very change
+  hit twice: a check that compared zeroes to each other, and two labels asserting premises their
+  code never computed. Both are recorded in the third trap and in the gate's own comments.
+- **`fw.Confirmations`, `docs/GLOSSARY.md`**: nothing. No hardware confirmation touches this
+  object, and the glossary spends "band" a third way that is unrelated, a pre-registration
+  constant.
+
 This note is the companion measuring, not a standalone document: the band, the frozen root,
 the two ladders Φ and S⁺ with their lowest-weight spaces, V₀ = ker(ad_h) and the transform
 length M = N + 1 are all defined in
@@ -474,23 +517,112 @@ carries ⌊N/2⌋ at every coupling tested, and the extra mode appears first at 
    whether every rung ℓ ≤ ⌊N/2⌋ carries some or whether the contribution stops.
 3. **Semisimple or defective** at the exceptional point, and whether the answer differs from
    §9's, where the corner's exceptional points are defective.
-4. **The off-diagonal side lines.** At N = 5 they carry no exceptional coupling at ANY J,
-   exactly. At N = 7 the same is now read numerically over the whole band. At N = 8 they were
-   not read at all, which is why the complete count there rests on three diagonal blocks where
-   the N = 5 one rests on the whole band. If the extra mode is always a singlet the absence is
-   forced, but the forcing has not been written down. There is a proposed argument that would
-   close the N = 8 gap without measuring anything, and it is recorded here as proposed and not
-   as established: S± commutes with L and shifts p − q by 2, so every frozen multiplet carries
-   INTEGER spin and therefore has a nonzero zero-weight component on a diagonal block, at a
-   rung the middle block sees. If that holds, no exceptional coupling of the band can be
-   invisible to (4,4), and completeness never needed the side lines to be empty, only that they
-   add nothing new. Worth checking before it is used; the same shape of gift has been wrong in
-   this arc before.
+4. **The off-diagonal side lines: closed, and the closing argument is not the one that was
+   proposed.** At N = 5 they carry no exceptional coupling at ANY J, exactly. At N = 7 the same
+   is read numerically over the whole band. At N = 8 they were not read at all, which is why the
+   complete count there rests on three diagonal blocks where the N = 5 one rests on the whole
+   band. That gap is now closed by an argument rather than by measuring, and the argument is
+   two lines:
+
+   > **The side lines cannot hide a coupling.** Throughout, *spin* is the second SU(2) of the
+   > Hubbard disguise, [the one this note pinned earlier](#the-finding), never the chain's own
+   > total spin, which is not a symmetry of L at all
+   > ([DEGENERACY_HUNT](DEGENERACY_HUNT.md)); and *band* is F142's |p − q| ∈ {0, 2}, never
+   > F125's |p − q̃| = 1.
+   >
+   > S⁺ and S⁻ commute with L, and with S_z they generate su(2), so ker(L − λ) is an su(2)
+   > module and the weight multiplicities of a finite-dimensional one obey
+   > **mult(m = 0) ≥ mult(m)** for every integer m. S⁺ preserves p + q, so within one p + q
+   > sector the block IS the weight: (p, p) is m = 0 and (p+d, p−d) is m = d. The diagonal
+   > block therefore carries at least as many frozen modes as any block beside it, **at every
+   > coupling**.
+   >
+   > That alone is not enough, and it is the step the first draft of this item skipped: the
+   > inequality compares ABSOLUTE dimensions, where exceptional is an EXCESS over the generic
+   > value. What closes it is that the two generic values are equal, and the inequality supplies
+   > one half of that itself. Generically the diagonal block carries exactly ⌊N/2⌋, which is
+   > Corollary 7.3 with Proposition 5.3 and holds at every N ≥ 6 and all but finitely many
+   > couplings; the inequality then caps the side line at ⌊N/2⌋ as well; and Proposition 3.2's
+   > floor puts it back at ⌊N/2⌋ from below. So a side line above ⌊N/2⌋ forces the diagonal
+   > block above ⌊N/2⌋ too, and **a coupling visible only on a side line does not exist**, at
+   > every N ≥ 6 and not one N at a time.
+   >
+   > The price is one named import and it is the arc's usual one: that floor from below is
+   > Proposition 3.2's, which is derived for the corner side lines (2,0) and (0,2) by Lemma 2.5
+   > and for a general side line only by importing the band statement |p − q| ∈ {0, 2}, which
+   > [XY_FROZEN_BAND](XY_FROZEN_BAND.md) establishes by census. Gate check E7 reads the same
+   > generic value directly, on every band block including the side lines, but per N and only as
+   > far as N = 6 by default and N = 7 under `--deep`, so it anchors the chain where it reaches
+   > and is not what carries it to N = 8.
+   >
+   > From that diagonal block the OTHER ladder carries it. Φ and Ψ also commute with L, so
+   > ker(L − λ) is an sl(2)_η module as well, and an η multiplet of η-spin j spans the rungs
+   > N/2 − j through N/2 + j. That range contains ⌊N/2⌋ for **every** j, so every multiplet
+   > whatever is visible in the middle block, with no bookkeeping over which rung seeded it. So
+   > no exceptional coupling **of the band** is invisible to the middle block, and completeness
+   > never needed the side lines to be empty, only that they add nothing new.
+
+   Four things that argument needs, none of which was in the sentence this item used to carry
+   (*"S± commutes with L and shifts p − q by 2, so every frozen multiplet carries INTEGER spin"*).
+   Three of them are checks of this gate: the fence is E6(d) with E6(f) as its break-input, the
+   algebra is E6(e), and the step to the middle block is E6(g), with E6(h) reading the
+   consequence off the object. The fourth, the equal generic value, is not a check of this gate
+   at all, and its entry says where it lives instead:
+
+   - **The fence.** [L, S±] = 0 is not flat. It holds for the dissipator at any rate profile
+     (Lemma 2.1) and for the turning **iff Σ h Σ = −h** (Lemma 2.3), which the open chain with
+     nearest-neighbour bonds satisfies and a star, an on-site potential or one next-nearest bond
+     does not. E6(f) is that break-input, and it is one of five the `sideways_spin_ladder` arc
+     had already run (`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`, opened
+     2026-08-07): a next-nearest bond, an on-site potential, the ring at odd N and the star.
+     That arc also measured S⁻ = (S⁺)† intertwining before this note did.
+   - **[S⁺, S⁻] = 2S_z.** "Shifts p − q by 2" does not by itself exclude a module living at one
+     weight and nothing else; only the algebra does, since such a module would make the relation
+     read 0 = 2. Without this step the words "integer spin" name nothing. E6(e), exact. This is
+     the one genuinely new operator fact here: the SKELETON is older, and belongs to the η
+     ladder, where [XY_FROZEN_BAND](XY_FROZEN_BAND.md) already reads per-rung frozen dimensions
+     as weight multiplicities "symmetric about the middle and unimodal", and
+     [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md) already
+     decomposes the generalized λ-eigenspace as an sl(2) module by Schur. What is new is running
+     it ACROSS the lines rather than along them.
+   - **The equal generic value**, above. Without it the inequality is about absolute dimensions
+     and the conclusion is about excesses, and the two do not meet. This one is NOT a check of
+     this gate: it is Corollary 7.3 with Proposition 5.3 from above and Proposition 3.2 from
+     below, both in
+     [PROOF_FROZEN_BAND_SO4](../docs/proofs/PROOF_FROZEN_BAND_SO4.md), and E7 anchors it here
+     only as far as it runs.
+   - **The step to the MIDDLE block is the other ladder.** S⁺ preserves p + q, so it reaches
+     some diagonal block and not the middle one. What crosses the diagonal is Φ, and for that
+     ker(L − λ) must be an η module too, which needs [L, Ψ] = 0 and not only [L, Φ] = 0. The
+     proof gives [K, Φ] = 0 (Lemma 2.2) and [𝒦, Ψ] = 0 for the integer COUNT (Theorem 4.1),
+     neither of which is [L, Ψ] = 0; E6(g) computes both, exactly.
+
+   **Defectiveness does not enter.** S± and Φ commute with (L − λ)^k as well, so every
+   generalized eigenspace is the same module and the inequality holds there too. Open item 3
+   above is not a dependency of this one.
+
+   What stays outside the argument is one parity. The inequality gives mult(0) ≥ mult(m) for
+   every INTEGER m, so it covers every block with p − q even, |p − q| ≥ 4 included, and the
+   fence is **p − q even** rather than the band. Blocks with p − q ODD carry half-integer weight,
+   their multiplets never meet m = 0, and the su(2) argument says exactly nothing there. What
+   speaks for them instead is structural and exact: −4γ̄ is a diagonal entry of C only where the
+   disagreement is even, so an odd block has no coupling-independent frozen space at all, and
+   what its determinant offers is isolated crossings. That is the third trap below, and it is a
+   definition plus an exact rank, not a scan. Measured on top of it, since **no statement of this
+   arc had ever looked outside the band**, every loop here and in E6 and E8(e) running over
+   `band(N)`: at N = 5 and N = 6, at all thirteen exactly known couplings, nothing outside the
+   band gains a mode (E9(f)). The two halves of that are not worth the same. The N = 6 half
+   measures nothing on its own, since no off-band block there crosses the frozen value at any J
+   whatever, so ten arbitrary numbers would score as well as the ten couplings; the N = 5 half
+   is the one with content, and E9(e) is its control, built from those blocks' OWN crossings
+   rather than from the side lines, so the scan is shown to fire where something is there. At
+   N = 7 and N = 8 the odd blocks are unread and rest on the structural argument alone. Read
+   the third trap below before extending that to a larger N by the exact route.
 5. **What it means.** A coupling at which the chain freezes one more mode than it generically
    can is a resonance between the turning and the watching, and the note has not asked what
    the resonance is between.
 
-## How it was found, and the two traps on the way
+## How it was found, and the three traps on the way
 
 The first pass scanned the coupling on a grid and tracked the (⌊N/2⌋+1)-th singular value. It
 found one dip, and only because a grid point happened to land within 1.7·10⁻⁴ of a root. **A
@@ -506,6 +638,36 @@ nothing. That was
 correct and it was not a failure of precision: the number is algebraic of degree 12. The
 lesson is that "no closed form appears" is a finding when the exact minimal polynomial is in
 hand, and an absence of evidence when only digits are.
+
+The third trap was found on 2026-08-08, while closing open item 4 above, and it is the one a
+session widening this note past the band will meet first. Run the exact whole-block route of E8
+on a block OUTSIDE the band and it returns positive roots: at N = 5 the block (2,3) yields six,
+and (1,2), (2,1), (3,4), (4,3) yield four each, against a complete count of three for the whole
+chain. They are not artefacts. The roots are real, and at each of them the eigenvalue of that
+block really is −4γ̄, verified against the same block cut out of the dense 4^N Liouvillian at a
+difference of exactly 0.0, on those very blocks (E1(a) carries two of them, (2,3) and (1,2), and
+carried only band blocks until this was written). **They are also content-free**, and the reason
+is exact and carries no threshold anywhere. A band block's frozen space contains a
+coupling-independent PART, ker C ∩ ker A₀, of dimension ⌊N/2⌋: that part is there at every J,
+which is what the whole arc means by frozen, and at an exceptional coupling the frozen space is
+larger than it. Off the band that intersection is **zero**, at N = 5, 6 and 7, over 98 blocks, by
+an exact rank over ℚ. A GF(p) rank would have done for this half, since rank over GF(p) can only
+be smaller and so a zero read there is a zero; it would NOT have done for the band half, where
+the same one-sidedness gives only "at most ⌊N/2⌋" against a claim of equality, so both halves are
+read the same exact way rather than two different ones. What an odd block offers is
+therefore isolated crossings of a value it has no structural relation to: −4γ̄ is a diagonal entry
+of C only where the disagreement is even, and on a block with p − q odd the diagonal entries are
+−2γ·{1, 3, 5}. **A crossing is not a freezing.** The check is E9(g).
+
+Two ways this trap was nearly written down wrong, both caught in review, and neither route is in
+the gate any more, so the numbers below are session observations and nothing here rests on them.
+The first draft of the control asked instead how many couplings put an ARBITRARY target value μ
+into the block's spectrum, on the theory that the frozen value would score like any other. It
+does not quite: the odd block dips at −4γ̄ as well, just far more shallowly than the diagonal one
+does. A verdict resting on the depth of that dip flips under a differently chosen set of μ, and
+the sentence it supported, "not a minimum at all", was simply false. The second: the same check
+was first written at N = 6, where the numeric detector returns zero on (2,3) for every target
+value, so it compared zeroes to each other and passed green having measured nothing.
 
 The gate builds every object from scratch, and its first block checks the block generator
 against the same block cut out of the dense 4^N Liouvillian, entry for entry, so that the

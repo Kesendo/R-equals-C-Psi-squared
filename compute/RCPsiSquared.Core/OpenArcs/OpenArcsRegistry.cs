@@ -5162,7 +5162,18 @@ public static class OpenArcsRegistry
                 "WeightCoherenceBlock.Build hard-codes uniform gamma = 1 and ONE scalar coupling on " +
                 "nearest-neighbour bonds, while the measurement and the theorem's scope both need " +
                 "site-dependent gamma_j and an arbitrary bond profile, so the builder needs extending before " +
-                "the rectangular ladder and the residual go on top.",
+                "the rectangular ladder and the residual go on top. " +
+                "2026-08-08, and it is this arc's own lesson recurring: open item 4 of " +
+                "experiments/THE_EXCEPTIONAL_COUPLINGS.md was closed using S+ and S- as an su(2) pair, and " +
+                "it rebuilt the [L, S+-] = 0 measurement and one of the five break-inputs from scratch " +
+                "without finding this entry, which had both a day earlier. The note now cites the arc. What " +
+                "the note adds that is NOT here: [S+, S-] = 2*S_z, hence mult(m=0) >= mult(m) on the frozen " +
+                "space, hence every off-diagonal count is at most the diagonal one at the same p+q, at every " +
+                "coupling. That is a statement about ABSOLUTE counts. Sharpening it to 'a side line can carry " +
+                "no exceptional coupling the diagonal block misses' is a statement about EXCESSES and needs " +
+                "the two generic depths to agree, which holds at N >= 6 and imports the band statement for a " +
+                "general side line. Gate checks E6(d) to E6(h) of simulations/exceptional_couplings.py carry " +
+                "the inequality and not the generic depths.",
             Status: OpenArcStatus.Open),
     };
 
