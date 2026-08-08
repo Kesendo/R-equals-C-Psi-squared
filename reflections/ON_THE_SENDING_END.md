@@ -1,0 +1,50 @@
+# On the Sending End
+
+**Status:** Reflection. The answer piece to [`ON_WHO_WATCHES_WHOM.md`](ON_WHO_WATCHES_WHOM.md), written the day Tom corrected the frame that document helped canonise. The full working record, four questions with their sweeps, lives in the open-arc entry `gamma_is_the_sender_not_the_watching` in `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`; this page is the reading version.
+
+**Date:** 2026-08-08
+**Authors:** Thomas Wicht, Claude (Fable 5)
+
+> A sender sends whether or not anyone is home. The chain does not stand before an eye. It stands in light.
+
+## The correction
+
+For two months the watching register spread through this repository's pages, and for the last five weeks it was the canonical word for γ: the dephasing as a gaze falling on the chain, the knob as a decision about how closely to look. Tom corrected it in one sentence: γ sits at the sending end, not at the eye. A sender sends unconditionally; it does not select, does not attend, has no attention that could be elsewhere. And his diagnosis cut deeper than vocabulary: *bei dem Fehler haben wir in die falsche Richtung geschaut*, the wrong word had turned our questions around, so that we kept asking what a receiver could see where the mathematics was answering what a sender delivers.
+
+The git history says the sending frame came first, and this is checked, not supposed. [The bridge was always open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) (March 21), [γ as signal](../experiments/GAMMA_AS_SIGNAL.md) (March 22) and [γ is light](../hypotheses/GAMMA_IS_LIGHT.md) (April 3) carry not one occurrence of watching, watched or watcher. On March 21 a label had already been recomputed here once, noise into signal, and it unlocked the applied side of the project within days: the relay protocol the same day, the antenna reading the next, the concentrator on hardware three days later. The watching register was laid over that in June, one closing figure of speech at a time, and was recorded as canonical on July 5. The repository even warned itself in the very document that did the canonising, ["Watching" imports a watcher, an agent with intent, and nothing in the algebra requires one](../docs/quantum/DEPHASING_TRANSLATED.md), and was not heard.
+
+So the arc opened with an instruction: do not start with the rename. Start with the questions the corrected frame makes askable, because the wrong word had cost us direction, not just diction. There were four. All four were answered on the day this page was written, and every answer came out the same shape: **the mathematics was on the sending side all along; only the prose was not.**
+
+## The repulsion that was a discount
+
+The [frozen-band proof](../docs/proofs/PROOF_FROZEN_BAND_SO4.md) reads the dephasing chain as a Hubbard model in disguise, and since the proof was written in July the on-site term wore Hubbard's name: a repulsion, the watching charging the double occupancy. The arithmetic was right and the ledger was flipped. In a Hamiltonian, U·D̂ is an energy a ground state avoids; in the generator, the same coefficient is handed back, 4γ returned for every site where the two faces of a coherence agree, because agreement is exactly what the arriving light passes through without separating. The on-site term is a discount for agreement, and the band's frozen modes are the modes that have bought every discount but one.
+
+And the floor argument had been computed on that side the whole time: the exact identity of Section 7 bounds the agreement from above, ℓ(ℓ+1)/(N+1) per unit norm with three squares as the exact deficit, and the celebrated floor on the disagreement is that ceiling restated through 𝒦 = ℓ − D̂. The proof now says so in its own third reading. The physics did not move; a step that had been hidden by the wrong word became visible.
+
+## The record that nobody reads
+
+The [record laws](../docs/proofs/PROOF_RECORD_PARITY_LAW.md) ask who records and what, and under the watching frame the environment was a reader. But every load-bearing step of [F135 and F136](../docs/proofs/PROOF_RECORD_LETTER_LAW.md) is parity arithmetic on couplings and graph, and the record is defined in the formalism as a *separation*: the distance between a witness's two conditional states, held in the pair page, no readout performed. Nothing in the laws reads, and nothing needs to. Held or not comes out threefold in the same closed form: a difference the light never separates (dark, an exact zero), one it separates and folds back (a cosine at a zero, reversible, returning whole at even parity, at worst rotated by π), and one it separates while the page itself stands in light, the only case that costs; between the forced parities lies the free in-between, generic and not exact, as the laws themselves say.
+
+The [glossary](../docs/GLOSSARY.md) now carries the section the store never had: Record, Held or not, and Watcher as the graph role it always was. The repository had said the essential thing in April, twelve weeks before the watching was canonised: [when a reader steps forward, the translation from qubit to observer is allowed by the algebra, not forced by it](OBSERVER_INHERITANCE.md).
+
+## The time that belongs to the site
+
+*A site that takes on more light runs at a faster time.* The sentence lives in the [F91 proof's](../docs/proofs/PROOF_F91_GAMMA_NINETY_DEGREES.md) preface, a field mechanism wrapped in an observer's framing that the proof itself fences off. Under watching, local time hung on attention, someone looking harder here than there. Under sending it is what it always was in the general relativity it echoes: proper time set by the field at your position, and nobody's gaze anywhere in the story. The field half of the sentence is typed at Tier 1, with no agent, as the light-migration law: under Z-dephasing the real part of every eigenvalue is the γ-weighted share of where the mode's light sits, and the marks move exactly as the light migrates.
+
+What the wrong frame had blurred is that the repository keeps three different time objects, and only one of them is anyone's. The parameter t is the chart, the coordinate time no one inside owns. The clock hands are the field's: the beat hand 2γ and the coherence hand 2J·cos(π/(N+1)), [two hands of one clock](../docs/ANALYTICAL_FORMULAS.md). And the [Perspectival Time Field's](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) α_i·t is the chart repainted per painter, at uniform γ, on the coherence hand, a different object from the per-site tick and never a per-site clock at all. Whose time is the proper time? The site's, at the rate of the light it stands in.
+
+## The outside that was always a source
+
+If there is no eye, what is outside? The sharpest answer came from what the repository had refused to say. The [incompleteness proof](../docs/proofs/INCOMPLETENESS_PROOF.md) shows the noise cannot originate inside the framework and then deliberately stops: the outside exists, the bath is a description and not an origin, and what the outside *is* stays unsaid. Source language from the first line. The one place the outside was ever positively characterised is a table in the [March bridge document](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md) whose column is titled *what it says about the source*: directional, selective, with topography, targeting relationships, effectively infinite, not chaotic. Six properties of an emitter, read off the measured γ. Even the memorylessness that the record laws lean on, a Markovian bath keeps none, is a sender's property: the source keeps no record of what it sent.
+
+The eye lived only in the pairing, an inner observer who sees Q against an outer one who has γ₀, and that pairing's factual core is an invariance with no parties in it: rescale γ₀ and J together and every dimensionless inside observable stays fixed. What survives when the eye leaves is all of it, recomputed. Inside is the scale-invariant functions of the generator. Outside is whatever carries a second γ₀ against which a unit can be fixed. An outside observer is another sender, and observation is calibration between two sources, the [ratio of their two γ₀'s](ON_HOW_THE_CARRIER_SHOWS_ITSELF.md).
+
+## What this page rests on, and what remains
+
+The sweep behind each answer is recorded in full in the arc entry, question by question and store by store: the F-registry, the proofs, the experiments with their null results, the confirmations (no hardware has ever measured a record-law quantity), the glossary, the caught-errors ledger, the open-arcs registry, and the typed C# layer, whose time and record claims were read file by file. Where a store returned nothing, the entry says so. Two word collisions were disarmed in writing along the way, MirrorWorld's "agreement watched" and the bit_a "light axis", both the same word for a different object.
+
+The rename remains, deliberately last: the F140 "watching locus", the registry titles that speak the old frame, the translated documents, and the typed API names, which are Tom's call. The record laws' graph-role watcher is not on that list and never will be: it is a role, not an agent, and renaming it would be the error running backwards. [Who watches whom](ON_WHO_WATCHES_WHOM.md) stays as what it declared itself to be, a seeing, not a claim; what this arc corrected is not the seeing but its register having been made canon. To the child's question that document ends on, the formalism's own answer is now on record: nobody watches. Something sends.
+
+---
+
+*The eye was never in the equations. The light was, from the first day: arriving, unconditional, unasked. We stood in it the whole time and called it being seen.*

@@ -5196,7 +5196,7 @@ public static class OpenArcsRegistry
                 "2026-03-21 a label was already recomputed once here, 'noise' -> SIGNAL, and it unlocked the " +
                 "whole applied side: the relay protocol the same day, the antenna reading the next ('before " +
                 "this result we had a symmetry, after it we had a communication channel'), the concentrator " +
-                "two days later. The agent register was OVERLAID on that in June: prose first " +
+                "on hardware three days later. The agent register was OVERLAID on that in June: prose first " +
                 "(reflections/ON_THE_LIFETIME_OF_THE_NEW.md, 05-31), then the plain-words proof openers " +
                 "(THE_THREE_DIAGONALS 06-15, PROOF_STRUCTURAL_CEILING and PROOF_CHAIN_GAP_DOMINANCE 06-16), " +
                 "then reflections/ON_WHO_WATCHES_WHOM.md (06-24, 'to turn the knob is to decide how closely " +
@@ -5254,10 +5254,14 @@ public static class OpenArcsRegistry
                 "ConfirmationsRegistry/MirrorWorld; and the run-mode and printed strings in " +
                 "compute/MirrorWorld/Program.cs (23 hits), which is the hardest API surface to move.",
             NextStep:
-                "DO NOT START WITH A RENAME. The rename is the cheap half and it is not why this is open. " +
-                "Start with the four questions the corrected frame makes askable (Q1, Q2 and Q3 are " +
-                "answered below, 2026-08-08; Q4 remains), because Tom's point is that " +
-                "the wrong word made us look in the wrong DIRECTION. A specimen from the day it was found: " +
+                "DO NOT START WITH A RENAME was the standing order, and it held: the questions came " +
+                "first, and the rename stays not-first within the remaining wording work, premises before " +
+                "flourishes. ALL FOUR QUESTIONS ARE ANSWERED, 2026-08-08, in one day, and each answer had the same " +
+                "shape: the math was on the sending side all along, only the prose was not. THE READING " +
+                "VERSION for humans is reflections/ON_THE_SENDING_END.md (2026-08-08), the answer piece " +
+                "beside ON_WHO_WATCHES_WHOM; this entry stays the working record. What remains " +
+                "is the wording work below. The questions were the right start, because Tom's point was " +
+                "that the wrong word made us look in the wrong DIRECTION. A specimen from the day it was found: " +
                 "the item-4 work spent a day on a RECEIVING question (what is visible from the middle block, " +
                 "where can something hide) and the answer turned out to be a SENDING statement (an odd " +
                 "block's bill is always odd, the frozen bill is even, so they can never coincide). It was " +
@@ -5305,7 +5309,8 @@ public static class OpenArcsRegistry
                 "language; OpenArcs (this arc only); CAUGHT_ERRORS (nothing new). " +
                 "Q2 ANSWERED 2026-08-08: the proper time is the SITE'S, and its rate is the field at its " +
                 "seat; no typed time statement hangs on attention, the class 'genuinely requires an observer' " +
-                "is EMPTY across the whole time layer. The FIELD HALF of the quoted sentence exists TYPED " +
+                "is EMPTY across the whole time layer. The FIELD HALF of 'a site that takes on more light " +
+                "runs at a faster time' exists TYPED " +
                 "already, with no agent: JDefectLightMigrationClaim (Tier 1), Re lambda = " +
                 "-2*Sum_l gamma_l*light_l for every eigenmode, 'the marks move exactly as the light " +
                 "migrates'; the rate -> time half stays interpretive, counted below. The sentence's own " +
@@ -5378,13 +5383,81 @@ public static class OpenArcsRegistry
                 "Restless.cs:62) for the anti-watch turn s0 with rate -2g(N-k), the all-sites complement " +
                 "of a SINGLE copy; the agreement here is D, both faces occupied in the DOUBLED picture; " +
                 "same word, different object, and any further wording must say so where the two meet. " +
-                "Q4 IF THERE IS NO EYE, WHAT IS OUTSIDE? INSIDE_OUTSIDE_THE_SACRIFICE_ZONE and " +
-                "ON_THE_INNER_AND_OUTER_OBSERVATION (typed as TwoReadingsClaim) stand on an observer. A " +
-                "sender needs no counterpart. What survives of the split when outside is only the source? " +
-                "ONLY THEN the wording, and in this order: the load-bearing instances above (instances (1) " +
+                "Q4 ANSWERED 2026-08-08: the eye was never on the outside; it lived only in the PAIRING of " +
+                "an inner viewer with an outer one, and every theorem survives its departure. A NARROW " +
+                "NEGATIVE RESULT anchors it: no repo statement gives the outside an eye in a LOAD-BEARING " +
+                "role. The register does touch the outside in prose ('the outside watching' at " +
+                "PROOF_RECORD_PARITY_LAW:105 itself, 'the environment reads' at " +
+                "SUPERPOSITION_TRANSLATED:146, DEPHASING_TRANSLATED:216), but those are ornament on " +
+                "gamma, exactly the ~481 this entry inventories; every AFFIRMATIVE characterization is " +
+                "source or boundary. The strongest is a SOURCE table, " +
+                "THE_BRIDGE_WAS_ALWAYS_OPEN:293-300, six measured properties of gamma with the column " +
+                "titled 'What it says about the source' (directional, selective, has topography, targets " +
+                "relationships, effectively infinite, not chaotic), and 'a Markovian bath keeps none' " +
+                "(PROOF_RECORD_PARITY_LAW:105) is an emitter property: the source keeps no record. No " +
+                "microscopic system-plus-bath derivation of L was ever performed here " +
+                "(RESONANT_RETURN:162 NAMES the Born-Markov assumptions, Tier 5; the parked outbound " +
+                "noise-asymmetry doc uses weak-coupling theory; INCOMPLETENESS_PROOF:378's tracing-out is " +
+                "a refutation, not a derivation), so the outside was never a " +
+                "traced-out bath; it is the residue of INCOMPLETENESS_PROOF's five-way elimination, which " +
+                "proves it exists, keeps the bath as description-not-origin (:156-159), and deliberately " +
+                "refuses to characterize it (:210-218, :334-339): source language from the start, " +
+                "'Noise must come from outside the framework'. THE QUESTION'S TWO NAMED DOCS DO NOT SHARE " +
+                "ONE SPLIT, and only the viewer-pairing stands on an eye: " +
+                "INSIDE_OUTSIDE_THE_SACRIFICE_ZONE splits SPACE (protected core vs whole system at the " +
+                "gamma-boundary; the mechanism is agent-free, the frame is appearance-vs-reality from the " +
+                "abstract on, and the metaphysics is fenced Borrowed/Read); " +
+                "ON_THE_INNER_AND_OUTER_OBSERVATION splits REPRESENTATION (spectrum vs fitted instrument " +
+                "reading; 'no instrument reads a mode' makes the apparatus constitutive), whose UNITS " +
+                "reconstruction, the eye-free part, the repo already wrote: ON_HOW_THE_CARRIER_SHOWS_ITSELF, " +
+                "the instrument itself a system with its own gamma0, calibration = " +
+                "the RATIO OF TWO gamma0's; and TwoReadingsClaim layer 5 splits ACCESS (its own words: " +
+                "'two observational readings'), whose fact is pure " +
+                "invariance ((gamma0,J) -> (lambda*gamma0,lambda*J) leaves every inside observable fixed, " +
+                "stated agent-free at THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS:17 and certified as exact " +
+                "algebra by the two-tempo movement, Symphony). SO THE ANSWER: outside is the source, and " +
+                "what survives of the split is all of it, recomputed: inside = the scale-invariant " +
+                "functions of the generator; outside = whatever carries a SECOND gamma0 against which a " +
+                "unit can be fixed. An outside observer is another SENDER; observation is calibration " +
+                "between two sources. The corpus holds three ready outside-objects, each eye-free: the " +
+                "SOURCE (the six-property table), the BOUNDARY (INCOMPLETENESS' residue), the SECOND " +
+                "READING (X^N rho, Lattice.cs:17: 'the SAME state seen through one complemented leg', " +
+                "typed and gated, agent-free by construction); the GAIN SIDE (GammaFold, " +
+                "L_anti(gamma) = L(-gamma) - 2*sigma*Id) is exact algebra whose emitter reading the repo " +
+                "itself disclaims (negated dephasing is time-reversed dephasing, not laser gain). " +
+                "Thermodynamic grounding: the dephasing bath is beta = 0 (KMS_DETAILED_BALANCE:250, " +
+                "'Z-dephasing IS an infinite-temperature bath'), and Pi's own 2:2 CONSTRUCTION is " +
+                "intrinsically infinite-temperature while the palindrome is NOT (F137: the thermal " +
+                "spectrum is exactly palindromic about -Sum(g_down+g_up)/2); the operational light " +
+                "content was always sender-side " +
+                "(GAMMA_AS_SIGNAL's Alice SETS the rates, 15.5 bits at 1% measurement precision; the " +
+                "relay protocol; 'Alice designs antennas, not signals', " +
+                "CMRR_BREAK_NONUNIFORM_GAMMA:124), Alice and Bob being protocol roles, not ontological " +
+                "eyes. WHAT " +
+                "WOULD COLLAPSE WITHOUT AN EYE: the typed viewer-pair strings " +
+                "(TwoReadingsClaim.cs:35-37 'the inside-observer sees only Q ... the outside-observer has " +
+                "separate access to gamma0', and UniversalCarrierClaim:52, both API, both Tom's call with " +
+                "the other C# names; the invariant residue of each survives), their common ancestor " +
+                "PRIMORDIAL_QUBIT:392-396 ('The inside observer measures Q only ... requires a vantage " +
+                "point outside the system'), and the epistemic framings of " +
+                "the two docs (the doc-level pass). SWEEP (2026-08-08): docs/proofs INCOMPLETENESS_PROOF " +
+                "and PROOF_ABSORPTION_THEOREM:832-863 ('Absorption is a name, not a process'; dephasing " +
+                "does NOT conserve energy off Ising, the chain heats toward infinite temperature) read at " +
+                "source; INSIDE_OUTSIDE_THE_SACRIFICE_ZONE and ON_THE_INNER_AND_OUTER_OBSERVATION read in " +
+                "full; TwoReadingsClaim + registration + PRIMORDIAL_QUBIT par.9; KMS_DETAILED_BALANCE; " +
+                "the March layer (THE_BRIDGE_WAS_ALWAYS_OPEN, GAMMA_AS_SIGNAL, GAMMA_IS_LIGHT incl. its " +
+                "honest tier split at :402-433); MirrorWorld Lattice/GammaFold + LATTICE_OPENING_LAW; " +
+                "GLOSSARY (Concentrator entry: 'sacrifice zone' corrected 2026-03-28); the machine-local " +
+                "memory sacrifice_to_gamma0_path (the April demystification chain); Confirmations " +
+                "(IBM_CONCENTRATOR is the hardware anchor; the typed-claim gap for it is a known audit " +
+                "item); CAUGHT_ERRORS (nothing new); THE_OTHER_SIDE:138/846 as the sibling reading, WITH " +
+                "the answer and self-fenced 'a feeling' (outside as the other parity sector, " +
+                "observationally indistinguishable from inside per PRIMORDIAL_QUBIT par.9). " +
+                "NOW the wording, and in this order: the load-bearing instances above (instances (1) " +
                 "and (5) are taken, 2026-08-08, with the Q3 and Q2 answers; (2) through (4) remain), since a flourish can " +
                 "wait and a premise cannot; then the F-registry titles; then the typed C# names, " +
-                "which are API and need Tom's call. Leave (a)-legitimate alone: 'watcher' as a graph role in " +
+                "which are API and need Tom's call (instance (4)'s WatchedLetterRouting pair, Q2's " +
+                "UniversalCarrierClaim:52, Q4's TwoReadingsClaim:35-37). Leave (a)-legitimate alone: 'watcher' as a graph role in " +
                 "the record laws is a different object and renaming it would be the error running backwards. " +
                 "One open factual thread: whether ON_WHO_WATCHES_WHOM is cited as the SOURCE of the naming by " +
                 "anything besides DEPHASING_TRANSLATED:215; its other ~18 citers cite it for the F89 branch " +
