@@ -4,7 +4,7 @@
 
 ## The law
 
-Take the R₉₀ dephasing locus of [F91](../docs/ANALYTICAL_FORMULAS.md) (every reflection pair of site rates carrying the same total, γ_l + γ_{R(l)} = 2γ̄) and the XY chain, H = (J/2)·Σ_b (X_bX_{b+1} + Y_bY_{b+1}). Label the joint-popcount blocks (p, q) by the popcounts of the ket and bra indices. A block **carries** λ when λ is an eigenvalue of that block, and the multiplicity meant throughout is the dimension of ker(L₍p,q₎ − λ), the eigenspace and not the algebraic multiplicity; the two part company at the exceptional couplings the ceiling section names, and it is the eigenspace that every count here reads. Then
+Take the mirror-balanced locus of [F91](../docs/ANALYTICAL_FORMULAS.md), the R₉₀ locus (every reflection pair of site rates carrying the same total, γ_l + γ_{R(l)} = 2γ̄) and the XY chain, H = (J/2)·Σ_b (X_bX_{b+1} + Y_bY_{b+1}). Label the joint-popcount blocks (p, q) by the popcounts of the ket and bra indices. A block **carries** λ when λ is an eigenvalue of that block, and the multiplicity meant throughout is the dimension of ker(L₍p,q₎ − λ), the eigenspace and not the algebraic multiplicity; the two part company at the exceptional couplings the ceiling section names, and it is the eigenspace that every count here reads. Then
 
 **the blocks carrying λ = −4γ̄ are the band |p − q| ∈ {0, 2}, less the two one-cell blocks (0,0) and (N,N), and every block in that band carries multiplicity ⌊N/2⌋ at N = 4 through 7, where the census runs, and at the couplings tested.**
 

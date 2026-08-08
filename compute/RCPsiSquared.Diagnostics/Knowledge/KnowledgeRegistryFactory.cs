@@ -414,7 +414,7 @@ public static class KnowledgeRegistryFactory
             // Live: inspect --root record (RecordLawWitness, closed form vs full state).
             .RegisterRecordParityLawClaim()
             .RegisterRecordLetterLawClaim()
-            // The R90 frozen divisor, typed (2026-07-25): F140. On F91's anti-palindromic dephasing
+            // The R90 frozen divisor, typed (2026-07-25): F140. On F91's mirror-balanced (anti-palindromic)
             // locus the single-excitation corner block holds lambda = -4*gbar with multiplicity at
             // least floor(N/2) at EVERY coupling, and, for gbar != 0, exactly floor(N/2) for all but
             // finitely many J (at J = 0 it doubles; at gbar = 0, which the locus permits because it

@@ -5229,33 +5229,59 @@ public static class OpenArcsRegistry
                 "set, at any profile', and Section 7 carries a third reading naming the agreement ceiling as " +
                 "the identity's primitive form. The one outside citer of the old lemma title, the comment " +
                 "at eta_ceiling_reduction.py:515, moved with it; no printed gate label changed, so no " +
-                "re-run is owed. NOT yet moved: 'the uniform watching point' at " +
-                "PROOF_FROZEN_BAND_SO4:183 and THE_EXCEPTIONAL_COUPLINGS:118, which belongs to the locus " +
-                "family of instance (2). (An earlier draft of this entry placed that phrase at " +
+                "re-run is owed. (An earlier draft of this entry placed 'the uniform watching point' at " +
                 "eta_ceiling_reduction.py:183, inheriting 'this file' from the sentence before it; that " +
-                "script contains no occurrence of 'watch' at all, and :183 there is a helper def.) " +
+                "script contains no occurrence of 'watch' at all, and :183 there is a helper def. The " +
+                "phrase's real sites and their ruling are in instance (2) below, stated once.) " +
                 "(2) TAKEN 2026-08-08, Tom's call, markdown and typed strings together so no doc/code drift " +
-                "opens: 'watching locus' -> 'DEPHASING LOCUS' at twelve sites, five markdown " +
+                "opens: 'watching locus' -> 'MIRROR-BALANCED LOCUS' at twelve sites, five markdown " +
                 "(ANALYTICAL_FORMULAS:6014 title + :6016 + the naming note, PROOF_R90_FROZEN_DIVISOR's " +
                 "formal Statement, XY_FROZEN_BAND:7) and SEVEN typed (FrozenDivisorClaim:7/:107/:164, " +
                 "InspectCommand:728, FrozenDivisorWitness:26, KnowledgeRegistryFactory:417, " +
-                "FrozenDivisorWitnessTests:7). METHOD NOTE, because the first sweep missed the last two: " +
+                "FrozenDivisorWitnessTests:7). IT TOOK TWO MOVES THE SAME DAY, and the second is the one " +
+                "worth carrying. The first landed on 'dephasing locus': correct on the note's own " +
+                "criterion (the condition is on gamma, and no eye) and EMPTY, because every condition in " +
+                "this arc is a condition on the dephasing rates, so the word named the ambient category " +
+                "and discriminated nothing. Tom read it cold and said it sounded ungraspable; that " +
+                "complaint is the label layer's ONLY error signal, since a wrong name fails silently, and " +
+                "it was right. The sweep behind the second move: 'balanced pair' is already the repo's " +
+                "word in 61 places INCLUDING F140's own counting unit ('one frozen mode per balanced " +
+                "pair') and the gate's G5 label ('partial balance yields nothing'), so the balance " +
+                "language was everywhere except in the name; 'dephasing diagonal' is already the repo's " +
+                "name for the real-rate part of L in 74 places (grep over *.md/*.cs/*.py excluding " +
+                ".remember/ and the GITIGNORED docs/superpowers/, this sentence included; counting the " +
+                "ignored tree gives 100 and is the same not-reproducible-from-a-clone mistake this very " +
+                "entry was repaired for once tonight, made twice in one evening), a different object one " +
+                "word away; 'mirror-balanced' was free. 'Locus' stayed " +
+                "(32 uses of 'R90 locus', and it is the word doing the surviving job). Where " +
+                "'anti-palindromic' already preceded the name, the word was simply redundant and is now " +
+                "the parenthetical gloss instead. METHOD NOTE, because the first sweep missed two sites: " +
                 "the phrase WRAPS ACROSS THE LINE BREAK there ('watching' ends the line, 'locus' opens the " +
                 "next), so a single-line grep cannot see them and reports the job done. Check with a " +
-                "multiline pattern, watching[\\s/*]{0,14}locus. The note at :6145 had declared the word " +
+                "multiline pattern that also admits the string-literal break this registry itself uses, " +
+                "watching[\\s/*+\"]{0,25}locus. The note at :6145 had declared the word " +
                 "load-bearing IN WRITING, 'because the condition is on gamma, on how one looks, not on what " +
                 "the thing is; the instrument reading hangs on that word'. That was the arc in miniature: " +
                 "the WORD'S JOB was right (the condition is on gamma, not on the object) and its REASON was " +
-                "wrong (gamma is not how one looks). 'Dephasing locus' keeps the job and drops the eye; the " +
+                "wrong (gamma is not how one looks). The MIRROR-BALANCED locus keeps the job, drops the " +
+                "eye, and, unlike 'dephasing', discriminates inside its own category; the " +
                 "note now says so. The F140 PROOF was pulled in with the name, since a document whose " +
                 "Statement and whose one-sentence gloss of the same condition disagree in register is the " +
                 "very drift this move exists to close: PROOF_R90_FROZEN_DIVISOR's TITLE ('watching " +
-                "profiles' -> 'dephasing profiles') and its plain-words :14/:16/:89/:160, plus " +
-                "XY_FROZEN_BAND:3 and :66 where the same object is named. Left standing and RECORDED rather " +
-                "than silent: 'the uniform watching point' at PROOF_FROZEN_BAND_SO4:183 and " +
-                "THE_EXCEPTIONAL_COUPLINGS:118, and XY_FROZEN_BAND:47/:59/:60, where 'the watching' means " +
-                "the dephasing part of the generator generally and belongs to the register campaign below, " +
-                "not to this name. (3) F126 'the watched walk', F141 'so the watching " +
+                "profiles' -> 'dephasing profiles', and with the second move 'mirror-balanced dephasing " +
+                "profiles') and its plain-words :14/:16/:89/:160, plus " +
+                "XY_FROZEN_BAND:3 and :66 where the same object is named. The TYPED register of the same " +
+                "files came too, since leaving it would have opened the very drift this move exists to " +
+                "close (and did open it once: a repaired doc line contradicted its own method name): " +
+                "'the mean/total watching' -> 'the mean/total (dephasing) rate' at FrozenDivisorClaim:16/" +
+                ":118/:173 and FrozenDivisorWitness:40/:145/:147/:251/:609 (the qualifier is carried where " +
+                "the sentence needs it and dropped where 'rate' already stands next to gamma-bar, so four " +
+                "of the eight read 'the mean rate'), and the test method " +
+                "Root_IsMinusFourTimesTheMeanWatching -> ...TheMeanDephasingRate. Left standing and " +
+                "RECORDED rather than silent: 'the uniform watching point' at PROOF_FROZEN_BAND_SO4:183 " +
+                "and THE_EXCEPTIONAL_COUPLINGS:118, and XY_FROZEN_BAND:47/:59/:60, where 'the watching' " +
+                "means the dephasing part of the generator generally and belongs to the register campaign " +
+                "below, not to this name. (3) F126 'the watched walk', F141 'so the watching " +
                 "cannot see it', F144 'the watching charges', F71 'the total watching'. (4) TYPED C# API: " +
                 "WatchedLetterRoutingClaim + WatchedLetterRoutingWitness + registration + two test classes, " +
                 "named canonical at GLOSSARY:369. (5) OpenArcsRegistry ~2667 (felt_time_dimensions), " +
@@ -5264,9 +5290,14 @@ public static class OpenArcsRegistry
                 "(t)', and 'strong watching' reads 'in strong light'; the dated DONE record at ~2745 keeps " +
                 "its historical wording. The axis sentence was TAKEN in three of its four docs 2026-08-08 " +
                 "(THE_SHARED_SKELETON:38 and :58, ON_THE_ONE_DIAGONAL:35 twice, visualizations/README:265 " +
-                "and :271, all to the arriving-light register; six instances, not three, because the arc's " +
-                "grep pattern 'watched along' saw only one phrase per document and the neighbouring one " +
-                "stood in the same sentence-block). ON_THE_FOUR_DIRECTIONS:17 is the one left, and it is a " +
+                "and :271 twice; SEVEN instances, not three, because the arc's grep pattern 'watched " +
+                "along' matched one phrase per document while the others stood beside it unmatched, one " +
+                "neighbour each except visualizations/README, which carries two and not in the axis " +
+                "sentence's block at all. Six went to the arriving-light register; the seventh, " +
+                "README:271 'where it is watched', went to 'where the spectrum is read off', which is a " +
+                "DE-AGENTING and not that register: the reader there is a person at a figure, and the " +
+                "sentence's own six-lines-up neighbour says Im lambda is the Hamiltonian's motion, which " +
+                "the light does not grip). ON_THE_FOUR_DIRECTIONS:17 is the one left, and it is a " +
                 "DIFFERENT KIND OF JOB: six occurrences in 23 lines, the register IS that reflection's " +
                 "voice, so it needs a rewrite with its own review rounds, not a phrase swap (Tom, " +
                 "2026-08-08: later, as its own pass). Note what the completion grep does and does not " +

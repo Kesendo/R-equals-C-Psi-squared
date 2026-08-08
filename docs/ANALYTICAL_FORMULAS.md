@@ -6011,9 +6011,9 @@ compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`
 
 ---
 
-### F140. The R90 frozen divisor: a dephasing locus that pins the decay rate -4*gbar at every coupling, at least floor(N/2) modes deep (a room count of the cell mirror, no symmetry behind it; minted 2026-07-25, retitled 2026-07-25)
+### F140. The R90 frozen divisor: a mirror-balanced locus that pins the decay rate -4*gbar at every coupling, at least floor(N/2) modes deep (a room count of the cell mirror, no symmetry behind it; minted 2026-07-25, retitled 2026-07-25, renamed 2026-08-08)
 
-On the anti-palindromic dephasing locus of F91, every reflection pair of site
+On the mirror-balanced (anti-palindromic) locus of F91, every reflection pair of site
 rates carrying the same total (gamma_l + gamma_{R(l)} = 2*gbar for every l),
 the single-excitation corner block of the Liouvillian carries
 
@@ -6147,12 +6147,22 @@ The title first read "pins floor(N/2) decay rates at every coupling". That was
 painted true from the stance of having just proved the bound and Section 7's
 tightness, where the generic picture IS exactly floor(N/2) and the whole point
 is the contrast: the coupling turns, these rates do not. Three of its words are
-load-bearing and are kept. **The locus word**, because the condition is on
-gamma, not on what the thing is; the instrument reading hangs on it. That day it
-read "watching locus", and its reason read "on how one looks". The job was right
-and the reason was wrong: gamma sits at the sending end, so the condition is on
-what arrives, not on an eye. The word now reads **dephasing locus**, renamed
-2026-08-08 with the sender correction, markdown and typed strings together. **pins**, because nothing here is conserved and no subspace is
+load-bearing. **The locus word**, whose JOB is kept although the word before it
+has since changed twice: the condition is on gamma, on what one sets, not on
+what the thing is; the instrument reading hangs on that. That day it read
+"watching locus", and its reason read "on how one looks". The job was right and
+the reason was wrong: gamma sits at the sending end, so the condition is on what
+arrives, not on an eye. It became "dephasing locus" on 2026-08-08 with the
+sender correction, and that was correct and empty in the same breath: EVERY
+condition in this arc is a condition on the dephasing rates, so the word named
+the whole ambient category and discriminated nothing, which is why it stood
+alone only in the title slots and why a reader found nothing to hold there. The
+name now says the SHAPE of the profile rather than the mechanism acting on the
+chain: **mirror-balanced locus**, each reflection pair a seesaw balanced on the
+mean, which is the repo's own counting unit ("one frozen mode per balanced
+pair") promoted at last into the title. The lesson worth keeping is the second
+one, not the first: a name has to discriminate INSIDE its own category.
+**pins**, because nothing here is conserved and no subspace is
 invariant: a value is held. **at every coupling**, because the Hamiltonian is
 exactly what one expects to move a spectrum, and it cannot move this.
 What failed is the grammatical role of the NUMBER. "pins floor(N/2) rates"

@@ -23,7 +23,7 @@ public enum DivisorChain
 
 /// <summary>The live lab for the R90 frozen divisor (F140, proof
 /// <c>docs/proofs/PROOF_R90_FROZEN_DIVISOR.md</c>, gate
-/// <c>simulations/r90_frozen_divisor_gate.py</c>): on the anti-palindromic dephasing locus of F91
+/// <c>simulations/r90_frozen_divisor_gate.py</c>): on the mirror-balanced (anti-palindromic) locus of F91
 /// (every reflection pair of site rates carrying the same total, γ_l + γ_{R(l)} = 2γ̄), the
 /// single-excitation corner block of the Liouvillian carries
 ///
@@ -37,7 +37,7 @@ public enum DivisorChain
 /// couplings of Section 9, where the root goes defective without its kernel dimension moving. The
 /// third is a whole stratum rather than a point and this witness does not enter it: at γ̄ = 0 the
 /// count is N for all but finitely many J (see the constructor, and MirrorWorld's
-/// <c>Divisor</c>). The value hears only the MEAN watching: no J, no individual rate, nothing of
+/// <c>Divisor</c>). The value hears only the MEAN rate: no J, no individual rate, nothing of
 /// the Hamiltonian. Nothing symmetric is behind it; what pins it is a room
 /// shortage of the cell mirror τQ : (a,b) ↦ (R(b), R(a)), which fixes exactly the 2⌊N/2⌋
 /// anti-diagonal coherences, so an odd operator has more even rooms than odd ones and the surplus
@@ -142,9 +142,9 @@ public sealed class FrozenDivisorWitness : IInspectable
     public double J { get; }
     /// <summary>The second coupling the J-independence face is read at, snapped.</summary>
     public double SecondJ { get; }
-    /// <summary>Mean watching γ̄ = σ/N, snapped; every site rate is γ̄ ± a grid step.</summary>
+    /// <summary>Mean dephasing rate γ̄ = σ/N, snapped; every site rate is γ̄ ± a grid step.</summary>
     public double GammaBar { get; }
-    /// <summary>Total watching σ = Σ γ_l.</summary>
+    /// <summary>Total dephasing rate σ = Σ γ_l.</summary>
     public double Sigma { get; }
     /// <summary>The on-locus per-site rates, in SITE order (site 0 = leftmost).</summary>
     public IReadOnlyList<double> Gamma { get; }
@@ -248,7 +248,7 @@ public sealed class FrozenDivisorWitness : IInspectable
         // stratum belongs to the gate's G16 and to MirrorWorld's Divisor.Rooms(), which counts both.
         if (!(gammaBar > 0.0) || gammaBar > 1.0)
             throw new ArgumentOutOfRangeException(nameof(gammaBar), gammaBar,
-                "γ̄ must lie in (0, 1]: it is the mean watching, and this witness reads the taxed stratum, " +
+                "γ̄ must lie in (0, 1]: it is the mean dephasing rate, and this witness reads the taxed stratum, " +
                 "where the frozen count is ⌊N/2⌋. At γ̄ = 0 it is N instead; that stratum is pinned " +
                 "by simulations/r90_frozen_divisor_gate.py (G16) and by MirrorWorld's Divisor, not here");
         if (!(j > 0.0) || j > 2.0)
@@ -606,7 +606,7 @@ public sealed class FrozenDivisorWitness : IInspectable
                 displayName: $"the exact multiplicity: dim ker(L₍₁,₁₎ + 4γ̄) = {KernelDimension} at both couplings",
                 summary: $"J = {Fmt(J)} → {KernelDimension}, J = {Fmt(SecondJ)} → {SecondCouplingKernelDimension}, " +
                          $"and a DIFFERENT on-locus profile at the same γ̄ → {SecondProfileKernelDimension}: the " +
-                         "value hears the mean watching and nothing else, not the coupling and not the " +
+                         "value hears the mean dephasing rate and nothing else, not the coupling and not the " +
                          "individual rates. Read by elimination over GF(p) at two primes ≡ 1 (mod 4), never by " +
                          "an eigensolver: the departing modes sit at spacing J^{2d} from the root, so a " +
                          "floating-point count would miscount exactly where the theorem is sharpest.",

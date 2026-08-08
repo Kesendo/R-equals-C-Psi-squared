@@ -3,8 +3,8 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.BlockSpectrum;
 
-/// <summary>F140, typed (Tier 1 derived): <b>the R90 frozen divisor</b>. On the anti-palindromic
-/// dephasing locus of F91 (every reflection pair of site rates carrying the same total,
+/// <summary>F140, typed (Tier 1 derived): <b>the R90 frozen divisor</b>. On the mirror-balanced
+/// (anti-palindromic) locus of F91 (every reflection pair of site rates carrying the same total,
 /// γ_l + γ_{R(l)} = 2γ̄ for every l), the single-excitation corner block of the Z-dephasing
 /// Liouvillian, on either chain of the proof's Section 1 (Heisenberg or XY), carries
 ///
@@ -13,7 +13,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// </code>
 ///
 /// one frozen mode per balanced pair, and, for γ̄ ≠ 0, exactly ⌊N/2⌋ for all but finitely many J.
-/// The value hears only the MEAN watching: not the coupling, not the individual rates, nothing of
+/// The value hears only the MEAN rate: not the coupling, not the individual rates, nothing of
 /// the Hamiltonian. At γ̄ = 0 the count is N instead, one per SITE, again for all but finitely
 /// many J: the locus
 /// never asks the rates to be positive, so the mean may be zero, and then the even defect that
@@ -104,7 +104,7 @@ public sealed class FrozenDivisorClaim : Claim
     public FrozenDivisorClaim(
         F71AntiPalindromicGammaSpectralInvariance antiPalindromicLocus,
         JointPopcountSectors sectors)
-        : base("The R90 frozen divisor (F140): on F91's anti-palindromic dephasing locus " +
+        : base("The R90 frozen divisor (F140): on F91's mirror-balanced (anti-palindromic) locus " +
                "(gamma_l + gamma_{R(l)} = 2*gbar for every l) the single-excitation corner block of the " +
                "Z-dephasing Liouvillian, on either the Heisenberg or the XY chain, carries " +
                "lambda = -4*gbar with multiplicity at least " +
@@ -115,7 +115,7 @@ public sealed class FrozenDivisorClaim : Claim
                "no symmetry is behind it, the value is forced " +
                "by a room shortage of the cell mirror tauQ (2*floor(N/2) fixed anti-diagonal cells, " +
                "floor(N/2) taxed away by the even diagonal pairs), so the modes hear only the mean " +
-               "watching and nothing of the Hamiltonian; the four corner blocks p,q in {1, N-1} " +
+               "rate and nothing of the Hamiltonian; the four corner blocks p,q in {1, N-1} " +
                "carry, the root picked by gamma-fold parity, and on the Heisenberg chain nothing " +
                "else does (the confinement is the ZZ term's quarticity, not a diagonal on h: on " +
                "the XY chain the same root spreads at the same multiplicity along an exact " +
@@ -161,7 +161,7 @@ public sealed class FrozenDivisorClaim : Claim
     public static int TotalValuation(int n) => 2 * (n * n / 4);
 
     public override string DisplayName =>
-        "The R90 frozen divisor (F140): a dephasing locus that pins the decay rate −4γ̄ at every coupling, " +
+        "The R90 frozen divisor (F140): a mirror-balanced locus that pins the decay rate −4γ̄ at every coupling, " +
         "at least ⌊N/2⌋ modes deep";
 
     public override string Summary =>
@@ -170,7 +170,7 @@ public sealed class FrozenDivisorClaim : Claim
         "at γ̄ = 0 it is N for all but finitely many J), one " +
         "frozen mode per balanced pair; no symmetry behind it, only a room shortage of the cell mirror τQ " +
         "(2⌊N/2⌋ fixed anti-diagonal cells minus the ⌊N/2⌋ even diagonal pairs), so the modes hear the mean " +
-        "watching and nothing else; the four corners carry, the root picked by gamma-fold parity, and on the " +
+        "rate and nothing else; the four corners carry, the root picked by gamma-fold parity, and on the " +
         "Heisenberg chain nothing else does; partial balance yields nothing; the ladder J^{2d_c} makes the " +
         "outermost pair the last to let go " +
         $"({Tier.Label()})";

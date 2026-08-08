@@ -725,7 +725,7 @@ public static class InspectCommand
             "closed-form-vs-full-state at inspect time. Typed: RecordParityLawClaim + RecordLetterLawClaim",
             c => new RecordLawWitness(c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false),
-        new("divisor", "THE R90 FROZEN DIVISOR (F140, proof PROOF_R90_FROZEN_DIVISOR.md): a dephasing locus that " +
+        new("divisor", "THE R90 FROZEN DIVISOR (F140, proof PROOF_R90_FROZEN_DIVISOR.md): a mirror-balanced locus that " +
             "pins the decay rate −4γ̄ at EVERY coupling, at least ⌊N/2⌋ modes deep. On F91's anti-palindromic " +
             "locus (every reflection pair of " +
             "site rates carrying the same total) the single-excitation corner block holds λ = −4γ̄, one frozen " +
