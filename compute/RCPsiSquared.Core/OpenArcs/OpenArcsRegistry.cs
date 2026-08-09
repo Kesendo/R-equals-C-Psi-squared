@@ -5167,10 +5167,25 @@ public static class OpenArcsRegistry
                 "is an even-N defective locus: RealDefectiveSeeds lists N = 5,7,9,11 and its own summary " +
                 "calls the lists LOWER BOUNDS over a q window, so the honest statement is that no even-N seed " +
                 "is RECORDED, not that none exists, and that proof's N=6 12-set presupposes one. " +
-                "The falsifiable prediction is N=9, l=3: chain norms sqrt6, sqrt10, sqrt12, sqrt12, sqrt10, " +
-                "sqrt6, seven sectors per chain, 14 fold + 14 band = 28 = 4*9-8. The middle block (4,4) is " +
-                "126^2 = 15876, too big for a dense eigensolver, so it needs shift-invert rather than more " +
-                "hours. " +
+                "The N=9, l=3 prediction, chain norms sqrt6, sqrt10, sqrt12, sqrt12, sqrt10, sqrt6, seven " +
+                "sectors per chain, 28 = 4*9-8, was CONFIRMED 2026-08-09 on both chains to six decimals, at " +
+                "the first +1 census seed (0.591760, -5.1206): the 10584^2 and 15876^2 middle blocks were " +
+                "walked by ONE dense LU shift-invert each (zgetrf + zgetrs inverse iteration, the " +
+                "ShiftedSigmaMin pattern; SidewaysSpinLadderSparse, gate SLOW_SIDEWAYS9, ~2 min), after " +
+                "iterative solvers were tried and measured to be the wrong tool (BiCgStab breaks down or " +
+                "stalls at these interior shifts, at N=7 on every solve). One caught error and one robustness " +
+                "fact from that run, both from an independent review reproduction: the FIRST N=9 walk " +
+                "reported lambda = -12.87931 at eigenvector residual 1.2e-6 and this entry briefly dressed " +
+                "that as a sqrt(eps) near-defective floor; it was an unconverged in-plane MIX of the fold " +
+                "pair, kept because the pair-split acceptance guard (|theta - sigma| bounded by a constant) " +
+                "rejects exactly the true members, which sit FARTHER from the 4-decimal fold than the mix " +
+                "(members -12.878060 / -12.880829, split 2.77e-3, each reachable at residual 8.6e-14; guard " +
+                "repaired, residual is the only judge now). The norms were right the whole time, and that is " +
+                "the robustness fact: both members AND every in-plane mix transport at the same CG norm to " +
+                "nine decimals (the two eigenvectors are ~1.8e-3 apart in angle). The fold gate is 1e-2, " +
+                "error-modelled from measurement: members within ~1.5e-3 of the recorded fold, nearest " +
+                "UNRELATED eigenvalue 4.6e-2 away at the 3024-dim block, margin shrinking ~dim^-0.4 toward " +
+                "~2e-2 at 15876. CONTROL stayed exactly 0.0 on all 32 rungs, sparsely per column. " +
                 "The cockpit-rule-5 typing landed 2026-08-09 WITHOUT the builder extension this entry once " +
                 "estimated: WeightCoherenceBlock was never needed, because PerBlockLiouvillianBuilder.BuildBlockZ " +
                 "already takes an arbitrary H and per-site gamma and PauliHamiltonian.XYChain takes a bond " +

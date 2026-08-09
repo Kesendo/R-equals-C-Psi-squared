@@ -389,10 +389,11 @@ public static class KnowledgeRegistryFactory
             // raising) intertwines L exactly for Σ-odd real-symmetric pure hopping and any γ_l; preserves
             // p+q̃ (the parity fact behind §6 item (ii)); the F125 fold family = the two S⁺ chain interiors
             // at p+q̃ = N∓1, spin ℓ = (N−3)/2 per chain, S⁺ transport norms = Clebsch-Gordan coefficients
-            // (measured N=5,7; the η chains inferred from the count; N=9 open).
+            // (measured N=5,7,9, the N=9 walk via LU shift-invert; the η chains inferred from the count).
             // Parent: SpectatorIntertwinerClaim (directly above), Tier1Derived; this claim Tier1Candidate
-            // (the multiplet half is measured, not derived). Gate SidewaysSpinLadderGateTests (SIDEWAYS +
-            // SLOW_SIDEWAYS) + simulations/eta_ladder_chain.py; live: inspect --root sideways.
+            // (the multiplet half is measured, not derived). Gates SidewaysSpinLadderGateTests (SIDEWAYS +
+            // SLOW_SIDEWAYS) + SidewaysSpinLadderSparseTests (SLOW_SIDEWAYS9, the N=9 walk) +
+            // simulations/eta_ladder_chain.py; live: inspect --root sideways.
             .RegisterSidewaysSpinLadderClaim()
             // Seed-existence counting theorem (the sectorbraid arc's existence side, 2026-07-04): the census
             // input of the containment corollary as a theorem, r(0+) - r(inf) = N - 1 for every odd N on the

@@ -26,7 +26,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// staggered ladder connects the two at any N (the exclusion itself is closed by the rate window and the
 /// R4 certificates, not by any ladder property).</para>
 ///
-/// <para><b>The multiplet half: the S⁺ chains are MEASURED and GATED, N=5 and N=7; the η chains are
+/// <para><b>The multiplet half: the S⁺ chains are MEASURED and GATED, N=5, 7 and 9; the η chains are
 /// INFERRED.</b> The F125 fold family is exactly the interiors of the two S⁺ chains at p + q̃ = N∓1
 /// (SHAPE gate), each an sl(2) chain of interior length N−2 carrying spin ℓ = (N−3)/2, and the S⁺
 /// transport norms along a chain are the Clebsch-Gordan coefficients √(ℓ(ℓ+1) − m(m+1)) with no free
@@ -36,7 +36,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// norms are UNTESTED, and σ_min is not them (next paragraph). The chain terminates at the eigensolver
 /// floor at the step into a boundary block (highest weight S⁺|ℓ,ℓ⟩ = 0, a RATIO gate, not an exact zero:
 /// the vector comes from an eigensolver while the intertwining residual is an operator identity and IS
-/// exactly 0.0). Falsifiable next case, untested: N=9, ℓ=3, norms √6, √10, √12, √12, √10, √6.</para>
+/// exactly 0.0). The falsifiable next case N=9, ℓ=3 was CONFIRMED 2026-08-09, both chains, to six
+/// decimals: norms √6, √10, √12, √12, √10, √6, walked past the dense wall (middle blocks 10584² and
+/// 15876²) by one dense LU shift-invert per block plus inverse iteration
+/// (<c>SidewaysSpinLadderSparse</c>, gate Category SLOW_SIDEWAYS9), CONTROL still compared to 0.0
+/// exactly and exactly 0.0. So the multiplet half is measured at THREE odd N: 5, 7, 9.</para>
 ///
 /// <para><b>The σ_min fence.</b> σ_min of a rung map is NOT the multiplet's CG coefficient: it reads the
 /// weakest direction of the WHOLE rung map, several multiplets per block, and DISAGREES with the CG value
@@ -53,7 +57,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Typed parent.</b> <see cref="SpectatorIntertwinerClaim"/> (F125, whose W is the η sibling Φ
 /// and whose fold family is what the chains carry). Evidence:
 /// <c>simulations/eta_ladder_chain.py</c> (the Python gate, exits non-zero) and
-/// <c>compute/RCPsiSquared.Diagnostics.Tests/Foundation/SidewaysSpinLadderGateTests.cs</c> (the C# gate,
+/// <c>compute/RCPsiSquared.Diagnostics.Tests/Foundation/SidewaysSpinLadderGateTests.cs</c> and the N=9
+/// walk <c>SidewaysSpinLadderSparseTests.cs</c> (Category SLOW_SIDEWAYS9) (the C# gates,
 /// Categories SIDEWAYS + SLOW_SIDEWAYS, CONTROL compared to 0.0 exactly); break-inputs:
 /// <c>simulations/eta_ladder_breakinput.py</c>; rung sweep: <c>simulations/eta_ladder_blocks.py</c>;
 /// arc entry: <c>compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs</c>.</para></summary>
@@ -93,12 +98,15 @@ public sealed class SidewaysSpinLadderClaim : Claim
                "N=7); the two η chains carry the same spin by the 4N−8 = 4(N−2) odd-N multiplet accounting, " +
                "their transport norms untested; chain death = highest-weight annihilation at the eigensolver " +
                "floor, a ratio gate; σ_min is NOT the CG coefficient (differs on the middle N=7 rungs, √2 vs " +
-               "√6; F125's pinned 1 and √2 coincide with CG by smallness and confirm nothing); falsifiable " +
-               "next case N=9, ℓ=3: √6, √10, √12, √12, √10, √6",
+               "√6; F125's pinned 1 and √2 coincide with CG by smallness and confirm nothing); the N=9, ℓ=3 " +
+               "prediction √6, √10, √12, √12, √10, √6 CONFIRMED 2026-08-09 on both chains to six decimals " +
+               "(LU shift-invert past the dense wall, gate SLOW_SIDEWAYS9), so the multiplet half is measured " +
+               "at N = 5, 7, 9",
                Tier.Tier1Candidate,
                "docs/proofs/PROOF_FROZEN_BAND_SO4.md + docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md + " +
                "simulations/eta_ladder_chain.py + " +
-               "compute/RCPsiSquared.Diagnostics.Tests/Foundation/SidewaysSpinLadderGateTests.cs")
+               "compute/RCPsiSquared.Diagnostics.Tests/Foundation/SidewaysSpinLadderGateTests.cs + " +
+               "compute/RCPsiSquared.Diagnostics.Tests/Foundation/SidewaysSpinLadderSparseTests.cs")
     {
         Intertwiner = intertwiner ?? throw new ArgumentNullException(nameof(intertwiner));
     }
@@ -111,8 +119,9 @@ public sealed class SidewaysSpinLadderClaim : Claim
         "(derived, F142 L2.1+2.3; scope NARROWER than F125's H class, break-inputs measured); preserves p+q̃ " +
         "(the parity fact behind §6 item (ii)); the fold family = the two S⁺ chain interiors at p+q̃ = N∓1, " +
         "spin ℓ = (N−3)/2 per chain, odd-N orbit 4N−8 = 4(N−2); S⁺ transport norms = CG coefficients, " +
-        "measured N=5,7 (√2,√2 and 2,√6,√6,2), the η chains inferred from the count, untested; σ_min is NOT " +
-        $"a CG confirmation; N=9 prediction open ({Tier.Label()})";
+        "measured N=5,7,9 (√2,√2; 2,√6,√6,2; √6,√10,√12,√12,√10,√6, the N=9 case predicted before it was " +
+        "walked), the η chains inferred from the count, untested; σ_min is NOT a CG confirmation " +
+        $"({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -138,21 +147,26 @@ public sealed class SidewaysSpinLadderClaim : Claim
             yield return new InspectableNode("the measured half (S⁺ chains) and the inferred half (η chains)",
                 summary: "MEASURED: fold family = interiors of the two S⁺ chains at p+q̃ = N∓1 (SHAPE gate), " +
                          "fold + band = 4N−8 (COUNT gate), S⁺ norms = √(ℓ(ℓ+1)−m(m+1)) at 1e-6 (LADDER gate), " +
-                         "terminal step at the eigensolver floor with a survivors negative control; N=5 and N=7, " +
-                         "C# and Python, CONTROL residual compared to 0.0 EXACTLY in both. INFERRED: the two η " +
+                         "terminal step at the eigensolver floor with a survivors negative control; N=5 and N=7 " +
+                         "in C# and Python, N=9 in C# (LU shift-invert, SLOW_SIDEWAYS9), CONTROL residual " +
+                         "compared to 0.0 EXACTLY everywhere. INFERRED: the two η " +
                          "chains carry the same spin by the 4N−8 = 4(N−2) accounting; their transport norms are " +
                          "untested (the η evidence in hand is rank + spectral containment, print-only).");
             yield return new InspectableNode("the σ_min fence (a rejected confirmation, kept refutable)",
                 summary: "σ_min of a rung map reads the weakest direction present, not one multiplet's CG value: " +
                          "equal at N=4, N=5 and the outer N=7 rungs, DIFFERENT on the middle N=7 rungs " +
                          "(1.414214 vs 2.449490). Gated so the rejection stays measurable.");
-            yield return new InspectableNode("even N and N=9: what is open",
-                summary: "no even-N defective seed is RECORDED (RealDefectiveSeeds lists odd N, lower bounds), " +
-                         "and at even N the four members around half filling are simultaneously band and fold " +
-                         "image (PROOF_CODIM1_BY_ADDITIVITY), so the even-N chain reading is untested, not " +
-                         "predicted. N=9, ℓ=3 is the falsifiable next case: √6, √10, √12, √12, √10, √6, seven " +
-                         "sectors per chain, 28 = 4·9−8; the middle block (4,4) is 15876-dimensional and needs " +
-                         "shift-invert rather than a dense eigensolver.");
+            yield return new InspectableNode("N=9 confirmed; even N is what stays open",
+                summary: "N=9, ℓ=3 CONFIRMED 2026-08-09: norms √6, √10, √12, √12, √10, √6 on both chains to " +
+                         "six decimals, seven sectors per chain, 28 = 4·9−8; the 10584²/15876² middle blocks " +
+                         "walked by one dense LU shift-invert each (SidewaysSpinLadderSparse, gate " +
+                         "SLOW_SIDEWAYS9, ~2 min). The measurement is robust to the fold pair's closeness " +
+                         "(members −12.878060/−12.880829, split 2.77e-3, eigenvector angle ~1.8e-3): both " +
+                         "members AND every in-plane mix transport at the same CG norm, verified to nine " +
+                         "decimals in review. OPEN: even N. No even-N defective seed is RECORDED " +
+                         "(RealDefectiveSeeds lists odd N, lower bounds), and at even N the four members " +
+                         "around half filling are simultaneously band and fold image " +
+                         "(PROOF_CODIM1_BY_ADDITIVITY), so the even-N chain reading is untested, not predicted.");
         }
     }
 }

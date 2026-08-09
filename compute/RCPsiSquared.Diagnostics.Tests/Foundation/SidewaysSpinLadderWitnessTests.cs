@@ -33,7 +33,7 @@ public class SidewaysSpinLadderWitnessTests
         Assert.Contains(children, c => c.DisplayName.StartsWith("SHAPE + COUNT", StringComparison.Ordinal));
         Assert.Contains(children, c => c.DisplayName.Contains("p+q̃ = 4"));
         Assert.Contains(children, c => c.DisplayName.Contains("p+q̃ = 6"));
-        Assert.Contains(children, c => c.DisplayName.StartsWith("what stays open", StringComparison.Ordinal));
+        Assert.Contains(children, c => c.DisplayName.StartsWith("N=9 confirmed", StringComparison.Ordinal));
     }
 
     [Fact]

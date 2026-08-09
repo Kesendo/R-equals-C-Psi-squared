@@ -12,7 +12,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// hopping and any γ_l, and the F125 fold family is the two S⁺ chain interiors, one spin-(N−3)/2 multiplet
 /// per chain with measured Clebsch-Gordan S⁺ transport norms (the η chains inferred from the count).
 /// One typed parent: <see cref="SpectatorIntertwinerClaim"/> (F125,
-/// Tier1Derived); this claim Tier1Candidate (the multiplet half is measured at N=5,7, not derived).</summary>
+/// Tier1Derived); this claim Tier1Candidate (the multiplet half is measured at N=5,7,9, not derived).</summary>
 public class SidewaysSpinLadderClaimRegistrationTests
 {
     [Fact]

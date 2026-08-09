@@ -30,8 +30,9 @@ public sealed class SidewaysSpinLadderWitness : IInspectable
     {
         if (n != 5 && n != 7)
             throw new ArgumentOutOfRangeException(nameof(n),
-                $"N must be 5 or 7 (the two N with a recorded defective seed); got {n}. " +
-                "N=9 is the open falsifiable case and needs shift-invert, not a dense walk.");
+                $"N must be 5 or 7 (the dense chain walk); got {n}. " +
+                "N=9 lives in the sparse walk (SidewaysSpinLadderSparse, LU shift-invert past the dense " +
+                "wall) and is gated in SidewaysSpinLadderSparseTests (SLOW_SIDEWAYS9), confirmed 2026-08-09.");
         N = n;
         _run = SidewaysSpinLadderChain.Run(n);
     }
@@ -100,10 +101,12 @@ public sealed class SidewaysSpinLadderWitness : IInspectable
             }
 
             yield return new InspectableNode(
-                displayName: "what stays open (even N, N=9)",
-                summary: "no even-N defective seed is recorded (RealDefectiveSeeds lists odd N, lower bounds), so the " +
-                         "even-N chain reading is untested; N=9, ℓ=3 is the falsifiable next case " +
-                         "(√6, √10, √12, √12, √10, √6; the middle block is 15876-dimensional, needs shift-invert).",
+                displayName: "N=9 confirmed; even N stays open",
+                summary: "N=9, ℓ=3 was confirmed 2026-08-09 on both chains to six decimals " +
+                         "(√6, √10, √12, √12, √10, √6; the 10584²/15876² middle blocks walked by LU " +
+                         "shift-invert, SidewaysSpinLadderSparse, gate SLOW_SIDEWAYS9). Even N stays open: no " +
+                         "even-N defective seed is recorded (RealDefectiveSeeds lists odd N, lower bounds), so " +
+                         "the even-N chain reading is untested, not predicted.",
                 provenance: NodeProvenance.Stored);
         }
     }

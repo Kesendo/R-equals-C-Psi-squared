@@ -64,8 +64,8 @@ public static class SidewaysSpinLadderChain
         5 => (0.620878, -4.6189),
         7 => (1.514833, -4.8846),
         _ => throw new ArgumentOutOfRangeException(nameof(n),
-            $"no recorded defective seed for N={n} (RealDefectiveSeeds lists odd N; the chain walk " +
-            "is seeded at N=5 and N=7)"),
+            $"no seed wired for N={n} (RealDefectiveSeeds lists odd N; the dense chain walk is seeded " +
+            "at N=5 and N=7, the N=9 seed lives in SidewaysSpinLadderSparse.Seed)"),
     };
 
     /// <summary>The Clebsch-Gordan transport norms √(ℓ(ℓ+1) − m(m+1)) for ℓ = (N−3)/2,
