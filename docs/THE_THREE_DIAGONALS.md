@@ -20,9 +20,9 @@ ThreeDephasingDiagonalsOrbitClaim, inspect root diagonal, R=CPsi2 -->
 
 ## What this document is about
 
-When an environment keeps "looking at" a quantum system along one direction, asking each spin, over and over, "are you up or down along Z?", that watching (called dephasing) damages one particular ledger of the system. We call that ledger the diagonal. Almost everything this project has proved about how open quantum systems decay was, underneath, the structure of this one ledger.
+When light keeps arriving at every spin of a quantum system, separating each place that holds one way of being on one face and the other on the other, and passing through wherever the two faces agree, that separating (called dephasing) damages one particular ledger of the system. We call that ledger the diagonal. Almost everything this project has proved about how open quantum systems decay was, underneath, the structure of this one ledger.
 
-The point of this document is that the ledger is not special: it is one of three identical siblings, one for each direction the environment could have watched (X, Y, or Z). And they are not three separate things. They are the same object seen from three angles, and a simple change of viewpoint, like turning a die to bring a different face up, carries one into the next. Because they are one shape rotated, they share what matters: the very same set of decay rates.
+The point of this document is that the ledger is not special: it is one of three identical siblings, one for each axis a system can be separated along (X, Y, or Z). And they are not three separate things. They are the same object seen from three angles, and a simple change of viewpoint, like turning a die to bring a different face up, carries one into the next. Because they are one shape rotated, they share what matters: the very same set of decay rates.
 
 One trap is worth telling, because the way it was caught is a small lesson in how to check things. The Y sibling hides a minus sign (the Y matrix flips sign when you transpose it; X and Z do not). Forget that sign and the three stop lining up. Here is the trap: a check that only compares their fingerprints, the bare list of decay rates, passes anyway, because flipping the sign of a symmetric list leaves it unchanged. The fingerprint is blind to the sign. So the three siblings had to be built as actual operators and matched one to one, not read off from their spectra. Build the thing; do not trust the shadow.
 
@@ -36,7 +36,7 @@ Z-dephasing of a spin chain touches exactly one diagonal of the Liouvillian: Q_Z
 
 ## §1 The object: one diagonal per dephasing axis
 
-Dephasing in letter P (for P = Z: the environment repeatedly asking each qubit "are you up or down along Z?", which erases the off-diagonal coherences between states of different Z-content) sends ρ ↦ Σ_l P_l ρ P_l. On the d²-dimensional coherence space (d = 2^N; row-stacking vec, kron(A, B): ρ ↦ A ρ Bᵀ) this is the generator
+Dephasing in letter P (for P = Z: light arriving at each qubit again and again, separating along Z, erasing the off-diagonal coherences between states that differ anywhere along Z) sends ρ ↦ Σ_l P_l ρ P_l. On the d²-dimensional coherence space (d = 2^N; row-stacking vec, kron(A, B): ρ ↦ A ρ Bᵀ) this is the generator
 
   **Q_P = Σ_l kron(P_l, P_lᵀ).**
 

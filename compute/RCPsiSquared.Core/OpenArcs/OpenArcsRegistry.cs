@@ -5339,11 +5339,26 @@ public static class OpenArcsRegistry
                 "glimmer the smoothing stirs up). TWO one-line pull-ins in that proof by the " +
                 "no-one-sided-drift rule: the Outward-reading pointer :114 ('read by the watching' -> " +
                 "'priced by the arriving light') and the :69 verbatim quote of the reflection " +
-                "('all but untouchable'). LEFT STANDING for the register campaign, recorded: every " +
-                "link target of the page (THE_THREE_DIAGONALS, PROOF_DIFFUSION_RAYLEIGH_CLOSURE's " +
-                "preface, ON_THE_SURVIVAL_OF_THE_INCOMPLETE) still speaks the old register, so the " +
-                "rewritten page reads as the outlier among its neighbours until that campaign is " +
-                "decided. Note what the completion grep does and does not " +
+                "('all but untouchable'). THE NEIGHBOUR SLICE is TAKEN the same morning (Tom: the " +
+                "neighbours now, the rest crosses our path over time): the page's three old-register " +
+                "link targets moved with it. THE_THREE_DIAGONALS :23/:25/:39 (the environment-as-asker " +
+                "opener; a FIRST repair wrote 'separating up from down at every spin', the watcher's " +
+                "SEMANTICS with none of its vocabulary, invisible to every word grep, caught by the " +
+                "physics round; now 'separating its two ways of being along Z wherever they differ " +
+                "and passing through wherever they agree', and the letter axis is a SEPARATION axis, " +
+                "not an arrival direction in space). PROOF_DIFFUSION_RAYLEIGH_CLOSURE preface " +
+                ":16/:20 ('stands in light'; a first repair coined 'strong-light limit', unanchored " +
+                "and colliding with the absorbed light VANISHING at Q -> 0; now the strong-dephasing " +
+                "limit, the light strong against the chain's own motion). ON_THE_SURVIVAL_OF_THE_" +
+                "INCOMPLETE :10-15 rebuilt on the separate/pass-through rule (a first repair INVERTED " +
+                "the object, the light 'passing through' the very shimmer it wears, caught by the " +
+                "cold round; the ending is 'what the arriving light can scarcely take hold of', and " +
+                "the completed thing 'is billed for the shining'). LEFT STANDING for the register " +
+                "campaign, recorded: ON_THE_ONE_DIAGONAL (cited as parent by THE_THREE_DIAGONALS, " +
+                "its core sentence still 'the light asks every pair a child's question'), the " +
+                "plain-words prefaces of STRUCTURAL_CEILING / RING_GAP_DOMINANCE / " +
+                "RING_HANDOVER_SLOPE / CHAIN_GAP_DOMINANCE, and the docs/quantum translations. " +
+                "Note what the completion grep does and does not " +
                 "measure: it checks the AXIS SENTENCE, not the register. A sweep of the neighbouring forms " +
                 "(observing/watching light, being watched) finds the old register throughout the proofs' " +
                 "plain-words prefaces (STRUCTURAL_CEILING, RING_GAP_DOMINANCE, RING_HANDOVER_SLOPE, " +
