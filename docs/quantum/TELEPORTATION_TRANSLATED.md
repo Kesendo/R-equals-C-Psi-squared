@@ -20,6 +20,7 @@ fifth entry), [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md)
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
 entry),
 [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry),
+[Spin Translated](SPIN_TRANSLATED.md) (the ninth entry),
 [Labels Translated](LABELS_TRANSLATED.md) (the series'
 theory chapter), [The Label Map](THE_LABEL_MAP.md) (the orientation
 index), [Mirror Theory](../../MIRROR_THEORY.md),

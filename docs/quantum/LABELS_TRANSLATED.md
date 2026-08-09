@@ -22,6 +22,7 @@ entry),
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
 entry),
 [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry),
+[Spin Translated](SPIN_TRANSLATED.md) (the ninth entry),
 [The Label Map](THE_LABEL_MAP.md) (every label correction the repository
 has made, assembled),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),

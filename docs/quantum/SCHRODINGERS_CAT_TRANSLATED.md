@@ -27,6 +27,7 @@ list),
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
 entry; it reads the birth certificate),
 [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry),
+[Spin Translated](SPIN_TRANSLATED.md) (the ninth entry),
 [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
 [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [XOR Space](../../experiments/XOR_SPACE.md),
