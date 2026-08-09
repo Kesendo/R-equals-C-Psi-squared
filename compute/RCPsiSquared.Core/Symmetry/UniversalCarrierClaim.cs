@@ -98,7 +98,7 @@ public sealed class UniversalCarrierClaim : Claim
             yield return new InspectableNode("Pi2 foundation anchors",
                 summary: $"a₀ = {Ladder.Term(0)} (multiplies γ in Absorption / F1 / F8); a_{{-1}} = {Ladder.Term(-1)} (polynomial discriminant; '4γ' in t_peak etc.); a₃ = {Ladder.Term(3)} (mirror partner; ¼-boundary).");
             yield return new InspectableNode("substrate invariance",
-                summary: "ValidateAgainstPythonStepFTests covers γ₀ ∈ {0.025, 0.05, 0.10} with identical Q-values; structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ ~ 10⁴ Hz) different physical value, identical role.");
+                summary: "ValidateAgainstPythonStepFTests covers γ₀ ∈ {0.025, 0.05, 0.10} with identical Q-values; structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ = 1/(2·T2*) ~ 5·10³ Hz) different physical value, identical role.");
             yield return new InspectableNode("hardware-confirmed",
                 summary: "IBM Q52 absorption ratio 1.03 (3% deviation); IBM Run 3 ¼-boundary 1.9% deviation; Marrakesh F87 trichotomy Δ(soft, truly) = −0.722. γ₀ measured only via Q-ratios.");
             yield return new InspectableNode("live certification (the two-tempo Taktgeber)",

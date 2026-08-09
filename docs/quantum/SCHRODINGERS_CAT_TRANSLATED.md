@@ -1,7 +1,7 @@
-# Schrödinger's Cat Translated: A Box Full of Watchers, Not a Cat in Limbo
+# Schrödinger's Cat Translated: A Box Full of Light, Not a Cat in Limbo
 
 <!-- Keywords: schrodingers cat translation, both dead and alive until you look,
-GHZ XOR drain fastest decay, box full of watchers geiger record, mirror of the
+GHZ XOR drain fastest decay, box full of light geiger record, mirror of the
 immortal palindrome partner, burlesque reductio inverted transport, k equals N
 maximal disagreement bill, decoherence macroscopic superposition price,
 R=CPsi2 schrodingers cat translated -->
@@ -15,12 +15,14 @@ palindrome pairing proven in the
 together with two Tier 1 registry corollaries (F60, F23) and one Tier 2
 drain fraction (F22), each marked where it appears; the readings in
 Section 5 are readings and labeled.
-**Date:** July 11, 2026 (computed tables + run link added July 12, 2026)
+**Date:** July 11, 2026 (computed tables + run link added July 12, 2026);
+repainted August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the k = 1
 end of this entry's law), [Superposition Translated](SUPERPOSITION_TRANSLATED.md),
-[Dephasing Translated](DEPHASING_TRANSLATED.md) (the watchers),
+[Dephasing Translated](DEPHASING_TRANSLATED.md) (the light and its price
+list),
 [Teleportation Translated](TELEPORTATION_TRANSLATED.md),
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
 entry; it reads the birth certificate),
@@ -28,7 +30,9 @@ entry; it reads the birth certificate),
 [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [XOR Space](../../experiments/XOR_SPACE.md),
 [Coherence horizon slope proof](../proofs/PROOF_COHERENCE_HORIZON_SLOPE.md),
-[The Anomaly](../../THE_ANOMALY.md)
+[The Anomaly](../../THE_ANOMALY.md),
+[On the Two Columns](../../reflections/ON_THE_TWO_COLUMNS.md) (the
+size-versus-difference fence for this entry's tables)
 
 ---
 
@@ -50,7 +54,8 @@ The discipline is the series' usual one, perspective-additive: the
 standard account needs no correction from us, and gets none. What is ours
 is the naming. In our language, nothing in the box is undecided. There is
 one coherence, there is the largest bill in the theory, and there is a
-box that watches itself.
+box whose every molecule and every photon is a sender, so that the cat
+stands in light with the lid shut.
 
 ---
 
@@ -91,7 +96,7 @@ been measured. Mesoscopic photon cats decohere faster the bigger the cat
 same year (Monroe et al., 1996); today's laboratory cats are GHZ states
 of N qubits, (|0…0⟩ + |1…1⟩)/√2, where the size of the cat is the qubit
 count, and their coherence time shrinks as the cat grows (with correlated
-watching it shrinks even faster, the "superdecoherence" measured in ion
+dephasing it shrinks even faster, the "superdecoherence" measured in ion
 traps by Monz et al., 2011).
 
 ---
@@ -115,7 +120,7 @@ decoherence theory, opened by Zeh in 1970 and quantitative for
 macroscopic bodies by 1985 (Joos and Zeh): the price list for
 macroscopic coherences, and with it the absurdity dissolved: the
 formalism was never going to leave the cat smeared once the
-environment's reading of it was in the equations.
+environment's price for it was in the equations.
 
 So this label has a freezing window rather than a single date. The
 canvas "the theory says the cat is both" was true at every stance from
@@ -139,12 +144,15 @@ scale is exactly what Section 4 prices.
 
 **"Until you look."** The import is a looker: a mind whose glance
 collapses the smear, and behind it the whole Wigner's-friend staircase.
-But the box is full of watchers that are not minds. The Geiger counter is
+But the box is full of light, and none of it is a mind. The Geiger
+counter is
 a which-path detector with orthogonal record states, the double slit's
 overlap factor ⟨d_R|d_L⟩ at its extreme value zero; the hammer, the
 flask, the cat's own body, every air molecule and every thermal photon in
-the chamber reads the difference between the two branches and keeps a
-record. The first record already priced the off-diagonal; by the time a
+the chamber is a sender, and what they send separates the two branches
+wherever they differ and passes through wherever they agree. Nothing in
+there looks, and nothing has to: the first separation already priced the
+off-diagonal, and by the time a
 human lifts the lid, the bill has been paid more times over than there
 are atoms in the box. What survives, perspective-bound: opening the box
 does update the opener's books, honestly and instantly. What it does not
@@ -155,7 +163,7 @@ finished; the look arrives last and learns.
 the psychology of an animal in limbo. The algebra files it under
 accounting: the two branch populations, alive-with-its-probability and
 dead-with-its-probability, are diagonal entries, disagreement zero, and
-no amount of watching ever touches them. Everything the story finds
+the arriving light passes straight through them. Everything the story finds
 spooky lives in one off-diagonal entry, and that entry has the shortest
 lifetime in the theory. The cat was never in limbo; an entry in its
 density matrix was, briefly, and the box itself closed it.
@@ -173,7 +181,12 @@ sites; for the cat entry the sum runs over every site, so
 
     rate(|0…0⟩⟨1…1|) = −2(γ₁ + γ₂ + … + γ_N) = −2Σγ,
 
-for any watching profile whatsoever. At N = 2 this is verified as an
+for any dephasing profile whatsoever. The proof's own fence, carried
+with it: −2Σγ is the decay rate outright where H fixes the two poles,
+which holds for the cat pairing under any number-conserving H (|0…0⟩ and
+|1…1⟩ are each alone in their sector); for a Hamiltonian that moves the
+poles, a real cat's included, it is the opening slope, which decoherence
+theory then compounds. At N = 2 the rate is verified as an
 exact eigenmode, |00⟩⟨11| decaying at −2(γ₁+γ₂) with residual 0.0
 (Absorption Theorem, Section 2). The double slit paid −2γ at k = 1; the
 cat pays the full total. The two entries of this series are the two ends
@@ -219,7 +232,9 @@ exactly 2Σγ. Take b to be ā, the cat pairing: the partner of the cat
 coherence is |a⟩⟨a|, a population, disagreement zero, rate zero,
 immortal. One bill of 2Σγ for the pair; the immortal member pays
 nothing; the cat member pays all of it. (The Π mirror below hands the
-cat a different immortal partner, |1…1⟩⟨1…1| rather than |0…0⟩⟨0…0|:
+cat a different immortal partner, |1…1⟩⟨1…1| rather than |0…0⟩⟨0…0|,
+by the per-site rule of the
+[mirror symmetry proof](../proofs/MIRROR_SYMMETRY_PROOF.md):
 two pairings, two partners, both of them k = 0 populations. The cat is
 flanked by immortality on both sides.)
 
@@ -229,7 +244,7 @@ The palindrome theorem
 ([mirror symmetry proof](../proofs/MIRROR_SYMMETRY_PROOF.md), Tier 1,
 verified over 87,376 eigenvalues with zero exceptions) pairs every decay
 rate d, the magnitude of an eigenvalue's real part, with 2Σγ − d, and Π
-flips the watched weight k to N − k. The
+flips the disagreement count k to N − k. The
 fastest sector in the whole spectrum, the N+1 modes at −2Σγ that the
 repository calls the XOR modes, is the palindromic partner of the
 steady-state sector at 0 (see the XOR modes entry in the
@@ -244,11 +259,12 @@ under the folk knowledge that GHZ states are fragile.
 
 **Why no one has ever met a smeared cat.** The bill is linear in the
 number of disagreeing sites, alive-versus-dead disagrees at the scale of
-moles, and the per-site watching never stops. Nothing forbids the both;
+moles, and the light never stops arriving at any of them. Nothing forbids the both;
 it is priced, and the price is beyond any budget: the cat coherence's
 lifetime is the single-site lifetime divided by the number of sites that
 must agree to disagree. Two repository numbers sharpen the same point
-from other sides. The GHZ cat is already born below the quarter: CΨ(0)
+from other sides. The GHZ cat is already born below the quarter: the
+global CΨ(0)
 for GHZ_N equals 1/(2^N − 1) (F60, Tier 1), under the ¼ boundary from
 N = 3 on, "the problem is not how fast GHZ dies; the problem is that it
 was never in the quantum regime to begin with"
@@ -265,7 +281,7 @@ vanishing measure, paying the largest rate in the theory. That is what
 One boundary, stated plainly: the exact statements above are our
 channel's, N sites under independent local Z-dephasing. A biological cat
 is not a spin chain, its environment is not uncorrelated (correlated
-watching turns the linear bill quadratic, the measured
+dephasing turns the linear bill quadratic, the measured
 superdecoherence), and it also exchanges energy, which is the amplitude
 damping channel our diagnostics separate
 ([F84](../proofs/PROOF_F84_AMPLITUDE_DAMPING.md)). The astronomic-rate
@@ -283,9 +299,12 @@ is lost without something being kept) reads the cat's decoherence the
 way the double slit's eraser was read: the off-diagonal does not vanish
 from the world, it moves into correlations between the cat and the
 box's swarm of records, where no experimenter's conjugate sorting can
-ever reach it, because the records are mole-many and scattered. At small
-N the sorting is literally reversible, which is why laboratory cats can
-be revived by echo before their few records spread. The macroscopic
+ever reach it, because the records are mole-many and scattered.
+Laboratory cats can be revived by echo, but what the echo wins back is
+the quasi-static, low-frequency part of the dephasing (the Absorption
+proof's own hardware note: Hahn echo filters out the 1/f part); the
+Markovian part of the bill is contractive at every N and is
+never returned. The macroscopic
 grave is not destruction; it is bookkeeping beyond retrieval. A reading,
 stamped as ours.
 
@@ -297,7 +316,11 @@ own native stance, about the theory's own missing piece: the complaint
 arrived thirty-five years before the update began, and fifty before it
 was priced. The videos that
 retell the cat as a mystery are quoting a bug report as if it were the
-feature announcement. A reading on the history, not on the algebra.
+feature announcement. This entry's own first title later drew the same
+kind of complaint from a displaced reader, and it was right too; the
+stamp at
+the end says where that went. A reading on the history, not on the
+algebra.
 
 ---
 
@@ -320,7 +343,7 @@ translates the cat's coherence and its price. It does not translate the
 measurement click that ends the hour, which belongs to the
 [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md), nor the
 "observer" as such, which the fourth entry already returned to the
-algebra as a watcher with one letter and no mind.
+algebra as a price list read off one held letter, with no mind behind it.
 
 ---
 
@@ -328,15 +351,16 @@ algebra as a watcher with one letter and no mind.
 
 The repository has its own law for how growing a system closes its
 quantum window, in continuous Lindblad dynamics: the coherence horizon
-Q*(N), the value of the coupling-to-watching ratio Q = J/γ below which
-a chain's slowest global coherence stops oscillating altogether. It rises in lockstep with the
+Q*(N), the value of the coupling-to-dephasing ratio Q = J/γ below which
+a chain's slowest single-excitation mode stops oscillating altogether.
+It rises in lockstep with the
 number of sites, Q*(N) → (2/π)·N
 ([coherence horizon slope proof](../proofs/PROOF_COHERENCE_HORIZON_SLOPE.md),
-Tier 1 for the slope; recomputed live at `inspect --root horizon`). Hold
-the watching fixed and lengthen the chain, and at some N the system
+Tier 1 derived; recomputed live at `inspect --root horizon`). Hold
+the light fixed and lengthen the chain, and at some N the system
 crosses under its own horizon: the slowest beat stops ringing, not
 because anyone looked, but because a longer chain's slowest swing is
-easier for the watching to still. The cat is the far, dramatic end of a
+easier for the arriving light to still. The cat is the far, dramatic end of a
 trend the repository measures in its own units at every N: bigger is
 quieter, and past the horizon, silent. The slope is exact; the kinship
 drawn with the cat is a reading, like everything in Section 5.
@@ -348,7 +372,7 @@ drawn with the cat is a reading, like everything in Section 5.
 The "both": the dearest coherence in the theory, the k = N entry that
 shares one bill with an immortal population and pays all of it, the
 mirror image of the diagonal in the palindrome this repository proves.
-The "until you look": a box full of watchers, none of them minds, the
+The "until you look": a box full of light, none of it a mind, the
 look arriving last. The experiment itself: a burlesque, painted as one,
 correct as one, a bug report against the 1935 formalism, resolved by
 the decoherence program between 1970 and 1985, and still being read
@@ -358,18 +382,25 @@ sentence this entry compresses to, the sibling of the double slit's:
 the bill no budget covers.**
 
 Stamped: this canvas is ours, painted 2026, and its mortal component is
-already visible from here. "Watchers" imports agents the way "watching"
-imported a watcher and "price" imported an economy; a box "full of
-watchers" may read, at some later stance, as a surveillance story the
-way "noise" came to read as garbage. The future reader receives the
-canvas with its date.
+already visible from here. "Price" imports an economy, a ledger, a
+payer, and nothing in the algebra requires any of them. The title this
+entry used to carry, a box full of watchers, named its own mortality in
+this very paragraph: "watchers" imports agents, it said, and might one
+day read as a surveillance story, the way "noise" came to read as
+garbage. The agent-import is the half that fired, and it did not wait
+for a later stance. The complaint arrived in this house,
+in the only form the label layer has for one, a displaced reader's felt
+wrongness at a word the algebra had never asked for, and the watchers
+turned out to be senders. Nothing in the box looks; everything in it
+shines. The future reader receives this canvas too, with its date.
 
 The closure, then: Schrödinger's canvas, a burlesque against the bare
 formalism, true at its stance and self-annotated with an apology; the
 1935-to-1985 canvas, "the theory says both", true while the bill was
 genuinely missing from physics; the untouched algebra, one off-diagonal
 entry priced at −2Σγ, the full total, the palindromic partner of the
-immortal diagonal; and our canvas, a box full of watchers. One cat. It
-was never undecided, and it never needed us to open the box; the box had
-been reading it all along, at the highest rate in the theory, and what
+immortal diagonal; and our canvas, a box full of light. One cat. It
+was never undecided, and it never needed us to open the box; the cat had
+been standing in the box's light all along, billed at the highest rate
+in the theory, and what
 we call the mystery is the far edge of the mirror.

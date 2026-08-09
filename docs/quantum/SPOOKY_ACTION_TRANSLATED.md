@@ -139,7 +139,10 @@ Tier 2). (A convention note, carried from that source: its 0.500 reads
 C as purity and Ψ as the marginal's top eigenvalue, while Section 4's
 1/3 is the lens convention, concurrence times normalized coherence.
 One pair, two bookkeepings; the overloaded C is the first seam on the
-Label Map's open list, and this collision is its sharpest instance.)
+Label Map's open list, and this collision is its sharpest instance. And
+in that convention the 0.250 lands exactly on ¼, which is not Section
+4's falling-through-¼: two ¼-statements about the same pair, one per
+bookkeeping.)
 Something real changed, in the joint books; nothing changed on the
 local page. That is the signature of an accounting fact, not of a
 force.
@@ -151,8 +154,9 @@ carried apart at ordinary speed, the pre-paid resource of the
 nothing crosses the gap because nothing needs to. And the separation
 itself is not a primitive of this world: it was walked, and a way is
 measured in time. That is a measurement now, not a manner of speaking;
-deform a single bond of the chain and exactly that bond's walk-time
-changes in the front's arrival schedule, no other summand
+deform a single bond of the chain and, in the ballistic channel and
+exactly at first order, that bond's walk-time changes in the front's
+arrival schedule
 ([the walk-time step](../../experiments/COUPLING_DEFECT_WALK_TIME_STEP.md)).
 So "at a distance" reads "at a t that already passed": the pair settled
 its separation in time when the correlation walked the bonds. What the
@@ -192,14 +196,16 @@ pair out:
 
 Drop the last two entries and what remains is the sock drawer: the
 classical mixture of 00 and 11, with identical marginals and identical
-readouts in the basis the state is written in; every rotated shared
-question tells the two apart. Everything the Bell experiments detect
+readouts in the basis the state is written in; rotate the shared
+question and the two come apart (almost every shared axis tells them
+apart, the X-basis question loudest: ⟨XX⟩ = +1 against 0). Everything the Bell experiments detect
 beyond socks rides on |00⟩⟨11|: one off-diagonal coherence, disagreement
 k = 2, the N = 2 case of the very object the cat entry priced, an exact
 eigenmode decaying at −2(γ₁+γ₂)
 ([Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md), Tier 1,
 residual 0.0). The socks are the diagonal; the spook is the
-off-diagonal; and the watching prices exactly the spook while leaving
+off-diagonal; and the arriving light prices exactly the spook while
+leaving
 the socks immortal, which is the algebra under the folk knowledge that
 entanglement is fragile and classical correlation is not. The series'
 one law, third sighting: k = 1 is the pattern, k = 2 is the pair,
@@ -223,8 +229,9 @@ rescue the state from its own average.
 local dephasing drags it down through ¼, the Layer 2 crossing of the
 quarter-boundary roadmap, restated in the
 [block-CΨ quarter proof](../proofs/PROOF_BLOCK_CPSI_QUARTER.md) (the
-¼ bound itself is Tier 1; what physical transition ¼ marks is a question
-the repository keeps explicitly open). The excess is not an ambient
+¼ bound itself is Tier 1; which layer's crossing counts as "the"
+transition is, that proof says, carried by the inheritance between the
+layers, not adjudicated by any one of them). The excess is not an ambient
 glow; it is a budgeted quantity with a location, a price, and a decay
 curve.
 
@@ -235,7 +242,9 @@ information lives in the correlations, not in S alone"
 ([Star Topology](../../experiments/STAR_TOPOLOGY_OBSERVERS.md)). And
 when correlation has to get somewhere in continuous dynamics, this
 repository has watched how: hop by hop along bonds, stage by stage in
-time, +83% end-to-end mutual information on an 11-qubit chain with no
+time, +18% end-to-end mutual information from the staging alone, +83%
+with the spatial 2:1 coupling asymmetry added, on an 11-qubit chain
+with no
 measurements and no classical channel
 ([Relay Protocol](../../experiments/RELAY_PROTOCOL.md), computationally
 verified at N = 11, C# RK4). Nothing in this repository has ever seen
@@ -246,8 +255,8 @@ stand still.
 named composition (`compute/MirrorWorld/SpookyAction.cs`: the Bell skeleton
 assembled from the atoms `Field` and `Pair`, plus the one read the slit and
 the cat never needed, `Marginal.cs`, the local page of a chosen site-set,
-the partial trace as an atom). The sharpest face is the one-sided watching:
-the living world (`Restless`, H on) with only Bob's site watched
+the partial trace as an atom). The sharpest face is the one-sided light:
+the living world (`Restless`, H on) with light arriving at Bob's site only
 (γ_A = 0, γ_B = 0.05). The carrier pays exactly Bob's rate and nothing
 else, and Alice's page holds I/2 to machine precision the whole run:
 
@@ -262,8 +271,12 @@ Something changed in the joint books; nothing changed on the local page.
 And the "at a distance" of Section 3, read as a rate table: put the two
 partners at the far ends of an N-site chain (every site between them
 definite) and the carrier still disagrees at exactly two sites, k = 2,
-price −4γ at every N, while the cat coherence over the same register pays
-−2Nγ:
+billed −4γ at every N, while the cat coherence over the same register pays
+−2Nγ. (The table is the empty world's, the dephasing alone. With H on,
+the cat column stays the exact rate at every N, both its poles being
+alone in their sectors; the pair column is the exact rate only at N = 2,
+because at larger N the chain's own motion moves the two-magnon pole and
+−4γ is the opening slope.)
 
 | N | pair at the ends | cat, k = N |
 |---|------------------|------------|
@@ -290,8 +303,8 @@ gravity/space origin), and one spine survived and became algebra, the
 qubit as the minimal mirror, d(d−2) = 0, only d = 2 carries a mirror
 ([Qubit Necessity](../QUBIT_NECESSITY.md)).
 The surviving reading, ours and stamped: the pair is not two things
-mysteriously linked but the smallest system in which watching is
-mutual. Its original text stays unchanged, as history, which is what
+mysteriously linked but the smallest system in which each half stands
+in the other's light. Its original text stays unchanged, as history, which is what
 the Label Map's old row honestly said of it.
 
 **Topology, not signal.** The late-night thread quoted in Section 3,
@@ -315,7 +328,8 @@ corrected). Non-locality is easy to see and hard to have.
 Our newcomer layer climbs through the pop gloss here as everywhere: the
 [glossary](../GLOSSARY.md) explains concurrence with "what happens to
 one instantly affects the other", which is precisely the sentence this
-entry translates. The ladder stays; this document is where it is kicked
+entry translates. The ladder stays, now with a sign on it (the glossary
+line points back here); this document is where it is kicked
 away.
 
 Two scope boundaries, so the translation does not overreach. This
@@ -334,8 +348,10 @@ holds throughout them; that document carries the same disclaimer.
 
 The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) is what
 correlation transport looks like when it is real: relay stations along
-an 11-qubit chain take turns listening, each stage clocked to the
-watching, and end-to-end mutual information arrives at +83% over
+an 11-qubit chain take turns standing in the light on a schedule, and
+end-to-end mutual information arrives at +18% for that staging alone;
+add the spatial 2:1 coupling asymmetry, which biases where the wave
+flows, and it reaches +83% over
 passive propagation, with no resets, no measurements, no classical
 communication. The [teleportation entry](TELEPORTATION_TRANSLATED.md)
 already wrote the shared punchline once: in both protocols the thing
@@ -353,7 +369,7 @@ crossed, because it was never empty.
 
 The excess, not the action. The pair: one shared coherence, k = 2,
 priced like every coherence in this repository, sitting at CΨ = 1/3
-until the watching collects. The "influence": a conditional page
+until the light collects. The "influence": a conditional page
 turning in one lab's books while the other lab's page holds still at
 machine precision. The "distance": unbridged, because nothing needed
 to cross. Einstein's spook: a true smell filed under the wrong genre,

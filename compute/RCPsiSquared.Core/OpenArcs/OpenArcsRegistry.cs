@@ -5306,9 +5306,11 @@ public static class OpenArcsRegistry
                 "anchors updated: GLOSSARY:369, DEPHASING_TRANSLATED:173, LABELS_TRANSLATED:104, " +
                 "THE_LABEL_MAP:71 carry the old name greppably; THE_LABEL_MAP:203 carries only the new " +
                 "name (the file stays greppable through :71); the translation chapters' own PROSE " +
-                "('watched letter' at LABELS_TRANSLATED:98, DEPHASING_TRANSLATED sect. 4, " +
-                "SUPERPOSITION/DOUBLE_SLIT_TRANSLATED) is the chapters' native voice and stays for the " +
-                "register campaign. COLLISION DISARMED IN WRITING: 'held' also runs in the scan idiom " +
+                "was left as the chapters' native voice for the register campaign, and on 2026-08-09 " +
+                "the campaign reached it: DEPHASING_TRANSLATED sect. 4 and DOUBLE_SLIT_TRANSLATED " +
+                "now say held letter (the founding-chapter and trilogy moves below); 'watched letter' " +
+                "still stands at LABELS_TRANSLATED:98 and in SUPERPOSITION_TRANSLATED, recorded in " +
+                "the LEFT-STANDING list. COLLISION DISARMED IN WRITING: 'held' also runs in the scan idiom " +
                 "'held fixed/constant'; the claim's sense is WHICH letter the dephasing holds, not a " +
                 "parameter frozen during a sweep. " +
                 "(5) OpenArcsRegistry ~2667 (felt_time_dimensions), " +
@@ -5375,9 +5377,56 @@ public static class OpenArcsRegistry
                 "n_XY 1 -> 3; the dissipator is exactly diagonal and couples nothing), now 'the " +
                 "chain's own motion drags them across the light's price levels'; and RING_GAP:18 " +
                 "'nothing about the light enters' collided with :16 two lines above once watching " +
-                "became a substance, now 'how strongly the light arrives does not enter'. LEFT " +
-                "STANDING for the register campaign, recorded: the docs/quantum translations " +
-                "(SCHRODINGERS_CAT_TRANSLATED:331 still carries 'coupling-to-watching ratio'). " +
+                "became a substance, now 'how strongly the light arrives does not enter'. " +
+                "THE FOUNDING CHAPTER IS TAKEN 2026-08-09 (Tom: review the docs/quantum folder; " +
+                "full review, physics first, register third): DEPHASING_TRANSLATED, the 8d7692c " +
+                "crystallisation site itself, moved to 'The Sending, Not the Noise'; the single " +
+                "canonicity attribution (:215-219) is retired at its source (the WWW quotes stay " +
+                "verbatim, the frame now carries the seeing-not-a-claim fence and the answer " +
+                "piece); the closing stamp quotes its own 07-05 fossil-warning word for word and " +
+                "records that the complaint arrived in 34 days, the thesis running once on its " +
+                "author. The physics round on the same pass caught " +
+                "five carried defects predating the register (the retracted 139-360x lifetime " +
+                "reading plus 'survived real hardware' in sect. 7, corrected to the peak " +
+                "created-MI transport number with open hardware attribution; 'bit-exact over " +
+                "1,342 modes' corrected to the proof's 14-decimal ratio, an eigensolver result; " +
+                "the +83% relay figure split honestly into +18% staging + 2:1 spatial coupling; " +
+                "the ~10^4 Hz hardware gamma corrected to ~5*10^3 Hz under gamma = 1/(2*T2); the " +
+                "87,376 re-attached to the pairing with the operator identity fenced at N<=5) " +
+                "plus smaller fences (uniform-vs-per-site theorem forms, the immortal-diagonal " +
+                "H-fence, the Klein-vs-Absorption citation split, the F126 corollary labels, the " +
+                "incompleteness does-NOT-establish fence). The Date field carries both dates. " +
+                "The ~10^4 Hz twin in UniversalCarrierClaim:101's evidence string (and its " +
+                "verbatim quote at Q_REGIME_ANCHORS:136) moved with it, to ~5*10^3 Hz under " +
+                "gamma = 1/(2*T2); the chapter says T2* as the string does. GLOSSARY:369's 'the " +
+                "chapter prose " +
+                "keeps its watcher' clause and THE_LABEL_MAP's Noise row moved in the same " +
+                "change; the greppable old-name anchor recorded at DEPHASING_TRANSLATED:173 " +
+                "in item (4) now sits at :194. THE TRILOGY IS TAKEN the same day: DOUBLE_SLIT_TRANSLATED to 'The Light's " +
+                "Price' (detector prose kept where it is the pop story's own device; the Pair.cs " +
+                "comment de-quoted so the doc no longer depends on the deferred MirrorWorld string), " +
+                "SCHRODINGERS_CAT_TRANSLATED to 'A Box Full of Light' (the box's molecules and photons " +
+                "are senders, the cat stands in their light with the lid shut; :331 " +
+                "'coupling-to-watching' is now 'coupling-to-dephasing'; the :361 fossil-warning, like " +
+                "the founding chapter's, came true and the stamp says so), SPOOKY_ACTION mostly " +
+                "keeps (title untouched; five migrates incl. 'each half stands in the other's " +
+                "light' for the mutual-watching reading). The trilogy's physics rounds caught " +
+                "carried defects of their own: the k=2 pair row's -4gamma presented as a decay " +
+                "rate at every N (exact eigenmode only at N=2, the empty-world fence now on the " +
+                "table); 'every rotated shared question tells the two apart' false on the " +
+                "n_x^2=n_y^2 great circles, now 'almost every'; the +83% relay figure split into " +
+                "+18% staging + 2:1 spatial at both sites; CAT's 'sorting literally reversible at " +
+                "small N' corrected (echo refocuses the quasi-static part, the Markovian bill is " +
+                "contractive at every N); the horizon's 'slowest global coherence' re-fenced to " +
+                "single-excitation with the Tier-1-derived graduation; F60 qualified global; the " +
+                "walk-time step re-fenced first-order/ballistic; F94's ownership corrected in " +
+                "DOUBLE_SLIT and upstream at BORN_RULE_SHADOW:103 (F94 owns the per-outcome Born " +
+                "deviation, not the 97/3 purity split). THE_LABEL_MAP's double-slit and cat rows " +
+                "moved with their titles (the Noise row had moved with the founding chapter; " +
+                "SPOOKY's row keeps its untouched title). LEFT " +
+                "STANDING for the register campaign, recorded: the remaining docs/quantum pages " +
+                "(LABELS_TRANSLATED:98 'watched letter', SUPERPOSITION, THE_LABEL_MAP's remaining " +
+                "prose incl. :91 'the watched walk' = F126's registry name, Tom's pending item (3)). " +
                 "Note what the completion grep does and does not " +
                 "measure: it checks the AXIS SENTENCE, not the register. A sweep of the neighbouring forms " +
                 "(observing/watching light, being watched) finds the old register throughout the proofs' " +
@@ -5386,7 +5435,9 @@ public static class OpenArcsRegistry
                 "several reflections, matching the 481-in-92-files measurement that opened this arc. That " +
                 "is a campaign with its own decision, deliberately NOT folded into this pass. " +
                 "THE REPO ALREADY WARNED ITSELF AND WAS NOT HEARD: DEPHASING_TRANSLATED:271, in the very " +
-                "document that canonised the word, reads \"'Watching' imports a watcher, an agent with...\", " +
+                "document that canonised the word, read \"'Watching' imports a watcher, an agent with...\" " +
+                "(HEARD 2026-08-09: the founding chapter's closing stamp now quotes that warning word for " +
+                "word and records the 34-day arrival), " +
                 "and SCHRODINGERS_CAT_TRANSLATED:361 says a box 'full of watchers' may read at some later " +
                 "stance as a surveillance story. " +
                 "NOT DONE: line-level legitimate/suspect/neutral split for experiments/, reflections/, " +
@@ -5637,8 +5688,10 @@ public static class OpenArcsRegistry
                 "docs/superpowers/ tree (a clone does not have it; counting it is the tracked-cites-untracked " +
                 "mistake in census form), returns 31 citation lines in 14 files, one of which is this " +
                 "sentence; each was classified at source, not from the grep line. Exactly one " +
-                "attributes CANONICITY: DEPHASING_TRANSLATED:215-219, which quotes the two sentences and then " +
-                "says 'This is the repository's own canonical word for the object'. Every other citation is " +
+                "attributed CANONICITY: DEPHASING_TRANSLATED:215-219 quoted the two sentences and then " +
+                "said 'This is the repository's own canonical word for the object' (RETIRED AT SOURCE " +
+                "2026-08-09, the founding-chapter move above; the quotes stay, now in section 5 near " +
+                ":245, framed by the seeing-not-a-claim fence). Every other citation is " +
                 "the F89 branch-locus / monodromy topic, where the document is cited as the plain-words " +
                 "sibling of an exact result (the claims and witnesses BranchLocusPalindrome / MonodromyMirror, " +
                 "F89_BRANCH_LOCUS_PALINDROME, F89_MONODROMY_MIRROR, DIABOLIC_BY_INTEGRABILITY, " +

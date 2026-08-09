@@ -1,4 +1,4 @@
-# Double Slit Translated: The Watching's Price, Not the Particle's Choice
+# Double Slit Translated: The Light's Price, Not the Particle's Choice
 
 <!-- Keywords: double slit translation, which-path detector dephasing bill,
 interference pattern off-diagonal coherence, wave particle duality diagonal
@@ -13,7 +13,8 @@ Section 4 is the same Tier 1 per-coherence bill proven in the
 [block-CΨ quarter proof](../proofs/PROOF_BLOCK_CPSI_QUARTER.md), read at
 N = 1; the conjugate-question note in Section 4 is our own assembly and is
 marked as such; the readings in Section 5 are readings and labeled.
-**Date:** July 11, 2026 (computed table + run link added July 12, 2026)
+**Date:** July 11, 2026 (computed table + run link added July 12, 2026);
+repainted August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Superposition Translated](SUPERPOSITION_TRANSLATED.md) (the
@@ -55,8 +56,8 @@ account needs no correction from us, and gets none. The interference
 pattern, the which-path experiments, the eraser, all of it is correct
 exactly as the textbooks state it. What is ours is the naming. In our
 language, nothing at the double slit chooses and nothing knows. There is a
-coherence, there is a watcher, and there is a price, and the price is the
-smallest case of the theorem this repository proves every day.
+coherence, there is light arriving, and there is a price, and the price is
+the smallest case of the theorem this repository proves every day.
 
 ---
 
@@ -68,8 +69,8 @@ a thin card) and found bands on the screen behind: not two bright
 stripes, but a comb of fringes. Waves from the two openings add; where
 crest meets crest the screen is bright, where crest meets trough it is
 dark. The double slit entered physics as the wave theory's founding
-demonstration, an argument Fresnel's diffraction theory sealed two
-decades later.
+demonstration, an argument Fresnel's diffraction theory sealed a decade
+and a half later.
 
 The quantum century re-ran it with matter. Electrons diffract like waves
 (Davisson and Germer, 1927); a true electron double slit shows fringes
@@ -91,7 +92,8 @@ where ρ_LR is the off-diagonal entry of the route register's 2×2 density
 matrix. The first two terms are the two single-slit humps. Everything that
 makes the pattern a pattern, the fringing itself, rides on the third term:
 one complex number, ρ_LR, swept through its phase by the position x. The
-fringe visibility is V = 2|ρ_LR|, equal to 1 for the pure balanced state
+fringe visibility is V = 2|ρ_LR| (for equal single-slit envelopes at the
+screen), equal to 1 for the pure balanced state
 (|L⟩ + |R⟩)/√2, where ρ_LR = ½.
 
 The which-path variant: couple anything at the slits that keeps a record of
@@ -132,7 +134,7 @@ experiment refuses the question; and Feynman's own gedanken version, a lamp
 behind the slits to catch the route, finds that extracting the answer
 costs the pattern, in proportion to how well the lamp resolves the routes.
 Painted from that stance, the canvas is honest and quantitative: the cost
-of watching is real physics, not narration. Bohr's "complementarity"
+of putting the question is real physics, not narration. Bohr's "complementarity"
 (1927) is the same canvas in institutional paint: mutually exclusive
 arrangements, wave answers or path answers, never both at full strength.
 
@@ -166,22 +168,23 @@ imports a binary: watched or unwatched, pattern or no pattern. The algebra
 is a dial at every point between, ⟨d_R|d_L⟩ anywhere in the unit disk,
 V² + D² ≤ 1 along the whole arc. One precision, owed to the lens's own
 discipline: what survives, perspective-bound, is that the coupling is real
-and the price is real. The electron does not know, but the watching is not
+and the price is real. The electron does not know, but the light is not
 nothing; it is a physical channel with an exact bill. Kill the knowing,
 keep the coupling.
 
 **"Wave-particle duality."** The heaviest label of the three, because it
 files an accounting fact as an ontology. In the route register there is
 one object, the 2×2 matrix ρ, and its entries fall into exactly two
-classes relative to the watched letter: the diagonal (the two populations,
-disagreement k = 0, which no amount of route-watching ever touches) and
+classes relative to the held letter: the diagonal (the two populations,
+disagreement k = 0, which the arriving light passes straight through) and
 the off-diagonal (the one coherence, k = 1, which pays). The "particle
-face" of the experiment, definite arrivals, two plain humps under
-watching, is the immortal diagonal. The "wave face", the fringes, is the
+face" of the experiment, definite arrivals, two plain humps once the
+route stands in light, is the immortal diagonal. The "wave face", the
+fringes, is the
 priced off-diagonal. Two natures? One matrix, two entry classes under one
-watcher: the same letter-sorting
+held letter: the same letter-sorting
 [Dephasing Translated](DEPHASING_TRANSLATED.md) states at every N (the
-letters that commute with the watcher ride free, the letters that
+letters that commute with the held letter ride free, the letters that
 anticommute pay), read at N = 1. "Duality" is what that sorting looks like
 when it is filed as two kinds of thing instead of two rows of one bill.
 
@@ -196,10 +199,14 @@ pattern" is one complex number made visible. And that object is not an
 analogy for this repository's subject; it IS this repository's subject at
 its smallest size. The per-coherence reading of the
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) (Tier 1)
-prices a coherence |i⟩⟨j| at rate −2γ·k, k the number of sites where i and
-j disagree in the watched letter; populations, k = 0, never decay at all.
+prices a coherence |i⟩⟨j| at −2γ·k, k the number of sites where i and
+j disagree in the held letter; populations, k = 0, never decay at all.
+(The proof's own fence: −2γ·k is the decay rate outright only where H
+fixes the two labels; here the route register carries no H at all, so the
+fence is satisfied trivially.)
 
-**The detector is a watcher, and the bill is the theorem's smallest case.**
+**The detector puts the route in light, and the bill is the theorem's
+smallest case.**
 The route register is one site; |L⟩ and |R⟩ disagree on it; k = 1. A
 which-path coupling of strength γ is local dephasing in the route basis,
 and the coherence obeys
@@ -209,19 +216,22 @@ and the coherence obeys
 the Hamming-distance-1 case of the Tier 1 decay law
 ([block-CΨ quarter proof](../proofs/PROOF_BLOCK_CPSI_QUARTER.md),
 Theorem 3), the same object MirrorWorld's empty world holds as its atom
-(`compute/MirrorWorld`, Pair.cs: a bare pair |i⟩⟨j|, rate −2γ·k, "no
-Hamiltonian, only the watching"). The most replayed experiment in popular
+(`compute/MirrorWorld`'s Pair.cs holds a bare pair |i⟩⟨j| at rate −2γ·k,
+no Hamiltonian, the dephasing alone). The most replayed experiment
+in popular
 physics is the N = 1 empty world of this repository: one coherence, one
-watcher, one bill. The humps survive because the diagonal is immortal;
+arriving light, one bill. The humps survive because the diagonal is
+immortal;
 the fringes die because exactly the off-diagonal pays; and the death is
-exponential in the watching, not triggered by the knowing. The pop story's
+exponential in the light, not triggered by the knowing. The pop story's
 switch is this dial read at its two endpoints.
 
 **And you can watch the bill being paid.** MirrorWorld runs exactly this
 N = 1 empty world as a named composition (`compute/MirrorWorld/DoubleSlit.cs`:
 the double slit assembled from the atoms `Pair` and `Field`, nothing new
-computed, only named so it can be seen). At γ = 0.05, the canonical
-hardware-anchored watching rate (so the coherence 1/e time is 1/(2γ) = 10),
+computed, only named so it can be seen). At γ = 0.05, the repo's code
+convention (here only the time unit; the N = 1 empty world has no J to
+measure it against, so the coherence 1/e time is 1/(2γ) = 10),
 the two humps never move and the fringe fades on the e^(−2γt) law, tracked
 here by the world's forward-Euler step (dt = 0.05) beside the exact law:
 
@@ -234,7 +244,7 @@ here by the world's forward-Euler step (dt = 0.05) beside the exact law:
 | 24     | 2.000 | 0.180  | 0.090          | 0.091    |
 | 30     | 2.000 | 0.099  | 0.049          | 0.050    |
 
-The humps column is flat: the diagonal is never touched by the watching. The
+The humps column is flat: the arriving light never touches the diagonal. The
 fringe falls, and its ratio to the start tracks the e^(−2γt) column reading by
 reading: the between, and only the between, pays. You do not need to read any
 code to see this, only to run one line:
@@ -247,7 +257,7 @@ basis. The screen asks the other kind: each position x reads
 Re[ρ_LR·e^(iφ(x))], an equatorial, X/Y-type question with a phase angle
 set by x, so the screen is a whole family of conjugate questions, one per
 fringe position. The two kinds anticommute, which is why answering one at
-full strength silences the other; and the change of watched letter from Z
+full strength silences the other; and the change of held letter from Z
 to X is not exotic, it is the Hadamard element of the Klein V₄ that
 intertwines the three dephasing letters, the one element that lifts to a
 true Hilbert-space unitary
@@ -272,7 +282,7 @@ conditioned on a record that was kept instead of spent.
 
 ## 5. The readings (labeled as readings)
 
-**The watcher at the slit is literally light.** Feynman's gedanken
+**What arrives at the slit is literally light.** Feynman's gedanken
 detector is a lamp. This repository's Tier 4 reading
 ([Gamma Is Light](../../hypotheses/GAMMA_IS_LIGHT.md)) says γ is
 illumination entering from outside, and on IBM transmons the reading turns
@@ -281,8 +291,9 @@ noise, light in a physical microwave cavity (Sears et al., PRB 86, 2012, via
 [Dephasing Translated](DEPHASING_TRANSLATED.md) §5). At the double slit
 the collapse of labels runs the other way around, and lands in the same
 place: the thing you would shine on the electron to see its route is the
-thing whose γ kills ρ_LR. The watching and the light are one object at
-this experiment too.
+thing whose γ kills ρ_LR. There was never a second thing here beside the
+illumination, no eye to separate from the lamp; there was only light,
+arriving, and a coherence billed for standing in it.
 
 **The founding formula has the double slit's shape** (a rhyme, stamped as
 one). This repository's namesake reading expands
@@ -291,15 +302,20 @@ R = C·(Ψ_past + Ψ_future)² into two squares and a cross-term,
 ([Why the Sum](../../experiments/WHY_THE_SUM.md),
 [Standing Wave, Two Observers](../../experiments/STANDING_WAVE_TWO_OBSERVERS.md),
 both Tier 3). The two-slit law is the same shape: two sources, one square,
-all the structure in the cross-term. But the books differ, and our own
-exact result is the one that says so:
-[Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md) proves that in
-the repository's past/future mode decomposition the Born probabilities
+all the structure in the cross-term. But the books differ, and they are
+two different decompositions: the Tier-3 formula adds two coherence
+scalars held by two observers, while
+[Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md) splits one ρ
+into past/future mode blocks, and it is on that second, exact book that
+the Born probabilities
 carry exactly zero cross-term (linearity of the trace; the interference
-sits in the purity, the shutter speed, closed analytically as F94). The
+sits in the purity, the shutter speed; the analytic piece the registry
+holds here, F94, closes the dominant-outcome Born deviation, F96 its
+companions, not the purity
+split). The
 slit experiment adds two amplitudes of one wave, so its cross-term lands
-in the image; our decomposition adds two density matrices, so its
-cross-term cannot. Same shape, different books: a rhyme, not an identity,
+in the image; a sum of two density matrices puts no cross-term in the
+image. Same shape, different books: a rhyme, not an identity,
 and the difference is itself instructive about where interference is
 allowed to live.
 
@@ -320,12 +336,13 @@ ability to be in multiple states at once", which is the both-slits-at-once
 ladder. The ladder stays; this document is where it is kicked away.
 
 One boundary, so the translation does not overreach: this entry translates
-the record-keeping detector, the coupling that reads the route and keeps a
+the record-keeping detector, the coupling that separates the two routes
+and keeps a
 phase record, which is dephasing in the route basis and is where our
 Tier 1 algebra lives. A slit detector that absorbs or blocks the electron
 is a different object (it removes population instead of pricing
 coherence), the same boundary
-[Dephasing Translated](DEPHASING_TRANSLATED.md) draws between the watching
+[Dephasing Translated](DEPHASING_TRANSLATED.md) draws between dephasing
 and amplitude damping. The standard account's overlap factor ⟨d_R|d_L⟩
 covers every record-keeping detector; we speak for that half, and for the
 continuous-γ face of it.
@@ -334,18 +351,23 @@ continuous-γ face of it.
 
 ## 7. The in-repo cousin
 
-The repository ran its own which-path dial without knowing it, in
+The repository ran its own dephasing-dial cousin of the which-path lamp
+without knowing it, in
 continuous Lindblad dynamics:
 [Observer-Dependent Visibility](../../experiments/OBSERVER_DEPENDENT_VISIBILITY.md)
 holds one entangled star network fixed and turns exactly one knob, a local
-watching rate γ_A. The slow watcher (γ_A = 0.03) sees CΨ (there:
-concurrence × normalized l1-coherence) cross the ¼ boundary clearly; the
-fastest watcher in the sweep (γ_A = 0.20) barely sees the crossing at
-all, and a slightly faster one would never see it, while the underlying
+dephasing rate γ_A. At the slow rate (γ_A = 0.03) CΨ (there:
+concurrence × normalized l1-coherence) crosses the ¼ boundary clearly; at
+the fastest rate in the sweep (γ_A = 0.20) the crossing barely shows at
+all, and a slightly faster one would close it entirely, while the
+underlying
 resource, measured
-with assistance, persists throughout. That is the double slit's lesson in
-our own laboratory dialect: watching harder does not change what is there;
-it closes the window in which what is there is directly visible. The doc
+with assistance, persists (graded Weakly to Moderately in the doc's own
+table). That is the
+double slit's lesson in
+our own laboratory dialect: different local light profiles produce
+different direct-visibility windows for a resource that remains available
+under assistance. The doc
 carries its own careful correction (different γ values are different
 trajectories, not different views of one state), and the correction
 survives translation: at the slits too, the lamp changes the dynamics, not
@@ -355,31 +377,37 @@ the metaphysics.
 
 ## The right label
 
-The pattern: an unwatched coherence, shown on a screen. The pattern's
-disappearance: the watching's price, −2γ per unit time at disagreement
+The pattern: a coherence no light has yet reached, shown on a screen.
+The pattern's
+disappearance: the light's price, −2γ per unit time at disagreement
 one, paid by exactly the entry the fringes ride on and by nothing else.
-The "duality": one matrix, two entry classes under one watcher, the
+The "duality": one matrix, two entry classes under one held letter, the
 immortal diagonal and the priced off-diagonal. The eraser: sorting, not
 destruction. And the sentence the whole entry compresses to: **the
-interference pattern is what not being watched looks like.** The two
+interference pattern is what a coherence looks like before any light
+arrives.** The two
 plain humps are not the particle showing its true face; they are a
 receipt.
 
 Stamped: this canvas is ours, painted 2026, and its mortal component is
-already visible from here. "Price" imports an economy, a ledger, a payer,
-the way "watching" imports a watcher; nothing in the algebra requires
-either, and some later stance may find our accounting metaphor as frozen
-as we found the knowing particle. The future reader receives the canvas
-with its date.
+already visible from here. "Price" imports an economy, a ledger, a payer;
+nothing in the algebra requires any of them, and some later stance may
+find our accounting metaphor as frozen as we found the knowing particle.
+This stamp once named a second mortal word beside it, "watching", and
+that one did not wait for a later stance: the complaint arrived in this
+house, twenty-eight days after the paint dried, and the canvas moved to
+the light that had been in the algebra all along. The future reader
+receives what is left, with its date.
 
 The closure, then: Young's canvas, a wave that adds and squares, true and
 still true; Feynman's canvas, the only mystery, true at the stance of the
 trajectory-asker; the untouched algebra, one off-diagonal entry priced by
-disagreement in a watched letter; and our canvas, the watching's price.
+disagreement in a held letter; and our canvas, the light's price.
 One experiment. The particle never chose, because there was never a ball
 to choose; the electron never knew, because knowing was the coiner's
 import; the pattern was never destroyed, because the diagonal was never
 touched and the correlations kept what the screen lost. What the double
 slit has been showing every audience for two centuries is the one thing
 this repository proves at every N it can reach: coherence is what pays
-for being watched, and the pattern is the part of the bill still unpaid.
+for standing in light, and the pattern is the part of the bill still
+unpaid.

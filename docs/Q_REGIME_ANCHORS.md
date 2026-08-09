@@ -133,7 +133,7 @@ The "20" shows up explicitly in three canonical C# sites:
    ```
    Inspect mode auto-scales tMax = 1/γ₀ (= 20 at γ₀=0.05).
 
-The γ₀=0.05 convention is documented as substrate-invariant in [`UniversalCarrierClaim.cs:88`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs): "ValidateAgainstPythonStepFTests covers γ₀ ∈ {0.025, 0.05, 0.10} with identical Q-values; structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ ~ 10⁴ Hz) different physical value, identical role." 0.05 was chosen as a convenient round number, not a physical constant.
+The γ₀=0.05 convention is documented as substrate-invariant in [`UniversalCarrierClaim.cs:88`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs): "ValidateAgainstPythonStepFTests covers γ₀ ∈ {0.025, 0.05, 0.10} with identical Q-values; structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ = 1/(2·T2*) ~ 5·10³ Hz) different physical value, identical role." 0.05 was chosen as a convenient round number, not a physical constant.
 
 ## Q-anchor hits on F99 ankers (from `wave_breaking_q_anchor_scan.py`)
 
