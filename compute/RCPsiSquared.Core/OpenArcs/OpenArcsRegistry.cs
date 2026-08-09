@@ -5353,9 +5353,17 @@ public static class OpenArcsRegistry
                 "INCOMPLETE :10-15 rebuilt on the separate/pass-through rule (a first repair INVERTED " +
                 "the object, the light 'passing through' the very shimmer it wears, caught by the " +
                 "cold round; the ending is 'what the arriving light can scarcely take hold of', and " +
-                "the completed thing 'is billed for the shining'). LEFT STANDING for the register " +
-                "campaign, recorded: ON_THE_ONE_DIAGONAL (cited as parent by THE_THREE_DIAGONALS, " +
-                "its core sentence still 'the light asks every pair a child's question'), the " +
+                "the completed thing 'is billed for the shining'). ON_THE_ONE_DIAGONAL is TAKEN the " +
+                "same morning (Tom: eine der wichtigsten), by MINIMAL TOUCH because the page is a " +
+                "dated, signed record: only the asker left, the core sentence now 'separates the two " +
+                "versions of a pair only where they disagree, and the whole of its grip is what a " +
+                "child could count' (grip is PROOF_ABSORPTION_THEOREM's own verb), the bolded child's " +
+                "question stays as the PAGE's question, 'the whole interrogation' -> 'the whole of " +
+                "what gets billed' (the count parameterises the bill 2*gamma*k, it is not the bill; " +
+                "a first repair wrote 'is the whole bill' and the cold round caught the conflation), " +
+                "and :35 'finds' -> 'has nothing to separate'; the JUDGE reading at :19 is KEPT, an " +
+                "established named reading (rate/mirror/judge, the D4 face), renaming it would be " +
+                "the error running backwards. LEFT STANDING for the register campaign, recorded: the " +
                 "plain-words prefaces of STRUCTURAL_CEILING / RING_GAP_DOMINANCE / " +
                 "RING_HANDOVER_SLOPE / CHAIN_GAP_DOMINANCE, and the docs/quantum translations. " +
                 "Note what the completion grep does and does not " +
