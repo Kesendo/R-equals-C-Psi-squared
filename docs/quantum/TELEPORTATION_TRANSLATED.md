@@ -9,7 +9,7 @@ mirror phenomenon -->
 **Status:** Translation (Tier 4 reading). The protocol in Section 1 is textbook
 physics (Bennett et al., PRL 70, 1895 (1993)); the two identifications in
 Section 3 are exact algebra; Sections 4 and 5 are readings and labeled as such.
-**Date:** July 4, 2026
+**Date:** July 4, 2026; corrected August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Superposition Translated](SUPERPOSITION_TRANSLATED.md) (the
@@ -61,8 +61,9 @@ classical channel (a phone line suffices).
 3. Alice sends Bob two classical bits naming her outcome. Bob applies the
    named Pauli. He now holds |ψ⟩ exactly.
 
-The bookkeeping: Alice's original is gone (her measurement destroyed it;
-no-cloning guarantees there was never a moment with two copies). The entangled
+The bookkeeping: Alice's original is gone (her measurement destroyed it,
+and no-cloning is why no protocol could have avoided that: there was never
+a moment with two copies). The entangled
 pair is consumed; teleporting a second qubit needs a fresh one. The total price
 per qubit: one shared pair plus two classical bits. Nothing moves faster than
 light: until the two bits arrive, Bob can read nothing at all, as Section 3
@@ -95,15 +96,23 @@ repository works in every day, appearing in a textbook protocol.
 
 **The four corrections are the four letters.** The unitaries Bob might need,
 {I, X, Y, Z}, taken modulo global phase, form the Klein four-group V₄: the
-same four-element group that quarters our Pauli basis into Klein cells, sits
-inside the F118 mirror group ⟨R, D⟩ ≅ D₄ as its Klein four-subgroup, and runs
+same four-element group that quarters our Pauli basis into Klein cells
+(bit_a and bit_b of those cells are precisely the characters of conjugation
+by Z^⊗N and by X^⊗N) and indexes the first two axes of
 the hardware diagnosis lens. Acting by conjugation on Bob's qubit, the four
 corrections are exactly the four unitary mirrors of the one-qubit operator
-space; conjugation by each letter flips precisely the two letter parities that
-anticommute with it, which is F118's cube of characters at N = 1.
+space; conjugation by each letter flips precisely the two letter parities
+that
+anticommute with it, which is F118's even Klein square at N = 1, the two
+polarity-cube axes unitary conjugation can reach. The third axis, the
+transpose, is the move no correction Bob applies can make: adding it fills
+the polarity cube (the full character group, eight sign-mirrors), and its
+coherence-space avatar D is one of the two generators of the F118 mirror
+group ⟨R, D⟩ ≅ D₄.
 
-So here is what the protocol delivers, said in our words: the state arrives
-at Bob **exactly and instantly, but in an unknown one of four mirror frames**.
+So here is what the protocol delivers, said in our words: **relative to
+Alice's recorded outcome, the state stands at Bob exactly, in one of four
+mirror frames**.
 The Bell measurement does not send the state anywhere; it tells Alice which
 of the four Klein frames the state already wears on Bob's side. The two
 classical bits name the mirror. Bob's correction is not repair, it is folding:
@@ -170,8 +179,9 @@ The dying is the illusion; the accounting balances.
 The repository has its own protocol for moving quantum information without
 moving anything material: the [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
 on the mediator bridge, where end-to-end mutual information flows through a
-chain of relay stations that take turns listening (an 83% improvement at
-N = 11, C# RK4). The mechanism is entirely different: continuous Lindblad
+chain of relay stations that take turns listening (+18% end-to-end mutual
+information at N = 11, C# RK4; +83% once the orthogonal 2:1 coupling
+asymmetry is added). The mechanism is entirely different: continuous Lindblad
 dynamics, no measurement, no classical channel. But the punchline is the
 same punchline, and it is worth saying once in plain words: **in both protocols, the
 thing that travels is correlation, and correlation travels along structure,

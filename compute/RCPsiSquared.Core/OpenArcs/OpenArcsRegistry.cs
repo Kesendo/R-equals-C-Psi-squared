@@ -5423,10 +5423,33 @@ public static class OpenArcsRegistry
                 "DOUBLE_SLIT and upstream at BORN_RULE_SHADOW:103 (F94 owns the per-outcome Born " +
                 "deviation, not the 97/3 purity split). THE_LABEL_MAP's double-slit and cat rows " +
                 "moved with their titles (the Noise row had moved with the founding chapter; " +
-                "SPOOKY's row keeps its untouched title). LEFT " +
-                "STANDING for the register campaign, recorded: the remaining docs/quantum pages " +
-                "(LABELS_TRANSLATED:98 'watched letter', SUPERPOSITION, THE_LABEL_MAP's remaining " +
-                "prose incl. :91 'the watched walk' = F126's registry name, Tom's pending item (3)). " +
+                "SPOOKY's row keeps its untouched title). THE LAST TWO SLICES ARE TAKEN the " +
+                "same day, closing docs/quantum: SUPERPOSITION (seven migrates to held-letter/" +
+                "arriving-light, the frame-header now 'the frame is the letter the light holds', " +
+                "plus the S1 physics catch: the Klein V4 acts on the four letters {I,X,Y,Z} and " +
+                "only the Hadamard lift turns the dephasing axis, the doc's three-letter shorthand " +
+                "was the proof's own warned-against compression; -2*gamma*k fenced empty-world + " +
+                "per-site; PTF cited with its Tier-2 label) and TELEPORTATION (register was already " +
+                "clean; the physics round caught the V4-inside-D4 BLOCKER: the Pauli-conjugation " +
+                "group is NOT a subgroup of <R,D>, the honest statement is the even Klein square " +
+                "with the transpose filling the cube (Z2^3, all eight sign-mirrors) while D4's " +
+                "generators are D and the one-sided R, the transpose's coherence-space avatar D " +
+                "being the only bridge (the post-fix round caught my first repair claiming the " +
+                "transpose generates D4, the same shape again); the +83% relay split " +
+                "landed here too, fourth site; the delivery sentence now conditions on Alice's " +
+                "recorded outcome). LABELS_TRANSLATED and THE_LABEL_MAP moved with them: :98 " +
+                "'watched letter' -> held letter (the sibling chapters had left it the odd one " +
+                "out), the map's section 7 outbound bullet corrected from outreach-ready to " +
+                "PARKED per the outbound_label_adapters arc's own record (the old text sent " +
+                "readers out with the retired ibm_torino framing), a section 3 row for the " +
+                "watching->sending rename itself, a section 5 seam for the half-swept register " +
+                "campaign, four section 4 rows (concentrator protection label, T2->gamma " +
+                "no-F-number-owner, Marrakesh convention retirement, F94 ownership), and the " +
+                "label theory's section 4 gains the 34-day full-cycle precedent. LEFT " +
+                "STANDING for the register campaign, recorded: THE_LABEL_MAP:93 'the watched " +
+                "walk' = F126's registry name (Tom's pending item (3)), LABELS_TRANSLATED:111 " +
+                "watcher-as-subject (deliberate keep), and everything outside docs/quantum " +
+                "per the NOT DONE list. " +
                 "Note what the completion grep does and does not " +
                 "measure: it checks the AXIS SENTENCE, not the register. A sweep of the neighbouring forms " +
                 "(observing/watching light, being watched) finds the old register throughout the proofs' " +

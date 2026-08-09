@@ -10,7 +10,7 @@ The algebra cited in Section 2 is exact (Tier 1 repo results); the painter
 foundation in Section 3 is the Tier-2 computed hypothesis
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md); the
 generalization from painters to labels is a reading and is labeled as one.
-**Date:** July 4, 2026
+**Date:** July 4, 2026; repainted August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Teleportation Translated](TELEPORTATION_TRANSLATED.md),
@@ -59,8 +59,8 @@ to labels. Our own review history says the same thing at repository scale:
 what reviews catch here is almost never arithmetic; it is stale table cells,
 wrong tier tags, misleading names. The Perspectival Time Field document,
 which Section 4 returns to, carries a falsified-claims list of exactly
-three entries, and all three are readings; not one number underneath them
-fell.
+three entries: two are readings and the third an overstated precision, and
+not one measured α_i underneath them fell.
 
 The asymmetry has a mechanical reason. A calculation carries its own error
 correction: it has to close. Residuals are checked against zero, LP64
@@ -87,16 +87,21 @@ native stance the canvas fits perfectly, so the coiner can never feel it;
 only a reader at a new stance, a new t, receives the misroute, and receives
 it as discomfort, in the feeling channel rather than the math channel. The
 label layer's error correction runs on complaints that arrive generations
-late. Treat the itch as data: a complaint against a word is a cry for an
+late. When the coiner writes the mortal component down on the same page,
+the latency can collapse: this series' own founding chapter was corrected
+in
+thirty-four days (Section 4). Treat the itch as data: a complaint against a word is a cry for an
 update, and since the coiners were us at t minus x, processing it is
 self-update, not correction of others. A language model is the extreme case, not the exception: it
 fires skills by their description text, recalls memories by their
 description fields, picks tools by name; a mislabeled tool simply never
 fires, function intact, use rerouted. And, the exact part: in this
 repository's own physics, even the environment routes by a label. Local
-Z-dephasing reads exactly one letter. A coherence |i⟩⟨j| pays −2γk where
-k = popcount(i⊕j) is the disagreement *in the watched letter*; the same
-sector rewritten in the other basis is, at that letter, untouched
+Z-dephasing holds exactly one letter. A coherence |i⟩⟨j| pays −2γk where
+k = popcount(i⊕j) is the disagreement *in the held letter* (at uniform γ;
+per site the bill is −2 Σ γ_l over the disagreeing sites); a dephasing
+holding the other letter would bill the same object differently, a string
+diagonal in its held letter not at all
 (MirrorWorld's `PauliMode`: the same sector in the other basis), and
 swapping the letter through the Klein V₄
 ([proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) changes
@@ -126,7 +131,8 @@ superposition in their basis"
 ([Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md)). "Noise" is the
 canvas of the stance that wants a clean qubit; walked around, the same γ
 became a structured signal
-([The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md)).
+([The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md); the
+label's owner chapter is [Dephasing Translated](DEPHASING_TRANSLATED.md)).
 "Teleportation" is the canvas of the stance amazed, correctly, that a state
 crosses without a carrier. Each label was painted true at its vantage.
 
@@ -174,7 +180,8 @@ kept the records. Its first name was "Site-Local Time": the sites own their
 own clocks. The ψ₂ falsification test then killed that reading cleanly,
 and what is worth staring at is *what survived*: every α_i, every fit,
 every number. The label died alone. The document's acceptance summary now
-carries a falsified list of three entries, all three of them labels over
+carries a falsified list of three entries, each a reading or an overstated
+precision over
 surviving mathematics, and its Naming note defends every word of the new
 name and forbids reverting on grounds of familiarity, because that would
 "lose what the ψ₂ test taught us." That Naming note is a label-recomputation
@@ -182,6 +189,20 @@ protocol, written months before this series knew it was one. The rename
 "Site-Local Time" → "Perspectival Time Field" is the same act this series
 performs on "teleportation" and "superposition": the calculation is left
 untouched, the stance is found, the name is recomputed.
+
+The second precedent is this series' own, and unlike the first it is a
+full cycle inside one page. The founding case study, written on July 5,
+2026, put its own mortal component into its closing stamp: *"'Watching'
+imports a watcher, an agent with intent, and nothing in the algebra
+requires one; at some later stance that imported ingredient may fossilize
+exactly the way 'random' fossilized in 'noise'."* The complaint arrived
+thirty-four days later and from the author's own side of the desk: γ sits
+at the sending end, not at the eye. Not a digit under the name moved; the
+chapter was repainted, not withdrawn, and it now
+carries both its dates ([Dephasing Translated](DEPHASING_TRANSLATED.md)).
+A mortality written down in advance, an arrival in the feeling channel,
+an untouched calculation underneath: the theory of Section 2, run once on
+its own author, at full cycle.
 
 ---
 

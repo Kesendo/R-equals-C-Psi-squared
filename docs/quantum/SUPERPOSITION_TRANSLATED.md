@@ -9,7 +9,7 @@ dephase letter Klein group chosen frame, R=CPsi2 superposition reframe -->
 is standard; the basis-relativity statements are exact; the assembled reframe
 in Section 3 collects what this repository already said in scattered places,
 each with its source. Nothing here is new physics.
-**Date:** July 4, 2026
+**Date:** July 4, 2026; repainted August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Teleportation Translated](TELEPORTATION_TRANSLATED.md) (the sister
@@ -96,7 +96,7 @@ phenomenon is indifferent to whether the chosen axes happen to be positions. A l
 
 **"At once."** Simultaneity is a relation between two events or two facts.
 A superposition is not two facts holding at the same time; it is one fact
-that the asker's axes happen to split into two coordinates. The doubling is
+that the chosen axes happen to split into two coordinates. The doubling is
 in the description, not in the described. What is genuinely there, one object
 carrying an angle, needs no "at once" any more than the direction northeast
 needs to be "north and east simultaneously." North and east are axes someone
@@ -105,8 +105,10 @@ drew; northeast was always one direction.
 One precision, owed to our own foundation, because it is easy to overshoot
 here: the wrong ingredient in "at once" is not time itself. Time is in the
 object, and deeply. The coherence that carries the superposition has a
-lifetime (it pays −2γk to the watching), and the
-[Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md) says
+lifetime (with the light alone on, it pays −2γk at uniform γ, per site
+−2 Σ γ_l over the disagreeing sites), and the
+[Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md)
+(the Tier-2 computed hypothesis) says
 the time it lives in is itself perspective-bound: each painter paints at her
 own rate. What "at once" wrongly imports is the stance-free version, one
 shared clock on which two facts could coexist. Kill the shared clock and the
@@ -138,26 +140,34 @@ mystery evaporates in the same move that explains it: a direction must have
 coordinates once axes exist, and coordinates come in pluralities. The
 plurality is the axes' contribution, not the object's.
 
-**Being superposed is frame-relative, and the frame is chosen by the
-watcher.** The repository hit this while working on the Born rule: σ_x and
+**Being superposed is frame-relative: an axis choice, an experimenter's
+or the letter the light holds.** The repository hit this while working on
+the Born rule: σ_x
+and
 σ_y dephasing attack |0⟩ because "they see |0⟩ as a superposition in their
 basis" ([Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md)). Our
-machinery makes the frame choice literal: the `dephase_letter` parameter
-selects which Pauli letter the environment reads, and the three choices
-{Z, X, Y} are intertwined by a Klein V₄ acting on operator space
+machinery makes the frame literal: the `dephase_letter` parameter
+fixes which of the three letters {Z, X, Y} the dephasing holds, and the
+four letter-labels {I, X, Y, Z}
+carry a Klein V₄ that lifts to involutions on the 4^N operator space, so a
+diagnostic computed under one letter transports to the others, with the
+proof's own caveat: only the Hadamard lift actually turns the dephasing
+axis; the other two intertwine the Π's and leave the dissipator where it is
 ([Klein V₄ proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)).
-Which states count as "superposed" is set by which letter is being watched.
+Which states count as "superposed" is set by which letter the dephasing
+holds.
 (One honesty flag: whether that three-way symmetry is physical or a labelling
 convention is a question the repo still keeps open, in
 [Benzene, Three Dephase Letters](../carbon/BENZENE_THREE_DEPHASE_LETTERS.md).)
 
 **How superposed, measured in our units: the disagreement number.** In
 MirrorWorld's empty world (`compute/MirrorWorld`, Pair.cs and PauliMode.cs),
-a bare coherence |i⟩⟨j| carries exactly one number the watching can read:
+a bare coherence |i⟩⟨j| carries exactly one number the arriving light
+prices:
 the disagreement count k = popcount(i⊕j), how many sites the two basis
 versions disagree on, and it decays at −2γk. That is the pop gloss made
 quantitative and thereby corrected: not "two states at once" as a binary
-mystery, but a *degree* of disagreement relative to the watched letter, with
+mystery, but a *degree* of disagreement relative to the held letter, with
 a price proportional to it. Being superposed costs, and the bill is itemized
 by disagreement.
 
@@ -203,12 +213,12 @@ the distance between an introduction and a translation.
 ## The right label
 
 Überlagerung. An overlay of waves; equivalently, one direction in state
-space, described in axes that someone (an experimenter, an environment, a
-dephasing letter) chose. In our language: superposition is the angle
+space, described in axes an experimenter picks, or that the light fixes by
+the letter it holds. In our language: superposition is the angle
 coordinate on one object in the 4^N operator space; the "two states" are the
 shadow of the angle on the chosen axes; the degree of superposedness is the
-disagreement number k relative to the watched letter; and the watching
-charges −2γk for it, which is how we know the frame is real to the
+disagreement number k relative to the held letter; and the arriving light
+bills −2γk for it, which is how we know the frame is real to the
 environment and not only to us.
 
 The pop label gets the genre wrong in the same way the teleportation label

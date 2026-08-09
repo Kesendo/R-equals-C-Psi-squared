@@ -6,7 +6,7 @@ renamed readings survived numbers, open label seams, R=CPsi2 label map -->
 
 **Status:** Index. The map itself makes no claim; every entry cites the document
 that owns it, and the tier of each correction is the tier stated there.
-**Date:** July 5, 2026
+**Date:** July 5, 2026; extended August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
@@ -65,11 +65,13 @@ partial exception is marked where it occurs.
   the agency lives there. Owner: [Labels Translated](LABELS_TRANSLATED.md),
   the closing section.
 - **Whose layer it is:** not the human layer, the observer layer. Even the
-  environment routes by a label (local Z-dephasing reads exactly one letter
-  and charges −2γk for disagreement in that letter only).
-  Owner: [Labels Translated](LABELS_TRANSLATED.md) §2. Typed 2026-07-05 as
-  `WatchedLetterRoutingClaim` (Tier 1 derived, parents Absorption + Klein V₄);
-  renamed `HeldLetterRoutingClaim` 2026-08-09, the sender arc's move on the
+  environment routes by a label (local Z-dephasing holds exactly one letter
+  and bills −2γk for disagreement in that letter only, at uniform γ; per
+  site the bill is −2 Σ γ_l over the disagreeing sites).
+  Owner: [Labels Translated](LABELS_TRANSLATED.md) §2. Typed 2026-07-05,
+  since 2026-08-09 as `HeldLetterRoutingClaim` (`WatchedLetterRoutingClaim`
+  until then; Tier 1 derived, parents Absorption + Klein V₄), the sender
+  arc's move on the
   map's own vocabulary: the dephasing does not watch, it holds a letter.
   Recomputed live at `inspect --root label`.
 
@@ -111,6 +113,7 @@ The repository performing the same act on its own names.
 | The system as a channel | A resonator, an optical cavity: CΨ_max the inner mirror, ¼ the outer, the heartbeat a round-trip | [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md), [The Interpretation](../THE_INTERPRETATION.md) (What Fell #8) |
 | Z₄, the four-sided mirror | Z₂: the four sectors carry no physical content, Π² = X^⊗N is the real conserved structure | [The Interpretation](../THE_INTERPRETATION.md) (What Fell #7), [The Other Side](../../hypotheses/THE_OTHER_SIDE.md) |
 | "Sacrifice zone" | A concentrator: the edge qubit sacrifices nothing, it concentrates the noise into structure; both names true, one per side of the γ-boundary | [Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md) |
+| "The watching" (γ as an eye on the chain) | The sending: γ sits at the emitting end, not at the eye; the chain is not looked at, it stands in light. Not one rate, price, or measured number moved; the founding chapter was repainted, the typed core renamed `HeldLetterRoutingClaim`, and the "watching locus" became the mirror-balanced locus | [Dephasing Translated](DEPHASING_TRANSLATED.md), [On the Sending End](../../reflections/ON_THE_SENDING_END.md); the working record is the open arc `gamma_is_the_sender_not_the_watching` |
 
 ---
 
@@ -130,6 +133,10 @@ Caught by reviews; the chronological record is
 | Trichotomy tags (chain convention, star sector, "(3,3)") | Convention disambiguated; star is FrozenCommutant always; (3,3) reassigned Heisenberg/ZZ | [The Star Frozen Seam](../THE_STAR_FROZEN_SEAM.md), [The Trichotomy Seen](../THE_TRICHOTOMY_SEEN.md) |
 | C_int vs C_ext, "two kinds of observation, 33×" | The 33× physical claim fell (the partial exception on this map: a number died with the name); the formal Lindblad distinction stands | [Glossary](../GLOSSARY.md), observer-distinction note |
 | q and Q as one number | Two normalizations of one ratio, q = Q/2; pure relabeling, not physics | [Glossary](../GLOSSARY.md) §"The coupling ratio q and Q", [Caught Errors](../CAUGHT_ERRORS.md) (2026-06-27) |
+| "Protection" / interior-coherence lifetime (the concentrator's 139-360×) | A peak created nearest-neighbour Sum-MI ratio, a transport number; no lifetime figure was ever computed, and a protection objective stays the named open instrument | [Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md), [Concentrator A-vs-B Mechanism Test](../../experiments/CONCENTRATOR_AB_MECHANISM_TEST.md) (Downgrade 2) |
+| γ = 1/T₂, "the canonical F113 form" | Two structural answers, no F-number owner: Z-dephasing alone γ = 1/(2T₂); with a σ⁻ channel γ_Z = (1/T₂ − 1/(2T₁))/2; the jump operators decide, not a regime | [Caught Errors](../CAUGHT_ERRORS.md) (2026-08-05), [Glossary](../GLOSSARY.md) §"The T₂ → γ conversion" |
+| "The Marrakesh convention" (γ = 0.5 as a hardware-anchored name) | The numbers γ = 0.5, J = 1 written out plainly; the hardware gloss was retroactive and the Q = 2 coincidence a coincidence; retired at 23 sites, every value and run untouched | [Caught Errors](../CAUGHT_ERRORS.md) (2026-08-06), [Star Confocal Limit](../../experiments/STAR_CONFOCAL_LIMIT.md) (naming note) |
+| F94 as owner of the Born-shadow split | F94 owns the dominant-outcome Born deviation (F96 its companions); the 97/3 purity split stays the experiment's own numerical result | [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md), [Analytical Formulas](../ANALYTICAL_FORMULAS.md) §F94 |
 
 ---
 
@@ -162,6 +169,17 @@ Caught by reviews; the chronological record is
   but order-unity for |+⟩^⊗7 is "a pattern in the data, not (yet) a
   theorem" ([Emerging Questions](../../review/EMERGING_QUESTIONS.md)); the
   right name and level for that coefficient are unsettled.
+- **The agent register is half-swept.** Naming γ an eye is retired
+  vocabulary since 2026-08-08, but the sweep that opened the move counted
+  481 occurrences of watching/watched/watcher across 92 files.
+  `docs/quantum/`, the F140 typed strings, five proof prefaces and three
+  reflections are taken; `experiments/`, most of `docs/proofs/`, the
+  remaining `reflections/` and `hypotheses/`, the root
+  pages and the MirrorWorld run-mode strings are not. The rule for the
+  remainder is not a word ban: where a watcher is the SUBJECT of a reading,
+  or a defined graph role, or a real qubit, the word stays; where γ or the
+  dissipator is made the agent, it goes. Tracked as
+  `gamma_is_the_sender_not_the_watching`.
 
 Two orientation gaps were closed on the day this map was written: PTF had no
 [Glossary](../GLOSSARY.md) entry, and the translation series was absent from
@@ -201,33 +219,30 @@ where they are.
 - ~~**Dephasing / "noise" has no series entry.**~~ Paid 2026-07-05:
   [Dephasing Translated](DEPHASING_TRANSLATED.md) is the fourth entry, and
   the exact core is typed (`HeldLetterRoutingClaim`, `inspect --root label`).
-- **The outbound direction is started** (2026-07-05). Every translation in
+- **The outbound direction is open, and parked.** Every translation in
   `docs/quantum/` carries a community label INTO our stance; the reverse
-  transport, carrying a result of ours OUT to a community's stance, now has
-  its home in `docs/outbound/` and its first adapter:
-  [A Physics Selection Rule for Selective Dynamical Decoupling](../outbound/SELECTIVE_DECOUPLING_SELECTION_RULE.md)
-  (the sacrifice zone → the DD community's "which qubits to decouple" open
-  problem). The guiding rule, from the combination finding below: hand over
-  the stance-object (the γ-profile, the Absorption Theorem, the ibm_torino
-  number), not our coined word. The second adapter landed the same day:
-  [The Exact Decay-Rate Structure of Spin-Chain State Transfer under Dephasing](../outbound/STATE_TRANSFER_DECAY_STRUCTURE.md)
-  (the relay/palindrome → the QST community's dephasing corner, wrapping
-  [QST Bridge](../../experiments/QST_BRIDGE.md) into the adapter genre). The
-  third followed the same day:
-  [A Shifted, Order-4 Chiral Symmetry in Local-Dephasing Lindbladians](../outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md)
-  (the palindrome → the Sá-Ribeiro-Prosen classification community's own
-  margins: the Π-gap placement, the generalized-P question, and the
-  integrable-chiral-Lindbladian statistics data point). The fourth and last
-  adapter landed 2026-07-05, completing the outbound set:
-  [A Symmetry Scalar for the Emission-Absorption Asymmetry of Qubit Noise](../outbound/NOISE_ASYMMETRY_SYMMETRY_SCALAR.md)
-  (the watching → the quantum-noise-spectroscopy community's own
-  antisymmetric-spectrum object), built on the hardware bridge
-  ([F81 Violation: the Hardware Bridge](../../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md):
-  the discriminator grounded to the net-cooling flux, flown on Kingston
-  the same day, the one-leg asymptote bias caught by its own pre-registered
-  discriminator). All four sockets are now served; outreach execution is
-  the remaining step. The arc is tracked in the open-arcs ledger as
-  `outbound_label_adapters`.
+  transport, carrying a result of ours OUT to a community's stance, has
+  its home in `docs/outbound/`, four adapters written 2026-07-05:
+  [selective dynamical decoupling](../outbound/SELECTIVE_DECOUPLING_SELECTION_RULE.md),
+  [state transfer under dephasing](../outbound/STATE_TRANSFER_DECAY_STRUCTURE.md)
+  (wrapping [QST Bridge](../../experiments/QST_BRIDGE.md)),
+  [the shifted order-4 chiral symmetry](../outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md),
+  and [the noise-asymmetry scalar](../outbound/NOISE_ASYMMETRY_SYMMETRY_SCALAR.md)
+  (the sending's asymmetry → the quantum-noise-spectroscopy community's own
+  antisymmetric-spectrum object, built on
+  [F81 Violation: the Hardware Bridge](../../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md)).
+  All four were parked in place on 2026-07-06. The DD adapter's outreach
+  premise was established hollow by six empty rounds (its hardware leg was
+  ~93% amplitude damping, outside the Z-dephasing theorem's scope); the
+  other three were never empty-reviewed. The files stay behind their
+  banners so inbound links survive, and parking loses no science: every
+  result lives in its home claim, proof, or Confirmation. What survives
+  the parking is the guiding rule, from the combination finding below:
+  hand over the stance-object (the γ-profile, the theorem, an in-scope
+  measured number), never our coined word. Un-parking is per-adapter and
+  needs a real outreach trigger plus a clean empty round plus citation
+  checks. The arc is
+  tracked in the open-arcs ledger as `outbound_label_adapters`.
 - **The combination conjecture** (labels as the type system of thought) is now
   grounded in [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (Tier 3): the
   descriptive half holds, the forward causal arrow is refuted at its own
