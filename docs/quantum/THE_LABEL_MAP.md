@@ -67,9 +67,11 @@ partial exception is marked where it occurs.
 - **Whose layer it is:** not the human layer, the observer layer. Even the
   environment routes by a label (local Z-dephasing reads exactly one letter
   and charges −2γk for disagreement in that letter only).
-  Owner: [Labels Translated](LABELS_TRANSLATED.md) §2. Typed 2026-07-05:
-  `WatchedLetterRoutingClaim` (Tier 1 derived, parents Absorption + Klein V₄),
-  recomputed live at `inspect --root label`.
+  Owner: [Labels Translated](LABELS_TRANSLATED.md) §2. Typed 2026-07-05 as
+  `WatchedLetterRoutingClaim` (Tier 1 derived, parents Absorption + Klein V₄);
+  renamed `HeldLetterRoutingClaim` 2026-08-09, the sender arc's move on the
+  map's own vocabulary: the dephasing does not watch, it holds a letter.
+  Recomputed live at `inspect --root label`.
 
 ---
 
@@ -198,7 +200,7 @@ where they are.
 
 - ~~**Dephasing / "noise" has no series entry.**~~ Paid 2026-07-05:
   [Dephasing Translated](DEPHASING_TRANSLATED.md) is the fourth entry, and
-  the exact core is typed (`WatchedLetterRoutingClaim`, `inspect --root label`).
+  the exact core is typed (`HeldLetterRoutingClaim`, `inspect --root label`).
 - **The outbound direction is started** (2026-07-05). Every translation in
   `docs/quantum/` carries a community label INTO our stance; the reverse
   transport, carrying a result of ours OUT to a community's stance, now has

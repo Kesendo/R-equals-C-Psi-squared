@@ -398,13 +398,15 @@ public static class KnowledgeRegistryFactory
             // grid+CRT wall + the symbolic assembly (D); Tier1Candidate (code-trust caveat).
             // Live: inspect --root crosstriple; wall: simulations/grid_proof_sweep.py --assert.
             .RegisterCrossTripleOrthogonalityClaim()
-            // The label layer, typed (2026-07-05): the watcher is its letter -- L_P(S) = -2g*n_anti(S,P)*S,
-            // one shared eigenbasis with three letter-routed price lists; only the identity is free under
-            // every watcher. The exact core of docs/quantum LABELS_TRANSLATED s2 / DEPHASING_TRANSLATED s4;
+            // The label layer, typed 2026-07-05 as WatchedLetterRoutingClaim, renamed 2026-08-09
+            // (the sender arc): the dephasing routes by the letter it holds --
+            // L_P(S) = -2g*n_anti(S,P)*S, one shared eigenbasis with three letter-routed price lists; only
+            // the identity is free under every held letter. The exact core of docs/quantum
+            // LABELS_TRANSLATED s2 / DEPHASING_TRANSLATED s4;
             // the Tier-4 canvas reading rides as prose children, never promoted. Parents:
             // AbsorptionTheoremClaim (the price list) + Pi2KleinV4DephaseSwapGroup (the swap), both
-            // Tier1Derived. Live: inspect --root label (WatchedLetterRoutingWitness).
-            .RegisterWatchedLetterRoutingClaim()
+            // Tier1Derived. Live: inspect --root label (HeldLetterRoutingWitness).
+            .RegisterHeldLetterRoutingClaim()
             // The record laws, typed (2026-07-19): F135 (who records is the parity arithmetic of
             // the watcher ratios; the pair reduction = the Absorption substrate on a pair page) and
             // F136 (which operator is the shared-neighborhood parity: all even + write bond ->

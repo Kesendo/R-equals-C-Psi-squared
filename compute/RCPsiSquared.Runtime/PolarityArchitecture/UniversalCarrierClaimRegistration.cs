@@ -5,7 +5,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="UniversalCarrierClaim"/>: γ₀ as the
 /// universal-reference rate-parameter, the special-relativity c analog that additionally
-/// carries the observation substrate. Three parent edges:
+/// carries the calibration substrate. Three parent edges:
 ///
 /// <list type="bullet">
 ///   <item><see cref="AbsorptionTheoremClaim"/>: the single-site absorption rate α = 2γ₀.</item>

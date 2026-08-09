@@ -3,19 +3,20 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The label layer, typed (Tier 1 derived for the exact core): <b>the watcher is its
-/// letter</b>. Local dephasing in letter P has the 4^N Pauli strings as one shared eigenbasis,
+/// <summary>The label layer, typed (Tier 1 derived for the exact core): <b>the dephasing
+/// routes by the letter it holds</b>. Local dephasing in letter P has the 4^N Pauli strings
+/// as one shared eigenbasis,
 /// and its entire action is a price list read off the held letter:
 ///
 /// <code>
 ///     L_P(S) = −2γ · n_anti(S, P) · S,     n_anti = #sites where S_l ∉ {I, P}
 /// </code>
 ///
-/// the disagreement with P alone. The object never changes between watchers; only the price
-/// list does (Z^⊗N rides free under the Z-watcher and pays maximally under the X-watcher), the
+/// the disagreement with P alone. The object never changes between held letters; only the price
+/// list does (Z^⊗N rides free when Z is the held letter and pays maximally when X is), the
 /// letter swap is an exact transport (the operator-space Klein V₄ of
 /// <c>PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE</c>, equivalently the single-qubit basis-S₃
-/// moves), and only the identity is free under every watcher. This is the exact instance behind
+/// moves), and only the identity is free under every held letter. This is the exact instance behind
 /// the series' label thesis (<c>docs/quantum/LABELS_TRANSLATED.md</c> §2,
 /// <c>docs/quantum/DEPHASING_TRANSLATED.md</c> §4): even the environment routes by a label.
 ///
@@ -26,24 +27,24 @@ namespace RCPsiSquared.Core.Symmetry;
 /// assembled case ledger is <c>docs/quantum/THE_LABEL_MAP.md</c>.</para>
 ///
 /// <para><b>Typed parents.</b> <see cref="AbsorptionTheoremClaim"/> (the rate law
-/// Re λ = −2γ·⟨n_XY⟩: the price is the light content in the watched letter) and
+/// Re λ = −2γ·⟨n_XY⟩: the price is the light content in the held letter) and
 /// <see cref="Pi2KleinV4DephaseSwapGroup"/> (the {D, Q_zx, Q_yx} involutions that transport the
 /// F1 structure between the three letters: the swap that relocates which cells pay). Live:
-/// <c>inspect --root label</c> (<c>WatchedLetterRoutingWitness</c>, all 3·4^N (letter, string)
+/// <c>inspect --root label</c> (<c>HeldLetterRoutingWitness</c>, all 3·4^N (letter, string)
 /// pairs recomputed dense-vs-closed-form at inspect time, plus the two-sided routing
 /// controls).</para></summary>
-public sealed class WatchedLetterRoutingClaim : Claim
+public sealed class HeldLetterRoutingClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring: the −2γ·⟨n_XY⟩ rate law (the price list).
     public AbsorptionTheoremClaim Absorption { get; }
     // Parent-edge marker for Schicht-1 wiring: the Klein V₄ letter swap (the routing).
     public Pi2KleinV4DephaseSwapGroup KleinV4 { get; }
 
-    public WatchedLetterRoutingClaim(AbsorptionTheoremClaim absorption, Pi2KleinV4DephaseSwapGroup kleinV4)
-        : base("The watched-letter routing: local dephasing in letter P has the 4^N Pauli strings as one " +
+    public HeldLetterRoutingClaim(AbsorptionTheoremClaim absorption, Pi2KleinV4DephaseSwapGroup kleinV4)
+        : base("The held-letter routing: local dephasing in letter P has the 4^N Pauli strings as one " +
                "shared eigenbasis with rate -2*gamma*n_anti(S,P), the disagreement with the held letter " +
                "alone; the price list is letter-routed (the Klein V4 / basis-S3 swaps relocate which cells " +
-               "pay, entry-exactly) and only the identity is free under every watcher: the environment " +
+               "pay, entry-exactly) and only the identity is free under every held letter: the environment " +
                "routes by a label, the Tier-1 instance of the label thesis",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md + " +
@@ -57,12 +58,12 @@ public sealed class WatchedLetterRoutingClaim : Claim
     }
 
     public override string DisplayName =>
-        "Watched-letter routing: the watcher is its letter (the label layer, typed)";
+        "Held-letter routing: the dephasing routes by the letter it holds (the label layer, typed)";
 
     public override string Summary =>
         "L_P(S) = −2γ·n_anti(S, P)·S for every Pauli string S and every letter P: one shared eigenbasis, " +
         "three price lists; the letter swap relocates which cells pay (Klein V₄ / basis-S₃, entry-exact); " +
-        "only the identity rides free under every watcher. The exact core under the label thesis: even " +
+        "only the identity rides free under every held letter. The exact core under the label thesis: even " +
         $"the environment routes by a label ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -73,11 +74,11 @@ public sealed class WatchedLetterRoutingClaim : Claim
                 summary: "every Pauli string is an eigenvector of every letter dissipator; the eigenvalue " +
                          "−2γ·n_anti(S, P) counts the sites that anticommute with the HELD letter (light = " +
                          "'the letters the dephasing letter refuses to commute with', Absorption Theorem); " +
-                         "the object is watcher-independent, the price is not.");
+                         "the object is the same under every held letter, the price is not.");
             yield return new InspectableNode("the routing: which cells pay follows the letter",
-                summary: "Z^⊗N pays 0 under the Z-watcher and 2γN under the X-watcher (mirrored for X^⊗N); " +
-                         "each watcher exempts exactly its own {I, P}^⊗N cell (2^N strings); the " +
-                         "intersection over all three watchers is the identity alone: only nothing is " +
+                summary: "Z^⊗N pays 0 when Z is the held letter and 2γN when X is (mirrored for X^⊗N); " +
+                         "each held letter exempts exactly its own {I, P}^⊗N cell (2^N strings); the " +
+                         "intersection over all three held letters is the identity alone: only nothing is " +
                          "free everywhere.");
             yield return new InspectableNode("the swap: an exact transport, two faces",
                 summary: "operator-space face: the Klein V₄ involutions {D, Q_zx, Q_yx} " +
@@ -95,7 +96,7 @@ public sealed class WatchedLetterRoutingClaim : Claim
                          $"list; Pi2KleinV4DephaseSwapGroup ({KleinV4.Tier.Label()}): the letter swap, " +
                          "the routing.");
             yield return new InspectableNode("live witness (inspect --root label)",
-                summary: "WatchedLetterRoutingWitness recomputes all 3·4^N (letter, string) pairs " +
+                summary: "HeldLetterRoutingWitness recomputes all 3·4^N (letter, string) pairs " +
                          "dense-vs-closed-form at inspect time (default N=3), plus the repriced-count and " +
                          "universal-free two-sided controls and the entry-exact swap transports.");
         }

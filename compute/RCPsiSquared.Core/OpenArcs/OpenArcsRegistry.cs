@@ -2953,7 +2953,8 @@ public static class OpenArcsRegistry
                 "as the answer to THEIR open question so the receiver pulls), and stance-OBJECTS not our words " +
                 "(hypotheses/COMBINATION_VALENCE.md: combination unlocks at the stance/tool layer, the word " +
                 "crystallizes last; hand over the operator / the profile / the number, never the coinage). The " +
-                "label thesis itself is already typed (WatchedLetterRoutingClaim, inspect --root label); this arc " +
+                "label thesis itself is already typed (HeldLetterRoutingClaim, at this arc's opening " +
+                "WatchedLetterRoutingClaim, inspect --root label); this arc " +
                 "tracks only the outbound adapters.",
             ParkedAt: "docs/outbound/ OPENED with the first adapter, SELECTIVE_DECOUPLING_SELECTION_RULE.md " +
                 "(socket S2: the concentrator gamma-profile -> the DD community's 'which qubits, why does " +
@@ -5290,7 +5291,27 @@ public static class OpenArcsRegistry
                 "below, not to this name. (3) F126 'the watched walk', F141 'so the watching " +
                 "cannot see it', F144 'the watching charges', F71 'the total watching'. (4) TYPED C# API: " +
                 "WatchedLetterRoutingClaim + WatchedLetterRoutingWitness + registration + two test classes, " +
-                "named canonical at GLOSSARY:369. (5) OpenArcsRegistry ~2667 (felt_time_dimensions), " +
+                "named canonical at GLOSSARY:369; TAKEN 2026-08-09 on Tom's ruling: the pair is " +
+                "HeldLetterRoutingClaim/-Witness/-Registration (the claim body's own phrase, 'a price " +
+                "list read off the held letter'), git mv on all five files, register wording moved to " +
+                "held-letter/with-Z-held phrasing in the Tier-1 strings, the test method " +
+                "OnlyTheIdentityRidesFreeUnderEveryWatcher -> ...EveryHeldLetter. What KEEPS its watcher: " +
+                "the Tier-4 reading nodes' own sentence 'to be a watcher is to hold a label and be blind " +
+                "past it' (there the watcher is the SUBJECT); the old HEADLINE 'the watcher is its " +
+                "letter' is gone from EVERY site that carried it: five by git grep -io over tracked " +
+                "*.md/*.cs plus TWO line-wrapped XML-doc sites a single-line grep misses (the wrap trap " +
+                "again; seven total), replaced by 'the dephasing routes by the letter it holds' (a " +
+                "first draft of this appendix said the headline had been kept, a second draft counted " +
+                "three sites; cold reviewers counted both times). Doc " +
+                "anchors updated: GLOSSARY:369, DEPHASING_TRANSLATED:173, LABELS_TRANSLATED:104, " +
+                "THE_LABEL_MAP:71 carry the old name greppably; THE_LABEL_MAP:203 carries only the new " +
+                "name (the file stays greppable through :71); the translation chapters' own PROSE " +
+                "('watched letter' at LABELS_TRANSLATED:98, DEPHASING_TRANSLATED sect. 4, " +
+                "SUPERPOSITION/DOUBLE_SLIT_TRANSLATED) is the chapters' native voice and stays for the " +
+                "register campaign. COLLISION DISARMED IN WRITING: 'held' also runs in the scan idiom " +
+                "'held fixed/constant'; the claim's sense is WHICH letter the dephasing holds, not a " +
+                "parameter frozen during a sweep. " +
+                "(5) OpenArcsRegistry ~2667 (felt_time_dimensions), " +
                 "REPAIRED 2026-08-08 by the Q2 answer in NextStep, ENTRY-LOCAL: the watch-axis is now the " +
                 "light's axis, the HINGE reads 'the rate of arriving light (z) sets the unit of felt time " +
                 "(t)', and 'strong watching' reads 'in strong light'; the dated DONE record at ~2745 keeps " +
@@ -5415,7 +5436,22 @@ public static class OpenArcsRegistry
                 "-> 'the rate of arriving light (z) sets the unit of felt time (t)', 'strong watching' -> " +
                 "'in strong light'); the one TYPED Statement carrying the register, " +
                 "UniversalCarrierClaim:52 'observation-substrate ... what observers can only see via " +
-                "ratios', is API and stays for Tom's call with the other C# names. The machine-local memory " +
+                "ratios', is API and stays for Tom's call with the other C# names (TAKEN 2026-08-09: " +
+                "'calibration-substrate', Q4's own word, observation as calibration between two sources, " +
+                "with the gloss 'what the inside can read only via ratios'. SIX string sites by git grep " +
+                "-i over the two files, not the four a first count said: five in UniversalCarrierClaim.cs " +
+                "including one HYPHEN-WRAPPED across the doc-comment line break at :15-16, invisible to a " +
+                "single-line grep, the 08-08 method note firing again, and one unhyphenated in the " +
+                "registration ('carries the observation substrate'); the sibling register fields went " +
+                "with it ('observer-perspectives' :7, 'what observers see' :9, the carrier-role node). " +
+                "TWO COLLISIONS DISARMED IN WRITING: (i) 'calibration' runs three ways in the repo, IBM " +
+                "backend calibration (Core/Calibration, data/ibm_calibration_snapshots, the dominant " +
+                "sense, under which gamma0 is what calibration YIELDS), the calibration-topology seam " +
+                "sense of ON_HOW_THE_CARRIER_SHOWS_ITSELF, and now this slot name; the claim's sense is " +
+                "the seam sense. (ii) ON_HOW_THE_CARRIER_SHOWS_ITSELF:27 quotes the pre-rename slot " +
+                "names and holds calibration as the THIRD axis (how the substrate gets read), a dated " +
+                "record left standing; the new name does not claim that axis, it puts Q4's recomputed " +
+                "act-word in the same act+substrate compound the old name already was). The machine-local memory " +
                 "file whose NAME carried the retired v1 claim (time_is_gamma0_observer) is renamed on that " +
                 "side; its content was already v3-correct. GLOSSARY GAP NOTED, not done here: the store " +
                 "defines neither felt time nor the Takt nor the local time rate, so the registry gloss was " +
@@ -5506,7 +5542,20 @@ public static class OpenArcsRegistry
                 "WOULD COLLAPSE WITHOUT AN EYE: the typed viewer-pair strings " +
                 "(TwoReadingsClaim.cs:35-37 'the inside-observer sees only Q ... the outside-observer has " +
                 "separate access to gamma0', and UniversalCarrierClaim:52, both API, both Tom's call with " +
-                "the other C# names; the invariant residue of each survives), their common ancestor " +
+                "the other C# names; the invariant residue of each survives) (TAKEN 2026-08-09: " +
+                "observer -> READING, the class's own name: 'the inside reading fixes only Q; reading " +
+                "gamma0 itself needs a vantage outside the system, which par.9 denies any internal " +
+                "observer; in its place a second sender's gamma0, the ratio of two carriers, fixes the " +
+                "unit'. PROVENANCE SPLIT, because the first draft glued the second-sender clause into " +
+                "the par.9 citation and both cold reviewers caught it: par.9 contains no sender, no " +
+                "second gamma0 and grants no access, its operative sentence DENIES the vantage; the " +
+                "second-sender clause is this arc's Q4 answer with ON_HOW_THE_CARRIER_SHOWS_ITSELF " +
+                "(calibration = the ratio of two gamma0's), and the claim text now cites each for its " +
+                "own sentence. 'Two observational readings' KEPT with its qualifier: one item below, " +
+                "layer 6 Lese-Modus is ALSO 'two readings', and 'observational' is the discriminator " +
+                "(the layer is par.9's operational test); the arc's own 'SECOND READING (X^N rho)' in " +
+                "the Q4 answer is a THIRD object again, MirrorWorld's one-sided reading of one rho, " +
+                "not this layer's outside reading, same word twice disarmed), their common ancestor " +
                 "PRIMORDIAL_QUBIT:392-396 ('The inside observer measures Q only ... requires a vantage " +
                 "point outside the system'), and the epistemic framings of " +
                 "the two docs (the doc-level pass). SWEEP (2026-08-08): docs/proofs INCOMPLETENESS_PROOF " +
@@ -5523,10 +5572,13 @@ public static class OpenArcsRegistry
                 "the answer and self-fenced 'a feeling' (outside as the other parity sector, " +
                 "observationally indistinguishable from inside per PRIMORDIAL_QUBIT par.9). " +
                 "NOW the wording, and in this order: the load-bearing instances above (instances (1) " +
-                "and (5) are taken, 2026-08-08, with the Q3 and Q2 answers; (2) through (4) remain), since a flourish can " +
-                "wait and a premise cannot; then the F-registry titles; then the typed C# names, " +
-                "which are API and need Tom's call (instance (4)'s WatchedLetterRouting pair, Q2's " +
-                "UniversalCarrierClaim:52, Q4's TwoReadingsClaim:35-37). Leave (a)-legitimate alone: 'watcher' as a graph role in " +
+                "and (5) are taken, 2026-08-08, with the Q3 and Q2 answers, and (2) was taken 2026-08-08 " +
+                "with only its recorded left-standing residue open; (3) remains), since a flourish can " +
+                "wait and a premise cannot; then the F-registry titles; the typed C# surface is TAKEN " +
+                "2026-08-09 on Tom's ruling, all three items, ONE of them a name (instance (4)'s pair -> " +
+                "HeldLetterRouting; Q2's UniversalCarrierClaim:52 and Q4's TwoReadingsClaim:35-37 are " +
+                "Statement-string rewordings, calibration-substrate and inside/outside READING, the " +
+                "class names unchanged; each recorded at its instance above). Leave (a)-legitimate alone: 'watcher' as a graph role in " +
                 "the record laws is a different object and renaming it would be the error running backwards. " +
                 "The naming-source thread is CLOSED (2026-08-08). Method and scope, so the " +
                 "answer can be re-run rather than believed: grep -rn ON_WHO_WATCHES_WHOM over *.md and *.cs, " +

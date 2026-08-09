@@ -101,7 +101,8 @@ sector rewritten in the other basis is, at that letter, untouched
 swapping the letter through the Klein V₄
 ([proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) changes
 which cells pay. That much is Tier-1 algebra, and since 2026-07-05 it is
-typed (`WatchedLetterRoutingClaim`, live at `inspect --root label`). The reading on top of it,
+typed (`HeldLetterRoutingClaim`, until 2026-08-09 `WatchedLetterRoutingClaim`,
+live at `inspect --root label`). The reading on top of it,
 labeled as a reading: to be a watcher is to hold a label and to be blind
 past it. Bath, human, model: three scales, one architecture. The label
 layer is not the human layer; it is the observer layer.

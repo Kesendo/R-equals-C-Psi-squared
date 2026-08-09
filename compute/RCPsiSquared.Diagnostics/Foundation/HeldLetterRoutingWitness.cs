@@ -10,20 +10,20 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The label layer, live (<c>inspect --root label</c>): the exact core of the label
 /// thesis (<c>docs/quantum/LABELS_TRANSLATED.md</c> §2, <c>docs/quantum/DEPHASING_TRANSLATED.md</c>
-/// §4), typed as <see cref="RCPsiSquared.Core.Symmetry.WatchedLetterRoutingClaim"/>. The watcher
-/// IS its letter:
+/// §4), typed as <see cref="RCPsiSquared.Core.Symmetry.HeldLetterRoutingClaim"/>. The dephasing
+/// routes by the letter it holds:
 ///
 /// <list type="number">
 ///   <item><b>one shared eigenbasis, three price lists</b>: every one of the 4^N Pauli strings is
 ///         an exact eigenvector of every letter dissipator L_P = γ·(Q_P − N·I), P ∈ {X, Y, Z},
 ///         with rate −2γ·n_anti(S, P) where n_anti counts the sites whose letter anticommutes
-///         with P (the disagreement in the watched letter alone). The object never changes;
+///         with P (the disagreement in the held letter alone). The object never changes;
 ///         only the price list is the letter's.</item>
-///   <item><b>the routing</b>: which cells pay follows the held letter (Z^⊗N rides free under
-///         the Z-watcher and pays maximally under the X-watcher, and mirrored), so "noise" is
-///         not a property of the state; it is a property of the pair (state, watcher).</item>
-///   <item><b>only nothing is free everywhere</b>: each watcher exempts its own 2^N strings
-///         {I, P}^⊗N; the intersection over all three watchers is the identity alone.</item>
+///   <item><b>the routing</b>: which cells pay follows the held letter (Z^⊗N rides free when
+///         Z is the held letter and pays maximally when X is, and mirrored), so "noise" is
+///         not a property of the state; it is a property of the pair (state, held letter).</item>
+///   <item><b>only nothing is free everywhere</b>: each held letter exempts its own 2^N strings
+///         {I, P}^⊗N; the intersection over all three held letters is the identity alone.</item>
 ///   <item><b>the swap is an exact transport</b>: the single-qubit basis moves h_zx, h_yz carry
 ///         L_Z onto L_X, L_Y entry-exactly (the basis-S₃ face of the letter swap; the
 ///         operator-space Klein V₄ face is PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE).</item>
@@ -37,7 +37,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// Convention: row-stacking vec, kron(A,B): ρ ↦ AρBᵀ, matching <see cref="DiagonalWitness"/>.
 /// Closest live sibling: <c>--root diagonal</c> (the rungs and the S₃ orbit of one letter's
 /// diagonal); this witness holds the ROUTING between the letters.</para></summary>
-public sealed class WatchedLetterRoutingWitness : IInspectable
+public sealed class HeldLetterRoutingWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
@@ -54,15 +54,15 @@ public sealed class WatchedLetterRoutingWitness : IInspectable
     public double MaxEigenResidual { get; }
     /// <summary>Max |rate_dense − (−2γ·n_anti)| over all 3·4^N pairs: the price-list gate.</summary>
     public double MaxClosedFormDeviation { get; }
-    /// <summary>Strings whose price differs between the Z- and the X-watcher (the routing control).</summary>
+    /// <summary>Strings whose price differs between Z held and X held (the routing control).</summary>
     public int RepricedCountZtoX { get; }
-    /// <summary>Strings the Z-watcher exempts (= 2^N, the {I,Z}^⊗N cell).</summary>
+    /// <summary>Strings the held letter Z exempts (= 2^N, the {I,Z}^⊗N cell).</summary>
     public int FreeCountZ { get; }
-    /// <summary>Strings the X-watcher exempts (= 2^N).</summary>
+    /// <summary>Strings the held letter X exempts (= 2^N).</summary>
     public int FreeCountX { get; }
-    /// <summary>Strings the Y-watcher exempts (= 2^N).</summary>
+    /// <summary>Strings the held letter Y exempts (= 2^N).</summary>
     public int FreeCountY { get; }
-    /// <summary>Strings free under ALL three watchers (= 1: the identity alone).</summary>
+    /// <summary>Strings free under ALL three held letters (= 1: the identity alone).</summary>
     public int UniversalFreeCount { get; }
     /// <summary>Max |rate| over all pairs (= 2γN: the fullest bill anyone pays).</summary>
     public double MaxRateMagnitude { get; }
@@ -70,16 +70,16 @@ public sealed class WatchedLetterRoutingWitness : IInspectable
     public double TransportDevZtoX { get; }
     /// <summary>Entry-exact deviation of Ad(h_yz)·L_Z·Ad(h_yz)† from L_Y.</summary>
     public double TransportDevZtoY { get; }
-    /// <summary>Rate of Z^⊗N under the Z-watcher (0: the watcher's own letter rides free).</summary>
+    /// <summary>Rate of Z^⊗N with Z held (0: the held letter's own cell rides free).</summary>
     public double RateOfAllZUnderZ { get; }
-    /// <summary>Rate of Z^⊗N under the X-watcher (−2γN: maximal disagreement).</summary>
+    /// <summary>Rate of Z^⊗N with X held (−2γN: maximal disagreement).</summary>
     public double RateOfAllZUnderX { get; }
-    /// <summary>Rate of X^⊗N under the Z-watcher (−2γN).</summary>
+    /// <summary>Rate of X^⊗N with Z held (−2γN).</summary>
     public double RateOfAllXUnderZ { get; }
-    /// <summary>Rate of X^⊗N under the X-watcher (0).</summary>
+    /// <summary>Rate of X^⊗N with X held (0).</summary>
     public double RateOfAllXUnderX { get; }
 
-    public WatchedLetterRoutingWitness(int n = 3, double gamma = 0.05)
+    public HeldLetterRoutingWitness(int n = 3, double gamma = 0.05)
     {
         if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), $"N must be ≥ 1; got {n}");
         if (gamma <= 0) throw new ArgumentOutOfRangeException(nameof(gamma), $"gamma must be positive; got {gamma}");
@@ -127,7 +127,7 @@ public sealed class WatchedLetterRoutingWitness : IInspectable
             if (fY) freeY++;
             if (fZ) freeZ++;
             if (fX && fY && fZ) universalFree++;
-            if (Math.Abs(rates[0] - rates[2]) > 1e-12) repriced++;   // X-watcher vs Z-watcher
+            if (Math.Abs(rates[0] - rates[2]) > 1e-12) repriced++;   // X held vs Z held
             if (s == allZIndex) { allZunderZ = rates[2]; allZunderX = rates[0]; }
             if (s == allXIndex) { allXunderZ = rates[2]; allXunderX = rates[0]; }
         }
@@ -148,7 +148,7 @@ public sealed class WatchedLetterRoutingWitness : IInspectable
     }
 
     public string DisplayName =>
-        $"the watched letter (label routing, N={N}, γ={Gamma.ToString("0.###", Inv)})";
+        $"the held letter (label routing, N={N}, γ={Gamma.ToString("0.###", Inv)})";
 
     public string Summary =>
         $"N={N}: {1 << (2 * N)} Pauli strings, ONE shared eigenbasis, three price lists (rate −2γ·n_anti); "
@@ -166,14 +166,14 @@ public sealed class WatchedLetterRoutingWitness : IInspectable
                        + "the object never changes, only the price list is the letter's",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("the routing (which cells pay follows the held letter)",
-                summary: $"Z^⊗N: rate {RateOfAllZUnderZ.ToString("0.###", Inv)} under the Z-watcher, "
-                       + $"{RateOfAllZUnderX.ToString("0.###", Inv)} under the X-watcher (X^⊗N mirrored: "
+                summary: $"Z^⊗N: rate {RateOfAllZUnderZ.ToString("0.###", Inv)} with Z held, "
+                       + $"{RateOfAllZUnderX.ToString("0.###", Inv)} with X held (X^⊗N mirrored: "
                        + $"{RateOfAllXUnderZ.ToString("0.###", Inv)} / {RateOfAllXUnderX.ToString("0.###", Inv)}); "
                        + $"{RepricedCountZtoX}/{1 << (2 * N)} strings repriced by the Z→X swap: 'noise' is a "
-                       + "property of the pair (state, watcher), not of the state",
+                       + "property of the pair (state, held letter), not of the state",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("only nothing rides free everywhere",
-                summary: $"each watcher exempts its own 2^N = {1 << N} strings ({{I,P}}^⊗N: Z {FreeCountZ}, "
+                summary: $"each held letter exempts its own 2^N = {1 << N} strings ({{I,P}}^⊗N: Z {FreeCountZ}, "
                        + $"X {FreeCountX}, Y {FreeCountY}); free under all three = {UniversalFreeCount} "
                        + "(the identity alone); everything that exists pays someone",
                 provenance: NodeProvenance.Live);
@@ -231,12 +231,12 @@ public sealed class WatchedLetterRoutingWitness : IInspectable
         return s;
     }
 
-    /// <summary>Sites whose letter anticommutes with the watched letter (∉ {I, P}).</summary>
-    private static int AntiCount(PauliLetter[] letters, PauliLetter watched)
+    /// <summary>Sites whose letter anticommutes with the held letter (∉ {I, P}).</summary>
+    private static int AntiCount(PauliLetter[] letters, PauliLetter held)
     {
         int k = 0;
         foreach (var l in letters)
-            if (l != PauliLetter.I && l != watched) k++;
+            if (l != PauliLetter.I && l != held) k++;
         return k;
     }
 

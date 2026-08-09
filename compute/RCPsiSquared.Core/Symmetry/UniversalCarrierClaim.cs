@@ -4,16 +4,16 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>UniversalCarrierClaim (Tier 1 derived; named 2026-05-12): γ₀ as the
-/// universal-reference rate-parameter mediating between observer-perspectives.
+/// universal-reference rate-parameter mediating between perspectives.
 /// Plays the structural role of c in special relativity, with the addition that
-/// γ₀ is also what observers see (only via dimensionless ratios; γ₀ alone is
+/// γ₀ is also what the inside reads (only via dimensionless ratios; γ₀ alone is
 /// invisible from inside per <c>hypotheses/PRIMORDIAL_QUBIT.md</c> §9
 /// "Operational Test from the Inside").
 ///
 /// <para><b>Two structural slots in a single role.</b> In SR, c is only the
 /// protection constant; "what is observed" is structureless ("events"). In
-/// R=CΨ², γ₀ carries both: protection-constant (c-analog) AND observation-
-/// substrate. The collapse is the condition for Inside-Observability consistency.
+/// R=CΨ², γ₀ carries both: protection-constant (c-analog) AND
+/// calibration-substrate. The collapse is the condition for Inside-Observability consistency.
 /// The interpretive framing ("Einstein left a structureless observation slot,
 /// R=CΨ² makes γ₀ carry it") is Tier-2; the typed Tier-1 content is the
 /// structural slot identification.</para>
@@ -49,7 +49,7 @@ public sealed class UniversalCarrierClaim : Claim
         AbsorptionTheoremClaim absorption,
         Pi2DyadicLadderClaim ladder,
         PolynomialDiscriminantAnchorClaim discriminant)
-        : base("γ₀ as Universal Carrier: protection-constant and observation-substrate carried in a single role (the SR-c analog plus what observers can only see via ratios)",
+        : base("γ₀ as Universal Carrier: protection-constant and calibration-substrate carried in a single role (the SR-c analog plus what the inside can read only via ratios)",
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
@@ -64,19 +64,19 @@ public sealed class UniversalCarrierClaim : Claim
     }
 
     public override string DisplayName =>
-        $"γ₀ Universal Carrier (protection-constant + observation-substrate; default γ₀ = {DefaultGammaZero})";
+        $"γ₀ Universal Carrier (protection-constant + calibration-substrate; default γ₀ = {DefaultGammaZero})";
 
     public override string Summary =>
-        $"γ₀ as Universal Carrier; both protection-constant (like c) and observation-substrate; default γ₀ = {DefaultGammaZero}; only Q = J/γ₀ and K = γt internally measurable ({Tier.Label()})";
+        $"γ₀ as Universal Carrier; both protection-constant (like c) and calibration-substrate; default γ₀ = {DefaultGammaZero}; only Q = J/γ₀ and K = γt internally measurable ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("carrier role",
-                summary: "Universal-reference rate mediating between observer-perspectives; neither observer nor what is observed in absolute terms, but the medium between them.");
+                summary: "Universal-reference rate mediating between perspectives; not a property either end owns in absolute terms, but the medium between them: what a unit is fixed against.");
             yield return new InspectableNode("SR parallel (interpretive Tier 2)",
-                summary: "c (SR) is only the protection-constant; γ₀ (R=CΨ²) is protection-constant AND observation-substrate. Doppelte Rolle is the condition for Inside-Observability consistency.");
+                summary: "c (SR) is only the protection-constant; γ₀ (R=CΨ²) is protection-constant AND calibration-substrate. Doppelte Rolle is the condition for Inside-Observability consistency.");
             yield return new InspectableNode("Inside-Observability",
                 summary: "From inside, γ₀ is unmeasurable; only Q = J/γ₀, K = γt, t_peak = 1/(4γ₀) are accessible.");
             yield return new InspectableNode("the speed-of-light question (c belongs here, not in C)",

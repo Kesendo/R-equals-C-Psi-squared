@@ -2,17 +2,17 @@ using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>From-below gates for <see cref="WatchedLetterRoutingWitness"/> (the label-layer
+/// <summary>From-below gates for <see cref="HeldLetterRoutingWitness"/> (the label-layer
 /// witness, <c>inspect --root label</c>): the 4^N Pauli strings are ONE shared eigenbasis of all
 /// three letter dissipators with three different price lists (rate −2γ·n_anti(S, P), the
 /// disagreement with the held letter alone); the letter swap relocates which cells pay; only the
-/// identity rides free under every watcher. Two-sided throughout: the dense-vs-closed-form
+/// identity rides free under every held letter. Two-sided throughout: the dense-vs-closed-form
 /// residuals must vanish AND the repriced/max-rate controls must not.</summary>
-public class WatchedLetterRoutingWitnessTests
+public class HeldLetterRoutingWitnessTests
 {
     private const double Gamma = 0.05;
 
-    private static WatchedLetterRoutingWitness Build() => new(n: 3, gamma: Gamma);
+    private static HeldLetterRoutingWitness Build() => new(n: 3, gamma: Gamma);
 
     [Fact]
     public void SharedEigenbasis_DenseMatchesClosedForm()
@@ -28,7 +28,7 @@ public class WatchedLetterRoutingWitnessTests
     public void Routing_ThePriceListFollowsTheHeldLetter()
     {
         var w = Build();
-        // Z^⊗N: free under the Z-watcher, maximal under the X-watcher; X^⊗N mirrored.
+        // Z^⊗N: free with Z held, maximal with X held; X^⊗N mirrored.
         Assert.Equal(0.0, w.RateOfAllZUnderZ, 12);
         Assert.Equal(-2.0 * Gamma * 3, w.RateOfAllZUnderX, 12);
         Assert.Equal(-2.0 * Gamma * 3, w.RateOfAllXUnderZ, 12);
@@ -45,7 +45,7 @@ public class WatchedLetterRoutingWitnessTests
     }
 
     [Fact]
-    public void OnlyTheIdentityRidesFreeUnderEveryWatcher()
+    public void OnlyTheIdentityRidesFreeUnderEveryHeldLetter()
     {
         var w = Build();
         Assert.Equal(8, w.FreeCountZ);          // {I,Z}^⊗3
@@ -74,7 +74,7 @@ public class WatchedLetterRoutingWitnessTests
     [Fact]
     public void Guards_RejectOversizeNAndNonpositiveGamma()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new WatchedLetterRoutingWitness(n: 6));
-        Assert.Throws<ArgumentOutOfRangeException>(() => new WatchedLetterRoutingWitness(n: 3, gamma: 0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new HeldLetterRoutingWitness(n: 6));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new HeldLetterRoutingWitness(n: 3, gamma: 0.0));
     }
 }

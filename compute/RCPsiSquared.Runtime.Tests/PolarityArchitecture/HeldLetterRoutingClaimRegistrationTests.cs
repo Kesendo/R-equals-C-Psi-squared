@@ -6,11 +6,11 @@ using RCPsiSquared.Runtime.PolarityArchitecture;
 
 namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 
-/// <summary>Registration gates for <see cref="WatchedLetterRoutingClaim"/> (the label layer,
+/// <summary>Registration gates for <see cref="HeldLetterRoutingClaim"/> (the label layer,
 /// typed): registered, Tier 1 derived, and carrying its two typed parent edges to
 /// <see cref="AbsorptionTheoremClaim"/> (the −2γ·⟨n_XY⟩ price list) and
 /// <see cref="Pi2KleinV4DephaseSwapGroup"/> (the letter swap).</summary>
-public class WatchedLetterRoutingClaimRegistrationTests
+public class HeldLetterRoutingClaimRegistrationTests
 {
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
@@ -20,31 +20,31 @@ public class WatchedLetterRoutingClaimRegistrationTests
             .RegisterPi2KleinV4DephaseSwapGroup();
 
     [Fact]
-    public void RegisterWatchedLetterRouting_AddsClaim_Tier1Derived()
+    public void RegisterHeldLetterRouting_AddsClaim_Tier1Derived()
     {
         var registry = BuildBaseRegistry()
-            .RegisterWatchedLetterRoutingClaim()
+            .RegisterHeldLetterRoutingClaim()
             .Build();
-        Assert.True(registry.Contains<WatchedLetterRoutingClaim>());
-        Assert.Equal(Tier.Tier1Derived, registry.Get<WatchedLetterRoutingClaim>().Tier);
+        Assert.True(registry.Contains<HeldLetterRoutingClaim>());
+        Assert.Equal(Tier.Tier1Derived, registry.Get<HeldLetterRoutingClaim>().Tier);
     }
 
     [Fact]
-    public void RegisterWatchedLetterRouting_AncestorsContainBothParents()
+    public void RegisterHeldLetterRouting_AncestorsContainBothParents()
     {
         var registry = BuildBaseRegistry()
-            .RegisterWatchedLetterRoutingClaim()
+            .RegisterHeldLetterRoutingClaim()
             .Build();
-        var ancestors = registry.AncestorsOf<WatchedLetterRoutingClaim>()
+        var ancestors = registry.AncestorsOf<HeldLetterRoutingClaim>()
             .Select(c => c.GetType()).ToHashSet();
         Assert.Contains(typeof(AbsorptionTheoremClaim), ancestors);
         Assert.Contains(typeof(Pi2KleinV4DephaseSwapGroup), ancestors);
     }
 
     [Fact]
-    public void BuildDefault_ContainsWatchedLetterRoutingClaim()
+    public void BuildDefault_ContainsHeldLetterRoutingClaim()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
-        Assert.True(registry.Contains<WatchedLetterRoutingClaim>());
+        Assert.True(registry.Contains<HeldLetterRoutingClaim>());
     }
 }

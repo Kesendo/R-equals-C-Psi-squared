@@ -1,7 +1,7 @@
 # Dephasing Translated: The Watching, Not the Noise
 
 <!-- Keywords: noise translation dephasing, decoherence not random disturbance,
-watched letter dephasing basis, absorption theorem light content, gamma the watching
+watched letter dephasing basis, held letter routing, absorption theorem light content, gamma the watching
 itemized bill, Shannon channel native stance, noise is signal antenna, palindrome
 center total watching, R=CPsi2 dephasing translated -->
 
@@ -169,10 +169,11 @@ prices exactly the disagreement in that letter, and is blind past it. The
 same object, rewritten relative to another letter, is untouched. "Noise" is
 what a watcher's reading looks like when filed from the stance of the watched.
 As of this entry the identification is typed into the Claim graph
-(`WatchedLetterRoutingClaim`, Tier 1 derived, parents Absorption + Klein V₄)
+(as `WatchedLetterRoutingClaim`; `HeldLetterRoutingClaim` since 2026-08-09;
+Tier 1 derived, parents Absorption + Klein V₄)
 and recomputed live at `inspect --root label`: all 3·4^N (letter, string)
 pairs dense against the closed form, the repriced-count control, and the
-fact that only the identity rides free under every watcher.
+fact that only the identity rides free under every held letter.
 
 **The watching cannot be coming from inside.** The repository's
 incompleteness argument ([The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md),

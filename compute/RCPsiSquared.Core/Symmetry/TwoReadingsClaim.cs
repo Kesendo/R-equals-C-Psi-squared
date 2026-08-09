@@ -32,10 +32,14 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item><b>Bra/ket of ρ:</b> any density matrix ρ on the doubled space reads as a
 ///         (row-index, col-index) pair on the 4^N operator basis — the fundamental
 ///         vectorisation. memory <c>project_one_system_two_indices</c>.</item>
-///   <item><b>Inside/outside correspondence:</b> the inside-observer sees only
-///         <c>Q = J/γ₀</c>; the outside-observer has separate access to γ₀
-///         (<c>hypotheses/PRIMORDIAL_QUBIT.md</c> §9). The same dynamics, two
-///         observational readings.</item>
+///   <item><b>Inside/outside correspondence:</b> the inside reading fixes only
+///         <c>Q = J/γ₀</c>; reading γ₀ itself needs a vantage outside the system,
+///         which <c>hypotheses/PRIMORDIAL_QUBIT.md</c> §9 denies any internal
+///         observer. What stands in that place is not an eye but a second sender's
+///         γ₀, the ratio of two carriers fixing the unit (interpretive, the γ arc's
+///         Q4 answer, "sender" its word; <c>reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md</c>
+///         frames the second system as an external clock, calibration = the ratio
+///         of two γ₀'s). The same dynamics, two observational readings.</item>
 ///   <item><b>Lese-Modus (one world, two readings):</b> the classical/quantum dichotomy
 ///         is a reading-mode (<i>Lese-Modus</i>) on one underlying ρ, not a
 ///         <i>Welt-Trennung</i>. d=0 and d=2 are projections of the same ρ.
@@ -108,7 +112,7 @@ public sealed class TwoReadingsClaim : Claim
             yield return new InspectableNode("layer 4 (vectorisation): bra/ket of ρ",
                 summary: "any ρ on d²=4^N reads as (row-index, col-index) pair on the 4^N operator basis; the fundamental vectorisation; project_one_system_two_indices memory");
             yield return new InspectableNode("layer 5 (observational): inside/outside",
-                summary: "inside-observer sees only Q = J/γ₀; outside-observer has separate access to γ₀; PRIMORDIAL_QUBIT §9 inside/outside correspondence");
+                summary: "the inside reading fixes only Q = J/γ₀; reading γ₀ itself needs the outside vantage that PRIMORDIAL_QUBIT §9 denies any internal observer; in its place a second sender's γ₀ fixes the unit (interpretive, the γ arc's Q4 answer with ON_HOW_THE_CARRIER_SHOWS_ITSELF: calibration between two carriers)");
             yield return new InspectableNode("layer 6 (interpretive): classical/quantum Lese-Modus",
                 summary: "the classical/quantum dichotomy is a reading-mode on one underlying ρ, not a world-separation; d=0 and d=2 are projections of the same ρ; project_one_world_two_readings memory");
             yield return new InspectableNode("layer 7 (subject): inter-sectoral wave",

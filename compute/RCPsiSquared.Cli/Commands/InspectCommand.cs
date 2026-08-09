@@ -825,13 +825,14 @@ public static class InspectCommand
             "stays open (typed: BetaExoticPerNExclusionClaim)",
             c => new BetaExoticExclusionWitness(c.Parser.HasFlag("N") ? c.N : 5),
             RequiresN: false, HonorsOptionalN: true),
-        new("label", "the label layer, typed: the watcher is its letter - the 4^N Pauli strings are ONE shared " +
+        new("label", "the label layer, typed: the dephasing routes by the letter it holds - the 4^N " +
+            "Pauli strings are ONE shared " +
             "eigenbasis of all three letter dissipators with three price lists (rate -2g*n_anti(S,P), the " +
             "disagreement with the held letter alone); the letter swap (Klein V4 / basis-S3) relocates which " +
-            "cells pay, entry-exactly; only the identity rides free under every watcher. The exact core of " +
+            "cells pay, entry-exactly; only the identity rides free under every held letter. The exact core of " +
             "docs/quantum LABELS_TRANSLATED s2 and DEPHASING_TRANSLATED s4: even the environment routes by a " +
-            "label (typed: WatchedLetterRoutingClaim)",
-            c => new WatchedLetterRoutingWitness(c.Parser.HasFlag("N") ? c.N : 3,
+            "label (typed: HeldLetterRoutingClaim)",
+            c => new HeldLetterRoutingWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                                  c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false, HonorsOptionalN: true),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
