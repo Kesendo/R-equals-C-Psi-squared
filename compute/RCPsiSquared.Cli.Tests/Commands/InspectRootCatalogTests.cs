@@ -318,13 +318,25 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasSidewaysRoot_NFree_HonorsOptionalN()
+    {
+        // Entry pin only; the factory is not invoked here (it would run the N=5 chain walk).
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "sideways");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("sideways spin ladder", entry.Description);
+        Assert.Contains("Clebsch-Gordan", entry.Description);
+        Assert.Contains("SidewaysSpinLadderClaim", entry.Description);
+    }
+
+    [Fact]
     public void Catalog_HasRenewalRoot_NFree_HonorsOptionalN()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "renewal");
         Assert.False(entry.RequiresN);
         Assert.True(entry.HonorsOptionalN);
         Assert.Contains("RENEWAL", entry.Description);
-        Assert.Contains("WATCHED walk", entry.Description);
+        Assert.Contains("walk in the light", entry.Description);
     }
 
     [Fact]

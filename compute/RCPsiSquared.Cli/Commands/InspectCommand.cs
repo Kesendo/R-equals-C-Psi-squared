@@ -757,6 +757,14 @@ public static class InspectCommand
             c => BuildBetweenRoot(c.Parser, c.N)),
         new("qudit", "F121 qudit partial palindrome, recomputed live",
             c => BuildQuditRoot(c.Parser), RequiresN: false),
+        new("sideways", "the sideways spin ladder live: S⁺ = Σ (−1)^l c_l†(·)c_l† intertwines L on Σ-odd " +
+            "real-symmetric hopping (residual vs 0.0 exactly, Φ as control), the F125 fold family = the two " +
+            "S⁺ chain interiors at p+q̃ = N∓1, " +
+            "transport norms = Clebsch-Gordan √(ℓ(ℓ+1)−m(m+1)) at ℓ = (N−3)/2, terminal death at the " +
+            "eigensolver floor with a survivors control; chain walk recomputed at inspect time, N ∈ {5, 7} " +
+            "(typed: SidewaysSpinLadderClaim)",
+            c => new SidewaysSpinLadderWitness(c.Parser.HasFlag("N") ? c.N : 5),
+            RequiresN: false, HonorsOptionalN: true),
         new("router", "F116 golden/metallic router, ceiling closed live",
             c => BuildRouterRoot(c.Parser), RequiresN: false),
         new("arcs", "the open-arcs ledger: started, not finished, not forgotten",

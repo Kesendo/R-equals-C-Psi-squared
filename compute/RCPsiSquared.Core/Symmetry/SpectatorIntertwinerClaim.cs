@@ -22,8 +22,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Lemma 2.1 is the identity above, reached there from Hubbard representation theory instead.
 /// That section also carries the SIDEWAYS ladder S⁺(ρ) = Σ_l (−1)^l d†_lρd†_l, which is the V of
 /// PROOF_CODIM1_BY_ADDITIVITY §6 with the stagger restored: V fails on the Hamiltonian part, S⁺ does not.
-/// The price is SCOPE, so do not read S⁺ as covering this claim's H class: it needs ΣhΣ = −h, hence only
-/// pure hopping between opposite-parity sites, with the on-site potentials and disorder above excluded.</para>
+/// The price is SCOPE, so do not read S⁺ as covering this claim's H class: it needs a real symmetric h with
+/// ΣhΣ = −h, hence only pure hopping between opposite-parity sites, with on-site terms and same-parity hops
+/// excluded (nearest-neighbour bond disorder survives; adjacent sites always have opposite parity).</para>
 ///
 /// <para><b>Jordan transport (Lemma 3, the sharp premise).</b> If L₂W = WL₁ and x₁, …, x_m is a Jordan chain of
 /// L₁ at λ with <b>Wx₁ ≠ 0</b> (x₁ the eigenvector; kernel hits are downward-closed along a chain, so this single

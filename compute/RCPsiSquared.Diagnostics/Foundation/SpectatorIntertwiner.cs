@@ -62,4 +62,42 @@ public static class SpectatorIntertwiner
             }
         return w;
     }
+
+    /// <summary>The sideways SPIN ladder S⁺(ρ) = Σ_l (−1)^l c_l†ρc_l† as a matrix from block (pIn, qIn)
+    /// to block (pIn+1, qIn−1), in the <see cref="BlockBasis.PopcountStates"/> ordering (flat = pIdx·Mq +
+    /// qIdx). This is §6's V of <c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c> with the stagger (−1)^l
+    /// restored, which is F142's spin raising (<c>docs/proofs/PROOF_FROZEN_BAND_SO4.md</c> Lemma 2.3): the
+    /// stagger is what makes it commute with the Hamiltonian part, at the price of needing a REAL SYMMETRIC
+    /// h with ΣhΣ = −h (both hypotheses load-bearing). For each input coherence |a⟩⟨b| and each site l with
+    /// l∉a AND l∈b: coefficient (−1)^l·s_l(a)·s_l(b) into |a∪e_l⟩⟨b∖e_l| (both JW signs on the pre-update
+    /// states; the bra-side sign is real). Preserves p+q̃, the parity fact behind §6 item (ii)'s
+    /// route-unavailability remark (open arc <c>sideways_spin_ladder</c>; typed:
+    /// <c>SidewaysSpinLadderClaim</c>).</summary>
+    public static Matrix<Complex> BuildSPlus(int n, int pIn, int qIn)
+    {
+        var inP = BlockBasis.PopcountStates(n, pIn);
+        var inQ = BlockBasis.PopcountStates(n, qIn);
+        var outP = BlockBasis.PopcountStates(n, pIn + 1);
+        var outQ = BlockBasis.PopcountStates(n, qIn - 1);
+        var outPIdx = new Dictionary<long, int>();
+        for (int i = 0; i < outP.Count; i++) outPIdx[outP[i]] = i;
+        var outQIdx = new Dictionary<long, int>();
+        for (int i = 0; i < outQ.Count; i++) outQIdx[outQ[i]] = i;
+
+        var s = Matrix<Complex>.Build.Dense(outP.Count * outQ.Count, inP.Count * inQ.Count);
+        for (int i = 0; i < inP.Count; i++)
+            for (int j = 0; j < inQ.Count; j++)
+            {
+                long a = inP[i], b = inQ[j];
+                int col = i * inQ.Count + j;
+                for (int l = 0; l < n; l++)
+                {
+                    if (Occupied(n, a, l) || !Occupied(n, b, l)) continue;
+                    int stagger = (l & 1) == 0 ? 1 : -1;
+                    int row = outPIdx[a | SiteMask(n, l)] * outQ.Count + outQIdx[b & ~SiteMask(n, l)];
+                    s[row, col] += stagger * JwSign(n, a, l) * JwSign(n, b, l);
+                }
+            }
+        return s;
+    }
 }

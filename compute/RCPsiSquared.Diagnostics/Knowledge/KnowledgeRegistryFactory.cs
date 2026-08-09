@@ -384,6 +384,16 @@ public static class KnowledgeRegistryFactory
             // (directly above) + AbsorptionTheoremClaim (registered earlier), both Tier1Derived. The theorem behind
             // the multi-sector verdict's byte-identical shared lambda; gate SpectatorIntertwinerGateTests (SLOW_MSM).
             .RegisterSpectatorIntertwinerClaim()
+            // Sideways spin ladder (the sideways_spin_ladder open arc, measured 2026-08-07, typed
+            // 2026-08-09): S⁺(ρ) = Σ_l (−1)^l c_l†·ρ·c_l† (§6's V with the stagger restored = F142's spin
+            // raising) intertwines L exactly for Σ-odd real-symmetric pure hopping and any γ_l; preserves
+            // p+q̃ (the parity fact behind §6 item (ii)); the F125 fold family = the two S⁺ chain interiors
+            // at p+q̃ = N∓1, spin ℓ = (N−3)/2 per chain, S⁺ transport norms = Clebsch-Gordan coefficients
+            // (measured N=5,7; the η chains inferred from the count; N=9 open).
+            // Parent: SpectatorIntertwinerClaim (directly above), Tier1Derived; this claim Tier1Candidate
+            // (the multiplet half is measured, not derived). Gate SidewaysSpinLadderGateTests (SIDEWAYS +
+            // SLOW_SIDEWAYS) + simulations/eta_ladder_chain.py; live: inspect --root sideways.
+            .RegisterSidewaysSpinLadderClaim()
             // Seed-existence counting theorem (the sectorbraid arc's existence side, 2026-07-04): the census
             // input of the containment corollary as a theorem, r(0+) - r(inf) = N - 1 for every odd N on the
             // (1,2) block, via (N2) the -2 rung = N-1 paths of N vertices, (FF) nullity(C) = the fusion-resonance

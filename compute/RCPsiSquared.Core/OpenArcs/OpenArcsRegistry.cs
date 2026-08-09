@@ -5078,7 +5078,15 @@ public static class OpenArcsRegistry
                 "written in section 6 of the very document being extended, two sections from the one being " +
                 "read.",
             ParkedAt:
-                "MEASURED, NOT TYPED. The evidence is committed and runnable: simulations/eta_ladder_blocks.py " +
+                "TYPED 2026-08-09: SidewaysSpinLadderClaim (parent SpectatorIntertwinerClaim; Tier1Candidate, " +
+                "because the intertwining half is derived while the multiplet half is measured at two odd N), " +
+                "with the shared chain walk SidewaysSpinLadderChain feeding BOTH the C# gate " +
+                "SidewaysSpinLadderGateTests (Categories SIDEWAYS + SLOW_SIDEWAYS; the CONTROL residual is " +
+                "compared to 0.0 exactly and IS exactly 0.0 in C# too, and the terminal ratios land on the same " +
+                "eigensolver floor, C# 8.6e-16 .. 2.1e-15 beside Python's 8.7e-16 .. 2.1e-15) and the live " +
+                "witness (inspect --root sideways; S+ is " +
+                "SpectatorIntertwiner.BuildSPlus beside BuildW). " +
+                "The Python evidence is committed and runnable: simulations/eta_ladder_blocks.py " +
                 "is the block-local tool, simulations/eta_ladder_chain.py GATES the multiplet reading and " +
                 "the sigma_min rejection below at N=5 and N=7 and exits non-zero if a check fails, and " +
                 "simulations/eta_ladder_breakinput.py is the break-input table. What is NOT gated, and " +
@@ -5113,10 +5121,11 @@ public static class OpenArcsRegistry
                 "is the mirror and an N-formula: the FOLD half is two S+ multiplets, one per anti-diagonal " +
                 "p+q = N-1 and p+q = N+1, the BAND half is two eta multiplets, one per diagonal d = +-1, all " +
                 "four chains have interior length N-2, so all four carry spin l = (N-3)/2 and F125's 'spin 1' " +
-                "is the N=5 case. That makes 4(N-2) = 4N-8, which is F125's stated orbit size at odd N, and " +
-                "the transport norms on any of the four are the Clebsch-Gordan coefficients " +
-                "sqrt(l(l+1) - m(m+1)): predicted in writing before the N=7 run, measured there as 2, sqrt6, " +
-                "sqrt6, 2 with the fold set equal to the predicted set. " +
+                "is the N=5 case. That makes 4(N-2) = 4N-8, which is F125's stated orbit size at odd N. The " +
+                "transport norms MEASURED are the two S+ chains': the Clebsch-Gordan coefficients " +
+                "sqrt(l(l+1) - m(m+1)), predicted in writing before the N=7 run, measured there as 2, sqrt6, " +
+                "sqrt6, 2 with the fold set equal to the predicted set; the two eta chains carry their spin " +
+                "by that count alone, their transport norms untested. " +
                 "WHAT F125's sigma_min IS NOT: a review round proposed that " +
                 "SpectatorIntertwinerClaim.SigmaMinClimbingRungN5 = sqrt(2) at N=5 and the recorded 1 at N=4 ARE " +
                 "the eta-side CG coefficients, a free two-point confirmation. MEASURED BEFORE ADOPTING, and it is " +
@@ -5147,9 +5156,10 @@ public static class OpenArcsRegistry
                 "identity-composition certificates at every branch locus of both parities, gate " +
                 "RemainderR4InteriorExclusionTests. The conclusion is also immune for a reason simpler than " +
                 "anything measured here: S+ PRESERVES p+q, band blocks have p+q odd and the diagonal cores " +
-                "p+q even, so no staggered ladder connects the two at any N. The only offer worth making to " +
-                "that document is one clause in item (ii): the sibling that carries the stagger DOES commute, " +
-                "so the sentence should rest on the parity argument rather than on V's failure. " +
+                "p+q even, so no staggered ladder connects the two at any N. The one clause worth offering, " +
+                "that no such ladder connects band to core regardless of V's commutator failure (the " +
+                "exclusion itself is closed by the rate window and the R4 certificates, ladder-free), is " +
+                "APPENDED to item (ii) since 2026-08-09, beside V's failure rather than replacing it. " +
                 "EVEN N IS UNTESTED, and the tension must be stated against what the repo holds rather than " +
                 "as fresh: PROOF_CODIM1_BY_ADDITIVITY already records that at even N the four members around " +
                 "half filling are simultaneously band and fold image and carry BOTH values, which is most of " +
@@ -5161,11 +5171,11 @@ public static class OpenArcsRegistry
                 "sqrt6, seven sectors per chain, 14 fold + 14 band = 28 = 4*9-8. The middle block (4,4) is " +
                 "126^2 = 15876, too big for a dense eigensolver, so it needs shift-invert rather than more " +
                 "hours. " +
-                "By cockpit rule 5 this belongs in a C# witness, and the estimate must not be understated: " +
-                "WeightCoherenceBlock.Build hard-codes uniform gamma = 1 and ONE scalar coupling on " +
-                "nearest-neighbour bonds, while the measurement and the theorem's scope both need " +
-                "site-dependent gamma_j and an arbitrary bond profile, so the builder needs extending before " +
-                "the rectangular ladder and the residual go on top. " +
+                "The cockpit-rule-5 typing landed 2026-08-09 WITHOUT the builder extension this entry once " +
+                "estimated: WeightCoherenceBlock was never needed, because PerBlockLiouvillianBuilder.BuildBlockZ " +
+                "already takes an arbitrary H and per-site gamma and PauliHamiltonian.XYChain takes a bond " +
+                "profile, the exact pair the spectator gate already built with, so the chain walk went on top " +
+                "of those and the ladder landed as SpectatorIntertwiner.BuildSPlus beside BuildW. " +
                 "2026-08-08, and it is this arc's own lesson recurring: open item 4 of " +
                 "experiments/THE_EXCEPTIONAL_COUPLINGS.md was closed using S+ and S- as an su(2) pair, and " +
                 "it rebuilt the [L, S+-] = 0 measurement and one of the five break-inputs from scratch " +
