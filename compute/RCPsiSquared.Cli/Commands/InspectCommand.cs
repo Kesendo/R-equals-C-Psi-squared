@@ -702,7 +702,7 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("q") ?? 1.5),
             RequiresN: false, HonorsOptionalN: true),
         new("renewal", "THE DEPHASING-FRONT RENEWAL REPRESENTATION (proof PROOF_DEPHASING_FRONT_RENEWAL.md): the " +
-            "exact solution of the WATCHED walk. The watched single excitation is the unwatched wave repeatedly " +
+            "exact solution of the walk in the light. The single excitation in the light is the clean wave repeatedly " +
             "caught and released, P_n(t) = e^{−Γt}·S_n(t) with the Volterra refill ladder (★), Γ = 4γ. The j=0 " +
             "term is the coherent front, the j≥1 halo the incoherent refill; the ladder closes to " +
             "Ŝ(p,z) = 1/(√(z²+a²)−Γ), a = 4J·sin(p/2), with the diffusive pole D = 2J²/Γ (the F123 sibling). Six " +
@@ -729,7 +729,7 @@ public static class InspectCommand
             "pins the decay rate −4γ̄ at EVERY coupling, at least ⌊N/2⌋ modes deep. On F91's anti-palindromic " +
             "locus (every reflection pair of " +
             "site rates carrying the same total) the single-excitation corner block holds λ = −4γ̄, one frozen " +
-            "mode per balanced pair, hearing only the MEAN watching: not J, not the individual rates, nothing of " +
+            "mode per balanced pair, hearing only the MEAN dephasing rate: not J, not the individual rates, nothing of " +
             "the Hamiltonian. No symmetry is behind it: the cell mirror τQ fixes 2⌊N/2⌋ anti-diagonal cells, an " +
             "involution's even rooms exceed its odd rooms by exactly its fixed count, an odd operator must " +
             "overflow, and the even diagonal pairs tax half away. The four corners p,q ∈ {1, N−1} carry, the " +

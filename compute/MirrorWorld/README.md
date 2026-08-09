@@ -175,8 +175,8 @@ cycles -- we never compute what we already KNOW with certainty): **(a)** the imm
 (k=0, rate 0, never stepped); **(b)** the Hermitian mirror ρ=ρ† (store one triangle, derive the
 other); **(c)** the joint-popcount block (F63: H conserves the excitation number, so cross-block
 cells are forbidden, 0 forever); the **memory cut** (`Cone` stores only the block); and the
-**renewal cut** (`Renewal`, F126, adopted 2026-07-13): the watched walk is the unwatched wave
-repeatedly caught and released, so the watched populations are computable from purely CLEAN
+**renewal cut** (`Renewal`, F126, adopted 2026-07-13): the walk in the light is the clean wave
+repeatedly caught and released, so the populations in the light are computable from purely CLEAN
 propagation plus bookkeeping, the dissipator never stepped, only accounted. Which
 cuts are valid depends on the world's laws: turning H on invalidates (a) but unlocks (c). The
 block cut (c) is topology-invariant (any excitation-conserving handshake shares the F63 blocks);

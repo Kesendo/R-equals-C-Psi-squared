@@ -11,7 +11,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The live witness of the dephasing-front renewal representation
 /// (<c>docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md</c>, <c>inspect --root renewal</c>): the single
-/// excitation released on a chain and WATCHED evolves by the exact renewal
+/// excitation released on a chain, standing in light, evolves by the exact renewal
 ///
 /// <code>
 ///   P_n(t) = e^{−Γt}·S_n(t),   S_n(t) = |G_{n0}(t)|² + Γ∫₀ᵗ ds Σ_m |G_{nm}(t−s)|²·S_m(s),   Γ = 4γ
@@ -110,7 +110,7 @@ public sealed class DephasingFrontRenewalWitness : IInspectable
     }
 
     // ==================================================================
-    // (a) + (b): the watched-walk sector, two ways
+    // (a) + (b): the walk-in-the-light sector, two ways
     // ==================================================================
 
     /// <summary>Solve the sector both ways on the SAME finite chain h and compare the site populations:
@@ -412,8 +412,8 @@ public sealed class DephasingFrontRenewalWitness : IInspectable
     public string DisplayName => $"DephasingFrontRenewalWitness (N={N}, seed={Seed}, γ={Gamma.ToString("0.###", Inv)})";
 
     public string Summary =>
-        "the dephasing-front renewal representation, recomputed live: the watched single excitation is the " +
-        "unwatched wave repeatedly caught and released, P_n(t) = e^{−Γt}·S_n(t) with S the Volterra refill " +
+        "the dephasing-front renewal representation, recomputed live: the single excitation in the light is the " +
+        "clean wave repeatedly caught and released, P_n(t) = e^{−Γt}·S_n(t) with S the Volterra refill " +
         $"ladder (★), Γ = 4γ (the Absorption-Theorem sector rate). Battery {PassCount}/{Cases.Count} pass: " +
         "the renewal reproduces the RK4 Lindblad sector, probability is conserved, the j=0 term is the " +
         "coherent front e^{−Γt}J_n(2Jt)², the Γ=0 limit is the clean Bessel wave, the diffusive plateau " +

@@ -6,7 +6,7 @@ using RCPsiSquared.Diagnostics.Knowledge;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>DephasingFrontRenewalClaim / DephasingFrontRenewalWitness (the exact renewal
-/// representation of the watched walk, docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md).
+/// representation of the walk in the light, docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md).
 /// (a) the witness's live battery all-passes (renewal-vs-RK4, probability conservation, the
 /// j=0 coherent-front Bessel identity, the Γ=0 clean-wave limit, the Haken-Strobl plateau, the
 /// I₁ Airy constant); (b) the claim carries the same battery; (c) registry wiring: the claim

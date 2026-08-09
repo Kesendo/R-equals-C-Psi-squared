@@ -5,7 +5,7 @@ using RCPsiSquared.Diagnostics.Knowledge;
 namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 
 /// <summary>The dephasing-front renewal representation, typed as <see cref="DephasingFrontRenewalClaim"/>
-/// (Tier1Derived; the exact solution of the watched walk). Wiring guard: the claim resolves from the default
+/// (Tier1Derived; the exact solution of the walk in the light). Wiring guard: the claim resolves from the default
 /// registry with its two SHARED Tier1Derived typed parents (AbsorptionTheoremClaim = the sector rate Γ = 4γ,
 /// F2bXyChainSpectrumPi2Inheritance = the clean propagator / band), and its live battery all-passes.</summary>
 public class DephasingFrontRenewalClaimRegistrationTests

@@ -5288,8 +5288,39 @@ public static class OpenArcsRegistry
                 "RECORDED rather than silent: 'the uniform watching point' at PROOF_FROZEN_BAND_SO4:183 " +
                 "and THE_EXCEPTIONAL_COUPLINGS:118, and XY_FROZEN_BAND:47/:59/:60, where 'the watching' " +
                 "means the dephasing part of the generator generally and belongs to the register campaign " +
-                "below, not to this name. (3) F126 'the watched walk', F141 'so the watching " +
-                "cannot see it', F144 'the watching charges', F71 'the total watching'. (4) TYPED C# API: " +
+                "below, not to this name. (3) TAKEN 2026-08-09, Tom's go ('Lass uns das durchziehen'), " +
+                "markdown and typed strings together per the instance-(2)/(4) precedents, no symbol or " +
+                "class name carried the words so no git mv: F126 'the watched walk' -> 'the walk in the " +
+                "light is the wave, caught and released' (registry heading :5065 + Reading + the " +
+                "Renewal.cs pointer 'the light accounted, never stepped'; PROOF_DEPHASING_FRONT_RENEWAL " +
+                "title + :11 core sentence, the chiasm 'watched walk = unwatched wave' -> 'walk in the " +
+                "light = the clean wave', 'clean' being the proof's own word, AND the proof's body " +
+                ":9/:47/:49/:61/:73/:98, because a post-fix round caught the first pass moving only " +
+                "title+:11 and leaving the setup contrast and five mechanism lines one-sided; " +
+                "DephasingFrontRenewalClaim headline + summary + xml + node text + Band comment, " +
+                "Registration, KnowledgeRegistryFactory, the DephasingFrontRenewalWitness xml/summary/" +
+                "section comment, the InspectCommand --root renewal catalog blurb (the same round: the " +
+                "user-facing blurb printed the old chiasm beside the claim's new DisplayName), two test " +
+                "doc-comments, MirrorWorld Renewal.cs (header + 'world in the light' + populations " +
+                "comment; 'which DOES step the watching' -> 'the dissipator', the concrete object) + " +
+                "README + RenewalTests (header + both body comments); THE_LABEL_MAP's decoherence row). " +
+                "F141 title -> 'the ladder " +
+                "adds no disagreement, so the light has nothing NEW to separate' (the same round: " +
+                "plain 'nothing to separate' is literally true only in the K=0 kernel where " +
+                "ON_THE_ONE_DIAGONAL coined it; on a K>=1 rung the light separates the same set at " +
+                "every rung, and 'new' scopes it). F144 Reading -> 'the light bills every rung' " +
+                "(matches PROOF_FROZEN_BAND_SO4:33's own 'bills'). F71 'the total " +
+                "watching' -> 'the total, Sigma-gamma, alone' at ANALYTICAL_FORMULAS:3177 + " +
+                "PROOF_F91:15/:33. LEFT STANDING with the campaign, named so it is not re-found: " +
+                "reflections/ON_THE_REFUND is a whole page in the old register (heading 'The watched " +
+                "walker...' + body); changing its heading alone would tear the page, it moves as one " +
+                "reflection slice. experiments/FRONT_PEDIGREE.md, cited from the F126 entry, was not " +
+                "swept (experiments/ is unswept per NOT DONE). PROOF_F91:15's 'two observers clock " +
+                "each site' neighbours the F71 fix " +
+                "and stays for the proofs sweep. One instance-(2) sibling was pulled in by the same " +
+                "round's sweep: InspectCommand:732's divisor blurb 'hearing only the MEAN watching' -> " +
+                "'the MEAN dephasing rate', the FrozenDivisor string family's last one-sided member. " +
+                "(4) TYPED C# API: " +
                 "WatchedLetterRoutingClaim + WatchedLetterRoutingWitness + registration + two test classes, " +
                 "named canonical at GLOSSARY:369; TAKEN 2026-08-09 on Tom's ruling: the pair is " +
                 "HeldLetterRoutingClaim/-Witness/-Registration (the claim body's own phrase, 'a price " +

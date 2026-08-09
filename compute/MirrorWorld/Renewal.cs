@@ -3,16 +3,16 @@ using System.Numerics;
 namespace MirrorWorld;
 
 // The renewal cut (F126, adopted 2026-07-13 from docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md): the
-// watched walk is the unwatched wave, repeatedly caught and released. The single-excitation populations
-// under the watching obey exactly
+// walk in the light is the clean wave, repeatedly caught and released. The single-excitation populations
+// in the light obey exactly
 //
 //     P_n(t) = e^{-Gamma t} S_n(t),   S_n(t) = |G_{n,seed}(t)|^2 + Gamma int_0^t ds sum_m |G_{nm}(t-s)|^2 S_m(s),
 //
 // with G the CLEAN propagator and Gamma = 4 gamma (every refill order carries the same universal decay;
 // the never-caught term is the coherent front, everything once caught is re-born and runs again). So the
-// watched world is computable from purely unwatched propagation plus bookkeeping: this object never steps
+// world in the light is computable from purely clean propagation plus bookkeeping: this object never steps
 // the dissipator, it only accounts for it. A knower's cut in the exact sense of the README: what F126
-// proves, the engine does not simulate. The pin against Cone (which DOES step the watching) is the
+// proves, the engine does not simulate. The pin against Cone (which DOES step the dissipator) is the
 // faithfulness guard, the same pattern as Cone against Restless.
 public sealed class Renewal : GameObject
 {
@@ -30,7 +30,7 @@ public sealed class Renewal : GameObject
         this.dt = dt;
     }
 
-    // P_n(tMax): the watched populations, from clean propagation + the refill ladder. No dissipator step.
+    // P_n(tMax): the populations in the light, from clean propagation + the refill ladder. No dissipator step.
     public double[] Populations(double tMax)
     {
         int steps = (int)Math.Round(tMax / dt);

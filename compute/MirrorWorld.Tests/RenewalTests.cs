@@ -3,16 +3,16 @@ using MirrorWorld;
 namespace MirrorWorldTests;
 
 // From-below guard for the renewal cut (F126, adopted 2026-07-13 from
-// docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md): the watched walk is the unwatched wave repeatedly
+// docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md): the walk in the light is the clean wave repeatedly
 // caught and released, P_n(t) = e^{-Gamma t}(|G_n0|^2 + Gamma int sum |G_nm|^2 S_m). Renewal computes
-// the WATCHED populations from purely UNWATCHED propagation plus bookkeeping: the dissipator is never
+// the populations IN THE LIGHT from purely CLEAN propagation plus bookkeeping: the dissipator is never
 // stepped, only accounted. The cut is faithful exactly because F126 is proven; these tests pin it
 // against the Cone engine the same way ConeTests pins Cone against Restless.
 public class RenewalTests
 {
     static readonly World W = new();
 
-    // the cut is faithful: Renewal reproduces Cone's watched populations without ever stepping D.
+    // the cut is faithful: Renewal reproduces Cone's populations in the light without ever stepping D.
     [Fact]
     public void Renewal_Agrees_With_Cone()
     {
@@ -42,7 +42,7 @@ public class RenewalTests
                 $"site {a}: renewal {p[a]} vs cone {cone.Population(a)}");
     }
 
-    // the watching moves weight around but loses none: the accounted populations stay a distribution.
+    // the light moves weight around but loses none: the accounted populations stay a distribution.
     // The continuum ladder conserves exactly (the p = 0 pole of F126); the trapezoid grid conserves to
     // O(dt^2), so the pin is grid-limited and halving dt must shrink the drift by ~4 (checked below).
     [Fact]

@@ -3174,7 +3174,7 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 
     γ_l + γ_{N−1−l} = 2·γ_avg = (2/N)·Σ_l γ_l   for all l ∈ \{0..N−1\}
 
-i.e. the γ-distribution is **F71-anti-palindromic around its mean** γ_avg. The full L operator generally changes (F71 broken as L-symmetry, off-block-Frobenius ≠ 0 in F71-refined basis), but the F71-refined diagonal-block eigenvalues coincide. The breaking is carried by the F71-cross-blocks, and it reaches the full-L spectrum too: both the real and the imaginary parts of spec(L) move. What does not move is the trace, −Σγ·4^N, which depends on the total watching alone.
+i.e. the γ-distribution is **F71-anti-palindromic around its mean** γ_avg. The full L operator generally changes (F71 broken as L-symmetry, off-block-Frobenius ≠ 0 in F71-refined basis), but the F71-refined diagonal-block eigenvalues coincide. The breaking is carried by the F71-cross-blocks, and it reaches the full-L spectrum too: both the real and the imaginary parts of spec(L) move. What does not move is the trace, −Σγ·4^N, which depends on the total, Σγ, alone.
 
 **Sharpness:** a condition DISTINCT from F71 symmetry (γ_l = γ_{N−1−l}, palindromic), not a weaker one; the two overlap only at uniform γ, since a palindromic γ has S_l = 2γ_l. F1 is a different axis and imposes no condition on γ at all. For odd N the middle site l = (N−1)/2 must equal γ_avg.
 
@@ -5062,7 +5062,7 @@ Since the block pencil `L(q) = A + q·C` is linear in q, the relation holds for 
 
 ---
 
-### F126. The dephasing front renewal: the watched walk is the wave, caught and released (representation + Green's function Tier 1 exact; the survival readings Tier 1 candidate; 2026-07-13)
+### F126. The dephasing front renewal: the walk in the light is the wave, caught and released (representation + Green's function Tier 1 exact; the survival readings Tier 1 candidate; 2026-07-13)
 
 The single-excitation sector under local Z-dephasing (`ρ̇ = −i[h,ρ] − Γ(ρ − diag ρ)`, `Γ = 4γ = γ_φ`, the
 Absorption Theorem rate of the sector's Hamming-2 coherences) is solved **exactly** by the renewal
@@ -5075,8 +5075,8 @@ momentum-Laplace space to the Green's function
 
   **Ŝ(p, z) = 1/(√(z² + a(p)²) − Γ),  a(p) = 4J·sin(p/2).**
 
-*Reading*: the watching collapses the excitation onto the sites at rate `Γ` and releases it to run
-cleanly between collapses; every refill order carries the same universal `e^{−Γt}`, the `j = 0` term is
+*Reading*: the light catches the excitation onto the sites at rate `Γ` and releases it to run
+cleanly between catches; every refill order carries the same universal `e^{−Γt}`, the `j = 0` term is
 exactly the coherent front `|⟨a_n⟩|²` (amplitude damps at `Γ/2`), and the `j ≥ 1` ladder is the incoherent
 halo. `p = 0` conserves probability; `Γ = 0` returns the clean Bessel wave; the small-`p` pole carries the
 Haken-Strobl diffusion `D = 2J²/Γ` (the F123 sibling's rate object).
@@ -5099,7 +5099,7 @@ pre-asymptotic window); the measuring experiment
 follow-ups). **Typed:** `DephasingFrontRenewalClaim` (parents `AbsorptionTheoremClaim` + F2b;
 siblings `CoherenceHorizonClaim`, `SurvivorDiffusionGradientClaim`,
 `compute/RCPsiSquared.Diagnostics/Foundation/`); live witness `inspect --root renewal`; the
-engine-side adoption is the renewal cut `compute/MirrorWorld/Renewal.cs` (the watching accounted,
+engine-side adoption is the renewal cut `compute/MirrorWorld/Renewal.cs` (the light accounted,
 never stepped); the first play on the ladder is the catch-count pedigree
 [experiments/FRONT_PEDIGREE.md](../experiments/FRONT_PEDIGREE.md); the outward
 reading is [`reflections/ON_THE_REFUND.md`](../reflections/ON_THE_REFUND.md).
@@ -6216,7 +6216,7 @@ sampled, though no rank read can see the defectiveness at the exceptional
 couplings. The chain is selectable: `inspect --root divisor --N 5 --chain xy`
 is the invocation that shows the census failing off Heisenberg.
 
-### F141. The disagreement is eta-invariant: the ladder adds no disagreement, so the watching cannot see it (minted 2026-07-27)
+### F141. The disagreement is eta-invariant: the ladder adds no disagreement, so the light has nothing new to separate (minted 2026-07-27)
 
 Write 𝒦 for the disagreement count of a coherence, the number of sites where
 the ket carries an excitation and the bra does not, so that the Z-dephasing
@@ -6512,7 +6512,7 @@ rung j(M) is 2 exactly when 6 | M, 15 | M or 21 | M, measured for every N from 6
 and with M = 6 itself the one divisible exception, clean because its only coincidence
 is a swap of two whole chiral pairs.
 
-Reading: F144 says the watching charges every rung at least ℓ(N − ℓ)/(N + 1); F146
+Reading: F144 says the light bills every rung at least ℓ(N − ℓ)/(N + 1); F146
 says who pays exactly that, and the answer has no chain in it. What the chain
 contributes is the left factor, which of its chiral pairs are used; the right factor
 is a number the world fixes.

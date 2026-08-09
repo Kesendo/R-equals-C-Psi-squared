@@ -8,8 +8,8 @@ using RCPsiSquared.Core.Symmetry;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>THE DEPHASING-FRONT RENEWAL REPRESENTATION (Tier1Derived, 2026-07-13), the typed home of
-/// <c>docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md</c>: the exact solution of the WATCHED walk. Release one
-/// excitation on a chain and watch it; the single-excitation density matrix evolves by
+/// <c>docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md</c>: the exact solution of the walk in the light. Release
+/// one excitation on a chain standing in light; the single-excitation density matrix evolves by
 /// ρ̇ = −i[h, ρ] − Γ(ρ − diag ρ) with Γ = 4γ (the Absorption-Theorem rate for the sector's Hamming-2
 /// coherences), and the site populations satisfy exactly the renewal representation
 ///
@@ -18,7 +18,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// </code>
 ///
 /// with G(τ) = e^{−ihτ} the clean single-particle propagator (on the infinite chain
-/// G_{nm}(τ) = (−i)^{|n−m|}·J_{|n−m|}(2Jτ)). The watched walk IS the unwatched wave, repeatedly caught and
+/// G_{nm}(τ) = (−i)^{|n−m|}·J_{|n−m|}(2Jτ)). The walk in the light IS the clean wave, repeatedly caught and
 /// released: every refill order carries the same universal e^{−Γt}, the zeroth term is exactly the coherent
 /// front |⟨a_n⟩|², and the j ≥ 1 ladder is the incoherent halo. In momentum-Laplace space (★) closes to the
 /// explicit Green's function
@@ -58,7 +58,7 @@ public sealed class DephasingFrontRenewalClaim : Claim
     public AbsorptionTheoremClaim RateLaw { get; }
 
     /// <summary>Typed parent: F2b, the clean single-particle propagator/band E_k = 2J·cos(πk/(N+1)) that G
-    /// carries (the front speed 2J, the ballistic caustic the watching repeatedly re-seeds).</summary>
+    /// carries (the front speed 2J, the ballistic caustic the light repeatedly re-seeds).</summary>
     public F2bXyChainSpectrumPi2Inheritance Band { get; }
 
     // Lazy: the battery runs the witness (a small renewal-vs-RK4 sector + a few Bessel/Airy anchors); compute
@@ -69,10 +69,10 @@ public sealed class DephasingFrontRenewalClaim : Claim
     public int PassCount => Cases.Count(c => c.Passes);
 
     public DephasingFrontRenewalClaim(AbsorptionTheoremClaim rateLaw, F2bXyChainSpectrumPi2Inheritance band)
-        : base("THE DEPHASING-FRONT RENEWAL REPRESENTATION: the exact solution of the watched walk. The " +
+        : base("THE DEPHASING-FRONT RENEWAL REPRESENTATION: the exact solution of the walk in the light. The " +
                "single-excitation sector under local Z-dephasing (ρ̇ = −i[h,ρ] − Γ(ρ − diag ρ), Γ = 4γ) obeys " +
                "exactly P_n(t) = e^{−Γt}·S_n(t) with the Volterra renewal S_n = |G_{n0}|² + Γ∫₀ᵗ Σ_m |G_{nm}(t−s)|²·S_m(s) " +
-               "(★): the watched walk is the unwatched wave repeatedly caught and released. Every refill order " +
+               "(★): the walk in the light is the clean wave repeatedly caught and released. Every refill order " +
                "carries the same e^{−Γt}; the j=0 term is the coherent front |<a_n>|², the j≥1 ladder the " +
                "incoherent halo. Momentum-Laplace closed form Ŝ(p,z) = 1/(√(z²+a²)−Γ), a = 4J·sin(p/2) (☆): " +
                "conserves probability at p=0, returns the clean Bessel wave J_n(2Jt)² at Γ=0, and the small-p " +
@@ -90,10 +90,10 @@ public sealed class DephasingFrontRenewalClaim : Claim
     }
 
     public override string DisplayName =>
-        "The dephasing-front renewal representation: the watched walk = the unwatched wave, caught and released (P_n = e^{−Γt}S_n; Tier1Derived)";
+        "The dephasing-front renewal representation: the walk in the light = the clean wave, caught and released (P_n = e^{−Γt}S_n; Tier1Derived)";
 
     public override string Summary =>
-        "the exact renewal representation of the watched single excitation: P_n(t) = e^{−Γt}·S_n(t) with the " +
+        "the exact renewal representation of the single excitation in the light: P_n(t) = e^{−Γt}·S_n(t) with the " +
         "Volterra refill ladder S_n = |G_{n0}|² + Γ∫₀ᵗ Σ_m |G_{nm}(t−s)|²·S_m(s), Γ = 4γ. The j=0 term is the " +
         "coherent front, the j≥1 halo the incoherent refill; the ladder closes in momentum-Laplace space to " +
         "Ŝ(p,z) = 1/(√(z²+a²)−Γ), a = 4J·sin(p/2), which conserves probability, returns the clean Bessel wave " +
@@ -106,9 +106,9 @@ public sealed class DephasingFrontRenewalClaim : Claim
         {
             yield return new InspectableNode("the renewal representation (★)/(☆)",
                 summary: "P_n(t) = e^{−Γt}·S_n(t): every refill order carries the same universal decay e^{−Γt}, " +
-                         "the watching only moves weight around (probability conserved at p=0). The j=0 term is the " +
+                         "the light only moves weight around (probability conserved at p=0). The j=0 term is the " +
                          "coherent front |<a_n>|² (amplitude decay Γ/2), the j≥1 ladder the incoherent halo the " +
-                         "watching converts out of the front and releases to run again. Closed form " +
+                         "light converts out of the front and releases to run again. Closed form " +
                          "Ŝ(p,z) = 1/(√(z²+a²)−Γ), a = 4J·sin(p/2).");
             yield return new InspectableNode("corollary readings (Tier1Candidate, not this statement)",
                 summary: "read in four limits (experiments/COUPLING_DEFECT_WALK_TIME_STEP.md): the survival ceiling " +

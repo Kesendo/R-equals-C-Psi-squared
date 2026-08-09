@@ -1,4 +1,4 @@
-# PROOF: the Dephasing Front Renewal Representation (the exact solution of the watched walk)
+# PROOF: the Dephasing Front Renewal Representation (the exact solution of the walk in the light)
 
 **Status:** Tier 1 (the representation and its momentum-Laplace closed form are exact; verified against direct RK4 to 1.6·10⁻⁶ and independently re-derived by two adversarial referee rounds plus an independent Lindblad ODE reproducing the tables to the digit). The asymptotic readings built on it (the survival ceiling, the prefactor, the closed refill constant) are listed as corollaries with their own, weaker labels; they cap at Tier 1 candidate.
 **Date:** 2026-07-13
@@ -6,9 +6,9 @@
 
 ## What this is about
 
-Release one excitation at the end of a chain and watch it run. Unwatched, it runs as a wave: a ballistic front at the maximum band speed, with the sharp Airy caustic at its leading edge. Watched, every step is noisy, and the naive guess is that the noise simply grinds the wave down into a random walk.
+Release one excitation at the end of a chain and follow it. With no light arriving, it runs as a wave: a ballistic front at the maximum band speed, with the sharp Airy caustic at its leading edge. Standing in light, every step is noisy, and the naive guess is that the noise simply grinds the wave down into a random walk.
 
-What actually happens is cleaner and stranger, and this proof holds the exact bookkeeping of it. The watched walk is the unwatched wave, repeatedly caught and released: the watching collapses the excitation onto the sites at a fixed rate, and between collapses it runs free. That sentence is not a picture, it is an equation, the renewal representation, and it is exact. Everything the walk-time experiment measured about the surviving front, the halo that rescues it, the ceiling its decay rate approaches, falls out of this one representation by reading it in different limits.
+What actually happens is cleaner and stranger, and this proof holds the exact bookkeeping of it. The walk in the light is the clean wave, repeatedly caught and released: the light catches the excitation onto the sites at a fixed rate, and between catches it runs free. That sentence is not a picture, it is an equation, the renewal representation, and it is exact. Everything the walk-time experiment measured about the surviving front, the halo that rescues it, the ceiling its decay rate approaches, falls out of this one representation by reading it in different limits.
 
 ## Abstract
 
@@ -44,9 +44,9 @@ The sector: one excitation on N sites, ρ an N×N matrix. Local Z-dephasing at r
 Write the generator as L = L₀ + 𝒥 with
 
     L₀ ρ = −i[h, ρ] − Γρ   (uniformly damped free evolution),
-    𝒥 ρ = Γ·diag ρ          (the refill: the watching returns the diagonal).
+    𝒥 ρ = Γ·diag ρ          (the refill: the light returns the diagonal).
 
-L₀ is a scalar decay riding the clean unitary evolution, so its propagator is closed: e^{L₀τ}ρ = e^{−Γτ}·G(τ) ρ G(τ)†. The refill 𝒥 is where the physics of the watching sits: at rate Γ, the coherent state is projected onto the site basis and released again.
+L₀ is a scalar decay riding the clean unitary evolution, so its propagator is closed: e^{L₀τ}ρ = e^{−Γτ}·G(τ) ρ G(τ)†. The refill 𝒥 is where the physics of the arriving light sits: at rate Γ, the coherent state is projected onto the site basis and released again.
 
 ## The ladder at the diagonal
 
@@ -58,7 +58,7 @@ Dyson-expand e^{Lt} in powers of 𝒥 and read the (n,n) matrix element. The j-t
 
 3. **The ladder is a renewal.** Summing over j with these kernels is exactly the Volterra fixed-point equation (★): the population at (n, t) is the never-refilled coherent term plus, for every intermediate (m, s), the rate Γ of a last refill at (m, s) times clean re-propagation |G_{nm}(t−s)|² times the full (already-resummed) S_m(s).
 
-The zeroth term identifies physically: the noise-averaged amplitude ⟨a_n⟩ damps at Γ/2 = 2γ (half the coherence rate), so e^{−Γt}|G_{n0}(t)|² = |⟨a_n(t)⟩|² is exactly the coherent front. Everything above it, the j ≥ 1 terms, is the incoherent halo Var(a_n) of the experiment: population the watching converts out of the coherent front, locally, and releases to run again.
+The zeroth term identifies physically: the noise-averaged amplitude ⟨a_n⟩ damps at Γ/2 = 2γ (half the coherence rate), so e^{−Γt}|G_{n0}(t)|² = |⟨a_n(t)⟩|² is exactly the coherent front. Everything above it, the j ≥ 1 terms, is the incoherent halo Var(a_n) of the experiment: population the light converts out of the coherent front, locally, and releases to run again.
 
 ## Closing the ladder: the Green's function
 
@@ -70,7 +70,7 @@ so the per-momentum kernel is K̂(p, τ) = J₀(a(p)·τ) with a(p) = 4J·sin(p/
 
     Ŝ(p, z) = (1/√(z² + a²)) · Σ_{j≥0} (Γ/√(z² + a²))^j = 1/(√(z² + a²) − Γ).      (☆)
 
-Two limits pin the object. At p = 0, a = 0 and Ŝ = 1/(z − Γ), so S_total(t) = e^{Γt} and P_total ≡ 1: probability is conserved, the watching moves weight around but loses none. At Γ = 0, Ŝ = 1/√(z² + a²) inverts to the clean wave S_n = J_n(2Jt)². The pole of (☆) at z = √(Γ² − a²) (present for a < Γ, the long-wavelength window) is the diffusive branch: at small p, √(Γ² − a²) ≈ Γ − a²/(2Γ) with a² ≈ 4J²p², so S carries e^{(Γ − 2J²p²/Γ)t}; against the universal e^{−Γt} this is diffusion with D = 2J²/Γ, the Haken-Strobl diffusion constant (the F123 sibling's rate object).
+Two limits pin the object. At p = 0, a = 0 and Ŝ = 1/(z − Γ), so S_total(t) = e^{Γt} and P_total ≡ 1: probability is conserved, the light moves weight around but loses none. At Γ = 0, Ŝ = 1/√(z² + a²) inverts to the clean wave S_n = J_n(2Jt)². The pole of (☆) at z = √(Γ² − a²) (present for a < Γ, the long-wavelength window) is the diffusive branch: at small p, √(Γ² − a²) ≈ Γ − a²/(2Γ) with a² ≈ 4J²p², so S carries e^{(Γ − 2J²p²/Γ)t}; against the universal e^{−Γt} this is diffusion with D = 2J²/Γ, the Haken-Strobl diffusion constant (the F123 sibling's rate object).
 
 ## Verification
 
@@ -95,5 +95,5 @@ The experiment `experiments/COUPLING_DEFECT_WALK_TIME_STEP.md` (follow-ups two t
 - The sector and its slow-mode EP: `PROOF_COHERENCE_HORIZON_SLOPE.md` (the same Liouvillian at the band edge; this proof solves the sector the horizon claim locates the EP of).
 - The diffusive sibling: `SurvivorDiffusionGradientClaim` / F123 (D = 2J²/Γ is the (☆) pole's diffusion constant).
 - The typed home: `DephasingFrontRenewalClaim` (live witness `inspect --root renewal`).
-- The engine-side adoption: `compute/MirrorWorld/Renewal.cs` (the renewal cut: the watching accounted, never stepped; pinned against the stepped Cone).
+- The engine-side adoption: `compute/MirrorWorld/Renewal.cs` (the renewal cut: the light accounted, never stepped; pinned against the stepped Cone).
 - The first play on the ladder: `experiments/FRONT_PEDIGREE.md` (the catch-count resolution, the pedigree of the front); the outward reading of the whole arc: `reflections/ON_THE_REFUND.md`.

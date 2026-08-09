@@ -259,8 +259,8 @@ public static class KnowledgeRegistryFactory
             // Tier1Candidate. Witness: inspect --root gradient.
             .RegisterSurvivorDiffusionGradientClaim()
             // THE DEPHASING-FRONT RENEWAL REPRESENTATION (Tier1Derived, 2026-07-13): the exact solution of
-            // the watched walk, P_n(t) = e^{−Γt}·S_n(t) with the Volterra renewal (★), Γ = 4γ. The watched
-            // single excitation is the unwatched wave repeatedly caught and released; the j=0 term is the
+            // the walk in the light, P_n(t) = e^{−Γt}·S_n(t) with the Volterra renewal (★), Γ = 4γ. The single
+            // excitation in the light is the clean wave repeatedly caught and released; the j=0 term is the
             // coherent front, the j≥1 halo the incoherent refill, closing to Ŝ(p,z) = 1/(√(z²+a²)−Γ),
             // a = 4J·sin(p/2). Typed home of docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md. Two Tier1Derived
             // typed parents, both registered in this chain: AbsorptionTheoremClaim (the sector rate Γ = 4γ) +
