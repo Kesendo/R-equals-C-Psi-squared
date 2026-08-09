@@ -21,6 +21,7 @@ generalization from painters to labels is a reading and is labeled as one.
 entry),
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
 entry),
+[Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry),
 [The Label Map](THE_LABEL_MAP.md) (every label correction the repository
 has made, assembled),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),

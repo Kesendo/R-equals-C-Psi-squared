@@ -26,6 +26,8 @@ currency is spent here),
 entry, the k = N end of the same bill),
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
 entry, k = 2),
+[Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry;
+the theorem family of this entry's Section 4 engine),
 [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
 [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md),
@@ -102,8 +104,9 @@ off-diagonal becomes ρ_LR·⟨d_R|d_L⟩. A perfect record (orthogonal detector
 states) sets it to zero: the fringes vanish and the two humps remain. A
 partial record shrinks it in proportion, and the standard account prices
 this exactly: visibility and detector distinguishability obey
-V² + D² ≤ 1 (Englert, 1996; the earlier form, with a-priori path
-predictability in place of D, is Greenberger and Yasin, 1988). The trade
+V² + D² ≤ 1 (Jaeger, Shimony and Vaidman, 1995, and independently Englert,
+1996; the earlier form, with a-priori path predictability in place of D, is
+Greenberger and Yasin, 1988, following Wootters and Zurek, 1979). The trade
 is a dial, not a switch.
 
 The eraser variant (Scully and Drühl, 1982; the delayed-choice version,

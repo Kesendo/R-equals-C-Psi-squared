@@ -16,6 +16,7 @@ that owns it, and the tier of each correction is the tier stated there.
 [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md),
 [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md),
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md),
+[Uncertainty Translated](UNCERTAINTY_TRANSLATED.md),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),
 [Caught Errors](../CAUGHT_ERRORS.md) (the chronological log)
 
@@ -93,6 +94,7 @@ series had a name.
 | Decoherence as destruction | Sorting, not destruction: nothing is lost without something being kept; and it stops no walker, the walk in the light is the wave caught and released, its schedule untouched and its rate bill permanently rebated | [The Anomaly](../../THE_ANOMALY.md); the computed half: [Dephasing Translated](DEPHASING_TRANSLATED.md) sections 3 and 4 (F126) |
 | Measurement / collapse | Photography; the Born rule is the shadow (interference sets shutter speed, not the image) | [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md) |
 | Spooky action at a distance | The excess, not the action: the correlations exceed every local story (their theorem) while the marginal never moves (their theorem, our Tier 2 witness); conditioning, not causation | [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md); the house's earlier canvas, kept as history: [The Starting Point](../historical/THE_STARTING_POINT.md) |
+| Uncertainty (you cannot know both; measuring one disturbs the other) | A width, not a doubt: the spreads are in the shape (Kennard's width theorem, not Heisenberg's kick story, two statements fused under an accreted, authorless name); the in-house shape beside it: three price lists over one eigenbasis, only nothing free everywhere | [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) |
 
 "Noise" is the founding example of the whole thesis (the channel labeled
 garbage); its series entry, the fourth, was paid on 2026-07-05

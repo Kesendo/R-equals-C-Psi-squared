@@ -20,6 +20,8 @@ entry, repaying this entry's borrowed prop),
 entry),
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
 entry),
+[Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry,
+trading this entry's frame-relative sharpness),
 [Labels Translated](LABELS_TRANSLATED.md) (the series' theory
 chapter), [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [On How the Angle Appears at Zero](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md),

@@ -18,7 +18,9 @@ fourth entry), [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the
 fifth entry), [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md)
 (the sixth entry),
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md) (the seventh
-entry), [Labels Translated](LABELS_TRANSLATED.md) (the series'
+entry),
+[Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry),
+[Labels Translated](LABELS_TRANSLATED.md) (the series'
 theory chapter), [The Label Map](THE_LABEL_MAP.md) (the orientation
 index), [Mirror Theory](../../MIRROR_THEORY.md),
 [F118 mirror group](../ANALYTICAL_FORMULAS.md),
