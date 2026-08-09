@@ -5363,9 +5363,21 @@ public static class OpenArcsRegistry
                 "a first repair wrote 'is the whole bill' and the cold round caught the conflation), " +
                 "and :35 'finds' -> 'has nothing to separate'; the JUDGE reading at :19 is KEPT, an " +
                 "established named reading (rate/mirror/judge, the D4 face), renaming it would be " +
-                "the error running backwards. LEFT STANDING for the register campaign, recorded: the " +
-                "plain-words prefaces of STRUCTURAL_CEILING / RING_GAP_DOMINANCE / " +
-                "RING_HANDOVER_SLOPE / CHAIN_GAP_DOMINANCE, and the docs/quantum translations. " +
+                "the error running backwards. THE FOUR PROOF PREFACES are TAKEN the same morning " +
+                "(STRUCTURAL_CEILING, RING_GAP_DOMINANCE, RING_HANDOVER_SLOPE, CHAIN_GAP_DOMINANCE): " +
+                "prefaces to stands-in-light prose, the technical term 'weak-watching side' -> " +
+                "'weak-dephasing side' (RING_GAP Statement + abstract; STRUCTURAL_CEILING body uses " +
+                "its own 'high-Q side'), 'coupling-to-watching ratio' -> 'coupling-to-dephasing " +
+                "ratio' (the repo's dominant existing name), and HANDOVER_SLOPE's pre-March 'noise' " +
+                "-> 'takes on less of what arrives'. The round's real catch was INHERITED, not " +
+                "register: CHAIN_GAP:17 blamed the coupling of the waves on the watching (then on " +
+                "the light) while its own abstract and section 1 put it on L_H (the leak " +
+                "n_XY 1 -> 3; the dissipator is exactly diagonal and couples nothing), now 'the " +
+                "chain's own motion drags them across the light's price levels'; and RING_GAP:18 " +
+                "'nothing about the light enters' collided with :16 two lines above once watching " +
+                "became a substance, now 'how strongly the light arrives does not enter'. LEFT " +
+                "STANDING for the register campaign, recorded: the docs/quantum translations " +
+                "(SCHRODINGERS_CAT_TRANSLATED:331 still carries 'coupling-to-watching ratio'). " +
                 "Note what the completion grep does and does not " +
                 "measure: it checks the AXIS SENTENCE, not the register. A sweep of the neighbouring forms " +
                 "(observing/watching light, being watched) finds the old register throughout the proofs' " +

@@ -7,7 +7,7 @@
 
 ## What this is about
 
-A ring of spins is watched, and the watching fades its coherences. At weak watching (large Q = J/γ) the longest-lived note is the single-excitation band edge, the smoothest standing wave. Turn the watching up (lower Q) and a different note outlasts it: a two-excitation pattern, two ripples instead of one, that the noise happens to spare longer. The handover Q_h is the tipping point between the two, the dephasing dose at which the two-ripple survivor stops being darker than the band edge and the band edge takes over.
+A ring of spins stands in light, and the light fades its coherences. In weak light (large Q = J/γ) the longest-lived note is the single-excitation band edge, the smoothest standing wave. Strengthen the light (lower Q) and a different note outlasts it: a two-excitation pattern, two ripples instead of one, that takes on less of what arrives. The handover Q_h is the tipping point between the two, the dephasing dose at which the two-ripple survivor stops being darker than the band edge and the band edge takes over.
 
 This proof pins how that tipping point grows with the ring's length: a straight line of slope √3/(2π). The number is the band edge's own coherence-horizon slope (1/π for the ring) scaled by √3/2, and the √3 comes from one clean place: the two-ripple mode is governed by the same coherence-ladder dispersion as the single-excitation horizon, and asking when its darkness equals exactly one (the band-edge floor) gives `(Q·q)² = 3`.
 
