@@ -5324,10 +5324,26 @@ public static class OpenArcsRegistry
                 "README:271 'where it is watched', went to 'where the spectrum is read off', which is a " +
                 "DE-AGENTING and not that register: the reader there is a person at a figure, and the " +
                 "sentence's own six-lines-up neighbour says Im lambda is the Hamiltonian's motion, which " +
-                "the light does not grip). ON_THE_FOUR_DIRECTIONS:17 is the one left, and it is a " +
-                "DIFFERENT KIND OF JOB: six occurrences in 23 lines, the register IS that reflection's " +
-                "voice, so it needs a rewrite with its own review rounds, not a phrase swap (Tom, " +
-                "2026-08-08: later, as its own pass). Note what the completion grep does and does not " +
+                "the light does not grip). ON_THE_FOUR_DIRECTIONS is TAKEN 2026-08-09, the deferred " +
+                "own-pass rewrite (Tom, 2026-08-08: later, as its own pass): six occurrences in 23 " +
+                "lines WERE the reflection's voice, so the whole page moved to the arriving-light " +
+                "register (light arrives, separates disagreement, passes through agreement, bills and " +
+                "prices; the person-at-a-figure 'read off' kept, per the README:271 ruling), two cold " +
+                "rounds plus a post-fix round, the findings again mostly in the repairs. The rounds " +
+                "also caught two CARRIED defects predating the rewrite, fixed with it: the slope claim " +
+                "lacked its SQUARE (PROOF_DIFFUSION_RAYLEIGH_CLOSURE's Statement and its own plain " +
+                "words both carry 'the square of how steeply the swell was rising'), and the law's " +
+                "regime fence was absent (superseded at the handover; now 'while the light stays " +
+                "strong enough to hold the world in this shape'). The survivor paragraph now carries " +
+                "the proof's own mechanism (the smooth swell is dark; the light wears only the faint " +
+                "glimmer the smoothing stirs up). TWO one-line pull-ins in that proof by the " +
+                "no-one-sided-drift rule: the Outward-reading pointer :114 ('read by the watching' -> " +
+                "'priced by the arriving light') and the :69 verbatim quote of the reflection " +
+                "('all but untouchable'). LEFT STANDING for the register campaign, recorded: every " +
+                "link target of the page (THE_THREE_DIAGONALS, PROOF_DIFFUSION_RAYLEIGH_CLOSURE's " +
+                "preface, ON_THE_SURVIVAL_OF_THE_INCOMPLETE) still speaks the old register, so the " +
+                "rewritten page reads as the outlier among its neighbours until that campaign is " +
+                "decided. Note what the completion grep does and does not " +
                 "measure: it checks the AXIS SENTENCE, not the register. A sweep of the neighbouring forms " +
                 "(observing/watching light, being watched) finds the old register throughout the proofs' " +
                 "plain-words prefaces (STRUCTURAL_CEILING, RING_GAP_DOMINANCE, RING_HANDOVER_SLOPE, " +
