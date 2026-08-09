@@ -1,0 +1,64 @@
+gamma_0 exact-eigenvalue positions (hit = |alpha - gamma_0| < 1e-12*max(1,gamma_0))
+gamma_0 values tested: (0.1, 0.3, 0.7); J = 1 on every bond
+
+== Chains N = 3..6, every dephasing position B ==
+N=3 chain B=0: exact hits per gamma = [0, 0, 0] (gamma-robust), nearest relative miss <= 2.813e-01
+N=3 chain B=1: exact hits per gamma = [40, 40, 40] (gamma-robust), nearest relative miss <= 1.000e+00
+N=3 chain B=2: exact hits per gamma = [0, 0, 0] (gamma-robust), nearest relative miss <= 2.813e-01
+
+N=4 chain B=0: exact hits per gamma = [76, 72, 56] (NOT gamma-robust!), nearest relative miss <= 1.375e-01
+N=4 chain B=1: exact hits per gamma = [76, 76, 56] (NOT gamma-robust!), nearest relative miss <= 7.626e-02
+N=4 chain B=2: exact hits per gamma = [76, 76, 56] (NOT gamma-robust!), nearest relative miss <= 7.626e-02
+N=4 chain B=3: exact hits per gamma = [76, 72, 56] (NOT gamma-robust!), nearest relative miss <= 1.375e-01
+
+N=5 chain B=0: exact hits per gamma = [0, 0, 0] (gamma-robust), nearest relative miss <= 3.529e-02
+N=5 chain B=1: exact hits per gamma = [304, 304, 304] (gamma-robust), nearest relative miss <= 7.535e-02
+N=5 chain B=2: exact hits per gamma = [0, 0, 0] (gamma-robust), nearest relative miss <= 1.112e-01
+N=5 chain B=3: exact hits per gamma = [304, 304, 304] (gamma-robust), nearest relative miss <= 7.535e-02
+N=5 chain B=4: exact hits per gamma = [0, 0, 0] (gamma-robust), nearest relative miss <= 3.529e-02
+
+N=6 chain B=0: exact hits per gamma = [496, 472, 198] (NOT gamma-robust!), nearest relative miss <= 1.071e-02
+N=6 chain B=1: exact hits per gamma = [536, 536, 442] (NOT gamma-robust!), nearest relative miss <= 6.704e-03
+N=6 chain B=2: exact hits per gamma = [536, 550, 414] (NOT gamma-robust!), nearest relative miss <= 3.627e-03
+N=6 chain B=3: exact hits per gamma = [536, 550, 414] (NOT gamma-robust!), nearest relative miss <= 3.627e-03
+N=6 chain B=4: exact hits per gamma = [536, 536, 442] (NOT gamma-robust!), nearest relative miss <= 6.704e-03
+N=6 chain B=5: exact hits per gamma = [496, 472, 198] (NOT gamma-robust!), nearest relative miss <= 1.071e-02
+
+== N=5 non-chain topologies ==
+N=5 star B=hub: exact hits per gamma = [792, 792, 728], nearest relative miss <= 1.000e+00
+N=5 star B=leaf: exact hits per gamma = [0, 0, 0], nearest relative miss <= 4.738e-02
+N=5 ring B=0 (all sites equivalent): exact hits per gamma = [0, 0, 0], nearest relative miss <= 3.753e-02
+N=5 Y-junction B=4 (long-arm end): exact hits per gamma = [16, 16, 16], nearest relative miss <= 7.181e-03
+N=5 Y-junction B=3 (long-arm joint): exact hits per gamma = [248, 184, 184], nearest relative miss <= 4.635e-04
+N=5 Y-junction B=1 (short-arm end; B=2 equivalent): exact hits per gamma = [0, 0, 0], nearest relative miss <= 1.023e-02
+N=5 Y-junction B=0 (central node): exact hits per gamma = [16, 16, 16], nearest relative miss <= 9.635e-05
+
+== Chain endpoint near-misses per gamma (B=0; the nearest rate to gamma_0) ==
+N=3 chain B=0: gamma_0=0.1: 5.0250e-03 | gamma_0=0.3: 4.7011e-02 | gamma_0=0.7: 2.8127e-01
+N=5 chain B=0: gamma_0=0.1: 8.8247e-05 | gamma_0=0.3: 1.8440e-04 | gamma_0=0.7: 3.5290e-02
+
+== N=5 chain, gamma_0=0.1: distinct eigenvalue counts and minimum gaps ==
+B=0: 110 distinct alpha (clustering tol 1e-9), min gap 1.576e-05
+B=1: 25 distinct alpha (clustering tol 1e-9), min gap 2.921e-06
+B=2: 12 distinct alpha (clustering tol 1e-9), min gap 9.803e-05
+
+== N=5 star hub: full distinct alpha/gamma_0 sets ==
+gamma_0=0.1: distinct alpha/gamma_0 = -0.000000000000, 1.000000000000, 2.000000000000
+gamma_0=0.3: distinct alpha/gamma_0 = -0.000000000000, 1.000000000000, 2.000000000000
+gamma_0=0.7: distinct alpha/gamma_0 = -0.000000000000, 0.233402733074, 0.452549043307, 1.000000000000, 1.547450956693, 1.766597266926, 2.000000000000
+
+== N=3 chain, B=2 (endpoint): first-order vs measured S-coherence rates ==
+(the (1exc, vac) coherence block is M = -i*H1 - 2*gamma_0*P_B;
+ first order: alpha = 2*gamma_0*|a_B|^2 with a_B the H1 eigenvector;
+ exact: alpha = -Re eig(M) = 2*gamma_0*|v(B)|^2 with v the M eigenvector, EQ-015)
+H1 mode E=-1.414214: |a_B|^2=0.250000, first-order alpha=0.050000, measured alpha=0.049748750095, alpha/(2*gamma_0)=0.248743750474 (=|v(B)|^2 up to norm: 0.248743750474)
+H1 mode E=-0.000000: |a_B|^2=0.500000, first-order alpha=0.100000, measured alpha=0.100502499810, alpha/(2*gamma_0)=0.502512499052 (=|v(B)|^2 up to norm: 0.502512499052)
+H1 mode E=+1.414214: |a_B|^2=0.250000, first-order alpha=0.050000, measured alpha=0.049748750095, alpha/(2*gamma_0)=0.248743750474 (=|v(B)|^2 up to norm: 0.248743750474)
+
+== N=3 chain, B=2: first-order error law (max rel err of 2*gamma_0*|a_B|^2
+   against -Re eig(M), relative to the first-order prediction) ==
+gamma_0/J=0.0001: max rel err = 5.0028e-09
+gamma_0/J=0.001: max rel err = 5.0000e-07
+gamma_0/J=0.01: max rel err = 5.0003e-05
+gamma_0/J=0.1: max rel err = 5.0250e-03
+gamma_0/J=0.5: max rel err = 1.3968e-01
