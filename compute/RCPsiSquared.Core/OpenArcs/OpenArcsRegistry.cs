@@ -5306,15 +5306,70 @@ public static class OpenArcsRegistry
                 "beside it, not a blocker: a multi-prime certificate's " +
                 "total cost is bound x the per-prime share of those 9 min, the build/sampling split " +
                 "not yet measured. " +
-                "The even-N chain reading at N=6 is now INPUT-FREE BY THEOREM, not untested for want " +
-                "of an input: no locus exists at physical coupling (N=8 stays scan + genericity until " +
+                "The even-N chain reading at N=6 is (1,2)-INPUT-FREE BY THEOREM, not untested for want " +
+                "of an input: no (1,2) locus exists at physical coupling (N=8 stays scan + genericity until " +
                 "the simple layer is split off); PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
                 "recorded complex-q N=6 defective EP (positions now in the doc) gives l = 3/2, chain " +
                 "interior length 4, predicted CG norms sqrt3, 2, sqrt3, with the accounting caveat the " +
                 "prior entry carried and this one keeps: 4(N-2) = 16 chain seats land on 12 distinct " +
                 "sectors, the four half-filling members simultaneously band and fold image, visited twice. " +
-                "Follow-up offered by the block-scoped self-fold (fold legs fix (p, N/2) at every even N): " +
-                "the N=4 quartet's mechanism moves to (1,3) at N=6, unscanned. " +
+                "The block-scoped self-fold's follow-up (fold legs fix (p, N/2) at every even N: the " +
+                "N=4 quartet's mechanism moves to (1,3) at N=6) RAN 2026-08-10 evening and FOUND the " +
+                "sibling population: AT LEAST THIRTEEN real-q defective loci of (1,3)@N=6 (13 found, " +
+                "a FLOOR: channel A's rejection bucket is printed, not exhaustively re-classified, and " +
+                "no upper bound exists short of the layer read), two detector " +
+                "channels. Fold pairs on the line, conj-doubled (8): R-even octic q* = 0.4630013, 0.6400121, " +
+                "0.7450837, 0.9184132, 1.5109958, 3.0922209; R-odd 1.9567664, 3.2608458, all lambda = " +
+                "-6 +- yi (fold-symmetry breaking: Re l1 = Re l2 is ONE real condition, codim 1; " +
+                "conjugation supplies the twin). Conj pairs on the axis, s-doubled, PT-breaking " +
+                "points (5): R-even 0.7026159 (12->8), " +
+                "3.3536850 (8->12); R-odd 0.4635508, 0.8029541, 1.2273677 (12->8->4->0), every s-pair " +
+                "summing to -12 exactly. Channel A (min-gap UNION log|disc| dips, N=4-validated) " +
+                "carries the fold-line species and MISSED four of the five real-lambda loci inside its " +
+                "validated grid (a referee round measured it): validation transfers only to the " +
+                "species the ground truth contains, N=4's quartet being all fold-line. Channel B is " +
+                "the repo's own PT-break real-count scan (the real seed census's instrument, immune to " +
+                "closest-pair masking). The real-lambda species is NOT (1,3)-own: (2,4)/(2,2)/(1,5)@" +
+                "N=6 all carry real-count transitions, several at the same q* (ladder containment), " +
+                "so (1,3) owns the fold-line geometry, not the species. Gated verifier " +
+                "simulations/disc13_n6_census.py (~9 min quiet), census section in F89_PATH_K_DIABOLIC.md. " +
+                "Three structure facts, all gated: the B3 prior got its one-line derivation (self-fold " +
+                "entry-wise at real q => spectrum closed under lambda -> -conj(lambda)-2N => disc real; " +
+                "relation == 0.0 on the block), the fold acts WITHIN each R-sector ([Pf,Pr] == 0.0) so " +
+                "the SECTOR discs are real (<= 5e-12 vs the (1,2)@N=6 sector controls at 0.40..1.36 " +
+                "rad), and the (1,3) sectors are CONJUGATION-CLOSED real families (residual 2e-13) with " +
+                "the CAUSE gated as the bipartite gauge, NOT the self-fold: T = diag((-1)^(sum of " +
+                "occupied site indices, ket+bra)) gives T L T == conj(L) exactly on EVERY block (the " +
+                "PROOF_CODIM1 section-7 gauge D in block form; BetaExoticPerNExclusionClaim's metric at " +
+                "p+q=3), and T commutes with the reflection iff (p+q)(N-1) is even, so sectors are " +
+                "conj-closed whenever p+q even or N odd (derived; non-closure on the other parity " +
+                "measured, four probed blocks) -- the criterion subsumes the odd-N effect, and the " +
+                "fold-fixed (0,3)/(2,3)@N=6 are conj-SWAPPED (p+q odd, gated). Gauge closed + fold " +
+                "within => Klein orbits in mu = lambda + N: every locus off mu=0 is DOUBLED (conj pair " +
+                "on the line, s-pair off it), every observed disc zero EVEN-order, a sign-change " +
+                "detector structurally blind (gated: 0 flips over [0.02, 8) both sectors vs exactly 4 " +
+                "at (1,2)@N=4 R-even, one per known locus; the mu=0 escape hatch's dangerous half is CLOSED " +
+                "on the grid by channel B (a defective locus at lambda=-6 is real-pair-to-conj-pair, " +
+                "the real count flips by 2, and the transition scan is fully enumerated); what sits " +
+                "there are diabolic crossings, harmless order-2 zeros: six in the printed inventory " +
+                "(3 per sector) plus one in the printed rejected bucket (q~0.544, real-real), all " +
+                "exponent 1; channel A = min-gap minima UNION log|disc| dips, validated to find exactly the " +
+                "four known N=4 loci and no other sqrt-branch locus; its collapse threshold rejects " +
+                "exactly-converged coalescences into the printed bucket, the known N=4 diabolic 0.6590 " +
+                "included, so the diabolic inventory is an inventory, not a census). Coverage: " +
+                "[0.002, 25) octic scanned, edges empty; float census, no exact certificate (the exact " +
+                "machinery is (1,2)-hardwired at BlockPencil / ClearedAtSectors rate literal {-4,-12} / " +
+                "the AssertHoppingSymmetry SymOrbitSizes weights; (1,3) physical rates -4/-8 = {-8,-16} " +
+                "x2-cleared, dim 60 per sector; CertifyDiscReImGcd must DECLINE on a real disc, and the " +
+                "separating exact object is the MULTIPLICITY-2 LAYER with the lambda=-6 stratum handled " +
+                "separately: away from mu=0, defective = double root, doubled diabolic crossing = " +
+                "quadruple, so the layer read the arc owns separates them (a squarefree part or sign " +
+                "count would erase the separation, the CAUGHT_ERRORS 2026-07-01 B1 lesson); AT mu=0 an " +
+                "undoubled transversal crossing is also order 2, so the six inventoried lambda=-6 " +
+                "diabolics would land in the same layer and that stratum needs its own read). NEXT here: the even-N chain walk " +
+                "from a (1,3) seed, the input the (1,2) theorem removed now restored one block over " +
+                "(from (1,3) the S+ ladder reads into (2,2), Phi into (2,4); the doubled pair predicts " +
+                "both freight values transported split-open at once). " +
                 "The N=9, l=3 prediction, chain norms sqrt6, sqrt10, sqrt12, sqrt12, sqrt10, sqrt6, seven " +
                 "sectors per chain, 28 = 4*9-8, was CONFIRMED 2026-08-09 on both chains to six decimals, at " +
                 "the first +1 census seed (0.591760, -5.1206): the 10584^2 and 15876^2 middle blocks were " +
