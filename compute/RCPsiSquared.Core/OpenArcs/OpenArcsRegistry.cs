@@ -5183,12 +5183,54 @@ public static class OpenArcsRegistry
                 "reading died in the run and is kept in the script docstring ('conjugation splits the " +
                 "chain' forgot the block-local T-conjugacy). Sigma_min-fence caveat: the lone CG " +
                 "value 1 coincides with sigma_min at N=4, so the weight is the structure, not the norm. " +
-                "NEXT: the C# gate port (SidewaysSpinLadderChain needs the complex-lambda seed pair " +
-                "(q*, lambda*) instead of the real (q*, lamA); the fold formula STAYS the holomorphic " +
-                "-lambda-2N, now complex-valued (on the fixed line it returns conj(lambda*), and the wrong " +
-                "delta -conj(lambda)-2N is the identity there, a gate that could never fail); the COUNT " +
-                "gate as |fold UNION band| = 4N-12 not the 4N-8 sum; and argmin coverage of the conjugate " +
-                "twin, since one argmin per block silently drops one of the two values). " +
+                "The C# gate port LANDED 2026-08-10, same day (SidewaysSpinLadderChain.RunN4 + Gate_N4 in " +
+                "SidewaysSpinLadderGateTests, Category SIDEWAYS, all four loci, Gate_N4 ~80 ms; the seed " +
+                "test pinning SeedsN4 to ReferenceDefectiveLoci.For(4) is SLOW_SIDEWAYS, its fine-cell EP " +
+                "scan costs ~10 s), with the four recorded port deltas honoured: the seed is the complex " +
+                "pair (q*, lambda*), lambda* MEASURED from the (1,2) spectrum (closest-pair mean) rather " +
+                "than read from a census table; the fold formula STAYS the holomorphic -lambda-2N, now " +
+                "complex-valued (on the fixed line it returns conj(lambda*); section 7's ANTIUNITARY " +
+                "partner map -conj(lambda)-2N is the correct map but the identity on its own fixed line, " +
+                "so as the twin-target formula it could never fail); the COUNT gate is the union " +
+                "|fold UNION band| = 4N-12 = 4 (the odd-N sum |fold|+|band| = 8 = 4N-8 still holds " +
+                "numerically at N=4 but double-counts the shared sectors); and each target value reads the " +
+                "TWO closest eigenvalues (conjugate-twin coverage), since one argmin per block silently " +
+                "drops one of the two values. Three calibration facts the port's reviews measured, " +
+                "recorded so the gates are read at their real strength: (a) the Re lambda* = -4 pin is " +
+                "FORCED by the self-fold sigma-symmetry wherever the closest pair is sigma-STABLE " +
+                "(machine-exact 9e-16..1.3e-14 at the loci), and that is not generic: where a non-stable " +
+                "pair is closest its sigma-image ties it exactly over the whole interval, the argmin pick " +
+                "is arbitrary, and the pin fails by O(1) over ~27% of q in [0.05, 3] (contiguous " +
+                "intervals below q ~ 0.86), so the pin is two-sidedly informative at 0.460212 " +
+                "(+-1.5e-3), bounded only from below at the 0.854/0.857 twins (the failure boundary " +
+                "q ~ 0.852 just beneath them), free near 1.738181 (upward unbounded in the sweep box), " +
+                "and certifies sigma-stability, never " +
+                "defectiveness (compatible with the derived placement above: the DEFECTIVE pair is " +
+                "sigma-fixed at the loci; what this adds is that the closest-pair MEAN lands on the " +
+                "line far more broadly, so measuring it does not single the loci out); the loci labels " +
+                "stay INHERITED from ReferenceDefectiveLoci; the pair split is truncation-derived (q* " +
+                "recorded to 6 decimals, split ~ sqrt|dq| = 6.1e-4..3.9e-3), not an EP floor. " +
+                "(b) S+(4,1,2) has " +
+                "singular spectrum {1x20, 2x4} and S+(4,2,1) is rank 4 at sqrt3 (the second chain's " +
+                "S+(4,2,3)/S+(4,3,2) measure identical spectra), so CG norm 1, terminal " +
+                "death and survivors = 4 hold for most eigenvectors, and the full LADDER passes at any " +
+                "generic q above ~0.58 (the sharpened sigma_min caveat); below ~0.57 the closest-pair " +
+                "vector transports at norm 2 and the LADDER fails, with the locus 0.460212 a ~1e-3 " +
+                "norm-1 island inside that region, the one locus where the CG reading is itself " +
+                "q-selective; the run-specific content is the VALUE-level lambda-sharing across the four " +
+                "sectors, fold set = band set = the confined 4-orbit (the union gate; the conjugate " +
+                "twin's PRESENCE per block is a corollary, spectra being conjugation-closed and the pin " +
+                "making fold = conj lambda*, d(fold) tracking d(lambda*) to ~1e-11). (c) The union gate " +
+                "is the most q-selective assertion and its selectivity is calibrated, not absolute: away " +
+                "from a locus it fails by OVER-inclusion (tol balloons with the split), measured pass-" +
+                "windows in q of +-1.3e-4/+-1.4e-4 around the first two loci, +-3e-5 around the twin " +
+                "0.857458, " +
+                "but -0.076/+0.101 around q* = 1.738181, whose nearest non-orbit interior block sits " +
+                "~450x beyond tol; Gate_N4 is " +
+                "evidence of walk structure AT the recorded loci, never a locus detector. C# reproduces " +
+                "the Python profile: CG norm 1.000000000 on m1/m2/mix of every doublet, image residual " +
+                "6.5..34 eps*sqrt(dim) (Python 6.3..33.8), terminal ratio ~1e-15, survivors 4, CONTROL " +
+                "exactly 0.0. " +
                 "At N = 6 and N = 8 no such locus is found: " +
                 "the real-lambda species is excluded on the measured 16-point q-grid 0.001..51.2 octic (gated, " +
                 "simulations/even_n_literal_real_count.py: N=6 zero real eigenvalues at every grid point; " +

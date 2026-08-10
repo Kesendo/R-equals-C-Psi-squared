@@ -80,8 +80,9 @@ public sealed class SidewaysSpinLadderClaim : Claim
 
     /// <summary>F125's orbit size at ODD N, derived combinatorially in PROOF_CODIM1_BY_ADDITIVITY; that it
     /// equals the multiplet dimension 4(N−2) is the accounting the multiplet reading rests on. Odd N only:
-    /// the proof gives 4N−12 at even N. At N=4 the reading is MEASURED (simulations/eta_ladder_chain_n4.py,
-    /// 2026-08-10: band and fold freight share the four sectors, four ℓ=1/2 doublets, two per chain, one
+    /// the proof gives 4N−12 at even N. At N=4 the reading is MEASURED (simulations/eta_ladder_chain_n4.py
+    /// and the C# gate <c>SidewaysSpinLadderGateTests.Gate_N4</c>, 2026-08-10: band and fold freight share
+    /// the four sectors, four ℓ=1/2 doublets, two per chain, one
     /// per conjugate value, CG norm 1, on the four self-fold loci), while N=6/8 have no real-q locus to
     /// walk (complex λ by the scanned strips, real λ by the 16-point grid: the even-N real-q defective
     /// check, experiments/F89_PATH_K_DIABOLIC.md).</summary>
@@ -157,10 +158,12 @@ public sealed class SidewaysSpinLadderClaim : Claim
                          "ladder property.");
             yield return new InspectableNode("the measured half (S⁺ chains) and the inferred half (η chains)",
                 summary: "MEASURED: fold family = interiors of the two S⁺ chains at p+q̃ = N∓1 (SHAPE gate), " +
-                         "fold + band = 4N−8 (COUNT gate), S⁺ norms = √(ℓ(ℓ+1)−m(m+1)) at 1e-6 (LADDER gate), " +
+                         "fold + band = 4N−8 (COUNT gate; at N=4 the two sets COINCIDE, so the count is the " +
+                         "union 4N−12 = 4, the sum 8 = 4N−8 still holding numerically but double-counting), " +
+                         "S⁺ norms = √(ℓ(ℓ+1)−m(m+1)) at 1e-6 (LADDER gate), " +
                          "terminal step at the eigensolver floor with a survivors negative control; N=5 and N=7 " +
-                         "in C# and Python, N=9 in C# (LU shift-invert, SLOW_SIDEWAYS9), N=4 in Python " +
-                         "(eta_ladder_chain_n4.py, both conjugate values), CONTROL residual " +
+                         "in C# and Python, N=9 in C# (LU shift-invert, SLOW_SIDEWAYS9), N=4 in C# and Python " +
+                         "(RunN4/Gate_N4 and eta_ladder_chain_n4.py, both conjugate values), CONTROL residual " +
                          "compared to 0.0 EXACTLY everywhere. INFERRED: the two η " +
                          "chains carry the same spin by the 4N−8 = 4(N−2) accounting; their transport norms are " +
                          "untested (the η evidence in hand is rank + spectral containment, print-only).");
@@ -179,15 +182,32 @@ public sealed class SidewaysSpinLadderClaim : Claim
                          "conjugate values) on the 4N−12 = 4 shared sectors; the odd-N seat identity does " +
                          "not re-instantiate (the η/Φ chain interiors are the SAME blocks at N=4, η not " +
                          "separately norm-measured; the block-level sharing is §7's, the run adds the " +
-                         "VALUE-level pair and its transport). Interior rungs at CG norm 1.000000000, " +
+                         "VALUE-level λ-sharing and the transport of both conjugate members). " +
+                         "Interior rungs at CG norm 1.000000000, " +
                          "image-eigenvector residual ~1e-14, terminal death at the floor (ratio ~1e-15), " +
                          "survivors = 4 = dim(target), CONTROL exactly 0.0. Conjugation-closure per block " +
                          "(T diagonal ⇒ block-local, every N) corroborates; it is NOT even-N-specific — " +
                          "what even N adds is complex-λ loci (real λ excluded there), so an even-N walk " +
                          "always carries the pair split open, while odd-N seeds are real and the pair is " +
-                         "invisible. σ_min-fence caveat kept: the lone CG value 1 coincides with σ_min at " +
-                         "N=4, the weight is the structure, not the norm. C# gate port pending (complex-λ " +
-                         "seed handling; the arc entry holds the port notes).");
+                         "invisible. σ_min-fence caveat kept and SHARPENED at the port: S⁺(4,1,2) has " +
+                         "singular spectrum {1×20, 2×4} and S⁺(4,2,1) is rank 4 at √3, so CG norm 1, " +
+                         "terminal death and survivors = 4 hold for most eigenvectors, the full LADDER " +
+                         "passing at any generic q ≳ 0.58 (below, the closest-pair vector transports at " +
+                         "norm 2, and 0.460212 is a ~1e-3 norm-1 island there, the one locus where the " +
+                         "CG reading is itself selective); the " +
+                         "run-specific content is the value-level λ-sharing across the four sectors read by " +
+                         "the union gate (the conjugate twin's presence per block is a corollary, spectra " +
+                         "being conjugation-closed; the union gate's pass-windows are calibrated in the arc " +
+                         "entry), and the loci labels are inherited from ReferenceDefectiveLoci, " +
+                         "not re-certified by the walk. Ported to C# 2026-08-10 " +
+                         "(SidewaysSpinLadderChain.RunN4, gate Gate_N4 in SidewaysSpinLadderGateTests, " +
+                         "Category SIDEWAYS, all four loci): the seed is the complex pair (q*, λ*) with λ* " +
+                         "measured from the (1,2) spectrum, the fold stays the HOLOMORPHIC −λ−2N (§7's " +
+                         "antiunitary partner map −conj(λ)−2N is the correct MAP but the identity on its own " +
+                         "fixed line, so as the twin-target formula it could never fail), COUNT is the union " +
+                         "|fold ∪ band| = 4N−12 (the sum 8 = 4N−8 double-counts the shared sectors), and " +
+                         "each value reads the TWO closest eigenvalues so the conjugate twin is never " +
+                         "dropped by a single argmin.");
             yield return new InspectableNode("N=9 confirmed; even N measured, no locus found at N=6/8",
                 summary: "N=9, ℓ=3 CONFIRMED 2026-08-09: norms √6, √10, √12, √12, √10, √6 on both chains to " +
                          "six decimals, seven sectors per chain, 28 = 4·9−8; the 10584²/15876² middle blocks " +

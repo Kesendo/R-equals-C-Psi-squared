@@ -15,7 +15,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// FROM the closed form. What is genuinely recomputed live: both ladders' intertwining residuals on every
 /// rung of the two chains (compared to 0.0 exactly), the block spectra and the derived tolerance, the
 /// fold/band sector sets, and the transport norms of the fold eigenvector, rung by rung, terminal ratio
-/// and survivors control included.</para>
+/// and survivors control included — and, since 2026-08-10, the N=4 walk over all four loci
+/// (<see cref="DescribeN4Live"/>).</para>
 ///
 /// <para>Guard: N ∈ {5, 7}, the two N with a recorded seed. N=5 is sub-second; N=7 builds and
 /// eigendecomposes blocks up to 1225² and takes ~half a minute at inspect time.</para></summary>
@@ -101,14 +102,57 @@ public sealed class SidewaysSpinLadderWitness : IInspectable
             }
 
             yield return new InspectableNode(
-                displayName: "N=9 confirmed; even N stays open",
+                displayName: "N=4 walked LIVE: band and fold freight a conjugate pair on the shared 4-orbit",
+                summary: DescribeN4Live(),
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "N=9 confirmed; no even-N locus found at N=6/8",
                 summary: "N=9, ℓ=3 was confirmed 2026-08-09 on both chains to six decimals " +
                          "(√6, √10, √12, √12, √10, √6; the 10584²/15876² middle blocks walked by LU " +
-                         "shift-invert, SidewaysSpinLadderSparse, gate SLOW_SIDEWAYS9). Even N stays open: no " +
-                         "even-N defective seed is recorded (RealDefectiveSeeds lists odd N, lower bounds), so " +
-                         "the even-N chain reading is untested, not predicted.",
+                         "shift-invert, SidewaysSpinLadderSparse, gate SLOW_SIDEWAYS9). N=6/8 have no " +
+                         "real-q locus in the scanned ranges (real λ excluded on the 16-point grid, " +
+                         "complex λ absent from the axis strips, both R-parities), so the even-N ≥ 6 " +
+                         "reading stays untested for want of an input; the exact Sturm closing route is " +
+                         "the arc's named next step.",
                 provenance: NodeProvenance.Stored);
         }
+    }
+
+    /// <summary>The N=4 walk, RUN LIVE over all four loci (<see cref="SidewaysSpinLadderChain.SeedsN4"/>;
+    /// blocks ≤ 36², ~80 ms total), so the inspect-time numbers and the Gate_N4 numbers cannot drift
+    /// apart. The loci LABELS are inherited from <see cref="ReferenceDefectiveLoci"/> (not re-certified
+    /// here); the walk's run-specific content is the value-level conjugate pair and the union gate,
+    /// the CG-norm/terminal/survivors readings being largely structural at N=4 (S⁺ singular spectrum
+    /// {1×20, 2×4}; see the RunN4 docstring).</summary>
+    private static string DescribeN4Live()
+    {
+        double worstPin = 0, worstControl = 0, worstNormDev = 0, worstTerminal = 0;
+        bool allShared = true, survivorsOk = true;
+        foreach (var qStar in SidewaysSpinLadderChain.SeedsN4)
+        {
+            var r = SidewaysSpinLadderChain.RunN4(qStar);
+            worstPin = Math.Max(worstPin, r.SelfFoldPinResidual);
+            worstControl = Math.Max(worstControl, r.WorstControlResidual);
+            allShared &= r.FoldSet.SequenceEqual(r.BandSet)
+                        && r.FoldSet.Union(r.BandSet).OrderBy(k => k).SequenceEqual(r.Orbit);
+            foreach (var d in r.Doublets)
+            {
+                worstNormDev = Math.Max(worstNormDev, new[] { d.NormM1, d.NormM2, d.NormMix }
+                    .Max(x => Math.Abs(x - 1.0)));
+                worstTerminal = Math.Max(worstTerminal, d.TerminalRatio);
+                survivorsOk &= d.Survivors == d.TerminalTargetDim;
+            }
+        }
+        return "all four loci walked live: CONTROL worst " +
+               $"{worstControl.ToString("E1", Inv)} ({(worstControl == 0.0 ? "exactly 0.0" : "NOT exact")}), " +
+               $"self-fold pin |Re λ* + 4| worst {worstPin.ToString("E1", Inv)} (certifies σ-stability of " +
+               $"the closest pair, never defectiveness; calibration in the RunN4 docstring), " +
+               $"fold set {(allShared ? "= band set = the confined 4-orbit" : "≠ band set/orbit: MISMATCH")} " +
+               $"(|fold ∪ band| = 4N−12 = 4), worst CG-norm deviation from 1: {worstNormDev.ToString("E1", Inv)}, " +
+               $"worst terminal ratio {worstTerminal.ToString("E1", Inv)}, survivors " +
+               $"{(survivorsOk ? "= dim(target) = 4 everywhere" : "MISMATCH")}; loci labels inherited from " +
+               "ReferenceDefectiveLoci, λ* measured live from the (1,2) closest pair.";
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;

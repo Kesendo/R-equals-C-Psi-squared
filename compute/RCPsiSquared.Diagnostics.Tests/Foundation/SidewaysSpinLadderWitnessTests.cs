@@ -28,12 +28,17 @@ public class SidewaysSpinLadderWitnessTests
     {
         var w = new SidewaysSpinLadderWitness(5);
         var children = w.Children.ToList();
-        Assert.Equal(5, children.Count);   // CONTROL + SHAPE/COUNT + two chains + open
+        Assert.Equal(6, children.Count);   // CONTROL + SHAPE/COUNT + two chains + N=4 live + N=9/even-N
         Assert.Contains(children, c => c.DisplayName.StartsWith("CONTROL", StringComparison.Ordinal));
         Assert.Contains(children, c => c.DisplayName.StartsWith("SHAPE + COUNT", StringComparison.Ordinal));
         Assert.Contains(children, c => c.DisplayName.Contains("p+q̃ = 4"));
         Assert.Contains(children, c => c.DisplayName.Contains("p+q̃ = 6"));
+        Assert.Contains(children, c => c.DisplayName.StartsWith("N=4 walked LIVE", StringComparison.Ordinal));
         Assert.Contains(children, c => c.DisplayName.StartsWith("N=9 confirmed", StringComparison.Ordinal));
+        var n4 = children.Single(c => c.DisplayName.StartsWith("N=4 walked LIVE", StringComparison.Ordinal));
+        Assert.Contains("exactly 0.0", n4.Summary);
+        Assert.Contains("= band set = the confined 4-orbit", n4.Summary);
+        Assert.Contains("= dim(target) = 4 everywhere", n4.Summary);
     }
 
     [Fact]

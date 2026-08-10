@@ -12,9 +12,10 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// <summary>The C# gate of the <c>sideways_spin_ladder</c> open arc (cockpit rule 5: the evidence lives
 /// as a witness/gate, not only as a Python script): asserts on the shared chain walk
 /// <see cref="SidewaysSpinLadderChain"/> (one construction for gate AND live witness), the same checks and
-/// order as <c>simulations/eta_ladder_chain.py</c>; the pass criteria are identical except the
-/// image-eigenvector gate, where the fixed 1e-12 of the Python gate is replaced by the error-model law
-/// below (the case-2 formulation the house tolerance rule asks for).
+/// order as <c>simulations/eta_ladder_chain.py</c> at odd N and <c>simulations/eta_ladder_chain_n4.py</c>
+/// at N=4 (<see cref="Gate_N4"/>, walking all four complex-λ loci); the pass criteria are identical except
+/// the image-eigenvector gate, where the fixed 1e-12 of the Python gates is replaced by the error-model
+/// law below (the case-2 formulation the house tolerance rule asks for).
 ///
 /// <para>CONTROL — Φ and S⁺ both intertwine L on every rung of the two chains p+q̃ = N∓1, residual
 /// compared to 0.0 EXACTLY (the identity cancels pairwise; the Python gate holds the same comparison; a
@@ -104,6 +105,117 @@ public class SidewaysSpinLadderGateTests
                 $"LADDER p+q={chain.Total}: only {chain.Survivors} survivors < target dim {chain.TerminalTargetDim} (negative control failed)");
             Assert.True(chain.TerminalRatio < 1e-12,
                 $"LADDER p+q={chain.Total}: fold vector not among the dying, ratio {chain.TerminalRatio:E3} (highest weight S⁺|ℓ,ℓ⟩ = 0)");
+        }
+    }
+
+    // ------------------------------------------------------------------------- the N=4 walk
+
+    [Fact(DisplayName = "the N=4 walk inputs are the four real-q defective loci (ReferenceDefectiveLoci)")]
+    [Trait("Category", "SLOW_SIDEWAYS")]
+    public void SeedsN4_AreTheRealDefectiveLoci()
+    {
+        // The N=4 inputs are LOCI, not census seeds (their λ are complex; RealDefectiveSeeds is the
+        // real-λ census object and lists odd N only), so the source of record is the scanned,
+        // conjugation-closed defective set. 1e-4 is ReferenceDefectiveLoci's own merge tolerance.
+        // SLOW_SIDEWAYS: For(4) runs the fine-cell EP scan (~10 s), while Gate_N4 itself is ~80 ms.
+        var loci = ReferenceDefectiveLoci.For(4);
+        Assert.Equal(4, SidewaysSpinLadderChain.SeedsN4.Count);
+        foreach (var qStar in SidewaysSpinLadderChain.SeedsN4)
+            Assert.Contains(loci, q => Math.Abs(q.Imaginary) < 1e-6 && Math.Abs(q.Real - qStar) < 1e-4);
+        Assert.Equal(4, loci.Count(q => Math.Abs(q.Imaginary) < 1e-6));   // and none is missing
+    }
+
+    [Fact(DisplayName = "sideways ladder gate, N=4: band+fold conjugate pair share the 4-orbit, four ℓ=1/2 doublets")]
+    [Trait("Category", "SIDEWAYS")]
+    public void Gate_N4()
+    {
+        foreach (var qStar in SidewaysSpinLadderChain.SeedsN4)
+        {
+            var run = SidewaysSpinLadderChain.RunN4(qStar);
+            _out.WriteLine($"N = 4, γ = 1 uniform, q* = {qStar.ToString(Inv)}, J_b = {(2 * qStar).ToString(Inv)}");
+            _out.WriteLine($"  λ* = {run.LambdaStar.Real.ToString("0.000000", Inv)} "
+                           + $"{(run.LambdaStar.Imaginary >= 0 ? "+" : "−")} {Math.Abs(run.LambdaStar.Imaginary).ToString("0.000000", Inv)}i "
+                           + $"(pair split {F(run.PairSplit)}, tol {F(run.Tolerance)})");
+
+            _out.WriteLine($"  CONTROL worst residual (both ladders, all rungs): {F(run.WorstControlResidual)}");
+            Assert.True(run.WorstControlResidual == 0.0,
+                $"CONTROL: a ladder failed to intertwine exactly, worst residual {run.WorstControlResidual:E3}");
+
+            // The self-fold pin Re λ* = −4, read honestly (the RunN4 docstring carries the derivation
+            // and the sweep numbers): it holds machine-exact (9e-16..1.3e-14) wherever the closest pair
+            // is σ-stable, which is NOT generic at N=4 — over ~27% of q ∈ [0.05, 3] a non-stable pair
+            // is closest, its σ-image ties it exactly, and the pin fails by O(1). It certifies
+            // σ-stability of the closest pair, never defectiveness; the loci labels are inherited from
+            // ReferenceDefectiveLoci. fold(λ*) = conj(λ*) is printed, not separately gated:
+            // |fold − conj λ*| = 2·pin exactly, the pin restated.
+            _out.WriteLine($"  self-fold pin |Re λ* + 4| = {F(run.SelfFoldPinResidual)}, "
+                           + $"|fold − conj λ*| = {F(run.FoldVsConjDistance)}");
+            Assert.True(run.SelfFoldPinResidual < 1e-6,
+                $"self-fold pin: Re λ* = {run.LambdaStar.Real} is not −4 (residual {run.SelfFoldPinResidual:E3})");
+
+            // BOTH VALUES in every orbit block, and COUNT as the union: fold set = band set = the
+            // confined 4-orbit, |fold ∪ band| = 4N−12 = 4. The odd-N sum |fold| + |band| = 8 = 4N−8
+            // still holds numerically at N=4, but it double-counts the shared sectors; the union is
+            // the count that carries the even-N accounting. Read at real strength: block (1,2)'s own
+            // carries-both check is automatic (λ* is its closest-pair mean, d = split/2 = tol/10 by
+            // construction), and the fold half is a corollary of the λ half in EVERY block (spectra
+            // are conjugation-closed, the pin makes fold = conj λ*, so d(fold) tracks d(λ*) to
+            // ~1e-11) — the measured content is the λ-sharing across (2,1)/(2,3)/(3,2) and the union
+            // gate below, the most q-selective assertion (pass-windows: ±1.3e-4 around the first two
+            // loci, ±3e-5 around the twin 0.857458, −0.076/+0.101 around 1.738181; the pin adds
+            // ±1.5e-3 at 0.460212 and one-sided ~2e-3..5e-3 lower bounds at the twins; the RunN4
+            // docstring carries the calibration). foldSet == bandSet is kept as a consistency check, not as evidence: it
+            // follows from the same corollary.
+            foreach (var (block, dLam, dFold) in run.OrbitCarries)
+            {
+                _out.WriteLine($"  block {block}: d(λ*) = {F(dLam)}, d(fold) = {F(dFold)}");
+                Assert.True(dLam < run.Tolerance && dFold < run.Tolerance,
+                    $"block {block} does not carry both values (d(λ*) = {dLam:E3}, d(fold) = {dFold:E3}, tol {run.Tolerance:E3})");
+            }
+            var union = run.FoldSet.Union(run.BandSet).OrderBy(k => k).ToList();
+            _out.WriteLine($"  COUNT: |fold ∪ band| = {union.Count} (4N−12 = 4); fold set [{string.Join(", ", run.FoldSet)}], "
+                           + $"band set [{string.Join(", ", run.BandSet)}]");
+            Assert.True(union.SequenceEqual(run.Orbit),
+                $"COUNT: fold ∪ band = [{string.Join(", ", union)}] != the confined orbit [{string.Join(", ", run.Orbit)}]");
+            Assert.True(run.FoldSet.SequenceEqual(run.BandSet),
+                $"fold set [{string.Join(", ", run.FoldSet)}] != band set [{string.Join(", ", run.BandSet)}] (they share all sectors at N=4)");
+
+            // The four ℓ = 1/2 doublets: two chains × two conjugate values, CG norm 1 from the closed
+            // form, for both split-pair members AND their mix (the twins are near-parallel here, so
+            // the mix agreement is a smoke check, not the N=9 robustness; the defect is printed).
+            // Structure caveat, sharpened from the σ_min fence: S⁺(4,1,2) has singular spectrum
+            // {1×20, 2×4} and S⁺(4,2,1) is rank 4 at √3, so these norm/terminal/survivors readings
+            // hold for most eigenvectors and at any generic q ≳ 0.58 (below, the closest pair
+            // transports at norm 2 — the 0.460212 locus is a ~1e-3 norm-1 island there, the one locus
+            // where this reading is itself selective); the run-specific content is the λ-sharing and
+            // the union gate above. Survivors gated == dim(target), the N=4 Python sibling's own
+            // criterion (the odd-N gate's ≥ is ITS sibling's). Kept as port fidelity.
+            double cg = SidewaysSpinLadderChain.CgCoefficients(4).Single();   // ℓ = 1/2: exactly 1
+            Assert.Equal(4, run.Doublets.Count);
+            foreach (var d in run.Doublets)
+            {
+                string name = $"{d.B0}→{d.B1} {(d.AtFoldValue ? "fold" : "λ*  ")}";
+                _out.WriteLine($"    {name}: ‖S⁺m1‖ = {d.NormM1.ToString("0.000000000", Inv)}, "
+                               + $"‖S⁺m2‖ = {d.NormM2.ToString("0.000000000", Inv)}, ‖S⁺mix‖ = {d.NormMix.ToString("0.000000000", Inv)}, "
+                               + $"1−|overlap| = {F(d.OverlapDefect)}");
+                foreach (var (tag, nrm) in new[] { ("m1", d.NormM1), ("m2", d.NormM2), ("mix", d.NormMix) })
+                    Assert.True(Math.Abs(nrm - cg) < 1e-6,
+                        $"{name} {tag}: ‖S⁺v‖ = {nrm:0.000000000} is not the CG norm {cg} (ℓ = 1/2)");
+
+                // Case-2 tolerance as in the odd-N gate: residual / (eps·√targetDim), gated O(10).
+                // At N=4 every target dim is 24, so nothing varies across decades here; the LAW
+                // reading lives in the odd-N gate where dims span 50..1225, this is its threshold.
+                double scaled = d.EigResidual / (Math.Pow(2, -52) * Math.Sqrt(d.RungTargetDim));
+                _out.WriteLine($"    {name}: image eigenvector residual {F(d.EigResidual)} = "
+                               + $"{scaled.ToString("0.0", Inv)}·eps·√dim; terminal ratio {F(d.TerminalRatio)}; "
+                               + $"survivors {d.Survivors} (target dim {d.TerminalTargetDim})");
+                Assert.True(scaled < 100.0,
+                    $"{name}: image is not an eigenvector, residual {d.EigResidual:E3} = {scaled:0.0}·eps·√dim");
+                Assert.True(d.TerminalRatio < 1e-12,
+                    $"{name}: transported vector not among the dying at {d.B1}→{d.B2}, ratio {d.TerminalRatio:E3}");
+                Assert.True(d.Survivors == d.TerminalTargetDim,
+                    $"{name}: survivors {d.Survivors} != dim(target) = {d.TerminalTargetDim}");
+            }
         }
     }
 
