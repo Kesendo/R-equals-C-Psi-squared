@@ -135,8 +135,17 @@ public static class FoldResultantCertificate
     public static DiscMultiplicityReport CertifyDiscMultiplicity(
         int n, bool rOdd, int maxPrimes = 20000, Action<string>? log = null)
     {
-        if (n < 5 || n % 2 == 0)
-            throw new ArgumentException("odd n ≥ 5.", nameof(n));
+        // n ≥ 4, EITHER parity of n: the D-only path never touches the corner block (p_c+1, p_c+1),
+        // which is what CertifyCore's odd-N guard protects. Every structural assumption this path
+        // does make is enforced by a throw on THIS path: the q=0 block diagonal and real and C pure
+        // imaginary (ClearedAtSectors), C weighted-symmetric (AssertHoppingSymmetry, the Bauer-Fike
+        // premise behind dBound), block linear in q (BlockPencil), AT divides exactly with the
+        // residual degree checked, Gauss-lemma integrality of the sector charpolys. Even N first
+        // exercised 2026-08-10 (the sideways_spin_ladder arc's Sturm route needs the N=6/8 disc
+        // layers); N=4 doubles as the control, its disc factorization being known in closed form
+        // (F89Path3OcticGaloisClaim, R-even; the R-odd twin follows by the even-N conjugation).
+        if (n < 4)
+            throw new ArgumentException("n ≥ 4 (the octic block).", nameof(n));
 
         var (aBlk, cBlk) = BlockPencil(n, rOdd);
         AssertHoppingSymmetry(cBlk, rOdd ? null : F89PathKSeDeBlock.SymOrbitSizes(n));
@@ -257,10 +266,14 @@ public static class FoldResultantCertificate
     /// attains trueDegD and the minimal v_q(D) must report the same layers.</summary>
     public static (int DegD, int VD, int[] LayerDegrees) DiscLayersAtNthPrime(int n, bool rOdd, int nth)
     {
-        if (n < 5 || n % 2 == 0) throw new ArgumentException("odd n ≥ 5.", nameof(n));
+        if (n < 4) throw new ArgumentException("n ≥ 4 (either parity; see CertifyDiscMultiplicity).", nameof(n));
         if (nth < 0) throw new ArgumentOutOfRangeException(nameof(nth));
 
         var (aBlk, cBlk) = BlockPencil(n, rOdd);
+        // The falsifier must hold the same premise the certificate's dBound rests on (Bauer-Fike /
+        // O(1)-branch needs C = i·K with K weighted-symmetric); CertifyDiscMultiplicity checks it,
+        // and before 2026-08-10 this method silently inherited it.
+        AssertHoppingSymmetry(cBlk, rOdd ? null : F89PathKSeDeBlock.SymOrbitSizes(n));
         var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
         int atDeg = 0;
         foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
