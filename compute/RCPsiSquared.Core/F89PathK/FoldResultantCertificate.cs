@@ -315,6 +315,122 @@ public static class FoldResultantCertificate
         }
     }
 
+    /// <summary>Scout for the even-N closing certificate (the sideways_spin_ladder arc's Sturm/gcd
+    /// route): recover Re D and Im D mod p SEPARATELY and read their gcd in GF(p)[q].
+    ///
+    /// <para>The two-embedding trick: a split prime p ≡ 1 mod 4 has TWO square roots of −1, r and
+    /// p−r. Reducing the ℤ[i] discriminant under i ↦ r gives (Re D + r·Im D) mod p; under i ↦ p−r
+    /// it gives (Re D − r·Im D) mod p; the half-sum recovers Re D mod p and the half-difference,
+    /// divided by 2r, recovers Im D mod p, coefficient-wise. A real q with D(q) = 0 forces Re D and
+    /// Im D (real polynomials) to vanish together, i.e. a nontrivial factor of gcd(Re D, Im D) over
+    /// ℚ; by Gauss, a nontrivial ℚ-gcd of integer polynomials survives reduction mod any prime
+    /// preserving the degrees (the lemma <c>simulations/o2b_gcd_certificate.py</c> states verbatim;
+    /// preserving ONE of the two degrees already suffices, and Re's is discharged for free by
+    /// deg_q D = max(deg Re, deg Im), the leading coefficients being unable to cancel between the
+    /// real and imaginary parts). And D vanishes at EVERY repeated Λ-root, defective and diabolic
+    /// alike, so <c>GcdDeg == 0</c> at a good prime certifies: no real q₀ ≠ 0 with ANY coalescence,
+    /// window-free. This method is the mod-p half of that statement, a SCOUT with TWO uncertified
+    /// premises: (a) degree preservation (the lc-divisor-bound argument of the certificate methods),
+    /// and (b) valuation preservation — <see cref="StripQ"/> removes q^v with the MOD-P valuation,
+    /// so if p divided all the low coefficients of Re or Im, a true nonzero common root could
+    /// collapse onto q = 0 and be stripped away (the same caveat CertifyDiscMultiplicity certifies
+    /// as TrueQValuationD). A nonzero-looking gcd can only shrink under more primes; a zero-looking
+    /// one is certified only once (a) and (b) hold.</para>
+    ///
+    /// <para>Controls: at N=4 the disc is REAL (the self-fold antiunitary makes the codimension 1,
+    /// which is WHY four real defective loci and the diabolic quartic exist there — the foil that
+    /// makes an empty N=6 axis non-trivial; committed anchors: the B3 entry in
+    /// <c>docs/CAUGHT_ERRORS.md</c>, the mechanism paragraph of
+    /// <c>experiments/F89_PATH_K_DIABOLIC.md</c>, the disc-reality gate of
+    /// <c>simulations/even_n_literal_real_count.py</c>), so <c>ImIsZero</c> must come back true
+    /// there; at N=6 the disc is genuinely complex and the question is live. Consistency gate, per
+    /// prime and non-vacuous: the i ↦ r reduction IS D mod p, so max(deg Re, deg Im) must equal
+    /// deg(D mod p) and min(v_Re, v_Im) must equal v_q(D mod p); a throw guards both.</para></summary>
+    public static (int P, int Root, int DegRe, int VRe, int DegIm, int VIm, bool ImIsZero, int GcdDeg)
+        DiscReImGcdAtNthPrime(int n, bool rOdd, int nth)
+    {
+        if (n < 4) throw new ArgumentException("n ≥ 4 (either parity; see CertifyDiscMultiplicity).", nameof(n));
+        if (nth < 0) throw new ArgumentOutOfRangeException(nameof(nth));
+
+        var (aBlk, cBlk) = BlockPencil(n, rOdd);
+        AssertHoppingSymmetry(cBlk, rOdd ? null : F89PathKSeDeBlock.SymOrbitSizes(n));
+        var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
+        int atDeg = 0;
+        foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
+        int resDeg = aBlk.GetLength(0) - atDeg;
+
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var (fResLead, _) = ResidualLeadingForm(n, rOdd);
+        var (_, mD) = SquarefreeLayers(FromZi(fResLead));
+        int dBound = resDeg * (resDeg - 1) - 2 * mD;
+        int samples = dBound + 1 + 24;
+
+        long candidate = (1L << 30) + 1;
+        while (candidate % 4 != 1) candidate += 2;
+        int seen = 0;
+        for (; ; candidate += 4)
+        {
+            if (!IsPrime(candidate)) continue;
+            int p = checked((int)candidate);
+            int? root = SqrtMinusOneFast(p);
+            if (root is null) continue;
+            if (seen++ < nth) continue;
+            int r = root.Value;
+
+            var dp = new int[2][];
+            foreach (var (emb, k) in new[] { (r, 0), (p - r, 1) })
+            {
+                var fResP = ReduceBivariate(fRes, p, emb);
+                var dSamp = new int[samples];
+                for (int q0 = 0; q0 < samples; q0++)
+                    dSamp[q0] = DiscriminantModP(EvalBivariateModP(fResP, q0, p), p);
+                var dNodes = new int[dBound + 1];
+                Array.Copy(dSamp, dNodes, dBound + 1);
+                dp[k] = InterpolateAtIntegerNodes(dNodes, p);
+                for (int q0 = dBound + 1; q0 < samples; q0++)
+                    if (EvalModP(dp[k], q0, p) != dSamp[q0])
+                        throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}, i↦{emb}).");
+            }
+
+            // half-sum / half-difference, all products in long (the 2^30 overflow trap is live here)
+            int len = Math.Max(dp[0].Length, dp[1].Length);
+            long inv2 = InvModP(2, p);
+            long inv2r = InvModP((int)(2L * r % p), p);
+            var re = new int[len];
+            var im = new int[len];
+            for (int i = 0; i < len; i++)
+            {
+                long a = i < dp[0].Length ? dp[0][i] : 0;
+                long b = i < dp[1].Length ? dp[1][i] : 0;
+                re[i] = (int)((a + b) % p * inv2 % p);
+                im[i] = (int)(((a - b + p) % p) * inv2r % p);
+            }
+
+            bool imZero = DegP(im) < 0;
+            int vRe = DegP(re) < 0 ? -1 : QValuation(re);
+            int vIm = imZero ? -1 : QValuation(im);
+
+            // the non-vacuous consistency gate: dp[0] IS D mod p, and over ℤ the leading terms of
+            // the real Re/Im cannot cancel in D = Re + i·Im, so degrees and q-valuations must
+            // agree. Mod p a coincidental cancellation Re_k ≡ −r·Im_k has probability ~1/p; it
+            // would throw here, fail-loud, and the caller picks the next prime.
+            int degD = DegP(dp[0]);
+            int vD = degD < 0 ? -1 : QValuation(dp[0]);
+            if (Math.Max(DegP(re), DegP(im)) != degD)
+                throw new InvalidOperationException(
+                    $"max(deg Re, deg Im) = {Math.Max(DegP(re), DegP(im))} != deg(D mod p) = {degD} (p={p}).");
+            int vMin = imZero ? vRe : (DegP(re) < 0 ? vIm : Math.Min(vRe, vIm));
+            if (vMin != vD)
+                throw new InvalidOperationException(
+                    $"min(v_Re, v_Im) = {vMin} != v_q(D mod p) = {vD} (p={p}).");
+
+            int gcdDeg = -1;
+            if (!imZero && DegP(re) >= 0)
+                gcdDeg = DegP(GcdModP(StripQ(re, vRe), StripQ(im, vIm), p));
+            return (p, r, DegP(re), vRe, DegP(im), vIm, imZero, gcdDeg);
+        }
+    }
+
     /// <summary>The D-only exact per-point residual: block charpoly at q0, divided by the AT factor.
     /// Independent of the bivariate path, and free of the corner block.</summary>
     private static GaussianInteger[] ResidualPerPointAt(int n, bool rOdd, int q0)

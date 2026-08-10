@@ -40,6 +40,42 @@ public class EvenNDiscLayerScoutTests
         }
     }
 
+    [Fact(DisplayName = "N=4 Re/Im control: the self-fold disc is REAL, Im D ≡ 0 mod p")]
+    [Trait("Category", "EVEN_DISC_SCOUT")]
+    public void N4_ReImControl_DiscIsReal()
+    {
+        var (p, _, degRe, vRe, degIm, _, imZero, _) =
+            FoldResultantCertificate.DiscReImGcdAtNthPrime(4, rOdd: false, nth: 0);
+        _out.WriteLine($"N=4 R-even: p={p}, deg Re = {degRe} (v_q {vRe}), deg Im = {degIm}, ImIsZero = {imZero}");
+        Assert.True(imZero, "the N=4 disc must be real (self-fold antiunitary, spec B3)");
+        Assert.Equal(52, degRe);
+        Assert.Equal(24, vRe);
+    }
+
+    [Fact(DisplayName = "N=6 scout: gcd(Re D, Im D) mod p = 1 — the closing certificate's live question, pinned")]
+    [Trait("Category", "SLOW_EVEN_DISC")]
+    public void N6_Scout_ReImGcd()
+    {
+        var rows = new System.Collections.Generic.List<(int DegRe, int VRe, int DegIm, int VIm, int GcdDeg)>();
+        foreach (bool rOdd in new[] { false, true })
+        {
+            var (p, _, degRe, vRe, degIm, vIm, imZero, gcdDeg) =
+                FoldResultantCertificate.DiscReImGcdAtNthPrime(6, rOdd, 0);
+            _out.WriteLine($"N=6 {(rOdd ? "R-odd " : "R-even")}: p={p}, deg Re = {degRe} (v_q {vRe}), "
+                           + $"deg Im = {degIm} (v_q {vIm}), gcd deg = {gcdDeg}");
+            Assert.False(imZero, "the N=6 disc must be genuinely complex (disc-reality re-gate, 13-order split)");
+            // PINNED, observed 2026-08-10: gcd degree 0 at the first split prime. Mod-p only — the
+            // window-free certificate additionally needs the degree- and valuation-preservation
+            // halves (the method's scope note); a real-q coalescence appearing at N=6 would flip
+            // this to a nonzero gcd degree and fail here first.
+            Assert.Equal(0, gcdDeg);
+            rows.Add((degRe, vRe, degIm, vIm, gcdDeg));
+        }
+        // the even-N conjugation makes R-odd the exact conjugate of R-even (Re shared, Im negated):
+        // one measurement, one forced twin — gate the agreement rather than presenting two sources.
+        Assert.Equal(rows[0], rows[1]);
+    }
+
     [Fact(DisplayName = "N=6 scout: disc layers of the F_32 residual, first prime, both parities (layer identity gated)")]
     [Trait("Category", "SLOW_EVEN_DISC")]
     public void N6_Scout_DiscLayers()
