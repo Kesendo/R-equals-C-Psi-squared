@@ -88,7 +88,8 @@ namespace RCPsiSquared.Core.F89PathK;
 /// (OpenArcsRegistry, and the "Verdict, scoped" paragraph of the experiment doc). First certified
 /// instance: N=6, both parities. Run: <c>dotnet test "compute/RCPsiSquared.Core.Tests" --filter
 /// "Category=SLOW_EVEN_DISC|Category=EVEN_DISC_SCOUT"</c> (EvenNDiscLayerScoutTests; the scout
-/// category carries the N=4 fail-closed control).</para>
+/// category carries the N=4 fail-closed control; the ~9 min N=8 layer scout sits apart as
+/// Category=SLOW_EVEN_DISC8).</para>
 ///
 /// <para>Run: <c>dotnet test "compute/RCPsiSquared.Diagnostics.Tests" --filter "Category=FOLDRESULTANT"
 /// --logger "console;verbosity=detailed"</c> (FoldResultantCertificateTests).</para></summary>

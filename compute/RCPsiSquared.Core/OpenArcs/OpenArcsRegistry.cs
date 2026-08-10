@@ -5287,19 +5287,28 @@ public static class OpenArcsRegistry
                 "congruent to 0 mod p collapses onto q and is stripped), which is exactly what the " +
                 "promotion certifies. N=4 control fails the certificate CLOSED (real disc, Im = 0 at " +
                 "every prime, DiscLayersCertified true so the decline is for the right reason), as it " +
-                "must: N=4 really carries four real loci. N=8's two blockers, named at their real weight " +
-                "(N=6 closed WITHOUT an oracle literal, the bivariate Berkowitz path suffices): the " +
-                "dim-112 bivariate Berkowitz cost is unmeasured (the F_d oracle literal, generator " +
-                "f89_pathk_galois.py gen-cs, residual degree 80, is the independent cross-check source, " +
-                "not the bottleneck), and the design fork RESOLVED at " +
+                "must: N=4 really carries four real loci. AT N=8 THE COST QUESTION IS ANSWERED, same day: " +
+                "the dim-112 bivariate Berkowitz is AFFORDABLE, ~9 min per parity for the build plus " +
+                "the first prime's ~6100-node layer sampling (gate N8_Scout_DiscLayers, Category " +
+                "SLOW_EVEN_DISC8, R-even pinned; R-odd measured identical once, the even-N conjugate " +
+                "twin, not re-run): deg_q D = 6086, v_q = 3730, layers [376, 990], aggregation " +
+                "2356 = 376 + 2*990 gated, no multiplicity->=3 layer (the beta-exotic reading at N=8, " +
+                "scout-level: first prime, deg/v not yet certified). N=6 closed WITHOUT an oracle " +
+                "literal, the Berkowitz path suffices (the F_d oracle literal, generator " +
+                "f89_pathk_galois.py gen-cs, residual degree 80, stays the independent cross-check " +
+                "source, not the bottleneck). What remains at N=8 is ONE blocker: the design fork " +
+                "RESOLVED at " +
                 "N=6 by the full-D closure (no on-axis coalescence at all) lands on its other leg at " +
                 "N=8: the on-axis " +
                 "DIABOLIC q = 0.6165 is a real root of the doubled layer, the full-D gcd would " +
                 "legitimately return nonzero, so the no-defective statement needs the SIMPLE layer " +
-                "split off exactly over Q(i) first. " +
+                "(degree 376, the mod-p reading) split off exactly over Q(i) first. One cost residue " +
+                "beside it, not a blocker: a multi-prime certificate's " +
+                "total cost is bound x the per-prime share of those 9 min, the build/sampling split " +
+                "not yet measured. " +
                 "The even-N chain reading at N=6 is now INPUT-FREE BY THEOREM, not untested for want " +
                 "of an input: no locus exists at physical coupling (N=8 stays scan + genericity until " +
-                "its oracle lands); PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
+                "the simple layer is split off); PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
                 "recorded complex-q N=6 defective EP (positions now in the doc) gives l = 3/2, chain " +
                 "interior length 4, predicted CG norms sqrt3, 2, sqrt3, with the accounting caveat the " +
                 "prior entry carried and this one keeps: 4(N-2) = 16 chain seats land on 12 distinct " +

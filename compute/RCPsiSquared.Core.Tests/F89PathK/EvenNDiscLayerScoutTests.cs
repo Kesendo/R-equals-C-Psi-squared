@@ -25,7 +25,9 @@ namespace RCPsiSquared.Core.Tests.F89PathK;
 /// <para>Since 2026-08-10 the class also holds the PROMOTED certificate's gates
 /// (<see cref="FoldResultantCertificate.CertifyDiscReImGcd"/>): the N=6 window-free
 /// no-real-nonzero-coalescence statement, both parities, and the N=4 real-disc control that must
-/// fail it closed.</para></summary>
+/// fail it closed. Same day, the N=8 layer scout (Category SLOW_EVEN_DISC8, ~9 min): the dim-112
+/// bivariate Berkowitz is affordable, deg_q D = 6086, v_q = 3730, layers [376, 990], so the N=8
+/// certificate object is the degree-376 simple layer.</para></summary>
 public class EvenNDiscLayerScoutTests
 {
     private readonly ITestOutputHelper _out;
@@ -124,6 +126,31 @@ public class EvenNDiscLayerScoutTests
             Assert.Equal(0, r.GcdDeg);
             Assert.True(r.NoRealNonzeroCoalescence);
         }
+    }
+
+    [Fact(DisplayName = "N=8 scout: disc layers of the F_80 residual, first prime, R-even (the dim-112 cost measured)")]
+    [Trait("Category", "SLOW_EVEN_DISC8")]
+    public void N8_Scout_DiscLayers()
+    {
+        // ~9 min, measured quiet 2026-08-10 (the dim-112 bivariate Berkowitz build + one prime's
+        // ~6100-node sampling); its own category so SLOW_EVEN_DISC stays a ~1 min suite. R-even
+        // only for the same reason; the R-odd conjugate twin was measured identical once the same
+        // day (even-N conjugation, as gated at N=6) and is not re-run here.
+        var (degD, vD, layers) = FoldResultantCertificate.DiscLayersAtNthPrime(8, rOdd: false, nth: 0);
+        _out.WriteLine($"N=8 R-even: deg_q D = {degD}, v_q = {vD}, layers [{string.Join(", ", layers)}]");
+        // measured 2026-08-10, first split prime (mod-p reading, deg/v not certified): the N=8
+        // certificate object is the degree-376 simple layer; the on-axis diabolic q = 0.6165 lives
+        // in the doubled layer, which is WHY only the simple layer can carry a no-defective
+        // statement at N=8 (the arc's design fork)
+        Assert.Equal(6086, degD);
+        Assert.Equal(3730, vD);
+        Assert.Equal(new[] { 376, 990 }, layers);
+        int aggregate = 0;
+        for (int m = 0; m < layers.Length; m++) aggregate += (m + 1) * layers[m];
+        Assert.True(degD - vD == aggregate,
+            $"layer aggregation identity broken: {degD} − {vD} != Σ (m+1)·deg = {aggregate}");
+        Assert.True(layers.Length <= 2,
+            $"a multiplicity-≥3 disc layer at N=8 ({layers.Length} layers): the β-exotic reading fails at even N");
     }
 
     [Fact(DisplayName = "N=6 scout: disc layers of the F_32 residual, first prime, both parities (layer identity gated)")]
