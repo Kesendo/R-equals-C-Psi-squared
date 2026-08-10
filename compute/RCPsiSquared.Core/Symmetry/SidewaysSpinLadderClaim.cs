@@ -40,7 +40,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// decimals: norms √6, √10, √12, √12, √10, √6, walked past the dense wall (middle blocks 10584² and
 /// 15876²) by one dense LU shift-invert per block plus inverse iteration
 /// (<c>SidewaysSpinLadderSparse</c>, gate Category SLOW_SIDEWAYS9), CONTROL still compared to 0.0
-/// exactly and exactly 0.0. So the multiplet half is measured at THREE odd N: 5, 7, 9.</para>
+/// exactly and exactly 0.0. So the multiplet half is measured at THREE odd N: 5, 7, 9 — and, since
+/// 2026-08-10, at the one even N among 4/6/8 with real-q loci: N=4, where band and fold freight share the
+/// four confined-orbit sectors (on the self-fold line the fold value −λ−2N is conj(λ*), so foldset =
+/// bandset and the 8 = 4(N−2) seats are four ℓ = 1/2 doublets, two per chain, one per conjugate
+/// value; <c>simulations/eta_ladder_chain_n4.py</c>, gated).</para>
 ///
 /// <para><b>The σ_min fence.</b> σ_min of a rung map is NOT the multiplet's CG coefficient: it reads the
 /// weakest direction of the WHOLE rung map, several multiplets per block, and DISAGREES with the CG value
@@ -68,7 +72,7 @@ public sealed class SidewaysSpinLadderClaim : Claim
     // the S⁺ chains explain as a multiplet.
     public SpectatorIntertwinerClaim Intertwiner { get; }
 
-    /// <summary>The spin carried by each of the four transport chains at odd N: ℓ = (N−3)/2.</summary>
+    /// <summary>The spin carried by each transport chain: ℓ = (N−3)/2 (integer at odd N; 1/2 at N=4).</summary>
     public static double ChainSpin(int n) => (n - 3) / 2.0;
 
     /// <summary>The Clebsch-Gordan transport norm √(ℓ(ℓ+1) − m(m+1)) at weight m along a chain.</summary>
@@ -76,14 +80,16 @@ public sealed class SidewaysSpinLadderClaim : Claim
 
     /// <summary>F125's orbit size at ODD N, derived combinatorially in PROOF_CODIM1_BY_ADDITIVITY; that it
     /// equals the multiplet dimension 4(N−2) is the accounting the multiplet reading rests on. Odd N only:
-    /// the proof gives 4N−12 at even N, where the chain reading is untested (N=4 has real-q defective loci
-    /// via the self-fold; none is found at N=6/8, complex λ by the scanned strips, real λ by the 16-point
-    /// grid: the even-N real-q defective check, experiments/F89_PATH_K_DIABOLIC.md, 2026-08-10).</summary>
+    /// the proof gives 4N−12 at even N. At N=4 the reading is MEASURED (simulations/eta_ladder_chain_n4.py,
+    /// 2026-08-10: band and fold freight share the four sectors, four ℓ=1/2 doublets, two per chain, one
+    /// per conjugate value, CG norm 1, on the four self-fold loci), while N=6/8 have no real-q locus to
+    /// walk (complex λ by the scanned strips, real λ by the 16-point grid: the even-N real-q defective
+    /// check, experiments/F89_PATH_K_DIABOLIC.md).</summary>
     public static int OrbitSizeOddN(int n) => (n & 1) == 1
         ? 4 * n - 8
         : throw new ArgumentOutOfRangeException(nameof(n),
-            $"4N−8 is the ODD-N orbit size (even N is 4N−12, chain reading untested; no real-q locus " +
-            $"found at N=6/8 by the strips and the 16-point grid, N=4 has four); got N={n}");
+            $"4N−8 is the ODD-N orbit size (even N is 4N−12: measured at N=4 with band and fold sharing " +
+            $"sectors, no real-q locus exists to walk at N=6/8 in the scanned ranges); got N={n}");
 
     public SidewaysSpinLadderClaim(SpectatorIntertwinerClaim intertwiner)
         : base("The sideways spin ladder: S⁺(ρ) = Σ_l (−1)^l c_l†ρc_l† (§6's V of PROOF_CODIM1_BY_ADDITIVITY " +
@@ -104,7 +110,8 @@ public sealed class SidewaysSpinLadderClaim : Claim
                "√6; F125's pinned 1 and √2 coincide with CG by smallness and confirm nothing); the N=9, ℓ=3 " +
                "prediction √6, √10, √12, √12, √10, √6 CONFIRMED 2026-08-09 on both chains to six decimals " +
                "(LU shift-invert past the dense wall, gate SLOW_SIDEWAYS9), so the multiplet half is measured " +
-               "at N = 5, 7, 9",
+               "at N = 5, 7, 9, and since 2026-08-10 at N=4 (band and fold freight conjugate, sharing the " +
+               "confined 4-orbit; simulations/eta_ladder_chain_n4.py, gated)",
                Tier.Tier1Candidate,
                "docs/proofs/PROOF_FROZEN_BAND_SO4.md + docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md + " +
                "simulations/eta_ladder_chain.py + " +
@@ -123,7 +130,8 @@ public sealed class SidewaysSpinLadderClaim : Claim
         "(the parity fact behind §6 item (ii)); the fold family = the two S⁺ chain interiors at p+q̃ = N∓1, " +
         "spin ℓ = (N−3)/2 per chain, odd-N orbit 4N−8 = 4(N−2); S⁺ transport norms = CG coefficients, " +
         "measured N=5,7,9 (√2,√2; 2,√6,√6,2; √6,√10,√12,√12,√10,√6, the N=9 case predicted before it was " +
-        "walked), the η chains inferred from the count, untested; σ_min is NOT a CG confirmation " +
+        "walked) and N=4 (ℓ=1/2, both conjugate values, band+fold sharing the 4-orbit), the η chains " +
+        "inferred from the count, untested; σ_min is NOT a CG confirmation " +
         $"({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -151,7 +159,8 @@ public sealed class SidewaysSpinLadderClaim : Claim
                 summary: "MEASURED: fold family = interiors of the two S⁺ chains at p+q̃ = N∓1 (SHAPE gate), " +
                          "fold + band = 4N−8 (COUNT gate), S⁺ norms = √(ℓ(ℓ+1)−m(m+1)) at 1e-6 (LADDER gate), " +
                          "terminal step at the eigensolver floor with a survivors negative control; N=5 and N=7 " +
-                         "in C# and Python, N=9 in C# (LU shift-invert, SLOW_SIDEWAYS9), CONTROL residual " +
+                         "in C# and Python, N=9 in C# (LU shift-invert, SLOW_SIDEWAYS9), N=4 in Python " +
+                         "(eta_ladder_chain_n4.py, both conjugate values), CONTROL residual " +
                          "compared to 0.0 EXACTLY everywhere. INFERRED: the two η " +
                          "chains carry the same spin by the 4N−8 = 4(N−2) accounting; their transport norms are " +
                          "untested (the η evidence in hand is rank + spectral containment, print-only).");
@@ -159,6 +168,26 @@ public sealed class SidewaysSpinLadderClaim : Claim
                 summary: "σ_min of a rung map reads the weakest direction present, not one multiplet's CG value: " +
                          "equal at N=4, N=5 and the outer N=7 rungs, DIFFERENT on the middle N=7 rungs " +
                          "(1.414214 vs 2.449490). Gated so the rejection stays measurable.");
+            yield return new InspectableNode("N=4 walked: band and fold freight share the four sectors",
+                summary: "2026-08-10, simulations/eta_ladder_chain_n4.py (gated, all four loci of " +
+                         "ReferenceDefectiveLoci; their λ measured the same day, all on Re λ = −4 to 2e-14, " +
+                         "the fold-partner map's fixed line, and DERIVED: s and conjugation both permute " +
+                         "the defective set, so a single pair is fixed by their composite): the freight is " +
+                         "the same band + fold pair as at odd N (the §7 holomorphic fold −λ−2N), and on " +
+                         "that line the fold value IS conj(λ*), so foldset = bandset = the confined " +
+                         "4-orbit by the walk's own definitions: four ℓ=1/2 doublets (two S⁺ chains × two " +
+                         "conjugate values) on the 4N−12 = 4 shared sectors; the odd-N seat identity does " +
+                         "not re-instantiate (the η/Φ chain interiors are the SAME blocks at N=4, η not " +
+                         "separately norm-measured; the block-level sharing is §7's, the run adds the " +
+                         "VALUE-level pair and its transport). Interior rungs at CG norm 1.000000000, " +
+                         "image-eigenvector residual ~1e-14, terminal death at the floor (ratio ~1e-15), " +
+                         "survivors = 4 = dim(target), CONTROL exactly 0.0. Conjugation-closure per block " +
+                         "(T diagonal ⇒ block-local, every N) corroborates; it is NOT even-N-specific — " +
+                         "what even N adds is complex-λ loci (real λ excluded there), so an even-N walk " +
+                         "always carries the pair split open, while odd-N seeds are real and the pair is " +
+                         "invisible. σ_min-fence caveat kept: the lone CG value 1 coincides with σ_min at " +
+                         "N=4, the weight is the structure, not the norm. C# gate port pending (complex-λ " +
+                         "seed handling; the arc entry holds the port notes).");
             yield return new InspectableNode("N=9 confirmed; even N measured, no locus found at N=6/8",
                 summary: "N=9, ℓ=3 CONFIRMED 2026-08-09: norms √6, √10, √12, √12, √10, √6 on both chains to " +
                          "six decimals, seven sectors per chain, 28 = 4·9−8; the 10584²/15876² middle blocks " +
@@ -168,9 +197,10 @@ public sealed class SidewaysSpinLadderClaim : Claim
                          "members AND every in-plane mix transport at the same CG norm, verified to nine " +
                          "decimals in review. EVEN N, MEASURED 2026-08-10 (the even-N real-q defective " +
                          "check, experiments/F89_PATH_K_DIABOLIC.md): N=4 HAS four real-q defective loci " +
-                         "(self-fold, real discriminant), so the even-N walk could run at N=4 (ℓ = 1/2, one " +
-                         "rung, CG norm 1, 8 chain seats on 4 doubly-counted sectors; offered). At N=6/N=8 " +
-                         "no locus is found: the real-λ species is " +
+                         "(self-fold, real discriminant), so the even-N walk RAN at N=4 (ℓ = 1/2, one rung, " +
+                         "CG norm 1.000000000, band and fold freight sharing the 4 sectors, 8 seats; the " +
+                         "sibling node above, simulations/eta_ladder_chain_n4.py, gated). " +
+                         "At N=6/N=8 no locus is found: the real-λ species is " +
                          "excluded on the measured 16-point q-grid 0.001..51.2 octic (gated verifier; N=8's " +
                          "real population is a constant pair at the −6 window edge, one per R-sector, " +
                          "semisimple by the window-edge lemma), the " +

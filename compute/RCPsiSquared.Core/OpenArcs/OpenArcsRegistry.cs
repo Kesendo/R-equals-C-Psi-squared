@@ -5164,9 +5164,32 @@ public static class OpenArcsRegistry
                 "experiments/F89_PATH_K_DIABOLIC.md): the walk's input at even N is a real-q defective (1,2) " +
                 "locus (wider than the repo's 'seed', which is the real-lambda census object), and N=4 HAS " +
                 "four (ReferenceDefectiveLoci, the self-fold's real discriminant), so the even-N chain " +
-                "reading could run at N=4 today (orbit 4N-12 = 4, chains of interior length 2, l = 1/2, one " +
-                "transport rung, CG norm 1, the overlap at its most severe: 8 chain seats on 4 sectors, " +
-                "every member band AND fold image; offered, not started). At N = 6 and N = 8 no such locus is found: " +
+                "reading RAN at N=4 the same day (simulations/eta_ladder_chain_n4.py, gated, all four " +
+                "loci, their lambda measured first: all on Re lambda = -4 to 2e-14, the fold-partner map's " +
+                "fixed line, and DERIVED, since s and conjugation both permute the defective set): " +
+                "BAND AND FOLD FREIGHT SHARE THE FOUR SECTORS. The freight is the same band + fold pair " +
+                "as at odd N (the section-7 holomorphic fold -lambda-2N), and on the self-fold line the " +
+                "fold value IS conj(lambda*), so foldset = bandset = the confined 4-orbit by the walk's " +
+                "own definitions: four l = 1/2 doublets (two S+ chains x two conjugate values) on the " +
+                "4N-12 = 4 shared sectors. The odd-N seat identity 4(N-2) = |chains| x interior does NOT " +
+                "re-instantiate: the two eta/Phi chain interiors are the SAME four blocks at N=4, and the " +
+                "eta side stays not separately norm-measured; the block-level sharing (overlap 4) is " +
+                "section 7's already, the run adds the VALUE-level pair and its transport. Interior rungs " +
+                "at CG norm 1.000000000, image-eigenvector " +
+                "residual ~1e-14, terminal death at the floor (ratio ~1e-15), survivors = 4 = dim(target), " +
+                "CONTROL exactly 0.0. Block-local T-conjugacy corroborates and is NOT even-N-specific; " +
+                "what even N adds is complex-lambda loci (real lambda excluded), so an even-N walk always " +
+                "carries the pair split open while odd-N seeds are real and the pair invisible. A counter-" +
+                "reading died in the run and is kept in the script docstring ('conjugation splits the " +
+                "chain' forgot the block-local T-conjugacy). Sigma_min-fence caveat: the lone CG " +
+                "value 1 coincides with sigma_min at N=4, so the weight is the structure, not the norm. " +
+                "NEXT: the C# gate port (SidewaysSpinLadderChain needs the complex-lambda seed pair " +
+                "(q*, lambda*) instead of the real (q*, lamA); the fold formula STAYS the holomorphic " +
+                "-lambda-2N, now complex-valued (on the fixed line it returns conj(lambda*), and the wrong " +
+                "delta -conj(lambda)-2N is the identity there, a gate that could never fail); the COUNT " +
+                "gate as |fold UNION band| = 4N-12 not the 4N-8 sum; and argmin coverage of the conjugate " +
+                "twin, since one argmin per block silently drops one of the two values). " +
+                "At N = 6 and N = 8 no such locus is found: " +
                 "the real-lambda species is excluded on the measured 16-point q-grid 0.001..51.2 octic (gated, " +
                 "simulations/even_n_literal_real_count.py: N=6 zero real eigenvalues at every grid point; " +
                 "N=8 a CONSTANT pair pinned at the -6 rate-window edge at every point, one per R-sector, " +

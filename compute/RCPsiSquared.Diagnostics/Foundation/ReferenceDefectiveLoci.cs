@@ -10,7 +10,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// DEFECTIVE exceptional-point q-values, conjugation-closed, with the silent DIABOLIC node EXCLUDED. These
 /// are the q-values at which the census (a later task) probes every OTHER joint-popcount sector's raw block.
 ///
-/// <para><b>What a locus is.</b> As the coupling q = J/γ moves in the complex plane the (SE,DE)=(1,2)
+/// <para><b>What a locus is.</b> As the coupling q (the octic-book knob, J = 2q at γ = 1; GLOSSARY,
+/// "The coupling ratio q and Q") moves in the complex plane the (SE,DE)=(1,2)
 /// residual eigenvalues braid. A DEFECTIVE EP is a genuine √-branch point: two eigenvalues coalesce AND
 /// their eigenvectors coalesce (a Jordan block), so a small q-loop about it carries a transposition (it is
 /// LOUD, Petermann factor → ∞). These are the simple zeros of the P₁₀ factor of the octic λ-discriminant
