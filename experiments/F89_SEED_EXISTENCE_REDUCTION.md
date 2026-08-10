@@ -179,7 +179,12 @@ face of the same unmirrorable central site that gives the odd-N *real* eigenvalu
 itself is not an odd-N property: it holds at every N, by the bipartite metric of the pencil section
 above. What the central site buys is that the self-conjugate spectrum actually *has* real members to
 lose.) (For even N the kernel
-is empty, consistent with the census's even-N null result: no real seeds.)
+is empty, consistent with the measured even-N window population, which is zero real residual
+eigenvalues; no count-change census ever ran at even N, and it would be uninformative there. The
+even-N question is answered by measurement in
+[F89_PATH_K_DIABOLIC](F89_PATH_K_DIABOLIC.md), "The even-N real-q defective check": no real-λ
+seed on a 16-point grid far beyond the window, and the constant N=8 real pair sits pinned at the
+−6 window edge, semisimple by the window-edge lemma.)
 
 ## Piece 2: r(∞) is the free-fermion fusion-resonance count (Tier 1 derived)
 

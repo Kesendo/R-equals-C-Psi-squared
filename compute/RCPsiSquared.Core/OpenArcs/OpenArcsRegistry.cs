@@ -5160,13 +5160,44 @@ public static class OpenArcsRegistry
                 "that no such ladder connects band to core regardless of V's commutator failure (the " +
                 "exclusion itself is closed by the rate window and the R4 certificates, ladder-free), is " +
                 "APPENDED to item (ii) since 2026-08-09, beside V's failure rather than replacing it. " +
-                "EVEN N IS UNTESTED, and the tension must be stated against what the repo holds rather than " +
-                "as fresh: PROOF_CODIM1_BY_ADDITIVITY already records that at even N the four members around " +
-                "half filling are simultaneously band and fold image and carry BOTH values, which is most of " +
-                "the answer to why the p+q = N-1 chain at N=6 looks like it mixes families. What is missing " +
-                "is an even-N defective locus: RealDefectiveSeeds lists N = 5,7,9,11 and its own summary " +
-                "calls the lists LOWER BOUNDS over a q window, so the honest statement is that no even-N seed " +
-                "is RECORDED, not that none exists, and that proof's N=6 12-set presupposes one. " +
+                "EVEN N, MEASURED 2026-08-10 (the even-N real-q defective check in " +
+                "experiments/F89_PATH_K_DIABOLIC.md): the walk's input at even N is a real-q defective (1,2) " +
+                "locus (wider than the repo's 'seed', which is the real-lambda census object), and N=4 HAS " +
+                "four (ReferenceDefectiveLoci, the self-fold's real discriminant), so the even-N chain " +
+                "reading could run at N=4 today (orbit 4N-12 = 4, chains of interior length 2, l = 1/2, one " +
+                "transport rung, CG norm 1, the overlap at its most severe: 8 chain seats on 4 sectors, " +
+                "every member band AND fold image; offered, not started). At N = 6 and N = 8 no such locus is found: " +
+                "the real-lambda species is excluded on the measured 16-point q-grid 0.001..51.2 octic (gated, " +
+                "simulations/even_n_literal_real_count.py: N=6 zero real eigenvalues at every grid point; " +
+                "N=8 a CONSTANT pair pinned at the -6 rate-window edge at every point, one per R-sector, " +
+                "semisimple by the window-edge lemma; third-order lift ratio 8.0 for the rest; the tangency " +
+                "blind spot gated by the floor-minimum-at-q-min envelope; no PT transition on the grid, " +
+                "closing the small-q loophole the r(0+) = 6 endpoints left); the complex-lambda species is absent from the axis " +
+                "in the scanned strips, BOTH R-parities (N=6 12+12 coalescences all diabolic, R-odd the " +
+                "exact conjugates of R-even; N=8 R-odd 30 coalescences, the 24 in-box all diabolic by " +
+                "EpCharacter (half with soft exponents, reconciliation not done; the on-axis member is " +
+                "three-signal clean), the one defective label out of strip; the one on-axis point q=0.6165 " +
+                "classifies DIABOLIC both parities; the N=6 clean defective EPs keep |im q| >= 0.2). " +
+                "Mechanism: disc-reality is antiunitary-forced, real at N=4 (self-fold), genuinely COMPLEX " +
+                "at N=6, so a real-q zero is codim 2 there, generically absent; first measured in the local " +
+                "July multi-sector monodromy spec B3, now RE-GATED COMMITTED in the same verifier (R-even " +
+                "sector arg-from-real: N=4/5 controls at 1e-14/1e-13, N=6 at 0.50..1.13 rad, a 13-order " +
+                "split). " +
+                "This is a scan result plus genericity, NOT a closure theorem: strips are window re[0.2,3], " +
+                "|im q| <= 0.025, cells 0.01/0.002/0.001, gap-field seeders can mask (the N=7 census " +
+                "recovery), " +
+                "and the named closing step is the EXACT real-root count of the stripped discriminant's " +
+                "simple layer over the window (Sturm / gcd of its real and imaginary parts, two polynomials " +
+                "over Q; the fold-resultant machinery is the tool, the F_d oracle its q=2 cross-check). " +
+                "Until that runs, the even-N " +
+                ">= 6 chain reading stays UNTESTED FOR WANT OF AN INPUT, no locus known at physical " +
+                "coupling; PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
+                "recorded complex-q N=6 defective EP (positions now in the doc) gives l = 3/2, chain " +
+                "interior length 4, predicted CG norms sqrt3, 2, sqrt3, with the accounting caveat the " +
+                "prior entry carried and this one keeps: 4(N-2) = 16 chain seats land on 12 distinct " +
+                "sectors, the four half-filling members simultaneously band and fold image, visited twice. " +
+                "Follow-up offered by the block-scoped self-fold (fold legs fix (p, N/2) at every even N): " +
+                "the N=4 quartet's mechanism moves to (1,3) at N=6, unscanned. " +
                 "The N=9, l=3 prediction, chain norms sqrt6, sqrt10, sqrt12, sqrt12, sqrt10, sqrt6, seven " +
                 "sectors per chain, 28 = 4*9-8, was CONFIRMED 2026-08-09 on both chains to six decimals, at " +
                 "the first +1 census seed (0.591760, -5.1206): the 10584^2 and 15876^2 middle blocks were " +

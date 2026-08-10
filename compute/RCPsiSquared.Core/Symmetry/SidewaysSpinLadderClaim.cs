@@ -76,11 +76,14 @@ public sealed class SidewaysSpinLadderClaim : Claim
 
     /// <summary>F125's orbit size at ODD N, derived combinatorially in PROOF_CODIM1_BY_ADDITIVITY; that it
     /// equals the multiplet dimension 4(N−2) is the accounting the multiplet reading rests on. Odd N only:
-    /// the proof gives 4N−12 at even N, where the chain reading is untested.</summary>
+    /// the proof gives 4N−12 at even N, where the chain reading is untested (N=4 has real-q defective loci
+    /// via the self-fold; none is found at N=6/8, complex λ by the scanned strips, real λ by the 16-point
+    /// grid: the even-N real-q defective check, experiments/F89_PATH_K_DIABOLIC.md, 2026-08-10).</summary>
     public static int OrbitSizeOddN(int n) => (n & 1) == 1
         ? 4 * n - 8
         : throw new ArgumentOutOfRangeException(nameof(n),
-            $"4N−8 is the ODD-N orbit size (even N is 4N−12, chain reading untested); got N={n}");
+            $"4N−8 is the ODD-N orbit size (even N is 4N−12, chain reading untested; no real-q locus " +
+            $"found at N=6/8 by the strips and the 16-point grid, N=4 has four); got N={n}");
 
     public SidewaysSpinLadderClaim(SpectatorIntertwinerClaim intertwiner)
         : base("The sideways spin ladder: S⁺(ρ) = Σ_l (−1)^l c_l†ρc_l† (§6's V of PROOF_CODIM1_BY_ADDITIVITY " +
@@ -156,17 +159,29 @@ public sealed class SidewaysSpinLadderClaim : Claim
                 summary: "σ_min of a rung map reads the weakest direction present, not one multiplet's CG value: " +
                          "equal at N=4, N=5 and the outer N=7 rungs, DIFFERENT on the middle N=7 rungs " +
                          "(1.414214 vs 2.449490). Gated so the rejection stays measurable.");
-            yield return new InspectableNode("N=9 confirmed; even N is what stays open",
+            yield return new InspectableNode("N=9 confirmed; even N measured, no locus found at N=6/8",
                 summary: "N=9, ℓ=3 CONFIRMED 2026-08-09: norms √6, √10, √12, √12, √10, √6 on both chains to " +
                          "six decimals, seven sectors per chain, 28 = 4·9−8; the 10584²/15876² middle blocks " +
                          "walked by one dense LU shift-invert each (SidewaysSpinLadderSparse, gate " +
                          "SLOW_SIDEWAYS9, ~2 min). The measurement is robust to the fold pair's closeness " +
                          "(members −12.878060/−12.880829, split 2.77e-3, eigenvector angle ~1.8e-3): both " +
                          "members AND every in-plane mix transport at the same CG norm, verified to nine " +
-                         "decimals in review. OPEN: even N. No even-N defective seed is RECORDED " +
-                         "(RealDefectiveSeeds lists odd N, lower bounds), and at even N the four members " +
-                         "around half filling are simultaneously band and fold image " +
-                         "(PROOF_CODIM1_BY_ADDITIVITY), so the even-N chain reading is untested, not predicted.");
+                         "decimals in review. EVEN N, MEASURED 2026-08-10 (the even-N real-q defective " +
+                         "check, experiments/F89_PATH_K_DIABOLIC.md): N=4 HAS four real-q defective loci " +
+                         "(self-fold, real discriminant), so the even-N walk could run at N=4 (ℓ = 1/2, one " +
+                         "rung, CG norm 1, 8 chain seats on 4 doubly-counted sectors; offered). At N=6/N=8 " +
+                         "no locus is found: the real-λ species is " +
+                         "excluded on the measured 16-point q-grid 0.001..51.2 octic (gated verifier; N=8's " +
+                         "real population is a constant pair at the −6 window edge, one per R-sector, " +
+                         "semisimple by the window-edge lemma), the " +
+                         "complex-λ species absent from the axis in the scanned strips, both R-parities " +
+                         "(every in-box coalescence classifies diabolic, EpCharacter; the on-axis q=0.6165 " +
+                         "three-signal clean DIABOLIC; clean N=6 defective EPs keep |Im q| ≥ 0.2). Scan + " +
+                         "genericity (N=6 disc genuinely complex, re-gated in the same verifier, 13-order " +
+                         "split against the N=4/5 controls), NOT a closure theorem; the exact route (Sturm " +
+                         "on the disc's simple layer) is the named next step, and until it runs the even-N " +
+                         "≥ 6 reading is untested for want of an input. The four half-filling members' band-and-fold double role stays the " +
+                         "structural even-N fact: 4(N−2) = 16 chain seats on 12 distinct sectors at N=6.");
         }
     }
 }
