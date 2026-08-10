@@ -5248,12 +5248,14 @@ public static class OpenArcsRegistry
                 "July multi-sector monodromy spec B3, now RE-GATED COMMITTED in the same verifier (R-even " +
                 "sector arg-from-real: N=4/5 controls at 1e-14/1e-13, N=6 at 0.50..1.13 rad, a 13-order " +
                 "split). " +
-                "This is a scan result plus genericity, NOT a closure theorem: strips are window re[0.2,3], " +
-                "|im q| <= 0.025, cells 0.01/0.002/0.001, gap-field seeders can mask (the N=7 census " +
+                "The SCANS are window-bounded (strips re[0.2,3], " +
+                "|im q| <= 0.025, cells 0.01/0.002/0.001, gap-field seeders can mask, the N=7 census " +
                 "recovery), " +
-                "and the named closing step is the EXACT real-root count of the stripped discriminant's " +
+                "and the named closing step was the EXACT real-root count of the stripped discriminant's " +
                 "simple layer over the window (Sturm / gcd of its real and imaginary parts, two polynomials " +
                 "over Q; the fold-resultant machinery is the tool, the F_d oracle its q=2 cross-check). " +
+                "At N=6 that step has RUN and closed it window-free (below); at N=8 the verdict stays " +
+                "scan plus genericity. " +
                 "FIRST BRICK LAID 2026-08-10: the D-only certificate path's odd-N guard was inherited, not " +
                 "derived (the corner block is CertifyCore's need alone), lifted with the N=4 octic control " +
                 "reproducing its closed form in both parities and AssertHoppingSymmetry now called on the " +
@@ -5261,17 +5263,43 @@ public static class OpenArcsRegistry
                 "identical (the even-N conjugation): deg_q D = 926, v_q = 536, layers [124, 133], " +
                 "aggregation 390 = 124 + 2*133 gated (EvenNDiscLayerScoutTests, Categories " +
                 "EVEN_DISC_SCOUT + SLOW_EVEN_DISC; numbers independently reproduced by a review's Python " +
-                "port). So the N=6 certificate object is the degree-124 simple layer over Q(i); N=8 " +
-                "still needs its F_d oracle literal (generator f89_pathk_galois.py gen-cs, residual " +
-                "degree 80, dim-112 bivariate Berkowitz cost unknown), and the Re/Im split + Q-gcd " +
-                "(one degree-preserving prime suffices, the o2b_gcd_certificate.py lemma) exists in " +
-                "Python kits but not yet in C#. Design fork to hold: at N=6 no on-axis coalescence " +
-                "exists at all, so a full-D gcd statement may close it window-free; at N=8 the on-axis " +
-                "DIABOLIC q = 0.6165 is a real root of the doubled layer, so only the SIMPLE layer can " +
-                "carry the no-defective statement there. " +
-                "Until that runs, the even-N " +
-                ">= 6 chain reading stays UNTESTED FOR WANT OF AN INPUT, no locus known at physical " +
-                "coupling; PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
+                "port). SECOND AND THIRD BRICKS SAME DAY, AND N=6 IS CLOSED: the Re/Im split scout " +
+                "(FoldResultantCertificate.DiscReImGcdAtNthPrime, the two-embedding trick: i -> r and " +
+                "i -> p-r of one split prime recover Re D and Im D mod p coefficient-wise) and its " +
+                "PROMOTION CertifyDiscReImGcd, which discharges the scout's two uncertified premises " +
+                "from D's OWN certified invariants: over Z, deg D = max(deg Re, deg Im) and v(D) = " +
+                "min(v Re, v Im) exactly (real and imaginary parts cannot cancel at either end), the " +
+                "per-prime cross-gate enforces the same identities mod p, so a prime attaining " +
+                "TrueDiscriminantDegree AND TrueQValuationD preserves the degree of at least one side " +
+                "and the valuation of at least one side, and the Gauss step needs no more (the minimal " +
+                "polynomial of a hypothetical real root q0 != 0 keeps degree >= 1 and stays coprime to " +
+                "q mod p, so it would surface in the stripped gcd). CERTIFIED AT N=6, BOTH PARITIES " +
+                "(gate N6_Certificate_NoRealNonzeroCoalescence, ~13 s/parity): certifying prime " +
+                "1073741833, deg Re 926 (v 536), deg Im 925 (v 537), gcd deg 0, so NO real q != 0 " +
+                "carries ANY repeated Lambda-root of the (1,2) residual, window-free; with the AT-seam " +
+                "block-diagonality (no Jordan chain crosses), the AT side itself semisimple at every q " +
+                "(per rate sector the dephasing diagonal is one scalar, so the restriction is " +
+                "r0*I + i*q*K restricted, K diagonal-similar to real symmetric, diagonalizable on every " +
+                "invariant subspace) and q = 0 semisimple, no real-q defective " +
+                "EP of the (1,2) block at N=6 exists AT ALL. The o2b_gcd_certificate.py lemma's 'one " +
+                "degree-preserving prime suffices' was the UNSTRIPPED-gcd form; the stripped gcd needs " +
+                "valuation preservation too (a review's explicit counterexample: a common root " +
+                "congruent to 0 mod p collapses onto q and is stripped), which is exactly what the " +
+                "promotion certifies. N=4 control fails the certificate CLOSED (real disc, Im = 0 at " +
+                "every prime, DiscLayersCertified true so the decline is for the right reason), as it " +
+                "must: N=4 really carries four real loci. N=8's two blockers, named at their real weight " +
+                "(N=6 closed WITHOUT an oracle literal, the bivariate Berkowitz path suffices): the " +
+                "dim-112 bivariate Berkowitz cost is unmeasured (the F_d oracle literal, generator " +
+                "f89_pathk_galois.py gen-cs, residual degree 80, is the independent cross-check source, " +
+                "not the bottleneck), and the design fork RESOLVED at " +
+                "N=6 by the full-D closure (no on-axis coalescence at all) lands on its other leg at " +
+                "N=8: the on-axis " +
+                "DIABOLIC q = 0.6165 is a real root of the doubled layer, the full-D gcd would " +
+                "legitimately return nonzero, so the no-defective statement needs the SIMPLE layer " +
+                "split off exactly over Q(i) first. " +
+                "The even-N chain reading at N=6 is now INPUT-FREE BY THEOREM, not untested for want " +
+                "of an input: no locus exists at physical coupling (N=8 stays scan + genericity until " +
+                "its oracle lands); PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
                 "recorded complex-q N=6 defective EP (positions now in the doc) gives l = 3/2, chain " +
                 "interior length 4, predicted CG norms sqrt3, 2, sqrt3, with the accounting caveat the " +
                 "prior entry carried and this one keeps: 4(N-2) = 16 chain seats land on 12 distinct " +

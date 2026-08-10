@@ -69,10 +69,26 @@ namespace RCPsiSquared.Core.F89PathK;
 /// Hadamard/lc-divisor device as trueDegR, against LcDivisorBoundD. DiscriminantDegree and QValuationD are
 /// reported AT the layer prime. Companion fact: the AT subspace is q-independent and invariant for every q,
 /// so D and K each preserve it and (both being Hermitian) also its orthogonal complement: AT ⊕ F_res is
-/// genuinely block-DIAGONAL, no Jordan chain crosses the seam, and disc_Λ(F_res) misses no defect. What this
+/// genuinely block-DIAGONAL, no Jordan chain crosses the seam, and, the AT side being itself semisimple
+/// at every q (per rate sector D is one scalar, so the restriction is r₀·I + i·q·K|_W with K
+/// diagonal-similar to real symmetric, diagonalizable on every invariant subspace), disc_Λ(F_res)
+/// misses no defect. What this
 /// does NOT exclude: a cubic branch point (3×3 Jordan) has ord disc = 2 and hides in the multiplicity-2
 /// layer; at a count-drop it is ruled out separately by parity (an even-order zero gives no sign change, so
 /// it cannot flip two reals into a conjugate pair).</para>
+///
+/// <para>THE Re/Im GCD CERTIFICATE (even N, landed 2026-08-10): where the disc is genuinely COMPLEX
+/// (the (1,2) block at even N ≥ 6 carries no within-block antiunitary; the self-fold is
+/// block-scoped and sits on the (p, N/2) blocks there, experiments/F89_PATH_K_DIABOLIC.md's
+/// mechanism paragraph), <see cref="CertifyDiscReImGcd"/> proves, when GcdDeg = 0 at a certified
+/// prime and one-way as ever (anything else is refine-not-refute), the window-free statement that
+/// NO real q ≠ 0 carries ANY repeated Λ-root of F_res, stronger than the scanned-strip verdict that
+/// route replaced, by recovering Re D and Im D mod p separately (two embeddings of one split prime)
+/// and certifying gcd(Re D, Im D) trivial: the sideways_spin_ladder arc's Sturm/gcd closing route
+/// (OpenArcsRegistry, and the "Verdict, scoped" paragraph of the experiment doc). First certified
+/// instance: N=6, both parities. Run: <c>dotnet test "compute/RCPsiSquared.Core.Tests" --filter
+/// "Category=SLOW_EVEN_DISC|Category=EVEN_DISC_SCOUT"</c> (EvenNDiscLayerScoutTests; the scout
+/// category carries the N=4 fail-closed control).</para>
 ///
 /// <para>Run: <c>dotnet test "compute/RCPsiSquared.Diagnostics.Tests" --filter "Category=FOLDRESULTANT"
 /// --logger "console;verbosity=detailed"</c> (FoldResultantCertificateTests).</para></summary>
@@ -212,6 +228,11 @@ public static class FoldResultantCertificate
                 if (EvalModP(dp, q0, p) != dSamp[q0])
                     throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
 
+            // D ≡ 0 mod p (p divides the whole content) carries no information about either
+            // invariant: skip it entirely, uncounted. Such a prime divides lc_q(D) too, so it is
+            // one of the ≤ lcDivisorBoundD bad primes the sampling budget already tolerates;
+            // not counting it only demands one more prime, never weakens the certificate.
+            if (DegP(dp) < 0) continue;
             sampled++;
             int vDp = QValuation(dp);
             perPrime.Add((p, DegP(dp), vDp, StripQ(dp, vDp)));
@@ -299,7 +320,12 @@ public static class FoldResultantCertificate
             var fResP = ReduceBivariate(fRes, p, root.Value);
             var dSamp = new int[samples];
             for (int q0 = 0; q0 < samples; q0++)
-                dSamp[q0] = DiscriminantModP(EvalBivariateModP(fResP, q0, p), p);
+            {
+                var fL = EvalBivariateModP(fResP, q0, p);
+                if (DegP(fL) != resDeg || fL[resDeg] != 1)
+                    throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0}.");
+                dSamp[q0] = DiscriminantModP(fL, p);
+            }
             var dNodes = new int[dBound + 1];
             Array.Copy(dSamp, dNodes, dBound + 1);
             var dp = InterpolateAtIntegerNodes(dNodes, p);
@@ -324,10 +350,11 @@ public static class FoldResultantCertificate
     /// divided by 2r, recovers Im D mod p, coefficient-wise. A real q with D(q) = 0 forces Re D and
     /// Im D (real polynomials) to vanish together, i.e. a nontrivial factor of gcd(Re D, Im D) over
     /// ℚ; by Gauss, a nontrivial ℚ-gcd of integer polynomials survives reduction mod any prime
-    /// preserving the degrees (the lemma <c>simulations/o2b_gcd_certificate.py</c> states verbatim;
-    /// preserving ONE of the two degrees already suffices, and Re's is discharged for free by
-    /// deg_q D = max(deg Re, deg Im), the leading coefficients being unable to cancel between the
-    /// real and imaginary parts). And D vanishes at EVERY repeated Λ-root, defective and diabolic
+    /// preserving the degrees (the lemma <c>simulations/o2b_gcd_certificate.py</c> states verbatim
+    /// for the UNSTRIPPED gcd; this method takes the gcd of q-power-STRIPPED reductions, so it
+    /// additionally needs mod-p valuation preservation, or a common root can collapse onto q = 0
+    /// and be stripped away; the full premise structure is stated on
+    /// <see cref="CertifyDiscReImGcd"/>). And D vanishes at EVERY repeated Λ-root, defective and diabolic
     /// alike, so <c>GcdDeg == 0</c> at a good prime certifies: no real q₀ ≠ 0 with ANY coalescence,
     /// window-free. This method is the mod-p half of that statement, a SCOUT with TWO uncertified
     /// premises: (a) degree preservation (the lc-divisor-bound argument of the certificate methods),
@@ -335,7 +362,8 @@ public static class FoldResultantCertificate
     /// so if p divided all the low coefficients of Re or Im, a true nonzero common root could
     /// collapse onto q = 0 and be stripped away (the same caveat CertifyDiscMultiplicity certifies
     /// as TrueQValuationD). A nonzero-looking gcd can only shrink under more primes; a zero-looking
-    /// one is certified only once (a) and (b) hold.</para>
+    /// one is certified only once (a) and (b) hold; <see cref="CertifyDiscReImGcd"/> discharges
+    /// both from D's own certified degree and valuation (promotion landed 2026-08-10).</para>
     ///
     /// <para>Controls: at N=4 the disc is REAL (the self-fold antiunitary makes the codimension 1,
     /// which is WHY four real defective loci and the diabolic quartic exist there — the foil that
@@ -383,7 +411,12 @@ public static class FoldResultantCertificate
                 var fResP = ReduceBivariate(fRes, p, emb);
                 var dSamp = new int[samples];
                 for (int q0 = 0; q0 < samples; q0++)
-                    dSamp[q0] = DiscriminantModP(EvalBivariateModP(fResP, q0, p), p);
+                {
+                    var fL = EvalBivariateModP(fResP, q0, p);
+                    if (DegP(fL) != resDeg || fL[resDeg] != 1)
+                        throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0} (i↦{emb}).");
+                    dSamp[q0] = DiscriminantModP(fL, p);
+                }
                 var dNodes = new int[dBound + 1];
                 Array.Copy(dSamp, dNodes, dBound + 1);
                 dp[k] = InterpolateAtIntegerNodes(dNodes, p);
@@ -413,7 +446,8 @@ public static class FoldResultantCertificate
             // the non-vacuous consistency gate: dp[0] IS D mod p, and over ℤ the leading terms of
             // the real Re/Im cannot cancel in D = Re + i·Im, so degrees and q-valuations must
             // agree. Mod p a coincidental cancellation Re_k ≡ −r·Im_k has probability ~1/p; it
-            // would throw here, fail-loud, and the caller picks the next prime.
+            // throws here, fail-loud and TERMINAL (the prime sequence is deterministic, so a hit
+            // would recur every run and is handled then, not silently skipped).
             int degD = DegP(dp[0]);
             int vD = degD < 0 ? -1 : QValuation(dp[0]);
             if (Math.Max(DegP(re), DegP(im)) != degD)
@@ -429,6 +463,88 @@ public static class FoldResultantCertificate
                 gcdDeg = DegP(GcdModP(StripQ(re, vRe), StripQ(im, vIm), p));
             return (p, r, DegP(re), vRe, DegP(im), vIm, imZero, gcdDeg);
         }
+    }
+
+    /// <summary>The verdict of <see cref="CertifyDiscReImGcd"/>. <c>Certified</c> with
+    /// <c>GcdDeg == 0</c> (equivalently <c>NoRealNonzeroCoalescence</c>) is the window-free even-N
+    /// closing statement of the sideways_spin_ladder arc's Sturm/gcd route: NO real q ≠ 0 exists at
+    /// which the (1,2) residual F_res has ANY repeated Λ-root, defective or diabolic, at that
+    /// (n, parity). One-way as ever: <c>GcdDeg &gt; 0</c> or <c>Certified == false</c> is
+    /// refine-not-refute. The two fail-closed modes are distinguishable:
+    /// <c>DiscLayersCertified == false</c> means the D-side multi-prime device itself failed, while
+    /// <c>DiscLayersCertified &amp;&amp; !Certified</c> means no scanned prime saw a genuinely
+    /// complex disc attaining both invariants (the N=4 real-disc control's mode), or only ones with
+    /// a degenerate Re reduction (Re D ≡ 0 mod p, where the gcd would be meaningless). Field fine
+    /// print: <c>PrimesSampled</c>, the True… invariants and <c>LcDivisorBoundD</c> come from the
+    /// D-side device (PrimesSampled is NOT the ≤ 8 Re/Im scout primes); on a declined report the
+    /// True… fields are whatever the device returned and CertPrime/Root/DegRe/VRe/DegIm/VIm/GcdDeg
+    /// are 0/−1 sentinels.</summary>
+    public sealed record DiscReImGcdReport(
+        int N, bool ROdd,
+        int TrueDiscriminantDegree, int TrueQValuationD, int LcDivisorBoundD, int PrimesSampled,
+        long CertPrime, int Root, int DegRe, int VRe, int DegIm, int VIm, int GcdDeg,
+        bool DiscLayersCertified, bool Certified, bool NoRealNonzeroCoalescence);
+
+    /// <summary>The PROMOTED Re/Im gcd certificate (scout: <see cref="DiscReImGcdAtNthPrime"/>; its
+    /// two named premises are discharged here, which is the whole method): a real q₀ ≠ 0 with
+    /// D(q₀) = 0 forces Re D(q₀) = Im D(q₀) = 0 (real polynomials at a real point), so
+    /// gcd(Re D, Im D) over ℚ is nontrivial; <c>GcdDeg == 0</c> mod a GOOD prime refutes that, and
+    /// this method certifies the prime is good.
+    ///
+    /// <para>Both preservation premises reduce to D's OWN certified invariants, no separate Re/Im
+    /// bound needed. Two exact ℤ-level identities: deg_q D = max(deg Re, deg Im) and
+    /// v_q(D) = min(v_Re, v_Im), because at the leading (resp. trailing) coefficient the real and
+    /// imaginary parts sit in orthogonal components of ℤ[i] and cannot cancel. The scout's per-prime
+    /// cross-gate enforces the same two identities mod p (throw on the ~1/p accident). At a prime
+    /// attaining <see cref="DiscMultiplicityReport.TrueDiscriminantDegree"/> AND
+    /// <see cref="DiscMultiplicityReport.TrueQValuationD"/> (both certified by
+    /// <see cref="CertifyDiscMultiplicity"/>'s Hadamard/lc-divisor device), the chain
+    /// max(deg Re mod p, deg Im mod p) = deg(D mod p) = deg_q D = max(deg Re, deg Im), with mod-p
+    /// degrees only able to DROP, forces the max-attaining side to preserve its degree; the mirrored
+    /// chain on valuations (only able to RISE) forces the min-attaining side to preserve its
+    /// q-valuation. Possibly different sides, and that suffices.</para>
+    ///
+    /// <para>The Gauss step, with the two preserved handles: suppose a real q₀ ≠ 0 with D(q₀) = 0,
+    /// and let m ∈ ℤ[q] be the primitive minimal polynomial of q₀ (deg m ≥ 1, m ≠ q so m(0) ≠ 0).
+    /// Then m | Re and m | Im over ℤ (Gauss; both are nonzero over ℤ, witnessed by their nonzero
+    /// reductions at the accepted prime), hence m | Re₁ and m | Im₁, the q-power-stripped parts.
+    /// The valuation-preserved side X has q ∤ (X₁ mod p), and m mod p divides it, so q ∤ (m mod p).
+    /// The degree-preserved side Y has p ∤ lc(Y) = lc(m)·lc(cofactor), so p ∤ lc(m) and
+    /// deg(m mod p) = deg m ≥ 1. So m mod p is a nonconstant common divisor, coprime to q, of BOTH
+    /// stripped reductions: GcdDeg ≥ 1. Contrapositive: GcdDeg == 0 at the certified prime proves no
+    /// such q₀ exists, window-free. The certifying prime must also see Im ≢ 0 mod p (a nonzero
+    /// reduction certifies D genuinely complex; the N=4 self-fold control has Im ≡ 0 and MUST fail
+    /// closed here, its real disc carrying four honest real defective loci).</para></summary>
+    public static DiscReImGcdReport CertifyDiscReImGcd(
+        int n, bool rOdd, int maxPrimes = 20000, Action<string>? log = null)
+    {
+        var d = CertifyDiscMultiplicity(n, rOdd, maxPrimes, log);
+        if (d.DiscLayersCertified)
+        {
+            // at most LcDivisorBoundD primes can drop the degree and at most as many can raise the
+            // valuation; the first few split primes are overwhelmingly good, so a short scan finds
+            // one attaining both. The cap of 8 is a deliberate fail-closed budget, not a bound
+            // (LcDivisorBoundD would be the bound): eight straight misses end in the declined
+            // report below rather than a long loop, and one-way-ness makes declining sound.
+            for (int nth = 0; nth < 8; nth++)
+            {
+                var s = DiscReImGcdAtNthPrime(n, rOdd, nth);
+                if (s.ImIsZero || s.DegRe < 0) continue;
+                if (Math.Max(s.DegRe, s.DegIm) != d.TrueDiscriminantDegree) continue;
+                if (Math.Min(s.VRe, s.VIm) != d.TrueQValuationD) continue;
+                log?.Invoke($"certifying prime p={s.P} (nth={nth}): gcd deg = {s.GcdDeg}");
+                return new DiscReImGcdReport(
+                    n, rOdd, d.TrueDiscriminantDegree, d.TrueQValuationD, d.LcDivisorBoundD,
+                    d.PrimesSampled, s.P, s.Root, s.DegRe, s.VRe, s.DegIm, s.VIm, s.GcdDeg,
+                    DiscLayersCertified: true, Certified: true,
+                    NoRealNonzeroCoalescence: s.GcdDeg == 0);
+            }
+        }
+        return new DiscReImGcdReport(
+            n, rOdd, d.TrueDiscriminantDegree, d.TrueQValuationD, d.LcDivisorBoundD, d.PrimesSampled,
+            CertPrime: 0, Root: 0, DegRe: -1, VRe: -1, DegIm: -1, VIm: -1, GcdDeg: -1,
+            DiscLayersCertified: d.DiscLayersCertified, Certified: false,
+            NoRealNonzeroCoalescence: false);
     }
 
     /// <summary>The D-only exact per-point residual: block charpoly at q0, divided by the AT factor.

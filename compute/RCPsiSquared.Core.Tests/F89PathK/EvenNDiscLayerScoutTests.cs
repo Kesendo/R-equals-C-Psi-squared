@@ -20,7 +20,12 @@ namespace RCPsiSquared.Core.Tests.F89PathK;
 /// <para>N=6 is the first data for the certificate design (residual degree 32 = the F_32 oracle's
 /// symmetric-sector degree; R-odd again the conjugate). Gate: the layer aggregation identity
 /// deg D − v_q = Σ (m+1)·deg(layer_m), the same consistency the N=7 disc-multiplicity test pins,
-/// plus layers.Length ≤ 2 (no multiplicity-3 layer, the β-exotic point read at even N).</para></summary>
+/// plus layers.Length ≤ 2 (no multiplicity-3 layer, the β-exotic point read at even N).</para>
+///
+/// <para>Since 2026-08-10 the class also holds the PROMOTED certificate's gates
+/// (<see cref="FoldResultantCertificate.CertifyDiscReImGcd"/>): the N=6 window-free
+/// no-real-nonzero-coalescence statement, both parities, and the N=4 real-disc control that must
+/// fail it closed.</para></summary>
 public class EvenNDiscLayerScoutTests
 {
     private readonly ITestOutputHelper _out;
@@ -74,6 +79,51 @@ public class EvenNDiscLayerScoutTests
         // the even-N conjugation makes R-odd the exact conjugate of R-even (Re shared, Im negated):
         // one measurement, one forced twin — gate the agreement rather than presenting two sources.
         Assert.Equal(rows[0], rows[1]);
+    }
+
+    [Fact(DisplayName = "N=4 certificate control: the real self-fold disc MUST fail the complex-disc certificate closed")]
+    [Trait("Category", "EVEN_DISC_SCOUT")]
+    public void N4_Certificate_FailsClosedOnRealDisc()
+    {
+        foreach (bool rOdd in new[] { false, true })
+        {
+            var r = FoldResultantCertificate.CertifyDiscReImGcd(4, rOdd);
+            _out.WriteLine($"N=4 {(rOdd ? "R-odd " : "R-even")}: certified = {r.Certified}, deg D = {r.TrueDiscriminantDegree}, "
+                           + $"v_q = {r.TrueQValuationD}, sampled = {r.PrimesSampled} (bound {r.LcDivisorBoundD})");
+            // the D-side invariants certify fine (the closed octic form), but no prime can see a
+            // complex disc: Im ≡ 0, so the Re/Im gcd statement must NOT be issued: N=4 really does
+            // carry four real defective loci, and a certificate that "proved" their absence would be
+            // broken. The decline must come for THAT reason: the D-side device itself must succeed.
+            Assert.Equal(52, r.TrueDiscriminantDegree);
+            Assert.Equal(24, r.TrueQValuationD);
+            Assert.True(r.DiscLayersCertified, "the D-side multi-prime device must succeed at N=4");
+            Assert.False(r.Certified, "the N=4 real disc must fail the complex-disc certificate closed");
+            Assert.False(r.NoRealNonzeroCoalescence);
+        }
+    }
+
+    [Fact(DisplayName = "N=6 certificate: no real q ≠ 0 carries any repeated Λ-root of F_res, window-free, both parities")]
+    [Trait("Category", "SLOW_EVEN_DISC")]
+    public void N6_Certificate_NoRealNonzeroCoalescence()
+    {
+        // ~13 s per parity (26 s both), measured quiet 2026-08-10 (the D device's 499-prime
+        // sampling is ~8 s; the rest is the exact bivariate builds, once in the device and once
+        // per scout prime)
+        foreach (bool rOdd in new[] { false, true })
+        {
+            var r = FoldResultantCertificate.CertifyDiscReImGcd(6, rOdd, log: _out.WriteLine);
+            _out.WriteLine($"N=6 {(rOdd ? "R-odd " : "R-even")}: p={r.CertPrime}, deg D = {r.TrueDiscriminantDegree}, "
+                           + $"v_q = {r.TrueQValuationD}, deg Re = {r.DegRe} (v {r.VRe}), deg Im = {r.DegIm} (v {r.VIm}), "
+                           + $"gcd deg = {r.GcdDeg}, sampled = {r.PrimesSampled} (bound {r.LcDivisorBoundD})");
+            Assert.True(r.Certified, "the multi-prime device must certify deg/v and find a complex-seeing prime");
+            // the scout's pinned numbers, now with the degree- and valuation-preservation halves
+            // closed; Re/Im pinned SIDE BY SIDE (a side swap would survive the max/min gates alone)
+            Assert.Equal(926, r.TrueDiscriminantDegree);
+            Assert.Equal(536, r.TrueQValuationD);
+            Assert.Equal((926, 536, 925, 537), (r.DegRe, r.VRe, r.DegIm, r.VIm));
+            Assert.Equal(0, r.GcdDeg);
+            Assert.True(r.NoRealNonzeroCoalescence);
+        }
     }
 
     [Fact(DisplayName = "N=6 scout: disc layers of the F_32 residual, first prime, both parities (layer identity gated)")]
