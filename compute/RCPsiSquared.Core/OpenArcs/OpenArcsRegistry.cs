@@ -5254,6 +5254,21 @@ public static class OpenArcsRegistry
                 "and the named closing step is the EXACT real-root count of the stripped discriminant's " +
                 "simple layer over the window (Sturm / gcd of its real and imaginary parts, two polynomials " +
                 "over Q; the fold-resultant machinery is the tool, the F_d oracle its q=2 cross-check). " +
+                "FIRST BRICK LAID 2026-08-10: the D-only certificate path's odd-N guard was inherited, not " +
+                "derived (the corner block is CertifyCore's need alone), lifted with the N=4 octic control " +
+                "reproducing its closed form in both parities and AssertHoppingSymmetry now called on the " +
+                "falsifier path too; N=6 disc layers measured at the first split prime, BOTH parities " +
+                "identical (the even-N conjugation): deg_q D = 926, v_q = 536, layers [124, 133], " +
+                "aggregation 390 = 124 + 2*133 gated (EvenNDiscLayerScoutTests, Categories " +
+                "EVEN_DISC_SCOUT + SLOW_EVEN_DISC; numbers independently reproduced by a review's Python " +
+                "port). So the N=6 certificate object is the degree-124 simple layer over Q(i); N=8 " +
+                "still needs its F_d oracle literal (generator f89_pathk_galois.py gen-cs, residual " +
+                "degree 80, dim-112 bivariate Berkowitz cost unknown), and the Re/Im split + Q-gcd " +
+                "(one degree-preserving prime suffices, the o2b_gcd_certificate.py lemma) exists in " +
+                "Python kits but not yet in C#. Design fork to hold: at N=6 no on-axis coalescence " +
+                "exists at all, so a full-D gcd statement may close it window-free; at N=8 the on-axis " +
+                "DIABOLIC q = 0.6165 is a real root of the doubled layer, so only the SIMPLE layer can " +
+                "carry the no-defective statement there. " +
                 "Until that runs, the even-N " +
                 ">= 6 chain reading stays UNTESTED FOR WANT OF AN INPUT, no locus known at physical " +
                 "coupling; PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
