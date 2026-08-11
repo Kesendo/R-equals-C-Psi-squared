@@ -359,6 +359,8 @@ public static class FoldResultantCertificate
     public static (GaussianInteger[,] A, GaussianInteger[,] C) WeightSectorPencil(
         int n, int wKet, int wBra, bool rOdd)
     {
+        if (n < 2 || wKet < 0 || wKet > n || wBra < 0 || wBra > n)
+            throw new ArgumentException($"need n ≥ 2 and weights in 0..n; got ({n}, {wKet}, {wBra}).");
         var b = new GaussianInteger[3][,];
         for (int q0 = 0; q0 <= 2; q0++) b[q0] = WeightSectorTwoTimes(n, wKet, wBra, rOdd, q0);
         int d = b[0].GetLength(0);
@@ -379,6 +381,16 @@ public static class FoldResultantCertificate
     {
         var l = WeightCoherenceBlock.Build(n, wKet, wBra, new Complex(q0, 0));
         var perm = WeightCoherenceBlock.ReflectionPermutation(n, wKet, wBra);
+        // R must commute with L ENTRY-WISE (each entry a single hop contribution of the
+        // reflection-symmetric bond set), else BᵀLB is a projection, not a restriction, and every
+        // downstream "certified" invariant would be about the wrong object (a review round named
+        // this as the one uncovered spot the Sturm step must not inherit). Exact comparison: both
+        // sides are the identical float construction.
+        for (int t = 0; t < perm.Length; t++)
+            for (int s = 0; s < perm.Length; s++)
+                if (l[perm[t], perm[s]] != l[t, s])
+                    throw new InvalidOperationException(
+                        $"reflection does not commute entry-wise with L at ({t},{s}), q0={q0}.");
         var pairs = new List<(int T, int T2)>();
         for (int t = 0; t < perm.Length; t++)
         {
@@ -446,24 +458,25 @@ public static class FoldResultantCertificate
     /// <summary>Weight-general per-point cross-check of the bivariate residual, the guard the (1,2)
     /// siblings carry (<see cref="CertifyDiscMultiplicity"/> / <see cref="CertifyCore"/>) and the
     /// weight-general path must not drop, being exactly where a new block shape first appears: at
-    /// q0 = 2, 3 the sector pencil is evaluated directly, its charpoly (the per-point
-    /// Faddeev-route, independent of the bivariate Berkowitz) divided by the AT factor at q0, the
-    /// remainder asserted empty and the quotient compared to the bivariate F_res at q0. Also pins
-    /// deg_Λ F_res = resDeg.</summary>
+    /// q0 = 2, 3 the sector block is REBUILT from scratch (<see cref="WeightSectorTwoTimes"/>, a
+    /// fresh WeightCoherenceBlock build; at q0 = 3 genuinely outside the pencil's construction
+    /// points 0, 1, 2), its charpoly (the per-point Faddeev route, independent of the bivariate
+    /// Berkowitz) divided by the AT factor at q0, the remainder asserted empty and the quotient
+    /// compared to the bivariate F_res at q0. Also pins deg_Λ F_res = resDeg. One leg narrower
+    /// than the (1,2) original, on purpose and recorded: the AT factor at q0 is the evaluated
+    /// <see cref="BivariateAtFactor"/> rather than a second AT construction route (the (1,2)
+    /// AtFactorAt is weight-hardwired); the AT is still non-trivially tested by the exact
+    /// division of a fresh charpoly.</summary>
     private static void WeightCrossCheckResidual(
-        GaussianInteger[][] fRes, GaussianInteger[,] aBlk, GaussianInteger[,] cBlk,
+        GaussianInteger[][] fRes, int n, int wKet, int wBra, bool rOdd,
         IReadOnlyList<AtSector> sectors, int resDeg)
     {
         if (fRes.Length - 1 != resDeg)
             throw new InvalidOperationException($"bivariate residual degree {fRes.Length - 1} ≠ {resDeg}.");
         var at = BivariateAtFactor(sectors);
-        int d = aBlk.GetLength(0);
         foreach (int q0 in new[] { 2, 3 })
         {
-            var blk = new GaussianInteger[d, d];
-            for (int i = 0; i < d; i++)
-                for (int j = 0; j < d; j++)
-                    blk[i, j] = aBlk[i, j] + cBlk[i, j] * new GaussianInteger(q0, 0);
+            var blk = WeightSectorTwoTimes(n, wKet, wBra, rOdd, q0);
             var (res, rem) = GaussianPolynomial.DivMod(GaussianMatrixCharpoly.Characteristic(blk),
                                                        EvalBivariateAtQ(at, q0));
             if (rem.Length != 0)
@@ -477,9 +490,10 @@ public static class FoldResultantCertificate
     /// R-sector at the <paramref name="nth"/> split prime. The AT sectors are DERIVED from the q=0
     /// diagonal (<see cref="F89AtFactorReconstruction.ClearedAtSectorsFromPencil"/>), so the (1,2)
     /// rate-literal trap ({−4,−12} fed a {−8,−16} block silently clears nothing) cannot recur. The
-    /// interpolation bound is the crude Bauer–Fike resDeg·(resDeg−1) with NO leading-form m_D
-    /// subtraction (the (1,2) path's <see cref="ResidualLeadingForm"/> is not generalized here;
-    /// the extra sample nodes are cheap). Scout-grade like its sibling: one prime, layers certified
+    /// interpolation bound is the crude Bauer-Fike resDeg·(resDeg−1) with NO leading-form m_D
+    /// subtraction (this scout skips the leading form on purpose, the extra sample nodes being
+    /// cheap; the certified sibling <see cref="WeightCertifyDiscMultiplicity"/> carries the
+    /// generalized leading form and the sharpened bound). Scout-grade like its sibling: one prime, layers certified
     /// only by cross-prime agreement (run nth = 0 and 1). For the (1,3)@N=6 census block the
     /// multiplicity-2 layer is the separating object: away from Λ = −2N a doubled defective locus is
     /// a DOUBLE root of the sector disc while a doubled diabolic crossing is a QUADRUPLE one (the
@@ -501,7 +515,7 @@ public static class FoldResultantCertificate
         int resDeg = aBlk.GetLength(0) - atDeg;
 
         var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
-        WeightCrossCheckResidual(fRes, aBlk, cBlk, sectors, resDeg);
+        WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, resDeg);
         int dBound = resDeg * (resDeg - 1);
         int samples = dBound + 1 + 24;
 
@@ -580,6 +594,122 @@ public static class FoldResultantCertificate
         }
     }
 
+    /// <summary>The verdict of <see cref="WeightCertifyDiscMultiplicity"/>: the weight-general
+    /// sibling of <see cref="DiscMultiplicityReport"/>, carrying the block weights.</summary>
+    public sealed record WeightDiscMultiplicityReport(
+        int N, int WKet, int WBra, bool ROdd, int SectorDimension, int AtDegree, int ResidualDegree,
+        int InfinityRepeatedD, int DiscriminantDegreeBound,
+        int TrueDiscriminantDegree, int TrueQValuationD, int LcDivisorBoundD,
+        long LayerPrime, int[] DiscLayerDegrees, int MaxDiscMultiplicity,
+        int PrimesSampled, bool DiscLayersCertified);
+
+    /// <summary>The certificate-grade D-device on the weight-general path: the exact sibling of
+    /// <see cref="CertifyDiscMultiplicity"/> for any all-2-cycle (wKet, wBra) R-sector (see
+    /// <see cref="WeightSectorPencil"/> for the scope). Same proof shape, nothing weakened: the
+    /// q → ∞ leading form fixes m_D and the PROVEN degree bound resDeg·(resDeg−1) − 2·m_D (the
+    /// scout methods use the crude bound); the lc-divisor bound (Hadamard on the Sylvester matrix
+    /// of (F_res, F_res′)) caps how many primes can lie about deg_q D or v_q(D); primes are
+    /// sampled past that cap, deg_q D is certified as the max and v_q(D) as the min over the
+    /// sampled primes, and the layer profile is read at a prime attaining BOTH (fail closed,
+    /// <c>DiscLayersCertified = false</c>, if none does). Per-point cross-check at q0 = 2, 3
+    /// (<see cref="WeightCrossCheckResidual"/>) guards the bivariate on every new block shape.
+    /// For (1,3)@N=6 this upgrades the scout's two-prime layer agreement to certified
+    /// TrueDiscriminantDegree / TrueQValuationD, the invariants the arc's Sturm closing step
+    /// will lean on exactly as the (1,2) gcd certificate leaned on the (1,2) D-device's.</summary>
+    public static WeightDiscMultiplicityReport WeightCertifyDiscMultiplicity(
+        int n, int wKet, int wBra, bool rOdd, int maxPrimes = 20000, Action<string>? log = null)
+    {
+        var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
+        AssertHoppingSymmetry(cBlk, null);      // uniform metric: all orbits are 2-cycles
+        var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
+        int atDeg = 0;
+        foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
+        int blockDim = aBlk.GetLength(0);
+        int resDeg = blockDim - atDeg;
+
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, resDeg);
+
+        var (fResLead, lcD) = ResidualLeadingFormFromPencil(cBlk, sectors);
+        var (_, mD) = SquarefreeLayers(FromZi(fResLead));
+        if ((mD == 0) != !lcD.Equals(GaussianInteger.Zero))
+            throw new InvalidOperationException("m_D inconsistent with disc_x(f_res).");
+        int dBound = resDeg * (resDeg - 1) - 2 * mD;
+
+        BigInteger rowF = BigInteger.Zero;
+        foreach (var coeff in fRes) rowF += HNormQ(coeff);
+        BigInteger rowFp = resDeg * rowF;
+        BigInteger normD = BigInteger.Pow(rowF, Math.Max(resDeg - 1, 0)) * BigInteger.Pow(rowFp, resDeg);
+        int lcDivisorBoundD = (int)(2 * normD.GetBitLength() / 30) + 1;
+
+        const int extra = 24;
+        int samples = dBound + 1 + extra;
+        var perPrime = new List<(int P, int DegD, int VD, int[] DStrip)>();
+        int sampled = 0;
+
+        var clock = System.Diagnostics.Stopwatch.StartNew();
+        long candidate = (1L << 30) + 1;
+        while (candidate % 4 != 1) candidate += 2;
+        for (int tried = 0; tried < maxPrimes && sampled <= lcDivisorBoundD; candidate += 4)
+        {
+            if (!IsPrime(candidate)) continue;
+            tried++;
+            int p = checked((int)candidate);
+            int? root = SqrtMinusOneFast(p);
+            if (root is null) continue;
+
+            var fResP = ReduceBivariate(fRes, p, root.Value);
+            var dSamp = new int[samples];
+            for (int q0 = 0; q0 < samples; q0++)
+            {
+                var fL = EvalBivariateModP(fResP, q0, p);
+                if (DegP(fL) != resDeg || fL[resDeg] != 1)
+                    throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0}.");
+                dSamp[q0] = DiscriminantModP(fL, p);
+            }
+            var dNodes = new int[dBound + 1];
+            Array.Copy(dSamp, dNodes, dBound + 1);
+            var dp = InterpolateAtIntegerNodes(dNodes, p);
+            for (int q0 = dBound + 1; q0 < samples; q0++)
+                if (EvalModP(dp, q0, p) != dSamp[q0])
+                    throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
+
+            if (DegP(dp) < 0) continue;         // content prime: uncounted, see the (1,2) device
+            sampled++;
+            int vDp = QValuation(dp);
+            perPrime.Add((p, DegP(dp), vDp, StripQ(dp, vDp)));
+
+            if (log is not null && sampled % 25 == 0)
+                log($"sampled={sampled} (bound {lcDivisorBoundD}), p={p}, {clock.ElapsedMilliseconds} ms");
+        }
+
+        int trueDegD = -1, eD = int.MaxValue;
+        foreach (var s in perPrime)
+        {
+            if (s.DegD > trueDegD) trueDegD = s.DegD;
+            if (s.VD < eD) eD = s.VD;
+        }
+        if (eD == int.MaxValue) eD = -1;
+
+        long layerPrime = 0;
+        int[] layerDegrees = Array.Empty<int>();
+        foreach (var s in perPrime)
+        {
+            if (s.DegD != trueDegD || s.VD != eD) continue;
+            layerPrime = s.P;
+            var layers = FpSquarefreeLayers(s.DStrip, s.P);
+            layerDegrees = new int[layers.Count];
+            for (int k = 0; k < layers.Count; k++) layerDegrees[k] = DegP(layers[k]);
+            break;
+        }
+        bool certified = layerPrime != 0 && sampled > lcDivisorBoundD && trueDegD >= 0;
+
+        return new WeightDiscMultiplicityReport(
+            n, wKet, wBra, rOdd, blockDim, atDeg, resDeg, mD, dBound,
+            trueDegD, eD, lcDivisorBoundD, layerPrime,
+            layerDegrees, layerDegrees.Length, sampled, certified);
+    }
+
     /// <summary>The Λ-stratum read the layer profile cannot supply: at the ×2-cleared value
     /// Λ₀ = <paramref name="lambdaCleared"/> (the census's μ = 0 singleton line is physical
     /// λ = −N, i.e. Λ₀ = −2N), the q-locus where Λ₀ is a REPEATED Λ-root of the residual is
@@ -607,7 +737,7 @@ public static class FoldResultantCertificate
         int atDeg = 0;
         foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
         var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
-        WeightCrossCheckResidual(fRes, aBlk, cBlk, sectors, aBlk.GetLength(0) - atDeg);
+        WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, aBlk.GetLength(0) - atDeg);
 
         long candidate = (1L << 30) + 1;
         while (candidate % 4 != 1) candidate += 2;
@@ -888,8 +1018,17 @@ public static class FoldResultantCertificate
         ResidualLeadingForm(int n, bool rOdd)
     {
         var (_, cBlk) = BlockPencil(n, rOdd);
-        var fFull = GaussianMatrixCharpoly.Characteristic(cBlk);
         var sectors = F89AtFactorReconstruction.ClearedAtSectors(n - 1, rOdd);
+        return ResidualLeadingFormFromPencil(cBlk, sectors);
+    }
+
+    /// <summary>The pencil-general body of <see cref="ResidualLeadingForm"/>: charpoly of the hopping
+    /// direction C divided by the AT leading form ∏_sectors Σ_m p_m·i^{d−m}·x^m (each AT strand is
+    /// Λ = r0 + i·q·κ, so at q → ∞ its leading unit is i^{d−m}).</summary>
+    private static (GaussianInteger[] ResidualLeadingForm, GaussianInteger DiscriminantLeadingCoeff)
+        ResidualLeadingFormFromPencil(GaussianInteger[,] cBlk, IReadOnlyList<AtSector> sectors)
+    {
+        var fFull = GaussianMatrixCharpoly.Characteristic(cBlk);
         var fAt = new[] { GaussianInteger.One };
         foreach (var s in sectors)
         {

@@ -5405,13 +5405,29 @@ public static class OpenArcsRegistry
                 "content is AT MOST 90 (R-even) / 108 (R-odd) distinct q-roots, the census's 8+5 " +
                 "real pins among them (most of the rest complex-q); the mult-4 layer (120/168) is " +
                 "the doubled off-line diabolics (a squarefree part or sign count would erase all of " +
-                "this, the CAUGHT_ERRORS 2026-07-01 B1 lesson). SCOUT-grade: deg/v not certified (the D-device, " +
-                "CertifyDiscMultiplicity's lc-divisor route, is not generalized; the crude Bauer-Fike " +
-                "bound + verification nodes), layers certified by two-prime agreement only; " +
+                "this, the CAUGHT_ERRORS 2026-07-01 B1 lesson). CERTIFICATE-GRADE since the same " +
+                "midday: WeightCertifyDiscMultiplicity (the D-device generalized, same proof shape; " +
+                "the per-point guard rebuilds the block FRESH at q0=2,3, the AT factor staying " +
+                "single-route, the one recorded narrowing vs the (1,2) original) certifies " +
+                "TrueDiscriminantDegree 1572/2124 and TrueQValuationD " +
+                "876/1188 both parities, m_D 51/42 sharpening the interpolation bound to 1620/2172, " +
+                "924/1210 primes sampled past the lc-divisor caps 923/1209, certified layers " +
+                "identical to the scout, MaxDiscMultiplicity = 4 as a one-way-upward bound (the " +
+                "'Klein-forced ceiling' is the census's interpretation; and the beta-exotic " +
+                "exclusion the (1,2) device's <=2 delivers does NOT fire here, a Puiseux-3/2 " +
+                "hideable inside the mult-4 layer) " +
+                "(Disc13CertificateTests, Categories SLOW_DISC13_CERT + EVEN_DISC13_SCOUT, " +
+                "~44/~98 s per (1,3) parity; controls " +
+                "reproduce the committed (1,2) certificate at N=4 and N=6 through the weight path; " +
+                "the sector build now ASSERTS the R-commutation entry-wise at runtime, closing the " +
+                "one certified-about-the-wrong-object spot a review named before Sturm leans on " +
+                "these invariants). " +
+                "The scout methods beside it stay crude-bound/two-prime by design; " +
                 "CertifyDiscReImGcd stays the wrong tool by design (real disc). The MISSING closing " +
                 "step, unchanged in kind: the exact REAL-ROOT COUNT of the multiplicity-2 layer in " +
                 "the window (Sturm on an exactly reconstructed layer polynomial over Q; no Sturm " +
-                "chain exists in the repo yet), the same shape as the N=8 Q(i) simple-layer split. " +
+                "chain exists in the repo yet; the certified deg/v above are its input invariants), " +
+                "the same shape as the N=8 Q(i) simple-layer split. " +
                 "Layer-read section in F89_PATH_K_DIABOLIC.md. " +
                 "THE (1,3) WALK RAN 2026-08-11, next morning (simulations/eta_ladder_chain_n6.py, 566 " +
                 "gates, ~1 min; three first-draft claims died in its review rounds, all three kept in " +
