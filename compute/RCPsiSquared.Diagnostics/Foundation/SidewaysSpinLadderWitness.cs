@@ -107,14 +107,18 @@ public sealed class SidewaysSpinLadderWitness : IInspectable
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(
-                displayName: "N=9 confirmed; no even-N locus found at N=6/8",
+                displayName: "N=9 confirmed; N=6 walked from (1,3) seeds (the (1,2) axis empty by theorem)",
                 summary: "N=9, ℓ=3 was confirmed 2026-08-09 on both chains to six decimals " +
                          "(√6, √10, √12, √12, √10, √6; the 10584²/15876² middle blocks walked by LU " +
-                         "shift-invert, SidewaysSpinLadderSparse, gate SLOW_SIDEWAYS9). N=6/8 have no " +
-                         "real-q locus in the scanned ranges (real λ excluded on the 16-point grid, " +
-                         "complex λ absent from the axis strips, both R-parities), so the even-N ≥ 6 " +
-                         "reading stays untested for want of an input; the exact Sturm closing route is " +
-                         "the arc's named next step.",
+                         "shift-invert, SidewaysSpinLadderSparse, gate SLOW_SIDEWAYS9). The (1,2) " +
+                         "block at N=6 has NO real-q locus by theorem (CertifyDiscReImGcd, gcd degree " +
+                         "0, window-free, 2026-08-10): input-free, not untested. The (1,3)@N=6 census " +
+                         "(2026-08-10) restored at least thirteen inputs one block over, and the walk " +
+                         "from those seeds RAN 2026-08-11 (eta_ladder_chain_n6.py, 709 gates: both " +
+                         "freight values through both non-canonical chains, family/locus content " +
+                         "separated by the ladders' two-valued singular structure {√2 ×105, √6 ×15}); " +
+                         "its C# gate port is pending. At N=8 the (1,2) verdict stays scan plus " +
+                         "genericity until the simple disc layer splits off over ℚ(i).",
                 provenance: NodeProvenance.Stored);
         }
     }

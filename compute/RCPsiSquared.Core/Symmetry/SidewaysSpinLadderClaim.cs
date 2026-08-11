@@ -83,14 +83,16 @@ public sealed class SidewaysSpinLadderClaim : Claim
     /// the proof gives 4N−12 at even N. At N=4 the reading is MEASURED (simulations/eta_ladder_chain_n4.py
     /// and the C# gate <c>SidewaysSpinLadderGateTests.Gate_N4</c>, 2026-08-10: band and fold freight share
     /// the four sectors, four ℓ=1/2 doublets, two per chain, one
-    /// per conjugate value, CG norm 1, on the four self-fold loci), while N=6/8 have no real-q locus to
-    /// walk (complex λ by the scanned strips, real λ by the 16-point grid: the even-N real-q defective
-    /// check, experiments/F89_PATH_K_DIABOLIC.md).</summary>
+    /// per conjugate value, CG norm 1, on the four self-fold loci). The (1,2) block at N=6 has no real-q
+    /// locus BY THEOREM (CertifyDiscReImGcd, 2026-08-10) and none is known at N=8; the (1,3)@N=6 census
+    /// (2026-08-10) restored at least thirteen inputs one block over, and the walk from those seeds ran
+    /// 2026-08-11 on the NON-canonical (p+q = 4, d = −2) chains (simulations/eta_ladder_chain_n6.py),
+    /// outside this orbit accounting (experiments/F89_PATH_K_DIABOLIC.md).</summary>
     public static int OrbitSizeOddN(int n) => (n & 1) == 1
         ? 4 * n - 8
         : throw new ArgumentOutOfRangeException(nameof(n),
             $"4N−8 is the ODD-N orbit size (even N is 4N−12: measured at N=4 with band and fold sharing " +
-            $"sectors, no real-q locus exists to walk at N=6/8 in the scanned ranges); got N={n}");
+            $"sectors; the N=6 (1,3) walk runs on non-canonical chains outside this accounting); got N={n}");
 
     public SidewaysSpinLadderClaim(SpectatorIntertwinerClaim intertwiner)
         : base("The sideways spin ladder: S⁺(ρ) = Σ_l (−1)^l c_l†ρc_l† (§6's V of PROOF_CODIM1_BY_ADDITIVITY " +
