@@ -5317,7 +5317,8 @@ public static class OpenArcsRegistry
                 "N=4 quartet's mechanism moves to (1,3) at N=6) RAN 2026-08-10 evening and FOUND the " +
                 "sibling population: AT LEAST THIRTEEN real-q defective loci of (1,3)@N=6 (13 found, " +
                 "a FLOOR: channel A's rejection bucket is printed, not exhaustively re-classified, and " +
-                "no upper bound exists short of the layer read), two detector " +
+                "no upper bound short of an exact layer split; the mod-p layer read gives " +
+                "floors), two detector " +
                 "channels. Fold pairs on the line, conj-doubled (8): R-even octic q* = 0.4630013, 0.6400121, " +
                 "0.7450837, 0.9184132, 1.5109958, 3.0922209; R-odd 1.9567664, 3.2608458, all lambda = " +
                 "-6 +- yi (fold-symmetry breaking: Re l1 = Re l2 is ONE real condition, codim 1; " +
@@ -5400,10 +5401,17 @@ public static class OpenArcsRegistry
                 "sign-blindness' reason), and the identity chains all six numbers per parity LIVE " +
                 "off the production tuples (deg disc G 768/1038, v 438/594, v_q(D) even FORCED, " +
                 "stripped-layer identity 108 + 2*120 = 18 + 330 and 132 + 2*168 = 24 + 444; gated, " +
-                "the CompositionIdentity fact). The mult-2 layer thereby splits exactly (the u-gate " +
-                "again): 18/24 of its roots are the mu=0 diabolics, so the DEFECTIVE-SPECIES " +
-                "content is AT MOST 90 (R-even) / 108 (R-odd) distinct q-roots, the census's 8+5 " +
-                "real pins among them (most of the rest complex-q); the mult-4 layer (120/168) is " +
+                "the CompositionIdentity fact). The mult-2 layer thereby splits (the u-gate " +
+                "again): 18/24 of its MEASURED roots are the mu=0 diabolics, and the defective " +
+                "species live on the simple layer of stripped disc_M(G), TRUE degree 90+2k " +
+                "(R-even) / 108+2k' (R-odd), k,k' >= 0: a mod-p layer DEGREE is a FLOOR (distinct " +
+                "true roots can only merge mod p; only the measured max MULTIPLICITY bounds truth " +
+                "from above), two-prime agreement is evidence for k=k'=0 not proof, the a-priori " +
+                "ceiling is the stripped degree 330/444, and a first wording here ('AT MOST " +
+                "90/108') read the one-way lift backwards, caught by the 2026-08-11 Sturm design " +
+                "review. The census's 8+5 " +
+                "real pins sit on that simple layer (most of the rest complex-q); the mult-4 layer " +
+                "(measured 120/168) is " +
                 "the doubled off-line diabolics (a squarefree part or sign count would erase all of " +
                 "this, the CAUGHT_ERRORS 2026-07-01 B1 lesson). CERTIFICATE-GRADE since the same " +
                 "midday: WeightCertifyDiscMultiplicity (the D-device generalized, same proof shape; " +
@@ -5411,8 +5419,9 @@ public static class OpenArcsRegistry
                 "single-route, the one recorded narrowing vs the (1,2) original) certifies " +
                 "TrueDiscriminantDegree 1572/2124 and TrueQValuationD " +
                 "876/1188 both parities, m_D 51/42 sharpening the interpolation bound to 1620/2172, " +
-                "924/1210 primes sampled past the lc-divisor caps 923/1209, certified layers " +
-                "identical to the scout, MaxDiscMultiplicity = 4 as a one-way-upward bound (the " +
+                "924/1210 primes sampled past the lc-divisor caps 923/1209, layers identical to " +
+                "the scout at the certifying prime (mod-p, degrees are floors), " +
+                "MaxDiscMultiplicity = 4 as a one-way-upward bound (the " +
                 "'Klein-forced ceiling' is the census's interpretation; and the beta-exotic " +
                 "exclusion the (1,2) device's <=2 delivers does NOT fire here, a Puiseux-3/2 " +
                 "hideable inside the mult-4 layer) " +
