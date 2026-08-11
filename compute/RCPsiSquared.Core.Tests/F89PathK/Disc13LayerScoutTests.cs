@@ -62,8 +62,9 @@ public class Disc13LayerScoutTests
     /// primes (1073741833, 1073741857; measured identical 2026-08-11, ~2.3 s per read). The pins:
     /// NO odd-multiplicity layer exists (layers[0] = layers[2] = 0) — the census's Klein even-order
     /// theorem exact mod p, the reason a sign-change detector is structurally blind here; the
-    /// multiplicity-2 layer (108 / 132 distinct roots) is the stratum carrying the thirteen census
-    /// loci (8 R-even + 5 R-odd real ones, a floor: most mult-2 roots sit at complex q), the
+    /// multiplicity-2 layer (108 / 132 distinct roots) is the stratum carrying the census loci
+    /// (8 + 5 real ones found there, a floor closed at 9 + 6 = fifteen by the exact Sturm count,
+    /// Disc13SturmTests; most mult-2 roots sit at complex q), the
     /// multiplicity-4 layer (120 / 168) the doubled diabolic crossings; and the sector disc is
     /// REAL mod p (both embeddings agree), the exact form of the census's ≤ 5·10⁻¹² float read.</summary>
     [Theory]

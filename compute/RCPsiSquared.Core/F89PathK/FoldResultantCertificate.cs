@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using RCPsiSquared.Core.Numerics;
 
@@ -603,12 +604,14 @@ public static class FoldResultantCertificate
         int AtDeg, int ResDeg,
         bool ResidualIsReal,
         bool EvenInShiftedLambda,
+        bool EvenInQ,
         int MDeg, int FDeg, int VQf,
         bool FIsPerfectSquare, int UDeg, bool UIsReal,
         bool CompositionIdentityAtNodes,
         double MsPerNodeDiscM);
 
-    /// <summary>Scout steps 0-2 of the Sturm design on the (wKet, wBra) R-sector: §0 exact
+    /// <summary>Scout steps 0-2 of the Sturm design (the design note is local under
+    /// docs/superpowers/plans/, NOT in the repo) on the (wKet, wBra) R-sector: §0 exact
     /// realness of F_res; §1 the exact G/f/ũ chain (G the even-Taylor reindex of F_res at
     /// Λ₀ = −2n, f = G(0, q) with v_q(f) read exactly, ũ the monic square root over ℚ(i) with
     /// the exact identity lc(f)·ũ² = f); §2 the composition identity
@@ -635,6 +638,25 @@ public static class FoldResultantCertificate
             foreach (var c in qs)
                 if (!c.Im.IsZero) { residualIsReal = false; break; }
             if (!residualIsReal) break;
+        }
+
+        // §4 of the design: q-evenness of F_res, gated exactly (every odd-q coefficient zero).
+        // The derivation it backs: the bipartite gauge T = diag((−1)^(σ(a)+σ(b))) satisfies
+        // T·L(q)·T = L(−q) entry-wise (hops flip the bipartite parity, so the q-linear entries
+        // change sign; the dissipator diagonal is q-free), and it acts within each R-sector
+        // whenever (p+q)(N−1) is even (the census's commutator character), so the sector
+        // charpoly is even in q; the AT strands pair a+bq ↔ a−bq under T, hence their divisor
+        // is even too, hence F_res = charpoly/AT is. Even F_res makes G even in its
+        // q-coefficients and disc_M(G) even in q, which halves the Route-A evaluations
+        // (the negative node half comes free). Where the character is odd (the N=4 (1,2)
+        // control: (p+q)(N−1) = 9) the gauge swaps the sectors and nothing is derived; the
+        // field then records the measurement.
+        bool evenInQ = true;
+        foreach (var qs in fRes)
+        {
+            for (int i = 1; i < qs.Length; i += 2)
+                if (!qs[i].Re.IsZero || !qs[i].Im.IsZero) { evenInQ = false; break; }
+            if (!evenInQ) break;
         }
 
         int lambda0 = -2 * n;
@@ -702,8 +724,868 @@ public static class FoldResultantCertificate
         }
 
         return new WeightSturmScoutReport(n, wKet, wBra, rOdd, atDeg, resDeg, residualIsReal, even,
-            mDeg, fDeg, vQf, isSquare, uDeg, uIsReal, compId, msPerNode);
+            evenInQ, mDeg, fDeg, vQf, isSquare, uDeg, uIsReal, compId, msPerNode);
     }
+
+    /// <summary>The verdict of <see cref="WeightDiscMExactLanding"/>: disc_M(G) landed EXACTLY
+    /// over ℤ (Route A of the Sturm design, §2 + §5 step 3), with every §1 gate value. The
+    /// coefficients (low-to-high in octic q) are carried for the downstream squarefree split and
+    /// Sturm count; DiscVq is read off the landed object, and the layer degrees are the mod-p
+    /// squarefree layers of the STRIPPED landed polynomial at the two committed primes (a floor
+    /// read of the true split, which the exact squarefree step pins).</summary>
+    public sealed record WeightDiscMLandingReport(
+        int N, int WKet, int WBra, bool ROdd,
+        int MDeg,
+        int DiscDeg, int DiscVq,
+        bool VerificationNodesPass,
+        bool CompositionIdentityModBothPrimes,
+        bool UGcdOne,
+        int[] StrippedLayerDegreesFirstPrime,
+        int[] StrippedLayerDegreesSecondPrime,
+        BigInteger[] DiscCoefficients,
+        BigInteger[] UCoefficients);
+
+    /// <summary>Route A: land disc_M(G) exactly over ℤ for the (wKet, wBra) R-sector.
+    /// <paramref name="certifiedDegQD"/> is the certified deg_q of D = disc_Λ(F_res) (the
+    /// D-device's TrueDiscriminantDegree, 1572 / 2124 at (1,3)@N=6): the landing is certified
+    /// RELATIVE to it via deg disc_M(G) = (deg_q D − deg f)/2, the design's first grade.</summary>
+    public static WeightDiscMLandingReport WeightDiscMExactLanding(
+        int n, int wKet, int wBra, bool rOdd, int certifiedDegQD)
+    {
+        var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
+        AssertHoppingSymmetry(cBlk, null);
+        var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        int resDeg = aBlk.GetLength(0);
+        foreach (var s in sectors) resDeg -= s.KCharpoly.Length - 1;
+        WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, resDeg);
+        return DiscMLandingCore(fRes, -2 * n, certifiedDegQD, n, wKet, wBra, rOdd);
+    }
+
+    /// <summary>The synthetic-control entry (design §6): the same landing core on a hand-built
+    /// bivariate F(Λ, q) = G₀((Λ − Λ₀)², q), so a sympy-pinned reference can be compared
+    /// coefficient for coefficient. The only control that can catch a G-reindex bug: the degree
+    /// gates cannot see one.</summary>
+    public static WeightDiscMLandingReport DiscMExactLandingFromBivariate(
+        GaussianInteger[][] fRes, int lambda0, int certifiedDegQD)
+        => DiscMLandingCore(fRes, lambda0, certifiedDegQD, 0, 0, 0, false);
+
+    private static WeightDiscMLandingReport DiscMLandingCore(
+        GaussianInteger[][] fRes, int lambda0, int certifiedDegQD,
+        int n, int wKet, int wBra, bool rOdd)
+    {
+        // The three entry gates, all exact on the exact F_res: realness (§0), q-evenness (the
+        // derived bipartite-gauge parity; it is what LICENSES the mirrored grid below, so it is
+        // a hard gate, not a report field), and the (Λ−Λ₀)² evenness (the certified read).
+        foreach (var qs in fRes)
+        {
+            for (int i = 0; i < qs.Length; i++)
+            {
+                if (!qs[i].Im.IsZero)
+                    throw new InvalidOperationException("F_res is not real: the ℤ landing does not apply (§3 contingency).");
+                if ((i & 1) == 1 && !qs[i].Re.IsZero)
+                    throw new InvalidOperationException("F_res is not even in q: the mirrored grid is not licensed.");
+            }
+        }
+        if (!ExactOddTaylorAllZero(fRes, lambda0))
+            throw new InvalidOperationException("F_res is not even in (Λ−Λ₀): no G exists.");
+
+        var shifted = TaylorShiftBivariate(fRes, lambda0);
+        var f = GaussianPolynomial.Trim(shifted[0]);
+        int fDeg = GaussianPolynomial.Degree(f);
+        if (fDeg < 0 || f[0].Re.IsZero)
+            throw new InvalidOperationException("v_q(f) ≠ 0: the deg/v chaining of the composition identity fails.");
+
+        int resDeg = fRes.Length - 1;
+        int mDeg = resDeg / 2;
+        var g = new GaussianInteger[mDeg + 1][];
+        for (int j = 0; j <= mDeg; j++) g[j] = GaussianPolynomial.Trim(shifted[2 * j]);
+        if (GaussianPolynomial.Degree(g[mDeg]) != 0 || !g[mDeg][0].Equals(GaussianInteger.One))
+            throw new InvalidOperationException("G is not monic in M (the reindex is wrong).");
+
+        if ((certifiedDegQD - fDeg) % 2 != 0)
+            throw new InvalidOperationException("certified deg_q D − deg f is odd: the composition identity cannot hold.");
+        int discDeg = (certifiedDegQD - fDeg) / 2;
+        if ((discDeg & 1) != 0)
+            throw new InvalidOperationException("deg disc_M(G) is odd yet disc_M(G) must be even in q.");
+        int k = discDeg / 2;
+
+        // Node values at q0 = 0..k; the negative half is the SAME values mirrored (disc_M(G) is
+        // even in q because G's coefficients are, gated above). Realness of each node value is
+        // asserted: G is real, so a nonzero Im is a pipeline bug.
+        int mm = 2 * k;
+        var vals = new BigInteger[mm + 1];
+        for (int q0 = 0; q0 <= k; q0++)
+        {
+            var d = GaussianPolynomial.Discriminant(EvalBivariateAtQ(g, q0));
+            if (!d.Im.IsZero)
+                throw new InvalidOperationException($"disc_M(G)({q0}) is not real.");
+            vals[k + q0] = d.Re;
+            vals[k - q0] = d.Re;
+        }
+
+        // Integer forward differences over the unit-spaced grid t = 0..2k (t = q + k), then the
+        // Newton form P(t) = Σ_j Δ^j·C(t, j) accumulated in the (2k)!-scaled falling-factorial
+        // basis: A_m = c_m, A_j = A_{j+1}·(t − j) + ((2k)!/j!)·c_j, so A_0 = (2k)!·P with every
+        // intermediate an integer (disc_M(G) is integer-valued on ℤ, so the differences are
+        // integers and the final division by (2k)! must be exact; a remainder is a bug).
+        var c = (BigInteger[])vals.Clone();
+        for (int j = 1; j <= mm; j++)
+            for (int i = mm; i >= j; i--)
+                c[i] -= c[i - 1];
+        var acc = new BigInteger[mm + 1];
+        int accLen = 1;
+        acc[0] = c[mm];
+        BigInteger scale = BigInteger.One;
+        for (int j = mm - 1; j >= 0; j--)
+        {
+            scale *= j + 1;
+            for (int i = accLen; i >= 1; i--)
+                acc[i] = acc[i - 1] - j * acc[i];
+            acc[0] = -j * acc[0] + scale * c[j];
+            accLen++;
+        }
+        var pt = new BigInteger[mm + 1];
+        for (int i = 0; i <= mm; i++)
+        {
+            pt[i] = BigInteger.DivRem(acc[i], scale, out var rem);
+            if (!rem.IsZero)
+                throw new InvalidOperationException($"interpolant coefficient t^{i} is not integral.");
+        }
+
+        // Taylor shift back to q (t = q + k): in-place Ruffini-Horner, then the landed gates.
+        for (int i = 0; i < mm; i++)
+            for (int j = mm - 1; j >= i; j--)
+                pt[j] += k * pt[j + 1];
+
+        int landedDeg = -1;
+        for (int i = mm; i >= 0; i--)
+            if (!pt[i].IsZero) { landedDeg = i; break; }
+        if (landedDeg != discDeg)
+            throw new InvalidOperationException($"landed deg disc_M(G) = {landedDeg}, certified-backed {discDeg}.");
+        int vq = -1;
+        for (int i = 0; i <= landedDeg; i++)
+            if (!pt[i].IsZero) { vq = i; break; }
+        for (int i = 1; i <= landedDeg; i += 2)
+            if (!pt[i].IsZero)
+                throw new InvalidOperationException($"landed disc_M(G) has a nonzero odd coefficient q^{i}.");
+        var disc = new BigInteger[landedDeg + 1];
+        Array.Copy(pt, disc, landedDeg + 1);
+
+        // Verification nodes OFF the grid, one negative: the only end-to-end check of the
+        // mirroring (the on-grid evenness is construction; a fresh q0 < 0 is data).
+        bool verify = true;
+        foreach (int q0 in new[] { k + 1, -(k + 1), k + 2 })
+        {
+            var d = GaussianPolynomial.Discriminant(EvalBivariateAtQ(g, q0));
+            if (!d.Im.IsZero)
+                throw new InvalidOperationException($"disc_M(G)({q0}) is not real.");
+            BigInteger hv = BigInteger.Zero;
+            for (int i = landedDeg; i >= 0; i--) hv = hv * q0 + disc[i];
+            if (hv != d.Re) { verify = false; break; }
+        }
+
+        // The composition identity at the POLYNOMIAL level mod both committed primes, sign
+        // included: D ≡ (−4)^m·f·disc_M(G)² with D sampled and interpolated mod p from the
+        // exact F_res (the design's machinery map names this the gap the degree-level test
+        // leaves open: right degrees cannot certify the right polynomial).
+        bool compOk = true;
+        {
+            long candidate = (1L << 30) + 1;
+            while (candidate % 4 != 1) candidate += 2;
+            int seen = 0;
+            for (; seen < 2; candidate += 4)
+            {
+                if (!IsPrime(candidate)) continue;
+                int p = checked((int)candidate);
+                int? root = SqrtMinusOneFast(p);
+                if (root is null) continue;
+                seen++;
+
+                var fResP = ReduceBivariate(fRes, p, root.Value);
+                int samples = certifiedDegQD + 1 + 8;
+                var dSamp = new int[samples];
+                for (int q0 = 0; q0 < samples; q0++)
+                    dSamp[q0] = DiscriminantModP(EvalBivariateModP(fResP, q0, p), p);
+                var dNodes = new int[certifiedDegQD + 1];
+                Array.Copy(dSamp, dNodes, dNodes.Length);
+                var dp = InterpolateAtIntegerNodes(dNodes, p);
+                for (int q0 = dNodes.Length; q0 < samples; q0++)
+                    if (EvalModP(dp, q0, p) != dSamp[q0])
+                        throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
+
+                var discP = new int[landedDeg + 1];
+                for (int i = 0; i <= landedDeg; i++) discP[i] = BigIntMod(disc[i], p);
+                var fP = new int[fDeg + 1];
+                for (int i = 0; i <= fDeg; i++) fP[i] = BigIntMod(f[i].Re, p);
+                var rhs = MulModP(MulModP(discP, discP, p), fP, p);
+                long sign = PowModP(p - 4, mDeg, p);
+                for (int i = 0; i < rhs.Length; i++) rhs[i] = (int)(rhs[i] * sign % p);
+                int dDeg = DegP(dp), rDeg = DegP(rhs);
+                if (dDeg != rDeg) { compOk = false; }
+                else
+                    for (int i = 0; i <= dDeg; i++)
+                        if (dp[i] != rhs[i]) { compOk = false; break; }
+            }
+        }
+
+        // gcd(u, disc_M G) = 1 EXACT over ℚ (the u-gate promoted from mod-p): Euclid on the
+        // monic square root ũ of f against the landed polynomial.
+        var (isSquare, uMonic) = MonicSquareRoot(f);
+        bool uGcdOne = false;
+        var uInt = Array.Empty<BigInteger>();
+        if (isSquare)
+        {
+            var pQc = new Qc[landedDeg + 1];
+            for (int i = 0; i <= landedDeg; i++)
+                pQc[i] = new Qc(new BigRational(disc[i]), new BigRational(0));
+            var a = uMonic;
+            var b = QcRem(pQc, uMonic);
+            while (QcDeg(b) >= 0)
+            {
+                var t = QcRem(a, b);
+                a = b;
+                b = t;
+            }
+            uGcdOne = QcDeg(a) == 0;
+
+            // u as a primitive integer polynomial (the unique integer multiple of ũ up to sign),
+            // for the downstream real-μ=0-diabolic count.
+            BigInteger den = BigInteger.One;
+            for (int i = 0; i <= QcDeg(uMonic); i++)
+            {
+                if (!uMonic[i].Im.IsZero)
+                    throw new InvalidOperationException("ũ is not real in the real world.");
+                den = BigRational.Lcm(den, uMonic[i].Re.Denominator);
+            }
+            uInt = new BigInteger[QcDeg(uMonic) + 1];
+            for (int i = 0; i < uInt.Length; i++)
+                uInt[i] = uMonic[i].Re.Numerator * (den / uMonic[i].Re.Denominator);
+            uInt = PrimitiveZ(uInt);
+        }
+
+        // The mod-p squarefree layers of the STRIPPED landed polynomial at both committed
+        // primes (a floor read of the true split; the exact squarefree step pins it).
+        var layerDegs = new int[2][];
+        {
+            var stripped = new BigInteger[landedDeg - vq + 1];
+            Array.Copy(disc, vq, stripped, 0, stripped.Length);
+            long candidate = (1L << 30) + 1;
+            while (candidate % 4 != 1) candidate += 2;
+            int seen = 0;
+            for (; seen < 2; candidate += 4)
+            {
+                if (!IsPrime(candidate)) continue;
+                int p = checked((int)candidate);
+                if (SqrtMinusOneFast(p) is null) continue;
+                var sp = new int[stripped.Length];
+                for (int i = 0; i < sp.Length; i++) sp[i] = BigIntMod(stripped[i], p);
+                var layers = FpSquarefreeLayers(sp, p);
+                layerDegs[seen] = new int[layers.Count];
+                for (int i = 0; i < layers.Count; i++) layerDegs[seen][i] = DegP(layers[i]);
+                seen++;
+            }
+        }
+
+        return new WeightDiscMLandingReport(n, wKet, wBra, rOdd, mDeg, landedDeg, vq,
+            verify, compOk, uGcdOne, layerDegs[0], layerDegs[1], disc, uInt);
+    }
+
+    /// <summary>The verdict of <see cref="SturmCountFromLanding"/>: the EXACT squarefree split
+    /// stripped disc_M(G) = A·B² over ℤ (A the codim-1 defective species layer, B the doubled
+    /// off-line content) with the split proven by the reconstruction identity P = A·B·B and the
+    /// pairwise gcd/squarefree gates (so DegA/DegB are the TRUE layer degrees, replacing the
+    /// mod-p floors; the merge parameter k of the repaired ceiling claims is read off), and the
+    /// Sturm counts in BOTH census conventions (q &gt; 0 and all-real; conversion exactly 2 by
+    /// the evenness of A, gated). PinCountsA holds one Sturm count per census pin interval of
+    /// this parity, each expected exactly 1; CountU is the real-μ=0-diabolic corollary.</summary>
+    public sealed record WeightSturmCountReport(
+        int N, int WKet, int WBra, bool ROdd,
+        int DegA, int DegB,
+        bool SplitIdentityOk, bool AEvenInQ,
+        int CountAPositive, int CountAAllReal,
+        int CountBPositive, int CountBAllReal,
+        int CountUPositive, int CountUAllReal,
+        int[] PinCountsA,
+        BigInteger[] ACoefficients, BigInteger[] BCoefficients);
+
+    /// <summary>Design §3 + §4 on a landed disc_M(G): primitive-PRS squarefree split and the
+    /// exact Sturm count. <paramref name="censusPins"/> are the committed census loci of THIS
+    /// parity (octic q, floats from the experiment table); each is bracketed by the rational
+    /// window ±1/4000 and Sturm-counted on A.</summary>
+    public static WeightSturmCountReport SturmCountFromLanding(
+        WeightDiscMLandingReport landing, double[] censusPins)
+    {
+        var stripped = new BigInteger[landing.DiscDeg - landing.DiscVq + 1];
+        Array.Copy(landing.DiscCoefficients, landing.DiscVq, stripped, 0, stripped.Length);
+        var (a, b, splitOk) = SquarefreeSplitAB2(stripped);
+
+        bool aEven = true;
+        for (int i = 1; i < a.Length; i += 2)
+            if (!a[i].IsZero) { aEven = false; break; }
+
+        var chainA = SturmChainZ(a);
+        var chainB = SturmChainZ(b);
+        int aPos = SturmCountPositive(chainA), aAll = SturmCountAllReal(chainA);
+        int bPos = SturmCountPositive(chainB), bAll = SturmCountAllReal(chainB);
+        int uPos = 0, uAll = 0;
+        if (landing.UCoefficients.Length > 0)
+        {
+            var chainU = SturmChainZ(landing.UCoefficients);
+            uPos = SturmCountPositive(chainU);
+            uAll = SturmCountAllReal(chainU);
+        }
+
+        var pins = new int[censusPins.Length];
+        for (int i = 0; i < censusPins.Length; i++)
+        {
+            var mid = new BigRational(new BigInteger(Math.Round(censusPins[i] * 1e7)), new BigInteger(10_000_000));
+            // Half-width 1/4000: the R-odd close pair 0.4627729 / 0.4635508 sits 7.8·10⁻⁴
+            // apart, so ±1/1000 brackets would overlap and each read 2.
+            var half = new BigRational(BigInteger.One, new BigInteger(4000));
+            pins[i] = SturmCountInterval(chainA, mid - half, mid + half);
+        }
+
+        return new WeightSturmCountReport(landing.N, landing.WKet, landing.WBra, landing.ROdd,
+            DegZ(a), DegZ(b), splitOk, aEven, aPos, aAll, bPos, bAll, uPos, uAll, pins, a, b);
+    }
+
+    /// <summary>The N=4 (1,2) R-even control of the design's §6, the committed story end to end:
+    /// D = disc_Λ(F_res) landed exactly over ℤ by full-grid integer Newton (NO evenness assumed;
+    /// the a-priori node bound resDeg·(resDeg−1) makes the landing standalone), with the census's
+    /// float sector-disc-reality upgraded to the theorem grade on the way (every node value has
+    /// Im exactly 0, and the node count exceeds the degree bound, so Im D ≡ 0 identically). Then
+    /// the same split + Sturm machinery: the simple layer must carry EXACTLY the four committed
+    /// √-branch loci on q &gt; 0 and the double layer the diabolic 0.659 (which must NOT be
+    /// counted in A). Closes the recorded gap "no exact Sturm run on P₁₀ exists".</summary>
+    public sealed record WeightSturmN4ControlReport(
+        int DegD, int VqD,
+        int DegA, int DegB,
+        bool SplitIdentityOk,
+        int CountAPositive, int CountBPositive,
+        int[] PinCountsA, int PinCountB659);
+
+    public static WeightSturmN4ControlReport WeightSturmN4Control()
+    {
+        var (aBlk, cBlk) = WeightSectorPencil(4, 1, 2, rOdd: false);
+        AssertHoppingSymmetry(cBlk, null);
+        var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        int resDeg = fRes.Length - 1;
+        int dBound = resDeg * (resDeg - 1);
+
+        var vals = new BigInteger[dBound + 1];
+        for (int q0 = 0; q0 <= dBound; q0++)
+        {
+            var d = GaussianPolynomial.Discriminant(EvalBivariateAtQ(fRes, q0));
+            if (!d.Im.IsZero)
+                throw new InvalidOperationException(
+                    $"disc_Λ(F_res)({q0}) is not real at the N=4 control: the census reality read fails exactly.");
+            vals[q0] = d.Re;
+        }
+        var dPoly = IntegerNewtonFromUnitGrid(vals, shiftBack: 0);
+        int degD = DegZ(dPoly);
+        int vq = 0;
+        while (dPoly[vq].IsZero) vq++;
+        foreach (int q0 in new[] { dBound + 1, dBound + 2 })
+        {
+            var d = GaussianPolynomial.Discriminant(EvalBivariateAtQ(fRes, q0));
+            BigInteger hv = BigInteger.Zero;
+            for (int i = degD; i >= 0; i--) hv = hv * q0 + dPoly[i];
+            if (!d.Im.IsZero || hv != d.Re)
+                throw new InvalidOperationException($"N=4 D interpolant fails verification at q0={q0}.");
+        }
+
+        var stripped = new BigInteger[degD - vq + 1];
+        Array.Copy(dPoly, vq, stripped, 0, stripped.Length);
+        var (a, b, splitOk) = SquarefreeSplitAB2(stripped);
+        var chainA = SturmChainZ(a);
+        var chainB = SturmChainZ(b);
+
+        var committed = new[] { 0.460212, 0.854438, 0.857458, 1.738181 };
+        var pins = new int[committed.Length];
+        for (int i = 0; i < committed.Length; i++)
+        {
+            var mid = new BigRational(new BigInteger(Math.Round(committed[i] * 1e6)), new BigInteger(1_000_000));
+            var half = new BigRational(BigInteger.One, new BigInteger(1000));
+            pins[i] = SturmCountInterval(chainA, mid - half, mid + half);
+        }
+        var mid659 = new BigRational(new BigInteger(659), new BigInteger(1000));
+        var half659 = new BigRational(BigInteger.One, new BigInteger(100));
+        int pinB = SturmCountInterval(chainB, mid659 - half659, mid659 + half659);
+
+        return new WeightSturmN4ControlReport(degD, vq, DegZ(a), DegZ(b), splitOk,
+            SturmCountPositive(chainA), SturmCountPositive(chainB), pins, pinB);
+    }
+
+    /// <summary>The verdict of <see cref="WeightPscDevice"/>: the design's §7 leading option at
+    /// the theorem grade, everything over ℤ. Where G has two double M-roots or a triple M-root,
+    /// psc₀ AND psc₁ of (G, ∂G/∂M) vanish together; on disc roots psc₀ = 0 already, so the
+    /// device is gcd(psc₁, stripped disc_M(G)), computed EXACTLY (psc₁ landed over ℤ by the
+    /// same mirrored-grid integer Newton as the disc, the gcd against the landed stripped disc):
+    /// deg 0 means NO q ≠ 0, real or complex, carries two double M-roots or a triple, which
+    /// closes the mult-4 hideouts (i) codim-2 double-pair coincidences outright and (ii) 3×3
+    /// Jordan cubic branch points off the μ = 0 line (a 3×3 Jordan is a triple Λ- hence triple
+    /// M-collision; ON the line the u-gate closes it: a Λ = −2n multiplicity ≥ 3 needs M = 0
+    /// double in G, i.e. a common root of u and disc_M(G), excluded by gcd(u, disc_M G) = 1;
+    /// parity alone would still admit a J₃ ⊕ J₁ inside multiplicity 4).
+    /// PinSpeciesSigns is the per-pin sign of the double M-root M* (−1 fold pair on the line,
+    /// +1 conj pair on the axis), read EXACTLY by a Tarski query: the generalized Sturm chain of
+    /// (A, A′·h) with h ≡ −s₁₀·psc₁ mod A gives Σ sign(h) over the roots of A in any interval,
+    /// and at a root q* of A, sign(h) = sign(M*) (M* = −s₁₀/psc₁ there; psc₁(q*) ≠ 0 is the
+    /// device's own coprimality, and s₁₀(q*) ≠ 0 because M* = 0 would make q* a u-root, which
+    /// the landing's u-gate excludes). AxisTotal/FoldTotal is the same query over (0, ∞): the
+    /// species split of the WHOLE simple layer, not just the pinned loci. On a RETURNED report
+    /// DeviceCoprimeExact is always true, the non-coprime path throwing before the species read
+    /// (whose validity needs it); the field is the record, the throw is the gate.</summary>
+    public sealed record WeightPscDeviceReport(
+        int N, int WKet, int WBra, bool ROdd,
+        int MDeg,
+        int PscDeg, int S10Deg,
+        bool DeviceCoprimeExact,
+        int[] PinSpeciesSigns,
+        int AxisTotalPositive, int FoldTotalPositive);
+
+    /// <summary>Design §7: the psc device in M (not Λ: the Λ-form is blind at (1,3), every locus
+    /// being Klein-doubled; in M the doubling is divided out). Consumes the landed disc and the
+    /// exact simple layer A (so it runs after <see cref="WeightDiscMExactLanding"/> and
+    /// <see cref="SturmCountFromLanding"/> without repeating their cost) and rebuilds only the
+    /// cheap exact G. psc₁ and s₁₀ are landed over ℤ from per-node Bareiss determinants of the
+    /// (2m−3)×(2m−2) subresultant matrix on the mirrored even grid, verified at fresh nodes
+    /// including a negative one.</summary>
+    public static WeightPscDeviceReport WeightPscDevice(
+        WeightDiscMLandingReport landing, WeightSturmCountReport count, double[] censusPins)
+    {
+        var (aBlk, cBlk) = WeightSectorPencil(landing.N, landing.WKet, landing.WBra, landing.ROdd);
+        AssertHoppingSymmetry(cBlk, null);
+        var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        foreach (var qs in fRes)
+            foreach (var cf in qs)
+                if (!cf.Im.IsZero)
+                    throw new InvalidOperationException("F_res is not real: the psc device's ℤ form does not apply.");
+        int lambda0 = -2 * landing.N;
+        if (!ExactOddTaylorAllZero(fRes, lambda0))
+            throw new InvalidOperationException("F_res is not even in (Λ−Λ₀): no G exists.");
+        var shifted = TaylorShiftBivariate(fRes, lambda0);
+        int resDeg = fRes.Length - 1;
+        int mDeg = resDeg / 2;
+        if (mDeg != landing.MDeg)
+            throw new InvalidOperationException("G degree disagrees with the landing report.");
+        var g = new GaussianInteger[mDeg + 1][];
+        for (int j = 0; j <= mDeg; j++) g[j] = GaussianPolynomial.Trim(shifted[2 * j]);
+        if (GaussianPolynomial.Degree(g[mDeg]) != 0 || !g[mDeg][0].Equals(GaussianInteger.One))
+            throw new InvalidOperationException("G is not monic in M (the reindex is wrong).");
+
+        // Exact psc₁ and s₁₀ over ℤ: both even in q (G's coefficients are), so the mirrored
+        // even grid halves the Bareiss evaluations, exactly as the disc landing's grid did.
+        int dMax = 0;
+        for (int j = 0; j <= mDeg; j++) dMax = Math.Max(dMax, GaussianPolynomial.Degree(g[j]));
+        int bound = (2 * mDeg - 3) * dMax;
+        if ((bound & 1) != 0) bound++;
+        int half = bound / 2;
+        var valsP = new BigInteger[bound + 1];
+        var valsS = new BigInteger[bound + 1];
+        for (int q0 = 0; q0 <= half; q0++)
+        {
+            var (p1, s0) = Psc1PairExactAtNode(g, mDeg, q0);
+            valsP[half + q0] = p1;
+            valsP[half - q0] = p1;
+            valsS[half + q0] = s0;
+            valsS[half - q0] = s0;
+        }
+        var psc = TrimZ(IntegerNewtonFromUnitGrid(valsP, half));
+        var s10 = TrimZ(IntegerNewtonFromUnitGrid(valsS, half));
+        foreach (int q0 in new[] { half + 1, -(half + 1) })
+        {
+            var (p1, s0) = Psc1PairExactAtNode(g, mDeg, q0);
+            if (EvalZ(psc, q0) != p1 || EvalZ(s10, q0) != s0)
+                throw new InvalidOperationException($"psc₁/s₁₀ interpolant fails verification at q0={q0}.");
+        }
+
+        // The Tarski read is valid only on the full precondition stack; each is a hard gate, a
+        // silent skip would return plausible species numbers with no meaning (review 2026-08-11).
+        if (!landing.UGcdOne)
+            throw new InvalidOperationException("u-gate failed: s₁₀ could vanish at a root of A.");
+        if (!count.SplitIdentityOk)
+            throw new InvalidOperationException("the squarefree split is unproven: Sturm–Tarski does not apply.");
+
+        // The device, exact over ℤ: gcd(psc₁, stripped landed disc) must have degree 0. It is
+        // ALSO the third precondition: psc₁ ≠ 0 at the roots of A.
+        var stripped = new BigInteger[landing.DiscDeg - landing.DiscVq + 1];
+        Array.Copy(landing.DiscCoefficients, landing.DiscVq, stripped, 0, stripped.Length);
+        bool coprime = DegZ(GcdZ(psc, stripped)) == 0;
+        if (!coprime)
+            throw new InvalidOperationException(
+                "gcd(psc₁, stripped disc) ≠ 1: a two-double/triple-M point exists and the species read is invalid.");
+
+        // The Tarski chain: h ≡ −s₁₀·psc₁ mod A (a positive multiple; reductions and the
+        // product each carry only positive scalars, and the final negation sets the sign).
+        var a = count.ACoefficients;
+        var s10m = RemPositiveMultipleZ(s10, a);
+        var pscm = RemPositiveMultipleZ(psc, a);
+        var h = RemPositiveMultipleZ(MulZ(s10m, pscm), a);
+        if (DegZ(h) < 0)
+            throw new InvalidOperationException(
+                "A divides s₁₀·psc₁: the Tarski chain would collapse and count zeros silently.");
+        for (int i = 0; i < h.Length; i++) h[i] = -h[i];
+        var chain = GeneralizedSturmChainZ(a, PrimitiveZ(MulZ(DerivativeZ(a), h)));
+
+        var pinSigns = new int[censusPins.Length];
+        for (int i = 0; i < censusPins.Length; i++)
+        {
+            var mid = new BigRational(new BigInteger(Math.Round(censusPins[i] * 1e7)), new BigInteger(10_000_000));
+            var hw = new BigRational(BigInteger.One, new BigInteger(4000));
+            pinSigns[i] = SturmCountInterval(chain, mid - hw, mid + hw);
+        }
+        int tarski = SturmCountPositive(chain);      // Σ sign(M*) over ALL q > 0 roots of A
+        int n = count.CountAPositive;
+        if (((n + tarski) & 1) != 0)
+            throw new InvalidOperationException("Tarski total and root count have different parity.");
+        int axis = (n + tarski) / 2, fold = (n - tarski) / 2;
+
+        return new WeightPscDeviceReport(landing.N, landing.WKet, landing.WBra, landing.ROdd,
+            mDeg, DegZ(psc), DegZ(s10), coprime, pinSigns, axis, fold);
+    }
+
+    private static BigInteger EvalZ(BigInteger[] p, long x)
+    {
+        BigInteger acc = BigInteger.Zero;
+        var bx = new BigInteger(x);
+        for (int i = p.Length - 1; i >= 0; i--) acc = acc * bx + p[i];
+        return acc;
+    }
+
+    /// <summary>psc₁ and s₁₀ of (G(·, q0), ∂G/∂M(·, q0)) as EXACT integers: fraction-free
+    /// Bareiss on the (2m−3)×(2m−2) subresultant matrix (rows x^s·f for s = m−3..0 and x^t·f′
+    /// for t = m−2..0 in the basis x^(2m−3)..x^0); after eliminating the first 2m−4 columns the
+    /// last row holds the two bordered-minor determinants exactly (Bareiss invariant), with the
+    /// row-swap sign tracked, so S₁ = psc₁·x + s₁₀ falls out canonically: the per-node values
+    /// interpolate to the true polynomials (the mod-p Gaussian variant of an earlier draft
+    /// returned node-dependent scalar multiples, which the interpolation cannot survive; caught
+    /// by its own verification node).</summary>
+    private static (BigInteger Psc1, BigInteger S10) Psc1PairExactAtNode(
+        GaussianInteger[][] g, int mDeg, long q0)
+    {
+        var bq = new BigInteger(q0);
+        var coefs = new BigInteger[mDeg + 1];
+        for (int j = 0; j <= mDeg; j++)
+        {
+            BigInteger acc = BigInteger.Zero;
+            int dj = GaussianPolynomial.Degree(g[j]);
+            for (int i = dj; i >= 0; i--) acc = acc * bq + g[j][i].Re;
+            coefs[j] = acc;
+        }
+
+        int m = mDeg;
+        int rows = 2 * m - 3, cols = 2 * m - 2;
+        var mat = new BigInteger[rows][];
+        int r = 0;
+        var df = new BigInteger[m];
+        for (int i = 1; i <= m; i++) df[i - 1] = i * coefs[i];
+        for (int s = m - 3; s >= 0; s--, r++)
+        {
+            mat[r] = new BigInteger[cols];
+            for (int i = 0; i <= m; i++) mat[r][cols - 1 - (i + s)] = coefs[i];
+        }
+        for (int t = m - 2; t >= 0; t--, r++)
+        {
+            mat[r] = new BigInteger[cols];
+            for (int i = 0; i <= m - 1; i++) mat[r][cols - 1 - (i + t)] = df[i];
+        }
+
+        int sign = 1;
+        BigInteger prev = BigInteger.One;
+        for (int c = 0; c < rows - 1; c++)
+        {
+            int piv = -1;
+            for (int i = c; i < rows; i++)
+                if (!mat[i][c].IsZero) { piv = i; break; }
+            if (piv < 0) return (BigInteger.Zero, BigInteger.Zero);
+            if (piv != c)
+            {
+                (mat[c], mat[piv]) = (mat[piv], mat[c]);
+                sign = -sign;
+            }
+            for (int i = c + 1; i < rows; i++)
+            {
+                for (int j = c + 1; j < cols; j++)
+                    mat[i][j] = (mat[c][c] * mat[i][j] - mat[i][c] * mat[c][j]) / prev;
+                mat[i][c] = BigInteger.Zero;
+            }
+            prev = mat[c][c];
+        }
+        return (sign * mat[rows - 1][cols - 2], sign * mat[rows - 1][cols - 1]);
+    }
+
+    // ---- ℤ[x] arithmetic for the squarefree split and the Sturm chain (design §3 + §4) ----
+
+    /// <summary>Exact integer Newton interpolation on the unit grid t = 0..m (values given in
+    /// that order), returned in the variable q = t − shiftBack. Runs entirely over ℤ: the
+    /// forward differences are integers, the Newton form is accumulated in the m!-scaled
+    /// falling-factorial basis (A_m = c_m, A_j = A_{j+1}·(t − j) + (m!/j!)·c_j, so A_0 = m!·P),
+    /// and the final division by m! is asserted exact.</summary>
+    private static BigInteger[] IntegerNewtonFromUnitGrid(BigInteger[] values, int shiftBack)
+    {
+        int mm = values.Length - 1;
+        var c = (BigInteger[])values.Clone();
+        for (int j = 1; j <= mm; j++)
+            for (int i = mm; i >= j; i--)
+                c[i] -= c[i - 1];
+        var acc = new BigInteger[mm + 1];
+        int accLen = 1;
+        acc[0] = c[mm];
+        BigInteger scale = BigInteger.One;
+        for (int j = mm - 1; j >= 0; j--)
+        {
+            scale *= j + 1;
+            for (int i = accLen; i >= 1; i--)
+                acc[i] = acc[i - 1] - j * acc[i];
+            acc[0] = -j * acc[0] + scale * c[j];
+            accLen++;
+        }
+        var pt = new BigInteger[mm + 1];
+        for (int i = 0; i <= mm; i++)
+        {
+            pt[i] = BigInteger.DivRem(acc[i], scale, out var rem);
+            if (!rem.IsZero)
+                throw new InvalidOperationException($"interpolant coefficient t^{i} is not integral.");
+        }
+        if (shiftBack != 0)
+            for (int i = 0; i < mm; i++)
+                for (int j = mm - 1; j >= i; j--)
+                    pt[j] += shiftBack * pt[j + 1];
+        return pt;
+    }
+
+    private static int DegZ(BigInteger[] a)
+    {
+        for (int i = a.Length - 1; i >= 0; i--) if (!a[i].IsZero) return i;
+        return -1;
+    }
+
+    private static BigInteger[] TrimZ(BigInteger[] a)
+    {
+        int d = DegZ(a);
+        if (d < 0) return Array.Empty<BigInteger>();
+        var r = new BigInteger[d + 1];
+        Array.Copy(a, r, d + 1);
+        return r;
+    }
+
+    private static BigInteger[] DerivativeZ(BigInteger[] a)
+    {
+        int d = DegZ(a);
+        if (d <= 0) return Array.Empty<BigInteger>();
+        var r = new BigInteger[d];
+        for (int i = 1; i <= d; i++) r[i - 1] = i * a[i];
+        return r;
+    }
+
+    /// <summary>Divide by the POSITIVE content: the sign pattern (which the Sturm chain lives
+    /// on) is preserved exactly.</summary>
+    private static BigInteger[] PrimitiveZ(BigInteger[] a)
+    {
+        int d = DegZ(a);
+        if (d < 0) return Array.Empty<BigInteger>();
+        BigInteger g = BigInteger.Zero;
+        for (int i = 0; i <= d; i++) g = BigInteger.GreatestCommonDivisor(g, a[i]);
+        var r = new BigInteger[d + 1];
+        for (int i = 0; i <= d; i++) r[i] = a[i] / g;
+        return r;
+    }
+
+    private static BigInteger[] MulZ(BigInteger[] a, BigInteger[] b)
+    {
+        int da = DegZ(a), db = DegZ(b);
+        if (da < 0 || db < 0) return Array.Empty<BigInteger>();
+        var r = new BigInteger[da + db + 1];
+        for (int i = 0; i <= da; i++)
+        {
+            if (a[i].IsZero) continue;
+            for (int j = 0; j <= db; j++)
+                r[i + j] += a[i] * b[j];
+        }
+        return r;
+    }
+
+    /// <summary>Remainder of f by g up to a POSITIVE scalar multiple (repeated lc(g)-scaled
+    /// elimination with the accumulated sign tracked and fixed at the end). A positive multiple
+    /// is all a Sturm chain or a gcd needs, and keeping the multiplier's sign explicit is
+    /// exactly where hand-rolled chains go wrong (design §4's warning).</summary>
+    private static BigInteger[] RemPositiveMultipleZ(BigInteger[] f, BigInteger[] g)
+    {
+        int dg = DegZ(g);
+        if (dg < 0) throw new DivideByZeroException("polynomial remainder by zero.");
+        var lc = g[dg];
+        var rem = TrimZ(f);
+        bool negate = false;
+        int dr = DegZ(rem);
+        int steps = 0;
+        while (dr >= dg)
+        {
+            var c = rem[dr];
+            var next = new BigInteger[dr];
+            for (int j = 0; j < dr; j++)
+            {
+                next[j] = rem[j] * lc;
+                int gj = j - (dr - dg);
+                if (gj >= 0 && gj < dg)
+                    next[j] -= c * g[gj];
+            }
+            if (lc.Sign < 0) negate = !negate;
+            rem = TrimZ(next);
+            dr = DegZ(rem);
+            // Periodic positive-content strip: a large degree gap (e.g. reducing the deg-2100
+            // Tarski product mod the deg-108 A) multiplies by lc once per step, and without the
+            // strip the coefficients grow multiplicatively; positive content preserves the
+            // positive-multiple semantics exactly.
+            if (++steps % 8 == 0 && dr >= dg) rem = PrimitiveZ(rem);
+        }
+        if (negate)
+            for (int j = 0; j < rem.Length; j++) rem[j] = -rem[j];
+        return rem;
+    }
+
+    /// <summary>Primitive-PRS gcd over ℤ (design §3: plain ℚ-Euclid is the blowup risk),
+    /// normalised to a positive leading coefficient.</summary>
+    private static BigInteger[] GcdZ(BigInteger[] f, BigInteger[] g)
+    {
+        var a = PrimitiveZ(TrimZ(f));
+        var b = PrimitiveZ(TrimZ(g));
+        if (DegZ(a) < DegZ(b)) (a, b) = (b, a);
+        while (DegZ(b) > 0)
+        {
+            var r = RemPositiveMultipleZ(a, b);
+            a = b;
+            b = PrimitiveZ(r);
+        }
+        if (DegZ(b) == 0) a = new[] { BigInteger.One };
+        if (DegZ(a) >= 0 && a[DegZ(a)].Sign < 0)
+            for (int i = 0; i < a.Length; i++) a[i] = -a[i];
+        return a;
+    }
+
+    /// <summary>Exact division in ℤ[x] (throws if not exact; when f = g·h with h ∈ ℤ[x], long
+    /// division produces exactly h's integer coefficients).</summary>
+    private static BigInteger[] ExactDivZ(BigInteger[] f, BigInteger[] g)
+    {
+        int df = DegZ(f), dg = DegZ(g);
+        if (dg < 0) throw new DivideByZeroException("polynomial division by zero.");
+        if (df < dg) throw new InvalidOperationException("exact ℤ[x] division with smaller dividend.");
+        var rem = new BigInteger[df + 1];
+        Array.Copy(f, rem, df + 1);
+        var quo = new BigInteger[df - dg + 1];
+        for (int i = df; i >= dg; i--)
+        {
+            var c = BigInteger.DivRem(rem[i], g[dg], out var rr);
+            if (!rr.IsZero)
+                throw new InvalidOperationException("expected-exact ℤ[x] division has a non-integer step.");
+            quo[i - dg] = c;
+            if (c.IsZero) continue;
+            for (int j = 0; j <= dg; j++)
+                rem[i - dg + j] -= c * g[j];
+        }
+        if (DegZ(rem) >= 0)
+            throw new InvalidOperationException("expected-exact ℤ[x] division left a remainder.");
+        return quo;
+    }
+
+    /// <summary>The exact squarefree split P = A·B² with A, B squarefree and coprime (the shape
+    /// MaxDiscMultiplicity ≤ 4 forces on the stripped disc; a multiplicity-3 part throws in
+    /// ExactDivZ rather than reaching the gates). Returns (A, B, ok) where ok bundles the reconstruction identity P = A·B·B checked
+    /// coefficient for coefficient over ℤ (no-rounding case 1: an exact route exists) with the
+    /// pairwise gcd and squarefree gates gcd(A,B) = gcd(A,A′) = gcd(B,B′) = 1.</summary>
+    private static (BigInteger[] A, BigInteger[] B, bool Ok) SquarefreeSplitAB2(BigInteger[] p)
+    {
+        var pp = PrimitiveZ(TrimZ(p));
+        var b = GcdZ(pp, DerivativeZ(pp));
+        var ab = PrimitiveZ(ExactDivZ(pp, b));
+        var a = PrimitiveZ(ExactDivZ(ab, b));
+
+        // Reconstruction identity P = A·B·B over ℤ, sign included (A carries P's sign, B is
+        // normalised positive by GcdZ; both quotients of primitives are primitive by Gauss, so
+        // the PrimitiveZ wrappers are no-ops and the compare is exact, not up-to-content).
+        var recon = MulZ(MulZ(a, b), b);
+        bool ok = recon.Length == pp.Length;
+        if (ok)
+            for (int i = 0; i < recon.Length; i++)
+                if (recon[i] != pp[i]) { ok = false; break; }
+        ok = ok && DegZ(GcdZ(a, b)) == 0
+                && (DegZ(a) <= 0 || DegZ(GcdZ(a, DerivativeZ(a))) == 0)
+                && (DegZ(b) <= 0 || DegZ(GcdZ(b, DerivativeZ(b))) == 0);
+        return (a, b, ok);
+    }
+
+    /// <summary>The Sturm chain of p with every element a POSITIVE-scalar multiple of the
+    /// classical one (primitive parts of sign-fixed pseudo-remainders): the variation counts are
+    /// those of the classical chain exactly.</summary>
+    private static List<BigInteger[]> SturmChainZ(BigInteger[] p)
+    {
+        var p0 = PrimitiveZ(TrimZ(p));
+        return GeneralizedSturmChainZ(p0, PrimitiveZ(DerivativeZ(p0)));
+    }
+
+    /// <summary>The Sylvester generalized chain (p0, p1, −rem, …): with p1 = p0′·h it computes
+    /// Tarski queries, Σ sign(h) over the roots of p0 in an interval; with p1 = p0′ it is the
+    /// classical Sturm chain.</summary>
+    private static List<BigInteger[]> GeneralizedSturmChainZ(BigInteger[] p0, BigInteger[] p1)
+    {
+        var chain = new List<BigInteger[]> { p0 };
+        if (DegZ(p1) < 0) return chain;
+        chain.Add(p1);
+        while (true)
+        {
+            var r = RemPositiveMultipleZ(chain[^2], chain[^1]);
+            if (DegZ(r) < 0) break;
+            var next = PrimitiveZ(r);
+            for (int i = 0; i < next.Length; i++) next[i] = -next[i];
+            chain.Add(next);
+        }
+        return chain;
+    }
+
+    private static int SignVariations(IEnumerable<int> signs)
+    {
+        int v = 0, prev = 0;
+        foreach (var s in signs)
+        {
+            if (s == 0) continue;
+            if (prev != 0 && s != prev) v++;
+            prev = s;
+        }
+        return v;
+    }
+
+    private static int VariationsAtInfinity(List<BigInteger[]> chain, bool positive)
+        => SignVariations(chain.Select(p =>
+        {
+            int d = DegZ(p);
+            if (d < 0) return 0;
+            int s = p[d].Sign;
+            return positive || (d & 1) == 0 ? s : -s;
+        }));
+
+    private static int VariationsAtRational(List<BigInteger[]> chain, BigRational x)
+        => SignVariations(chain.Select(p =>
+        {
+            int d = DegZ(p);
+            if (d < 0) return 0;
+            var acc = new BigRational(0);
+            for (int i = d; i >= 0; i--) acc = acc * x + new BigRational(p[i]);
+            return acc.Sign;
+        }));
+
+    /// <summary>Distinct real roots with q &gt; 0 (the census convention; 0 must not be a root
+    /// of the chain's head, which the stripped inputs guarantee).</summary>
+    private static int SturmCountPositive(List<BigInteger[]> chain)
+        => VariationsAtRational(chain, new BigRational(0)) - VariationsAtInfinity(chain, positive: true);
+
+    private static int SturmCountAllReal(List<BigInteger[]> chain)
+        => VariationsAtInfinity(chain, positive: false) - VariationsAtInfinity(chain, positive: true);
+
+    private static int SturmCountInterval(List<BigInteger[]> chain, BigRational lo, BigRational hi)
+        => VariationsAtRational(chain, lo) - VariationsAtRational(chain, hi);
 
     /// <summary>The exact Taylor shift of the bivariate about Λ₀:
     /// H[m](q) = Σ_{k≥m} C(k,m)·Λ₀^{k−m}·f[k](q) over ℤ[i], the coefficient form

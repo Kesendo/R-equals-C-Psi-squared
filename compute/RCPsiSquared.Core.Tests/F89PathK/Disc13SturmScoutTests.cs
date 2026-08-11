@@ -32,8 +32,12 @@ public class Disc13SturmScoutTests
     {
         var r = FoldResultantCertificate.WeightSturmScout(4, 1, 2, rOdd, timingNodes: 0);
         _out.WriteLine($"N4 (1,2) rOdd={rOdd}: real={r.ResidualIsReal} even={r.EvenInShiftedLambda} " +
+                       $"qEven={r.EvenInQ} " +
                        $"mDeg={r.MDeg} fDeg={r.FDeg} vQf={r.VQf} square={r.FIsPerfectSquare} uDeg={r.UDeg}");
         Assert.False(r.EvenInShiftedLambda, "N=4 (1,2) has no (Λ+8)² evenness (committed control)");
+        Assert.False(r.EvenInQ, "measured control: at (1,2)@N=4 the bipartite-gauge character " +
+            "(p+q)(N−1) = 9 is odd, the gauge swaps the R-sectors, and per-sector q-evenness " +
+            "indeed fails; keeps the EvenInQ gate from being trivially true");
         Assert.Equal(-1, r.MDeg);
         Assert.Equal(8, r.FDeg);
         Assert.False(r.FIsPerfectSquare, "the N=4 f is squarefree ([8]); the exact √ must refuse it");
@@ -57,6 +61,7 @@ public class Disc13SturmScoutTests
     {
         var r = FoldResultantCertificate.WeightSturmScout(6, 1, 3, rOdd, timingNodes: 10);
         _out.WriteLine($"N6 (1,3) rOdd={rOdd}: real={r.ResidualIsReal} even={r.EvenInShiftedLambda} " +
+                       $"qEven={r.EvenInQ} " +
                        $"mDeg={r.MDeg} fDeg={r.FDeg} vQf={r.VQf} square={r.FIsPerfectSquare} " +
                        $"uDeg={r.UDeg} uReal={r.UIsReal} compId={r.CompositionIdentityAtNodes} " +
                        $"ms/node(discM)={r.MsPerNodeDiscM:F1}");
@@ -64,6 +69,11 @@ public class Disc13SturmScoutTests
         Assert.True(r.ResidualIsReal, "§0: F_res expected real (conjugation-closed sector; " +
                                       "a failure here is the design's §0 contingency finding)");
         Assert.True(r.EvenInShiftedLambda, "the certified evenness, re-read on this path");
+        Assert.True(r.EvenInQ, "F_res even in q: derived from the census's bipartite gauge " +
+            "T·L(q)·T = L(−q) (entry-wise: hops flip bipartite parity, the dissipator diagonal " +
+            "is q-free) acting WITHIN each R-sector at (1,3)@N=6 ((p+q)(N−1) = 20 even, " +
+            "[T, Pr] = 0), with the AT strands pairing a+bq ↔ a−bq under T; gated exactly here " +
+            "so the Route-A grid can take the negative node half for free");
         Assert.Equal(mDeg, r.MDeg);
         Assert.Equal(fDeg, r.FDeg);
         Assert.Equal(0, r.VQf);

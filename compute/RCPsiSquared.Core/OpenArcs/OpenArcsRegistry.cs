@@ -5316,9 +5316,9 @@ public static class OpenArcsRegistry
                 "The block-scoped self-fold's follow-up (fold legs fix (p, N/2) at every even N: the " +
                 "N=4 quartet's mechanism moves to (1,3) at N=6) RAN 2026-08-10 evening and FOUND the " +
                 "sibling population: AT LEAST THIRTEEN real-q defective loci of (1,3)@N=6 (13 found, " +
-                "a FLOOR: channel A's rejection bucket is printed, not exhaustively re-classified, and " +
-                "no upper bound short of an exact layer split; the mod-p layer read gives " +
-                "floors), two detector " +
+                "a FLOOR at the time: channel A's rejection bucket is printed, not exhaustively " +
+                "re-classified; the exact count below has since closed it at 9 + 6 = FIFTEEN, one " +
+                "fold-line locus short per sector, both channels blind to both misses), two detector " +
                 "channels. Fold pairs on the line, conj-doubled (8): R-even octic q* = 0.4630013, 0.6400121, " +
                 "0.7450837, 0.9184132, 1.5109958, 3.0922209; R-odd 1.9567664, 3.2608458, all lambda = " +
                 "-6 +- yi (fold-symmetry breaking: Re l1 = Re l2 is ONE real condition, codim 1; " +
@@ -5406,7 +5406,9 @@ public static class OpenArcsRegistry
                 "species live on the simple layer of stripped disc_M(G), TRUE degree 90+2k " +
                 "(R-even) / 108+2k' (R-odd), k,k' >= 0: a mod-p layer DEGREE is a FLOOR (distinct " +
                 "true roots can only merge mod p; only the measured max MULTIPLICITY bounds truth " +
-                "from above), two-prime agreement is evidence for k=k'=0 not proof, the a-priori " +
+                "from above), two-prime agreement is evidence for k=k'=0 not proof (closed at " +
+                "k=k'=0 the same afternoon by the exact split, the closing-step paragraph " +
+                "below), the a-priori " +
                 "ceiling is the stripped degree 330/444, and a first wording here ('AT MOST " +
                 "90/108') read the one-way lift backwards, caught by the 2026-08-11 Sturm design " +
                 "review. The census's 8+5 " +
@@ -5422,9 +5424,14 @@ public static class OpenArcsRegistry
                 "924/1210 primes sampled past the lc-divisor caps 923/1209, layers identical to " +
                 "the scout at the certifying prime (mod-p, degrees are floors), " +
                 "MaxDiscMultiplicity = 4 as a one-way-upward bound (the " +
-                "'Klein-forced ceiling' is the census's interpretation; and the beta-exotic " +
-                "exclusion the (1,2) device's <=2 delivers does NOT fire here, a Puiseux-3/2 " +
-                "hideable inside the mult-4 layer) " +
+                "'Klein-forced ceiling' is the census's interpretation; an earlier clause here " +
+                "said 'a Puiseux-3/2 hideable inside the mult-4 layer', which named the ORDER-3 " +
+                "species for the ORDER-2 hideout: fold-doubling sends the beta-exotic's disc " +
+                "order 3 to 6 > 4, excluded outright, and the genuine order-2 hideout, the 3x3 " +
+                "Jordan cubic branch doubled to exactly 4, is closed off mu=0 by the psc device " +
+                "below and ON the line by the u-gate: multiplicity >= 3 at Lambda=-12 needs " +
+                "M=0 double in G, a common u/disc_M-root that gcd(u, disc_M G) = 1 excludes; " +
+                "parity alone would still admit J3+J1 inside multiplicity 4) " +
                 "(Disc13CertificateTests, Categories SLOW_DISC13_CERT + EVEN_DISC13_SCOUT, " +
                 "~44/~98 s per (1,3) parity; controls " +
                 "reproduce the committed (1,2) certificate at N=4 and N=6 through the weight path; " +
@@ -5432,12 +5439,47 @@ public static class OpenArcsRegistry
                 "one certified-about-the-wrong-object spot a review named before Sturm leans on " +
                 "these invariants). " +
                 "The scout methods beside it stay crude-bound/two-prime by design; " +
-                "CertifyDiscReImGcd stays the wrong tool by design (real disc). The MISSING closing " +
-                "step, unchanged in kind: the exact REAL-ROOT COUNT of the multiplicity-2 layer in " +
-                "the window (Sturm on an exactly reconstructed layer polynomial over Q; no Sturm " +
-                "chain exists in the repo yet; the certified deg/v above are its input invariants), " +
-                "the same shape as the N=8 Q(i) simple-layer split. " +
-                "Layer-read section in F89_PATH_K_DIABOLIC.md. " +
+                "CertifyDiscReImGcd stays the wrong tool by design (real disc). " +
+                "THE CLOSING STEP RAN 2026-08-11 afternoon, after the same day's walk and " +
+                "layer read below in this entry's order (Disc13SturmTests, Categories " +
+                "EVEN_DISC13_SCOUT fast + SLOW_DISC13_STURM ~10/~47 min per parity; sympy oracle " +
+                "recorded): disc_M(G) landed EXACTLY over Z by Route A (mirrored integer grid, " +
+                "the q-EVENNESS DERIVED from the bipartite gauge T L(q) T = L(-q) acting within " +
+                "the sector at (p+q)(N-1) even, gated exactly on F_res, N=4 control False as " +
+                "derived; quiet per-node 870/2371 ms, evaluations halved to 385/520; deg/v " +
+                "768/438 and 1038/594 landed, composition identity gated at the POLYNOMIAL level " +
+                "mod both committed primes sign included, u-gate exact over Q, verification " +
+                "nodes incl. one negative), squarefree split PROVEN over Z (P = A*B*B " +
+                "coefficient-exact + pairwise gcd/squarefree gates), so k = k' = 0: TRUE deg A " +
+                "= 90/108, deg B = 120/168. THE COUNT: n_even = 9 (7 fold-line + 2 axis), " +
+                "n_odd = 6 (3 fold + 3 axis), FIFTEEN codim-1 defective loci, both census " +
+                "floors one short. The two misses, located (sympy isolation on landed A) and " +
+                "classified (exact Tarski chain on (A, A'*h), h = -s10*psc1 mod A): R-even " +
+                "0.6133162 FOLD pair between the pins 0.4630/0.6400 (channel B blind to the " +
+                "fold species, channel A missed it); R-odd 0.4627729 FOLD pair 7.8e-4 beside " +
+                "the AXIS locus 0.4635508, BELOW channel A's 0.001 grid step, a MIXED-SPECIES " +
+                "close pair (channel B sees only the axis member). All thirteen census pins " +
+                "carry exactly one root each, every census species confirmed; the census edge " +
+                "gates are now theorems, the fifteen being the total over ALL q > 0. " +
+                "Corollaries: u has 4/3 positive real roots (the " +
+                "real mu=0 diabolics; the TOTAL 7 = the census's six printed lambda=-6 " +
+                "crossings plus its rejected-bucket q~0.544, whose sector the census never " +
+                "recorded, the 4/3 split placing it R-even), B has 7/9. PSC DEVICE at theorem grade: " +
+                "psc1 and s10 " +
+                "landed exactly over Z (per-node Bareiss; deg psc1 704/954, s10 704/956, " +
+                "gated), gcd(psc1, stripped " +
+                "disc) = 1 EXACT both parities: no q != 0 carries two double M-roots or a " +
+                "triple, closing the mult-4 codim-2 double-pair hideout outright and the 3x3 " +
+                "Jordan branch off mu=0 (on the line the u-gate closes it, as above). Residual caveats, named: 'defective with analytic " +
+                "crossing' in B (codim 2, genericity-excluded) and the mu=0 " +
+                "multiplicity-never-semisimplicity caveat. N=4 (1,2) control end to end " +
+                "(deg D 52/v 24, split [20,4], EXACTLY the four committed loci counted, the " +
+                "diabolic 0.659 in B and NOT counted, Im D == 0 exact: the census float " +
+                "reality upgraded), (1,2)@N=6 landing DECLINES as it must, synthetic M-descent " +
+                "control sympy-pinned coefficient-exact. OPEN: lambda positions of the two new " +
+                "loci unread, the walk not re-run at fifteen. " +
+                "(The gap this closes stood here verbatim as 'no Sturm chain exists in the " +
+                "repo yet'.) Layer-read and real-root-count sections in F89_PATH_K_DIABOLIC.md. " +
                 "THE (1,3) WALK RAN 2026-08-11, next morning (simulations/eta_ladder_chain_n6.py, 566 " +
                 "gates, ~1 min; three first-draft claims died in its review rounds, all three kept in " +
                 "the doc section, and the fix-diff round then caught the repair misquoting its own " +
