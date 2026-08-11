@@ -342,6 +342,326 @@ public static class FoldResultantCertificate
         }
     }
 
+    /// <summary>The ×2-cleared R-parity sector pencil A + q·C of the general (wKet, wBra) chain
+    /// coherence block (<see cref="WeightCoherenceBlock.Build(int,int,int,Complex)"/>, γ = 1, J = q).
+    /// SCOPE: blocks whose reflection action has NO fixed basis pair, i.e. every orbit a 2-cycle —
+    /// guaranteed whenever one weight side has no reflection-symmetric configuration (any ODD weight
+    /// at EVEN N: a reflection-fixed mask needs its bits in mirror pairs, impossible at odd popcount
+    /// when no site is self-mirrored). Then both parities carry the uniform metric BᵀB = 2·I (sector
+    /// columns e_t ± e_{Rt}, one per 2-cycle {t &lt; Rt} in increasing t), the ×2-cleared sector
+    /// operator is BᵀLB = 2·UᵀLU for the orthonormal U = B/√2 with exact Gaussian-integer entries,
+    /// and <see cref="AssertHoppingSymmetry"/> runs with null weights (no orbit-size skew). A fixed
+    /// point throws: such a block needs the (1,2)-style orbit-sum metric instead. Both (1,2) and
+    /// (1,3) at N = 6 qualify (ket weight 1 is odd), which is what lets the generalized path be
+    /// validated against the committed (1,2) scout pins. Built for the sideways_spin_ladder arc's
+    /// (1,3) certificate step; the (1,2) methods above keep their original
+    /// <see cref="F89PathKSeDeBlock"/> route untouched.</summary>
+    public static (GaussianInteger[,] A, GaussianInteger[,] C) WeightSectorPencil(
+        int n, int wKet, int wBra, bool rOdd)
+    {
+        var b = new GaussianInteger[3][,];
+        for (int q0 = 0; q0 <= 2; q0++) b[q0] = WeightSectorTwoTimes(n, wKet, wBra, rOdd, q0);
+        int d = b[0].GetLength(0);
+        var c = new GaussianInteger[d, d];
+        for (int i = 0; i < d; i++)
+            for (int j = 0; j < d; j++)
+            {
+                c[i, j] = b[1][i, j] - b[0][i, j];
+                if (!(b[0][i, j] + c[i, j] + c[i, j]).Equals(b[2][i, j]))
+                    throw new InvalidOperationException("the sector block is not linear in q0.");
+            }
+        return (b[0], c);
+    }
+
+    /// <summary>BᵀL(q0)B on the 2-cycle ± basis (see <see cref="WeightSectorPencil"/>): four
+    /// full-block entries per sector entry, cross terms signed by the parity.</summary>
+    private static GaussianInteger[,] WeightSectorTwoTimes(int n, int wKet, int wBra, bool rOdd, int q0)
+    {
+        var l = WeightCoherenceBlock.Build(n, wKet, wBra, new Complex(q0, 0));
+        var perm = WeightCoherenceBlock.ReflectionPermutation(n, wKet, wBra);
+        var pairs = new List<(int T, int T2)>();
+        for (int t = 0; t < perm.Length; t++)
+        {
+            if (perm[t] == t)
+                throw new InvalidOperationException(
+                    $"reflection fixed point at basis index {t}: WeightSectorPencil covers all-2-cycle " +
+                    "blocks only (one odd weight side at even N guarantees that); a fixed point needs " +
+                    "the orbit-sum metric of the (1,2) path.");
+            if (perm[t] > t) pairs.Add((t, perm[t]));
+        }
+        int d = pairs.Count;
+        double sgn = rOdd ? -1.0 : 1.0;
+        var blk = new GaussianInteger[d, d];
+        for (int r = 0; r < d; r++)
+            for (int col = 0; col < d; col++)
+            {
+                Complex v = l[pairs[r].T, pairs[col].T]
+                          + sgn * l[pairs[r].T, pairs[col].T2]
+                          + sgn * l[pairs[r].T2, pairs[col].T]
+                          + l[pairs[r].T2, pairs[col].T2];
+                blk[r, col] = ExactGaussian(v);
+            }
+        return blk;
+    }
+
+    /// <summary>EXACT evenness of the bivariate about Λ₀: every odd Taylor coefficient
+    /// a_m(q) = Σ_{k≥m} C(k,m)·c_k(q)·Λ₀^{k−m} of F_res at Λ₀ identically zero over ℤ[i].
+    /// BigInteger binomials and powers, no reduction: a true verdict is a theorem about the
+    /// exact residual, not a mod-p scout read.</summary>
+    private static bool ExactOddTaylorAllZero(GaussianInteger[][] fRes, int lambda0)
+    {
+        int kMax = fRes.Length - 1;
+        var binom = new System.Numerics.BigInteger[kMax + 1][];
+        for (int k = 0; k <= kMax; k++)
+        {
+            binom[k] = new System.Numerics.BigInteger[k + 1];
+            binom[k][0] = binom[k][k] = System.Numerics.BigInteger.One;
+            for (int m = 1; m < k; m++)
+                binom[k][m] = binom[k - 1][m - 1] + binom[k - 1][m];
+        }
+        var lamPow = new System.Numerics.BigInteger[kMax + 1];
+        lamPow[0] = System.Numerics.BigInteger.One;
+        for (int e = 1; e <= kMax; e++) lamPow[e] = lamPow[e - 1] * lambda0;
+        int len = 0;
+        foreach (var qs in fRes) len = Math.Max(len, qs.Length);
+        for (int m = 1; m <= kMax; m += 2)
+            for (int i = 0; i < len; i++)
+            {
+                var accRe = System.Numerics.BigInteger.Zero;
+                var accIm = System.Numerics.BigInteger.Zero;
+                for (int k = m; k <= kMax; k++)
+                {
+                    if (i >= fRes[k].Length) continue;
+                    var c = fRes[k][i];
+                    if (c.Re.IsZero && c.Im.IsZero) continue;
+                    var w = binom[k][m] * lamPow[k - m];
+                    accRe += c.Re * w;
+                    accIm += c.Im * w;
+                }
+                if (!accRe.IsZero || !accIm.IsZero) return false;
+            }
+        return true;
+    }
+
+    /// <summary>Weight-general per-point cross-check of the bivariate residual, the guard the (1,2)
+    /// siblings carry (<see cref="CertifyDiscMultiplicity"/> / <see cref="CertifyCore"/>) and the
+    /// weight-general path must not drop, being exactly where a new block shape first appears: at
+    /// q0 = 2, 3 the sector pencil is evaluated directly, its charpoly (the per-point
+    /// Faddeev-route, independent of the bivariate Berkowitz) divided by the AT factor at q0, the
+    /// remainder asserted empty and the quotient compared to the bivariate F_res at q0. Also pins
+    /// deg_Λ F_res = resDeg.</summary>
+    private static void WeightCrossCheckResidual(
+        GaussianInteger[][] fRes, GaussianInteger[,] aBlk, GaussianInteger[,] cBlk,
+        IReadOnlyList<AtSector> sectors, int resDeg)
+    {
+        if (fRes.Length - 1 != resDeg)
+            throw new InvalidOperationException($"bivariate residual degree {fRes.Length - 1} ≠ {resDeg}.");
+        var at = BivariateAtFactor(sectors);
+        int d = aBlk.GetLength(0);
+        foreach (int q0 in new[] { 2, 3 })
+        {
+            var blk = new GaussianInteger[d, d];
+            for (int i = 0; i < d; i++)
+                for (int j = 0; j < d; j++)
+                    blk[i, j] = aBlk[i, j] + cBlk[i, j] * new GaussianInteger(q0, 0);
+            var (res, rem) = GaussianPolynomial.DivMod(GaussianMatrixCharpoly.Characteristic(blk),
+                                                       EvalBivariateAtQ(at, q0));
+            if (rem.Length != 0)
+                throw new InvalidOperationException($"AT factor does not divide the sector charpoly at q0={q0}.");
+            AssertPolyEqual(EvalBivariateAtQ(fRes, q0), res, $"weight-general bivariate F_res at q0={q0}");
+        }
+    }
+
+    /// <summary>The weight-general sibling of <see cref="DiscLayersAtNthPrime"/>: deg_q D, v_q(D) and
+    /// the squarefree layer degrees of the AT-stripped residual discriminant of the (wKet, wBra)
+    /// R-sector at the <paramref name="nth"/> split prime. The AT sectors are DERIVED from the q=0
+    /// diagonal (<see cref="F89AtFactorReconstruction.ClearedAtSectorsFromPencil"/>), so the (1,2)
+    /// rate-literal trap ({−4,−12} fed a {−8,−16} block silently clears nothing) cannot recur. The
+    /// interpolation bound is the crude Bauer–Fike resDeg·(resDeg−1) with NO leading-form m_D
+    /// subtraction (the (1,2) path's <see cref="ResidualLeadingForm"/> is not generalized here;
+    /// the extra sample nodes are cheap). Scout-grade like its sibling: one prime, layers certified
+    /// only by cross-prime agreement (run nth = 0 and 1). For the (1,3)@N=6 census block the
+    /// multiplicity-2 layer is the separating object: away from Λ = −2N a doubled defective locus is
+    /// a DOUBLE root of the sector disc while a doubled diabolic crossing is a QUADRUPLE one (the
+    /// Klein orbits of the census section in experiments/F89_PATH_K_DIABOLIC.md), so the layer
+    /// profile reads the two species apart — a squarefree part or sign count would erase exactly
+    /// that (docs/CAUGHT_ERRORS.md 2026-07-01 B1). The Λ = −2N stratum is NOT separated here; it
+    /// gets its own read (<see cref="WeightLambdaStratumAtNthPrime"/>).</summary>
+    public static (int P, int DegD, int VD, int[] LayerDegrees, int AtDeg, int ResDeg, bool DiscIsRealModP,
+        int Mult2StratumGcdDeg)
+        WeightDiscLayersAtNthPrime(int n, int wKet, int wBra, bool rOdd, int nth)
+    {
+        if (nth < 0) throw new ArgumentOutOfRangeException(nameof(nth));
+
+        var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
+        AssertHoppingSymmetry(cBlk, null);      // uniform metric: all orbits are 2-cycles
+        var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
+        int atDeg = 0;
+        foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
+        int resDeg = aBlk.GetLength(0) - atDeg;
+
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        WeightCrossCheckResidual(fRes, aBlk, cBlk, sectors, resDeg);
+        int dBound = resDeg * (resDeg - 1);
+        int samples = dBound + 1 + 24;
+
+        long candidate = (1L << 30) + 1;
+        while (candidate % 4 != 1) candidate += 2;
+        int seen = 0;
+        for (; ; candidate += 4)
+        {
+            if (!IsPrime(candidate)) continue;
+            int p = checked((int)candidate);
+            int? root = SqrtMinusOneFast(p);
+            if (root is null) continue;
+            if (seen++ < nth) continue;
+            int r = root.Value;
+
+            // both embeddings i ↦ r and i ↦ p−r: their D's agree iff Im D ≡ 0 mod p, the exact
+            // form of the census's sector disc-reality (the float read was ≤ 5e-12); layers are
+            // read from the first embedding.
+            var dp = new int[2][];
+            foreach (var (emb, k) in new[] { (r, 0), (p - r, 1) })
+            {
+                var fResP = ReduceBivariate(fRes, p, emb);
+                var dSamp = new int[samples];
+                for (int q0 = 0; q0 < samples; q0++)
+                {
+                    var fL = EvalBivariateModP(fResP, q0, p);
+                    if (DegP(fL) != resDeg || fL[resDeg] != 1)
+                        throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0} (i↦{emb}).");
+                    dSamp[q0] = DiscriminantModP(fL, p);
+                }
+                var dNodes = new int[dBound + 1];
+                Array.Copy(dSamp, dNodes, dBound + 1);
+                dp[k] = InterpolateAtIntegerNodes(dNodes, p);
+                for (int q0 = dBound + 1; q0 < samples; q0++)
+                    if (EvalModP(dp[k], q0, p) != dSamp[q0])
+                        throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}, i↦{emb}).");
+            }
+            bool discReal = dp[0].Length == dp[1].Length;
+            if (discReal)
+                for (int i = 0; i < dp[0].Length; i++)
+                    if (dp[0][i] != dp[1][i]) { discReal = false; break; }
+
+            int vDp = QValuation(dp[0]);
+            var layers = FpSquarefreeLayers(StripQ(dp[0], vDp), p);
+            var degs = new int[layers.Count];
+            for (int k = 0; k < layers.Count; k++) degs[k] = DegP(layers[k]);
+
+            // The gcd(u, disc_M G) = 1 hypothesis, gated as u | mult-2-layer (a review round found
+            // the μ = 0 reading needs it: an f-root of order 2 could be one transversal crossing OR
+            // two coincident defective EPs on the line; the 1+1 case would push a u-root into the
+            // mult-4 layer, so deg gcd(u, L₂) = deg u excludes it and also fixes the mult-2 split
+            // exactly). Computed only when f = F_res(−2n, q) is a perfect square (f-layers [0, k]);
+            // −1 otherwise (e.g. the squarefree N=4 control, where the evenness analysis is void).
+            int mult2Gcd = -1;
+            {
+                var fResP0 = ReduceBivariate(fRes, p, r);
+                int lenF = 0;
+                foreach (var qs in fResP0) lenF = Math.Max(lenF, qs.Length);
+                var f = new int[lenF];
+                long lam0 = (((-2L * n) % p) + p) % p;
+                long pw = 1;
+                for (int k = 0; k < fResP0.Length; k++)
+                {
+                    for (int i = 0; i < fResP0[k].Length; i++)
+                        f[i] = (int)((f[i] + fResP0[k][i] * pw) % p);
+                    pw = pw * lam0 % p;
+                }
+                if (DegP(f) >= 0)
+                {
+                    var fl = FpSquarefreeLayers(StripQ(f, QValuation(f)), p);
+                    if (fl.Count == 2 && DegP(fl[0]) <= 0 && layers.Count >= 2)
+                        mult2Gcd = DegP(GcdModP(fl[1], layers[1], p));
+                }
+            }
+            return (p, DegP(dp[0]), vDp, degs, atDeg, resDeg, discReal, mult2Gcd);
+        }
+    }
+
+    /// <summary>The Λ-stratum read the layer profile cannot supply: at the ×2-cleared value
+    /// Λ₀ = <paramref name="lambdaCleared"/> (the census's μ = 0 singleton line is physical
+    /// λ = −N, i.e. Λ₀ = −2N), the q-locus where Λ₀ is a REPEATED Λ-root of the residual is
+    /// exactly the common-root set of f(q) = F_res(Λ₀, q) and g(q) = (∂F_res/∂Λ)(Λ₀, q), read
+    /// mod p as deg gcd(f, g). On that line an UNDOUBLED transversal crossing is already an
+    /// order-2 disc zero (the Klein orbit degenerates to a singleton), so the multiplicity-2
+    /// disc layer cannot tell it from an off-line doubled defective locus — this gcd isolates
+    /// the stratum so the layer read stays clean. Returns the gcd's q-valuation beside its
+    /// degree (roots at q = 0 are not physical couplings), the f-layer profile (a perfect square,
+    /// f-layers [0, k], says every Λ₀-touch is transversal: NO defective locus sits on the line,
+    /// the only source of an odd-order f-root being a √-branch exactly there), and
+    /// <c>EvenInShiftedLambda</c>: whether EVERY odd Taylor coefficient of F_res at Λ₀ vanishes
+    /// mod p, i.e. F_res ∈ GF(p)[(Λ−Λ₀)², q] — the full evenness read (GDeg = −1 alone certifies
+    /// only the first odd coefficient a₁; a review round caught that gap and this member closes
+    /// it). Scout-grade, one prime.</summary>
+    public static (int P, int FDeg, int GDeg, int GcdDeg, int GcdQVal, int[] FLayerDegrees, bool EvenInShiftedLambda)
+        WeightLambdaStratumAtNthPrime(
+        int n, int wKet, int wBra, bool rOdd, int lambdaCleared, int nth)
+    {
+        if (nth < 0) throw new ArgumentOutOfRangeException(nameof(nth));
+
+        var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
+        AssertHoppingSymmetry(cBlk, null);
+        var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
+        int atDeg = 0;
+        foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        WeightCrossCheckResidual(fRes, aBlk, cBlk, sectors, aBlk.GetLength(0) - atDeg);
+
+        long candidate = (1L << 30) + 1;
+        while (candidate % 4 != 1) candidate += 2;
+        int seen = 0;
+        for (; ; candidate += 4)
+        {
+            if (!IsPrime(candidate)) continue;
+            int p = checked((int)candidate);
+            int? root = SqrtMinusOneFast(p);
+            if (root is null) continue;
+            if (seen++ < nth) continue;
+
+            var fResP = ReduceBivariate(fRes, p, root.Value);
+            int len = 0;
+            foreach (var qs in fResP) len = Math.Max(len, qs.Length);
+            var f = new int[len];
+            var g = new int[len];
+            long lam0 = ((lambdaCleared % p) + p) % p;
+            long pw = 1, pwPrev = 0;
+            for (int k = 0; k < fResP.Length; k++)
+            {
+                for (int i = 0; i < fResP[k].Length; i++)
+                {
+                    f[i] = (int)((f[i] + fResP[k][i] * pw) % p);
+                    if (k >= 1)
+                        g[i] = (int)((g[i] + fResP[k][i] * pwPrev % p * k) % p);
+                }
+                pwPrev = pw;
+                pw = pw * lam0 % p;
+            }
+            var gcd = GcdModP(f, g, p);
+            int gcdDeg = DegP(gcd);
+            int gcdVal = gcdDeg < 0 ? -1 : QValuation(gcd);
+            // The FULL evenness read, EXACT over ℤ[i] (a review round caught that g ≡ 0 alone
+            // certifies only the FIRST odd Taylor coefficient a₁ at Λ₀; a second round noted a
+            // mod-p read stays mod-p evidence, while the bivariate is exact and in hand):
+            // Taylor-shift F_res to Λ₀ via a_m(q) = Σ_{k≥m} C(k,m)·c_k(q)·Λ₀^{k−m} over ℤ[i]
+            // and require EVERY odd a_m to be identically zero. True ⟺ F_res is a polynomial in
+            // (Λ − Λ₀)², the within-sector fold as algebra, no prime involved.
+            bool evenShifted = ExactOddTaylorAllZero(fRes, lambdaCleared);
+            int fDeg = DegP(f);
+            int[] fLayerDegs;
+            if (fDeg < 0) fLayerDegs = Array.Empty<int>();
+            else
+            {
+                int vf = QValuation(f);
+                var fLayers = FpSquarefreeLayers(StripQ(f, vf), p);
+                fLayerDegs = new int[fLayers.Count];
+                for (int k = 0; k < fLayers.Count; k++) fLayerDegs[k] = DegP(fLayers[k]);
+            }
+            return (p, fDeg, DegP(g), gcdDeg, gcdVal, fLayerDegs, evenShifted);
+        }
+    }
+
     /// <summary>Scout for the even-N closing certificate (the sideways_spin_ladder arc's Sturm/gcd
     /// route): recover Re D and Im D mod p SEPARATELY and read their gcd in GF(p)[q].
     ///

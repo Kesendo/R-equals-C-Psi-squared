@@ -210,30 +210,27 @@ public sealed class SidewaysSpinLadderClaim : Claim
                          "|fold ∪ band| = 4N−12 (the sum 8 = 4N−8 double-counts the shared sectors), and " +
                          "each value reads the TWO closest eigenvalues so the conjugate twin is never " +
                          "dropped by a single argmin.");
-            yield return new InspectableNode("N=9 confirmed; even N measured, no locus found at N=6/8",
+            yield return new InspectableNode("N=9 confirmed; even N: (1,2) empty by theorem at N=6, (1,3) walked",
                 summary: "N=9, ℓ=3 CONFIRMED 2026-08-09: norms √6, √10, √12, √12, √10, √6 on both chains to " +
                          "six decimals, seven sectors per chain, 28 = 4·9−8; the 10584²/15876² middle blocks " +
                          "walked by one dense LU shift-invert each (SidewaysSpinLadderSparse, gate " +
                          "SLOW_SIDEWAYS9, ~2 min). The measurement is robust to the fold pair's closeness " +
                          "(members −12.878060/−12.880829, split 2.77e-3, eigenvector angle ~1.8e-3): both " +
                          "members AND every in-plane mix transport at the same CG norm, verified to nine " +
-                         "decimals in review. EVEN N, MEASURED 2026-08-10 (the even-N real-q defective " +
-                         "check, experiments/F89_PATH_K_DIABOLIC.md): N=4 HAS four real-q defective loci " +
-                         "(self-fold, real discriminant), so the even-N walk RAN at N=4 (ℓ = 1/2, one rung, " +
-                         "CG norm 1.000000000, band and fold freight sharing the 4 sectors, 8 seats; the " +
-                         "sibling node above, simulations/eta_ladder_chain_n4.py, gated). " +
-                         "At N=6/N=8 no locus is found: the real-λ species is " +
-                         "excluded on the measured 16-point q-grid 0.001..51.2 octic (gated verifier; N=8's " +
-                         "real population is a constant pair at the −6 window edge, one per R-sector, " +
-                         "semisimple by the window-edge lemma), the " +
-                         "complex-λ species absent from the axis in the scanned strips, both R-parities " +
-                         "(every in-box coalescence classifies diabolic, EpCharacter; the on-axis q=0.6165 " +
-                         "three-signal clean DIABOLIC; clean N=6 defective EPs keep |Im q| ≥ 0.2). Scan + " +
-                         "genericity (N=6 disc genuinely complex, re-gated in the same verifier, 13-order " +
-                         "split against the N=4/5 controls), NOT a closure theorem; the exact route (Sturm " +
-                         "on the disc's simple layer) is the named next step, and until it runs the even-N " +
-                         "≥ 6 reading is untested for want of an input. The four half-filling members' band-and-fold double role stays the " +
-                         "structural even-N fact: 4(N−2) = 16 chain seats on 12 distinct sectors at N=6.");
+                         "decimals in review. EVEN N (experiments/F89_PATH_K_DIABOLIC.md): N=4 HAS four " +
+                         "real-q defective loci (self-fold, real discriminant), so the even-N walk RAN at " +
+                         "N=4 (ℓ = 1/2, one rung, CG norm 1.000000000, band and fold freight sharing the 4 " +
+                         "sectors, 8 seats; the sibling node above, simulations/eta_ladder_chain_n4.py, " +
+                         "gated). The (1,2) block at N=6 has NO real-q locus BY THEOREM " +
+                         "(CertifyDiscReImGcd, gcd degree 0, window-free, 2026-08-10; at N=8 the verdict " +
+                         "stays scan + genericity until the ℚ(i) simple-layer split). The (1,3)@N=6 census " +
+                         "(2026-08-10) restored at least thirteen real-q inputs one block over; the walk " +
+                         "from those seeds RAN 2026-08-11 (eta_ladder_chain_n6.py, non-canonical p+q = 4 / " +
+                         "d = −2 chains, ℓ = 1, both freight values split open), and the exact layer read " +
+                         "landed the same morning (Disc13LayerScoutTests: no odd-multiplicity disc layer, " +
+                         "disc real mod p, F_res even in (Λ+12)², no defective locus on μ = 0). The four " +
+                         "half-filling members' band-and-fold double role stays the structural even-N " +
+                         "fact: 4(N−2) = 16 chain seats on 12 distinct sectors at N=6.");
         }
     }
 }

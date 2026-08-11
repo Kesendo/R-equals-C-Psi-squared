@@ -5357,16 +5357,62 @@ public static class OpenArcsRegistry
                 "four known N=4 loci and no other sqrt-branch locus; its collapse threshold rejects " +
                 "exactly-converged coalescences into the printed bucket, the known N=4 diabolic 0.6590 " +
                 "included, so the diabolic inventory is an inventory, not a census). Coverage: " +
-                "[0.002, 25) octic scanned, edges empty; float census, no exact certificate (the exact " +
-                "machinery is (1,2)-hardwired at BlockPencil / ClearedAtSectors rate literal {-4,-12} / " +
-                "the AssertHoppingSymmetry SymOrbitSizes weights; (1,3) physical rates -4/-8 = {-8,-16} " +
-                "x2-cleared, dim 60 per sector; CertifyDiscReImGcd must DECLINE on a real disc, and the " +
-                "separating exact object is the MULTIPLICITY-2 LAYER with the lambda=-6 stratum handled " +
-                "separately: away from mu=0, defective = double root, doubled diabolic crossing = " +
-                "quadruple, so the layer read the arc owns separates them (a squarefree part or sign " +
-                "count would erase the separation, the CAUGHT_ERRORS 2026-07-01 B1 lesson); AT mu=0 an " +
-                "undoubled transversal crossing is also order 2, so the six inventoried lambda=-6 " +
-                "diabolics would land in the same layer and that stratum needs its own read). " +
+                "[0.002, 25) octic scanned, edges empty; float census. THE EXACT LAYER READ RAN " +
+                "2026-08-11, the same morning as and after the walk below " +
+                "(Disc13LayerScoutTests, Categories EVEN_DISC13_SCOUT + SLOW_EVEN_DISC13, " +
+                "16 gates ~27 s; the SCOUT read is ~2.3 s per parity, the ~9 min guess was for a " +
+                "certificate-grade run, still unpriced): the three " +
+                "(1,2)-hardwired joints are GENERALIZED (WeightSectorPencil, the exact x2-cleared " +
+                "R-sector pencil of any all-2-cycle block, one odd weight side at even N guarantees " +
+                "that, a fixed point throws; ClearedAtSectorsFromPencil DERIVES the rate list from the " +
+                "q=0 diagonal so the silent-zero-sectors literal trap cannot recur, the (1,2) path " +
+                "delegating to it unchanged; uniform metric BtB = 2I, AssertHoppingSymmetry " +
+                "unweighted), validated by reproducing the committed (1,2) pins at N=4 AND N=6 both " +
+                "parities plus the reality discrimination (N=4 real, N=6 complex, via the two mod-p " +
+                "embeddings). The (1,3)@N=6 profile, both parities, IDENTICAL at two split primes " +
+                "(1073741833/1073741857): R-even deg_q D = 1572, v_q = 876, layers [0, 108, 0, 120], " +
+                "atDeg 18, resDeg 42; R-odd 2124, 1188, [0, 132, 0, 168], 12, 48; disc REAL mod p " +
+                "(both embeddings agree, the exact form of the census's 5e-12 float read). Two " +
+                "theorems and a corollary now exact, all three RESHAPED TWICE by the review rounds: " +
+                "(1) THE POLYNOMIAL FOLD: EVERY odd Taylor coefficient of F_res at Lambda = -12 " +
+                "vanishes EXACTLY over Z[i] (no prime involved), so F_res is a polynomial in " +
+                "(Lambda+12)^2, the fold as algebra rather than spectrum closure, holding at complex " +
+                "q too, present exactly where gauge-reality AND the within-sector fold coincide (the " +
+                "N=4 (1,2) control: real disc but the gauge anticommutes with R, no evenness). The " +
+                "gate was tightened twice: the first read only a1 (dF/dLambda, GDeg = -1, not " +
+                "evenness), the second all odd coefficients but only mod p; the landed gate is " +
+                "exact. (2) NO DEFECTIVE LOCUS ON mu=0: f = F_res(-12, q) is a PERFECT SQUARE, " +
+                "f = c*u^2, u squarefree (f-layers [0,18]/[0,24]). TWO wrong reasons died in " +
+                "review: 'mu and -mu touch together' (circular given evenness), then 'odd-order " +
+                "f-root is the only defective signature' (the fix-diff round found the 1+1 hole: an " +
+                "order-2 f-root can also be TWO coincident defective EPs on the line). The closing " +
+                "gate: u DIVIDES THE MULT-2 LAYER (deg gcd(u, L2) = 18/24, both primes), " +
+                "equivalently gcd(u, disc_M G) = 1, a double defective touch making disc G vanish " +
+                "there and pushing the u-root into the mult-4 layer. With that, all 18/24 mu=0 " +
+                "coalescences are transversal (diabolic in the census's exponent sense; a disc read " +
+                "certifies multiplicity, never geometric semisimplicity) and none defective: the " +
+                "census's mu=0 escape hatch (closed there only on the grid by channel B) closed " +
+                "ALGEBRAICALLY, window-free, complex q included (N=4 control f squarefree [8], " +
+                "u-gate n/a sentinel, single strands, s-partner in the other sector). (COROLLARY) " +
+                "the even-order profile: disc(F) = +-4^m * f * disc_M(G)^2 makes every " +
+                "odd-multiplicity D-root an odd-multiplicity f-root and conversely, so f square => " +
+                "layers[0] = layers[2] = 0, the Klein even-order statement DERIVED (the " +
+                "sign-blindness' reason), and the identity chains all six numbers per parity LIVE " +
+                "off the production tuples (deg disc G 768/1038, v 438/594, v_q(D) even FORCED, " +
+                "stripped-layer identity 108 + 2*120 = 18 + 330 and 132 + 2*168 = 24 + 444; gated, " +
+                "the CompositionIdentity fact). The mult-2 layer thereby splits exactly (the u-gate " +
+                "again): 18/24 of its roots are the mu=0 diabolics, so the DEFECTIVE-SPECIES " +
+                "content is AT MOST 90 (R-even) / 108 (R-odd) distinct q-roots, the census's 8+5 " +
+                "real pins among them (most of the rest complex-q); the mult-4 layer (120/168) is " +
+                "the doubled off-line diabolics (a squarefree part or sign count would erase all of " +
+                "this, the CAUGHT_ERRORS 2026-07-01 B1 lesson). SCOUT-grade: deg/v not certified (the D-device, " +
+                "CertifyDiscMultiplicity's lc-divisor route, is not generalized; the crude Bauer-Fike " +
+                "bound + verification nodes), layers certified by two-prime agreement only; " +
+                "CertifyDiscReImGcd stays the wrong tool by design (real disc). The MISSING closing " +
+                "step, unchanged in kind: the exact REAL-ROOT COUNT of the multiplicity-2 layer in " +
+                "the window (Sturm on an exactly reconstructed layer polynomial over Q; no Sturm " +
+                "chain exists in the repo yet), the same shape as the N=8 Q(i) simple-layer split. " +
+                "Layer-read section in F89_PATH_K_DIABOLIC.md. " +
                 "THE (1,3) WALK RAN 2026-08-11, next morning (simulations/eta_ladder_chain_n6.py, 566 " +
                 "gates, ~1 min; three first-draft claims died in its review rounds, all three kept in " +
                 "the doc section, and the fix-diff round then caught the repair misquoting its own " +

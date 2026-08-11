@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using RCPsiSquared.Core.Numerics;
 
@@ -137,8 +138,9 @@ public static class F89AtFactorReconstruction
     }
 
     /// <summary>The exact per-sector data of the AT factor of the ×2-cleared (SE,DE) sector block, in the
-    /// block's OWN pencil units 2M(q) = A + q·C with C = i·K: for each cleared rate sector r0 ∈ {−4, −12}
-    /// (the diagonal of A), the INTEGER characteristic polynomial of K|W on the largest K-invariant subspace
+    /// block's OWN pencil units 2M(q) = A + q·C with C = i·K: for each cleared rate sector r0 (derived
+    /// from the diagonal of A by <see cref="ClearedAtSectorsFromPencil"/>, which for this (1,2) block is
+    /// exactly {−4, −12}), the INTEGER characteristic polynomial of K|W on the largest K-invariant subspace
     /// W inside the sector. Because W is q-independent (K-invariance is q-scale-invariant) and
     /// 2M(q)|W = r0·I + i·q·(K|W), the AT strands are exactly q-linear and the bivariate AT factor is
     /// ∏_sectors Σ_m p_m·i^{d−m}·(Λ−r0)^m·q^{d−m} ∈ Z[i][Λ, q]. Integrality of p = charpoly(K|W) is
@@ -158,27 +160,45 @@ public static class F89AtFactorReconstruction
             ? F89PathKSeDeBlock.BuildTwoTimesROddBlock(1, nBlock)
             : F89PathKSeDeBlock.BuildTwoTimesSymBlock(1, nBlock);
         int n = b0.GetLength(0);
+        var c = new GaussianInteger[n, n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++) c[i, j] = b1[i, j] - b0[i, j];
+        return ClearedAtSectorsFromPencil(b0, c);
+    }
 
+    /// <summary>The weight-general form of <see cref="ClearedAtSectors"/>: takes any ×2-cleared sector
+    /// pencil A + q·C directly and DERIVES the AT rate list from the q=0 diagonal (the distinct values of
+    /// diag(A), descending) instead of the (1,2) literal {−4, −12}. The literal is one of the three
+    /// hardwired joints the sideways_spin_ladder arc recorded; what it would DO to a foreign block is
+    /// this generalization's own observation: a (1,3) block (rates {−8, −16}) fed to the literal loop
+    /// silently yields ZERO sectors, atDeg = 0, and a wrong residual, so deriving the list makes the
+    /// wrong answer impossible. For the (1,2) blocks
+    /// the derived list is exactly {−4, −12} in the same order, so <see cref="ClearedAtSectors"/>
+    /// delegates here unchanged (pinned by the existing FOLDRESULTANT and scout gates).</summary>
+    public static IReadOnlyList<AtSector> ClearedAtSectorsFromPencil(GaussianInteger[,] a, GaussianInteger[,] cM)
+    {
+        int n = a.GetLength(0);
         var rate = new BigInteger[n];
         var ksym = new BigRational[n, n];                       // K = −i·C = Im(C), real
         for (int i = 0; i < n; i++)
         {
-            if (!b0[i, i].Im.IsZero)
+            if (!a[i, i].Im.IsZero)
                 throw new InvalidOperationException("the cleared block's q=0 diagonal must be real.");
-            rate[i] = b0[i, i].Re;
+            rate[i] = a[i, i].Re;
             for (int j = 0; j < n; j++)
             {
-                if (i != j && !b0[i, j].Equals(GaussianInteger.Zero))
+                if (i != j && !a[i, j].Equals(GaussianInteger.Zero))
                     throw new InvalidOperationException("the cleared block at q=0 must be diagonal.");
-                var c = b1[i, j] - b0[i, j];                    // C = blk(1) − blk(0), pure imaginary
+                var c = cM[i, j];
                 if (!c.Re.IsZero)
                     throw new InvalidOperationException("the hopping direction C must be pure imaginary.");
                 ksym[i, j] = new BigRational(c.Im);
             }
         }
 
+        var rates = rate.Distinct().OrderByDescending(r => r).ToArray();
         var sectors = new List<AtSector>();
-        foreach (var r0 in new BigInteger[] { -4, -12 })        // the ×2-cleared sector rates
+        foreach (var r0 in rates)                               // derived ×2-cleared sector rates
         {
             var w = SectorBasis(rate, r0, n);
             if (w.GetLength(1) == 0) continue;
