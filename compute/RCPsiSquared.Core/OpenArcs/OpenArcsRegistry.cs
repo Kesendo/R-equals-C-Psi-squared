@@ -5551,7 +5551,11 @@ public static class OpenArcsRegistry
                 "wrong label forbade a true combination, until the re-read'.",
             ParkedAt:
                 "INVENTORY TAKEN 2026-08-08, counts solid, line-level triage NOT finished; the counts " +
-                "PREDATE the same-day instance-(1) and instance-(5) repairs below, which removed a few. " +
+                "PREDATE the same-day instance-(1) and instance-(5) repairs below and the 2026-08-11 " +
+                "F89_PATH_K_DIABOLIC intro repair (Tom's call, three sites: the 'What this is about' " +
+                "gamma-gloss and q-knob gloss, and the M(q)-split's 'fixed by the observation'; the " +
+                "doc's other five observ/watch hits are legitimate, remarks and real experimenters, " +
+                "not gamma as agent), which removed a few. " +
                 "481 occurrences of watching/watched/watcher across 92 .md files; 766 across 128 files " +
                 "adding observer/being observed/looked at/gaze/eye. By directory: docs/ non-proofs ~144, " +
                 "docs/proofs/ ~74, experiments/ ~156, reflections/ 65, hypotheses/ 13, MirrorWorld README 13. " +
