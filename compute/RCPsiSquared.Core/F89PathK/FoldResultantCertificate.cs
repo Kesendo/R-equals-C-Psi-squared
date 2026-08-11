@@ -594,6 +594,192 @@ public static class FoldResultantCertificate
         }
     }
 
+    /// <summary>The verdict of <see cref="WeightSturmScout"/>: steps 0-2 of the Sturm design
+    /// (the arc's real-root-count closing step, design note local under docs/superpowers/plans/).
+    /// Sentinels when the evenness is void (the N=4 (1,2) control): MDeg = UDeg = −1,
+    /// FIsPerfectSquare/CompositionIdentityAtNodes = false, MsPerNodeDiscM = 0.</summary>
+    public sealed record WeightSturmScoutReport(
+        int N, int WKet, int WBra, bool ROdd,
+        int AtDeg, int ResDeg,
+        bool ResidualIsReal,
+        bool EvenInShiftedLambda,
+        int MDeg, int FDeg, int VQf,
+        bool FIsPerfectSquare, int UDeg, bool UIsReal,
+        bool CompositionIdentityAtNodes,
+        double MsPerNodeDiscM);
+
+    /// <summary>Scout steps 0-2 of the Sturm design on the (wKet, wBra) R-sector: §0 exact
+    /// realness of F_res; §1 the exact G/f/ũ chain (G the even-Taylor reindex of F_res at
+    /// Λ₀ = −2n, f = G(0, q) with v_q(f) read exactly, ũ the monic square root over ℚ(i) with
+    /// the exact identity lc(f)·ũ² = f); §2 the composition identity
+    /// disc_Λ(F_res) = (−4)^m·f·disc_M(G)² gated exactly at the fresh nodes q0 = 2, 3, plus the
+    /// per-node exact disc_M(G) timing over <paramref name="timingNodes"/> further nodes (the
+    /// Route-A cost input of the design's §5).</summary>
+    public static WeightSturmScoutReport WeightSturmScout(
+        int n, int wKet, int wBra, bool rOdd, int timingNodes = 10)
+    {
+        var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
+        AssertHoppingSymmetry(cBlk, null);
+        var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
+        int atDeg = 0;
+        foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
+        int resDeg = aBlk.GetLength(0) - atDeg;
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, resDeg);
+
+        // §0: exact realness of F_res (a free assertion on the exact object; the mod-p read saw
+        // both embeddings agree, this is the theorem-grade form).
+        bool residualIsReal = true;
+        foreach (var qs in fRes)
+        {
+            foreach (var c in qs)
+                if (!c.Im.IsZero) { residualIsReal = false; break; }
+            if (!residualIsReal) break;
+        }
+
+        int lambda0 = -2 * n;
+        bool even = ExactOddTaylorAllZero(fRes, lambda0);
+
+        // §1: the exact Taylor shift about Λ₀ materialised; f = H[0] = F_res(Λ₀, q).
+        var shifted = TaylorShiftBivariate(fRes, lambda0);
+        var f = GaussianPolynomial.Trim(shifted[0]);
+        int fDeg = GaussianPolynomial.Degree(f);
+        int vQf = -1;
+        for (int i = 0; i < f.Length; i++)
+            if (!f[i].Re.IsZero || !f[i].Im.IsZero) { vQf = i; break; }
+
+        var (isSquare, uMonic) = MonicSquareRoot(f);
+        int uDeg = isSquare ? QcDeg(uMonic) : -1;
+        bool uIsReal = isSquare;
+        if (isSquare)
+            foreach (var c in uMonic)
+                if (!c.Im.IsZero) { uIsReal = false; break; }
+
+        int mDeg = -1;
+        bool compId = false;
+        double msPerNode = 0.0;
+        if (even)
+        {
+            if ((resDeg & 1) != 0)
+                throw new InvalidOperationException("even residual with odd Λ-degree.");
+            mDeg = resDeg / 2;
+            var g = new GaussianInteger[mDeg + 1][];
+            for (int j = 0; j <= mDeg; j++) g[j] = GaussianPolynomial.Trim(shifted[2 * j]);
+            if (GaussianPolynomial.Degree(g[mDeg]) != 0 || !g[mDeg][0].Equals(GaussianInteger.One))
+                throw new InvalidOperationException("G is not monic in M (the reindex is wrong).");
+
+            // §2a: the composition identity disc_Λ(F_res) = (−4)^m·f·disc_M(G)² EXACT at fresh
+            // integer nodes, sign included ((−1)^m: m = 21 R-even is odd, a genuine minus).
+            compId = true;
+            foreach (int q0 in new[] { 2, 3 })
+            {
+                var d0 = GaussianPolynomial.Discriminant(EvalBivariateAtQ(fRes, q0));
+                var dm = GaussianPolynomial.Discriminant(EvalBivariateAtQ(g, q0));
+                var f0 = GaussianPolynomial.Evaluate(f, new GaussianInteger(q0, 0));
+                var rhs = f0 * dm * dm;
+                var minusFour = new GaussianInteger(-4, 0);
+                for (int e = 0; e < mDeg; e++) rhs *= minusFour;
+                if (!d0.Equals(rhs)) { compId = false; break; }
+            }
+
+            // §2b: the Route-A per-node cost, timed at REPRESENTATIVE nodes (q0 ≈ 700, the top
+            // half of the ~769-node grid, where the evaluated coefficients carry their full bit
+            // length; small nodes would flatter the extrapolation). Recorded, not gated to a
+            // number: quiet-machine cost is re-measured before it is quoted anywhere.
+            if (timingNodes > 0)
+            {
+                var sw = System.Diagnostics.Stopwatch.StartNew();
+                for (int t = 0; t < timingNodes; t++)
+                {
+                    var dm = GaussianPolynomial.Discriminant(EvalBivariateAtQ(g, 700 + t));
+                    if (dm.Re.IsZero && dm.Im.IsZero)
+                        throw new InvalidOperationException(
+                            $"disc_M(G) vanished at the integer node q0={700 + t}.");
+                }
+                sw.Stop();
+                msPerNode = sw.Elapsed.TotalMilliseconds / timingNodes;
+            }
+        }
+
+        return new WeightSturmScoutReport(n, wKet, wBra, rOdd, atDeg, resDeg, residualIsReal, even,
+            mDeg, fDeg, vQf, isSquare, uDeg, uIsReal, compId, msPerNode);
+    }
+
+    /// <summary>The exact Taylor shift of the bivariate about Λ₀:
+    /// H[m](q) = Σ_{k≥m} C(k,m)·Λ₀^{k−m}·f[k](q) over ℤ[i], the coefficient form
+    /// <see cref="ExactOddTaylorAllZero"/> tests against, materialised (H[0] = f(Λ₀, q); the even
+    /// rows H[2j] are the compression G with M = (Λ−Λ₀)² when the odd rows vanish).</summary>
+    private static GaussianInteger[][] TaylorShiftBivariate(GaussianInteger[][] f, int lambda0)
+    {
+        int kMax = f.Length - 1;
+        var binom = new BigInteger[kMax + 1][];
+        for (int k = 0; k <= kMax; k++)
+        {
+            binom[k] = new BigInteger[k + 1];
+            binom[k][0] = binom[k][k] = BigInteger.One;
+            for (int m = 1; m < k; m++)
+                binom[k][m] = binom[k - 1][m - 1] + binom[k - 1][m];
+        }
+        var lamPow = new BigInteger[kMax + 1];
+        lamPow[0] = BigInteger.One;
+        for (int e = 1; e <= kMax; e++) lamPow[e] = lamPow[e - 1] * lambda0;
+        int len = 0;
+        foreach (var qs in f) len = Math.Max(len, qs.Length);
+        var h = new GaussianInteger[kMax + 1][];
+        for (int m = 0; m <= kMax; m++)
+        {
+            var row = new GaussianInteger[len];
+            for (int k = m; k <= kMax; k++)
+            {
+                var w = binom[k][m] * lamPow[k - m];
+                if (w.IsZero) continue;
+                for (int i = 0; i < f[k].Length; i++)
+                    row[i] = row[i] + f[k][i] * w;
+            }
+            h[m] = row;
+        }
+        return h;
+    }
+
+    /// <summary>The exact monic square root: f = lc(f)·ũ² over ℚ(i) if it exists (the Sturm
+    /// design's §1: normalise monic FIRST, because the recursion from the leading coefficient
+    /// would need √lc, which need not exist in ℚ(i); c := lc(f) is then not an unknown). ũ is
+    /// monic of degree deg f / 2, determined coefficient by coefficient from the top; the
+    /// verification compares ALL coefficients of ũ² against f/lc exactly, so a squarefree f (the
+    /// N=4 control) returns false rather than a wrong root. The load-bearing use: a true verdict
+    /// upgrades the two-prime perfect-square read of the μ = 0 stratum to algebra.</summary>
+    private static (bool IsSquare, Qc[] UMonic) MonicSquareRoot(GaussianInteger[] f)
+    {
+        int d = GaussianPolynomial.Degree(f);
+        if (d < 0 || (d & 1) != 0) return (false, Array.Empty<Qc>());
+        var fq = FromZi(f);
+        var lc = fq[d];
+        var ft = new Qc[d + 1];
+        for (int i = 0; i <= d; i++) ft[i] = fq[i] / lc;
+        int half = d / 2;
+        var one = new Qc(new BigRational(1), new BigRational(0));
+        var two = new Qc(new BigRational(2), new BigRational(0));
+        var u = new Qc[half + 1];
+        for (int i = 0; i < half; i++) u[i] = Qc.Zero;
+        u[half] = one;
+        for (int j = half - 1; j >= 0; j--)
+        {
+            // coefficient of x^{half+j} in ũ²: 2·u[j] (against the monic top) + the known middle.
+            var acc = Qc.Zero;
+            for (int a = j + 1; a <= half - 1; a++)
+                acc += u[a] * u[half + j - a];
+            u[j] = (ft[half + j] - acc) / two;
+        }
+        var sq = new Qc[d + 1];
+        for (int i = 0; i <= d; i++) sq[i] = Qc.Zero;
+        for (int a = 0; a <= half; a++)
+            for (int b = 0; b <= half; b++)
+                sq[a + b] += u[a] * u[b];
+        for (int i = 0; i <= d; i++)
+            if (!(sq[i] - ft[i]).IsZero) return (false, Array.Empty<Qc>());
+        return (true, u);
+    }
+
     /// <summary>The verdict of <see cref="WeightCertifyDiscMultiplicity"/>: the weight-general
     /// sibling of <see cref="DiscMultiplicityReport"/>, carrying the block weights.</summary>
     public sealed record WeightDiscMultiplicityReport(
