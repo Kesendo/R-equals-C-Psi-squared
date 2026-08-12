@@ -153,6 +153,38 @@ public class EvenNDiscLayerScoutTests
             $"a multiplicity-≥3 disc layer at N=8 ({layers.Length} layers): the β-exotic reading fails at even N");
     }
 
+    [Fact(DisplayName = "N=8 scout: F_res parity reads exact over ℤ[i], R-even (realness / q-evenness / Λ-evenness)")]
+    [Trait("Category", "SLOW_EVEN_DISC8")]
+    public void N8_Scout_SturmScoutParityReads()
+    {
+        // The N=8 blocker's step 0 (arc sideways_spin_ladder): the (1,3) landing runs over ℤ and
+        // declines on a complex F_res, so before any ℚ(i) split design the three structure reads
+        // are gated EXACTLY on the ℤ[i] bivariate (no prime, no eigensolver). Expectations are
+        // DERIVED, and a failure here is a design-level finding, not a code bug: the bipartite
+        // gauge acts cross-sector at (1,2)@N=8 ((p+q)(N−1) = 21 odd), no self-fold fixes (1,2)
+        // (self-folded blocks are (p, N/2) = (p,4)), and the committed sibling prior is the
+        // genuinely complex (1,2)@N=6 sector residual. R-even only; the R-odd sector is the
+        // exact conjugate twin at even N (σ(R-even) = conj(σ(R-odd)), gated at N=6), so its
+        // reads are the same by conjugation. Cost is the dim-112 exact bivariate build.
+        var r = FoldResultantCertificate.WeightSturmScout(8, 1, 2, rOdd: false, timingNodes: 0);
+        _out.WriteLine($"N8 (1,2) R-even: real={r.ResidualIsReal} even={r.EvenInShiftedLambda} " +
+                       $"qEven={r.EvenInQ} atDeg={r.AtDeg} resDeg={r.ResDeg} " +
+                       $"mDeg={r.MDeg} fDeg={r.FDeg} vQf={r.VQf} square={r.FIsPerfectSquare} " +
+                       $"uDeg={r.UDeg} uReal={r.UIsReal} compId={r.CompositionIdentityAtNodes}");
+        Assert.Equal(80, r.ResDeg);
+        Assert.Equal(32, r.AtDeg);   // 32 + 80 = 112 = the sector dimension
+        Assert.False(r.ResidualIsReal, "F_res at (1,2)@N=8 expected genuinely complex (no " +
+            "within-sector antiunitary: gauge cross-sector at (p+q)(N−1) = 21 odd, no self-fold); " +
+            "if this fails, F_res is REAL and the whole ℚ(i) design collapses to the ℤ route");
+        Assert.False(r.EvenInQ, "per-sector q-evenness needs the gauge WITHIN the sector; " +
+            "at (1,2)@N=8 it swaps the sectors, so the mirrored-grid halving is not licensed");
+        Assert.False(r.EvenInShiftedLambda, "no (Λ+2N)² structure without the within-block " +
+            "self-fold; (1,2) is not a (p, N/2) block at N=8, so no G and no M-descent exist");
+        Assert.Equal(-1, r.MDeg);
+        Assert.Equal(-1, r.UDeg);
+        Assert.False(r.CompositionIdentityAtNodes, "no G, no identity: the sentinel is false/n-a");
+    }
+
     [Fact(DisplayName = "N=6 scout: disc layers of the F_32 residual, first prime, both parities (layer identity gated)")]
     [Trait("Category", "SLOW_EVEN_DISC")]
     public void N6_Scout_DiscLayers()

@@ -5296,19 +5296,47 @@ public static class OpenArcsRegistry
                 "scout-level: first prime, deg/v not yet certified). N=6 closed WITHOUT an oracle " +
                 "literal, the Berkowitz path suffices (the F_d oracle literal, generator " +
                 "f89_pathk_galois.py gen-cs, residual degree 80, stays the independent cross-check " +
-                "source, not the bottleneck). What remains at N=8 is ONE blocker: the design fork " +
-                "RESOLVED at " +
-                "N=6 by the full-D closure (no on-axis coalescence at all) lands on its other leg at " +
-                "N=8: the on-axis " +
-                "DIABOLIC q = 0.6165 is a real root of the doubled layer, the full-D gcd would " +
-                "legitimately return nonzero, so the no-defective statement needs the SIMPLE layer " +
-                "(degree 376, the mod-p reading) split off exactly over Q(i) first. One cost residue " +
-                "beside it, not a blocker: a multi-prime certificate's " +
-                "total cost is bound x the per-prime share of those 9 min, the build/sampling split " +
-                "not yet measured. " +
+                "source, not the bottleneck). What remains at N=8 is ONE blocker, and its DESIGN PIVOTED 2026-08-12 " +
+                "(design note v2, local; two adversarial review rounds on v1, both landing): the " +
+                "on-axis DIABOLIC q = 0.6165 (a float, cell-0.001 zoom; its exact realness was " +
+                "never proven) makes the full-D gcd expected-nonzero, but the planned Q(i) " +
+                "simple-layer split is UNNECESSARY: real-axis layer separation is a derivative-gcd " +
+                "count in committed Z machinery once D is landed exactly (g = gcd(Re D, Im D), " +
+                "m = gcd(g, gcd(Re D', Im D')); simple-count = Sturm(g) - Sturm(m), " +
+                "multiple-count = Sturm(m), distinct-root counts so multiplicity inside g is " +
+                "harmless). Two derived symmetries carry the landing: Y1 conj-coeff(D)(q) = D(-q) " +
+                "within each R-sector (L = A + iqK real ingredients; even D-coefficients real, odd " +
+                "purely imaginary; Re D even, Im D odd; N=6 pins 926/536/925/537 confirm; N=8 " +
+                "prediction 6086/3730/6085/3731 falsifiable; real roots pair +-q; 3044 nodes not " +
+                "6087, plain Z Newton on Re/Im, no Gaussian Newton), Y2 D_odd = conj-coeff(D_even) " +
+                "(gauge swap at character 21 odd composed with Y1: ONE parity suffices, q>0 counts " +
+                "included; AT-swap premise to gate). STEP 0 LANDED 2026-08-12: " +
+                "N8_Scout_SturmScoutParityReads (SLOW_EVEN_DISC8, 1m7s) gates exactly over Z[i]: " +
+                "ResidualIsReal/EvenInQ/EvenInShiftedLambda all False, atDeg 32, sentinels; also " +
+                "measured: the exact bivariate build is <= 67 s, so the 9-min layer scout is " +
+                "SAMPLING-dominated. THE GAP THE REVIEWS NAMED, open: the reading lemma (at (1,3) " +
+                "every real defective locus is an EVEN-order disc_Lambda zero, fold-doubled, so " +
+                "'defective => simple zero' must be DERIVED for (1,2) even N from the no-doubling " +
+                "structure, the (1,2)@N=4 'single odd-order zeros' precedent; CAUGHT_ERRORS :99's " +
+                "unscoped form is FALSE in doubled settings, lean on the scoped Kato form), and the " +
+                "ord-2 hideouts (J3, coincident pairs) paid EXACTLY via Lambda-subresultant reads " +
+                "at the counted multiple roots (the Lambda-form psc is not blind here for want of " +
+                "doubling), never by genericity (the family reaches codim-3 on the axis: the " +
+                "diabolic itself). FIRST MOVES, ordered: E0 probe the D-device bound (computed " +
+                "before sampling, ~2 min + build) and if sane run WeightCertifyDiscMultiplicity + " +
+                "the committed full-D CertifyDiscReImGcd at N=8 (GcdDeg = 0 would close the verdict " +
+                "outright, the diabolic then off-axis; GcdDeg > 0 proceeds to the landing); E1 " +
+                "quiet measurements (per-node exact Z[i] disc deg-80, per-prime sampling, node " +
+                "heights, the deg-6086 interpolation cost) before any schedule is written. " +
+                "Controls set: N=4 positive (4 simple + 0.659 multiple, committed numbers), N=6 " +
+                "regression (exact g = constant), synthetic parity-constrained split control, Y1/Y2 " +
+                "gates, the 0.6165 bracket as SturmCountInterval at half-width 1/500 (the float " +
+                "only proposes; a zero there with multiple-count > 0 elsewhere is a finding). " +
+                "Block scope stays scoped: (1,2)@N=8 absence is not N=8 absence, the (p,4) " +
+                "fold-fixed blocks are unexamined. " +
                 "The even-N chain reading at N=6 is (1,2)-INPUT-FREE BY THEOREM, not untested for want " +
                 "of an input: no (1,2) locus exists at physical coupling (N=8 stays scan + genericity until " +
-                "the simple layer is split off); PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
+                "the derivative-gcd count above lands); PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
                 "recorded complex-q N=6 defective EP (positions now in the doc) gives l = 3/2, chain " +
                 "interior length 4, predicted CG norms sqrt3, 2, sqrt3, with the accounting caveat the " +
                 "prior entry carried and this one keeps: 4(N-2) = 16 chain seats land on 12 distinct " +
