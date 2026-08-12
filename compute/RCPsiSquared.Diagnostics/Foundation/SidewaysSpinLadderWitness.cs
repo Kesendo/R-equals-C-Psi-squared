@@ -119,8 +119,12 @@ public sealed class SidewaysSpinLadderWitness : IInspectable
                          "(eta_ladder_chain_n6.py, 662 gates: both " +
                          "freight values through both non-canonical chains, family/locus content " +
                          "separated by the ladders' two-valued singular structure {√2 ×105, √6 ×15}); " +
-                         "its C# gate port is pending. At N=8 the (1,2) verdict stays scan plus " +
-                         "genericity until the simple disc layer splits off over ℚ(i).",
+                         "its C# gate port is pending. At N=8 the (1,2) verdict is a THEOREM too " +
+                         "(2026-08-12, the same gcd certificate: no repeated Λ-root of the " +
+                         "residual at any real q ≠ 0, gate N8_Certificate_NoRealNonzeroCoalescence; " +
+                         "the planned ℚ(i) simple-layer split was never needed — the coalescence " +
+                         "the scan logged at q ≈ 0.6165 lies off the axis, only its on-axis " +
+                         "reading is refuted, and that exactly).",
                 provenance: NodeProvenance.Stored);
         }
     }

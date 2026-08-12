@@ -138,10 +138,11 @@ public class EvenNDiscLayerScoutTests
         // day (even-N conjugation, as gated at N=6) and is not re-run here.
         var (degD, vD, layers) = FoldResultantCertificate.DiscLayersAtNthPrime(8, rOdd: false, nth: 0);
         _out.WriteLine($"N=8 R-even: deg_q D = {degD}, v_q = {vD}, layers [{string.Join(", ", layers)}]");
-        // measured 2026-08-10, first split prime (mod-p reading, deg/v not certified): the N=8
-        // certificate object is the degree-376 simple layer; the on-axis diabolic q = 0.6165 lives
-        // in the doubled layer, which is WHY only the simple layer can carry a no-defective
-        // statement at N=8 (the arc's design fork)
+        // measured 2026-08-10, first split prime (mod-p reading; deg/v since certified by
+        // N8_Certificate_DiscMultiplicity). The design fork this scout opened (the simple layer
+        // as the only carrier of a no-defective statement, the 0.6165 diabolic assumed a real
+        // root of the doubled layer) DISSOLVED 2026-08-12: the diabolic's on-axis reading was
+        // a grid artifact, the full-D gcd is trivial, see N8_Certificate_NoRealNonzeroCoalescence.
         Assert.Equal(6086, degD);
         Assert.Equal(3730, vD);
         Assert.Equal(new[] { 376, 990 }, layers);
@@ -157,7 +158,7 @@ public class EvenNDiscLayerScoutTests
     [Trait("Category", "SLOW_EVEN_DISC8")]
     public void N8_Scout_SturmScoutParityReads()
     {
-        // The N=8 blocker's step 0 (arc sideways_spin_ladder): the (1,3) landing runs over ℤ and
+        // Step 0 of the (then-open, since-closed) N=8 blocker (arc sideways_spin_ladder): the (1,3) landing runs over ℤ and
         // declines on a complex F_res, so before any ℚ(i) split design the three structure reads
         // are gated EXACTLY on the ℤ[i] bivariate (no prime, no eigensolver). Expectations are
         // DERIVED, and a failure here is a design-level finding, not a code bug: the bipartite
@@ -244,6 +245,41 @@ public class EvenNDiscLayerScoutTests
         Assert.Equal(3730, r.TrueQValuationD);
         Assert.Equal(new[] { 376, 990 }, r.DiscLayerDegrees);
         Assert.Equal(2, r.MaxDiscMultiplicity);
+    }
+
+    [Theory(DisplayName = "N=8 certificate: no real q ≠ 0 carries any repeated Λ-root of F_res, window-free")]
+    [InlineData(false)]
+    [InlineData(true)]
+    [Trait("Category", "SLOW_EVEN_DISC8_DEVICE")]
+    public void N8_Certificate_NoRealNonzeroCoalescence(bool rOdd)
+    {
+        // The N=8 design's decisive experiment, first read 2026-08-12 R-even: GcdDeg = 0.
+        // No real q != 0 carries ANY repeated Lambda-root of the (1,2)@N=8 RESIDUAL,
+        // defective or diabolic, window-free: the N=6 theorem's exact sibling (the AT
+        // factor keeps its own semisimple degeneracies, untouched by this statement).
+        // The scan record's on-axis reading of the diabolic near q = 0.6165 was the
+        // cell-0.002 band zoom's grid read, never an exact fact; this certificate refutes
+        // it exactly, the coalescence itself lying off the axis, so the design fork's
+        // simple-layer branch was never needed and the planned landing + derivative-gcd
+        // count are retired unbuilt. Also pinned before the run: the Y1 conj-antiparity
+        // conj-coeff(D)(q) = D(-q) forces the parity PATTERN (Re even-even, Im odd-odd);
+        // the certified deg/v = 6086/3730 pin DegRe/VRe exactly, and DegIm = 6085 /
+        // VIm = 3731 add the adjacent coefficients' non-vanishing (the committed N=6
+        // sibling pattern: 926/536/925/537). Both parities run (the N=6 precedent; the
+        // twin D_odd = conj-coeff(D_even) predicts identical numbers, Im flipping sign,
+        // and the run verifies rather than relies on it).
+        var r = FoldResultantCertificate.CertifyDiscReImGcd(8, rOdd, log: _out.WriteLine);
+        _out.WriteLine($"N=8 {(rOdd ? "R-odd " : "R-even")}: p={r.CertPrime}, deg D = {r.TrueDiscriminantDegree}, " +
+                       $"v_q = {r.TrueQValuationD}, deg Re = {r.DegRe} (v {r.VRe}), " +
+                       $"deg Im = {r.DegIm} (v {r.VIm}), gcd deg = {r.GcdDeg}, " +
+                       $"sampled = {r.PrimesSampled} (bound {r.LcDivisorBoundD})");
+        Assert.True(r.DiscLayersCertified, "the D-side multi-prime device must certify deg/v");
+        Assert.True(r.Certified, "a complex-seeing certifying prime must exist (the disc is genuinely complex)");
+        Assert.Equal(6086, r.TrueDiscriminantDegree);
+        Assert.Equal(3730, r.TrueQValuationD);
+        Assert.Equal((6086, 3730, 6085, 3731), (r.DegRe, r.VRe, r.DegIm, r.VIm));
+        Assert.Equal(0, r.GcdDeg);
+        Assert.True(r.NoRealNonzeroCoalescence);
     }
 
     [Fact(DisplayName = "N=6 scout: disc layers of the F_32 residual, first prime, both parities (layer identity gated)")]

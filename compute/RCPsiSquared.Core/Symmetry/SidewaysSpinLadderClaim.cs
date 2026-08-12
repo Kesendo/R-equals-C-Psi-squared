@@ -84,7 +84,8 @@ public sealed class SidewaysSpinLadderClaim : Claim
     /// and the C# gate <c>SidewaysSpinLadderGateTests.Gate_N4</c>, 2026-08-10: band and fold freight share
     /// the four sectors, four ℓ=1/2 doublets, two per chain, one
     /// per conjugate value, CG norm 1, on the four self-fold loci). The (1,2) block at N=6 has no real-q
-    /// locus BY THEOREM (CertifyDiscReImGcd, 2026-08-10) and none is known at N=8; the (1,3)@N=6 census
+    /// locus BY THEOREM (CertifyDiscReImGcd, 2026-08-10) and at N=8 the same (the same certificate,
+    /// 2026-08-12, gate N8_Certificate_NoRealNonzeroCoalescence); the (1,3)@N=6 census
     /// (2026-08-10) restored real-q inputs one block over (the exact Sturm count of 2026-08-11,
     /// <c>Disc13SturmTests</c>, closed the census at 9 + 6 = fifteen), and the walk from those seeds
     /// ran 2026-08-11, at all fifteen 2026-08-12, on the NON-canonical (p+q = 4, d = −2) chains
@@ -224,8 +225,9 @@ public sealed class SidewaysSpinLadderClaim : Claim
                          "N=4 (ℓ = 1/2, one rung, CG norm 1.000000000, band and fold freight sharing the 4 " +
                          "sectors, 8 seats; the sibling node above, simulations/eta_ladder_chain_n4.py, " +
                          "gated). The (1,2) block at N=6 has NO real-q locus BY THEOREM " +
-                         "(CertifyDiscReImGcd, gcd degree 0, window-free, 2026-08-10; at N=8 the verdict " +
-                         "stays scan + genericity until the ℚ(i) simple-layer split). The (1,3)@N=6 census " +
+                         "(CertifyDiscReImGcd, gcd degree 0, window-free, 2026-08-10; at N=8 the same " +
+                         "theorem 2026-08-12, gate N8_Certificate_NoRealNonzeroCoalescence, the planned " +
+                         "ℚ(i) simple-layer split never needed). The (1,3)@N=6 census " +
                          "(2026-08-10) restored real-q inputs one block over, closed at 9 + 6 = fifteen " +
                          "by the exact Sturm count 2026-08-11; the walk " +
                          "from those seeds RAN 2026-08-11, at all fifteen 2026-08-12 " +

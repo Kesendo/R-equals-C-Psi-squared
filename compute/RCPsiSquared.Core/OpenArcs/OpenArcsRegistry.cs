@@ -5254,8 +5254,9 @@ public static class OpenArcsRegistry
                 "and the named closing step was the EXACT real-root count of the stripped discriminant's " +
                 "simple layer over the window (Sturm / gcd of its real and imaginary parts, two polynomials " +
                 "over Q; the fold-resultant machinery is the tool, the F_d oracle its q=2 cross-check). " +
-                "At N=6 that step has RUN and closed it window-free (below); at N=8 the verdict stays " +
-                "scan plus genericity. " +
+                "At N=6 that step has RUN and closed it window-free (below); at N=8 the verdict " +
+                "STAYED scan plus genericity until 2026-08-12, when the same certificate closed " +
+                "it too (the closing paragraph below). " +
                 "FIRST BRICK LAID 2026-08-10: the D-only certificate path's odd-N guard was inherited, not " +
                 "derived (the corner block is CertifyCore's need alone), lifted with the N=4 octic control " +
                 "reproducing its closed form in both parities and AssertHoppingSymmetry now called on the " +
@@ -5293,13 +5294,17 @@ public static class OpenArcsRegistry
                 "SLOW_EVEN_DISC8, R-even pinned; R-odd measured identical once, the even-N conjugate " +
                 "twin, not re-run): deg_q D = 6086, v_q = 3730, layers [376, 990], aggregation " +
                 "2356 = 376 + 2*990 gated, no multiplicity->=3 layer (the beta-exotic reading at N=8, " +
-                "scout-level: first prime, deg/v not yet certified). N=6 closed WITHOUT an oracle " +
+                "upgraded to CERTIFICATE grade 2026-08-12: deg/v certified past the cap, layers " +
+                "at a both-attaining prime, MaxDiscMultiplicity = 2, gate " +
+                "N8_Certificate_DiscMultiplicity). N=6 closed WITHOUT an oracle " +
                 "literal, the Berkowitz path suffices (the F_d oracle literal, generator " +
                 "f89_pathk_galois.py gen-cs, residual degree 80, stays the independent cross-check " +
-                "source, not the bottleneck). What remains at N=8 is ONE blocker, and its DESIGN PIVOTED 2026-08-12 " +
-                "(design note v2, local; two adversarial review rounds on v1, both landing): the " +
-                "on-axis DIABOLIC q = 0.6165 (a float, cell-0.001 zoom; its exact realness was " +
-                "never proven) makes the full-D gcd expected-nonzero, but the planned Q(i) " +
+                "source, not the bottleneck). What remained at N=8 was ONE blocker, and it DISSOLVED 2026-08-12 after the " +
+                "design pivot (design note v2, local, not in the repo; two adversarial review " +
+                "rounds on v1, both landing): the " +
+                "on-axis DIABOLIC q = 0.6165 (a float; the exact-im(q)=0 reading was the " +
+                "cell-0.002 band zoom's, its exact realness never proven) made the full-D gcd " +
+                "expected-nonzero, but the planned Q(i) " +
                 "simple-layer split is UNNECESSARY: real-axis layer separation is a derivative-gcd " +
                 "count in committed Z machinery once D is landed exactly (g = gcd(Re D, Im D), " +
                 "m = gcd(g, gcd(Re D', Im D')); simple-count = Sturm(g) - Sturm(m), " +
@@ -5314,15 +5319,11 @@ public static class OpenArcsRegistry
                 "N8_Scout_SturmScoutParityReads (SLOW_EVEN_DISC8, 1m7s) gates exactly over Z[i]: " +
                 "ResidualIsReal/EvenInQ/EvenInShiftedLambda all False, atDeg 32, sentinels; also " +
                 "measured: the exact bivariate build is <= 67 s, so the 9-min layer scout is " +
-                "SAMPLING-dominated. THE GAP THE REVIEWS NAMED, open: the reading lemma (at (1,3) " +
-                "every real defective locus is an EVEN-order disc_Lambda zero, fold-doubled, so " +
-                "'defective => simple zero' must be DERIVED for (1,2) even N from the no-doubling " +
-                "structure, the (1,2)@N=4 'single odd-order zeros' precedent; CAUGHT_ERRORS :99's " +
-                "unscoped form is FALSE in doubled settings, lean on the scoped Kato form), and the " +
-                "ord-2 hideouts (J3, coincident pairs) paid EXACTLY via Lambda-subresultant reads " +
-                "at the counted multiple roots (the Lambda-form psc is not blind here for want of " +
-                "doubling), never by genericity (the family reaches codim-3 on the axis: the " +
-                "diabolic itself). E0 PROBED AND PRICED 2026-08-12 (WeightDiscDeviceBoundProbe, new, the device's " +
+                "SAMPLING-dominated. THE GAP THE REVIEWS NAMED (the reading lemma: at (1,3) every real defective locus " +
+                "is an EVEN-order disc_Lambda zero, fold-doubled, so 'defective => simple zero' " +
+                "would need deriving for (1,2) even N; CAUGHT_ERRORS :99's unscoped form is FALSE " +
+                "in doubled settings, the scoped Kato form is the safe one) went MOOT for this " +
+                "block the same day: the certificate found no real roots q != 0 to read at all.E0 PROBED AND PRICED 2026-08-12 (WeightDiscDeviceBoundProbe, new, the device's " +
                 "pre-loop without sampling, gate N8_Probe_DiscDeviceBound + timingPrimes " +
                 "pattern): N=8 R-even m_D = 76 on the weight normalization, dBound = 6168 (a " +
                 "BOUND, not attained: measured deg 6086, deficit 82; the hardwired path has " +
@@ -5332,20 +5333,28 @@ public static class OpenArcsRegistry
                 "same one-time step that dominates the 9-min layer scout, so the earlier " +
                 "sampling-dominated read was wrong) + ~29 min sampling: ~40 MIN PER PARITY, " +
                 "one parity sufficing by Y2. N=6 probe control: dBound 948/cap 498 beside the " +
-                "committed 926/499. T1 IS GO: run WeightCertifyDiscMultiplicity(8,1,2,false) " +
-                "then the full-D Re/Im gcd at N=8 (GcdDeg = 0 closes the verdict outright, the " +
-                "diabolic then off-axis; GcdDeg > 0 proceeds to the landing + count). E1 " +
-                "remaining before any landing schedule: per-node exact Z[i] disc deg-80, node " +
-                "heights, the deg-6086 interpolation cost. " +
-                "Controls set: N=4 positive (4 simple + 0.659 multiple, committed numbers), N=6 " +
-                "regression (exact g = constant), synthetic parity-constrained split control, Y1/Y2 " +
-                "gates, the 0.6165 bracket as SturmCountInterval at half-width 1/500 (the float " +
-                "only proposes; a zero there with multiple-count > 0 elsewhere is a finding). " +
-                "Block scope stays scoped: (1,2)@N=8 absence is not N=8 absence, the (p,4) " +
-                "fold-fixed blocks are unexamined. " +
+                "committed 926/499. T1 RAN AND CLOSED IT 2026-08-12: WeightCertifyDiscMultiplicity(8,1,2,false) " +
+                "certified deg/v = 6086/3730 and layers [376, 990] at the both-attaining prime " +
+                "1073741833 with MaxDiscMultiplicity = 2 (all mult->=3 hideouts closed by the " +
+                "one-way lift, ~37 min at the probed price), and then the committed full-D " +
+                "CertifyDiscReImGcd at N=8 returned GcdDeg = 0: NO real q != 0 carries any " +
+                "repeated Lambda-root of the (1,2)@N=8 residual, defective or diabolic, " +
+                "window-free, THE THEOREM (same three N-general ingredients as N=6: the gcd " +
+                "certificate + AT-seam block-diagonality with the AT side semisimple + q = 0 " +
+                "semisimple; deg Re 6086/v 3730, deg Im 6085/v 3731: Y1 forces the parity " +
+                "PATTERN, the certified deg/v pin Re exactly, the Im values add the adjacent " +
+                "coefficients' non-vanishing; 3166 primes past cap 3165; " +
+                "gate N8_Certificate_NoRealNonzeroCoalescence, both parities). The on-axis " +
+                "reading of the 0.6165 diabolic (the cell-0.002 band zoom's grid read, never an " +
+                "exact fact) is refuted exactly; the coalescence itself lies off the axis, the " +
+                "design fork's simple-layer branch was " +
+                "never needed, and the landing + derivative-gcd count of design v2 are RETIRED " +
+                "UNBUILT (the doc's verdict paragraph and the 0.6165 records carry the " +
+                "correction in place). Block scope stays scoped: (1,2)@N=8 absence is not N=8 " +
+                "absence, the (p,4) fold-fixed blocks are unexamined (the (1,3)@N=6 lesson). " +
                 "The even-N chain reading at N=6 is (1,2)-INPUT-FREE BY THEOREM, not untested for want " +
-                "of an input: no (1,2) locus exists at physical coupling (N=8 stays scan + genericity until " +
-                "the derivative-gcd count above lands); PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
+                "of an input: no (1,2) locus exists at physical coupling (and at N=8 the same, the 2026-08-12 " +
+                "theorem above); PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +
                 "recorded complex-q N=6 defective EP (positions now in the doc) gives l = 3/2, chain " +
                 "interior length 4, predicted CG norms sqrt3, 2, sqrt3, with the accounting caveat the " +
                 "prior entry carried and this one keeps: 4(N-2) = 16 chain seats land on 12 distinct " +
