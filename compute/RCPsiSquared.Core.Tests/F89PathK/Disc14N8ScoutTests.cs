@@ -58,7 +58,7 @@ namespace RCPsiSquared.Core.Tests.F89PathK;
 /// grounds, a ℤ derivative-gcd count replacing it, and CertifyDiscReImGcd is by design the
 /// wrong tool on a real disc). Predicted, not measured: the mod-p discReal read at (1,4)@N=8
 /// settles it, at a cost still UNPRICED and certainly not cheap — it repeats this test's exact
-/// ℤ[i] bivariate build before any prime pass, so its floor is this test's 2 h 9 m — and a
+/// ℤ[i] bivariate build before any prime pass, so its floor is this test's 2 h 9 m / 2 h 23 m — and a
 /// COMPLEX answer would be a finding against B3 rather than a detail.</summary>
 public class Disc14N8ScoutTests
 {
@@ -96,8 +96,9 @@ public class Disc14N8ScoutTests
 
     /// <summary>Stage 2: the three exact ℤ[i] structure reads on (1,4)@N=8, R-even, and the
     /// verdict is that all three are False — the (1,3)@N=6 ℤ route does NOT reach this block.
-    /// Cost measured 2026-08-12 on this test's green run, 2 h 9 m quiet (against 1m7s at the
-    /// (1,2)@N=8 sector dimension 112: ~116× for 2.5× the dimension, the exact ℤ[i] Berkowitz
+    /// Cost measured 2026-08-12 over two green runs, 2 h 9 m and 2 h 23 m (the faster one had
+    /// python probes sharing the machine, so quote the band and not the floor; against 1m7s at
+    /// the (1,2)@N=8 sector dimension 112, so ~116-128× for 2.5× the dimension, the ℤ[i] Berkowitz
     /// growing in dimension AND coefficient length), hence its own category; the evenness
     /// declining is what keeps even this cost finite, since the G/disc_M branch never runs.
     ///
@@ -112,7 +113,7 @@ public class Disc14N8ScoutTests
     /// AT strands — the "AT-swap premise" this arc flagged for gating at (1,2)@N=8 and never
     /// gated. Same shape one level down: (ii)'s descent to F_res needs the AT factor to inherit
     /// the conj-antiparity, gated for the GAUGE at (1,3)@N=6 (the a+bq ↔ a−bq strand pairing)
-    /// and not gated here. And it is UNRUN: falsifying it costs a second ~2 h 9 m run.
+    /// and not gated here. And it is UNRUN: falsifying it costs a second ~2 h 23 m run.
     ///
     /// One derived consequence sits inside the measured numbers already, ungated for want of an
     /// exported coefficient list: setting Λ = Λ₀ in (i)'s identity gives f(q) = f(−q), so f must
@@ -127,7 +128,9 @@ public class Disc14N8ScoutTests
         _out.WriteLine($"N8 (1,4) R-even: real={r.ResidualIsReal} even={r.EvenInShiftedLambda} " +
                        $"qEven={r.EvenInQ} atDeg={r.AtDeg} resDeg={r.ResDeg} " +
                        $"mDeg={r.MDeg} fDeg={r.FDeg} vQf={r.VQf} square={r.FIsPerfectSquare} " +
-                       $"uDeg={r.UDeg} uReal={r.UIsReal} compId={r.CompositionIdentityAtNodes}");
+                       $"uDeg={r.UDeg} uReal={r.UIsReal} compId={r.CompositionIdentityAtNodes} " +
+                       $"cbSign={r.FoldCheckerboardSign} cbFull={r.FullCharpolyCheckerboardSign} " +
+                       $"cbOdd={r.CheckerboardOddCellCount} cbEven={r.CheckerboardEvenCellCount}");
         // THE DECISION LINE, logged and deliberately NOT gated: realness decides whether the (1,3)
         // ℤ route reaches this block or whether the ℚ(i) question returns here. Both values are
         // informative and neither is a bug (see the class comment, (iii)).
@@ -196,5 +199,19 @@ public class Disc14N8ScoutTests
         Assert.False(r.FIsPerfectSquare, "f carries no square root here; with the evenness gone " +
             "this is a read of f alone, not the (1,3) lc(f)·ũ² = f chain, which needs G");
         Assert.Equal(-1, r.UDeg);   // definitional given the line above (uDeg = isSquare ? … : −1)
+
+        // THE CHECKERBOARD at the block where it is the non-degenerate statement and where this
+        // arc's only Λ-side lever, the M-descent, throws. PREDICTED from the law gated at N=4 and
+        // N=6 (FoldCheckerboardParityTests): (1,4)@N=8 is fold-fixed on the bra leg, so the
+        // support must obey j + k ≡ d (mod 2) with ε = (−1)^resDeg = +1 at resDeg 224, on the
+        // FULL charpoly (premise-free) as well as on F_res (the AT descent, measured not assumed),
+        // and the odd cells must be OCCUPIED since all three reads above are False. Its corollary
+        // is what matters downstream: D = disc_Λ(F_res) even in q, hence REAL by Y1, which
+        // derives the disc-realness the registry had priced as a separate mod-p read.
+        Assert.Equal(1, r.FoldCheckerboardSign);
+        Assert.Equal(1, r.FullCharpolyCheckerboardSign);
+        Assert.True(r.CheckerboardOddCellCount > 0,
+            "an EMPTY odd half at (1,4)@N=8 would contradict the three False reads above: " +
+            "Λ-evenness is exactly the checkerboard collapsing, and it is gated False here");
     }
 }

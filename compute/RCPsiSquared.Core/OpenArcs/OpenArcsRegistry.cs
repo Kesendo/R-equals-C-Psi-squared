@@ -5356,7 +5356,8 @@ public static class OpenArcsRegistry
                 "fold leg f_P fixes (p, N/2) at every even N -- got the first entry point " +
                 "anywhere in the suite: gates N8_Weight14_SectorPencil_WellFormed (sub-second, " +
                 "sector dim 280, the all-2-cycle scope and the exact q-linearity) and " +
-                "N8_Weight14_Scout_SturmScoutParityReads (2 h 9 m quiet, Category " +
+                "N8_Weight14_Scout_SturmScoutParityReads (2 h 9 m / 2 h 23 m over two green " +
+                "runs, the faster sharing the machine with probes, Category " +
                 "SLOW_EVEN_DISC14, against 1m7s at the (1,2)@N=8 dim 112). The verdict is a " +
                 "DECLINE OF THE G/M-DESCENT ONLY, and it is structural: all three exact Z[i] " +
                 "reads are FALSE (COEFFICIENT-realness of F_res, q-evenness, Lambda-evenness " +
@@ -5389,7 +5390,7 @@ public static class OpenArcsRegistry
                 "charpoly_odd(Lambda, q) = charpoly_even(Lambda, -q), and BOTH the three reads " +
                 "and the degree split descend to F_res = charpoly/AT only under the AT-swap " +
                 "premise this entry flagged at (1,2)@N=8 and still has not gated, " +
-                "so the whole R-odd statement is conditional and UNRUN (a second ~2 h 9 m run). The contrast that keeps " +
+                "so the whole R-odd statement is conditional and UNRUN (a second ~2 h 23 m run). The contrast that keeps " +
                 "it non-vacuous is (1,3)@N=6, even character, no swap, where the two parities " +
                 "did differ, resDeg 42 vs 48. THE CHECKERBOARD, found the same evening from Tom's question and gated " +
                 "exactly over Z[i] (FoldCheckerboardParityTests, 8 gates, ~1 min): on a block " +
@@ -5415,7 +5416,7 @@ public static class OpenArcsRegistry
                 "invariant under negating all roots, so D = disc_Lambda(F_res) is EVEN in q even " +
                 "where the q-evenness READ is False; composed with Y1 (conj-coeff(D)(q) = D(-q)) " +
                 "that forces conj-coeff(D) = D, i.e. D REAL on every fold-fixed block. So the " +
-                "sector disc at (1,4)@N=8 is real by DERIVATION, not by the 2 h 9 m mod-p read " +
+                "sector disc at (1,4)@N=8 is real by DERIVATION, not by the multi-hour mod-p read " +
                 "this entry priced -- and the committed N=4 closed form disc(F_8) = " +
                 "const*q^24*(3q^4+q^2-1)^2*P_10(q^2) had every factor even in q all along, the " +
                 "law visible and unread. The other half is NOT banked: an even-in-q D would halve " +
@@ -5423,9 +5424,11 @@ public static class OpenArcsRegistry
                 "parity fact (dense sampling q0 = 0..dBound, no q^2 substitution), so that " +
                 "halving is designed-for, not realised. What stays OPEN, cheapest first: (1) the " +
                 "mod-p layer scout at (1,4)@N=8, now a CONFIRMATION of the derived disc-realness " +
-                "rather than the question it was, still floored at the scout's 2 h 9 m since it " +
+                "rather than the question it was, still floored at the scout's 2 h 9 m / 2 h 23 m since it " +
                 "repeats the same exact Z[i] build; a COMPLEX answer would refute the " +
-                "checkerboard corollary and is the finding to watch for; (2) if real, the Z Sturm machinery applies " +
+                "checkerboard corollary -- and the (1,4)@N=8 gate has since CONFIRMED it AT that very block " +
+                "(cbSign +1 on F_res AND on the full charpoly, odd cells occupied, 2026-08-12 late " +
+                "evening), so the disc there is real by derivation; (2) if real, the Z Sturm machinery applies " +
                 "in principle but on D ITSELF (deg_q D ~ 224*223 ~ 5e4 before stripping), which " +
                 "no run on this arc has ever landed exactly: at (1,2)@N=8 D was only read mod p " +
                 "and multi-prime certified, and the (1,3)@N=6 exact landing was of disc_M(G) at " +
