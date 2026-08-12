@@ -185,6 +185,42 @@ public class EvenNDiscLayerScoutTests
         Assert.False(r.CompositionIdentityAtNodes, "no G, no identity: the sentinel is false/n-a");
     }
 
+    [Fact(DisplayName = "N=8 probe: the D-device's prime cap and degree bound, no sampling (the E0 cost probe)")]
+    [Trait("Category", "SLOW_EVEN_DISC8")]
+    public void N8_Probe_DiscDeviceBound()
+    {
+        // E0 of the N=8 design (2026-08-12): the certified D-device samples (cap + 1) primes,
+        // each a full (dBound + 25)-node mod-p disc pass, so the cap decides feasibility
+        // BEFORE anything runs for days. Measured on the weight path (first run of this probe,
+        // ~9.5 min: the fRes build is ≤ 67 s, the q→∞ leading form + Qc SquarefreeLayers at
+        // deg 80 dominate — the same one-time pre-loop step that dominates the hardwired
+        // 9-min layer scout, so the per-prime marginal is NOT 8 min and is measured
+        // separately): m_D = 76 on this normalization, dBound = 6168, a BOUND and not
+        // attained (the measured deg_q D = 6086, deficit 82; the hardwired (1,2) path
+        // normalizes differently, m_D = 117 there, and its bound 6086 is attained).
+        var p8 = FoldResultantCertificate.WeightDiscDeviceBoundProbe(8, 1, 2, rOdd: false,
+                                                                     timingPrimes: 2);
+        _out.WriteLine($"N=8 R-even: dim={p8.BlockDim} atDeg={p8.AtDeg} resDeg={p8.ResDeg} " +
+                       $"m_D={p8.MD} dBound={p8.DBound} cap={p8.LcDivisorBoundD} " +
+                       $"normD bits={p8.NormDBits} rowF bits={p8.RowFBits} " +
+                       $"ms/prime={p8.MsPerPrime:F0} => device sampling ~" +
+                       $"{p8.MsPerPrime * (p8.LcDivisorBoundD + 1) / 60000.0:F0} min + pre-loop");
+        Assert.True(p8.MsPerPrime > 0.0, "timing primes ran");
+        Assert.Equal(112, p8.BlockDim);
+        Assert.Equal(80, p8.ResDeg);
+        Assert.Equal(76, p8.MD);
+        Assert.Equal(6168, p8.DBound);
+        Assert.True(p8.DBound >= 6086, "dBound must bound the measured deg_q D");
+        Assert.Equal(3165, p8.LcDivisorBoundD);
+        Assert.Equal(47460, p8.NormDBits);
+
+        var p6 = FoldResultantCertificate.WeightDiscDeviceBoundProbe(6, 1, 2, rOdd: false);
+        _out.WriteLine($"N=6 R-even: dim={p6.BlockDim} atDeg={p6.AtDeg} resDeg={p6.ResDeg} " +
+                       $"m_D={p6.MD} dBound={p6.DBound} cap={p6.LcDivisorBoundD} " +
+                       $"normD bits={p6.NormDBits}");
+        Assert.True(p6.DBound >= 926, "the N=6 bound must bound the committed deg_q D = 926");
+    }
+
     [Fact(DisplayName = "N=6 scout: disc layers of the F_32 residual, first prime, both parities (layer identity gated)")]
     [Trait("Category", "SLOW_EVEN_DISC")]
     public void N6_Scout_DiscLayers()

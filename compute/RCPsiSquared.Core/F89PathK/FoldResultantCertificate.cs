@@ -1684,6 +1684,83 @@ public static class FoldResultantCertificate
     /// For (1,3)@N=6 this upgrades the scout's two-prime layer agreement to certified
     /// TrueDiscriminantDegree / TrueQValuationD, the invariants the arc's Sturm closing step
     /// will lean on exactly as the (1,2) gcd certificate leaned on the (1,2) D-device's.</summary>
+    /// <summary>The D-device's cost inputs WITHOUT the sampling loop (the E0 probe of the N=8
+    /// design, 2026-08-12): everything <see cref="WeightCertifyDiscMultiplicity"/> computes
+    /// BEFORE its prime loop — the degree bound dBound = resDeg(resDeg−1) − 2m_D, the lc-divisor
+    /// prime cap, and the row-norm bit length the cap scales with. The device's total cost is
+    /// (cap + 1) primes × one full (dBound + 25)-node mod-p disc pass each, so this probe is what
+    /// decides whether the device is affordable at a given (n, weights) before anything runs for
+    /// days. Deliberately duplicates the ~15 pre-loop lines of the device (same building blocks,
+    /// same order) rather than refactoring the certified path; skips WeightCrossCheckResidual
+    /// (validation of fRes, gated separately on the scout path).</summary>
+    public static (int BlockDim, int AtDeg, int ResDeg, int MD, int DBound,
+        int LcDivisorBoundD, long NormDBits, long RowFBits, double MsPerPrime)
+        WeightDiscDeviceBoundProbe(int n, int wKet, int wBra, bool rOdd, int timingPrimes = 0)
+    {
+        var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
+        AssertHoppingSymmetry(cBlk, null);
+        var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
+        int atDeg = 0;
+        foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
+        int blockDim = aBlk.GetLength(0);
+        int resDeg = blockDim - atDeg;
+
+        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+
+        var (fResLead, lcD) = ResidualLeadingFormFromPencil(cBlk, sectors);
+        var (_, mD) = SquarefreeLayers(FromZi(fResLead));
+        if ((mD == 0) != !lcD.Equals(GaussianInteger.Zero))
+            throw new InvalidOperationException("m_D inconsistent with disc_x(f_res).");
+        int dBound = resDeg * (resDeg - 1) - 2 * mD;
+
+        BigInteger rowF = BigInteger.Zero;
+        foreach (var coeff in fRes) rowF += HNormQ(coeff);
+        BigInteger rowFp = resDeg * rowF;
+        BigInteger normD = BigInteger.Pow(rowF, Math.Max(resDeg - 1, 0)) * BigInteger.Pow(rowFp, resDeg);
+        int lcDivisorBoundD = (int)(2 * normD.GetBitLength() / 30) + 1;
+
+        // the per-prime marginal (the timingNodes pattern of WeightSturmScout): run the
+        // device's own per-prime sampling body for a few split primes, timed AFTER the
+        // one-time pre-loop above, so the figure is the marginal and not the build
+        double msPerPrime = 0.0;
+        if (timingPrimes > 0)
+        {
+            const int extra = 24;
+            int samples = dBound + 1 + extra;
+            var clock = System.Diagnostics.Stopwatch.StartNew();
+            int timed = 0;
+            long candidate = (1L << 30) + 1;
+            while (candidate % 4 != 1) candidate += 2;
+            for (; timed < timingPrimes; candidate += 4)
+            {
+                if (!IsPrime(candidate)) continue;
+                int p = checked((int)candidate);
+                int? root = SqrtMinusOneFast(p);
+                if (root is null) continue;
+                var fResP = ReduceBivariate(fRes, p, root.Value);
+                var dSamp = new int[samples];
+                for (int q0 = 0; q0 < samples; q0++)
+                {
+                    var fL = EvalBivariateModP(fResP, q0, p);
+                    if (DegP(fL) != resDeg || fL[resDeg] != 1)
+                        throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0}.");
+                    dSamp[q0] = DiscriminantModP(fL, p);
+                }
+                var dNodes = new int[dBound + 1];
+                Array.Copy(dSamp, dNodes, dBound + 1);
+                var dp = InterpolateAtIntegerNodes(dNodes, p);
+                for (int q0 = dBound + 1; q0 < samples; q0++)
+                    if (EvalModP(dp, q0, p) != dSamp[q0])
+                        throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
+                timed++;
+            }
+            msPerPrime = clock.ElapsedMilliseconds / (double)timingPrimes;
+        }
+
+        return (blockDim, atDeg, resDeg, mD, dBound, lcDivisorBoundD,
+                normD.GetBitLength(), rowF.GetBitLength(), msPerPrime);
+    }
+
     public static WeightDiscMultiplicityReport WeightCertifyDiscMultiplicity(
         int n, int wKet, int wBra, bool rOdd, int maxPrimes = 20000, Action<string>? log = null)
     {

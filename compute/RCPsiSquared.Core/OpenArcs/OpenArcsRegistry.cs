@@ -5322,12 +5322,21 @@ public static class OpenArcsRegistry
                 "ord-2 hideouts (J3, coincident pairs) paid EXACTLY via Lambda-subresultant reads " +
                 "at the counted multiple roots (the Lambda-form psc is not blind here for want of " +
                 "doubling), never by genericity (the family reaches codim-3 on the axis: the " +
-                "diabolic itself). FIRST MOVES, ordered: E0 probe the D-device bound (computed " +
-                "before sampling, ~2 min + build) and if sane run WeightCertifyDiscMultiplicity + " +
-                "the committed full-D CertifyDiscReImGcd at N=8 (GcdDeg = 0 would close the verdict " +
-                "outright, the diabolic then off-axis; GcdDeg > 0 proceeds to the landing); E1 " +
-                "quiet measurements (per-node exact Z[i] disc deg-80, per-prime sampling, node " +
-                "heights, the deg-6086 interpolation cost) before any schedule is written. " +
+                "diabolic itself). E0 PROBED AND PRICED 2026-08-12 (WeightDiscDeviceBoundProbe, new, the device's " +
+                "pre-loop without sampling, gate N8_Probe_DiscDeviceBound + timingPrimes " +
+                "pattern): N=8 R-even m_D = 76 on the weight normalization, dBound = 6168 (a " +
+                "BOUND, not attained: measured deg 6086, deficit 82; the hardwired path has " +
+                "m_D = 117 and attains), CAP = 3165 primes, normD 47460 bits, ms/prime = 545 " +
+                "measured quiet => the certified D-device at N=8 is pre-loop (~9.5 min, " +
+                "dominated by the q->inf leading form's Qc SquarefreeLayers at deg 80, the " +
+                "same one-time step that dominates the 9-min layer scout, so the earlier " +
+                "sampling-dominated read was wrong) + ~29 min sampling: ~40 MIN PER PARITY, " +
+                "one parity sufficing by Y2. N=6 probe control: dBound 948/cap 498 beside the " +
+                "committed 926/499. T1 IS GO: run WeightCertifyDiscMultiplicity(8,1,2,false) " +
+                "then the full-D Re/Im gcd at N=8 (GcdDeg = 0 closes the verdict outright, the " +
+                "diabolic then off-axis; GcdDeg > 0 proceeds to the landing + count). E1 " +
+                "remaining before any landing schedule: per-node exact Z[i] disc deg-80, node " +
+                "heights, the deg-6086 interpolation cost. " +
                 "Controls set: N=4 positive (4 simple + 0.659 multiple, committed numbers), N=6 " +
                 "regression (exact g = constant), synthetic parity-constrained split control, Y1/Y2 " +
                 "gates, the 0.6165 bracket as SturmCountInterval at half-width 1/500 (the float " +
