@@ -5351,7 +5351,63 @@ public static class OpenArcsRegistry
                 "never needed, and the landing + derivative-gcd count of design v2 are RETIRED " +
                 "UNBUILT (the doc's verdict paragraph and the 0.6165 records carry the " +
                 "correction in place). Block scope stays scoped: (1,2)@N=8 absence is not N=8 " +
-                "absence, the (p,4) fold-fixed blocks are unexamined (the (1,3)@N=6 lesson). " +
+                "absence, and the (p,4) fold-fixed blocks were unexamined (the (1,3)@N=6 lesson) " +
+                "until 2026-08-12 evening, when (1,4)@N=8 -- the (1,3)@N=6 analogue, since the " +
+                "fold leg f_P fixes (p, N/2) at every even N -- got the first entry point " +
+                "anywhere in the suite: gates N8_Weight14_SectorPencil_WellFormed (sub-second, " +
+                "sector dim 280, the all-2-cycle scope and the exact q-linearity) and " +
+                "N8_Weight14_Scout_SturmScoutParityReads (2 h 9 m quiet, Category " +
+                "SLOW_EVEN_DISC14, against 1m7s at the (1,2)@N=8 dim 112). The verdict is a " +
+                "DECLINE OF THE G/M-DESCENT ONLY, and it is structural: all three exact Z[i] " +
+                "reads are FALSE (COEFFICIENT-realness of F_res, q-evenness, Lambda-evenness " +
+                "about Lambda0 = -2N), atDeg 56 + resDeg 224 = 280 (the largest residual on this " +
+                "arc, against 80 at (1,2)@N=8 and 42/48 at (1,3)@N=6), sentinels mDeg = -1 and " +
+                "compId false. The mechanism, derived BEFORE the run by an adversarial review " +
+                "round that killed the opposite prediction, then measured: on a fold-fixed block " +
+                "the three reads are EQUIVALENT (the BARE fold leg P*L(q)*P = -2N - L(-q) " +
+                "commutes with the site reflection, so it acts within the R-sector, but it only " +
+                "gives a Lambda-reflection TIED to q -> -q; composed with the unconditional " +
+                "conj-antiparity conj-coeff(F_res)(Lambda, q) = F_res(Lambda, -q), the Y1 " +
+                "identity one level down, this makes Lambda-even <=> q-even <=> coefficient-" +
+                "real), while the q-PRESERVING leg carries the bipartite gauge and therefore " +
+                "SWAPS the R-sectors at odd character, 35 here, so coefficient realness has no " +
+                "source. WHICH REALNESS: coefficient-realness of F_res is one object, " +
+                "coefficient-realness of D = disc_Lambda(F_res) another, and only the first " +
+                "falls. The bare fold still supplies the spectrum closure lambda -> " +
+                "-conj(lambda)-2N at each real q within the sector ([Pf,Pr] == 0), so this " +
+                "entry's gated B3 prior PREDICTS the sector disc real here, on the same AT " +
+                "premise as the antiparity descent (the split off the AT factor must preserve " +
+                "the closure; gated nowhere, empirically true at (1,2)@N=4). That control is " +
+                "the same combination, committed: Lambda- and q-evenness both gated False " +
+                "(coefficient-realness follows by the unconditional antiparity, logged not " +
+                "gated there), disc real with Im = 0 at every SAMPLED prime up to the cap. " +
+                "So the route that returns is the Z one " +
+                "in the (1,2)@N=4 shape, NOT the Q(i) split retired at (1,2)@N=8 (retired on " +
+                "GENERAL grounds, a Z derivative-gcd count replacing it, and CertifyDiscReImGcd " +
+                "the wrong tool by design on a real disc). R-odd is DERIVED rather than run, by " +
+                "the same gauge-swap argument as Y2 at (1,2)@N=8, and CONDITIONALLY: the swap gives " +
+                "charpoly_odd(Lambda, q) = charpoly_even(Lambda, -q), and BOTH the three reads " +
+                "and the degree split descend to F_res = charpoly/AT only under the AT-swap " +
+                "premise this entry flagged at (1,2)@N=8 and still has not gated, " +
+                "so the whole R-odd statement is conditional and UNRUN (a second ~2 h 9 m run). The contrast that keeps " +
+                "it non-vacuous is (1,3)@N=6, even character, no swap, where the two parities " +
+                "did differ, resDeg 42 vs 48. What stays OPEN, cheapest first: (1) the mod-p " +
+                "layer scout at (1,4)@N=8 to READ whether the sector disc is real as B3 predicts " +
+                "-- unpriced and NOT cheap, since it repeats the same exact Z[i] bivariate build " +
+                "before any prime pass, so its floor is the scout's 2 h 9 m; a COMPLEX answer is " +
+                "a finding against B3, not a detail; (2) if real, the Z Sturm machinery applies " +
+                "in principle but on D ITSELF (deg_q D ~ 224*223 ~ 5e4 before stripping), which " +
+                "no run on this arc has ever landed exactly: at (1,2)@N=8 D was only read mod p " +
+                "and multi-prime certified, and the (1,3)@N=6 exact landing was of disc_M(G) at " +
+                "deg ~768, i.e. it USED the M-descent that declines here, so this is probably " +
+                "the harder branch and not the easy one; (3) if complex, the " +
+                "Z Re/Im derivative-gcd count of design v2, still unbuilt. Untouched entirely: " +
+                "the defective POPULATION at (p,4)@N=8 -- a route declining is not an absence " +
+                "verdict, and (1,4)@N=8 is precisely where an N=8 sibling of the (1,3)@N=6 " +
+                "fifteen would sit -- plus (3,4)@N=8, the derived-but-unrun " +
+                "R-odd sector at (1,4), and (2,4)/(4,4)@N=8 which this weight-general pencil " +
+                "CANNOT REACH at all (both weights even at even N means reflection fixed points " +
+                "and the pencil throws; they need the orbit-sum metric of the (1,2) path). " +
                 "The even-N chain reading at N=6 is (1,2)-INPUT-FREE BY THEOREM, not untested for want " +
                 "of an input: no (1,2) locus exists at physical coupling (and at N=8 the same, the 2026-08-12 " +
                 "theorem above); PROOF_CODIM1's N=6 12-set stays containment-only. If a walk is wanted anyway: a " +

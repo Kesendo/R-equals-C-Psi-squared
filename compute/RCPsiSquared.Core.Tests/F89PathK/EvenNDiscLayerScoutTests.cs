@@ -174,13 +174,18 @@ public class EvenNDiscLayerScoutTests
                        $"uDeg={r.UDeg} uReal={r.UIsReal} compId={r.CompositionIdentityAtNodes}");
         Assert.Equal(80, r.ResDeg);
         Assert.Equal(32, r.AtDeg);   // 32 + 80 = 112 = the sector dimension
-        Assert.False(r.ResidualIsReal, "F_res at (1,2)@N=8 expected genuinely complex (no " +
-            "within-sector antiunitary: gauge cross-sector at (p+q)(N−1) = 21 odd, no self-fold); " +
+        Assert.False(r.ResidualIsReal, "F_res at (1,2)@N=8 expected coefficient-complex: " +
+            "coefficient realness has only the GAUGE as a source within the sector, and the character " +
+            "(p+q)(N−1) = 21 is odd, so it is cross-sector; " +
             "if this fails, F_res is REAL and the whole ℚ(i) design collapses to the ℤ route");
         Assert.False(r.EvenInQ, "per-sector q-evenness needs the gauge WITHIN the sector; " +
             "at (1,2)@N=8 it swaps the sectors, so the mirrored-grid halving is not licensed");
-        Assert.False(r.EvenInShiftedLambda, "no (Λ+2N)² structure without the within-block " +
-            "self-fold; (1,2) is not a (p, N/2) block at N=8, so no G and no M-descent exist");
+        Assert.False(r.EvenInShiftedLambda, "no (Λ+2N)² structure here: the within-block " +
+            "self-fold is the only KNOWN source of a Λ-reflection about −2N and (1,2) is not a " +
+            "(p, N/2) block at N=8, so no G and no M-descent exist. Nor is the fold SUFFICIENT, " +
+            "it having to be composed " +
+            "with the gauge, i.e. the character (p+q)(N−1) even: measured at the fold-fixed " +
+            "(1,4)@N=8, character 35 odd, where the Λ-evenness is False (Disc14N8ScoutTests)");
         Assert.Equal(-1, r.MDeg);
         Assert.Equal(-1, r.UDeg);
         Assert.False(r.CompositionIdentityAtNodes, "no G, no identity: the sentinel is false/n-a");
