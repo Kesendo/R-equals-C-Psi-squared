@@ -221,6 +221,31 @@ public class EvenNDiscLayerScoutTests
         Assert.True(p6.DBound >= 926, "the N=6 bound must bound the committed deg_q D = 926");
     }
 
+    [Fact(DisplayName = "N=8 certificate: deg/v of D certified by the weight D-device, layers at a both-attaining prime, R-even")]
+    [Trait("Category", "SLOW_EVEN_DISC8_DEVICE")]
+    public void N8_Certificate_DiscMultiplicity()
+    {
+        // T1 of the N=8 design (E0-priced 2026-08-12: pre-loop ~9.5 min + 3166 primes x
+        // 545 ms ~ 29 min => ~40 min; its own category so SLOW_EVEN_DISC8 stays ~20 min).
+        // Upgrades the one-prime scout read to certificate grade: deg_q D and v_q certified
+        // past the lc-divisor cap, layers read at a both-attaining prime, and the measured
+        // MaxDiscMultiplicity bounds the true maximum from ABOVE (mod-p roots only merge),
+        // so 2 here closes every mult->=3 hideout at (1,2)@N=8 outright. R-even only: one
+        // parity suffices by the derived twin D_odd = conj-coeff(D_even) (gauge swap at
+        // character 21 odd composed with the within-sector conj-antiparity).
+        var r = FoldResultantCertificate.WeightCertifyDiscMultiplicity(8, 1, 2, rOdd: false,
+                                                                       log: _out.WriteLine);
+        _out.WriteLine($"N=8 R-even: deg D = {r.TrueDiscriminantDegree}, v_q = {r.TrueQValuationD}, " +
+                       $"cap = {r.LcDivisorBoundD}, sampled = {r.PrimesSampled}, " +
+                       $"layer prime = {r.LayerPrime}, layers [{string.Join(", ", r.DiscLayerDegrees)}], " +
+                       $"max mult = {r.MaxDiscMultiplicity}");
+        Assert.True(r.DiscLayersCertified, "the multi-prime device must certify deg/v past the cap");
+        Assert.Equal(6086, r.TrueDiscriminantDegree);
+        Assert.Equal(3730, r.TrueQValuationD);
+        Assert.Equal(new[] { 376, 990 }, r.DiscLayerDegrees);
+        Assert.Equal(2, r.MaxDiscMultiplicity);
+    }
+
     [Fact(DisplayName = "N=6 scout: disc layers of the F_32 residual, first prime, both parities (layer identity gated)")]
     [Trait("Category", "SLOW_EVEN_DISC")]
     public void N6_Scout_DiscLayers()
