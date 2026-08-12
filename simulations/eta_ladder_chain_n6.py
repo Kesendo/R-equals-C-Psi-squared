@@ -31,7 +31,7 @@ fold-line / axis pins (scale-relative, eps * ||L||); the twin s(lambda*) =
 -2N - lambda* = -12 - lambda* present as a SECOND near-defective pair at the
 same coupling (conj on the line, the distinct s-partner on the axis); BOTH
 pairs defective-grade non-normal (the departure from normality s of the
-restricted 2x2 exceeds 100x the split; measured 1.6e3..2.5e4x, against ~0 for
+restricted 2x2 exceeds 100x the split; measured 1.4e3..2.5e4x, against ~0 for
 a semisimple degeneracy: this is the gate that a mere near-crossing would
 fail); both freights lowest-weight in the l=1 family (entering-rung projector
 at the floor, the AT strands at ~1 where they carry l=2); presence of both
@@ -41,15 +41,30 @@ robustness); their Rayleigh residual is NOT gated against the split, which is
 no bound for a non-normal pair (the true in-plane worst is s itself).
 
 SPLIT ERROR MODEL (the two-sided gate): at a sqrt-branch locus the pair split
-is 2*sqrt(|a|*|dq|) with |dq| <= 5e-8 (q* recorded to 7 decimals) and a the
-branch coefficient; measured splits span 1.9e-5..1.4e-3. The gate is
+is 2*sqrt(|a|*|dq|) with |dq| <= 1e-7 (census q* recorded to 7 decimals gives
+|dq| <= 5e-8; the two Sturm-only q* are isolated to 1e-7) and a the branch
+coefficient; measured splits span 1.8e-5..1.6e-3. The gate is
 1e-8 < split < 1e-2: the lower edge excludes the exact AT degeneracies
-(split ~1e-15, seven orders below), the upper edge excludes non-locus pairs
-(O(0.1..1) spacing). Not a bare threshold: both edges sit >= 7x from every
-measured value and >= 6 orders from what they exclude.
+(split ~1e-15, seven orders below the edge), the upper edge excludes
+non-locus pairs (O(0.1..1) spacing, one order above the edge). Not a bare
+threshold: both edges sit >= 6x from every measured value.
 
-Seeds: the 13 pinned (q*, lambda) of simulations/disc13_n6_census.py
-(J = 2 q*, gamma = 1/site). Runtime ~1 min. Exit 0 iff every gate passes.
+Seeds: the 13 pinned (q*, lambda) of simulations/disc13_n6_census.py plus the
+TWO loci the exact Sturm count added past the census floors (ef8f77d, doc
+section "The exact real-root count" in experiments/F89_PATH_K_DIABOLIC.md):
+q* = 0.6133162 R-even fold (inside the window, both census channels blind) and
+q* = 0.4627729 R-odd fold (7.8e-4 beside the axis locus 0.4635508, below
+channel A's grid step; the mixed-species close pair). Their lambda were read
+with the census's sector + pair-filter device at the Sturm-exact q* (NOT the
+census's detection chain: no trisection refinement, no exponent
+classification), and that read is GATED below (sturm_only_sector_gate): each
+locus's own R-sector holds exactly two truncation-split pairs, the
+conjugate-doubled fold pair on Re lambda = -6, the +Im member at the SEEDS
+lambda. The exact-device certificate |M*| = 4y^2 via M* = -s10/psc1 at the two
+new A-roots stays open (psc1/s10 are landed in the slow C# pipeline, not
+exported).
+FIFTEEN seeds total (J = 2 q*, gamma = 1/site). Runtime ~1 min. Exit 0 iff
+every gate passes.
 """
 import sys, os
 import numpy as np
@@ -81,6 +96,7 @@ def check(ok, label, detail=""):
 # (lambda real, twin = -12 - lambda is the other printed member).
 SEEDS = [
     (0.4630013, "fold", "even", -6.0 + 0.3864821j),
+    (0.6133162, "fold", "even", -6.0 + 1.7171734j),   # Sturm-only: both census channels blind
     (0.6400121, "fold", "even", -6.0 + 1.2687899j),
     (0.7026159, "axis", "even", -6.5624176 + 0.0j),
     (0.7450837, "fold", "even", -6.0 + 1.4621529j),
@@ -88,12 +104,17 @@ SEEDS = [
     (1.5109958, "fold", "even", -6.0 + 0.9288088j),
     (3.0922209, "fold", "even", -6.0 + 1.5169893j),
     (3.3536850, "axis", "even", -6.0787877 + 0.0j),
-    (0.4635508, "axis", "odd", -6.2680671 + 0.0j),
+    (0.4627729, "fold", "odd", -6.0 + 3.0292680j),    # Sturm-only: below channel A's grid step,
+    (0.4635508, "axis", "odd", -6.2680671 + 0.0j),    # ... the mixed-species close pair with this axis locus
     (0.8029541, "axis", "odd", -6.6051577 + 0.0j),
     (1.2273677, "axis", "odd", -6.3760926 + 0.0j),
     (1.9567664, "fold", "odd", -6.0 + 7.6439946j),
     (3.2608458, "fold", "odd", -6.0 + 25.1047962j),
 ]
+
+# the two loci the exact Sturm count added past the census floors: their
+# lambda is not a census pin, so the sector-level read is gated here
+STURM_ONLY = {0.6133162, 0.4627729}
 
 SPLUS_CHAIN = [(1, 3), (2, 2), (3, 1)]   # then boundary (4, 0)
 PHI_CHAIN = [(1, 3), (2, 4), (3, 5)]     # then boundary (4, 6)
@@ -105,6 +126,62 @@ def eig_block(p, q, J):
     L, _, _ = build_L(N, p, q, J, GAMMA)
     w, V = np.linalg.eig(L)
     return L, w, V
+
+
+def refl_site(x):
+    y = 0
+    for l in range(N):
+        if x & (1 << (N - 1 - l)):
+            y |= 1 << l
+    return y
+
+
+def sector_eigs(L13, sector):
+    """Eigenvalues of the R-sector of the given (1,3) block (the census's
+    sector device, disc13_n6_census.py: reflection permutation, eigh-split).
+    Gates [L, P] == 0.0 first: B.T L B is a RESTRICTION only if L commutes
+    with the reflection; without that gate a broken build would silently
+    project and the downstream reads would be fabricated."""
+    from eta_ladder_blocks import block_basis
+    pairs, index = block_basis(N, 1, 3)
+    P = np.zeros((len(pairs), len(pairs)))
+    for col, (a, b) in enumerate(pairs):
+        P[index[(refl_site(a), refl_site(b))], col] = 1.0
+    check(np.abs(L13 @ P - P @ L13).max() == 0.0,
+          "[L, P] == 0.0 exactly (the sector read restricts, not projects)")
+    wP, VP = np.linalg.eigh((P + P.T) / 2)
+    B = VP[:, wP > 0.5] if sector == "even" else VP[:, wP < -0.5]
+    return np.linalg.eigvals(B.T @ L13 @ B)
+
+
+def sturm_only_sector_gate(L13, sector, lam_census):
+    """The lambda read of a Sturm-only locus, gated at sector level: the
+    locus's own R-sector holds EXACTLY TWO truncation-split pairs, they are
+    the conjugate-doubled fold pair on Re lambda = -6, and the +Im member
+    sits at the SEEDS lambda. FOLD-ONLY by construction (pins Re = -6); an
+    axis member of STURM_ONLY would need its own pin."""
+    ws = sector_eigs(L13, sector)
+    found = []
+    for i in range(len(ws)):
+        for j in range(i + 1, len(ws)):
+            d = abs(ws[i] - ws[j])
+            if 1e-8 < d < 1e-2:
+                found.append((ws[i] + ws[j]) / 2)
+    check(len(found) == 2,
+          f"sector holds exactly two truncation-split pairs (got {len(found)})")
+    if len(found) == 2:
+        m_plus = max(found, key=lambda m: m.imag)
+        m_minus = min(found, key=lambda m: m.imag)
+        scale = np.abs(L13).sum(axis=1).max()
+        check(abs(m_plus - np.conj(m_minus)) < 100 * EPS * scale,
+              f"the two sector pairs are conjugates "
+              f"(dev {abs(m_plus - np.conj(m_minus)):.1e})")
+        check(abs(m_plus.real + 6.0) < 100 * EPS * scale,
+              f"sector pair means on the fold line Re = -6 "
+              f"({abs(m_plus.real + 6.0):.1e})")
+        check(abs(m_plus - lam_census) < 5e-6,
+              f"sector +Im pair mean at the SEEDS lambda "
+              f"(dist {abs(m_plus - lam_census):.1e})")
 
 
 def entering_image_basis(kind):
@@ -127,7 +204,7 @@ def pair_data(w, V, val):
 
 def departure_from_normality(L, V, k1, k2, w):
     # QR of two near-parallel eigenvectors is the ill-conditioned case; the
-    # measured s is stable across both chains and carries a >= 16x margin
+    # measured s is stable across both chains and carries a >= 14x margin
     # over the 100x gate, so the verdict is safe. A Schur-ordered invariant
     # subspace would be the fully robust route if the margin ever thins.
     Q, _ = np.linalg.qr(np.column_stack([V[:, k1], V[:, k2]]))
@@ -303,6 +380,8 @@ def main():
         for pq in set(SPLUS_CHAIN + PHI_CHAIN + list(BOUNDARY.values())):
             blocks[pq] = eig_block(pq[0], pq[1], J)
         L13, w13, V13 = blocks[(1, 3)]
+        if qstar in STURM_ONLY:
+            sturm_only_sector_gate(L13, sector, lam_census)
         scale = np.abs(L13).sum(axis=1).max()   # inf-norm of the block
         k1, k2, lam, split = pair_data(w13, V13, lam_census)
         twin = -2.0 * N - lam
@@ -323,7 +402,7 @@ def main():
             j1, j2, _, vsplit = pair_data(w13, V13, val)
             check(1e-8 < vsplit < 1e-2,
                   f"{vname} pair split truncation-sized, two-sided "
-                  f"({vsplit:.1e}; model: 2*sqrt(|a|*|dq|), |dq| <= 5e-8)")
+                  f"({vsplit:.1e}; model: 2*sqrt(|a|*|dq|), |dq| <= 1e-7)")
             s_dep = departure_from_normality(L13, V13, j1, j2, w13)
             check(s_dep > 100 * vsplit,
                   f"{vname} pair defective-grade non-normal "

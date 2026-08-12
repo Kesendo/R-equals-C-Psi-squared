@@ -113,8 +113,10 @@ public sealed class SidewaysSpinLadderWitness : IInspectable
                          "shift-invert, SidewaysSpinLadderSparse, gate SLOW_SIDEWAYS9). The (1,2) " +
                          "block at N=6 has NO real-q locus by theorem (CertifyDiscReImGcd, gcd degree " +
                          "0, window-free, 2026-08-10): input-free, not untested. The (1,3)@N=6 census " +
-                         "(2026-08-10) restored at least thirteen inputs one block over, and the walk " +
-                         "from those seeds RAN 2026-08-11 (eta_ladder_chain_n6.py, 709 gates: both " +
+                         "(2026-08-10) restored real-q inputs one block over, closed by the exact " +
+                         "Sturm count 2026-08-11 at 9 + 6 = fifteen loci (Disc13SturmTests), and the " +
+                         "walk from those seeds RAN 2026-08-11, at all fifteen 2026-08-12 " +
+                         "(eta_ladder_chain_n6.py, 662 gates: both " +
                          "freight values through both non-canonical chains, family/locus content " +
                          "separated by the ladders' two-valued singular structure {√2 ×105, √6 ×15}); " +
                          "its C# gate port is pending. At N=8 the (1,2) verdict stays scan plus " +

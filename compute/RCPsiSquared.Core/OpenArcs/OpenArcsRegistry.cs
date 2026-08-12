@@ -5476,14 +5476,24 @@ public static class OpenArcsRegistry
                 "(deg D 52/v 24, split [20,4], EXACTLY the four committed loci counted, the " +
                 "diabolic 0.659 in B and NOT counted, Im D == 0 exact: the census float " +
                 "reality upgraded), (1,2)@N=6 landing DECLINES as it must, synthetic M-descent " +
-                "control sympy-pinned coefficient-exact. OPEN: lambda positions of the two new " +
-                "loci unread, the walk not re-run at fifteen. " +
+                "control sympy-pinned coefficient-exact. The two new loci's lambda were read " +
+                "2026-08-12 with the census's sector + pair-filter device at the Sturm-exact q* " +
+                "(NOT the census's detection chain: no trisection, no exponent classification), " +
+                "gated at sector level in the walk verifier: each locus's own R-sector holds " +
+                "exactly two truncation-split pairs, the conjugate-doubled fold pair, " +
+                "-6 +- 1.7171734i at 0.6133162 R-even, -6 +- 3.0292680i at 0.4627729 R-odd, " +
+                "|Re + 6| at 1e-15, splits 1.38e-3/1.52e-3; the walk below re-ran at the " +
+                "FIFTEEN, all gates green. SMALL OPEN: the exact-device lambda certificate " +
+                "(at a fold root of A, M* = -s10/psc1 pins |M*| = 4y^2 exactly; psc1/s10 live " +
+                "in the slow landing, not exported, so the read is float, two-instrument " +
+                "cross-confirmed, not certified). " +
                 "(The gap this closes stood here verbatim as 'no Sturm chain exists in the " +
                 "repo yet'.) Layer-read and real-root-count sections in F89_PATH_K_DIABOLIC.md. " +
-                "THE (1,3) WALK RAN 2026-08-11, next morning (simulations/eta_ladder_chain_n6.py, 566 " +
+                "THE (1,3) WALK RAN 2026-08-11, next morning, and RE-RAN AT FIFTEEN 2026-08-12 " +
+                "(simulations/eta_ladder_chain_n6.py, 662 " +
                 "gates, ~1 min; three first-draft claims died in its review rounds, all three kept in " +
                 "the doc section, and the fix-diff round then caught the repair misquoting its own " +
-                "minted s/split range): at ALL thirteen loci both freight values (lambda* and the twin, " +
+                "minted s/split range): at ALL fifteen loci both freight values (lambda* and the twin, " +
                 "uniformly s(lambda*) = -12 - lambda*, which is conj on the line and the distinct " +
                 "s-partner on the axis; the N=4 conj shortcut is species-limited) transport through " +
                 "BOTH chains, S+ along p+q = 4 ((1,3)->(2,2)->(3,1), boundary (4,0)) and Phi along " +
@@ -5497,18 +5507,18 @@ public static class OpenArcsRegistry
                 "survivors = 15 are FAMILY facts: 105/120 eigenvectors pass the full walk at an " +
                 "off-locus non-uniform control, gated. Per-locus content, all gated per seed: census " +
                 "pin <= 5e-6; split gated TWO-SIDED against the truncation model (2*sqrt(|a||dq|), " +
-                "|dq| <= 5e-8; band 1e-8..1e-2, measured 1.9e-5..1.4e-3, the lower edge seven " +
+                "|dq| <= 1e-7; band 1e-8..1e-2, measured 1.8e-5..1.6e-3, the lower edge seven " +
                 "orders above the AT degeneracies it excludes); line/axis pins at eps*||L|| " +
                 "(relative); BOTH freights simultaneously near-defective pairs (the doubling) and " +
-                "both DEFECTIVE-GRADE NON-NORMAL, s of the restricted 2x2 = 1.6e3..2.5e4 x split, gated " +
+                "both DEFECTIVE-GRADE NON-NORMAL, s of the restricted 2x2 = 1.4e3..2.5e4 x split, gated " +
                 "> 100x (a semisimple degeneracy has s ~ 0: the gate a mere near-crossing fails; a " +
                 "first draft gated the mix residual against the split as an 'in-plane bound', which " +
                 "is no bound for a non-normal pair, s being the true worst); both freights " +
                 "LOWEST-WEIGHT (entering-rung projection at the floor, both chains, vs 1.000 for the " +
                 "AT strands where they carry l=2), which is what selects l=1; presence in every seat " +
-                "spectrum; member Rayleigh residuals 2.4e-14..1.3e-13 (which pins theta to a pair " +
+                "spectrum; member Rayleigh residuals 2.1e-14..1.4e-13 (which pins theta to a pair " +
                 "member by exactness, implied not separately gated); CONTROL == 0.0 " +
-                "at all 13 couplings. The eta-side ladder carries freight for the FIRST time and " +
+                "at all 15 couplings. The eta-side ladder carries freight for the FIRST time and " +
                 "lands on the CG value as a family fact of the d = -2 chain; the two CANONICAL eta " +
                 "chains (d = +-1) stay unmeasured, so the 'transport norms untested' flag above " +
                 "stands as scoped. AT negative control, ALL FOUR cases gated (a first draft ran two " +

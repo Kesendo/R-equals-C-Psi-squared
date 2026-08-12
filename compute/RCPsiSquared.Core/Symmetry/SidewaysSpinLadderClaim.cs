@@ -85,9 +85,9 @@ public sealed class SidewaysSpinLadderClaim : Claim
     /// the four sectors, four ℓ=1/2 doublets, two per chain, one
     /// per conjugate value, CG norm 1, on the four self-fold loci). The (1,2) block at N=6 has no real-q
     /// locus BY THEOREM (CertifyDiscReImGcd, 2026-08-10) and none is known at N=8; the (1,3)@N=6 census
-    /// (2026-08-10) restored at least thirteen inputs one block over (the exact Sturm count of 2026-08-11,
-    /// <c>Disc13SturmTests</c>, closed the census at 9 + 6 = fifteen), and the walk from the thirteen
-    /// census seeds ran 2026-08-11 on the NON-canonical (p+q = 4, d = −2) chains
+    /// (2026-08-10) restored real-q inputs one block over (the exact Sturm count of 2026-08-11,
+    /// <c>Disc13SturmTests</c>, closed the census at 9 + 6 = fifteen), and the walk from those seeds
+    /// ran 2026-08-11, at all fifteen 2026-08-12, on the NON-canonical (p+q = 4, d = −2) chains
     /// (simulations/eta_ladder_chain_n6.py), outside this orbit accounting
     /// (experiments/F89_PATH_K_DIABOLIC.md).</summary>
     public static int OrbitSizeOddN(int n) => (n & 1) == 1
@@ -226,8 +226,10 @@ public sealed class SidewaysSpinLadderClaim : Claim
                          "gated). The (1,2) block at N=6 has NO real-q locus BY THEOREM " +
                          "(CertifyDiscReImGcd, gcd degree 0, window-free, 2026-08-10; at N=8 the verdict " +
                          "stays scan + genericity until the ℚ(i) simple-layer split). The (1,3)@N=6 census " +
-                         "(2026-08-10) restored at least thirteen real-q inputs one block over; the walk " +
-                         "from those seeds RAN 2026-08-11 (eta_ladder_chain_n6.py, non-canonical p+q = 4 / " +
+                         "(2026-08-10) restored real-q inputs one block over, closed at 9 + 6 = fifteen " +
+                         "by the exact Sturm count 2026-08-11; the walk " +
+                         "from those seeds RAN 2026-08-11, at all fifteen 2026-08-12 " +
+                         "(eta_ladder_chain_n6.py, non-canonical p+q = 4 / " +
                          "d = −2 chains, ℓ = 1, both freight values split open), and the exact layer read " +
                          "landed the same morning (Disc13LayerScoutTests: no odd-multiplicity disc layer, " +
                          "disc real mod p, F_res even in (Λ+12)², no defective locus on μ = 0). The four " +
