@@ -175,7 +175,8 @@ public static class FoldResultantCertificate
         int resDeg = blockDim - atDeg;
 
         // exact bivariate F_res over Z[i][q]: charpoly of the pencil, divided by the AT factor
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         if (fRes.Length - 1 != resDeg)
             throw new InvalidOperationException($"bivariate residual degree {fRes.Length - 1} ≠ {resDeg}.");
 
@@ -302,7 +303,8 @@ public static class FoldResultantCertificate
         foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
         int resDeg = aBlk.GetLength(0) - atDeg;
 
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         var (fResLead, _) = ResidualLeadingForm(n, rOdd);
         var (_, mD) = SquarefreeLayers(FromZi(fResLead));
         int dBound = resDeg * (resDeg - 1) - 2 * mD;
@@ -515,7 +517,8 @@ public static class FoldResultantCertificate
         foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
         int resDeg = aBlk.GetLength(0) - atDeg;
 
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, resDeg);
         int dBound = resDeg * (resDeg - 1);
         int samples = dBound + 1 + 24;
@@ -608,7 +611,42 @@ public static class FoldResultantCertificate
         int MDeg, int FDeg, int VQf,
         bool FIsPerfectSquare, int UDeg, bool UIsReal,
         bool CompositionIdentityAtNodes,
-        double MsPerNodeDiscM);
+        double MsPerNodeDiscM,
+        int FoldCheckerboardSign, int CheckerboardOddCellCount, int CheckerboardEvenCellCount,
+        int FullCharpolyCheckerboardSign);
+
+    /// <summary>The checkerboard support read of a Taylor-shifted bivariate: Sign = +1 when every
+    /// coefficient with j + k odd vanishes and the survivors are real on even j / imaginary on odd
+    /// j, -1 for the mirrored pattern (j + k even vanishing), 0 when neither holds. Cells are
+    /// counted by j parity, which equals k parity only at Sign = +1.</summary>
+    private static (int Sign, int OddCells, int EvenCells) CheckerboardRead(GaussianInteger[][] h)
+    {
+        bool plus = true, minus = true;
+        for (int j = 0; j < h.Length && (plus || minus); j++)
+            for (int k = 0; k < h[j].Length; k++)
+            {
+                var c = h[j][k];
+                bool re = !c.Re.IsZero, im = !c.Im.IsZero;
+                if (((j + k) & 1) != 0) { if (re || im) plus = false; }
+                else if ((j & 1) == 0) { if (im) plus = false; }
+                else if (re) plus = false;
+
+                if (((j + k) & 1) == 0) { if (re || im) minus = false; }
+                else if ((k & 1) == 0) { if (im) minus = false; }
+                else if (re) minus = false;
+            }
+        int sign = plus ? 1 : (minus ? -1 : 0);
+        int odd = 0, even = 0;
+        if (sign != 0)
+            for (int j = 0; j < h.Length; j++)
+                for (int k = 0; k < h[j].Length; k++)
+                {
+                    var c = h[j][k];
+                    if (c.Re.IsZero && c.Im.IsZero) continue;
+                    if ((j & 1) != 0) odd++; else even++;
+                }
+        return (sign, odd, even);
+    }
 
     /// <summary>Scout steps 0-2 of the Sturm design (the design note is local under
     /// docs/superpowers/plans/, NOT in the repo) on the (wKet, wBra) R-sector: §0 exact
@@ -627,7 +665,8 @@ public static class FoldResultantCertificate
         int atDeg = 0;
         foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
         int resDeg = aBlk.GetLength(0) - atDeg;
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, resDeg);
 
         // §0: exact realness of F_res (a free assertion on the exact object; the mod-p read saw
@@ -669,6 +708,29 @@ public static class FoldResultantCertificate
         int vQf = -1;
         for (int i = 0; i < f.Length; i++)
             if (!f[i].Re.IsZero || !f[i].Im.IsZero) { vQf = i; break; }
+
+        // The Λ-side support parity of a FOLD-FIXED block (ket OR bra weight = N/2 at even N;
+        // PROOF_CODIM1_BY_ADDITIVITY §7(b)), read off the SAME Taylor shift at no extra cost.
+        // DERIVATION, and it is a determinant identity, not an antiunitary one: the BARE fold leg
+        // is the LINEAR, q-REVERSING rearrangement P·S(q)·P = 2Λ₀ − S(−q) (the registry's
+        // P·L(q)·P = −2N − L(−q) in the uncleared scale; P commutes with the site reflection, so
+        // it stays inside the R-sector). Taking determinants,
+        //     χ_q(Λ₀ + u) = (−1)^d · χ_{−q}(Λ₀ − u),   d = deg_Λ,
+        // at EVERY q, real or complex, over ℤ[i]. Writing Σ c_{j,k}·u^j·q^k that forces
+        // c_{j,k} = 0 unless j + k ≡ d (mod 2): a CHECKERBOARD support. The reality half is the
+        // separate, unconditional q-side antiparity (c real for even k, imaginary for odd k), so
+        // on the surviving cells even/even are real and odd/odd purely imaginary.
+        // ε IS FORCED, not measured: ε = (−1)^d, and since the residual is monic the cell (d, 0)
+        // decides the branch before any other coefficient is looked at. Both branches are still
+        // evaluated, as a self-check that they are mutually exclusive, and the verdict is
+        // cross-gated against (−1)^resDeg by the caller.
+        // WHY BOTH χ AND F_res: on the full charpoly the identity above is a theorem with no
+        // premise; on F_res it additionally needs the AT factor to carry the same parity (this
+        // arc's ungated AT-swap premise). Reading both turns that premise into a measurement.
+        var cbF = CheckerboardRead(TaylorShiftBivariate(fRes, lambda0));
+        var cbFull = CheckerboardRead(TaylorShiftBivariate(chi, lambda0));
+        int cbSign = cbF.Sign, cbOddCells = cbF.OddCells, cbEvenCells = cbF.EvenCells;
+        int cbFullSign = cbFull.Sign;
 
         var (isSquare, uMonic) = MonicSquareRoot(f);
         int uDeg = isSquare ? QcDeg(uMonic) : -1;
@@ -724,7 +786,8 @@ public static class FoldResultantCertificate
         }
 
         return new WeightSturmScoutReport(n, wKet, wBra, rOdd, atDeg, resDeg, residualIsReal, even,
-            evenInQ, mDeg, fDeg, vQf, isSquare, uDeg, uIsReal, compId, msPerNode);
+            evenInQ, mDeg, fDeg, vQf, isSquare, uDeg, uIsReal, compId, msPerNode,
+            cbSign, cbOddCells, cbEvenCells, cbFullSign);
     }
 
     /// <summary>The verdict of <see cref="WeightDiscMExactLanding"/>: disc_M(G) landed EXACTLY
@@ -755,7 +818,8 @@ public static class FoldResultantCertificate
         var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
         AssertHoppingSymmetry(cBlk, null);
         var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         int resDeg = aBlk.GetLength(0);
         foreach (var s in sectors) resDeg -= s.KCharpoly.Length - 1;
         WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, resDeg);
@@ -1070,7 +1134,8 @@ public static class FoldResultantCertificate
         var (aBlk, cBlk) = WeightSectorPencil(4, 1, 2, rOdd: false);
         AssertHoppingSymmetry(cBlk, null);
         var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         int resDeg = fRes.Length - 1;
         int dBound = resDeg * (resDeg - 1);
 
@@ -1159,7 +1224,8 @@ public static class FoldResultantCertificate
         var (aBlk, cBlk) = WeightSectorPencil(landing.N, landing.WKet, landing.WBra, landing.ROdd);
         AssertHoppingSymmetry(cBlk, null);
         var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         foreach (var qs in fRes)
             foreach (var cf in qs)
                 if (!cf.Im.IsZero)
@@ -1705,7 +1771,8 @@ public static class FoldResultantCertificate
         int blockDim = aBlk.GetLength(0);
         int resDeg = blockDim - atDeg;
 
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
 
         var (fResLead, lcD) = ResidualLeadingFormFromPencil(cBlk, sectors);
         var (_, mD) = SquarefreeLayers(FromZi(fResLead));
@@ -1772,7 +1839,8 @@ public static class FoldResultantCertificate
         int blockDim = aBlk.GetLength(0);
         int resDeg = blockDim - atDeg;
 
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, resDeg);
 
         var (fResLead, lcD) = ResidualLeadingFormFromPencil(cBlk, sectors);
@@ -1881,7 +1949,8 @@ public static class FoldResultantCertificate
         var sectors = F89AtFactorReconstruction.ClearedAtSectorsFromPencil(aBlk, cBlk);
         int atDeg = 0;
         foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, aBlk.GetLength(0) - atDeg);
 
         long candidate = (1L << 30) + 1;
@@ -1983,7 +2052,8 @@ public static class FoldResultantCertificate
         foreach (var s in sectors) atDeg += s.KCharpoly.Length - 1;
         int resDeg = aBlk.GetLength(0) - atDeg;
 
-        var fRes = BivariateDivideExact(PencilCharpolyBivariate(aBlk, cBlk), BivariateAtFactor(sectors));
+        var chi = PencilCharpolyBivariate(aBlk, cBlk);
+        var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         var (fResLead, _) = ResidualLeadingForm(n, rOdd);
         var (_, mD) = SquarefreeLayers(FromZi(fResLead));
         int dBound = resDeg * (resDeg - 1) - 2 * mD;

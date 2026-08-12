@@ -5391,11 +5391,41 @@ public static class OpenArcsRegistry
                 "premise this entry flagged at (1,2)@N=8 and still has not gated, " +
                 "so the whole R-odd statement is conditional and UNRUN (a second ~2 h 9 m run). The contrast that keeps " +
                 "it non-vacuous is (1,3)@N=6, even character, no swap, where the two parities " +
-                "did differ, resDeg 42 vs 48. What stays OPEN, cheapest first: (1) the mod-p " +
-                "layer scout at (1,4)@N=8 to READ whether the sector disc is real as B3 predicts " +
-                "-- unpriced and NOT cheap, since it repeats the same exact Z[i] bivariate build " +
-                "before any prime pass, so its floor is the scout's 2 h 9 m; a COMPLEX answer is " +
-                "a finding against B3, not a detail; (2) if real, the Z Sturm machinery applies " +
+                "did differ, resDeg 42 vs 48. THE CHECKERBOARD, found the same evening from Tom's question and gated " +
+                "exactly over Z[i] (FoldCheckerboardParityTests, 8 gates, ~1 min): on a block " +
+                "fixed by EITHER fold leg (ket OR bra weight = N/2, PROOF_CODIM1 section 7(b) -- " +
+                "the first draft said 'bra' and (2,1)@N=4 refutes it, gated), the BARE leg is the " +
+                "LINEAR q-REVERSING rearrangement P*S(q)*P = 2*Lambda0 - S(-q), and DETERMINANTS " +
+                "give chi_q(Lambda0 + u) = (-1)^d * chi_{-q}(Lambda0 - u) at EVERY q, so the " +
+                "coefficient of u^j q^k VANISHES unless j + k = d (mod 2); with the unconditional " +
+                "q-side antiparity the survivors are real on even j, purely imaginary on odd j. " +
+                "eps = (-1)^d is FORCED (monic residual), not measured. Theorem on the FULL " +
+                "charpoly, no AT premise; measured to descend to F_res at every gated block " +
+                "(FullCharpolyCheckerboardSign), which turns the AT-swap premise into a " +
+                "measurement here. Strictly STRONGER than this entry's boolean equivalence: at " +
+                "(1,2)@N=4 all three booleans are False and False<=>False<=>False implies " +
+                "nothing, while the checkerboard holds with 6 occupied odd cells; conversely " +
+                "q-even AND Lambda-even imply it, so (1,3)@N=6 (0 odd cells, 247/325 even) is its " +
+                "DEGENERATE side -- the Lambda-evenness the whole (1,3) pipeline stands on IS " +
+                "this collapse, making the checkerboard the general case and the evenness the " +
+                "special one. Negative control (1,2)@N=6, fold-fixed on neither leg: sign 0, both " +
+                "supports occupied, the character confound controlled by (1,2)@N=4 sharing it and " +
+                "passing. THE COROLLARY CLOSES THE B3 OPEN ITEM ALGEBRAICALLY: the law says " +
+                "F_res(-u, -q) = eps*F_res(u, q), the Lambda-roots negate under q -> -q, disc is " +
+                "invariant under negating all roots, so D = disc_Lambda(F_res) is EVEN in q even " +
+                "where the q-evenness READ is False; composed with Y1 (conj-coeff(D)(q) = D(-q)) " +
+                "that forces conj-coeff(D) = D, i.e. D REAL on every fold-fixed block. So the " +
+                "sector disc at (1,4)@N=8 is real by DERIVATION, not by the 2 h 9 m mod-p read " +
+                "this entry priced -- and the committed N=4 closed form disc(F_8) = " +
+                "const*q^24*(3q^4+q^2-1)^2*P_10(q^2) had every factor even in q all along, the " +
+                "law visible and unread. The other half is NOT banked: an even-in-q D would halve " +
+                "the D-device's interpolation nodes, but no committed device consumes a support- " +
+                "parity fact (dense sampling q0 = 0..dBound, no q^2 substitution), so that " +
+                "halving is designed-for, not realised. What stays OPEN, cheapest first: (1) the " +
+                "mod-p layer scout at (1,4)@N=8, now a CONFIRMATION of the derived disc-realness " +
+                "rather than the question it was, still floored at the scout's 2 h 9 m since it " +
+                "repeats the same exact Z[i] build; a COMPLEX answer would refute the " +
+                "checkerboard corollary and is the finding to watch for; (2) if real, the Z Sturm machinery applies " +
                 "in principle but on D ITSELF (deg_q D ~ 224*223 ~ 5e4 before stripping), which " +
                 "no run on this arc has ever landed exactly: at (1,2)@N=8 D was only read mod p " +
                 "and multi-prime certified, and the (1,3)@N=6 exact landing was of disc_M(G) at " +
