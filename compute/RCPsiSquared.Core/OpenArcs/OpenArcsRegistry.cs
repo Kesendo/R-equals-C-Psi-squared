@@ -3860,9 +3860,18 @@ public static class OpenArcsRegistry
                 "into review/OPEN_QUESTIONS_INDEX.md:1646). Reproduced here, and mind the scales, which the NextStep's item (3) spells out: at ITS OWN hopping amplitude 1 the adjacency form gives 0.9249 and " +
                 "the Laplacian form gives 1.0000. The falsified hypothesis was one term short and the missing " +
                 "term is the ZZ degree. The slowest eigenvector of M reproduces the IBM row " +
-                "[0.099, 0.239, 0.428, 0.572, 0.651] and the F9 N=7 row " +
-                "[0.118, 0.332, 0.481, 0.535, 0.482, 0.334, 0.119] at overlap 1.0000, the N=7 one to every " +
-                "printed digit. WHAT Complex.Abs DISCARDS HERE IS A PHASE, NOT A SIGN, and an earlier draft of this line said 'the alternating signs': measured, neither row alternates in sign, and what the modulus throws away is site 0 sitting near quadrature (-96 degrees at witness J=1, -88 at J=4, phase fixed on the largest component) while the rest are within 20 degrees of real. (3) IT WOULD MAKE THE LENS WELL " +
+                "[0.099, 0.239, 0.428, 0.572, 0.651] and the N=7 lens-survey row on the F9 " +
+                "edge-concentrator PROFILE (F9 is the gamma formula, not the eigenvector row) " +
+                "[0.118, 0.332, 0.481, 0.535, 0.482, 0.334, 0.119] to six places (N=5) and seven " +
+                "(N=7), the N=7 one to every printed digit. Quote no more places than that: the " +
+                "eighth digit of the N=5 cosine moves with how many places the gamma profile is " +
+                "carried to. The N=5 one is NOT to every " +
+                "printed digit (three of five last places differ, max componentwise 2.3e-3), and exact " +
+                "agreement is not even well posed there: the tabulated psi_opt sits in a doubly " +
+                "degenerate eigenvalue whose digits are solver-dependent (see concentrator_amplitude_signs). " +
+                "The match is also J-DEPENDENT, holding at the concentrator's own J_pauli = 1 and falling " +
+                "to 0.84 by J = 2, so it is not a coupling-free statement. " +
+                "WHAT Complex.Abs DISCARDS DEPENDS ON THE PROFILE, and it differs between the two rows. At N=5 on the IBM profile it is a PHASE, not a sign: site 0 sits near quadrature (-96 degrees at witness J=1, -88 at J=4, phase fixed on the largest component) while the rest are within 20 degrees of real. At N=7 on the symmetric F9 profile the eigenvector DOES alternate (measured phases 172.6, -1.8, 179.4, 0, -179.7, 0.5, -179.4 degrees, i.e. sign flips to within 2 percent of the norm), which is what arc concentrator_amplitude_signs records at its own entry: there the modulus throws away a sign and the row is a silhouette. (3) IT WOULD MAKE THE LENS WELL " +
                 "POSED and break its N-wall: no 4^N eigendecomposition, no SE filter, no first-match tie-break in " +
                 "a degenerate eigenspace (see concentrator_amplitude_signs), and the slow mode is separated by " +
                 "0.057 at the IBM profile. At uniform gamma all N modes share Re = -2*gamma exactly, so there is " +
@@ -5240,9 +5249,10 @@ public static class OpenArcsRegistry
                 "closing the small-q loophole the r(0+) = 6 endpoints left); the complex-lambda species is absent from the axis " +
                 "in the scanned strips, BOTH R-parities (N=6 12+12 coalescences all diabolic, R-odd the " +
                 "exact conjugates of R-even; N=8 R-odd 30 coalescences, the 24 in-box all diabolic by " +
-                "EpCharacter (half with soft exponents, reconciliation not done; the on-axis member is " +
-                "three-signal clean), the one defective label out of strip; the one on-axis point q=0.6165 " +
-                "classifies DIABOLIC both parities; the N=6 clean defective EPs keep |im q| >= 0.2). " +
+                "EpCharacter (half with soft exponents, reconciliation not done; the near-axis member is " +
+                "three-signal clean), the one defective label out of strip; the one point the band zoom " +
+                "placed at im(q)=0, q~0.6165, classifies DIABOLIC both parities and is placed OFF the axis " +
+                "by the later gcd certificate; the N=6 clean defective EPs keep |im q| >= 0.2). " +
                 "Mechanism: disc-reality is antiunitary-forced, real at N=4 (self-fold), genuinely COMPLEX " +
                 "at N=6, so a real-q zero is codim 2 there, generically absent; first measured in the local " +
                 "July multi-sector monodromy spec B3, now RE-GATED COMMITTED in the same verifier (R-even " +

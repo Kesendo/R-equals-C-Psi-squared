@@ -274,11 +274,15 @@ def verify_D3(out, J=1.0, gamma=0.05):
     out.append(f"\n  Analytical:")
     out.append(f"    f* (Z crossing):   {f_star:.12f}")
     out.append(f"    K_Z = {K_Z:.10f}  (doc: 0.0374)")
-    out.append(f"    K_X = ln(2)/8 = {K_X:.10f}  (doc: 0.0867)")
+    out.append(f"    K_X = ln(2)/8 = {K_X:.10f}  (doc: ln(2)/8, exact)")
     out.append(f"    u* (depol crossing): {u_star:.12f}")
     out.append(f"    K_depol = {K_depol:.10f}  (doc: 0.0440)")
-    out.append(f"    K_X/K_Z = {ratio_XZ:.10f}  (doc: 2.317)")
-    out.append(f"    K_depol/K_Z = {ratio_dZ:.10f}  (doc: 1.176)")
+    # These two ratios are derived here and quoted in no document, so there is no
+    # doc value to check them against; the propagation cross-check below is what
+    # holds them. (The labels used to read "doc: 2.317" and "doc: 1.176", neither
+    # of which appears anywhere in the repo, and both of which are off the truth.)
+    out.append(f"    K_X/K_Z = {ratio_XZ:.10f}")
+    out.append(f"    K_depol/K_Z = {ratio_dZ:.10f}")
 
     # -- Propagation cross-check (Bell+ N=2) --
     N = 2
@@ -323,10 +327,20 @@ def verify_D3(out, J=1.0, gamma=0.05):
         out.append(f"    Ratio analytical:  {ratio_XZ:.6f}")
         out.append(f"    Deviation: {abs(ratio_prop - ratio_XZ):.6f}")
 
-    # Check document values
-    doc_ok = (abs(K_Z - 0.0374) < 0.0001 and
-              abs(K_X - 0.0867) < 0.0001 and
-              abs(K_depol - 0.0440) < 0.0001)
+    # Check document values. For K_X the closed form is asserted, not assumed: solve the
+    # crossing condition numerically and require that it lands on ln(2)/8. Comparing the
+    # assigned K_X to np.log(2)/8 instead would be a tautology, since that is how it was
+    # assigned; and a 1e-4 window around the printed decimal cannot discriminate a wrong
+    # fourth digit, which is off by only ~5e-5, so such a window certifies whatever it is
+    # handed. K_Z and K_depol are exact too (logs of cubic irrationals, both cubics having
+    # negative discriminant, so real radicals suffice), but a document quotes them to four
+    # places; there the window IS the rounding half-width of the printed value, inclusive,
+    # since a value sitting exactly on the half-width is still correctly rounded. K_Z uses
+    # 99.7% of that window (margin 1.3e-7), which is tight by arithmetic and not by choice.
+    K_X_solved = -np.log(brentq(lambda v: (1 + v**2) / 6 - 0.25, 0.1, 0.99)) / 4
+    doc_ok = (abs(K_Z - 0.0374) <= 0.00005 and
+              abs(K_X_solved - np.log(2) / 8) < 1e-12 and
+              abs(K_depol - 0.0440) <= 0.00005)
     status = "VERIFIED" if doc_ok else "FAILED"
     out.append(f"\n  D3 STATUS: {status}\n")
     return doc_ok

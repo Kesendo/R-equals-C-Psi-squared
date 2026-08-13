@@ -35,9 +35,27 @@ public static class CpsiBellPlus
     /// <summary>K = γ·t at the cusp where CΨ first crosses 1/4. Channel-specific, γ-invariant.</summary>
     public static class CuspK
     {
+        /// <summary>Pure Z: u³ + u = 3/2 at the crossing with u = e^{−4K}. The cubic has negative
+        /// discriminant, so its real root is reachable by real radicals and K_Z = −¼·ln(u*) is
+        /// exact too; 0.03735013… is a four-place reading of it, not a missing closed form. Kept
+        /// as a decimal const because Symphony.KFoldN2 chains off it at compile time.</summary>
         public const double PureZ = 0.0374;
-        public const double PureX = 0.0867; // = ln(2)/8
-        public const double PureY = 0.0867; // = PureX = ln(2)/8: the XX (resp. YY) correlation is pinned; only pure Z decays both
-        public const double Depolarizing = 0.0440; // γ/3 on each axis
+
+        /// <summary>Pure X: the l₁-coherence NORM max(|c_x|, |c_y|) is pinned (the XX correlation is
+        /// conserved; the |00⟩⟨11| element itself is not pinned, it runs ½ → ¼), so CΨ = (1+v²)/6,
+        /// which is 1/4 at v² = e^{−8K} = 1/2, giving K = ln(2)/8 = 0.0866433… A rational multiple
+        /// of ln 2, so it is held as the expression and never as a decimal.</summary>
+        public static readonly double PureX = Math.Log(2.0) / 8.0;
+
+        /// <summary>Pure Y = PureX, and by a symmetry rather than a coincidence: the local Clifford
+        /// S ⊗ S sends X → Y, carrying (Bell+ under pure Y) to (Bell− under pure X), and CΨ sees
+        /// only |c_x|, |c_y|, |c_z|.</summary>
+        public static readonly double PureY = Math.Log(2.0) / 8.0;
+
+        /// <summary>Depolarizing (γ/3 on each axis): u³ + u/3 = 1 with u = e^{−8K/3}, again a cubic
+        /// with negative discriminant, so K_depol = −⅜·ln(u*) is exact as well (0.04395476…).
+        /// Kept a decimal const for the same reason as PureZ: const consumers chain at compile
+        /// time, so converting this to a computed expression would break them.</summary>
+        public const double Depolarizing = 0.0440;
     }
 }

@@ -1,6 +1,7 @@
 """Tests for ChainSystem.gamma_probe_setup and estimate_gamma_from_cpsi."""
 from __future__ import annotations
 
+import math
 import sys
 from pathlib import Path
 
@@ -71,17 +72,20 @@ def test_estimate_gamma_rejects_out_of_range():
 
 @pytest.mark.filterwarnings("ignore::UserWarning")
 def test_gamma_probe_setup_x_channel():
-    """gamma_probe_setup with channel='X' should give K_cusp = 0.0867 vs Z's 0.0374."""
+    """gamma_probe_setup with channel='X' should give K_cusp = ln(2)/8 vs Z's 0.0374."""
     chain = fw.ChainSystem(N=2)
     setup_z = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='Z')
     setup_x = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='X')
     setup_y = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='Y')
     setup_d = fw.gamma_probe_setup(chain, gamma_assumed=0.05, channel='depolarizing')
-    # K_cusp from F26 cusp condition: K_X = K_Y = ln(2)/8 = 0.0867 (l1-coherence pinned
+    # K_cusp from F26 cusp condition: K_X = K_Y = ln(2)/8 = 0.0866434... (l1-coherence pinned
     # under both pure X and pure Y), K_Z = 0.0374 (l1-coherence decays under pure Z).
+    # The measured side is a cusp finder on a time grid, so the window is the grid's
+    # resolution, not a fudge; the reference side is exact where an exact form exists.
+    K_XY = math.log(2) / 8
     assert abs(setup_z['K_cusp'] - 0.0374) < 0.001
-    assert abs(setup_x['K_cusp'] - 0.0867) < 0.001
-    assert abs(setup_y['K_cusp'] - 0.0867) < 0.001  # K_Y = K_X (pinned coherence), not K_Z
+    assert abs(setup_x['K_cusp'] - K_XY) < 0.001
+    assert abs(setup_y['K_cusp'] - K_XY) < 0.001  # K_Y = K_X (pinned coherence), not K_Z
     assert abs(setup_d['K_cusp'] - 0.0440) < 0.001
 
 

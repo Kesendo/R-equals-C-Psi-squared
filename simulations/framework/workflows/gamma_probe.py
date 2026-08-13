@@ -19,8 +19,8 @@ def gamma_probe_setup(chain, gamma_assumed=None, target_precision=0.01,
         'depolarizing'  — γ/3 on each axis
 
     K = γ·t is γ-invariant; channel determines K_optimal numerically.
-    Reference K_cusp values per channel (F27): Z=0.0374, X=0.0867,
-    Y=0.0867, depolarizing=0.0440.
+    Reference K_cusp values per channel (F27): Z=0.0374, X=Y=ln(2)/8=0.0866434...
+    (exact), depolarizing=0.0440.
 
     Args:
         gamma_assumed: prior γ-estimate. If None, uses self.gamma_0.

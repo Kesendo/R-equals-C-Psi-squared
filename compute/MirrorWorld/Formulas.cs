@@ -96,7 +96,9 @@ public static class Formulas
     // the u(...) form holds only under the WLOG re-sort alpha <= beta (F27 trap note).
     public static double F26_CPsi(double u, double v, double w) => Math.Max(u, v) * (1.0 + u * u + v * v + w * w) / 12.0;
 
-    // F27 (T1): K per noise channel. K_X=K_Y=ln(2)/8=0.0867, K_Z=0.0374, K_depol=0.0440.
+    // F27 (T1): K per noise channel, all four exact. K_X=K_Y=ln(2)/8=0.0866434...; K_Z=0.0374 and
+    // K_depol=0.0440 are four-place readings of -(1/4)*ln(u*) and -(3/8)*ln(u*) for the real roots
+    // of u^3+u=3/2 and u^3+u/3=1 (negative discriminant, so real radicals suffice).
     public static readonly double F27_KX = Math.Log(2) / 8.0;
     public const double F27_KZ = 0.0374;
     public const double F27_KDepol = 0.0440;

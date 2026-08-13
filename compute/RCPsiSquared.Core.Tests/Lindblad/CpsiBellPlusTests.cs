@@ -21,13 +21,19 @@ public class CpsiBellPlusTests
     [Fact]
     public void PureZ_AtCuspK_IsOneQuarter()
     {
-        // K_Z = 0.0374 corresponds to γ·t at which CΨ first crosses 1/4 under pure Z noise.
-        // For pure Z (γ_x = γ_y = 0): α = 4γ_z, β = 4γ_z, δ = 0 → u = v = exp(-4γt), w = 1.
-        // CΨ = u(1 + u² + v² + 1)/12 = u(1 + 2u² + 1)/12 = u(2 + 2u²)/12 = u(1+u²)/6.
-        // At K = γt = 0.0374: u = exp(-4·0.0374) = exp(-0.1496) ≈ 0.86099
-        // CΨ = 0.86099·(1 + 0.86099²)/6 ≈ 0.86099·1.7413/6 ≈ 0.2499 ≈ 1/4 ✓
+        // K_Z is γ·t at which CΨ first crosses 1/4 under pure Z noise. For pure Z
+        // (γ_x = γ_y = 0): α = 4γ_z, β = 4γ_z, δ = 0 → u = v = exp(-4γt), w = 1, so
+        // CΨ = u(1 + u² + v² + 1)/12 = u(1+u²)/6.
+        //
+        // The constant is a four-place reading of −¼·ln(u*), u* the real root of u³+u = 3/2,
+        // so it carries a rounding of at most 5e-5 and the crossing is displaced by that times
+        // the slope: |dCΨ/dK| = (1+3u*²)/6 · 4u* = 1.8516, giving 9.3e-5. That product IS the
+        // error model, and the gate is it, not a round window ten times wider.
         double cpsi = CpsiBellPlus.At(0.0, 0.0, 1.0, CpsiBellPlus.CuspK.PureZ);
-        Assert.InRange(cpsi, 0.249, 0.251);
+        const double slope = 1.8516;           // |dCΨ/dK| at the pure-Z crossing
+        const double quoteRounding = 0.5e-4;   // half-width of the four-place constant
+        Assert.True(Math.Abs(cpsi - 0.25) <= slope * quoteRounding,
+            $"CΨ at K_Z should sit within the quoted constant's own rounding, was {cpsi:R}");
     }
 
     [Fact]
@@ -47,8 +53,13 @@ public class CpsiBellPlusTests
     [Fact]
     public void PureY_AtCuspK_IsOneQuarter()
     {
-        // K_Y = ln(2)/8 ≈ 0.0867: CΨ = (1+u²)/6 = 1/4 at u² = e^{-8γt} = 1/2.
+        // K_Y = ln(2)/8 = 0.0866433…: CΨ = (1+v²)/6 = 1/4 at v² = e^{-8γt} = 1/2.
+        // In exact arithmetic the crossing is 1/4 exactly. In floating point the only error is
+        // the rounding of Math.Exp and the divide, so the model is a few ulp of 1/4 and the gate
+        // is that model rather than a decimal window a wrong fourth digit would fit through.
         double cpsi = CpsiBellPlus.At(0.0, 1.0, 0.0, CpsiBellPlus.CuspK.PureY);
-        Assert.InRange(cpsi, 0.249, 0.251);
+        double ulp = Math.BitIncrement(0.25) - 0.25;
+        Assert.True(Math.Abs(cpsi - 0.25) <= 4 * ulp,
+            $"CΨ at K_Y should sit within a few ulp of 1/4, was {cpsi:R} (off by {Math.Abs(cpsi - 0.25) / ulp:F1} ulp)");
     }
 }

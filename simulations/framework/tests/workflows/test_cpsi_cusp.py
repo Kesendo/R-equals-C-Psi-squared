@@ -35,7 +35,7 @@ def test_cpsi_bell_plus_monotonic_decay():
 
 
 def test_cpsi_cusp_K_per_channel_matches_F27():
-    """F27 K-values: Z=0.0374, X=Y=0.0867, depol=0.0440. Cross-check via cusp finder."""
+    """F27 K-values: Z=0.0374, X=Y=ln(2)/8=0.0866434..., depol=0.0440. Cross-check via cusp finder."""
     from scipy.optimize import brentq
     for channel, K_expected in fw.CPSI_CUSP_K_PER_CHANNEL.items():
         if channel == 'Z':

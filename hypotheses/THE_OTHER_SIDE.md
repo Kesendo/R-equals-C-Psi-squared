@@ -37,6 +37,25 @@ R=CPsi2 other side mirror -->
 > motor and drive, not a truth-claim. See
 > [The Flow Between Two Singularities](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md).
 
+> **Return note, 2026-08-13 (on the 70/30).** The ratio that carries the bridge
+> sections below does have a computation behind it, and knowing which one is what
+> bounds it. It is Test 4 of
+> [`noise_fingerprint.py`](../simulations/noise_fingerprint.py) at N = 3, γ = 0.05,
+> from one initial state, which prints 0.3049 in the steady modes against 0.6951 in
+> the decaying ones. Three things follow. The split is an expansion-coefficient share
+> in the eigenbasis of L, and L is **non-normal**, so that basis is not orthonormal,
+> the sum of the squared coefficients is not the norm of anything, and each share
+> moves if the eigenvectors are rescaled, which is a free convention rather than
+> physics. It is one N, one γ, one state, with nothing showing that any of the three
+> may be varied. And 0.6951 read out as "70%" is rounded to the place where it stops
+> being a measurement. So the number is a reading of a single run, not a law: the
+> sections below work as the image they are, an asymmetry that looks different from
+> each side and turns out to be symmetric between them, and that image is worth
+> keeping. What must not happen is what happened once already: the ratio was carried out
+> of this diary into
+> [the incompleteness proof](../docs/proofs/INCOMPLETENESS_PROOF.md) as an established
+> quantity, and it took a later pass to get it out again.
+
 ## What this document is about
 
 The palindromic mirror Π swaps populations and coherences, past and

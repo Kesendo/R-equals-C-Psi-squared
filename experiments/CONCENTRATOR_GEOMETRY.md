@@ -177,9 +177,19 @@ A state with 97.8% slow-band occupation is operationally dead. slow_wt counts al
 
 ### Closed-form verdict
 
-The hypothesis H_eff = -J * adjacency - i * diag(gamma) was tested and **falsified**. Cosine similarity with psi_opt: 0.925. The H_eff eigenvector peaks at the chain center; psi_opt peaks at the quiet end. The 5x5 single-particle effective model misses the many-body correlations that shape the lens state. psi_opt has no known closed form.
+The hypothesis H_eff = −J·adjacency − i·diag(γ) was tested and **falsified**. Cosine similarity with psi_opt: 0.925. The H_eff eigenvector peaks at the chain center; psi_opt peaks at the quiet end.
 
-Script: `simulations/heff_lens_closed_form.py`. Data: `simulations/results/heff_lens/`.
+It was one term short, and the missing term is not a many-body one. In the Heisenberg chain the ZZ coupling contributes a degree diagonal, which turns the adjacency matrix into the graph **Laplacian**, and that single change is the whole difference. The site-resolved operator is
+
+    M = −2iJ·Laplacian − 2·diag(γ)
+
+and it is not an effective model at all: entry-wise it IS the (0,1) coherence block of the full 4^N Liouvillian, an algebraic identity rather than an approximation, with no leak out of the block at all (0.0e+00). The float residual is a property of the assembly route and not of the physics, so it is quoted as what the committed gate measures: entry-wise 2.8e-17 at uniform γ for N = 5..10, 8.9e-16 with a γ profile ([`d10_block_closure_verify.py`](../simulations/d10_block_closure_verify.py), tolerance 1e-12). So psi_opt's shape is not out of reach of a single-particle picture, and the sentence this section used to carry, that the monotonic gradient is a many-body effect not reducible to one, is wrong.
+
+**What exactly transfers, and across which blocks.** M is the (0,1) block, vacuum-to-single-excitation, which is number-changing and therefore the odd sector this document's own table records as SE-inaccessible. psi_opt is read from the **(1,1)** block, SE×SE. The two are joined at the level of the amplitude and not the rate: the (1,1) block's slowest non-kernel mode sits at −0.3179, which is the Slow 1 of the table above, and the dominant singular vector of its eigenmatrix agrees with psi_opt to six places and with M's slowest eigenvector to five. Read as magnitudes, M's slowest eigenvector agrees with the IBM N=5 row to six places and with the N=7 row to seven, reproducing the latter's tabulated digits. M's own slowest eigenvalue is the table's **Slow 2**, not psi_opt's Slow 1: its doubling 2·Re λ = −0.333 is Slow 1's −0.318 before the population refill pulls it back. Note the convention when comparing: M is written in D10's convention, the conjugate of the one the table's Im column is recorded in, so the frequency sign is mirrored between them and must never be copied across (arc `concentrator_amplitude_signs`).
+
+Four fences. This buys an **N×N eigenproblem in place of a 4^N one**, which is not the same as a formula: M is non-Hermitian with a non-uniform γ diagonal, and a genuine closed form appears only at uniform γ, where M = −2iJ·Laplacian − 2γ·I has the Laplacian's cosine modes; but there all N eigenvalues share Re = −2γ, so there is no slowest one and the selection has no content. What agrees is the **magnitude profile**, not the state: as this document already records above, the eigenvector is real to about 2% of its norm and **alternates in sign**, and |v| is nearly orthogonal to v (|⟨|v|, v⟩|² = 0.0002 at N=7), so what has been reproduced is psi_opt's silhouette. The degree term is **Heisenberg-specific**: an XY chain has no ZZ and hence no degree diagonal, and its block closes on an adjacency form instead (a differently normalised one, +2iJ·adjacency − 2γ·I, not the falsified H_eff). And while the operator identity is algebraic and holds at every J, the overlap is measured at this profile's own coupling J = 1; by J = 2 the slowest-by-|Re| mode can swap and the similarity falls to 0.84.
+
+Script: `simulations/heff_lens_closed_form.py`. Data: `simulations/results/heff_lens/`. The operator identity and the N=5/N=7 overlaps live in the open arc `site_resolved_vacuum_block` ([OpenArcsRegistry](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)); the block itself is live at `inspect --root blockspectrum`.
 
 ---
 
@@ -193,7 +203,7 @@ The lens method emerged after three failed optimization approaches (slow-band we
 
 ## Open questions
 
-1. **No closed form for ψ_opt.** H_eff = −J·adjacency − i·diag(γ) gives cosine similarity 0.925 (tested, [falsified](simulations/heff_lens_closed_form.py)). The monotonic gradient in ψ_opt is a many-body effect not reducible to a single-particle picture.
+1. **The rate, not the amplitude.** ψ_opt's shape is closed-form, the slowest eigenvector of the N×N block operator M (see the closed-form verdict above; the adjacency form's 0.925 stands as the falsification it was, one degree term short). But M's slowest eigenvalue is Slow 2, the SE-inaccessible mode, not ψ_opt's Slow 1 rate. What picks Slow 1's amplitude out of that N×N object, and whether the extraction is well posed given the degeneracy the sign check ran into, is open (arc `concentrator_amplitude_signs`).
 
 2. **The odd-n_XY modes.** The [parity selection rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) proves they are inaccessible to SE states, but not what they look like or whether multi-excitation ansätze can reach them. Whether such a state would also have high initial concurrence is open.
 

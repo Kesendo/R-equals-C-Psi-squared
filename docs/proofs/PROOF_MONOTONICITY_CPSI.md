@@ -187,22 +187,36 @@ only if α = β = δ = 0 (no noise). For any nonzero noise:
 | Channel | α | β | δ | K = γ_eff · t_cross |
 |---------|---|---|---|---------------------|
 | Pure Z (γ) | 4γ | 4γ | 0 | 0.0374 |
-| Pure X (γ) | 0 | 4γ | 4γ | 0.0867 |
-| Pure Y (γ), re-sorted | 0 | 4γ | 4γ | 0.0867 |
+| Pure X (γ) | 0 | 4γ | 4γ | 0.0866 |
+| Pure Y (γ), re-sorted | 0 | 4γ | 4γ | 0.0866 |
 | Depolarizing (γ/3 each) | 8γ/3 | 8γ/3 | 8γ/3 | 0.0440 |
 
-**K_X = K_Y = 0.0867 = ln(2)/8; K_Z = 0.0374 is the odd one out.** The
-discriminating fact is whether the *l₁-coherence* L₁ (the |00⟩↔|11⟩ off-diagonal,
-= (XX − YY)/2 on Bell+) is decoherence-free or decays. Under pure X the XX
-correlation is pinned; under pure Y the YY correlation is pinned; in **both**
+**K_X = K_Y = ln(2)/8 = 0.0866433…; K_Z = 0.0374 is the odd one out.** The
+discriminating fact is whether the *l₁-coherence norm* L₁ = Σ_{i≠j}|ρ_ij| =
+max(|c_x|, |c_y|), the max(u, v) above, is decoherence-free or decays. It is the
+norm and not any single element: under pure X the |00⟩⟨11| element runs ½ → ¼ while
+the norm stays at 1, what leaves that element reappearing in |01⟩⟨10|. The XX
+correlation is pinned under pure X; the YY correlation is pinned under pure Y; in **both**
 cases L₁ stays nonzero, so L₁ = max(u,v) = 1 and CΨ = (1+v²)/6, crossing ¼ at
-v² = ½ ⟹ K = ln(2)/8 = 0.0867. Under pure Z **both** XX and YY decay, so L₁ → 0,
+v² = ½ ⟹ K = ln(2)/8 = 0.0866433… Under pure Z **both** XX and YY decay, so L₁ → 0,
 CΨ = u(1+u²)/6, and K_Z = 0.0374. (Note: F26 with γ_y only gives the physical rates
 (α,β,δ) = (4γ, 0, 4γ); since β = 0 < α this **violates the WLOG α ≤ β**, so it must
 be re-sorted to α = 0, giving L₁ = e^{−αt} = 1, exactly pure X's form. Dropping the
 re-sort silently yields the pure-Z form and a wrong K_Y = K_Z; F27 in the registry
 carries the same trap warning.)
-All K values verified numerically (CV < 0.1%).
+All four are exact; what differs is their degree, and that is what decides how they
+are written. K_X = K_Y = ln(2)/8 is a rational multiple of ln 2, because the pinned
+coherence makes the crossing condition v² = ½ elementary, and it is carried as the
+expression, never as a decimal. K_Z and K_depol are logs of cubic irrationals:
+with u = e^{−4K} for pure Z and u = e^{−8K/3} for depolarizing, the crossings are
+u³ + u − 3/2 = 0 and u³ + u/3 − 1 = 0, each with negative discriminant, hence one
+real root reachable by real radicals (no casus irreducibilis), so
+
+    K_Z     = −¼·ln(∛(3/4 + √(0.599537…)) + ∛(3/4 − √(0.599537…))) = 0.03735013…
+    K_depol = −⅜·ln u*,  u* the real root of u³ + u/3 − 1        = 0.04395476…
+
+The decimals 0.0374 and 0.0440 are four-place readings of those closed forms, not
+a confession that none exists.
 
 ---
 
@@ -280,8 +294,8 @@ effect (Bell+ is eigenstate of H_Heisenberg).
 | Channel Family | Monotonicity Proven | K Value | Method |
 |---------------|--------------------:|---------|--------|
 | Pure Z-dephasing | **YES** | 0.0374 | Analytical (Part 1) |
-| Pure X-noise | **YES** | 0.0867 | Analytical (Part 2) |
-| Pure Y-noise | **YES** | 0.0867 | Analytical (Part 2; functional form identical to pure X, the YY coherence is decoherence-free, see Part 2 K table) |
+| Pure X-noise | **YES** | ln(2)/8 = 0.0866433… | Analytical (Part 2) |
+| Pure Y-noise | **YES** | ln(2)/8 = 0.0866433… | Analytical (Part 2; functional form identical to pure X, the YY coherence is decoherence-free, see Part 2 K table) |
 | Depolarizing | **YES** | 0.0440 | Analytical (Part 2) |
 | Any (γ_x,γ_y,γ_z) | **YES** | varies | Analytical (Part 2) |
 | Amplitude damping | **YES** | 0.1029 | Analytical (Part 3) |

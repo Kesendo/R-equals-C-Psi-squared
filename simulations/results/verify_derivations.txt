@@ -98,11 +98,11 @@ D3: t_X/t_Z = K_X/K_Z, verified analytically + propagation
   Analytical:
     f* (Z crossing):   0.861224099740
     K_Z = 0.0373501325  (doc: 0.0374)
-    K_X = ln(2)/8 = 0.0866433976  (doc: 0.0867)
+    K_X = ln(2)/8 = 0.0866433976  (doc: ln(2)/8, exact)
     u* (depol crossing): 0.889395991882
     K_depol = 0.0439547653  (doc: 0.0440)
-    K_X/K_Z = 2.3197614515  (doc: 2.317)
-    K_depol/K_Z = 1.1768302376  (doc: 1.176)
+    K_X/K_Z = 2.3197614515
+    K_depol/K_Z = 1.1768302376
 
   Propagation (Bell+ N=2, gamma=0.05, dt=0.005):
     t_cross_Z = 0.747004  (analytical: 0.747003)

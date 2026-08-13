@@ -1644,11 +1644,11 @@ these earn the "open" stamp.
 
 ### OQ-179
 
-**Question:** **No closed form for ψ_opt.** H_eff = −J·adjacency − i·diag(γ) gives cosine similarity 0.925 (tested, [falsified](simulations/heff_lens_closed_form.py)). The monotonic gradient in ψ_opt is a many-body effect not reducible to a single-particle picture.
+**Question:** **The rate, not the amplitude.** ψ_opt's magnitude profile comes out of an N×N eigenproblem rather than a 4^N one: the slowest eigenvector of the site-resolved block operator M = −2iJ·Laplacian − 2·diag(γ), which is entry-wise the (0,1) block of the full Liouvillian (machine zero, no leak) and agrees with the N=5 and N=7 rows to six and seven places. What remains open is the rate: M's slowest eigenvalue is the SE-inaccessible Slow 2, not ψ_opt's Slow 1, so what selects Slow 1's amplitude out of that N×N object is unanswered (arc `concentrator_amplitude_signs`). Note also that the agreement is with the magnitude profile, not the state: the eigenvector alternates in sign. The earlier adjacency form's cosine 0.925 stands as a correct falsification of a form that was one degree term short.
 
-**Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 181)
+**Source:** `experiments/CONCENTRATOR_GEOMETRY.md`, "Open questions"
 **Section:** Open questions
-**Date:** April 9-10, 2026
+**Date:** April 9-10, 2026; narrowed 2026-08-13
 **Tag:** numerical-verification
 **Status:** unclassified
 

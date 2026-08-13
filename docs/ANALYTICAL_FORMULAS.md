@@ -799,25 +799,41 @@ noise on Bell states. O(1) instead of matrix exponentiation.
 
 ### F27. K values per noise channel (Tier 1, from F26)
 
-    K_Z     = 0.0374    (pure Z-dephasing)
-    K_X     = 0.0867    (pure X-noise)  = ln(2)/8
-    K_Y     = 0.0867    (pure Y-noise)  = ln(2)/8 = K_X
-    K_depol = 0.0440    (depolarizing, gamma/3 each axis)
+    K_X     = ln(2)/8 = K_Y   (pure X-, pure Y-noise)  = 0.0866434...
+    K_Z     = -(1/4)*ln(u*),  u* the real root of u^3 + u - 3/2 = 0   (u = e^{-4K})
+                                                      = 0.0373501...
+    K_depol = -(3/8)*ln(u*),  u* the real root of u^3 + u/3 - 1 = 0   (u = e^{-8K/3})
+                                                      = 0.0439548...
+
+All four are exact. K_X is a rational multiple of ln 2; the other two are logs of
+cubic irrationals, each cubic having negative discriminant, so its real root is
+reachable by real radicals (Cardano, no casus irreducibilis). The decimals above are
+four-place readings of those forms, not a lack of one.
 
 Complements F14 (K per bridge metric). These are K per
 noise TYPE, all measured with CΨ on Bell+ state.
 
-**Note (2026-06-22, reverting the wrong 2026-04-29 "correction"):** K_X = K_Y =
-ln(2)/8 = 0.0867; K_Z = 0.0374 is the odd one out. The discriminator is whether
-the l₁-coherence L₁ (the |00⟩↔|11⟩ off-diagonal = (XX − YY)/2 on Bell+) survives:
-under pure X the XX correlation is pinned, under pure Y the YY correlation is pinned,
-so in **both** cases L₁ stays nonzero ⟹ CΨ = (1+u²)/6 ⟹ K = ln(2)/8. Under pure Z
-both XX and YY decay ⟹ L₁ → 0 ⟹ CΨ = u(1+u²)/6 ⟹ K_Z = 0.0374. The 2026-04-29
-note set K_Y = K_Z by taking F26's physical rates (α,β,δ) = (4γ, 0, 4γ) and using
-L₁ = e^{−αt} = e^{−4γt}, but β = 0 < α **violates the F26 WLOG α ≤ β**, which must
-be re-sorted to α = 0 (giving L₁ = 1, pure X's form). The original K_X = K_Y by-symmetry
-claim was correct. From below: CΨ_Y = (1+u²)/6 reproduces to 8e-16 (vs the note's
-u(1+u²)/6, off by 0.167).
+**Why K_X = K_Y, and why Z is the odd one out.** K_X = K_Y is a symmetry, not a
+coincidence of two formulas landing on the same value: the local Clifford S ⊗ S
+(S = diag(1, i)) sends X → Y and Y → −X, so it carries (Bell+ under pure Y) to
+(Bell− under pure X), and CΨ sees only |c_x|, |c_y| and |c_z|, so it is invariant.
+
+The discriminating quantity is the l₁-coherence **norm** L₁ = Σ_{i≠j}|ρ_ij| =
+max(|c_x|, |c_y|), which is exactly F26's max(u, v) prefactor. Name the norm and not
+a single matrix element: under pure X the XX correlation is conserved, so the norm
+stays pinned at 1, while the |00⟩⟨11| element itself is NOT pinned (it runs 1/2 → 1/4,
+what leaks out of it reappearing in |01⟩⟨10|). Under pure Y the same holds with YY
+conserved. With the norm pinned, the surviving decay is v = e^{−4γt} and
+CΨ = (1 + v²)/6, crossing ¼ at v² = ½, hence K = ln(2)/8. Under pure Z **both**
+correlations decay, the norm goes to 0, CΨ = u(1 + u²)/6, and K_Z is the cubic root
+above.
+
+The trap this replaced is a coding trap, not a physical one: hard-coding L₁ = u
+instead of max(u, v) gives pure Y the pure-Z form and a wrong K_Y = K_Z, because
+pure Y's physical rates (α, β, δ) = (4γ, 0, 4γ) violate F26's WLOG α ≤ β. Since the
+prefactor is max(u, v), the re-sort is a no-op on the correct formula and only
+matters to an implementation that dropped it. From below: CΨ_Y = (1 + v²)/6
+reproduces to 8e-16, against u(1 + u²)/6 off by 0.167.
 
 **Valid for:** Bell+ state, single-axis or depolarizing noise.
 **Replaces:** per-channel crossing time derivation.
