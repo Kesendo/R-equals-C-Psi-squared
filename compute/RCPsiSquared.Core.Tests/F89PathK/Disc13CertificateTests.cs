@@ -10,24 +10,37 @@ namespace RCPsiSquared.Core.Tests.F89PathK;
 /// deg/v/layers upgraded from two-prime agreement to the lc-divisor-bound certification, the same
 /// proof shape as the committed (1,2) device. Controls: the weight path must reproduce the (1,2)
 /// certificate values at N=4 (52/24/[20,4], ~90 ms, Category EVEN_DISC13_SCOUT) and N=6
-/// (926/536/[124,133], ~11 s per parity, 499 primes, Category SLOW_DISC13_CERT). Value pins
-/// measured 2026-08-11 and unchanged since; that ~11 s is the dense sibling's 2026-08-11 runtime
-/// and is the reference the halving paragraph below calibrates against. Run: dotnet test compute/RCPsiSquared.Core.Tests
-/// -c Release --filter "Category=SLOW_DISC13_CERT|Category=EVEN_DISC13_SCOUT" (~2 min; the scout
-/// category also carries Disc13LayerScoutTests' fast members).
+/// (926/536/[124,133], 499 primes, Category SLOW_DISC13_CERT). Value pins measured 2026-08-11 and
+/// unchanged since; the (1,2)@N=6 runtime of that day, ~11 s per parity, is the reference the
+/// cost paragraph below calibrates against. Run: dotnet test compute/RCPsiSquared.Core.Tests
+/// -c Release --filter "Category=SLOW_DISC13_CERT|Category=EVEN_DISC13_SCOUT" (~30 s since the
+/// 2026-08-13 speedups, against ~2 min before them; the scout category also carries
+/// Disc13LayerScoutTests' fast members, a SEPARATE xunit collection, so that filter runs it
+/// concurrently and its cores come out of the certificate's own parallelism: time this class with
+/// --filter FullyQualifiedName~Disc13CertificateTests, which is how the figures below were taken).
 /// <para>Since 2026-08-13 the two FOLD-FIXED blocks here, (1,2)@N=4 and (1,3)@N=6, are certified
 /// on the q-even halved sampling path (the checkerboard corollary: D = disc_Λ(F_res) is even in
 /// q, so D(q) = E(q²) and E needs half the nodes). Every certified value is bit-identical to the
 /// dense path, which is what N4_QEvenHalving_ReproducesTheDenseCertificateExactly gates at N=4 and
 /// what the (1,3)@N=6 members below demonstrate at full size, since they now reach the values
-/// committed from the dense path on 2026-08-11 by the halved route. Measured cost, 2026-08-13,
-/// same machine and same session: the dense figures by running this file with the halving forced
-/// off, the halved ones by running it as it stands, i.e. two runs and not one. (1,3)@N=6 R-odd
-/// 109.2 s → 62.0 s, R-even 50.4 s → 28.6 s, ratios 0.568 and 0.567, so 1.76×, short of the naive
-/// 2× because the arbitrary-node Newton interpolation costs more per node than the unit-spaced one
-/// and the pre-loop build is untouched (it grew, by one Taylor shift of F_res for the licence
-/// read). What makes the two runs comparable: the dense (1,2)@N=6 sibling took ~12 s per parity in
-/// BOTH, against its committed ~11 s.</para></summary>
+/// committed from the dense path on 2026-08-11 by the halved route. The same day the prime loop
+/// went PARALLEL, which is the larger of the two levers and an independent one.
+/// <para>Measured 2026-08-13, one machine (24 logical cores, 12 physical), one session, three code
+/// states of this file run in turn, so the two levers compose in a known order. They do not
+/// SEPARATE: the parallel state was measured only with the halving already in, so no interaction
+/// term exists. (1,3)@N=6, R-odd then R-even: serial and dense 109.2 s / 50.4 s; serial and halved
+/// 62.0 s / 28.6 s (ratios 0.568 and 0.567, so 1.76×, short of the naive 2× because the
+/// arbitrary-node Newton costs more per node than the unit-spaced one and the pre-loop is
+/// untouched apart from the Taylor shift the licence read adds); parallel and halved 13.9 s /
+/// 7.1 s, i.e. 4.5× and 4.0× on top, 7.9× and 7.1× overall. Well short of 24× because at N=6 the
+/// SERIAL pre-loop is already a real share of the total. How large a share is DERIVED, not
+/// measured, and the assumed core count moves it: solving 62.0 = s + (62.0 − s)/f for the R-odd
+/// pair gives s ≈ 11.8 s at f = 24 and s ≈ 9.5 s at f = 12, so read it as 10-12 s. No core count
+/// touches that part; skipLeadingFormSharpening is the lever that does, and it was NOT in any of
+/// the three states. Expect the parallel factor to improve at a large block, where sampling
+/// dominates, and never quote 24×. The dense (1,2)@N=6 sibling ran ~12 s per parity in the first
+/// two states against its committed ~11 s, which is what makes the states comparable; it is 3.6 s
+/// in the third, from the same parallelism.</para></summary>
 public class Disc13CertificateTests
 {
     private readonly ITestOutputHelper _out;
@@ -43,11 +56,19 @@ public class Disc13CertificateTests
         var r = FoldResultantCertificate.WeightCertifyDiscMultiplicity(n, wKet, wBra, rOdd);
         _out.WriteLine($"N{n} ({wKet},{wBra}) rOdd={rOdd}: deg={r.TrueDiscriminantDegree} v={r.TrueQValuationD} " +
                        $"layers=[{string.Join(", ", r.DiscLayerDegrees)}] mD={r.InfinityRepeatedD} dBound={r.DiscriminantDegreeBound} " +
-                       $"lcBound={r.LcDivisorBoundD} sampled={r.PrimesSampled} certified={r.DiscLayersCertified}  [{sw.Elapsed}]");
+                       $"lcBound={r.LcDivisorBoundD} sampled={r.PrimesSampled} layerPrime={r.LayerPrime} " +
+                       $"certified={r.DiscLayersCertified}  [{sw.Elapsed}]");
         Assert.True(r.DiscLayersCertified);
         Assert.Equal(52, r.TrueDiscriminantDegree);
         Assert.Equal(24, r.TrueQValuationD);
         Assert.Equal(new[] { 20, 4 }, r.DiscLayerDegrees);
+        // THE PRIME-ORDER PIN for the parallel loop, and the only assertion in this file that
+        // catches a fold in completion order: 1073741833 is the FIRST split prime above 2^30, and
+        // the device reads its layer profile at the FIRST entry attaining both trueDegD and the
+        // minimal v. Many primes attain both, so this value is not about the mathematics at all;
+        // it says the results were folded in prime order. Scramble the order and some other
+        // prime surfaces here while every other assertion in this file still passes.
+        Assert.Equal(1073741833L, r.LayerPrime);
     }
 
     [Theory]
@@ -60,7 +81,8 @@ public class Disc13CertificateTests
         var r = FoldResultantCertificate.WeightCertifyDiscMultiplicity(n, wKet, wBra, rOdd);
         _out.WriteLine($"N{n} ({wKet},{wBra}) rOdd={rOdd}: deg={r.TrueDiscriminantDegree} v={r.TrueQValuationD} " +
                        $"layers=[{string.Join(", ", r.DiscLayerDegrees)}] mD={r.InfinityRepeatedD} dBound={r.DiscriminantDegreeBound} " +
-                       $"lcBound={r.LcDivisorBoundD} sampled={r.PrimesSampled} certified={r.DiscLayersCertified}  [{sw.Elapsed}]");
+                       $"lcBound={r.LcDivisorBoundD} sampled={r.PrimesSampled} layerPrime={r.LayerPrime} " +
+                       $"certified={r.DiscLayersCertified}  [{sw.Elapsed}]");
         Assert.True(r.DiscLayersCertified);
         Assert.Equal(926, r.TrueDiscriminantDegree);
         Assert.Equal(536, r.TrueQValuationD);
@@ -95,7 +117,8 @@ public class Disc13CertificateTests
             log: s => _out.WriteLine("  " + s));
         _out.WriteLine($"N{n} ({wKet},{wBra}) rOdd={rOdd}: deg={r.TrueDiscriminantDegree} v={r.TrueQValuationD} " +
                        $"layers=[{string.Join(", ", r.DiscLayerDegrees)}] mD={r.InfinityRepeatedD} dBound={r.DiscriminantDegreeBound} " +
-                       $"lcBound={r.LcDivisorBoundD} sampled={r.PrimesSampled} certified={r.DiscLayersCertified}  [{sw.Elapsed}]");
+                       $"lcBound={r.LcDivisorBoundD} sampled={r.PrimesSampled} layerPrime={r.LayerPrime} " +
+                       $"certified={r.DiscLayersCertified}  [{sw.Elapsed}]");
         Assert.True(r.DiscLayersCertified);
         Assert.Equal(rOdd ? 2124 : 1572, r.TrueDiscriminantDegree);
         Assert.Equal(rOdd ? 1188 : 876, r.TrueQValuationD);
@@ -104,10 +127,57 @@ public class Disc13CertificateTests
         Assert.Equal(rOdd ? 2172 : 1620, r.DiscriminantDegreeBound);
         Assert.Equal(4, r.MaxDiscMultiplicity);
         Assert.True(r.PrimesSampled > r.LcDivisorBoundD);
+        // THE PRIME-ORDER PIN for the parallel loop, and the only assertion in this file that
+        // catches a fold in completion order: 1073741833 is the FIRST split prime above 2^30, and
+        // the device reads its layer profile at the FIRST entry attaining both trueDegD and the
+        // minimal v. Many primes attain both, so this value is not about the mathematics at all;
+        // it says the results were folded in prime order. Scramble the order and some other
+        // prime surfaces here while every other assertion in this file still passes.
+        Assert.Equal(1073741833L, r.LayerPrime);
         // Fold-fixed (bra weight 3 = N/2), so the q-even halving carries this certificate: half
         // the sample points per prime, every certified value above unchanged.
         Assert.True(r.QEvenHalvingUsed);
         Assert.Equal((r.DiscriminantDegreeBound / 2) + 1 + 24, r.SamplesPerPrime);
+    }
+
+    /// <summary>Skipping the leading form reaches the SAME certificate through a slightly cruder
+    /// bound. The sharpened bound subtracts 2·m_D from resDeg·(resDeg−1), and m_D costs a
+    /// Qc SquarefreeLayers call whose unnormalized BigRational growth was measured at ~8 min for
+    /// degree 80 and extrapolates to hours or days at degree 224. What it buys there is under 1%
+    /// of the sample points, so at a large block the sharpening is the expensive half of the
+    /// pre-loop and the cheap half of the answer. The scout methods of this file already skip it
+    /// for exactly this reason; this gate makes the CERTIFIED path able to, and pins that the
+    /// certified invariants do not move when it does: only DiscriminantDegreeBound rises and
+    /// InfinityRepeatedD goes to its −1 sentinel. At N=4 the crude bound is 8·7 = 56 against the
+    /// sharpened 52, i.e. 2 extra sample points, which is why this control is nearly free.</summary>
+    [Theory]
+    [InlineData(4, 1, 2, false)]
+    [InlineData(4, 1, 2, true)]
+    [Trait("Category", "EVEN_DISC13_SCOUT")]
+    public void N4_CrudeBound_ReachesTheSameCertificate(int n, int wKet, int wBra, bool rOdd)
+    {
+        var sharp = FoldResultantCertificate.WeightCertifyDiscMultiplicity(n, wKet, wBra, rOdd);
+        var crude = FoldResultantCertificate.WeightCertifyDiscMultiplicity(
+            n, wKet, wBra, rOdd, skipLeadingFormSharpening: true);
+        _out.WriteLine($"N{n} ({wKet},{wBra}) rOdd={rOdd}: sharpened dBound={sharp.DiscriminantDegreeBound} " +
+                       $"(m_D={sharp.InfinityRepeatedD}, {sharp.SamplesPerPrime} samples/prime) vs crude " +
+                       $"dBound={crude.DiscriminantDegreeBound} (m_D={crude.InfinityRepeatedD}, " +
+                       $"{crude.SamplesPerPrime} samples/prime)");
+
+        Assert.False(sharp.SharpeningSkipped);
+        Assert.True(crude.SharpeningSkipped);
+        Assert.Equal(-1, crude.InfinityRepeatedD);
+        Assert.Equal(56, crude.DiscriminantDegreeBound);              // resDeg·(resDeg−1) = 8·7, resDeg = 8
+        Assert.True(crude.DiscriminantDegreeBound > sharp.DiscriminantDegreeBound);
+
+        Assert.True(crude.DiscLayersCertified);
+        Assert.Equal(sharp.TrueDiscriminantDegree, crude.TrueDiscriminantDegree);
+        Assert.Equal(sharp.TrueQValuationD, crude.TrueQValuationD);
+        Assert.Equal(sharp.DiscLayerDegrees, crude.DiscLayerDegrees);
+        Assert.Equal(sharp.MaxDiscMultiplicity, crude.MaxDiscMultiplicity);
+        Assert.Equal(sharp.LcDivisorBoundD, crude.LcDivisorBoundD);   // the cap is a norm read, not a degree read
+        Assert.Equal(sharp.PrimesSampled, crude.PrimesSampled);
+        Assert.Equal(sharp.LayerPrime, crude.LayerPrime);
     }
 
     /// <summary>The fold-fixed predicate: a block is fixed by a fold leg exactly when N is even and
@@ -179,5 +249,12 @@ public class Disc13CertificateTests
         Assert.Equal(dense.LayerPrime, halved.LayerPrime);
         Assert.Equal(dense.PrimesSampled, halved.PrimesSampled);
         Assert.Equal(dense.LcDivisorBoundD, halved.LcDivisorBoundD);
+        // The batching pin for the parallel prime loop: the device stops at exactly cap + 1
+        // sampled primes, the count the sequential loop stopped at, so a batch that overshot or
+        // undershot moves this number. Note what this A/B canNOT gate, since both sides run the
+        // same parallel loop: a fold in completion order rather than prime order would scramble
+        // both identically and pass. The guard against THAT is the literal LayerPrime pin in the
+        // value-pinning controls, which is prime-order-dependent output.
+        Assert.Equal(halved.LcDivisorBoundD + 1, halved.PrimesSampled);
     }
 }

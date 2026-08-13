@@ -5456,9 +5456,58 @@ public static class OpenArcsRegistry
                 "or price a run the device would refuse; the probe carries no forceDenseSampling " +
                 "of its own, so the one case it cannot price is a forced-dense run of a " +
                 "fold-fixed block that fails the read, which would have to be costed from the " +
-                "dense arithmetic by hand. NOT applied to the (1,2)-only " +
-                "CertifyDiscMultiplicity, whose headline (1,2)@N=8 run is outside the " +
-                "licence anyway. What stays OPEN, cheapest first: (1) the " +
+                "dense arithmetic by hand. TWO MORE LEVERS THE SAME DAY, both aimed at (1,4)@N=8 " +
+                "and both verified by the same committed value pins: the PRIME LOOP IS PARALLEL " +
+                "(each prime's pass reads the immutable fRes and allocates only locals, factored " +
+                "out as SampleDiscAtPrime; a batch is exactly the primes still wanted, results " +
+                "fold in PRIME order, counting stops at the same sampled = cap+1, so perPrime, " +
+                "PrimesSampled and LayerPrime are bit-identical to the sequential device), and " +
+                "skipLeadingForm takes the CRUDE Bauer-Fike bound resDeg(resDeg-1) instead of " +
+                "paying the Qc SquarefreeLayers behind m_D. That second one is the surprise of " +
+                "the pricing: the sharpening is measured at ~8 min for degree 80 and extrapolates " +
+                "to 8-67 h at degree 224, and it buys 2*m_D sample points out of ~50000, i.e. " +
+                "0.85% at (1,4)@N=8, itself assuming m_D ~ 210 there by extrapolation from the " +
+                "42/48/80 blocks, since m_D at (1,4) is precisely what the skip declines to " +
+                "compute. The expensive half of the pre-loop was the cheap half of the " +
+                "answer, and the scout methods of the same file had been skipping it all along. " +
+                "It skips only the SHARPENING: the leading form is still built, so its q -> oo " +
+                "AT-divisibility cross-check still runs, which matters most on a new block shape. " +
+                "MEASURED at (1,3)@N=6, one machine (24 logical cores, 12 physical), one session, " +
+                "three code states in turn (they compose in order; they do NOT separate, the " +
+                "parallel state having been measured only with the halving already in): " +
+                "serial+dense 109.2/50.4 s, serial+halved 62.0/28.6 s, " +
+                "parallel+halved 13.9/7.1 s, so 7.9x and 7.1x overall; the parallel factor alone " +
+                "is 4.5x/4.0x and NOT 24x because the serial pre-loop is a real share at N=6: " +
+                "solving 62.0 = s + (62.0-s)/f for the R-odd pair gives s ~ 11.8 s at f = 24 and " +
+                "~9.5 s at f = 12, so 10-12 s, DERIVED and not measured. No core count touches " +
+                "that part; skipLeadingFormSharpening is the lever that does, and it was in none " +
+                "of the three states. THE PRICING THIS PAID FOR, all extrapolation and " +
+                "labelled as such: at (1,4)@N=8 resDeg is 224, cap ~ 0.50*resDeg^2 (a law " +
+                "validated on four committed blocks to +-5%) gives ~25100 primes, while scaling the " +
+                "(1,2)@N=8 anchor 3165*(224/80)^2 gives ~24800, so quote the band 24800-25100 and " +
+                "neither end; dBound ~49952 crude, " +
+                "samples/prime ~25000 halved, ~17 s/prime by two agreeing routes, so ~5 days of " +
+                "SERIAL sampling and, ASSUMING ~16x at a sampling-dominated block (against the " +
+                "4.0-4.5x measured at N=6, where the pre-loop weighs), ~7-8 h parallel, on top " +
+                "of the ~2.2 h bivariate build the scout measured. TWO TRAPS RECORDED BEFORE " +
+                "ANYONE PAYS THEM: maxPrimes DEFAULTS TO 20000, below that whole cap band, so " +
+                "the default would return " +
+                "DiscLayersCertified = false after days of compute and must be raised; and the " +
+                "retained DStrip arrays run ~2 GB at that block IF v_q(D) takes the (1,3)@N=6 " +
+                "fraction of deg D, ~5 GB if v_q(D) is small, which nothing pins yet (a two-pass " +
+                "device, keeping only (P, degD, v) per prime and re-running the single winning " +
+                "prime for its strip, would delete that retention exactly for one extra prime " +
+                "pass; not built, 128 GB not needing it). STILL NOT DONE and not to be " +
+                "confused with done: the device has not run at (1,4)@N=8. What it would deliver " +
+                "is deg_q D, v_q D, the layer profile and MaxDiscMultiplicity, NOT an absence " +
+                "verdict on the defective population (CertifyDiscReImGcd, the tool that turned " +
+                "the (1,2)@N=8 run into a theorem, is by design the wrong tool on a real disc), " +
+                "and the disc-realness it was originally priced to settle is now derived. It is " +
+                "step one of the Sturm branch on D at deg ~5e4, not the payoff. NONE of the three " +
+                "levers is applied to the (1,2)-only CertifyDiscMultiplicity: its headline " +
+                "(1,2)@N=8 run is outside the HALVING's licence, and the parallel loop and the " +
+                "sharpening skip, which are licence-independent and would work there, were simply " +
+                "not carried over. What stays OPEN, cheapest first: (1) the " +
                 "mod-p layer scout at (1,4)@N=8, now a CONFIRMATION of the derived disc-realness " +
                 "rather than the question it was, still floored at the scout's 2 h 9 m / 2 h 23 m since it " +
                 "repeats the same exact Z[i] build; a COMPLEX answer would refute the " +
@@ -5607,8 +5656,9 @@ public static class OpenArcsRegistry
                 "M=0 double in G, a common u/disc_M-root that gcd(u, disc_M G) = 1 excludes; " +
                 "parity alone would still admit J3+J1 inside multiplicity 4) " +
                 "(Disc13CertificateTests, Categories SLOW_DISC13_CERT + EVEN_DISC13_SCOUT, " +
-                "~29/~62 s per (1,3) parity since the 2026-08-13 q-even halving, against " +
-                "~50/~109 s dense, the certified values unchanged; controls " +
+                "~7/~14 s per (1,3) parity since the 2026-08-13 speedups (q-even halving plus the " +
+                "parallel prime loop), against ~50/~109 s before them, the certified values " +
+                "unchanged; controls " +
                 "reproduce the committed (1,2) certificate at N=4 and N=6 through the weight path; " +
                 "the sector build now ASSERTS the R-commutation entry-wise at runtime, closing the " +
                 "one certified-about-the-wrong-object spot a review named before Sturm leans on " +

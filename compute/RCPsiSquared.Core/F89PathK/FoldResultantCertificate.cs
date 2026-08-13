@@ -1795,7 +1795,7 @@ public static class FoldResultantCertificate
         int TrueDiscriminantDegree, int TrueQValuationD, int LcDivisorBoundD,
         long LayerPrime, int[] DiscLayerDegrees, int MaxDiscMultiplicity,
         int PrimesSampled, bool DiscLayersCertified,
-        int SamplesPerPrime, bool QEvenHalvingUsed);
+        int SamplesPerPrime, bool QEvenHalvingUsed, bool SharpeningSkipped);
 
     /// <summary>Is the (wKet, wBra) block fixed by a fold leg? Exactly when N is even and one weight
     /// side sits at N/2: f_P: (p, q̃) ↦ (p, N−q̃) fixes bra weight N/2, f_Q: (p, q̃) ↦ (N−p, q̃) fixes
@@ -1824,7 +1824,8 @@ public static class FoldResultantCertificate
     public static (int BlockDim, int AtDeg, int ResDeg, int MD, int DBound,
         int LcDivisorBoundD, long NormDBits, long RowFBits, double MsPerPrime,
         int SamplesPerPrime, bool QEvenHalving)
-        WeightDiscDeviceBoundProbe(int n, int wKet, int wBra, bool rOdd, int timingPrimes = 0)
+        WeightDiscDeviceBoundProbe(int n, int wKet, int wBra, bool rOdd, int timingPrimes = 0,
+            bool skipLeadingFormSharpening = false)
     {
         var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
         AssertHoppingSymmetry(cBlk, null);
@@ -1837,11 +1838,18 @@ public static class FoldResultantCertificate
         var chi = PencilCharpolyBivariate(aBlk, cBlk);
         var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
 
+        // mirrors the device's branch, and must: a probe that priced the sharpening the device
+        // will skip would be the more expensive of the two at exactly the block it exists for
         var (fResLead, lcD) = ResidualLeadingFormFromPencil(cBlk, sectors);
-        var (_, mD) = SquarefreeLayers(FromZi(fResLead));
-        if ((mD == 0) != !lcD.Equals(GaussianInteger.Zero))
-            throw new InvalidOperationException("m_D inconsistent with disc_x(f_res).");
-        int dBound = resDeg * (resDeg - 1) - 2 * mD;
+        int mD = -1;
+        int dBound = resDeg * (resDeg - 1);
+        if (!skipLeadingFormSharpening)
+        {
+            (_, mD) = SquarefreeLayers(FromZi(fResLead));
+            if ((mD == 0) != !lcD.Equals(GaussianInteger.Zero))
+                throw new InvalidOperationException("m_D inconsistent with disc_x(f_res).");
+            dBound -= 2 * mD;
+        }
 
         BigInteger rowF = BigInteger.Zero;
         foreach (var coeff in fRes) rowF += HNormQ(coeff);
@@ -1909,7 +1917,8 @@ public static class FoldResultantCertificate
     /// <see cref="CertifyDiscMultiplicity"/> for any all-2-cycle (wKet, wBra) R-sector (see
     /// <see cref="WeightSectorPencil"/> for the scope). Same proof shape, nothing weakened: the
     /// q → ∞ leading form fixes m_D and the PROVEN degree bound resDeg·(resDeg−1) − 2·m_D (the
-    /// scout methods use the crude bound); the lc-divisor bound (Hadamard on the Sylvester matrix
+    /// scout methods use the crude bound, and skipLeadingFormSharpening takes it here too);
+    /// the lc-divisor bound (Hadamard on the Sylvester matrix
     /// of (F_res, F_res′)) caps how many primes can lie about deg_q D or v_q(D); primes are
     /// sampled past that cap, deg_q D is certified as the max and v_q(D) as the min over the
     /// sampled primes, and the layer profile is read at a prime attaining BOTH (fail closed,
@@ -1941,9 +1950,15 @@ public static class FoldResultantCertificate
     /// that failure being a finding about the checkerboard's descent to F_res and not a nuisance).
     /// That second purpose is UNEXERCISED: no block is known that reaches the throw, so the escape
     /// is reasoned, not gated.</param>
+    /// <param name="skipLeadingFormSharpening">Use the crude Bauer-Fike bound resDeg·(resDeg−1)
+    /// instead of paying m_D for the 2·m_D sharpening. Under 1% more sample points once resDeg
+    /// reaches the hundreds, against a Qc SquarefreeLayers call measured at ~8 min for degree 80.
+    /// The leading form itself is still built, so its AT-divisibility cross-check still runs; only
+    /// the sharpening is skipped. The certified invariants are unmoved: DiscriminantDegreeBound
+    /// rises and InfinityRepeatedD becomes −1.</param>
     public static WeightDiscMultiplicityReport WeightCertifyDiscMultiplicity(
         int n, int wKet, int wBra, bool rOdd, int maxPrimes = 20000, Action<string>? log = null,
-        bool forceDenseSampling = false)
+        bool forceDenseSampling = false, bool skipLeadingFormSharpening = false)
     {
         var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
         AssertHoppingSymmetry(cBlk, null);      // uniform metric: all orbits are 2-cycles
@@ -1957,11 +1972,30 @@ public static class FoldResultantCertificate
         var fRes = BivariateDivideExact(chi, BivariateAtFactor(sectors));
         WeightCrossCheckResidual(fRes, n, wKet, wBra, rOdd, sectors, resDeg);
 
+        // m_D buys the SHARPENING 2·m_D off the crude Bauer-Fike bound resDeg(resDeg−1), and at a
+        // large block it is priced in the wrong direction: the Qc SquarefreeLayers call behind it
+        // was measured at ~8 min for degree 80 (a gcd chain over ℚ(i) with the coefficient blowup
+        // that makes one reach for subresultants, plus a reducing GCD on every BigRational
+        // operation; the Qc section is banner-scoped to "small degrees" and degree 80 is already
+        // not small), while what it saves is 2·m_D sample points out of resDeg(resDeg−1), under
+        // 1% once resDeg reaches the hundreds. skipLeadingFormSharpening takes the crude bound
+        // instead, the same choice the scout methods of this file already make, and it weakens
+        // the CERTIFICATE not at all: dBound is an UPPER bound either way, and deg_q D and v_q D
+        // are read off the interpolant, never off the bound. What it must NOT skip is the leading
+        // form itself, whose construction carries the q → ∞ cross-check that the AT leading form
+        // divides charpoly(C_block); that guard is cheap beside the bivariate build and matters
+        // most on a block shape nobody has run, so it stays outside the branch. m_D is then
+        // reported as −1 rather than guessed.
+        int mD = -1;
+        int dBound = resDeg * (resDeg - 1);
         var (fResLead, lcD) = ResidualLeadingFormFromPencil(cBlk, sectors);
-        var (_, mD) = SquarefreeLayers(FromZi(fResLead));
-        if ((mD == 0) != !lcD.Equals(GaussianInteger.Zero))
-            throw new InvalidOperationException("m_D inconsistent with disc_x(f_res).");
-        int dBound = resDeg * (resDeg - 1) - 2 * mD;
+        if (!skipLeadingFormSharpening)
+        {
+            (_, mD) = SquarefreeLayers(FromZi(fResLead));
+            if ((mD == 0) != !lcD.Equals(GaussianInteger.Zero))
+                throw new InvalidOperationException("m_D inconsistent with disc_x(f_res).");
+            dBound -= 2 * mD;
+        }
 
         BigInteger rowF = BigInteger.Zero;
         foreach (var coeff in fRes) rowF += HNormQ(coeff);
@@ -1973,7 +2007,9 @@ public static class FoldResultantCertificate
         // ℤ[i] read of F_res, never by the block's index pair: where the Λ₀-shifted support has
         // one j + k parity, D(q) = E(q²) with deg E = deg D / 2, so E is interpolated from the
         // values at q0 = 0…dBound/2 fed in at the abscissae m = q0², and the sample points per
-        // prime HALVE. dBound = resDeg(resDeg−1) − 2m_D is even, so dBound/2 bounds deg E.
+        // prime HALVE. dBound is even on BOTH bound branches (resDeg(resDeg−1) is a product of
+        // consecutive integers, and the sharpening subtracts the even 2·m_D), so dBound/2 bounds
+        // deg E whether or not the sharpening ran.
         // Fold-fixedness is the reason to EXPECT the read (the checkerboard is a theorem there,
         // on the full charpoly, its descent to F_res measured per block), so a fold-fixed block
         // that fails the read contradicts that measurement and throws rather than quietly
@@ -1986,48 +2022,62 @@ public static class FoldResultantCertificate
         var perPrime = new List<(int P, int DegD, int VD, int[] DStrip)>();
         int sampled = 0;
 
+        // THE PRIME LOOP RUNS IN PARALLEL (2026-08-13), because it is embarrassingly so: each
+        // prime's pass reads the shared immutable fRes and allocates only locals
+        // (SampleDiscAtPrime). What is NOT left to the scheduler is the ANSWER. A batch holds
+        // exactly the number of primes still wanted, its results are folded in PRIME order, and
+        // counting stops at the same sampled = cap + 1 the sequential loop stopped at, so
+        // perPrime, PrimesSampled and the chosen LayerPrime are identical to the sequential
+        // device; the committed value pins at N=4 and N=6 are what hold that. Chunking keeps the
+        // progress log alive and bounds the retained DStrip arrays, which at a large block are
+        // the memory story (~76 KB per prime at resDeg 224).
         var clock = System.Diagnostics.Stopwatch.StartNew();
         long candidate = (1L << 30) + 1;
         while (candidate % 4 != 1) candidate += 2;
-        for (int tried = 0; tried < maxPrimes && sampled <= lcDivisorBoundD; candidate += 4)
+        int tried = 0;
+        const int chunk = 256;
+
+        while (sampled <= lcDivisorBoundD && tried < maxPrimes)
         {
-            if (!IsPrime(candidate)) continue;
-            tried++;
-            int p = checked((int)candidate);
-            int? root = SqrtMinusOneFast(p);
-            if (root is null) continue;
-            if (halve) AssertSquareAbscissaeFit(p, samples - 1);
-
-            var fResP = ReduceBivariate(fRes, p, root.Value);
-            var dSamp = new int[samples];
-            for (int q0 = 0; q0 < samples; q0++)
+            int want = Math.Min(lcDivisorBoundD + 1 - sampled, chunk);
+            var batch = new List<(int P, int Root)>(want);
+            for (; batch.Count < want && tried < maxPrimes; candidate += 4)
             {
-                var fL = EvalBivariateModP(fResP, q0, p);
-                if (DegP(fL) != resDeg || fL[resDeg] != 1)
-                    throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0}.");
-                dSamp[q0] = DiscriminantModP(fL, p);
+                if (!IsPrime(candidate)) continue;
+                tried++;
+                int p = checked((int)candidate);
+                int? root = SqrtMinusOneFast(p);
+                if (root is null) continue;
+                batch.Add((p, root.Value));
             }
-            var dNodes = new int[nodeCount];
-            Array.Copy(dSamp, dNodes, nodeCount);
-            int[] dp;
-            if (halve)
+            if (batch.Count == 0) break;
+
+            var results = new (int P, int DegD, int VD, int[] DStrip)?[batch.Count];
+            try
             {
-                var abscissae = new int[nodeCount];
-                for (int i = 0; i < nodeCount; i++) abscissae[i] = (int)((long)i * i % p);
-                dp = SpreadEven(InterpolateAtNodes(abscissae, dNodes, p));
+                System.Threading.Tasks.Parallel.For(0, batch.Count, i =>
+                    results[i] = SampleDiscAtPrime(
+                        fRes, batch[i].P, batch[i].Root, resDeg, samples, nodeCount, halve));
             }
-            else dp = InterpolateAtIntegerNodes(dNodes, p);
-            for (int q0 = nodeCount; q0 < samples; q0++)
-                if (EvalModP(dp, q0, p) != dSamp[q0])
-                    throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
+            catch (AggregateException ae) when (ae.InnerException is not null)
+            {
+                // the per-prime throws are diagnostics (non-monic reduction, failed verification,
+                // an undersized prime); rethrow one as itself so the message survives. WHICH one
+                // is the scheduler's, not the lowest prime, so a systemic failure names a
+                // different p on each run; the siblings are dropped. That is the one place this
+                // device is not deterministic, and it is in the diagnosis, never in the answer.
+                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(ae.InnerException).Throw();
+                throw;
+            }
 
-            if (DegP(dp) < 0) continue;         // content prime: uncounted, see the (1,2) device
-            sampled++;
-            int vDp = QValuation(dp);
-            perPrime.Add((p, DegP(dp), vDp, StripQ(dp, vDp)));
-
-            if (log is not null && sampled % 25 == 0)
-                log($"sampled={sampled} (bound {lcDivisorBoundD}), p={p}, {clock.ElapsedMilliseconds} ms");
+            foreach (var r in results)
+            {
+                if (r is null) continue;        // content prime: uncounted, see the (1,2) device
+                sampled++;
+                perPrime.Add(r.Value);
+                if (log is not null && sampled % 25 == 0)
+                    log($"sampled={sampled} (bound {lcDivisorBoundD}), p={r.Value.P}, {clock.ElapsedMilliseconds} ms");
+            }
         }
 
         int trueDegD = -1, eD = int.MaxValue;
@@ -2055,7 +2105,7 @@ public static class FoldResultantCertificate
             n, wKet, wBra, rOdd, blockDim, atDeg, resDeg, mD, dBound,
             trueDegD, eD, lcDivisorBoundD, layerPrime,
             layerDegrees, layerDegrees.Length, sampled, certified,
-            samples, halve);
+            samples, halve, skipLeadingFormSharpening);
     }
 
     /// <summary>The Λ-stratum read the layer profile cannot supply: at the ×2-cleared value
@@ -3349,6 +3399,46 @@ public static class FoldResultantCertificate
         var res = new int[k];
         for (int c = 0; c < k; c++) res[c] = (int)poly[c];
         return TrimP(res);
+    }
+
+    /// <summary>One prime's pass of the D-device: reduce F_res mod p, sample the Λ-discriminant at
+    /// every q0, interpolate D (halved through E(q²) where licensed), verify at the trailing nodes,
+    /// and return the prime's (deg_q D, v_q D, q-stripped D). Null means a CONTENT prime, D ≡ 0
+    /// mod p, which carries no information about either invariant and is left uncounted.
+    /// <para>Pure and allocation-local by construction, which is what makes the caller's
+    /// <c>Parallel.For</c> legitimate: the only shared state is <paramref name="fRes"/>, read and
+    /// never written. Keep it that way. Anything added here that touches shared mutable state, a
+    /// cache or a logger included, silently turns a certificate into a race.</para></summary>
+    private static (int P, int DegD, int VD, int[] DStrip)? SampleDiscAtPrime(
+        GaussianInteger[][] fRes, int p, int root, int resDeg, int samples, int nodeCount, bool halve)
+    {
+        if (halve) AssertSquareAbscissaeFit(p, samples - 1);
+        var fResP = ReduceBivariate(fRes, p, root);
+        var dSamp = new int[samples];
+        for (int q0 = 0; q0 < samples; q0++)
+        {
+            var fL = EvalBivariateModP(fResP, q0, p);
+            if (DegP(fL) != resDeg || fL[resDeg] != 1)
+                throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0}.");
+            dSamp[q0] = DiscriminantModP(fL, p);
+        }
+        var dNodes = new int[nodeCount];
+        Array.Copy(dSamp, dNodes, nodeCount);
+        int[] dp;
+        if (halve)
+        {
+            var abscissae = new int[nodeCount];
+            for (int i = 0; i < nodeCount; i++) abscissae[i] = (int)((long)i * i % p);
+            dp = SpreadEven(InterpolateAtNodes(abscissae, dNodes, p));
+        }
+        else dp = InterpolateAtIntegerNodes(dNodes, p);
+        for (int q0 = nodeCount; q0 < samples; q0++)
+            if (EvalModP(dp, q0, p) != dSamp[q0])
+                throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
+
+        if (DegP(dp) < 0) return null;
+        int vDp = QValuation(dp);
+        return (p, DegP(dp), vDp, StripQ(dp, vDp));
     }
 
     /// <summary>E(m) ↦ D(q) = E(q²): the even-support spread that turns the halved interpolant
