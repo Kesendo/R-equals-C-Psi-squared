@@ -5521,8 +5521,71 @@ public static class OpenArcsRegistry
                 "the harder branch and not the easy one -- the q-even halving above is the one " +
                 "piece of it already built, (1,4)@N=8 being fold-fixed, and it halves the sample " +
                 "points of a device that has never run there, so it lowers a price nobody has " +
-                "paid rather than shortening a measured run; (3) if complex, the " +
-                "Z Re/Im derivative-gcd count of design v2, still unbuilt. Untouched entirely: " +
+                "paid rather than shortening a measured run. PRICED AND PARKED 2026-08-13 " +
+                "(Tom's call: 30-37 h on paper IS the result, it says the clean and targeted " +
+                "computation is missing pieces; they will cross our path, and we return and " +
+                "optimize then). The pricing, four review rounds deep, from committed anchors " +
+                "only: (a) the branch as THIS item words it, the Z chain on D itself, is DEAD " +
+                "in every schedulable region -- a primitive-PRS squarefree split at stripped " +
+                "deg ~10-25k costs months central (~7-103 days serial if the committed " +
+                "v/deg = 0.557-0.613 band transfers, ~45-520 days at v = 0; model O(n^2) " +
+                "coefficient ops x height, a FLOOR whose unmodelled terms, content strips " +
+                "and memory, push UP only; height ~357-396k bits by the cap identity " +
+                "bits(normD) in [15(cap-1), 15cap-1] applied to the (1,4) cap band, SOFT " +
+                "twice since the cap law is saturated at its +-5% and resDeg 224 is 2.8x past " +
+                "the fitted range), all bands SERIAL, no parallel factor priced; the band is " +
+                "wide because NO committed number isolates one PRS gcd (the ~4.4/~26 min " +
+                "residual of the (1,3)@N=6 slow runs contains the WHOLE psc second landing) " +
+                "and no coefficient height of any landed object was ever measured; (b) exact " +
+                "reconstruction of E (D(q) = E(q^2), REAL by the checkerboard) is nearly free " +
+                "BY CRT off the device's own strips: F_res is monic in Lambda so reduction " +
+                "commutes unconditionally ON THE LAMBDA SIDE (a prime lies only by dropping " +
+                "deg_q D or raising v_q D), every attaining prime's strip is exact, " +
+                "~11.9-13.2k primes suffice of the 23800-26400 the cap forces anyway, the " +
+                "combine is minutes-to-hours -- BUT THE STRIPS DIE AT RETURN today (perPrime " +
+                "is a local list, the report carries no strip and no attain flag), so STRIP " +
+                "RETENTION IS A PRECONDITION ON ANY FUTURE DEVICE RUN (~2-5 GB, the ends " +
+                "assuming different strip lengths, nothing pins v; the two-pass idea above, " +
+                "keeping one winning strip, would forfeit exactly this), or the run's CRT " +
+                "value is discarded at return, and beside the retention the route needs a " +
+                "short correctness note, since the proven worst case guarantees NOTHING " +
+                "about attaining counts (1-cap among cap+1 sampled, vacuous) and what " +
+                "carries it is the practical record plus extra primes at 17-19 s each, " +
+                "embarrassingly parallel; (c) the SURVIVOR is the " +
+                "layer-targeted variant, the chain only on the defective layer: hours-to-weeks " +
+                "if the target is the MULT-1 layer, ~1 day to ~4 months if MULT-2, and WHICH " +
+                "is the target is undecided because the (1,4) reading lemma exists in no store " +
+                "-- character 35 is ODD, the (1,2)@N=8 situation, whose reading (a gitignored " +
+                "design note only, no committed store) is that a generic codim-1 defective " +
+                "locus is a SIMPLE zero, against the (1,3)@N=6 even-" +
+                "character doubling; mind that mult-1 is EMPTY on char-even blocks by the " +
+                "squaring disc = +-4^m*f*disc_M(G)^2, so the ONLY char-odd layer anchor is " +
+                "the (1,2)@N=8 point 16%/42% of the stripped degree; AND counting a layer is " +
+                "NOT counting defective loci: at (1,3)@N=6 the mult-2 layer carried the mu=0 " +
+                "diabolics too (u | L2, gcd deg 18/24 committed) and separating them took the " +
+                "u-gate AND the psc device, a second landing loop of the same order as the " +
+                "first, while no (1,4) analogue of u or the psc pair exists even on paper " +
+                "(no M-descent, no G, no u as constructed) -- unpriced DESIGN on top of every " +
+                "chain figure above; and the per-prime layer " +
+                "pass itself costs ~3-20 s/prime at strip degree ~10-25k (in-loop it turns " +
+                "30-37 h into ~35-75 h; " +
+                "offline on retained strips ~2.5-35 h wall at the measured 4.0x). THE TWO " +
+                "CHEAP UNLOCKS when this returns: a SYNTHETIC PRS/Sturm scout at deg ~4000 " +
+                "with ~350k-bit coefficients (hours, needs no repo objects; the deg-704/954 " +
+                "psc objects are NOT on disk, the %TEMP% exports carry only A, B, U at " +
+                "deg <= 168, and " +
+                "GcdZ/SturmChainZ are private, so timing the real chain means instrumenting " +
+                "the slow test plus one ~10-min R-even run), and the (1,4) reading lemma for " +
+                "character-odd fold-fixed blocks. CORRECTIONS to the device paragraph " +
+                "above, from the same pricing, superseding its prime band, its parallel hours " +
+                "and its build figure: quote 23800-26400 primes x 17-19 s/prime " +
+                "(112-139 h serial), 30-37 h wall at the MEASURED 4.0x parallel factor plus " +
+                "the 2 h 9 m to 2 h 23 m build, 9-11 h only at an ASSUMED 16x, two disjoint " +
+                "estimates and not a range; the earlier 24800-25100 x ~17 s was a +-0.6% band " +
+                "read off a +-5% law, and ~7-8 h parallel and ~2.2 h build were its optimistic " +
+                "companions; (3) if complex, the " +
+                "Z Re/Im derivative-gcd count of design v2, still unbuilt -- and priced OUT " +
+                "by the same arithmetic as (2)(a), being full-degree. Untouched entirely: " +
                 "the defective POPULATION at (p,4)@N=8 -- a route declining is not an absence " +
                 "verdict, and (1,4)@N=8 is precisely where an N=8 sibling of the (1,3)@N=6 " +
                 "fifteen would sit -- plus (3,4)@N=8, the derived-but-unrun " +
