@@ -6442,6 +6442,20 @@ Heisenberg modes as the diagonal sign (−1)^k, not as a permutation. For the
 same reason B Bᵀ ≠ Bᵀ B on the Heisenberg chain, so the object satisfying the
 two-chain law is the site-indexed B Bᵀ, not this entry's mode-indexed G = W².
 
+**Typed layer.** The involution R is the one `ChiralKClaim` carries: the sublattice
+gauge K = diag((−1)^ℓ) acts on the modes as k ↦ M − k, needing only K h K = −h and a
+non-degenerate spectrum, so the reflection survives bond disorder and it is the closed
+form above, not the involution, that wants uniform hopping. The edge runs through the
+involution only: the mode-side reading, spec(G) as such, has no typed carrier. The two
+numbers do have one, on the site side, where at M = N + 1 the same matrix appears as
+B Bᵀ: `FrozenDivisorClaim.FrozenMultiplicity` types the ⌊N/2⌋ count and MirrorWorld's
+`Divisor.ClockModulus` types M for both chains. Neither is read off a matrix; both are
+adopted as numbers, which is why they carry the count without carrying this reading.
+Note which operator carries which index: the site-index chirality above is the site
+reversal l ↦ N + 1 − l, the same map on both chains, and NOT M − l, since M is N on the
+Heisenberg one. It is also not K, which is not even an antisymmetry of the Heisenberg
+single-excitation matrix once the ZZ diagonal is in it.
+
 ---
 
 ### F144. The disagreement has a floor, and the other ladder sets it: no multiplet starts above the seed at any N ≥ 6 (minted 2026-07-27)

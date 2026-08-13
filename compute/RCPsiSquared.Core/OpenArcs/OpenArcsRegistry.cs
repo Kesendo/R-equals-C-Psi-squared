@@ -6525,12 +6525,36 @@ public static class OpenArcsRegistry
                 "claims and live witnesses carry a result that has NO registry entry. Today s sweep ran " +
                 "registry-to-code only.",
             NextStep:
-                "(1) THE TWO BREADCRUMBS, the cheapest thing in the arc and pure text: ChiralKClaim names " +
-                "F143, RingN4DihedralLockClaim names F149. No new objects, one line each, and it removes two " +
-                "of the three recent gaps. " +
+                "(1) THE TWO BREADCRUMBS: DONE 2026-08-13, and the estimate was wrong in a useful way. " +
+                "'One line each' held only for F149, where the registry entry ALREADY named " +
+                "RingN4DihedralLockClaim and only the return edge was missing (added in the four house " +
+                "places, DisplayName included, per FoldCheckerboardParityClaim's F150 pattern). F143 cost " +
+                "three review rounds, because 'ChiralKClaim carries F143's subject' is TRUE ONLY OF THE " +
+                "INVOLUTION and the sentence saying so kept acquiring errors: K's mode reflection k -> M-k " +
+                "IS F143's R (verified numerically, 1e-15, and it survives bond disorder, needing only " +
+                "KhK = -h and non-degeneracy; what wants UNIFORM hopping is F143's closed form, residual " +
+                "0.06 to 0.17 under disorder), but spec(G) as a mode-side object has no carrier while its " +
+                "two numbers DO have one on the site side, FrozenDivisorClaim.FrozenMultiplicity for the " +
+                "floor(N/2) count and MirrorWorld's Divisor.ClockModulus for M, both adopted as numbers " +
+                "rather than read off a matrix. THE ERROR WORTH KEEPING, caught by the third round in the " +
+                "REPAIR rather than in the original: the site reversal is l -> N+1-l on BOTH chains, not " +
+                "M-l, and writing M-l is false exactly on the Heisenberg chain the sentence was about " +
+                "(Lemma 5's law residual 0.10/0.083/0.071 at N=5,6,7 under the wrong map, 2e-16 under the " +
+                "right one). The paragraph warning against conflating the site and mode involutions had " +
+                "conflated them. Two same-file tensions closed with it: the K-anticommutation bullet now " +
+                "says Heisenberg HOPPING (with the ZZ diagonal K is not an antisymmetry at all, that " +
+                "spectrum 4cos(k*pi/N)+N-5 being unpaired), and the F149 head no longer says the ladder is " +
+                "not 'exposed' when two inspect nodes print c_5 through c_10 as prose. The F149 anchor " +
+                "string also gained simulations/ring_dihedral_lock_limit.py, the ladder's own gate, which " +
+                "the registry entry had named and the claim had not. " +
                 "(2) F145, the seed triplet: decide whether it earns its own claim or belongs as a member on " +
                 "SidewaysSpinLadderClaim, which already carries the ladder it sits in. Its only C# mention " +
-                "today is a test file, which is the weakest kind of carrier. " +
+                "today is a test file, which is the weakest kind of carrier. MEASURED WHILE DOING (1), and " +
+                "it makes this step wider than one number: F144 and F146 are in the SAME condition, their " +
+                "only C# occurrences being OpenArcs prose and a comment. They missed the twenty-one because " +
+                "that sweep counted MENTIONS, and the arc's own warning that a mention is not a carrier " +
+                "applies to them. So the seed-rung chain F143 -> F146 is untyped as a whole, and the " +
+                "decision is about four numbers standing together rather than F145 alone. " +
                 "(3) F152 and F153 have no typed claim and no live root. F153 is the stronger candidate, " +
                 "because the repo intends to REUSE it: it locates F1 s rate-reading blindness, naming the 4N " +
                 "blocks where a rate reading loses nothing and the (N-1)^2 where it does. ONE CORRECTION MUST " +

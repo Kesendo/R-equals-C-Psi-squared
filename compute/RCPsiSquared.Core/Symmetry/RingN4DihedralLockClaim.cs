@@ -3,7 +3,13 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>Ring N=4 dihedral lock: the isotropic Heisenberg + Z-dephasing
+/// <summary>F149, the N=4 rung: the ring spread ladder registers as one entry
+/// (c_N = ΔE_max/(J·N), two parity branches closing on ln 2), and the entry names this
+/// claim as its typed carrier. What is typed here is the RUNG: N = 4, the coefficient
+/// 3/4, <see cref="Predict"/>, <see cref="PredictImOverSigma"/> and the six anchors.
+/// The ladder around it is carried as DESCRIPTION only: no c_N for N ≠ 4 is computed or
+/// gated by this type, and the neighbouring values appear as prose in the "statement" and
+/// "N=4 specificity" nodes below. The ladder's gate is the Python one named in the anchors. Ring N=4 dihedral lock: the isotropic Heisenberg + Z-dephasing
 /// Liouvillian on the 4-cycle saturates the imaginary spectral spread at
 ///
 /// <code>
@@ -84,7 +90,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// sufficient: the bound rests on D being Hilbert-Schmidt self-adjoint, which is
 /// what the Hermiticity of the Z_l buys.</para>
 ///
-/// <para>Anchors: <c>docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md</c> (primary derivation) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> (F149, the registry entry this claim carries;
+/// that entry names this type by name, and this paragraph is the return edge) +
+/// <c>docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md</c> (primary derivation) +
+/// <c>simulations/ring_dihedral_lock_limit.py</c> (the ladder's own gate, the half this type describes
+/// rather than computes: it asserts the odd branch stays below ln 2 and rises, the N=4 saturation, and
+/// that c₆, c₈, c₁₀ are the largest roots of their integer minimal polynomials; the even branch's
+/// descent it tabulates rather than asserts) +
 /// <c>experiments/STAR_CONFOCAL_LIMIT.md</c> (sister bound via the same Casimir technique) +
 /// <c>compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs</c> (parent F1, the master under which
 /// the Liouvillian eigenmode construction lives) +
@@ -177,20 +189,23 @@ public sealed class RingN4DihedralLockClaim : Claim
     }
 
     public RingN4DihedralLockClaim()
-        : base("Ring N=4 dihedral lock: Im_max(ring, N=4, J) = 3·J = (3/4)·J·N at N=4, Q-universal; closed form via K_{2,2} = C_4 bipartite-complete + Casimir spectrum {−2J, −J³, 0⁷, J⁵} (multiplicities sum to 16 = 2⁴); 6 Q-anchors at machine precision from the 2026-05-19 Q-sweep. The prefactor is fixed at N=4, not a family law: the ring c_N falls to ln 2 along even N and rises to it along odd N.",
+        : base("F149 (the N=4 rung of the ring spread ladder). Ring N=4 dihedral lock: Im_max(ring, N=4, J) = 3·J = (3/4)·J·N at N=4, Q-universal; closed form via K_{2,2} = C_4 bipartite-complete + Casimir spectrum {−2J, −J³, 0⁷, J⁵} (multiplicities sum to 16 = 2⁴); 6 Q-anchors at machine precision from the 2026-05-19 Q-sweep. The prefactor is fixed at N=4, not a family law: the ring c_N falls to ln 2 along even N and rises to it along odd N.",
                Tier.Tier1Derived,
+               "docs/ANALYTICAL_FORMULAS.md F149 (registry entry) + " +
                "docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md (primary derivation) + " +
-               "simulations/ring_n4_lock_gate.py (gate) + " +
+               "simulations/ring_n4_lock_gate.py (rung gate) + " +
+               "simulations/ring_dihedral_lock_limit.py (ladder gate: odd branch below ln 2 and rising, " +
+               "N=4 saturation, c₆/c₈/c₁₀ as largest roots of their minimal polynomials) + " +
                "experiments/STAR_CONFOCAL_LIMIT.md (sister bound via the same Casimir technique) + " +
                "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (parent F1) + " +
                "simulations/results/q_sweep_anchor/ring_N4_Q{0.5,1.0,1.5,1.7321,2.0,2.5}.json (6 anchors)")
     { }
 
     public override string DisplayName =>
-        "Ring N=4 dihedral lock: Im_max = 3·J";
+        "F149 (N=4 rung): ring N=4 dihedral lock, Im_max = 3·J";
 
     public override string Summary =>
-        $"Im_max(ring, N=4, J) = 3·J = (3/4)·J·N at N=4, Q-universal; closed-form via K_{{2,2}} = C_4 bipartite-complete + Casimir spectrum; verified at 6 Q-anchors to machine precision from the 2026-05-19 Q-sweep (Q ∈ {{0.5, 1.0, 1.5, √3, 2.0, 2.5}}); {Tier.Label()}";
+        $"F149 (N=4 rung): Im_max(ring, N=4, J) = 3·J = (3/4)·J·N at N=4, Q-universal; closed-form via K_{{2,2}} = C_4 bipartite-complete + Casimir spectrum; verified at 6 Q-anchors to machine precision from the 2026-05-19 Q-sweep (Q ∈ {{0.5, 1.0, 1.5, √3, 2.0, 2.5}}); {Tier.Label()}";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
