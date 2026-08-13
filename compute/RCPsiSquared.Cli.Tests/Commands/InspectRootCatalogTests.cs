@@ -330,6 +330,17 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasPinnedRoot_NFree_HonorsOptionalN()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "pinned");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("F153", entry.Description);
+        Assert.Contains("ENTRY-WISE", entry.Description);
+        Assert.Contains("4N", entry.Description);
+    }
+
+    [Fact]
     public void Catalog_HasRenewalRoot_NFree_HonorsOptionalN()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "renewal");

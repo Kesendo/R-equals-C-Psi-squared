@@ -7028,12 +7028,41 @@ diagonal entry has the same REAL part c = −2γ|p − q|. What sits beside it o
 configuration-dependent, the ZZ term's doing, and it is real once the i is pulled out; the surviving side's
 hops enter as ±i times a real symmetric matrix. The two together give
 
-    L = c·Id + i·S,   S real and symmetric (the hops PLUS the ZZ diagonal),
+    L = c·Id + i·S,   S = the hops PLUS the ZZ diagonal,
 
-whose eigenvalues are c + i·μ with μ real. The real part is exactly c at every coupling: there the
+whose eigenvalues are c + i·μ with μ real. The real part is exactly c at every REAL coupling: there the
 Hamiltonian only turns the phase. In an XY model, which has no ZZ term, S is J·A alone and the diagonal is
-c·Id outright, which is the form the MirrorWorld gate below certifies. On the remaining (N−1)² blocks both
-sides can hop, S is no longer the whole story off the diagonal, and the real parts leave it.
+c·Id outright, which is the form the MirrorWorld gate below certifies.
+
+**Two fences on that FORM, and neither is a fence on the criterion.** S is HERMITIAN in general and real
+symmetric for a REAL H such as this chain: give the same number-conserving Hermitian H a complex hopping
+amplitude (a Peierls phase) and the criterion still holds exactly, flat to 5e-15 on the pinned blocks at
+N=4, while the symmetry does not survive. The general statement is that **the Hermitian part of L is
+scalar**. And the coupling must be REAL: off the axis the hops put ∓2·Im(q) on the real part off the
+diagonal and the ZZ term puts +Im(q)·Δ·Δzz on it, so a pinned block leaves its floor and can even gain
+(the (0,1) block at N=4, Δ=1, q = 1+0.3i reaches Re λ = +0.0485 against a floor of −2). This is why
+PROOF_CODIM1's Edge lemma says "a normal pencil at real q", and the criterion inherits the qualifier.
+
+**The forward direction was already the repo's, and this line is the missing citation.**
+[PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §6 has held it since 2026-07-03: its
+Edge lemma is the |p − q| = 1 case ("A = −2γ·I is scalar and L(q) = −2γ·I + q·C is a normal pencil"), and
+its boundary-block sentence is the general one, "every boundary block (p or q̃ ∈ {0,N}) has constant
+n_diff, hence a normal pencil whose Re-spectrum sits exactly on its even rung". The same §6 also supplies
+the combinatorial half: n_diff runs over [|p − q|, min(p + q, 2N − p − q)] in steps of 2, an interval of
+zero width exactly when min(p, q) = 0 or max(p, q) = N (|p−q| < p+q iff min(p,q) > 0, and |p−q| < 2N−p−q
+iff max(p,q) < N). What this entry adds is the criterion stated as a criterion, the 4N count, the
+entry-wise certificate, the located blindness, and the converse below.
+
+**The converse is a trace identity, not the mechanism sketch this entry first carried.** An earlier
+version of this paragraph closed the ⟸ by saying that off the pinned blocks "both sides can hop, S is no
+longer the whole story off the diagonal, and the real parts leave it", which names a mechanism without
+forcing anything. The forcing is one line. Suppose every eigenvalue of the block has Re λ = −2γ·n_min.
+The trace is basis-free, so Re Tr L = Σ_λ Re λ = −2γ·n_min·dim; read off the cells instead, the diagonal
+entry of |a⟩⟨b| has real part −2γ·n_diff(a,b), the hops being off-diagonal and the ZZ and field terms
+purely imaginary, so Re Tr L = −2γ·Σ_cells n_diff. Equating gives Σ_cells (n_diff − n_min) = 0 with every
+term non-negative, hence n_diff ≡ n_min, hence the criterion by the window above. No eigensolver and no
+tolerance, and the argument wants uniform γ in exactly the place the criterion does: under a profile a
+cell's real part is a SUM over its disagreeing sites, and n_diff is no longer what the trace counts.
 
 **What it locates: where a rate reading is the whole truth.** [F1](#f1)'s pairing distance projects onto
 rates, and the repo already knew that projection is blind to a break that moves only a frequency, which
@@ -7051,8 +7080,18 @@ the |p − q| = 1 qualifier or carry the criterion, never the sentence alone.
 
 **Scope, and the two halves have different reach.** UNIFORM γ IS REQUIRED, and this is the fence to read first. Pinning fixes the disagreement COUNT, not the
 disagreeing SITES: with a profile the real part of a pinned block's cell is −2·Σ over the sites where that
-cell disagrees, which still varies from cell to cell, so the block leaves its floor. Measured on the chain at
-γ = [0.1, 0.4, 0.7, 1.0], the (0,1) block spreads by 0.490 at N=4 and 0.948 at N=5 with J = 1. Beyond that
+cell disagrees, which still varies from cell to cell, so the mechanism fails and the block leaves its floor.
+
+That much is entry-wise and is gated in C#. What follows it is measured, and it is not "the block spreads",
+which is the loose form and is wrong in two directions. At γ = linspace(0.1, 1, N) and J = 1 the (0,1)
+block's SPECTRAL spread is 0.4903 at N=4 and 0.9477 at N=5 **at Δ = 1**; at Δ = 0 the same profile gives
+exactly 0.0 at J = 1 and opens only as the coupling falls (1.77 at J = 0.05, N=4), which is the
+strong-coupling coalescence [F152](#f152) records for this very block. And where flatness does survive a
+profile it is flatness at the WRONG CONSTANT: at N=4, Δ=1 eight of the sixteen pinned blocks stay flat, the
+(0,2) block sitting at −2.200 = −2·mean(γ) against a floor of −1.000. So the fence is that a pinned block
+leaves its FLOOR, not that it spreads, and a reading that tested flatness alone would pass on those eight.
+None of these spectral numbers is gated: `simulations/offdiag_sector_floor.py` takes a SCALAR γ and never
+builds a profile. Beyond that
 the CRITERION needs only the Absorption Theorem (any Hermitian H, Z-dephasing, any graph, any N) plus a
 NUMBER-CONSERVING Hamiltonian, which is what makes the joint-popcount blocks invariant in the first place;
 a transverse field or amplitude damping destroys the grading and the criterion with it. Both halves are derived graph-blind and MEASURED on
@@ -7073,7 +7112,23 @@ the entry: on the other (N−1)² blocks the spread must be STRICTLY positive.
 
 **Measured, and the two readings are different instruments.** A numpy cross-check counted the pinned blocks at N = 4, 5, 6 as 16, 20 and 24, exactly 4N, with the real parts matching the constant diagonal to 1e-15: an eigensolver route, so that 1e-15 is a tolerance and the claim there is "agrees within it". The committed gate takes the other route and needs no tolerance at all, comparing three cells rather than solving anything, and its residual is 0.0 bit for bit at J = 0.25, 1 and 3 alike.
 
-**Three words for three things, and they are not interchangeable.** The FLOOR is the Absorption Theorem's, the lower bound every block obeys. FLAT is what the three prior documents call a block that attains it throughout, and their sentence is the |p − q| = 1 case. PINNED is this entry's word for the cause, one index held at 0 or N. Beware also that the object is called a SECTOR by this entry's own Python gate and a BLOCK by the MirrorWorld layer, while "sector" elsewhere in this file means the Pauli w=k sector and, in F151, an R-parity half. Same word, three grids.
+**Typed layer.** `PinnedBlockFloorClaim` (Tier 1 derived) carries the criterion, with
+`AbsorptionTheoremClaim` and `JointPopcountSectors` as its two typed parents: the floor comes from the
+first, the (N+1)² grading the 4N is counted in from the second, and neither alone gives the statement.
+The live witness is `PinnedBlockFloorWitness`, `inspect --root pinned`, which re-runs the whole sweep
+entry-wise at inspect time (`--N`, `--J`, `--delta`) and prints the four residuals per block. Gate:
+`PinnedBlockFloorClaimTests`: the window against the enumerated cells, both directions of the entry-wise
+certificate over nine (N, J, Δ) rows (N=4 at J = 0.25, 1, 3; N=5 at Δ = −1, 0, 0.5, 1, 2; N=6 at Δ = 1),
+the two N=4 frequencies, the real trace as the disagreement count, and two negative controls, complex q
+and a γ profile. Every residual that the criterion predicts to vanish is compared `== 0.0` exactly; the
+controls assert strict positivity instead. What the sweep canNOT see is the SPECTRAL half of the γ fence,
+its builder baking γ = 1 in: the profile test gates the mechanism's failure entry-wise, and the spectral
+numbers in the scope paragraph above are measured rather than gated.
+
+**Three words for three things, and they are not interchangeable.** The FLOOR is the Absorption Theorem's
+bound: a floor on the DECAY RATE, and therefore a CEILING on Re λ, since §6 confines Re spec to
+[−2·n_max, −2·|p − q|]. A pinned block sits at the top of its own window and every other block runs
+downward from there. FLAT is what the three prior documents call a block that attains it throughout, and their sentence is the |p − q| = 1 case. PINNED is this entry's word for the cause, one index held at 0 or N. Beware also that the object is called a SECTOR by this entry's own Python gate and a BLOCK by the MirrorWorld layer, while "sector" elsewhere in this file means the Pauli w=k sector and, in F151, an R-parity half. Same word, three grids.
 
 **What was already owned, and what is new here.** The floor itself is the Absorption Theorem's, entirely.
 The flat-at-|p−q|=1 special case is prose-owned by `CHAIN_GAP_SECTOR_DIAGNOSTIC`, `SYMMETRY_CENSUS` and

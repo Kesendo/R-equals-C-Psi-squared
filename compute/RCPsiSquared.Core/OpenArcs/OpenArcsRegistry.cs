@@ -6555,7 +6555,42 @@ public static class OpenArcsRegistry
                 "that sweep counted MENTIONS, and the arc's own warning that a mention is not a carrier " +
                 "applies to them. So the seed-rung chain F143 -> F146 is untyped as a whole, and the " +
                 "decision is about four numbers standing together rather than F145 alone. " +
-                "(3) F152 and F153 have no typed claim and no live root. F153 is the stronger candidate, " +
+                "(3) F153 IS DONE (2026-08-13): PinnedBlockFloorClaim + PinnedBlockFloorWitness " +
+                "(inspect --root pinned) + PinnedBlockFloorClaimTests, two typed parents " +
+                "(AbsorptionTheoremClaim for the floor, JointPopcountSectors for the grading), the whole " +
+                "(N+1)^2 sweep read entry-wise with every predicted residual == 0.0 exactly. The ZZ " +
+                "correction travelled: the witness reads the REAL and IMAGINARY diagonal spreads " +
+                "separately and a test pins the imaginary one strictly positive at Delta != 0 and exactly " +
+                "0.0 at Delta = 0, so the carrier cannot degrade into MirrorWorld's XY form. " +
+                "FOUR THINGS THE BUILD FOUND, all verified from below before they were written. " +
+                "(a) The forward direction was ALREADY the repo's: PROOF_CODIM1_BY_ADDITIVITY Section 6 " +
+                "has held it since 2026-07-03 (the Edge lemma is the |p-q|=1 case, the boundary-block " +
+                "sentence the general one) and its window shell [|p-q|, min(p+q, 2N-p-q)] is gated by " +
+                "WindowShellLemmaTests; F153 was minted the same day as this arc without citing either. " +
+                "The same shape as the F143 finding one commit earlier. " +
+                "(b) The CONVERSE has an exact one-line proof the entry did not use: Re Tr L = " +
+                "-2gamma*Sum_cells n_diff = Sum_lambda Re lambda, so sitting entirely on the floor forces " +
+                "Sum(n_diff - n_min) = 0 with every term non-negative, hence n_diff constant, hence the " +
+                "criterion by the window. No eigensolver, no tolerance, and it holds for defective blocks " +
+                "since the trace is the characteristic polynomial's. " +
+                "(c) TWO FENCES ON THE FORM that are not fences on the criterion, both measured: REAL q " +
+                "(off the axis the (0,1) block at N=4 gains, Re lambda = +0.0485 against a floor of -2) " +
+                "and REAL H (a Peierls phase keeps the criterion exactly, flat to 5e-15, but makes S " +
+                "HERMITIAN rather than real symmetric, so the general form is 'the Hermitian part of L is " +
+                "scalar' and the entry-wise certificate, unlike the criterion, is NOT graph-blind). " +
+                "(d) The gamma fence was stated as GATED in the Python verifier and is not: " +
+                "simulations/offdiag_sector_floor.py takes a SCALAR gamma. Its loose form was also wrong " +
+                "in two directions: under a profile the block leaves its FLOOR, which is not the same as " +
+                "spreading, because at Delta=0 strong coupling re-flattens it (0.0 at J=1, 1.77 at " +
+                "J=0.05) and at N=4 eight of the sixteen pinned blocks stay FLAT AT THE WRONG CONSTANT, " +
+                "(0,2) at -2*mean(gamma). What is gated now is the mechanism's failure entry-wise " +
+                "(ProfileRealDiagonalSpread); the spectral numbers are measured. " +
+                "STILL OPEN HERE: a committed gate for the SPECTRAL half of the gamma fence (the Python " +
+                "verifier would need a profile row), and F152, whose subject is already carried live by " +
+                "BlockSpectrumWitness (inspect --root blockspectrum) without naming its F-number, so it " +
+                "is a breadcrumb and not a build. " +
+                "The original entry, kept because its correction list is what travelled: " +
+                "F152 and F153 have no typed claim and no live root. F153 is the stronger candidate, " +
                 "because the repo intends to REUSE it: it locates F1 s rate-reading blindness, naming the 4N " +
                 "blocks where a rate reading loses nothing and the (N-1)^2 where it does. ONE CORRECTION MUST " +
                 "TRAVEL WITH ANY CARRIER, found by the review that landed the entry: the pinned block is " +

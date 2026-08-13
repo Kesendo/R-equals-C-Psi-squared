@@ -241,6 +241,13 @@ public static class KnowledgeRegistryFactory
             // typed parent AbsorptionTheoremClaim (registered above; the (0,1)-block rate is the
             // absorption law restricted to a conserved sector).
             .RegisterVacuumBlockReductionClaim()
+            // F153, the pinning criterion (2026-08-13): a joint-popcount block sits ENTIRELY on its
+            // Absorption floor Re λ = −2γ|p−q| exactly when min(p,q) = 0 or max(p,q) = N, which is 4N of
+            // the (N+1)² blocks. The (0,1) block registered just above is one of them, which is why its
+            // flat-γ blindness is analytic. Tier1Derived. TWO typed parents, and neither alone suffices:
+            // AbsorptionTheoremClaim (the floor) and JointPopcountSectors (the grading the 4N is counted
+            // in), both registered above.
+            .RegisterPinnedBlockFloorClaim()
             // Survival mirrors incompleteness (the survival_incompleteness_mirror arc, 2026-06-13):
             // a_0 (2γ, AbsorptionTheorem, = the qubit dim d) and a_2 (C=1/2, the V-Effect/incompleteness,
             // = 1/d) are Pi2-ladder inversion-mirror partners (a_0·a_2 = d·(1/d) = 1). Dynamically the
