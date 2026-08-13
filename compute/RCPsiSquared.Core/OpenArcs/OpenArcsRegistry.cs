@@ -6477,6 +6477,85 @@ public static class OpenArcsRegistry
                 "because it is the observer/observed reading rather than the F89 topic, and would otherwise " +
                 "look like a hole in the dichotomy above.",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "f_registry_meets_the_typed_layer",
+            Opened: "2026-08-13",
+            Origin:
+                "Tom's call, after F152 and F153 landed: reconciling the F-registry with the typed C# layer " +
+                "is too big for one session, and MirrorWorld belongs at the END of it rather than at the " +
+                "start. The arc exists because the August exposed a structural fact about this repo. The " +
+                "registry stopped at F149 on 2026-07-31, so the whole August algebraic-geometry campaign was " +
+                "unregistered BY CONSTRUCTION, and this registry had become the terminal home for material " +
+                "that should have moved on to a doc, an F-number or a Claim. Minting the entries is only half " +
+                "the repair. The other half is the one this arc holds: an F-number with no typed carrier is a " +
+                "formula the object manager cannot inspect, and a typed carrier that does not name its " +
+                "F-number is a breadcrumb nobody can follow back.",
+            ParkedAt:
+                "THE INVENTORY, MEASURED 2026-08-13, so nothing here needs re-deriving. The registry holds " +
+                "151 distinct numbers, F1 through F153, with only the documented F53/F54 never assigned. " +
+                "TWENTY-ONE have no mention anywhere in compute/*.cs: 13, 19, 20, 21, 24, 29, 30, 31, 32, 35, " +
+                "40, 45, 46, 47, 48, 51, 143, 145, 149, 152, 153. That number OVERSTATES the gap and " +
+                "UNDERSTATES it at the same time, and both directions were measured rather than supposed. It " +
+                "overstates, because a typed carrier can exist without ever writing the number: F143 s " +
+                "subject is carried by ChiralKClaim and F149 s by RingN4DihedralLockClaim, neither of which " +
+                "names its F-number, so those two are missing BREADCRUMBS and not missing objects. It " +
+                "understates, because a mention in a comment or a test is not a carrier: F145 s only C# " +
+                "occurrence is inside SidewaysSpinLadderClaimRegistrationTests. " +
+                "THE TWENTY-ONE SPLIT BY GENRE, and only one half is a gap. Sixteen are a coherent spring " +
+                "block, all Tier 2: F13 the r* threshold, F19 and F40 the fragile bridge, F20 the thermal " +
+                "V-effect, F21 self-heating, F29 the star threshold, F30 the gamma channel capacity, F31 the " +
+                "relay bound, F32 the optimal protection state, F35 the lifetime ratio, F45 to F48 the Bures " +
+                "geometry at the fold, F51 the cockpit reduction. Those live on the propagation, Python and " +
+                "hardware side; the C# layer is the structural and spectral engine, so their absence there is " +
+                "a genre fact rather than a debt. The exception inside that block is F24, Tier 1 and " +
+                "hardware-validated with no C# trace at all, which is the one spring number worth a decision " +
+                "rather than a shrug. Three are recent Tier-1 structural results from the July campaign that " +
+                "otherwise typed itself well: F143, F145, F149. Two are the ones minted today, F152 and F153. " +
+                "A SECOND, WIDER LAYER: 63 numbers are named in no *Claim*.cs at all; among the recent ones " +
+                "126, 134, 138, 141, 143, 144, 145, 146, 149, 152 and 153. " +
+                "NOT A GAP, said here so it is not re-found as one: MirrorWorld s Formulas.cs is a deliberate " +
+                "SUBSET, the adopted closed forms with nothing re-derived, so F132 to F151 being absent from " +
+                "it is a property of that file s genre. Whether the August entries should be adopted there is " +
+                "a decision, and it is the LAST step of this arc rather than the first. " +
+                "HOW THE INVENTORY WAS TAKEN, so it can be re-run: registry headings by regex including the " +
+                "lettered and multi-part ones (F88a, F89c to F89h, F108 Part 1), then a word-boundary search " +
+                "for F<n> not followed by a digit over every .cs under compute/ with obj/ and bin/ excluded. " +
+                "WHAT WAS NOT MEASURED, and it is the other direction of the same question: which typed " +
+                "claims and live witnesses carry a result that has NO registry entry. Today s sweep ran " +
+                "registry-to-code only.",
+            NextStep:
+                "(1) THE TWO BREADCRUMBS, the cheapest thing in the arc and pure text: ChiralKClaim names " +
+                "F143, RingN4DihedralLockClaim names F149. No new objects, one line each, and it removes two " +
+                "of the three recent gaps. " +
+                "(2) F145, the seed triplet: decide whether it earns its own claim or belongs as a member on " +
+                "SidewaysSpinLadderClaim, which already carries the ladder it sits in. Its only C# mention " +
+                "today is a test file, which is the weakest kind of carrier. " +
+                "(3) F152 and F153 have no typed claim and no live root. F153 is the stronger candidate, " +
+                "because the repo intends to REUSE it: it locates F1 s rate-reading blindness, naming the 4N " +
+                "blocks where a rate reading loses nothing and the (N-1)^2 where it does. ONE CORRECTION MUST " +
+                "TRAVEL WITH ANY CARRIER, found by the review that landed the entry: the pinned block is " +
+                "c*Id + i*S with S REAL SYMMETRIC, the hops PLUS the ZZ diagonal, because the ZZ term puts a " +
+                "configuration-dependent IMAGINARY part on the diagonal (the (0,1) block at N=4 reads " +
+                "-1-4i and -1-2i). The MirrorWorld gate certifies the XY-only form c*Id + i*J*A and passes " +
+                "bit-exactly because Pair.Rate carries no ZZ; copying that form into a Heisenberg carrier " +
+                "would re-commit the error the entry was repaired for. And the criterion needs UNIFORM gamma: " +
+                "under a profile the pinned block spreads, 0.490 at N=4 and 0.948 at N=5, measured. " +
+                "(4) F24, the one Tier-1 spring entry with no C# trace: decide genre or gap. " +
+                "(5) THE 63 WITHOUT A CLAIM: triage by tier and by whether the repo re-uses the result, never " +
+                "by number order, and expect most of the Tier-2 spring block to end in genre rather than gap. " +
+                "(6) MIRRORWORLD LAST, deliberately. That project ADOPTS rather than derives, so nothing " +
+                "should be adopted into Formulas.cs until the entry it comes from has settled and its typed " +
+                "carrier exists. Doing it first would copy the registry s unfinished state into a second " +
+                "place. " +
+                "(7) THEN THE REVERSE SWEEP that today s did not run: typed claims and live witnesses whose " +
+                "result has no registry entry. " +
+                "THE STANDING RULE while this arc runs, from the sweeps that opened it: absence of a carrier " +
+                "is not by itself a reason to build one. The registry s own admission test is that an entry " +
+                "must let a reader skip a computation; the typed layer s is CLAUDE.md s rule that a claim s " +
+                "EVIDENCE lands as a live witness. A Tier-2 hardware reading satisfies neither, and forcing " +
+                "it into C# would be work that makes the object manager larger without making it truer.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
