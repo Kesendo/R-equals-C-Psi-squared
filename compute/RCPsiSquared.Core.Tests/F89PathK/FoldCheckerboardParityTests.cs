@@ -42,9 +42,12 @@ namespace RCPsiSquared.Core.Tests.F89PathK;
 /// ≡ 0; (1,3)@N=6 fold-fixed, disc real; (1,2)@N=6 NOT fold-fixed, disc genuinely complex. The
 /// q-evenness half is visible in the committed N=4 CLOSED FORM and was never read as a law:
 /// disc(F₈) = const·q²⁴·(3q⁴+q²−1)²·P₂₀(q) with P₂₀(q) = P₁₀(q²), every factor even in q. The
-/// other half is NOT a realised saving: an even-in-q D would halve the D-device's interpolation
-/// nodes, but no committed device consumes a support-parity fact (they sample dense over
-/// q0 = 0…dBound with no q² substitution), so that halving is designed-for, not banked.
+/// other half is a REALISED saving since 2026-08-13: FoldResultantCertificate's weight-general
+/// D-device interpolates E with D(q) = E(q²) from the abscissae m = q0², halving its sample
+/// points per prime (measured 1.76× at (1,3)@N=6; the gates and the dense A/B live in
+/// Disc13CertificateTests). It licenses that on its OWN exact ℤ[i] read of the support parity,
+/// not on this file's ± sign and not on the block's index pair, because the saving needs only
+/// the vanishing pattern while the sign here also carries the realness pattern.
 ///
 /// PREMISE-FREE WHERE IT MATTERS: the identity is about det(ΛI − S(q)) and never mentions the
 /// AT factor, so it is a theorem on the FULL charpoly. On F_res it additionally needs the AT

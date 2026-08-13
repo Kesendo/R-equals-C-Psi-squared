@@ -196,7 +196,11 @@ public class EvenNDiscLayerScoutTests
     public void N8_Probe_DiscDeviceBound()
     {
         // E0 of the N=8 design (2026-08-12): the certified D-device samples (cap + 1) primes,
-        // each a full (dBound + 25)-node mod-p disc pass, so the cap decides feasibility
+        // each a full SamplesPerPrime-node mod-p disc pass (dBound + 25 here: the exact
+        // support-parity read declines at (1,2)@N=8, so the 2026-08-13 q-even halving does not
+        // apply and the SAMPLING price stands unchanged; the pre-loop grew by the one Taylor
+        // shift of F_res that read costs, and the ~9.5 min below predates it), so the cap
+        // decides feasibility
         // BEFORE anything runs for days. Measured on the weight path (first run of this probe,
         // ~9.5 min: the fRes build is ≤ 67 s, the q→∞ leading form + Qc SquarefreeLayers at
         // deg 80 dominate — the same one-time pre-loop step that dominates the hardwired
@@ -219,6 +223,10 @@ public class EvenNDiscLayerScoutTests
         Assert.True(p8.DBound >= 6086, "dBound must bound the measured deg_q D");
         Assert.Equal(3165, p8.LcDivisorBoundD);
         Assert.Equal(47460, p8.NormDBits);
+        // and it must not fire as a FACT about D, not merely because the block is not fold-fixed:
+        // the committed gcd certificate reads deg Im D = 6085, odd, which an even-in-q D cannot have
+        Assert.False(p8.QEvenHalving, "(1,2)@N=8: D is not even in q, so the halving must not fire");
+        Assert.Equal(p8.DBound + 1 + 24, p8.SamplesPerPrime);
 
         var p6 = FoldResultantCertificate.WeightDiscDeviceBoundProbe(6, 1, 2, rOdd: false);
         _out.WriteLine($"N=6 R-even: dim={p6.BlockDim} atDeg={p6.AtDeg} resDeg={p6.ResDeg} " +

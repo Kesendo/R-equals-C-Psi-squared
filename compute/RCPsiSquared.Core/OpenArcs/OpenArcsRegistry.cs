@@ -5419,10 +5419,46 @@ public static class OpenArcsRegistry
                 "sector disc at (1,4)@N=8 is real by DERIVATION, not by the multi-hour mod-p read " +
                 "this entry priced -- and the committed N=4 closed form disc(F_8) = " +
                 "const*q^24*(3q^4+q^2-1)^2*P_10(q^2) had every factor even in q all along, the " +
-                "law visible and unread. The other half is NOT banked: an even-in-q D would halve " +
-                "the D-device's interpolation nodes, but no committed device consumes a support- " +
-                "parity fact (dense sampling q0 = 0..dBound, no q^2 substitution), so that " +
-                "halving is designed-for, not realised. What stays OPEN, cheapest first: (1) the " +
+                "law visible and unread. THE OTHER HALF IS NOW BANKED (2026-08-13): " +
+                "WeightCertifyDiscMultiplicity consumes the support-parity fact. Where the " +
+                "Lambda_0-shifted F_res support has ONE j+k parity -- read EXACTLY over Z[i] by " +
+                "QNegationSupportParityExact, never inferred from the block's index pair, and " +
+                "BOTH parities license it (s = deg_Lambda mod 2 by monicity), which is why it is " +
+                "a separate read from CheckerboardRead's +-1 -- D(q) = E(q^2), so E is " +
+                "interpolated from the values at q0 = 0..dBound/2 fed in at the abscissae " +
+                "m = q0^2 (InterpolateAtNodes, arbitrary distinct nodes, one BATCHED inversion " +
+                "per level) and spread back to D, leaving every downstream reader untouched. " +
+                "Sample points per prime HALVE; measured at (1,3)@N=6 on 2026-08-13, same machine " +
+                "and same session but TWO runs (the file with the halving forced off, then as it " +
+                "stands), 109.2 s -> 62.0 s R-odd and 50.4 s -> 28.6 s R-even, ratios 0.568 and " +
+                "0.567, so 1.76x, short of 2x because the arbitrary-node Newton costs more per " +
+                "node than the unit-spaced one and the pre-loop is untouched apart from GROWING " +
+                "by the one Taylor shift of F_res the licence read costs; the dense (1,2)@N=6 " +
+                "sibling took ~12 s per parity in both runs against its committed ~11 s, which is " +
+                "what makes the pair comparable. WHERE THE SOUNDNESS SITS, since it moved: wholly " +
+                "on the exact read plus the pre-existing proven dBound (D even and deg D <= " +
+                "dBound give deg E <= dBound/2, so dBound/2+1 values determine E), and NOT on the " +
+                "24 verification nodes, which OVER-determine the dense path but UNDER-determine " +
+                "the halved one (a wrongly assumed evenness would leave dBound/2 - 1 free roots " +
+                "against 24 test points) and are a smoke test for the interpolation code, never a " +
+                "falsifier of the premise. A FOLD-FIXED block that fails the exact read THROWS " +
+                "(the checkerboard's descent to F_res is measured, not proven, so that failure is " +
+                "a finding; forceDenseSampling: true suppresses throw and halving together, and " +
+                "that escape is reasoned, not gated, no block being known that reaches it). The " +
+                "negative control is by fact not policy: (1,2)@N=6 declines the read and its " +
+                "certified layer degree 133 is odd, (1,2)@N=8 declines it with deg Im D = 6085 " +
+                "odd from the committed gcd certificate, and an even-in-q D can have neither " +
+                "(its non-zero roots come in +- pairs). Gates in Disc13CertificateTests (the N=4 " +
+                "A/B reproducing the dense certificate bit for bit, the predicate truth table, " +
+                "the two live blocks now certified by the halved route to values committed from " +
+                "the dense one). The cost probe WeightDiscDeviceBoundProbe takes the same licence " +
+                "through the same helper, so it cannot price a fold-fixed block at twice its cost " +
+                "or price a run the device would refuse; the probe carries no forceDenseSampling " +
+                "of its own, so the one case it cannot price is a forced-dense run of a " +
+                "fold-fixed block that fails the read, which would have to be costed from the " +
+                "dense arithmetic by hand. NOT applied to the (1,2)-only " +
+                "CertifyDiscMultiplicity, whose headline (1,2)@N=8 run is outside the " +
+                "licence anyway. What stays OPEN, cheapest first: (1) the " +
                 "mod-p layer scout at (1,4)@N=8, now a CONFIRMATION of the derived disc-realness " +
                 "rather than the question it was, still floored at the scout's 2 h 9 m / 2 h 23 m since it " +
                 "repeats the same exact Z[i] build; a COMPLEX answer would refute the " +
@@ -5433,7 +5469,10 @@ public static class OpenArcsRegistry
                 "no run on this arc has ever landed exactly: at (1,2)@N=8 D was only read mod p " +
                 "and multi-prime certified, and the (1,3)@N=6 exact landing was of disc_M(G) at " +
                 "deg ~768, i.e. it USED the M-descent that declines here, so this is probably " +
-                "the harder branch and not the easy one; (3) if complex, the " +
+                "the harder branch and not the easy one -- the q-even halving above is the one " +
+                "piece of it already built, (1,4)@N=8 being fold-fixed, and it halves the sample " +
+                "points of a device that has never run there, so it lowers a price nobody has " +
+                "paid rather than shortening a measured run; (3) if complex, the " +
                 "Z Re/Im derivative-gcd count of design v2, still unbuilt. Untouched entirely: " +
                 "the defective POPULATION at (p,4)@N=8 -- a route declining is not an absence " +
                 "verdict, and (1,4)@N=8 is precisely where an N=8 sibling of the (1,3)@N=6 " +
@@ -5568,7 +5607,8 @@ public static class OpenArcsRegistry
                 "M=0 double in G, a common u/disc_M-root that gcd(u, disc_M G) = 1 excludes; " +
                 "parity alone would still admit J3+J1 inside multiplicity 4) " +
                 "(Disc13CertificateTests, Categories SLOW_DISC13_CERT + EVEN_DISC13_SCOUT, " +
-                "~44/~98 s per (1,3) parity; controls " +
+                "~29/~62 s per (1,3) parity since the 2026-08-13 q-even halving, against " +
+                "~50/~109 s dense, the certified values unchanged; controls " +
                 "reproduce the committed (1,2) certificate at N=4 and N=6 through the weight path; " +
                 "the sector build now ASSERTS the R-commutation entry-wise at runtime, closing the " +
                 "one certified-about-the-wrong-object spot a review named before Sturm leans on " +

@@ -648,6 +648,65 @@ public static class FoldResultantCertificate
         return (sign, odd, even);
     }
 
+    /// <summary>Exactly the part of the checkerboard that licenses an even-in-q discriminant, read
+    /// over ℤ[i] and nothing rounded: does every non-vanishing coefficient of the Λ₀-shifted
+    /// bivariate share ONE parity of j + k (j the u-exponent, k the q-exponent)? Then
+    /// F_res(Λ₀−u, −q) = (−1)^s·F_res(Λ₀+u, q), so the Λ-roots reflect about Λ₀ under q → −q, so
+    /// disc_Λ is unchanged and D is EVEN in q. BOTH parities s license it, which is why this is a
+    /// separate read from <see cref="CheckerboardRead"/>: that one also demands the realness
+    /// pattern (real on even j, imaginary on odd j) and reports ±1 by which parity survives, and
+    /// its Sign = 0 would decline blocks whose support parity is perfectly good. Monicity forces
+    /// s ≡ deg_Λ (mod 2), so nothing here needs the fold-leg premise as an input: the support
+    /// parity is the fact, fold-fixedness only the reason to expect it
+    /// (<see cref="IsFoldFixedBlock"/>).</summary>
+    private static bool QNegationSupportParityExact(GaussianInteger[][] fRes, int lambda0)
+    {
+        var h = TaylorShiftBivariate(fRes, lambda0);
+        int parity = -1;
+        for (int j = 0; j < h.Length; j++)
+            for (int k = 0; k < h[j].Length; k++)
+            {
+                if (h[j][k].Re.IsZero && h[j][k].Im.IsZero) continue;
+                int cell = (j + k) & 1;
+                if (parity < 0) parity = cell;
+                else if (parity != cell) return false;
+            }
+        return true;                                        // the zero polynomial cannot occur (monic)
+    }
+
+    /// <summary>The q-even sampling licence, in ONE place because the device and its cost probe
+    /// must never disagree about which path a block takes: the probe exists to price the run the
+    /// device will actually make, so a divergence here would price a run that then refuses to
+    /// start. Returns whether to halve; throws where a FOLD-FIXED block fails the exact read,
+    /// since the checkerboard's descent to F_res is measured per block and not proven, so that
+    /// failure is a finding and not a nuisance. <paramref name="forceDense"/> suppresses the throw
+    /// as well as the halving, which is what makes it a usable way past that finding.</summary>
+    private static bool QEvenSamplingLicence(
+        GaussianInteger[][] fRes, int n, int wKet, int wBra, bool forceDense)
+    {
+        if (forceDense) return false;
+        bool qEven = QNegationSupportParityExact(fRes, -2 * n);
+        if (!qEven && IsFoldFixedBlock(n, wKet, wBra))
+            throw new InvalidOperationException(
+                $"({wKet},{wBra})@N={n} is fold-fixed but its Λ₀-shifted F_res support is not of one " +
+                "j+k parity: the checkerboard does not descend to F_res here. Re-run with " +
+                "forceDenseSampling: true to certify anyway, and record the block.");
+        return qEven;
+    }
+
+    /// <summary>The square abscissae m = q0² must stay pairwise distinct mod p across EVERY
+    /// sampled q0, interpolation nodes and verification points alike, or a verification point
+    /// would silently re-test a node it coincides with instead of checking anything; p divides
+    /// (i−j)(i+j) otherwise, so 2·q0 &lt; p suffices. Hence <paramref name="lastQ0"/> is the last
+    /// SAMPLED q0, not the last node. Checked per prime in both the device and the probe, so the
+    /// failure names the prime rather than surfacing later as two coinciding nodes.</summary>
+    private static void AssertSquareAbscissaeFit(int p, int lastQ0)
+    {
+        if (2L * lastQ0 >= p)
+            throw new InvalidOperationException(
+                $"prime {p} is too small for the square abscissae: q0² collides at or below q0={lastQ0}.");
+    }
+
     /// <summary>Scout steps 0-2 of the Sturm design (the design note is local under
     /// docs/superpowers/plans/, NOT in the repo) on the (wKet, wBra) R-sector: §0 exact
     /// realness of F_res; §1 the exact G/f/ũ chain (G the even-Taylor reindex of F_res at
@@ -1735,32 +1794,36 @@ public static class FoldResultantCertificate
         int InfinityRepeatedD, int DiscriminantDegreeBound,
         int TrueDiscriminantDegree, int TrueQValuationD, int LcDivisorBoundD,
         long LayerPrime, int[] DiscLayerDegrees, int MaxDiscMultiplicity,
-        int PrimesSampled, bool DiscLayersCertified);
+        int PrimesSampled, bool DiscLayersCertified,
+        int SamplesPerPrime, bool QEvenHalvingUsed);
 
-    /// <summary>The certificate-grade D-device on the weight-general path: the exact sibling of
-    /// <see cref="CertifyDiscMultiplicity"/> for any all-2-cycle (wKet, wBra) R-sector (see
-    /// <see cref="WeightSectorPencil"/> for the scope). Same proof shape, nothing weakened: the
-    /// q → ∞ leading form fixes m_D and the PROVEN degree bound resDeg·(resDeg−1) − 2·m_D (the
-    /// scout methods use the crude bound); the lc-divisor bound (Hadamard on the Sylvester matrix
-    /// of (F_res, F_res′)) caps how many primes can lie about deg_q D or v_q(D); primes are
-    /// sampled past that cap, deg_q D is certified as the max and v_q(D) as the min over the
-    /// sampled primes, and the layer profile is read at a prime attaining BOTH (fail closed,
-    /// <c>DiscLayersCertified = false</c>, if none does). Per-point cross-check at q0 = 2, 3
-    /// (<see cref="WeightCrossCheckResidual"/>) guards the bivariate on every new block shape.
-    /// For (1,3)@N=6 this upgrades the scout's two-prime layer agreement to certified
-    /// TrueDiscriminantDegree / TrueQValuationD, the invariants the arc's Sturm closing step
-    /// will lean on exactly as the (1,2) gcd certificate leaned on the (1,2) D-device's.</summary>
+    /// <summary>Is the (wKet, wBra) block fixed by a fold leg? Exactly when N is even and one weight
+    /// side sits at N/2: f_P: (p, q̃) ↦ (p, N−q̃) fixes bra weight N/2, f_Q: (p, q̃) ↦ (N−p, q̃) fixes
+    /// ket weight N/2 (PROOF_CODIM1_BY_ADDITIVITY §7, the fold lattice; EITHER leg suffices, the
+    /// (2,1)@N=4 control having refuted the first draft's "bra only"). This is the premise of the
+    /// checkerboard law, so it is the reason to EXPECT the q-even halving in
+    /// <see cref="WeightCertifyDiscMultiplicity"/> to be licensed; it is not the licence itself,
+    /// which is that method's own exact read (<see cref="QNegationSupportParityExact"/>), because
+    /// the checkerboard's descent from the full charpoly to F_res is measured per block and not
+    /// proven. A statement about the block's index pair alone, so it costs nothing to ask.</summary>
+    public static bool IsFoldFixedBlock(int n, int wKet, int wBra)
+        => n % 2 == 0 && (wKet == n / 2 || wBra == n / 2);
+
     /// <summary>The D-device's cost inputs WITHOUT the sampling loop (the E0 probe of the N=8
     /// design, 2026-08-12): everything <see cref="WeightCertifyDiscMultiplicity"/> computes
     /// BEFORE its prime loop — the degree bound dBound = resDeg(resDeg−1) − 2m_D, the lc-divisor
     /// prime cap, and the row-norm bit length the cap scales with. The device's total cost is
-    /// (cap + 1) primes × one full (dBound + 25)-node mod-p disc pass each, so this probe is what
-    /// decides whether the device is affordable at a given (n, weights) before anything runs for
-    /// days. Deliberately duplicates the ~15 pre-loop lines of the device (same building blocks,
-    /// same order) rather than refactoring the certified path; skips WeightCrossCheckResidual
+    /// (cap + 1) primes × one full <c>SamplesPerPrime</c>-node mod-p disc pass each, so this probe
+    /// is what decides whether the device is affordable at a given (n, weights) before anything
+    /// runs for days. <c>SamplesPerPrime</c> is dBound + 25 on the dense path and dBound/2 + 25
+    /// where the q-even halving is licensed, and the probe takes the SAME exact licence read as
+    /// the device (<c>QEvenHalving</c>), so a fold-fixed block is not priced at twice its cost.
+    /// Deliberately duplicates the ~15 pre-loop lines of the device (same building blocks, same
+    /// order) rather than refactoring the certified path; skips WeightCrossCheckResidual
     /// (validation of fRes, gated separately on the scout path).</summary>
     public static (int BlockDim, int AtDeg, int ResDeg, int MD, int DBound,
-        int LcDivisorBoundD, long NormDBits, long RowFBits, double MsPerPrime)
+        int LcDivisorBoundD, long NormDBits, long RowFBits, double MsPerPrime,
+        int SamplesPerPrime, bool QEvenHalving)
         WeightDiscDeviceBoundProbe(int n, int wKet, int wBra, bool rOdd, int timingPrimes = 0)
     {
         var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
@@ -1789,11 +1852,16 @@ public static class FoldResultantCertificate
         // the per-prime marginal (the timingNodes pattern of WeightSturmScout): run the
         // device's own per-prime sampling body for a few split primes, timed AFTER the
         // one-time pre-loop above, so the figure is the marginal and not the build
+        // the probe must price the path the device will actually take, so it takes the same
+        // licence read: on a block where D is even in q the device samples half as many points,
+        // and a probe that priced the dense pass would overstate a fold-fixed block by ~2×
+        bool qEven = QEvenSamplingLicence(fRes, n, wKet, wBra, forceDense: false);
+        const int extra = 24;
+        int samples = (qEven ? dBound / 2 : dBound) + 1 + extra;
+
         double msPerPrime = 0.0;
         if (timingPrimes > 0)
         {
-            const int extra = 24;
-            int samples = dBound + 1 + extra;
             var clock = System.Diagnostics.Stopwatch.StartNew();
             int timed = 0;
             long candidate = (1L << 30) + 1;
@@ -1813,10 +1881,19 @@ public static class FoldResultantCertificate
                         throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0}.");
                     dSamp[q0] = DiscriminantModP(fL, p);
                 }
-                var dNodes = new int[dBound + 1];
-                Array.Copy(dSamp, dNodes, dBound + 1);
-                var dp = InterpolateAtIntegerNodes(dNodes, p);
-                for (int q0 = dBound + 1; q0 < samples; q0++)
+                int nodeCount = samples - extra;
+                var dNodes = new int[nodeCount];
+                Array.Copy(dSamp, dNodes, nodeCount);
+                int[] dp;
+                if (qEven)
+                {
+                    AssertSquareAbscissaeFit(p, samples - 1);
+                    var abscissae = new int[nodeCount];
+                    for (int i = 0; i < nodeCount; i++) abscissae[i] = (int)((long)i * i % p);
+                    dp = SpreadEven(InterpolateAtNodes(abscissae, dNodes, p));
+                }
+                else dp = InterpolateAtIntegerNodes(dNodes, p);
+                for (int q0 = nodeCount; q0 < samples; q0++)
                     if (EvalModP(dp, q0, p) != dSamp[q0])
                         throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
                 timed++;
@@ -1825,11 +1902,48 @@ public static class FoldResultantCertificate
         }
 
         return (blockDim, atDeg, resDeg, mD, dBound, lcDivisorBoundD,
-                normD.GetBitLength(), rowF.GetBitLength(), msPerPrime);
+                normD.GetBitLength(), rowF.GetBitLength(), msPerPrime, samples, qEven);
     }
 
+    /// <summary>The certificate-grade D-device on the weight-general path: the exact sibling of
+    /// <see cref="CertifyDiscMultiplicity"/> for any all-2-cycle (wKet, wBra) R-sector (see
+    /// <see cref="WeightSectorPencil"/> for the scope). Same proof shape, nothing weakened: the
+    /// q → ∞ leading form fixes m_D and the PROVEN degree bound resDeg·(resDeg−1) − 2·m_D (the
+    /// scout methods use the crude bound); the lc-divisor bound (Hadamard on the Sylvester matrix
+    /// of (F_res, F_res′)) caps how many primes can lie about deg_q D or v_q(D); primes are
+    /// sampled past that cap, deg_q D is certified as the max and v_q(D) as the min over the
+    /// sampled primes, and the layer profile is read at a prime attaining BOTH (fail closed,
+    /// <c>DiscLayersCertified = false</c>, if none does). Per-point cross-check at q0 = 2, 3
+    /// (<see cref="WeightCrossCheckResidual"/>) guards the bivariate on every new block shape.
+    /// For (1,3)@N=6 this upgrades the scout's two-prime layer agreement to certified
+    /// TrueDiscriminantDegree / TrueQValuationD, the invariants the arc's Sturm closing step
+    /// will lean on exactly as the (1,2) gcd certificate leaned on the (1,2) D-device's.
+    /// <para>Since 2026-08-13 the sampling halves where D is even in q (the checkerboard
+    /// corollary): see <see cref="QNegationSupportParityExact"/> for the licence, which is an
+    /// exact ℤ[i] read and not the block's index pair. Nothing about the CERTIFICATE changes:
+    /// same bound, same cap, same primes, same certified invariants, and the N=4 A/B gate holds
+    /// the two paths to bit-identical reports; only the number of sample points per prime does.
+    /// The interpolant is spread back to D before anything downstream reads it, so valuation,
+    /// q-strip and layer profile stay on the object they always read. WHERE THE SOUNDNESS SITS,
+    /// because it moved: on the halved path it rests wholly on the exact read plus the
+    /// pre-existing proven dBound (D even and deg D ≤ dBound give deg E ≤ dBound/2, so dBound/2+1
+    /// values determine E), and NOT on the 24 verification nodes. Those over-determine on the
+    /// dense path and under-determine on the halved one, where a wrongly-assumed evenness leaves
+    /// dBound/2 − 1 free roots against 24 test points; they are a per-prime smoke test for the
+    /// interpolation code, never a falsifier of the premise. Two things also change on calls that
+    /// do not end up halving: the pre-loop pays one Taylor shift of F_res for the licence read
+    /// (skipped entirely when forceDenseSampling short-circuits it), and a fold-fixed block
+    /// failing that read now throws where it previously certified.</para></summary>
+    /// <param name="forceDenseSampling">Take the dense q0 = 0…dBound path even where the exact
+    /// even-in-q read licenses the halved one. The A/B control of
+    /// <c>Disc13CertificateTests.N4_QEvenHalving_ReproducesTheDenseCertificateExactly</c>, and the
+    /// way out if a fold-fixed block ever fails the support-parity read (which otherwise throws,
+    /// that failure being a finding about the checkerboard's descent to F_res and not a nuisance).
+    /// That second purpose is UNEXERCISED: no block is known that reaches the throw, so the escape
+    /// is reasoned, not gated.</param>
     public static WeightDiscMultiplicityReport WeightCertifyDiscMultiplicity(
-        int n, int wKet, int wBra, bool rOdd, int maxPrimes = 20000, Action<string>? log = null)
+        int n, int wKet, int wBra, bool rOdd, int maxPrimes = 20000, Action<string>? log = null,
+        bool forceDenseSampling = false)
     {
         var (aBlk, cBlk) = WeightSectorPencil(n, wKet, wBra, rOdd);
         AssertHoppingSymmetry(cBlk, null);      // uniform metric: all orbits are 2-cycles
@@ -1855,8 +1969,20 @@ public static class FoldResultantCertificate
         BigInteger normD = BigInteger.Pow(rowF, Math.Max(resDeg - 1, 0)) * BigInteger.Pow(rowFp, resDeg);
         int lcDivisorBoundD = (int)(2 * normD.GetBitLength() / 30) + 1;
 
+        // The q-even halving (the checkerboard corollary of 2026-08-12). Licensed by an EXACT
+        // ℤ[i] read of F_res, never by the block's index pair: where the Λ₀-shifted support has
+        // one j + k parity, D(q) = E(q²) with deg E = deg D / 2, so E is interpolated from the
+        // values at q0 = 0…dBound/2 fed in at the abscissae m = q0², and the sample points per
+        // prime HALVE. dBound = resDeg(resDeg−1) − 2m_D is even, so dBound/2 bounds deg E.
+        // Fold-fixedness is the reason to EXPECT the read (the checkerboard is a theorem there,
+        // on the full charpoly, its descent to F_res measured per block), so a fold-fixed block
+        // that fails the read contradicts that measurement and throws rather than quietly
+        // costing twice; forceDenseSampling is the way past it.
+        bool halve = QEvenSamplingLicence(fRes, n, wKet, wBra, forceDenseSampling);
+
         const int extra = 24;
-        int samples = dBound + 1 + extra;
+        int nodeCount = (halve ? dBound / 2 : dBound) + 1;
+        int samples = nodeCount + extra;
         var perPrime = new List<(int P, int DegD, int VD, int[] DStrip)>();
         int sampled = 0;
 
@@ -1870,6 +1996,7 @@ public static class FoldResultantCertificate
             int p = checked((int)candidate);
             int? root = SqrtMinusOneFast(p);
             if (root is null) continue;
+            if (halve) AssertSquareAbscissaeFit(p, samples - 1);
 
             var fResP = ReduceBivariate(fRes, p, root.Value);
             var dSamp = new int[samples];
@@ -1880,10 +2007,17 @@ public static class FoldResultantCertificate
                     throw new InvalidOperationException($"reduced residual not monic of degree {resDeg} at q0={q0}.");
                 dSamp[q0] = DiscriminantModP(fL, p);
             }
-            var dNodes = new int[dBound + 1];
-            Array.Copy(dSamp, dNodes, dBound + 1);
-            var dp = InterpolateAtIntegerNodes(dNodes, p);
-            for (int q0 = dBound + 1; q0 < samples; q0++)
+            var dNodes = new int[nodeCount];
+            Array.Copy(dSamp, dNodes, nodeCount);
+            int[] dp;
+            if (halve)
+            {
+                var abscissae = new int[nodeCount];
+                for (int i = 0; i < nodeCount; i++) abscissae[i] = (int)((long)i * i % p);
+                dp = SpreadEven(InterpolateAtNodes(abscissae, dNodes, p));
+            }
+            else dp = InterpolateAtIntegerNodes(dNodes, p);
+            for (int q0 = nodeCount; q0 < samples; q0++)
                 if (EvalModP(dp, q0, p) != dSamp[q0])
                     throw new InvalidOperationException($"D interpolant fails verification at q0={q0} (p={p}).");
 
@@ -1920,7 +2054,8 @@ public static class FoldResultantCertificate
         return new WeightDiscMultiplicityReport(
             n, wKet, wBra, rOdd, blockDim, atDeg, resDeg, mD, dBound,
             trueDegD, eD, lcDivisorBoundD, layerPrime,
-            layerDegrees, layerDegrees.Length, sampled, certified);
+            layerDegrees, layerDegrees.Length, sampled, certified,
+            samples, halve);
     }
 
     /// <summary>The Λ-stratum read the layer profile cannot supply: at the ×2-cleared value
@@ -3162,6 +3297,70 @@ public static class FoldResultantCertificate
         var res = new int[k];
         for (int c = 0; c < k; c++) res[c] = (int)poly[c];
         return TrimP(res);
+    }
+
+    /// <summary>Newton interpolation at arbitrary DISTINCT nodes over F_p; the unit-spaced
+    /// <see cref="InterpolateAtIntegerNodes"/> is the special case that needs no inverses beyond
+    /// the level. One BATCHED inversion per level (prefix products, one <see cref="InvModP"/>,
+    /// back-substitution), so the cost stays O(k²) multiplications and O(k) inversions rather
+    /// than the O(k²) inversions the naive divided differences would ask for.</summary>
+    private static int[] InterpolateAtNodes(int[] nodes, int[] values, int p)
+    {
+        int k = values.Length;
+        if (nodes.Length != k)
+            throw new ArgumentException($"nodes ({nodes.Length}) and values ({k}) disagree in length.");
+        var dd = new long[k];
+        for (int i = 0; i < k; i++) dd[i] = values[i];
+
+        var den = new long[k];
+        var pre = new long[k];
+        for (int lvl = 1; lvl < k; lvl++)
+        {
+            long acc = 1;
+            for (int i = lvl; i < k; i++)
+            {
+                long d = ((long)nodes[i] - nodes[i - lvl]) % p;
+                if (d < 0) d += p;
+                if (d == 0)
+                    throw new InvalidOperationException($"interpolation nodes {i - lvl} and {i} coincide mod {p}.");
+                den[i] = d;
+                pre[i] = acc;
+                acc = acc * d % p;
+            }
+            long inv = InvModP((int)acc, p);
+            for (int i = k - 1; i >= lvl; i--)
+            {
+                long invD = inv * pre[i] % p;               // = 1 / den[i], by the prefix product
+                inv = inv * den[i] % p;
+                dd[i] = ((dd[i] - dd[i - 1]) % p + p) % p * invD % p;
+            }
+        }
+
+        var poly = new long[k];
+        poly[0] = dd[k - 1];
+        int deg = 0;
+        for (int i = k - 2; i >= 0; i--)
+        {
+            long negX = ((-(long)nodes[i]) % p + p) % p;
+            for (int c = deg + 1; c >= 1; c--) poly[c] = (poly[c - 1] + poly[c] * negX) % p;
+            poly[0] = (poly[0] * negX + dd[i]) % p;
+            deg++;
+        }
+        var res = new int[k];
+        for (int c = 0; c < k; c++) res[c] = (int)poly[c];
+        return TrimP(res);
+    }
+
+    /// <summary>E(m) ↦ D(q) = E(q²): the even-support spread that turns the halved interpolant
+    /// back into the object every downstream reader (valuation, q-strip, squarefree layers)
+    /// already knows how to read, so the halving changes the sampling and NOTHING else.</summary>
+    private static int[] SpreadEven(int[] e)
+    {
+        int d = DegP(e);
+        if (d < 0) return new[] { 0 };
+        var r = new int[2 * d + 1];
+        for (int j = 0; j <= d; j++) r[2 * j] = e[j];
+        return r;
     }
 
     private static int QValuation(int[] poly)
