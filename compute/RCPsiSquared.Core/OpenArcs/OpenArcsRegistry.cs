@@ -46,7 +46,12 @@ public static class OpenArcsRegistry
                 "require it, so XxzCoherenceBlock can locate-and-test at any N on its own.) THE REAL OBSTACLES " +
                 "(the genuinely hard part, get harder with N): (1) COMPLETENESS. The exact discriminant " +
                 "disc_λ(F_d) factorization (Route B, the only way to COUNT diabolics definitively, as " +
-                "(3q⁴+q²−1)² did at path-3) is already infeasible at F_18 (degree-52 disc) and hopeless at " +
+                "(3q⁴+q²−1)² did at path-3) is UNATTEMPTED at F_18, not infeasible: the old degree-52 " +
+                "estimate was the N=4 disc's own number, and the certificate since measured F_18's at deg_q " +
+                "274 R-even / 246 R-odd (v_q 154/138 plus layers [56, 32]/[56, 26]), a few times SMALLER than " +
+                "discriminants this arc has landed exactly, so infeasibility no longer follows from the degree. " +
+                "The M-descent shortcut does not apply there ((1,2)@N=5 is not fold-fixed), so it would be a " +
+                "direct landing at full degree. Unmeasured and presumed far harder at " +
                 "F_32/F_53; beyond path-3 the count is answerable only by bounded-region NUMERICAL scans with a " +
                 "stated coverage box, never provably complete. (2) The scan region/resolution must scale: more " +
                 "strands → more inter-sector crossings → more candidates, plus the dense-spectrum hazards already " +
@@ -1483,7 +1488,8 @@ public static class OpenArcsRegistry
                 "its regression gate. So the path-4 diabolics ARE the integrable level-crossings, " +
                 "DIABOLIC_BY_INTEGRABILITY's gate generalized off N=4 (F89_PATH_K_DIABOLIC.md now Tier-1 for the " +
                 "mechanism). Remaining open: the complex-q set is not " +
-                "claimed complete (Route B / exact F_18 discriminant likely infeasible). (b) LOOK IN OTHER " +
+                "claimed complete (Route B / the exact F_18 discriminant is unattempted, the infeasibility read " +
+                "retired; see the obstacle note in this registry). (b) LOOK IN OTHER " +
                 "REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
                 "closed form (Bring/theta/hypergeometric exist for any algebraic function); seek the connection in the " +
                 "centred μ=λ+4, in a recursion, in the relation zeros<->twins<->AT-frequencies. (c) CROSS-F " +
