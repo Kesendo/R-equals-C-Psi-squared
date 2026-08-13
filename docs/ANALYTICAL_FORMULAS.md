@@ -6698,5 +6698,181 @@ Tier 1 derived. Proof `docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`, typed as
 
 ---
 
+### F150. The fold checkerboard: on a fold-fixed block the bivariate charpoly has a support parity j + k ≡ d (mod 2), and its discriminant is therefore even in q and real (derived 2026-08-12, registered 2026-08-13)
+
+Take a coherence block (p, q̃) fixed by **either** fold leg, that is ket weight = N/2 **or**
+bra weight = N/2 at even N ([PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
+§"the fold lattice", consequence (b), which names both legs). The bare leg is not an
+antiunitary but the **linear, q-reversing rearrangement**
+
+    **P·S(q)·P = 2Λ₀ − S(−q),   Λ₀ = −2N,**
+
+where S is the ×2-CLEARED R-sector pencil that `WeightSectorPencil` returns, and not the block itself.
+The scale is load-bearing: in the uncleared scale the same identity reads P·L(q)·P = −2N·I − L(−q), so
+there Λ₀ = −N, which is the palindrome centre the rest of the repo uses. A reader who instantiates the
+displayed form on `WeightCoherenceBlock.Build` gets a false statement. P commutes with the site
+reflection, so it acts inside each R-sector. Taking determinants,
+
+    **χ_q(Λ₀ + u) = (−1)^d · χ_{−q}(Λ₀ − u),   d = deg_Λ,**
+
+at every q, real or complex, over ℤ[i]. Writing χ = Σ c_{j,k}·u^j·q^k this forces
+
+    **c_{j,k} = 0 unless j + k ≡ d (mod 2),**
+
+a checkerboard **support**. The reality half is the separate, unconditional q-side antiparity,
+so on the surviving cells even j are real and odd j purely imaginary. The branch sign is
+forced rather than measured: ε = (−1)^d, and since the residual is monic the cell (d, 0)
+settles it before any other coefficient is read. Two riders on that sign. The realness pattern just
+quoted is the ε = +1 branch; at odd d it flips, and `CheckerboardRead` carries both as Sign ±1. And
+every committed row has EVEN d (resDeg 8, 42, 48, 224, and on a fold-fixed block the dimension
+C(N,p)·C(N,N/2) is even because C(2m,m) is), so ε = +1 throughout and the ε = −1 branch has never been
+exercised by any measurement.
+
+**The corollary is what it was derived for.** The law gives F_res(−u, −q) = ε·F_res(u, q), so
+the Λ-roots negate under q ↦ −q while the discriminant is invariant under that negation:
+D = disc_Λ(F_res) is **even in q**. Composed with Y1 (conj-coeff(D)(q) = D(−q)) that forces
+conj-coeff(D) = D, so **D is real on every fold-fixed block**. This derives the disc-reality
+prior the multi-sector monodromy work had been asserting, and it replaced a priced multi-hour
+mod-p read with an algebraic fact. The device that consumes it halves its sample points by
+interpolating D(q) = E(q²), measured at 1.76× rather than the naive 2× (109.2 s → 62.0 s
+R-odd, 50.4 s → 28.6 s R-even), the arbitrary-node Newton costing more per node than the
+unit-spaced one.
+
+Measured: (1,2)@N=4 sign +1 with 6 odd and 15 even cells, at odd character, where all three
+committed boolean reads are False, so the checkerboard is the whole of that block's structure
+and cannot pass vacuously; (2,1)@N=4 sign +1, the **ket-leg** control, which exists because a
+first draft scoped the law to the bra leg and this row refutes that; (1,3)@N=6 sign +1 with
+0 odd cells and 247 (R-even) / 325 (R-odd) even ones, the degenerate side where an even
+character empties the odd cells; (1,2)@N=6 the **negative control**, fold-fixed on neither leg,
+sign 0 on F_res and on the full charpoly. Confirmed at (1,4)@N=8 at resDeg 224, sign +1 on both,
+odd cells occupied; that run gated the cell counts but did not record them, so the cell counts
+at (1,4)@N=8 are not on the page.
+
+The N=4 closed form, registered as F89f, had it visible all along and unread:
+disc(F_8) = const·q²⁴·(3q⁴+q²−1)²·P₁₀(q²) has every factor even in q.
+
+Do not read this as the only q-evenness in play. PROOF_CODIM1_BY_ADDITIVITY §7 consequence (c) carries a
+different one, surviving on the fixed lines p = q̃ and p + q̃ = N and Δ-ROBUST where this entry is Δ = 0
+only; and F151's is a third condition again, (p+q)(N−1) even, about a sector being a real family rather
+than about a support parity.
+
+**Scope, and the third fence is the one that matters.** Even N and fold-fixed blocks only; off
+them the Λ side has no source and sign 0 is the correct answer, which is what the negative control
+measures. The identity is the **bare** leg, giving a Λ-reflection tied to q ↦ −q, and not
+Λ-evenness at fixed q; reading it as the latter was a first-draft error. On the full charpoly χ
+this is a theorem with no premise, but the descent to F_res = χ/AT additionally needs the AT
+factor to carry the same parity, and that premise is **measured, not proved**, which is why a
+failure there is a finding rather than a bug. It says nothing about coefficient-realness of F_res
+itself, a different object from realness of D: (1,4)@N=8 has D real and F_res coefficient-complex
+at once. Δ = 0 only, inheriting the gauge's scope. And it is not a census: a support parity and a
+disc-realness are neither an absence verdict nor a defective-locus count.
+
+Gates `FoldCheckerboardParityTests` (4 theories × 2 parities = 8, Category `EVEN_DISC13_SCOUT`
+except the (1,3)@N=6 row which is `SLOW_EVEN_DISC13`) and, for the (1,4)@N=8 confirmation,
+`Disc14N8ScoutTests` (Category `SLOW_EVEN_DISC14`, over two hours). Implementation
+`FoldResultantCertificate.CheckerboardRead`; note that the D-device consumes the strictly weaker
+`QNegationSupportParityExact`, which asks only for one j+k parity and not for the realness
+pattern, so the two reads must not be conflated. Sibling [F151](#f151-the-bipartite-gauge-criterion-the-gauge-commutes-with-the-site-reflection-iff-pqn1-is-even-and-then-the-r-sectors-are-conjugation-closed-derived-2026-08-10-registered-2026-08-13),
+which supplies the Δ = 0 gauge this entry stands on. No proof document yet; the derivation lives
+in the gate's own class documentation and in the arc `sideways_spin_ladder`.
+
+---
+
+### F151. The bipartite gauge criterion: the gauge commutes with the site reflection iff (p+q)(N−1) is even, and then the R-sectors are conjugation-closed (derived 2026-08-10, registered 2026-08-13)
+
+On the (wKet, wBra) coherence block let 𝒟 be the staggered diagonal
+
+    **𝒟 = diag((−1)^(σ(a)+σ(b))),   σ(c) = the sum of the OCCUPIED SITE INDICES of c,**
+
+which is [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §7's ingredient (iv)
+in block form. Write L(q) = A + q·C with A the real Absorption-Theorem diagonal and C the
+pure-imaginary nearest-neighbour hopping. A hop moves one excitation by one site, so it changes σ
+by ±1 and flips the gauge sign on exactly one side, while 𝒟 leaves the diagonal alone. Hence
+
+    **𝒟·L(q)·𝒟 = L(−q)   at every complex q,   and   𝒟·L(q)·𝒟 = conj(L(q))   at real q,**
+
+the second being the first composed with the pencil reality conj L(q) = L(−q̄). Both are ±1 sign
+rearrangements of the entries, so the residual is 0.0 bit for bit and not a machine zero.
+
+**The criterion is the other half, and it is where the content is.** Since
+σ(rev(c)) = w·(N−1) − σ(c), reversing both sides multiplies every gauge sign by the *same* global
+factor, so
+
+    **𝒟 commutes with the site reflection R  ⟺  (p + q)(N − 1) is even,**
+
+and anticommutes otherwise, with nothing in between. Where it commutes, 𝒟 restricts to each
+R-parity sector, that sector is a real matrix family and its spectrum is conjugation-closed; where
+it anticommutes, the gauge swaps the two sectors, so what it closes is the PAIR, the spectrum of one being the conjugate of the other, and not either sector on its own. This completes
+a clause §7's grading paragraph leaves open: it records that "P, Q, 𝒟, T all commute with R up to
+a block-global sign" and never says when the sign is −1.
+
+**It subsumes the odd-N effect's PARITY GATE**, the sector-closure half of what the path-k diabolic story
+is built on (the onset itself needs two more things: the even-N absence, and the within-odd threshold, for
+which no closed form is known, since N=5 is odd and shows none). At odd N the factor N−1 is
+even, so every block commutes and every sector is conjugation-closed regardless of the weights;
+the parity gate that reads as "odd N" at p + q = 3 is this one character read at that weight. Note
+the direction: block-level realness is vacuous here, since 𝒟 makes every full block's discriminant
+real at any (p, q̃). All of the content sits in the R-commutation half, hence at *sector* level.
+
+Measured live over every block (`inspect --root gauge`): worst |𝒟L(q)𝒟 − L(−q)| exactly 0.0 across
+25 blocks at N=4, 36 at N=5, 49 at N=6 and 64 at N=7; the commuting split is 13/12 at N=4 and 25/24
+at N=6, while at N=5 and N=7 all blocks commute, which is the odd-N automatism above. The arc's four
+blocks by character: 9 at (1,2)@N=4 (odd, and its committed per-sector q-evenness read is False), 20
+at (1,3)@N=6 (even, sectors conjugation-closed to ≤ 2·10⁻¹³, q-evenness True, sector disc realness
+≤ 5·10⁻¹² against 0.40 to 1.36 rad on the odd-parity controls), 21 at (1,2)@N=8 and 35 at (1,4)@N=8,
+both odd. The q-evenness payoff at (1,3)@N=6 halved the evaluations to 385 / 520.
+
+**Gauge and fold are independent levers**, which is the reason to name the gauge as the cause of
+conjugation-closure rather than the self-fold: (0,3) and (2,3) at N=6 are fixed by a fold leg and
+still anticommute, while (1,3)@N=4 commutes without being fold-fixed at all. The two do different
+work. The gauge makes a sector a real matrix family; the fold pins loci to the line and doubles the
+ones off it.
+
+**Scope.** Δ = 0 and no longitudinal field: each contributes an imaginary diagonal, which a diagonal
+of signs cannot reach, so the identity does not degrade but breaks, measured at 9.52 for Δ = 0.85 on
+(1,3)@N=6 and 3.08 for a site-dependent field on (1,2)@N=5. Real J, and an open chain with
+nearest-neighbour hops, since a next-nearest bond does not flip the bipartite parity; that third fence is
+REASONED and not gated, unlike the two above it, which are measured. The criterion
+is **sufficient, not necessary**: on the odd parity the gauge closes only the PAIR and neither sector on its own, which is not a proof
+that no other antiunitary closes those sectors, and the non-closure there is measured on four probed
+blocks rather than derived. The descent of q-evenness from the sector charpoly to F_res additionally
+needs the AT strands to pair under 𝒟, gated at (1,3)@N=6 and not at N=8.
+
+**The letter T is spent three times in this repository**, so this entry writes the gauge as 𝒟, with
+`FoldResultantCertificate` and the OpenArcs registry calling the same object T. It is not the fold
+antiunitary T = P·K and not the transpose leg. The bra/ket complement permutations of F89d are a fourth
+object in the same neighbourhood but are called P and Q, never T. Its
+p + q = 3 specialisation is `BetaExoticPerNExclusionClaim`'s metric, which states the commutation as
+"3(N+1) is even"; that has the same parity as the general 3(N−1) and is not a disagreement.
+
+**What was already owned, and what is new here.** The gauge itself is not new: it is the Liouville-space
+lift of the sublattice chirality K·H·K = −H ([`ChiralKClaim`](../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs),
+proved in [PROOF_K_PARTNERSHIP](proofs/PROOF_K_PARTNERSHIP.md)), it is adopted in MirrorWorld as
+`Mirror.GaugeSign` under the equivalent definition "parity of the excitations on odd sites" (the same
+number, since even indices contribute nothing mod 2), and its p + q = 3 case is derived independently in
+[F89_SEED_EXISTENCE_REDUCTION](../experiments/F89_SEED_EXISTENCE_REDUCTION.md). The criterion is not new
+either at weight 1: [SLOW_MODE_R_PARITY](../experiments/SLOW_MODE_R_PARITY.md) records it as a bonus
+structural finding under the name K_chiral, with this exact mechanism and the global (−1)^(N−1) factor.
+What this entry adds is the statement at arbitrary two-sided weights, where the factor becomes
+(−1)^((p+q)(N−1)) and decides the R-sector structure; the first gate and the first typed carrier; and the
+reading that this one character subsumes the odd-N effect. The statement had been committed prose in
+`FoldResultantCertificate` since the census, unheld by any test.
+
+**Three different "even in q" conditions now coexist and must not be conflated.** This entry's is
+(p+q)(N−1) even, about a SECTOR being a real family. [F150](#f150-the-fold-checkerboard-on-a-fold-fixed-block-the-bivariate-charpoly-has-a-support-parity-j--k--d-mod-2-and-its-discriminant-is-therefore-even-in-q-and-real-derived-2026-08-12-registered-2026-08-13)'s
+is fold-fixedness, p = N/2 or q̃ = N/2 at even N, about a support parity. And
+PROOF_CODIM1_BY_ADDITIVITY §7 consequence (c) carries a third, q-evenness surviving on the fixed lines
+p = q̃ and p + q̃ = N, which unlike the other two is Δ-robust. Same words, three index conditions,
+three scopes.
+
+Gate `BipartiteGaugeCriterionTests` (11 gates, Category `EVEN_DISC13_SCOUT`, under a second), the first
+gate for the statements themselves; before it they were held only through their consequences. Live at `inspect --root gauge`
+(`BipartiteGaugeWitness`), implementation `WeightCoherenceBlock.BipartiteGaugeSigns` and
+`BipartiteGaugeCommutesWithReflection`. Sibling [F150](#f150-the-fold-checkerboard-on-a-fold-fixed-block-the-bivariate-charpoly-has-a-support-parity-j--k--d-mod-2-and-its-discriminant-is-therefore-even-in-q-and-real-derived-2026-08-12-registered-2026-08-13),
+which stands on this gauge. Reading `experiments/F89_PATH_K_DIABOLIC.md` and the arc
+`sideways_spin_ladder`.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

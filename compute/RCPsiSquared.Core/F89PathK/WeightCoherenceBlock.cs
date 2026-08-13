@@ -200,6 +200,61 @@ public static class WeightCoherenceBlock
         return r;
     }
 
+    /// <summary>σ(c) = the sum of the OCCUPIED SITE INDICES of a computational-basis config (not the popcount).
+    /// The staggered bipartite grading: a nearest-neighbour hop moves one excitation by one site, so it changes
+    /// σ by exactly ±1 and therefore flips (−1)^σ. Under the site reversal σ(rev(c)) = w·(n−1) − σ(c), which is
+    /// what makes <see cref="BipartiteGaugeCommutesWithReflection"/> a parity of (p+q)(n−1) and nothing else.</summary>
+    public static int SiteIndexSum(int n, int c)
+    {
+        int s = 0;
+        for (int k = 0; k < n; k++)
+            if (((c >> k) & 1) == 1) s += k;
+        return s;
+    }
+
+    /// <summary>The BIPARTITE GAUGE 𝒟 on the (wKet, wBra) block: the diagonal of signs
+    /// 𝒟[t] = (−1)^(σ(a)+σ(b)) for the basis element |a⟩⟨b| at index t, σ = <see cref="SiteIndexSum"/>.
+    /// Written 𝒟 in PROOF_CODIM1_BY_ADDITIVITY §7 ingredient (iv) and in experiments/F89_PATH_K_DIABOLIC.md;
+    /// the same object is called T in <see cref="FoldResultantCertificate"/> and in the OpenArcs registry, and
+    /// its p+q = 3 specialisation is BetaExoticPerNExclusionClaim's metric. It is NOT the fold antiunitary
+    /// T = P·K, NOT the transpose leg, and NOT the bra/ket complement permutations above.
+    ///
+    /// <para>What it does, entry-wise and with no eigensolver: L(q) = A + q·C with A the real AT diagonal and
+    /// C the pure-imaginary hopping, every entry of C a single nearest-neighbour hop. Conjugating by 𝒟 leaves
+    /// A alone (𝒟 is diagonal) and negates C (a hop flips the bipartite parity on exactly one side), so
+    /// 𝒟·L(q)·𝒟 = L(−q) at every complex q, and at REAL q that is also conj(L). Both are exact rearrangements
+    /// of ±1 sign flips, so the residual is 0.0 bit-for-bit rather than machine zero.</para>
+    ///
+    /// <para>Scope, and both fences are gated: Δ = 0 and no longitudinal field. The Δ·ZZ term and the field
+    /// contribute an IMAGINARY diagonal, which 𝒟 cannot touch, so the identity breaks there; that is the same
+    /// Δ-scope PROOF_CODIM1 §7 puts on ingredient (iv). Nearest-neighbour hops on an open chain are load-bearing
+    /// too: a next-nearest bond does not flip the bipartite parity.</para></summary>
+    public static int[] BipartiteGaugeSigns(int n, int wKet, int wBra)
+    {
+        var kets = Configs(n, wKet);
+        var bras = Configs(n, wBra);
+        var signs = new int[kets.Count * bras.Count];
+        int t = 0;
+        foreach (var k in kets)
+            foreach (var b in bras)
+                signs[t++] = ((SiteIndexSum(n, k) + SiteIndexSum(n, b)) & 1) == 0 ? 1 : -1;
+        return signs;
+    }
+
+    /// <summary>THE GAUGE CRITERION: 𝒟 commutes with the site reflection R exactly when (wKet + wBra)·(n − 1)
+    /// is even, and anticommutes otherwise. One line: σ(rev(c)) = w·(n−1) − σ(c), so reversing both sides
+    /// multiplies the gauge sign by (−1)^((wKet+wBra)(n−1)), the SAME factor at every basis index, which is why
+    /// the alternative is commute-or-anticommute with nothing in between.
+    ///
+    /// <para>This is the clause PROOF_CODIM1_BY_ADDITIVITY §7's grading paragraph leaves open when it says
+    /// P, Q, 𝒟, T "all commute with R up to a block-global sign" without saying when the sign is −1. Its
+    /// consequence is the one that gets used: where it commutes, 𝒟 restricts to each R-parity sector, so each
+    /// sector is a real matrix family and its spectrum is conjugation-closed; where it anticommutes, the gauge
+    /// SWAPS the two sectors and supplies nothing about either. The criterion is SUFFICIENT, not necessary:
+    /// nothing here excludes some other antiunitary closing a sector on the odd parity.</para></summary>
+    public static bool BipartiteGaugeCommutesWithReflection(int n, int wKet, int wBra)
+        => (((wKet + wBra) * (n - 1)) & 1) == 0;
+
     /// <summary>One R-parity sector of the (wKet,wBra) chain block at complex q (γ = 1, Δ = 0), assembled
     /// DIRECTLY in sector coordinates — the full block is never materialized, which is what fits the N=11
     /// census blocks under the managed-array LP64 wall (flat dim ≤ 46340). Returns (column-major flat

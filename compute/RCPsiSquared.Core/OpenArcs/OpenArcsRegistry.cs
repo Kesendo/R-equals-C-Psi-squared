@@ -5256,8 +5256,13 @@ public static class OpenArcsRegistry
                 "Mechanism: disc-reality is antiunitary-forced, real at N=4 (self-fold), genuinely COMPLEX " +
                 "at N=6, so a real-q zero is codim 2 there, generically absent; first measured in the local " +
                 "July multi-sector monodromy spec B3, now RE-GATED COMMITTED in the same verifier (R-even " +
-                "sector arg-from-real: N=4/5 controls at 1e-14/1e-13, N=6 at 0.50..1.13 rad, a 13-order " +
-                "split). " +
+                "sector arg-from-real). QUOTE THE FILTERED NUMBERS AND NOT THE FIRST ONES: an earlier line " +
+                "here read 'N=6 at 0.50..1.13 rad, a 13-order split', and those digits are the angle of " +
+                "ROUNDING NOISE, not a value, moving under a plain orthogonal similarity of the same matrix " +
+                "(0.575 -> 0.447 in one draw) because the sector carries exact kappa=0 degeneracies; the " +
+                "similarity-invariant read with the pair filter gives sector disc realness <= 5e-12 against " +
+                "0.40..1.36 rad on the controls, an ELEVEN-order split. B3 itself is no longer a prior at " +
+                "all: the fold checkerboard derives it (F150). " +
                 "The SCANS are window-bounded (strips re[0.2,3], " +
                 "|im q| <= 0.025, cells 0.01/0.002/0.001, gap-field seeders can mask, the N=7 census " +
                 "recovery), " +
@@ -5402,7 +5407,16 @@ public static class OpenArcsRegistry
                 "premise this entry flagged at (1,2)@N=8 and still has not gated, " +
                 "so the whole R-odd statement is conditional and UNRUN (a second ~2 h 23 m run). The contrast that keeps " +
                 "it non-vacuous is (1,3)@N=6, even character, no swap, where the two parities " +
-                "did differ, resDeg 42 vs 48. THE CHECKERBOARD, found the same evening from Tom's question and gated " +
+                "did differ, resDeg 42 vs 48. " +
+                "HARVESTED 2026-08-13: the checkerboard is F150 and the gauge criterion F151 in " +
+                "docs/ANALYTICAL_FORMULAS.md, typed as FoldCheckerboardParityClaim and " +
+                "BipartiteGaugeCriterionClaim (both parented on F89CrossFoldSimilarityClaim, the " +
+                "second also a parent of the first), and the gauge is live at inspect --root gauge " +
+                "(BipartiteGaugeWitness) behind the first committed gate for its own statements, " +
+                "BipartiteGaugeCriterionTests (11 gates, EVEN_DISC13_SCOUT, under a second). Before " +
+                "that gate the criterion was carried ONLY through its consequences: the doc said " +
+                "'both gated == 0.0' about a scout that was local and gitignored. " +
+                "THE CHECKERBOARD, found the same evening from Tom's question and gated " +
                 "exactly over Z[i] (FoldCheckerboardParityTests, 8 gates, ~1 min): on a block " +
                 "fixed by EITHER fold leg (ket OR bra weight = N/2, PROOF_CODIM1 section 7(b) -- " +
                 "the first draft said 'bra' and (2,1)@N=4 refutes it, gated), the BARE leg is the " +

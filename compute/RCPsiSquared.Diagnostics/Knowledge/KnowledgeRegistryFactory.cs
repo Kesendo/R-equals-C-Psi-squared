@@ -376,6 +376,18 @@ public static class KnowledgeRegistryFactory
             // above: F1PalindromeIdentity (the mirror, via RegisterF1Family) + F89BranchLocusPalindromeClaim
             // (the spectrum-level fold, directly above). Live: inspect --root crossfold.
             .RegisterF89CrossFoldSimilarityClaim()
+            // The bipartite gauge criterion (F151, 2026-08-10): D = diag((-1)^(sigma(a)+sigma(b))) conjugates
+            // every block to L(-q) exactly, and commutes with the site reflection iff (p+q)(N-1) is even, which
+            // is what makes a block's R-sectors conjugation-closed real families on that parity. Completes the
+            // section-7 grading clause its parent carries ("up to a block-global sign", never saying when the
+            // sign is -1) and subsumes the path-k odd-N effect. Live: inspect --root gauge.
+            .RegisterBipartiteGaugeCriterionClaim()
+            // The fold checkerboard (F150, 2026-08-12): on a block fixed by EITHER fold leg, the bare leg's
+            // determinant identity forces the coefficient support parity j+k = d (mod 2), whose corollary is that
+            // disc_Lambda(F_res) is even in q and therefore real. Two Tier1Derived parents, both directly above:
+            // the fold lattice (the leg) and the bipartite gauge (the Delta=0 scope, and the character that
+            // decides whether the odd-j cells are occupied; NOT the q-side antiparity, which is Y1).
+            .RegisterFoldCheckerboardParityClaim()
             // Spectator intertwiner (Theorem B of PROOF_CODIM1_BY_ADDITIVITY, 2026-07-02): the site-summed
             // spectator W(rho) = Sum_l c_l†·rho·c_l (JW strings included) is an EXACT part-by-part intertwiner of
             // the XY + Z-dephasing Liouvillian for any quadratic particle-conserving H and any site-dependent
