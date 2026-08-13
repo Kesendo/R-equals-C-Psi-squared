@@ -7057,7 +7057,7 @@ comparisons instead, the constant diagonal, the purely imaginary off-diagonal an
 `== 0.0` bit-exact, closing on `Assert.Equal(4 * n, whole)`. Its discriminating half is the one that earns
 the entry: on the other (N−1)² blocks the spread must be STRICTLY positive.
 
-**Measured.** At N = 4, 5, 6 the pinned blocks number 16, 20 and 24, exactly 4N, with the real parts matching the constant diagonal to 1e-15; the entry-wise gate then sharpens that to bit-exact 0.0 on the three cell comparisons, at J = 0.25, 1 and 3 alike.
+**Measured, and the two readings are different instruments.** A numpy cross-check counted the pinned blocks at N = 4, 5, 6 as 16, 20 and 24, exactly 4N, with the real parts matching the constant diagonal to 1e-15: an eigensolver route, so that 1e-15 is a tolerance and the claim there is "agrees within it". The committed gate takes the other route and needs no tolerance at all, comparing three cells rather than solving anything, and its residual is 0.0 bit for bit at J = 0.25, 1 and 3 alike.
 
 **Three words for three things, and they are not interchangeable.** The FLOOR is the Absorption Theorem's, the lower bound every block obeys. FLAT is what the three prior documents call a block that attains it throughout, and their sentence is the |p − q| = 1 case. PINNED is this entry's word for the cause, one index held at 0 or N. Beware also that the object is called a SECTOR by this entry's own Python gate and a BLOCK by the MirrorWorld layer, while "sector" elsewhere in this file means the Pauli w=k sector and, in F151, an R-parity half. Same word, three grids.
 
