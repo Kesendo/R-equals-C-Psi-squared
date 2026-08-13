@@ -1,7 +1,7 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-07-31 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-08-13 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -117,7 +117,7 @@ single-excitation Hamiltonian spectrum, see F2b below.
 (verified N=2-6 against a full Liouvillian eigendecomposition, N=2-10 by
 block closure). With a gamma PROFILE the block stays exactly closed, but
 diag(gamma) and the Laplacian no longer commute, so this formula does not
-survive; see the `site_resolved_vacuum_block` open arc.
+survive; the operator itself does, and is [F152](#f152).
 **Replaces:** full Liouvillian diagonalization for the block's frequencies.
 O(N) instead of O(4^{3N}).
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md),
@@ -561,6 +561,25 @@ restores the F50 count `= 2N`.
 - Paw / bowtie / book at N=4, 5 (graphs containing triangles): count = 2N ✓
 - **N=3 K_3 = triangle: count = 2N+2 = 8 (anomaly)** ✗
 
+**Where these 2N sit in the line's full content (2026-08-02).** The line Re = −2γ carries more than
+the purely real modes counted here: on the chain it holds 6N−4 eigenvalues, of which 4(N−1) oscillate
+and exactly these 2N do not. Both parts have a known origin. 4N of the 6N−4 come from the four
+distance-1 coherence blocks (0,1), (1,0), (N−1,N), (N,N−1), each N-dimensional and each entirely on
+the line by the pinning criterion [F153](#f153); the remaining 2(N−2) are the total-spin ladder S⁻P_m,
+which commutes with H and is built from distance-1 coherences only, so it sits at −2γ for the same
+reason the blocks do (residual exactly 0.0, gated at N = 3, 4, 5 and γ = 0.05 and 0.9). The 2N is then 4 + 2(N−2): one zero
+mode from each of the four blocks ([F2](#f2): the block is N-dimensional with one zero mode and N−1
+oscillating ones), plus the ladder. Scope, narrower than the count above: chain only (the ring at N=4
+puts extra oscillating modes on the same line, a statement the source document makes and no gate covers), Δ = 1 only, uniform γ load-bearing, and N ≥ 3. At N=2
+the line holds 10 rather than 8, because the (1,1) block mixes a population with a distance-2 coherence
+and leaves the pair at the midpoint. Gate
+[`simulations/veffect_finesse_law.py`](../simulations/veffect_finesse_law.py), which pins the 6N−4 and the
+4(N−1) at N = 3, 4, 5 and the ladder's exact-zero residual; the 2N, the 4 + 2(N−2) split and the N=2
+exception are read off those, not separately gated. The 6N−4 = 2N + 4(N−1) split itself is older and
+independently verified at N = 3..7 in [DEGENERACY_PALINDROME](../experiments/DEGENERACY_PALINDROME.md),
+which reaches it through the shell BIN rather than the rate line and attributes the N=2 anomaly to a
+different cause; the two readings agree on every number and have never been reconciled on the mechanism.
+
 **Valid for:** chain at any N + most connected graphs at N >= 4.
 **Empirically violated for:** N=3 K_3 (= ring = triangle on 3 vertices) only.
 **Breaks for:** anisotropic XXZ (Delta != 1), where ZZ term mixes X/Y types.
@@ -703,10 +722,19 @@ positives across 133 qubits, 181 days.
 
     K = gamma * t_cross = constant per bridge type
 
-K_concurrence = 0.03596. K_MI = 0.02966. K_correlation = 0.07192.
+K_concurrence = ln(4/3)/8 = 0.03596. K_MI = 0.02966. K_correlation = 0.07192.
 (Exact standard-Lindblad values; the February tool's feedback-model
 readings were 0.039 / 0.033 / 0.072, see the resolved note in the
 source doc and simulations/crossing_taxonomy_books.py.)
+
+The concurrence value has a closed form and is not a decimal:
+**K_concurrence = ln(4/3)/8 = 0.035960259...**, so write the exact
+expression wherever the word "exact" is attached. Which C is meant decides
+the number, and three coexist for this one state and channel: the Wootters
+concurrence gives ln(4/3)/8, the framework's own CPsi = f(1+f^2)/6 gives
+0.0374 as F25 prints it, 0.03735 unrounded ([F25](#f25), Tier 1 proven), and the February
+tool's feedback model on the concurrence book gives 0.0387. The
+discriminator is in [GLOSSARY.md](GLOSSARY.md), entry 0.036/gamma.
 Standard Lindblad time-rescaling (τ = γt), not deep physics.
 
 **Interpretation:** In the [optical cavity analogy](../experiments/OPTICAL_CAVITY_ANALYSIS.md),
@@ -6730,13 +6758,28 @@ exercised by any measurement.
 
 **The corollary is what it was derived for.** The law gives F_res(−u, −q) = ε·F_res(u, q), so
 the Λ-roots negate under q ↦ −q while the discriminant is invariant under that negation:
-D = disc_Λ(F_res) is **even in q**. Composed with Y1 (conj-coeff(D)(q) = D(−q)) that forces
-conj-coeff(D) = D, so **D is real on every fold-fixed block**. This derives the disc-reality
-prior the multi-sector monodromy work had been asserting, and it replaced a priced multi-hour
+D = disc_Λ(F_res) is **even in q**. Composed with Y1 (conj-coeff(D)(q) = D(−q), stated below)
+that forces conj-coeff(D) = D, so **D is real on every fold-fixed block**. This derives the
+disc-reality prior the multi-sector monodromy work had been asserting, and it replaced a priced multi-hour
 mod-p read with an algebraic fact. The device that consumes it halves its sample points by
 interpolating D(q) = E(q²), measured at 1.76× rather than the naive 2× (109.2 s → 62.0 s
 R-odd, 50.4 s → 28.6 s R-even), the arbitrary-node Newton costing more per node than the
 unit-spaced one.
+
+**Y1, stated rather than named, because it is the more general of the two.** It needs neither
+this entry's fold-fixedness nor [F151](#f151)'s character. Within any R-sector the pencil is
+L = A + iqK with A and K both REAL, so conjugating the coefficients is the same as negating q:
+
+    conj-coeff(F_res)(Λ, q) = F_res(Λ, −q),   hence   conj-coeff(D)(q) = D(−q).
+
+At real q three readings follow: Re D is even in q and Im D is odd, the real roots of D come in
+±q pairs, and F_res is coefficient-real exactly when it is even in q. Two fences the arc pays
+elsewhere travel with it. On the full charpoly χ this is premise-free, but the descent to
+F_res = χ/AT needs the AT factor to swap conjugately, the same measured-not-proved premise this
+entry's own scope paragraph names below. And the gauge-swap consequence, which the arc calls Y2
+rather than Y1, gives D_odd = conj-coeff(D_even) on the odd character where the gauge exchanges
+the two R-sectors: that buys ONE PARITY for the real-root statement, not for the complex loci,
+which are reflected rather than fixed. Y1 has no gate of its own; it is used, not tested.
 
 Measured: (1,2)@N=4 sign +1 with 6 odd and 15 even cells, at odd character, where all three
 committed boolean reads are False, so the checkerboard is the whole of that block's structure
@@ -6871,6 +6914,169 @@ gate for the statements themselves; before it they were held only through their 
 `BipartiteGaugeCommutesWithReflection`. Sibling [F150](#f150-the-fold-checkerboard-on-a-fold-fixed-block-the-bivariate-charpoly-has-a-support-parity-j--k--d-mod-2-and-its-discriminant-is-therefore-even-in-q-and-real-derived-2026-08-12-registered-2026-08-13),
 which stands on this gauge. Reading `experiments/F89_PATH_K_DIABOLIC.md` and the arc
 `sideways_spin_ladder`.
+
+---
+
+### F152. The vacuum-block generator is the graph Laplacian: on the (0,1) coherence block M = −2i·𝓛_J − 2·diag(γ), for any graph and any γ profile (derived 2026-08-02, registered 2026-08-13)
+
+    M = −2i·𝓛_J − 2·diag(γ),   𝓛_J = D_J − A_J the J-WEIGHTED graph Laplacian (= J·𝓛 at uniform J)
+
+**The book, because this identity has four names in tracked files.** Here H = J·Σ⟨i,j⟩(XᵢXⱼ + YᵢYⱼ + ZᵢZⱼ),
+D10's Pauli normalisation, so the hop element is 2J (XX and YY contribute J each); γ is the per-site
+Z-dephasing rate and the block diagonal carries −2γ_l, one term rather than a sum, because vacuum and
+one excitation disagree in exactly one bit; and the orientation is |0⟩⟨j|. The live C# witness builds the
+CONJUGATE partner in the spin book and writes it +i·(1/2)·𝓛_weighted − 2·diag(γ), where its J is four
+times this one. Same real parts, mirrored frequencies. A second half of the same collision is the INDEX ORDER: the repo's canonical name for this object is (PCol, PRow), bra-popcount first, while the gate below labels its blocks row-popcount first and prints the same string. **Never copy a sign or an imaginary value between
+the two**, and do not "repair" one against the other: the same written label (0,1) names conjugate
+operators in two tracked files, which is a label collision and not an error in either.
+
+**Why it is a Laplacian, in one line.** On the single-excitation sector the Heisenberg Hamiltonian gives
+E_ferro·Id − H₁ = 2·[(Σ_b J_b)·δ_{jj'} − (JA)_{jj'}] = 2·𝓛: the ZZ term supplies the degree diagonal that
+turns the adjacency matrix into the Laplacian, and the dissipator contributes −2γ_j to the j-th column.
+Nothing in that derivation is the chain's, so the identity is graph-general from the start; only the
+Neumann eigenvector form and the cosine dispersion that follow from it are the open path's.
+
+**It is an identity, not an effective model.** Entry-wise M IS the (0,1) block of the full 4^N Liouvillian,
+with no leak out of the block at all (exactly 0.0), measured 2.8e-17 entry-wise at uniform γ for N = 5..10
+and 8.9e-16 under a γ profile, against a tolerance of 1e-12.
+
+**What it subsumes.** [F2](#f2) is this operator's spectrum in the case where the two terms commute:
+at uniform γ on the open chain, diag(γ) is a multiple of the identity, so spec(M) = −2γ − 2iJ·μ_m and the
+path Laplacian's μ_k = 2 − 2cos(πk/N) gives F2's ω_k directly. [F7](#f7) is the same ratio against 2γ, and
+its graph-general clause Q_max = J·μ_max/γ, which F7 carries as "read off in the cavity modes experiment",
+is a corollary of this identity rather than a separate observation. F2's own scope line hands the γ-profile
+case to the open arc `site_resolved_vacuum_block`; this entry is what that arc was holding.
+
+**What it does NOT give, and this is the whole point of the profile case.** Under a profile diag(γ) and 𝓛
+no longer commute, so M is NOT normal: the eigenvalues are not −2γ_j − 2iJ·μ_m, there is no closed form for
+the spectrum anywhere in the repo, and ψ_opt is still diagonalized for rather than read off. The identity
+hands over the OPERATOR, in N×N instead of 4^N; it does not hand over its spectrum. Two further traps
+recorded because both were walked into: a γ profile does not always open the real-part line (at N = 2 the
+width is 2√(d² − c²/4) with d = |γ₁ − γ₀| the plain difference and c the total coupling, so the modes
+coalesce in Re once |c| ≥ 2d, the sign never reaching Re), and the flat-γ
+argument "the dissipator is scalar, so no Jordan block" does not transfer to the profile pencil.
+
+**Scope, with each fence carrying its grade.** PER-BOND J is exact-route GATED at N = 3 and 4 on the chain and held within a scaled route bound at N = 5, 6, 7; the Python gate does not vary J per bond at all, so the weighted form is measured on one graph family. XXX only, because the Laplacian appears exactly when the ZZ coefficient equals the XY one; for
+XXZ the generator is 2J(Δ·D − A), which is not a Laplacian. The fence is |Δ| = 1 and not Δ = 1: at Δ = −1
+the object is the signless Laplacian D + A, cospectral with D − A on a bipartite graph, and the dispersion
+is reproduced exactly. Three scopes that were once merged and must stay apart: block CLOSURE survives every
+Δ (leak exactly 0.0 at Δ = 0.5, 0, 2 alike) and so does Re λ = −2γ, while the Laplacian FORM and the cosine
+DISPERSION need |Δ| = 1. Every Δ number here is MEASURED and not gated: no committed gate carries a Δ knob on this block, the Python one having only an on/off ZZ switch, so a disagreement there is a finding and not a test failure. An XY chain, having no ZZ, closes on an adjacency form instead. A longitudinal
+field is not addressed here, neither measured nor derived. And the block is not the Pauli w=1 sector, which
+is far larger (5 against 160 at N=5) and is not L-invariant.
+
+**The residuals, read rather than gated, and they split by construction.** The HERMITIAN part is exactly
+0.0 on every graph and every coupling tried including π·10⁸, and structurally so: every basis element has
+column 0, so an off-diagonal entry is −i·H[r,c] with H real and symmetric bit for bit, the dephasing
+contribution is a single term, and the H diagonal adds exactly +0.0 to the real part. If that ever stops
+being exact it is a finding about the builder, not a tolerance to widen. The GENERATOR residual is the
+interesting one: its whole content sits on the diagonal, where a site accumulates (+q, −q) for every bond
+it does not touch and those pairs cancel around a running sum, so whether it is exact depends on the ORDER
+the bonds arrive in and on nothing else in the physics. One graph, one coupling set, one γ profile, changing
+only the list order: 1.7e-16 ascending in |J|, exactly 0.0 descending. Seventeen of the twenty gated rows
+are exactly 0.0 (every ring, every star, chain-uniform at every N, chain-perbond at N = 3 and 4); the three
+that round are chain-perbond at N = 5, 6, 7. No ordering is exact in general, so the scaled threshold bounds
+the ROUTE and not the claim. The per-mode absorption residual has no exact route at all, an eigensolver on a
+non-normal M, and tracks eps·‖M‖.
+
+**Gates.** [`simulations/d10_block_closure_verify.py`](../simulations/d10_block_closure_verify.py) is the
+committed gate on the identity: chain at N = 2..10, then ring, star and complete at N = 4, 5, 6, then the
+four blocks (0,1), (1,0), (N,N−1), (N−1,N) against M, conj(M), M, conj(M), then a γ profile drawn on a fixed
+seed at N = 4..7, all entry-wise at 1e-12 with the leak measured over the full d×d rather than assumed away.
+Its negative control is the one that earns the name: dropping ZZ must match the ADJACENCY form and must NOT
+match the Laplacian one. On the C# side `BlockSpectrumWitnessTests` runs twenty rows, N = 3..7 crossed with
+uniform chain, per-bond chain, ring and star, always under an asymmetric γ, and asserts the Hermitian part
+and the seventeen exact-route rows as bit-exact `== 0.0`. Live at `inspect --root blockspectrum`
+(`BlockSpectrumWitness.BandEdgeSectorBlock`).
+
+**What was already owned, and what is new here.** D10 Step 3 derives the Laplacian on the open chain and
+F2 carries the ZZ-supplies-the-degree sentence, both at uniform γ; `VacuumBlockReductionClaim` carries the
+γ PROFILE but with the bare XY hopping and no degree term; PROOF_R90_FROZEN_DIVISOR Lemma 5 derives the
+same N×N matrix independently, citing neither. What is new is the one operator that carries both halves at
+once, on any graph, plus the fence that the identity is graph-general while the dispersion is not. No proof
+document yet; the derivation lives in D10 Step 3 and in the arc `site_resolved_vacuum_block`, which this
+entry closes the naming half of. Sibling [F2b](#f2b) for the XY chain, whose adjacency form is what remains
+when the ZZ term is taken away.
+
+---
+
+### F153. The pinning criterion: a joint-popcount block sits ENTIRELY on its floor exactly when min(p, q) = 0 or max(p, q) = N, which is 4N of the (N+1)² blocks (criterion derived graph-blind for any number-conserving H; GATED on the chain only, at Δ = 1 and uniform γ; derived 2026-08-02, entry-wise certificate 2026-08-06, registered 2026-08-13)
+
+    at UNIFORM γ:  Re λ = −2γ·|p − q| throughout the block  ⟺  min(p, q) = 0 or max(p, q) = N
+    the count: 2(N+1) + 2(N+1) − 4 = 4N blocks, the four corners among them
+
+**The mechanism, and it is a room argument rather than a spectral one.** The Absorption Theorem already
+floors every block: Re λ = −2γ⟨n_XY⟩ and a (p, q) coherence disagrees in at least |p − q| places, so no
+mode of the block decays slower than −2γ|p − q|. What decides whether the block sits ENTIRELY there is
+whether the disagreement can vary inside it. Pin one side, p ∈ {0, N} leaving a single ket or q ∈ {0, N}
+leaving a single bra, and every cell of the block carries the SAME disagreement, so at uniform γ every
+diagonal entry has the same REAL part c = −2γ|p − q|. What sits beside it on the diagonal is imaginary and
+configuration-dependent, the ZZ term's doing, and it is real once the i is pulled out; the surviving side's
+hops enter as ±i times a real symmetric matrix. The two together give
+
+    L = c·Id + i·S,   S real and symmetric (the hops PLUS the ZZ diagonal),
+
+whose eigenvalues are c + i·μ with μ real. The real part is exactly c at every coupling: there the
+Hamiltonian only turns the phase. In an XY model, which has no ZZ term, S is J·A alone and the diagonal is
+c·Id outright, which is the form the MirrorWorld gate below certifies. On the remaining (N−1)² blocks both
+sides can hop, S is no longer the whole story off the diagonal, and the real parts leave it.
+
+**What it locates: where a rate reading is the whole truth.** [F1](#f1)'s pairing distance projects onto
+rates, and the repo already knew that projection is blind to a break that moves only a frequency, which
+`F1SpectrumStatisticsTests` exhibits with a constructed spectrum. The criterion turns that from exhibited
+into LOCATED: on these 4N blocks the rate reading loses nothing at all, at every coupling, and on the other
+(N−1)² it does. That is the affirmative reason this is an entry and not a remark.
+
+**What it subsumes.** Three tracked documents carry the sentence "only the two end sectors (0,1) and
+(N−1,N) are flat", and it is this criterion read on one rung: among the ADJACENT blocks, |p − q| = 1,
+the touching rule selects exactly those two (and their transposes). Read as a statement about all
+off-diagonal blocks that sentence is FALSE and the repo has already caught it once, in the arc
+`site_resolved_vacuum_block`: (0,2), (0,5) and
+every block touching the vacuum or the full state are flat too, each at its own floor 2γ|p − q|. Carry
+the |p − q| = 1 qualifier or carry the criterion, never the sentence alone.
+
+**Scope, and the two halves have different reach.** UNIFORM γ IS REQUIRED, and this is the fence to read first. Pinning fixes the disagreement COUNT, not the
+disagreeing SITES: with a profile the real part of a pinned block's cell is −2·Σ over the sites where that
+cell disagrees, which still varies from cell to cell, so the block leaves its floor. Measured on the chain at
+γ = [0.1, 0.4, 0.7, 1.0], the (0,1) block spreads by 0.490 at N=4 and 0.948 at N=5 with J = 1. Beyond that
+the CRITERION needs only the Absorption Theorem (any Hermitian H, Z-dephasing, any graph, any N) plus a
+NUMBER-CONSERVING Hamiltonian, which is what makes the joint-popcount blocks invariant in the first place;
+a transverse field or amplitude damping destroys the grading and the criterion with it. Both halves are derived graph-blind and MEASURED on
+the chain only. A longitudinal field keeps number conservation and, being diagonal in the computational basis, cannot reach
+Re λ at all, so it leaves the criterion alone and changes only S. The same is true of XXZ: measured at
+Δ = −1, 0.5, 0 and 2 the criterion matches in both directions, the flat count is 4N, and every flat block
+still sits at exactly −2γ|p − q|. What anisotropy moves is the imaginary diagonal, never the constant. Off the chain, and at Δ ≠ 1, the criterion is reasoned and not gated.
+
+**Gates.** [`simulations/offdiag_sector_floor.py`](../simulations/offdiag_sector_floor.py) is two-sided by
+construction: it fires if a block leaks, if its smallest |Re| is not the predicted floor, or if its flatness
+disagrees with the touching rule in EITHER direction, over N = 3, 4, 5 and four (J, γ) pairs so that no
+single lucky parameter passes it. It reads a spectrum, so its 1e-9 is an eigensolver tolerance, and it skips
+the diagonal blocks. The entry-wise half is `MirrorTests.The_Rate_Reading_Is_Whole_On_Exactly_Four_N_Blocks`
+in MirrorWorld (N = 4, 5, 6 at J = 0.25, 1, 3): no eigensolver and no tolerance anywhere, three cell
+comparisons instead, the constant diagonal, the purely imaginary off-diagonal and its symmetry, all
+`== 0.0` bit-exact, closing on `Assert.Equal(4 * n, whole)`. Its discriminating half is the one that earns
+the entry: on the other (N−1)² blocks the spread must be STRICTLY positive.
+
+**Measured.** At N = 4, 5, 6 the pinned blocks number 16, 20 and 24, exactly 4N, with the real parts matching the constant diagonal to 1e-15; the entry-wise gate then sharpens that to bit-exact 0.0 on the three cell comparisons, at J = 0.25, 1 and 3 alike.
+
+**Three words for three things, and they are not interchangeable.** The FLOOR is the Absorption Theorem's, the lower bound every block obeys. FLAT is what the three prior documents call a block that attains it throughout, and their sentence is the |p − q| = 1 case. PINNED is this entry's word for the cause, one index held at 0 or N. Beware also that the object is called a SECTOR by this entry's own Python gate and a BLOCK by the MirrorWorld layer, while "sector" elsewhere in this file means the Pauli w=k sector and, in F151, an R-parity half. Same word, three grids.
+
+**What was already owned, and what is new here.** The floor itself is the Absorption Theorem's, entirely.
+The flat-at-|p−q|=1 special case is prose-owned by `CHAIN_GAP_SECTOR_DIAGNOSTIC`, `SYMMETRY_CENSUS` and
+`F1_DISSIPATION_GAP_PATTERN`, and the general touching rule has been gated in the arc
+`site_resolved_vacuum_block` since 2026-08-02, where the review's sharpest catch was that the claim had
+landed with no gate at all. What is new to the registry is the criterion in its general form, the 4N count,
+the entry-wise certificate that replaces the eigensolver, and the location of F1's blindness. Sibling
+[F152](#f152), which is the same pinned rung read as an operator: the (0,1) block of that entry is one of
+these 4N, and its flatness is why F152's real part is −2γ before any Laplacian is mentioned. What the
+criterion delivers on that one rung is counted in [F50](#f50).
+
+**The same index split appears once more, in a different space.** [F50](#f50)'s max-spin closed form
+divides the (N+1)² Dicke transitions |D_k⟩⟨D_l| into 4N endpoint-anchored pure-weight operators and
+(N−1)² middle ones that mix Pauli weights, which is the identical partition of [0, N]² by "at least one
+index pinned to an endpoint". Whether that is more than the same combinatorics counted twice is not
+claimed here; the two live in different spaces, one splitting Liouvillian blocks and the other operators
+inside a single max-spin block, and nothing measured joins them.
 
 ---
 
