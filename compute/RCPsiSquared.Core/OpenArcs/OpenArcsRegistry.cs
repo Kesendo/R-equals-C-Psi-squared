@@ -6512,9 +6512,16 @@ public static class OpenArcsRegistry
                 "the twenty-one. " +
                 "AND THE TWENTY-ONE IS DATED, not standing: it was measured on 2026-08-13 and steps (1) to " +
                 "(3) have since given F143, F149 and F153 C# carriers, so re-run the sweep before any " +
-                "step leans on the count, step (5) above all. F152 is NOT among those three that gained " +
-                "carriers, and it IS still one of the twenty-one: its subject is live but the STRING F152 " +
-                "appears in no .cs file, which is exactly the breadcrumb step (3) leaves open. " +
+                "step leans on the count, step (5) above all. F152 HAS ALSO LEFT the twenty-one, and the " +
+                "date deserves care because the list's criterion is MENTION anywhere in compute/*.cs: by " +
+                "that criterion F152 left on 2026-08-13, when F153's carrier was built and cited it in " +
+                "passing (PinnedBlockFloorClaim.cs, PinnedBlockFloorWitness.cs). What happened on " +
+                "2026-08-14 is the thing the arc actually wanted, its OWN carrier's return edge: " +
+                "BlockSpectrumWitness now names F152 in its doc-comment, Summary and DisplayName, and F152 " +
+                "gained a Typed layer paragraph. FIVE of the twenty-one have now left it, F143, F145, F149, " +
+                "F152 and F153, F145 by an edit made for another number entirely (SeedRungGramClaim " +
+                "names it while carrying F143). The lesson is not the figure: this count moves under " +
+                "work done for other reasons, so RE-MEASURE it rather than subtracting from it. " +
                 "THE TWENTY-ONE SPLIT BY GENRE, and only one half is a gap. Sixteen are a coherent spring " +
                 "block, fifteen of them Tier 2 and F24 the exception named at the end of the list: F13 the r* threshold, F19 and F40 the fragile bridge, F20 the thermal " +
                 "V-effect, F21 self-heating, F29 the star threshold, F30 the gamma channel capacity, F31 the " +
@@ -6526,7 +6533,19 @@ public static class OpenArcsRegistry
                 "rather than a shrug. Three are recent Tier-1 structural results from the July campaign that " +
                 "otherwise typed itself well: F143, F145, F149. Two are the ones minted today, F152 and F153. " +
                 "A SECOND, WIDER LAYER: 63 numbers are named in no *Claim*.cs at all; among the recent ones " +
-                "126, 134, 138, 141, 143, 144, 145, 146, 149, 152 and 153. " +
+                "126, 134, 138, 141, 143, 144, 145, 146, 149, 152 and 153. THAT LIST IS DATED TOO, and by " +
+                "the entry's own later paragraphs three of the eleven have since left it: F143 " +
+                "(SeedRungGramClaim), F149 (RingN4DihedralLockClaim, breadcrumbed in the four house places) " +
+                "and F153 (PinnedBlockFloorClaim). This list's criterion is NAMED IN a *Claim*.cs, which is a " +
+                "different file set from the twenty-one's (a mention in ANY .cs), so the two move at " +
+                "different speeds and neither may be leaned on without a fresh sweep. Re-measured " +
+                "2026-08-14 over the eleven recent ones: only 126, 134, 138 and 141 still satisfy it. " +
+                "F143, F149 and F153 gained carriers; F144, F145, F146 and F152 are NAMED in a claim " +
+                "while no claim carries their SUBJECT, the first three by SeedRungGramClaim (which was " +
+                "built for F143 and names its siblings in passing) and F152 by PinnedBlockFloorClaim. " +
+                "That gap between mention and carriage is the arc's own warning, a mention is not a " +
+                "carrier, applied to the arc's own counts; F145 is its sharpest case, step (2) having " +
+                "found it needs a primitive the layer does not have. " +
                 "NOT A GAP, said here so it is not re-found as one: MirrorWorld's Formulas.cs is a deliberate " +
                 "SUBSET, the adopted closed forms with nothing re-derived, so F132 to F151 being absent from " +
                 "it is a property of that file's genre. Whether the August entries should be adopted there is " +
@@ -6540,19 +6559,23 @@ public static class OpenArcsRegistry
             NextStep:
                 "READ THIS FIRST, because the rest is one long paragraph and a returning session needs the " +
                 "shape before the detail. SEVEN steps. (1) DONE, (2) DECIDED but F145 still OPEN inside it, " +
-                "(3) DONE with two items left inside it, (4) (5) (6) (7) UNTOUCHED. Two of the three " +
+                "(3) DONE with ONE item left inside it since 2026-08-14, (4) (5) (6) (7) UNTOUCHED. Two of the three " +
                 "finished steps therefore still carry live work; the headline word is about the DECISION, " +
-                "not about the step being empty. THE CHEAPEST LIVE ITEM is the F152 breadcrumb inside " +
-                "step (3): its subject is already carried by BlockSpectrumWitness " +
+                "not about the step being empty. THE CHEAPEST LIVE ITEM WAS the F152 breadcrumb inside " +
+                "step (3), and it was DONE 2026-08-14: its subject was already carried by BlockSpectrumWitness " +
                 "(compute/RCPsiSquared.Diagnostics/Foundation/BlockSpectrumWitness.cs, live at " +
-                "inspect --root blockspectrum) and only the return edge to the F-number is missing. THE " +
+                "inspect --root blockspectrum) and only the return edge to the F-number was missing. What " +
+                "remains cheapest INSIDE STEP (3) is the SPECTRAL half of F153's gamma fence, the other " +
+                "item that step leaves open, and that one is a GATE and not a breadcrumb, so it is not " +
+                "claimed to be cheaper than step (4), which is a decision. THE " +
                 "FOUR HOUSE PLACES that a breadcrumb is added in, spelled out because the phrase recurs " +
                 "below and is a convention rather than a rule anyone can look up: the claim's Name string, " +
                 "its DisplayName, its Anchor string, and the registry entry's own Typed layer paragraph in " +
-                "docs/ANALYTICAL_FORMULAS.md. F152's case is the WITNESS variant of that, and it is not the " +
-                "same four: a witness carries no Name/Tier/Anchor triple, so what to write is the F-number " +
-                "into BlockSpectrumWitness's class doc-comment and DisplayName, plus the Typed layer " +
-                "paragraph of F152 in the registry. It stays a breadcrumb and not a build precisely because " +
+                "docs/ANALYTICAL_FORMULAS.md. F152's case WAS the WITNESS variant of that and it is DONE " +
+                "(2026-08-14); the prescription is kept because the variant recurs. It is not the " +
+                "same four: a witness carries no Name/Tier/Anchor triple, so what gets written is the F-number " +
+                "into the witness's class doc-comment, its Summary and its DisplayName, plus the Typed layer " +
+                "paragraph of the entry in the registry, four sites and not three. It stays a breadcrumb and not a build precisely because " +
                 "no claim has to be created for it. Every C# object named below lives under compute/, in " +
                 "RCPsiSquared.Core (claims), RCPsiSquared.Diagnostics/Foundation (claims and witnesses) or " +
                 "RCPsiSquared.Cli/Commands/InspectCommand.cs (the inspect roots). One notation: M is the " +
@@ -6693,7 +6716,8 @@ public static class OpenArcsRegistry
                 "still holds, because the entry's own scope is the UNIFORM chain and the moat is there; " +
                 "what a later reader must not do is carry the moat argument across the fence into the " +
                 "disordered case, where only the count survives and not its bound. " +
-                "(3) DONE, with two items still open inside it. F153 IS DONE (2026-08-13): PinnedBlockFloorClaim + PinnedBlockFloorWitness " +
+                "(3) DONE, with ONE item still open inside it (the spectral half of the gamma fence; F152 " +
+                "closed 2026-08-14, see below). F153 IS DONE (2026-08-13): PinnedBlockFloorClaim + PinnedBlockFloorWitness " +
                 "(inspect --root pinned) + PinnedBlockFloorClaimTests, two typed parents " +
                 "(AbsorptionTheoremClaim for the floor, JointPopcountSectors for the grading), the whole " +
                 "(N+1)^2 sweep read entry-wise with every predicted residual == 0.0 exactly. The ZZ " +
@@ -6724,9 +6748,40 @@ public static class OpenArcsRegistry
                 "(0,2) at -2*mean(gamma). What is gated now is the mechanism's failure entry-wise " +
                 "(ProfileRealDiagonalSpread); the spectral numbers are measured. " +
                 "STILL OPEN HERE: a committed gate for the SPECTRAL half of the gamma fence (the Python " +
-                "verifier would need a profile row), and F152, whose subject is already carried live by " +
-                "BlockSpectrumWitness (inspect --root blockspectrum) without naming its F-number, so it " +
-                "is a breadcrumb and not a build. " +
+                "verifier would need a profile row). " +
+                "F152 IS DONE (2026-08-14), and it was the breadcrumb it was predicted to be, no build: " +
+                "BlockSpectrumWitness names F152 in its class doc-comment, its Summary and its DisplayName, " +
+                "and the entry gained a Typed layer paragraph. The paragraph states the absence of a typed " +
+                "Claim and attributes it to THIS ARC'S DECISION, a breadcrumb and not a build, rather than " +
+                "to any rule about claims; and it POINTS AT the book fence at the head of the entry " +
+                "instead of restating it. That is a direction and not an achieved state: " +
+                "BlockSpectrumWitness carries the fence twice itself, in GeneratorResidual's doc-comment " +
+                "in full and in the live node's summary WITHOUT the normalisation, and the new bullet says " +
+                "which copy to consult last. The DisplayName had one " +
+                "constraint worth knowing before editing any DisplayName in this layer: " +
+                "InspectRootCatalogTests asserts the substring N=6 in it, so the F-number is APPENDED and " +
+                "the head of the string is untouched. Gates green at the change: " +
+                "BlockSpectrumWitnessTests 123/123, InspectRootCatalogTests 39/39. " +
+                "THE ERROR WORTH KEEPING, and it is a repo FACT and not a wording slip: a review round " +
+                "objected that F152's entry credited the composite's two halves to the wrong pair, and the " +
+                "REPAIR then wrote that only one half is typed at all, D10 being 'a derivation document " +
+                "with no typed carrier'. FALSE. D10 is typed, as W1Dispersion (Core/Spectrum/W1Dispersion.cs, " +
+                "a Claim whose AnchorPath is ANALYTICAL_SPECTRUM.md + D10_W1_DISPERSION.md), and its own " +
+                "doc-comment carries exactly the disputed half, the ZZ term as the degree diagonal that " +
+                "turns the adjacency matrix into the Laplacian (in the doc-comment, note, not in a typed " +
+                "member: W1Dispersion's members are the dispersion). The pre-existing C# prose was right " +
+                "in the COUNT and loose in the NAME ('the two TYPED owners each carry half of this: D10 " +
+                "... VacuumBlockReductionClaim ...'), calling a markdown derivation a typed owner, which " +
+                "is the very slip the repair then fell into: the repair was the risky part, but the prose " +
+                "it repaired had laid the trap. THE RESIDUE, and it is FIVE places and not one, so the " +
+                "step (7) sweep is not finished by editing one of them: F152's own 'What was already " +
+                "owned' paragraph, BlockSpectrumWitness's GeneratorResidual doc-comment, that witness's " +
+                "live node summary, that witness's CLASS doc-comment bullet (the one this very change " +
+                "extended, which is how a fifth place hides from a list written while editing it), and " +
+                "the sibling arc site_resolved_vacuum_block, all say D10 and none says W1Dispersion. " +
+                "Among the composite's places the Typed layer paragraph is the only one that names the " +
+                "claim today; elsewhere in the repo the name is used freely, in F89_TOPOLOGY_ORBIT_CLOSURE " +
+                "and in CAUGHT_ERRORS, so this is a local blind spot and not an unknown name. " +
                 "SUPERSEDED TEXT BEGINS HERE and ends at the marker SUPERSEDED TEXT ENDS below. Everything " +
                 "between the two is the entry as it stood BEFORE F153 was built, kept only because its " +
                 "correction list is what travelled into the carrier. THREE of its sentences are false and " +

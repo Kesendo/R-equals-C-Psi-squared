@@ -7048,8 +7048,24 @@ seed at N = 4..7, all entry-wise at 1e-12 with the leak measured over the full d
 Its negative control is the one that earns the name: dropping ZZ must match the ADJACENCY form and must NOT
 match the Laplacian one. On the C# side `BlockSpectrumWitnessTests` runs twenty rows, N = 3..7 crossed with
 uniform chain, per-bond chain, ring and star, always under an asymmetric γ, and asserts the Hermitian part
-and the seventeen exact-route rows as bit-exact `== 0.0`. Live at `inspect --root blockspectrum`
-(`BlockSpectrumWitness.BandEdgeSectorBlock`).
+and the seventeen exact-route rows as bit-exact `== 0.0`.
+
+**Typed layer.** The carrier is a live witness and not a `Claim`: `BlockSpectrumWitness`
+(`compute/RCPsiSquared.Diagnostics/Foundation/`), live at `inspect --root blockspectrum`, whose
+site-resolved band-edge node rebuilds the block (`BandEdgeSectorBlock`) and prints the generator,
+Hermitian-part and per-mode residuals at inspect time. Its class doc-comment, its `Summary` and its
+`DisplayName` name F152, so the edge is walkable in both directions. That witness writes the identity in
+the SPIN book, which is the collision the book paragraph at the top of this entry fences; read that
+paragraph rather than deriving the relation a second time here. No typed `Claim` was built, and the
+reason is the decision itself rather than a rule about claims: the arc `f_registry_meets_the_typed_layer`
+adjudicated this item as a BREADCRUMB and not a build, the subject being live already. The two halves
+this identity joins, named in the last paragraph of this entry, are BOTH typed, one each: `W1Dispersion`
+is the claim on D10, and carries the ZZ degree term at uniform γ in its doc-comment rather than in a
+typed member, its members being the dispersion itself; `VacuumBlockReductionClaim` carries the γ profile
+with an XY H, hence no degree term. `AbsorptionTheoremClaim` is neither half: it is the per-channel rate
+law the witness reads back on this block (`PerModeAbsorptionResidual`). Those two are a pairing and not
+an inventory of prior owners: the last paragraph names a third, PROOF_R90_FROZEN_DIVISOR Lemma 5, which
+derives the same N×N matrix independently.
 
 **What was already owned, and what is new here.** D10 Step 3 derives the Laplacian on the open chain and
 F2 carries the ZZ-supplies-the-degree sentence, both at uniform γ; `VacuumBlockReductionClaim` carries the

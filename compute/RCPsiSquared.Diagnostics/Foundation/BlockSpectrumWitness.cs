@@ -41,7 +41,14 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   this block: Re λ_k is the γ-weighted average of the mode's site occupancy, with the Bendixson
 ///   bracket and the trace (which pins the MEAN, not the bracket's midpoint) as its two corollaries.
 ///   The arc <c>site_resolved_vacuum_block</c>'s composite: D10 has the degree
-///   term at uniform γ, <see cref="VacuumBlockReductionClaim"/> has the profile with an XY H.</item>
+///   term at uniform γ, <see cref="VacuumBlockReductionClaim"/> has the profile with an XY H.
+///   THAT IDENTITY IS F152 (docs/ANALYTICAL_FORMULAS.md), and this witness is the live carrier the
+///   entry names; there is no typed Claim for it, the arc that reconciled the two layers having
+///   adjudicated it a breadcrumb and not a build. The registry writes the identity in the OTHER
+///   book, and the whole fence, orientation, normalisation and factor alike, is spelled out in
+///   <see cref="GeneratorResidual"/> below and in F152's own book paragraph. (The live node's own
+///   summary states it a third time and states it PARTIALLY, the normalisation missing there; that
+///   is the copy to consult last.)</item>
 /// </list>
 ///
 /// <para>The full N=9 headline (262144 eigenvalues, the palindrome held about −σ = −4.5 to a max
@@ -791,7 +798,8 @@ public sealed class BlockSpectrumWitness : IInspectable
     }
 
     public string DisplayName =>
-        $"BlockSpectrumWitness (N={N}, Heisenberg chain, γ={Gamma.ToString("0.###", Inv)}, J={J.ToString("0.###", Inv)})";
+        $"BlockSpectrumWitness (N={N}, Heisenberg chain, γ={Gamma.ToString("0.###", Inv)}, J={J.ToString("0.###", Inv)}" +
+        "; carries F152 live, in the site-resolved band-edge node)";
 
     public string Summary =>
         "the joint-popcount block spectrum, live: the (N+1)² sector decomposition (halved by X⊗N, " +
@@ -799,7 +807,8 @@ public sealed class BlockSpectrumWitness : IInspectable
         "ceiling / horizon / survivor / secondclock each max-zoom one sector of this decomposition), the " +
         "F1 palindrome {λ} = {−2σ − λ} reconstructed sector-by-sector (full at N ≤ 7), the (0,1) band-edge " +
         "Absorption floor Re = −2γ AT UNIFORM γ, and the same sector site-resolved (a γ profile: the generator " +
-        "stays exactly +i·(1/2)·𝓛 − 2·diag(γ) on any XXX bond graph, and the rate law is the Absorption Theorem's " +
+        "stays exactly +i·(1/2)·𝓛 − 2·diag(γ) on any XXX bond graph, which is F152 in the spin book, " +
+        "and the rate law is the Absorption Theorem's " +
         "per-channel one, Re λ_k = the γ-weighted average of the mode's site occupancy), and the N=9 " +
         "banked headline read live from chain_N9.json. The browsable " +
         "overview face of the SLOW_N9 result (arc block_spectrum_n9).";
