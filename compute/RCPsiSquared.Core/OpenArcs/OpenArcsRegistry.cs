@@ -4410,7 +4410,13 @@ public static class OpenArcsRegistry
                 "index is pinned to a single basis state and every coherence sits at distance exactly " +
                 "|p - q|. The gate is now a committed script, simulations/offdiag_sector_floor.py, which " +
                 "checks closure, floor and the flatness rule in BOTH directions over N=3,4,5 and four " +
-                "(J, gamma) pairs; it had none when the claim first landed, which was the review's " +
+                "(J, gamma) pairs. FENCE ADDED 2026-08-14, because that script's gamma is a SCALAR and " +
+                "its own docstring states the rule unconditionally in gamma: what it gates is the " +
+                "UNIFORM-gamma rule only, and under a site-resolved profile a pinned block leaves its " +
+                "floor. The profile side is gated in C# instead, on PinnedBlockFloorWitness; see F153 and " +
+                "the arc f_registry_meets_the_typed_layer, step (3), which is where that was found. The " +
+                "two entries stood on this one script for a day without citing each other. It had no gate " +
+                "at all when the claim first landed, which was the review's " +
                 "sharpest procedural catch. Also caught: a doc-level claim of a one-magnon check with no " +
                 "verifier named (now routed to d10_block_closure_verify.py), and the step from the block's " +
                 "best Q to the LIOUVILLIAN's, which I had called untaken when it is measured and holds at " +
@@ -6559,15 +6565,16 @@ public static class OpenArcsRegistry
             NextStep:
                 "READ THIS FIRST, because the rest is one long paragraph and a returning session needs the " +
                 "shape before the detail. SEVEN steps. (1) DONE, (2) DECIDED but F145 still OPEN inside it, " +
-                "(3) DONE with ONE item left inside it since 2026-08-14, (4) (5) (6) (7) UNTOUCHED. Two of the three " +
-                "finished steps therefore still carry live work; the headline word is about the DECISION, " +
+                "(3) DONE and CLOSED 2026-08-14, (4) (5) (6) (7) UNTOUCHED. ONE of the three " +
+                "finished steps therefore still carries live work, step (2) with F145 inside it; the headline word is about the DECISION, " +
                 "not about the step being empty. THE CHEAPEST LIVE ITEM WAS the F152 breadcrumb inside " +
                 "step (3), and it was DONE 2026-08-14: its subject was already carried by BlockSpectrumWitness " +
                 "(compute/RCPsiSquared.Diagnostics/Foundation/BlockSpectrumWitness.cs, live at " +
                 "inspect --root blockspectrum) and only the return edge to the F-number was missing. What " +
-                "remains cheapest INSIDE STEP (3) is the SPECTRAL half of F153's gamma fence, the other " +
-                "item that step leaves open, and that one is a GATE and not a breadcrumb, so it is not " +
-                "claimed to be cheaper than step (4), which is a decision. THE " +
+                "was cheapest INSIDE STEP (3) was the SPECTRAL half of F153's gamma fence, and that one " +
+                "closed the same day and closed by DISSOLVING: it was scoped as an eigensolver gate and " +
+                "the algebra made it an exact entry-wise one (see step (3) below). The step is now " +
+                "empty, so the cheapest live item on this arc is step (4), which is a decision. THE " +
                 "FOUR HOUSE PLACES that a breadcrumb is added in, spelled out because the phrase recurs " +
                 "below and is a convention rather than a rule anyone can look up: the claim's Name string, " +
                 "its DisplayName, its Anchor string, and the registry entry's own Typed layer paragraph in " +
@@ -6716,8 +6723,8 @@ public static class OpenArcsRegistry
                 "still holds, because the entry's own scope is the UNIFORM chain and the moat is there; " +
                 "what a later reader must not do is carry the moat argument across the fence into the " +
                 "disordered case, where only the count survives and not its bound. " +
-                "(3) DONE, with ONE item still open inside it (the spectral half of the gamma fence; F152 " +
-                "closed 2026-08-14, see below). F153 IS DONE (2026-08-13): PinnedBlockFloorClaim + PinnedBlockFloorWitness " +
+                "(3) DONE AND CLOSED 2026-08-14: both items inside it, the F152 breadcrumb and the spectral " +
+                "half of the gamma fence, are done. F153 IS DONE (2026-08-13): PinnedBlockFloorClaim + PinnedBlockFloorWitness " +
                 "(inspect --root pinned) + PinnedBlockFloorClaimTests, two typed parents " +
                 "(AbsorptionTheoremClaim for the floor, JointPopcountSectors for the grading), the whole " +
                 "(N+1)^2 sweep read entry-wise with every predicted residual == 0.0 exactly. The ZZ " +
@@ -6740,15 +6747,86 @@ public static class OpenArcsRegistry
                 "and REAL H (a Peierls phase keeps the criterion exactly, flat to 5e-15, but makes S " +
                 "HERMITIAN rather than real symmetric, so the general form is 'the Hermitian part of L is " +
                 "scalar' and the entry-wise certificate, unlike the criterion, is NOT graph-blind). " +
-                "(d) The gamma fence was stated as GATED in the Python verifier and is not: " +
+                "(d) The gamma fence was stated as GATED in the Python verifier and was not: " +
                 "simulations/offdiag_sector_floor.py takes a SCALAR gamma. Its loose form was also wrong " +
                 "in two directions: under a profile the block leaves its FLOOR, which is not the same as " +
-                "spreading, because at Delta=0 strong coupling re-flattens it (0.0 at J=1, 1.77 at " +
-                "J=0.05) and at N=4 eight of the sixteen pinned blocks stay FLAT AT THE WRONG CONSTANT, " +
-                "(0,2) at -2*mean(gamma). What is gated now is the mechanism's failure entry-wise " +
-                "(ProfileRealDiagonalSpread); the spectral numbers are measured. " +
-                "STILL OPEN HERE: a committed gate for the SPECTRAL half of the gamma fence (the Python " +
-                "verifier would need a profile row). " +
+                "spreading, because at Delta=0 strong coupling re-flattens it (machine zero at J=1, 1.77 " +
+                "at J=0.05) and at N=4 FOUR of the sixteen pinned blocks stay FLAT AT THE WRONG CONSTANT, " +
+                "(0,2) at -2*|p-q|*gammabar (four more are flat AT their floor, the one-cell ones). CLOSED the same day, and the closure below is what to read; " +
+                "it is kept short here because the item is no longer open. " +
+                "THE SPECTRAL HALF OF THE GAMMA FENCE IS GATED, 2026-08-14, and the item closed by " +
+                "DISSOLVING rather than by being built as scoped. It was recorded here as needing a " +
+                "profile row in the Python verifier, i.e. an eigensolver gate. It needs neither. " +
+                "Herm(L_block) = -2*diag(rate) EXACTLY for any Hermitian H, any graph, any Delta and any " +
+                "profile (the dephasing dissipator is real and diagonal in the coherence basis, and " +
+                "-i*ad_H is anti-Hermitian as a superoperator), and being DIAGONAL it decides every real " +
+                "part on its own: rate constant gives Herm = c*Id and Re lambda is its Rayleigh quotient, " +
+                "so non-normality costs nothing; and the trace gives the converse, Sum Re lambda = " +
+                "Re tr L = -2*Sum rate, which holds for defective blocks too. SO THE SHARP FENCE IS: a " +
+                "block sits entirely on its floor exactly when its cell rates are CONSTANT, which on a " +
+                "pinned block of dimension above one happens exactly when gamma is uniform, the four " +
+                "ONE-CELL blocks (0,0),(0,N),(N,0),(N,N) being the only exceptions because they have no rate " +
+                "to spread (they are NOT F140's (1,1)-type corner blocks, which is why they are not called " +
+                "corners here).  Gated in PinnedBlockFloorClaimTests over all (N+1)^2 blocks at N = 3, 4, 5 and " +
+                "Delta = -0.7, 0, 1, 2, by TWO ROUTES (the block from PerBlockLiouvillianBuilder acting " +
+                "on a Hilbert-space H, the prediction from the cells alone), both compared to 0.0. THE FENCE'S " +
+                "OWN VERDICT COSTS NO EIGENSOLVER; the gates around it do, the FLAT side of each against an " +
+                "error model rather than a chosen number (the spread side uses plain cuts).  One is the uniform-gamma converse (max|Re lambda - floor| tracks " +
+                "eps*||L||_F, ratio bounded across J = 0.125 to 512), one reads the four measured numbers, " +
+                "and the flat-set law is an eigensolver reading throughout: the free-index law at N = 3..6 " +
+                "with the odd-N rows EMPTY and discriminating, the N=4 parity coincidence beside its N=6 " +
+                "inversion, the R90 locus over every pinned block of dimension above one at N = 4, 5, 6, the " +
+                "collapse having an ONSET only for some Delta, the palindrome holding at every coupling, and " +
+                "source (2) needing a reflection-symmetric H where source (1) does not. Live at inspect " +
+                "--root pinned, node 'the gamma fence, spectral half'. Gates: PinnedBlockFloorClaimTests " +
+                "72/72, re-measured 2026-08-14 after the closing review rounds. " +
+                "FOUR THINGS THE BUILD FOUND. (a) THE FOUR SPECTRAL NUMBERS HAD NO GENERATOR ANYWHERE: " +
+                "0.4903, 0.9477, 1.77 and -2.200 appeared in exactly three prose files (the entry, the " +
+                "claim, the witness) and in no script, no test and no results artifact. They reproduce, " +
+                "but only in the PAULI book H = J*(XX+YY+Delta*ZZ), which is WeightCoherenceBlock's and " +
+                "which none of the three named; in the spin book next door the same J is four times " +
+                "smaller and not one of them lands. The fourth appearance of that factor in one session. " +
+                "(b) A MISLABEL THE GATE FORCED OUT: the flat block's constant was written -2.200 = " +
+                "-2*mean(gamma), and -2*mean(gamma) is -1.100 for that profile. It is -2*|p-q|*gammabar, " +
+                "the TRACE's constant, and the two expressions coincide at |p-q| = 1, which is where the " +
+                "generalisation came from. Corrected in all FOUR places (the entry, the claim's doc-comment, " +
+                "the claim's registered Summary string, the witness). (c) THE FLAT SET, AND THREE READINGS " +
+                "OF IT, TWO OF THEM WRONG, which is the shape to expect and the reason this item is written " +
+                "out. Reading one, the entry's: the flat set tracks the COUPLING. Reading two, my first " +
+                "repair: it is the EVEN |p-q| pinned blocks of dimension above one, the odd ones never " +
+                "flattening. A review round refuted reading two by measuring N = 6, where the flat blocks " +
+                "carry |p-q| = 3, ODD, and every even one is spread; 'even' was an N = 4 ACCIDENT, and the " +
+                "session had measured only N = 4. Reading three, which is gated: flattening needs an " +
+                "ANTILINEAR INVOLUTION of the block about the trace constant, and there are two sources. " +
+                "The block's FREE INDEX (the one of p, q not pinned to 0 or N) being N/2, where the bitwise " +
+                "COMPLEMENT of the free config stays in the block and sends rate -> Sum gamma - rate = " +
+                "2*mean(rate) under ANY profile: four blocks at even N, none at odd N. And gamma " +
+                "ANTI-PALINDROMIC, the R90 locus of the parameter Klein group F91, where the chain " +
+                "reflection does the same for EVERY pinned block, so all 4N flatten, at odd N too. AND THE " +
+                "INVOLUTION BUYS A PALINDROME, NOT FLATNESS: what follows at once is that the Re-spectrum " +
+                "is symmetric about the trace constant, at EVERY coupling (defect machine zero at J = 0.05 " +
+                "as at J = 10, while the span goes from order one to zero); FLATNESS is the UNBROKEN case, " +
+                "all eigenvalues on the axis, and the J threshold is that onset. That is what turns the " +
+                "threshold from an ungated number into a named phenomenon, and it is gated on both sides. " +
+                "Both " +
+                "linspace(0.1,1,N) and the dyadic ramp the gates use lie ON that locus, which is why every " +
+                "number this session measured COULD read the whole 4N; whether it does depends on the onset, and the " +
+                "linspace ramp at J = 1 is below it, reading eight of sixteen at N=4. Scope, all clauses load-bearing: " +
+                "both sources need J above a threshold that moves with the profile and with N and is NOT " +
+                "gated, so no J number is quoted; what Delta decides is whether the COLLAPSE has an onset at all, " +
+                "not the involution, which holds at Delta = 0 and 0.5 where the span saturates instead; " +
+                "and a one-cell block is flat for nothing, with two of them carrying odd |p-q| " +
+                "at odd N. Measured N = 3..6 at Delta = 1. NOT F140, which sits on the same locus with its " +
+                "own p+q-even confinement and invites exactly this conflation: F140 pins -4*gbar on the " +
+                "(1,1)-type CORNER blocks, not pinned blocks in F153's sense, and PROOF_R90_FROZEN_DIVISOR " +
+                "says the spectrum THERE is not palindromic about the root. The shared thing is the locus, " +
+                "and the locus is F91's. (d) A CONVENTION COLLISION INSIDE ONE WITNESS: " +
+                "ProfileRealDiagonalSpread reads site s as bit s, PerBlockLiouvillianBuilder reads site l " +
+                "as bit N-1-l. That is UNOBSERVABLE in the older member, since a max-min over a cell set " +
+                "closed under bit permutations cannot see a relabelling, and observable the moment a " +
+                "reading is entry-wise. Both halves are now gated in one test, so the blindness is a " +
+                "fact rather than a doc-comment. " +
+                "STILL OPEN HERE: nothing. Step (3) is closed. " +
                 "F152 IS DONE (2026-08-14), and it was the breadcrumb it was predicted to be, no build: " +
                 "BlockSpectrumWitness names F152 in its class doc-comment, its Summary and its DisplayName, " +
                 "and the entry gained a Typed layer paragraph. The paragraph states the absence of a typed " +

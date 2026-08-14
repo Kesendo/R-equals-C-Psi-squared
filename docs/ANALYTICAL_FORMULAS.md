@@ -7078,10 +7078,10 @@ when the ZZ term is taken away.
 
 ---
 
-### F153. The pinning criterion: a joint-popcount block sits ENTIRELY on its floor exactly when min(p, q) = 0 or max(p, q) = N, which is 4N of the (N+1)² blocks (criterion derived graph-blind for any number-conserving H; GATED on the chain only, at Δ = 1 and uniform γ; derived 2026-08-02, entry-wise certificate 2026-08-06, registered 2026-08-13)
+### F153. The pinning criterion: a joint-popcount block sits ENTIRELY on its floor exactly when min(p, q) = 0 or max(p, q) = N, which is 4N of the (N+1)² blocks (criterion derived graph-blind for any number-conserving H; SCOPE: uniform γ REQUIRED bar the four one-cell blocks; GATED on the chain only, at Δ = −1, −0.7, 0, 0.5, 1, 2, with the γ FENCE itself gated since 2026-08-14; derived 2026-08-02, entry-wise certificate 2026-08-06, registered 2026-08-13)
 
     at UNIFORM γ:  Re λ = −2γ·|p − q| throughout the block  ⟺  min(p, q) = 0 or max(p, q) = N
-    the count: 2(N+1) + 2(N+1) − 4 = 4N blocks, the four corners among them
+    the count: 2(N+1) + 2(N+1) − 4 = 4N blocks, the four one-cell blocks among them
 
 **The mechanism, and it is a room argument rather than a spectral one.** The Absorption Theorem already
 floors every block: Re λ = −2γ⟨n_XY⟩ and a (p, q) coherence disagrees in at least |p − q| places, so no
@@ -7146,17 +7146,111 @@ the |p − q| = 1 qualifier or carry the criterion, never the sentence alone.
 disagreeing SITES: with a profile the real part of a pinned block's cell is −2·Σ over the sites where that
 cell disagrees, which still varies from cell to cell, so the mechanism fails and the block leaves its floor.
 
-That much is entry-wise and is gated in C#. What follows it is measured, and it is not "the block spreads",
-which is the loose form and is wrong in two directions. At γ = linspace(0.1, 1, N) and J = 1 the (0,1)
-block's SPECTRAL spread is 0.4903 at N=4 and 0.9477 at N=5 **at Δ = 1**; at Δ = 0 the same profile gives
-exactly 0.0 at J = 1 and opens only as the coupling falls (1.77 at J = 0.05, N=4), which is the
-strong-coupling coalescence [F152](#f152) records for this very block. And where flatness does survive a
-profile it is flatness at the WRONG CONSTANT: at N=4, Δ=1 eight of the sixteen pinned blocks stay flat, the
-(0,2) block sitting at −2.200 = −2·mean(γ) against a floor of −1.000. So the fence is that a pinned block
-leaves its FLOOR, not that it spreads, and a reading that tested flatness alone would pass on those eight.
-None of these spectral numbers is gated: `simulations/offdiag_sector_floor.py` takes a SCALAR γ and never
-builds a profile. Beyond that
-the CRITERION needs only the Absorption Theorem (any Hermitian H, Z-dephasing, any graph, any N) plus a
+That much is entry-wise, and so is the SPECTRAL consequence, which is the sharper form of the fence and
+is mostly the repo's existing machinery read one step further. Three pieces were already owned.
+[PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §6 has the rate window
+Re λ = v†Av/v†v ∈ [−2·n_max, −2·n_min], "exact for every eigenvalue, defective or not", with the Edge
+lemma as its zero-width case; [PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) has that the
+Hamiltonian part is anti-Hermitian for EVERY Hermitian H, and says outright that the Rayleigh step is
+Bendixson and carries no content of its own; and `BlockSpectrumWitness.HermitianPartResidual` already
+gates Herm = −2·diag(γ) under a per-site profile, bit-exact over twenty rows of graphs and couplings, for
+the (0,1) block. What is added here is the step from that block to ALL of them and from a count to a
+profile: under Z-dephasing, which is the one axis that is not free here since the jump operators must stay
+diagonal in the computational basis, the Hermitian part is exactly −2·diag(rate), rate summed over the
+sites where a cell's ket and bra DISAGREE. The four steps are worth naming because the last one is what
+makes it survive restriction: the inner product is Hilbert-Schmidt; ad_H is HS-self-adjoint precisely
+because H is Hermitian, so −i·ad_H is anti-Hermitian; the coherence basis {|a⟩⟨b|} is HS-orthonormal, so
+the matrix's conjugate transpose IS the HS adjoint; and the block is a PRINCIPAL submatrix, one index list
+for rows and columns, so its Hermitian part is the Hermitian part's submatrix. Being DIAGONAL, the window's
+endpoints are then read off rather than solved for. Constant rates give Herm = c·Id, which makes L − c·Id
+anti-Hermitian and hence L NORMAL, so every Re λ equals c with no Jordan block available; conversely
+Σ Re λ = Re tr L = −2·Σ rate, so all modes on the floor forces mean = min, and rate ≥ min pointwise forces
+rate ≡ min. The trace half is the new one, since it turns the window's zero-width case into an EQUIVALENCE:
+**a block sits entirely on its floor, meaning here the profile-resolved floor −2·min(rate), exactly when
+its cell rates are constant**, and on a pinned block of dimension above one that happens exactly when γ is
+uniform. The SPECTRAL half needs one more premise than the entry-wise identity does, and it is the entry's
+standing one: H must be NUMBER-CONSERVING, since otherwise the index set is not an invariant block and its
+submatrix eigenvalues are not the Liouvillian's. Add a transverse field and the identity survives bit-exact
+while the reading stops meaning anything, which is gated as the scope's own control.
+The fence therefore has precisely four exceptions, the four ONE-CELL blocks (0,0), (0,N), (N,0), (N,N),
+which have no rate to spread; they stay on their floor under any profile at all, for a dimensional reason
+rather than a spectral one. They are called one-cell and not "corner" throughout, because F140 next door
+uses "corner block" for the (1,1)-type blocks, which are a different object.
+
+The spectral SPREAD is a different quantity, it is not what the criterion turns on, and the loose form
+"the block spreads" is wrong in two directions. In the Pauli book H = J·Σ(XX + YY + Δ·ZZ), at
+γ = linspace(0.1, 1, N) and J = 1, the (0,1) block's spread is 0.4903 at N=4 and 0.9477 at N=5 **at
+Δ = 1**; at Δ = 0 the same profile gives machine zero at J = 1 and opens only as the coupling falls (1.77
+at J = 0.05, N=4), which is the strong-coupling coalescence [F152](#f152) records for this very block.
+Where flatness survives a profile it is flatness at the WRONG CONSTANT, and on a PINNED block that constant
+is the trace's: **−2·|p − q|·γ̄**, which for the (0,2) block at N=4 is −2.200 against a floor of −1.000. It
+is not −2·mean(γ), which is −1.100 here; the two expressions coincide at |p − q| = 1 and part company above
+it. The short form is a consequence of pinning and not a general fact: the trace constant of any block is
+−2γ̄·(p + q − 2pq/N), which collapses to −2γ̄·|p − q| exactly when min(p, q) = 0 or max(p, q) = N.
+
+FLAT AND ON-THE-FLOOR ARE TWO PREDICATES and the rest of this paragraph is unreadable if they are merged.
+ON THE FLOOR means every Re λ equals −2·min(rate), which is the criterion. FLAT means every Re λ is equal
+to every other, whatever the value. Under a profile a flattened block sits at the trace's constant
+−2·|p − q|·γ̄, which is strictly below its floor, so flattening is never the criterion being met; it is a
+coalescence, and it is what the "wrong constant" above refers to.
+
+The flat SET then has a law, and it is NOT a parity of |p − q|, though two successive readings of it said
+so and the second is the one to be careful of: at N = 4 the flat blocks do carry even |p − q|, and that is
+a coincidence of N = 4 which inverts at N = 6. What flattening needs is an ANTILINEAR INVOLUTION of the
+block about the trace constant, a pairing of cells sending rate ↦ 2·mean(rate) − rate, and there are two
+independent sources of one.
+
+The first is the block's FREE INDEX, the one of p, q that is not pinned to 0 or N. When the free index is
+**N/2**, the bitwise COMPLEMENT of the free configuration stays inside the block and sends
+rate ↦ Σγ − rate = 2·mean(rate), for ANY profile: four such blocks at even N, none at odd N. At N = 4 they
+are (0,2), (2,0), (2,4), (4,2), carrying |p − q| = 2; at N = 6 they are (0,3), (3,0), (3,6), (6,3),
+carrying |p − q| = **3**, while every even-|p − q| block there of dimension above one is spread (the
+one-cell blocks are flat at every N, at their floor, and carry even |p − q| at even N). The second is γ
+ANTI-PALINDROMIC, γ_l + γ_{N−1−l} constant, the R₉₀ locus of the parameter Klein group ([F91](#f91)):
+there the chain reflection supplies the involution for EVERY pinned block, so all 4N can flatten, at odd N
+as well, where the first source gives nothing. The two sources are not the same kind of thing, and a
+uniform-J chain hides it: source (2) is the REFLECTION, so it needs H reflection-symmetric too, and a
+non-palindromic profile of bond couplings breaks its palindrome outright; source (1) is the global
+complement X^N, which commutes with each XX + YY + ZZ bond and is blind to the bond profile. Both halves
+are gated. Both linspace(0.1, 1, N) and the dyadic ramp the gates use lie
+on that locus, which is the source that CAN reach the whole 4N. Whether it does at a given coupling is a
+separate question, and at J = 1 the linspace ramp sits below the onset: it reads eight of the sixteen at
+N = 4 and, at N = 5, only the four one-cell blocks. The numbers quoted above are non-flat readings for
+exactly that reason. The Δ = 0 re-flattening needs the locus too: an off-locus profile at the same Δ and J
+does not coalesce at any coupling measured.
+
+**What the involution buys is a PALINDROME, and flatness is its unbroken case.** The pairing sends
+rate ↦ 2·mean(rate) − rate, so what follows immediately is that the block's Re-spectrum is SYMMETRIC about
+the trace constant, and that holds at EVERY coupling: measured on (0,2) at N = 4 and (0,3) at N = 6 the
+symmetry defect is machine zero at J = 0.05 exactly as at J = 10, while the span over the same couplings
+moves from order one to zero. Flatness is the case where all the eigenvalues sit ON the symmetry axis, and
+that sets in only above a coupling. This is where the J threshold comes from, and it is why the threshold
+is a phenomenon rather than a fitting parameter: below it the block is symmetric and wide, above it
+symmetric and collapsed. Saying "the involution makes the block flatten" skips exactly this step.
+
+Three scope clauses, all load-bearing. The threshold itself depends on the profile and on N and is NOT
+gated, so no J number belongs in this paragraph; what is gated is the palindrome on both sides of it. What
+Δ decides is whether there is an onset AT ALL, and it decides that for the collapse and not for the
+involution: at Δ = 0 and at Δ = 0.5 the palindrome still holds machine-exactly while the span SATURATES,
+agreeing to four decimal places between J = 10³ and J = 10⁵, so no coupling collapses it. At Δ = 1 and Δ = 2
+there is an onset. And both speak of blocks of dimension above one: a one-cell block is flat
+for nothing, and at ODD N two of the four one-cell blocks carry odd |p − q|. Measured N = 3..6 at Δ = 1. So the
+fence is that a pinned block leaves its FLOOR, and a reading that tested flatness alone would pass on the
+flat ones.
+
+**Next door, and not the same object.** [F140](#f140)'s frozen divisor lives on this same R₉₀ locus, which
+is close enough to invite a conflation, so the differences are worth naming. F140 pins an EIGENVALUE, −4γ̄,
+with multiplicity at least ⌊N/2⌋ and, when γ̄ ≠ 0, exactly ⌊N/2⌋ for all but finitely many J, INSIDE the
+N²-dimensional (1,1)-type corner block on the Heisenberg chain; F153's four exceptions here are the one-cell blocks (0,0), (0,N), (N,0), (N,N), a different set
+entirely, and what is pinned about them is the whole block rather than one eigenvalue in it. F140's
+p + q even rule is not a counterpart of the parity discussed above either: it is an XY-chain observation,
+stated there as necessary and not sufficient, and it appears exactly where the Heisenberg corner
+confinement is absent. And [PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md) states outright
+that the corner block's spectrum is NOT palindromic about −4γ̄ and that no multiset symmetry argument
+applies there, so the involutions above must not be carried across. What the two results share is the
+locus, and the locus is F91's.
+
+Beyond γ, the CRITERION needs only the Absorption Theorem (any Hermitian H, Z-dephasing, any graph, any N) plus a
 NUMBER-CONSERVING Hamiltonian, which is what makes the joint-popcount blocks invariant in the first place;
 a transverse field or amplitude damping destroys the grading and the criterion with it. Both halves are derived graph-blind and MEASURED on
 the chain only. A longitudinal field keeps number conservation and, being diagonal in the computational basis, cannot reach
@@ -7174,6 +7268,52 @@ comparisons instead, the constant diagonal, the purely imaginary off-diagonal an
 `== 0.0` bit-exact, closing on `Assert.Equal(4 * n, whole)`. Its discriminating half is the one that earns
 the entry: on the other (N−1)² blocks the spread must be STRICTLY positive.
 
+The γ fence is gated in `PinnedBlockFloorClaimTests` since 2026-08-14, and the gate is exact because the
+sharper form above made it so. `Herm(L) + 2·diag(rate) == 0.0` runs over every one of the (N+1)² blocks
+across six (N, J, Δ) rows spanning N = 3, 4, 5 and Δ = −0.7, 0, 1, 2, under a profile; `Re tr L + 2·Σ rate
+== 0.0` over the same blocks across four such rows. How independent the two sides are differs by half, and
+the honest statement is worth making: on the OFF-diagonal the comparison is real content, since the block
+comes from `PerBlockLiouvillianBuilder.BuildBlockZ` acting on a Hilbert-space H and the prediction knows
+nothing of H, so what is being tested is that the Hamiltonian's contribution cancels in the Hermitian part.
+On the DIAGONAL both sides implement −2·Σ over disagreeing sites, in opposite summation orders, so that
+half is a re-implementation parity check and not a derivation. The Hermitian half carries two controls: one perturbs the
+prediction by a dyadic step, one shows the site convention is load-bearing entry-wise while being invisible
+to a rate SPREAD, whose cell set is closed under bit permutations. The fence's own statement, that a pinned
+block of dimension above one leaves its floor under a profile while the four one-cell blocks cannot, is a comparison
+to 0.0 in both directions. Every profile feeding an EXACT gate is DYADIC on purpose (the eigensolver rows use others, where the
+question does not arise): subset sums that agree in exact
+arithmetic need not be bit-equal in doubles, so on a general profile a comparison to 0.0 would be reading
+the summation order rather than the physics. The fence's own verdict costs no eigensolver; the gates AROUND it do, the FLAT side of each against
+an error model rather than a chosen number (the spread side, and the combinatorial row, use plain cuts).
+They are, plainly listed:
+
+- the converse at uniform γ, holding max|Re λ − floor| / (ε·‖L‖_F) bounded across J = 0.125 to 512. It is a
+  numerical demonstration and not the load-bearing route, since at uniform γ the entry-wise identity
+  settles the same statement exactly;
+- the four measured spectral numbers above, which until this gate had no generator anywhere in the repo;
+- the free-index law at N = 3, 4, 5, 6, the odd-N rows, where the flat set is EMPTY, being the
+  discriminating ones;
+- the N = 4 parity coincidence together with its inversion at N = 6, combinatorial and asserting no span;
+- the R₉₀ locus reaching every pinned block OF DIMENSION ABOVE ONE at N = 4, 5, 6 (there is no spread side
+  to assert on that row, since nothing is left spread);
+- the separation of the two sources: the reflection one breaks under non-palindromic bond couplings, the
+  complement one does not;
+- the collapse having an onset only for some Δ, with Δ = 0 and Δ = 0.5 saturating instead;
+- the palindrome itself, on (0,2) at N = 4 and (0,3) at N = 6, across J = 0.05 to 10 and at Δ = 1, 0 and
+  0.5, asserting the block is wide below the onset and, where there is one, at the backward error above it.
+- the flat/on-the-floor separation, which is the row the mislabel forced out: on (0,2) at N = 4 on the
+  locus, the flattened block's mean sits at −2·|p−q|·γ̄ while the withdrawn −2·mean(γ) FAILS there, and
+  the constant is strictly below the floor. The block is (0,2) and not (0,1) on purpose, the two
+  expressions coinciding at |p − q| = 1;
+- the scope control: with a transverse field the entry-wise identity survives bit-exactly while the
+  block's submatrix spectrum leaves the Liouvillian's, which is what makes reading a floor off it wrong.
+
+Every span-based row asserts both sides of the flat/spread gap, "flat" meaning AT the eigensolver's
+backward error rather than below a fixed number, since an absolute cut silently becomes a
+coupling-dependent one as ‖L‖_F grows with J. The onset's VALUE stays ungated and therefore unquoted: it
+moves with the profile, with N and with Δ, and what is gated is the palindrome on both sides of it. Live at
+`inspect --root pinned`, node "the γ fence, spectral half".
+
 **Measured, and the two readings are different instruments.** A numpy cross-check counted the pinned blocks at N = 4, 5, 6 as 16, 20 and 24, exactly 4N, with the real parts matching the constant diagonal to 1e-15: an eigensolver route, so that 1e-15 is a tolerance and the claim there is "agrees within it". The committed gate takes the other route and needs no tolerance at all, comparing three cells rather than solving anything, and its residual is 0.0 bit for bit at J = 0.25, 1 and 3 alike.
 
 **Typed layer.** `PinnedBlockFloorClaim` (Tier 1 derived) carries the criterion, with
@@ -7185,9 +7325,11 @@ entry-wise at inspect time (`--N`, `--J`, `--delta`) and prints the four residua
 certificate over nine (N, J, Δ) rows (N=4 at J = 0.25, 1, 3; N=5 at Δ = −1, 0, 0.5, 1, 2; N=6 at Δ = 1),
 the two N=4 frequencies, the real trace as the disagreement count, and two negative controls, complex q
 and a γ profile. Every residual that the criterion predicts to vanish is compared `== 0.0` exactly; the
-controls assert strict positivity instead. What the sweep canNOT see is the SPECTRAL half of the γ fence,
-its builder baking γ = 1 in: the profile test gates the mechanism's failure entry-wise, and the spectral
-numbers in the scope paragraph above are measured rather than gated.
+controls assert strict positivity instead. What that sweep cannot see is the γ fence, its builder baking
+γ = 1 in; since 2026-08-14 the fence has its own members on the same witness, which reach a general block
+under a profile through `PerBlockLiouvillianBuilder` instead, and its own gates in the same test file (see
+**Gates** above). The spectral numbers in the scope paragraph are gated there too, and are no longer
+merely measured.
 
 **Three words for three things, and they are not interchangeable.** The FLOOR is the Absorption Theorem's
 bound: a floor on the DECAY RATE, and therefore a CEILING on Re λ, since §6 confines Re spec to

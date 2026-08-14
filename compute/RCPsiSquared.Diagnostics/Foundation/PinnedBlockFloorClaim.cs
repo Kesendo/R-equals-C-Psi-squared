@@ -45,15 +45,36 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// FLOOR. Three precisions, because the loose form of this fence is wrong in two directions.
 /// (i) The mechanism's failure is entry-wise and needs nothing but the profile:
 /// <see cref="PinnedBlockFloorWitness.ProfileRealDiagonalSpread"/> reads it, and the test gates it.
-/// (ii) LEAVING THE FLOOR IS NOT THE SAME AS SPREADING. At γ = linspace(0.1, 1, N), J = 1, Δ = 1 the (0,1)
-/// block's spectral spread is 0.4903 at N=4 and 0.9477 at N=5; at Δ = 0 the same profile gives exactly 0.0
-/// at J = 1, opening only as J falls (1.77 at J = 0.05), which is the strong-coupling coalescence F152
-/// records. And at N=4, Δ=1 eight of the sixteen pinned blocks stay FLAT under the profile while sitting at
-/// the wrong constant, block (0,2) at −2.200 = −2·mean(γ) against a floor of −1.000. So the criterion is
-/// about attaining the FLOOR, and a carrier that tested only flatness would pass on those eight.
-/// (iii) The spectral numbers above are MEASURED, not gated: the committed verifier
-/// <c>simulations/offdiag_sector_floor.py</c> takes a SCALAR γ and never builds a profile, so what is
-/// gated in C# is the entry-wise half.
+/// (ii) LEAVING THE FLOOR IS NOT THE SAME AS SPREADING. In the PAULI book H = J·Σ(XX+YY+Δ·ZZ), which is
+/// <c>WeightCoherenceBlock</c>'s book and the one these numbers were measured in, at γ = linspace(0.1, 1, N),
+/// J = 1, Δ = 1 the (0,1) block's spectral spread is 0.4903 at N=4 and 0.9477 at N=5; at Δ = 0 the same
+/// profile gives machine zero at J = 1, opening only as J falls (1.77 at J = 0.05), which is the
+/// strong-coupling coalescence F152 records, though see the flat-set law below: an OFF-locus profile does
+/// not coalesce there at all. And at N=4, Δ=1 eight of the sixteen pinned blocks stay FLAT under the
+/// profile, but only FOUR of those sit at the wrong constant, block (0,2) at −2.200 against a floor of
+/// −1.000; the other four are the one-cell blocks, which are flat AT their floor.
+/// On a PINNED block that constant is the TRACE's, −2·|p−q|·γ̄, and NOT −2·mean(γ), which is −1.100 for
+/// this profile; the two coincide at |p−q| = 1, which is where the older reading of this sentence came
+/// from. FLAT is not ON THE FLOOR: a flattened block sits at −2·|p−q|·γ̄, strictly below its floor.
+/// WHICH blocks flatten is NOT a |p−q| parity, and two earlier readings of it were wrong. Flattening needs
+/// an antilinear involution about that constant, from either of two sources: the block's FREE INDEX being
+/// N/2, where the complement of the free config stays inside the block and sends rate ↦ Σγ − rate under
+/// ANY profile (four blocks at even N, none at odd N; |p−q| = 2 at N=4 but 3 at N=6, which is what killed
+/// the parity reading); or γ ANTI-PALINDROMIC, the R₉₀ locus (F91), where the chain reflection does the
+/// same for every pinned block and all 4N flatten, and where both the ramp and the gates' dyadic profile
+/// happen to lie. What the involution buys at once is a PALINDROME of the Re-spectrum about that constant,
+/// holding at EVERY coupling; flatness is its UNBROKEN case and the J threshold is that onset, which is
+/// why the threshold is a phenomenon and not a fitted number. Measured N = 3..6 at Δ = 1. What Δ decides is whether
+/// the collapse has an onset at all: at Δ = 0 and Δ = 0.5 the palindrome holds while the span saturates. The criterion is about attaining the FLOOR, and a carrier that tested only
+/// flatness would pass on the flat ones.
+/// (iii) The spectral half is GATED since 2026-08-14, and it is gated EXACTLY, because it turned out not to
+/// need an eigensolver: under Z-dephasing, Herm(L_block) = −2·diag(rate) for any Hermitian H and any
+/// profile, and being diagonal it decides the real parts by itself, with the trace supplying the
+/// converse; the spectral reading still needs this claim's number-conserving H, without which the index
+/// set is not an invariant block and its submatrix eigenvalues are not the Liouvillian's. See
+/// <see cref="PinnedBlockFloorWitness.ProfileHermitianPartResidual"/>. The committed Python verifier
+/// <c>simulations/offdiag_sector_floor.py</c> still takes a SCALAR γ; what it does not cover is now covered
+/// in C# rather than merely measured.
 /// Beyond γ, the criterion needs the Absorption Theorem (any Hermitian H, Z-dephasing,
 /// any graph, any N) plus a NUMBER-CONSERVING Hamiltonian, which is what makes the blocks invariant at
 /// all; a transverse field or amplitude damping destroys the grading and the criterion with it. A
@@ -105,7 +126,7 @@ public sealed class PinnedBlockFloorClaim : Claim
     }
 
     /// <summary>How many of the (N+1)² blocks are pinned: 4(N+1) − 4 = 4N, two pinned rows and two pinned
-    /// columns with the four corners counted twice.</summary>
+    /// columns with the four one-cell blocks counted twice.</summary>
     public static int PinnedBlockCount(int n) =>
         n >= 1 ? 4 * n
             : throw new ArgumentOutOfRangeException(nameof(n), n, "N ≥ 1 (at N = 0 there is one block and no grading)");
@@ -183,9 +204,16 @@ public sealed class PinnedBlockFloorClaim : Claim
                "general one; the window shell = the combinatorial half, gated by WindowShellLemmaTests), which " +
                "the registry entry was minted without citing. SCOPE: uniform γ REQUIRED (under a profile the " +
                "block leaves its FLOOR, which is not the same as spreading: at Δ=1, J=1, γ = linspace(0.1,1,N) " +
-               "the (0,1) spread is 0.4903 at N=4 and 0.9477 at N=5, but at Δ=0 the same profile gives exactly " +
-               "0.0 at J=1 by strong-coupling coalescence, and eight of the sixteen N=4 pinned blocks stay flat " +
-               "at the WRONG constant, (0,2) at −2·mean(γ)), real coupling REQUIRED, number-conserving H required, " +
+               "the (0,1) spread is 0.4903 at N=4 and 0.9477 at N=5 in the PAULI book, but at Δ=0 the same " +
+               "profile gives MACHINE ZERO at J=1, a coalescence needing the R₉₀ locus the ramp happens to lie on, " +
+               "and at J=1 FOUR of the sixteen N=4 " +
+               "pinned blocks stay flat at the WRONG constant, (0,2) at −2·|p−q|·γ̄ = −2.200 against a floor of " +
+               "−1.000, while the four one-cell blocks are flat AT their floor; " +
+               "WHICH blocks flatten is not a |p−q| parity but an antilinear involution about that constant, " +
+               "from the free index being N/2 or from γ anti-palindromic on the R₉₀ locus, F91), " +
+               "the four ONE-CELL blocks (0,0),(0,N),(N,0),(N,N) EXEMPT from the fence for a dimensional reason " +
+               "(not to be confused with F140's (1,1)-type CORNER blocks, a different object on the same locus), " +
+               "real coupling REQUIRED, number-conserving H required, " +
                "criterion derived graph-blind and GATED on the chain only. It LOCATES F1's rate-reading blindness: " +
                "on these 4N blocks a rate reading loses nothing, on the other (N−1)² it does.",
                Tier.Tier1Derived,

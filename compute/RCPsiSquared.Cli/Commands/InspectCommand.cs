@@ -667,7 +667,9 @@ public static class InspectCommand
             "blocks read ENTRY-WISE (no eigensolver, residuals compared to 0.0 exactly), showing that exactly " +
             "4N of them sit entirely on the Absorption floor Re λ = −2γ|p−q|, namely those with min(p,q) = 0 " +
             "or max(p,q) = N. --delta selects the ZZ anisotropy: at Δ≠0 the pinned diagonal is constant only " +
-            "on the REAL axis, which is the half an XY-only reading drops",
+            "on the REAL axis, which is the half an XY-only reading drops. That sweep is the criterion's " +
+            "UNIFORM-γ scope; the node 'the γ fence, spectral half' carries the site-resolved side, where a " +
+            "pinned block of dimension above one leaves its floor and only the four one-cell blocks do not",
             c => new PinnedBlockFloorWitness(
                     c.Parser.HasFlag("N") ? c.N : 4,
                     c.Parser.OptionalDouble("J") ?? 1.0,
