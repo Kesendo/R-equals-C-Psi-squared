@@ -6390,8 +6390,9 @@ Sections 2 and 3.
 
 Reduce the frozen question at large coupling to the commutant of the
 single-excitation matrix (PROOF_FROZEN_BAND_SO4 Section 5). At the seed rung
-the surviving operator is G = W² with W_{lk} = v_k(l)² the doubly stochastic
-matrix of squared mode amplitudes, and with M := N + 1 and R the chiral
+the surviving operator is G = WᵀW with W_{lk} = v_k(l)² the doubly stochastic
+matrix of squared mode amplitudes, which is W² here because the DST-I modes
+make W symmetric, and with M := N + 1 and R the chiral
 involution a ↦ M − a on modes,
 
     **G = (1/M)·(𝟏𝟏ᵀ + (I + R)/2)**,   𝟏 the all-ones vector,
@@ -6416,7 +6417,7 @@ rank read needs does not vanish as N grows.
 
 **Proved in** [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md)
 Section 6.
-**Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), block V5 (to N = 40 under `--deep`).
+**Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), block V5 (to N = 40 under `--deep`), and `SeedRungGramClaimTests` in `compute/RCPsiSquared.Diagnostics.Tests/Foundation/` (21 checks; the exact half runs the full N = 2..40, the fences at selected N, and every inexact statement is gated on its error model rather than on a threshold).
 
 **Anticipated by** [PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md)
 Lemma 5, which landed **five days earlier** (2026-07-22, commit `55451e4`) and
@@ -6427,7 +6428,8 @@ at M = N + 1, literally the same matrix: there the two 𝟙𝟙ᵀ coefficients 
 (1 − 1/M)/N = 1/M. So F143 is the narrower XY re-derivation of a law the repo
 already held, minted without citing it. This line is that missing citation.
 
-Two of the three readings carry to the Heisenberg chain and one does not.
+All three readings reach the Heisenberg chain, but the third changes index
+on the way, and it is this entry's MODE-side reading that does not carry.
 The ⌊N/2⌋ frozen count carries, and so does the 1/M gap, at M = N.
 
 The chirality carries too, but only in the SITE index, and there it is a
@@ -6442,15 +6444,61 @@ Heisenberg modes as the diagonal sign (−1)^k, not as a permutation. For the
 same reason B Bᵀ ≠ Bᵀ B on the Heisenberg chain, so the object satisfying the
 two-chain law is the site-indexed B Bᵀ, not this entry's mode-indexed G = W².
 
-**Typed layer.** The involution R is the one `ChiralKClaim` carries: the sublattice
-gauge K = diag((−1)^ℓ) acts on the modes as k ↦ M − k, needing only K h K = −h and a
-non-degenerate spectrum, so the reflection survives bond disorder and it is the closed
-form above, not the involution, that wants uniform hopping. The edge runs through the
-involution only: the mode-side reading, spec(G) as such, has no typed carrier. The two
-numbers do have one, on the site side, where at M = N + 1 the same matrix appears as
-B Bᵀ: `FrozenDivisorClaim.FrozenMultiplicity` types the ⌊N/2⌋ count and MirrorWorld's
-`Divisor.ClockModulus` types M for both chains. Neither is read off a matrix; both are
-adopted as numbers, which is why they carry the count without carrying this reading.
+**Typed layer.** The reading above has carried since 2026-08-14 as `SeedRungGramClaim`
+(Tier 1 derived), live at `inspect --root seedrung` through `SeedRungGramWitness`, with
+two typed parents because neither alone gives the statement: `ChiralKClaim` for the
+involution and `FrozenDivisorClaim` for the ⌊N/2⌋ count. The modulus is attributed to
+neither, because neither types it: M is prose in `FrozenDivisorClaim`, and the object
+that types it is MirrorWorld's `Divisor.ClockModulus`, across a project boundary the
+Diagnostics assembly does not reference. The claim's `TransformLength` is therefore a
+knowing second spelling of that member's XY branch, and says so.
+
+The involution R is `ChiralKClaim`'s: the sublattice gauge K = diag((−1)^ℓ) acts on the
+modes as k ↦ M − k, needing only K h K = −h and a non-degenerate spectrum, so the
+reflection survives bond disorder and it is the closed form above, not the involution,
+that wants uniform hopping. The two numbers also have a site-side carrier, where at
+M = N + 1 the same matrix appears as B Bᵀ: `FrozenDivisorClaim.FrozenMultiplicity` types
+the ⌊N/2⌋ count and MirrorWorld's `Divisor.ClockModulus` types M for both chains. Neither
+is read off a matrix; both are adopted as numbers, which is why the new claim delegates
+the count to the first rather than spelling it a second time.
+
+**What the carrier does that the Python gate does not.** 2M·G is an INTEGER matrix,
+Ĝ_{ac} = 2 + [a = c] + [a + c = M], so the whole spectrum is certified without an
+eigensolver and without a tolerance: the ⌊N/2⌋ chiral differences e_k − e_{M−k}, the
+⌈N/2⌉ − 1 differences of R-orbit vectors and the all-ones vector satisfy Ĝx = 0, 2x and
+2M x as integer identities, and their independence is an exact GF(p) rank rather than a
+count. One statement of this entry has no exact route, namely that the DST-I
+sines produce that matrix in the first place, and the witness reports it as a multiple of
+ε·M swept over N = 2..40 instead of against a threshold: the ratio reaches 2.09 and does
+not grow. Only the maximum is quoted, because that is the number set by error
+accumulation; the minimum of such a ratio is a cancellation accident and does not
+reproduce across summation orders.
+
+**And the carrier narrowed the uniform-hopping fence.** Under any bond profile **with no
+zero bond**, K h K = −h still makes the squared amplitudes chirally equal, so W R = W,
+hence G R = G, hence every R-odd vector is still annihilated: the kernel, its identity as
+the R-odd sector and its dimension ⌊N/2⌋ survive disorder, and so does λ_max = 1. The
+nonzero-bond hypothesis is the non-degeneracy this entry already names: the ±ε pairing
+fixes the eigenvalues, and reading v_{M−k} ∝ K v_k off it needs the eigenvector to be
+determined by its eigenvalue, which an open chain gives exactly when h is Jacobi. With a
+zero bond the chain disconnects and the question becomes ill-posed rather than false, W
+ceasing to be a function of h. The further hypotheses are the chain's own and are named
+with it: nearest-neighbour bipartite hopping with no on-site term (a longitudinal field
+breaks K h K = −h outright) and an open boundary.
+
+Two things are deliberately not claimed: that the 1 stays **simple**, which is
+irreducibility and not double stochasticity; and that the **moat** survives. What survives
+is the count, not its guarantee: under disorder the first non-kernel eigenvalue is no
+longer bounded below by 1/M, reading 0.074 against a uniform 0.100 at N = 9 while at N = 5
+it stays above (0.171 against 0.167). The bound goes, not the margin, so a numeric rank
+read of the count is safe only on the uniform chain.
+
+What uniform hopping buys is the middle band's common value 1/M, which splits, and with it
+the entry-wise closed form. `ReadHopping` reads these separately for that reason; at N = 9
+under J_l = 1 + 0.3·sin(l+1) the survivals stay at the rounding level while the
+closed-form residual reaches ≈0.099 on G. This matters downstream, because what F144 and
+F146 consume is the count, which does not need the fence. The Heisenberg fence is
+unchanged and is shown by the index map rather than asserted.
 Note which operator carries which index: the site-index chirality above is the site
 reversal l ↦ N + 1 − l, the same map on both chains, and NOT M − l, since M is N on the
 Heisenberg one. It is also not K, which is not even an antisymmetry of the Heisenberg

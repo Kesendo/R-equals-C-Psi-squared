@@ -38,8 +38,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// closed form, the DST-I modes being where that form is written.</para>
 ///
 /// <para>What is carried here is the involution, and this paragraph is a breadcrumb rather than a
-/// claim of ownership: F143's mode-side reading, spec(G) as such, has no typed carrier. Its two
-/// numbers do, one block over on the site side, where at M = N + 1 the same matrix appears as B Bᵀ:
+/// claim of ownership. F143's mode-side reading, spec(G) as such, got its own carrier on 2026-08-14:
+/// <c>SeedRungGramClaim</c> in Diagnostics, live at <c>inspect --root seedrung</c>, which takes THIS
+/// claim as a typed parent for exactly the reason above. Its two
+/// numbers had one before that, one block over on the site side, where at M = N + 1 the same matrix appears as B Bᵀ:
 /// <see cref="RCPsiSquared.Core.BlockSpectrum.FrozenDivisorClaim"/> types the ⌊N/2⌋ count as
 /// <c>FrozenMultiplicity</c>, and <c>MirrorWorld.Divisor.ClockModulus</c> types M for both chains.
 /// Neither is read off a matrix; both are adopted as numbers, which is why they carry the count
@@ -95,7 +97,7 @@ public sealed class ChiralKClaim : Claim
             yield return new InspectableNode("relation to PolynomialFoundationClaim",
                 summary: "sibling root, not derived. PolynomialFoundation is the dimensional trunk (d²−2d=0); K is the bipartite sublattice gauge on the chain. K does not flow from d=2; d=2 does not flow from K.");
             yield return new InspectableNode("F143 uses this involution",
-                summary: "K acts on the modes as k ↦ M − k, M = N + 1, which is F143's R (the reflection needs only KhK = −h and non-degeneracy, so bond disorder does not break it; uniform hopping is what F143's CLOSED FORM needs). F143's seed-rung Gram matrix G = (1/M)(𝟏𝟏ᵀ + (I + R)/2) has kernel exactly the R-odd sector, dimension ⌊N/2⌋, with gap 1/M above it. Carried here: the involution. Not carried: spec(G) as a mode-side object; its two numbers are typed one block over on the site side, where at M = N + 1 the same matrix appears as B Bᵀ, ⌊N/2⌋ as FrozenDivisorClaim.FrozenMultiplicity and M as MirrorWorld's Divisor.ClockModulus (both adopted as numbers, not read off a matrix). The MODE reading is XY-only, and the site-index chirality that carries to the Heisenberg chain is the site reversal l ↦ N + 1 − l (the same map on both chains; M is N on the Heisenberg one, so M − l is NOT it), not this K.");
+                summary: "K acts on the modes as k ↦ M − k, M = N + 1, which is F143's R (the reflection needs only KhK = −h and non-degeneracy, so bond disorder does not break it; uniform hopping is what F143's CLOSED FORM needs). F143's seed-rung Gram matrix G = (1/M)(𝟏𝟏ᵀ + (I + R)/2) has kernel exactly the R-odd sector, dimension ⌊N/2⌋, with gap 1/M above it. Carried here: the involution. spec(G) as a mode-side object is carried by SeedRungGramClaim (since 2026-08-14, inspect --root seedrung), which takes this claim as a typed parent and certifies the whole spectrum in integers off 2M·G = 2·𝟏𝟏ᵀ + I + R; its two numbers were typed before that one block over on the site side, where at M = N + 1 the same matrix appears as B Bᵀ, ⌊N/2⌋ as FrozenDivisorClaim.FrozenMultiplicity and M as MirrorWorld's Divisor.ClockModulus (both adopted as numbers, not read off a matrix). The MODE reading is XY-only, and the site-index chirality that carries to the Heisenberg chain is the site reversal l ↦ N + 1 − l (the same map on both chains; M is N on the Heisenberg one, so M − l is NOT it), not this K.");
             yield return new InspectableNode("partner-identity application",
                 summary: "F65/F67 receiver-engineering uses spectrum inversion to fold the receiver menu (F67 HANDSHAKE_ALGEBRA); without K-partnership the partner identity wouldn't close");
         }

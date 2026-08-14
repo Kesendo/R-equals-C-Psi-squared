@@ -463,6 +463,22 @@ public static class KnowledgeRegistryFactory
             // JointPopcountSectors (the block decomposition the corner presupposes), both above.
             // Live: inspect --root divisor (FrozenDivisorWitness, exact GF(p) ranks, no eigensolver).
             .RegisterFrozenDivisorClaim()
+            // F143, the seed rung in closed form (Tier 1 derived, 2026-08-14): at the seed of the frozen
+            // band the surviving operator is the Gram matrix G = W^2 of squared mode amplitudes, and it
+            // equals (1/M)*(ones*ones^T + (I + R)/2) with M = N+1 the DST-I transform length and R the
+            // chiral mode involution a -> M - a, so spec(G) = {0 with multiplicity floor(N/2), 1/M with
+            // multiplicity ceil(N/2) - 1, 1 simple}, the kernel exactly the R-ODD sector. The gap 1/M
+            // closes only linearly in N, which is the moat a numeric rank read lives on. 2M*G is an
+            // INTEGER matrix, so the whole spectrum is certified in long arithmetic with no eigensolver
+            // and no tolerance; the single measured statement is that the sines produce that matrix.
+            // Fences: UNIFORM hopping (the involution survives bond disorder, the closed form does not)
+            // and the OPEN XY chain (on the Heisenberg chain k -> N - k is not an involution on the
+            // modes 0..N-1, so there is no mode-chiral-odd sector; the two numbers still carry at M = N).
+            // Parents: ChiralKClaim (the involution, registered above) + FrozenDivisorClaim (the
+            // floor(N/2) count and the modulus, whose PROOF_R90_FROZEN_DIVISOR Lemma 5 is the same matrix
+            // for both chains, five days before F143 was minted). Neither alone gives the statement.
+            // Live: inspect --root seedrung (SeedRungGramWitness).
+            .RegisterSeedRungGramClaim()
             .RegisterF89OcticMonodromyClaim()
             // Multi-sector monodromy verdict (the sectorbraid arc, 2026-07-01): is the S_8 braid the (1,2) octic
             // carries LOCALIZED to (1,2) or SHARED across the joint-popcount sectors? N-dependent -- CONFINED to

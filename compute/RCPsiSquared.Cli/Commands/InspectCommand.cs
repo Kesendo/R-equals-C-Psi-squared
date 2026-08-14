@@ -673,6 +673,17 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("J") ?? 1.0,
                     c.Parser.OptionalDouble("delta") ?? 1.0),
             RequiresN: false, HonorsOptionalN: true),
+        new("seedrung", "F143, the seed rung in closed form, recomputed: the Gram matrix G = W² of squared " +
+            "DST-I mode amplitudes equals (1/M)·(𝟏𝟏ᵀ + (I + R)/2) at M = N+1, so spec(G) = {0 with " +
+            "multiplicity ⌊N/2⌋, 1/M with multiplicity ⌈N/2⌉−1, 1 simple} and the kernel is exactly the " +
+            "chiral-ODD mode sector. 2M·G is an INTEGER matrix, so all three eigenrelations are certified in " +
+            "long arithmetic with no eigensolver and nothing to tolerate; the one floating-point statement, " +
+            "W² against the closed form, is swept N = 2..40 and reported as a multiple of ε·M rather than " +
+            "against a threshold. Carries both fences live: bond disorder (the closed form breaks, the " +
+            "involution does not) and the Heisenberg chain (where the mode reflection is not an involution " +
+            "at all)",
+            c => new SeedRungGramWitness(c.Parser.HasFlag("N") ? c.N : 9),
+            RequiresN: false, HonorsOptionalN: true),
         new("blockspectrum", "the joint-popcount block spectrum, live: the (N+1)² sector decomposition " +
             "(halved by X⊗N, quartered by the F1 Π orbit -- the 100->50->25 story at N=9), the F1 palindrome " +
             "{λ}={−2σ−λ} reconstructed sector-by-sector (full at N≤7), the (0,1) band-edge Absorption floor " +

@@ -341,6 +341,17 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasSeedRungRoot_NFree_HonorsOptionalN()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "seedrung");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("F143", entry.Description);
+        Assert.Contains("INTEGER matrix", entry.Description);
+        Assert.Contains("chiral-ODD", entry.Description);
+    }
+
+    [Fact]
     public void Catalog_HasRenewalRoot_NFree_HonorsOptionalN()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "renewal");

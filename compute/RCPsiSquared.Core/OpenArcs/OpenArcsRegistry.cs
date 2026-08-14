@@ -6533,7 +6533,9 @@ public static class OpenArcsRegistry
                 "INVOLUTION and the sentence saying so kept acquiring errors: K's mode reflection k -> M-k " +
                 "IS F143's R (verified numerically, 1e-15, and it survives bond disorder, needing only " +
                 "KhK = -h and non-degeneracy; what wants UNIFORM hopping is F143's closed form, residual " +
-                "0.06 to 0.17 under disorder), but spec(G) as a mode-side object has no carrier while its " +
+                "0.06 to 0.17 under disorder), but spec(G) as a mode-side object had no carrier THEN, and it " +
+                "has one since 2026-08-14 (SeedRungGramClaim; step (2) below also narrows the disorder " +
+                "sentence just made, since what disorder actually breaks is only the middle band), while its " +
                 "two numbers DO have one on the site side, FrozenDivisorClaim.FrozenMultiplicity for the " +
                 "floor(N/2) count and MirrorWorld's Divisor.ClockModulus for M, both adopted as numbers " +
                 "rather than read off a matrix. THE ERROR WORTH KEEPING, caught by the third round in the " +
@@ -6555,6 +6557,93 @@ public static class OpenArcsRegistry
                 "that sweep counted MENTIONS, and the arc's own warning that a mention is not a carrier " +
                 "applies to them. So the seed-rung chain F143 -> F146 is untyped as a whole, and the " +
                 "decision is about four numbers standing together rather than F145 alone. " +
+                "DECIDED 2026-08-14, and the decision splits the four rather than answering yes or no to " +
+                "all of them. F143 EARNS ONE AND HAS IT: SeedRungGramClaim + SeedRungGramWitness " +
+                "(inspect --root seedrung) + SeedRungGramClaimTests, 21 checks, two typed parents " +
+                "(ChiralKClaim for the involution R, FrozenDivisorClaim for the floor(N/2) count; the " +
+                "MODULUS is attributed to neither, because FrozenDivisorClaim only mentions M in prose and " +
+                "the object that TYPES it is MirrorWorld's Divisor.ClockModulus, across a boundary " +
+                "Diagnostics does not reference, so the claim's TransformLength is a knowing second " +
+                "spelling and says so). It clears BOTH admission tests where the " +
+                "others do not: the repo re-uses its 1/M gap as the moat a numeric rank read needs, and its " +
+                "evidence goes live without an eigensolver. The lever that made it exact was the SCALING: " +
+                "G's entries 1/M, 3/(2M), 2/M are not binary fractions, but 2M*G is INTEGRAL, " +
+                "Ghat_ac = 2 + [a = c] + [a + c = M] = 2*ones*ones^T + I + R, so the three eigenrelations " +
+                "are long-arithmetic identities compared to 0, and the completeness of the N certified " +
+                "eigenvectors is an exact GF(p) rank rather than a count of them. " +
+                "F144 AND F146 STAY MEASURED, by genre and not by fatigue: a compression bound and a rank " +
+                "count with a number-theoretic hypothesis on M do not reduce to an entry-wise read, so a " +
+                "carrier for them would be a shell around a number, which is what the arc's standing rule " +
+                "forbids. Not because a rank is out of reach: the F143 witness's own completeness check IS " +
+                "an exact GF(p) rank, and FrozenDivisorClaim carries its multiplicity by one. " +
+                "F145 IS THE NEAR MISS AND STAYS OPEN, and the ANSWER TO THE QUESTION THIS STEP ASKED is " +
+                "NEITHER of the two options it offered: its ladder relations ARE exact (integer " +
+                "coefficients 1 and 2, per chiral pair), so it fails neither admission test on its merits; " +
+                "what it needs is a typed primitive for the CELL BASIS OF MODE SETS, which the layer does " +
+                "not have. And it cannot take the cheap option of becoming a MEMBER on " +
+                "SidewaysSpinLadderClaim either, because that claim carries the F142 ladder as CG " +
+                "COEFFICIENTS (ChainSpin, CgTransportNorm, the measured rung norms) and not as an action on " +
+                "cells, so a member there would carry F145's numbers without its statement. That is the " +
+                "recorded next candidate of this step, and it is now a named missing PRIMITIVE rather than " +
+                "an undecided number. " +
+                "FOUR THINGS THE BUILD FOUND, and the last two change a statement rather " +
+                "than a number. (a) The one measured statement, that the DST-I sines produce " +
+                "G at all, is reported as a multiple of eps*M swept over N = 2..40, reaching 2.09 and NOT " +
+                "growing, instead of against a threshold; only the MAX is quoted, the min of such a ratio " +
+                "being a cancellation accident that does not reproduce across summation orders. The first " +
+                "version of the doubly-stochastic assertion beside it used a fixed multiple of eps and " +
+                "FAILED at N = 16 for exactly the reason the no-rounding rule names: a row sum is N terms " +
+                "of size O(1/M), so the model is eps*N. The gate caught the gate. (b) The disorder fence " +
+                "reads 1.98 on 2M*G at N = 9 under J_l = 1 + 0.3*sin(l+1), i.e. 0.099 on G, which sits " +
+                "inside the 0.06 to 0.17 band recorded in step (1) ABOVE (not, as a first draft of this " +
+                "paragraph said, in the F143 registry entry) for a DIFFERENT disorder realisation; recorded " +
+                "as consistent, not as a reproduction. (c) THE FENCE IS NARROWER THAN 'the closed form " +
+                "wants uniform hopping' SOUNDS, and the first version of the test hid this by asserting the " +
+                "survival half through ModeReflectionIsAnInvolution, an index map no bond profile can " +
+                "touch: a tautology dressed as a control, and a review caught it. Under any profile WITH NO " +
+                "ZERO BOND, KhK = -h still makes the squared amplitudes chirally equal, so W R = W, hence " +
+                "G R = G, hence every R-odd vector is STILL annihilated: the kernel, its identity as the " +
+                "R-odd sector and its dimension floor(N/2) survive disorder, and so does lambda_max = 1 " +
+                "(measured at the eps*N/gap level, N = 5, 7, 9, 12). What uniform hopping buys is the " +
+                "middle band's common VALUE 1/M, which splits, and with it the entry-wise closed form and " +
+                "the moat's GUARANTEE (not the moat: the first non-kernel eigenvalue is simply no longer " +
+                "BOUNDED below by 1/M, reading 0.074 against a uniform 0.100 at N = 9 while staying above " +
+                "at N = 5, 0.171 against 0.167; asserting '< gap' at every N was an overclaim and the test " +
+                "caught it). The witness now reads these separately (ReadHopping), and the distinction is " +
+                "load-bearing downstream, because what F144 and F146 consume is the COUNT, which does not " +
+                "need the fence at all. " +
+                "(d) AND THE REPAIR ITSELF NEEDED A FOURTH ROUND, which is the shape this repo keeps " +
+                "finding: the first version of (c) generalised to an ARBITRARY bond profile and dropped " +
+                "the very hypothesis ChiralKClaim carries and step (1) above restates, non-degeneracy. The " +
+                "+-eps pairing fixes the eigenVALUES; reading v_{M-k} ~ K v_k off it needs the eigenVECTOR " +
+                "to be determined by its eigenvalue, which an open chain gives exactly when every bond is " +
+                "nonzero (h Jacobi). Three further things the fourth round settled. First, with a zero " +
+                "bond the statement is not FALSE but ILL-POSED: W stops being a function of h, two " +
+                "eigensolvers returning different orthonormal bases of one eigenspace and hence different " +
+                "W, so the control asserts the DEGENERACY (a function of the eigenvalues alone, hence " +
+                "robust) and then DEMONSTRATES the basis-dependence by building other valid eigenbases " +
+                "rather than pinning any solver's number. Getting that demonstration right took three " +
+                "tries, each caught by the test rather than by a reviewer, and the failures are the " +
+                "content: asserting large residuals at N = 6 pins a LAPACK convention (the +-mixed basis " +
+                "of the two identical trimers reads them as exactly 0); rotating by 45 degrees inside the " +
+                "degenerate spaces reproduces the solver's own reading at N = 4; and rotating EVERY " +
+                "eigenspace by the SAME angle also changes nothing, because that keeps the chiral partners " +
+                "in step. Only rotating ONE eigenspace independently breaks it, which is now what the scan " +
+                "does. An earlier draft of this paragraph adopted a reviewer's N = 4 numbers before they " +
+                "were reproduced here; they were not reproducible, for exactly the reason above. " +
+                "Second, the kernel read was " +
+                "ONE-SIDED: max|lambda| over the floor(N/2) lowest eigenvalues certifies nullity >= " +
+                "floor(N/2) and never <=, and it never touches the kernel's IDENTITY, so it now reads " +
+                "max||G x|| over the chiral differences plus the first NON-kernel eigenvalue. Third, " +
+                "lambda_max = 1 is NOT a control and is no longer used as one: W is doubly stochastic for " +
+                "the squared amplitudes of ANY orthonormal basis, so that read cannot fail on physics, and " +
+                "SIMPLICITY of the 1 (irreducibility, which the disconnected chain loses) is not certified " +
+                "anywhere. The residual gates carry the h-spectral GAP now, an eigenvector's backward error " +
+                "being O(eps*||h||/gap): at bonds [1,1,1e-10,1,1], legal under the hypothesis, the chiral " +
+                "residual reaches 6.7e-6, which a constant times eps*N would have called a failure. " +
+                "Four breadcrumbs closed with it: ChiralKClaim's prose and its F143 node both said " +
+                "spec(G) has no typed carrier, the registry entry's Typed layer paragraph said the same, " +
+                "and so did step (1) of this very arc, twelve lines above. " +
                 "(3) F153 IS DONE (2026-08-13): PinnedBlockFloorClaim + PinnedBlockFloorWitness " +
                 "(inspect --root pinned) + PinnedBlockFloorClaimTests, two typed parents " +
                 "(AbsorptionTheoremClaim for the floor, JointPopcountSectors for the grading), the whole " +
