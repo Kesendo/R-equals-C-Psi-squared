@@ -6497,13 +6497,26 @@ public static class OpenArcsRegistry
                 "TWENTY-ONE have no mention anywhere in compute/*.cs: 13, 19, 20, 21, 24, 29, 30, 31, 32, 35, " +
                 "40, 45, 46, 47, 48, 51, 143, 145, 149, 152, 153. That number OVERSTATES the gap and " +
                 "UNDERSTATES it at the same time, and both directions were measured rather than supposed. It " +
-                "overstates, because a typed carrier can exist without ever writing the number: F143 s " +
-                "subject is carried by ChiralKClaim and F149 s by RingN4DihedralLockClaim, neither of which " +
+                "overstates, because a typed carrier can exist without ever writing the number: F143's " +
+                "subject is carried by ChiralKClaim and F149's by RingN4DihedralLockClaim, neither of which " +
                 "names its F-number, so those two are missing BREADCRUMBS and not missing objects. It " +
-                "understates, because a mention in a comment or a test is not a carrier: F145 s only C# " +
-                "occurrence is inside SidewaysSpinLadderClaimRegistrationTests. " +
+                "understates, because a mention in a comment or a test is not a carrier. " +
+                "THE EXAMPLE THAT SENTENCE ORIGINALLY GAVE WAS FALSE, corrected 2026-08-14 by a mechanical " +
+                "sweep during the handover of this entry: it said F145's only C# occurrence was inside " +
+                "SidewaysSpinLadderClaimRegistrationTests, and the string F145 has NEVER appeared in that " +
+                "file, at HEAD or at any commit around 2026-08-13 (git log -S and git grep both empty). The " +
+                "sentence also contradicted the list three lines above it, which puts 145 among the numbers " +
+                "with no mention ANYWHERE. The LIST is the sound half and the example was the defect; the " +
+                "correct example of the understatement is F144 and F146, whose only occurrences were this " +
+                "OpenArcs prose (this file) and one comment, which is why step (2) below found them missing from " +
+                "the twenty-one. " +
+                "AND THE TWENTY-ONE IS DATED, not standing: it was measured on 2026-08-13 and steps (1) to " +
+                "(3) have since given F143, F149 and F153 C# carriers, so re-run the sweep before any " +
+                "step leans on the count, step (5) above all. F152 is NOT among those three that gained " +
+                "carriers, and it IS still one of the twenty-one: its subject is live but the STRING F152 " +
+                "appears in no .cs file, which is exactly the breadcrumb step (3) leaves open. " +
                 "THE TWENTY-ONE SPLIT BY GENRE, and only one half is a gap. Sixteen are a coherent spring " +
-                "block, all Tier 2: F13 the r* threshold, F19 and F40 the fragile bridge, F20 the thermal " +
+                "block, fifteen of them Tier 2 and F24 the exception named at the end of the list: F13 the r* threshold, F19 and F40 the fragile bridge, F20 the thermal " +
                 "V-effect, F21 self-heating, F29 the star threshold, F30 the gamma channel capacity, F31 the " +
                 "relay bound, F32 the optimal protection state, F35 the lifetime ratio, F45 to F48 the Bures " +
                 "geometry at the fold, F51 the cockpit reduction. Those live on the propagation, Python and " +
@@ -6514,17 +6527,36 @@ public static class OpenArcsRegistry
                 "otherwise typed itself well: F143, F145, F149. Two are the ones minted today, F152 and F153. " +
                 "A SECOND, WIDER LAYER: 63 numbers are named in no *Claim*.cs at all; among the recent ones " +
                 "126, 134, 138, 141, 143, 144, 145, 146, 149, 152 and 153. " +
-                "NOT A GAP, said here so it is not re-found as one: MirrorWorld s Formulas.cs is a deliberate " +
+                "NOT A GAP, said here so it is not re-found as one: MirrorWorld's Formulas.cs is a deliberate " +
                 "SUBSET, the adopted closed forms with nothing re-derived, so F132 to F151 being absent from " +
-                "it is a property of that file s genre. Whether the August entries should be adopted there is " +
+                "it is a property of that file's genre. Whether the August entries should be adopted there is " +
                 "a decision, and it is the LAST step of this arc rather than the first. " +
                 "HOW THE INVENTORY WAS TAKEN, so it can be re-run: registry headings by regex including the " +
                 "lettered and multi-part ones (F88a, F89c to F89h, F108 Part 1), then a word-boundary search " +
                 "for F<n> not followed by a digit over every .cs under compute/ with obj/ and bin/ excluded. " +
                 "WHAT WAS NOT MEASURED, and it is the other direction of the same question: which typed " +
-                "claims and live witnesses carry a result that has NO registry entry. Today s sweep ran " +
+                "claims and live witnesses carry a result that has NO registry entry. Today's sweep ran " +
                 "registry-to-code only.",
             NextStep:
+                "READ THIS FIRST, because the rest is one long paragraph and a returning session needs the " +
+                "shape before the detail. SEVEN steps. (1) DONE, (2) DECIDED but F145 still OPEN inside it, " +
+                "(3) DONE with two items left inside it, (4) (5) (6) (7) UNTOUCHED. Two of the three " +
+                "finished steps therefore still carry live work; the headline word is about the DECISION, " +
+                "not about the step being empty. THE CHEAPEST LIVE ITEM is the F152 breadcrumb inside " +
+                "step (3): its subject is already carried by BlockSpectrumWitness " +
+                "(compute/RCPsiSquared.Diagnostics/Foundation/BlockSpectrumWitness.cs, live at " +
+                "inspect --root blockspectrum) and only the return edge to the F-number is missing. THE " +
+                "FOUR HOUSE PLACES that a breadcrumb is added in, spelled out because the phrase recurs " +
+                "below and is a convention rather than a rule anyone can look up: the claim's Name string, " +
+                "its DisplayName, its Anchor string, and the registry entry's own Typed layer paragraph in " +
+                "docs/ANALYTICAL_FORMULAS.md. F152's case is the WITNESS variant of that, and it is not the " +
+                "same four: a witness carries no Name/Tier/Anchor triple, so what to write is the F-number " +
+                "into BlockSpectrumWitness's class doc-comment and DisplayName, plus the Typed layer " +
+                "paragraph of F152 in the registry. It stays a breadcrumb and not a build precisely because " +
+                "no claim has to be created for it. Every C# object named below lives under compute/, in " +
+                "RCPsiSquared.Core (claims), RCPsiSquared.Diagnostics/Foundation (claims and witnesses) or " +
+                "RCPsiSquared.Cli/Commands/InspectCommand.cs (the inspect roots). One notation: M is the " +
+                "DST-I transform length N + 1 on the open XY chain, and N on the Heisenberg one. " +
                 "(1) THE TWO BREADCRUMBS: DONE 2026-08-13, and the estimate was wrong in a useful way. " +
                 "'One line each' held only for F149, where the registry entry ALREADY named " +
                 "RingN4DihedralLockClaim and only the return edge was missing (added in the four house " +
@@ -6540,7 +6572,8 @@ public static class OpenArcsRegistry
                 "floor(N/2) count and MirrorWorld's Divisor.ClockModulus for M, both adopted as numbers " +
                 "rather than read off a matrix. THE ERROR WORTH KEEPING, caught by the third round in the " +
                 "REPAIR rather than in the original: the site reversal is l -> N+1-l on BOTH chains, not " +
-                "M-l, and writing M-l is false exactly on the Heisenberg chain the sentence was about " +
+                "M-l (Lemma 5 of docs/proofs/PROOF_R90_FROZEN_DIVISOR.md, which is where this law lives), " +
+                "and writing M-l is false exactly on the Heisenberg chain the sentence was about " +
                 "(Lemma 5's law residual 0.10/0.083/0.071 at N=5,6,7 under the wrong map, 2e-16 under the " +
                 "right one). The paragraph warning against conflating the site and mode involutions had " +
                 "conflated them. Two same-file tensions closed with it: the K-anticommutation bullet now " +
@@ -6549,7 +6582,10 @@ public static class OpenArcsRegistry
                 "not 'exposed' when two inspect nodes print c_5 through c_10 as prose. The F149 anchor " +
                 "string also gained simulations/ring_dihedral_lock_limit.py, the ladder's own gate, which " +
                 "the registry entry had named and the claim had not. " +
-                "(2) F145, the seed triplet: decide whether it earns its own claim or belongs as a member on " +
+                "(2) DECIDED 2026-08-14. THE QUESTION AS ORIGINALLY POSED FOLLOWS FIRST and is superseded " +
+                "text, kept because the decision is best read against it; it ends at the marker THE " +
+                "QUESTION ENDS below. F145, the seed triplet: decide whether it earns its own claim or " +
+                "belongs as a member on " +
                 "SidewaysSpinLadderClaim, which already carries the ladder it sits in. Its only C# mention " +
                 "today is a test file, which is the weakest kind of carrier. MEASURED WHILE DOING (1), and " +
                 "it makes this step wider than one number: F144 and F146 are in the SAME condition, their " +
@@ -6557,6 +6593,11 @@ public static class OpenArcsRegistry
                 "that sweep counted MENTIONS, and the arc's own warning that a mention is not a carrier " +
                 "applies to them. So the seed-rung chain F143 -> F146 is untyped as a whole, and the " +
                 "decision is about four numbers standing together rather than F145 alone. " +
+                "THE QUESTION ENDS. Two of its sentences are false and were left standing here on purpose, " +
+                "since this block is a record of what was asked and not of what is true: 'its only C# " +
+                "mention today is a test file' is the sentence ParkedAt above demolishes (the string F145 " +
+                "has never appeared in SidewaysSpinLadderClaimRegistrationTests), and 'the seed-rung chain " +
+                "is untyped as a whole' stopped being true the moment F143 got its carrier below. " +
                 "DECIDED 2026-08-14, and the decision splits the four rather than answering yes or no to " +
                 "all of them. F143 EARNS ONE AND HAS IT: SeedRungGramClaim + SeedRungGramWitness " +
                 "(inspect --root seedrung) + SeedRungGramClaimTests, 21 checks, two typed parents " +
@@ -6603,7 +6644,9 @@ public static class OpenArcsRegistry
                 "touch: a tautology dressed as a control, and a review caught it. Under any profile WITH NO " +
                 "ZERO BOND, KhK = -h still makes the squared amplitudes chirally equal, so W R = W, hence " +
                 "G R = G, hence every R-odd vector is STILL annihilated: the kernel, its identity as the " +
-                "R-odd sector and its dimension floor(N/2) survive disorder, and so does lambda_max = 1 " +
+                "R-odd sector and its dimension floor(N/2) survive disorder, and so does lambda_max = 1, " +
+                "though see (d): that last one is true and uninformative and must not be quoted as evidence " +
+                "for anything, " +
                 "(measured at the eps*N/gap level, N = 5, 7, 9, 12). What uniform hopping buys is the " +
                 "middle band's common VALUE 1/M, which splits, and with it the entry-wise closed form and " +
                 "the moat's GUARANTEE (not the moat: the first non-kernel eigenvalue is simply no longer " +
@@ -6612,7 +6655,8 @@ public static class OpenArcsRegistry
                 "caught it). The witness now reads these separately (ReadHopping), and the distinction is " +
                 "load-bearing downstream, because what F144 and F146 consume is the COUNT, which does not " +
                 "need the fence at all. " +
-                "(d) AND THE REPAIR ITSELF NEEDED A FOURTH ROUND, which is the shape this repo keeps " +
+                "(d) AND THE REPAIR ITSELF NEEDED A FOURTH ROUND (this step's own count, unrelated to the " +
+                "three rounds step (1) spent on a sentence), which is the shape this repo keeps " +
                 "finding: the first version of (c) generalised to an ARBITRARY bond profile and dropped " +
                 "the very hypothesis ChiralKClaim carries and step (1) above restates, non-degeneracy. The " +
                 "+-eps pairing fixes the eigenVALUES; reading v_{M-k} ~ K v_k off it needs the eigenVECTOR " +
@@ -6643,8 +6687,13 @@ public static class OpenArcsRegistry
                 "residual reaches 6.7e-6, which a constant times eps*N would have called a failure. " +
                 "Four breadcrumbs closed with it: ChiralKClaim's prose and its F143 node both said " +
                 "spec(G) has no typed carrier, the registry entry's Typed layer paragraph said the same, " +
-                "and so did step (1) of this very arc, twelve lines above. " +
-                "(3) F153 IS DONE (2026-08-13): PinnedBlockFloorClaim + PinnedBlockFloorWitness " +
+                "and so did step (1) of this very arc, which now points forward to the carrier instead. " +
+                "ONE TENSION THIS LEAVES, named rather than smoothed: F143's admission rested on the repo " +
+                "re-using its 1/M gap as a moat, and finding (c) made the moat conditional. The admission " +
+                "still holds, because the entry's own scope is the UNIFORM chain and the moat is there; " +
+                "what a later reader must not do is carry the moat argument across the fence into the " +
+                "disordered case, where only the count survives and not its bound. " +
+                "(3) DONE, with two items still open inside it. F153 IS DONE (2026-08-13): PinnedBlockFloorClaim + PinnedBlockFloorWitness " +
                 "(inspect --root pinned) + PinnedBlockFloorClaimTests, two typed parents " +
                 "(AbsorptionTheoremClaim for the floor, JointPopcountSectors for the grading), the whole " +
                 "(N+1)^2 sweep read entry-wise with every predicted residual == 0.0 exactly. The ZZ " +
@@ -6678,9 +6727,21 @@ public static class OpenArcsRegistry
                 "verifier would need a profile row), and F152, whose subject is already carried live by " +
                 "BlockSpectrumWitness (inspect --root blockspectrum) without naming its F-number, so it " +
                 "is a breadcrumb and not a build. " +
-                "The original entry, kept because its correction list is what travelled: " +
+                "SUPERSEDED TEXT BEGINS HERE and ends at the marker SUPERSEDED TEXT ENDS below. Everything " +
+                "between the two is the entry as it stood BEFORE F153 was built, kept only because its " +
+                "correction list is what travelled into the carrier. THREE of its sentences are false and " +
+                "the block also contains one that is still true, which is why a blanket 'ignore this' will " +
+                "not do. FALSE, and it is the block's FIRST sentence, so a reader searching for F152 lands " +
+                "on it: 'F152 and F153 have no typed claim and no live root' is half wrong even for F152, " +
+                "whose subject IS live at inspect --root blockspectrum (only the typed claim is absent), " +
+                "and wholly wrong for F153, which now has both. FALSE: 'F153 is the stronger candidate', " +
+                "dead text since F153 was built. FALSE, and it is the block's LAST sentence: the uniform-" +
+                "gamma reading, refuted by finding (d) above, its numbers 0.490 and 0.948 measuring " +
+                "spreading where the fact is that the block leaves its FLOOR. STILL TRUE and the reason " +
+                "the block is here at all: the ZZ correction, the paragraph beginning 'ONE CORRECTION MUST " +
+                "TRAVEL WITH ANY CARRIER'. " +
                 "F152 and F153 have no typed claim and no live root. F153 is the stronger candidate, " +
-                "because the repo intends to REUSE it: it locates F1 s rate-reading blindness, naming the 4N " +
+                "because the repo intends to REUSE it: it locates F1's rate-reading blindness, naming the 4N " +
                 "blocks where a rate reading loses nothing and the (N-1)^2 where it does. ONE CORRECTION MUST " +
                 "TRAVEL WITH ANY CARRIER, found by the review that landed the entry: the pinned block is " +
                 "c*Id + i*S with S REAL SYMMETRIC, the hops PLUS the ZZ diagonal, because the ZZ term puts a " +
@@ -6689,18 +6750,21 @@ public static class OpenArcsRegistry
                 "bit-exactly because Pair.Rate carries no ZZ; copying that form into a Heisenberg carrier " +
                 "would re-commit the error the entry was repaired for. And the criterion needs UNIFORM gamma: " +
                 "under a profile the pinned block spreads, 0.490 at N=4 and 0.948 at N=5, measured. " +
-                "(4) F24, the one Tier-1 spring entry with no C# trace: decide genre or gap. " +
-                "(5) THE 63 WITHOUT A CLAIM: triage by tier and by whether the repo re-uses the result, never " +
+                "SUPERSEDED TEXT ENDS. That last sentence is the one finding (d) refuted: under a profile " +
+                "the block leaves its FLOOR, which is not the same as spreading, and at Delta = 0 strong " +
+                "coupling re-flattens it. Read (d), not the sentence above it. " +
+                "(4) UNTOUCHED. F24, the one Tier-1 spring entry with no C# trace: decide genre or gap. " +
+                "(5) UNTOUCHED. THE 63 WITHOUT A CLAIM: triage by tier and by whether the repo re-uses the result, never " +
                 "by number order, and expect most of the Tier-2 spring block to end in genre rather than gap. " +
-                "(6) MIRRORWORLD LAST, deliberately. That project ADOPTS rather than derives, so nothing " +
+                "(6) UNTOUCHED, AND DELIBERATELY LAST. MIRRORWORLD, deliberately. That project ADOPTS rather than derives, so nothing " +
                 "should be adopted into Formulas.cs until the entry it comes from has settled and its typed " +
-                "carrier exists. Doing it first would copy the registry s unfinished state into a second " +
+                "carrier exists. Doing it first would copy the registry's unfinished state into a second " +
                 "place. " +
-                "(7) THEN THE REVERSE SWEEP that today s did not run: typed claims and live witnesses whose " +
+                "(7) UNTOUCHED. THEN THE REVERSE SWEEP that today's did not run: typed claims and live witnesses whose " +
                 "result has no registry entry. " +
                 "THE STANDING RULE while this arc runs, from the sweeps that opened it: absence of a carrier " +
-                "is not by itself a reason to build one. The registry s own admission test is that an entry " +
-                "must let a reader skip a computation; the typed layer s is CLAUDE.md s rule that a claim s " +
+                "is not by itself a reason to build one. The registry's own admission test is that an entry " +
+                "must let a reader skip a computation; the typed layer's is CLAUDE.md's rule that a claim's " +
                 "EVIDENCE lands as a live witness. A Tier-2 hardware reading satisfies neither, and forcing " +
                 "it into C# would be work that makes the object manager larger without making it truer.",
             Status: OpenArcStatus.Open),
