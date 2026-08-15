@@ -6949,7 +6949,9 @@ public static class OpenArcsRegistry
                 "-2 dim 3 break at 0.129/0.258; the mixed omega = +2 dim 4 and +4 dim 3 hold), all " +
                 "four mixed break on (2,4). Bond control: the mixed collisions are a UNIFORM-chain " +
                 "resonance (a fixed palindromic J and a ten-profile random palindromic sweep leave " +
-                "zero mixed spaces), and a non-palindromic J breaks the law outright (0.456). " +
+                "zero mixed spaces), and a non-palindromic J breaks C_l = 0 outright (0.456; the " +
+                "reflection law, not the Delta = 1 uniform law, whose T_s line NextStep (2) derives " +
+                "for any SU(2)-invariant H). " +
                 "Off-locus overshoots: on the self-folded (1,3) the two ends are ONE fact (the " +
                 "undressed one-sided X^N fold F: (a,b) -> (a, complement b) with F D F = -D - " +
                 "2*sigma, exact for any Delta and profile; the sibling full-block statement at " +
@@ -6965,8 +6967,19 @@ public static class OpenArcsRegistry
                 "map but the PAIR-sum map of the comb, injective up to the chiral zeros at M = 9 " +
                 "(same Lam-Leung import, weight 8), and BOTH surviving one-body connections are " +
                 "parity-even, so every comp(N_l) is parity-block-diagonal, per site: stronger than " +
-                "the measured C_l = 0. (2) Derive the uniform law at Delta = 1 by an " +
-                "SU(2) ladder argument in F144's genre. (3) What separates the Delta = 1, N = 6 mixed " +
+                "the measured C_l = 0. (2) CLOSED 2026-08-15: the uniform law at Delta = 1 is derived " +
+                "(docs/proofs/PROOF_UNIFORM_LAW.md, gate simulations/uniform_law_gate.py). The arc's " +
+                "guess (an SU(2) ladder in F144's genre) was not the engine. Two layers: for ANY " +
+                "SU(2)-invariant H the S_N orbit-sum operator T_s = sum of class-s cells lies in " +
+                "every Omega_s (span{T_s} = span of the multiplet intertwiners M_S, the count " +
+                "matching F154's s-range), and on that line the law is an INTEGER double count; the " +
+                "uniform chain adds exactly three enhanced rows ((1,1) s=2, (1,N-1) s=N-2, " +
+                "(N-1,N-1) s=2, each dim floor(N/2), census N = 5..8), carried by the one-magnon " +
+                "cosine densities' complementary pairing d_m + d_{N-m} = 2/N: the purity kernel is " +
+                "the pair-equalities, Hadamard-closed, and class purity kills the compression's " +
+                "cross terms identically. Generic-H control: a random SWAP graph keeps the law and " +
+                "loses the enhancement (gated on all blocks at N = 6, corner blocks at N = 8). " +
+                "(3) What separates the Delta = 1, N = 6 mixed " +
                 "spaces that break from the two on (1,3) that hold, and why the breaking spaces' " +
                 "compressed spectra stay INSIDE the centre interval on the locus (measured with " +
                 "slack). (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +

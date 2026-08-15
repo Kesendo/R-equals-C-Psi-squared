@@ -38,7 +38,9 @@ cell rates differ within a class under a profile), while the uniformity here is 
 statement about the COMPRESSION onto an eigenspace, a different object; both are
 true at once.
 F91 owns the locus, F140 the corner-block fence, and F144 is the genre precedent
-(extremes of a compressed disagreement on ker ad_h, derived by an SU(2) ladder).
+(extremes of a compressed disagreement on ker ad_h, derived by an SU(2) ladder);
+for the uniform law the ladder genre turned out not to be the engine
+([PROOF_UNIFORM_LAW](../docs/proofs/PROOF_UNIFORM_LAW.md)).
 `docs/proofs/`: PROOF_R90_FROZEN_DIVISOR owns the |S|-resolved reflection reading
 (on the rates, rate ↦ 2γ̄|S| − rate; in λ, "the center is −2γ̄|S|"); PROOF_ABSORPTION_THEOREM Theorem 2
 owns the per-site split D = −2 Σ_l γ_l N_l that makes the site-resolved question
@@ -107,7 +109,7 @@ mixed eigenspaces DO exist, four per block tested, the subject of Layer 2 below)
 The mixed Δ = 0 eigenspaces first appear at N = 8: 20 of 59 on (1,3), 21 of 83 on
 (1,4), 50 of 143 on (2,4).
 
-## Layer 2: the two laws, one of them now derived
+## Layer 2: the two laws, both since derived
 
 **The reflection law beyond the symmetry (Δ = 0, the free-fermion resonance).** On
 all 91 mixed eigenspaces at N = 8, C_l = 0 still holds at the floor (max spectral
@@ -130,6 +132,11 @@ selection rule governs.
 Gated on all eight N = 6 blocks and on (1,3), (1,4) at N = 8. Blind to the γ profile
 by construction. At Δ = 0 this law is FALSE (max residual 0.226, gated from below):
 the two resonances carry genuinely different density structure, mirrored vs uniform.
+Since 2026-08-15 the law is DERIVED, in two layers (an S_N orbit-sum line T_s in
+every Ω_s with the law as an integer double count, plus the chain's three enhanced
+one-magnon corner rows via the complementary cosine density pairing):
+[PROOF_UNIFORM_LAW](../docs/proofs/PROOF_UNIFORM_LAW.md), gate
+`simulations/uniform_law_gate.py` (full-block census at N = 5..8).
 
 **Where the reflection law breaks, the parity census says why.** At Δ = 1, N = 6
 every eigenspace that breaks C_l = 0 is MIXED, and every scalar one sits at the floor
@@ -215,7 +222,9 @@ bonds) keeps difference collisions alive for ANY bond profile, but the MIXED
 collisions are a resonance of the uniform chain: the fixed palindromic J and a
 ten-profile random palindromic sweep at N = 8 all leave zero mixed eigenspaces
 (only the forced layer remains, and it holds at the floor), and a non-palindromic
-J breaks the law outright (0.456) on the same collision dimensions, R being no
+J breaks the reflection law C_l = 0 outright (0.456; the Δ = 1 uniform law's
+T_s line holds for any SU(2)-invariant H; its full-row equality is census, and
+no census ran on this H) on the same collision dimensions, R being no
 symmetry there. Gated. So the mixed-space content is, so far, a uniform-chain
 statement, and the non-palindromic arm fences the hypothesis rather than the
 cross-block content.
@@ -258,7 +267,8 @@ self-folded fold symmetry (PROOF_CODIM1_BY_ADDITIVITY §6 and §7 (b)), the
 single-particle reflection parities (review/OBC_SINE_BASIS_FINDINGS). Ours: the parity theorem on scalar eigenspaces and
 the census that shows it covers everything below the N = 8, Δ = 0 frontier; the
 mixed-space reflection law there (with the generic-R-odd contrast); the uniform law
-at Δ = 1 and its failure at Δ = 0; the identity Π D Π = −2γ̄ Π N_XY Π on the locus
+at Δ = 1 (since derived, [PROOF_UNIFORM_LAW](../docs/proofs/PROOF_UNIFORM_LAW.md))
+and its failure at Δ = 0; the identity Π D Π = −2γ̄ Π N_XY Π on the locus
 with containment-on-centres and attainment; the parity characterization of the Δ = 1
 breaks (mixed necessary, not sufficient); the explanation of
 collapse/saturation/small-resonance sizes as one mechanism; and the rational
@@ -266,8 +276,10 @@ interior.
 
 ## What is still open
 
-Why the uniform law holds at Δ = 1 (an SU(2) ladder argument in
-F144's genre is the obvious candidate). What separates the Δ = 1, N = 6 mixed
+Why the uniform law holds at Δ = 1: closed 2026-08-15. The guessed F144-genre
+ladder was not the engine; the derived one is an orbit-sum layer plus the cosine
+density pairing ([PROOF_UNIFORM_LAW](../docs/proofs/PROOF_UNIFORM_LAW.md)).
+Still open: what separates the Δ = 1, N = 6 mixed
 spaces that break from the two on (1,3) that hold, and why the breaking spaces'
 compressed spectra stay INSIDE the centre interval on the locus (measured with
 slack, underived). And the N ≥ 10 frontier, sharpened by the derivation that
