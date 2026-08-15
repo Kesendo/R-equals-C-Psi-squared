@@ -6939,8 +6939,12 @@ public static class OpenArcsRegistry
                 "Containment on the centres is DERIVED wherever every colliding eigenspace is scalar " +
                 "(gate rows: all Delta = 0 through N = 7, all Delta = 0.5 through N = 8, (1,3) and " +
                 "(2,4) at Delta = 1, N = 8, and the omega = 0 carriers at Delta = 1, N = 6), with " +
-                "attainment from the measured pure-vector census on top; at N = 8, Delta = 0 it " +
-                "rests on the MEASURED mixed-space law. Delta = 1, N = 6 breaks: every breaking " +
+                "attainment from the measured pure-vector census on top; at N = 8, Delta = 0 it is " +
+                "DERIVED too, by the mixed-space reflection law " +
+                "(docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md, gate " +
+                "simulations/mixed_space_reflection_gate.py, VERDICT green 2026-08-15: every " +
+                "comp(N_l) separately is parity-block-diagonal, a free-fermion pair-sum selection " +
+                "rule on the M = N + 1 = 9 comb). Delta = 1, N = 6 breaks: every breaking " +
                 "eigenspace is mixed, mixedness not sufficient on (1,3) (omega = -4 dim 2 and " +
                 "-2 dim 3 break at 0.129/0.258; the mixed omega = +2 dim 4 and +4 dim 3 hold), all " +
                 "four mixed break on (2,4). Bond control: the mixed collisions are a UNIFORM-chain " +
@@ -6955,15 +6959,27 @@ public static class OpenArcsRegistry
                 "the extremes to reach at least the centres); the genuinely two-sided case is (2,4), " +
                 "arithmetic lower end, escaping upper end.",
             NextStep:
-                "Sharpest first. (1) Derive the mixed-space law at Delta = 0, N = 8: the parity cross " +
-                "elements need the free-fermion difference structure (candidate collisions " +
-                "e_i - e_j = e_m - e_n with mixed parity products must be absent or cancel; F129's " +
-                "collision law is the natural tool). (2) Derive the uniform law at Delta = 1 by an " +
+                "Sharpest first. (1) CLOSED 2026-08-15: the mixed-space law at Delta = 0, N = 8 is " +
+                "derived (docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md). The arc's guess was one " +
+                "level off in the right direction: the deciding object is not F129's triple level " +
+                "map but the PAIR-sum map of the comb, injective up to the chiral zeros at M = 9 " +
+                "(same Lam-Leung import, weight 8), and BOTH surviving one-body connections are " +
+                "parity-even, so every comp(N_l) is parity-block-diagonal, per site: stronger than " +
+                "the measured C_l = 0. (2) Derive the uniform law at Delta = 1 by an " +
                 "SU(2) ladder argument in F144's genre. (3) What separates the Delta = 1, N = 6 mixed " +
                 "spaces that break from the two on (1,3) that hold, and why the breaking spaces' " +
                 "compressed spectra stay INSIDE the centre interval on the locus (measured with " +
-                "slack). (4) N >= 10: do mixed collisions and the law survive where F129-type cosine " +
-                "collisions grow? (5) The typed carrier: the law was registered as F154 on 2026-08-15 " +
+                "slack). (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
+                "pair-sum map is chiral-only (odd prime powers by the proof's section 7, the 2p and " +
+                "2^a cases gated exactly there, PROOF_SCALAR_COUNT section 4 the subset-form " +
+                "sibling), so N = 10 and N = 12 are protected; the forcing ends at the parity doors " +
+                "6|M with M > 6, 15|M and 21|M (N = 11, 14, 20; M = 6 is F146's recorded " +
+                "exception); the proof's mode-space frontier census shows N = 11 already carries " +
+                "abundant mixed spaces (155/307/609 on the three census blocks) plus the parity-odd " +
+                "candidate e_1 + e_9 = e_5 + e_6 (exact, gated); open half: does the law BREAK at " +
+                "N = 11, i.e. does a parity-odd coincidence land " +
+                "inside a mixed ad_H eigenspace with a nonvanishing one-body element? (5) The typed " +
+                "carrier: the law was registered as F154 on 2026-08-15 " +
                 "(docs/ANALYTICAL_FORMULAS.md; F122 took the scope-extended Mechanism into its own " +
                 "entry, per the no-second-number-for-the-same-object rule), so F154 will show on the " +
                 "named-in-no-*Claim*.cs sweep when it is re-measured, knowingly (the mention-anywhere " +

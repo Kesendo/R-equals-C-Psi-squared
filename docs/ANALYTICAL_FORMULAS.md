@@ -7419,7 +7419,7 @@ inside a single max-spin block, and nothing measured joins them.
 
 ---
 
-### F154. The locus saturation law: on the R₉₀ locus a colliding block's spectrum is CONTAINED in its size-class-centre interval, and a MULTI-CLASS block saturates it exactly when the colliding eigenspaces carry pure-class vectors of the extreme classes; on the all-scalar territory the containment is a theorem (parity theorem derived for any Δ and any profile, hypothesis H reflection-symmetric; census gated N = 4..8 on the census blocks; attainment from the measured pure-vector census; the N = 8, Δ = 0 parity-mixed eigenspaces obey UNFORCED, measured not derived; registered 2026-08-15)
+### F154. The locus saturation law: on the R₉₀ locus a colliding block's spectrum is CONTAINED in its size-class-centre interval, and a MULTI-CLASS block saturates it exactly when the colliding eigenspaces carry pure-class vectors of the extreme classes; on the all-scalar territory the containment is a theorem (parity theorem derived for any Δ and any profile, hypothesis H reflection-symmetric; census gated N = 4..8 on the census blocks; attainment from the measured pure-vector census; the N = 8, Δ = 0 parity-mixed eigenspaces obey by the DERIVED mixed-space reflection law, a free-fermion pair-sum selection rule; registered 2026-08-15, the mixed-space clause derived the same day)
 
     on the R₉₀ locus (γ_l + γ_{N−1−l} = 2γ̄), wherever Π_Ω (N_l − N_{N−1−l}) Π_Ω = 0:
         Π_Ω D Π_Ω = −2γ̄ · Π_Ω N_XY Π_Ω
@@ -7434,7 +7434,8 @@ inside a single max-spin block, and nothing measured joins them.
         from section (C) of THIS entry's gate, the (1,3)/(2,4) rows at
         Δ = 1, N = 8; at Δ = 1, N = 6 the ω = 0 extreme carriers are scalar
         while the breaking interiors are contained too, measured with
-        slack); MEASURED not derived on the N = 8, Δ = 0 mixed spaces;
+        slack), and DERIVED on the N = 8, Δ = 0 mixed spaces by the
+        mixed-space reflection law (PROOF_MIXED_SPACE_REFLECTION_LAW);
         = that interval, spread 2γ̄·(s_max − s_min), on a MULTI-CLASS block
         (s_max > s_min) exactly when colliding eigenspaces hold pure-class
         vectors of BOTH extreme classes; this iff stands under the gated
@@ -7481,7 +7482,13 @@ containment is DERIVED, and attainment follows from the measured pure-vector cen
 The parity-MIXED Δ = 0 eigenspaces first appear
 at N = 8 (91 across three blocks) and STILL satisfy C_l = 0 at the eigensolver
 floor where symmetry permits a cross block of order one (generic R-odd contrast 0.119):
-that half is a LAW, measured and underived. At Δ = 1 the mixed spaces are exactly where
+that half is DERIVED as the mixed-space reflection law
+([PROOF_MIXED_SPACE_REFLECTION_LAW](proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md)):
+at Δ = 0 the site densities are one-body, one-body connections inside an
+eigenspace must solve a pair-sum collision on the M = 9 comb, and the pair-sum
+map is injective up to the chiral zeros (F129's Lam-Leung import at pair
+weight), every surviving connection parity-even; the generic contrast survives
+because a generic diagonal is multi-body, outside the selection rule's reach. At Δ = 1 the mixed spaces are exactly where
 the law can break (every breaking eigenspace at N = 6 is mixed; not sufficient on (1,3));
 the ω = 0 carriers of the extremes are scalar, so the Δ = 1 saturation stands on the
 theorem with the breaking interiors measured to stay inside. The SU(2) resonance carries
@@ -7516,7 +7523,11 @@ never the Liouvillian).
 **Source:** [THE_ENDPOINTS_ARE_A_DENSITY_LAW](../experiments/THE_ENDPOINTS_ARE_A_DENSITY_LAW.md);
 gate [`simulations/endpoint_density_gate.py`](../simulations/endpoint_density_gate.py)
 (VERDICT green 2026-08-15; spectral-norm residuals against the eigh error model
-64·eps·‖A‖/gap, breaks gated from below); the thread is the OpenArcs entry
+64·eps·‖A‖/gap, breaks gated from below); the mixed-space derivation is
+[PROOF_MIXED_SPACE_REFLECTION_LAW](proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md)
+with gate
+[`simulations/mixed_space_reflection_gate.py`](../simulations/mixed_space_reflection_gate.py)
+(VERDICT green 2026-08-15); the thread is the OpenArcs entry
 `compressed_density_laws`. Siblings: [F122](#f122) (the Mechanism whose compressed
 spectra this reads), [F153](#f153) (the pinned single-class case and the source-2
 hypothesis this inherits), [F91](#f91) (the locus),

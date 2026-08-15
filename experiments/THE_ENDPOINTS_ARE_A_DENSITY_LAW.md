@@ -12,8 +12,9 @@ almost every measured case: at Δ = 0 every colliding eigenspace on every census
 block is scalar up to N = 7, and at Δ = ½ up to N = 8. The second layer is a law with real content: the
 parity-MIXED eigenspaces that first appear at N = 8, Δ = 0 STILL carry the
 reflection-symmetric compressed density, at the eigensolver floor, where symmetry
-alone permits a cross block of order one; and at Δ = 1 those mixed spaces are exactly
-where the law can break. The SU(2) resonance adds its own second law: the compressed
+alone permits a cross block of order one; derived the same day at Δ = 0
+([PROOF_MIXED_SPACE_REFLECTION_LAW](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md));
+and at Δ = 1 those mixed spaces are exactly where the law can break. The SU(2) resonance adds its own second law: the compressed
 density on every pure size class is exactly UNIFORM, s/N per site, blind to the whole
 γ profile.
 
@@ -106,14 +107,21 @@ mixed eigenspaces DO exist, four per block tested, the subject of Layer 2 below)
 The mixed Δ = 0 eigenspaces first appear at N = 8: 20 of 59 on (1,3), 21 of 83 on
 (1,4), 50 of 143 on (2,4).
 
-## Layer 2: the two laws, measured
+## Layer 2: the two laws, one of them now derived
 
 **The reflection law beyond the symmetry (Δ = 0, the free-fermion resonance).** On
 all 91 mixed eigenspaces at N = 8, C_l = 0 still holds at the floor (max spectral
 norm 6·10⁻¹⁵), where symmetry permits a cross block of order one: a generic R-odd
 diagonal compressed on the same eigenspaces has norm 0.119. This is the note's
-measured content at Δ = 0, and it is deliberately scoped: it rests on three blocks
-at one N and one Δ, because that is where mixed collisions exist at all.
+measured content at Δ = 0, and it is deliberately scoped: the measurement rests
+on three blocks at one N and one Δ, because that is where mixed collisions
+exist at all. Derived
+the same day, and sharpened: EVERY comp(N_l) separately is parity-block-diagonal,
+a free-fermion pair-sum selection rule on the M = 9 comb
+([PROOF_MIXED_SPACE_REFLECTION_LAW](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md),
+gate `simulations/mixed_space_reflection_gate.py`); the generic contrast stays
+free because a generic diagonal is multi-body, outside the one-body reach the
+selection rule governs.
 
 **The uniform law (Δ = 1, the SU(2) resonance).** On every Ω_s:
 
@@ -172,8 +180,10 @@ from the measured pure-vector census on top. On the blocks in the census, that
 territory is: all Δ = 0 rows through N = 7, all Δ = ½ rows through N = 8, the
 Δ = 1 rows at N = 8 ((1,3) and (2,4), gate section C), and the extreme-carrying ω = 0
 spaces at Δ = 1, N = 6 (with the breaking spaces' interior containment measured,
-not derived). At N = 8, Δ = 0 the saturation rests on the measured mixed-space law
-and is exact but not yet derived.
+not derived). At N = 8, Δ = 0 the containment is derived too, the mixed-space
+law being the theorem of
+[PROOF_MIXED_SPACE_REFLECTION_LAW](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md);
+attainment rides the measured pure-vector census there like everywhere else.
 
 And the sizes of the resonances stop being accidents. At Δ = ½, N = 6, NO colliding
 eigenspace of (1,3) contains a pure-class vector (gated: zero of six), so nothing
@@ -256,16 +266,22 @@ interior.
 
 ## What is still open
 
-Why the mixed-space reflection law holds at Δ = 0, N = 8: the cross matrix elements
-between the parity halves vanish for a reason the one-body selection rules alone do
-not supply (candidate collisions e_i − e_j = e_m − e_n with mixed parity products
-need to be absent or to cancel; F129's collision law is the natural tool and is not
-applied here). Why the uniform law holds at Δ = 1 (an SU(2) ladder argument in
+Why the uniform law holds at Δ = 1 (an SU(2) ladder argument in
 F144's genre is the obvious candidate). What separates the Δ = 1, N = 6 mixed
 spaces that break from the two on (1,3) that hold, and why the breaking spaces'
 compressed spectra stay INSIDE the centre interval on the locus (measured with
-slack, underived). And whether mixed collisions and the law survive at N ≥ 10,
-where F129-type cosine collisions grow (the census stops at N = 8).
+slack, underived). And the N ≥ 10 frontier, sharpened by the derivation that
+closed this list's first item (the mixed-space law at Δ = 0, N = 8, now
+[PROOF_MIXED_SPACE_REFLECTION_LAW](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md)):
+the law is FORCED wherever the comb's pair-sum map is chiral-only (odd prime
+powers by that proof's §7, the 2p and 2^a cases gated exactly there,
+PROOF_SCALAR_COUNT §4 the subset-form sibling), so N = 10 and N = 12 are
+protected, and the forcing ends at the parity doors 6|M with M > 6, 15|M and
+21|M (N = 11, 14, 20; M = 6 is F146's recorded exception); at N = 11 both
+ingredients are already present, abundant mixed spaces (that proof's
+mode-space frontier census) and the parity-odd coincidence e₁ + e₉ = e₅ + e₆
+(exact, gated there); whether the law actually breaks at N = 11 is open (the
+eigensolver census stops at N = 8).
 
 ## The gate
 
