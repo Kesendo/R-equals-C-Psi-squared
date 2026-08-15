@@ -69,8 +69,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// OFF the locus at Δ = 0 the palindrome holds while the span saturates, and at Δ = 0.5 it saturates at N = 6 but
 /// not at N = 4 (measured on γ_l = (l+1)²/16, spread at J = 10³ and 10⁵: (0,2) at N = 4 reads 0.2236 twice at Δ = 0
 /// and 0.0000 at Δ = 0.5; (0,3) at N = 6 reads 0.5325 at Δ = 0 and 0.6456 at Δ = 0.5, each J-stable;
-/// measured, not gated, the theory below using a different off-locus profile). ON the locus every pinned block of dimension
-/// above one collapses, past its onset, at every Δ measured. The criterion is about attaining the FLOOR, and a carrier that tested only
+/// measured, not gated, the theory below using a different off-locus profile; WHY Δ and N select in
+/// those OFF-locus readings is explained in experiments/THE_SPREAD_IS_A_RESONANCE.md, the saturation
+/// being a resonance of the sector difference spectrum and the N clause its resonance count, the
+/// Δ = 0.5 half-filling double levels numbering 0 / 1 / 8 at N = 4 / 6 / 8). ON the locus every pinned
+/// block of dimension above one collapses, past its onset, at every Δ measured.
+/// The criterion is about attaining the FLOOR, and a carrier that tested only
 /// flatness would pass on the flat ones.
 /// (iii) The spectral half is GATED since 2026-08-14, and it is gated EXACTLY, because it turned out not to
 /// need an eigensolver: under Z-dephasing, Herm(L_block) = −2·diag(rate) for any Hermitian H and any

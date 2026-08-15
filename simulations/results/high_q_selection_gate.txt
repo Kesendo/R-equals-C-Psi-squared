@@ -1,0 +1,119 @@
+==============================================================================
+THE HIGH-Q SELECTION GATE: flat is generic, spread is a resonance
+==============================================================================
+locus profile   [0.0625 0.125  0.1875 0.8125 0.875  0.9375]  on locus: True  sigma = 3.0
+off-locus prof. [0.0625 0.25   0.5625 1.     1.5625 2.25  ]  on locus: False  sigma = 5.6875
+
+(A) THE RULE. dev(J) = max|predicted - dense| per row. Bound: each dev
+    <= 3e3/J^2 + 32*eps*J*||A||; truncation-window rows (1e-7 < dev(1e3)
+    < 1e-2) must shrink 30..300x to J = 1e4 (pure 1/J^2 = 100x); rows
+    above the window at J = 1e3 are below the validity scale J*, printed
+    and not gated there.
+    Delta=0.0  (0,3): dev(1e3)=3.59e-12 dev(1e4)=4.36e-11 dev(1e6)=3.93e-09 ||A||=7.0
+    Delta=0.0  (1,3): dev(1e3)=8.08e-07 dev(1e4)=8.08e-09 dev(1e6)=5.97e-09 ||A||=10.6  ratio(1e3/1e4)=100
+    Delta=0.0  (2,3): dev(1e3)=5.77e-07 dev(1e4)=5.78e-09 dev(1e6)=1.28e-08 ||A||=13.1  ratio(1e3/1e4)=100
+    Delta=0.0  (3,3): dev(1e3)=8.08e-07 dev(1e4)=8.08e-09 dev(1e6)=2.33e-08 ||A||=14.0  ratio(1e3/1e4)=100
+    Delta=0.5  (0,3): dev(1e3)=1.34e-11 dev(1e4)=8.73e-11 dev(1e6)=7.45e-09 ||A||=10.9
+    Delta=0.5  (1,3): dev(1e3)=1.74e-05 dev(1e4)=1.74e-07 dev(1e6)=1.30e-08 ||A||=12.6  ratio(1e3/1e4)=100
+    Delta=0.5  (2,3): dev(1e3)=1.44e-03 dev(1e4)=1.40e-05 dev(1e6)=1.12e-08 ||A||=13.8  ratio(1e3/1e4)=103
+    Delta=0.5  (3,3): dev(1e3)=4.81e-04 dev(1e4)=4.74e-06 dev(1e6)=1.96e-08 ||A||=14.2  ratio(1e3/1e4)=101
+    Delta=1.0  (0,3): dev(1e3)=7.27e-12 dev(1e4)=1.18e-10 dev(1e6)=1.30e-08 ||A||=15.0
+    Delta=1.0  (1,3): dev(1e3)=2.93e-06 dev(1e4)=2.93e-08 dev(1e6)=8.53e-09 ||A||=15.0  ratio(1e3/1e4)=100
+    Delta=1.0  (2,3): dev(1e3)=6.99e-06 dev(1e4)=6.99e-08 dev(1e6)=2.03e-08 ||A||=15.0  ratio(1e3/1e4)=100
+    Delta=1.0  (3,3): dev(1e3)=6.42e-07 dev(1e4)=6.42e-09 dev(1e6)=3.11e-08 ||A||=15.0  ratio(1e3/1e4)=100
+    Delta=2.0  (0,3): dev(1e3)=1.97e+00 dev(1e4)=8.76e-11 dev(1e6)=5.81e-09 ||A||=23.6  [below J* at 1e3, not gated there]
+    Delta=2.0  (1,3): dev(1e3)=1.28e+00 dev(1e4)=1.14e-10 dev(1e6)=1.48e-08 ||A||=20.6  [below J* at 1e3, not gated there]
+    Delta=2.0  (2,3): dev(1e3)=4.84e-01 dev(1e4)=2.75e-10 dev(1e6)=4.77e-08 ||A||=20.2  [below J* at 1e3, not gated there]
+    Delta=2.0  (3,3): dev(1e3)=5.31e-01 dev(1e4)=3.17e-08 dev(1e6)=3.66e-08 ||A||=20.1  [below J* at 1e3, not gated there]
+
+(B) FLAT IS GENERIC: predicted spread on the Delta grid (locus profile).
+    Zero (< 1e-6) off {0, 0.5, 1}; the committed values at the three.
+    Delta=0.0000  spread (1,3)=2.0000  (2,3)=4.0000  [resonant]
+    Delta=0.1000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=0.2000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=0.2500  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=0.3333  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=0.4000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=0.5000  spread (1,3)=0.4494  (2,3)=0.5663  [resonant]
+    Delta=0.6000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=0.6667  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=0.7500  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=0.8000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=0.9000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=1.0000  spread (1,3)=2.0000  (2,3)=4.0000  [resonant]
+    Delta=1.1000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=1.2500  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=1.3333  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=1.5000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=1.6667  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=1.7500  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=2.0000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=2.2500  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=2.5000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=3.0000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    Delta=4.0000  spread (1,3)=0.0000  (2,3)=0.0000  [generic]
+    the Delta -> -Delta mirror (sublattice rotation), spot-checked:
+      Delta=-0.25: (1,3) spread 0.0000 (want 0.0)
+      Delta=-0.5: (1,3) spread 0.4494 (want 0.4494)
+      Delta=-1.0: (1,3) spread 2.0000 (want 2.0)
+    gamma-bar proportionality, exact: max|pred(1.5g) - 1.5*pred(g)|:
+      Delta=0.5: 2.66e-15
+      Delta=2.0: 1.78e-15
+
+(C) THE CANCELLATION. [H, X^N] compared == 0.0 entry-wise; nondegenerate
+    half-filling densities at 1/2 (eigh backward error, tol 1e-10), at
+    Delta = 2 (all simple) and 0.5 (the doublet exempted); flat value
+    exactly -sigma on THREE blocks and BOTH profiles at generic Delta.
+    Delta=0.5: max|[H, X^N]| = 0.0
+    Delta=1.0: max|[H, X^N]| = 0.0
+    Delta=2.0: max|[H, X^N]| = 0.0
+    Delta=0.5: 18/20 half-filling levels simple; max|n_l - 1/2| = 1.89e-15 on them (1.62e-02 over all)
+    Delta=2.0: 20/20 half-filling levels simple; max|n_l - 1/2| = 1.92e-13 on them (1.92e-13 over all)
+    locus     Delta=0.75: worst spread 7.25e-13, worst |Re + sigma| = 3.63e-13  (sigma = 3.0)
+    locus     Delta=1.5 : worst spread 9.82e-13, worst |Re + sigma| = 4.92e-13  (sigma = 3.0)
+    locus     Delta=2.0 : worst spread 1.37e-11, worst |Re + sigma| = 6.85e-12  (sigma = 3.0)
+    off-locus Delta=0.75: worst spread 1.60e-12, worst |Re + sigma| = 8.10e-13  (sigma = 5.6875)
+    off-locus Delta=1.5 : worst spread 2.18e-12, worst |Re + sigma| = 1.09e-12  (sigma = 5.6875)
+    off-locus Delta=2.0 : worst spread 3.15e-11, worst |Re + sigma| = 1.58e-11  (sigma = 5.6875)
+
+(D) THE RESONANCE CATALOGUE.
+    SU(2) at Delta = 1: sector-1 AND sector-2 levels reappearing exactly
+    in sector 3 (both legs of the reported resonances).
+      Delta=1.0: sector 1: 6 of 6 shared (want 6)
+      Delta=1.0: sector 2: 15 of 15 shared (want 15)
+      Delta=2.0: sector 1: 0 of 6 shared (want 0)
+      Delta=2.0: sector 2: 0 of 15 shared (want 0)
+    Delta = 0.5 half-filling multiplicity HISTOGRAMS (a triple cannot
+    masquerade as a double).
+      N=4: {1: 6} (want {1: 6})
+      N=6: {1: 18, 2: 1} (want {1: 18, 2: 1})
+      N=8: {1: 54, 2: 8} (want {1: 54, 2: 8})
+    The Delta = 0.5 shared-level census (sector 1 in sector N/2):
+    0 / 0 / 8 at N = 4 / 6 / 8 - at N = 8 the resonance is CROSS-sector.
+      N=4: 0 of 4 shared (want 0)
+      N=6: 0 of 6 shared (want 0)
+      N=8: 8 of 8 shared (want 8)
+    The N = 6 doublet is EXACT: 2H built in exact ints from bit logic,
+    compared == to the float route; Faddeev-LeVerrier charpoly over Z.
+      max|2H_float - 2H_int| = 0.0
+      p(5) = 0, p'(5) = 0, p''(5) = 359390515298304
+    (3,3): ker(ad_H) is the commutant, dim = sum(m_i^2) exactly (>= 20
+    holds for ANY H; the equality plus the hard-coded 22/20/20 is the pin).
+      Delta=0.5: dim ker = 22, sum(m^2) from sector = 22, pinned = 22
+      Delta=1.0: dim ker = 20, sum(m^2) from sector = 20, pinned = 20
+      Delta=2.0: dim ker = 20, sum(m^2) from sector = 20, pinned = 20
+
+(E) F153's off-locus (0, N/2) family, reproduced by the rule:
+    Delta=0.5 N=4 (0,2): predicted spread 0.0000 (want 0.0)
+    Delta=0.5 N=6 (0,3): predicted spread 0.6456 (want 0.6456)
+    Delta=0.5 N=8 (0,4): predicted spread 1.2903 (want 1.2903)
+    Delta=0.0 N=4 (0,2): predicted spread 0.2236 (want 0.2236)
+    Delta=0.0 N=6 (0,3): predicted spread 0.5325 (want 0.5325)
+    Delta=0.0 N=8 (0,4): predicted spread 1.0756 (want 1.0756)
+    THE FOURTH BEHAVIOUR: (1,2) at Delta = 2, locus profile; both indices
+    off N/2, no cancellation: a stable density-overlap band.
+    predicted spread 0.9982 range [-2.8510,-1.8528]
+    measured  spread 0.9982 (J=1e4), 0.9982 (J=1e6), max|pred-meas(1e6)| = 1.01e-08
+
+==============================================================================
+VERDICT: all checks pass

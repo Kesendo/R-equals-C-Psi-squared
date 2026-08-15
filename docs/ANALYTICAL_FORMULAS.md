@@ -7248,7 +7248,11 @@ N = 6 it is late, 7.51 still at J = 10³ and 0.0000 by 10⁵, so a ladder stoppi
 saturated; at N = 8 the block (0,4) at Δ = 2 reads 17.80 at BOTH 10³ and 10⁵, so there the two-point test
 itself reads saturated, the collapse arriving only between 10^7.25 and 10^7.5. And the Δ = 0.5 "only at
 N = 6" is a statement about N = 4 and 6: at N = 8 the block (0,4) saturates at Δ = 0.5 too (1.2904 and
-1.2903). These spreads are measured, not gated; the C# theory
+1.2903). WHY Δ and N select is explained in
+[experiments/THE_SPREAD_IS_A_RESONANCE.md](../experiments/THE_SPREAD_IS_A_RESONANCE.md): the
+saturation is a resonance of the sector difference spectrum, and this N clause is its resonance count
+(the Δ = 0.5 half-filling double levels number 0 / 1 / 8 at N = 4 / 6 / 8, the N = 6 one exact over ℤ).
+These spreads are measured, not gated; the C# theory
 gating the verdicts uses a different off-locus profile, OffLocusProfile, and gives different values. And both speak of blocks of dimension above one: a one-cell block is flat
 for nothing, and at ODD N two of the four one-cell blocks carry odd |p − q|. Measured N = 3..6 at Δ = 1
 (that scope is the flat set's; the four-Δ collapse parenthetical above is a separate measurement over the

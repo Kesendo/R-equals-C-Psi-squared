@@ -19,8 +19,8 @@ information channels.
 All experiments are reproducible using Python, NumPy, and SciPy.
 Scripts are in [`simulations/`](../simulations/), results in [`simulations/results/`](../simulations/results/).
 
-**Index coverage:** 209 experiment writeups are tracked in this folder; all 209 are
-linked below (index swept and completed 2026-08-04).
+**Index coverage:** 211 experiment writeups are tracked in this folder; all 211 are
+linked below (index swept and completed 2026-08-04; two added 2026-08-15).
 
 ---
 
@@ -288,6 +288,8 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [The Exceptional Couplings](THE_EXCEPTIONAL_COUPLINGS.md) | The measuring, deliberately unnamed and given no F number: the frozen-band ceiling fails at isolated real couplings. Existence proved, the (2,2)-singlet count exact through N = 8, the complete all-rung count exact only at N = 5 |
 | [η-Ceiling Reduction](ETA_CEILING_REDUCTION.md) | The frozen-band ceiling certificate moved off the block onto V₀ = ker(ad_h), certified per rung by exact GF(q) rank; the law min 𝒦 on LW_ℓ ∩ V₀ = ℓ(N−ℓ)/(N+1) closes the ceiling for all N ≥ 6, its inequality half now proved, attainment still measured |
 | [XY Frozen Band](XY_FROZEN_BAND.md) | On the R₉₀ locus the XY chain carries λ = −4γ̄ not just in F140's corner blocks but across the whole band \|p − q\| ∈ {0, 2}, 3(N − 1) blocks at depth ⌊N/2⌋. Census N = 4 to 7, band-edge probes N = 8, 9, 10, ceiling by exact GF(p) rank |
+| [What the R₉₀ Locus Buys](WHAT_THE_R90_LOCUS_BUYS.md) | Why one locus carries both F153 and F140: the failure of F153's size-class condition on the corner and F140's defect are the same matrix 8γ̄·P_D, reached linearly by τQ and antilinearly by the bare reflection; each map satisfies exactly one of the two identities |
+| [The Spread is a Resonance](THE_SPREAD_IS_A_RESONANCE.md) | The strong-coupling Δ selection dissolves: on index-N/2 blocks flat at −σ is generic and exact (an X^N density cancellation, any profile) and the spread needs a difference-spectrum collision; the Δ = 0.5 doublet is exact over ℤ, F153's N clause is the resonance count, and blocks off half filling carry a fourth, collision-free behaviour |
 | [Ceiling: Four Non-Local Cases](CEILING_FOUR_NONLOCAL_CASES.md) | The palindrome ceiling of non-local k-body cases, narrowed 6 → 4 → 2 → 0: the last Z-middle pair is palindromized by the period-4 golden router, so the arc is closed at zero non-local cases |
 
 ### F-Registry Readings (F64 through F130)

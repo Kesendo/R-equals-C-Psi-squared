@@ -293,11 +293,14 @@ What the PINNED blocks do is F153's own result and is Δ-robust in the LABEL, no
 past the collapse onset they flatten onto the trace constant at every Δ measured, and the onset
 itself is strongly Δ-dependent, already complete at J = 1.25 at Δ = 0 (the spread is 1.15 at
 J = 1, so an onset exists there too) yet past J = 10³ at Δ = 2 (the (0,3) spread still reads 4.3
-at J = 100 there). What the NON-PINNED index-N/2 blocks do, (3,3) excepted (below), turns out to depend on Δ,
-and this note claims no mechanism for that dependence; it reports the measurement and gates it.
+at J = 100 there). What the NON-PINNED index-N/2 blocks do, (3,3) excepted (below), turns out to depend on Δ;
+this note reports the measurement and gates it, and the mechanism, found after this note
+closed, is [THE_SPREAD_IS_A_RESONANCE](THE_SPREAD_IS_A_RESONANCE.md)'s.
 A second draft did claim a mechanism, that a multi-class block saturates on the interval spanned
 by its size-class centres −2γ̄·|S| and never flattens, and Δ = 2 refutes the second half of it.
-There are THREE behaviours here, not two. Measured at N = 6 on the locus, at J = 10⁴ and
+The four measured Δ show THREE behaviours, not two; the successor note shows flat is the
+generic case and the other two are resonances, this Δ set happening to contain all three
+resonant points. Measured at N = 6 on the locus, at J = 10⁴ and
 converged (identical at 10⁵ and 10⁶; that convergence check is a separate measurement, the
 committed gate's ladder stopping at 10⁴), spread with the Re-range in brackets:
 
@@ -329,13 +332,17 @@ the width in the RATE variable and agrees with the λ one only at γ̄ = ½, whe
 happened to be run. Where a block FLATTENS it sits on the trace constant −2γ̄(p + q − 2pq/N),
 which is −3.00 for every one of these blocks. And where it does NEITHER, at Δ = 0.5, the note
 has no name for what it does beyond the number: the spectrum sits about the trace constant with
-a residual spread that is neither zero nor the size-class width, and nothing here says what
-selects it. And (3,3), the only block with BOTH indices at N/2, saturates at every Δ measured.
+a residual spread that is neither zero nor the size-class width; what selects it is the
+successor note's answer (a small resonance, rank-2 collisions with an exact double level). And (3,3), the only block with BOTH indices at N/2, saturates at every Δ measured.
 
-**Why Δ selects among the three is not answered here**, and it is the note's sharpest open
-question. One observation makes it worth asking rather than filing: the block exempt from the
-whole question, (3,3), is exactly the one where source 1 applies on BOTH legs. That is not a
-mechanism and is not gated as one.
+**Why Δ selects among the three was this note's sharpest open question, and
+[THE_SPREAD_IS_A_RESONANCE](THE_SPREAD_IS_A_RESONANCE.md) answers it**: there is no selection.
+Flat is the generic case, exact and profile-free (an X^N density cancellation on the
+half-filling leg), and the spread is a RESONANCE of the sector difference spectrum, this
+four-point table having sampled the three resonant Δ and one generic one. The observation
+this paragraph used to close on, that the exempt block (3,3) is exactly the one where source 1
+applies on BOTH legs, is the p = q = N/2 special case of the successor's wider fact: any p = q
+gives the standing i = j collision at every Δ.
 
 A second connection suggested itself and turned out to be false, which is worth recording
 because it was one sentence away from being written as support. F153's entry names Δ = 0 and
