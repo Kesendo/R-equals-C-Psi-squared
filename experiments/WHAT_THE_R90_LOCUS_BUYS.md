@@ -18,6 +18,31 @@ leaving the criterion alone, a copy of which this note had inherited, and its Δ
 saturation reading was missing the clause saying it is OFF the locus, which is the very omission
 the surrounding paragraphs were written to repair.*
 
+## What this is about
+
+Two of the project's registered laws stand on the same special lighting of
+the chain, the balanced profile in which each site and its mirror partner
+together receive the same total light. One law concerns the families of
+patterns in which one of the two superposed spin arrangements is completely
+empty or completely full, and where an uneven lighting lets their decay rates
+sit; the other freezes eigenvalues in a different family, the one whose
+patterns hold a single excitation on each side of the superposition, at a
+rate that no strength of coupling can move. The registry treated them as
+different objects, and nothing said why one lighting carries both. This note
+answers that: they are not two tenants of one address but two readings of one
+and the same act of reflection, taken by two genuinely different instruments. For a chain whose bonds also read the
+same from either end, reflecting it pairs the decay rates of a family about a
+centre, and the centre is set by how many sites a pattern's two superposed
+arrangements differ at. Where a family holds patterns of two different such
+counts, no single centre fits both; the mismatch vanishes only where the
+lighting averages out to zero, which for ordinary light means no light at
+all. The mismatch that remains is a
+concrete leftover, a matrix, and the note's one contribution is the
+identification: this leftover is the very defect standing behind the freezing
+law, the same object matrix for matrix, not merely the same size. Along the way the note repairs two errors
+in the registry entry it examined, and withdraws half of a mechanism it had
+drafted, keeping the half that a later note went on to explain.
+
 ## What the repo already held, store by store
 
 The sweep ran before the derivation and twice more under review, and the misses are the useful

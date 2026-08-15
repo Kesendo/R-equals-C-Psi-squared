@@ -14,6 +14,32 @@ to the chiral zeros. Gate:
 [`simulations/mixed_space_reflection_gate.py`](../../simulations/mixed_space_reflection_gate.py),
 VERDICT green 2026-08-15.*
 
+## What this is about
+
+An open chain whose couplings read the same from either end has a mirror down
+its middle: run the sites left to right or right to left and the physics is
+the same. The chain's basic patterns, superpositions of two spin arrangements
+held at once, therefore come in two families, mirror-even and mirror-odd.
+Patterns that oscillate at exactly the same frequency share one room, and
+inside such a room the symmetry alone does not keep a site-by-site question
+from coupling an even pattern to an odd one; the question being whether the
+pattern's two arrangements differ at this particular site. Measurement had
+found the lopsided combination of these questions, site minus mirror site,
+silent in every such room. This proof explains why, and proves more than was
+measured: every site's question separately respects the divide. The setting
+is the free-hopping chain with equal couplings on every bond, where the
+question reduces to arithmetic among the chain's standing-wave energies: coupling the two families would need two pairs of those energies to
+add up to the same value, and the only coincidences of that kind the ladder of
+cosines allows turn out, on inspection of their signs, to connect even to even
+and odd to odd, never across. So each site's question sounds entirely within
+one family, and the mirror halves cannot hear each other. The protection is
+proved outright for one chain length, forced by the same argument for an
+infinite family of others, and checked for several more; the proof also maps
+where it ends, the lengths at which new coincidences become
+available, the doors through which mixing could enter. Away from the
+free-hopping setting the argument gives nothing, and at the fully symmetric
+setting the law is measured to break; the document says so.
+
 ## What the repo already holds
 
 The sweep, by store. `docs/ANALYTICAL_FORMULAS.md`: [F2b](../ANALYTICAL_FORMULAS.md#f2b)

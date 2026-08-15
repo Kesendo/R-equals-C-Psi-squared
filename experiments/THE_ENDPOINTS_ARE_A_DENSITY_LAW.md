@@ -26,6 +26,36 @@ predecessor. Registered 2026-08-15: the saturation law is
 [F154](../docs/ANALYTICAL_FORMULAS.md#f154), and the scope-extended Mechanism went into
 [F122](../docs/ANALYTICAL_FORMULAS.md#f122)'s own entry rather than a second number.
 
+## What this is about
+
+Earlier notes had measured a puzzle. Light the chain unevenly, but in the
+balanced way where each site and its mirror partner together receive the same
+total light, and let the internal coupling be far stronger than the light.
+The decay rates of the collective patterns then land inside a predictable
+window, sometimes filling it out to both ends, sometimes stopping short. This note
+explains why, and the explanation is about where a pattern keeps its weight.
+A collective pattern is a superposition of two spin arrangements, and the
+sites where the two arrangements differ are where the light can touch it. A
+pattern that respects the chain's mirror carries those points of difference
+symmetrically, as much on a site as on its mirror partner, and against such
+symmetric weight the balanced lighting is indistinguishable from uniform
+light: whatever one site gains in brightness its partner loses. So the rate
+such a pattern pays depends only on how many of its sites differ, never on
+where they sit, which pins every rate inside the window spanned by the
+smallest and the largest difference count; an end of the window is reached
+where a pattern of purely that count exists, and the note shows that this
+presence or absence is what separates the full saturations from the small
+resonances that stop short. Two further laws carry the note beyond the
+symmetry argument. At the free-hopping setting, even the patterns that mix
+the two mirror families keep the symmetric weight (derived in a companion
+proof, for the chain lengths its arithmetic protects; where that protection
+ends is a recorded open door), while at the fully symmetric setting those
+mixed patterns are exactly where the law can break. And at that symmetric
+setting, the patterns of a single difference count that share one frequency
+obey something stronger than symmetry: their weight
+is perfectly uniform, the same share on every site, blind to the lighting
+altogether.
+
 ## What the repo already holds
 
 The sweep, by store. `docs/ANALYTICAL_FORMULAS.md`: F122's registered Mechanism is
@@ -79,7 +109,7 @@ Nothing in any store states either law or the parity theorem.
 
 ## The objects
 
-Vocabulary as in the predecessor's head. Additions: **N_l** is the diagonal indicator
+Vocabulary as in the predecessor's "The system" section. Additions: **N_l** is the diagonal indicator
 that a cell's ket and bra disagree at site l, so the dissipator's site-resolved face
 is D = −2 Σ_l γ_l N_l and F122's size operator is N_XY = Σ_l N_l (eigenvalue
 |S| = popcount(a⊕b) on a cell). **R** is the site reflection, acting on cells as

@@ -17,6 +17,34 @@ mechanism); what is new is its scope, the cancellation that makes flat exact, th
 catalogue with an exact ℤ-certificate at Δ = 0.5, the derivation of F153's N clause from
 that catalogue, and a fourth behaviour on the blocks nobody had measured.*
 
+## What this is about
+
+The chain's coupling has a tunable character, the anisotropy dial. A
+predecessor note sampled four settings of that dial and saw what looked like
+three different behaviours of the strong-coupling decay-rate spectrum: spread
+out at two settings, collapsed onto a single flat line at a third, neither at
+the fourth, with no rule saying which setting gets which. This note dissolves
+the question: there is no selection rule, because there were never three
+behaviours. The families of patterns in question are those where one of the
+pattern's two superposed spin arrangements has exactly half of its sites
+excited, and on them flat is what a generic setting of the dial produces,
+exactly and regardless of how the light, the outside dephasing that gives
+every pattern its decay rate, falls across the sites: the half-filled arrangement
+spreads its weight perfectly evenly across the sites, and that evenness wipes
+the other arrangement's leanings out of the average. A spread is the
+exception and needs a resonance, two of the underlying energy ladders
+producing coinciding differences, clocks ticking in step. The four settings
+the predecessor happened to sample were the three structural resonant ones
+and a single generic one, so the illusion of a rich selection rule was the
+grid's, not the physics' (the scan establishes what is generic, it does not
+exclude further isolated resonances; and one family carries such a
+coincidence at every setting and is never in the generic case). The note names the source of each resonance,
+certifies the subtlest one in exact integer arithmetic, and finds a genuinely
+fourth behaviour on the families nobody had measured, where the half-filling
+evenness is absent and a spread needs no coincidence at all.
+
+## The system
+
 System throughout: open chain, N sites, Pauli book H = J·Σ_bonds(XX + YY + Δ·ZZ), per-site
 Z-dephasing γ_l, σ = Σγ_l, γ̄ = σ/N. A **coherence block** (p, q) is the invariant set of
 cells |a⟩⟨b| with ket popcount p and bra popcount q; on it L(J) = J·A + D with A = −i·ad_H
