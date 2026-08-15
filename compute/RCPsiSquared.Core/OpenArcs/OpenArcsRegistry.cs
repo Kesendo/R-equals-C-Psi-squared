@@ -6498,8 +6498,13 @@ public static class OpenArcsRegistry
                 "formula the object manager cannot inspect, and a typed carrier that does not name its " +
                 "F-number is a breadcrumb nobody can follow back.",
             ParkedAt:
-                "THE INVENTORY, MEASURED 2026-08-13, so nothing here needs re-deriving. The registry holds " +
-                "151 distinct numbers, F1 through F153, with only the documented F53/F54 never assigned. " +
+                "THE INVENTORY, MEASURED 2026-08-13, so nothing here needs re-deriving. The registry held " +
+                "151 distinct numbers, F1 through F153, with only the documented F53/F54 never assigned " +
+                "(since 2026-08-15 it runs through F154, registered by the arc compressed_density_laws " +
+                "with its carrier debt recorded there; the sweep lists below predate F154 and are " +
+                "to be RE-MEASURED rather than appended, per this entry's own rule, and note their criteria " +
+                "differ: F154 is already MENTIONED in compute/*.cs through this file's prose, while no " +
+                "*Claim*.cs names it). " +
                 "TWENTY-ONE have no mention anywhere in compute/*.cs: 13, 19, 20, 21, 24, 29, 30, 31, 32, 35, " +
                 "40, 45, 46, 47, 48, 51, 143, 145, 149, 152, 153. That number OVERSTATES the gap and " +
                 "UNDERSTATES it at the same time, and both directions were measured rather than supposed. It " +
@@ -6958,7 +6963,14 @@ public static class OpenArcsRegistry
                 "spaces that break from the two on (1,3) that hold, and why the breaking spaces' " +
                 "compressed spectra stay INSIDE the centre interval on the locus (measured with " +
                 "slack). (4) N >= 10: do mixed collisions and the law survive where F129-type cosine " +
-                "collisions grow? Prior work pinned " +
+                "collisions grow? (5) The typed carrier: the law was registered as F154 on 2026-08-15 " +
+                "(docs/ANALYTICAL_FORMULAS.md; F122 took the scope-extended Mechanism into its own " +
+                "entry, per the no-second-number-for-the-same-object rule), so F154 will show on the " +
+                "named-in-no-*Claim*.cs sweep when it is re-measured, knowingly (the mention-anywhere " +
+                "sweep already sees it through this file's prose alone, the F144/F146 shape); the " +
+                "natural carrier is a claim + live witness in F153's " +
+                "genre (PinnedBlockFloorClaim), parents AbsorptionTheoremClaim and F91's locus. " +
+                "Prior work pinned " +
                 "in the note's sweep record: F122 (the uniform-gamma compression this lifts), F153 " +
                 "source 2 and PROOF_R90_FROZEN_DIVISOR (the |S|-resolved centre), " +
                 "PROOF_FROZEN_BAND_SO4 section 6 (compressed double occupancy on the rung-1 kernel; " +

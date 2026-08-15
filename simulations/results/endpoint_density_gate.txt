@@ -88,13 +88,17 @@ THE ENDPOINT DENSITY GATE: the theorem, the law, and the consequence
     N=6 (1,3) Delta=0.0: identity ratio 0.003, containment ratio 0.003 (ALL spaces), attainment ratio 0.003, 13 eigenspaces with pure vectors  ok
     N=6 (2,4) Delta=0.0: identity ratio 0.002, containment ratio 0.001 (ALL spaces), attainment ratio 0.001, 13 eigenspaces with pure vectors  ok
     N=6 (1,3) Delta=0.5: identity ratio 0.000, containment ratio 0.000 (ALL spaces), attainment ratio 0.000, 0 eigenspaces with pure vectors (gated == 0: no attainment possible, the small resonance)  ok
+    N=6 (2,4) Delta=0.5: identity ratio 0.001, containment ratio 0.000 (ALL spaces), attainment ratio 0.000, 1 eigenspaces with pure vectors  ok
     N=6 (1,3) Delta=1.0 [identity on law-abiding spaces]: identity ratio 0.001, containment ratio 0.000 (ALL spaces), attainment ratio 0.001, 1 eigenspaces with pure vectors  ok
     N=6 (2,4) Delta=1.0 [identity on law-abiding spaces]: identity ratio 0.001, containment ratio 0.000 (ALL spaces), attainment ratio 0.002, 1 eigenspaces with pure vectors  ok
     N=8 (1,4) Delta=0.0: identity ratio 0.001, containment ratio 0.001 (ALL spaces), attainment ratio 0.001, 39 eigenspaces with pure vectors  ok
-    block saturation N=6 (1,3) Delta=0.0: range [-4.000000,-2.000000] = centres to 4.44e-15 vs floor 3.42e-12 (spread 2.0000)  ok
-    block saturation N=6 (1,3) Delta=1.0: range [-4.000000,-2.000000] = centres to 4.44e-15 vs floor 1.32e-10 (spread 2.0000)  ok
-    block saturation N=6 (2,4) Delta=0.0: range [-6.000000,-2.000000] = centres to 2.00e-15 vs floor 1.92e-11 (spread 4.0000)  ok
-    block saturation N=8 (1,4) Delta=0.0: range [-5.000000,-3.000000] = centres to 8.88e-15 vs floor 2.12e-11 (spread 2.0000)  ok
+    block saturation N=6 (1,3) Delta=0.0: range [-4.000000,-2.000000] (dim-1 spaces included) = centres to 4.44e-15 vs floor 3.42e-12 (spread 2.0000); pure vectors in nondegenerate eigenspaces: 0 (gated == 0)  ok
+    block saturation N=6 (1,3) Delta=1.0: range [-4.000000,-2.000000] (dim-1 spaces included) = centres to 4.44e-15 vs floor 1.32e-10 (spread 2.0000); pure vectors in nondegenerate eigenspaces: 0 (gated == 0)  ok
+    block saturation N=6 (2,4) Delta=0.0: range [-6.000000,-2.000000] (dim-1 spaces included) = centres to 2.00e-15 vs floor 1.92e-11 (spread 4.0000); pure vectors in nondegenerate eigenspaces: 0 (gated == 0)  ok
+    block saturation N=6 (2,4) Delta=0.5: range [-6.000000,-2.000000] (dim-1 spaces included) = centres to 1.78e-15 vs floor 7.67e-10 (spread 4.0000); pure vectors in nondegenerate eigenspaces: 0 (gated == 0)  ok
+    block saturation N=6 (2,4) Delta=1.0: range [-6.000000,-2.000000] (dim-1 spaces included) = centres to 7.11e-15 vs floor 4.95e-09 (spread 4.0000); pure vectors in nondegenerate eigenspaces: 0 (gated == 0)  ok
+    block saturation N=8 (1,4) Delta=0.0: range [-5.000000,-3.000000] (dim-1 spaces included) = centres to 8.88e-15 vs floor 2.12e-11 (spread 2.0000); pure vectors in nondegenerate eigenspaces: 0 (gated == 0)  ok
+    (1,3) Delta=0.5 non-saturating control: range [-3.224690,-2.775310] (dim-1 included); pure vectors in nondegenerate eigenspaces: 0 (gated == 0)  ok
     dim-12 interior (at omega = -1.91e-15): 7*spec(comp N_XY) = [14, 20, 22, 28] x3, integrality defect 4.09e-14  ok
 
 (E) Off the locus the consequence is gone. On the SELF-FOLDED block (1,3)

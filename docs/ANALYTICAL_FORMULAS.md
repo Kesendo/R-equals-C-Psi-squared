@@ -1,7 +1,7 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-08-13 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-08-15 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -5000,6 +5000,26 @@ the half-filling `(N/2,N/2)` commutant equals the `(1,1)` value (a ring sector d
 degeneracy is only the intuition. This corrects the band-edge arc's tentative "star saturates at
 0.80, N-independent" (`0.80 = 4/5` was `N=6` only).
 
+*Scope of the Mechanism, extended (2026-08-15).* Registered above for XY, uniform γ and
+the slowest mode, the compression rule holds for the FULL strong-coupling Re-spectrum of
+a coherence block under XXZ and a γ profile: the block's Re-spectrum at J → ∞ is
+⋃_Ω spec(Π_Ω D Π_Ω) over the ad_H eigenspaces Ω, with D the diagonal dissipator of the
+profile, and the truncation is O(1/J²), not O(1/J), argued (ad_H is anti-Hermitian, so
+the first-order correction to the rates is purely imaginary,
+[PROOF_STRUCTURAL_CEILING](proofs/PROOF_STRUCTURAL_CEILING.md) §1) and GATED as a
+per-decade ratio with a two-term error model, not proven as a bound; isolated
+exceptional couplings are expected, per
+[THE_EXCEPTIONAL_COUPLINGS](../experiments/THE_EXCEPTIONAL_COUPLINGS.md)'s standing
+answer, and rows below the validity scale J* ~ ‖D‖/(min difference-gap) are printed and
+labeled rather than gated (operationally, dev(10³) ≥ 10⁻²). Gated on the four (p,3) blocks at N = 6, at
+Δ ∈ {0, ½, 1, 2}, on the locus profile (the both-profiles control for the
+flat-is-generic half sits in section (C) of the same gate):
+[`simulations/high_q_selection_gate.py`](../simulations/high_q_selection_gate.py)
+section (A); the note is
+[THE_SPREAD_IS_A_RESONANCE](../experiments/THE_SPREAD_IS_A_RESONANCE.md). No second
+F-number for this: it is THIS entry's Mechanism with its scope widened, not a new
+object. What the compressed spectra ARE on the R₉₀ locus is [F154](#f154).
+
 **Source:** [Proof](proofs/PROOF_STRUCTURAL_CEILING.md);
 [`simulations/topology_ceiling_rep_derivation.py`](../simulations/topology_ceiling_rep_derivation.py)
 (gate-first, the all-Ω mechanism vs full-L, the `4/N` and `4/(N−1)` exactness, the `N=4`
@@ -7253,7 +7273,8 @@ N = 6" is a statement about N = 4 and 6: at N = 8 the block (0,4) saturates at �
 saturation is a resonance of the sector difference spectrum, and this N clause is its resonance count
 (the Δ = 0.5 half-filling double levels number 0 / 1 / 8 at N = 4 / 6 / 8, the N = 6 one exact over ℤ).
 WHY the ON-LOCUS resonances of the multi-class blocks saturate exactly on the size-class centres is
-[experiments/THE_ENDPOINTS_ARE_A_DENSITY_LAW.md](../experiments/THE_ENDPOINTS_ARE_A_DENSITY_LAW.md),
+[F154](#f154), from
+[experiments/THE_ENDPOINTS_ARE_A_DENSITY_LAW.md](../experiments/THE_ENDPOINTS_ARE_A_DENSITY_LAW.md):
 the compressed-density face of this entry's source 2, lifted off the pinned blocks onto the
 multi-class ones (the off-locus spreads of THIS paragraph are outside that mechanism, by that
 note's own fences).
@@ -7395,6 +7416,117 @@ divides the (N+1)² Dicke transitions |D_k⟩⟨D_l| into 4N endpoint-anchored p
 index pinned to an endpoint". Whether that is more than the same combinatorics counted twice is not
 claimed here; the two live in different spaces, one splitting Liouvillian blocks and the other operators
 inside a single max-spin block, and nothing measured joins them.
+
+---
+
+### F154. The locus saturation law: on the R₉₀ locus a colliding block's spectrum is CONTAINED in its size-class-centre interval, and a MULTI-CLASS block saturates it exactly when the colliding eigenspaces carry pure-class vectors of the extreme classes; on the all-scalar territory the containment is a theorem (parity theorem derived for any Δ and any profile, hypothesis H reflection-symmetric; census gated N = 4..8 on the census blocks; attainment from the measured pure-vector census; the N = 8, Δ = 0 parity-mixed eigenspaces obey UNFORCED, measured not derived; registered 2026-08-15)
+
+    on the R₉₀ locus (γ_l + γ_{N−1−l} = 2γ̄), wherever Π_Ω (N_l − N_{N−1−l}) Π_Ω = 0:
+        Π_Ω D Π_Ω = −2γ̄ · Π_Ω N_XY Π_Ω
+    hence per eigenspace  Re spec ⊂ [−2γ̄·s_max(Ω), −2γ̄·s_min(Ω)]   (Rayleigh),
+    with −2γ̄·s ∈ spec(Π_Ω D Π_Ω) for each class s with Ω_s ≠ {0},
+    the extreme classes pinning the endpoints;
+    and block-wide at J = ∞ (the union of the compressed spectra), with
+    s_min(block) = |p − q| and s_max(block) = min(p + q, 2N − p − q):
+        Re-spectrum ⊂ [−2γ̄·s_max(block), −2γ̄·s_min(block)]  wherever the
+        identity holds: a theorem where every colliding eigenspace is scalar
+        (every Δ = 0 census row through N = 7, every Δ = ½ census row, and,
+        from section (C) of THIS entry's gate, the (1,3)/(2,4) rows at
+        Δ = 1, N = 8; at Δ = 1, N = 6 the ω = 0 extreme carriers are scalar
+        while the breaking interiors are contained too, measured with
+        slack); MEASURED not derived on the N = 8, Δ = 0 mixed spaces;
+        = that interval, spread 2γ̄·(s_max − s_min), on a MULTI-CLASS block
+        (s_max > s_min) exactly when colliding eigenspaces hold pure-class
+        vectors of BOTH extreme classes; this iff stands under the gated
+        premise that NO nondegenerate eigenspace holds a pure-class vector
+        (one that did would attain its centre by the same identity; the
+        gate counts zero on every row it ranges over). A single-class block
+        sits on its one centre for the same reason, the collapse case.
+    The step from J = ∞ to the block's actual strong-coupling spectrum is
+    F122's Mechanism with its O(1/J²) truncation, GATED not proven, with
+    F122's own fences (exceptional couplings expected, rows below the
+    validity scale not gated); among THIS entry's blocks the truncation
+    rows cover (1,3) at N = 6 only.
+
+N_l is the diagonal indicator that a cell's ket and bra disagree at site l (Absorption
+Theorem 2's per-site split, D = −2 Σ_l γ_l N_l), N_XY = Σ_l N_l is F122's size operator,
+Ω an ad_H eigenspace of the coherence block, degenerate or not (ω its ad_H
+eigenvalue; COLLIDING means dim Ω ≥ 2, and a colliding block is one holding at least
+one such Ω), comp(X) = Π_Ω X Π_Ω the compression, s a size class |S| = popcount(a⊕b), s_max(Ω)/s_min(Ω) the largest/smallest
+class in Ω's SUPPORT (a different object from the purity condition below),
+and Ω_s = Ω ∩ span of the class-s cells (a "pure-class vector" lives in some Ω_s; a
+pure vector in a NONDEGENERATE eigenspace would attain its centre likewise, and the
+gate's section (D) counts zero of them on every row it ranges over, which is why the
+statement speaks of colliding ones). The PARITY FRONTIER is N = 8 at Δ = 0, where parity-mixed
+colliding eigenspaces first appear in the Δ ∈ {0, ½} census; on the ALL-SCALAR
+territory (every eigenspace scalar: below the frontier on that census, and the Δ = 1
+rows named in the formula block; NOT all of Δ = 1, N = 6, where four mixed spaces per
+block exist), the vanishing of C_l in the hypothesis is the theorem of the next
+paragraph. The
+pure-vector condition is not decoration: (1,3) at N = 6, Δ = ½ is colliding, on the
+locus, every eigenspace scalar, and its spread is 0.4494 against the interval's 2.0000,
+because no colliding eigenspace holds a pure-class vector (gated: zero of six; the
+0.4494 is the predecessor's, [THE_SPREAD_IS_A_RESONANCE](../experiments/THE_SPREAD_IS_A_RESONANCE.md)
+and `high_q_selection_gate.py`). Its sibling (2,4) at the same Δ saturates fully, range
+[−6, −2] and spread 4.0000, gated in `endpoint_density_gate.py` section (D): same N,
+same Δ, opposite outcome, decided by the pure-vector census alone.
+
+**The theorem half, and where it is a theorem.** C_l = Π_Ω (N_l − N_{N−1−l}) Π_Ω is odd
+under the site reflection R, which preserves every Ω when H is reflection-symmetric
+(palindromic bonds); on any Ω where R acts as a scalar ±1, conjugation gives
+C_l = −C_l = 0, forced by [H, R] = 0 alone. The parity census (30 rows, one vacuous,
+N = 4..8, gated) shows every colliding eigenspace ON EVERY CENSUS BLOCK is scalar at
+Δ = 0 through N = 7 and at Δ = ½ on its rows (N = 4, 6, 8): on that territory
+containment is DERIVED, and attainment follows from the measured pure-vector census.
+The parity-MIXED Δ = 0 eigenspaces first appear
+at N = 8 (91 across three blocks) and STILL satisfy C_l = 0 at the eigensolver
+floor where symmetry permits a cross block of order one (generic R-odd contrast 0.119):
+that half is a LAW, measured and underived. At Δ = 1 the mixed spaces are exactly where
+the law can break (every breaking eigenspace at N = 6 is mixed; not sufficient on (1,3));
+the ω = 0 carriers of the extremes are scalar, so the Δ = 1 saturation stands on the
+theorem with the breaking interiors measured to stay inside. The SU(2) resonance carries
+its own second law, comp(N_l) = (s/N)·Id on every pure size class, uniform and
+profile-blind (false at Δ = 0), which is why the off-locus Δ = 1 overshoot is small.
+
+**What it gives.** The strong-coupling Re-extremes and spread of a locus block come
+from (p, q, N, γ̄) arithmetic plus the pure-vector census, with no Liouvillian
+eigensolver anywhere (the census takes only F122's Hermitian compression):
+collapse of the pinned blocks is the single-class case of the same identity (F153's
+source-2 locus flattening, subsumed rather than exempted), full saturation on the
+multi-class blocks is the several-class case with pure vectors, and a small resonance
+is the pure-vector-free case (the (1,3) Δ = ½ example under the formula block). The
+interior is comp(N_XY) arithmetic too: on the dim-12 ω = 0 space of
+(1,3) at N = 6, Δ = 0, the compressed rates are −2γ̄·{2, 20/7, 22/7, 4}, a rational
+ladder (7·spec integral, gated).
+
+**Valid for:** the number-conserving XXZ chain with palindromic bonds, per-site
+Z-dephasing on the R₉₀ locus, any γ̄, any Δ whose colliding eigenspaces are covered
+above. **Breaks for:** non-palindromic J (the same collision structure, law residual
+0.456, gated), off the locus (the extremes leave the centre interval, 0.3307 at Δ = 0
+on (1,3), where the two ends are ONE fact, the block being self-folded and the
+one-sided X^N fold F: (a, b) ↦ (a, b̄), b̄ the bitwise complement, satisfying
+F D F = −D − 2σ exactly with σ = Σ_l γ_l;
+on (2,4) the lower centre is an arithmetic endpoint for any profile and only the upper
+end escapes), at finite J beyond F122's truncation fence (O(1/J²) gated not proven,
+exceptional couplings expected, below the validity scale nothing is claimed), and
+everything F153's real-coupling qualifier already fences.
+**Replaces:** the dense strong-coupling block run for locus saturation questions (the
+pure-vector census still takes the compression, which is F122's Hermitian route,
+never the Liouvillian).
+**Source:** [THE_ENDPOINTS_ARE_A_DENSITY_LAW](../experiments/THE_ENDPOINTS_ARE_A_DENSITY_LAW.md);
+gate [`simulations/endpoint_density_gate.py`](../simulations/endpoint_density_gate.py)
+(VERDICT green 2026-08-15; spectral-norm residuals against the eigh error model
+64·eps·‖A‖/gap, breaks gated from below); the thread is the OpenArcs entry
+`compressed_density_laws`. Siblings: [F122](#f122) (the Mechanism whose compressed
+spectra this reads), [F153](#f153) (the pinned single-class case and the source-2
+hypothesis this inherits), [F91](#f91) (the locus),
+[PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §6 (the cell-rate
+window this sharpens on the locus) and §7 (b) (the self-folded sibling).
+**Typed:** not yet; a claim + live witness in F153's genre is the natural carrier and
+is recorded on the arc, so this number will show on the named-in-no-`*Claim*.cs`
+sweep when it is next re-measured, KNOWINGLY rather than by omission (the
+mention-anywhere sweep already sees it, through the OpenArcs prose alone, the F144/F146
+shape that sweep's own entry documents).
 
 ---
 

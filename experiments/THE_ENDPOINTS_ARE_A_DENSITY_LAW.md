@@ -21,7 +21,9 @@ Gate: `simulations/high_q_selection_gate.py`'s sibling
 [`simulations/endpoint_density_gate.py`](../simulations/endpoint_density_gate.py),
 writing `simulations/results/endpoint_density_gate.txt`, VERDICT last line, all green
 2026-08-15. Every number quoted here is from that gate or from a named committed
-predecessor.
+predecessor. Registered 2026-08-15: the saturation law is
+[F154](../docs/ANALYTICAL_FORMULAS.md#f154), and the scope-extended Mechanism went into
+[F122](../docs/ANALYTICAL_FORMULAS.md#f122)'s own entry rather than a second number.
 
 ## What the repo already holds
 
@@ -175,7 +177,10 @@ and is exact but not yet derived.
 
 And the sizes of the resonances stop being accidents. At Δ = ½, N = 6, NO colliding
 eigenspace of (1,3) contains a pure-class vector (gated: zero of six), so nothing
-can attain the centres and the resonance stays small (the predecessor's 0.4494); the
+can attain the centres and the resonance stays small (the predecessor's 0.4494),
+while (2,4) at the SAME Δ carries pure vectors of both its extreme classes in its one
+colliding eigenspace and saturates fully, range [−6, −2], spread 4.0000 (gated in
+section D): same N, same Δ, opposite outcome, decided by the census alone; the
 (1,4)/(2,4) magnitude contrast at N = 8 has the same shape, one dim-16 ω = 0
 eigenspace on one block against rank-2 spaces on the other (the predecessor's
 2.0000 vs 0.4467, measured there; that the dim-16 space is the one carrying
@@ -276,7 +281,8 @@ below at 0.05. (C) the Δ = 1 parity characterization (breaks ⊂ mixed with ω,
 and parity printed, ω = 0 scalar, N = 8 all scalar), the uniform-law census, and
 the Δ = 0 uniform-law failure gated from below at 0.1. (D) the locus identity
 (spectral norm), containment for EVERY eigenspace, attainment at both endpoints,
-the zero-pure-vector count of the Δ = ½ row gated exactly, block-level ranges, and
+the zero-pure-vector count of the (1,3) Δ = ½ row gated exactly (its (2,4) sibling
+saturates fully, [−6, −2], gated in the same section), block-level ranges, and
 the dim-12 rational interior at ω = 0 (integer multiset compared exactly after
 rounding, defect gated). (E) the fold identities on (1,3) compared == 0.0, both
 off-locus overshoots with their difference gated at the fold floor, and the

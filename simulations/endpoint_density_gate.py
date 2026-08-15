@@ -445,7 +445,8 @@ def consequence(n, p, q, D, gamma, skip_broken=False):
 
 for (n, p, q, D, skip, expect_pure) in [
         (6, 1, 3, 0.0, False, None), (6, 2, 4, 0.0, False, None),
-        (6, 1, 3, 0.5, False, 0), (6, 1, 3, 1.0, True, None),
+        (6, 1, 3, 0.5, False, 0), (6, 2, 4, 0.5, False, None),
+        (6, 1, 3, 1.0, True, None),
         (6, 2, 4, 1.0, True, None), (8, 1, 4, 0.0, False, None)]:
     gamma = locus_profile(n)
     wid, wcont, watt, att = consequence(n, p, q, D, gamma, skip_broken=skip)
@@ -461,33 +462,55 @@ for (n, p, q, D, skip, expect_pure) in [
         fails.append(f"consequence N={n} ({p},{q}) Delta={D}")
 
 def block_extremes(n, p, q, D, gamma):
+    """Block-wide range of the compressed spectrum, dim-1 eigenspaces INCLUDED
+    (their compression is the single diagonal expectation), plus the count of
+    pure-class vectors living in nondegenerate eigenspaces."""
     gbar = gamma.mean()
     A, cells, idx = block_A(n, p, q, D)
+    S = np.array([popcount(a ^ b) for (a, b) in cells])
     rate = np.array([sum(gamma[l] for l in range(n) if ((a ^ b) >> l) & 1)
                      for (a, b) in cells])
     spaces, nrm = eigenspaces(A)
     lo, hi = np.inf, -np.inf
     gap_min = np.inf
+    pure_dim1 = 0
     for wv, P, gap in spaces:
-        if P.shape[1] < 2:
-            continue
         ev = np.linalg.eigvalsh(P.conj().T @ ((-2 * rate)[:, None] * P))
         lo, hi = min(lo, ev.min()), max(hi, ev.max())
         gap_min = min(gap_min, gap)
-    return lo, hi, 64 * eps * nrm / gap_min
+        if P.shape[1] == 1:
+            for s in set(S):
+                mask = (S == s).astype(float)
+                if np.linalg.norm(P[:, 0] * mask) > 1 - 1e-9:
+                    pure_dim1 += 1
+    return lo, hi, 64 * eps * nrm / gap_min, pure_dim1
 
-for (n, p, q, D) in [(6, 1, 3, 0.0), (6, 1, 3, 1.0), (6, 2, 4, 0.0), (8, 1, 4, 0.0)]:
+for (n, p, q, D) in [(6, 1, 3, 0.0), (6, 1, 3, 1.0), (6, 2, 4, 0.0), (6, 2, 4, 0.5),
+                     (6, 2, 4, 1.0), (8, 1, 4, 0.0)]:
     gamma = locus_profile(n)
     gbar = gamma.mean()
     smin, smax = abs(p - q), min(p + q, 2 * n - p - q)
-    lo, hi, floor_blk = block_extremes(n, p, q, D, gamma)
+    lo, hi, floor_blk, pure_dim1 = block_extremes(n, p, q, D, gamma)
     tol = floor_blk * max(1.0, 2 * gbar * smax)
     dev = max(abs(lo + 2 * gbar * smax), abs(hi + 2 * gbar * smin))
+    ok = dev <= tol and pure_dim1 == 0
     log(f"    block saturation N={n} ({p},{q}) Delta={D}: range "
-        f"[{lo:.6f},{hi:.6f}] = centres to {dev:.2e} vs floor {tol:.2e} "
-        f"(spread {hi - lo:.4f})  {'ok' if dev <= tol else 'FAIL'}")
-    if not dev <= tol:
+        f"[{lo:.6f},{hi:.6f}] (dim-1 spaces included) = centres to {dev:.2e} "
+        f"vs floor {tol:.2e} (spread {hi - lo:.4f}); pure vectors in "
+        f"nondegenerate eigenspaces: {pure_dim1} (gated == 0)  "
+        f"{'ok' if ok else 'FAIL'}")
+    if not ok:
         fails.append(f"block saturation N={n} ({p},{q}) Delta={D}")
+
+# the non-saturating case carries the same nondegenerate-purity fence: a pure
+# vector in a dim-1 eigenspace would attain its centre and reopen the small
+# resonance, so its absence is gated there too
+lo, hi, _, pure_dim1 = block_extremes(6, 1, 3, 0.5, locus_profile(6))
+log(f"    (1,3) Delta=0.5 non-saturating control: range [{lo:.6f},{hi:.6f}] "
+    f"(dim-1 included); pure vectors in nondegenerate eigenspaces: {pure_dim1} "
+    f"(gated == 0)  {'ok' if pure_dim1 == 0 else 'FAIL'}")
+if pure_dim1 != 0:
+    fails.append("nondegenerate pure vector on (1,3) Delta=0.5")
 
 # the rational interior: 7 * spec(comp N_XY) on the dim-12 space = {14,20,22,28} x3
 A, cells, idx = block_A(6, 1, 3, 0.0)
