@@ -496,9 +496,16 @@ public class PinnedBlockFloorClaimTests
     /// <summary>WHAT IS Δ-DEPENDENT IS THE COLLAPSE, NOT THE INVOLUTION, and the difference matters
     /// because an earlier wording said the source "fails at Δ = 0", which reads as the symmetry failing.
     /// It does not: the palindrome is machine-exact at every Δ here (gated next door). What Δ decides is
-    /// whether the collapse has an ONSET at all. At Δ = 1 and Δ = 2 it does. At Δ = 0 and Δ = 0.5 the span
-    /// SATURATES instead: it stops moving with J entirely, so there is no threshold anywhere, and calling
-    /// it "below threshold" would be wrong.</summary>
+    /// whether the collapse has an ONSET at all, and this theory reads that OFF THE LOCUS, which is what
+    /// <c>OffLocusProfile</c> below supplies; the clause was missing from the prose until 2026-08-15, though
+    /// the rows always carried it. At Δ = 1 and Δ = 2 there is an onset (the rows here read N = 4; the N = 6
+    /// and N = 8 readings live in F153's entry and are on a DIFFERENT off-locus profile, γ_l = (l+1)²/16,
+    /// where the onset climbs with N and Δ until at N = 8, Δ = 2 the 10³/10⁵ two-point test itself reads
+    /// saturated; on <c>OffLocusProfile</c> no such climb was seen). At Δ = 0 the span SATURATES instead:
+    /// it stops moving with J entirely, so there is no threshold anywhere, and calling it "below threshold"
+    /// would be wrong. At Δ = 0.5 that happens at N = 6 and NOT at N = 4, which is why the Δ = 0.5 row is the
+    /// N = 6 one and no N = 4 row exists for it. ON the locus none of this applies: every pinned block of
+    /// dimension above one collapses, past its onset, at every Δ measured.</summary>
     [Theory]
     [InlineData(4, 0, 2, 1.0, true)]
     [InlineData(4, 0, 2, 2.0, true)]

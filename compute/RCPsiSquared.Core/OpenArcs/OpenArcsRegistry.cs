@@ -6814,7 +6814,10 @@ public static class OpenArcsRegistry
                 "linspace ramp at J = 1 is below it, reading eight of sixteen at N=4. Scope, all clauses load-bearing: " +
                 "both sources need J above a threshold that moves with the profile and with N and is NOT " +
                 "gated, so no J number is quoted; what Delta decides is whether the COLLAPSE has an onset at all, " +
-                "not the involution, which holds at Delta = 0 and 0.5 where the span saturates instead; " +
+                "not the involution; the saturation reading (Delta = 0, and Delta = 0.5 at N = 6 but not N = 4) is " +
+                "OFF-locus, a clause this sentence was missing until 2026-08-15: ON the locus, the case the " +
+                "profiles named above are, every pinned block of dimension above one collapses, past the " +
+                "onset the threshold sentence above states, at every Delta measured; " +
                 "and a one-cell block is flat for nothing, with two of them carrying odd |p-q| " +
                 "at odd N. Measured N = 3..6 at Delta = 1. NOT F140, which sits on the same locus with its " +
                 "own p+q-even confinement and invites exactly this conflation: F140 pins -4*gbar on the " +

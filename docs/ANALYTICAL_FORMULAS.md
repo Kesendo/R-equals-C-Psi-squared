@@ -6073,7 +6073,10 @@ the modes; what pins the value is a dimension bottleneck of the cell mirror
 tauQ: (a,b) -> (Rb, Ra) has 2*floor(N/2) fixed rooms in the off-diagonal cells
 (the anti-diagonal), the D- constraint taxes away half, and the surplus must
 freeze. The same lesson as F139 on the other axis: **a wall can be a divisor
-instead of a symmetry.**
+instead of a symmetry.** Why this result and F153 stand on the same locus is answered in
+[experiments/WHAT_THE_R90_LOCUS_BUYS.md](../experiments/WHAT_THE_R90_LOCUS_BUYS.md): both read the same
+reflection action, and the failure of F153's size-class condition on this corner is the same defect
+matrix 8*gbar*P_D that tauQ carries, reached antilinearly.
 
 **Where it sits.** Exactly four joint-popcount blocks carry, the corners
 p,q in {1, N-1}: (1,1) and (N-1,N-1) at -4*gbar, (1,N-1) and (N-1,1) at
@@ -7231,10 +7234,25 @@ symmetric and collapsed. Saying "the involution makes the block flatten" skips e
 Three scope clauses, all load-bearing. The threshold itself depends on the profile and on N and is NOT
 gated, so no J number belongs in this paragraph; what is gated is the palindrome on both sides of it. What
 Δ decides is whether there is an onset AT ALL, and it decides that for the collapse and not for the
-involution: at Δ = 0 and at Δ = 0.5 the palindrome still holds machine-exactly while the span SATURATES,
-agreeing to four decimal places between J = 10³ and J = 10⁵, so no coupling collapses it. At Δ = 1 and Δ = 2
-there is an onset. And both speak of blocks of dimension above one: a one-cell block is flat
-for nothing, and at ODD N two of the four one-cell blocks carry odd |p − q|. Measured N = 3..6 at Δ = 1. So the
+involution. **That reading is OFF-LOCUS and the clause was missing until 2026-08-15**, which is the same
+omission this paragraph's neighbours were written to repair: OFF the locus at Δ = 0 the palindrome still
+holds machine-exactly while the span SATURATES, agreeing to four decimal places between J = 10³ and
+J = 10⁵, so no coupling collapses it; ON the locus every pinned block of dimension above one collapses,
+past its onset (measured complete at J = 10⁴ at N = 3..6; at N = 8, Δ = 2 the onset is later, the locus
+(0,4) block still spreading 7.9 at J = 10⁴), at every Δ measured, Δ = 0 and 0.5 included. The Δ = 0.5 half carries an N clause too. Measured on the off-locus profile
+γ_l = (l+1)²/16, spread at J = 10³ and 10⁵: the block (0,2) at N = 4 reads 0.2236 twice at Δ = 0 but
+collapses to 0.0000 at Δ = 0.5, while (0,3) at N = 6 saturates at both, 0.5325 at Δ = 0 and 0.6456 at
+Δ = 0.5, each J-stable. So Δ = 0 saturates off the locus at both N and Δ = 0.5 only at N = 6. At Δ = 1 and
+Δ = 2 there is an onset at both, measured at N = 4 and 6, and the onset climbs with N and Δ: at Δ = 2,
+N = 6 it is late, 7.51 still at J = 10³ and 0.0000 by 10⁵, so a ladder stopping short reads it as
+saturated; at N = 8 the block (0,4) at Δ = 2 reads 17.80 at BOTH 10³ and 10⁵, so there the two-point test
+itself reads saturated, the collapse arriving only between 10^7.25 and 10^7.5. And the Δ = 0.5 "only at
+N = 6" is a statement about N = 4 and 6: at N = 8 the block (0,4) saturates at Δ = 0.5 too (1.2904 and
+1.2903). These spreads are measured, not gated; the C# theory
+gating the verdicts uses a different off-locus profile, OffLocusProfile, and gives different values. And both speak of blocks of dimension above one: a one-cell block is flat
+for nothing, and at ODD N two of the four one-cell blocks carry odd |p − q|. Measured N = 3..6 at Δ = 1
+(that scope is the flat set's; the four-Δ collapse parenthetical above is a separate measurement over the
+same N). So the
 fence is that a pinned block leaves its FLOOR, and a reading that tested flatness alone would pass on the
 flat ones.
 
@@ -7248,13 +7266,29 @@ stated there as necessary and not sufficient, and it appears exactly where the H
 confinement is absent. And [PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md) states outright
 that the corner block's spectrum is NOT palindromic about −4γ̄ and that no multiset symmetry argument
 applies there, so the involutions above must not be carried across. What the two results share is the
-locus, and the locus is F91's.
+locus, and the locus is F91's. Why one locus carries both is answered in
+[experiments/WHAT_THE_R90_LOCUS_BUYS.md](../experiments/WHAT_THE_R90_LOCUS_BUYS.md): the failure of
+F153's size-class condition on the corner and F140's defect are the same defect matrix 8γ̄·P_D, reached
+linearly by τQ and antilinearly by the bare reflection.
 
 Beyond γ, the CRITERION needs only the Absorption Theorem (any Hermitian H, Z-dephasing, any graph, any N) plus a
 NUMBER-CONSERVING Hamiltonian, which is what makes the joint-popcount blocks invariant in the first place;
 a transverse field or amplitude damping destroys the grading and the criterion with it. Both halves are derived graph-blind and MEASURED on
-the chain only. A longitudinal field keeps number conservation and, being diagonal in the computational basis, cannot reach
-Re λ at all, so it leaves the criterion alone and changes only S. The same is true of XXZ: measured at
+the chain only. A longitudinal field keeps number conservation and leaves the CRITERION alone; on a
+pinned block at uniform γ, the case where the criterion holds, it cannot reach Re λ and changes only S. Two wrong reasons for that, both
+worth naming because each is reachable and each was written here: it is NOT that the field is diagonal in
+the computational basis, which would not suffice, since adding an imaginary diagonal to a non-normal matrix
+moves real parts in general; and it is NOT that the Hamiltonian part of L is −i·ad_H and hence
+anti-Hermitian, which is true but proves too much, since a block-preserving field demonstrably DOES move
+Re λ on a block with more than one size class (at uniform γ = 0.5, Δ = 0, J = 1.3, h = (0.5, 0.25, 0.75, 0.125)
+the N = 4 block (2,2) goes from Re range [−4, 0] to [−3.868, 0]; the value is parameter-dependent, J = 1.0
+giving −3.805). The reason is the scalar dissipator: on a block whose dissipator is a real SCALAR, which
+takes one size class AND uniform γ together and is exactly a pinned block at uniform γ, L = c·Id + i·S
+with S Hermitian, and only there does the anti-Hermitian argument close. One size class alone does not
+suffice: under a γ profile the rates differ within the class, and the same field then moves a FLAT pinned
+block (on the locus profile (0.25, 0.75, 0.5, 1.0) at Δ = 0, J = 1.25 the N = 4 block (0,2) goes from
+−2.5000 flat to [−2.7113, −2.2887]; this range is J-dependent too). The Peierls-phase reading stated earlier in this entry is the same point measured, the phase being
+neither real nor diagonal-symmetric and the criterion surviving it. The same is true of XXZ: measured at
 Δ = −1, 0.5, 0 and 2 the criterion matches in both directions, the flat count is 4N, and every flat block
 still sits at exactly −2γ|p − q|. What anisotropy moves is the imaginary diagonal, never the constant. Off the chain, and at Δ ≠ 1, the criterion is reasoned and not gated.
 

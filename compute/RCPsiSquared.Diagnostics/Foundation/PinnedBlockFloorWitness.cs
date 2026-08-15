@@ -408,8 +408,11 @@ public sealed class PinnedBlockFloorWitness : IInspectable
     /// couplings); source (1) is the global complement X^N, which commutes with each XX+YY+ZZ bond and is
     /// therefore blind to the bond profile. Gated as a pair. Measured N = 3..6 at Δ = 1; both need J above a threshold that is profile- and
     /// N-dependent and is NOT gated. What Δ decides is whether there is an onset AT ALL, and it decides that for
-    /// the COLLAPSE and not for the involution: at Δ = 0 and Δ = 0.5 the palindrome still holds while the span
-    /// SATURATES, so no coupling collapses it. The ramp profile
+    /// the COLLAPSE and not for the involution. That reading is OFF-LOCUS and the clause was missing until
+    /// 2026-08-15: OFF the locus at Δ = 0 the palindrome still holds while the span SATURATES, so no coupling
+    /// collapses it, and at Δ = 0.5 the same happens at N = 6 but not at N = 4; ON the locus every pinned block
+    /// of dimension above one collapses, past its onset, at every Δ measured. The gate next door reads the off-locus case, which
+    /// is why it pairs Δ = 0 with N = 4 and Δ = 0.5 with N = 6. The ramp profile
     /// and <see cref="DyadicRampProfile"/> both lie on the R₉₀ locus, which is the source that CAN reach the
     /// whole 4N; whether it does depends on the onset, and the linspace ramp at J = 1 is below it.</para>
     ///
@@ -521,8 +524,11 @@ public sealed class PinnedBlockFloorWitness : IInspectable
                          "does the same for every pinned block and all 4N flatten. What the involution buys at once " +
                          "is a PALINDROME of the Re-spectrum about that constant, holding at EVERY coupling; " +
                          "flatness is its UNBROKEN case, and the J threshold is that onset. Measured N = 3..6 at " +
-                         "Δ = 1. What Δ decides is whether the collapse has an onset AT ALL, not the involution: at " +
-                         "Δ = 0 and 0.5 the palindrome holds while the span saturates. The profile printed above " +
+                         "Δ = 1. What Δ decides is whether the collapse has an onset AT ALL, not the involution, " +
+                         "and that reading is OFF-LOCUS (clause added 2026-08-15): off the locus at Δ = 0 the " +
+                         "palindrome holds while the span saturates, and at Δ = 0.5 it saturates at N = 6 but not " +
+                         "at N = 4; ON the locus every pinned block of dimension above one collapses, past its " +
+                         "onset, at every Δ measured. The profile printed above " +
                          "lies on the R₉₀ locus, the source that CAN reach the whole 4N; whether it does at this " +
                          "coupling is the onset's business, and this node does not read it, its verdict being a " +
                          "rate spread and not a spectrum.", provenance: NodeProvenance.Live),

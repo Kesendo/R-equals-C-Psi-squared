@@ -65,7 +65,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// happen to lie. What the involution buys at once is a PALINDROME of the Re-spectrum about that constant,
 /// holding at EVERY coupling; flatness is its UNBROKEN case and the J threshold is that onset, which is
 /// why the threshold is a phenomenon and not a fitted number. Measured N = 3..6 at Δ = 1. What Δ decides is whether
-/// the collapse has an onset at all: at Δ = 0 and Δ = 0.5 the palindrome holds while the span saturates. The criterion is about attaining the FLOOR, and a carrier that tested only
+/// the collapse has an onset at all, and that reading is OFF-LOCUS, a clause missing here until 2026-08-15:
+/// OFF the locus at Δ = 0 the palindrome holds while the span saturates, and at Δ = 0.5 it saturates at N = 6 but
+/// not at N = 4 (measured on γ_l = (l+1)²/16, spread at J = 10³ and 10⁵: (0,2) at N = 4 reads 0.2236 twice at Δ = 0
+/// and 0.0000 at Δ = 0.5; (0,3) at N = 6 reads 0.5325 at Δ = 0 and 0.6456 at Δ = 0.5, each J-stable;
+/// measured, not gated, the theory below using a different off-locus profile). ON the locus every pinned block of dimension
+/// above one collapses, past its onset, at every Δ measured. The criterion is about attaining the FLOOR, and a carrier that tested only
 /// flatness would pass on the flat ones.
 /// (iii) The spectral half is GATED since 2026-08-14, and it is gated EXACTLY, because it turned out not to
 /// need an eigensolver: under Z-dephasing, Herm(L_block) = −2·diag(rate) for any Hermitian H and any
@@ -78,7 +83,17 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// Beyond γ, the criterion needs the Absorption Theorem (any Hermitian H, Z-dephasing,
 /// any graph, any N) plus a NUMBER-CONSERVING Hamiltonian, which is what makes the blocks invariant at
 /// all; a transverse field or amplitude damping destroys the grading and the criterion with it. A
-/// longitudinal field keeps both, being diagonal in the computational basis, and moves only S. Derived
+/// longitudinal field keeps both and leaves the criterion alone (on a pinned block at uniform γ, the case
+/// where the criterion holds, it moves only S), but NOT because it is diagonal in the computational basis
+/// (an imaginary diagonal moves the real parts of a non-normal matrix in general) and NOT because −i·ad_H is
+/// anti-Hermitian (that proves too much: at uniform γ = 0.5, Δ = 0, J = 1.3, h = (0.5, 0.25, 0.75, 0.125)
+/// a field takes the N = 4 block (2,2) from Re range [−4, 0] to [−3.868, 0]; the value is
+/// parameter-dependent, J = 1.0 giving −3.805). It is the SCALAR dissipator, one size class AND uniform γ
+/// together, which is exactly a pinned block at uniform γ; one size class alone does not suffice, a profile
+/// making the rates differ within the class so that the same field moves even a FLAT pinned block (the
+/// N = 4 block (0,2) on locus profile (0.25, 0.75, 0.5, 1.0) at Δ = 0, J = 1.25 goes from −2.5000 flat to
+/// [−2.7113, −2.2887], J-dependent too); only there does the anti-Hermitian argument close.
+/// Corrected 2026-08-15. Derived
 /// graph-blind, GATED on the chain only.</para>
 ///
 /// <para><b>The correction that travels with the carrier.</b> The pinned block is c·Id + i·S with S the
