@@ -329,7 +329,14 @@ saturates on the interval spanned by its size-class centres, endpoints included:
 −6.0000. That is what makes it a size-class reading rather than a width that happens to fit, and
 γ̄ is swept because an earlier draft read the width as "twice the window half-width", which is
 the width in the RATE variable and agrees with the λ one only at γ̄ = ½, where the whole table
-happened to be run. Where a block FLATTENS it sits on the trace constant −2γ̄(p + q − 2pq/N),
+happened to be run. The saturation mechanism lives two notes downstream, in
+[THE_ENDPOINTS_ARE_A_DENSITY_LAW](THE_ENDPOINTS_ARE_A_DENSITY_LAW.md): wherever the colliding
+eigenspaces carry reflection-symmetric compressed site densities, the locus compression is
+−2γ̄·Π N_XY Π (N_XY the disagreement-count operator of F122) and the centres are its Rayleigh
+bounds, attained by pure-size-class vectors; at Δ = 0 and ½ parity forces that on every
+colliding eigenspace of the blocks in that note's census, and at Δ = 1 a few parity-mixed
+eigenspaces break the density symmetry in the INTERIOR (measured on (1,3) and (2,4), the
+second not a row of this table) and stay inside the centres. Where a block FLATTENS it sits on the trace constant −2γ̄(p + q − 2pq/N),
 which is −3.00 for every one of these blocks. And where it does NEITHER, at Δ = 0.5, the note
 has no name for what it does beyond the number: the spectrum sits about the trace constant with
 a residual spread that is neither zero nor the size-class width; what selects it is the

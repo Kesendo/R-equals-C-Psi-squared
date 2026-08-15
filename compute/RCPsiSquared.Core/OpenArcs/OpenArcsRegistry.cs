@@ -6904,6 +6904,69 @@ public static class OpenArcsRegistry
                 "EVIDENCE lands as a live witness. A Tier-2 hardware reading satisfies neither, and forcing " +
                 "it into C# would be work that makes the object manager larger without making it truer.",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "compressed_density_laws",
+            Opened: "2026-08-15",
+            Origin:
+                "The R90-locus chain (experiments/WHAT_THE_R90_LOCUS_BUYS.md -> " +
+                "experiments/THE_SPREAD_IS_A_RESONANCE.md) had thread content in three arcs " +
+                "(xxz_axis_handover, topology_band_edge, f_registry_meets_the_typed_layer) but no arc " +
+                "of its own; this one registers it. Subject, from " +
+                "experiments/THE_ENDPOINTS_ARE_A_DENSITY_LAW.md (gate " +
+                "simulations/endpoint_density_gate.py, VERDICT green 2026-08-15): the saturation " +
+                "endpoints of the strong-coupling resonances are compressed density statements on the " +
+                "degenerate ad_H eigenspaces Omega of a coherence block, in two layers. LAYER 1, a " +
+                "THEOREM: C_l = Pi_Omega (N_l - N_{N-1-l}) Pi_Omega is R-odd, so on every eigenspace " +
+                "where the site reflection R acts as a scalar +-1 (a 'scalar' eigenspace), C_l = 0 is " +
+                "forced by [H, R] = 0 alone; the parity census (30 rows, N = 4..8) shows EVERY " +
+                "colliding eigenspace on every census block is scalar at N <= 7 (Delta = 0) and " +
+                "through N = 8 at Delta = 0.5. LAYER 2, the LAW: the " +
+                "91 parity-MIXED eigenspaces that first appear at N = 8, Delta = 0 still satisfy " +
+                "C_l = 0 at the eigensolver floor where symmetry permits a cross block of order one " +
+                "(generic R-odd contrast 0.119). SECOND LAW (Delta = 1, SU(2)): comp(N_l) = (s/N) Id " +
+                "on Omega_s, uniform, profile-blind; FALSE at Delta = 0 (0.226, gated from below). On " +
+                "the R90 locus C_l = 0 gives Pi D Pi = -2*gbar * Pi N_XY Pi, hence containment in the " +
+                "size-class-centre interval (Rayleigh) plus endpoint attainment (pure-class vectors): " +
+                "the resonance note's first open item, answered, with collapse as the single-class " +
+                "case and the small Delta = 0.5 resonance as the no-pure-vectors case.",
+            ParkedAt:
+                "Containment on the centres is DERIVED wherever every colliding eigenspace is scalar " +
+                "(gate rows: all Delta = 0 through N = 7, all Delta = 0.5 through N = 8, (1,3) and " +
+                "(2,4) at Delta = 1, N = 8, and the omega = 0 carriers at Delta = 1, N = 6), with " +
+                "attainment from the measured pure-vector census on top; at N = 8, Delta = 0 it " +
+                "rests on the MEASURED mixed-space law. Delta = 1, N = 6 breaks: every breaking " +
+                "eigenspace is mixed, mixedness not sufficient on (1,3) (omega = -4 dim 2 and " +
+                "-2 dim 3 break at 0.129/0.258; the mixed omega = +2 dim 4 and +4 dim 3 hold), all " +
+                "four mixed break on (2,4). Bond control: the mixed collisions are a UNIFORM-chain " +
+                "resonance (a fixed palindromic J and a ten-profile random palindromic sweep leave " +
+                "zero mixed spaces), and a non-palindromic J breaks the law outright (0.456). " +
+                "Off-locus overshoots: on the self-folded (1,3) the two ends are ONE fact (the " +
+                "undressed one-sided X^N fold F: (a,b) -> (a, complement b) with F D F = -D - " +
+                "2*sigma, exact for any Delta and profile; the sibling full-block statement at " +
+                "uniform gamma is PROOF_CODIM1_BY_ADDITIVITY section 7 clause (b)), 0.3307 at " +
+                "Delta = 0 and 0.0051 " +
+                "at Delta = 1 (small because uniformity survives any profile and interlacing forces " +
+                "the extremes to reach at least the centres); the genuinely two-sided case is (2,4), " +
+                "arithmetic lower end, escaping upper end.",
+            NextStep:
+                "Sharpest first. (1) Derive the mixed-space law at Delta = 0, N = 8: the parity cross " +
+                "elements need the free-fermion difference structure (candidate collisions " +
+                "e_i - e_j = e_m - e_n with mixed parity products must be absent or cancel; F129's " +
+                "collision law is the natural tool). (2) Derive the uniform law at Delta = 1 by an " +
+                "SU(2) ladder argument in F144's genre. (3) What separates the Delta = 1, N = 6 mixed " +
+                "spaces that break from the two on (1,3) that hold, and why the breaking spaces' " +
+                "compressed spectra stay INSIDE the centre interval on the locus (measured with " +
+                "slack). (4) N >= 10: do mixed collisions and the law survive where F129-type cosine " +
+                "collisions grow? Prior work pinned " +
+                "in the note's sweep record: F122 (the uniform-gamma compression this lifts), F153 " +
+                "source 2 and PROOF_R90_FROZEN_DIVISOR (the |S|-resolved centre), " +
+                "PROOF_FROZEN_BAND_SO4 section 6 (compressed double occupancy on the rung-1 kernel; " +
+                "its R is the chiral involution on modes, not the site reflection), " +
+                "PROOF_ABSORPTION_THEOREM Theorem 2, PROOF_CODIM1_BY_ADDITIVITY section 6's rate " +
+                "window (coincides with the centre interval at uniform gamma; under a profile the " +
+                "centre interval sits properly inside it).",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

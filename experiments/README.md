@@ -19,8 +19,8 @@ information channels.
 All experiments are reproducible using Python, NumPy, and SciPy.
 Scripts are in [`simulations/`](../simulations/), results in [`simulations/results/`](../simulations/results/).
 
-**Index coverage:** 211 experiment writeups are tracked in this folder; all 211 are
-linked below (index swept and completed 2026-08-04; two added 2026-08-15).
+**Index coverage:** 212 experiment writeups are tracked in this folder; all 212 are
+linked below (index swept and completed 2026-08-04; three added 2026-08-15).
 
 ---
 
@@ -290,6 +290,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [XY Frozen Band](XY_FROZEN_BAND.md) | On the R₉₀ locus the XY chain carries λ = −4γ̄ not just in F140's corner blocks but across the whole band \|p − q\| ∈ {0, 2}, 3(N − 1) blocks at depth ⌊N/2⌋. Census N = 4 to 7, band-edge probes N = 8, 9, 10, ceiling by exact GF(p) rank |
 | [What the R₉₀ Locus Buys](WHAT_THE_R90_LOCUS_BUYS.md) | Why one locus carries both F153 and F140: the failure of F153's size-class condition on the corner and F140's defect are the same matrix 8γ̄·P_D, reached linearly by τQ and antilinearly by the bare reflection; each map satisfies exactly one of the two identities |
 | [The Spread is a Resonance](THE_SPREAD_IS_A_RESONANCE.md) | The strong-coupling Δ selection dissolves: on index-N/2 blocks flat at −σ is generic and exact (an X^N density cancellation, any profile) and the spread needs a difference-spectrum collision; the Δ = 0.5 doublet is exact over ℤ, F153's N clause is the resonance count, and blocks off half filling carry a fourth, collision-free behaviour |
+| [The Endpoints are a Density Law](THE_ENDPOINTS_ARE_A_DENSITY_LAW.md) | Why the resonances saturate exactly on the size-class centres: on scalar-parity eigenspaces the reflection-symmetric compressed density is a theorem of [H, R] = 0, the parity census shows that covers everything up to N = 7, and on the R₉₀ locus Π D Π = −2γ̄·Π N_XY Π gives containment and attainment in one identity; the parity-mixed eigenspaces of N = 8 at Δ = 0 obey the same law unforced, and Δ = 1 adds a uniform density s/N per size class |
 | [Ceiling: Four Non-Local Cases](CEILING_FOUR_NONLOCAL_CASES.md) | The palindrome ceiling of non-local k-body cases, narrowed 6 → 4 → 2 → 0: the last Z-middle pair is palindromized by the period-4 golden router, so the arc is closed at zero non-local cases |
 
 ### F-Registry Readings (F64 through F130)

@@ -7252,6 +7252,11 @@ N = 6" is a statement about N = 4 and 6: at N = 8 the block (0,4) saturates at �
 [experiments/THE_SPREAD_IS_A_RESONANCE.md](../experiments/THE_SPREAD_IS_A_RESONANCE.md): the
 saturation is a resonance of the sector difference spectrum, and this N clause is its resonance count
 (the Δ = 0.5 half-filling double levels number 0 / 1 / 8 at N = 4 / 6 / 8, the N = 6 one exact over ℤ).
+WHY the ON-LOCUS resonances of the multi-class blocks saturate exactly on the size-class centres is
+[experiments/THE_ENDPOINTS_ARE_A_DENSITY_LAW.md](../experiments/THE_ENDPOINTS_ARE_A_DENSITY_LAW.md),
+the compressed-density face of this entry's source 2, lifted off the pinned blocks onto the
+multi-class ones (the off-locus spreads of THIS paragraph are outside that mechanism, by that
+note's own fences).
 These spreads are measured, not gated; the C# theory
 gating the verdicts uses a different off-locus profile, OffLocusProfile, and gives different values. And both speak of blocks of dimension above one: a one-cell block is flat
 for nothing, and at ODD N two of the four one-cell blocks carry odd |p − q|. Measured N = 3..6 at Δ = 1

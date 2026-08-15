@@ -282,10 +282,14 @@ name is the slowest-mode consequence, and "coalescence" is avoided as EP-loaded.
 
 ## What is still open
 
-Why the full resonances saturate on EXACTLY the size-class-centre interval, endpoints
-attained: the collision makes mixing possible, and at Δ = 0 and 1 the mixed Π D Π extremes
-land on the centres −2γ̄·|S| exactly; the free-fermion and SU(2) structure of the
-degenerate eigenvectors presumably forces this, and nothing here derives it. The origin of
+Why the full resonances saturate on EXACTLY the size-class-centre interval is answered
+in [THE_ENDPOINTS_ARE_A_DENSITY_LAW](THE_ENDPOINTS_ARE_A_DENSITY_LAW.md): on every
+degenerate eigenspace where the chain reflection acts as a scalar, the compressed site
+density is reflection-symmetric by symmetry alone, and the parity census shows that
+covers every colliding eigenspace of its census blocks up to N = 7; on the locus
+Π D Π = −2γ̄·Π N_XY Π follows, and the centres are Rayleigh bounds attained by the
+pure-size-class vectors. Open there in turn: the parity-mixed eigenspaces that first
+appear at N = 8, Δ = 0, where the same vanishing is measured but not forced. The origin of
 the exact 5/2 double level at Δ = ½ (an exact rational double root in an otherwise
 high-degree spectrum; whether it is the boundary of a family in N, and whether it connects
 to the XXZ combinatorial point, is unasked here). The scope of the 1/J² truncation: the
