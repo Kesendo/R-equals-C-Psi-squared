@@ -1,0 +1,9 @@
+FROZEN CONFIG: Q=10 dt=0.15 21x3 16384 gpb2 M=1024; 200 reps, both f_leak ends, held-out-half theta_D
+fl=0.53: d = +0.00482 +- 0.00165 (power 2.92), theta_D 0.00253, P(d>theta_D) = 0.920, H0 false (held-out half) 0.000
+        s2Cp = +0.00019 +- 0.00019; W exceedance +0.00634 +- 0.00134 (power 4.73)
+fl=0.90: d = +0.00554 +- 0.00133 (power 4.16), theta_D 0.00063, P(d>theta_D) = 1.000, H0 false (held-out half) 0.020
+        s2Cp = +0.00047 +- 0.00028; W exceedance +0.00522 +- 0.00136 (power 3.84)
+dressed ref C : s2 = 0.00539  (1.21x bare ideal)
+dressed ref Cp: s2 = 0.00080  (0.54x bare ideal)
+dressed ref U : s2 = 0.00001
+pick a mode: --g1 --g2 --g3 --g4 --g5 --all [--quick]

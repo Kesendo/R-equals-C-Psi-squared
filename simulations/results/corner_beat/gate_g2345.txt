@@ -1,0 +1,28 @@
+G3 v2 (a): retention certificate pass probability, lit/lit pair, criterion 0.02 (note: transplanted from the concentrator at a DIFFERENT dose; a per-M criterion is the honest freeze):
+  M= 256: median max|dev| 0.0231 range [0.0171,0.0350] P(PASS@0.02) = 0.20
+  M= 512: median max|dev| 0.0176 range [0.0123,0.0285] P(PASS@0.02) = 0.75
+  M=1024: median max|dev| 0.0111 range [0.0080,0.0159] P(PASS@0.02) = 1.00
+  M=4096: median max|dev| 0.0059 range [0.0045,0.0090] P(PASS@0.02) = 1.00
+
+G3 v2 (b): s2(C) realization spread across frozen channels (estimator, noiseless counts):
+  M= 256: s2(C) 0.00524 +- 0.00163  (realization sd = 31.0% of centre)
+  M=1024: s2(C) 0.00516 +- 0.00079  (realization sd = 15.3% of centre)
+  M=4096: s2(C) 0.00512 +- 0.00042  (realization sd = 8.1% of centre)
+G4 v2: common scattered background (T1 as Gam_l/4-equivalent dephasing; 'scale' = Gam_mean/4 in units gbar), 4000 draws
+  base difference s2C - s2U = 4.4444e-03
+
+  scale 0.125*gbar: 95% band on Delta(d) [-6.25e-04,+6.03e-04]  (14% of base)  OK
+  scale 0.250*gbar: 95% band on Delta(d) [-1.26e-03,+1.23e-03]  (28% of base)  OK
+  scale 0.500*gbar: 95% band on Delta(d) [-2.42e-03,+2.56e-03]  (58% of base)  TOO WIDE
+  scale 1.000*gbar: 95% band on Delta(d) [-4.92e-03,+4.86e-03]  (111% of base)  TOO WIDE
+
+proposed T1-CLEAN bound: scattered Gam_l/4 profile scale <= 0.25*gbar (95% band under half the base difference)
+G5 v2: bond-J scatter at the estimator level, nominal-J prep and demod frequencies, noiseless counts
+  base (nominal J, estimator-dressed): s2(C) = 0.00516
+  sigma_J=0.01: shift median +0.00002 95% [-0.00047,+0.00073] (10% of base)
+  sigma_J=0.02: shift median +0.00022 95% [-0.00104,+0.00145] (25% of base)
+  d(s2)/s2 per +-5% J (all bonds): +0.045 / +0.045
+G2 demos: difference-nulls under a generic background
+  bg draw: (1,2) row of G(C)-G(U): [ 0.  0. -0.] (exact 0);  (2,3) row of G(Cp)-G(U): [-0.  0. -0.] (exact 0)
+  bg draw: (1,2) row of G(C)-G(U): [ 0.  0. -0.] (exact 0);  (2,3) row of G(Cp)-G(U): [ 0. -0. -0.] (exact 0)
+  bg draw: (1,2) row of G(C)-G(U): [-0.  0. -0.] (exact 0);  (2,3) row of G(Cp)-G(U): [-0.  0. -0.] (exact 0)
