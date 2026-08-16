@@ -6,4 +6,3 @@ fl=0.90: d = +0.00554 +- 0.00133 (power 4.16), theta_D 0.00063, P(d>theta_D) = 1
 dressed ref C : s2 = 0.00539  (1.21x bare ideal)
 dressed ref Cp: s2 = 0.00080  (0.54x bare ideal)
 dressed ref U : s2 = 0.00001
-pick a mode: --g1 --g2 --g3 --g4 --g5 --all [--quick]

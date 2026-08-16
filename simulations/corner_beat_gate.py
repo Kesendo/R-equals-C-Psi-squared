@@ -671,5 +671,6 @@ if __name__ == "__main__":
         cmd_g5(quick=a.quick)
     if a.g2 or a.all:
         cmd_g2()
-    if not any([a.g1, a.g2, a.g3, a.g4, a.g5, a.all]):
-        print("pick a mode: --g1 --g2 --g3 --g4 --g5 --all [--quick]")
+    if not any([a.g1, a.g2, a.g3, a.g4, a.g5, a.frozen, a.all]):
+        print("pick a mode: --frozen --g1 --g2 --g3 --g4 --g5 --all"
+              " [--quick]")
