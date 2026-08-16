@@ -235,9 +235,12 @@ derivations; no claim is made past the tested sizes.
 
 ## What stays open
 
-The second half of NextStep (3) is untouched: why the breaking spaces'
-compressed spectra stay INSIDE the size-class-centre interval on the locus,
-containment measured with slack, not derived. The break direction of the rule
+The second half of NextStep (3), why the breaking spaces' compressed
+spectra stay INSIDE the size-class-centre interval on the locus, is
+answered in
+[THE_MIRROR_TRANSVERSAL_CERTIFICATE](THE_MIRROR_TRANSVERSAL_CERTIFICATE.md):
+a corner reduction over the locus box plus a closed-form certificate built
+from this note's C_l objects. The break direction of the rule
 is genericity, not a theorem: nothing forbids an alive cross-parity pair
 whose legs miss each other on every site, the census just contains none. The
 √rational sizes and the 2160 are measured, unexplained. And whether the two

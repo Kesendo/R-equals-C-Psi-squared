@@ -6993,10 +6993,23 @@ public static class OpenArcsRegistry
                 "fence at sqrt(1/432), floor classification); protection map: each half-filled " +
                 "side protects one omega sign via the ferromagnetic S = N/2 level at the global " +
                 "energy maximum, (3,3) both sides, holds everywhere; frontier: no mixed spaces " +
-                "at any N in 3..8 except N = 6, all blocks. SECOND HALF stays open: why the " +
-                "breaking spaces' " +
-                "compressed spectra stay INSIDE the centre interval on the locus (measured with " +
-                "slack). (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
+                "at any N in 3..8 except N = 6, all blocks. SECOND HALF CLOSED the same day " +
+                "(experiments/THE_MIRROR_TRANSVERSAL_CERTIFICATE.md, gate " +
+                "simulations/locus_containment_gate.py): containment holds for EVERY physical " +
+                "locus profile by a corner reduction (the locus box's corners are the mirror " +
+                "transversals, one site per pair lit at 2*gbar, its partner dark; lambda_max " +
+                "convex, lambda_min concave, extremes at corners; the repo's first discharged " +
+                "extreme-profile reduction, RESONANT_RETURN's LP sketch being the undischarged " +
+                "precedent) plus a closed-form certificate: comp(N_A) = (comp(N_XY) + " +
+                "Sum sigma_l C_l)/2 splits along the compressed mirror parity, comp(N_XY) " +
+                "measures diagonal with /24-rational entries (scalar on 28 of 48, at the " +
+                "derived centre 3 on the m = 0 blocks), and sqrt(delta^2 + w^2) <= " +
+                "min(smax - mbar, mbar - smin) holds on all 48 breaking spaces with the " +
+                "measured slack equal to the closed form; exactly TIGHT on the six corner " +
+                "dim-3 spaces ((1,1)/(5,5) upper edge, (1,5) lower), so the containment is " +
+                "sharp; smin = |p-q|, smax = min(p+q, 2N-p-q) exact combinatorics. Open " +
+                "residue recorded there: M0 diagonality and the 2160/2304 denominators " +
+                "measured, underived. (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
                 "pair-sum map is chiral-only (odd prime powers by the proof's section 7, the 2p and " +
                 "2^a cases gated exactly there, PROOF_SCALAR_COUNT section 4 the subset-form " +
                 "sibling), so N = 10 and N = 12 are protected; the forcing ends at the parity doors " +

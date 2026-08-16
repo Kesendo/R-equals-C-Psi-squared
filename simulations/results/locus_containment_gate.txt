@@ -1,0 +1,107 @@
+==============================================================================
+THE LOCUS CONTAINMENT GATE: corner reduction + parity split + the
+closed-form certificate on the breaking mixed eigenspaces (Delta=1, N=6)
+==============================================================================
+
+(A) SETUP. Sector eigenbases with (E, r) labels; the 48 breaking mixed
+    eigenspaces over the fifteen blocks p <= q (THE_TWO_SPIN_ZEROS'
+    census; gate: exactly 48, and nothing in the VOID band between
+    64*floor and 0.04).
+    breaking spaces: 48  ok
+
+(E) THE INTERVAL IS EXACT COMBINATORICS. popcount(a^b) == p+q (mod 2),
+    so the block's class set is {|p-q|, |p-q|+2, ..., min(p+q, 2N-p-q)}.
+    Gate per breaking space: mass EXACTLY 0.0 on every class outside
+    that set, and >= 0.1 (an enumerated finite minimum) on every class
+    inside it: the support is the full block ladder, endpoints live,
+    smin = |p-q|, smax = min(p+q, 2N-p-q).
+    smallest ladder-class mass across all 48: 0.119; every
+    off-ladder mass exactly 0.0  ok
+
+(B) CORNER REDUCTION. comp(D) is affine in gamma (Omega is built from
+    ad_H alone); lambda_max is convex and lambda_min concave, so the
+    box extremes sit at the 8 mirror transversals. Consequence check:
+    for 20 random locus profiles per space, the spectrum stays inside
+    the hull of the 8 transversal spectra (worst signed margin printed;
+    gate: no overshoot beyond 64 * floor).
+    worst overshoot 0.00e+00 (gate <= 4.5e-13); tightest interior margin 4.40e-03  ok
+
+(C) PARITY SPLIT. Gates: comp(N_XY) commutes with the compressed
+    reflection R~ = diag(dyad parities) (even); every C_l anticommutes
+    with it (odd, cross-parity support only); comp(N_XY) is diagonal
+    in the dyad eigenbasis, 24 * entries integer (values printed);
+    scalar exactly on the 24 dim-3 spaces and the 4 dim-2 spaces of
+    the m = 0 blocks (ptp of the diagonal <= 64*floor there, and
+    > 1/25 on the other 20).
+    scalar spaces: 28/48 (gate == 28; 24 dim-3 + 4 m=0 dim-2); dims: 24 dim-3 (gate == 24); /24-rational diagonal values: [1.6666666666666667, 1.8333333333333333, 2.3333333333333335, 2.4166666666666665, 2.6666666666666665, 2.7083333333333335, 3.0, 3.2916666666666665, 3.3333333333333335, 3.5833333333333335, 3.6666666666666665, 4.166666666666667, 4.333333333333333] (gate: this 13-value set); non-scalar 24-integer gaps: [1, 2, 4] (gate: {1, 2, 4})
+
+(D) THE CERTIFICATE, closed-form on all 48. Per space: delta =
+    ptp(diag M0)/2, w = max_sigma ||Sum sigma_l C_l||, bound =
+    min(smax - mbar, mbar - smin). Gates: sqrt(delta^2 + w^2) <=
+    bound (containment); the measured worst transversal slack equals
+    (bound - sqrt(delta^2 + w^2))/2 to the floor (the closed form IS
+    the spectrum); 2160 * w^2 and 2304 * delta^2 integers;
+    equality exactly on the six corner dim-3 spaces, upper edge on
+    (1,1)/(5,5), lower on (1,5); on the corner dim-2 spaces the
+    cruder Weyl form delta + w exceeds the bound (the 2x2 form is
+    load-bearing, gated).
+    (1,1) om=-4 dim=2 [0,2] slack +0.020141 = closed form +0.020141  w=0.192450 delta=0.083333 2160w2= 80 2304del2= 16 bound=0.2500
+    (1,1) om=-2 dim=3 [0,2] slack -0.000000 = closed form -0.000000  w=0.333333 delta=0.000000 2160w2=240 2304del2=  0 bound=0.3333  TIGHT(upper)
+    (1,1) om=+2 dim=3 [0,2] slack -0.000000 = closed form -0.000000  w=0.333333 delta=0.000000 2160w2=240 2304del2=  0 bound=0.3333  TIGHT(upper)
+    (1,1) om=+4 dim=2 [0,2] slack +0.020141 = closed form +0.020141  w=0.192450 delta=0.083333 2160w2= 80 2304del2= 16 bound=0.2500
+    (1,2) om=-4 dim=2 [1,3] slack +0.189014 = closed form +0.189014  w=0.243432 delta=0.041667 2160w2=128 2304del2=  4 bound=0.6250
+    (1,2) om=-2 dim=3 [1,3] slack +0.122515 = closed form +0.122515  w=0.421637 delta=0.000000 2160w2=384 2304del2=  0 bound=0.6667
+    (1,2) om=+2 dim=3 [1,3] slack +0.250000 = closed form +0.250000  w=0.166667 delta=0.000000 2160w2= 60 2304del2=  0 bound=0.6667
+    (1,2) om=+4 dim=2 [1,3] slack +0.260071 = closed form +0.260071  w=0.096225 delta=0.041667 2160w2= 20 2304del2=  4 bound=0.6250
+    (1,3) om=-4 dim=2 [2,4] slack +0.370901 = closed form +0.370901  w=0.258199 delta=0.000000 2160w2=144 2304del2=  0 bound=1.0000
+    (1,3) om=-2 dim=3 [2,4] slack +0.276393 = closed form +0.276393  w=0.447214 delta=0.000000 2160w2=432 2304del2=  0 bound=1.0000
+    (1,4) om=-4 dim=2 [3,5] slack +0.189014 = closed form +0.189014  w=0.243432 delta=0.041667 2160w2=128 2304del2=  4 bound=0.6250
+    (1,4) om=-2 dim=3 [3,5] slack +0.122515 = closed form +0.122515  w=0.421637 delta=0.000000 2160w2=384 2304del2=  0 bound=0.6667
+    (1,4) om=+2 dim=3 [3,5] slack +0.250000 = closed form +0.250000  w=0.166667 delta=0.000000 2160w2= 60 2304del2=  0 bound=0.6667
+    (1,4) om=+4 dim=2 [3,5] slack +0.260071 = closed form +0.260071  w=0.096225 delta=0.041667 2160w2= 20 2304del2=  4 bound=0.6250
+    (1,5) om=-4 dim=2 [4,6] slack +0.020141 = closed form +0.020141  w=0.192450 delta=0.083333 2160w2= 80 2304del2= 16 bound=0.2500
+    (1,5) om=-2 dim=3 [4,6] slack -0.000000 = closed form -0.000000  w=0.333333 delta=0.000000 2160w2=240 2304del2=  0 bound=0.3333  TIGHT(lower)
+    (1,5) om=+2 dim=3 [4,6] slack -0.000000 = closed form +0.000000  w=0.333333 delta=0.000000 2160w2=240 2304del2=  0 bound=0.3333  TIGHT(lower)
+    (1,5) om=+4 dim=2 [4,6] slack +0.020141 = closed form +0.020141  w=0.192450 delta=0.083333 2160w2= 80 2304del2= 16 bound=0.2500
+    (2,2) om=-4 dim=2 [0,4] slack +0.594507 = closed form +0.594507  w=0.121716 delta=0.020833 2160w2= 32 2304del2=  1 bound=1.3125
+    (2,2) om=-2 dim=3 [0,4] slack +0.561257 = closed form +0.561257  w=0.210819 delta=0.000000 2160w2= 96 2304del2=  0 bound=1.3333
+    (2,2) om=+2 dim=3 [0,4] slack +0.561257 = closed form +0.561257  w=0.210819 delta=0.000000 2160w2= 96 2304del2=  0 bound=1.3333
+    (2,2) om=+4 dim=2 [0,4] slack +0.594507 = closed form +0.594507  w=0.121716 delta=0.020833 2160w2= 32 2304del2=  1 bound=1.3125
+    (2,3) om=-4 dim=2 [1,5] slack +0.935450 = closed form +0.935450  w=0.129099 delta=0.000000 2160w2= 36 2304del2=  0 bound=2.0000
+    (2,3) om=-2 dim=3 [1,5] slack +0.888197 = closed form +0.888197  w=0.223607 delta=0.000000 2160w2=108 2304del2=  0 bound=2.0000
+    (2,4) om=-4 dim=2 [2,6] slack +0.594507 = closed form +0.594507  w=0.121716 delta=0.020833 2160w2= 32 2304del2=  1 bound=1.3125
+    (2,4) om=-2 dim=3 [2,6] slack +0.561257 = closed form +0.561257  w=0.210819 delta=0.000000 2160w2= 96 2304del2=  0 bound=1.3333
+    (2,4) om=+2 dim=3 [2,6] slack +0.561257 = closed form +0.561257  w=0.210819 delta=0.000000 2160w2= 96 2304del2=  0 bound=1.3333
+    (2,4) om=+4 dim=2 [2,6] slack +0.594507 = closed form +0.594507  w=0.121716 delta=0.020833 2160w2= 32 2304del2=  1 bound=1.3125
+    (2,5) om=-4 dim=2 [3,5] slack +0.260071 = closed form +0.260071  w=0.096225 delta=0.041667 2160w2= 20 2304del2=  4 bound=0.6250
+    (2,5) om=-2 dim=3 [3,5] slack +0.250000 = closed form +0.250000  w=0.166667 delta=0.000000 2160w2= 60 2304del2=  0 bound=0.6667
+    (2,5) om=+2 dim=3 [3,5] slack +0.122515 = closed form +0.122515  w=0.421637 delta=0.000000 2160w2=384 2304del2=  0 bound=0.6667
+    (2,5) om=+4 dim=2 [3,5] slack +0.189014 = closed form +0.189014  w=0.243432 delta=0.041667 2160w2=128 2304del2=  4 bound=0.6250
+    (3,4) om=+2 dim=3 [1,5] slack +0.888197 = closed form +0.888197  w=0.223607 delta=0.000000 2160w2=108 2304del2=  0 bound=2.0000
+    (3,4) om=+4 dim=2 [1,5] slack +0.935450 = closed form +0.935450  w=0.129099 delta=0.000000 2160w2= 36 2304del2=  0 bound=2.0000
+    (3,5) om=+2 dim=3 [2,4] slack +0.276393 = closed form +0.276393  w=0.447214 delta=0.000000 2160w2=432 2304del2=  0 bound=1.0000
+    (3,5) om=+4 dim=2 [2,4] slack +0.370901 = closed form +0.370901  w=0.258199 delta=0.000000 2160w2=144 2304del2=  0 bound=1.0000
+    (4,4) om=-4 dim=2 [0,4] slack +0.594507 = closed form +0.594507  w=0.121716 delta=0.020833 2160w2= 32 2304del2=  1 bound=1.3125
+    (4,4) om=-2 dim=3 [0,4] slack +0.561257 = closed form +0.561257  w=0.210819 delta=0.000000 2160w2= 96 2304del2=  0 bound=1.3333
+    (4,4) om=+2 dim=3 [0,4] slack +0.561257 = closed form +0.561257  w=0.210819 delta=0.000000 2160w2= 96 2304del2=  0 bound=1.3333
+    (4,4) om=+4 dim=2 [0,4] slack +0.594507 = closed form +0.594507  w=0.121716 delta=0.020833 2160w2= 32 2304del2=  1 bound=1.3125
+    (4,5) om=-4 dim=2 [1,3] slack +0.260071 = closed form +0.260071  w=0.096225 delta=0.041667 2160w2= 20 2304del2=  4 bound=0.6250
+    (4,5) om=-2 dim=3 [1,3] slack +0.250000 = closed form +0.250000  w=0.166667 delta=0.000000 2160w2= 60 2304del2=  0 bound=0.6667
+    (4,5) om=+2 dim=3 [1,3] slack +0.122515 = closed form +0.122515  w=0.421637 delta=0.000000 2160w2=384 2304del2=  0 bound=0.6667
+    (4,5) om=+4 dim=2 [1,3] slack +0.189014 = closed form +0.189014  w=0.243432 delta=0.041667 2160w2=128 2304del2=  4 bound=0.6250
+    (5,5) om=-4 dim=2 [0,2] slack +0.020141 = closed form +0.020141  w=0.192450 delta=0.083333 2160w2= 80 2304del2= 16 bound=0.2500
+    (5,5) om=-2 dim=3 [0,2] slack +0.000000 = closed form +0.000000  w=0.333333 delta=0.000000 2160w2=240 2304del2=  0 bound=0.3333  TIGHT(upper)
+    (5,5) om=+2 dim=3 [0,2] slack +0.000000 = closed form +0.000000  w=0.333333 delta=0.000000 2160w2=240 2304del2=  0 bound=0.3333  TIGHT(upper)
+    (5,5) om=+4 dim=2 [0,2] slack +0.020141 = closed form +0.020141  w=0.192450 delta=0.083333 2160w2= 80 2304del2= 16 bound=0.2500
+    tight set: [(1, 1, -2, 'upper'), (1, 1, 2, 'upper'), (1, 5, -2, 'lower'), (1, 5, 2, 'lower'), (5, 5, -2, 'upper'), (5, 5, 2, 'upper')]
+    (gate: exactly the corner six, upper on (1,1)/(5,5), lower on (1,5))
+    slack landscape: 6 tight, 6 at the corner dim-2 value (0.25 - sqrt(1/144 + 1/27))/2 = 0.020141, 36 at >= 0.12 (min 0.122515); gate: 6 + 6 + 36 == 48
+
+(F) BRIDGE. Independent route (ad_H on the raw (p,q) cell block, no
+    dyads): the eigenspace at each omega gives eig(comp N_A) for the
+    transversal A = {0,1,2}; gate: matches the dyad route to 64*floor
+    on every breaking space.
+    worst spectrum deviation across all 48: 6.4e-15  ok
+
+==============================================================================
+VERDICT: all checks pass
