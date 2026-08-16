@@ -6951,7 +6951,9 @@ public static class OpenArcsRegistry
                 "resonance (a fixed palindromic J and a ten-profile random palindromic sweep leave " +
                 "zero mixed spaces), and a non-palindromic J breaks C_l = 0 outright (0.456; the " +
                 "reflection law, not the Delta = 1 uniform law, whose T_s line NextStep (2) derives " +
-                "for any SU(2)-invariant H). " +
+                "for any SU(2)-invariant H). The Delta = 1 break/hold census was widened 2026-08-16 " +
+                "to all fifteen N = 6 blocks with the two-spin-zeros rule and closed-form sizes " +
+                "(experiments/THE_TWO_SPIN_ZEROS.md; NextStep (3) first half). " +
                 "Off-locus overshoots: on the self-folded (1,3) the two ends are ONE fact (the " +
                 "undressed one-sided X^N fold F: (a,b) -> (a, complement b) with F D F = -D - " +
                 "2*sigma, exact for any Delta and profile; the sibling full-block statement at " +
@@ -6979,8 +6981,20 @@ public static class OpenArcsRegistry
                 "the pair-equalities, Hadamard-closed, and class purity kills the compression's " +
                 "cross terms identically. Generic-H control: a random SWAP graph keeps the law and " +
                 "loses the enhancement (gated on all blocks at N = 6, corner blocks at N = 8). " +
-                "(3) What separates the Delta = 1, N = 6 mixed " +
-                "spaces that break from the two on (1,3) that hold, and why the breaking spaces' " +
+                "(3) FIRST HALF CLOSED 2026-08-16 (experiments/THE_TWO_SPIN_ZEROS.md, gate " +
+                "simulations/mixed_break_rule_gate.py): what separates the Delta = 1, N = 6 mixed " +
+                "spaces is two Clebsch-Gordan zeros on the one-sector density legs (the " +
+                "Wigner-Eckart triangle |Delta S| >= 2, and the m = 0 same-S zero " +
+                "<S m;1 0|S m> ~ m, equivalently the X^N multiplet parity i^N(-1)^S); a mixed " +
+                "space breaks iff some cross-parity dyad pair has both legs alive, hold direction " +
+                "a THEOREM (R-conjugation doubles cross-parity elements and cancels same-parity), " +
+                "break direction genericity, 60/60 over ALL fifteen blocks, element-exact; sizes " +
+                "measured closed-form (2160 * resC^2 integer, four breaks below the old 0.05 " +
+                "fence at sqrt(1/432), floor classification); protection map: each half-filled " +
+                "side protects one omega sign via the ferromagnetic S = N/2 level at the global " +
+                "energy maximum, (3,3) both sides, holds everywhere; frontier: no mixed spaces " +
+                "at any N in 3..8 except N = 6, all blocks. SECOND HALF stays open: why the " +
+                "breaking spaces' " +
                 "compressed spectra stay INSIDE the centre interval on the locus (measured with " +
                 "slack). (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
                 "pair-sum map is chiral-only (odd prime powers by the proof's section 7, the 2p and " +

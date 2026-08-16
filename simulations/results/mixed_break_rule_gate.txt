@@ -1,0 +1,119 @@
+==============================================================================
+THE TWO-ZERO RULE GATE: mixed-space break/hold at Delta = 1, from two
+Clebsch-Gordan zeros, with closed-form residual sizes
+==============================================================================
+
+(A) SECTOR SPECTROSCOPY, N = 6. Sharp (E, S, r) labels per sector; gate:
+    every label nondegenerate (legs basis-unique up to sign), S half-
+    integer-exact, R parities +-1 (asserted inside the builder).
+    sector 1: 6 states, degenerate (E,S,r) labels: 0, floor 7.6e-16  ok
+    sector 2: 15 states, degenerate (E,S,r) labels: 0, floor 3.1e-15  ok
+    sector 3: 20 states, degenerate (E,S,r) labels: 0, floor 3.9e-15  ok
+    sector 4: 15 states, degenerate (E,S,r) labels: 0, floor 3.1e-15  ok
+    sector 5: 6 states, degenerate (E,S,r) labels: 0, floor 7.6e-16  ok
+
+(B) THE CENSUS AND THE RULE. Per mixed space: rule prediction vs the
+    floor-classified measurement, worst rule-dead element, and the
+    rational size 2160 * resC^2. Gate: 60 mixed spaces, 60/60 predicted,
+    dead elements <= 64 * floor, holds <= 64 * floor, breaks >= 0.04,
+    2160 * resC^2 integer for every break.
+    (1,1) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    (1,1) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.925e-01 2160*resC^2= 80 dead_max=0.0e+00 bridge=ok
+    (1,1) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.925e-01 2160*resC^2= 80 dead_max=0.0e+00 bridge=ok
+    (1,1) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    (1,2) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (1,2) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=2.434e-01 2160*resC^2=128 dead_max=0.0e+00 bridge=ok
+    (1,2) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    (1,2) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=4.811e-02 2160*resC^2=  5 dead_max=0.0e+00 bridge=ok
+    (1,3) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=1.291e-01 2160*resC^2= 36 dead_max=0.0e+00 bridge=ok
+    (1,3) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=2.582e-01 2160*resC^2=144 dead_max=8.2e-17 bridge=ok
+    (1,3) omega=+2 dim=4 (2+,2-) pred=hold  meas=hold  resC=5.551e-16 2160*resC^2=  0 dead_max=8.2e-17 bridge=ok
+    (1,3) omega=+4 dim=3 (1+,2-) pred=hold  meas=hold  resC=4.453e-16 2160*resC^2=  0 dead_max=7.1e-17 bridge=ok
+    (1,4) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (1,4) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=2.434e-01 2160*resC^2=128 dead_max=0.0e+00 bridge=ok
+    (1,4) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    (1,4) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=4.811e-02 2160*resC^2=  5 dead_max=0.0e+00 bridge=ok
+    (1,5) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    (1,5) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.925e-01 2160*resC^2= 80 dead_max=0.0e+00 bridge=ok
+    (1,5) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.925e-01 2160*resC^2= 80 dead_max=0.0e+00 bridge=ok
+    (1,5) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    (2,2) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=6.086e-02 2160*resC^2=  8 dead_max=0.0e+00 bridge=ok
+    (2,2) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (2,2) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (2,2) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=6.086e-02 2160*resC^2=  8 dead_max=0.0e+00 bridge=ok
+    (2,3) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=6.455e-02 2160*resC^2=  9 dead_max=0.0e+00 bridge=ok
+    (2,3) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.291e-01 2160*resC^2= 36 dead_max=4.1e-17 bridge=ok
+    (2,3) omega=+2 dim=4 (2+,2-) pred=hold  meas=hold  resC=2.220e-16 2160*resC^2=  0 dead_max=1.0e-16 bridge=ok
+    (2,3) omega=+4 dim=3 (1+,2-) pred=hold  meas=hold  resC=2.275e-16 2160*resC^2=  0 dead_max=4.7e-17 bridge=ok
+    (2,4) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=6.086e-02 2160*resC^2=  8 dead_max=0.0e+00 bridge=ok
+    (2,4) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (2,4) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (2,4) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=6.086e-02 2160*resC^2=  8 dead_max=0.0e+00 bridge=ok
+    (2,5) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=4.811e-02 2160*resC^2=  5 dead_max=0.0e+00 bridge=ok
+    (2,5) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    (2,5) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=2.434e-01 2160*resC^2=128 dead_max=0.0e+00 bridge=ok
+    (2,5) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (3,3) omega=-4 dim=3 (1+,2-) pred=hold  meas=hold  resC=6.993e-17 2160*resC^2=  0 dead_max=5.0e-17 bridge=ok
+    (3,3) omega=-2 dim=4 (2+,2-) pred=hold  meas=hold  resC=2.323e-16 2160*resC^2=  0 dead_max=1.1e-16 bridge=ok
+    (3,3) omega=+2 dim=4 (2+,2-) pred=hold  meas=hold  resC=2.323e-16 2160*resC^2=  0 dead_max=1.1e-16 bridge=ok
+    (3,3) omega=+4 dim=3 (1+,2-) pred=hold  meas=hold  resC=6.993e-17 2160*resC^2=  0 dead_max=5.0e-17 bridge=ok
+    (3,4) omega=-4 dim=3 (1+,2-) pred=hold  meas=hold  resC=1.491e-16 2160*resC^2=  0 dead_max=4.7e-17 bridge=ok
+    (3,4) omega=-2 dim=4 (2+,2-) pred=hold  meas=hold  resC=2.479e-16 2160*resC^2=  0 dead_max=1.0e-16 bridge=ok
+    (3,4) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.291e-01 2160*resC^2= 36 dead_max=4.1e-17 bridge=ok
+    (3,4) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=6.455e-02 2160*resC^2=  9 dead_max=0.0e+00 bridge=ok
+    (3,5) omega=-4 dim=3 (1+,2-) pred=hold  meas=hold  resC=4.453e-16 2160*resC^2=  0 dead_max=7.1e-17 bridge=ok
+    (3,5) omega=-2 dim=4 (2+,2-) pred=hold  meas=hold  resC=5.551e-16 2160*resC^2=  0 dead_max=8.2e-17 bridge=ok
+    (3,5) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=2.582e-01 2160*resC^2=144 dead_max=8.2e-17 bridge=ok
+    (3,5) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=1.291e-01 2160*resC^2= 36 dead_max=0.0e+00 bridge=ok
+    (4,4) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=6.086e-02 2160*resC^2=  8 dead_max=0.0e+00 bridge=ok
+    (4,4) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (4,4) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (4,4) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=6.086e-02 2160*resC^2=  8 dead_max=0.0e+00 bridge=ok
+    (4,5) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=4.811e-02 2160*resC^2=  5 dead_max=0.0e+00 bridge=ok
+    (4,5) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    (4,5) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=2.434e-01 2160*resC^2=128 dead_max=0.0e+00 bridge=ok
+    (4,5) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=1.217e-01 2160*resC^2= 32 dead_max=0.0e+00 bridge=ok
+    (5,5) omega=-4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    (5,5) omega=-2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.925e-01 2160*resC^2= 80 dead_max=0.0e+00 bridge=ok
+    (5,5) omega=+2 dim=3 (1+,2-) pred=BREAK meas=BREAK resC=1.925e-01 2160*resC^2= 80 dead_max=0.0e+00 bridge=ok
+    (5,5) omega=+4 dim=2 (1+,1-) pred=BREAK meas=BREAK resC=9.623e-02 2160*resC^2= 20 dead_max=0.0e+00 bridge=ok
+    census: 60 mixed spaces, rule correct on 60/60
+    breaks below the inherited 0.05 fence: [('(1,2)', '+4'), ('(1,4)', '+4'), ('(2,5)', '-4'), ('(4,5)', '-4')] (gate: exactly four)
+
+(C) THE HALF-FILLING PROTECTION. Each half-filled side protects one
+    omega sign; (3,3) has both sides and holds everywhere; blocks
+    without an m = 0 sector hold nowhere. Gate: the map.
+    (1,1): holds at [] (no m=0 sector, no protection)  ok
+    (1,2): holds at [] (no m=0 sector, no protection)  ok
+    (1,3): holds at ['+2', '+4'] (bra side m=0, protects omega > 0)  ok
+    (1,4): holds at [] (no m=0 sector, no protection)  ok
+    (1,5): holds at [] (no m=0 sector, no protection)  ok
+    (2,2): holds at [] (no m=0 sector, no protection)  ok
+    (2,3): holds at ['+2', '+4'] (bra side m=0, protects omega > 0)  ok
+    (2,4): holds at [] (no m=0 sector, no protection)  ok
+    (2,5): holds at [] (no m=0 sector, no protection)  ok
+    (3,3): holds at ['-4', '-2', '+2', '+4'] (both sides m=0, both signs protected)  ok
+    (3,4): holds at ['-4', '-2'] (ket side m=0, protects omega < 0)  ok
+    (3,5): holds at ['-4', '-2'] (ket side m=0, protects omega < 0)  ok
+    (4,4): holds at [] (no m=0 sector, no protection)  ok
+    (4,5): holds at [] (no m=0 sector, no protection)  ok
+    (5,5): holds at [] (no m=0 sector, no protection)  ok
+    alive S-pairs recorded at m = 0 across the census: [(2.0, 3.0)] (gate: every pair touches S = N/2)  ok
+
+(D) FRONTIER. At Delta = 1 there are NO parity-mixed omega != 0
+    eigenspaces at any N in 3..8 except N = 6, on ANY block p <= q
+    (gate == 0): among N <= 8 the phenomenon lives at N = 6 alone.
+    N=3: 0 mixed spaces across all 3 blocks p <= q, grouping void 2.0e+00 (gated >= 1e-6)  ok
+    N=4: 0 mixed spaces across all 6 blocks p <= q, grouping void 1.0e-01 (gated >= 1e-6)  ok
+    N=5: 0 mixed spaces across all 10 blocks p <= q, grouping void 1.5e-03 (gated >= 1e-6)  ok
+    N=7: 0 mixed spaces across all 21 blocks p <= q, grouping void 3.1e-05 (gated >= 1e-6)  ok
+    N=8: 0 mixed spaces across all 28 blocks p <= q, grouping void 6.3e-06 (gated >= 1e-6)  ok
+
+(E) BOND CONTROL. The 60 mixed spaces are a UNIFORM-chain resonance,
+    as at Delta = 0 (endpoint gate, section B): a generic palindromic
+    bond profile kills every one (gate == 0), R staying a symmetry.
+    palindromic J = [1.25, 0.75, 2.25, 0.75, 1.25]: 0 mixed spaces over the fifteen blocks, [R, H_pal] max entry 0.0 (gated == 0.0), grouping void 7.1e-04 (gated >= 1e-6)  ok
+    random dyadic palindromic sweep (6 profiles): 0 mixed spaces total (gate == 0)  ok
+
+==============================================================================
+VERDICT: all checks pass
