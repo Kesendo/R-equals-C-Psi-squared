@@ -40,7 +40,7 @@ away, costs counts), within-sector residue half Z-like dephasing at the
 Strang gate-count profile (2,3,3,3,3,2), half depolarization toward
 Id/6 (applied at the counts layer as a mixing fraction).
 
-Run: python simulations/_corner_beat_gate.py [--g1|--g2|--g3|--g4|--g5|--all]
+Run: python simulations/corner_beat_gate.py [--frozen|--g1|--g2|--g3|--g4|--g5|--all]
 """
 
 import argparse
