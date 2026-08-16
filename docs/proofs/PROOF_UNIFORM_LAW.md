@@ -27,31 +27,33 @@ ad_H eigenspaces and diagonal indicator operators.
 
 ## What this is about
 
-A chain of spins carries a quantum coherence: a superposition of two
-arrangements of the spins, held at once. At some sites the two arrangements
-agree, at others they differ, and each site where they differ is a point the
-outside light, the dephasing every site stands in, can touch. This proof is
-about how a collective pattern distributes those points of difference across
-the chain. One would expect the distribution to be free, leaning this way for
+A chain of spins carries a quantum coherence: one object with two faces, two
+arrangements of the spins read from opposite sides of the same state
+([Superposition Translated](../quantum/SUPERPOSITION_TRANSLATED.md)). At some
+sites the two faces agree, at others they disagree, and the outside light,
+the dephasing every site stands in, touches the coherence exactly at its
+disagreeing sites ([Dephasing Translated](../quantum/DEPHASING_TRANSLATED.md)).
+This proof is about how a collective pattern distributes those points of
+disagreement across the chain. One would expect the distribution to be free, leaning this way for
 one pattern and that way for another. The proof shows that at the fully
 symmetric setting of the coupling, where the interaction treats every spin
 direction alike, it is not free at all. Take the patterns that oscillate at
-one shared frequency and whose two arrangements differ at one fixed number of
-sites: on them, every site carries exactly the same share of the difference,
-perfect site democracy. The derivation has two layers. The first covers any
+one shared frequency and whose two faces disagree at one fixed number of
+sites: on them, every site carries exactly the same share of the
+disagreement, perfect site democracy. The derivation has two layers. The first covers any
 coupling that is blind to the overall spin direction, caring only how the
 spins relate to one another, this chain at its symmetric setting included.
-For such a coupling, the one pattern of each difference count that is fully
-symmetric under every reshuffling of the sites keeps a steady beat, and a
-counting argument shows that a pattern symmetric under all reshufflings
-cannot prefer a site; generically that symmetric pattern is the only one in
+For such a coupling, the one pattern of each disagreement count that is fully
+symmetric under every reshuffling of the sites holds perfectly still, at
+frequency zero, and a counting argument shows that a pattern symmetric under
+all reshufflings cannot prefer a site; generically that symmetric pattern is the only one in
 its room, and that the generic case together with the second layer's
 exceptions covers everything is checked by computer up to eight sites, not
 derived. The second layer handles the few extra patterns the open chain adds
 beyond that generic supply, by a pairing of its standing waves whose leanings
 cancel exactly. Neither layer ever mentions the light: the democracy is a
 property of the patterns themselves, and it is the notes that use it which
-draw the consequences for what watching such a pattern costs.
+draw the consequences for the light's price on such a pattern.
 
 ## The sweep
 

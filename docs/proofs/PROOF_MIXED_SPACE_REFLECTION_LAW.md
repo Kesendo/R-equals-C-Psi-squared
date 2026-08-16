@@ -16,14 +16,16 @@ VERDICT green 2026-08-15.*
 
 ## What this is about
 
-An open chain whose couplings read the same from either end has a mirror down
-its middle: run the sites left to right or right to left and the physics is
-the same. The chain's basic patterns, superpositions of two spin arrangements
-held at once, therefore come in two families, mirror-even and mirror-odd.
+An open chain whose couplings read the same from either end has a site mirror
+down its middle: run the sites left to right or right to left and the physics
+is the same. The chain's basic patterns, coherences connecting two spin
+arrangements as the two faces of one object
+([Superposition Translated](../quantum/SUPERPOSITION_TRANSLATED.md)),
+therefore come in two families, mirror-even and mirror-odd.
 Patterns that oscillate at exactly the same frequency share one room, and
 inside such a room the symmetry alone does not keep a site-by-site question
 from coupling an even pattern to an odd one; the question being whether the
-pattern's two arrangements differ at this particular site. Measurement had
+pattern's two faces disagree at this particular site. Measurement had
 found the lopsided combination of these questions, site minus mirror site,
 silent in every such room. This proof explains why, and proves more than was
 measured: every site's question separately respects the divide. The setting

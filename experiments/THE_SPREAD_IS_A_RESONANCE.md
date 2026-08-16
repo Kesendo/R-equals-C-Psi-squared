@@ -26,12 +26,14 @@ out at two settings, collapsed onto a single flat line at a third, neither at
 the fourth, with no rule saying which setting gets which. This note dissolves
 the question: there is no selection rule, because there were never three
 behaviours. The families of patterns in question are those where one of the
-pattern's two superposed spin arrangements has exactly half of its sites
+two spin arrangements the pattern connects has exactly half of its sites
 excited, and on them flat is what a generic setting of the dial produces,
 exactly and regardless of how the light, the outside dephasing that gives
-every pattern its decay rate, falls across the sites: the half-filled arrangement
+every pattern its decay rate
+([Dephasing Translated](../docs/quantum/DEPHASING_TRANSLATED.md)), falls
+across the sites: the pattern's half-filled face is carried by a wave that
 spreads its weight perfectly evenly across the sites, and that evenness wipes
-the other arrangement's leanings out of the average. A spread is the
+the other face's leanings out of the average. A spread is the
 exception and needs a resonance, two of the underlying energy ladders
 producing coinciding differences, clocks ticking in step. The four settings
 the predecessor happened to sample were the three structural resonant ones

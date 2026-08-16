@@ -34,15 +34,18 @@ total light, and let the internal coupling be far stronger than the light.
 The decay rates of the collective patterns then land inside a predictable
 window, sometimes filling it out to both ends, sometimes stopping short. This note
 explains why, and the explanation is about where a pattern keeps its weight.
-A collective pattern is a superposition of two spin arrangements, and the
-sites where the two arrangements differ are where the light can touch it. A
-pattern that respects the chain's mirror carries those points of difference
-symmetrically, as much on a site as on its mirror partner, and against such
-symmetric weight the balanced lighting is indistinguishable from uniform
-light: whatever one site gains in brightness its partner loses. So the rate
-such a pattern pays depends only on how many of its sites differ, never on
+A collective pattern is a coherence connecting two spin arrangements, the two
+faces of one object, and the light separates the faces wherever they disagree
+and passes through wherever they agree
+([Dephasing Translated](../docs/quantum/DEPHASING_TRANSLATED.md)). When the
+chain's site mirror takes a whole family of same-frequency patterns to itself
+with a single sign, each of them carries its disagreeing sites symmetrically,
+as much on a site as on its mirror partner, and against such symmetric weight
+the balanced lighting is indistinguishable from uniform light: whatever one
+site gains in brightness its partner loses. So the rate
+such a pattern pays depends only on how many of its sites disagree, never on
 where they sit, which pins every rate inside the window spanned by the
-smallest and the largest difference count; an end of the window is reached
+smallest and the largest disagreement count; an end of the window is reached
 where a pattern of purely that count exists, and the note shows that this
 presence or absence is what separates the full saturations from the small
 resonances that stop short. Two further laws carry the note beyond the
@@ -51,7 +54,7 @@ the two mirror families keep the symmetric weight (derived in a companion
 proof, for the chain lengths its arithmetic protects; where that protection
 ends is a recorded open door), while at the fully symmetric setting those
 mixed patterns are exactly where the law can break. And at that symmetric
-setting, the patterns of a single difference count that share one frequency
+setting, the patterns of a single disagreement count that share one frequency
 obey something stronger than symmetry: their weight
 is perfectly uniform, the same share on every site, blind to the lighting
 altogether.
