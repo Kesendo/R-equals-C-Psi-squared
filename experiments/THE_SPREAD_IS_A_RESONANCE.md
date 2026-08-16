@@ -80,7 +80,7 @@ free-fermion difference-spectrum degeneracies of the catalogue below (F129 itsel
 cited for the Δ = 0.5 doublet: its level map presupposes Slater additivity, which the ZZ
 term destroys at Δ ≠ 0).
 
-`docs/proofs/` returned **PROOF_STRUCTURAL_CEILING §1**, which states the rule with a
+`docs/proofs/` returned **[PROOF_STRUCTURAL_CEILING](../docs/proofs/PROOF_STRUCTURAL_CEILING.md) §1**, which states the rule with a
 numerical gate ("for each ad_H-eigenspace Ω the rates are 2γ · the eigenvalues of
 P_Ω N_XY P_Ω", reproducing the full-L g2 at Q = 10³ to O(1/Q)), again XY, uniform γ,
 slowest mode, and which already ties the ceiling to the DEGENERACY of the single-particle
