@@ -7035,6 +7035,61 @@ public static class OpenArcsRegistry
                 "window (coincides with the centre interval at uniform gamma; under a profile the " +
                 "centre interval sits properly inside it).",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "ep_onset_q_axis_convention",
+            Opened: "2026-08-18",
+            Origin: "a gamma-label sweep that went looking for something else. The EP-onset flight " +
+                "(ibm_ep_onset_may2026, Kingston 2026-05-31, job d8drjbfd0j8c73f4mobg) and the toy " +
+                "2x2 EP theory are compared on ONE axis called Q = J/gamma, and the two sides mean " +
+                "different gammas. HARDWARE SIDE (run_ep_onset.py in the AIEvolution pipeline repo, " +
+                "verified at source): gamma_inj is the SINGLE-QUBIT COHERENCE rate, pinned by the " +
+                "runner's own calibration comment 'per-step per-qubit coherence damping e^{-sigma^2/2} " +
+                "must equal e^{-gamma_inj*dt}, so sigma = sqrt(2*gamma_inj*dt)', and its local partner " +
+                "g_local = 1/T2 - 1/(2*T1) sits in the same convention. Internally consistent; the " +
+                "prose in experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md line 169 (phi ~ N(0, " +
+                "2*gamma_inj*dt)) matches the runner exactly. THEORY SIDE (simulations/ep_transition.py): " +
+                "L_eff = [[-2, i*J*g_eff], [i*J*g_eff, -6]] at gamma_0 = 1, i.e. diagonal rates -2*gamma_0 " +
+                "and -6*gamma_0, the LINDBLAD convention (the same -2*gamma*k that MirrorWorld's Pair.Rate " +
+                "carries, and the repo's canonical gamma = 1/(2*T2) in CalibrationChain.cs). " +
+                "CONVERSION, computed from the flown artifact (results/ep_onset_hardware_ep_ibm_kingston_" +
+                "20260531_064022.json): the injected Lindblad rate is g_inj/2, and g_inj dominates " +
+                "g_local by three orders at every scan point (g_inj ~ 1.0 vs g_local ~ 0.001), so " +
+                "Q_theory = 2 x Q_label to three digits. The flown labels {0.5, 1, 1.5, 2.5, 5, 20} " +
+                "are, in the theory's own units, {1.00, 2.00, 2.99, 4.99, 9.94, 39.11}.",
+            ParkedAt: "The consequence is located but NOT repaired, and nothing was edited. The " +
+                "overdamped->revival handover the flight reads at label Q ~ 1.5-2.5 sits at theory-Q " +
+                "~ 3-5, i.e. two to three times ABOVE Q_EP = 1.5, not at it. simulations/ep_transition.py " +
+                "line 40 sets G_EFF = 4/3 with the comment 'Q_EP = 2/g_eff = 1.5 (the c=2 peak orbit, " +
+                "matching the hardware)' - a free parameter fitted to a number whose label is in the " +
+                "other book. BLAST RADIUS, enumerated: EpField.cs line 100 hardcodes the raw labels " +
+                "hwQ = {0.5, 1.0, 1.5, 2.5, 5.0, 20.0} and reads them on the same axis as the toy's " +
+                "Q_EP (the collision is inside a LIVE witness, inspect --axis ep, not only in prose); " +
+                "ExceptionalPointClock.cs lines 32-33 call the toy 'hardware-anchored by the IBM " +
+                "Kingston ... handover at Q ~ 1.5'; InspectCommand.cs line 217 repeats it; " +
+                "ep_transition.py docstring item 4, after_the_collapse.py, ep_onset_with_t1.py line 99. " +
+                "WHAT IS NOT AFFECTED: the runner (consistent and self-documenting), the flight's " +
+                "measured revivals (a Q-axis relabel moves no datum), and the Confirmations entry " +
+                "itself, which already fences the identification ('whether that SE transition is " +
+                "itself a genuine defective EP is under a SEPARATE open review ... not asserted here') " +
+                "- the EP claim is made in the simulation scripts and the typed diagnostics, not in " +
+                "the registry. This is the q-vs-Q factor-2 hazard already pinned in " +
+                "docs/GLOSSARY.md's coupling-ratio section, reappearing between two FLIGHTS because " +
+                "neither names its book at the point where the two are compared.",
+            NextStep: "(1) Decide the direction of repair with Tom: relabel the flown axis into the " +
+                "Lindblad book wherever it is compared to theory (preferred, since the theory side is " +
+                "the repo's canonical convention), or state the coherence book explicitly at every " +
+                "comparison site. Either way the fix is a LABEL, not a number: no measured revival " +
+                "changes. (2) Re-examine whether G_EFF = 4/3 has any support once the hardware anchor " +
+                "moves to theory-Q ~ 3; the c=2 peak orbit may or may not survive as an independent " +
+                "reason. (3) Carry the pin to the sites enumerated above, EpField.cs first because it " +
+                "is live. (4) Sweep the other flights for the same seam: the concentrator pins the " +
+                "Lindblad book explicitly (sigma = sqrt(4*d*dt), retention e^{-2*d*dt}, and records " +
+                "the factor-2 as a self-caught error at IBM_CONCENTRATOR_RELOADED.md line 529), and " +
+                "corner_beat_gate.py line 37 follows it, so those two agree with the theory book; the " +
+                "EP-onset flight is the odd one out among the three checked. Whether any earlier " +
+                "flight shares its book is unchecked.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

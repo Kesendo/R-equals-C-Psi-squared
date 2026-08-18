@@ -7,9 +7,10 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasFortySevenEntries()
+    public void Registry_HasFortyEightEntries()
     {
-        Assert.Equal(47, OpenArcsRegistry.All.Count);   // +compressed_density_laws (2026-08-15),
+        Assert.Equal(48, OpenArcsRegistry.All.Count);   // +ep_onset_q_axis_convention (2026-08-18),
+                                                        // +compressed_density_laws (2026-08-15),
                                                         // +f_registry_meets_the_typed_layer (2026-08-13,
                                                         //   a0feaba opened the arc and did not move this
                                                         //   count, so the gate was RED from that commit
