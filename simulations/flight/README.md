@@ -63,7 +63,7 @@ source hash: `RCPSI_REPO` is derived from `__file__` here (the repository root i
 two levels up from this directory) instead of being a hardcoded absolute path to
 one machine. Everything else is byte-identical at the time of copying.
 
-**Two copies of a 3469-line runner will drift, and pretending otherwise is how a
+**Two copies of a 3473-line runner will drift, and pretending otherwise is how a
 record becomes a lie.** The rule for this directory: the copy is the RECORD, the
 outside pipeline is the WORKING tree. When the working tree changes, re-copy and
 re-state the hashes above in the same commit. A copy whose hashes are stale is
@@ -83,9 +83,11 @@ worse than no copy, because it looks authoritative.
   [`experiments/CORNER_BEAT_HARDWARE_PREDICTION.md`](../../experiments/CORNER_BEAT_HARDWARE_PREDICTION.md)
 - The committed gate the runner checks its fit against:
   [`simulations/corner_beat_gate.py`](../corner_beat_gate.py)
-- Open questions about this flight and its conventions: the arcs
-  `corner_beat` and `gamma_book_enforced_nowhere` in
-  [`OpenArcsRegistry.cs`](../../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
+- Open questions about the conventions this runner uses: the arc
+  `gamma_book_enforced_nowhere` in
+  [`OpenArcsRegistry.cs`](../../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs).
+  The flight's own arc, `corner_beat`, does not exist yet; it is due with the
+  freeze commit.
 
 ## A note on the split, since it caused a real problem
 
