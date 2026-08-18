@@ -22,6 +22,30 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
+    public void PricePairFrameworkPrimitive_NamesItsRateBook()
+    {
+        // The price is a COHERENCE-book rate; F1's Σγ is the Lindblad D[Z] coefficient.
+        // P = Γ(D)+Γ(D̄) = Σ_j 1/T2*_j runs on TOTAL rates (the pre-registration's P4:
+        // T1 is local, no T1 subtraction enters P2), while F1 centres the palindrome at
+        // Σγ with a jump operator √γ·Z, so P = 2·Σγ_F1. Naming F1 here without that
+        // factor is a factor-of-two lookup hazard. Mirrored in Python by
+        // test_price_pair_framework_primitive_names_its_rate_book
+        // (simulations/framework/tests/registry/test_confirmations.py).
+        var entry = ConfirmationsRegistry.Lookup("price_pair_locality_marrakesh_july2026");
+        Assert.NotNull(entry);
+        Assert.Contains("F1 palindrome center", entry!.FrameworkPrimitive);
+        Assert.Contains("COHERENCE book", entry.FrameworkPrimitive);
+        Assert.Contains("2·Σγ_F1", entry.FrameworkPrimitive);
+        // the price counts TOTAL rates, not the T1-subtracted pure-dephasing ones
+        Assert.Contains("1/T2*_j", entry.FrameworkPrimitive);
+        // block every spelling of the T1-subtracted rate, including the ASCII one that
+        // actually occurred in the wild (sum_j 1/Tphi_j)
+        Assert.DoesNotContain("1/T_φ,j", entry.FrameworkPrimitive);
+        Assert.DoesNotContain("1/Tphi_j", entry.FrameworkPrimitive);
+        Assert.DoesNotContain("1/T_phi,j", entry.FrameworkPrimitive);
+    }
+
+    [Fact]
     public void All_HasTwentyFourEntries()
     {
         // Union discipline with simulations/framework/confirmations.py: both registries

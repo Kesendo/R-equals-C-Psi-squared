@@ -7066,8 +7066,9 @@ public static class OpenArcsRegistry
                 "the names while the formulas keep closing). So this arc records no new physics and " +
                 "no new hazard. It records that the knowledge is complete, the enforcement is " +
                 "absent, and the prediction came true.",
-            ParkedAt: "THREE LIVE INSTANCES, one historical, one unlogged producer. Nothing was " +
-                "edited. " +
+            ParkedAt: "FOUR ITEMS: three live instances (1)-(3), of which (3) is an unlogged " +
+                "producer, plus (4), historical and repaired before this arc opened. Instance " +
+                "(2) is now repaired; (1) and (3) are untouched. " +
                 "(1) THE EP-ONSET FLIGHT (ibm_ep_onset_may2026, Kingston 2026-05-31, jobs " +
                 "d8dr7dfd0j8c73f4man0 and d8drjbfd0j8c73f4mobg). run_ep_onset.py (external " +
                 "pipeline) is in the COHERENCE book: sigma = sqrt(2*gamma_inj*dt) by its own " +
@@ -7083,14 +7084,48 @@ public static class OpenArcsRegistry
                 "F86 uses. A separate defect found while checking it: " +
                 "data/ibm_ep_onset_may2026/README.md line 7 states H = J*(XX+YY) per bond, which " +
                 "contradicts its own runner by a factor of two. " +
-                "(2) THE PRICE-PAIR PRE-REGISTRATION (price_pair_locality_marrakesh_july2026, " +
-                "GATED, awaiting Tom's go). Its measured price is the COHERENCE book and its own " +
-                "numbers are right: P = sum_j 1/Tphi_j, verified 1/45 + 1/88 + 1/61 = 0.049979 " +
-                "against the doc's stated P = 0.0500. But its FrameworkPrimitive field reads " +
-                "'F1 palindrome center Sigma gamma', and F1 is the LINDBLAD book " +
-                "(ANALYTICAL_FORMULAS.md line 21, Pi*L*Pi^-1 = -L - 2*Sigma gamma*I). The measured " +
-                "price equals 2*Sigma gamma_F1, not Sigma gamma_F1. No measured number is wrong; " +
-                "the F-number identification is off by exactly two as written. " +
+                "(2) THE PRICE-PAIR CONFIRMATION (price_pair_locality_marrakesh_july2026), " +
+                "REPAIRED 2026-08-18. The measured price is the COHERENCE book: P = " +
+                "Gamma(D)+Gamma(Dbar) = sum_j 1/T2*_j, on TOTAL rates with no T1 subtraction, " +
+                "which the pre-registration states in its own P4 line. Verified 1/45 + 1/88 + 1/61 " +
+                "= 0.049979 against the stated P = 0.0500 at PRICE_PAIR_HARDWARE_PREDICTION.md " +
+                "line 61, a SIMULATION-validation line under the Simulation record heading (clean " +
+                "heterogeneous model, T2* = 45/88/61 microseconds), NOT a hardware reading. F1 is " +
+                "the LINDBLAD book (ANALYTICAL_FORMULAS.md line 21, Pi*L*Pi^-1 = -L - 2*Sigma " +
+                "gamma*I), so P = 2*Sigma gamma_F1 with gamma_F1,j = 1/(2*T2*_j), which is row 1 " +
+                "of the GLOSSARY table: Z-dephasing alone, gamma = 1/(2*T2). The " +
+                "FrameworkPrimitive named F1 without that factor. Both registries now carry the " +
+                "pin inline, held by a test in each language " +
+                "(PricePairFrameworkPrimitive_NamesItsRateBook and " +
+                "test_price_pair_framework_primitive_names_its_rate_book). That pins ONE field; " +
+                "the gate NextStep (1) asks for does not exist yet. THE CAMPAIGN IS FLOWN, not " +
+                "gated: 2026-07-04, four pre-registered runs, ~23 QPU min, runs 3-4 on the " +
+                "released paid reserve, closed. Four job ids in the entry, the JSONs in " +
+                "data/ibm_price_pair_july2026/, the run records in the ExperimentDoc. WHAT THIS " +
+                "WAS, precisely: a PROPAGATION gap, not an unrecorded convention. The " +
+                "ExperimentDoc pins the book itself, under the heading The claim, in one line, " +
+                "defining gamma_j as the measured single-coherence rate and bridging to the " +
+                "MirrorWorld Lindblad rate by gamma_here = 2*gamma_MirrorWorld. The doc pinned; " +
+                "the registry field did not inherit the pin. WATCH THE SPELLING sum_j 1/Tphi_j: it " +
+                "is NOT the price. On the line-61 model it reads 0.041595, 17 percent low, because " +
+                "T1 is local and no T1 subtraction enters P2. That spelling is how this seam " +
+                "presents itself here, and it has been written down wrong twice already, once " +
+                "inside this entry. THE DAMAGE IS BOUNDED: nothing this entry REGISTERS depends on " +
+                "the magnitude. It registers the covariance locality (all c_ij = 0 within 2 sigma " +
+                "in clean sessions, one non-recurring 5.2 sigma outlier downgraded, each tested " +
+                "against its own propagated sigma, so scale-free) and the conditional-Ramsey " +
+                "zeta_ij, a coherent frequency and not a gamma; P2 is a RELATIVE spread. A factor " +
+                "of two moves none of them, so the defect was a lookup hazard for a future session " +
+                "rather than a wrong result. SWEPT AND CLEAR, so nobody re-flags it: the phrase F1 " +
+                "palindrome center Sigma gamma also appears in " +
+                "concentrator_site_contrast_kingston_july2026 (both registries), and that one is " +
+                "NOT the same defect. It registers the A-SIGN only and says so three times over " +
+                "(PredictedValue: THIS ENTRY REGISTERS A-SIGN ONLY; MeasuredValue: A-mag " +
+                "OFF-PREDICTION, the magnitude is NOT registered as confirmed; Description: no " +
+                "bare -2*gamma theorem claim is made), its magnitude band comes from a from-below " +
+                "7a density-matrix sim of the flown circuits rather than from F1, and a book " +
+                "factor moves no sign. The inline-scope form of its FrameworkPrimitive is the " +
+                "shape this repair copied. " +
                 "(3) AN UNLOGGED PRODUCER: simulations/f88b_lens_ibm_framework_snapshots.py lines " +
                 "295-300 forms gamma_t1_over_gamma_z with Gamma_phi = 1/T2 - 1/(2*T1) in the " +
                 "denominator, i.e. 2*gamma_Z where a gamma_Z is wanted, and feeds the result to " +
@@ -7165,10 +7200,10 @@ public static class OpenArcsRegistry
                 "conversion, to sweep flight artifacts and registry entries and FAIL on an unpinned " +
                 "rate. Design it so a NEW flight cannot land without naming its book; a gate that " +
                 "only audits the past is satisfied once and then rots. " +
-                "(2) Repair instance (2) FIRST despite being second in the list: the price-pair " +
-                "flight is pre-registered and GATED, so its label can still be fixed before money " +
-                "is spent, and a wrong F-number in a FrameworkPrimitive is exactly what a future " +
-                "session looks up. Instance (1) is a past flight and can wait. " +
+                "(2) DONE 2026-08-18: instance (2) is repaired in both registries and pinned by a " +
+                "test in each language, which is item (1) done once, by hand, for one field. " +
+                "Generalising that pin is item (1); the two tests are the worked example to copy. " +
+                "Instance (1) is a past flight and can still wait. " +
                 "(3) Verify instance (3) from below, then log it or dismiss it. " +
                 "(4) For instance (1): delete the false provenance on ep_transition.py line 40 and " +
                 "carry the book pin to the enumerated sites, EpField.cs first because it is live. " +

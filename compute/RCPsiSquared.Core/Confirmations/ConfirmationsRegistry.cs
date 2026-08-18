@@ -484,7 +484,11 @@ public static class ConfirmationsRegistry
                 "three independent instruments (t² mask, 3:2:3 W fingerprint, conditional shift)",
             HardwareData: "data/ibm_price_pair_july2026/ (four hardware JSONs + null calibration + Aer parity + ZZ sim validation)",
             ExperimentDoc: "experiments/PRICE_PAIR_HARDWARE_PREDICTION.md",
-            FrameworkPrimitive: "F89d cross-fold (dissipator half) + F1 palindrome center Σγ + F70 pattern-not-carrier + F82-F84 T1 accounting; run_price_pair.py (external pipeline)",
+            FrameworkPrimitive: "F89d cross-fold (dissipator half) + F1 palindrome center Σγ (COHERENCE book, pinned in the " +
+                "ExperimentDoc under the heading The claim, in one line: the measured price P = Γ(D)+Γ(D̄) = Σ_j 1/T2*_j on TOTAL " +
+                "rates, no T1 subtraction per P4, so P = 2·Σγ_F1 with γ_F1,j = 1/(2·T2*_j), the Σγ of F1 being the sum of the " +
+                "Lindblad D[Z] coefficients; what this entry registers is the covariance locality and ζ_ij, neither of which " +
+                "depends on that factor) + F70 pattern-not-carrier + F82-F84 T1 accounting; run_price_pair.py (external pipeline)",
             Description:
                 "The locality premise under the F-formulas, measured: a four-run pre-registered campaign (runs 1-2 the price " +
                 "protocol on two independent lines, run 3 the W discriminator refuting the intermediate anti-correlated-bath " +
