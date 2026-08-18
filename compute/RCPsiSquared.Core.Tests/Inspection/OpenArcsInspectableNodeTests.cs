@@ -9,7 +9,7 @@ public class OpenArcsInspectableNodeTests
     [Fact]
     public void Registry_HasFortyEightEntries()
     {
-        Assert.Equal(48, OpenArcsRegistry.All.Count);   // +ep_onset_q_axis_convention (2026-08-18),
+        Assert.Equal(48, OpenArcsRegistry.All.Count);   // +gamma_book_enforced_nowhere (2026-08-18),
                                                         // +compressed_density_laws (2026-08-15),
                                                         // +f_registry_meets_the_typed_layer (2026-08-13,
                                                         //   a0feaba opened the arc and did not move this
