@@ -1,0 +1,6 @@
+# Flight artifacts are never committed: they are produced by a paid run
+# and can carry raw counts and job metadata. The pre-registration cites
+# them by filename and sha, not by content.
+results/
+__pycache__/
+.env

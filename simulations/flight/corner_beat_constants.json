@@ -1,0 +1,99 @@
+{
+  "_source": "CORNER_BEAT_HARDWARE_PREDICTION.md v7.3 + simulations/results/corner_beat/gate_frozen.txt; entries with frozen=false await the remaining committed-gate work",
+  "theta_D": {
+    "value": 0.00253,
+    "frozen": true,
+    "refreeze_required": true,
+    "note": "held-out-half H0, worst f_leak end, frozen grid; exact gate_frozen.txt value (no rounding). refreeze_required BLOCKS submission: the freezing run used 50 H0 replicates, the gate's counts path (no confusion inversion), a config-dependent r_max, and non-nested tables; the re-freeze runs the analyze-side chain, fixed R_MAX_FIT, nested tables, delta-omega bound pinned, >= 500 reps"
+  },
+  "dw_excursion_margin": {
+    "value": null,
+    "frozen": false,
+    "note": "fit-health VOID threshold on |delta-omega| (G2). NOT the coarse-grid edge 0.06: the refinement reaches +-0.10, the +- channels are NOT eigenchannels of the Trotter-detuned block (two damped cosines per trace; |dw| up to 0.03 noiseless, measured), so the margin must be frozen from the IDEAL construction's own excursion + H0, inside the theta_D refreeze; until then the dw flags are informational only"
+  },
+  "kept_count_floor": {
+    "value": 50,
+    "frozen": false,
+    "note": "post-selected kept counts below this FLOOR the cell, which makes the grid incomplete, which VOIDS D-sign and W: a registered threshold, not a code constant (round 12; Amendment 1.5's 'no verdict consumes them' was written for the payload and billing constants and is false for this one). Sync-checked against the runner's KEPT_COUNT_FLOOR. It freezes together with the deep-end margin, which section 8a requires to be >= 3x at the worst modeled corner: that requirement FAILED at the old 0.6% guard bound (~87 kept of 16384, 1.74x) and is met at the 0.5% bound Amendment 1.8 registered (~208 kept, 4.17x). The lever taken was the guard bound, one of the three the earlier note named. The margin holds on the ISOLATED axis only; at the layered 1.3-2x bracket it falls to 1.12x and then floors, which is the day-of layer-fidelity gate's business",
+    "refreeze_required": true
+  },
+  "p2_guard_bound": {
+    "value": 0.005,
+    "frozen": true,
+    "note": "Amendment 1.8 (Tom, 2026-08-17): the Class-1 guard on the calibrated 2q error of the used edges, tightened 0.6% -> 0.5%. Sync-checked against the runner's RULE_MAX_P2_RZZ, and enforced on both the calibrate path (line selection) and the day-of path (hard abort, no override flag). It was a bare module constant before this amendment, outside the manifest and outside the sync loop, so an edit to it was invisible to every gate. ISOLATED-gate number: the flown circuit runs three rzz simultaneously per half-layer, layered error runs ~1.3-2x isolated, and the >= 3x deep-end margin is exactly equivalent to an EFFECTIVE p2 <= 0.538%, which is the candidate value for the still-owed layer_fidelity_bound"
+  },
+  "r_saturation_frac": {
+    "value": null,
+    "base": "r_max",
+    "frozen": false,
+    "note": "fit-health VOID threshold on rate ceiling proximity (G2); the BASE is a FIELD of this entry, not prose (round 11): the search's true ceiling after refinement is 1.1*r_max, not r_max, and the runner multiplies the fraction by whichever of 'r_max' / '1.1*r_max' this field names. G2 sets both fields together; the default here is the base the code applied before the field existed. Informational until frozen"
+  },
+  "fit_residual_bound": {
+    "value": null,
+    "frozen": false,
+    "note": "fit-health VOID threshold on the channel-fit SSE (section 7 names it as a trigger component; the SSE is computed and persisted already); freezes with the theta_D refreeze from the ideal construction's own residual + H0"
+  },
+  "dose_criterion": {
+    "value": 0.02,
+    "frozen": false,
+    "note": "transplanted from the concentrator at a different dose; the per-M criterion is outstanding gate work (G3); used provisionally by certify/dry runs"
+  },
+  "billing_cap_min": {
+    "value": 25.0,
+    "frozen": true,
+    "note": "the accepted 21-25 band's top (Tom, 2026-08-16, second budget decision)"
+  },
+  "R_MAX_FIT": {
+    "value": 0.9,
+    "frozen": false,
+    "note": "analyze-side fit bound AND rate lattice (terminal grid r_max/240); the gate froze theta_D on a config-dependent r_max, so this freezes WITH the theta_D refreeze"
+  },
+  "R_BOOT": {
+    "value": 2000,
+    "frozen": false,
+    "note": "bootstrap replicates; the percentile endpoints feed the theta_F containment tests, so 500 is too jittery for the FALSIFIED rule; freezes with theta_F"
+  },
+  "theta_W": {
+    "value": null,
+    "frozen": false
+  },
+  "theta_F": {
+    "value": null,
+    "frozen": false
+  },
+  "dmag_band_C": {
+    "value": null,
+    "frozen": false
+  },
+  "dmag_band_Cp": {
+    "value": null,
+    "frozen": false
+  },
+  "A_margin_C": {
+    "value": null,
+    "frozen": false,
+    "note": "TOST equivalence margin on rbar(C) - rbar(U). Split from a single A_margin in round 18: A's two lines are independently decisive (the not-D-sign partition's precondition (iii) reads the C line ALONE, and the (2,3) null voids only the C-prime line), so one scalar could not carry both, the same ruling round 6 made for T1-CLEAN's three faces"
+  },
+  "A_margin_Cp": {
+    "value": null,
+    "frozen": false,
+    "note": "TOST equivalence margin on rbar(C-prime) - rbar(U); see A_margin_C. It freezes as a NUMBER: the sentinel is registered for the D-mag C-prime band and its centre function only, and whether A's C-prime line should follow them is not something the pre-registration decides (round 19 removed a sentence here that had decided it)"
+  },
+  "kappa": {
+    "value": null,
+    "frozen": false
+  },
+  "null_margin_12": {
+    "value": null,
+    "frozen": false
+  },
+  "null_margin_23": {
+    "value": null,
+    "frozen": false
+  },
+  "time_axis": {
+    "value": null,
+    "frozen": false,
+    "note": "the fit time axis. Freezes to 'realized_dose' (t_eff = max(n-1,0)*dt, the section-5 round-3 repair) WITH the theta_D refreeze. Since round 11 the runner DERIVES its axis from its TIME_AXIS module constant (fit_time_axis()) and sync-checks that constant against this entry at submission, so freezing the entry forces the RUNNER's code change. It does NOT force the gate's (round-12 correction of this note's earlier claim): certify passes one axis array into BOTH fit_rate implementations, so the gate's own axis construction is never compared. The gate side is carried by the machinery entry realized_dose_time_axis_refit and is a human act until that lands"
+  }
+}
