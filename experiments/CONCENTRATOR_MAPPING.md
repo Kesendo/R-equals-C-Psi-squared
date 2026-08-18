@@ -251,7 +251,7 @@ have been seen.
 document and [Chain Selection Test](CHAIN_SELECTION_TEST.md));
 `ibm_cavity_analysis.py`, whose 100% / 100% / 100% row in
 [IBM Cavity Spectral Analysis](IBM_CAVITY_SPECTRAL_ANALYSIS.md) was the
-saturation artefact described above and now reads 67.5 / 59.6 / 58.4 ε·ρ;
+saturation artefact described above and now reads 67.5 / 72.4 / 57.5 ε·ρ;
 `combined_optimization.py`, whose 89% / 85% / 92% / 96% / 94% / 95% row now
 reads 60.8 / 66.9 / 78.0 / 72.0 / 62.2 / 68.0 ε·ρ, all six at the floor; and
 `optimal_chain_search.py`, which is the one entry that turned out to publish
@@ -422,6 +422,6 @@ same hardware on the same day.
 
 *See also:*
 [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994),
-[IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) (2.81x theoretical),
+[IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) (2.80x theoretical),
 [IBM Concentrator](IBM_CONCENTRATOR.md) (1.97x measured),
 [Resonant Return](RESONANT_RETURN.md) (the concentrator formula)

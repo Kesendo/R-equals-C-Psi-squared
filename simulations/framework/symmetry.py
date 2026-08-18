@@ -699,11 +699,26 @@ def max_f1_pairing_distance(spectrum, sigma):
     move. The C# summary says the same and is right.
 
     It is also greedy, hence order-dependent: permuting only the array order of
-    the eigenvalues, identical spectrum, moves the result. Measured on an N=5
-    chain over 200 random permutations, the spread is 1.39× at γ = 0, 1.19×
-    under a uniform profile and 1.01× under a strongly asymmetric one; those
-    are sample extrema and grow with the sample. Do not rank two systems by
-    differences of that size.
+    the eigenvalues, identical spectrum, moves the result. So one spectrum does
+    not have a value here, it has an ORBIT of values, and permutation never
+    rises above the matcher's best available pairing: the orbit has a CEILING.
+    Measured on an N=5 chain over 200 permutations at each of three seeds, the
+    IBM sacrifice and uniform profiles return their identity-order value and
+    never exceed it (both printed values ARE their ceiling), while the γ = 0
+    profile is beaten by roughly three quarters of orderings, its ceiling
+    83.5 against an identity-order 67.5.
+
+    What follows is NOT that between-profile differences are noise. Applying
+    the same permutation to all three spectra, the order-dependence is almost
+    entirely common mode and cancels in the difference (IBM over uniform in 187
+    of 200 paired draws, about 31 standard errors). Two profiles differ
+    systematically; what differs is the conditioning of the eigenproblem, not
+    palindromicity. Do not rank two systems by this number because the numbers
+    are not the same kind of quantity, one being a ceiling and another a
+    mid-orbit draw, not because the difference is small.
+
+    Producer for these figures: `python simulations/ibm_cavity_analysis.py
+    --sweeps`, which emits the orbit statistics into its results file.
 
     Args:
         spectrum: eigenvalues, any array-like of complex.
@@ -747,8 +762,8 @@ def f1_distance_in_eps(evals, sigma):
     so the honest way to publish this distance is against its backward-error
     model rather than against a threshold: the returned value is dimensionless,
     and "at the solver's floor" is an N-DEPENDENT band, not a universal one
-    (measured on an IBM γ profile over two decades of J: 1.5 to 3.9 at N=2,
-    51.3 to 68.9 at N=5). Grade a reading against its own N.
+    (measured on an IBM γ profile over two decades of J: 2.1 to 4.0 at N=2,
+    69.0 to 72.4 at N=5). Grade a reading against its own N.
 
     Two cases where the unit's justification does not apply, both worth
     checking before quoting the number:

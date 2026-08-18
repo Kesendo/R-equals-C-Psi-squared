@@ -173,7 +173,96 @@ def frequency_group_analysis(osc_sacrifice, osc_uniform, unique_freqs, out):
             out(f"{freq:8.3f} {sac_mean:10.6f} {uni_mean:10.6f} {ratio:8.2f}x {len(sac_rates):6d}")
 
 
-def main():
+def orbit_sweeps(H, ibm_gammas, uniform_gammas, out, n_perm=200,
+                 seeds=(0, 12345, 7)):
+    """The four sweeps the experiment doc reads the F1 row through.
+
+    The F1 distance comes from a greedy matcher, so one spectrum yields an
+    ORBIT of values. This emits the orbit statistics so the doc's claims have
+    a producer instead of a reconstructed harness: array-order ceilings, the
+    paired test across profiles, the jump-operator summation-order orbit, and
+    the commutator norms. Run with `python ibm_cavity_analysis.py --sweeps`
+    (the jump-order part is ~120 eigendecompositions, several minutes).
+    """
+    import itertools
+    import math
+
+    profiles = [("zero", np.zeros(len(ibm_gammas))),
+                ("ibm", ibm_gammas), ("uni", uniform_gammas)]
+    spec = {}
+    for nm, g in profiles:
+        ev = np.linalg.eigvals(build_liouvillian(H, g))
+        spec[nm] = (ev, float(sum(g)), f1_distance_in_eps(ev, sum(g))[0])
+
+    out(f"\n{'='*60}")
+    out("ORBIT SWEEPS (the F1 row is one draw from an orbit)")
+    out(f"{'='*60}")
+
+    out("\nArray order: is the printed value the ceiling of its orbit?")
+    out(f"  {'profile':8} {'printed':>8} {'min':>8} {'max':>8} {'median':>8} "
+        f"{'ratio':>7} {'==printed':>10} {'>printed':>9}")
+    for seed in seeds:
+        rng = np.random.default_rng(seed)
+        perms = [rng.permutation(len(spec['ibm'][0])) for _ in range(n_perm)]
+        out(f"  seed {seed}:")
+        for nm in ("zero", "ibm", "uni"):
+            ev, c, base = spec[nm]
+            vals = [f1_distance_in_eps(ev[q], c)[0] for q in perms]
+            eq = sum(1 for v in vals if abs(v - base) < 1e-9)
+            gt = sum(1 for v in vals if v > base + 1e-9)
+            out(f"  {nm:8} {base:8.2f} {min(vals):8.2f} {max(vals):8.2f} "
+                f"{np.median(vals):8.2f} {max(vals)/min(vals):7.3f} "
+                f"{eq:10d} {gt:9d}")
+
+    out("\nPaired test (same permutation on all three): is the between-profile")
+    out("difference bookkeeping noise, or systematic?")
+    rng = np.random.default_rng(seeds[0])
+    res = {nm: [] for nm in spec}
+    for _ in range(n_perm):
+        q = rng.permutation(len(spec['ibm'][0]))
+        for nm, (ev, c, _b) in spec.items():
+            res[nm].append(f1_distance_in_eps(ev[q], c)[0])
+    d = np.array(res["ibm"]) - np.array(res["uni"])
+    sem = d.std(ddof=1) / np.sqrt(len(d))
+    out(f"  ibm - uni: mean {d.mean():.2f}  sem {sem:.3f}  "
+        f"t {d.mean()/sem:.1f}  ibm>uni in {int((d>0).sum())}/{n_perm}")
+    out("  => common mode cancels in the difference; the gap is systematic.")
+
+    out("\nCommutator norms (how far from normal each Liouvillian is):")
+    for nm, g in profiles:
+        L = build_liouvillian(H, g)
+        C = L @ L.conj().T - L.conj().T @ L
+        out(f"  {nm:8} 2-norm {np.linalg.norm(C, 2):9.4f}   "
+            f"Frobenius {np.linalg.norm(C, 'fro'):9.4f}")
+
+    n = len(ibm_gammas)
+    out(f"\nJump-operator summation order, all {math.factorial(n)} orders:")
+    for nm, g in profiles:
+        d_ = H.shape[0]
+        Id = np.eye(d_, dtype=complex)
+        ref = None
+        vals, worst = [], 0.0
+        for order in itertools.permutations(range(n)):
+            L = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
+            for k in order:
+                Lk = np.sqrt(g[k]) * kron_at(Z, k, n)
+                LdL = Lk.conj().T @ Lk
+                L += np.kron(Lk.conj(), Lk)
+                L -= 0.5 * np.kron(Id, LdL)
+                L -= 0.5 * np.kron(LdL.T, Id)
+            if ref is None:
+                ref = L
+            else:
+                worst = max(worst, float(np.abs(L - ref).max()))
+            vals.append(f1_distance_in_eps(np.linalg.eigvals(L), sum(g))[0])
+        ratio = max(vals) / min(vals) if min(vals) > 0 else float('nan')
+        out(f"  {nm:8} {min(vals):7.1f} to {max(vals):7.1f}  ratio {ratio:6.4f}  "
+            f"distinct {len(set(np.round(vals, 6))):3d}  max|L-L_0| {worst:.3e}")
+    out("  => equal or zero gammas reassemble L bit-identically, so their")
+    out("     number cannot move; only the IBM column has a jump-order orbit.")
+
+
+def main(sweeps=False):
     results_dir = Path(__file__).parent / "results"
     results_dir.mkdir(exist_ok=True)
     out_path = results_dir / "ibm_cavity_analysis.txt"
@@ -191,8 +280,24 @@ def main():
     J = 1.0
     H = build_heisenberg_chain(N, J)
 
-    # IBM sacrifice-zone gammas (Q85-Q94)
-    ibm_gammas = np.array([0.2681, 0.0163, 0.0103, 0.0147, 0.0105])
+    # IBM sacrifice-zone gammas (Q85-Q94), as D[Z] COEFFICIENTS.
+    #
+    # The calibration hands over coherence rates 1/T2*, and this model is
+    # Z-dephasing alone, so the D[Z] coefficient is gamma = 1/(2*T2*): row 1
+    # of the T2 -> gamma table in docs/GLOSSARY.md. A D[Z] channel at rate
+    # gamma decays coherences at 2*gamma, so feeding 1/T2* here would double
+    # every absolute rate in this file.
+    #
+    # The measured coherence rates are [0.2681, 0.0163, 0.0103, 0.0147,
+    # 0.0105] /us. Halved below. The same Q85 number was repaired the same
+    # way in its sibling script on 2026-08-05 (GLOSSARY.md, the T2 -> gamma
+    # section: "that script was repaired 2026-08-05 and now feeds the
+    # dephasing-only 0.134"); this one was missed until 2026-08-18.
+    #
+    # Ratios in this file never depended on the factor; the ABSOLUTE rates
+    # and the fixed 0.05 protection threshold did.
+    ibm_t2_rates = np.array([0.2681, 0.0163, 0.0103, 0.0147, 0.0105])
+    ibm_gammas = ibm_t2_rates / 2.0
 
     # Uniform gammas (same total)
     total_gamma = sum(ibm_gammas)
@@ -258,6 +363,9 @@ def main():
     out("The same 43 frequencies exist under all three profiles.")
     out("Only the damping changes.")
 
+    if sweeps:
+        orbit_sweeps(H, ibm_gammas, uniform_gammas, out)
+
     # Write output
     with open(out_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
@@ -265,4 +373,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sweeps="--sweeps" in sys.argv)

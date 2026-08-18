@@ -25,7 +25,7 @@ modes are protected, and why?
 By decomposing Liouvillian eigenvectors into the Pauli basis, we
 compute the spatial profile of each mode: how much of the mode "lives"
 on each qubit. The correlation between sacrifice-qubit weight and decay
-rate is **r = 0.9942** (p = 0.00). Modes concentrated on the chain
+rate is **r = 0.9937** (p = 0.00). Modes concentrated on the chain
 center survive longest. Modes concentrated on the edges die fastest.
 
 The spatial profile is **geometric**: the same mode has the same
@@ -53,9 +53,9 @@ For each Liouvillian eigenvector v (1024 components for N=5), we:
 
 ## Results
 
-### The 7.234J modes: center-localized
+### The 7.236J modes: center-localized
 
-The 4 slowest oscillating modes (rate = 0.0456, freq = 7.234J) have
+The 4 slowest oscillating modes (rate = 0.0229, freq = 7.236J) have
 the profile:
 
 | Q0 (sacrifice) | Q1 | Q2 (center) | Q3 | Q4 |
@@ -65,7 +65,7 @@ the profile:
 Weight peaks at the chain center (Q2 = 0.700) and is minimal at the
 edges (Q0 = Q4 = 0.519). These modes are **center-localized**.
 
-Their palindromic partners (rate = 0.594, fastest oscillating) have
+Their palindromic partners (rate = 0.2971, fastest oscillating) have
 the complementary profile:
 
 | Q0 | Q1 | Q2 | Q3 | Q4 |
@@ -80,8 +80,8 @@ complementary.**
 
 | Profile | Pearson r | p-value |
 |---------|----------|---------|
-| IBM sacrifice | 0.9942 | 0.00 |
-| Uniform | 0.8588 | 2e-297 |
+| IBM sacrifice | 0.9937 | 0.00 |
+| Uniform | 0.8634 | 4e-304 |
 | Zero noise | 0.0169 | 0.61 |
 
 Under IBM sacrifice noise: near-perfect correlation. Modes with more
@@ -93,11 +93,11 @@ selection).
 ### Quartile comparison
 
 **IBM sacrifice:**
-- Slowest quartile (254 modes): [0.666, 0.711, 0.716, 0.712, 0.675]
-- Fastest quartile (254 modes): [0.839, 0.795, 0.786, 0.795, 0.830]
+- Slowest quartile (254 modes): [0.674, 0.710, 0.713, 0.710, 0.675]
+- Fastest quartile (254 modes): [0.831, 0.796, 0.794, 0.795, 0.830]
 
 Slow modes avoid the edges. Fast modes concentrate on the edges. The
-difference between slowest and fastest is 0.17 on Q0 (25% relative).
+difference between slowest and fastest is 0.16 on Q0 (23% relative).
 
 **Zero noise:**
 - Slowest quartile: [0.750, 0.750, 0.746, 0.750, 0.750]
@@ -107,7 +107,7 @@ No spatial preference at all. The profiles are flat.
 
 ### The profile is geometric (not topologically protected)
 
-The 4 slowest 7.234J modes have profile [0.519, 0.631, 0.700, 0.631, 0.519]
+The 4 slowest 7.236J modes have profile [0.519, 0.631, 0.700, 0.631, 0.519]
 under **both** IBM sacrifice and uniform noise. The profile does not
 depend on the noise distribution. It depends on the chain geometry.
 
@@ -136,18 +136,18 @@ modes, center sacrifice selects edge-heavy modes
    protection, r = 0.86 from topology alone)
 5. Under sacrifice noise: edge modes see much more noise than center
    modes (r = 0.994, strong differential protection)
-6. The slowest modes happen to be center-localized at the 7.234J
+6. The slowest modes happen to be center-localized at the 7.236J
    frequency (a topological property of the chain)
 
 The sacrifice zone does not create the spatial structure. It
 **exploits** it. The chain topology provides the modes. The sacrifice
-zone provides the selection pressure. Together: 2.81x protection
+zone provides the selection pressure. Together: 2.80x protection
 for the modes that matter most.
 
 ---
 
 *See also:*
-[IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) (the 2.81x result),
+[IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) (the 2.80x result),
 [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) (the eigenfrequencies),
 [Resonant Return](RESONANT_RETURN.md) (the sacrifice-zone formula),
 [Energy Partition](../hypotheses/ENERGY_PARTITION.md) (2x decay law)

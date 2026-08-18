@@ -147,6 +147,12 @@ def test_greedy_matcher_is_order_dependent_on_a_real_spectrum():
     for b in range(N - 1):
         for P in (X, Y, Zp):
             H = H + at(P, b) @ at(P, b + 1)
+    # A FIXTURE, not a calibration. These are the raw 1/T2* readings of the
+    # Q85-Q94 line; a Z-dephasing model would take gamma = 1/(2*T2*) instead
+    # (docs/GLOSSARY.md, the T2 -> gamma table). Both assertions below are
+    # scale-free, so the book does not enter: one compares the spread to
+    # itself, the other to a corruption of the same spectrum. Do not cite
+    # these numbers as the profile, and do not halve them expecting a change.
     gammas = np.array([0.2681, 0.0163, 0.0103, 0.0147])[:N]
     Id = np.eye(d, dtype=complex)
     L = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
@@ -180,6 +186,8 @@ def test_zero_spectrum_at_nonzero_sigma_is_a_maximal_violation():
     distance is 2|sigma|. An earlier version of the guard returned 0.0 here,
     which would have reported a perfect score for a maximal violation.
     """
+    # A synthetic centre, not the Q85-Q94 profile: on that line 0.3199 is
+    # 2*Sigma gamma, not Sigma gamma. Nothing here reads the hardware.
     sigma = 0.3199
     dist, radius = fw.f1_distance_in_eps(np.zeros(4, dtype=complex), sigma)
     assert radius == 0.0

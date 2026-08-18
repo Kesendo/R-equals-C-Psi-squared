@@ -197,7 +197,7 @@ All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 
 | [Structural Cartography](../../experiments/STRUCTURAL_CARTOGRAPHY.md) | 3D spectral manifold, rate count statistics, topology survey |
 | [Crossing Taxonomy](../../experiments/CROSSING_TAXONOMY.md) | K-invariance from Lindblad eigenvalue scaling |
 | [Cavity Modes Formula](../../experiments/CAVITY_MODES_FORMULA.md) | Zero-noise eigenfrequencies N=2-7. Closed-form via Clebsch-Gordan. Topology comparison |
-| [IBM Cavity Spectral](../../experiments/IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Sacrifice zone protects cavity modes at 2.81x. Real IBM T2* data |
+| [IBM Cavity Spectral](../../experiments/IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Sacrifice zone protects cavity modes at 2.80x. Real IBM T2* data |
 | [Cavity Mode Localization](../../experiments/CAVITY_MODE_LOCALIZATION.md) | Eigenvector Pauli decomposition: protected modes are center-localized (r = 0.994) |
 | [Random Matrix Theory](../../experiments/RANDOM_MATRIX_THEORY.md) | RMT analysis of 21,840 eigenvalues (N=2-7): Poisson level statistics, chiral symmetry class AIII. Uses `rmt` CSV export |
 | [PTF Palindrome-Breaking Perturbations](../../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md) | Full left+right eigendecomposition at N=7 (XY chain, PTF convention) for EP / channel-uniform mode geometry. Uses `ptf` binary export |

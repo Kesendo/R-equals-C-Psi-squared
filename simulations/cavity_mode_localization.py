@@ -2,7 +2,7 @@
 Cavity Mode Localization: Where do the protected modes live?
 
 For the N=5 chain under IBM sacrifice-zone noise, the slowest
-oscillating modes (freq ~ 7.234J) survive 2.81x longer than under
+oscillating modes (freq ~ 7.236J) survive 2.80x longer than under
 uniform noise. This script determines WHERE those modes are
 spatially localized by decomposing Liouvillian eigenvectors into
 the Pauli basis and computing per-qubit weights.
@@ -160,12 +160,14 @@ def analyze_profile(name, gammas, H, n_qubits, pauli_strings, out):
         out(f"  Pearson  r = {r_pearson:.4f} (p = {p_pearson:.2e})")
         out(f"  Spearman r = {r_spearman:.4f} (p = {p_spearman:.2e})")
 
-    # The 7.234J modes specifically
-    target_freq = 7.234
+    # The 7.236J modes specifically (the zero-noise standing-wave
+    # frequency; the bin tolerance below is 0.2, so the label choice
+    # does not change which modes are captured)
+    target_freq = 7.236
     target_modes = [(idx, r, f, w, t) for idx, r, f, w, t in mode_weights
                     if abs(f - target_freq) < 0.1 and r < 0.1]
     if target_modes:
-        out(f"\nThe ~7.234J modes (freq ~ {target_freq}, rate < 0.1):")
+        out(f"\nThe ~7.236J modes (freq ~ {target_freq}, rate < 0.1):")
         out(f"{'#':>3} {'Rate':>10} {'Freq':>8} {'Q0(sac)':>8} {'Q1':>8} {'Q2':>8} {'Q3':>8} {'Q4':>8}")
         for rank, (idx, rate, freq, w, _) in enumerate(target_modes):
             out(f"{rank+1:3d} {rate:10.6f} {freq:8.3f} {w[0]:8.3f} {w[1]:8.3f} {w[2]:8.3f} {w[3]:8.3f} {w[4]:8.3f}")
@@ -206,10 +208,20 @@ def main():
     pauli_strings = generate_pauli_strings(N)
     out(f"Done. {len(pauli_strings)} strings generated.")
 
-    # Three profiles
+    # Three profiles. The gammas are D[Z] COEFFICIENTS: the calibration
+    # reports coherence rates 1/T2*, and a D[Z] channel at rate gamma decays
+    # coherences at 2*gamma, so a Z-dephasing-only model takes
+    # gamma = 1/(2*T2*), row 1 of the T2 -> gamma table in docs/GLOSSARY.md.
+    # Measured coherence rates for Q85-Q94: [0.2681, 0.0163, 0.0103, 0.0147,
+    # 0.0105] /us; halved here. Sibling scripts repaired the same way
+    # (ibm_cavity_analysis.py 2026-08-18, and one on 2026-08-05 per the
+    # GLOSSARY section). The localization PROFILES are eigenvector shapes and
+    # do not depend on the overall scale; the absolute rates do.
+    ibm_t2_rates = np.array([0.2681, 0.0163, 0.0103, 0.0147, 0.0105])
+    ibm_gammas = ibm_t2_rates / 2.0
     profiles = [
-        ("IBM SACRIFICE ZONE", np.array([0.2681, 0.0163, 0.0103, 0.0147, 0.0105])),
-        ("UNIFORM", np.array([0.0640, 0.0640, 0.0640, 0.0640, 0.0640])),
+        ("IBM SACRIFICE ZONE", ibm_gammas),
+        ("UNIFORM", np.array([ibm_gammas.mean()] * 5)),
         ("ZERO NOISE (cavity modes)", np.array([0.0, 0.0, 0.0, 0.0, 0.0])),
     ]
 
@@ -219,16 +231,16 @@ def main():
 
     # Cross-profile comparison
     out(f"\n{'='*70}")
-    out("CROSS-PROFILE COMPARISON: 7.234J modes")
+    out("CROSS-PROFILE COMPARISON: 7.236J modes")
     out(f"{'='*70}")
 
     for name, gammas in profiles:
         modes = all_results[name]
-        target = [(r, f, w) for _, r, f, w, _ in modes if abs(f - 7.234) < 0.2]
+        target = [(r, f, w) for _, r, f, w, _ in modes if abs(f - 7.236) < 0.2]
         if target:
             target.sort(key=lambda x: x[0])
             w_mean = np.mean([w for _, _, w in target[:4]], axis=0)
-            out(f"\n{name}: {len(target)} modes near 7.234J")
+            out(f"\n{name}: {len(target)} modes near 7.236J")
             out(f"  Mean qubit profile (4 slowest): [{', '.join(f'{v:.3f}' for v in w_mean)}]")
             out(f"  Weight on Q0 (sacrifice): {w_mean[0]:.3f}")
             out(f"  Weight on interior (Q1-Q4): {sum(w_mean[1:]):.3f}")
