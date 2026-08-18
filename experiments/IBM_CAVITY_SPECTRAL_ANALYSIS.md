@@ -240,7 +240,7 @@ from a GREEDY matcher, so its value depends on the order the eigenvalues reach
 it, and each cell is one draw from an ORBIT of values that one spectrum can
 produce. Permuting the eigenvalue array never raises the result above the
 matcher's best available pairing, so an orbit has a ceiling. Over 200 array
-permutations at each of three seeds, the IBM cell 72.4 and the uniform cell 57.5
+permutations at each of three RNG seeds, the IBM cell 72.4 and the uniform cell 57.5
 are never once exceeded: both printed values ARE their ceiling. The zero-noise
 cell 67.5 is not. Roughly three quarters of orderings beat it, its ceiling is
 83.5 and its median between 70 and 73. Two ceilings and one interior draw are not a
@@ -252,8 +252,9 @@ distinct values, and the printed 72.4 sits in the MIDDLE of that range. So the
 same cell is the ceiling of one orbit and a mid-orbit draw of another, and the
 two orbits disagree about where it stands. No summary of a single number
 survives that. Note also which nuisance is the larger: the IBM column moves by
-1.45x to 1.48x under array order, depending on the seed, and by 2.17x under
-jump order, which is seedless because it is a complete enumeration; the array-order sweep
+1.45x to 1.48x under array order, depending on the RNG seed, and by 2.17x
+under jump order, which draws no random numbers at all because it is a complete
+enumeration; the array-order sweep
 is the narrower exposure, not the more general one. The jump-order sweep speaks
 only for the IBM column: on uniform every γ is equal and on zero noise every
 jump operator is the zero matrix, so all 120 orders assemble a bit-identical L
@@ -263,8 +264,9 @@ number does not move at all: one distinct value each, against 76 on IBM.
 Every figure in these three paragraphs is emitted by
 `python simulations/ibm_cavity_analysis.py --sweeps`, into the same results
 file as the tables above. Read them there rather than reconstructing the
-harness: the array-order counts are seeded (200 permutations at each of
-seeds 0, 12345 and 7) and the paired test quotes seed 0.
+harness: the array-order counts are sampled (200 permutations at each of the
+RNG seeds 0, 12345 and 7) and the paired test quotes RNG seed 0. "Seed" here
+is numpy's, not the repo's [Seed](../compute/MirrorWorld/README.md) object.
 
 What is NOT true, and an earlier version of this page claimed it, is that the
 difference between the columns is bookkeeping noise that a larger sample would
