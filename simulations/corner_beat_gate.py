@@ -76,6 +76,43 @@ He = bond_H_1m([1, 3])
 E0, V0 = np.linalg.eigh(Ho + He)
 
 
+# --------------------------------------------------------- fit axis
+# The axis the channel fits run on, as a SWITCH rather than an
+# expression repeated at every fit site. Section 5 of the
+# pre-registration registers the refit on the REALIZED-DOSE axis
+# t_eff = max(n-1, 0)*dt "in gate and runner together": the final
+# injected RZ layer is a Z-basis no-op, so a depth-n cell carries n-1
+# injection layers, and fitting on the nominal n*dt leaves depth 0 (the
+# fit's highest-weight point) sitting ~5% below the model, biasing
+# every rate low and giving away ~16.6% of s2 noiselessly. Depth 0
+# carries no injection layer at all and stays at 0 (Amendment 1.4).
+#
+# This function is the gate half of the machinery item
+# `realized_dose_time_axis_refit`. Until it existed the gate built
+# `[i*k*dt for i in range(steps//k+1)]` inline at four fit sites, none
+# of them switchable, and --certify could not see it: certify hands ONE
+# axis array to both fit implementations, so it certified that the two
+# FITS agree on a given axis and never that the gate CONSTRUCTS the
+# same axis as the runner. Certify now compares the axes themselves.
+#
+# The default stays "nominal" so this refactor changes no committed
+# number; the refreeze throws the switch on both sides at once, and the
+# runner's own `time_axis` manifest entry is what forces it.
+TIME_AXIS = "nominal"
+
+
+def fit_time_axis(steps, k, dt, axis=None):
+    """Grid times for the channel fits. steps//k + 1 points at spacing
+    k Trotter steps."""
+    axis = TIME_AXIS if axis is None else axis
+    n = [i * k for i in range(steps // k + 1)]
+    if axis == "nominal":
+        return np.array([s * dt for s in n])
+    if axis == "realized_dose":
+        return np.array([max(s - 1, 0) * dt for s in n])
+    raise RuntimeError(f"unknown time axis: {axis!r}")
+
+
 def strang(dt):
     Eo, Uo = np.linalg.eigh(Ho)
     Ee, Ue = np.linalg.eigh(He)
@@ -265,7 +302,7 @@ def config_mc(Q, jdt, steps, k, p2, f_leak, gpb, shots, m_bind, reps, rng,
     # the PINNED convention), half XX/YY hop errors (bias-capable)
     err_deph_dt = GCOUNT / GCOUNT.mean() * (eps_in / 2) / 4
     p_hop = eps_in / 2
-    ts = np.array([i * k * dt for i in range(Tn)])
+    ts = fit_time_axis(steps, k, dt)
     r_max = 8 * gbar + eps_in / (2 * dt)
     arms = {"U": UNIF * gbar, "C": CORN * gbar, "Cp": CORNP * gbar}
     if null_c_as_u:
@@ -428,7 +465,7 @@ def cmd_frozen():
     dyf = [em[i] - em[j] for (i, j) in DY]
     A = np.array([[Wm[l, i] * Wm[l, j] for (i, j) in DY]
                   for l in range(N)])
-    ts = np.array([i * k * jdt for i in range(steps // k + 1)])
+    ts = fit_time_axis(steps, k, jdt)
     r_max = 8 * gbar
     rng0 = np.random.default_rng(1)
     for arm, prof in [("C", CORN), ("Cp", CORNP), ("U", UNIF)]:
@@ -490,7 +527,7 @@ def cmd_g3(quick=False):
     em, Wm = floquet_modes(U, jdt)
     dyf = [em[i] - em[j] for (i, j) in DY]
     A = np.array([[Wm[l, i] * Wm[l, j] for (i, j) in DY] for l in range(N)])
-    ts = np.array([i * k * jdt for i in range(steps // k + 1)])
+    ts = fit_time_axis(steps, k, jdt)
     r_max = 8 * gbar
     for m_bind in [256, 1024, 4096]:
         rng = np.random.default_rng(SEED + 10 * m_bind)
@@ -574,7 +611,7 @@ def cmd_g5(quick=False):
     em, Wm = floquet_modes(U0, jdt)      # NOMINAL basis, frozen
     dyf = [em[i] - em[j] for (i, j) in DY]
     A = np.array([[Wm[l, i] * Wm[l, j] for (i, j) in DY] for l in range(N)])
-    ts = np.array([i * k * jdt for i in range(steps // k + 1)])
+    ts = fit_time_axis(steps, k, jdt)
     r_max = 8 * gbar
     mask = np.array([[np.exp(-2 * jdt * (CORN[l] + CORN[m]) * gbar)
                       if l != m else 1.0 for m in range(N)]
