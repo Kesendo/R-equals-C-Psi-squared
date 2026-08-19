@@ -13,9 +13,25 @@ is structurally blocked by the runner's constants manifest until the
 remaining gate work freezes every §8 quantity (θ_D itself carries
 refreeze_required, §8a). Amendment 2 (2026-08-18) MEASURES θ_D, θ_W and
 the s²(C) floor through the analyze-side chain and records four
-systematics beside them; it does NOT freeze the manifest, and the
-realistic detection expectation it arrives at, about 0.79 against the
-registered 0.920, is a number the budget decision has not yet seen. Design and gate history: seven design rounds,
+systematics beside them; it does NOT freeze the manifest.
+
+**PARKED BY TOM, 2026-08-19, before submission. This flight is not
+scheduled and no money has been spent.** The reason is §10's own
+arithmetic: the signal grows with depth at exponent γ̄T·(10/3) ≈ 2.95
+while the state is lost at 970·p2·f_leak, which the §9 layered inflation
+carries above the signal exponent at BOTH ends of the f_leak bracket. The
+design has no free lever left (shots are measured saturating, more depth
+costs the state, less depth costs discrimination), the parameter that
+decides it cannot be narrowed before spending, and §1's own scope
+sentence says the registered arms cannot distinguish the class law from
+a dead C′ while the quantitative width law sits outside the registered
+conjuncts. Paying for the weak statement when the closed form is what we
+hold is the trade that was declined. The arc `corner_beat` in
+`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs` carries the
+wake-up condition: an effective two-qubit error about two to three times
+below today's, or a re-registration around the width law. **Everything
+below stands as the design it was; nothing in it is retracted by the
+parking**, and the closed form of §1 never depended on a device. Design and gate history: seven design rounds,
 the gate's two review rounds, v2.1 runs in §8a. Verdict: provisionally
 flyable, CONDITIONAL ON FRACTIONAL-RZZ, at the frozen 21-point grid
 with 16384 shots, ~23.7 QPU min (worst-end power 2.9, P(detect) 0.92,

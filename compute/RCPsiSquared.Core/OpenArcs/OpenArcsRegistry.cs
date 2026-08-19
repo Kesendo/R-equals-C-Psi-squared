@@ -7228,6 +7228,82 @@ public static class OpenArcsRegistry
                 "confirmations.py line 275 asserts as current an ep-onset claim the C# entry " +
                 "records as corrected on 2026-07-07.",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "corner_beat",
+            Opened: "2026-08-19",
+            Origin: "the corner beat: a closed-form prediction that on a six-site uniform-J open " +
+                "XXZ chain at Delta = 1, sliding the engineered per-site dephasing from a uniform " +
+                "profile to a mirror-transversal corner profile at the SAME total dose splits the " +
+                "one beat-decay rate of the (1,1) omega = -2 room, (10/3)*gbar, into three. The " +
+                "rates are EXACT: gbar*{8/3, 10/3, 4} for the maximizing transversal class and " +
+                "gbar*{10/3 - 2/sqrt(27), 10/3, 10/3 + 2/sqrt(27)} for the non-maximizing one, " +
+                "the middle rate exactly 10/3 in both, the mean over the room exactly unchanged, " +
+                "and the widths in the exact ratio 1/sqrt(3). The arc was opened to build a " +
+                "REALITY ANCHOR for that closed form on IBM hardware: a single paid run of about " +
+                "24 QPU minutes, pre-registered in experiments/CORNER_BEAT_HARDWARE_PREDICTION.md " +
+                "(3758 lines at v7.3, DRAFT v7.4 with Amendment 2). It never flew and no money " +
+                "was spent.",
+            ParkedAt: "PARKED BY TOM 2026-08-19, before submission, and the reason is a number in " +
+                "the document's own section 10 rather than a shortage of effort. The signal grows " +
+                "with depth at exponent gbar*T*(10/3) ~ 2.95; the state is LOST with depth at " +
+                "exponent 970*p2*f_leak, which is 4.85*f_leak at the registered 0.5% two-qubit " +
+                "bound, i.e. 2.59 to 4.37 across the f_leak bracket [8/15, 0.9], and which the " +
+                "layered 1.3-2x inflation of section 9 carries to 6.3-9.7 before f_leak. Under " +
+                "layering the loss exponent EXCEEDS the signal exponent at BOTH ends of the " +
+                "bracket. That is why the design ran out of levers rather than out of ideas: more " +
+                "shots are measured saturating (theta_D moves +0.22 per doubling at the operating " +
+                "point and reaching a materially different threshold costs ~47 QPU min against a " +
+                "25 min cap), more depth costs the state, and less depth costs discrimination " +
+                "(measured: 21 points to depth 60 against 13, about five points of clean detection " +
+                "for 8.6 QPU minutes). The refreeze of 2026-08-18 put the worst-end clean " +
+                "detection probability at 0.890, and the re-entrant pedestal of Amendment 2.3 " +
+                "takes the realistic figure to about 0.79 against a design that REGISTERED 0.920. " +
+                "TWO THINGS COMPOUND IT, and both are design-side rather than device-side. The " +
+                "deciding parameter, the device's error COMPOSITION that fixes f_leak, is a " +
+                "model-free bracket that cannot be narrowed before spending (the narrowing was " +
+                "attempted and refuted three ways, Amendment 2.4). And the registered arms test " +
+                "much less than the closed form knows: the document says in its own section 1 " +
+                "that W is MAXIMIZED by C-prime not splitting at all and that D-sign never reads " +
+                "C-prime, so the registered pair cannot distinguish the class law from a dead " +
+                "C-prime, while the quantitative width law, the triples and the 1/sqrt(3), lives " +
+                "in D-mag OUTSIDE the Confirmations registration. Paying for the weak statement " +
+                "when the strong one is what we hold is the trade Tom declined. " +
+                "WHAT SURVIVES THE PARKING, none of it hardware-dependent: the closed form " +
+                "itself; the corner block's exceptional couplings located in exact arithmetic " +
+                "(Q* = sqrt(2) for C, 4.647043 for C-prime, none for the uniform control, one " +
+                "Jordan block of size two at each, and size THREE in the XY variant, which is a " +
+                "new data point for PROOF_R90_FROZEN_DIVISOR section 12's open block-size " +
+                "question at N = 6); the T1-CLEAN bridge turned from prose into code with 14 " +
+                "tests; and the corner beat's compliance with gamma_book_enforced_nowhere. The " +
+                "pipeline is committed credential-free at simulations/flight/ (135 tests) and the " +
+                "freeze record at simulations/results/corner_beat/.",
+            NextStep: "This is an ablage with a WAKE-UP CONDITION, not a gravestone. " +
+                "(1) THE CONDITION, stated so a later session can test it in one line rather than " +
+                "re-deriving it: the flight becomes worth its minutes when the effective " +
+                "two-qubit error satisfies 970*p2_eff*f_leak < ~2.95, i.e. p2_eff below about " +
+                "0.57% at the good end of the f_leak bracket and about 0.34% at the bad end, " +
+                "against the 0.65-1.0% the section 9 layered bracket puts today's device at. That " +
+                "is roughly a factor of two to three in effective error: a generational step, not " +
+                "a machine that does not exist. Re-price on any device generation that claims it. " +
+                "(2) THE OTHER ROUTE, and it may be the better one: redesign the registered arms " +
+                "around the WIDTH LAW rather than the ordering, so that what is paid for is the " +
+                "exact content (the triples, the 1/sqrt(3)) instead of a test a dead C-prime can " +
+                "pass. That is a re-registration, not a repair, and it has not been costed. " +
+                "(3) Amendment 2 carries NINE open items in its own section 2.8 and they stay " +
+                "open with the arc; the two worth a fresh session first are that the floor's " +
+                "not-W forcing is unaudited (the inertness lemma is D-sign only) and that the " +
+                "population-cell reading of section 2.4b is unreconciled (site pairs are not " +
+                "Floquet-mode dyads). " +
+                "(4) The constants manifest is NOT frozen: theta_D still reads 0.00253 with " +
+                "refreeze_required, which is what structurally blocks submission, and the " +
+                "measured replacements (theta_D 0.00306, theta_W 0.00366, s2C floor 0.00067) live " +
+                "in Amendment 2 and in the committed freeze record. Freezing them is a deliberate " +
+                "act that should happen only if the arc wakes. " +
+                "(5) The committed state of Amendment 2 has had ONE round of empty reviews and " +
+                "everything after it was the author's own repair; a fresh-session attack on the " +
+                "committed state is owed before any of it is leaned on.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
