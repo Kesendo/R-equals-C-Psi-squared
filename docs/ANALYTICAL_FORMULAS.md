@@ -4310,6 +4310,16 @@ read by a formula stated for a Lindbladian, and it is a measurement at N = 2, 3,
 rather than a derivation, on a theorem whose own statement is for Hermitian H:
 checker `simulations/f112_gain_loss_carrier_check.py`.
 
+**F113's no-jump face is a special case of F155 (2026-08-19):** F113's own theorem
+is for the full Lindbladian; on the no-jump generator, where the two agree by the
+measured jump-inertness above, the general law for any H = A + iB is asymmetry = 4^(N+1)·Σ over bit_b-ODD strings of
+(−1)^#Z·a_σ·b_σ, bilinear and diagonal in the Pauli basis
+([the F155 proof](proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md), derived,
+universal N). F113 is its Z-diagonal restriction: only Z_l strings are present, each
+with #Z = 1, and a_{Z_l} = ω_l/2, b_{Z_l} = (γ_T1,l − γ_pump,l)/4 return the closed
+form above with its prefactor and sign. The entry stays as the Lindblad-family face,
+which is what the hardware application below reads; F155 is the general one.
+
 **"PT" and "gain/loss" are not membership criteria (added 2026-08-19):** the
 verdict is the value of the sum above and nothing else, so a gain/loss label is
 not a membership criterion. The law is same-site bilinear (the per-site
@@ -7581,6 +7591,105 @@ is recorded on the arc, so this number will show on the named-in-no-`*Claim*.cs`
 sweep when it is next re-measured, KNOWINGLY rather than by omission (the
 mention-anywhere sweep already sees it, through the OpenArcs prose alone, the F144/F146
 shape that sweep's own entry documents).
+
+### F155. The physical generator's polarity break is a DIAGONAL bilinear form: for H = A + iB the asymmetry is 4^(N+1)·Σ over bit_b-ODD strings of (−1)^#Z·a_σ·b_σ, no cross-string term at all (derived and registered 2026-08-19, universal N)
+
+F112 says when the polarity asymmetry of a Lindbladian vanishes; F113 gives its
+magnitude when a single-site Z-drive meets amplitude damping. Both leave the
+PHYSICAL generator of a general non-Hermitian Hamiltonian open, and that is the
+generator PT-symmetric, gain-loss and post-selected systems actually run under.
+F155 closes it for arbitrary H, universal N.
+
+**Theorem (F155):** split H = A + iB with A and B Hermitian (always possible,
+uniquely) and expand both over the 4^N Pauli strings, A = Σ_σ a_σ σ and
+B = Σ_σ b_σ σ with real coefficients. Then the physical generator
+G_H : ρ ↦ −i(Hρ − ρH†) = −i[A, ρ] + {B, ρ} has
+
+    asymmetry := ‖M_plus_half‖² − ‖M_minus_half‖²
+              = 4^(N+1) · Σ_{σ : bit_b(σ) odd} (−1)^(#Z(σ)) · a_σ · b_σ
+
+with bit_b(σ) = #Y(σ) + #Z(σ) mod 2 (the F38 parity). The form is BILINEAR in
+(A, B) and DIAGONAL in the Pauli basis: distinct strings never pair, and the
+bit_b-even strings carry nothing at all.
+
+**The rule underneath, and it is a sharpening of owned material, not a new
+mirror:** Π-conjugation EXCHANGES left and right multiplication, paying a
+per-letter sign,
+
+    Ad_Π(𝕃_σ) = (−1)^(#Y(σ))·ℝ_σ ,   Ad_Π(ℝ_σ) = (−1)^(#Z(σ))·𝕃_σ
+
+(bit-exact per site for all four letters, then tensored). The mirror turns the
+operator around, which is what its name promises, and the repo already knew it
+would: F118 factors Π_Z = R ∘ D with D the transpose, an antiautomorphism
+exchanges the two multiplications by construction, F119 says so for the edge
+mirrors, F114 owns the commutator combination D·L_σ·D = (−1)^(n_Y+1)·L_σ, and
+[the factorisation proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §(f) records
+that the mixed cells land on "an anticommutator superoperator, neither ±L_σ".
+What F155 adds is the PER-SIDE form with both signs, which pins the sign that
+trichotomy leaves open. Applying it twice returns F38's sign pattern. The two
+signs agree exactly on bit_b-even strings, which is why those are silent, and are
+opposite on the odd ones, where their difference is the coefficient above.
+
+**Which pairing.** The framework reads a row-stack generator against the
+order='F' Pauli transform, which conjugates the bare lifts by D = diag((−1)^#Y),
+the same as conjugating Π. F113's registered numbers and the form above live in
+that pairing; in the untwisted one the swap rule's two signs exchange, the law
+carries (−1)^#Y, and the whole value flips sign on the odd support. Convention-free:
+the magnitude, the zero-versus-nonzero verdict, and the RATIO of signs between two
+odd strings. Not convention-free: the attachment to #Z rather than #Y. This is the
+same freedom F113's entry pins for its own number.
+
+**What it subsumes.** F113's NO-JUMP FACE is the Z-diagonal special case:
+a_{Z_l} = ω_l/2 and b_{Z_l} = (γ_T1,l − γ_pump,l)/4 give
+(4^N/2)·Σ_l ω_l·(γ_pump,l − γ_T1,l), prefactor and sign (gate G7, random per-site
+rates). F113's own theorem is stated for the FULL Lindbladian, and that the
+recycling term leaves the value alone is a separate MEASURED fact (this entry,
+N = 2, 3, 4, σ⁻/σ⁺ family), false outside that family. The balance of the commutator of an
+ARBITRARY matrix falls out in one line, though that is the AGGREGATE face of
+F112's non-Hermitian extension and not that theorem, which is a per-pair identity
+(Tier 1 derived since Welle 11) that diagonality cannot reach. What genuinely
+moves from measured to derived here is the anticommutator lift's own balance, for
+ANY K, Hermitian or not, by a two-line polarisation.
+
+**Corollaries.** Balanced if B = 0; if A carries only bit_b-even strings, against
+EVERY B; if B ∝ I; if the bit_b-odd content of A and B sits on disjoint strings. So
+bit_b-odd content in A is NECESSARY and NOT SUFFICIENT, which is why the sorting
+recorded as measured in the F112 scope note runs one way only. Adding a multiple of
+the identity to A or to B changes nothing, so the law is BLIND to the gain/loss
+offset. **And the one to quote:** the textbook PT dimer J(XX+YY)/2 + i·g·(Z₀ − Z₁)/2
+is balanced at EVERY g, its exceptional point included, because XX and YY are
+bit_b-even; add an ordinary 0.4·Z₀ detuning and the value is exactly −12.8·g, linear
+through the EP and blind to it. The quantity is a detuning × gain-imbalance meter,
+not a PT meter.
+
+**Scope.** Π in the Z-dephasing convention; the X- and Y-dephase siblings (the
+Klein-V₄ axis substitution bit_b ↔ bit_a) are NOT claimed, though the route
+transfers by recomputing the swap rule for π_X and π_Y. The value is NOT
+basis-invariant: it moves under a per-site Hadamard and under a local rotation, so
+like F113's number it must be quoted in the frame its Pauli content is defined in.
+−i(Hρ − ρH†) is the un-normalised conditional generator of post-selection and the
+operator PT and gain-loss models are usually written with; it is not the full
+Lindbladian, and a physical gain medium pumps incoherently, which adds the
+recycling term. It is not trace-preserving either, and post-selection's
+state-dependent normalisation is nonlinear and outside this object; what makes the
+un-normalised reading defensible is the identity-shift blindness above.
+
+**Source:** [Proof (universal N)](proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md);
+gate `simulations/f155_polarity_break_bilinear.py` (20 gate instances, ~5 s: the
+Im⟨M, Ad_Π M⟩ identity, Π_N = π^⊗N bit-exact, the swap rule per site and per string,
+lift orthogonality against the integers, diagonality over all 210 and 3906
+distinct-string pairs at N = 2 and 3, the closed form on dense random Hermitian A and
+B at N = 2, 3, 4, the balanced corollaries, the F113 reduction, a positive control,
+the two pairings and their #Y ↔ #Z mirroring, the identity-shift blindness, the PT
+dimer through its exceptional point, the general-K polarisation together with the
+arbitrary-matrix commutator, and the basis dependence).
+**Siblings:** F38 and [the bit_b parity proof](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)
+(bit_b is the character of X^⊗N, the global spin flip, so the law reads: only the
+spin-flip-ODD content of A and B pairs, each term weighted by its transpose parity,
+with the sign of that weight carrying the pairing freedom above); F112 (both faces); F113; and the swap rule's parents F114, F118, F119 and
+[the Π = R·D factorisation](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md). **Typed:** not
+yet; the natural carrier is a claim beside `LindbladBitBPiBreakMagnitude` with a
+live witness. Nothing in `compute/` mentions F155 today, and no arc carries it.
 
 ---
 

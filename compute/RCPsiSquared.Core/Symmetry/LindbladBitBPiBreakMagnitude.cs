@@ -61,9 +61,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the proofs at one time or another (see <c>docs/CAUGHT_ERRORS.md</c>, the 2026-06-20
 /// entry and its 2026-08-19 sequel).</para>
 ///
-/// <para><b>What selects a Hamiltonian</b>: the asymmetry reads H only through the
-/// single-site moment Tr(Z_l H), so H enters exactly through the ω_l above and nothing
-/// else about it matters. Adding an XX, ZZ or Y-drive term to a Z-drive leaves the value
+/// <para><b>What selects a Hamiltonian</b> (inside this entry's σ⁻/σ⁺ dissipator family;
+/// for a general anti-Hermitian part the carrier set is every bit_b-odd Pauli string, see
+/// F155): the asymmetry reads H only through the single-site moment Tr(Z_l H), so H enters
+/// exactly through the ω_l above and nothing else about it matters. Adding an XX, ZZ or Y-drive term to a Z-drive leaves the value
 /// bit-identical; X-drives, Y-drives and every bond bilinear give exactly 0 on their own.
 /// The mechanism behind that selector is [Z, σ⁻] = +2·σ⁻, the one commutator proportional
 /// to the non-Hermitian σ⁻ itself, hence the only one carrying Π-eigenvalue ±i imbalance;
@@ -88,7 +89,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Sister F112 on shared bit_b axis</b>: F112 (<see cref="LindbladBitBPiBalance"/>,
 /// Tier1Derived) closes the in-scope half of the standard Lindblad family
 /// (asymmetry = 0); F113 closes the out-of-scope counterexample magnitude. Together
-/// they give a complete polarity-axis description across the family.</para>
+/// they give a complete description across the standard Lindblad family. For the
+/// no-jump generator −i(Hρ − ρH†) of an arbitrary non-Hermitian H the general law is
+/// F155 (derived 2026-08-19,
+/// <c>docs/proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md</c>), of which this
+/// entry's closed form is the Z-diagonal special case.</para>
 ///
 /// <para><b>Universal-N status</b>: Tier1Derived for general N (Welle 4 structural
 /// decomposition; see the constructor + PROOF_F113). The coefficient factors as

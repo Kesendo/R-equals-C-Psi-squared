@@ -268,7 +268,9 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
         F108Part1Pi2EvenAlwaysPalindromic part1,
         LindbladBitAPiBalance bitATwin)
         : base("F112 Lindblad Π-eigenvalue balance under bit_b-homogeneous c: " +
-               "‖M_plus_half‖² = ‖M_minus_half‖² for any H (Hermitian or non-Hermitian) and " +
+               "‖M_plus_half‖² = ‖M_minus_half‖² for any H (Hermitian or non-Hermitian, " +
+               "placed in the COMMUTATOR −i[H,·]; the physical generator −i(Hρ − ρH†) is a " +
+               "different operator whose break F155 gives in closed form) and " +
                "bit_b-homogeneous c_k. Tier1Derived universal N for both Hermitian H (via the " +
                "parent 5-step proof) and non-Hermitian H (via the two-lemma structural proof " +
                "in docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md, Welle 11). The " +

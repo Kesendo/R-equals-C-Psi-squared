@@ -64,6 +64,10 @@ WHAT IT CHECKS (all gates must pass):
        is bit_b parity rather than F113's single-site Z, and one-directionally:
        bit_b-even A is balanced against every B tried, bit_b-odd A breaks against
        a GENERIC B but not against, say, a B proportional to the identity.
+       DERIVED the same day as F155 (`simulations/f155_polarity_break_bilinear.py`,
+       `docs/proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md`): this gate is
+       the measured face of that law's corollary 5, and it is kept because a
+       measured face of a derived law is a check on the derivation.
   GS   the sweep that keeps the rest honest: G0/G1/G2/G6/G7/G8 re-run across
        N = 2, 3, 4 × γ over six decades (1e-4 to 300) × four Z-coefficients (to 100,
        i.e. ω to 200) × two J, 144 configurations, reporting the residual against the error model below
