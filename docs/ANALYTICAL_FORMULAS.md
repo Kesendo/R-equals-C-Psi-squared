@@ -7662,9 +7662,23 @@ bit_b-even; add an ordinary 0.4·Z₀ detuning and the value is exactly −12.8�
 through the EP and blind to it. The quantity is a detuning × gain-imbalance meter,
 not a PT meter.
 
-**Scope.** Π in the Z-dephasing convention; the X- and Y-dephase siblings (the
-Klein-V₄ axis substitution bit_b ↔ bit_a) are NOT claimed, though the route
-transfers by recomputing the swap rule for π_X and π_Y. The value is NOT
+**The other two palindrome conventions, closed the same day** (proof §(g), gate
+`simulations/f155_dephase_siblings.py`). One law with the letter as a parameter:
+the support is the parity Π_ℓ² grades by (bit_a for X, bit_b for Y and Z) and the
+weight is (−1)^#ℓ, the count of the dephasing letter itself. The SUPPORT half is
+convention-free; the WEIGHT half is not, and holds in the twisted pairing this
+registry quotes in (untwisted, the weights become (−1)^#Y for both Z and X and
+(−1)^#Z for Y), the same freedom this entry already prices for the Z law. Neither is a new law.
+**Y is not a sibling at all:** Π_Y = Π_Z⁻¹ exactly, so Ad_{Π_Y} = Ad_{Π_Z}³, which
+exchanges the ±i eigenprojections, so asymmetry_Y = −asymmetry_Z for EVERY
+superoperator, bit-exactly and with no reference to this generator. **X is the one
+genuine sibling** and it is this law in the Hadamard-rotated frame:
+asymmetry_X(A, B) = asymmetry_Z(hAh, hBh). Consequence worth quoting: the F113
+configuration is EXACTLY silent under Π_X, since Z-strings are bit_a-even. Earlier
+wording here and in the proof described both siblings as "the axis substitution
+bit_b ↔ bit_a", which wrongly lumped Y in with X; only X moves the axis.
+
+**Scope.** §(a) to §(f) are Π in the Z-dephasing convention. The value is NOT
 basis-invariant: it moves under a per-site Hadamard and under a local rotation, so
 like F113's number it must be quoted in the frame its Pauli content is defined in.
 −i(Hρ − ρH†) is the un-normalised conditional generator of post-selection and the
@@ -7675,7 +7689,9 @@ state-dependent normalisation is nonlinear and outside this object; what makes t
 un-normalised reading defensible is the identity-shift blindness above.
 
 **Source:** [Proof (universal N)](proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md);
-gate `simulations/f155_polarity_break_bilinear.py` (20 gate instances, ~5 s: the
+gates `simulations/f155_dephase_siblings.py` (10 instances, ~2 s, for the three
+conventions of proof §(g)) and `simulations/f155_polarity_break_bilinear.py`
+(20 gate instances, ~5 s: the
 Im⟨M, Ad_Π M⟩ identity, Π_N = π^⊗N bit-exact, the swap rule per site and per string,
 lift orthogonality against the integers, diagonality over all 210 and 3906
 distinct-string pairs at N = 2 and 3, the closed form on dense random Hermitian A and
@@ -7689,7 +7705,10 @@ spin-flip-ODD content of A and B pairs, each term weighted by its transpose pari
 with the sign of that weight carrying the pairing freedom above); F112 (both faces); F113; and the swap rule's parents F114, F118, F119 and
 [the Π = R·D factorisation](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md). **Typed:** not
 yet; the natural carrier is a claim beside `LindbladBitBPiBreakMagnitude` with a
-live witness. Nothing in `compute/` mentions F155 today, and no arc carries it.
+live witness, and that is still owed. F155 is mentioned in `compute/` (the doc
+comments of `LindbladBitBPiBreakMagnitude` and `LindbladBitBPiBalance`, and the
+retired arc `polarity_break_dephase_siblings`), but no typed `Claim` and no live
+witness carries it.
 
 ---
 

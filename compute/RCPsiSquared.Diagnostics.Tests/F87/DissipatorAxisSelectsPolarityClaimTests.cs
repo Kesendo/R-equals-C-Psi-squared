@@ -34,7 +34,7 @@ public class DissipatorAxisSelectsPolarityClaimTests
         Assert.Contains("where F87-hardness lives", labels);
         Assert.Contains("the selector (Z → bit_b axis)", labels);
         Assert.Contains("the selector (X → bit_a axis)", labels);
-        Assert.Contains("the selector (Y → both axes)", labels);
+        Assert.Contains("the selector (Y → Klein cell (1,1))", labels);
         Assert.Contains("two readings unified (Brecher ↔ Hardness)", labels);
         Assert.Contains("γ-as-light bridge", labels);
         Assert.Contains("operational anchor", labels);

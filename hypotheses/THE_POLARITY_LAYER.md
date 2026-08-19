@@ -380,8 +380,16 @@ This document does not replace any prior hypothesis; it connects them:
   Tier-1 entry of `F87KnowledgeBase` alongside `Trichotomy` and
   `DissipatorResonance`. The Claim names the structural reading: the
   dissipator letter is the choice of which polarity axis the qubit's
-  +0/−0 differentiation is read along (Z → bit_b, X → bit_a, Y → both;
-  SU(2)-rotation-equivalent across the three letters). It binds the
+  +0/−0 differentiation is read along, by way of the letter's own Klein
+  index: Z → (0,1), X → (1,0), Y → (1,1), SU(2)-rotation-equivalent
+  across the three letters. **That index is not the Π² grading, and
+  this sentence used to conflate them** (repaired 2026-08-19): it read
+  "Z → bit_b, X → bit_a, Y → both", and while Y's Klein index really is
+  (1,1), Π_Y² grades by bit_b ALONE, the same axis as Π_Z², never by
+  both at once (F38/F88a; gate S5 of
+  `simulations/f155_dephase_siblings.py`). The conflation propagated
+  into the typed claim below and into a live arc before it was caught.
+  It binds the
   Brecher-from-outside reading (transverse field on bit_a) and the
   Hardness-from-inside reading (F87-hardness in the matched Klein cell
   on bit_a + bit_b) as two perturbation types acting on one polarity

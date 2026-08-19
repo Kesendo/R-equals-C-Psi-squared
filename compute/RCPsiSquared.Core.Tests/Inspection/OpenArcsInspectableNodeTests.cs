@@ -11,7 +11,8 @@ public class OpenArcsInspectableNodeTests
     {
         Assert.Equal(50, OpenArcsRegistry.All.Count);   // +polarity_break_dephase_siblings
                                                         //   (2026-08-19, the X- and Y-dephase
-                                                        //   siblings of F155; unstarted, not parked),
+                                                        //   siblings of F155; RETIRED the same day,
+                                                        //   resolved by PROOF_F155 section (g)),
                                                         // +corner_beat (2026-08-19, PARKED by Tom
                                                         //   before submission; the arc records the
                                                         //   wake-up condition, not a closure),

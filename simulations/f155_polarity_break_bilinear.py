@@ -116,8 +116,13 @@ COROLLARIES, all gated:
      proves the per-pair identity for every pair of strings, and diagonality means
      the cross-pair information is exactly what drops out here.
 
-SCOPE. Pi in the Z-dephasing convention; the X- and Y-dephase siblings (the
-Klein-V4 axis substitution) are NOT claimed. The value is NOT basis-invariant: it
+SCOPE. Pi in the Z-dephasing convention. The X- and Y-dephase siblings are now
+CLOSED, in section (g) of the proof and by simulations/f155_dephase_siblings.py,
+and they are NOT two new laws: Y is this law with one global minus (Pi_Y = Pi_Z^-1,
+so the +-i projections exchange, universally in M) and X is this law on the
+bit_a-odd support with weight (-1)^#X, equivalently this law in the Hadamard
+rotated frame. This block used to call them 'the Klein-V4 axis substitution',
+which lumps Y in with X; only X moves the axis. The value is NOT basis-invariant: it
 moves under a per-site Hadamard and under a local rotation (G13), so like F113's
 number it must be quoted in the frame its Pauli content is defined in. The full
 Lindbladian is a different operator, see WHAT IT SUBSUMES.

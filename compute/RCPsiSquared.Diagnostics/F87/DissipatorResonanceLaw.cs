@@ -50,7 +50,7 @@ public sealed record KleinCellHardnessWitness(
 /// dephasing letter. Source: <c>simulations/klein_dissipator_resonance.py</c>.</para>
 ///
 /// <para>Connection to the polarity-layer reading: hardness lives INSIDE the dissipator's
-/// Klein cell (bit_a + bit_b axes of the polarity layer); the Z⊗N transverse-field Brecher
+/// Klein cell, whose index depends on the letter and is (1,1), i.e. both bits, only for Y; the Z⊗N transverse-field Brecher
 /// (h_y·Y or h_x·X) breaks Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis of the
 /// polarity layer). Brecher and Hardness are the two poles of dissipator-letter resonance.</para>
 /// </summary>
@@ -108,7 +108,7 @@ public sealed class DissipatorResonanceLaw : Claim
             yield return new InspectableNode("structural fact 2: SU(2) rotation",
                 summary: "the three Pauli letters give bit-identical 50/76 hard counts in their matched diagonal cell; the dissipator picks which Klein axis hosts hardness");
             yield return new InspectableNode("connection to Z⊗N-Brecher",
-                summary: "transverse-field Brecher breaks Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis); F87-hardness lives INSIDE (bit_a + bit_b axes); the two poles of dissipator-letter resonance act on the same polarity layer");
+                summary: "transverse-field Brecher breaks Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis); F87-hardness lives INSIDE the matched cell, whose index is the letter's own and is both bits only for Y; the two poles of dissipator-letter resonance act on the same polarity layer");
             yield return InspectableNode.Group("witness table (4×3)",
                 Witnesses.Cast<IInspectable>().ToArray());
         }

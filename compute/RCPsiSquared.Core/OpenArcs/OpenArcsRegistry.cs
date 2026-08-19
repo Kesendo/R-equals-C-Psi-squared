@@ -1508,7 +1508,9 @@ public static class OpenArcsRegistry
                 "F89 SEAM '± is the road between the zeros, polarity as PATH' is that SAME claim one layer deeper " +
                 "(spectral/time). And a typed Tier-1 MIDDLE RUNG nobody had connected: DissipatorAxisSelectsPolarityClaim " +
                 "(compute/RCPsiSquared.Diagnostics/F87/): 'γ does not merely decohere; it SELECTS which polarity axis " +
-                "the +0/−0 differentiation becomes operational on' (Z->bit_b, X->bit_a, Y->both). So one verb in three " +
+                "the +0/−0 differentiation becomes operational on' (by the LETTER'S KLEIN INDEX Z->(0,1), X->(1,0), Y->(1,1); that index is NOT the " +
+                "Pi^2 grading, which is bit_b for both Z and Y and bit_a for X alone, and an " +
+                "earlier wording read the two as one: F155 section (g)). So one verb in three " +
                 "spaces, the one object inheriting: polarity CONSTITUTES (reading b, operator d=0) / is SELECTED " +
                 "(DissipatorAxis, dissipator) / is ROUTED (F89, spectral). The open seam: are these ONE motion seen in " +
                 "operator/dissipative/spectral space, or three rhyming motions? Tool: gmscan --zeros " +
@@ -7323,7 +7325,9 @@ public static class OpenArcsRegistry
                 "F155 had already spent ten review rounds on the day's two results and stopped " +
                 "rather than open a third front while tired. Nothing about the sibling case is " +
                 "known to be hard, and nothing is known to be true about it either.",
-            NextStep: "THE SIBLINGS. PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md gives F112 X- and " +
+            NextStep: "DONE 2026-08-19, see RetiredReason. (The brief this entry carried is kept " +
+                "below because its PREDICTION is part of the record and was half wrong; do not " +
+                "read it as work to do.) THE SIBLINGS. PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md gives F112 X- and " +
                 "Y-dephase versions under the axis substitution bit_b <-> bit_a. F155's route " +
                 "transfers by ONE recomputation: redo the per-site swap rule (F155 Lemma 2) for " +
                 "pi_X and pi_Y instead of pi_Z, read off the two per-letter sign tables, and " +
@@ -7347,7 +7351,42 @@ public static class OpenArcsRegistry
                 "docs/GLOSSARY.md has no entry for the polarity asymmetry nor for the " +
                 "commutator-versus-physical-generator distinction, a gap that has now produced " +
                 "two documented error episodes in docs/CAUGHT_ERRORS.md.",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-08-19, the day after it was opened, and the answer " +
+                "is NOT the two new laws this entry predicted. Proof section (g) of " +
+                "PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md, gate " +
+                "simulations/f155_dephase_siblings.py (10 gates, about two seconds). ONE law with " +
+                "the letter as a parameter: support = the parity Pi_l^2 grades by (bit_a for X, " +
+                "bit_b for Y and Z), weight = (-1)^#l, the count of the dephasing letter ITSELF. " +
+                "The SUPPORT half is convention-free; the WEIGHT half holds in the twisted " +
+                "pairing only (untwisted it is (-1)^#Y for both Z and X and (-1)^#Z for Y), " +
+                "which is the same freedom F155 already prices for its own law. " +
+                "Y IS NOT A SIBLING: Pi_Y = Pi_Z^-1 exactly, so Ad_{Pi_Y} = Ad_{Pi_Z}^3, which " +
+                "exchanges the +i and -i eigenprojections, so asymmetry_Y = -asymmetry_Z for " +
+                "EVERY superoperator, bit-exactly, with no reference to the generator (gate S4). " +
+                "X IS THE ONE GENUINE SIBLING and it is F155 in the Hadamard-rotated frame, " +
+                "asymmetry_X(A, B) = asymmetry_Z(hAh, hBh) (gate S10), the same transport route " +
+                "PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md section (d) uses for the F112 " +
+                "siblings. So neither sibling is new: one is a rotation of F155, the other its " +
+                "inverse. CONSEQUENCE WORTH KEEPING: the F113 configuration (per-site Z-drive " +
+                "against amplitude damping) is EXACTLY silent under Pi_X, bit-exact 0.0, since " +
+                "Z-strings are bit_a-even (gate S8); the asymmetry is a property of the physics " +
+                "PAIRED WITH a palindrome convention, which completes the parent's gate G13. " +
+                "WHAT THIS ENTRY GOT WRONG, recorded because the same wording sat in two other " +
+                "places: its NextStep predicted the X law would carry bit_a and that Y would " +
+                "share bit_b with Z, which is right as far as it goes, but the framing " +
+                "'the axis substitution bit_b <-> bit_a' (also in the proof's scope note and in " +
+                "ANALYTICAL_FORMULAS) lumps Y in with X, and only X moves the axis. All three " +
+                "wordings repaired in the same change, and a FOURTH copy in the parent gate " +
+                "script f155_polarity_break_bilinear.py that the first pass at this repair " +
+                "missed. ALSO REPAIRED: the typed claim " +
+                "RCPsiSquared.Diagnostics/F87/DissipatorAxisSelectsPolarity.cs asserted that " +
+                "Pi^2_Y activates bit_a and bit_b simultaneously, confusing the Klein index of " +
+                "the LETTER Y, which is (1,1), with the grading of Pi_Y^2, which is bit_b alone; " +
+                "gate S5 refutes it and the claim's own anchor never said it. STILL OPEN and " +
+                "carried by no arc yet: the X/Y-dephase break of the FULL Lindbladian, recycling " +
+                "term included (this arc's own caution 2), and F155 still has no typed Claim and " +
+                "no live witness."),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
