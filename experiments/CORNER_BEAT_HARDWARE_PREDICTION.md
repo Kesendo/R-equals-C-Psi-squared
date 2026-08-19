@@ -1,8 +1,74 @@
-# The corner beat: a hardware prediction (pre-registration, DRAFT v7.4)
+# The corner beat: a hardware prediction (pre-registration, v7.4; PARKED, never flown)
 
-**Status: DRAFT v7.4, refreeze stage (2026-08-18). The runner
-`run_corner_beat.py` exists in the external pipeline
-(ibm_quantum_tomography, its own git repository), went through FOUR
+> **PARKED, 2026-08-19, and never flown. No shots were taken and no money
+> was spent.** Thomas Wicht called it off before submission. The reason is
+> §10's own arithmetic: the signal grows with depth at exponent
+> γ̄T·(10/3) ≈ 2.95 while the state is LOST at 970·p2·f_leak, which the §9
+> layered inflation carries above the signal exponent at BOTH ends of the
+> f_leak bracket. The design has no free lever left, since more shots are
+> measured saturating, more depth costs the state, and less depth costs
+> discrimination; the parameter that decides the outcome cannot be
+> narrowed before spending; and §1's own scope sentence says the
+> registered arms cannot distinguish the class law from a dead C′ while
+> the quantitative width law sits outside the registered conjuncts. The
+> arc `corner_beat` in
+> `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs` carries the
+> condition under which it would wake: an effective two-qubit error about
+> two to three times below today's, or a re-registration built around the
+> width law.
+>
+> **Everything below is the design as it stood, and nothing in it is
+> retracted by the parking.** It is kept whole because a pre-registration
+> that is quietly rewritten after the fact is worth nothing; sections
+> written in the future tense of a flight ("the flight uses", "on flight
+> day") describe a flight that did not happen. The closed form of §1 is a
+> theorem-side statement and never depended on a device.
+
+### Reading this from outside the project
+
+Four things a reader who has not lived with this document will need.
+
+**Who is who.** "Tom" throughout the body is Thomas Wicht, the author of
+this project and the person who took every spend decision recorded here.
+The other author is Claude.
+
+**What Amendment 2 replaced.** The body below is a pre-registration and
+its own §13 forbids editing it after the fact, so superseded numbers are
+still printed where they were first registered. A reader who opens a
+section directly should know that three of them have been replaced by
+Amendment 2, which is appended near the end:
+
+| Standing text | Where | Replaced by |
+|---|---|---|
+| θ_D = 0.00253 | §7, and used in §6.3 and §8a | θ_D = 0.00306 (Amendment 2.1) |
+| floor = E[s²(C)\|H0] + 3σ̂, illustrated near 0.0035-0.0042 | §7 | floor = 0.00067, and inert on D-sign (Amendment 2.2) |
+| the T1-CLEAN SCALE face as "site scatter" | §9, §8a | the profile MEAN in units of γ̄ (Amendment 2.6) |
+
+The worst-end detection probability quoted in the status block and in §8a
+(0.920) is likewise superseded: the refreeze measured 0.890, and
+Amendment 2.3 puts the realistic figure near 0.79.
+
+**Numbering.** Bare "§N" means a section of THIS document. Amendment 2's
+subsections are written "Amendment 2.N" precisely because this document
+also has a §2. Where a section of a proof is meant, the proof is named.
+
+**Vocabulary and dead links.** The document is written in the project's
+house vocabulary; `docs/GLOSSARY.md` covers most of it. Two terms it uses
+constantly and does not define: an "empty review round" is a review by a
+fresh agent given no prior context, and a "PUB" is Qiskit's Primitive
+Unified Bloc, the unit a job is submitted in. Some anchors point at
+local-only artifacts, mainly scratch verification scripts under
+`simulations/_*.py` and private planning documents, which are named for
+provenance and cannot be followed from a clone.
+
+**Status AS IT STOOD ON 2026-08-18, the day before the parking. Kept
+unedited as the record of where the design got to; read the banner above
+for where it actually ended.** The runner
+`run_corner_beat.py` is committed in THIS repository at
+`simulations/flight/` (the RECORD copy, credential-free, with the
+verdict composer, the refreeze harness, the frozen constants and 135
+tests beside it); the WORKING copy that would have talked to IBM lives
+in a separate private pipeline repository. It went through FOUR
 empty review rounds (physics, spec-compliance, measurement statistics;
 round 4: no physics or statistics blocker), and its local proofs pass:
 certify at machine precision (Strang-step sector parity 7e-16,
@@ -13,26 +79,10 @@ is structurally blocked by the runner's constants manifest until the
 remaining gate work freezes every §8 quantity (θ_D itself carries
 refreeze_required, §8a). Amendment 2 (2026-08-18) MEASURES θ_D, θ_W and
 the s²(C) floor through the analyze-side chain and records four
-systematics beside them; it does NOT freeze the manifest.
-
-**PARKED BY TOM, 2026-08-19, before submission. This flight is not
-scheduled and no money has been spent.** The reason is §10's own
-arithmetic: the signal grows with depth at exponent γ̄T·(10/3) ≈ 2.95
-while the state is lost at 970·p2·f_leak, which the §9 layered inflation
-carries above the signal exponent at BOTH ends of the f_leak bracket. The
-design has no free lever left (shots are measured saturating, more depth
-costs the state, less depth costs discrimination), the parameter that
-decides it cannot be narrowed before spending, and §1's own scope
-sentence says the registered arms cannot distinguish the class law from
-a dead C′ while the quantitative width law sits outside the registered
-conjuncts. Paying for the weak statement when the closed form is what we
-hold is the trade that was declined. The arc `corner_beat` in
-`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs` carries the
-wake-up condition: an effective two-qubit error about two to three times
-below today's, or a re-registration around the width law. **Everything
-below stands as the design it was; nothing in it is retracted by the
-parking**, and the closed form of §1 never depended on a device. Design and gate history: seven design rounds,
-the gate's two review rounds, v2.1 runs in §8a. Verdict: provisionally
+systematics beside them; it does NOT freeze the manifest. Design and
+gate history: seven design rounds,
+the gate's two review rounds, v2.1 runs in §8a. Verdict AT THAT DATE
+(superseded by the parking): provisionally
 flyable, CONDITIONAL ON FRACTIONAL-RZZ, at the frozen 21-point grid
 with 16384 shots, ~23.7 QPU min (worst-end power 2.9, P(detect) 0.92,
 pre-refreeze). Tom's two budget decisions (2026-08-16) froze the
@@ -52,7 +102,8 @@ caveat); the far bracket end
 re-evaluates at the single registered θ_D in the refreeze (§7,
 §8a).
 Amendment 1 (below) records the analysis chain as implemented. Any
-flight remains Tom's separate go.**
+flight remained Thomas Wicht's separate go, and he declined it on
+2026-08-19.**
 
 ## What this is about
 
@@ -2718,7 +2769,7 @@ with its own reachability criterion. Committed at `36a8dc3` (this paragraph name
 the amendment; the freeze commit that moves the constants manifest is a
 separate later step and has not happened).
 
-**READ §2.8 BEFORE ACTING ON ANY NUMBER HERE.** This amendment has had
+**READ Amendment 2.8 BEFORE ACTING ON ANY NUMBER HERE.** This amendment has had
 one round of three empty reviews and carries their surviving findings
 as OPEN ITEMS rather than as repairs. It is written up in that state
 deliberately: the numbers below are what was measured, and the places
@@ -2733,12 +2784,12 @@ different objects, so they were swept again on 2026-08-18 by two
 store-sweep agents, by store.
 
 - `docs/ANALYTICAL_FORMULAS.md`: F140, the R90 frozen divisor that pins
-  −4γ̄ at every coupling, which is the object §2.4b is about; and F154,
+  −4γ̄ at every coupling, which is the object Amendment 2.4b is about; and F154,
   which carries the fence "exceptional couplings expected" twice,
   quoting F122's own. NOTHING on decision thresholds, on NaN or
   kept-count policy, and NOTHING on the T1 → γ conversion.
 - `docs/proofs/`: `PROOF_R90_FROZEN_DIVISOR` §9 and §12, which own
-  §2.4b and are quoted there. For §2.3, two SIBLINGS and neither is the
+  Amendment 2.4b and are quoted there. For Amendment 2.3, two SIBLINGS and neither is the
   object: `PROOF_ASYMPTOTIC_SECTOR_PROJECTION` proves the sector
   populations are CONSERVED under Z-dephasing (p_w(∞) = p_w(0)), the
   in-sector identity and the opposite of a magnon that leaves;
@@ -2747,30 +2798,30 @@ store-sweep agents, by store.
   magnon number that leaves and returns.
 - `experiments/`, including the null results and the prior flights:
   `RECORD_PARITY_HARDWARE_PREDICTION.md` round 28 holds the
-  lower-envelope rule §2.2 uses, verbatim, inside an enumerated
+  lower-envelope rule Amendment 2.2 uses, verbatim, inside an enumerated
   protection-interaction class whose instances are numbered and not
   closed (the seventh is that round, the eighth two rounds later);
   `STAIRCASE_NULLTEST_HARDWARE_PREDICTION.md` is this repository's
   template for a numbered pre-data amendment; `IBM_F129_RAMSEY_FRINGE.md`
   and `IBM_CONCENTRATOR_RELOADED.md` hold the governing prior rule for
-  §2.5, that any failed fit, NaN or guard trip is an instrument failure
+  Amendment 2.5, that any failed fit, NaN or guard trip is an instrument failure
   and never a verdict. NOTHING on re-entry.
 - The OpenArcs registry: NO `corner_beat` entry, which the freeze commit
-  opens. `gamma_book_enforced_nowhere`, opened 2026-08-18, governs §2.6
+  opens. `gamma_book_enforced_nowhere`, opened 2026-08-18, governs Amendment 2.6
   and is answered there.
 - `fw.Confirmations` and its C# mirror, 24 entries in both: NOTHING. No
   entry concerns a decision threshold or the T1 conversion.
-- `docs/GLOSSARY.md`: the γ conversion table, from which §2.6's
+- `docs/GLOSSARY.md`: the γ conversion table, from which Amendment 2.6's
   arithmetic follows in one step (a `D[Z]` channel at rate γ decays
   coherences at 2γ, so γ = 1/(2T₂); the Γ/4 form is derivable from the
   table's γ_Z row and is not written there). NOTHING on the corner beat.
 - `docs/CAUGHT_ERRORS.md` (machine-local, so a clone cannot follow this
   citation): the rate-book confusion, logged twice.
-- One store the earlier sweep never named, named here because §2.4b
+- One store the earlier sweep never named, named here because Amendment 2.4b
   would otherwise collide with it:
   `experiments/THE_EXCEPTIONAL_COUPLINGS.md`. It is a DIFFERENT object
   and says so itself, pointing out that `PROOF_R90_FROZEN_DIVISOR` §9
-  "spends the word exceptional on a different object". §2.4b carries the
+  "spends the word exceptional on a different object". Amendment 2.4b carries the
   return fence.
 
 **TWO ADDRESSES THIS SWEEP CORRECTED**, recorded so the next sweep does
@@ -2787,7 +2838,7 @@ F154 carries it twice and the proof carries it zero times. The store the
 sweep reported as silent was the store that was speaking, and the error
 entered while correcting a note that had been right.
 
-**AND ONE DIGIT COLLISION, fenced.** The value 0.00253 that §2.1
+**AND ONE DIGIT COLLISION, fenced.** The value 0.00253 that Amendment 2.1
 supersedes is this document's θ_D. The same digits appear in
 `experiments/PRICE_PAIR_HARDWARE_PREDICTION.md` as a correlator
 c₀₂ = +0.00253 ± 0.00049, from the flight of 2026-07-04, and that
@@ -2796,21 +2847,21 @@ that did not repeat on the same line in run 3. Coincidence of digits,
 different object, and the neighbour's own value is not a standing
 measurement.
 
-### 2.1 θ_D, refrozen through the analyze-side chain
+### Amendment 2.1 θ_D, refrozen through the analyze-side chain
 
 **θ_D = 0.00306, superseding 0.00253**, and θ_W = 0.00366 beside it.
 Both are frozen by the run of 2026-08-18 22:13, whose record is
 committed at
 `simulations/results/corner_beat/corner_beat_refreeze_20260818_221318.json`
-and summarised in §2.7. Produced as §8a registers the package: the runner's own `fit_rate`
+and summarised in Amendment 2.7. Produced as §8a registers the package: the runner's own `fit_rate`
 on the ANALYZE side, 500 replicates per corner with a held-out 500 more,
 the four corners of the 2 × 2 bracket (f_leak at 8/15 and at 0.9, the
 hop fraction at 0 and ½), and the fit axis on `realized_dose` on the
 runner and the gate side together. θ_D and θ_W are UPPER cuts and take
-the UPPER envelope over those four; the floor of §2.2 is a LOWER cut and
+the UPPER envelope over those four; the floor of Amendment 2.2 is a LOWER cut and
 takes the lower one. The H0 mean is stated explicitly rather than
 absorbed into the 3σ̂, per §7's round-4 unification: E[d | H0] = +0.00002
-with sd 0.00022 at the corner quoted in §2.7.
+with sd 0.00022 at the corner quoted in Amendment 2.7.
 
 **WHAT "CONSERVATIVE" MEANS HERE, and it needs saying because this
 document has been bitten by the other direction.** A larger θ_D is
@@ -2819,7 +2870,7 @@ everywhere: ¬D-sign routes to FALSIFIED, Anti-D or INCONCLUSIVE, so a
 larger θ_D also makes ¬D-sign easier and raises the false-FALSIFIED
 rate. That is the same sign trap §7's round-15 repair caught for θ_F and
 κ. The direction is named rather than assumed, and the two-sided
-consequence is an open item (§2.8).
+consequence is an open item (Amendment 2.8).
 
 **Sample size, registered rather than assumed.** Below **n = 299** a
 0.01 ceiling is not demonstrable **at 95% one-sided confidence** by a
@@ -2830,7 +2881,7 @@ claim; at 90% the same bound is reached at n = 230. 500 was chosen above
 299, not below it, and 299 is the best case, since a corner that
 observes trips needs far more.
 
-### 2.2 The s²(C) floor: the producer formula is superseded, and the floor is inert on D-sign
+### Amendment 2.2 The s²(C) floor: the producer formula is superseded, and the floor is inert on D-sign
 
 §7 round 11 registered **floor = E[s²(C) | H0] + 3·σ̂(s²(C) | H0)**, and
 round 14 registered the reachability criterion
@@ -2844,7 +2895,7 @@ one of the four corners, 0 of 500 H1 replicates fall below it, a
 Clopper-Pearson 95% upper bound of 0.0060 against §7's 0.01. And it
 removes 0 of 2000 held-out H0 draws and 0 of 2000 held-out H1 draws: at
 every corner the detection rate under the CONJUNCTION equals the
-detection rate on d alone, to the last digit (§2.7).
+detection rate on d alone, to the last digit (Amendment 2.7).
 
 **WHY THAT IS FORCED, and not a coincidence of this sample.** Since
 round 9 the operative rule is the CONJUNCTION d > θ_D **and**
@@ -2880,7 +2931,7 @@ s²(C) − s²(C′) > θ_W, in which s²(U) does not appear at all, so the
 window this lemma empties has no bearing on it. The floor is inert on
 D-sign and **unaudited on W**, and the harness cannot see it either:
 `conjunction_rate` and `incremental_guard_counts` take only
-(d, s²(C), s²(U)). This is an open item of the freeze (§2.8), not a
+(d, s²(C), s²(U)). This is an open item of the freeze (Amendment 2.8), not a
 result of it.
 
 **WHERE THE LOWER-ENVELOPE RULE COMES FROM, and why the borrowing is
@@ -2907,7 +2958,7 @@ the neighbour supplies the freezing rule, not the inertness.
 §7's two registered consequences survive unchanged: the floor is not an
 anomaly detector, and a floor trip on a clean dose with a clean N0 routes
 to DATA and never to VOID. Note that under a true null the floor trips
-by design and does so often: §2.7 records 69 to 497 trips per 500 H0
+by design and does so often: Amendment 2.7 records 69 to 497 trips per 500 H0
 replicates across the four corners, which is §7's consequence (i)
 measured, not an anomaly.
 
@@ -2918,7 +2969,7 @@ a replacement gate that is also a number chosen after seeing the data is
 exactly the researcher degree of freedom round 11 closed. The
 lower-envelope rule takes no such choice.
 
-### 2.3 The re-entrant pedestal: a named systematic, measured, and NOT modelled in the frozen chain
+### Amendment 2.3 The re-entrant pedestal: a named systematic, measured, and NOT modelled in the frozen chain
 
 §10 models sector loss as a per-gate survival, `exp(−970·p2·f_leak)` at
 the deep end: a shot that leaves the one-magnon sector is gone. That
@@ -2973,7 +3024,7 @@ they do. TWO FENCES ON THAT EXACTNESS. It is exact for exactly I/6,
 while the measured re-entrant vector is within 2% of I/6 at depth 24 and
 further off at shallow depths where the share is small; the product of
 deviation and share is the residual numerator contamination and nobody
-has bounded it (§2.8). And the loss is not a constant added rate: it
+has bounded it (Amendment 2.8). And the loss is not a constant added rate: it
 grows with depth, so it distorts the SHAPE, which is why r̄ rises while
 s² falls, where a constant added rate would leave the variance of the
 three rates alone.
@@ -3009,7 +3060,7 @@ correction buys 0.003 of P(detect).**
 **THEREFORE, REGISTERED HERE AS A SYSTEMATIC RATHER THAN REPAIRED:** the
 frozen chain does NOT model re-entry, and the flight's realistic
 detection probability is about ten points below whatever the clean chain
-returns at the registered thresholds. Against §2.7's worst-end 0.890
+returns at the registered thresholds. Against Amendment 2.7's worst-end 0.890
 that is **approximately 0.79**. The design REGISTERED 0.920 (§8a and the
 header); 0.907 is this amendment's own clean A/B column on a different
 chain and is not the registered figure. `env_known` on
@@ -3040,7 +3091,7 @@ and the headline was passed on anyway. **A recovery number measured
 without noise says nothing about a decision that is a signal-to-noise
 ratio.**
 
-### 2.4 One negative, one located finding, and three dead levers
+### Amendment 2.4 One negative, one located finding, and three dead levers
 
 **(a) THE DEPTH GRID: it stays, and the reason is weaker than it was
 written.** The axis §12 of this document lists as unsearched, priced at
@@ -3054,7 +3105,7 @@ pedestal:
 On the CLEAN column the lever arm is monotone: 60 → 36 costs about five
 points to free 8.6 QPU minutes. **On the pedestal column it is not.**
 End 48 reads 0.828 against end 60's 0.807 and saves 4.3 QPU minutes, and
-§2.3 makes the pedestal column the realistic one. At 250 replicates that
+Amendment 2.3 makes the pedestal column the realistic one. At 250 replicates that
 0.021 is inside the sampling spread of these estimates, so the inversion
 is not evidence for shortening; it is also not evidence against it, and
 the earlier reading of this table as "real and monotone" was reading the
@@ -3146,9 +3197,9 @@ the frozen root's own Jordan structure, and a review round measured that
 the frozen modes carry weight 4 × 10⁻¹⁵ on the population cells, which
 if it survives scrutiny would mean this defect has no channel at all to
 an estimator read from populations, a stronger statement than distance;
-that reading is NOT yet established here, because the "dyads" §2.3 names
+that reading is NOT yet established here, because the "dyads" Amendment 2.3 names
 are Floquet-mode dyads while the probe used site pairs, and the two have
-not been shown to be the same statement (§2.8). And the exact-arithmetic
+not been shown to be the same statement (Amendment 2.8). And the exact-arithmetic
 route was itself repaired mid-computation: the first attempt used
 GUESSED moduli, two of which were composite, so every CRT lift was
 silently wrong and returned a degree of 40 where the a-priori bound is
@@ -3214,21 +3265,22 @@ depth 30), so there is no q in the harness to narrow. **Narrowing a
 model-free bracket with a noise model, on a paid one-shot, at the corner
 that sets the threshold, is the trade not to make.**
 
-### 2.5 Fit-health margins, and what stays unchanged
+### Amendment 2.5 Fit-health margins, and what stays unchanged
 
-The §8a package freezes the fit-health margins beside θ_D, and they
-freeze here: `HOLE: FIT_HEALTH_MARGINS` (the δω excursion margin from
-the IDEAL construction, the channel-fit residual margin, and the rate
-saturation margin, whose BASE must be registered as one of the two
-strings §8a admits rather than left to the code, since the runner
-hard-aborts on anything else). The two-route split §7 registers is
+The §8a package would have frozen the fit-health margins beside θ_D.
+They are NOT frozen, here or anywhere, and the parking leaves them that
+way: the δω excursion margin from the IDEAL construction, the
+channel-fit residual margin, and the rate saturation margin, whose BASE
+would have had to be registered as one of the two strings §8a admits
+rather than left to the code, since the runner hard-aborts on anything
+else. The two-route split §7 registers is
 unchanged: a NaN verdict statistic on a COMPLETE grid is a dead channel
 and reads fit-health VOID, while a cell under the kept-count floor of 50
 is grid-incompleteness and takes the single round-4 route. The governing
 prior rule from the two IBM flights stands: any failed fit, NaN or guard
 trip is an instrument failure and never a verdict.
 
-### 2.6 The T1-CLEAN scale face is computed, not transcribed, and "scale" means the MEAN
+### Amendment 2.6 The T1-CLEAN scale face is computed, not transcribed, and "scale" means the MEAN
 
 §9 gives the bridge γ_l^hw = τ_step/(4·T1_l·dt), the Γ_l/4-equivalent
 dephasing in the simulation's J units, and the SCALE face compares the
@@ -3277,19 +3329,19 @@ it with a test. That is the compliant behaviour the arc asks for, done
 once by hand for one field; the arc's own remedy, a gate that refuses an
 unnamed book, is not this amendment's work.
 
-### 2.7 The freeze record, as measured
+### Amendment 2.7 The freeze record, as measured
 
 `simulations/results/corner_beat/corner_beat_refreeze_20260818_221318.json`
 (committed with this amendment), 500 replicates per
 corner plus a held-out 500, four corners, fit axis `realized_dose` on
-both sides, re-entry NOT modelled per §2.3:
+both sides, re-entry NOT modelled per Amendment 2.3:
 
     theta_D    0.00306      (upper envelope over the four corners)
     theta_W    0.00366      (upper envelope)
     s2C floor  0.00067      (LOWER envelope; max superseded 0.00385)
 
     P(detect) at the REGISTERED thresholds, held out, on d alone and
-    under the conjunction. They agree at every corner, which is §2.2's
+    under the conjunction. They agree at every corner, which is Amendment 2.2's
     inertness measured rather than argued:
 
       f_leak 8/15, hop 1/2   0.890    H0 false 0.002   floor trips 69/500 on H0
@@ -3302,22 +3354,22 @@ both sides, re-entry NOT modelled per §2.3:
     draws and 0 of 2000 H1 draws.
 
 **THE WORST END IS 0.890, and it is the number the flight should be read
-against**: not the 0.920 of the earlier freeze, and not §2.3's clean A/B
-column of 0.907. The re-entry systematic of §2.3 sits on top of it,
+against**: not the 0.920 of the earlier freeze, and not Amendment 2.3's clean A/B
+column of 0.907. The re-entry systematic of Amendment 2.3 sits on top of it,
 giving approximately 0.79 as the realistic expectation.
 
-### 2.8 What this amendment leaves open
+### Amendment 2.8 What this amendment leaves open
 
 Written as a list because each item is a piece of work, not a caveat.
 The first three bear on numbers that appear above.
 
-1. **The floor's W forcing is unaudited.** §2.2's inertness is proved
+1. **The floor's W forcing is unaudited.** Amendment 2.2's inertness is proved
    for D-sign only, and a floor trip also forces ¬W by §7 round 8. The
    harness's guard counters do not take s²(C′) and so cannot measure it.
 2. **The reachability criterion on the page is not the one in the
    code.** §7 states P(s²(C) < floor | H1) ≤ 0.01 as a rate; the harness
    enforces a Clopper-Pearson 95% UPPER BOUND on that rate, which is the
-   stricter and better object. The α belongs on the page, and §2.1's
+   stricter and better object. The α belongs on the page, and Amendment 2.1's
    n = 299 already depends on it.
 3. **Two freeze-grade runs disagree.** This freeze returns
    θ_D = 0.00306 where the run of 2026-08-18 05:14 returned 0.00291 on
@@ -3333,28 +3385,32 @@ The first three bear on numbers that appear above.
    reports, and the general claim is not carried by this amendment.
    What is carried is the specific one: THIS floor, at 0.00067, is inert
    on D-sign because 0.00067 ≤ θ_D.
-5. **The numerator contamination is unbounded.** §2.3's exact-zero
+5. **The numerator contamination is unbounded.** Amendment 2.3's exact-zero
    projection holds for exactly I/6; the measured re-entrant vector is
    within 2% of it at depth 24 and further off where the share is small.
    The product has not been bounded.
-6. **The population-cell reading of §2.4b is not established.** If the
+6. **The population-cell reading of Amendment 2.4b is not established.** If the
    frozen modes really carry no weight on the observable, the
    exceptional-coupling result is about an object the flight cannot see,
    which is stronger than distance. Site pairs are not Floquet-mode
    dyads and the two have not been reconciled.
 7. **The depth-grid inversion is unresolved** at a replicate count that
-   could resolve it (§2.4a).
+   could resolve it (Amendment 2.4a).
 8. **θ_D's two-sided consequence.** A larger θ_D lowers the
    false-detection rate and raises the false-FALSIFIED rate; only the
    first direction is measured here.
 9. **Inside the same §8a package and not frozen by this amendment:**
-   θ_F, κ, R_MAX_FIT's freeze, the depth-0 under-coverage binary that
+   the three fit-health margins of Amendment 2.5 (δω excursion,
+   channel-fit residual, rate saturation, the last of which also owes a
+   registered BASE string), θ_F, κ, R_MAX_FIT's freeze, the depth-0 under-coverage binary that
    §7 registers as a choice the refreeze must make, and the δω-flag
    firing rate under H0 and H1. θ_W IS frozen here, at 0.00366.
 
-## Day-of addendum (empty until flight day)
+## Day-of addendum (never filled: there was no flight day)
 
-Filled by the §9 re-gate BEFORE the Batch opens: day-of governing band
+**This section stayed empty and now stays empty permanently.** It is kept
+because it specifies what the executor would have had to record, which is
+part of the design. It would have been filled by the §9 re-gate BEFORE the Batch opens: day-of governing band
 widths, calibration snapshot, line selection with scores, Class-1 guard
 outcomes, and τ_step (the transpiled per-Strang-step wall duration,
 the T1-CLEAN µs→γ̄ bridge's shared conversion). The runner's schema
@@ -3402,7 +3458,7 @@ executor discipline, and it is the half the RECORD is written from.
   control) which RETRACTS the earlier "no exceptional couplings"
   reading, the T1-CLEAN scale face superseding §9's "site scatter"
   wording with the MEAN it actually computes, and nine open items
-  carried on the page rather than smoothed away (§2.8). One round of
+  carried on the page rather than smoothed away (Amendment 2.8). One round of
   three empty reviews; the surviving findings are the open items.
 - v1 (2026-08-16): first draft after the two-agent store sweep and the
   depth scout.
@@ -4387,7 +4443,17 @@ executor discipline, and it is the half the RECORD is written from.
   levers (f_leak's 0.9, the 3 itself) that must never be pulled to make
   the design pass.
 
-## Open questions for Tom (spend and registration decisions)
+## Open questions for the owner (spend and registration decisions), CLOSED BY THE PARKING
+
+**All four are settled and none of them is live.** Items 1, 2 and 4 were
+decided on 2026-08-16 and 2026-08-17 and are struck through below. Item 3
+was still open and was OVERTAKEN on 2026-08-19: the gate and this
+document are committed, and the QPU spend it made conditional will not
+happen, because Thomas Wicht parked the flight (see the banner at the
+top). The second person in item 3 addresses him and is left as written,
+since editing a decision record after the fact is the one thing this
+document may not do.
+
 
 1. ~~The budget fork~~ **DECIDED TWICE, finally (Tom, 2026-08-16
    ~15:53, on the honest post-pin numbers): option (b), the 21 × 3
@@ -4402,7 +4468,8 @@ executor discipline, and it is the half the RECORD is written from.
    he re-confirmed it on those terms. The day-of go re-checks the
    projection against the realized job plan, nothing more.
 2. ~~The C′ arm stays~~ **CONFIRMED (2026-08-17, Tom's delegation:
-   "das musst Du entscheiden").** The C′ arm stays, its cost is
+   "das musst Du entscheiden", German for "that one is yours to
+   decide").** The C′ arm stays, its cost is
    inside both numbers above, and the parking rule stands in SHAPE:
    park if fractional-RZZ is unavailable on the flown backend, if
    day-of p2 > 0.5%/2q on the used edges (**0.6% until Amendment 1.8,
@@ -4417,12 +4484,16 @@ executor discipline, and it is the half the RECORD is written from.
    never that the gate reproduces §8a's governing numbers. It is a
    machinery-ledger entry now, owned by the G1 committed-table mode,
    so the rule's third leg blocks submission until its check exists.
-3. Committing the gate + this document (the promotion rename and the
+3. ~~Committing the gate + this document (the promotion rename and the
    first commit of the arc) happens after the next empty round on the
-   re-run gate; no QPU spend before a separate go from you.
+   re-run gate; no QPU spend before a separate go from you.~~
+   **OVERTAKEN (2026-08-19): the gate and this document are committed,
+   and the flight is parked, so the separate go this item waited for
+   will not be asked for.**
 4. ~~W's registration scope~~ **DECIDED: option (a), W stays
    REGISTERED with the honest §1 scope** (2026-08-17, Tom's
-   delegation: "das musst Du entscheiden"). The round-3 referee's
+   delegation: "das musst Du entscheiden", German for "that one is
+   yours to decide"). The round-3 referee's
    point stands and stays on the page: W is an ORDERING test
    maximized by a dead C′, so the registered pair carries no
    quantitative class-law content. It is still the only registered
