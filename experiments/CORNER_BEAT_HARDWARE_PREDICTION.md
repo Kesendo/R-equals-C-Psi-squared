@@ -1,6 +1,6 @@
-# The corner beat: a hardware prediction (pre-registration, DRAFT v7.3)
+# The corner beat: a hardware prediction (pre-registration, DRAFT v7.4)
 
-**Status: DRAFT v7.3, G7 runner stage (2026-08-17). The runner
+**Status: DRAFT v7.4, refreeze stage (2026-08-18). The runner
 `run_corner_beat.py` exists in the external pipeline
 (ibm_quantum_tomography, its own git repository), went through FOUR
 empty review rounds (physics, spec-compliance, measurement statistics;
@@ -11,7 +11,11 @@ exactly 0.0), and the analyze chain proven end-to-end on
 hardware-shaped synthetic artifacts at the frozen M = 1024. Submission
 is structurally blocked by the runner's constants manifest until the
 remaining gate work freezes every §8 quantity (θ_D itself carries
-refreeze_required, §8a). Design and gate history: seven design rounds,
+refreeze_required, §8a). Amendment 2 (2026-08-18) MEASURES θ_D, θ_W and
+the s²(C) floor through the analyze-side chain and records four
+systematics beside them; it does NOT freeze the manifest, and the
+realistic detection expectation it arrives at, about 0.79 against the
+registered 0.920, is a number the budget decision has not yet seen. Design and gate history: seven design rounds,
 the gate's two review rounds, v2.1 runs in §8a. Verdict: provisionally
 flyable, CONDITIONAL ON FRACTIONAL-RZZ, at the frozen 21-point grid
 with 16384 shots, ~23.7 QPU min (worst-end power 2.9, P(detect) 0.92,
@@ -2685,6 +2689,652 @@ this section is present in the committed document.
    design's deep end, and its frozen bound (G1/G3) is where that
    number belongs.
 
+## Amendment 2 (2026-08-18, pre-data; the refreeze, the floor, and four systematics measured beside them)
+
+No science data exists. Nothing has been submitted, no QPU minute has
+been spent, and the thresholds this amendment moves are the ones §8a
+registered as awaiting the refreeze. It lands as a numbered pre-data
+amendment because §7 pre-authorized exactly this route ("If the
+refreeze returns a different θ_D, it supersedes 0.00253 as a NUMBERED
+pre-data amendment (§13), never silently") and because the floor's
+producer formula, registered in §7 round 11, does not survive contact
+with its own reachability criterion. Committed hash:
+`HOLE: AMENDMENT_2_COMMIT`.
+
+**READ §2.8 BEFORE ACTING ON ANY NUMBER HERE.** This amendment has had
+one round of three empty reviews and carries their surviving findings
+as OPEN ITEMS rather than as repairs. It is written up in that state
+deliberately: the numbers below are what was measured, and the places
+where the argument around them is not yet closed are named on the page.
+The constants freeze, the OpenArcs entry, and the flight go are three
+separate later steps, and nothing here performs any of them.
+
+**WHAT THE REPO WAS ASKED, and what it returned.** The sweep recorded
+under "What the repo already holds" (near the top of this document)
+covered the corner beat as an object; this amendment's items are
+different objects, so they were swept again on 2026-08-18 by two
+store-sweep agents, by store.
+
+- `docs/ANALYTICAL_FORMULAS.md`: F140, the R90 frozen divisor that pins
+  −4γ̄ at every coupling, which is the object §2.4b is about; and F154,
+  which carries the fence "exceptional couplings expected" twice,
+  quoting F122's own. NOTHING on decision thresholds, on NaN or
+  kept-count policy, and NOTHING on the T1 → γ conversion.
+- `docs/proofs/`: `PROOF_R90_FROZEN_DIVISOR` §9 and §12, which own
+  §2.4b and are quoted there. For §2.3, two SIBLINGS and neither is the
+  object: `PROOF_ASYMPTOTIC_SECTOR_PROJECTION` proves the sector
+  populations are CONSERVED under Z-dephasing (p_w(∞) = p_w(0)), the
+  in-sector identity and the opposite of a magnon that leaves;
+  `PROOF_DEPHASING_FRONT_RENEWAL` carries a renewal representation for
+  the front, WITHIN the sector, caught and released. NOTHING on a
+  magnon number that leaves and returns.
+- `experiments/`, including the null results and the prior flights:
+  `RECORD_PARITY_HARDWARE_PREDICTION.md` round 28 holds the
+  lower-envelope rule §2.2 uses, verbatim, inside an enumerated
+  protection-interaction class whose instances are numbered and not
+  closed (the seventh is that round, the eighth two rounds later);
+  `STAIRCASE_NULLTEST_HARDWARE_PREDICTION.md` is this repository's
+  template for a numbered pre-data amendment; `IBM_F129_RAMSEY_FRINGE.md`
+  and `IBM_CONCENTRATOR_RELOADED.md` hold the governing prior rule for
+  §2.5, that any failed fit, NaN or guard trip is an instrument failure
+  and never a verdict. NOTHING on re-entry.
+- The OpenArcs registry: NO `corner_beat` entry, which the freeze commit
+  opens. `gamma_book_enforced_nowhere`, opened 2026-08-18, governs §2.6
+  and is answered there.
+- `fw.Confirmations` and its C# mirror, 24 entries in both: NOTHING. No
+  entry concerns a decision threshold or the T1 conversion.
+- `docs/GLOSSARY.md`: the γ conversion table, from which §2.6's
+  arithmetic follows in one step (a `D[Z]` channel at rate γ decays
+  coherences at 2γ, so γ = 1/(2T₂); the Γ/4 form is derivable from the
+  table's γ_Z row and is not written there). NOTHING on the corner beat.
+- `docs/CAUGHT_ERRORS.md` (machine-local, so a clone cannot follow this
+  citation): the rate-book confusion, logged twice.
+- One store the earlier sweep never named, named here because §2.4b
+  would otherwise collide with it:
+  `experiments/THE_EXCEPTIONAL_COUPLINGS.md`. It is a DIFFERENT object
+  and says so itself, pointing out that `PROOF_R90_FROZEN_DIVISOR` §9
+  "spends the word exceptional on a different object". §2.4b carries the
+  return fence.
+
+**TWO ADDRESSES THIS SWEEP CORRECTED**, recorded so the next sweep does
+not walk them again: `STAIRCASE_NULLTEST_HARDWARE_PREDICTION.md` has no
+§39 and no numbered sections at all; and MirrorWorld has no `Rung`
+object, the renewal object is `Renewal.cs` and the Krawtchouk identity
+lives in Core's `PopcountCoherencePi2Odd.cs`.
+
+**AND ONE "CORRECTION" WITHDRAWN, which is worth more than the
+correction would have been.** A draft of this amendment asserted that
+F154 carries no "exceptional couplings expected" fence and that the
+phrase belongs to `PROOF_R90_FROZEN_DIVISOR` §9. Both halves are false:
+F154 carries it twice and the proof carries it zero times. The store the
+sweep reported as silent was the store that was speaking, and the error
+entered while correcting a note that had been right.
+
+**AND ONE DIGIT COLLISION, fenced.** The value 0.00253 that §2.1
+supersedes is this document's θ_D. The same digits appear in
+`experiments/PRICE_PAIR_HARDWARE_PREDICTION.md` as a correlator
+c₀₂ = +0.00253 ± 0.00049, from the flight of 2026-07-04, and that
+reading is itself recorded there as SUPERSEDED, a non-recurring outlier
+that did not repeat on the same line in run 3. Coincidence of digits,
+different object, and the neighbour's own value is not a standing
+measurement.
+
+### 2.1 θ_D, refrozen through the analyze-side chain
+
+**θ_D = 0.00306, superseding 0.00253**, and θ_W = 0.00366 beside it.
+Both are frozen by the run of 2026-08-18 22:13, whose record is
+committed at
+`simulations/results/corner_beat/corner_beat_refreeze_20260818_221318.json`
+and summarised in §2.7. Produced as §8a registers the package: the runner's own `fit_rate`
+on the ANALYZE side, 500 replicates per corner with a held-out 500 more,
+the four corners of the 2 × 2 bracket (f_leak at 8/15 and at 0.9, the
+hop fraction at 0 and ½), and the fit axis on `realized_dose` on the
+runner and the gate side together. θ_D and θ_W are UPPER cuts and take
+the UPPER envelope over those four; the floor of §2.2 is a LOWER cut and
+takes the lower one. The H0 mean is stated explicitly rather than
+absorbed into the 3σ̂, per §7's round-4 unification: E[d | H0] = +0.00002
+with sd 0.00022 at the corner quoted in §2.7.
+
+**WHAT "CONSERVATIVE" MEANS HERE, and it needs saying because this
+document has been bitten by the other direction.** A larger θ_D is
+conservative against a false DETECTION. It is not conservative
+everywhere: ¬D-sign routes to FALSIFIED, Anti-D or INCONCLUSIVE, so a
+larger θ_D also makes ¬D-sign easier and raises the false-FALSIFIED
+rate. That is the same sign trap §7's round-15 repair caught for θ_F and
+κ. The direction is named rather than assumed, and the two-sided
+consequence is an open item (§2.8).
+
+**Sample size, registered rather than assumed.** Below **n = 299** a
+0.01 ceiling is not demonstrable **at 95% one-sided confidence** by a
+campaign that observes zero events: the Clopper-Pearson upper bound
+1 − α^(1/n) at α = 0.05 first falls to 0.01 at n = 299 (0.010002 at
+n = 298, 0.009969 at n = 299). The confidence level is part of the
+claim; at 90% the same bound is reached at n = 230. 500 was chosen above
+299, not below it, and 299 is the best case, since a corner that
+observes trips needs far more.
+
+### 2.2 The s²(C) floor: the producer formula is superseded, and the floor is inert on D-sign
+
+§7 round 11 registered **floor = E[s²(C) | H0] + 3·σ̂(s²(C) | H0)**, and
+round 14 registered the reachability criterion
+**P(s²(C) < floor | H1) ≤ 0.01 at BOTH bracket ends**. The refreeze ran
+both. The floor freezes at **0.00067**, the LOWER envelope over the four
+bracket corners, with the set's maximum 0.00385 kept beside it in the
+record as `s2C_floor_max_superseded` so the discarded end stays readable.
+
+**IT PASSES REACHABILITY AND IT CHANGES NOTHING.** Held out, at every
+one of the four corners, 0 of 500 H1 replicates fall below it, a
+Clopper-Pearson 95% upper bound of 0.0060 against §7's 0.01. And it
+removes 0 of 2000 held-out H0 draws and 0 of 2000 held-out H1 draws: at
+every corner the detection rate under the CONJUNCTION equals the
+detection rate on d alone, to the last digit (§2.7).
+
+**WHY THAT IS FORCED, and not a coincidence of this sample.** Since
+round 9 the operative rule is the CONJUNCTION d > θ_D **and**
+s²(C) ≥ floor, with d = s²(C) − s²(U). A replicate can therefore pass
+the first conjunct and die at the floor only when
+
+    s²(U) + θ_D < s²(C) < a + b·s²(U),
+
+that is, only when `a − θ_D > (1 − b)·s²(U)`. Since s²(U) is a sample
+variance and therefore non-negative, any floor with `b ≤ 1` needs
+**a > θ_D** to bite at all. The frozen floor is 0.00067 against
+θ_D = 0.00306, so **no replicate can pass d > θ_D and fail this floor**,
+on any sample, at any corner. The harness carries the lemma as
+`is_provably_inert`. The argument is pathwise: the event set is empty
+for every realization, so nothing about the joint distribution of
+s²(C) and s²(U) enters, and their correlation is irrelevant to it.
+
+**THREE HYPOTHESES THE LEMMA RESTS ON, stated as hypotheses because two
+of them could be broken later by a change that looks unrelated.**
+(i) d is literally s²(C) − s²(U) with the SAME s²(U) the floor reads,
+which is true in the harness and would break silently if a replicate's
+d and its floor ever saw different exclusion sets. (ii) s²(U) ≥ 0
+pathwise, which is true of a raw sample variance and would fail for any
+future debiasing that subtracts an estimated noise floor. (iii) b ≤ 1.
+The registered coefficient grid runs to b = 1.50, so for the two members
+above 1 the inertness is MEASURED by the 2000-replicate sweep and not
+proved.
+
+**AND THE SCOPE IS THE LEMMA'S LIMIT, named here rather than left to be
+found.** §7 round 8 gives the floor a SECOND forcing: a trip forces ¬W
+regardless of the computed exceedance. W's rule is
+s²(C) − s²(C′) > θ_W, in which s²(U) does not appear at all, so the
+window this lemma empties has no bearing on it. The floor is inert on
+D-sign and **unaudited on W**, and the harness cannot see it either:
+`conjunction_rate` and `incremental_guard_counts` take only
+(d, s²(C), s²(U)). This is an open item of the freeze (§2.8), not a
+result of it.
+
+**WHERE THE LOWER-ENVELOPE RULE COMES FROM, and why the borrowing is
+legitimate.** `experiments/RECORD_PARITY_HARDWARE_PREDICTION.md` round
+28 reached it the expensive way: a cut frozen at the single worst
+admitted basis "terminally VOIDed the BEST admitted device", VOID in 269
+of 300 runs, counted there as the seventh instance of an enumerated
+protection-interaction class, and the rule extracted was that **for a
+LOWER cut the worst basis IS the lower envelope**. The index set matters
+and is the same here: the envelope is taken over the four bracket
+corners, which are NUISANCE states the device could be in and whose
+f_leak and hop the flight cannot know, not over a grid of coefficients
+the analyst chose. Taking the minimum over unknown device states is
+protection; taking a minimum over one's own candidate knobs would not be,
+and is not what happens. Note the direction is opposite for the upper
+cuts by the same logic: θ_D and θ_W take the MAXIMUM over the same four.
+
+**WHAT THE NEIGHBOUR DOES AND DOES NOT SAY.** RECORD_PARITY verified
+"no floor trips post-fix", an empirical absence of trips on its own
+sample. That is strictly weaker than inertness, which is the statement
+that no verdict CAN change. The proof above is this document's own, and
+the neighbour supplies the freezing rule, not the inertness.
+
+§7's two registered consequences survive unchanged: the floor is not an
+anomaly detector, and a floor trip on a clean dose with a clean N0 routes
+to DATA and never to VOID. Note that under a true null the floor trips
+by design and does so often: §2.7 records 69 to 497 trips per 500 H0
+replicates across the four corners, which is §7's consequence (i)
+measured, not an anomaly.
+
+**A PROCESS NOTE, because the shape is a repeat offender.** An earlier
+pass scanned the (a, b) coefficient plane AFTER seeing freeze data and
+picked a pair with margin. Nothing was frozen, so it cost only time, but
+a replacement gate that is also a number chosen after seeing the data is
+exactly the researcher degree of freedom round 11 closed. The
+lower-envelope rule takes no such choice.
+
+### 2.3 The re-entrant pedestal: a named systematic, measured, and NOT modelled in the frozen chain
+
+§10 models sector loss as a per-gate survival, `exp(−970·p2·f_leak)` at
+the deep end: a shot that leaves the one-magnon sector is gone. That
+expression is exact for independent per-gate errors and is not a
+one-error approximation; what it omits is RE-ENTRY. A magnon number that
+random-walks under a depolarizing channel walks BACK, and post-selection
+keeps it, because post-selection reads the FINAL magnon number and not
+the history. At the registered p2 bound the deep end carries 4.85
+expected errors (§10), so the walk has room. The words "re-enter",
+"Markov" and "multi-error" appear nowhere else in this document; this
+item is what the document did not know.
+
+**THE SIZE, from an exact Markov chain on the magnon number, driven by
+the same depolarizing model §10's f_leak count comes from. The chain
+runs at the q-weighted f_leak ≈ 0.713**, the prepared states' own bond
+occupancy, and NOT at the 8/15 end that sets θ_D; the two tables in this
+item are at different f_leak and that is why the shares and the costs
+cannot be read against each other line by line:
+
+    depth  3:  kept 0.841   never left 0.839   re-entrant  0.3%
+    depth 24:  kept 0.325   never left 0.245   re-entrant 24.5%
+    depth 36:  kept 0.228   never left 0.121   re-entrant 46.6%
+    depth 60:  kept 0.147   never left 0.030   re-entrant 79.8%
+
+An independent cold reviewer reproduced the chain on an exact
+64-dimensional density-matrix construction and agreed to 0.5% (share
+0.776 against 0.798, the chain slightly high because it takes one error
+per step rather than sixteen gates at 0.005).
+
+**AND THE TABLE IS ABOUT THE MAGNON NUMBER, NOT ABOUT THE BEAT.** Of
+the seven in-sector Paulis the §5 count leaves, four HOP and three are
+Z-type, so none of the seven preserves the beat undamaged. "Never left"
+is therefore an upper bound on "carries the beat", and the deepest
+never-left fraction of 0.030 is larger than the no-error-at-all
+fraction. The cost table below is not optimistic for this reason: the
+committed gate models the in-sector residue explicitly (half Z-like
+dephasing at the Strang gate-count profile, half depolarization toward
+Id/6). What the caveat costs is the headline: "four fifths of the
+deepest kept shots carry no beat" is the magnon-number reading, and the
+beat-carrying fraction is smaller still.
+
+**WHERE THEY REACH THE ESTIMATOR, and it is exactly one channel.** A
+uniform release is ρ = I/6, which is the exact stationary state of a
+unital map (Trotter unitary plus diagonal dephasing) and therefore has
+identically zero component on every decaying mode; the earlier reason
+given here, that the Floquet modes are orthonormal, is not available,
+since the block is non-normal. So a uniform release projects to exactly
+zero on all three registered dyads, and re-entrants are invisible in the
+NUMERATOR and present in the DENOMINATOR: the dyad amplitude per kept
+shot falls by (1 − share(t)). "Pedestal" names where they sit, not what
+they do. TWO FENCES ON THAT EXACTNESS. It is exact for exactly I/6,
+while the measured re-entrant vector is within 2% of I/6 at depth 24 and
+further off at shallow depths where the share is small; the product of
+deviation and share is the residual numerator contamination and nobody
+has bounded it (§2.8). And the loss is not a constant added rate: it
+grows with depth, so it distorts the SHAPE, which is why r̄ rises while
+s² falls, where a constant added rate would leave the variance of the
+three rates alone.
+
+**WHAT IT COSTS, measured under the FULL chain, 400 reps, paired, at the
+corner that sets θ_D (f_leak = 8/15), three ways (data clean / data
+contaminated / data contaminated and fit corrected):**
+
+    θ_D        0.00287   0.00287   0.00327
+    d          0.00512   0.00434   0.00502
+    r̄          0.50097   0.55866   0.49994
+    s²(C)      0.00733   0.00647   0.00749
+    P(detect)  0.907     0.807     0.810   (each at its OWN threshold)
+
+The corrected column is ×1.142 on θ_D and ×0.981 on d against the CLEAN
+column; the 0.003 the correction buys is against the CONTAMINATED one.
+An H1 signal-to-noise ratio d/sd(d | H1) reads 2.93 / 2.55 / 2.53 across
+the three and is NOT the ratio the thresholds are built from, which is
+an H0 scale; it is quoted here because it was quoted before and because
+it points the OTHER way on the correction, which is exactly why it must
+not be read as the decision margin.
+
+**The signal comes back and the discrimination does not.** Folding the
+known envelope (1 − f(t)) into the fit model beside the fitted
+exponential, with no free parameter, returns d to 98% of the clean value
+and closes 87% of the contamination deficit, and returns r̄ and s²(C)
+essentially exactly. But θ_D RISES 14%, because the correction acts
+under H0 too: there the signal is near zero and dividing by an envelope
+that falls to 0.202 at the deep end amplifies the null's own noise, so
+sd(d | H0) grows and the threshold walks up with it. **Operationally the
+correction buys 0.003 of P(detect).**
+
+**THEREFORE, REGISTERED HERE AS A SYSTEMATIC RATHER THAN REPAIRED:** the
+frozen chain does NOT model re-entry, and the flight's realistic
+detection probability is about ten points below whatever the clean chain
+returns at the registered thresholds. Against §2.7's worst-end 0.890
+that is **approximately 0.79**. The design REGISTERED 0.920 (§8a and the
+header); 0.907 is this amendment's own clean A/B column on a different
+chain and is not the registered figure. `env_known` on
+`fit_rate`/`arm_rates` and `REENTRY_FIT` on the harness stay in the code
+as the way any successor RE-MEASURES this; with them off the output is
+bit-identical to before they existed (verified, and an all-ones envelope
+reproduces the committed call exactly).
+
+**WHAT THIS DOES NOT MOVE.** §10's per-gate numbers are per-gate numbers
+and stand as written: the 4.85 exponent, and the 1.3 to 7.5%
+post-selected survival band at the registered p2 guard bound. What
+changes is the READING of "kept": the kept fraction exceeds the
+never-left fraction, and only part of the never-left fraction carries an
+undamaged beat. The H0 side is immune, and the mechanism is not the one
+an earlier pass asserted: nothing "cancels in d", the pedestal never
+enters either estimator's projection at all. The null is immune because
+the compression is proportional to the RATE SPREAD and under H0 the
+three rates are nearly equal. Measured on the table above, the H0 mean
+moves 1.9 × 10⁻⁵ against a signal loss of 7.8 × 10⁻⁴, about forty times
+smaller. `dmag_band_C` being null in the manifest is what keeps the move
+in s²(C) from mattering here, and that is luck rather than design.
+
+**A METHOD NOTE THAT COST A DAY AND IS WORTH THE LINE.** The correction
+was first reported as recovering 99.5%, measured in a NOISELESS
+isolation where no variance exists and power could not be measured. The
+reviewer who produced it fenced it himself; the fence was written down
+and the headline was passed on anyway. **A recovery number measured
+without noise says nothing about a decision that is a signal-to-noise
+ratio.**
+
+### 2.4 One negative, one located finding, and three dead levers
+
+**(a) THE DEPTH GRID: it stays, and the reason is weaker than it was
+written.** The axis §12 of this document lists as unsearched, priced at
+250 replicates at the θ_D-setting corner, clean chain and with the
+pedestal:
+
+    end 36, 13 pts, 13.93 QPU min:  P(detect) 0.856 / 0.780
+    end 48, 17 pts, 18.22 QPU min:  P(detect) 0.880 / 0.828
+    end 60, 21 pts, 22.50 QPU min:  P(detect) 0.907 / 0.807
+
+On the CLEAN column the lever arm is monotone: 60 → 36 costs about five
+points to free 8.6 QPU minutes. **On the pedestal column it is not.**
+End 48 reads 0.828 against end 60's 0.807 and saves 4.3 QPU minutes, and
+§2.3 makes the pedestal column the realistic one. At 250 replicates that
+0.021 is inside the sampling spread of these estimates, so the inversion
+is not evidence for shortening; it is also not evidence against it, and
+the earlier reading of this table as "real and monotone" was reading the
+clean column only. The grid stays at 21 points to depth 60 because
+nothing here justifies moving a frozen flight parameter, not because the
+lever was shown to be absent. Two questions are registered untried: the
+inversion at a replicate count that could resolve it, and the 2-D
+question of the fit correction (which makes the deepest points noise
+amplifiers) combined with a shorter grid.
+
+**(b) THE CORNER BLOCK'S EXCEPTIONAL COUPLINGS EXIST, ARE LOCATED, AND
+THE FLOWN POINT IS CLEAR OF THEM. This RETRACTS the "clean negative"
+an earlier pass recorded.** In this item, §6, §9 and §12 are sections of
+`docs/proofs/PROOF_R90_FROZEN_DIVISOR`, not of this document.
+
+§9 records that on a NON-uniform locus profile the frozen divisor gains
+an extra algebraic dimension at isolated NONZERO real couplings, "one
+small coupling away from anywhere", and §12 leaves their COUNT open,
+reporting that at N = 6 two generic profiles on the same locus give four
+real couplings and eight. It is the same block: C(6,1)² = 36 = N² IS the
+corner beat's room, and the flown lighting profiles are exactly the
+non-uniform locus profiles the statement is about (both verified on the
+locus here: 2·avg − reverse returns the profile).
+
+An earlier pass reported "no exceptional couplings, clean negative"
+after seeing multiplicity jumps only at Q ≤ 0.25 and reading them as the
+J → 0 root §9 excludes. **§9 excludes J = 0 EXACTLY** ("Exceptional
+coupling below always means a nonzero root"), not small J, so that
+reading was wrong twice over: it dismissed nonzero couplings as the zero
+one, and the couplings are not where it put them. Recomputed in exact
+arithmetic (mod-p characteristic polynomials over eight verified primes,
+lifted by CRT, then Sturm over ℤ; no floating point at any step, since a
+rank test at a tuned degeneracy is the least trustworthy measurement
+there is):
+
+- The generic algebraic multiplicity of the frozen root −4γ̄ is exactly
+  ⌊N/2⌋ = 3 and **semisimple**, for C, C′ and the uniform control alike.
+  F140 reproduces, which validates the construction.
+- The cofactor whose vanishing marks an exceptional coupling has degree
+  **30 = N(N−1)** in the coupling and is EVEN, a polynomial in J², both
+  exactly as §6 and §9 require.
+- **C, the maximizing arm: exactly ONE real nonzero exceptional
+  coupling, in closed form, Q\* = √2 = 1.414214.**
+- **C′, the non-maximizing arm: exactly ONE, at Q\* = 4.647043**, the
+  single real root of 27w³ + 594w² + 288w + 1120 in w = −Q².
+- **The uniform control has NONE.** This is an independent finding and
+  not a reading of §9, whose statement (non-uniform implies at least
+  one) says nothing about the uniform case.
+- **At each of the two, geometric 3 against algebraic 4: one Jordan
+  block of size exactly two**, with 3, 3, 3, 3 at neighbouring real
+  couplings and at the flown point. That is §9's law, and §9 measured it
+  at N = 3 and N = 4 while §12 leaves the block size at larger N open on
+  this stratum, so this is a new data point for that question at N = 6.
+- Counting convention, because §12 counts differently: the count above
+  is of POSITIVE Q, each standing for the pair ±J. Both flown profiles
+  are far from generic (three of six sites dark), which is the honest
+  reason they carry one where §12's generic profiles carry four and
+  eight, and it is a data point for §12's question rather than a
+  contradiction of it.
+- Model sensitivity: with the ZZ term removed (XY rather than
+  Heisenberg) the couplings MOVE, to Q\* = 1.872530 for C and
+  Q\* = 3.104212 for C′, and stay well below the flown point. The BLOCK
+  also grows there: the XY defect is one Jordan block of size THREE at
+  both profiles, geometric 3 against algebraic 5. §9 had seen a size-3
+  block only on the zero-mean stratum, at N = 3, so the taxed stratum
+  reaches it too once the ZZ term is removed. The flown model is
+  Heisenberg and its block is size two; this is a sensitivity reading,
+  not a statement about the flight.
+
+**WHAT THIS MEANS FOR THE FLIGHT.** The flown point is Q = 10. The
+nearest exceptional coupling is C′'s at 4.647, a distance of 5.35 in Q,
+and C's sits at 1.414, 8.59 away. The corrected statement is stronger
+than the negative it replaces, because it is a LOCATION rather than an
+absence: the defect exists, it is where the proof says such defects are,
+and the working point is not there. The conditioning at the flown point
+is benign and is quoted as the right quantity for a non-normal operator:
+the eigenvalue condition numbers of the frozen modes read 1.10 to 1.69,
+where a defect would drive them up. The separation of 0.67 between the
+frozen root and the nearest other eigenvalue is also measured, but it is
+essentially profile-independent (the uniform control gives the same
+0.667), so it is a property of the block's generic structure and cannot
+carry a statement about this design's lighting.
+
+**THREE LIMITATIONS, named rather than hidden.** This is the CONTINUOUS
+Liouvillian, the object `PROOF_R90_FROZEN_DIVISOR` and F140 are about,
+while the flown dynamics is Strang-Trotterized and its Floquet
+generator's exceptional set has not been computed. The result is about
+the frozen root's own Jordan structure, and a review round measured that
+the frozen modes carry weight 4 × 10⁻¹⁵ on the population cells, which
+if it survives scrutiny would mean this defect has no channel at all to
+an estimator read from populations, a stronger statement than distance;
+that reading is NOT yet established here, because the "dyads" §2.3 names
+are Floquet-mode dyads while the probe used site pairs, and the two have
+not been shown to be the same statement (§2.8). And the exact-arithmetic
+route was itself repaired mid-computation: the first attempt used
+GUESSED moduli, two of which were composite, so every CRT lift was
+silently wrong and returned a degree of 40 where the a-priori bound is
+33. The contradiction with the bound is what exposed it, not the
+plausibility of the output.
+
+**AND THE RETURN FENCE, which the repo owed in one direction only.**
+`experiments/THE_EXCEPTIONAL_COUPLINGS.md` is a DIFFERENT object and
+already says so: that document is the ceiling arc's, on the UNIFORM
+profile and the block (2,2). This item is §9's object, on the
+non-uniform locus profiles and the corner block. Neither is the Trotter
+EP §4 of THIS document carries, which is a third object again: the arms'
+own EPs at Q ≈ 30 (C at J·dt = 0.15) and Q ≈ 21 (C′), the binding margin
+at the flown Q = 10 being C′'s factor of two. Three objects, one word,
+and the flown point is clear of all three.
+
+The verification is `simulations/corner_beat_exceptional_verify.py`.
+
+**THREE DEAD LEVERS, recorded so nobody re-derives them.**
+
+- **CAL shots: FLAT.** 45056 → 90112 → 180224 moves θ_D by ×1.001 and
+  ×1.002. The estimator is NOT calibration-limited.
+- **Science shots: SATURATING at the operating point.** Measured
+  exponents per doubling, where 1/N would read +1 and 1/√N +0.5:
+  8192 → 16384 gives θ_D +0.56 and sd(s²(C) | H1) +0.25;
+  16384 → 32768 gives +0.22 and +0.18. Reaching a materially different
+  threshold by shots alone needs about twice the science budget, roughly
+  47 QPU min against a 25 min hard abort. Not viable. `--shots` exists
+  in the harness for exploration only, and the house rule "measure, do
+  not scale" is why these were measured; the 47 is itself an
+  extrapolation of a local exponent on a saturating curve, and it errs
+  toward "not viable", which is the safe direction.
+- **M_BIND: the one axis that is NOT saturated, and it is frozen flight
+  configuration.** 16384 shots per cell are M_BIND = 1024 lightings × 16
+  questions each. The engineered γ is injected as one parameterized RZ
+  per site per step, a virtual frame change on Heron: no duration, no
+  pulse. The light exists only in the AVERAGE over the 1024 draws, so
+  the measured saturation says the estimator is limited by the number of
+  LIGHTINGS and not by how often each is asked. Freed minutes would buy
+  bindings, not shots. UNTESTED, and out of scope here because M_BIND is
+  frozen.
+
+**AND ONE NARROWING THAT IS REFUTED, so that it is not attempted
+again.** The §5 and §10 Pauli count sorts the survivors as well as the
+leavers, so the same count fixes the hop fraction: re-derived exactly on
+the six-site sector and re-verified at operator level by a reviewer, an
+excitation ON the acted bond has 80 of 150 leave (f_leak = 8/15) and 40
+of the 70 left move (hop = 4/7), while an excitation OFF the bond has
+240 of 300 leave (f_leak = 4/5, hop = 0), giving
+`f_leak = (12 − 4q)/15` and `hop = 4q/(3 + 4q)` in the bond occupancy q,
+which is the prepared state's own (min 0.2363, mean 0.3280 over every
+depth and preparation). The closed form is correct and is kept.
+**Narrowing the flown bracket with it is refuted three ways:** a GENERAL
+Pauli channel has three free directions rather than the depolarizing
+3:4:8, and setting the XX/YY weight to zero, the smallest component on
+real CZ gates, makes (f_leak = 8/15, hop = 0) exactly admissible; a
+coherent ZZ over-rotation does the same with no Pauli assumption at all;
+and T1 and |2⟩ leakage remove a magnon with probability 1 while not
+being bond errors, which drops the claimed f_leak cap. Structurally the
+harness's `hop` is a SWAP on a uniformly random bond while the physical
+post-selected move is a PROJECTION onto the bond (L1 distance 0.612 at
+depth 30), so there is no q in the harness to narrow. **Narrowing a
+model-free bracket with a noise model, on a paid one-shot, at the corner
+that sets the threshold, is the trade not to make.**
+
+### 2.5 Fit-health margins, and what stays unchanged
+
+The §8a package freezes the fit-health margins beside θ_D, and they
+freeze here: `HOLE: FIT_HEALTH_MARGINS` (the δω excursion margin from
+the IDEAL construction, the channel-fit residual margin, and the rate
+saturation margin, whose BASE must be registered as one of the two
+strings §8a admits rather than left to the code, since the runner
+hard-aborts on anything else). The two-route split §7 registers is
+unchanged: a NaN verdict statistic on a COMPLETE grid is a dead channel
+and reads fit-health VOID, while a cell under the kept-count floor of 50
+is grid-incompleteness and takes the single round-4 route. The governing
+prior rule from the two IBM flights stands: any failed fit, NaN or guard
+trip is an instrument failure and never a verdict.
+
+### 2.6 The T1-CLEAN scale face is computed, not transcribed, and "scale" means the MEAN
+
+§9 gives the bridge γ_l^hw = τ_step/(4·T1_l·dt), the Γ_l/4-equivalent
+dephasing in the simulation's J units, and the SCALE face compares the
+profile against ≤ 0.25 γ̄. Until 2026-08-18 no line in either repository
+computed that conversion: the runner enforced that `tau_step_us` was
+PRESENT in the day-of addendum and never read it again, so on flight day
+an executor would have done the arithmetic by hand, from prose, across
+two repositories, once. It is now code (`t1_clean_profile`,
+`t1_list_from_snapshot`, `t1_clean_scale_face`, built test-first with 14
+tests inside the flight suite's 135).
+
+**ONE STANDING SENTENCE OF §9 IS SUPERSEDED HERE, by name.** §9 states
+the scale face as "site scatter ≤ the G4 scale", and §8a as "scattered
+Γ_l/4-equivalent profile scale ≤ 0.25 γ̄". The quantity the committed
+gate actually draws and calls scale is the profile MEAN in units of γ̄:
+the draw is `uniform(0, 2·scale·γ̄)`, whose mean is `scale·γ̄`, and the
+gate's own comment says "'scale' = Gam_mean/4 in units gbar". **The
+face is a MEAN, not a spread**, and a standard deviation is the natural
+guess and would have been wrong while looking right. Since T1-CLEAN is a
+GLOBAL VOID trigger, two readings of it on one page is not a wording
+problem, which is why this supersedes rather than clarifies.
+
+Two further properties are registered so a successor does not silently
+undo them. **It PRINTS, it does not abort**: T1-CLEAN is a registered
+GLOBAL VOID trigger at rank 3 of §7's void order, and a hard exit there
+would convert a registered void into instrument failure, which this
+document forbids in its own words elsewhere. **The book is Lindblad**,
+Γ/4 and not Γ/2, pinned by a test with the reason in the docstring, so a
+later simplification of the 4 has to argue with a test.
+
+**MEASURED, and it is the day-of expectation this document owed:** at
+realistic Kingston T1 (255 to 327 µs) the scale face reads **0.029 γ̄
+against the registered 0.25**, about an order of magnitude of margin,
+which matches §9's own note that the bound is close to non-binding as
+scatter. A degraded chain at T1 = 25 µs correctly reads 0.333 and fails.
+
+**AND IT ANSWERS THE ARC OPENED THE SAME DAY.** The OpenArc
+`gamma_book_enforced_nowhere` records that a dephasing rate is written in
+two books a factor of two apart, that several flights have been compared
+across the seam, and that its first parked step is that a NEW flight must
+not land without naming its book. The corner beat is in the Lindblad book
+throughout (`sigma = sqrt(4*gamma*dt)` in both the runner and the gate),
+and the T1-CLEAN bridge was the one place it could still have acquired
+the other one, which is why it names its book in the docstring and pins
+it with a test. That is the compliant behaviour the arc asks for, done
+once by hand for one field; the arc's own remedy, a gate that refuses an
+unnamed book, is not this amendment's work.
+
+### 2.7 The freeze record, as measured
+
+`simulations/results/corner_beat/corner_beat_refreeze_20260818_221318.json`
+(committed with this amendment), 500 replicates per
+corner plus a held-out 500, four corners, fit axis `realized_dose` on
+both sides, re-entry NOT modelled per §2.3:
+
+    theta_D    0.00306      (upper envelope over the four corners)
+    theta_W    0.00366      (upper envelope)
+    s2C floor  0.00067      (LOWER envelope; max superseded 0.00385)
+
+    P(detect) at the REGISTERED thresholds, held out, on d alone and
+    under the conjunction. They agree at every corner, which is §2.2's
+    inertness measured rather than argued:
+
+      f_leak 8/15, hop 1/2   0.890    H0 false 0.002   floor trips 69/500 on H0
+      f_leak 8/15, hop 0     0.958    H0 false 0.000   floor trips 455/500
+      f_leak 0.9,  hop 1/2   0.994    H0 false 0.000   floor trips 488/500
+      f_leak 0.9,  hop 0     0.986    H0 false 0.000   floor trips 497/500
+
+    floor reachability, held out: 0 of 500 at EVERY corner, 95% upper
+    bound 0.0060 against §7's 0.01; the floor removes 0 of 2000 H0
+    draws and 0 of 2000 H1 draws.
+
+**THE WORST END IS 0.890, and it is the number the flight should be read
+against**: not the 0.920 of the earlier freeze, and not §2.3's clean A/B
+column of 0.907. The re-entry systematic of §2.3 sits on top of it,
+giving approximately 0.79 as the realistic expectation.
+
+### 2.8 What this amendment leaves open
+
+Written as a list because each item is a piece of work, not a caveat.
+The first three bear on numbers that appear above.
+
+1. **The floor's W forcing is unaudited.** §2.2's inertness is proved
+   for D-sign only, and a floor trip also forces ¬W by §7 round 8. The
+   harness's guard counters do not take s²(C′) and so cannot measure it.
+2. **The reachability criterion on the page is not the one in the
+   code.** §7 states P(s²(C) < floor | H1) ≤ 0.01 as a rate; the harness
+   enforces a Clopper-Pearson 95% UPPER BOUND on that rate, which is the
+   stricter and better object. The α belongs on the page, and §2.1's
+   n = 299 already depends on it.
+3. **Two freeze-grade runs disagree.** This freeze returns
+   θ_D = 0.00306 where the run of 2026-08-18 05:14 returned 0.00291 on
+   what was believed to be the same configuration. Small, and
+   unexplained; an unexplained difference between two freeze-grade runs
+   is a finding about the harness rather than a rounding, and it is not
+   resolved here.
+4. **The earlier existence-condition argument is superseded and not
+   re-derived.** A previous pass argued from
+   P(s²(C) < θ_D | H1) = 0.0000 / 0.0140 / 0.0040 / 0.0060, measured on
+   the run of 04:02, that no content-bearing floor is reachable at all.
+   That is a different quantity at a different cut from what this freeze
+   reports, and the general claim is not carried by this amendment.
+   What is carried is the specific one: THIS floor, at 0.00067, is inert
+   on D-sign because 0.00067 ≤ θ_D.
+5. **The numerator contamination is unbounded.** §2.3's exact-zero
+   projection holds for exactly I/6; the measured re-entrant vector is
+   within 2% of it at depth 24 and further off where the share is small.
+   The product has not been bounded.
+6. **The population-cell reading of §2.4b is not established.** If the
+   frozen modes really carry no weight on the observable, the
+   exceptional-coupling result is about an object the flight cannot see,
+   which is stronger than distance. Site pairs are not Floquet-mode
+   dyads and the two have not been reconciled.
+7. **The depth-grid inversion is unresolved** at a replicate count that
+   could resolve it (§2.4a).
+8. **θ_D's two-sided consequence.** A larger θ_D lowers the
+   false-detection rate and raises the false-FALSIFIED rate; only the
+   first direction is measured here.
+9. **Inside the same §8a package and not frozen by this amendment:**
+   θ_F, κ, R_MAX_FIT's freeze, the depth-0 under-coverage binary that
+   §7 registers as a choice the refreeze must make, and the δω-flag
+   firing rate under H0 and H1. θ_W IS frozen here, at 0.00366.
+
 ## Day-of addendum (empty until flight day)
 
 Filled by the §9 re-gate BEFORE the Batch opens: day-of governing band
@@ -2725,6 +3375,18 @@ executor discipline, and it is the half the RECORD is written from.
 
 ## 14. Revision notes
 
+- v7.4 (2026-08-18): Amendment 2, pre-data. The analyze-side refreeze
+  (θ_D 0.00253 → 0.00306, θ_W 0.00366, the s²(C) floor at 0.00067 and
+  inert on D-sign), the re-entrant pedestal registered as a named
+  systematic worth about ten points of P(detect), the depth-grid
+  negative restated as the weaker claim the pedestal column actually
+  supports, the corner block's exceptional couplings LOCATED in exact
+  arithmetic (Q\* = √2 for C, 4.647043 for C′, none for the uniform
+  control) which RETRACTS the earlier "no exceptional couplings"
+  reading, the T1-CLEAN scale face superseding §9's "site scatter"
+  wording with the MEAN it actually computes, and nine open items
+  carried on the page rather than smoothed away (§2.8). One round of
+  three empty reviews; the surviving findings are the open items.
 - v1 (2026-08-16): first draft after the two-agent store sweep and the
   depth scout.
 - v2 (2026-08-16): round 1 (physics recompute, spec audit, measurement

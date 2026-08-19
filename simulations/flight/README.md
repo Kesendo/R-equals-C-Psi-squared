@@ -50,7 +50,7 @@ hashes (sha256, first 16):
 | file | sha256[:16] |
 |---|---|
 | `run_corner_beat.py` | `ebac22020a5bc398` |
-| `corner_beat_refreeze.py` | `4b2e6a61d96f1277` |
+| `corner_beat_refreeze.py` | `71a3e2e08d21a1ba` |
 | `corner_beat_verdict.py` | `1454bf028ce11bb0` |
 | `corner_beat_constants.json` | `ee603481799eb41d` |
 | `test_corner_beat_constants.py` | `a3a825ec888bf4e6` |

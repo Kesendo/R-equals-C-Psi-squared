@@ -1145,7 +1145,7 @@ def main():
                          "the history. Off by default because the "
                          "registered chain does not model it; the "
                          "switch exists to MEASURE what leaving it "
-                         "out costs, which at the deep end is 80% "
+                         "out costs, which at the deep end is 80%% "
                          "of the kept shots")
     ap.add_argument("--curve", type=int, default=0, metavar="NPOINTS",
                     help="sweep NPOINTS on the COUNTED curve "
