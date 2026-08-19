@@ -7304,6 +7304,50 @@ public static class OpenArcsRegistry
                 "everything after it was the author's own repair; a fresh-session attack on the " +
                 "committed state is owed before any of it is leaned on.",
             Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "polarity_break_dephase_siblings",
+            Opened: "2026-08-19",
+            Origin: "F155 (docs/proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md, commit " +
+                "9b41cc4) closed the polarity break of the no-jump generator for the Z-dephasing " +
+                "palindrome convention: for H = A + iB with both parts Hermitian, the asymmetry " +
+                "is 4^(N+1) times the sum over bit_b-ODD Pauli strings of (-1)^#Z times " +
+                "a_sigma*b_sigma, bilinear and DIAGONAL in the Pauli basis. The engine is one " +
+                "rule, that Ad_Pi exchanges left multiplication with right multiplication paying " +
+                "a per-letter sign, which is the per-side sharpening of F118's Pi_Z = R . D and " +
+                "pins the anticommutator sign PROOF_PI_FACTORS_AS_R_TIMES_D section (f) leaves " +
+                "open. F113 is the Z-diagonal special case; the drain's chirality-freedom is one " +
+                "of the two real self-terms. Gate simulations/f155_polarity_break_bilinear.py, " +
+                "20 instances, about five seconds.",
+            ParkedAt: "NOT parked for cost or for doubt, only unstarted: the session that derived " +
+                "F155 had already spent ten review rounds on the day's two results and stopped " +
+                "rather than open a third front while tired. Nothing about the sibling case is " +
+                "known to be hard, and nothing is known to be true about it either.",
+            NextStep: "THE SIBLINGS. PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md gives F112 X- and " +
+                "Y-dephase versions under the axis substitution bit_b <-> bit_a. F155's route " +
+                "transfers by ONE recomputation: redo the per-site swap rule (F155 Lemma 2) for " +
+                "pi_X and pi_Y instead of pi_Z, read off the two per-letter sign tables, and " +
+                "assemble exactly as F155 section (e) does. The prediction to test, and it is a " +
+                "prediction and not a result: the X-dephase law should carry bit_a in place of " +
+                "bit_b, with the per-letter signs permuted the way the Klein-V4 swap permutes the " +
+                "letters, and the Y-dephase one should share bit_b with Z. CONCRETE FIRST MOVE: " +
+                "copy simulations/f155_polarity_break_bilinear.py, replace build_pi_full with the " +
+                "X- and Y-convention palindrome operators, and run gate G3a; the four per-letter " +
+                "sign pairs it prints ARE the answer, and everything downstream is bookkeeping. " +
+                "TWO CAUTIONS FROM THE PARENT. (1) The pairing bites: the framework reads a " +
+                "row-stack generator against the order='F' Pauli transform, which conjugates the " +
+                "lifts by D = diag((-1)^#Y), so the signs come in two mirrored spellings and a " +
+                "sibling derivation must name which one it is in (F155 gate G9 is the template). " +
+                "(2) A second open item lives next door and is NOT this one: which (A, B) content " +
+                "carries the break of the full LINDBLADIAN under X- and Y-dephasing, which the " +
+                "Klein-V4 proof's scope note records as unregistered. F155 is about the no-jump " +
+                "generator; the recycling term's inertness is measured only for the " +
+                "sigma-minus/sigma-plus family and is false outside it. ALSO OWED, and cheap: " +
+                "F155 has no typed carrier (nothing in compute/ mentions it), and " +
+                "docs/GLOSSARY.md has no entry for the polarity asymmetry nor for the " +
+                "commutator-versus-physical-generator distinction, a gap that has now produced " +
+                "two documented error episodes in docs/CAUGHT_ERRORS.md.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
