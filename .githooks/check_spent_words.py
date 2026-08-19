@@ -27,6 +27,11 @@ plus a typed owner; a word nobody would mistake for plain prose does not belong 
 """
 import re
 import subprocess
+
+import os as _os
+import sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from _prose_scope import excluded
 import sys
 
 # word -> (who already owns it, the trap in one line)
@@ -70,7 +75,8 @@ def staged():
                          capture_output=True, text=True,
                          encoding="utf-8", errors="replace").stdout
     return [p for p in out.splitlines()
-            if p.endswith(".md") and any(p.startswith(d) for d in CLAIM_DIRS)]
+            if p.endswith(".md") and any(p.startswith(d) for d in CLAIM_DIRS)
+            and not excluded(p)]
 
 
 def added_lines(path):

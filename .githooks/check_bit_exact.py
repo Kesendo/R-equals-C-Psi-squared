@@ -34,6 +34,11 @@ hand:
 """
 import re
 import subprocess
+
+import os as _os
+import sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from _prose_scope import excluded
 import sys
 
 ALL = "--all" in sys.argv
@@ -156,7 +161,7 @@ else:
 
 hits = []  # (file, line_no, excerpt)
 for f in files:
-    if not SCOPE.search(f) or f.replace("\\", "/").endswith(SELF):
+    if not SCOPE.search(f) or f.replace("\\", "/").endswith(SELF) or excluded(f):
         continue
     for i, line in enumerate(content(f).splitlines(), 1):
         if not flags(line):

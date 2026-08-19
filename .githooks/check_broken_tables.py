@@ -25,19 +25,24 @@ inside backtick code spans (`...`) are protected by GFM and are NOT counted, so
 they never false-positive.
 
 Scope = the doc dirs the review backlog covers (docs/ experiments/ hypotheses/
-reflections/ recovered/), matching check_em_dashes.py.
+reflections/ recovered/) minus the by-name exclusions, both owned by
+_prose_scope.py and shared with check_em_dashes.py.
 
 Used as part of the repo pre-commit hook (warns, never blocks) and runnable by
 hand:
     python .githooks/check_broken_tables.py        # check staged changes
     python .githooks/check_broken_tables.py --all  # sweep the whole tree
 """
+import os
 import re
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _prose_scope import excluded, in_prose_scope
+
 ALL = "--all" in sys.argv
-SCOPE = re.compile(r"^(docs|experiments|hypotheses|reflections|recovered)/.*\.md$")
+# scope and the by-name exclusions live in _prose_scope.py, one owner
 UPIPE = re.compile(r"(?<!\\)\|")     # an unescaped pipe
 CODESPAN = re.compile(r"`[^`]*`")    # inline code span: GFM protects its pipes
 
@@ -119,7 +124,7 @@ else:
 
 hits = {}  # file -> [(line, reason), ...]
 for f in files:
-    if not SCOPE.match(f):
+    if not in_prose_scope(f):
         continue
     found = scan(content(f))
     if found:

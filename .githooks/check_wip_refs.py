@@ -13,6 +13,11 @@ Used as the repo pre-commit hook (warns, never blocks) and runnable by hand:
 """
 import re
 import subprocess
+
+import os as _os
+import sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from _prose_scope import excluded
 import sys
 
 ALL = "--all" in sys.argv
@@ -60,6 +65,8 @@ else:
 
 hits = []
 for f in files:
+    if excluded(f):
+        continue
     if f in SKIP_PATHS or f.startswith(".githooks/"):
         continue
     if f.lower().endswith(SKIP_EXT):

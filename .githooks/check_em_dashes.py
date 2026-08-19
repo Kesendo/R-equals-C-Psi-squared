@@ -14,21 +14,26 @@ that round was never done -- even if a math/scope/honesty gate was. See the
 leave) and the em-dash re-read campaign it seeded.
 
 Scope = the doc dirs named in that breadcrumb (docs/ experiments/ hypotheses/
-reflections/ recovered/). The private review apparatus (docs/superpowers/,
-docs/CAUGHT_ERRORS.md) is gitignored and so never appears here.
+reflections/ recovered/), minus the files _prose_scope.py excludes by name.
+docs/superpowers/ is still gitignored; docs/CAUGHT_ERRORS.md is NOT, since
+2026-08-19, and is excluded there with its reason.
 
 Used as the repo pre-commit hook (warns, never blocks) and runnable by hand:
     python .githooks/check_em_dashes.py        # check staged changes
     python .githooks/check_em_dashes.py --all  # sweep the whole tree
 """
+import os
 import re
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _prose_scope import excluded, in_prose_scope
+
 ALL = "--all" in sys.argv
 EM_DASH = "—"
 # .md under the five documentation dirs the convention/backlog covers
-SCOPE = re.compile(r"^(docs|experiments|hypotheses|reflections|recovered)/.*\.md$")
+# scope and the by-name exclusions live in _prose_scope.py, one owner
 
 
 def git(*a):
@@ -50,7 +55,7 @@ else:
 
 hits = []  # (file, line_no, count)
 for f in files:
-    if not SCOPE.match(f):
+    if not in_prose_scope(f):
         continue
     for i, line in enumerate(content(f).splitlines(), 1):
         n = line.count(EM_DASH)
