@@ -40,6 +40,27 @@ namespace RCPsiSquared.Core.Symmetry;
 /// consistent pairing returns +2.08e-3 where this one returns −2.08e-3. Read the
 /// direction as attached to that pairing, never as a property of σ⁻.</para>
 ///
+/// <para><b>The recycling jump is asymmetry-inert, and the PT / gain-loss label is not a
+/// membership criterion</b> (measured 2026-08-19, N = 2, 3, 4, within this entry's
+/// σ⁻/σ⁺ family;
+/// <c>simulations/f112_gain_loss_carrier_check.py</c>). Dropping the recycling term
+/// c ⊗ c* leaves the asymmetry unchanged and that term alone has asymmetry exactly 0,
+/// so the closed form reads the no-jump generator −i(Hρ − ρH†) as it reads the full
+/// Lindbladian; outside the σ⁻/σ⁺ family (a random per-site 2×2 jump operator, say) both
+/// statements fail. Consequence for scope prose: the verdict is the VALUE of the sum
+/// above, so "PT" or "gain/loss" is not a membership criterion. Being same-site bilinear
+/// (see <see cref="Scope"/>), the sum is zero exactly when every term is zero or the terms
+/// cancel: no single-site Z in H, or detailed balance per site even with a full Z-carrier
+/// present, or the carrier and the imbalanced damping on different sites (the first two are
+/// special cases of the third); and separately when nonzero terms cancel across sites.
+/// At γ = 0.1 on an open XY chain, gain on site 0 and loss on site N−1 with a 0.4·Z₀
+/// detuning gives 0.64 (N=2) and 2.56 (N=3), while the same gain/loss profile with that
+/// field on every site gives 0. Some classes ARE balanced as such, a bond-only
+/// Heisenberg/XY chain among them, because the label they carry is a statement about the
+/// sum; "PT" is not such a label. Both directions of the class-shaped claim were live in
+/// the proofs at one time or another (see <c>docs/CAUGHT_ERRORS.md</c>, the 2026-06-20
+/// entry and its 2026-08-19 sequel).</para>
+///
 /// <para><b>What selects a Hamiltonian</b>: the asymmetry reads H only through the
 /// single-site moment Tr(Z_l H), so H enters exactly through the ω_l above and nothing
 /// else about it matters. Adding an XX, ZZ or Y-drive term to a Z-drive leaves the value

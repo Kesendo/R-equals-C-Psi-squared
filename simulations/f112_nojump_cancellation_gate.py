@@ -1,4 +1,4 @@
-"""GATE-FIRST verifier: Direction 1 of ASYMMETRY_IS_THE_UNRECYCLED_DRAIN.md.
+"""GATE-FIRST verifier: Direction 1 of THE_DRAIN_HAS_NO_CHIRALITY.md.
 
 HYPOTHESIS (to confirm or refute):
   The F112 polarity asymmetry of a non-Hermitian generator is the chirality of
@@ -176,7 +176,7 @@ ZERO_TOL = 1e-9    # |eta| below this = machine zero (balanced)
 NONZERO_TOL = 1e-6  # |eta| above this = clearly nonzero
 
 print("=" * 78)
-print("F112 NO-JUMP CANCELLATION GATE  (Direction 1, ASYMMETRY_IS_THE_UNRECYCLED_DRAIN)")
+print("F112 NO-JUMP CANCELLATION GATE  (Direction 1, THE_DRAIN_HAS_NO_CHIRALITY)")
 print(f"gamma = {GAMMA}, H = uniform open XY chain, c = sigma^- per site")
 print("=" * 78)
 
@@ -527,8 +527,16 @@ elif hypo_failed:
     print("The chain's NN bond terms {XX,YY,ZZ} are all in the kernel -> chain asym = 0.")
     print("A generic H (real OR complex -- reality is NOT the axis; my first guess was")
     print("wrong and gate M1 caught it) carries Z_l content, hence != 0: the spine's")
-    print("132/270 is a GENERIC-H artifact, not a drain/chirality property. The reframe")
-    print("does NOT become a positive statement.")
+    print("nonzero no-jump number is a GENERIC-H artifact, not a drain/chirality")
+    print("property. The reframe does NOT become a positive statement. (The figure")
+    print("'132/270' this line used to quote is unreproducible: no ensemble spec")
+    print("exists anywhere and nothing here computes it. Retired 2026-08-19.)")
+    print("PRIOR WORK (added 2026-08-19): that mechanism is NOT new here. It is F113,")
+    print("Tier 1 derived 2026-05-26, asym = (4^N/2)*sum_l omega_l*(g_pump,l - g_T1,l);")
+    print("contrib(Z_l) is F113 at one site. Three of this script's gates (G1, G3, B2b)")
+    print("compare 0 against 0 on the bond-only chain and are consistent with the")
+    print("finding, not evidence for it. See simulations/f112_gain_loss_carrier_check.py")
+    print("and hypotheses/THE_DRAIN_HAS_NO_CHIRALITY.md.")
 else:
     print("Direction 1 HOLDS as stated: full=0, no-jump!=0, jump recycles the chirality.")
 

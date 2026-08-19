@@ -4293,6 +4293,49 @@ are for the lowering operator the framework builds, σ⁻ = (X+iY)/2 =
 [[0,1],[0,0]] taking |1⟩ → |0⟩; the other convention, (X−iY)/2, flips the
 first two and leaves [Y, σ⁻] = −i·Z unchanged.
 
+**The recycling jump is asymmetry-inert (measured, added 2026-08-19):** the
+closed form reads the NO-JUMP generator −i(Hρ − ρH†) exactly as it reads the
+full Lindbladian. Two separate measurements, since the asymmetry is quadratic
+and neither implies the other: dropping the recycling term Σ_k c_k ⊗ c_k*
+leaves the asymmetry unchanged, so its cross-terms with the rest vanish too,
+and that term on its own has asymmetry exactly 0.0. Both over random Hermitian
+and random non-Hermitian H with random per-site σ⁻/σ⁺ rates at N = 2, 3, 4, and
+on the configurations below; agreement to 3e-14 relative, the float noise of the
+added matrix, while the jump-alone zero is exact. **Scope:** the σ⁻/σ⁺ family,
+which is this entry's own (and which is itself outside F112's bit_b-homogeneous
+hypothesis, σ⁻ being bit_b-mixed: that is why there is a break to measure). A
+jump operator outside the σ⁻/σ⁺ family, a random per-site 2×2 say, breaks both
+statements. This is what lets a post-selected / no-click / PT-type generator be
+read by a formula stated for a Lindbladian, and it is a measurement at N = 2, 3, 4
+rather than a derivation, on a theorem whose own statement is for Hermitian H:
+checker `simulations/f112_gain_loss_carrier_check.py`.
+
+**"PT" and "gain/loss" are not membership criteria (added 2026-08-19):** the
+verdict is the value of the sum above and nothing else, so a gain/loss label is
+not a membership criterion. The law is same-site bilinear (the per-site
+decomposition and the cross-site zero registered with the theorem above), so the
+sum is zero exactly when every term is zero or the terms cancel. The term-zero
+half covers physically unlike situations with one algebra: H carries no
+single-site Z at all (a bond-only Heisenberg/XY chain, every ω_l = 0); or the
+damping is detailed-balanced per site (γ_pump,l = γ_T1,l), which kills it even
+with a full Z-carrier present; or the Z-carrier and the imbalanced damping sit on
+different sites, of which the first two are special cases. The cancelling half is
+separate: a uniform field with gain at one end and equal loss at the other pairs
++ω·γ against −ω·γ.
+Worked instances at γ = 0.1 on an open XY chain at J = 1, closed form and
+direct build agreeing to a few ulp (7e-16 relative), on the no-jump generator
+−i(H_eff ρ − ρ H_eff†), H_eff = H − (i/2)Σ_k c_k†c_k, and on the full Lindbladian
+alike: gain on site 0, loss on site N−1, plus a
+0.4·Z₀ detuning (ω₀ = 0.8) gives 0.64 at N = 2 and 2.56 at N = 3, a gain/loss
+configuration that BREAKS; the same gain/loss profile with that field on every
+site instead gives 0, since the two ends carry +ω·γ and −ω·γ, a gain/loss
+configuration that is BALANCED. In the first instance the whole value sits on
+the gain at the detuned site and the loss at the far, undetuned site contributes
+nothing, which is the same-site law again. This is why naming
+any class of systems (PT, gain/loss, "physical spin chains") as balanced or as
+broken is the wrong shape of statement: checker
+`simulations/f112_gain_loss_carrier_check.py`.
+
 **The sign of the asymmetry is a convention:** the minus above holds in the
 pipeline's pairing, a row-stack L read against the order='F' Pauli transform,
 which is equivalent to conjugating Π. Either consistent pairing returns
