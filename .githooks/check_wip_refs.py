@@ -63,23 +63,51 @@ else:
     def content(f):
         return git("show", f":{f}")  # the staged blob
 
-hits = []
+# TWO CLASSES, and only one of them may ever be excluded (2026-08-19).
+#
+# A reference to `simulations/_foo.py` whose PROMOTED twin `simulations/foo.py`
+# is tracked is not a local-only anchor at all: it is a citation left behind by
+# a rename, pointing at nothing while the thing it names sits in the repo under
+# its real name. That is a broken link for today's reader, so it is reported
+# even in files the prose conventions exclude. The other class, an anchor with
+# no promoted twin, is provenance: the script really is local-only, and a file
+# whose preamble says so may be excluded from the nagging.
+#
+# The distinction was forced by a live case: docs/CAUGHT_ERRORS.md left
+# .gitignore on 2026-08-19, was excluded from the prose hooks the same morning,
+# and five stale-rename citations went silent with it. A reviewer then read the
+# silence as a blind spot in this checker. The checker was fine; the exclusion
+# was too blunt. Link integrity is not a style rule and does not become
+# historical: a dead link is dead for the reader today.
+tracked = set(git("ls-files").splitlines())
+
+stale, anchors = [], []
 for f in files:
-    if excluded(f):
-        continue
     if f in SKIP_PATHS or f.startswith(".githooks/"):
         continue
     if f.lower().endswith(SKIP_EXT):
         continue
     for i, line in enumerate(content(f).splitlines(), 1):
         for m in set(PATH.findall(line)):
-            hits.append((f, i, m))
+            twin = m.replace("simulations/_", "simulations/", 1)
+            if twin in tracked:
+                stale.append((f, i, m, twin))
+            elif not excluded(f):
+                anchors.append((f, i, m))
 
-if hits:
-    w = sys.stderr.write
+w = sys.stderr.write
+if stale:
+    w("\n  \033[33mstale-rename warning\033[0m: these cite a `_`-path whose "
+      "PROMOTED twin is in the repo.\n  The script was renamed and the citation "
+      "was not, so the link points at nothing.\n")
+    for f, i, m, twin in stale:
+        w(f"    {f}:{i}\n        cites {m}\n        but   {twin} is tracked\n")
+    w("  Fix the citation. (warning only -- commit not blocked)\n\n")
+
+if anchors:
     w("\n  \033[33mWIP-ref warning\033[0m: these reference gitignored, local-only "
       "scripts (simulations/_*.py):\n")
-    for f, i, m in hits:
+    for f, i, m in anchors:
         w(f"    {f}:{i}  ->  {m}\n")
     w("  Promote it (git mv simulations/_foo.py simulations/foo.py; commit it), "
       "drop the link,\n  or port the evidence to a C# witness. "
