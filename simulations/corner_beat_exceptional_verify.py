@@ -49,7 +49,7 @@ Conventions, pinned:
   - substitution u = i*J makes every matrix entry an INTEGER; a real
     nonzero coupling is a root with u^2 < 0, i.e. Q = sqrt(-u^2).
 
-Run: python simulations/_corner_beat_exceptional_verify.py
+Run: python simulations/corner_beat_exceptional_verify.py
 """
 
 import sympy as sp

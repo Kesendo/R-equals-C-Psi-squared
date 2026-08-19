@@ -2698,8 +2698,9 @@ amendment because §7 pre-authorized exactly this route ("If the
 refreeze returns a different θ_D, it supersedes 0.00253 as a NUMBERED
 pre-data amendment (§13), never silently") and because the floor's
 producer formula, registered in §7 round 11, does not survive contact
-with its own reachability criterion. Committed hash:
-`HOLE: AMENDMENT_2_COMMIT`.
+with its own reachability criterion. Committed at `36a8dc3` (this paragraph names the commit that landed
+the amendment; the freeze commit that moves the constants manifest is a
+separate later step and has not happened).
 
 **READ §2.8 BEFORE ACTING ON ANY NUMBER HERE.** This amendment has had
 one round of three empty reviews and carries their surviving findings
