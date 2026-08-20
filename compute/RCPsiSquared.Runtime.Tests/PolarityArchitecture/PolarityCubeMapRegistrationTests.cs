@@ -127,10 +127,18 @@ public class PolarityCubeMapRegistrationTests
         // bit_a image holds by the global Hadamard X↔Z duality
         // (docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md), so no bespoke typed twin is
         // owed. If a future BitB Claim adopts (or drops) this status, update the count.
+        //
+        // 2026-08-19, 19 -> 20: F155 (PhysicalGeneratorPolarityBreak) joins them. Its content is
+        // a Frobenius-norm statement on the 4^N Pauli space, which is case 1 of that proof, and
+        // its §(g) states the transport as an identity, asymmetry_X(A, B) = asymmetry_Z(hAh, hBh)
+        // for h = H^(x)N with EVERY site rotated (gate S10). Note this sits beside its own parent
+        // F113, which stays BitBSpecific, and the two do not contradict: F113's verdict is about
+        // a physical CHANNEL (sigma+/sigma- single out the Z energy ladder and the Hadamard maps
+        // them outside the damping family), while F155 assumes no channel at all.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();
 
-        Assert.Equal(19, cubeMap.CoveredByHadamardDualityTwinSlots);
+        Assert.Equal(20, cubeMap.CoveredByHadamardDualityTwinSlots);
     }
 
     [Fact]

@@ -184,11 +184,11 @@ live inventory is `PolarityCubeMap`
 (it also appears under `--root world`; the `--root pi2` view shows only the
 4-claim local core). The inventory spans the Core + Runtime registry;
 Diagnostics-hosted leaves (e.g. F87Pi2Inheritance) are excluded by design.
-Live counts (2026-07-16, 89 claims in the inventory):
+Live counts (2026-08-19, 90 claims in the inventory):
 
 | Z2Axis value | Meaning | Count |
 |--------------|---------|-------|
-| BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | 67 |
+| BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | 68 |
 | BitA | Π²_X = Z⊗N axis (F61 family, n_X + n_Y parity) | 7 |
 | Klein2 | Uses both Π²_Z and Π²_X axes (Klein-Vierergruppe) | 5 |
 | YParity | Term-level Y-parity refinement (k≥3) | 8 |
@@ -197,10 +197,10 @@ Live counts (2026-07-16, 89 claims in the inventory):
 
 ### bit_a-twin coverage
 
-Of the 67 BitB claims (twin coverage 10.4%): **7 Filled** (typed bit_a
+Of the 68 BitB claims (twin coverage 10.3%): **7 Filled** (typed bit_a
 sibling wired), **8 BitBSpecific** (no twin by construction: amplitude
 damping F1T1 / F82 / F84, plus F91, F93, F108Part3-Y, F113, F112-Y),
-**19 CoveredByHadamardDuality**, and **33 NeedsDerivation** (the open twin
+**20 CoveredByHadamardDuality**, and **33 NeedsDerivation** (the open twin
 slots).
 
 The open slots are not independent problems. They are governed by one
@@ -217,9 +217,14 @@ axis Z↔X by the global Hadamard transports a bit_b result to its bit_a twin.
   reducing to Π/L spectrum, eigenspace, or operator-identity content: the
   Absorption-descendant family (F33, F50, F55, F64-F68, F74), F83, the
   operator-space Π-decomposition family (F49 / F49b / F80 / F81), the
-  Lindblad-spectral family (F3 / F43 / F44), F49c, and the k-body roll-up
-  F85. F89 is itself an AT-descendant but sits on the Klein2 axis, so it
-  has no bit_a-twin slot.
+  Lindblad-spectral family (F3 / F43 / F44), F49c, the k-body roll-up
+  F85, and F155 (added 2026-08-19; never one of the open slots, being minted
+  after this consolidation). F155 is the member that makes one distinction
+  visible: the others are functions of the operator alone, while the polarity
+  asymmetry is a function of the operator AND the palindrome convention, so it
+  transports under the JOINT turn like the rest but also moves under a
+  one-sided one, which the others cannot. F89 is itself an AT-descendant but
+  sits on the Klein2 axis, so it has no bit_a-twin slot.
 - **Bespoke-operator residue** (`NeedsDerivation`): claims built on bespoke
   operators (Π_5bilinear, F108-style) where the operator-space Hadamard
   does not transport directly and a deeper Hilbert-space Hadamard is needed.

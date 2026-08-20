@@ -7346,11 +7346,13 @@ public static class OpenArcsRegistry
                 "carries the break of the full LINDBLADIAN under X- and Y-dephasing, which the " +
                 "Klein-V4 proof's scope note records as unregistered. F155 is about the no-jump " +
                 "generator; the recycling term's inertness is measured only for the " +
-                "sigma-minus/sigma-plus family and is false outside it. ALSO OWED, and cheap: " +
-                "F155 has no typed carrier (nothing in compute/ mentions it), and " +
-                "docs/GLOSSARY.md has no entry for the polarity asymmetry nor for the " +
-                "commutator-versus-physical-generator distinction, a gap that has now produced " +
-                "two documented error episodes in docs/CAUGHT_ERRORS.md.",
+                "sigma-minus/sigma-plus family and is false outside it. ALSO ASKED FOR HERE, and " +
+                "both delivered on 2026-08-19: a typed carrier for F155, which is now " +
+                "PhysicalGeneratorPolarityBreak with the live witness at inspect --root f155; " +
+                "and entries in docs/GLOSSARY.md for the polarity asymmetry and for the " +
+                "commutator-versus-physical-generator distinction, the gap behind the error " +
+                "episode docs/CAUGHT_ERRORS.md records on 2026-06-20 with its 2026-08-19 " +
+                "sequel.",
             Status: OpenArcStatus.Retired,
             RetiredReason: "RESOLVED 2026-08-19, the day after it was opened, and the answer " +
                 "is NOT the two new laws this entry predicted. Proof section (g) of " +
@@ -7385,8 +7387,9 @@ public static class OpenArcsRegistry
                 "the LETTER Y, which is (1,1), with the grading of Pi_Y^2, which is bit_b alone; " +
                 "gate S5 refutes it and the claim's own anchor never said it. STILL OPEN and " +
                 "carried by no arc yet: the X/Y-dephase break of the FULL Lindbladian, recycling " +
-                "term included (this arc's own caution 2), and F155 still has no typed Claim and " +
-                "no live witness."),
+                "term included (this arc's own caution 2). F155's typed Claim and live witness " +
+                "landed 2026-08-19 (PhysicalGeneratorPolarityBreak, inspect --root f155), which " +
+                "is the other half of what this line asked for."),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

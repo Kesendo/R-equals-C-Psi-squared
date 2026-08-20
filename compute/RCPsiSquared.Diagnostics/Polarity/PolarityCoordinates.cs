@@ -428,6 +428,59 @@ public static class PolarityCoordinates
                 kBodyTerms, gammaT1.HasValue && gammaT1.Value != 0.0, dephaseLetter));
     }
 
+    /// <summary>Decompose M for a superoperator the caller built itself, in the vec convention
+    /// Core uses (<see cref="PauliDephasingDissipator.Build"/>'s Kronecker order). This is the
+    /// entry point the two chain overloads above cannot provide: both of them BUILD a Lindbladian
+    /// out of a Hermitian H, so neither can express a generator that is not of that form. F155's
+    /// object, the physical no-jump generator <see cref="NoJumpGenerator.Build"/>, arrives here.
+    ///
+    /// <para><b><paramref name="sigmaGamma"/> is required and has no default, deliberately.</b>
+    /// The residual is M = Π·L·Π⁻¹ + L + 2σ·I, and the chain overloads take σ from the chain's
+    /// own dephasing rates. A caller-built superoperator has no chain to ask, and the right value
+    /// is a property of the operator rather than of this method: for a pure no-jump generator,
+    /// which carries no dephasing dissipator at all, it is 0. Defaulting it would let that choice
+    /// pass unstated.</para>
+    ///
+    /// <para>Three fields of the result are unavailable on this path and say so rather than
+    /// reporting a zero that would read as a measurement:
+    /// <see cref="PolarityCoordinatesResult.F81Violation"/> is the sentinel 0 (no term list, so
+    /// no closed-form H_odd to compare against), <see cref="PolarityCoordinatesResult.LHOddNormSquared"/>
+    /// is null, and <see cref="PolarityCoordinatesResult.IsStructurallySilent"/> is null, so the
+    /// float ‖M_anti‖² == 0.0 test governs the degeneracy verdict here. That float test is an N=2
+    /// guard; a caller who knows the Pauli letters should call
+    /// <see cref="IsStructurallyDegenerate(IReadOnlyList{PauliTerm}, bool, PauliLetter)"/> itself
+    /// and read the two together.</para></summary>
+    /// <param name="superoperator">A 4^N × 4^N superoperator in the vec basis.</param>
+    /// <param name="n">Qubit count; <paramref name="superoperator"/> must be 4^N × 4^N.</param>
+    /// <param name="sigmaGamma">σ = Σ_l γ_l, the palindrome centre's offset. Zero for a
+    /// generator carrying no dephasing dissipator.</param>
+    /// <param name="dephaseLetter">The Π axis: X grades by bit_a, Y and Z by bit_b.</param>
+    public static PolarityCoordinatesResult Decompose(
+        ComplexMatrix superoperator,
+        int n,
+        double sigmaGamma,
+        PauliLetter dephaseLetter = PauliLetter.Z)
+    {
+        if (superoperator is null) throw new ArgumentNullException(nameof(superoperator));
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), $"N must be ≥ 1; got {n}");
+
+        long expected = 1L << (2 * n);
+        if (superoperator.RowCount != expected || superoperator.ColumnCount != expected)
+            throw new ArgumentException(
+                $"superoperator is {superoperator.RowCount}×{superoperator.ColumnCount}; "
+              + $"expected {expected}×{expected} for N={n}", nameof(superoperator));
+
+        var M = PalindromeResidual.Build(superoperator, n, sigmaGamma, dephaseLetter);
+        var piOp = PiOperator.BuildFull(n, dephaseLetter);
+        var piInv = piOp.ConjugateTranspose();
+        var piMpi = piOp * M * piInv;
+        var mSym = (M + piMpi) / 2.0;
+        var mAnti = (M - piMpi) / 2.0;
+
+        return RefineMAnti(M, mSym, mAnti, piOp, f81Violation: 0.0, lHOddNormSquared: null,
+            isStructurallySilent: null);
+    }
+
     /// <summary>Shared core: given M, M_sym, M_anti and Π, compute the ±i
     /// Π-eigenvalue projectors on M_anti and assemble the result record.</summary>
     private static PolarityCoordinatesResult RefineMAnti(

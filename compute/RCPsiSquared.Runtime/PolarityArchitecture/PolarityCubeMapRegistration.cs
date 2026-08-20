@@ -129,6 +129,13 @@ public static class PolarityCubeMapRegistration
             // registered but missing from the PolarityCubeMap inventory.
             z2AxisClaims.Add(b.Get<LindbladBitBPiBalance>());
             z2AxisClaims.Add(b.Get<LindbladBitBPiBreakMagnitude>());
+            // F155 (2026-08-19): the same bit_b axis, one level more general than F113, and
+            // carrying CoveredByHadamardDuality where its own parent carries BitBSpecific.
+            // (F112 next door is Filled, so this cluster already held more than one verdict.)
+            // F113's is about a physical CHANNEL, sigma+/sigma- singling out the Z energy
+            // ladder; F155 assumes no channel at all, so its bit_a image holds by the global
+            // Hadamard.
+            z2AxisClaims.Add(b.Get<PhysicalGeneratorPolarityBreak>());
             // Welle 15 (2026-05-27): F112 cross-dephase typed Claims. F112-X on the
             // BitA axis (bit_a-homogeneous c hypothesis, Π_X polarity); F112-Y on
             // the BitB axis (same hypothesis as F112-Z, different polarity axis Π_Y).

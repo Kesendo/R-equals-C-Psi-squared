@@ -762,6 +762,15 @@ public static class KnowledgeRegistryFactory
             // BitATwin slot (intrinsically about Z-axis single-site drives, no
             // meaningful bit_a analog). PolarityCubeMap's BitBClaims grows by 1.
             .RegisterLindbladBitBPiBreakMagnitude()
+            // F155 (2026-08-19): F113 generalised off the Z-diagonal. For H = A + iB with
+            // both parts Hermitian, the PHYSICAL (no-jump) generator's asymmetry is
+            // 4^(N+1)·Σ over bit_b-ODD strings of (−1)^#Z·a_σ·b_σ, bilinear and DIAGONAL in
+            // the Pauli basis; F113 is its Z-diagonal special case (corollary 10). Same bit_b
+            // axis, but the CoveredByHadamardDuality twin verdict rather than F113's
+            // BitBSpecific: F155 assumes no channel, so the bit_a reading transports by the
+            // global Hadamard. PolarityCubeMap's BitBClaims and its covered-by-Hadamard count
+            // each grow by 1. Live witness: inspect --root f155.
+            .RegisterPhysicalGeneratorPolarityBreak()
             // The antilinear triangle (2026-06-11): θ (transpose), conj (entrywise
             // conjugation), † (adjoint) close with id into one Klein four-group graded by
             // linearity ℓ and multiplicativity m; the transport law

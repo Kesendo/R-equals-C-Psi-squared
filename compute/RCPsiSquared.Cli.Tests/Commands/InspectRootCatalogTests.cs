@@ -330,6 +330,31 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasF155Root_NFree_HonorsOptionalN()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "f155");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("PhysicalGeneratorPolarityBreak", entry.Description);
+        Assert.Contains("no-jump", entry.Description);
+        Assert.Contains("DIAGONAL", entry.Description);
+        // The scope sentence a reader most needs: this is not the commutator and not the full
+        // Lindbladian, which is the conflation the caught-errors ledger records twice.
+        Assert.Contains("NOT the commutator", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_F155Root_BuildsTheLiveWitness()
+    {
+        // Cheap: the N=2 configurations are all 16x16 generators.
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "f155");
+        var root = entry.Factory(new InspectRootContext(new ArgParser(Array.Empty<string>()), 2, false, false, null));
+
+        Assert.IsType<PhysicalGeneratorPolarityBreakWitness>(root);
+        Assert.Contains("N=2", root.Summary);
+    }
+
+    [Fact]
     public void Catalog_HasPinnedRoot_NFree_HonorsOptionalN()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "pinned");

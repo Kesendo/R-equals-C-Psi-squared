@@ -7703,12 +7703,28 @@ arbitrary-matrix commutator, and the basis dependence).
 (bit_b is the character of X^⊗N, the global spin flip, so the law reads: only the
 spin-flip-ODD content of A and B pairs, each term weighted by its transpose parity,
 with the sign of that weight carrying the pairing freedom above); F112 (both faces); F113; and the swap rule's parents F114, F118, F119 and
-[the Π = R·D factorisation](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md). **Typed:** not
-yet; the natural carrier is a claim beside `LindbladBitBPiBreakMagnitude` with a
-live witness, and that is still owed. F155 is mentioned in `compute/` (the doc
-comments of `LindbladBitBPiBreakMagnitude` and `LindbladBitBPiBalance`, and the
-retired arc `polarity_break_dephase_siblings`), but no typed `Claim` and no live
-witness carries it.
+[the Π = R·D factorisation](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md). **Typed:** `PhysicalGeneratorPolarityBreak`
+(`compute/RCPsiSquared.Core/Symmetry/`, Tier1Derived, typed parent
+`LindbladBitBPiBreakMagnitude`), carrying the closed form as a static
+`PredictAsymmetry` over Pauli terms; live witness
+`PhysicalGeneratorPolarityBreakWitness`, reached by
+`dotnet run --project compute/RCPsiSquared.Cli -- inspect --root f155` (2026-08-19).
+The witness is a MEETING rather than a lookup: the closed form is exact arithmetic on
+Pauli coefficients and builds no matrix, while the second route builds the 4^N × 4^N
+generator through `NoJumpGenerator.Build`, takes the palindrome residual at σ = 0, and
+reads the asymmetry off it. The configuration count is N-dependent (four at N=1, eight at
+N=2, five at odd N above 1, six at even N above 2) and its authority is a test
+rather than a sentence. The tolerance is stated as a law
+needing TWO numbers, not one: |residual| / (eps·‖M_anti‖²) says how closely the routes
+agree, and |closed form| / (eps·‖M_anti‖²) says whether the measured route could have
+refuted them at all, since the asymmetry is bilinear in (A, B) while the floor is
+quadratic in the larger half; a reading whose signal is under its own noise is marked
+NOT INFORMATIVE rather than passing quietly. Which zeros are bit-exact is reported, not
+assumed: six of eight at N=2, four of five at N=3. On the cube map it sits on the bit_b
+axis with the `CoveredByHadamardDuality` twin verdict, which differs from its own parent
+F113's `BitBSpecific` because that verdict is about a physical CHANNEL and this law
+assumes no channel at all; §(j) of the proof records that this criterion was sharpened in
+the same change that applied it.
 
 ---
 
