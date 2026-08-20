@@ -1113,6 +1113,53 @@ if (args.Length > 0 && args[0] == "gammafold")
     Console.WriteLine($"    the step 2*sigma = {ml.Step:0.000}; the fixed locus of s0 is r = -sigma, the palindrome center.");
     Console.WriteLine();
 
+    // the per-site turns (built 2026-08-20): what happens when only ONE sign is turned.
+    Console.WriteLine("  the PER-SITE turns s_l (the move the two whole-profile mirrors cannot make):");
+    for (int l = 0; l < fn; l++)
+    {
+        var st = fold.SiteTurn(l);
+        Console.WriteLine($"    s_{l}: acts on {st.CellsWhereSiteDiffers} of "
+            + $"{st.CellsWhereSiteDiffers + st.CellsWhereSiteAgrees} cells (the half where site {l} "
+            + $"differs), each by {st.Step:0.000} = 4*gamma_{l}   residual {st.WorstStepResidual:E1}");
+    }
+    var sg = fold.SiteTurnGroup();
+    Console.WriteLine();
+    Console.WriteLine("  on the PROFILE the turn is unconditional:");
+    Console.WriteLine($"    composing all {fn} turns gives s, r -> -r          {sg.WorstCompositeResidual:E1}");
+    Console.WriteLine($"    sigma(s_S g) = sigma - 2*sum_S g                   {sg.WorstSigmaResidual:E1}");
+    Console.WriteLine($"    they generate (Z/2)^support: support {sg.Support}, orbit {sg.OrbitSize}, "
+        + $"involutions {sg.AllInvolutions}, commuting {sg.AllCommute}");
+    Console.WriteLine();
+    Console.WriteLine("  on the RATE AXIS it has a shadow only under a condition:");
+    Console.WriteLine($"    subset sums of the support all distinct (exact):   {sg.SupportSumsDistinct}");
+    Console.WriteLine($"    the same for the whole profile (sufficient, not necessary): {sg.WholeProfileSumsDistinct}");
+    Console.WriteLine($"    so s_l descends to the rate axis:                  {sg.DescendsToRateAxis}");
+    Console.WriteLine($"    the rate spectrum holds {sg.DistinctRateValues} values"
+        + (sg.DistinctRateValues == fn + 1
+            ? $" = N+1, so gamma is uniform here and only HOW MANY sites disagree is visible"
+            : ""));
+    if (sg.DescendsToRateAxis)
+    {
+        Console.WriteLine($"    and the shadow is PIECEWISE: {sg.PieceCount} pieces, the moving one "
+            + $"shifted by {sg.PieceShift:0.000}");
+        Console.WriteLine($"    (s_l o s0)^2 total on the spectrum:                {sg.SquaredWithAntiWatchIsTotal}"
+            + "   <- the dihedral does not absorb it");
+    }
+    else
+    {
+        Console.WriteLine("    no shadow, so nothing to compose with s0 here. Try a profile whose");
+        Console.WriteLine("    subset sums are distinct, for instance 0.125, 0.25, 0.5, 1.0.");
+    }
+    Console.WriteLine("    NOTE on this default, and it is worth one line because it nearly fooled the");
+    Console.WriteLine("    author twice: the profile is WRITTEN as 0.2 + 0.1*l, an arithmetic progression,");
+    Console.WriteLine("    and a progression's subset sums collide (0.2 + 0.5 = 0.3 + 0.4), so the intent is");
+    Console.WriteLine("    not dissociated. What is STORED is not the intent: 0.2 + 0.1 evaluates to");
+    Console.WriteLine("    0.30000000000000004, one ulp off, and that ulp makes the stored profile");
+    Console.WriteLine("    dissociated after all. The criterion above reads what is stored, exactly.");
+    Console.WriteLine("    s and s0 are reflections of the axis; a single turn is not one, and that");
+    Console.WriteLine("    is why this object carried two mirrors before it carried these N turns.");
+    Console.WriteLine();
+
     var rep = fold.Run(seed: 1, dt: 0.02, ticks: 50);
     Console.WriteLine("  the trajectory level (twin RK4, worst over every probed tick):");
     Console.WriteLine($"    rho_anti(t) = e^(-2*sigma*t) * rho_gain(t)    {rep.WorstVeil:E1}");
