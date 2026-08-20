@@ -121,17 +121,22 @@ public sealed class JwSlaterPairSparseLBuilder : Claim
 
             perRow.Clear();
 
-            // (1) Diagonal element at (alpha, alpha). Site index l is MSB-convention
-            // (matches XyJordanWignerModes.SineMode); PerBlockLiouvillianBuilder.BuildBlockZ
-            // applies gammaPerSite[bit_l] with bit_l = LSB-bit-l = N − 1 − site_l, so the
-            // sparse build must mirror that mapping: gammaPerSite[N - 1 - l].
+            // (1) Diagonal element at (alpha, alpha). Every loop below runs l over SITES, in
+            // the MSB convention of XyJordanWignerModes.SineMode, which is also the convention
+            // gammaPerSite is documented in and the one PerBlockLiouvillianBuilder.BuildBlockZ
+            // takes. So the rate for site l is gammaPerSite[l], with no re-indexing at all.
+            //
+            // It read gammaPerSite[N - 1 - l] from 2026-05-16 to 2026-08-20, mirroring the
+            // bit-indexed convention BuildBlockZ had until commit f3a58a0 (2026-07-25); the full
+            // history, and why the repair goes this way rather than the other, is the 2026-08-20
+            // entry of docs/CAUGHT_ERRORS.md.
             double imagH = -(rowEps[Lidx] - colEps[Kidx]);
             double diagD = 0.0;
             for (int l = 0; l < N; l++)
             {
                 double nL = rowOccupation[Lidx * N + l];
                 double nK = colOccupation[Kidx * N + l];
-                diagD += gammaPerSite[N - 1 - l] * ((1.0 - 2.0 * nL) * (1.0 - 2.0 * nK) - 1.0);
+                diagD += gammaPerSite[l] * ((1.0 - 2.0 * nL) * (1.0 - 2.0 * nK) - 1.0);
             }
             var diag = new Complex(diagD, imagH);
             if (diag.Magnitude > NonzeroThreshold)
@@ -144,7 +149,7 @@ public sealed class JwSlaterPairSparseLBuilder : Claim
                 for (int l = 0; l < N; l++)
                 {
                     double nL = rowOccupation[Lidx * N + l];
-                    sum += gammaPerSite[N - 1 - l] * (1.0 - 2.0 * nL)
+                    sum += gammaPerSite[l] * (1.0 - 2.0 * nL)
                          * psi[(swap.KEnter - 1) * N + l] * psi[(swap.KLeave - 1) * N + l];
                 }
                 double val = -2.0 * swap.Sign * sum;
@@ -162,7 +167,7 @@ public sealed class JwSlaterPairSparseLBuilder : Claim
                 for (int l = 0; l < N; l++)
                 {
                     double nK = colOccupation[Kidx * N + l];
-                    sum += gammaPerSite[N - 1 - l] * (1.0 - 2.0 * nK)
+                    sum += gammaPerSite[l] * (1.0 - 2.0 * nK)
                          * psi[(swap.KEnter - 1) * N + l] * psi[(swap.KLeave - 1) * N + l];
                 }
                 double val = -2.0 * swap.Sign * sum;
@@ -181,7 +186,7 @@ public sealed class JwSlaterPairSparseLBuilder : Claim
                     double sum = 0.0;
                     for (int l = 0; l < N; l++)
                     {
-                        sum += gammaPerSite[N - 1 - l]
+                        sum += gammaPerSite[l]
                              * psi[(rowSwap.KEnter - 1) * N + l] * psi[(rowSwap.KLeave - 1) * N + l]
                              * psi[(colSwap.KEnter - 1) * N + l] * psi[(colSwap.KLeave - 1) * N + l];
                     }

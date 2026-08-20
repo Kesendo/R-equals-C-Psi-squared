@@ -36,7 +36,7 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
 
     public int N { get; }
     public KleinCharacter Character { get; }
-    public IReadOnlyList<double> GammaPerSite { get; }
+    public IReadOnlyList<double> GammaPerBit { get; }
     public int SectorDim { get; }
 
     public int[] RowPtr { get; }
@@ -52,7 +52,7 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
     /// Existing callers continue to compile unchanged; pass an explicit <c>bondJ</c> list to
     /// access non-uniform per-bond couplings.</summary>
     public static KleinFourGroupSelfPairedSparseLBuilder Build(int N,
-        KleinCharacter character, IReadOnlyList<double> gammaPerSite)
+        KleinCharacter character, IReadOnlyList<double> gammaPerBit)
     {
         // Match the per-bond overload's factory guard up-front so `new double[N - 1]` never
         // sees a negative size (would silently throw OverflowException). The bare form then
@@ -60,7 +60,7 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 2.");
         var bondJ = new double[N - 1];
         for (int b = 0; b < bondJ.Length; b++) bondJ[b] = 1.0;
-        return Build(N, character, gammaPerSite, bondJ);
+        return Build(N, character, gammaPerBit, bondJ);
     }
 
     /// <summary>Build the CSR sparse L sub-block with per-bond J profile. The underlying
@@ -69,16 +69,16 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
     /// experiments; uniform J = 1 callers can use the scalar overload
     /// <see cref="Build(int, KleinCharacter, IReadOnlyList{double})"/>.</summary>
     public static KleinFourGroupSelfPairedSparseLBuilder Build(int N,
-        KleinCharacter character, IReadOnlyList<double> gammaPerSite,
+        KleinCharacter character, IReadOnlyList<double> gammaPerBit,
         IReadOnlyList<double> bondJ)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 2.");
         if ((N & 1) != 0) throw new ArgumentException(
             $"N must be even (self-paired sector requires N/2 ∈ ℤ); got N={N}.", nameof(N));
-        if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
-        if (gammaPerSite.Count != N)
+        if (gammaPerBit is null) throw new ArgumentNullException(nameof(gammaPerBit));
+        if (gammaPerBit.Count != N)
             throw new ArgumentException(
-                $"gammaPerSite length {gammaPerSite.Count} != N {N}", nameof(gammaPerSite));
+                $"gammaPerBit length {gammaPerBit.Count} != N {N}", nameof(gammaPerBit));
         if (bondJ is null) throw new ArgumentNullException(nameof(bondJ));
         if (bondJ.Count != N - 1)
             throw new ArgumentException(
@@ -149,10 +149,19 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
                 }
 
                 // (c) diagonal dissipator: rowβ = rowA, colβ = colA
+                // The rates here are indexed by BIT, not by site, and so is bondFlip
+                // ((1<<b)|(1<<(b+1)) at :93): this file is a self-consistent bit-labelled world
+                // and its spectrum is right. The parameter was called gammaPerSite until
+                // 2026-08-20, which is a trap rather than a bug, because a caller handing over an
+                // array in Core's per-SITE convention (site l at bit N-1-l, what BuildBlockZ and
+                // PauliDephasingDissipator.BuildZ take) would silently get the profile reversed.
+                // Two consumers were bitten by exactly that reversal that day; see
+                // docs/CAUGHT_ERRORS.md, 2026-08-20. Every caller today passes a uniform profile,
+                // which is invariant under the difference, so nothing has ever been wrong here.
                 int xorIJ = rowA ^ colA;
                 double diss = 0.0;
                 for (int l = 0; l < N; l++)
-                    if (((xorIJ >> l) & 1) != 0) diss -= 2 * gammaPerSite[l];
+                    if (((xorIJ >> l) & 1) != 0) diss -= 2 * gammaPerBit[l];
                 if (diss != 0.0)
                     AccumulateCoupling(rowA, colA, new Complex(diss, 0), chiRow, perRow,
                         memberToOrbitIdx, ordered, character, invSqrtSizeRow);
@@ -170,7 +179,7 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
             rowPtr[alpha + 1] = colIdxList.Count;
         }
 
-        return new KleinFourGroupSelfPairedSparseLBuilder(N, character, gammaPerSite.ToArray(),
+        return new KleinFourGroupSelfPairedSparseLBuilder(N, character, gammaPerBit.ToArray(),
             dim, rowPtr, colIdxList.ToArray(), valuesList.ToArray(), maxNnz);
     }
 
@@ -213,7 +222,7 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
     }
 
     private KleinFourGroupSelfPairedSparseLBuilder(int n, KleinCharacter character,
-        double[] gammaPerSite, int dim, int[] rowPtr, int[] colIdx, Complex[] values, int maxNnz)
+        double[] gammaPerBit, int dim, int[] rowPtr, int[] colIdx, Complex[] values, int maxNnz)
         : base($"Klein sub-block CSR sparse L on self-paired (N/2, N/2) sector at N={n}, " +
                $"character {character}: dim {dim}, nnz {values.LongLength}, max-nnz/row {maxNnz}, " +
                $"mean-nnz/row {(double)values.LongLength / dim:F2}.",
@@ -223,7 +232,7 @@ public sealed class KleinFourGroupSelfPairedSparseLBuilder : Claim
                "chain XY + Z-dephasing Liouvillian L matrix element formula.")
     {
         N = n; Character = character;
-        GammaPerSite = gammaPerSite;
+        GammaPerBit = gammaPerBit;
         SectorDim = dim;
         RowPtr = rowPtr;
         ColIdx = colIdx;

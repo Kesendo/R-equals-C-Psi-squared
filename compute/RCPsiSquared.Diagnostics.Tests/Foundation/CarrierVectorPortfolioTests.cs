@@ -134,8 +134,13 @@ public class CarrierVectorPortfolioTests
         var blockedRates = blocked.Modes.Select(m => Math.Round(m.ActualDecayRate, 9)).OrderBy(x => x).ToArray();
         Assert.Equal(fullRates, blockedRates);
 
-        // The blocked portfolios satisfy the carrier-vector law: if the reversed-gamma / (N-1-s)-bit
-        // convention were wrong, this residual would be O(1), not machine zero.
+        // The blocked portfolios satisfy the carrier-vector law, and this is the ONLY gate in the
+        // repo that can see the site/bit convention at the handover to BuildBlockZ: the profile
+        // above is non-palindromic, and a uniform one is invariant under any permutation of the
+        // site index. It caught exactly that, and the magnitude is worth recording because it is
+        // not what an earlier version of this comment predicted: with the carrier reversed the
+        // residual was 1.353e-3, not O(1). A bound of 1e-9 catches that; an intuition about
+        // orders of magnitude would not have. See docs/CAUGHT_ERRORS.md, 2026-08-20.
         Assert.True(blocked.MaxLawResidual < 1e-9, $"blocked law residual {blocked.MaxLawResidual:E3} exceeds 1e-9");
     }
 

@@ -18,6 +18,25 @@ public class JwSlaterPairSparseLBuilderTests
     private readonly ITestOutputHelper _out;
     public JwSlaterPairSparseLBuilderTests(ITestOutputHelper output) => _out = output;
 
+    /// <summary>The float-noise model for a sparse-vs-dense comparison of one sector block, and
+    /// the reason neither theory below asserts a bare number. There is no exact route: the
+    /// reference runs a dense Uᵀ·L·U product while the sparse builder writes the entries
+    /// algebraically, so the two disagree at rounding, and the question a tolerance must answer is
+    /// how that disagreement is ALLOWED TO GROW. Measured across every case in this class, it
+    /// grows like eps·√dim, the random-walk accumulation: the ratio below stays inside
+    /// [0.18, 0.45] while dim runs 24, 50, 100, 300, 400, 1225, a 51-fold range. The competing
+    /// model eps·dim drifts by 3.4× over the narrower non-uniform trio alone (0.058, 0.038,
+    /// 0.017), which is how one knows it is the wrong one. The gate is therefore on the RATIO,
+    /// with a factor of ten of slack, and it is the FLATNESS across the sizes that carries the
+    /// claim; a bound that merely passes carries nothing. Two honest limits: the largest block
+    /// sits at the LOW end (0.18 at dim 1225), so eps·√dim slightly over-predicts there and the
+    /// model is conservative rather than tight; and six sector sizes is what the fixture has, so
+    /// this is a law pinned over one and a half decades, not over six.</summary>
+    private static double NoiseRatio(double diff, double refNorm, int dim) =>
+        diff / refNorm / (2.220446049250313e-16 * Math.Sqrt(dim));
+
+    private const double NoiseRatioBound = 4.0;
+
     [Theory]
     [InlineData(4, 1, 2)]
     [InlineData(5, 1, 2)]
@@ -28,8 +47,9 @@ public class JwSlaterPairSparseLBuilderTests
     [InlineData(7, 3, 4)]
     public void Build_UniformGamma_MatchesDenseProjection(int N, int pCol, int pRow)
     {
-        // The sparse build must agree element-by-element with the dense U^†·L·U reference.
-        // Tolerance 1e-10 matches the construction tolerance of JwSlaterPairBasis.
+        // The sparse build must agree element-by-element with the dense U^†·L·U reference, at the
+        // float noise and no worse; the model, and why it is a ratio rather than a number, is on
+        // NoiseRatio above.
         var gamma = Enumerable.Repeat(0.1, N).ToArray();
 
         var sparse = JwSlaterPairSparseLBuilder.Build(N, pCol, pRow, gamma);
@@ -42,9 +62,12 @@ public class JwSlaterPairSparseLBuilderTests
         double refNorm = refProj.LJw.FrobeniusNorm();
         _out.WriteLine($"N={N}, (p_c,p_r)=({pCol},{pRow}), dim={sparse.SectorDim}, " +
                        $"nnz={sparse.NnzTotal}, max-nnz/row={sparse.MaxNnzPerRow}, " +
-                       $"‖sparse − dense‖_F / ‖dense‖_F = {diff / refNorm:G3}");
-        Assert.True(diff / refNorm < 1e-10,
-            $"Sparse/dense mismatch: ‖diff‖_F = {diff:G3}, ‖ref‖_F = {refNorm:G3}");
+                       $"‖sparse − dense‖_F / ‖dense‖_F = {diff / refNorm:G3}, " +
+                       $"noise ratio {NoiseRatio(diff, refNorm, sparse.SectorDim):G3}");
+        Assert.True(NoiseRatio(diff, refNorm, sparse.SectorDim) < NoiseRatioBound,
+            $"Sparse/dense mismatch above the eps·√dim noise: ‖diff‖_F = {diff:G3}, " +
+            $"‖ref‖_F = {refNorm:G3}, ratio {NoiseRatio(diff, refNorm, sparse.SectorDim):G3} " +
+            $"exceeds {NoiseRatioBound}");
     }
 
     [Theory]
@@ -53,8 +76,15 @@ public class JwSlaterPairSparseLBuilderTests
     [InlineData(6, 3, 3)]
     public void Build_NonUniformGamma_MatchesDenseProjection(int N, int pCol, int pRow)
     {
-        // Non-uniform γ stresses the per-site dissipator weighting in the sparse build.
-        var gamma = Enumerable.Range(0, N).Select(i => 0.05 + 0.03 * i).ToArray();
+        // Non-uniform γ stresses the per-site dissipator weighting in the sparse build, and it
+        // is the ONLY thing that can: a uniform profile is invariant under any permutation of
+        // the site index, so the seven uniform cases of the theory above cannot see a site/bit
+        // mix-up. This theory was green from 2026-05-16 and went red on 2026-07-25, when f3a58a0
+        // repaired the DENSE reference's site/bit indexing without updating the sparse builder
+        // that had been mirroring the old convention; it stayed red for 26 days at relative
+        // errors of 6.99, 8.15 and 9.51 percent (‖diff‖_F = 0.657, 1.859, 4.919 at N = 4, 5, 6)
+        // and was repaired on 2026-08-20.
+        var gamma = NonUniformGamma(N);
 
         var sparse = JwSlaterPairSparseLBuilder.Build(N, pCol, pRow, gamma);
         var sparseDense = sparse.ToDense();
@@ -63,8 +93,70 @@ public class JwSlaterPairSparseLBuilderTests
         var refProj = JwSlaterPairLProjection.Build(basis, gamma);
 
         double diff = (refProj.LJw - sparseDense).FrobeniusNorm();
-        Assert.True(diff < 1e-10, $"Non-uniform γ sparse/dense mismatch: ‖diff‖_F = {diff:G3}");
+        double refNorm = refProj.LJw.FrobeniusNorm();
+        int dim = sparse.SectorDim;
+        _out.WriteLine($"N={N}, (p_c,p_r)=({pCol},{pRow}), dim={dim}: ‖diff‖_F = {diff:G3}, " +
+                       $"‖ref‖_F = {refNorm:G3}, relative {diff / refNorm:G3}, " +
+                       $"noise ratio {NoiseRatio(diff, refNorm, dim):G3}");
+        Assert.True(NoiseRatio(diff, refNorm, dim) < NoiseRatioBound,
+            $"Non-uniform γ sparse/dense mismatch above the eps·√dim noise: ‖diff‖_F = {diff:G3}, " +
+            $"‖ref‖_F = {refNorm:G3}, ratio {NoiseRatio(diff, refNorm, dim):G3} exceeds {NoiseRatioBound}");
     }
+
+    [Theory]
+    [InlineData(4, 1, 2)]
+    [InlineData(5, 2, 3)]
+    [InlineData(6, 3, 3)]
+    public void Fixture_ReversedGamma_Differs(int N, int pCol, int pRow)
+    {
+        // The control that makes the theory above two-sided, and without which it could not have
+        // detected the mix-up it was written for. If the profile were effectively palindromic,
+        // or if the reference collapsed the per-site rates into a sum or a mean, the reversed
+        // profile would agree just as well and the agreement above would prove nothing.
+        //
+        // Both sides are the DENSE reference, deliberately, and the name says Fixture rather
+        // than Build because this touches the sparse builder not at all. Putting the sparse
+        // builder on one side, which is the shape the model one layer down carries
+        // (PerBlockLiouvillianBuilderGammaOrderTests), would make the control pass vacuously for
+        // almost any defect in the object under test, and a control that cannot go red on a
+        // regression is decoration. As a statement purely about the fixture it composes with the
+        // theory above, which pins sparse == dense(γ), to give the two-sided argument.
+        //
+        // Almost, not any: under the HISTORICAL bug the sparse build with profile γ was exactly
+        // dense(γ reversed), so a sparse-versus-reversed-dense control would have gone red with a
+        // difference of exactly 0, catching that one bug more sharply than this version does. That
+        // is a coincidence of the defect, not a property one can design for, and the trade is
+        // deliberate: this form gives up the exact-reversal catch and buys independence from the
+        // object it guards.
+        //
+        // What it does NOT do is decide WHICH path is right. That is settled outside this
+        // cluster, by PerBlockLiouvillianBuilderGammaOrderTests anchoring the dense path against
+        // PauliDephasingDissipator.BuildZ. And it detects reversal only: a cyclic shift or any
+        // other permutation defect would pass here.
+        //
+        // The number it prints is exactly the residual the 26-day regression carried, 0.657 at
+        // N = 4, because the old sparse build with profile γ computed what the repaired one
+        // computes with γ reversed.
+        var gamma = NonUniformGamma(N);
+        var reversed = gamma.Reverse().ToArray();
+
+        var basis = JwSlaterPairBasis.Build(N, pCol, pRow);
+        var forward = JwSlaterPairLProjection.Build(basis, gamma);
+        var refReversed = JwSlaterPairLProjection.Build(basis, reversed);
+
+        double diff = (refReversed.LJw - forward.LJw).FrobeniusNorm();
+        double refNorm = forward.LJw.FrobeniusNorm();
+        _out.WriteLine($"N={N}, (p_c,p_r)=({pCol},{pRow}): ‖forward − reversed‖_F = {diff:G3}, " +
+                       $"relative {diff / refNorm:G3}");
+        Assert.True(diff / refNorm > 1e-6,
+            $"The reversed γ profile agrees to {diff:G3}, so this fixture cannot distinguish a " +
+            "site/bit mix-up and the theory above proves nothing.");
+    }
+
+    /// <summary>A deliberately non-palindromic per-site profile: reversing it changes the array,
+    /// so a site/bit mix-up cannot hide inside it.</summary>
+    private static double[] NonUniformGamma(int N) =>
+        Enumerable.Range(0, N).Select(i => 0.05 + 0.03 * i).ToArray();
 
     [Theory]
     [InlineData(5, 2, 2)]

@@ -4146,13 +4146,19 @@ public static class OpenArcsRegistry
                 "[0.1, 4.672], nowhere near -2*gamma_bar. " +
                 "The model to copy is simulations/d10_block_closure_verify.py, which is the one place " +
                 "that TESTS the fence rather than asserting it. " +
-                "THIRD, and verify before touching: CarrierVectorPortfolio's convention bridge says " +
-                "'BuildBlockZ labels site l at bit l (LSB)', which is the pre-2026-07-25 convention and " +
-                "the opposite of what PerBlockLiouvillianBuilder now documents; it then reverses the " +
-                "carrier to compensate. Two reviewers flagged it independently. It may net out, since " +
-                "the activity read is also bit-indexed, and it can only bite on a NON-UNIFORM profile. " +
-                "Settle it with a non-uniform, non-palindromic gate before editing either the code or " +
-                "the sentence. " +
+                "THIRD, SETTLED 2026-08-20, and it did NOT net out: CarrierVectorPortfolio's convention " +
+                "bridge said 'BuildBlockZ labels site l at bit l (LSB)', the pre-2026-07-25 convention, " +
+                "and reversed the carrier to compensate, so channel s was charged gamma_{N-1-s}. The " +
+                "gate this item asked for already existed and was already RED: the non-palindromic " +
+                "{0.05, 0.13, 0.20} case of DecomposeBlocked_MatchesFullDecompose_ForNumberConservingH, " +
+                "law residual 1.353e-3 against a bound of 1e-9, red from f3a58a0 (2026-07-25) for 26 " +
+                "days and unseen because Diagnostics.Tests is only ever run under a filter. Repaired by " +
+                "handing the carrier over unreversed; it is the second orphan of that one commit, the " +
+                "first being JwSlaterPairSparseLBuilder, and both are written up in the 2026-08-20 entry " +
+                "of docs/CAUGHT_ERRORS.md. Nothing downstream moved: every PRODUCTION construction passes " +
+                "a uniform profile, which is invariant under the reversal, though six cases in " +
+                "MirrorSystemTests do pass non-palindromic carriers and stayed green anyway, on " +
+                "spectrum-level assertions that site reversal cannot disturb. " +
                 "FOURTH, cheap: the block goes by four names in tracked files. (0,1) here and in " +
                 "MirrorWorld's Block is (bra, ket) = |1-exc><vac|; D10 labels the CONJUGATE operator " +
                 "(0,1) as well; VacuumBlockReductionClaim writes L_(1,0); " +

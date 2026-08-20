@@ -127,11 +127,11 @@ public sealed class KleinFourGroupSelfPairedRefinement : Claim
     /// Convenience wrapper that forwards to the per-bond overload with
     /// <c>bondJ = [1, 1, ..., 1]</c> of length N − 1. Existing callers continue to compile
     /// unchanged; pass an explicit <c>bondJ</c> list to access non-uniform per-bond couplings.</summary>
-    public ComplexMatrix BuildSubBlockL(KleinCharacter chi, IReadOnlyList<double> gammaPerSite)
+    public ComplexMatrix BuildSubBlockL(KleinCharacter chi, IReadOnlyList<double> gammaPerBit)
     {
         var bondJ = new double[N - 1];
         for (int b = 0; b < N - 1; b++) bondJ[b] = 1.0;
-        return BuildSubBlockL(chi, gammaPerSite, bondJ);
+        return BuildSubBlockL(chi, gammaPerBit, bondJ);
     }
 
     /// <summary>Build the dense L sub-block for one Klein character with per-bond J profile.
@@ -142,13 +142,13 @@ public sealed class KleinFourGroupSelfPairedRefinement : Claim
     /// length N − 1. Use this overload for F100-territory experiments (palindromic J profiles,
     /// etc.); uniform J = 1 callers can use the scalar overload
     /// <see cref="BuildSubBlockL(KleinCharacter, IReadOnlyList{double})"/>.</summary>
-    public ComplexMatrix BuildSubBlockL(KleinCharacter chi, IReadOnlyList<double> gammaPerSite,
+    public ComplexMatrix BuildSubBlockL(KleinCharacter chi, IReadOnlyList<double> gammaPerBit,
         IReadOnlyList<double> bondJ)
     {
-        if (gammaPerSite is null) throw new ArgumentNullException(nameof(gammaPerSite));
-        if (gammaPerSite.Count != N)
+        if (gammaPerBit is null) throw new ArgumentNullException(nameof(gammaPerBit));
+        if (gammaPerBit.Count != N)
             throw new ArgumentException(
-                $"gammaPerSite length {gammaPerSite.Count} != N {N}", nameof(gammaPerSite));
+                $"gammaPerBit length {gammaPerBit.Count} != N {N}", nameof(gammaPerBit));
         if (bondJ is null) throw new ArgumentNullException(nameof(bondJ));
         if (bondJ.Count != N - 1)
             throw new ArgumentException(
@@ -227,11 +227,15 @@ public sealed class KleinFourGroupSelfPairedRefinement : Claim
                             if (jRow == jCol)
                             {
                                 // Diagonal dissipator contribution.
+                                // Rates indexed by BIT, like the bond masks in this file; see the
+                                // note in KleinFourGroupSelfPairedSparseLBuilder and the
+                                // 2026-08-20 entry of docs/CAUGHT_ERRORS.md for why the name was
+                                // changed from gammaPerSite.
                                 int xorIJ = iCol ^ jCol;
                                 double diss = 0.0;
                                 for (int l = 0; l < N; l++)
                                     if (((xorIJ >> l) & 1) != 0)
-                                        diss -= 2 * gammaPerSite[l];
+                                        diss -= 2 * gammaPerBit[l];
                                 elem += new Complex(diss, 0);
                             }
                         }

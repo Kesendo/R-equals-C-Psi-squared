@@ -261,10 +261,12 @@ public static class CarrierVectorPortfolio
     /// sequential geev) becomes (N+1)² small ones. Bit-identical spectrum and law-consistent
     /// portfolios to <see cref="Decompose"/>; the win is wall-clock at large N.
     ///
-    /// <para>Convention bridge: <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> labels site l
-    /// at bit l (LSB), while this reading (like <see cref="Decompose"/>) labels channel s at bit
-    /// (N−1−s). So the carrier is passed reversed to the block builder, and Δ for channel s is read
-    /// at bit (N−1−s); the two cancel and the law −Re λ = 2·Σ_s γ_s·⟨Δ_s⟩ stays exact.</para>
+    /// <para>Convention: <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> takes a per-SITE
+    /// carrier and does the site-to-bit re-indexing itself, and this reading (like
+    /// <see cref="Decompose"/>) labels channel s at bit (N−1−s), the same book. So the carrier is
+    /// handed over as it stands, and the law −Re λ = 2·Σ_s γ_s·⟨Δ_s⟩ is exact for any profile,
+    /// palindromic or not. It passed the carrier REVERSED until 2026-08-20; see the inline note at
+    /// the handover below.</para>
     ///
     /// <para>Requires <see cref="IsNumberConserving"/>; throws otherwise (the sectors would not be
     /// closed and the per-block spectra would be wrong).</para></summary>
@@ -282,10 +284,26 @@ public static class CarrierVectorPortfolio
         if (!IsNumberConserving(hamiltonian))
             throw new ArgumentException("DecomposeBlocked needs a number-conserving H (joint-popcount blocks); use Decompose otherwise", nameof(hamiltonian));
 
-        // BuildBlockZ labels site l at bit l; this reading labels channel s at bit (N-1-s). Reverse
-        // the carrier so the block L equals Decompose's L, and read Δ for channel s at bit (N-1-s).
+        // BuildBlockZ takes a per-SITE array and does the site-to-bit re-indexing itself, so the
+        // carrier is handed over as it stands. The read below then takes channel s at bit N-1-s,
+        // which is the same site convention, and the two agree for any profile.
+        //
+        // This reversed the carrier from 2026-05-29 to 2026-08-20, and it was CORRECT WHEN WRITTEN:
+        // BuildBlockZ then read its argument as bit-indexed, and reversing here was what made
+        // channel s carry gamma_s. Commit f3a58a0 (2026-07-25) moved the re-indexing inside
+        // BuildBlockZ and left this bridge compensating for a convention that no longer existed,
+        // so channel s carried gamma_{N-1-s} instead. Nothing in production saw it: every
+        // MirrorSystem built by InspectCommand or Symphony passes a uniform profile, which is
+        // invariant under the reversal. Six cases in MirrorSystemTests DO pass non-palindromic
+        // carriers and stayed green anyway, on spectrum-level assertions that a site reversal
+        // cannot disturb. The one gate that could see it, the non-palindromic {0.05, 0.13, 0.20} case of
+        // DecomposeBlocked_MatchesFullDecompose_ForNumberConservingH, was red at a law residual of
+        // 1.353e-3 for those 26 days, in a test project CLAUDE.md forbids running whole.
+        //
+        // It is the second orphan of that one commit; the first, repaired the same day, was
+        // JwSlaterPairSparseLBuilder. Both are recorded in docs/CAUGHT_ERRORS.md under 2026-08-20.
         var gammasForBlock = new double[N];
-        for (int l = 0; l < N; l++) gammasForBlock[l] = siteChannels[N - 1 - l].Gamma;
+        for (int l = 0; l < N; l++) gammasForBlock[l] = siteChannels[l].Gamma;
 
         // Partition the 4^N flat indices into closed sectors by (popcount(row), popcount(col)).
         int d2 = d * d;
