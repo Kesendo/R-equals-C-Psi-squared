@@ -4152,9 +4152,170 @@ public static class OpenArcsRegistry
                 "reads the (0,1) block's slowest rate as 0.167 on the IBM Torino profile, where " +
                 "2*gamma_bar = 1.043 (0.1 is 2*gamma_MIN, a factor of ten below the mean, and an " +
                 "earlier draft of this note quoted that as the mean). Inside the Bendixson bracket " +
-                "[0.1, 4.672], nowhere near -2*gamma_bar. " +
+                "[0.1, 4.671], nowhere near -2*gamma_bar. " +
                 "The model to copy is simulations/d10_block_closure_verify.py, which is the one place " +
                 "that TESTS the fence rather than asserting it. " +
+                "SECOND-A, THE FENCING PASS: STARTED 2026-08-20, CLASS A's MARKDOWN HALF ONLY, and the inventory it " +
+                "was given was wrong by an order of magnitude. Section (i) of PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE " +
+                "has nine table ROWS naming at least sixteen sites, and was read as nine. Two Stage-0 scouts found roughly sixty, a SCOUT count that no artifact in the repo enumerates and that nobody has audited, in three classes, and the class split is " +
+                "the useful part. CLASS A is the Edge lemma and everything that restates or consumes it; CLASS B is " +
+                "the whole-sector Re = -2*gamma family of the SECOND item above; CLASS C is the much thinner claim " +
+                "that the edge block spectrum is SIMPLE, thin because section (g) of that proof derives the " +
+                "simplicity at uniform gamma for the first time, so almost nothing prior asserts it. " +
+                "WHAT WAS FENCED (2026-08-20): the lemma itself and its two premise sites in " +
+                "PROOF_CODIM1_BY_ADDITIVITY, the two scope declarations that made the transport possible (:24 sets " +
+                "the work under arbitrary rates gamma_j, and a Scope paragraph at :85 says the two lemmas never use " +
+                "uniformity, twenty lines above a lemma that does; that paragraph is about Lemmas 1-3 and was never " +
+                "meant to reach the Edge lemma), the n_diff window separated from the gamma window at :115 where " +
+                "they had been merged, the boundary-normality restatements at :3, :170, :224, the containment corollary in the Abstract at :30 and the window-combinatorics shell at :139 (two sites the inventory did not list, whose brackets are also in n_diff units), and the gate row at " +
+                ":207, and the same treatment on F125 in ANALYTICAL_FORMULAS (:5152, :5168, :5170, :5176). The " +
+                "fence wording is section (f), with three additions the pass had to make because section (f) as " +
+                "first written lacked them. Under a profile the conclusion is FALSE rather than unproven, and " +
+                "what replaces it is a LOCATION, the defective eigenvalue sitting strictly inside " +
+                "[-2*gamma_max, -2*gamma_min]; that holds AT REAL q, the window MOVING at complex q. The " +
+                "surviving lemma's hypothesis is that the Hermitian part EQUALS -2*diag(gamma), NOT the vacuous " +
+                "'the Hermitian part is Hermitian', which is true of every matrix and so cannot fail. And a " +
+                "fence must say what a profile does GENERICALLY, namely make the block non-normal and spread " +
+                "the shared rate over the window, the defectiveness being codimension one and measure zero; " +
+                "a fence that omits that reads as though any profile defectivizes the block. " +
+                "WHAT WAS NOT FENCED, and is owed, thirteen sites across five C# files plus one plan document (SpectatorIntertwinerClaim :49/:126; a third node at :143-156 was " +
+                "briefly counted here and is NOT a member, being the window-edge lemma, which SURVIVES a profile, " +
+                "and carrying '(uniform gamma=1)' in its own prose at :153, so the owed count is thirteen, not " +
+                "fourteen), MultiSectorMonodromyVerdictClaim " +
+                "five sites, SectorBraidWitness three, of which :209 has no fence of any kind, not N, q, gamma nor " +
+                "mechanism, PinnedBlockFloorClaim :21-23 and :222, where the FLOOR half is correctly fenced at :224 and the " +
+                "NORMALITY half is not, F89DescendantClaimsRegistrationTests :225, and the plan document " +
+                "2026-07-02-codim1-by-additivity-theorem :80-82, which is the likely ORIGIN, putting 'holds for " +
+                "arbitrary bond profiles and non-uniform gamma' two lines above the edge-exclusion restatement); " +
+                "the one EXECUTING site, SpectatorIntertwinerGateTests :590-601, at a hard-coded " +
+                "Enumerable.Repeat(1.0, n); OpenArcsRegistry itself at :1581-1582 (the boundary-normality sentence, never " +
+                "updated, sitting in this same file as this entry, inside the arc zeros_connecting_structure and " +
+                "NOT in any arc named for the monodromy census, which does not exist) and in the arc sideways_spin_ladder " +
+                "of this same file, where 'per rate sector the dephasing diagonal is one scalar' carries an " +
+                "EXISTS-AT-ALL verdict for N=6 two lines below it (cited by content, not by line: an earlier " +
+                "version of this sentence gave a line number and the next insertion into this file moved it); and the whole of CLASS B. " +
+                "TWO CLASS-B SITES THE SECOND ITEM DOES NOT NAME, both load-bearing and both reached WITHOUT " +
+                "citing the Edge lemma, so they are independent re-derivations of the same collapse rather than " +
+                "inheritance. D06_SPECTRAL_GAP states Spectral gap = 2*gamma with tau_slow = 1/(2*gamma) and " +
+                "t_mix <= N*ln(4)/(2*gamma) downstream, and the word uniform does not occur in the file at all; its three " +
+                "fences are on Q, on N, and on the number-conserving XY/Heisenberg family, gamma being the one " +
+                "axis nobody fenced. " +
+                "And the F2b corollary at ANALYTICAL_FORMULAS :165-175 derives the gamma-protected clock from " +
+                "|vac><psi_k| being a SIMULTANEOUS EIGENOPERATOR of L_D at eigenvalue -2*gamma. The two break " +
+                "DIFFERENTLY and merging them loses the sharper one: D06 is a value becoming a window, obeying " +
+                "only [2*gamma_min, 2*gamma_max] on the n_diff = 1 SHELL, whether that " +
+                "shell still SETS the gap being D06's separate Q > Q*_gap question; F2b is the MECHANISM failing, since -2*diag(gamma) does not " +
+                "leave psi_k an eigenoperator at all, so the gamma-independence is unfounded and not merely " +
+                "imprecise. Both are written up in the 2026-08-20 entry of docs/CAUGHT_ERRORS.md. The measured " +
+                "counter-instance was already published: LIGHT_DOSE_RESPONSE :35 reads the (0,1) slowest rate as " +
+                "0.167 on a concentrated N=5 profile whose (0,5) = 5.216 = 2*sum(gamma) fixes 2*gamma_bar = 1.043, " +
+                "a factor of six out and well inside the bracket. " +
+                "WHY NO GATE CAUGHT ANY OF IT, and this is deeper than fixture choice: the builders CANNOT " +
+                "EXPRESS A PROFILE. simulations/framework/weight_coherence_block.py:25 " +
+                "(A = -2 * gamma * n_diff) admits a scalar gamma only, and its C# counterpart " +
+                "WeightCoherenceBlock.Build is stricter still, taking NO gamma at all with gamma = 1 welded into " +
+                "the diagonal literal, so no consumer could write the profile case " +
+                "even deliberately. The scalar form was not preferred, it was the only expressible one, which is " +
+                "why the same shape recurs in files with no citation path between them. Whoever takes CLASS B " +
+                "should consider building the profile into those two builders FIRST, so a fence becomes testable " +
+                "rather than asserted; the model is simulations/d10_block_closure_verify.py, which tests its own " +
+                "fence and says outright that uniform gamma is a scope and not a feature. " +
+                "ONE MORE SHAPE, and it is the exposed one: the lemma's STRONGEST form is not the n_diff = 1 " +
+                "form. PROOF_CODIM1 :129 and the gate comment at :572-574 both generalize to every boundary block has " +
+                "CONSTANT n_diff, hence a normal pencil, covering all 20 boundary blocks at N=5 rather than the " +
+                "four of edge type, and that added step is exactly the step a profile breaks, since constant " +
+                "n_diff makes A constant only when the rates are equal. That is the form the C# restatements " +
+                "carry forward as boundary normality. A name-based grep under-collects throughout, the block " +
+                "going by four names in tracked files (see FOURTH below); everything above was collected by " +
+                "concept. " +
+                "SECOND-B, WHAT A FRESH REFEREE FOUND ON THE COMMITTED EDGE-BLOCK PROOF (2026-08-20, during " +
+                "the fencing pass's review rounds; NOT part of that pass and NOT repaired, recorded so it is not " +
+                "re-found). The verdict on the maths was that it holds; these are about the record and the gates. " +
+                "(a) THE NOVELTY CLAIM IS CONTRADICTED BY COMMITTED MATERIAL IN THIS SAME ARC's neighbourhood, and " +
+                "the sweep record names neither: section (e) claims as its addition 'real discriminant ⟹ one real " +
+                "equation ⟹ existence by sign change', which experiments/F89_PATH_K_DIABOLIC.md:167 already states " +
+                "('A real zero of a real discriminant is codimension 1, generic') and F89PathK/" +
+                "FoldResultantCertificate.cs:2218 already states ('the self-fold antiunitary makes the codimension " +
+                "1'). Worse, the reality identity itself is composable on the very page being refuted: " +
+                "PROOF_CODIM1 section 7 lists the pencil reality conj L(q) = L(-q_bar) and the bipartite gauge " +
+                "D L(q) D = L(-q) as its own Tier-1 ingredients, and at real q their composition IS section (e)'s " +
+                "S conj(M) S^-1 = M. This is the Stage-0 rule biting the document that was written to satisfy it. " +
+                "(b) THE EXISTENCE METHOD'S BLIND SPOT IS UNSTATED WHILE COUNTS ARE REPORTED THROUGH IT: a sign " +
+                "change sees only ODD-order zeros, which is fine for existence, but section (e) then reports " +
+                "'3, 1 and 3 roots' as if counting. Those are lower bounds. The same arc's F89_PATH_K_DIABOLIC " +
+                "already records this exact blindness at :179 ('the odd-order sign-change detector is structurally " +
+                "blind here', a parenthetical elided), and the counting scout's Sturm route (FIRST-A point 1) is the instrument that does not " +
+                "have it. (c) GATE G10, the ONE control that isolates tridiagonality as the operative hypothesis " +
+                "by exhibiting a non-normal star whose repeated eigenvalue is nonetheless SEMISIMPLE, reads the " +
+                "nullity off a float SVD threshold and never computes the algebraic multiplicity, so a star with " +
+                "algebraic 3 and geometric 2 would pass as semisimple. Section (e) forbids exactly that route in " +
+                "writing when it gates G6b. An exact route exists (equal leaves give exact eigenvectors at " +
+                "-2*gamma_leaf), which the no-rounding rule puts in case 1: compare exactly. (d) GATE G9 cannot " +
+                "fail: Lemma A proves the hopping spectrum simple for EVERY bond profile, so its 2700 random draws " +
+                "can only confirm a theorem proved two sections earlier. The document deletes two gates of that " +
+                "shape elsewhere and keeps this one. (e) THE DEVICE-FACING SPLIT LAW rests on ONE witness: G13 " +
+                "runs WITNESSES[0] only, one N, one Q, one turned knob, and the constant 0.394 in " +
+                "split = 0.394*sqrt(relative error) is witness-specific and quoted without that qualifier. The single-KNOB caveat is stated, and section (e) does say G13 reads it on the N = 4 " +
+                "witness; what carries no qualifier is the CONSTANT 0.394 itself, quoted to three figures and " +
+                "used to convert device tolerances. (f) THE Delta = 1 EXISTENCE HALF IS STATED " +
+                "NOWHERE (an earlier wording here said the whole Delta = 1 CASE was, which SECOND-C (ii) corrects): Lemma A is Delta-blind, so repeated implies defective on the Heisenberg chain too, and " +
+                "only the codimension-1 cheapness is lost. A reader working on this project's own core object " +
+                "cannot state that case from the page, and the commit message of 35ad08c asserts a Delta = 1 " +
+                "reading ('the EPs are isolated points instead') that is in no document and no gate. (g) THE TITLE " +
+                "READS STRONGER THAN THE RESULT: the EP set is codimension one, hence measure zero, and needs " +
+                "contrast 2.3 to 16.9 with rate-setting to about 3e-5 relative; a physicist skimming the title or " +
+                "the fenced paragraph in F125 will come away thinking a generic profile makes the block defective. " +
+                "(h) NO EXTERNAL LITERATURE AT ALL, on a result whose N=2 case is the passive-PT dimer EP and whose " +
+                "mechanism is spontaneous antilinear-symmetry breaking; Lemma A's classical fact is cited without " +
+                "a reference. The repo cites Bender-Boettcher, El-Ganainy and Medvedyeva-Essler-Prosen elsewhere. " +
+                "NONE OF (a)-(h) MOVES A NUMBER. The referee re-derived Lemma A's lambda-free minor, section (d)'s " +
+                "closed form, section (e)'s reality identity and the J-book correction independently and found " +
+                "them right, and singled out the recorded WITHDRAWALS as the strongest part of the document. " +
+                "SECOND-C, WHAT THE THIRD REVIEW ROUND ADDED (2026-08-20, and the first item is a RESULT, not " +
+                "bookkeeping). (i) A BOND PROFILE CAN DO IT AFTER ALL, once the rates are non-uniform, so section " +
+                "(g)'s 'A bond profile cannot do it' was a false universal whose scope lived in the section TITLE. " +
+                "Verified from below: N=4 path, Delta=0, gamma = (0.05, 0.15, 0.07, 0.09) held fixed, bonds 1 and " +
+                "2 at 0.1, turning bond 0 gives an EXACT real coalescence at J* = +-0.0495110382 with " +
+                "Re lambda = -0.16980, singular values (0.3553, 0.2441, 0.1288, 0.0) so geometric multiplicity 1 " +
+                "against algebraic 2, hence a Jordan block by Lemma A. Discriminant degree 10 in that bond, roots " +
+                "in +- pairs, which is FIRST-A item (6)'s doubling seen on the edge block instead of the cusp " +
+                "locus. What survives is the uniform-gamma statement: at uniform gamma no bond profile creates a " +
+                "degeneracy, because Lemma A makes the Jacobi spectrum simple for every bond profile and a scalar " +
+                "shift preserves that. The rate profile opens the door; it does not monopolise it. Section (g) is " +
+                "repaired and carries the counterexample. " +
+                "(ii) A CORRECTION TO SECOND-B (f), which was too strong: the Delta = 1 case is not stated " +
+                "nowhere. Lemma A is explicitly 'in either Delta book' and its corollary is book-agnostic, so " +
+                "'repeated implies defective on the Heisenberg chain' IS statable from the page. What is genuinely " +
+                "absent is the EXISTENCE half at Delta = 1, and the reason it is hard is now measured: the " +
+                "Delta = 1 discriminant is genuinely COMPLEX (Im disc nonzero at three rational test points), so " +
+                "two real equations rather than one, the EP set is codimension 2, and a single-knob rate turn " +
+                "generically misses it. That is the missing sentence, not the Jordan structure. " +
+                "(iii) THE CAN-NOT-FAIL LIST GROWS BY ONE HALF-GATE: beside G9 (SECOND-B (d)), gate G12's CONTRAST " +
+                "half is arithmetic, its own PASS string reading 'contrast 11/5 = 1 + Q holds by construction' " +
+                "because g1 is SET to g0 + 2*j_proof. Only its 'exact disc == 0' half is a test, while section (e) " +
+                "presents G12 as carrying both halves over four Q values. " +
+                "(iv) THE CODIMENSION CLAIM WAS AN EQUALITY WHERE ONLY CONTAINMENT IS PROVED (repaired): the real " +
+                "zero set of a real polynomial has dimension AT MOST N-1 and can be lower or empty; what is " +
+                "established pointwise is local hypersurface structure at each SIMPLE sign-change root. " +
+                "(v) THE SIGN-CHANGE COUNTS SURVIVE: the round recomputed the '3, 1 and 3 roots' exactly over the " +
+                "rationals and found every root SIMPLE, so the odd-order blind spot of SECOND-B (b) cost nothing " +
+                "here; the defect is strength-of-statement only, and the seven witness rates were reproduced to " +
+                "all six printed digits independently. " +
+                "(vi) THE SWEEP RECORD WALKED PAST THE EXACT PRIOR: it discusses F2 at length as 'the cross-book " +
+                "it would have been' and never names F2b, E_k = 2J*cos(pi*k/(N+1)), which IS section (g)'s " +
+                "4J*cos(m*pi/(N+1)) in the other J book and therefore the actual prior for the sentence being " +
+                "corrected. F2b is a named CLASS-B site in the same day's CAUGHT_ERRORS entry. Stage 0 found the " +
+                "near neighbour and missed the exact one. " +
+                "(vii) SECTION (i)'s SECOND TABLE LISTS A ROW ITS OWN HEADING CONTRADICTS: the heading says 'each " +
+                "of which ASSERTED unconditionally what section (e) contradicts' while the StructuralCeilingClaim " +
+                "row's own note says 'it is not a member of the same class'. The table also names a different set " +
+                "of five C# files than the arc's thirteen owed sites do, omitting PinnedBlockFloorClaim and " +
+                "F89DescendantClaimsRegistrationTests. Section (i) declares itself incomplete, so this is " +
+                "bookkeeping rather than a false claim, but the two inventories should be merged by whoever takes " +
+                "the C# half. " +
+                "(viii) THE WINDOW THEOREM IS SCOPED NARROWER THAN IT IS: section (f) states it for 'a path edge " +
+                "block', but Bendixson plus the window-edge lemma need neither the path nor Lemma A, only a real " +
+                "symmetric bond profile at real q. Under-strength, not wrong. " +
                 "THIRD, SETTLED 2026-08-20, and it did NOT net out: CarrierVectorPortfolio's convention " +
                 "bridge said 'BuildBlockZ labels site l at bit l (LSB)', the pre-2026-07-25 convention, " +
                 "and reversed the carrier to compensate, so channel s was charged gamma_{N-1-s}. The " +
