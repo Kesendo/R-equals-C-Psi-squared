@@ -4157,7 +4157,7 @@ public static class OpenArcsRegistry
                 "that TESTS the fence rather than asserting it. " +
                 "SECOND-A, THE FENCING PASS: STARTED 2026-08-20, CLASS A's MARKDOWN HALF ONLY, and the inventory it " +
                 "was given was wrong by an order of magnitude. Section (i) of PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE " +
-                "has nine table ROWS naming at least sixteen sites, and was read as nine. Two Stage-0 scouts found roughly sixty, a SCOUT count that no artifact in the repo enumerates and that nobody has audited, in three classes, and the class split is " +
+                "was read as nine sites when it was nine table ROWS naming more, and it has since grown to fourteen rows; it is now the CANONICAL inventory and has absorbed this list, so count its rows rather than trusting any number in prose, this sentence included. Two Stage-0 scouts found roughly sixty, a SCOUT count that no artifact in the repo enumerates and that nobody has audited, in three classes, and the class split is " +
                 "the useful part. CLASS A is the Edge lemma and everything that restates or consumes it; CLASS B is " +
                 "the whole-sector Re = -2*gamma family of the SECOND item above; CLASS C is the much thinner claim " +
                 "that the edge block spectrum is SIMPLE, thin because section (g) of that proof derives the " +
@@ -4178,7 +4178,7 @@ public static class OpenArcsRegistry
                 "fence must say what a profile does GENERICALLY, namely make the block non-normal and spread " +
                 "the shared rate over the window, the defectiveness being codimension one and measure zero; " +
                 "a fence that omits that reads as though any profile defectivizes the block. " +
-                "WHAT WAS NOT FENCED, and is owed, thirteen sites across five C# files plus one plan document (SpectatorIntertwinerClaim :49/:126; a third node at :143-156 was " +
+                "WHAT WAS NOT FENCED, and is owed. THE CANONICAL LIST IS NOW SECTION (i) OF THE PROOF, not this sentence: the two inventories named different file sets, which would have sent whoever took the C# half after the wrong one, and they were merged into section (i) on 2026-08-20 with this entry demoted to a summary. The members, for orientation only, the row count in section (i) being the truth: (SpectatorIntertwinerClaim :49/:126; a third node at :143-156 was " +
                 "briefly counted here and is NOT a member, being the window-edge lemma, which SURVIVES a profile, " +
                 "and carrying '(uniform gamma=1)' in its own prose at :153, so the owed count is thirteen, not " +
                 "fourteen), MultiSectorMonodromyVerdictClaim " +
@@ -4251,7 +4251,8 @@ public static class OpenArcsRegistry
                 "algebraic 3 and geometric 2 would pass as semisimple. Section (e) forbids exactly that route in " +
                 "writing when it gates G6b. An exact route exists (equal leaves give exact eigenvectors at " +
                 "-2*gamma_leaf), which the no-rounding rule puts in case 1: compare exactly. (d) GATE G9 cannot " +
-                "fail: Lemma A proves the hopping spectrum simple for EVERY bond profile, so its 2700 random draws " +
+                "fail: Lemma A proves the hopping spectrum simple for every bond profile with A_J HERMITIAN and " +
+                "every J_b != 0, which is what G9 draws inside, so its 2700 random draws " +
                 "can only confirm a theorem proved two sections earlier. The document deletes two gates of that " +
                 "shape elsewhere and keeps this one. (e) THE DEVICE-FACING SPLIT LAW rests on ONE witness: G13 " +
                 "runs WITNESSES[0] only, one N, one Q, one turned knob, and the constant 0.394 in " +
@@ -4279,10 +4280,24 @@ public static class OpenArcsRegistry
                 "Re lambda = -0.16980, singular values (0.3553, 0.2441, 0.1288, 0.0) so geometric multiplicity 1 " +
                 "against algebraic 2, hence a Jordan block by Lemma A. Discriminant degree 10 in that bond, roots " +
                 "in +- pairs, which is FIRST-A item (6)'s doubling seen on the edge block instead of the cusp " +
-                "locus. What survives is the uniform-gamma statement: at uniform gamma no bond profile creates a " +
-                "degeneracy, because Lemma A makes the Jacobi spectrum simple for every bond profile and a scalar " +
-                "shift preserves that. The rate profile opens the door; it does not monopolise it. Section (g) is " +
-                "repaired and carries the counterexample. " +
+                "locus. What survives is the uniform-gamma statement WITH ITS OTHER TWO " +
+                "HYPOTHESES: at uniform gamma no bond profile with A_J Hermitian and every J_b != 0 creates a " +
+                "degeneracy, because Lemma A makes such a Jacobi spectrum simple and a scalar shift preserves " +
+                "that. The rate profile opens the door; it does not monopolise it. Section (g) is " +
+                "repaired and carries the counterexample, and it is GATED as of 2026-08-20: G9b, eight " +
+                "assertions, no eigensolver anywhere, and every assertion CLASSIFIED, after two " +
+                "successive docstrings got the classification wrong: the load-bearing pair is the isolated " +
+                "positive real root of the discriminant (existence, with multiplicity 1) and Lemma A's " +
+                "lam-free minor (geometric multiplicity 1, hence defective). The exact sign change is " +
+                "CORROBORATION here and not a leg, because unlike G6, whose brackets are hard-coded " +
+                "decimals, this bracket is intervals()' own isolating interval, whose ends have opposite " +
+                "signs by construction; what it does carry is the merge onto the REAL axis, via " +
+                "sign(disc) = (-1)^s for SIMPLE roots. The Sturm count is corroboration too, since at " +
+                "n = 4 a parity flip already forces the step to be 2. A " +
+                "ninth assertion, that the same bond at uniform rates reaches nothing, was WRITTEN AND " +
+                "THEN DELETED in the same session: at uniform gamma the discriminant is a constant times " +
+                "disc(A_J), strictly positive for any nonvanishing bond profile, so it could not fail. It " +
+                "is Lemma A again and now lives in section (g)'s prose. The script is 209 gates. " +
                 "(ii) A CORRECTION TO SECOND-B (f), which was too strong: the Delta = 1 case is not stated " +
                 "nowhere. Lemma A is explicitly 'in either Delta book' and its corollary is book-agnostic, so " +
                 "'repeated implies defective on the Heisenberg chain' IS statable from the page. What is genuinely " +
@@ -4306,13 +4321,45 @@ public static class OpenArcsRegistry
                 "4J*cos(m*pi/(N+1)) in the other J book and therefore the actual prior for the sentence being " +
                 "corrected. F2b is a named CLASS-B site in the same day's CAUGHT_ERRORS entry. Stage 0 found the " +
                 "near neighbour and missed the exact one. " +
-                "(vii) SECTION (i)'s SECOND TABLE LISTS A ROW ITS OWN HEADING CONTRADICTS: the heading says 'each " +
+                "(vi-b) THE SCOPE REPAIR OF SECTION (g) TOOK THREE PASSES AND EACH DROPPED A DIFFERENT WORD, " +
+                "which is the day's shape in miniature. Pass 1 had 'a bond profile cannot do it' with the " +
+                "uniform-gamma scope in the section TITLE. Pass 2 moved uniform into the sentence and " +
+                "restored J_b != 0, which Lemma A's own statement carries. Pass 3 restored HERMITICITY of A_J, and " +
+                "that is the one that mattered: at uniform gamma = 0.05, N = 3, bonds (1, i), both " +
+                "nonzero and the path unbroken, the block has the single eigenvalue -0.1 with algebraic " +
+                "multiplicity 3 and geometric multiplicity 1, a Jordan block of size THREE at uniform gamma. " +
+                "A FOURTH pass then found that the module docstring of the gate script still carried the " +
+                "refuted 'ANY bond profile' form, along with two statements section (e) had already " +
+                "corrected: the file had been repaired function by function and its own summary never " +
+                "opened. " +
+                "The word is HERMITICITY and not reality, a distinction pass 3 also had to make: " +
+                "a physically complex HOP, J_b against conj(J_b), leaves A_J Hermitian, and the characteristic " +
+                "polynomial and discriminant stay REAL, so nothing in section (e) moves. THE REASON MATTERS " +
+                "AND A FIRST VERSION GOT IT WRONG in a way that survived a review round, because it defended " +
+                "a TRUE conclusion: it is NOT that the alternating-sign similarity makes the spectrum " +
+                "symmetric about zero, since S*A_J*S = -A_J depends only on the bipartite sign pattern and " +
+                "holds for the complex SYMMETRIC placement too, where the polynomial is NOT real, so that " +
+                "argument proves the counterexample as well. What changes is the identity's RIGHT-HAND SIDE: " +
+                "at a Hermitian hop S*conj(M)*S^-1 = M^T, and M and M^T are cospectral, so the spectrum is " +
+                "conjugation-closed. Equivalently, a path is a TREE, the hop phases carry no flux, and a " +
+                "diagonal unitary removes them " +
+                "(checked exactly at N=4 with bonds 1+i, 1/2-2i, 3i: Im of every charpoly coefficient is 0 " +
+                "under Hermitian placement and nonzero under symmetric placement). What CE2 exploits is a " +
+                "complex SYMMETRIC off-diagonal, which is not a Hermitian Hamiltonian. It is not a " +
+                "counterexample to Lemma A, which never needed Hermiticity and calls that eigenvalue " +
+                "defective exactly as observed; it refutes the sentence about the HOPPING spectrum. Gate G9 sees neither counterexample, drawing its " +
+                "couplings real and from [0.05, 2.0]. " +
+                "(vii) REPAIRED 2026-08-20, RECORDED BECAUSE THE REPAIR IS THE FINDING: section (i)'s second " +
+                "table listed a row its own heading contradicted, and named a different set of files from " +
+                "this entry, so whoever took the C# half would have worked from the wrong list. The heading " +
+                "then said 'each " +
                 "of which ASSERTED unconditionally what section (e) contradicts' while the StructuralCeilingClaim " +
-                "row's own note says 'it is not a member of the same class'. The table also names a different set " +
-                "of five C# files than the arc's thirteen owed sites do, omitting PinnedBlockFloorClaim and " +
+                "row's own note said 'it is not a member of the same class'. The table also named a different set " +
+                "of C# files than this entry did, omitting PinnedBlockFloorClaim and " +
                 "F89DescendantClaimsRegistrationTests. Section (i) declares itself incomplete, so this is " +
-                "bookkeeping rather than a false claim, but the two inventories should be merged by whoever takes " +
-                "the C# half. " +
+                "bookkeeping rather than a false claim, but the two are merged as of 2026-08-20: every site this entry held is now a row in " +
+                "section (i), including the plan document and the two OpenArcs sites, and the heading no " +
+                "longer claims that every row asserts unconditionally. " +
                 "(viii) THE WINDOW THEOREM IS SCOPED NARROWER THAN IT IS: section (f) states it for 'a path edge " +
                 "block', but Bendixson plus the window-edge lemma need neither the path nor Lemma A, only a real " +
                 "symmetric bond profile at real q. Under-strength, not wrong. " +

@@ -39,12 +39,17 @@ THE THREE PARTS OF THE ANSWER.
      A path is bipartite, so with S = diag((-1)^k) one has S*conj(M)*S^-1 = M exactly at
      Delta = 0. M is similar to its own conjugate, the characteristic polynomial has real
      coefficients, and the discriminant is real. disc = 0 is then ONE real equation in the
-     rate space rather than two, so its solution set is a HYPERSURFACE of dimension N-1 in
-     the rate space and turning a single rate crosses it. Existence follows from a sign
+     rate space rather than two, so its solution set is contained in a hypersurface,
+     of dimension AT MOST N-1 (a real zero set can be lower-dimensional or empty), and
+     turning a single rate crosses it at each SIMPLE sign-change root. Existence follows from a sign
      change, by the intermediate value theorem on a real continuous function; no topological
      degree is needed and none is used. SCOPE, because the reality argument does not reach
-     further: a real characteristic polynomial makes disc = 0 one equation for a coalescence
-     ON THE REAL AXIS, and every EP this route produces has Im lambda = 0 (G6 asserts the
+     further, and stated correctly here after an earlier version of this paragraph got it
+     backwards: it is the SIGN CHANGE and never the vanishing that puts a coalescence on the
+     real axis, since (lam^2+1)^2 is real with zero discriminant and both double roots off
+     the axis. For a real polynomial with SIMPLE roots and s conjugate pairs,
+     sign(disc) = (-1)^s, so a sign change flips the parity of s and an odd number of pairs
+     must have crossed. Every EP this route produces therefore has Im lambda = 0 (G6 asserts the
      computed residual under the bound eps*||M||_2*n, and G6c re-asserts that bound at
      every witness across four decades of scale; no raw magnitude is quoted, because a raw
      magnitude moves with the units, and no FLATNESS is claimed, because the residual is a
@@ -63,15 +68,26 @@ THE THREE PARTS OF THE ANSWER.
      pairing and shelves it BECAUSE the Heisenberg generator keeps the ZZ degree diagonal,
      which is the Delta=1 book. What is new is the step from the identity to codimension.
 
-  C. IT IS THE RATE PROFILE, AND NOT ANY PROFILE (G9). Lemma A applies to the Hermitian
-     Jacobi matrix A_J as well, so a path's hopping spectrum is simple for ANY bond profile.
-     At uniform gamma the block therefore has a simple spectrum and nothing to be defective;
-     a J profile does not change that. The per-site RATE profile is what creates the
-     degeneracy, and part A then leaves it no form but a Jordan block.
+  C. IT IS THE RATE PROFILE, AND NOT ANY PROFILE (G9, G9b). Lemma A applies to the Jacobi
+     matrix A_J as well, so a path's hopping spectrum is simple whenever A_J is HERMITIAN with
+     every J_b != 0. Both hypotheses are load-bearing and an earlier version of this paragraph
+     carried neither, saying "ANY bond profile": at uniform gamma, bonds (0.3, 0, 0.3) at N=4
+     give a SEMISIMPLE double eigenvalue (the cut chain is two dimers), and placing complex
+     bonds SYMMETRICALLY, so A_J is complex symmetric rather than Hermitian, gives at N=3 with
+     bonds (1, i) a single eigenvalue of algebraic multiplicity 3 and geometric multiplicity 1.
+     A physically complex HOP is not that case and changes nothing, its phases being gauge:
+     with Hermitian placement the characteristic polynomial stays real and so does the
+     discriminant. So at uniform gamma with a Hermitian nonvanishing A_J the block has a simple
+     spectrum and nothing to be defective; the per-site RATE profile is what creates the
+     degeneracy, and part A then leaves it no form but a Jordan block. G9b is the complement:
+     once the RATES are non-uniform, a bond is an ordinary knob and reaches a Jordan block.
 
-WHAT SURVIVES INTACT. The window-edge lemma (PROOF_CODIM1_BY_ADDITIVITY.md:121) forbids a
-defective eigenvalue only AT an edge of the rate window, and needs only that the Hermitian
-part be Hermitian. Every EP located here sits strictly inside [-2*gamma_max, -2*gamma_min]
+WHAT SURVIVES INTACT. The window-edge lemma (PROOF_CODIM1_BY_ADDITIVITY.md:123) forbids a
+defective eigenvalue only AT an edge of the rate window, AT REAL q. What it needs is not that
+the Hermitian part be Hermitian, which is true of every matrix and so cannot fail: it is that
+the Hermitian part EQUALS -2*diag(gamma), which holds because 2i*A_J is exactly anti-Hermitian
+whenever A_J is Hermitian. This sentence carried the vacuous form until 2026-08-20, after the
+proof it gates had already spent a paragraph killing it. Every EP located here sits strictly inside [-2*gamma_max, -2*gamma_min]
 (G7), which is where that lemma permits one. Containment is a theorem, not a measurement; G7
 corroborates it and does not establish it.
 
@@ -615,8 +631,10 @@ def g8_sqrt_branch():
 
 
 def g9_the_rate_profile_is_what_does_it():
-    """Part C. Lemma A applies to the Hermitian Jacobi matrix too, so no bond profile can make
-    the hopping spectrum degenerate; a first version of this argument cited the closed form
+    """Part C. Lemma A applies to the Jacobi matrix too, so no bond profile with A_J HERMITIAN
+    and every J_b != 0 can make the hopping spectrum degenerate. Both hypotheses are needed and
+    the module docstring's part C carries the two counterexamples. What this gate does is
+    MEASURE 2700 draws inside those hypotheses; Lemma A is what proves the statement; a first version of this argument cited the closed form
     2J(1 - cos(m*pi/N)), which is true only at UNIFORM J and therefore did not cover the case
     it was invoked for."""
     print("\nG9  it is the RATE profile: no J profile degenerates the hopping spectrum")
@@ -636,6 +654,112 @@ def g9_the_rate_profile_is_what_does_it():
         # compared to literal zero. A nonzero residual here would be a finding, not noise.
         gate(f"N={n}: at uniform gamma [M, M^dag] is exactly zero", bool(np.all(c == 0)),
              f"max |entry| = {np.abs(c).max():.1e}")
+
+
+def g9b_a_bond_can_do_it_once_the_rates_are_not_uniform():
+    """The complement of G9, and NOT the negation that was read into it. What Lemma A gives, and
+    G9 measures inside those hypotheses, is that at UNIFORM gamma no bond profile with A_J
+    HERMITIAN and every J_b != 0 degenerates the spectrum. Section (g) turned that into "a bond
+    profile cannot do it", with all three hypotheses gone: uniform gamma living in the section
+    TITLE, and the other two nowhere at all. Read standing alone the sentence is false three
+    ways over, and this gate is the counterexample for the first of them; the module docstring's
+    part C carries the other two.
+
+    Exact throughout and deliberately WITHOUT an eigensolver. Every assertion below is
+    classified, because an earlier docstring named two "load-bearing legs" and then listed one
+    of them again among the pins "carrying no discriminating power", and left three assertions
+    in no category at all:
+
+      LOAD-BEARING (4) exactly one positive real root of disc, isolated over Q: this is the
+          existence content. It asserts the COUNT only; intervals() also returns the root's
+          multiplicity and this gate discards it, which is why (6) below is not redundant.
+      LOAD-BEARING (8) Lemma A's lam-free minor: geometric multiplicity exactly 1, hence
+          DEFECTIVE, by a determinant rather than by a float nullity (the route G6b forbids in
+          writing and G10 still takes). Note the gate asserts the minor's IDENTITY, not its
+          nonvanishing; the latter rides on the turned bond being positive, which is (5).
+      CORROBORATION (6) the exact sign change at the bracket ends. Weaker here than the same
+          words in G6, and the difference is worth knowing: G6's brackets are hard-coded
+          decimals, so there the sign change IS the existence step, while here the bracket is
+          intervals()' own isolating interval for the root found in (4), whose endpoints have
+          opposite signs by construction. Given (4) it can only fail if the root has even
+          multiplicity. It is what carries the merge onto the REAL axis, by sign(disc) = (-1)^s.
+      USED HYPOTHESES (1) (2), not decoration, and an earlier version of this list wrongly
+          filed them as pins with no discriminating power. (1) the real characteristic
+          polynomial is the hypothesis of sign(disc) = (-1)^s, which (6) invokes; (2) evenness
+          in the bond is what makes the substitution J -> sqrt(u) yield a polynomial at all,
+          and (3) (4) (5) (6) all run on that polynomial.
+      PINS (3) (5) (7) the discriminant's degree, the root staying away from J = 0, and the
+          Sturm count. (5) is admitted unable to fail: the root sits at u ~ 2.45e-3 and the
+          interval is refined to 1e-14. (7) is logically IMPLIED by (6) at n = 4, since the
+          real-root count lies in {0,2,4} and a parity flip in s forces a step of exactly 2,
+          so calling it corroboration was generous; it is kept because it reads the merge in
+          eigenvalue language rather than in discriminant language.
+
+    What is NOT gated here, deliberately. That the same bond at UNIFORM rates reaches nothing:
+    there the block's discriminant is (-4)^(N(N-1)/2) times disc(A_J), and disc(A_J) is strictly
+    positive for a REAL symmetric unreduced Jacobi matrix at every N, so the block discriminant
+    is sign-CONSTANT (negative at N = 2, 3 mod 4) and there is no sign change to find. A gate on
+    it could not fail; this file has retired two others of that shape. It is Lemma A again and
+    belongs in section (g)'s prose, where it is."""
+    print("\nG9b once the rates are NOT uniform, a BOND is an ordinary knob")
+    J = sp.Symbol("J", positive=True)
+    lam = sp.Symbol("lam")
+    u = sp.Symbol("u", positive=True)
+    n = 4
+    fixed = sp.Rational(1, 10)
+
+    def build(gam):
+        M = sp.zeros(n, n)
+        for k in range(n):
+            M[k, k] = -2 * gam[k]
+        for b, jb in enumerate([J, fixed, fixed]):
+            M[b, b + 1] = M[b + 1, b] = 2 * sp.I * jb
+        return M
+
+    profile = [sp.Rational(5, 100), sp.Rational(15, 100),
+               sp.Rational(7, 100), sp.Rational(9, 100)]
+    cp = sp.Poly(sp.expand(build(profile).charpoly(lam).as_expr()), lam)
+    gate("the characteristic polynomial is REAL in lam (G5's bipartite gauge, symbolically)",
+         all(sp.im(sp.expand(c)) == 0 for c in cp.all_coeffs()),
+         "every coefficient has zero imaginary part, exactly")
+
+    cpJ = sp.Poly(sp.expand(cp.as_expr()), J)
+    odd_cp = [m for (m,), c in zip(cpJ.monoms(), cpJ.coeffs()) if m % 2 and c != 0]
+    gate("it is EVEN in the bond, so J enters only as J^2", not odd_cp,
+         "which is why turning a bond doubles the multiplicity signature (arc FIRST-A item 6)")
+
+    def to_u(expr):
+        return sp.expand(expr.subs(J, sp.sqrt(u)))
+
+    disc = sp.Poly(to_u(sp.expand(sp.discriminant(cp, lam))), u)
+    gate("disc has degree 5 in u = J^2, hence 10 in the bond", disc.degree() == 5,
+         f"degree {disc.degree()} in u")
+
+    ivs = [iv for iv, _ in disc.intervals(all=False, eps=sp.Rational(1, 10**14)) if iv[1] > 0]
+    gate("with a NON-uniform rate profile held fixed, disc has exactly one positive real root",
+         len(ivs) == 1, f"{len(ivs)} positive real root, isolated over Q")
+    a, b = ivs[0]
+    gate("the root is bounded away from J = 0, so the TURNED bond does not vanish",
+         a > 0, f"u in ({float(a):.12g}, {float(b):.12g}): a genuine coupling and not the "
+         "cut chain, where Lemma A's hypothesis fails and a degeneracy CAN be semisimple")
+    va, vb = disc.as_expr().subs(u, a), disc.as_expr().subs(u, b)
+    gate("certified by an EXACT sign change over the rationals, no tolerance",
+         sp.sign(va) * sp.sign(vb) == -1,
+         f"J* in ({float(sp.sqrt(a)):.10f}, {float(sp.sqrt(b)):.10f})")
+
+    counts = [sp.polys.polytools.count_roots(
+        sp.Poly(sp.expand(cp.as_expr().subs(J, sp.sqrt(end))), lam)) for end in (a, b)]
+    gate("corroboration, not a third leg: the real-eigenvalue count steps by 2 across it",
+         abs(counts[0] - counts[1]) == 2,
+         f"{counts[0]} real below the root, {counts[1]} above; Sturm at two rational "
+         "endpoints, no eigensolver")
+
+    minor = sp.expand(((build(profile) - lam * sp.eye(n))[1:, :-1]).det())
+    expected = sp.expand(2 * sp.I * J * (2 * sp.I * fixed) ** 2)
+    gate("Lemma A there: the minor is lam-free and nonzero, so geometric multiplicity is 1",
+         sp.simplify(minor - expected) == 0 and sp.diff(minor, lam) == 0,
+         "rank >= N-1 by an exact determinant, so the repeated eigenvalue is DEFECTIVE")
+
 
 
 def g10_star_control():
@@ -781,6 +905,7 @@ def main():
     g7_window_and_positivity()
     g8_sqrt_branch()
     g9_the_rate_profile_is_what_does_it()
+    g9b_a_bond_can_do_it_once_the_rates_are_not_uniform()
     g10_star_control()
     g11_scale_law()
     g12_what_the_contrast_costs()
