@@ -34,7 +34,10 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// moved: site reversal conjugates L by a permutation that commutes with every mirror-symmetric
 /// H (chain, ring), so the eigenvalues were right all along and only the entries were mislabelled;
 /// what the reversal did reach is any read of block ENTRIES and any H that is not
-/// reversal-invariant (per-bond non-palindromic J profiles).</para></summary>
+/// reversal-invariant (per-bond non-palindromic J profiles). The coherence-block builder
+/// <see cref="RCPsiSquared.Core.F89PathK.WeightCoherenceBlock"/> uses the OPPOSITE convention (site s = bit
+/// s), so a profile passed to both must be reversed between them; that is gated from the other side in
+/// <c>WeightCoherenceBlockGammaProfileTests</c>.</para></summary>
 public static class PerBlockLiouvillianBuilder
 {
     /// <summary>Build the block <c>B[i,j] = L[flatIndices[i], flatIndices[j]]</c>

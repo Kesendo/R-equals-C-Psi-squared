@@ -4,17 +4,41 @@ using System.Numerics;
 namespace RCPsiSquared.Core.F89PathK;
 
 /// <summary>The general (w_ket, w_bra) computational-basis coherence sub-block of the Z-dephasing Liouvillian
-/// L = −i[H, ρ] + D[ρ] on an N-site chain (γ = 1, the XY hopping H = J·Σ(XX+YY) at J = q). Basis = |a⟩⟨b| with
+/// L = −i[H, ρ] + D[ρ] on an N-site chain (the XY hopping H = J·Σ(XX+YY) at J = q). Basis = |a⟩⟨b| with
 /// popcount(a) = wKet, popcount(b) = wBra (ket configs outer, bra configs inner, both in ascending-mask order);
-/// the diagonal is −2·n_diff(a,b) (the Absorption-Theorem rate 2γ·n_diff, n_diff = popcount(a⊕b)), ket
+/// the diagonal is the Absorption-Theorem DIAGONAL −2·<see cref="DisagreementSum"/> = −2·Σ_s γ_s·[a_s ≠ b_s], ket
 /// excitations hop −2iq (the −iHρ term) and bra excitations +2iq (the +iρH term), nearest-neighbour with Pauli
 /// exclusion. q-linear: L(q) = A + q·C with A the real AT diagonal and C the pure-imaginary hopping.
+///
+/// <para><b>γ is a per-site PROFILE; uniform γ = 1 is its default, not its definition.</b> The diagonal entry of
+/// the coherence |a⟩⟨b| is −2·Σ_s γ_s·[a_s ≠ b_s], the diagonal instance of the Absorption Theorem's vector form
+/// (<see cref="RCPsiSquared.Core.Symmetry.AbsorptionTheoremClaim"/>, 2026-05-29), so no law is added here; this
+/// builder is catching up with one the repo already owned. Without a <c>gammaPerSite</c> argument the build is
+/// γ_s ≡ 1 and the entry collapses to −2·n_diff: at uniform γ which sites disagree is invisible, only how many.
+/// Under a profile it is a SUBSET SUM instead of a count.</para>
+///
+/// <para>What that costs SPECTRALLY is deliberately not stated here: the diagonal is not the spectrum, and the
+/// answer depends on the block and on arg q. For the (0,1) edge block of a path,
+/// docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md owns it; F152 and F153 carry the wider statements.
+/// Uniform-only and saying so where they live: <see cref="BuildReflectionSectorColumnMajor"/> and both emitters
+/// of <see cref="WeightCoherenceSectorCsr"/>.</para>
+///
+/// <para><b>Site-index convention, and it is the OPPOSITE of the block-spectrum builder's.</b> Site s is BIT s
+/// (site 0 = least significant bit): what the hopping loops mean by nearest-neighbour and what
+/// <see cref="FieldEnergy"/> already means by <c>field[k]</c>, so the two per-site knobs agree.
+/// <see cref="RCPsiSquared.Core.BlockSpectrum.PerBlockLiouvillianBuilder"/> reads site l as bit N−1−l, so a
+/// profile handed to both must be REVERSED. Gated in <c>WeightCoherenceBlockGammaProfileTests</c>, which also
+/// records why the mislabel hides: a uniform profile is its own reverse.</para>
 ///
 /// <para>Promoted (verbatim physics) from the CLI's FoldCrossCommand.BuildBlock so the cross-fold partner block
 /// (SE, w_{N−2}) and the (SE,DE) block are built by ONE shared builder. The partner-pairing carrier is
 /// <see cref="BraComplementPermutation"/>: the branch-locus palindrome's bra bit-flip ρ[a,b] → ρ[a,b̄] maps the
-/// (wKet, wBra) block to the (wKet, N−wBra) block, with n_diff(a,b̄) = N − n_diff(a,b) reflecting the AT rate
-/// about −N. See experiments/F89_BRANCH_LOCUS_PALINDROME.md and the diabolic cross-fold (Move 4).</para></summary>
+/// (wKet, wBra) block to the (wKet, N−wBra) block, with S(a,b̄) = Σ_s γ_s − S(a,b) reflecting the AT diagonal
+/// about −σ = −Σ_s γ_s, which is −N at uniform γ = 1. The similarity is ANTIUNITARY (entry-wise conjugation and
+/// q → q̄) and holds at an arbitrary profile with the affine constant 2σ, gated in
+/// <c>WeightCoherenceBlockGammaProfileTests</c>; it is not F1's linear palindrome, which shares the 2σ and
+/// nothing else. See
+/// experiments/F89_BRANCH_LOCUS_PALINDROME.md and the diabolic cross-fold (Move 4).</para></summary>
 public static class WeightCoherenceBlock
 {
     /// <summary>All n-bit masks with exactly w set bits, in ascending order.</summary>
@@ -34,13 +58,45 @@ public static class WeightCoherenceBlock
     /// <summary>The (wKet, wBra) XXZ-chain coherence block at complex coupling q (γ = 1) and real ZZ-anisotropy Δ,
     /// dim C(n,wKet)·C(n,wBra). The bond Hamiltonian is H = J·Σ(X_bX_{b+1}+Y_bY_{b+1}) + J·Δ·Σ Z_bZ_{b+1}, q = J.
     /// On top of the XY block (diagonal −2·n_diff; ket excitations hop −2iq, bra excitations +2iq, NN, Pauli-
-    /// excluded), the Δ·ZZ term is a DIAGONAL Hermitian contribution, so it leaves the Absorption-Theorem rate
-    /// Re λ = −2·n_diff untouched and adds only the frequency −i·q·Δ·(zz(ket) − zz(bra)), with
+    /// excluded), the Δ·ZZ term is a DIAGONAL Hermitian contribution, so it leaves the Absorption-Theorem
+    /// diagonal untouched (−2·n_diff at uniform γ, −2·Σ_s γ_s·[a_s ≠ b_s] under a profile) and adds only the
+    /// frequency −i·q·Δ·(zz(ket) − zz(bra)), with
     /// zz(c) = Σ_bond ⟨c|Z_bZ_{b+1}|c⟩ (<see cref="Zz"/>). Matches XxzCoherenceBlock.BuildFull's convention; at
     /// Δ=0 it reproduces the pure-XY block exactly. The Δ·ZZ term is EVEN under the global bit-flip
     /// (Z_bZ_{b+1} ↦ (−Z_b)(−Z_{b+1}) = Z_bZ_{b+1}, so zz(b̄) = zz(b)), which is exactly why the cross-fold
     /// antiunitary similarity (<see cref="BraComplementPermutation"/>, F89d) survives at every Δ.</summary>
-    public static Complex[,] Build(int n, int wKet, int wBra, Complex q, double delta)
+    public static Complex[,] Build(int n, int wKet, int wBra, Complex q, double delta) =>
+        Build(n, wKet, wBra, q, delta, null, null);
+
+    /// <summary>Σ_s γ_s·[a_s ≠ b_s], the γ-weighted count of bra-ket disagreements of ONE computational
+    /// coherence; the block's diagonal ENTRY is −2 times it. It is not an eigenvalue and not a decay rate: the
+    /// Absorption Theorem reads −Re λ = 2·Σ_l γ_l·⟨Δ_l⟩ over eigenmodes, with the expectation ⟨Δ_l⟩ ∈ [0,1],
+    /// and the hopping is what turns the sharp bit into that expectation. Site s is bit s (see the class doc).
+    /// A null profile means uniform γ ≡ 1 and takes the popcount route; a profile is summed in ascending site
+    /// order.</summary>
+    public static double DisagreementSum(int n, IReadOnlyList<double>? gammaPerSite, int a, int b)
+    {
+        int x = a ^ b;
+        if (gammaPerSite is null) return BitOperations.PopCount((uint)x);
+        if (gammaPerSite.Count != n)
+            throw new ArgumentException($"gamma profile length {gammaPerSite.Count} != n={n}", nameof(gammaPerSite));
+        double r = 0.0;
+        for (int s = 0; s < n; s++)
+            if (((x >> s) & 1) != 0) r += gammaPerSite[s];
+        return r;
+    }
+
+    /// <summary>The (wKet, wBra) XXZ-chain coherence block at (q, Δ), an optional longitudinal field, and an
+    /// optional per-site dephasing PROFILE γ_s (<c>gammaPerSite[s]</c> = the rate OF SITE s = bit s; null means
+    /// uniform γ ≡ 1). The profile enters the Absorption-Theorem diagonal only, as −2·Σ_s γ_s·[a_s ≠ b_s]
+    /// (<see cref="DisagreementSum"/>): dephasing is diagonal in the computational basis, so it cannot touch
+    /// the hopping, and the q-linear split L(q) = A + q·C survives with the profile living entirely in A.
+    /// Field and profile compose, gated by <c>TheFieldAndTheProfileCompose</c>.
+    /// What a profile changes is that the diagonal entry stops being a function of n_diff alone; for what that
+    /// costs spectrally see the class doc's pointer. Note that A is the Hermitian part of L only at REAL q,
+    /// where C is anti-Hermitian, and this builder takes q complex.</summary>
+    public static Complex[,] Build(int n, int wKet, int wBra, Complex q, double delta, double[]? field,
+                                   IReadOnlyList<double>? gammaPerSite)
     {
         var kets = Configs(n, wKet);
         var bras = Configs(n, wBra);
@@ -53,8 +109,10 @@ public static class WeightCoherenceBlock
         for (int col = 0; col < d; col++)
         {
             var (kc, bc) = basis[col];
-            l[col, col] += new Complex(-2.0 * BitOperations.PopCount((uint)(kc ^ bc)), 0)
+            l[col, col] += new Complex(-2.0 * DisagreementSum(n, gammaPerSite, kc, bc), 0)
                          + (-Complex.ImaginaryOne) * q * (delta * (Zz(n, kc) - Zz(n, bc)));   // Δ·ZZ frequency
+            if (field != null)
+                l[col, col] += (-Complex.ImaginaryOne) * q * (FieldEnergy(n, field, kc) - FieldEnergy(n, field, bc));
             for (int s = 0; s < n; s++)
                 if ((kc & (1 << s)) != 0)                                   // ket excitation hops (−2iq)
                     foreach (int s2 in new[] { s - 1, s + 1 })
@@ -71,27 +129,15 @@ public static class WeightCoherenceBlock
 
     /// <summary>The (wKet, wBra) XXZ-chain coherence block at (q, Δ) plus a per-site longitudinal Z-field
     /// Σ_k w_k Z_k (field[k] = w_k, the integrability-/symmetry-breaking disorder knob). The field is DIAGONAL and
-    /// Hermitian, so like the Δ·ZZ term it leaves the Absorption-Theorem rate Re λ = −2·n_diff untouched and adds
+    /// Hermitian, so like the Δ·ZZ term it leaves the Absorption-Theorem diagonal untouched (−2·n_diff at uniform
+    /// γ) and adds
     /// only the frequency −i·q·(fe(ket) − fe(bra)), with fe(c) = Σ_k w_k·z_k (z_k = −1 if site k excited, +1 else,
     /// <see cref="FieldEnergy"/>). UNLIKE the Δ·ZZ term, the field is bit-flip-ODD (fe(c̄) = −fe(c)), so it BREAKS
     /// the cross-fold antiunitary similarity (the negative control in <see cref="WeightCoherenceBlockTests"/>) and
     /// breaks the S₂ reflection + conjugation symmetry — exactly the disorder needed to drive a dense coherence
     /// sector toward GinUE (the F89 Door-C filling-threshold test). field=null reproduces Build(n,wKet,wBra,q,Δ).</summary>
-    public static Complex[,] Build(int n, int wKet, int wBra, Complex q, double delta, double[]? field)
-    {
-        var l = Build(n, wKet, wBra, q, delta);
-        if (field == null) return l;
-        var kets = Configs(n, wKet);
-        var bras = Configs(n, wBra);
-        int col = 0;
-        foreach (var kc in kets)
-            foreach (var bc in bras)
-            {
-                l[col, col] += (-Complex.ImaginaryOne) * q * (FieldEnergy(n, field, kc) - FieldEnergy(n, field, bc));
-                col++;
-            }
-        return l;
-    }
+    public static Complex[,] Build(int n, int wKet, int wBra, Complex q, double delta, double[]? field) =>
+        Build(n, wKet, wBra, q, delta, field, null);
 
     /// <summary>fe(c) = Σ_k w_k·z_k, z_k = −1 if site k is excited (bit set), +1 otherwise — the longitudinal-field
     /// energy of a computational-basis config. Bit-flip-ODD: fe(c̄) = −fe(c) (each z_k flips sign).</summary>
@@ -115,7 +161,9 @@ public static class WeightCoherenceBlock
 
     /// <summary>The bra-complement permutation P: the basis index of |a⟩⟨b| in the (wKet, wBra) block ↦ the
     /// basis index of |a⟩⟨b̄| in the (wKet, n−wBra) block (b̄ = the n-site bitwise complement of b). The carrier
-    /// of the cross-fold: since n_diff(a,b̄) = n − n_diff(a,b), conjugating L(wKet,wBra) by P and reflecting maps
+    /// of the cross-fold: since the disagreement sum obeys S(a,b̄) = Σ_s γ_s − S(a,b) (n − n_diff at uniform γ),
+    /// conjugating L(wKet,wBra) by P, conjugating its ENTRIES and sending q → q̄ (the map is antiunitary, not
+    /// a linear similarity) maps
     /// it onto L(wKet, n−wBra). A bijection because C(n,wBra) = C(n,n−wBra) and the ket weight is unchanged.
     /// Returns perm where perm[t] = the (wKet, n−wBra)-basis index that the (wKet, wBra)-basis index t maps to.</summary>
     public static int[] BraComplementPermutation(int n, int wKet, int wBra)
@@ -261,7 +309,19 @@ public static class WeightCoherenceBlock
     /// matrix, sector dim). Sector basis: reflection fixed points e_f (even sector only, weight 1), then
     /// 2-cycle combinations (e_t ± e_{Rt})/√2 for orbit reps t &lt; Rt, in increasing t — the same convention
     /// as <see cref="F89PathKSeDeBlock.ROddBasis"/>. The basis is REAL orthonormal, so
-    /// spec(full) = spec(even) ⊎ spec(odd) exactly and σ_min(full − s) = min over the two sectors.</summary>
+    /// spec(full) = spec(even) ⊎ spec(odd) exactly and σ_min(full − s) = min over the two sectors.
+    ///
+    /// <para><b>Uniform γ ≡ 1, and here that is structural rather than an omission.</b> This route takes no
+    /// <c>gammaPerSite</c> because the sector split is built out of <see cref="ReflectionPermutation"/>: the
+    /// decomposition exists only when the chain reflection is a symmetry of L, and a γ profile that is not
+    /// palindromic generically breaks it, so spec(full) = spec(even) ⊎ spec(odd) stops holding. The exceptions
+    /// are the blocks whose achievable XOR masks are all palindromic, so that R commutes with any profile: dim 1,
+    /// and n = 2 at (1,1). A PALINDROMIC
+    /// profile would preserve it; that case is not implemented, and adding it means proving the commutation
+    /// gated first rather than passing an array. Use the dense seven-argument <c>Build</c> for any profile. The same
+    /// applies to <see cref="WeightCoherenceSectorCsr"/>, which TRANSCRIBES this rule rather than calling it,
+    /// and so has to be threaded separately. Its full-basis emitter carries no such obstruction and is simply not
+    /// threaded; see that file.</para></summary>
     public static (Complex[] A, int Dim) BuildReflectionSectorColumnMajor(int n, int wKet, int wBra, Complex q, bool odd)
     {
         var kets = Configs(n, wKet);

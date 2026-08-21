@@ -13,6 +13,13 @@ namespace RCPsiSquared.Core.F89PathK;
 /// 47..182 GB. Basis convention: full block row = ketIndex * nBra + braIndex, exactly the dense
 /// builder's ordering; sector basis = reflection fixed points (even sector only) then 2-cycle
 /// representatives, exactly BuildReflectionSectorColumnMajor's ordering.
+///
+/// <para><b>UNIFORM γ ≡ 1 only, and the entry-identity above is scoped to that.</b> The dense
+/// <see cref="WeightCoherenceBlock.Build"/> takes a per-site dephasing PROFILE; this sparse route does not, so
+/// "entry-identical" holds against the no-profile overloads and not against a profiled build. The two emitters
+/// differ in WHY: <see cref="BuildReflectionSector"/> inherits the structural obstruction stated at
+/// <see cref="WeightCoherenceBlock.BuildReflectionSectorColumnMajor"/>, while <see cref="BuildFull"/> has none
+/// and is simply not threaded.</para>
 /// </summary>
 public static class WeightCoherenceSectorCsr
 {
@@ -20,8 +27,9 @@ public static class WeightCoherenceSectorCsr
     /// are Values[RowPtr[r]..RowPtr[r+1]) at columns ColIdx[.], columns ascending, no duplicates.</summary>
     public sealed record Csr(int Dim, int[] RowPtr, int[] ColIdx, Complex[] Values);
 
-    /// <summary>The full (wKet,wBra) chain coherence block at complex q (γ = 1, Δ = 0), emitted as CSR,
-    /// entry-identical to <see cref="WeightCoherenceBlock.Build"/>. Full-basis index = ketPos * nBra + braPos.</summary>
+    /// <summary>The full (wKet,wBra) chain coherence block at complex q (uniform γ = 1, Δ = 0), emitted as CSR,
+    /// entry-identical to <see cref="WeightCoherenceBlock.Build"/> at its uniform default (a profiled build is
+    /// NOT reproduced here; see the class doc). Full-basis index = ketPos * nBra + braPos.</summary>
     public static Csr BuildFull(int n, int wKet, int wBra, Complex q)
     {
         var kets = WeightCoherenceBlock.Configs(n, wKet);
@@ -42,7 +50,7 @@ public static class WeightCoherenceSectorCsr
         return CscToCsr(dim, cols);
     }
 
-    /// <summary>One R-parity sector of the (wKet,wBra) chain block at complex q (γ = 1, Δ = 0), emitted as CSR,
+    /// <summary>One R-parity sector of the (wKet,wBra) chain block at complex q (uniform γ = 1, Δ = 0), emitted as CSR,
     /// entry-identical to <see cref="WeightCoherenceBlock.BuildReflectionSectorColumnMajor"/>. Transcribes its
     /// sector-coordinate wrapping verbatim: basis vectors are the reflection fixed points e_t (even sector only)
     /// and the 2-cycle combinations (e_t ± e_{Rt})/√2 over orbit reps t &lt; Rt, in increasing t; the full-block

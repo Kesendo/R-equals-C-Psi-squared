@@ -50,6 +50,11 @@ def lindbladian_z_dephasing(H, gamma_l):
 
     Pure Z-dephasing form for which the framework's palindrome
     Π·L·Π⁻¹ + L + 2Σγ·I = 0 holds (truly).
+
+    SITE ORDER, big-endian: gamma_l[l] is site l = the l-th Kronecker factor from the LEFT,
+    i.e. bit n-1-l of a basis index. The sibling `weight_coherence_block` is little-endian
+    (site s = bit s), so a profile passed to both must be REVERSED between them; that module's
+    docstring carries why the mislabel is silent.
     """
     return lindbladian_pauli_dephasing(H, gamma_l, dephase_letter='Z')
 

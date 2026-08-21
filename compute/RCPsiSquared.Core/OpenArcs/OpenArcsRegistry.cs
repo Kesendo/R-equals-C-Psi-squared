@@ -4210,16 +4210,36 @@ public static class OpenArcsRegistry
                 "counter-instance was already published: LIGHT_DOSE_RESPONSE :35 reads the (0,1) slowest rate as " +
                 "0.167 on a concentrated N=5 profile whose (0,5) = 5.216 = 2*sum(gamma) fixes 2*gamma_bar = 1.043, " +
                 "a factor of six out and well inside the bracket. " +
-                "WHY NO GATE CAUGHT ANY OF IT, and this is deeper than fixture choice: the builders CANNOT " +
-                "EXPRESS A PROFILE. simulations/framework/weight_coherence_block.py:25 " +
-                "(A = -2 * gamma * n_diff) admits a scalar gamma only, and its C# counterpart " +
-                "WeightCoherenceBlock.Build is stricter still, taking NO gamma at all with gamma = 1 welded into " +
-                "the diagonal literal, so no consumer could write the profile case " +
+                "WHY NO GATE CAUGHT ANY OF IT, and this is deeper than fixture choice: the two block builders " +
+                "COULD NOT EXPRESS A PROFILE. simulations/framework/weight_coherence_block.py " +
+                "(A = -2 * gamma * n_diff, in weight_block_pencil) admitted a scalar gamma only, and its C# counterpart " +
+                "WeightCoherenceBlock.Build was stricter still, taking NO gamma at all with gamma = 1 welded into " +
+                "the diagonal literal, so no consumer of THOSE TWO could write the profile case " +
                 "even deliberately. The scalar form was not preferred, it was the only expressible one, which is " +
-                "why the same shape recurs in files with no citation path between them. Whoever takes CLASS B " +
-                "should consider building the profile into those two builders FIRST, so a fence becomes testable " +
-                "rather than asserted; the model is simulations/d10_block_closure_verify.py, which tests its own " +
-                "fence and says outright that uniform gamma is a scope and not a feature. " +
+                "why the same shape recurs in files with no citation path between them: look for a shared " +
+                "instrument, not a shared source. " +
+                "BUILT 2026-08-21, so this precondition is discharged: both builders now take a per-site " +
+                "profile (C# WeightCoherenceBlock.DisagreementSum plus a seven-argument Build overload, Python " +
+                "weight_block_disagreement_sum plus gamma as scalar-or-array), gated by " +
+                "WeightCoherenceBlockGammaProfileTests and the G5 group of " +
+                "simulations/framework/tests/primitives/test_weight_coherence_block.py. Nothing new was derived: " +
+                "the diagonal is the Absorption Theorem's VECTOR form, which AbsorptionTheoremClaim's vector-carrier paragraph has " +
+                "carried since 2026-05-29 and which says in as many words that popcount / n_diff is the special " +
+                "case gamma_l = gamma; the builders were behind their own registry entry. TWO THINGS THE BUILD " +
+                "DID NOT CLOSE. (1) The SPARSE path is still uniform-only, WeightCoherenceSectorCsr.ApplyColumn plus " +
+                "WeightCoherenceBlock.BuildReflectionSectorColumnMajor, so the N=9 and N=11 shell censuses " +
+                "still cannot express a profile (FillingThresholdCsr is NOT among them: its Csr is Complex Spacing " +
+                "Ratio, a name collision, and it calls the DENSE Build, so nothing blocks it, though its current call is the six-arg overload and passes none). As of this build NO consumer anywhere passes a profile, so every committed number from this builder is a uniform-gamma number; the sector route has a structural " +
+                "reason (a non-palindromic profile breaks the reflection its basis rests on) and the full CSR " +
+                "route has none, it is simply not threaded. Both are now fenced in prose. (2) A cross-convention " +
+                "trap the build found and gated rather than inherited: WeightCoherenceBlock indexes site s as " +
+                "BIT s while PerBlockLiouvillianBuilder indexes site l as bit N-1-l, and inside the Python " +
+                "package fw.lindbladian_z_dephasing is big-endian too, so a profile handed across must be " +
+                "REVERSED. That is the same bug class as the 2026-07-25 reversal, invisible at uniform gamma " +
+                "(a constant array is its own reverse) and invisible in the SPECTRUM whenever H is " +
+                "reflection-symmetric. Both gates run at H = 0 with a non-palindromic profile and carry negative " +
+                "controls. Whoever takes CLASS B can now write the violating case; the model for a script that " +
+                "TESTS its own fence is still simulations/d10_block_closure_verify.py. " +
                 "ONE MORE SHAPE, and it is the exposed one: the lemma's STRONGEST form is not the n_diff = 1 " +
                 "form. PROOF_CODIM1 :129 and the gate comment at :572-574 both generalize to every boundary block has " +
                 "CONSTANT n_diff, hence a normal pencil, covering all 20 boundary blocks at N=5 rather than the " +

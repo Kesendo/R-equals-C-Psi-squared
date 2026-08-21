@@ -87,7 +87,7 @@ from .coherence_block import (
 )
 
 from .weight_coherence_block import (
-    weight_block_configs, weight_block_hop, weight_block_pencil,
+    weight_block_configs, weight_block_hop, weight_block_pencil, weight_block_disagreement_sum,
     weight_block_build, weight_block_zz,
     mask_of_sites, sites_of_mask, combinations_order_permutation,
 )
