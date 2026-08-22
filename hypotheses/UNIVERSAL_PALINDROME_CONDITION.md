@@ -103,7 +103,9 @@ The proton in O-H...O tunnels between |L⟩ (donor) and |R⟩ (acceptor).
 d = 2. This IS the quantum palindrome applied to a physical system.
 Computed: palindrome exact, V-Effect creates 104 new frequencies when
 two water molecules couple through a H-bond. Three regimes: classical
-(J/γ << 1, bulk water), fold (J/γ ~ 1, enzymes), quantum (J/γ >> 1).
+(J/γ << 1), fold (J/γ ~ 1, enzymes), quantum (J/γ >> 1). Bulk water was
+assigned to the first from a lower bound; its supported band reaches at its top
+the value quoted as quantum for the Zundel cation (see [Q Belongs to No Substance](../docs/Q_BELONGS_TO_NO_SUBSTANCE.md)).
 See [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md).
 
 In neural: synthetic networks with exact condition give residual = 0.

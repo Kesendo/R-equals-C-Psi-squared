@@ -135,7 +135,10 @@ Result 3). So the 1.81x ratio does not survive by retreating to the
 extremal mode: ω_max moves too, and V(N) = 1 + cos(π/N) is a uniform-γ
 statement.
 
-What replaces it under real conditions is measured rather than derived.
+What replaces it under real conditions is computed rather than derived, and
+computed at assumed inputs rather than measured ones: the two numbers below are
+Q_max = |Im λ|/|Re λ| at the stipulated substrate parameters, whose denominators
+are unsourced ([Q Belongs to No Substance](../docs/Q_BELONGS_TO_NO_SUBSTANCE.md)).
 At biological temperature (310 K, n̄ ~ 1.5-2):
 G-C DNA base pair has Q_max = 0.57 (down from 1.95 cold), with
 frequency diversity increasing from 15 to 26

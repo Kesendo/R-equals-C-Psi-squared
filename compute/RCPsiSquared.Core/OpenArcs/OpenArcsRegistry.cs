@@ -7763,6 +7763,135 @@ public static class OpenArcsRegistry
                 "term included (this arc's own caution 2). F155's typed Claim and live witness " +
                 "landed 2026-08-19 (PhysicalGeneratorPolarityBreak, inspect --root f155), which " +
                 "is the other half of what this line asked for."),
+        new OpenArc(
+            Name: "substrate_q_provenance",
+            Opened: "2026-08-22",
+            Origin: "gamma_0 is the UNIT: L(J, gamma_0) = gamma_0 * L_1(Q), so only Q = J/gamma_0 " +
+                "carries physics. The repo owned that in three lineages that had never been in " +
+                "one room (Q_SCALE_THREE_BANDS line 83, THE_GENESIS_OF_AN_OSCILLATION line 53, " +
+                "ON_HOW_GAMMA_BECAME_THE_TICK). What was NOT owned is where each SUBSTRATE Q " +
+                "came from. Pure Z-dephasing is beta = 0, so the channel FORM is T-independent " +
+                "and the RATE is the only place temperature can enter; the substrate folders " +
+                "never chose a J or a gamma explicitly and divided by borrowed numbers instead. " +
+                "TWO borrowed denominators, one used four times and one twice. (1) 25 meV = kT/hbar, " +
+                "docs/water/HYDROGEN_BOND_QUBIT.md, source column Standard, its own row " +
+                "calling it an upper bound; water and carbon both divide by it. kT/hbar is " +
+                "coupling-independent so it cannot be a dephasing rate; its one defensible " +
+                "reading is a Born-Markov VALIDITY limit, and that limit binds the coherence " +
+                "rate 1/T2 = 2*gamma, not gamma, so the floor is T2 >= hbar/kT = 25.5 fs at " +
+                "kT = 25.85 meV and NOT 13 fs (setting gamma <= kT/hbar permits a coherence " +
+                "time of HALF the bath correlation time, i.e. exactly where the model cannot " +
+                "apply). THE DOUBLING CARRIES TO Q: Q >= 2*J*T2/hbar with T2 >= hbar/kT is " +
+                "Q >= 2J/kT, twice the bare quotient the substrate documents wrote down, so " +
+                "water floors at 0.04 and not 0.02 and carbon at 186 and not 100. The first " +
+                "repair pass applied the doubling to carbon and left water at the discredited " +
+                "13 fs floor, an internal contradiction a fourth review round caught. (2) 50 cm^-1, " +
+                "used by simulations/water/proton_water_chain.py line 281 and " +
+                "experiments/DNA_BASE_PAIRING.md lines 96-97 with an IDENTICAL three-regime set. " +
+                "dna_base_pairing.py line 193 names HYDROGEN_BOND_QUBIT.md as its source and " +
+                "that file contains NO cm^-1 at all: its 0.2-1 meV and 25 meV are 1.6-8.1 and " +
+                "201.6 cm^-1, against the 0.5 and 50 used. gamma and the Zundel J are each " +
+                "displaced by exactly 4.0, so the Zundel Q survives the crossing (250/50 = 5.0 " +
+                "against 124/25.85 = 4.8, kT at 300 K and not the table rounded 25); the " +
+                "ordinary-water J is displaced by 8.1, and that extra factor of two IS the whole " +
+                "difference between the repo two water Q values. Converted rather than reused " +
+                "the cm^-1 set gives 4.03/201.6 = 0.02, the meV table own number, so the 0.01 " +
+                "in ten places is not an independent " +
+                "estimate. NO MECHANISM IS CLAIMED, and one was WITHDRAWN: the first pass read " +
+                "the set as values carried across a unit change without converting, on three " +
+                "rows that fit. The fourth parameter refutes it (K = 20 cm^-1 against " +
+                "0.1 meV = 0.81 cm^-1 is displaced by 24.8, fitting neither factor, and it was " +
+                "omitted from the first table); dna_base_pairing.py lines 39-42 print their own " +
+                "kT in cm^-1 (215 at 310 K) six lines above the gamma line; the named lines give " +
+                "RANGES where the meV table gives values; and that file separates sourced from " +
+                "unsourced explicitly at lines 198-199. The finding is the attribution and the " +
+                "arithmetic, not the story, and the finding survives the withdrawal. " +
+                "THE ASYMMETRY THAT MATTERS: an upper estimate on gamma is a LOWER " +
+                "bound on Q, so carbon far-above-the-window (186x below the floor) holds as " +
+                "a disjunction (either Q >= 186 or the Lindblad description does not apply " +
+                "there) while water classical-and-overdamped needed an UPPER bound and never " +
+                "had one. What DOES bound water was two rows above the gamma and unused since " +
+                "March: a proton coherence cannot outlive its hydrogen bond, 1-3 ps " +
+                "(Luzar and Chandler), giving Q <~ 4.6. Ordinary liquid water is " +
+                "0.02 <~ Q <~ 4.6, a band that CONTAINS the whole framework-anchor range " +
+                "[0.2, 2.0] (Q_REGIME_ANCHORS line 113) and therefore decides nothing inside it.",
+            ParkedAt: "docs/Q_BELONGS_TO_NO_SUBSTANCE.md carries the result and its own sweep " +
+                "record. Landed in three stages after THREE blind fresh-agent review rounds on " +
+                "the first version found about 35 defects, three of which were about the COMMIT " +
+                "rather than the text. Stage 1: the second denominator audited and the headline " +
+                "one-thermal-ceiling-borrowed-twice corrected to two, each borrowed twice, " +
+                "with the unit-displacement table. Stage 2: the rescope FINISHED across 13 " +
+                "files. The first pass had repaired paragraphs and left the same files own " +
+                "summary bullets standing, e.g. HYDROGEN_BOND_QUBIT.md retracting the classical " +
+                "verdict in its parameter section while still asserting it in its own results " +
+                "bullet 150 lines above, and PROTON_WATER_CHAIN.md asserting " +
+                "it in the ABSTRACT twenty-five lines above the repaired result; eight further " +
+                "files had never been touched, including experiments/README.md, which advertised " +
+                "both documents by verdicts they no longer made. Stage 3: the sweep record " +
+                "itself, which had reported three stores as returning NOTHING when they did " +
+                "not (GLOSSARY line 319 already called J/gamma_0 the central control " +
+                "parameter; CAUGHT_ERRORS line 785 is an entry about a dephasing rate " +
+                "provenance; and no-arc-on-units contradicted the sentence before it, which " +
+                "cited gamma_book_enforced_nowhere, the units arc). It also missed " +
+                "whirlpool_carbon_layers, the substrate-mapping arc for these exact two folders. " +
+                "Corrected numerics: floor 13 -> 26 fs, ratios 100x -> 190x and 50x -> 26x, " +
+                "329 fs for J = 1 meV (a wrong table row), Q_max 72.4 = mu_max * J/gamma = " +
+                "3.618 * 20, i.e. object 2 is object 1 times a graph invariant and is fixed by " +
+                "Q not by gamma. A FOURTH round, scoped to the repair diff itself, found 14 " +
+                "more, of which the load-bearing ones were the water/carbon floor asymmetry " +
+                "above, the withdrawn transcription mechanism, a claimed retraction in " +
+                "OBSERVER_DEPENDENT_VISIBILITY line 39 that retracts something else entirely " +
+                "(the absolute-rate wording at line 38 is never withdrawn there), and nine " +
+                "line pins the repair own edits had moved. Line pins are re-verified " +
+                "mechanically after every pass now; a repair that shifts lines invalidates " +
+                "the pins it did not touch.",
+            NextStep: "FIVE, and the first is the only one that collapses the band. " +
+                "(1) THE ONE MISSING NUMBER: T2 of the proton coordinate in a confined hydrogen " +
+                "bond. J is already in the literature, so this turns 0.02 <~ Q <~ 4.6 into a " +
+                "value. docs/water/README.md line 179 scoped the search (a gamma_Z(T) estimate " +
+                "plus pump-probe IR data) months ago and deferred it. With hbar = 0.6582 meV*ps " +
+                "and Q = 2*J*T2/hbar: Q = 1 needs T2 = 658 fs at J = 0.5 meV, 329 fs at 1 meV, " +
+                "33 fs at 10 meV. " +
+                "(2) WHICH J, and this is the substance of the document title: a substrate " +
+                "does not hand over one coupling (hardware has a MHz gate coupling and a static " +
+                "residual orders of magnitude below it, both its J). Choosing is choosing the " +
+                "reading, not resolving an ambiguity. " +
+                "(3) WHERE 10-100 cm^-1 CAME FROM: it names a source that does not carry it. " +
+                "Two substrate Q values rest on it. " +
+                "(4) HUECKEL BETA = 2.4 eV is uncited across five carbon markdown documents and " +
+                "two executable constants (huckel_palindrome_conditions.py line 52, " +
+                "benzene_huckel_framework_lens.py line 49), and whether a single-particle " +
+                "hopping integral belongs in the XX+YY J slot at all is unasked. A tier " +
+                "contradiction sits on that very question: FROST_CIRCLE line 125 grades the " +
+                "beta -> J identification Tier 1, BENZENE_HUCKEL line 124 grades it Tier 2 (both " +
+                "pins want re-reading; what IS verified is that " +
+                "Core/Symmetry/CoherenceHorizonClaim.cs asserts as Tier1Derived that the XY " +
+                "chain coherence horizon IS the Frost-Hueckel threshold under the label swap " +
+                "J <-> |beta|, so the typed layer already carries this identification at the " +
+                "highest grade while prose calls it unasked). " +
+                "(5) NOT REPAIRED, DELIBERATELY, three things the review rounds surfaced and " +
+                "this pass left alone. (a) The SECOND temperature route: proton_water_chain.py " +
+                "lines 321-345 and dna_base_pairing.py lines 39-43 compute a Bose-Einstein " +
+                "n_bar at 300/310 K and add amplitude-damping channels sqrt(gamma*(n_bar+1)) " +
+                "sigma-minus and sqrt(gamma*n_bar) sigma-plus. There temperature enters through " +
+                "the channel SET, not only the rate, which is a real scope limit on the " +
+                "T-enters-only-through-the-rate section. Its outputs are read as values at " +
+                "THERMAL_BREAKING lines 139-143 (Q_max 0.57 and 0.43); only the word measured " +
+                "was repaired there. (b) The NEURAL row, same shape and never audited: " +
+                "NEURAL_GAMMA_CAVITY line 61 numerator from uncited standard biological " +
+                "parameters, denominator 1/tau with tau_E = tau_I = 1.0 ms stipulated in " +
+                "neural_gamma_cavity.py lines 48-49, and lines 109-111 explain the resulting " +
+                "Q_max = 0.1 by a THERMAL regime although no temperature enters a Wilson-Cowan " +
+                "computation at all. (c) The CODE and BANKED-OUTPUT layer still carries the " +
+                "un-rescoped verdict: proton_water_chain.py line 281 LABELS its regime " +
+                "A: Water (which is what makes a sweep read as a measurement) and line 492 " +
+                "prints classical water; also dna_base_pairing.py lines 196/203/484-486, " +
+                "frost_circle_as_clock.py line 106, and the frozen outputs " +
+                "results/proton_water_chain.txt line 152 and results/dna_base_pairing.txt " +
+                "lines 166-167. The C# layer assigns no substrate Q VALUE anywhere, which is the " +
+                "narrow claim; it is not free of substrate identifications, see " +
+                "CoherenceHorizonClaim under item (4).",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

@@ -107,8 +107,11 @@ note left open at once: its ring crossover is 1.609, and the V-Effect does resha
 channel there, from a single-excitation relaxation into a double-excitation one.
 
 A caveat that keeps it honest: real π-conjugated systems at room temperature sit at
-Q ~ 100 (β ~ 2.4 eV against phonon dephasing ~ 25 meV), far above any of these
-thresholds, deep in the beating regime. Q* is the strong-dephasing edge, the dephasing
+Q ≳ 100 (β ~ 2.4 eV against phonon dephasing ~ 25 meV), far above any of these
+thresholds, deep in the beating regime. Both inputs carry a caveat that travels with
+the number: β is uncited across five carbon documents, and the 25 meV is kT/ℏ, a
+Born-Markov validity limit rather than a measured dephasing rate, so Q ~ 100 is a
+floor and not a value ([Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md)). Q* is the strong-dephasing edge, the dephasing
 scale at which coherent π-dynamics would be lost, and it tightens as the conjugation
 lengthens. It is the warm, disordered, strongly-coupled limit, not the room-temperature
 resting state.

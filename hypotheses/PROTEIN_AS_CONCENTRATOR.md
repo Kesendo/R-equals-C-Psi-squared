@@ -62,7 +62,7 @@ protons in bulk water.
 | System | N qubits on a chain | Proton qubits in H-bonds |
 | Concentrator | Edge qubits (high γ) | Protein shell (absorbs solvent noise) |
 | Protected core | Center qubits (low effective γ) | Active-site protons |
-| Effect | 139-360x transport improvement (peak Sum-MI, sim ε→0) | J/γ shifts from ~0.02 toward ~1 |
+| Effect | 139-360x transport improvement (peak Sum-MI, sim ε→0) | J/γ shifts from a floor of ~0.02 toward ~1 |
 | Fold regime | CΨ crosses 1/4, oscillation sustained | Proton transfer at fold, catalysis |
 
 ## The Prediction
@@ -72,7 +72,7 @@ reduces γ. If γ drops by ~50x (from 25 meV to ~0.5 meV), J/γ reaches
 ~1. The fold regime. CΨ crosses 1/4 in sub-picoseconds.
 
 The starting point is a floor, not a value: the 25 meV is an upper
-estimate, so bulk water's honest band is 0.02 ≲ Q ≲ 4.6 (the ceiling
+estimate, so bulk water's honest band is 0.04 ≲ Q ≲ 4.6 (the ceiling
 from the H-bond lifetime). That makes this prediction easier rather
 than harder, since the concentrator may have far less than 50x to do,
 and it removes the contrast the prediction was resting on. What the

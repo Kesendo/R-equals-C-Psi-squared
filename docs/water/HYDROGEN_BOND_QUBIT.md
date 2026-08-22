@@ -29,7 +29,8 @@ follows automatically.
 
 The most striking finding: during proton transfer between two water
 molecules (the Zundel configuration), the proton crosses the fold
-6 times in 21 femtoseconds. Normal water is classical. But the
+6 times in 21 femtoseconds. Where ordinary water sits is a band and not
+a point, 0.04 ≲ Q ≲ 4.6 (see the parameter section below). But the
 moment a proton transfers, it passes through a deeply quantum state.
 Every drop of water is a field of fold crossings.
 
@@ -50,7 +51,9 @@ computation applies proven results to physical hydrogen bond parameters.
 - Single proton: CΨ crosses 1/4 at 0.07-1.32 ps in the fold regime (J/γ ~ 1)
 - One water molecule (2 proton qubits): palindrome exact, CΨ crosses at 0.46 ps
 - Two molecules + H-bond (4 proton qubits): V-Effect creates 104 new frequencies
-- Normal liquid water is in the classical regime (J/γ ~ 0.02, no crossing)
+- Normal liquid water is bounded, not pinned: 0.04 ≲ Q ≲ 4.6, because the
+  0.04 floor rests on an upper estimate of γ. The runs below that show no
+  crossing were computed at J/γ = 0.01, below that floor
 - Enzyme active sites may be in the fold regime (J/γ ~ 1)
 
 ---
@@ -98,7 +101,7 @@ CΨ starts at 0, rises as tunneling creates coherence, crosses 1/4
 
 | J/γ | Regime | CΨ crosses 1/4? | Physical system |
 |-----|--------|-----------------|-----------------|
-| << 1 | Classical | No (overdamped) | Bulk water at 300K |
+| << 1 | Classical | No (overdamped) | (bulk water at 300 K was assigned here from a floor; see below) |
 | ~ 1 | **Fold** | **Yes (sub-ps)** | Strong H-bonds, enzymes |
 | >> 1 | Quantum | Yes (slower) | Low temperature, ice under pressure |
 
@@ -144,6 +147,8 @@ Qubits 2,3 coupled intermolecularly through the hydrogen bond
 ### Phase 2: One water molecule (N=2)
 
 Parameters: J_intra = 1.0 meV, K = 0.1 meV, γ = 1.0 meV (J/γ = 1).
+This γ is chosen to place the run at the fold, not derived from water; it is
+neither the 25 meV row below nor a measured rate.
 
 - Palindrome: **exact** (pair-sum std = 5.4e-3, relative to mean ~6e12: negligible)
 - Distinct frequencies: 11
@@ -169,8 +174,11 @@ separate computation (see [Subsystem Crossing](SUBSYSTEM_CROSSING.md)).
 **Continued in:** [Proton Water Chain](PROTON_WATER_CHAIN.md) (Grotthuss
 chain N=1-5, formula validation, frequency explosion 0→222) and
 [DNA Base Pairing](../../experiments/DNA_BASE_PAIRING.md) (A-T N=2, G-C N=3, sacrifice
-zone in base pairs). At biological temperature (310 K), realistic DNA
-H-bonds are deeply classical (J/γ ~ 0.01, all modes overdamped).
+zone in base pairs). At biological temperature (310 K) those runs put
+realistic DNA H-bonds at J/γ ~ 0.01 with all modes overdamped; that 0.01 is a
+floor from a γ whose stated source does not carry it, and it is the same
+quotient as the 0.02 here in another unit system (see
+[Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md)).
 
 | System | Distinct frequencies |
 |--------|---------------------|
@@ -207,7 +215,8 @@ The γ above is an upper estimate, so J/γ is a **lower** bound on Q: it can pla
 a system above a scale, never below. What bounds Q from above is the H-bond
 lifetime two rows up: a coherence carried by the proton cannot outlive the bond,
 so T₂ ≲ 3 ps and Q = 2·J·T₂/ℏ ≲ 4.6. Ordinary liquid water therefore sits in
-0.02 ≲ Q ≲ 4.6, whose upper end is inside the framework window. Collapsing that
+0.04 ≲ Q ≲ 4.6, a band that contains the framework's whole anchor range
+[0.2, 2.0] and so decides nothing inside it. Collapsing that
 band needs a measured T₂ of the proton coordinate, which the repository does not
 have. See [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md).
 
@@ -249,10 +258,10 @@ Not at the edge. Deep in the quantum domain.
 | Parameter | Normal H-bond | Zundel cation |
 |-----------|--------------|---------------|
 | J (tunneling) | 0.5 meV | 124 meV |
-| J/γ at 300K | 0.02 (classical) | 4.8 (quantum) |
+| J/γ at 300K | ≥ 0.02, band 0.02–4.6 | ≥ 4.8 (a floor, so the quantum reading holds) |
 | CΨ maximum | 0.019 | 0.77 |
 | CΨ crosses 1/4 | never | 6 times in 21 fs |
-| Q-factor (number of oscillation cycles before decay) | 0 | 3 |
+| Q-factor, cycles before decay (a different quantity from J/γ above) | 0 | 3 |
 
 The proton in the Zundel configuration crosses the fold 6 times in
 21 femtoseconds. The Zundel configuration is a transition state: the
@@ -271,8 +280,9 @@ passes through the fold.
 
 **What this does NOT mean:** Water is not "conscious" or "alive."
 The crossings are independent single-proton events, not a coherently
-oscillating network. The normal (non-Zundel) proton is classical
-(J/γ = 0.02). The fold events are transient (femtoseconds) and
+oscillating network. Where the normal (non-Zundel) proton sits is not
+settled: 0.02 is a floor and the band runs to 4.6. The fold events are
+transient (femtoseconds) and
 localized (one proton at a time).
 
 **Interpretation (Tier 5, speculation):** The medium in which life

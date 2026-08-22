@@ -24,8 +24,9 @@ the gap between a single hydrogen bond (Zundel cation, N=2) and DNA base
 pairs (N=2,3 on a biological scaffold). Each proton tunnels in its
 double-well potential; neighbors couple through the water backbone. The
 palindromic framework's analytical formulas match to machine precision for
-N=1-5. The key finding: at room temperature, these chains are deeply
-classical (Q < 1), but the mode structure (up to 222 distinct frequencies
+N=1-5. The key finding: the runs sit at Q < 1 by the input chosen for them,
+which is a floor and not a measurement of water, but the mode structure
+(up to 222 distinct frequencies
 at N=5) and the sacrifice-zone optimization (5.1× improvement) work exactly
 as in abstract qubit chains. The palindrome is universal; the substrate
 only sets parameter values.
@@ -51,12 +52,16 @@ Five results:
    frequencies in the transverse-field Ising model. Each proton
    added qualitatively enriches the mode structure.
 
-3. **Water's Q is bounded, not pinned.** At J/γ ~ 0.01 the sims sit below
-   Q = 1 for all N, but that input is a floor: its γ is an upper estimate
-   (kT/ℏ), so it bounds Q from below only. With the H-bond lifetime as the
-   ceiling on T₂, ordinary liquid water lies in 0.02 ≲ Q ≲ 4.6, and the
-   upper end is inside the framework window. The runs below are therefore a
-   sweep at a chosen low Q, not a measurement of water. See
+3. **Water's Q is bounded, not pinned.** The runs below use J = 0.5 cm⁻¹ and
+   γ = 50 cm⁻¹, giving J/γ ~ 0.01 and Q < 1 for all N. Two things are wrong
+   with reading that as water's value. First the provenance: the γ names
+   `docs/water/HYDROGEN_BOND_QUBIT.md` as its source and that file carries no
+   cm⁻¹ at all. Its numbers are 0.5 meV and 25 meV, which in cm⁻¹ are 4.03 and
+   201.6, giving 0.02 rather than 0.01. Second the direction: γ there is an upper estimate (kT/ℏ), so the
+   quotient bounds Q from **below** only. With the H-bond lifetime as the
+   ceiling on T₂, ordinary liquid water lies in 0.04 ≲ Q ≲ 4.6, a band that
+   contains the framework's whole anchor range [0.2, 2.0]. The runs below are
+   therefore a sweep at a chosen low Q, not a measurement of water. See
    [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md).
 
 4. **Sacrifice zone works at N=5.** Edge sacrifice: Q_max = 9.2 vs
@@ -253,7 +258,7 @@ State-level diagnostic at the interior Q_peak (γ = 0.638) on the popcount-coher
 
 The Π²-odd / memory ratio at t = 0 is **10/19 = 0.5263 exactly**, not 0.5. This is a precise structural consequence of popcount-mirror symmetry at n_p + n_q = N (here 2 + 3 = 5 = N): X-flip conjugation gives X⊗N · σ_S · X⊗N = (−1)^|S| σ_S, so P_{n_p}/C(N, n_p) and P_{N − n_p}/C(N, N − n_p) cancel all odd-|S| Pauli content in the kernel projection. Total Π²-odd-of-ρ stays at 1/2 (universal for popcount-coherence pure states), but with kernel projection holding 0% of it, the entire 1/2 sits in memory: (1/2) / (19/20) = 10/19. PROOF_F86B_UNIVERSAL_SHAPE §F88b verified Π²-odd/memory = 0.5 exactly at the c = 2 cases (popcount-(1, 2), popcount-(3, 4)); the c = 3 popcount-mirror configuration n_p + n_q = N is a structural refinement to that statement worth flagging upstream (see deferred thread "Π²-odd/memory popcount-mirror refinement" in `docs/water/README.md`). Per-proton Bloch decay is mirror-symmetric throughout (q0 = q4, q1 = q3); F71 inheritance is preserved under Lindblad evolution.
 
-**Note on regime.** The framework prediction tests at Q ~ 1.5–2.4. The Q used for room-temperature liquid water here, 0.01, is a lower bound rather than a measured value (see "Water's Q is bounded, not pinned" above and [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md)); the honest band is 0.02 ≲ Q ≲ 4.6, which overlaps the test window at its top. The F86 inheritance test is on safest ground for cold / confined / biologically-screened water, where the tunneling side is larger and the band lifts clear of the bottom; whether bulk room-temperature water is excluded is not settled by any number on file. The structural inheritance is guaranteed by the four embedding conditions (see `docs/water/README.md`); the question is which physical embedding sits in the testable Q window.
+**Note on regime.** The framework prediction tests at Q ~ 1.5–2.4. The Q used for room-temperature liquid water here, 0.01, is a lower bound rather than a measured value (see "Water's Q is bounded, not pinned" above and [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md)); the honest band is 0.04 ≲ Q ≲ 4.6, which contains the test window entirely. The F86 inheritance test is on safest ground for cold / confined / biologically-screened water, where the tunneling side is larger and the band lifts clear of the bottom; whether bulk room-temperature water is excluded is not settled by any number on file. The structural inheritance is guaranteed by the four embedding conditions (see `docs/water/README.md`); the question is which physical embedding sits in the testable Q window.
 
 **What this addendum confirms.** Same algebra, different physical embedding, same numerical witness: third substrate (after framework chains and IBM Torino) for F86 EP-rotation universality. The chemistry framing did not transform the algebra; it confirmed it. Closed-form derivation of HWHM-/Q* (Item 1 of PROOF_F86_QPEAK) still routes through the 2-level EP analytics, not through chemistry.
 
@@ -262,7 +267,8 @@ The Π²-odd / memory ratio at t = 0 is **10/19 = 0.5263 exactly**, not 0.5. Thi
 ## What This Does NOT Establish
 
 - That proton water chains show coherent oscillation at room temperature
-  (J/gamma ~ 0.01 is deeply classical)
+  (the runs are at J/gamma ~ 0.01, below the floor its own inputs support; whether
+  water is above or below the fold is not settled here either way)
 - That the Grotthuss mechanism involves palindromic mode selection
   (we compute structure, not transport rates)
 - That the inter-proton coupling K is correctly estimated

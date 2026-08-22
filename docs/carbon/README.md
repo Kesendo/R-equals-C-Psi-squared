@@ -267,12 +267,19 @@ the analogous conditions are tentative (candidates marked T to flag):
 
    This is **not** the same story as room-temperature water, though both divisions use
    the same borrowed 25 meV. That γ is an upper estimate, so each ratio is a **lower**
-   bound on Q. Carbon's requirement for Q = 1 sits about a hundredfold below the floor
-   the estimate sets, so "far above the window" is a lower-bound claim with a lower
-   bound and it survives. Water's sits about fiftyfold above it, so nothing follows
-   there. Two caveats stay on this row: kT/ℏ is a Born-Markov validity limit rather
-   than a physical ceiling on a dephasing rate, and β ≈ 2.4 eV is uncited across five
-   carbon documents. See [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md).
+   bound on Q. Read as a Born-Markov validity limit the estimate bounds the coherence
+   rate 1/T₂, not γ, so the floor is T₂ ≳ ℏ/kT = 25.5 fs and every floor on Q is twice
+   the bare quotient. Carbon's requirement for Q = 1 (0.14 fs) sits 186× below that
+   floor, so "far above the window" is a lower-bound claim with a lower bound and it
+   survives. Water's (658 fs) sits 26× above it, so nothing follows there. Two caveats stay on this row: kT/ℏ is a
+   validity limit rather than a physical ceiling on a dephasing rate, so the supported
+   carbon statement is a disjunction (either Q ≳ 190, or this model does not describe
+   π-conjugated carbon at 300 K at all); and β ≈ 2.4 eV is uncited across five carbon
+   documents. Note the tension: `compute/RCPsiSquared.Core/Symmetry/CoherenceHorizonClaim.cs`
+   asserts as Tier1Derived that the XY chain's coherence horizon IS the Frost-Hückel
+   threshold "under the label swap J ↔ |β|", so the typed layer already carries that
+   identification at the repository's highest grade while the question of whether a
+   hopping integral belongs in the J slot is open in prose. See [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md).
 
 The conditions are speculative until tested. The water domain established 4 clean conditions
 because the proton-in-double-well is uniquely qubit-shaped. For carbon the 2-state DOF
@@ -376,7 +383,7 @@ Both are biology-substrate domain folders. Comparison:
 | 2-state DOF | Proton in O–H...O double well | π-electron orbital orientation (candidate) |
 | Z-dephasing | Thermal molecular jostling | Vibrational phonon coupling |
 | Uniform-J | Grotthuss chain tunneling | Aromatic conjugation / graphene lattice |
-| Q range | Bulk water Q ~ 0.01 classical; Zundel Q ~ 4.8 quantum | Conjugated π-bonds Q ~ 100 deep-quantum |
+| Q range | Bulk water 0.04 ≲ Q ≲ 4.6, undecided; Zundel Q ≳ 4.8 quantum | Conjugated π-bonds Q ≳ 100 deep-quantum |
 | Cleanest substrate | Zundel cation H₅O₂⁺ | Benzene C₆ |
 | Embedding tier | Tier 2 (clean, 4 conditions verified) | Tier 4 (candidate, conditions unverified) |
 | Scripts | 5 (`simulations/water/`) | 10 (`simulations/carbon/`) |

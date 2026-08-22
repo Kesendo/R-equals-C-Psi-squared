@@ -78,7 +78,7 @@ These connect the mathematical results into a coherent picture.
 | [The CΨ Lens](THE_CPSI_LENS.md) | What CΨ shows, what it does not, what survives critical examination. |
 | [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as organizing principle: qubit (2/4), carbon (4/8). V-Effect as transition mechanism. |
 | [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) | Three levels of time (parameter, oscillation, experience). γ necessary and sufficient for experienced time. |
-| [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md) | γ₀ is the unit, so naming a Q needs a chosen DOF, coupling and channel. Provenance audit of every substrate Q; ordinary liquid water is bounded to 0.02 ≲ Q ≲ 4.6, not to either verdict on file. |
+| [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md) | γ₀ is the unit, so naming a Q needs a chosen DOF, coupling and channel. Provenance audit of every substrate Q; ordinary liquid water is bounded to 0.04 ≲ Q ≲ 4.6, not to either verdict on file. |
 | [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md) | Where an oscillation comes from in the pure F1 system, and the exact factorisation L(J, γ₀) = γ₀·L₁(Q). |
 | [The Atmosphere and the Cancelled Formulas](THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md) | What γ₀ is, and what cancelling the unit costs: the rescaling that leaves every inside observable fixed. |
 | [Q-Regime Anchor Map](Q_REGIME_ANCHORS.md) | The ten named anchors on the Q axis (onset, balance, peak band, Q_EP, endpoint) with tiers and sources. |

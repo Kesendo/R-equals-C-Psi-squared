@@ -274,8 +274,8 @@ molecules show the same frequency explosion:
 
 - **DNA base pairing**: G-C (N=3) has 5x more frequencies than A-T
   (N=2). The third H-bond qualitatively enriches the mode structure.
-  At biological temperature, all modes are overdamped (decaying faster
-than they can oscillate; J/γ ~ 0.01).
+  At the parameters used there, all modes are overdamped (decaying faster
+than they can oscillate; J/γ ~ 0.01, a floor from an unsourced denominator).
   → [DNA Base Pairing](DNA_BASE_PAIRING.md)
 
 ## Where this went (successors)

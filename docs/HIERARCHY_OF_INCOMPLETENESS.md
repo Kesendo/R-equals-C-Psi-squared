@@ -285,9 +285,13 @@ The hydrogen bond is the palindromic coupling mechanism between
 Level 0 (qubit) and chemistry (molecules).
 
 Three regimes, depending on how fast the proton tunnels (J) compared
-to how fast the environment disturbs it (γ): J/γ ≪ 1 (classical, bulk
-water at 300K), J/γ ~ 1 (the critical boundary, strong H-bonds in
-enzymes), J/γ ≫ 1 (quantum, low temperature).
+to how fast the environment disturbs it (γ): J/γ ≪ 1 (classical), J/γ ~ 1
+(the critical boundary, strong H-bonds in enzymes), J/γ ≫ 1 (quantum, low
+temperature). Which of these bulk water at 300 K is in is not settled: the
+number once used to place it there is a floor, and the supported band
+0.04 ≲ Q ≲ 4.6 reaches, at its top, the value this same page calls quantum for
+the Zundel cation, and spans everything below
+([Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md)).
 In the Zundel configuration (proton centered, H₅O₂⁺): J/γ = 4.8,
 CΨ crosses 1/4 six times in 21 fs. Water is not near the fold.
 Water IS the fold, at every proton transfer.

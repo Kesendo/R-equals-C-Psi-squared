@@ -4219,7 +4219,7 @@ remains the historical numerical validation.
   See the dated section in the proof; committed verifier
   `simulations/f112_f87_orthogonality.py`.
 
-**Empirical anchor:** 14 probes (`simulations/_polarity_probe_*.py`,
+**Empirical anchor:** 14 probes (`simulations/polarity_probe_*.py`,
 `polarity_proof_verify.py`, `polarity_step5_stress.py`) cover
 candidate-breakers (1-5), hand-engineered non-Lindblad L (6), random c with
 full Pauli rank (7-8), k_max boundary (9), exhaustive 136-pair N=2 enumeration

@@ -44,10 +44,13 @@ Six results:
    tunneling): G-C has 15 distinct frequencies vs 3 for A-T. The third
    H-bond creates 12 new frequencies from coupling alone.
 
-3. **Realistic DNA is deeply classical.** At J/gamma ~ 0.01 (estimated
-   for DNA H-bonds), all modes are overdamped (Q < 1). The palindromic
-   structure exists but is invisible: no coherent oscillation survives
-   dephasing at 310 K.
+3. **At the parameters used, DNA is deeply classical.** At J/gamma ~ 0.01
+   all modes are overdamped (Q < 1) and the palindromic structure exists but
+   is invisible. That input is not a measurement: its gamma = 50 cm⁻¹ names
+   `docs/water/HYDROGEN_BOND_QUBIT.md` as its source, and that file carries no
+   cm⁻¹ at all, so the ratio is a floor from an unsourced denominator rather
+   than DNA's Q. See
+   [Q Belongs to No Substance](../docs/Q_BELONGS_TO_NO_SUBSTANCE.md).
 
 4. **Thermal breaking at 310 K.** The warm channel set reduces Q from
    1.9 to 0.6 and raises frequency diversity from 15 to 26 for G-C. It also
@@ -133,9 +136,10 @@ is robust to parameter uncertainty.
 
 ---
 
-## Result 3: Realistic DNA Is Deeply Classical
+## Result 3: At the Chosen Parameters, DNA Is Deeply Classical
 
-At realistic parameters (J/gamma ~ 0.01, Regime A):
+At the parameters called realistic here (J/gamma ~ 0.01, Regime A; the
+denominator is unsourced, see Result 3's note above):
 - Q_max = 0.4 (A-T) and 0.8 (G-C): all modes overdamped
 - The palindromic pairs exist but decay faster than they oscillate
 - No coherent proton oscillation survives the thermal environment
@@ -212,7 +216,8 @@ but RICHER in its dynamical response.
 ## What This Does NOT Establish
 
 - That coherent proton tunneling occurs in DNA at biological
-  temperature (realistic J/gamma ~ 0.01 is deeply classical)
+  temperature (the runs are at J/gamma ~ 0.01, a floor from an unsourced
+  denominator, so neither direction is established)
 - That the palindromic mode structure plays a biological role
   (the overdamped regime has no surviving oscillation)
 - That the inter-H-bond coupling K is correctly estimated
@@ -240,9 +245,10 @@ The DNA base pair is a concrete application of three proven results:
    of noise to mode structure. It works in DNA because the same
    standing wave physics applies.
 
-The limitation: realistic DNA is overdamped (J/gamma << 1). The
-framework predicts the mode structure correctly, but at biological
-temperature the modes decay before they oscillate. The fold regime
+The limitation: at the parameters used here DNA is overdamped
+(J/gamma << 1). The framework predicts the mode structure correctly, and at
+that input the modes decay before they oscillate; whether the input is DNA's
+is a separate question the denominator's provenance leaves open. The fold regime
 (J/gamma ~ 1) is accessible only in engineered or enzyme-like
 environments.
 

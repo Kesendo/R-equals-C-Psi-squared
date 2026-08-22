@@ -149,7 +149,7 @@ N=4 and N=6 at Q=1 land on **off-Anker** fractions (3/16 and 3/32). At higher Q 
 
 ## Anchors and cross-refs
 
-- **What this axis is**: Q is a scale, not a property of any system. The rescaling identity and the three bands are [`Q_SCALE_THREE_BANDS.md:83`](../experiments/Q_SCALE_THREE_BANDS.md); the exact factorisation L(J, γ₀) = γ₀·L₁(Q) is [`THE_GENESIS_OF_AN_OSCILLATION.md:52`](THE_GENESIS_OF_AN_OSCILLATION.md); the consequence for substrate mappings, and the audit of every substrate Q in the repository, is [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md).
+- **What this axis is**: Q is a scale, not a property of any system. The rescaling identity and the three bands are [`Q_SCALE_THREE_BANDS.md:83`](../experiments/Q_SCALE_THREE_BANDS.md); the exact factorisation L(J, γ₀) = γ₀·L₁(Q) is [`THE_GENESIS_OF_AN_OSCILLATION.md:53`](THE_GENESIS_OF_AN_OSCILLATION.md); the consequence for substrate mappings, and the audit of every substrate Q in the repository, is [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md).
 - **Detailed F86 inventory**: [`F86_VALUES_INVENTORY.md`](F86_VALUES_INVENTORY.md): per-c, per-orbit, per-bond-class typed values + open derivations.
 - C# Q-anchor representation: `FractionReferenceGraph.QBasisAnkers = { 1.0, 1.5, 2.0 }` ([`compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs`](../compute/RCPsiSquared.Core/Symmetry/FractionReferenceGraph.cs)). Currently captures 3 of the 10 anchors above; absent: onset-band (0.2, 0.35), peak-band start (1.2), F86 Q_peak c=3 (1.6), canonical θ=60° (√3 ≈ 1.732), peak-band end / F86 Q_peak c=4,5 (1.8), Endpoint candidate (2.5).
 - Q-band reading: memory `project_q_middle_structure`.
