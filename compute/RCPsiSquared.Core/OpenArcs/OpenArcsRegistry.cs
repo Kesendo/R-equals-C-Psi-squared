@@ -3860,7 +3860,7 @@ public static class OpenArcsRegistry
                 + "on-locus profile can be pinned with degenerate Im is OPEN (48000 draws, none). "
                 + "The gate carries that plus the two hypothesis counterexamples "
                 + "(asymmetric bonds break the identity at residual 1.40; a star is not a reflection "
-                + "graph at all, residual 2.00). Gated: simulations/band_edge_profile_fence_gate.py. "
+                + "graph at all, residual 2.00). Gated: simulations/band_edge_profile_fence_gate.py. RECORDED AS A CLAUSE OF F153, not as a number: it was minted as F156 and WITHDRAWN the same hour, because the identity, the multiplicity-faithful pairing and the Im-preservation are all committed in that note, and the self-pairing step is already a typed claim, F89BranchLocusPalindromeClaim (every EP on the line or in a mirror pair, no orphan), so the entry would have been a corollary stated in a narrower special case than its own lemma. Three scope errors the rounds removed, which any future statement must carry: the coupling must be REAL (F153 own fence); the identity is the conj form and NOT R M R = -M-dagger - 4*gbar, which agrees only for a real hopping; and the hypotheses are SUFFICIENT NOT NECESSARY, a flux ring with no pairing at all still sitting on the axis. "
                 + "CREDIT, because a Stage-0 scout missed it and a review round caught the miss: the "
                 + "strong-coupling COLLAPSE of this block is already F154's locus saturation law, "
                 + "which says in its own words that the source-2 locus flattening is subsumed rather "

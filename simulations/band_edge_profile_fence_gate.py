@@ -279,110 +279,179 @@ def gate_cross_instrument(report):
     return ok
 
 
-def gate_locus_pinning_criterion(report):
-    """The exact law behind the flat rows above, on the (0,1) block, PER EIGENVALUE.
+def gate_axis_membership(report):
+    """WHICH modes sit on the palindrome axis, and the four fences that took five rounds to state.
 
-    Not an "iff": one direction is proved, the converse is false, and F153 uses "criterion" for an iff
-    so the word is avoided here.
+    NOTHING HERE IS A NEW LAW, and it belongs to a CLAUSE of F153 rather than a number of its own.
+    Committed already: the identity (*) `P^T L P = -conj(L) - c*Id` of
+    experiments/WHAT_THE_R90_LOCUS_BUYS.md, with algebraic multiplicities and no normality needed,
+    and the reading that for real c the pairing reflects Re and leaves Im UNCHANGED; F153's own
+    statement that the symmetry holds at every REAL coupling while flatness sets in only above one;
+    and the generator itself (F152). The self-pairing step is owned too, as a typed claim:
+    F89BranchLocusPalindromeClaim says of its own antiunitary pairing that "every EP lies on the line
+    or in a mirror pair across it, no orphan". This group reads that step on this pairing:
 
-    The IDENTITY is the repo's, not this script's: it is source 2 of
-    experiments/WHAT_THE_R90_LOCUS_BUYS.md, and it carries TWO hypotheses, not one: gamma
-    anti-palindromic under a site reflection AND H itself reflection-symmetric under the same
-    reflection. The second is load-bearing and is exercised below, because dropping a hypothesis at
-    the citation is the very failure this whole script exists to fence. Source 2 is gated at its home
-    by simulations/two_sources_gate.py; the collapse it produces is that note's measured table.
+        a mode whose Im is shared with no other DISTINCT eigenvalue is its own image, hence on the
+        axis exactly, threshold or no threshold; flatness is the case where every mode is lone.
 
-    What is added here is why the collapse is EXACT, and the argument is per-eigenvalue:
-
-        the pairing lambda -> -conj(lambda) - 4*gbar preserves Im lambda and reflects Re lambda
-        about -2*gbar, so ANY eigenvalue whose Im is shared with no other is its own image and has
-        Re lambda = -2*gbar exactly.
-
-    Two consequences the first draft of this group got wrong and which the gate now measures. The
-    statement is about ONE eigenvalue at a time, so pinning arrives MODE BY MODE as Im-degeneracies
-    lift; there is no single J onset, and a block can carry pinned modes while its overall Re-spread
-    is large (measured below: three of seven pinned to 1e-15 at a spread of 0.87). And it is ONE
-    DIRECTION: the converse is false, a star at uniform gamma being pinned while N-2 of its modes
-    share Im = 0, exhibited in the last rows, and false only trivially, the diagonal being scalar
-    there for an elementary reason.
-
-    This is not the route that note rejects, which argued from the palindrome plus the one-sided
-    Absorption bound and merged FLAT with ON THE FLOOR; nothing here mentions the floor, and the axis
-    sits a long way off it. It is not THE_SPREAD_IS_A_RESONANCE's X^N cancellation either, which
-    needs an index at N/2 that (0,1) never has for N > 2.
+    Four fences, each of which a draft here got wrong, each with a row below:
+      - the coupling must be REAL (F153's fence, not a new one);
+      - the identity is (*)'s conj form, NOT R M R = -M^dagger - c, which agrees only because a real
+        hopping makes M symmetric;
+      - the sharp hypothesis on H is `P A P = A^T`, WEAKER than source 2's "H reflection-symmetric":
+        a flux ring satisfies the former and violates the latter, and (*) holds for it;
+      - the hypotheses are SUFFICIENT, NOT NECESSARY: a ring whose RATES violate the locus fails (*)
+        and can still sit wholly on the axis, so a failed identity forbids nothing;
+      - the loneness test needs a tolerance at or above eps*|lambda|, and the axis residual is
+        O(1)*eps*|lambda|, a LAW rather than a fixed number, so it is gated as a ratio.
     """
     ok = True
 
-    # source 2's SECOND hypothesis: H reflection-symmetric. Dropping it breaks the identity.
+    def axis_ratio(e, axis):
+        scale = np.finfo(float).eps * max(1.0, float(np.abs(e).max()))
+        return float(np.abs(np.asarray(e).real - axis).max()) / scale
+
+    def lone_indices(e, tol=None):
+        n = len(e)
+        if tol is None:
+            tol = 1e3 * np.finfo(float).eps * max(1.0, float(np.abs(e).max()))
+        return [k for k in range(n)
+                if all(abs(e[k].imag - e[j].imag) > tol for j in range(n) if j != k)]
+
+    # (*) in its own form, against the dagger form that coincides only for a real hopping
+    n = 6
+    g = np.linspace(0.125, 1.0, n)
+    gbar = float(g.mean())
+    P = np.eye(n)[::-1]
+    for label, phase in (("real hopping", None), ("Peierls phase 0.4", 0.4)):
+        A = np.zeros((n, n), complex)
+        for i in range(n - 1):
+            w = np.exp(1j * phase) if phase is not None else 1.0
+            A[i, i + 1] = w
+            A[i + 1, i] = np.conj(w)
+        M = -2j * 1.0 * A - 2.0 * np.diag(g)
+        star = float(np.abs(P @ M @ P - (-M.conj() - 4 * gbar * np.eye(n))).max())
+        dagger = float(np.abs(P @ M @ P - (-M.conj().T - 4 * gbar * np.eye(n))).max())
+        good = star <= 1e-14 and (dagger <= 1e-14) == (phase is None)
+        ok &= good
+        report(good, f"N={n} {label:<18}: (*) conj form {star:.1e}, dagger form {dagger:.1e} "
+                     f"-> the two agree only for a real hopping")
+
+    # axis membership, per mode, at Delta = 0 and Delta = 1, across the span
+    for delta in (0.0, 1.0):
+        for n in (5, 7):
+            g = np.linspace(0.125, 1.0, n)
+            axis = -2 * float(g.mean())
+            for J in (0.3, 0.6, 1.0, 3.0):
+                e = np.linalg.eigvals(band_edge_block(n, chain(n), g, J=J, delta=delta))
+                lone = lone_indices(e)
+                ratio = axis_ratio(e[lone], axis) if lone else 0.0
+                good = ratio <= 50.0
+                ok &= good
+                report(good, f"N={n} Delta={delta} J={J:<4}: {len(lone)} of {n} modes Im-lone, on the "
+                             f"axis to {ratio:.1f}*eps*|lambda| (a ratio, not a threshold), block span "
+                             f"{float(np.ptp(e.real)):.4f}")
+
+    # fence: the coupling must be REAL
     n = 7
     g = np.linspace(0.125, 1.0, n)
     gbar = float(g.mean())
-    R = np.eye(n)[::-1]
-    for label, w, want_identity in (
-        ("palindromic bonds", [1.0, 1.25, 1.5, 1.5, 1.25, 1.0], True),
-        ("ASYMMETRIC bonds", [1.0, 1.25, 1.5, 0.8, 1.1, 0.6], False),
-    ):
-        bonds = [(i, i + 1, w[i]) for i in range(n - 1)]
-        M = band_edge_block(n, bonds, g, J=1.0, delta=0.0)
-        resid = float(np.abs(R @ M @ R - (-M.conj().T - 4 * gbar * np.eye(n))).max())
-        spread = float(np.ptp(np.linalg.eigvals(M).real))
-        holds = resid <= 1e-14
-        good = holds == want_identity
+    P = np.eye(n)[::-1]
+    A = np.zeros((n, n))
+    for i in range(n - 1):
+        A[i, i + 1] = A[i + 1, i] = 1.0
+    for J in (1.0 + 0.3j, 1.0 + 0.0j):
+        M = -2j * J * A - 2.0 * np.diag(g)
+        resid = float(np.abs(P @ M @ P - (-M.conj() - 4 * gbar * np.eye(n))).max())
+        e = np.linalg.eigvals(M)
+        lone = lone_indices(e)
+        off = max((abs(e[k].real - (-2 * gbar)) for k in lone), default=0.0)
+        real_J = abs(J.imag) < 1e-15
+        good = (resid <= 1e-14) == real_J and (off <= 1e-9) == real_J
         ok &= good
-        report(good, f"N={n} on-locus gamma, {label:<18}: identity residual {resid:.2e}, Re spread "
-                     f"{spread:.4f} -> source 2 {'holds' if holds else 'FAILS'}, so H "
-                     f"reflection-symmetric is a hypothesis and not decoration")
+        report(good, f"N={n} J={J}: identity {resid:.1e}, worst lone mode off axis {off:.2f} "
+                     f"-> the REAL-coupling fence is F153's and is load-bearing")
 
-    # the criterion, per eigenvalue, across the region where the block is NOT flat
-    for n in (5, 6, 7):
-        g = np.linspace(0.125, 1.0, n)
-        gbar = float(g.mean())
-        bonds = chain(n)
-        for J in (0.3, 0.45, 0.6, 0.78, 1.0, 3.0):
-            e = np.linalg.eigvals(band_edge_block(n, bonds, g, J=J, delta=0.0))
-            lone = [k for k in range(n)
-                    if all(abs(e[k].imag - e[j].imag) > 1e-9 for j in range(n) if j != k)]
-            worst = max((abs(e[k].real + 2 * gbar) for k in lone), default=0.0)
-            spread = float(np.ptp(e.real))
-            good = worst <= TOL_FLAT
-            ok &= good
-            report(good, f"N={n} J={J:<5}: {len(lone)} of {n} eigenvalues Im-lone, all pinned to "
-                         f"{worst:.1e}, while the BLOCK spread is {spread:.4f}")
-
-    # The converse is false, but only TRIVIALLY, and saying so is the point. The witness is uniform
-    # gamma, where the diagonal is already the scalar -2*gamma*Id, so Re = -2*gamma holds for an
-    # elementary reason and not through the pairing: this is an IDENTITY stated, not a measurement,
-    # in the shape two_sources_gate.py uses for the same situation. A star is convenient because its
-    # hopping spectrum is degenerate (N-2 modes at Im = 0; the spectrum is {-2J*sqrt(N-1), 0,
-    # +2J*sqrt(N-1)}, three distinct values, NOT "fully degenerate").
-    # OPEN, and searched: whether a NON-uniform on-locus profile can be pinned with a degenerate Im
-    # spectrum. 48000 draws over chain, ring and complete at N = 4..7 and four couplings found none.
-    # So the converse fails only where the conclusion has an independent reason.
-    for n in (5, 6):
-        g = np.full(n, 0.5)
-        e = np.linalg.eigvals(band_edge_block(n, star(n), g, J=1.0, delta=0.0))
-        im = np.sort(e.imag)
-        min_gap = float(np.min(np.diff(im)))
-        n_distinct = len(set(np.round(im, 9).tolist()))
-        max_dev = float(np.abs(e.real - (-2 * float(g.mean()))).max())
-        good = min_gap <= 1e-9 and max_dev <= TOL_FLAT and n_distinct == 3
-        ok &= good
-        report(good, f"N={n} star at UNIFORM gamma: {n_distinct} distinct Im values, min gap "
-                     f"{min_gap:.1e}, pinned to {max_dev:.1e} -> the converse is false, trivially, "
-                     f"the diagonal being scalar here (identity, not a measurement)")
-
-    # and the star is not a source-2 graph at all: reversal is not one of its automorphisms
-    n = 5
-    gs = np.array([0.2, 0.4, 0.5, 0.6, 0.8])
-    gs = 0.5 * (gs + (2 * gs.mean() - gs[::-1]))
-    M = band_edge_block(n, star(n), gs, J=1.0, delta=0.0)
-    resid = float(np.abs(np.eye(n)[::-1] @ M @ np.eye(n)[::-1]
-                         - (-M.conj().T - 4 * float(gs.mean()) * np.eye(n))).max())
-    good = resid > 1e-2
+    # the hypothesis is SHARPER than source 2 states it. Source 2 asks for H reflection-symmetric;
+    # what (*) actually needs is P A P = A^T, which a real symmetric hopping satisfies via R H R = H
+    # but which a flux ring ALSO satisfies while R H R != H. So the flux ring is inside the theorem,
+    # not a counterexample to it, and an earlier row here mis-read it as one by testing the dagger
+    # form instead of (*).
+    n = 6
+    g = np.linspace(0.2, 1.0, n)
+    g = 0.5 * (g + (2 * g.mean() - g[::-1]))
+    gbar = float(g.mean())
+    A = np.zeros((n, n), complex)
+    ph = np.exp(0.7j)
+    for i in range(n):
+        A[i, (i + 1) % n] = ph
+        A[(i + 1) % n, i] = np.conj(ph)
+    M = -2j * 1.0 * A - 2.0 * np.diag(g)
+    P = np.eye(n)[::-1]
+    h_sym = float(np.abs(P @ A @ P - A).max())
+    transpose_cond = float(np.abs(P @ A @ P - A.T).max())
+    resid = float(np.abs(P @ M @ P - (-M.conj() - 4 * gbar * np.eye(n))).max())
+    e = np.linalg.eigvals(M)
+    lone = lone_indices(e)
+    ratio = axis_ratio(e[lone], -2 * gbar) if lone else float("inf")
+    good = h_sym > 1e-2 and transpose_cond <= 1e-14 and resid <= 1e-14 and ratio <= 50.0
     ok &= good
-    report(good, f"N={n} star with reversal-anti-palindromic gamma: identity residual {resid:.3f}, "
-                 f"because reversal is not an automorphism of a star; r90_defect is the locus test "
-                 f"only for graphs the reflection preserves")
+    report(good, f"N={n} flux ring: ||RHR-H|| = {h_sym:.3f} yet ||PAP-A^T|| = {transpose_cond:.1e}, "
+                 f"so (*) HOLDS ({resid:.1e}) and all modes sit on the axis to "
+                 f"{ratio:.1f}*eps*|lambda| -> the sharp hypothesis is P A P = A^T, weaker than "
+                 f"source 2's 'H reflection-symmetric'")
+
+    # fence: the hypotheses are SUFFICIENT, NOT NECESSARY. Break the RATE hypothesis instead: the
+    # identity then genuinely fails and the block can still sit wholly on the axis.
+    n = 4
+    A = np.zeros((n, n))
+    for i in range(n):
+        A[i, (i + 1) % n] = A[(i + 1) % n, i] = 1.0
+    g = np.array([0.75, 0.5, 0.25, 0.5])
+    gbar = float(g.mean())
+    P = np.eye(n)[::-1]
+    M = -2j * 0.5 * A - 2.0 * np.diag(g)
+    r90 = float(np.abs(g - (2 * g.mean() - g[::-1])).max())
+    resid = float(np.abs(P @ M @ P - (-M.conj() - 4 * gbar * np.eye(n))).max())
+    e = np.linalg.eigvals(M)
+    off = float(np.abs(e.real - (-2 * gbar)).max())
+    good = r90 > 1e-2 and resid > 1e-2 and off <= 1e-13
+    ok &= good
+    report(good, f"N={n} ring, R90 defect {r90:.2f} (rate hypothesis VIOLATED): (*) fails at "
+                 f"{resid:.2f} and yet every mode sits on the axis to {off:.1e} -> the hypotheses "
+                 f"are SUFFICIENT, not necessary; a failed identity forbids nothing")
+
+    # fence: the loneness predicate is not decidable at exact equality
+    n = 4
+    g = np.array([0.9, 0.65, 0.35, 0.1])
+    e = np.linalg.eigvals(band_edge_block(n, chain(n), g, J=0.3, delta=0.0))
+    strict = [k for k in range(n) if all(e[k].imag != e[j].imag for j in range(n) if j != k)]
+    tolerant = lone_indices(e)
+    off_strict = max((abs(e[k].real - (-2 * float(g.mean()))) for k in strict), default=0.0)
+    good = len(strict) == n and len(tolerant) == 0 and off_strict > 0.1
+    ok &= good
+    report(good, f"N={n} two Im values differ by 7e-16: a STRICT test calls {len(strict)} of {n} lone "
+                 f"and the axis claim appears to fail by {off_strict:.3f}; with an eps-scaled "
+                 f"tolerance {len(tolerant)} are lone and nothing is claimed")
+
+    # the open question, executed rather than asserted
+    rng = np.random.default_rng(20260822)
+    draws = 3000
+    hits = 0
+    for _ in range(draws):
+        m = int(rng.integers(4, 8))
+        gg = rng.uniform(0.05, 1.5, size=m)
+        gg = 0.5 * (gg + (2 * gg.mean() - gg[::-1]))
+        if float(np.ptp(gg)) < 1e-6:
+            continue
+        J = float(rng.choice([0.5, 1.0, 2.0, 5.0]))
+        e = np.linalg.eigvals(band_edge_block(m, chain(m), gg, J=J, delta=0.0))
+        if len(lone_indices(e)) < m and axis_ratio(e, -2 * float(gg.mean())) <= 50.0:
+            hits += 1
+    good = hits == 0
+    ok &= good
+    report(good, f"the open question, searched here rather than asserted: {draws} non-uniform "
+                 f"on-locus draws produced {hits} degenerate-Im blocks wholly on the axis")
     return ok
 
 
@@ -407,8 +476,8 @@ def main():
         ("the committed numbers F153 publishes, from the other instrument",
          gate_matches_committed_numbers),
         ("off the chain: ring, star and complete read the same way", gate_topology_general),
-        ("the locus pinning law: Im-lone => pinned to -2*gbar (one direction; converse false)",
-         gate_locus_pinning_criterion),
+        ("which modes sit on the axis (a CLAUSE of F153, not a law of its own)",
+         gate_axis_membership),
     ):
         print(f"\n{title}")
         ok &= fn(report)

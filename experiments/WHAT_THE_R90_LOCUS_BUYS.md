@@ -458,69 +458,73 @@ bounded by 4·eps·max|L| and fires above that: an earlier version gated only th
 couplings and printed the rest, and an injected O(1) break at the non-dyadic coupling passed
 unnoticed.
 
-## The collapse is exact on the (0,1) block, and the reason is one line
+## Which modes sit on the axis below the threshold, and why it is not a new law
 
 *Added 2026-08-22, from the class-B fencing pass, which needed to know what a fence may say about
-this block under a profile.*
+this block under a profile. Recorded as a clause of [F153](../docs/ANALYTICAL_FORMULAS.md#f153),
+NOT as a number of its own: a draft of this section was minted as "F156" and withdrawn the same
+hour, because everything it rests on is committed and the entry would have been a corollary in a
+narrower special case than the lemma it quotes.*
 
-The table above measures the pinned blocks collapsing onto the trace constant past an onset, and
-[F154](../docs/ANALYTICAL_FORMULAS.md#f154) already subsumes that collapse rather than exempting it:
-its locus saturation law calls the pinned-block flattening "F153's source-2 locus flattening,
-subsumed rather than exempted", reaches the Re-extremes from `(p, q, N, γ̄)` arithmetic with no
-eigensolver, and inherits the same source-2 hypothesis. What is added below is **not** the collapse
-and **not** its strong-coupling reading, both of which are F154's; it is the statement at finite J,
-per eigenvalue, for the (0,1) block, and the argument is short enough to give in full.
+The section above gives (\*) and reads off, for real c, that the pairing is `Re λ ↦ −Re λ − c` with
+**Im λ unchanged**, with algebraic multiplicities and without normality. F153 adds that the resulting
+symmetry about the trace constant holds at EVERY real coupling, while flatness, all eigenvalues ON
+the axis, sets in only above one. What was not written down is the step between those two, and it is
+one line:
 
-Source 2 gives, **for γ anti-palindromic under a site reflection and H itself reflection-symmetric
-under the same reflection** (both hypotheses, the second no more optional than the first), the
-pairing `λ ↦ −conj(λ) − 4γ̄` on this block, `c = 4γ̄·|p − q|` with `|p − q| = 1`. That map
-**preserves Im λ** and reflects Re λ about `−2γ̄`. So take an eigenvalue whose imaginary part is
-shared with no other eigenvalue of the block: its image has the same Im, hence is itself, hence
+> an eigenvalue whose imaginary part is shared with no other DISTINCT eigenvalue of the block is its
+> own image under the pairing, hence sits on the axis exactly, threshold or no threshold.
 
-> `Re λ = −2γ̄` exactly, for **any** eigenvalue of the block whose Im is unshared.
+Flatness is then simply the case where every mode is Im-lone. On the (0,1) block the axis is `−2γ̄`.
 
-**The statement is per eigenvalue, and that is sharper than the collapse it explains.** The block is
-flat when every mode is Im-lone, but pinning arrives **mode by mode** as degeneracies lift, so a
-block can carry exactly-pinned modes while its own spread is wide: measured at N = 7 on the locus,
-three of seven eigenvalues are Im-lone and pinned to `10⁻¹⁵` while the block's Re-spread is `0.87`,
-and they stay pinned through `0.66`, `0.49`, `0.12` as J rises, until at J = 1 all seven are lone and
-the spread is zero. So there is no single J onset; the "threshold" a coarse reading sees is the last
-degeneracy lifting, not a coupling scale.
+**This is an owned argument read on a new object, not a new argument.**
+[`F89BranchLocusPalindromeClaim`](../compute/RCPsiSquared.Core/Symmetry/F89BranchLocusPalindromeClaim.cs)
+makes exactly this step for the antiunitary `λ ↦ −λ̄ − 2σ`: "reflect Re about −σ, preserve Im, so
+every EP lies on the line or in a mirror pair across it, **no orphan**". Same step, different pairing.
+Whoever needs it elsewhere should look there first.
 
-**One direction only, and the converse is false, but only trivially.** Degenerate Im *permits* a
-spread; it does not force one. The witness is a star at **uniform** γ, where `N − 2` modes share
-`Im = 0` (its Im spectrum is `{−2J√(N−1), 0, +2J√(N−1)}`, three distinct values, not a total
-collapse) and every mode is pinned. That witness proves nothing about the pairing, because at
-uniform γ the diagonal is already the scalar `−2γ·Id` and `Re λ = −2γ` for an elementary reason. So
-`not pinned` cannot be read off a degeneracy, and the sharper question stays **open**: whether a
-NON-uniform on-locus profile can be pinned with a degenerate Im spectrum. A search of 48 000 draws
-over chain, ring and complete at N = 4..7 and four couplings found none.
+**Measured** on (0,1) at N = 7 on the locus, Δ = 0, J real: three of seven modes are Im-lone and on
+the axis to 10⁻¹⁵ while the block's span is 0.87, staying there through 0.66, 0.49, 0.12 as J rises,
+until every mode is lone and the span is zero. At Δ = 1, N = 7, J = 1 five of seven are lone and on
+the axis to 4·10⁻¹⁵ at a span of 1.08. Gate:
+[`band_edge_profile_fence_gate.py`](../simulations/band_edge_profile_fence_gate.py).
 
-**Hypotheses bite, and the gate exercises them.** An asymmetric bond profile on the same locus
-breaks source 2 outright (identity residual `1.40`, spread `0.91`) where a palindromic one holds it
-at `2e-16` and the block is flat. And the site reflection is not an automorphism of every graph:
-on a star, reversal-anti-palindromic rates give residual `2.00`, so the R90 defect is the locus test
-only for graphs the reflection preserves. Gate:
-[`band_edge_profile_fence_gate.py`](../simulations/band_edge_profile_fence_gate.py), whose last group
-carries all of these including the two counterexamples.
+**Four fences, each of which a draft of this section got wrong.** The coupling must be **real**: at
+N = 7 with `J = 1 + 0.3i` the identity residual is 1.20 and the "lone" modes miss the axis by 1.19,
+which is F153's own REAL-coupling fence and not a new one. The identity's form is (\*)'s
+`Pᵀ L P = −conj(L) − c·Id`, **not** `R M R = −M† − c`: those agree only because a real hopping makes M
+symmetric, and on a Peierls chain at N = 6 the dagger form misses by 1.6 where (\*) holds at
+2·10⁻¹⁶. Below the threshold the statement is often **vacuous** rather than false, at J = 0 always,
+the block being real diagonal with every Im equal. And the hypotheses are **sufficient, not
+necessary**: an N = 4 ring whose rates leave the locus (R₉₀ defect 0.25) fails (\*) at 0.50 and still
+has every mode exactly on the axis, to 10⁻¹⁶, so a failed identity forbids nothing.
 
-**This is not the route this note rejects**, and the distinction is the whole reason it is written
-down. The rejected argument ran from the palindrome plus the one-sided Absorption bound, and fails
-because it merges *flat* with *on the floor*. Nothing here mentions the floor. The conclusion is the
-**axis** `−2γ̄`, and on the locus profile used here the axis sits `0.875` away from the floor
-`−2·min(γ)`: flat and off its floor at the same time, which is the reading F153 asks for and the one
-a fence has to carry.
+**A sharpening of source 2's own hypothesis, found by the gate rather than by reading.** Source 2 asks
+for `H` reflection-symmetric. What (\*) actually needs is `P A P = Aᵀ`, and the two are not the same:
+a flux ring with hopping phase 0.7 has `‖R H R − H‖ = 1.29` and yet `‖P A P − Aᵀ‖ = 0` exactly, so
+(\*) holds for it at 10⁻¹⁶ and every mode is on the axis. For a real symmetric hopping the weaker
+condition reduces to source 2's, which is why the difference never showed. A review round read the
+flux ring as a counterexample to the identity; it had measured the dagger form, and the ring is
+INSIDE the theorem once (\*) is used.
 
-It is also not [THE_SPREAD_IS_A_RESONANCE](THE_SPREAD_IS_A_RESONANCE.md)'s mechanism, though it
-answers the same kind of question. That note pins the collision-free modes of the **index-N/2**
-blocks through the `X^N` cancellation, and says in its own text that blocks carrying no index at
-`N/2` lack it. `(0,1)` is such a block at every `N > 2`. The two mechanisms partition rather than
-compete: `X^N` where an index sits at `N/2`, the site reflection where the rates sit on the locus
-and the graph and bonds respect it.
+**The loneness predicate needs a tolerance, and the axis residual is a law rather than a number.** At
+N = 4, γ = (0.9, 0.65, 0.35, 0.1), J = 0.3 two genuinely degenerate Im values differ by 7·10⁻¹⁶ in
+float, so a strict inequality declares all four modes lone and the claim appears to fail by 0.304. The
+test needs a tolerance at or above `eps·|λ|`, and the residual on the axis scales as `O(1)·eps·|λ|`, so
+a fixed absolute bound breaks at large J rather than at large N.
 
-What this does NOT say: nothing forces a spread where Im is degenerate, nothing extends off the
-locus, where source 2 has no pairing to give, and nothing touches the gap question, which needs the
-full generator rather than one block.
+**One direction, and the converse fails only trivially.** Degenerate Im permits a spread and does not
+force one. The witnesses found are at uniform γ, where the diagonal is already the scalar `−2γ·Id` and
+the conclusion holds for an elementary reason that never touches the pairing (a star, `N − 2` modes at
+`Im = 0`). Whether a genuinely non-uniform on-locus profile can be pinned with a degenerate Im
+spectrum is **open**: a local search of 48 000 draws over chain, ring and complete at N = 4..7 and four
+couplings found none, and that search is a scout rather than a committed gate.
+
+Not to be merged with two neighbours. It is not the route this note rejects above, which argued from
+the palindrome plus the one-sided Absorption bound and merged *flat* with *on the floor*; nothing here
+mentions the floor, and on the profile measured the axis sits 0.875 away from it. And it is not
+[THE_SPREAD_IS_A_RESONANCE](THE_SPREAD_IS_A_RESONANCE.md)'s `X^N` cancellation, which needs an index at
+`N/2` that (0,1) never has for `N > 2`.
 
 ## What is still open
 

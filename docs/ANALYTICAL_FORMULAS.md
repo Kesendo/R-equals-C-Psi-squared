@@ -7316,6 +7316,29 @@ that sets in only above a coupling. This is where the J threshold comes from, an
 is a phenomenon rather than a fitting parameter: below it the block is symmetric and wide, above it
 symmetric and collapsed. Saying "the involution makes the block flatten" skips exactly this step.
 
+**Which eigenvalues sit ON the axis below the threshold, exactly** (added 2026-08-22, from the
+class-B fencing pass). The pairing preserves Im and reflects Re, so an eigenvalue whose imaginary
+part is shared with no other DISTINCT eigenvalue of the block is its own image and therefore sits on
+the axis exactly, at every real coupling, threshold or no threshold. Flatness is the case where every
+mode is Im-lone. This is the "no orphan" step
+[`F89BranchLocusPalindromeClaim`](../compute/RCPsiSquared.Core/Symmetry/F89BranchLocusPalindromeClaim.cs)
+already makes for its own antiunitary pairing ("every EP lies on the line or in a mirror pair"), read
+here on this palindrome; it needs no diagonalisability and survives repeated eigenvalues, the
+similarity giving the multiset with algebraic multiplicities. Measured on (0,1) at N = 7 on the locus:
+three of seven modes are Im-lone and sit on the axis to 10⁻¹⁵ while the block's own span is 0.87, and
+they stay there through 0.66, 0.49, 0.12 as J rises. Two cautions the measurement forces. Below the
+threshold the statement is often VACUOUS rather than informative, and at J = 0 always so, the block
+being real diagonal with every Im equal. And the loneness test is not decidable at exact equality: at
+N = 4, γ = (0.9, 0.65, 0.35, 0.1), J = 0.3 two genuinely degenerate Im values differ by 7·10⁻¹⁶ in
+float, so a strict test calls all four lone and the axis claim appears to fail by 0.304; the test needs
+a tolerance at or above eps·|λ|, and the axis residual itself is O(1)·eps·|λ| rather than a fixed
+number. Gate: `simulations/band_edge_profile_fence_gate.py`. The hypotheses are sufficient and NOT
+necessary: an N = 4 ring whose rates leave the locus (R₉₀ defect 0.25) fails the identity at 0.50 and
+still has every mode exactly on the axis, to 10⁻¹⁶. Separately, source 2's hypothesis on `H` is
+stronger than the identity needs: what (\*) uses is `P A P = Aᵀ`, which a flux ring satisfies exactly
+while breaking `R H R = H`, so that ring is inside the statement rather than a counterexample to
+it.
+
 Three scope clauses, all load-bearing. The threshold itself depends on the profile and on N and is NOT
 gated, so no J number belongs in this paragraph; what is gated is the palindrome on both sides of it. What
 Δ decides is whether there is an onset AT ALL, and it decides that for the collapse and not for the
