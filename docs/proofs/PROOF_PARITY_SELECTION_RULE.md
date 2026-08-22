@@ -271,8 +271,12 @@ n_XY=1 is odd, SE density matrices are even, overlap is zero.
   bit_a twin of Π²_Z = X^⊗N; F61 corollary in the
   [formula registry](../ANALYTICAL_FORMULAS.md)).
 - **The ceiling made quantitative (F122):** the accessibility boundary's
-  α₁ has closed forms per topology, g2(K_N) = 4/N (N ≥ 5),
-  g2(star_N) = 4/(N−1) (N ≥ 6), chain never ceilings; see
+  α₁ has closed forms per topology. On the **XY** network they are
+  g2(K_N) = 4/N (N ≥ 5), g2(star_N) = 4/(N−1) (N ≥ 6), chain never ceilings.
+  This document's own Hamiltonian is isotropic Heisenberg, where the STAR form
+  differs: 4/N from N ≥ 5, which
+  [The Star's Frozen Seam](../THE_STAR_FROZEN_SEAM.md) already records under
+  "Model scope". Do not carry the XY forms into a Heisenberg statement; see
   [PROOF_STRUCTURAL_CEILING](PROOF_STRUCTURAL_CEILING.md), typed
   `StructuralCeilingClaim`, live witness `inspect --root ceiling`.
 

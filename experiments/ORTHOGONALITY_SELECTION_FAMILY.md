@@ -122,7 +122,7 @@ So `⟨Z_i⟩²` is bilinear in ΔN = 0, `⟨X_i⟩² + ⟨Y_i⟩²` bilinear in
 
 exactly, **independent of the Hamiltonian**.
 
-**Proof template applied:** sine-basis expansion `|S_1⟩ = Σ_{k odd} s_k |ψ_k⟩` (odd-k only by reflection symmetry); evolution of each `|vac⟩⟨ψ_k|` as `e^(iE_k − 2γ₀)t` (pure decay at 2γ₀ because d_H = 1 uniformly for single-excitation coherences with vacuum); partial trace `Tr_{¬i}(|vac⟩⟨ψ_k|) = ψ_k(i)|0⟩⟨1|`; site-sum of the purity cross-terms gives `Σ_i ψ_k(i)ψ_{k'}(i) = δ_{k, k'}`, collapsing the H-phase factors `cos((E_k − E_{k'})t)` to `cos(0) = 1` and leaving `Σ_k s_k²·exp(−4γ₀t) = exp(−4γ₀t)` (by Parseval on the unit-normed |S_1⟩).
+**Proof template applied:** sine-basis expansion `|S_1⟩ = Σ_{k odd} s_k |ψ_k⟩` (odd-k only by reflection symmetry); evolution of each `|vac⟩⟨ψ_k|` as `e^(iE_k − 2γ₀)t` (pure decay at 2γ₀ because d_H = 1 for every single-excitation coherence with vacuum *and* the Statement's γ₀ is one common rate; neither alone is enough, d_H = 1 alone leaving diag(-2γ_l) and a common rate alone leaving −2γ·diag(d_H); it is the two together that make the decay one scalar, so the step fails under the per-site γ₀ profile the TL;DR already names as a break. This file measures that break itself, in §3.2(d) below, and the nearer answer is the better one; the block's own fate under a profile is [the edge block under a rate profile](../docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md)); partial trace `Tr_{¬i}(|vac⟩⟨ψ_k|) = ψ_k(i)|0⟩⟨1|`; site-sum of the purity cross-terms gives `Σ_i ψ_k(i)ψ_{k'}(i) = δ_{k, k'}`, collapsing the H-phase factors `cos((E_k − E_{k'})t)` to `cos(0) = 1` and leaving `Σ_k s_k²·exp(−4γ₀t) = exp(−4γ₀t)` (by Parseval on the unit-normed |S_1⟩).
 
 Under bond-b perturbation, the sine basis and E_k shift by O(δJ), but Parseval still holds: `Σ_{k} |⟨ψ_k^B|S_1⟩|² = 1` identically. The sum is therefore `δJ-invariant`, giving `K_CC[0, 1]_pr = 0` exactly.
 
@@ -194,7 +194,7 @@ Given the meta-theorem, we have a **recipe** for generating new selection rules:
 | Excitation number (U(1)) | single-site partial trace | F70 (\|ΔN\| ≥ 2 blind) |
 | Reflection R | c_1 under bond-symmetric perturbation | F71 (bond profile mirror-symmetric) |
 | Sector labels (U(1) again) + Pauli orthogonality | per-site purity | F72-candidate (DD⊕CC block) |
-| Sine-mode orthogonality + uniform d_H = 1 dephasing | spatial sum of purity | (vac, S_1) purity closure = exp(−4γ₀t) |
+| Sine-mode orthogonality + one common γ₀ on the d_H = 1 block | spatial sum of purity | (vac, S_1) purity closure = exp(−4γ₀t) |
 
 ### 3.2 New selection rules predicted by the recipe
 
@@ -398,7 +398,7 @@ This is the structural separation that was missing in the EQ-021 retraction: the
 
 2. **Is there a fifth instance that involves the fold boundary (CΨ = ¼)?** The fold is the discriminant of the `R = C·(Ψ + R)²` fixed point. Its connection to the Meta-Theorem (if any) is not obvious. A hypothesis: the fold is the boundary where two conservation laws intersect, and crossings correspond to selection-rule breakings. Highly speculative.
 
-3. **Does the Meta-Theorem have a Heisenberg-chain version with the same content?** F70 is proven for sector-conserving dynamics generally. F71 is specific to reflection-symmetric chains. The (vac, S_1) purity closed form relied on XY-sine-basis completeness plus d_H = 1 uniformity; under Heisenberg, the d_H = 1 decay rate is still uniform (still 2γ₀ for single-excitation coherences), so the closed form should carry over. **Sub-question for a future run: verify `Σ_i 2|ρ_{coh,i,01}|² = (1/2)·exp(−4γ₀t)` numerically on the Heisenberg chain at N = 5.**
+3. **Does the Meta-Theorem have a Heisenberg-chain version with the same content?** F70 is proven for sector-conserving dynamics generally. F71 is specific to reflection-symmetric chains. The (vac, S_1) purity closed form relied on XY-sine-basis completeness plus a common γ₀ across sites, the two together being what makes every cell of the block carry one and the same scalar, d_H = 1 fixing the multiple and the common rate fixing what it multiplies; under Heisenberg the d_H = 1 block is still a single scalar 2γ₀ for the same reason, so the closed form should carry over, and what a per-site γ₀ would do to it is §3.2(d) and not this question. **Sub-question for a future run: verify `Σ_i 2|ρ_{coh,i,01}|² = (1/2)·exp(−4γ₀t)` numerically on the Heisenberg chain at N = 5.**
 
 ---
 

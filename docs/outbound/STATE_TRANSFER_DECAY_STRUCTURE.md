@@ -128,8 +128,9 @@ configurations do (chains, stars, triangles, uniform, weak-end, N = 2 to 5).
 ## 3. What the structure buys you (the objects we hand you)
 
 - **A fidelity-cost law instead of a per-run number.** Each rate is linear in γ
-  at fixed mode, and the coherence floor 2γ is linear in γ at every coupling,
-  so the fidelity loss of a transfer channel is linear in γ until the transfer
+  at fixed mode, and the coherence floor 2γ, which is the UNIFORM-rate floor and
+  not the per-site one this document's §2 setup allows, is linear in γ at every
+  coupling, so the fidelity loss of a transfer channel is linear in γ until the transfer
   cycle itself is disrupted. (The mixed levels are not: their ⟨n_XY⟩ moves with
   J/γ, as §2 notes, so a fit that spans a wide J/γ range will see curvature.) In the benchmark star channel the
   cost is ≈ 1.0 fidelity-point per unit γ (1.0–1.1 across the linear regime)
@@ -156,10 +157,15 @@ configurations do (chains, stars, triangles, uniform, weak-end, N = 2 to 5).
   nonzero rate is 2γ for uniform dephasing (below a coupling threshold
   Q*_gap(N) in the coupling ratio Q = J/γ the spectral gap drops below 2γ). That does NOT lengthen the
   coherent window, and the distinction matters for design. The modes that fall
-  below 2γ live entirely in the population sector, |Δpopcount| = 0, where
-  strong dephasing freezes transport; every coherence sector keeps its minimum
-  at exactly 2γ at every coupling (measured 2.000000γ for |Δp| = 1 and
-  4.000000γ for |Δp| = 2 at Q = 0.2, 0.5 and 1.5, for N = 3, 4, 5). So the
+  below 2γ live in the |Δpopcount| = 0 block, which mixes populations with
+  equal-popcount coherences and is where strong dephasing freezes transport;
+  **at one common rate** every coherence sector keeps its minimum at or above
+  its own rung 2|Δp|γ at every coupling, the floor being derived while its
+  attainment is measured (2.000000γ for |Δp| = 1 and 4.000000γ for |Δp| = 2 at
+  Q = 0.2, 0.5 and 1.5, for N = 3, 4, 5). Under the per-site rates §2 allows,
+  the rung becomes 2 × the sum of the |Δp| smallest rates. Both readings are
+  [the Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md), §4.3 and
+  Theorem 2. So the
   coherent window stays ~1/(2γ), which is a time; divide by the cycle period
   for a cycle count. Lowering J/γ buys no transfer window. The reflection constrains where the rate sits: rates pair to
   2Σγ, so the 2γ level is pinned opposite 2(N−1)γ, while the fastest rate 2Nγ

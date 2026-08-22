@@ -3933,7 +3933,7 @@ public static class OpenArcsRegistry
                 "and M's slowest eigenvector at 0.999996. So M hands over the AMPLITUDE and not the rate; the " +
                 "rate is near 2*Re(lambda_M) = -0.3328, shifted to -0.3179 by the population term of (a). A " +
                 "closed form for psi_opt does not by itself make the lens well posed.",
-            NextStep: "RESUMPTION POINT (2026-08-02, end of session). FOUR THINGS ARE DONE and are not to be " +
+            NextStep: "RESUMPTION POINT (heading written 2026-08-02; APPENDED TO THROUGH 2026-08-22 without moving, so read the dated items below rather than this line). WHERE TO START AS OF 2026-08-22: class B, which now has both an instrument (the two block builders take a profile) and a law to point at (see WHAT CLASS B SHOULD POINT AT). Class A is owner-blocked on one site and cannot be advanced by a worker. The psi_opt IBM-profile overlap gate named further down is a SEPARATE thread, not the resumption point. FOUR THINGS ARE DONE and are not to be " +
                 "redone: the D10 Step-1 edit; the whole prose rename off the w=1 mislabel, both halves, " +
                 "landed in 26 files (commit f0a9160); the PROOF_CHAIN_GAP_DOMINANCE section-4 redo " +
                 "with its fence in fourteen sites and its promoted gate (commit cadaa98); and, landed " +
@@ -4192,7 +4192,7 @@ public static class OpenArcsRegistry
                 "reads the (0,1) block's slowest rate as 0.167 on the IBM Torino profile, where " +
                 "2*gamma_bar = 1.043 (0.1 is 2*gamma_MIN, a factor of ten below the mean, and an " +
                 "earlier draft of this note quoted that as the mean). Inside the Bendixson bracket " +
-                "[0.1, 4.671], nowhere near -2*gamma_bar. " +
+                "[0.1, 4.68], nowhere near -2*gamma_bar. " +
                 "The model to copy is simulations/d10_block_closure_verify.py, which is the one place " +
                 "that TESTS the fence rather than asserting it. " +
                 "SECOND-A, THE FENCING PASS: CLASS A IS SUBSTANTIALLY FENCED AND NOT CLOSED (markdown half " +
@@ -4222,15 +4222,47 @@ public static class OpenArcsRegistry
                 "lambda0 = -2N = -2*sigma at gamma = 1), and R1 additionally rests on section 6's uniform " +
                 "gamma = 1 corner window; only the Klein full flip is profile-independent. The fences now " +
                 "SCOPE and POINT rather than restate. Every claim string that changed was rebuilt and the " +
-                "test projects are green. WHAT REMAINS, so the next pass starts from a true list: the " +
-                "markdown twin PROOF_STRUCTURAL_CEILING.md:49 of the sentence fenced at " +
-                "StructuralCeilingClaim:97; ORTHOGONALITY_SELECTION_FAMILY.md:125 (the same hamming/gamma " +
-                "conflation, in a file that discusses non-uniform gamma_0 a hundred lines earlier at :21); GLOSSARY " +
-                ":330 and :438, class-B-shaped but sitting in a named Stage-0 store; and the sharpest site " +
-                "anywhere, reflections/ON_THE_TWO_COLUMNS.md:149, which exempts the two band ends from the " +
+                "test projects are green. WHAT REMAINS, so the next pass starts from a true list: FOUR of " +
+                "the five markdown sites this entry listed were fenced later on 2026-08-22 and moved into " +
+                "the canonical table in PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE section (i), where they " +
+                "can be counted rather than trusted from prose (PROOF_STRUCTURAL_CEILING.md:49, the twin " +
+                "of StructuralCeilingClaim:98, fenced at its lightest because that document declares " +
+                "uniform gamma in its own Setup at :38 and DEFINES g2 at :40 with a single gamma in the " +
+                "denominator, so the observable has no profile reading until a denominator convention is named; " +
+                "ORTHOGONALITY_SELECTION_FAMILY.md:125, where the word 'uniformly' belongs to d_H and the " +
+                "gamma hypothesis sits separately at :117, the file's own TL;DR at :21 priming the " +
+                "misreading; and GLOSSARY :330 and :438, fenced early because a glossary is a named " +
+                "Stage-0 store and is where a future sweep lands first). CLASS A IS THEREFORE DOWN TO ONE " +
+                "SITE, and it is the sharpest anywhere: " +
+                "reflections/ON_THE_TWO_COLUMNS.md:149, which exempts the two band ends from the " +
                 "hedge INSIDE the profile regime and with an explicit 'no hedge at all'. That one is Tom's " +
                 "call, not a fence: it is our own voice, it is class-B shaped, and whether 'the band's " +
                 "price' means a pinned value or a floor decides whether it is wrong at all. " +
+                "WHAT CLASS B SHOULD POINT AT, found by the interpreter lens of the class-A closing " +
+                "round and NOT a new law: the uniform-side statement is already DERIVED, with a QED, at " +
+                "PROOF_ABSORPTION_THEOREM section 4.3, because hamming >= |dpopcount| = k forces " +
+                "rate >= 2k*gamma. That section has a DERIVED half and a MEASURED half and a class-B " +
+                "fence must not blur them: the floor is derived, while the bound being ATTAINED is only " +
+                "measured, which the section concedes twelve lines later in the words 'the argument " +
+                "alone does not force' it. Its topic sentence claimed the attainment as derived too and " +
+                "the same closing round repaired it, so do not quote the pre-2026-08-22 form; this " +
+                "entry did, one hour after writing the repair, which is the second-copy failure inside " +
+                "a single pass. The profile side is closed too, by the same proof's Theorem 2 (the vector " +
+                "form): Re(lambda) = -2*sum_l gamma_l*light_l(v). The interior-block profile floor that " +
+                "looked unowned is a TWO-LINE corollary of it, since light_l lies in [0,1] and sums to " +
+                "<n_XY> >= k, so the slowest rate is at least -2*(sum of the k SMALLEST rates): checked " +
+                "on 60 random profile blocks, 0 violations, 8 exactly tight. Do not mint it; the F156 " +
+                "withdrawal of the same morning is the precedent, and this is the sentence class B needs " +
+                "to CITE rather than restate. Recorded also because the closing round re-measured the " +
+                "section 4.3 law from scratch before finding it: a grep missed the sentence because it " +
+                "WRAPS across three lines, which is the keyhole-reading failure the repo already names. " +
+                "A STORE THE CLASS-B SWEEP MUST ADD: docs/outbound/. A cross-document round on 2026-08-22 found " +
+                "STATE_TRANSFER_DECAY_STRUCTURE.md declaring per-site rates in its section 2 and then " +
+                "stating the uniform floor twice below, a textbook member of the class that appeared in no " +
+                "inventory. It was invisible because it is PARKED and self-declared unreviewed, so every " +
+                "sweep that looked at proofs and experiments walked past it. Fenced the same day. Expect " +
+                "siblings: the outbound arc has several adapters and they translate uniform-gamma laws " +
+                "outward by construction. " +
                 "CLASS B IS WHAT REMAINS AND IT IS THE LARGER OBJECT: a 2026-08-22 sweep puts it at " +
                 "FORTY-THREE sites (the SECOND item above names about a dozen), and its shape is not a set " +
                 "of independent errors: F50 IS fenced, in PROOF_WEIGHT1_DEGENERACY and in its typed claim, " +
@@ -4244,7 +4276,7 @@ public static class OpenArcsRegistry
                 "not the saturation). The original SECOND-A text follows, kept because its lesson is the " +
                 "same one twice: the inventory it " +
                 "was given was wrong by an order of magnitude. Section (i) of PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE " +
-                "was read as nine sites when it was nine table ROWS naming more, and it has since grown again, to twenty-one rows on 2026-08-22; it is now the CANONICAL inventory and has absorbed this list, so count its rows rather than trusting any number in prose, this sentence included. Two Stage-0 scouts found roughly sixty, a SCOUT count that no artifact in the repo enumerates and that nobody has audited, in three classes, and the class split is " +
+                "was read as nine sites when it was nine table ROWS naming more, and it has since grown again, twice on 2026-08-22 (this sentence carried the count from the first of those growths for as long as it took the second to happen, which is the argument for carrying none); it is now the CANONICAL inventory and has absorbed this list, so count its rows rather than trusting any number in prose, this sentence included. Two Stage-0 scouts found roughly sixty, a SCOUT count that no artifact in the repo enumerates and that nobody has audited, in three classes, and the class split is " +
                 "the useful part. CLASS A is the Edge lemma and everything that restates or consumes it; CLASS B is " +
                 "the whole-sector Re = -2*gamma family of the SECOND item above; CLASS C is the much thinner claim " +
                 "that the edge block spectrum is SIMPLE, thin because section (g) of that proof derives the " +
@@ -4336,13 +4368,21 @@ public static class OpenArcsRegistry
                 "going by four names in tracked files (see FOURTH below); everything above was collected by " +
                 "concept. " +
                 "SECOND-B, WHAT A FRESH REFEREE FOUND ON THE COMMITTED EDGE-BLOCK PROOF (2026-08-20, during " +
-                "the fencing pass's review rounds; NOT part of that pass and NOT repaired, recorded so it is not " +
-                "re-found). The verdict on the maths was that it holds; these are about the record and the gates. " +
+                "the fencing pass's review rounds; NOT part of that pass, recorded so it is not re-found). " +
+                "The verdict on the maths was that it holds; these are about the record and the gates. " +
+                "CHECK EACH ITEM AGAINST THE MATERIAL BEFORE WORKING IT: this list was headed 'NOT repaired' " +
+                "as a block, and on 2026-08-22 a handover round found several items repaired in the material " +
+                "while the heading still sent a worker to redo them. Verified that day: (a) IS repaired, the " +
+                "proof's 'What is new, stated narrowly' now credits F89_PATH_K_DIABOLIC.md:167 and " +
+                "FoldResultantCertificate by name; (g) is HALF repaired, F125 now carrying the " +
+                "'codimension-one hypersurface, measure zero in rate space' qualifier verbatim while the " +
+                "proof's own TITLE and Status still read stronger than the result. A blanket status line " +
+                "over a list that outlives it is the same staleness this arc records for counts. " +
                 "(a) THE NOVELTY CLAIM IS CONTRADICTED BY COMMITTED MATERIAL IN THIS SAME ARC's neighbourhood, and " +
                 "the sweep record names neither: section (e) claims as its addition 'real discriminant ⟹ one real " +
                 "equation ⟹ existence by sign change', which experiments/F89_PATH_K_DIABOLIC.md:167 already states " +
                 "('A real zero of a real discriminant is codimension 1, generic') and F89PathK/" +
-                "FoldResultantCertificate.cs:2218 already states ('the self-fold antiunitary makes the codimension " +
+                "FoldResultantCertificate.cs already states ('the self-fold antiunitary makes the codimension " +
                 "1'). Worse, the reality identity itself is composable on the very page being refuted: " +
                 "PROOF_CODIM1 section 7 lists the pencil reality conj L(q) = L(-q_bar) and the bipartite gauge " +
                 "D L(q) D = L(-q) as its own Tier-1 ingredients, and at real q their composition IS section (e)'s " +

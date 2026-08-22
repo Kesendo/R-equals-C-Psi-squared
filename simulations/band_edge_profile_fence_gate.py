@@ -29,6 +29,37 @@ tempting repair, "under a profile the value 2*gamma becomes a window", is not wh
       |vac><psi_k| is a simultaneous eigenoperator of L_D and L_H. Under any non-uniform profile it
       is an eigenoperator of neither: the residual is O(1), not a small correction.
 
+WHAT REPLACES THE RUNG, added 2026-08-22 after a physics round, and it is the part the fenced sites
+should point at rather than paraphrase. Two facts hold at every profile, graph and coupling, both
+free of an eigensolver: Tr M = -2*sum_l gamma_l, so the block's MEAN real part is exactly
+-2*gamma_bar, and Bendixson confines the parts to [-2*gamma_max, -2*gamma_min]. So the block does
+not leave a floor, it SPREADS ABOUT A PINNED MEAN, and if it is ever flat then arithmetic forces it
+flat at -2*gamma_bar and nowhere else: only the flatness is a finding, its location never is.
+
+The value itself has a floor and a limit and they are different numbers. The floor is Theorem 2 plus
+light_l in [0,1] and sum_l light_l >= k: a |dpopcount| = k mode decays at least as fast as 2*(the sum
+of the k smallest rates). It is generically attained only as J -> 0, but NOT only there: whenever a
+hopping eigenvector is supported on the low-rate sites it is a simultaneous eigenvector of A and of
+diag(gamma), and the floor is then exact at EVERY coupling. Example, no eigensolver needed: the N = 3
+chain with gamma = (0.2, 1.0, 0.2) has v = (1, 0, -1)/sqrt(2) with A v = 0 and diag(gamma) v = 0.2 v,
+so the k = 1 minimum is 0.400000000 = 2*gamma_min at J = 0.1 through 1000. That profile is OFF the
+anti-palindromic locus, so it is also the exception to "off the locus the slowest mode moves with the
+coupling". At strong coupling the rate is 2*<v_k|diag(gamma)|v_k> over the hopping eigenvectors,
+first-order NON-degenerate perturbation theory (the simplicity below is the same hypothesis), and it
+can sit well above the floor (N = 5, one profile: floor 0.400, actual 0.700).
+
+That formula also explains the locus return in one line. On the anti-palindromic locus |v_k|^2 is
+reflection-invariant, so <v_k|gamma|v_k> = gamma_bar for EVERY mode at once, which is why the uniform
+ladder comes back with gamma_bar in place of gamma. It needs the hopping spectrum to be SIMPLE, so
+that each eigenvalue is its own mirror image; that is what separates the chain from the star, whose
+(N-2)-fold zero cannot be lifted by symmetric spokes, and from the uniform ring, which keeps a
+k <-> -k degeneracy although reversal IS an automorphism there. The onset is a fixed RATIO of coupling
+to rate spread rather than a coupling scale (N = 4 ramp: J* = 0.353553, and scaling the profile scales
+J* with it to six figures), and what sits at it is a defective coalescence whose N = 2 face the repo
+already owns as |gamma_1 - gamma_0| = 2J IN THE HOP-2J BOOK of that proof's sections (d) and (e); the
+factor moves with the book, so pin it before carrying the number. The return is exact on the XY chain sector by sector; at
+delta = 1 the interior sectors only approach it, with a clean 1/J^2 tail.
+
 So a class-B fence must say which of (1)-(4) it means. "It becomes a window" says none of them and
 is false as often as it is true.
 
@@ -260,8 +291,13 @@ def gate_topology_general(report):
         ok &= good
         report(good, f"N={n} {name:<9}: uniform flat at -2*gamma ({spread_u:.1e}), profile spreads "
                      f"({spread_p:.4f}); this group is a UNIFORM-gamma reading plus one generic "
-                     f"profile, and says nothing about the R90 locus off the chain, reversal not "
-                     f"being an automorphism of every graph here")
+                     f"profile, and says nothing about the locus off the chain. NOT because "
+                     f"reversal fails to be an automorphism there (an earlier version of this "
+                     f"message said so and it is wrong: on the ring it is j -> (n-j) mod n). The "
+                     f"discriminator is whether the HOPPING SPECTRUM IS SIMPLE: the return needs "
+                     f"every eigenvalue to be its own mirror image, the uniform ring keeps a "
+                     f"k <-> -k degeneracy and stays spread, and the star's (N-2)-fold zero cannot "
+                     f"be lifted by symmetric spokes at all")
     return ok
 
 

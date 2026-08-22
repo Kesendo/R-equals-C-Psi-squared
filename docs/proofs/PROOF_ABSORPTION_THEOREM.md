@@ -129,7 +129,11 @@ per site into {I, Z} where A_l = B_l and into {X, Y} where A_l ≠ B_l, so
 Write x for a coherence index (a bra-ket label pair) and Δ_l(x) ∈ {0, 1} for the
 indicator that bit l differs between its bra and ket labels. Then
 n_XY(x) = Σ_l Δ_l(x), and the dissipator is diagonal in this basis too, with
-entry −2γ·n_XY(x).
+entry −2 Σ_l γ_l Δ_l(x). At the uniform rate of Theorem 1 that collapses to
+−2γ·n_XY(x), a function of the count alone; under the Setup's per-site rates it
+stays a function of *which* sites differ, and Theorem 2 below is that reading.
+The collapse is where the uniform hypothesis is spent, here and in every
+descendant of this proof.
 
 **Notation, including four symbols this repository overloads.**
 
@@ -149,7 +153,10 @@ entry −2γ·n_XY(x).
   figure caption.
 - **γ₀** is the same rate as **γ**. The repository writes γ₀ where a single
   uniform rate is meant and γ where the per-site rates γ_k may differ; both
-  appear below, and nothing here depends on the distinction.
+  appear below, and the distinction is load-bearing wherever a statement names
+  the value 2γ. Theorem 1 is the uniform statement and says so; Theorem 2 exists
+  for no other reason than that the two differ. A restatement that drops the
+  word is not a shorthand for this one; it is a different claim.
 - **Π** is the palindrome conjugation of F1, acting per site as
   I ↔ X, Y ↔ iZ, Z ↔ iY, extended by tensor product. Each per-site leg swaps a
   lens letter for a light letter, which is the only property this document uses:
@@ -616,10 +623,18 @@ its universal value.
 **Which modes fall, and which never do.** The erosion is confined to one sector,
 and this bounds how far the correction reaches. Sorting the spectrum by
 |Δpopcount|, the difference in excitation number between a coherence's bra and
-ket labels, everything below 2γ sits at |Δpopcount| = 0: the population modes,
-which is exactly where dephasing freezes transport. Every coherence sector keeps
-its minimum at the ladder rung, at every coupling, and this one is derived, not
-sampled:
+ket labels, everything below 2γ sits at |Δpopcount| = 0. That block is often called the
+population block and its modes are NOT populations: they mix diagonal cells,
+which carry n_XY = 0, with equal-popcount coherences, and it is exactly that
+mixing that lets ⟨n_XY⟩ fall below 1. It is where dephasing freezes transport,
+and it is also where the structural ceiling lives. Every |Δpopcount| ≥ 1 sector
+keeps its minimum decay rate at or above the ladder rung, at every coupling, and this
+half is derived rather than sampled; that the minimum sits exactly *on* the rung
+rather than above it is measured, and the paragraph closing this section says so.
+The rung 2kγ is the uniform-rate one. Under the Setup's per-site rates the same
+argument runs through Theorem 2 and the rung becomes 2 × (the sum of the k
+smallest rates), which is what a reader carrying this section into a profile
+should carry:
 
 For a number-conserving H the Liouvillian is exactly block-diagonal in
 |Δpopcount| (verified entry-wise: the largest matrix element between different
@@ -638,8 +653,16 @@ The measurement agrees: at Q = 0.2, 0.5 and 1.5 for N = 3, 4, 5, the
 the argument alone does not force.
 
 So two statements that look like one must be kept apart. *The spectral gap is
-2γ* is regime-bounded. *A coherence decays no slower than 2γ* is not: it holds
-at every coupling. Anything reasoning about coherent windows, transfer times,
+2γ* is regime-bounded. *A mode carrying |Δpopcount| ≥ 1 decays no slower than
+2γ* is not: it holds at every coupling. The second must be said in |Δpopcount|
+and not in the word "coherence", because a mode of the |Δpopcount| = 0 block
+carries coherence content and can still fall below 2γ: on the complete graph K_5
+the slowest nonzero mode sits at 0.7995 × 2γ at γ = 0.05, J = 1, rising to
+0.799982 at J = 5 and 0.800000 at J = 50, i.e. approaching
+[the structural ceiling](PROOF_STRUCTURAL_CEILING.md)'s g2(K_N) = 4/N, which is a
+Tier 1 closed form in the same γ ≪ J limit this section's own threshold discussion
+uses. The measured 0.7995 is the finite-coupling value, not the closed form
+itself. Anything reasoning about coherent windows, transfer times,
 echo cycles or T2 is using the second statement and is untouched by the
 threshold; only claims about the slowest mode of the full Liouvillian, and about
 mixing to the steady manifold, need the Q*_gap condition.

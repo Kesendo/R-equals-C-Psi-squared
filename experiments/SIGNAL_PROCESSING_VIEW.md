@@ -31,7 +31,8 @@ between c+ and c- is a sign convention, the hidden 1.1 Hz mode is classical
 modal observability, and different decay rates per sector reflect different
 poles dominating different channels. After the Mirror Symmetry Proof
 (March 14), the two orthogonal channels c+ and c- were identified as
-palindromic mode pairs under the Π operator.
+palindromic mode pairs under the Π operator. That identification is WITHDRAWN
+below: Π-partners must sum to 2Σγ = 6γ, and the two channels sum to 16γ/3.
 
 **Origin:** GPT review as signal processing engineer, no quantum physics.
 **Verdict:** "A finite coupled network with a small number of dominant normal
@@ -307,25 +308,46 @@ Script: [`simulations/decay_derivation.py`](../simulations/decay_derivation.py)
 
 ## Connection to the Mirror Symmetry Proof (March 14, 2026)
 
-The two orthogonal channels c+ and c- ARE the palindromic mode pairs
+The two orthogonal channels c+ and c- are NOT a palindromic mode pair. The
+reading that they are was carried here for months and the bullet three below
+refutes it in this document's own numbers: Π-partners sum to 2Σγ = 6γ, and
+c- at 2γ pairs with 4γ while c+ at 10γ/3 pairs with 8γ/3. What survives is
+that the spectrum this channel basis reads IS palindromic, mode by mode,
 under the conjugation operator Π proven in docs/MIRROR_SYMMETRY_PROOF.md.
 
-Specifically:
-- **Π swaps populations ↔ coherences** (I↔X, Y↔iZ on each site). This
-  maps the symmetric supermode (c+) to the antisymmetric supermode (c-).
-- **The 180° anti-phase** between c+ and c- is the spectral signature of
-  Π's action: partner modes have frequency -ω, so they oscillate in
-  exact counter-phase.
-- **The different decay rates** (0.1000 for c- dominant, 0.1667 for c+
-  dominant) are palindromic partners: they sum to 2Σγᵢ = 0.2667 ≈ 8γ/3 + 2γ.
-  Every decay rate d has a partner at 2Σγᵢ - d, which is the palindrome.
+Two mechanisms that were offered for the withdrawn reading, and what is left
+of each:
+- **Π swaps light and lens** per site (I→X, X→I, Y→iZ, Z→iY; it is not an
+  involution letter by letter, iZ mapping back to -Y). It does not act as a
+  map between the two supermodes, which live in one sector and differ by a
+  spatial parity rather than by Pauli content.
+- **The 180° anti-phase** between c+ and c- is not Π's signature, and cannot
+  be: the two carry DIFFERENT frequencies, 1.506 against 0.404 Hz in the
+  table above, so they are not an ω / -ω pair at all. It is a sign
+  convention, as this document already says where the channel basis is
+  defined.
+- **The different decay rates** obey the palindrome, but not in the pairing an
+  earlier version of this bullet gave. Every decay rate d has a partner at
+  2Σγᵢ - d, and here 2Σγᵢ = 6γ = 0.30, so the two rates the exact eigendecomposition
+  gives, 0.1000 (c- dominant) and 0.1667 (c+ dominant), are NOT partners of each
+  other: their sum is 16γ/3 = 0.2667. The slow mode's partner is 4γ = 0.2000,
+  which the exact spectrum carries and the fit does not report because it
+  barely shows in this signal; the mid and fast modes are partners of each
+  other, 8γ/3 + 10γ/3 = 6γ exactly. The full spectrum at this baseline pairs
+  perfectly, every rate to machine precision: 0 ↔ 6γ, 2γ ↔ 4γ, and four
+  J-dependent pairs which at this baseline sit close together, 2.6627γ ↔ 3.3373γ,
+  2.6660γ ↔ 3.3340γ, 2.6668γ ↔ 3.3332γ and 2.6679γ ↔ 3.3321γ, clustered around
+  the 8γ/3 and 10γ/3 of the strong-coupling limit. Those are the ISOTROPIC
+  HEISENBERG rates this document runs on; an XY star at the same bonds gives a
+  visibly different set, and the pairing holds in both.
 - **The hidden 1.1 Hz mode** (dark in c+, bright in c-) sits at the
-  intermediate decay rate 8γ/3, the middle of the palindromic spectrum.
+  intermediate decay rate 8γ/3. That is not the middle of the palindromic
+  spectrum: the middle is the fixed point of the pairing, Σγ = 3γ = 0.15.
 
 What the signal processing view discovered empirically (two channels,
 anti-phase, sector-specific damping) is exactly the structure the proof
 derives analytically from the Π operator. The "two independent information
-channels" are palindrome partners.
+channels" are each read by a palindromic spectrum, though they are not partners of one another.
 
 See: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 

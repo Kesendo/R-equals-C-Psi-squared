@@ -58,7 +58,7 @@ public sealed class StructuralCeilingClaim : Claim
     public StructuralCeilingClaim(AbsorptionTheoremClaim absorption)
         : base("Structural ceiling closed forms: the high-Q gap rate g2 = strict_gap/2γ of an XY network " +
                "under UNIFORM Z-dephasing (the word its own docstring carries and this string had dropped; " +
-               "g2 is a ratio to a single γ and has no referent under a per-site profile). g2(K_N)=4/N (N≥5), g2(star_N)=4/(N−1) (N≥6), g2(K_4)=2−2/√3; chain and ring " +
+               "g2 is a ratio to a single γ and has no profile reading until a denominator convention is named). g2(K_N)=4/N (N≥5), g2(star_N)=4/(N−1) (N≥6), g2(K_4)=2−2/√3; chain and ring " +
                "never ceiling (g2=1, band edge protects). Derived: the slowest mode is the darkest [H,A]=0 coherence " +
                "in the largest degenerate single-particle level (band edge n_XY=1 is the (0,1) floor, g2≤1). " +
                "Complete (1,1) = S_N standard rep, g2=2(1−λ₂), λ₂=(N−2)/N; star (1,1) = the (N−2)-fold leaf " +
@@ -107,8 +107,11 @@ public sealed class StructuralCeilingClaim : Claim
             yield return new InspectableNode("not universal: 4/(m+1) breaks on the ring",
                 summary: "the degeneracy m gives the intuition (more edges → darker), but the value depends on the " +
                          "manifold's embedding: the ring holds m=2 at every N while its (1,1) commutant MOVES, " +
-                         "2(N−2)/N (even) / 2(N−1)/N (odd), always ≥ 1 and = 1 only at N=4. So the ring carries no " +
-                         "ceiling at all (band-edge-protected like the chain). Per-family forms are real.");
+                         "2(N−2)/N (even) / 2(N−1)/N (odd), always ≥ 1 and = 1 only at N=4. So on the XY network the " +
+                         "ring carries no ceiling at all (band-edge-protected like the chain). The XY hypothesis " +
+                         "is load-bearing here and not decoration: under isotropic Heisenberg the 4-cycle DOES " +
+                         "ceiling, measured at g2 = 0.8452993 = 2 - 2/sqrt(3), the K_4 value, with N = 5 and 6 " +
+                         "still at 1. Per-family forms are real, and so is the per-MODEL split.");
             yield return Absorption;   // typed parent edge (Tier1Derived)
         }
     }
