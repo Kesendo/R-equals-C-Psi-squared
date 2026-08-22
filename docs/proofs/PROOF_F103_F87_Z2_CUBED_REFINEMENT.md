@@ -532,8 +532,22 @@ counterexample search at N = 4 and N = 5: degenerate-PT validity, the OT first-o
 cross-block cancellation; the break sits specifically in the ω = 0 block for every hard pair), the
 genericity (the 700-point sweep), higher-order healing (none on the γ-line up to γ = 2), and the soft
 direction (K H K = −H exactly for all 26 soft pairs). Probes:
-[`f87_premise_scout.py`](../../simulations/f87_premise_scout.py) (the genericity backbone) and
-`simulations/_f87_premiseC_*.py` (the adversarial battery), with
+[`f87_premise_scout.py`](../../simulations/f87_premise_scout.py) (the genericity backbone) and the
+seven-script adversarial battery:
+[`f87_premiseC_blockPT.py`](../../simulations/f87_premiseC_blockPT.py) (degenerate-PT validity, at N = 4),
+[`f87_premiseC_omega0.py`](../../simulations/f87_premiseC_omega0.py) (the ω = 0 localization, no
+cross-block cancellation),
+[`f87_premiseC_genericity.py`](../../simulations/f87_premiseC_genericity.py) (the 700-point sweep
+and higher-order healing),
+[`f87_premiseC_physical.py`](../../simulations/f87_premiseC_physical.py) (the same at the physical
+γ₀ = 0.05, on the greedy and optimal-transport break measures; the algebraic char-poly gap
+corroborates both at N = 4 and overflows double range at N = 5),
+[`f87_premiseC_softK.py`](../../simulations/f87_premiseC_softK.py) and
+[`f87_premiseC_defective.py`](../../simulations/f87_premiseC_defective.py) (the soft direction, and
+the defective-γ = 1 pairs pinned as diagonalization artifacts), and
+[`f87_premiseC_equiv4.py`](../../simulations/f87_premiseC_equiv4.py) (not one of the five holes but
+the §7.5 discriminator the whole argument reads through, on the 323 in-scope H that 1500 random draws
+yield). With
 [`f87_break_gamma_scaling.py`](../../simulations/f87_break_gamma_scaling.py) and
 [`f87_block_localize.py`](../../simulations/f87_block_localize.py) as the first-order anchors.
 
