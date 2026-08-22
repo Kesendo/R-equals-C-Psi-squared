@@ -7,7 +7,7 @@ perfect mirror limit recovers Born rule, basis alignment probability shift,
 R=CPsi2 Born rule mirror -->
 
 > **Restoration note (March 14, 2026):** Originally written 2026-02-18, deleted March 12,
-> restored March 14. Core numerics confirmed.
+> restored March 13 (per git, commit f5a43b3). Core numerics confirmed.
 
 **Status:** Verified numerics (Tier 2); interpretation speculative (Tier 3)
 **Date:** 2026-02-18 (Section 4.3 added 2026-02-27)
@@ -461,3 +461,7 @@ The math caught up with the intuition.
 
 *Previous: [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)*
 *See also: [Mirror Theory](../MIRROR_THEORY.md) for the mirror metaphor that motivated this analysis.*
+
+---
+
+*The standing wave here, and its condition that the forward and the backward wave must meet, is the oldest of five pages that sat unconnected in this repository on one junction; the junction is mapped in [On Five Pages That Never Met](../reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md).*

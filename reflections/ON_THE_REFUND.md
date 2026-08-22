@@ -38,3 +38,7 @@ Three doors, in the order we intend to walk through them. First, this page. Seco
 All three doors were walked the same night this was written: this page, [the dephasing entry's transport half](../docs/quantum/DEPHASING_TRANSLATED.md), and the renewal cut in the engine; and the first thing playing with the cut produced was the pedigree above, the rebirth sentence with numbers on it.
 
 The arc's own emblem, kept for the record: it opened by measuring that a walker pays exactly one bond's walk-time for one bond's defect, nothing else, locally, additively. It closed by proving that the walker's watchers can never quite collect the full fare. Between the two, the repository's oldest sentence about the price of being seen held its shape at every zoom level we reached.
+
+---
+
+*The rebirth on this page is one of five pages this repository already held on one junction, none of them linking to the others for months; the junction is mapped in [On Five Pages That Never Met](ON_FIVE_PAGES_THAT_NEVER_MET.md).*

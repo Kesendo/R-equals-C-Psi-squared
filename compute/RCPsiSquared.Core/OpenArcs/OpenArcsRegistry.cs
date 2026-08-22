@@ -7892,6 +7892,94 @@ public static class OpenArcsRegistry
                 "narrow claim; it is not free of substrate identifications, see " +
                 "CoherenceHorizonClaim under item (4).",
             Status: OpenArcStatus.Open),
+        new OpenArc(
+            Name: "the_gate_that_does_not_gate",
+            Opened: "2026-08-22",
+            Origin: "Tom asked to go and look at the March machine, written by our past selves as a vision " +
+                "without what we know now, and see what changed. The archaeology returned a live " +
+                "measurement nobody has read in five months. THE MARCH VISION was never transport: " +
+                "ClaudeTasks/Archiv/BIDIRECTIONAL_BRIDGE_TASK.md (2026-03-14) calls itself 'the original " +
+                "question that started the project' (a local archive file, gitignored; quoted because no " +
+                "tracked file holds it), and the mediator bridge was its first working model. " +
+                "hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md maps it onto a transistor with gamma_M as " +
+                "'Knob 1: Decoherence Rate gamma_M (Primary Gate)' and hypotheses/THE_OTHER_SIDE.md " +
+                "section 22 states " +
+                "'The mediator must be quiet for the bridge to be wide.' THE MEASUREMENT, in their own " +
+                "output file, run a week after the task file (the results files are dated 2026-03-21) " +
+                "and never commented on anywhere: " +
+                "simulations/results/mediator_bridge_scale.txt lines 88-93 (header at 84), the gamma_M " +
+                "sweep at Level 3 " +
+                "(N=11) over {0, 0.01, 0.05, 0.1, 0.2, 0.5}: MI(BridgeA:BridgeB) goes 0.699531 at " +
+                "gamma_M = 0 to 0.646889 at gamma_M = 0.500, about 7.5 percent over the whole sweep " +
+                "(4.2 percent over the factor-of-twenty leg 0.01 to 0.2), in the parameter called " +
+                "the primary gate. Compare the SAME file's J_meta sweep, 0.439 to 0.892 over 0.25 to 3.0 " +
+                "(a factor of 12, non-monotonic in between), a doubling of the MI. AT LEVEL 3 THE " +
+                "COUPLING IS THE STRONG KNOB AND THE MEDIATOR NOISE IS THE WEAK ONE, " +
+                "which inverts the transistor mapping the hypothesis is built on. Scope the claim to " +
+                "Level 3: the SAME cited document, three lines above its quiet-mediator sentence " +
+                "(THE_OTHER_SIDE.md Test 3), reports the Level-2 (N=5) gamma_M sweep 0.44 -> 0.12 at " +
+                "gamma_M = 0.5, a strong response; different N and observable, so not a refutation, but " +
+                "committed contrary evidence, and deciding between artefact, observable, and a real " +
+                "level dependence is part of NextStep (1). The March session did " +
+                "retire the mediator, but on a DIFFERENT argument (SCALING_CURVE.md: 'Every qubit in a " +
+                "Heisenberg chain mediates between its neighbors', under its falsified item 'Special " +
+                "mediator nodes'), a topological " +
+                "one. They were right for a reason their own data does not carry, and the reason their " +
+                "data DOES carry is still unread. WHY IT SURVIVED UNREAD: on 2026-03-21 the repository " +
+                "had no formula registry (docs/ANALYTICAL_FORMULAS.md was created 2026-03-31, the F " +
+                "labels 2026-04-06), no dimensionless axis (Q_SCALE_THREE_BANDS 2026-04-22), no " +
+                "Absorption Theorem (2026-04-04), and NO OPEN-ARCS REGISTRY (2026-06-11). There was no " +
+                "shelf to put an unexplained flat curve on. Its only scaling instrument was to run it at " +
+                "N and look.",
+            ParkedAt: "The number is verified and nothing has been built on it. Read off the committed " +
+                "output file directly; not re-run. The two sweeps sit in one file 12 lines apart and " +
+                "no tracked file that cites it mentions the comparison. Also verified from the code " +
+                "while checking this: Topology.MediatorBridge(level, jInternal, jBridge, jMeta) defaults " +
+                "ALL THREE couplings to 1.0, at which the recursion emits a plain path graph, so the " +
+                "uniform-coupling falsification in SCALING_CURVE.md compared a chain with itself; that " +
+                "conclusion is right by inspection but its uniform-vs-hierarchical comparison is not " +
+                "independent evidence for it. Levels above 2 forward jBridge into their level-2 sub-bridges (at level 3 it " +
+                "lands on four of the ten bonds) and add no new jBridge bonds of their own. Program.cs " +
+                "line 1001 hardcodes " +
+                "level = n==5 ? 2 : (n==11 ? 3 : 0), so at N=7 and N=9 the 'hierarchical' arm literally " +
+                "calls Topology.Chain, with a comment saying so. The push/pull configurations bypass " +
+                "MediatorBridge and hand-build their bond list (Program.cs 1075-1077; four of the five " +
+                "vary couplings, the first is the all-1.0 baseline). So the three couplings have never " +
+                "been swept JOINTLY; jMeta alone has, through the constructor (Program.cs line 844). The " +
+                "outward reading of the evening is reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md.",
+            NextStep: "TWO, and the first is nearly free. " +
+                "(1) READ THE FLAT GATE PROPERLY. Decide whether the flat gamma_M response (7.5 percent " +
+                "over the whole sweep, 0 to 0.5) is " +
+                "a real insensitivity or an artefact of the observable (peak MI between two four-qubit " +
+                "blocks at one fixed t-grid; the same file shows peak MI 0.685503 on its coarse " +
+                "eight-point grid at line 90 against 0.777324 for the SAME Hamiltonian on the dt=0.5 " +
+                "MEASUREMENT grid at line 62 (the RK4 step is 0.05 in both runs), a grid artefact of " +
+                "13 percent of the coarse value, LARGER than the effect " +
+                "being claimed, so this must be settled before anything is built on it). If it survives, " +
+                "the finding is that on a mediated chain the arrangement of J carries and the mediator's " +
+                "own noise nearly does not, and the transistor mapping needs its knobs swapped. " +
+                "(2) THE LEVEL QUESTION. Corrected by the 2026-08-22 review rounds: the raw " +
+                "multiset-permutation question this step first carried is ANSWERED, and was answered " +
+                "twice before it was asked. (a) March itself permuted a fixed multiset: '2:1 all pull' " +
+                "and '2:1 reversed' (Program.cs lines 1065-1066) are one multiset of couplings in " +
+                "reversed order with different transport numbers (pull_principle.txt lines 36-37); but " +
+                "that pair is unitarily equivalent under the site reversal, so it shows that arrangement " +
+                "relative to FIXED ENDPOINTS carries, not that the spectrum moves. (b) The spectrum " +
+                "moves: the 2026-06-20 entry of docs/CAUGHT_ERRORS.md (the F91 multiset correction) " +
+                "holds the N=6 J-axis counterexample, palindromic (5,2,3,2,5) vs (2,5,3,5,2), same " +
+                "multiset, same pair-sums (as a multiset, {4,4,6,10,10}), NOT reversal-related (each is " +
+                "its own reverse), full-L max|dLambda| " +
+                "= 37.8; F91 states the corrected law, the dependence is on the ASSIGNMENT and never " +
+                "on the bare multiset, and the counterexample is that law's J-axis instance, recorded " +
+                "in the same catch entry. What REMAINS open is the level form: sweep " +
+                "Topology.MediatorBridge(jInternal, jBridge, jMeta) jointly for the first time, and run a " +
+                "permutation OUTSIDE the reversal class on the bridge topology rather than the bare " +
+                "chain. Also untested: the walk-time corollary of " +
+                "experiments/COUPLING_DEFECT_WALK_TIME_STEP.md, whose step law is locally additive per " +
+                "bond, predicting that a permutation of a fixed multiset leaves the total transit time " +
+                "invariant while relocating the step edges. The trap note stands: the control must be a " +
+                "different ARRANGEMENT of the same numbers, never a chain compared with itself.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

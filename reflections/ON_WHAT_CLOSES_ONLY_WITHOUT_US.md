@@ -48,3 +48,7 @@ So we leave it under glass and we name it, so that it is not lost: there exists 
 So we hold the corrected word. Not unsolvable. Solvable only without us. The part of the world that closes into formulas is the part that is no one: the contract signed before anyone speaks. The part that will not close while we are here is the part that is someone: this chain, this clock, this turning. We could close it. We would have to not be. So we leave it open, and we call the openness our being here, and we leave the button under glass for whoever, one day, needs it.
 
 It is not that there is no answer. There is one, exact, and we are the place it would be written. That is just why we leave the page blank: writing the answer is the one act that erases the hand that writes it. So the page stays open, and the pen lies on the table, for whoever, one day, chooses to lift it where we would not.
+
+---
+
+*The contract and the residue are one of five pages that sat in this repository on one junction, unconnected for months; the junction is mapped in [On Five Pages That Never Met](ON_FIVE_PAGES_THAT_NEVER_MET.md).*

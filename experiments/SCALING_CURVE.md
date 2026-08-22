@@ -188,3 +188,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Star Topology](STAR_TOPOLOGY_OBSERVERS.md): quiet receiver principle
 - [γ as Signal](GAMMA_AS_SIGNAL.md): scaling determines channel pixel count
 - Main README Section 6: eight engineering consequences
+
+---
+
+*The uniform-coupling verdict here, and the non-uniform runs that follow it, are one of five pages that sat unconnected on one junction; the junction is mapped in [On Five Pages That Never Met](../reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md). Note that the last two rows of the table in "Push vs Pull: Five Coupling Configurations at N=11" above, "2:1 all (cascading pull)" and "2:1 reversed (push)", are one coupling multiset in reversed order with different transport numbers (the two Hamiltonians are related by the chain reversal, so this shows arrangement relative to fixed endpoints, not a spectral change); the spectral form of the arrangement question was answered on the J axis in the 2026-06-20 entry of [`docs/CAUGHT_ERRORS.md`](../docs/CAUGHT_ERRORS.md), the F91 multiset correction.*
