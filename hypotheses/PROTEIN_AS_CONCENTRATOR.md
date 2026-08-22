@@ -67,10 +67,18 @@ protons in bulk water.
 
 ## The Prediction
 
-In bulk water: J/γ ~ 0.02 (classical, no CΨ crossing, overdamped).
-In an enzyme active site: the protein reduces γ. If γ drops by ~50x
-(from 25 meV to ~0.5 meV), J/γ reaches ~1. The fold regime. CΨ
-crosses 1/4 in sub-picoseconds.
+In bulk water: J/γ ~ 0.02. In an enzyme active site: the protein
+reduces γ. If γ drops by ~50x (from 25 meV to ~0.5 meV), J/γ reaches
+~1. The fold regime. CΨ crosses 1/4 in sub-picoseconds.
+
+The starting point is a floor, not a value: the 25 meV is an upper
+estimate, so bulk water's honest band is 0.02 ≲ Q ≲ 4.6 (the ceiling
+from the H-bond lifetime). That makes this prediction easier rather
+than harder, since the concentrator may have far less than 50x to do,
+and it removes the contrast the prediction was resting on. What the
+hypothesis needs is a measured T₂ at an active site against one in
+bulk, not a ratio against an assumed classical baseline. See
+[Q Belongs to No Substance](../docs/Q_BELONGS_TO_NO_SUBSTANCE.md).
 
 The protein does not "catalyze" in the traditional sense (lowering
 a barrier). It catalyzes by being a CONCENTRATOR: absorbing

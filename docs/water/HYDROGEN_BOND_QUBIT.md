@@ -201,7 +201,15 @@ at N=5 abstract.
 | Thermal decoherence (300K, upper bound) | γ ~ kT/ℏ ~ 25 meV | Standard |
 
 For liquid water at 300K: J ~ 0.5 meV, γ ~ 25 meV. J/γ ~ 0.02.
-Classical regime. The palindrome exists but is overdamped.
+
+That 0.02 is a floor, not a value, and it does not support a classical verdict.
+The γ above is an upper estimate, so J/γ is a **lower** bound on Q: it can place
+a system above a scale, never below. What bounds Q from above is the H-bond
+lifetime two rows up: a coherence carried by the proton cannot outlive the bond,
+so T₂ ≲ 3 ps and Q = 2·J·T₂/ℏ ≲ 4.6. Ordinary liquid water therefore sits in
+0.02 ≲ Q ≲ 4.6, whose upper end is inside the framework window. Collapsing that
+band needs a measured T₂ of the proton coordinate, which the repository does not
+have. See [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md).
 
 For enzyme active sites: J can be larger (barrier lowered by protein),
 γ can be smaller (protein shields from solvent). J/γ ~ 1 is possible.

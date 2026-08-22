@@ -331,7 +331,9 @@ The relation is **q = Q/2** (equivalently J_F89 = J_F86/2; the F90 bridge relabe
 
 **Two more uses of the same letter, not this ratio:** lowercase q is also the right-popcount index in a "(p,q)-block" (the coherences between popcount-p and popcount-q basis states, an integer sector label). And the literature's quality factor Q is a different quantity again ("different objects, same letter").
 
-**In plain language:** q and Q both ask "how strong is the coherent coupling compared to the watching?" One book (the F89 octic) counts the coupling at double strength, so its number is half. Halve a Q, or double a q, before you compare the two.
+**In plain language:** q and Q both ask how much turning happens in one γ₀-tick. One book (the F89 octic) counts the coupling at double strength, so its number is half. Halve a Q, or double a q, before you compare the two.
+
+**γ₀ is the unit, and a substance does not hand over a Q.** The Liouvillian factors exactly as L(J, γ₀) = γ₀·L₁(Q), so only Q carries physics and the absolute rate cancels ([`Q_SCALE_THREE_BANDS.md:83`](../experiments/Q_SCALE_THREE_BANDS.md), [`THE_GENESIS_OF_AN_OSCILLATION.md:53`](THE_GENESIS_OF_AN_OSCILLATION.md)). In the dephasing-only book above, γ = 1/(2T₂), so in terms of a measured time and an energy **Q = 2·J·T₂/ℏ** (watch the 2: it is the Lindblad book, and it is absent in the coherence book). Naming a Q therefore requires a chosen two-level degree of freedom, a chosen coupling, and a chosen channel, which is why "the Q of water" is under-determined: [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md), which audits every substrate Q in the repository on that basis. The anchors on the axis are in [Q-Regime Anchor Map](Q_REGIME_ANCHORS.md).
 
 ---
 

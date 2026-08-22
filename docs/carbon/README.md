@@ -263,8 +263,16 @@ the analogous conditions are tentative (candidates marked T to flag):
 4. **Q in framework range** (Tier 4 candidate). Need Q = J/γ ~ 1 for the F86 EP-resonance
    window. For π-conjugated systems at room T: J (π-bond, ~2.4 eV) vs γ (phonon dephasing,
    ~ 25 meV at kT) gives Q ~ 100, DEEP QUANTUM regime, beyond the Q_peak window. Cold
-   or vibrationally-shielded variants needed for direct framework window match. Same
-   classical-side limit story as room-T water (J/γ ~ 0.01).
+   or vibrationally-shielded variants needed for direct framework window match.
+
+   This is **not** the same story as room-temperature water, though both divisions use
+   the same borrowed 25 meV. That γ is an upper estimate, so each ratio is a **lower**
+   bound on Q. Carbon's requirement for Q = 1 sits about a hundredfold below the floor
+   the estimate sets, so "far above the window" is a lower-bound claim with a lower
+   bound and it survives. Water's sits about fiftyfold above it, so nothing follows
+   there. Two caveats stay on this row: kT/ℏ is a Born-Markov validity limit rather
+   than a physical ceiling on a dephasing rate, and β ≈ 2.4 eV is uncited across five
+   carbon documents. See [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md).
 
 The conditions are speculative until tested. The water domain established 4 clean conditions
 because the proton-in-double-well is uniquely qubit-shaped. For carbon the 2-state DOF
