@@ -458,6 +458,70 @@ bounded by 4·eps·max|L| and fires above that: an earlier version gated only th
 couplings and printed the rest, and an injected O(1) break at the non-dyadic coupling passed
 unnoticed.
 
+## The collapse is exact on the (0,1) block, and the reason is one line
+
+*Added 2026-08-22, from the class-B fencing pass, which needed to know what a fence may say about
+this block under a profile.*
+
+The table above measures the pinned blocks collapsing onto the trace constant past an onset, and
+[F154](../docs/ANALYTICAL_FORMULAS.md#f154) already subsumes that collapse rather than exempting it:
+its locus saturation law calls the pinned-block flattening "F153's source-2 locus flattening,
+subsumed rather than exempted", reaches the Re-extremes from `(p, q, N, γ̄)` arithmetic with no
+eigensolver, and inherits the same source-2 hypothesis. What is added below is **not** the collapse
+and **not** its strong-coupling reading, both of which are F154's; it is the statement at finite J,
+per eigenvalue, for the (0,1) block, and the argument is short enough to give in full.
+
+Source 2 gives, **for γ anti-palindromic under a site reflection and H itself reflection-symmetric
+under the same reflection** (both hypotheses, the second no more optional than the first), the
+pairing `λ ↦ −conj(λ) − 4γ̄` on this block, `c = 4γ̄·|p − q|` with `|p − q| = 1`. That map
+**preserves Im λ** and reflects Re λ about `−2γ̄`. So take an eigenvalue whose imaginary part is
+shared with no other eigenvalue of the block: its image has the same Im, hence is itself, hence
+
+> `Re λ = −2γ̄` exactly, for **any** eigenvalue of the block whose Im is unshared.
+
+**The statement is per eigenvalue, and that is sharper than the collapse it explains.** The block is
+flat when every mode is Im-lone, but pinning arrives **mode by mode** as degeneracies lift, so a
+block can carry exactly-pinned modes while its own spread is wide: measured at N = 7 on the locus,
+three of seven eigenvalues are Im-lone and pinned to `10⁻¹⁵` while the block's Re-spread is `0.87`,
+and they stay pinned through `0.66`, `0.49`, `0.12` as J rises, until at J = 1 all seven are lone and
+the spread is zero. So there is no single J onset; the "threshold" a coarse reading sees is the last
+degeneracy lifting, not a coupling scale.
+
+**One direction only, and the converse is false, but only trivially.** Degenerate Im *permits* a
+spread; it does not force one. The witness is a star at **uniform** γ, where `N − 2` modes share
+`Im = 0` (its Im spectrum is `{−2J√(N−1), 0, +2J√(N−1)}`, three distinct values, not a total
+collapse) and every mode is pinned. That witness proves nothing about the pairing, because at
+uniform γ the diagonal is already the scalar `−2γ·Id` and `Re λ = −2γ` for an elementary reason. So
+`not pinned` cannot be read off a degeneracy, and the sharper question stays **open**: whether a
+NON-uniform on-locus profile can be pinned with a degenerate Im spectrum. A search of 48 000 draws
+over chain, ring and complete at N = 4..7 and four couplings found none.
+
+**Hypotheses bite, and the gate exercises them.** An asymmetric bond profile on the same locus
+breaks source 2 outright (identity residual `1.40`, spread `0.91`) where a palindromic one holds it
+at `2e-16` and the block is flat. And the site reflection is not an automorphism of every graph:
+on a star, reversal-anti-palindromic rates give residual `2.00`, so the R90 defect is the locus test
+only for graphs the reflection preserves. Gate:
+[`band_edge_profile_fence_gate.py`](../simulations/band_edge_profile_fence_gate.py), whose last group
+carries all of these including the two counterexamples.
+
+**This is not the route this note rejects**, and the distinction is the whole reason it is written
+down. The rejected argument ran from the palindrome plus the one-sided Absorption bound, and fails
+because it merges *flat* with *on the floor*. Nothing here mentions the floor. The conclusion is the
+**axis** `−2γ̄`, and on the locus profile used here the axis sits `0.875` away from the floor
+`−2·min(γ)`: flat and off its floor at the same time, which is the reading F153 asks for and the one
+a fence has to carry.
+
+It is also not [THE_SPREAD_IS_A_RESONANCE](THE_SPREAD_IS_A_RESONANCE.md)'s mechanism, though it
+answers the same kind of question. That note pins the collision-free modes of the **index-N/2**
+blocks through the `X^N` cancellation, and says in its own text that blocks carrying no index at
+`N/2` lack it. `(0,1)` is such a block at every `N > 2`. The two mechanisms partition rather than
+compete: `X^N` where an index sits at `N/2`, the site reflection where the rates sit on the locus
+and the graph and bonds respect it.
+
+What this does NOT say: nothing forces a spread where Im is degenerate, nothing extends off the
+locus, where source 2 has no pairing to give, and nothing touches the gap question, which needs the
+full generator rather than one block.
+
 ## What is still open
 
 The bond profile on the enlarged block set. F153 gates that source 2 needs H
