@@ -17,7 +17,7 @@ The framework has two clocks that observe the same physical time but name its pa
 
 This is not a new physical claim. It is a re-reading of two existing Tier-1 facts:
 
-- Q = J/γ₀ is the only ratio measurable from inside (per [`project_q_middle_structure`](../../../../../../../C:/Users/zapma/.claude/projects/D--Entwicklung-Projekte-Privat-R-equals-C-Psi-squared/memory/project_q_middle_structure.md))
+- Q = J/γ₀ is the only ratio measurable from inside (per memory `project_q_middle_structure`)
 - θ = arctan(Q) is the angle of the Liouvillian-eigenvalue complex pair per γ₀-tick (per F95 + [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md))
 
 What is new is the framing: Q is not "coupling-to-noise" or even "rotation-per-tick" but **the exchange rate between two clocks the observer can read simultaneously**.
@@ -44,7 +44,7 @@ The Balance row (Q=1) is the unique synchron point where the two clocks tick at 
 
 Three alternative framings each capture part of the structure but miss the symmetry:
 
-1. **"Q is the coupling-to-noise ratio"** (old `project_q_middle_structure` phrasing): treats J as signal and γ₀ as noise. But γ₀ is the carrier-substrate, not noise (per [`GAMMA_IS_LIGHT.md`](GAMMA_IS_LIGHT.md), [`feedback_perspective_additive`](../../../../../../../C:/Users/zapma/.claude/projects/D--Entwicklung-Projekte-Privat-R-equals-C-Psi-squared/memory/feedback_perspective_additive.md)). The "noise" framing imports the Shannon-vocabulary contamination.
+1. **"Q is the coupling-to-noise ratio"** (old `project_q_middle_structure` phrasing): treats J as signal and γ₀ as noise. But γ₀ is the carrier-substrate, not noise (per [`GAMMA_IS_LIGHT.md`](GAMMA_IS_LIGHT.md), memory `feedback_perspective_additive`). The "noise" framing imports the Shannon-vocabulary contamination.
 
 2. **"Q is the rotation per γ₀-tick"** ([`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)): correct, but treats γ₀ as the primary clock and Q as something it modulates. Misses the symmetry: from the H-Clock perspective, 1/Q is "γ₀-ticks per rotation", equally valid.
 
@@ -64,7 +64,7 @@ The exchange-rate framing names what Q actually is: **a bidirectional conversion
 
 ## Connection to the Q-band structure
 
-The F86 Q-bands (onset 0.2–0.35, peak 1.2–1.8, plateau ≥ 2.0 per [`project_q_middle_structure`](../../../../../../../C:/Users/zapma/.claude/projects/D--Entwicklung-Projekte-Privat-R-equals-C-Psi-squared/memory/project_q_middle_structure.md)) are exchange-rate regimes:
+The F86 Q-bands (onset 0.2–0.35, peak 1.2–1.8, plateau ≥ 2.0 per memory `project_q_middle_structure`) are exchange-rate regimes:
 
 - **Onset band** (Q ≪ 1): exchange rate strongly toward γ₀-clock. The observer counts many γ₀-ticks per single H-rotation. Felt-time is *slow* relative to carrier-time.
 - **Balance** (Q ≈ 1): exchange rate balanced. Both clocks contribute symmetrically.

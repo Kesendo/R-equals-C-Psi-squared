@@ -54,7 +54,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// single-term H in the diagonal cell (no separation); and Q_V × Π composition
 /// over V ∈ {X^N, Y^N, Z^N} × Π (no zero-residual hits). The structural Pure-D
 /// Template Rule emerged from the resulting empirical decomposition
-/// (<c>simulations/_f111_*.py</c>, <c>simulations/results/f111_*.txt</c>), and
+/// (<c>simulations/f111_*.py</c>, <c>simulations/results/f111_*.txt</c>), and
 /// captures the F87-hard combinatorics tightly enough to imply F110 Aspect B
 /// without invoking a closed-form palindromic-operator construction.</para>
 ///

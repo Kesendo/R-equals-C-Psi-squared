@@ -1381,7 +1381,7 @@ framework-grounded scope: the Q · J · Q⁻¹ + J + 2·S = 0 algebra describes 
 **Date:** 2026-04-26
 **Source:** Cusp precision run (commit 1c2545a) + framework.py palindrome_residual
 
-The cusp at CΨ = 1/4 is a state-level event observed on the Bell+ trajectory ([CRITICAL_SLOWING_AT_THE_CUSP](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)). The palindrome Π·L·Π⁻¹ + L + 2Σγ·I = 0 is operator-level and holds throughout the Bell+ + Z-dephasing dynamics (verified machine-precision zero by framework.py's [palindrome_residual](../simulations/framework.py)). **Is there an operator-level signature — a specific block of M, an eigenvalue collision, an eigenvector reorientation — that corresponds to the state-level critical slowing at CΨ → 1/4? Or is the cusp purely a state-level phenomenon with no operator-level analogue?**
+The cusp at CΨ = 1/4 is a state-level event observed on the Bell+ trajectory ([CRITICAL_SLOWING_AT_THE_CUSP](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)). The palindrome Π·L·Π⁻¹ + L + 2Σγ·I = 0 is operator-level and holds throughout the Bell+ + Z-dephasing dynamics (verified machine-precision zero by the framework's [palindrome_residual](../simulations/framework/lindblad.py)). **Is there an operator-level signature — a specific block of M, an eigenvalue collision, an eigenvector reorientation — that corresponds to the state-level critical slowing at CΨ → 1/4? Or is the cusp purely a state-level phenomenon with no operator-level analogue?**
 
 framework.py grounds: palindrome_residual at all times for Bell+/Heisenberg/Z-dephasing remains zero. The state-level CΨ trajectory passes through 1/4. Two layers, no obvious bridge primitive yet.
 

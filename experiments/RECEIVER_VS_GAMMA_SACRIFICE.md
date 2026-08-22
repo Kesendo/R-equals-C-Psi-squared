@@ -353,7 +353,7 @@ Predicted scaling:
 
 To check the prediction, the existing brecher receiver-engineering protocol (alt-z-bits |010010⟩ vs |+−+−+−⟩ at N=6) needs new C# runs. If the existing 11-15× advantage shrinks or inverts at N=6, the parity-tied mechanism is confirmed for the receiver-engineering metric (MI(0, N-1)) and not just the J-Jacobian Shannon capacity.
 
-**Framework primitive.** `simulations/framework.py` Section 17 (added 2026-04-28) exposes:
+**Framework primitive.** Section 17 of the then-monolithic framework, added 2026-04-28 and now archived as [`simulations/framework_archive.py`](../simulations/framework_archive.py), exposes:
 
 - `f71_eigenstate_class(psi)`: returns +1 / −1 / None
 - `bond_mirror_basis(N)`: returns (sym_basis, asym_basis) for the bond-input space

@@ -37,7 +37,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>Guard: N ≤ <see cref="MaxN"/> (= 5), where the Liouvillian is 4^N × 4^N = 1024 × 1024 and
 /// each anticommutator is a handful of 1024³ complex multiplies. Anchors:
 /// <c>docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md</c> + <c>docs/proofs/PROOF_CROSS_TERM_FORMULA.md</c>
-/// (the uniform-γ 4γ²(N−2)‖L_H‖² parent) + <c>simulations/review2_A8_time.py</c>.</para></summary>
+/// (the uniform-γ 4γ²(N−2)‖L_H‖² parent).</para></summary>
 public sealed class TimeIrreversibilityExclusionWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;

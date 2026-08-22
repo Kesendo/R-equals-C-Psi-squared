@@ -78,7 +78,9 @@ for N in N_LIST:
         n_real_10 = int(np.sum(aim < 1e-10))
         n_osc = int(np.sum(aim > 1e-7))
         nonreal = aim[aim >= 1e-13]
-        smin = float(nonreal[0]) if nonreal.size else float('nan')
+        # min(), not [0]: aim comes back in LAPACK's order, not sorted, so [0] reported an
+        # arbitrary non-real |Im| under a column header promising the smallest one.
+        smin = float(nonreal.min()) if nonreal.size else float('nan')
         rows.append((float(eps), n_real_10, n_osc, smin))
         print(f"  {eps:>+7.3f}  {n_real_10:>8}  {n_osc:>8}  {smin:>22.3e}")
         sys.stdout.flush()

@@ -6,7 +6,7 @@
 **Depends on:**
 - [PROOF_F81_PI_CONJUGATION_OF_M.md](PROOF_F81_PI_CONJUGATION_OF_M.md) Step 6 (M_anti = L_{H_odd} for Z-dephasing)
 - [PROOF_SVD_CLUSTER_STRUCTURE.md](PROOF_SVD_CLUSTER_STRUCTURE.md) (F49 Frobenius scaling per Pauli-pair class)
-- [`framework/core.py`](../../simulations/framework/core.py) (`predict_residual_norm_squared_from_terms` already implements the underlying Frobenius identity)
+- [`framework/diagnostics/f49_frobenius_scaling.py`](../../simulations/framework/diagnostics/f49_frobenius_scaling.py) (`predict_residual_norm_squared_from_terms` already implements the underlying Frobenius identity)
 
 ## Abstract
 

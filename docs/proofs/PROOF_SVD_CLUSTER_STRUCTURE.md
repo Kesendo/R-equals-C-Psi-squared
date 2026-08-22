@@ -406,4 +406,4 @@ The Lebensader reduction therefore closes the universality for the (R1)+(R2)-cas
 | F79 Π²-even block-diag | `svd_two_body_pi_squared_block.py` | YZ, YZ+ZY, Heisenberg: ‖M[V_+,V_-]‖ = 0 exactly |
 | F79 Π²-odd off-diag | `svd_two_body_pi_squared_block.py` | XY, XZ, XX+XY: ‖M[V_+,V_+]‖ = ‖M[V_-,V_-]‖ = 0 exactly |
 | F79 Π²-odd universality | `svd_two_body_structure.py` | XY ≡ XZ ≡ XX+XY ≡ XX+XZ at N=5 chain, identical SV-cluster spectra |
-| Pytest locks | `simulations/framework/tests/test_smoke.py` | `test_F78_single_body_M_additive_decomposition` (chain N=4 IY+YI clusters), `test_F79_two_body_pi_squared_block_decomposition` (block structure + universality) |
+| Pytest locks | `simulations/framework/tests/diagnostics/test_f78_f79_m_structure.py` | `test_F78_single_body_M_additive_decomposition` (chain N=4 IY+YI clusters), `test_F79_two_body_pi_squared_block_decomposition` (block structure + universality) |

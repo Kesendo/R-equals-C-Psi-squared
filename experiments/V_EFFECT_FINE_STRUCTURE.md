@@ -150,5 +150,5 @@ The hardware result is slightly STRONGER than the idealized framework predicts. 
 - [the V-Effect palindrome](V_EFFECT_PALINDROME.md): the original 14-of-36 result, March 2026.
 - [the V-Effect boundary localization](V_EFFECT_BOUNDARY_LOCALIZATION.md): structural location of the break (w=1, 2 sectors at N=3).
 - [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): analytical proof of (w=0, w=N) extreme-sector immunity.
-- `simulations/framework.py`: framework primitives.
+- [`simulations/framework_archive.py`](../simulations/framework_archive.py): the framework primitives as they stood; the live package is [`simulations/framework/`](../simulations/framework/).
 - `simulations/veffect_36_combos_via_framework.py`: this calculation's pipeline.

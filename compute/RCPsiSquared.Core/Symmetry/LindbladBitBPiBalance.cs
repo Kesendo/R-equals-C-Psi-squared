@@ -314,7 +314,7 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                          "maps Π +i ↔ Π −i bijectively while preserving Frobenius (Lemma A); combining gives " +
                          "‖L_{H,+i}‖² = ‖L_{H,-i}‖². ∎");
             yield return new InspectableNode("Empirical anchor",
-                summary: "14 probes in simulations/_polarity_probe_*.py, polarity_proof_verify.py, " +
+                summary: "14 probes in simulations/polarity_probe_*.py, polarity_proof_verify.py, " +
                          "polarity_step5_stress.py: candidate-breakers (1-5), hand-engineered non-Lindblad " +
                          "L (6), random c with full Pauli rank (7-8), k_max boundary (9), exhaustive 136-pair " +
                          "N=2 enumeration (10, of which 64 carry genuine polarity content), coefficient " +

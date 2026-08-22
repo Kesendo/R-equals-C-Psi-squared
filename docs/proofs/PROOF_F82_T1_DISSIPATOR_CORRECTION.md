@@ -6,7 +6,7 @@
 **Depends on:**
 - [PROOF_F81_PI_CONJUGATION_OF_M.md](PROOF_F81_PI_CONJUGATION_OF_M.md) (Π² acts on Pauli string σ_α as (-1)^{bit_b(α)}; Z-dephasing dissipator commutes with Π²)
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`lindbladian_z_plus_t1`)
-- [`framework/core.py`](../../simulations/framework/core.py) (`pi_decompose_M` with `gamma_t1` argument)
+- [`framework/diagnostics/f81_pi_decomposition.py`](../../simulations/framework/diagnostics/f81_pi_decomposition.py) (`pi_decompose_M` with `gamma_t1` argument)
 
 ## Abstract
 

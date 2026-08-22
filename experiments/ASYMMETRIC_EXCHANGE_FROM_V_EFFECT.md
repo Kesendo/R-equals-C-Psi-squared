@@ -1,6 +1,6 @@
 # Asymmetric V-Effect Emergent Exchange
 
-**Status:** Computational + analytical (Tier 1-2). First framework-based calculation built on `simulations/framework.py` primitives. Numerical agreement to 0.2-0.8 % at α=0.025 across 7 asymmetry configurations.
+**Status:** Computational + analytical (Tier 1-2). First framework-based calculation built on the primitives of the then-monolithic framework (now `simulations/framework_archive.py`, split into the `simulations/framework/` package). Numerical agreement to 0.2-0.8 % at α=0.025 across 7 asymmetry configurations.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/asymmetric_v_effect.py` (uses `framework.py`)
@@ -101,5 +101,5 @@ The prediction holds across nearly two orders of magnitude in J_A/J_B asymmetry 
 - [V-Effect Boundary Localization](V_EFFECT_BOUNDARY_LOCALIZATION.md): the algebraic structure of where V-Effect breaks live.
 - [the Zero-Immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the (w=0, w=N) palindrome immunity that grounds this whole construction.
 - [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md): the level-stack picture into which this fits.
-- `simulations/framework.py`: framework primitives.
+- [`simulations/framework_archive.py`](../simulations/framework_archive.py): the framework primitives as they stood; the live package is [`simulations/framework/`](../simulations/framework/).
 - `simulations/asymmetric_v_effect.py`: this calculation's pipeline.

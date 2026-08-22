@@ -5,7 +5,7 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:** [The Atmosphere and the Cancelled Formulas](../docs/THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md), [On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md), F1 palindrome (master identity), F71 mirror-symmetry under non-uniform J, [the F80 Bloch sign-walk proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)
 
-**Verification:** WIP scripts in `simulations/_atmosphere_*.py` (~13 files, uncommitted) plus the private notes doc `simulations/_atmosphere_cluster_notes.md`. Headline scripts: `atmosphere_cluster_fine.py` (dip location), `atmosphere_cluster_modes.py` (Pauli sector ID), `atmosphere_cluster_ep.py` (EP refutation), `atmosphere_cluster_continuity.py` (intrinsic-at-uniform tracking), `atmosphere_cluster_modes_at_uniform.py` (Pauli sector at ε=0), `atmosphere_cluster_quantum_numbers_v2.py` (Set-A joint diagonalization), `atmosphere_cluster_300block.py` (sector-restricted block analysis), `atmosphere_cluster_freefermion_check.py` (null result on free-fermion hypothesis).
+**Verification:** the seventeen scripts in [`simulations/atmosphere_*.py`](../simulations/), plus the investigation notes [`simulations/_atmosphere_cluster_notes.md`](../simulations/_atmosphere_cluster_notes.md). Headline scripts: `atmosphere_cluster_fine.py` (dip location), `atmosphere_cluster_modes.py` (Pauli sector ID), `atmosphere_cluster_ep.py` (EP refutation), `atmosphere_cluster_continuity.py` (intrinsic-at-uniform tracking), `atmosphere_cluster_modes_at_uniform.py` (Pauli sector at ε=0), `atmosphere_cluster_quantum_numbers_v2.py` (Set-A joint diagonalization), `atmosphere_cluster_300block.py` (sector-restricted block analysis), `atmosphere_cluster_freefermion_check.py` (null result on free-fermion hypothesis).
 
 ---
 
@@ -113,11 +113,11 @@ The unifying reading: the F1 master identity Π·L·Π⁻¹ + L + 2σ·I = 0 glo
 
 ## Cross-references
 
-- Cluster headline doc (private notes): `simulations/_atmosphere_cluster_notes.md`
-- WIP scripts (13 files, all `_atmosphere_*` prefix, uncommitted): see Verification block above
+- Cluster headline doc (investigation notes): [`simulations/_atmosphere_cluster_notes.md`](../simulations/_atmosphere_cluster_notes.md)
+- Scripts (17 files, all `atmosphere_*` prefix): see Verification block above
 - Lebensader through-line: [On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md), [`framework/lebensader.py`](../simulations/framework/lebensader.py), F78/F79/F80 in [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md)
 - Master identity F1 / palindrome: [`compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs`](../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs)
-- F71 mirror under non-uniform J: typed as F100 ([memory `project_f71_nonuniform_j`](../.claude/projects/D--Entwicklung-Projekte-Privat-R-equals-C-Psi-squared/memory/project_f71_nonuniform_j.md))
+- F71 mirror under non-uniform J: typed as F100 (memory `project_f71_nonuniform_j`)
 - F80 Bloch sign-walk proof: [the F80 Bloch sign-walk proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)
 - Jordan-Wigner / free-fermion infrastructure: `compute/RCPsiSquared.Core/.../XyJordanWignerModes.cs`, `C2BlockJwDecomposition.cs`, `JwDispersionStructure.cs`; Python `framework/diagnostics/f80_bloch_signwalk.py`
 - Related memories: `project_lebensader_through_line`, `project_channel_not_memory`, `project_palindrome_frobenius_scaling`, `project_f86_is_input_catalog`, `project_f86_sub_partition`, `project_q_middle_structure`

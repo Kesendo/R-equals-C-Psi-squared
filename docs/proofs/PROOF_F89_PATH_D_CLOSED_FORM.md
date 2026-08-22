@@ -210,7 +210,7 @@ Two node-identity collapses, sharing the trigonometric core of the L̃ lemma, re
 
 **Residual for k ≡ 2 mod 4.** Now Φ_u(0) = 0, u is a zero-divisor (Φ_u = u·Ψ), and the argument yields only u²·W ≡ 0 (mod (4, Φ_u)); deducing W ≡ 0 needs one more 2-adic step. The CRT splitting ℤ₂[u]/Φ_u ≅ ℤ₂ × ℤ₂[u]/Ψ handles the unit part, leaving the kernel sub-case m = 2^a (k = 6, 14, 30, 62, …) as the single open point, verified bit-exact k = 6..42.
 
-So top-degree dominance is rigorous for odd k and 4|k, and reduced to one 2-adic cancellation in the m = 2^a sub-case for k ≡ 2 mod 4. The entire 2-adic valuation v2(D_k) is then proven except (a) the two L̃ closed forms (bit-exact k=3..51, with elementary v2) and (b) this single m = 2^a sub-case. Two independent routes reach the same residual: `simulations/_f89_edgeA_*` (the Lemma 1 / Lemma 2 / unit closure above) and `simulations/_f89_edgeB_*` (a Newton-polygon / integer-divisibility route: F1 v2(R_0)=3, F2 16|R_d for d≥1), with the cost profile in `simulations/f89_edge_scout.py`.
+So top-degree dominance is rigorous for odd k and 4|k, and reduced to one 2-adic cancellation in the m = 2^a sub-case for k ≡ 2 mod 4. The entire 2-adic valuation v2(D_k) is then proven except (a) the two L̃ closed forms (bit-exact k=3..51, with elementary v2) and (b) this single m = 2^a sub-case. Two independent routes reach the same residual: `simulations/f89_edgeA_summary.py` (the Lemma 1 / Lemma 2 / unit closure above) and `simulations/f89_edgeB_final.py` (a Newton-polygon / integer-divisibility route: F1 v2(R_0)=3, F2 16|R_d for d≥1), with the cost profile in `simulations/f89_edge_scout.py`.
 
 ---
 

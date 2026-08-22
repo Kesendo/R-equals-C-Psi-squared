@@ -133,8 +133,7 @@ The cross-term relative orthogonality is a **graph-invariant** for
 Heisenberg XXX coupling with uniform Z-dephasing. It depends on:
 - N (number of qubits): via the formula sqrt((N-2)/(N * 4^(N-1)))
 - The coupling type: Heisenberg XXX (other couplings not tested here)
-- The noise type: Z-dephasing (other noise types explored in
-  [pythagorean_breaking.py](../simulations/pythagorean_breaking.py))
+- The noise type: Z-dephasing (other noise types are not tested here)
 
 It does NOT depend on:
 - The graph topology (chain, star, ring, complete: all identical)

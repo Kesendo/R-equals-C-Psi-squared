@@ -6,7 +6,7 @@
 **Depends on:**
 - [PROOF_F81_PI_CONJUGATION_OF_M.md](PROOF_F81_PI_CONJUGATION_OF_M.md) (Π²-conjugation algebra, generalizes verbatim to k-body)
 - [PROOF_F83_PI_DECOMPOSITION_RATIO.md](PROOF_F83_PI_DECOMPOSITION_RATIO.md) (anti-fraction closed form via Π²-class)
-- [`framework/core.py`](../../simulations/framework/core.py) (`_pauli_tuple_is_truly`, `_pauli_tuple_pi2_class`)
+- [`framework/symmetry.py`](../../simulations/framework/symmetry.py) (`_pauli_tuple_is_truly`, `_pauli_tuple_pi2_class`)
 - [`framework/pauli.py`](../../simulations/framework/pauli.py) (`_build_kbody_chain`)
 
 ## Abstract
