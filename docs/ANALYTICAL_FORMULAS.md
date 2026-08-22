@@ -7185,9 +7185,21 @@ PROOF_CODIM1's Edge lemma says "a normal pencil at real q", and the criterion in
 
 **The forward direction was already the repo's, and this line is the missing citation.**
 [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §6 has held it since 2026-07-03: its
-Edge lemma is the |p − q| = 1 case ("A = −2γ·I is scalar and L(q) = −2γ·I + q·C is a normal pencil"), and
-its boundary-block sentence is the general one, "every boundary block (p or q̃ ∈ {0,N}) has constant
-n_diff, hence a normal pencil whose Re-spectrum sits exactly on its even rung". The same §6 also supplies
+Edge lemma is the |p − q| = 1 case ("at a UNIFORM rate A = −2γ·I is scalar and L(q) = −2γ·I + q·C is a
+normal pencil at real q"), and its boundary-block sentence is the general one, "every boundary block
+(p or q̃ ∈ {0,N}) has constant n_diff, hence AT UNIFORM γ a normal pencil whose Re-spectrum sits exactly on
+its even rung". Both are quoted here in their CURRENT, fenced wording, and both are uniform-γ statements. Constancy of
+n_diff is γ-free and survives any profile; what it gives is a DIAGONAL A, with entries −2·Σ over each cell's
+disagreeing sites, and only equal rates collapse those sums to −2γ·n_diff and make A SCALAR, which is the
+step the normal-pencil argument uses. The consequence is graded and the two cases must not be merged: on
+the four EDGE blocks (n_diff ≡ 1) the conclusion is false rather than unproven,
+[PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md) §(e)
+exhibiting a defective exceptional point on the (0,1) block at N = 4, 5 and 6; on the remaining boundary
+blocks nothing is refuted and the guarantee is removed, which is the proof's own wording in §7's Scoping
+paragraph, "does not extend to a rate profile". For what replaces each, read §(f) and §6 rather than a paraphrase here: §6 owns the widened
+bracket (the extreme subset sums) and §(f) owns the location statement together with its "at real q" fence,
+and restating either in place is exactly how the n_diff ≡ 1 special case was transported into entries
+scoped to arbitrary rates. The same §6 also supplies
 the combinatorial half: n_diff runs over [|p − q|, min(p + q, 2N − p − q)] in steps of 2, an interval of
 zero width exactly when min(p, q) = 0 or max(p, q) = N (|p−q| < p+q iff min(p,q) > 0, and |p−q| < 2N−p−q
 iff max(p,q) < N). What this entry adds is the criterion stated as a criterion, the 4N count, the

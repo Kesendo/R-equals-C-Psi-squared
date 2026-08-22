@@ -222,7 +222,12 @@ public class F89DescendantClaimsRegistrationTests
         Assert.True(registry.Contains<MultiSectorMonodromyVerdictClaim>());
         // Tier 1 DERIVED (2026-07-03): the codim-1-by-additivity theorem is landed (containment via the
         // W-orbit corollary, the gap byte-identity via the full-spectrum fold §7), and the EXCLUSION half (R4)
-        // is now derived at N=5: boundary blocks by normality, the interior four cores by the fold-resultant
+        // is now derived at N=5 AT UNIFORM γ: boundary blocks by normality (constant n_diff is γ-free, but A is
+        // SCALAR only when the rates agree, and scalarness is the step the argument uses; under a profile the
+        // four EDGE blocks lose the conclusion outright, PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(e), and the
+        // remaining boundary blocks lose the guarantee, PROOF_CODIM1_BY_ADDITIVITY §6). So the Tier asserted
+        // below is a uniform-γ derivation rather than a universal one, on BOTH legs: the interior certificates
+        // use no scalarness but carry γ = 1 inside them as exact integers. The interior four cores by the fold-resultant
         // certificate pair ((1,1)×λ_A + R1's corner fold) propagated by Klein + the composed holomorphic
         // (1,4)-fold (gate RemainderR4InteriorExclusionTests, Category R4INTERIOR).
         Assert.Equal(Tier.Tier1Derived, registry.Get<MultiSectorMonodromyVerdictClaim>().Tier);

@@ -57,7 +57,8 @@ public sealed class StructuralCeilingClaim : Claim
 
     public StructuralCeilingClaim(AbsorptionTheoremClaim absorption)
         : base("Structural ceiling closed forms: the high-Q gap rate g2 = strict_gap/2γ of an XY network " +
-               "under Z-dephasing. g2(K_N)=4/N (N≥5), g2(star_N)=4/(N−1) (N≥6), g2(K_4)=2−2/√3; chain and ring " +
+               "under UNIFORM Z-dephasing (the word its own docstring carries and this string had dropped; " +
+               "g2 is a ratio to a single γ and has no referent under a per-site profile). g2(K_N)=4/N (N≥5), g2(star_N)=4/(N−1) (N≥6), g2(K_4)=2−2/√3; chain and ring " +
                "never ceiling (g2=1, band edge protects). Derived: the slowest mode is the darkest [H,A]=0 coherence " +
                "in the largest degenerate single-particle level (band edge n_XY=1 is the (0,1) floor, g2≤1). " +
                "Complete (1,1) = S_N standard rep, g2=2(1−λ₂), λ₂=(N−2)/N; star (1,1) = the (N−2)-fold leaf " +
@@ -94,8 +95,15 @@ public sealed class StructuralCeilingClaim : Claim
                 summary: "the 4/N ladder hits 1 at N=4, so the ceiling moves to the (2,2) two-excitation sector — " +
                          "the same sector special for ring-4. K_4 = 2 − 2/√3 (below the floor); ring-4 = 1 (co-occupied).");
             yield return new InspectableNode("the band edge floor (why g2 ≤ 1)",
-                summary: "the (0,1) sector has uniform hamming=1, so N_XY = I and L = L_H − 2γ·I there exactly: a " +
-                         "band-edge mode sits at g2=1 for every graph and all Q. A ceiling is a darker mode undercutting it.");
+                summary: "the (0,1) sector has uniform hamming=1, so N_XY = I and, AT UNIFORM γ, L = L_H − 2γ·I there " +
+                         "exactly: a band-edge mode sits at g2=1 for every graph and all Q. A ceiling is a darker " +
+                         "mode undercutting it. Uniform HAMMING is not uniform γ: under a per-site profile the same " +
+                         "sector carries L = L_H − 2·diag(γ), diagonal but not scalar, so it no longer commutes " +
+                         "with L_H and the sector LEAVES ITS FLOOR; Bendixson CONTAINS it in " +
+                         "[−2γ_max, −2γ_min] at real q, which is containment and not filling, and F153 records " +
+                         "that the loose reading 'the block spreads' is wrong in two directions, the same ramp " +
+                         "giving machine zero at Δ = 0, J = 1. PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE reads " +
+                         "this block.");
             yield return new InspectableNode("not universal: 4/(m+1) breaks on the ring",
                 summary: "the degeneracy m gives the intuition (more edges → darker), but the value depends on the " +
                          "manifold's embedding: the ring holds m=2 at every N while its (1,1) commutant MOVES, " +

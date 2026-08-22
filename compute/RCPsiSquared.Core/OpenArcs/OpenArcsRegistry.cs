@@ -1568,7 +1568,11 @@ public static class OpenArcsRegistry
                 "BEFORE any resultant machinery was built): remainder 1 is CLOSED per real locus by the " +
                 "RATE-WINDOW LEMMA (proof §6, gate item 8) — at real q every block eigenvalue obeys " +
                 "Re λ = v†Av/v†v ∈ [−2·n_max, −2·n_min] (n = the block's n_diff values; Bendixson: A real " +
-                "diagonal, C anti-Hermitian; the Edge lemma is the zero-width case, the census's 'λ from below' " +
+                "diagonal, C anti-Hermitian; the Edge lemma is the zero-width case OF THIS n_diff WINDOW; it is the ZERO " +
+                "WIDTH that is γ-free, being the constancy of n_diff, and NOT the lemma, which is uniform-γ; " +
+                "do NOT read it as the " +
+                "zero-width case of the γ window [−2γ_max, −2γ_min], which is the conflation " +
+                "PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(f) exists to prevent, the census's 'λ from below' " +
                 "identity read as an interval). The " +
                 "corner block (p_c+1,p_c+1) has window [−2(N−3), 0] while Re λ_B = −Re λ_A − 2N sits BELOW it " +
                 "whenever Re λ_A > −6 (measured margins 1.381 / 2.208 / 1.115 at N=5 locus 1 = the seed " +
@@ -1578,8 +1582,14 @@ public static class OpenArcsRegistry
                 "robust to the 4-decimal loci). Out-of-sample: the lemma PREDICTED the death at the never-measured " +
                 "N=5 locus 2, gate now reads 9.6e-16, with the negative control that λ_A (inside the window there) " +
                 "transports at 1.7. Bonus at the seed locus: the FULL N=5 exclusion of {λ_A, λ_B} is derived " +
-                "(interior four (1,1),(4,4),(1,4),(4,1) window-excluded; boundary blocks constant-n_diff ⟹ normal " +
-                "⟹ rung-pinned), condition Re λ_A ∈ (−6,−4) (> −6 for the corner/λ_B exclusion, < −4 so λ_A " +
+                "(interior four (1,1),(4,4),(1,4),(4,1) window-excluded, itself a uniform-γ step, that bracket being " +
+                "in n_diff units and widening to the extreme subset sums under a profile; boundary blocks constant-n_diff ⟹ normal " +
+                "⟹ rung-pinned AT UNIFORM γ ONLY, the constancy of n_diff giving a DIAGONAL A whose entries are the " +
+                "rate-weighted subset sums, and only equal rates making it SCALAR; under a profile the four " +
+                "EDGE blocks lose the conclusion, PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(e), while the " +
+                "other sixteen lose the guarantee, PROOF_CODIM1_BY_ADDITIVITY §7, and the block leaves its " +
+                "rung without necessarily spreading, F153 recording that the loose reading is wrong in two " +
+                "directions), condition Re λ_A ∈ (−6,−4) (> −6 for the corner/λ_B exclusion, < −4 so λ_A " +
                 "itself falls outside the [−4,0] windows), locus-1-only (locus 2's λ_A=−3.7917 sits inside " +
                 "[−4,0] and defeats the interior-four window there). Two reviews (physics-first + mathematical, " +
                 "both with independent numpy rebuilds) attacked and confirmed; the one BREAK found (the locus-2 " +
@@ -4155,9 +4165,56 @@ public static class OpenArcsRegistry
                 "[0.1, 4.671], nowhere near -2*gamma_bar. " +
                 "The model to copy is simulations/d10_block_closure_verify.py, which is the one place " +
                 "that TESTS the fence rather than asserting it. " +
-                "SECOND-A, THE FENCING PASS: STARTED 2026-08-20, CLASS A's MARKDOWN HALF ONLY, and the inventory it " +
+                "SECOND-A, THE FENCING PASS: CLASS A IS SUBSTANTIALLY FENCED AND NOT CLOSED (markdown half " +
+                "2026-08-20; the C# half, the gitignored plan document and three markdown rows the first pass " +
+                "left unmarked, 2026-08-22). An earlier draft of this very entry said CLOSED, and three " +
+                "empty-session rounds refuted it the same day; what remains is named at the end of this item. " +
+                "What the second half found: the C# half is larger than this entry used to say, and the " +
+                "section (i) table is the only place to count it, ten .cs files now appearing in it; that table was short by FOUR SITES it never named, a second " +
+                "EXECUTING assertion in SpectatorIntertwinerGateTests (the 4c edge echo, A(4,5) vs -2I, same " +
+                "hard-coded gamma = 1); the L = L_H - 2*gamma*I node of StructuralCeilingClaim at :97, " +
+                "where uniform HAMMING sitting in the same sentence made it read as fenced; the n_diff/gamma " +
+                "window merge in PinnedBlockFloorWitness; and worst of the four, FoldResultantCertificate " +
+                ":73-76, the ORIGINAL of a sentence this same pass had already fenced at BOTH of its " +
+                "derivative sites while leaving the certificate library that owns it unscoped. All four are " +
+                "rows now. The pass wrote ONE full scope note per FILE with short pointers at the sibling sites, " +
+                "rather than a paraphrase per site, because a paraphrase per site is how the second copy " +
+                "drifts. THE ROUNDS FOUND THAT THE PARAPHRASES WERE THE DEFECT ANYWAY, and the finding is the " +
+                "reusable part: a fence that RESTATES the replacement law imports the n_diff = 1 special case " +
+                "into general boundary-block sentences. Three shapes, all of them mine and none in the " +
+                "material. (a) A = -2*diag(gamma) and the window [-2*gamma_max, -2*gamma_min] are the EDGE " +
+                "case; on a general boundary block A is diagonal with one rate-weighted SUBSET SUM per cell " +
+                "and the bracket widens to the extreme subset sums, which PROOF_CODIM1 section 6 already " +
+                "owned and asked to be cited rather than re-derived. (b) FALSE is the edge case too: section " +
+                "(e) refutes (0,1), while section 6 says of the other sixteen only that the guarantee does " +
+                "not extend. (c) the INTERIOR leg was called untouched and is not: both fold-resultant " +
+                "certificates are exact integer objects carrying gamma = 1 (diagonal -4*n_diff, fold constant " +
+                "lambda0 = -2N = -2*sigma at gamma = 1), and R1 additionally rests on section 6's uniform " +
+                "gamma = 1 corner window; only the Klein full flip is profile-independent. The fences now " +
+                "SCOPE and POINT rather than restate. Every claim string that changed was rebuilt and the " +
+                "test projects are green. WHAT REMAINS, so the next pass starts from a true list: the " +
+                "markdown twin PROOF_STRUCTURAL_CEILING.md:49 of the sentence fenced at " +
+                "StructuralCeilingClaim:97; ORTHOGONALITY_SELECTION_FAMILY.md:125 (the same hamming/gamma " +
+                "conflation, in a file that discusses non-uniform gamma_0 a hundred lines earlier at :21); GLOSSARY " +
+                ":330 and :438, class-B-shaped but sitting in a named Stage-0 store; and the sharpest site " +
+                "anywhere, reflections/ON_THE_TWO_COLUMNS.md:149, which exempts the two band ends from the " +
+                "hedge INSIDE the profile regime and with an explicit 'no hedge at all'. That one is Tom's " +
+                "call, not a fence: it is our own voice, it is class-B shaped, and whether 'the band's " +
+                "price' means a pinned value or a floor decides whether it is wrong at all. " +
+                "CLASS B IS WHAT REMAINS AND IT IS THE LARGER OBJECT: a 2026-08-22 sweep puts it at " +
+                "FORTY-THREE sites (the SECOND item above names about a dozen), and its shape is not a set " +
+                "of independent errors: F50 IS fenced, in PROOF_WEIGHT1_DEGENERACY and in its typed claim, " +
+                "and every consumer dropped the fence at the citation, so class B is one fence lost forty " +
+                "times in transport plus the two independent re-derivations D06 and the F2b clock corollary. " +
+                "Two proofs already say in prose what class B needs and their wording should be COPIED, not " +
+                "invented: PROOF_RING_GAP_DOMINANCE.md:126 (uniform gamma is load-bearing for the OBJECT, " +
+                "not just the value: with site-dependent rates there is in general no exactly-Re=-2*gamma_bar " +
+                "set at all to take a maximum over, the N=4 and N=5 sets being EMPTY when one site is " +
+                "detuned) and PROOF_RING_N4_DIHEDRAL_LOCK.md:126 (only the bound survives non-uniform rates, " +
+                "not the saturation). The original SECOND-A text follows, kept because its lesson is the " +
+                "same one twice: the inventory it " +
                 "was given was wrong by an order of magnitude. Section (i) of PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE " +
-                "was read as nine sites when it was nine table ROWS naming more, and it has since grown to fourteen rows; it is now the CANONICAL inventory and has absorbed this list, so count its rows rather than trusting any number in prose, this sentence included. Two Stage-0 scouts found roughly sixty, a SCOUT count that no artifact in the repo enumerates and that nobody has audited, in three classes, and the class split is " +
+                "was read as nine sites when it was nine table ROWS naming more, and it has since grown again, to twenty-one rows on 2026-08-22; it is now the CANONICAL inventory and has absorbed this list, so count its rows rather than trusting any number in prose, this sentence included. Two Stage-0 scouts found roughly sixty, a SCOUT count that no artifact in the repo enumerates and that nobody has audited, in three classes, and the class split is " +
                 "the useful part. CLASS A is the Edge lemma and everything that restates or consumes it; CLASS B is " +
                 "the whole-sector Re = -2*gamma family of the SECOND item above; CLASS C is the much thinner claim " +
                 "that the edge block spectrum is SIMPLE, thin because section (g) of that proof derives the " +
@@ -4180,14 +4237,14 @@ public static class OpenArcsRegistry
                 "a fence that omits that reads as though any profile defectivizes the block. " +
                 "WHAT WAS NOT FENCED, and is owed. THE CANONICAL LIST IS NOW SECTION (i) OF THE PROOF, not this sentence: the two inventories named different file sets, which would have sent whoever took the C# half after the wrong one, and they were merged into section (i) on 2026-08-20 with this entry demoted to a summary. The members, for orientation only, the row count in section (i) being the truth: (SpectatorIntertwinerClaim :49/:126; a third node at :143-156 was " +
                 "briefly counted here and is NOT a member, being the window-edge lemma, which SURVIVES a profile, " +
-                "and carrying '(uniform gamma=1)' in its own prose at :153, so the owed count is thirteen, not " +
+                "and carrying '(uniform gamma=1)' in its own prose at :153, so the owed count WAS thirteen, not " +
                 "fourteen), MultiSectorMonodromyVerdictClaim " +
                 "five sites, SectorBraidWitness three, of which :209 has no fence of any kind, not N, q, gamma nor " +
                 "mechanism, PinnedBlockFloorClaim :21-23 and :222, where the FLOOR half is correctly fenced at :224 and the " +
                 "NORMALITY half is not, F89DescendantClaimsRegistrationTests :225, and the plan document " +
                 "2026-07-02-codim1-by-additivity-theorem :80-82, which is the likely ORIGIN, putting 'holds for " +
                 "arbitrary bond profiles and non-uniform gamma' two lines above the edge-exclusion restatement); " +
-                "the one EXECUTING site, SpectatorIntertwinerGateTests :590-601, at a hard-coded " +
+                "the EXECUTING sites, SpectatorIntertwinerGateTests (TWO of them, the second found 2026-08-22), at a hard-coded " +
                 "Enumerable.Repeat(1.0, n); OpenArcsRegistry itself at :1581-1582 (the boundary-normality sentence, never " +
                 "updated, sitting in this same file as this entry, inside the arc zeros_connecting_structure and " +
                 "NOT in any arc named for the monodromy census, which does not exist) and in the arc sideways_spin_ladder " +
@@ -5551,10 +5608,13 @@ public static class OpenArcsRegistry
                 "1073741833, deg Re 926 (v 536), deg Im 925 (v 537), gcd deg 0, so NO real q != 0 " +
                 "carries ANY repeated Lambda-root of the (1,2) residual, window-free; with the AT-seam " +
                 "block-diagonality (no Jordan chain crosses), the AT side itself semisimple at every q " +
-                "(per rate sector the dephasing diagonal is one scalar, so the restriction is " +
+                "(AT UNIFORM γ, where per rate sector the dephasing diagonal is one scalar, so the restriction is " +
                 "r0*I + i*q*K restricted, K diagonal-similar to real symmetric, diagonalizable on every " +
-                "invariant subspace) and q = 0 semisimple, no real-q defective " +
-                "EP of the (1,2) block at N=6 exists AT ALL. The o2b_gcd_certificate.py lemma's 'one " +
+                "invariant subspace; under a per-site profile that sector diagonal is NOT one scalar and this leg " +
+                "fails, so the verdict that follows is a UNIFORM-γ verdict, cf. " +
+                "PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(e) on the sibling edge block) and q = 0 " +
+                "semisimple, no real-q defective " +
+                "EP of the (1,2) block at N=6 exists AT ALL AT UNIFORM γ. The o2b_gcd_certificate.py lemma's 'one " +
                 "degree-preserving prime suffices' was the UNSTRIPPED-gcd form; the stripped gcd needs " +
                 "valuation preservation too (a review's explicit counterexample: a common root " +
                 "congruent to 0 mod p collapses onto q and is stripped), which is exactly what the " +

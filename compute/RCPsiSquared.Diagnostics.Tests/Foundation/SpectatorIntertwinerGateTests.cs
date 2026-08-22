@@ -273,6 +273,14 @@ public class SpectatorIntertwinerGateTests
         _out.WriteLine($"  [4b interior (1,2)→(2,3)] ‖W·x₁‖/‖x₁‖ = {F(wx1A)}   ‖W·x₂‖/‖x₂‖ = {F(wx2A)}   (predicted both O(1): the chain transports)");
 
         // 4c: edge echo — W:(3,4)→(4,5) rank, and the edge block (4,5) has n_diff ≡ 1 ⟹ A = −2I.
+        // AT UNIFORM γ, and that is what BuildBlock passes (Enumerable.Repeat(1.0, N) above): n_diff ≡ 1 gives
+        // A = −2γ·I only because γ is one number. This is an n_diff ≡ 1 block, so under a per-site profile
+        // A = −2·diag(γ_1..γ_N) literally and the assertion is EXPECTED TO FAIL for EVERY non-uniform profile.
+        // What follows from that is graded: the block is then non-normal generically (not at q = 0, where
+        // L = A is diagonal), and defective only on a
+        // codimension-one set of profiles, measure zero (PROOF_CODIM1_BY_ADDITIVITY.md §6; the exhibited
+        // defective points are PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md §(e), N = 4, 5, 6). The profile case
+        // is gated separately, `python simulations/edge_block_defective_ep_gate.py`; it is not a hole here.
         var w45 = BuildW(3, 4);                               // 5×50
         var s45 = w45.Svd().S;
         double sMax45 = s45[0].Real;
@@ -570,8 +578,18 @@ public class SpectatorIntertwinerGateTests
         // N=5 completion at LOCUS 1 ONLY (Re λ_A ∈ (−6,−4) required; locus 2's λ_A = −3.7917 sits
         // inside [−4,0] and defeats the window there): the four interior non-members of the 12-set are
         // ALL rate-window-excluded from carrying λ_A or λ_B; the boundary blocks (p or q̃ ∈ {0,N}) have
-        // constant n_diff, hence A scalar, hence a NORMAL pencil whose Re-spectrum sits exactly on the
-        // even rung −2·n_diff, which neither λ_A nor λ_B occupies (both have non-even Re here).
+        // constant n_diff, hence A scalar AT UNIFORM γ, hence a NORMAL pencil whose Re-spectrum sits exactly
+        // on the even rung −2·n_diff, which neither λ_A nor λ_B occupies (both have non-even Re here).
+        // The uniformity is load-bearing and is supplied by the γ = Enumerable.Repeat(1.0, n) this file builds
+        // with. These two are NOT edge blocks: (0,2) and (0,3) have n_diff ≡ 2 and ≡ 3, so A is diagonal with
+        // entries −2·Σ over each cell's disagreeing sites, and those pair sums (resp. triple sums) are all
+        // equal only if the rates are, at N ≥ 3. So under EVERY non-uniform profile the rung pinning fails,
+        // while nothing here is refuted in the §(e) sense, which exhibits its defective points on the (0,1)
+        // EDGE block; §6 states this case as the guarantee not extending to a profile, with the bracket
+        // widening to the extreme SUBSET SUMS rather than §(f)'s edge-block window. Mechanically the first
+        // assertion to fail would be the constancy check at the head of this loop, whose message reads
+        // "n_diff not constant": a false diagnostic under a profile, since n_diff IS constant and it is the
+        // rate sums that differ (RateWindow reads the live A-diagonal, which is why it moves with γ).
         _out.WriteLine("  [N=5 locus-1 exclusion sweep] interior non-members of the 12-set:");
         foreach (var (p, qt) in new[] { (1, 1), (4, 4), (1, 4), (4, 1) })
         {

@@ -71,9 +71,17 @@ namespace RCPsiSquared.Core.F89PathK;
 /// reported AT the layer prime. Companion fact: the AT subspace is q-independent and invariant for every q,
 /// so D and K each preserve it and (both being Hermitian) also its orthogonal complement: AT ⊕ F_res is
 /// genuinely block-DIAGONAL, no Jordan chain crosses the seam, and, the AT side being itself semisimple
-/// at every q (per rate sector D is one scalar, so the restriction is r₀·I + i·q·K|_W with K
-/// diagonal-similar to real symmetric, diagonalizable on every invariant subspace), disc_Λ(F_res)
-/// misses no defect. What this
+/// at every q (AT UNIFORM γ, where per rate sector D is one scalar, so the restriction is r₀·I + i·q·K|_W
+/// with K diagonal-similar to real symmetric, diagonalizable on every invariant subspace), disc_Λ(F_res)
+/// misses no defect. THE RATE SCOPE, and this sentence is the ORIGINAL that two derivative sites quote
+/// (<c>experiments/F89_PATH_K_DIABOLIC.md</c> and the arc <c>sideways_spin_ladder</c>, both fenced
+/// 2026-08-22): "D is one scalar per rate sector" IS the uniform-γ hypothesis, unnamed. Under a per-site
+/// profile the sector diagonal carries one rate-weighted subset sum per cell instead of one scalar, the
+/// restriction is no longer r₀·I + i·q·K, and this leg of the certificate's soundness argument fails. The
+/// certificates in this file are uniform-γ objects for a second and independent reason: they are EXACT
+/// integer computations with γ = 1 built in (the target pencil's diagonal −4·n_diff, and the fold constant
+/// λ₀ = −2N, which is −2σ evaluated at γ = 1), so a profile would require recomputing them rather than
+/// reinterpreting them. What this
 /// does NOT exclude: a cubic branch point (3×3 Jordan) has ord disc = 2 and hides in the multiplicity-2
 /// layer; at a count-drop it is ruled out separately by parity (an even-order zero gives no sign change, so
 /// it cannot flip two reals into a conjugate pair).</para>

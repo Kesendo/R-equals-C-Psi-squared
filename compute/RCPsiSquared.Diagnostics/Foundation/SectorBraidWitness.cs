@@ -48,7 +48,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// codim-1-by-additivity theorem is landed with general-N membership derived in the CONTAINMENT direction; the
 /// interior kernel death is derived at real loci by the rate-window lemma (proof §6, gate item 8) and at complex
 /// loci by the moved rate window + the fold-resultant certificate. The EXCLUSION half (R4) is DERIVED at N=5
-/// (2026-07-03): boundary blocks by normality, the interior four cores by the fold-resultant certificate pair
+/// (2026-07-03) AT UNIFORM γ, which this witness supplies by building every block at γ = 1 per site (the rate
+/// scope: constant n_diff is γ-free and survives any profile, but it makes A SCALAR only when the rates agree,
+/// and scalarness is the step the normal-pencil argument uses; the four EDGE blocks with n_diff ≡ 1 lose the
+/// conclusion outright, <c>docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md</c> §(e), while the other
+/// boundary blocks merely lose the guarantee, which is how <c>PROOF_CODIM1_BY_ADDITIVITY.md</c> §7 puts it
+/// in its Scoping paragraph,
+/// "does not extend to a rate profile"; read §(f) and §6 for what replaces each rather than a paraphrase here.
+/// The interior leg does not use scalarness, but its two certificates carry γ = 1 inside them as exact
+/// integers, so they are not profile-free either): boundary blocks by normality, the interior four cores by the fold-resultant certificate pair
 /// ((1,1)×λ_A identity composition + R1's corner fold) propagated by Klein + the composed holomorphic (1,4)-fold
 /// spec(1,4)(q) = −spec(1,1)(q) − 2N (gate <c>RemainderR4InteriorExclusionTests</c>, Category R4INTERIOR); beyond
 /// N=5 the broad exclusion stays census (the intertwiner claim's N≥7 blocker). The gap byte-identity is DERIVED
@@ -207,7 +215,10 @@ public sealed class SectorBraidWitness : IInspectable
                 displayName: "the membership rule + mechanism (free-fermion / AT additivity)",
                 summary: "the braid set = {|bra−ket| = 1, both popcounts ∈ [1, N−1]} ∪ its q̃↦N−q̃ cross-fold image. " +
                          "The |bra−ket|=1 edge sectors that touch popcount 0 or N (empty/full a side) carry no " +
-                         "coalescence (the 'neither' set). The elementary EP is a property of the SE-DE coherence rung, " +
+                         "coalescence (the 'neither' set) AT UNIFORM γ, which is the rate this witness builds at: " +
+                         "under a per-site profile an edge sector CAN carry one, on a codimension-one set of " +
+                         "profiles rather than generically (PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(e), " +
+                         "N = 4, 5, 6). The elementary EP is a property of the SE-DE coherence rung, " +
                          "made popcount-translation-invariant by the site-summed spectator W = Σ_l c_l†ρc_l (the exact " +
                          "intertwiner of Theorem B; the single-mode version provably fails the dissipator) and " +
                          "cross-fold-invariant by F89d. So the " +
@@ -303,8 +314,10 @@ public sealed class SectorBraidWitness : IInspectable
                          "SUPPLIED (twin-scalar) at every genuinely-complex-q (Re q≠0) N=5 residual diabolic, so " +
                          "additivity's codim-1 route extends to complex q, and the pure-imaginary-q (Re q=0, λ real) " +
                          "diabolics are semisimple by Hermiticity instead; (3) the EXCLUSION half of membership " +
-                         "(no braid outside the orbit) is DERIVED at N=5 (2026-07-03): the boundary blocks by " +
-                         "normality, the interior four cores by the fold-resultant certificate pair ((1,1)×λ_A " +
+                         "(no braid outside the orbit) is DERIVED at N=5 (2026-07-03) AT UNIFORM γ: the boundary blocks by " +
+                         "normality (A scalar only when the rates agree; under a profile the four EDGE blocks " +
+                         "lose the conclusion, PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(e), and the rest lose " +
+                         "the guarantee, PROOF_CODIM1_BY_ADDITIVITY §6), the interior four cores by the fold-resultant certificate pair ((1,1)×λ_A " +
                          "identity composition + R1's corner fold) at every branch locus q≠0 of both parities, " +
                          "propagated by Klein + the composed holomorphic (1,4)-fold spec(1,4)(q)=−spec(1,1)(q)−2N " +
                          "(gate RemainderR4InteriorExclusionTests); beyond N=5 census-evidence (the N≥7 certificate " +

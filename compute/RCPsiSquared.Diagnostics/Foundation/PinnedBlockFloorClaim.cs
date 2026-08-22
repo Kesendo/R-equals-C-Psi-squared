@@ -18,10 +18,28 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para><b>The forward direction is not new here, and the citation is the point.</b>
 /// <c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c> §6 has held it since 2026-07-03: its Edge lemma is the
-/// |p−q| = 1 case ("A = −2γ·I is scalar and L(q) = −2γ·I + q·C is a normal pencil"), and its
-/// boundary-block sentence is the general one, "every boundary block (p or q̃ ∈ {0,N}) has constant n_diff,
-/// hence a normal pencil whose Re-spectrum sits exactly on its even rung". The registry entry was minted
-/// without that citation; this claim carries it.</para>
+/// |p−q| = 1 case ("at a UNIFORM rate A = −2γ·I is scalar and L(q) = −2γ·I + q·C is a normal pencil at
+/// real q"), and its boundary-block sentence is the general one, "every boundary block (p or q̃ ∈ {0,N}) has
+/// constant n_diff, hence AT UNIFORM γ a normal pencil whose Re-spectrum sits exactly on its even rung".
+/// Both are quoted in their CURRENT, fenced wording; an earlier version of this claim quoted them from
+/// before the 2026-08-20 fencing pass, so a reader met the unscoped strings here after they had been
+/// repaired at the source. The registry entry was minted without that citation; this claim carries it.</para>
+///
+/// <para><b>Both halves of that citation are UNIFORM-γ, not just the floor.</b> This file already fences
+/// its FLOOR half ("SCOPE: uniform γ REQUIRED", in the node text below); the NORMALITY half quoted beside
+/// it needs the same scope and for a different reason. Constant n_diff is a γ-free fact and survives any
+/// profile; what it buys is a diagonal A, whose entries are −2·Σ over each cell's disagreeing sites. Only
+/// equal rates collapse those sums to −2γ·n_diff and make A SCALAR, and scalarness is what the
+/// normal-pencil step uses. The consequence is graded, and this claim's own criterion keys on rate
+/// constancy rather than on γ uniformity, so the grading matters here: on the n_diff ≡ 1 EDGE blocks the
+/// conclusion is FALSE rather than unproven,
+/// <c>docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md</c> §(e) exhibiting a defective exceptional
+/// point on the (0,1) block at N = 4, 5 and 6; on the other boundary blocks the guarantee is removed and
+/// nothing is refuted, which is <c>PROOF_CODIM1_BY_ADDITIVITY.md</c> §7's own wording in its Scoping
+/// paragraph. Read §(f) and §6 for
+/// what replaces each, including the "at real q" fence the location statement carries; restating either
+/// here is how the n_diff ≡ 1 special case was transported in the first place. Leaving the block's FLOOR
+/// and spreading off a RUNG are two different failures, and this claim now names both.</para>
 ///
 /// <para><b>The converse, and it is exact rather than argued.</b> The registry entry first reached the ⟸
 /// by saying that off the pinned blocks "both sides can hop, S is no longer the whole story, and the real
@@ -219,7 +237,7 @@ public sealed class PinnedBlockFloorClaim : Claim
                "of L is scalar'. The ⟸ is a trace identity, " +
                "not a mechanism sketch: Re Tr L = Σ_cells(−2γ·n_diff) = Σ_λ Re λ forces n_diff ≡ n_min, which by " +
                "the §6 window [|p−q|, min(p+q, 2N−p−q)] is the criterion. FORWARD DIRECTION ALREADY OWNED by " +
-               "PROOF_CODIM1_BY_ADDITIVITY §6 (Edge lemma = the |p−q|=1 case; the boundary-block sentence = the " +
+               "PROOF_CODIM1_BY_ADDITIVITY §6, BOTH AT UNIFORM γ (Edge lemma = the |p−q|=1 case; the boundary-block sentence = the " +
                "general one; the window shell = the combinatorial half, gated by WindowShellLemmaTests), which " +
                "the registry entry was minted without citing. SCOPE: uniform γ REQUIRED (under a profile the " +
                "block leaves its FLOOR, which is not the same as spreading: at Δ=1, J=1, γ = linspace(0.1,1,N) " +

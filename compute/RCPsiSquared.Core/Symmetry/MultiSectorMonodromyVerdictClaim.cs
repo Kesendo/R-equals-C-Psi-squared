@@ -7,7 +7,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// gate-tested, the free-fermion-additivity mechanism confirmed for the embedding, the λ-value grounded and
 /// its closed-form mixture resolved via the mode geometry, the codim-1-by-additivity theorem LANDED in
 /// <c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c>, general-N membership DERIVED in the CONTAINMENT
-/// direction, and the EXCLUSION half now DERIVED at N=5: the boundary blocks by normality, the four interior
+/// direction, and the EXCLUSION half now DERIVED at N=5 AT UNIFORM γ (see the rate-scope note at the end of
+/// this docstring; every "by normality" in this file carries it): the boundary blocks by normality, the four interior
 /// non-member cores by the fold-resultant certificate pair, the identity-composition (1,1)×λ_A certificate +
 /// remainder R1's corner-fold certificate, propagated by the Klein full flip and the composed holomorphic
 /// (1,4)-fold; gate <c>RemainderR4InteriorExclusionTests</c>, Category R4INTERIOR):
@@ -72,7 +73,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// full flip, F89d cross-fold} reproduces the census braid sets exactly (parity law: diagonal core (p,p) iff
 /// |2p−N| = 1, i.e. iff N odd; sizes 4N−8 odd / 4N−12 even), so the N=6 spread is a corollary, no census needed.
 /// The EXCLUSION half (no braid outside the orbit), formerly the census-only remainder R4, is now DERIVED at
-/// N=5 (2026-07-03): the 20 boundary blocks by normality (n_diff ≡ 1 ⟹ normal pencil, rung-pinned), and the
+/// N=5 (2026-07-03) AT UNIFORM γ: the 20 boundary blocks by normality (n_diff ≡ 1 ⟹ A = −2γ·I SCALAR ⟹ normal
+/// pencil, rung-pinned; the scalarness is the uniformity, see the rate-scope note below), and the
 /// four interior non-member cores (1,1),(4,4),(1,4),(4,1) by TWO complete fold-resultant certificates at every
 /// branch locus q ≠ 0 of both parities, the identity-composition certificate (1,1)×λ_A (no residual root is a
 /// (1,1) eigenvalue) + remainder R1's corner-fold certificate (no fold image −λ−2N is a (4,4) eigenvalue),
@@ -95,7 +97,29 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <see cref="SpectatorIntertwinerClaim"/> (Theorem B, the exact W intertwiner that carries the shared λ up the
 /// diamond and derives the containment half of membership). Live: <c>inspect --root sectorbraid</c>. Anchor:
 /// <c>experiments/F89_MULTI_SECTOR_MONODROMY.md</c>; the exact N=5 12-set is the regression test
-/// <c>Census_N5_BraidSpreadsBeyondOrbit_ReachesDenseCore</c>.</para></summary>
+/// <c>Census_N5_BraidSpreadsBeyondOrbit_ReachesDenseCore</c>.</para>
+///
+/// <para><b>Rate scope: this verdict is a UNIFORM-γ verdict, and the file cannot say so in its own
+/// vocabulary.</b> Every "boundary blocks by normality" here, in the claim string, in the summary and in the
+/// nodes, rests on a boundary block having constant n_diff so that the pencil's Hermitian part A is SCALAR.
+/// Constancy of n_diff is a γ-free fact and survives any profile; what does not is the SCALARNESS. Under a
+/// per-site profile A stays diagonal, with entries −2·Σ_{l ∈ a⊕b}γ_l, one rate-weighted subset sum per cell;
+/// at uniform γ those collapse to −2γ·n_diff and only then is A scalar, which is the step the normal-pencil
+/// argument uses. The damage is not uniform across the twenty blocks and the two cases must not be merged.
+/// On the four EDGE blocks (n_diff ≡ 1) the conclusion is <b>false</b>, not unproven:
+/// <c>docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md</c> §(e) exhibits a defective exceptional point
+/// on the (0,1) block at N = 4, 5 and 6. On the other sixteen nothing is refuted and the GUARANTEE is removed,
+/// which is how <c>PROOF_CODIM1_BY_ADDITIVITY.md</c> §7 states it in its Scoping paragraph: that half of the
+/// exclusion "does not extend to a rate profile". For what replaces each, read §(f) and §6 rather than a
+/// paraphrase here; §6 owns the
+/// widened bracket (the extreme subset sums) and §(f) owns the location statement and its "at real q" fence,
+/// and restating either in situ is how the n_diff ≡ 1 special case got transported in the first place.
+/// The INTERIOR leg does not use scalarness, but it is not profile-free either: both members of the
+/// fold-resultant certificate pair are EXACT computations carrying γ = 1 inside them (the target pencil's
+/// integer diagonal −4·n_diff, and the fold constant λ₀ = −2N, which is −2σ evaluated at γ = 1), and R1's
+/// corner-fold half additionally rests on §6's corner window and its Re λ_A ∈ (−6,−2) bound, stated there at
+/// uniform γ = 1. They would each have to be recomputed per profile. Of the whole apparatus only the Klein
+/// full flip, which permutes cells within a fixed a⊕b, is profile-independent as it stands.</para></summary>
 public sealed class MultiSectorMonodromyVerdictClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
@@ -126,7 +150,9 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                "codim-1-by-additivity theorem is LANDED (docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md), general-N " +
                "membership is DERIVED in the CONTAINMENT direction (the W-orbit corollary: cores iff |2p−N|=1, " +
                "sizes 4N−8 odd / 4N−12 even), and the EXCLUSION half is DERIVED at N=5 (2026-07-03): boundary " +
-               "blocks by the normal pencil, the interior four cores by the fold-resultant certificate pair " +
+               "blocks by the normal pencil AT UNIFORM γ (A is scalar only when the rates agree; under a profile the four " +
+               "EDGE blocks lose the conclusion, PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(e), and the other " +
+               "sixteen lose the guarantee, PROOF_CODIM1_BY_ADDITIVITY §7), the interior four cores by the fold-resultant certificate pair " +
                "((1,1)×λ_A identity composition + R1's corner fold) at every branch locus q≠0 of both parities, " +
                "propagated by Klein + the composed holomorphic (1,4)-fold spec(1,4)(q)=−spec(1,1)(q)−2N (gate " +
                "RemainderR4InteriorExclusionTests); N≥6 broad exclusion stays census (with the intertwiner's N≥7 " +
@@ -152,7 +178,7 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
         $"N=4 self-fold, the mechanism the W intertwiner theorem (PROOF_CODIM1_BY_ADDITIVITY), the mixture " +
         $"⟨n_diff⟩(q) resolved via the mode geometry (quantized overlap; N=4 ⟹ N/2, N≥5 √-branch/non-radical); " +
         $"general-N membership derived in the CONTAINMENT direction (W-orbit corollary), the exclusion half " +
-        $"DERIVED at N=5 (boundary normality + the fold-resultant certificate pair on the interior four, " +
+        $"DERIVED at N=5 AT UNIFORM γ (boundary normality, uniform-γ only + the fold-resultant certificate pair on the interior four, " +
         $"propagated by Klein/the holomorphic (1,4)-fold; N≥6 census), the gap byte-identity derived via the " +
         $"full-spectrum fold ({Tier.Label()})";
 
@@ -194,7 +220,11 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                          "intertwiner + containment orbit corollary + two-regime Theorem A); general-N membership is " +
                          "DERIVED in the CONTAINMENT direction (cores iff |2p−N|=1, sizes 4N−8 odd / 4N−12 even; the " +
                          "N=6 spread is a corollary, no census needed). THE EXCLUSION HALF (R4) IS DERIVED AT N=5 " +
-                         "(2026-07-03): boundary blocks by normality; the interior four cores by the certificate pair " +
+                         "(2026-07-03): boundary blocks by normality AT UNIFORM γ (A scalar only when the rates agree; a profile " +
+                         "makes the pencil non-normal, and the consequence is graded: the four EDGE blocks lose " +
+                         "the conclusion, PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(e), the other sixteen lose " +
+                         "only the guarantee, PROOF_CODIM1_BY_ADDITIVITY §7, their bracket widening to the extreme " +
+                         "subset sums); the interior four cores by the certificate pair " +
                          "(1,1)×λ_A + R1's corner fold at every branch locus q≠0, both parities, propagated by Klein + " +
                          "the composed holomorphic (1,4)-fold (gate RemainderR4InteriorExclusionTests, Category " +
                          "R4INTERIOR). R1 is CLOSED at N=5 (rate window real, moved window near-axis, fold-resultant " +

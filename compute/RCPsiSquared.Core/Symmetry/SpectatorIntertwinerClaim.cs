@@ -46,8 +46,25 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Where the sharing stops.</b> Kernel death: at the N=5 diamond boundary (3,3)→(4,4) the transported
 /// near-defective 2-plane lies in ker W (‖Wx₁‖ = 1.7e-15, ‖Wx₂‖ = 2.5e-15 at the real locus q* = 0.620878),
 /// while on the interior rung both vectors transport at norm √2. At the outer edge the death is structural
-/// (edge lemma: the blocks (0,1), (N−1,N) have n_diff ≡ 1, so A = −2γ·I and the pencil is normal, no Jordan
-/// block possible).</para>
+/// AT UNIFORM γ (edge lemma: the blocks (0,1), (N−1,N) have n_diff ≡ 1, so A = −2γ·I is SCALAR and the pencil
+/// is normal, no Jordan block possible); see the rate-scope note below, which is the only place in this claim
+/// where the edge lemma's uniformity is used; two OTHER nodes below carry uniform-γ content of their own,
+/// the window-edge node's Re λ_A ∈ (−6,−2) value, which says "(uniform γ=1)" in its own prose, and the
+/// fold-resultant node, whose certificates are exact integer objects built at γ = 1.</para>
+///
+/// <para><b>The rate scope, and the outer edge is the one exception.</b> Lemmas 1-3 use no uniformity, which
+/// is what licenses the "ANY site-dependent rates γ_j" above; the outer-edge sentence does not share that
+/// scope and is fenced here rather than beside each of its restatements. Under a per-site profile
+/// A = −2·diag(γ) is diagonal but NOT scalar, and the edge lemma's conclusion is <b>false</b> rather than
+/// unproven: <c>docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md</c> §(e) exhibits a defective
+/// exceptional point on the (0,1) block at N = 4, 5 and 6. What replaces it is a LOCATION statement, §(f):
+/// a defective eigenvalue of a path edge block must sit STRICTLY INSIDE the rate window [−2γ_max, −2γ_min]
+/// at real q. That excludes the window's edges only, so it repairs no no-Jordan conclusion; what it says is
+/// where such a block would have to sit. Generically a profile merely makes the block non-normal and spreads
+/// the shared rate across that window, the defectiveness being codimension one and measure zero. The n_diff
+/// window of <c>PROOF_CODIM1_BY_ADDITIVITY.md</c> §6 is a DIFFERENT window and the two must not be merged:
+/// n_diff ≡ 1 on an edge block under every profile, so its zero width is the constancy of n_diff and never
+/// the uniformity of γ.</para>
 ///
 /// <para><b>Typed parents.</b> <see cref="F89CrossFoldSimilarityClaim"/> (F89d, the antiunitary leg the
 /// containment orbit corollary combines with the climbing W-step, transpose, and Klein full flip) and
@@ -123,9 +140,14 @@ public sealed class SpectatorIntertwinerClaim : Claim
             yield return new InspectableNode("kernel death + the normal edge (where the sharing stops)",
                 summary: "boundary (3,3)→(4,4) at the N=5 real locus: the whole near-defective 2-plane dies in ker W " +
                          "(‖Wx₁‖ = 1.7e-15, ‖Wx₂‖ = 2.5e-15) while the interior rung transports at norm √2. Outer edge " +
-                         "structural: (0,1)/(N−1,N) have n_diff ≡ 1 ⟹ A = −2γ·I ⟹ normal pencil ⟹ no Jordan block. Kernel " +
+                         "structural AT UNIFORM γ: (0,1)/(N−1,N) have n_diff ≡ 1 ⟹ A = −2γ·I SCALAR ⟹ normal pencil ⟹ no " +
+                         "Jordan block (under a per-site profile A = −2·diag(γ) is not scalar and this is FALSE, not " +
+                         "unproven: PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(e); §(f) replaces it by a location, a " +
+                         "defective λ sits strictly inside [−2γ_max, −2γ_min] AT REAL q, the window MOVING " +
+                         "at complex q, and excluding no Jordan block in the interval's interior). Kernel " +
                          "death is now highest-weight annihilation (see the sl(2) node): the band deaths follow from the " +
-                         "edge lemma, and the interior-core death is DERIVED at real loci by the rate-window lemma " +
+                         "edge lemma and are therefore uniform-γ deaths, and the interior-core death is DERIVED at real " +
+                         "loci by the rate-window lemma " +
                          "(proof §6, gate item 8): at real q every corner-block eigenvalue has Re λ ∈ [−2(N−3), 0] " +
                          "(Bendixson: A real diagonal, C anti-Hermitian), while Re λ_B = −Re λ_A − 2N sits below the " +
                          "window whenever Re λ_A > −6 (measured margins 1.381/2.208/1.115 at the two N=5 real loci and " +

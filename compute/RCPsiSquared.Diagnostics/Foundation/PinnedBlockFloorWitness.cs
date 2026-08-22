@@ -292,7 +292,11 @@ public sealed class PinnedBlockFloorWitness : IInspectable
     ///
     /// <para>NOT NEW, and the entry says which parts are whose: PROOF_CODIM1_BY_ADDITIVITY §6 owns the
     /// rate window Re λ = v†Av/v†v, "exact for every eigenvalue, defective or not", with the Edge lemma
-    /// as its zero-width case; PROOF_ABSORPTION_THEOREM owns the anti-Hermiticity for every Hermitian H;
+    /// as its zero-width case (that window is in n_diff units, so the zero width is the constancy of n_diff,
+/// a γ-free fact, and NOT the uniformity of γ; the γ window is a different object and the two must not be
+/// merged, PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(f). This file's own criterion keys on rate constancy
+/// rather than γ uniformity and so survives a profile; the LEMMA does not);
+/// PROOF_ABSORPTION_THEOREM owns the anti-Hermiticity for every Hermitian H;
     /// and <c>BlockSpectrumWitness.HermitianPartResidual</c> already gates this identity under a profile
     /// for the (0,1) block. What is added here is the step to a GENERAL block and from a disagreement
     /// COUNT to a site-resolved sum, plus the trace converse that turns the window's zero-width case
