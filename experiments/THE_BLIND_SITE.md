@@ -8,7 +8,8 @@
 Z-dephasing at a single site of an open Heisenberg chain has a subspace of
 **single-excitation** states it cannot touch: not weakly, not slowly, exactly.
 Which seat you choose decides whether such states exist and how many, and the
-count is a divisor question,
+count is a divisor question, in the ordinary arithmetic sense and not F140's
+frozen `Divisor`, which §5 keeps separate,
 
   **dim (blind single-excitation subspace at site j) = (gcd(2j+1, N) − 1) / 2,**
 
@@ -27,7 +28,7 @@ is `PROOF_UNIFORM_LAW.md`'s, gated there entry-exactly. The value ⌊N/2⌋ at t
 centre of an odd chain is `MEDIATOR_NOISE_GATE_LEVEL_THREE.md`'s, five days old,
 in this same arc. Even the word is borrowed twice over. What is this page's own
 is the **count as a function of the site**, its even-N and composite-N half, the
-intersection law for several noisy seats, and the measured mediator table. §10
+intersection law for several dephased seats, and the measured mediator table. §10
 is the ledger.
 
 ---
@@ -137,7 +138,7 @@ spatially symmetric **γ profiles**, a different lever from the symmetric
 Hamiltonian breaks the symmetry between subsystems, not when the noise does."
 §3 and §4 look like a counterexample and are not one: that sentence closes a
 bipartition question, C_int against C_ext, and speaks of symmetry between
-**subsystems**. Here the Hamiltonian is symmetric, the noise placement decides
+**subsystems**. Here the Hamiltonian is symmetric, where γ is placed decides
 everything, and what is broken is the chain's own reflection rather than a split
 between two parties. The two do not overlap, but the resemblance is close enough
 to say so out loud.
@@ -180,6 +181,12 @@ The third is the **(0,1) vacuum-coherence block** of F152 and F64, where §5
 shows the same count holds. None of the three is the Pauli w = 1 sector, which
 is not L-invariant.
 
+Two more words below are the repo's and are used in the ordinary sense, so they
+are pinned here once. **Mirror** always means the site reversal j ↦ N−1−j,
+object 1 of the ⌊N/2⌋ map, and never Π or `MirrorWorld`'s `Mirror`, the
+block-lattice group of eight. **Block** does mean `MirrorWorld`'s `Block`, the
+joint-popcount block (p, q), and is used for nothing else.
+
 The Hamiltonian is **Heisenberg**, Σ_bonds J(XX + YY + ZZ), carrying the ZZ
 degree diagonal, so h_SE = (N−1)J·Id − 2J·𝓛 and the modes are Neumann at
 modulus N. It is *not* the XY h_SE of F2b at modulus N+1, which is what
@@ -187,6 +194,13 @@ modulus N. It is *not* the XY h_SE of F2b at modulus N+1, which is what
 `hop[a,a]`) and what `simulations/cone_defect_arrival.py` builds; the latter
 also damps with a single uniform scalar and so cannot express single-site
 dephasing at all.
+
+**The lever this page pulls is the assignment, not the budget.** Every arm
+below holds one γ and moves it from seat to seat, so Σγ is matched by
+construction and the comparison is of a spatial pattern rather than of a total.
+That is the distinction `docs/CAUGHT_ERRORS.md:877` was written about, and it is
+also why "total noise" is the wrong register for this page: a scalar cannot say
+which seat.
 
 **The γ book depends on the support.** Two single-excitation configurations
 differ in exactly two bits, so a coherence between them decays at 2(γ_a + γ_b).
@@ -276,8 +290,8 @@ irrelevant: a mixture of two reflection-odd states at **purity 0.5200** is
 exactly as blind, moving by 4.1e-16 at γ_5 = 0.05 and 3.7e-16 at γ_5 = 50.
 
 Mirror covariance is not the protecting thing either, and the clean evidence is
-one row below. The pair {0, 10} is a mirror-symmetric placement, so the
-Lindbladian is reflection-covariant there, and the node fills anyway. Covariance
+one row below. The support {0, 10} is a reflection-symmetric placement, so
+the Lindbladian is reflection-covariant there, and the node fills anyway. Covariance
 is not even available for the asymmetric placements: rows three and five are not
 reflection-covariant Lindbladians at all.
 
@@ -290,8 +304,8 @@ the first two rows agree there to all nine):
 | none (γ = 0) | 1.9e-16 | 0.999999822 |
 | the reflection-fixed seat {5} only | 4.0e-16 | 0.999999822 |
 | the left end {0} only | 3.7e-02 | 0.475369 |
-| the symmetric pair {0, 10} | 5.8e-02 | 0.258160 |
-| the asymmetric pair {1, 9} | 4.6e-02 | 0.371813 |
+| {0, 10}, symmetric | 5.8e-02 | 0.258160 |
+| {1, 9}, asymmetric | 4.6e-02 | 0.371813 |
 | every site | 8.9e-02 | 0.091525 |
 
 At this N every seat but the centre is non-blind, and §5 shows that is a fact
@@ -427,7 +441,7 @@ prime chain the reflection-parity reading and the divisor law give identical
 answers at every seat, so no run at N = 5 or N = 11 could distinguish them. The
 first discriminating case is composite, and the smallest is N = 9 at site 1.
 
-**Several noisy seats.** A blind subspace is a span of modes, so for a support S
+**Several dephased seats.** A blind subspace is a span of modes, so for a support S
 it is the intersection, and
 
   **dim blind(S) = #{ m ∈ 0..N−1 : (2j+1)m ≡ N (mod 2N) for every j ∈ S }.**
@@ -448,7 +462,7 @@ exact integer arithmetic for the odd N from 5 to 21, and derivable in one line
 from `PROOF_R90_FROZEN_DIVISOR.md:193`, where site reversal acts on these modes
 as the diagonal sign (−1)^k, so the odd-k modes are exactly the reflection-odd
 site space of line 195. This is object 1 of the ⌊N/2⌋ map, and its unpaired seat
-is the noisy seat itself, so the fixed-seat parity agrees as well as the value.
+is the dephased seat itself, so the fixed-seat parity agrees as well as the value.
 At even N there is no such seat, blind seats still exist (N = 12 at sites 1, 4,
 7, 10, one dimension each), and the reflection-odd space is the wrong answer
 there, six dimensions against one. F140's ⌊N/2⌋ is a third thing again, which
@@ -505,7 +519,7 @@ The rank alone would not settle that. In the popcount-2 sector the blind
 dimension at N = 11 is 0 at every one of the eleven seats, but that rank covers
 the (2,2) block while such a state also occupies (0,0) and (0,2). The direct
 check does settle it: propagated whole at γ = 0.5, the Bell-on-vacuum state
-moves by 2.84e-01 with the noise on the mediator and 2.82e-01 with it on site 0.
+moves by 2.84e-01 with γ on the mediator and 2.82e-01 with it on site 0.
 There is no blind state anywhere in that family, which is why the mediator
 looked ordinary to it.
 
@@ -529,8 +543,8 @@ sector, which F126 solved. It is not a statement about `Cone.cs` or
 `cone_defect_arrival.py`, both of which build the XY chain.
 
 It is not a protection scheme. The blind subspace is blind to a **named
-support** that must be known and strict by construction, so nothing here
-survives an untargeted noise floor, and it is not hardware-relevant as it
+support** that must be known and strict by construction. In any setting where
+γ sits on every seat it is gone, by §6, so it is not hardware-relevant as it
 stands.
 
 ## 9. Seven errors this run made, and how each was caught
@@ -575,7 +589,7 @@ cites in its own sweep.
 | the sector's exact solution | F126, `PROOF_DEPHASING_FRONT_RENEWAL.md` |
 | **the count as a function of the site, (gcd(2j+1,N)−1)/2** | this page |
 | **blind seats at even and composite N** | this page |
-| **the intersection law for several noisy seats** | this page |
+| **the intersection law for several dephased seats** | this page |
 | **the same count inside F64's own (0,1) block** | this page |
 | **the mediator table to γ = 50 with its matched control** | this page |
 | **the γ_k ≥ 0 wording gap and its counterexample** | this page |
@@ -585,7 +599,7 @@ cites in its own sweep.
 - Whether the law survives on the **XY** chain at modulus N+1, where the node
   condition becomes m(j+1) ≡ 0 (mod N+1) and a different divisor answer is
   expected. Neither `Cone.cs` nor `cone_defect_arrival.py` can decide it: both
-  damp with one uniform scalar and cannot place noise on a single seat.
+  damp with one uniform scalar and cannot place γ on a single seat.
   `PRIMORDIAL_GAMMA_CONSTANT.md`'s N = 5 B-position scan is already data on that
   lattice.
 - The blind **operator** space inside the (1,1) block, which is larger than the
