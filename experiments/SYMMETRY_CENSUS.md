@@ -158,7 +158,7 @@ The off-diagonal sectors (w ≠ w') carry the coherences between excitation sect
 
 **Universal across connected topologies: exactly N+1 = 6 stationary states.** The four surveyed above are all connected, and the number of exits does not depend on which connected topology it is. It does depend on connectivity, which this census does not vary: by F4's component factorisation Π_c (|c| + 1), a disconnected N = 5 graph has 12 stationary states when it splits 2 + 3 and 32 when it has no bonds at all, against the 6 tabulated above ([F4 kernel dimension by components](../docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md); those two are formula values, not measurements of this survey).
 
-**Topology-dependent: the degeneracy structure.** Higher symmetry (complete graph has S_N permutation group) produces higher degeneracies and fewer distinct eigenvalues. This means the transient dynamics (approach to equilibrium) depends strongly on topology, even though the set of attractors is the same.
+**Topology-dependent: the degeneracy structure.** Higher symmetry (complete graph has S_N permutation group) produces higher degeneracies and fewer distinct eigenvalues. This means the transient dynamics (approach to equilibrium) depends strongly on topology, even though the set of attractors is the same across connected topologies.
 
 The chain has the fewest degeneracies (488 distinct out of 1024) and the richest transient structure. The complete graph is maximally degenerate (100 distinct, max degeneracy 54) and has the simplest transient.
 

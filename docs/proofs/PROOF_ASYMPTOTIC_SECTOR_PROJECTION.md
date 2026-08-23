@@ -15,7 +15,7 @@ Under Heisenberg dynamics with local Z-dephasing at every site of any connected 
 
 an N+1-way attractor, one basin per sector, each weighted by its untouched initial share.
 
-The reading unifies two apparent exits of the dynamics: the lens regime (a single-excitation state, all weight in one sector) and the cusp regime (weight spread across several) are the same N+1-exit structure seen from different initial conditions. It is the excitation-number companion of the parity selection rule and of F4's stationary-mode count (kernel dimension N+1), and the proof runs in three independent steps: sector-population conservation (kinematic), the unique steady state per sector (dynamic), and the decay of off-diagonal coherence.
+The reading unifies two apparent exits of the dynamics: the lens regime (a single-excitation state, all weight in one sector) and the cusp regime (weight spread across several) are the same N+1-exit structure seen from different initial conditions. It is the excitation-number companion of the parity selection rule and of F4's stationary-mode count (kernel dimension N+1, which is F4's single-connected-component case of Π_c (|c| + 1), the same connectivity this theorem needs), and the proof runs in three independent steps: sector-population conservation (kinematic), the unique steady state per sector (dynamic), and the decay of off-diagonal coherence.
 
 ## Theorem
 
