@@ -27,11 +27,17 @@ import os, sys, time
 # ============================================================
 OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         "results", "mediator_bridge.txt")
-_outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
+# Opened lazily on first log(): a bare `import mediator_bridge` (the module
+# doubles as the N=5 primitive library) must not truncate the tracked
+# results file. It did, for months, at module scope with mode "w".
+_outf = None
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 def log(msg=""):
+    global _outf
+    if _outf is None:
+        _outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
     print(msg, flush=True)
     _outf.write(msg + "\n")
     _outf.flush()

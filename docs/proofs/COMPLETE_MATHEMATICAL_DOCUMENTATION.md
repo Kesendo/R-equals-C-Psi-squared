@@ -351,9 +351,11 @@ Source run: [mediator_bridge.py](../../simulations/mediator_bridge.py)
 
 **Relay protocol.** Time-dependent γ, staged transfer: +83% end-to-end MI.
 
-**V-shape γ gradient.** [0.01, 0.03, 0.05, 0.03, 0.01]: +124% MI.
+**V-shape γ gradient.** [0.01, 0.03, 0.05, 0.03, 0.01]: about +6% at
+matched Σγ; the March +124% compared arms with different total dephasing
+(Σγ 0.13 vs 0.25) and mostly measured the budget.
 
-**DD on M+Receiver.** Dynamical decoupling: +132% MI.
+**DD on M+Receiver.** Dynamical decoupling: +132% MI, by removing 54% of Σγ.
 
 **Push vs Pull.** Source-dominant for local MI (0.957). Drain-dominant
 for end-to-end MI (0.121). Distance-dependent.
@@ -418,13 +420,13 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 | Pauli weight correlation | r = 0.976 | [XOR Space](../../experiments/XOR_SPACE.md) |
 | Best QST fidelity | F = 0.888 | [QST Bridge](../../experiments/QST_BRIDGE.md) |
 | Relay improvement | +83% | [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) |
-| V-shape improvement | +124% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
-| DD M+Recv improvement | +132% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
+| V-shape improvement (matched Σγ) | ~+6% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) (the March +124% was a Σγ confound) |
+| DD M+Recv improvement | +132% (removes 54% of Σγ) | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
 | N=8 eigenvalues (100% paired) | 65,536 | [block spectra](../../simulations/results/f1_n8_n9_metrics/) (RCPsiSquared.Core; the default C# Compute suite scores only the 54,118-rate oscillatory subset) |
 | Mediator bridge error | 1.41e-13 | [mediator_bridge.py](../../simulations/mediator_bridge.py) |
 | γ channel capacity (N=5, 1%) | 15.5 bits | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
 | SVD information modes | 5 | [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
-| γ optimization factor | 21.5× | [γ Control](../../experiments/GAMMA_CONTROL.md) |
+| γ optimization factor (combined) | 21.5× | [Bridge Optimization](../../simulations/results/bridge_optimization.txt) via [γ as Signal](../../experiments/GAMMA_AS_SIGNAL.md) |
 | Universal lifetime fraction | t*/T₂ = 0.858 | [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
 | Bell+ entanglement penalty | ~8% of min(T₂) | [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
 | Product states crossing on ring | 150/256 (59%) | [Orphaned Results](../../experiments/ORPHANED_RESULTS.md) |

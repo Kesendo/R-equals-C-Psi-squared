@@ -151,10 +151,11 @@ single largest improvement for range.
 ## Connection to Later Results
 
 The **γ Control** experiment ([γ Control](GAMMA_CONTROL.md)) found
-that the V-shape dephasing profile (+124% MI) achieves more than the
-relay protocol (+83%) with simpler implementation (static noise shaping
-instead of time-dependent control). The scaling curve here provides the
-baseline against which all optimizations are measured.
+the two-lever noise law: within a shape less Σγ always wins, and at fixed
+Σγ concentration at the chain centre wins, up to +46%, so its March
+"+124% vs the relay's +83%" comparison compared budgets, not methods.
+The scaling curve here provides the baseline against which all
+optimizations are measured.
 
 The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md))
 reframes the scaling question: the exponential MI decay with N is not
@@ -183,7 +184,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 ## References
 
 - [Relay Protocol](RELAY_PROTOCOL.md): +83% with time-dependent γ switching
-- [γ Control](GAMMA_CONTROL.md): V-shape +124%, DD +132%
+- [γ Control](GAMMA_CONTROL.md): the two-lever noise law (the March +124% was a Σγ confound)
 - [QST Bridge](QST_BRIDGE.md): 2:1 impedance matching origin
 - [Star Topology](STAR_TOPOLOGY_OBSERVERS.md): quiet receiver principle
 - [γ as Signal](GAMMA_AS_SIGNAL.md): scaling determines channel pixel count

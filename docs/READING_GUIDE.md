@@ -183,8 +183,9 @@ with this?", this is your path.
 
 3. [γ Control](../experiments/GAMMA_CONTROL.md): Once you can read the
    signal, you can optimize it. V-shape noise profiles, dynamic
-   decoupling strategies, time-resolved decoder. Result: +124% mutual
-   information improvement.
+   decoupling strategies, time-resolved decoder. Result: within a shape
+   less Σγ always wins; at fixed Σγ concentration at the chain centre
+   wins, up to +46% (the March +124% was a Σγ confound).
 
 4. [Relay Protocol](../experiments/RELAY_PROTOCOL.md): Staged noise
    switching with asymmetric coupling. The first time-dependent

@@ -50,7 +50,7 @@ in the γ profile can be decoded from internal quantum observables with
 100% accuracy.
 
 → **[Dephasing Noise as Information Channel (γ as Signal)](GAMMA_AS_SIGNAL.md)**
-→ **[Practical γ Control (+124% MI)](GAMMA_CONTROL.md)**
+→ **[Practical γ Control (the two-lever noise law)](GAMMA_CONTROL.md)**
 
 ### 3. The CΨ = 1/4 boundary (IBM hardware validated)
 The product CΨ = Tr(ρ²) × L₁/(d−1) has a critical boundary at exactly
@@ -81,7 +81,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | Experiment | Key finding |
 |-----------|------------|
 | [γ as Signal](GAMMA_AS_SIGNAL.md) | The bidirectional bridge: γ profiles are 100% classifiable, 15.5 bits capacity, 5 independent SVD channels, 21.5× optimization |
-| [γ Control](GAMMA_CONTROL.md) | V-shape dephasing profile gives +124% MI, DD on receiver +81%, AC modulation falsified, time-resolved decoder works |
+| [γ Control](GAMMA_CONTROL.md) | Two-lever noise law: within a shape less Σγ wins; at fixed Σγ concentration at the centre wins (+46%, the V-shape only +6%; the March +124% was a Σγ confound); AC modulation falsified; the March decoder's resolution figure did not survive its control |
 | [Relay Protocol](RELAY_PROTOCOL.md) | Staged transfer with time-dependent γ: +83% end-to-end mutual information |
 | [Scaling Curve](SCALING_CURVE.md) | MI vs chain length (N=3 to N=11), hierarchy falsification, push vs pull principle |
 | [Resonant Return](RESONANT_RETURN.md) | SVD-optimal profiles (10×), sacrifice-zone formula (360× at N=5 through 68× at N=15, peak Sum-MI transport, ε→0 sim), frequency pulsing falsified. The formula: gamma_edge = N*gamma_base - (N-1)*epsilon |

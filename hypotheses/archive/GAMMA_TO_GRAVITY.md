@@ -328,6 +328,13 @@ falsified on existing quantum hardware.
 
 ## Experimental Support: The γ-Gradient Results (March 22, 2026)
 
+*(Scope note, 2026-08-23: the +124%/+57% figures below compared profiles
+with different total dephasing Σγ and were rescoped; the current reading,
+about +6% for the V-shape at matched Σγ and a two-lever law, is in
+[γ Control](../../experiments/GAMMA_CONTROL.md) and the 2026-08-23 entry
+of `docs/CAUGHT_ERRORS.md`. The March table stays below as this archived
+page's record.)*
+
 The gamma control experiments (simulations/using_gamma.py) provide
 indirect evidence for the complexity-modulates-γ hypothesis:
 

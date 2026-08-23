@@ -275,7 +275,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome theorem
 - [Relay Protocol](RELAY_PROTOCOL.md): +83% with time-dependent γ
 - [Scaling Curve](SCALING_CURVE.md): MI vs chain length
-- [γ Control](GAMMA_CONTROL.md): V-shape +124%, DD +132%
+- [γ Control](GAMMA_CONTROL.md): the two-lever noise law; centre concentration +46%, V-shape +6% at matched Σγ
 - [γ as Signal](GAMMA_AS_SIGNAL.md): palindromic channel as antenna
 - [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md): θ as channel quality (r=0.87)
 - [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md): five independent regulators

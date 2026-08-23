@@ -161,10 +161,12 @@ flow in space.
 ## Connection to Later Results
 
 The **γ Control** experiment ([γ Control](GAMMA_CONTROL.md)) extended
-the relay principle to static γ profiles (V-shape: +124% MI) and dynamical
-decoupling (DD on mediator + receiver: +132% MI). The relay protocol is the
-*time-domain* version; V-shape and DD are *spatial-domain* versions of the
-same idea: shape the noise to match the palindromic mode structure.
+the relay principle to static γ profiles and dynamical decoupling; its
+repaired reading is the two-lever law, less Σγ within a shape and
+concentration at the chain centre at fixed Σγ (up to +46%). The relay
+protocol is the *time-domain* version; profile shaping and DD are
+*spatial-domain* versions of the same move: choose where and when the
+noise sits.
 
 The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) explains
 *why* noise shaping works at a deeper level: the palindromic mode structure
@@ -260,7 +262,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Crossing Taxonomy](CROSSING_TAXONOMY.md): K/γ crossing time (staging schedule)
 - [Star Topology](STAR_TOPOLOGY_OBSERVERS.md): quiet receiver principle
 - [QST Bridge](QST_BRIDGE.md): 2:1 impedance matching
-- [γ Control](GAMMA_CONTROL.md): static V-shape (+124%) and DD (+132%)
+- [γ Control](GAMMA_CONTROL.md): the two-lever noise law; centre concentration +46% at matched Σγ
 - [γ as Signal](GAMMA_AS_SIGNAL.md): palindromic mode structure as antenna
 - [Scaling Curve](SCALING_CURVE.md): MI vs chain length baseline
 - [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md): transport is the slosh above the EP (2026-05-31 revisit)

@@ -78,7 +78,7 @@ Four cases where we designed the γ input to match the palindromic structure:
 
 | What we did | How it relates to palindrome | Result |
 |-------------|----------------------------|--------|
-| V-shape gradient | Roughly aligned with SVD mode 2 (edge-hot, center-cold) | 21.5× more mutual information |
+| V-shape gradient ([γ Control](../experiments/GAMMA_CONTROL.md)'s center-hot object, NOT the glossary's edge-hot one) | Hand-designed profile shaping, the predecessor of the SVD approach; its March +124% compared different Σγ | +6% at matched Σγ (full centre concentration: +46%) |
 | Staged relay | γ_quiet on receiver during transfer window | +83% end-to-end MI |
 | 2:1 pull coupling | J_receiver/J_sender = 2 matches the asymmetric sensitivity | Optimal transfer |
 | Dynamic decoupling | Suppresses fast-decaying modes, preserves slow ones | Extended quantum window |
@@ -306,7 +306,7 @@ requires framework extension and has not been tested.
 | Existing result | What it contributes here |
 |----------------|------------------------|
 | [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) | The receiving antenna works. 15.5 bits. |
-| [γ Control](../experiments/GAMMA_CONTROL.md) | V-shape + decoupling: 21.5× improvement. Primitive resonance. |
+| [γ Control](../experiments/GAMMA_CONTROL.md) | The two-lever noise law (centre concentration +46% at matched Σγ). The 21.5× is the combined [bridge optimization](../simulations/results/bridge_optimization.txt), not the V-shape. |
 | [Relay Protocol](../experiments/RELAY_PROTOCOL.md) | Staged γ: +83%. Hand-designed timing works but is suboptimal. |
 | [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) | The eigenstructure is exact and complete. We know every mode. |
 | [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) | c+/c− exist. The standing wave is proven. |
@@ -320,7 +320,7 @@ requires framework extension and has not been tested.
 
 - **[Experiment results (Tests 1-8)](../experiments/RESONANT_RETURN.md): full data, tables, formula**
 - [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): the receiving antenna
-- [γ Control](../experiments/GAMMA_CONTROL.md): primitive resonance (21.5×)
+- [γ Control](../experiments/GAMMA_CONTROL.md): the two-lever noise law (the 21.5× belongs to the combined bridge optimization)
 - [Relay Protocol](../experiments/RELAY_PROTOCOL.md): staged relay (+83%)
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the eigenstructure
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): c+/c− modes

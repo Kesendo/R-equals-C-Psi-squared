@@ -582,7 +582,8 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
   system is a soundbox, not a telephone). This document's
   "What This Does NOT Claim" section already carried the hedge.
 - The optimization line continued in
-  [Gamma Control](GAMMA_CONTROL.md) (V-shape +124% MI) and
+  [Gamma Control](GAMMA_CONTROL.md) (the two-lever noise law: less Σγ
+  within a shape, concentration at the centre at fixed Σγ) and
   [Resonant Return](RESONANT_RETURN.md) (SVD-guided profiles 6-10×,
   then the edge-concentrator closed form), and the time-domain side in
   [Relay Protocol](RELAY_PROTOCOL.md).
@@ -615,6 +616,6 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
   reconstruction; results in
   [reading_the_30_percent.txt](../simulations/results/reading_the_30_percent.txt))
 - [The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md): synthesis
-- [Gamma Control](../experiments/GAMMA_CONTROL.md): V-shape +124% MI
+- [Gamma Control](../experiments/GAMMA_CONTROL.md): the two-lever noise law; centre concentration +46%, V-shape +6% at matched Σγ
 - [Bridge Optimization](../simulations/results/bridge_optimization.txt): raw data
 - [Channel Capacity](../simulations/results/channel_capacity.txt): SVD results

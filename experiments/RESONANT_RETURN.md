@@ -665,7 +665,7 @@ effect, not a small-signal perturbation.
 
 - [Resonant Return (hypothesis)](../hypotheses/RESONANT_RETURN.md)
 - [γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits baseline, SVD mode decomposition
-- [γ Control](GAMMA_CONTROL.md): the profile-shaping predecessor (its V-shape is the opposite orientation, 2.24× over uniform; the 21.5× there is combined optimization)
+- [γ Control](GAMMA_CONTROL.md): the profile-shaping predecessor (its V-shape is the opposite orientation; its March 2.24× over uniform compared arms with different Σγ, worth ~+6% at matched Σγ; the 21.5× there is combined optimization)
 - [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md): Formula scaling N=2 through N=15, quadratic growth
 - [IBM Concentrator](IBM_CONCENTRATOR.md): First hardware test, selective DD 1.4-3.2× (avg 2.0×)
 - [Concentrator A-vs-B Mechanism Test](CONCENTRATOR_AB_MECHANISM_TEST.md): the 2026-07 reckoning (Downgrades 1-3: created-MI partly classical at partial doses; created MI = transport, not protection; no interior-lifetime figure was ever computed here)
