@@ -4,6 +4,8 @@
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Script:** [`simulations/blind_site.py`](../simulations/blind_site.py), which imports its propagator from [`simulations/bridge_sector.py`](../simulations/bridge_sector.py)
 **Data:** [`simulations/results/blind_site/blind_site_run.txt`](../simulations/results/blind_site/blind_site_run.txt)
+**Second script (§7 only):** [`simulations/blind_seat_mi_sweep.py`](../simulations/blind_seat_mi_sweep.py), parts `gate | sweep | algebra | support | zeno | converge`
+**Second data file:** [`simulations/results/blind_site/blind_seat_mi_sweep.txt`](../simulations/results/blind_site/blind_seat_mi_sweep.txt)
 
 Z-dephasing at a single site of an open Heisenberg chain has a subspace of
 **single-excitation** states it cannot touch: not weakly, not slowly, exactly.
@@ -523,7 +525,10 @@ sites. The conserved parity-odd block is exactly this page's blind subspace.
 concludes the node structure is "measurably inert". `GAMMA_CONTROL.md:31` says
 "the mediator's own noise always harms; it merely harms least". Both stand and
 this page corrects neither, because both measure a **different preparation**: a
-Bell-on-vacuum state living in popcount {0, 2}.
+Bell-on-vacuum state living in popcount {0, 2}. The measurements stand
+untouched; one reading does not, and `GAMMA_CONTROL.md:31`'s "always" is
+corrected in scope below by a counterexample on a preparation that page did not
+run.
 
 The rank alone would not settle that. In the popcount-2 sector the blind
 dimension at N = 11 is 0 at every one of the eleven seats, but that rank covers
@@ -534,10 +539,187 @@ There is no blind state anywhere in that family, which is why the mediator
 looked ordinary to it.
 
 What changes is the reading, not the measurement. The mediator's node structure
-is not inert as a structure; it is invisible to a state prepared outside it. A
-cheap prediction follows: repeat the site-by-site γ sweep of NextStep (1) with a
-reflection-odd single-excitation preparation, and the response at site 5 should
-be exactly zero rather than fourth of nine.
+is not inert as a structure; it is invisible to a state prepared outside it.
+
+### The prediction, run
+
+This section used to end with a cheap prediction: repeat the site-by-site γ
+sweep of `MEDIATOR_NOISE_GATE_LEVEL_THREE.md` on a reflection-odd
+single-excitation preparation, and the response at seat 5 should be exactly zero
+rather than fourth-smallest of the nine interior sites, which is where that
+sweep had put it. `simulations/blind_seat_mi_sweep.py` runs it on
+(|1₀⟩ − |1₁₀⟩)/√2, the excitation on the first site minus the excitation on the
+last. The runner is gated before it is pointed anywhere new: on Bell-on-vacuum
+it returns all eleven published rows at that run's own step dt = 0.05, worst
+deviation 0.005 against a table printed to two decimals (part `gate`).
+Everything after the gate runs at dt = 0.02, for the reason under convergence
+below.
+
+**Run exactly as predicted, it does not give zero: it gives 0.0809 %.** Zero is
+what comes out in a configuration the prediction did not name, one with no γ
+anywhere but the swept seat, and there it is exact in the strongest available
+sense. So the prediction holds where it can hold exactly and misses where it was
+aimed, and the six points below are what the run put in place of it.
+
+Two definitions first, because every percentage in this section depends on them.
+**A** = {0, 1, 2, 3, 4} and **B** = {6, 7, 8, 9, 10} are the two five-site halves
+the centre separates, and the centre is in neither, which is why it is the
+bottleneck the sixth point turns on. A **span** is what the committed sweep
+reports and what every percentage here means: the seat named in a row is moved
+from γ = 0 to γ = 0.5 while every other site holds the baseline, and the span is
+100·(value at γ = 0 − value at γ = 0.5)/(value at γ = 0), so a positive span
+means the dephasing lowered the correlation.
+
+| baseline γ elsewhere | seat 5 | the other ten seats |
+|---|---|---|
+| none (only the swept seat carries γ) | −2.2·10⁻¹⁴ % | not swept |
+| 0.05, the sweep's own | 0.0809 % | 12.19 % to 17.51 % |
+
+Both rows are spans of the window mean of I(A:B) over t ∈ [0, 20] at dt = 0.02
+(parts `sweep` and `converge`). The
+comparison against Bell-on-vacuum is made under **that same functional**, not
+against the committed peak: like for like the centre reads 7.635 % on
+Bell-on-vacuum and 0.0809 % here, a factor of 94, and the Bell column then runs
+5.56 % to 15.77 %. Setting the committed 15.57 % beside 0.0809 % would compare
+two different functionals and overstate the contrast by about twice.
+
+**The mechanism is the state's own support, not a parity of ρ, and this page
+already said so.** The
+single-excitation action of the jump is Z_k = I − 2|k⟩⟨k|; a reflection-odd
+state has a node at the centre, so Z₅ acts there as the identity, measured
+max|Z₅ P_odd − P_odd| = 0.0 exactly (part `algebra`), while at seats 4 and 0 the
+same quantity is
+1.0. The state is picked out BY its Hilbert-space reflection parity, and that is
+what puts the node there (§5). What buys nothing is the parity of ρ as an
+operator, and the centre-swept configurations show it cleanly. There the profile
+[b, …, b, γ₅, b, …, b] is itself reflection-symmetric, so R permutes the jump set
+and the Liouvillian is **exactly reflection-covariant**: measured
+max|R H R − H| = 0.0 and max|R·mask·R − mask| = 0.0 at baselines 0.05 and 0.2.
+And ρ₀ = |ψ⟩⟨ψ| with Rψ = −ψ is Ad_R-**even**, max|Rρ₀R − ρ₀| = 0.0. So in
+exactly the configuration where the blindness is exact, the Ad_R grading is
+conserved and the state sits in its trivial half; it cannot be what protects.
+The other ten rows of the sweep are not reflection-covariant at all, since a
+single off-centre seat's profile is not reflection-symmetric, which §3 above
+already states and which is a second reason covariance cannot be the
+explanation. It is not quite the distinction
+[PROOF_ASYMPTOTIC_SECTOR_PROJECTION](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md)
+draws, and the difference is worth keeping: that proof works at the commutator,
+Z_k commuting with the site reversal only at the mirror-fixed seat, and reads the
+consequence as two conserved mirror-parity projectors whose odd block it names as
+this page's blind subspace. Both are true of the same object. Its projectors are
+Hilbert-space parity and are the right reading; the operator grading of ρ is the
+one that is inert here.
+
+**The peak functional is saturated, and the repo knew that before this run.**
+The reflection-odd state begins at I(A:B) = 2 bits and never rises above it, so
+its peak is the t = 0 value at every seat and every γ. With no dephasing anywhere
+it does not even fall: the odd subspace is H-invariant and every state in it has
+p₅ = 0, so p_A = p_B = ½ for all t and I(A:B) ≡ 2 exactly. That 2 is not a measurement here:
+it is **F75** ([ANALYTICAL_FORMULAS](../docs/ANALYTICAL_FORMULAS.md), the
+mirror-pair MI closed form) evaluated at its own saturation point p₀ = 1/2, and
+F75 is independent of the mirror sign, so reflection-oddness buys the node and
+not the 2 bits. That the peak of a single-excitation mirror-symmetric preparation sits at t = 0
+is the observation of
+[RECEIVER_VS_GAMMA_SACRIFICE](RECEIVER_VS_GAMMA_SACRIFICE.md), 2026-04-23:
+"Peak MM sits at or near t = 0 … F75 predicts the peak to within 7 % without any
+propagation". That is a resemblance and not the same statement: it is measured
+on the **bonding modes**, which this preparation is not, and it is approximate
+to 7 %, where here the peak sits at t = 0 **exactly**, forced by the 2-bit
+ceiling the state already occupies. A second thing the page cannot check for
+itself: F75's MM is a mirror-PAIR mutual information and the sweep's I(A:B) is a
+halves mutual information, and they agree at t = 0 only because the one occupied
+mirror pair straddles the A/B cut while every other site is empty and the state
+is pure.
+The window mean used instead is a partial answer to a request
+`MEDIATOR_NOISE_GATE_LEVEL_THREE.md` already had open, for "a window-stable
+functional (steady-state MI, or MI integrated over time)"; the answer is that
+the integrated one is **not** window-stable, see below.
+
+**The 0.0809 % is a cancellation residue, not a leak size.** It is tempting, and
+this page's first draft did it, to read the residual as the size of the state's
+leak out of the odd subspace. Restricting the baseline to named subsets refuses
+that. The number in each row below is the **centre's own span**, unchanged in
+definition, with only the set of other sites carrying the 0.05 baseline
+changed (part `support`):
+
+| sites carrying the baseline | the centre's span |
+|---|---|
+| all ten, which is the sweep itself | +0.0809 % |
+| the two ends {0, 10} | −0.2595 % |
+| the interior, both ends and the centre excluded | +0.3127 % |
+| one end {0} | +0.0239 % |
+| the centre's two neighbours {4, 6} | +2.0954 % |
+
+The contributions carry both signs and the neighbours alone are an order of
+magnitude larger than the total. What the run does establish is the exact statement: Tr(P_odd ρ) is
+1.000000000000 across the whole window when nothing else dephases, with or
+without γ at the centre, so the centre is a node for the whole trajectory and not
+only at t = 0; with the baseline it is 0.469 by t = 20, on its way to the
+unbiased share 5/11. Why the cancellation lands at 0.08 % is open.
+
+**The sign flip has a name, and it is a counterexample.** The sweep's span is a
+two-point difference, γ₅ = 0 against 0.5, of a function that is not monotone in
+γ₅. Scanning it (part `zeno`): at baseline 0.05 the span rises to +0.189 % near
+γ₅ = 2, then
+crosses to −1.65 % at 20 and −10.76 % at 100; at baseline 0.2 it is already
+negative at 0.5. Across the same scan the window-mean occupation of the centre
+falls from 0.0663 to 0.0310. That is Zeno at the bottleneck: strong dephasing on
+the seat every A-to-B path crosses blocks the transport, and the preparation
+keeps more of the maximal I(A:B) it started with. The repo names this class
+already (`docs/GLOSSARY.md` on ENAQT, `D06_SPECTRAL_GAP`,
+`PROOF_ABSORPTION_THEOREM`). Stated rather than hidden: this is a
+counterexample, **on this preparation**, to `GAMMA_CONTROL.md:31`'s "the
+mediator's own noise always harms; it merely harms least", which was measured on
+another.
+
+**The percentages are a window, the ratio is the law.** Unlike the committed
+peak, which that page reports as window-converged at 15.566 % for t_max = 20, 40
+and 80, the window mean cannot be: past the transient every γ profile decays
+toward the same limit, so a longer window dilutes every span alike. The centre
+reads 0.0809 % at t_max = 20, 0.0497 % at 40 and 0.0272 % at 80, and the other
+seats fall in step. What holds still is the ratio of the smallest other seat to
+the centre: 150.7, 148.5, 149.3, stable to about one percent over a factor of
+four in the window. That ratio is the quotable number. In the integrator the
+spans are converged (0.0808, 0.0809, 0.0809, 0.0809 at dt = 0.05, 0.02, 0.01,
+0.005) even though the curve itself is not: with no dephasing anywhere the run
+is pure, so I(A:B) = h(p_A) + h(p_B) − h(p₅) ≤ 2 bits exactly, and at dt = 0.05
+the **peak** of that pure arm exceeds the bound by 1.3·10⁻³. That excess is
+common to both arms and cancels in the difference, which is why the spans are
+converged anyway; the sweep is run at dt = 0.02 regardless, where it is
+3.5·10⁻⁵ (part `converge`).
+
+The −2.2·10⁻¹⁴ in the first row is **not** an integrator floor, and calling it
+one would be a mislabel: with nothing on the other sites the two arms are the
+same computation, since Z₅ is the identity on the subspace the state never
+leaves. It is a null difference between identical runs, which certifies exact
+blindness and says nothing about accuracy.
+
+The odd column is exactly reflection-symmetric, seat j against seat 10 − j. That
+is forced rather than observed, and not by the covariance of a single
+run: R carries the seat-j profile to the seat-(10 − j) profile, ρ₀ is Ad_R-even,
+and R swaps A with B while I(A:B) is symmetric, so the two runs are
+Ad_R-conjugate to each other. The Bell column is not symmetric because its preparation
+sits on sites 0 and 1.
+
+**What the exact-blindness statement needs**, beyond "an odd chain": couplings
+that are reflection-symmetric (uniform is sufficient, not necessary), excitation
+number conserved so the single-excitation sector is invariant, and γ = 0 at every
+non-centre seat. At the reflection-fixed seat it does **not** need Heisenberg
+over XY, but not for any reason about the ZZ term, which is exactly what moves
+the nodes elsewhere by turning the adjacency matrix into the Laplacian and the
+modulus from N+1 to N (F2 line 111, D10 line 180, and §11's first open item).
+The reason is weaker and sufficient: any reflection-symmetric single-excitation
+Hamiltonian leaves the reflection-odd space invariant, and every state in that
+space has amplitude zero at the fixed seat by definition, ψ(f) = −ψ(f). That
+argument names no eigenbasis, so it carries to XY unchanged. Away from the fixed
+seat the count does depend on the modulus, and that is the open item. Nor should it be specific to Z-dephasing: any jump L with Lψ = 0
+or Lψ = ψ for every ψ in the odd subspace leaves it alone the same way,
+amplitude damping at the centre included. That last is an argument, not a
+measurement, and is the one claim in this section the run does not check. The
+open boundary is needed for the cosine derivation.
+
+Run: `python simulations/blind_seat_mi_sweep.py`; output in
+`simulations/results/blind_site/blind_seat_mi_sweep.txt`.
 
 ## 8. What this is not
 
@@ -557,7 +739,7 @@ support** that must be known and strict by construction. In any setting where
 γ sits on every seat it is gone, by §6, so it is not hardware-relevant as it
 stands.
 
-## 9. Seven errors this run made, and how each was caught
+## 9. Eight errors this run made, and how each was caught
 
 Three in the arithmetic. The first rank routine used an SVD and returned blind
 dimensions that were not mirror-symmetric on a mirror-symmetric chain, which is
@@ -581,6 +763,22 @@ Two in the prose: the §5 generalisation from two measured cases, and §4's
 unmatched control, the same shape as the `CAUGHT_ERRORS.md:877` entry this page
 cites in its own sweep.
 
+**An eighth, from the §7 run, and it is the worst of the eight because the page
+had already made it once.** The first draft of the §7 result explained the
+residual as "Z_k does not preserve reflection parity, so the baseline leaks the
+state out". The wrong object was the parity of ρ: where the blindness is
+exact the Liouvillian is exactly reflection-covariant and ρ₀ is Ad_R-even, both
+measured at 0.0, so the grading the sentence invoked is conserved and the state
+sits in its trivial half. Hilbert-space reflection parity is a different object
+and is not conserved in the swept configuration at all: Tr(P_odd ρ) falls to
+0.469 by t = 20. The correct statement is about the state's support, which is §3
+of this same page, three sections above where the error was written.
+The same conflation, superoperator grading against Hilbert-space grading, had
+been caught and reverted the day before in a different set of documents; it came
+back the moment a new result needed a sentence. The lesson is not "check
+parity claims" but that a mechanism sentence written in a *grading* word is worth
+suspecting on sight when the object at hand is a subspace.
+
 ## 10. What is borrowed and what is not
 
 | | source |
@@ -597,12 +795,20 @@ cites in its own sweep.
 | the centre subspace = the reflection-odd site space | `PROOF_R90_FROZEN_DIVISOR.md:193, 195` |
 | the genre, an immune count at one named seat | F66, verified at the endpoint, interior open |
 | the sector's exact solution | F126, `PROOF_DEPHASING_FRONT_RENEWAL.md` |
+| MI = 2 bits for a mirror pair at p = 1/2, and its η-independence | **F75**, `docs/ANALYTICAL_FORMULAS.md` |
+| the peak of a mirror-symmetric single excitation sitting at t = 0 | `RECEIVER_VS_GAMMA_SACRIFICE.md:281`, as a resemblance: measured on bonding modes, approximate to 7 % |
+| mirror-parity projectors conserved for a fixed-seat support, and their odd block named as this page's | `PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md` |
+| the Zeno / ENAQT class the §7 sign flip belongs to | `docs/GLOSSARY.md`, `D06_SPECTRAL_GAP`, `PROOF_ABSORPTION_THEOREM.md` |
 | **the count as a function of the site, (gcd(2j+1,N)−1)/2** | this page |
 | **blind seats at even and composite N** | this page |
 | **the intersection law for several dephased seats** | this page |
 | **the same count inside F64's own (0,1) block** | this page |
 | **the mediator table to γ = 50 with its matched control** | this page |
 | **the state that bounds the asymptotic theorem's γ hypothesis** | this page |
+| **the §7 sweep on a blind preparation, gated against the committed eleven rows** | this page |
+| **the like-for-like contrast under one functional, 7.635 % against 0.0809 %** | this page |
+| **the residual as a cancellation of both signs rather than a leak size** | this page |
+| **the sign flip as a counterexample, on this preparation, to `GAMMA_CONTROL.md:31`'s "always"** | this page |
 
 ## 11. Open
 
@@ -617,8 +823,21 @@ cites in its own sweep.
 - Whether anything is blind in **popcount ≥ 2** for any topology, or whether the
   N = 11 zeros of §7 are a theorem. Those zeros are certified at one prime
   already, since a Krylov space of full rank mod p has full rank over ℚ.
-- The §7 prediction: the site-by-site sweep repeated on the reflection-odd
-  preparation.
+- The §7 prediction is **run** and reported there. What it leaves open is the
+  size of the residual at the centre, 0.0809 % at baseline γ = 0.05. §7 shows it
+  is a cancellation between contributions of both signs (ends −0.2595 %,
+  interior +0.3127 %, the centre's neighbours alone +2.0954 %), so there is no
+  single quantity it is the size of, and nothing here predicts where the
+  cancellation lands. The spans at the centre are 7.5·10⁻³, 5.1·10⁻², 8.1·10⁻²
+  percent at baselines 0.001, 0.01, 0.05 and −2.4·10⁻² at 0.2, all at
+  t_max = 20, dt = 0.02. The 0.001 column is the one that is not
+  step-converged, moving by 6 % between dt = 0.05 and dt = 0.005; the other
+  three are stable in the fourth digit.
+- Whether a **window-stable** functional exists for this comparison at all.
+  `MEDIATOR_NOISE_GATE_LEVEL_THREE.md` asks for one and names two candidates,
+  steady-state MI and MI integrated over time. §7 rules out the second: the
+  integral's mean dilutes with the window and every span falls with it. Only the
+  ratio survives. The steady-state candidate is untried here.
 - Whether every failure of the asymptotic sector projection's all-sites
   hypothesis **refines** the way §6's does, under some graph automorphism whose
   fixed set contains the dephasing support. At N = 5 the one failing support is

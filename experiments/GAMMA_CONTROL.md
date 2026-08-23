@@ -39,6 +39,28 @@ small, and the readable form of that fact is the full channel analysis
 ([γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits capacity at 1% readout
 noise, 100% classification noiseless).
 
+**Scope on "always harms", added 2026-08-23.** That clause is measured on the
+preparations swept here, and it turns out to be preparation-dependent rather than
+general. The counterexample is on a **different system**, so read it as a limit
+on the word "always" and not as a correction of any number on this page:
+[The Blind Site](THE_BLIND_SITE.md) §7 runs an **eleven**-site chain (not the
+five-site one used here), observes I(A:B) between five-site halves (not the
+end-pair MI used here), and prepares a reflection-odd single excitation, for
+which the centre is an exact node of every mode the state occupies. There the
+mediator's own γ eventually **helps**: the response to γ_M is not monotone, and
+past a crossover the correlation goes back **up**, reaching a 10.8 % gain at
+γ_M = 100 while the window-mean occupation of the centre falls from 0.0663 to
+0.0310. Strong dephasing at the seat every path crosses blocks the transport, and
+the state keeps more of the correlation it began with.
+
+**Where that crossover sits, so the limit is not overstated.** At a per-site
+background of 0.05, this page's own baseline, the crossover needs γ_M between 5
+and 20, which is one to two decades above anything swept here; at a background of
+0.2, which is above this page's range, γ_M = 0.5 already helps by 0.024 %. So the
+counterexample does not reach into the rates this page measured and no number
+above changes. What it limits is the word **always**: the sign of the mediator's
+own noise is a fact about the prepared state and the rate, not about the seat.
+
 ---
 
 ## Background: total noise first, then the seat

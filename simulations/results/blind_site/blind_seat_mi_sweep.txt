@@ -1,0 +1,224 @@
+GATE: Bell-on-vacuum, peak I(A:B) over t in [0, 20],
+baseline gamma = 0.05, RK4 dt = 0.05 (the committed run's step),
+against the eleven rows of MEDIATOR_NOISE_GATE_LEVEL_THREE.md.
+
+A failure here would be a row off by more than the 0.005 that two
+printed decimals can hide; that is what this gate can catch.
+
+seat    peak @0  peak @0.5    span%  published    delta
+   0   0.860510   0.519105    39.67      39.67     0.00
+   1   0.871007   0.554589    36.33      36.33    -0.00
+   2   0.832112   0.598760    28.04      28.04     0.00
+   3   0.819650   0.660077    19.47      19.47    -0.00
+   4   0.805081   0.706095    12.30      12.30    -0.00
+   5   0.801345   0.676608    15.57      15.57    -0.00
+   6   0.811933   0.617426    23.96      23.96    -0.00
+   7   0.805405   0.660075    18.04      18.04     0.00
+   8   0.791862   0.712921     9.97       9.97    -0.00
+   9   0.784037   0.748011     4.59       4.59     0.00
+  10   0.785394   0.745974     5.02       5.02    -0.00
+
+worst deviation from the published two decimals: 0.005
+
+------------------------------------------------------------------------
+
+SWEEP: N = 11, uniform chain J = 1, A = [0, 1, 2, 3, 4], B = [6, 7, 8, 9, 10],
+centre = 5. I(A:B) in log base 2 over t in [0, 20],
+RK4 dt = 0.02, measured after every step; the listed seat is swept
+gamma 0 -> 0.5 while every other site holds the baseline 0.05.
+
+THE COMPARISON IS LIKE FOR LIKE.  The committed sweep's PEAK
+functional cannot carry the reflection-odd state: that state starts
+at the maximum I(A:B) and never rises above it, so its peak is the
+t = 0 value at every seat and every gamma, printed below to show the
+saturation.  With no dephasing at all it does not even fall: p_centre
+is 0 for all t, so p_A = p_B = 1/2 and I(A:B) is exactly 2.
+The window MEAN is therefore run on BOTH preparations, so the two
+columns differ in the preparation and in nothing else.
+
+seat |  Bell mean% |  odd peak     odd mean%     odd end%
+   0 |      15.765 |  2.000000  1.751047e+01 2.478993e+00
+   1 |      13.900 |  2.000000  1.236659e+01 2.001616e+00
+   2 |      12.370 |  2.000000  1.247295e+01 1.898919e+00
+   3 |       9.833 |  2.000000  1.218859e+01 2.104479e+00
+   4 |       7.832 |  2.000000  1.275594e+01 1.992305e+00
+   5 |       7.635 |  2.000000  8.087380e-02 1.376997e-01  <- centre
+   6 |       8.471 |  2.000000  1.275594e+01 1.992305e+00
+   7 |       7.843 |  2.000000  1.218859e+01 2.104479e+00
+   8 |       6.425 |  2.000000  1.247295e+01 1.898919e+00
+   9 |       5.557 |  2.000000  1.236659e+01 2.001616e+00
+  10 |       7.485 |  2.000000  1.751047e+01 2.478993e+00
+
+Bell:  centre 7.635 %, others 5.56 to 15.77 %
+odd:   centre 0.0809 %, others 12.19 to 17.51 %
+across preparations at the centre: 94 to 1
+within the odd column, smallest other seat to centre: 151 to 1
+
+The odd column is exactly reflection-symmetric, seat j against seat
+10 - j.  That is FORCED, not observed, and not by any single
+run being covariant: R carries the seat-j profile to the
+seat-(10 - j) profile, rho0 is Ad_R-even (see `algebra`), and R
+swaps A with B while I(A:B) is symmetric, so the two runs are
+Ad_R-conjugate TO EACH OTHER.
+The Bell column is not symmetric because its preparation sits on
+sites 0 and 1; its spread is distance to that pair.
+
+------------------------------------------------------------------------
+
+ALGEBRA: three exact facts, no propagation, no eigensolver.
+
+(1) THE MECHANISM IS SUPPORT.  Z_k = I - 2|k><k| on the
+single-excitation block; every reflection-odd state has a node at the
+centre, so Z_centre acts as the identity on that subspace.
+    max|Z_5 P_odd - P_odd| = 0.000e+00
+    max|Z_4 P_odd - P_odd| = 1.000e+00
+    max|Z_0 P_odd - P_odd| = 1.000e+00
+
+(2) THE MECHANISM IS NOT PARITY.  With gamma on the CENTRE the
+profile [b, ..., b, gamma_centre, b, ..., b] is itself
+reflection-symmetric, so R permutes the jump set and the Liouvillian
+is exactly reflection-covariant.  Those are the configurations where
+the blindness is exact.  The sweep's off-centre rows are NOT
+reflection-covariant, which is a second reason covariance cannot be
+the explanation.
+    R is an involution: max|R R - I| = 0.0e+00
+    max|R H R - H| = 0.0e+00
+    baseline 0.05, centre 0.0: max|R mask R - mask| = 0.0e+00
+    baseline 0.05, centre 0.5: max|R mask R - mask| = 0.0e+00
+    baseline 0.2, centre 0.5: max|R mask R - mask| = 0.0e+00
+
+(3) AND THE PREPARATION IS Ad_R-EVEN, so the conserved reflection
+parity gives it nothing: R psi = -psi makes |psi><psi| invariant.
+    max|R rho0 R - rho0| = 0.0e+00
+
+Together: reflection covariance holds and is NOT the protecting
+thing, which is what THE_BLIND_SITE.md section 3 says in prose.  The
+protecting thing is that the jump at the centre is the identity on
+the subspace the state lives in.
+
+(4) The trajectory consequence, the one thing here that is
+propagated: Tr(P_odd rho), with P_odd of dimension 5 of 11.
+
+  baseline   centre            t = 0            t = 5           t = 20
+     0.000     0.00   1.000000000000   1.000000000000   1.000000000000
+     0.000     0.50   1.000000000000   1.000000000000   1.000000000000
+     0.050     0.00   1.000000000000   0.672897128028   0.468547849404
+     0.050     0.50   1.000000000000   0.673305982746   0.468629277389
+
+With nothing on the other sites the population is 1.000000000000
+across the whole window whether or not the centre carries gamma, so
+the centre is a node for the whole trajectory and not only at t = 0.
+With the baseline it is down to 0.469 by t = 20, on its way to the
+unbiased share 5/11 = 0.454545.
+
+------------------------------------------------------------------------
+
+SUPPORT DECOMPOSITION: baseline 0.05 on the NAMED SET only, the
+centre swept 0 -> 0.5, window mean of I(A:B).
+
+It is tempting to read the centre's 0.081 percent as the size of the
+leak out of the odd subspace.  This part refuses that reading.
+
+baseline support                 centre span%
+all ten (the sweep itself)            +0.0809
+the two ends {0, 10}                  -0.2595
+the interior, ends excluded           +0.3127
+one end {0}                           +0.0239
+the centre's neighbours {4, 6}        +2.0954
+
+The contributions carry BOTH signs and the neighbours alone are an
+order of magnitude larger than the total.  So 0.081 percent is a
+cancellation residue, not a leak magnitude, and the only thing the
+run establishes about it is that it vanishes when the rest of the
+chain is quiet.  Why the cancellation lands where it does is open.
+
+------------------------------------------------------------------------
+
+ZENO CROSSOVER: the sweep compares gamma_centre = 0 against 0.5 and
+reports one number.  Scanning gamma_centre instead shows that number
+is a two-point sample of a NON-MONOTONE function.
+
+p_centre is the window-mean occupation of the centre site, the
+bottleneck every A-to-B path crosses.
+
+baseline 0.05
+  gamma_centre     span% vs 0    mean p_centre
+           0.0          0.000         0.066271
+           0.5          0.081         0.065860
+           2.0          0.189         0.064766
+           5.0          0.175         0.063024
+          20.0         -1.652         0.055642
+         100.0        -10.759         0.030965
+
+baseline 0.2
+  gamma_centre     span% vs 0    mean p_centre
+           0.0          0.000         0.083200
+           0.5         -0.024         0.082875
+           2.0         -0.206         0.082054
+           5.0         -0.712         0.080497
+          20.0         -3.880         0.072775
+         100.0        -17.648         0.042323
+
+Strong dephasing at the centre BLOCKS transport through it, the
+occupation there falls, and the preparation keeps more of its initial
+maximal I(A:B).  That is the Zeno / ENAQT regime the repo already
+names (docs/GLOSSARY.md, D06_SPECTRAL_GAP, PROOF_ABSORPTION_THEOREM).
+The crossover exists at BOTH baselines; gamma_centre = 0.5 simply
+sits on different sides of it.  So the sign is not unexplained, and
+it is a counterexample, on THIS preparation, to the reading that the
+mediator's own noise always harms (experiments/GAMMA_CONTROL.md).
+
+------------------------------------------------------------------------
+
+CONVERGENCE.
+
+(a) THE EXACT BOUND, and why the step was refined.  For a single
+excitation in a pure state, I(A:B) = h(p_A) + h(p_B) - h(p_centre)
+<= 2 bits, and with no dephasing anywhere it is exactly 2 for all t
+because p_centre stays 0.  So anything above 2 below is integrator
+error and nothing else.
+        dt         max I(A:B)    excess over 2
+    0.0500        2.001301979        +1.30e-03
+    0.0200        2.000035343        +3.53e-05
+    0.0100        2.000002251        +2.25e-06
+    0.0050        2.000000142        +1.42e-07
+
+The committed run's dt = 0.05 violates the bound by 1.3e-3, the
+same order as the difference the centre's span is computed from, so
+everything but the gate is run at dt = 0.02.
+
+(b) THE SPANS ARE dt-CONVERGED ANYWAY, because the error is common
+to both arms and cancels in the difference.
+        dt     base 0.001      base 0.01      base 0.05       base 0.2
+    0.0500     7.9433e-03     5.1104e-02     8.0849e-02    -2.4055e-02
+    0.0200     7.4891e-03     5.0701e-02     8.0874e-02    -2.4151e-02
+    0.0100     7.4630e-03     5.0626e-02     8.0887e-02    -2.4184e-02
+    0.0050     7.4547e-03     5.0593e-02     8.0896e-02    -2.4201e-02
+
+The baseline-0.001 column moves by 6 percent between the coarsest and
+the finest step; the other three are stable in the fourth digit, and
+the negative sign at baseline 0.2 survives every step.
+
+(c) THE WINDOW IS NOT CONVERGED, and cannot be.  Past the transient
+every profile decays toward the same limit, so a longer window
+dilutes every span alike.  The committed PEAK is window-converged
+(that page reports the same 15.566 percent at t_max = 20, 40 and 80);
+the window MEAN is not.  What holds still is the RATIO.
+     t_max     centre span%    min other    max other   min other / centre
+        20     8.087380e-02      12.1886      17.5105                150.7
+        40     4.966126e-02       7.3746      10.6265                148.5
+        80     2.719030e-02       4.0592       5.8762                149.3
+
+So the quotable number is the RATIO, stable to about one percent
+across a factor of four in the window.  The absolute percentages
+elsewhere in this run are read at t_max = 20 and only there.
+
+(d) THE ZERO-BASELINE ANSWER is not an integrator floor and should
+not be called one: with nothing on the other sites the two arms are
+the SAME computation, because Z_centre is the identity on the
+subspace, so what is printed is a null difference between identical
+runs.  It certifies exact blindness and says nothing about accuracy.
+     t_max       baseline 0     baseline 0.2
+        20       -2.220e-14    -2.415079e-02
+        40        2.220e-14    -1.269151e-02
+        80       -2.220e-13    -6.511964e-03

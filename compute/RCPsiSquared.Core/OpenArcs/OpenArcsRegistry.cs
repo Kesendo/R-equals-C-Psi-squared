@@ -7949,7 +7949,7 @@ public static class OpenArcsRegistry
                 "vary couplings, the first is the all-1.0 baseline). So the three couplings have never " +
                 "been swept JOINTLY; jMeta alone has, through the constructor (Program.cs line 844). The " +
                 "outward reading of the evening is reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md.",
-            NextStep: "ONE REMAINS; the first is DONE (2026-08-23), and carries a same-day ANNOTATION that reverses one of its own conclusions and names one cheap unrun check. " +
+            NextStep: "ONE REMAINS; the first is DONE (2026-08-23) and carries a same-day ANNOTATION that reverses one of its own conclusions, plus the check that annotation called for, run the same day. " +
                 "(1) READ THE FLAT GATE PROPERLY: DONE, and it went both ways. " +
                 "experiments/MEDIATOR_NOISE_GATE_LEVEL_THREE.md, with the sector engine " +
                 "simulations/bridge_sector.py (popcount-{0,2}, 56 dims instead of 2048, " +
@@ -7993,11 +7993,45 @@ public static class OpenArcsRegistry
                 "refuted here, it is SCOPED: it governs the sector the excitation is in, and this " +
                 "step's observable is blind to the blind subspace. Why nobody had it: N = 5 and " +
                 "N = 11 are both PRIME, so reflection parity and the divisor law agree at every " +
-                "non-centre seat, and every prior run lived there. THE CHEAP UNRUN CHECK: repeat " +
-                "(1)'s site-by-site gamma sweep with a reflection-odd single-excitation " +
-                "preparation instead of Bell-on-vacuum; the seat-5 response should be exactly " +
-                "zero rather than fourth of nine. Reading: python simulations/blind_site.py " +
-                "support. " +
+                "non-centre seat, and every prior run lived there. THE CHECK IS NOW RUN " +
+                "(2026-08-23, simulations/blind_seat_mi_sweep.py, output in " +
+                "simulations/results/blind_site/blind_seat_mi_sweep.txt, written up in " +
+                "section 7 of experiments/THE_BLIND_SITE.md, which is where the detail " +
+                "lives; what follows is only what an arc reader needs). The runner is " +
+                "gated first on Bell-on-vacuum, where it returns all eleven published " +
+                "rows to a worst deviation of 0.005 against a table printed to two " +
+                "decimals. FOUR THINGS FOR THIS ARC. (i) The prediction HOLDS where it " +
+                "can hold exactly, and NOT at the baseline it was predicted at. With " +
+                "nothing on the other sites the centre's response is a null difference " +
+                "between two identical computations, because the jump at the centre IS " +
+                "the identity on the subspace the state lives in (max|Z_5 P_odd - P_odd| " +
+                "= 0.0 exactly); at the sweep's own uniform baseline of 0.05 it reads " +
+                "0.0809 percent instead, which is small but not zero. (ii) THE COMPARISON THIS ENTRY " +
+                "INVITES IS THE WRONG ONE. Setting the committed 15.57 percent beside the " +
+                "new 0.081 would compare a PEAK against a window MEAN; the peak cannot " +
+                "carry the new preparation at all, which starts at the maximum I(A:B) and " +
+                "only decays. Like for like under the window mean the centre reads 7.635 " +
+                "percent on Bell-on-vacuum against 0.081 here, a factor of 94, and the " +
+                "Bell column runs 5.56 to 15.77 percent, not 4.59 to 39.67. Anyone " +
+                "quoting this entry's eleven rows against the new numbers will overstate " +
+                "the contrast by about twice. (iii) The 0.081 is a CANCELLATION RESIDUE, " +
+                "not a leak size: putting the baseline on subsets gives -0.2595 percent " +
+                "for the two ends, +0.3127 for the interior, +2.0954 for the centre's own " +
+                "two neighbours, against +0.0809 for all ten. (iv) The mediator's noise " +
+                "does NOT always harm on this preparation. The span is a two-point sample " +
+                "of a non-monotone function of gamma_5: at baseline 0.05 it rises to " +
+                "+0.189 percent near gamma_5 = 2 and crosses to -10.76 at 100, while the " +
+                "window-mean occupation of the centre falls from 0.0663 to 0.0310. That " +
+                "is Zeno at the bottleneck, and it is a counterexample on this " +
+                "preparation to experiments/GAMMA_CONTROL.md line 31. NOTE ON THE " +
+                "NUMBERS: the window mean is NOT window-converged, unlike this entry's " +
+                "peak; the centre reads 0.0809, 0.0497, 0.0272 percent at t_max = 20, 40, " +
+                "80 and the other seats fall in step, so the quotable quantity is the " +
+                "RATIO, 150.7 / 148.5 / 149.3, stable to about one percent. STILL OPEN: " +
+                "where the cancellation lands, and whether a window-stable functional " +
+                "exists for this comparison at all (this entry asks for one and names " +
+                "two candidates; the integrated one is now ruled out, the steady-state " +
+                "one is untried). " +
                 "(2) THE LEVEL QUESTION. Corrected by the 2026-08-22 review rounds: the raw " +
                 "multiset-permutation question this step first carried is ANSWERED, and was answered " +
                 "twice before it was asked. (a) March itself permuted a fixed multiset: '2:1 all pull' " +
