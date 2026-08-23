@@ -7949,7 +7949,7 @@ public static class OpenArcsRegistry
                 "vary couplings, the first is the all-1.0 baseline). So the three couplings have never " +
                 "been swept JOINTLY; jMeta alone has, through the constructor (Program.cs line 844). The " +
                 "outward reading of the evening is reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md.",
-            NextStep: "ONE REMAINS; the first is DONE (2026-08-23). " +
+            NextStep: "ONE REMAINS; the first is DONE (2026-08-23), and carries a same-day ANNOTATION that reverses one of its own conclusions and names one cheap unrun check. " +
                 "(1) READ THE FLAT GATE PROPERLY: DONE, and it went both ways. " +
                 "experiments/MEDIATOR_NOISE_GATE_LEVEL_THREE.md, with the sector engine " +
                 "simulations/bridge_sector.py (popcount-{0,2}, 56 dims instead of 2048, " +
@@ -7976,6 +7976,28 @@ public static class OpenArcsRegistry
                 "the published ten. NOTE for anyone re-reading this entry: MediatorBridge at default " +
                 "couplings is a PLAIN UNIFORM PATH GRAPH at both levels, so neither arm has bridge " +
                 "structure, and the blocks are FIVE-qubit halves, not four as this entry said. " +
+                "ANNOTATION 2026-08-23, reversing the last clause of (1): the mediator seat's " +
+                "nodal peculiarity is NOT measurably inert, it was INVISIBLE to the observable " +
+                "that step used. experiments/THE_BLIND_SITE.md proves that Z-dephasing at a " +
+                "single seat j of an open Heisenberg chain leaves a SINGLE-EXCITATION subspace of " +
+                "dimension exactly (gcd(2j+1, N) - 1)/2 untouched (verified at two primes for " +
+                "N = 3..21, every seat; at N = 11 seat 5 that is 5, the whole floor(N/2)). The " +
+                "site-by-site sweep above cannot see it: its state, Bell-on-vacuum, lives in " +
+                "popcount {0,2}, where the blind dimension is 0 at EVERY seat. On a " +
+                "reflection-odd single-excitation preparation the same seat 5 at gamma = 50 moves " +
+                "the state by max over t in [0,20] of entrywise |rho_gamma(t) - rho_0(t)| = " +
+                "6.2e-16, while seat 4 moves it by 0.40; the matched control earns it, detuning " +
+                "bonds (1,2) AND (8,9) to J = 1.6, a LARGER perturbation by bond-sum (11.2 " +
+                "against the mirror-breaking arm's 10.6 and the intact 10.0) that KEEPS the " +
+                "reflection, leaves the mediator blind. So the F64 amplitude reading is not " +
+                "refuted here, it is SCOPED: it governs the sector the excitation is in, and this " +
+                "step's observable is blind to the blind subspace. Why nobody had it: N = 5 and " +
+                "N = 11 are both PRIME, so reflection parity and the divisor law agree at every " +
+                "non-centre seat, and every prior run lived there. THE CHEAP UNRUN CHECK: repeat " +
+                "(1)'s site-by-site gamma sweep with a reflection-odd single-excitation " +
+                "preparation instead of Bell-on-vacuum; the seat-5 response should be exactly " +
+                "zero rather than fourth of nine. Reading: python simulations/blind_site.py " +
+                "support. " +
                 "(2) THE LEVEL QUESTION. Corrected by the 2026-08-22 review rounds: the raw " +
                 "multiset-permutation question this step first carried is ANSWERED, and was answered " +
                 "twice before it was asked. (a) March itself permuted a fixed multiset: '2:1 all pull' " +
