@@ -65,9 +65,12 @@ SPENT = {
              "gamma_0 IS the tick. Do not hand the tick to the Hamiltonian"),
     "light": ("the Absorption Theorem's light: the {X,Y} letters the dephasing prices, "
               "and light_l(v), the per-site share",
-              "gamma is light arriving at the SENDING end; the chain stands in illumination. "
-              "NOT gravity, NOT a watching and NOT an observer: that half was withdrawn "
-              "2026-08-08, arc gamma_is_the_sender_not_the_watching"),
+              "the {X,Y}/{I,Z} split and the 2*gamma pricing are PROVEN; gamma ITSELF as "
+              "illumination is the Tier-4 reading (hypotheses/GAMMA_IS_LIGHT.md), and the proof "
+              "marks the boundary. gamma sits at the sending end; the chain stands in light. "
+              "NOT gravity. gamma-as-a-gaze was RELABELLED to gamma-as-sending 2026-08-08 "
+              "(typed rename 08-09), not withdrawn wholesale: a watcher that is the subject of "
+              "a reading, a defined graph role, or a real qubit keeps the word"),
 }
 
 
