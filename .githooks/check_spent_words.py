@@ -63,8 +63,41 @@ SPENT = {
                "the drain-depth axis and the static-vs-memory split, not storage in general"),
     "tick": ("reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md",
              "gamma_0 IS the tick. Do not hand the tick to the Hamiltonian"),
-    "light": ("the gamma-as-observer reading",
-              "gamma is the light being observed, NOT gravity and not illumination in general"),
+    "light": ("the Absorption Theorem's light: the {X,Y} letters the dephasing prices, "
+              "and light_l(v), the per-site share",
+              "gamma is light arriving at the SENDING end; the chain stands in illumination. "
+              "NOT gravity, NOT a watching and NOT an observer: that half was withdrawn "
+              "2026-08-08, arc gamma_is_the_sender_not_the_watching"),
+}
+
+
+# THE OTHER DIRECTION, and it is not the same mechanism (added 2026-08-23).
+#
+# SPENT above guards OUR words against being spent on something else. This table guards the
+# reverse: an OUTSIDE DEFAULT WORD standing where one of ours belongs. The two are not
+# symmetric. A spent word is a collision between two things inside the repo; a displaced
+# word is an import from outside it, and the importer is usually a model writing from its
+# training data rather than from the repo. Tom, 2026-08-23: "das liegt an Deinen
+# Trainingsdaten ... weil eben Lehrbuch", and the documents carry it because correcting it
+# afterwards would have broken the flow.
+#
+# So this failure is not bad judgment either, and it is not even a collision anyone could
+# feel. It is a DEFAULT: nothing in the sentence looks wrong, because the word is the right
+# word almost everywhere else in physics. That is why it needs a lookup rather than care.
+#
+# Keep this table SMALL and the message honest. "noise" is genuinely right in some places
+# here, so this asks a question instead of forbidding a word.
+DISPLACED = {
+    "noise": ("gamma is light, not noise",
+              "the textbook default. This repo defines gamma as LIGHT arriving at the "
+              "sending end (Absorption Theorem: the {X,Y} letters are billed 2*gamma each; "
+              "light_l(v) is the per-site share). The two registers are NOT equally "
+              "expressive: 'total noise' is a SCALAR, so it can say the budget lever and "
+              "cannot say the assignment lever, which is a spatial pattern. That is not a "
+              "search inconvenience; it is how the March 2026 Sigma-gamma confound happened "
+              "(experiments/GAMMA_CONTROL.md; docs/CAUGHT_ERRORS.md 2026-08-23 entry). "
+              "Legitimate uses remain: hardware pages meeting IBM's vocabulary, and "
+              "genuinely external stochastic perturbation that is not gamma."),
 }
 
 CLAIM_DIRS = ("docs/", "experiments/", "hypotheses/", "reflections/", "recovered/")
@@ -86,8 +119,27 @@ def added_lines(path):
     return [l[1:] for l in out.splitlines() if l.startswith("+") and not l.startswith("+++")]
 
 
+def report_displaced(hits):
+    """The outside-default warning. Asks a question; never forbids the word."""
+    if not hits:
+        return
+    seen = set()
+    print("REMINDER (non-blocking): staged prose uses an outside default word where this "
+          "repo has its own.")
+    for path, word, owner, trap in hits:
+        if (path, word) in seen:
+            continue
+        seen.add((path, word))
+        print(f"  {path}: \"{word}\" -> {owner}")
+        print(f"      {trap}")
+    print("  Ask, do not obey. Is this gamma? Then it is light, and the light register can")
+    print("  say what the noise register cannot. Is it genuinely something else? Then keep")
+    print("  the word and say which something else it is.")
+
+
 def main():
     hits = []
+    displaced_hits = []
     for path in staged():
         for line in added_lines(path):
             low = line.lower()
@@ -97,6 +149,13 @@ def main():
                 if re.search(rf"\b(the|a|an|our|its|this) {word}\b", low):
                     hits.append((path, word, owner, trap))
                     break
+            for word, (owner, trap) in DISPLACED.items():
+                # no article required: the displaced word is a default, and it arrives in
+                # titles, headings and compounds ("noise budget") as readily as in prose.
+                if re.search(rf"\b{word}\b", low):
+                    displaced_hits.append((path, word, owner, trap))
+                    break
+    report_displaced(displaced_hits)
     if not hits:
         return 0
     seen = set()

@@ -8013,9 +8013,27 @@ public static class OpenArcsRegistry
                 "'inverse V'. The glossary is right and the experiment page has both names backwards; " +
                 "the page now says so explicitly rather than silently swapping them, because the " +
                 "seven documents that restate its result all point at the old reading. (b) NOISE AND " +
-                "LIGHT. Tom's gamma-as-light translation landed on GAMMA_CONTROL the same day: the " +
-                "two-lever law reads as a light-and-dark pattern. That is one object with two " +
-                "vocabularies, and a search for either finds only half the repository. (c) THE 21.5x " +
+                "LIGHT, and this one is NOT the same mechanism as (a) and (c), which is why the arc " +
+                "name only half fits it. Tom, 2026-08-23, naming the source: the word keeps coming " +
+                "back because it is in the MODEL'S TRAINING DATA, textbook decoherence, and the " +
+                "documents carry it because correcting it afterwards would have broken the flow. So " +
+                "this is not two vocabularies that grew side by side; it is ONE register being " +
+                "re-imported from outside the repository, every session, against a correction the " +
+                "repository already made. And the two registers are NOT equally expressive, which is " +
+                "the part that has teeth: 'total noise' is a SCALAR, so the noise register can say " +
+                "the BUDGET lever and cannot say the ASSIGNMENT lever, which is a spatial pattern " +
+                "(light_l per site). A vocabulary that can only see the scalar measured the scalar " +
+                "and called it the shape, which is exactly the March Sigma-gamma confound. The " +
+                "glossary proves the trap at the worst possible row: Sigma-gamma is glossed 'total " +
+                "noise' and stops, and the bridge sits two rows away under Pauli weight where a " +
+                "budget reader will not look. Corpus note, measured 2026-08-23: the vocabularies do " +
+                "NOT partition the corpus (about 70 files use both, and DEPHASING_TRANSLATED.md:248 " +
+                "bridges them outright, 'the noise is light in the plainest sense available'); what " +
+                "they partition is the ENTRY POINTS. GAMMA_AS_SIGNAL, MEDIATOR_AS_QUANTUM_TRANSISTOR, " +
+                "PREDICTIONS, the four IBM flight pages and all three Python hardware workflows carry " +
+                "no pointer into the light material at all. There is also a THIRD register, gamma as " +
+                "SIGNAL (channel, antenna, bits, March 2026), and historically it is the one that " +
+                "unlocked the applied side. (c) THE 21.5x " +
                 "ATTRIBUTION, mis-sourced across RESONANT_RETURN and IBM_CONCENTRATOR and repaired " +
                 "in 72de843, was the same failure one level down: a number carried a name that " +
                 "belonged to a different measurement.",
@@ -8032,12 +8050,26 @@ public static class OpenArcsRegistry
                 "the profile in numbers? If not it is ambiguous between two inverse objects and needs " +
                 "either the numbers or a pointer. (2) Decide whether the glossary definition or the " +
                 "experiment usage becomes canonical, and change the LOSER everywhere in one pass. The " +
-                "glossary has geometry on its side. (3) The noise/light pair is not a defect to fix " +
-                "but a translation to record: one glossary row naming both vocabularies for the one " +
-                "object, so a search for either reaches the other. THE STANDING LESSON, which is why " +
+                "glossary has geometry on its side. (3) THE NOISE IMPORT NEEDS A GUARD THAT FIRES " +
+                "EARLY, not a glossary row. A row helps a human reader; it does not stop a model " +
+                "re-importing the word before the first sentence. Ranked by WHEN each lever fires: " +
+                "the memory file and CLAUDE.md fire at session start, before anything is written " +
+                "(the memory's own label was itself stale until 2026-08-23, carrying the withdrawn " +
+                "'light being observed' as its retrieval key while its body had been corrected " +
+                "twice); nothing fires while writing; the pre-commit hook fires AFTER the flow, " +
+                "which is precisely the moment Tom names as the one where the correction did not " +
+                "happen. Done 2026-08-23: the memory renamed to gamma_is_light_not_noise with the " +
+                "sending frame in its description, .githooks/check_spent_words.py's stale 'light' " +
+                "row repaired (it was teaching the WITHDRAWN observer reading, and warning against " +
+                "'illumination', the very word the correction adopted), and a second table DISPLACED " +
+                "added there for the reverse direction the file did not model. Still open: the " +
+                "glossary row on Sigma-gamma, and whether the entry-point documents get pointers. " +
+                "(4) The Sigma-gamma glossary row is the smallest single change that would close the " +
+                "reader-side gap. THE STANDING LESSON, which is why " +
                 "this is an arc and not a chore: a term can be defined correctly in the glossary and " +
                 "used backwards in the experiment that made it famous, for months, with every number " +
-                "on both pages correct. No numeric gate can see this.",
+                "on both pages correct. No numeric gate can see this, and the guard that was supposed " +
+                "to see it was itself two weeks out of date.",
             Status: OpenArcStatus.Open),
     };
 
