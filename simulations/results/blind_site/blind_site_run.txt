@@ -1,0 +1,321 @@
+
+=== gamma = 0.0  N = 11  J = 1  uniform chain  t_max = 20.0 ===
+  linearity  max|MIX - (SYM+ANTI)/2| = 6.314e-16
+
+  occupancy of the reversal-fixed site 5, every 10th sample
+      t      ONE       MIX       SYM       ANTI    SYM/MIX
+    0.00  0.000000  0.000000  0.000000  0.000000        nan
+    1.00  0.019856  0.019856  0.039713  -0.000000   2.000000
+    2.00  0.148424  0.148424  0.296849  -0.000000   2.000000
+    3.00  0.071011  0.071011  0.142022  -0.000000   2.000000
+    4.00  0.003418  0.003418  0.006837  -0.000000   2.000000
+    5.00  0.186582  0.186582  0.373164  -0.000000   2.000000
+    6.00  0.154835  0.154835  0.309669  0.000000   2.000000
+    7.00  0.026099  0.026099  0.052198  0.000000   2.000000
+    8.00  0.082998  0.082998  0.165996  0.000000   2.000000
+    9.00  0.066967  0.066967  0.133934  0.000000   2.000000
+   10.00  0.110582  0.110582  0.221163  -0.000000   2.000000
+   11.00  0.010532  0.010532  0.021065  -0.000000   2.000000
+   12.00  0.029196  0.029196  0.058392  0.000000   2.000000
+   13.00  0.281714  0.281714  0.563427  -0.000000   2.000000
+   14.00  0.081303  0.081303  0.162606  -0.000000   2.000000
+   15.00  0.005476  0.005476  0.010951  0.000000   2.000000
+   16.00  0.230590  0.230590  0.461180  -0.000000   2.000000
+   17.00  0.058416  0.058416  0.116832  0.000000   2.000000
+   18.00  0.006750  0.006750  0.013500  0.000000   2.000000
+   19.00  0.096876  0.096876  0.193752  -0.000000   2.000000
+   20.00  0.015221  0.015221  0.030442  0.000000   2.000000
+  MIX at site 5 ranges over [0.000000, 0.301154]: the ratio column above holds across that whole range, not at a
+  plateau.  A max/min RATIO is not quoted because the occupancy
+  passes through zero, which makes the ratio arbitrarily large.
+
+  time-averaged occupancy profile over t in [0, 20]
+   site        0        1        2        3        4        5        6        7        8        9       10
+  ONE    0.13142  0.08214  0.08264  0.08347  0.08279  0.08093  0.08139  0.08285  0.08344  0.08291  0.12602
+  MIX    0.12872  0.08253  0.08304  0.08316  0.08209  0.08093  0.08209  0.08316  0.08304  0.08253  0.12872
+  SYM    0.12296  0.07449  0.07493  0.07309  0.07360  0.16186  0.07360  0.07309  0.07493  0.07449  0.12296
+  ANTI   0.13448  0.09056  0.09115  0.09323  0.09058  0.00000  0.09058  0.09323  0.09115  0.09056  0.13448
+  S-M   -0.00576 -0.00803 -0.00811 -0.01007 -0.00849 +0.08093 -0.00849 -0.01007 -0.00811 -0.00803 -0.00576
+  the ten off-centre deficits sum to 0.08093 against the centre's +0.08093: trace conservation, not an independent fact
+
+=== gamma = 0.05  N = 11  J = 1  uniform chain  t_max = 20.0 ===
+  linearity  max|MIX - (SYM+ANTI)/2| = 2.082e-16
+
+  occupancy of the reversal-fixed site 5, every 10th sample
+      t      ONE       MIX       SYM       ANTI    SYM/MIX
+    0.00  0.000000  0.000000  0.000000  0.000000        nan
+    1.00  0.017668  0.017668  0.034225  0.001110   1.937185
+    2.00  0.147316  0.147316  0.250566  0.044067   1.700869
+    3.00  0.080519  0.080519  0.121742  0.039296   1.511966
+    4.00  0.042163  0.042163  0.043787  0.040539   1.038518
+    5.00  0.137807  0.137807  0.213188  0.062427   1.547001
+    6.00  0.111121  0.111121  0.163311  0.058930   1.469676
+    7.00  0.070353  0.070353  0.077710  0.062996   1.104578
+    8.00  0.093989  0.093989  0.113306  0.074671   1.205532
+    9.00  0.085076  0.085076  0.098116  0.072035   1.153279
+   10.00  0.093313  0.093313  0.111347  0.075280   1.193256
+   11.00  0.081445  0.081445  0.082826  0.080063   1.016963
+   12.00  0.082460  0.082460  0.085720  0.079200   1.039530
+   13.00  0.108488  0.108488  0.135070  0.081907   1.245016
+   14.00  0.090443  0.090443  0.096794  0.084093   1.070218
+   15.00  0.084649  0.084649  0.084995  0.084303   1.004085
+   16.00  0.098685  0.098685  0.111318  0.086051   1.128018
+   17.00  0.089258  0.089258  0.091894  0.086622   1.029535
+   18.00  0.087415  0.087415  0.087654  0.087177   1.002730
+   19.00  0.091258  0.091258  0.094336  0.088181   1.033719
+   20.00  0.088659  0.088659  0.089050  0.088269   1.004402
+  MIX at site 5 ranges over [0.000000, 0.208356]: the ratio column above holds across that whole range, not at a
+  plateau.  A max/min RATIO is not quoted because the occupancy
+  passes through zero, which makes the ratio arbitrarily large.
+
+  time-averaged occupancy profile over t in [0, 20]
+   site        0        1        2        3        4        5        6        7        8        9       10
+  ONE    0.11586  0.09731  0.09411  0.09147  0.08923  0.08727  0.08560  0.08411  0.08262  0.08104  0.09137
+  MIX    0.10362  0.08918  0.08836  0.08779  0.08742  0.08727  0.08742  0.08779  0.08836  0.08918  0.10362
+  SYM    0.10188  0.08730  0.08633  0.08547  0.08481  0.10842  0.08481  0.08547  0.08633  0.08730  0.10188
+  ANTI   0.10536  0.09105  0.09040  0.09011  0.09002  0.06612  0.09002  0.09011  0.09040  0.09105  0.10536
+  S-M   -0.00174 -0.00188 -0.00204 -0.00232 -0.00261 +0.02115 -0.00261 -0.00232 -0.00204 -0.00188 -0.00174
+  the ten off-centre deficits sum to 0.02115 against the centre's +0.02115: trace conservation, not an independent fact
+
+=== gamma = 0.2  N = 11  J = 1  uniform chain  t_max = 20.0 ===
+  linearity  max|MIX - (SYM+ANTI)/2| = 1.665e-16
+
+  occupancy of the reversal-fixed site 5, every 10th sample
+      t      ONE       MIX       SYM       ANTI    SYM/MIX
+    0.00  0.000000  0.000000  0.000000  0.000000        nan
+    1.00  0.012547  0.012547  0.022165  0.002929   1.766538
+    2.00  0.130012  0.130012  0.165096  0.094927   1.269854
+    3.00  0.093660  0.093660  0.101909  0.085412   1.088069
+    4.00  0.080937  0.080937  0.081076  0.080798   1.001721
+    5.00  0.096020  0.096020  0.101201  0.090838   1.053962
+    6.00  0.092071  0.092071  0.094186  0.089955   1.022976
+    7.00  0.089845  0.089845  0.090039  0.089652   1.002153
+    8.00  0.091189  0.091189  0.091415  0.090964   1.002471
+    9.00  0.090896  0.090896  0.090990  0.090803   1.001026
+   10.00  0.090849  0.090849  0.090935  0.090763   1.000948
+   11.00  0.090901  0.090901  0.090902  0.090900   1.000011
+   12.00  0.090895  0.090895  0.090898  0.090893   1.000030
+   13.00  0.090916  0.090916  0.090940  0.090892   1.000262
+   14.00  0.090911  0.090911  0.090914  0.090908   1.000033
+   15.00  0.090907  0.090907  0.090907  0.090907   0.999999
+   16.00  0.090909  0.090909  0.090912  0.090907   1.000025
+   17.00  0.090909  0.090909  0.090910  0.090909   1.000003
+   18.00  0.090909  0.090909  0.090909  0.090909   1.000000
+   19.00  0.090909  0.090909  0.090909  0.090909   1.000001
+   20.00  0.090909  0.090909  0.090909  0.090909   1.000000
+  MIX at site 5 ranges over [0.000000, 0.146205]: the ratio column above holds across that whole range, not at a
+  plateau.  A max/min RATIO is not quoted because the occupancy
+  passes through zero, which makes the ratio arbitrarily large.
+
+  time-averaged occupancy profile over t in [0, 20]
+   site        0        1        2        3        4        5        6        7        8        9       10
+  ONE    0.12074  0.10508  0.09854  0.09366  0.08978  0.08664  0.08411  0.08213  0.08058  0.07913  0.07962
+  MIX    0.10018  0.09210  0.08956  0.08789  0.08694  0.08664  0.08694  0.08789  0.08956  0.09210  0.10018
+  SYM    0.10020  0.09206  0.08938  0.08739  0.08579  0.09037  0.08579  0.08739  0.08938  0.09206  0.10020
+  ANTI   0.10017  0.09214  0.08974  0.08839  0.08810  0.08290  0.08810  0.08839  0.08974  0.09214  0.10017
+  S-M   +0.00002 -0.00004 -0.00018 -0.00050 -0.00116 +0.00373 -0.00116 -0.00050 -0.00018 -0.00004 +0.00002
+  the ten off-centre deficits sum to 0.00373 against the centre's +0.00373: trace conservation, not an independent fact
+
+N = 11, uniform chain, J = 1, reversal-fixed site f = 5
+preparation (|0> - |10>)/sqrt(2), gamma = 0.05 on the listed support
+dt is printed because the identical purities are evidence only if the
+integrator step is the same in every row.
+
+dephasing support                      max occ at f   min purity       dt
+none (gamma = 0)                          1.918e-16  0.999999822  0.01000
+the reversal-fixed site {5} only          4.011e-16  0.999999822  0.01000
+the left end {0} only                     3.657e-02  0.475369041  0.01000
+the symmetric pair {0, 10}                5.797e-02  0.258159713  0.01000
+the asymmetric pair {1, 9}                4.578e-02  0.371813398  0.01000
+every site (uniform)                      8.883e-02  0.091524754  0.01000
+
+MediatorBridge level 3, N = 11: site 5 is the meta-mediator, and at
+uniform J = 1 that topology IS the uniform chain.
+
+Three arms.  Detuning bond (1,2) alone breaks the mirror, but it also
+changes the couplings, so on its own it cannot say which of the two did
+the work.  The third arm detunes (1,2) AND (8,9), a LARGER perturbation
+(sum J 11.2 against 10.6) that PRESERVES the mirror.  If the mirror is
+what matters, the third arm stays blind and the second does not.
+
+placement                                      gamma   max occ at f    min purity       dt
+mediator (site 5), mirror intact                0.05      4.011e-16   0.999999822  0.01000
+one site off (site 4), mirror intact            0.05      2.455e-02   0.574377853  0.01000
+mediator (site 5), mirror BROKEN                0.05      2.595e-02   0.959400750  0.01000
+mediator (site 5), mirror KEPT, bigger detune    0.05      1.162e-16   0.999999520  0.01000
+
+mediator (site 5), mirror intact                0.50      5.262e-17   0.999999822  0.01000
+one site off (site 4), mirror intact            0.50      6.943e-02   0.132749129  0.01000
+mediator (site 5), mirror BROKEN                0.50      2.234e-02   0.793572115  0.01000
+mediator (site 5), mirror KEPT, bigger detune    0.50      1.077e-16   0.999999520  0.01000
+
+mediator (site 5), mirror intact                5.00      6.547e-17   0.999999822  0.01000
+one site off (site 4), mirror intact            5.00      2.026e-01   0.144265410  0.01000
+mediator (site 5), mirror BROKEN                5.00      6.081e-02   0.448637894  0.01000
+mediator (site 5), mirror KEPT, bigger detune    5.00      6.299e-17   0.999999520  0.01000
+
+mediator (site 5), mirror intact               50.00      6.327e-18   0.999999822  0.01000
+one site off (site 4), mirror intact           50.00      2.824e-01   0.631675963  0.01000
+mediator (site 5), mirror BROKEN               50.00      6.515e-02   0.745810359  0.01000
+mediator (site 5), mirror KEPT, bigger detune   50.00      3.105e-18   0.999999520  0.01000
+
+The purity column CANNOT establish a no-op: the RK4 truncation floor
+here is about 1.8e-7, so identical nine-digit purities bound the effect
+only at that level.  The observable that decides it is the difference
+against the same state run at gamma = 0, over the whole trajectory:
+
+  placement                                      gamma   max|rho_g - rho_0|
+  mediator (site 5)                               0.05            6.661e-16
+  one site off (site 4)                           0.05            9.413e-02
+  mediator (site 5)                               0.50            5.829e-16
+  one site off (site 4)                           0.50            3.153e-01
+  mediator (site 5)                               5.00            4.652e-16
+  one site off (site 4)                           5.00            3.687e-01
+  mediator (site 5)                              50.00            6.204e-16
+  one site off (site 4)                          50.00            3.996e-01
+
+Note the 'one site off' purity ladder is NOT monotone in gamma
+(0.574, 0.133, 0.144, 0.632): strong local dephasing begins to freeze
+the state it is destroying.  Reported, not smoothed.
+
+Exact blind dimension per site, uniform chain, single-excitation states.
+Every value computed at TWO primes; agreement certifies the rank, since
+one prime alone can only overstate it.
+
+closed form:  dim = (gcd(2j+1, N) - 1) / 2
+
+  N =  3  ok   mirror True   [0, 1, 0]
+  N =  4  ok   mirror True   [0, 0, 0, 0]
+  N =  5  ok   mirror True   [0, 0, 2, 0, 0]
+  N =  6  ok   mirror True   [0, 1, 0, 0, 1, 0]
+  N =  7  ok   mirror True   [0, 0, 0, 3, 0, 0, 0]
+  N =  8  ok   mirror True   [0, 0, 0, 0, 0, 0, 0, 0]
+  N =  9  ok   mirror True   [0, 1, 0, 0, 4, 0, 0, 1, 0]
+  N = 10  ok   mirror True   [0, 0, 2, 0, 0, 0, 0, 2, 0, 0]
+  N = 11  ok   mirror True   [0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0]
+  N = 12  ok   mirror True   [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0]
+  N = 13  ok   mirror True   [0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0]
+  N = 14  ok   mirror True   [0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0]
+  N = 15  ok   mirror True   [0, 1, 2, 0, 1, 0, 0, 7, 0, 0, 1, 0, 2, 1, 0]
+  N = 16  ok   mirror True   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  N = 17  ok   mirror True   [0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0]
+  N = 18  ok   mirror True   [0, 1, 0, 0, 4, 0, 0, 1, 0, 0, 1, 0, 0, 4, 0, 0, 1, 0]
+  N = 19  ok   mirror True   [0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  N = 20  ok   mirror True   [0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0]
+  N = 21  ok   mirror True   [0, 1, 0, 3, 1, 0, 0, 1, 0, 0, 10, 0, 0, 1, 0, 0, 1, 3, 0, 1, 0]
+
+  closed form holds at every site, N = 3..21: True
+  the two primes agree everywhere:                 True
+
+The intersection law: a blind subspace is a SPAN OF MODES, so for a
+support S the dimension is the number of modes with a node at every
+site of S.  Checked against the rank for all 1-, 2- and 3-site supports.
+  intersection law holds at N = 9, 11, 12, 15: True
+  worked cases at N = 15:
+    S = [7]          modes [1, 3, 5, 7, 9, 11, 13]  dim 7
+    S = [2]          modes [3, 9]  dim 2
+    S = [12]         modes [3, 9]  dim 2
+    S = [2, 12]      modes [3, 9]  dim 2
+    S = [7, 2]       modes [3, 9]  dim 2
+    S = [1, 4, 13]   modes [5]  dim 1
+
+The same rank in the popcount-2 sector (the Bell-on-vacuum sector), N = 11.
+  blind dimension per site: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  (a full-rank Krylov space certifies these zeros at one prime already,
+   since rank_p <= rank_Q and rank_p is already maximal.)
+
+Identity 1: h_SE = (N-1) J Id - 2 J L, the path Laplacian
+(PROOF_UNIFORM_LAW.md:182-186 states this and gates it entry-exactly;
+recomputed here only so this page's numbers rest on it visibly)
+
+    N   max off-diagonal   diagonal spread   constant
+    5           0.00e+00          0.00e+00        4.0
+    8           0.00e+00          0.00e+00        7.0
+   11           0.00e+00          0.00e+00       10.0
+   12           0.00e+00          0.00e+00       11.0
+   15           0.00e+00          0.00e+00       14.0
+
+Identity 2: the spectrum against Lemma 5, lambda_k = 4cos(k pi/N) + N - 5
+(PROOF_R90_FROZEN_DIVISOR.md:178; an eigensolver is used HERE and only
+here, to compare two published closed forms, never to count anything)
+
+  N =   5  max deviation 8.882e-16
+  N =   8  max deviation 1.221e-15
+  N =  11  max deviation 1.776e-15
+  N =  12  max deviation 1.776e-15
+  N =  15  max deviation 3.553e-15
+
+Identity 3: at odd N the centre's blind subspace IS the reversal-odd
+site space, as a SET, not merely the same integer.  Exact integer
+arithmetic: every vector e_j - e_(N-1-j) must have (H^m v)[f] == 0.
+
+  N =   5  every reversal-odd vector blind: True    dim reversal-odd  2  blind dim  2   same set: True
+  N =   7  every reversal-odd vector blind: True    dim reversal-odd  3  blind dim  3   same set: True
+  N =   9  every reversal-odd vector blind: True    dim reversal-odd  4  blind dim  4   same set: True
+  N =  11  every reversal-odd vector blind: True    dim reversal-odd  5  blind dim  5   same set: True
+  N =  13  every reversal-odd vector blind: True    dim reversal-odd  6  blind dim  6   same set: True
+  N =  15  every reversal-odd vector blind: True    dim reversal-odd  7  blind dim  7   same set: True
+  N =  17  every reversal-odd vector blind: True    dim reversal-odd  8  blind dim  8   same set: True
+  N =  19  every reversal-odd vector blind: True    dim reversal-odd  9  blind dim  9   same set: True
+  N =  21  every reversal-odd vector blind: True    dim reversal-odd 10  blind dim 10   same set: True
+
+A. the identity is blind under the FULL support, non-trivially
+   uniform gamma = 0.5 on all 11 sites:  max|rho(t) - I/N| = 0.000e+00
+   So the blind set at full support is NOT empty: it is the sector
+   steady state, which is exactly the one state per sector that
+   SYMMETRY_CENSUS.md:101 and PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md
+   already report.  What is empty at full support is the blind space
+   of NON-STATIONARY trajectories.
+
+B. blindness is about SUPPORT, not about purity
+   a mixture of two reversal-odd states, purity 0.5200
+   gamma_5 =   0.05:  max|rho_g - rho_0| = 4.133e-16
+   gamma_5 =   50.0:  max|rho_g - rho_0| = 3.747e-16
+   A state at purity 0.52 is exactly as blind as the pure one, so
+   'purity protects' is the wrong label; the support does.
+
+C. a scope defect in PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md
+   Its theorem line (:22) and scope block (:110) say 'arbitrary
+   site-dependent rates gamma_k >= 0', while Step 2(a) (:68) needs
+   gamma_k > 0 at EVERY site.  Under the wider reading the theorem
+   claims each diagonal sector block converges to P_w / d_w.  It does
+   not, and the blind state is the counterexample:
+   gamma = 0.5 on site 5 only, t = 200:  |rho - I/N| = 2.681e-01,  purity = 0.999998
+   The trajectory stays pure and never reaches the maximally mixed
+   sector state.  The narrower reading (all gamma_k > 0) is the one
+   the proof means and the one its Step 2(a) states.
+
+D. the Bell-on-vacuum family, dynamically rather than by rank
+   The popcount-2 rank says 0 at every site, but that rank covers the
+   (2,2) block only, while this state also occupies (0,0) and (0,2).
+   The direct check, with the state propagated whole:
+   gamma = 0.5 on site  5:  max|rho_g - rho_0| = 2.840e-01
+   gamma = 0.5 on site  0:  max|rho_g - rho_0| = 2.820e-01
+   Nonzero at both, so the Bell-on-vacuum family has no blind state
+   anywhere, which is why the mediator looked ordinary to it.
+
+The same count in the (0,1) coherence block, F64's own object.
+blind there = Re(lambda) = 0 for F152 M = -2i L_J - 2 gamma_B |B><B|
+
+The 1e-9 cut is reported with the gap it sits in: the largest |Re|
+counted as zero beside the smallest |Re| excluded.  A threshold that
+merely passes is worthless; these are decades apart.
+
+    N  site  closed form  Re=0 at 0.01  Re=0 at 0.7  largest counted  smallest excluded
+    9     1            1             1            1         1.03e-15           1.11e-03
+    9     4            4             4            4         1.07e-15           2.22e-03
+    9     7            1             1            1         7.95e-16           1.11e-03
+   11     5            5             5            5         2.51e-15           1.82e-03
+   12     1            1             1            1         2.28e-15           4.88e-04
+   12     4            1             1            1         1.12e-15           4.88e-04
+   12     7            1             1            1         6.22e-16           4.88e-04
+   12    10            1             1            1         8.05e-16           4.88e-04
+   15     1            1             1            1         2.77e-15           2.55e-04
+   15     2            2             2            2         2.88e-15           6.67e-04
+   15     4            1             1            1         1.67e-15           2.55e-04
+   15     7            7             7            7         3.94e-15           1.33e-03
+   15    10            1             1            1         1.01e-15           2.55e-04
+   15    12            2             2            2         1.85e-15           6.67e-04
+   15    13            1             1            1         1.90e-15           2.55e-04
+
+  mismatches over EVERY site at N = 9, 11, 12, 15, both rates: 0
