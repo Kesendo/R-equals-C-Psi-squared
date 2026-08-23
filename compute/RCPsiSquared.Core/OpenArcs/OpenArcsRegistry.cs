@@ -7913,7 +7913,9 @@ public static class OpenArcsRegistry
                 "gamma_M = 0 to 0.646889 at gamma_M = 0.500, about 7.5 percent over the whole sweep " +
                 "(4.2 percent over the factor-of-twenty leg 0.01 to 0.2), in the parameter called " +
                 "the primary gate. Compare the SAME file's J_meta sweep, 0.439 to 0.892 over 0.25 to 3.0 " +
-                "(a factor of 12, non-monotonic in between), a doubling of the MI. AT LEVEL 3 THE " +
+                "(a factor of 12; the non-monotonicity between the ends is itself a sampling " +
+                "artefact, see the 2026-08-23 measurement below), a doubling of the MI. " +
+                "AT LEVEL 3 THE " +
                 "COUPLING IS THE STRONG KNOB AND THE MEDIATOR NOISE IS THE WEAK ONE, " +
                 "which inverts the transistor mapping the hypothesis is built on. Scope the claim to " +
                 "Level 3: the SAME cited document, three lines above its quiet-mediator sentence " +
@@ -7947,17 +7949,33 @@ public static class OpenArcsRegistry
                 "vary couplings, the first is the all-1.0 baseline). So the three couplings have never " +
                 "been swept JOINTLY; jMeta alone has, through the constructor (Program.cs line 844). The " +
                 "outward reading of the evening is reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md.",
-            NextStep: "TWO, and the first is nearly free. " +
-                "(1) READ THE FLAT GATE PROPERLY. Decide whether the flat gamma_M response (7.5 percent " +
-                "over the whole sweep, 0 to 0.5) is " +
-                "a real insensitivity or an artefact of the observable (peak MI between two four-qubit " +
-                "blocks at one fixed t-grid; the same file shows peak MI 0.685503 on its coarse " +
-                "eight-point grid at line 90 against 0.777324 for the SAME Hamiltonian on the dt=0.5 " +
-                "MEASUREMENT grid at line 62 (the RK4 step is 0.05 in both runs), a grid artefact of " +
-                "13 percent of the coarse value, LARGER than the effect " +
-                "being claimed, so this must be settled before anything is built on it). If it survives, " +
-                "the finding is that on a mediated chain the arrangement of J carries and the mediator's " +
-                "own noise nearly does not, and the transistor mapping needs its knobs swapped. " +
+            NextStep: "ONE REMAINS; the first is DONE (2026-08-23). " +
+                "(1) READ THE FLAT GATE PROPERLY: DONE, and it went both ways. " +
+                "experiments/MEDIATOR_NOISE_GATE_LEVEL_THREE.md, with the sector engine " +
+                "simulations/bridge_sector.py (popcount-{0,2}, 56 dims instead of 2048, " +
+                "calibrated to 4.9e-7 against 33 committed March numbers). The coarse " +
+                "eight-point grid HALVES the effect: converged, the gamma_M span is 15.6 percent, " +
+                "not 7.5, and it is converged in the measurement grid, the integrator and the " +
+                "window. The comparison arm needed the same correction: on a converged grid the " +
+                "J_meta sweep is 0.447 to 0.988 (+121 percent, not +103) and MONOTONE, so the " +
+                "non-monotonicity this entry used to report was the same artefact. The strong-knob " +
+                "reading SURVIVES with a corrected size, about 8:1 on raw spans and 9.5:1 on the " +
+                "dimensionless response at the operating point. THE DEEPER RESULT is that the " +
+                "flatness is not a mediator property at all: putting the noise on each site in turn " +
+                "gives 39.7, 36.3, 28.0, 19.5, 12.3, 15.6, 24.0, 18.0, 10.0, 4.6, 5.0 percent, and " +
+                "site 5 ranks fourth of the nine interior sites. Its one structural peculiarity, " +
+                "being an exact node of floor(N/2) single-excitation modes, is measurably inert, " +
+                "which REFUTES the F64 first-order amplitude reading for this observable (the " +
+                "static weight is flat to 2 percent across the chain while the response spans a " +
+                "factor of 8.6). So SCALING_CURVE was right in March for its topological reason: on " +
+                "a uniform chain the mediator is an ordinary site. Two things were also RETRACTED: " +
+                "no closure threshold can be quoted from a peak-over-window observable (at t_max=80 " +
+                "the gamma_M=50 value more than doubles and every peak time is still at the window " +
+                "edge), and the Level-2 vs Level-3 contrast is mostly observable, matched 40.8 " +
+                "percent against 15.6 (halves) or 10.6 (end pairs), a factor 2.6 to 3.9 rather than " +
+                "the published ten. NOTE for anyone re-reading this entry: MediatorBridge at default " +
+                "couplings is a PLAIN UNIFORM PATH GRAPH at both levels, so neither arm has bridge " +
+                "structure, and the blocks are FIVE-qubit halves, not four as this entry said. " +
                 "(2) THE LEVEL QUESTION. Corrected by the 2026-08-22 review rounds: the raw " +
                 "multiset-permutation question this step first carried is ANSWERED, and was answered " +
                 "twice before it was asked. (a) March itself permuted a fixed multiset: '2:1 all pull' " +
@@ -7979,6 +7997,47 @@ public static class OpenArcsRegistry
                 "bond, predicting that a permutation of a fixed multiset leaves the total transit time " +
                 "invariant while relocating the step edges. The trap note stands: the control must be a " +
                 "different ARRANGEMENT of the same numbers, never a chain compared with itself.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "one_word_two_objects",
+            Opened: "2026-08-23",
+            Origin: "Fell out of the GAMMA_CONTROL repair and the N=11 mediator measurement, which " +
+                "ran as two sessions in parallel on 2026-08-23. Three separate places where the " +
+                "repository uses ONE WORD for TWO OBJECTS, none of them caught by any gate because " +
+                "gates check numbers and these are names. (a) V-SHAPE IS INVERTED. docs/GLOSSARY.md " +
+                "line 162 defines 'V-shape profile' as 'edges higher than center', example " +
+                "[0.070, 0.060, 0.050, 0.060, 0.070], which is also the geometry: plot gamma against " +
+                "site and high-low-high is a V. experiments/GAMMA_CONTROL.md calls " +
+                "[0.01, 0.03, 0.05, 0.03, 0.01] the V-shape, edges LOWER, and calls the true V the " +
+                "'inverse V'. The glossary is right and the experiment page has both names backwards; " +
+                "the page now says so explicitly rather than silently swapping them, because the " +
+                "seven documents that restate its result all point at the old reading. (b) NOISE AND " +
+                "LIGHT. Tom's gamma-as-light translation landed on GAMMA_CONTROL the same day: the " +
+                "two-lever law reads as a light-and-dark pattern. That is one object with two " +
+                "vocabularies, and a search for either finds only half the repository. (c) THE 21.5x " +
+                "ATTRIBUTION, mis-sourced across RESONANT_RETURN and IBM_CONCENTRATOR and repaired " +
+                "in 72de843, was the same failure one level down: a number carried a name that " +
+                "belonged to a different measurement.",
+            ParkedAt: "Nothing is broken and nothing is urgent. GLOSSARY line 162 is verified from " +
+                "below (2026-08-23), the GAMMA_CONTROL inversion is stated on its own page under " +
+                "'### A naming caution' and in the 2026-08-23 CAUGHT_ERRORS entry, and the 21.5x " +
+                "attributions are already fixed. What has NOT been done is the sweep: how many other " +
+                "documents say 'V-shape' without writing the profile in numbers, and is any of them " +
+                "load-bearing. The deliberate decision was NOT to unify the names in the same change " +
+                "as the arithmetic repair, so that the repair stayed reviewable.",
+            NextStep: "A NAMING SWEEP, and it wants an agent rather than a grep, because the second " +
+                "copy is the one grep misses. (1) Every occurrence of 'V-shape', 'inverse V' and " +
+                "'V-profile' across docs/, experiments/, hypotheses/ and reflections/: does it write " +
+                "the profile in numbers? If not it is ambiguous between two inverse objects and needs " +
+                "either the numbers or a pointer. (2) Decide whether the glossary definition or the " +
+                "experiment usage becomes canonical, and change the LOSER everywhere in one pass. The " +
+                "glossary has geometry on its side. (3) The noise/light pair is not a defect to fix " +
+                "but a translation to record: one glossary row naming both vocabularies for the one " +
+                "object, so a search for either reaches the other. THE STANDING LESSON, which is why " +
+                "this is an arc and not a chore: a term can be defined correctly in the glossary and " +
+                "used backwards in the experiment that made it famous, for months, with every number " +
+                "on both pages correct. No numeric gate can see this.",
             Status: OpenArcStatus.Open),
     };
 

@@ -7,9 +7,20 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasFiftyEntries()
+    public void Registry_HasFiftyThreeEntries()
     {
-        Assert.Equal(50, OpenArcsRegistry.All.Count);   // +polarity_break_dephase_siblings
+        // The literal was STALE BY TWO before 2026-08-23: 29d09d2 took the registry to 51 and
+        // 0144649 to 52, neither updating this line, so this test was RED across two commits.
+        // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
+        // this number moves in the SAME commit.
+        Assert.Equal(53, OpenArcsRegistry.All.Count);   // +one_word_two_objects (2026-08-23, one
+                                                        //   word for two objects: the V-shape
+                                                        //   orientation inverted between GLOSSARY
+                                                        //   and GAMMA_CONTROL, the noise/light
+                                                        //   vocabulary split, the 21.5x
+                                                        //   attribution; no numeric gate can see
+                                                        //   any of them),
+                                                        // +polarity_break_dephase_siblings
                                                         //   (2026-08-19, the X- and Y-dephase
                                                         //   siblings of F155; RETIRED the same day,
                                                         //   resolved by PROOF_F155 section (g)),
