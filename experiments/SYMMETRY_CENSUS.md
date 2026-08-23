@@ -1,6 +1,6 @@
 # Symmetry Census: How Many Exits Does This System Have?
 
-**Status:** Enumeration complete for N=3-7 chain, N=4-5 all topologies.
+**Status:** Enumeration complete for N=3-7 chain, and at N=4-5 for four connected topologies (chain, ring, star, complete). Disconnected graphs are not surveyed here and do not obey the counts below.
 **Date:** April 12, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Script:** `simulations/symmetry_census.py`
@@ -112,7 +112,7 @@ Off-diagonal sectors (w ≠ w') have zero steady states: all their modes decay. 
 
 ### Exit count
 
-**The system has exactly N+1 exits.** Each excitation sector w = 0, ..., N has one attractor (the maximally mixed state within that sector). No "hidden exits" were found.
+**A connected system has exactly N+1 exits.** Each excitation sector w = 0, ..., N has one attractor (the maximally mixed state within that sector). No "hidden exits" were found.
 
 The [lens exit](CONCENTRATOR_GEOMETRY.md) is the approach to the w=1 attractor via the slow mode. The [cusp exit](CUSP_LENS_CONNECTION.md) is the simultaneous thermalization within multiple occupied sectors. These are not two exits of a system with two attractors; they are two dynamical paths through a system with N+1 attractors.
 
@@ -156,7 +156,7 @@ The off-diagonal sectors (w ≠ w') carry the coherences between excitation sect
 | Star | 4 | 6 | 202 | 30 |
 | Complete | 10 | 6 | 100 | 54 |
 
-**Universal: all topologies have exactly N+1 = 6 stationary states.** The number of exits does not depend on topology.
+**Universal across connected topologies: exactly N+1 = 6 stationary states.** The four surveyed above are all connected, and the number of exits does not depend on which connected topology it is. It does depend on connectivity, which this census does not vary: by F4's component factorisation Π_c (|c| + 1), a disconnected N = 5 graph has 12 stationary states when it splits 2 + 3 and 32 when it has no bonds at all, against the 6 tabulated above ([F4 kernel dimension by components](../docs/proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md); those two are formula values, not measurements of this survey).
 
 **Topology-dependent: the degeneracy structure.** Higher symmetry (complete graph has S_N permutation group) produces higher degeneracies and fewer distinct eigenvalues. This means the transient dynamics (approach to equilibrium) depends strongly on topology, even though the set of attractors is the same.
 

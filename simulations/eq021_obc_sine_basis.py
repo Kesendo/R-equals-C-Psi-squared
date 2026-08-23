@@ -98,13 +98,31 @@ def se_eigvals_closed_form_XY(N, J=1.0):
 
 
 def se_eigvals_closed_form_Heis(N, J=1.0):
-    """OBC tight-binding with hopping 2J plus diagonal ZZ shift.
+    """OBC tight-binding with hopping 2J plus diagonal ZZ shift, in closed form.
 
-    Diagonal is H[i,i] = J * (n_other - n_touch). Not translation invariant,
-    so the standard tight-binding formula does NOT apply directly. We just
-    diagonalize numerically and report.
+    Diagonal is H[i,i] = J * (n_other - n_touch), which is not translation
+    invariant, so the XY tight-binding formula does not apply.  A closed form
+    does exist: that boundary defect is exactly what turns the adjacency matrix
+    into the graph Laplacian, h_SE = (N-1) J Id - 2 J L, so
+
+        lambda_k = 4 J cos(k pi / N) + (N - 5) J,   k = 0..N-1
+
+    on the Neumann half-integer modes cos((2a-1) k pi / (2N)) at modulus N,
+    against the XY chain's Dirichlet sines at modulus N+1.  See Lemma 5 of
+    docs/proofs/PROOF_R90_FROZEN_DIVISOR.md; the Laplacian identity is gated
+    entry-exactly in docs/proofs/PROOF_UNIFORM_LAW.md B0.
+
+    Returns the closed form, ascending.  Phase 1 compares it against a
+    numerical diagonalisation and records the residual; the comparison is made
+    once, there, rather than also inside this function, so that the printed
+    residual is not gated by an assert that already checked it.
+
+    Note the sibling se_eigvals_closed_form_XY returns in k order, which is
+    descending.  This one is sorted ascending to match the tables.  Map values,
+    never indices.
     """
-    return np.linalg.eigvalsh(build_H_Heis_SE(N, J))
+    return np.sort([4.0 * J * np.cos(k * np.pi / N) + (N - 5) * J
+                    for k in range(N)])
 
 
 def f2_formula(N, J=1.0):
@@ -130,7 +148,17 @@ def phase1(N_list=(3, 4, 5, 6)):
         # Heisenberg SE
         H_heis_se = build_H_Heis_SE(N, J=1.0)
         ev_heis_se = np.linalg.eigvalsh(H_heis_se)
+        ev_heis_cf = se_eigvals_closed_form_Heis(N, J=1.0)
         print(f"  Heis SE eigenvalues (numeric):  {np.sort(ev_heis_se).round(4)}")
+        print(f"  Heis SE 4J cos(pi k/N)+(N-5)J:  {np.sort(ev_heis_cf).round(4)}")
+        diff_heis = np.max(np.abs(np.sort(ev_heis_se) - np.sort(ev_heis_cf)))
+        # the spectrum scales like N, so the floor to compare against is the
+        # relative one and not a fixed number
+        floor_heis = N * np.finfo(float).eps * max(1.0, np.abs(ev_heis_se).max())
+        print(f"  Heis SE |numeric - closed form|: max = {diff_heis:.2e}"
+              f"  (N*eps*|lambda|max = {floor_heis:.2e})")
+        assert diff_heis < 10 * floor_heis, (
+            f"Heisenberg closed form off by more than the rounding floor at N={N}")
 
         # F2 formula
         f2 = f2_formula(N, J=1.0)
@@ -156,6 +184,8 @@ def phase1(N_list=(3, 4, 5, 6)):
             "xy_se_closed_form": ev_xy_cf.tolist(),
             "xy_se_match_max_diff": float(diff_xy),
             "heis_se_numeric": ev_heis_se.tolist(),
+            "heis_se_closed_form": ev_heis_cf.tolist(),
+            "heis_se_match_max_diff": float(diff_heis),
             "f2_formula": f2.tolist(),
             "L_w1_osc_freqs_positive": im_positive.tolist(),
         }

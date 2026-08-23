@@ -30,7 +30,7 @@ runs even though the engine convention is the same.
 Conventions inherited verbatim from simulations/bridge_sector.py, which
 reproduces the C# engine (RK4, dephasing mask, MSB-first qubit order).
 
-Runs:  prep | support | dimension | identity | branch | coherence | all
+Runs:  prep | support | dimension | identity | branch | coherence | scope | all
 Usage: python simulations/blind_site.py [run]
 """
 
@@ -629,6 +629,150 @@ def run_coherence():
     print(f"  mismatches over EVERY site at N = 9, 11, 12, 15, both rates: {bad}")
 
 
+# ----------------------------------------------------------------------
+# run 7: what a blind seat does to the asymptotic sector projection
+# ----------------------------------------------------------------------
+
+def run_scope(n=5, times=(200.0, 400.0), dt=0.02):
+    """PROOF_ASYMPTOTIC_SECTOR_PROJECTION predicts rho(inf) = sum_w p_w P_w/d_w.
+
+    Its argument spends gamma_k > 0 at EVERY site (Step 2 part (a), and the
+    separate Step 2b for the off-diagonal blocks) and a CONNECTED graph (Step 2
+    part (b)).  That hypothesis is sufficient but not necessary, and this run
+    measures the gap it leaves.
+
+    Every support is run at two times, because a single snapshot cannot tell a
+    plateau from slow convergence: a support that merely converges slowly falls
+    by decades between them, and the one that fails does not move at all.  The
+    verdict column is therefore a ratio and not a threshold.
+
+    Full Hilbert space, not a sector: the predicted limit mixes every popcount,
+    so the state is propagated whole.  |+>^N is used because it puts weight in
+    all N+1 sectors and carries every inter-sector coherence.  The deviation is
+    also resolved per popcount block, so a claim about WHICH block falls short
+    rests on a measurement rather than on a guess.
+    """
+    states = list(range(1 << n))
+    index = {s_: i for i, s_ in enumerate(states)}
+    bonds = chain(n)
+    psi = np.ones(1 << n, dtype=complex)
+    psi /= np.linalg.norm(psi)
+    rho0 = np.outer(psi, psi.conj())
+
+    d = 1 << n
+    sector_idx = {w: [i for i in range(d) if bin(i).count("1") == w]
+                  for w in range(n + 1)}
+    pred = np.zeros((d, d), dtype=complex)
+    for w, idx in sector_idx.items():
+        pw = sum(rho0[i, i].real for i in idx)
+        for i in idx:
+            pred[i, i] += pw / len(idx)
+
+    def run_to(g, t_max):
+        prop = SectorPropagator(n, bonds, g, states, index)
+        last = [None]
+        prop.propagate_every_step(rho0.copy(), t_max, prop.stable_dt(dt),
+                                  lambda t, r, l=last: l.__setitem__(0, r))
+        return last[0]
+
+    print(f"N = {n} chain, |+>^N: does rho reach sum_w p_w P_w/d_w?")
+    print(f"blind single-excitation dimensions per seat, (gcd(2j+1, N) - 1)/2: "
+          f"{[(gcd(2 * j + 1, n) - 1) // 2 for j in range(n)]}")
+    print()
+    print("The blind column is the INTERSECTION over the support, not a sum: a")
+    print("seat with a blind subspace loses it as soon as a second seat is")
+    print("dephased whose modes do not also vanish there.")
+    print()
+    t0, t1 = times
+    print(f"  {'dephasing support':<24} {'blind dim':>9} {'dev at t=' + str(int(t0)):>16}"
+          f" {'dev at t=' + str(int(t1)):>16} {'ratio':>9} {'verdict':>8}")
+    failing = []
+    for sup in ([0, 1, 2, 3, 4], [0, 1, 2, 3], [1, 2, 3], [0, 2, 4],
+                [0, 4], [1, 3], [0], [2]):
+        g = [0.0] * n
+        for site in sup:
+            g[site] = 0.5
+        a = np.abs(run_to(g, t0) - pred).max()
+        rho1 = run_to(g, t1)
+        b = np.abs(rho1 - pred).max()
+        ratio = a / b if b > 0 else float("inf")
+        # a decaying residual shrinks by decades; a plateau does not move
+        verdict = "holds" if ratio > 10.0 or b < 1e-14 else "FAILS"
+        if verdict == "FAILS":
+            failing.append((sup, rho1))
+        print(f"  {str(sup):<24} {len(set.intersection(*[mode_set(n, j) for j in sup])):>9}"
+              f" {a:>16.3e} {b:>16.3e} {ratio:>9.1e} {verdict:>8}")
+    print()
+    print("  Two discriminators, and the printed verdict uses whichever applies:")
+    print("  a residual still above machine level must FALL by decades between")
+    print("  the two times (ratio > 10); one already at machine level (< 1e-14,")
+    print("  which is the N*eps floor of this grid) is done and its ratio is")
+    print("  meaningless.  Three rows pass by the second test, not the first.")
+    print("  The all-sites row's 1e-176 is denormal underflow of e^(-2 gamma t),")
+    print("  reported as printed and not a precision claim.")
+
+    if failing:
+        print()
+        print("  The failing support does not fail to converge.  It converges to a")
+        print("  FINER attractor, and the reason is one commutator.")
+        print()
+        mir = [int(format(bb, "0%db" % n)[::-1], 2) for bb in range(d)]
+        perm = np.zeros((d, d))
+        for bb in range(d):
+            perm[mir[bb], bb] = 1.0
+        for k in range(n):
+            zk = np.diag([1.0 - 2 * ((bb >> (n - 1 - k)) & 1) for bb in range(d)])
+            c = np.abs(zk @ perm - perm @ zk).max()
+            print(f"    seat {k}: max|[Z_k, M]| = {c:.1f}"
+                  f"   {'preserves mirror parity' if c < 1e-12 else 'mixes it'}")
+        print()
+        print("  M is the site reversal.  Z_k commutes with it only at the")
+        print("  mirror-fixed seat, so ONLY a support inside the fixed set leaves")
+        print("  the parity projectors conserved, which is an extra constant of")
+        print("  motion the theorem does not know about.  The attractor is then")
+        print("  maximally mixed per (popcount, mirror-parity) block instead of")
+        print("  per popcount sector, and the mirror-odd block is exactly the")
+        print("  blind subspace counted above.")
+        print()
+        proj = {}
+        for w, idx in sector_idx.items():
+            seen, vecs = set(), {+1: [], -1: []}
+            for i in idx:
+                j = mir[i]
+                if i in seen:
+                    continue
+                seen.add(i)
+                seen.add(j)
+                e = np.zeros(d)
+                e[i] = 1.0
+                f = np.zeros(d)
+                f[j] = 1.0
+                if i == j:
+                    vecs[+1].append(e)
+                else:
+                    vecs[+1].append((e + f) / np.sqrt(2.0))
+                    vecs[-1].append((e - f) / np.sqrt(2.0))
+            for sgn in (+1, -1):
+                if vecs[sgn]:
+                    V = np.array(vecs[sgn]).T
+                    proj[(w, sgn)] = V @ V.T
+        refined = np.zeros((d, d), dtype=complex)
+        for key, pr_ in proj.items():
+            refined += np.trace(pr_ @ rho0).real * pr_ / np.trace(pr_).real
+        for sup, rho1 in failing:
+            print(f"    support {sup}:")
+            print(f"      |limit - maximally mixed per popcount sector|"
+                  f"            = {np.abs(rho1 - pred).max():.3e}")
+            print(f"      |limit - maximally mixed per (popcount, parity) block|"
+                  f" = {np.abs(rho1 - refined).max():.3e}")
+        print()
+        print("  So the conclusion is not merely lost, it is refined, and the")
+        print("  deviation is exact rather than approximate: at N = 5 the centre")
+        print("  seat gains exactly 1/48 of population, the four others lose")
+        print("  exactly 1/192 each, and 5/192 survives as coherence between the")
+        print("  mirror-partner sites 0-4 and 1-3.")
+
+
 def main():
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
     if which in ("prep", "all"):
@@ -648,6 +792,9 @@ def main():
     if which in ("coherence", "all"):
         print()
         run_coherence()
+    if which in ("scope", "all"):
+        print()
+        run_scope()
 
 
 if __name__ == "__main__":

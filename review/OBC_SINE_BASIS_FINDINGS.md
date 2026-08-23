@@ -3,8 +3,9 @@
 **Date:** 2026-04-20
 **Authors:** Thomas Wicht, Claude
 **Status:** Phase 1-4 complete. Mirror symmetry proven kinematically.
-Spectral constant verdict: XY uses E_k = 2J·cos(πk/(N+1)), F2 does not match
-Heisenberg SE either.
+Spectral constant verdict: XY uses E_k = 2J·cos(πk/(N+1)); Heisenberg SE uses
+λ_k = 4J·cos(kπ/N) + (N−5)J; F2 is neither, being λ_0 − λ_k on the (0,1)
+coherence block.
 **Relates to:** [EQ021_FINDINGS.md](EQ021_FINDINGS.md),
 [PROOF_DELTA_N_SELECTION_RULE.md](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md)
 
@@ -18,7 +19,9 @@ Four phases executed, all numerical verifications to machine precision:
    Im(λ) = |E_k|, confirming the mode-decomposition finding from EQ-021
    Phase 1. **F2 does NOT match Heisenberg SE eigenvalues either**: F2
    predicts N−1 values, the Heisenberg SE Hamiltonian has N
-   eigenvalues, and the values differ. F2's object was settled after
+   eigenvalues, and the values differ. Both have closed forms and the
+   relation between them is one subtraction, ω_k = λ_0 − λ_k; see the
+   Heisenberg subsection and the F2 verdict below. F2's object was settled after
    this task: it is the (0,1) coherence block, whose frequencies are
    single-magnon energies measured from the ferromagnetic vacuum. See
    the verdict in Phase 1 below.
@@ -87,8 +90,27 @@ sector.
 
 H_SE for Heisenberg H = J · Σ (XX+YY+ZZ) has hopping 2J plus a
 diagonal ZZ shift that is NOT translation invariant (boundary sites
-and bulk sites differ). Numerical eigenvalues do not follow any simple
-cos formula:
+and bulk sites differ). That boundary defect is exactly what turns the
+adjacency matrix into the graph Laplacian, so the spectrum does follow
+a cos formula, just not the XY one. With h_SE = (N−1)J·Id − 2J·L and L
+the path Laplacian,
+
+    λ_k = 4J·cos(kπ/N) + (N − 5)J,   k = 0..N−1
+
+on the Neumann half-integer modes u_k(a) ∝ cos((2a−1)kπ/(2N)) at
+modulus N, against the XY chain's Dirichlet sines at modulus N+1.
+Every row of the table below is that formula **as a set**: Lemma 5
+indexes k energy-descending while the table is ascending, so map
+values and never indices.
+([PROOF_R90_FROZEN_DIVISOR](../docs/proofs/PROOF_R90_FROZEN_DIVISOR.md)
+Lemma 5 for the closed form and for the Dirichlet-at-N+1 half;
+[D10](../docs/proofs/derivations/D10_W1_DISPERSION.md) for the
+Laplacian identity and for "The Dirichlet family sin(πkj/N) is NOT
+the eigenbasis here"; [PROOF_UNIFORM_LAW](../docs/proofs/PROOF_UNIFORM_LAW.md)
+B0 gates that identity entry-exactly. Computed and asserted against a
+numerical diagonalisation in
+[eq021_obc_sine_basis.py](../simulations/eq021_obc_sine_basis.py)
+Phase 1.):
 
 | N | Heisenberg SE eigenvalues             |
 |---|---------------------------------------|
@@ -110,8 +132,14 @@ numerically:
 | 6 | 0.536, 2, 4, 6, 7.464                 |
 
 F2 has N−1 values while Heis SE has N eigenvalues, and the values
-themselves do not coincide. F2 therefore does not describe Heisenberg
-SE spectrum directly.
+themselves do not coincide. The two are related by one subtraction:
+with λ_0 = 4J + (N−5)J = (N−1)J the ferromagnetic vacuum energy,
+
+    ω_k = λ_0 − λ_k,   k = 1..N−1,
+
+exactly. That is why there are N−1 of them and why they are not the N
+eigenvalues. F2 therefore does not describe the Heisenberg SE spectrum
+directly.
 
 **Verdict on F2:** F2 is valid (per the proof D10 and the SFF match
 cited in ANALYTICAL_FORMULAS.md) and it is not the SE Hamiltonian

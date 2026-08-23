@@ -479,7 +479,7 @@ sites, gives max |ρ(t) − I/N| = **0.000e+00**. Exactly blind, full support.
 
 That is not a contradiction of the committed work; it *is* the committed work.
 `SYMMETRY_CENSUS.md:101` reports exactly one steady state per sector, the
-maximally mixed one, and `PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md:68` gives the
+maximally mixed one, and `PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md:70` gives the
 full-support decoherence-free subalgebra as the diagonal operators, a
 d_w-dimensional algebra. The two numbers, d_w and 1, are reconciled by the
 second condition rather than in conflict: the diagonal algebra is where the
@@ -490,22 +490,28 @@ full support the only blind trajectories are the sector steady states; no
 non-stationary trajectory survives.** What this page counts is a blind space of
 non-stationary states, and it needs the support to be a strict subset.
 
-**An internal inconsistency in that file, reported rather than repaired here,
-and smaller than a first draft of this section made it sound.** The proof
-carries four statements of its γ scope. Two are right: Step 2(a) (line 68) needs
-**γ_k > 0**, and the proof's own closing sentence (line 90) says "the theorem
-holds for any connected graph topology and any site-dependent Z-dephasing
-profile **with all γ_k > 0**". Two are wider than the argument supports: the
-theorem statement (line 22) and the scope block (line 110) both say "arbitrary
-site-dependent rates **γ_k ≥ 0**". So this is an abstract-against-conclusion
-mismatch inside a proof that does reach the right hypothesis, not a theorem that
-overstates its reach.
+**What that proof requires, and what this page's state says about it.**
+`PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md` holds for a **connected** graph with
+**γ_k > 0 at every site**, which is what Step 2 part (a) (line 70) and the
+separate Step 2b spend, what Step 2 part (b) (line 72) needs the connectivity
+for, and what its closing sentence (line 92) and scope block (line 112) state.
+This page's state is one reason the γ half cannot simply be widened to
+γ_k ≥ 0: γ = 0.5 on site 5 alone, run to t = 200, leaves max |ρ − I/N| = 0.268
+at purity 0.999998, so that diagonal sector block does not reach P_w/d_w.
 
-The wider wording is nonetheless falsifiable, and this page's state falsifies
-it: γ = 0.5 on site 5 alone, run to t = 200, leaves max |ρ − I/N| = 0.268 at
-purity 0.999998, so that diagonal sector block does not converge to P_w/d_w. A
-second gap sits in the same line 22, which omits **connected**, a hypothesis
-Step 2(b) (line 70) spends. Both belong in a repair of that file, listed in §11.
+The hypothesis is sufficient rather than necessary, and where it fails the
+attractor **refines rather than dissolves**. The mechanism is one commutator:
+with M the site reversal, Z_k commutes with M only at the reflection-fixed seat
+(measured 0 there against 2 at every other seat of an N = 5 chain), so a support
+inside that fixed set leaves the two parity projectors conserved. Those are
+constants of motion beyond the N+1 sector populations, and the limit is then
+maximally mixed per **(popcount, parity)** block instead of per popcount sector.
+At N = 5 with γ on seat 2 alone: distance to the per-sector limit 2.604·10⁻²,
+distance to the per-parity-block limit 4.0·10⁻¹⁰ (`blind_site.py scope`). The
+deviation is exact rather than approximate, which is what says it is structure:
+the centre seat gains exactly 1/48 of population, the four others lose exactly
+1/192 each, and 5/192 survives as coherence between the reflection-partner
+sites. The conserved parity-odd block is exactly this page's blind subspace.
 
 ## 7. The two mediator-inertness findings, and how they stand
 
@@ -592,7 +598,7 @@ cites in its own sweep.
 | **the intersection law for several dephased seats** | this page |
 | **the same count inside F64's own (0,1) block** | this page |
 | **the mediator table to γ = 50 with its matched control** | this page |
-| **the γ_k ≥ 0 wording gap and its counterexample** | this page |
+| **the state that bounds the asymptotic theorem's γ hypothesis** | this page |
 
 ## 11. Open
 
@@ -609,12 +615,18 @@ cites in its own sweep.
   already, since a Krylov space of full rank mod p has full rank over ℚ.
 - The §7 prediction: the site-by-site sweep repeated on the reflection-odd
   preparation.
-- Two repairs owed elsewhere. `PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md`'s line 22
-  and line 110, per §6, on both the γ_k ≥ 0 wording and the missing
-  *connected*. And `review/OBC_SINE_BASIS_FINDINGS.md:88-91`, which asserts that
-  Heisenberg single-excitation eigenvalues "do not follow any simple cos
-  formula" while its own tabulated N = 3 row, (−4, 0, 2), is reproduced exactly
-  by λ_k = 4cos(kπ/N) + N − 5.
+- Whether every failure of the asymptotic sector projection's all-sites
+  hypothesis **refines** the way §6's does, under some graph automorphism whose
+  fixed set contains the dephasing support. At N = 5 the one failing support is
+  exactly the reflection-fixed seat and the refined limit is exact, but that is
+  one instance on one graph. Settling it would turn an all-sites hypothesis into
+  a statement about which symmetries the support leaves alive.
+- `review/OBC_SINE_BASIS_FINDINGS.md` asserted for four months that Heisenberg
+  single-excitation eigenvalues "do not follow any simple cos formula" while its
+  own tabulated N = 3 row, (−4, 0, 2), is λ_k = 4cos(kπ/N) + N − 5 exactly. It
+  now carries the closed form, and `simulations/eq021_obc_sine_basis.py` Phase 1
+  computes and gates it. Recorded here because the false clause outlived three
+  commits of that file and nothing else in the repo contradicted it.
 - `experiments/CONCENTRATOR_OPTICS.md:106-109` reports that at N = 5 the same γ
   budget on the middle site gives 2618 against the edge's 352, and N = 5 centre
   is j = 2 with gcd(5, 5) = 5 and blind dimension 2. That file's next line says
