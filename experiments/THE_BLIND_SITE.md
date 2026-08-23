@@ -439,7 +439,11 @@ decades, not a threshold chosen to pass.
 N = 11, both **prime**, where gcd(2j+1, N) = 1 at every non-centre seat. On a
 prime chain the reflection-parity reading and the divisor law give identical
 answers at every seat, so no run at N = 5 or N = 11 could distinguish them. The
-first discriminating case is composite, and the smallest is N = 9 at site 1.
+first discriminating case is composite, and the smallest is **N = 6**, whose
+blind seats 1 and 4 carry one dimension each. An even chain has no
+reflection-fixed seat at all, so a reflection-parity reading predicts no blind
+seat there and the divisor law predicts two; the dimension table above prints
+that row. N = 9 is the smallest ODD discriminating case.
 
 **Several dephased seats.** A blind subspace is a span of modes, so for a support S
 it is the intersection, and
