@@ -209,6 +209,61 @@ gcd(N, N) = N on one side and gcd((N+1)/2, N+1) = (N+1)/2 on the
 other.  That is section 7's claim, now following from both formulas
 instead of from an argument about which Hamiltonian is used.
 
+PARITY-FORCED BLINDNESS, which the XY book carries and the ZZ book
+does not.  On XY the H_SE diagonal is zero, so a principal block of
+odd size m is singular: expanding along its last row gives
+det T_m = -b^2 det T_{m-2}, b the block's own last bond, with
+det T_1 = 0.  At an ODD seat of an
+ODD chain both leftover blocks have odd size, so both share the
+root 0 and blind(j) >= 1 for EVERY zero-free profile, however
+irregular.  Swept with the exact criterion over pseudo-random
+integer profiles carrying BOTH signs:
+
+  N = 5: XY blind at odd seats 40/40, at even seats 5/60; Heisenberg blind anywhere 2/100
+  N = 7: XY blind at odd seats 60/60, at even seats 0/80; Heisenberg blind anywhere 0/140
+  N = 9: XY blind at odd seats 80/80, at even seats 1/100; Heisenberg blind anywhere 0/180
+
+So on XY a third kind of blindness exists beside the mirror-forced
+and the met: PARITY-forced, generic rather than exceptional.  The
+sentence that a genuinely irregular chain will usually have no blind
+seat at all is a ZZ-book sentence; on the swept profiles above the
+Heisenberg count says it, and the XY count refuses it at every odd
+seat of every odd chain.
+
+WHAT THE BLIND SUBSPACE CAN HIDE.  Every blind MODE of a zero-free
+profile carries nonzero amplitude at both ends (Jacobi: a vanishing
+end drags the whole vector to zero).  A blind STATE need not: the
+corner entry P[0, N-1] of the exact projector onto the blind
+subspace, I minus the projector onto the seat's Krylov space, all
+arithmetic in Fraction with no eigensolver, is
+
+  XY uniform N = 8, seat 2 (blind 2)           P[0, N-1] = 0
+  XY uniform N = 11, seat 3 (blind 3), N ODD   P[0, N-1] = 0
+  XY uniform N = 14, seat 4 (blind 4)          P[0, N-1] = 0
+  XY uniform N = 7, seat 3 (blind 3)           P[0, N-1] = -1/2
+  Heisenberg uniform N = 7, seat 3 (blind 3)   P[0, N-1] = -1/2
+
+The zeros are exact.  P/blind is then a stationary state inside the
+blind subspace with NO end-to-end entry at all, so the modes' end
+coherences can cancel in a blind state.  The criterion is m-PARITY,
+not the parity of N: the end product psi_m(0) psi_m(N-1) is
+(-1)^(m+1) sin^2(pi m/(N+1)) up to normalisation, and with
+d = gcd(j+1, N+1) the node modes are the multiples of M = (N+1)/d,
+whose parity alternates with the multiplier exactly when M is odd.
+So the corner is 0 iff the node set carries BOTH m-parities, that
+is iff M is odd and d >= 3, at even and odd N alike; when M is
+even every node mode is even and the products share one sign, which
+is the N = 7 XY control (M = 2).  Swept exactly, every uniform-XY
+(N, seat) with at least two node modes over N = 3..21:
+
+  cases 41, corner exactly 0 on 24, M odd on 24, agreement 41/41
+
+On the uniform HEISENBERG chain the node modes of any one seat all
+share one m-parity, checked by the integer node condition below, so
+every end product shares one sign and no cancellation is available:
+
+  Heisenberg N = 3..21, every seat: node sets with mixed m-parity: 0
+
 ------------------------------------------------------------------------
 
 F4's OPEN QUESTION, one step in and not closed.
@@ -337,8 +392,8 @@ computed here in exact Fractions, no eigensolver.  Swept against the
 exact GF(p) kernel over uniform, ramp, palindromic and pseudo-random
 integer profiles:
 
-  Heisenberg   (profile, seat) pairs tested: 330    mismatches: 0
-  XY           (profile, seat) pairs tested: 330    mismatches: 0
+  Heisenberg   (profile, seat) pairs tested: 330 over N = 3..8    mismatches: 0
+  XY           (profile, seat) pairs tested: 330 over N = 3..8    mismatches: 0
 
 Two corollaries, read off the criterion rather than measured.  On
 the UNIFORM chain the shared factor is the cosine coincidence the
@@ -366,7 +421,9 @@ the exact kernel, split by whether the profile has a zero bond:
          XY   6             1266            1250              192               0
             all             1682            1622              316               0
 
-THE FENCE IS BOOK-SPECIFIC, which is why both books are swept.
+WHAT THE FENCE GUARDS IS BOOK-SPECIFIC: the condition, no zero
+bond, is the same on both books; what a zero bond DOES is not,
+which is why both books are swept.
 On HEISENBERG the failure is TOTAL, not partial: all 1682 zero-bond
 pairs are wrong and all 316 zero-free pairs are right.  On XY the
 same zero-bond set has 60 pairs the criterion still gets
@@ -915,6 +972,12 @@ the count is 4 and the kernel is 7.  The count generalises and the
 kernel identity does not, so a reader carrying the fence-free
 criterion to the kernel would be carrying it past the hypothesis it
 needs.
+
+Per seat on [1,1,0,1,1], ZZ book (blind | dim ker):
+    seat 0: 3 | 4   seat 1: 4 | 7   seat 2: 3 | 4   seat 3: 3 | 4   seat 4: 4 | 7   seat 5: 3 | 4
+Seats 1 and 4 carry the excess; the chain's other four seats give
+a blind count of 3, hence a predicted span of 4, against a kernel
+of 4.
 
 ONE SEAT AGAINST A SUPPORT.  For a single seat, blind(j) = 0 forces
 a one-dimensional kernel on ANY graph and needs no simplicity: it

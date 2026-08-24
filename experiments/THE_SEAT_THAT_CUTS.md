@@ -67,7 +67,8 @@ bond pairs the four cells (simple, degenerate) × (right, wrong) hold **60, 342,
 1280**. The empty cell is the necessity, since no pair with a degenerate spectrum is
 ever right; the 342 is why simplicity is not sufficient. A zero bond disconnects the chain, so H_SE stops being
 unreduced, and the kernel then outgrows the span too: 7 against 5 at N = 6 with bonds
-[1, 1, 0, 1, 1], **at seats 1 and 4**. That profile splits H_SE into two identical
+[1, 1, 0, 1, 1], **at seats 1 and 4**, the 5 being 1 + blind with a blind count of 4,
+which is the same case §7 states as "a count of 4 against a kernel of 7". That profile splits H_SE into two identical
 halves, so every eigenvalue is doubled; which seat is watched then decides whether
 the excess appears, and the chain's other four seats give 4 against 4. Off that
 fence: verified against the exact kernel at every seat of 330 (profile, seat) pairs
@@ -99,15 +100,29 @@ The light does not cut the chain, and it does not cut the state either. The
 excitation still hops straight through the watched site, and the Hamiltonian never
 notices. Nor does the watching separate the two sides from each other: it erases
 only what touches the watched place, its own row and its own column, and a
-surviving state is free to stay coherent straight across it. The **blind** ones all
-are, and not by accident. On a Jacobi matrix no eigenvector can vanish at an END of
-the chain, because the three-term recursion would then drag the whole vector to
-zero, so every blind mode of every zero-free profile carries a non-zero coherence
+surviving state is free to stay coherent straight across it. The blind **modes**
+all are, and not by accident. On a Jacobi matrix no eigenvector can vanish at an
+END of the chain, because the three-term recursion would then drag the whole vector
+to zero, so every blind mode of every zero-free profile carries a non-zero coherence
 between the two ends. That is a theorem, not a measurement; the run prints the
 three instances at N = 7 with the light on the middle seat, ρ[0, 6] = −0.0538,
 −0.1746 and −0.2716. It does not extend to every surviving state: the sector's
 maximally mixed state survives too, and being diagonal it has no end-to-end entry
-at all.
+at all. And it does not carry from the modes to every blind STATE either: on the
+uniform XY chain at N = 14, seat 4, the corner entry of the exact projector onto
+the blind subspace is 0, so that projector, normalised, is a stationary blind state
+with no end-to-end entry at all, its node set carrying both m-parities so that the
+end products, (−1)^(m+1)·sin² up to normalisation, cancel. The parity mixing is
+the criterion and the parity of N is not: with d = gcd(j+1, N+1) the node modes
+are the multiples of M = (N+1)/d, and on the seats with at least two node modes
+(d ≥ 3) the corner is 0 exactly when M is odd; the run sweeps all 41 such
+uniform-XY (N, seat)
+over N = 3..21 in exact rationals and the corner vanishes on exactly the 24 with
+M odd, the odd N = 11 among them. Beside them the run prints the nonzero
+controls, among them the Heisenberg N = 7 centre, whose corner is exactly −1/2
+because on the uniform Heisenberg chain every node set carries one m-parity and
+the end products one sign, so no cancellation is available; the three ρ[0, 6]
+values above are that −1/2 shared out.
 
 What the light cuts is the room the surviving states have. Plenty of states survive
 with weight on the watched site; what the light takes away is the freedom to be
@@ -140,13 +155,25 @@ is the blindest seat. Symmetry is the crudest way to force agreement, not the
 reason agreement matters, and the arithmetic of the divisor law is what that
 forcing looks like when the chain is regular enough to count.
 
-**That splits the dark states in two.** There are forced ones, where a mirror
-guarantees the agreement, and met ones, where two unequal halves happen to find the
-same pitch. Happening to agree is a coincidence a generic chain does not have, so a
-genuinely irregular chain will usually have no blind seat at all. That is a
-plausible reading and not a theorem here. Whether the two kinds behave differently
-under disorder, the forced ones holding while the met ones vanish at the first
-detuned bond, is not measured here and is the sharpest question this page leaves.
+**That splits the dark states in three, and the books do not split alike.** There
+are forced ones, where a symmetry guarantees the agreement, and met ones, where two
+unequal halves happen to find the same pitch. The mirror is one forcing; the XY
+book carries a second that needs no mirror at all. Its blocks have a zero diagonal,
+and a zero-diagonal Jacobi block of odd size is singular outright, since expanding
+the determinant along the last row gives det T_m = −b²·det T_{m−2} with b the
+block's own last bond and det T₁ = 0; at an odd seat of an odd chain both blocks have odd size, so both
+share the root 0 at every zero-free profile, however irregular. That much is the
+determinant recursion, not a sweep; the run corroborates it over pseudo-random
+signed integer profiles at N = 5, 7 and 9: on XY every odd seat comes out blind
+(40/40, 60/60, 80/80), while on Heisenberg, which has no parity forcing,
+blindness is the coincidence this paragraph expects, 2 of 100 (profile, seat)
+pairs at N = 5 and 0 of 140 and 0 of 180 at N = 7 and 9. So "a genuinely irregular
+chain will usually have no blind seat at all" is a Heisenberg sentence; on the XY
+book it fails at every odd seat of every odd chain, (N−1)/2 of the N. Whether the mirror-forced and
+the met kind behave differently under disorder on the Heisenberg book, the forced
+ones holding while the met ones vanish at the first detuned bond, is not measured
+here and is the sharpest question this page leaves. The parity-forced kind is
+already answered on the other book, the sweep above being disorder.
 
 **What it lets someone do.** Two doors, both untried, both directions and not
 results. A blind subspace can be *built* at a chosen seat of a chain with no
@@ -158,13 +185,21 @@ own. What the instrument cannot do: the criterion is a yes or no about an exact
 coincidence, so it is structurally blind to a chain that *nearly* agrees, however
 nearly.
 
-**Three words here are on loan.** **Light**: γ as illumination is a Tier-4 reading
+**Six words here are on loan.** **Light**: γ as illumination is a Tier-4 reading
 in [GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md) and nothing above leans on it.
 **Mirror**: `compute/MirrorWorld/Mirror.cs` and F1 own it as the block-lattice
 group and the palindromizer; here it means a chain read backwards. **Divisor**:
 F140 and `Divisor.cs` own the frozen divisor on the R₉₀ locus; the "divisor law"
 inherited from [The Blind Site](THE_BLIND_SITE.md) is a greatest common divisor of
-integers.
+integers. **Blind**: `docs/GLOSSARY.md`'s committed sense is a LETTER blindness,
+the kind of Pauli letter the dephasing does not charge for, uniform over sites;
+here it is seat-indexed, borrowed through The Blind Site from
+[ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md)'s general
+H_M^⊥. **Dark**: the glossary's sense is the F135/F136 record class, an empty
+reading; here it is the quantum-optics sense, a state the dephasing cannot touch.
+**Book**: the glossary's book is the factor-2 rate convention; the book here is
+[PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](../docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md)'s
+"Δ book", Heisenberg Δ = 1 against XY Δ = 0.
 
 ## What the repo already held
 
@@ -200,7 +235,8 @@ proven, N = 3..30; titled there the uniform open **XX** chain, the object §4 ca
 XY) holds the eigenbasis ψ_k(i) = √(2/(N+1))·sin(πk(i+1)/(N+1)) that makes §4's
 proof two lines. **F66**'s Scope clause had already measured that the seat decides:
 "at B = center of N=5 chain, α = 0 has multiplicity 64 (not 6), so the N+1 count is
-endpoint-specific". **F143** returned §2's fence, same hypothesis and same reason
+endpoint-specific"; its Source line names the `hypotheses/` file quoted below,
+where the word and the observation stood first. **F143** returned §2's fence, same hypothesis and same reason
 for a neighbouring object; the only difference is that a zero bond makes F143's
 question ill-posed and makes this criterion outright wrong. **F76** gives a
 resembling shape on a two-site pair rather than on blocks, and its own `Valid for`
@@ -227,14 +263,28 @@ complement H_M^⊥ of a measurement's detector subspace; this page borrows it in
 fence-free form of §2's middle step, and this page reached the criterion without
 using it**: its §5 defines the blind space as "the largest H-invariant subspace
 inside ker(n_k)", the orthogonal complement of the Krylov space the seat generates,
-taken as a GF(p) rank at two primes with no eigensolver. That statement asks for no
-chain, no simple spectrum and no zero-bond fence. §2's gcd of two halves is what it
-becomes once a chain lets the cut matrix fall into two pieces, and §7 measures the
-two against each other. The connection was available from the start: this page cites
+taken as a GF(p) rank at two primes with no eigensolver. That branch asks for no
+chain and no simple spectrum, and the page fences the one case where it is not the
+whole blind space: "an isolated seat, or a bond detuned to zero" at the seat leaves
+the seat's own ray H-invariant, its §5 says, and the ray then contributes 1 that
+the Krylov complement does not count. §2's gcd of two halves is what the Krylov
+branch becomes once a chain lets the cut matrix fall into two pieces, and §7
+measures the two against each other. The connection was available from the start: this page cites
 The Blind Site throughout and never once for this. **No prior computation of an
 asymptotic mutual information**: every MI in that directory is read at a finite
 time, and [SCALING_CURVE](SCALING_CURVE.md)'s column "MI_steady (t=20)" is a fixed
 finite time under a misleading label.
+
+**`hypotheses/`.** [PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)
+line 133 held the word and the observation before the registry did: "when the
+dephased site sits on a node of a Hamiltonian eigenmode, that mode is blind to
+dephasing", with the seat-resolved N = 5 α-count (57 distinct values at either
+end, 8 at the centre) and, at its line 144, the interior slowest mode exactly
+dark. F66's Scope clause, quoted above, names that file as its own Source, so
+what F66 returned this store returned first.
+
+**`fw.Confirmations`**: nothing. No entry varies the dephasing support over
+seats, and the registry holds no seat-resolved kernel or blindness measurement.
 
 **`docs/CAUGHT_ERRORS.md`** returned the genre §1 belongs to, in its own words:
 "when a fixture is invariant under the very thing a test is meant to detect, the
@@ -296,8 +346,9 @@ the one vacuum outcome are all distinguishable) and S_A = S_B = ((N−1)/2N)log�
 
 which matches the value computed on I/N at N = 5, 7, 9, 11, 13, 15, the worst
 difference being 1.78·10⁻¹⁵ bits at N = 15 and the rest below 10⁻¹⁵. At N = 11 the
-closed form is 0.639472526941491 and the computed value 0.639472526941490, which is
-the double's own resolution and not a disagreement.
+closed form is 0.639472526941491 and the computed value 0.639472526941490, apart
+by the −8.88·10⁻¹⁶ the run prints in its own table, accumulated rounding of two
+different routes to one number and not a disagreement.
 
 Nothing in that expression is a rate, a coupling, a seat, or a preparation. **The
 steady-state functional is window-stable in the way a closed eye is steady.** In the
@@ -307,7 +358,7 @@ broken, empty.
 **One arm this does not cover**, and it is the arc's own first row. The Blind Site
 §7's table begins with the profile "none (only the swept seat carries γ)". Read as a
 profile that is the ZERO support, every seat at γ = 0, where the kernel is the whole
-commutant of H (dimension 11 at N = 11) and the steady state is undefined without the
+commutant of H, of dimension N since the spectrum is simple, and the steady state is undefined without the
 initial state, so the guard refuses to compute it. It is the γ = 0 endpoint that
 blocks the arm and not the single-seat support: a single seat gives kernel 1 at ten
 of the eleven seats and 6 at the centre. The
@@ -324,12 +375,15 @@ that cross the seat: at N = 7 with γ on seat 3 the mask leaves ρ[0, 6] untouch
 kills ρ[2, 3]. Nor is it only the states with no amplitude at the seat that survive:
 Q and every combination containing it survive while sitting on the seat. What the
 criterion counts is the part of the stationary space that owes the seat nothing.
-Made exact:
+Made exact, on a chain with no zero bond:
 
     blind(j) = deg gcd( χ(H_left), χ(H_right) )
 
 **Why, and only the middle step is this page's.** That a mode with a node at the
-dephased site is exactly a mode the dephasing cannot touch is **F64**'s. That a path
+dephased site is exactly a mode the dephasing cannot touch is **F64**'s; F64's own
+identity reads the eigenvector of the coherence-sector Liouvillian, and the step
+from there to the H_SE node this page counts is written out in
+[The Blind Site](THE_BLIND_SITE.md) §5, "The same count holds in F64's own block". That a path
 with every bond non-zero is non-derogatory, which the proof states for an unreduced
 tridiagonal and which covers H_SE, is
 [PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](../docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md)
@@ -388,7 +442,11 @@ reflection-symmetric **about seat j** makes the two blocks equal up to the rever
 that relabels one onto the other, so they share a characteristic polynomial, the gcd
 is the whole of it and blind(j) = j. Such a reflection needs 2j = N−1, so the only
 seat it can ever speak about is the centre of an odd chain. The general ceiling is
-blind(j) ≤ min(j, N−1−j), the smaller block's size.
+blind(j) ≤ min(j, N−1−j), the smaller block's size. The ceiling belongs to the
+two-halves criterion; §7's fence-free count is not under it, since a zero bond can
+push the count past the smaller block (the [1, 0, 1] row of the run's `deleted`
+table carries blind 2 at every seat, the end seats included, where
+min(j, N−1−j) = 0).
 
 ## 3. The uniform chain, the divisor law, and the kernel
 
@@ -721,7 +779,7 @@ gap either.
 | the phrase "blind subspace" | [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md), where it is a measurement's H_M^⊥ generally; borrowed here in The Blind Site's sense |
 | the N = 3 end-against-middle kernel numbers, 4 and 6 | **F4** |
 | that the weight-2 kernel is topology-dependent with no closed form | [WEIGHT2_KERNEL](WEIGHT2_KERNEL.md) |
-| cross-sector coherences destroyed asymptotically, stated unconditionally | [SYMMETRY_CENSUS](SYMMETRY_CENSUS.md) |
+| cross-sector coherences destroyed asymptotically, stated flatly under its (N = 5, uniform γ) heading; the census now carries the single-seat scoping beside the sentence | [SYMMETRY_CENSUS](SYMMETRY_CENSUS.md) |
 | the empty-reading concept, and SILENT as its name | `docs/GLOSSARY.md` for the concept, `compute/RCPsiSquared.Diagnostics/Foundation/PhysicalGeneratorPolarityBreakWitness.cs` for the word |
 | "a green gate is not evidence until you can say what would make it fail" | `docs/CAUGHT_ERRORS.md` |
 | the float-rank trap at small J and long chains | MirrorWorld `Divisor.cs`, whose own object (the frozen divisor on the R₉₀ locus) is unrelated |
@@ -736,8 +794,10 @@ gap either.
 | **that `CAUGHT_ERRORS.md`'s "b²+b" is false at N = 7**, on a FULL kernel: cross blocks ranked and zero (one prime suffices for an empty block), diagonal blocks agreeing at two | this page, `sector` |
 | **that the two palindromic profiles are NOT counterexamples to the component mechanism**, and the law that decides it: dim ker = Σ m_i² against a best component count of Σ m_i over the Wedderburn blocks of ⟨H_w, n_seat⟩, so a kernel below 4 can never be a witness and the star's hub is one, its four block invariants measured | this page, `sector` (a3) and its star rows |
 | **that the two blocks are principal submatrices and NOT free-standing subchains, which coincide on XY and differ on Heisenberg** | this page, `criterion` |
-| **that the fence itself is BOOK-SPECIFIC, and that what it is about is the DEGENERACY a zero bond forces rather than the zero bond**: total on Heisenberg, where each component contributes the one-magnon descendant of its own ferromagnetic vacuum at the same eigenvalue, and not total on XY, which has no such term and where a cut chain can stay simple; simplicity is there NECESSARY and not sufficient over the swept N = 3..6, counted rather than asserted (60, 342, 0, 1280 in the four cells) | this page, `criterion` |
+| **that the fence's condition is the same on both books while what a zero bond DOES is book-specific, because what the fence is about is the DEGENERACY a zero bond forces rather than the zero bond**: total on Heisenberg, where each component contributes the one-magnon descendant of its own ferromagnetic vacuum at the same eigenvalue, and not total on XY, which has no such term and where a cut chain can stay simple; simplicity is there NECESSARY and not sufficient over the swept N = 3..6, counted rather than asserted (60, 342, 0, 1280 in the four cells) | this page, `criterion` |
 | **that the criterion is a chain evaluation of a fence-free law**: blind(j) = deg gcd(χ(H), χ(H with row and column j struck)), matching the definition at every seat of twenty graphs on both ZZ books, degenerate spectra and zero bonds included, so neither the fence nor the simplicity hypothesis is the phenomenon's | this page, `deleted`, on the fence-free form committed in The Blind Site §5 |
+| **that the XY book carries a third, PARITY-forced kind of blindness**: a zero-diagonal Jacobi block of odd size is singular, so every odd seat of every odd chain is blind at every zero-free profile, and "no blind seat generically" is a Heisenberg sentence | this page, `xy`, after a fresh review round |
+| **that a blind STATE can carry no end-to-end coherence while every blind MODE must**: the exact projector corner is 0 on exactly the 24 of 41 uniform-XY cases whose node set mixes m-parities, M = (N+1)/gcd(j+1, N+1) odd with d ≥ 3, at even and odd N alike, and −1/2 at both N = 7 controls | this page, `xy`, same round |
 
 ## 7. Open
 
@@ -781,11 +841,15 @@ gap either.
   shift that an induced subgraph does not carry. What none of this decides is the open item itself,
   which asks WHICH systems carry the coherence; it removes the typecheck failure that
   stood in the way of asking on a graph.
-- **The two kinds of dark state.** §2 makes blindness a coincidence between two
-  spectra, which a mirror can force and an irregular chain can only meet by chance.
-  Forced blindness should survive disorder and met blindness should not. Nothing here
-  measures that, and it is the cheapest open item on this list: the criterion is
-  exact, so a disorder sweep needs no propagation and no eigensolver.
+- **The kinds of dark state under disorder, one kind now answered.** §2 makes
+  blindness an agreement between two spectra: a mirror can force it, the XY book's
+  odd-block parity forces it at every zero-free profile (the run's signed-profile
+  sweep is already a disorder sweep, and the parity-forced kind survives it whole),
+  and an irregular chain can otherwise only meet it by chance. What stays
+  unmeasured is the Heisenberg half: whether a MIRROR-forced blindness and a met
+  one behave differently as the palindrome detunes. It is still the cheapest open
+  item on this list: the criterion is exact, so the sweep needs no propagation and
+  no eigensolver.
 - **Whether §2's criterion needs a proof in `docs/proofs/`.** Half of what such a
   proof would carry is already there: §(b)'s Lemma A owns the non-derogatory step in
   either Δ book, hypothesis included, §(g) owns the reason the hypothesis matters,

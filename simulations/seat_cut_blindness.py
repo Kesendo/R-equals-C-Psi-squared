@@ -5,10 +5,14 @@ functional and named two candidates: MI integrated over time, and steady-state
 MI.  `experiments/THE_BLIND_SITE.md` section 7 ruled out the first, because the
 window mean dilutes as the window grows.  This script tries the second.
 
-THE ANSWER IS NEGATIVE, AND EXACTLY SO.  Whenever the dephasing support leaves
-no blind subspace, the single-excitation Liouvillian has a one-dimensional
+THE ANSWER IS NEGATIVE, AND EXACTLY SO.  Whenever dephasing at a SINGLE seat
+leaves no blind subspace, the single-excitation Liouvillian has a one-dimensional
 kernel and its steady state is I/N to machine precision, at every seat and every
-rate.  So the steady-state mutual information is the same number for every
+rate.  A support of SEVERAL seats needs connectivity as well: part 9 prints the
+cut-chain counterexample (N = 4, [1,0,1], gamma on {0,2}: nothing jointly blind,
+kernel 2), and the sweep's own arms, which carry gamma on ten or eleven seats,
+have their one-dimensional kernels certified profile by profile by the exact
+GF(p) rank instead.  So the steady-state mutual information is the same number for every
 profile the sweep compares, and the span it would report is zero.  It is
 window-stable because it has stopped looking.  Its value is a closed form in N
 alone:
@@ -588,6 +592,103 @@ def run_xy():
     print("gcd(N, N) = N on one side and gcd((N+1)/2, N+1) = (N+1)/2 on the")
     print("other.  That is section 7's claim, now following from both formulas")
     print("instead of from an argument about which Hamiltonian is used.")
+    print()
+    print("PARITY-FORCED BLINDNESS, which the XY book carries and the ZZ book")
+    print("does not.  On XY the H_SE diagonal is zero, so a principal block of")
+    print("odd size m is singular: expanding along its last row gives")
+    print("det T_m = -b^2 det T_{m-2}, b the block's own last bond, with")
+    print("det T_1 = 0.  At an ODD seat of an")
+    print("ODD chain both leftover blocks have odd size, so both share the")
+    print("root 0 and blind(j) >= 1 for EVERY zero-free profile, however")
+    print("irregular.  Swept with the exact criterion over pseudo-random")
+    print("integer profiles carrying BOTH signs:")
+    print()
+    import random
+    rng = random.Random(20260824)
+    alphabet = [1, 2, 3, 5, 7, -1, -2, -3, -5, -7]
+    for n in (5, 7, 9):
+        odd_hits = odd_total = 0
+        heis_blind_pairs = xy_even_hits = even_total = 0
+        for _ in range(20):
+            js = [rng.choice(alphabet) for _ in range(n - 1)]
+            for j in range(n):
+                bx = blind_by_gcd(n, _path(n, js), j, zz=False)
+                bh = blind_by_gcd(n, _path(n, js), j, zz=True)
+                heis_blind_pairs += bh >= 1
+                if j % 2 == 1:
+                    odd_total += 1
+                    odd_hits += bx >= 1
+                else:
+                    even_total += 1
+                    xy_even_hits += bx >= 1
+        print(f"  N = {n}: XY blind at odd seats {odd_hits}/{odd_total}, "
+              f"at even seats {xy_even_hits}/{even_total}; "
+              f"Heisenberg blind anywhere {heis_blind_pairs}/{20 * n}")
+    print()
+    print("So on XY a third kind of blindness exists beside the mirror-forced")
+    print("and the met: PARITY-forced, generic rather than exceptional.  The")
+    print("sentence that a genuinely irregular chain will usually have no blind")
+    print("seat at all is a ZZ-book sentence; on the swept profiles above the")
+    print("Heisenberg count says it, and the XY count refuses it at every odd")
+    print("seat of every odd chain.")
+    print()
+    print("WHAT THE BLIND SUBSPACE CAN HIDE.  Every blind MODE of a zero-free")
+    print("profile carries nonzero amplitude at both ends (Jacobi: a vanishing")
+    print("end drags the whole vector to zero).  A blind STATE need not: the")
+    print("corner entry P[0, N-1] of the exact projector onto the blind")
+    print("subspace, I minus the projector onto the seat's Krylov space, all")
+    print("arithmetic in Fraction with no eigensolver, is")
+    print()
+    for label, n, seat, zz in (
+            ("XY uniform N = 8, seat 2 (blind 2)", 8, 2, False),
+            ("XY uniform N = 11, seat 3 (blind 3), N ODD", 11, 3, False),
+            ("XY uniform N = 14, seat 4 (blind 4)", 14, 4, False),
+            ("XY uniform N = 7, seat 3 (blind 3)", 7, 3, False),
+            ("Heisenberg uniform N = 7, seat 3 (blind 3)", 7, 3, True)):
+        corner = _blind_projector_corner(n, chain_int(n), seat, zz)
+        print(f"  {label:<44} P[0, N-1] = {corner}")
+    print()
+    print("The zeros are exact.  P/blind is then a stationary state inside the")
+    print("blind subspace with NO end-to-end entry at all, so the modes' end")
+    print("coherences can cancel in a blind state.  The criterion is m-PARITY,")
+    print("not the parity of N: the end product psi_m(0) psi_m(N-1) is")
+    print("(-1)^(m+1) sin^2(pi m/(N+1)) up to normalisation, and with")
+    print("d = gcd(j+1, N+1) the node modes are the multiples of M = (N+1)/d,")
+    print("whose parity alternates with the multiplier exactly when M is odd.")
+    print("So the corner is 0 iff the node set carries BOTH m-parities, that")
+    print("is iff M is odd and d >= 3, at even and odd N alike; when M is")
+    print("even every node mode is even and the products share one sign, which")
+    print("is the N = 7 XY control (M = 2).  Swept exactly, every uniform-XY")
+    print("(N, seat) with at least two node modes over N = 3..21:")
+    print()
+    zero_hits = par_pred = both = tested = 0
+    for n in range(3, 22):
+        for j in range(n):
+            d = math.gcd(j + 1, n + 1)
+            if d < 3:
+                continue
+            tested += 1
+            cz = _blind_projector_corner(n, chain_int(n), j, False) == 0
+            pp = ((n + 1) // d) % 2 == 1
+            zero_hits += cz
+            par_pred += pp
+            both += (cz == pp)
+    print(f"  cases {tested}, corner exactly 0 on {zero_hits}, M odd on "
+          f"{par_pred}, agreement {both}/{tested}")
+    print()
+    print("On the uniform HEISENBERG chain the node modes of any one seat all")
+    print("share one m-parity, checked by the integer node condition below, so")
+    print("every end product shares one sign and no cancellation is available:")
+    print()
+    mixed = 0
+    for n in range(3, 22):
+        for j in range(n):
+            ms = [m for m in range(n)
+                  if (m * (2 * j + 1)) % (2 * n) == n % (2 * n)]
+            if len({m % 2 for m in ms}) > 1:
+                mixed += 1
+    print(f"  Heisenberg N = 3..21, every seat: node sets with mixed m-parity:"
+          f" {mixed}")
 
 
 # ----------------------------------------------------------------------
@@ -799,6 +900,52 @@ def blind_by_gcd(n, bonds, seat, zz=True):
     return _poly_gcd_degree(_charpoly(left), _charpoly(right))
 
 
+def _blind_projector_corner(n, bonds, seat, zz):
+    """Corner entry P[0, n-1] of the exact projector onto the blind subspace.
+
+    The blind subspace is the orthogonal complement of the Krylov space the
+    seat generates (the same object `blind_truth` counts), so
+    P = I - K (K^T K)^{-1} K^T over an independent column subset of the
+    Krylov matrix K = [e_seat, H e_seat, ...].  All arithmetic in Fraction;
+    no eigensolver, nothing to tolerate.
+    """
+    h = se_hamiltonian_int(n, bonds, zz)
+    cols = []
+    vec = [Fraction(1) if s == seat else Fraction(0) for s in range(n)]
+    for _ in range(n):
+        cols.append(vec[:])
+        vec = [sum(Fraction(h[a][b]) * vec[b] for b in range(n))
+               for a in range(n)]
+    basis, echelon = [], []
+    for c in cols:
+        v = c[:]
+        for r in echelon:
+            piv = next(i for i, x in enumerate(r) if x != 0)
+            if v[piv] != 0:
+                f = v[piv] / r[piv]
+                v = [a - f * b for a, b in zip(v, r)]
+        if any(x != 0 for x in v):
+            echelon.append(v)
+            basis.append(c)
+    k = len(basis)
+    gram = [[sum(basis[i][t] * basis[j][t] for t in range(n))
+             for j in range(k)] for i in range(k)]
+    rhs = [basis[i][n - 1] for i in range(k)]
+    m = [gram[i][:] + [rhs[i]] for i in range(k)]
+    for col in range(k):
+        piv = next(r for r in range(col, k) if m[r][col] != 0)
+        m[col], m[piv] = m[piv], m[col]
+        pv = m[col][col]
+        m[col] = [x / pv for x in m[col]]
+        for r in range(k):
+            if r != col and m[r][col] != 0:
+                f = m[r][col]
+                m[r] = [x - f * y for x, y in zip(m[r], m[col])]
+    x = [m[r][k] for r in range(k)]
+    proj = sum(basis[i][0] * x[i] for i in range(k))
+    return (Fraction(1) if n == 1 else Fraction(0)) - proj
+
+
 CRITERION_CASES = [
     ("uniform N = 7", 7, [1] * 6),
     ("N = 7 palindrome [1,2,1,1,2,1]", 7, [1, 2, 1, 1, 2, 1]),
@@ -875,7 +1022,8 @@ def run_criterion():
                                      != blind_by_gcd(n, bonds, j, zz=zz))
     for zz, name in ((True, "Heisenberg"), (False, "XY        ")):
         t, b = stats[zz]
-        print(f"  {name}   (profile, seat) pairs tested: {t}    mismatches: {b}")
+        print(f"  {name}   (profile, seat) pairs tested: {t} over N = 3..8"
+              f"    mismatches: {b}")
     print()
     print("Two corollaries, read off the criterion rather than measured.  On")
     print("the UNIFORM chain the shared factor is the cosine coincidence the")
@@ -925,7 +1073,9 @@ def run_criterion():
         grand['Heisenberg' if zz else 'XY'] = tot
         print()
     h, y = grand['Heisenberg'], grand['XY']
-    print("THE FENCE IS BOOK-SPECIFIC, which is why both books are swept.")
+    print("WHAT THE FENCE GUARDS IS BOOK-SPECIFIC: the condition, no zero")
+    print("bond, is the same on both books; what a zero bond DOES is not,")
+    print("which is why both books are swept.")
     print(f"On HEISENBERG the failure is TOTAL, not partial: all {h[0]} zero-bond")
     print(f"pairs are wrong and all {h[2]} zero-free pairs are right.  On XY the")
     print(f"same zero-bond set has {y[0] - y[1]} pairs the criterion still gets")
@@ -1923,8 +2073,9 @@ def run_deleted():
             ker = [k[0] if isinstance(k, (list, tuple)) else k for k in ker]
             span_ok = all(k == 1 + b for k, b in zip(ker, truth))
             span_rows += span_ok
-            is_path = all(b == a + 1 for (a, b, _) in bonds) and \
-                len(bonds) == n - 1
+            is_path = len(bonds) == n - 1 and \
+                sorted(a for (a, b, _) in bonds) == list(range(n - 1)) and \
+                all(b == a + 1 for (a, b, _) in bonds)
             hs = "n/a"
             if is_path:
                 js = [0] * (n - 1)
@@ -2001,6 +2152,18 @@ def run_deleted():
     print("kernel identity does not, so a reader carrying the fence-free")
     print("criterion to the kernel would be carrying it past the hypothesis it")
     print("needs.")
+    print()
+    js110 = [1, 1, 0, 1, 1]
+    per = []
+    for s in range(6):
+        kk = exact_kernel_dim(6, _path(6, js110), [s], True)
+        kk = kk[0] if isinstance(kk, (list, tuple)) else kk
+        per.append((s, blind_truth(6, _path(6, js110), s, True), kk))
+    print("Per seat on [1,1,0,1,1], ZZ book (blind | dim ker):")
+    print("    " + "   ".join(f"seat {s}: {b} | {k}" for s, b, k in per))
+    print("Seats 1 and 4 carry the excess; the chain's other four seats give")
+    print("a blind count of 3, hence a predicted span of 4, against a kernel")
+    print("of 4.")
     print()
     print("ONE SEAT AGAINST A SUPPORT.  For a single seat, blind(j) = 0 forces")
     print("a one-dimensional kernel on ANY graph and needs no simplicity: it")

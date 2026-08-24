@@ -72,7 +72,7 @@ measured?
 
 **A positive law for exactly this quantity, which the repo files under a name
 that does not contain the word mediator.** F64 (`docs/ANALYTICAL_FORMULAS.md`
-lines 1842 to 1873) gives a single site's contribution: γ_eff = γ_B·|a_B|²,
+lines 1849 to 1880) gives a single site's contribution: γ_eff = γ_B·|a_B|²,
 scope line "Z-dephasing on any single site B", verified across chain, ring,
 star hub and leaf, Y-junction and K₅. It has two readings: the first-order one
 above, on the Hamiltonian's eigenvectors, and an exact one,
@@ -81,7 +81,7 @@ any γ. Its own summary line reads: "γ_B appears as a constant prefactor.
 It is not diminished by intervening sites." It names the quantity it says
 matters, the site's own amplitude weight, and Reading 3 below tests the
 first-order reading of it against this observable and refutes it. F66
-(line 1918) records that interior placement of the dephased site is open and
+(line 1925) records that interior placement of the dephased site is open and
 carries one measurement showing the endpoint results do not carry over.
 `docs/proofs/PROOF_ABSORPTION_THEOREM.md` Theorem 2 (line 354) is the same
 content without F64's sector restriction: Re(λ) = −2 Σ_l γ_l·light_l(v), the
@@ -190,8 +190,9 @@ corrected number would be set against an uncorrected one. On the converged grid
 the J_meta sweep runs 0.447193 → 0.988352 over J_meta = 0.25 → 3.0, a rise of
 121 % where the coarse grid said 103 %, and it is monotone: the dip at
 J_meta = 1.0 in the committed table, which made the published curve
-"non-monotonic in between" (the arc's phrase, `OpenArcsRegistry.cs` line 7916),
-is a sampling artefact of the same kind.
+non-monotonic in between (the arc's registry entry recorded that phrasing and,
+since 2026-08-23, records the dip as a sampling artefact), is a sampling
+artefact of the same kind.
 
 So the arc's qualitative reading survives its own correction, and the correction
 runs against it: both arms grow, the mediator's more than the coupling's in
@@ -459,10 +460,13 @@ on.
 the transient every γ profile decays toward the same limit, so a longer window
 dilutes every span alike and only the ratio between seats survives.
 [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §1 rules out steady-state MI more
-sharply. Wherever the dephasing leaves no blind subspace the stationary state is
-the maximally mixed state of the excitation sector, at every seat and every rate,
-so the steady-state mutual information is a function of N and of the sector
-alone, with no γ in it, and the span it reports is zero at every seat. Which
+sharply. Wherever dephasing at a SINGLE seat leaves no blind subspace the
+stationary state is the maximally mixed state of the excitation sector, at every
+seat and every rate; for a support of several seats that needs connectivity as
+well, and that page's opening carries the counterexample, so what licenses that
+page's §1 kernels is the exact rank taken there profile by profile. The
+steady-state mutual information is then a function of N and of the sector alone,
+with no γ in it, and the span it reports is zero at every seat. Which
 number it is depends on the sector, and for this page's own state that is not
 the number quoted below. It is window-stable because it has stopped
 looking. The premise was already proven next door:
@@ -494,9 +498,14 @@ zero-free throughout. But every profile in the
 γ-sweep above puts γ > 0 on at least ten of the eleven seats (the γ = 0
 configuration discussed later on this page is not one of the swept arms). That
 by itself does not settle it, since a one-seat law says nothing about a ten-seat
-support; what settles it is the measurement, every arm of this
-page's six-value γ_M sweep carrying no blind subspace at all, as do all 23
-profiles of The Blind Site §7's own sweep. So the kernel is one-dimensional throughout,
+support; what settles it is connectivity, this page's bridge being connected and
+every arm's support reaching every seat or all but one. On a connected graph such
+a support forces a one-dimensional kernel outright: a surviving off-diagonal
+entry would need both its sites outside the support, of which there is at most
+one, so the operator is site-diagonal, and commuting with a connected H then
+leaves only the identity. The Blind Site §7's 23 uniform-chain profiles carry
+the same conclusion a second way, their one-dimensional kernels certified by
+the exact rank profile by profile. So the kernel is one-dimensional throughout,
 and the dimension reports a span of zero here exactly as the mutual information
 does. It discriminates a different
 comparison, single-seat support, which this page never posed. The closure

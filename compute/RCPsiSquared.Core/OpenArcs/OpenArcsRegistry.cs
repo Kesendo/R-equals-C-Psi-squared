@@ -8033,9 +8033,14 @@ public static class OpenArcsRegistry
                 "exists for this comparison at all. BOTH CANDIDATES THIS ENTRY NAMED ARE " +
                 "NOW SPENT (2026-08-24, experiments/THE_SEAT_THAT_CUTS.md, " +
                 "simulations/seat_cut_blindness.py). The integrated one dilutes with the " +
-                "window. The steady-state one fails harder: wherever the dephasing leaves " +
-                "no blind subspace the stationary state is the maximally mixed state of " +
-                "the excitation sector at EVERY seat and EVERY rate, and the span it " +
+                "window. The steady-state one fails harder: wherever dephasing at a " +
+                "SINGLE seat leaves no blind subspace the stationary state is the " +
+                "maximally mixed state of the excitation sector at EVERY seat and EVERY " +
+                "rate; a support of SEVERAL seats needs connectivity as well (the seat " +
+                "page's opening carries the counterexample, N = 4 bonds [1,0,1] with " +
+                "gamma on seats 0 and 2: nothing jointly blind, kernel 2), so the " +
+                "seat page's section-1 kernels are licensed by the exact rank taken profile by " +
+                "profile; and the span it " +
                 "reports is zero at every seat. In the SINGLE-EXCITATION sector, on " +
                 "halves of size (N-1)/2 with the centre in neither, its mutual " +
                 "information is log2 N - ((N+1)/N)log2((N+1)/2) BITS, a function of N " +
@@ -8060,7 +8065,10 @@ public static class OpenArcsRegistry
                 "on the XY side, zero bonds and an isolated seat " +
                 "included (run mode `deleted`). The fence-free statement was already " +
                 "committed in experiments/THE_BLIND_SITE.md section 5 as a Krylov " +
-                "complement, and the seat page reached the criterion without using it. " +
+                "complement, and the seat page reached the criterion without using it; " +
+                "that section itself fences the one case where the Krylov branch is not " +
+                "the whole blind space, an isolated seat leaving the seat's own ray " +
+                "H-invariant so that it contributes 1 the branch does not count. " +
                 "CAUTION ON THE " +
                 "PICTURE: the dephasing does NOT cut the chain and does NOT kill the " +
                 "entries crossing the seat, it clears the seat's own row and column OFF " +
@@ -8068,7 +8076,20 @@ public static class OpenArcsRegistry
                 "surviving state stays coherent across the seat, and on a Jacobi matrix " +
                 "no eigenvector can vanish at an END, so EVERY blind mode of every " +
                 "zero-free profile does (the three at N = 7 seat 3 give rho[0,6] = " +
-                "-0.0538, -0.1746, -0.2716). Plenty of states survive WITH amplitude at " +
+                "-0.0538, -0.1746, -0.2716). THE MODES, not every blind STATE: on the " +
+                "uniform XY chain the exact corner of the blind projector is 0 on " +
+                "exactly the 24 of 41 (N, seat) cases over N = 3..21 whose node set " +
+                "mixes m-parities, the criterion being M = (N+1)/gcd(j+1, N+1) odd " +
+                "with at least two node modes, at even and odd N alike (Fraction " +
+                "arithmetic, run mode `xy`; N = 14 seat 4 and the odd N = 11 seat 3 " +
+                "among them), against exactly -1/2 at both N = 7 controls; the " +
+                "uniform Heisenberg chain cannot cancel, its node sets carrying one " +
+                "m-parity. AND THE XY BOOK CARRIES A THIRD KIND OF " +
+                "BLINDNESS, parity-forced: a zero-diagonal Jacobi block of odd size is " +
+                "singular, so every odd seat of every odd chain is blind at every " +
+                "zero-free profile, however irregular (swept over signed integer " +
+                "profiles, run mode `xy`), so 'a generic chain has no blind seat' is a " +
+                "Heisenberg sentence. Plenty of states survive WITH amplitude at " +
                 "the seat, so the statement is about a DIMENSION and not about a state: " +
                 "ON A CHAIN WITH NO ZERO BOND the stationary space is spanned by Q, the " +
                 "sum of the non-node projectors (unnormalised, Q[seat,seat] = 1 exactly, " +
@@ -8110,8 +8131,10 @@ public static class OpenArcsRegistry
                 "and the discarded argument carries the OTHER book, not none; what carries to either book is LEMMA A, " +
                 "stated in either Delta book and, in (g)'s own words, needing 'no " +
                 "Hermiticity'. The pair of load-bearing hypotheses (A_J Hermitian AND " +
-                "every J_b != 0) belongs to (g)'s COROLLARY about the hopping spectrum, " +
-                "not to Lemma A, which carries only the second. Rate = 0 iff " +
+                "every J_b != 0) belongs to (g)'s hopping-spectrum statement and " +
+                "the box that follows it " +
+                "(the proof's labelled Corollary is section (c)'s and says something " +
+                "else), not to Lemma A, which carries only the second. Rate = 0 iff " +
                 "a node at the dephased site is F64's; what is new is the COUNT between " +
                 "them. ANY BOND PROFILE WITH NO ZERO BOND, the " +
                 "same fence F143 already carries for a neighbouring object; what a zero " +

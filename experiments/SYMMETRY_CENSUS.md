@@ -100,7 +100,7 @@ The largest sectors are the "interior" ones near w_bra = w_ket = N/2:
 
 Each steady state is the maximally mixed state within its excitation sector: ρ_∞(w) = (1/C(N,w)) Σ_{|i⟩, popcount(i)=w} |i⟩⟨i|. No sector has multiple steady states, limit cycles, or dark states.
 
-Off-diagonal sectors (w ≠ w') have zero steady states: all their modes decay. Cross-sector coherences are always destroyed asymptotically.
+Off-diagonal sectors (w ≠ w') have zero steady states: all their modes decay. Cross-sector coherences are always destroyed asymptotically. That sentence is this census's axis, uniform γ at N = 5 (ring and star surveyed below): under a single-seat support it still holds on the open Heisenberg chain and FAILS on the N = 4 ring, measured in [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §5.
 
 ### Sector dynamics summary
 

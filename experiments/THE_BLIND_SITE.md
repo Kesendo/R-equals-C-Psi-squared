@@ -7,7 +7,7 @@
 **Second script (§7 only):** [`simulations/blind_seat_mi_sweep.py`](../simulations/blind_seat_mi_sweep.py), parts `gate | sweep | algebra | support | zeno | converge`
 **Second data file:** [`simulations/results/blind_site/blind_seat_mi_sweep.txt`](../simulations/results/blind_site/blind_seat_mi_sweep.txt)
 
-Z-dephasing at a single site of an open Heisenberg chain has a subspace of
+Z-dephasing at a single site of an open **uniform** Heisenberg chain has a subspace of
 **single-excitation** states it cannot touch: not weakly, not slowly, exactly.
 Which seat you choose decides whether such states exist and how many, and the
 count is a divisor question, in the ordinary arithmetic sense and not F140's
@@ -40,10 +40,10 @@ is the ledger.
 The sweep, store by store. It moved the result three times and every time
 downward, which is why this section is long.
 
-**`docs/ANALYTICAL_FORMULAS.md`.** **F64** (line 1852) is the nearest prior
+**`docs/ANALYTICAL_FORMULAS.md`.** **F64** (line 1859) is the nearest prior
 result and owns the mechanism: −Re(λ_k) = 2γ_B·|v_k(B)|² with v_k the
 coherence-sector Liouvillian eigenvector, "mode by mode, max relative error
-6.2·10⁻¹³", scoped (line 1869) to "any graph topology … XX+YY or Heisenberg
+6.2·10⁻¹³", scoped (line 1876) to "any graph topology … XX+YY or Heisenberg
 single-excitation, Z-dephasing on any single site B". Its closure at
 `review/EMERGING_QUESTIONS.md:542` names the zero case as protection. **One
 thing, and only one, separates this page from F64: F64 says when a rate is zero,
@@ -57,7 +57,7 @@ a degenerate subspace; the open chain's spectrum is nondegenerate, so the modes
 counted here come from the mode profile itself and not from any freedom of
 basis.
 
-**F66 (lines 1906-1922) owns the genre**, though only at one seat: it counts
+**F66 (lines 1913-1929) owns the genre**, though only at one seat: it counts
 what a single-site Z-dephasing channel cannot touch, "completely shielded from
 Z-dephasing at B", multiplicity N+1, **verified for B at the endpoint only**.
 Its scope paragraph leaves open exactly this direction: "Whether the same
@@ -69,12 +69,12 @@ single-excitation sector never reaches for N ≥ 3; this is the Heisenberg chain
 counting states in one N-dimensional sector. It is a neighbouring question, to
 be read next to F66 and not as closing it.
 
-F126 (header line 5182, the Green's function at line 5193) solves this sector
+F126 (header line 5189, the Green's function at line 5200) solves this sector
 exactly by a renewal representation. So this page does not solve the sector; it
 asks which states the solution never moves. F2 (line 111) names the mechanism
 that fixes the eigenbasis, "the ZZ term in the Heisenberg Hamiltonian supplies
 the diagonal shift that turns the adjacency matrix into that Laplacian, and it
-is absent in the XY case". F152 (line 7058) gives the (0,1) block generator used
+is absent in the XY case". F152 (line 7065) gives the (0,1) block generator used
 in §5. F11 and F65 give mode profiles and rates but not a per-seat count.
 
 **`docs/proofs/`.** `PROOF_UNIFORM_LAW.md` B0 (lines 182-186) owns the starting
@@ -109,11 +109,11 @@ binned at tolerance γ₀·10⁻³, and the same line's 2026-08-09 correction gi
 110, 25 and 12 distinct eigenvalues at finite γ₀ = 0.1. Either way it counts
 α-values, not a subspace dimension per seat.
 
-**`experiments/`.** `MEDIATOR_NOISE_GATE_LEVEL_THREE.md` (lines 257-260, commit
+**`experiments/`.** `MEDIATOR_NOISE_GATE_LEVEL_THREE.md` (lines 257-261, commit
 `751ec96`, five days old and in this arc) already states the centre case: "every
 antisymmetric one vanishes at the centre site exactly … ⌊N/2⌋ of the N modes
 have an exact node at the centre, 5 of 11 here and 2 of 5 at N=5", and its own
-per-site table at line 267 carries a column headed "exact nodes there", gated by
+per-site table at line 268 carries a column headed "exact nodes there", gated by
 the committed `simulations/bridge_node_weights.py`. **So the N = 11 value 5 is
 that sentence, not this page's.**
 
@@ -167,7 +167,7 @@ than fitted ones. Line 877, "a profile comparison is a measurement of Σγ unles
 draft: see §4. Line 424, integer counts belong to the bare coherence and not to
 dressed eigenmodes at J > 0, which also caught this page calling
 `ORTHOGONALITY_SELECTION_FAMILY`'s dressed modes "Pauli strings" two paragraphs
-after citing the entry. And line 758, this page's risk written down in advance:
+after citing the entry. And line 755, this page's risk written down in advance:
 F143 recorded as "the narrower XY re-derivation of a lemma the repo already
 held, minted five days afterwards without citing it, which is exactly the prey
 class the hunt was looking for". The lemma re-derived here is the same one and
@@ -405,7 +405,8 @@ everywhere.
 | 15 | 0 1 2 0 1 0 0 **7** 0 0 1 0 2 1 0 |
 | 21 | 0 1 0 3 1 0 0 1 0 0 **10** 0 0 1 0 0 1 3 0 1 0 |
 
-**dim = (gcd(2j+1, N) − 1)/2**, at every site for N = 3..21.
+**dim = (gcd(2j+1, N) − 1)/2**, at every site of the uniform chain for N = 3..21;
+§11 records that the law is uniform-chain only.
 
 **Derivation, from `PROOF_UNIFORM_LAW.md` B0.** The spectrum there is
 nondegenerate, so every H-invariant subspace is spanned by eigenvectors and the
@@ -804,15 +805,15 @@ suspecting on sight when the object at hand is a subspace.
 
 | | source |
 |---|---|
-| rate = 0 ⟺ node at the dephasing site | F64 (line 1852), `EMERGING_QUESTIONS.md:542` |
+| rate = 0 ⟺ node at the dephasing site | F64 (line 1859), `EMERGING_QUESTIONS.md:542` |
 | "blind to dephasing" as the name, and interior-B nodes | `PRIMORDIAL_GAMMA_CONSTANT.md:133, 144` |
 | "blind subspace" as a typed term with a Meta-Theorem | `ORTHOGONALITY_SELECTION_FAMILY.md:37, 279` |
 | the two-condition DFS logic, and that (i) alone fails | `J_BLIND_RECEIVER_CLASSES.md:32-40` |
 | h_SE = (N−1)J·Id − 2J·𝓛, Neumann modes, nondegeneracy | `PROOF_UNIFORM_LAW.md:182-186`, gated entry-exactly |
 | λ_k = 4cos(kπ/N) + N − 5 | `PROOF_R90_FROZEN_DIVISOR.md:176-178` |
 | the ZZ term as the mechanism, Neumann against Dirichlet | F2 line 111, D10 line 180 |
-| the (0,1) block generator M = −2i·𝓛_J − 2·diag(γ) | F152 line 7058 |
-| ⌊N/2⌋ nodes at the centre of an odd chain | `MEDIATOR_NOISE_GATE_LEVEL_THREE.md:257-260` |
+| the (0,1) block generator M = −2i·𝓛_J − 2·diag(γ) | F152 line 7065 |
+| ⌊N/2⌋ nodes at the centre of an odd chain | `MEDIATOR_NOISE_GATE_LEVEL_THREE.md:257-261` |
 | the centre subspace = the reflection-odd site space | `PROOF_R90_FROZEN_DIVISOR.md:193, 195` |
 | the genre, an immune count at one named seat | F66, verified at the endpoint, interior open |
 | the sector's exact solution | F126, `PROOF_DEPHASING_FRONT_RENEWAL.md` |
@@ -880,10 +881,11 @@ What is still open:
 
 - The blind **operator** space inside the (1,1) block, which is larger than the
   state count here and is the number F66 would compare against.
-  [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §3 measures a neighbouring
+  [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §2 and §3 measure a neighbouring
   object, the **stationary** operators of the whole Liouvillian on the
-  single-excitation sector, and finds their count is exactly 1 + the blind state
-  dimension, for any bond profile with no zero bond, with the same Jacobi
+  single-excitation sector, and find their count is exactly 1 + the blind state
+  dimension, §2 for any bond profile with no zero bond (the 330-pair sweep) and
+  §3 as the uniform evaluation, with the same Jacobi
   simplicity as the reason. The two objects are still not shown to coincide: one is killed by the
   dissipator, the other by the dissipator and the commutator together.
 - Whether anything is blind in **popcount ≥ 2** for any topology, or whether the
@@ -904,10 +906,15 @@ What is still open:
   are now spent. §7 rules out MI integrated over time: the integral's mean
   dilutes with the window and every span falls with it, so only the ratio
   survives. [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §1 rules out
-  steady-state MI for the arm this page's sweep compares: wherever nothing is
-  blind the stationary state of the **single-excitation** sector is I/N at every
-  seat and every rate, its mutual information on halves of size (N−1)/2 with the
-  centre in neither is log₂N − ((N+1)/N)log₂((N+1)/2) bits, and the span is zero
+  steady-state MI for the arm this page's sweep compares: wherever dephasing at
+  a **single seat** leaves nothing blind the stationary state of the
+  **single-excitation** sector is I/N at every seat and every rate; this page's
+  sweep carries γ on ten or eleven seats, past that one-seat law's reach (a
+  several-seat support needs connectivity as well, the seat page's opening
+  carrying the cut-chain counterexample), so its one-dimensional kernels are
+  certified profile by profile by the exact rank instead. The mutual
+  information on halves of size (N−1)/2 with the centre in neither is then
+  log₂N − ((N+1)/N)log₂((N+1)/2) bits, and the span is zero
   everywhere. It is window-stable in the way a closed eye is steady. It does not
   cover §7's first row, "none (only the swept seat carries γ)", where the kernel
   is degenerate and the limit depends on the preparation. What that page found

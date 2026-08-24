@@ -4,9 +4,15 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F4 disconnected-graph extension: kernel dimension of the dephased Heisenberg
-/// Liouvillian L_H (the full Liouvillian, commutator plus Z-dephasing at any Σγ &gt; 0; its
-/// kernel is the joint kernel of [H, ·] and the dephasing dissipator, i.e. the steady-state
-/// space) factorises across connected components of the underlying graph. The dephasing is
+/// Liouvillian L_H (the full Liouvillian, commutator plus UNIFORM Z-dephasing at any
+/// Σγ &gt; 0, the anchor proof's hypothesis; its kernel is the joint kernel of [H, ·] and the
+/// dephasing dissipator, i.e. the steady-state space) factorises across connected
+/// components of the underlying graph. Uniformity is sufficient, not necessary: the
+/// F4 bullet's weaker "dephasing ON at every site" already suffices, and that is not
+/// necessary either. Σγ &gt; 0 alone is NOT the condition: on the N = 3 open chain, γ = 0.5 on the
+/// end seat alone already gives kernel 4, while the same γ on the middle seat gives 6
+/// (which seat carries the γ decides; see the F4 seat sub-bullets in
+/// docs/ANALYTICAL_FORMULAS.md and experiments/THE_SEAT_THAT_CUTS.md). The dephasing is
 /// essential: at Σγ = 0 the bare commutator kernel is the larger full commutant of H.
 ///
 /// <code>
@@ -174,7 +180,7 @@ public sealed class F4KernelDimensionByComponentsClaim : Claim
         get
         {
             yield return new InspectableNode("statement",
-                summary: "For graph G with connected components c, dim ker L_H(G) = Π_c (|c|+1), where L_H is the dephased Heisenberg Liouvillian (commutator plus Z-dephasing, any Σγ > 0; kernel = joint kernel of [H,·] and the dephasing dissipator). Specialises to N+1 for any single connected component of size N (matches F4 popcount-sector count). Dephasing is essential: at Σγ = 0 the bare commutator kernel is the larger full commutant of H.");
+                summary: "For graph G with connected components c, dim ker L_H(G) = Π_c (|c|+1), where L_H is the dephased Heisenberg Liouvillian (commutator plus UNIFORM Z-dephasing, any Σγ > 0, the anchor proof's hypothesis; kernel = joint kernel of [H,·] and the dephasing dissipator). Uniformity is sufficient, not necessary (the F4 bullet's weaker 'dephasing ON at every site' already suffices, and that is not necessary either); Σγ > 0 alone is NOT the condition (N = 3 chain: γ = 0.5 on the end seat alone gives 4, on the middle seat 6; which seat carries the γ decides, see the F4 seat sub-bullets). Specialises to N+1 for any single connected component of size N (matches F4 popcount-sector count). Dephasing is essential: at Σγ = 0 the bare commutator kernel is the larger full commutant of H.");
 
             yield return new InspectableNode("Tier 1 derived",
                 summary: "Connected-case upper bound dim ker ≤ |c|+1 closed by DEGENERACY_PALINDROME Result 2 (magnetization conservation: identity + |c| popcount projectors exhaust the kernel); multi-component product follows from tensor-sum kernel factorisation L_H(G) = L_H(G_1) ⊗ I + I ⊗ L_H(G_2). 5 bit-exact anchors corroborate (4 at N=8 + 1 at N=9 chain). See PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md § \"Upper-bound closure (resolved 2026-05-18)\".");
