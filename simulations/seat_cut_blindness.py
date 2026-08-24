@@ -685,7 +685,10 @@ def run_full():
     print("is printed and not converted.  It is still a threshold, and this is")
     print("not the only one in the script: run_graphs takes the same TOL, and")
     print("three eigh sites decide a node or blind partition at a bare 1e-9.")
-    print("The page enumerates all six.")
+    print("That is five; the sixth is the component count, which is a float")
+    print("eigensolver by necessity, being a claim about an eigenBASIS, and")
+    print("which certifies nothing.  The page enumerates the same six and says")
+    print("of FOUR of them that they print no gap at all.")
     print()
     print("F4's own two numbers reproduce: 4 at the end, 6 at the middle.")
     print()
@@ -842,7 +845,12 @@ def run_criterion():
     print("integer profiles:")
     print()
     seed = 12345
-    bad = tested = 0
+    # BOTH BOOKS.  An earlier version swept zz=True only, and all four surfaces
+    # that carry this count stated it with no book named, while part 4 hands the
+    # criterion to XY; that is the same defect this script's own fence paragraph
+    # was rewritten to remove.  The sweep prints one line per book now, and the
+    # page, the arc and this file all say "on each book".
+    stats = {True: [0, 0], False: [0, 0]}
     for n in range(3, 9):
         profiles = [[1] * (n - 1), list(range(1, n)),
                     [((i * 7) % 5) + 1 for i in range(n - 1)]]
@@ -861,10 +869,13 @@ def run_criterion():
         for js in profiles:
             bonds = [(i, i + 1, js[i]) for i in range(n - 1)]
             for j in range(n):
-                tested += 1
-                bad += (exact_kernel_dim(n, bonds, [j]) - 1
-                        != blind_by_gcd(n, bonds, j))
-    print(f"  (profile, seat) pairs tested: {tested}    mismatches: {bad}")
+                for zz in (True, False):
+                    stats[zz][0] += 1
+                    stats[zz][1] += (exact_kernel_dim(n, bonds, [j], zz=zz) - 1
+                                     != blind_by_gcd(n, bonds, j, zz=zz))
+    for zz, name in ((True, "Heisenberg"), (False, "XY        ")):
+        t, b = stats[zz]
+        print(f"  {name}   (profile, seat) pairs tested: {t}    mismatches: {b}")
     print()
     print("Two corollaries, read off the criterion rather than measured.  On")
     print("the UNIFORM chain the shared factor is the cosine coincidence the")
@@ -882,19 +893,26 @@ def run_criterion():
     print(f"{'book':>11} {'N':>3} {'zero-bond pairs':>16} {'of those wrong':>15} "
           f"{'zero-free pairs':>16} {'of those wrong':>15}")
     grand = {}
+    # The simplicity reading below used to be ASSERTED.  Count it: the four
+    # cells of (spectrum simple?) x (criterion right?) over the zero-bond half.
+    simple_cells = {}
     for zz in (True, False):
         tot = [0, 0, 0, 0]
+        cells = {(True, True): 0, (True, False): 0,
+                 (False, True): 0, (False, False): 0}
         for n in (3, 4, 5, 6):
             zb = zbw = zf = zfw = 0
             for combo in itertools.product((0, 1, 2), repeat=n - 1):
                 bonds = [(i, i + 1, combo[i]) for i in range(n - 1)]
                 has_zero = 0 in combo
+                simple = _spectrum_is_simple(n, bonds, zz) if has_zero else None
                 for seat in range(n):
                     got = exact_kernel_dim(n, bonds, [seat], zz) - 1
                     want = blind_by_gcd(n, bonds, seat, zz)
                     if has_zero:
                         zb += 1
                         zbw += (got != want)
+                        cells[(simple, got == want)] += 1
                     else:
                         zf += 1
                         zfw += (got != want)
@@ -903,6 +921,7 @@ def run_criterion():
                   f"{zbw:>15} {zf:>16} {zfw:>15}")
         print(f"{'':>11} {'all':>3} {tot[0]:>16} {tot[1]:>15} {tot[2]:>16} "
               f"{tot[3]:>15}")
+        simple_cells[zz] = cells
         grand['Heisenberg' if zz else 'XY'] = tot
         print()
     h, y = grand['Heisenberg'], grand['XY']
@@ -918,18 +937,40 @@ def run_criterion():
     print("its own ferromagnetic vacuum at the same eigenvalue, so two")
     print("components always repeat a level.  On XY there is no such term and a")
     print("cut chain can keep a simple spectrum.  Simplicity is NECESSARY there")
-    print("and not sufficient: every XY zero-bond pair the criterion gets right")
-    print("has a simple spectrum, and plenty of simple ones are still wrong.")
+    print("and not sufficient, and that is COUNTED rather than asserted; the")
+    print("four cells of the XY zero-bond half, and the Heisenberg ones beside")
+    print("them because a column of zeros is the whole Heisenberg story:")
+    print()
+    print(f"{'book':>11} {'simple & right':>15} {'simple & wrong':>15} "
+          f"{'degen & right':>14} {'degen & wrong':>14}")
+    for zz, name in ((True, "Heisenberg"), (False, "XY")):
+        c = simple_cells[zz]
+        print(f"{name:>11} {c[(True, True)]:>15} {c[(True, False)]:>15} "
+              f"{c[(False, True)]:>14} {c[(False, False)]:>14}")
+    print()
+    print("Read the XY row: the 'degenerate and right' cell is EMPTY, so every")
+    print("pair the criterion gets right is simple, which is necessity; the")
+    print("'simple and wrong' cell is not, which is why it is not sufficient.")
+    print("On Heisenberg the two simple cells are BOTH empty, which is the")
+    print("no-simple-spectrum claim above, counted.")
     print()
     print("The smallest case, seat by seat, so that 'the end seat' is not used")
     print("as a name for it:")
     print()
     _cut = [(0, 1, 0), (1, 2, 1)]
-    print(f"   N = 3, bonds [0, 1]:  measured "
-          f"{[exact_kernel_dim(3, _cut, [s]) - 1 for s in range(3)]}   "
-          f"criterion {[blind_by_gcd(3, _cut, s) for s in range(3)]}")
-    print("   The two ends do not even agree with each other, so the cut is what")
-    print("   the criterion cannot see, not the seat's position.")
+    for zz, name in ((True, "Heisenberg"), (False, "XY        ")):
+        print(f"   N = 3, bonds [0, 1], {name}:  measured "
+              f"{[exact_kernel_dim(3, _cut, [s], zz=zz) - 1 for s in range(3)]}"
+              f"   criterion "
+              f"{[blind_by_gcd(3, _cut, s, zz=zz) for s in range(3)]}")
+    print()
+    print("   On Heisenberg the two ends do not even agree with each other, so")
+    print("   the cut is what the criterion cannot see, not the seat's position.")
+    print("   The XY row is the smallest of the 60: at SEAT 1 the cut leaves two")
+    print("   1x1 blocks with the same characteristic polynomial, deg gcd = 1,")
+    print("   and that is the true count, so a zero bond leaves the criterion")
+    print("   standing there.  It is the same arithmetic on both books; what")
+    print("   differs is the diagonal the ZZ term adds.")
     print()
     print("WHAT THE DEPHASING ACTUALLY KILLS, because an earlier version of")
     print("this work said it 'kills every entry of rho that crosses the seat'.")
@@ -1850,8 +1891,25 @@ def run_deleted():
     print("exactly, at two primes.  No eigensolver anywhere.")
     print()
 
+    def _connected(n, bonds):
+        # over the bonds that actually couple: a J = 0 entry is not an edge.
+        parent = list(range(n))
+
+        def find(a):
+            while parent[a] != a:
+                parent[a] = parent[parent[a]]
+                a = parent[a]
+            return a
+
+        for (a, b, j) in bonds:
+            if j != 0:
+                parent[find(a)] = find(b)
+        return len({find(v) for v in range(n)}) == 1
+
+    span_fails = {}
     for zz in (True, False):
         label = "Heisenberg (ZZ on)" if zz else "XY (ZZ off)"
+        span_fails[zz] = []
         print(f"--- {label}")
         print(f"{'graph':40s} {'simple':>6} {'blind per seat':>20} "
               f"{'deleted':>8} {'halves':>7} {'1+bl':>6}")
@@ -1880,6 +1938,8 @@ def run_deleted():
             is_simple = _spectrum_is_simple(n, bonds, zz)
             degenerate += (not is_simple)
             simple = "yes" if is_simple else "NO"
+            if not span_ok:
+                span_fails[zz].append((name, _connected(n, bonds)))
             print(f"{name:40s} {simple:>6} {str(truth):>20} "
                   f"{'match' if truth == dele else 'WRONG':>8} {hs:>7} "
                   f"{'holds' if span_ok else 'BREAKS':>6}")
@@ -1891,8 +1951,8 @@ def run_deleted():
               f"DEGENERATE spectrum, so the COUNT carries no simplicity "
               f"hypothesis.")
         print(f"    the kernel identity dim ker L_SE = 1 + blind holds on "
-              f"{span_rows}/{len(DELETED_GRAPHS)} graphs: that one DOES need "
-              f"the fence.")
+              f"{span_rows}/{len(DELETED_GRAPHS)} graphs: that one, unlike "
+              f"the count, DOES carry a hypothesis, named below.")
         print()
 
     print("Read the table this way.  The deleted form matches the definition on")
@@ -1907,19 +1967,40 @@ def run_deleted():
     print("the cut matrix happens to fall into two pieces, which is what let")
     print("the criterion be written as a gcd of two halves in the first place.")
     print()
+    nz = len(span_fails[True])
+    nx = len(span_fails[False])
+    conn_z = sorted(nm for nm, c in span_fails[True] if c)
+    conn_x = sorted(nm for nm, c in span_fails[False] if c)
+    assert conn_z == conn_x, (conn_z, conn_x)
     print("The SPAN is a different story, and the last column is what the")
     print("chain's 'load-bearing twice' really covers: a zero bond does break")
-    print("the span, but the zero bond is not the discriminator here, since six")
-    print("of the eight failures below carry none and the zero-bond path")
-    print("[1,0,1] holds.  dim ker L_SE(j) =")
-    print("1 + blind(j) can BREAK only where the spectrum is degenerate, and")
-    print("plenty of degenerate rows hold anyway (the rings, K4 minus an edge,")
-    print("the isolated seat on the ZZ book): simplicity is SUFFICIENT for the")
-    print("span and NOT necessary.  On [1,1,0,1,1] at seats 1 and 4 the count")
-    print("is 4 and the kernel is 7.  The count")
-    print("generalises and the kernel identity does not, so a reader carrying")
-    print("the fence-free criterion to the kernel would be carrying it past the")
-    print("hypothesis it needs.")
+    print("the span, but the zero bond is NOT the discriminator.  The counts")
+    print("are book-specific and the tables ABOVE carry them:")
+    print()
+    print(f"    span failures    Heisenberg {nz} of {len(DELETED_GRAPHS)}"
+          f"    XY {nx} of {len(DELETED_GRAPHS)}")
+    print()
+    print("and the honest reading of them is CONNECTIVITY, not the bond list.")
+    print("Counting failures 'with no zero bond' turns on whether a missing")
+    print(f"edge is written as J = 0 or left out: {len(conn_z)} of the failures")
+    print("are on CONNECTED graphs, the SAME ones on both books,")
+    print()
+    for nm in conn_z:
+        print(f"        {nm}")
+    print()
+    print("while the zero-bond path [1,0,1], which is disconnected, HOLDS.  So")
+    print("neither the zero bond nor the disconnection decides it.  What does:")
+    print("dim ker L_SE(j) = 1 + blind(j) can BREAK only where the spectrum is")
+    print("degenerate, and plenty of degenerate rows hold anyway: the rings, on")
+    print("BOTH books; K4 minus an edge, degenerate and holding on the ZZ book")
+    print("and simple on the XY one; and the isolated seat, degenerate on both,")
+    print("holding on ZZ and BREAKING on XY.  So simplicity is")
+    print("SUFFICIENT for the span and NOT necessary.  That is the hypothesis")
+    print("the summary lines above point at.  On [1,1,0,1,1] at seats 1 and 4")
+    print("the count is 4 and the kernel is 7.  The count generalises and the")
+    print("kernel identity does not, so a reader carrying the fence-free")
+    print("criterion to the kernel would be carrying it past the hypothesis it")
+    print("needs.")
     print()
     print("ONE SEAT AGAINST A SUPPORT.  For a single seat, blind(j) = 0 forces")
     print("a one-dimensional kernel on ANY graph and needs no simplicity: it")

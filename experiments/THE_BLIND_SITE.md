@@ -861,7 +861,15 @@ seat untouched; and the two blocks are principal submatrices, not the
 free-standing subchains; the two readings agree on the XY chain, where there is
 no diagonal to differ in, and disagree on every Heisenberg row that page
 measures. The no-zero-bond hypothesis is F143's fence for a neighbouring
-object, and here a zero bond makes the criterion wrong rather than inapplicable.
+object, and here a zero bond makes the criterion wrong rather than
+inapplicable, on the Heisenberg book totally and on XY not: of the 1682
+zero-bond (profile, seat) pairs over N = 3..6, all 1682 are wrong on the
+Heisenberg book and 1622 on the XY one, the remaining 60 still coming out
+right, because what a zero bond has to force is a DEGENERACY and only the ZZ
+term forces it always. The
+book-specificity matters on this page precisely because the paragraph above
+is already reading both books. That page states the sweep in its abstract and
+runs it in its `criterion` part.
 Reflection symmetry is neither necessary nor sufficient: a reflection-symmetric
 N = 7 chain has more blindness than the divisor law and a reflection-symmetric
 N = 9 chain has less, while an asymmetric N = 5 chain reaches the law's own

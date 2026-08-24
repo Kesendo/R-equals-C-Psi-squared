@@ -483,9 +483,14 @@ the sector populations alone and no γ profile can move it.
 **And the obvious replacement does not work either, on this comparison.** The
 **dimension** of the stationary manifold is window-free and rate-free and carries
 the blindness count exactly, dim ker L_SE = 1 + deg gcd(χ(H_left), χ(H_right))
-for dephasing at one seat of an open chain, read in the single-excitation sector,
-which on the uniform chain is 1 + (gcd(2j+1, N) − 1)/2
-([The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §§2-3). But every profile in the
+for dephasing at one seat of an open chain with NO ZERO BOND, read in the
+single-excitation sector, which on the uniform HEISENBERG chain is
+1 + (gcd(2j+1, N) − 1)/2 and on the uniform XY chain is gcd(j+1, N+1)
+([The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §§2-3). The fence is not a
+well-formedness condition: at a zero bond the two-halves form goes WRONG
+rather than undefined, totally so on the Heisenberg book and not totally on
+XY. Nothing on this page sits near it, the chain here being uniform and
+zero-free throughout. But every profile in the
 γ-sweep above puts γ > 0 on at least ten of the eleven seats (the γ = 0
 configuration discussed later on this page is not one of the swept arms). That
 by itself does not settle it, since a one-seat law says nothing about a ten-seat

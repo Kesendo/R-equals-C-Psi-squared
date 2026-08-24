@@ -249,7 +249,10 @@ A ratio cannot be counted in decades against an absolute TOL, so it
 is printed and not converted.  It is still a threshold, and this is
 not the only one in the script: run_graphs takes the same TOL, and
 three eigh sites decide a node or blind partition at a bare 1e-9.
-The page enumerates all six.
+That is five; the sixth is the component count, which is a float
+eigensolver by necessity, being a claim about an eigenBASIS, and
+which certifies nothing.  The page enumerates the same six and says
+of FOUR of them that they print no gap at all.
 
 F4's own two numbers reproduce: 4 at the end, 6 at the middle.
 
@@ -334,7 +337,8 @@ computed here in exact Fractions, no eigensolver.  Swept against the
 exact GF(p) kernel over uniform, ramp, palindromic and pseudo-random
 integer profiles:
 
-  (profile, seat) pairs tested: 330    mismatches: 0
+  Heisenberg   (profile, seat) pairs tested: 330    mismatches: 0
+  XY           (profile, seat) pairs tested: 330    mismatches: 0
 
 Two corollaries, read off the criterion rather than measured.  On
 the UNIFORM chain the shared factor is the cosine coincidence the
@@ -374,15 +378,33 @@ forces one: each component contributes the one-magnon descendant of
 its own ferromagnetic vacuum at the same eigenvalue, so two
 components always repeat a level.  On XY there is no such term and a
 cut chain can keep a simple spectrum.  Simplicity is NECESSARY there
-and not sufficient: every XY zero-bond pair the criterion gets right
-has a simple spectrum, and plenty of simple ones are still wrong.
+and not sufficient, and that is COUNTED rather than asserted; the
+four cells of the XY zero-bond half, and the Heisenberg ones beside
+them because a column of zeros is the whole Heisenberg story:
+
+       book  simple & right  simple & wrong  degen & right  degen & wrong
+ Heisenberg               0               0              0           1682
+         XY              60             342              0           1280
+
+Read the XY row: the 'degenerate and right' cell is EMPTY, so every
+pair the criterion gets right is simple, which is necessity; the
+'simple and wrong' cell is not, which is why it is not sufficient.
+On Heisenberg the two simple cells are BOTH empty, which is the
+no-simple-spectrum claim above, counted.
 
 The smallest case, seat by seat, so that 'the end seat' is not used
 as a name for it:
 
-   N = 3, bonds [0, 1]:  measured [2, 1, 1]   criterion [0, 0, 0]
-   The two ends do not even agree with each other, so the cut is what
-   the criterion cannot see, not the seat's position.
+   N = 3, bonds [0, 1], Heisenberg:  measured [2, 1, 1]   criterion [0, 0, 0]
+   N = 3, bonds [0, 1], XY        :  measured [2, 1, 1]   criterion [0, 1, 0]
+
+   On Heisenberg the two ends do not even agree with each other, so
+   the cut is what the criterion cannot see, not the seat's position.
+   The XY row is the smallest of the 60: at SEAT 1 the cut leaves two
+   1x1 blocks with the same characteristic polynomial, deg gcd = 1,
+   and that is the true count, so a zero bond leaves the criterion
+   standing there.  It is the same arithmetic on both books; what
+   differs is the diagonal the ZZ term adds.
 
 WHAT THE DEPHASING ACTUALLY KILLS, because an earlier version of
 this work said it 'kills every entry of rho that crosses the seat'.
@@ -821,7 +843,7 @@ isolated seat N = 4                          NO         [1, 2, 1, 3]    match   
     deleted form: 20/20 graphs match the definition at every seat.
     halves form: defined on 5 paths, WRONG on 3 of them.
     14 of the 20 graphs have a DEGENERATE spectrum, so the COUNT carries no simplicity hypothesis.
-    the kernel identity dim ker L_SE = 1 + blind holds on 12/20 graphs: that one DOES need the fence.
+    the kernel identity dim ker L_SE = 1 + blind holds on 12/20 graphs: that one, unlike the count, DOES carry a hypothesis, named below.
 
 --- XY (ZZ off)
 graph                                    simple       blind per seat  deleted  halves   1+bl
@@ -848,7 +870,7 @@ isolated seat N = 4                          NO         [1, 2, 1, 3]    match   
     deleted form: 20/20 graphs match the definition at every seat.
     halves form: defined on 5 paths, WRONG on 3 of them.
     13 of the 20 graphs have a DEGENERATE spectrum, so the COUNT carries no simplicity hypothesis.
-    the kernel identity dim ker L_SE = 1 + blind holds on 11/20 graphs: that one DOES need the fence.
+    the kernel identity dim ker L_SE = 1 + blind holds on 11/20 graphs: that one, unlike the count, DOES carry a hypothesis, named below.
 
 Read the table this way.  The deleted form matches the definition on
 every row, the rows whose spectrum is NOT simple included: the two
@@ -864,17 +886,35 @@ the criterion be written as a gcd of two halves in the first place.
 
 The SPAN is a different story, and the last column is what the
 chain's 'load-bearing twice' really covers: a zero bond does break
-the span, but the zero bond is not the discriminator here, since six
-of the eight failures below carry none and the zero-bond path
-[1,0,1] holds.  dim ker L_SE(j) =
-1 + blind(j) can BREAK only where the spectrum is degenerate, and
-plenty of degenerate rows hold anyway (the rings, K4 minus an edge,
-the isolated seat on the ZZ book): simplicity is SUFFICIENT for the
-span and NOT necessary.  On [1,1,0,1,1] at seats 1 and 4 the count
-is 4 and the kernel is 7.  The count
-generalises and the kernel identity does not, so a reader carrying
-the fence-free criterion to the kernel would be carrying it past the
-hypothesis it needs.
+the span, but the zero bond is NOT the discriminator.  The counts
+are book-specific and the tables ABOVE carry them:
+
+    span failures    Heisenberg 8 of 20    XY 9 of 20
+
+and the honest reading of them is CONNECTIVITY, not the bond list.
+Counting failures 'with no zero bond' turns on whether a missing
+edge is written as J = 0 or left out: 5 of the failures
+are on CONNECTED graphs, the SAME ones on both books,
+
+        complete K4
+        complete K5
+        star N = 5
+        star N = 6
+        two triangles bridged N = 6
+
+while the zero-bond path [1,0,1], which is disconnected, HOLDS.  So
+neither the zero bond nor the disconnection decides it.  What does:
+dim ker L_SE(j) = 1 + blind(j) can BREAK only where the spectrum is
+degenerate, and plenty of degenerate rows hold anyway: the rings, on
+BOTH books; K4 minus an edge, degenerate and holding on the ZZ book
+and simple on the XY one; and the isolated seat, degenerate on both,
+holding on ZZ and BREAKING on XY.  So simplicity is
+SUFFICIENT for the span and NOT necessary.  That is the hypothesis
+the summary lines above point at.  On [1,1,0,1,1] at seats 1 and 4
+the count is 4 and the kernel is 7.  The count generalises and the
+kernel identity does not, so a reader carrying the fence-free
+criterion to the kernel would be carrying it past the hypothesis it
+needs.
 
 ONE SEAT AGAINST A SUPPORT.  For a single seat, blind(j) = 0 forces
 a one-dimensional kernel on ANY graph and needs no simplicity: it

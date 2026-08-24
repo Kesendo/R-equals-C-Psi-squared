@@ -17,9 +17,11 @@ so where it starts. Every mutual information here is in **bits**.
 **The steady-state functional is window-stable because it has stopped looking.**
 Wherever dephasing at a SINGLE seat leaves no blind subspace, the single-excitation
 Liouvillian has a one-dimensional kernel and its steady state is I/N at every seat
-and every rate. §1's sweep carries γ on ten or eleven seats rather than one, so what
-licenses the span it would report being zero everywhere is the several-seat form
-below, not this sentence. For one seat
+and every rate. §1's sweep carries γ on ten or eleven seats rather than one, and
+this sentence does not reach that far: what licenses §1's own one-dimensional
+kernels is the exact GF(p) rank taken there profile by profile, and the
+several-seat statement below is a connectivity CLAUSE with a counterexample, not
+a form that could license them. For one seat
 that holds on any graph and needs no simplicity: blind(j) = 0 says e_j is cyclic for
 H, so anything commuting with H and with the seat's projector sends e_j to a multiple
 of itself and is therefore a multiple of the identity. For a support of several seats
@@ -59,16 +61,18 @@ right, while the 316 zero-free pairs are right on both books.
 bond forces.** On Heisenberg it always forces one, since each component contributes
 the one-magnon descendant of its own ferromagnetic vacuum at the same eigenvalue and
 two components therefore repeat a level; on XY there is no such term and a cut chain
-can keep a simple spectrum. Simplicity is necessary there and not sufficient: every
-XY zero-bond pair the criterion gets right has a simple spectrum, and plenty of
-simple ones are still wrong. A zero bond disconnects the chain, so H_SE stops being
+can keep a simple spectrum. Simplicity is necessary there and not sufficient, and over
+the swept range, N = 3..6, that is counted rather than asserted: of the 1682 XY zero-
+bond pairs the four cells (simple, degenerate) × (right, wrong) hold **60, 342, 0,
+1280**. The empty cell is the necessity, since no pair with a degenerate spectrum is
+ever right; the 342 is why simplicity is not sufficient. A zero bond disconnects the chain, so H_SE stops being
 unreduced, and the kernel then outgrows the span too: 7 against 5 at N = 6 with bonds
 [1, 1, 0, 1, 1], **at seats 1 and 4**. That profile splits H_SE into two identical
 halves, so every eigenvalue is doubled; which seat is watched then decides whether
 the excess appears, and the chain's other four seats give 4 against 4. Off that
 fence: verified against the exact kernel at every seat of 330 (profile, seat) pairs
-over N = 3..8, on uniform, ramp, palindromic and pseudo-random integer profiles,
-zero mismatches, in exact arithmetic with no eigensolver.
+over N = 3..8, on uniform, ramp, palindromic and pseudo-random integer profiles, on
+EACH book, zero mismatches on both, in exact arithmetic with no eigensolver.
 
 **On the uniform chain that shared factor is the divisor law**, which is the
 committed reading of [The Blind Site](THE_BLIND_SITE.md):
@@ -334,7 +338,8 @@ says it of a Hermitian matrix outright, "Lemma A applies to the Hermitian Jacobi
 matrix A_J as well, so a path's hopping spectrum is simple whenever A_J is Hermitian
 and every J_b ≠ 0", which is exactly what H_SE is. §(g)'s own setting is the Δ = 0
 adjacency block, and the argument it DISCARDS is a Δ = 1 Laplacian one; what it keeps
-is Lemma A again, which names no Δ book at all. Non-derogatory gives geometric multiplicity one; H_SE is real
+is Lemma A again, which is stated for either Δ book. Non-derogatory gives geometric
+multiplicity one; H_SE is real
 symmetric, hence diagonalisable, so geometric one forces algebraic one and the
 spectrum is simple. What is added here is the step between: for a Jacobi matrix an
 eigenvector vanishes at a site exactly when that eigenvalue is an eigenvalue of both
@@ -352,8 +357,8 @@ can itself vanish, because the recursion would then drag the whole vector to zer
 computes `blind_by_gcd` in exact `Fraction` arithmetic (Faddeev-LeVerrier for the
 characteristic polynomials, Euclid for the gcd, no eigensolver anywhere) and
 compares it to the exact kernel dimension over 330 (profile, seat) pairs across
-N = 3..8, on uniform, ramp, palindromic and pseudo-random integer bond profiles.
-**Zero mismatches.**
+N = 3..8, on uniform, ramp, palindromic and pseudo-random integer bond profiles, on
+EACH book. **Zero mismatches on both.**
 
 **Reflection symmetry is neither necessary nor sufficient for the uniform-chain
 law's value.** The qualifier is the whole of the claim: reflection about seat j IS
@@ -712,7 +717,7 @@ gap either.
 | the uniform XY sine eigenbasis §4's two-line proof names | **F65** |
 | that the seat decides the α = 0 multiplicity at all (multiplicity 64, not 6, at the N = 5 centre) | **F66** Scope |
 | that a path with every bond non-zero is non-derogatory "in either Δ book", hypothesis included (simplicity then follows for our real symmetric H_SE) | [PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](../docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md) §(b) **Lemma A** |
-| the reason the non-vanishing bonds matter, "at a vanishing bond the chain is cut and the pieces can repeat each other" | the same proof's §(g), as one of Lemma A's two load-bearing hypotheses, stated in either Δ book |
+| the reason the non-vanishing bonds matter, "at a vanishing bond the chain is cut and the pieces can repeat each other" | the same proof's §(g), where it is one of the two load-bearing hypotheses of §(g)'s own simplicity statement about the hopping spectrum, the other being Hermiticity of A_J. Of that PAIR Lemma A carries only the non-vanishing one, "needing no Hermiticity" in §(g)'s own words (its other hypothesis is pathness, which row 1 above carries); and it is Lemma A, not the simplicity statement, that holds in either Δ book. Not to be read as the proof's labelled **Corollary**, which is §(c)'s and says something else |
 | the phrase "blind subspace" | [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md), where it is a measurement's H_M^⊥ generally; borrowed here in The Blind Site's sense |
 | the N = 3 end-against-middle kernel numbers, 4 and 6 | **F4** |
 | that the weight-2 kernel is topology-dependent with no closed form | [WEIGHT2_KERNEL](WEIGHT2_KERNEL.md) |
@@ -731,6 +736,7 @@ gap either.
 | **that `CAUGHT_ERRORS.md`'s "b²+b" is false at N = 7**, on a FULL kernel: cross blocks ranked and zero (one prime suffices for an empty block), diagonal blocks agreeing at two | this page, `sector` |
 | **that the two palindromic profiles are NOT counterexamples to the component mechanism**, and the law that decides it: dim ker = Σ m_i² against a best component count of Σ m_i over the Wedderburn blocks of ⟨H_w, n_seat⟩, so a kernel below 4 can never be a witness and the star's hub is one, its four block invariants measured | this page, `sector` (a3) and its star rows |
 | **that the two blocks are principal submatrices and NOT free-standing subchains, which coincide on XY and differ on Heisenberg** | this page, `criterion` |
+| **that the fence itself is BOOK-SPECIFIC, and that what it is about is the DEGENERACY a zero bond forces rather than the zero bond**: total on Heisenberg, where each component contributes the one-magnon descendant of its own ferromagnetic vacuum at the same eigenvalue, and not total on XY, which has no such term and where a cut chain can stay simple; simplicity is there NECESSARY and not sufficient over the swept N = 3..6, counted rather than asserted (60, 342, 0, 1280 in the four cells) | this page, `criterion` |
 | **that the criterion is a chain evaluation of a fence-free law**: blind(j) = deg gcd(χ(H), χ(H with row and column j struck)), matching the definition at every seat of twenty graphs on both ZZ books, degenerate spectra and zero bonds included, so neither the fence nor the simplicity hypothesis is the phenomenon's | this page, `deleted`, on the fence-free form committed in The Blind Site §5 |
 
 ## 7. Open
@@ -759,9 +765,12 @@ gap either.
   and does not generalise**: dim ker L_SE(j) = 1 + blind(j) holds on twelve of the
   twenty graphs on the ZZ book and eleven off it, [1,1,0,1,1] at seats 1 and 4 giving
   a count of 4 against a kernel of 7. **And the zero bond is not what decides it**,
-  which is worth saying because the opening summary calls the fence load-bearing twice: six of the
-  eight failures here carry no zero bond at all (both stars, K₄, K₅ and both triangle
-  graphs), while the zero-bond path [1, 0, 1] holds. What every failure does carry is
+  which is worth saying because the opening summary calls the fence load-bearing twice.
+  Counting the failures that carry "no zero bond" would turn on whether a missing edge is
+  WRITTEN as J = 0 or simply left out, which is why the count given here is by
+  CONNECTIVITY instead: of the eight failures on the ZZ book and the nine off it, five
+  are on connected graphs, and it is the same five both times (both stars, K₄, K₅, the
+  bridged triangles), while the zero-bond path [1, 0, 1], itself disconnected, holds. What every failure does carry is
   a degenerate spectrum, and some degenerate spectra hold anyway (the N = 4 ring
   does), so on this table **simplicity is SUFFICIENT for the span and not necessary**. Carrying the fence-free
   criterion across to the kernel would carry it past a hypothesis the kernel needs and

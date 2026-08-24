@@ -8077,14 +8077,25 @@ public static class OpenArcsRegistry
                 "counts. A zero bond breaks the SPAN too, at N = 6 with bonds " +
                 "[1,1,0,1,1] the kernel being 7 against the span's 5 AT SEATS 1 AND 4 " +
                 "(the other four seats of that chain give 4 against 4). But the zero " +
-                "bond is NOT what decides the span: six of the eight span failures " +
-                "over the twenty graphs carry no zero bond at all and the zero-bond " +
-                "path [1,0,1] holds, the discriminator being degeneracy, with " +
-                "simplicity SUFFICIENT and not necessary. The criterion's own fence " +
-                "is book-specific as well: total on Heisenberg (1682 of 1682 wrong), " +
-                "not total on XY (60 of the same pairs still right), because what a " +
-                "zero bond has to force is a DEGENERACY and only the ZZ term forces " +
-                "it always. H_left/H_right are the two PRINCIPAL " +
+                "bond is NOT what decides the span. The span fails on 8 of the twenty " +
+                "graphs on Heisenberg and on 9 on XY, and counting the failures 'with " +
+                "no zero bond' turns on whether a missing edge is WRITTEN as J = 0 or " +
+                "left out: the robust count is 5, the SAME five on both books, being " +
+                "the failures on CONNECTED graphs (both stars, K4, K5, bridged " +
+                "triangles), while the zero-bond path [1,0,1], itself disconnected, " +
+                "HOLDS. For the SPAN simplicity is SUFFICIENT and not necessary. " +
+                "The CRITERION's zero-bond half is a different object, and the word " +
+                "simplicity reverses its polarity between the two, so they must not be " +
+                "read together. The fence itself (no zero bond) is the same condition " +
+                "in both books; what is book-specific is what a zero bond DOES, total " +
+                "on Heisenberg (1682 of 1682 wrong) and not total on XY (60 of the " +
+                "same pairs still right), because what a zero bond has to force is a " +
+                "DEGENERACY and only the ZZ term forces it always. For the CRITERION " +
+                "on XY simplicity is NECESSARY and not sufficient, counted over the " +
+                "swept N = 3..6 as the four cells (simple, degenerate) x (right, " +
+                "wrong) = 60, 342, 0, 1280: the empty cell is the necessity, the 342 " +
+                "is the missing sufficiency. " +
+                "H_left/H_right are the two PRINCIPAL " +
                 "SUBMATRICES left behind, NOT the free-standing subchains (they coincide " +
                 "on XY and differ on Heisenberg, where at N = 11 the free-standing reading " +
                 "invents two blind seats). H_SE is Jacobi, hence simple, which is " +
@@ -8093,16 +8104,22 @@ public static class OpenArcsRegistry
                 "H_SE being real symmetric. Section (g) says it of a Hermitian matrix " +
                 "outright, 'Lemma A applies to the Hermitian Jacobi matrix A_J as well, " +
                 "so a path's hopping spectrum is simple whenever A_J is Hermitian and " +
-                "every J_b != 0', which IS H_SE; what section (g) fences to the Delta = 0 " +
-                "adjacency form is the cosine argument it discards, not the Jacobi one it " +
-                "keeps. Rate = 0 iff " +
+                "every J_b != 0', which IS H_SE. Section (g)'s OWN setting is the " +
+                "Delta = 0 adjacency block and the argument it discards is a Delta = 1 " +
+                "LAPLACIAN cosine one, so the Delta = 0 label attaches to (g) ITSELF " +
+                "and the discarded argument carries the OTHER book, not none; what carries to either book is LEMMA A, " +
+                "stated in either Delta book and, in (g)'s own words, needing 'no " +
+                "Hermiticity'. The pair of load-bearing hypotheses (A_J Hermitian AND " +
+                "every J_b != 0) belongs to (g)'s COROLLARY about the hopping spectrum, " +
+                "not to Lemma A, which carries only the second. Rate = 0 iff " +
                 "a node at the dephased site is F64's; what is new is the COUNT between " +
                 "them. ANY BOND PROFILE WITH NO ZERO BOND, the " +
-                "same fence F143 already carries for a neighbouring object, and a zero " +
-                "bond makes the criterion WRONG and not merely inapplicable; 330 " +
-                "(profile, seat) pairs over N = 3..8, zero mismatches, the criterion side " +
-                "in exact Fractions and the kernel side an exact GF(p) rank, no " +
-                "eigensolver either way. On " +
+                "same fence F143 already carries for a neighbouring object; what a zero " +
+                "bond does is stated ONCE above, book by book, and is not repeated here " +
+                "in the unqualified form this entry carried until 2026-08-24. Off the " +
+                "fence, 330 (profile, seat) pairs over N = 3..8 on EACH book, zero " +
+                "mismatches on both, the criterion side in exact Fractions and the " +
+                "kernel side an exact GF(p) rank, no eigensolver either way. On " +
                 "the UNIFORM chain it evaluates to 1 + (gcd(2j+1,N)-1)/2, verified N = 3..13 " +
                 "at every seat in the single-excitation sector by an EXACT GF(p) rank on " +
                 "integer inputs. REFLECTION-SYMMETRIC couplings are NEITHER necessary NOR " +
