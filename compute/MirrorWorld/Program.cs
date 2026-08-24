@@ -560,6 +560,62 @@ if (args.Length > 0 && args[0] == "divisor")
     return;
 }
 
+// ---- run mode "blind": the blind seat -- what a one-seat watching cannot touch ----
+if (args.Length > 0 && args[0] == "blind")
+{
+    int bn = args.Length > 1 ? int.Parse(args[1]) : 11;
+    var bworld = new World();
+
+    Console.WriteLine("the blind seat: put the watching on ONE seat and count what it cannot touch (adopted 2026-08-24)");
+    Console.WriteLine("  source experiments/THE_SEAT_THAT_CUTS.md + experiments/THE_BLIND_SITE.md (no F-number yet)");
+    Console.WriteLine("  blind(seat) = N - rank of the seat's Krylov matrix, an exact GF(p) rank at two primes,");
+    Console.WriteLine("  no eigensolver; on the UNIFORM chain it closes to integer arithmetic, one form per book.");
+    Console.WriteLine("  The span of the watched sector's stationary manifold is 1 + blind on the zero-free chain.");
+    Console.WriteLine();
+    Console.WriteLine("  uniform chain, both books, every seat: count | closed form (they must agree)");
+    foreach (bool book in new[] { true, false })
+    {
+        var bs = new BlindSeat(bworld, bn, Enumerable.Repeat(1L, bn - 1).ToArray(), heisenberg: book);
+        var counts = Enumerable.Range(0, bn).Select(s => bs.Blind(s)).ToArray();
+        var laws = Enumerable.Range(0, bn).Select(s => bs.UniformLaw(s)).ToArray();
+        Console.WriteLine($"  {(book ? "ZZ on " : "ZZ off"),-7} count [{string.Join(" ", counts)}]");
+        Console.WriteLine($"          law   [{string.Join(" ", laws)}]  match: {counts.SequenceEqual(laws)}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  the parity forcing (XY book): at an odd seat of an odd chain both leftover blocks have odd");
+    Console.WriteLine("  size, a zero-diagonal Jacobi block of odd size is singular, so the seat is blind at EVERY");
+    Console.WriteLine("  zero-free profile. An irregular signed profile, both books:");
+    var irr = new long[] { 2, -5, 7, 3, -1, 4, 6, -2, 5, 1, -3, 2, 7, -4 };
+    var bonds = Enumerable.Range(0, bn - 1).Select(i => irr[i % irr.Length]).ToArray();
+    foreach (bool book in new[] { true, false })
+    {
+        var bs = new BlindSeat(bworld, bn, bonds, heisenberg: book);
+        var counts = Enumerable.Range(0, bn).Select(s => bs.Blind(s)).ToArray();
+        Console.WriteLine($"  {(book ? "ZZ on " : "ZZ off"),-7} [{string.Join(" ", counts)}]"
+            + (book ? "" : "   (odd seats forced when N is odd)"));
+    }
+    Console.WriteLine();
+    Console.WriteLine("  the span against the count on the uniform chain (zero-free, so span = 1 + blind):");
+    {
+        var bs = new BlindSeat(bworld, bn, Enumerable.Repeat(1L, bn - 1).ToArray(), heisenberg: true);
+        var pairs = Enumerable.Range(0, bn).Select(s => $"{s}:{bs.Span(s)}|{1 + bs.Blind(s)}");
+        Console.WriteLine($"  seat:span|1+blind  {string.Join("  ", pairs)}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  past the wall (the count is an N x N integer rank; the laws walk with it):");
+    foreach (int n in new[] { 60, 120, 200 })
+    {
+        int bad = 0;
+        foreach (bool book in new[] { true, false })
+        {
+            var bs = new BlindSeat(bworld, n, Enumerable.Repeat(1L, n - 1).ToArray(), heisenberg: book);
+            for (int s = 0; s < n; s++) if (bs.Blind(s) != bs.UniformLaw(s)) bad++;
+        }
+        Console.WriteLine($"  N = {n,3}: mismatches over both books, every seat: {bad}");
+    }
+    return;
+}
+
 // ---- run mode "doubleslit": the phenomenon composed from the atoms (the access layer) ----
 // DoubleSlit IS Field at N=1: two places |L>,|R>, the humps = the immortal diagonal, the fringe = the
 // between |L><R| (the k=1 coherence) paying -2gamma. Nothing new is computed; the atoms are assembled

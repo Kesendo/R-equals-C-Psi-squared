@@ -8069,7 +8069,12 @@ public static class OpenArcsRegistry
                 "adjugate entry of xI - H, so over the eigenbasis of the real " +
                 "symmetric H the gcd degree is N minus the seat's Krylov dimension, " +
                 "no hypothesis beyond real symmetry (the Cramer identity in " +
-                "THE_SEAT_THAT_CUTS section 7). The fence-free statement was already " +
+                "THE_SEAT_THAT_CUTS section 7). ADOPTED INTO MIRRORWORLD 2026-08-24: " +
+                "compute/MirrorWorld/BlindSeat.cs holds the COUNT (the Krylov GF(p) " +
+                "rank at two primes), both uniform laws, the parity forcing and the " +
+                "span, parent Cone (which gained per-site gamma the same day), run " +
+                "mode `blind N`, 37 from-below tests including a dynamic one-seat-" +
+                "light pin; the gcd phrasing and the projector corner stay here. The fence-free statement was already " +
                 "committed in experiments/THE_BLIND_SITE.md section 5 as a Krylov " +
                 "complement, and the seat page reached the criterion without using it; " +
                 "that section itself fences the one case where the Krylov branch is not " +

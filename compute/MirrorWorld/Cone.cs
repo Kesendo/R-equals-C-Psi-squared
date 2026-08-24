@@ -9,6 +9,10 @@ namespace MirrorWorld;
 // rho-dot = -i[H,rho] + D[rho]: H the tight-binding hop along the bonds; D the uniform -4*gamma on every
 // coherence (two distinct single-excitation states always disagree in exactly 2 bits). The light-cone made
 // reachable -- a dynamical, spatial picture the static spectrum cannot show, at an N the spectrum cannot hold.
+// Since 2026-08-24 the light can also sit on chosen seats: an optional per-site profile (the same parameter
+// Restless has carried since 2026-07-11) replaces the uniform -4*gamma by -2*(gamma_a + gamma_b) on the
+// coherence between excitation-at-a and excitation-at-b, which is the single-excitation face of the site mask.
+// Renewal's premise stays the uniform scalar; its faithfulness pin is scoped to the uniform constructor.
 public sealed class Cone : GameObject
 {
     public int N { get; }
@@ -18,14 +22,17 @@ public sealed class Cone : GameObject
 
     readonly Complex[,] rho;        // N x N: rho[a,b] = coherence between excitation-at-a and excitation-at-b
     readonly double[,] hop;         // the tight-binding H on the sites (J on a bond, else 0)
+    readonly double[]? siteGamma;   // optional per-site rates; null = the uniform Gamma
     int[][]? nbr;                   // per site: the bonded sites (rebuilt from hop when a bond changes)
     double[][]? nbrJ;               // per site: the matching couplings
 
-    public Cone(World world, int n, double j, double gamma, (int a, int b)[]? bonds = null) : base(world)
+    public Cone(World world, int n, double j, double gamma, (int a, int b)[]? bonds = null,
+        double[]? siteGammas = null) : base(world)
     {
         N = n;
         J = j;
         Gamma = gamma;
+        siteGamma = siteGammas;
         rho = new Complex[n, n];
         hop = new double[n, n];
         foreach (var (a, b) in bonds ?? Topology.Chain(n)) { hop[a, b] = j; hop[b, a] = j; }
@@ -54,6 +61,17 @@ public sealed class Cone : GameObject
     // the excitation starts at one site (a population, no novelty).
     public void Seed(int site) => rho[site, site] = Complex.One;
 
+    // the excitation starts in a chosen single-excitation wave: rho = |psi><psi| from real amplitudes
+    // (normalised amplitudes give trace 1; the caller owns the normalisation).
+    public void SeedPure(double[] amplitudes)
+    {
+        if (amplitudes.Length != N)
+            throw new ArgumentException($"the wave needs one amplitude per site: {N}.");
+        for (int a = 0; a < N; a++)
+            for (int b = 0; b < N; b++)
+                rho[a, b] = amplitudes[a] * amplitudes[b];
+    }
+
     // rho-dot = -i[H,rho] + D[rho]; D = -4 gamma on every off-diagonal (disagreement 2), 0 on the diagonal.
     Complex[,] Rhs(Complex[,] x)
     {
@@ -67,7 +85,9 @@ public sealed class Cone : GameObject
                 for (int i = 0; i < na.Length; i++) hx += ja[i] * x[na[i], b];
                 var nb = nbr[b]; var jb = nbrJ[b];
                 for (int i = 0; i < nb.Length; i++) xh += x[a, nb[i]] * jb[i];   // hop symmetric: hop[m,b] = hop[b,m]
-                double deph = (a == b) ? 0.0 : -4.0 * Gamma;
+                double deph = (a == b) ? 0.0
+                    : siteGamma is null ? -4.0 * Gamma
+                    : -2.0 * (siteGamma[a] + siteGamma[b]);
                 r[a, b] = -Complex.ImaginaryOne * (hx - xh) + deph * x[a, b];
             }
         return r;
