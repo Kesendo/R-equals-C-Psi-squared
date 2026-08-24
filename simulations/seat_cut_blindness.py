@@ -685,7 +685,7 @@ def run_full():
     print("is printed and not converted.  It is still a threshold, and this is")
     print("not the only one in the script: run_graphs takes the same TOL, and")
     print("three eigh sites decide a node or blind partition at a bare 1e-9.")
-    print("The page enumerates all four.")
+    print("The page enumerates all six.")
     print()
     print("F4's own two numbers reproduce: 4 at the end, 6 at the middle.")
     print()
@@ -879,32 +879,50 @@ def run_criterion():
     print("profile in {0,1,2}^(N-1) for N = 3..6, every seat, criterion against")
     print("the exact kernel, split by whether the profile has a zero bond:")
     print()
-    print(f"{'N':>3} {'zero-bond pairs':>16} {'of those wrong':>15} "
+    print(f"{'book':>11} {'N':>3} {'zero-bond pairs':>16} {'of those wrong':>15} "
           f"{'zero-free pairs':>16} {'of those wrong':>15}")
-    tot = [0, 0, 0, 0]
-    for n in (3, 4, 5, 6):
-        zb = zbw = zf = zfw = 0
-        for combo in itertools.product((0, 1, 2), repeat=n - 1):
-            bonds = [(i, i + 1, combo[i]) for i in range(n - 1)]
-            has_zero = 0 in combo
-            for seat in range(n):
-                got = exact_kernel_dim(n, bonds, [seat]) - 1
-                want = blind_by_gcd(n, bonds, seat)
-                if has_zero:
-                    zb += 1
-                    zbw += (got != want)
-                else:
-                    zf += 1
-                    zfw += (got != want)
-        tot = [tot[0] + zb, tot[1] + zbw, tot[2] + zf, tot[3] + zfw]
-        print(f"{n:>3} {zb:>16} {zbw:>15} {zf:>16} {zfw:>15}")
-    print(f"{'all':>3} {tot[0]:>16} {tot[1]:>15} {tot[2]:>16} {tot[3]:>15}")
+    grand = {}
+    for zz in (True, False):
+        tot = [0, 0, 0, 0]
+        for n in (3, 4, 5, 6):
+            zb = zbw = zf = zfw = 0
+            for combo in itertools.product((0, 1, 2), repeat=n - 1):
+                bonds = [(i, i + 1, combo[i]) for i in range(n - 1)]
+                has_zero = 0 in combo
+                for seat in range(n):
+                    got = exact_kernel_dim(n, bonds, [seat], zz) - 1
+                    want = blind_by_gcd(n, bonds, seat, zz)
+                    if has_zero:
+                        zb += 1
+                        zbw += (got != want)
+                    else:
+                        zf += 1
+                        zfw += (got != want)
+            tot = [tot[0] + zb, tot[1] + zbw, tot[2] + zf, tot[3] + zfw]
+            print(f"{'Heisenberg' if zz else 'XY':>11} {n:>3} {zb:>16} "
+                  f"{zbw:>15} {zf:>16} {zfw:>15}")
+        print(f"{'':>11} {'all':>3} {tot[0]:>16} {tot[1]:>15} {tot[2]:>16} "
+              f"{tot[3]:>15}")
+        grand['Heisenberg' if zz else 'XY'] = tot
+        print()
+    h, y = grand['Heisenberg'], grand['XY']
+    print("THE FENCE IS BOOK-SPECIFIC, which is why both books are swept.")
+    print(f"On HEISENBERG the failure is TOTAL, not partial: all {h[0]} zero-bond")
+    print(f"pairs are wrong and all {h[2]} zero-free pairs are right.  On XY the")
+    print(f"same zero-bond set has {y[0] - y[1]} pairs the criterion still gets")
+    print(f"RIGHT, while the {y[2]} zero-free pairs are right on both books.")
     print()
-    print("The failure is TOTAL, not partial: every zero-bond pair is wrong and")
-    print("every zero-free pair is right.  An earlier version of this page")
-    print("quoted the combined count, which reads as a high error rate on a")
-    print("mixed set and understates what the fence is doing.  The smallest case,")
-    print("seat by seat, so that 'the end seat' is not used as a name for it:")
+    print("The reason is that the fence is not really about the zero bond; it is")
+    print("about the DEGENERACY a zero bond forces.  On Heisenberg it always")
+    print("forces one: each component contributes the one-magnon descendant of")
+    print("its own ferromagnetic vacuum at the same eigenvalue, so two")
+    print("components always repeat a level.  On XY there is no such term and a")
+    print("cut chain can keep a simple spectrum.  Simplicity is NECESSARY there")
+    print("and not sufficient: every XY zero-bond pair the criterion gets right")
+    print("has a simple spectrum, and plenty of simple ones are still wrong.")
+    print()
+    print("The smallest case, seat by seat, so that 'the end seat' is not used")
+    print("as a name for it:")
     print()
     _cut = [(0, 1, 0), (1, 2, 1)]
     print(f"   N = 3, bonds [0, 1]:  measured "
@@ -1889,8 +1907,11 @@ def run_deleted():
     print("the cut matrix happens to fall into two pieces, which is what let")
     print("the criterion be written as a gcd of two halves in the first place.")
     print()
-    print("The SPAN is a different story, and the last column is why the fence")
-    print("is called load-bearing TWICE rather than once.  dim ker L_SE(j) =")
+    print("The SPAN is a different story, and the last column is what the")
+    print("chain's 'load-bearing twice' really covers: a zero bond does break")
+    print("the span, but the zero bond is not the discriminator here, since six")
+    print("of the eight failures below carry none and the zero-bond path")
+    print("[1,0,1] holds.  dim ker L_SE(j) =")
     print("1 + blind(j) can BREAK only where the spectrum is degenerate, and")
     print("plenty of degenerate rows hold anyway (the rings, K4 minus an edge,")
     print("the isolated seat on the ZZ book): simplicity is SUFFICIENT for the")

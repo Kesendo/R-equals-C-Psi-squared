@@ -17,7 +17,9 @@ so where it starts. Every mutual information here is in **bits**.
 **The steady-state functional is window-stable because it has stopped looking.**
 Wherever dephasing at a SINGLE seat leaves no blind subspace, the single-excitation
 Liouvillian has a one-dimensional kernel and its steady state is I/N at every seat
-and every rate, so the span the sweep would report is zero everywhere. For one seat
+and every rate. §1's sweep carries γ on ten or eleven seats rather than one, so what
+licenses the span it would report being zero everywhere is the several-seat form
+below, not this sentence. For one seat
 that holds on any graph and needs no simplicity: blind(j) = 0 says e_j is cyclic for
 H, so anything commuting with H and with the seat's projector sends e_j to a multiple
 of itself and is therefore a multiple of the identity. For a support of several seats
@@ -45,12 +47,22 @@ characteristic polynomials share. The seat is blind to the eigenvalues those two
 blocks have in common, and to nothing else.
 
 **The no-zero-bond hypothesis is load-bearing twice on the chain**, for the
-criterion and for the span; §7 measures what each half is really about, and for the
-span it is not the zero bond, and the run sweeps it rather than exhibiting it. Over every profile in
-{0,1,2}^(N−1) for N = 3..6, every seat, the criterion is wrong on **all 1682**
-(profile, seat) pairs that carry a zero bond and right on **all 316** that do not.
-A zero bond disconnects the chain, H_SE stops being a Jacobi matrix and stops being
-simple, and the kernel then outgrows the span too: 7 against 5 at N = 6 with bonds
+criterion and for the span, and §7 measures what each half is really about: for the
+span it is not the zero bond at all. The run sweeps the criterion's half rather than
+exhibiting it, over every profile in {0,1,2}^(N−1) for N = 3..6 and every seat, **on
+both books**. On HEISENBERG the failure is total: wrong on **all 1682** (profile,
+seat) pairs that carry a zero bond, right on **all 316** that do not. **On XY it is
+not total**: the same zero-bond set leaves **60** pairs the criterion still gets
+right, while the 316 zero-free pairs are right on both books.
+
+**So the fence is not really about the zero bond; it is about the degeneracy a zero
+bond forces.** On Heisenberg it always forces one, since each component contributes
+the one-magnon descendant of its own ferromagnetic vacuum at the same eigenvalue and
+two components therefore repeat a level; on XY there is no such term and a cut chain
+can keep a simple spectrum. Simplicity is necessary there and not sufficient: every
+XY zero-bond pair the criterion gets right has a simple spectrum, and plenty of
+simple ones are still wrong. A zero bond disconnects the chain, so H_SE stops being
+unreduced, and the kernel then outgrows the span too: 7 against 5 at N = 6 with bonds
 [1, 1, 0, 1, 1], **at seats 1 and 4**. That profile splits H_SE into two identical
 halves, so every eigenvalue is doubled; which seat is watched then decides whether
 the excess appears, and the chain's other four seats give 4 against 4. Off that
@@ -647,7 +659,7 @@ Three things guard that number, and they are separate arguments.
 
 First, it is a **full** kernel and not a diagonal sum: every cross block is ranked and
 every one comes out exactly zero. That half needs no second prime and is not a
-certificate at all. A GF(p) rank can only be smaller than the rational one, so the
+certificate but a proof. A GF(p) rank can only be smaller than the rational one, so the
 nullity it reports can only be too LARGE; a measured nullity of zero therefore forces
 the rational nullity to be zero. One prime settles an empty block.
 
@@ -700,7 +712,7 @@ gap either.
 | the uniform XY sine eigenbasis §4's two-line proof names | **F65** |
 | that the seat decides the α = 0 multiplicity at all (multiplicity 64, not 6, at the N = 5 centre) | **F66** Scope |
 | that a path with every bond non-zero is non-derogatory "in either Δ book", hypothesis included (simplicity then follows for our real symmetric H_SE) | [PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](../docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md) §(b) **Lemma A** |
-| the reason the non-vanishing bonds matter, "at a vanishing bond the chain is cut and the pieces can repeat each other" | the same proof's §(g), stated there for the Δ = 0 adjacency form |
+| the reason the non-vanishing bonds matter, "at a vanishing bond the chain is cut and the pieces can repeat each other" | the same proof's §(g), as one of Lemma A's two load-bearing hypotheses, stated in either Δ book |
 | the phrase "blind subspace" | [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md), where it is a measurement's H_M^⊥ generally; borrowed here in The Blind Site's sense |
 | the N = 3 end-against-middle kernel numbers, 4 and 6 | **F4** |
 | that the weight-2 kernel is topology-dependent with no closed form | [WEIGHT2_KERNEL](WEIGHT2_KERNEL.md) |

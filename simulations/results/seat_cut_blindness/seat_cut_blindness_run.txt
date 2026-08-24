@@ -249,7 +249,7 @@ A ratio cannot be counted in decades against an absolute TOL, so it
 is printed and not converted.  It is still a threshold, and this is
 not the only one in the script: run_graphs takes the same TOL, and
 three eigh sites decide a node or blind partition at a bare 1e-9.
-The page enumerates all four.
+The page enumerates all six.
 
 F4's own two numbers reproduce: 4 at the end, 6 at the middle.
 
@@ -349,18 +349,36 @@ THE ZERO-BOND FENCE, swept exhaustively rather than exhibited.  Every
 profile in {0,1,2}^(N-1) for N = 3..6, every seat, criterion against
 the exact kernel, split by whether the profile has a zero bond:
 
-  N  zero-bond pairs  of those wrong  zero-free pairs  of those wrong
-  3               15              15               12               0
-  4               76              76               32               0
-  5              325             325               80               0
-  6             1266            1266              192               0
-all             1682            1682              316               0
+       book   N  zero-bond pairs  of those wrong  zero-free pairs  of those wrong
+ Heisenberg   3               15              15               12               0
+ Heisenberg   4               76              76               32               0
+ Heisenberg   5              325             325               80               0
+ Heisenberg   6             1266            1266              192               0
+            all             1682            1682              316               0
 
-The failure is TOTAL, not partial: every zero-bond pair is wrong and
-every zero-free pair is right.  An earlier version of this page
-quoted the combined count, which reads as a high error rate on a
-mixed set and understates what the fence is doing.  The smallest case,
-seat by seat, so that 'the end seat' is not used as a name for it:
+         XY   3               15              11               12               0
+         XY   4               76              76               32               0
+         XY   5              325             285               80               0
+         XY   6             1266            1250              192               0
+            all             1682            1622              316               0
+
+THE FENCE IS BOOK-SPECIFIC, which is why both books are swept.
+On HEISENBERG the failure is TOTAL, not partial: all 1682 zero-bond
+pairs are wrong and all 316 zero-free pairs are right.  On XY the
+same zero-bond set has 60 pairs the criterion still gets
+RIGHT, while the 316 zero-free pairs are right on both books.
+
+The reason is that the fence is not really about the zero bond; it is
+about the DEGENERACY a zero bond forces.  On Heisenberg it always
+forces one: each component contributes the one-magnon descendant of
+its own ferromagnetic vacuum at the same eigenvalue, so two
+components always repeat a level.  On XY there is no such term and a
+cut chain can keep a simple spectrum.  Simplicity is NECESSARY there
+and not sufficient: every XY zero-bond pair the criterion gets right
+has a simple spectrum, and plenty of simple ones are still wrong.
+
+The smallest case, seat by seat, so that 'the end seat' is not used
+as a name for it:
 
    N = 3, bonds [0, 1]:  measured [2, 1, 1]   criterion [0, 0, 0]
    The two ends do not even agree with each other, so the cut is what
@@ -844,8 +862,11 @@ no fence, no simplicity hypothesis and no chain; the chain is where
 the cut matrix happens to fall into two pieces, which is what let
 the criterion be written as a gcd of two halves in the first place.
 
-The SPAN is a different story, and the last column is why the fence
-is called load-bearing TWICE rather than once.  dim ker L_SE(j) =
+The SPAN is a different story, and the last column is what the
+chain's 'load-bearing twice' really covers: a zero bond does break
+the span, but the zero bond is not the discriminator here, since six
+of the eight failures below carry none and the zero-bond path
+[1,0,1] holds.  dim ker L_SE(j) =
 1 + blind(j) can BREAK only where the spectrum is degenerate, and
 plenty of degenerate rows hold anyway (the rings, K4 minus an edge,
 the isolated seat on the ZZ book): simplicity is SUFFICIENT for the

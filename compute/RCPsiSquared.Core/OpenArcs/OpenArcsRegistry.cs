@@ -8074,9 +8074,17 @@ public static class OpenArcsRegistry
                 "sum of the non-node projectors (unnormalised, Q[seat,seat] = 1 exactly, " +
                 "so the state puts 1/(N-blind) there), plus one projector per node-mode, " +
                 "and it is the part carrying NO amplitude at the seat that blind(j) " +
-                "counts. The fence is load-bearing for the SPAN too, not only for the " +
-                "criterion: at N = 6 with bonds [1,1,0,1,1] the kernel is 7 against the " +
-                "span's 5. H_left/H_right are the two PRINCIPAL " +
+                "counts. A zero bond breaks the SPAN too, at N = 6 with bonds " +
+                "[1,1,0,1,1] the kernel being 7 against the span's 5 AT SEATS 1 AND 4 " +
+                "(the other four seats of that chain give 4 against 4). But the zero " +
+                "bond is NOT what decides the span: six of the eight span failures " +
+                "over the twenty graphs carry no zero bond at all and the zero-bond " +
+                "path [1,0,1] holds, the discriminator being degeneracy, with " +
+                "simplicity SUFFICIENT and not necessary. The criterion's own fence " +
+                "is book-specific as well: total on Heisenberg (1682 of 1682 wrong), " +
+                "not total on XY (60 of the same pairs still right), because what a " +
+                "zero bond has to force is a DEGENERACY and only the ZZ term forces " +
+                "it always. H_left/H_right are the two PRINCIPAL " +
                 "SUBMATRICES left behind, NOT the free-standing subchains (they coincide " +
                 "on XY and differ on Heisenberg, where at N = 11 the free-standing reading " +
                 "invents two blind seats). H_SE is Jacobi, hence simple, which is " +
