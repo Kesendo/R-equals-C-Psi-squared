@@ -795,7 +795,7 @@ gap either.
 | **that the two palindromic profiles are NOT counterexamples to the component mechanism**, and the law that decides it: dim ker = Σ m_i² against a best component count of Σ m_i over the Wedderburn blocks of ⟨H_w, n_seat⟩, so a kernel below 4 can never be a witness and the star's hub is one, its four block invariants measured | this page, `sector` (a3) and its star rows |
 | **that the two blocks are principal submatrices and NOT free-standing subchains, which coincide on XY and differ on Heisenberg** | this page, `criterion` |
 | **that the fence's condition is the same on both books while what a zero bond DOES is book-specific, because what the fence is about is the DEGENERACY a zero bond forces rather than the zero bond**: total on Heisenberg, where each component contributes the one-magnon descendant of its own ferromagnetic vacuum at the same eigenvalue, and not total on XY, which has no such term and where a cut chain can stay simple; simplicity is there NECESSARY and not sufficient over the swept N = 3..6, counted rather than asserted (60, 342, 0, 1280 in the four cells) | this page, `criterion` |
-| **that the criterion is a chain evaluation of a fence-free law**: blind(j) = deg gcd(χ(H), χ(H with row and column j struck)), matching the definition at every seat of twenty graphs on both ZZ books, degenerate spectra and zero bonds included, so neither the fence nor the simplicity hypothesis is the phenomenon's | this page, `deleted`, on the fence-free form committed in The Blind Site §5 |
+| **that the criterion is a chain evaluation of a fence-free law**: blind(j) = deg gcd(χ(H), χ(H with row and column j struck)), matching the definition at every seat of twenty graphs on both ZZ books, degenerate spectra and zero bonds included, so neither the fence nor the simplicity hypothesis is the phenomenon's; the equality with that definition (N minus the seat's Krylov dimension) is a THEOREM by the Cramer identity in §7, the sweep corroborating | this page, `deleted`, on the fence-free form committed in The Blind Site §5 |
 | **that the XY book carries a third, PARITY-forced kind of blindness**: a zero-diagonal Jacobi block of odd size is singular, so every odd seat of every odd chain is blind at every zero-free profile, and "no blind seat generically" is a Heisenberg sentence | this page, `xy`, after a fresh review round |
 | **that a blind STATE can carry no end-to-end coherence while every blind MODE must**: the exact projector corner is 0 on exactly the 24 of 41 uniform-XY cases whose node set mixes m-parities, M = (N+1)/gcd(j+1, N+1) odd with d ≥ 3, at even and odd N alike, and −1/2 at both N = 7 controls | this page, `xy`, same round |
 
@@ -816,7 +816,17 @@ gap either.
   The `deleted` part measures it: **blind(j) = deg gcd(χ(H), χ(H with row and column
   j struck))** reproduces the definition at every seat of all twenty graphs, on the
   ZZ book and off it, where the definition is N minus the rank of the Krylov matrix
-  the seat generates, taken exactly at two primes with no eigensolver. Fourteen of
+  the seat generates, taken exactly at two primes with no eigensolver. And measured
+  is more than it needs, because the general form is a THEOREM with no hypothesis
+  beyond the real symmetry H already has. By Cramer's rule the (j, j) entry of the adjugate of xI − H IS the
+  characteristic polynomial of the principal submatrix, so
+  χ(H_cut)/χ(H) = [(xI − H)⁻¹]_{jj} = Σ_λ ‖P_λ e_j‖²/(x − λ) over the eigenbasis of
+  the real symmetric H. An eigenvalue the seat projects onto keeps one factor fewer
+  in the numerator than in χ(H); one the seat misses keeps at least as many, and the
+  gcd takes the minimum, so deg gcd(χ(H), χ(H_cut)) = N minus the number of
+  eigenspaces e_j meets, which is N minus the dimension of the seat's Krylov space,
+  the definition. No chain, no simplicity, no fence; the twenty graphs corroborate
+  what Cramer proves. Fourteen of
   those twenty have a degenerate spectrum on the Heisenberg side and thirteen on the
   XY side, so **the COUNT carries no simplicity hypothesis and no zero-bond fence**:
   the halves form is defined on the five paths and wrong on the three that carry a
@@ -853,9 +863,14 @@ gap either.
 - **Whether §2's criterion needs a proof in `docs/proofs/`.** Half of what such a
   proof would carry is already there: §(b)'s Lemma A owns the non-derogatory step in
   either Δ book, hypothesis included, §(g) owns the reason the hypothesis matters,
-  and F64 owns the node criterion. What has no proof file is the step between them
-  and the kernel identity dim = 1 + blind, both written here as prose and neither
-  gated.
+  and F64 owns the node criterion. The GENERAL form no longer needs one, being the
+  Cramer identity in the bullet above, and the two-halves form follows from it on
+  the zero-free chain; the direct sum H_cut = H_left ⊕ H_right holds at every
+  profile, and what zero-free supplies is that both halves are unreduced Jacobi
+  blocks and hence simple, which is what lets the shared-root count and the
+  missed-eigenvalue count agree. What has no proof file is §2's middle step, the
+  Jacobi node lemma the two-halves form consumes, and the kernel identity
+  dim = 1 + blind, both written here as prose and neither gated.
 - **The blind operator space** inside the (1,1) block, which The Blind Site §11 lists
   as open. §3 counts operators killed by the whole Liouvillian, not operators killed
   by the dissipator; whether the two objects coincide is not settled.

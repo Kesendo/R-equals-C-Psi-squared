@@ -8063,7 +8063,13 @@ public static class OpenArcsRegistry
                 "eigensolver) at every seat of twenty graphs on both ZZ books, fourteen " +
                 "of them with a degenerate spectrum on the Heisenberg side and thirteen " +
                 "on the XY side, zero bonds and an isolated seat " +
-                "included (run mode `deleted`). The fence-free statement was already " +
+                "included (run mode `deleted`); since 2026-08-24 the equality with that " +
+                "definition is a THEOREM, the sweep corroborating, by Cramer: the " +
+                "struck matrix's charpoly is the (j,j) " +
+                "adjugate entry of xI - H, so over the eigenbasis of the real " +
+                "symmetric H the gcd degree is N minus the seat's Krylov dimension, " +
+                "no hypothesis beyond real symmetry (the Cramer identity in " +
+                "THE_SEAT_THAT_CUTS section 7). The fence-free statement was already " +
                 "committed in experiments/THE_BLIND_SITE.md section 5 as a Krylov " +
                 "complement, and the seat page reached the criterion without using it; " +
                 "that section itself fences the one case where the Krylov branch is not " +

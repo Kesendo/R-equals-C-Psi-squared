@@ -870,8 +870,10 @@ principal submatrix's:
 
     blind(j) = deg gcd( chi(H), chi(H with row and column j cut) )
 
-On an open chain with no zero bond the cut matrix IS the direct sum
-of the two halves and the two forms coincide.  Below, both are taken
+On an open chain the cut matrix IS the direct sum of the two halves
+at EVERY profile; what no-zero-bond supplies is that both halves are
+unreduced Jacobi blocks, hence simple, and then the two forms
+coincide.  Below, both are taken
 against the DEFINITION, n - rank of the Krylov matrix on the seat,
 exactly, at two primes.  No eigensolver anywhere.
 
