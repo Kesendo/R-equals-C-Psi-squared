@@ -567,7 +567,7 @@ if (args.Length > 0 && args[0] == "blind")
     var bworld = new World();
 
     Console.WriteLine("the blind seat: put the watching on ONE seat and count what it cannot touch (adopted 2026-08-24)");
-    Console.WriteLine("  source experiments/THE_SEAT_THAT_CUTS.md + experiments/THE_BLIND_SITE.md (no F-number yet)");
+    Console.WriteLine("  source experiments/THE_SEAT_THAT_CUTS.md + experiments/THE_BLIND_SITE.md (F157)");
     Console.WriteLine("  blind(seat) = N - rank of the seat's Krylov matrix, an exact GF(p) rank at two primes,");
     Console.WriteLine("  no eigensolver; on the UNIFORM chain it closes to integer arithmetic, one form per book.");
     Console.WriteLine("  The span of the watched sector's stationary manifold is 1 + blind on the zero-free chain.");

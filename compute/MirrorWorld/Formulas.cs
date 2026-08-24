@@ -453,6 +453,18 @@ public static class Formulas
     // - beta^2 = 0 -- the identity-column determinant factors as c times exactly this locus.
     public static double F116_MetallicMean(double c) => (c + Math.Sqrt(c * c + 4.0)) / 2.0;
 
+    // F157 (T1): the blind seat's uniform-chain counts -- the single-excitation dimensions a
+    // watching on seat j cannot touch. The PRIMITIVE is BlindSeat's Krylov rank (blind = N minus
+    // the rank of [e, He, H^2 e, ...], no eigensolver; equal to deg gcd(charpoly(H), charpoly of
+    // the struck matrix) by Cramer, a theorem for any real symmetric H); these are its closed
+    // chain evaluations: (gcd(2j+1, N) - 1)/2 on the ZZ book (Neumann cosine nodes, B0) and
+    // gcd(j+1, N+1) - 1 on the XY book (F65 sine nodes, no halving). The parity forcing: on XY
+    // every odd seat of every odd chain is blind at every zero-free profile (a zero-diagonal
+    // Jacobi block of odd size is singular), so its predicate takes no profile at all.
+    public static int F157_BlindHeisenberg(int n, int seat) => (Cyclotomy.Gcd(2 * seat + 1, n) - 1) / 2;
+    public static int F157_BlindXY(int n, int seat) => Cyclotomy.Gcd(seat + 1, n + 1) - 1;
+    public static bool F157_ParityForcedXY(int n, int seat) => n % 2 == 1 && seat % 2 == 1;
+
     private static double H2(double x) => -XLog2(x) - XLog2(1.0 - x);
     private static double XLog2(double x) => x <= 0.0 ? 0.0 : x * Math.Log2(x);
 

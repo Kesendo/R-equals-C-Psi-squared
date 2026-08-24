@@ -409,6 +409,27 @@ from qubit to observer is allowed by the algebra, not forced by it
 
 ---
 
+## The blind seat (F157, August 2026)
+
+A **seat** is a site carrying the watching (single-site Z-dephasing); the
+**blind** subspace at seat j is the pure single-excitation states that
+dephasing cannot touch, counted exactly by F157: blind(j) = N − dim Krylov(e_j), the
+Krylov space being span{e_j, He_j, H²e_j, ...} with e_j the seat's unit vector
+(one fenced case: an isolated seat adds its own H-invariant ray, F157's
+Breaks-for); on the uniform open chain (gcd(2j+1, N) − 1)/2 with the ZZ term
+and gcd(j+1, N+1) − 1 without
+([The Blind Site](../experiments/THE_BLIND_SITE.md),
+[The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md)). Not to be
+confused with the repo's other blindnesses, which are different objects:
+**J-blind** receiver states
+([J-blind receiver classes](../experiments/J_BLIND_RECEIVER_CLASSES.md),
+read beside F73's closure), **graph-blind** derivations
+(F153, a derivation using no graph structure), the local page's kinematic
+blindness to distant coherence (F70), and the light/lens letter blindness
+above. MirrorWorld's `BlindSeat.cs` fences its own words at the door.
+
+---
+
 ## Hardware pre-registration vocabulary (the IBM flights)
 
 Terms the flight pre-registrations use as house standard (added 2026-08-04, the

@@ -1,7 +1,7 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-08-15 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-08-24 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -414,7 +414,7 @@ Exact for chain topology, lower bound for higher-symmetry topologies.
 - **Disconnected-graph extension (Tier 1 derived, promoted 2026-05-19; landed Tier 1 candidate 2026-05-18):**
   - `dim ker L_H = Π_c (|c| + 1)` over connected components c of the graph G.
   - Predicts kernel dim = N+1 for any single connected component (chain / ring / star / K_N / arbitrary connected, matches the F4 popcount-sector count) **with the dephasing ON at every site**, a condition the anchor proof states in the stronger uniform form. It is sufficient and not necessary, and Σγ > 0 is not the right condition: on the N = 3 open chain at J = 1, γ = 0.5 on the **end** seat alone already gives kernel 4, while the same γ on the **middle** seat gives 6. Which seat carries the γ decides, and why is an open question rather than a formula here (see the scope discussion in [the asymptotic sector projection proof](proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md)); still open, but with a shape and a first sector since 2026-08-24, in the seat sub-bullets below. At Σγ = 0, separately, the kernel is the full commutant of H and is far larger (measured 24 for the 3-chain, 32 for the triangle, 54 for the 4-chain, against N+1 = 4, 4, 5). The restriction to the diagonal functions of total S_z is what the Z-dephasing does, and [the component proof](proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) says so in its first lines; predicts 5·5 = 25 for K_4 + disjoint 4-chain at N=8 (bit-exact verified, all four N=8 SLOW_N8 topologies).
-  - **Which seat carries the γ (2026-08-24): the shape, and the first sector closed.** Source [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) §5, script `simulations/seat_cut_blindness.py`. The single-excitation count, the divisor laws, the fence, the per-block ranks and every gcd degree below are EXACT: GF(p) ranks on integer inputs and `Fraction` characteristic polynomials, no eigensolver. Two things below are NOT: the whole ten-graph cross-sector table and the component counts come off a float route at a bare tolerance. The source page enumerates six tolerance-bearing counts and prices only the first; of the other five, FOUR print no gap at all, the ten-graph table among them, its builder discarding the singular-value gap it computes, and the fifth is the component count, a float eigensolver by necessity, being a claim about an eigenBASIS, which certifies nothing.
+  - **Which seat carries the γ (2026-08-24): the shape, and the first sector closed.** Source [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) §5, script `simulations/seat_cut_blindness.py`. The single-excitation count itself is **F157** since 2026-08-24 (whose kernel half, the 1 + blind form below, F157 marks prose-argued with gated instances); these sub-bullets keep the F4-side story, the popcount ≥ 2 wall included, and where they and F157 state the same law they must be changed together. The single-excitation count, the divisor laws, the fence, the per-block ranks and every gcd degree below are EXACT: GF(p) ranks on integer inputs and `Fraction` characteristic polynomials, no eigensolver. Two things below are NOT: the whole ten-graph cross-sector table and the component counts come off a float route at a bare tolerance. The source page enumerates six tolerance-bearing counts and prices only the first; of the other five, FOUR print no gap at all, the ten-graph table among them, its builder discarding the singular-value gap it computes, and the fifth is the component count, a float eigensolver by necessity, being a claim about an eigenBASIS, which certifies nothing.
     - **Block structure. On the open CHAIN the qualifier is the ZZ term and not the topology; bullet 2 shows the topology is a separate knob elsewhere.** On the open HEISENBERG chain the kernel is block-diagonal in popcount. Drop the ZZ term from the same uniform open chain and it carries cross-sector weight 0, 10, 8, 10, 0 at N = 5; keep it and the cross-sector weight is exactly zero, every one of the (N+1)² popcount blocks ranked, at every seat of N = 5 and N = 7 uniform, of [1,4,2,2] at N = 5 and of [2,1,1,2,1] at N = 6. At N = 5 the six sectors give 1, 3, 2, 2, 3, 1 = 12, and F4's own N = 3 numbers 4 and 6 reproduce.
     - **It does NOT hold for every topology in the list above.** The N = 4 ring carries cross-sector weight exactly 4 at every seat, while the rings at N = 3, 5 and 6 carry none. WHICH graphs carry it is OPEN, and the reading offered for it, a non-adjacent pair of vertices with identical neighbourhoods, is measured false BOTH ways: the star has such pairs and carries nothing, and the five-vertex graph with edges {01, 02, 03, 12, 13, 24}, which has no such pair, carries 6, 12, 6 at seats 2, 3 and 4.
     - **The single-excitation count.** Each sector contributes the commutant of its Hamiltonian intersected with the operators vanishing wherever the dephased seat's bit differs between the two indices, which in the single-excitation sector is the seat's own row and column OFF THE DIAGONAL, the surviving (j,j) entry being what supplies the +1 below; at popcount ≥ 2 the killed set is not the rows and columns of anything (the dephasing does NOT kill entries that cross the seat). In the single-excitation sector, where H is nondegenerate, that count is exactly 1 + deg gcd(χ(H_left), χ(H_right)), with H_left and H_right the two PRINCIPAL SUBMATRICES the seat leaves behind and not the free-standing subchains, which coincide on XY and differ on Heisenberg. On the uniform HEISENBERG chain it evaluates to 1 + (gcd(2j+1, N) − 1)/2, and on the uniform XY chain to 1 + (gcd(j+1, N+1) − 1), both written as 1 + blind so the source page's blind counts read off directly. Reflection-symmetric couplings are neither necessary nor sufficient for that value.
@@ -1918,11 +1918,11 @@ For the uniform open XY chain with single-site Z-dephasing at the endpoint site 
 
 - **α = 2γ₀ modes:** ⟨n_XY⟩_B = 1 (same mechanism). Dominant Pauli strings have X or Y at every site (total XY-weight = N). Maximally off-diagonal at B, fully exposed to Z-dephasing.
 
-The two poles are palindromic partners under the conjugation Π, which maps total XY-weight w ↔ N-w (see F43). The single-excitation sector (F65) never reaches either pole for N ≥ 3; both poles live in the extreme XY-weight sectors (w = 0 and w = N).
+The two poles are palindromic partners under the conjugation Π, which maps total XY-weight w ↔ N-w (see F43). The single-excitation sector (F65) never reaches either pole for N ≥ 3; both poles live in the extreme XY-weight sectors (w = 0 and w = N). Both claims of that last sentence are endpoint-B statements; see the Scope correction below.
 
 **Multiplicity:** exactly N+1 at each pole, verified for N=3..7. Each α = 0 mode corresponds to one of the N+1 elementary symmetric polynomials e_d(Z_1, ..., Z_N) in F63 (commuting with both H and Z_B). The α = 2γ₀ sector has matching multiplicity by Π-symmetry.
 
-**Scope.** Verified only for the uniform XY chain with B at the endpoint. Whether the same structure (existence of both poles, multiplicity N+1) persists for other topologies (ring, star, Y-junction) or for interior B-positions is open. Indirect evidence from the structure-points scan: at B = center of N=5 chain, α = 0 has multiplicity 64 (not 6), so the N+1 count is endpoint-specific.
+**Scope.** Verified only for the uniform XY chain with B at the endpoint. Whether the same structure (existence of both poles, multiplicity N+1) persists for other topologies (ring, star, Y-junction) or for interior B-positions is open. Indirect evidence from the structure-points scan: at B = center of N=5 chain, α = 0 has multiplicity 64 (not 6), so the N+1 count is endpoint-specific. One scope reading is corrected since 2026-08-24 by F157, which does NOT close the item (The Blind Site says so of itself): at interior B the F65 sector DOES reach α = 0, holding single-excitation modes that are exactly undamped, gcd(B+1, N+1) − 1 of them on this XY chain (e.g. one at B = 1, N = 5). So the sentence above that the F65 sector never reaches either pole is endpoint-B-specific, as is the placement of both poles in the extreme XY-weight sectors (an interior blind mode is w = 1 content at α = 0); the item itself, existence of both poles with multiplicity N+1 at interior B, stays open.
 
 **Verified:** ⟨n_XY⟩_B = 1.000000 exact for all α = 2γ₀ modes (N=3..5, from Pauli basis projection). Dominant Pauli strings have total XY-weight N for α = 2γ₀ modes and total XY-weight 0 for α = 0 modes (N=3, N=4 explicit). Multiplicity N+1 at each pole verified for N=3..7. Dynamical check of F63 conservation: all N+1 elementary symmetric polynomials e_d(Z_1,...,Z_N) drift by < 10⁻¹⁴ under Lindblad evolution for N=4 over 80 time units, while the non-symmetric control Z_0 Z_2 drifts by 3 × 10⁻². Confirms the conserved observables at the α = 0 pole are precisely the e_d, not arbitrary Z-products.
 **Scripts:** [`two_gamma_pole.py`](../simulations/two_gamma_pole.py), [`f65_dynamic_verification.py`](../simulations/f65_dynamic_verification.py)
@@ -7767,6 +7767,154 @@ axis with the `CoveredByHadamardDuality` twin verdict, which differs from its ow
 F113's `BitBSpecific` because that verdict is about a physical CHANNEL and this law
 assumes no channel at all; §(j) of the proof records that this criterion was sharpened in
 the same change that applied it.
+
+---
+
+*Numbering note: F156 is not in this file and stays unassigned rather than
+reused, the F53/F54 policy (never reuse a number), though the situation
+differs: those two were never assigned, while F156 was minted for the R₉₀
+band-edge clause and withdrawn the same hour, folded into F153, and tracked
+surfaces still name that withdrawal (`OpenArcsRegistry.cs`,
+`WHAT_THE_R90_LOCUS_BUYS.md`).*
+
+### F157. The blind seat: watching ONE seat j misses exactly blind(j) = N − dim Krylov(e_j) = deg gcd(χ(H), χ(H with row and column j struck)) single-excitation dimensions, the identity unconditional for real symmetric H and the physical reading adding 1 only at a seat whose own ray is H-invariant; on the uniform open chain it closes to (gcd(2j+1, N) − 1)/2 with the ZZ term and gcd(j+1, N+1) − 1 without, and on the XY book parity alone forces every odd seat of every odd chain blind at every zero-free profile (Tier 1: general form a theorem by Cramer 2026-08-24, uniform laws derived from the node bases; the span identity is prose-argued on the zero-free chain, its instances gated from below, no proof file; registered 2026-08-24)
+
+Put the Z-dephasing on a single seat j of an N-site chain or graph (a "seat" is
+a site carrying the watching; e_j its unit vector, n_j its occupation projector,
+both in the single-excitation sector, whose Hamiltonian H is real symmetric;
+"the two books" are the ZZ term on and off, Heisenberg and XY; χ a
+characteristic polynomial, P_λ the eigenprojections of H, L_SE(j) the watched
+sector's Lindbladian, glossed at the span paragraph). The blind
+subspace, the pure single-excitation states the dissipator cannot touch, is the
+largest H-invariant subspace inside ker(n_j) (the dissipator's own condition is
+wider, no coherence ACROSS the seat's occupied/empty split; for pure states the
+count is unaffected, [The Blind Site](../experiments/THE_BLIND_SITE.md) §5;
+except at a seat whose own ray is H-invariant, the Breaks-for fence),
+which for real symmetric H is the orthogonal complement of the Krylov space the
+seat generates:
+
+    blind(j) = N − dim span{ e_j, H e_j, H² e_j, ... }
+             = N − #{ eigenspaces of H that e_j meets }
+             = deg gcd( χ(H), χ(H with row and column j struck) )
+
+    uniform open chain, ZZ on  (Heisenberg):  blind(j) = (gcd(2j+1, N) − 1)/2
+    uniform open chain, ZZ off (XY):          blind(j) = gcd(j+1, N+1) − 1
+
+    zero-free open chain, either book:  dim ker L_SE(j) = 1 + blind(j)
+
+The Krylov line is the DEFINITION and the primitive: an exact GF(p) rank on the
+integer sector matrix at two primes, no eigensolver and no tolerance (the
+committed Python route at 2³¹−1 and 2⁶¹−1, agreeing everywhere, the Heisenberg
+law to N = 21; MirrorWorld's `BlindSeat` at 2³¹−1 and 999999937, taking the
+larger rank since a rank mod p can only drop, its run mode re-checking laws
+against rank at N = 60, 120, 200, past the wall). The exact KERNEL check is a
+separate route and one-sided: L_SE is ranked at 2⁶¹−1 alone, so a reported
+kernel dimension can only be too large, never too small; it covers every seat
+at N = 3..13 on the Heisenberg book and N ∈ {6, 7, 9, 11, 12, 13} on XY. The eigenspace and gcd lines are a THEOREM
+with no hypothesis beyond the real symmetry H already has: by Cramer's rule the
+(j, j) adjugate entry of xI − H IS the characteristic polynomial χ of the
+struck matrix, so χ(H_cut)/χ(H) = [(xI − H)⁻¹]_{jj} = Σ_λ ‖P_λ e_j‖²/(x − λ),
+and the gcd degree is N minus the number of eigenspaces e_j meets
+([The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) §7). No chain, no
+simplicity, no zero-bond fence; twenty graphs corroborate it on the ZZ book and
+off it, fourteen of them with a degenerate Heisenberg spectrum and thirteen on
+XY, zero bonds, negative J and disconnection included.
+
+**The chain laws are the clothing, not the phenomenon.** On the uniform chain
+the criterion evaluates through the committed node bases: the Heisenberg cosine
+modes of [the uniform-law proof](proofs/PROOF_UNIFORM_LAW.md) B0 give the node
+condition
+(2j+1)m ≡ N (mod 2N) and the count (gcd(2j+1, N) − 1)/2
+([The Blind Site](../experiments/THE_BLIND_SITE.md) §5, the counting argument
+written out); F65's sine basis gives m(j+1) ≡ 0 (mod N+1) and gcd(j+1, N+1) − 1,
+with no halving (F65's registry scope is N = 3..30; the two-line node argument
+is N-general). The two laws disagree loudly (N = 7: Heisenberg blinds seat 3
+alone, XY blinds 1, 3 and 5; N = 12: Heisenberg blinds four seats, XY none), and
+at the reflection-fixed centre of an odd chain they agree at (N−1)/2. A
+separate comparison explains why the HEISENBERG law stayed invisible: against a
+reflection-parity reading it coincides at every seat of a prime chain, and the
+committed data lived at N = 5 and N = 11, both prime; the first case
+discriminating those two readings is N = 6, the first odd one N = 9.
+
+**The parity-forced third kind (XY only).** A zero-diagonal Jacobi block of odd
+size is singular (det T_m = −b_{m−1}²·det T_{m−2} with det T₁ = 0, T_m the
+block's leading m × m minor and b its bonds), so at an odd seat of an odd chain
+both leftover blocks share the root 0, which χ(H) itself also carries (the odd
+chain is the same odd-size zero-diagonal shape), and the seat is blind at EVERY
+zero-free profile, signed and irregular included. That a generic chain has no
+blind seat is a Heisenberg sentence; on the Heisenberg book blindness off the
+uniform chain is a coincidence a mirror can force and disorder can only meet.
+
+**The span identity is a separate object: prose-argued, its instances gated
+from below, no proof file.** L_SE(j)
+is the Lindbladian restricted to the single-excitation (popcount-1) sector with
+the one seat watched; NOT F152's (0,1) coherence block, whose undamped modes
+the same count also counts, by the two-line bijection of The Blind Site §5. dim ker L_SE(j) = 1 + blind(j) holds on the
+zero-free open chain (the argument: Jacobi simplicity makes the commutant
+diagonal, and the +1 is the direction the source calls Q, the sum of the
+projectors onto the modes the seat sees, not the regime knob Q = J/γ); the
+general argument has no proof file, while the instances are gated from below
+(the source's 330 exact (profile, seat) pairs, N = 3..8 both books, and
+BlindSeatTests' span pins). The word simplicity REVERSES
+polarity between the two objects: for the two-halves CRITERION on XY it is
+necessary and not sufficient (counted over the swept N = 3..6), for the SPAN
+it is sufficient and not necessary (on the twenty-graph table), and the
+fence-free count needs neither. Off the chain the identity fails on
+five connected graphs, the SAME five on both books (both stars, K₄, K₅, the
+bridged triangles); the failures number 8 of 20 on the ZZ book and 9 off it,
+the others disconnected (the source counts failures by CONNECTIVITY, since
+whether a missing edge is written as J = 0 is a notational choice);
+[1,1,0,1,1] breaks it at seats 1 and 4 (1 + blind = 5 against kernel 7) while
+the zero-bond [1,0,1] holds, so the zero bond is not the discriminator; what
+every failure carries is a degenerate spectrum.
+
+**Valid for:** the count blind(j) and the three-line identity: any real
+symmetric single-excitation H, any graph, any signed profile (the exact GF(p)
+route runs on integer inputs), degenerate spectra included, any seat. The uniform gcd laws: the uniform open
+chain of the named book. The span identity: the zero-free open chain.
+**Breaks for:** the IDENTIFICATION of the count with the blind subspace at a
+seat whose ray |j⟩ is itself H-invariant (an isolated seat, or its incident
+bonds detuned to zero): that ray then contributes 1 the Krylov complement does
+not count; the Krylov ↔ gcd identity itself holds there too (the fence is The
+Blind Site §5's, the identity The Seat That Cuts §7's). The two-halves phrasing deg gcd(χ(H_left), χ(H_right)) at a zero bond
+(wrong on all 1682 zero-bond pairs on the Heisenberg book, N = 3..6, and on
+most but not all XY ones: the fence is really about the degeneracy a zero bond
+FORCES, only the ZZ term forcing it always). Popcount ≥ 2, where the kernel is
+Wedderburn's Σ mᵢ² and exceeds 1 + blind (the F4 seat sub-bullets). A float SVD
+rank at small J (21 against the true kernel 6 at N = 11, J = 10⁻⁵, behind a
+gap of 5.95·10³: use the GF(p) route).
+**Replaces:** any eigendecomposition run only to count the eigenvectors
+vanishing at the seat (the node modes, on a chain), at any seat of any graph; on the ZERO-FREE OPEN CHAIN also the exact kernel computation of
+L_SE per seat (elsewhere the kernel needs its own computation, per the span
+paragraph); several seats reduce to the same arithmetic by intersection of node
+sets (measured on the uniform Heisenberg chain, supports of size ≤ 3, The Blind
+Site §5).
+**Source:** [The Blind Site](../experiments/THE_BLIND_SITE.md) §5 (the count,
+the derivation, the isolated-seat fence) +
+[The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) §2..§4 (criterion,
+chain laws, span), §7 (the Cramer theorem); scripts
+`simulations/seat_cut_blindness.py` (parts
+`steady|kernel|scope|xy|full|criterion|graphs|sector|deleted`) and
+`simulations/blind_site.py` (parts `prep|support|dimension|identity|branch|coherence|scope`); the arc is the OpenArcs entry `the_gate_that_does_not_gate`.
+**Siblings:** F64 (rate = 0 ⟺ node at the seat, the test this count
+integrates), F65 (the XY sine basis the second law names), F66 (one of whose scope
+sentences the interior seats correct: the F65 sector does reach α = 0 at an
+interior B; its interior pole item stays open), F4 (the kernel this count's +1 face feeds; its seat
+sub-bullets keep the F4-side story and route law edits here), F143 (the
+zero-bond fence's sibling object, whose zero bond makes its question ill-posed
+where here it makes the two-halves phrasing wrong), F152 (the coherence-block generator whose
+undamped modes are exactly these node modes), and Lemma A of
+[the edge-block proof](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md) §(b)
+(the zero-free NON-DEROGATORY step; simplicity for the real symmetric H_SE is
+§(g)'s, which also holds the zero-bond reason, a cut chain's pieces repeating
+each other, the mechanism behind [1,1,0,1,1]). **Typed:** `BlindSeat`
+(`compute/MirrorWorld/BlindSeat.cs`, adopted 2026-08-24, parent the frame, run
+mode `blind N`, 37 from-below tests including a dynamic one-seat-lit Cone pin;
+owns blind, law and span; run mode `blind` prints the law-vs-rank mismatch
+count at N = 60, 120, 200, the tests pinning N = 60 and 200); scalar faces
+`F157_BlindHeisenberg` / `F157_BlindXY` / `F157_ParityForcedXY` in MirrorWorld
+`Formulas.cs`; a Core claim + live witness and the span identity's proof file
+are still to build and are recorded on the arc.
 
 ---
 

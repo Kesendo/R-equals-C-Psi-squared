@@ -1,8 +1,8 @@
 namespace MirrorWorld;
 
 // The blind seat (adopted 2026-08-24, the seat-cut blindness arc: experiments/THE_SEAT_THAT_CUTS.md +
-// experiments/THE_BLIND_SITE.md; no F-number yet, adopted on the genre gate the way GammaFold's per-site
-// turns and Cyclotomy were). Put the watching on ONE seat of a chain and count what it cannot touch: the
+// experiments/THE_BLIND_SITE.md; F157 since 2026-08-24, adopted on the genre gate the way
+// GammaFold's per-site turns and Cyclotomy were). Put the watching on ONE seat of a chain and count what it cannot touch: the
 // blind dimension is N minus the number of single-excitation eigenspaces the seat's unit vector MEETS,
 // the dimension of the largest H-invariant subspace carrying no amplitude at the seat, held here in the
 // world's genre as a COUNT with no eigensolver anywhere,

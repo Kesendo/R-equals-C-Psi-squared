@@ -730,4 +730,48 @@ public class SmokeTests
         // the floor vanishes as (N+1)^-3: E (N+1)^3 -> 4 pi^2
         Assert.Equal(4.0 * Math.PI * Math.PI, Formulas.F124_EndWeight(2000) * Math.Pow(2001, 3), 3);
     }
+
+    // --- F157: the blind seat's uniform-chain counts, the scalar faces of BlindSeat's Krylov
+    // rank. Literals are the committed run's rows (simulations/results/seat_cut_blindness);
+    // the from-below cross-pin against the rank itself lives in BlindSeatTests, so here the
+    // faces are pinned against the literals and against the object's own law method. ---
+    [Fact]
+    public void F157_Blind_Seat_Uniform_Counts_Match_The_Committed_Rows()
+    {
+        int[] n15zz = { 0, 1, 2, 0, 1, 0, 0, 7, 0, 0, 1, 0, 2, 1, 0 };      // N = 15, ZZ on
+        int[] n15xy = { 0, 1, 0, 3, 0, 1, 0, 7, 0, 1, 0, 3, 0, 1, 0 };      // N = 15, ZZ off
+        int[] n9zz = { 0, 1, 0, 0, 4, 0, 0, 1, 0 };                          // N = 9, ZZ on
+        int[] n9xy = { 0, 1, 0, 1, 4, 1, 0, 1, 0 };                          // N = 9, ZZ off
+        for (int j = 0; j < 15; j++)
+        {
+            Assert.Equal(n15zz[j], Formulas.F157_BlindHeisenberg(15, j));
+            Assert.Equal(n15xy[j], Formulas.F157_BlindXY(15, j));
+        }
+        for (int j = 0; j < 9; j++)
+        {
+            Assert.Equal(n9zz[j], Formulas.F157_BlindHeisenberg(9, j));
+            Assert.Equal(n9xy[j], Formulas.F157_BlindXY(9, j));
+        }
+        // the odd-N centre carries (N-1)/2 on BOTH books (gcd(N,N) = N; gcd((N+1)/2, N+1) = (N+1)/2)
+        foreach (int n in new[] { 5, 9, 15, 21, 199 })
+        {
+            Assert.Equal((n - 1) / 2, Formulas.F157_BlindHeisenberg(n, (n - 1) / 2));
+            Assert.Equal((n - 1) / 2, Formulas.F157_BlindXY(n, (n - 1) / 2));
+        }
+        // the parity forcing is XY-only, odd seat of an odd chain, profile-free
+        Assert.True(Formulas.F157_ParityForcedXY(9, 3));
+        Assert.False(Formulas.F157_ParityForcedXY(9, 4));
+        Assert.False(Formulas.F157_ParityForcedXY(12, 3));
+        // and the faces agree with the object's own law method, both books, every seat
+        var world = new World();
+        long[] bonds = { 1, 1, 1, 1, 1, 1, 1, 1 };
+        var heis = new BlindSeat(world, 9, bonds, heisenberg: true);
+        var xy = new BlindSeat(world, 9, bonds, heisenberg: false);
+        for (int j = 0; j < 9; j++)
+        {
+            Assert.Equal(Formulas.F157_BlindHeisenberg(9, j), heis.UniformLaw(j));
+            Assert.Equal(Formulas.F157_BlindXY(9, j), xy.UniformLaw(j));
+            Assert.Equal(Formulas.F157_ParityForcedXY(9, j), xy.ParityForced(j));
+        }
+    }
 }

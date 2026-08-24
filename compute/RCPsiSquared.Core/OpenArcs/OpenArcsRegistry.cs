@@ -8072,9 +8072,23 @@ public static class OpenArcsRegistry
                 "THE_SEAT_THAT_CUTS section 7). ADOPTED INTO MIRRORWORLD 2026-08-24: " +
                 "compute/MirrorWorld/BlindSeat.cs holds the COUNT (the Krylov GF(p) " +
                 "rank at two primes), both uniform laws, the parity forcing and the " +
-                "span, parent Cone (which gained per-site gamma the same day), run " +
-                "mode `blind N`, 37 from-below tests including a dynamic one-seat-" +
-                "light pin; the gcd phrasing and the projector corner stay here. The fence-free statement was already " +
+                "span, parent the frame (the sector is the Cone's memory cut REBUILT " +
+                "in integer arithmetic, not inherited; Cone gained per-site gamma the " +
+                "same day), run mode `blind N`, 37 from-below tests including a dynamic " +
+                "one-seat-light pin; the gcd phrasing and the projector corner stay here. " +
+                "MINTED AS F157 the same evening (docs/ANALYTICAL_FORMULAS.md; NOT " +
+                "F156, which stays unassigned per the registry's numbering note: " +
+                "its withdrawal for the R90 band-edge clause, folded into F153, is " +
+                "still named in this registry and in WHAT_THE_R90_LOCUS_BUYS): the Krylov/Cramer form leads, " +
+                "the gcd laws as the chain evaluation, the span identity marked " +
+                "prose-argued with its instances gated from below, scalar faces in " +
+                "MirrorWorld Formulas.cs. STILL TO BUILD, recorded here as the " +
+                "entry's Typed line says: a Core claim + live witness (a " +
+                "SeatCutBlindness claim under F4KernelDimensionByComponentsClaim is " +
+                "the natural carrier), and a proof file for the span identity " +
+                "dim ker L_SE = 1 + blind together with the Jacobi node lemma it " +
+                "consumes (both argued in THE_SEAT_THAT_CUTS section 2 and 3, the " +
+                "missing-proof status recorded in its section 7). The fence-free statement was already " +
                 "committed in experiments/THE_BLIND_SITE.md section 5 as a Krylov " +
                 "complement, and the seat page reached the criterion without using it; " +
                 "that section itself fences the one case where the Krylov branch is not " +

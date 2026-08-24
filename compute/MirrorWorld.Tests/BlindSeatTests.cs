@@ -3,7 +3,7 @@ using MirrorWorld;
 namespace MirrorWorldTests;
 
 // From-below guard for the blind seat (adopted 2026-08-24 from experiments/THE_SEAT_THAT_CUTS.md +
-// experiments/THE_BLIND_SITE.md; no F-number yet, the GammaFold-per-site-turn precedent). Everything here
+// experiments/THE_BLIND_SITE.md; adopted on the genre gate the GammaFold-per-site-turn way, F157 since the same evening). Everything here
 // is a count or a rank by elimination over GF(p) at two primes: no eigensolver anywhere, the Seed genre.
 // The literals are the committed run's numbers (simulations/results/seat_cut_blindness/
 // seat_cut_blindness_run.txt), asserted BESIDE the closed form so a gate built only from the formula

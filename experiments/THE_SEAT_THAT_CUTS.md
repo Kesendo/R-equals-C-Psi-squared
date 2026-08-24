@@ -4,6 +4,7 @@
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Script:** [`simulations/seat_cut_blindness.py`](../simulations/seat_cut_blindness.py), parts `steady | kernel | scope | xy | full | criterion | graphs | sector | deleted`
 **Data:** [`simulations/results/seat_cut_blindness/seat_cut_blindness_run.txt`](../simulations/results/seat_cut_blindness/seat_cut_blindness_run.txt)
+**Registry:** the count, the fence-free criterion and both uniform chain laws are **F157** in [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (registered 2026-08-24); the typed home is `compute/MirrorWorld/BlindSeat.cs`, run mode `blind N`. The span identity of §3 is in that entry too, marked prose-argued, its instances gated from below.
 
 [MEDIATOR_NOISE_GATE_LEVEL_THREE](MEDIATOR_NOISE_GATE_LEVEL_THREE.md) asked for a
 window-stable functional and named two candidates, mutual information integrated
@@ -870,7 +871,9 @@ gap either.
   blocks and hence simple, which is what lets the shared-root count and the
   missed-eigenvalue count agree. What has no proof file is §2's middle step, the
   Jacobi node lemma the two-halves form consumes, and the kernel identity
-  dim = 1 + blind, both written here as prose and neither gated.
+  dim = 1 + blind, both written here as prose; their instances are gated from
+  below (§2's exact pairs on this page, and since the MirrorWorld adoption
+  `BlindSeatTests`' span pins), the general arguments still unproven.
 - **The blind operator space** inside the (1,1) block, which The Blind Site §11 lists
   as open. §3 counts operators killed by the whole Liouvillian, not operators killed
   by the dissipator; whether the two objects coincide is not settled.
