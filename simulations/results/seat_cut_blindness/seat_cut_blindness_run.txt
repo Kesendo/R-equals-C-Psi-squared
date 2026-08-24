@@ -1,0 +1,877 @@
+STEADY STATE: N = 11, uniform chain J = 1, halves A = [0, 1, 2, 3, 4],
+B = [6, 7, 8, 9, 10], the centre 5 in neither.
+
+The sweep of THE_BLIND_SITE section 7 moves one seat from gamma = 0
+to 0.5 with a baseline of 0.05 on the rest.  Both arms, every seat:
+
+  profiles compared                     23
+  worst |rho_inf - I/N| over all of them 2.901e-16
+  I(A:B) at rho_inf, spread              2.220e-15
+  the one value                          0.639472526941490
+  log2 N - ((N+1)/N) log2((N+1)/2)       0.639472526941491
+
+the span the sweep would report from this functional:
+  seat  0: +2.083e-13 %
+  seat  1: +0.000e+00 %
+  seat  2: +2.083e-13 %
+  seat  3: -1.389e-13 %
+  seat  4: +6.945e-14 %
+  seat  5: +0.000e+00 %
+  seat  6: -6.945e-14 %
+  seat  7: +6.945e-14 %
+  seat  8: -6.945e-14 %
+  seat  9: +0.000e+00 %
+  seat 10: +3.472e-13 %
+
+Zero at every seat.  The functional is window-stable because it has
+stopped looking: the destination is fixed by the conserved sector
+populations, and no rate appears in it.  The repo's premise for this
+is PROOF_ASYMPTOTIC_SECTOR_PROJECTION, Consequence 2.
+
+the closed form, checked across N:
+   N      measured on I/N          closed form        diff
+   5    0.419973094021975    0.419973094021975   -2.22e-16
+   7    0.521640636343318    0.521640636343319   -8.88e-16
+   9    0.590004896011910    0.590004896011910    4.44e-16
+  11    0.639472526941490    0.639472526941491   -8.88e-16
+  13    0.677134417463672    0.677134417463673   -4.44e-16
+  15    0.706890595608520    0.706890595608519    1.78e-15
+
+------------------------------------------------------------------------
+
+KERNEL DIMENSION, computed exactly: dephasing at ONE seat only.
+Claim: dim ker L_SE = 1 + (gcd(2j+1, N) - 1)/2, the committed
+divisor law as an integer.
+
+Integer arithmetic and a GF(p) rank for the table below; see the note
+on `exact_kernel_dim` for why this is the same kernel, and for the two
+float answers it replaces.  Nothing in the table is tolerated.  The
+SVD demonstration and the Q table further down are the exceptions and
+are marked where they stand.
+
+  N  seat  blind(j)  dim ker  ker - 1   match
+  3     0         0        1        0     yes
+  3     1         1        2        1     yes
+  4     0         0        1        0     yes
+  5     0         0        1        0     yes
+  5     2         2        3        2     yes
+  6     0         0        1        0     yes
+  6     1         1        2        1     yes
+  6     4         1        2        1     yes
+  7     0         0        1        0     yes
+  7     3         3        4        3     yes
+  8     0         0        1        0     yes
+  9     0         0        1        0     yes
+  9     1         1        2        1     yes
+  9     4         4        5        4     yes
+  9     7         1        2        1     yes
+ 10     0         0        1        0     yes
+ 10     2         2        3        2     yes
+ 10     7         2        3        2     yes
+ 11     0         0        1        0     yes
+ 11     5         5        6        5     yes
+ 12     0         0        1        0     yes
+ 12     1         1        2        1     yes
+ 12     4         1        2        1     yes
+ 12     7         1        2        1     yes
+ 12    10         1        2        1     yes
+ 13     0         0        1        0     yes
+ 13     6         6        7        6     yes
+
+mismatches over N = 3..13, every seat: 0
+
+WHY THE EXACT ROUTE, measured rather than asserted.  The same
+operator through an SVD rank, at N = 11 with gamma on the centre,
+where the exact answer is 6 at every setting below:
+
+setting                             SVD rank     sv gap  exact
+J = 1,    gamma = 0.5                      6   1.04e+14      6
+J = 1e-5, gamma = 0.5                     21   5.95e+03      6
+J = 1,    gamma = 1e9                    101   2.78e+08      6
+
+The middle row is the one that matters: a gap of 5.95e3 and the
+wrong answer, so 'the gap is the evidence, not the tolerance' is
+false as a general defence.  An earlier version of this script made
+exactly that argument.  MirrorWorld's Divisor already recorded the
+trap: 'a floating-point rank silently miscounts it once the coupling
+is small and the chain long, where the other eigenvalues crowd the
+root at spacing J^(2d)' (compute/MirrorWorld/Divisor.cs).
+
+WHAT THE KERNEL ACTUALLY CONTAINS, because 'blind' is a DIMENSION and
+not a description of a state.  Plenty of stationary states carry
+amplitude AT the seat.  The kernel is spanned by Q, the sum of the
+projectors onto the modes that do NOT vanish at the seat, plus one
+projector per node-mode; blind(j) counts the second group only.
+N = 7, seat 3, gamma = 0.5, residual = max|L rho| entrywise:
+
+   Q, the non-node sum (unnormalised: 1.0) seat amplitude  0.25000   residual 4.4e-16
+   Q + one node projector                 seat amplitude  0.20000   residual 3.9e-16
+   Q + all node projectors  ( = I/N )     seat amplitude  0.14286   residual 2.7e-16
+   the node projectors alone              seat amplitude  0.00000   residual 3.8e-16
+
+   Q sits on the seat with weight 1.0000 and is
+   stationary; so is every combination above.  Only the last row has
+   no amplitude at the seat, and its dimension is what blind(j)
+   counts.  An earlier version of the page said a state survives
+   ONLY by having no amplitude at the seat, which the second and
+   third rows refute.
+
+------------------------------------------------------------------------
+
+SCOPE of the kernel dimension.
+
+(a) gamma does not enter at all, and that is visible rather than
+measured: the exact kernel depends on which entries the dissipator
+kills, i.e. on the SUPPORT of gamma, and not on any rate.  The same
+holds for a uniform J, which only scales H and cannot move a
+commutant.  The float route needed a five-decade sweep here and
+still had corners where it was wrong.
+
+(b) the couplings, where there IS something to measure.  Every seat
+of N = 11 under three bond profiles, exactly:
+
+bond profile                           0   1   2   3   4   5   6   7   8   9  10
+uniform J = 1                          0   0   0   0   0   5   0   0   0   0   0
+reflection-symmetric, non-uniform      0   0   0   0   0   5   0   0   0   0   0
+asymmetric                             0   0   0   0   0   0   0   0   0   0   0
+
+Read the rows, not a single cell.  Under the uniform chain only the
+centre is blind at N = 11.  A reflection-symmetric but non-uniform
+chain keeps the centre and nothing else, so what the centre needs is
+the reflection and not uniformity.  Under an asymmetric chain the
+centre goes to 0.  Whether the OTHER seats' blindness (which at
+N = 11 is empty anyway) needs the reflection is not decided by this
+table and is not claimed.
+
+------------------------------------------------------------------------
+
+THE XY CHAIN: section 11's first open item.
+
+That page predicted the node condition becomes m(j+1) = 0 (mod N+1)
+and that a different divisor answer was to be expected.  It is
+gcd(j+1, N+1) - 1, with no halving.  Route 1, the kernel dimension:
+
+  N  seat  Heis ker-1  (gcd(2j+1,N)-1)/2  XY ker-1  gcd(j+1,N+1)-1
+  6     1           1                  1         0               0
+  6     4           1                  1         0               0
+  7     1           0                  0         1               1
+  7     3           3                  3         3               3
+  7     5           0                  0         1               1
+  9     1           1                  1         1               1
+  9     3           0                  0         1               1
+  9     4           4                  4         4               4
+  9     5           0                  0         1               1
+  9     7           1                  1         1               1
+ 11     1           0                  0         1               1
+ 11     2           0                  0         2               2
+ 11     3           0                  0         3               3
+ 11     5           5                  5         5               5
+ 11     7           0                  0         3               3
+ 11     8           0                  0         2               2
+ 11     9           0                  0         1               1
+ 12     1           1                  1         0               0
+ 12     4           1                  1         0               0
+ 12     7           1                  1         0               0
+ 12    10           1                  1         0               0
+ 13     1           0                  0         1               1
+ 13     3           0                  0         1               1
+ 13     5           0                  0         1               1
+ 13     6           6                  6         6               6
+ 13     7           0                  0         1               1
+ 13     9           0                  0         1               1
+ 13    11           0                  0         1               1
+
+  mismatches: 0
+
+Route 2, counting nodes off the eigenvectors, N = 3..20:
+  Heisenberg mismatches: 0    XY mismatches: 0
+
+Route 3, EXACT: no floating point anywhere.  The XY modes are
+sin(pi m (j+1)/(N+1)) for m = 1..N, so a node at seat j means
+(N+1) divides m(j+1).  With d = gcd(j+1, N+1) those m are exactly
+the multiples of (N+1)/d, of which d-1 lie in 1..N.  Counted by
+integer arithmetic, N = 2..200, every seat:
+  Heisenberg mismatches: 0    XY mismatches: 0
+
+Where the two laws disagree:
+   N Heisenberg blind seats               XY blind seats                      
+   6 1:1 4:1                              none                                
+   7 3:3                                  1:1 3:3 5:1                         
+   9 1:1 4:4 7:1                          1:1 3:1 4:4 5:1 7:1                 
+  11 5:5                                  1:1 2:2 3:3 5:5 7:3 8:2 9:1         
+  12 1:1 4:1 7:1 10:1                     none                                
+  13 6:6                                  1:1 3:1 5:1 6:6 7:1 9:1 11:1        
+  15 1:1 2:2 4:1 7:7 10:1 12:2 13:1       1:1 3:3 5:1 7:7 9:1 11:3 13:1       
+  16 none                                 none                                
+
+At the reflection-fixed seat of an odd chain both give (N-1)/2:
+gcd(N, N) = N on one side and gcd((N+1)/2, N+1) = (N+1)/2 on the
+other.  That is section 7's claim, now following from both formulas
+instead of from an argument about which Hamiltonian is used.
+
+------------------------------------------------------------------------
+
+F4's OPEN QUESTION, one step in and not closed.
+
+docs/ANALYTICAL_FORMULAS.md, F4: 'on the N = 3 open chain at J = 1,
+gamma = 0.5 on the end seat alone already gives kernel 4, while the
+same gamma on the middle seat gives 6.  Which seat carries the gamma
+decides, and why is an open question rather than a formula here.'
+
+This part alone uses the float route, on spaces small enough that
+its answers were reproduced independently; the exact route above is
+built for the single-excitation sector and is not extended here.
+
+  N  seat  full dim ker   N+1   excess     sv gap
+  3     0             4     4        0   6.75e+13
+  3     1             6     4        2   3.82e+13
+  3     2             4     4        0   6.76e+13
+  4     0             5     5        0   3.95e+13
+  4     1             5     5        0   4.07e+13
+  4     2             5     5        0   4.07e+13
+  4     3             5     5        0   3.96e+13
+  5     0             6     6        0   1.64e+13
+  5     1             6     6        0   1.70e+13
+  5     2            12     6        6   1.50e+13
+  5     3             6     6        0   1.70e+13
+  5     4             6     6        0   1.64e+13
+  6     0             7     7        0   7.35e+12
+  6     1             9     7        2   1.60e+13
+  6     2             7     7        0   7.46e+12
+  6     3             7     7        0   7.46e+12
+  6     4             9     7        2   1.60e+13
+  6     5             7     7        0   7.36e+12
+
+The count is a bare TOL = 1e-08 here, which is the pattern this
+page faults elsewhere, so the gap it rests on is printed rather than
+assumed: the narrowest deciding RATIO over the table is 7.35e+12.
+A ratio cannot be counted in decades against an absolute TOL, so it
+is printed and not converted.  It is still a threshold, and this is
+not the only one in the script: run_graphs takes the same TOL, and
+three eigh sites decide a node or blind partition at a bare 1e-9.
+The page enumerates all four.
+
+F4's own two numbers reproduce: 4 at the end, 6 at the middle.
+
+WHERE THE KERNEL LIVES, and this is where an earlier version of this
+page was WRONG.  It claimed there is no cross-sector stationary
+coherence, full stop.  That holds on the PATH and fails on the RING;
+but the ring is not the reason, and part 8(b) measures why: drop the ZZ
+term and the PATH carries it too.  The qualifier is the ZZ term, not
+the topology on its own.
+
+  N = 5 path, centre   dim ker =  12   diagonal weight 12.000000000   cross-sector weight  0.000000000
+                       per sector: 1, 3, 2, 2, 3, 1
+  N = 4 path, seat 0   dim ker =   5   diagonal weight  5.000000000   cross-sector weight  0.000000000
+                       per sector: 1, 1, 1, 1, 1
+  N = 4 RING, seat 0   dim ker =  13   diagonal weight  9.000000000   cross-sector weight  4.000000000
+                       per sector: 1, 2, 3, 2, 1
+
+On the path the cross-sector weight is zero to machine precision and
+the per-sector weights are exact integers.  On the ring it is not:
+the ring's kernel carries genuine cross-sector stationary coherence,
+so 'no cross-sector term' is a fact about the path and NOT about
+single-seat dephasing in general.  The F4 bullet this page annotates
+lists ring among its topologies, so the distinction has to be kept.
+
+What survives, on the path: the seat dependence is a sum of
+per-sector contributions, each of them the commutant of that
+sector's Hamiltonian intersected with the operators the dissipator
+does not kill.  In the single-excitation sector H is nondegenerate
+and that is 1 + blind, the law above; the N = 5 centre's 3 is 1 + 2.
+For popcount >= 2 the count is LARGER: the six sectors give
+1, 3, 2, 2, 3, 1 = 12 where 1 + blind would give 10.  The reason is
+NOT that the sector Hamiltonian is degenerate: on the uniform chain
+popcount 2 and 3 are SIMPLE, and part 8(a2) below checks it exactly,
+deg gcd(chi, chi') = 0 at N = 5, 6 and 7 in both.  So the obvious
+sum rule is false and F4's question stays open.
+
+------------------------------------------------------------------------
+
+WHAT THE DIVISOR LAW IS A SPECIAL CASE OF.
+
+An earlier version of this script and of its page said the law needs
+REFLECTION-SYMMETRIC couplings.  That is false in both directions,
+and the three rows of the `scope` part could not see it, because at
+N = 11 only one of the eleven cells is ever non-zero.  Below, every
+seat of five bond profiles, against the law:
+
+  uniform N = 7
+    measured  [0, 0, 0, 3, 0, 0, 0]
+    law       [0, 0, 0, 3, 0, 0, 0]
+    criterion [0, 0, 0, 3, 0, 0, 0]
+  N = 7 palindrome [1,2,1,1,2,1]
+    measured  [0, 1, 0, 3, 0, 1, 0]
+    law       [0, 0, 0, 3, 0, 0, 0]
+    criterion [0, 1, 0, 3, 0, 1, 0]
+  N = 9 palindrome [1,2,3,4,4,3,2,1]
+    measured  [0, 0, 0, 0, 4, 0, 0, 0, 0]
+    law       [0, 1, 0, 0, 4, 0, 0, 1, 0]
+    criterion [0, 0, 0, 0, 4, 0, 0, 0, 0]
+  N = 5 asymmetric [1,4,2,2]
+    measured  [0, 0, 2, 1, 0]
+    law       [0, 0, 2, 0, 0]
+    criterion [0, 0, 2, 1, 0]
+  N = 4 asymmetric [1,3,2]
+    measured  [0, 1, 0, 0]
+    law       [0, 0, 0, 0]
+    criterion [0, 1, 0, 0]
+
+The N = 7 palindrome is reflection-symmetric and has MORE blindness
+than the law, at seats 1 and 5.  The N = 9 palindrome has LESS, at
+seats 1 and 7.  And the N = 5 asymmetric chain reaches the law's own
+value 2 at the centre with no reflection anywhere, so the reflection
+is not necessary even there.  The law is a UNIFORM-chain law.
+
+THE CRITERION, which reproduces all of it.  H_SE on an open chain is
+a Jacobi matrix and therefore simple; an eigenvector vanishes at a
+site exactly when its eigenvalue is shared by the two principal
+submatrices that site leaves behind.  So
+
+    blind(j) = deg gcd( charpoly(H_left), charpoly(H_right) )
+
+computed here in exact Fractions, no eigensolver.  Swept against the
+exact GF(p) kernel over uniform, ramp, palindromic and pseudo-random
+integer profiles:
+
+  (profile, seat) pairs tested: 330    mismatches: 0
+
+Two corollaries, read off the criterion rather than measured.  On
+the UNIFORM chain the shared factor is the cosine coincidence the
+divisor law counts, which is why that law is exactly right there.
+And a chain reflection-symmetric ABOUT SEAT j makes the two blocks
+equal, so the gcd is the whole characteristic polynomial and
+blind(j) = j.  That is sufficient at the ONE seat it speaks about
+and says nothing about any other, so global reflection symmetry buys
+the centre of an odd chain and nothing else.
+
+THE ZERO-BOND FENCE, swept exhaustively rather than exhibited.  Every
+profile in {0,1,2}^(N-1) for N = 3..6, every seat, criterion against
+the exact kernel, split by whether the profile has a zero bond:
+
+  N  zero-bond pairs  of those wrong  zero-free pairs  of those wrong
+  3               15              15               12               0
+  4               76              76               32               0
+  5              325             325               80               0
+  6             1266            1266              192               0
+all             1682            1682              316               0
+
+The failure is TOTAL, not partial: every zero-bond pair is wrong and
+every zero-free pair is right.  An earlier version of this page
+quoted the combined count, which reads as a high error rate on a
+mixed set and understates what the fence is doing.  The smallest case,
+seat by seat, so that 'the end seat' is not used as a name for it:
+
+   N = 3, bonds [0, 1]:  measured [2, 1, 1]   criterion [0, 0, 0]
+   The two ends do not even agree with each other, so the cut is what
+   the criterion cannot see, not the seat's position.
+
+WHAT THE DEPHASING ACTUALLY KILLS, because an earlier version of
+this work said it 'kills every entry of rho that crosses the seat'.
+It does not.  Z-dephasing at seat j kills rho_ab exactly when the
+SEAT'S OWN bit differs between a and b, which in this sector means
+exactly one of a, b IS the seat: it clears the seat's row and column
+and touches nothing else.  The decay mask at N = 7, seat 3, in units
+of gamma (0 = untouched, -2 = killed), exactly and by construction:
+
+     0   0   0  -2   0   0   0
+     0   0   0  -2   0   0   0
+     0   0   0  -2   0   0   0
+    -2  -2  -2   0  -2  -2  -2
+     0   0   0  -2   0   0   0
+     0   0   0  -2   0   0   0
+     0   0   0  -2   0   0   0
+
+   entry (0, 6), which CROSSES the seat:   untouched
+   entry (2, 3), which TOUCHES the seat:   killed
+
+So the seat does not decohere the two sides from each other, and a
+surviving state is free to be coherent straight across it.  It is:
+   the 3 blind modes at N = 7, seat 3, each as rho = |psi><psi|, sorted by energy:
+     seat amplitude 1.80e-16   rho[0, 6] = -0.0538
+     seat amplitude 2.49e-16   rho[0, 6] = -0.1746
+     seat amplitude 5.90e-16   rho[0, 6] = -0.2716
+   Every one of them is non-zero across the full length of the chain,
+   and that is a THEOREM rather than these three numbers: on a Jacobi
+   matrix no eigenvector can vanish at an END, since the three-term
+   recursion would then drag the whole vector to zero.  So every blind
+   mode of every zero-free profile carries a non-zero end-to-end
+   coherence.  H_SE is simple here, so each value is fixed up to a sign
+   the product cancels.  NOTE THE SCOPE: this is about the BLIND modes,
+   not about every surviving state.  I/N survives too and its
+   end-to-end entry is exactly zero.  One wave with a node at the
+   watched place, not two worlds that cannot see each other.
+
+AND WHAT THE TWO HALVES ARE NOT.  It is tempting to read the
+criterion as 'the two pieces can each ring at that pitch ON THEIR
+OWN', and for the XY chain that is exactly what it says.  For
+Heisenberg it is FALSE: H_left and H_right are PRINCIPAL SUBMATRICES,
+and the ZZ term puts a boundary term on the cut site and a different
+shift on each side, so neither block is the free-standing subchain's
+own Hamiltonian.  Below, 'isolated' rebuilds each half as a chain in
+its own right and takes the same gcd:
+
+chain              criterion (principal)          isolated subchains              same
+Heisenberg N = 5   [0, 0, 2, 0, 0]                [0, 1, 2, 1, 0]                   NO
+Heisenberg N = 9   [0, 1, 0, 0, 4, 0, 0, 1, 0]    [0, 0, 1, 0, 4, 0, 1, 0, 0]       NO
+Heisenberg N = 11  [0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0] [0, 0, 0, 0, 2, 5, 2, 0, 0, 0, 0]    NO
+XY N = 5           [0, 1, 2, 1, 0]                [0, 1, 2, 1, 0]                  yes
+XY N = 11          [0, 1, 2, 3, 0, 5, 0, 3, 2, 1, 0] [0, 1, 2, 3, 0, 5, 0, 3, 2, 1, 0]   yes
+
+The two agree at every seat of the XY chain and disagree at every
+Heisenberg row here; at N = 11 the 'on their own' reading invents two
+blind seats where the chain has none.  So that phrasing belongs to
+the XY case, and the general statement is about the two principal
+submatrices the seat leaves behind.
+
+------------------------------------------------------------------------
+
+WHICH GRAPHS CARRY A CROSS-SECTOR STATIONARY COHERENCE.
+
+The full-space kernel of part 4 is block-diagonal in popcount on the
+open chain and NOT on the N = 4 ring.  This part asks every seat of
+every graph below, so the reading is off the run and not off a
+sentence.  The vertex numbering is printed with each graph, because
+the seat labels below mean nothing without it.
+
+The weight is the trace of the kernel projector restricted to the
+off-diagonal popcount blocks; it is basis-independent.  The float
+route of part 4 is used, on spaces of at most 2^5.
+
+P4   path 0-1-2-3
+    non-adjacent shared-neighbourhood pairs: none
+    seat 0: dim ker =   5   cross-sector weight  0.000000000
+    seat 1: dim ker =   5   cross-sector weight  0.000000000
+    seat 2: dim ker =   5   cross-sector weight  0.000000000
+    seat 3: dim ker =   5   cross-sector weight  0.000000000
+
+C3   ring 0-1-2
+    non-adjacent shared-neighbourhood pairs: none
+    seat 0: dim ker =   6   cross-sector weight  0.000000000
+    seat 1: dim ker =   6   cross-sector weight  0.000000000
+    seat 2: dim ker =   6   cross-sector weight  0.000000000
+
+C4   ring 0-1-2-3
+    non-adjacent shared-neighbourhood pairs: [(0, 2), (1, 3)]
+    seat 0: dim ker =  13   cross-sector weight  4.000000000
+    seat 1: dim ker =  13   cross-sector weight  4.000000000
+    seat 2: dim ker =  13   cross-sector weight  4.000000000
+    seat 3: dim ker =  13   cross-sector weight  4.000000000
+
+C5   ring 0-1-2-3-4
+    non-adjacent shared-neighbourhood pairs: none
+    seat 0: dim ker =  12   cross-sector weight  0.000000000
+    seat 1: dim ker =  12   cross-sector weight  0.000000000
+    seat 2: dim ker =  12   cross-sector weight  0.000000000
+    seat 3: dim ker =  12   cross-sector weight  0.000000000
+    seat 4: dim ker =  12   cross-sector weight  0.000000000
+
+C6   ring 0-1-2-3-4-5
+    non-adjacent shared-neighbourhood pairs: none
+    seat 0: dim ker =  14   cross-sector weight  0.000000000
+    seat 1: dim ker =  14   cross-sector weight  0.000000000
+    seat 2: dim ker =  14   cross-sector weight  0.000000000
+    seat 3: dim ker =  14   cross-sector weight  0.000000000
+    seat 4: dim ker =  14   cross-sector weight  0.000000000
+    seat 5: dim ker =  14   cross-sector weight  0.000000000
+
+S4   star hub 0, leaves 1-3
+    non-adjacent shared-neighbourhood pairs: [(1, 2), (1, 3), (2, 3)]
+    seat 0: dim ker =  17   cross-sector weight  0.000000000
+    seat 1: dim ker =   8   cross-sector weight  0.000000000
+    seat 2: dim ker =   8   cross-sector weight  0.000000000
+    seat 3: dim ker =   8   cross-sector weight  0.000000000
+
+S5   star hub 0, leaves 1-4
+    non-adjacent shared-neighbourhood pairs: [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
+    seat 0: dim ker =  50   cross-sector weight  0.000000000
+    seat 1: dim ker =  22   cross-sector weight  0.000000000
+    seat 2: dim ker =  22   cross-sector weight  0.000000000
+    seat 3: dim ker =  22   cross-sector weight  0.000000000
+    seat 4: dim ker =  22   cross-sector weight  0.000000000
+
+C4+p ring 0-1-2-3, pendant 3-4
+    non-adjacent shared-neighbourhood pairs: [(0, 2)]
+    seat 0: dim ker =   6   cross-sector weight  0.000000000
+    seat 1: dim ker =  26   cross-sector weight 12.000000000
+    seat 2: dim ker =   6   cross-sector weight  0.000000000
+    seat 3: dim ker =  18   cross-sector weight  6.000000000
+    seat 4: dim ker =  18   cross-sector weight  6.000000000
+
+K4-e  0-1-2-3 minus edge 2-3
+    non-adjacent shared-neighbourhood pairs: [(2, 3)]
+    seat 0: dim ker =  11   cross-sector weight  0.000000000
+    seat 1: dim ker =  11   cross-sector weight  0.000000000
+    seat 2: dim ker =  13   cross-sector weight  4.000000000
+    seat 3: dim ker =  13   cross-sector weight  4.000000000
+
+NO FALSE TWIN  {01,02,03,12,13,24}
+    non-adjacent shared-neighbourhood pairs: none
+    seat 0: dim ker =   6   cross-sector weight  0.000000000
+    seat 1: dim ker =   6   cross-sector weight  0.000000000
+    seat 2: dim ker =  18   cross-sector weight  6.000000000
+    seat 3: dim ker =  26   cross-sector weight 12.000000000
+    seat 4: dim ker =  18   cross-sector weight  6.000000000
+
+THIS TABLE IS A NULL RESULT ABOUT THE PAIRS, and it took three
+tries to say so.  The reading under test was that a non-adjacent
+shared-neighbourhood pair (graph theory's FALSE TWINS) is what
+carries the cross-sector weight.  The table refuses it on both
+sides, and the first two summaries written for it were wrong.
+
+NOT SUFFICIENT: the star has three such pairs at N = 4 and six at
+N = 5, and carries no cross-sector weight at any seat.
+
+NOT NECESSARY: the last row has no NON-ADJACENT shared-neighbourhood
+pair at all (vertices 0 and 1 are ADJACENT with the same closed
+neighbourhood, which is a different thing and is not what is counted)
+yet it carries 6, 12, 6 at seats 2, 3, 4.  That is the row that ends
+the reading, and it was found by a reviewer sweeping every connected
+graph on five vertices, not by this script's own case list.
+
+AND THE SEAT RULE POINTS BOTH WAYS, which is the sharpest of the
+three.  On C4+pendant, one pair, the weight is ZERO at exactly that
+pair's seats.  On K4 minus an edge, also one pair, the weight is
+non-zero at exactly that pair's seats and zero everywhere else.  And
+on C4 every seat lies in a pair and every seat carries 4.  No rule
+in terms of the pairs survives all three.
+
+What survives is only the open-chain statement of part 4: on the
+HEISENBERG path the kernel is block-diagonal in popcount, and
+elsewhere it need not be.  Not 'off the path', which part 8(b)
+refutes by dropping the ZZ term and keeping the path.  Which systems
+carry cross-sector stationary coherence is OPEN, it is not a question
+about topology alone, and this table is the record of one reading
+that failed.
+
+------------------------------------------------------------------------
+
+THE FULL KERNEL BY SECTOR, EXACTLY, and two things it settles.
+
+Part 4 took the full-space kernel by an SVD and stopped at N = 6.
+Every (p, q) popcount block is ranked here instead, the diagonal ones
+and the CROSS ones, so the whole 4^N kernel is measured and its split
+is not assumed.  Every number in (a), (b) and (c) is an exact rank
+with no eigensolver and nothing to tolerate; (a3) is the exception
+and says so where it stands.
+
+(a) The middle seat (N-1)//2 of the open chain, uniform J.  At ODD N
+that seat is reflection-fixed and blind; at EVEN N it is neither, and
+both are printed because the even rows are what decide WHY the sum
+rule below survives where it does.
+
+  N seat  b per sector, p = 2^61-1             per sector, p = 2^31-1              cross  FULL  (N+1)+b*b+b   3(N-1)
+  3    1  1 [1, 2, 2, 1]                       [1, 2, 2, 1]                            0     6            6        6
+  4    1  0 [1, 1, 1, 1, 1]                    [1, 1, 1, 1, 1]                         0     5            5        -
+  5    2  2 [1, 3, 2, 2, 3, 1]                 [1, 3, 2, 2, 3, 1]                      0    12           12       12
+  6    2  0 [1, 1, 1, 1, 1, 1, 1]              [1, 1, 1, 1, 1, 1, 1]                   0     7            7        -
+  7    3  3 [1, 4, 2, 2, 2, 2, 4, 1]           [1, 4, 2, 2, 2, 2, 4, 1]                0    18           20       18
+
+The two middle lists are the same numbers by two independent routes:
+the pure-Python elimination at p = 2^61 - 1 and the numpy one at
+p = 2^31 - 1.  THE DIAGONAL BLOCKS ONLY: the cross column is ranked
+at p = 2^31 - 1 alone, and saying otherwise would overstate it.  Two
+primes matter on the diagonal because a GF(p) rank can only be too
+SMALL, so a kernel dimension read off it can only be too LARGE, and
+one prime is a certificate with a probability attached.  They do not
+matter on the cross blocks, for a better reason: a nullity can only
+be reported too LARGE, so a measured nullity of ZERO forces the
+rational nullity to be zero.  One prime settles an empty block.
+
+THE CROSS COLUMN IS THE POINT.  The claim below is about the FULL
+kernel, and a sum over diagonal blocks is not a full kernel unless
+the cross blocks are empty.  They are, measured, on every row above.
+Part 4 could confirm that only through N = 6, by an SVD; this reaches
+N = 7, which is the first N where the two formulas differ at all.
+
+The 'b^2+b' column is docs/CAUGHT_ERRORS.md's committed parenthetical
+'kernel excess is b^2+b, not gcd', evaluated.  It agrees at N = 3 and
+N = 5 and is WRONG at N = 7, where it says 20 and the exact answer is
+18.  The even rows do not discriminate: b = 0 there, so the formula
+says N+1 and every sector carries 1.  3(N-1) fits the three ODD rows,
+and is printed only for them; three points are not a law and this is
+not offered as one.  What is settled is that the committed formula is
+false, at the smallest N that can tell.
+
+AND THE EVEN ROWS ANSWER THE SUM RULE'S 'WHY'.  The natural guess is
+(N+1) + sum_w blind_w, which holds at N = 3, 4 and 6 and fails at
+N = 5 and 7.  An earlier version of the page said the surviving N
+have no in-between sector.  They do: N = 4 has w = 2 and N = 6 has
+w = 2, 3, 4, and the table shows each of them carrying 1.  What the
+even rows lack is not the sector, it is the BLINDNESS: b = 0 at an
+even chain's middle seat, and where nothing is blind every sector
+carries 1 and any sum rule is trivially right.  The rule fails at
+exactly the N where a blind middle seat and an in-between sector
+exist together, which is N = 5 and N = 7 here.
+
+(a2) AND THE MECHANISM IS NOT DEGENERACY.  An earlier version of
+this script said the popcount >= 2 sector Hamiltonians are degenerate
+and that this is where the excess comes from.  They are simple, and
+that is checked EXACTLY rather than by a smallest gap: a matrix has a
+simple spectrum iff its characteristic polynomial is squarefree, iff
+deg gcd(chi, chi') = 0, computed here in Fractions.
+
+  N  sector w   dim  deg gcd(chi, chi_prime)  simple
+  5         2    10                        0     yes
+  5         3    10                        0     yes
+  6         2    15                        0     yes
+  6         3    20                        0     yes
+  7         2    21                        0     yes
+  7         3    35                        0     yes
+
+Heisenberg degeneracy is ACROSS popcount sectors, in the SU(2)
+multiplets, not inside one.  That is a UNIFORM-chain statement, and
+(a3) below carries reflection-symmetric profiles whose popcount-2 and
+popcount-3 sectors DO have a doubled eigenvalue, so it is the PROFILE
+that puts a degeneracy inside a sector.  On a SIMPLE sector the
+count is the number of connected components of the sector's
+eigenmodes under the dephased seat's occupation operator: rho commutes
+with H_w, so it is diagonal in the eigenbasis, and the seat's
+condition forces one common coefficient along every edge.  In the
+single-excitation sector that operator is a rank-one projector, every
+mode not vanishing at the seat fuses into one component and each
+node-mode stands alone, which is part 2's 1 + blind.  A component is
+NOT a blind state: at N = 5, popcount 2, nothing is blind and the
+count is still 2.
+
+(a3) THE HYPOTHESIS IS LOAD-BEARING.  Off a simple sector no single
+eigenbasis need diagonalise every rho in the kernel at once, and the
+component count then depends on the basis: it is a LOWER bound in
+every basis, and the uniform chain above never shows the gap while a
+palindromic profile at the same reflection-fixed centre does.  The
+kernel and the simplicity degree below are exact; the component
+counts are float, and what they exhibit is a basis effect.
+
+chain                         w  deg gcd  simple  exact ker  components  re-bases  adapted
+N = 5 uniform                 2        0     yes          2           2 one value        2
+N = 5 palindrome [4,3,3,4]    2        1      NO          2           1 one value        2
+N = 7 uniform                 3        0     yes          2           2 one value        2
+N = 7 palindrome [4,3,4,4,3,4]  3        2      NO          2           1 one value        2
+
+Both palindromes carry a doubled sector eigenvalue, and in the
+SOLVER'S basis the component count comes out below the exact kernel
+there.  Neither is a counterexample to the mechanism, and the last
+two columns are why.
+
+The 're-bases' column re-runs the count on 50 random re-bases of each
+degenerate eigenspace and returns one value.  That value carries no
+information about the mechanism.  The count is a LOWER bound in every
+basis, so the question is what its MAXIMUM over eigenbases is, and a
+maximum is attained on a measure-zero set of bases: a random draw
+lands in the generic stratum, where the mode graph is maximally
+connected and the count minimal, with probability one.  The test is
+blind in exactly the direction the question runs.
+
+The 'adapted' column fits the basis to n_seat inside each degenerate
+eigenspace and reaches the exact kernel on both palindromes.  That
+recipe is NOT the general prescription: it can fall short of the best
+basis, and it is undefined when n_seat is itself degenerate on a
+degenerate eigenspace.  The general statement is algebraic.  The
+kernel is the commutant of A = <H_w, n_seat>; writing A's Wedderburn
+blocks as (n_i, m_i) with sum n_i m_i = dim, the kernel is sum m_i^2
+while the best achievable component count is sum m_i.  They agree
+exactly when every m_i = 1, i.e. when the commutant is abelian.
+
+That settles both rows with no solver at all: a multiplicity 2 costs
+4, so a kernel of 1, 2 or 3 forces every m_i = 1 and the best basis
+then realises the kernel as its component count.  Both exhibited
+kernels are 2.  FOUR is the first kernel dimension at which a
+multiplicity 2 fits, so the first at which the mechanism can fail
+at all; the smallest failure exhibited here sits one above it.  The
+star at
+N = 4 with the HUB dephased has blocks (2,1) and (1,2) in the
+single-excitation sector, so its kernel is 5 while no basis can give
+more than 3 components.  The gap is sum m_i^2 - sum m_i, and it is
+open only for the zero-free open chain, where none is exhibited
+here either way.
+
+The star witness, measured rather than asserted.  Four exact numbers
+fix the block structure and a reader can redo the arithmetic:
+
+case                           d  dim A  dim ker  blocks  best count
+star N = 4, hub, w = 1         4      5        5       2           3
+star N = 4, hub, w = 2         6      8        5       2           3
+
+sum n_i m_i = d, sum n_i^2 = dim A, sum m_i^2 = dim ker, and the
+block count b pin the (n_i, m_i) uniquely here: (2,1) and (1,2) at
+w = 1, (2,2) and (2,1) at w = 2.  Both give sum m_i = 3 against a
+kernel of 5, so no eigenbasis reaches the kernel and the undercount
+is basis-free.  'best count' is that sum, solved from the four
+numbers to its left rather than read off any basis.
+
+These are reflection-symmetric profiles read at the reflection-fixed
+centre, which is the setting of table (a), so the hypothesis has to
+travel with the sentence.
+
+(b) WHAT THE 'OPEN CHAIN' QUALIFIER OF PART 4 REALLY IS.  Part 4 says
+the kernel is block-diagonal in popcount on the open chain.  Drop the
+ZZ term and keep the same open chain, N = 5, uniform J:
+
+ seat Heis: sector dims           Heis total XY: sector dims             XY total
+    0 [1, 1, 1, 1, 1, 1]                   6 [1, 1, 1, 1, 1, 1]                 6
+    1 [1, 1, 1, 1, 1, 1]                   6 [1, 2, 2, 2, 2, 1]                10
+    2 [1, 3, 2, 2, 3, 1]                  12 [1, 3, 4, 4, 3, 1]                16
+    3 [1, 1, 1, 1, 1, 1]                   6 [1, 2, 2, 2, 2, 1]                10
+    4 [1, 1, 1, 1, 1, 1]                   6 [1, 1, 1, 1, 1, 1]                 6
+
+Now the same XY chain on the WHOLE 4^N space, so the comparison is
+measured here and not asserted.  Two routes: the exact block ranks,
+and part 4's SVD with its projector-trace weight, which is where this
+counterexample was first seen.
+
+ seat  exact FULL  exact diag  exact cross  SVD full  SVD cross
+    0           6           6            0         6   0.000000
+    1          20          10           10        20  10.000000
+    2          24          16            8        24   8.000000
+    3          20          10           10        20  10.000000
+    4           6           6            0         6   0.000000
+
+The exact route and the SVD agree on every row, which is worth having
+because the exact one needs no threshold and the SVD is what part 4
+uses everywhere else.  The XY chain carries cross-sector stationary
+coherence at the three interior seats and none at the two ends.
+
+So the load-bearing qualifier is not the topology, it is the open
+chain WITH the ZZ term, and part 4's dichotomy needs that word.
+
+(c) Further Heisenberg chains, every seat, now with the cross blocks
+measured rather than left open.  An earlier version of this part
+printed diagonal sums only and had to say in its own text that a
+diagonal sum is not evidence of block-diagonality; the cross column
+is what turns that caveat into a measurement.
+
+  N = 5 uniform        full kernel by seat: [6, 6, 12, 6, 6]
+                       of which cross-sector: [0, 0, 0, 0, 0]
+  N = 5 [1,4,2,2]      full kernel by seat: [6, 6, 10, 8, 6]
+                       of which cross-sector: [0, 0, 0, 0, 0]
+  N = 6 [2,1,1,2,1]    full kernel by seat: [7, 7, 7, 7, 7, 7]
+                       of which cross-sector: [0, 0, 0, 0, 0, 0]
+  N = 7 uniform        full kernel by seat: [8, 8, 8, 18, 8, 8, 8]
+                       of which cross-sector: [0, 0, 0, 0, 0, 0, 0]
+
+Every cross entry is zero, so on the open Heisenberg chain the
+diagonal sum IS the full kernel, at every seat of every row here and
+not only where part 4's SVD could reach.  The N = 5 uniform row also
+reproduces part 4 exactly, 6, 6, 12, 6, 6, so the two routes agree
+where they overlap.  Part 2's law is NOT re-read off this table,
+which prints no per-sector cells at all; for that, see part 2.
+What is NOT claimed here: that this holds for every N, or off the
+chain, or with the ZZ term dropped, where part (b) has already
+measured that it FAILS.
+
+------------------------------------------------------------------------
+
+THE CRITERION WITHOUT THE CHAIN.  Part 6's criterion compares the
+seat's two leftover blocks WITH EACH OTHER, which presumes the seat
+leaves exactly two.  A zero bond breaks that, which is the fence
+part 6 sweeps; a general graph breaks it differently, since cutting
+one vertex usually leaves something connected and there is no second
+spectrum to compare.
+
+The form that survives compares the FULL spectrum against the
+principal submatrix's:
+
+    blind(j) = deg gcd( chi(H), chi(H with row and column j cut) )
+
+On an open chain with no zero bond the cut matrix IS the direct sum
+of the two halves and the two forms coincide.  Below, both are taken
+against the DEFINITION, n - rank of the Krylov matrix on the seat,
+exactly, at two primes.  No eigensolver anywhere.
+
+--- Heisenberg (ZZ on)
+graph                                    simple       blind per seat  deleted  halves   1+bl
+path N = 5 uniform                          yes      [0, 0, 2, 0, 0]    match   match  holds
+path N = 6 [1,1,0,1,1]  ZERO BOND            NO   [3, 4, 3, 3, 4, 3]    match   WRONG BREAKS
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS       NO   [4, 4, 4, 4, 4, 4]    match   WRONG BREAKS
+path N = 4 [1,0,1]  ZERO BOND                NO         [2, 2, 2, 2]    match   WRONG  holds
+path N = 5 [1,-2,3,-1] NEGATIVE J           yes      [0, 0, 0, 0, 0]    match   match  holds
+ring N = 4                                   NO         [1, 1, 1, 1]    match     n/a  holds
+ring N = 5                                   NO      [2, 2, 2, 2, 2]    match     n/a  holds
+ring N = 6                                   NO   [2, 2, 2, 2, 2, 2]    match     n/a  holds
+star N = 5                                   NO      [3, 2, 2, 2, 2]    match     n/a BREAKS
+star N = 6                                   NO   [4, 3, 3, 3, 3, 3]    match     n/a BREAKS
+complete K4                                  NO         [2, 2, 2, 2]    match     n/a BREAKS
+complete K5                                  NO      [3, 3, 3, 3, 3]    match     n/a BREAKS
+Y-tree N = 5                                yes      [0, 1, 0, 1, 1]    match     n/a  holds
+T-tree N = 6                                yes   [0, 0, 2, 2, 0, 0]    match     n/a  holds
+triangle + pendant N = 4                    yes         [0, 0, 2, 1]    match     n/a  holds
+two triangles bridged N = 6                  NO   [2, 2, 2, 2, 2, 2]    match     n/a BREAKS
+K4 minus an edge N = 4                       NO         [2, 2, 1, 1]    match     n/a  holds
+weighted ring N = 5 [1,2,3,2,1]             yes      [2, 1, 0, 0, 1]    match     n/a  holds
+two triangles, DISCONNECTED N = 6            NO   [4, 4, 4, 4, 4, 4]    match     n/a BREAKS
+isolated seat N = 4                          NO         [1, 2, 1, 3]    match     n/a  holds
+    deleted form: 20/20 graphs match the definition at every seat.
+    halves form: defined on 5 paths, WRONG on 3 of them.
+    14 of the 20 graphs have a DEGENERATE spectrum, so the COUNT carries no simplicity hypothesis.
+    the kernel identity dim ker L_SE = 1 + blind holds on 12/20 graphs: that one DOES need the fence.
+
+--- XY (ZZ off)
+graph                                    simple       blind per seat  deleted  halves   1+bl
+path N = 5 uniform                          yes      [0, 1, 2, 1, 0]    match   match  holds
+path N = 6 [1,1,0,1,1]  ZERO BOND            NO   [3, 4, 3, 3, 4, 3]    match   WRONG BREAKS
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS       NO   [4, 4, 4, 4, 4, 4]    match   WRONG BREAKS
+path N = 4 [1,0,1]  ZERO BOND                NO         [2, 2, 2, 2]    match   WRONG  holds
+path N = 5 [1,-2,3,-1] NEGATIVE J           yes      [0, 1, 2, 1, 0]    match   match  holds
+ring N = 4                                   NO         [1, 1, 1, 1]    match     n/a  holds
+ring N = 5                                   NO      [2, 2, 2, 2, 2]    match     n/a  holds
+ring N = 6                                   NO   [2, 2, 2, 2, 2, 2]    match     n/a  holds
+star N = 5                                   NO      [3, 2, 2, 2, 2]    match     n/a BREAKS
+star N = 6                                   NO   [4, 3, 3, 3, 3, 3]    match     n/a BREAKS
+complete K4                                  NO         [2, 2, 2, 2]    match     n/a BREAKS
+complete K5                                  NO      [3, 3, 3, 3, 3]    match     n/a BREAKS
+Y-tree N = 5                                yes      [0, 1, 0, 1, 1]    match     n/a  holds
+T-tree N = 6                                yes   [0, 0, 2, 2, 0, 0]    match     n/a  holds
+triangle + pendant N = 4                    yes         [0, 0, 1, 1]    match     n/a  holds
+two triangles bridged N = 6                  NO   [1, 1, 2, 2, 1, 1]    match     n/a BREAKS
+K4 minus an edge N = 4                      yes         [1, 1, 1, 1]    match     n/a  holds
+weighted ring N = 5 [1,2,3,2,1]             yes      [2, 0, 0, 0, 0]    match     n/a  holds
+two triangles, DISCONNECTED N = 6            NO   [4, 4, 4, 4, 4, 4]    match     n/a BREAKS
+isolated seat N = 4                          NO         [1, 2, 1, 3]    match     n/a BREAKS
+    deleted form: 20/20 graphs match the definition at every seat.
+    halves form: defined on 5 paths, WRONG on 3 of them.
+    13 of the 20 graphs have a DEGENERATE spectrum, so the COUNT carries no simplicity hypothesis.
+    the kernel identity dim ker L_SE = 1 + blind holds on 11/20 graphs: that one DOES need the fence.
+
+Read the table this way.  The deleted form matches the definition on
+every row, the rows whose spectrum is NOT simple included: the two
+triangle graphs, the star, the complete graphs, and every zero-bond
+path, whose halves repeat each other.  The halves form is wrong on
+exactly the zero-bond paths, which is part 6's fence.
+
+So for the COUNT the fence belongs to the PHRASING and not to the
+phenomenon.  Stated on the principal submatrix the criterion needs
+no fence, no simplicity hypothesis and no chain; the chain is where
+the cut matrix happens to fall into two pieces, which is what let
+the criterion be written as a gcd of two halves in the first place.
+
+The SPAN is a different story, and the last column is why the fence
+is called load-bearing TWICE rather than once.  dim ker L_SE(j) =
+1 + blind(j) can BREAK only where the spectrum is degenerate, and
+plenty of degenerate rows hold anyway (the rings, K4 minus an edge,
+the isolated seat on the ZZ book): simplicity is SUFFICIENT for the
+span and NOT necessary.  On [1,1,0,1,1] at seats 1 and 4 the count
+is 4 and the kernel is 7.  The count
+generalises and the kernel identity does not, so a reader carrying
+the fence-free criterion to the kernel would be carrying it past the
+hypothesis it needs.
+
+ONE SEAT AGAINST A SUPPORT.  For a single seat, blind(j) = 0 forces
+a one-dimensional kernel on ANY graph and needs no simplicity: it
+says e_j is cyclic for H, so anything commuting with H and with the
+seat's projector sends e_j to a multiple of itself and is therefore a
+multiple of the identity.  For a SUPPORT of several seats that fails
+without connectivity, and the smallest witness is a cut chain:
+
+    N = 4 [1,0,1], gamma on {0, 2}   joint blind = 0, dim ker = 2
+    N = 4 [1,0,1], gamma on {0, 3}   joint blind = 0, dim ker = 2
+    N = 4 [1,1,1], gamma on {0, 2}   joint blind = 0, dim ker = 1
+
+The connected chain gives 1 + 0, as the single-seat statement would;
+the two disconnected pairs each keep their own scale and give 2 with
+nothing blind to both seats at all.  So the one-seat form is a
+theorem and the several-seat form carries a connectivity clause.
+
+What this does NOT do: it does not decide which systems carry
+cross-sector stationary coherence, which is what the open item asks.
+It removes the typecheck failure that stood in the way of asking the
+question on a graph at all.

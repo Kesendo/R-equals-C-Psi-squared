@@ -7979,8 +7979,9 @@ public static class OpenArcsRegistry
                 "ANNOTATION 2026-08-23, reversing the last clause of (1): the mediator seat's " +
                 "nodal peculiarity is NOT measurably inert, it was INVISIBLE to the observable " +
                 "that step used. experiments/THE_BLIND_SITE.md proves that Z-dephasing at a " +
-                "single seat j of an open Heisenberg chain leaves a SINGLE-EXCITATION subspace of " +
-                "dimension exactly (gcd(2j+1, N) - 1)/2 untouched (verified at two primes for " +
+                "single seat j of an open UNIFORM Heisenberg chain leaves a SINGLE-EXCITATION " +
+                "subspace of dimension exactly (gcd(2j+1, N) - 1)/2 untouched (verified at " +
+                "two primes for " +
                 "N = 3..21, every seat; at N = 11 seat 5 that is 5, the whole floor(N/2)). The " +
                 "site-by-site sweep above cannot see it: its state, Bell-on-vacuum, lives in " +
                 "popcount {0,2}, where the blind dimension is 0 at EVERY seat. On a " +
@@ -8029,9 +8030,96 @@ public static class OpenArcsRegistry
                 "80 and the other seats fall in step, so the quotable quantity is the " +
                 "RATIO, 150.7 / 148.5 / 149.3, stable to about one percent. STILL OPEN: " +
                 "where the cancellation lands, and whether a window-stable functional " +
-                "exists for this comparison at all (this entry asks for one and names " +
-                "two candidates; the integrated one is now ruled out, the steady-state " +
-                "one is untried). " +
+                "exists for this comparison at all. BOTH CANDIDATES THIS ENTRY NAMED ARE " +
+                "NOW SPENT (2026-08-24, experiments/THE_SEAT_THAT_CUTS.md, " +
+                "simulations/seat_cut_blindness.py). The integrated one dilutes with the " +
+                "window. The steady-state one fails harder: wherever the dephasing leaves " +
+                "no blind subspace the stationary state is the maximally mixed state of " +
+                "the excitation sector at EVERY seat and EVERY rate, and the span it " +
+                "reports is zero at every seat. In the SINGLE-EXCITATION sector, on " +
+                "halves of size (N-1)/2 with the centre in neither, its mutual " +
+                "information is log2 N - ((N+1)/N)log2((N+1)/2) BITS, a function of N " +
+                "alone; the state THIS entry propagates has support on popcount 0 and 2, " +
+                "so that number does NOT carry over to it, and neither does the blindness, " +
+                "for the reason recorded below; what carries over is the PREMISE. It is " +
+                "window-stable because it has " +
+                "stopped looking; the premise was already proven in " +
+                "PROOF_ASYMPTOTIC_SECTOR_PROJECTION, item 2 under Consequences, where the sector " +
+                "populations are a complete invariant for rho(inf) and no gamma enters. " +
+                "AND THE OBVIOUS REPLACEMENT DOES NOT WORK EITHER, ON THIS COMPARISON. " +
+                "The DIMENSION of the stationary manifold is window-free and rate-free and " +
+                "carries the blindness count exactly: dim ker L_SE(j) = 1 + blind(j) with " +
+                "blind(j) = deg gcd(charpoly(H_left), charpoly(H_right)). THAT TWO-HALVES " +
+                "FORM IS A CHAIN EVALUATION, and its no-zero-bond fence belongs to the " +
+                "phrasing rather than to the phenomenon: comparing the FULL spectrum " +
+                "against the principal submatrix instead, blind(j) = deg gcd(charpoly(H), " +
+                "charpoly(H with row and column j struck)), reproduces the definition (N " +
+                "minus the rank of the seat's Krylov matrix, exact at two primes, no " +
+                "eigensolver) at every seat of twenty graphs on both ZZ books, fourteen " +
+                "of them with a degenerate spectrum on the Heisenberg side and thirteen " +
+                "on the XY side, zero bonds and an isolated seat " +
+                "included (run mode `deleted`). The fence-free statement was already " +
+                "committed in experiments/THE_BLIND_SITE.md section 5 as a Krylov " +
+                "complement, and the seat page reached the criterion without using it. " +
+                "CAUTION ON THE " +
+                "PICTURE: the dephasing does NOT cut the chain and does NOT kill the " +
+                "entries crossing the seat, it clears the seat's own row and column OFF " +
+                "THE DIAGONAL, the surviving (j,j) entry being what supplies the +1, and a " +
+                "surviving state stays coherent across the seat, and on a Jacobi matrix " +
+                "no eigenvector can vanish at an END, so EVERY blind mode of every " +
+                "zero-free profile does (the three at N = 7 seat 3 give rho[0,6] = " +
+                "-0.0538, -0.1746, -0.2716). Plenty of states survive WITH amplitude at " +
+                "the seat, so the statement is about a DIMENSION and not about a state: " +
+                "ON A CHAIN WITH NO ZERO BOND the stationary space is spanned by Q, the " +
+                "sum of the non-node projectors (unnormalised, Q[seat,seat] = 1 exactly, " +
+                "so the state puts 1/(N-blind) there), plus one projector per node-mode, " +
+                "and it is the part carrying NO amplitude at the seat that blind(j) " +
+                "counts. The fence is load-bearing for the SPAN too, not only for the " +
+                "criterion: at N = 6 with bonds [1,1,0,1,1] the kernel is 7 against the " +
+                "span's 5. H_left/H_right are the two PRINCIPAL " +
+                "SUBMATRICES left behind, NOT the free-standing subchains (they coincide " +
+                "on XY and differ on Heisenberg, where at N = 11 the free-standing reading " +
+                "invents two blind seats). H_SE is Jacobi, hence simple, which is " +
+                "PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE section (b)'s LEMMA A, which " +
+                "gives NON-DEROGATORY 'in either Delta book' and hence simple via " +
+                "H_SE being real symmetric. Section (g) says it of a Hermitian matrix " +
+                "outright, 'Lemma A applies to the Hermitian Jacobi matrix A_J as well, " +
+                "so a path's hopping spectrum is simple whenever A_J is Hermitian and " +
+                "every J_b != 0', which IS H_SE; what section (g) fences to the Delta = 0 " +
+                "adjacency form is the cosine argument it discards, not the Jacobi one it " +
+                "keeps. Rate = 0 iff " +
+                "a node at the dephased site is F64's; what is new is the COUNT between " +
+                "them. ANY BOND PROFILE WITH NO ZERO BOND, the " +
+                "same fence F143 already carries for a neighbouring object, and a zero " +
+                "bond makes the criterion WRONG and not merely inapplicable; 330 " +
+                "(profile, seat) pairs over N = 3..8, zero mismatches, the criterion side " +
+                "in exact Fractions and the kernel side an exact GF(p) rank, no " +
+                "eigensolver either way. On " +
+                "the UNIFORM chain it evaluates to 1 + (gcd(2j+1,N)-1)/2, verified N = 3..13 " +
+                "at every seat in the single-excitation sector by an EXACT GF(p) rank on " +
+                "integer inputs. REFLECTION-SYMMETRIC couplings are NEITHER necessary NOR " +
+                "sufficient for the uniform value, which a DRAFT OF THE EXPERIMENT PAGE " +
+                "asserted and this entry never carried: a reflection-symmetric N = 7 chain " +
+                "has MORE blindness than the " +
+                "law and a reflection-symmetric N = 9 chain has LESS, while an asymmetric " +
+                "N = 5 chain reaches the law's own centre value. A reflection ABOUT SEAT j " +
+                "buys that one seat and no other. The kernel side needs no eigensolver and " +
+                "has nothing to tolerate, and the run now shows why that matters: an SVD rank " +
+                "of the same N = 11 operator, where the answer " +
+                "is 6, returns 21 at J = 1e-5 WHILE REPORTING A GAP OF 5.95e3, and 101 at " +
+                "gamma = 1e9. A wide gap accompanied a wrong answer, which is the trap " +
+                "MirrorWorld Divisor.cs already records. " +
+                "But every profile THIS entry sweeps puts gamma > 0 on at least ten of the " +
+                "eleven seats, so nothing is blind, the kernel is one-dimensional on all 23 " +
+                "of them, and the dimension reports a span of zero here exactly as the " +
+                "mutual information does. It discriminates a DIFFERENT comparison, " +
+                "single-seat support, which this entry never posed. So the closure question " +
+                "stays open with two ruled-out candidates and no instrument yet. The same run " +
+                "closed THE_BLIND_SITE section 11's XY item (uniform XY chain: gcd(j+1,N+1)-1, " +
+                "no halving; the N = 200 enumeration certifies the COUNT, not the kernel) and took one step into F4's open seat question without " +
+                "closing it. A third instrument, the spectral gap, is named in the " +
+                "flow-gamma design spec (untracked, under docs/superpowers/) and is untried on " +
+                "this comparison. " +
                 "(2) THE LEVEL QUESTION. Corrected by the 2026-08-22 review rounds: the raw " +
                 "multiset-permutation question this step first carried is ANSWERED, and was answered " +
                 "twice before it was asked. (a) March itself permuted a fixed multiset: '2:1 all pull' " +

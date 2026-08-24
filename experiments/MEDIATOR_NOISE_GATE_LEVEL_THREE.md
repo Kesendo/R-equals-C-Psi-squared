@@ -454,6 +454,50 @@ functional (steady-state MI, or MI integrated over time) before the question is
 even well posed. The same functional is what the background item below waits
 on.
 
+**Both candidates have since been tried, and both fail, 2026-08-23/24.**
+[The Blind Site](THE_BLIND_SITE.md) §7 rules out MI integrated over time: past
+the transient every γ profile decays toward the same limit, so a longer window
+dilutes every span alike and only the ratio between seats survives.
+[The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §1 rules out steady-state MI more
+sharply. Wherever the dephasing leaves no blind subspace the stationary state is
+the maximally mixed state of the excitation sector, at every seat and every rate,
+so the steady-state mutual information is a function of N and of the sector
+alone, with no γ in it, and the span it reports is zero at every seat. Which
+number it is depends on the sector, and for this page's own state that is not
+the number quoted below. It is window-stable because it has stopped
+looking. The premise was already proven next door:
+`PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md` Consequence 2 makes the sector
+populations a complete invariant for ρ(∞), and no γ enters it.
+
+**What carries over to this page is the PREMISE, and neither the number nor the
+blindness.** That page's closed form, log₂N − ((N+1)/N)·log₂((N+1)/2) bits, is
+read in the **single-excitation** sector on halves of size (N−1)/2 with the
+centre in neither. The state this page propagates has support on popcount 0 and
+2, so it lands on a different limit and the closed form does not apply to it. The
+blindness does not reach this page either, for the reason spelled out two
+paragraphs down: every profile swept here puts γ > 0 on at least ten of the
+eleven seats, so nothing is blind at any of them. What does apply, because it
+belongs to the proof rather than to either, is that the limit here is fixed by
+the sector populations alone and no γ profile can move it.
+
+**And the obvious replacement does not work either, on this comparison.** The
+**dimension** of the stationary manifold is window-free and rate-free and carries
+the blindness count exactly, dim ker L_SE = 1 + deg gcd(χ(H_left), χ(H_right))
+for dephasing at one seat of an open chain, read in the single-excitation sector,
+which on the uniform chain is 1 + (gcd(2j+1, N) − 1)/2
+([The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §§2-3). But every profile in the
+γ-sweep above puts γ > 0 on at least ten of the eleven seats (the γ = 0
+configuration discussed later on this page is not one of the swept arms). That
+by itself does not settle it, since a one-seat law says nothing about a ten-seat
+support; what settles it is the measurement, every arm of this
+page's six-value γ_M sweep carrying no blind subspace at all, as do all 23
+profiles of The Blind Site §7's own sweep. So the kernel is one-dimensional throughout,
+and the dimension reports a span of zero here exactly as the mutual information
+does. It discriminates a different
+comparison, single-seat support, which this page never posed. The closure
+question therefore stays open with two ruled-out candidates and no instrument
+yet.
+
 **A quiet-background comparison needs a different observable, and this one
 cannot give it.** The natural question, how much of the weak response is the
 mediator competing against the other ten sites' noise, cannot be asked with a
