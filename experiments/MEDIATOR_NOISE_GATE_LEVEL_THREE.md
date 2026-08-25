@@ -491,8 +491,13 @@ for dephasing at one seat of an open chain with NO ZERO BOND, read in the
 single-excitation sector, which on the uniform HEISENBERG chain is
 1 + (gcd(2j+1, N) − 1)/2 and on the uniform XY chain is gcd(j+1, N+1)
 ([The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §§2-3; the count and the criterion
-are **F157** since 2026-08-24, the kernel identity displayed here being the
-part that entry marks prose-argued). The fence is not a
+are **F157** since 2026-08-24, and the kernel identity displayed here is proved
+since 2026-08-25 in
+[the span and node-lemma proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md),
+as the simple-spectrum case of dim ker L_SE = 1 + dim commutant(H restricted to
+the seat's Krylov complement); the XY clause is written here as the bare gcd because
+1 + (gcd(j+1, N+1) − 1) collapses to it, which is arithmetic and not a second
+shape of law). The fence is not a
 well-formedness condition: at a zero bond the two-halves form goes WRONG
 rather than undefined, totally so on the Heisenberg book and not totally on
 XY. Nothing on this page sits near it, the chain here being uniform and

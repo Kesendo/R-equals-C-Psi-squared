@@ -414,12 +414,12 @@ Exact for chain topology, lower bound for higher-symmetry topologies.
 - **Disconnected-graph extension (Tier 1 derived, promoted 2026-05-19; landed Tier 1 candidate 2026-05-18):**
   - `dim ker L_H = Π_c (|c| + 1)` over connected components c of the graph G.
   - Predicts kernel dim = N+1 for any single connected component (chain / ring / star / K_N / arbitrary connected, matches the F4 popcount-sector count) **with the dephasing ON at every site**, a condition the anchor proof states in the stronger uniform form. It is sufficient and not necessary, and Σγ > 0 is not the right condition: on the N = 3 open chain at J = 1, γ = 0.5 on the **end** seat alone already gives kernel 4, while the same γ on the **middle** seat gives 6. Which seat carries the γ decides, and why is an open question rather than a formula here (see the scope discussion in [the asymptotic sector projection proof](proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md)); still open, but with a shape and a first sector since 2026-08-24, in the seat sub-bullets below. At Σγ = 0, separately, the kernel is the full commutant of H and is far larger (measured 24 for the 3-chain, 32 for the triangle, 54 for the 4-chain, against N+1 = 4, 4, 5). The restriction to the diagonal functions of total S_z is what the Z-dephasing does, and [the component proof](proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) says so in its first lines; predicts 5·5 = 25 for K_4 + disjoint 4-chain at N=8 (bit-exact verified, all four N=8 SLOW_N8 topologies).
-  - **Which seat carries the γ (2026-08-24): the shape, and the first sector closed.** Source [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) §5, script `simulations/seat_cut_blindness.py`. The single-excitation count itself is **F157** since 2026-08-24 (whose kernel half, the 1 + blind form below, F157 marks prose-argued with gated instances); these sub-bullets keep the F4-side story, the popcount ≥ 2 wall included, and where they and F157 state the same law they must be changed together. The single-excitation count, the divisor laws, the fence, the per-block ranks and every gcd degree below are EXACT: GF(p) ranks on integer inputs and `Fraction` characteristic polynomials, no eigensolver. Two things below are NOT: the whole ten-graph cross-sector table and the component counts come off a float route at a bare tolerance. The source page enumerates six tolerance-bearing counts and prices only the first; of the other five, FOUR print no gap at all, the ten-graph table among them, its builder discarding the singular-value gap it computes, and the fifth is the component count, a float eigensolver by necessity, being a claim about an eigenBASIS, which certifies nothing.
+  - **Which seat carries the γ (2026-08-24): the shape, and the first sector closed.** Source [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) §5, script `simulations/seat_cut_blindness.py`. The single-excitation count itself is **F157** since 2026-08-24 (whose kernel half, the 1 + blind form below, is since 2026-08-25 the special case of a commutant identity, holding exactly where H is simple on the blind space: [the span and node-lemma proof](proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)); these sub-bullets keep the F4-side story, the popcount ≥ 2 wall included, and where they and F157 state the same law they must be changed together. The single-excitation count, the divisor laws, the fence, the per-block ranks and every gcd degree below are EXACT: GF(p) ranks on integer inputs and `Fraction` characteristic polynomials, no eigensolver. Two things below are NOT: the whole ten-graph cross-sector table and the component counts come off a float route at a bare tolerance. The source page enumerates six tolerance-bearing counts and prices only the first; of the other five, FOUR print no gap at all, the ten-graph table among them, its builder discarding the singular-value gap it computes, and the fifth is the component count, a float eigensolver by necessity, being a claim about an eigenBASIS, which certifies nothing.
     - **Block structure. On the open CHAIN the qualifier is the ZZ term and not the topology; bullet 2 shows the topology is a separate knob elsewhere.** On the open HEISENBERG chain the kernel is block-diagonal in popcount. Drop the ZZ term from the same uniform open chain and it carries cross-sector weight 0, 10, 8, 10, 0 at N = 5; keep it and the cross-sector weight is exactly zero, every one of the (N+1)² popcount blocks ranked, at every seat of N = 5 and N = 7 uniform, of [1,4,2,2] at N = 5 and of [2,1,1,2,1] at N = 6. At N = 5 the six sectors give 1, 3, 2, 2, 3, 1 = 12, and F4's own N = 3 numbers 4 and 6 reproduce.
     - **It does NOT hold for every topology in the list above.** The N = 4 ring carries cross-sector weight exactly 4 at every seat, while the rings at N = 3, 5 and 6 carry none. WHICH graphs carry it is OPEN, and the reading offered for it, a non-adjacent pair of vertices with identical neighbourhoods, is measured false BOTH ways: the star has such pairs and carries nothing, and the five-vertex graph with edges {01, 02, 03, 12, 13, 24}, which has no such pair, carries 6, 12, 6 at seats 2, 3 and 4.
     - **The single-excitation count.** Each sector contributes the commutant of its Hamiltonian intersected with the operators vanishing wherever the dephased seat's bit differs between the two indices, which in the single-excitation sector is the seat's own row and column OFF THE DIAGONAL, the surviving (j,j) entry being what supplies the +1 below; at popcount ≥ 2 the killed set is not the rows and columns of anything (the dephasing does NOT kill entries that cross the seat). In the single-excitation sector, where H is nondegenerate, that count is exactly 1 + deg gcd(χ(H_left), χ(H_right)), with H_left and H_right the two PRINCIPAL SUBMATRICES the seat leaves behind and not the free-standing subchains, which coincide on XY and differ on Heisenberg. On the uniform HEISENBERG chain it evaluates to 1 + (gcd(2j+1, N) − 1)/2, and on the uniform XY chain to 1 + (gcd(j+1, N+1) − 1), both written as 1 + blind so the source page's blind counts read off directly. Reflection-symmetric couplings are neither necessary nor sufficient for that value.
     - **Fence: no zero bond**, the same F143 carries for a neighbouring object, and here a zero bond makes the criterion WRONG rather than ill-posed. **On the HEISENBERG book** every one of the 1682 zero-bond (profile, seat) pairs over {0,1,2}^(N−1), N = 3..6, mismatches, and all 316 zero-free pairs match; **on XY the failure is not total**, 60 of the same zero-bond pairs still coming out right, because the fence is really about the degeneracy a zero bond FORCES and only the ZZ term forces it always (each component contributes the one-magnon descendant of its own ferromagnetic vacuum at the same eigenvalue). The zero-free half holds on both books. **The fence belongs to the two-halves PHRASING and not to the phenomenon.** Comparing the FULL spectrum against the principal submatrix instead, blind(j) = deg gcd(χ(H), χ(H with row and column j struck)), reproduces the definition (N minus the rank of the seat's Krylov matrix, exact at two primes, no eigensolver) at every seat of twenty graphs, ZZ on and off: paths with one and two zero bonds, negative J, rings, stars, K₄, K₅, trees, bridged and disconnected triangles, and an isolated seat, fourteen of them with a degenerate spectrum on the Heisenberg side and thirteen on the XY side. So the general form carries neither the zero-bond fence nor a simplicity hypothesis, and the two-halves form is the chain evaluation of it, the chain being where the struck matrix falls into two pieces. Since 2026-08-24 the equality of the general form with that definition is a theorem, the sweep corroborating: by Cramer the struck matrix's characteristic polynomial is the (j, j) adjugate entry of xI − H, so over the eigenbasis of the real symmetric H the gcd degree is N minus the seat's Krylov dimension, with no hypothesis beyond real symmetry (the Cramer identity in [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) §7). The SPAN does not travel with the count: dim ker L_SE = 1 + blind holds on twelve of the twenty graphs on the ZZ book and eleven off it, simplicity being SUFFICIENT for the span and not necessary, so the fence-free criterion must not be carried across to the kernel identity. The fence-free statement was already committed in [The Blind Site](../experiments/THE_BLIND_SITE.md) §5 as a Krylov complement; that page fences the one case where the Krylov branch is not the whole blind space, an isolated seat leaving the seat's own ray H-invariant so that it contributes 1 the branch does not count.
-    - **For popcount ≥ 2 the count exceeds 1 + blind**, so the obvious sum rule is false. The reason is NOT sector degeneracy: on the uniform chain the popcount-2 and popcount-3 sector Hamiltonians are simple, checked exactly as deg gcd(χ, χ′) = 0 rather than by a smallest gap, at N = 5, 6 and 7. It is, ON A SIMPLE SECTOR, the number of connected components of that sector's eigenmodes under the dephased seat's occupation operator. **Off a simple sector the count is basis-dependent, and the two cases once recorded here as the mechanism undercounting are basis artifacts.** At the reflection-fixed centre with bonds [4,3,3,4] at N = 5 and [4,3,4,4,3,4] at N = 7 the exact kernel is 2 and the solver's eigenbasis gives 1; a basis fitted to the seat's occupation inside each degenerate eigenspace gives 2 in both. The fifty-random-re-bases check once offered against this could not have failed: the count is a LOWER bound in every basis, so what is at issue is its maximum, and a maximum is attained on a measure-zero set of bases. **The general law is algebraic.** The kernel is the commutant of A = ⟨H_w, n_seat⟩; with A's Wedderburn blocks (n_i, m_i), dim ker = Σ m_i² while the best achievable component count is Σ m_i, equal exactly when the commutant is abelian. A multiplicity 2 costs 4, so a kernel of 1, 2 or 3 forces every m_i = 1 and the best basis realises it; **4 is the first kernel dimension at which a multiplicity 2 fits**, hence the first at which the mechanism can fail at all; the smallest failure the source exhibits sits one above it (star N = 4, hub dephased, single-excitation: d = 4, dim A = 5, dim ker = 5 and two blocks, forcing (2,1) and (1,2), so at most 3 components against a kernel of 5). So the mechanism DOES undercount off a simple sector, the shortfall being Σ m_i² − Σ m_i; what stays open is whether a ZERO-FREE OPEN CHAIN can do it.
+    - **For popcount ≥ 2 the count exceeds 1 + blind**, so the obvious sum rule is false. The reason is NOT sector degeneracy: on the uniform chain the popcount-2 and popcount-3 sector Hamiltonians are simple, checked exactly as deg gcd(χ, χ′) = 0 rather than by a smallest gap, at N = 5, 6 and 7. It is, ON A SIMPLE SECTOR, the number of connected components of that sector's eigenmodes under the dephased seat's occupation operator. **Off a simple sector the count is basis-dependent, and the two cases once recorded here as the mechanism undercounting are basis artifacts.** At the reflection-fixed centre with bonds [4,3,3,4] at N = 5 and [4,3,4,4,3,4] at N = 7 the exact kernel is 2 and the solver's eigenbasis gives 1; a basis fitted to the seat's occupation inside each degenerate eigenspace gives 2 in both. The fifty-random-re-bases check once offered against this could not have failed: the count is a LOWER bound in every basis, so what is at issue is its maximum, and a maximum is attained on a measure-zero set of bases. **The general law is algebraic.** The kernel is the commutant of A = ⟨H_w, n_seat⟩; with A's Wedderburn blocks (n_i, m_i), dim ker = Σ m_i² while the best achievable component count is Σ m_i, equal exactly when the commutant is abelian. A multiplicity 2 costs 4, so a kernel of 1, 2 or 3 forces every m_i = 1 and the best basis realises it; **4 is the first kernel dimension at which a multiplicity 2 fits**, hence the first at which the mechanism can fail at all; the smallest failure the source exhibits sits one above it (star N = 4, hub dephased, single-excitation: d = 4, dim A = 5, dim ker = 5 and two blocks, forcing (2,1) and (1,2), so at most 3 components against a kernel of 5). So the mechanism DOES undercount off a simple sector, the shortfall being Σ m_i² − Σ m_i. **On a zero-free open chain in the single-excitation sector it cannot**, which is Theorem A of [the span and node-lemma proof](proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md) naming the blocks: with one dephased seat A = End(K) ⊕ ℂ[H|_W], so `End(K)` contributes one block with m = 1 and the Jacobi node lemma makes H|_W simple, contributing dim W blocks each with m = 1. Every m_i = 1, the shortfall is zero, and the best eigenbasis realises the kernel. The mechanism can undercount only where H is degenerate on the Krylov complement, and on a zero-free chain it never is.
     - **REFUTES docs/CAUGHT_ERRORS.md's committed "kernel excess is b²+b".** At the reflection-fixed centre of the odd chain the exact FULL kernel is 6, 12, 18 at N = 3, 5, 7, against the formula's 20 at N = 7. Cross blocks ranked and every one zero, which needs one prime only: a GF(p) rank can only be too small, so a measured nullity of zero forces the rational one. DIAGONAL blocks additionally cross-checked at a second prime, 2⁶¹−1 against 2³¹−1. The residual one-sidedness runs in the refuting direction, since a GF(p) rank can only make a kernel dimension too LARGE.
   - Anchor: [the F4 kernel-dimension proof](proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) + connected-case upper-bound closure via [the degeneracy palindrome](../experiments/DEGENERACY_PALINDROME.md) Result 2 (magnetization conservation: identity + N popcount projectors exhaust the kernel of any single connected component); typed: `F4KernelDimensionByComponentsClaim` ([compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs](../compute/RCPsiSquared.Core/Symmetry/F4KernelDimensionByComponentsClaim.cs)).
   - **Tier 1 derived chain:** lower bound `dim ker L_H ≥ Π_c (|c|+1)` from popcount projectors + tensor-sum kernel factorisation; matching upper bound from DEGENERACY_PALINDROME Result 2 (connected-case `dim ker ≤ |c|+1`); equality follows.
@@ -7777,7 +7777,7 @@ band-edge clause and withdrawn the same hour, folded into F153, and tracked
 surfaces still name that withdrawal (`OpenArcsRegistry.cs`,
 `WHAT_THE_R90_LOCUS_BUYS.md`).*
 
-### F157. The blind seat: watching ONE seat j misses exactly blind(j) = N − dim Krylov(e_j) = deg gcd(χ(H), χ(H with row and column j struck)) single-excitation dimensions, the identity unconditional for real symmetric H and the physical reading adding 1 only at a seat whose own ray is H-invariant; on the uniform open chain it closes to (gcd(2j+1, N) − 1)/2 with the ZZ term and gcd(j+1, N+1) − 1 without, and on the XY book parity alone forces every odd seat of every odd chain blind at every zero-free profile (Tier 1: general form a theorem by Cramer 2026-08-24, uniform laws derived from the node bases; the span identity is prose-argued on the zero-free chain, its instances gated from below, no proof file; registered 2026-08-24)
+### F157. The blind seat: watching ONE seat j misses exactly blind(j) = N − dim Krylov(e_j) = deg gcd(χ(H), χ(H with row and column j struck)) single-excitation dimensions, the identity unconditional for real symmetric H and the physical reading adding 1 only at a seat whose own ray is H-invariant; on the uniform open chain it closes to (gcd(2j+1, N) − 1)/2 with the ZZ term and gcd(j+1, N+1) − 1 without, and on the XY book parity alone forces every odd seat of every odd chain blind at every zero-free profile (Tier 1: general form a theorem by Cramer 2026-08-24, uniform laws derived from the node bases; the span is a COMMUTANT, dim ker L_SE(j) = 1 + dim commutant(H restricted to the seat's KRYLOV COMPLEMENT), which equals 1 + blind(j) exactly when that restriction has a simple spectrum, proved 2026-08-25; registered 2026-08-24)
 
 Put the Z-dephasing on a single seat j of an N-site chain or graph (a "seat" is
 a site carrying the watching; e_j its unit vector, n_j its occupation projector,
@@ -7845,20 +7845,35 @@ zero-free profile, signed and irregular included. That a generic chain has no
 blind seat is a Heisenberg sentence; on the Heisenberg book blindness off the
 uniform chain is a coincidence a mirror can force and disorder can only meet.
 
-**The span identity is a separate object: prose-argued, its instances gated
-from below, no proof file.** L_SE(j)
+**The span is a separate object, and it is a COMMUTANT** ([the span and
+node-lemma proof](proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md), Theorem A
+and Corollary C). L_SE(j)
 is the Lindbladian restricted to the single-excitation (popcount-1) sector with
 the one seat watched; NOT F152's (0,1) coherence block, whose undamped modes
-the same count also counts, by the two-line bijection of The Blind Site §5. dim ker L_SE(j) = 1 + blind(j) holds on the
-zero-free open chain (the argument: Jacobi simplicity makes the commutant
-diagonal, and the +1 is the direction the source calls Q, the sum of the
-projectors onto the modes the seat sees, not the regime knob Q = J/γ); the
-general argument has no proof file, while the instances are gated from below
-(the source's 330 exact (profile, seat) pairs, N = 3..8 both books, and
-BlindSeatTests' span pins). The word simplicity REVERSES
+the same count also counts, by the two-line bijection of The Blind Site §5. Its
+kernel is the commutant of the algebra generated by H and the seat projector P,
+and because e_j is cyclic in its own Krylov space K that algebra is forced to
+End(K) ⊕ ℂ[H|_W] with W = K^⊥ the Krylov complement, so
+
+```
+    dim ker L_SE(j)  =  1 + dim commutant(H|_W)  =  1 + Σ_λ (m_λ − s_λ)²
+```
+
+with m_λ the multiplicity of λ in H and s_λ = 1 exactly when the seat sees λ.
+Since blind(j) is the SUM of those same numbers, dim ker = 1 + blind(j) holds
+exactly when each of them is 0 or 1, i.e. exactly when **H restricted to the
+KRYLOV COMPLEMENT is simple**, which the Jacobi node lemma supplies on any zero-free
+open chain in either book (the +1 is the direction the source calls Q, the sum
+of the projectors onto the modes the seat sees, not the regime knob Q = J/γ).
+Gated over ℚ on both sides at 202 of 202 (graph, book, seat) triples, and the
+same criterion accounts for all 73 triples on which 1 + blind is NOT the
+kernel, each being a triple where dim commutant(H|_W) exceeds dim W. The
+instance-level gates are unchanged: the source's 330 exact (profile, seat)
+pairs at N = 3..8 on both books, and BlindSeatTests' span pins. The word simplicity REVERSES
 polarity between the two objects: for the two-halves CRITERION on XY it is
 necessary and not sufficient (counted over the swept N = 3..6), for the SPAN
-it is sufficient and not necessary (on the twenty-graph table), and the
+it is sufficient and not necessary ON H (on the twenty-graph table), and
+necessary AND sufficient on H|_W, which is what Corollary C moved; the
 fence-free count needs neither. Off the chain the identity fails on
 five connected graphs, the SAME five on both books (both stars, K₄, K₅, the
 bridged triangles); the failures number 8 of 20 on the ZZ book and 9 off it,
@@ -7871,7 +7886,9 @@ every failure carries is a degenerate spectrum.
 **Valid for:** the count blind(j) and the three-line identity: any real
 symmetric single-excitation H, any graph, any signed profile (the exact GF(p)
 route runs on integer inputs), degenerate spectra included, any seat. The uniform gcd laws: the uniform open
-chain of the named book. The span identity: the zero-free open chain.
+chain of the named book. The commutant form of the span: the same generality as
+the count. The form 1 + blind(j): wherever H is simple on the Krylov complement, which
+the zero-free open chain always supplies.
 **Breaks for:** the IDENTIFICATION of the count with the blind subspace at a
 seat whose ray |j⟩ is itself H-invariant (an isolated seat, or its incident
 bonds detuned to zero): that ray then contributes 1 the Krylov complement does
@@ -7879,8 +7896,13 @@ not count; the Krylov ↔ gcd identity itself holds there too (the fence is The
 Blind Site §5's, the identity The Seat That Cuts §7's). The two-halves phrasing deg gcd(χ(H_left), χ(H_right)) at a zero bond
 (wrong on all 1682 zero-bond pairs on the Heisenberg book, N = 3..6, and on
 most but not all XY ones: the fence is really about the degeneracy a zero bond
-FORCES, only the ZZ term forcing it always). Popcount ≥ 2, where the kernel is
-Wedderburn's Σ mᵢ² and exceeds 1 + blind (the F4 seat sub-bullets). A float SVD
+FORCES, only the ZZ term forcing it always). The form 1 + blind(j) wherever H is
+DEGENERATE on the Krylov complement, which is 73 of the 202 twenty-graph triples
+(the criterion is on that complement and NOT on the blind subspace, which at an
+isolated seat can be degenerate where the identity holds);
+the commutant form is the kernel there. Popcount ≥ 2 for the whole one-seat
+argument, since the algebra's blocks are then no longer forced by one cyclic
+vector, and the kernel is Wedderburn's Σ mᵢ² (the F4 seat sub-bullets). A float SVD
 rank at small J (21 against the true kernel 6 at N = 11, J = 10⁻⁵, behind a
 gap of 5.95·10³: use the GF(p) route).
 **Replaces:** any eigendecomposition run only to count the eigenvectors
@@ -7893,6 +7915,9 @@ Site §5).
 the derivation, the isolated-seat fence) +
 [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) §2..§4 (criterion,
 chain laws, span), §7 (the Cramer theorem); scripts
+[the span and node-lemma proof](proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)
+(Theorem A, Corollary C, Lemma J); scripts
+`simulations/blind_seat_span_proof.py` (parts `lemma|commutant|chain`, 9 gates),
 `simulations/seat_cut_blindness.py` (parts
 `steady|kernel|scope|xy|full|criterion|graphs|sector|deleted`) and
 `simulations/blind_site.py` (parts `prep|support|dimension|identity|branch|coherence|scope`); the arc is the OpenArcs entry `the_gate_that_does_not_gate`.
@@ -7913,8 +7938,12 @@ mode `blind N`, 37 from-below tests including a dynamic one-seat-lit Cone pin;
 owns blind, law and span; run mode `blind` prints the law-vs-rank mismatch
 count at N = 60, 120, 200, the tests pinning N = 60 and 200); scalar faces
 `F157_BlindHeisenberg` / `F157_BlindXY` / `F157_ParityForcedXY` in MirrorWorld
-`Formulas.cs`; a Core claim + live witness and the span identity's proof file
-are still to build and are recorded on the arc.
+`Formulas.cs`; `SeatCutBlindnessClaim`
+([compute/RCPsiSquared.Core/Symmetry/SeatCutBlindnessClaim.cs](../compute/RCPsiSquared.Core/Symmetry/SeatCutBlindnessClaim.cs),
+2026-08-25, child of `F4KernelDimensionByComponentsClaim`) with the live witness
+`inspect --root blind` (`SeatCutBlindnessWitness`, the count as an exact GF(p)
+Krylov rank at two primes and the span as a second, independent elimination,
+both recomputed at inspect time).
 
 ---
 

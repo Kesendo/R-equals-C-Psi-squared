@@ -417,7 +417,16 @@ dephasing cannot touch, counted exactly by F157: blind(j) = N − dim Krylov(e_j
 Krylov space being span{e_j, He_j, H²e_j, ...} with e_j the seat's unit vector
 (one fenced case: an isolated seat adds its own H-invariant ray, F157's
 Breaks-for); on the uniform open chain (gcd(2j+1, N) − 1)/2 with the ZZ term
-and gcd(j+1, N+1) − 1 without
+and gcd(j+1, N+1) − 1 without. The **span** beside it is `dim ker L_SE(j)`, what
+the arc calls the dimension of the watched sector's stationary manifold (the
+manifold of stationary STATES inside it is one dimension smaller), which is
+`1 + dim commutant(H restricted to the Krylov complement)` and therefore
+`1 + blind(j)` exactly when that restriction has a simple spectrum, a condition
+on the Krylov complement and NOT on the blind subspace, which can be degenerate
+where the identity holds ([the span
+and node-lemma proof](proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)); a
+zero-free chain always supplies that, and it is not the same word as the span
+of a sweep window in [The Blind Site](../experiments/THE_BLIND_SITE.md) §7
 ([The Blind Site](../experiments/THE_BLIND_SITE.md),
 [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md)). Not to be
 confused with the repo's other blindnesses, which are different objects:

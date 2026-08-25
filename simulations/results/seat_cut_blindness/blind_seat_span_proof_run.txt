@@ -1,0 +1,154 @@
+LEMMA J, THE JACOBI NODE LEMMA.  H is the integer single-excitation
+matrix of a chain with no zero bond, so it is an unreduced Jacobi
+matrix in either book: real symmetric, tridiagonal, every
+off-diagonal 2J_b nonzero.  L and R are the principal submatrices
+the seat leaves behind, chi a characteristic polynomial.
+
+  G1  no eigenvector vanishes at an end, read as blind(0) =
+      blind(N-1) = 0
+  G2  the spectrum is simple: chi(H) is squarefree
+  G3  both blocks are unreduced Jacobi too, so chi(L) and chi(R)
+      are squarefree and deg gcd COUNTS the shared roots
+  G4  every shared root of the two blocks is a root of chi(H)
+      (the gluing direction: a shared root really is a node)
+  G5  deg gcd(chi(L), chi(R)) = blind(j), the node count and the
+      Krylov complement agreeing at every seat
+
+zero-free profiles swept: 1674, run on both books, so 3348 (book, profile) pairs, N = 2..8
+composition: 2 uniform families per N (all-1 and all-2), every
+signed product over (1, -1, 2, -3) at N = 3..6, and 300 random
+irregular profiles at N = 3..8
+
+each gate runs over its OWN index set, so the totals differ:
+  G1: pass   6696   FAIL 0   over (book, profile, END seat), 2 ends per profile
+  G2: pass   3348   FAIL 0   over (book, profile)
+  G3: pass  19006   FAIL 0   over (book, profile, seat)
+  G4: pass  19006   FAIL 0   over (book, profile, seat)
+  G5: pass  19006   FAIL 0   over (book, profile, seat)
+
+first failures: none
+
+------------------------------------------------------------------------
+
+THEOREM A, THE KERNEL AS A COMMUTANT.  dim ker L_SE(j) =
+1 + dim commutant(H restricted to the Krylov complement W).  Right
+side never mentions a chain, a zero bond or a simplicity fence.
+The span identity dim ker = 1 + blind is the special case where
+H|_W has a SIMPLE spectrum, since blind(j) = dim W and a commutant
+is the sum of squared multiplicities.  The framing is the repo's
+(CAUGHT_ERRORS 2026-08-24, THE_SEAT_THAT_CUTS section 5, the F4 seat
+sub-bullets); what is computed here is that ONE seat forces the blocks.
+
+  G6  the theorem, at every seat of the twenty graphs, both books,
+      with BOTH sides taken over Q (neither side a one-sided rank)
+  G6b the committed GF(p) kernel route agrees with the rational one
+  G7  the span identity holds exactly where dim commutant(H|_W)
+      equals dim W, and fails exactly where it exceeds it
+
+graph                                  book       seat blind ker  1+blind 1+comm span
+path N = 6 [1,1,0,1,1]  ZERO BOND      Heisenberg 1    4     7    5       7      NO
+path N = 6 [1,1,0,1,1]  ZERO BOND      Heisenberg 4    4     7    5       7      NO
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS Heisenberg 0    4     7    5       7      NO
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS Heisenberg 1    4     7    5       7      NO
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS Heisenberg 2    4     9    5       9      NO
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS Heisenberg 3    4     9    5       9      NO
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS Heisenberg 4    4     7    5       7      NO
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS Heisenberg 5    4     7    5       7      NO
+star N = 5                             Heisenberg 0    3     10   4       10     NO
+star N = 5                             Heisenberg 1    2     5    3       5      NO
+star N = 5                             Heisenberg 2    2     5    3       5      NO
+star N = 5                             Heisenberg 3    2     5    3       5      NO
+star N = 5                             Heisenberg 4    2     5    3       5      NO
+star N = 6                             Heisenberg 0    4     17   5       17     NO
+star N = 6                             Heisenberg 1    3     10   4       10     NO
+star N = 6                             Heisenberg 2    3     10   4       10     NO
+star N = 6                             Heisenberg 3    3     10   4       10     NO
+star N = 6                             Heisenberg 4    3     10   4       10     NO
+star N = 6                             Heisenberg 5    3     10   4       10     NO
+complete K4                            Heisenberg 0    2     5    3       5      NO
+complete K4                            Heisenberg 1    2     5    3       5      NO
+complete K4                            Heisenberg 2    2     5    3       5      NO
+complete K4                            Heisenberg 3    2     5    3       5      NO
+complete K5                            Heisenberg 0    3     10   4       10     NO
+complete K5                            Heisenberg 1    3     10   4       10     NO
+complete K5                            Heisenberg 2    3     10   4       10     NO
+complete K5                            Heisenberg 3    3     10   4       10     NO
+complete K5                            Heisenberg 4    3     10   4       10     NO
+two triangles bridged N = 6            Heisenberg 0    2     5    3       5      NO
+two triangles bridged N = 6            Heisenberg 1    2     5    3       5      NO
+two triangles bridged N = 6            Heisenberg 2    2     5    3       5      NO
+two triangles bridged N = 6            Heisenberg 3    2     5    3       5      NO
+two triangles bridged N = 6            Heisenberg 4    2     5    3       5      NO
+two triangles bridged N = 6            Heisenberg 5    2     5    3       5      NO
+two triangles, DISCONNECTED N = 6      Heisenberg 0    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      Heisenberg 1    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      Heisenberg 2    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      Heisenberg 3    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      Heisenberg 4    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      Heisenberg 5    4     11   5       11     NO
+path N = 6 [1,1,0,1,1]  ZERO BOND      XY         1    4     7    5       7      NO
+path N = 6 [1,1,0,1,1]  ZERO BOND      XY         4    4     7    5       7      NO
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS XY         2    4     9    5       9      NO
+path N = 6 [2,0,3,0,2]  TWO ZERO BONDS XY         3    4     9    5       9      NO
+star N = 5                             XY         0    3     10   4       10     NO
+star N = 5                             XY         1    2     5    3       5      NO
+star N = 5                             XY         2    2     5    3       5      NO
+star N = 5                             XY         3    2     5    3       5      NO
+star N = 5                             XY         4    2     5    3       5      NO
+star N = 6                             XY         0    4     17   5       17     NO
+star N = 6                             XY         1    3     10   4       10     NO
+star N = 6                             XY         2    3     10   4       10     NO
+star N = 6                             XY         3    3     10   4       10     NO
+star N = 6                             XY         4    3     10   4       10     NO
+star N = 6                             XY         5    3     10   4       10     NO
+complete K4                            XY         0    2     5    3       5      NO
+complete K4                            XY         1    2     5    3       5      NO
+complete K4                            XY         2    2     5    3       5      NO
+complete K4                            XY         3    2     5    3       5      NO
+complete K5                            XY         0    3     10   4       10     NO
+complete K5                            XY         1    3     10   4       10     NO
+complete K5                            XY         2    3     10   4       10     NO
+complete K5                            XY         3    3     10   4       10     NO
+complete K5                            XY         4    3     10   4       10     NO
+two triangles bridged N = 6            XY         2    2     5    3       5      NO
+two triangles bridged N = 6            XY         3    2     5    3       5      NO
+two triangles, DISCONNECTED N = 6      XY         0    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      XY         1    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      XY         2    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      XY         3    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      XY         4    4     11   5       11     NO
+two triangles, DISCONNECTED N = 6      XY         5    4     11   5       11     NO
+isolated seat N = 4                    XY         1    2     5    3       5      NO
+
+  G6:  pass 202   FAIL 0
+  G6b: pass 202   FAIL 0
+  G7: the span identity holds on 129 of the 202 (graph, book, seat) triples, and every one of
+      the 73 failures printed above is a case where 1 + comm
+      is the kernel and 1 + blind is not
+
+  is the ZERO BOND the discriminator?  No, and it misses in both
+      directions: of the 73 failing triples, 12 carry a zero
+      bond and 61 do not, while 20 triples carry a zero bond
+      and the identity HOLDS on them anyway.
+
+  span failures by GRAPH: Heisenberg 8 of 20, XY 9 of 20
+  on XY and not on Heisenberg: ['isolated seat N = 4']
+  on Heisenberg and not on XY: none
+
+------------------------------------------------------------------------
+
+COROLLARY, THE ZERO-FREE CHAIN.  Lemma J (classical for an unreduced
+Jacobi matrix; here proved for the real symmetric case the sector
+gives) makes the spectrum simple,
+so every multiplicity in Theorem A is 1 and the commutant of H|_W is
+diagonal: dim ker L_SE(j) = 1 + blind(j).  Gated end to end here,
+the kernel by its own exact GF(p) rank and the count by the Krylov
+rank, two routes meeting as integers.
+
+  G8  dim ker L_SE(j) = 1 + blind(j) at every seat of every
+      zero-free profile, both books
+
+zero-free profiles swept: 1672, run on both books, N = 2..7
+(book, profile, seat) triples: 18696
+  G8: pass 18696   FAIL 0
+first failures: none

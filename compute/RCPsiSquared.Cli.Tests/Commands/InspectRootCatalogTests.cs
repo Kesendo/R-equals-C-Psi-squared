@@ -377,6 +377,53 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasBlindSeatRoot_NFree_HonorsOptionalN()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "blind");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("F157", entry.Description);
+        Assert.Contains("Krylov", entry.Description);
+        Assert.Contains("commutant", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_BlindSeatFactory_BuildsTheLiveWitness_CountMeetsTheClosedForm()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "blind");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);
+        var w = Assert.IsType<SeatCutBlindnessWitness>(root);
+        Assert.Equal(7, w.N);                       // the default when --N is absent
+        Assert.Equal(7, w.ClosedFormAgreements());  // two independent computations meet
+        Assert.Equal(new[] { 3 }, w.BlindSeats());
+    }
+
+    [Fact]
+    public void Catalog_BlindSeatFactory_ReadsTheBookAndTheBondProfile()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "blind");
+        var ctx = new InspectRootContext(
+            new ArgParser(new[] { "--chain", "xy", "--bonds", "1,1,0,1,1", "--N", "6" }), N: 6,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var w = Assert.IsType<SeatCutBlindnessWitness>(entry.Factory(ctx));
+        Assert.Equal(6, w.N);
+        Assert.False(w.IsUniform);
+        Assert.Equal(new long[] { 1, 1, 0, 1, 1 }, w.Bonds);
+    }
+
+    [Fact]
+    public void Catalog_BlindSeatFactory_RefusesANonIntegerCoupling()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "blind");
+        var ctx = new InspectRootContext(
+            new ArgParser(new[] { "--bonds", "1,0.5,1,1,1,1" }), N: 7,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        Assert.Throws<ArgumentException>(() => entry.Factory(ctx));
+    }
+
+    [Fact]
     public void Catalog_HasRenewalRoot_NFree_HonorsOptionalN()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "renewal");

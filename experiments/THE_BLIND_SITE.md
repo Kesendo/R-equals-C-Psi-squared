@@ -6,7 +6,7 @@
 **Data:** [`simulations/results/blind_site/blind_site_run.txt`](../simulations/results/blind_site/blind_site_run.txt)
 **Second script (§7 only):** [`simulations/blind_seat_mi_sweep.py`](../simulations/blind_seat_mi_sweep.py), parts `gate | sweep | algebra | support | zeno | converge`
 **Second data file:** [`simulations/results/blind_site/blind_seat_mi_sweep.txt`](../simulations/results/blind_site/blind_seat_mi_sweep.txt)
-**Registry:** the count of §5, its Krylov-complement form and the uniform divisor law are **F157** in [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (registered 2026-08-24), together with the criterion of [The Seat That Cuts](THE_SEAT_THAT_CUTS.md); the typed home is `compute/MirrorWorld/BlindSeat.cs`, run mode `blind N`.
+**Registry:** the count of §5, its Krylov-complement form and the uniform divisor law are **F157** in [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (registered 2026-08-24), together with the criterion of [The Seat That Cuts](THE_SEAT_THAT_CUTS.md); the typed homes are `compute/MirrorWorld/BlindSeat.cs` (run mode `blind N`) and `SeatCutBlindnessClaim` with the live witness `inspect --root blind`. The Jacobi step §9 leans on, and the kernel identity, are proved in [the span and node-lemma proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md).
 
 Z-dephasing at a single site of an open **uniform** Heisenberg chain has a subspace of
 **single-excitation** states it cannot touch: not weakly, not slowly, exactly.
@@ -856,7 +856,9 @@ zero bond, where χ is the characteristic polynomial and H_left, H_right are the
 two principal submatrices of the single-excitation Hamiltonian that the seat
 leaves behind. Its reason: H_SE on such an open chain is a Jacobi matrix, so an
 eigenvector vanishes at a site exactly when its eigenvalue is shared by those two
-blocks. Two words of that page's own correction belong here, because this
+blocks. That step is Lemma J (J3) of
+[the span and node-lemma proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md),
+where it is proved in both directions, the gluing constant included. Two words of that page's own correction belong here, because this
 paragraph first carried both errors: the dephasing does **not** cut the chain, it
 clears the watched seat's row and column and leaves coherences that cross the
 seat untouched; and the two blocks are principal submatrices, not the

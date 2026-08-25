@@ -281,6 +281,33 @@ public static class InspectCommand
         return new DimensionField(axis, slowCount);
     }
 
+    /// <summary>The F157 live lab: builds a <see cref="SeatCutBlindnessWitness"/> that rebuilds the
+    /// integer single-excitation matrix at inspect time and recomputes the blind count as an exact
+    /// GF(p) Krylov rank at two primes, the span as a second elimination on the masked commutator.
+    /// Args: <c>--N</c> (sites, default 7), <c>--chain xy</c> (the book, default Heisenberg),
+    /// <c>--bonds</c> (a comma-separated integer profile of N−1 couplings, zeros permitted, default
+    /// uniform 1). The count is guarded at N ≤ 200 and the span at N ≤ 12, both cost and not
+    /// physics.</summary>
+    private static IInspectable BuildBlindSeatRoot(ArgParser p, int n)
+    {
+        var book = string.Equals(p.OptionalString("chain"), "xy", StringComparison.OrdinalIgnoreCase)
+            ? SeatCutBook.Xy
+            : SeatCutBook.Heisenberg;
+        long[]? bonds = null;
+        if (p.OptionalString("bonds") is { } spec)
+        {
+            var parts = spec.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            bonds = new long[parts.Length];
+            for (int i = 0; i < parts.Length; i++)
+                if (!long.TryParse(parts[i], NumberStyles.Integer, CultureInfo.InvariantCulture, out bonds[i]))
+                    throw new ArgumentException(
+                        $"--bonds takes integer couplings; could not parse '{parts[i]}'. The exact route has no " +
+                        "image for a non-integer J, and the commutant is scale-invariant, so clear denominators " +
+                        "instead: [1, 2, 3] and [0.1, 0.2, 0.3] give the same answer.");
+        }
+        return new SeatCutBlindnessWitness(n, book, bonds);
+    }
+
     /// <summary>The F121 live lab: builds a <see cref="QuditPartialPalindromeWitness"/> that
     /// materialises the qudit full-Cartan dephasing dissipator at inspect time and recomputes
     /// the partial-palindrome ceiling, the product cap, and the non-product remainder from the
@@ -785,6 +812,15 @@ public static class InspectCommand
             c => BuildBetweenRoot(c.Parser, c.N)),
         new("qudit", "F121 qudit partial palindrome, recomputed live",
             c => BuildQuditRoot(c.Parser), RequiresN: false),
+        new("blind", "F157 THE BLIND SEAT (proof PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md, claim " +
+            "SeatCutBlindnessClaim): put the watching on ONE seat and count what it cannot touch, " +
+            "blind(j) = N − rank of the seat's Krylov matrix, an exact GF(p) rank at two primes with no " +
+            "eigensolver, checked live against the uniform closed forms (gcd(2j+1, N) − 1)/2 with the ZZ term " +
+            "and gcd(j+1, N+1) − 1 without. The span dim ker L_SE(j) = 1 + dim commutant(H|_W) is a second, " +
+            "independent elimination, and equals 1 + blind(j) exactly when H is simple on the Krylov complement. " +
+            "Args: --N (default 7), --chain xy, --bonds 1,1,0,1,1",
+            c => BuildBlindSeatRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 7),
+            RequiresN: false, HonorsOptionalN: true),
         new("sideways", "the sideways spin ladder live: S⁺ = Σ (−1)^l c_l†(·)c_l† intertwines L on Σ-odd " +
             "real-symmetric hopping (residual vs 0.0 exactly, Φ as control), the F125 fold family = the two " +
             "S⁺ chain interiors at p+q̃ = N∓1, " +
