@@ -80,7 +80,12 @@ above, on the Hamiltonian's eigenvectors, and an exact one,
 any γ. Its own summary line reads: "γ_B appears as a constant prefactor.
 It is not diminished by intervening sites." It names the quantity it says
 matters, the site's own amplitude weight, and Reading 3 below tests the
-first-order reading of it against this observable and refutes it. F66
+first-order reading of it against this observable and finds it cannot carry that
+observable's spread. That scopes the first-order reading rather than refuting
+it, and it leaves the EXACT one standing: −Re(λ_k) = 2γ_B·|v_k(B)|² is precisely
+the blind-seat mechanism, since an exact node means v_k(B) = 0 and hence a rate
+of exactly zero. The gap is the unperformed calculation this page's closing
+section already names, not a failed law. F66
 (line 1925) records that interior placement of the dephased site is open and
 carries one measurement showing the endpoint results do not carry over.
 `docs/proofs/PROOF_ABSORPTION_THEOREM.md` Theorem 2 (line 354) is the same
@@ -138,7 +143,9 @@ in kind at line 467, where TEMPORAL_SACRIFICE claimed an "exact timestep" on a
 [SCALING_CURVE](SCALING_CURVE.md) lines 131 to 134 lists "Special mediator nodes"
 among its falsified items, on the ground that every qubit in a Heisenberg chain
 mediates between its neighbours. That is a topological argument, and on a uniform
-chain it is simply correct: site 5 is an ordinary interior site.
+chain it is simply correct as an argument about mediation: site 5 is an ordinary
+interior site for that purpose. Its one non-topological distinction, the exact
+node of ⌊N/2⌋ single-excitation modes, is the subject of Reading 3.
 
 **Nothing else returned.** `fw.Confirmations` (24 entries) has no mediator, γ_M or
 bridge-MI entry. `docs/GLOSSARY.md` has no row for mediator, γ_M or peak MI.
@@ -249,7 +256,7 @@ sum of the others: at most four bits differ between bra and ket labels, so at mo
 three non-mediator sites can contribute at once. At γ_M = 50 that is 100.3
 and the step is 0.014955, which is what the run prints.)
 
-## Reading 3: the mediator is not a distinguished site
+## Reading 3: the mediator is not distinguished for this observable
 
 The obvious mechanism for the flatness is that the mediator's seat is special.
 It has an exact structural peculiarity, so this is worth testing rather than
@@ -260,8 +267,28 @@ Computed from the single-excitation block of this Heisenberg chain (the ZZ term
 shifts the weights but leaves the nodes exact): ⌊N/2⌋ of the N modes have an
 exact node at the centre, 5 of 11 here and 2 of 5 at N=5.
 
-**The peculiarity is real and it is measurably inert.** Putting the noise on
-each site in turn, everything else held fixed. Every row moves the same rate by
+**The peculiarity is real, and this page's observable cannot see it.** What the
+table below measures is a property of the PREPARATION swept here, a Bell pair on
+vacuum living in popcount {0, 2}: there is no blind state anywhere in that
+family, so the centre has nothing to show this observable. Propagated whole at
+γ = 0.5 that state moves by 2.84·10⁻¹ with γ on the mediator and 2.82·10⁻¹ with
+it on site 0, which is why the mediator looked ordinary to it. On a preparation
+that does occupy the node structure the centre separates sharply
+([The Blind Site](THE_BLIND_SITE.md) §7).
+
+**Do not read that separation off the table below.** This page's functional is
+the PEAK of I(A:B) over the window, and the reflection-odd state starts at its
+maximum and never rises above it, so the peak cannot carry it at all. The
+like-for-like comparison is made under the window MEAN on both preparations:
+the centre reads 7.635 % on Bell-on-vacuum against 0.0809 % on the
+reflection-odd state, a factor of 94. Setting this table's 15.57 % beside that
+0.0809 % compares two different functionals and overstates the contrast by about
+twice. The 94 is a t_max = 20 reading on both preparations; the spans themselves
+are not window-converged, which is why the source page quotes a ratio rather
+than a span.
+
+**The table, then, and what it does measure.** The noise goes on each site in
+turn, everything else held fixed. Every row moves the same rate by
 the same amount, so Σγ changes identically down the column and the comparison
 across sites is total-noise matched by construction; only the seat differs:
 
@@ -290,7 +317,9 @@ single-mode weight per site; F64 selects a particular mode rather than the
 largest, so this rules out the reading as applied here, not every possible
 mode-selection rule.) Nor does the nodal structure show up: the one site that has nodes
 sits at 15.57 %, between its two neighbours and *above* site 4's 12.30 %. So the
-nodal mechanism this reading was written to test is refuted by its own table.
+nodal mechanism this reading was written to test is refuted by its own table
+FOR THIS PREPARATION, which is the whole of what the table can carry: the nodes
+are exact and the state that would feel them is not the one swept here.
 What the response does track is where the excitation actually is: it falls away
 from the prepared pair on sites 0 and 1, which is the light share of Theorem 2
 read on the state rather than on the Hamiltonian's eigenvectors.
@@ -306,16 +335,22 @@ This is where the March session's own conclusion returns, reached from the
 direction their data did not carry. [SCALING_CURVE](SCALING_CURVE.md) lines 131
 to 134 retired "Special mediator nodes" on the topological ground that every
 qubit in a Heisenberg chain mediates between its neighbours. That argument is
-correct and this table is its measurement: on a uniform chain the mediator is an
-ordinary site, and the transistor reading needs the site to be distinguished
-before either of its knobs can mean what it says.
+correct and this table is its measurement: for mediation, and for this
+observable, the mediator is an ordinary site. It is not ordinary in every sense,
+being the chain's one reflection-fixed seat and an exact node of ⌊N/2⌋
+single-excitation modes; what the table shows is that the transistor reading
+cannot reach that distinction through this preparation, and the transistor
+reading needs the site to be distinguished before either of its knobs can mean
+what it says.
 
 A caveat this table does not remove. Moving the noisy site changes two things at
 once, its distance to the prepared pair and its role relative to the observable
 (sites 0 to 4 lie inside block A, site 5 is traced out, sites 6 to 10 lie inside
-block B). The table is therefore decisive against the nodal reading, which
-predicts an anomaly at exactly one site and shows none, and it is not a clean
-measurement of distance alone.
+block B). The table is therefore decisive against the nodal reading
+FOR THE STATE IT SWEEPS, which predicts an anomaly at exactly one site and shows
+none, and it is not a clean measurement of distance alone. On a preparation that
+occupies the nodes the anomaly is there and is large, which is the paragraph at
+the head of this reading.
 
 ## Reading 4: the two chains are not measured the same way
 
@@ -389,7 +424,9 @@ coupling by roughly an order of magnitude. It is weak for no reason peculiar to
 the mediator: the response to γ on any site falls away from the prepared pair,
 and site 5 ranks fourth of the nine interior sites. The one structural
 peculiarity it does have, being an exact node of ⌊N/2⌋ single-excitation modes,
-is measurably inert. It is also not insensitive: at every fixed window the
+is invisible to the observable this page uses, and is not inert as a structure:
+on a preparation that occupies it, [The Blind Site](THE_BLIND_SITE.md) §7 reads
+it at a factor near 150 below every other seat. It is also not insensitive: at every fixed window the
 response is monotone and the mediator eventually dominates, though this
 observable cannot say where.
 
@@ -425,13 +462,13 @@ both times.
 **Find the law the site profile of Reading 3 obeys.** The response to γ on site
 j runs 39.7, 36.3, 28.0, 19.5, 12.3, 15.6, 24.0, 18.0, 10.0, 4.6, 5.0 across the
 chain, and this page offers no closed form for it. F64's static amplitude
-reading is ruled out here: it is flat to 2 % across the chain while the response
+reading is scoped out here: it is flat to 2 % across the chain while the response
 spans a factor of 8.6. The candidate that fits the shape is the state's own
 light share, Theorem 2's light_l(v) evaluated on the propagated state rather
 than on an H-eigenvector, and the test is cheap: the excitation occupancy
 ⟨n_j(t)⟩ at t\* is a by-product of runs this page already makes. If that
-reproduces the profile, the page's finding sharpens from "the mediator is
-ordinary" to a statement about which sites can gate at all.
+reproduces the profile, the page's finding sharpens from "ordinary to
+this observable" to a statement about which sites can gate at all.
 
 **The exact readings were not used and the general one already spans this
 sector.** Reading 3 tests only F64's first-order H-eigenvector reading. F64 also

@@ -527,7 +527,8 @@ sites. The conserved parity-odd block is exactly this page's blind subspace.
 ## 7. The two mediator-inertness findings, and how they stand
 
 `MEDIATOR_NOISE_GATE_LEVEL_THREE.md` measures site 5 at 15.57 % response and
-concludes the node structure is "measurably inert". `GAMMA_CONTROL.md:31` says
+reads the node structure as one its own observable cannot see, a scoping that
+page carries on the strength of this section. `GAMMA_CONTROL.md:31` says
 "the mediator's own noise always harms; it merely harms least". Both stand and
 this page corrects neither, because both measure a **different preparation**: a
 Bell-on-vacuum state living in popcount {0, 2}. The measurements stand

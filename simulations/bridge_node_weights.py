@@ -1,7 +1,10 @@
 """Reading 3 of experiments/MEDIATOR_NOISE_GATE_LEVEL_THREE.md, plus the three
 convergence checks the page's Reading 1 and Reading 2 rely on.
 
-Reading 3 tests, and refutes, a mechanism.  F64 (docs/ANALYTICAL_FORMULAS.md)
+Reading 3 tests two things and they come out differently.  The nodal mechanism
+this observable simply cannot see; F64's static amplitude reading it does rule
+out as applied here, the weight being flat to 2 % across the chain while the
+response spans a factor of 8.6.  F64 (docs/ANALYTICAL_FORMULAS.md)
 says a single dephased site enters weighted by its own amplitude, |a_B|^2, and
 is "not diminished by intervening sites".  The mediator on these chains is the
 exact centre of a uniform open chain, so reflection symmetry about the centre
@@ -12,9 +15,17 @@ everywhere by completeness.
 
 The script computes those weights from the single-excitation block of the SAME
 Heisenberg chain (the ZZ term shifts the weights but leaves the nodes exact),
-and then puts the noise on each site in turn.  The result is a null: the site
-with nodes is not anomalous, and the static weight is flat across the chain
-while the measured response spans a factor of 8.6.
+and then puts the noise on each site in turn.  The result is a null FOR THE
+STATE SWEPT HERE: the site with nodes is not anomalous, and the static weight is
+flat across the chain while the measured response spans a factor of 8.6.  The
+state is a Bell pair on vacuum, living in popcount {0, 2}, where no seat of the
+chain has a blind dimension at all, so the nodes have nothing to act on.  On a
+reflection-odd single-excitation preparation the centre reads a factor of 151
+below the smallest other seat, and a factor of 94 below what the centre reads on
+THIS script's own preparation.  Both are window MEANS: the PEAK functional used
+here cannot carry that state at all, since it starts at its maximum and never
+rises (experiments/THE_BLIND_SITE.md section 7 and
+simulations/blind_seat_mi_sweep.py).
 
 Also here, because the page states them and nothing else checks them:
   - integrator convergence of the 15.6 % span (dt refined 0.05 -> 0.00625)
@@ -132,10 +143,14 @@ for j in range(11):
     mark = "   <- the mediator" if j == 5 else ""
     print(f"  {j:>5}  {int((a2 < 1e-12).sum()):>6}  {a2.max():>9.4f}"
           f"  {(hi - lo) / hi * 100:>8.2f}{mark}")
-print("\n  The one site with nodes is not anomalous: it sits between its")
-print("  neighbours and above site 4.  Static weight is flat to 2 % across")
-print("  the chain while the response spans a factor of 8.6, so the amplitude")
-print("  reading cannot carry the response.  The mediator is an ordinary site.")
+print("\n  On THIS preparation the one site with nodes is not anomalous: it")
+print("  sits between its neighbours and above site 4.  Static weight is flat")
+print("  to 2 % across the chain while the response spans a factor of 8.6, so")
+print("  the amplitude reading cannot carry the response.  For mediation and")
+print("  for this observable the mediator is an ordinary site; it is still the")
+print("  chain's one reflection-fixed seat, and on a preparation that occupies")
+print("  its nodes it reads a factor of 151 below the smallest other seat")
+print("  (blind_seat_mi_sweep.py).")
 
 # ------------------------------------------------- convergence of Reading 1
 print("\n" + "=" * 70)
