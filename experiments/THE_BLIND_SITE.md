@@ -554,7 +554,7 @@ basis. Both checks were removed rather than reworded. What is left:
 | gate | what it decides | scope |
 |---|---|---|
 | **G1** | the pencil identity, an elimination determinant against a Faddeev-LeVerrier χ, the two routes written separately in the file | 22212 (book, graph, seat, s, λ) points |
-| **G2** | dim W over ℚ against `blind_truth`'s GF(p) rank. **Weak, and labelled so:** the two build the *same* Krylov matrix line for line and differ only in the field, so it detects a bad prime pair and nothing else | 1282 triples, 1055 with dim W > 0 |
+| **G2** | dim W over ℚ against `blind_truth`'s GF(p) rank. **Weak, and labelled so:** the two build the *same* Krylov matrix line for line and differ only in which field the rank is taken over, so it detects a bad prime pair and nothing else | 1282 triples, 1055 with dim W > 0 |
 | **G4** | the committed zero-bond pricing under both of the repo's two truths, and the containment below | 3996 (book, profile, seat) triples, 1998 pairs over two books |
 
 G1 is the strong one. It runs over the twenty graphs of

@@ -33,7 +33,7 @@ below is deliberately short and says what each check is worth.
     G2  dim W over Q here against `blind_truth`'s GF(p) rank.  These are NOT
         independent routes: `blind_seat_span_proof.blind_basis` and
         `seat_cut_blindness.blind_truth` build the SAME Krylov matrix, line for
-        line, and differ only in the field the rank is taken over.  So G2 can
+        line, and differ only in which field the rank is taken over.  So G2 can
         catch a bad prime pair and nothing else.  It is kept for that and is
         worth exactly that.
 
