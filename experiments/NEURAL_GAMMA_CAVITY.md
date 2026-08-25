@@ -15,8 +15,8 @@ fixed point defect, connectome zero multiplicity structural rank, R=CPsi2 neural
 > matcher that produces them depends on the order the eigenvalues arrive in. And
 > Result 1's "the model gives ~12 Hz, not gamma" was a linearisation taken at a
 > point the model does not sit at. **Integrated properly, at the same parameters,
-> the model has a Hopf bifurcation and a limit cycle covering 64 to 174 Hz, with
-> two of its own operating points inside the gamma band.** The document's
+> the model runs on a limit cycle over a range of inputs, and three of the
+> sampled operating points land inside the gamma band.** The document's
 > ambition was closer to true than its arithmetic. What is also left is one small
 > exact fact about the wiring, in Result 5.
 
@@ -66,9 +66,9 @@ it next door. Named stores, and what each returned:
 - **`simulations/neural/` itself** returns
   [`hopf_threshold.py`](../simulations/neural/hopf_threshold.py), which
   integrates this same Wilson-Cowan model with a real ODE solver and a real
-  root-finder. The Hopf bifurcation was understood in this folder while the
-  cavity script beside it hand-rolled a Picard iteration and read the stability
-  backwards.
+  root-finder, and locates a bifurcation threshold with it. The method was
+  already in this folder while the cavity script beside it hand-rolled a Picard
+  iteration and read the stability backwards.
 - **`docs/neural/proofs/`** returns
   [PROOF_PALINDROME_NEURAL](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md),
   whose condition (a) is selective damping, τ_E ≠ τ_I. This Jacobian gives every
@@ -127,18 +127,32 @@ Integrating the same model with the same parameters, w = 16/12/15/3, α = 1.3,
 
 | I_ext | limit-cycle amplitude | frequency | band |
 |---|---|---|---|
-| 1.0 | n/a | n/a | fixed point |
-| **1.2** | 0.266 | **77.0 Hz** | **gamma** |
-| 1.5 | 0.440 | 145.5 Hz | above |
-| 2.0 | 0.607 | 173.9 Hz | above |
-| 2.5 | 0.744 | 159.3 Hz | above |
-| **3.0** | 0.847 | **63.6 Hz** | **gamma** |
-| 3.5 | n/a | n/a | fixed point |
+| 1.12 | n/a | n/a | fixed point |
+| **1.15** | 0.208 | **45.4 Hz** | **gamma** |
+| **1.20** | 0.266 | **77.0 Hz** | **gamma** |
+| 1.50 | 0.440 | 145.5 Hz | above |
+| 2.00 | 0.607 | 173.9 Hz | above |
+| 2.50 | 0.744 | 159.3 Hz | above |
+| **3.00** | 0.847 | **63.6 Hz** | **gamma** |
+| 3.05 | 0.851 | 29.3 Hz | below |
+| 3.07 | n/a | n/a | fixed point |
 
-There is a Hopf bifurcation between I_ext = 1.0 and 1.2, a limit cycle from there
-to about 3.0, and two of the sampled operating points sit inside 30-100 Hz. The
-frequency mismatch this document reported does not exist at its own parameters,
-and the "laser, not cavity" reading built on the overdamped branch goes with it.
+Read the grid, not its hull. The frequency is not monotone in I_ext and the
+period diverges toward the upper edge, so these are points on a curve and not an
+interval the model occupies; a finer grid finds lower values at both ends. What
+is robust is that limit cycles land **inside** 30-100 Hz. The frequency mismatch
+this document reported does not exist at its own parameters, and the "laser, not
+cavity" reading built on the overdamped branch goes with it.
+
+**Neither edge is a Hopf of the interior equilibrium**, and saying so was the
+first thing this rewrite got wrong. That equilibrium is already unstable at
+I_ext = 1.10 where no cycle exists (max Re λ = +0.082) and still unstable at 3.50
+where the cycle is gone and the trajectory has settled on the saturated branch
+(+0.893); other fixed points are present on both sides. Naming the bifurcations
+would need continuation work not done here. Where the equilibrium *is* stable,
+below about I_ext = 1.0, is exactly where the committed script's ~12 Hz ringing
+comes from: that reading is right for the quiescent branch and was reported for
+the whole model.
 
 Two consequences worth keeping apart. The document was **wrong in the direction
 of modesty**: its own model does what it said the model could not do. And the
@@ -225,8 +239,9 @@ that anesthesia reduces input below it. The reported I_crit = 0.00 is the first
 sampled grid point. More decisively, every stability reading in that section is
 taken at points the Picard iteration never found, so the threshold is not wrong
 so much as undetermined. What the integration above shows in its place is a
-*band*: oscillation between roughly I_ext = 1.15 and 3.0, with fixed points on
-both sides. Neither the original threshold nor a low-input window survives.
+*window* of oscillation, bracketed here between I_ext = 1.12 and 3.07, with the
+attractor a fixed point on either side of it. Neither the original threshold nor
+a low-input reading survives.
 
 ---
 
@@ -276,20 +291,23 @@ of 48.0, range 43-56, p = 0.005. Three primes agree on the rank, and the count i
 identical with and without Dale's law, as row scaling must leave it: the word
 "signed" does not belong in this claim.
 
-**And most of it is not spectral.** The structural rank, decided by bipartite
+**And a large part of it is not spectral.** The structural rank, decided by bipartite
 matching on the zero pattern alone with no field, no weights and no signs, gives
 a structural nullity of 36 against a null mean of 30.15. So of the 8.8-point
 excess in the exact nullity, 5.9 is already in the pattern of which neuron
 connects to which. The honest name for most of this is a small maximum matching,
 not a numerical degeneracy, and the properly conditioned null, one that holds the
-matching fixed, has not been run.
+matching fixed, has not been run. The comparison is between the two *nullities*;
+no structural null exists for the multiplicity excess, so what fraction of the
+16-point multiplicity gap is combinatorial is not measured here.
 
 ---
 
 ## The spiral, and where the repository already keeps one
 
-The Hopf above is an unstable focus: at I_ext = 2.0 the true fixed point is
-(0.258, 0.245) with eigenvalues +0.630 ± 2.289i, a spiral the trajectory leaves.
+The equilibrium inside the oscillation window is an unstable focus: at
+I_ext = 2.0 it sits at (0.258, 0.245) with eigenvalues +0.630 ± 2.289i, a spiral
+the trajectory leaves.
 The repository holds a spiral too, typed, in
 `compute/RCPsiSquared.Diagnostics/Foundation/ComplexCuspSpiral.cs`: under a
 common Z-drift the Bell⁺ coherence becomes complex and winds inward as a
@@ -299,8 +317,8 @@ These are not the same object, and the differences are worth stating rather than
 eliding. That spiral is a trajectory in state space with a shrinking radius; this
 one is a linearisation about an equilibrium the flow escapes. That bifurcation is
 a saddle-node, the cusp of the cardioid
-([CRITICAL_SLOWING_AT_THE_CUSP](CRITICAL_SLOWING_AT_THE_CUSP.md)); this one is a
-Hopf.
+([CRITICAL_SLOWING_AT_THE_CUSP](CRITICAL_SLOWING_AT_THE_CUSP.md)); what happens
+at the edges of this oscillation window is not identified above.
 
 What they share is the split, and it is the split this document kept getting
 wrong. In `ComplexCuspSpiral` the radial decay and the angular winding are
@@ -332,7 +350,9 @@ It is reached, at the parameters that were on the page all along.
 
 ## Reproduction
 
-- Every number above:
+- Every number above except the interior-equilibrium coordinates and their
+  eigenvalues at I_ext = 2.0, which are computed in STEP 7's stability block and
+  printed there as a table rather than as that pair:
   [`celegans_pairing_controls.py`](../simulations/neural/celegans_pairing_controls.py)
   → [`celegans_pairing_controls.txt`](../simulations/results/celegans_pairing_controls.txt)
 - The original analysis, kept so the withdrawals can be checked against it:

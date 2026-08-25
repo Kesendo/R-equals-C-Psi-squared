@@ -459,7 +459,8 @@ log()
 gate("G6 ordering moves the count further than the run-to-run drift does",
      np.std(perm_unp, ddof=1) > 1.0 and abs(np.mean(perm_unp) - native_unp) > 2,
      f"reordering shifts the mean to {np.mean(perm_unp):.1f} from {native_unp}, "
-     "while the committed 18 and today's 20 differ by 2")
+     f"while the committed 18 and today's {native_unp} differ by "
+     f"{abs(native_unp - 18)}")
 log()
 log("  A second reason is often given for distrusting per-mode readings here,")
 log("  and it has to be scoped rather than asserted globally. The Jacobian is")
@@ -587,10 +588,11 @@ gate("G11 the exact rank agrees at every prime tried", ranks_agree == 1,
      f"{len(PRIMES)} primes, {ranks_agree} distinct value; rank over GF(p) "
      "bounds the rational rank from below, so agreement is the check")
 nullity_signed = N - gf_rank(W_real, PRIMES[0])
-gate("G12 the signs are irrelevant here, as row scaling must be",
-     nullity_signed == real_vals["nullity"],
-     f"nullity is {real_vals['nullity']} unsigned and {nullity_signed} with "
-     "Dale's law applied, so the word 'signed' does not belong in this claim")
+log(f"  nullity unsigned {real_vals['nullity']}, with Dale's law applied "
+    f"{nullity_signed}   (READ, not a gate:")
+log("    Dale's law is a diagonal sign matrix acting on the left, and rank is")
+log("    invariant under that, so no data could make these differ. It is stated")
+log("    because it decides a WORD: 'signed' does not belong in the claim.)")
 log()
 log("  And most of the deficit is not spectral. The structural rank is decided")
 log("  by bipartite matching on the zero pattern alone, no field, no weights,")
@@ -620,8 +622,8 @@ log("-" * 75)
 log("STEP 6: Q_max is arithmetic on the damping, not a measured loss")
 log("-" * 75)
 log()
-log("NEURAL_GAMMA_CAVITY:157 reads Q_max = 0.1 against the qubit cavity's 68 to")
-log("75 as 'the biological cavity is extremely lossy'. The eigenvalues of")
+log("NEURAL_GAMMA_CAVITY, Result 2b, reads Q_max = 0.1 against the qubit")
+log("cavity's 68 to 75 as 'extremely lossy'. The eigenvalues of")
 log("-I/tau + f'*W_n are EXACTLY -1/tau + f'*mu, so Q is a function of the graph")
 log("spectrum and the two chosen constants and of nothing else. That identity is")
 log("an exact route, so it is compared rather than tolerated.")
@@ -701,14 +703,15 @@ try:
     log(f"  {'I_ext':>6s} {'amplitude':>10s} {'freq (Hz)':>10s} {'band':>10s}")
     log("  " + "-" * 40)
     bands = {}
-    for I_ext in (0.5, 1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0):
+    for I_ext in (0.5, 1.0, 1.12, 1.15, 1.2, 1.5, 2.0, 2.5, 3.0, 3.05, 3.07,
+                  3.5, 4.0):
         s = solve_ivp(rhs, [0, 2000], [0.3, 0.3], args=(I_ext,), max_step=0.05,
                       dense_output=True, rtol=1e-9, atol=1e-11)
         t = np.linspace(1500, 2000, 200000)
         E = s.sol(t)[0]
         amp = float(E.max() - E.min())
         if amp < 1e-4:
-            log(f"  {I_ext:6.1f} {amp:10.4f} {'-':>10s} {'fixed pt':>10s}")
+            log(f"  {I_ext:6.2f} {amp:10.4f} {'n/a':>10s} {'fixed pt':>10s}")
             continue
         m = E - E.mean()
         zc = np.where((m[:-1] < 0) & (m[1:] >= 0))[0]
@@ -717,14 +720,65 @@ try:
                 else "alpha" if 8 <= f_hz <= 13
                 else "above" if f_hz > 100 else "other")
         bands[I_ext] = (f_hz, band)
-        log(f"  {I_ext:6.1f} {amp:10.4f} {f_hz:10.1f} {band:>10s}")
+        log(f"  {I_ext:6.2f} {amp:10.4f} {f_hz:10.1f} {band:>10s}")
     log()
     in_gamma = [I for I, (f_hz, b) in bands.items() if b == "gamma"]
+    f_all = [f_hz for f_hz, _ in bands.values()]
+    log()
+    log("  READ THE GRID, NOT ITS HULL. The frequency is not monotone in I_ext")
+    log("  and the period diverges toward the upper edge, so the sampled")
+    log("  frequencies are points on a curve, not an interval the model")
+    log(f"  occupies. Sampled here: {min(f_all):.1f} to {max(f_all):.1f} Hz, and a")
+    log("  finer grid finds lower values at both ends. What is robust is that")
+    log("  limit cycles land INSIDE 30-100 Hz, not any range statement.")
+    log()
     gate("G15 the gamma band is reached with no parameter change",
          len(in_gamma) > 0,
          f"limit cycles inside 30-100 Hz at I_ext = "
          f"{', '.join(f'{I:g}' for I in in_gamma)}, at the same w, alpha, theta "
          "and tau the document calls insufficient")
+
+    log()
+    from scipy.optimize import fsolve as _fsolve
+
+    def interior_stability(I_ext):
+        v = _fsolve(fp_residual, [0.25, 0.25], args=(I_ext,))
+        E, Iv = v
+        dsg_ = lambda x: alpha_ * sg(x) * (1 - sg(x))
+        xE, xI = wEE * E - wEI * Iv + I_ext, wIE * E - wII * Iv
+        Jw = np.array([[-1 + wEE * dsg_(xE), -wEI * dsg_(xE)],
+                       [wIE * dsg_(xI), -1 - wII * dsg_(xI)]])
+        return v, float(np.max(np.linalg.eigvals(Jw).real)),             float(np.linalg.norm(fp_residual(v, I_ext)))
+
+    log(f"  {'I_ext':>7s} {'interior fixed point':>22s} {'max Re(lambda)':>15s} "
+        f"{'cycle?':>8s}")
+    log("  " + "-" * 58)
+    stab = {}
+    for I_ext in (0.5, 0.8, 1.10, 1.15, 2.0, 3.0, 3.5):
+        v, re_max, _res = interior_stability(I_ext)
+        stab[I_ext] = re_max
+        has = "yes" if I_ext in bands else "no"
+        log(f"  {I_ext:7.2f} {f'({v[0]:.3f}, {v[1]:.3f})':>22s} {re_max:+15.3f} "
+            f"{has:>8s}")
+    log()
+    log("  NEITHER EDGE IS A HOPF OF THIS EQUILIBRIUM, and saying so was the")
+    log("  first thing this section got wrong. The interior fixed point is")
+    log("  already unstable at I = 1.10 where no cycle exists, and it is still")
+    log("  unstable at I = 3.5 where the cycle is gone and the trajectory has")
+    log("  settled on the saturated branch. Other fixed points are present on")
+    log("  both sides. Naming the bifurcations would need continuation work this")
+    log("  script does not do; what it can say is where the cycle is and what")
+    log("  frequency it runs at.")
+    log()
+    log("  Where the equilibrium IS stable, below about I = 1.0, is where the")
+    log("  committed script's ~12 Hz ringing comes from. That reading is correct")
+    log("  for the quiescent branch and was reported for the whole model.")
+    gate("G19 the cycle's edges are not stability changes of the interior "
+         "equilibrium",
+         stab[1.10] > 0 and stab[3.5] > 0 and stab[0.5] < 0,
+         f"Re(lambda) is {stab[1.10]:+.3f} below the cycle and {stab[3.5]:+.3f} "
+         f"above it, both unstable, while at I = 0.5 it is {stab[0.5]:+.3f}: "
+         "the equilibrium loses stability well before the cycle appears")
     log()
     log("  What the committed script reports instead is a linearisation at the")
     log("  quiescent branch, which is where its iteration converges:")
@@ -794,7 +848,7 @@ gate("G18 passes = 10 is already mixed",
 log()
 
 log("=" * 75)
-n_gates = 18
+n_gates = len([l for l in out if '[PASS]' in l or '[FAIL]' in l])
 log(f"{len(failures)} of {n_gates} gates FAILED" if failures
     else f"ALL {n_gates} GATES PASS")
 for f in failures:

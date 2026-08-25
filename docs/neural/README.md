@@ -73,7 +73,7 @@ The math predicted it; the data confirmed it.
    specific wiring pattern. The degree distribution is itself a
    biological property that varies between organisms.
    ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md),
-   [Eigenvalue analysis](../../experiments/NEURAL_GAMMA_CAVITY.md))
+   [Algebraic residual analysis](ALGEBRAIC_PALINDROME_NEURAL.md))
 
    *Context:* C. elegans is a tiny worm whose complete neural wiring
    diagram (300 neurons, every connection mapped) is one of the best-
@@ -137,7 +137,7 @@ counts are real but pale: the substrate lives almost entirely on its Takt. See
 |----------|---------------|
 | [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) | Palindrome condition, C. elegans test, E-I standing wave |
 | [The Clock's Two Hands](../../experiments/NEURAL_CLOCK_TWO_HANDS.md) | Takt = trace (membrane-set, graph-blind); Rotation = off-diagonal (degree-set); V-Effect and thermal window move only the Rotation |
-| [Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md) | WITHDRAWN 2026-08-25: the 97.3% and the 18 unpaired modes were artifacts of the matching tolerance and of eigenvalue ordering. What stands: the model reaches 64-174 Hz through a Hopf, and the wiring's zero-multiplicity exceeds degree-matched rewiring |
+| [Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md) | WITHDRAWN 2026-08-25: the 97.3% and the 18 unpaired modes were artifacts of the matching tolerance and of eigenvalue ordering. What stands: the model runs on a limit cycle inside the gamma band at those same parameters, and the wiring's zero-multiplicity exceeds degree-matched rewiring |
 | [V-Effect and Thermal Window](V_EFFECT_NEURAL.md) | Coupling creates oscillation, thermal window, 2× law |
 | [Proof: Palindrome](proofs/PROOF_PALINDROME_NEURAL.md) | Derivation of palindrome condition in 6 steps |
 | [Proof: V-Effect](proofs/PROOF_VEFFECT_MECHANISM.md) | Why exact symmetry is needed, coupling window |

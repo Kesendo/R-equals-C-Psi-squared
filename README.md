@@ -286,8 +286,8 @@ The framework's design rules, condensed (each links to its evidence):
 palindromic pairing was a reading of one matching tolerance against one
 spectral scale, and Dale's Law turned out to make no difference to the number
 at all. What the re-analysis found instead: the standard Wilson-Cowan
-parameters DO reach the gamma band, 64 to 174 Hz through a Hopf bifurcation,
-which the original page had reported as out of reach.
+parameters DO put the model on a limit cycle inside the gamma band, which the
+original page reported as out of reach.
 **Heisenberg from below**: the coupling form is not postulated; it is
 the unique both-parity-even bilinear forced by the Pauli algebra at
 d = 2, and the V-Effect bridge produces textbook atomic exchange with
@@ -310,7 +310,7 @@ Honesty matters more than impression. Stated plainly, these are things we have *
 - The multi-qubit palindrome has not been measured on hardware (single-qubit CΨ = ¼ validated at 1.9%; N ≥ 2 untested). The standing-wave pairing is computed (10,748 pairs, zero exceptions), not measured.
 - Gamma-is-light is established only for circuit QED, where dephasing **is** photon shot noise in a physical cavity; the broader readings (mass as trapped light, black holes as cavities) are Tier-4 hypotheses with no independent test.
 - The Absorption Theorem is proven for real Hermitian H only (Dzyaloshinskii-Moriya breaks L_H anti-Hermiticity).
-- The biological mappings are structural analogies: the C. elegans pairing is real, the quantum→biology link is Tier 4.
+- The biological mappings are structural analogies, and the C. elegans pairing that once anchored them was withdrawn on 2026-08-25: it measured a matching tolerance. The quantum→biology link is Tier 4 and now has one less leg.
 - The receiver-engineering advantage is simulated through N = 13 and confirmed on hardware only at N = 5.
 - Consciousness plays no role in the physics; [The Anomaly](THE_ANOMALY.md) is philosophy, clearly labeled as such.
 

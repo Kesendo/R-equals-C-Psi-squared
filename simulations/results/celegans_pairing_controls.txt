@@ -164,7 +164,10 @@ different exact objects live here and only the second is the mode count:
   float check, |lambda + 1| < 1e-4 : 64
   [PASS] G10 the exact multiplicity matches the float count: 64 == 64, so the rank chain counts what the tolerance was counting, exactly and without one
   [PASS] G11 the exact rank agrees at every prime tried: 3 primes, 1 distinct value; rank over GF(p) bounds the rational rank from below, so agreement is the check
-  [PASS] G12 the signs are irrelevant here, as row scaling must be: nullity is 39 unsigned and 39 with Dale's law applied, so the word 'signed' does not belong in this claim
+  nullity unsigned 39, with Dale's law applied 39   (READ, not a gate:
+    Dale's law is a diagonal sign matrix acting on the left, and rank is
+    invariant under that, so no data could make these differ. It is stated
+    because it decides a WORD: 'signed' does not belong in the claim.)
 
   And most of the deficit is not spectral. The structural rank is decided
   by bipartite matching on the zero pattern alone, no field, no weights,
@@ -183,8 +186,8 @@ different exact objects live here and only the second is the mode count:
 STEP 6: Q_max is arithmetic on the damping, not a measured loss
 ---------------------------------------------------------------------------
 
-NEURAL_GAMMA_CAVITY:157 reads Q_max = 0.1 against the qubit cavity's 68 to
-75 as 'the biological cavity is extremely lossy'. The eigenvalues of
+NEURAL_GAMMA_CAVITY, Result 2b, reads Q_max = 0.1 against the qubit
+cavity's 68 to 75 as 'extremely lossy'. The eigenvalues of
 -I/tau + f'*W_n are EXACTLY -1/tau + f'*mu, so Q is a function of the graph
 spectrum and the two chosen constants and of nothing else. That identity is
 an exact route, so it is compared rather than tolerated.
@@ -229,17 +232,53 @@ properly. Doing that, with NOTHING changed:
 
    I_ext  amplitude  freq (Hz)       band
   ----------------------------------------
-     0.5     0.0000          -   fixed pt
-     1.0     0.0000          -   fixed pt
-     1.2     0.2656       77.0      gamma
-     1.5     0.4396      145.5      above
-     2.0     0.6065      173.9      above
-     2.5     0.7444      159.3      above
-     3.0     0.8468       63.6      gamma
-     3.5     0.0000          -   fixed pt
-     4.0     0.0000          -   fixed pt
+    0.50     0.0000        n/a   fixed pt
+    1.00     0.0000        n/a   fixed pt
+    1.12     0.0000        n/a   fixed pt
+    1.15     0.2078       45.4      gamma
+    1.20     0.2656       77.0      gamma
+    1.50     0.4396      145.5      above
+    2.00     0.6065      173.9      above
+    2.50     0.7444      159.3      above
+    3.00     0.8468       63.6      gamma
+    3.05     0.8514       29.3      other
+    3.07     0.0000        n/a   fixed pt
+    3.50     0.0000        n/a   fixed pt
+    4.00     0.0000        n/a   fixed pt
 
-  [PASS] G15 the gamma band is reached with no parameter change: limit cycles inside 30-100 Hz at I_ext = 1.2, 3, at the same w, alpha, theta and tau the document calls insufficient
+
+  READ THE GRID, NOT ITS HULL. The frequency is not monotone in I_ext
+  and the period diverges toward the upper edge, so the sampled
+  frequencies are points on a curve, not an interval the model
+  occupies. Sampled here: 29.3 to 173.9 Hz, and a
+  finer grid finds lower values at both ends. What is robust is that
+  limit cycles land INSIDE 30-100 Hz, not any range statement.
+
+  [PASS] G15 the gamma band is reached with no parameter change: limit cycles inside 30-100 Hz at I_ext = 1.15, 1.2, 3, at the same w, alpha, theta and tau the document calls insufficient
+
+    I_ext   interior fixed point  max Re(lambda)   cycle?
+  ----------------------------------------------------------
+     0.50         (0.012, 0.007)          -0.889       no
+     0.80         (0.021, 0.008)          -0.751       no
+     1.10         (0.131, 0.054)          +0.082       no
+     1.15         (0.157, 0.080)          +0.234      yes
+     2.00         (0.258, 0.245)          +0.630      yes
+     3.00         (0.324, 0.396)          +0.812      yes
+     3.50         (0.354, 0.469)          +0.893       no
+
+  NEITHER EDGE IS A HOPF OF THIS EQUILIBRIUM, and saying so was the
+  first thing this section got wrong. The interior fixed point is
+  already unstable at I = 1.10 where no cycle exists, and it is still
+  unstable at I = 3.5 where the cycle is gone and the trajectory has
+  settled on the saturated branch. Other fixed points are present on
+  both sides. Naming the bifurcations would need continuation work this
+  script does not do; what it can say is where the cycle is and what
+  frequency it runs at.
+
+  Where the equilibrium IS stable, below about I = 1.0, is where the
+  committed script's ~12 Hz ringing comes from. That reading is correct
+  for the quiescent branch and was reported for the whole model.
+  [PASS] G19 the cycle's edges are not stability changes of the interior equilibrium: Re(lambda) is +0.082 below the cycle and +0.893 above it, both unstable, while at I = 0.5 it is -0.889: the equilibrium loses stability well before the cycle appears
 
   What the committed script reports instead is a linearisation at the
   quiescent branch, which is where its iteration converges:
