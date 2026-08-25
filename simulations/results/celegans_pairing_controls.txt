@@ -1,0 +1,287 @@
+===========================================================================
+WHAT THE C. ELEGANS CAVITY ANALYSIS MEASURED
+===========================================================================
+
+Seed 20260825; tolerance 0.01 and f' = 0.3 are the committed values.
+
+---------------------------------------------------------------------------
+STEP 0: the centre the test reflects across is forced, not measured
+---------------------------------------------------------------------------
+
+F137 states this in general: the centre is trace/dim, an identity, equally
+well defined for a spectrum that does not pair. NEURAL_CLOCK_TWO_HANDS:42-52
+proves the neural case is wiring-INDEPENDENT (its own value is -0.150000 at
+its own time constants; it is -1 here only because this Jacobian's damping
+is 1). Here the wiring-independence is exact rather than approximate.
+
+  neurons with a synapse onto themselves: 0   (exact count)
+  [PASS] G0 the wiring never touches the diagonal: so trace(J)/N = -1 exactly, for this connectome and for every rewiring of it
+  eigensolver mean Re(lambda) = -1.000000000000   (read; no
+    exact route through an eigensolver, the exact statement is G0)
+
+---------------------------------------------------------------------------
+STEP 1: the score is a reading of the tolerance, and it was never swept
+---------------------------------------------------------------------------
+
+  Re window                            : [-1.1163, -0.8063], width 0.3101
+  mean nearest-neighbour spacing in Re : 0.001037
+  committed tolerance                  : 0.01
+  so each eigenvalue has of order 10 candidate partners inside
+  the window before any structure is consulted.
+
+        tol    loose   strict  self-paired
+  ------------------------------------------
+     0.1000   100.0%   100.0%        93.3%
+     0.0100    97.3%    93.3%        41.3%
+     0.0030    80.0%    74.0%        32.7%
+     0.0010    40.0%    36.7%        25.0%
+     0.0003    25.7%    25.3%        23.0%
+     0.0001    24.0%    24.0%        22.0%
+
+  At the finest tolerance 24.0% of modes still find a partner and
+  22.0% do it by being their own. The difference is a LOWER bound
+  on genuine cross-pairing, not an estimate: a self-paired mode that also
+  has a real partner is charged to the self column. STEP 4 puts a null
+  beside it, which is the only way to read a residue.
+
+  [PASS] G1 the committed 97.3 % reproduces: at the committed tolerance the loose matcher gives 97.3%
+  [PASS] G2 the score collapses as the tolerance leaves the clustering scale: loose falls 97.3% -> 24.0% between tol 0.01 and 0.0001
+
+---------------------------------------------------------------------------
+STEP 2: the only thing the matcher can see is tolerance over Re-spread
+---------------------------------------------------------------------------
+
+The committed construction fixes the scale by dividing W by max|W|, one
+synapse count. A control at a different scale is therefore not a control.
+
+  divisor                        value    loose    sd Re
+  ------------------------------------------------------
+  max|w| (committed)              37.0    97.3%   0.0274
+  spectral radius                 23.9    93.7%   0.0425
+  max row sum                    136.0    99.7%   0.0075
+  95th-percentile weight           8.0    67.7%   0.1268
+  binary, unweighted                 -    27.0%   0.4117
+
+  2276 directed edges, weight median 1 and max 37:
+  the committed divisor is one outlier synapse.
+  [PASS] G3 the score is set by the divisor, which nothing justifies: the same connectome and the same matcher give 27.0% to 99.7% across five defensible normalisations
+
+  Matched on Re-spread instead, which is the only quantity the matcher
+  responds to, noise with no structure at all is not beaten:
+
+    dense iid gaussian              100.0%
+    sparse iid (matched density)    100.0%
+    real connectome                  97.3%
+  [PASS] G4 spread-matched noise is not beaten by the connectome: the weakest matched control scores 100.0% against the connectome's 97.3%
+
+---------------------------------------------------------------------------
+STEP 2b: Dale's law makes no difference to the score
+---------------------------------------------------------------------------
+
+NEURAL_GAMMA_CAVITY's thesis was that the excitatory/inhibitory
+classification 'creates the same SWAP structure that the Pi operator
+creates in the qubit chain'. That is a claim about the signs, so it is
+tested by changing them.
+
+  sign assignment                               loose
+  ----------------------------------------------------
+  committed Dale (26 inhibitory)                97.3%
+  no Dale at all, every neuron excitatory       97.7%
+  26 inhibitory, chosen at random               96.0%
+  50/50 random signs                            97.7%
+
+  The four differ by 1.7 points, 5 modes out of 300. The claim to make is that
+  the signs do NOTHING, which is what kills the thesis. Saying the score
+  RISES without them would be a directional claim on that same noise.
+  [PASS] G5 the signs make no difference either way: every sign assignment lands within 1.7 points of every other, deleting Dale's law included
+
+---------------------------------------------------------------------------
+STEP 3: the strict matcher is a function of the LIST, not of the spectrum
+---------------------------------------------------------------------------
+
+It scans indices in order and takes the first best unused partner, so
+permuting the same eigenvalues changes its answer. The committed 18-
+unpaired mode list and its three biological categories are built on it.
+
+  LAPACK's own ordering                  : 20 unpaired
+  50 permutations of the same eigenvalues: mean 32.7, sd 1.50, range 30-36
+
+  For scale: the committed run reports 18
+  (results/neural_gamma_cavity_unpaired.txt:13) and the same script on the
+  same data reports 20 today.
+
+  [PASS] G6 ordering moves the count further than the run-to-run drift does: reordering shifts the mean to 32.7 from 20, while the committed 18 and today's 20 differ by 2
+
+  A second reason is often given for distrusting per-mode readings here,
+  and it has to be scoped rather than asserted globally. The Jacobian is
+  non-normal, but that is manufactured by the defective cluster ON the
+  centre; the per-eigenvalue condition numbers say the rest is fine.
+
+  eigenvalues on the centre to 1e-4 : 64
+  condition numbers of the other 236 : median 128, 90th pct 3133
+  median induced eigenvalue motion  : 3.58e-14, against a mean spacing of 1.04e-03
+  worst-conditioned eigenvalue      : kappa = 1.4e+56, so no
+    eigenvalue of this matrix is resolved better than 3.8e+40
+  [PASS] G7 the off-centre eigenvalues ARE well resolved: so it is the ordering result above, not a conditioning argument, that carries the withdrawal of the mode list
+
+---------------------------------------------------------------------------
+STEP 4: against degree-matched rewiring, by rank rather than by z
+---------------------------------------------------------------------------
+
+ALGEBRAIC_PALINDROME_NEURAL:246-252 already ran this null on the algebraic
+residual and found it identical. Here it is at the eigenvalue level. The
+statistics are bounded discrete counts, so the read is the rank inside the
+ensemble. Every test is one-sided and the statistics were chosen after
+looking, so no multiplicity correction is applied and none is claimed.
+
+  R = 200 degree-matched rewirings; p is the one-sided rank p-value
+  (R - #{null <= real} + 1)/(R + 1).
+
+  statistic                real  null mean    null range        p
+  ----------------------------------------------------------------
+  loose                    97.3       95.3     90.3-99.3    0.100
+  strict                   93.3       93.3     87.3-97.3    0.433
+  cross-fine                2.0        0.7       0.0-3.3    0.035
+  self-paired              41.3       35.1     30.3-39.3    0.005
+  nullity                  39.0       30.2     29.0-33.0    0.005
+  multiplicity             64.0       48.0     43.0-56.0    0.005
+  structural nullity       36.0       30.1     29.0-33.0    0.005
+
+  [PASS] G8 the strict pairing score is ordinary against degree-matched rewiring: p = 0.433; the document reads this matcher's unpaired modes as connectome structure
+  [PASS] G9 the tolerance-free residue is small and not established: cross-pairing at tol 1e-4 is 2.0% against a null mean of 0.7%, an excess of 1.3 points (4 modes) at p = 0.035, which does not clear 0.0071, the level 7 one-sided tests need. It is the one quantity here that is above its null at all, and it is not enough to carry a claim
+
+---------------------------------------------------------------------------
+STEP 5: what IS different about this connectome, and what kind of fact
+---------------------------------------------------------------------------
+
+The self-paired modes are eigenvalues of f'*W_norm at zero: modes the
+wiring does nothing to. Counting them needs a tolerance and an eigensolver.
+The synapse matrix is an integer matrix, so the same content is exact. Two
+different exact objects live here and only the second is the mode count:
+
+  nullity(W)        = 39   (geometric: independent eigenvectors at 0)
+  multiplicity of 0 = 64   (algebraic, by the rank chain: the MODES)
+  float check, |lambda + 1| < 1e-4 : 64
+  [PASS] G10 the exact multiplicity matches the float count: 64 == 64, so the rank chain counts what the tolerance was counting, exactly and without one
+  [PASS] G11 the exact rank agrees at every prime tried: 3 primes, 1 distinct value; rank over GF(p) bounds the rational rank from below, so agreement is the check
+  [PASS] G12 the signs are irrelevant here, as row scaling must be: nullity is 39 unsigned and 39 with Dale's law applied, so the word 'signed' does not belong in this claim
+
+  And most of the deficit is not spectral. The structural rank is decided
+  by bipartite matching on the zero pattern alone, no field, no weights,
+  no signs, and it upper-bounds the true rank:
+
+                             real  null mean   excess
+  structural nullity           36      30.15     5.85
+  exact nullity                39      30.16     8.84
+
+  Of the 8.8-point excess, 5.9 is already in
+  the zero pattern. The honest name for most of this is a small maximum
+  matching, not a numerical degeneracy.
+  [PASS] G13 the connectome is more degenerate at zero than degree-matched rewiring: multiplicity 64 against a null mean of 48.0 (range 43-56), p = 0.005
+
+---------------------------------------------------------------------------
+STEP 6: Q_max is arithmetic on the damping, not a measured loss
+---------------------------------------------------------------------------
+
+NEURAL_GAMMA_CAVITY:157 reads Q_max = 0.1 against the qubit cavity's 68 to
+75 as 'the biological cavity is extremely lossy'. The eigenvalues of
+-I/tau + f'*W_n are EXACTLY -1/tau + f'*mu, so Q is a function of the graph
+spectrum and the two chosen constants and of nothing else. That identity is
+an exact route, so it is compared rather than tolerated.
+
+   tau (ms)  f_prime    centre     Q_max
+  ----------------------------------------
+        1.0     0.30   -1.0000     0.086
+        1.0     0.60   -1.0000     0.172
+        2.0     0.30   -0.5000     0.172
+        2.0     0.60   -0.5000     0.345
+        5.0     0.30   -0.2000     0.431
+        5.0     0.60   -0.2000     0.867
+       10.0     0.30   -0.1000     0.867
+       10.0     0.60   -0.1000     4.343
+
+  THIS SECTION IS A READ, NOT A GATE, and the reason is worth stating.
+  Q_max = f'|Im mu| / |1/tau - f' Re mu| is an identity, exact in exact
+  arithmetic. Both sides of any numerical check of it are eigensolver
+  output, so there is no exact route to compare along; and a bound built
+  from this matrix's worst conditioning is vacuous, because the defective
+  cluster on the centre pushes it past 1e40. A gate here would pass on
+  anything. What the identity says needs no gate:
+
+  worst deviation, assembled vs -1/tau + f'*mu : 4.68e-09 (read)
+  Q_max across the eight rows                  : factor 51
+
+  Q_max is therefore arithmetic on two chosen constants and the graph
+  spectrum. The provenance is the finding, and it is checkable rather than
+  statistical: tau = 1 ms is stipulated bare at neural_gamma_cavity.py:48-49
+  for the Wilson-Cowan block, and the C. elegans Jacobian at :216 contains
+  no tau at all, only a bare -I. G0 above already pins that diagonal.
+
+---------------------------------------------------------------------------
+STEP 7: the model reaches the gamma band at its own committed parameters
+---------------------------------------------------------------------------
+
+neural_gamma_cavity.py:59 finds fixed points by Picard iteration, which
+converges only where the point is stable AS A MAP. That is not stability of
+the ODE; here it lands on the quiescent branch and reports its ringing. The
+sibling hopf_threshold.py in this same folder already integrates this model
+properly. Doing that, with NOTHING changed:
+
+   I_ext  amplitude  freq (Hz)       band
+  ----------------------------------------
+     0.5     0.0000          -   fixed pt
+     1.0     0.0000          -   fixed pt
+     1.2     0.2656       77.0      gamma
+     1.5     0.4396      145.5      above
+     2.0     0.6065      173.9      above
+     2.5     0.7444      159.3      above
+     3.0     0.8468       63.6      gamma
+     3.5     0.0000          -   fixed pt
+     4.0     0.0000          -   fixed pt
+
+  [PASS] G15 the gamma band is reached with no parameter change: limit cycles inside 30-100 Hz at I_ext = 1.2, 3, at the same w, alpha, theta and tau the document calls insufficient
+
+  What the committed script reports instead is a linearisation at the
+  quiescent branch, which is where its iteration converges:
+    at I_ext = 2.0 the iteration returns (0.931, 1.000), residual 0.1691
+  [PASS] G16 the reported fixed points are not fixed points: a residual that size against a sigmoid whose whole range is 1 means the point was never found, so every stability reading taken there is undetermined
+
+---------------------------------------------------------------------------
+STEP 8: the isolated second cavity is an artifact of a discarded matrix
+---------------------------------------------------------------------------
+
+  pharyngeal neurons identified  : 20 of 300
+  electrical entries in the file : 1096, none of them used by the Jacobian
+  pharynx <-> soma, chemical     : 0
+  pharynx <-> soma, electrical   : 4
+      I1L -- RIPL
+      I1L -- RIPR
+      I1R -- RIPL
+      I1R -- RIPR
+  [PASS] G17 the boundary reported as uncoupled is coupled in the discarded matrix: 0 chemical and 4 electrical connections across it
+
+---------------------------------------------------------------------------
+STEP 9: the null model's mixing, checked rather than asserted
+---------------------------------------------------------------------------
+
+    passes   nullity mean      sd
+  --------------------------------
+        10          30.50    0.90
+       100          30.50    1.31
+       500          29.67    0.78
+  [PASS] G18 passes = 10 is already mixed: the three mixing levels differ by 0.83 against a within-level sd of up to 1.31
+
+===========================================================================
+ALL 18 GATES PASS
+===========================================================================
+
+WHAT THIS DOES NOT SHOW
+-----------------------
+It does not test condition (b) of PROOF_PALINDROME_NEURAL, where that
+proof's content sits. It does not identify WHICH modes go unpaired, and
+STEP 3 argues that question is not well posed as the committed script asks
+it. STEP 5's excess is measured against a null that does not hold the
+maximum matching fixed, so the residual numerical part is an upper bound; a
+matching-conditioned null would decide it. STEP 7 integrates one trajectory
+per input from one initial condition, so it finds the attractor that basin
+reaches and would miss a coexisting one.

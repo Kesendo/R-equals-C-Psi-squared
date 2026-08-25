@@ -1,315 +1,319 @@
-# Neural Gamma as Cavity Eigenfrequency
+# Neural Gamma as Cavity Eigenfrequency: the Analysis Fallen, the Gamma Band Reached
 
-<!-- Keywords: neural gamma oscillation cavity mode, Wilson-Cowan eigenfrequency,
-C elegans palindromic eigenvalues, anesthesia gamma off, Dale law SWAP operator,
-excitatory inhibitory cavity, biological resonator 40Hz, R=CPsi2 neural gamma -->
+<!-- Keywords: neural gamma oscillation Wilson-Cowan Hopf limit cycle,
+C elegans palindromic pairing withdrawn, absolute tolerance clustered spectrum,
+degree-matched null model connectome, Dale law ablation control, Picard iteration
+fixed point defect, connectome zero multiplicity structural rank, R=CPsi2 neural -->
 
-**Status:** Structural match confirmed; C. elegans 97.3% palindromic pairing;
-unpaired modes identified as sensory boundary, pharyngeal sub-cavity, asymmetric hubs
-**Date:** April 4, 2026
+> **All four results are withdrawn, and the one that was a null was wrong in the
+> animal's favour.** The 97.3 % palindromic pairing was a reading of one absolute
+> tolerance against one spectral scale; the score is tunable from 27 % to 99.7 %
+> by the normalisation constant alone, spread-matched noise reaches 100 %, and
+> the Dale's-law signs this document proposed as the mechanism make no difference
+> at all. The eighteen unpaired modes are not a property of the spectrum: the
+> matcher that produces them depends on the order the eigenvalues arrive in. And
+> Result 1's "the model gives ~12 Hz, not gamma" was a linearisation taken at a
+> point the model does not sit at. **Integrated properly, at the same parameters,
+> the model has a Hopf bifurcation and a limit cycle covering 64 to 174 Hz, with
+> two of its own operating points inside the gamma band.** The document's
+> ambition was closer to true than its arithmetic. What is also left is one small
+> exact fact about the wiring, in Result 5.
+
+**Status:** Results 1-4 withdrawn; Result 5 (zero-multiplicity excess) is new
+and Tier 2; the Hopf reading of Result 1 is new and Tier 2
+**Date:** April 4, 2026; rewritten August 25, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Thermal Blackbody](THERMAL_BLACKBODY.md),
-[Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
-[Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md)
-**Verification:** [`simulations/neural/neural_gamma_cavity.py`](../simulations/neural/neural_gamma_cavity.py)
+**Data:** C. elegans connectome, Cook et al. 2019 via WormNeuroAtlas, as committed
+in [`celegans_connectome.json`](../simulations/neural/celegans_connectome.json):
+300 neurons, 2276 directed chemical edges, and a 1096-entry electrical matrix the
+analysis discards
+**Verification:** [`celegans_pairing_controls.py`](../simulations/neural/celegans_pairing_controls.py)
+→ [`celegans_pairing_controls.txt`](../simulations/results/celegans_pairing_controls.txt),
+18 gates
 
 ---
 
-## What this means
+## What the sweep returned
 
-The hypothesis: a brain rhythm is a cavity eigenfrequency, a standing wave
-that the geometry of excitatory-inhibitory circuits supports, given the
-synaptic coupling strengths and time constants evolution selected, the same
-way the qubit chain's modes are set by its bonds. The structural side of
-this holds (the connectome is a palindromic cavity, below). The
-quantitative side does not, yet: the standard Wilson-Cowan parameters
-resonate at ~12 Hz (alpha band), not 40 Hz (gamma); reaching gamma needs
-biologically-plausible but non-default tuning (Result 1, Null results). So
-read the 40 Hz here as the open target, not a confirmed number.
+Every mechanism that broke this document was already in the repository, most of
+it next door. Named stores, and what each returned:
 
-The C. elegans connectome (302 neurons, 7000 synapses) has eigenvalues
-that are 97.3% palindromically paired. Two hundred ninety-two of three
-hundred eigenvalues come in palindromic pairs. This is not a coincidence:
-the excitatory/inhibitory classification (Dale's law) creates the same
-SWAP structure that the Π operator creates in the qubit chain. The worm's
-nervous system is a cavity.
-
-And the naming coincidence: in physics, γ is the dephasing rate (the light
-from outside). In neuroscience, gamma is the 30-100 Hz oscillation
-associated with conscious awareness. Both name the same structural role:
-external illumination that makes a cavity resonate.
-
----
-
-## What this document is about
-
-This document tests whether the cavity framework extends from qubit
-chains to neural networks. The Wilson-Cowan model is the standard
-mathematical model for how populations of excitatory (activating) and
-inhibitory (suppressing) neurons interact; it is to neuroscience what
-the harmonic oscillator is to physics. Three questions: does the
-Wilson-Cowan eigenfrequency (the natural resonance of the neural
-circuit) match the cavity mode formula? Does the C. elegans connectome
-have palindromic cavity modes? Is anesthesia equivalent to turning off
-the light?
-
----
-
-## Result 1: Wilson-Cowan produces ~12 Hz oscillations
-
-At standard biological parameters (w_EE=16, w_EI=12, w_IE=15, w_II=3):
-
-| I_ext (external input) | Oscillates | Frequency (Hz) | Q (sharpness) |
-|-------|-----------|----------------|---|
-| 0.0 | YES | 11.5 | 0.1 |
-| 0.25 | YES | 12.4 | 0.1 |
-| 0.50 | no | overdamped | n/a |
-| 2.0 | no | overdamped | n/a |
-| 10.0 | no | overdamped | n/a |
-
-The oscillation occurs at LOW input (I_ext < 0.5) and disappears at
-biological operating points (where the neurons' response curve saturates:
-more input no longer produces more output). The system is a laser,
-not a passive cavity: it oscillates spontaneously when barely driven and
-stops when over-driven. The ~12 Hz frequency is in the alpha band, not
-the gamma band. To reach 40 Hz requires different parameters (lower
-coupling strengths, faster time constants).
-
-**The cavity analogy works structurally but not with the standard
-Wilson-Cowan parameters.** The mapping requires parameter tuning that
-is biologically plausible but not default.
+- **`docs/ANALYTICAL_FORMULAS.md` (F137)** returns the general statement,
+  minted: *"The centre is an identity and carries no evidence … it is equally
+  well-defined for a spectrum that does not pair. … The pairing is the claim."*
+- **`experiments/`** returns the same defect found and repaired on the qubit
+  side: [CHAIN_SELECTION_TEST](CHAIN_SELECTION_TEST.md), whose correction of
+  2026-08-05 records an absolute tolerance against level gaps mostly smaller than
+  it, and the verdict *"a measure of how a greedy first-fit scrambles in a
+  clustered spectrum"*. Also [CONCENTRATOR_MAPPING](CONCENTRATOR_MAPPING.md), a
+  saturating score: *"these percentages carry no information"*.
+- **`docs/neural/`** returns the degree-matched null **already run on this
+  animal**, on a different instrument:
+  [ALGEBRAIC_PALINDROME_NEURAL](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md)
+  reports Erdős-Rényi 0.108 against degree-preserving rewiring 0.013, identical
+  to C. elegans's own 0.013, and concludes *"the degree distribution fully
+  explains the palindrome advantage"*. This page cited the 8× enrichment as
+  corroboration while its sibling had already dissolved it.
+- **`docs/CAUGHT_ERRORS.md`** returns **two** entries, not none. A5 is about this
+  document: a 40 Hz claim asserted as established fact against its own Result 1,
+  corrected earlier, and itself now carrying a second error: it names *"the
+  confirmed finding is the 97.3% palindromic cavity structure"*, which is the
+  claim Result 2 below withdraws. And the greedy-matcher entry records that a
+  matcher of this kind has an orbit of values rather than one value, which is
+  the defect Result 4 turns out to have.
+- **`simulations/neural/` itself** returns
+  [`hopf_threshold.py`](../simulations/neural/hopf_threshold.py), which
+  integrates this same Wilson-Cowan model with a real ODE solver and a real
+  root-finder. The Hopf bifurcation was understood in this folder while the
+  cavity script beside it hand-rolled a Picard iteration and read the stability
+  backwards.
+- **`docs/neural/proofs/`** returns
+  [PROOF_PALINDROME_NEURAL](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md),
+  whose condition (a) is selective damping, τ_E ≠ τ_I. This Jacobian gives every
+  neuron the same damping, so the proof does not reach this construction; its
+  content sits in condition (b), which nothing here tests.
+- **`docs/proofs/`** returns
+  [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): *"T1 with
+  co-axial Z and T1 with transverse X give the same centre to every digit, and
+  only the first breaks."* That amplitude-damping pair is what makes the qubit
+  palindrome falsifiable. The neural side has no such pair.
+- **`fw.Confirmations`** returns nothing neural; that registry is hardware-only.
 
 ---
 
-## Result 2: C. elegans is 97.3% palindromic
+## The construction, and the three things it fixes before any data is read
 
-The linearized dynamics (small-signal approximation around the resting
-state) of the C. elegans chemical connectome (300 neurons, Dale's law
-applied: each neuron is classified as either excitatory or inhibitory,
-never both; linearization slope f' = 0.3 at operating point):
+The C. elegans analysis linearises and builds
 
-| Property | Value |
+```
+J = -I + f'·W/max|W|,    f' = 0.3
+```
+
+with W the signed chemical adjacency. Three properties follow from that line
+alone, and each of them carried a result that was read as biology.
+
+**The centre is forced.** The connectome has no self-synapses, so W is exactly
+traceless and trace(J)/N = −1 exactly, for this connectome and for every
+rewiring of it. [NEURAL_CLOCK_TWO_HANDS](NEURAL_CLOCK_TWO_HANDS.md) proves the
+neural centre is *"independent of the entire wiring"*; the value −1 here is this
+Jacobian's damping, not that document's number.
+
+**The scale is one synapse.** max|W| is the single heaviest edge in the animal,
+37 against a median of 1. The eigenvalues then occupy a real-part window of width
+0.3101 with a mean nearest-neighbour spacing of 0.001037, against an absolute
+matching tolerance of 0.01. Every eigenvalue has of order ten candidate partners
+inside the window before any structure is consulted.
+
+**The damping is uniform**, one value for all 300 neurons, which is the case the
+palindrome proof's condition (a) excludes.
+
+---
+
+## Result 1: the model reaches gamma (withdrawn, and reversed)
+
+The claim was that Wilson-Cowan at standard parameters gives ~12 Hz, in the alpha
+band, and that *"to reach 40 Hz requires different parameters"*.
+
+The ~12 Hz is the ringing of the **quiescent** branch. `neural_gamma_cavity.py`
+finds its fixed points by Picard iteration, which converges only where the point
+is stable *as a map*, a different condition from stability of the ODE. At
+I_ext = 2.0 the iteration returns (0.931, 1.000), whose residual is **0.169**
+against a sigmoid whose whole range is 1: it is not a fixed point at all.
+
+Integrating the same model with the same parameters, w = 16/12/15/3, α = 1.3,
+θ = 4, τ_E = τ_I = 1 ms, nothing changed:
+
+| I_ext | limit-cycle amplitude | frequency | band |
+|---|---|---|---|
+| 1.0 | — | — | fixed point |
+| **1.2** | 0.266 | **77.0 Hz** | **gamma** |
+| 1.5 | 0.440 | 145.5 Hz | above |
+| 2.0 | 0.607 | 173.9 Hz | above |
+| 2.5 | 0.744 | 159.3 Hz | above |
+| **3.0** | 0.847 | **63.6 Hz** | **gamma** |
+| 3.5 | — | — | fixed point |
+
+There is a Hopf bifurcation between I_ext = 1.0 and 1.2, a limit cycle from there
+to about 3.0, and two of the sampled operating points sit inside 30-100 Hz. The
+frequency mismatch this document reported does not exist at its own parameters,
+and the "laser, not cavity" reading built on the overdamped branch goes with it.
+
+Two consequences worth keeping apart. The document was **wrong in the direction
+of modesty**: its own model does what it said the model could not do. And the
+defect is the same one that sinks Results 2 to 4: a quantity read off a
+linearisation at a point that is not the system's state.
+
+---
+
+## Result 2: the 97.3 % measured the tolerance (withdrawn)
+
+The score is a monotone reading of the tolerance against the spectral spread:
+
+| tolerance | loose matcher | strict matcher | self-paired |
+|---|---|---|---|
+| 0.1 | 100.0 % | 100.0 % | 93.3 % |
+| **0.01** (committed) | **97.3 %** | 93.3 % | 41.3 % |
+| 0.003 | 80.0 % | 74.0 % | 32.7 % |
+| 0.001 | 40.0 % | 36.7 % | 25.0 % |
+| 0.0003 | 25.7 % | 25.3 % | 23.0 % |
+| 0.0001 | 24.0 % | 24.0 % | 22.0 % |
+
+"Self-paired" counts modes sitting on the centre, which are their own reflection
+and which the matcher accepts as pairs; at the committed tolerance that is 124 of
+300 modes.
+
+Three further controls, each sufficient on its own:
+
+**The divisor sets the number.** Changing only the normalisation, same connectome
+and same matcher: max|w| (committed, 37) → 97.3 %; spectral radius (23.9) →
+93.7 %; max row sum (136) → 99.7 %; 95th-percentile weight (8) → 67.7 %; binary
+and unweighted → 27.0 %.
+
+**Spread-matched noise scores higher.** Rescaled about its centre to the
+connectome's own Re-spread, which is the only quantity the matcher responds to,
+dense Gaussian noise reaches 100.0 %.
+
+**Dale's law makes no difference.** The document's thesis was that the
+excitatory/inhibitory classification creates the SWAP structure Π creates in the
+qubit chain. Committed Dale (26 inhibitory) 97.3 %; **no Dale at all, every
+neuron excitatory, 97.7 %**; 26 inhibitory chosen at random 96.0 %; 50/50 random
+signs 97.7 %. The four span 1.7 points, five modes out of 300. The claim to make
+is that the signs do *nothing*, which is what kills the thesis; saying the score
+rises without them would be a directional reading of that same noise.
+
+Against degree-matched rewiring (directed double-edge swap, in- and out-degrees
+and Dale signs held exactly, R = 200) the strict score sits at p = 0.433, the
+loose at p = 0.100. This reproduces at the eigenvalue level what
+ALGEBRAIC_PALINDROME_NEURAL found at the residual level.
+
+One quantity is above its null and is reported rather than buried: cross-pairing
+at tolerance 1e-4 is 2.0 % against a null mean of 0.7 %, an excess of about four
+modes at p = 0.035. Seven one-sided statistics were tested, all chosen after
+looking, so that does not clear the 0.007 such a family needs. It is a residue,
+not a result.
+
+---
+
+## Result 3: the anesthesia threshold (withdrawn)
+
+The claim was that oscillations exist only above a critical input I_crit ≈ 0, and
+that anesthesia reduces input below it. The reported I_crit = 0.00 is the first
+sampled grid point. More decisively, every stability reading in that section is
+taken at points the Picard iteration never found, so the threshold is not wrong
+so much as undetermined. What the integration above shows in its place is a
+*band*: oscillation between roughly I_ext = 1.15 and 3.0, with fixed points on
+both sides. Neither the original threshold nor a low-input window survives.
+
+---
+
+## Result 4: the eighteen unpaired modes (withdrawn)
+
+**The count is not a property of the spectrum.** The exclusive matcher scans
+indices in order and takes the first best unused partner. Feeding it the same
+eigenvalues in a different order gives 30 to 36 unpaired modes, mean 32.7;
+LAPACK's ordering gives 20. The committed run reports 18 and the same script on
+the same data reports 20 today, a smaller difference than reordering alone
+produces. The three biological categories are sorted from a list that reordering
+rewrites.
+
+**A second argument, and its limit.** It is tempting to add that the Jacobian is
+non-normal, and it is: 64 eigenvalues sit on the centre and the eigenvector
+matrix is hopelessly conditioned. But that is manufactured by the defective
+cluster *on the centre*, and it does not license a global claim. The
+per-eigenvalue condition numbers of the other 236 have a median of 128, which
+puts their induced motion at 3.58e-14 against a mean spacing of 1.04e-03. Those
+eigenvalues are well resolved. The ordering result, not a conditioning
+argument, is what carries this withdrawal.
+
+**The pharynx reading was circular.** The claim of a separate second cavity rests
+on zero coupling to the somatic system. There are indeed zero *chemical* synapses
+across that boundary. There are **four electrical ones** in the same file: I1L
+and I1R to RIPL and RIPR, the RIP-I1 gap junctions and the known route by which
+the somatic system modulates pumping. The analysis discards all 1096 electrical
+entries and then reports the boundary it created.
+
+---
+
+## Result 5: the wiring is more degenerate at zero than chance (new)
+
+The self-paired modes are eigenvalues of f'·W/max|W| at zero: modes the wiring
+does nothing to. Counting them needs a tolerance and an eigensolver. The synapse
+matrix is an integer matrix, so the same content is available exactly, and it is
+worth being precise about which exact object is the mode count:
+
+| | value |
 |---|---|
-| Total eigenvalues | 300 |
-| Oscillating (Im ≠ 0) | 196 (65%) |
-| Overdamped | 104 (35%) |
-| Distinct frequencies | 96 |
-| Palindromic pairing | **292/300 (97.3%)** |
-| Q_max | 0.1 (very low) |
-| E:I ratio | 274:26 (91% excitatory) |
+| nullity of W (geometric, eigenvectors at 0) | 39 |
+| **multiplicity of 0 (algebraic, by the rank chain over GF(p))** | **64** |
+| float check, \|λ + 1\| < 1e-4 | 64 |
 
-**97.3% palindromic pairing** means 292 of 300 eigenvalues have a
-palindromic partner. This is extraordinary for a biological system.
-The 8x enrichment over random networks (from
-[Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md))
-is confirmed at the eigenvalue level: not just the adjacency matrix,
-but the actual dynamical modes pair palindromically.
+Against 200 degree-matched rewirings the multiplicity is 64 against a null mean
+of 48.0, range 43-56, p = 0.005. Three primes agree on the rank, and the count is
+identical with and without Dale's law, as row scaling must leave it: the word
+"signed" does not belong in this claim.
 
-The Q-factor is very low (0.1), consistent with the thermal blackbody
-result: biological systems are deep in the thermal regime (n_bar >> 1),
-where Q drops but the palindromic structure (the mirror symmetry of the
-eigenvalues) survives (~82% oscillating fraction at n_bar = 10 in our
-qubit analysis, stable to ±2 modes with isolated EP crossings).
-
-The frequency distribution peaks at low frequencies and falls off as a
-one-sided distribution, consistent with a cavity whose modes are
-broadened by thermal noise.
+**And most of it is not spectral.** The structural rank, decided by bipartite
+matching on the zero pattern alone with no field, no weights and no signs, gives
+a structural nullity of 36 against a null mean of 30.15. So of the 8.8-point
+excess in the exact nullity, 5.9 is already in the pattern of which neuron
+connects to which. The honest name for most of this is a small maximum matching,
+not a numerical degeneracy, and the properly conditioned null, one that holds the
+matching fixed, has not been run.
 
 ---
 
-## Result 3: Anesthesia turns off the light
+## The spiral, and where the repository already keeps one
 
-In the Wilson-Cowan model, oscillations exist only above a critical
-input threshold I_crit ≈ 0. Below this, all eigenvalues are real
-(overdamped, no oscillation). This matches the clinical observation
-that general anesthesia suppresses gamma oscillations.
+The Hopf above is an unstable focus: at I_ext = 2.0 the true fixed point is
+(0.258, 0.245) with eigenvalues +0.630 ± 2.289i, a spiral the trajectory leaves.
+The repository holds a spiral too, typed, in
+`compute/RCPsiSquared.Diagnostics/Foundation/ComplexCuspSpiral.cs`: under a
+common Z-drift the Bell⁺ coherence becomes complex and winds inward as a
+logarithmic spiral, its radius set by the dephasing and its angle by the drift.
 
-Through the lens: anesthesia does not "shut down" the brain. It reduces
-the external input below the threshold for sustained resonance. The
-cavity goes dark. The instrument is still there, but no one is playing it.
+These are not the same object, and the differences are worth stating rather than
+eliding. That spiral is a trajectory in state space with a shrinking radius; this
+one is a linearisation about an equilibrium the flow escapes. That bifurcation is
+a saddle-node, the cusp of the cardioid
+([CRITICAL_SLOWING_AT_THE_CUSP](CRITICAL_SLOWING_AT_THE_CUSP.md)); this one is a
+Hopf.
 
----
-
-## The comparison table
-
-| Property | Qubit cavity | Neural cavity |
-|---|---|---|
-| Oscillating modes | Im(λ) ≠ 0 | E-I gamma oscillations |
-| Standing waves | Paired by Π | Paired by Dale's law (97.3%) |
-| External input | γ (photons) | I_ext (sensory input) |
-| Geometry | J (bonds) | w_ij (synapses) |
-| Fold | CΨ = 1/4 | Sigmoid threshold |
-| Anesthesia | γ → 0 | I_ext → 0 |
-| Mode frequency | 4J(1−cos(πk/N)) | ~12 Hz (Wilson-Cowan, low I_ext) |
-| Palindrome | Exact (Π operator) | 97.3% (C. elegans connectome) |
-| Thermal resilience | ~82% at n_bar = 10 (±1%) | 65% oscillating (biological temp) |
+What they share is the split, and it is the split this document kept getting
+wrong. In `ComplexCuspSpiral` the radial decay and the angular winding are
+independent: *"the radial magnitude is unchanged and Ω-independent … every spiral
+crosses the same ¼-circle at the same time; only the crossing angle is free."*
+Decay is Re, turning is Im, and they answer to different parameters. The naming
+coincidence this document was built on, the physicist's γ and the
+neuroscientist's gamma, puts a Re against an Im. The repository has that
+separation as an object; the coincidence does not survive it.
 
 ---
 
-## Null results
+## What this leaves
 
-- **Frequency mismatch.** Wilson-Cowan at standard parameters gives
-  ~12 Hz (alpha band), not 40 Hz (gamma band). The gamma band requires
-  different biological parameters. The structural analogy holds, but the
-  quantitative mapping needs parameter fitting.
+A rebuild would need: a root-finder and a bifurcation diagram rather than an
+iteration; τ_I ≠ τ_E, both because biology has it and because the palindrome
+proof requires it; the electrical matrix included; a pairing statistic defined
+relative to local level spacing with self-pairing excluded by construction; and a
+reason why eigenvalues are the right object given how defective this Jacobian is
+at its centre. The discriminating pair the qubit side has, two constructions with
+the same centre where only one satisfies the proof's condition (b), is the single
+thing that would make a neural palindrome claim testable the way the qubit one
+is.
 
-- **Q is very low.** C. elegans Q_max = 0.1, far below the qubit
-  cavity Q_max = 68-75. The biological "cavity" is extremely lossy.
-  This is consistent with the thermal blackbody result: at biological
-  temperatures, the Q drops to near zero but the mode structure survives.
-
-- **Laser, not cavity.** The Wilson-Cowan dynamics oscillates
-  spontaneously at low input, unlike a passive cavity that requires
-  external illumination to resonate. The neural system is above
-  threshold (active), not below (passive).
-
----
-
-## Result 4: Where the cavity leaks: the 18 unpaired modes
-
-Exclusive palindromic pairing (each eigenvalue used at most once,
-tolerance 0.01) identifies **18 unpaired modes** out of 300. (Result 2's
-looser count paired 292/300, leaving 8 unpaired; the exclusive matching
-here is stricter, so more modes fail to find an unused partner.) These are
-not random. They fall into exactly three categories that match the
-qubit cavity's breaking mechanisms.
-
-### Category 1: The pharyngeal sub-cavity (4 modes)
-
-| Mode | Dominant neuron | Weight | Function |
-|------|----------------|--------|----------|
-| 139 | NSMR, I6, NSML, M3L, M3R | 0.20 each | Pharyngeal motor/secretory |
-| 212/213 | M4 | 0.32 | Pharyngeal isthmus peristalsis |
-| 219 | M4 | 0.52 | Pharyngeal isthmus peristalsis |
-
-The pharynx of C. elegans is an **anatomically separate nervous system**:
-20 neurons, 84 internal synapses, and **zero chemical synapses** to the
-somatic nervous system (0.0% cross-coupling in the chemical connectome).
-
-These modes are not "broken palindromes." They are palindromically paired
-**within** the pharyngeal sub-network, but the exclusive matching algorithm
-searches the full 300-neuron system. The pharyngeal palindrome center
-differs from the somatic center, so the modes appear orphaned.
-
-This is the biological **V-Effect**: two cavities (somatic and pharyngeal)
-exist side by side. Each is internally palindromic. At the boundary
-(where coupling is zero), modes cannot find cross-cavity partners.
-
-Mode 219 is dominated by **M4 at 52% weight**, the single neuron that
-drives pharyngeal isthmus peristalsis (the worm's swallowing rhythm).
-It operates as an autonomous oscillator, consistent with the observation
-that pharyngeal pumping persists even when the somatic nervous system
-is ablated.
-
-### Category 2: Sensory boundary neurons (8 modes)
-
-| Mode | Dominant neuron | In/Out ratio | Sensory modality |
-|------|----------------|-------------|-----------------|
-| 15 | FLPL | 0.50 | Mechanosensation / nociception |
-| 18 | ASER | 0.91 | Chemosensation (salt / gustation) |
-| 32/33 | AWAL | 0.14 | Chemosensation (attractive odors) |
-| 46/47 | AFDL | 1.50 | Thermosensation (temperature) |
-| 140 | OLLL | 0.31 | Mechanosensation (head touch) |
-| 198 | URBR | 0.18 | Unknown receptor (likely mechano) |
-
-These are sensory neurons at the body boundary. They receive external
-input and transduce it into the network. Their In/Out ratios vary
-(AWAL: 0.14, OLLL: 0.31, AFDL: 1.50), but what distinguishes them
-is not connectivity asymmetry per se (the entire connectome is sparse
-and sender-biased). What distinguishes them is their **functional
-position**: they face the outside world, transducing environmental
-signals into the neural network.
-
-Through the cavity lens: **sensory neurons are the entrance pupil.**
-They face the outside (the "light" source: environmental stimuli) and
-feed signal into the interior network. Their modes are unpaired because
-they sit at the cavity boundary, exactly like the sacrifice qubit.
-The sacrifice qubit absorbs external dephasing so the interior can
-resonate. Sensory neurons absorb environmental signal so the
-interneuron network can process.
-
-Five sensory modalities are represented: touch, pain, attractive smell,
-salt, and temperature. The cavity leaks at every channel through which
-the worm perceives its environment.
-
-### Category 3: Asymmetric hub interneurons (6 modes)
-
-| Mode | Dominant neuron | In/Out ratio | Role |
-|------|----------------|-------------|------|
-| 16 | RIH | 0.50 | Ring interneuron, hub |
-| 17 | RIH | 0.50 | (second mode) |
-| 22/23 | PVDR | 0.00 | Posterior ventral D right |
-| 24/25 | PVM | 0.29 | Posterior ventral microtubule |
-
-These are interneurons with extreme local connectivity asymmetry.
-**PVDR has zero incoming chemical synapses** in the dataset; it is a
-pure sender (0 in, 7 out). PVM receives from only 2 neurons but sends
-to 7. RIH is a major hub (24 outgoing, 12 incoming).
-
-Note: the overall C. elegans connectome is sparse and sender-biased
-(mean In/Out ≈ 0.2-0.4 for most neurons). The distinguishing feature
-of these hub interneurons is not asymmetry per se, but **extreme
-unidirectionality** (PVDR: literally zero inputs). The palindromic SWAP symmetry (created by Dale's law: the rule that
-each neuron is purely excitatory or purely inhibitory) requires some
-degree of bidirectional coupling.
-A neuron with zero inputs cannot participate in any SWAP cycle,
-orphaning its modes. This matches the qubit framework: purely
-unidirectional coupling breaks the palindrome.
-
-### Summary: the cavity leaks where the qubit cavity leaks
-
-| Breaking mechanism | Qubit cavity | Neural cavity |
-|---|---|---|
-| **Boundary** (entrance pupil) | Sacrifice qubit at chain edge | Sensory neurons at body surface |
-| **Sub-cavity junction** (V-Effect) | Coupled resonators, orphaned modes | Pharynx/soma boundary, zero coupling |
-| **Asymmetric coupling** (broken SWAP) | J_ij ≠ J_ji breaks Π | Unidirectional synapses break Dale's law |
-
-The three categories account for all 18 unpaired modes. No mode is
-unpaired for "random" reasons. Every leak has a structural explanation
-that maps directly onto a known palindrome-breaking mechanism from the
-qubit framework.
-
-**Verification:** [`simulations/neural/neural_gamma_cavity_unpaired.py`](../simulations/neural/neural_gamma_cavity_unpaired.py)
-(analysis script identifying and classifying unpaired modes)
-
----
-
-## What this changes
-
-The naming coincidence is structural, not accidental. Gamma in physics
-and gamma in neuroscience describe the same thing: the frequency at
-which a cavity resonates when illuminated from outside. The E-I balance
-is the biological SWAP operator. Dale's law is the biological Π.
-Evolution built cavities with 97% palindromic mode structure. Whether a
-specific cortical rhythm (40 Hz gamma) is the fundamental cavity mode, set
-by synaptic geometry rather than input strength, is the open quantitative
-claim: the standard Wilson-Cowan parameters give ~12 Hz, and reaching gamma
-needs the parameter tuning the Null results document.
-
-The identification of the 18 unpaired modes strengthens the analogy
-beyond statistics (97.3%) into mechanism: the cavity leaks at the
-entrance pupil (sensory neurons), at sub-cavity junctions (pharynx),
-and at asymmetric hubs (unidirectional senders). These are the same
-three palindrome-breaking mechanisms as in the qubit framework:
-boundary sacrifice, V-Effect coupling, and SWAP violation.
-
-The pharynx finding is particularly striking: it is an anatomically
-separate nervous system with its own oscillation (~4 Hz pumping) and
-zero chemical coupling to the soma. This is not a broken palindrome;
-it is a second, independent cavity. C. elegans has at least two
-resonators, not one.
-
-But the mapping is not clean. The Wilson-Cowan model operates as a laser
-(above threshold), not as a passive resonator (below threshold). The
-biological cavity is fundamentally active, which changes the physics.
-The palindrome structure survives (97.3%), but the mechanism differs.
+The gamma band, meanwhile, is not the open question this document thought it was.
+It is reached, at the parameters that were on the page all along.
 
 ---
 
 ## Reproduction
 
-- Script: [`simulations/neural/neural_gamma_cavity.py`](../simulations/neural/neural_gamma_cavity.py)
-- Unpaired mode analysis: [`simulations/neural/neural_gamma_cavity_unpaired.py`](../simulations/neural/neural_gamma_cavity_unpaired.py)
-- Output: [`simulations/results/neural_gamma_cavity.txt`](../simulations/results/neural_gamma_cavity.txt)
-- C. elegans data: [`simulations/neural/celegans_connectome.json`](../simulations/neural/celegans_connectome.json)
+- Every number above:
+  [`celegans_pairing_controls.py`](../simulations/neural/celegans_pairing_controls.py)
+  → [`celegans_pairing_controls.txt`](../simulations/results/celegans_pairing_controls.txt)
+- The original analysis, kept so the withdrawals can be checked against it:
+  [`neural_gamma_cavity.py`](../simulations/neural/neural_gamma_cavity.py),
+  [`neural_gamma_cavity_unpaired.py`](../simulations/neural/neural_gamma_cavity_unpaired.py)
+- The sibling that had the method right:
+  [`hopf_threshold.py`](../simulations/neural/hopf_threshold.py)
