@@ -353,9 +353,11 @@ not.
    `Q_SCALE_THREE_BANDS.md`.
 2. **Q_max = |Im λ| / |Re λ|**, a resonator quality factor, defined at
    `experiments/VEFFECT_CAVITY_MODES.md:189` as `J·μ_max/γ` and computed at
-   `simulations/neural/neural_gamma_cavity.py:241`. Both numbers in the
-   comparison at `experiments/NEURAL_GAMMA_CAVITY.md:157` (C. elegans 0.1
-   against the qubit chain's 68 to 75) are this object, not object 1. The 68 to
+   `simulations/neural/neural_gamma_cavity.py:241`. Both numbers in that
+   comparison (C. elegans 0.1 against the qubit chain's 68 to 75) are this
+   object, not object 1. The comparison itself was withdrawn on 2026-08-25:
+   see `experiments/NEURAL_GAMMA_CAVITY.md`, Result 2b, which also closes the
+   neural half of item (5)(b) of the arc `substrate_q_provenance`. The 68 to
    75 is not a property of any qubit: on the N=5 chain
    `VEFFECT_CAVITY_MODES.md:170` gives 72.4 = μ_max·J/γ with
    μ_max = 2(1+cos 36°) = 3.618, evaluated at the sweep values J = 1 and

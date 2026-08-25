@@ -54,7 +54,7 @@ STEP 2: the only thing the matcher can see is tolerance over Re-spread
 The committed construction fixes the scale by dividing W by max|W|, one
 synapse count. A control at a different scale is therefore not a control.
 
-  divisor                        value    loose    sd Re
+  normalisation by               value    loose    sd Re
   ------------------------------------------------------
   max|w| (committed)              37.0    97.3%   0.0274
   spectral radius                 23.9    93.7%   0.0425
@@ -63,8 +63,8 @@ synapse count. A control at a different scale is therefore not a control.
   binary, unweighted                 -    27.0%   0.4117
 
   2276 directed edges, weight median 1 and max 37:
-  the committed divisor is one outlier synapse.
-  [PASS] G3 the score is set by the divisor, which nothing justifies: the same connectome and the same matcher give 27.0% to 99.7% across five defensible normalisations
+  the committed normalisation is by one outlier synapse.
+  [PASS] G3 the score is set by the normalisation constant, which nothing justifies: the same connectome and the same matcher give 27.0% to 99.7% across five defensible normalisations
 
   Matched on Re-spread instead, which is the only quantity the matcher
   responds to, noise with no structure at all is not beaten:

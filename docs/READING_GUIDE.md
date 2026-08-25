@@ -499,8 +499,11 @@ explains what previously required separate derivations.
    thermal.
 
 8. [Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md):
-   C. elegans is 97.3% palindromic. Gamma is the cavity eigenfrequency.
-   Anesthesia is "light off."
+   all four results withdrawn 2026-08-25. The 97.3% measured the matching
+   tolerance, not the connectome; the anesthesia threshold rested on points a
+   Picard iteration never found. Read it for the withdrawal and for what the
+   model does do: a Hopf bifurcation into the gamma band at the same
+   parameters the page called insufficient.
 
 9. [Trapped Light Localization](../experiments/TRAPPED_LIGHT_LOCALIZATION.md):
    Surviving mode energy is center-localized (ratio 1.3-1.4). N+1

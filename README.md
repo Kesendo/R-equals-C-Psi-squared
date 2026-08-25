@@ -282,10 +282,12 @@ The framework's design rules, condensed (each links to its evidence):
 
 ## 7. Beyond qubit chains
 
-**Biology**: C. elegans (302 neurons) has eigenvalues 97.3%
-palindromically paired; Dale's Law plays the role of Π, and all 18
-unpaired modes map to three known breaking mechanisms. The pharynx is
-not a broken palindrome but a second, independent cavity.
+**Biology**: the C. elegans reading was withdrawn on 2026-08-25. Its 97.3%
+palindromic pairing was a reading of one matching tolerance against one
+spectral scale, and Dale's Law turned out to make no difference to the number
+at all. What the re-analysis found instead: the standard Wilson-Cowan
+parameters DO reach the gamma band, 64 to 174 Hz through a Hopf bifurcation,
+which the original page had reported as out of reach.
 **Heisenberg from below**: the coupling form is not postulated; it is
 the unique both-parity-even bilinear forced by the Pauli algebra at
 d = 2, and the V-Effect bridge produces textbook atomic exchange with
@@ -294,7 +296,7 @@ survives partially, with a closed-form ceiling and a closed-form
 operator cap, both full only at d = 2. Water and carbon translations
 live in their own folders, written in the target layer's language.
 
-→ **[Neural Gamma Cavity](experiments/NEURAL_GAMMA_CAVITY.md)** (C. elegans, 18 unpaired modes) | [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites)
+→ **[Neural Gamma Cavity](experiments/NEURAL_GAMMA_CAVITY.md)** (the withdrawal, and the gamma band the model does reach) | [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites)
 → [Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md) (the form forced from Pauli algebra) | [Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) (extreme sectors immune to any 2-body H)
 → [Qudit Partial Palindrome](docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (the operator cap at d > 2) | [Water](docs/water/README.md) (the proton in a hydrogen bond)
 

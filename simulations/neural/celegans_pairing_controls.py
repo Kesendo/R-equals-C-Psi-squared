@@ -38,7 +38,7 @@ script is its fourth sighting rather than its discovery. Named stores:
 WHAT THIS SCRIPT ESTABLISHES
 ----------------------------
   1. the pairing score is a reading of the tolerance against the spectral scale
-     (STEP 1), of the divisor (STEP 2), and of nothing about Dale's law (2b);
+     (STEP 1), of the normalisation constant (STEP 2), and of nothing about Dale's law (2b);
   2. the strict matcher is a function of the eigenvalue LIST rather than of the
      spectrum (STEP 3), which is what the 18-unpaired mode list rests on;
   3. the wiring's degeneracy at zero is real and is mostly a matching fact
@@ -353,16 +353,16 @@ log("synapse count. A control at a different scale is therefore not a control.")
 log()
 eigW = np.linalg.eigvals(W_real)
 nz = W_real[W_real != 0]
-divisors = [
+normalisations = [
     ("max|w| (committed)", float(np.max(np.abs(W_real)))),
     ("spectral radius", float(np.max(np.abs(eigW)))),
     ("max row sum", float(np.max(np.abs(W_real).sum(axis=1)))),
     ("95th-percentile weight", float(np.percentile(np.abs(nz), 95))),
 ]
-log(f"  {'divisor':26s} {'value':>9s} {'loose':>8s} {'sd Re':>8s}")
+log(f"  {'normalisation by':26s} {'value':>9s} {'loose':>8s} {'sd Re':>8s}")
 log("  " + "-" * 54)
 div_scores = {}
-for label, dv in divisors:
+for label, dv in normalisations:
     e = np.linalg.eigvals(-np.eye(N) + F_PRIME * (W_real / dv))
     div_scores[label] = loose_pairing(e) / N * 100
     log(f"  {label:26s} {dv:9.1f} {div_scores[label]:7.1f}% {np.std(e.real):8.4f}")
@@ -373,8 +373,8 @@ log(f"  {'binary, unweighted':26s} {'-':>9s} "
 log()
 log(f"  {len(nz)} directed edges, weight median {np.median(np.abs(nz)):.0f} and "
     f"max {np.max(np.abs(nz)):.0f}:")
-log("  the committed divisor is one outlier synapse.")
-gate("G3 the score is set by the divisor, which nothing justifies",
+log("  the committed normalisation is by one outlier synapse.")
+gate("G3 the score is set by the normalisation constant, which nothing justifies",
      max(div_scores.values()) - min(div_scores.values()) > 50.0,
      f"the same connectome and the same matcher give "
      f"{min(div_scores.values()):.1f}% to {max(div_scores.values()):.1f}% "

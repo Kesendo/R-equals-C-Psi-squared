@@ -8,7 +8,8 @@ fixed point defect, connectome zero multiplicity structural rank, R=CPsi2 neural
 > **All four results are withdrawn, and the one that was a null was wrong in the
 > animal's favour.** The 97.3 % palindromic pairing was a reading of one absolute
 > tolerance against one spectral scale; the score is tunable from 27 % to 99.7 %
-> by the normalisation constant alone, spread-matched noise reaches 100 %, and
+> by the normalisation constant alone, structureless random matrices matched on
+> spectral spread reach 100 %, and
 > the Dale's-law signs this document proposed as the mechanism make no difference
 > at all. The eighteen unpaired modes are not a property of the spectrum: the
 > matcher that produces them depends on the order the eigenvalues arrive in. And
@@ -126,13 +127,13 @@ Integrating the same model with the same parameters, w = 16/12/15/3, α = 1.3,
 
 | I_ext | limit-cycle amplitude | frequency | band |
 |---|---|---|---|
-| 1.0 | — | — | fixed point |
+| 1.0 | n/a | n/a | fixed point |
 | **1.2** | 0.266 | **77.0 Hz** | **gamma** |
 | 1.5 | 0.440 | 145.5 Hz | above |
 | 2.0 | 0.607 | 173.9 Hz | above |
 | 2.5 | 0.744 | 159.3 Hz | above |
 | **3.0** | 0.847 | **63.6 Hz** | **gamma** |
-| 3.5 | — | — | fixed point |
+| 3.5 | n/a | n/a | fixed point |
 
 There is a Hopf bifurcation between I_ext = 1.0 and 1.2, a limit cycle from there
 to about 3.0, and two of the sampled operating points sit inside 30-100 Hz. The
@@ -165,14 +166,15 @@ and which the matcher accepts as pairs; at the committed tolerance that is 124 o
 
 Three further controls, each sufficient on its own:
 
-**The divisor sets the number.** Changing only the normalisation, same connectome
+**The normalisation constant sets the number.** Changing only that constant, same connectome
 and same matcher: max|w| (committed, 37) → 97.3 %; spectral radius (23.9) →
 93.7 %; max row sum (136) → 99.7 %; 95th-percentile weight (8) → 67.7 %; binary
 and unweighted → 27.0 %.
 
-**Spread-matched noise scores higher.** Rescaled about its centre to the
-connectome's own Re-spread, which is the only quantity the matcher responds to,
-dense Gaussian noise reaches 100.0 %.
+**A structureless random matrix scores higher.** Rescaled about its centre to
+the connectome's own Re-spread, which is the only quantity the matcher responds
+to, a dense iid Gaussian matrix reaches 100.0 %. (This is a random-matrix
+control, not a statement about γ, which in this repository is light.)
 
 **Dale's law makes no difference.** The document's thesis was that the
 excitatory/inhibitory classification creates the SWAP structure Π creates in the
@@ -180,7 +182,7 @@ qubit chain. Committed Dale (26 inhibitory) 97.3 %; **no Dale at all, every
 neuron excitatory, 97.7 %**; 26 inhibitory chosen at random 96.0 %; 50/50 random
 signs 97.7 %. The four span 1.7 points, five modes out of 300. The claim to make
 is that the signs do *nothing*, which is what kills the thesis; saying the score
-rises without them would be a directional reading of that same noise.
+rises without them would be a directional reading of that same scatter.
 
 Against degree-matched rewiring (directed double-edge swap, in- and out-degrees
 and Dale signs held exactly, R = 200) the strict score sits at p = 0.433, the
@@ -192,6 +194,27 @@ at tolerance 1e-4 is 2.0 % against a null mean of 0.7 %, an excess of about four
 modes at p = 0.035. Seven one-sided statistics were tested, all chosen after
 looking, so that does not clear the 0.007 such a family needs. It is a residue,
 not a result.
+
+---
+
+## Result 2b: Q_max = 0.1 as a verdict on biology (withdrawn)
+
+The document read `Q_max = 0.1` against the qubit cavity's 68 to 75 as *"the
+biological cavity is extremely lossy"*. Q = |Im λ| / |Re λ|, and the eigenvalues
+of `−I/τ + f'·W/max|W|` are exactly `−1/τ + f'·μ`, so Q is arithmetic on the
+graph spectrum and two chosen constants. Across τ from 1 to 10 ms and f' from 0.3
+to 0.6 it moves by a factor of 51, from 0.086 to 4.343.
+
+The provenance is the sharper point, and it is checkable rather than statistical:
+τ = 1 ms is stipulated bare at `neural_gamma_cavity.py:48-49` for the
+two-population Wilson-Cowan block, and the C. elegans Jacobian at `:216` contains
+**no τ at all**, only a bare `−I`. Reading its unit damping as a millisecond
+membrane constant is an interpretation the page never made explicit.
+[Q Belongs to No Substance](../docs/Q_BELONGS_TO_NO_SUBSTANCE.md) already
+separated this Q from the framework's `Q = J/γ₀`; what it left open, the
+provenance of the numerator and the denominator, is answered here: the
+denominator is a stipulated damping and the numerator is an uncited standard
+parameter set.
 
 ---
 
