@@ -6,6 +6,7 @@
 **Data:** [`simulations/results/blind_site/blind_site_run.txt`](../simulations/results/blind_site/blind_site_run.txt)
 **Second script (§7 only):** [`simulations/blind_seat_mi_sweep.py`](../simulations/blind_seat_mi_sweep.py), parts `gate | sweep | algebra | support | zeno | converge`
 **Second data file:** [`simulations/results/blind_site/blind_seat_mi_sweep.txt`](../simulations/results/blind_site/blind_seat_mi_sweep.txt)
+**Third script (§5 only):** [`simulations/seat_pencil.py`](../simulations/seat_pencil.py), parts `pencil | dim | fence`, exact over ℚ with no eigensolver; run committed at [`seat_pencil_run.txt`](../simulations/results/blind_site/seat_pencil_run.txt)
 **Registry:** the count of §5, its Krylov-complement form and the uniform divisor law are **F157** in [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (registered 2026-08-24), together with the criterion of [The Seat That Cuts](THE_SEAT_THAT_CUTS.md); the typed homes are `compute/MirrorWorld/BlindSeat.cs` (run mode `blind N`) and `SeatCutBlindnessClaim` with the live witness `inspect --root blind`. The Jacobi step §9 leans on, and the kernel identity, are proved in [the span and node-lemma proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md).
 
 Z-dephasing at a single site of an open **uniform** Heisenberg chain has a subspace of
@@ -212,6 +213,45 @@ this page's case, the largest rate present is **2γ_f and never 4γ_f**, so
 F126's book does not describe §§3-4 even though the engine convention is
 identical. That convention is `bridge_sector.py`'s
 mask = −2·Σ_{differing bits} γ_q, matching γ_k(Z_k ρ Z_k − ρ).
+
+**The sweep for §5's seat-pencil addition, 2026-08-25, run by three agents.**
+It took the addition down twice, which is why it is a route and not a theorem.
+**`docs/ANALYTICAL_FORMULAS.md`**: F157 (line 7852) already says the count covers
+this block, "NOT F152's (0,1) coherence block, whose undamped modes the same
+count also counts"; F64 (line 1859) already states its L_coh form exact at every
+γ_B and fences only the H-eigenvector *amplitude* reading, not the node
+criterion, which is a distinction a first draft of this addition got backwards;
+F4's seat bullets (line 421) already say the general count carries "neither the
+zero-bond fence nor a simplicity hypothesis". So the dynamical reading was
+committed before this was written and is not claimed here. **`experiments/`**:
+§5 above already carries the two-line bijection; [The Seat That
+Cuts](THE_SEAT_THAT_CUTS.md) §7 already carries the Cramer identity with no
+fence. **The sweep's own miss, recorded rather than quietly repaired.** It reported
+`experiments/` as swept while missing **§11 of this page**, which prices the
+zero-bond fence exhaustively, 1682 pairs with the Heisenberg book wrong on all of
+them and XY right on 60. A first draft of §5's addition therefore priced the same
+fence again off a 400-draw random sample, got 90 of 1978, and offered that as this
+page's own finding, leaving two prices for one fact 400 lines apart. A reviewer
+caught it; §5's G4 now reproduces §11's numbers instead of competing with them.
+The store the sweep missed was the document it was editing, which is the failure
+mode `docs/CAUGHT_ERRORS.md` calls reading through a keyhole. **`docs/proofs/`**:
+[the span and node-lemma
+proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md) works the density
+sector's L_SE and not this block. **The OpenArcs registry**, arc
+`the_gate_that_does_not_gate`: both of its "STILL TO BUILD" items are marked
+built, and it holds nothing γ-carrying. **`fw.Confirmations` and the C#
+`ConfirmationsRegistry`: nothing**, no hardware confirmation touching this
+quantity. **`docs/GLOSSARY.md`: nothing** under the blind-seat entry beyond the
+Krylov form. **The typed layer**, `SeatCutBlindnessClaim` and
+`compute/MirrorWorld/BlindSeat.cs`: the count and the span reader, nothing
+γ-carrying. What the sweep did **not** find, after targeted searches for
+Sherman-Morrison, Woodbury, matrix-determinant and the phrase "secular equation",
+is the determinant identity itself: the repo's Cramer route is γ-free, a statement
+about the resolvent diagonal rather than about the perturbed determinant. The
+identity is not new mathematics either, being the matrix-determinant lemma for a
+diagonal rank-one update; what the repo did not hold is its application here. §5's
+closing paragraph is where the addition's inventory is kept, and it is the only
+place that inventory is stated.
 
 ---
 
@@ -442,6 +482,131 @@ zero-cut is reported beside the gap it sits in, the largest |Re| counted as zero
 (at most 3.9e-15) against the smallest excluded (at least 2.6e-04). Twelve
 decades, not a threshold chosen to pass.
 
+**The same statement with no eigensolver, and off the uniform chain.** That
+check runs an eigensolver, as the sentence above says, and the divisor law it
+checks is uniform-chain only (§11). Both limits lift together, because the seat
+enters the block generator as a rank-one change of one diagonal entry.
+Multilinearity of the determinant in that column gives, for any Hermitian H, any
+seat j and any scalar s,
+
+  **det(λI − H + s·E_jj) = χ_H(λ) + s·χ_cut(λ),**
+
+with χ_cut the characteristic polynomial of H struck at row and column j: column
+j on the left is the column of λI − H plus s·e_j, and expanding the second piece
+along that column deletes row j along with it. Its cofactor sits at (j, j), so
+the sign is +1. The physical case is s = 2iγ for the −i·H₁ generator above and
+s = −2iγ for EQ-015's +i·H₁ one, so **the sign of s is convention-dependent while
+the identity is not**, and either way the entire γ-dependence of the block
+spectrum rides on χ_cut, the same polynomial
+[F157 in the registry](../docs/ANALYTICAL_FORMULAS.md) takes a gcd with. That is
+a third route to
+[the Cramer identity of The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §7.
+
+What the identity buys is the **subspace**, with no eigenvector basis anywhere in
+it. Write K for the Krylov space span{e_j, H₁ e_j, H₁² e_j, …}, where the seat j
+is the dephased site the paragraph above calls B, and W = K^⊥, so dim W = blind(j)
+by F157's definition. Then e_j lies in K, so the seat projector annihilates W;
+K is H₁-invariant and H₁ is Hermitian, so W is H₁-invariant too; hence W is
+L_coh-invariant and
+
+  **L_coh restricted to W = −i · H₁ restricted to W,**
+
+which is skew-adjoint, so every rate on W is exactly zero, at γ = 0 trivially and
+at every γ > 0 because γ multiplies only zeros there. For the converse take a
+unit v with L_coh v = μv and Re μ = 0; EQ-015's identity read backwards gives
+−Re μ = 2γ|v(j)|², so v(j) = 0 at any γ > 0, hence H₁v = λv with λ real, and
+⟨v, H₁ᵏ e_j⟩ = λᵏ·conj(v(j)) = 0 for every k, which puts v in W. K is
+L_coh-invariant as well, since P_j v = e_j⟨e_j, v⟩ lies in K whenever e_j does,
+so ℂ^N = W ⊕ K splits the generator and the argument just given leaves L_coh no
+purely imaginary eigenvalue on K at all, generalised eigenvectors included.
+**So the undamped space of the coherence block is exactly W, at every γ > 0.**
+
+**Which half of that is new.** The count's scope was already committed: F4's seat
+bullets in the registry say the general form "carries neither the zero-bond fence
+nor a simplicity hypothesis". What the invariance route adds is the same scope for
+the **coherence-block statement**, which the bijection above reaches only through
+the nondegeneracy of the uniform chain. No eigenvector is named here, so that step
+is not spent, and the block statement holds at every graph and every profile, on
+the Heisenberg book and the XY one alike, where the divisor law does not.
+
+Two conventions, neither of which moves a rate.
+[`f64_topology_scan.py`](../simulations/f64_topology_scan.py) writes the generator
+as −i·H₁ − 2γ·P_j and
+[EQ-015 in EMERGING_QUESTIONS](../review/EMERGING_QUESTIONS.md#eq-015) writes
++i·H₁ − 2γ·P_j; as the paragraph above says, that sign does not touch Re λ, and
+P_j is |B⟩⟨B| under the other spelling. The Heisenberg block's E_vac shift is a
+scalar multiple of the identity, so it moves neither K nor any rate.
+
+**What is gated, and what is only stated.** The gate is
+[`simulations/seat_pencil.py`](../simulations/seat_pencil.py), parts
+`pencil | dim | fence`, run committed at
+[the seat-pencil run](../simulations/results/blind_site/seat_pencil_run.txt);
+integer couplings and `Fraction` arithmetic throughout, so each check is an
+equality of exact rationals with no threshold in the file to inspect. **The
+invariance and self-adjointness steps above are not gated**, and two review rounds
+were spent learning why. `blind_basis` returns the nullspace of a Krylov matrix
+whose first row *is* e_j, so w(j) = 0 is one of the equations it solves; and
+MᵀG = GM against the basis's Gram matrix, which a second draft gated as though it
+were about W, is identically the symmetry of H₁, since (GM)[a][b] = ⟨b_a, H₁b_b⟩
+and (MᵀG)[a][b] = ⟨H₁b_a, b_b⟩. It holds on any H₁-invariant subspace in any
+basis. Both checks were removed rather than reworded. What is left:
+
+| gate | what it decides | scope |
+|---|---|---|
+| **G1** | the pencil identity, an elimination determinant against a Faddeev-LeVerrier χ, the two routes written separately in the file | 22212 (book, graph, seat, s, λ) points |
+| **G2** | dim W over ℚ against `blind_truth`'s GF(p) rank. **Weak, and labelled so:** the two build the *same* Krylov matrix line for line and differ only in the field, so it detects a bad prime pair and nothing else | 1282 triples, 1055 with dim W > 0 |
+| **G4** | the committed zero-bond pricing under both of the repo's two truths, and the containment below | 3996 (book, profile, seat) triples, 1998 pairs over two books |
+
+G1 is the strong one. It runs over the twenty graphs of
+[The Seat That Cuts](THE_SEAT_THAT_CUTS.md) and every profile in {0, 1, 2}^(N−1)
+for N = 3..5, both books; since both sides have degree at most N in λ and at most
+1 in s, agreement at N+1 values of λ and two of s **proves** the identity, and
+three values of s are used. G2 sweeps the same set.
+
+**The zero-bond fence, and a finding from running it.** F157 carries two faces of
+one count: the **struck** face deg gcd(χ_H, χ_cut), which carries no fence, and
+the **two-halves** face deg gcd(χ_L, χ_R), where χ_L and χ_R are the
+characteristic polynomials of the two principal submatrices the struck seat leaves
+behind, and which is fenced to profiles with no zero bond. §11 below and F4's seat
+bullets already price that fence, so G4 re-runs their exhaustive set rather than
+sampling a new one. It does not, however, use their truth side: §11's sweep
+compares against the **span** minus one, G4 against the **Krylov** count. Both
+columns are therefore reported.
+
+| Hamiltonian | profiles | triples | struck = Krylov | halves = Krylov | struck = span | halves = span |
+|---|---|---|---|---|---|---|
+| Heisenberg | zero-free | 316 | 316 | 316 | 316 | 316 |
+| Heisenberg | with a zero bond | 1682 | 1682 | 0 | 694 | 0 |
+| XY | zero-free | 316 | 316 | 316 | 316 | 316 |
+| XY | with a zero bond | 1682 | 1682 | 60 | 902 | 60 |
+| | total | 3996 | 3996 | 692 | 2228 | 692 |
+
+The book-split is §11's and its reason is §11's: only the ZZ term always forces
+the degeneracy a zero bond creates, so the Heisenberg side fails totally and the
+60 survivors are all on the XY side.
+
+**What running it under both truths shows is a containment.** The two truths are
+different integers on **1768 of the 3996** triples, 44.2 %, and the two-halves
+face is right on **none** of those 1768. So it is right only where the Krylov
+count and the span minus one already coincide: every disagreement lands on a
+triple the face was going to miss anyway. Its right-count coming out at 692 under
+either truth, which the two rightmost columns show, **follows from that
+containment and is not a second finding**; a first draft of this paragraph
+reported the coincidence as though the price had survived a disagreement it was
+never exposed to. The struck face behaves differently and trivially so: it equals
+the Krylov count on all 3996, so its span column, 2228, is just 3996 − 1768, the
+disagreement restated. The containment is gated: G4 fails if any disagreeing
+triple carries a right two-halves face.
+
+**What this does not add.** The count is F157's; its exactness at every γ is
+F64's and EQ-015's; the bijection into this block, and the fence price itself, are
+this page's own earlier work in the paragraph before and in §11. The determinant
+step is the matrix-determinant lemma specialised to a diagonal rank-one update,
+which is textbook. What is added is a route, the reach it buys, and one measured
+finding: the pencil applied to this block, the invariance argument that carries
+the block statement off the uniform chain, and the truth-independence of the
+fence's price against the truth-dependence of the count.
+
 **Why the composite half was invisible.** The existing data live at N = 5 and
 N = 11, both **prime**, where gcd(2j+1, N) = 1 at every non-centre seat. On a
 prime chain the reflection-parity reading and the divisor law give identical
@@ -449,8 +614,10 @@ answers at every seat, so no run at N = 5 or N = 11 could distinguish them. The
 first discriminating case is composite, and the smallest is **N = 6**, whose
 blind seats 1 and 4 carry one dimension each. An even chain has no
 reflection-fixed seat at all, so a reflection-parity reading predicts no blind
-seat there and the divisor law predicts two; the dimension table above prints
-that row. N = 9 is the smallest ODD discriminating case.
+seat there and the divisor law predicts two. The table above does **not** print
+that row, an earlier draft of this sentence having claimed it does; the nearest
+row it prints is N = 12, whose blind seats 1, 4, 7 and 10 make the same point at
+an even N. N = 9 is the smallest ODD discriminating case.
 
 **Several dephased seats.** A blind subspace is a span of modes, so for a support S
 it is the intersection, and
@@ -761,7 +928,11 @@ sector, which F126 solved. It is not a statement about `Cone.cs` or
 It is not a protection scheme. The blind subspace is blind to a **named
 support** that must be known and strict by construction. In any setting where
 γ sits on every seat it is gone, by §6, so it is not hardware-relevant as it
-stands.
+stands. §5's pencil sharpens the exactness without touching that: the rate is
+exactly zero at every γ, but still only for **one** watched seat, and §6 is where
+that dies. Neither "decoherence-free subspace" nor "protected" is claimed for it
+here, both being spent elsewhere on other objects
+(`PROOF_R90_FROZEN_DIVISOR.md:335`, `ORTHOGONALITY_SELECTION_FAMILY.md:349`).
 
 ## 9. Eight errors this run made, and how each was caught
 
@@ -815,6 +986,8 @@ suspecting on sight when the object at hand is a subspace.
 | λ_k = 4cos(kπ/N) + N − 5 | `PROOF_R90_FROZEN_DIVISOR.md:176-178` |
 | the ZZ term as the mechanism, Neumann against Dirichlet | F2 line 111, D10 line 180 |
 | the (0,1) block generator M = −2i·𝓛_J − 2·diag(γ) | F152 line 7065 |
+| the Cramer identity the §5 pencil re-derives, and its fence-free scope | `THE_SEAT_THAT_CUTS.md` §7, F157 |
+| the zero-bond pricing 1682 / 0 and 1682 / 60 that §5's G4 reproduces | §11 of this page, and F4's seat bullets |
 | ⌊N/2⌋ nodes at the centre of an odd chain | `MEDIATOR_NOISE_GATE_LEVEL_THREE.md:257-261` |
 | the centre subspace = the reflection-odd site space | `PROOF_R90_FROZEN_DIVISOR.md:193, 195` |
 | the genre, an immune count at one named seat | F66, verified at the endpoint, interior open |
@@ -827,6 +1000,9 @@ suspecting on sight when the object at hand is a subspace.
 | **blind seats at even and composite N** | this page |
 | **the intersection law for several dephased seats** | this page |
 | **the same count inside F64's own (0,1) block** | this page |
+| **the seat pencil applied to the coherence block, so the seat's whole γ-dependence rides on χ_cut** (the determinant step itself is the matrix-determinant lemma, textbook) | this page |
+| **the undamped space as exactly the Krylov complement, by invariance rather than by eigenvectors, hence at any graph and profile** | this page |
+| **the two-halves face is right only where the Krylov count and the span minus one coincide: all 1768 disagreements land on triples it already misses** | this page |
 | **the mediator table to γ = 50 with its matched control** | this page |
 | **the state that bounds the asymptotic theorem's γ hypothesis** | this page |
 | **the §7 sweep on a blind preparation, gated against the committed eleven rows** | this page |
@@ -851,7 +1027,7 @@ argument stays the better one, because it names no eigenbasis; what the closed
 forms add is independent agreement with it.
 
 **And the divisor law is a uniform-chain law**, which this page did not say and
-should have. That page's §2 gives the general form:
+should have. That page's §2 gives the **two-halves** form:
 blind(j) = deg gcd(χ(H_left), χ(H_right)), exactly, for any bond profile with no
 zero bond, where χ is the characteristic polynomial and H_left, H_right are the
 two principal submatrices of the single-excitation Hamiltonian that the seat
@@ -871,7 +1047,12 @@ inapplicable, on the Heisenberg book totally and on XY not: of the 1682
 zero-bond (profile, seat) pairs over N = 3..6, all 1682 are wrong on the
 Heisenberg book and 1622 on the XY one, the remaining 60 still coming out
 right, because what a zero bond has to force is a DEGENERACY and only the ZZ
-term forces it always. The
+term forces it always. §5's gate G4 re-runs the same exhaustive set and
+reproduces all four of those counts under BOTH the span truth used here and the
+Krylov count, and the **struck** face deg gcd(χ(H), χ(H struck at j)) is right on
+every one of the 1998 pairs, counted over both books as 3996 triples,
+which is the sense in which the fence belongs to the two-halves phrasing and not
+to the phenomenon. The
 book-specificity matters on this page precisely because the paragraph above
 is already reading both books. That page states the sweep in its abstract and
 runs it in its `criterion` part.

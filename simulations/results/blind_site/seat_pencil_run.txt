@@ -1,0 +1,83 @@
+THE PENCIL.  Watching one seat enters the generator as a rank-one
+change of ONE diagonal entry, so the characteristic polynomial is
+AFFINE in it:
+
+    det(lambda I - H + s E_jj)  =  chi_H(lambda) + s * chi_cut(lambda)
+
+  with chi_cut the polynomial of H struck at row and column j.  The
+  physical case is s = 2 i gamma for the generator
+  L_coh = -i H - 2 gamma P_j (f64_topology_scan.py:128), and
+  s = -2 i gamma for the +i H convention of EQ-015, so the sign of s
+  is convention-dependent while the identity is not.
+
+  G1  the identity over Q, at every seat of the twenty graphs and of
+      the exhaustive chain profiles, both books.  The left side is an
+      elimination determinant and the right side is Faddeev-LeVerrier,
+      so the two sides do not share an implementation.  Both have
+      degree at most N in lambda and at most 1 in s, so agreement at
+      N+1 distinct lambda and 2 distinct s PROVES the identity; three
+      values of s are used, the third checking the first two.
+
+  G1: pass   22212   FAIL 0   over (book, graph, seat, s, lambda) points
+
+THE DIMENSION.  W = K^perp with K the seat's Krylov space.  The
+invariance and self-adjointness steps are DEFINITIONAL and are stated
+in the module docstring rather than gated; an earlier version gated
+them and they could not fail.  What is left is one weak check, kept
+because it is worth something and labelled so it is not read as more.
+
+  G2  dim W over Q here, against blind_truth's GF(p) rank at two
+      primes.  These build the SAME Krylov matrix, line for line, and
+      differ only in the field the rank is taken over, so G2 detects a
+      bad prime pair and NOTHING ELSE.  It cannot see a wrong H, a
+      wrong Krylov matrix or a wrong subspace, because both sides
+      would be wrong together.
+
+  G2: pass   1282   FAIL 0   over (book, graph, seat) triples, one note each, the twenty graphs
+      plus every profile in {0,1,2}^(N-1) for N = 3..5, both books;
+      1055 of the 1282 have dim W > 0
+
+THE FENCE.  F157 carries two faces of one count: the STRUCK face
+deg gcd(chi_H, chi_cut), which carries no fence, and the TWO-HALVES
+face deg gcd(chi_L, chi_R), fenced to profiles with no zero bond.
+The pricing is NOT new: it is committed at THE_BLIND_SITE.md section
+11 and ANALYTICAL_FORMULAS.md F4's seat bullets, as 1682 zero-bond
+(profile, seat) pairs PER BOOK with the Heisenberg book wrong on all
+of them and XY right on 60, and 316 zero-free pairs right on both.
+Counted over both books these are (book, profile, seat) TRIPLES, and
+the totals below are triple counts: 1998 pairs give 3996 triples.
+G4 runs the exhaustive set {0,1,2}^(N-1) for N = 3..6 that those
+numbers were measured on.  This file re-implements the two gcd faces
+and both determinant routes; the Hamiltonian and the two truths are
+imported, so this is not a share-nothing reproduction.
+
+  AND THE TRUTH SIDE IS NOT THE ONE SECTION 11 USED.  Section 11's
+  sweep compares against the SPAN minus one; this compares against the
+  KRYLOV blind count.  They differ on a large minority of the triples,
+  so the tally below is computed under BOTH, and the containment of
+  the disagreements is counted rather than assumed away.
+
+book        profiles            pairs  struck=Krylov  halves=Krylov  struck=span  halves=span
+Heisenberg  zero-free             316            316            316          316          316
+Heisenberg  zero-bond            1682           1682              0          694            0
+XY          zero-free             316            316            316          316          316
+XY          zero-bond            1682           1682             60          902           60
+total                            3996           3996            692         2228          692
+
+  the two-halves face is right on all 632 zero-free triples and on
+  60 of the 3364 that carry a zero bond.
+  the two truths DISAGREE on 1768 of the 3996 triples, 44.2 %,
+  and the two-halves face is right on 0 of those 1768.
+  So the face is right ONLY where the two truths already coincide:
+  every disagreement lands on a triple the face already misses.
+  Its right-count being 692 under either truth follows from that
+  containment and is not a second finding.
+
+  G4: the committed pricing is reproduced under BOTH truths; the
+      struck face equals the Krylov count on all 3996 triples
+      and the span minus one on 2228, that gap being the span
+      identity's own failure off the zero-free profiles, priced;
+      and the 1768 disagreements are contained in the triples
+      the two-halves face already misses.
+
+ALL GATES PASS
