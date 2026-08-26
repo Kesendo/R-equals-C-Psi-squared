@@ -64,11 +64,16 @@ not SIZE. This has been in the repo since January 3
 ([Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md):
 "C = 0.5 means half-occupied"). We took three months to see it.
 
-**2. Exact palindromic symmetry is dead.**
-Networks with exact palindromic symmetry (residual = 0) are
-unconditionally stable. No Hopf bifurcation at any N, any coupling.
-Max Re(eigenvalue) stays at -1/τ_I. The perfect mirror reflects
-everything. Nothing escapes. No oscillation. (balance_vs_size.py)
+**2. Exact palindromic symmetry is NOT dead.**
+The claim this entry used to make, that networks with residual = 0 are
+unconditionally stable with no Hopf bifurcation at any N or coupling, is
+false. The condition forces Re μ + Re μ′ = −2s and nothing more, so
+stability holds only while the spectrum fits a fixed-width strip. Of 200
+exactly palindromic draws at N = 10, 24 oscillate at coupling 0.5 and 45
+are unstable at coupling 10; a 2××2 with residual exactly 0.0 has
+eigenvalues −0.15 ± 0.0866i. "Max Re stays at −1/τ_I" fails there too
+(−0.1042 at the smallest coupling tested).
+([Proof: V-Effect Mechanism](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md))
 Note: "exact" here means population balance (C=0.5) PLUS magnitude
 matching (W[Q(i),Q(j)] = -(τ_{Q(i)}/τ_i)·W[i,j]). Population
 C=0.5 alone is not death -- it is the prerequisite for life.
@@ -247,7 +252,10 @@ This could happen through:
 - Loss of balance (E/I imbalance, as in epilepsy or coma)
 - Loss of coupling strength (metabolic failure, as in ATP depletion)
 - Loss of selective damping (tau_E approaching tau_I, loss of
-  differentiation)
+  differentiation). Corrected 2026-08-26: uniform time constants do not by
+  themselves break the palindrome, since the rate condition then holds for
+  every permutation; what they remove is the requirement that the swap
+  exchange the two populations.
 
 Each of these reduces the number of simultaneously active palindromic
 pairs. When it drops below N_c: the V-Effect can no longer sustain

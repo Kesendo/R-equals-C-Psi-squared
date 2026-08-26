@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 """
+SCOPE NOTE 2026-08-26. Every pairing percentage below is a reading of the
+matcher's tolerance against the spectral spread, not a property of the
+connectome: on the full network this script itself gives 12.7, 2.7, 0.7, 0.7
+and 0.7 percent as tau_I/tau_E goes 1, 1.5, 2, 3, 5, and 12.7, 15.3, 24.0 and
+88.0 percent at tau ratio 1 as the tolerance goes 0.03, 0.10, 0.20, 0.40. What
+holds without a tolerance is a COUNT: under Dale the swap Q would have to match
+253 non-empty excitatory rows onto 18 non-empty inhibitory ones, so the
+condition fails outright. The residual-based comparisons in the sibling scripts
+were withdrawn the same day for a different reason, a difference of
+normalisation constants. See experiments/NEURAL_GAMMA_CAVITY.md and
+docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
+
 Phase 2: C. elegans connectome palindrome test.
 
 300 neurons, real synaptic weights, real E/I classification.
@@ -112,9 +124,11 @@ def check_palindrome(eigenvalues, tol_frac=0.03):
     return paired, len(rates), center
 
 
-# Test 1: Full connectome with selective damping
+# Test 1: Full connectome at several tau ratios. The label 'selective
+# damping' this line used to carry is not what the pairing needs: at
+# uniform tau the damping condition holds for every permutation.
 print("=" * 60)
-print("TEST 1: Full C. elegans (300 neurons), selective damping")
+print("TEST 1: Full C. elegans (300 neurons), several tau ratios")
 print("=" * 60)
 
 for tau_ratio in [1.0, 1.5, 2.0, 3.0, 5.0]:

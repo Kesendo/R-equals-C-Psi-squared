@@ -34,25 +34,33 @@ networks, and if so, why?
 
 ## What we found
 
-The short version: the palindromic symmetry appears in biological
-neural networks, and it requires exactly two ingredients that
-neurobiology already knows are universal. This was not put in by hand.
-The math predicted it; the data confirmed it.
+The short version, as of the corrections of 2026-08-25 and 2026-08-26: the
+palindromic symmetry is a well-defined condition on a neural network's
+wiring, it can be written down entirely in neural terms, and **the one
+animal we tested does not satisfy it.** The math predicted a structure;
+the data did not confirm it. What survives is the translation and the
+proof, not a finding about brains.
 
-1. **The symmetry has two ingredients:** different time constants for
-   excitatory and inhibitory neurons (selective damping), and Dale's
-   Law (E neurons always excite, I neurons always inhibit). Both are
-   universal in neurobiology. Dale's Law is the biological analog of
-   the antisymmetric quantum commutator.
+1. **The symmetry has ONE ingredient, and it is not the one the
+   textbooks supply.** The condition is that some swap Q of the neurons
+   turns the wiring into minus itself. The two things usually named
+   beside it, different time constants for excitatory and inhibitory
+   neurons (selective damping) and Dale's Law, are weaker than they
+   look. At uniform time constants the damping condition reads the same
+   on both sides for every permutation and imposes nothing; what
+   τ_E ≠ τ_I does is force the swap to exchange the two types. Dale's
+   Law fixes the SIGNS of the wiring condition, and only where synapses
+   exist, leaving the zero pattern and the magnitudes to be checked.
    ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md),
    [Proof](proofs/PROOF_PALINDROME_NEURAL.md))
 
-   *Why this matters:* we did not go looking for these ingredients.
-   The quantum proof told us what structure is needed for a palindrome,
-   and when we translated that into neural network language, the
-   answer was: exactly the two things every neuroscience textbook
-   already takes for granted. The palindrome is not an exotic property.
-   It is a consequence of basic neural architecture.
+   *Why this matters:* the appealing version of this story, that the
+   palindrome falls out of two things every neuroscience textbook takes
+   for granted, is the version we wrote for five months and it is not
+   what the proof says. On C. elegans the wiring condition fails
+   outright, and on a count rather than a close call: a qualifying swap
+   would have to send each of the 253 neurons with a non-empty
+   excitatory row to one of the 18 with a non-empty inhibitory row.
 
 2. **An exact algebraic condition** for a perfect palindrome is derived
    from quantum theory. It predicts a specific magnitude ratio between
@@ -60,18 +68,21 @@ The math predicted it; the data confirmed it.
    known E/I labels and synaptic weights.
    ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md))
 
-   *What this means practically:* take any neural wiring diagram where
-   you know which neurons are excitatory and which are inhibitory, and
-   where you know the connection strengths. This condition tells you
-   whether that network has the palindromic symmetry, and if not, how
-   far off it is. It is a single number you can compute from data.
+   *What this means practically:* the condition is a statement you can
+   write down for any wiring diagram with E/I labels and weights. Turning
+   it into a usable measurement is the part that is still open. The number
+   we computed from it, the palindrome residual, evaluates only half the
+   condition and, on blocks as sparse as a connectome's, reads the weight
+   multiset rather than the wiring
+   ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md), question 0).
 
-3. **C. elegans balanced subnetworks** are 8× more palindromic than
-   Erdős-Rényi random networks (robust across parameter choices).
-   Degree-preserving randomization shows this advantage comes from
-   the degree distribution (hub vs peripheral neurons), not from the
-   specific wiring pattern. The degree distribution is itself a
-   biological property that varies between organisms.
+3. **There is no C. elegans palindromic advantage of the size once claimed.**
+   Give the worm and the control the same normalisation rule and the ratio
+   runs **0.960** at N = 10, 0.841 at N = 20 and 0.748 at N = 26: parity at
+   the smallest size, and a smaller gap at the larger ones whose origin the
+   instrument does not decide. Normalised by different constants, as an
+   earlier measurement was, the ratio tracks coupling magnitude to half a
+   percent and says nothing about wiring.
    ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md),
    [Algebraic residual analysis](ALGEBRAIC_PALINDROME_NEURAL.md))
 
@@ -79,25 +90,32 @@ The math predicted it; the data confirmed it.
    diagram (300 neurons, every connection mapped) is one of the best-
    studied networks in biology. Erdős-Rényi networks are the simplest
    possible random networks: connect each pair of neurons with equal
-   probability. The fact that the worm's real network is 8× more
-   palindromic than chance suggests biology is selecting for this
-   structure, though the mechanism is the overall shape of the network
-   (which neurons are hubs), not the specific wiring details.
+   probability. It is tempting to read the 8× as biology selecting for
+   this structure, and the source does not support that: against a
+   degree-preserving rewiring, the null that keeps every neuron's
+   connection count and shuffles only who connects to whom, the residual
+   is 0.0129 against C. elegans's 0.0128, a ratio of 0.997. That row is
+   itself withdrawn and is not the evidence: the rewire keeps every weight
+   in its own row, so it cannot move a metric that reads the weight
+   multiset, and a ratio of one is an identity of the instrument. The 8× measured
+   a normalisation; the matched measurement is the one above.
 
 ---
 
-4. **Coupling two silent networks creates oscillation** (V-Effect).
-   Networks with perfect palindromic symmetry have zero oscillatory
-   modes. Coupling them through a mediator breaks the symmetry and
-   generates up to 62 correlation-space frequencies from zero. The
-   effect peaks at weak coupling and vanishes at strong coupling.
+4. **The V-Effect mechanism is withdrawn; the frequency counts remain.**
+   The premise, that a palindromic network cannot oscillate, is false: the
+   condition makes the spectrum symmetric under μ ↦ −μ − 2s, which forbids
+   nothing off the real axis. Over 200 draws of the generator that produced
+   the original result, 24 are exactly palindromic AND oscillate at the very
+   coupling the result was read at. The coupled system was never palindromic
+   either: it has an odd number of seats, so the mediator is unpaired at
+   every coupling.
 
-   *In plain language:* two perfectly balanced neural populations, each
-   internally stable and non-oscillating, start oscillating the moment
-   you connect them. The connection itself creates new behavior that
-   neither population had alone. This is the same V-Effect we see in
-   quantum systems ([V-Effect Palindrome](../../experiments/V_EFFECT_PALINDROME.md)),
-   now in classical neural dynamics.
+   *In plain language:* connecting two networks does change how many
+   frequencies the dynamics carries, non-monotonically in the coupling
+   strength, and that measurement stands. What we cannot say is that the
+   connection released something a symmetry was holding down.
+   ([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md))
 
 5. **A thermal window exists** for approximate (biological) networks.
    External drive creates oscillatory modes up to a peak (124
@@ -137,16 +155,16 @@ counts are real but pale: the substrate lives almost entirely on its Takt. See
 |----------|---------------|
 | [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) | Palindrome condition, C. elegans test, E-I standing wave |
 | [The Clock's Two Hands](../../experiments/NEURAL_CLOCK_TWO_HANDS.md) | Takt = trace (membrane-set, graph-blind); Rotation = off-diagonal (degree-set); V-Effect and thermal window move only the Rotation |
-| [Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md) | WITHDRAWN 2026-08-25: the 97.3% and the 18 unpaired modes were artifacts of the matching tolerance and of eigenvalue ordering. What stands: the model runs on a limit cycle inside the gamma band at those same parameters, and the wiring's zero-multiplicity exceeds degree-matched rewiring |
-| [V-Effect and Thermal Window](V_EFFECT_NEURAL.md) | Coupling creates oscillation, thermal window, 2× law |
+| [Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md) | The pairing score and the 18 unpaired modes read the matching tolerance and the eigenvalue ordering, not the spectrum. What the page carries: a limit cycle at those parameters, shortest sampled period 5.74 time constants with periods growing towards both folds; and a zero-multiplicity that exceeds degree-matched rewiring. The band in Hz is a unit choice, the integrated model having no tau |
+| [V-Effect and Thermal Window](V_EFFECT_NEURAL.md) | Coupling changes the frequency count, thermal window, 2× law; the "individually silent" premise is withdrawn |
 | [Proof: Palindrome](proofs/PROOF_PALINDROME_NEURAL.md) | Derivation of palindrome condition in 6 steps |
-| [Proof: V-Effect](proofs/PROOF_VEFFECT_MECHANISM.md) | Why exact symmetry is needed, coupling window |
+| [Proof: V-Effect](proofs/PROOF_VEFFECT_MECHANISM.md) | The mechanism refuted: the palindrome is a spectral involution and forbids no oscillation; what the coupling sweep does and does not measure |
 
-If you want to start with the most testable claim, read the Algebraic
-Palindrome document: it gives you a formula you can apply to connectome
-data today. If you want to understand *why* the palindrome exists in
-neural systems, read the Proof. If you are most interested in how
-connection creates new behavior, read the V-Effect document.
+Start with the Algebraic Palindrome document: it states the condition in
+neural terms, tests it on a connectome, and is honest about what its
+instrument can and cannot see. If you want the derivation, read the
+Palindrome Proof. The V-Effect documents are worth reading for what a
+mechanism looks like when it does not survive its own construction.
 
 ---
 

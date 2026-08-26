@@ -3638,7 +3638,7 @@ public static class OpenArcsRegistry
                 + "hard as the spectral pairing failing; it now says truly-class letters for F1 operator identity, "
                 + "with soft as the wider class where only the spectrum pairs), and the cyclopropenyl pair sum "
                 + "(2*alpha - beta, should be 2*alpha + beta, still wrong in the committed script after the doc was "
-                + "fixed). NEURAL_CLOCK_TWO_HANDS.md:149 wrote the trace of L, hence the palindrome center "
+                + "fixed). NEURAL_CLOCK_TWO_HANDS.md:171 (cited before 2026-08-26 as :149) wrote the trace of L, hence the palindrome center "
                 + "2*Sigma(gamma): the conflation section 4.4 warns against AND the wrong constant; both citation "
                 + "sites now name the rate-vs-eigenvalue convention, since 4.4 writes the same centre as "
                 + "+Sigma(gamma). THE SWEEP TOOK THREE PASSES: six carbon docs, then four more files including the "
@@ -7520,7 +7520,7 @@ public static class OpenArcsRegistry
                 "WHAT INSTANCE (1) COSTS, and it is smaller than this arc's first version said. " +
                 "The handover the flight reads at label Q 1.5 to 2.5 sits at theory-Q 3 to 5. But " +
                 "Q_EP = 2/g_eff = 1.5 is NOT a parameter fitted to the flight: " +
-                "Q_REGIME_ANCHORS.md line 13 and ANALYTICAL_FORMULAS.md line 2781 carry " +
+                "Q_REGIME_ANCHORS.md line 13 and ANALYTICAL_FORMULAS.md line 2801 carry " +
                 "Q_peak in {1.5, 2.5} = 2 +- 1/2 as a Tier-1 schema " +
                 "(PolarityPairQPeakDecompositionClaim) predating the flight, and " +
                 "f86_ep_through_the_clock.py line 72 holds the pair with its comment. What is " +
@@ -7877,12 +7877,29 @@ public static class OpenArcsRegistry
                 "the channel SET, not only the rate, which is a real scope limit on the " +
                 "T-enters-only-through-the-rate section. Its outputs are read as values at " +
                 "THERMAL_BREAKING lines 139-143 (Q_max 0.57 and 0.43); only the word measured " +
-                "was repaired there. (b) The NEURAL row, same shape and never audited: " +
-                "NEURAL_GAMMA_CAVITY line 61 numerator from uncited standard biological " +
-                "parameters, denominator 1/tau with tau_E = tau_I = 1.0 ms stipulated in " +
-                "neural_gamma_cavity.py lines 48-49, and lines 109-111 explain the resulting " +
-                "Q_max = 0.1 by a THERMAL regime although no temperature enters a Wilson-Cowan " +
-                "computation at all. (c) The CODE and BANKED-OUTPUT layer still carries the " +
+                "was repaired there. (b) The NEURAL row: ANSWERED 2026-08-25, and it went " +
+                "further than the question. This item asked for the provenance of the " +
+                "numerator and the denominator of NEURAL_GAMMA_CAVITY's Q_max = 0.1. Both " +
+                "are now on the page, in Result 2b: the numerator is an uncited standard " +
+                "biological parameter set, and the denominator is a bare stipulated damping, " +
+                "tau_E = tau_I = 1.0 ms at neural_gamma_cavity.py lines 54-55, while the " +
+                "C. elegans Jacobian carries no tau at all. The review round of the same day " +
+                "then found the denominator leg is worse than stipulated and the finding " +
+                "belongs here: -I/tau + f'W puts tau on the leak term only, which is the " +
+                "Jacobian of no Wilson-Cowan model. Under the correct scaling J = (-I + f'W)/tau " +
+                "the parameter CANCELS from Q exactly, Q = f'|Im mu| / |1 - f' Re mu|, for a " +
+                "SCALAR tau; the run reports the cancellation rather than gating it, " +
+                "because it is algebra and no spectrum could break it, and G21 gates the " +
+                "size of the artifact instead. So the factor of 50.5 that the page " +
+                "attributed to tau and f_prime jointly is f_prime alone; there is no tau axis " +
+                "to have a provenance. The two code paths in that folder do not implement the " +
+                "same model, and at tau = 10 ms the malformed one does not slow the limit cycle " +
+                "down, it removes it. The THIRD leg, the THERMAL-regime explanation of " +
+                "Q_max = 0.1 in a computation no temperature enters, is NOT answered: the " +
+                "2026-08-25 rewrite deleted the paragraph that made the claim. It is struck " +
+                "here deliberately and with the distinction recorded, because a claim that is " +
+                "no longer made is not the same as a question that has been answered; if the " +
+                "thermal reading returns anywhere, this leg returns with it. (c) The CODE and BANKED-OUTPUT layer still carries the " +
                 "un-rescoped verdict: proton_water_chain.py line 281 LABELS its regime " +
                 "A: Water (which is what makes a sweep read as a measurement) and line 492 " +
                 "prints classical water; also dna_base_pairing.py lines 196/203/484-486, " +

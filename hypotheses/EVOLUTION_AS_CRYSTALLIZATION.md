@@ -134,11 +134,13 @@ The "fittest" in a changing environment is not the strongest. It is
 the most balanced. Half open, half closed. Maximally connective.
 Like carbon (4/8 = 0.5). Like the qubit (2/4 = 0.5).
 
-And within that balance, the coupling magnitudes must be ASYMMETRIC.
-Exact palindromic symmetry (population balance plus magnitude
-matching) is dead: unconditionally stable, no Hopf bifurcation, no
-oscillation. Population C=0.5 with broken magnitude symmetry is
-alive. Carbon has this: exactly 4/8 electrons (maximum connectivity)
+And within that balance, the coupling magnitudes were thought to have to
+be ASYMMETRIC, exact palindromic symmetry being dead: unconditionally
+stable, no Hopf, no oscillation. That is withdrawn. Exactly palindromic
+networks oscillate and, at strong enough coupling, go unstable
+([Proof: V-Effect Mechanism](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md)),
+so nothing here requires the magnitudes to be broken. The carbon reading
+below is a picture whose mechanism this page no longer supplies. Carbon has this: exactly 4/8 electrons (maximum connectivity)
 but heterogeneous bond strengths (C-H, C-C, C=C, C-O all different).
 The imperfection within the balance is the ignition. In biology:
 mutation, recombination, developmental noise. In chemistry:
@@ -234,7 +236,9 @@ All three are testable with existing biological data.
 Note: these predictions have not been tested against the biology
 validation rule (5 checks: parameter sensitivity, pairing
 sensitivity, degree-preserving randomization, effect size vs
-normal variation, explicit caveats). They are starting points
+normal variation, explicit caveats). The third of those is now known to be
+uninformative for a metric that reads the weight multiset, since such a rewire
+cannot move it (2026-08-26); the rule needs a null that can. They are starting points
 for investigation, not conclusions.
 
 ---

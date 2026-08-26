@@ -1,8 +1,10 @@
-# The Neural Clock Has Two Hands: the Takt Is the Trace, the Rotation Carries the Wiring
+# The Neural Clock Has Two Hands: the Takt Is the Trace, the Rotation Is What Is Left
 
 **Status:** Tier 2 (computational). The Takt identity (mean Re λ = trace(J)/d
-= −S) is exact and algebraic; the C. elegans reading reproduces the March 2026
-neural result and re-reads it through the clock.
+= −S) is exact and algebraic and is what this page is for. The C. elegans
+reading that used to accompany it re-read the March 2026 result through the
+clock; that result was withdrawn on 2026-08-26 and the comparison rows below say
+so at the place they stood.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Script:** [`simulations/neural/neural_clock_two_hands.py`](../simulations/neural/neural_clock_two_hands.py)
@@ -25,8 +27,8 @@ the E-I swap Q for Π, and S = (1/τ_E + 1/τ_I)/2 for the dephasing sum Σγ. F
 that one translation everything followed: the V-Effect (couple two silent
 balanced networks, oscillation appears from nothing), the thermal window
 (external drive lifts oscillation to a peak, then kills it), the C. elegans
-finding (balanced subcircuits more palindromic than random, but the advantage
-is carried by the degree distribution, not the specific wiring).
+finding (balanced subcircuits scoring better than random), which was withdrawn
+on 2026-08-26 and is treated below rather than inherited here.
 
 Since March we built the clock. A Liouvillian (or here, a Jacobian) eigenvalue
 is λ = −rate + i·ω, a point in the complex plane: a **Takt hand** (the radial
@@ -127,15 +129,50 @@ connectome:
   Erdos-Renyi (Dale)    identical          0.1119      ratio 0.11
 ```
 
-The diagonal piece closes to exactly zero for every network: the Takt condition
-is satisfied automatically the moment τ_E ≠ τ_I, with no constraint on the graph.
-The off-diagonal piece is where the wiring lives, and there C. elegans is eight
-times more palindromic than an Erdős-Rényi random network, but a
-**degree-preserving rewire matches it exactly** (ratio 1.00). So even the
-Rotation hand does not read the fine wiring; it reads only the coarse degree
-distribution (which neurons are hubs, which are peripheral). This reproduces the
-March finding and names it in the clock's language: the fine wiring touches
-neither hand.
+That diagonal column is zero BY CONSTRUCTION and measures nothing. The verifier
+solves for S seat by seat, `S_diag = -(diag(QJQ) + diag(J))/2`
+([`neural_clock_two_hands.py`](../simulations/neural/neural_clock_two_hands.py),
+`residual_split`), which forces diag(R) = 0 for ANY J and ANY permutation Q,
+type-preserving or random. Reading it as "closes for every network, with no
+constraint on the graph" is this repo's own named failure, a gate whose
+expectation is derived from the thing under test. What the fitted S can carry is
+whether it comes out the SAME at every seat, since the theorem needs one scalar:
+it does here, and for the reason Step 3 gives, namely that Q swaps types, so
+1/τ_{Q(i)} + 1/τ_i is the same sum at every seat. That is the Takt statement,
+and it is an algebraic fact about the pairing rather than a measurement of the
+worm. Corrected 2026-08-26. Two corrections of 2026-08-26 attach to the rest of this block and
+both are inherited from the sibling documents rather than found here.
+
+First, "satisfied automatically the moment τ_E ≠ τ_I" is not what the diagonal
+condition says. It reads 1/τ_{Q(i)} + 1/τ_i = 1/τ_E + 1/τ_I at every seat, which
+a type-swapping Q satisfies at ANY time constants; at equal ones it holds for
+every permutation and imposes nothing. Selective damping does not enable it, it
+forces Q to exchange the two types
+([the proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md), Step 3).
+
+Second, **both comparison rows above are withdrawn**, on the grounds set out in
+[Algebraic Palindrome Neural](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md),
+which uses the same residual on the same animal. Two things there apply here
+unchanged. The METRIC reads total coupling magnitude and not wiring: on blocks
+this sparse it has the closed form √2·‖W_eff‖/‖J‖, and an empty network scores a
+perfect 0. And the two arms of the Erdős-Rényi comparison were never on one
+scale: `neural_clock_two_hands.py` normalises the connectome globally, dividing
+by max|W| over the whole animal (`:322`) before cutting the subblock out of it,
+while `random_dale_network` (`:224`) divides its control by that control's own
+maximum (`:230-232`). The degree-preserving row is not rescued by reusing the
+connectome's weights either: under a metric that reads only the weight multiset
+it cannot move by construction. Neither row has been re-run with an instrument
+that could answer the question.
+
+What is untouched is the Takt half above it: the diagonal piece closes to
+exactly zero for every network, and that is the result this page is about. What
+the Rotation hand reads instead of the fine wiring is NOT the degree
+distribution: that reading was withdrawn with the table it rested on, since a
+metric with the closed form √2·‖W_eff‖/‖J‖ reads the weight multiset and the
+degree sequence is not recoverable from it
+([Algebraic Palindrome Neural](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md)).
+What the hand reads on blocks this sparse is coupling magnitude. The clock's
+language survives the withdrawal; the March finding it used to name does not.
 
 ## The quantum seam
 
@@ -167,8 +204,10 @@ Dale's Law plays the role the commutator plays in the quantum case: it is a
 local, per-neuron rule (a neuron's outgoing sign is fixed by its own type), and
 it hands the palindrome its signs for free, with no reference to global graph
 structure, exactly as the commutator hands the quantum mirror its antisymmetry
-for free. The only graph-dependent part left is the off-diagonal magnitude match,
-and the C. elegans result says even that is a coarse, degree-level property.
+for free. The only graph-dependent part left is the off-diagonal magnitude match, and
+what the C. elegans reading says about it is now nothing: the comparison it
+rested on was withdrawn, and the metric that produced it reads coupling
+magnitude on blocks this sparse.
 
 ## Honest caveats
 

@@ -13,6 +13,13 @@ Question: does the Wilson-Cowan Jacobian have the same property?
 
 If yes: there must be a hidden algebraic structure (a classical Pi).
 If no: the palindrome is approximate and the 98.2% is a sparsity artifact.
+
+That second branch is where the evidence now sits, and this script's framing
+predates it: on blocks this sparse the residual collapses to a multiple of
+||W_eff||/||J|| whenever no Q-partner pair of edges is present, so it reads
+coupling magnitude rather than wiring (2026-08-26,
+docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md). The 98.2% itself has still had
+no degree-matched control.
 """
 import numpy as np
 import json

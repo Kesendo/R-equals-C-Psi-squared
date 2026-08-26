@@ -931,7 +931,7 @@ The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version 
 3. **Endpoint dominance is a sine-basis geometry effect,** not a cavity-focusing effect. The ψ_1 mode amplitude at the boundary (sin(pi/(N+1))) controls the endpoint sensitivity. The "cavity window" metaphor was evocative but the mechanism is open-boundary Fourier geometry.
 4. **E_1 = 2cos(pi/(N+1)) is the relevant spectral constant** for the dominant oscillatory modes contributing to c_1. Now formalized as F2b in ANALYTICAL_FORMULAS.md (XY OBC single-excitation spectrum). Distinct from F2 (the Heisenberg chain's (0,1) coherence block) and from V(N).
 
-**V(N) vs V-Effect, category note.** V(N) = 1 + cos(π/N) is an intra-layer scalar (single-chain Q_max/Q_mean, D2 in ANALYTICAL_FORMULAS). The V-Effect as a phenomenon is inter-layer emergence: what appears when two systems are connected (2+2 → 104 frequencies, N=3 palindrome breaking). Same name V, different levels. The c_1 ~ 0.5·V(N) hypothesis tried to read an inter-layer effect via an intra-layer metric, which is the wrong level even if the numbers had matched. A V-Effect signature cannot be measured directly with V(N).
+**V(N) vs V-Effect, category note.** V(N) = 1 + cos(π/N) is an intra-layer scalar (single-chain Q_max/Q_mean, D2 in ANALYTICAL_FORMULAS). The V-Effect as a phenomenon is inter-layer emergence: what appears when two systems are connected (2+2 → 109 frequencies, N=3 palindrome breaking). Same name V, different levels. The c_1 ~ 0.5·V(N) hypothesis tried to read an inter-layer effect via an intra-layer metric, which is the wrong level even if the numbers had matched. A V-Effect signature cannot be measured directly with V(N).
 
 **Scripts:** simulations/c1_veffect_scaling_small.py, simulations/eq021_mode_decomposition.py.
 **Results:** simulations/results/c1_veffect_scaling/c1_vs_N_small.json, simulations/results/eq021_mode_decomposition/.
@@ -975,7 +975,7 @@ Sub-question (a) is effectively closed within its original N range. Extension to
 
 ### EQ-022 (c) closure 2026-05-02: per-middle internal structure inventory
 
-**Source:** systematic reading of each middle's foundational F-entries, plus the 2026-04-22 cartography scoping session ([`RESULT_TASK_MIDDLES_CARTOGRAPHY_FIVE`](../ClaudeTasks/RESULT_TASK_MIDDLES_CARTOGRAPHY_FIVE.md)) and the 2026-05-01 d_zero diagnostic addition.
+**Source:** systematic reading of each middle's foundational F-entries, plus the 2026-04-22 cartography scoping session (`ClaudeTasks/RESULT_TASK_MIDDLES_CARTOGRAPHY_FIVE.md`, a private planning file: `ClaudeTasks/` is gitignored, so this is a pointer and not a link) and the 2026-05-01 d_zero diagnostic addition.
 
 The 2026-04-22 cartography settled the meta-claim about band production (3 components produce a band only when one of them supplies a continuous axis), but it did not enumerate, per-middle, what internal structure each middle owns. The d=0/d=2 substrate primitives that landed 2026-05-01 (`stationary_modes`, `d_zero_decomposition`, `sector_populations`) further revealed that the d-middle is more internally structured than the April cartography saw. With those primitives in place the per-middle inventory closes:
 
@@ -1364,6 +1364,17 @@ Truly category gains effective-one-body Hamiltonians at N=4 (IX+XI variants redu
 
 ## EQ-027
 
+> **SUSPENDED 2026-08-26.** This question is posed entirely in the palindrome
+> residual, and that metric was withdrawn on the C. elegans connectome the same
+> day: on blocks this sparse it has the closed form √2·‖W_eff‖/‖J‖, so it reads
+> total coupling magnitude and not wiring, and an empty network scores a perfect
+> 0. Under that form "38-40% closed by magnitude correction" is what shrinking
+> couplings gives you, and the "remaining 54%" is not a structural residue to
+> explain. Do not spend a session decomposing it. Reopening this needs an
+> instrument that can see wiring, and none has been proposed
+> ([Algebraic Palindrome Neural](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md),
+> the withdrawal box).
+
 **Date:** 2026-04-26
 **Source:** [neural_framework_lens.py](../simulations/neural_framework_lens.py) decomposition (commit 50958b0)
 
@@ -1371,8 +1382,10 @@ The V-Effect bridge correction on C. elegans subnetworks (200 trials, sizes N = 
 
 framework-grounded scope: the Q · J · Q⁻¹ + J + 2·S = 0 algebra describes the joint Jacobian. Restricting to E-E only (or I-I only) gives sub-Jacobians that should each satisfy the corresponding sub-palindrome if the within-population structure is "internally palindromic." The 54% says it isn't. The question of *why* is open.
 
-**Status:** open
-**Pointer:** decompose the 54% by population: compute the relative residual of J_EE (E-only sub-Jacobian) and J_II separately. If one dominates, the breaking is asymmetric. Then probe motif structure within the dominant population.
+**Status:** suspended, 2026-08-26. See the box at the top of this entry.
+**Pointer:** none. The decomposition this entry used to point at is the
+session the suspension exists to prevent; what is needed first is an
+instrument that can see wiring on blocks this sparse.
 
 ---
 

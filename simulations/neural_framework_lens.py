@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
 """Neural networks viewed through the framework's V-Effect lens.
 
+WITHDRAWN AS A DECOMPOSITION TARGET 2026-08-26. Everything here is posed in
+the palindrome residual, and on blocks this sparse that residual has the
+closed form sqrt(2)*||W_eff||/||J||: it reads total coupling magnitude, not
+wiring, and an empty network scores a perfect 0. So "38-40% closed by
+magnitude correction" is what shrinking couplings gives you, and the
+"remaining 54%" is not a structural residue to explain. EQ-027, which this
+script drives, is suspended for that reason (review/EMERGING_QUESTIONS.md).
+See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md, the withdrawal box.
+
 Earlier draft of this script tested "bit_a-even (E-E + I-I) only vs full"
 and was naive: removing the E-I cross-couplings disconnects the two
 populations, and two disconnected damped networks are trivially

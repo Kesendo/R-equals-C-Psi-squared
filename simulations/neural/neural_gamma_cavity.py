@@ -1,4 +1,10 @@
 """
+WITHDRAWN 2026-08-25. The results this script produces (97.3% palindromic
+pairing, Q_max = 0.1, the ~12 Hz reading) were withdrawn as readings of the
+matching tolerance and of a quiescent-branch linearisation. See
+experiments/NEURAL_GAMMA_CAVITY.md and the control suite
+simulations/neural/celegans_pairing_controls.py before using anything here.
+
 Neural gamma as cavity eigenfrequency
 =======================================
 Tests whether Wilson-Cowan dynamics and the C. elegans connectome

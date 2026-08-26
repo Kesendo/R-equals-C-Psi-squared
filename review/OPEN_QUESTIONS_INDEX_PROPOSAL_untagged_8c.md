@@ -314,7 +314,7 @@
 **Question:** Random network controls: Do random networks with balanced E/I also show 98.2% pairing? If yes, the structure is generic to balanced damped networks. If no, biological topology matters.  
 **Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md` (line 432)  
 **Proposed status:** open  
-**Justification:** Genuine open question. The 98.2% pairing is shown for C. elegans biological topology, but random-network controls are not computed. This is the critical control experiment for the neural palindrome claim.
+**Justification:** Genuine open question. The 98.2% pairing is shown for C. elegans biological topology, and the random-network controls that were once missing have since been run and are what withdrew the comparison (2026-08-26); the control still missing is a degree-matched one for the 98.2% itself for the neural palindrome claim.
 
 ---
 
@@ -347,7 +347,7 @@
 
 ### OQ-318
 
-**Question:** What is the correct Q for atoms? Candidates: Kramers conjugation (time-reversal), parity, spin-flip. Condition 1 (selective damping) is unclear for Kramers partners, which typically have identical decay rates.  
+**Question:** What is the correct Q for atoms? Candidates: Kramers conjugation (time-reversal), parity, spin-flip. Condition 1 (selective damping) is unclear for Kramers partners, which typically have identical decay rates, but is not the deciding one: equal rates are not an obstruction in general, though a within-doublet swap does need every doublet to carry the same rate (corrected 2026-08-26).  
 **Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 289)  
 **Proposed status:** open  
 **Justification:** Genuine open question. The qubit Q (Pauli parity) is proven, but the atomic-level analogue is unknown. The difficulty is explicitly stated: Kramers partners typically have identical decay rates, which would break the selective-damping requirement.

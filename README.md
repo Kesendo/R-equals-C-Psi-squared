@@ -282,12 +282,22 @@ The framework's design rules, condensed (each links to its evidence):
 
 ## 7. Beyond qubit chains
 
-**Biology**: the C. elegans reading was withdrawn on 2026-08-25. Its 97.3%
-palindromic pairing was a reading of one matching tolerance against one
-spectral scale, and Dale's Law turned out to make no difference to the number
-at all. What the re-analysis found instead: the standard Wilson-Cowan
-parameters DO put the model on a limit cycle inside the gamma band, which the
-original page reported as out of reach.
+**Biology**: the C. elegans readings were withdrawn on two consecutive days.
+On 2026-08-25 the 97.3% palindromic pairing went: it was a reading of one
+matching tolerance against one spectral scale, and Dale's Law turned out to
+make no difference to the number at all. On 2026-08-26 the repository's oldest
+neural number followed, the 8.46x enrichment against Erdős-Rényi, which
+compared two arms divided by different constants; matched, the ratio runs 0.960
+at N = 10 to 0.748 at N = 26, and what that smaller residue is stays open. What the re-analysis found instead: the standard Wilson-Cowan
+parameters DO put the model on a limit cycle, which the original page reported
+as out of reach. Which physiological band that is stays open, and the page says
+why it cannot be closed there: the integrated equations carry no time-constant
+VALUE, the time unit being the membrane constant itself, so every frequency in
+Hz is a stipulation, and no single one puts
+every cycle in 30 to 100 Hz. One small new result survives beside the
+withdrawal: the wiring is more degenerate at zero than any of 200
+degree-matched rewirings, counted by exact integer arithmetic rather than an
+eigensolver.
 **Heisenberg from below**: the coupling form is not postulated; it is
 the unique both-parity-even bilinear forced by the Pauli algebra at
 d = 2, and the V-Effect bridge produces textbook atomic exchange with
@@ -296,7 +306,7 @@ survives partially, with a closed-form ceiling and a closed-form
 operator cap, both full only at d = 2. Water and carbon translations
 live in their own folders, written in the target layer's language.
 
-→ **[Neural Gamma Cavity](experiments/NEURAL_GAMMA_CAVITY.md)** (the withdrawal, and the gamma band the model does reach) | [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites)
+→ **[Neural Gamma Cavity](experiments/NEURAL_GAMMA_CAVITY.md)** (the withdrawal, and the limit cycle that survives it) | [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites)
 → [Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md) (the form forced from Pauli algebra) | [Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) (extreme sectors immune to any 2-body H)
 → [Qudit Partial Palindrome](docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (the operator cap at d > 2) | [Water](docs/water/README.md) (the proton in a hydrogen bond)
 
@@ -310,7 +320,7 @@ Honesty matters more than impression. Stated plainly, these are things we have *
 - The multi-qubit palindrome has not been measured on hardware (single-qubit CΨ = ¼ validated at 1.9%; N ≥ 2 untested). The standing-wave pairing is computed (10,748 pairs, zero exceptions), not measured.
 - Gamma-is-light is established only for circuit QED, where dephasing **is** photon shot noise in a physical cavity; the broader readings (mass as trapped light, black holes as cavities) are Tier-4 hypotheses with no independent test.
 - The Absorption Theorem is proven for real Hermitian H only (Dzyaloshinskii-Moriya breaks L_H anti-Hermiticity).
-- The biological mappings are structural analogies, and the C. elegans pairing that once anchored them was withdrawn on 2026-08-25: it measured a matching tolerance. The quantum→biology link is Tier 4 and now has one less leg.
+- The biological mappings are structural analogies, and both C. elegans results that once anchored them were withdrawn: the pairing on 2026-08-25, for measuring a matching tolerance, and the 8.46x enrichment on 2026-08-26, for comparing two normalisation constants. The quantum→biology link is Tier 4 and now has one less leg.
 - The receiver-engineering advantage is simulated through N = 13 and confirmed on hardware only at N = 5.
 - Consciousness plays no role in the physics; [The Anomaly](THE_ANOMALY.md) is philosophy, clearly labeled as such.
 

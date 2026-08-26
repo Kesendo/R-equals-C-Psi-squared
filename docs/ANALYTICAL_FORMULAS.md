@@ -1095,8 +1095,15 @@ perspectives computed from the same density matrix.
 
 Exact structural analog of quantum palindrome (Pi * L * Pi^-1 =
 -L - 2*Σγ * I). Derived algebraically from quantum proof
-via E-I swap mapping. C. elegans connectome: residual 0.013 vs
-random 0.108 (8x more palindromic than chance).
+via E-I swap mapping. C. elegans connectome: the 8x against
+Erdos-Renyi (0.013 vs 0.108) is WITHDRAWN 2026-08-26. The two arms
+were normalised by different constants; matched, the ratio runs
+0.960 at N = 10, 0.841 at N = 20 and 0.748 at N = 26, and what
+that smaller residue is remains open
+(ALGEBRAIC_PALINDROME_NEURAL.md, the null table).
+The connectome-level palindrome reading was withdrawn on 2026-08-25
+(experiments/NEURAL_GAMMA_CAVITY.md); the algebra above is untouched
+by that.
 
 **Valid for:** Wilson-Cowan neural networks with Dale's Law.
 **Replaces:** ad-hoc neural symmetry analysis; connectome
@@ -1109,7 +1116,13 @@ palindromic quality assessment.
 
 Analog of lambda + lambda' = -2*Σγ. Every neural mode
 pairs with a partner; decay rates sum to the E-I time constant sum.
-Verified: mean sum = -0.3012, predicted = -0.300 (1.6% max deviation).
+The mean pair sum is NOT a verification of this and never was: for a network
+with no self-coupling it equals trace(J)/(d/2) for ANY partition of the spectrum
+into pairs, palindromic or arbitrary (F137). The March figure "mean sum =
+-0.3012 against a predicted -0.300" is therefore not a 1.6% agreement but a
+number the identity forbids for a full partition; what it says is that the
+reported figure was not one. The informative quantity is the max deviation of
+the individual pair sums, 1.6%. Corrected 2026-08-26.
 
 **Valid for:** linearized Wilson-Cowan networks satisfying F36.
 **Replaces:** neural eigenvalue computation for pairing verification.

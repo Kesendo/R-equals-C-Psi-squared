@@ -383,9 +383,9 @@
 ### OQ-316
 
 **Question:** [Comparison table: quantum vs. neural palindromic features, 7 rows]  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 243)  
-**Proposed status:** resolved  
-**Justification:** Not a question but a completed comparison table. Every feature is systematically evaluated with Yes/No verdicts (palindromic pairing: Yes, 2x decay law: No, exponential state space: No, etc.). The table itself IS the answer.
+**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md`, section "Limitations"  
+**Proposed status:** open  
+**Justification:** Not a question but a comparison table, and two of its verdicts have since reversed: the V-Effect row now reads No rather than "Mechanism yes", the neural mechanism having been withdrawn, and the character-swap row carries the scope condition "synthetic networks only". A table is only an answer while its cells hold; this one needs re-reading against the source before it can be retired.
 
 ---
 
@@ -394,7 +394,7 @@
 **Question:** Can the condition Q·X·Q⁻¹ + X + 2S = 0 be derived from a single axiom set rather than proven separately in each domain?  
 **Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 319)  
 **Proposed status:** needs-human  
-**Justification:** UNIVERSAL_PALINDROME_CONDITION.md identifies three universal conditions (two populations, swap operator Q, antisymmetric coupling) from which the equation emerges in both domains. However, the derivation paths differ: quantum uses commutator antisymmetry, neural uses Dale's Law. Whether a single axiom set can unify both is partially addressed but not resolved. Borderline between partially-resolved and open; needs human judgment on whether the three-condition framework counts as "a single axiom set."
+**Justification:** UNIVERSAL_PALINDROME_CONDITION.md identifies three universal conditions (two populations, swap operator Q, antisymmetric coupling) from which the equation emerges in both domains. However, the derivation paths differ: quantum uses commutator antisymmetry, neural uses Dale's Law for the signs only (corrected 2026-08-26). Whether a single axiom set can unify both is partially addressed but not resolved. Borderline between partially-resolved and open; needs human judgment on whether the three-condition framework counts as "a single axiom set."
 
 ---
 

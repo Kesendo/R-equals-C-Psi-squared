@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 """
+SCOPE NOTE 2026-08-26. Every pairing percentage below is a reading of the
+matcher's tolerance against the spectral spread rather than a property of the
+connectome; celegans_palindrome.py carries the measured tolerance and tau
+families that show it. This script also slices its subnetworks out of a
+GLOBALLY normalised weight matrix, which is the defect that withdrew the
+residual comparisons in the sibling scripts. What holds without a tolerance is
+a COUNT: under Dale the swap Q would have to match 253 non-empty excitatory
+rows onto 18 non-empty inhibitory ones, so the condition fails outright. See
+experiments/NEURAL_GAMMA_CAVITY.md and
+docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
+
 TASK: Inhibitory Position Effect on Palindromic Pairing (C. elegans)
 
 Does WHERE the inhibitory neurons sit in the network affect palindromic
@@ -7,6 +18,12 @@ pairing? The qubit analogy predicts:
 - I at edges (peripheral): highest pairing
 - I at center: different character
 - I random: lowest pairing
+
+These predictions assume the score responds to WHERE a neuron sits. The
+apparatus below ranks position by degree centrality, a sum of coupling
+magnitudes, and the score it feeds is the residual whose magnitude-reading was
+the 2026-08-26 withdrawal. The measured answer was in any case negative
+(r = 0.048).
 
 Usage: python celegans_inhibitory_position.py
 """

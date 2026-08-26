@@ -146,7 +146,9 @@ public static class Formulas
 
     // F36/F37 (T1, neural): the Wilson-Cowan palindrome Q*J*Q + J + 2S = 0 (structural analog of
     // Pi*L*Pi^-1 = -L - 2 Sg), eigenvalue pairing mu_k + mu_k' = -(1/tau_E + 1/tau_I). C.elegans
-    // connectome residual 0.013 vs random 0.108 (8x more palindromic than chance).
+    // connectome residual 0.013 vs random 0.108: the 8x is WITHDRAWN 2026-08-26
+    // (unmatched normalisation under a metric that reads coupling magnitude);
+    // see docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
     public static double F37_NeuralPairSum(double tauE, double tauI) => -(1.0 / tauE + 1.0 / tauI);
 
     // F61 (T1): the bit_a parity Pi^2_X = Z^{tensor N} (the global Z-string), companion to F38's X^N.

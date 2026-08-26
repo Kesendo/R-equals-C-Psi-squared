@@ -313,7 +313,7 @@
 
 ### OQ-320
 
-**Question:** **The inheritance mechanism.** How does the qubit palindrome propagate through atoms, molecules, chemistry, biochemistry to neurons? Dale's Law is the inherited form of the commutator. Through what chain of physical mechanisms? Can the intermediate steps be identified?
+**Question:** **The inheritance mechanism.** How does the qubit palindrome propagate through atoms, molecules, chemistry, biochemistry to neurons? Dale's Law supplies the signs the commutator supplies outright, and only on the support (corrected 2026-08-26). Through what chain of physical mechanisms? Can the intermediate steps be identified?
 
 **Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 305)
 **Section:** Open Questions
@@ -322,8 +322,8 @@
 **Proposed Status:** partially-resolved
 **Confidence:** medium
 **Resolving documents:**
-- `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (lines 37-94): identifies universal algebraic condition Q*X*Q^-1 + X + 2S = 0 as the inheritance mechanism; quantum commutator provides antisymmetry at qubit level, Dale's Law provides it at neural level
-- `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md` (lines 1-147): translates the quantum palindrome to neuroscience; selective damping replaces dephasing, Dale's Law replaces commutator antisymmetry
+- `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (lines 37-94): identifies universal algebraic condition Q*X*Q^-1 + X + 2S = 0 as the inheritance mechanism; the quantum commutator provides the antisymmetry outright while Dale's Law provides only its signs, on the support (corrected 2026-08-26)
+- `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md` (lines 1-147): translates the quantum palindrome to neuroscience; the rate condition replaces dephasing and Dale's Law supplies the signs the commutator supplies outright (corrected 2026-08-26)
 - `docs/HIERARCHY_OF_INCOMPLETENESS.md` (lines 80-131): proposes hierarchy (qubit -> atoms -> molecules -> crystals -> magnetism) but marks intermediate levels as "Incompleteness: ???"
-**Rationale:** The endpoints are connected algebraically (qubit commutator to neural Dale's Law via the universal condition), but the intermediate physical mechanisms at atoms, molecules, and crystals are explicitly acknowledged as open. The chain is identified at endpoints; the steps between are missing.
+**Rationale:** The endpoints are connected algebraically (qubit commutator to the signs neural Dale's Law supplies via the universal condition), but the intermediate physical mechanisms at atoms, molecules, and crystals are explicitly acknowledged as open. The chain is identified at endpoints; the steps between are missing.
 **Search terms used:** "inheritance", "Dale's Law", "neurons", "propagate", "commutator", "ALGEBRAIC_PALINDROME_NEURAL", "HIERARCHY_OF_INCOMPLETENESS"

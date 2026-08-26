@@ -328,7 +328,7 @@ on one level may be confirmed on another.
 
 | Prediction | Qubit (IBM) | Neural (WC/C. elegans) | H-Bond | Cross-level |
 |------------|-------------|----------------------|--------|-------------|
-| Palindromic pairing | Indirect: 2x law 1.97x | 100% WC, 8.3x C. elegans | Exact (2-proton) | **Supported** |
+| Palindromic pairing | Indirect: 2x law 1.97x | 100% WC (by construction); C. elegans WITHDRAWN 2026-08-25 | Exact (2-proton) | **Supported, but not by the worm** |
 | 2x decay law | **1.97x** (1.5% dev) | 1.63x (N=10, not 2x) | Not tested | Quantum-specific |
 | 1/4 boundary | **1.9% dev**, r* 0.000014 | Not 1/4 (Hopf, gain=1) | 0.46 ps (water) | Qubit + H-bond |
 | Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
@@ -338,7 +338,7 @@ on one level may be confirmed on another.
 | Long-range MI | **3.71x** (2,4) pair | Not tested | Not tested | Qubit confirmed |
 
 **Tier system:** Qubit (IBM) = Tier 3 (measured hardware). Wilson-Cowan =
-Tier 2 (computed). C. elegans = Tier 3 (biological data). H-Bond = Tier 2
+Tier 2 (computed). C. elegans = withdrawn (see the palindromic-pairing row). H-Bond = Tier 2
 (computed from proven framework). Cross-level synthesis = Tier 4 (motivated
 by convergence across domains).
 
@@ -357,14 +357,24 @@ pairing. Paired modes decay at rate gamma, unpaired at 2*gamma. The
 
 **Cross-level confirmation:**
 - Wilson-Cowan model: 100% pairing by construction (Tier 2)
-- C. elegans connectome: 8.3x more palindromic than random networks (Tier 3)
+- C. elegans connectome: **withdrawn**. The 8.46x against Erdős-Rényi is a
+  normalisation artifact (2026-08-26): the two arms were divided by different
+  constants, and the arms' mean ‖W_eff‖ differs by 8.50, so the ratio tracked
+  coupling magnitude. Matched against one rule the ratio runs 0.960 at N = 10,
+  0.841 at N = 20 and 0.748 at N = 26, a much smaller residue of open origin. The degree-preserving rewiring that scores an
+  identical 1.0 is withdrawn with it, being unable to move such a metric. The connectome pairing
+  reading was separately withdrawn 2026-08-25 as a reading of the matching
+  tolerance ([Neural Gamma Cavity](NEURAL_GAMMA_CAVITY.md))
 - Hydrogen bond (2-proton): exact pairing, std 5.4e-3 (Tier 2)
 - Analytical proof: holds for all N, all topologies (Tier 1)
 
 **Revised status:** Indirectly supported on qubit hardware (one 5-qubit run,
-2x law 1.97x), supported on neural and molecular levels (model/computed and
-biological), analytically proven for all N and topologies (the proof, not
-the hardware, is the all-N/all-topology result).
+2x law 1.97x), supported on the molecular level and on CONSTRUCTED neural
+networks, analytically proven for all N and topologies (the proof, not
+the hardware, is the all-N/all-topology result). The biological leg is gone:
+as of 2026-08-25 no connectome result supports this row, and on C. elegans the
+palindrome theorem does not even apply, its condition (b) failing on a count of
+253 against 18.
 
 ---
 

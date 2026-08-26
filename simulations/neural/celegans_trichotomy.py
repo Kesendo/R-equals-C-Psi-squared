@@ -3,7 +3,14 @@
 
 The existing palindrome test (algebraic_palindrome.py, celegans_palindrome.py)
 gives a binary reading: how palindromic is the subcircuit, with a worm/
-random ratio of ~8x. This script refines that by classifying each
+random ratio of ~8x against Erdos-Renyi. THAT RATIO IS WITHDRAWN (2026-08-26):
+the control is normalised to its own maximum while the connectome block is
+normalised globally by max|W| = 37, and the residual tracks coupling scale, so
+the comparison measures the constant. Matched, the ratio runs 0.960 at N = 10,
+0.841 at N = 20 and 0.748 at N = 26, and nothing reverses: the 8x is gone and
+the smaller residue is an open question. The classification below normalises its control the same way and
+inherits the defect. See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md and
+experiments/NEURAL_GAMMA_CAVITY.md. This script refines that by classifying each
 subcircuit into one of three classes, the neural analogue of the F77
 trichotomy on the quantum side:
 
@@ -137,9 +144,11 @@ def degree_preserving_rewire(W, signs, n_swaps=None, rng=None):
     sequence, randomly reroute edges. Inlined from validation_checks.py
     to avoid top-level-script side effects on import.
 
-    This is the proper null model: it controls for degree distribution
-    so any palindrome advantage seen against this null is purely a
-    wiring effect, not a degree-distribution artifact.
+    This null was called the proper one and is not (withdrawn 2026-08-26):
+    it keeps every weight in its own row, and on blocks this sparse the
+    residual is a function of the weight multiset, so the null cannot move
+    the number by construction. An identical score against it is an identity
+    of the instrument, not a wiring result.
     """
     if rng is None:
         rng = np.random.RandomState()
@@ -223,9 +232,10 @@ def main():
         # Degree-preserving null: keeps the worm's degree sequence,
         # randomly reroutes edges. Tests whether the trichotomy
         # enrichment is due to specific wiring or just degree distribution
-        # (per the existing caveat in docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md
-        # that the binary palindrome advantage is fully explained by
-        # degree distribution).
+        # (the caveat this used to cite, that the binary palindrome advantage
+        # is fully explained by degree distribution, is struck through at
+        # docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md: the metric does not read
+        # the degree distribution either.)
         W_dp = degree_preserving_rewire(W_sub, signs_sub, rng=rng)
         klass_dp, r_tot_dp, _ = classify_subcircuit(
             W_dp, signs_sub, tau_E, tau_I, alpha=0.3)

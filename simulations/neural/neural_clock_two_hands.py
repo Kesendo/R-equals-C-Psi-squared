@@ -2,6 +2,16 @@
 """
 The two-handed clock on the neural side, and which hand is graph-blind.
 
+PARTIAL WITHDRAWAL 2026-08-26: the two C. elegans COMPARISON rows this script
+prints (Erdos-Renyi and degree-preserving) are withdrawn. The residual has the
+closed form sqrt(2)*||W_eff||/||J|| on blocks this sparse, so it reads coupling
+magnitude and not wiring, and an empty network scores a perfect 0. On top of
+that the two arms are normalised differently: the connectome globally, by
+max|W| over the whole animal, and random_dale_network by its own maximum. The
+Takt result (the diagonal piece closing to zero) is untouched. See
+docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md and
+experiments/NEURAL_CLOCK_TWO_HANDS.md.
+
 SEAM 2 (the clock). The neural Jacobian eigenvalues mu = -rate + i*omega are
 the same clock object as the quantum Liouvillian: a Takt hand (radial decay)
 and a Rotation hand (angular omega), with per-mode angle
@@ -18,7 +28,8 @@ commutator -i[H,.] is traceless in the quantum Liouvillian, where only the
 gamma's set the trace (= the palindrome center 2*Sum gamma). The wiring lives
 entirely in the off-diagonal -- the Rotation. And there C. elegans is matched
 by a degree-preserving rewire but NOT by Erdos-Renyi: even the Rotation is set
-by the coarse degree structure, not the fine wiring.
+by the coarse degree structure. THAT SECOND HALF IS WITHDRAWN, see the notice
+above: the comparison rows cannot support it.
 
 So the neural reading of F1's topology-blindness: the palindrome center is
 bath-set (gamma) in the quantum case and membrane-set (1/tau) here; in neither
@@ -342,15 +353,18 @@ print("  " + "-" * 58)
 print(f"  {'C. elegans':>22s}  {np.mean(ce_diag):12.1e}  {np.mean(ce_off):20.4f}")
 print(f"  {'degree-preserved':>22s}  {'(identical)':>12s}  {np.mean(dp_off):20.4f}")
 print(f"  {'Erdos-Renyi (Dale)':>22s}  {'(identical)':>12s}  {np.mean(er_off):20.4f}")
-print(f"\n  C. elegans / degree-preserved = {np.mean(ce_off)/np.mean(dp_off):.2f}  (~1: degree explains it)")
-print(f"  C. elegans / Erdos-Renyi      = {np.mean(ce_off)/np.mean(er_off):.2f}  (<1: better than fine-random)")
+print(f"\n  C. elegans / degree-preserved = {np.mean(ce_off)/np.mean(dp_off):.2f}  (WITHDRAWN: cannot move)")
+print(f"  C. elegans / Erdos-Renyi      = {np.mean(ce_off)/np.mean(er_off):.2f}  (WITHDRAWN: two normalisations)")
 
 print("\n" + "=" * 72)
 print("READING")
 print("  The Takt hand is the trace: -(1/tau_E + 1/tau_I)/2, membrane-set,")
 print("  graph-blind by an exact identity (W is traceless in J, as -i[H,.]")
 print("  is traceless in L; only the bath sets the center). Coupling and")
-print("  drive move only the Rotation hand. And even the Rotation is set by")
-print("  the coarse degree structure, not the fine wiring -- the neural")
-print("  reading of F1's topology-blindness confirmed today in EXCLUSIONS.")
+print("  drive move only the Rotation hand. THAT IS THE RESULT THAT STANDS.")
+print("  The two comparison rows above are WITHDRAWN (2026-08-26): the")
+print("  two arms were normalised by different constants, and on blocks this")
+print("  sparse the residual collapses to coupling magnitude alone. Nothing")
+print("  here says whether the")
+print("  Rotation hand reads the fine wiring; that question is reopened.")
 print("=" * 72)

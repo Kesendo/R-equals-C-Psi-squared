@@ -490,7 +490,7 @@ is linked to the document where it is described in detail.
 20. Concentrator formula: 139-360× via spatial dephasing optimization (Section 8)
 21. V-Effect: coupling two dead resonators creates 109 new frequencies (100% NEW-NEW). See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md).
 22. Energy Partition: 100% of oscillation is palindromic, unpaired modes decay 2× faster. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
-23. Dale's Law = commutator antisymmetry: the neural palindrome (Q·J·Q + J + 2S = 0) with 96% character swap. See [Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
+23. Dale's Law supplies the SIGNS the commutator supplies for free: the neural palindrome (Q·J·Q + J + 2S = 0), where Dale fixes the antisymmetry's signs but only where a synapse exists, leaving the zero pattern and the magnitudes to be checked. The 96% character swap was measured on SYNTHETIC balanced networks and never on a connectome; the one connectome tested fails the zero-pattern half on a count. See [Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
 24. Hydrogen bond as qubit: proton tunnels |L⟩/|R⟩, palindrome exact, V-Effect creates 104 new frequencies. See [H-Bond Qubit](water/HYDROGEN_BOND_QUBIT.md).
 25. 1/4 = (0.5)²: sigmoid sensitivity σ(1-σ) = 1/4 at inflection, same structure as quantum fold. Parameter-independent.
 26. IBM hardware validates the concentrator: selective DD outperforms uniform by 1.6-2.9×. See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).

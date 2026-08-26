@@ -204,7 +204,7 @@
 **Question:** Is the topological E-I symmetry a consequence of developmental constraints or functional requirements?  
 **Source:** `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md` (line 433)  
 **Proposed status:** open  
-**Justification:** Open question #4. Degree-preserving null model shows palindrome advantage comes from degree distribution (not wiring), but the developmental-vs-functional origin question is unresolved.
+**Justification:** Open question #4. (The degree-preserving reading this line rested on was withdrawn 2026-08-26: that null cannot move a metric which reads the weight multiset, so it shows nothing about degree distribution either.) The developmental-vs-functional origin question is unresolved.
 
 ---
 

@@ -1,4 +1,9 @@
 """
+WITHDRAWN 2026-08-25. The count of unpaired eigenvalues this script produces
+depends on the order the eigenvalues arrive in: reordering the same spectrum
+moves it over a range wider than the count itself. See
+experiments/NEURAL_GAMMA_CAVITY.md, Result 4.
+
 Identify and classify unpaired palindromic modes in C. elegans connectome
 =========================================================================
 Extends neural_gamma_cavity.py with exclusive palindromic matching

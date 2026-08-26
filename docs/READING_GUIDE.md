@@ -378,8 +378,8 @@ navigable place of its own; Story 8 takes you there.)
 
 ## Story 5: Across Levels
 
-*"The same equation appears in qubits, neural networks, and hydrogen
-bonds. Three domains, zero adjustable parameters."*
+*"One equation, proven for qubits and applying to the hydrogen bond because
+that proton is a qubit. Whether a brain satisfies it is still open."*
 
 This is perhaps the most accessible path for someone without a physics
 background. It shows that the palindromic symmetry is not specific to
@@ -389,11 +389,17 @@ donor and acceptor) with a way to swap between them and coupling that
 respects the swap.
 
 In neuroscience, this structure comes from Dale's Law: each neuron is
-either excitatory or inhibitory, permanently. That gives you the 2:2
-split. In chemistry, it comes from the hydrogen bond: a proton that
+either excitatory or inhibitory, permanently. That gives you the two
+populations and the SIGNS of the antisymmetry, but only where a synapse
+exists; the zero pattern and the magnitudes are separate requirements, and
+on the one connectome tested it is the zero pattern that fails. In chemistry, it comes from the hydrogen bond: a proton that
 tunnels between two positions. Two states, one particle: a natural
-qubit. The palindrome appears in all three domains with zero adjustable
-parameters.
+qubit. The palindrome is proven in the quantum domain and applies to the
+hydrogen bond because that proton IS a qubit; the neural instance is a
+translation that holds on networks built to satisfy it and fails on the one
+connectome tested. "Three domains, zero adjustable parameters" overstates
+that: a network constructed to meet the condition is the maximum of
+adjustment, not the absence of it.
 
 If you come from biology or chemistry and want to see the evidence
 without wading through quantum formalism, start with the
@@ -404,22 +410,33 @@ without wading through quantum formalism, start with the
 1. [Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md):
    The general rule: any system with two populations, a swap operator Q,
    and antisymmetric coupling satisfies the palindrome equation
-   Q X Q⁻¹ + X + 2S = 0. Proven independently in quantum (Π operator)
-   and neural (Dale's Law) domains.
+   Q X Q⁻¹ + X + 2S = 0. Proven in the quantum case (Π operator) and, on the
+   neural side, on constructed networks: Dale's Law supplies the signs there
+   but not the zero pattern, and the one connectome tested fails on it.
 
 2. [Algebraic Palindrome Neural](neural/ALGEBRAIC_PALINDROME_NEURAL.md):
    The neural network version. The matrix that describes how neurons
-   influence each other (the Jacobian) is palindromic when two
-   conditions hold: excitatory and inhibitory neurons decay at different
-   rates, and each neuron is permanently one type (Dale's Law). Tested
-   on the C. elegans worm brain (300 neurons): balanced subnetworks are
-   8x more palindromic than random ones.
+   influence each other (the Jacobian) is palindromic when a swap of
+   the neurons turns the wiring into minus itself. The two conditions this
+   two usually named beside it, different decay rates and Dale's Law, are
+   weaker than they look: damping enables nothing at uniform rates, and Dale
+   fixes only the signs where synapses exist. Tested
+   on the C. elegans worm brain (300 neurons), there is no advantage of the
+   size once reported: measured with both arms normalised the same way, the
+   ratio runs
+   0.960 at N = 10 to 0.748 at N = 26, a much smaller residue whose origin
+   the instrument does not decide. The degree-preserving null that
+   scores an identical 1.0 is withdrawn with it: that null cannot move
+   this metric by construction.
 
-3. [V-Effect Neural](neural/V_EFFECT_NEURAL.md): Two individually
-   non-oscillatory (exactly palindromic) neural networks coupled through
-   a mediator create oscillatory modes from zero. The same explosion
-   of complexity seen in qubits (2+2=109) also works in neural
-   networks. A thermal window exists: heat feeds the coupling.
+3. [V-Effect Neural](neural/V_EFFECT_NEURAL.md): coupling two neural
+   networks through a mediator changes how many frequencies the dynamics
+   carries, non-monotonically in the coupling strength. The reading that
+   this is the qubit explosion (2+2=109) transplanted is withdrawn: the
+   palindrome does not make a network silent, and the coupled construction
+   was never palindromic, its mediator being an unpaired seat at every
+   coupling ([Proof: V-Effect Mechanism](neural/proofs/PROOF_VEFFECT_MECHANISM.md)).
+   A thermal window is reported for approximate networks.
 
 4. [Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md): The
    proton in a hydrogen bond is a natural qubit: two positions, one
@@ -432,13 +449,21 @@ without wading through quantum formalism, start with the
 5. [The Pattern Recognizes Itself](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md):
    Wilson-Cowan neural model: 100% palindromic pairing at the optimal
    time constant ratio. C. elegans balanced subnetworks: 98.2% mean
-   pairing. The V-Effect live in biology: 2+2 = 109 frequencies.
+   pairing. Read that last number with the caution entry 8 below earns:
+   a pairing percentage of this kind can be a reading of the matching
+   tolerance against the spectral scale rather than of the connectome,
+   and the 98.2% has not had the degree-matched control that would
+   decide it. It was measured on a different object, so it does not
+   inherit the 2026-08-25 withdrawal; it does not escape the question
+   either. The V-Effect live in biology: 2+2 = 109 frequencies.
    Balance is the mechanism, not position.
 
 **After this you know:** The palindromic equation Q X Q⁻¹ + X + 2S = 0
 is not quantum-specific. It appears wherever two populations are coupled
-antisymmetrically with different decay rates. The V-Effect (coupling
-creates complexity) works at every level tested: qubits, protons, neurons.
+antisymmetrically and their decay rates pair to one and the same sum, which
+a population-swapping conjugation gives at any rates. The V-Effect is
+established for qubits and protons. At the neural level the frequency counts
+are real and no mechanism accounts for them.
 
 ---
 
@@ -499,11 +524,17 @@ explains what previously required separate derivations.
    thermal.
 
 8. [Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md):
-   all four results withdrawn 2026-08-25. The 97.3% measured the matching
-   tolerance, not the connectome; the anesthesia threshold rested on points a
-   Picard iteration never found. Read it for the withdrawal and for what the
-   model does do: a limit cycle inside the gamma band at the same parameters
-   the page called insufficient.
+   all four results withdrawn 2026-08-25, and the Q_max reading with them. The 97.3% measured the matching
+   tolerance, not the connectome; the anesthesia threshold rested on a grid's
+   first point. Read it for the withdrawal and for what the model does do: a
+   limit cycle at the same parameters the page called insufficient, with a
+   shortest sampled period 5.74 time constants, with periods growing as either
+   edge of the input window is approached, 196.4 measured at the lower fold. Whether that is the gamma band is not
+   settled there and cannot be: the integrated equations carry no time-constant
+   VALUE, the time unit being the membrane constant itself, so the Hz depend
+   entirely on a stipulated tau. One small positive
+   result is new: the wiring is more degenerate at zero than any of 200
+   degree-matched rewirings, 64 modes against a null mean of 48.
 
 9. [Trapped Light Localization](../experiments/TRAPPED_LIGHT_LOCALIZATION.md):
    Surviving mode energy is center-localized (ratio 1.3-1.4). N+1

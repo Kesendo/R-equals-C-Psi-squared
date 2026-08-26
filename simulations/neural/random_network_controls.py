@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 """
+WITHDRAWN 2026-08-26 (the C. elegans comparisons; the algebra is unaffected).
+On blocks this sparse the residual collapses to sqrt(2)*||W_eff||/||J||
+whenever no Q-partner pair of edges is present (198 of 200 blocks at N=10), so
+it almost never gets to see the wiring; an empty block scores a perfect 0. The Erdos-Renyi control here is normalised by its OWN maximum while
+the connectome block carries the global max|W| = 37, so the 8x compares two
+constants; the degree-preserving control cannot move under such a metric and
+mostly does not run. See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
+
 Q6: Does the 98.2% palindromic pairing require C. elegans topology?
 
 Control experiment: generate random networks with the same parameters
@@ -337,15 +345,13 @@ for a in [0.01, 0.05, 0.1, 0.3, 0.5, 1.0, 2.0, 5.0]:
     print(f"  {a:6.2f}    {np.mean(sc):5.1f}%  {np.std(sc):5.1f}%  "
           f"[{np.min(sc):.0f}%, {np.max(sc):.0f}%]")
 
-if abs(er_mean - ce_mean) < 10 and abs(fc_mean - ce_mean) < 10:
-    print("  >>> The palindromic pairing is GENERIC.")
-    print("  >>> Any balanced oscillatory network shows it.")
-    print("  >>> C. elegans topology is NOT required.")
-    print("  >>> The mechanism is purely: selective damping (tau_E != tau_I).")
-elif er_mean < ce_mean - 20:
-    print("  >>> The palindromic pairing DEPENDS on topology.")
-    print("  >>> C. elegans structure contributes beyond E/I balance.")
-    print("  >>> Random networks show significantly less pairing.")
-else:
-    print("  >>> Intermediate result. Topology contributes but is not essential.")
-    print("  >>> Detailed analysis needed.")
+print(f"  >>> NO VERDICT is drawn from this comparison: WITHDRAWN 2026-08-26.")
+print("      The arms are normalised by different constants, so the gap between")
+print("      them measures those constants; and the score is a threshold on a")
+print("      residual that reads coupling magnitude on blocks this sparse.")
+print("      The branch verdicts this block used to print, in either direction,")
+print("      were readings of that artifact. Selective damping in particular is")
+print("      NOT the mechanism: at uniform tau the damping condition holds for")
+print("      every permutation and imposes nothing.")
+print("      See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md and")
+print("      docs/neural/proofs/PROOF_PALINDROME_NEURAL.md Step 3.")

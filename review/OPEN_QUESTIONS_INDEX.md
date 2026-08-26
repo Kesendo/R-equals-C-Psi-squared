@@ -1252,7 +1252,7 @@ these earn the "open" stamp.
 
 ### OQ-318
 
-**Question:** **What is the correct Q for atoms?** Candidates: Kramers conjugation (time-reversal), parity, spin-flip. Condition 1 (selective damping) is unclear for Kramers partners, which typically have identical decay rates.
+**Question:** **What is the correct Q for atoms?** Candidates: Kramers conjugation (time-reversal), parity, spin-flip. Condition 1 (selective damping) is unclear for Kramers partners, which typically have identical decay rates, but is not the deciding one: equal rates are not an obstruction in general, though a within-doublet swap does need every doublet to carry the same rate (corrected 2026-08-26).
 
 **Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 289)
 **Section:** Open Questions
@@ -1262,7 +1262,7 @@ these earn the "open" stamp.
 
 ### OQ-319
 
-**Question:** **Exact palindromic symmetry is dead. Broken magnitudes are alive.** Networks with population C=0.5 AND exact magnitude matching are unconditionally stable (no Hopf bifurcation, the point where a system suddenly starts oscillating, like a microphone beginning to screech, at any N, any coupling). The Hopf requires population balance with imperfect magnitudes. Carbon (4/8 population, heterogeneous bonds) exemplifies this: exact half-filling plus broken magnitude symmetry = maximum complexity. In quantum, the commutator provides the "productive imperfection" automatically. What provides it in atoms? In crystals?
+**Question:** **What does the palindrome condition cost a system dynamically?** Not stability: exact magnitude matching buys no such thing. The condition forces only Re μ + Re μ′ = −2s, so stability holds while the spectrum fits a fixed-width strip and fails once it outgrows it; of 200 exactly matched draws at N = 10, 24 oscillate at coupling 0.5 and 45 are unstable at coupling 10. The carbon reading that rested on "exact symmetry is dead" therefore has no mechanism behind it. What, if anything, does a system pay for satisfying the condition?
 
 **Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 294)
 **Section:** Open Questions
@@ -1904,7 +1904,7 @@ these earn the "open" stamp.
 
 ### OQ-321
 
-**Question:** **V-Effect scaling with N.** Neural: 0+0=6 (N=10, coupling=0.05), 0+0=48 (N=20, coupling=0.01), 0+0=62 (N=20, coupling=0.05). How does the number of V-Effect frequencies scale with N?
+**Question:** **V-Effect scaling with N.** Neural: 0+0=6 (N=10, coupling=0.01), 0+0=12 (N=10, coupling=0.05), 0+0=48 (N=20, coupling=0.01), 0+0=62 (N=20, coupling=0.05); the 62 is counted at a threshold incompatible with its own activity count and should be recomputed first. How does the number of V-Effect frequencies scale with N?
 
 **Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 311)
 **Section:** Open Questions
@@ -2326,7 +2326,7 @@ these earn the "open" stamp.
 
 ### OQ-316
 
-**Question:** | Feature | Quantum | Neural | Universal? | |---------|---------|--------|------------| | Palindromic pairing | Exact (proven) | Exact if magnitudes match | Yes | | Character swap | 100% | 96% at moderate coupling | Yes | | V-Effect | From oscillation (2+2=109) | From silence (0+0=48) | Mechanism yes, starting point differs | | 2× decay law | Exact (2.00, N=2..5) | Not exact (0.84-1.63) | No | | CΨ = 1/4 threshold | Fold catastrophe of R = CΨ² | σ(1-σ) = 1/4 at sigmoid inflection | Yes: (0.5)² | | V-Effect from heat | n_bar > 0 creates 2 new modes | Drive P creates no modes | No | | Exponential state space | 2^N (tensor product) | N (linear) | No |
+**Question:** | Feature | Quantum | Neural | Universal? | |---------|---------|--------|------------| | Palindromic pairing | Exact (proven) | Exact if magnitudes match | Yes | | Character swap | 100% | 96% at moderate coupling, synthetic networks only | Yes | | V-Effect | From oscillation (2+2=109) | 0+0=48 on the seeds used; the palindrome does NOT enforce the silence | No: the neural mechanism is withdrawn | | 2× decay law | Exact (2.00, N=2..5) | Not exact (0.84-1.63) | No | | CΨ = 1/4 threshold | Fold catastrophe of R = CΨ² | σ(1-σ) = 1/4 at sigmoid inflection | Yes: (0.5)² | | V-Effect from heat | n_bar > 0 creates 2 new modes | Drive P creates no modes | No | | Exponential state space | 2^N (tensor product) | N (linear) | No |
 
 **Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 243)
 **Section:** The Limitations
@@ -3172,7 +3172,7 @@ these earn the "open" stamp.
 
 ### OQ-320
 
-**Question:** **The inheritance mechanism.** How does the qubit palindrome propagate through atoms, molecules, chemistry, biochemistry to neurons? Dale's Law is the inherited form of the commutator. Through what chain of physical mechanisms? Can the intermediate steps be identified?
+**Question:** **The inheritance mechanism.** How does the qubit palindrome propagate through atoms, molecules, chemistry, biochemistry to neurons? Dale's Law supplies the signs the commutator supplies outright, and only on the support (corrected 2026-08-26). Through what chain of physical mechanisms? Can the intermediate steps be identified?
 
 **Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 305)
 **Section:** Open Questions

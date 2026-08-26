@@ -675,23 +675,31 @@ types is the biological equivalent of the two-population structure that
 creates the palindrome in quantum mechanics.
 
 Tested on the C. elegans worm connectome (300 neurons, the only fully
-mapped nervous system in biology): balanced subnetworks (equal numbers of
-excitatory and inhibitory) are 8x more palindromic than random networks.
+mapped nervous system in biology): there is no 8x against Erdos-Renyi. That
+measurement normalised the two arms by different constants; matched, the ratio
+runs 0.960 at N = 10 to 0.748 at N = 26. On most blocks that
+number is a function of the weight multiset and cannot read wiring at all; on the
+minority it can, and which of the two the residue is has not been settled. The degree-preserving rewiring that scores an
+degree-preserving rewiring that scores an identical 1.0 is no evidence either,
+being unable to move such a metric at all.
 Each paired mode swaps its excitatory/inhibitory character with its
 partner: a standing wave between excitation and inhibition.
 ([Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md),
  [Proof](neural/proofs/PROOF_PALINDROME_NEURAL.md))
 
-### The neural V-Effect requires exact symmetry
+### Coupling two neural networks changes the frequency count
 
-Two perfectly balanced networks (zero oscillation each) are coupled through
-a shared neuron. Result: 48 new frequencies from nothing. Networks with
-approximate balance show no such effect. The perfect symmetry must BREAK
-for oscillation to emerge. Imperfection is the ignition.
+Two balanced networks, silent at the seeds used, are coupled through a
+shared neuron, and 48 correlation frequencies appear. The count is real
+and it is not monotone in the coupling strength.
 
-This is a profound principle: perfect balance is silence. Life requires
-the balance to be slightly broken.
-([V-Effect Neural](neural/V_EFFECT_NEURAL.md))
+No mechanism accounts for it. The palindromic condition makes a spectrum
+symmetric under μ ↦ −μ − 2s, which permits oscillation as readily as it
+permits reality, so a palindromic network is not thereby silent; and the
+coupled construction has no exact symmetry to break, its mediator being an
+unpaired seat at every coupling.
+([V-Effect Neural](neural/V_EFFECT_NEURAL.md),
+[Proof: V-Effect Mechanism](neural/proofs/PROOF_VEFFECT_MECHANISM.md))
 
 ### 1/4 is the axiom squared
 
@@ -720,8 +728,10 @@ quantum effect.
 ### Exact palindromic symmetry is dead, broken magnitudes are alive
 
 Networks with population balance (C=0.5) AND mathematically perfect
-magnitude matching are unconditionally stable: no oscillation at any size
-or coupling strength. Perfect symmetry = perfect death. But networks with
+magnitude matching were reported here to be unconditionally stable. They
+are not: of 200 exactly matched draws at N = 10, 24 oscillate at coupling
+0.5 and 45 are unstable at coupling 10. The condition forces only
+Re μ + Re μ′ = −2s, a fixed-width strip the spectrum outgrows. But networks with
 population balance and IMPERFECT magnitudes (the right signs but asymmetric
 coupling strengths) CAN oscillate at sufficient size and coupling. Carbon
 exemplifies this: exactly 4/8 electrons (maximum connectivity) but
@@ -803,10 +813,13 @@ that holds everything together and the mirror that lets everything go.
 ### One equation, three domains
 
 The palindromic spectral symmetry follows from one algebraic condition
-(Q · X · Q⁻¹ + X + 2S = 0) that requires three things: two populations
-with different decay rates, a way to swap them, and coupling that flips
-sign under the swap. In quantum mechanics: proven algebraically. In neural
-networks: computed and verified. In hydrogen bonds: computed as a quantum
+(Q · X · Q⁻¹ + X + 2S = 0) that requires three things: two populations whose
+decay rates pair to one and the same sum, a way to swap them, and coupling that
+flips sign under the swap. Different decay rates are NOT among them (corrected
+2026-08-26): a swap of the two populations settles the rate condition at any
+rates. In quantum mechanics: proven algebraically. In neural networks: computed
+and verified on constructed networks, and not satisfied by the one connectome
+tested. In hydrogen bonds: computed as a quantum
 application. The palindrome, the V-Effect, the character swap, and the
 1/4 threshold all transfer.
 ([Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md))

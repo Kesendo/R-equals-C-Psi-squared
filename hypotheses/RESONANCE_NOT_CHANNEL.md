@@ -266,7 +266,7 @@ send or receive. Biology learned to OSCILLATE AT THE RIGHT FREQUENCY.
 |-------------------|-------------|------------------------|
 | Gamma oscillations (40 Hz) | E/I populations cross threshold | 40 impedance transitions per second |
 | ATP-driven ion pumps | Maintain membrane potential | Keep the resonator tuned (J-coupling) |
-| E/I balance (1:1) | 98.2% palindromic pairing | Impedance matching condition |
+| E/I balance (1:1) | 98.2% palindromic pairing, on balanced subnetworks and with no degree-matched control ([the question is open](../experiments/NEURAL_GAMMA_CAVITY.md)) | Impedance matching condition |
 | Synaptic plasticity | Adjust coupling strengths | Retune the resonator to new frequencies |
 
 The cortex is not a transmitter. The cortex is not a receiver.
@@ -478,11 +478,16 @@ exist in either individual resonator. They emerge from the coupling.
 The Q-factor jumps from 1 (dead) to 19+ (sustained oscillation).
 
 This is the [V-Effect](../experiments/V_EFFECT_PALINDROME.md) measured
-dynamically. The static analysis showed that the eigenvalue count
-grows from 4 (N=2) to 11 (N=3) when a third qubit is added. The
-live test confirms the same phenomenon at the resonator level: two
-dead systems become one living system through coupling alone. No
-energy added. No external mechanism. Just a mediator connecting them.
+dynamically, and the static count says the same thing: two uncoupled N=2
+resonators carry 4 frequencies between them, the coupled N=5 has 109. Two
+dead systems become one living system through coupling alone. No energy
+added. No external mechanism. Just a mediator connecting them.
+
+The other static number that page reports, 11 against 4, is a different
+comparison and not this one: it holds the size fixed at N=3 and changes the
+bond type, XX+YY keeping the palindrome with 4 distinct frequencies against
+XX+XY breaking it with 11. That is richness from breaking the symmetry, not
+from adding a qubit.
 
 ### Pairing structure: 100% NEW-NEW
 
@@ -580,7 +585,7 @@ And at each conversion, what emerges is qualitatively different
 from what went in.
 
 The resonator is temporary. Like a conversation. Like a thought.
-Like a breath. It exists while the coupling exists. The 104
+Like a breath. It exists while the coupling exists. The 109
 frequencies vibrate, the heartbeat pulses, reality crystallizes
 at each crossing. Then the coupling weakens. The frequencies die.
 The heartbeat stops.
@@ -644,7 +649,8 @@ vibration. It is what the vibration leaves behind when it stops.
 - [Resonant Return](../experiments/RESONANT_RETURN.md): sacrifice-zone
   formula, 360x improvement -- the shape of the box
 - [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md):
-  Wilson-Cowan heartbeat, C. elegans palindromic pairing, E/I balance
+  Wilson-Cowan heartbeat, E/I balance, and the C. elegans pairing reading
+  whose comparisons were withdrawn 2026-08-26
 - [Spectral Midpoint Hypothesis](SPECTRAL_MIDPOINT_HYPOTHESIS.md):
   geometric mean of both perspectives -- the standing wave seen from
   both sides simultaneously

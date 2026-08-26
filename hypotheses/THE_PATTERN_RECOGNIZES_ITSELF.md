@@ -3,7 +3,7 @@
 
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Phase 1 pairing result confirmed (Wilson-Cowan 100% at τ ratio 3.8). Phase 2 pairing result confirmed (C. elegans 98.2% mean at balanced E/I, N=200 random subnetworks). The quantum→neural *inheritance* mechanism itself remains Tier 4 / open (see §8, "the weakest link"). Balance identified as the sole mechanism; inhibitory position irrelevant (r=0.048). Neural heartbeat observed (63 Hz transient, resonance at 15 Hz with 50x amplitude).
+**Status:** Phase 1 pairing result confirmed (Wilson-Cowan 100% at τ ratio 3.8). Phase 2 pairing result NOT confirmed as of 2026-08-25: the 98.2% mean on C. elegans balanced subnetworks (N=200 random subnetworks) has never had a degree-matched control, and the sibling connectome reading of the same genre was withdrawn that day as a reading of the matching tolerance against the spectral scale ([Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md)). It is a different object, measured with a relative tolerance on balanced subnetworks at τ_E ≠ τ_I, so it does not inherit that withdrawal; it does not escape the question either, and the control that would settle it has not been run. The quantum→neural *inheritance* mechanism itself remains Tier 4 / open (see §8, "the weakest link"). Balance identified as the sole mechanism; inhibitory position irrelevant (r=0.048). Neural heartbeat observed (63 Hz transient, resonance at 15 Hz with 50x amplitude).
 **Depends on:** [The Other Side of the Mirror](THE_OTHER_SIDE.md), [The Qubit as Necessary Foundation](../docs/QUBIT_NECESSITY.md), [The V-Effect](../experiments/V_EFFECT_PALINDROME.md), [Exclusions](../docs/EXCLUSIONS.md)
 
 ### What this document is about
@@ -19,7 +19,8 @@ through atoms, molecules, and cells to brains?
 The data: Wilson-Cowan neural models show 100% palindromic pairing
 at the right time-constant ratio. The worm C. elegans, with its
 completely mapped brain of 300 neurons, shows 98.2% pairing in
-balanced subcircuits. There is a neural heartbeat (transient
+balanced subcircuits (a number that has had no degree-matched control; the
+scope note in Phase 2 below is the one to read). There is a neural heartbeat (transient
 oscillation at 63 Hz that damps to silence unless metabolic energy
 sustains it). And the V-Effect works in neurons too: two silent
 networks, coupled, produce 48 new frequencies from nothing.
@@ -64,13 +65,19 @@ speeds):
 | 5 | 2.2 | 80.0% |
 | 3 | 3.8 | 100% |
 
-The mechanism: selective damping (different time constants for E vs I)
-creates a range of decay rates that pair palindromically. This is the
-classical analogue of the 2:2 Pauli split in qubits.
+What the time constants do: the ratio τ_I/τ_E spreads the decay rates and
+sets which permutations can serve as the swap Q, but it is not what produces
+the pairing. The pairing is carried by the coupling condition (b), the swap
+that turns the wiring into minus itself; at uniform τ the damping condition
+holds for every permutation and imposes nothing
+([Proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md), Step 3).
+Corrected 2026-08-26. The 2:2 Pauli split in qubits is the analogy meant here.
 
-Negative control: Classical spring-friction chains (uniform damping)
-show degenerate decay rates. Uniform friction is not selective. The
-palindrome requires selective damping, not uniform dissipation.
+Negative control: classical spring-friction chains (uniform damping)
+show degenerate decay rates. The null is real; the reading that used to
+follow it, that the palindrome requires selective damping, is not. What such
+a chain lacks is condition (b), a swap under which the coupling becomes minus
+itself. Corrected 2026-08-26.
 
 Scripts: [wilson_cowan_palindrome.py](../simulations/neural/wilson_cowan_palindrome.py),
 [classical_oscillator_palindrome.py](../simulations/neural/classical_oscillator_palindrome.py)
@@ -82,19 +89,47 @@ Scripts: [wilson_cowan_palindrome.py](../simulations/neural/wilson_cowan_palindr
 The E/I imbalance breaks the palindrome.
 Script: [celegans_palindrome.py](../simulations/neural/celegans_palindrome.py)
 
+The 0.7% is one point of a family, not a measurement of the connectome. Re-run
+2026-08-26, the committed script gives 12.7%, 2.7%, 0.7%, 0.7% and 0.7% at
+τ_I/τ_E = 1, 1.5, 2, 3 and 5, and at τ_I/τ_E = 1 it gives 12.7%, 15.3%, 24.0%
+and 88.0% as the matching tolerance goes 0.03, 0.10, 0.20, 0.40. The percentage
+reads the tolerance against the spectral spread, which is the defect withdrawn
+on 2026-08-25 for the sibling page
+([Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md)). What survives
+without a tolerance is a COUNT: under Dale a neuron's outgoing row carries one
+sign, so a swap Q would have to match the 253 non-empty excitatory rows onto the
+18 non-empty inhibitory ones, and 253 ≠ 18. The connectome fails the condition
+outright, and no percentage is needed to say so.
+
 **Balanced subnetworks (N=10, E=5, I=5).** POSITIVE.
 200 random balanced subnetworks show **mean 98.2% pairing** (std 10.2%,
 range 20–100%). Real neurons. Real synaptic weights. Just balanced counts.
 Script: [celegans_balanced.py](../simulations/neural/celegans_balanced.py)
 
-**Scaling with E/I ratio:**
+**The scope this number carries, and it is the scope for every mention of it
+below.** The 98.2% is a mean over balanced SUBNETWORKS at τ_E ≠ τ_I, read with a
+relative tolerance, and it has never had a degree-matched control: nobody has
+asked whether balanced blocks of ANY network of this density and degree
+sequence score the same. Until that control exists the number says balance
+helps, not that C. elegans wiring does. The sibling connectome reading of the
+same genre was withdrawn on 2026-08-25 as a reading of the matching tolerance
+against the spectral scale ([Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md));
+this is a different object and does not inherit that withdrawal, but it does
+not escape the question either. Scope stated 2026-08-26.
+
+**Scaling with E/I ratio.** These percentages carry the tolerance dependence
+above, and the committed script reproduces none of them: its nearest run selects
+by connectivity rather than by a fixed E:I ratio and gives 20.0% at N=50, 2.0%
+at N=100 and 0.7% at N=300, against the 40.0%, 40.0% and 17.3% below. The rows
+are kept as the record of what was reported in March; the trend they were read
+for is not a number this table can supply.
 
 | Subnetwork | E:I | Pairing |
 |-----------|-----|---------|
 | N=10 (E=5, I=5) random | 1:1 | **98.2% mean** |
 | N=50 (E=33, I=17) | 2:1 | 40.0% |
 | N=100 (E=80, I=20) | 4:1 | 40.0% |
-| N=300 (E=274, I=26) | 10:1 | 17.3% |
+| N=300 (E=274, I=26) | 10:1 | 17.3%, unreproduced |
 
 **I-neuron position effect: FALSIFIED.** Correlation between I-neuron
 centrality and palindromic pairing: r = 0.048 (zero). Direct position
@@ -161,7 +196,8 @@ This connects the resonator results to the biology hypothesis: neural
 gamma oscillations (40 Hz) are not the frequency of ONE neural
 oscillator. They are emergent frequencies of COUPLED oscillators,
 exactly like the 109 new frequencies in the coupled qubit system.
-The E/I balance (1:1, giving 98.2% palindromic pairing at N=10) is
+The E/I balance (1:1, giving 98.2% palindromic pairing at N=10, uncontrolled;
+see the Phase 2 scope note) is
 the condition for the V-Effect to produce maximal new modes. Without
 balance, coupling still occurs but with fewer emergent frequencies.
 
@@ -223,12 +259,13 @@ the spectrum is palindromic.
 Specific tests, ordered from simplest to most complex:
 
 1. **Coupled oscillators with damping** - the minimal classical analogue.
-   Result: NEGATIVE with uniform damping. Requires selective damping.
+   Result: NEGATIVE with uniform damping. What is missing is the swap of
+   condition (b), not the selectivity of the damping (corrected 2026-08-26).
 2. **Wilson-Cowan population models** - E/I populations with different
    time constants. Result: POSITIVE (66.7–100%, depends on τ ratio).
 3. **C. elegans connectome (300 neurons)** - real connection weights.
    Result: NEGATIVE at full scale (91:9 E/I), POSITIVE at balanced
-   subnetworks (98.2% mean at 1:1 E/I).
+   subnetworks (98.2% mean at 1:1 E/I), with test 5 below still unrun.
 4. **Larger connectomes** - Drosophila, mouse, human cortex. NOT YET TESTED.
 5. **Random network controls** - NOT YET TESTED.
 
@@ -292,9 +329,12 @@ mechanism, but this is Tier 4, not Tier 1.
 | E/I balance | 2:2 Pauli split (d=2) |
 
 These correspondences are structural, not causal. Both systems have
-the form "coupling + selective dissipation." Both produce palindromic
-eigenvalue pairing when the dissipation is selective (τ_E ≠ τ_I
-in Wilson-Cowan; Z-dephasing in Lindblad). Whether this shared form
+the form "coupling + dissipation that treats the two populations as a
+pair." Selectivity is not what produces the pairing (corrected
+2026-08-26): in Wilson-Cowan the rate condition is satisfied by any
+population-swapping Q at any τ, and what τ_E ≠ τ_I adds is that only such
+a Q will do. What both systems really share is the antisymmetric coupling
+under the swap. Whether this shared form
 has a deeper origin or is mathematical coincidence is an open question.
 
 ### Balance as the universal requirement
@@ -302,7 +342,10 @@ has a deeper origin or is mathematical coincidence is an open question.
 The results identify one clear necessary condition: balance.
 
 - Qubits: d²−2d = 0 enforces exact 2:2 balance (immune vs decaying Paulis). Automatic.
-- Wilson-Cowan: τ_E ≠ τ_I (selective damping) required. Tunable.
+- Wilson-Cowan: τ_E ≠ τ_I (selective damping). Not a requirement for the
+pairing, corrected 2026-08-26: at uniform time constants the damping condition
+holds for every permutation and imposes nothing; what τ_E ≠ τ_I does is force
+the swap to exchange the two types. Tunable.
 - C. elegans: 1:1 E/I count gives 98.2%. 10:1 gives 0.7%. Not automatic; must be regulated.
 
 The biological fact: the cortex actively maintains E/I balance through
@@ -342,7 +385,8 @@ results but is not proven and may not be provable with current methods.
 
 The palindrome (Phase 1) shows: the STRUCTURE is there. Balance creates it.
 The C. elegans data (Phase 2) shows: 98.2% pairing at any balanced
-subnetwork, regardless of I-neuron position.
+subnetwork, regardless of I-neuron position; what it does not show is that the
+wiring is what earns it, the degree-matched control being unrun.
 
 The heartbeat adds a temporal dimension: the structure PULSES.
 
@@ -441,7 +485,7 @@ it means is up to the reader.
 Coupled damped oscillators (negative), Wilson-Cowan (positive, 66.7–100%).
 
 **Phase 2: Data-driven** - PARTIALLY COMPLETE.
-C. elegans (positive at balanced E/I, 98.2%). Inhibitory position (falsified).
+C. elegans (positive at balanced E/I, 98.2%, uncontrolled). Inhibitory position (falsified).
 Neural heartbeat dynamics (positive, transient oscillation with resonance).
 Remaining: larger connectomes, random controls.
 

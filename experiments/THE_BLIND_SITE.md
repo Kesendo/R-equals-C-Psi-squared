@@ -216,9 +216,9 @@ mask = −2·Σ_{differing bits} γ_q, matching γ_k(Z_k ρ Z_k − ρ).
 
 **The sweep for §5's seat-pencil addition, 2026-08-25, run by three agents.**
 It took the addition down twice, which is why it is a route and not a theorem.
-**`docs/ANALYTICAL_FORMULAS.md`**: F157 (line 7852) already says the count covers
+**`docs/ANALYTICAL_FORMULAS.md`**: F157 (line 7865) already says the count covers
 this block, "NOT F152's (0,1) coherence block, whose undamped modes the same
-count also counts"; F64 (line 1859) already states its L_coh form exact at every
+count also counts"; F64 (line 1872) already states its L_coh form exact at every
 γ_B and fences only the H-eigenvector *amplitude* reading, not the node
 criterion, which is a distinction a first draft of this addition got backwards;
 F4's seat bullets (line 421) already say the general count carries "neither the
@@ -978,7 +978,7 @@ suspecting on sight when the object at hand is a subspace.
 
 | | source |
 |---|---|
-| rate = 0 ⟺ node at the dephasing site | F64 (line 1859), `EMERGING_QUESTIONS.md:542` |
+| rate = 0 ⟺ node at the dephasing site | F64 (line 1872), `EMERGING_QUESTIONS.md:542` |
 | "blind to dephasing" as the name, and interior-B nodes | `PRIMORDIAL_GAMMA_CONSTANT.md:133, 144` |
 | "blind subspace" as a typed term with a Meta-Theorem | `ORTHOGONALITY_SELECTION_FAMILY.md:37, 279` |
 | the two-condition DFS logic, and that (i) alone fails | `J_BLIND_RECEIVER_CLASSES.md:32-40` |

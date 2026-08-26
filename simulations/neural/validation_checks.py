@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 """
+WITHDRAWN 2026-08-26 (the C. elegans comparisons; the algebra is unaffected).
+On blocks this sparse the residual collapses to sqrt(2)*||W_eff||/||J||
+whenever no Q-partner pair of edges is present (198 of 200 blocks at N=10), so
+it almost never gets to see the wiring; an empty block scores a perfect 0. The Erdos-Renyi control here is normalised by its OWN maximum while
+the connectome block carries the global max|W| = 37, so the 8x compares two
+constants; the degree-preserving control cannot move under such a metric and
+mostly does not run. See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
+
 Validation checks for the neural algebraic palindrome claim.
 
 Before publishing biological results, validate robustness against:
@@ -157,6 +165,8 @@ def degree_preserving_rewire(W, signs, n_swaps=None, rng=None):
 print("=" * 70)
 print("CHECK 1: Parameter Sensitivity")
 print("Is the 5-8x ratio robust across tau ratios and alpha values?")
+print("WITHDRAWN 2026-08-26: the 5-8x is a difference of normalisation")
+print("constants, so its robustness is the robustness of an artifact.")
 print("=" * 70)
 
 n_trials = 200
@@ -198,6 +208,8 @@ for tau_ratio in [1.5, 2.0, 2.5, 3.0]:
 print("\n" + "=" * 70)
 print("CHECK 2: Pairing Sensitivity")
 print("Does the E-I pairing choice affect the ratio?")
+print("The ratio itself is WITHDRAWN 2026-08-26; what this sweep shows is")
+print("that the pairing choice is not the reason it was wrong.")
 print("=" * 70)
 
 tau_E, tau_I = 10.0, 20.0
@@ -279,12 +291,11 @@ print(f"\n  C. elegans:              mean={ce_m:.4f}  std={np.std(ce_res):.4f}")
 print(f"  Degree-preserving rand:  mean={dp_m:.4f}  std={np.std(dp_res):.4f}")
 print(f"  Ratio (C.e./deg-pres):   {ratio:.3f}")
 
-if ratio < 0.5:
-    print(f"  >>> C. elegans STILL more palindromic (beyond degree sequence)")
-elif ratio > 0.8 and ratio < 1.2:
-    print(f"  >>> Comparable: degree sequence EXPLAINS the palindrome advantage")
-else:
-    print(f"  >>> Ratio {ratio:.2f}")
+print(f"  >>> ratio {ratio:.2f}, and NO verdict is drawn from it: WITHDRAWN")
+print("      2026-08-26. Under a metric that reads only the weight multiset a")
+print("      degree-preserving rewire cannot move the number, and on 5E+5I")
+print("      blocks (mean 2 edges) it mostly does not even run.")
+print("      See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.")
 
 
 # ================================================================
@@ -293,6 +304,8 @@ else:
 print("\n" + "=" * 70)
 print("CHECK 4: Effect Size and Distribution Overlap")
 print("Is 5-8x within normal variation or clearly separated?")
+print("WITHDRAWN 2026-08-26: the separation below is between two arms")
+print("normalised by different constants; it is not an effect size.")
 print("=" * 70)
 
 # Reuse check 1 data at default params

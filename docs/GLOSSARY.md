@@ -492,7 +492,7 @@ means exactly this:
 | Tier | Meaning |
 |------|---------|
 | **1** | Mathematically proven (analytical derivation, no free parameters) |
-| **2** | Numerically verified or hardware confirmed (simulation, IBM data, C. elegans) |
+| **2** | Numerically verified or hardware confirmed (simulation, IBM data). C. elegans stood here as an example until 2026-08-26, when the palindrome-residual comparisons on the connectome were withdrawn; other connectome readings, such as the zero-multiplicity excess, still stand, but the worm is no longer the example to reach for. |
 | **3** | Consistent with data but not uniquely proven (plausible, not exclusive) |
 | **4** | Plausible hypothesis, needs more work (motivated by computation but untested) |
 | **5** | Speculation, interpretation, philosophy (not falsifiable or not yet testable) |

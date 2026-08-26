@@ -98,8 +98,9 @@ These connect the mathematical results into a coherent picture.
 
 The palindromic spectral symmetry, derived and proven in quantum systems,
 has a classical analog in neural networks. Dale's Law (E neurons excite,
-I neurons inhibit) provides the same sign antisymmetry as the quantum
-commutator. No quantum physics required to read these documents.
+I neurons inhibit) provides the SIGNS of the antisymmetry that the quantum
+commutator provides outright, and only where a synapse exists; the zero pattern
+and the magnitudes are separate requirements. No quantum physics required to read these documents.
 
 | Document | What it covers |
 |----------|---------------|

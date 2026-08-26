@@ -1,3 +1,14 @@
+========================================================================
+WITHDRAWN 2026-08-25 / 2026-08-26. Every headline figure below is retracted:
+the 97.3% palindromic pairing (a reading of the matching tolerance), Q_max = 0.1,
+the ~12 Hz (a linearisation of the quiescent branch; the model runs on a limit
+cycle), I_crit = 0.00 and the anaesthesia reading built on it, and the 8x against
+random networks (a comparison of two normalisation constants under a metric that
+reads coupling magnitude). See experiments/NEURAL_GAMMA_CAVITY.md and
+docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md. This file is kept as the record of
+what was computed, not as a source of numbers.
+========================================================================
+
 ===========================================================================
 NEURAL GAMMA AS CAVITY EIGENFREQUENCY
 ===========================================================================

@@ -96,7 +96,7 @@ The formalism carries two rates and one number. H sets J, the dissipator sets
 
 (`THE_GENESIS_OF_AN_OSCILLATION.md:53`; the rescaling identity it rests on is
 `Q_SCALE_THREE_BANDS.md:83`, and the numerical gate is
-`ANALYTICAL_FORMULAS.md:2870`.) At fixed Q every eigenvalue is proportional to
+`ANALYTICAL_FORMULAS.md:2883`.) At fixed Q every eigenvalue is proportional to
 γ₀, and the shape as a function of Q does not move. Read at fixed J instead the
 statement is false, because changing γ₀ then moves Q and reshapes L₁(Q). The
 scope both sources carry, uniform Z-dephasing and an H homogeneous of degree 1
@@ -353,7 +353,7 @@ not.
    `Q_SCALE_THREE_BANDS.md`.
 2. **Q_max = |Im λ| / |Re λ|**, a resonator quality factor, defined at
    `experiments/VEFFECT_CAVITY_MODES.md:189` as `J·μ_max/γ` and computed at
-   `simulations/neural/neural_gamma_cavity.py:241`. Both numbers in the
+   `simulations/neural/neural_gamma_cavity.py:247`. Both numbers in the
    comparison it draws (C. elegans 0.1 against the qubit chain's 68 to 75) are
    this object, not object 1. That comparison was withdrawn on 2026-08-25: see
    `experiments/NEURAL_GAMMA_CAVITY.md`, Result 2b, which supplies the

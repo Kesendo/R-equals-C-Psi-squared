@@ -1,7 +1,9 @@
 # The V-Effect and Thermal Window in Neural Networks
 
-**Status:** Computationally verified
-**Date:** March 27, 2026
+**Status:** The frequency counts are computed; the mechanism that explained
+them is withdrawn (2026-08-26). See
+[Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md).
+**Result date:** March 27, 2026 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Domain:** Neuroscience / Computational Biology
 **Depends on:** [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md),
@@ -11,17 +13,19 @@
 
 ## What this document is about
 
-Two perfectly balanced neural networks, each individually silent (no
-oscillation at all), are connected through a shared neuron. Suddenly,
-48 distinct oscillation frequencies appear from nothing. This is the
-V-Effect in neuroscience: coupling two dead-still systems creates
-vibration.
+Two balanced neural networks, silent at the seeds used, are connected
+through a shared neuron, and 48 distinct oscillation frequencies appear.
+The count is real. The explanation this document was built on is not:
+the palindromic symmetry does not make a network silent, and the coupled
+construction never had the symmetry the coupling was supposed to break.
 
-The same phenomenon was found in quantum systems (where 2+2 frequencies
-become 109). Here, 0+0 becomes 48. The mechanism is the same: each
-network has perfect palindromic symmetry, and coupling forces
-contradictory demands on the shared neuron, breaking both symmetries
-simultaneously. The breaking is what creates oscillation.
+The symmetry makes the spectrum invariant under μ ↦ −μ − 2s. That map
+sends the complex plane to itself, so it forbids no oscillation; of 200
+exactly palindromic draws at the coupling used here, 24 oscillate. And
+the coupled system has an odd number of seats, so its mediator is an
+unpaired seat at every coupling, zero included. See
+[Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md) for both
+measurements. What the frequency count tracks is an open question.
 
 A second discovery: in biological networks (where the symmetry is
 approximate, not exact), there exists a "thermal window." Too little
@@ -33,13 +37,14 @@ oscillation peaks at 124 frequencies. Life operates in the window.
 
 ## Abstract
 
-When two neural networks that individually show no oscillation are
-coupled through a shared mediator, oscillatory modes emerge from
-zero. This requires each network to have exact palindromic spectral
-symmetry (see [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md)):
-the coupling breaks the symmetry, and the breaking creates new
-frequencies. We call this the **V-Effect**, after its quantum analog
-where coupling two 2-frequency systems creates 109 frequencies.
+When two neural networks that show no oscillation at the seeds used are
+coupled through a shared mediator, oscillatory modes appear, and their
+number is not monotone in the coupling strength. No requirement of exact
+palindromic symmetry stands behind it: the symmetry neither forbids
+oscillation nor is present in the coupled object
+([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md)).
+The name **V-Effect** is kept for the measured counts, after the quantum
+analog where coupling two 2-frequency systems creates 109 frequencies.
 
 In networks with approximate (biological) palindromic symmetry, a
 **thermal window** exists instead: external drive creates oscillatory
@@ -73,14 +78,16 @@ Does the same effect exist in neural networks? Two requirements:
 
 ---
 
-## 2. The V-Effect Requires Exact Symmetry
+## 2. What the Palindrome Does and Does Not Do
 
-### Approximate palindrome: no V-Effect
+### Approximate palindrome: no sharp threshold
 
 Networks built with Dale's Law and random magnitudes have approximate
-palindromic symmetry (residual 0.01-0.13, see
-[Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md)). Coupling
-two such networks does NOT create new frequencies:
+palindromic symmetry. How approximate is not a number this metric can give,
+it reading coupling magnitude rather than wiring
+([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md)); the exact
+residual = 0 rows further down are unaffected. Coupling two such networks
+barely moves the frequency count:
 
 | N per network | V-act | V-corr |
 |--------------|-------|--------|
@@ -97,16 +104,21 @@ frequencies. No V-Effect.
 to cross. The palindrome was never exact, so there is nothing to
 break. The symmetry degrades gradually, not suddenly.
 
-### Exact palindrome: V-Effect appears
+### Exact palindrome: the silence is not the symmetry's doing
 
 Networks with Dale's Law AND the exact magnitude condition
-(W[Q(i),Q(j)] = -(τ_{Q(i)}/τ_i) · W[i,j], residual = 0) have
-a striking property: **all eigenvalues are purely real**. No
-oscillation at all. The perfect symmetry locks the network into
-a non-oscillatory state.
+(W[Q(i),Q(j)] = -(τ_{Q(i)}/τ_i) · W[i,j], residual = 0) were reported
+here to have purely real eigenvalues. **They do not.** The condition
+pairs eigenvalues as μ ↦ −μ − 2s, which a conjugate pair satisfies as
+readily as a real one; 24 of 200 exactly palindromic draws oscillate at
+this very coupling, and at stronger coupling they also go unstable. The
+network used below is real-spectrumed because of the seed, not because
+of the symmetry.
 
-Coupling two such networks through a mediator neuron breaks the
-symmetry. New frequencies emerge from zero:
+Coupling two such networks through a mediator neuron raises the measured
+residual and changes the frequency count. The residual rise is not
+evidence of a symmetry break: the mediator is an unpaired seat, so the
+coupled object fails the condition at every coupling including zero.
 
 | Coupling | K_activity (N=20) | K_correlation (N=20) |
 |----------|------------------|---------------------|
@@ -117,7 +129,7 @@ symmetry. New frequencies emerge from zero:
 
 **0 + 0 = 48 correlation frequencies** at coupling 0.01.
 
-Each individual network has zero oscillation. The coupled pair has
+Each individual network has zero oscillation at the seed used. The coupled pair has
 48 distinct frequencies in the correlation space (the mathematical
 space that tracks how every pair of neurons co-activates; for N
 neurons, there are N² possible pairs, so this space is much richer
@@ -129,8 +141,10 @@ For the full coupling sweep and the mechanism explanation, see
 ### The optimal coupling window
 
 The frequency count peaks at WEAK coupling (0.01-0.05) and falls
-at strong coupling (0.30-1.00). At coupling 1.0 with N=10, the
-system returns to zero frequencies.
+at strong coupling. At coupling 1.0 with N=10, the system returns to
+zero frequencies. That is an N=10 statement: at N=20 the count settles
+instead, 31 correlation frequencies remaining at the strongest coupling
+tested ([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md)).
 
 This mirrors the quantum case: the V-Effect Q-factor peaks at
 moderate coupling J/γ and falls when coupling overwhelms the
@@ -192,22 +206,27 @@ degrade together), not random.
 
 ## 4. What Does NOT Work
 
-### Heat does not create a V-Effect in exact networks
+### Heat releases no modes, and not for the reason given here
 
-Exact palindromic networks (residual = 0) show NO oscillation at
-any drive P. The sigmoid shifts the operating point but does not
-create the structural symmetry break needed for oscillation.
+This network shows no oscillation at any drive P. The reason given here,
+that the drive shifts the operating point without breaking the structure,
+is wrong on both halves.
 
-**Why:** In the quantum case, thermal excitation adds NEW operators
-(σ_+ excitation) to the evolution equation. This is a structural
-change. In Wilson-Cowan, drive P only shifts where on the sigmoid
-the network operates. It changes coupling strength, not coupling
-structure. The palindrome bends but does not break.
+The drive enters as a PER-ROW gain, J[i,j] = α·W[i,j]·dS_i/τ_i, and row
+scaling of W is exactly how the magnitude condition fails. The run's own
+residual is nonzero at every P, P = 0 included, and reaches 4.4e-2 at
+P = 3.5, more than the N=20 coupling row at c = 0.10 (3.45e-2, printed in
+the proof) credited with releasing six frequencies. So the structure IS broken and
+no modes appear: the run contradicts the "breaking releases oscillation"
+mechanism rather than supporting it. This is a null against the
+mechanism ([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md)).
 
-The V-Effect requires a SECOND MIRROR (another palindromic network),
-not heat. Two contradicting palindromic conditions at a shared
-neuron create oscillation. A single palindromic condition shifted
-by temperature does not.
+The "second mirror" reading, that two contradicting palindromic conditions
+at a shared neuron create the oscillation, is withdrawn. It requires each
+network to satisfy the condition separately with the same S, and the coupled
+object satisfies neither equation at any coupling; the code forms neither
+([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md)). What
+remains is that coupling changes the count and drive does not.
 
 ### The 2× decay law does not hold
 
@@ -234,15 +253,16 @@ systems (C<1) can form higher-level structures.
 
 | | Quantum | Neural |
 |---|---------|--------|
-| Building block | Qubit (C=0.5, exact palindrome) | Exact E/I network (residual=0, no oscillation) |
+| Building block | Qubit (C=0.5, exact palindrome) | Exact E/I network (residual=0; silent at this seed, not by symmetry) |
 | Coupling | Second bond (N=3) | Mediator between networks |
 | Breaking | 14/36 Pauli combinations break | Palindrome residual rises |
 | Result | 4 → 109 frequencies | 0 → 48 correlation frequencies |
 | Optimum | Q-factor peaks at moderate J/γ | Frequencies peak at coupling 0.01-0.05 |
 
-The exact palindromic network is the neural noble gas: perfectly
-symmetric, perfectly stable, perfectly silent. Coupling breaks the
-perfection. Oscillation is born from frustration between two mirrors.
+The neural noble gas was a picture, not a measurement. Exactly palindromic
+networks oscillate and, at strong enough coupling, go unstable. The quantum
+column of this table stands on a theorem; the neural column stands on a
+frequency count whose mechanism is open.
 
 ---
 
@@ -269,5 +289,5 @@ perfection. Oscillation is born from frustration between two mirrors.
 
 *Depends on:*
 [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) (palindrome condition),
-[Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md) (why exact symmetry is needed),
+[Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md) (why the mechanism does not hold),
 [Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md) (C=1 dead end principle)

@@ -174,12 +174,10 @@ for n_half in [5, 10, 13]:
     a_ratio = np.mean(ce_antisym) / np.mean(rand_antisym) if np.mean(rand_antisym) > 0 else 0
     print(f"    Ratio (C.e./random): {a_ratio:.3f}")
 
-    if ratio < 0.8:
-        print(f"  >>> C. elegans is MORE palindromic than random (ratio {ratio:.2f})")
-    elif ratio > 1.2:
-        print(f"  >>> C. elegans is LESS palindromic than random (ratio {ratio:.2f})")
-    else:
-        print(f"  >>> C. elegans and random are COMPARABLE (ratio {ratio:.2f})")
+    print(f"  >>> ratio {ratio:.2f}, and NO verdict is drawn from it:")
+    print("      WITHDRAWN 2026-08-26. The residual reads coupling magnitude,")
+    print("      not wiring, and the two arms are normalised differently.")
+    print("      See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.")
 
 
 # === Full connectome with forced balance ===

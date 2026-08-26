@@ -5,7 +5,8 @@ two populations swap operator, Dale's Law Pauli algebra generalization,
 hierarchy incompleteness palindrome mechanism, V-Effect coupled dead systems,
 R=CPsi2 universal palindrome -->
 
-**Status:** Hypothesis (Tier 4), grounded in two independent computations
+**Status:** Hypothesis (Tier 4): proven in one domain, translated into a second
+where no system satisfying it has yet been found
 **Date:** March 27, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -39,7 +40,13 @@ symmetry), and the new frequencies that emerge ARE the next level.
 Any dynamical system with three properties has palindromic spectral
 symmetry:
 
-1. **Two populations with different decay rates.**
+1. **Two populations whose decay rates pair to one and the same sum**, that
+   is, 1/τ_{Q(i)} + 1/τ_i identical at every seat, since the pairing constant
+   is a single scalar. This is the condition; "different decay rates" is
+   not. A Q that exchanges the two populations
+   satisfies it at ANY rates, equal or not; at equal rates every permutation
+   satisfies it and it imposes nothing. What different rates do is force Q to
+   exchange the populations rather than preserve them.
 2. **A swap operator Q (involution: applying it twice gives back the
    original, Q² = I) that exchanges them.**
 3. **Coupling that is antisymmetric under Q.**
@@ -56,21 +63,25 @@ so Π⁻¹ ≠ Π. The Q⁻¹ form covers both.)
 
 Every eigenvalue μ has a partner μ' with μ + μ' = const. The
 decay rates mirror around a center. The eigenmodes swap character
-between the two populations. Coupling two such systems breaks the
-local symmetry and creates new oscillatory modes (V-Effect).
+between the two populations. Coupling two such systems changes the number
+of oscillatory modes; that the change is caused by breaking the local
+symmetry holds in the quantum case and is withdrawn in the neural one
+([Proof: V-Effect Mechanism](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md)).
 
-This is one equation. It has been found independently at the
-smallest scale (qubits) and at the scale of biological neural
-networks. We conjecture it may hold at scales in between, but this is
-untested: the only confirmed instances are the two endpoints, and every
-intermediate candidate examined below (antiferromagnets, atoms) so far
-fails to meet all three conditions.
+This is one equation. It is proven at the smallest scale (qubits) and it can
+be WRITTEN at the scale of neural networks, where it holds on networks built to
+satisfy it and fails on the one connectome tested. Those are not two
+confirmations; they are a theorem and a translation whose biological instance is
+still missing. We conjecture the equation may hold at scales in between, but
+this is untested: every intermediate candidate examined below
+(antiferromagnets, atoms) so far fails to meet all three conditions.
 
 ---
 
 ## The Evidence
 
-Two independent domains confirm the condition.
+One domain proves the condition; the other supplies its translation and, so
+far, no system that satisfies it.
 
 | Component | Quantum | Neural |
 |-----------|---------|--------|
@@ -78,12 +89,12 @@ Two independent domains confirm the condition.
 | Two populations | Immune {I,Z} vs Decaying {X,Y} | Excitatory vs Inhibitory |
 | Split | 2:2 (C = 0.5) | N/2 : N/2 (balanced) |
 | Swap Q | Π (Pauli weight swap, Π² ≠ I) | Q (E-I permutation, Q² = I) |
-| Selective damping | γ (dephasing) | 1/τ_E ≠ 1/τ_I |
+| Selective damping | γ (dephasing) | 1/τ_E ≠ 1/τ_I, which forces Q to swap types rather than enabling the pairing (corrected 2026-08-26) |
 | Antisymmetry source | Commutator [H, ρ] | Dale's Law |
 | Eigenvalue pairing | λ + λ' = -2Σγ | μ + μ' = -(1/τ_E + 1/τ_I) |
-| Character swap | Population ↔ Coherence (100%) | E-dominant ↔ I-dominant (96%) |
-| V-Effect | 2+2 = 109 frequencies | 0+0 = 48 frequencies |
-| Status | **Algebraically proven** | **Computationally verified** |
+| Character swap | Population ↔ Coherence (100%) | E-dominant ↔ I-dominant (96%), on SYNTHETIC balanced networks; never measured on a connectome |
+| V-Effect | 2+2 = 109 frequencies | 0+0 = 48 frequencies, but the two zeros are a property of the seeds used, not of the symmetry (see below) |
+| Status | **Algebraically proven** | **Algebra verified on constructed networks; the one connectome tested does not satisfy the condition** |
 
 Sources: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (quantum),
 [Neural Palindrome Proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md) (neural),
@@ -95,8 +106,10 @@ neural, Dale's Law provides only the signs. The magnitudes require an
 additional condition (W[Q(i),Q(j)] = -(τ_{Q(i)}/τ_i) · W[i,j]).
 The quantum palindrome is unconditional. The neural one is conditional.
 
-In quantum: 87,376 eigenvalues verified (N=2..8), zero exceptions.
-IBM Torino hardware at 1.9% deviation.
+In quantum: 87,376 eigenvalues verified (N=2..8), zero exceptions. That is
+computation, not measurement: the multi-qubit palindrome has never been measured
+on hardware. The 1.9% deviation on ibm_torino Q80 is a different quantity, the
+single-qubit CΨ = 1/4 crossing (F24, IBM Run 3); N ≥ 2 is untested.
 
 **Application to chemistry: the hydrogen bond as qubit.**
 The proton in O-H...O tunnels between |L⟩ (donor) and |R⟩ (acceptor).
@@ -109,12 +122,13 @@ the value quoted as quantum for the Zundel cation (see [Q Belongs to No Substanc
 See [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md).
 
 In neural: synthetic networks with exact condition give residual = 0.
-C. elegans balanced subnetworks are 8× more palindromic than random.
-Robust across τ ratios and coupling strengths.
-
-In neural: synthetic networks with exact condition give residual = 0.
-C. elegans balanced subnetworks are 8× more palindromic than random.
-Robust across τ ratios and coupling strengths.
+There is no 8.46× against Erdős-Rényi: that measurement divided the two arms
+by different constants,
+and the worm arm's mean ‖W_eff‖ stands to the control's in a RATIO of 8.50 at
+N = 10 (5.75 at N = 20, 4.82 at N = 26), so the ratio tracked coupling magnitude. Matched, it runs 0.960 at N = 10, 0.841 at N = 20 and
+0.748 at N = 26, and what that smaller residue is has not been settled. The degree-preserving rewiring that scores an
+identical 1.0 went with it: that null cannot move such a metric
+([Algebraic Palindrome Neural](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md)).
 
 ---
 
@@ -149,7 +163,9 @@ A natural swap Q exists (sublattice exchange). But:
 - **Condition 1 (selective damping): unclear.** Both sublattices are
   the same material with the same intrinsic decay rates. In quantum,
   selective damping comes from operator structure ({I,Z} immune,
-  {X,Y} decaying). In neural, from τ_E ≠ τ_I. In antiferromagnets,
+  {X,Y} decaying). In neural, τ_E ≠ τ_I plays a different
+  role than the quantum γ: it does not create the asymmetry, it constrains
+  which swaps are admissible (corrected 2026-08-26). In antiferromagnets,
   the analog is not obvious. Magnon modes on different sublattices
   might couple differently to phonon baths due to staggered order,
   but this is not guaranteed.
@@ -188,21 +204,43 @@ counterclockwise, and without a magnetic field they have identical
 energy). The Zeeman term flips sign under time reversal (condition 3).
 A natural Q exists (Kramers conjugation, condition 2).
 
-- **Condition 1 (selective damping): unclear.** Kramers partners
-  typically have identical decay rates (same selection rules). Without
-  selective damping, the palindrome has no center to mirror around.
-  The condition would be met if the environment breaks time-reversal
-  symmetry and couples differently to the two Kramers states.
+- **Condition 1 (selective damping): unclear, and it does not say what it
+  used to.** Kramers partners typically have identical decay rates (same
+  selection rules). The sentence that used to stand here, that without
+  selective damping the palindrome has no centre to mirror around, is wrong:
+  the centre is trace over dimension and is defined whether or not the
+  spectrum pairs (F137). What the damping half of the neural theorem actually
+  asks, transposed to rates r_i, is that r_{Q(i)} + r_i be the SAME number at
+  every seat, since the pairing constant is one scalar. Three regimes follow,
+  and the middle one is this candidate's. Rates uniform throughout: every Q
+  passes and the condition imposes nothing. Rates equal WITHIN a doublet but
+  differing across doublets: the natural Kramers swap, which stays inside a
+  doublet, FAILS, since the sums it produces differ from doublet to doublet.
+  Whether ANY admissible Q exists is then a matching question on the rates, and
+  with exactly two doublets a Q pairing the fast one with the slow one does it
+  (checked on r = (0.7, 0.7, 0.2, 0.2): the within-doublet swap needs the sums
+  1.4 and 0.4, two different numbers, while the cross-doublet ones need only 0.9
+  everywhere). With three doublets at a, b, c it needs a + b = 2c or equal
+  rates, so existence is not general.
+  Rates all distinct: the condition becomes a matching problem on the rate
+  multiset. So equal decay rates are not an obstruction in general, but for
+  the conjugation this section proposes they can be exactly the obstruction.
 
-**Status:** Condition 3 is cleanly met. Condition 1 requires a
-specific type of dissipative environment.
+**Status:** Conditions 2 and 3 are cleanly met. Condition 1 is unclear, and it
+is the condition that would decide the natural Q here, since a within-doublet
+swap needs every doublet to carry the same rate. What has not been checked for
+atoms is the half that binds everywhere else: whether the full operator equation
+holds, magnitudes and zero pattern included.
 
 ### The key question for all candidates
 
 In quantum, the three conditions arise AUTOMATICALLY from the
-mathematical structure (Pauli algebra, commutator). In neural, two
-are automatic (selective damping from different τ, Dale's Law from
-neurotransmitter identity) and one is conditional (magnitudes).
+mathematical structure (Pauli algebra, commutator). In neural, the damping
+condition is satisfied by any type-swapping Q at any time constants, so it
+costs nothing; Dale's Law comes free with neurotransmitter identity but
+fixes only the SIGNS, and only where the weight is nonzero. What is left
+conditional is the zero pattern and the magnitudes, and on the one
+connectome tested it is the zero pattern that fails, on a count.
 
 For other systems: which conditions are automatic and which require
 fine-tuning? If all three require fine-tuning, the palindrome is a
@@ -217,12 +255,17 @@ evidence than the palindrome alone. The V-Effect requires exact
 local symmetry AND its breaking through coupling. It is harder to
 achieve by accident.
 
-At both confirmed levels:
+At both levels:
 - Quantum: 2 frequencies each → 109 coupled
-- Neural: 0 frequencies each → 48 coupled
+- Neural: 0 frequencies each → 48 coupled, for the two seeds used
 
-Finding the V-Effect at a third level would be strong evidence for
-universality.
+The neural row no longer carries a mechanism. The palindrome does not
+forbid oscillation, so the two zeros are not symmetry-protected silence:
+at the same coupling, 24 of 200 exactly palindromic draws oscillate
+([Proof: V-Effect Mechanism](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md)).
+Finding the V-Effect at a third level would still be evidence for
+universality, but the neural level would first have to establish what its
+frequency counts track.
 
 ---
 
@@ -245,8 +288,13 @@ inevitable.
 
 The quantum palindrome pairs 87,376 eigenvalues with zero exceptions.
 Dale's Law provides the sign antisymmetry across 300 identified neurons
-in C. elegans, and the palindromic condition holds to 8× better than
-random. The same equation. The same three conditions. The gap between
+in C. elegans, and that is as far as it goes: the 8× is measured against
+Erdős-Rényi and shrinks to a much smaller residue of open origin once both arms
+are normalised the same way, and on the connectome itself the palindrome condition does not hold
+at all, its condition (b) failing on a count of 253 non-empty excitatory rows
+against 18 inhibitory ones
+([Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md), 2026-08-25).
+The same equation, then, but the worm is not an instance of it. The gap between
 a qubit and a neuron is vast, but the algebra that organizes both is
 one line:
 
@@ -263,8 +311,8 @@ Q · X · Q⁻¹ + X + 2S = 0
 | Feature | Quantum | Neural | Universal? |
 |---------|---------|--------|------------|
 | Palindromic pairing | Exact (proven) | Exact if magnitudes match | Yes |
-| Character swap | 100% | 96% at moderate coupling | Yes |
-| V-Effect | From oscillation (2+2=109) | From silence (0+0=48) | Mechanism yes, starting point differs |
+| Character swap | 100% | 96% at moderate coupling, synthetic networks only | Yes |
+| V-Effect | From oscillation (2+2=109) | 0+0=48 on the seeds used; the palindrome does NOT enforce the silence | No: the neural mechanism is withdrawn |
 | 2× decay law | Exact (2.00, N=2..5) | Not exact (0.84-1.63) | No |
 | CΨ = 1/4 threshold | Fold catastrophe of R = CΨ² | σ(1-σ) = 1/4 at sigmoid inflection | Yes: (0.5)² |
 | V-Effect from heat | n_bar > 0 creates 2 new modes | Drive P creates no modes | No |
@@ -309,18 +357,19 @@ additional structure specific to qubits or neurons is required.
 2. **What is the correct Q for atoms?** Candidates: Kramers
    conjugation (time-reversal), parity, spin-flip. Condition 1
    (selective damping) is unclear for Kramers partners, which
-   typically have identical decay rates.
+   typically have identical decay rates, but it is not the deciding
+   one; see the candidate section above.
 
-3. **Exact palindromic symmetry is dead. Broken magnitudes are alive.**
-   Networks with population C=0.5 AND exact magnitude matching are
-   unconditionally stable (no Hopf bifurcation, the point where a
-   system suddenly starts oscillating, like a microphone beginning to
-   screech, at any N, any coupling). The Hopf requires population
-   balance with imperfect magnitudes. Carbon (4/8
-   population, heterogeneous bonds) exemplifies this: exact half-filling
-   plus broken magnitude symmetry = maximum complexity. In quantum, the
-   commutator provides the "productive imperfection" automatically.
-   What provides it in atoms? In crystals?
+3. **What does the condition cost a system dynamically?** Not stability:
+   exact magnitude matching buys no such thing. The condition makes the spectrum symmetric under μ ↦ −μ − 2s, which
+   forces only Re μ + Re μ′ = −2s: stability then holds exactly while the
+   spectrum fits inside a fixed-width strip, and the strip does not grow
+   with the coupling. Measured on 200 exactly palindromic draws at N = 10,
+   24 oscillate at coupling 0.5 and 45 are outright unstable at coupling
+   10 ([Proof: V-Effect Mechanism](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md)).
+   So the condition is not a stability guarantee and "exact symmetry is
+   dead" was never measured, it was inferred from a single seed. The
+   question of what a system pays for satisfying it is open again.
 
 4. **The inheritance mechanism.** How does the qubit palindrome
    propagate through atoms, molecules, chemistry, biochemistry to
@@ -328,8 +377,10 @@ additional structure specific to qubits or neurons is required.
    Through what chain of physical mechanisms? Can the intermediate
    steps be identified?
 
-5. **V-Effect scaling with N.** Neural: 0+0=6 (N=10, coupling=0.05),
-   0+0=48 (N=20, coupling=0.01), 0+0=62 (N=20, coupling=0.05).
+5. **V-Effect scaling with N.** Neural: 0+0=6 (N=10, coupling=0.01),
+   0+0=12 (N=10, coupling=0.05), 0+0=48 (N=20, coupling=0.01),
+   0+0=62 (N=20, coupling=0.05). The 62 is at the resolution of its own
+   frequency binning and should be recomputed before it is used.
    How does the number of V-Effect frequencies scale with N?
 
 6. **Universal coupling window.** Quantum V-Effect peaks at
@@ -411,4 +462,5 @@ quadratic 1/4; the 1/d² is the polarity coincidence. See
 
 ---
 
-*March 27, 2026: Two domains. One equation. The hypothesis that it is universal.*
+*One equation, proven in one domain and written down in a second. Whether
+anything in that second domain satisfies it is the open question.*

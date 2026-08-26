@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 """
+WITHDRAWN 2026-08-26 (the C. elegans comparisons; the algebra is unaffected).
+On blocks this sparse the residual collapses to sqrt(2)*||W_eff||/||J||
+whenever no Q-partner pair of edges is present (198 of 200 blocks at N=10), so
+it almost never gets to see the wiring; an empty block scores a perfect 0. The Erdos-Renyi control here is normalised by its OWN maximum while
+the connectome block carries the global max|W| = 37, so the 8x compares two
+constants; the degree-preserving control cannot move under such a metric and
+mostly does not run. See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
+
 Algebraic Palindrome Condition for Wilson-Cowan
 
 NOT tolerance-based eigenvalue matching. ALGEBRAIC residual:
@@ -300,12 +308,10 @@ for n_half in [5, 10, 13]:
     print(f"    Random (Dale):    mean={dale_mean:.6f}  std={np.std(dale_residuals):.6f}")
     print(f"    Ratio (C.e./random): {ratio:.3f}")
 
-    if ratio < 0.8:
-        print(f"    >>> C. elegans is SIGNIFICANTLY more palindromic")
-    elif ratio > 1.2:
-        print(f"    >>> C. elegans is LESS palindromic than random Dale's law")
-    else:
-        print(f"    >>> Comparable (ratio {ratio:.2f})")
+    print("    >>> WITHDRAWN 2026-08-26: this ratio compares two normalisation")
+    print("        constants under a metric that reads coupling magnitude, not")
+    print("        wiring (an empty network scores a perfect 0). No verdict is")
+    print("        printed. See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.")
 
 
 # === Phase 3: Magnitude ratio test on C. elegans ===
@@ -350,9 +356,16 @@ print("\n" + "=" * 70)
 print("SUMMARY")
 print("=" * 70)
 print(f"""
-The algebraic palindrome condition Q*J*Q + J + 2S = 0 requires:
-  1. Selective damping (tau_E != tau_I)     -- UNIVERSAL in biology
-  2. Dale's law sign structure               -- UNIVERSAL in neurons
+The algebraic palindrome condition Q*J*Q + J + 2S = 0 requires (corrected
+2026-08-26; the list this block used to print named selective damping as
+requirement 1, which it is not):
+  1. The diagonal condition 1/tau_Q(i) + 1/tau_i = 1/tau_E + 1/tau_I at every
+     seat. A type-swapping Q gives it at ANY time constants, and at uniform tau
+     EVERY permutation gives it, so it costs nothing. What tau_E != tau_I adds
+     is that only a type-swapping Q will then do.
+  2. Dale's law sign structure -- but only ON THE SUPPORT of W. Condition (b)
+     also demands a Q-symmetric ZERO PATTERN, which Dale says nothing about and
+     which is what fails on the connectome, on a count of 253 against 18.
   3. Magnitude condition: |W[Q(i),Q(j)]| = (tau_Q(i)/tau_i) * |W[i,j]|
 
 Condition 3 predicts specific coupling strength ratios that depend

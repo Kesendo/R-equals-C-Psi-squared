@@ -8,14 +8,46 @@ Seed 20260825; tolerance 0.01 and f' = 0.3 are the committed values.
 STEP 0: the centre the test reflects across is forced, not measured
 ---------------------------------------------------------------------------
 
+  Condition (b) of PROOF_PALINDROME_NEURAL asks for an involution Q with
+  Q W Q = -W. At uniform tau the proof's Step 3 imposes nothing (S is
+  (1/tau)*I for EVERY permutation), so (b) is the whole hypothesis, and
+  under Dale it is a COUNT: a neuron's outgoing row carries one sign, so Q
+  must send each non-empty excitatory row to a non-empty inhibitory one.
+    non-empty rows              : 271
+    of them excitatory          : 253
+    of them inhibitory          : 18
+  [PASS] G0b condition (b) FAILS on this connectome, and on a count rather than an untested hypothesis: an involution with Q W Q = -W would have to send each of the 253 non-empty excitatory rows to a non-empty row of the opposite sign, and there are 18 of those. An empty image will not do either: it would force the source row empty too. So no such Q exists and the palindrome theorem does not apply here, for a reason that is decided rather than left open. What (b) needs is a BIJECTION between the two sets, so any inequality kills it and the predicate is '!=', not '>'. The theorem's PREMISE fails too, on a different count (274 excitatory against 26 over ALL neurons, not just non-empty rows); the two conditions are independent and this gate is about (b). Falsifier: an EQUAL count would make this gate fail and leave (b) open to be tested directly. It is unreachable here only because 271 is odd
+
+---------------------------------------------------------------------------
+STEP 0c: the March 8x, reproduced from the connectome file and taken apart
+---------------------------------------------------------------------------
+
+  The 8x enrichment of docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md was
+  withdrawn 2026-08-26 as a difference of normalisation constants. The
+  numbers that replaced it lived only in prose, so they are computed here
+  from the same JSON, in that page's protocol rather than this page's:
+  W[i,j] = sign[j]*chemical[j,i] divided by the GLOBAL max, tau = 10/20,
+  alpha = 0.3, RandomState(trial+100), 200 balanced blocks per size.
+
+     N   unmatched   weff-ratio   matched   paired t   collapse blocks
+    10       8.455        8.499    0.9602      -0.73   198/200
+    20       5.727        5.749    0.8414      -5.58   184/200
+    26       4.785        4.816    0.7484      -9.69   177/200
+
+  [PASS] G0c the unmatched enrichment IS the arms' coupling magnitude, as an arithmetic consequence rather than as an independent test: at every block size the residual ratio and the ratio of the two arms' mean ||W_eff|| agree to better than 1 percent: N=10 8.455 against 8.499, N=20 5.727 against 5.749, N=26 4.785 against 4.816. The 8.46 of the withdrawn table is the first of these. Read this as a consistency check on the arithmetic and NOT as evidence: given G0e's closed form the residual is sqrt(2)*x/sqrt(d*d + x*x) with x = ||W_eff|| and d = ||diag J|| identical in both arms by construction, so with x << d the two ratios are FORCED to agree to under a percent and no wiring effect could separate them. Falsifier: a block set where x is comparable to d, where the agreement is no longer forced and can be tested
+  [PASS] G0d matched, the two arms are at parity ONLY at the smallest block size: give both arms the control's own rule and the ratio runs 0.9602 at N=10 (paired t -0.73), 0.8414 at N=20 (paired t -5.58), 0.7484 at N=26 (paired t -9.69). So 0.960 is the N=10 answer and NOT the verdict: at N=20 and N=26 the worm's matched residual stays below the control's at more than 5 sigma. What that residue IS, this gate does not decide, and the split by G0e's condition is the reason it does not: on the blocks the closed form covers, the residual is a function of the weight multiset and cannot register wiring, but on the ones it does not cover it can, and the gap is on both sides (N=10 covered 0.9590 against uncovered 1.0854, N=20 covered 0.8313 against uncovered 0.9556, N=26 covered 0.7434 against uncovered 0.7853). Falsifier: parity at every size, or a ratio above 1
+  [PASS] G0e where no Q-partner pair of edges is present the residual IS sqrt(2)*||W_eff||/||J||, with nothing left over for wiring: the closed form reproduces the measured residual on every block that meets the condition, on BOTH arms of the comparison, the globally normalised one and the matched one, 198/198 at N=10, 184/184 at N=20, 177/177 at N=26, and the largest relative deviation over all of them is 4.23e-16, or 1.9 ulp. The bound asserted here is 1e-14, about 45 ulp, and it is a ceiling on float rounding for two routes to one number rather than a value read off the data; what would make it a law is a deviation that grows with N, and it does not. The condition holds in 198/200 blocks at N=10, 184/200 blocks at N=20, 177/200 blocks at N=26, so the instrument rarely gets to see wiring at all. Falsifier: a block meeting the condition whose residual departs from the closed form
+
+---------------------------------------------------------------------------
+
 F137 states this in general: the centre is trace/dim, an identity, equally
-well defined for a spectrum that does not pair. NEURAL_CLOCK_TWO_HANDS:42-52
+well defined for a spectrum that does not pair. NEURAL_CLOCK_TWO_HANDS:42-59
 proves the neural case is wiring-INDEPENDENT (its own value is -0.150000 at
 its own time constants; it is -1 here only because this Jacobian's damping
 is 1). Here the wiring-independence is exact rather than approximate.
 
   neurons with a synapse onto themselves: 0   (exact count)
-  [PASS] G0 the wiring never touches the diagonal: so trace(J)/N = -1 exactly, for this connectome and for every rewiring of it
+  [PASS] G0 the wiring never touches the diagonal: so trace(J)/N = -1 exactly, for this connectome and for every rewiring of it. Be exact about what each half is worth. The zero self-synapse count is DATA and could have come out otherwise. The 20 rewirings are a REGRESSION GUARD, not a measurement: degree_preserving_swap rejects any swap with a repeated endpoint, so the two cells it writes are off-diagonal by construction and no draw could have failed. It guards the swap rule against a future edit, which is worth having and is not evidence
   eigensolver mean Re(lambda) = -1.000000000000   (read; no
     exact route through an eigensolver, the exact statement is G0)
 
@@ -61,18 +93,39 @@ synapse count. A control at a different scale is therefore not a control.
   max row sum                    136.0    99.7%   0.0075
   95th-percentile weight           8.0    67.7%   0.1268
   binary, unweighted                 -    27.0%   0.4117
+    (listed for reference, NOT counted in G3: sign(W) discards every
+     weight, so it is a different matrix, not a rescaled one.)
 
   2276 directed edges, weight median 1 and max 37:
   the committed normalisation is by one outlier synapse.
-  [PASS] G3 the score is set by the normalisation constant, which nothing justifies: the same connectome and the same matcher give 27.0% to 99.7% across five defensible normalisations
 
-  Matched on Re-spread instead, which is the only quantity the matcher
-  responds to, noise with no structure at all is not beaten:
+  partners within TOL in the COMPLEX plane: median 19, mean 49.6
+  [PASS] G2b every eigenvalue has many candidate partners before any structure: a median of 19 eigenvalues lie within the committed tolerance of a given one's MIRROR, which is what the matcher compares against, in the plane it works in. The distribution is skewed, mean 49.6, so the median is the number to read. TOL/mean-gap is a looser and different quantity
+  [PASS] G3 the score is set by the normalisation constant, which nothing justifies: the same connectome and the same matcher give 67.7% to 99.7%, a span of 32.0 points, across the FOUR genuine normalisation constants (the binary row is excluded; including it would inflate this to 72.7)
+  binary, AT the connectome sd         -    98.0%   0.0274
+  [PASS] G3b the binary row is a SPREAD effect, not a weight effect: raw, the binary matrix scores 27.0% with a Re-spread of 0.4117 against the connectome's 0.0274. Rescaled to the connectome's own spread it scores 98.0% against 97.3%. So discarding EVERY weight costs nothing once scale is controlled, and the 27% is the same measurement as G2 and G3, not a separate finding about which neuron connects to which
+
+  Matched on Re-spread, noise with no structure at all is not beaten.
+  Read the fence with the result: sd is NOT the quantity the matcher sees.
+  What it sees is the tolerance against the LOCAL spacing, and the
+  connectome's Re-distribution is heavy-tailed, so matching the sd MIGHT
+  be thought to hand the control a denser spectrum. Measured, it runs the
+  other way: the counts below, and G4b, gate that.
 
     dense iid gaussian              100.0%
     sparse iid (matched density)    100.0%
     real connectome                  97.3%
-  [PASS] G4 spread-matched noise is not beaten by the connectome: the weakest matched control scores 100.0% against the connectome's 97.3%
+  the fence's OWN gaussian draw scores   : 100.0% (the table above scored a different draw at 100.0%; every count and width in the fence belongs to this one)
+  [PASS] G4c the matrix the fence measures is the matrix the fence scores: the gaussian draw whose candidate counts and Re-width the fence reports scores 100.0% itself, at or above the connectome's 97.3%, so the 'a structureless matrix scores higher with fewer partners' reading is one statement about one matrix rather than a score borrowed from a sibling draw. The table's own draw is kept separately at 100.0% and is not what the fence describes
+
+    Re-width, connectome 0.3101   control 0.1074   (at EQUAL sd 0.0274)
+    Re-range/(N-1), connectome : 1.037e-03   control 3.592e-04
+      (an identity for the range; it cannot see clustering, so it is NOT
+       the fence. The fence is the next two lines.)
+    partners within TOL, in Re     : connectome median 151, control 61
+    partners within TOL, in the plane the matcher uses : connectome median 19, control 9
+  [PASS] G4 spread-matched noise scores at least as high as the connectome: the weakest matched control scores 100.0% against the connectome's 97.3%. NOTE this gate saturates: the control's score sits at the ceiling, so it cannot fail by much and is reported as an observation, not as the load-bearing control
+  [PASS] G4b the control's 100% is not bought with more partners to choose from: in the complex plane the connectome has a median of 19 eigenvalues within TOL of a given one against the control's 9 (in Re alone, 151 against 61; the axis has to be named, the two counts differ). The control reaches 100% with FEWER candidates, so sd-matching did not hand it an easier spectrum. The Re-range cannot decide this either way: it is an identity that cannot see clustering. The degree-matched rewiring below is what carries Result 2
 
 ---------------------------------------------------------------------------
 STEP 2b: Dale's law makes no difference to the score
@@ -107,8 +160,18 @@ unpaired mode list and its three biological categories are built on it.
   50 permutations of the same eigenvalues: mean 32.7, sd 1.50, range 30-36
 
   For scale: the committed run reports 18
-  (results/neural_gamma_cavity_unpaired.txt:13) and the same script on the
+  (results/neural_gamma_cavity_unpaired.txt:20) and the same script on the
   same data reports 20 today.
+  200 permutations                       : mean 32.6, range 28-38
+  eigenvalues sorted by real part        : 14 unpaired
+
+  The same order-dependence reaches STEP 2's strict column and STEP 4's
+  strict p-value, which is not a separate statistic: it is this matcher.
+    LAPACK order      : 93.3%
+    60 permutations   : 88.0-90.0%
+    sorted by real    : 95.3%
+  [PASS] G6c the strict SCORE carries the same defect, so only the loose row is order-free: reordering moves the strict score over 7.3 points (88.0 to 95.3), which G8b below compares against the degree-matched null spread for the same statistic. Each null draw is scored in its own arbitrary order too, so the strict p-value compares one ordering against R others. The loose matcher has no such orbit and is what Result 2 should be read on
+  [PASS] G6b the orbit is wider than any one sample of it shows: 50 draws span 30-36, 200 draws span 28-38, and a deterministic sort by real part gives 14, below LAPACK's 20. The count is a property of the LIST, and its orbit has no natural width
 
   [PASS] G6 ordering moves the count further than the run-to-run drift does: reordering shifts the mean to 32.7 from 20, while the committed 18 and today's 20 differ by 2
 
@@ -118,24 +181,51 @@ unpaired mode list and its three biological categories are built on it.
   centre; the per-eigenvalue condition numbers say the rest is fine.
 
   eigenvalues on the centre to 1e-4 : 64
-  condition numbers of the other 236 : median 128, 90th pct 3133
-  median induced eigenvalue motion  : 3.58e-14, against a mean spacing of 1.04e-03
+  condition numbers of the other 236 : median 128, 90th pct 3133, max 1.43e+09
+  WORST induced eigenvalue motion   : 1.19e-04, against a mean Re-spacing of 1.04e-03
+  closest two off-centre eigenvalues: 1.61e-04 apart in the complex plane (NOT in Re alone: conjugate pairs share a real part exactly, so the smallest Re-gap is 0.0 by construction and measures nothing)
   worst-conditioned eigenvalue      : kappa = 1.4e+56, so no
     eigenvalue of this matrix is resolved better than 3.8e+40
-  [PASS] G7 the off-centre eigenvalues ARE well resolved: so it is the ordering result above, not a conditioning argument, that carries the withdrawal of the mode list
+  READ, not a gate: motion 1.19e-04 against the mean Re-spacing 1.04e-03. That spacing is the range-over-count identity
+  denounced 150 lines above and no eigenvalue in a clustered spectrum
+  has anything like it; the closest actual separation is 1.61e-04,
+  the smaller and the honest number. G7 gates that one.
+
+  THE MARGIN IS A READING OF THE CUTOFF, so it is not the statement.
+  Which modes count as 'on the centre' is decided by a literal, and the
+  worst conditioning outside it moves by orders when that literal does:
+      cutoff  n_off   max kappa     motion  vs min sep
+       1e-04    236    1.43e+09   1.19e-04        1.35
+       3e-04    234    1.28e+07   1.07e-06      149.83
+       1e-03    233    2.78e+06   2.33e-07      690.02
+  the binding eigenvalue sits at |lambda+1| = 1.12e-04, i.e. 1.12x the cutoff
+
+  The cutoff-free statement pairs each eigenvalue's OWN motion against
+  its OWN nearest neighbour, which is the distance its own pairing has
+  to survive:
+    worst motion/gap ratio 0.4210  -> margin 2.38
+    bound by kappa 1.43e+09, own gap 2.83e-04
+    the CLOSEST pair, 1.61e-04 apart, has kappa 989 and moves 8.3e-11
+    the same margin across cutoffs: 1e-08->2.38, 1e-06->2.38, 1e-05->2.38, 1e-04->2.38, 3e-04->933.86, 1e-03->1539.86
+    against the FULL spectrum, not just the survivors: 1 of 236 loses to its own nearest neighbour; the other 235 clear theirs by at least 5.65x
+  [PASS] G7 all but ONE off-centre eigenvalue outruns its true nearest neighbour, and the exception is the straggler already convicted above: pairing each of the 236 off-centre eigenvalues with its nearest neighbour AMONG THE SURVIVORS, the worst ratio of rounding-level motion to that gap is 0.4210, a margin of 2.38. That set is itself a reading of the cutoff, so the honest version counts neighbours in the FULL spectrum, and there exactly 1 mode loses: the kappa = 1.4e+09 straggler, whose nearest eigenvalue is a member of the excluded cluster 1.12e-04 away, below its own motion of 1.19e-04. It is the same straggler the section above convicts for sitting at 1.12x the cutoff. The other 235 clear their true nearest neighbour by at least 5.65x. This margin is NOT independent of the cutoff either, and saying so would repeat the defect one paragraph above: it runs 1e-08->2.38, 1e-06->2.38, 1e-05->2.38, 1e-04->2.38, 3e-04->933.86, 1e-03->1539.86. What is cutoff-robust is the DIRECTION, and it is a theorem rather than a reading: drop a mode and every survivor's nearest neighbour can only move away, so each ratio can only fall and the margin is non-decreasing in the cutoff (checked over six cuts here). The 2.38 is the value at the finest cut and therefore a LOWER BOUND on the margin at every coarser one, which the spectrum-wide comparison cannot offer: it moves from 1.35 to hundreds with no direction at all. The error model is O(n) backward error, n*eps*||J||, and is named because it is a choice: dropping the n would inflate this by about 300. So it is the ordering result above, not a conditioning argument, that carries the withdrawal of the mode list
 
 ---------------------------------------------------------------------------
 STEP 4: against degree-matched rewiring, by rank rather than by z
 ---------------------------------------------------------------------------
 
-ALGEBRAIC_PALINDROME_NEURAL:246-252 already ran this null on the algebraic
+ALGEBRAIC_PALINDROME_NEURAL:277-315 already ran this null on the algebraic
 residual and found it identical. Here it is at the eigenvalue level. The
 statistics are bounded discrete counts, so the read is the rank inside the
 ensemble. Every test is one-sided and the statistics were chosen after
 looking, so no multiplicity correction is applied and none is claimed.
 
   R = 200 degree-matched rewirings; p is the one-sided rank p-value
-  (R - #{null <= real} + 1)/(R + 1).
+  (R - #{null <= real} + 1)/(R + 1) = (#{null > real} + 1)/(R + 1).
+  Ties count in the connectome's favour, which is anti-conservative against
+  the usual #{null >= real} convention. Direction checked: G8 and G9 use p
+  as an UPPER bound, so the reported value is the harsher one there; G13
+  uses it as a lower bound and its statistic, multiplicity, has no ties.
 
   statistic                real  null mean    null range        p
   ----------------------------------------------------------------
@@ -148,26 +238,41 @@ looking, so no multiplicity correction is applied and none is claimed.
   structural nullity       36.0       30.1     29.0-33.0    0.005
 
   [PASS] G8 the strict pairing score is ordinary against degree-matched rewiring: p = 0.433; the document reads this matcher's unpaired modes as connectome structure
-  [PASS] G9 the tolerance-free residue is small and not established: cross-pairing at tol 1e-4 is 2.0% against a null mean of 0.7%, an excess of 1.3 points (4 modes) at p = 0.035, which does not clear 0.0071, the level 7 one-sided tests need. It is the one quantity here that is above its null at all, and it is not enough to carry a claim
+  [PASS] G9 the tolerance-free residue is small and not established: cross-pairing at tol 1e-4 is 2.0% against a null mean of 0.7%, an excess of 1.3 points (4 modes) at p = 0.035, which does not clear 0.0071, the level 7 one-sided tests need. It is not the only statistic above its null: the loose score, self-paired, nullity, multiplicity and structural nullity are too. The last three are Result 5's one finding measured three ways; self-paired is a partial proxy for it, since about half of what it counts is not at zero
+  [PASS] G8b the ordering orbit is comparable to the null spread it is scored against: reordering one spectrum moves the strict score by 7.3 points, against a degree-matched null range of 10.0 points (87.3 to 97.3) for the same statistic, i.e. 73% of the spread the p-value is read against. Each null draw is scored in its own arbitrary order too, so the strict p-value compares one ordering against R others. A matcher whose orbit were small against this spread would fail this gate, and its strict row would be worth reading
 
 ---------------------------------------------------------------------------
 STEP 5: what IS different about this connectome, and what kind of fact
 ---------------------------------------------------------------------------
 
-The self-paired modes are eigenvalues of f'*W_norm at zero: modes the
-wiring does nothing to. Counting them needs a tolerance and an eigensolver.
+At tolerances fine enough to resolve levels, the self-paired modes are
+eigenvalues of f'*W_norm at zero. Only the NULLITY counts modes the wiring
+does nothing to; on the rest it acts nilpotently, which is depth, not
+idleness. Counting them needs a tolerance and an eigensolver.
 The synapse matrix is an integer matrix, so the same content is exact. Two
 different exact objects live here and only the second is the mode count:
 
   nullity(W)        = 39   (geometric: independent eigenvectors at 0)
   multiplicity of 0 = 64   (algebraic, by the rank chain: the MODES)
   float check, |lambda + 1| < 1e-4 : 64
+  the same count over four decades of cut  : 1e-04->64, 1e-05->64, 1e-06->64, 1e-07->64, 1e-08->64
+  within tol/2 of the centre line, not at zero, at 1e-4: 2 (|Im| = 0.0353, 0.0353, |Re - c| = 2.97e-05, 2.97e-05)
+  self-paired as the cut tightens        : 1e-04->66, 1e-05->64, 1e-06->64, 1e-08->64
+  smallest |Re mu| among modes with |Im mu| > 1e-6 : 9.92e-05
+  [PASS] G10c no NONZERO purely imaginary mode exists, which is the other half of the identification: the smallest |Re mu| among the 196 modes with |Im mu| > 1e-6 is 9.92e-05, four orders above the 1e-8 a purely imaginary mode would have to beat. Such a mode would sit on the centre line at EVERY tolerance and would make the limit self-paired count exceed the count at zero, which is what Result 5 rests on. The GF(p) chain cannot see this: it counts multiplicity AT ZERO and is silent about the rest of the imaginary axis. An exact route exists over the integers, through the gcd of the characteristic polynomial with its reflection, and is not run here
+  [PASS] G10b the float count is a plateau, not a reading of one cut: the count of eigenvalues at zero is 64 at every cut from 1e-4 down to 1e-8 (1e-04:64, 1e-05:64, 1e-06:64, 1e-07:64, 1e-08:64), so it is not tracking the literal the way the pairing score does. A spectrum whose cluster merely APPROACHED zero would shed modes as the cut tightened and this gate would fail. The self-paired count does shed: 1e-04->66, 1e-05->64, 1e-06->64, 1e-08->64. The 2 mode(s) it adds at 1e-4 are not ON the centre line, which would make them self-paired at every cut; their Re(lambda) - c is -2.97e-05, -2.97e-05 (so Re(mu), which is that over f_prime, is -9.92e-05, -9.92e-05), nonzero, so they are merely WITHIN tol/2 of it and are gone by 1e-5. Below about 1e-8 the eigensolver stops resolving the cluster at all, so the limit statement belongs to the exact chain and not to these counts
   [PASS] G10 the exact multiplicity matches the float count: 64 == 64, so the rank chain counts what the tolerance was counting, exactly and without one
-  [PASS] G11 the exact rank agrees at every prime tried: 3 primes, 1 distinct value; rank over GF(p) bounds the rational rank from below, so agreement is the check
-  nullity unsigned 39, with Dale's law applied 39   (READ, not a gate:
-    Dale's law is a diagonal sign matrix acting on the left, and rank is
-    invariant under that, so no data could make these differ. It is stated
-    because it decides a WORD: 'signed' does not belong in the claim.)
+  [PASS] G11b the MULTIPLICITY, not only the rank, agrees at every prime tried: 3 primes give 1 distinct value (64) for the unsigned matrix and 1 (64) for the Dale-signed one. Note the direction: rank over GF(p) is at most the rational rank, so the GF(p) nullity and multiplicity are UPPER bounds on the rational ones, and agreement across primes is the check. G11 below covers the rank alone, which is the weaker statement
+  [PASS] G11 the exact rank agrees at every prime tried: 3 primes (2147483647, 2147483629, 104729), 1 distinct value; rank over GF(p) bounds the rational rank from below, so agreement is the check
+  nullity unsigned 39, with Dale's law applied 39
+  multiplicity unsigned 64, with Dale's law applied 64
+    A left diagonal sign matrix preserves RANK, so the nullity row is
+    indeed a theorem and no data could move it. The MULTIPLICITY row is
+    not: it depends on rank((DW)^k) and (DW)^k != D W^k. Two-by-two
+    counterexample, checked below, so the invariance is measured here
+    rather than assumed. Either way it decides a WORD: 'signed' does not
+    belong in the claim.
+  [PASS] G22 row scaling can change the multiplicity, so its invariance here is a measurement: on [[1,1],[1,1]] a diag(1,-1) moves the multiplicity of 0 from 1 to 2 while the nullity is 1 either way. That half runs on a fixed literal and cannot come out otherwise; it is here to show the phenomenon is real, not to measure it. The measured half is the second: on this connectome the multiplicity happens NOT to move (64 signed and unsigned), and that is a fact about this matrix which a different one could break
 
   And most of the deficit is not spectral. The structural rank is decided
   by bipartite matching on the zero pattern alone, no field, no weights,
@@ -180,6 +285,45 @@ different exact objects live here and only the second is the mode count:
   Of the 8.8-point excess, 5.9 is already in
   the zero pattern. The honest name for most of this is a small maximum
   matching, not a numerical degeneracy.
+
+  WHERE THE ZERO MODES SIT, AND IN WHICH MATRIX. Rows are PREsynaptic and
+  columns POSTsynaptic (ASIL, PVDR, M4: non-empty row, exactly empty
+  column; DA7 the reverse), so the drive reaching neuron j is
+  sum_i W[i,j] x_i = (W^T x)_j and the model's Jacobian is -I + f'W^T,
+  while jacobian() above builds -I + f'W. Every SPECTRAL quantity in this
+  file is untouched: a matrix and its transpose share eigenvalues, nullity,
+  rank chain and per-eigenvalue condition numbers. EIGENVECTORS are not,
+  and zero modes are an eigenvector question, so the decomposition below
+  is computed on W^T. A kernel vector of W^T is a perturbation that DRIVES
+  NOTHING; the cheapest way to be one is to have no target inside the
+  model, which is what an empty row means. For the MOTOR neurons among
+  them that target is muscle, which the 300-neuron matrix does not hold;
+  that is not the only way a row can be empty, and STEP 8 counts how many
+  of them are nevertheless wired inside the 300 by gap junctions.
+
+    empty ROWS of W = empty columns of W^T (no target in the model, so
+      the perturbation drives nothing): 29  AS7, AS8, AS10, DA7, DA8, DB5, DB6, DD3, DD4, DD6, RMEL, RMER, SABVL, SABVR, SIADL, SIADR, SIAVL, SIAVR, SIBDL, SIBDR, SIBVL, SIBVR, VA10, VC6, VD4, VD7, VD9, M1, MI
+    duplicate columns of W^T          : (DB7,PDB), (RIPL,RIPR), (I1L,I1R), (I2L,I2R)
+    ON W INSTEAD (the transpose, i.e. NOT the model's Jacobian) the same
+      construction gives 15 + 3 = 18 and the mirror-image story, neurons with
+      no chemical INPUT inside the 300 (not the same set as 'sensory':
+      the 15 include VC6, M4, MCL, MCR, DVB and AINL). That reading
+      belongs to W^T's
+      transpose and does not describe the model's zero modes.
+    distinct boundary neurons         : 43  (VC6 is both an empty row and an empty column, so 29 + 15 double-counts it)
+
+    explicit kernel vectors           : 33 of nullity 39  (85%)
+    (the 33 vectors are exactly in the kernel, worst |W v| = 0.0, and independent by construction: zero columns and a star of twin differences on disjoint indices. Neither is a measurement. What IS a measurement, and what G23 gates, is how far short of the nullity they fall.)
+  [PASS] G23 the boundary and the twins do NOT explain the whole kernel: 29 zero columns and 4 duplicate-column pairs give 33 independent kernel vectors, EXACTLY in the kernel (worst |W v| = 0.0), which is 33 of 39: the boundary and the twins explain 85% of the nullity and the remaining 6 are other column dependencies
+    READ, not a gate: the 15 neurons with no incoming chemical
+    edge inside the matrix sit in the LEFT kernel of the model's Jacobian,
+    so they do not enter this count. Both sides give the same NULLITY (a
+    matrix and its transpose have equal rank), which is why the statistic
+    Result 5 reports is orientation-proof while its localisation is not.
+
+    nullity(W^k) chain : [39, 53, 60, 63, 64]
+    increments         : [39, 14, 7, 3, 1]  -> nilpotency index 5
+  [PASS] G24 the multiplicity is two mechanisms, not one: 39 dimensions of kernel plus 25 of Jordan structure to depth 5, on which the wiring acts before annihilating, so only that second part is what 'defective' means. NO graph reading is claimed: the longest-path theorem needs a NILPOTENT matrix, W has 236 nonzero eigenvalues, and [[0,1,0,1],[0,0,1,0],[0,1,0,1],[1,0,1,0]] is strongly connected with a size-2 Jordan block at 0. Depth is a fact about the operator, not the wiring
   [PASS] G13 the connectome is more degenerate at zero than degree-matched rewiring: multiplicity 64 against a null mean of 48.0 (range 43-56), p = 0.005
 
 ---------------------------------------------------------------------------
@@ -212,39 +356,91 @@ an exact route, so it is compared rather than tolerated.
   anything. What the identity says needs no gate:
 
   worst deviation, assembled vs -1/tau + f'*mu : 4.68e-09 (read)
-  Q_max across the eight rows                  : factor 51
+  Q_max across the eight rows                  : factor 50.5
 
-  Q_max is therefore arithmetic on two chosen constants and the graph
+  AND THE tau AXIS OF THAT FACTOR IS AN ARTIFACT OF THE EXPRESSION.
+  -I/tau + f'W puts tau on the leak term only. That is the Jacobian of no
+  Wilson-Cowan model: for tau*xdot = -x + S(Wx) the whole right-hand side
+  carries it, J = (-I + f'W)/tau, so lambda = (-1 + f'mu)/tau and
+      Q = |Im lambda| / |Re lambda| = f'|Im mu| / |1 - f' Re mu|,
+  in which tau has CANCELLED. There is an exact route here, so it is
+  compared and not tolerated: dividing by a power of two is exact in IEEE,
+  so for dyadic tau the two Q values must be bit-identical, and any
+  deviation would be a fact about the construction, not a rounding.
+
+   tau (ms)  f_prime   Q_max (Wilson-Cowan)     vs tau=1
+  ------------------------------------------------------
+        1.0     0.30               0.085934      0.0e+00
+        1.0     0.60               0.172031      0.0e+00
+        2.0     0.30               0.085934      0.0e+00
+        2.0     0.60               0.172031      0.0e+00
+        4.0     0.30               0.085934      0.0e+00
+        4.0     0.60               0.172031      0.0e+00
+        8.0     0.30               0.085934      0.0e+00
+        8.0     0.60               0.172031      0.0e+00
+       10.0     0.30               0.085934      0.0e+00
+       10.0     0.60               0.172031      0.0e+00
+
+  READ, not a gate: tau's cancellation from Q is ALGEBRA, so no spectrum
+  could make it fail and gating it would be a theorem about the operation.
+  STEP 6 above refuses to gate Q_max for the neighbouring reason; the same
+  refusal applies here. What IS measured: for dyadic tau the Q values are
+  bit-identical to tau = 1 (deviation exactly 0.0), and including
+  the non-dyadic tau = 10 the worst deviation is 0.0e+00, at or below
+  one ulp. Reported, not thresholded: any threshold here would be a number
+  with no derivation sitting orders of magnitude above the only value the
+  arithmetic can produce.
+
+  What the DATA decide, and what G21 therefore gates, is the SIZE of the
+  artifact on this connectome: how much of the factor above the malformed
+  expression owes to tau, which the correct form says should be none.
+  [PASS] G21 the tau axis of the reported factor is an artifact of the expression: on this spectrum the malformed -I/tau + f'W moves Q by up to 25.2x along tau alone. The Wilson-Cowan form moves it by exactly 1.0x, which is REPORTED and not gated, because the cancellation is algebra and no spectrum could make it fail; gating it would be a theorem about the operation, as the lines above say. A connectome whose spectrum made the leak term negligible would show no artifact and this gate would fail. The factor of 50.5 above is an artifact: across the same grid the Wilson-Cowan form moves by 2.00, all of it along f_prime. In the malformed expression the tau axis alone moves Q by 10.1 at f_prime = 0.3 and 25.2 at 0.6, against 2.0 along f_prime, so almost the whole of that factor was the artifact and not a sensitivity of Q
+
+  AND THE TWO AXES ARE ONE. In the malformed form Q depends on tau and
+  f' only through their PRODUCT: Q_bad(tau, f') = f'|Im mu| / |1/tau -
+  f' Re mu| is a function of tau*f' alone, which the table proves exactly,
+  Q(1, 0.6) = 0.172031 = Q(2, 0.3) = 0.172031.
+  So the factor above is one range, not two sensitivities multiplied, and
+  in the correct form the product collapses to f' alone.
+
+  Q_max is therefore arithmetic on ONE chosen constant and the graph
   spectrum. The provenance is the finding, and it is checkable rather than
-  statistical: tau = 1 ms is stipulated bare at neural_gamma_cavity.py:48-49
-  for the Wilson-Cowan block, and the C. elegans Jacobian at :216 contains
+  statistical: tau = 1 ms is stipulated bare at neural_gamma_cavity.py:54-55
+  for the Wilson-Cowan block, and the C. elegans Jacobian at :222 contains
   no tau at all, only a bare -I. G0 above already pins that diagonal.
 
 ---------------------------------------------------------------------------
-STEP 7: the model reaches the gamma band at its own committed parameters
+STEP 7: the model runs on a limit cycle at its committed parameters, and
+        the conversion of its period to Hz is a stipulation, not a result
 ---------------------------------------------------------------------------
 
-neural_gamma_cavity.py:59 finds fixed points by Picard iteration, which
+neural_gamma_cavity.py:65 finds fixed points by Picard iteration, which
 converges only where the point is stable AS A MAP. That is not stability of
 the ODE; here it lands on the quiescent branch and reports its ringing. The
-sibling hopf_threshold.py in this same folder already integrates this model
-properly. Doing that, with NOTHING changed:
+sibling hopf_threshold.py in this same folder does integrate properly, but
+NOT this model: it runs a random balanced network of N = 100 to 5000 with
+tau_E = 5 and tau_I = 10, so it is a sibling METHOD, not a second reading
+of the two-population block. The integration below is this file's own.
+Doing it, with NOTHING changed:
 
-   I_ext  amplitude  freq (Hz)       band
-  ----------------------------------------
-    0.50     0.0000        n/a   fixed pt
-    1.00     0.0000        n/a   fixed pt
-    1.12     0.0000        n/a   fixed pt
-    1.15     0.2078       45.4      gamma
-    1.20     0.2656       77.0      gamma
-    1.50     0.4396      145.5      above
-    2.00     0.6065      173.9      above
-    2.50     0.7444      159.3      above
-    3.00     0.8468       63.6      gamma
-    3.05     0.8514       29.3      other
-    3.07     0.0000        n/a   fixed pt
-    3.50     0.0000        n/a   fixed pt
-    4.00     0.0000        n/a   fixed pt
+  the two-population parameters, printed so the page need not declare them: w_EE/w_EI/w_IE/w_II = 16/12/15/3, alpha = 1.3, theta = 4
+   I_ext  amplitude  period T   tau=1ms  tau=10ms  band(1ms)
+  ----------------------------------------------------------
+    0.50     0.0000       n/a       n/a       n/a   fixed pt
+    1.00     0.0000       n/a       n/a       n/a   fixed pt
+    1.12     0.0000       n/a       n/a       n/a   fixed pt
+    1.15     0.2078      22.0      45.4       4.5      gamma
+    1.20     0.2656      13.0      77.0       7.7      gamma
+    1.50     0.4396       6.9     145.5      14.5      above
+    2.00     0.6065       5.7     173.9      17.4      above
+    2.50     0.7444       6.3     159.3      15.9      above
+    3.00     0.8468      15.7      63.6       6.4      gamma
+    3.05     0.8514      34.1      29.3       2.9      other
+    3.07     0.0000       n/a       n/a       n/a   fixed pt
+    3.50     0.0000       n/a       n/a       n/a   fixed pt
+    4.00     0.0000       n/a       n/a       n/a   fixed pt
+  refined scans: T = 196.4 at I_ext = 1.126 and T = 93.2 at 3.062, against a minimum of 5.74 at I_ext = 2.075 over I in [1.6, 2.7] step 0.025 (T at I_ext = 2.00 is 5.7497, which the table above displays rounded)
+  [PASS] G15e the period grows by orders towards both folds and bottoms out in between, so the coarse table's span is a floor and not the range: at the lower fold T = 196.4 and at the upper T = 93.2, against a scanned minimum of 5.7377 at I_ext = 2.075: ratios of 34 and 16. The minimum is SAMPLED, so it bounds the true infimum from above, and it already sits below the coarse table's smallest entry of 5.7497. What would fail this gate is a period that varied by less than 20x toward the lower fold or 10x toward the upper one, measured against the scanned minimum; BOUNDEDNESS is not what is tested, and a bounded period with a large enough ratio passes
 
 
   READ THE GRID, NOT ITS HULL. The frequency is not monotone in I_ext
@@ -252,9 +448,60 @@ properly. Doing that, with NOTHING changed:
   frequencies are points on a curve, not an interval the model
   occupies. Sampled here: 29.3 to 173.9 Hz, and a
   finer grid finds lower values at both ends. What is robust is that
-  limit cycles land INSIDE 30-100 Hz, not any range statement.
+  the model OSCILLATES at all. The period diverges at both folds, so
+  the attained set is unbounded above, and whether it is an INTERVAL needs a continuity the sampling cannot give and this grid understates it; and
+  whether any of it is 30-100 Hz is decided by tau, not here (G15c).
 
-  [PASS] G15 the gamma band is reached with no parameter change: limit cycles inside 30-100 Hz at I_ext = 1.15, 1.2, 3, at the same w, alpha, theta and tau the document calls insufficient
+  THE Hz AXIS IS A STIPULATION, NOT A MEASUREMENT. The right-hand side
+  integrated above is [-E + S(...), -I + S(...)]: there is no tau in it.
+  f_hz = 1000/T asserts that one time unit is one millisecond. Insert a
+  real tau, tau*xdot = -x + S(...), and the trajectory is unchanged in
+  shape while every frequency scales as 1/tau:
+
+   I_ext   amp tau=1  amp tau=10   f tau=1  f tau=10   ratio
+  ----------------------------------------------------------
+    1.15  0.20784319  0.20784319     45.41     4.541 10.0000
+    1.20  0.26559687  0.26559687     77.00     7.700 10.0000
+    3.00  0.84679367  0.84679367     63.64     6.364 10.0000
+
+  READ, not a gate: amplitude agrees to 1.7e-10 relative across
+  tau = 1 and 10 while the frequency ratio is 10 to 1.8e-15.
+  tau divides the whole right-hand side, so this is a rescaling of time
+  and the invariance is a theorem, not a measurement. It is reported as
+  an implementation check that the integrator honours it, and any
+  threshold here would be a free constant several orders above the only
+  values the arithmetic can produce.
+
+  For each cycle, the tau that would place IT inside 30-100 Hz:
+    I_ext = 1.15  tau in [0.45, 1.51] ms
+    I_ext = 1.20  tau in [0.77, 2.57] ms
+    I_ext = 1.50  tau in [1.45, 4.85] ms
+    I_ext = 2.00  tau in [1.74, 5.80] ms
+    I_ext = 2.50  tau in [1.59, 5.31] ms
+    I_ext = 3.00  tau in [0.64, 2.12] ms
+    I_ext = 3.05  tau in [0.29, 0.98] ms
+  intersection over all cycles: empty
+  widest overlap: 5 of 7 cycles, near tau = 1.74 ms
+  [PASS] G15c no single tau puts EVERY cycle in 30-100 Hz: the per-cycle tau windows do not share a point (1.74 > 0.98), so band membership is a property of the operating point and the chosen tau together, never of the model. The windows are not empty one at a time: every cycle has a tau that puts IT in band, and the widest overlap covers 5 of 7 of them near tau = 1.74 ms, so a tau making this model gamma SOMEWHERE exists. What does not exist is one making it gamma throughout. At the textbook tau = 10 ms, 0 of the 7 cycles are in band; that row alone is forced by the minimum period and is reported, not gated (they run 2.9 to 17.4 Hz there). The band label on the table above is carried by the stipulated tau = 1 ms, which neural_gamma_cavity.py:54 sets bare
+
+  The committed two-population Jacobian at neural_gamma_cavity.py:91
+  writes -1/tau + w*f', with the gain term NOT scaled. That is the
+  Jacobian of no Wilson-Cowan model, and it agrees with the correct one
+  only at tau = 1. E and I are FIRING RATES: the sigmoid's whole range
+  is [0, 1], and the correct form keeps them there at every input. The
+  leak-only form does not, which is the unambiguous sign it is not a
+  rescaling of time but different equations:
+      I_ext   amplitude     max E
+       1.15    0.000000     0.104
+       1.20    0.000000     0.107
+       1.50    0.000000     0.123
+       2.00    0.000000     0.148
+       2.50    0.155982     0.268
+       3.00    0.000000    10.000
+       3.05    0.000000    10.000
+  [PASS] G15d the two code paths are different models, not different clocks: at tau = 10 ms the leak-only form drives the firing rate to 10.0 at I_ext = 3, 3.05, outside the [0, 1] the sigmoid can produce, and it kills the limit cycle at 6 of 7 inputs while keeping a different one at I_ext = 2.5. A rescaling of time can do none of those things, so the two forms are not the same equations. The cycle is not removed everywhere, which is why the escape from [0, 1] and not the cycle count is the predicate
+
+  [PASS] G15 the model runs on a limit cycle with no parameter change: limit cycles at I_ext = 1.15, 1.2, 1.5, 2, 2.5, 3, 3.05, at the same w, alpha and theta the document calls insufficient. The sampled cycles run 5.7 to 34.1 time constants, which is the hull of a sample and so a FLOOR on the model's range rather than the range: the period diverges at both folds. converting that to Hz needs a tau this model does not contain, so the BAND is not gated here (see G15c)
 
     I_ext   interior fixed point  max Re(lambda)   cycle?
   ----------------------------------------------------------
@@ -265,25 +512,46 @@ properly. Doing that, with NOTHING changed:
      2.00         (0.258, 0.245)          +0.630      yes
      3.00         (0.324, 0.396)          +0.812      yes
      3.50         (0.354, 0.469)          +0.893       no
+  [PASS] G20 the single-seed stability rows ARE fixed points, by a margin that is a gap and not a cut: worst residual over the seven rows is 3.6e-12, which is more than a million times below the O(0.1) residuals G16 reports for the rows that genuinely fail to converge (the sigmoid's range is 1, so 0.1 is the scale a non-fixed-point sits at). The two populations do not overlap, so no choice of threshold inside that gap changes the verdict; the check was previously absent from the rows that feed the stability claim
 
-  NEITHER EDGE IS A HOPF OF THIS EQUILIBRIUM, and saying so was the
-  first thing this section got wrong. The interior fixed point is
-  already unstable at I = 1.10 where no cycle exists, and it is still
-  unstable at I = 3.5 where the cycle is gone and the trajectory has
-  settled on the saturated branch. Other fixed points are present on
-  both sides. Naming the bifurcations would need continuation work this
-  script does not do; what it can say is where the cycle is and what
-  frequency it runs at.
+  The rows above track a SEED, not a branch. Where three equilibria
+  exist, [0.25, 0.25] returns the upper one. The census below returns
+  all of them, from a 21x21 multi-start grid, and the branch that was stable below is a different row:
 
-  Where the equilibrium IS stable, below about I = 1.0, is where the
+    I_ext  #eq  equilibria, each with max Re(lambda)
+  ------------------------------------------------------------------
+    1.000    1  (0.034,0.010)-0.512
+    1.100    3  (0.050,0.014)-0.253  (0.108,0.037)+0.229  (0.131,0.054)+0.082
+    1.125    3  (0.066,0.018)-0.042  (0.074,0.021)+0.043  (0.148,0.070)+0.184
+    1.130    1  (0.150,0.072)+0.196
+    3.060    1  (0.328,0.405)+0.822
+    3.070    3  (0.328,0.406)+0.824  (0.943,1.000)+0.124  (0.955,1.000)-0.115
+
+  NEITHER EDGE IS A HOPF OF THE EQUILIBRIUM THE CYCLE REPLACES. The
+  lower branch is still STABLE at I = 1.125 and is destroyed with the
+  middle saddle by I = 1.13, a saddle-node, which is where the cycle
+  appears. The upper edge is the mirror image: one equilibrium at 3.06,
+  three at 3.07 with the new one stable, and the cycle gone. Both edges
+  are folds, and the period diverging at BOTH is the signature.
+
+  Where the stable branch exists, up to the fold between I = 1.125 and
+  1.126, is where the
   committed script's ~12 Hz ringing comes from. That reading is correct
   for the quiescent branch and was reported for the whole model.
-  [PASS] G19 the cycle's edges are not stability changes of the interior equilibrium: Re(lambda) is +0.082 below the cycle and +0.893 above it, both unstable, while at I = 0.5 it is -0.889: the equilibrium loses stability well before the cycle appears
+  [PASS] G19 the cycle's lower edge is a fold, not a loss of stability: at I = 1.125 there are 3 equilibria, the lowest still stable at -0.042 and no cycle from the [0.3, 0.3] basin (one trajectory per input, so a coexisting cycle with a small basin would be missed); by I = 1.13 only 1 remains and the cycle IS there, which is now tested rather than asserted. A Hopf would keep the equilibrium and change its stability; this destroys it
+  [PASS] G19b the upper edge is a fold too: 1 equilibrium at I = 3.06 and 3 at 3.07, the new one stable at -0.115, with the cycle gone
 
   What the committed script reports instead is a linearisation at the
   quiescent branch, which is where its iteration converges:
     at I_ext = 2.0 the iteration returns (0.931, 1.000), residual 0.1691
-  [PASS] G16 the reported fixed points are not fixed points: a residual that size against a sigmoid whose whole range is 1 means the point was never found, so every stability reading taken there is undetermined
+  [PASS] G16 the reported fixed point at I_ext = 2.0 is not a fixed point: a residual that size against a sigmoid whose whole range is 1 means the point was never found, so the stability reading taken THERE is undetermined
+
+  Scope that: the iteration does not fail everywhere. It fails inside
+  the window where the equilibrium is unstable, which is where the one
+  measured failure sits.
+    converges on 33 of 41 grid points; fails on I_ext = 1.25 to 3
+    the three rows that oscillate and produce I_crit (I = 0, 0.25, 0.5) have residuals ['0e+00', '0e+00', '0e+00']
+  [PASS] G16b the Picard failure is local, and NOT what withdraws I_crit: 33 of 41 points converge, and the rows that carry I_crit converge to residual exactly 0.0. I_crit is withdrawn because 0.00 is the first sampled grid point, not because the iteration missed it
 
 ---------------------------------------------------------------------------
 STEP 8: the isolated second cavity is an artifact of a discarded matrix
@@ -292,7 +560,9 @@ STEP 8: the isolated second cavity is an artifact of a discarded matrix
   pharyngeal neurons identified  : 20 of 300
   electrical entries in the file : 1096, none of them used by the Jacobian
   pharynx <-> soma, chemical     : 0
-  pharynx <-> soma, electrical   : 4
+  pharynx <-> soma, electrical   : 4 (4 stored pharynx->soma, 0 soma->pharynx, so each entry here is one connection rather than half of a reciprocated pair)
+  of the 29 empty chemical rows, 27 have electrical entries; the 8 SIA/SIB among them carry 1 to 5 each
+  [PASS] G24b an empty chemical row is not the same thing as a neuron leaving the model: 27 of the 29 neurons with no outgoing chemical synapse do have gap junctions INSIDE the 300, so 'its target is muscle' is right for the motor neurons and wrong as a blanket reading. The 8 SIA/SIB interneurons are the clear case: no chemical output at all in this dataset, 1 to 5 electrical entries each, all of which the analysis discards. A dataset where every empty row were electrically isolated too would fail this gate
       I1L -- RIPL
       I1L -- RIPR
       I1R -- RIPL
@@ -308,16 +578,28 @@ STEP 9: the null model's mixing, checked rather than asserted
         10          30.50    0.90
        100          30.50    1.31
        500          29.67    0.78
-  [PASS] G18 passes = 10 is already mixed: the three mixing levels differ by 0.83 against a within-level sd of up to 1.31
+
+  The comparison that decides mixing is against the REAL matrix, not
+  between mixing levels: three levels that agree with each other agree
+  just as well when none of them has mixed at all. Rewiring LOWERS the
+  nullity, so the gap below is the real matrix minus the ensemble.
+    real connectome : 39
+    passes = 1      : 30.17   (already a full sweep over
+                       the edge list, so this is NOT an unmixed control;
+                       it is the first point at which mixing saturates)
+    passes = 10     : 30.50
+  [PASS] G18 the ensemble has moved away from the real matrix: passes = 10 gives nullity 30.50 against the real connectome's 39, a gap of 8.50 against a within-level sd of up to 1.31. This is the direction that matters: the null is a different matrix from the one under test
+  [PASS] G18b more mixing does not move it further: the three mixing levels differ by 0.83 against a within-level sd of up to 1.31; this is a saturation check and is NOT evidence of mixing on its own
 
 ===========================================================================
-ALL 18 GATES PASS
+ALL 44 GATES PASS
 ===========================================================================
 
 WHAT THIS DOES NOT SHOW
 -----------------------
-It does not test condition (b) of PROOF_PALINDROME_NEURAL, where that
-proof's content sits. It does not identify WHICH modes go unpaired, and
+It does not test the SIGN-PATTERN half of condition (b) of
+PROOF_PALINDROME_NEURAL on a network that could satisfy it; G0b settles
+the question here on a count, which is a different and cheaper thing. It does not identify WHICH modes go unpaired, and
 STEP 3 argues that question is not well posed as the committed script asks
 it. STEP 5's excess is measured against a null that does not hold the
 maximum matching fixed, so the residual numerical part is an upper bound; a

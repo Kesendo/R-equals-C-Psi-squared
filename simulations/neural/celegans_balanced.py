@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 """
+SCOPE NOTE 2026-08-26. Every pairing percentage below is a reading of the
+matcher's tolerance against the spectral spread rather than a property of the
+connectome; celegans_palindrome.py carries the measured tolerance and tau
+families that show it. This script also slices its subnetworks out of a
+GLOBALLY normalised weight matrix, which is the defect that withdrew the
+residual comparisons in the sibling scripts. What holds without a tolerance is
+a COUNT: under Dale the swap Q would have to match 253 non-empty excitatory
+rows onto 18 non-empty inhibitory ones, so the condition fails outright. See
+experiments/NEURAL_GAMMA_CAVITY.md and
+docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
+
 Phase 2b: C. elegans with ACTIVITY-balanced E/I.
 
 The raw connectome has 274 excitatory vs 26 inhibitory neurons (91:9).
