@@ -1,4 +1,4 @@
-using RCPsiSquared.Core.ChainSystems;
+﻿using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Lindblad;
 using RCPsiSquared.Diagnostics.F87;
 using RCPsiSquared.Diagnostics.Foundation;
@@ -872,6 +872,7 @@ public static class KnowledgeRegistryFactory
             // closes in the popcount-1 sector and leaves open above it.
             // Live: inspect --root blind (SeatCutBlindnessWitness, exact GF(p) Krylov ranks, no eigensolver).
             .RegisterSeatCutBlindnessClaim()
+            .RegisterPalindromeTwoEndCountClaim()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()

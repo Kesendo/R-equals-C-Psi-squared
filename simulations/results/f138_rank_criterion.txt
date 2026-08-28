@@ -1,0 +1,227 @@
+The pairing condition as a rank equality
+==============================================================================
+THE STATEMENT UNDER TEST, and it is one notch past the criterion the
+pairing-condition page carries. For
+
+## Gate 1: ker L is the commutant and ker(L+2s) is the anticommutant, EXACTLY over Q(i)
+
+  The inclusion each way that is pure algebra holds over any field.
+  The reverse one is the Cauchy-Schwarz equality case and needs C;
+  it is checked here by taking the exact kernel and demanding that
+  EVERY basis element satisfies the two conditions, == 0, no norm.
+
+  [PASS] ker L in the commutant: arc row, palindrome holds        dim ker L = 4
+  [PASS] ker(L+2s) in the anticommutant: arc row, palindrome holds dim ker(L+2s) = 4
+  [PASS] ker L in the commutant: arc row, generic mags, breaks    dim ker L = 4
+  [PASS] ker(L+2s) in the anticommutant: arc row, generic mags, breaks dim ker(L+2s) = 0
+  [PASS] ker L in the commutant: Y field, transpose leg dead      dim ker L = 1
+  [PASS] ker(L+2s) in the anticommutant: Y field, transpose leg dead dim ker(L+2s) = 1
+  [PASS] ker L in the commutant: canonical: Z everywhere, no field dim ker L = 4
+  [PASS] ker(L+2s) in the anticommutant: canonical: Z everywhere, no field dim ker(L+2s) = 4
+  [PASS] ker L in the commutant: bond + isolated site             dim ker L = 6
+  [PASS] ker(L+2s) in the anticommutant: bond + isolated site     dim ker(L+2s) = 2
+  [PASS] ker L in the commutant: ZZ bond only                     dim ker L = 4
+  [PASS] ker(L+2s) in the anticommutant: ZZ bond only             dim ker(L+2s) = 4
+  [PASS] ker L in the commutant: two axes, X and Z                dim ker L = 1
+  [PASS] ker(L+2s) in the anticommutant: two axes, X and Z        dim ker(L+2s) = 1
+
+## Gate 1b: the algebraic inclusion, which needs no field at all
+
+  [PASS] commutant in ker L: arc row, palindrome holds            dim N = 4
+  [PASS] anticommutant in ker(L+2s): arc row, palindrome holds    dim W = 4
+  [PASS] commutant in ker L: arc row, generic mags, breaks        dim N = 4
+  [PASS] anticommutant in ker(L+2s): arc row, generic mags, breaks dim W = 0
+  [PASS] commutant in ker L: Y field, transpose leg dead          dim N = 1
+  [PASS] anticommutant in ker(L+2s): Y field, transpose leg dead  dim W = 1
+  [PASS] commutant in ker L: canonical: Z everywhere, no field    dim N = 4
+  [PASS] anticommutant in ker(L+2s): canonical: Z everywhere, no field dim W = 4
+  [PASS] commutant in ker L: bond + isolated site                 dim N = 6
+  [PASS] anticommutant in ker(L+2s): bond + isolated site         dim W = 2
+  [PASS] commutant in ker L: ZZ bond only                         dim N = 4
+  [PASS] anticommutant in ker(L+2s): ZZ bond only                 dim W = 4
+  [PASS] commutant in ker L: two axes, X and Z                    dim N = 1
+  [PASS] anticommutant in ker(L+2s): two axes, X and Z            dim W = 1
+
+## Gate 2: both ends are SEMISIMPLE, so geometric = algebraic
+
+  rank(M^2) == rank(M) is the semisimplicity of the eigenvalue at
+  the corresponding end. It is what turns the char-poly identity
+  into a statement about the two nullities.
+
+  [PASS] 0 semisimple on every named row at every prime           
+  [PASS] -2*sigma semisimple on every named row at every prime    
+  [PASS] the grid rows are not vacuous: both ends carry a kernel somewhere rows with ker L nonzero=250, with ker(L+2s) nonzero=33, of 250
+  [PASS] 0 semisimple on 250 grid rows                            
+  [PASS] -2*sigma semisimple on 250 grid rows                     
+
+## Gate 2b: dissipative at 0, accretive at -2*sigma, exactly
+
+  [PASS] Re<X, L X> <= 0 (dissipative): arc row, palindrome holds 
+  [PASS] Re<X, (L+2s) X> >= 0 (accretive): arc row, palindrome holds 
+  [PASS] Re<X, L X> <= 0 (dissipative): arc row, generic mags, breaks 
+  [PASS] Re<X, (L+2s) X> >= 0 (accretive): arc row, generic mags, breaks 
+  [PASS] Re<X, L X> <= 0 (dissipative): Y field, transpose leg dead 
+  [PASS] Re<X, (L+2s) X> >= 0 (accretive): Y field, transpose leg dead 
+  [PASS] Re<X, L X> <= 0 (dissipative): canonical: Z everywhere, no field 
+  [PASS] Re<X, (L+2s) X> >= 0 (accretive): canonical: Z everywhere, no field 
+
+## Gate 3: W = N U when U is invertible, so the dimensions agree
+
+  [PASS] N U spans W exactly: arc row, palindrome holds           dim N = 4, dim W = 4
+  [PASS] no invertible U, and then dim W < dim N: arc row, generic mags, breaks dim N = 4, dim W = 0
+  [PASS] N U spans W exactly: Y field, transpose leg dead         dim N = 1, dim W = 1
+  [PASS] N U spans W exactly: canonical: Z everywhere, no field   dim N = 4, dim W = 4
+  [PASS] no invertible U, and then dim W < dim N: bond + isolated site dim N = 6, dim W = 2
+  [PASS] N U spans W exactly: ZZ bond only                        dim N = 4, dim W = 4
+  [PASS] N U spans W exactly: two axes, X and Z                   dim N = 1, dim W = 1
+
+## Gate 5: the canonical configuration, where the repo already held BOTH numbers
+
+  experiments/DEGENERACY_PALINDROME.md Result 2 records N+1
+  conserved quantities at Re = 0 and N+1 XOR sector modes at the
+  far end, and calls the map between them bijective. Those are
+  exactly dim ker L and dim ker(L+2*sigma). The criterion says the
+  palindrome IS that equality.
+
+  [PASS] N=2 chain: dim ker L = dim ker(L+2s) = N+1 = 3           palindrome=True
+  [PASS] N=3 chain: dim ker L = dim ker(L+2s) = N+1 = 4           palindrome=True
+  [PASS] N=4 chain: dim ker L = dim ker(L+2s) = N+1 = 5           palindrome=True
+
+## Gate 6: dim ker(L+2s) <= dim ker L, always
+
+  A corollary of the same argument and a claim on its own: the
+  steady modes can never be outnumbered by the fastest ones.
+
+  [PASS] dim W <= dim N on 3600 rows                              largest gap dim N - dim W = 12
+
+## Gate 7: the F103 7.12 rows, where no DIAGONAL operator exists
+
+  PROOF_F103_F87_Z2_CUBED_REFINEMENT.md 7.12 records XX+XZ, YY+YZ
+  and XX+XZ+ZX as SOFT on the chain at N = 3..6 with non-bipartite
+  basis-state graphs: no diagonal D, no chiral K. It does NOT leave
+  the restoring operator unexhibited, and an earlier version of
+  this banner said it did: the same paragraph continues "that
+  operator is no longer a mystery: it is the hidden-Q routing, a
+  per-site Q from the P1/P4 families, which TwoTermPalindromeRouting
+  classifies bit-exactly for 2-term pairs". So these rows are an
+  AGREEMENT test against a route the repo already owns, not a
+  discovery, and the operator below is named rather than admired.
+
+  One thing here is a TAUTOLOGY and is gated as one rather than
+  reported as evidence: under Z on every site, A W A = -W forces
+  every diagonal entry of every element of W to vanish, so "the
+  operator is not diagonal" cannot fail and says nothing.
+
+  [PASS] XX+XZ at N=3: criterion = palindrome, and W is YYY       dimN=1 dimW=1 palindrome=True  W spanned by YYY
+  [PASS] XX+XZ at N=4: criterion = palindrome, and W is YYYY      dimN=1 dimW=1 palindrome=True  W spanned by YYYY
+  [PASS] XX+XZ at N=5: criterion = palindrome, and W is YYYYY     dimN=1 dimW=1 palindrome=True  W spanned by YYYYY
+  [PASS] YY+YZ at N=3: criterion = palindrome, and W is XXX       dimN=1 dimW=1 palindrome=True  W spanned by XXX
+  [PASS] YY+YZ at N=4: criterion = palindrome, and W is XXXX      dimN=1 dimW=1 palindrome=True  W spanned by XXXX
+  [PASS] YY+YZ at N=5: criterion = palindrome, and W is XXXXX     dimN=1 dimW=1 palindrome=True  W spanned by XXXXX
+  [PASS] XX+XZ+ZX at N=3: criterion = palindrome, and W is YYY    dimN=1 dimW=1 palindrome=True  W spanned by YYY
+  [PASS] XX+XZ+ZX at N=4: criterion = palindrome, and W is YYYY   dimN=1 dimW=1 palindrome=True  W spanned by YYYY
+  [PASS] XX+XZ+ZX at N=5: criterion = palindrome, and W is YYYYY  dimN=1 dimW=1 palindrome=True  W spanned by YYYYY
+
+  So the operator is one Pauli string per row, found by a linear
+  solve rather than a routing table, and on YY+YZ it is X^(x)N,
+  which is F1 own Pi squared. That is a check that the count
+  agrees with what the repo already knows, and nothing more.
+  [PASS] and the diagonal-free property is a tautology, as stated every element of W has zero diagonal, so the flag cannot fail
+
+## Gate 8: three axes the criterion page lists as NOT TESTED
+
+  The theorem asks only that every A_l be Hermitian and square to
+  1, which a rational-direction n.sigma and a Pauli STRING both do.
+  The holds/breaks columns are printed because a block carrying
+  only one verdict tests only one direction. The per-site mixed
+  directions block is very nearly such a block, and the printed
+  counts below are the authority on how nearly: read them rather
+  than this sentence, which an earlier version got wrong by
+  hard-coding a count that the run then contradicted eight lines
+  later.
+
+  [PASS] every rational-direction jump squares to 1               
+  [PASS] off-axis dephasing, one direction, 1-3 sites             rows=600 holds=35 breaks=565  0<dimW<dimN on 0  FP=0 FN=0
+  [PASS] off-axis dephasing, a DIFFERENT direction per site       rows=192 holds=1 breaks=191  0<dimW<dimN on 0  FP=0 FN=0
+  [PASS] a multi-site Pauli STRING as the jump                    rows=400 holds=38 breaks=362  0<dimW<dimN on 5  FP=0 FN=0
+  [PASS] two Pauli-string jumps                                   rows=500 holds=9 breaks=491  0<dimW<dimN on 0  FP=0 FN=0
+  [PASS] all 1- and 2-letter bond words, deph Z everywhere        rows=45 holds=31 breaks=14  0<dimW<dimN on 0  FP=0 FN=0
+  [PASS] all 1- and 2-letter bond words, deph X everywhere        rows=45 holds=31 breaks=14  0<dimW<dimN on 0  FP=0 FN=0
+  [PASS] all 84 three-term bond words, deph Z everywhere          rows=84 holds=24 breaks=60  0<dimW<dimN on 0  FP=0 FN=0
+
+## Gate 9: the same verdict by an independent route
+
+  [PASS] float route: its own verdict matches its own two nullities rows=885 holds=142 breaks=743 disagreements=0
+  [PASS] and the two ROUTES read the same two nullities, row by row float SVD against GF(p) elimination, mismatches=0
+  [PASS] the spectral threshold is a law, not a number            worst hold 5.2e-14, smallest break 2.1e-03, 10.6 decades apart
+  [PASS] and so is the singular-value threshold                   largest zero 1.2e-15, smallest live 9.5e-04, 11.9 decades apart
+
+## Gate 10: three boundaries, two of them outside the sample
+
+  (a) DEPOLARIZING. X, Y and Z are each Hermitian and square to 1,
+  so a depolarizing site is INSIDE this class, and F1 records it as
+  the canonical BREAK with a residual of (2/3)*Sum gamma. Nothing
+  in the scored grids has three jumps on one site, so this is out
+  of sample in both senses.
+  [PASS] depolarizing at N=2: criterion = palindrome              dimN=1 dimW=0 palindrome=False (both say NO)
+  [PASS] depolarizing at N=3: criterion = palindrome              dimN=1 dimW=0 palindrome=False (both say NO)
+
+  (b) A RATE SWITCHED OFF. The theorem asks gamma_l > 0, and the
+  fence is not decoration: a zero rate DROPS a condition from W,
+  so the VERDICT itself moves at the boundary of the orthant, not
+  merely the dimensions. The row below is chosen to show that: a
+  ZZ bond with an X field on site 0, dephasing X on both sites,
+  broken while both rates are on and palindromic the moment site
+  0 stops being watched. Nothing in the scored grids sets a rate
+  to zero, so this axis is out of sample.
+  [PASS] rate fence, both rates on  : criterion = palindrome      dimN=2 dimW=0 palindrome=False
+  [PASS] rate fence, site 1 rate off: criterion = palindrome      dimN=4 dimW=0 palindrome=False
+  [PASS] rate fence, site 0 rate off: criterion = palindrome      dimN=2 dimW=2 palindrome=True
+  [PASS] and the verdict really moves when a rate is switched off both verdicts appear across the three rows
+
+  (c) ODD LOCAL DIMENSION. An invertible U with U A U^-1 = -A makes
+  A and -A similar, so A needs balanced +1/-1 multiplicities and d
+  must be EVEN. At odd d the criterion must therefore say NO at
+  every H, which is a corollary and not a measurement, gated here
+  because every other row of this file sits at d = 2^N.
+  [PASS] odd d: dim W < dim N always, and no invertible element   d = 3 and 5, 24 random Hermitian H
+
+## Gate 11: 0 < dim W < dim N, built rather than waited for
+
+  Only 204 of the 15,406 scored grid rows have 0 < dim W < dim N,
+  which is where the EQUALITY says more than nonemptiness. Here
+  they are constructed: two blocks with disjoint spectra, one
+  carrying an invertible anticommuting element and one carrying
+  none, so W is nonzero and entirely singular by construction.
+
+  [PASS] block pair (H1=X, shift 5): criterion = palindrome       dimN=3 dimW=1 strict=True invertible=False palindrome=False
+  [PASS] block pair (H1=Y, shift 5): criterion = palindrome       dimN=3 dimW=1 strict=True invertible=False palindrome=False
+  [PASS] block pair (H1=X, shift 7): criterion = palindrome       dimN=3 dimW=1 strict=True invertible=False palindrome=False
+  [PASS] block pair (H1=Y, shift 7): criterion = palindrome       dimN=3 dimW=1 strict=True invertible=False palindrome=False
+  [PASS] block pair (H1=X, shift 11): criterion = palindrome      dimN=3 dimW=1 strict=True invertible=False palindrome=False
+  [PASS] block pair (H1=Y, shift 11): criterion = palindrome      dimN=3 dimW=1 strict=True invertible=False palindrome=False
+  [PASS] block pair (H1=X, shift 13): criterion = palindrome      dimN=3 dimW=1 strict=True invertible=False palindrome=False
+  [PASS] block pair (H1=Y, shift 13): criterion = palindrome      dimN=3 dimW=1 strict=True invertible=False palindrome=False
+  [PASS] every constructed row really is strictly between         8 of 8 rows have 0 < dim W < dim N
+
+## Gate 4: the rank equality scored against the exact palindrome
+
+  [PASS] rank criterion exact on P3, ends equal                   rows=2500 holds=288 breaks=2212  0<dimW<dimN on 20  FP=0 FN=0  (21 s)
+  [PASS] rank criterion exact on K3, all equal                    rows=2500 holds=299 breaks=2201  0<dimW<dimN on 28  FP=0 FN=0  (21 s)
+  [PASS] rank criterion exact on bond+isolate                     rows=2500 holds=638 breaks=1862  0<dimW<dimN on 145  FP=0 FN=0  (19 s)
+  [PASS] rank criterion exact on P3, generic                      rows=2500 holds=278 breaks=2222  0<dimW<dimN on 0  FP=0 FN=0  (21 s)
+  [PASS] rank criterion exact at bond XX+YY                       rows=900 holds=167 breaks=733  0<dimW<dimN on 0  FP=0 FN=0  (8 s)
+  [PASS] rank criterion exact at bond XX                          rows=900 holds=339 breaks=561  0<dimW<dimN on 6  FP=0 FN=0  (9 s)
+  [PASS] rank criterion exact at bond ZZ                          rows=900 holds=326 breaks=574  0<dimW<dimN on 5  FP=0 FN=0  (6 s)
+  [PASS] rank criterion under non-uniform J and gamma             rows=600 holds=77 breaks=523  0<dimW<dimN on 3  FP=0 FN=0  (5 s)
+  [PASS] rank criterion exact, N=4 path                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (97 s)
+  [PASS] rank criterion exact, N=4 ring                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (87 s)
+
+  And the same rows scored for T4, which is what replaces sampling:
+  [PASS] invertible element <=> dim N == dim W, P3 equal          rows=2500  mismatches=0
+  [PASS] invertible element <=> dim N == dim W, bond+isolate      rows=2500  mismatches=0
+
+==============================================================================
+  102 gates, 102 passed, 0 failed
+  ALL GATES PASS
+EXIT=0

@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
 using System.Text;
 using RCPsiSquared.Core.ChainSystems;
@@ -820,6 +820,21 @@ public static class InspectCommand
             "independent elimination, and equals 1 + blind(j) exactly when H is simple on the Krylov complement. " +
             "Args: --N (default 7), --chain xy, --bonds 1,1,0,1,1",
             c => BuildBlindSeatRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 7),
+            RequiresN: false, HonorsOptionalN: true),
+        new("twoend", "F158 THE PALINDROME AS A COUNT OF THE TWO ENDS (proof " +
+            "PROOF_PALINDROME_TWO_END_COUNT.md, claim PalindromeTwoEndCountClaim): the spectrum pairs about " +
+            "−σ exactly when dim ker L = dim ker(L + 2σ), so the criterion is two nullities compared and there " +
+            "is no operator to find and no subspace to sample. Three computations meet at inspect time: the two " +
+            "nullities by GF(p) elimination on the Liouvillian, the SAME two dimensions from Lemma 1's operator " +
+            "conditions by a route that never forms L, and the palindrome itself by the characteristic-polynomial " +
+            "identity. A break is printed beside the canonical row so the witness cannot silently lose the " +
+            "ability to report one. Args: --N (2..4, default 3), --deph Z.Z, --field X.X, --topology chain|ring|" +
+            "complete",
+            c => new PalindromeTwoEndCountWitness(
+                c.Parser.HasFlag("N") ? c.N : 3,
+                c.Parser.OptionalString("deph"),
+                c.Parser.OptionalString("field"),
+                c.Parser.OptionalString("topology")),
             RequiresN: false, HonorsOptionalN: true),
         new("sideways", "the sideways spin ladder live: S⁺ = Σ (−1)^l c_l†(·)c_l† intertwines L on Σ-odd " +
             "real-symmetric hopping (residual vs 0.0 exactly, Φ as control), the F125 fold family = the two " +

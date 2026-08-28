@@ -1,0 +1,106 @@
+================================================================================================
+F138 CLAUSE 1: THE EXCEPTIONS, AND THE OPERATOR THAT EXPLAINS THEM
+P3, bonds XX+YY, no field, one dephasing axis per site, all rates 1, all 27 assignments
+counts exact in the Pauli basis; palindrome by dense eigenvalues and an optimal matching
+================================================================================================
+
+HYPOTHESES OF THE CRITERION, checked rather than assumed
+  [PASS] every jump is Hermitian
+  [PASS] every jump squares to the identity
+  [PASS] L(identity) = 0, exactly
+
+THE 27 ROWS
+  axes   clause 1    dim N  dim W   crit  pair distance
+  -----------------------------------------------------
+  XXX    permitted       2      2     EQ      2.613e-14
+  XXY    permitted       1      1     EQ      2.624e-14
+  XXZ    permitted       1      1     EQ      2.984e-14
+  XYX    permitted       1      1     EQ      1.993e-14
+  XYY    permitted       1      1     EQ      2.641e-14
+  XYZ    FORBIDDEN       1      0     ne      2.000e+00
+  XZX    permitted       1      1     EQ      4.192e-14
+  XZY    FORBIDDEN       1      1     EQ      3.110e-14
+  XZZ    permitted       1      1     EQ      3.732e-14
+  YXX    permitted       1      1     EQ      2.293e-14
+  YXY    permitted       1      1     EQ      2.827e-14
+  YXZ    FORBIDDEN       1      0     ne      1.069e+00
+  YYX    permitted       1      1     EQ      2.862e-14
+  YYY    permitted       2      2     EQ      2.488e-14
+  YYZ    permitted       1      1     EQ      3.940e-14
+  YZX    FORBIDDEN       1      1     EQ      2.043e-14
+  YZY    permitted       1      1     EQ      2.454e-14
+  YZZ    permitted       1      1     EQ      3.094e-14
+  ZXX    permitted       1      1     EQ      3.249e-14
+  ZXY    FORBIDDEN       1      0     ne      1.069e+00
+  ZXZ    permitted       1      1     EQ      3.694e-14
+  ZYX    FORBIDDEN       1      0     ne      2.000e+00
+  ZYY    permitted       1      1     EQ      4.478e-14
+  ZYZ    permitted       1      1     EQ      2.431e-14
+  ZZX    permitted       1      1     EQ      3.220e-14
+  ZZY    permitted       1      1     EQ      3.220e-14
+  ZZZ    permitted       4      4     EQ      2.490e-14
+
+THE FLOAT SIDE, GATED AGAINST ITS ERROR MODEL
+  eigensolver backward-error model, eps * ||L||_2 : 1.902e-15
+  worst pair distance among criterion-EQ rows     : 4.478e-14  (23.5 x model)
+  best  pair distance among criterion-ne rows     : 1.069e+00  (5.619e+14 x model)
+  measured separation                             : 13.4 decades
+  [PASS] every EQ row sits within the backward-error model   23.5 x model, bound 1000 x
+  [PASS] every ne row sits far above the model   5.62e+14 x model, bound 1e+09 x
+  [PASS] the two populations are separated by decades, not by a threshold   13.4 decades, bound 8.0
+  [PASS] criterion and spectrum agree on every row   27 rows, 0 mismatches
+
+THE EXCEPTIONS: rows clause 1 FORBIDS whose spectrum pairs anyway
+  [PASS] the exception set is exactly the predicted one   found ['XZY', 'YZX'], predicted ['XZY', 'YZX']
+  [PASS] the four other three-axis rows carry an empty anticommutant   dim W = 0 on all four
+  The two exceptions carry the Z axis, the one the XX+YY bond does not use,
+  on the MIDDLE site. Clause 1 counts axes and cannot see position.
+
+THE OPERATOR ITSELF
+  [PASS] XZY: the anticommutant is one dimensional   dim W = 1
+  axes XZY
+     U                    = YYZ  +  ZXX
+     U is Hermitian       : True
+     U^2                  = 2 * identity
+     det U                = 16
+  [PASS] XZY: U is invertible   det = 16
+  [PASS] XZY: U commutes with H, exactly
+  [PASS] XZY: U anticommutes with every jump, exactly
+  [PASS] XZY: U is NOT a single Pauli string   2 live components
+  [PASS] XZY: L_U . L . L_U^-1 + L^dag + 2 sigma = 0, exactly
+
+  [PASS] YZX: the anticommutant is one dimensional   dim W = 1
+  axes YZX
+     U                    = XXZ  +  ZYY
+     U is Hermitian       : True
+     U^2                  = 2 * identity
+     det U                = 16
+  [PASS] YZX: U is invertible   det = 16
+  [PASS] YZX: U commutes with H, exactly
+  [PASS] YZX: U anticommutes with every jump, exactly
+  [PASS] YZX: U is NOT a single Pauli string   2 live components
+  [PASS] YZX: L_U . L . L_U^-1 + L^dag + 2 sigma = 0, exactly
+
+  Why the earlier candidate failed: U is a SUM of two Pauli strings, so it is
+  neither a single string nor a signed site permutation. The refutation of the
+  bare site reflection was correct about its candidate and does not show that
+  no reflector exists.
+
+CONTROL: the same six rows at a THREE-letter bond, XX+YY+ZZ
+  Clause 1's ceiling is stated with a two-term proviso, so the exceptions above
+  should not survive the bond gaining its third letter. If they did, the family
+  would be measuring something other than the proviso and the reading would be
+  wrong. The verdict has to MOVE.
+  axes    dim N  dim W   crit  pair distance
+  XYZ         1      0     ne      1.337e+00
+  XZY         1      0     ne      1.337e+00
+  YXZ         1      0     ne      1.337e+00
+  YZX         1      0     ne      1.337e+00
+  ZXY         1      0     ne      1.337e+00
+  ZYX         1      0     ne      1.337e+00
+  [PASS] the exception set moves when the bond gains its third letter   two-letter ['XZY', 'YZX'], three-letter []
+
+================================================================================================
+GATES: 22 passed, 0 failed
+VERDICT: GREEN
+================================================================================================

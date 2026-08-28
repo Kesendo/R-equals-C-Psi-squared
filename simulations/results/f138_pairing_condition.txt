@@ -1,0 +1,87 @@
+The pairing condition: one criterion for the dephasing palindrome
+==============================================================================
+THE STATEMENT UNDER TEST. For L(rho) = -i[H, rho] + sum_l gamma_l (A_l rho A_l
+- rho), every A_l a Pauli letter on one site, and sigma = sum_l gamma_l:
+
+## Gate 1: the arc row reproduces, and every control moves
+
+  [PASS] the F138 predicate forbids the row                   (clause2-not-orthogonal)
+  [PASS] the char-poly palindrome holds anyway                
+  [PASS] control breaks: generic magnitudes                   
+  [PASS] control breaks: equal pair = end+middle              
+  [PASS] control breaks: bond+isolate                         
+  [PASS] the sufficient direction still holds                 
+
+## Gate 2: the named operator U = SWAP_02 . Z_0 Z_1 Z_2
+
+  U is not only an algebraic device. [U,H]=0 and A U A = -U give
+  L(U) = -2*sigma*U outright, so U is an exact eigenmode of the
+  Liouvillian at -2*sigma: the mirror partner of the steady state
+  at 0, sitting at the far end of the axis the palindrome folds
+  about. That is what having a U MEANS.
+
+  [PASS] U invertible, [U,H]=0, U A + A U = 0 at p=998244353  
+  [PASS] L(U) = -2*sigma*U and L(1) = 0 at p=998244353        
+  [PASS] U invertible, [U,H]=0, U A + A U = 0 at p=1004535809 
+  [PASS] L(U) = -2*sigma*U and L(1) = 0 at p=1004535809       
+  [PASS] U invertible, [U,H]=0, U A + A U = 0 at p=469762049  
+  [PASS] L(U) = -2*sigma*U and L(1) = 0 at p=469762049        
+
+## Gate 3: the metric relation, then the similarity
+
+  [PASS] metric relation L_U L L_U^-1 = -L^dag - 2*sigma at p=998244353 
+  [PASS] similarity Pi L Pi^-1 = -L - 2*sigma at p=998244353  subspace dim=4
+  [PASS] metric relation L_U L L_U^-1 = -L^dag - 2*sigma at p=1004535809 
+  [PASS] similarity Pi L Pi^-1 = -L - 2*sigma at p=1004535809 subspace dim=4
+  [PASS] metric relation L_U L L_U^-1 = -L^dag - 2*sigma at p=469762049 
+  [PASS] similarity Pi L Pi^-1 = -L - 2*sigma at p=469762049  subspace dim=4
+
+## Gate 4: where the transpose leg stops
+
+  [PASS] the probe row has a NON-symmetric H (a Y field)      
+  [PASS] an admissible U still exists there                   subspace dim=1
+  [PASS] the metric relation still holds                      
+  [PASS] the similarity Pi FAILS there, as it must            residual entries=128
+  [PASS] and the char-poly palindrome holds regardless        
+
+## Gate 5: scored on the full N=3 grids, both directions
+
+  [PASS] criterion exact on P3, ends equal                    rows=21952  nonempty-but-singular=174  FP=0 FN=0
+  [PASS] criterion exact on K3, all equal                     rows=21952  nonempty-but-singular=270  FP=0 FN=0
+  [PASS] criterion exact on bond+isolate, all equal           rows=21952  nonempty-but-singular=1332  FP=0 FN=0
+  [PASS] criterion exact on P3, generic                       rows=21952  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] criterion exact on K3, generic                       rows=21952  nonempty-but-singular=0  FP=0 FN=0
+
+## Gate 6: the bond-letter axis, where the F138 converse fails hardest
+
+  F138 records 776 / 732 / 520 converse failures at ONE bond letter
+  and 22 / 104 at two. The criterion is scored on the same axis, and
+  it was never fitted to it.
+
+  [PASS] criterion exact at bond XX+YY+ZZ                     rows=4096  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] criterion exact at bond XX+YY                        rows=4096  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] criterion exact at bond XX+ZZ                        rows=4096  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] criterion exact at bond YY+ZZ                        rows=4096  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] criterion exact at bond XX                           rows=4096  nonempty-but-singular=18  FP=0 FN=0
+  [PASS] criterion exact at bond YY                           rows=4096  nonempty-but-singular=18  FP=0 FN=0
+  [PASS] criterion exact at bond ZZ                           rows=4096  nonempty-but-singular=18  FP=0 FN=0
+
+## Gate 7: gamma-blindness, the axis ceiling, and N=4
+
+  Neither condition on U mentions gamma, so the criterion PREDICTS
+  that the palindrome cannot depend on the gamma profile at all.
+  The non-uniform row is that prediction under test. The two AXIS
+  rows count distinct dephasing LETTERS, which is what the F138
+  ceiling of two counts; the criterion carries no ceiling.
+
+  [PASS] non-uniform J per bond and gamma per site            rows=1200  nonempty-but-singular=9  FP=0 FN=0
+  [PASS] two distinct dephasing AXES                          rows=626  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] three distinct dephasing AXES, past the F138 ceiling rows=123  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] N=4 path, equal magnitudes                           rows=120  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] N=4 path, generic magnitudes                         rows=120  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] N=4 ring, equal magnitudes                           rows=120  nonempty-but-singular=0  FP=0 FN=0
+  [PASS] N=4 path, non-uniform J                              rows=120  nonempty-but-singular=0  FP=0 FN=0
+
+==============================================================================
+  42 gates, 42 passed, 0 failed
+  ALL GATES PASS

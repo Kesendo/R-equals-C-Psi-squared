@@ -172,13 +172,33 @@ the block-spectrum sweep, where γ=0.5 puts the floor at −8.
 Dephasing and on-site fields then obey a single boundary law (F138 in the
 [formula registry](../ANALYTICAL_FORMULAS.md)), which is worth
 stating before its consequences because every "exception" below falls out of
-it. The palindrome holds exactly when, *in every connected component that
+it. The palindrome holds **when**, *in every connected component that
 carries dephasing at all*:
 
 1. at most two distinct dephasing axes appear, provided the bonds carry at
    least two terms, and
 2. the on-site field has a single common axis within that component,
    orthogonal to every dephasing axis present in it.
+
+**When, and not exactly when: the converse is false and this file used to say
+otherwise.** F138's own registry row withdrew the *only when* half on
+2026-08-03 and counts it failing five separate ways: 22 rows of 4096 on P₃ and
+104 on a bond plus an isolated site at a two-letter bond, 776 / 732 / 520 at one
+letter, and 78 of 21,952 on the full XX+YY+ZZ bond when the two END sites of P₃
+carry equal field magnitudes. Two of the 22 are clause-1 rows rather than
+clause-2 rows, so the ceiling of two axes is sufficient and not necessary in the
+same way. The word was repaired on 2026-08-29, when the citation was noticed to
+be a circle: this paragraph named F138 for the law while F138's Proof field
+named this paragraph for the proof, and neither end derives it. What these
+clauses are is a measured census of the SUFFICIENT direction, which has never
+once broken. What decides the same setting in both directions is
+[F158](../ANALYTICAL_FORMULAS.md), the two-end count
+([PROOF_PALINDROME_TWO_END_COUNT](PROOF_PALINDROME_TWO_END_COUNT.md)): the
+spectrum pairs exactly when dim ker L = dim ker(L + 2Σγ), and every
+configuration these clauses sweep is inside its class. Note also the scope gap
+the next section already states in its own words: the theorem proved above is
+single-axis Z-dephasing, while clause 1 permits two, so the clauses are broader
+than what this file derives.
 
 Five things in that statement are load-bearing, and each was found by trying
 to break the rule rather than by deriving it. *Component* means connected by

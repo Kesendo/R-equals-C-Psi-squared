@@ -6034,9 +6034,40 @@ What the two failures have in common is
 measured and no more than that: the exceptions track the graph's own
 automorphisms and the bond's letter count, so the conditions look sufficient
 always and necessary only where the configuration carries no symmetry of its
-own, a reading and not a result. No operator
-explaining the exceptions has been exhibited, and the first candidate for one,
-the bare site reflection, was refuted from below. Both
+own, a reading and not a result. **An operator explaining the exceptions HAS
+now been exhibited** (2026-08-28/29), which retires the sentence that stood
+here. Two exhibits, and the second says why the first candidate failed. On the
+clause-2 6-family the dressing U = SWAP₀₂·Z₀Z₁Z₂ works. On the CLAUSE-1
+exceptions it is closed form: take P₃ with an XX+YY bond, no field, one
+dephasing axis per site and all rates equal; of the six three-axis assignments
+clause 1 forbids, exactly the two with **Z on the middle site** pair anyway, and
+there
+
+    axes X Z Y :   U = YYZ + ZXX
+    axes Y Z X :   U = XXZ + ZYY
+
+each Hermitian, each squaring to 2·𝟙 (the two strings anticommute, so the cross
+term dies), det U = 16, and the reflector identity ℒ_U·L·ℒ_U⁻¹ = −L† − 2Σγ
+verified entry by entry with residual exactly 0, gated at
+[`simulations/f138_clause_one_exceptions.py`](../simulations/f138_clause_one_exceptions.py)
+→ [`f138_clause_one_exceptions.txt`](../simulations/results/f138_clause_one_exceptions.txt)
+(22 gates, the exception set written as a literal so the gate can fail, and the
+separation gated against the eigensolver's backward-error model rather than a
+chosen number). **That gate also measures the two-term proviso directly**: run
+the same six three-axis rows at the THREE-letter bond XX+YY+ZZ and all six
+break, dim 𝒲 = 0 on every one and the exception set empty, so the exceptions are
+a two-letter-bond phenomenon that vanishes when the bond gains its third letter. **Why the bare site reflection
+was refuted and nothing followed from it:** U is a SUM of two Pauli strings,
+neither a single string nor a signed site permutation, so the earlier refutation
+was right about its candidate and was wrong to be read as evidence that nothing
+exists. And the structure is one clause 1 cannot see: the exceptions are about
+WHERE the odd axis sits, not how many axes there are.
+[F158](#f158-the-palindrome-is-a-count-of-the-two-ends) decides the same setting
+in general without exhibiting anything at all, by comparing dim ker L with
+dim ker(L + 2Σγ), and it finds every one of these. Separate EXISTS from EXPLAINS
+when reading it: the operators above are exhibited on the two named families,
+the mechanism on the clause-2 72 is still not shown, and the 27-row family here
+is not F138's own 22-of-4096 count. Both
 failures are collected in
 [an open arc](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
 (`f138_converse_failures`); the mechanism is a candidate
@@ -6098,8 +6129,23 @@ on the exact kernel
 (run it directly, it self-tests its own escape channels).
 **Proof:** the Scope paragraphs of
 [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
-(`1c7dcf9`, field-free clause refined in `08db70e`). **Typed:** not yet
-(Tier1Candidate). Open: typing; a derivation of the two-term proviso.
+(`1c7dcf9`, field-free clause refined in `08db70e`) carry the SUFFICIENT
+direction, and they carry it as a measured census rather than as a derivation:
+every qualifier there is reported as a row count (256/256 against 1/256, 64/64
+against 0/64). Read as a proof of the *only when* half it would contradict this
+very row, which counts that half failing five separate ways. **Narrowed
+2026-08-29**, when the circle was noticed: that proof cited this row for the
+law while this row cited that proof for the proof, and neither end derived it.
+[F158](#f158-the-palindrome-is-a-count-of-the-two-ends) now decides the same
+setting exactly (a dephasing axis n̂·σ⃗ is Hermitian and squares to 1, and
+on-site fields sit inside H, so every configuration this row sweeps is inside
+its class), which makes the honest reading available: these clauses are a
+sufficient condition whose exceptions are the configurations where the clauses
+fail and an invertible U exists anyway. Moving F158 into this Proof field is
+the natural next step and is **deliberately not taken yet**, F158 being one day
+old; the argument is parked in the arc `f138_converse_failures`. **Typed:** not
+yet (Tier1Candidate). Open: typing; a derivation of the two-term proviso; the
+F158 anchor move.
 
 ### F139. The seam identity: the F134 wall is a Chebyshev divisor (a chain of six lemmas ending in a finite exact-ℤ division; a priori from the F133 letters; minted 2026-07-21)
 
@@ -7957,6 +8003,98 @@ count at N = 60, 120, 200, the tests pinning N = 60 and 200); scalar faces
 `inspect --root blind` (`SeatCutBlindnessWitness`, the count as an exact GF(p)
 Krylov rank at two primes and the span as a second, independent elimination,
 both recomputed at inspect time).
+
+### F158. The palindrome is a count of the two ends: for L(ρ) = −i[H,ρ] + Σγ_l(A_lρA_l − ρ) with H Hermitian, every A_l Hermitian and squaring to 1, and every γ_l > 0, the spectrum multiset pairs about −σ **if and only if** dim ker L = dim ker(L + 2σ) (Tier 1 derived, both directions proved 2026-08-28; the near kernel is the commutant of ⟨H, A_l⟩ and the far one is the same space with the jump sign flipped, both by a Cauchy-Schwarz equality case; registered 2026-08-29)
+
+The criterion carries no operator to find and no subspace to sample: it is two
+nullities compared, each an exact rank. Write σ = Σ_l γ_l and
+
+    𝒩 = {X : [H, X] = 0 and A_l X A_l = +X}     the commutant
+    𝒲 = {W : [H, W] = 0 and A_l W A_l = −W}     the anticommutant
+
+Then **ker L = 𝒩** and **ker(L + 2σ) = 𝒲**, and the palindrome is the statement
+that the two have equal dimension. The chain is four steps and each can fail
+alone: (1) the two kernels are those two spaces, one inclusion each way being
+pure algebra and the other the equality case of Cauchy-Schwarz in the
+Hilbert-Schmidt norm; (2) both eigenvalues are semisimple, so geometric equals
+algebraic multiplicity at both ends, which is [PROOF_CODIM1_BY_ADDITIVITY]'s
+window-edge lemma read at the two edges of the numerical range
+Re λ ∈ [−2σ, 0] and is **cited rather than claimed**; (3) 𝒲 holds an invertible
+element exactly when dim 𝒲 = dim 𝒩, forward because 𝒲 = 𝒩·U and backward by
+Wedderburn multiplicities and AM-GM; (4) an invertible U reflects the spectrum
+by the one-sided identity ℒ_U L ℒ_U⁻¹ = −L† − 2σ, collapsed onto the palindrome
+by hermiticity preservation. Necessity, which
+[F138](#f138-the-boundary-law-of-the-dephasing-palindrome) could only measure
+over 140,861 rows, follows from (1), (2) and L(1) = 0.
+
+**What it buys beyond the letters.** The hypothesis is A_l² = 1, not "a Pauli
+letter on a site", so the criterion covers any n̂·σ⃗ at a unit direction, any
+multi-site Pauli string, and a full depolarizing site. That last is F1's own
+canonical break and the criterion gets it right from outside the sample:
+dim ker L = 1 against dim ker(L + 2σ) = 0 at every rate profile, uniform or not.
+**And the SIZE of that break is not [F1](#f1)'s (2/3)Σγ once the three rates
+differ**, which is worth stating here because the first version of this entry
+generalised that number and was wrong to. On one site with rates (γ_x, γ_y, γ_z)
+the spectrum is {0, −2(σ−γ_x), −2(σ−γ_y), −2(σ−γ_z)} and its reflection is
+{−2σ, −2γ_x, −2γ_y, −2γ_z}: the same shape with σ and the rates exchanged, so
+the optimal matching leaves
+
+    residual = 2·min_l γ_l
+
+with the identity mode at 0 forced onto −2·min γ. That equals (2/3)Σγ exactly
+and only at uniform rates, where min γ = σ/3, and at (1, 2, 4) the two differ by
+more than a factor of two. F1's number is stated for the uniform channel and is
+correct there; carrying it onto a profile is the error, and it is the same shape
+as F138's own: a law read at one point of an axis is not tested on that axis.
+The VERDICT is untouched either way.
+
+**Corollaries.** `dim ker(L + 2σ) ≤ dim ker L` always, with no palindrome in
+sight. On the canonical Heisenberg chain under Z-dephasing both counts are
+N + 1, which is
+[DEGENERACY_PALINDROME](../experiments/DEGENERACY_PALINDROME.md) Result 2's own
+pair of numbers: that page states the bijection between the N+1 conserved
+quantities and the N+1 XOR-sector modes and reads it as a consequence of Π, and
+the theorem inverts the reading, the bijection BEING the palindrome. And at odd
+local dimension the palindrome is impossible rather than merely absent, since an
+invertible U with U A U⁻¹ = −A makes A and −A similar and A then needs balanced
+±1 multiplicities.
+
+**Three fences, all load bearing, none decorative.** A_l² = 1: with T1 jumps
+[F137](#f137) keeps a palindrome about a different centre, stated there exactly
+as trace(L)/dim, so a criterion phrased about −2σ answers a different question.
+γ_l > 0: a zero rate drops that site's condition from both spaces and MOVES the
+verdict (a ZZ bond with an X field on site 0 and X-dephasing on both sites is
+broken with both rates on and palindromic the moment site 0 stops being
+watched), so γ-blindness holds inside the open orthant and not on its boundary.
+Even d, as above. What is decided is the MULTISET;
+[F1](#f1) is the operator identity and also sees the Jordan structure, so a row
+where the spectrum pairs anyway falsifies a spectral converse and says nothing
+about whether Π conjugates L there.
+
+**Proof:**
+[PROOF_PALINDROME_TWO_END_COUNT](proofs/PROOF_PALINDROME_TWO_END_COUNT.md)
+(Lemmas 1-3 and the theorem), built on
+[THE_PAIRING_CONDITION](../experiments/THE_PAIRING_CONDITION.md), which is the
+route and whose sufficiency calculation is consumed unchanged.
+**Gate:** [`simulations/f138_rank_criterion.py`](../simulations/f138_rank_criterion.py)
+→ [`f138_rank_criterion.txt`](../simulations/results/f138_rank_criterion.txt):
+15,415 rows scored against the palindrome in both directions with FP = 0 and
+FN = 0, three verification layers that encode the conditions differently (exact
+ℚ(i) with Fraction arithmetic, exact GF(p), and a float route that imports
+nothing from this repository and whose thresholds are gated on measured
+separations of 10.6 and 11.9 decades), plus F103 §7.12's three counterexample
+rows, the depolarizing break, the rate fence, odd d, and eight constructed rows
+with 0 < dim 𝒲 < dim 𝒩 where the equality says more than nonemptiness.
+**Typed:** `PalindromeTwoEndCountClaim`
+([compute/RCPsiSquared.Core/Symmetry/PalindromeTwoEndCountClaim.cs](../compute/RCPsiSquared.Core/Symmetry/PalindromeTwoEndCountClaim.cs),
+child of `F1PalindromeIdentity`) with the live witness `inspect --root twoend`
+(`PalindromeTwoEndCountWitness`: the two nullities by GF(p) elimination, the
+same two dimensions again from the operator conditions by a route that never
+forms L, and the palindrome by the characteristic-polynomial identity, with a
+break printed beside the canonical row). Open: whether Lemma 3's Case 2
+recursion can be replaced by a direct argument; and whether F158 should become
+F138's Proof anchor, argued in the arc `f138_converse_failures` and deliberately
+not taken on the day F158 landed.
 
 ---
 
