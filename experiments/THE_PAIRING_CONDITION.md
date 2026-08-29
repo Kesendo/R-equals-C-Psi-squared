@@ -328,7 +328,8 @@ the characteristic polynomial does not pair.
 
 **The typed layer.** Nothing here is citable from the repository until the
 construction lands as a claim with a live witness. The gate script is committed;
-the witness is not written.
+the witness is written: `PalindromeTwoEndCountWitness`, live at
+`inspect --root twoend`, landed with F158 in the same change as this page.
 
 **The arc `f138_converse_failures` now needs a pass** (and got one, in this same
 change). Its ParkedAt says the named candidate space is empty and that existence

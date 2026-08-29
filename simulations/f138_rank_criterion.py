@@ -1115,9 +1115,14 @@ def gate10_boundaries():
 
     print('  (a) DEPOLARIZING. X, Y and Z are each Hermitian and square to 1,')
     print('  so a depolarizing site is INSIDE this class, and F1 records it as')
-    print('  the canonical BREAK with a residual of (2/3)*Sum gamma. Nothing')
-    print('  in the scored grids has three jumps on one site, so this is out')
-    print('  of sample in both senses.')
+    print('  the canonical BREAK. Three numerals wear one name here and this')
+    print('  gate scores none of them, only the VERDICT: F5 owns the scalar')
+    print('  ERROR (2/3)*Sum gamma for isotropic sites, F1 keeps a separate')
+    print('  depolarizing RESIDUAL closed form, and an optimal spectral')
+    print('  matching is a third quantity. They coincide at uniform isotropic')
+    print('  rates and nobody has checked whether they are one object off')
+    print('  that locus. Nothing in the scored grids has three jumps on one')
+    print('  site, so this row is out of sample in both senses.')
     for n in (2, 3):
         edges = [(i, i + 1) for i in range(n - 1)]
         H = build_H_words(n, edges, ['XX', 'YY', 'ZZ'], P)

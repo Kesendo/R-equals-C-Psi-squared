@@ -432,7 +432,14 @@ Linear in γ and N. Hamiltonian-independent. The palindrome demands a pair
 sum of 2Σγ, but depolarizing noise can supply at most (4/3)Σγ (every site
 carrying a decaying Pauli); the shortfall (2/3)Σγ is the error.
 
-**Valid for:** any Hamiltonian under depolarizing noise.
+**Valid for:** any Hamiltonian under depolarizing noise, at any per-site rate
+profile, **provided each site is ISOTROPIC** (its three letters at one rate;
+rates free to differ between sites). The derivation above takes the three per
+site to be equal and the line did not say so. Off that class the same argument
+gives `2·Σ_sites (min over that site's three letter rates)`, which collapses to
+this row at every isotropic site; anisotropic rates make a Pauli channel and not
+a depolarizer, and the general form is a lead rather than a law
+(see [F158](#f158-the-palindrome-is-a-count-of-the-two-ends), 2026-08-29).
 **Replaces:** numerical palindrome check for depolarizing channels.
 At γ ~ 0.001 (typical IBM): error < 0.1%.
 **Source:** [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
@@ -8032,21 +8039,28 @@ letter on a site", so the criterion covers any n̂·σ⃗ at a unit direction, a
 multi-site Pauli string, and a full depolarizing site. That last is F1's own
 canonical break and the criterion gets it right from outside the sample:
 dim ker L = 1 against dim ker(L + 2σ) = 0 at every rate profile, uniform or not.
-**And the SIZE of that break is not [F1](#f1)'s (2/3)Σγ once the three rates
-differ**, which is worth stating here because the first version of this entry
-generalised that number and was wrong to. On one site with rates (γ_x, γ_y, γ_z)
-the spectrum is {0, −2(σ−γ_x), −2(σ−γ_y), −2(σ−γ_z)} and its reflection is
-{−2σ, −2γ_x, −2γ_y, −2γ_z}: the same shape with σ and the rates exchanged, so
-the optimal matching leaves
+**And the SIZE of that break is [F5](#f5-depolarizing-error-tier-1-proven)'s
+(2/3)Σγ, on the whole class F5 is about.** This paragraph is the second
+correction of the same sentence and the history is worth keeping, because both
+errors were of the shape this repo names. The first version generalised F1's
+uniform number to a rate profile without checking. The second version
+"corrected" it to 2·min_l γ_l on the strength of a single-site counterexample
+with rates (1, 2, 4) on X, Y and Z, and that was wrong in the other direction:
+those three rates make an ANISOTROPIC Pauli channel, not a depolarizer, so it
+stepped outside F5 rather than refuting it. **F5 is right, and right for
+non-uniform rates**: with per-site isotropic rates γ_l the fastest string decays
+at 4Σγ_l against the 6Σγ_l the palindrome demands, and the shortfall is
+2Σγ_l = (2/3)σ, verified here exactly at one and two sites with unequal site
+rates. What the anisotropic excursion did produce is a strictly more general
+form of F5's own derivation, one word changed, the shortfall being what each
+site's WEAKEST letter fails to supply:
 
-    residual = 2·min_l γ_l
+    residual = 2 · Σ_sites ( min over that site's three letter rates )
 
-with the identity mode at 0 forced onto −2·min γ. That equals (2/3)Σγ exactly
-and only at uniform rates, where min γ = σ/3, and at (1, 2, 4) the two differ by
-more than a factor of two. F1's number is stated for the uniform channel and is
-correct there; carrying it onto a profile is the error, and it is the same shape
-as F138's own: a law read at one point of an axis is not tested on that axis.
-The VERDICT is untouched either way.
+which collapses to (2/3)σ at every isotropic site. That form is derived and
+measured on single-site rows only, is **not** gated multi-site, and is recorded
+here as a lead rather than as a law. The VERDICT is untouched throughout: the
+criterion says BROKEN at every rate profile, isotropic or not.
 
 **Corollaries.** `dim ker(L + 2σ) ≤ dim ker L` always, with no palindrome in
 sight. On the canonical Heisenberg chain under Z-dephasing both counts are

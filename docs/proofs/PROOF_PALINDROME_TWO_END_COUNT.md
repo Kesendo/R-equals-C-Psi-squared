@@ -96,8 +96,8 @@ repaired one.**
   (registered as **F147**) owns the same equality-case move on the imaginary
   axis, with the rigidity written out. [PROOF_ABSORPTION_THEOREM](PROOF_ABSORPTION_THEOREM.md)
   holds `Re(λ) = −2 Σ_l γ_l·light_l(v)`; an earlier draft said it never reads
-  that at its extremes, and the same file's line 19 reads one of them (*"modes
-  of pure {X,Y}^⊗N content die fastest (rate 2Nγ)"*). It also records
+  that at its extremes, and the same file reads one of them in its own opening
+  (*"eigenmodes of pure {X, Y}^⊗N content die fastest (rate 2Nγ)"*). It also records
   `(X_k + Z_k)/√2` as breaking its own reading, which is a member of this file's
   class, so nothing here leans on it.
   [MIRROR_SYMMETRY_PROOF](MIRROR_SYMMETRY_PROOF.md) owns the first link, *"the
@@ -139,6 +139,21 @@ repaired one.**
   [SYMMETRY_CENSUS](../../experiments/SYMMETRY_CENSUS.md) carries both operator
   conditions months old and reads them as invariance, which the pairing-condition
   page already corrects.
+  **And one page this sweep missed entirely, found by a third session after the
+  commit:** [DEPOLARIZING_PALINDROME](../../experiments/DEPOLARIZING_PALINDROME.md)
+  §8 states an iff in exactly this territory, *"the palindrome holds under Pauli
+  noise if and only if the noise has at most two Pauli axes"*, and it is the
+  SAME-SITE reading, where F138 clause 1 and the pairing page answer the
+  across-sites one (three axes on three different sites have a common
+  anticommutant and the criterion carries no ceiling). Different objects, and
+  the same-site one is where an iff can bite. That law is also **conditional on
+  H in a way its own page does not state**: the criterion says the U for
+  two-axis noise is the global product of the MISSING letter, so H may carry a
+  field along that letter and no other. Measured by that session, Z+X noise on
+  every site at N = 3 with U = ΠY: no field and a Y field both give residual
+  ~1e−14, a transverse X field 3.628 and a longitudinal Z field 1.694. The
+  Y-field row is the one nobody would guess, and it is a scope fence this
+  theorem owes that one.
 - **[`docs/GLOSSARY.md`](../GLOSSARY.md)** carries the far-end count measured
   three times and named only as modes: *"NONE at all under a generic Hermitian
   H, whose maximum rate falls short of 2Σγ entirely (measured at N = 3,
@@ -506,10 +521,15 @@ unsatisfiable for every monic polynomial of odd degree, whatever the physics.
 
 And the condition generalises for free, because U commutes with H as well:
 **every word in {H, A_1 … A_m} with an odd number of A-letters is traceless**.
-Measured on 12,240 two-qubit rows by a second session: no palindromic row
-violates it, and words of length at most 3 alone refute 94.3% of the broken
-ones. That is an O(d³) pre-filter with no Liouvillian in it, and the
-converse-side companion to §(d)'s rank comparison.
+That is an O(d³) pre-filter with no Liouvillian in it, and the converse-side
+companion to §(d)'s rank comparison. **The condition is proved; the numbers
+beside it are not gated here and carry their own caveat.** A second session
+measured it on 12,240 two-qubit rows, finding no palindromic row that violates
+it and words of length at most 3 alone refuting 94.3% of the broken ones; that
+sweep used a fixed relative tolerance of 10⁻⁹ with no separation study, which is
+strong evidence and not the standard the rest of this file holds itself to. The
+pre-filter is not built as a gate or a witness anywhere, and building it is the
+cheapest open item this theorem leaves.
 
 **(f6) The two ends are both what they are called.** For this class L† is L with
 H ↦ −H, so `ker L† = ker L = 𝒩`: the conserved quantities and the steady modes
@@ -538,6 +558,23 @@ and not merely the eigenvalue multiset. That also answers the request the arc
 S L S⁻¹ = −L − 2σ: such an S exists whenever the two counts agree. What §(e)
 exhibits is the one-sided U giving −L† − 2σ; the S is a derivation on top of it
 and is not gated here.
+
+**(f9) Noise in the system's own eigenbasis never pairs.** If every jump is a
+FUNCTION of the Hamiltonian, A_l = f_l(H), then 𝒲 = 0 and the spectrum never
+pairs, at any rate profile and whatever H is. One line: W ∈ 𝒲 commutes with H,
+hence with f_l(H) = A_l, so A_l W A_l = A_l² W = +W, which contradicts
+A_l W A_l = −W unless W = 0. Meanwhile 𝒩 is as large as H's own commutant, so
+the two counts are as far apart as they get. Measured on 12 rows at d = 4, 6, 8
+with A = sign(H − c), which is Hermitian, squares to 1 and is therefore squarely
+INSIDE the class: dim ker L = d and dim ker(L + 2σ) = 0 on every one.
+
+The physical reading is worth the sentence, because it is the sharpest thing the
+criterion says without any computation at all: **a channel that watches in the
+system's own energy basis cannot produce a palindrome**. The pairing needs the
+watching to be transverse to the turning in the strong sense of anticommuting
+with it, and a function of H is the exact opposite of that. The question was
+asked by a third session on 2026-08-29, on the strength of two measured rows and
+without the argument; the argument is theirs too.
 
 ## (g) What is gated, and how
 

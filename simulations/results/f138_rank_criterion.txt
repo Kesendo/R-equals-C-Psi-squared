@@ -160,9 +160,14 @@ pairing-condition page carries. For
 
   (a) DEPOLARIZING. X, Y and Z are each Hermitian and square to 1,
   so a depolarizing site is INSIDE this class, and F1 records it as
-  the canonical BREAK with a residual of (2/3)*Sum gamma. Nothing
-  in the scored grids has three jumps on one site, so this is out
-  of sample in both senses.
+  the canonical BREAK. Three numerals wear one name here and this
+  gate scores none of them, only the VERDICT: F5 owns the scalar
+  ERROR (2/3)*Sum gamma for isotropic sites, F1 keeps a separate
+  depolarizing RESIDUAL closed form, and an optimal spectral
+  matching is a third quantity. They coincide at uniform isotropic
+  rates and nobody has checked whether they are one object off
+  that locus. Nothing in the scored grids has three jumps on one
+  site, so this row is out of sample in both senses.
   [PASS] depolarizing at N=2: criterion = palindrome              dimN=1 dimW=0 palindrome=False (both say NO)
   [PASS] depolarizing at N=3: criterion = palindrome              dimN=1 dimW=0 palindrome=False (both say NO)
 
@@ -206,16 +211,16 @@ pairing-condition page carries. For
 
 ## Gate 4: the rank equality scored against the exact palindrome
 
-  [PASS] rank criterion exact on P3, ends equal                   rows=2500 holds=288 breaks=2212  0<dimW<dimN on 20  FP=0 FN=0  (21 s)
-  [PASS] rank criterion exact on K3, all equal                    rows=2500 holds=299 breaks=2201  0<dimW<dimN on 28  FP=0 FN=0  (21 s)
-  [PASS] rank criterion exact on bond+isolate                     rows=2500 holds=638 breaks=1862  0<dimW<dimN on 145  FP=0 FN=0  (19 s)
+  [PASS] rank criterion exact on P3, ends equal                   rows=2500 holds=288 breaks=2212  0<dimW<dimN on 20  FP=0 FN=0  (20 s)
+  [PASS] rank criterion exact on K3, all equal                    rows=2500 holds=299 breaks=2201  0<dimW<dimN on 28  FP=0 FN=0  (20 s)
+  [PASS] rank criterion exact on bond+isolate                     rows=2500 holds=638 breaks=1862  0<dimW<dimN on 145  FP=0 FN=0  (18 s)
   [PASS] rank criterion exact on P3, generic                      rows=2500 holds=278 breaks=2222  0<dimW<dimN on 0  FP=0 FN=0  (21 s)
-  [PASS] rank criterion exact at bond XX+YY                       rows=900 holds=167 breaks=733  0<dimW<dimN on 0  FP=0 FN=0  (8 s)
+  [PASS] rank criterion exact at bond XX+YY                       rows=900 holds=167 breaks=733  0<dimW<dimN on 0  FP=0 FN=0  (7 s)
   [PASS] rank criterion exact at bond XX                          rows=900 holds=339 breaks=561  0<dimW<dimN on 6  FP=0 FN=0  (9 s)
   [PASS] rank criterion exact at bond ZZ                          rows=900 holds=326 breaks=574  0<dimW<dimN on 5  FP=0 FN=0  (6 s)
   [PASS] rank criterion under non-uniform J and gamma             rows=600 holds=77 breaks=523  0<dimW<dimN on 3  FP=0 FN=0  (5 s)
-  [PASS] rank criterion exact, N=4 path                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (97 s)
-  [PASS] rank criterion exact, N=4 ring                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (87 s)
+  [PASS] rank criterion exact, N=4 path                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (81 s)
+  [PASS] rank criterion exact, N=4 ring                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (83 s)
 
   And the same rows scored for T4, which is what replaces sampling:
   [PASS] invertible element <=> dim N == dim W, P3 equal          rows=2500  mismatches=0
