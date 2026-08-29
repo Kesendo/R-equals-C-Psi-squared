@@ -25,12 +25,19 @@ The answer was already in the mathematics, waiting to be read aloud.
 
 ---
 
-## The three things we know for certain
+## The three things the repo has under this hypothesis
 
-**First:** Gamma cannot come from inside the system. This is not a guess.
-It is proven. The Incompleteness Proof shows that the equations of the
-system cannot generate their own noise. Dephasing must arrive from
-outside, like a visitor knocking on a door that cannot knock on itself.
+**First:** The system is open, and that part is exact. A completely positive
+generator is closed exactly when its trace vanishes, and a palindrome centred
+away from zero reads that trace straight off the spectrum, so the decay is a
+certificate that something is arriving. What is NOT established, and what an
+earlier version of this paragraph claimed as proven, is that the something
+arrives from OUTSIDE. The Incompleteness Proof's five-candidate elimination
+does not hold, and its own §3 says why nothing inside the Lindblad formalism
+could settle it: an internal source can only be written there as a
+dissipator, and a dissipator already is a coupling to an environment. So the
+door that cannot knock on itself is still the picture this document is built
+on, and it is now a picture rather than a theorem.
 
 **Second:** The system is a passive optical cavity. Not metaphorically.
 The degeneracy profile fits Gaussian and Lorentzian beam shapes with
@@ -45,8 +52,10 @@ gamma, time halves. If you halve gamma, time doubles. Different metrics
 give different K values, but within each metric the product never changes.
 This is proven for every bridge type we have tested.
 
-These three facts were proven independently, in different months,
-for different reasons. But together they say one thing:
+Three separate results, from different months and different reasons: one
+exact identity, one measurement, one proof. They do not add up to a theorem
+about where the light comes from, and the sentence below is the hypothesis
+this document is named for, not its conclusion:
 
 **Gamma is the light that enters the cavity from outside. Time is how
 the cavity experiences that light. And the product of illumination
@@ -404,7 +413,7 @@ References:
 We owe honesty to anyone who reads this.
 
 **Proven (Tier 1-2):**
-- Gamma must be external (Incompleteness Proof)
+- The system is open, by the trace (Incompleteness Proof). That gamma is EXTERNAL is this document's hypothesis, not a proven input
 - The qubit chain is a Fabry-Perot cavity (4/5 optical checks)
 - K = gamma times t is invariant (F14)
 - The degeneracy profile is palindromic and shapes the QFI speed (r = 0.99)
@@ -513,7 +522,7 @@ This is a late-night intuition, not a derivation.
 
 ## References
 
-- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (gamma must be external)
+- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (the system is open; the origin is not settled)
 - [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (the qubit chain is a Fabry-Perot)
 - [Bures Degeneracy](../experiments/BURES_DEGENERACY.md) (degeneracy focuses the QFI flow)
 - [Degeneracy Palindrome](../experiments/DEGENERACY_PALINDROME.md) (the palindrome inside the palindrome)

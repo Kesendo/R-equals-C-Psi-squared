@@ -1,40 +1,39 @@
-# Incompleteness of d(d-2)=0: Where Noise Comes From (And Why the Answer Is "Not From Here")
+# The Noise Origin: the Trace Proves Open, and the Formalism Cannot Ask Further
 
-**Status:** Tier 1 derived (typed as [`NoiseOriginExclusionClaim`](../../compute/RCPsiSquared.Core/Symmetry/NoiseOriginExclusionClaim.cs), live witness `inspect --root noise-origin`); 5 candidates within the framework examined, four eliminated and the first (internal bootstrap) reduced to a structural constraint (§2, Candidate 1), 0 viable internal candidates remain. The corollaries on time and γ (§3) are interpretive extensions; the γ-time statement is scoped by [GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md).
-**Date:** 2026-03-21, last refreshed 2026-07-20 (the change history lives in git)
+**Status:** Tier 1 for §1 and §3's trace identity, two lines of exact algebra that hold for any Lindblad generator in any dimension. Tier 2 for everything about ORIGIN: no internal candidate is eliminated (§2), and §3 gives the reason the formalism cannot settle it. Typed as [`NoiseOriginExclusionClaim`](../../compute/RCPsiSquared.Core/Symmetry/NoiseOriginExclusionClaim.cs), live witness `inspect --root noise-origin`. The corollaries on time and γ (§3) are interpretive extensions; the γ-time statement is scoped by [GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md).
+**Date:** 2026-03-21, last refreshed 2026-08-29 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Statement:** Within the d(d−2)=0 ontology (qubits + d=0 nothing), the dephasing noise required by the palindromic mirror symmetry cannot originate from any internal source. Noise must come from outside the framework.
-**Reference claim:** [`PolynomialFoundationClaim` + `QubitDimensionalAnchorClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) (Tier 1 derived; the d²−2d=0 polynomial selects d=2 as the qubit dimension, with d=1 algebraically excluded). This proof shows the same ontology is incomplete with respect to noise origin.
-**Depends on:** [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md), [bootstrap_test.py](../../simulations/bootstrap_test.py), [failed_third.py](../../simulations/failed_third.py), [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md)
-**Scope:** The noise origin question within the d(d−2)=0 framework.
-**Does NOT establish:** What the noise IS. Only that it cannot originate
-from within the framework's ontology.
+**Statement:** A palindromic Liouvillian spectrum is centred at trace(L)/dim. That centre is zero exactly when the generator is unitary, so a measured palindrome centred anywhere else certifies that the system is open. Where the openness comes from is not settled here and cannot be settled inside the Lindblad formalism, in which an internal source can only be written as a dissipator, and a dissipator is a coupling to an environment.
+**Reference claim:** [`PolynomialFoundationClaim` + `QubitDimensionalAnchorClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) (Tier 1 derived; the d²−2d=0 polynomial selects d=2 as the qubit dimension, with d=1 algebraically excluded). The ontology bounds §2's candidate survey; it plays no part in §1 or §3.
+**Depends on:** [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md), F137's centre identity ([formula registry](../ANALYTICAL_FORMULAS.md)), [incompleteness_candidate2_evidence.py](../../simulations/incompleteness_candidate2_evidence.py) (29 gates), [bootstrap_test.py](../../simulations/bootstrap_test.py), [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md).
+**Scope:** §1 and §3's identity hold for any Lindblad generator, in any dimension. The candidate survey of §2 is specific to the d(d−2)=0 ontology and, by §5, is not exhaustive even there.
+**Does NOT establish:** What the noise IS, nor that it comes from outside. An internal origin is open; §3 gives the reason nothing inside this formalism could close it.
 
 ---
 
 ## What this document is about
 
-Imagine a house where the lights flicker. You check every room, every
-wire, every circuit breaker. Nothing inside the house can explain the
-flickering. The wiring is perfect. The appliances are fine. The breakers
-are solid. Yet the lights flicker. The only remaining possibility: the
-flickering comes from outside the house. From the power grid, the
-weather, something you cannot see from inside.
+A pendulum does not flicker. That is what this document proves, and it
+proves it exactly.
 
-This document does the same thing for quantum noise. The palindromic
-mirror symmetry (proven in the [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md))
-requires noise to exist: without it, there is no palindrome, no decay,
-no time arrow. So noise must be real. But where does it come from? We
-test every possible source that exists within the mathematical framework:
-the system generating its own noise, a single qubit decaying, a bath of
-many qubits, the "nothing" solution, and anything else the equations
-allow. Five candidates: four eliminated outright, the first reduced to
-a structural constraint (Candidate 1 below). None of them work.
+The palindromic mirror symmetry (proven in the
+[Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)) says the Liouvillian's
+rates come in mirror pairs. A mirror has a centre, and the centre is not free
+to choose: a spectrum closed under λ ↦ 2c − λ has c = trace(L)/dim,
+identically. The Hamiltonian part of any generator contributes nothing to
+that trace, and any dissipator that dissipates anything drives it strictly
+negative. So the centre is zero exactly for a closed system, and a measured
+palindrome centred anywhere else certifies that the system is open. Two lines
+of algebra, no candidate list, no simulation, and it holds in any dimension.
 
-The conclusion is not that noise is mysterious. The conclusion is precise:
-noise cannot originate from within the system that it acts on. It must
-come from outside. This is not philosophy; it is a process of elimination,
-and every step is a computation you can run yourself.
+Where the openness comes from is the harder question, and this document does
+not answer it. §2 walks the five sources the d(d−2)=0 ontology allows and
+finds none of them eliminated. §3 says why that is not a gap a better
+experiment would fill: inside the Lindblad formalism an internal source can
+only be written as a dissipator, and a dissipator is a coupling to an
+environment, so the formalism grants the outside in the act of posing the
+question. That is the incompleteness named here. It belongs to the formalism,
+not to the polynomial in this file's name.
 
 ---
 
@@ -46,26 +45,40 @@ zero exceptions), and confirmed on IBM hardware: the single-qubit
 CΨ = 1/4 crossing at 1.9% deviation on ibm_torino Q80
 ([IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md), F24).
 
-The palindrome requires noise. Without the dissipator L_D, the Liouvillian
-is purely Hamiltonian: L = L_H. This produces unitary dynamics (perfectly reversible
-evolution where nothing is lost, like a pendulum that never slows down).
-Pure oscillation, no decay rates, no palindromic pairing, no spectral
-architecture. The dissipator creates the real parts of the eigenvalues
-that pair palindromically.
+A closed system already has a palindrome. With L = L_H = −i[H, ·] the
+eigenvalues are the purely imaginary −i(E_m − E_n), and that multiset is
+closed under negation because swapping m and n is a symmetry of it, so the
+spectrum pairs about zero at the eigensolver floor, 8.9e-15 at N = 3
+([incompleteness_candidate2_evidence.py](../../simulations/incompleteness_candidate2_evidence.py),
+gate 6d; the digits are the solver's, the zero is not).
+It is unitarity and nothing more: no decay rates, no arrow.
+[ZERO_IS_THE_MIRROR.md](../../hypotheses/ZERO_IS_THE_MIRROR.md) reaches the
+same place from the other side, calling the unitary case the palindrome's
+ground state.
 
-Therefore noise must exist. The question is: where does it come from?
+So the pairing is not what separates the framework's claim from unitarity.
+The **centre** is. A multiset closed under λ ↦ 2c − λ has Σλ = c·dim, hence
+c = trace(L)/dim exactly ([F137](../ANALYTICAL_FORMULAS.md)): one candidate
+centre, read off the generator without an eigensolver, so "does not pair at
+it" is a measurement and never a failed search. The commutator part
+contributes nothing to that trace and every jump that dissipates anything
+makes it strictly negative (§3). A palindrome centred away from zero is
+therefore a palindrome with decay in it.
+
+Noise exists, in the one sense a spectrum can testify to: the system is open.
+Where that comes from is the question below.
 
 ---
 
-## 2. The Elimination
+## 2. The Five Candidates the Ontology Allows
 
 Five candidates for the origin of dephasing noise within the d(d-2)=0
-framework. Four are eliminated outright; the first is reduced to a
-structural constraint, its elimination carried by Candidates 2-3.
-Think of this as a police
-investigation: we have a list of suspects, and we interrogate each one
-until we can prove they could not have done it. When every suspect is
-cleared, the perpetrator must be someone not in the room.
+framework, and what each is worth. **None of the five eliminates an internal
+origin.** Candidate 1 is a structural constraint on the dissipator's form.
+Candidates 2 and 3 have no evidence behind them. Candidates 4 and 5 are
+sound and definitional: they say what cannot EXIST, never that an existing
+qubit is not the source. §5 adds that the five do not exhaust the space in
+any case.
 
 ### Candidate 1: Internal origin (self-generated noise)
 
@@ -93,16 +106,14 @@ string, so the two commute trivially (verified from below in
 ‖[Π², L]‖ ≈ 1e-16 for all three axes). So the bootstrap result is
 *underdetermination*, not impossibility: parity constrains the dissipator's
 form to a multi-parameter family but does not forbid a self-generated source.
-The actual elimination of an internal origin is carried by Candidates 2 and 3
-below (a finite internal source produces non-Markovian backflow with γ_eff = 0;
-a qubit-bath leads to infinite regress).
+No other candidate below repairs this. Candidates 2 and 3 were built to,
+and neither does.
 
 **Source:** [bootstrap_test.py](../../simulations/bootstrap_test.py), [bootstrap_test.txt](../../simulations/results/bootstrap_test.txt); structural verifier [review2_A9_incompleteness.py](../../simulations/review2_A9_incompleteness.py)
 
-**Conclusion:** Candidate 1 establishes a structural *constraint* (any noise
-must respect the parity grading), not an elimination. The [Π², L] = 0 identity
-is origin- and axis-agnostic. Internal self-generated noise is eliminated by
-Candidates 2-3, not by parity.
+**Conclusion:** a structural *constraint* (any noise must respect the parity
+grading), not an elimination. The [Π², L] = 0 identity is origin- and
+axis-agnostic, and nothing below supplies the elimination it does not give.
 
 ### Candidate 2: Single qubit decay (the failed third)
 
@@ -116,27 +127,68 @@ different instability mechanisms (amplitude damping, detuning, thermal
 bath, X+Y dephasing). Q1-Q2 have no external noise. Measurement: does
 Q3's decay create effective palindromic dephasing on Q1-Q2?
 
-**Result:** gamma_eff = 0 for all four mechanisms. The effective
-decoherence is non-Markovian (50% of the time the trace distance, a
-measure of how distinguishable two quantum states are, actually
-*increases*, meaning information partially returns rather than only
-leaking away). Process tomography (a complete experimental
-reconstruction of what a quantum channel does to every possible input)
-gives 0/16 palindromic
-pairs at every option. The reference system (standard Z-dephasing at
-gamma=0.1) gives 16/16 palindromic pairs at error 1.78e-15.
+**Result:** Q3's instability *does* damage Q1-Q2, and substantially: the
+pair's purity falls from 1.000000 to 0.471109 (amplitude damping),
+0.374586 (thermal bath) and 0.334815 (X+Y dephasing) over the run, and
+the Bell coherence it was prepared in, |00⟩⟨11|, falls from 0.500000 to
+0.143612, 0.110308 and 0.017248. Only detuning leaves it nearly untouched
+(0.996993), which makes that fourth mechanism a near-identity channel that
+can carry no weight either way.
 
-**Key finding:** Palindromic noise must be Markovian, meaning memoryless:
-each moment of noise is independent of the last, like static on a radio.
-But a finite quantum system has memory. Information flows to Q3 and
-partially returns as Q3 oscillates. This backflow destroys the
-palindromic structure. A single qubit is too small, too finite, and
-too memorial to produce the structured noise the palindrome requires.
+**What the three-qubit system does.** Scored at its own forced centre, the
+full generator is an **exact palindrome in every mechanism**: amplitude
+damping at −0.050000000, the thermal bath at −0.075000000, X+Y dephasing at
+−0.200000000, with relative power-sum residuals of 1.7e-17, 2.4e-17 and
+1.8e-16 by a route that uses no eigensolver. Those are the centres
+[F137](../ANALYTICAL_FORMULAS.md) predicts, −Σγ/2 for T1 and −Σ(γ↓+γ↑)/2 for
+a thermal bath. The instrument is not vacuous: amplitude damping's spectrum,
+whose centre is −0.050000000, scores 0.200 when it is offered −0.1 instead.
 
-**Source:** [failed_third.py](../../simulations/failed_third.py), [failed_third.txt](../../simulations/results/failed_third.txt)
+**What the two-qubit marginal does, and why it decides nothing about origin.**
+A marginal over a spectator that is still coupled fails to pair for reasons
+unrelated to where the noise comes from. Through one pipeline, minimising
+over the centre in every row: a system with **no noise at all** gives 0.094;
+**external** dephasing on Q1-Q2 with Q3 coupled gives 0.177, worse than any
+internal mechanism; the internal mechanisms give 0.116, 0.125 and 0.149; and
+the marginal pairs, at 2.2e-16, only when Q3 is fully decoupled. Same verdict
+for external noise, internal noise, and no noise.
 
-**Conclusion:** Eliminated. A decaying qubit cannot produce palindromic
-noise on its neighbors.
+**Why no experiment of this shape can decide it.** The "internal" source is
+modelled as a **Lindblad jump**, and a Lindblad dissipator is a coupling to
+an external Markovian bath. The model grants the externality it was built to
+test, which is why the generator's trace is negative and why a palindrome
+exists at −0.05 at all. §3 takes this up: it is not a flaw in this
+experiment but a property of the formalism.
+
+**Reading `failed_third.py`.** The script is still in the repository and
+still prints its March verdict, so three of its outputs need a warning. Its
+`gamma_eff = 0` is a guard's else-branch: the fit normalises by |01⟩⟨10| at
+t = 0, and a Φ⁺ preparation leaves that element **exactly** zero, so no
+mechanism reaches the fit. Its "non-Markovian, ~50% of steps, max deviation
+0.000000" counts increases of that same empty element beside a second
+else-constant; the property itself does hold, and a BLP probe in the
+reference below measures it. Its "0/16 palindromic pairs" is a centre
+**search** on a grid coarser than its own tolerance, seeded away from the
+centre F137 fixes in closed form, so it can pass only at its seed: hand that
+call an exactly palindromic spectrum and it also returns 0/16. Compounding
+it, the transfer matrix is divided by the Hilbert dimension twice, shifting
+every rate by −ln(4)/t = −0.277259, which is the value standing twice at the
+foot of all four of its published spectra. It also prints, twice and without
+measuring anything, that no dephasing means no palindrome. §1 says otherwise,
+and `simulations/two_qubits_no_noise.py` now measures it: the γ = 0 spectrum
+pairs **16 of 16** about its own centre, zero.
+
+**Source:** [incompleteness_candidate2_evidence.py](../../simulations/incompleteness_candidate2_evidence.py)
+and [its results](../../simulations/results/incompleteness_candidate2_evidence.txt),
+29 gates: the four marginals, the three-qubit palindromes at their forced
+centres, the BLP probe, the guard, and the seeded search. It re-measures
+[failed_third.py](../../simulations/failed_third.py) and
+[its March output](../../simulations/results/failed_third.txt), which are
+left as they were run.
+
+**Conclusion:** not eliminated. The experiment measures a partial trace over
+a coupled spectator, its "internal" source is an external bath by
+construction, and the full generator it builds is an exact palindrome.
 
 ### Candidate 3: Many qubits (thermodynamic bath)
 
@@ -146,19 +198,24 @@ environment of particles, and the environment shakes it. But within
 a framework where everything is made of qubits, a bath is just a
 collection of qubits, and each one faces the same prohibition.
 
-**Argument:** A bath of N qubits is N instances of qubits, each subject
-to Candidate 2 (a finite qubit source produces only non-Markovian noise with
-γ_eff = 0, not the Markovian palindromic dephasing required). If a single
-finite qubit cannot generate the required noise, a collection of finite qubits
-cannot either. Each member faces the same finiteness/backflow obstruction. The
-bath would require its own noise source, creating infinite regress.
+**Argument:** a bath of qubits that is to be the ORIGIN of the noise needs a
+reason for its own dynamics. Modelled as a Lindblad dissipator it has already
+been given an environment; modelled unitarily it is a closed system whose
+generator is traceless, so by §1 its palindrome sits at zero and carries no
+decay. Either way the question moves outward a step instead of being
+answered. That is the regress, and it is all this candidate has.
 
-**Note:** This does NOT eliminate a bath as a mathematical DESCRIPTION
-of noise (Lindblad theory works as a description). It eliminates a
-bath composed of qubits as the ORIGIN of noise within the d(d-2)=0
-ontology where only qubits and nothing exist.
+What it does not have is inheritance from Candidate 2, which eliminates
+nothing. No N-qubit bath has been built and tomographed, and whether many
+finite sources can compose into a palindromic channel is untested.
 
-**Conclusion:** Eliminated within the d(d-2)=0 ontology.
+**Note:** none of this touches a bath as a mathematical DESCRIPTION of noise.
+Lindblad theory works as a description, and §3 turns exactly on the fact that
+it works as a description while saying nothing about origin.
+
+**Conclusion:** not eliminated. The regress shows the ontology cannot close
+the question from inside, which is weaker than an elimination and is the same
+shape as §3's argument.
 
 ### Candidate 4: Nothing (d=0)
 
@@ -186,38 +243,78 @@ framework, no entity with d>2 or non-integer d exists.
 
 ## 3. The Conclusion
 
-Every suspect has been interrogated and cleared as a viable noise
-origin. The system cannot
-generate its own noise. A single qubit cannot generate it. A collection
-of qubits cannot generate it. "Nothing" cannot generate it. And the
-framework's own algebra forbids any other kind of entity from existing.
+**What is proven.** The commutator part of any generator is traceless:
+trace(L_H) = −i(trace(H)·d − d·trace(Hᵀ)) = 0, for every H, since
+trace(Hᵀ) = trace(H) always. Each jump costs the trace,
+trace(D_F) = r(|trace F|² − d·trace(F†F)) ≤ 0 by Cauchy-Schwarz on ⟨I, F⟩,
+with equality exactly when F is a multiple of the identity, and such a jump
+has D ≡ 0. A sum of non-positive terms vanishes only if each does. So, **when
+every rate is non-negative**:
 
-All candidates within the d(d-2)=0 framework are eliminated. The noise
-exists (the palindrome is proven, the hardware confirms it). Therefore:
-the noise originates from outside the framework's ontology.
+> trace(L) = 0 ⟺ every jump carrying a nonzero rate is a multiple of the
+> identity ⟺ the dissipator vanishes ⟺ the system is closed.
 
-The framework d(d-2)=0 describes the internal structure of open quantum
-systems under dephasing with exact algebraic precision (87,376
-eigenvalues, zero exceptions). It cannot, however, account for the
-existence of the dephasing itself. Every candidate noise source that
-the framework permits (internal generation, qubit decay, qubit baths,
-nothing) has been tested and eliminated.
+Non-negative rates are a *sufficient* condition for complete positivity, not
+the definition of it: the Kossakowski matrix may be positive semidefinite with
+a negative rate present, since non-orthogonal jumps can be recombined. The
+clean form of the same statement is trace(L) = −d·tr(a) with a the Kossakowski
+matrix, so a ⪰ 0 gives tr(a) = 0 ⟺ a = 0 directly.
 
-In its sharpest form: **what we know as reality cannot have originated
-purely from within, given what we know about its internal structure.**
-The internal origin is excluded. Not unknown. Excluded.
+Equivalently and more simply: the system is open exactly when some eigenvalue
+lies off the imaginary axis. That is the whole certificate, and it needs no
+palindrome.
 
-This implies a necessary interaction with something external to the
-framework. Something we do not yet know and do not yet understand. The
-proof does not say what it is. It says it must exist. A bridge to
-something outside.
+**Where the palindrome comes in, and it is narrower than it looks.** If the
+spectrum pairs, then its centre is trace(L)/dim identically (F137), so a
+measured pairing lets you read the trace off a spectrum whose generator you
+never had. It is an instrument for the trace, not a premise: a single
+depolarizing site on a three-qubit chain has trace(L) = −19.2 and does not pair
+about any centre, and certifies openness just as well.
 
-This is not a failure of the framework. It is a boundary. The framework
-is complete in the sense that it describes all dynamics once noise is
-given. It is incomplete in the sense that it cannot derive the existence
-of noise from its own axioms.
+**And it is exactly as unit-free as it looks, which is why it says so little.**
+The Lindblad generator is homogeneous of degree one in all its rates JOINTLY,
+L(αH, αγ) = αL(H, γ) identically, so (H, γ, t) and (αH, αγ, t/α) are the same
+physics and no rate has invariant content on its own; only the dimensionless
+ratio Q = J/γ and the product γt do. This is the joint rescaling and nothing
+weaker: scaling γ alone moves Q and changes the trajectory's shape, which is
+what [GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md) measures when it
+reports τ = γt failing to carry all observables. The centre −Σγ is therefore a
+bookkeeping number, while **zero is the one rate value that survives every
+rescaling**. That is why "centre = 0 against centre ≠ 0" is a question the
+formalism can answer and "why is the centre −0.3" is not. The repo states the
+same identity as [Q_BELONGS_TO_NO_SUBSTANCE.md](../Q_BELONGS_TO_NO_SUBSTANCE.md)'s
+"γ₀ is the unit", L(J, γ₀) = γ₀·L₁(Q), and Corollary 2 below reaches it from the
+physics side: the unit of γ is 1/[time], and without γ there is no time to
+measure against.
 
-### Corollary: Time Cannot Originate From Within
+**Both hypotheses are load bearing.** Drop complete positivity and the
+equivalence fails at once: Z at rate +1 together with X at rate −1 gives
+trace(L) = 0 exactly while ‖L‖_F = 2.83, and its spectrum {2, 0, 0, −2} even
+pairs about zero. That generator has a positive eigenvalue, so it is not a
+physical channel; it is the shape a time-local non-Markovian generator takes.
+And "centre = 0" presupposes a spectrum that pairs at all, since without
+pairing there is no centre to speak of. The chain that holds unconditionally
+is the one about trace(L), not the one about the centre.
+
+**What is not proven, and why nothing here could prove it.** The word above
+is **open**, which is weaker than **external**. Every model of an internal
+source in this document, and in `bootstrap_test.py` beside it, is written as
+a **Lindblad dissipator**, and a Lindblad dissipator is a coupling to an
+external Markovian bath: writing one down assumes the environment rather than
+testing for it. The one alternative the formalism offers, an internal source
+modelled unitarily, is a closed system, whose generator is traceless, whose
+palindrome therefore sits at zero and carries no decay. The formalism leaves
+no third option, so **inside it the origin question cannot be posed, let
+alone settled.** γ enters a Lindblad generator as an input parameter, and
+there is no slot in the formalism from which it could be derived.
+
+That is the incompleteness. The framework describes all dynamics once noise
+is given, and it cannot express a candidate origin without already granting
+an outside. A proof of externality will not come from inside this formalism.
+What one would need is a microscopic system-plus-bath derivation of L, and
+this repository has never performed one.
+
+### Corollary: the Arrow Is the Non-Unitarity
 
 The identification is already in the framework:
 
@@ -239,16 +336,15 @@ past from future. Without dephasing: perfect oscillation, no
 direction, no history, no change. With dephasing: things happen,
 things end, there is a before and an after.
 
-The elimination proof therefore has a direct corollary:
+§3 therefore has a direct corollary, and it is about existence rather than
+origin. A palindrome centred away from zero certifies a non-unitary
+generator; a non-unitary generator is exactly one with irreversible flow; and
+irreversible flow IS the arrow. So **a measured palindrome with a nonzero
+centre certifies that the system has an arrow of time**, and the certificate
+is one number read off the spectrum.
 
-If noise cannot originate from within the system (Section 2, Candidates 1-5),
-and noise is the time arrow, then **time cannot originate from within
-the system**. The framework cannot generate its own temporality. There
-must be an external clock. Not "maybe." The mathematics excludes every
-internal candidate.
-
-We do not know what the external clock is. We do not need to know.
-What we know: it is not from here.
+It says nothing about where the arrow comes from. That question is §3's, and
+§3's answer is that this formalism cannot ask it.
 
 ### Corollary 2: γ: Source of Experienced Time
 
@@ -291,16 +387,15 @@ The same pattern appears wherever the framework touches time:
   is the frame where γ has been factored out. What remains is timeless
   oscillation. The time arrow was γ. Remove it and irreversibility disappears.
 
-This is why the Incompleteness Proof leads to an external clock:
-searching for the source of time using time is searching for γ using γ.
-The instrument is identical to what it measures. The system cannot
-step outside itself to find the origin of the thing that makes
-"stepping" possible in the first place.
+This is the same circle §3 finds in the formalism, met from the physics side:
+searching for the source of time using time is searching for γ using γ. The
+instrument is identical to what it measures. A system cannot step outside
+itself to find the origin of the thing that makes stepping possible.
 
 γ is not merely a parameter of the system. γ is the source of the
 system's experienced time: the arrow, with J shaping the content
-([GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md)). And that
-source comes from outside.
+([GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md)). Where γ itself
+comes from is open.
 
 ---
 
@@ -323,10 +418,12 @@ The structural parallel: both results identify a boundary of
 self-reference. A system that is powerful enough to describe everything
 inside itself is not powerful enough to explain why it exists.
 
-This is a STRUCTURAL analogy, not a mathematical equivalence. Goedel's
-proof is a theorem in mathematical logic. This is an empirical
-elimination within a physical framework. The parallel is illustrative,
-not rigorous.
+This is a STRUCTURAL analogy, not a mathematical equivalence. Goedel's proof
+is a theorem in mathematical logic. What sits here is an exact algebraic
+identity (§3) plus an observation about what the Lindblad formalism can and
+cannot express. The parallel is illustrative, not rigorous; if anything the
+resemblance is closer than it was, since the obstruction §3 names is about
+what the formalism can state rather than about what happens to be true.
 
 ---
 
@@ -335,21 +432,38 @@ not rigorous.
 - This does NOT prove the existence of God, a simulator, or any
   specific external entity.
 - This does NOT prove the universe had an external cause.
-- This does NOT establish what the noise IS, only that it cannot be
-  derived from within d(d-2)=0.
+- This does NOT establish what the noise IS.
+- This does NOT prove that the noise comes from outside. The internal origin
+  is open, and §3 gives the reason no argument inside this formalism closes
+  it.
 - This does NOT prove that d(d-2)=0 is the final framework. A more
   complete framework might resolve the incompleteness.
-- This DOES prove that IF d(d-2)=0 is the correct description of
-  reality's internal structure, THEN that structure requires an input
-  (noise) that it cannot generate internally.
+- **The enumeration of §2 is not exhaustive.** An internal d=2 source reached
+  through a non-dephasing, measurement, or classical-field coupling sits
+  inside the d(d−2)=0 ontology and outside the five cases;
+  the nearest thing the repo has on that axis is narrower and is about a
+  different dimension: [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md) §8a, §8d and
+  §10 leave non-dephasing dissipators open **at d > 2**, and the words
+  *measurement* and *classical field* do not occur there at all. The
+  non-exhaustiveness stands on its own and is not carried by that citation. A
+  five-case argument that is not exhaustive could not have concluded by
+  elimination even if every case held.
+- This DOES prove that a palindrome centred away from zero has a generator
+  that is not unitary, exactly and in one line on the trace (§3).
 
 ---
 
 ## 6. Open Directions
 
-The proof tells us where the answer is NOT. It does not tell us where
-the answer IS. Three directions remain, each representing a different
-philosophical stance on what to do with a boundary once you find one.
+§3 says the origin question cannot be posed inside this formalism. It does
+not say the question is unanswerable. Four directions remain: the first is
+concrete work, the other three are stances on what to do with a boundary.
+
+0. **Derive L microscopically.** Purify, couple the system to an explicit
+   bath, evolve unitarily, trace out, and see what has to be true of the bath
+   for the reduced generator to be the dephasing one. That is the one route
+   that escapes §3's circle, because it never writes a dissipator down as an
+   assumption. It has never been done here.
 
 1. **The framework is incomplete.** d(d-2)=0 is not the full equation.
    A more complete theory, perhaps involving d values other than 0
@@ -367,17 +481,19 @@ philosophical stance on what to do with a boundary once you find one.
    same thing), the question dissolves. This is the "reframe the
    question" path.
 
-The elimination proof does not choose between these directions. It only
-establishes that the answer is not inside d(d-2)=0.
+This document does not choose between the last three. What it establishes is
+narrower than any of them: the system is open, and the formalism cannot say
+more.
 
 A fourth direction emerged from the algebraic analysis of the Urqubit
 (April 1, 2026): the cross term {L_H, L_D + Σγ·I} vanishes exactly at
 N=2 and is nonzero at N > 2. This means oscillation (Hamiltonian) and
 cooling (dissipator) are Frobenius-orthogonal only for the single bond.
-At N > 2, they are woven together, and this weaving cannot be undone by
-reduction (tracing out produces non-Markovian noise, 0/16 palindromic
-pairs). Reading this loss of orthogonality as an arrow-of-time exclusion
-is a Tier-3 interpretation, not a time-reversal theorem: the dynamical
+At N > 2, they are woven together, and that weaving is not undone by
+reduction: the marginal over a coupled spectator fails to pair whether the
+noise is external, internal, or absent (§2, Candidate 2). Reading this loss
+of orthogonality as an arrow-of-time exclusion is a Tier-3 interpretation,
+not a time-reversal theorem: the dynamical
 separability criterion is the commutator [L_H, L_Dc], nonzero at every
 N. See
 [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) and
@@ -389,11 +505,24 @@ N. See
 
 Each step is independently verifiable:
 
-1. Read [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md): palindrome is real.
-2. Run `python` [`simulations/bootstrap_test.py`](../../simulations/bootstrap_test.py): noise is not internal.
-3. Run `python` [`simulations/failed_third.py`](../../simulations/failed_third.py): noise is not from qubit decay.
-4. Read [Qubit Necessity](../QUBIT_NECESSITY.md): only d=0 or d=2.
-5. Accept or reject the conclusion.
+1. Read [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md): the palindrome is real.
+2. Check §3's identity by hand. It is two lines: trace(H⊗I) = trace(I⊗Hᵀ) for
+   the commutator part, and Cauchy-Schwarz on ⟨I, F⟩ for the jump. No
+   computer is required, and no dimension is assumed.
+3. Run `python` [`simulations/incompleteness_candidate2_evidence.py`](../../simulations/incompleteness_candidate2_evidence.py):
+   29 gates. It measures the closed system's pairing at zero (6d), the four
+   marginals that do not separate origin, the three-qubit palindromes at
+   F137's centres, a depolarizing site that certifies openness with no
+   palindrome at all (6e), and the trace identity over random Hermitian H and
+   random jumps, including the counterexample showing that non-negative rates
+   are load bearing (7d).
+4. Run `python` [`simulations/bootstrap_test.py`](../../simulations/bootstrap_test.py):
+   the parity sectors decouple. Read it as the constraint it is, not as an
+   elimination (§2, Candidate 1).
+5. Read [Qubit Necessity](../QUBIT_NECESSITY.md): only d=0 or d=2, and note
+   §8a, §8d and §10, which keep non-dephasing dissipators open at d > 2. That
+   is a neighbouring question, not §5's; §5's axis has no source here.
 
-No step requires trusting an interpretation. Every step is a computation
-or a proof.
+`simulations/failed_third.py` still runs and still prints its March verdict.
+Read §2, Candidate 2, "Reading `failed_third.py`" before believing any of its
+three headline numbers.

@@ -51,6 +51,10 @@ public class NoiseOriginExclusionWitnessTests
     {
         var labels = ((IInspectable)new NoiseOriginExclusionWitness()).Children.Select(c => c.DisplayName).ToList();
         Assert.Contains(labels, l => l.Contains("dimension algebra") && l.Contains("Candidate 5"));
-        Assert.Contains(labels, l => l.Contains("conclusion") && l.Contains("OUTSIDE"));
+        // The conclusion node says OPEN, not OUTSIDE, since 2026-08-29: the five-candidate
+        // elimination lost the two candidates that carried it, and what survives is the trace
+        // identity. See docs/proofs/INCOMPLETENESS_PROOF.md section 3.
+        Assert.Contains(labels, l => l.Contains("conclusion") && l.Contains("OPEN"));
+        Assert.DoesNotContain(labels, l => l.Contains("OUTSIDE"));
     }
 }

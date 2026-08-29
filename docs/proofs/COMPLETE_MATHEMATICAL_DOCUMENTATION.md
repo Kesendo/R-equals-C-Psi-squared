@@ -166,17 +166,18 @@ See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
 
 ## 4. The Incompleteness Proof (Tier 1 derived)
 
-Five candidates for the origin of dephasing noise, four eliminated and
+Five candidates for the origin of dephasing noise, NONE of which eliminates an internal source: (1) is a structural constraint, (2) and (3) lost their evidence on 2026-08-29, and (4) and (5) say what cannot exist rather than clearing an existing qubit. The internal bootstrap is reduced to
 the first reduced to a structural constraint:
 
 1. Internal (reduced to a structural constraint: [Π², L] = 0 constrains
    the noise's form, elimination carried by candidates 2-3)
-2. Qubit decay (non-Markovian, 0/16 palindromic pairs)
+2. Qubit decay (**OPEN since 2026-08-29**: the test scored a marginal over a
+   coupled spectator, which fails equally without any noise)
 3. Qubit bath (regress, each member faces bootstrap prohibition)
 4. Nothing (d=0, no properties)
 5. Other dimensions (d(d-2)=0 excludes)
 
-**Corollary 1:** Time cannot originate from within. Noise IS the time arrow.
+**Corollary 1:** noise IS the time arrow, so a nonzero palindrome centre certifies that an arrow exists. Where it originates is open.
 Without noise: reversible oscillation. With noise: irreversible decay.
 
 **Corollary 2:** γ is the source of experienced time. t_cross = K/γ, the product

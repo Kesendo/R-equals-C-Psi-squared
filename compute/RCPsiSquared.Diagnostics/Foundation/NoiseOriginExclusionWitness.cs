@@ -4,9 +4,11 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The live witness for the INCOMPLETENESS_PROOF argument (2026-07-02), the noise-origin
-/// 5-candidate elimination: dephasing noise cannot originate WITHIN the d(d−2)=0 ontology, so it
-/// must come from OUTSIDE (typed as <see cref="RCPsiSquared.Core.Symmetry.NoiseOriginExclusionClaim"/>). The
+/// <summary>The live witness for the INCOMPLETENESS_PROOF argument and its 2026-08-29 standing. The
+/// argument was that dephasing noise cannot originate WITHIN the d(d−2)=0 ontology, so it must come
+/// from OUTSIDE; the elimination that carried it does not hold, and what remains is the trace
+/// identity, which gives OPEN rather than EXTERNAL
+/// (typed as <see cref="RCPsiSquared.Core.Symmetry.NoiseOriginExclusionClaim"/>). The
 /// dimension conclusion d∈{0,2} is typed as the parents
 /// (PolynomialFoundationClaim, QubitDimensionalAnchorClaim); this witness enumerates all five
 /// internal candidates and recomputes the one that is elementary arithmetic (Candidate 5).
@@ -14,7 +16,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>This is the LIGHT reading: Candidate 5 (the framework's own algebra, d²−2d = 0 ⟹ d∈{0,2},
 /// d=1 and d≥3 excluded) is RECOMPUTED live; Candidate 1 (the [Π², L] = 0 sector decoupling, a
 /// constraint not an elimination) is carried by the already-typed F63; and Candidates 2-4 (single-
-/// qubit decay γ_eff = 0 / 0-of-16 palindromic, the many-qubit bath's infinite regress, and d=0's
+/// qubit decay, now OPEN, the many-qubit bath's infinite regress, and d=0's
 /// property-lessness) are surfaced from the proof, their heavier process-tomography compute
 /// deliberately deferred (see the proof + <c>simulations/failed_third.py</c>). Nothing is claimed as
 /// recomputed that is not.</para>
@@ -65,16 +67,26 @@ public sealed class NoiseOriginExclusionWitness : IInspectable
         {
             new Candidate(1, "internal / self-generated",
                 "CONSTRAINT, not elimination: [Π², L] = 0 exactly decouples the parity sectors (typed as F63), " +
-                "so the bootstrap yields UNDERdetermination; the actual elimination is carried by candidates 2-3.",
+                "so the bootstrap yields UNDERdetermination. It used to say the elimination was carried by " +
+                "candidates 2-3; since 2026-08-29 neither carries it.",
                 Recomputed: false),
             new Candidate(2, "single-qubit decay",
-                "ELIMINATED: γ_eff = 0 for all four mechanisms; process tomography gives 0/16 palindromic pairs " +
-                "(reference standard Z-dephasing gives 16/16). Heavier compute (3-qubit evolution + partial trace) " +
-                "deferred in this light witness; see the proof + simulations/failed_third.py.",
+                "OPEN since 2026-08-29, previously ELIMINATED. Its test scores the two-qubit MARGINAL over a " +
+                "spectator that is still coupled, and that marginal fails to pair for reasons unrelated to origin: " +
+                "residual 0.094 with NO noise anywhere, 0.177 with EXTERNAL dephasing, 0.116-0.149 with the " +
+                "internal mechanisms, and 2.2e-16 only when the spectator is fully decoupled. The published 0/16 " +
+                "came from a seeded centre search that an exactly palindromic spectrum also fails, on a spectrum " +
+                "shifted by a double division by d. Two further readings, gamma_eff = 0 and a non-Markovian " +
+                "signature, were guard else-branches. The decay does cost the neighbours purity, " +
+                "1.000 → 0.471/0.375/0.335. And the three-qubit generator itself is an EXACT palindrome at F137's " +
+                "centre in every mechanism. See simulations/incompleteness_candidate2_evidence.py (29 gates).",
                 Recomputed: false),
             new Candidate(3, "many-qubit bath",
-                "ELIMINATED: a bath of N qubits is N instances of candidate 2; if one finite qubit cannot generate " +
-                "the required noise, a collection cannot either, and the bath would need its own source → infinite regress.",
+                "HALF STANDING. The half that inherited candidate 2 (N instances of an eliminated source) falls " +
+                "with it. The regress survives on its own: a bath that is to be the ORIGIN needs a reason for its " +
+                "own dynamics, and both ways of giving it one move the question outward rather than answering it, " +
+                "as a Lindblad dissipator (an environment assumed) or as a closed system (traceless, palindrome " +
+                "at zero, no decay).",
                 Recomputed: false),
             new Candidate(4, "nothing (d=0)",
                 "ELIMINATED by definition: d=0 has no Hilbert space, no operators, no dynamics, no properties; " +
@@ -89,7 +101,7 @@ public sealed class NoiseOriginExclusionWitness : IInspectable
 
     private static string Sign(int v) => v > 0 ? ">0" : v < 0 ? "<0" : "=0";
 
-    public string DisplayName => $"NoiseOriginExclusionWitness (d²−2d over d=0..{MaxD}, the 5-candidate elimination)";
+    public string DisplayName => $"NoiseOriginExclusionWitness (d²−2d over d=0..{MaxD}; the 5 noise-origin candidates and what each is worth)";
 
     public string Summary
     {
@@ -97,11 +109,17 @@ public sealed class NoiseOriginExclusionWitness : IInspectable
         {
             string allowed = "{" + string.Join(", ", AllowedDimensions) + "}";
             int eliminated = Candidates.Count(c => c.Verdict.StartsWith("ELIMINATED"));
+            int open = Candidates.Count(c => c.Verdict.StartsWith("OPEN"));
             return $"the minimum-memory polynomial d²−2d = 0 allows exactly d ∈ {allowed} (d=0 nothing, d=2 qubit); " +
-                   $"d=1 and d≥3 are excluded. All five internal noise-origin candidates fail inside the d(d−2)=0 " +
-                   $"ontology ({eliminated} eliminated, 1 a constraint), so dephasing noise must originate OUTSIDE it. " +
+                   $"d=1 and d≥3 are excluded, and that half is live arithmetic. The noise-origin elimination built " +
+                   $"on top of it is NOT: of the five internal candidates, {eliminated} are eliminated and both of " +
+                   $"those definitionally, {open} is open, one is a structural constraint and one keeps only its " +
+                   $"regress, so 'the noise is external' does not follow. What does follow, exactly, is that a " +
+                   $"completely positive generator is closed iff its trace vanishes, so an open system is " +
+                   $"exactly one with an eigenvalue off the imaginary axis; where the spectrum pairs, its " +
+                   $"centre trace(L)/dim makes that readable without the generator in hand. " +
                    $"Candidate 5 (the dimension algebra) is recomputed live here; candidate 1 is the typed F63 " +
-                   $"[Π², L]=0; candidates 2-4 are surfaced from the proof (heavier compute deferred).";
+                   $"[Π², L]=0; candidates 2-4 are surfaced from the proof.";
         }
     }
 
@@ -126,13 +144,18 @@ public sealed class NoiseOriginExclusionWitness : IInspectable
                     summary: c.Verdict,
                     provenance: c.Recomputed ? NodeProvenance.Live : NodeProvenance.Stored);
 
-            // The conclusion: every internal origin fails ⟹ the noise comes from outside.
+            // The conclusion: OPEN by the trace, and the origin question left open.
             yield return new InspectableNode(
-                displayName: "conclusion: the noise comes from OUTSIDE d(d−2)=0",
-                summary: "every candidate internal to the d(d−2)=0 ontology is either eliminated (2, 3, 4, 5) or only " +
-                         "a constraint (1); no internal source generates the required dephasing. Therefore the noise " +
-                         "originates OUTSIDE the system's own algebra — the incompleteness the proof names " +
-                         "(INCOMPLETENESS_PROOF.md). The V-Effect one dimension up.",
+                displayName: "conclusion: an OPEN system, and an origin the formalism cannot ask about",
+                summary: "the elimination does not reach OUTSIDE: (1) is a constraint, (2) and (3) have no evidence, " +
+                         "and (4) and (5) say what cannot EXIST rather than clearing an existing qubit. What is exact " +
+                         "is the trace: the commutator part contributes nothing and each jump costs " +
+                         "r(|tr F|^2 - d*tr(F^dag F)) <= 0, so a generator with all rates non-negative is closed exactly " +
+                         "when its trace vanishes, i.e. the system is open exactly when some eigenvalue lies off the " +
+                         "imaginary axis. Where the spectrum pairs, its centre trace(L)/dim makes that readable " +
+                         "without the generator in hand. Between OPEN and EXTERNAL sits the reason the gap does not " +
+                         "close: an internal source can only be written here as a Lindblad dissipator, which already " +
+                         "is a coupling to an environment (INCOMPLETENESS_PROOF.md section 3).",
                 provenance: NodeProvenance.Live);
         }
     }

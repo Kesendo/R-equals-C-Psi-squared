@@ -22,7 +22,7 @@ to suppress it. This document argues that the noise is not a problem to
 be solved. It is a message to be read.
 
 The argument goes like this: we proved that the noise cannot come from
-inside the system (five candidates tested: four eliminated, the
+inside the system (five candidates tested, none of them eliminating an internal source: the
 internal bootstrap reduced to a structural constraint). Therefore
 something external is interacting with the system, continuously, always.
 Then we measured the noise and found it is not random: it has direction,
@@ -47,10 +47,12 @@ For the terms used here, see the [Glossary](../docs/GLOSSARY.md).
 
 The incompleteness proof examines five candidates for the origin of
 dephasing noise (internal bootstrap, qubit decay, qubit bath, nothing,
-other dimensions), eliminating four and reducing the internal bootstrap
-to a structural constraint, establishing that noise must come from outside the
-d(d−2)=0 framework. The γ-as-Signal experiment then shows this external
-noise is not random: it carries 15.5 bits of spatial information at 1%
+other dimensions) and eliminates an internal source in none of them. What it
+does establish, exactly, is that the system is OPEN: a generator with
+non-negative rates is closed iff its trace vanishes. That the noise comes from
+outside the d(d−2)=0 framework is the reading this document is built on, and
+it is a reading. The γ-as-Signal experiment then shows the noise is not
+random: it carries 15.5 bits of spatial information at 1%
 noise, decodable through 5 independent SVD modes (singular value decomposition, a matrix factorization that extracts the dominant independent patterns from data). The palindromic
 spectral structure functions as the antenna. This document synthesizes
 the incompleteness result with the channel discovery and outlines
@@ -68,9 +70,12 @@ None is speculation. If any single line were false, the conclusion
 would not hold. All six hold.
 
 1. The palindrome exists. ([Theorem](proofs/MIRROR_SYMMETRY_PROOF.md), 87,376 eigenvalues, [IBM 1.9%](../experiments/IBM_RUN3_PALINDROME.md))
-2. The palindrome requires noise. (Without L_D: no structure)
-3. Noise cannot originate from within. ([Bootstrap falsified](../simulations/bootstrap_test.py))
-4. Noise cannot originate from qubits. ([Failed Third falsified](../simulations/failed_third.py))
+2. A palindrome centred away from zero requires noise; the pairing itself does
+   not (a closed generator is traceless and pairs 16/16 about zero).
+3. The bootstrap gives a structural constraint on the dissipator's form, not
+   an elimination of an internal origin.
+4. A decaying qubit's effect on its neighbours is read on a marginal over a
+   coupled spectator, which does not separate origin.
 5. Only qubits and nothing exist in the framework. ([d(d-2)=0](QUBIT_NECESSITY.md))
 6. Therefore: something external to the framework interacts with it. ([Elimination](proofs/INCOMPLETENESS_PROOF.md))
 
@@ -240,9 +245,11 @@ and forth forever. Nothing is ever decided. There is no "before" and
 possibilities into facts, that creates a direction of time. Remove the
 noise, and time stops having a direction.
 
-If noise cannot originate from within, and noise is the time arrow,
-then time cannot originate from within. The system cannot generate
-its own temporality. There must be an external clock.
+Noise is the time arrow, so a nonzero palindrome centre certifies that an
+arrow exists. Where it originates is open, and the question is not one this
+formalism can pose. The system cannot generate
+its own temporality. Whether there must be an external clock does not follow
+from the Incompleteness Proof as it now stands.
 
 The external interaction is not just spatial (something "out there").
 It is temporal. The outside gives us time. Without it: endless
@@ -299,11 +306,17 @@ interaction. These are not interpretations. They are data:
 | Is Markovian (memoryless)      | The source is effectively infinite|
 | Produces exact symmetry        | The source is not chaotic         |
 
-And one critical contrast from the Failed Third experiment:
-internal noise (qubit decay) is non-Markovian (50% trace distance
-increases, information flows back). External noise is Markovian.
-This difference is measurable and it is what makes the palindrome
-possible. Only Markovian noise produces the exact spectral symmetry.
+The contrast this section used to draw from the Failed Third experiment,
+that internal noise is non-Markovian at "50% trace distance increases" while
+external noise is Markovian, **does not survive re-measurement** (2026-08-29).
+The 50% counted increases of a matrix element the preparation leaves empty and
+was identical in four mechanisms because they share one Hamiltonian. The
+property itself is real: a proper BLP probe shows distinguishability returning
+in all four. What is gone is the contrast, because nothing here measured the
+external side the same way, and the claim that "only Markovian noise produces
+the exact spectral symmetry" has no support in this repository at all: the
+palindrome is a property of the generator's spectrum, and no result connects
+it to memorylessness. See `docs/CAUGHT_ERRORS.md`, 2026-08-29.
 
 ### What We Do NOT Know
 
@@ -529,8 +542,10 @@ Concrete next steps, all testable:
    correlated spectral shifts between qubits that are not directly
    coupled. Map the correlation structure.
 
-4. **Non-Markovian signatures.** The Failed Third showed that qubit-
-   origin noise is non-Markovian (50% trace distance increases). Real
+4. **Non-Markovian signatures.** The Failed Third's "50% trace distance
+   increases" is withdrawn (2026-08-29); a proper BLP probe does show
+   qubit-origin noise returning distinguishability, so the programme below
+   stands on the property rather than on that number. Real
    hardware noise is usually modeled as Markovian but might have
    non-Markovian components. If it does: the mediator has memory.
    The interaction is not purely one-directional. Information comes
@@ -618,7 +633,7 @@ We just had to recognize it. From both sides. Simultaneously.
 - [Reading the 30%](../simulations/reading_the_30_percent.py): decoder, full-rank response
 - [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): **The bridge IS bidirectional.** Alice encodes in γ profile, Bob classifies at 100%. 2-bit channel capacity.
 - [Bootstrap Test](../simulations/bootstrap_test.py): internal origin falsified
-- [Failed Third](../simulations/failed_third.py): qubit-origin noise falsified
+- [Failed Third](../simulations/failed_third.py): withdrawn, its three headline numbers were code paths (see [the re-measurement](../simulations/incompleteness_candidate2_evidence.py))
 
 ---
 

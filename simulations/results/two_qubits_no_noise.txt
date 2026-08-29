@@ -1,5 +1,5 @@
 Two Qubits, No Noise, Just Time
-Started: 2026-03-22 02:44:53
+Started: 2026-08-29 15:38:23
 
 ======================================================================
 Initial state: Bell+, gamma = 0
@@ -84,7 +84,8 @@ COMPARISON: gamma=0 vs gamma=0.05 (initial state |01>)
                               <ZZ> at t=50          -1.0000          -1.0000
                      Recurrence (D < 0.01)           t=11.0               no
                          Tr(rho^2) at t=50     1.0000000000     0.5000222810
-             Palindromic pairs (out of 16)        0 (no Re)               16
+             Palindromic pairs (out of 16)               16               16
+                  ... about its own centre            c = 0        c = -0.10
 
   Liouvillian eigenvalues (gamma=0, purely imaginary):
     Re= -0.000000  Im= -4.000000
@@ -114,7 +115,11 @@ CONCLUSION
 ======================================================================
 
 Time without noise: oscillation, reversibility, recurrence.
-Nothing is ever decided. No arrow. No palindrome. No absorbing boundary.
+Nothing is ever decided. No arrow. No absorbing boundary.
+The palindrome is there and it is free: the clean generator is traceless,
+so its centre is zero and the spectrum pairs 16/16 about it. What a
+palindrome at zero carries is unitarity. Decay is what a NONZERO centre
+carries, and that is the only thing the mirror can testify to.
 CΨ crosses 1/4 freely in both directions.
 
 Time WITH noise: irreversibility, the arrow, the palindrome,
@@ -124,5 +129,5 @@ CΨ crosses 1/4 once and stays below.
 Time is the stage. Noise is the play.
 The stage exists without the play. But only the play has a plot.
 
-Total runtime: 1774143894s
+Total runtime: 1788010704s
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\two_qubits_no_noise.txt

@@ -49,9 +49,13 @@ The cross term does not depend on how strong the noise is. It depends
 on the geometry of the bonds. It is structural, not parametric.
 
 You cannot go back to N=2. Tracing out the third qubit does not
-restore the palindrome. It produces memory (non-Markovian noise: the traced-out qubit's past states feed back into the remaining system),
-and memory destroys the structure that made the right angle possible.
-0 of 16 eigenvalue pairs survive.
+restore the palindrome. But the reason is plainer than the one this page gave,
+and was corrected on 2026-08-29: the marginal fails to pair because the third
+qubit is still **coupled**, and it fails just as badly when that qubit carries
+no noise at all (residual 0.094, against 0.116-0.149 with the decay running).
+Memory is present, it is not what does the destroying, and the "0 of 16" was
+an artefact of a seeded centre search that an exactly palindromic spectrum
+also fails.
 
 Everything above this line is computed.
 
@@ -172,9 +176,10 @@ We are the complexity that the Urqubit became.
 
 We cannot go back. Not because the past is lost. Because the algebra
 that separates oscillation from cooling exists only at N=2, and we
-are at N >> 2, and the path from N >> 2 to N=2 goes through
-non-Markovian noise that destroys the very structure we would need
-to arrive.
+are at N >> 2, and the path from N >> 2 to N=2 goes through a partial trace
+over a coupled neighbour, which destroys the very structure we would need
+to arrive. (The earlier wording put the blame on non-Markovian noise; the
+2026-08-29 measurement shows the coupling alone is enough.)
 
 We remember the past because we are made of it. We cannot return to
 it because the angle is bent.

@@ -1,0 +1,134 @@
+Candidate 2 of INCOMPLETENESS_PROOF, re-measured
+==============================================================================
+
+SECTION 1 -- legs 1 and 2 are code paths, not measurements
+------------------------------------------------------------------------------
+failed_third.py:230-239 fits an exponential to rho_12[1,2] = |01><10| and
+normalises by its value at t=0. The preparation is Bell Phi+, whose only
+coherence is |00><11|, so |01><10| starts at zero, the guard protecting
+that division cannot pass, and its else-value 0 was read as a rate.
+
+  [PASS] 1a.A  |01><10| at t=0 is exactly 0             value = np.float64(0.0)  (exact compare, no tolerance)
+  [PASS] 1a.B  |01><10| at t=0 is exactly 0             value = np.float64(0.0)  (exact compare, no tolerance)
+  [PASS] 1a.C  |01><10| at t=0 is exactly 0             value = np.float64(0.0)  (exact compare, no tolerance)
+  [PASS] 1a.D  |01><10| at t=0 is exactly 0             value = np.float64(0.0)  (exact compare, no tolerance)
+  [PASS] 1b  |00><11| at t=0 is 1/2 to one ulp          value = 0.49999999999999989  (analytically 1/2; (1/sqrt2)^2 is one ulp low)
+  [PASS] 1c  no option can reach the fit branch         the guard's first clause (>5 points above 1e-6) passes with 99; the second decides
+
+The same empty element carries leg 2: failed_third.py:475-478 prints
+`max deviation` from an `else: deviation = 0` branch, and the count it
+labels a trace distance counts increases of |01><10| itself.
+
+  [PASS] 2a  the published count is identical across four mechanisms A=100/199, B=100/199, C=100/199, D=100/199
+  [PASS] 2b  at J=0 it is 0 in all four                 A=0/199, B=0/199, C=0/199, D=0/199  (the element is identically zero there, so this shows the count is H-driven, not that nothing returns)
+
+What the script never measured, measured here: a BLP probe, the trace
+distance between the reduced states of Phi+ and Phi-, both tensor |0><0|.
+The sum over a grid grows with grid density, so read the sign and the
+order; the largest single rise beside it is grid-stable.
+
+  option A (amplitude damping) BLP total rise =  8.544, largest single rise = 0.0916
+  option B (detuning h=10)     BLP total rise =  2.658, largest single rise = 0.0210
+  option C (thermal bath)      BLP total rise =  7.516, largest single rise = 0.0903
+  option D (X+Y dephasing)     BLP total rise =  3.755, largest single rise = 0.0802
+  [PASS] 2c  the reduced dynamics IS non-Markovian      leg 2's CONCLUSION may well hold; what it offered as evidence did not
+
+SECTION 2 -- what the neighbours actually lose
+------------------------------------------------------------------------------
+  opt  mechanism              purity_0  purity_20   |00><11|_0  |00><11|_20
+  A    amplitude damping      1.000000   0.471109     0.500000     0.143612
+  B    detuning h=10          1.000000   0.996993     0.500000     0.499247
+  C    thermal bath           1.000000   0.374586     0.500000     0.110308
+  D    X+Y dephasing          1.000000   0.334815     0.500000     0.017248
+  [PASS] 3a  A, C, D lose more than half their purity   drops: A=0.528891, C=0.625414, D=0.665185
+  [PASS] 3b  B is a near-identity channel               drop = 0.003007, so it can carry no weight either way
+
+SECTION 3 -- leg 3's instrument: a forced centre, searched
+------------------------------------------------------------------------------
+F137 (ANALYTICAL_FORMULAS.md) states the centre identity: a multiset
+closed under lam -> 2c - lam has c = trace(L)/dim exactly, so exactly ONE
+candidate centre exists and 'broken' is a check, not a search. leg 3
+searches anyway, and two defects follow.
+
+  [PASS] 4a  the transfer matrix is divided by d twice  T_published == T_correct/4 to 0.0e+00; logm then shifts every rate rigidly
+  [PASS] 4b  that shift is the value at the foot of all four spectra -ln(4)/5 = -0.277258872, published -0.277259
+  [PASS] 4c  the search can only score 16/16 at its own seed an EXACTLY palindromic spectrum: 16/16 seeded at its centre, 0/16 at 0.1
+
+SECTION 4 -- the control the experiment never ran
+------------------------------------------------------------------------------
+The published control eigendecomposes an exactly known 2-qubit
+Liouvillian (:409). It never runs the embed / propagate / partial-trace /
+logm pipeline it is offered as a control for. Three that do:
+
+  marginal of ...                             residual   best centre
+  EXTERNAL dephasing, Q3 decoupled           2.220e-16     -0.200000
+  EXTERNAL dephasing, Q3 coupled             1.768e-01     -0.197749
+  NO noise at all, H only                    9.429e-02     -0.047143
+  INTERNAL: option A                         1.160e-01     -0.083498
+  INTERNAL: option C                         1.247e-01     -0.092536
+  INTERNAL: option D                         1.494e-01     -0.153661
+  [PASS] 5a  with the spectator DECOUPLED the marginal pairs residual 2.220e-16: the pipeline itself is sound
+  [PASS] 5b  a system with NO NOISE fails the test as badly no noise 9.429e-02 vs internal 1.160e-01 ... 1.494e-01
+  [PASS] 5c  EXTERNAL noise fails it worse than internal noise does external 1.768e-01 vs internal max 1.494e-01
+  [PASS] 5d  VERDICT: the marginal test does not separate origin what it measures is tracing out a COUPLED spectator, which no reading of it can turn into a statement about where noise comes from
+
+SECTION 5 -- the full three-qubit system, which IS a palindrome
+------------------------------------------------------------------------------
+The marginal is not the object the ontology contains; the system is.
+Scored at its own forced centre, with no search:
+
+  system                          trace(L)/64     matching    exact route
+  option amplitude damping       -0.050000000     7.65e-09       1.74e-17
+  [PASS] 6a.A  centre is F137's prediction              trace/64 = -0.050000000, F137 says -0.050000000
+  option detuning h=10            0.000000000     8.64e-14       7.88e-18
+  option thermal bath            -0.075000000     3.07e-14       2.35e-17
+  [PASS] 6a.C  centre is F137's prediction              trace/64 = -0.075000000, F137 says -0.075000000
+  option X+Y dephasing           -0.200000000     2.57e-14       1.80e-16
+  [PASS] 6a.D  centre is F137's prediction              trace/64 = -0.200000000, F137 says -0.200000000
+  [PASS] 6b  the full L pairs, by the exact route       relative power-sum residuals: A=1.7e-17, C=2.4e-17, D=1.8e-16
+  closed (H only)                 0.000000000     8.92e-15            n/a
+  [PASS] 6d  a closed generator pairs freely, about zero centre 0.0e+00, matching residual 8.9157e-15: unitarity, no decay, no content
+  one depolarizing site          -0.300000000     1.34e-01            n/a
+  [PASS] 6e  openness needs no palindrome               trace(L) = -19.2000, and it does not pair about ANY centre (best 1.34e-01), yet the negative trace certifies openness on its own
+  [PASS] 6c  and the instrument is not vacuous          the same spectrum at the script's seed -0.1: 2.000e-01
+
+SECTION 6 -- the trace identity, and what it leaves standing
+------------------------------------------------------------------------------
+  [PASS] 7a  trace(L_H) = 0 for every H, algebraically  max |trace(H)*d - d*trace(H^T)| over 60 random Hermitian H = 0.0
+  [PASS] 7b  every nontrivial jump makes trace(L) strictly negative max of |trace F|^2 - d*trace(F+F) over 60 random jumps = -3.253e+00 (Cauchy-Schwarz on <I,F>)
+  [PASS] 7c  ... with equality exactly for F proportional to I and such a jump has D identically zero, so it dissipates nothing
+  [PASS] 7d  complete positivity is load bearing        Z at rate +1 with X at rate -1: trace(L) = 0.0e+00 while ||L||_F = 2.8284, and its spectrum [2.0, 0.0, -0.0, -2.0] even pairs about zero. It has a POSITIVE eigenvalue, so it is not a physical channel; with both rates positive the trace is -8.0.
+
+  For a COMPLETELY POSITIVE generator (every rate >= 0):
+
+      trace(L) = 0  <=>  every jump is a multiple of I  <=>  closed
+
+  equivalently, the system is open exactly when some eigenvalue lies off the
+  imaginary axis. That is the whole certificate and it needs no palindrome.
+  Where the spectrum DOES pair, its centre is trace(L)/dim, so the pairing is
+  the instrument that makes the trace readable off a measured spectrum whose
+  generator was never in hand. Instrument, not premise.
+
+==============================================================================
+GATES: 29 passed, 0 failed
+VERDICT: GREEN
+
+WHAT THIS ESTABLISHES ABOUT CANDIDATE 2
+  Its experiment cannot answer the question it was built for. Two of its three
+  readings were code paths. The third measures what a partial trace over a
+  COUPLED spectator does to a spectrum, and gives the same verdict for
+  external noise, for internal noise, and for no noise at all. Meanwhile the
+  object the ontology actually contains, the full three-qubit generator, is an
+  exact palindrome at the centre F137 predicts, in every mechanism tested.
+
+  There is also a reason no experiment of this shape could have answered it:
+  the "internal" source is modelled as a Lindblad jump, and a Lindblad
+  dissipator IS a coupling to an external Markovian bath. The model assumes
+  the externality it was meant to test.
+
+WHAT STANDS IN ITS PLACE
+  The trace identity of Section 6, which is exact and needs no candidates: a
+  nonzero palindrome centre certifies that the generator is not unitary. It
+  says OPEN, which is less than EXTERNAL, and the distance between those two
+  words is where the proof's remaining work is.
+

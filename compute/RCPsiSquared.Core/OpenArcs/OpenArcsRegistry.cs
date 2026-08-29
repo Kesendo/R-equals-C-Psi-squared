@@ -3577,7 +3577,28 @@ public static class OpenArcsRegistry
                 + "first, in this order: PROOF_ABSORPTION_THEOREM.md section 4.4, PROOF_K_PARTNERSHIP.md, "
                 + "UNIVERSAL_PALINDROME_CONDITION.md, then the benzene lens itself.",
             Status: OpenArcStatus.Retired,
-            RetiredReason: "RETIRED 2026-08-03 with the answer the NextStep asked for, NO upgrade: for the molecules in the "
+            RetiredReason: "STAYS RETIRED. One route from a trace to a pairing was tried on 2026-08-29 and it does "
+                + "not work; recorded here so nobody tries the same substitution twice. The attempt: F158's "
+                + "criterion (the spectrum pairs about -sigma iff dim ker L = dim ker(L + 2 sigma)) is written "
+                + "everywhere with sigma as the SUM OF THE JUMP RATES, so read sigma as -trace(L)/dim instead and "
+                + "the criterion should travel past the A^2 = 1 fence. TWO THINGS KILL IT. (i) The premise, that "
+                + "every jump F158 admits is traceless, is FALSE: the class is Hermitian involutions, A = 2P - I "
+                + "has trace 2*rank(P) - d, and the proof's own section (f5) DERIVES tracelessness as a necessary "
+                + "condition for the palindrome, names A = diag(1,1,1,-1) at d = 4 as an in-class jump that kills "
+                + "it for every H, and adds that an earlier version of that section omitted the hypothesis. The "
+                + "attempt re-made the omission. (ii) The substitution gives a WRONG verdict where the rate sum "
+                + "gives the right one. H = 0, two commuting diagonal jumps with A^2 != I at rate 2: spectrum "
+                + "{0 x4, -2 x2, -8 x2, -18 x2, -34 x4, -40 x2}, trace -272 over dim 16, centre -17. Then "
+                + "dim ker L = 4 = dim ker(L + 2 sigma) at the trace centre, so the criterion says PAIRS, and the "
+                + "multiset does not pair (-2 needs -32, -8 needs -26, -18 needs -16, -40 needs +6, none present). "
+                + "The rate-sum reading says BROKEN, correctly. Exact in Fraction arithmetic, no eigensolver. "
+                + "(iii) And the 36-row zoo that looked green was never a test: in every row the second kernel was "
+                + "either EQUAL to the first or exactly 0, so the gate only ever asked whether 2c is an eigenvalue "
+                + "at all, which is one real equation and therefore generically false; a fixed zoo with no free "
+                + "parameter cannot land on a codimension-1 coincidence. THE CONDITION BELOW STILL STANDS AS "
+                + "WRITTEN: reopen only if someone finds a route from a trace to a PAIRING, and note that the "
+                + "kernel-count route is now known not to be one. ORIGINAL RETIREMENT REASON FOLLOWS. "
+                + "RETIRED 2026-08-03 with the answer the NextStep asked for, NO upgrade: for the molecules in the "
                 + "lens the centre is free and the Tier 2 grade is correct. Caution (iii) was pointing at something "
                 + "real and larger than a wording risk, so read item (3) before quoting item (1). SEVEN review "
                 + "rounds; each of the first six found an error in the round before it, and all of them were one "
@@ -3663,6 +3684,73 @@ public static class OpenArcsRegistry
                 + "mantissas 2.4 / 3.0 / 7.0 / 1.0 of the same clean system, not stable even in sign. Those four are "
                 + "printed by the script. An earlier draft quoted +0.116 here, a figure taken from a review report "
                 + "and never recomputed, which does not reproduce on any grid: verify the reviewer too."),
+
+        new OpenArc(
+            Name: "noise_origin_after_candidate_two",
+            Opened: "2026-08-29",
+            Origin: "INCOMPLETENESS_PROOF's five-candidate elimination stopped holding. Candidate 1 had already "
+                + "been downgraded to a structural constraint (CAUGHT_ERRORS A9, 2026-06-22). On 2026-08-29 "
+                + "Candidates 2 and 3 lost their evidence: the Candidate-2 experiment scores the two-qubit MARGINAL "
+                + "of a three-qubit system over a spectator that is still coupled, and that marginal fails to pair "
+                + "at 0.094 with NO NOISE AT ALL, 0.177 with EXTERNAL dephasing and 0.116-0.149 with the internal "
+                + "mechanisms, so it returns the same verdict whatever the origin; two further readings of the same "
+                + "script (gamma_eff = 0, and a non-Markovian signature) were guard else-branches; and the "
+                + "published 0/16 came from a centre search that only its own seed can pass, on a spectrum shifted "
+                + "by a double division by the Hilbert dimension. Candidates 4 and 5 stand but are definitional. "
+                + "Meanwhile the object the ontology contains, the FULL three-qubit generator, is an exact "
+                + "palindrome in every mechanism at the centre F137 predicts. Gate: "
+                + "simulations/incompleteness_candidate2_evidence.py, 29 gates.",
+            ParkedAt: "What replaced the elimination is exact and smaller: trace(L_H) = 0 for every H, and "
+                + "trace(D_F) = r(|trace F|^2 - d*trace(F^dag F)) <= 0 for every jump by Cauchy-Schwarz on <I,F>, with "
+                + "equality only for F proportional to I, which dissipates nothing. So centre = 0 iff the "
+                + "dissipator vanishes iff the system is closed, and a palindrome centred anywhere else certifies "
+                + "a NON-UNITARY generator. That word is OPEN, not EXTERNAL, and the gap between them is the arc. "
+                + "The reason the gap did not close is not a missing measurement: every internal source in the "
+                + "proof, and in bootstrap_test.py beside it, is written as a LINDBLAD DISSIPATOR, which is a "
+                + "coupling to an external Markovian bath, so the modelling step grants the outside before the "
+                + "experiment starts; and the only alternative inside the formalism, a unitary internal source, is "
+                + "a closed system whose generator is traceless and whose palindrome therefore sits at zero with no "
+                + "decay. Inside this framework the question cannot be posed. NOT DONE, deliberately: no attempt "
+                + "was made to rescue the elimination by building a better Candidate-2 experiment, because the "
+                + "circularity above says a better one of that shape does not exist.",
+            NextStep: "ZERO FIRST, and it is a sweep rather than a question: the withdrawal reached the "
+                + "proof, EXCLUSIONS, the typed layer and nine downstream documents, and roughly thirty more "
+                + "surfaces still assert what was withdrawn. Inventory, so nobody has to re-find it: "
+                + "review/EMERGING_QUESTIONS.md:185/218/282/312 (EQ-013's resolution generalizes BOTH "
+                + "withdrawn candidates into a universal), review/MERGE_LOG_methodology.md:200, "
+                + "hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md:154 (the gamma-zero-as-constant regress "
+                + "termination rests on it), hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md:22/63/171 (a Tier "
+                + "column reading 1), experiments/TRAPPED_LIGHT_LOCALIZATION.md:154-156, "
+                + "reflections/ON_THE_SENDING_END.md:38, hypotheses/RESONANT_RETURN.md:313/327, "
+                + "hypotheses/GRAVITY_FROM_WAVE_DEATH.md:147, plus README index rows and two abstracts. "
+                + "ALREADY DONE, do not redo: hypotheses/GAMMA_IS_LIGHT.md, whose first 'thing we know for certain' asserted the elimination as proven and is repaired, and simulations/two_qubits_no_noise.py. "
+                + "SEPARATELY, the palindrome-iff-gamma-positive biconditional, which is simply false and "
+                + "which ZERO_IS_THE_MIRROR.md has contradicted since March: it survives in "
+                + "TIME_IRREVERSIBILITY_EXCLUSION.md:68 and THE_BRIDGE_WAS_ALWAYS_OPEN.md:71/338/562. "
+                + "simulations/two_qubits_no_noise.py is repaired and now MEASURES it, 16/16 at the clean "
+                + "spectrum's own centre of zero, so the sweep has a committed number to cite. Line numbers "
+                + "are from 2026-08-29 and age; cite by content. THEN the three below. "
+                + "(1) DECIDE what the document should be. It is now a "
+                + "Tier 2 page whose exact content is one trace identity, and the five-candidate structure it is "
+                + "still built around is the part that failed; a rewrite around the identity may be shorter and "
+                + "truer than the repair currently in place. Tom's call, since the 'noise is external' reading runs "
+                + "through the hypotheses layer. (2) The one route that could actually settle it: a microscopic "
+                + "system-plus-bath derivation of L, which the registry already notes has NEVER been performed "
+                + "here (see gamma_is_the_sender_not_the_watching, 'the outside was never a traced-out bath; it is "
+                + "the residue of INCOMPLETENESS_PROOF's five-way elimination', a sentence that arc now carries in the past tense because the residue is gone). Purify, evolve unitarily, trace "
+                + "out, and see what has to be true of the bath for the reduced generator to be the dephasing one. "
+                + "That is a real question with a real answer and nobody here has asked it. (3) The A9 half that "
+                + "was never applied: the five cases are not exhaustive, an internal d=2 source through a "
+                + "non-dephasing, measurement or classical-field coupling sits inside the ontology and outside the "
+                + "enumeration, and QUBIT_NECESSITY sections 8a, 8d and 10 all list that axis open. It is written "
+                + "into the proof now; the axis itself is untouched. ALSO PARKED HERE, because it was found on the "
+                + "way and is a class rather than an instance: seven committed scripts still SEARCH for a "
+                + "palindrome centre that F137 fixes in closed form (qubit_necessity_tests, depolarizing_analysis, "
+                + "depolarizing_test, pt_palindrome_breaking, mirror_transition, mirror_symmetry_deep, "
+                + "carbon/peierls_break_structure). A bounded search passes only where it is seeded, so each is a "
+                + "gate that cannot fail informatively; qubit_necessity_tests is the urgent one, because "
+                + "QUBIT_NECESSITY is a Depends-on of this very proof.",
+            Status: OpenArcStatus.Open),
 
         new OpenArc(
             Name: "f138_clause_two_sweep",
@@ -6936,10 +7024,14 @@ public static class OpenArcsRegistry
                 "(RESONANT_RETURN:162 NAMES the Born-Markov assumptions, Tier 5; the parked outbound " +
                 "noise-asymmetry doc uses weak-coupling theory; INCOMPLETENESS_PROOF:378's tracing-out is " +
                 "a refutation, not a derivation), so the outside was never a " +
-                "traced-out bath; it is the residue of INCOMPLETENESS_PROOF's five-way elimination, which " +
-                "proves it exists, keeps the bath as description-not-origin (:156-159), and deliberately " +
-                "refuses to characterize it (:210-218, :334-339): source language from the start, " +
-                "'Noise must come from outside the framework'. THE QUESTION'S TWO NAMED DOCS DO NOT SHARE " +
+                "traced-out bath; it was the residue of INCOMPLETENESS_PROOF's five-way elimination. " +
+                "AND THAT RESIDUE IS GONE SINCE 2026-08-29: the elimination does not hold (see the arc " +
+                "noise_origin_after_candidate_two), so the outside is no longer even a residue, and the " +
+                "proof's source language, 'Noise must come from outside the framework', is withdrawn. What " +
+                "survives there is that the system is OPEN, by the trace, which says nothing about a sender. " +
+                "This arc's question therefore sharpens rather than dissolves: it kept the bath as " +
+                "description-not-origin and refused to characterize the outside, and now there is no " +
+                "argument that the outside exists at all. THE QUESTION'S TWO NAMED DOCS DO NOT SHARE " +
                 "ONE SPLIT, and only the viewer-pairing stands on an eye: " +
                 "INSIDE_OUTSIDE_THE_SACRIFICE_ZONE splits SPACE (protected core vs whole system at the " +
                 "gamma-boundary; the mechanism is agent-free, the frame is appearance-vs-reality from the " +

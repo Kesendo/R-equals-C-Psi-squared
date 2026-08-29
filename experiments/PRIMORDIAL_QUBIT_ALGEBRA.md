@@ -714,9 +714,11 @@ is the first interference between oscillation and irreversibility.
 
 The chain of results, each computed or proven:
 
-1. **γ must come from outside** the d(d-2)=0 framework.
-   ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md),
-   Tier 2, elimination complete.)
+1. **The system is open**, certified by the trace: a generator with
+   non-negative rates is closed exactly when trace(L) = 0.
+   ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md), §3.)
+   That γ comes from OUTSIDE does not follow and is not established; the
+   elimination that once carried it lost two of its five candidates.
 
 2. **γ creates the cooling, H creates the oscillation.** The centered
    Liouvillian decomposes: L_c = L_H + (L_D + Σγ·I), where L_H is
@@ -732,9 +734,13 @@ The chain of results, each computed or proven:
    woven together. Inseparable. (Computed, Step 10.)
 
 5. **From N≥3 back to N=2: impossible.** Tracing out a qubit from an
-   N=3 system produces non-Markovian, non-palindromic effective noise
-   (0/16 palindromic pairs). The Urqubit structure is destroyed.
-   ([failed_third.py](../simulations/failed_third.py), Tier 2.)
+   N=3 system destroys the Urqubit structure, and the 2026-08-29
+   re-measurement makes the statement stronger by making it simpler: the
+   marginal over a **coupled** spectator fails to pair by 0.094 even when
+   that spectator carries no noise at all. The earlier wording, "non-
+   Markovian, non-palindromic, 0/16 palindromic pairs", attributed it to the
+   noise; the coupling alone is enough.
+   ([incompleteness_candidate2_evidence.py](../simulations/incompleteness_candidate2_evidence.py), Tier 2.)
 
 Time reversal would require undoing the cooling without disturbing the
 oscillation. This requires {L_H, L_D + Σγ} = 0 (orthogonality). This
@@ -745,8 +751,8 @@ improbable (entropy increases, fluctuation theorem, second law). This
 is an algebraic argument: **reversal is structurally impossible at
 N > 2**, because the cross term {L_H, L_D + Σγ} weaves the reversible
 and irreversible parts of the dynamics into a single inseparable
-structure, and this weaving cannot be undone by reduction (tracing out
-produces non-Markovian noise that destroys the palindrome).
+structure, and this weaving cannot be undone by reduction (tracing out a
+coupled neighbour destroys the palindrome, whatever the noise is doing).
 
 The arrow of time is not entropy. The arrow of time is the cross term.
 

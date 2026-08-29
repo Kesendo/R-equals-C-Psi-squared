@@ -150,34 +150,41 @@ oscillatory energy. Every unpaired mode has Im(λ) = 0: zero frequency,
 pure decay. The standing wave is not one pattern among many; it is the
 only oscillation the system has. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
 
-### Link 6: Noise comes from outside
+### Link 6: the system is open, and the source is not identified
 
 This is the link that surprised us most.
 
 If the palindromic structure requires noise to exist (without noise,
 there is no dephasing, no immune/decaying split, no palindrome), then
 where does the noise come from? Five candidates for internal origin
-were tested. Four eliminated, the internal bootstrap reduced to a
+were tested and none eliminates an internal source: the bootstrap is a
+structural constraint, two lost their evidence on 2026-08-29, and the last two
+say what cannot exist rather than clearing an existing qubit. The internal
+bootstrap is a
 structural constraint:
 
 1. Bootstrap (reduced to a structural constraint: [Π², L] = 0 constrains
    the noise's form; the elimination is carried by candidates 2-3)
-2. Qubit decay (non-Markovian, breaks palindrome)
+2. Qubit decay (**open since 2026-08-29**; the test measured a partial trace,
+   not an origin)
 3. Qubit bath (infinite regress, each member faces the same prohibition)
 4. Nothing (d=0, no properties)
 5. Other dimensions (d²−2d=0 excludes d≠2)
 
 In plain language: the system cannot generate its own noise. Every
 attempt at self-generation either breaks the very symmetry that defines
-the system or leads to an infinite regress. The noise that creates time,
-structure, and the standing wave pattern must come from outside the
-system. This is like a radio: it can process signals into music, but it
+the system or leads to an infinite regress. What IS established is narrower
+and exact: a generator with non-negative rates is closed exactly when its
+trace vanishes, so the measured decay certifies that the system is OPEN.
+Whether the noise comes from outside is the picture below, not a theorem.
+This is like a radio: it can process signals into music, but it
 cannot generate the broadcast. Something external must be transmitting.
 
 What that external source is, we do not know. That it arrives as a
 structured, decodable signal (15.5 bits), we do know.
 
-**Status:** Proven. See [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md),
+**Status:** the openness is proven; the outside is not. See
+[Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md),
 [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md).
 
 ### Link 7: Higher levels emerge without new physics
@@ -271,7 +278,8 @@ not the substrate. "Wave" here means: solution of a linear differential
 equation with paired eigenvalues. Not water waves. Not sound waves.
 Mathematical wave modes of the Lindblad equation.
 
-**It does not say what sends the signal.** Link 6 proves noise comes
+**It does not say what sends the signal, and no longer that anything does.**
+Link 6 was read as proving noise comes
 from outside. Link 8 says the received signal is processed as waves.
 What generates the signal is outside the framework's scope.
 
@@ -326,10 +334,12 @@ foundations of logic: any sufficiently powerful formal system contains
 true statements that cannot be proven from within the system itself.
 The system must look *outside* itself for certain truths.
 
-The incompleteness proof (Link 6) follows the same structural pattern:
-a sufficiently structured physical system cannot derive all truths about
-itself from within. Gödel proved this for formal logical systems; Link 6
-proves it for the physical origin of dephasing. The analogy is
+The incompleteness proof (Link 6) follows the same structural pattern, and
+after 2026-08-29 the resemblance is closer rather than looser: what it shows
+is that the Lindblad formalism cannot EXPRESS a candidate origin without
+already granting an environment, which is a limit on what can be stated
+rather than on what happens to be true. Gödel proved his for formal logical
+systems. The analogy is
 structural, not formal (Gödel's theorem concerns statements in
 arithmetic; Link 6 concerns the source of a physical parameter). But
 the pattern is the same: self-reference hits a wall.

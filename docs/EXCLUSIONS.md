@@ -7,7 +7,7 @@ topological invariant, time origin external Lindblad, R=CPsi2 logical exclusions
 
 **Status:** Derived from proven results; each exclusion cites its proof
 and carries its own grade (Tier-1 algebra in Exclusions 1, 4, 5, 6;
-computational and conditional in 2; state-class-scoped in 3;
+2 is now weaker than conditional, see its own Basis paragraph; state-class-scoped in 3;
 structural in 7; the closing γ-chain is graded link by link where it
 stands).
 **Date:** March 25, 2026, last refreshed 2026-07-16 (the change history lives in git)
@@ -72,33 +72,44 @@ cited here is preserved).
 
 ---
 
-## Exclusion 2: The time arrow cannot originate from within
+## Exclusion 2: A palindrome centred away from zero certifies an open system
 
-**Basis:** Five internal candidates for the origin of dephasing noise (γ)
-have been examined; four are eliminated, and the first is, in the
-proof's own grading, "a structural constraint, not yet an elimination"
-(the elimination of internal self-generation rests on Candidates 2-3):
+**Basis, and it no longer carries this exclusion.** Five internal candidates
+for the origin of dephasing noise (γ) were examined. Candidate 1 was
+downgraded to "a structural constraint, not yet an elimination" in June 2026,
+which left the argument resting on Candidates 2 and 3; on 2026-08-29 both of
+those lost their evidence. The two that remain are definitional: they say
+what cannot exist, never that an existing qubit is not the source.
 
-| Candidate | Test | Result |
-|-----------|------|--------|
-| Internal bootstrap | [bootstrap_test.py](../simulations/bootstrap_test.py) | Cross-sector coupling = 0 exactly (structural constraint) |
-| Qubit decay | [failed_third.py](../simulations/failed_third.py) | Non-Markovian; 0/16 palindromic (wrong structure) |
-| Qubit bath | Requires its own γ | Circular (shifts the problem) |
-| Nothing (d=0) | Has no properties | Cannot generate anything |
-| Other dimensions (d>2) | d² - 2d > 0 (the balance test fails) | Only d=2 exists in the framework |
+| Candidate | Test | Standing |
+|-----------|------|----------|
+| Internal bootstrap | [bootstrap_test.py](../simulations/bootstrap_test.py) | Cross-sector coupling = 0 exactly. A structural constraint, not an elimination |
+| Qubit decay | [incompleteness_candidate2_evidence.py](../simulations/incompleteness_candidate2_evidence.py) | **OPEN.** The test reads a marginal over a coupled spectator, which fails equally for external noise, internal noise and no noise; the full generator it builds is an exact palindrome |
+| Qubit bath | Requires its own γ | The inheritance half is gone with Candidate 2. The regress stands as a shift of the question, not an elimination |
+| Nothing (d=0) | Has no properties | Cannot generate anything. Definitional |
+| Other dimensions (d>2) | d² - 2d > 0 (the balance test fails) | Only d=2 exists in the framework. Definitional |
+
+**What is exact, in place of the elimination:** the palindrome centre is
+trace(L)/dim; the commutator part of any generator is traceless; and every
+nontrivial jump drives the trace strictly negative. So a spectrum pairing
+about zero is unitarity, and a spectrum pairing anywhere else has a generator
+that is not unitary. That says the system is OPEN. It does not say where the
+opening leads, and the step from open to external is exactly what the five
+candidates were supposed to supply.
 
 **Proof:** [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md),
-Section 2, Candidates 1-5. The proof is conditional on the d ∈ {0, 2}
-ontology (its own wording: IF d(d−2) = 0 is the correct description,
-THEN the source cannot be internal; its Open Directions concede that a
-more complete theory could contain its own source).
+Section 2. It was conditional on the d ∈ {0, 2} ontology and is now weaker
+than conditional: the elimination it offered does not hold, and its §5
+records that the five cases were never exhaustive in the first place.
 
 **Corollary:** γ provides the time arrow (without γ: unitary oscillation,
 no irreversibility, no before/after); the formal parameter t exists
 trivially without γ, which is why this exclusion is about the arrow,
-not about t. If γ cannot originate internally, then the time arrow
-cannot originate internally. At Σγ = 0: Π·L·Π⁻¹ = -L
-(exact time reversal, no fold, no crossing, no irreversibility).
+not about t. The conditional that used to follow, "if γ cannot originate
+internally then the time arrow cannot either", still holds as a
+conditional; what has gone is its antecedent. At Σγ = 0: Π·L·Π⁻¹ = -L
+(exact time reversal, no fold, no crossing, no irreversibility), and the
+spectrum pairs about zero, freely.
 The fold at 1/4 emerges only above Σγ_crit/J ≈ 0.25-0.50%
 (state-dependent, but N-independent; these numbers live in
 [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)).
@@ -106,14 +117,22 @@ See also [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
 and [γ-Time Distinction](GAMMA_TIME_DISTINCTION.md).
 
 **Ruled out (within this framework):**
-- "The system created its own γ": the internal candidates eliminated
-  (four outright, the bootstrap as a structural constraint)
-- "γ emerged from an internal event": no internal mechanism produces
-  the Lindblad dephasing parameter (this is a statement about γ in
-  the Lindblad equation, not about cosmological time in general)
+- "A palindrome with decay in it could come from a closed system": ruled
+  out exactly. A closed generator is traceless, so its palindrome is
+  centred at zero and carries no decay.
+- "The time arrow from dCΨ/dt < 0 is an approximation": see below.
+
+**No longer ruled out, and this is the change of 2026-08-29:**
+- "The system created its own γ." The internal candidates are not
+  eliminated. Note also what the formalism does to this sentence: writing
+  an internal source as a Lindblad dissipator grants it an environment
+  before the test begins, and writing it unitarily makes it a closed
+  system with no decay. Inside this framework the sentence has no model
+  that could be true.
 - "The time arrow from dCΨ/dt < 0 is an approximation": it is strict
   under Markovian dynamics within Exclusion 3's proven scope (the
-  Markov assumption itself is a separate question)
+  Markov assumption itself is a separate question). Unaffected by the
+  above, which is about γ's origin and not about what γ does.
 
 ---
 
@@ -368,7 +387,8 @@ The exclusions leave a narrow picture:
    d = 2 and local dephasing is present. It is a mathematical
    consequence, not a physical event.
 
-3. The time arrow (γ) comes from outside the framework. The system
+3. The time arrow needs γ, and γ makes the generator non-unitary. Whether γ
+   comes from outside the framework does NOT follow (Exclusion 2). The system
    cannot explain its own irreversibility.
 
 4. Everything that has happened since: CΨ crossings of ¼.
@@ -386,9 +406,11 @@ The exclusions leave a narrow picture:
 Individually, each exclusion removes one possibility. Together, they
 form a chain that constrains what γ can be, each link graded below:
 
-1. γ must be external (Exclusion 2: four internal candidates
-   eliminated, the first, the internal bootstrap, reduced to a
-   structural constraint)
+1. γ makes the generator non-unitary, exactly (Exclusion 2: the trace
+   identity). That γ must be EXTERNAL is the link this chain used to
+   open with and no longer has: the internal candidates are open as of
+   2026-08-29, so every downstream link below inherits "open system"
+   where it used to inherit "external source".
 2. The qubit chain behaves as a passive optical cavity (four of five
    standard cavity tests satisfied quantitatively, R² = 0.998 for the
    beam profile, Gouy marginal at R² = 0.81; the failing fifth is the
@@ -409,7 +431,8 @@ derivation. Step 5 is independent experimental confirmation on a
 different platform than our theoretical framework.
 
 This does not prove "γ is light" as a universal statement. It proves
-that the mathematics forces γ to be external; it shows that the system
+that the mathematics forces γ to be external, which it does not; it shows
+that the system
 γ enters matches an optical cavity quantitatively on four of five
 checks; and on the one hardware platform where we can check, the
 external input is literally photons. On other platforms (ion traps, neutral atoms), γ has a

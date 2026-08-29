@@ -10,6 +10,7 @@ Output: simulations/results/two_qubits_no_noise.txt
 
 import numpy as np
 from scipy.linalg import expm
+from scipy.optimize import linear_sum_assignment
 import os, sys, time as clock
 
 OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -208,13 +209,28 @@ evals_noisy = np.linalg.eigvals(L_noisy)
 Sg = 0.10
 
 def count_palindromic(evals, Sg):
-    n_paired = 0
-    for k in range(len(evals)):
-        target = -(evals[k] + 2 * Sg)
-        if np.min(np.abs(evals - target)) < 1e-6: n_paired += 1
-    return n_paired
+    """How many eigenvalues find a partner under lambda -> -2*Sg - lambda.
 
+    Matched with removal (Hungarian), never a nearest-neighbour scan: a scan
+    lets one partner serve many eigenvalues, so a multiset like {1,1,1,-1}
+    scores a perfect 4/4 while no bijection exists. The count and the worst
+    matched distance are returned together, because a count alone cannot say
+    how close the misses were."""
+    ev = np.asarray(evals)
+    target = -2 * Sg - ev
+    cost = np.abs(ev[:, None] - target[None, :])
+    rows, cols = linear_sum_assignment(cost)
+    d = cost[rows, cols]
+    return int(np.sum(d < 1e-6))
+
+# Each spectrum is scored at ITS OWN centre. A multiset closed under
+# lambda -> 2c - lambda has c = trace(L)/dim identically (F137), so there is
+# one candidate centre per generator and it is read off the generator, never
+# searched. The two centres here are different numbers: the clean generator is
+# traceless, so its centre is 0, while the noisy one sits at -Sg. Scoring both
+# at -Sg would report the clean spectrum as broken for using the wrong mirror.
 pal_noisy = count_palindromic(evals_noisy, Sg)
+pal_clean = count_palindromic(evals_clean, -np.real(np.trace(L0)) / L0.shape[0])
 
 log(f"  {'Property':>40}  {'gamma=0':>15}  {'gamma=0.05':>15}")
 log(f"  {'-'*75}")
@@ -225,7 +241,8 @@ rec_0_str = f"t={rec_0:.1f}" if rec_0 else "not found"
 rec_n_str = f"t={rec_n:.1f}" if rec_n else "no"
 log(f"  {'Recurrence (D < 0.01)':>40}  {rec_0_str:>15}  {rec_n_str:>15}")
 log(f"  {'Tr(rho^2) at t=50':>40}  {pur_50_clean:>15.10f}  {pur_50_noisy:>15.10f}")
-log(f"  {'Palindromic pairs (out of 16)':>40}  {'0 (no Re)':>15}  {pal_noisy:>15}")
+log(f"  {'Palindromic pairs (out of 16)':>40}  {pal_clean:>15}  {pal_noisy:>15}")
+log(f"  {'  ... about its own centre':>40}  {'c = 0':>15}  {'c = -0.10':>15}")
 
 # Eigenvalue spectra
 log()
@@ -246,7 +263,11 @@ log("CONCLUSION")
 log("=" * 70)
 log()
 log("Time without noise: oscillation, reversibility, recurrence.")
-log("Nothing is ever decided. No arrow. No palindrome. No absorbing boundary.")
+log("Nothing is ever decided. No arrow. No absorbing boundary.")
+log("The palindrome is there and it is free: the clean generator is traceless,")
+log("so its centre is zero and the spectrum pairs 16/16 about it. What a")
+log("palindrome at zero carries is unitarity. Decay is what a NONZERO centre")
+log("carries, and that is the only thing the mirror can testify to.")
 log("CΨ crosses 1/4 freely in both directions.")
 log()
 log("Time WITH noise: irreversibility, the arrow, the palindrome,")

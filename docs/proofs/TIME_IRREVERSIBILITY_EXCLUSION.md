@@ -5,9 +5,9 @@
 **Date:** April 1, 2026 (reframed 2026-06-22, see §3 caveat)
 **Depends on:**
 - [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) (Π·L·Π⁻¹ = -L - 2Σγ·I)
-- [Incompleteness Proof](INCOMPLETENESS_PROOF.md) (γ from outside)
+- [Incompleteness Proof](INCOMPLETENESS_PROOF.md) (the system is open; the origin of γ is not settled)
 - [primordial_qubit_algebra.py](../../simulations/primordial_qubit_algebra.py) (Steps 9-10)
-- [failed_third.py](../../simulations/failed_third.py) (0/16 palindromic pairs)
+- [incompleteness_candidate2_evidence.py](../../simulations/incompleteness_candidate2_evidence.py) (the reduced dynamics does not pair)
 - [Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md) (R(N) = √((N−2)/(N·4^(N−1))))
 **Status:** the orthogonality / Pythagorean-decomposition result is complete and exact.
 **Scope:** the **Frobenius-Pythagorean orthogonality** of the oscillatory (L_H) and cooling
@@ -65,18 +65,33 @@ their conjunction.
 
 Without the dissipator L_D, the Liouvillian is purely Hamiltonian.
 Eigenvalues are purely imaginary. No decay rates. No palindromic pairing.
-The palindrome exists if and only if γ > 0.
+A palindrome CENTRED AWAY FROM ZERO exists if and only if γ > 0. The pairing
+itself does not need γ: a closed generator is traceless, so its spectrum pairs
+about zero, freely, 16 of 16
+([two_qubits_no_noise.py](../../simulations/two_qubits_no_noise.py)). What γ
+buys is the nonzero centre, and that is what carries the decay.
 
 **Source:** [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md), Step 1.
 
-### Step 2: Noise cannot originate from within (Tier 2)
+### Step 2: The system is open, and the origin of γ is not settled
 
-Every candidate for the origin of γ within the d(d-2)=0 framework is
-eliminated: internal generation (parity sectors sealed), single-qubit
-decay (non-Markovian, 0/16 palindromic), many-qubit bath (infinite
-regress), nothing (no properties), d > 2 (excluded by d²-2d=0).
+This step read: every candidate for the origin of γ within the d(d-2)=0
+framework is eliminated. It does not hold. Candidate 1 was downgraded to a
+structural constraint in June 2026, and on 2026-08-29 the two candidates that
+carried the elimination lost their evidence: single-qubit decay was scored on
+a marginal over a coupled spectator, which fails equally for external noise,
+internal noise and no noise at all, and the many-qubit bath inherited from it.
+The two that remain say what cannot exist, not that an existing qubit is not
+the source.
 
-**Source:** [Incompleteness Proof](INCOMPLETENESS_PROOF.md), Section 2.
+What survives, exactly, is weaker and is enough for Step 5's neighbours but
+not for an origin claim: the palindrome centre is trace(L)/dim, the commutator
+part of any generator is traceless, and every nontrivial jump drives the trace
+strictly negative, so a spectrum pairing away from zero has a **non-unitary**
+generator. Open, not external.
+
+**Source:** [Incompleteness Proof](INCOMPLETENESS_PROOF.md), Section 2 and
+Section 3.
 
 ### Step 3: At N=2, oscillation and cooling are orthogonal (Tier 2)
 
@@ -133,20 +148,40 @@ only on N.
 ### Step 5: Reduction to N=2 is impossible (Tier 2)
 
 Tracing out one qubit from an N=3 system produces effective dynamics on
-the remaining N=2 subsystem. This effective dynamics is:
+the remaining N=2 subsystem, and that reduced dynamics does not carry the
+palindromic structure. The claim survives the 2026-08-29 re-measurement; its
+three bullets did not, and the corrected reading is both narrower and, for
+this step, stronger.
 
-- Non-Markovian (trace distance increases in 50% of time steps)
-- Non-palindromic (0/16 eigenvalue pairs match the palindrome)
-- Non-structured (no Pythagorean decomposition)
+- **Non-palindromic: holds, and now with a control.** The reduced channel's
+  rate spectrum fails to pair about any centre by 0.116, 0.125 and 0.149 for
+  the three internal mechanisms; a control whose induced channel is exactly
+  the palindromic reference pairs at 2.2e-16 through the same pipeline. The
+  number 0/16 that used to stand here is withdrawn: it came from a seeded
+  centre search that an exactly palindromic spectrum also fails.
+- **And the obstruction is the coupling, not the noise.** The same reduction
+  gives 0.094 with **no noise at all** and 0.177 with **external** dephasing.
+  So what destroys the structure is tracing out a spectator that is still
+  coupled, which is exactly what this step needs and is a cleaner statement
+  than the original: reduction fails for any N=3 system whose third qubit is
+  coupled, whatever the noise is doing.
+- **Non-Markovian: withdrawn as stated, true as measured elsewhere.** The
+  "50% of time steps" counted increases of a matrix element the preparation
+  leaves empty, and its companion "max deviation 0.000000" was a constant. A
+  proper BLP probe does show distinguishability returning, by 8.5, 2.7, 7.5
+  and 3.8 in the four mechanisms, so the property holds; it was simply not
+  what that line measured.
+- **Non-structured (no Pythagorean decomposition):** this bullet belongs to
+  `primordial_qubit_algebra.py`, not to the source cited below, and is
+  unaffected.
+- **What is NOT available here any more:** an effective rate. `γ_eff = 0` was
+  a guard's else-branch, and no rate for this channel is claimed.
 
-The palindromic structure that enables {L_H, L_Dc} = 0 does not survive
-reduction. A qubit embedded in a larger system cannot be extracted as an
-Urqubit.
-
-**Source:** [failed_third.py](../../simulations/failed_third.py),
-[Incompleteness Proof](INCOMPLETENESS_PROOF.md) Section 2.2.
-Result: γ_eff = 0 for all four instability mechanisms, 0/16 palindromic
-pairs at error < 10⁻¹⁵.
+**Source:** [incompleteness_candidate2_evidence.py](../../simulations/incompleteness_candidate2_evidence.py)
+(29 gates) and its results file;
+[Incompleteness Proof](INCOMPLETENESS_PROOF.md) Section 2, Candidate 2. The
+original run these replace is
+[failed_third.py](../../simulations/failed_third.py), left as it was run.
 
 ---
 
@@ -212,8 +247,9 @@ locality. (Plus a Tier-3 *reading* of that loss as an algebraic arrow of time, s
 
 ### The gap it fills
 
-The [Incompleteness Proof](INCOMPLETENESS_PROOF.md) establishes that
-γ must come from outside. Thermodynamics reads the resulting irreversibility as
+The [Incompleteness Proof](INCOMPLETENESS_PROOF.md) establishes that the
+system is open. It does not establish where γ comes from, and its §3 gives the
+reason nothing inside the Lindblad formalism could. Thermodynamics reads the resulting irreversibility as
 entropy. This document offers a different *reading*: the cross term {L_H, L_D + Σγ}
 at N > 2 weaves the oscillatory and dissipative parts into a Frobenius-inseparable
 structure once spectators appear. **We call that the algebraic content of the arrow of
@@ -261,8 +297,10 @@ Each step is independently reproducible:
 2. Read [Incompleteness Proof](INCOMPLETENESS_PROOF.md): γ from outside.
 3. Run `python` [`simulations/primordial_qubit_algebra.py`](../../simulations/primordial_qubit_algebra.py): Step 9 shows
    {L_H, L_Dc} = 0 at N=2, Step 10 shows ≠ 0 at N=3,4.
-4. Run `python` [`simulations/failed_third.py`](../../simulations/failed_third.py): 0/16 palindromic pairs
-   upon tracing out.
+4. Run `python` [`simulations/incompleteness_candidate2_evidence.py`](../../simulations/incompleteness_candidate2_evidence.py):
+   the marginal over a coupled spectator does not pair, and does not pair for
+   external noise, internal noise, or no noise alike. `failed_third.py`'s 0/16
+   is not the evidence for this and is withdrawn.
 5. Accept or reject the conclusion.
 
 No step requires trusting an interpretation. Every step is a computation

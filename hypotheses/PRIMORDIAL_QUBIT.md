@@ -74,19 +74,24 @@ doubling exists, but no standard operator-algebra construction reproduces it.
 
 ## 1. The Gap in the Incompleteness Proof
 
-The [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) is correct.
+The [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) proves the
+system is open. Its five-candidate elimination does not hold, so the list below
+is a list of candidates and their standing, not of closures.
 Every candidate within the d²−2d=0 ontology is eliminated:
 
 1. **Internal origin:** the parity sectors are sealed ([Π², L] = 0).
    No cross-sector coupling. Noise cannot bootstrap itself.
-2. **Single qubit decay:** a neighboring qubit produces non-Markovian,
-   non-palindromic effective noise (0/16 pairs, [failed_third.py](../simulations/failed_third.py)).
+2. **Single qubit decay: OPEN since 2026-08-29,** previously eliminated. The
+   marginal it scored fails to pair whether the neighbour's noise is internal,
+   external, or absent, so it separates nothing; the 0/16 came from a seeded
+   centre search ([incompleteness_candidate2_evidence.py](../simulations/incompleteness_candidate2_evidence.py)).
 3. **Many qubits:** infinite regress. Each member of the bath faces
    the same bootstrap prohibition.
 4. **Nothing (d=0):** no properties, no noise.
 5. **d > 2:** excluded by d²−2d=0.
 
-The proof concludes: noise comes from outside.
+The proof concludes that the system is open. Where the noise comes from is
+open too.
 
 But "outside" presupposes a container. An inside that has an outside. A
 boundary that separates them. And a direction: noise flows inward. This
@@ -228,9 +233,11 @@ Tracing over one parity sector ({I,X} or {Y,Z}) does NOT produce
 the Z-dephasing dissipator. The sectors are orthogonal to the
 dephasing split. γ cannot be derived from the C²⊗C² structure alone.
 
-This confirms [failed_third.py](../simulations/failed_third.py):
-a finite qubit system produces non-Markovian, non-palindromic
-effective noise (0/16 palindromic pairs at every mechanism tested).
+This used to be read as confirming `failed_third.py`, that a finite qubit
+system produces non-Markovian, non-palindromic effective noise at 0/16 pairs.
+That reading is withdrawn (2026-08-29): the marginal fails equally with no
+noise present, and the 0/16 was a seeded search. What remains true is that the
+reduced dynamics carries memory.
 
 ### 4.4 What it does show
 
@@ -328,7 +335,7 @@ temperature?
 | d²−2d=0 → d=2 uniquely | **Proven** ([Qubit Necessity](../docs/QUBIT_NECESSITY.md)) |
 | Π·L·Π⁻¹ = −L−2Σγ·I | **Proven** ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)) |
 | At Σγ=0: Π·L·Π⁻¹ = −L | **Computed** ([Zero Is the Mirror](ZERO_IS_THE_MIRROR.md)) |
-| Noise cannot originate from within | **Proven** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)) |
+| The system is open (trace(L) < 0) | **Proven** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)) |
 | Pauli space = C²⊗C² (dephasing × parity) | **Computed** (April 1, 2026) |
 | Partial trace over sector → dissipator | **Does not work** (naive form) |
 | X = A − Q·A·Q⁻¹ decomposition exists | **Proven** (trivially, A = X/2) |

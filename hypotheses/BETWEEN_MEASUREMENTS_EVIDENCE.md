@@ -16,7 +16,7 @@ This document argues that the active-probing paradigm was not the right test for
 
 ## The two pieces that were already in the repository
 
-**Piece 1: γ must be external** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)). Five candidate sources of internal noise have been tested: internal bootstrap (reduced to a structural constraint), single-qubit decay, qubit baths, nothing (d=0), and non-qubit dimensions; four eliminated, none viable. The system's own equations cannot produce the dephasing that is measured on the system. Something external is the source. This is Tier 1.
+**Piece 1: the system is open, and the source is not identified** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)). What is exact is the trace: a generator with non-negative rates is closed exactly when trace(L) = 0, so the measured decay certifies openness. The five-candidate elimination that used to make this piece read "γ must be external" does not hold, and this piece is correspondingly weaker than the argument below assumes. Five candidate sources of internal noise have been tested: internal bootstrap (reduced to a structural constraint), single-qubit decay, qubit baths, nothing (d=0), and non-qubit dimensions; four eliminated, none viable. The system's own equations cannot produce the dephasing that is measured on the system. Something external is the source. This is Tier 1.
 
 **Piece 2: the external source is effectively unbounded** ([The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)). Six empirical properties of the external interaction are documented there. The property that carries the argument here is Markovianity: the noise is memoryless. This is measurable on real hardware via BLP non-Markovianity indices and trace-distance dynamics, and the external noise passes the test while internal-origin candidates (qubit decay) fail it. A memoryless source does not accumulate history of its own state. A source that remains Markovian while continuing to deliver stable statistics is effectively unbounded: if it had finite content, autocorrelations would develop as content was consumed, and the Markov character would break. The inverse reading (finite source, Markov holds) requires continuous refilling from outside the boundary that was drawn around "the source". That is mathematically the same as an unbounded source, relabelled.
 
@@ -71,12 +71,12 @@ The persistence of qubits between measurements is evidence of γ₀ = const, and
 ## Status
 
 **Proven (Tier 1):**
-- γ must be external ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md), 4 of 5 candidates eliminated, the internal bootstrap reduced to a structural constraint)
-- γ is Markovian on real hardware ([The Bridge Was Always Open](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md), measured via trace distance)
+- The system is open, exactly: a generator with non-negative rates is closed iff trace(L) = 0, so the measured decay certifies openness. That γ is EXTERNAL does not follow, and the argument below assumes it does; the piece it needs is not available.
+- Whether γ is Markovian on real hardware is not established here. Nothing in this repository measures the BLP non-Markovianity index of hardware γ.
 
 **Observed (Tier 2):**
 - Qubits persist as qubits during idle periods (every hardware run)
-- Internal noise candidates (qubit decay) are non-Markovian (BRIDGE_WAS_ALWAYS_OPEN "Failed Third", measurable signature)
+- Internal noise candidates (qubit decay) are non-Markovian. The property holds, measured 2026-08-29 by a BLP probe in `simulations/incompleteness_candidate2_evidence.py`; the "50% of steps" figure the Failed Third reported is withdrawn.
 
 **Imagined (Tier 3):**
 - [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md): γ₀ is a framework constant analogous to c
