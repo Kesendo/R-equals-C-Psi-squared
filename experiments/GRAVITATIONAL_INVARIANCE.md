@@ -29,8 +29,12 @@ invariance fallen -->
 > same 50× γ range in the clean standard-Lindblad book and gets
 > 0.035960 to 0.035976 across all six points, and
 > [Crossing Taxonomy](CROSSING_TAXONOMY.md) gives the reason rather than the
-> observation: C and Ψ depend on τ = γt alone, so any γ-independent threshold
-> has a γ-independent crossing.
+> observation: C and Ψ depend on τ = γt alone **for Bell⁺**, so a γ-independent
+> threshold has a γ-independent crossing there. The qualifier was added
+> 2026-08-29: Bell⁺ is a Heisenberg eigenstate and Z-dephasing keeps it in that
+> sector, so J never enters its trajectory. Off such a sector the step fails,
+> because the Lindblad scaling symmetry is joint and a γ sweep at fixed J moves
+> Q = J/γ.
 
 **Status:** Verified computation (Tier 2); gravity interpretation fallen
 **Date:** 2026-02-08

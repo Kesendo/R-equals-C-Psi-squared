@@ -1,0 +1,147 @@
+==============================================================================
+The rate is a unit; a gamma-only sweep is a Q-move; a Q-move needs a
+sector that sees J. Plus the two scope traps.
+==============================================================================
+
+N=2  gamma profile uniform  max|L| = 2.0025
+  [PASS] A joint scaling, exact at dyadic a=0.5   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=2.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=4.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, eps-law at a=0.1   residual = 0.000e+00  bound = 3.557e-16  ratio = 0.000
+  [PASS] A joint scaling, eps-law at a=0.333333   residual = 0.000e+00  bound = 1.186e-15  ratio = 0.000
+  [PASS] A joint scaling, eps-law at a=3.14159   residual = 0.000e+00  bound = 1.118e-14  ratio = 0.000
+  [PASS] B gamma-alone BREAKS at a=2.0   break = 2
+  [PASS] B  break == (a-1)*max|commutator part| at a=2.0   delta = 0.000e+00
+  [PASS] B gamma-alone BREAKS at a=4.0   break = 6
+  [PASS] B  break == (a-1)*max|commutator part| at a=4.0   delta = 0.000e+00
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=2.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=4.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=0.5   residual = np.float64(0.0)
+  [PASS] C (aH,a.g) at t == (H,g) at a*t   max|drho| = 0.000e+00
+
+N=2  gamma profile random   max|L| = 2.32538
+  [PASS] A joint scaling, exact at dyadic a=0.5   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=2.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=4.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, eps-law at a=0.1   residual = 0.000e+00  bound = 4.131e-16  ratio = 0.000
+  [PASS] A joint scaling, eps-law at a=0.333333   residual = 0.000e+00  bound = 1.377e-15  ratio = 0.000
+  [PASS] A joint scaling, eps-law at a=3.14159   residual = 8.882e-16  bound = 1.298e-14  ratio = 0.068
+  [PASS] B gamma-alone BREAKS at a=2.0   break = 2
+  [PASS] B  break == (a-1)*max|commutator part| at a=2.0   delta = 0.000e+00
+  [PASS] B gamma-alone BREAKS at a=4.0   break = 6
+  [PASS] B  break == (a-1)*max|commutator part| at a=4.0   delta = 0.000e+00
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=2.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=4.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=0.5   residual = np.float64(0.0)
+  [PASS] C (aH,a.g) at t == (H,g) at a*t   max|drho| = 2.405e-17
+
+N=3  gamma profile uniform  max|L| = 4.005
+  [PASS] A joint scaling, exact at dyadic a=0.5   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=2.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=4.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, eps-law at a=0.1   residual = 0.000e+00  bound = 7.114e-16  ratio = 0.000
+  [PASS] A joint scaling, eps-law at a=0.333333   residual = 0.000e+00  bound = 2.371e-15  ratio = 0.000
+  [PASS] A joint scaling, eps-law at a=3.14159   residual = 1.110e-16  bound = 2.235e-14  ratio = 0.005
+  [PASS] B gamma-alone BREAKS at a=2.0   break = 4
+  [PASS] B  break == (a-1)*max|commutator part| at a=2.0   delta = 0.000e+00
+  [PASS] B gamma-alone BREAKS at a=4.0   break = 12
+  [PASS] B  break == (a-1)*max|commutator part| at a=4.0   delta = 0.000e+00
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=2.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=4.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=0.5   residual = np.float64(0.0)
+  [PASS] C (aH,a.g) at t == (H,g) at a*t   max|drho| = 2.429e-17
+
+N=3  gamma profile random   max|L| = 4.6162
+  [PASS] A joint scaling, exact at dyadic a=0.5   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=2.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=4.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, eps-law at a=0.1   residual = 2.776e-17  bound = 8.200e-16  ratio = 0.034
+  [PASS] A joint scaling, eps-law at a=0.333333   residual = 2.220e-16  bound = 2.733e-15  ratio = 0.081
+  [PASS] A joint scaling, eps-law at a=3.14159   residual = 0.000e+00  bound = 2.576e-14  ratio = 0.000
+  [PASS] B gamma-alone BREAKS at a=2.0   break = 4
+  [PASS] B  break == (a-1)*max|commutator part| at a=2.0   delta = 0.000e+00
+  [PASS] B gamma-alone BREAKS at a=4.0   break = 12
+  [PASS] B  break == (a-1)*max|commutator part| at a=4.0   delta = 0.000e+00
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=2.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=4.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=0.5   residual = np.float64(0.0)
+  [PASS] C (aH,a.g) at t == (H,g) at a*t   max|drho| = 4.166e-17
+
+N=4  gamma profile uniform  max|L| = 6.00333
+  [PASS] A joint scaling, exact at dyadic a=0.5   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=2.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=4.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, eps-law at a=0.1   residual = 2.776e-17  bound = 1.066e-15  ratio = 0.026
+  [PASS] A joint scaling, eps-law at a=0.333333   residual = 1.110e-16  bound = 3.555e-15  ratio = 0.031
+  [PASS] A joint scaling, eps-law at a=3.14159   residual = 1.110e-16  bound = 3.350e-14  ratio = 0.003
+  [PASS] B gamma-alone BREAKS at a=2.0   break = 6
+  [PASS] B  break == (a-1)*max|commutator part| at a=2.0   delta = 0.000e+00
+  [PASS] B gamma-alone BREAKS at a=4.0   break = 18
+  [PASS] B  break == (a-1)*max|commutator part| at a=4.0   delta = 0.000e+00
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=2.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=4.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=0.5   residual = np.float64(0.0)
+  [PASS] C (aH,a.g) at t == (H,g) at a*t   max|drho| = 6.383e-17
+
+N=4  gamma profile random   max|L| = 6.08585
+  [PASS] A joint scaling, exact at dyadic a=0.5   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=2.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, exact at dyadic a=4.0   residual = np.float64(0.0)
+  [PASS] A joint scaling, eps-law at a=0.1   residual = 3.925e-17  bound = 1.081e-15  ratio = 0.036
+  [PASS] A joint scaling, eps-law at a=0.333333   residual = 1.241e-16  bound = 3.604e-15  ratio = 0.034
+  [PASS] A joint scaling, eps-law at a=3.14159   residual = 8.882e-16  bound = 3.396e-14  ratio = 0.026
+  [PASS] B gamma-alone BREAKS at a=2.0   break = 6
+  [PASS] B  break == (a-1)*max|commutator part| at a=2.0   delta = 0.000e+00
+  [PASS] B gamma-alone BREAKS at a=4.0   break = 18
+  [PASS] B  break == (a-1)*max|commutator part| at a=4.0   delta = 0.000e+00
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=2.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=4.0   residual = np.float64(0.0)
+  [PASS] D gamma-alone IS a Q-move: L(H,a.g) == a*L(H/a,g), a=0.5   residual = np.float64(0.0)
+  [PASS] C (aH,a.g) at t == (H,g) at a*t   max|drho| = 2.777e-17
+
+==============================================================================
+E  The negative control, rehabilitated
+   GAMMA_TIME_DISTINCTION Part 3 settings, reproduced then explained
+==============================================================================
+
+  fixed J = 1.0, gamma over [0.01, 0.02, 0.05, 0.1, 0.2]  =>  Q from 100 down to 5
+  [PASS] E1 tau-scaling BREAKS at fixed J, reproducing the source's 0.790   max delta S(rho_A) = 0.789752   max delta purity = 0.057319
+
+  joint scaling, Q = J/gamma held at 100 throughout
+  [PASS] E2 same grid and statistic, Q held: the 0.790 goes away (restatement, not evidence)   max delta S(rho_A) = 1.665e-14   max delta purity = 4.197e-14
+  [PASS] E3a same Q, gamma apart by 4x: curves agree (restatement)   max delta S = 0.000e+00
+  [PASS] E3b same gamma, Q apart by 4x: curves differ   max delta S = 0.761
+
+==============================================================================
+F  Why F14 holds where GAMMA_TIME_DISTINCTION's Part 3 fails
+   Same fixed J, same gamma range, two initial states
+==============================================================================
+  [PASS] F  Bell+, H-dead sector: tau-scaling HOLDS at fixed J   max delta purity = 6.661e-16
+  [PASS] F  |01>, H-live sector : tau-scaling BREAKS at fixed J   max delta purity = 4.618e-02
+  [PASS] F  the mechanism: [H, rho_Bell+] = 0, so J cannot enter   max|[H,rho]| = 0.000e+00
+  [PASS] F  and the control: [H, rho_|01>] != 0   max|[H,rho]| = 2.000
+  [PASS] F2 Bell+, H-dead : ONE-SIDED gamma scaling IS a symmetry here   max|dPurity| = 1.110e-16
+  [PASS] F2 |01>, H-live  : ONE-SIDED gamma scaling is NOT a symmetry   max|dPurity| = 0.239
+
+==============================================================================
+F3 F14's K = gamma*t_cross for Bell+, in the Wootters-concurrence book
+==============================================================================
+  [PASS] F3a Bell+ crosses the 1/4 threshold exactly once at every rate   crossings = [1, 1, 1]
+  [PASS] F3b K = gamma*t_cross is rate-independent for Bell+   K = [0.03596, 0.03596, 0.03596]  spread = 0.0000%
+  [PASS] F3c and it is F14's exact closed form ln(4/3)/8   ln(4/3)/8 = 0.035960
+
+==============================================================================
+G  The two fences, as counterexamples rather than as prose
+==============================================================================
+  [PASS] G1a c-parameterization: c -> a*c is WRONG, and grossly so   residual = 3.600   (this is the trap, not a failure)
+  [PASS] G1b c-parameterization: c -> sqrt(a)*c is the law   residual = 2.220e-16
+  [PASS] G2a thermal bath at a=2, T held fixed: the law BREAKS   |drho| = 0.042595
+  [PASS] G2b thermal bath at a=2, T scaled too: the law holds   |drho| = 6.939e-18  (bound 3.553e-15)
+  [PASS] G2a thermal bath at a=3, T held fixed: the law BREAKS   |drho| = 0.047884
+  [PASS] G2b thermal bath at a=3, T scaled too: the law holds   |drho| = 0.000e+00  (bound 3.553e-15)
+  [PASS] G2a thermal bath at a=5, T held fixed: the law BREAKS   |drho| = 0.048688
+  [PASS] G2b thermal bath at a=5, T scaled too: the law holds   |drho| = 2.776e-17  (bound 3.553e-15)
+  [PASS] G2a thermal bath at a=7, T held fixed: the law BREAKS   |drho| = 0.048703
+  [PASS] G2b thermal bath at a=7, T scaled too: the law holds   |drho| = 6.939e-18  (bound 3.553e-15)
+
+GATES: 107 passed, 0 failed

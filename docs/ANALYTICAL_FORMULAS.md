@@ -751,6 +751,31 @@ tool's feedback model on the concurrence book gives 0.0387. The
 discriminator is in [GLOSSARY.md](GLOSSARY.md), entry 0.036/gamma.
 Standard Lindblad time-rescaling (τ = γt), not deep physics.
 
+**Scope note (2026-08-29).** The "Valid for" line below is too wide as written.
+The derivation in [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)
+reaches K-invariance through "all observables depend on τ = γt", and that step
+is false in general: the Lindblad generator's scaling symmetry is **joint**,
+L(λJ, λγ) = λ·L(J, γ), so holding J while sweeping γ moves Q = J/γ. Measured
+failing on the same chain at fixed J in
+[γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md) Part 3, deviations to
+0.861. What carries the step for the K values above is the STATE: Bell⁺ sits in
+a sector the Hamiltonian cannot reach: Bell⁺ is an eigenstate of
+J(XX+YY+ZZ), the commutator is exactly zero entry for entry, and Z-dephasing
+maps that manifold into itself (only ρ₀₃ decays, the diagonal is frozen), so J
+is absent from the trajectory at every time and not merely at t = 0. Its
+observables are therefore functions of τ alone, and its K reproduces the exact
+closed form ln(4/3)/8 = 0.035960 at γ = 0.02, 0.05, 0.10 with 0.0000% spread,
+crossing the threshold exactly once at each rate. Whether K actually MOVES off
+that sector is untested here: a fair test needs a state above the threshold
+that crosses once, and the two candidates tried on 2026-08-29 (|01⟩, and
+(|00⟩+|11⟩+|01⟩)/√3) cross it repeatedly, so neither carries a first crossing.
+**Watch the book:** 0.035960 is the Wootters-concurrence bridge; the same
+state in the purity bridge gives F25's 0.03735, and the paragraph above is
+about exactly that confusion. Gate:
+[`simulations/gamma_unit_scaling_gate.py`](../simulations/gamma_unit_scaling_gate.py)
+part F3 (concurrence book, bisected) and part F (the τ collapse itself, read on
+purity: 6.7·10⁻¹⁶ for Bell⁺ against 4.6·10⁻² for |01⟩ at fixed J).
+
 **Interpretation:** In the [optical cavity analogy](../experiments/OPTICAL_CAVITY_ANALYSIS.md),
 γ plays the role of external illumination and t is the system's experienced
 duration. K = γ × t is the invariant decoherence dose: more light means
@@ -762,7 +787,9 @@ Structural parallel to c × τ in relativity (observation, not identification).
 invariance of K means the total dose is state-dependent but
 parameter-independent. See [K-Dosimetry](../experiments/K_DOSIMETRY.md).
 
-**Valid for:** any Lindblad system, any bridge metric.
+**Valid for:** a state whose sector is blind to the Hamiltonian (Bell⁺ under
+Heisenberg + Z-dephasing is the measured case); any bridge metric. **Not** any
+Lindblad system: see the scope note above.
 **Replaces:** multi-γ parameter sweeps for crossing time.
 **Source:** [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)
 

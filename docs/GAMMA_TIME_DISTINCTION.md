@@ -243,11 +243,33 @@ der Dissipator interagieren. Die Oszillation (von J) moduliert den
 Zerfall (von γ) und umgekehrt. Das J/γ-Verhältnis bestimmt die Form
 der Trajektorie, nicht nur die Skala.
 
-Anmerkung: die K-Invarianz aus [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)
-(K = γ·t_cross = const) gilt weiterhin - aber nur für den
-KREUZUNGSZEITPUNKT, nicht für die vollständige Trajektorie. Die
-volle Dynamik enthält sowohl γ-abhängigen Zerfall als auch
-J-abhängige Oszillation. Nur der Kreuzungszeitpunkt skaliert mit τ.
+**Why this does not contradict the K-invariance, and the reason is the state**
+(rewritten 2026-08-29; the earlier note here gave a different reason and it was
+wrong). [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md) reports
+K = γ·t_cross constant, and this section reports the trajectory not collapsing
+in τ. Both are right, and the earlier note explained the difference by saying
+that only the CROSSING TIME scales with τ while the full trajectory does not.
+That cannot be the reason: a crossing time of an observable that does not
+collapse in τ has no reason to scale either.
+
+The difference is the initial state. Crossing Taxonomy runs **Bell⁺**, which is
+an eigenstate of the Heisenberg Hamiltonian, and Z-dephasing keeps it in that
+sector, so J never enters its trajectory and its observables really are
+functions of τ alone. This section runs **|01⟩**, which is not. The mechanism is
+measured rather than argued: the commutator [H, ρ_Bell⁺] is zero in every entry,
+against a largest magnitude of 2.0 for |01⟩, and at fixed J the purity curves at
+matched τ collapse to 6.7·10⁻¹⁶ for Bell⁺ against 4.6·10⁻² for |01⟩
+([`gamma_unit_scaling_gate.py`](../simulations/gamma_unit_scaling_gate.py),
+part F).
+
+This also sharpens what this section already concluded. "Das J/γ-Verhältnis
+bestimmt die Form der Trajektorie" is exactly right, and the reason is that the
+Lindblad generator's scaling symmetry is **joint**, L(λJ, λγ) = λ·L(J, γ)
+([Q Scale Three Bands](../experiments/Q_SCALE_THREE_BANDS.md), Tier 1). Holding
+J while sweeping γ over a factor 20 therefore sweeps Q = J/γ from 100 down to 5:
+the deviations tabulated above measure how far apart five different systems are,
+not a failure of a symmetry. Scaled jointly, with Q held, the same observables
+collapse to 10⁻¹⁴.
 
 ### Die ehrliche Schlussfolgerung
 

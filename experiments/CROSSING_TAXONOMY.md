@@ -41,10 +41,14 @@ product K = γ × t_cross is constant within each type across a 20× range
 of dephasing rates (K_A = 0.072, K_B = 0.039 and 0.033 as measured by
 the February tool; the standard-Lindblad exact values are 0.07192 /
 0.03596 / 0.02966, see the reproducibility note at the K-table). This
-K-invariance is not a deep property of R = CΨ² but a trivial consequence
-of Lindblad scaling symmetry: all observables depend on the product
-τ = γt, not on γ and t separately. The depth lies in the 1/4 boundary
-itself, not in K.
+K-invariance is not a deep property of R = CΨ² but a consequence of Lindblad
+scaling symmetry **together with this document's state**: for Bell⁺ all
+observables depend on the product τ = γt, not on γ and t separately, because
+Bell⁺ is an eigenstate of the Heisenberg Hamiltonian and Z-dephasing keeps it
+in that sector, so J never enters. That last clause is not a detail; see
+"Why K-Invariance Holds" below, where an earlier version of this document
+dropped it and generalised to any Lindblad system. The depth lies in the 1/4
+boundary itself, not in K.
 
 ---
 
@@ -74,10 +78,36 @@ system crosses the 1/4 boundary? The answer is yes, dramatically.
 
 The product K = γ × t_cross was initially reported as a potentially deep
 constant (K = 0.039 for concurrence). This document downgrades that claim:
-K-invariance follows trivially from the Lindblad equation's scaling
-symmetry. The dissipator is linear in γ, and the Hamiltonian is independent
-of γ. Therefore all observables depend on τ = γt, making K = γ × t_cross
-a constant by construction. The value is a property of concurrence
+K-invariance follows from the Lindblad equation's scaling symmetry **on this
+state**, and the qualifier is load bearing. The step that needs it is the
+middle one: the dissipator is linear in γ and the Hamiltonian is independent
+of γ, therefore all observables depend on τ = γt. **That step does not hold in
+general**, and this repository measured it failing before this page was
+written: [γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md) Part 3 runs
+the same chain and the same channel **from |01⟩ instead of Bell⁺**, at fixed
+J = 1.0, sweeps γ over a factor 20, and finds irreversible observables
+deviating by up to 0.861 at matched τ. That 0.861 is the Wootters concurrence,
+i.e. this document's own Type-B bridge, so it is not an outside observable. The reason is
+that linearity in γ is not enough: the scaling symmetry of the Lindblad
+generator is **joint**, L(λJ, λγ) = λ·L(J, γ)
+([Q Scale Three Bands](Q_SCALE_THREE_BANDS.md), Tier 1), so holding J while
+scaling γ moves the ratio Q = J/γ and gives a different system.
+
+What makes the step true **here** is the state, not the generator. Bell⁺ sits
+in a sector the Hamiltonian cannot reach, so J drops out of its trajectory
+entirely and its observables really are functions of τ alone: no hop can touch
+the cat ends and both carry the same diagonal energy
+([Lattice Opening Law](LATTICE_OPENING_LAW.md); measured, the commutator
+[H, ρ_Bell⁺] is zero in every entry, largest magnitude 0.0 against 2.0 for
+|01⟩, and the τ collapse at fixed J read on purity is 6.7·10⁻¹⁶ against
+4.6·10⁻², in
+[`gamma_unit_scaling_gate.py`](../simulations/gamma_unit_scaling_gate.py)
+part F). So K = γ × t_cross is a constant by construction on a J-blind sector,
+and off one the construction is not available. What has NOT been established,
+either way, is whether K itself moves for some other state: a fair test needs a
+state that starts above ¼ and crosses once, and the two candidates tried on
+2026-08-29 both cross the threshold repeatedly, so they carry no first crossing
+to compare. The value is a property of concurrence
 applied to Bell+, not a universal constant. On the concurrence bridge the
 exact value is **K = ln(4/3)/8 = 0.03596**: there C = f with f = e^(−4γt),
 so C·Ψ = f²/3 and the ¼ crossing is at f = √3/2, giving K = −ln(√3/2)/4.
@@ -168,9 +198,15 @@ At identical τ = γt, the values of C and Ψ are identical regardless of γ:
 C and Ψ are functions of τ = γt, not of t alone. K-invariance follows:
 if P(t_cross) = 1/4 and P depends only on τ, then τ_cross = K is a
 constant. This is a scaling property of the Lindblad equation, not a
-specific prediction of R = CΨ². Any γ-independent threshold applied to
-any observable of a Lindblad system whose Hamiltonian is γ-independent
-will produce a K-invariant crossing time. (In the table above, the tiny
+specific prediction of R = CΨ². **The generalisation this sentence used to
+carry is withdrawn** (2026-08-29): it read that any γ-independent threshold
+applied to any observable of a Lindblad system whose Hamiltonian is
+γ-independent will produce a K-invariant crossing time. γ-independence of H is
+not the condition. The condition is on the STATE, for the reason given in the
+paragraph above: the scaling symmetry is joint, so at fixed J a γ sweep moves
+Q = J/γ unless the prepared state's sector cannot see J. This document already
+held the fact that scopes it, 200 lines down in the reproducibility note,
+"Bell⁺ is a Heisenberg eigenstate", and never connected the two. (In the table above, the tiny
 γ = 0.01 vs γ = 0.05 spread is finite-dt integration noise; the values
 themselves sit on the tool's feedback trajectory f = 1/(1 + 4τ) =
 0.980392 at τ = 0.005, not on e^(−4τ) = 0.980199. The invariance is
