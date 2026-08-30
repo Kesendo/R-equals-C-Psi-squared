@@ -90,7 +90,7 @@ Step C.3: Find crossing at CPsi = 1/4
   Cubic residual 16f^3 + 8f - 21 = -2.49e-14
 
   Sympy exact solution of 16f^3 + 8f - 21 = 0:
-  f_cross (sympy) = -1/(6*(21/32 + sqrt(36105)/288)**(1/3)) + (21/32 + sqrt(36105)/288)**(1/3)
+  f_cross (sympy) = CRootOf(16*x**3 + 8*x - 21, 0)
   f_cross (float) = 0.943769164604500
   Error vs sympy: 4.44e-16: PASS
 
@@ -115,7 +115,7 @@ Step C.3: Find crossing at CPsi = 1/4
   Direct value ~0.877: rel error 1.8406e-04
   Both near 0.877: PASS
 
-  Exact prefactor (sympy): 2*(72*(189 + sqrt(36105))**(2/3) + 6**(2/3)*(-(189 + sqrt(36105))**(2/3) + 4*6**(1/3))**2)/(3*(24*(189 + sqrt(36105))**(2/3) + 6**(2/3)*(-(189 + sqrt(36105))**(2/3) + 4*6**(1/3))**2))
+  Exact prefactor (sympy): 2*(1 + 2*CRootOf(16*x**3 + 8*x - 21, 0)**2)/(1 + 6*CRootOf(16*x**3 + 8*x - 21, 0)**2)
   Exact prefactor (float): 0.876832335413752
 
 Verification C overall: PASS

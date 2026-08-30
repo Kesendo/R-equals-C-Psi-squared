@@ -74,9 +74,14 @@ for N in range(3, 9):
     print(f"  N={N}: 2cos(π/{N+1}) = {float(x):.5f}  ->  polygon m={m}, algebraic degree {deg}  ({tag})")
 
 print("\n--- RE-SIDE (decay, L_D commutant): structural ceiling g2 = 4/N (the (1,1) S_N standard rep) ---")
-for N in range(4, 9):
+# N >= 5, the scope PROOF_STRUCTURAL_CEILING.md section 2 Theorem 1 states:
+# 'g2(K_N) = 4/N (N>=5) ... g2(K_4) = 2 - 2/sqrt(3)'. At N = 4 the (1,1) ladder reaches 1
+# and the (2,2) half-filling sector takes the ceiling over, which is the anomaly below.
+for N in range(5, 9):
     g = sp.Rational(4, N)
     print(f"  K_{N}: g2 = 4/{N} = {float(g):.5f}  ->  RATIONAL (rep-theoretic: λ₂ = (N−2)/N rational)")
+print("  K_4: NOT on this ladder. 4/4 = 1 is where the (1,1) ladder stops dipping below")
+print("       the band edge and the ceiling passes to the (2,2) sector; see the next block.")
 
 print("\n--- THE (2,2) HALF-FILLING ANOMALY at N=4: a cyclotomic surd LEAKS onto the Re-side ---")
 k4 = 2 - 2 / sp.sqrt(3)
@@ -104,10 +109,22 @@ assert surd_field(2 * sp.cos(sp.pi / 4)) == 2 and surd_field(2 * sp.cos(sp.pi / 
     and surd_field(2 * sp.cos(sp.pi / 6)) == 3, "G1 FIRED: N=3,4,5 surds not √2,√5,√3"
 print("G1 PASS (Im): the band edge is the cyclotomic ladder 2cos(π/(N+1)), polygon m=N+1; N=3,4,5 = √2/√5(φ)/√3.")
 
-# G2: the Re commutant ceiling g2 = 4/N is rational for every N
-for N in range(4, 9):
-    assert sp.Rational(4, N).is_rational, f"G2 FIRED: 4/{N} not rational"
-print("G2 PASS (Re): the structural ceiling g2 = 4/N is rational at every N (S_N standard-rep principal angle).")
+# G2: the Re commutant ceiling. The VALUE is ADOPTED, not recomputed here:
+# PROOF_STRUCTURAL_CEILING.md section 2 Theorem 1 gives g2(K_N) = 2(1 - lam2) = 4/N for
+# N >= 5, with lam2 = (N-2)/N the second squared principal angle of the S_N standard rep.
+# What this gate can honestly check is the proof's own algebraic step, the degree claim that
+# puts the Re side opposite the cyclotomic Im side, and the SCOPE. Until 2026-08-30 it read
+# `assert sp.Rational(4, N).is_rational`, which CANNOT FIRE, a Rational being rational by
+# construction; and because it could not fire nobody saw that its loop ran from N = 4, where
+# the ceiling is not 4/N at all but the (2,2) surd that G3 gates.
+for N in range(5, 9):
+    lam2 = sp.Rational(N - 2, N)
+    assert sp.simplify(2 * (1 - lam2) - sp.Rational(4, N)) == 0, (
+        f"G2 FIRED: N={N}, the proof step 2(1-lam2) = 4/N does not hold")
+    assert degree(sp.Rational(4, N)) == 1, f"G2 FIRED: 4/{N} is not algebraic degree 1"
+assert sp.simplify(k4 - 1) != 0, "G2 FIRED: the K_4 ceiling equals 4/4, so N=4 IS on the ladder"
+print("G2 PASS (Re): 2(1-lam2) = 4/N, degree 1, at N = 5..8; and the K_4 ceiling is NOT")
+print("     4/4, so N = 4 is off this ladder (PROOF_STRUCTURAL_CEILING Theorem 1 scope).")
 
 # G3: the (2,2) anomaly surds are cyclotomic-polygon constants (√3 = hexagon, √2 = square)
 assert degree(k4) == 2 and surd_field(k4) == 3 and cyclotomic_polygon(sp.sqrt(3)) == 6, "G3 FIRED: K_4 not √3/hexagon"

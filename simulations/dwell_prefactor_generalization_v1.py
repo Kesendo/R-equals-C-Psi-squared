@@ -436,8 +436,12 @@ pr(f"  Cubic residual 16f^3 + 8f - 21 = {cubic_residual:.2e}")
 pr("\n  Sympy exact solution of 16f^3 + 8f - 21 = 0:")
 f_sym = sympy.Symbol("f", positive=True)
 cubic_eq = 16 * f_sym**3 + 8 * f_sym - 21
-roots = sympy.solve(cubic_eq, f_sym)
-real_roots = [r for r in roots if r.is_real]
+# real_roots DECIDES (Sturm sequences); solve(...) + `r.is_real` ASSUMES, and sympy's
+# assumptions are three-valued: a casus-irreducibilis cubic has three real roots with no
+# real-radical form, so is_real returns None there and a truth-test silently drops all
+# three. This cubic has one real root and the old form happened to work; the next set of
+# constants need not be so kind.
+real_roots = [r for r in sympy.real_roots(sympy.Poly(cubic_eq, f_sym)) if r.is_positive]
 if real_roots:
     f_exact = real_roots[0]
     f_exact_float = float(f_exact.evalf(20))
