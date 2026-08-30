@@ -8257,6 +8257,84 @@ public static class OpenArcsRegistry
                 "CoherenceHorizonClaim under item (4).",
             Status: OpenArcStatus.Open),
         new OpenArc(
+            Name: "the_forced_and_the_met",
+            Opened: "2026-08-30",
+            Origin: "A delta review of MirrorWorld's BlindSeat (commit d2f474a) turned a knob nobody had " +
+                "turned on F157 and the law moved. Carry an anisotropy Delta on the ZZ term of the uniform " +
+                "chain: the mirror-forced CENTRE seat keeps its blindness at EVERY Delta while every other " +
+                "seat the gcd law names loses it at generic Delta. That is the repo's own forced/met split " +
+                "turning out to be a statement about ROBUSTNESS and not only about provenance, and it " +
+                "raises the question this arc exists for: WHICH of our arithmetic laws are forced by a " +
+                "symmetry and which are coincidences a perturbation dissolves. THE DIAGNOSIS IS WRONG " +
+                "LABELS, NOT NEW, and that is the first thing a session picking this up must know. The " +
+                "method is house vocabulary already, under three names that are NOT synonyms: BREAK-INPUT " +
+                "(an input on which the property must FAIL; CLAUDE.md's 'never conclude exactness from " +
+                "inputs that cannot break it'), MUTATION TEST (break the code, confirm the gate reddens), " +
+                "and NEGATIVE CONTROL (a configuration where the law must not fire; zero occurrences in " +
+                "CAUGHT_ERRORS.md yet standing convention in compute/). A search on one term misses two " +
+                "thirds of the corpus. THE HYPOTHESIS ALSO ALREADY HAS A NAME: the memory law 'the forced " +
+                "and the free' (a determined quantity is FORCED to a discrete-law value iff it carries a " +
+                "discrete structural constraint; add a free continuous parameter and it goes generic), " +
+                "cited inside F129 as 'the forced-and-free law wearing number theory'. It stands on TWO " +
+                "arcs, which is exactly the two-case observation CLAUDE.md forbids promoting without a " +
+                "sweep. That is the argument for this arc, in the repo's own words. WHAT ALREADY EXISTS, " +
+                "so nothing is rebuilt: about twenty-five one-off knob-turns (f89_zz_break_gate.py, " +
+                "DIABOLIC_BY_INTEGRABILITY, U1_BREAKING, CMRR_BREAK_NONUNIFORM_GAMMA, the 2x2 factorial of " +
+                "PTF_PALINDROME_BREAKING_PERTURBATIONS, eta_ladder_breakinput.py); three multi-result " +
+                "sweeps, of which PROOF_CODIM1_BY_ADDITIVITY:186 'Delta-tightness' is the TEMPLATE (six " +
+                "results sorted died/survived at one Delta in a single gated sentence) and " +
+                "ORTHOGONALITY_SELECTION_FAMILY is the four-knob precedent; and the repo-wide class-A/B/C " +
+                "fencing campaign on the gamma axis (arc site_resolved_vacuum_block, class B still 43 " +
+                "sites). The model-scope axis has no arc at all, which is the slot this fills.",
+            ParkedAt: "The instrument exists and one law is done. simulations/_delta_robustness_scout.py " +
+                "(LOCAL and gitignored: promote it before any result it produces is cited anywhere " +
+                "tracked) holds two run modes. `f157` samples Delta; `f157locus` SOLVES it, and the second " +
+                "is the one that matters. F157 IS SETTLED, both halves exactly. The mirror-forced centre " +
+                "seat is blind at every Delta by a PROOF: the two principal submatrices a reflection-fixed " +
+                "seat leaves behind are conjugate by the chain reflection, so they carry the same " +
+                "characteristic polynomial, share every root, and their resultant vanishes identically. " +
+                "Every other seat is blind exactly on the real roots of that resultant, a finite set, " +
+                "which at N = 9 seat 1 is 128*D*(D-1)*(D+1)*(D^2-3), i.e. Delta = 0, +-1 and +-sqrt(3), " +
+                "the sqrt(3) row reproducing the isotropic row [0,1,0,0,4,0,0,1,0] exactly. Other seats " +
+                "carry other algebraic values (sqrt(2), sqrt(2)/2, sqrt(2 +- sqrt(2)) at N = 11), and " +
+                "nothing in the repo had looked at any of them. AND THAT CORRECTED A CLAIM THIS ARC'S OWN " +
+                "FIRST DRAFT HAD COMMITTED: 'the met kind is an accident of the isotropic point' was a " +
+                "sample promoted to a rule, repaired the same day on five surfaces. The honest form is " +
+                "that the met kind lives on a codimension-one LOCUS containing the isotropic point, and " +
+                "|Delta| = 1 is an isolated point of it rather than a limit. Two inputs that CANNOT break " +
+                "the law, recorded so they are never counted as probes: Delta = -1, since " +
+                "Sigma h(Delta) Sigma = -h(-Delta) makes blind(-Delta) = blind(Delta) identically (F152 " +
+                "holds the bipartite cospectrality reason), and prime N, since for prime N only the centre " +
+                "seat is ever blind, so N = 7 and N = 11 have no met seats to lose and the smallest N " +
+                "carrying both kinds is 9.",
+            NextStep: "THE SCOUT'S CUT IS THE QUEUE, and it is sharper than a list of laws. Every law " +
+                "whose arithmetic lives in the COSINE COMB of the uniform open chain, namely F129, F89's " +
+                "seed resonance, F145/F146, F65's Niven root and F144's N=5 exception, has never once been " +
+                "detuned, and they all stand on ONE object, the spectrum {2cos(k*pi/(N+1))}, which any " +
+                "bond profile, any ZZ term and any field destroys. The laws that HAVE been detuned, namely " +
+                "F157, F153, F132, F135/F136, F140, F50 and F4, are exactly the ones whose arithmetic is a " +
+                "COUNTING argument (a gcd of characteristic polynomials, a room count, a degree mod 4) " +
+                "rather than a coincidence among cosines. So the sweep is not five tests, it is ONE " +
+                "break-input aimed at one object, and the prediction is that the comb family dissolves " +
+                "together. (1) RUN THE COMB TEST: take the cheapest comb law and detune the comb, solving " +
+                "rather than sampling. (2) TWO LAWS ARE HALF DONE and only the other half is open. F143's " +
+                "disorder half is done ('the kernel, its identity as the R-odd sector and its dimension " +
+                "floor(N/2) survive disorder') while its LONGITUDINAL-FIELD half is not, its own fence " +
+                "naming the break ('a longitudinal field breaks K h K = -h outright'); F140's off-locus " +
+                "RATE half is done ('the rate part is tauQ-odd exactly on the locus and breaks off it') " +
+                "while whether the COUNT dies with it is open. (3) The cheapest lever in the repo is a " +
+                "delta parameter on simulations/f138_clause_two_sweep.py's build_L, which the registry " +
+                "already records as missing ('no anisotropy axis at all'). FOUR TRAPS, every one already " +
+                "paid for: sampling establishes genericity and never exhaustiveness, so SOLVE the " +
+                "condition wherever it is one equation (THE_SPREAD_IS_A_RESONANCE's four measured Delta " +
+                "were three resonances plus one generic point); an arithmetic ramp is automatically " +
+                "anti-palindromic, so linspace lies ON the R90 locus and cannot serve as an off-locus " +
+                "profile; a control built from an index map no perturbation can touch is 'a tautology " +
+                "dressed as a control' (F143's first version, caught in review); and THE_SEAT_THAT_CUTS's " +
+                "own open item asks for a DETUNED BOND rather than a Delta, so do not report one as the " +
+                "other. Run: python simulations/_delta_robustness_scout.py f157locus",
+            Status: OpenArcStatus.Open),
+        new OpenArc(
             Name: "the_gate_that_does_not_gate",
             Opened: "2026-08-22",
             Origin: "Tom asked to go and look at the March machine, written by our past selves as a vision " +

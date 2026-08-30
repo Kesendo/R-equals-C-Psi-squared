@@ -37,14 +37,22 @@ namespace MirrorWorld;
 //     ZZ on  (Heisenberg):  blind(seat) = (gcd(2*seat+1, N) - 1) / 2
 //     ZZ off (XY):          blind(seat) = gcd(seat+1, N+1) - 1
 //
-// The ZZ book is the ISOTROPIC point and its law is fine-tuned to it, which neither book says on its own.
-// Carry an anisotropy Delta on the ZZ term alone: the mirror-forced CENTRE seat keeps its blindness at
-// every Delta, while every OTHER seat the gcd law names loses it at once, N = 9 going
-// [0,1,0,0,4,0,0,1,0] -> [0,0,0,0,4,0,0,0,0] and N = 12 going to all zeros, at Delta = 1/2, 3 and 10^-6
-// alike. So |Delta| = 1 is an isolated point rather than a limit, the FORCED kind is robust and the MET
-// kind is an accident of the isotropic point. F152 holds the reason: only at Delta = 1 does the ZZ term
-// make the boundary potential equal the hop, which is what turns the adjacency matrix into a Laplacian.
-// The two booleans here are Delta = 1 and Delta = 0; nothing between them is built.
+// The ZZ book is the ISOTROPIC point and its law is fine-tuned to it, and the fine-tuning is a ZERO SET
+// rather than a single point. Carry an anisotropy Delta on the ZZ term alone. The mirror-forced CENTRE
+// seat keeps its blindness at EVERY Delta, and that half is a PROOF rather than a sample: at the
+// reflection-fixed seat the two principal submatrices the seat leaves behind are conjugate by the chain
+// reflection, so they carry the same characteristic polynomial and share every root, at any Delta and any
+// palindromic profile (their resultant is identically zero). Every OTHER seat the gcd law names is blind
+// exactly on the zero set of ONE equation in Delta: at N = 9 seat 1 that resultant factors as
+// 128*D*(D-1)*(D+1)*(D^2-3), so the seat is blind at Delta = 0, +-1 and +-sqrt(3) and nowhere else, and
+// the sqrt(3) row reproduces the isotropic row [0,1,0,0,4,0,0,1,0] exactly. So the MET kind is not an
+// accident of the isotropic point, it is an accident of a codimension-one LOCUS that happens to contain
+// it; sampling Delta can only ever show the seats are not GENERICALLY blind (they are gone at 1/2, 3 and
+// 10^-6 alike, so |Delta| = 1 is an isolated point of that locus and not a limit). The first draft of
+// this paragraph said "an accident of the isotropic point" and that was a sample promoted to a rule.
+// The two signs agree for F152's reason (at Delta = -1 the object is the signless Laplacian, cospectral
+// on a bipartite graph). The two booleans built here are Delta = 1 and Delta = 0, BOTH on the locus;
+// nothing between them is built.
 //
 // and on the XY book a third, PARITY-forced kind exists beside the mirror-forced and the met: a
 // zero-diagonal Jacobi block of odd size is singular outright, so every odd seat of every odd chain is

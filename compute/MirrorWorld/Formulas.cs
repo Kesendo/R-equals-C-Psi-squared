@@ -465,12 +465,14 @@ public static class Formulas
     // gcd(j+1, N+1) - 1 on the XY book (F65 sine nodes, no halving). The parity forcing: on XY
     // every odd seat of every odd chain is blind at every zero-free profile (a zero-diagonal
     // Jacobi block of odd size is singular), so its predicate takes no profile at all.
-    // SCOPE, and it belongs on the ZZ face: Delta = 1 is an isolated point, not a limit. Under an
-    // anisotropy on the ZZ term alone the mirror-forced CENTRE seat keeps its blindness at every
-    // Delta while every other seat this law names loses it at once, N = 9 dropping to
-    // [0,0,0,0,4,0,0,0,0] at Delta = 1/2, 3 and 10^-6 alike. The forced kind is robust, the met
-    // kind is an accident of the isotropic point (F152 holds the reason: only at Delta = 1 does
-    // the ZZ term make the boundary potential equal the hop).
+    // SCOPE, and it belongs on the ZZ face: this law is fine-tuned to a LOCUS containing Delta = 1,
+    // not to Delta = 1 alone. Under an anisotropy on the ZZ term the mirror-forced CENTRE seat keeps
+    // its blindness at every Delta, provably (the seat's two principal submatrices are conjugate by
+    // the chain reflection, so they share every root and their resultant vanishes identically). Every
+    // other seat this law names is blind exactly on the zero set of one equation in Delta: at N = 9
+    // seat 1 the resultant is 128*D*(D-1)*(D+1)*(D^2-3), blind at 0, +-1 and +-sqrt(3) and nowhere
+    // else. Generic Delta gives [0,0,0,0,4,0,0,0,0], so |Delta| = 1 is an isolated point of the locus
+    // rather than a limit; it is NOT the only point of it.
     public static int F157_BlindHeisenberg(int n, int seat) => (Cyclotomy.Gcd(2 * seat + 1, n) - 1) / 2;
     public static int F157_BlindXY(int n, int seat) => Cyclotomy.Gcd(seat + 1, n + 1) - 1;
     public static bool F157_ParityForcedXY(int n, int seat) => n % 2 == 1 && seat % 2 == 1;

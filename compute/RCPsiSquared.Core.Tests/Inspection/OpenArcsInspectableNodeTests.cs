@@ -7,13 +7,20 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasFiftyFourEntries()
+    public void Registry_HasFiftyFiveEntries()
     {
         // The literal was STALE BY TWO before 2026-08-23: 29d09d2 took the registry to 51 and
         // 0144649 to 52, neither updating this line, so this test was RED across two commits.
         // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
         // this number moves in the SAME commit.
-        Assert.Equal(54, OpenArcsRegistry.All.Count);   // +noise_origin_after_candidate_two
+        Assert.Equal(55, OpenArcsRegistry.All.Count);   // +the_forced_and_the_met (2026-08-30,
+                                                        //   F157's gcd seats survive only on a
+                                                        //   codimension-1 Delta locus while the
+                                                        //   mirror-forced centre survives every
+                                                        //   Delta by a proof; which of our
+                                                        //   arithmetic laws are forced and which
+                                                        //   are met is now a sweep with a queue).
+                                                        // +noise_origin_after_candidate_two
                                                         //   (2026-08-29, INCOMPLETENESS_PROOF's
                                                         //   five-candidate elimination lost the two
                                                         //   candidates that carried it; what is left

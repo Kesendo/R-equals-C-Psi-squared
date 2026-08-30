@@ -570,8 +570,10 @@ if (args.Length > 0 && args[0] == "blind")
     Console.WriteLine("  source experiments/THE_SEAT_THAT_CUTS.md + experiments/THE_BLIND_SITE.md (F157)");
     Console.WriteLine("  blind(seat) = N - rank of the seat's Krylov matrix, an exact GF(p) rank at two primes,");
     Console.WriteLine("  no eigensolver; on the UNIFORM chain it closes to integer arithmetic, one form per book.");
-    Console.WriteLine("  The ZZ form is the ISOTROPIC point: under an anisotropy on the ZZ term only the");
-    Console.WriteLine("  mirror-forced centre seat keeps its blindness, every other seat the law names loses it.");
+    Console.WriteLine("  The ZZ form is fine-tuned to a LOCUS: under an anisotropy on the ZZ term the");
+    Console.WriteLine("  mirror-forced centre seat keeps its blindness provably (its two halves are reflection-");
+    Console.WriteLine("  conjugate, so they share every root), while every other seat the law names is blind only");
+    Console.WriteLine("  on a zero set -- at N = 9 seat 1 that is Delta = 0, +-1 and +-sqrt(3), and nothing else.");
     Console.WriteLine("  ker L_SE(seat) is 1 + blind on the zero-free chain, and in general 1 + dim commutant of H");
     Console.WriteLine("  on the seat's KRYLOV COMPLEMENT: equal exactly when that restriction is simple.");
     Console.WriteLine("  One fence: where the seat's own ray is H-invariant (an isolated seat) that ray is dark");
