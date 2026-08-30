@@ -116,6 +116,26 @@ public class BlindSeatTests
             Assert.Equal(0, bs.Blind(s));
     }
 
+    // the law is a UNIFORM-chain law, and it is a function of (N, book, seat) with the bond list nowhere
+    // in it: off the uniform chain it parts company with the count in BOTH directions, so `law` is a
+    // reading of the chain the object was told about and never a prediction for this one. The rows are
+    // the committed run's `scope` part, which is where the reflection-symmetry reading died.
+    [Fact]
+    public void UniformLaw_Is_Not_The_Count_Off_The_Uniform_Chain()
+    {
+        var a = Chain(new long[] { 1, 4, 2, 2 }, zz: true);            // N = 5: MORE blindness than the law
+        Assert.Equal(new[] { 0, 0, 2, 0, 0 }, Enumerable.Range(0, 5).Select(a.UniformLaw).ToArray());
+        Assert.Equal(new[] { 0, 0, 2, 1, 0 }, Row(a));
+
+        var b = Chain(new long[] { 1, 2, 1, 1, 2, 1 }, zz: true);      // N = 7: more again, at seats 1 and 5
+        Assert.Equal(new[] { 0, 0, 0, 3, 0, 0, 0 }, Enumerable.Range(0, 7).Select(b.UniformLaw).ToArray());
+        Assert.Equal(new[] { 0, 1, 0, 3, 0, 1, 0 }, Row(b));
+
+        var c = Chain(new long[] { 1, 2, 3, 4, 4, 3, 2, 1 }, zz: true); // N = 9: LESS, the other direction
+        Assert.Equal(new[] { 0, 1, 0, 0, 4, 0, 0, 1, 0 }, Enumerable.Range(0, 9).Select(c.UniformLaw).ToArray());
+        Assert.Equal(new[] { 0, 0, 0, 0, 4, 0, 0, 0, 0 }, Row(c));
+    }
+
     // the count does not depend on the coupling's scale or sign, only on the profile's shape.
     [Fact]
     public void The_Count_Is_Scale_And_Sign_Free()
@@ -127,25 +147,41 @@ public class BlindSeatTests
         Assert.Equal(Row(a), Row(c));
     }
 
-    // the span: 1 + blind on the zero-free chain (uniform and irregular). The identity can break only at
-    // a degenerate spectrum and the zero bond is NOT the discriminator: [1,1,0,1,1] gives span 7 against
-    // 1+blind = 5 at seats 1 and 4, while [1,0,1] holds at every seat (asserted below).
+    // the span: 1 + blind on the zero-free chain (uniform and irregular), which holds because a zero-free
+    // chain makes H simple on the Krylov complement (Corollary C). The rows are LITERALS, an exact
+    // rational nullity taken off this object's route, and they are what makes this a gate at all: Span and
+    // Blind read the same H at the same two primes, so a bad reduction inflates BOTH and the identity
+    // alone survives it unbroken. The proof's own G6 takes both sides over the rationals for exactly that
+    // reason. The identity is asserted BESIDE the literal here, never instead of it.
     [Theory]
-    [InlineData(3)] [InlineData(5)] [InlineData(7)]
-    public void Span_Is_One_Plus_Blind_On_The_ZeroFree_Chain(int n)
+    [InlineData(3, new[] { 1, 2, 1 },             new[] { 1, 1, 1 })]
+    [InlineData(5, new[] { 1, 1, 3, 1, 1 },       new[] { 1, 1, 3, 2, 1 })]
+    [InlineData(7, new[] { 1, 1, 1, 4, 1, 1, 1 }, new[] { 1, 1, 1, 2, 1, 1, 1 })]
+    public void Span_Is_One_Plus_Blind_On_The_ZeroFree_Chain(int n, int[] uniformSpan, int[] irregularSpan)
     {
-        foreach (var bs in new[] { Uniform(n, true), Chain(new long[] { 1, 4, 2, 2, 3, 1 }.Take(n - 1).ToArray(), true) })
+        var cases = new[]
+        {
+            (bs: Uniform(n, true), expected: uniformSpan),
+            (bs: Chain(new long[] { 1, 4, 2, 2, 3, 1 }.Take(n - 1).ToArray(), true), expected: irregularSpan),
+        };
+        foreach (var (bs, expected) in cases)
             for (int s = 0; s < n; s++)
-                Assert.Equal(1 + bs.Blind(s), bs.Span(s));
+            {
+                Assert.Equal(expected[s], bs.Span(s));         // the exact rational value, off this route
+                Assert.Equal(1 + bs.Blind(s), bs.Span(s));     // and the identity, beside it
+            }
     }
 
+    // and where it breaks, the whole row is the literal: H is DEGENERATE on the Krylov complement at
+    // seats 1 and 4 (the cut chain's two halves repeat each other), which is Corollary C failing, and
+    // not the zero bond as such -- [1,0,1] carries a zero bond and holds at every seat.
     [Fact]
     public void Span_Exceeds_One_Plus_Blind_At_The_Committed_Seats()
     {
         var bs = Chain(new long[] { 1, 1, 0, 1, 1 }, zz: true);
-        Assert.Equal(7, bs.Span(1));
-        Assert.Equal(7, bs.Span(4));
+        Assert.Equal(new[] { 4, 7, 4, 4, 7, 4 }, Enumerable.Range(0, 6).Select(s => bs.Span(s)).ToArray());
         Assert.Equal(5, 1 + bs.Blind(1));
+        Assert.Equal(5, 1 + bs.Blind(4));
         foreach (int s in new[] { 0, 2, 3, 5 })
             Assert.Equal(1 + bs.Blind(s), bs.Span(s));
     }
@@ -174,30 +210,91 @@ public class BlindSeatTests
         }
     }
 
-    // the count predicts the running world: under a one-seat light on the Cone, a blind mode is
-    // stationary and a sighted one decays. XY N = 7, seat 3 (blind 3): mode m = 2 has a node at the seat
-    // (sin(pi*2*(3+1)/8) = 0), mode m = 1 does not.
+    // the count predicts the running world, and the guard must be able to watch the prediction fail.
+    // A blind mode that is ALSO an eigenvector is a fixed point of the whole generator (||rho_dot|| =
+    // 1.1e-16), so asserting that it does not move tests RK4 rather than blindness -- and the content of
+    // the words "largest H-INVARIANT subspace" is exactly the blind states that DO move. So the seeds
+    // here run over every blind mode AND a superposition of two of them, which rotates, and the
+    // observables are the two the physics fixes: the seat's amplitude stays exactly zero (algebraically:
+    // (h psi)[seat] = 0 for a blind psi, and it survives RK4 because every stage keeps the seat row of
+    // rho zero) and the state stays PURE. Novelty is NOT that observable: it is not conserved by the
+    // unitary part, and a blind superposition moves it by O(1) while staying perfectly blind.
+    // The blind modes are counted by an INTEGER node criterion, (N+1) | m*(seat+1), and that count is
+    // asserted against Blind() -- the earlier version of this test never called Blind() at all.
     [Fact]
-    public void A_Blind_Mode_Survives_The_Cone_And_A_Sighted_One_Decays()
+    public void The_Cone_Cannot_Touch_A_Blind_Mode_That_Moves_And_Does_Touch_A_Sighted_One()
     {
-        const int n = 7; const int seat = 3; const double dt = 0.02;
+        const int n = 7; const int seat = 3; const double dt = 0.02; const int steps = 200;
         var g = new double[n]; g[seat] = 0.5;
+        var bs = Uniform(n, zz: false);                  // the Cone runs the XY book, the only one it has
 
-        double[] Mode(int m) => Enumerable.Range(0, n)
-            .Select(i => Math.Sqrt(2.0 / (n + 1)) * Math.Sin(Math.PI * m * (i + 1) / (n + 1))).ToArray();
+        // The DST-I mode, built through its own exact symmetry rather than site by site. Two roundings
+        // are avoided deliberately, and both matter: the analytic node is written as an exact 0 instead
+        // of a sine that returns 1.2e-16, and the far half is MIRRORED from the near half, because
+        // psi_m(n-1-i) = (-1)^(m+1) psi_m(i) holds exactly while Sin(3*pi/4) and Sin(5*pi/4) differ in
+        // the last bit. Without the mirror the seat amplitude starts at 9e-18 rather than at zero and no
+        // exact assertion below is available; with it, (h psi)[seat] cancels bit for bit.
+        double[] Mode(int m)
+        {
+            var v = new double[n];
+            double sign = m % 2 == 0 ? -1.0 : 1.0;          // (-1)^(m+1)
+            for (int i = 0; i <= n / 2; i++)
+            {
+                v[i] = (m * (i + 1)) % (n + 1) == 0
+                    ? 0.0
+                    : Math.Sqrt(2.0 / (n + 1)) * Math.Sin(Math.PI * m * (i + 1) / (n + 1));
+                v[n - 1 - i] = sign * v[i];
+            }
+            return v;
+        }
 
-        var blind = new Cone(W, n, 1.0, 0.0, siteGammas: g);
-        blind.SeedPure(Mode(2));
-        double before = blind.Novelty;
-        for (int t = 0; t < 200; t++) blind.Step(dt);
-        Assert.True(Math.Abs(blind.Novelty - before) < 1e-13,   // stationary: the light never touches it
-            $"blind-mode drift {Math.Abs(blind.Novelty - before):E2}");
+        var blindModes = Enumerable.Range(1, n).Where(m => (m * (seat + 1)) % (n + 1) == 0).ToArray();
+        Assert.Equal(bs.Blind(seat), blindModes.Length);   // the node count IS the GF(p) rank's answer
 
-        var sighted = new Cone(W, n, 1.0, 0.0, siteGammas: g);
-        sighted.SeedPure(Mode(1));
-        double sBefore = sighted.Novelty;
-        for (int t = 0; t < 200; t++) sighted.Step(dt);
-        Assert.True(sighted.Novelty < 0.8 * sBefore, "a sighted mode must lose coherence");
+        double Purity(Cone c)
+        {
+            double p = 0;
+            for (int a = 0; a < c.N; a++)
+                for (int b = 0; b < c.N; b++) p += (c[a, b] * c[b, a]).Real;
+            return p;
+        }
+
+        Cone Run(double[] psi)
+        {
+            var c = new Cone(W, n, 1.0, 0.0, siteGammas: g);
+            c.SeedPure(psi);
+            for (int t = 0; t < steps; t++) c.Step(dt);
+            return c;
+        }
+
+        // every blind mode, and a superposition of two that is blind WITHOUT being an eigenvector
+        var seeds = blindModes.Select(m => (name: $"mode {m}", psi: Mode(m))).ToList();
+        var sup = Enumerable.Range(0, n)
+            .Select(i => (Mode(blindModes[0])[i] + Mode(blindModes[1])[i]) / Math.Sqrt(2.0)).ToArray();
+        seeds.Add(("a blind superposition, not an eigenvector", sup));
+
+        double worstBlindLoss = 0.0;
+        foreach (var (name, psi) in seeds)
+        {
+            Assert.Equal(0.0, psi[seat]);                       // blind: no amplitude at the seat, exactly
+            var c = Run(psi);
+            Assert.Equal(0.0, c.Population(seat));              // and it stays exactly zero, not merely small
+            worstBlindLoss = Math.Max(worstBlindLoss, 1.0 - Purity(c));
+        }
+
+        // the superposition must actually MOVE, or this test has quietly become the old fixed-point one
+        var moving = new Cone(W, n, 1.0, 0.0, siteGammas: g);
+        moving.SeedPure(sup);
+        double n0 = moving.Novelty;
+        for (int t = 0; t < steps; t++) moving.Step(dt);
+        Assert.True(Math.Abs(moving.Novelty - n0) > 0.1,
+            $"the blind superposition must be non-stationary; Novelty moved {Math.Abs(moving.Novelty - n0):E2}");
+
+        // a sighted mode decoheres, and the two losses are not the same kind of number: the blind one is
+        // RK4 truncation, the sighted one is physics. The gate is their ratio, not a threshold on either.
+        double sightedLoss = 1.0 - Purity(Run(Mode(1)));
+        Assert.True(sightedLoss > 1e5 * worstBlindLoss,
+            $"sighted loss {sightedLoss:E2} must dwarf the blind residual {worstBlindLoss:E2}");
     }
 
     // the per-site Cone stays faithful to Restless's site mask where both run.
@@ -224,6 +321,28 @@ public class BlindSeatTests
         Assert.False(Uniform(7, zz: true).ParityForced(3));    // the ZZ book has no parity forcing
     }
 
+    // the guards, which are the one-sidedness's premises rather than decoration: an H built past
+    // MaxCoupling wraps int64 and the count then comes out TOO SMALL, the one direction the file's whole
+    // safety argument forbids. Measured before the guard existed: N = 6 on the ZZ book at
+    // |J| = 4378862956477877167 reported blind 0 at seats 1 and 4 where the count is 1.
+    [Fact]
+    public void A_Coupling_That_Would_Wrap_Int64_Is_Refused_And_So_Is_A_Seat_Off_The_Chain()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new BlindSeat(W, 6, Enumerable.Repeat(4378862956477877167L, 5).ToArray()));
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new BlindSeat(W, 3, new[] { BlindSeat.MaxCoupling + 1, 1L }));
+        var ok = new BlindSeat(W, 3, new[] { BlindSeat.MaxCoupling, -BlindSeat.MaxCoupling });
+        Assert.Equal(0, ok.Blind(0));                       // the boundary itself still computes
+
+        var bs = Uniform(5, zz: true);
+        Assert.Throws<ArgumentOutOfRangeException>(() => bs.Blind(-1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => bs.Span(5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => bs.UniformLaw(-1));   // once returned -1 silently
+        Assert.Throws<ArgumentOutOfRangeException>(() => bs.ParityForced(5));
+        Assert.Throws<ArgumentException>(() => new BlindSeat(W, 1, Array.Empty<long>()));
+    }
+
     // the two buckets stay pure: the seat owns its count, law and span; the sector is the Cone's.
     [Fact]
     public void Ontology_The_Seat_Owns_Its_Count_And_Hangs_On_The_Frame()
@@ -240,6 +359,7 @@ public class BlindSeatTests
     public void The_Zero_Bond_Path_Holds_The_Span_Identity()
     {
         var bs = Chain(new long[] { 1, 0, 1 }, zz: true);
+        Assert.Equal(new[] { 3, 3, 3, 3 }, Enumerable.Range(0, 4).Select(s => bs.Span(s)).ToArray());
         for (int s = 0; s < 4; s++)
             Assert.Equal(1 + bs.Blind(s), bs.Span(s));
     }

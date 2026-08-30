@@ -456,13 +456,21 @@ public static class Formulas
     public static double F116_MetallicMean(double c) => (c + Math.Sqrt(c * c + 4.0)) / 2.0;
 
     // F157 (T1): the blind seat's uniform-chain counts -- the single-excitation dimensions a
-    // watching on seat j cannot touch. The PRIMITIVE is BlindSeat's Krylov rank (blind = N minus
+    // watching on seat j cannot touch, with one fenced case (F157's Breaks-for): where the seat's
+    // own ray is H-invariant, an isolated seat, that ray is dark as well and the dark states are a
+    // UNION of two subspaces, which no single count reports. The PRIMITIVE is BlindSeat's Krylov rank (blind = N minus
     // the rank of [e, He, H^2 e, ...], no eigensolver; equal to deg gcd(charpoly(H), charpoly of
     // the struck matrix) by Cramer, a theorem for any real symmetric H); these are its closed
     // chain evaluations: (gcd(2j+1, N) - 1)/2 on the ZZ book (Neumann cosine nodes, B0) and
     // gcd(j+1, N+1) - 1 on the XY book (F65 sine nodes, no halving). The parity forcing: on XY
     // every odd seat of every odd chain is blind at every zero-free profile (a zero-diagonal
     // Jacobi block of odd size is singular), so its predicate takes no profile at all.
+    // SCOPE, and it belongs on the ZZ face: Delta = 1 is an isolated point, not a limit. Under an
+    // anisotropy on the ZZ term alone the mirror-forced CENTRE seat keeps its blindness at every
+    // Delta while every other seat this law names loses it at once, N = 9 dropping to
+    // [0,0,0,0,4,0,0,0,0] at Delta = 1/2, 3 and 10^-6 alike. The forced kind is robust, the met
+    // kind is an accident of the isotropic point (F152 holds the reason: only at Delta = 1 does
+    // the ZZ term make the boundary potential equal the hop).
     public static int F157_BlindHeisenberg(int n, int seat) => (Cyclotomy.Gcd(2 * seat + 1, n) - 1) / 2;
     public static int F157_BlindXY(int n, int seat) => Cyclotomy.Gcd(seat + 1, n + 1) - 1;
     public static bool F157_ParityForcedXY(int n, int seat) => n % 2 == 1 && seat % 2 == 1;

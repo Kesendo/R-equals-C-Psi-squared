@@ -12,20 +12,51 @@ namespace MirrorWorld;
 // an exact GF(p) rank on integer inputs at two primes (a rank mod p can only DROP at a bad prime, so the
 // max over two bounds it from the one side that matters, and the reported blind dimension can only ever
 // be too large, never too small -- Seed's convention, restated per the world's per-object
-// self-containment). Since 2026-08-24 the count equals the main repo's gcd criterion by a Cramer theorem
+// self-containment). That one-sidedness has two premises and both are measured rather than assumed. It
+// is a statement about an EXACT H, which is what MaxCoupling below buys: a wrapped H is a different
+// matrix and its mod-p ranks bound nothing about this one. And two primes make a bad reduction a
+// CONSTRUCTIBLE coincidence rather than an improbable one, not an impossible one: bonds built to meet
+// both moduli report too large (XY [2147483647, 999999937] at N = 3 gives 1 where the count is 0), while
+// 15682 random profiles at |J| up to 10^9 disagree nowhere. So the COUNT is scale-free and exactly free
+// of the coupling's sign, and this ROUTE to it is scale-free only away from the ranking primes.
+// Since 2026-08-24 the count equals the main repo's gcd criterion by a Cramer theorem
 // with no hypothesis beyond real symmetry; the world adopts the COUNT and leaves the gcd phrasing, the
-// blind-projector corner and every path object outside (genre, not topic). On the UNIFORM chain the count
-// closes to integer arithmetic, one form per book:
+// blind-projector corner and every path object outside (genre, not topic).
+//
+// One seat parts the COUNT from the gloss above it, and the fence is F157's Breaks-for. Where the seat's
+// OWN ray is H-invariant (an isolated seat, or its incident bonds detuned to zero, both of which this
+// constructor accepts) that ray is dark as well, and the dark states are then a UNION of two subspaces
+// rather than one: measured at N = 3, XY, bonds [0,1], seat 0, where |seat> stays pure under the watching,
+// a state of the Krylov complement stays pure, and their superposition falls to purity 1/2. The count
+// reports the larger of the two, and no single number reports a union. So the exact reading is the
+// H-invariant one above, which holds at every seat; "count what it cannot touch" is the physical gloss
+// and it is one short exactly there.
+//
+// On the UNIFORM chain the count closes to integer arithmetic, one form per book:
 //
 //     ZZ on  (Heisenberg):  blind(seat) = (gcd(2*seat+1, N) - 1) / 2
 //     ZZ off (XY):          blind(seat) = gcd(seat+1, N+1) - 1
 //
+// The ZZ book is the ISOTROPIC point and its law is fine-tuned to it, which neither book says on its own.
+// Carry an anisotropy Delta on the ZZ term alone: the mirror-forced CENTRE seat keeps its blindness at
+// every Delta, while every OTHER seat the gcd law names loses it at once, N = 9 going
+// [0,1,0,0,4,0,0,1,0] -> [0,0,0,0,4,0,0,0,0] and N = 12 going to all zeros, at Delta = 1/2, 3 and 10^-6
+// alike. So |Delta| = 1 is an isolated point rather than a limit, the FORCED kind is robust and the MET
+// kind is an accident of the isotropic point. F152 holds the reason: only at Delta = 1 does the ZZ term
+// make the boundary potential equal the hop, which is what turns the adjacency matrix into a Laplacian.
+// The two booleans here are Delta = 1 and Delta = 0; nothing between them is built.
+//
 // and on the XY book a third, PARITY-forced kind exists beside the mirror-forced and the met: a
 // zero-diagonal Jacobi block of odd size is singular outright, so every odd seat of every odd chain is
 // blind at every zero-free profile, however irregular. The stationary manifold of the watched sector is
-// one larger, span = 1 + blind, on the zero-free chain; the identity can break only where the spectrum
-// is degenerate (simplicity is SUFFICIENT for it and not necessary), and the zero bond is NOT the
-// discriminator: [1,1,0,1,1] breaks it at seats 1 and 4 while the zero-bond [1,0,1] holds at every seat.
+// one larger, span = 1 + blind, on the zero-free chain, and since 2026-08-25 that is a commutant identity
+// with a sharp criterion rather than a pattern with a fence (PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA,
+// Theorem A and Corollary C): dim ker = 1 + dim commutant(H restricted to the seat's KRYLOV COMPLEMENT
+// W), which is 1 + blind exactly when H|_W has a simple spectrum. The condition sits on W, and NOT on H
+// and NOT on the blind subspace: watch [1,1,0] at its isolated site and the whole spectrum is degenerate,
+// {-4, 0, 2, 2}, while H|_W is simple and the identity holds at 4 = 1 + 3. A zero-free chain always
+// supplies a simple H|_W, which is why it holds there; [1,1,0,1,1] breaks it at seats 1 and 4 while the
+// zero-bond [1,0,1] holds at every seat, so the zero bond was never the discriminator.
 //
 // Words, fenced at the door: a SEAT here is the site the single watching sits on, not Seed's unmirrorable
 // reflection seat; BLIND keeps the world's own idiom (the watching is blind to these states); the seat
@@ -35,6 +66,14 @@ namespace MirrorWorld;
 public sealed class BlindSeat : GameObject
 {
     static readonly long[] Primes = { 2147483647L, 999999937L };
+
+    // The largest |J| a bond may carry, the sibling witness's guard adopted with its reason
+    // (SeatCutBlindnessWitness): H() doubles a coupling for the hop and SUMS N-1 of them on the ZZ
+    // diagonal, so past this a chain would wrap int64 silently, and a wrapped H is a DIFFERENT matrix
+    // whose mod-p ranks say nothing about this one -- the whole "never too small" argument below is an
+    // argument about an exact H and is void without it. Measured, before the guard existed: N = 6 on the
+    // ZZ book at |J| = 4378862956477877167 reported blind 0 at seats 1 and 4 where the count is 1.
+    public const long MaxCoupling = 1L << 40;
 
     public int N { get; }
     readonly long[] bonds;   // integer couplings on the chain's N-1 bonds; zero allowed (and fenced where it matters)
@@ -48,8 +87,15 @@ public sealed class BlindSeat : GameObject
     public BlindSeat(World world, int n, long[] bondCouplings, bool heisenberg = true) : base(world)
     {
         N = n;
+        if (N < 2)
+            throw new ArgumentException($"a chain needs at least two sites; got {N}.");
         if (bondCouplings.Length != N - 1)
             throw new ArgumentException($"a chain on {N} sites carries {N - 1} bonds.");
+        foreach (long b in bondCouplings)
+            if (Math.Abs(b) > MaxCoupling)
+                throw new ArgumentOutOfRangeException(nameof(bondCouplings),
+                    $"|J| = {Math.Abs(b)} exceeds {MaxCoupling}: the ZZ diagonal sums up to N-1 couplings and the hop " +
+                    "doubles one, so a larger magnitude wraps int64 silently and the count loses its one-sidedness.");
         bonds = bondCouplings;
         zz = heisenberg;
     }
@@ -74,10 +120,13 @@ public sealed class BlindSeat : GameObject
 
     // blind(seat) = N - rank of the Krylov matrix the seat generates, exact over GF(p) at two primes.
     // The Krylov columns are taken mod p from the start (reduction commutes with the matrix product), so
-    // nothing overflows at any N; the rank mod p can only drop, so the max over the primes pins it and the
-    // reported blind dimension can only ever be too large, never too small.
+    // nothing overflows in THIS loop at any N; the rank mod p can only drop, so the max over the primes
+    // pins it and the reported blind dimension can only ever be too large, never too small. The place
+    // that can overflow is H() before it, which is built in full precision, and MaxCoupling is what keeps
+    // the sentence above true rather than the loop's own arithmetic.
     public int Blind(int seat)
     {
+        Seat(seat);
         var h = H();
         int rank = 0;
         foreach (long p in Primes)
@@ -109,13 +158,19 @@ public sealed class BlindSeat : GameObject
     // The stationary span of the watched sector: dim of { X : [H, X] = 0 and X carries nothing on the
     // seat's off-diagonal row and column }, exact over GF(p) at two primes; the nullity mod p can only be
     // too LARGE, so the min over the primes errs the same way Blind does. The complex dimension equals
-    // this rational nullity because the constraint matrix is integer and rank is field-invariant in
-    // characteristic 0. On the zero-free chain the span is 1 + blind (the +1 is the direction that does
-    // sit on the seat); the identity can break only at a degenerate spectrum, and the zero bond does not
-    // decide it, which is why span and count live as separate readings here. Unlike the count, the span
-    // is an N^2-sized elimination: it is read at small N and does not walk past the wall.
+    // this rational nullity because the constraint matrix has integer entries and the rank of a FIXED
+    // matrix is unchanged by a field EXTENSION; what can change it is the reduction mod p, which is not an
+    // extension, and that is the one residual this min bounds. Theorem A says what the dimension IS at
+    // every profile, 1 + dim commutant(H|_W), and Corollary C when it is 1 + blind: exactly when H|_W is
+    // simple, which a zero-free chain always supplies (the +1 is the direction that does sit on the seat).
+    // Read the two as two READINGS and never as one gate: span and count come off the SAME H at the SAME
+    // two primes, so a bad reduction inflates both and the identity survives it unbroken. The proof's own
+    // G6 takes both sides over the rationals for exactly that reason, and the guard here is the committed
+    // literal beside the identity, not the identity alone. Unlike the count, the span is an N^2-sized
+    // elimination: it is read at small N and does not walk past the wall.
     public int Span(int seat)
     {
+        Seat(seat);
         var h = H();
         int dim = int.MaxValue;
         foreach (long p in Primes)
@@ -151,7 +206,7 @@ public sealed class BlindSeat : GameObject
     }
 
     // The closed form on the UNIFORM chain, one per book: integer arithmetic over the public Cyclotomy gcd.
-    public int UniformLaw(int seat) => zz
+    public int UniformLaw(int seat) => Seat(seat) && zz
         ? (Cyclotomy.Gcd(2 * seat + 1, N) - 1) / 2
         : Cyclotomy.Gcd(seat + 1, N + 1) - 1;
 
@@ -159,7 +214,13 @@ public sealed class BlindSeat : GameObject
     // odd chain, a zero-diagonal Jacobi block of odd size is singular (det T_m = -b^2 det T_{m-2} with b
     // the block's own last bond and det T_1 = 0), so the two blocks share the root 0 at every zero-free
     // profile and the seat is blind, however irregular the couplings.
-    public bool ParityForced(int seat) => !zz && N % 2 == 1 && seat % 2 == 1;
+    public bool ParityForced(int seat) => Seat(seat) && !zz && N % 2 == 1 && seat % 2 == 1;
+
+    // Every public reading takes a seat, and a seat off the chain is a caller error rather than a
+    // number: UniformLaw would otherwise return -1 through a gcd that takes no absolute value.
+    bool Seat(int seat) => seat >= 0 && seat < N
+        ? true
+        : throw new ArgumentOutOfRangeException(nameof(seat), $"seat {seat} is off a chain of {N} sites.");
 
     // --- the GF(p) atoms, restated per the world's per-object self-containment ---
 

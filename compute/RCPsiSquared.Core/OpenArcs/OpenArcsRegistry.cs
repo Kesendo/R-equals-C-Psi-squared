@@ -8438,8 +8438,10 @@ public static class OpenArcsRegistry
                 "rank at two primes), both uniform laws, the parity forcing and the " +
                 "span, parent the frame (the sector is the Cone's memory cut REBUILT " +
                 "in integer arithmetic, not inherited; Cone gained per-site gamma the " +
-                "same day), run mode `blind N`, 37 from-below tests including a dynamic " +
-                "one-seat-light pin; the gcd phrasing and the projector corner stay here. " +
+                "same day), run mode `blind N`, 39 from-below tests including a dynamic " +
+                "one-seat-light pin on a blind state that MOVES (a blind eigenvector is a " +
+                "fixed point of the whole generator and pins nothing, which is what the " +
+                "2026-08-30 round found); the gcd phrasing and the projector corner stay here. " +
                 "MINTED AS F157 the same evening (docs/ANALYTICAL_FORMULAS.md; NOT " +
                 "F156, which stays unassigned per the registry's numbering note: " +
                 "its withdrawal for the R90 band-edge clause, folded into F153, is " +
