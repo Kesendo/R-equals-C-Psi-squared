@@ -7336,7 +7336,7 @@ public static class OpenArcsRegistry
                 "conflated them. Two same-file tensions closed with it: the K-anticommutation bullet now " +
                 "says Heisenberg HOPPING (with the ZZ diagonal K is not an antisymmetry at all, that " +
                 "spectrum 4cos(k*pi/N)+N-5 being unpaired), and the F149 head no longer says the ladder is " +
-                "not 'exposed' when two inspect nodes print c_5 through c_10 as prose. The F149 anchor " +
+                "not 'exposed' when two inspect nodes print c_4 through c_9 as prose. The F149 anchor " +
                 "string also gained simulations/ring_dihedral_lock_limit.py, the ladder's own gate, which " +
                 "the registry entry had named and the claim had not. " +
                 "(2) DECIDED 2026-08-14. THE QUESTION AS ORIGINALLY POSED FOLLOWS FIRST and is superseded " +

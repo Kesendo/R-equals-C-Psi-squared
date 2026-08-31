@@ -6906,6 +6906,12 @@ Gate `simulations/star_saturation_gate.py`, extended for the non-isotropic rows 
 ΔE_max has a closed form and is minimal; this entry is why that minimality, not the
 saturation, is what distinguishes it.
 
+Tier 1 derived. Both halves are proved above; the bound is
+`docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md` §5 and the attainment step's general
+popcount form is `docs/proofs/PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md` §6. The
+attainment certificate runs per N in `simulations/ring_dihedral_lock_limit.py`
+STAGE 1(a) and at N = 6, 8, 10 in `simulations/ring_n4_lock_gate.py` §7b.
+
 ---
 
 ### F149. The ring spread ladder: 3J at N=4, and two parity branches closing on ln 2 (derived 2026-05-19 and 2026-06-04, registered 2026-07-31)

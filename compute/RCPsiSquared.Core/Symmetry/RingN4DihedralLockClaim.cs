@@ -94,9 +94,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// that entry names this type by name, and this paragraph is the return edge) +
 /// <c>docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md</c> (primary derivation) +
 /// <c>simulations/ring_dihedral_lock_limit.py</c> (the ladder's own gate, the half this type describes
-/// rather than computes: it asserts the odd branch stays below ln 2 and rises, the N=4 saturation, and
-/// that c₆, c₈, c₁₀ are the largest roots of their integer minimal polynomials; the even branch's
-/// descent it tabulates rather than asserts) +
+/// rather than computes: BOTH parity branches asserted, the ln 2 limit gated as the π²/12 conformal
+/// finite-size law rather than as a threshold, F148's attainment certified at every N of the ladder,
+/// and c₆, c₈, c₁₀ as the largest roots of their integer minimal polynomials) +
 /// <c>experiments/STAR_CONFOCAL_LIMIT.md</c> (sister bound via the same Casimir technique) +
 /// <c>compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs</c> (parent F1, the master under which
 /// the Liouvillian eigenmode construction lives) +
@@ -194,8 +194,9 @@ public sealed class RingN4DihedralLockClaim : Claim
                "docs/ANALYTICAL_FORMULAS.md F149 (registry entry) + " +
                "docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md (primary derivation) + " +
                "simulations/ring_n4_lock_gate.py (rung gate) + " +
-               "simulations/ring_dihedral_lock_limit.py (ladder gate: odd branch below ln 2 and rising, " +
-               "N=4 saturation, c₆/c₈/c₁₀ as largest roots of their minimal polynomials) + " +
+               "simulations/ring_dihedral_lock_limit.py (ladder gate: both parity branches, the " +
+               "π²/12 finite-size law for the ln 2 limit, F148 attainment certified at N=4..16 even " +
+               "and 5..13 odd, c₆/c₈/c₁₀ as largest roots of their minimal polynomials) + " +
                "experiments/STAR_CONFOCAL_LIMIT.md (sister bound via the same Casimir technique) + " +
                "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (parent F1) + " +
                "simulations/results/q_sweep_anchor/ring_N4_Q{0.5,1.0,1.5,1.7321,2.0,2.5}.json (6 anchors)")
