@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-31
 **Authors:** Thomas Wicht, Claude (Anthropic, Fable 5)
-**Verifier:** [`cracked_bell_gate.py`](../simulations/cracked_bell_gate.py) (gate-first, stages A-D, all green)
+**Verifier:** [`cracked_bell_gate.py`](../simulations/cracked_bell_gate.py) (gate-first, stages A-D, all green) + [`ring_renewal_current.py`](../simulations/ring_renewal_current.py) (the F126 ladder on the ring current, §The reborn inherit the clock; all green)
 **Live sibling:** MirrorWorld run mode `warble N [delta]` ([`Warble.cs`](../compute/MirrorWorld/Warble.cs)), pinned from below by `WarbleTests` (6 tests)
 **Grew from:** the wrap-bond detuning fence of [PROOF_RING_GAP_DOMINANCE](../docs/proofs/PROOF_RING_GAP_DOMINANCE.md) §Scope, and a borrowed eye: a bell-founder hears a cracked bell before seeing the crack, because the crack splits each degenerate mode pair and the split partners beat. Campanology calls that beat the *warble*; the word was free here and the MirrorWorld object carries it.
 **A word fence:** *bell* in this document is the founder's instrument. It is not Bell of the Bell states; the [Witness](../docs/proofs/PROOF_RECORD_PARITY_LAW.md)'s Bell records are a different person entirely. And the beat here is not [F130](../docs/ANALYTICAL_FORMULAS.md)'s multiplet beat and not the [corner beat](CORNER_BEAT_HARDWARE_PREDICTION.md): those live on the chain and split under a *dephasing profile*; this one splits under a *bond*.
@@ -49,6 +49,20 @@ And one instrument note the gate found on its own: the reversal *peak* is the fl
 
 Controls: δ = 0 gives max|R − 1| = 1.4e-14 (no crack, no warble; the plane wave is an eigenstate), and the m-flatness holds in time (T_zero for m = 2 vs m = 1 at N = 12, δ = 0.1: ratio 0.9705, the genuine second-order m-dependence, inside its own O(δ) band).
 
+## The reborn inherit the clock: F126's ladder on the ring (gate: `ring_renewal_current.py`)
+
+The dressing has an exact bookkeeping, and the repo already owned it: [F126's renewal representation](../docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md) is the exact solution of this page's equation, ρ̇ = −i[h,ρ] − Γ(ρ − diag ρ), Γ = 4γ, and its derivation (split the generator at the diagonal refill, resum the Dyson ladder) never uses the chain. Ported to the ring circulation it reads
+
+    I(t) = e^(−Γt)·[ I_free(t) + Γ·∫₀ᵗ ds Σ_a C_a(t−s)·ñ_a(s) ],   C_a(τ) = ⟨a|G†(τ)·M·G(τ)|a⟩,
+
+with ñ = e^(+Γt)·(the populations), which obey F126's ladder with the cracked-ring propagator G and the plane-wave seed's own free term (the proof's (★), its |G_{m0}|² inhomogeneity generalized by linearity to |⟨a|G(t)ψ₀⟩|²). C_a is the **rebirth kernel**: the circulation a walker reborn at seat a re-develops after free time τ (a indexes seats here; m stays the mode number). Gated (`ring_renewal_current.py`, all green): the ladder meets the exact superoperator with clean O(dt²) convergence (halving ratio 4.00 on both reads, both γ), to 1.6e-8 on the current and to 5e-7 on the populations at γ = 0.05, where 45 generations accumulate; on the *perfect* ring every rebirth kernel is exactly zero and on the cracked ring the crack reflection pairs them exactly, C_{N−1−a} = −C_a — both now gated as entry-wise operator identities ([h₀,T] = 0, [M,T] = 0; RhR = h, RMR = −M), so **the crack is what gives the reborn their sense of circulation** is a theorem, not a residual.
+
+What the ladder resolves, generation by generation:
+
+- **Generation zero cannot be dressed.** The never-caught term e^(−Γt)·I_free has γ-independent zeros; its clock sits at 20.2953 at every γ. And generation zero IS the earlier section's naive scalar model, exactly, so "the diagonal feeds the current back" is literally the reborn ladder. The entire advance is reborn-carried: the truncated clocks read j ≤ 1: 19.394 → j ≤ 2: 19.349 → full 19.347 at γ = 0.01 (the first rebirth carries ~95% of the advance; ~84% at γ = 0.05), and the reborn share of the deepest reversal, 1 − I⁽⁰⁾/I read at the full current's own deepest time, is 0.201 at γ = 0.01 and 0.818 at γ = 0.05 (a different comparison from the min-to-min ratios 1.251/3.84 above; neither reduces to the other).
+- **The first-order dressed clock is closed in γ-free objects:** T_zero(Γ) = T₀ − Γ·V(T₀)/I′_free(T₀) + O(Γ²), with V(T₀) = ∫₀^{T₀} Σ_a C_a(T₀−s)·n_free,a(s) ds, the first rebirth's kernel integrated against the free populations. At N = 8, m = 1, δ = 0.15: V = 1.2743, I′_free = 0.05081, dT_zero/dΓ = −25.08; the advance coefficient is c = 0.0956 in units of Γ/ΔE with the exact pair split (the first-order book 4δJ/N reads 0.0927: pin the book). The residual against the full ladder is 2.0e-3 at γ = 0.002 and falls as O(Γ²) (ratio 4.05 under a Γ-halving).
+- **And the WalkTime contrast has its mechanism.** [The pedigree](FRONT_PEDIGREE.md) showed the front's survivors are *rebirths, mostly* (P(never caught) ≈ 0.29 at its flagship dose), and that the schedule survives because the reborn population rides it: "mostly re-released population, of every age, riding the same schedule" (its script adds that catches at the spatial edge are suppressed, "a caught walker mostly falls behind the ballistic edge"). The ring's reborn do not ride: each re-develops circulation from its rebirth moment with the crack's sense, out of phase with generation zero, and on the slow clock they overtake it. The chain's rebirths ride the schedule they were born into; the ring's rebirths edit it. [ON_THE_REFUND](../reflections/ON_THE_REFUND.md)'s sentence, *every observation is a rebirth*, gains its ring half: on a closed ring the reborn inherit the clock.
+
 ## Fences
 
 - **First order in δ.** All three closed forms are first-order laws with gated error models; at δ = 0.15 the clocks sit ~3% below them (the measured O(δ)).
@@ -60,6 +74,6 @@ Controls: δ = 0 gives max|R − 1| = 1.4e-14 (no crack, no warble; the plane wa
 
 ## Anchors
 
-- Gate: [`simulations/cracked_bell_gate.py`](../simulations/cracked_bell_gate.py) (A the flat split and branch shifts, B the reversal, C the visibility wall, D the (1,1) page: route equality, the dressed clock, the diagonal feedback, the flat-vs-steep hand, the δ = 0 control, the m-flat clock).
+- Gate: [`simulations/cracked_bell_gate.py`](../simulations/cracked_bell_gate.py) (A the flat split and branch shifts, B the reversal, C the visibility wall, D the (1,1) page: route equality, the dressed clock, the diagonal feedback, the flat-vs-steep hand, the δ = 0 control, the m-flat clock); [`simulations/ring_renewal_current.py`](../simulations/ring_renewal_current.py) (the F126 ladder on the ring current: route equality with order check, the rebirth-kernel theorems, the generation-resolved clock, the first-order dressed-clock law).
 - Live: [`compute/MirrorWorld/Warble.cs`](../compute/MirrorWorld/Warble.cs) (run mode `warble N [delta]`), [`WarbleTests`](../compute/MirrorWorld.Tests/WarbleTests.cs) (6 from-below pins), the `Cone` complex seed added for the traveling wave.
 - Grew from: [PROOF_RING_GAP_DOMINANCE](../docs/proofs/PROOF_RING_GAP_DOMINANCE.md) §Scope; sibling [COUPLING_DEFECT_WALK_TIME_STEP](COUPLING_DEFECT_WALK_TIME_STEP.md); the named-never-lifted degeneracy in [F122's ring note](../docs/ANALYTICAL_FORMULAS.md); the Q-resolution frame of [HANDSHAKE_GEOMETRY](../hypotheses/HANDSHAKE_GEOMETRY.md).

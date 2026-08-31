@@ -36,6 +36,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// conservation, the j=0 coherent-front Bessel identity, the Γ=0 clean-wave limit, the Haken-Strobl
 /// diffusive plateau, and the closed refill constant I₁.</para>
 ///
+/// <para>The representation is topology-blind: the derivation splits the generator at the diagonal refill
+/// and never uses the chain, so (★) holds verbatim for ANY hopping matrix h (only the closed form (☆) is
+/// the infinite chain's). Verified 2026-08-31 on the cracked RING with an off-diagonal observable, the
+/// circulation of <c>experiments/THE_CRACKED_BELL.md</c> (ladder = exact superoperator to 2e-8, O(dt²);
+/// <c>simulations/ring_renewal_current.py</c>): the rebirth kernels C_a(τ) = ⟨a|G†MG|a⟩ vanish exactly on
+/// the perfect ring (the crack gives the reborn their sense of circulation), generation zero's clock is
+/// γ-independent, and the warble's dressed zero crossing is carried entirely by the reborn generations,
+/// first order closed in γ-free objects: T_zero(Γ) = T₀ − Γ·V(T₀)/I′_free(T₀), V = ∫C·n_free.</para>
+///
 /// <para><b>Typed parents:</b> <see cref="AbsorptionTheoremClaim"/> (the uniform sector rate Γ = 4γ, the
 /// −2γ·k law read inside one sector) + <see cref="F2bXyChainSpectrumPi2Inheritance"/> (the clean propagator
 /// and band, E_k = 2J·cos(πk/(N+1)), front speed 2J). Both are Tier1Derived, so this claim carries their
