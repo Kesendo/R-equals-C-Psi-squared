@@ -1460,6 +1460,49 @@ if (args.Length > 0 && args[0] == "walk")
     return;
 }
 
+// ---- run mode "warble": the cracked ring read in time (the wrap-bond crack as a beat) ----
+// Built 2026-08-31 beside experiments/THE_CRACKED_BELL.md: crack the wrap bond to J' = J(1-delta) and
+// every m <-> N-m pair splits by the same 4*delta*J/N (the crack is flat in mode space). A launched
+// traveling wave fully reverses at T_rev ~ pi*N/(4*delta*J): the walk-time step's discarded O(delta)
+// reflection, resonantly accumulated. On this (1,1) page the watching DRESSES the clock (the zero
+// crossing advances; the dephasing-free diagonal feeds the current back over the naive envelope);
+// the (0,1) page of the same crack keeps the clock exactly gamma-free.
+if (args.Length > 0 && args[0] == "warble")
+{
+    int bn = args.Length > 1 ? int.Parse(args[1]) : 8;
+    double bdelta = args.Length > 2 ? double.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture) : 0.15;
+    const double bj = 1.0, bdt = 0.02;
+    int bm = 1;
+    double bT = 1.4 * Math.PI * bn / (4 * bdelta * bj);
+    var bworld = new World();
+    Console.WriteLine($"the warble: ring N={bn}, wrap bond cracked to J(1-delta), delta={bdelta}, seed = traveling wave m={bm}");
+    Console.WriteLine($"  first order: pair split 4*delta*J/N = {4 * bdelta * bj / bn:0.000000}, T_zero = {Math.PI * bn / (8 * bdelta * bj):0.00}, T_rev = {Math.PI * bn / (4 * bdelta * bj):0.00}");
+    Console.WriteLine($"  circulation R(t) = I(t)/I(0): 1 launched sense, -1 fully reversed.");
+    foreach (double g in new[] { 0.0, 0.01, 0.05 })
+    {
+        var series = Warble.CurrentSeries(bworld, bn, bj, g, bm, bdelta, bdt, bT);
+        double tz = Warble.ZeroCrossing(series, bdt);
+        double depth = Warble.ReversalDepth(series, out int kRev);
+        Console.WriteLine($"  gamma={g:0.00}: T_zero = {tz:0.00}, deepest R = {depth:+0.0000;-0.0000} at t = {kRev * bdt:0.00}" +
+                          (g > 0 ? $"  (naive envelope e^(-4*gamma*t) there: {Math.Exp(-4 * g * kRev * bdt):0.0000})" : ""));
+        var sb = new System.Text.StringBuilder("    R(t)  ");
+        for (int k = 0; k < series.Length; k += Math.Max(1, series.Length / 60))
+        {
+            double r = series[k] / series[0];
+            sb.Append(r > 0.5 ? '>' : r < -0.5 ? '<' : Math.Abs(r) <= 0.1 ? 'o' : '.');
+        }
+        Console.WriteLine(sb.ToString() + "   (> launched sense, < reversed, o dead)");
+    }
+    var bctl = Warble.CurrentSeries(bworld, bn, bj, 0.0, bm, 0.0, bdt, bT);
+    double bdrift = 0;
+    for (int k = 0; k < bctl.Length; k++) bdrift = Math.Max(bdrift, Math.Abs(bctl[k] / bctl[0] - 1.0));
+    Console.WriteLine($"  control delta=0: max |R-1| = {bdrift:0.0e+0} -- no crack, no warble.");
+    Console.WriteLine("  every pair splits by the same 4*delta*J/N: the crack is flat in mode space, every mode hears it.");
+    Console.WriteLine("  the clock here is gamma-dressed (this is the (1,1) page; the (0,1) page reads the same crack gamma-free):");
+    Console.WriteLine("  the slow clock gives the watching time to dress it -- the fast walk-time step never did.");
+    return;
+}
+
 const double gamma = 0.5;
 var world = new World();
 Console.WriteLine($"empty world (Z-dephasing, no Hamiltonian), gamma={gamma}");

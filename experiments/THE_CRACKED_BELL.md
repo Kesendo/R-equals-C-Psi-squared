@@ -1,0 +1,65 @@
+# The Cracked Bell: the ring's wrap-bond crack read in the time domain
+
+**Date:** 2026-08-31
+**Authors:** Thomas Wicht, Claude (Anthropic, Fable 5)
+**Verifier:** [`cracked_bell_gate.py`](../simulations/cracked_bell_gate.py) (gate-first, stages A-D, all green)
+**Live sibling:** MirrorWorld run mode `warble N [delta]` ([`Warble.cs`](../compute/MirrorWorld/Warble.cs)), pinned from below by `WarbleTests` (6 tests)
+**Grew from:** the wrap-bond detuning fence of [PROOF_RING_GAP_DOMINANCE](../docs/proofs/PROOF_RING_GAP_DOMINANCE.md) §Scope, and a borrowed eye: a bell-founder hears a cracked bell before seeing the crack, because the crack splits each degenerate mode pair and the split partners beat. Campanology calls that beat the *warble*; the word was free here and the MirrorWorld object carries it.
+**A word fence:** *bell* in this document is the founder's instrument. It is not Bell of the Bell states; the [Witness](../docs/proofs/PROOF_RECORD_PARITY_LAW.md)'s Bell records are a different person entirely. And the beat here is not [F130](../docs/ANALYTICAL_FORMULAS.md)'s multiplet beat and not the [corner beat](CORNER_BEAT_HARDWARE_PREDICTION.md): those live on the chain and split under a *dephasing profile*; this one splits under a *bond*.
+
+## What the repo already holds
+
+Swept 2026-08-31, two survey agents, stores by name. `docs/ANALYTICAL_FORMULAS.md`: F122's ring note names the m ↔ N−m Fourier pairing as the ring's only degeneracy and never lifts it; F123 is the single-bond defect law of the *chain* and lives on the Re side (a rate shift, the squared density gradient); F130 owns the word "beat" and its hardware record: the multiplet-beat protocol is not flyable on an *amplitude* bound (the generic q² channel sits two orders under the discrimination bar, the protected q⁴ arm invisible a fortiori); F152/D10 hold the *other* (0,1) book (isotropic Heisenberg, Laplacian, the label-collision fence quoted below); F157's registry text leaves the detuned-bond version of the blind seat explicitly open, and it is a different object from this one. `docs/proofs/`: PROOF_RING_GAP_DOMINANCE §Scope detunes the wrap bond and reads only the exact-floor membership (1e-6 survives, 1e-4 gone); PROOF_CHAIN_GAP_DOMINANCE's Statement carries the bond-uniformity clause (the floor maximum moves smoothly to the weighted radius). `experiments/`: COUPLING_DEFECT_WALK_TIME_STEP is the nearest sibling, one defect bond on the *chain* read in arrival time, step −δ/(2J), γ-robust, its upstream reflection explicitly "not read as signal"; CORNER_BEAT is parked, unflown, and its knob is the γ profile. `OpenArcsRegistry`: `site_resolved_vacuum_block` owns the (0,1) block under γ profiles, carries bond-turned Jordan content and the naming trap ("(0,1) dim N is this one … (1,1) dim N² is the Haken-Strobl density block that Cone.cs and LensAnalysis.cs actually use"); `clock_hand_ladder` carries the ring's uniform-coupling dynamical corpus. `fw.Confirmations`: nothing ring-shaped, nothing defect-shaped; the nearest flown result is the 3-site chain revival handover (ibm_ep_onset). `docs/GLOSSARY.md`: no word for this beat ("Schwebung" has zero hits repo-wide); "Echo" is taken by the entanglement heartbeat and "chirality" by other objects, so this document says *circulation sense* and *reversal amplitude*; "current" has no owner anywhere in the stores, and this bundle takes it for the circulation read. `docs/CAUGHT_ERRORS.md`: nothing on this object. Both sweeps returned "ring + one detuned bond + time evolution" as absent everywhere: no arc, no claim, no committed script, no test. The pieces existed; the assembly did not.
+
+## The object, and its two pages
+
+XY ring, H = (J/2)·Σ (XX+YY) over the cyclic bonds, uniform Z-dephasing γ per site, and one crack: the wrap bond weakened to J′ = J(1−δ). The book is PROOF_RING_GAP_DOMINANCE's (single-excitation block H_se = J·A, adjacency; **not** D10/W1Dispersion's Heisenberg Laplacian book). The perfect ring's traveling waves ψ_m(j) = e^(2πimj/N)/√N pair up degenerately, E_m = 2J·cos(2πm/N) for m and N−m; the crack lifts exactly that pairing, the one F122 named and nothing had lifted.
+
+One crack, two pages to read it on:
+
+- **The (0,1) page** (vacuum coherence |vac⟩⟨φ|): the dissipator is the scalar −2γ (Absorption Theorem), so φ(t) = e^(−2γt)·e^(−iH_se·t)·φ(0) *exactly*. Everything oscillatory is γ-free in value; γ is a pure envelope.
+- **The (1,1) page** (single-excitation density, the block MirrorWorld's `Cone` runs): dephasing is Haken-Strobl, −4γ on every coherence and nothing on the diagonal. Not a scalar, and it shows.
+
+## The three closed forms (first order in δ, gates A-C; the split is spectral and page-independent, the clocks and the wall read on the (0,1) page)
+
+Degenerate perturbation theory on the pair {ψ_m, ψ_{−m}} with the perturbation −δJ(|N−1⟩⟨0| + |0⟩⟨N−1|) gives the 2×2 matrix −δJ·(2/N)·[[cos θ_m, e^(iθ_m)], [e^(−iθ_m), cos θ_m]], θ_m = 2πm/N, and everything follows from its eigensystem:
+
+1. **The flat split.** Every pair splits by the same ΔE = 4δJ/N, independent of m, because |ψ_m(j)|² = 1/N: a point defect is flat in mode space, every partial of the bell hears the crack equally. The partners are the crack-adapted standing waves cos/sin(θ_m(j + ½)), antinode respectively node centred on the cracked bond, shifted by −(2δJ/N)(cos θ_m ± 1) in opposite directions. Gated by the decade-ratio law (the error e(δ) on ΔE/δ shrinks linearly, ratios 0.100/0.100 across δ = 1e-5..1e-3, N = 6..32, odd and even). The m = 0 Perron shift −2δJ/N reproduces the proof's committed detuned floor maximum: 2 − 2·1e-4/4 = 1.9999500 at N = 4, exactly the §Scope number.
+2. **The reversal.** Launch the *perfect* ring's traveling wave on the cracked ring and the split partners beat: the circulation dies at T_zero = πN/(8δJ) and the wave is fully reversed at T_rev = πN/(4δJ), peak overlap with the counter-running wave ≈ 1 (gate B: 0.999913..1.000000 across N, m, δ). This is [the walk-time step](COUPLING_DEFECT_WALK_TIME_STEP.md)'s discarded O(δ) reflection, resonantly accumulated by the closed ring, round trip after round trip, until it is the whole signal. The chain throws that term away; the ring is the resonator that collects it.
+3. **The visibility wall.** With dephasing, the reversed amplitude carries the exact envelope e^(−2γ·T_rev) = exp(−πN/(2Qδ)), Q = J/γ. Exact in the γ-factorization (the scalar page), exponent accurate to O(δ) relative. This is [HANDSHAKE_GEOMETRY](../hypotheses/HANDSHAKE_GEOMETRY.md)'s "resolving power is the Q-factor" composed with a ring defect: the split resolves when Q·δ clears ~πN/(2·ln(1/ε)).
+
+**What this buys the proof.** PROOF_RING_GAP_DOMINANCE §Scope shows the exact-floor observable dropping the N = 4 exception at δ = 1e-4 and says the underlying coherence "has simply left that set". The wall makes the second reading quantitative: at δ = 1e-4, N = 4, Q = 20 the reversed amplitude is 10^(−1364). The floor-set read is hypersensitive because it is a set-membership question. The *reversal* read of the same crack is exponentially blind below δ ≈ πN/(2Q·ln(1/ε)) (≈ 0.07 at N = 4, Q = 20, ε = 1%); the most sensitive time-domain read there is, the early beat deficit e^(−2γt)·(1 − cos ΔEt) peaking at t = 1/γ with height ≈ 0.068·(4δQ/N)², is *polynomially* blind, visible only above δ ≈ (N/4Q)·√(ε/0.068) ≈ 0.019. At δ = 1e-4 even that best read is 2.7e-7, so everything physical is blind at the crack the floor set sees: the fine-tuning is a property of the idealized observable, not of anything a clock could measure.
+
+## The (1,1) page: the watching dresses this clock (gate D, MirrorWorld `warble`)
+
+Run the same crack on the density block (Cone + `Topology.Ring` + `SetBond`, the composition no caller had made), circulation I(t) = Σ_a Im ρ[a, a+1], R(t) = I(t)/I(0). At N = 8, m = 1, δ = 0.15 (exact superoperator; the MirrorWorld RK4 run sits inside the WarbleTests windows around the same pins):
+
+| γ | T_zero | deepest R | naive scalar model's own best |
+|---|---|---|---|
+| 0 | 20.295 | −0.999949 at t = 40.68 | (identical at γ = 0) |
+| 0.01 | 19.347 | −0.2752 | −0.2200 (ratio 1.251) |
+| 0.05 | 16.477 | −0.00902 | −0.00235 (ratio 3.84) |
+
+Two findings, both the opposite of the walk-time step's γ-robustness, and both measured rather than assumed:
+
+- **The clock is γ-dressed.** The zero crossing advances under the watching (20.30 → 19.35 → 16.48). WalkTime's front is fast against 1/γ and its timing survives ("the dose the front pays is amplitude, not schedule"); the warble is slow, T_rev at or beyond the coherence time 1/(4γ) (1.6× at γ = 0.01, 8× at 0.05), and the watching has time to dress it. On the (0,1) page the same clock is exactly γ-free. *Which page is read decides what the watching does to the clock.*
+- **The diagonal feeds the current back.** The deepest reversal outlives the naive scalar model e^(−4γt)·R_(γ=0)(t) at that model's own best point, by 1.251 at γ = 0.01 and 3.84 at γ = 0.05: the populations pay no dephasing, keep the crack's 2m-harmonic, and pump it back into the current.
+
+And one instrument note the gate found on its own: the reversal *peak* is the flat hand. The O(δ) fast admixture rides a curvature that falls as δ², leaving a δ-independent relative floor ~2e-3 on any peak-read of the clock, while the zero crossing is steep and reads true within an O(δ) envelope (worst |dev|/δ = 0.021 over δ = 0.01..0.2, phase-oscillatory inside it because T_zero ∝ 1/δ wraps the fast phases). Read the zero crossing, not the peak.
+
+Controls: δ = 0 gives max|R − 1| = 1.4e-14 (no crack, no warble; the plane wave is an eigenstate), and the m-flatness holds in time (T_zero for m = 2 vs m = 1 at N = 12, δ = 0.1: ratio 0.9705, the genuine second-order m-dependence, inside its own O(δ) band).
+
+## Fences
+
+- **First order in δ.** All three closed forms are first-order laws with gated error models; at δ = 0.15 the clocks sit ~3% below them (the measured O(δ)).
+- **The book.** This is the XY adjacency book. The D10/W1Dispersion (0,1) block (isotropic Heisenberg, Laplacian, Neumann waves) is a different book, and the (1,1) Cone block is a third object; the registry's naming trap applies verbatim.
+- **Uniform γ.** Both pages assume the uniform rate (the (0,1) scalar needs it; the Cone's profile knob was not used here).
+- **Not the blind seat.** The blind-seat arc's open detuned-bond item is a seat/Krylov object; do not report one as the other (`the_forced_and_the_met`, the registry's own fence).
+- **Mind the knob's sign.** The walk-time step strengthens its bond, J′ = J(1+δ); the crack weakens, J′ = J(1−δ). The split and the clocks depend on |δ| at first order, but a ported δ flips which partner shifts up.
+- **No hardware claim.** CORNER_BEAT stays parked; nothing here proposes a flight. The first-order-in-δ beat and the Q·δ wall are simulation results with closed forms, nothing more.
+
+## Anchors
+
+- Gate: [`simulations/cracked_bell_gate.py`](../simulations/cracked_bell_gate.py) (A the flat split and branch shifts, B the reversal, C the visibility wall, D the (1,1) page: route equality, the dressed clock, the diagonal feedback, the flat-vs-steep hand, the δ = 0 control, the m-flat clock).
+- Live: [`compute/MirrorWorld/Warble.cs`](../compute/MirrorWorld/Warble.cs) (run mode `warble N [delta]`), [`WarbleTests`](../compute/MirrorWorld.Tests/WarbleTests.cs) (6 from-below pins), the `Cone` complex seed added for the traveling wave.
+- Grew from: [PROOF_RING_GAP_DOMINANCE](../docs/proofs/PROOF_RING_GAP_DOMINANCE.md) §Scope; sibling [COUPLING_DEFECT_WALK_TIME_STEP](COUPLING_DEFECT_WALK_TIME_STEP.md); the named-never-lifted degeneracy in [F122's ring note](../docs/ANALYTICAL_FORMULAS.md); the Q-resolution frame of [HANDSHAKE_GEOMETRY](../hypotheses/HANDSHAKE_GEOMETRY.md).

@@ -72,6 +72,17 @@ public sealed class Cone : GameObject
                 rho[a, b] = amplitudes[a] * amplitudes[b];
     }
 
+    // the same seed for a complex wave (a traveling wave carries a phase per site; the real overload
+    // cannot hold a circulation sense).
+    public void SeedPure(Complex[] amplitudes)
+    {
+        if (amplitudes.Length != N)
+            throw new ArgumentException($"the wave needs one amplitude per site: {N}.");
+        for (int a = 0; a < N; a++)
+            for (int b = 0; b < N; b++)
+                rho[a, b] = amplitudes[a] * Complex.Conjugate(amplitudes[b]);
+    }
+
     // rho-dot = -i[H,rho] + D[rho]; D = -4 gamma on every off-diagonal (disagreement 2), 0 on the diagonal.
     Complex[,] Rhs(Complex[,] x)
     {
