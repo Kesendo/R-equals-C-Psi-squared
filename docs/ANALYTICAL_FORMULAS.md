@@ -8068,7 +8068,7 @@ seats, N = 3..200**, the witness's own ceiling, with 0 failures. Read that numbe
 it is, since its size is the misleading part: it compares two CLOSED FORMS that this page
 derives from the same premise, it computes no blindness anywhere, and it is silent at every
 Δ but the two endpoints. It is the arithmetic bookkeeping of the derivation above, not the
-evidence for the locus; what carries the locus is the second polynomial route and the field
+evidence for the locus; what carries the locus is the second polynomial route and the GF(p)
 sweep, described under Scope. The endpoint congruences
 themselves are already owned exactly, both of them, over N = 2..200 in
 `simulations/seat_cut_blindness.py`'s "Route 3, EXACT" block (which is the exact
@@ -8143,7 +8143,7 @@ the witness computes beside the first and which agrees with it as primitive inte
 polynomials at every one of the 98 (N, seat) pairs of N = 4..16 where both are defined,
 70 of them nonconstant on each side (the other six of the 104 interior pairs are forced
 centre seats, where both routes correctly return nothing). The second is
-`inspect --root blindlocus`'s **field sweep**: over ℚ_p every Δ is rational, the images
+`inspect --root blindlocus`'s **GF(p) sweep**: over GF(p) every Δ is rational, the images
 of the irrational members included, so running the Krylov rank at ALL p residues and
 comparing the blind set to the polynomial's root set is a two-sided check whose RANK
 side involves no Chebyshev polynomial, no Sylvester matrix and no Bareiss division. (The other

@@ -419,7 +419,7 @@ public class SeatBlindnessDeltaLocusWitnessTests
         // The tree must SHOW the load-bearing route, not only the regression guard. Matching the
         // agreement counts as formatted text rather than the verdict sentence, because a verdict
         // string the code writes about itself is not evidence: at N = 9 there are 6 interior
-        // non-centre seats, and both the polynomial pair and the field sweep must agree on all 6.
+        // non-centre seats, and both the polynomial pair and the GF(p) sweep must agree on all 6.
         // Node 2b has its OWN phrase, so it is pinned rather than covered by the sweep node's
         // prefix. Forcing 2b to report "0 of 6" must redden this line.
         Assert.Contains("6 of 6 interior non-centre seats agree as primitive integer polynomials", joined);
@@ -716,7 +716,7 @@ public class SeatBlindnessDeltaLocusWitnessTests
     }
 
     // ---------------------------------------------------------------------------------------
-    // The route the polynomial never touches: a rank sweep over the whole field.
+    // The route the polynomial never touches: a rank sweep over the whole of GF(p).
     // ---------------------------------------------------------------------------------------
 
     [Fact]
@@ -903,7 +903,7 @@ public class SeatBlindnessDeltaLocusWitnessTests
     public void TheCommittedIrrationalRows_AreComputedHere_NotQuotedFromAScout()
     {
         // These two rows are what the entry's new content rests on, and until this test they were
-        // produced by no committed code: the count routes decide RATIONAL Delta and the field sweep
+        // produced by no committed code: the count routes decide RATIONAL Delta and the GF(p) sweep
         // decides membership, so both rows came from a local gitignored scout. They are now counted,
         // by the multiplicity of the minimal polynomial in P_j.
         var w = new SeatBlindnessDeltaLocusWitness(9);

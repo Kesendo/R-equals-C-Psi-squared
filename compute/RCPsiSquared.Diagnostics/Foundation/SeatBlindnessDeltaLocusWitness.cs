@@ -1137,7 +1137,7 @@ public sealed class SeatBlindnessDeltaLocusWitness : IInspectable
                              "parameter: feed it the physically wrong shift and the two must part.",
                     provenance: NodeProvenance.Live);
 
-                // 2c. The field sweep: the only route whose arithmetic the polynomial never touches.
+                // 2c. The GF(p) sweep: the only route whose arithmetic the polynomial never touches.
                 const long SweepPrime = 101;
                 int agree = 0, tried = 0, withLocus = 0;
                 for (int seat = 1; seat < N - 1; seat++)
@@ -1148,7 +1148,7 @@ public sealed class SeatBlindnessDeltaLocusWitness : IInspectable
                     if (got.Value.RankSaysBlind.SequenceEqual(got.Value.PolynomialSaysBlind)) agree++;
                     if (got.Value.PolynomialSaysBlind.Length > 0) withLocus++;
                 }
-                yield return new InspectableNode("the field sweep, which is the load-bearing one",
+                yield return new InspectableNode("the GF(p) sweep, which is the load-bearing one",
                     summary: $"at every one of the {SweepPrime} residues of GF({SweepPrime}), the Krylov rank " +
                              $"is asked whether the seat is blind, and the blind SET is compared to the " +
                              $"polynomial's ROOT SET: {agree} of {tried} interior non-centre seats agree, " +
