@@ -213,9 +213,30 @@ for topo in ('chain', 'complete'):
         dd = abs(gpt - gfl)
         worst0b = max(worst0b, dd)
         print(f"{topo:9} {N:>2} {fmt(gpt):>12} {fmt(gfl):>12} {str(where):>11} {dd:>9.1e}")
-assert worst0b < 3e-3, f"STAGE 0b GATE FIRED: qutrit degenerate-PT disagrees with full L by {worst0b:.2e}"
-print(f"\nSTAGE 0b PASS: the qutrit dephasing+H model and the sector recipe agree with the full Liouvillian "
-      f"(worst |diff| = {worst0b:.1e}, the O(1/Q) residual).")
+# Every row above lands on the band-edge VALUE 1 exactly, and the residual against the oracle sits at
+# the eigensolver floor: measured 2.9e-14 .. 2.3e-13 at Q=150 and 2.0e-13 .. 1.3e-12 at Q=1500, i.e. it
+# GROWS with Q rather than shrinking, which is the signature of ||L|| growing with J and not of a
+# perturbative remainder. These rows carry no truncation to measure. The old gate was `worst0b < 3e-3`
+# labelled "the O(1/Q) residual": it named a FIRST-order law for a quantity that is not first order and
+# is not even nonzero, and left seven decades of unexplained slack. Two corrections. The floor is the
+# right scale. And where this mechanism does truncate, the order is SECOND, because ad_H is
+# anti-Hermitian and the first-order correction to the real part is purely imaginary and cancels
+# (topology_ceiling_rep_derivation.py STAGE 0b measures order 2.000 on the rows that do truncate).
+#
+# NOTE for a future pass, two things this stage does not do.
+#  (1) It never exercises the mechanism: no row here predicts a value below the band edge, so the
+#      comparison is between two ways of writing 1. A qutrit sector whose prediction dips below the
+#      floor (the d=3 analogue of complete N>=4) would give it something to measure.
+#  (2) The printed "win sector" is an argmin over an EXACTLY tied set, so it reports rounding rather
+#      than physics: measured, chain N=3 has NINE sectors at 1.0 and complete N=3 has five, while the
+#      column names one of them. The qubit verifier now returns the winning SET for this reason.
+assert worst0b < 1e-9, (
+    f"STAGE 0b GATE FIRED: every row here predicts the band-edge value exactly, so the oracle must "
+    f"agree to the eigensolver floor; it differs by {worst0b:.2e}")
+print()
+print(f"STAGE 0b PASS: the qutrit dephasing+H model and the sector recipe agree with the full "
+      f"Liouvillian to the eigensolver floor (worst |diff| = {worst0b:.1e}). Every row lands on the "
+      f"band-edge value 1, so there is no truncation here to measure; where one exists it is O(1/Q^2).")
 
 # ====================================================================================================
 # STAGE 1 -- THE PROBE: d=3 K_N (1,1) commutant darkest + global min; read off the numerator

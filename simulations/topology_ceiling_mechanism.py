@@ -111,6 +111,12 @@ print("\nSUMMARY: g2 = <n_XY> of the strict-slowest mode. Gap-dominance <=> that
       "(<n_XY>=1) vs a lens-mixed sub-floor mode (<n_XY><1). Connectivity drives <n_XY>_slowest down: "
       "chain protects all N; star ceilings N>=6; complete ceilings N>=4 with g2(K_N)=4/N for N>=5 "
       "(K_5,6,7 = 4/5, 2/3, 4/7 confirmed), K_4 the N=4 outlier (parallel to ring N=4). "
-      "All via the Absorption Theorem (cited). OPEN: derive 4/N from the K_N S_N rep structure; the star "
+      "All via the Absorption Theorem (cited). CLOSED since by topology_ceiling_rep_derivation.py, which "
+      "derives 4/N and 4/(N-1) from the commutant rep structure (Schur on the multiplicity-free V (x) V*: "
+      "trivial -> 2/N, standard -> 4/N, the rest -> 2) and answers the N=4 outlier as the (2,2) half-filling "
+      "sector. It also corrects two readings taken here: the star ceiling is 4/(N-1) and not a constant 0.80 "
+      "(0.80 = 4/5 is the N=6 value only, and the anchor gate below is right for that reason alone), and the "
+      "ring's 'no ceiling' holds on the XY network and in the Q -> infinity limit only. WAS OPEN: derive 4/N "
+      "from the K_N S_N rep structure; the star "
       "N=6->0.80 and the star Q*(N) (N<=5) closed forms; why N=4 is the outlier on both K_N and the ring.")
 print("DONE.")

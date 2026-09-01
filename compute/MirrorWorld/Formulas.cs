@@ -261,6 +261,13 @@ public static class Formulas
     // F122 (T1): the structural ceiling g2 = <n_XY> of the slowest mode. Chain g2=1 (band edge); more
     // connected graphs grow a darker [H,A]=0 coherence: g2(K_N)=4/N (N>=5), g2(star_N)=4/(N-1) (N>=6),
     // g2(K_4)=2-2/sqrt3. The ring has no ceiling (g2=1); its (1,1) commutant = 2(N-2)/N (even), 2(N-1)/N (odd).
+    // The ring clause carries TWO fences the adopted sentence used to drop, both from the source proof.
+    // MODEL: it is an XY statement, and the XY hypothesis is load-bearing exactly there, since under
+    // isotropic Heisenberg the 4-cycle DOES ceiling, at the K_4 value 2-2/sqrt3. LIMIT: it is a Q->infinity
+    // statement; at finite Q the N=4 mode sits below the floor by 1/(2Q^2), the same marginal law that the
+    // star at N=5 obeys with coefficient 1. The ceiling forms themselves hold as written on their N-ranges;
+    // outside those ranges the value is not the ceiling (at N=4 the complete form returns the band edge 1,
+    // and the actual K_4 ceiling is F122_K4Ceiling, out of the (2,2) half-filling sector).
     public static double F122_CompleteCeiling(int n) => 4.0 / n;
     public static double F122_StarCeiling(int n) => 4.0 / (n - 1);
     public static double F122_K4Ceiling() => 2.0 - 2.0 / Math.Sqrt(3.0);

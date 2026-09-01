@@ -5,7 +5,26 @@ using Xunit;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>Gate-first: the live commutant computation reproduces the structural-ceiling closed forms
-/// (the C# twin of simulations/topology_ceiling_rep_derivation.py). Small sector matrices, fast.</summary>
+/// (the C# twin of simulations/topology_ceiling_rep_derivation.py). Small sector matrices, fast.
+///
+/// <para><b>OPEN, and worth stating here because this is the file that says "verified".</b> What these
+/// tests certify is that four small matrices have the eigenvalues 4/N, 4/(N−1), 1 and 2 − 2/√3. What
+/// they do NOT certify is that those eigenvalues ARE the gap rate. That leg is the Python verifier's
+/// STAGE 0b, which compares the J-independent sector prediction against the full 4^N Liouvillian at two
+/// couplings a decade apart and gates the truncation as an error LAW (order 2.00, since ad_H is
+/// anti-Hermitian and the first-order correction to the real part cancels). Nothing on the C# side
+/// builds that oracle, so the derivation half of "derived, not fit" lives only in Python.
+///
+/// The machinery is next door and unused here: <c>SecondClockRegimeWitness.G2Full</c> builds exactly
+/// that full Liouvillian, but is called only at Q = 2 and Q = 8 for the EP classification, and its own
+/// docstring declines the high-Q comparison ("avoids the Q=1000 full-Liouvillian eigenvalue-precision
+/// risk"). Closing this would mean either lifting G2Full to a shared helper and adding a high-Q leg
+/// with the same two-Q order gate, or saying plainly in the witness that the oracle comparison is not
+/// reproduced here. Two further gaps of the same kind: the Python asserts that the winning sector SET
+/// contains (1,1) and its X^N partner (an exactly degenerate pair, so an argmin over it reports
+/// rounding), and it derives the ring-4 co-occupier value 2√2 from the anti-periodic Jordan-Wigner
+/// sector; neither globality nor that derivation has a C# counterpart. Recorded 2026-09-01, from the
+/// verifier review round; see docs/CAUGHT_ERRORS.md for that round.</para></summary>
 public class StructuralCeilingWitnessTests
 {
     [Theory]

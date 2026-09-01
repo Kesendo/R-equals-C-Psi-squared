@@ -12,8 +12,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// rate <c>g2 = strict_gap / 2γ</c> of an XY network under uniform Z-dephasing saturates at a topology-specific
 /// ceiling below 1 when a dark <c>[H,A]=0</c> coherence undercuts the single-excitation band edge. This witness
 /// recomputes the ceiling from the representation structure (not by building the 4^N Liouvillian): in the
-/// |a⟩⟨b| coherence basis N_XY is diagonal with entry hamming(a,b), and the high-Q ceiling is the smallest
-/// nonzero eigenvalue of N_XY restricted to the H-commutant (the ad_H kernel) of a small excitation sector.
+/// |a⟩⟨b| coherence basis N_XY is diagonal with entry hamming(a,b), and the high-Q rate spectrum is that of
+/// N_XY block-diagonalised by the ad_H eigenspaces. The ceiling is the smallest nonzero eigenvalue over ALL
+/// those blocks (<see cref="SectorHighQRate"/>, swept by <see cref="GlobalCeiling"/>). The Ω=0 (commutant)
+/// block is the one that carries it on complete and star, and <see cref="CommutantDarkest"/> reads that block
+/// alone: it is a sector's ceiling CANDIDATE, not the sector's g2. Ω=0 alone cannot see the band edge and
+/// over-predicts on the protected topologies, which is why the ladder nodes below label their number the
+/// (1,1) commutant and only call it the ceiling where it falls below 1.
 /// J-independent (the high-Q limit), so the witness takes no J/γ.
 ///
 /// <para>It confirms, live and exact: complete <c>g2(K_N) = 4/N</c> (N≥5, the (1,1) S_N-standard-rep sector);
@@ -227,8 +232,9 @@ public sealed class StructuralCeilingWitness : IInspectable
     public string DisplayName => "StructuralCeilingWitness (g2 closed forms from the commutant rep structure)";
 
     public string Summary =>
-        "the structural ceiling computed live (typed home: StructuralCeilingClaim): g2 = the darkest [H,A]=0 " +
-        "coherence in the largest degenerate single-particle level. Complete 4/N, star 4/(N−1), the N=4 (2,2) " +
+        "the structural ceiling computed live (typed home: StructuralCeilingClaim): g2 = the smallest nonzero " +
+        "eigenvalue of N_XY block-diagonalised by the ad_H eigenspaces, which on complete and star is carried " +
+        "by the Ω=0 commutant of the (1,1) sector. Complete 4/N, star 4/(N−1), the N=4 (2,2) " +
         "outlier 2−2/√3; recomputed from the rep structure, not the 4^N Liouvillian. " +
         "Sector overview: inspect --root blockspectrum (this zooms the (1,1) commutant sector).";
 
@@ -253,9 +259,15 @@ public sealed class StructuralCeilingWitness : IInspectable
             double? g = CommutantDarkest(topo, n, 1, 1);
             double cf = closed(n);
             string match = g.HasValue && Math.Abs(g.Value - cf) < 1e-9 ? "match" : "MISMATCH";
-            string state = g.HasValue && g.Value < 1.0 - 1e-9 ? "ceiling" : "= 1 (band edge protects)";
+            // The (1,1) commutant value IS the global g2 only where it falls below the band edge. At
+            // complete N=4 and star N=5 it equals 1, and calling that "band edge protects" contradicted
+            // the outlier node two rows down, where K_4 ceilings at 2−2/√3 out of the (2,2) sector.
+            string state = g.HasValue && g.Value < 1.0 - 1e-9
+                ? "< 1, so this IS the global ceiling g2"
+                : "= 1, the band edge value: no ceiling from THIS ladder at this N (a ceiling may still sit "
+                  + "in another sector, as it does for K_4)";
             rows.Add(new InspectableNode($"{topo} N={n}",
-                summary: $"g2 = {(g?.ToString("0.#########", Inv) ?? "—")} ({label} = {cf.ToString("0.#########", Inv)}, " +
+                summary: $"(1,1) commutant = {(g?.ToString("0.#########", Inv) ?? "—")} ({label} = {cf.ToString("0.#########", Inv)}, " +
                          $"{match}); {state}"));
         }
         return new InspectableNode(title,
@@ -269,30 +281,50 @@ public sealed class StructuralCeilingWitness : IInspectable
         double k4Ceiling = CommutantDarkest("complete", 4, 2, 2) ?? double.NaN;  // expect 2 − 2/√3
         double ring4Ceiling = CommutantDarkest("ring", 4, 2, 2) ?? double.NaN;   // expect 1.0 (co-occupied)
         double k4Closed = 2.0 - 2.0 / Math.Sqrt(3.0);
+        // The Im value of the ring-4 (2,2) co-occupier was written here as the literal 2√2 with nothing
+        // computing it. Recompute it: it is the top of the (2,2) XY band, the anti-periodic two-fermion
+        // top of the Jordan-Wigner even sector.
+        var r4States = SectorStates(4, 2);
+        double ring4Top = SectorH("ring", 4, r4States).Evd().EigenValues.Select(e => e.Real).Max();
+        double twoRoot2 = 2.0 * Math.Sqrt(2.0);
         var rows = new List<IInspectable>
         {
             new InspectableNode("K_4 (1,1) ladder",
-                summary: $"g2 = {k4Ladder.ToString("0.#########", Inv)} = 4/4 = 1.0 — the ladder reaches the band edge, no ceiling here"),
+                summary: $"(1,1) commutant = {k4Ladder.ToString("0.#########", Inv)} (4/4 = 1, " +
+                         $"{(Math.Abs(k4Ladder - 1.0) < 1e-9 ? "match" : "MISMATCH")}): the ladder reaches the band edge, no ceiling here"),
             new InspectableNode("K_4 (2,2) half-filling",
                 summary: $"g2 = {k4Ceiling.ToString("0.#########", Inv)} (2 − 2/√3 = {k4Closed.ToString("0.#########", Inv)}, " +
-                         $"{(Math.Abs(k4Ceiling - k4Closed) < 1e-7 ? "match" : "MISMATCH")}) — below the floor: the K_4 ceiling"),
+                         $"{(Math.Abs(k4Ceiling - k4Closed) < 1e-7 ? "match" : "MISMATCH")}): below the floor, the K_4 ceiling"),
             new InspectableNode("ring-4 (2,2) half-filling",
-                summary: $"g2 = {ring4Ceiling.ToString("0.#########", Inv)} = 1.0 — co-occupies the floor (the known ring-4 (2,2) mode, Im = 2√2·J)"),
+                summary: $"g2 = {ring4Ceiling.ToString("0.#########", Inv)} (1.0, " +
+                         $"{(Math.Abs(ring4Ceiling - 1.0) < 1e-9 ? "match" : "MISMATCH")}): it LANDS on the floor rather than " +
+                         $"undercutting it, in the Q → ∞ limit. At finite Q the mode is pulled below the floor as " +
+                         $"g2 = 1 − 1/(2Q²) (gated in topology_ceiling_rep_derivation.py STAGE 4), so the gap does move; " +
+                         $"what does not survive the limit is the undercut. Its Im is the (2,2) band top, recomputed " +
+                         $"here: {ring4Top.ToString("0.#########", Inv)}·J (2√2 = {twoRoot2.ToString("0.#########", Inv)}, " +
+                         $"{(Math.Abs(ring4Top - twoRoot2) < 1e-9 ? "match" : "MISMATCH")}), the anti-periodic two-fermion top"),
         };
         return new InspectableNode("the N=4 outlier (the (2,2) half-filling sector, shared by K_4 and ring-4)",
             summary: "the 4/N ladder hits 1.0 at N=4, so the ceiling moves to the (2,2) two-excitation sector: " +
-                     "K_4 = 2 − 2/√3 dips below the floor, ring-4 = 1 co-occupies it. One mechanism, two topologies.",
+                     "K_4 = 2 − 2/√3 dips below the floor, ring-4 = 1 lands on it (in the Q → ∞ limit; at finite Q " +
+                     "it too sits below the floor, by 1/(2Q²), the same marginal law as star-5 at 1/Q²). One " +
+                     "mechanism, two topologies.",
             children: rows);
     }
 
-    /// <summary>The ring C_N swept live across N — the never-fed axis of F122. The sweep over ALL (p,q)
-    /// sectors settles two things F122 left open. (1) The ring has NO structural ceiling: the global high-Q
-    /// g2 = 1 at every N (the band edge protects, exactly like the chain), UNLIKE complete (4/N) and star
-    /// (4/(N−1)). (2) The value F122 flagged as "breaks 4/(m+1)" (ring-5 = 1.6) is the (1,1) commutant, which
-    /// sits ABOVE the band edge and DOES have a closed form — 2(N−2)/N (even) / 2(N−1)/N (odd), both → 2 —
-    /// verified here as a gate (match/MISMATCH) and to N=11 in ring_ceiling_commutant_sweep.py. For even N the
-    /// half-filling (N/2,N/2) commutant equals the (1,1) one (a ring sector degeneracy); ring-4 alone
-    /// co-occupies the band edge (= 1), the lone N=4 anomaly.</summary>
+    /// <summary>The ring C_N swept live across N, the never-fed axis of F122. The sweep over ALL (p,q)
+    /// sectors settles two things F122 left open. (1) On the XY network the ring carries NO structural
+    /// ceiling: the global high-Q g2 = 1 at N = 4..7 here, and to N=11 for the (1,1) leg in
+    /// ring_ceiling_commutant_sweep.py (the band edge protects, exactly like the chain), UNLIKE complete
+    /// (4/N) and star (4/(N−1)). Two fences the flat sentence used to drop. MODEL: this is an XY statement,
+    /// and the XY hypothesis is load-bearing exactly here, since under isotropic Heisenberg the same 4-cycle
+    /// DOES ceiling, at the K_4 value 2 − 2/√3 (StructuralCeilingClaim, PROOF_STRUCTURAL_CEILING §4). LIMIT:
+    /// "no ceiling" is a Q → ∞ statement; at any finite Q the N=4 mode is pulled below the floor as
+    /// 1 − 1/(2Q²). (2) The value F122 flagged as "breaks 4/(m+1)" (ring-5 = 1.6) is the (1,1) commutant,
+    /// which sits ABOVE the band edge and DOES have a closed form, 2(N−2)/N (even) / 2(N−1)/N (odd), both
+    /// → 2. It is DISPLAYED here as a match/MISMATCH comparison; the gate that can fire lives in
+    /// StructuralCeilingWitnessTests. For even N the half-filling (N/2,N/2) commutant equals the (1,1) one
+    /// (a ring sector degeneracy); ring-4 alone lands on the band edge (= 1), the lone N=4 anomaly.</summary>
     private static InspectableNode RingNode()
     {
         var rows = new List<IInspectable>();
@@ -317,13 +349,16 @@ public sealed class StructuralCeilingWitness : IInspectable
                 summary: $"{protect}; (1,1) commutant = {(c11?.ToString("0.#########", Inv) ?? "—")} " +
                          $"({c11Form} = {c11Closed.ToString("0.#########", Inv)}, {c11Match}){hf}"));
         }
-        return new InspectableNode("the ring C_N — band-edge-protected (g2 = 1, NO ceiling); the (1,1) commutant closed form found by sweep",
+        return new InspectableNode("the ring C_N, band-edge-protected on the XY network (g2 = 1, NO ceiling); the (1,1) commutant closed form found by sweep",
             summary: "fed live across N=4..7 over ALL (p,q) sectors (the never-fed Compute axis). UNLIKE complete " +
-                     "(4/N) and star (4/(N−1)), the ring has NO structural ceiling — g2 = 1 at every N (band edge " +
-                     "protects, like the chain). F122's 'breaks 4/(m+1)' value is the (1,1) commutant, which sits " +
+                     "(4/N) and star (4/(N−1)), the ring carries NO structural ceiling: g2 = 1 at N=4..7 here, and " +
+                     "to N=11 for the (1,1) leg in ring_ceiling_commutant_sweep.py (band edge protects, like the " +
+                     "chain). Two fences: this is an XY statement (under isotropic Heisenberg the 4-cycle DOES " +
+                     "ceiling, at 2−2/√3), and it is a Q → ∞ statement (at finite Q the N=4 mode sits below the " +
+                     "floor by 1/(2Q²)). F122's 'breaks 4/(m+1)' value is the (1,1) commutant, which sits " +
                      "ABOVE the band edge with its own closed form 2(N−2)/N (even) / 2(N−1)/N (odd), both → 2. For " +
                      "even N the half-filling (N/2,N/2) commutant equals it (a ring sector degeneracy); ring-4 = 1 " +
-                     "co-occupies the band edge, the lone N=4 anomaly.",
+                     "lands on the band edge, the lone N=4 anomaly.",
             children: rows);
     }
 

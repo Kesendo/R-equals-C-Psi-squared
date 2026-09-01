@@ -14,13 +14,20 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>The mechanism (high-Q degenerate PT).</b> The decay rates are the eigenvalues of N_XY (diagonal
 /// in the coherence basis, entry hamming(a,b)) block-diagonalized by the ad_H = [H,·] eigenspaces. The band
 /// edge is the (0,1) sector where hamming ≡ 1, so N_XY = I and the rate is 2γ exactly at all Q (hence
-/// g2 ≤ 1 always). A structural ceiling (g2 < 1) is the darkest [H,A]=0 coherence in the LARGEST degenerate
-/// single-particle level. For K_N that level is the (N−1)-fold −J band (the S_N standard representation):
-/// g2 = 2(1 − λ₂) with λ₂ = (N−2)/N the second principal-angle overlap between the H-commutant and the
-/// population (diagonal) operators, giving 4/N. For the star it is the (N−2)-fold 0-eigenvalue leaf manifold,
-/// giving 4/(N−1). The N=4 outlier of K_4 and the ring is the (2,2) HALF-FILLING two-excitation sector (the
+/// g2 ≤ 1 always). A structural ceiling (g2 &lt; 1) is the darkest [H,A]=0 coherence of the sector. For K_N,
+/// N_XY is S_N-equivariant and the (1,1) commutant carries V ⊗ V* MULTIPLICITY-FREE, so by Schur it is a
+/// SCALAR on each isotypic piece: trivial → 2/N, STANDARD → 4/N, the remaining two → 2. The minimiser is
+/// therefore the S_N standard representation with multiplicity exactly N−1 (gated live in
+/// StructuralCeilingWitness). Careful: the commutant is End(V) ⊕ span{J}, ONE dimension more than the −J
+/// band's own End(V); read as "the coherences in the −J level" ALONE it would give 2/N, and that extra
+/// dimension is what turns the trivial mode into the exact zero mode and a 2, leaving 4/N as the minimum.
+/// Equivalently g2 = 2(1 − λ₂) with λ₂ = (N−2)/N the second SQUARED principal-angle overlap (a cos²θ, the
+/// eigenvalue of the projected diagonal) between the H-commutant and the population (diagonal) operators.
+/// For the star the same structure sits on the (N−2)-fold 0-eigenvalue leaf manifold, giving 4/(N−1) from
+/// N ≥ 4 on (at N = 3 the form does not hold: the value is 1, not 2). The N=4 outlier of K_4 and the ring is the (2,2) HALF-FILLING two-excitation sector (the
 /// 4/N ladder reaches 1 at N=4, vacating the sub-floor region): K_4 = 2 − 2/√3 dips below the floor, ring-4
-/// = 1 co-occupies it, so the ring gets no ceiling out of N=4 either. Not a universal 4/(m+1) law — the ring
+/// = 1 lands on it, so the ring gets no ceiling out of N=4 either, in the Q→∞ limit (at finite Q that
+/// mode sits below the floor as 1 − 1/(2Q²), the marginal law star-5 obeys with coefficient 1). Not a universal 4/(m+1) law — the ring
 /// holds m=2 at every N while its (1,1) commutant moves, 2(N−2)/N (even) / 2(N−1)/N (odd), never below 1.</para>
 ///
 /// <para>Map note (the 4 here is NOT the discriminant four — a see-cref, not a typed edge): the 4 in 4/N is
@@ -46,11 +53,20 @@ public sealed class StructuralCeilingClaim : Claim
     /// g2 = ⟨n_XY⟩ of that mode. The ceiling is its darkest commutant value. Cited, not re-derived.</summary>
     public AbsorptionTheoremClaim Absorption { get; }
 
-    /// <summary>g2(K_N) = 4/N for the complete graph (N≥5; the (1,1) S_N-standard-rep commutant).</summary>
-    public static double CompleteCeiling(int n) => 4.0 / n;
+    /// <summary>g2(K_N) = 4/N for the complete graph (N≥5; the (1,1) S_N-standard-rep commutant). Guarded:
+    /// below N=5 the form is not the ceiling. At N=4 it returns 1, the band edge, and the actual K_4 ceiling
+    /// is <see cref="K4Ceiling"/> out of the (2,2) sector, so an unguarded call contradicted this class.</summary>
+    public static double CompleteCeiling(int n) => n >= 5
+        ? 4.0 / n
+        : throw new ArgumentOutOfRangeException(nameof(n), n,
+            "CompleteCeiling is the ceiling only for N>=5; at N=4 use K4Ceiling (the (2,2) half-filling sector).");
 
-    /// <summary>g2(star_N) = 4/(N−1) for the star K_{1,N−1} (N≥6; the (1,1) leaf-manifold commutant).</summary>
-    public static double StarCeiling(int n) => 4.0 / (n - 1);
+    /// <summary>g2(star_N) = 4/(N−1) for the star K_{1,N−1}. The FORM holds from N≥4; it is a ceiling
+    /// (below the band edge) only from N≥6, and at N=3 the form fails outright (the value is 1, not 2).</summary>
+    public static double StarCeiling(int n) => n >= 4
+        ? 4.0 / (n - 1)
+        : throw new ArgumentOutOfRangeException(nameof(n), n,
+            "StarCeiling holds from N>=4; at N=3 the leaf manifold is one-dimensional and the form fails.");
 
     /// <summary>g2(K_4) = 2 − 2/√3 ≈ 0.845299, the N=4 outlier in the (2,2) half-filling sector.</summary>
     public static double K4Ceiling => 2.0 - 2.0 / Math.Sqrt(3.0);
@@ -58,11 +74,15 @@ public sealed class StructuralCeilingClaim : Claim
     public StructuralCeilingClaim(AbsorptionTheoremClaim absorption)
         : base("Structural ceiling closed forms: the high-Q gap rate g2 = strict_gap/2γ of an XY network " +
                "under UNIFORM Z-dephasing (the word its own docstring carries and this string had dropped; " +
-               "g2 is a ratio to a single γ and has no profile reading until a denominator convention is named). g2(K_N)=4/N (N≥5), g2(star_N)=4/(N−1) (N≥6), g2(K_4)=2−2/√3; chain and ring " +
-               "never ceiling (g2=1, band edge protects). Derived: the slowest mode is the darkest [H,A]=0 coherence " +
-               "in the largest degenerate single-particle level (band edge n_XY=1 is the (0,1) floor, g2≤1). " +
-               "Complete (1,1) = S_N standard rep, g2=2(1−λ₂), λ₂=(N−2)/N; star (1,1) = the (N−2)-fold leaf " +
-               "manifold. The N=4 outlier (K_4 and ring-4) is the (2,2) half-filling sector: it ceilings K_4 " +
+               "g2 is a ratio to a single γ and has no profile reading until a denominator convention is named). g2(K_N)=4/N (N≥5), g2(star_N)=4/(N−1) (N≥6), g2(K_4)=2−2/√3; the chain never " +
+               "ceilings and, ON THE XY NETWORK AND IN THE Q→∞ LIMIT, neither does the ring (g2=1, band edge " +
+               "protects). Both fences are load-bearing and this string used to drop them: under isotropic " +
+               "Heisenberg the 4-cycle DOES ceiling (the ExtraChildren node below, which this sentence " +
+               "contradicted), and at finite Q the ring-4 mode sits below the floor by 1/(2Q²). Derived: the " +
+               "slowest mode is the darkest [H,A]=0 coherence of the sector (band edge n_XY=1 is the (0,1) floor, " +
+               "g2≤1). Complete (1,1) = Schur on the multiplicity-free V⊗V*, minimiser the S_N standard rep with " +
+               "multiplicity N−1, g2=2(1−λ₂), λ₂=(N−2)/N the second SQUARED principal-angle overlap; star (1,1) = " +
+               "the (N−2)-fold leaf manifold. The N=4 outlier (K_4 and ring-4) is the (2,2) half-filling sector: it ceilings K_4 " +
                "(2−2/√3) and only co-occupies the floor on the ring. NOT a universal 4/(m+1) law (the ring holds " +
                "m=2 at every N while its (1,1) commutant moves, 2(N−2)/N even / 2(N−1)/N odd, never below 1).",
                Tier.Tier1Derived,
@@ -93,7 +113,8 @@ public sealed class StructuralCeilingClaim : Claim
                          "computation with N→N−1. star_6,7,8 = 4/5, 4/6, 4/7. Corrects the 'constant 0.80' reading.");
             yield return new InspectableNode("the N=4 outlier: the (2,2) half-filling sector",
                 summary: "the 4/N ladder hits 1 at N=4, so the ceiling moves to the (2,2) two-excitation sector — " +
-                         "the same sector special for ring-4. K_4 = 2 − 2/√3 (below the floor); ring-4 = 1 (co-occupied).");
+                         "the same sector special for ring-4. K_4 = 2 − 2/√3 (below the floor); ring-4 = 1 " +
+                         "(landing ON the floor in the Q→∞ limit; below it by 1/(2Q²) at any finite Q).");
             yield return new InspectableNode("the band edge floor (why g2 ≤ 1)",
                 summary: "the (0,1) sector has uniform hamming=1, so N_XY = I and, AT UNIFORM γ, L = L_H − 2γ·I there " +
                          "exactly: a band-edge mode sits at g2=1 for every graph and all Q. A ceiling is a darker " +
@@ -108,10 +129,14 @@ public sealed class StructuralCeilingClaim : Claim
                 summary: "the degeneracy m gives the intuition (more edges → darker), but the value depends on the " +
                          "manifold's embedding: the ring holds m=2 at every N while its (1,1) commutant MOVES, " +
                          "2(N−2)/N (even) / 2(N−1)/N (odd), always ≥ 1 and = 1 only at N=4. So on the XY network the " +
-                         "ring carries no ceiling at all (band-edge-protected like the chain). The XY hypothesis " +
+                         "ring carries no ceiling at all (band-edge-protected like the chain), in the Q→∞ limit: " +
+                         "at finite Q the N=4 mode sits below the floor by 1/(2Q²), the same object as the " +
+                         "star-5 marginal case at 1/Q². The XY hypothesis " +
                          "is load-bearing here and not decoration: under isotropic Heisenberg the 4-cycle DOES " +
-                         "ceiling, measured at g2 = 0.8452993 = 2 - 2/sqrt(3), the K_4 value, with N = 5 and 6 " +
-                         "still at 1. Per-family forms are real, and so is the per-MODEL split.");
+                         "ceiling at the K_4 value, MEASURED 0.8452993 at Q=1000 and 0.8452995 at Q=10^4 against " +
+                         "the closed form 2 − 2/√3 = 0.84529946 (the gap is the O(1/Q²) truncation, so the " +
+                         "measurement is not the closed form and this string used to write '=' between them), " +
+                         "with N = 5 and 6 still at 1. Per-family forms are real, and so is the per-MODEL split.");
             yield return Absorption;   // typed parent edge (Tier1Derived)
         }
     }

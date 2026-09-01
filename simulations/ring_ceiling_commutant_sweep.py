@@ -4,6 +4,16 @@ C# (inspect --root ceiling, the new RingNode) just reported, over ALL (p,q) sect
   g2(ring, N) = 1 for N=4..7  -> the ring has NO structural ceiling, the band edge protects it
   (1,1) commutant: ring-4=1, ring-5=1.6, ring-6=1.3333, ring-7=1.714286
 
+Two fences on that sentence, both load-bearing and both dropped when it travelled (see
+topology_ceiling_rep_derivation.py STAGE 4 and PROOF_STRUCTURAL_CEILING section 4):
+  MODEL. It is an XY statement. The model built below is XY only (0.5*J*(XX+YY), no ZZ), and under
+    isotropic Heisenberg the SAME 4-cycle does ceiling, at the K_4 value 2-2/sqrt(3) = 0.8452995
+    (measured 0.8452993 at Q=1000); Heisenberg rings at N=5 and 6 stay at 1.
+  LIMIT. It is a Q -> infinity statement. The values here are J-independent because they are the
+    high-Q limit; at any FINITE Q the ring-4 (2,2) mode sits BELOW the floor, as g2 = 1 - 1/(2Q^2),
+    the same marginal law the star obeys at N=5 with coefficient 1. So "co-occupies the floor
+    rather than undercutting it" describes the limit, not any run.
+
 This script (1) cross-checks that C# port against the banked numpy machine for N=4..7, then
 (2) extends the (1,1) commutant to N=11 to test the conjectured closed forms
        even N: 2(N-2)/N    odd N: 2(N-1)/N
@@ -145,7 +155,10 @@ for N in (4, 6, 8):
     rel = "= 1 (co-occupy)" if (comm is not None and abs(comm - 1) < 1e-6) else \
           ("< 1 (CEILING!)" if (comm is not None and comm < 1) else "> 1 (above)")
     print(f"{N:>2} {str((h, h)):>10} {hq:>11.6f} {cs:>11} {rel:>16}")
-print("(If half-filling commutant = 1 for all even N, the ring 'seam' co-occupies the band edge, it does "
-      "not undercut it -> the ring stays g2=1, ceiling-free; the 'overtake' is a finite-Q / Im-side effect.)")
+print("(If half-filling commutant = 1 for all even N, the ring seam LANDS on the band edge in the "
+      "Q -> infinity limit rather than undercutting it, so the ring stays g2=1 and ceiling-free THERE. "
+      "At finite Q it is not only an Im-side effect: the ring-4 (2,2) mode sits BELOW the floor on "
+      "the Re side too, as g2 = 1 - 1/(2Q^2), the same marginal law star-5 obeys with coefficient 1 "
+      "(topology_ceiling_rep_derivation.py STAGE 4). And the whole sentence is XY only.)")
 
 print("\nDONE.")
