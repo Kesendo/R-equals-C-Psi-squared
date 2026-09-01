@@ -1464,9 +1464,9 @@ if (args.Length > 0 && args[0] == "walk")
 // Built 2026-08-31 beside experiments/THE_CRACKED_BELL.md: crack the wrap bond to J' = J(1-delta) and
 // every m <-> N-m pair splits by the same 4*delta*J/N (the crack is flat in mode space). A launched
 // traveling wave fully reverses at T_rev ~ pi*N/(4*delta*J): the walk-time step's discarded O(delta)
-// reflection, resonantly accumulated. On this (1,1) page the watching DRESSES the clock (the zero
+// reflection, resonantly accumulated. On this (1,1) block the watching DRESSES the clock (the zero
 // crossing advances; the dephasing-free diagonal feeds the current back over the naive envelope);
-// the (0,1) page of the same crack keeps the clock exactly gamma-free.
+// the (0,1) block of the same crack keeps its zero crossings exactly gamma-free.
 if (args.Length > 0 && args[0] == "warble")
 {
     int bn = args.Length > 1 ? int.Parse(args[1]) : 8;
@@ -1498,7 +1498,7 @@ if (args.Length > 0 && args[0] == "warble")
     for (int k = 0; k < bctl.Length; k++) bdrift = Math.Max(bdrift, Math.Abs(bctl[k] / bctl[0] - 1.0));
     Console.WriteLine($"  control delta=0: max |R-1| = {bdrift:0.0e+0} -- no crack, no warble.");
     Console.WriteLine("  every pair splits by the same 4*delta*J/N: the crack is flat in mode space, every mode hears it.");
-    Console.WriteLine("  the clock here is gamma-dressed (this is the (1,1) page; the (0,1) page reads the same crack gamma-free):");
+    Console.WriteLine("  the clock here is gamma-dressed (this is the (1,1) block; on the (0,1) block the zeros of the same crack are gamma-free):");
     Console.WriteLine("  the slow clock gives the watching time to dress it -- the fast walk-time step never did.");
     return;
 }

@@ -13,8 +13,9 @@ namespace MirrorWorldTests;
 // gamma=0.01: T_zero=19.347, depth=-0.2752; gamma=0.05: T_zero=16.477. On THIS block the clock is
 // gamma-DRESSED (the zero crossing advances) and the reversal outlives the naive scalar model
 // e^(-4*gamma*t)*R_{gamma=0}(t) at its own best point (deepest-R ratio 1.251 at gamma=0.01, 3.84 at
-// 0.05): the diagonal pays no dephasing and feeds the current back. The (0,1) page of the same crack
-// is exactly gamma-free; which page is read decides what the watching does to the clock.
+// 0.05): the diagonal pays no dephasing and feeds the current back. The (0,1) block of the same crack
+// is exactly gamma-free; what decides is whether the dissipator on the block read is a SCALAR,
+// and then only for the reads whose times are zeros.
 public class WarbleTests
 {
     static readonly World W = new();
@@ -26,7 +27,7 @@ public class WarbleTests
 
     // gamma = 0: the wave comes back whole. Committed: depth -0.999949 at T_rev = 40.6861. The first
     // order pi*N/(4*delta*J) is 41.888, so this reads -2.87% against it; against the EXACT pair split
-    // (pi/Delta_E = 40.5932) it reads +0.23%, the (1,1) page's own O(delta^2) hand at delta = 0.15.
+    // (pi/Delta_E = 40.5932) it reads +0.23%, the (1,1) block's own O(delta^2) hand at delta = 0.15.
     // T_zero = 20.295.
     [Fact]
     public void The_Crack_Reverses_The_Wave_Fully()
@@ -71,7 +72,7 @@ public class WarbleTests
 
     // the crack is flat in mode space at first order, and the ratio the two clocks actually keep is
     // the EXACT split's, Split_1/Split_2 = 0.971754 off the quantization curve (THE_CRACKED_BELL
-    // section E, gate E6b), the rest being this page's own O(delta^2) crossing deviation.
+    // section E, gate E6b), the rest being this block's own O(delta^2) crossing deviation.
     // Committed (N=12, delta=0.1, gamma=0): T_zero 46.806 (m=1) vs 45.425 (m=2), ratio 0.9705.
     [Fact]
     public void Every_Mode_Hears_The_Same_Crack()

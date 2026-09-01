@@ -7,8 +7,8 @@ single-excitation block H_se = J*A (A = ring adjacency), J = 1 throughout. This 
 NOT the D10/W1Dispersion book (isotropic Heisenberg, Laplacian) and not a seat/rate
 detuning (the blind-seat arc's open item is a different object).
 
-Two pages of one crack:
-  The (0,1) page (vacuum coherence |vac><phi|, STAGES A-C): the dissipator is the
+Two blocks of one crack:
+  The (0,1) block (vacuum coherence |vac><phi|, STAGES A-C): the dissipator is the
   scalar -2*gamma (Absorption Theorem), so phi(t) = e^(-2*gamma*t) e^(-i*H_se*t) phi(0)
   EXACTLY, and the clock is gamma-free in value. Three first-order laws, derived by
   degenerate perturbation theory and gated against exact eigendecomposition:
@@ -24,21 +24,23 @@ Two pages of one crack:
         e^(-2*gamma*T_rev) = exp(-pi*N/(2*Q*delta)), Q = J/gamma -- exact in the
         gamma-factorization, exponent accurate to O(delta) relative. Stage C first
         PROVES the two books from below on the full 4^N Lindbladian of the cracked
-        ring at N=5 (the (0,1) page pays exactly -2*gamma, entry-wise; the (1,1)
-        page exactly -4*gamma off-diagonal, 0 diagonal), then reads the wall end to
+        ring at N=5 (the (0,1) block pays exactly -2*gamma, entry-wise; the (1,1)
+        block exactly -4*gamma off-diagonal, 0 diagonal), then reads the wall end to
         end with the rate taken OFF the generator (C2, delta = 0.2..0.05, a factor 4).
         The exact floor-set observable of PROOF_RING_GAP_DOMINANCE sees delta = 1e-4;
         there the REVERSAL read is exp-blind (10^-1364 at N=4, Q=20) and the early-time
         AMPLITUDE read of the beat deficit, e^(-2 gamma t)|sin(Delta_E t/2)| peaking at
         t = 1/(2 gamma), is 1.8e-4 and LINEAR in delta: 1.7 decades under a 1% bar. The
         modes the floor set actually loses are elsewhere, and C3 asks THEM instead.
-  The (1,1) page (single-excitation density, Haken-Strobl, STAGE D -- the block
+  The (1,1) block (single-excitation density, Haken-Strobl, STAGE D -- the block
   MirrorWorld's Cone runs, run mode `warble N [delta]`, pinned by WarbleTests):
   dephasing is NOT scalar here (off-diagonals pay -4*gamma, the diagonal pays
   nothing), and the same crack's clock is gamma-DRESSED: the circulation's zero
   crossing advances under the watching, and the deepest reversal outlives the naive
   scalar model e^(-4*gamma*t)*R_0(t) at its own best point (the dephasing-free
-  diagonal feeds the current back). Which page is read decides what the watching
+  diagonal feeds the current back). What decides is not which block is read but whether
+  the dissipator on it is a SCALAR, and then only for the reads whose times are zeros:
+  the (0,1) block's own beat deficit peaks at t = 1/(2*gamma), a time gamma sets (C2c).
   does to the clock; the fast walk-time front never faced this.
   STAGE E: the SPLIT does not have to be read perturbatively. The whole cracked-ring
   spectrum is the zero set of ONE function of k, exactly and at every delta,
@@ -305,8 +307,8 @@ def full_liouvillian(n_, delta_, gamma_):
     return h_, L_ + D_, D_
 
 
-# C1: both books, entry-wise. The closed forms rest on the (0,1) page paying exactly
-# the scalar -2*gamma (Absorption Theorem) and the Warble's (1,1) page paying exactly
+# C1: both books, entry-wise. The closed forms rest on the (0,1) block paying exactly
+# the scalar -2*gamma (Absorption Theorem) and the Warble's (1,1) block paying exactly
 # -4*gamma off-diagonal / 0 diagonal (Haken-Strobl); a wrong rate book (-gamma, -3*gamma)
 # passes every spectral gate above, so it is asserted here on the full generator.
 nC, dC, gC = 5, 0.15, 0.05
@@ -346,7 +348,7 @@ for a in [0, 3]:
     O = np.zeros((dimC, dimC), dtype=complex)
     O[site_idx[a], site_idx[a]] = 1.0
     worst_hs = max(worst_hs, np.max(np.abs(DF @ O.reshape(-1))))
-gate("C1d the (1,1) page pays exactly -4*gamma off-diagonal, 0 diagonal (Haken-Strobl)",
+gate("C1d the (1,1) block pays exactly -4*gamma off-diagonal, 0 diagonal (Haken-Strobl)",
      worst_hs == 0.0, f"worst residual = {worst_hs:.1e}")
 
 # C1e: the circulation is not an observable of the (0,1) block AT ALL. The document's headline
@@ -467,8 +469,8 @@ for (n_, d_, q_) in [(4, 1e-4, 20), (4, 1e-3, 20), (4, 0.068, 20),
     print(f"{n_:>4} {d_:>8.0e} {q_:>6} {x:>28.1f}")
 
 # C3: the mode that ACTUALLY leaves the floor set. The two reads above both live on the (0,1)
-# page, and the floor-set exception the proof's Scope reports is not there: at N=4 the modes that
-# leave carry |Im| = 2.8267, while the (0,1) page's |Im| are only {0, 2}. So the question "is the
+# block, and the floor-set exception the proof's Scope reports is not there: at N=4 the modes that
+# leave carry |Im| = 2.8267, while the (0,1) block's |Im| are only {0, 2}. So the question "is the
 # floor set's hypersensitivity physical" has to be asked of the departing mode itself, and here it
 # is: its rate walks off -2*gamma QUADRATICALLY in delta, three decade ratios of 100, so at the
 # delta = 1e-4 crack that empties the set the rate has moved by four parts per million of gamma.
@@ -518,7 +520,7 @@ gate("C3 the floor set's exception is hypersensitive but its MODE is not: the de
 
 print()
 print("=" * 78)
-print("STAGE D: the (1,1) page (Haken-Strobl, the Cone's block): the gamma-DRESSED clock")
+print("STAGE D: the (1,1) block (Haken-Strobl, the Cone's block): the gamma-DRESSED clock")
 print("=" * 78)
 
 
@@ -755,7 +757,7 @@ gate("D3b the crack, and only the crack, plants the 2m-harmonic in the populatio
 
 # D5 the clock's m-dependence at N=12. STAGE E gives the split's exact m-dependence, so the ratio
 # of the two clocks is not free: T_zero = pi/(2*Split) makes it Split_1/Split_2, and all the (1,1)
-# page adds on top is its own O(delta^2) crossing envelope. That exponent is what is gated, decade
+# block adds on top is its own O(delta^2) crossing envelope. That exponent is what is gated, decade
 # bin by bin and worst case INSIDE each bin, never a single sample, for D1b's reason on the same
 # object: the deviation oscillates in phase as delta moves. The bins are factor-2 windows placed
 # across the range, so what the flatness spans is 2.5 decades of delta, not five of them. The committed 0.9705 is then the
@@ -1258,7 +1260,7 @@ gate("E5d STAGE A's REASON is exact -- the plane wave's flat weight gives "
      f"max/min - 1 = {e5mat:.1e}; max |value - 2 delta J/N| = {e5val:.1e}")
 
 # E6 the pin, from the law alone. STAGE D5 pins T_zero(m=2)/T_zero(m=1) = 0.9705 at N=12, delta=0.1
-# as a MEASURED constant off a propagated (1,1)-page time series. Since T_zero = pi/(2*Split), the
+# as a MEASURED constant off a propagated (1,1)-block time series. Since T_zero = pi/(2*Split), the
 # exact law must produce it with no propagation and no time grid. The roots are taken off a full
 # scan of G, never off a window guessed from the first-order answer, and the run is checked against
 # eigvalsh at the same point so the "no matrix needed" claim is gated and not merely asserted.
@@ -1280,7 +1282,7 @@ gate("E6b and it reproduces D5's measured pin 0.9705 with nothing propagated",
      f"law {s1/s2:.6f} vs committed 0.9705, and vs the first-order law's 1.000000; T_zero "
      f"{tz_law[0]:.3f} / {tz_law[1]:.3f} vs measured 46.806 / 45.425, the "
      f"{abs(tz_law[0]-46.806)/46.806*100:.2f}% and {abs(tz_law[1]-45.425)/45.425*100:.2f}% left "
-     f"over being the (1,1) page's own O(delta^2) crossing deviation AT THIS delta, 0.232 and "
+     f"over being the (1,1) block's own O(delta^2) crossing deviation AT THIS delta, 0.232 and "
      f"0.104 in that book; the bin worst case is larger for m=1 (0.45), and D5a gates the "
      f"exponent rather than either number")
 
@@ -1360,12 +1362,13 @@ if FAIL:
     print(f"{len(FAIL)} GATE(S) FAILED:", *FAIL, sep="\n  ")
     raise SystemExit(1)
 print("ALL GATES PASS. One crack, three closed forms (4*delta*J/N spectral; pi*N/(4*delta*J)")
-print("and exp(-pi*N/(2*Q*delta)) on the (0,1) page), and the (1,1) page's gamma-dressed")
+print("and exp(-pi*N/(2*Q*delta)) on the (0,1) block), and the (1,1) block's gamma-dressed")
 print("clock (advanced zero crossing, diagonal feedback over the naive envelope). The exact")
 print("floor-set observable sees the delta = 1e-4 crack; there the reversal read is")
 print("exp-blind and even the amplitude read of the early beat deficit is 1.8e-4, under a")
-print("1% bar. Which page is read decides what the watching does to the clock, and on the")
-print("(1,1) page the two hands differ in POWER: peak ~0.22*delta, crossing ~0.21*delta^2.")
+print("1% bar. What decides is whether the dissipator on the block read is a SCALAR, and then")
+print("only for the reads whose times are zeros; on the")
+print("(1,1) block the two hands differ in POWER: peak ~0.22*delta, crossing ~0.21*delta^2.")
 print()
 print("And the crack is exactly solvable: one quantization curve carries the whole spectrum")
 print("at every delta, the SPLIT is its truncation, delta=1 is the open chain, the curve is")

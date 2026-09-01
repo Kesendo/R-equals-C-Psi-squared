@@ -12,11 +12,14 @@ namespace MirrorWorld;
 // reflection, resonantly accumulated by the closed ring until it is the whole signal.
 // The reading runs the Cone on Topology.Ring with the wrap bond cracked and reads the circulation
 // I(t) = sum_a Im rho[a, a+1 mod N] (the sign is the sense of travel; R(t) = I(t)/I(0)).
-// On THIS block (the (1,1) Haken-Strobl page) the clock is gamma-DRESSED: the zero crossing advances
+// On THIS block (the (1,1) Haken-Strobl one) the clock is gamma-DRESSED: the zero crossing advances
 // under the watching and the depth beats the naive e^(-4*gamma*t) envelope, because the diagonal pays
-// no dephasing and feeds the current back. The (0,1) page of the same crack keeps the clock exactly
-// gamma-free (there the dissipator is the scalar -2*gamma). Which page is read decides what the
-// watching does to the clock; the walk-time step never faced this because the front is fast.
+// no dephasing and feeds the current back. The (0,1) block of the same crack keeps the clock exactly
+// gamma-free (there the dissipator is the scalar -2*gamma). What decides is not which block is
+// read but whether the dissipator on it is a SCALAR, and then only for reads whose times are
+// ZEROS: the (0,1) block's own beat deficit peaks at t = 1/(2*gamma), a time gamma sets
+// entirely. Why the walk-time step's clock survives on THIS block is not settled; see
+// experiments/THE_CRACKED_BELL.md, which withdrew the timescale answer it first gave.
 public static class Warble
 {
     // the perfect ring's traveling wave, momentum index m: psi(j) = exp(2*pi*i*m*j/N)/sqrt(N).
