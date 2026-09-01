@@ -484,6 +484,41 @@ public static class Formulas
     public static int F157_BlindXY(int n, int seat) => Cyclotomy.Gcd(seat + 1, n + 1) - 1;
     public static bool F157_ParityForcedXY(int n, int seat) => n % 2 == 1 && seat % 2 == 1;
 
+    // F160 (T1): the cracked ring's exact quantization condition, and what the road costs. One bond of
+    // the XY ring (H_se = J*A, the adjacency book) detuned to u*J, u = J'/J: with E = 2J cos k, for u < 1
+    // the whole spectrum is the zero set on the OPEN interval (0, pi) of (at u = 1 the edge levels sit
+    // at k = 0 and, even N, k = pi; past u = 1 the departed levels ride the curve continued to complex k)
+    //   G(k) = (1 - u^2) sin(Nk) cos k + [(1 + u^2) cos(Nk) - 2u] sin k
+    //        = sin((N+1)k) - u^2 sin((N-1)k) - 2u sin k,
+    // multiplicities included, by det(2J cos k I - H) = J^N G(k)/sin k. The two ends of u are the two
+    // combs: u = 1 gives cos(Nk) = 1 (the ring, 2 pi m/N), u = 0 gives sin((N+1)k) = 0 (the open chain,
+    // pi m/(N+1), F2b); u is a boundary-condition parameter, not a topology knob. The PRIMITIVE is
+    // Crack's exact polynomial U_N(x/2) - u^2 U_{N-2}(x/2) - 2u met against the matrix over the integers;
+    // these are the closed faces. THE DEPARTURE COUNT (read past u = 1, the strengthened bond of
+    // COUPLING_DEFECT_WALK_TIME_STEP; mind the sign, Warble weakens with J(1-delta)): 0 at u <= 1, past
+    // u = 1 two at even N for every u, one at odd N until u = (N+1)/(N-1) and two beyond it (at the
+    // threshold the level sits ON the band edge, P(-2) = 0 exactly, and is not counted). THE SPLIT'S
+    // NEXT ORDER, delta = 1 - u: dE_m = (4 delta J/N) [1 + delta c_m + O(delta^2)] with
+    // c_m = 1/2 - 1/(N sin^2(2 pi m/N)), which changes sign at N sin^2 k_m = 2 (m = 1 crosses between
+    // N = 19 and 20, root 19.03). SCOPE: c_m is the delta -> 0 form; at finite delta the split's own next
+    // order has moved that zero (the split off the spectrum crosses between N = 14 and 15 at delta = 0.1)
+    // and the (1,1) block's zero-crossing reading sits elsewhere again (between 16 and 17 at the same
+    // delta), so this governs the split and never that reading. Gamma does not appear in G at all; the
+    // beat, its two zero-crossing readings and the gamma-dressing are Warble's.
+    public static double F160_Road(double k, int n, double u) => Crack.G(k, n, u);
+    public static int F160_Departures(int n, long uNum, long uDen)
+        => n < 3 ? throw new ArgumentOutOfRangeException(nameof(n), "a ring needs N >= 3")
+         : uDen <= 0 ? throw new ArgumentOutOfRangeException(nameof(uDen), "u = p/q needs q > 0, as the object requires")
+         : uNum < 0 ? throw new ArgumentOutOfRangeException(nameof(uNum), "u = p/q needs p >= 0, as the object requires")
+         : Crack.DepartureLaw(n, uNum, uDen);
+    public static double F160_OddThreshold(int n) { var (a, b) = Crack.OddThreshold(n); return (double)a / b; }   // throws at even N, as the object does
+    public static double F160_SplitCorrection(int n, int m)
+    {
+        if (m < 1 || 2 * m >= n) throw new ArgumentOutOfRangeException(nameof(m), "a paired mode has 1 <= m < N/2");
+        double s = Math.Sin(2.0 * Math.PI * m / n);
+        return 0.5 - 1.0 / (n * s * s);
+    }
+
     private static double H2(double x) => -XLog2(x) - XLog2(1.0 - x);
     private static double XLog2(double x) => x <= 0.0 ? 0.0 : x * Math.Log2(x);
 

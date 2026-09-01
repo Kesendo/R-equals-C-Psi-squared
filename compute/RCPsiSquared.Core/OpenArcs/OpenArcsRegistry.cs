@@ -8341,7 +8341,10 @@ public static class OpenArcsRegistry
                 "rather than a coincidence among cosines. So the sweep is not five tests, it is ONE " +
                 "break-input aimed at one object, and the prediction is that the comb family dissolves " +
                 "together. (1) RUN THE COMB TEST: take the cheapest comb law and detune the comb, solving " +
-                "rather than sampling. (2) TWO LAWS ARE HALF DONE and only the other half is open. F143's " +
+                "rather than sampling. (Since 2026-09-01 the SOLVED detuned comb exists: F160, the cracked " +
+                "ring's exact curve, u = J'/J on one bond interpolating the ring comb at u = 1 and this " +
+                "chain comb at u = 0; none of the five comb laws has been run on that road yet, so the item " +
+                "stands and now has its instrument.) (2) TWO LAWS ARE HALF DONE and only the other half is open. F143's " +
                 "disorder half is done ('the kernel, its identity as the R-odd sector and its dimension " +
                 "floor(N/2) survive disorder') while its LONGITUDINAL-FIELD half is not, its own fence " +
                 "naming the break ('a longitudinal field breaks K h K = -h outright'); F140's off-locus " +

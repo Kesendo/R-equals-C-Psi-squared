@@ -20,6 +20,9 @@ namespace MirrorWorld;
 // ZEROS: the (0,1) block's own beat deficit peaks at t = 1/(2*gamma), a time gamma sets
 // entirely. Why the walk-time step's clock survives on THIS block is not settled; see
 // experiments/THE_CRACKED_BELL.md, which withdrew the timescale answer it first gave.
+// The same crack SOLVED, with no propagation and no eigensolver, is Crack (registry F160, 2026-09-01):
+// the split this beat rides is the distance between two roots of one curve, and the 0.9705 the clock
+// keeps at N=12, delta=0.1 is that curve's 0.971754 seen through the (1,1) block's own O(delta^2) read.
 public static class Warble
 {
     // the perfect ring's traveling wave, momentum index m: psi(j) = exp(2*pi*i*m*j/N)/sqrt(N).

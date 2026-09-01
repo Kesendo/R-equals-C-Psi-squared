@@ -1503,6 +1503,127 @@ if (args.Length > 0 && args[0] == "warble")
     return;
 }
 
+// ---- run mode "crack": the ring's wrap bond detuned to u*J, SOLVED rather than sampled ----
+// Built 2026-09-01 beside experiments/THE_CRACKED_BELL.md section E (registry F160). Warble propagates
+// the crack and reads a beat; this one never propagates anything and never calls an eigensolver. The
+// whole spectrum is the zero set of one curve, and the curve is the characteristic polynomial
+// U_N(x/2) - u^2 U_{N-2}(x/2) - 2u met against the matrix over the INTEGERS. Its two ends are the two
+// combs the parent owns (u = 1 the ring's 2*pi*m/N, u = 0 the open chain's pi*m/(N+1), F2b); past u = 1
+// levels LEAVE the band, and how many is a law with a parity in it, read by Descartes' rule, no root.
+if (args.Length > 0 && args[0] == "crack")
+{
+    int kn = args.Length > 1 ? int.Parse(args[1], System.Globalization.CultureInfo.InvariantCulture) : 12;
+    long kp, kq;
+    if (args.Length > 2 && args[2].Contains('/'))
+    {   // an exact rational, p/q
+        var parts = args[2].Split('/');
+        kp = long.Parse(parts[0], System.Globalization.CultureInfo.InvariantCulture); kq = long.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
+    }
+    else
+    {   // a decimal, read to five places: u = 1.000001 is the perfect ring here and u = 1e-6 is the OPEN CHAIN (the
+        // other end of the road, a different graph); write 1000001/1000000 or 1/1000000 for those
+        double ku = args.Length > 2 ? double.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture) : 0.9;
+        kq = 100000;
+        if (!(ku >= 0) || ku * kq > 9e18) { Console.WriteLine($"u = {ku} is outside what the decimal path reads (0 <= u <= 9e13); write it as p/q"); return; }
+        kp = (long)Math.Round(ku * kq);
+    }
+    var kcomb = new Cyclotomy();
+    var kcrack = new Crack(kcomb, kn, kp, kq);
+    Console.WriteLine($"the crack: ring N={kn}, wrap bond detuned to u*J, u = {kcrack.UNum}/{kcrack.UDen} = {kcrack.U} (u<1 weakens, the crack; u>1 strengthens, the walk-time knob; a decimal u is read to five places, so 1.000001 is the ring and 1e-6 the open chain here, p/q is exact)");
+    Console.WriteLine("  source experiments/THE_CRACKED_BELL.md section E, registry F160; gate simulations/cracked_bell_gate.py stage E");
+    Console.WriteLine("  G(k) = (1-u^2) sin(Nk) cos k + [(1+u^2) cos(Nk) - 2u] sin k = sin((N+1)k) - u^2 sin((N-1)k) - 2u sin k;  E = 2J cos k");
+    Console.WriteLine("  det(x I - H) = U_N(x/2) - u^2 U_{N-2}(x/2) - 2u  (Chebyshev U, x = 2 cos k): the identity met EXACTLY, integer coefficients");
+    Console.WriteLine();
+    // (a) the identity, exactly, at this N (the exact route is N^4 loop iterations, N^3 big-integer products: run here to N = 40,
+    // CrackTests run it to N = 21; past that the modular route on the next line is the check)
+    if (kn <= 40)
+    {
+        var kres = kcrack.IdentityResidual();
+        Console.WriteLine($"  the identity at N={kn}: matrix route (Faddeev-LeVerrier over Z) minus Chebyshev route, {kn + 1} coefficients, max |residual| = {kres.Max(System.Numerics.BigInteger.Abs)}  (0 = exact)");
+    }
+    else
+        Console.WriteLine($"  the identity at N={kn}: the exact N^4-iteration route is not run past N = 40 here (CrackTests run it to N = 21); the modular route below is the check");
+    Console.WriteLine($"  mod two primes at N+1 points (the past-the-wall route): mismatches = {kcrack.IdentityMismatchesModTwoPrimes()}");
+    // (b) the levels off the curve, and the pairs; the READING can refuse (a scan too coarse for a near-double
+    // pair), and then says so while the counts stand
+    double[] klev;
+    try { klev = kcrack.Levels(); }
+    catch (InvalidOperationException ex)
+    {
+        Console.WriteLine($"  the reading is refused here: {ex.Message}");
+        Console.WriteLine($"  the counts stand: departures = {kcrack.Departures}, on the edge = {kcrack.EdgeLevels()}");
+        klev = Array.Empty<double>();
+    }
+    if (klev.Length > 0)
+    {
+        Console.WriteLine($"  levels off the curve (units of J), {klev.Length} of them, departures = {kcrack.Departures}, on the edge = {kcrack.EdgeLevels()}:");
+        Console.WriteLine("    " + string.Join(" ", klev.Select(e => e.ToString("0.000000").PadLeft(9))));
+    }
+    if (klev.Length > 0 && kcrack.UNum < kcrack.UDen)
+    {
+        double kdelta = 1.0 - kcrack.U;
+        Console.WriteLine($"  the pairs m <-> N-m, split read off the curve against the flat law 4*delta*J/N = {4 * kdelta / kn:0.000000} and its next order (F160 c_m)" + (kdelta > 0.2 ? " (c_m is the delta -> 0 form; at this delta it is out of scope and its column is omitted):" : ":"));
+        for (int m = 1; 2 * m < kn; m++)
+        {
+            double law = (4 * kdelta / kn) * (1 + kdelta * Formulas.F160_SplitCorrection(kn, m));
+            try
+            {
+                double s = kcrack.SplitOfPair(m);
+                Console.WriteLine(kdelta > 0.2
+                    ? $"    m={m,2}: split {s:0.000000}  flat {4 * kdelta / kn:0.000000}"
+                    : $"    m={m,2}: split {s:0.000000}  flat {4 * kdelta / kn:0.000000}  with c_m {law:0.000000}  (c_m = {Formulas.F160_SplitCorrection(kn, m):+0.0000;-0.0000})");
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine($"    m={m,2}: the crack is too deep for the pair reading (the two levels nearest E_m are not an isolated straddling pair); the levels above are still exact");
+            }
+        }
+    }
+    Console.WriteLine();
+    // (c) the two ends, as the parent's combs
+    Console.WriteLine("  the two ends of the road are the parent's combs (Cyclotomy.Own), evaluated:");
+    Console.WriteLine($"    u=1 ring  : {string.Join(" ", new Crack(kcomb, kn, 1).Levels().Select(e => e.ToString("0.0000").PadLeft(7)))}");
+    Console.WriteLine($"    u=0 chain : {string.Join(" ", new Crack(kcomb, kn, 0).Levels().Select(e => e.ToString("0.0000").PadLeft(7)))}  (F2b)");
+    Console.WriteLine();
+    // (d) the departure table, the parity law straddled at the odd threshold
+    Console.WriteLine("  DEPARTURES past u = 1 (Descartes on the exact polynomial, no root; this table and the past-the-wall rows");
+    Console.WriteLine("  below are fixed and do not follow the N given): even N sheds two at every u > 1; odd N");
+    Console.WriteLine("  sheds one until u = (N+1)/(N-1), where the second sits ON the edge (P(-2) = 0 exactly), and two beyond");
+    Console.WriteLine("  (a trailing e marks a level ON the bottom edge, P(-2) = 0: at u = 1 for even N, at the threshold for odd N):");
+    Console.WriteLine($"  {"N",4} {"u=1",5} {"1+1e-9",7} {"thr-",6} {"thr",6} {"thr+",6} {"u=4",5}   threshold (N+1)/(N-1)");
+    foreach (int n in new[] { 5, 6, 7, 8, 9, 12, 15, 25, 41 })
+    {
+        string Cell(long p, long q) { var c = new Crack(kcomb, n, p, q); var (_, b) = c.OnTheEdge(); return $"{c.Departures}{(b ? "e" : " ")}"; }
+        if (n % 2 == 1)
+        {
+            var (tn, td) = Crack.OddThreshold(n);
+            Console.WriteLine($"  {n,4} {Cell(1, 1),5} {Cell(1000000001, 1000000000),7} {Cell(1000 * tn - td, 1000 * td),6} {Cell(tn, td),6} {Cell(1000 * tn + td, 1000 * td),6} {Cell(4, 1),5}   {tn}/{td}");
+        }
+        else
+            Console.WriteLine($"  {n,4} {Cell(1, 1),5} {Cell(1000000001, 1000000000),7} {"-",6} {"-",6} {"-",6} {Cell(4, 1),5}   none: the prefactor (1-u) vanishes at u = 1");
+    }
+    Console.WriteLine();
+    // (e) past the wall
+    Console.WriteLine("  PAST THE WALL. The polynomial is degree N, never 4^N, and the identity is checked mod two primes at N+1");
+    Console.WriteLine("  points by a bordered elimination, so the count walks where the spectrum died at N = 8 (these rows build the");
+    Console.WriteLine("  degree-1001 integer polynomial, a few seconds, and do not follow the N given):");
+    foreach (int n in new[] { 50, 200, 1001 })
+    {
+        var c = new Crack(kcomb, n, 7, 5);
+        var c2 = new Crack(kcomb, n, 3, 4);
+        Console.WriteLine($"    N={n,5}: u=7/5 mismatches {c.IdentityMismatchesModTwoPrimes()}, departures {c.Departures} (law {c.LawCount});  u=3/4 mismatches {c2.IdentityMismatchesModTwoPrimes()}, departures {c2.Departures}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  WHAT THE TWO BUCKETS SAY. Its parent is the CYCLOTOMY, not the frame and not the Warble: u is a boundary");
+    Console.WriteLine("  condition and its two ends are exactly the two combs the Cyclotomy owns; this object owns the ROAD");
+    Console.WriteLine("  between them and neither end. Cyclotomy has no parent, so the frame does NOT arrive here: the first");
+    Console.WriteLine("  object whose inherited bucket is non-empty and has no x/y/z in it (Cyclotomy inherits nothing at all).");
+    Console.WriteLine("  No time is owned here either (the beat and its zero-crossing readings are Warble's; gamma is not in G).");
+    Console.WriteLine($"    own       (left) : {string.Join(", ", kcrack.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join("; ", kcrack.Inherited)}");
+    return;
+}
+
 const double gamma = 0.5;
 var world = new World();
 Console.WriteLine($"empty world (Z-dephasing, no Hamiltonian), gamma={gamma}");

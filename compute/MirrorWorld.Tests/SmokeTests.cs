@@ -731,6 +731,41 @@ public class SmokeTests
         Assert.Equal(4.0 * Math.PI * Math.PI, Formulas.F124_EndWeight(2000) * Math.Pow(2001, 3), 3);
     }
 
+    // --- F160: the cracked ring's exact quantization condition, the scalar faces of Crack's exact
+    // polynomial. The from-below cross-pin against the matrix lives in CrackTests (the integer
+    // identity, the Descartes count); here the faces are pinned against the object's own methods
+    // and against the committed numbers of THE_CRACKED_BELL section E. ---
+    [Fact]
+    public void F160_Crack_Faces_Match_The_Object_And_The_Committed_Rows()
+    {
+        var comb = new Cyclotomy();
+        // the road is Crack's curve, and its two ends vanish on the two combs. The model for the residual
+        // at a comb point is the argument reduction of the largest argument, (N+1)k <= (N+1) pi, a few ulp
+        // of it: 8 (N+1) pi (1+u^2) eps; measured 3e-14 at N = 12, m = 11, u = 0 against 7e-14
+        const double eps = 2.220446049250313e-16;
+        foreach (int n in new[] { 5, 12 })
+        {
+            for (int m = 1; m < n; m++) Assert.True(Math.Abs(Formulas.F160_Road(2.0 * Math.PI * m / n, n, 1.0)) <= 8 * (n + 1) * Math.PI * 2 * eps);
+            for (int m = 1; m <= n; m++) Assert.True(Math.Abs(Formulas.F160_Road(Math.PI * m / (n + 1), n, 0.0)) <= 8 * (n + 1) * Math.PI * eps);
+            // the face against the OTHER written form of the curve (F160_Road is Crack.G by definition, so
+            // Crack.G is not the judge); the two forms part by the argument reduction of sin((N+1)k), an
+            // error linear in N: |diff| <= 4 N (1+u^2) eps, the same model CrackTests gates as a law
+            for (int i = 1; i < 50; i++)
+                Assert.True(Math.Abs(Formulas.F160_Road(Math.PI * i / 50, n, 0.7) - Crack.GSecondForm(Math.PI * i / 50, n, 0.7)) <= 4.0 * n * (1 + 0.49) * 2.220446049250313e-16);
+        }
+        // the departure count: the law face against the object's Descartes count, both sides of the odd threshold
+        foreach (int n in new[] { 8, 9, 12, 15 })
+            foreach (long p in new long[] { 5, 10, 11, 12, 13, 15, 20 })
+                Assert.Equal(new Crack(comb, n, p, 10).Departures, Formulas.F160_Departures(n, p, 10));
+        Assert.Equal(1.25, Formulas.F160_OddThreshold(9));                   // u = (N+1)/(N-1) = 10/8 = 5/4 reduced, delta = 2/8
+        Assert.Equal(1.5, Formulas.F160_OddThreshold(5));
+        // the split's next order: c_m = 1/2 - 1/(N sin^2 k_m), positive at the band centre, negative at the
+        // edge, the m = 1 zero between N = 19 and 20 (root 19.03)
+        Assert.InRange(Formulas.F160_SplitCorrection(19, 1), 7.8e-4, 8.0e-4);   // committed +7.9e-4
+        Assert.True(Formulas.F160_SplitCorrection(20, 1) < 0);
+        Assert.True(0.25 == Formulas.F160_SplitCorrection(4, 1));                // N = 4, m = 1: sin(pi/2) = 1 exactly, so exact
+    }
+
     // --- F157: the blind seat's uniform-chain counts, the scalar faces of BlindSeat's Krylov
     // rank. Literals are the committed run's rows (simulations/results/seat_cut_blindness);
     // the from-below cross-pin against the rank itself lives in BlindSeatTests, so here the

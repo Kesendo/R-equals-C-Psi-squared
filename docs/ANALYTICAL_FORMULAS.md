@@ -7874,7 +7874,10 @@ reused, the F53/F54 policy (never reuse a number), though the situation
 differs: those two were never assigned, while F156 was minted for the R₉₀
 band-edge clause and withdrawn the same hour, folded into F153, and tracked
 surfaces still name that withdrawal (`OpenArcsRegistry.cs`,
-`WHAT_THE_R90_LOCUS_BUYS.md`).*
+`WHAT_THE_R90_LOCUS_BUYS.md`). F159 is not in this file either: minted for a scale law on
+2026-08-29 and withdrawn before commit because what it claimed as new stood
+committed already, recorded in the arc `noise_origin_after_candidate_two`; it
+stays unassigned because that arc names the withdrawal.*
 
 ### F157. The blind seat: watching ONE seat j misses exactly blind(j) = N − dim Krylov(e_j) = deg gcd(χ(H), χ(H with row and column j struck)) single-excitation dimensions, the identity unconditional for real symmetric H and the physical reading adding 1 only at a seat whose own ray is H-invariant; on the uniform open chain it closes to (gcd(2j+1, N) − 1)/2 with the ZZ term and gcd(j+1, N+1) − 1 without, and on the XY book parity alone forces every odd seat of every odd chain blind at every zero-free profile; and those two uniform laws are the Δ = 1 and Δ = 0 SECTIONS of one continuous locus on the anisotropy axis, governed by the node modulus N_node = |N − 1 − 2j| (Tier 1: general form a theorem by Cramer 2026-08-24, uniform laws derived from the node bases; the span is a COMMUTANT, dim ker L_SE(j) = 1 + dim commutant(H restricted to the seat's KRYLOV COMPLEMENT), which equals 1 + blind(j) exactly when that restriction has a simple spectrum, proved 2026-08-25; registered 2026-08-24)
 
@@ -8386,6 +8389,273 @@ break printed beside the canonical row). Open: whether Lemma 3's Case 2
 recursion can be replaced by a direct argument; and whether F158 should become
 F138's Proof anchor, argued in the arc `f138_converse_failures` and deliberately
 not taken on the day F158 landed.
+
+---
+
+### F160. The cracked ring is exactly solvable: with one bond of the XY ring detuned to u·J, u = J′/J, and E = 2J·cos k, for u < 1 the whole single-excitation spectrum is the zero set on the open interval (0, π) of G(k) = (1 − u²)·sin(Nk)·cos k + [(1 + u²)·cos(Nk) − 2u]·sin k = sin((N+1)k) − u²·sin((N−1)k) − 2u·sin k, multiplicities included, because det(2J·cos k·I − H) = J^N·G(k)/sin k (at u = 1 the band-edge levels sit at k = 0 and, for even N, k = π, where G vanishes for free; past u = 1 the departed levels ride the same curve continued to complex k); u is a boundary-condition parameter whose two ends are the two combs (u = 1 the ring's 2πm/N, u = 0 the open chain's πm/(N+1), F2b), the condition is the walk-time step's transmission amplitude closed into a loop, Re[e^(−iNk)/t(k)] = 1, the flat split 4δJ/N, δ = 1 − u, gets its next order ΔE_m = (4δJ/N)[1 + δ(½ − 1/(N·sin²k_m)) + O(δ²)], and past u = 1 how many levels leave the band is a parity law (Tier 1: derived and gated 2026-08-31 in THE_CRACKED_BELL §The crack is exactly solvable and stated the same day in the sibling COUPLING_DEFECT_WALK_TIME_STEP, both committed 2026-09-01 in 20bc844; registered 2026-09-01 as an INDEX of those two pages, adding only one-line consequences: the polynomial clothing of the identity, its band-edge factor forms, the N = 4 Perron series and the signature-(1,1) interlacing bound)
+
+**Why a number, and why it says so.** This entry indexes; it does not
+discover. The law was derived and gated on 2026-08-31 and committed on
+2026-09-01 (20bc844) in the two pages named in the header,
+[The Cracked Bell](../experiments/THE_CRACKED_BELL.md) §The crack is exactly
+solvable (the section's title runs on: and the exact law is the chain's own
+scatterer, closed) and
+[Coupling Defect Walk-Time Step](../experiments/COUPLING_DEFECT_WALK_TIME_STEP.md),
+its paragraph *The same amplitude quantizes a ring with one deformed bond*;
+and the arcs ledger holds the reason the
+distinction has to be on this entry: F159 was minted for a scale law and
+withdrawn before commit because *"the sweep had reported 'no document states
+the law'; the true statement was 'no F-entry states it', and an indexing gap is
+not a result"* (arc `noise_origin_after_candidate_two` in the arcs
+ledger, `OpenArcsRegistry.cs`). Here the gap is an
+indexing gap and is treated as one. What the number buys is a citable name for
+the road between the two combs, which the MirrorWorld `Formulas.cs` needs to
+carry the closed faces, and a place for what this entry adds beyond the two
+pages, all of it one-line consequences: the polynomial form of the same
+identity, met EXACTLY over the integers rather than through an eigensolver,
+and the band-edge values that make the departure law a statement about two
+linear factors (both now also on the experiment's anchors), the N = 4 Perron
+series, and the interlacing bound that caps the departures at one per side. The
+exact-integer genre is not this entry's either: F157 built its locus
+polynomial over ℤ by Bareiss elimination and its counts by GF(p) ranks at two
+primes, and Seed and Divisor did before it; what is new is only the object
+those methods are run on.
+
+**The object.** XY ring, single-excitation block H = J·A (adjacency; this is
+the book of [PROOF_RING_GAP_DOMINANCE](proofs/PROOF_RING_GAP_DOMINANCE.md),
+NOT D10's Heisenberg Laplacian book, and not the (1,1) Haken-Strobl block
+`Cone` runs), every bond J except the wrap bond N−1 ↔ 0, which carries
+J′ = u·J. Two conventions live on one knob and both are committed: the crack
+WEAKENS, u = 1 − δ (`Warble.cs`, the bell); the walk-time step STRENGTHENS,
+u = 1 + δ (`WalkTime.cs`, the sibling). The condition in u is unambiguous and
+is the one to port; a ported δ flips which partner shifts up and changes the
+departure count below.
+
+    G(k) = (1 − u²)·sin(Nk)·cos k + [(1 + u²)·cos(Nk) − 2u]·sin k
+         = sin((N+1)k) − u²·sin((N−1)k) − 2u·sin k
+
+    det(2J·cos k·I − H) = J^N·G(k)/sin k
+
+    det(x·I − H) = U_N(x/2) − u²·U_{N−2}(x/2) − 2u        (J = 1; at x = 2cos k this is the line above)
+
+The third line is the second in polynomial clothing, sin((n+1)k)/sin k being
+the Chebyshev polynomial U_n(cos k), and U_n(x/2) is monic with integer
+coefficients. That is the form the typed object meets: the characteristic
+polynomial computed from the matrix by Faddeev-LeVerrier over the integers
+(the matrix scaled by the denominator of u, every division exact) against the
+Chebyshev recursion, coefficient for coefficient, residual 0 and compared as
+0; past a few dozen sites the same identity mod two primes at N+1 points by an
+O(N) bordered elimination. The experiment meets the second line through an
+eigensolver to 4.1e-13 relative (gate E1c: six N from 4 to 17, four δ from
+0.001 to 0.9, five k); its Newton-step metric, a different quantity (gate
+E1a, 1.8e-14 over 48 (N, δ) points), is recomputed off the gate in 60-digit
+arithmetic to 1.7e-59 worst over that grid. The polynomial route removes the
+eigensolver from the identity altogether, which is what makes a sign count of
+G on (0, π) a COMPLETE count: a sign count is blind to a root of even order,
+and what excludes one is the identity together with the N sign changes
+exhausting degree N (gate E1b, on the crack side u < 1).
+
+**The two ends, and what u is.** u = 1 gives cos(Nk) = 1, the perfect ring on
+k = 2πm/N (the polynomial is then 2T_N(x/2) − 2); u = 0 gives sin((N+1)k) = 0,
+the OPEN N-site chain on k = πm/(N+1), which is F2b's own remark about the two
+virtual sites i = −1 and i = N, read as the matching condition
+ψ_(−1) = u·ψ_(N−1), ψ_N = u·ψ_0 with u set to zero. So u interpolates the
+ring's modulus N and the chain's modulus N+1, the two turn-fraction families
+`Cyclotomy` owns, and it is a BOUNDARY CONDITION: for every u > 0 the graph is
+still a ring, only the endpoint is a chain. The word *topology* is spent twice
+in this repository (a discrete choice of graph, and the band invariant of
+[TOPOLOGICAL_EDGE_MODES](../experiments/TOPOLOGICAL_EDGE_MODES.md), a
+committed negative result), so this entry does not use it for u.
+
+**The join.** The sibling carries, since 2026-07-12, the exact transmission
+amplitude of one deformed bond on the infinite chain,
+t(k) = −2iu·sin k/(e^(−ik) − u²·e^(ik)). Its inverse is G's two coefficients
+over 2u,
+
+    1/t(k) = (1 + u²)/(2u) + i·(1 − u²)·cot k/(2u),
+
+    Re[ e^(−iNk)/t(k) ] − 1 = G(k)/(2u·sin k),
+
+so the ring's quantization condition is that amplitude with one round trip of
+phase: the ring is the chain's scatterer closed into a loop, and the upstream
+O(δ) reflection the sibling sets aside as *"not read as signal"* is on the ring
+the whole signal. Two chains meet here and stay apart: the infinite one whose
+leads define t, and the open N-site one the same equation reaches at u = 0.
+
+**The split, and its next order.** Near k_m = 2πm/N the curve truncates to a
+quadratic in x = N·(k − k_m), sin k_m·x² − 2δ·cos k_m·x − δ²·sin k_m = 0, whose
+roots x_± = δ(cos k_m ± 1)/sin k_m are the committed branch shifts
+−(2δJ/N)(cos θ_m ± 1), θ_m = k_m in the experiment's notation, of the flat split ΔE = 4δJ/N (every pair m ↔ N−m, a
+degenerate pair of levels and not `Pair.cs`'s coherence, by the same amount, because |ψ_m(j)|² = 1/N: a point defect is flat in mode space).
+The exact law adds the order the (1,1) block's zero-crossing reading (the
+experiment's *clock*, a word it fences there against F95's two-handed one)
+could only measure as 0.9705:
+
+    ΔE_m = (4δJ/N)·[ 1 + δ·c_m + O(δ²) ],    c_m = ½ − 1/(N·sin²k_m)
+
+gated as a law (the residual to c_m falls one decade per decade of δ, ratios
+9.58 to 10.71 over N = 6…300, both parities; a fixed bound would be the wrong
+shape because the residual's coefficient grows with N). c_m changes sign at
+N·sin²k_m = 2, positive at the band centre and negative at the edge; for m = 1
+the crossing is the root of N·sin²(2π/N) = 2, between N = 19 and 20 (19.03,
+whose large-N form is 2π² ≈ 19.7). **Scope of c_m:** it is the δ → 0 form. At
+a finite δ the split's own next order has already moved that zero (the split
+measured off the spectrum crosses between N = 14 and 15 at δ = 0.1), and the
+(1,1) block's zero-crossing sits elsewhere again (between N = 16 and 17 at
+δ = 0.1, the admixture into other pairs displacing it by two units of N), so
+c_m governs the split and never that reading. The pin that reading gave as 0.9705:
+reading each pair's two roots off the curve, with no matrix anywhere, gives
+ΔE_(m=1)/ΔE_(m=2) = 0.971754 at N = 12, δ = 0.1, and T_zero = π/(2ΔE_m) =
+46.697 (m = 1) and 45.378 (m = 2) against the propagated 46.806 and 45.425; the 0.23% and 0.10% left are the (1,1) block's
+own O(δ²) crossing deviation, not the law's error, and the first-order law
+would have said 1.000000.
+
+**The departures, written without a root.** (A *departure* here is a level
+leaving the band, not F86's departure from normality, which is a conditioning
+number of the same small matrices.) For u < 1 every level is strictly
+inside [−2J, 2J] (Perron-Frobenius: the weighted row sums are 2J except at
+the crack); at u = 1 the top level sits on the edge, and at even N the bottom
+one too. Past u = 1 the count is a parity law and
+not the obvious one. The experiment proves it from the band-bottom expansion at
+k = π − ε, −ε(1+u)[(1−u)N + (1+u)] for odd N and +ε(1−u)[(1+u)N + (1−u)] for
+even N: the odd BRACKET vanishes at u = (N+1)/(N−1), the even bracket is 2N at
+u = 1 and never vanishes for u > 0, and what vanishes there is the PREFACTOR
+(1 − u). The polynomial form says the same thing as two linear factors,
+because U_n(±1) = (±1)^n·(n+1):
+
+    P(+2) = −((N−1)u + (N+1))·(u − 1)                 every N
+    P(−2) = ((N−1)u − (N+1))·(u + 1)                  odd N
+    P(−2) = −((N−1)u + (N+1))·(u − 1)                 even N
+
+so the top level leaves at every u > 1 for every N; the bottom one leaves at
+every u > 1 for even N and only past u = (N+1)/(N−1) for odd N, where in the
+sibling's convention u = 1 + δ the threshold reads δ = 2/(N−1). AT the odd
+threshold the level sits ON the edge, P(−2) = 0 exactly, and is counted here
+as not departed (both pages say the second level leaves *at exactly* that
+value, which is the same fact read from the other side); the adopted object
+reports the edge separately rather than folding it into a tolerance. The count itself is read off the polynomial by Descartes'
+rule, which is EXACT for a real-rooted polynomial (H is real symmetric): the
+sign variations of P(x + 2) count the levels above the band, of P(−x − 2) the
+levels below. The update has signature (1,1), one positive and one negative
+eigenvalue, so by interlacing it moves at most one level past each edge, and
+the count never exceeds one per side. The first draft of this count forgot the
+parity of N (*"two levels out of the band at every δ > 0"*, true at even N
+only), was caught in review before commit, and is the CAUGHT_ERRORS entry of
+2026-08-31 (*the exactness landing round*) with the lesson *a count is a
+claim*.
+Here *band* means the single-excitation cosine band [−2J, 2J], and nothing
+else: the phrase *"modes leave the band in palindromic pairs"* in F3's
+generic-band note above is about the Liouvillian rate band, and the glossary's *Band* (a pre-registration's frozen constant) is a
+third sense; neither is this one.
+
+**What the sweep found, stores by name, at registration (2026-09-01, three
+survey agents).** `docs/ANALYTICAL_FORMULAS.md`: no owner of the equation;
+F2b is its u = 0 end in words; F122 names the ring's *"pairing k ↔ −k"* and
+never lifts it; F123 is the chain's single-bond defect on the Re side, first
+order; F126's renewal ladder runs on the cracked ring in the same experiment;
+F152/D10 are the other (0,1) book; F157 owns the exact-integer method (its
+locus polynomial over ℤ by Bareiss, its counts by GF(p) rank at two primes,
+and it writes the same U_n) and its Scope fences the blind seat's detuned-bond
+item as a different object; the highest number is F158, F156 and F159 are
+withdrawn and stay unassigned (the numbering note above F157 now says so for
+both), and F160 had zero hits in the tree. `docs/proofs/`: the
+uniform ring in PROOF_RING_GAP_DOMINANCE, meeting the crack only as its §Scope
+fence (its committed max |Im| over the floor modes at N = 4, δ = 1e-4, printed
+1.9999500 and glossed there as the detuned ρ, the quantity that proof's
+`TopologyBandEdgeClaim` carries, is
+the m = 0 Perron root of this curve, whose series at N = 4 is
+2 − δ/2 + δ²/8 − δ⁴/128 + …, 1.9999500012500 at that δ); the chain's own bond
+fence in PROOF_CHAIN_GAP_DOMINANCE §4.3 with the same O(δ^1.999) drift power
+on the other topology;
+[PROOF_HANDSHAKE_TRANSITION_INVARIANT](proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md)
+reading one bond's matrix element as a scattering amplitude (the proof F124
+stands on);
+[PROOF_F139_SEAM_IDENTITY](proofs/PROOF_F139_SEAM_IDENTITY.md) holding the
+same Chebyshev polynomial in the same 2cos normalization under the name S_m,
+so the polynomial clothing above is a primitive the proofs already own, and
+[GAMMA_FOLD_PAIR_OF_MIRRORS](../experiments/GAMMA_FOLD_PAIR_OF_MIRRORS.md)
+naming the open chain's spectrum's vanishing polynomial as that S_N, the
+u = 0 end of the road; [PROOF_DEPHASING_FRONT_RENEWAL](proofs/PROOF_DEPHASING_FRONT_RENEWAL.md)
+verified on the cracked ring since 2026-08-31 (its ladder meets the exact
+superoperator on this object's circulation), which is a proof standing ON the
+object and not about it; no proof page for this object, and none is made
+here. `experiments/`: the two owners in the header; THE_BLIND_SITE §5 holds the
+rank-one member of the same determinant family, det(λI − H + s·E_jj) =
+χ_H + s·χ_cut, the crack being the rank-two member; XY_FROZEN_BAND names the
+wrap bond as a pricing deformation that changes only a price; no null result
+touches the object. `OpenArcsRegistry.cs`: no cracked or warble-shaped arc; *road* is
+spent there nine times, all in F89's arc as *the road between the zeros*, a
+path sense this entry's road (a one-parameter family between two boundary
+conditions) shares rather than collides with; `the_gate_that_does_not_gate` names the sibling's walk-time corollary as
+untested, which this entry does not touch; `the_forced_and_the_met` queues *"RUN THE COMB TEST: take the cheapest comb
+law and detune the comb, solving rather than sampling"*, and the comb it names
+is exactly this curve's u = 0 end. This entry supplies the SOLVED, detuned comb
+that item asked for and does not close it: the item asks whether a comb LAW
+(F129, F89's resonance, F145/F146, F65's root, F144's exception) dissolves off
+the comb, and none of those has been run on this road. `fw.Confirmations`:
+nothing ring-shaped, nothing defect-shaped. `docs/GLOSSARY.md`: no entry for the object, none for *comb*, and *Band* in
+the pre-registration sense (fenced above); *impurity* is a free word in this
+repository and *Robin* is free as a boundary-condition word (every other hit
+is Lieb-Robinson), *secular* carries at least three other senses across
+sixteen tracked files and the experiment says *quantization condition* where
+it would bite. `docs/CAUGHT_ERRORS.md`, four entries of 2026-08-31: the
+exactness landing round (the parity repair above, and two instrument readings
+of the wrong power); the THE_CRACKED_BELL landing round, whose lesson is that
+the sweep record is claim-surface too; the PROOF_RING_GAP_DOMINANCE header
+round, on the header quantifier of the proof whose §Scope this entry cites
+(that paragraph itself dates from the XY ring pass of 2026-07-31); and, one clause of the
+entry on a caveat that outlived its gate, a theorem-exact value reached
+*through* an eigensolver and landing one ulp low, which is why the adopted
+object meets the identity over the integers.
+
+**Fences.** The algebra is standard tight-binding scattering, a rank-two
+update of the open chain and a one-cell transfer-matrix trace, fenced so on the
+experiment; what is ours is that the repository did not hold the equation for
+this object, that it identifies with the sibling's amplitude, and c_m. Past
+u = 1 the ring is this arc's own object: the sibling's runs are open chains
+with their own count (its N = 60, δ = 0.10 run has two levels outside the band, its N = 7
+anchor none). The XY adjacency book only; the Heisenberg Laplacian is a
+different curve. First order in δ for the beat and the visibility wall of the same experiment
+(forms 2 and 3 there), which this entry does not carry: the exact law is the
+split's, and γ does not appear in G at all. Uniform bonds off the crack. The
+knob's sign, above. Not the blind seat: THE_SEAT_THAT_CUTS's open item asks for
+a detuned bond under a seat cut, a different object. No hardware claim.
+
+**Proof:** none in `docs/proofs/`; the derivation is the matching condition on
+the experiment ([The Cracked Bell](../experiments/THE_CRACKED_BELL.md) §The crack is
+exactly solvable: the plane-wave ansatz across the cracked bond, the 2×2
+determinant, the band-bottom expansion) and the sibling's scattering
+derivation. Open: a `PROOF_` home.
+**Gate:** [`simulations/cracked_bell_gate.py`](../simulations/cracked_bell_gate.py)
+stage E (27 of the script's 70 PASS lines at run time, exit 0): every level on the curve (one
+Newton step moves an eigenvalue by at most 1.8e-14 over 48 (N, δ) points; the
+60-digit figures on the experiment are off the gate),
+exactly N sign changes, the determinant identity (4.1e-13), the two ends, the
+join (1.4e-14 and 7.9e-10), the c_m decade law, the 0.971754 pin, the road
+past u = 1 with 32 departed levels on the continued curve (7.9e-15 scaled),
+the band-bottom asymptote as an ε² law and the count at thirteen N; two
+controls, the wrong ring's u (Newton step 1.77e-1) and a round trip of N + 2
+(1.47).
+**Adopted:** `Crack` ([compute/MirrorWorld/Crack.cs](../compute/MirrorWorld/Crack.cs),
+built 2026-09-01, parent the `Cyclotomy` and not the frame: u's two ends are
+the two combs that object owns, so the crack owns the road and neither end,
+and, Cyclotomy having no parent, inherits the two combs and nothing else,
+the first object in that world whose inherited bucket is non-empty and has no
+frame in it (Cyclotomy inherits nothing at all); no time is owned there, the
+beat and its two zero-crossing readings stay `Warble`'s; the counts are exact
+at every rational u while the root READING has one stated limit: the departed level's distance from the band edge, E − 2 ∝ (u − 1)² just past u = 1, is read no better than the representability floor, two machine epsilons over E − 2 (~1e-9 to 1e-8 relative at u − 1 = 1e-6), and falls under one ulp of 2 below u − 1 ≈ 1e-8, where the reading refuses with a throw rather than returning 2.0; there is no upper limit on u, the continued curve being written in a grouped form with no cancellation (a first draft had e^κ against u²e^(−κ) and lost every digit near κ = ln u, a fact one test row certified as fine before the third review round caught it); run mode `crack N [u]`; 74 from-below
+`CrackTests` rows: the integer identity at twelve (N, u), the two
+ends as two different recursions met by the matrix, the identity mod two
+primes to N = 1001, the Descartes count against the law over N = 3…20 with the
+odd threshold met at the exact rational and P(−2) = 0 compared as zero, the
+Perron pin, the 0.971754 cross-dock with `WarbleTests`, the c_m decade law,
+a scan too coarse for a near-double pair throwing instead of undercounting, the
+pair reading refusing a crack too deep for its straddling-pair fence, and the
+departed level at u up to 1e10 judged by the exact polynomial's Newton step)
+with the four scalar faces `F160_Road`, `F160_Departures`,
+`F160_OddThreshold`, `F160_SplitCorrection` in `Formulas.cs`.
+**Typed:** not yet; no `Claim` in `RCPsiSquared.Core`, the `Crack` is
+MirrorWorld's and the main repo's typed layer still cites the experiment.
 
 ---
 
