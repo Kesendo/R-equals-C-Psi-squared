@@ -7876,7 +7876,7 @@ band-edge clause and withdrawn the same hour, folded into F153, and tracked
 surfaces still name that withdrawal (`OpenArcsRegistry.cs`,
 `WHAT_THE_R90_LOCUS_BUYS.md`).*
 
-### F157. The blind seat: watching ONE seat j misses exactly blind(j) = N − dim Krylov(e_j) = deg gcd(χ(H), χ(H with row and column j struck)) single-excitation dimensions, the identity unconditional for real symmetric H and the physical reading adding 1 only at a seat whose own ray is H-invariant; on the uniform open chain it closes to (gcd(2j+1, N) − 1)/2 with the ZZ term and gcd(j+1, N+1) − 1 without, and on the XY book parity alone forces every odd seat of every odd chain blind at every zero-free profile (Tier 1: general form a theorem by Cramer 2026-08-24, uniform laws derived from the node bases; the span is a COMMUTANT, dim ker L_SE(j) = 1 + dim commutant(H restricted to the seat's KRYLOV COMPLEMENT), which equals 1 + blind(j) exactly when that restriction has a simple spectrum, proved 2026-08-25; registered 2026-08-24)
+### F157. The blind seat: watching ONE seat j misses exactly blind(j) = N − dim Krylov(e_j) = deg gcd(χ(H), χ(H with row and column j struck)) single-excitation dimensions, the identity unconditional for real symmetric H and the physical reading adding 1 only at a seat whose own ray is H-invariant; on the uniform open chain it closes to (gcd(2j+1, N) − 1)/2 with the ZZ term and gcd(j+1, N+1) − 1 without, and on the XY book parity alone forces every odd seat of every odd chain blind at every zero-free profile; and those two uniform laws are the Δ = 1 and Δ = 0 SECTIONS of one continuous locus on the anisotropy axis, governed by the node modulus N_node = |N − 1 − 2j| (Tier 1: general form a theorem by Cramer 2026-08-24, uniform laws derived from the node bases; the span is a COMMUTANT, dim ker L_SE(j) = 1 + dim commutant(H restricted to the seat's KRYLOV COMPLEMENT), which equals 1 + blind(j) exactly when that restriction has a simple spectrum, proved 2026-08-25; registered 2026-08-24)
 
 Put the Z-dephasing on a single seat j of an N-site chain or graph (a "seat" is
 a site carrying the watching; e_j its unit vector, n_j its occupation projector,
@@ -7935,6 +7935,244 @@ reflection-parity reading it coincides at every seat of a prime chain, and the
 committed data lived at N = 5 and N = 11, both prime; the first case
 discriminating those two readings is N = 6, the first odd one N = 9.
 
+**Lemma J already runs at every Δ, and what was missing was the evaluation.**
+The blind count is `deg gcd(χ_L, χ_R)` for the two principal submatrices the
+seat leaves behind, which is (J4) of the Jacobi node lemma in
+[the span and node-lemma proof](proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md);
+and that proof's §(f) already records why the anisotropy cannot touch it: *"the
+ZZ term changes only the diagonal, which Lemma J never constrains."* So the
+mechanism was Δ-general from the day it was proved. And the evaluation is not
+untouched either. `compute/MirrorWorld/BlindSeat.cs` has carried the N = 9 seat 1
+factorisation `128·Δ(Δ−1)(Δ+1)(Δ²−3)` since 2026-08-30 and stops there; the arc
+`the_forced_and_the_met` in the **OpenArcs registry** and `docs/CAUGHT_ERRORS.md` carry
+that one and also the N = 11 seat 1 value √(2−√2). Those are evaluations at particular seats and not at the two
+committed anisotropies (of the values named, only √(2−√2) ≈ 0.765 lies strictly between
+Δ = 0 and Δ = 1; √3 ≈ 1.73 lies outside both, which is the point). What no surface carried is the **general form at
+every (N, j)**.
+
+**And what the sweep found nothing in, named because the rule asks for the empty stores too.**
+`docs/proofs/` holds no file carrying this locus: the mechanism's own proof, the span and
+node-lemma file, is Δ-general and says so in §(f), but it never evaluates the intersection as
+Δ moves. `hypotheses/`, `reflections/` and `recovered/` return nothing on a seat's anisotropy
+locus. `fw.Confirmations` and the C# `ConfirmationsRegistry` hold no hardware entry on seat
+blindness at any Δ (their two "blind" rows are an evolution-blind rung-1 null and a hardware
+washing result, neither about a watched seat). And `simulations/seat_cut_blindness.py`, which
+owns the two endpoint congruences exactly to N = 200, has no occurrence of Δ or "anisotropy"
+in its 2218 lines.
+
+On the uniform open chain the general form is this, and one integer carries it.
+
+Write **N_node = |N − 1 − 2j|**, the NODE MODULUS: the difference in size between the
+two pieces the seat cuts the chain into, equivalently the distance from the seat to its
+mirror seat m = N−1−j. (It carries its own name because the bare letter d is already
+spoken for here: `simulations/seat_cut_blindness.py`'s "Route 3, EXACT" block and
+[The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) write `d = gcd(j+1, N+1)`,
+where it is what the ANSWER is read off, blind = d−1, while this one is a PARAMETER the answer
+is computed from. At N = 9 seat 2
+that one is 1 and this one is 4.)
+Three cases, no fourth:
+
+- an **END seat** (j = 0 or N−1) is blind 0 at every Δ: one principal submatrix
+  is not there to share a root, and (J1) says no eigenvector vanishes at an end
+  anyway;
+- at **N_node = 0**, the reflection-fixed centre seat of an odd chain, the seat is
+  blind at every Δ, with count (N−1)/2;
+- at **N_node ≥ 1** the seat is blind exactly at
+  **Δ_k = sin((j+1)kπ/N_node) / sin(jkπ/N_node)**, over those k ∈ 1..N_node−1 whose denominator
+  does not vanish. A k with N_node | jk is a POLE and contributes no Δ; this is not a
+  rare edge case, and both worked examples below are in it (N = 9 seat 2 loses
+  k = 2, N = 11 seat 2 loses k = 3). The locus is EMPTY exactly when N_node | j, where
+  every k is a pole.
+
+**Case 3, derived, because it is the entry's own content and nothing else on the page
+carries it.** Both halves are the same object at different lengths, and that is the whole
+reason one integer governs. Write p = j and q = N−1−j for the two block sizes. On the
+uniform chain with H = Σ_b J_b (XX + YY + Δ·ZZ) the ZZ term puts Δ(N−5) on every interior
+site and Δ(N−3) on the two chain ends, so each half is a uniform Jacobi block, hop 2,
+diagonal Δ(N−5), carrying one extra 2Δ at its OUTER end, the end away from the cut.
+Subtract the common Δ(N−5) and write the eigenvalue as 4cos θ, four times the Chebyshev
+variable.
+
+The cut end is Dirichlet, the watched seat being gone, so the left block's solution is
+v_i = sin((p−i)θ), and its outer row reads 2Δ·v₀ + 2v₁ = 4cos θ·v₀. Substituting
+v₀ = sin(pθ), v₁ = sin((p−1)θ) and using 2cos θ·sin(pθ) = sin((p+1)θ) + sin((p−1)θ)
+collapses that row to
+
+    Δ = sin((p+1)θ) / sin(pθ),
+
+and the right block gives the same with q. A shared eigenvalue is a θ satisfying both, so
+sin((p+1)θ)·sin(qθ) = sin((q+1)θ)·sin(pθ). Product-to-sum turns each side into a
+difference of two cosines whose SECOND terms are identical, since p+1+q = q+1+p, and what
+survives is
+
+    cos((m+1)θ) = cos((1−m)θ),   m = p − q = 2j − N + 1.
+
+The minus branch gives 2θ ≡ 0, where both sines vanish and there is no eigenvector; the
+plus branch gives θ = kπ/|m|, and |m| is exactly N_node. Substituting back gives Δ_k. The
+range k = 1..N_node−1 is what is left once k = 0 and k = N_node are removed, where the two
+sines vanish together, and a k with N_node | jk is where the denominator alone vanishes,
+which is the pole. So the size |p − q| governs the node ANGLES; the Δ VALUES still need j
+itself, which is why the locus is not a function of N_node alone.
+
+**And the count is the number of k, not the number of distinct Δ.** Distinct k in
+1..N_node−1 give distinct θ_k in (0, π), hence distinct 4cos θ_k, hence distinct shared
+eigenvalues, so
+
+    blind(Δ) = #{k ∈ 1..N_node−1 : Δ_k = Δ},
+
+with multiplicity. That is load-bearing rather than bookkeeping. At N = 11 seat 2 the
+polynomial is 3Δ⁴ − 4Δ² and 0 is a DOUBLE root; the XY law needs gcd(3, 12) − 1 = 2 there,
+and it is k = 2 and k = 4 landing on the same Δ (both make sin(kπ/2) vanish while
+sin(kπ/3) does not). Counting distinct roots would give 1 and the law would fail. So the
+multiplicity of a root of P_j IS the blind count at that Δ.
+
+**The N_node = 0 half is not new here, and its Δ-independence was already written
+down.** [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) derives it
+from the reflection ("the two blocks equal up to the reversal that relabels one
+onto the other, so they share a characteristic polynomial"), and
+[The Blind Site](../experiments/THE_BLIND_SITE.md) gives the stronger reason and
+states the book-independence in as many words: any reflection-symmetric
+single-excitation H leaves the reflection-odd space invariant and every state
+there has ψ(f) = −ψ(f) = 0 at the fixed seat, an argument that *"names no
+eigenbasis, so it carries to XY unchanged"*. What this entry adds is only that
+"carries to XY" is really "carries along the whole continuous knob", and the
+COUNT: (N−1)/2 needs one step neither page takes, that blind counts DISTINCT
+shared roots and equals deg gcd only because χ_L is squarefree, which (J2) gives
+for an unreduced Jacobi matrix. So N_node = 0 saturates the two-halves ceiling
+min(j, N−1−j) rather than merely exceeding zero. And the split is not a
+retraction of the mirror reading: N_node = 0 IS the reflection condition 2j = N−1
+re-encoded as an integer, which is why `MirrorWorld` calls that seat
+mirror-forced, and why THE_SEAT_THAT_CUTS's *"symmetry is the crudest way to
+force agreement"* is the sentence this sharpens rather than replaces.
+
+**The two committed laws are two sections of this set, and both are provable for
+every N.** Setting Δ_k = 1 gives the node condition (2j+1)k ≡ N_node (mod 2·N_node), and
+Δ_k = 0 gives N_node | (j+1)k, both **over k ∈ 1..N_node−1**: the range is not decoration,
+since over a full residue system the first counts gcd(2j+1, N_node) = 2·blind + 1
+instead of blind. Then:
+
+- ZZ: count over a FULL residue system mod 2·N_node first, where the congruence has exactly
+  g = gcd(2j+1, 2·N_node) solutions. There k ↦ 2·N_node − k is an involution, and k = N_node
+  is a solution and its only fixed point, so the g−1 others pair off and (g−1)/2 of them land
+  in 1..N_node−1. (The fixed point itself is OUTSIDE that range, which is why the folding has
+  to be done in the full system and not in the range: the involution does not map 1..N_node−1
+  into itself.) Then g = gcd(2j+1, 2·N_node) = gcd(2j+1, N_node) = **gcd(2j+1, N)**;
+- XY: N_node | (j+1)k ⟺ (N_node/h) | k with h = gcd(j+1, N_node) = **gcd(j+1, N+1)**, giving
+  h−1 multiples in range, and the pole exclusion is automatic, since N_node dividing
+  both (j+1)k and jk would divide their difference k.
+
+Both gcd identities hold because N = 2j+1 ± N_node. So this is a derivation and not a
+sweep, and the machine check confirms it rather than establishing it: the committed
+gate runs both congruences against both gcd laws at **19602 interior non-centre
+seats, N = 3..200**, the witness's own ceiling, with 0 failures. Read that number for what
+it is, since its size is the misleading part: it compares two CLOSED FORMS that this page
+derives from the same premise, it computes no blindness anywhere, and it is silent at every
+Δ but the two endpoints. It is the arithmetic bookkeeping of the derivation above, not the
+evidence for the locus; what carries the locus is the second polynomial route and the field
+sweep, described under Scope. The endpoint congruences
+themselves are already owned exactly, both of them, over N = 2..200 in
+`simulations/seat_cut_blindness.py`'s "Route 3, EXACT" block (which is the exact
+INTEGER route; the float node count is its Route 2). The two forms above are those
+two with their modulus replaced by N_node: N → N_node on the ZZ side, and N+1 → N_node on the XY
+side, since Route 3's XY congruence runs mod N+1 over its mode index m ∈ 1..N (Route 3's m, not
+the mirror seat m = N−1−j written above: this entry uses the letter for both, and only the
+mirror seat is ever used in a formula here).
+
+**The class that is genuinely new is not between the endpoints.** Calling this an
+interpolation undersells and mis-describes it: there are seats blind at NEITHER
+committed endpoint whose locus is nonempty. At N = 9 seat 2, `(gcd(5,9)−1)/2 = 0`
+and `gcd(3,10)−1 = 0`, both laws call the seat sighted, and yet the locus is
+{±√2/2}, with the row at that Δ reading [0,0,1,0,4,0,1,0,0], counted by
+`BlindRowAtAlgebraic` as the multiplicity of 2Δ² − 1 in P_2 and cross-checked against an exact
+rank over the number field. (A trap for anyone grepping that row: the committed run output
+`simulations/results/seat_cut_blindness/seat_cut_blindness_run.txt` prints the same nine digits
+under the heading "isolated subchains", where they are the DELIBERATELY WRONG free-standing
+reading of the criterion at Δ = 1, not this row. Same digits, different object.) Blindness there is
+invisible to both books at once. That class is what makes the four worked rows
+below checkable at all. Nothing in those four rows was ever wrong; what the closed form caught
+was a wrong value in the HAND-LIST two other surfaces carried, because a form that generates the
+whole family makes a list of examples checkable for the first time (see
+[Caught Errors](CAUGHT_ERRORS.md), 2026-08-30, fourth entry). The nearest sibling in
+the repo is [The Spread Is A Resonance](../experiments/THE_SPREAD_IS_A_RESONANCE.md),
+which turns the same Δ knob on the same chain and reaches the same shape from the
+coherence-block side, and whose scope line is this one in advance: *"a collision
+condition is one equation in Δ, so further isolated resonant Δ off this grid are not
+excluded."*
+
+**Written without radicals.** With x = cos θ (the hop is 2J on every bond, so the
+single-excitation block is 2A + diagonal and the eigenvalue is **4**cos θ, four times
+the Chebyshev variable; the N = 9, Δ = 0 spectrum is exactly 4cos(kπ/10)) the nodes
+θ_k = kπ/N_node are exactly the roots of
+U_{N_node−1}, so the locus is the real root set of the INTEGER polynomial
+P_j(Δ) = Res_x(U_{N_node−1}(x), Δ·U_{j−1}(x) − U_j(x)), a pole node dropping the
+degree by one rather than breaking the construction. Four seats worked out from it,
+all primitive integer forms:
+
+| N, seat | P_j(Δ) | roots |
+|---|---|---|
+| 9, 1 | Δ⁵ − 4Δ³ + 3Δ | 0, ±1, ±√3 |
+| 9, 2 | 2Δ² − 1 | ±√2/2 |
+| 11, 1 | Δ⁷ − 6Δ⁵ + 10Δ³ − 4Δ | 0, ±√2, ±√(2±√2) |
+| 11, 2 | 3Δ⁴ − 4Δ² | 0 (double), ±2√3/3 |
+
+The √3 row reproduces the isotropic row [0,1,0,0,4,0,0,1,0] exactly. The four rows are
+an ILLUSTRATION and not the content: the content is P_j, which generates every (N, seat),
+and a row is checkable only because the polynomial generates it rather than collecting it.
+Live witness `inspect --root blindlocus` (`SeatBlindnessDeltaLocusWitness`), which builds
+P_j over ℤ by Bareiss elimination and interpolation.
+
+**Scope, and it is the part to read twice.** The uniform open chain only. The
+derivation is the two-halves phrasing and inherits its fence, needing a chain
+with no zero bond, which a uniform chain is. Two further limits are real. First,
+`N_node` is a statement about block SIZES, while
+[The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) records that with the
+ZZ term the two principal submatrices are *not* free-standing subchains: they
+"carry a boundary term at the cut and a different shift on each side", and at
+N = 11 the free-standing reading invents two blind seats the chain does not have.
+That the size alone reaches the node ANGLES is not surprising once the derivation above is on
+the page, since the two blocks' common part cancels and only the length mismatch survives; what
+the size alone does NOT reach is the Δ VALUES, which still need j, and that is why the locus is
+not a function of N_node by itself. Second, the witness's Krylov route over ℚ decides only RATIONAL
+Δ, and the locus meets ℚ only at 0 and ±1, the two committed endpoints and the sign
+partner (measured over N = 4..24, every interior seat; it is a measurement about this
+family and not a theorem). So that route on its own certifies nothing this entry is the
+first to name, and saying it "cross-checks the locus" would be an overclaim. Two things
+carry the irrational members instead. The first is the second POLYNOMIAL route,
+`Res_λ(χ_L, χ_R)` formed from the two submatrices with no Chebyshev identity used, which
+the witness computes beside the first and which agrees with it as primitive integer
+polynomials at every one of the 98 (N, seat) pairs of N = 4..16 where both are defined,
+70 of them nonconstant on each side (the other six of the 104 interior pairs are forced
+centre seats, where both routes correctly return nothing). The second is
+`inspect --root blindlocus`'s **field sweep**: over ℚ_p every Δ is rational, the images
+of the irrational members included, so running the Krylov rank at ALL p residues and
+comparing the blind set to the polynomial's root set is a two-sided check whose RANK
+side involves no Chebyshev polynomial, no Sylvester matrix and no Bareiss division. (The other
+side is of course the polynomial itself, built by exactly those; the point is that the two sides
+share only the physical convention, hop 2 and end shift 2Δ, and nothing else.) At N = 9
+seat 2, the seat both committed gcd laws call sighted, the locus ±√2/2 has image Δ = ±2
+mod 7, and the rank finds exactly that pair. What the sweep does NOT do is prove
+blindness: a rank mod p can only be too small, so the sweep certifies that the two SETS
+agree, and blindness itself is Lemma J through the resultant.
+The ceiling blind(j) ≤ min(j, N−1−j) belongs to the two-halves criterion and not
+to the fence-free count (a zero bond can push past it), and it is respected here
+at every Δ, which follows from the smaller block's degree. Finally, one input
+that cannot break the law and one that is often mistaken for one: **Δ = −1**
+carries no information, since with Σ the staggering matrix diag((−1)^l), which in this one
+identity is a MATRIX and not the summation sign it is everywhere else on this page,
+Σ H(Δ) Σ = −H(−Δ) makes
+blind(−Δ) = blind(Δ) identically (the fact that at Δ = −1 the object is the signless
+Laplacian, cospectral with D − A on a bipartite graph, is F152's; the staggering
+identity is not stated there, and `THE_SPREAD_IS_A_RESONANCE` writes the same
+identity as U·H(Δ)·U = −H(−Δ), where its U is the sublattice rotation and NOT the Chebyshev
+U_n this entry writes above; the two are unrelated objects that the two pages happen to spell
+alike);
+**prime N** is a weak probe of the ZZ law ONLY, where gcd(2j+1, N) forces all but
+the centre seat to zero, and the same sentence is false at the other endpoint and
+off it: at prime N = 11 the XY law blinds seven seats, and this entry's own
+N = 11 seat 1 polynomial has root 0, predicting one of them. A Δ is NOT the
+detuned bond that [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md)
+leaves open; do not report one as the other.
+
 **The parity-forced third kind (XY only).** A zero-diagonal Jacobi block of odd
 size is singular (det T_m = −b_{m−1}²·det T_{m−2} with det T₁ = 0, T_m the
 block's leading m × m minor and b its bonds), so at an odd seat of an odd chain
@@ -7987,7 +8225,9 @@ symmetric single-excitation H, any graph, any signed profile (the exact GF(p)
 route runs on integer inputs), degenerate spectra included, any seat. The uniform gcd laws: the uniform open
 chain of the named book. The commutant form of the span: the same generality as
 the count. The form 1 + blind(j): wherever H is simple on the Krylov complement, which
-the zero-free open chain always supplies.
+the zero-free open chain always supplies. The Δ-locus and the node modulus: the UNIFORM open
+chain only, since the derivation is the two-halves phrasing and reads the diagonal off a chain
+whose interior sites are all alike.
 **Breaks for:** the IDENTIFICATION of the count with the blind subspace at a
 seat whose ray |j⟩ is itself H-invariant (an isolated seat, or its incident
 bonds detuned to zero): that ray then contributes 1 the Krylov complement does
@@ -8019,7 +8259,7 @@ chain laws, span), §7 (the Cramer theorem); scripts
 `simulations/blind_seat_span_proof.py` (parts `lemma|commutant|chain`, 9 gates),
 `simulations/seat_cut_blindness.py` (parts
 `steady|kernel|scope|xy|full|criterion|graphs|sector|deleted`) and
-`simulations/blind_site.py` (parts `prep|support|dimension|identity|branch|coherence|scope`); the arc is the OpenArcs entry `the_gate_that_does_not_gate`.
+`simulations/blind_site.py` (parts `prep|support|dimension|identity|branch|coherence|scope`); the anisotropy axis is the OpenArcs arc `the_forced_and_the_met`; the arc is the OpenArcs entry `the_gate_that_does_not_gate`.
 **Siblings:** F64 (rate = 0 ⟺ node at the seat, the test this count
 integrates), F65 (the XY sine basis the second law names), F66 (one of whose scope
 sentences the interior seats correct: the F65 sector does reach α = 0 at an
@@ -8042,7 +8282,11 @@ count at N = 60, 120, 200, the tests pinning N = 60 and 200); scalar faces
 2026-08-25, child of `F4KernelDimensionByComponentsClaim`) with the live witness
 `inspect --root blind` (`SeatCutBlindnessWitness`, the count as an exact GF(p)
 Krylov rank at two primes and the span as a second, independent elimination,
-both recomputed at inspect time).
+both recomputed at inspect time), and the second live witness
+`inspect --root blindlocus` (`SeatBlindnessDeltaLocusWitness`,
+[compute/RCPsiSquared.Diagnostics/Foundation/SeatBlindnessDeltaLocusWitness.cs](../compute/RCPsiSquared.Diagnostics/Foundation/SeatBlindnessDeltaLocusWitness.cs)),
+which carries the whole Δ axis: the node modulus per seat, the locus as an integer polynomial
+by two routes, and a rank sweep over GF(p) that meets the irrational members through their images.
 
 ### F158. The palindrome is a count of the two ends: for L(ρ) = −i[H,ρ] + Σγ_l(A_lρA_l − ρ) with H Hermitian, every A_l Hermitian and squaring to 1, and every γ_l > 0, the spectrum multiset pairs about −σ **if and only if** dim ker L = dim ker(L + 2σ) (Tier 1 derived, both directions proved 2026-08-28; the near kernel is the commutant of ⟨H, A_l⟩ and the far one is the same space with the jump sign flipped, both by a Cauchy-Schwarz equality case; registered 2026-08-29)
 

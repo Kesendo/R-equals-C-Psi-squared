@@ -8290,23 +8290,47 @@ public static class OpenArcsRegistry
                 "(LOCAL and gitignored: promote it before any result it produces is cited anywhere " +
                 "tracked) holds two run modes. `f157` samples Delta; `f157locus` SOLVES it, and the second " +
                 "is the one that matters. F157 IS SETTLED, both halves exactly. The mirror-forced centre " +
-                "seat is blind at every Delta by a PROOF: the two principal submatrices a reflection-fixed " +
+                "seat is blind at every Delta by a PROOF, and the argument is not new here: THE_SEAT_THAT_CUTS " +
+                "already derives it from the reflection and THE_BLIND_SITE gives the stronger, " +
+                "book-free form and states the transfer in as many words. What is added is the Delta " +
+                "generality read off it and the COUNT. The two principal submatrices a reflection-fixed " +
                 "seat leaves behind are conjugate by the chain reflection, so they carry the same " +
                 "characteristic polynomial, share every root, and their resultant vanishes identically. " +
                 "Every other seat is blind exactly on the real roots of that resultant, a finite set, " +
                 "which at N = 9 seat 1 is 128*D*(D-1)*(D+1)*(D^2-3), i.e. Delta = 0, +-1 and +-sqrt(3), " +
                 "the sqrt(3) row reproducing the isotropic row [0,1,0,0,4,0,0,1,0] exactly. Other seats " +
-                "carry other algebraic values (sqrt(2), sqrt(2)/2, sqrt(2 +- sqrt(2)) at N = 11), and " +
-                "nothing in the repo had looked at any of them. AND THAT CORRECTED A CLAIM THIS ARC'S OWN " +
+                "carry other algebraic values: sqrt(2) and sqrt(2 +- sqrt(2)) at N = 11 seat 1, " +
+                "2*sqrt(3)/3 at N = 11 seat 2, sqrt(2)/2 at N = 9 seat 2 (this line first put sqrt(2)/2 " +
+                "at N = 11, where it is in NO seat's locus; corrected 2026-08-30 when the closed form " +
+                "below was gated). SINCE THEN THE WHOLE AXIS IS CLOSED and the values are no longer a " +
+                "hand-list: with the NODE MODULUS N_node = |N-1-2j| (which wears its own name because the " +
+                "bare letter d already belongs to the XY node count gcd(j+1, N+1) on the committed pages, " +
+                "a different integer: at N = 9 seat 2 that one is 1 and this one is 4), an end seat is " +
+                "blind 0 at every Delta, N_node = 0 is blind at " +
+                "EVERY Delta with count (N-1)/2, and N_node >= 1 is blind exactly at " +
+                "Delta_k = sin((j+1)k*pi/N_node)/sin(j*k*pi/N_node) over those k = 1..N_node-1 whose denominator " +
+                "does not vanish (a k with N_node dividing j*k is a POLE and contributes no Delta, which " +
+                "is not a rare case: both worked seats below are in it), empty exactly when " +
+                "N_node divides j. " +
+                "The two committed gcd laws are that set's Delta = 1 and Delta = 0 sections. Live at " +
+                "inspect --root blindlocus (SeatBlindnessDeltaLocusWitness), which reports the locus as " +
+                "an integer Chebyshev resultant so the irrational members are named rather than sampled. " +
+                "AND THAT CORRECTED A CLAIM THIS ARC'S OWN " +
                 "FIRST DRAFT HAD COMMITTED: 'the met kind is an accident of the isotropic point' was a " +
                 "sample promoted to a rule, repaired the same day on five surfaces. The honest form is " +
                 "that the met kind lives on a codimension-one LOCUS containing the isotropic point, and " +
                 "|Delta| = 1 is an isolated point of it rather than a limit. Two inputs that CANNOT break " +
                 "the law, recorded so they are never counted as probes: Delta = -1, since " +
                 "Sigma h(Delta) Sigma = -h(-Delta) makes blind(-Delta) = blind(Delta) identically (F152 " +
-                "holds the bipartite cospectrality reason), and prime N, since for prime N only the centre " +
-                "seat is ever blind, so N = 7 and N = 11 have no met seats to lose and the smallest N " +
-                "carrying both kinds is 9.",
+                "holds the bipartite cospectrality reason). A SECOND ONE WAS LISTED HERE AND IS WRONG, " +
+                "corrected 2026-08-30: 'prime N, since for prime N only the centre seat is ever blind, " +
+                "so N = 7 and N = 11 have no met seats to lose'. That holds on the ZZ book ALONE, where " +
+                "gcd(2j+1, N) forces every seat but the centre to zero. At the XY endpoint the same " +
+                "prime N blinds SEVEN seats at N = 11 and three at N = 7 (committed run output, " +
+                "simulations/results/seat_cut_blindness/). So prime N is a weak probe of one book, not " +
+                "a non-probe of the law, and the Delta-locus closed form predicts those XY seats " +
+                "itself: the N = 11 seat 1 polynomial has root 0. The 'smallest N carrying both kinds " +
+                "is 9' clause is a ZZ-book statement too.",
             NextStep: "THE SCOUT'S CUT IS THE QUEUE, and it is sharper than a list of laws. Every law " +
                 "whose arithmetic lives in the COSINE COMB of the uniform open chain, namely F129, F89's " +
                 "seed resonance, F145/F146, F65's Niven root and F144's N=5 exception, has never once been " +

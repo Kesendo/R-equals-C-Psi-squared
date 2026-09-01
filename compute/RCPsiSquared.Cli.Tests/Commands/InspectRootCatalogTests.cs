@@ -388,6 +388,38 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasBlindLocusRoot_NFree_HonorsOptionalN_AndNamesItsProofAndClaim()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "blindlocus");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("F157", entry.Description);
+        // Every sibling root names where the law is proved and where it is typed; this one must
+        // too, or a reader meets a formula with no owner.
+        Assert.Contains("PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA", entry.Description);
+        Assert.Contains("SeatCutBlindnessClaim", entry.Description);
+        // and it must carry the scope a newcomer needs: the chain, the poles, the end seat.
+        Assert.Contains("UNIFORM OPEN CHAIN", entry.Description);
+        Assert.Contains("POLE", entry.Description);
+        Assert.Contains("END seat", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_BlindLocusFactory_BuildsTheLiveWitness_AndBothRoutesAgree()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "blindlocus");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);
+        var w = Assert.IsType<SeatBlindnessDeltaLocusWitness>(root);
+        Assert.Equal(9, w.N);                                   // the default when --N is absent
+        Assert.Equal(new[] { 8, 6, 4, 2, 0, 2, 4, 6, 8 },
+            Enumerable.Range(0, 9).Select(w.NodeModulus).ToArray());
+        // the two independent polynomial routes meet at the seat the registry writes out
+        Assert.Equal(w.LocusPolynomial(1), w.DefinitionPolynomial(1));
+    }
+
+    [Fact]
     public void Catalog_BlindSeatFactory_BuildsTheLiveWitness_CountMeetsTheClosedForm()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "blind");

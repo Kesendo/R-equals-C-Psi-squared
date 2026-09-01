@@ -141,6 +141,19 @@ public class SeatCutBlindnessClaimTests
         var parity = nodes.Single(c => c.DisplayName.Contains("parity-forced"));
         Assert.Contains("parity-forced = True", parity.Summary);
         Assert.Contains("(False)", parity.Summary);
+
+        // The axis node, added 2026-09-01. Its doc-comment twin already carried the axis and the
+        // runtime copy did not, so the object manager never reported that this claim has a second
+        // witness. The numbers pinned here are the ones a reader would use to tell the two integers
+        // apart: at N = 9 seat 2 the node modulus is |9 - 1 - 4| = 4 while gcd(3, 10) = 1, and both
+        // committed laws read 0 at that seat, which is what makes it the new class.
+        var axis = nodes.Single(c => c.DisplayName.Contains("anisotropy axis"));
+        Assert.Contains("N_node = |N - 1 - 2j|", axis.Summary);
+        Assert.Contains("at N = 9 seat 2 that one is 1 and this one is 4", axis.Summary);
+        Assert.Contains("inspect --root blindlocus", axis.Summary);
+        Assert.Equal(4, Math.Abs(9 - 1 - 2 * 2));
+        Assert.Equal(0, SeatCutBlindnessClaim.BlindHeisenberg(9, 2));
+        Assert.Equal(0, SeatCutBlindnessClaim.BlindXy(9, 2));
     }
 
     [Fact]

@@ -821,6 +821,24 @@ public static class InspectCommand
             "Args: --N (default 7), --chain xy, --bonds 1,1,0,1,1",
             c => BuildBlindSeatRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 7),
             RequiresN: false, HonorsOptionalN: true),
+        new("blindlocus", "F157 ON THE ANISOTROPY AXIS (proof PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md " +
+            "Lemma J, claim SeatCutBlindnessClaim, witness SeatBlindnessDeltaLocusWitness): F157's two " +
+            "closed forms are stated at two POINTS of one axis, the isotropic Delta = 1 and the XY Delta = 0. " +
+            "Carry the knob. ON THE UNIFORM OPEN CHAIN one integer governs the whole axis, the " +
+            "NODE MODULUS N_node = |N - 1 - 2j|, the difference in size between the two pieces the seat cuts " +
+            "the chain into (the committed pages carry a bare d for the XY node count gcd(j+1, N+1), " +
+            "which is a DIFFERENT integer: at N = 9 seat 2 that one is 1 and this one is 4): an END seat " +
+            "is blind 0 at every Delta; at N_node = 0, the " +
+            "reflection-fixed centre seat, the seat is blind at EVERY Delta and the count is (N-1)/2; " +
+            "otherwise it is blind exactly at Delta_k = sin((j+1)k*pi/N_node)/sin(j*k*pi/N_node) over those " +
+            "k = 1..N_node-1 whose denominator does not vanish (a k with N_node | j*k is a POLE and contributes " +
+            "no Delta; the locus is EMPTY exactly when N_node | j), and the two " +
+            "committed gcd laws are that set's two sections. Reported as an INTEGER polynomial (a Chebyshev " +
+            "resultant over Z by Bareiss), so the irrational members are named rather than printed as doubles, " +
+            "and cross-checked against a GF(p) Krylov rank at every rational point of the locus. " +
+            "Args: --N (default 9)",
+            c => new SeatBlindnessDeltaLocusWitness(c.Parser.HasFlag("N") ? c.N : 9),
+            RequiresN: false, HonorsOptionalN: true),
         new("twoend", "F158 THE PALINDROME AS A COUNT OF THE TWO ENDS (proof " +
             "PROOF_PALINDROME_TWO_END_COUNT.md, claim PalindromeTwoEndCountClaim): the spectrum pairs about " +
             "−σ exactly when dim ker L = dim ker(L + 2σ), so the criterion is two nullities compared and there " +

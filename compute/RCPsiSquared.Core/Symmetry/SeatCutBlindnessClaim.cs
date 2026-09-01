@@ -86,6 +86,43 @@ public enum SeatCutBook
 /// forces it always. A float SVD rank miscounts the kernel at small J (21 against the true 6 at
 /// N = 11, J = 10⁻⁵, behind a reported gap of 5.95·10³): the routes here are exact.</para>
 ///
+/// <para><b>The two closed forms are two POINTS of one axis, and the axis is now built.</b> Both
+/// forms below are stated at a fixed anisotropy: <see cref="BlindHeisenberg"/> at the isotropic
+/// Δ = 1 and <see cref="BlindXy"/> at Δ = 0, where the chain carries
+/// <c>H = Σ_b J_b (XX + YY + Δ·ZZ)</c>. On the uniform open chain the whole axis is governed by the
+/// single integer <c>N_node = |N − 1 − 2j|</c>. At N_node = 0, the reflection-fixed centre seat of an odd
+/// chain, the seat is blind at EVERY Δ and the count is (N−1)/2; that half is a proof, the two
+/// principal submatrices being conjugate by the chain reflection and so sharing every root. At
+/// N_node ≥ 1 the seat is blind exactly at Δ_k = sin((j+1)kπ/N_node)/sin(jkπ/N_node) for k = 1..N_node−1, a finite set
+/// which is EMPTY when N_node divides j; a k with N_node | jk is a pole and contributes no Δ. Both forms
+/// below are sections of that set, over <b>k ∈ 1..N_node−1</b>, a range that is not decoration: the
+/// count at Δ = 1 is #{k : (2j+1)k ≡ N_node (mod 2·N_node)}, which over a full residue system would come to
+/// gcd(2j+1, N_node) = 2·blind + 1 instead of blind, and the count at Δ = 0 is #{k : N_node | (j+1)k}, the
+/// pole exclusion N_node ∤ jk being automatic since N_node dividing both would divide their difference k.
+/// Both are PROVED for every N, not gated. Count over a FULL residue system mod 2·N_node first:
+/// there k ↦ 2·N_node − k is an involution whose only fixed point k = N_node is always a solution,
+/// so the rest pair off and half of them land in 1..N_node−1 (the fixed point is OUTSIDE that range,
+/// which is why the folding cannot be done inside it), and N_node | (j+1)k ⇔ (N_node/h) | k with h = gcd(j+1, N_node); the gcd identities
+/// close because N = 2j+1 ± N_node. The FORCED kind is exactly the N_node = 0 case, which re-encodes the
+/// reflection condition 2j = N−1 as an integer rather than replacing it, and the MET kind lives on
+/// a finite set of Δ containing the isotropic point. The MECHANISM is not new here: Lemma J (J4)
+/// of <c>docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md</c> gives blind = deg gcd(χ_L, χ_R)
+/// for any unreduced Jacobi matrix, and its §(f) already records that the ZZ term changes only the
+/// diagonal, which Lemma J never constrains; what is added is the evaluation as Δ moves, and the
+/// class of seats blind at NEITHER committed endpoint (N = 9 seat 2, locus ±√2/2, where both gcd
+/// laws read 0). End seats are blind 0 at
+/// every Δ. Live witness <c>inspect --root blindlocus</c>
+/// (<c>SeatBlindnessDeltaLocusWitness</c>), which reports the locus as an INTEGER polynomial (a
+/// Chebyshev resultant over ℤ, so its irrational members are named rather than printed as doubles)
+/// and cross-checks it against a GF(p) Krylov rank at every rational point. The derivation uses the
+/// two-halves phrasing, so it inherits that fence and is stated for the uniform chain, where no
+/// zero bond exists. The witness's Krylov route decides only RATIONAL Δ, and the locus meets ℚ
+/// only at 0 and ±1 (measured over N = 4..24, not proved), so that route reaches no irrational
+/// member; what carries them is a second POLYNOMIAL route, Res_λ(χ_L, χ_R) formed from the two
+/// submatrices with no Chebyshev identity used, which agrees with the first as primitive integer
+/// polynomials at every one of the 98 (N, seat) pairs of N = 4..16 where both are defined; the other
+/// six of the 104 interior pairs are forced centre seats, where both correctly return nothing.</para>
+///
 /// <para>Live witness <c>inspect --root blind</c> (<c>SeatCutBlindnessWitness</c>), which
 /// recomputes the count as an exact GF(p) Krylov rank at two primes and checks it against the
 /// closed forms below. Gate <c>simulations/blind_seat_span_proof.py</c> (9 gates, about 19 s) for
@@ -273,6 +310,22 @@ public sealed class SeatCutBlindnessClaim : Claim
                          "against the closed form of the chosen book: inspect --root blind. Gates: " +
                          "simulations/blind_seat_span_proof.py (9 gates, the proof file) and " +
                          "simulations/seat_cut_blindness.py (the criterion, the sweeps, the twenty-graph table).");
+
+            yield return new InspectableNode("the anisotropy axis, and the second live lab",
+                summary: "The two closed forms above are stated at two POINTS of one axis, the isotropic " +
+                         "Delta = 1 and the XY Delta = 0, where the chain carries " +
+                         "H = Sum_b J_b (XX + YY + Delta*ZZ). On the UNIFORM open chain the whole axis is " +
+                         "governed by one integer, the NODE MODULUS N_node = |N - 1 - 2j|, the difference in " +
+                         "size between the two pieces the seat cuts the chain into (NOT the d = gcd(j+1, N+1) " +
+                         "of the XY node count, which the committed pages write with a bare d: at N = 9 seat 2 " +
+                         "that one is 1 and this one is 4). An end seat is blind 0 at every Delta; at " +
+                         "N_node = 0, the reflection-fixed centre seat, the seat is blind at EVERY Delta with " +
+                         "count (N-1)/2; otherwise it is blind exactly at " +
+                         "Delta_k = sin((j+1)k*pi/N_node)/sin(j*k*pi/N_node) over those k = 1..N_node-1 whose " +
+                         "denominator does not vanish, and the two laws above are that set's Delta = 1 and " +
+                         "Delta = 0 sections. The class that is new is the seat blind at NEITHER: N = 9 seat 2, " +
+                         "where both laws read 0 and the locus is +-sqrt(2)/2. Second live lab: " +
+                         "inspect --root blindlocus (SeatBlindnessDeltaLocusWitness).");
         }
     }
 }
