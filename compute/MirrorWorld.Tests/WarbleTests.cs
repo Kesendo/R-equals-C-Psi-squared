@@ -6,8 +6,10 @@ namespace MirrorWorldTests;
 // bond to J' = J(1-delta) and a launched traveling wave reverses its sense of circulation, fully, at
 // T_rev = pi*N/(4*delta*J) + O(delta) -- the crack's O(delta) reflection accumulated over round trips.
 // The circulation I(t) = sum_a Im rho[a, a+1 mod N]; R(t) = I(t)/I(0), 1 launched, -1 reversed.
-// Pins computed by exact superoperator expm on the same Haken-Strobl block (local cross-check script,
-// 2026-08-31): N=8, m=1, delta=0.15 -- gamma=0: T_zero=20.295, T_rev=40.684, depth=-0.999949;
+// Pins computed by exact superoperator expm on the same Haken-Strobl block. Every one of them is
+// now reproduced by the committed gates simulations/cracked_bell_gate.py (stages D, D5) and
+// simulations/ring_renewal_current.py (2026-09-01): N=8, m=1, delta=0.15 -- gamma=0: T_zero=20.295, T_rev=40.6861 (the refined minimiser; a dt=0.02 grid reads 40.68),
+// depth=-0.999949;
 // gamma=0.01: T_zero=19.347, depth=-0.2752; gamma=0.05: T_zero=16.477. On THIS block the clock is
 // gamma-DRESSED (the zero crossing advances) and the reversal outlives the naive scalar model
 // e^(-4*gamma*t)*R_{gamma=0}(t) at its own best point (deepest-R ratio 1.251 at gamma=0.01, 3.84 at
@@ -22,14 +24,16 @@ public class WarbleTests
     static readonly Lazy<double[]> G001 = new(() => Warble.CurrentSeries(W, 8, 1.0, 0.01, m: 1, delta: 0.15, dt: 0.02, tMax: 58.0));
     static readonly Lazy<double[]> G005 = new(() => Warble.CurrentSeries(W, 8, 1.0, 0.05, m: 1, delta: 0.15, dt: 0.02, tMax: 58.0));
 
-    // gamma = 0: the wave comes back whole. Committed: depth -0.999949 at T_rev = 40.684 (first order
-    // pi*N/(4*delta*J) = 41.888, the 3% gap is the O(delta) of delta = 0.15), T_zero = 20.295.
+    // gamma = 0: the wave comes back whole. Committed: depth -0.999949 at T_rev = 40.6861. The first
+    // order pi*N/(4*delta*J) is 41.888, so this reads -2.87% against it; against the EXACT pair split
+    // (pi/Delta_E = 40.5932) it reads +0.23%, the (1,1) page's own O(delta^2) hand at delta = 0.15.
+    // T_zero = 20.295.
     [Fact]
     public void The_Crack_Reverses_The_Wave_Fully()
     {
         double depth = Warble.ReversalDepth(G000.Value, out int kRev);
         Assert.InRange(depth, -1.0005, -0.995);
-        Assert.InRange(kRev * 0.02, 40.28, 41.08);            // committed 40.684 +/- 0.4
+        Assert.InRange(kRev * 0.02, 40.29, 41.09);            // committed 40.6861 +/- 0.4
         Assert.InRange(Warble.ZeroCrossing(G000.Value, 0.02), 20.10, 20.50);  // committed 20.295
     }
 
@@ -43,7 +47,8 @@ public class WarbleTests
     }
 
     // the watching DRESSES this clock (unlike the walk-time step): at gamma = 0.05 the zero crossing
-    // has advanced from 20.295 to 16.477 -- a shift of 3.82, more than twelve times the assert window.
+    // has advanced from 20.295 to 16.477 -- a shift of 3.82, more than six times the +-0.30 window
+    // asserted below (twelve times its half-width).
     [Fact]
     public void The_Watching_Dresses_The_Clock()
     {
@@ -55,16 +60,18 @@ public class WarbleTests
 
     // the diagonal feeds the current back: at gamma = 0.01 the measured depth 0.2752 beats the naive
     // scalar model's own deepest point 0.2200 (ratio 1.251, exact-superoperator committed numbers);
-    // the cheap in-test floor asserted here is the envelope at the gamma=0 clock, e^(-4*gamma*40.684).
+    // the cheap in-test floor asserted here is the envelope at the gamma=0 clock, e^(-4*gamma*40.6861).
     [Fact]
     public void The_Diagonal_Feeds_The_Current_Back()
     {
         double depth = Math.Abs(Warble.ReversalDepth(G001.Value, out _));
         Assert.InRange(depth, 0.26, 0.29);                    // committed 0.2752
-        Assert.True(depth > Math.Exp(-4.0 * 0.01 * 40.684), "depth fell under the naive envelope");
+        Assert.True(depth > Math.Exp(-4.0 * 0.01 * 40.6861), "depth fell under the naive envelope");
     }
 
-    // the crack is flat in mode space: m = 1 and m = 2 share the clock to O(delta).
+    // the crack is flat in mode space at first order, and the ratio the two clocks actually keep is
+    // the EXACT split's, Split_1/Split_2 = 0.971754 off the quantization curve (THE_CRACKED_BELL
+    // section E, gate E6b), the rest being this page's own O(delta^2) crossing deviation.
     // Committed (N=12, delta=0.1, gamma=0): T_zero 46.806 (m=1) vs 45.425 (m=2), ratio 0.9705.
     [Fact]
     public void Every_Mode_Hears_The_Same_Crack()

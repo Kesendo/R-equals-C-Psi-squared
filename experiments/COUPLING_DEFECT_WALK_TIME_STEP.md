@@ -31,6 +31,12 @@ The transmitted packet is shifted by Δn = −φ′(q) = +δ/sin²q; the right-m
 
 Two structural facts force the clean result: |τ|² = 1 − O(δ²) (no first-order reflection, so the front loses no amplitude to the defect at this order), and φ″(±π/2) = 0 (the transmission phase is locally linear at band center, so the Airy caustic at the cone edge translates rigidly instead of deforming). At second order the scattering value −(u²−1)/(2J(u²+1)) ≈ −(δ − δ²/2)/(2J) and the metric walk-time (−δ + δ²)/(2J) part ways; the coincidence is a first-order statement and is claimed as such.
 
+**The same amplitude quantizes a ring with one deformed bond** (added 2026-08-31). Close this bond's chain into a ring and τ(q) stops being only a transmission coefficient: it becomes the quantization condition. Keeping u = J′/J as above and taking q = arccos(E/2J) in (0, π), every level *inside the band* satisfies
+
+    Re[e^(−iNq)/τ(q)] = 1,
+
+because 1/τ = (1+u²)/(2u) + i(1−u²)·cot q/(2u) is exactly the coefficient pair of the ring's secular curve (1−u²)·sin(Nq)·cos q + [(1+u²)·cos(Nq) − 2u]·sin q. The sign of the knob decides how much that covers, and this document's sign is the harder one. For a *weakened* bond (u < 1, the cracked bell) all N levels are in the band and the condition carries the whole spectrum. For the *strengthened* bond (u = 1+δ) some levels leave the band and are carried by the same curve continued to complex q = iκ or π + iκ. On the **ring** how many is a parity law: for even N the alternating state at −2J leaves at every δ > 0, so two do; for odd N only one leaves until δ reaches exactly 2/(N−1). This document's own runs are **open chains**, a different spectrum with its own count (the N = 60 δ = 0.10 run has two levels outside the band, the N = 7 anchor none), so read the law above as the ring's, not as a statement about the runs below. Both halves are gated in [THE_CRACKED_BELL](THE_CRACKED_BELL.md) §The crack is exactly solvable (E4 and E7). The upstream reflected wave that the Controls below set aside as "not read as signal" is what a closed ring hands back to itself round trip after round trip, and there it is not a correction, it is the whole signal.
+
 ## Results against the pre-registered predictions
 
 **P1, the step law (N=60, γ=0, seed site 0, defect bond (29,30)).** Confirmed. Upstream side ≤ 10⁻⁵ in |Δt|; downstream plateau flat to σ ≤ 0.002 across 16 far sites:
