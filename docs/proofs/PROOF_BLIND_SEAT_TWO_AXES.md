@@ -441,6 +441,13 @@ L1b, the second is what C2 asserts through C1's own door, and the third is gate 
   clause, and the Remark in §(c). Lemma 1's folded half is F160's, Lemma 2a is
   `THE_SEAT_THAT_CUTS` §7's, Lemma 3 is Lemma J of the node-lemma proof, and the Σ identities are
   the companion page's.
+- **Two ordinary words here are typed objects elsewhere, and neither is meant.** A **pair** on
+  this page is the site pair {p, N−1−p} the reflection joins, never
+  [`Pair.cs`](../../compute/MirrorWorld/Pair.cs)'s bare coherence |i⟩⟨j| with its rate −2γk; the
+  **end pair** is F157's {0, N−1}, which the companion page already fences against F140's
+  "corner block". A **block** here is the matrix of H restricted to one reflection sector, never
+  [`Block.cs`](../../compute/MirrorWorld/Block.cs)'s joint-popcount block (p, q). No γ and no
+  Liouvillian appears anywhere in this file.
 - **Bare-letter lemma names are ambiguous in this neighbourhood** and this file numbers its own
   for that reason. Both cited proofs have a Corollary B and a Corollary C, of different objects,
   and `PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md` uses "Lemma B" for a third. Every citation here
