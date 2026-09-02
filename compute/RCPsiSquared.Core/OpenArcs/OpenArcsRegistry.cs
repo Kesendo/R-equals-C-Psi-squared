@@ -8369,11 +8369,24 @@ public static class OpenArcsRegistry
                 "whole ring, so the two halves above are ONE criterion at its two ends; and at m = 3 that turns " +
                 "this arc's own last 'met' into a law, the 60 pairs with a vanishing SECOND order being exactly " +
                 "F129 family C INSIDE THIS CENSUS (zero mode + two R5 pieces, door 10|n, closed form 2(n-10)), 20 at n = 20 and 40 " +
-                "at n = 30. On this object the word met has now failed three times in one page. That is this " +
+                "at n = 30. INSIDE THIS CENSUS is the whole qualifier, because C is not the only 3-free family in " +
+                "F129's committed table: family L (zero mode plus ONE piece of ratio-order 70, door 70|n, constant " +
+                "count 20) carries no 3 either, 70 = 2*5*7, so the sufficient direction applies to it unchanged and " +
+                "what is proved past the census is a LOWER BOUND, #{pairs with c2 = 0} >= 2(n-10)*[10|n] + 20*[70|n], " +
+                "each term carrying its own family's door (without which the first term would read -2 at n = 9). It " +
+                "gives 140 at n = 70, where those two families are the only ones that fire and 3 does not divide 70, " +
+                "so the GLOBAL criterion already delivers the total and nothing local is being tested; and 420 at " +
+                "n = 210, where ten other families fire, the modulus itself carries a 3, and only the bound survives, " +
+                "which is the local criterion doing work no global one can. The equality is the census's, at n <= 30 " +
+                "and nowhere else; past it the converse is unchecked. On this object the word met has now failed three times in one page. That is this " +
                 "arc's question answered on one law in both senses at once: the coincidence has no forcing yet found, the rate at " +
                 "which it dissolves is forced, and the ORDER at which the forcing runs out is forced too. " +
                 "Still open on this law: whether a standing pair at even n must have the ROT3 shape (read at " +
-                "n <= 30, not derived), and whether a mixed-parity pair can stand at even n. " +
+                "n <= 30, not derived), whether a mixed-parity pair can stand at even n, and the converse of the " +
+                "m = 3 criterion past n = 30. Family L has no from-below check ANYWHERE in the repo: its door is 70, " +
+                "so no member of the n <= 30 census touches it and the 20 it contributes to the bound are read off " +
+                "the committed table rather than computed. A check at n = 70 is affordable but is new mathematics " +
+                "past what the proof gates, and it is Tom's call whether this arc spends the round on it. " +
                 "The dissolution is GRADED and its grading is itself a comb law: at odd n the first-order " +
                 "gap is (4/n)(o_tau - o_sigma), the difference of odd-label counts, by the Galois " +
                 "automorphism k -> k(n+2), so the speed takes only the values 0, 4/n, 8/n, 12/n (the coincidence " +
