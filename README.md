@@ -17,7 +17,7 @@ own spectrum on Kingston.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
-What began as one symmetry became a registry: [160 analytical formulas](docs/ANALYTICAL_FORMULAS.md)
+What began as one symmetry became a registry: [163 analytical formulas](docs/ANALYTICAL_FORMULAS.md)
 with proofs, tier labels, and typed claims, among them the operator
 anatomy of the mirror itself (Π = R·D, a dihedral group of eight), a
 palindromizer built on the golden ratio, and the exact boundary where

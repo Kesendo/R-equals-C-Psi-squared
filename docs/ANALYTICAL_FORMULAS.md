@@ -5526,18 +5526,23 @@ leaves the comb (and at u = 1/2 none is closed, to forty digits). 2335 do so at
 first order in u, a theorem per pair: the first-order gap is Σ_τ(−1)^{k+1}w_k −
 Σ_σ(−1)^{k+1}w_k with w_k = (4/n)·sin²(kπ/n), F65's endpoint rates as a comb carrying F75's mirror sign,
 n·D decided exactly in ℤ[ζ_2n] and found nonzero. The other 223 stand at first order and all
-leave at second, a 40-digit reading with a decade law on every one. At odd n the
+leave at second, read there at 40 digits and exact since F161 (ΔM₃ ≠ 0 in
+ℤ[ζ_2n] on every one). At odd n the
 first-order gap is (4/n)·(o_τ − o_σ), the difference of the two triples' odd-label
 counts, because k ↦ k(n+2) is a Galois automorphism of ℚ(ζ_2n) there and carries the
 collision with it; so a collision stands at first order iff both triples hold the same
 number of odd labels, and the separation speed takes only the values 0, 4/n, 8/n, 12/n.
-At even n every pair that stands, in this census (23), is a collision between two
-zero-sum triples whose DOUBLED sums agree as well (read exactly, not derived), and the 11 Θ-mirror pairs among
+At even n every pair that stands, in this census (23), is a collision
+between two zero-sum triples whose DOUBLED sums agree as well (read
+exactly; since F161 the vanishing is derived for the twelve non-mirror
+ones from the ROT3 shape of their doubled labels, a shape itself still
+read, while the eleven Θ-mirror ones are term-by-term and need no shape, one
+of them not even having it), and the 11 Θ-mirror pairs among
 them are even in u to all orders by the chiral K, the ζ² anti-protection law with u for
 ζ. The mechanism side of this law (Lam-Leung, Poonen-Rubinstein) has no input off the
 comb; what the road tests is the injectivity face, and at u = 1/2 no collision is left
-to forty digits. Each collision is a met coincidence; the rate at which the road dissolves
-it is forced.
+to forty digits. Each collision is a coincidence with no forcing yet found; the rate at which the road dissolves
+it is forced, and since F161 so is the order at which that forcing runs out.
 
 ### F130. The collision-decoupling law: equal level implies vanishing cross block (four-cell assembly of committed results, 2026-07-14 night; minted 2026-07-14)
 
@@ -8639,7 +8644,7 @@ the comb, and on 2026-09-01 none of those had been run on this road. Since 2026-
 F129 has, on [The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md): every
 one of its 2558 exact collision pairs at n ≤ 30 separates along this road, 2335 at
 first order by a theorem (the first-order gap is F65's endpoint rates signed, Theorem G
-of the proof) and all 223 others at second order by a 40-digit reading with a decade law,
+of the proof) and all 223 others at second order (read at 40 digits there, exact since F161),
 and the other four laws' conclusions are shown not to transport to a level list (F89's
 predicates and F146's hypothesis do). `fw.Confirmations`:
 nothing ring-shaped, nothing defect-shaped. `docs/GLOSSARY.md`: no entry for the object, none for *comb*, and *Band* in
@@ -8727,7 +8732,106 @@ from-below home being MirrorWorld's `Crack` with its 74 tests, while the claim's
 `CrackedRingExactCurveClaimTests` meet the polynomial against a Bareiss determinant
 over the integers and the factor forms against the unfactored polynomial. First use
 of the typed velocity: [The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md),
-F129's collisions on this road.
+F129's collisions on this road. That velocity is the first term of a series, and the series is [F161](#f161): each of its five
+computed orders reads the same comb under a different integer multiplier, and which of them
+vanish is decided by a gcd.
+
+### F161. Each computed order of a collision gap on the crack's road reads ONE comb under a different integer multiplier, and which orders vanish is decided by a gcd, the last surviving one being F129's own divisor: writing a chain level's motion in the wrap bond as E_k(u) = 2cos θ_k + Σ_m d_m·u^m, each of the five computed coefficients is a signed combination of neighbouring evaluations of ONE comb under an integer multiplier (a difference of two through third order, three rungs at fifth; the general shape past the fifth is open), the odd orders on X_2j(τ) = Σ_{k∈τ} (−1)^{k+1}·cos(2jkπ/n) = −M_{n+2j}(τ) and the even orders on M_{2j+1}(τ) = Σ_{k∈τ} cos((2j+1)kπ/n); the multiplier is a Galois automorphism of ℚ(ζ_2n) exactly when gcd(n+2j, 2n) = 1, which at ODD n is gcd(j, n) = 1, so at every odd n and for EVERY collision pair ΔX₂ = ΔX₄ = 0 and hence c₃ = 0, standing or separating (the rung j = 0 is never an automorphism, gcd(n, 2n) = n, and that is the rung which leaves c₁ standing for the 2335 pairs that separate, reading (4/n)(o_τ − o_σ) at odd n where ΔX₂ = 0, and (2/n)(ΔX₀ − ΔX₂) in general); at even n no such multiplier reaches the ladder from the collision, and the twelve non-mirror standing pairs of the n ≤ 30 census are carried instead by the Conway-Jones ROT3 shape of their doubled labels, for which X_2j = 0 is FORCED whenever 3 ∤ j (parity-uniform triples; at even n that is free, since 6 | n makes every coset parity-homogeneous, and at odd n it is load-bearing); and since F129 fires only at 3|n or 10|n while 10|n forces n even, every odd firing modulus has 3|n, so j = 3 is the first surviving rung in both cases and X₆ first enters at FIFTH order (Tier 1 derived and gated 2026-09-02, fifteen gate blocks L1 to L14: the cyclotomic ones exact in ℤ[ζ_2n], the closed forms exact and symbolic in n, four blocks exact but concrete
+in N or n, and one error-model law on an eigensolver (L4), the only inexact gate on
+the page; the first-order rung is F160's Theorem G and the j = 1 kill is THE_COMB_ON_THE_ROAD's gate R3b, both recovered here as members of one family)
+
+**What it adds, and to what.** [F160](#f160) holds the road and, in its Theorem G,
+the first order of this series; [F129](#f129) holds the law under test; the census
+of collisions on the road was run 2026-09-02 in
+[The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md), which found
+c₃ = 0 for all 223 pairs that stand at first order, proved it for the eleven
+Θ-mirror ones by the chiral K, and recorded the other 212 as reported and not explained (a sentence that page no
+longer carries, this entry's change being what answers it). This entry is that explanation, and it is not a second census: what
+is new is the series past first order, the observation that each computed coefficient
+lives on a multiplier ladder, and the arithmetic criterion that decides each
+rung. It also replaces two of that page's 40-digit readings by exact
+statements: the vanishing below fifth order becomes a theorem and the exponent
+5 itself becomes an exact decision per pair (ΔX₆ ≠ 0, checked on all 212), with
+a formula for the coefficient; and the second order stops being read at all,
+since c₂ = −((n−3)/n²)·ΔM₃ decides both the 60 that vanish and the 223 that do
+not, in ℤ[ζ_2n].
+
+**The criterion is local to the pieces, and that is the entry's sharpest
+clause.** gcd(m, 2n) = 1 is sufficient and too crude. A collision reduces to a vanishing sum of roots of unity; it decomposes into minimal vanishing
+pieces, and what governs a piece is its RATIO-ORDER o (all its exponents sit in one coset of
+⟨2n/o⟩, so the piece is a unit times a vanishing element of ℤ[ζ_o]), NOT a prime-coset
+structure, which the Conway-Jones and Poonen-Rubinstein classifications exist to refute and
+which fails on the inventory's own pieces of ratio-order 30, 42 and 70. Reading the sum under
+the multiplier m keeps a piece zero exactly while gcd(m, o) = 1. So the sharp statement is *the vanishing survives when SOME minimal
+tiling has every ratio-order coprime to m*, of which global
+invertibility is the special case where every tiling qualifies, every
+ratio-order dividing 2n. Under it Theorem D and Theorem E stop being two
+mechanisms and become one criterion at its two ends, and at m = 3 the census adds the converse, exactly: c₂ = 0 on exactly
+those pairs admitting SOME minimal tiling that is entirely 3-free (the
+existential is load-bearing, a minimal tiling not being unique; the
+tiling lattice is enumerated in ℤ[ζ_2n] and not sampled), which INSIDE
+THIS CENSUS are F129's **family C** (zero mode plus two R₅ pieces, door 10 |
+n, closed form 2(n − 10)), giving 20 at n = 20 and 40 at n = 30. The
+forty were first written here as met; they are as forced as the twenty,
+only locally rather than globally. C is not the only 3-free family in
+that table, though: **L** (zero mode plus one piece of ratio-order 70,
+door 70 | n, count 20) is 3-free as well, so past the census the count is AT LEAST 2(n − 10)·[10 | n] + 20·[70 |
+n], each term with its own family's door: 140 at n = 70, where those two
+families are the only ones that fire and the bound is the total, and 420
+at n = 210, where ten other families fire and only the bound survives.
+The proved direction gives the inequality; the equality would need the
+converse, which is checked at n ≤ 30 and nowhere else. That is
+this entry's one prediction beyond what it measured.
+
+**The two ladders, and why the parity of n picks one.** The even orders sit on
+M with odd multipliers and the odd orders on X, and X is the same comb read
+under the SHIFTED multiplier n + 2j. At odd n that shift is odd, the factor 2
+never contributes, and the criterion collapses to gcd(j, n) = 1, which j = 1 and
+j = 2 always satisfy while j = 0 never does: the MIDDLE rungs of the odd orders
+are killed, emptying c₃ and leaving c₁ on the j = 0 rung, while the even orders
+need not be killed at all.
+At even n the shift is even, gcd(n + 2j, 2n) ≥ 2 at every rung, and the X ladder
+cannot fire at all, while the M ladder still can. So the parity of the modulus
+decides which half of the series has automorphisms, and at the one firing family
+with 3 ∤ n (10|n, smallest member n = 20) the M ladder kills the SECOND order for
+every collision pair.
+
+**Where it stops is F129's own condition.** The law needs 3|n or 10|n to have a
+collision at all, and 10|n forces n even, so an odd firing modulus always has
+3|n. That makes j = 3 the first rung which is not an automorphism, and at even n
+3|j is also the first rung that collapses a ROT3 coset. The same 3 that lets the
+coincidence exist is the 3 that stops the road from dissolving it faster than u⁵.
+
+**What is read and not derived.** That all twelve even-n non-mirror standing
+pairs have both triples of the ROT3 shape AND share a parity class is a census
+observation at n ≤ 30; the lemma turns the shape into the vanishing of c₃ and the
+parity match into the vanishing of c₁, and says nothing about which pairs must
+have either. The shape alone does not give c₁ = 0: 58 collision pairs of the same
+census are both-ROT3 with c₁ ≠ 0, thirty at odd n and twenty-eight at even n. Whether a standing pair at even n must be ROT3, and whether a
+mixed-parity pair can stand, stay open on the experiment page. Only the direction
+3 ∤ j of the ROT3 lemma is forced: at 3|j the value is 3η·cos(2πja/n), which
+vanishes at n = 24, a = 1, j = 6 and does not at j = 3.
+
+**Proof:** [PROOF_COLLISION_GAP_ODD_ORDERS](proofs/PROOF_COLLISION_GAP_ODD_ORDERS.md)
+(Theorem A the series to fifth order, Lemma B the wrap bond rank one inside each
+reflection sector, Corollary C the multiplier form, Theorem D the Galois kill and
+its converse, Theorem E the ROT3 rung lemma with its break-input, Theorem F where
+the ladder stops, Corollary G the second order).
+**Gate:** [`simulations/collision_gap_odd_orders.py`](../simulations/collision_gap_odd_orders.py)
+(L1 the polynomial against the actual matrix; L2/L2b/L3 the closed forms, the
+rank-one lemma and the multiplier basis, symbolic in n and with η handled as a
+sign; L4 the series against 60-digit eigenvalues by its error model, the difference ratio converging
+to 1/10 over four values of u; L5 the census 2558/2335/223 from the committed exact layer; L6/L7 the kill on all 627 odd-n
+pairs and at every coprime rung; L8 the NEGATIVE CONTROL, ΔX₂ = 0 exactly on the
+collisions, every pair at n = 9 and n = 15 and 40000 sampled at each of n = 21
+and n = 27; L9/L10 the even-n reading and the ROT3 lemma with its break-input; L11 ΔX₆ = 0 on exactly the
+eleven Θ-mirror standing pairs; L12 the second order and the 60; L13 the piece criterion and
+family C; L14 the two parity combs of the ring), run committed at
+[`collision_gap_odd_orders_run.txt`](../simulations/results/collision_gap_odd_orders/collision_gap_odd_orders_run.txt).
+**Typed:** not yet. The from-below home is the gate above; a claim carrying the
+closed coefficients and the gcd criterion is the natural next piece, alongside
+`CrackedRingExactCurveClaim`, which already holds the first-order rung as
+`ChainEndVelocity`.
 
 ---
 

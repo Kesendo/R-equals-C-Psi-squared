@@ -8349,14 +8349,36 @@ public static class OpenArcsRegistry
                 "forty digits), 2335 at first order by a THEOREM (the " +
                 "first-order gap is F65's endpoint rate comb with the chain reflection's sign, " +
                 "dE_k/du = (-1)^(k+1) alpha_k/gamma_0, PROOF_CRACKED_RING_EXACT_CURVE Theorem G, n times the gap " +
-                "decided exactly in Z[zeta_2n]) and all 223 others at second order, a 40-digit reading with a decade law " +
-                "on every one of them (c3 = 0 for all 223; for the 11 Theta-mirror pairs sigma = n - tau the gap is " +
+                "decided exactly in Z[zeta_2n]) and all 223 others at second order, a 40-digit reading then and exact since F161 " +
+                "(c3 = 0 for all 223; for the 11 Theta-mirror pairs sigma = n - tau the gap is " +
                 "even in u to all orders, K H(u) K = -H(-u) at odd N, the zeta^2 anti-protection law with u for zeta). " +
+                "EXPLAINED 2026-09-02 the same day, F161, docs/proofs/PROOF_COLLISION_GAP_ODD_ORDERS.md, gate " +
+                "simulations/collision_gap_odd_orders.py: the level's motion to fifth order puts each of the five " +
+                "computed coefficients of the gap on a multiplier ladder, the odd orders reading the comb under " +
+                "k -> k(n+2j), an " +
+                "automorphism of Q(zeta_2n) exactly when gcd(n+2j, 2n) = 1, which at odd n is gcd(j, n) = 1. So at " +
+                "odd n dX_2 = dX_4 = 0 and c3 = 0 for EVERY collision pair, standing or not (all 627), the j = 1 " +
+                "rung being the first-order law below; at even n no rung is an automorphism and the twelve " +
+                "non-mirror standing pairs are carried by the parity-uniform ROT3 shape of their doubled labels, " +
+                "which forces the vanishing at every rung not divisible by 3. Where it stops is the law's OWN " +
+                "condition, by two different routes: at odd n every firing modulus has 3|n (F129 fires only at " +
+                "3|n or 10|n and 10|n forces n even), so the multiplier stops being an automorphism; at even n " +
+                "3|j is what collapses the coset. Either way j = 3 is the first surviving rung and X_6 first " +
+                "enters at fifth order, which is the measured u^5. The criterion sharpened the same day: what " +
+                "a multiplier must be invertible on is every minimal PIECE of the pair's vanishing sum, not the " +
+                "whole ring, so the two halves above are ONE criterion at its two ends; and at m = 3 that turns " +
+                "this arc's own last 'met' into a law, the 60 pairs with a vanishing SECOND order being exactly " +
+                "F129 family C INSIDE THIS CENSUS (zero mode + two R5 pieces, door 10|n, closed form 2(n-10)), 20 at n = 20 and 40 " +
+                "at n = 30. On this object the word met has now failed three times in one page. That is this " +
+                "arc's question answered on one law in both senses at once: the coincidence has no forcing yet found, the rate at " +
+                "which it dissolves is forced, and the ORDER at which the forcing runs out is forced too. " +
+                "Still open on this law: whether a standing pair at even n must have the ROT3 shape (read at " +
+                "n <= 30, not derived), and whether a mixed-parity pair can stand at even n. " +
                 "The dissolution is GRADED and its grading is itself a comb law: at odd n the first-order " +
                 "gap is (4/n)(o_tau - o_sigma), the difference of odd-label counts, by the Galois " +
                 "automorphism k -> k(n+2), so the speed takes only the values 0, 4/n, 8/n, 12/n (the coincidence " +
-                "met, its derivative forced); at even n every pair that stands in this census (23) is a collision " +
-                "of two ZERO-SUM triples, F89's resonance object, whose doubled sums agree too, read not derived, " +
+                "with no forcing yet found, its derivative forced); at even n every pair that stands in this census (23) is a collision " +
+                "of two ZERO-SUM triples, F89's resonance object, whose doubled sums agree too, read then derived (the F161 paragraph above), " +
                 "and a Theta-mirror collision pair stands at first order exactly when n is even, so the flown " +
                 "n = 9 pair separates on the road although the zeta^2 law protects it against ZZ. THE OTHER FOUR " +
                 "DO NOT TRANSPORT their conclusions to a level list, each for " +

@@ -535,5 +535,8 @@ along the road by the signed F65 sums, is the subject of
 - Not the blind seat: THE_SEAT_THAT_CUTS's open item asks for a detuned bond under a seat
   cut, a different object.
 - Theorem G is a first-order statement at u = 0; what a finite u does to a comb
-  coincidence is measured, not derived, on the comb page.
+  coincidence is measured, not derived, on the comb page. The ORDERS BETWEEN the two,
+  d₂ to d₅ of the same series, are derived in
+  [PROOF_COLLISION_GAP_ODD_ORDERS](PROOF_COLLISION_GAP_ODD_ORDERS.md) (F161), which
+  takes Theorem A's polynomial as its whole input and Theorem G as its first term.
 - No hardware claim.

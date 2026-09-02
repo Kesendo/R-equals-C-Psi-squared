@@ -32,7 +32,7 @@ Three entry points for new readers:
 |----------|-----------|
 | The core theorem | [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - Π operator, XY-weight grading, verified N=2 through N=8 |
 | The full mathematics | [Complete Mathematical Documentation](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - Master index of the founding core (through March 2026); F-numbered results live in the registry below |
-| All analytical formulas | [Analytical Formulas](ANALYTICAL_FORMULAS.md) - 160 formulas that replace matrix computations. Check here before building a Liouvillian |
+| All analytical formulas | [Analytical Formulas](ANALYTICAL_FORMULAS.md) - 163 formulas that replace matrix computations. Check here before building a Liouvillian |
 | The sacrifice-zone formula | [Resonant Return](../experiments/RESONANT_RETURN.md) - 139-360x via spatial noise optimization (transport metric, ε→0 ideal; ~2-3x hardware) |
 
 ---

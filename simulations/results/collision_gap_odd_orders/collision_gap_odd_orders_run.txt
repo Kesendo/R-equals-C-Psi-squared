@@ -1,0 +1,101 @@
+L1  the characteristic polynomial against the actual matrix, exact
+  [PASS] det(xI - H(u)) = U_N(x/2) - u^2 U_{N-2}(x/2) - 2u, N = 3..9
+
+L2  d_1..d_5 in closed form, symbolic in n
+  [PASS] d_1 = eta (4/n) sin^2       [= F160 Theorem G, the road's velocity]
+  [PASS] d_2 = (4(n-3)/n^2) sin^2 cos                              [eta-free]
+  [PASS] d_3 = (4(n-2)(n-4)/(3n^3)) eta sin^2 (4cos^2 - 1)
+  [PASS] d_5 = eta F [ (5/4)(n-1) cos2th + (3n^2/2-8n+8) cos4th - (3/4)(2n-3)(n-3) cos6th ]
+
+L2b  why only the ODD orders carry the sign: V is rank one inside each parity sector
+  [PASS] <psi_k|V|psi_l> = psi_k(0) psi_l(0) (eta_k + eta_l), N = 4..9, exact
+  [PASS] hence V vanishes between opposite-parity modes: it is 2 eta a a^T in each sector
+  [PASS] so the series runs in the scale 2 eta u, and d_m = eta^m times an eta-free function
+  [PASS] and for EVERY m: in the angle equation eta enters only through v = eta*u  sin(n eps) - v^2 sin(n eps - 2 phi) + 2 v sin phi = 0, no eta in it
+  [PASS] the angle equation is ODD under (th, eps, v) -> (pi - th, -eps, -v)  so D_m(pi - th) = (-1)^(m+1) D_m(th) for EVERY m, not only the five computed
+  [PASS] and ODD under (th, eps) -> (-th, -eps), so D_m is even in th and a cosine polynomial
+  [PASS] the five computed D_m obey it, as they must: D_m(pi - th) = (-1)^(m+1) D_m(th)
+
+L3  the same coefficients as multiplier differences
+  [PASS] d_1 = (2/n) eta (1 - cos 2th)          -> c_1 ~ dX_0 - dX_2
+  [PASS] d_2 = ((n-3)/n^2) (cos th - cos 3th)   -> c_2 ~ dM_1 - dM_3
+  [PASS] d_3 = (2(n-2)(n-4)/(3n^3)) eta (cos 2th - cos 4th)  -> c_3 ~ dX_2 - dX_4
+  [PASS] d_5's X_6 coefficient vanishes for no n = 9..60 (all four of its factors are positive there; the no-X_0 half is pinned by L2's form check)
+  [PASS] the four d_5 coefficients sum to zero  [d_5 -> 0 as theta -> 0]
+
+L4  the series against 60-digit eigenvalues of the real matrix
+  [PASS] N=14 k=4: q = residual/u^6 has error O(u), and the difference ratio CONVERGES to 1/10  0.099983508 -> 0.099998346, q -> d_6 = 0.0088339424
+  [PASS] N=14 k=9: q = residual/u^6 has error O(u), and the difference ratio CONVERGES to 1/10  0.09995787 -> 0.09999578, q -> d_6 = 0.0097762863
+  [PASS] N=19 k=7: q = residual/u^6 has error O(u), and the difference ratio CONVERGES to 1/10  0.099953513 -> 0.099995348, q -> d_6 = 0.0027525433
+
+L5  the census, from the committed exact layer
+  [PASS] 2558 collision pairs, 2335 separate at first order, 223 stand  2558 / 2335 / 223
+  [PASS] REGRESSION PIN (not a second route): dX_0 - dX_2 retyped here equals the committed n_times_D_vec on every pair; both are 2(dX_0 - dX_2) through the same primitive
+
+L6  odd n: the Galois kill at the second and third rung
+  [PASS] dX_2 = 0 and dX_4 = 0 on every collision pair at odd n  627 pairs
+  [PASS] and that population is all 627 odd-n collision pairs, so c_3 = 0 on every one  627 pairs
+  [PASS] dX_0 equals its integer form 2(o_tau - o_sigma) exactly, on every odd-n pair  so c_1 = (4/n)(o_tau - o_sigma), and c_1 = 0 is the equal-odd-count condition
+
+L7  odd n, the general rung: dX_2j = 0 whenever gcd(j, n) = 1
+  [PASS] every collision pair, every coprime rung j <= 8, at n = 9, 15, 21, 27
+  [PASS] the criterion is gcd(n + 2j, 2n) = 1, and at odd n that is gcd(j, n) = 1
+
+L8  the kill fires on collisions and nowhere else.  At odd n this is the CONVERSE
+     of Theorem D, proved two paragraphs up, so it is a regression check on the
+     implementation rather than a control that could distinguish a false law.
+  [PASS] n=9: dX_2 = 0 exactly on the collisions (496 pairs, all)
+  [PASS] n=15: dX_2 = 0 exactly on the collisions (39060 pairs, all)
+  [PASS] n=21: dX_2 = 0 exactly on the collisions (40000 pairs, sampled from 460320)
+  [PASS] n=27: dX_2 = 0 exactly on the collisions (40000 pairs, sampled from 2616328)
+
+L9  even n: the 23 that stand, the 11 that are Theta-mirror, the 12 that are ROT3
+  [PASS] 23 standing pairs at even n, 11 of them Theta-mirror  23 / 11
+  [PASS] every one has dX_0 = dX_2 = dX_4 = 0
+  [PASS] the 11 Theta-mirror pairs have dX_2j = 0 at every rung j <= 3
+  [PASS] the other 12 are non-mirror, and BOTH triples of each are doubled-label ROT3  12 pairs
+  [PASS] and both triples of each share a parity class, which is what c_1 = 0 needs
+  [PASS] at EVEN n parity-uniformity is not a second hypothesis: 6|n forces it on every ROT3 triple  80 triples at n = 12, 18, 24, 30
+  [PASS] at ODD n it IS a hypothesis: (1,2,4) at n = 9 is clean, ROT3, mixed, and X_2 != 0
+  [PASS] the ROT3 shape alone does NOT give c_1 = 0: 58 collision pairs are both-ROT3 with c_1 != 0  smallest modulus carrying one: n = 9, (1, 5, 7) ~ (2, 4, 8), c_1 = 4/3
+  [PASS] and they span BOTH parities of n, so the shape fails on either side  30 at odd n, 28 at even n
+
+L10  the ROT3 rung lemma: forced for 3 not dividing j, a coincidence at 3|j
+  [PASS] X_2j = 0 for EVERY parity-uniform ROT3 triple at every 3|n <= 30 and every 3 not | j
+  [PASS] at 3|j the coset collapses: X_2j = 3 eta cos(2 pi j a / n), a the coset label
+  [PASS] BREAK-INPUT: at 3|j the value is NOT forced, both outcomes occur in the same census  pinned on n=24 (1,7,9), a=1: zero at j=6 (cos(pi/2)), nonzero at j=3 (cos(pi/4))
+
+L11  where the ladder stops
+  [PASS] among the 223 standing pairs, dX_6 = 0 holds exactly for the 11 Theta-mirror ones  11 with dX_6 = 0, 11 Theta-mirror
+  [PASS] so the other 212 all have dX_6 != 0: the first surviving rung is j = 3, and c_5 != 0  212 pairs
+
+L12  the second order
+  [PASS] 60 collision pairs have c_2 = 0, matching R4's independently measured count  n=20: 20, n=30: 40
+  [PASS] at n = 20 all 20 pairs have c_2 = 0: gcd(3, 20) = 1, so k -> 3k is an automorphism
+  [PASS] no standing pair has c_2 = 0: every one leaves at second order
+
+L13  the sharp criterion: a multiplier must be invertible on every PIECE's RATIO-ORDER
+       (decided here by enumerating the vanishing subsets exactly in Z[zeta_2n]; the
+        committed two-prime decomposition is kept only as a cross-check)
+  [PASS] c_2 = 0 EXACTLY when SOME minimal tiling is entirely 3-free, on all 2558 pairs  decided by enumerating the vanishing subsets in Z[zeta_2n], no primes and no greedy choice
+  [PASS] and the committed greedy tiling agrees with that on every pair  so the inventory's two-prime decomposition costs nothing here
+  [PASS] BREAK-INPUT on the wording: a minimal tiling is NOT unique, so the criterion must say SOME tiling is 3-free and not that no piece is  (15,23,25) ~ (17,19,29) at n = 30 tiles two ways: [((2, 2), (5, 5), (5, 5)), ((6, 30), (6, 30))]
+  [PASS] the 60 are one F129 family, C (zero mode + two R5 pieces), at its own door 10|n  {(20, 'C'): 20, (30, 'C'): 40}
+  [PASS] and their count is that family's committed closed form 2(n-10)
+  [PASS] but C is not the only 3-free family in the committed table: L is too, door 70|n
+  [PASS] so the count reads 2(n-10)*[10|n] + 20*[70|n], each term behind its own family's door  census: [(20, 20), (30, 40)]; past it: n=70 -> 140, n=210 -> 420, and n=9 -> 0 not -2
+
+L14  what the SIGN of u is: the two fermion-parity combs of the ring
+  [PASS] u = +1: G = 2 sin k (cos Nk - 1), zeros 2*pi*m/N, the PERIODIC ring comb
+  [PASS] u = -1: G = 2 sin k (cos Nk + 1), zeros (2m+1)*pi/N, the ANTI-PERIODIC comb
+  [PASS] and G really vanishes at every interior point of those two combs, N = 4..12  29 periodic points and 34 anti-periodic ones, all exact
+       NOTE (a reading, not a gate): flipping one bond of a loop flips the product of
+       the hoppings around it and no gauge undoes that, so u and -u sit half a flux
+       quantum apart.  The two combs above are PROOF_RING_GAP_DOMINANCE's two
+       Jordan-Wigner parity sectors, and the ODD part of a level in u is therefore its
+       response to WHICH sector, the even part its response to how strongly the loop
+       is closed.  That reading is what makes c_3 = 0 say something, for a pair that
+       also STANDS at first order: such a collision cannot tell the ring's two parity
+       sectors apart below fifth order.  A pair with c_1 != 0 tells them apart at once.
+
+ALL PASS

@@ -29,8 +29,9 @@ Gates (exit 0 iff all pass):
        S_sigma(u)]/u -> D with a residual whose leading power is 1 or 2 (one decade per decade of u, or two where
        the next coefficient vanishes), read from 40-digit eigenvalues at u = 1e-2, 1e-3, 1e-4. The class is read
        at the FINER decade pair (1e-3 -> 1e-4), where the leading power dominates, and the finer pair's ratio must
-       be no farther from a pure power than the coarser one's (the residual converges to its power law; at u = 1e-2 a
-       small c2 and a large c3 can still compete, and four pairs at n = 30 show it). A first version selected the
+       be no farther from a pure power than the coarser one's (the residual converges to its
+       power law; at u = 1e-2 the u^3 term still competes with the u^4 one, and four pairs at
+       n = 30 show it, their c2 being EXACTLY zero by F161's dM_3 = 0). A first version selected the
        pairs with a float D == 0.0 and let five exact zeros through as "dissolving"; the exact test was three lines
        above. A second version read the class at the coarse pair and failed on those four.
   [R4b] EVERY pair left to second order leaves there: gap/u^2 -> c2 != 0 by a decade law.
@@ -215,7 +216,8 @@ def gate_r3():
     gate("R3b odd n: D = (4/n)(o_tau - o_sigma) exactly on every collision pair (Galois k -> k(n+2)); the pairs left to second order are the equal-odd-count pairs", ok)
     # even n: k -> k(n+2) is not an automorphism (n+2 even); the standing are read directly. Every one found is
     # parity-uniform of the same class, where D = -/+ (2/n)(sum_sigma c - sum_tau c), so D = 0 iff the DOUBLED
-    # sums agree: a second cyclotomic coincidence, not a symmetry.
+    # sums agree; for the twelve non-mirror ones F161 names the shape that forces it, the doubled
+    # labels being ROT3; the eleven Theta-mirror ones are term-by-term and need no shape.
     ok_even = True
     n_zero = n_mirror = n_total = 0
     for n in FIRING:
@@ -288,7 +290,8 @@ def gate_r4_r5(table):
     for n, a, b, r1, r2 in coarse_between:
         print(f"    coarse pair between classes: n = {n} {a} ~ {b}: 1e-2/1e-3 = {r1:.2f}, 1e-3/1e-4 = {r2:.2f}")
     # R4b the standing leave at second order: gap(u)/u^2 tends to a nonzero constant, its residual falling one
-    # decade per decade of u; and no standing pair has a zero second-order coefficient (which would ask for third order).
+    # decade per decade of u; and no standing pair has a zero second-order coefficient (which would ask for FOURTH order: F161
+    # proves the third vanishes for every standing pair).
     lo2, hi2, nstand, minc2 = 1e9, 0.0, 0, 1e9
     ratios2 = []
     for n in FIRING:
