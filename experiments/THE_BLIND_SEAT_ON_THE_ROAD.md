@@ -24,8 +24,12 @@ never enters: every H below is in units of J.
 the version the numbers below were produced with and matters because the third trap is a
 sympy-behaviour trap with two instances. sympy is not in the dependency line in `CLAUDE.md`. Run at
 [`blind_seat_on_the_road_run.txt`](../simulations/results/blind_seat_on_the_road/blind_seat_on_the_road_run.txt).
-**Registry:** deliberately unregistered. §(c) is an exactly solved relation over a finite range of N
-with its mechanism identified but not derived.
+**Registry:** unregistered. §(c) was an exactly solved relation over a finite range of N with its
+mechanism identified but not derived, and
+[PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) derives it: the underlying
+decomposition holds at every N, §(c)'s relation is a theorem at every odd N, and at even N it
+becomes a criterion which turns this page's gate C8 into a consequence and names its 22 breaking
+seats.
 
 **Notation, once.** N is the chain's site count; **n = N + 1** is the *comb modulus*, the letter
 F129, F161 and this page share. A **comb** is the arithmetic progression of angles a chain's
@@ -97,18 +101,24 @@ times.
   there while the fence-free Cramer identity of The Seat That Cuts §7 does not"*.
 - **F157's standing fence, on §(c).** *"A Δ is NOT the detuned bond that
   [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) leaves open; do not report one as the other."* §(c)
-  asserts that two *loci* coincide as sets and does not identify the operators, which differ in rank
-  and position.
+  asserts that two *loci* coincide as sets. The fence still holds and is worth stating exactly,
+  because [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) does identify
+  something: not the two operators, which sit in different positions on the full space, one a bond
+  and one a diagonal, but their RESTRICTIONS to each reflection sector, and there at opposite
+  signs of the knob. A Δ is still not a detuned bond.
 - **[`docs/proofs/`](../docs/proofs/).** `PROOF_COLLISION_GAP_ODD_ORDERS` §(e) supplies the
   M-ladder criterion, *"For the M ladder m = 2j + 1 is odd already and the criterion is
   gcd(2j + 1, n) = 1"* — a remark in that section, not Theorem D, whose Statement is about the X
   ladder. §(h) supplies the fence §(a) obeys: *"The criterion gcd(m, 2n) = 1 is sufficient and too
   crude, and the sharp one is local to the pieces."* §(b), Lemma B, *"the wrap bond is rank one
   inside each reflection sector"*, is why a crack and a diagonal can share a locus at all, and is
-  quoted in §(c) rather than reproved. Nothing in `docs/proofs/` carries §(c), and
-  `PROOF_CRACKED_RING_EXACT_CURVE` says so of itself: *"Not the blind seat: THE_SEAT_THAT_CUTS's
-  open item asks for a detuned bond under a seat cut, a different object."* That is the object this
-  page builds.
+  quoted in §(c) rather than reproved. When this page was written nothing in `docs/proofs/` carried
+  §(c), and `PROOF_CRACKED_RING_EXACT_CURVE` said so of itself: *"Not the blind seat:
+  THE_SEAT_THAT_CUTS's open item asks for a detuned bond under a seat cut, a different object."*
+  That is the object this page built, and
+  [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) now carries §(c);
+  the fence is still exact, since what that proof identifies is sector restrictions and not the
+  two perturbations.
 - **[`experiments/`](../experiments/).** `THE_SEAT_THAT_CUTS` §4 states the node condition
   m(j+1) ≡ 0 (mod n) and gives one derivation with three verification routes; its §7 owns the
   Cramer identity. `THE_COMB_ON_THE_ROAD` names F157 three times, twice as a *method* precedent and
@@ -260,6 +270,14 @@ are the ring end, where the spectrum degenerates; they are not exclusive to the 
 Δ-locus contains ±1 at N = 9 seats 1 and 7. Because F157 generates the Δ side in closed form, this
 hands the u axis one it did not have.
 
+The measured range is this page's; the statement is not bounded by it.
+[PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) proves it at every odd N,
+and reads the ±1 as the third term of a decomposition rather than as an appendix: where the two
+reflection sectors share an eigenvalue the kernel is two-dimensional and therefore contains a
+vector vanishing at any single site, so a degeneracy blinds every seat at once. That is why the
+ring ends appear at every seat, and it is a third entry beside the *forced* and *accidental* of
+§(b) above.
+
 **What is not true: that the end pair is what does it.** Two earlier versions of this page claimed
 so, and got the question wrong in opposite directions. The first asked whether an interior
 perturbation satisfies the *crack's* relation, locus = Δ-locus ∪ {±1} — but ±1 is the u axis's ring
@@ -292,6 +310,14 @@ rank one per sector, ⟨ψ_k|D|ψ_l⟩ = a_k a_l(1 + η_k η_l) against the crac
 mode k's amplitude on the end pair and η_k = ±1 its reflection parity. Two end-pair objects
 differing only in that factor.
 
+One step further and the two stop merely resembling each other. On the R-even subspace
+ψ_{N−1} = ψ_0, so the wrap bond acts there exactly as the end-pair diagonal, and on the R-odd
+subspace exactly as its negative: the cracked ring IS the anisotropic open chain, sector by sector,
+at +u and at −u. `PROOF_CRACKED_RING_EXACT_CURVE`'s Corollary B already folds the crack that way;
+what was missing was the line that folds the anisotropy the same way and compares. That line, and
+what follows from it at both parities, is
+[PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md).
+
 **Why odd N, and what parity actually decides.** Write Σ = diag((−1)^l). Gate C5 verifies as exact
 matrix algebra that Σ·H_u·Σ = −H_u(−t) at odd N and fails at every even N, the wrap entry picking up
 (−1)^{N−1}; C5b that it holds for the anisotropy at every N. Since {±1} is negation-closed too, the
@@ -303,27 +329,37 @@ N = 8 seats 1 and 6; N = 10 seats 1 and 8; N = 12 seats 1, 2, 3, 8, 9, 10; N = 1
 kind.
 
 Parity therefore does not partition the behaviour. The relation still **holds at 44 of the 66
-even-N seats**. What odd N buys is weaker than forcing: the identity makes the u-locus
-negation-closed, which is *necessary* for the relation and never sufficient — if it were sufficient
-§(c) would be a theorem at odd N, which it is not. Over N = 6..16 non-closure is the only way the
-relation is ever observed to fail, and that is a measured coincidence, not a mechanism. The
-sector-split shape open
-item 1 conjectures is visible but not universal. What gate C9 *asserts* is exactly that
-non-universality; the rate beside it is a read: u minus the ring ends takes exactly one member of
-each ± pair of the Δ-locus at **20 of the 22 breaks**, failing at N = 12 seats 1 and 10, where the
-Δ-locus contains ±1 itself and the u-locus carries those two only as ring ends. An earlier version
-of this page asserted the shape at every break and gated nothing.
+even-N seats**. What this page's own identity buys at odd N is weaker than forcing: it makes the
+u-locus negation-closed, which is *necessary* for the relation and never sufficient. The sufficient
+half is a sharper reading of the same Σ, one sector down.
+[PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) reads ΣR = (−1)^{N−1}RΣ:
+at odd N, Σ preserves each reflection sector, so each sector's locus is negation-closed **on its
+own** and the relation follows; at even N it SWAPS them, so the odd-sector locus is the negation of
+the even one and the relation holds exactly when the u-locus is negation-closed. C8's biconditional
+is that statement, so the converse it measures is a consequence rather than a coincidence, and the
+22 breaking seats are predicted rather than found.
+
+Seen from the data side alone, the sector-split shape is visible at a break but not universal, and
+that is what gate C9 *asserts*. The rate beside it is a read: u minus the ring ends takes exactly
+one member of each ± pair of the Δ-locus at **20 of the 22 breaks**, failing at N = 12 seats 1 and
+10, where the Δ-locus contains ±1 itself and the u-locus carries those two only as ring ends. The
+proof's criterion carries the same clause and the same two exceptions, so the 20-of-22 is the shape
+of that clause and not a defect in the reading. An earlier version of this page asserted the shape
+at every break and gated nothing.
 
 ## Scope and fences
 
 - **§(c) is a relation between two loci, not an identification of two objects.**
-- **§(c) holds at odd N = 5..17 and at 44 of the 66 even-N seats of N = 6..16, breaking at the
-  other 22.** Gate C4 is required to report breaks, so the odd-N scope is measured rather than
-  decorative. The staggering identity supplies a *necessary* condition (negation-closure) at odd N
-  and nothing sufficient; §(c) is unproved at both parities, and what is not derived is why those
-  particular 22 seats.
-- **§(c) is an observation with an identified mechanism, not a theorem.** Lemma B, the staggering
-  identity and C8's biconditional all point at it; assembling them is open item 1.
+- **This page measures §(c) at odd N = 5..17 and at 44 of the 66 even-N seats of N = 6..16,
+  breaking at the other 22.** Gate C4 is required to report breaks, so the measured scope is
+  earned rather than decorative. The statement itself is not bounded by that range:
+  [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) proves it at every odd
+  N, gives the even-N criterion, and derives the 22 seats. This page's staggering identity supplies
+  only the *necessary* half; the sufficient half is the same Σ read one sector down.
+- **What neither this page nor that proof touches is MULTIPLICITY.** Every locus on both is a SET.
+  F157's blind count at a point of the Δ-locus is a multiplicity, load-bearing in F157, and the
+  resultant formed here is a rational multiple of F157's P_j *squared*, so the multiplicity
+  survives only doubled and `_squarefree` discards it before any comparison.
 - **The u ≥ 0 clause this page respects is the departure COUNT's, and it lives in
   `PROOF_CRACKED_RING_EXACT_CURVE` rather than in F160** (F160 has a u ≥ 0 clause of its own, on
   simplicity): *"its departure COUNT is stated for u ≥ 0, the object's range (at negative u
@@ -370,14 +406,16 @@ tests.
 
 ## What this opens
 
-1. **Turn §(c) into a theorem.** Lemma B gives the crack a rank-one form per reflection sector with
-   sign η; the anisotropy has the same rank-one end form with the same sign in both sectors. The
-   statement to prove is u-locus = (even-sector Δ-locus) ∪ −(odd-sector Δ-locus). C9 supports it
-   from the data side at 20 of 22 breaks and shows where the reading degenerates; a proof would have
-   to cover the odd N as well, where nothing is forced either, and the 44 even-N seats where the
-   relation simply holds.
-2. **Which interior perturbations carry the locus?** New, and generated by the retraction above: a
-   reflection-symmetric interior diagonal pair reproduces the Δ-locus at 12 of 48 seats at (1, N−2)
+1. **What the multiplicities do.** Item 1 used to ask for §(c) as a theorem, and
+   [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) answers it: the shape
+   conjectured here, u-locus = (even-sector Δ-locus) ∪ −(odd-sector Δ-locus), is right and holds at
+   every N. What it leaves is the question this page fenced off from the start. The two axes carry
+   the same POINTS; F157 says a seat's blind count at a point of the Δ-locus is the multiplicity of
+   that root, and nothing yet says the crack pays the same count at the same point. The construction
+   here cannot see it (the resultant is a multiple of P_j squared), so a different one is needed.
+2. **Which interior perturbations carry the locus?** New, and generated by the retraction above.
+   Read on EQUALITY, a reflection-symmetric interior diagonal pair reproduces the Δ-locus at 12 of
+   48 seats at (1, N−2)
    and 16 of 46 at (2, N−3), an interior bond at none. Which seats, and why those, is unasked.
 3. **Ask each comb law which modulus its comb is on.** F157 survives detuning because its comb moves
    from the spectrum to the parameter, on the seat-dependent N_node. For F89's seed resonance,

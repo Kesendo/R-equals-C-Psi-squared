@@ -8443,7 +8443,31 @@ public static class OpenArcsRegistry
                 "changes comb, it does not leave comb country. REFUTED there and worth carrying: 'the " +
                 "end pair is special' is false for this locus, a symmetric interior diagonal pair " +
                 "reproducing it at 12 of 48 seats; only UNIFORMITY separates the crack, by four seats. " +
-                "Unregistered on purpose, mechanism identified and not derived. " +
+                "PROVED the same day, docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md, gate " +
+                "simulations/blind_seat_two_axes_proof.py (23 checks): on the reflection-EVEN " +
+                "subspace psi_{N-1} = psi_0, so the wrap bond acts exactly as the end-pair " +
+                "diagonal, and on the ODD subspace as its negative, so the cracked ring IS the " +
+                "anisotropic open chain sector by sector at +u and -u (F160 Corollary B already " +
+                "folds the crack that way; the missing line folds the anisotropy and compares). " +
+                "The seat's striking never enters: by the fence-free Cramer argument of " +
+                "THE_SEAT_THAT_CUTS section 7, read one eigenvalue at a time, a seat is blind at " +
+                "lambda exactly when some eigenvector at lambda vanishes there, a statement " +
+                "about ker(H - lambda), which is reflection-invariant however j sits, so " +
+                "locus(j) = E(j) u O(j) u C with C the seat-INDEPENDENT DEGENERACY set. C is " +
+                "EMPTY on the Delta axis (the open chain is unreduced Jacobi, simple spectrum, " +
+                "Lemma J) and is exactly {+1,-1} on the u axis. That second one is NOT taken " +
+                "from F160: its simplicity clause is fenced to u >= 0 while half of this axis is " +
+                "negative, so the proof runs the crack's own 2x2 boundary system instead, where " +
+                "u*(1 + u*U_{N-2}) - (U_{N-2} + u) = U_{N-2}*(u^2 - 1) forces u^2 = 1 at every " +
+                "real u and every N. Sigma R = (-1)^(N-1) R Sigma then decides the parity: at odd " +
+                "N Sigma preserves each sector so both loci are separately negation-closed and " +
+                "the relation is a THEOREM at every odd N, past the measured 5..17; at even N it " +
+                "SWAPS them, so the relation holds exactly when the u locus is negation-closed. " +
+                "That turns the page's gate C8 from a measured biconditional into a consequence " +
+                "and PREDICTS the 22 breaking seats (checked against the committed list as a " +
+                "literal). Still unregistered, and the open question moved: the two axes carry " +
+                "the same POINTS, and whether they carry the same COUNT at a shared point is " +
+                "untouched, the resultant being a multiple of F157's P_j SQUARED. " +
                 "Run: python simulations/_delta_robustness_scout.py f157locus",
             Status: OpenArcStatus.Open),
         new OpenArc(

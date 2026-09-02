@@ -533,7 +533,14 @@ along the road by the signed F65 sums, is the subject of
   constant; *crack* is a weakened wrap bond, and the strengthened one of the sibling is
   the same road past u = 1.
 - Not the blind seat: THE_SEAT_THAT_CUTS's open item asks for a detuned bond under a seat
-  cut, a different object.
+  cut, a different object. What DOES cross between them is Corollary B's fold, and only
+  it: [PROOF_BLIND_SEAT_TWO_AXES](PROOF_BLIND_SEAT_TWO_AXES.md) folds the
+  end-pair-anisotropic open chain the same way and finds the same two blocks, the
+  anisotropy at +Δ giving the crack's even block and at −Δ its odd one. That file
+  deliberately does NOT use the simplicity clause for its own degeneracy statement,
+  because this file states that clause for u ≥ 0 and half of its u axis is negative; it
+  proves the u² = 1 condition from the boundary system instead. Nothing of this file's
+  own scope moves.
 - Theorem G is a first-order statement at u = 0; what a finite u does to a comb
   coincidence is measured, not derived, on the comb page. The ORDERS BETWEEN the two,
   d₂ to d₅ of the same series, are derived in

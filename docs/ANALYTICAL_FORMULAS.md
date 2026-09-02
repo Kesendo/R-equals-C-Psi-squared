@@ -8217,7 +8217,13 @@ the centre seat to zero, and the same sentence is false at the other endpoint an
 off it: at prime N = 11 the XY law blinds seven seats, and this entry's own
 N = 11 seat 1 polynomial has root 0, predicting one of them. A Δ is NOT the
 detuned bond that [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md)
-leaves open; do not report one as the other.
+leaves open; do not report one as the other. That fence survives
+[PROOF_BLIND_SEAT_TWO_AXES](proofs/PROOF_BLIND_SEAT_TWO_AXES.md), which shows
+this Δ locus is also the crack's u locus up to the ring ends {±1}: what it
+identifies is the two perturbations' RESTRICTIONS to each reflection sector, at
+opposite signs of the knob in the odd one, and never the perturbations. That
+proof carries points and not counts, so the multiplicity clause above is untouched
+by it.
 
 **The parity-forced third kind (XY only).** A zero-diagonal Jacobi block of odd
 size is singular (det T_m = −b_{m−1}²·det T_{m−2} with det T₁ = 0, T_m the
@@ -8673,7 +8679,12 @@ different curve. First order in δ for the beat and the visibility wall of the s
 (forms 2 and 3 there), which this entry does not carry: the exact law is the
 split's, and γ does not appear in G at all. Uniform bonds off the crack. The
 knob's sign, above. Not the blind seat: THE_SEAT_THAT_CUTS's open item asks for
-a detuned bond under a seat cut, a different object. No hardware claim.
+a detuned bond under a seat cut, a different object; what does cross to the blind
+seat is Corollary B's FOLD alone, in
+[PROOF_BLIND_SEAT_TWO_AXES](proofs/PROOF_BLIND_SEAT_TWO_AXES.md), which folds the
+end-pair-anisotropic open chain the same way and gets the same two blocks, and
+which deliberately does NOT use the simplicity clause, that clause being stated
+for u >= 0 while half of its own u axis is negative. No hardware claim.
 
 **Proof:** [PROOF_CRACKED_RING_EXACT_CURVE](proofs/PROOF_CRACKED_RING_EXACT_CURVE.md)
 (2026-09-02): Theorem A the polynomial by the Laplace expansion along the crack row
