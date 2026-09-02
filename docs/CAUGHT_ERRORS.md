@@ -1163,3 +1163,93 @@ and a fourth lens caught it). **On this object the word *met* has now failed thr
 - **Anchor:** `docs/proofs/PROOF_COLLISION_GAP_ODD_ORDERS.md`, `simulations/collision_gap_odd_orders.py`, the F161 entry of `docs/ANALYTICAL_FORMULAS.md`, `experiments/THE_COMB_ON_THE_ROAD.md`, `experiments/THE_CRACKED_BELL.md`, the arc `the_forced_and_the_met`.
 - **Lesson.** **When five independent recomputations cannot move the mathematics, that is not a clean bill: it relocates where the errors are.** Twenty-one of the twenty-six sat in the sentences ABOUT the result and five in the gates, and the two worst were a hypothesis every worked example satisfied and a *nothing* about a store that was never opened. Two rules follow, both cheap. A sentence of the form *hypothesis H gives conclusions X and Y* must be checked against a case satisfying H and failing Y, deliberately constructed, before it is written; the examples in hand will not supply it. And a compression that makes a claim quotable (*a difference of two*) is a new claim, and needs its own check against the formula it compresses. The second round adds a third, and it is the one that cost the most: **when you write down the MECHANISM behind a fact the gate already establishes, the mechanism is a new claim with no gate on it.** Item (13) is exactly that, and the correct mechanism was sitting in the function the gate was calling.
 
+
+## 2026-09-02 (third entry) — the blind seat on the crack road: five rounds, thirteen lenses, the result never moved, and three of the five rounds found their worst item inside the round before
+
+- **What was being built.** `experiments/THE_BLIND_SEAT_ON_THE_ROAD.md` and its gate
+`simulations/blind_seat_on_the_road.py`: F157's blind-seat count carried onto F160's crack road, and
+the observation that at odd N the blindness locus on the u axis is the locus on the Δ axis together
+with the ring ends. The central relation was reproduced independently by three reviewers on three
+different routes and never changed. Everything below is a defect in a gate, a sweep record, or a
+sentence about the result.
+
+- **(1) A sample promoted to a rule, on the page that warns about it.** *"the blindness collapsing
+to zero at every interior coupling"*, with gate B1 evaluating ONE point, u = 1/3, which lies on no
+locus. The page's own §(c) printed the counterexamples four screens further down: √(2−√2) ≈ 0.765 is
+in the N = 11 seat 1 u-locus and is interior. The arc had already paid for this exact shape once,
+*"a sample promoted to a rule, repaired the same day on five surfaces"*.
+
+- **(2) A silent numerical defect that made every even-N count wrong.** `sp.roots` returns an
+irreducible cubic's roots in *casus irreducibilis* form, where `.is_real` is `None`, not `True`; a
+truthiness filter dropped them with no error and no diagnostic. The break list read 4 seats where it
+is 22 and omitted a whole N. Replaced by squarefree parts plus Sturm counting, which cannot express
+the failure. **Then the same class recurred in the repair**: `sp.simplify` would not reduce
+P(2cos(3π/7)) to 0 and reported a true root as a counterexample; replaced by minimal-polynomial
+divisibility. Three further `sp.simplify` zero-tests survived two more rounds while the page's own
+trap section claimed the class had been eliminated.
+
+- **(3) A gate invented to check a theorem, and a fence invented to justify it.** D1 checked
+blind = deg gcd(χ, χ_j) off the comb, fenced as *"used outside its proof … It could have failed"*.
+F157 states that identity as *"unconditional for real symmetric H"*; the unreduced-Jacobi
+hypothesis belongs to a DIFFERENT identity, deg gcd(χ_L, χ_R), which this work never computes — and
+the node-lemma proof draws that line itself. An uncertainty was manufactured and then visibly
+resolved. Deleted.
+
+- **(4) Controls that could not pass, and a claim that was false anyway.** The negative controls
+asked whether an interior perturbation satisfies the CRACK's relation, locus = Δ-locus ∪ {±1}. The
+ring ends belong to the u axis and a diagonal has none, so all 160 control evaluations returned
+False before any locus was compared. Asked on the Δ-locus itself, symmetric interior diagonal pairs
+reproduce it at 12 and 16 of the seats: *"the end pair is special"* was **refuted**, not merely
+ungated. **The repair then reproduced the defect in a new form** — scoring the controls on equality
+while scoring the crack on the relation with the ring ends, two predicates and two denominators, in
+the paragraph retracting a two-predicate error. And the repair of THAT left one row scored on 46
+seats under a 48-seat heading.
+
+- **(5) A biconditional printed two lines apart and never read.** The gate computed 26 seats
+negation-closed and 10 broken and reported them as independent; 36 − 26 = 10 was on the page. The
+sets are identical: every break is a non-closure. One direction of that is a theorem (the
+right-hand side is negation-closed at every N, so a non-closed u-locus cannot equal it) and the
+check cannot report it false; only the converse is content. The first repair then called the
+identity a *forcing*: negation-closure is NECESSARY and never sufficient, and if it were sufficient
+the observation would be a theorem, contradicting the page's own fence.
+
+- **(6) Three stores called "nothing" that were not nothing, on a page that opens by recording two
+of them.** `fw.Confirmations` (Confirmation 24 is the F129 census's flown n = 9 pair, on the same
+comb), `reflections/` (`ON_LEAVING_THE_CIRCLE` carries the unmirrorable-middle-seat reading), and
+`docs/GLOSSARY.md` (a section headed *"The blind seat (F157, August 2026)"* defining seat, blind,
+blind(j) = N − dim Krylov and both gcd laws — the page's own notation block, already written). The
+`fw.Confirmations` miss is recorded verbatim in the second entry of this same date, about a
+neighbouring page, earlier the same day.
+
+- **(7) The load-bearing prior found only at round two.** F157 owns the whole Δ axis in closed form
+— the generating Δ_k, the resultant packaging P_j, a four-row table and a live witness — and the
+first version cited its polynomial from THIS FILE, the error ledger, as *"the one number this page
+does not compute"*. The 2026-09-01 fourth entry names that shape: *"the sweep searched the OBJECT
+and not the METHOD"*, and names F157's locus polynomial as what was missed.
+
+- **(8) An implication stated without its hypothesis, three rounds running.** *Seat 2j sighted ⟹
+F161's M-ladder rung j is killed* transports ΔM₁ = 0, which IS the collision; with no pair there is
+nothing to transport. First shipped as a biconditional against a proof that denies it in bold, then
+as a one-way implication over-fenced to odd n by a reviewer's suggestion taken unverified, then
+without the collision hypothesis at all.
+
+- **(9) A reviewer's claim applied without measuring it.** An interpretive round named three Core
+claims as instances of a fixed-point lemma; one, `BetaExoticPerNExclusionClaim`, does not carry the
+count attributed to it. It reached the page before the record auditor caught it. The repair
+discipline's first line is that a reviewer's story about provenance is a finding like any other.
+
+- **(10) A stale number left by a fix three paragraphs from the table that contradicts it.** *18 of
+48* survived a guard that removed a degenerate N = 5 case; the page's own table and the run both
+said 16, on a denominator of 46.
+
+- **Anchor:** `experiments/THE_BLIND_SEAT_ON_THE_ROAD.md`,
+`simulations/blind_seat_on_the_road.py`, the F157 and F161 entries of `docs/ANALYTICAL_FORMULAS.md`,
+the arc `the_forced_and_the_met`.
+
+- **Lesson.** **The rounds do not converge on the result; they converge on the writing about it.**
+Five rounds, thirteen lenses, and the mathematics was reproduced without a scratch on three
+independent routes at rounds three, four and five — while rounds three, four and five each found
+their worst item inside the previous round's repair, twice in the very paragraph that was retracting
+the previous defect. The second entry of this same date predicted the shape in advance ("Round two
+found its BLOCKER inside round one's repair, again"), and this session read that sentence only at
+round three, after walking the same curve.
