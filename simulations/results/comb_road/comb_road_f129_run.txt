@@ -1,0 +1,77 @@
+The comb test on the road: F129 under F160, firing n = [9, 12, 15, 18, 20, 21, 24, 27, 30]
+  [PASS] R1a velocity identity 2 psi_k(0) psi_k(N-1) = (-1)^(k+1) (4/n) sin^2(k pi/n), exact (sympy) at n = 5, 6, 7, 9
+  [PASS] R1b the same identity from finite-difference eigenvalues at every firing n (central difference)  (worst |dE/du - (-1)^(k+1) alpha_k/gamma_0| = 1.1e-09)
+  [PASS] R2 balanced pair k + k' = n: first-order sum derivative exactly 0 at odd n (even N, bipartite kept) and nonzero at even n (odd N)
+    n =   9 (N =   8):     1 exact collision pairs,     1 dissolve at first order (D != 0, a theorem),   0 stand at first order (D == 0), left to second order
+    n =  12 (N =  11):    25 exact collision pairs,    24 dissolve at first order (D != 0, a theorem),   1 stand at first order (D == 0), left to second order
+         left to second order: (1, 7, 9) ~ (3, 5, 11)
+    n =  15 (N =  14):   127 exact collision pairs,   107 dissolve at first order (D != 0, a theorem),  20 stand at first order (D == 0), left to second order
+    n =  18 (N =  17):   162 exact collision pairs,   160 dissolve at first order (D != 0, a theorem),   2 stand at first order (D == 0), left to second order
+         left to second order: (1, 11, 13) ~ (5, 7, 17)
+         left to second order: (2, 10, 14) ~ (4, 8, 16)
+    n =  20 (N =  19):    20 exact collision pairs,    20 dissolve at first order (D != 0, a theorem),   0 stand at first order (D == 0), left to second order
+    n =  21 (N =  20):   255 exact collision pairs,   195 dissolve at first order (D != 0, a theorem),  60 stand at first order (D == 0), left to second order
+    n =  24 (N =  23):   411 exact collision pairs,   404 dissolve at first order (D != 0, a theorem),   7 stand at first order (D == 0), left to second order
+         left to second order: (1, 15, 17) ~ (3, 13, 19)
+         left to second order: (1, 15, 17) ~ (5, 11, 21)
+         left to second order: (1, 15, 17) ~ (7, 9, 23)
+         left to second order: (2, 14, 18) ~ (6, 10, 22)
+         left to second order: (3, 13, 19) ~ (5, 11, 21)
+         left to second order: (3, 13, 19) ~ (7, 9, 23)
+         left to second order: (5, 11, 21) ~ (7, 9, 23)
+    n =  27 (N =  26):   244 exact collision pairs,   124 dissolve at first order (D != 0, a theorem), 120 stand at first order (D == 0), left to second order
+    n =  30 (N =  29):  1313 exact collision pairs,  1300 dissolve at first order (D != 0, a theorem),  13 stand at first order (D == 0), left to second order
+    of the 223 pairs with D == 0 exactly, 173 have a float D != 0.0 (what a float test would have let through)
+    Theta-mirror collision pairs sigma = n - tau: 11 at odd n (none of them stands), 11 at even n (all of them stand)
+  [PASS] R3 every firing n <= N_HI has its exact collision pairs enumerated and D decided exactly
+    n = 9: |o_tau - o_sigma| over the pairs: {3: 1} (|D| = that times 4/n)
+    n = 9: D == (4/n)(o_tau - o_sigma) on all 1 pairs; pairs left to second order == equal-odd-count pairs (0)
+    n = 15: |o_tau - o_sigma| over the pairs: {0: 20, 1: 73, 2: 12, 3: 22} (|D| = that times 4/n)
+    n = 15: D == (4/n)(o_tau - o_sigma) on all 127 pairs; pairs left to second order == equal-odd-count pairs (20)
+    n = 21: |o_tau - o_sigma| over the pairs: {0: 60, 1: 72, 2: 60, 3: 63} (|D| = that times 4/n)
+    n = 21: D == (4/n)(o_tau - o_sigma) on all 255 pairs; pairs left to second order == equal-odd-count pairs (60)
+    n = 27: |o_tau - o_sigma| over the pairs: {0: 120, 3: 124} (|D| = that times 4/n)
+    n = 27: D == (4/n)(o_tau - o_sigma) on all 244 pairs; pairs left to second order == equal-odd-count pairs (120)
+  [PASS] R3b odd n: D = (4/n)(o_tau - o_sigma) exactly on every collision pair (Galois k -> k(n+2)); the pairs left to second order are the equal-odd-count pairs
+    n = 12 left to second order (1, 7, 9) ~ (3, 5, 11): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 18 left to second order (1, 11, 13) ~ (5, 7, 17): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 18 left to second order (2, 10, 14) ~ (4, 8, 16): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 24 left to second order (1, 15, 17) ~ (3, 13, 19): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 24 left to second order (1, 15, 17) ~ (5, 11, 21): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 24 left to second order (1, 15, 17) ~ (7, 9, 23): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 24 left to second order (2, 14, 18) ~ (6, 10, 22): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 24 left to second order (3, 13, 19) ~ (5, 11, 21): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 24 left to second order (3, 13, 19) ~ (7, 9, 23): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 24 left to second order (5, 11, 21) ~ (7, 9, 23): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (1, 19, 21) ~ (3, 17, 23): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (1, 19, 21) ~ (7, 13, 27): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (1, 19, 21) ~ (9, 11, 29): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (2, 18, 22) ~ (4, 16, 24): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (2, 18, 22) ~ (6, 14, 26): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (2, 18, 22) ~ (8, 12, 28): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (3, 17, 23) ~ (7, 13, 27): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (3, 17, 23) ~ (9, 11, 29): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (4, 16, 24) ~ (6, 14, 26): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (4, 16, 24) ~ (8, 12, 28): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (6, 14, 26) ~ (8, 12, 28): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+    n = 30 left to second order (6, 18, 20) ~ (10, 12, 24): zero-sum collision = True, Theta-mirror pair = True, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = False
+    n = 30 left to second order (7, 13, 27) ~ (9, 11, 29): zero-sum collision = True, Theta-mirror pair = False, parity-uniform same class = True, doubled sums equal = True, doubled sum zero = True
+  [PASS] R3c even n: every pair left to second order is a collision of two ZERO-SUM triples (exact), parity-uniform of one class, with equal doubled sums  (23 pairs, 23 zero-sum, 11 of them Theta-mirror pairs sigma = n - tau)
+  [PASS] R4 decade law on every pair with D != 0: at the finer decade pair (1e-3 -> 1e-4) the residual's ratio is within 15% of 10 or of 100, and the finer pair's ratio is never farther from a pure power than the coarser one's  (2335 pairs; finer-pair ratios: 2275 at 10, 60 at 100; 4 coarse ratios sit between the classes (all converging); all ratios in [8.88, 139.93])
+    coarse pair between classes: n = 30 (5, 15, 29) ~ (11, 13, 23): 1e-2/1e-3 = 119.85, 1e-3/1e-4 = 102.01
+    coarse pair between classes: n = 30 (2, 10, 26) ~ (8, 15, 16): 1e-2/1e-3 = 139.93, 1e-3/1e-4 = 104.15
+    coarse pair between classes: n = 30 (4, 20, 28) ~ (14, 15, 22): 1e-2/1e-3 = 56.50, 1e-3/1e-4 = 95.82
+    coarse pair between classes: n = 30 (1, 15, 25) ~ (7, 17, 19): 1e-2/1e-3 = 79.48, 1e-3/1e-4 = 97.98
+  [PASS] R4b the pairs left to second order leave THERE: gap(u)/u^2 -> c2 != 0, the residual falling one or two decades per decade (within 15% of 10 or 100); smallest |c2| far above the 40-digit floor  (223 pairs; ratios in [98.02, 101.99]; 0 at 10, 446 at 100; smallest |c2| = 3.269e-02)
+  [PASS] R4c every pair left to second order: a Theta-mirror pair (even n) has a gap EVEN in u (odd part at the 40-digit floor); every other pair's odd part has an integer leading power, reported  (11 mirror pairs, worst odd part 2.3e-41; 212 others, odd part ~ u^p with p counted as {5: 212})
+  R5 the finite-u reading (u = 1/2, 40 digits; a reading, not a certificate):
+    n =   9: 32 clean triples; smallest gap between distinct sums 0.0327233 ((1, 5, 6) vs (1, 4, 7)); former collision pairs' gaps in [0.6143, 0.6143]
+    n =  12: 120 clean triples; smallest gap between distinct sums 0.00169578 ((3, 7, 8) vs (1, 6, 10)); former collision pairs' gaps in [0.06199, 0.4149]
+    n =  15: 280 clean triples; smallest gap between distinct sums 0.00203409 ((5, 7, 13) vs (4, 9, 10)); former collision pairs' gaps in [0.04226, 0.4242]
+    n =  18: 560 clean triples; smallest gap between distinct sums 5.51521e-5 ((9, 12, 15) vs (7, 14, 16)); former collision pairs' gaps in [0.001229, 0.3768]
+    n =  20: 816 clean triples; smallest gap between distinct sums 9.60696e-5 ((4, 12, 13) vs (2, 10, 17)); former collision pairs' gaps in [0.000178, 0.2946]
+    n =  21: 960 clean triples; smallest gap between distinct sums 6.34146e-5 ((5, 11, 18) vs (6, 10, 17)); former collision pairs' gaps in [0.02019, 0.3208]
+    n =  24: 1540 clean triples; smallest gap between distinct sums 1.72881e-6 ((2, 19, 23) vs (1, 20, 21)); former collision pairs' gaps in [0.0004141, 0.2899]
+    n =  27: 2288 clean triples; smallest gap between distinct sums 1.49063e-5 ((2, 5, 23) vs (4, 10, 16)); former collision pairs' gaps in [0.01079, 0.2561]
+    n =  30: 3276 clean triples; smallest gap between distinct sums 4.85632e-7 ((8, 21, 25) vs (12, 16, 26)); former collision pairs' gaps in [1.437e-6, 0.2602]
+ALL GATES PASS

@@ -1951,6 +1951,21 @@ values of cos(qπ) are {0, ±1/2, ±1}. Every k clears that bar exactly when N+1
 
 **Band-edge companion (the IM-face of the same Niven root).** The rate criterion above is the *real* (decay) face, on the angle 2π/(N+1). The *imaginary* (frequency) face is the band edge ω/J = 2cos(π/(N+1)) (F2b corollary / TopologyBandEdge), on the angle π/(N+1): it is rational only for N ≤ 2 (last N=2 = 1), a single quadratic surd a±√b for N ≤ 5 (√2, **φ**, √3 at N=3,4,5; φ = 2cos(π/5) the golden ratio), and algebraic degree ≥ 3 (first a cubic) from N=6, the exact degree being φ_euler(2(N+1))/2. So N=4 is the **first golden** on both single-excitation faces (the rates carry √5, the band edge *is* φ), while the V-Effect gain 1+cos(π/N) (a third face, angle π/N) has its golden shifted to N=5, see `docs/carbon/OFF_NIVEN_AS_WAVE_BREAKING.md`. The two SE cutoffs differ ({1,2,3,4,6} for the rates vs N+1≤6 for the band edge) because of the double angle; this is exactly why N=3's rate is rational while its band edge is √2. Gate-first sympy-exact verifier: `simulations/niven_rationality_root.py`; collected with the small-N anomalies in the `n3_special_cases` open arc.
 
+**The road's velocity (2026-09-02).** The same comb appears a third time, as a
+derivative. Along F160's road (proof
+[PROOF_CRACKED_RING_EXACT_CURVE](proofs/PROOF_CRACKED_RING_EXACT_CURVE.md)), the open
+chain closed by a wrap bond of strength u·J, every chain level moves at first order by
+
+    dE_k/du |_{u=0} = 2·ψ_k(0)·ψ_k(N−1) = (−1)^{k+1} · α_k/γ₀        (units of J),
+
+so the rate a level pays under one dephased endpoint is, up to the chain reflection's
+sign (F75's mirror sign η), the speed at which the wrap bond moves it, dE/du along the
+road and not F2b's group velocity dE/dk (Theorem G there, from the
+polynomial's derivative 2/P′(x_k) and from these eigenvectors, two routes to one
+number). Its first use is [The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md):
+F129's collisions on the chain comb move at first order by the signed sums of these
+rates, and which survive is decided exactly there.
+
 **Verified:** Formula matches the tridiagonal N×N single-excitation eigendecomposition to machine precision (max error 1.2 · 10⁻¹⁵) for N=3..30. All single-excitation rates confirmed present (to within O((γ₀/J)²) perturbative corrections, see below) in the full 4^N Liouvillian spectrum for N=3..7. Dynamical check at γ₀ = 0.01, where second-order shifts are ~10⁻⁶: formula predicts the decay rate of coherence operators ρ_k = |ψ_k⟩⟨0| under full Liouvillian propagation to within 10⁻⁴ relative error for all k at N=5. Asymptotic 1/(N+1)³ scaling of α_min verified; ratio to 4π²/(N+1)³ rises monotonically from 0.81 at N=3 to 0.99 at N=15.
 
 **Perturbative nature.** The formula is derived by applying the Absorption Theorem (AT) to single-excitation coherence operators |ψ_k⟩⟨vac|, treating them as decoupled Liouvillian right eigenvectors. This is exact to first order in γ₀/J. At finite γ₀ the Lindblad dissipator mixes |ψ_k⟩⟨vac| with other sectors, and the full-Liouvillian eigenvalue shifts by O((γ₀/J)²) relative to the formula. For γ₀/J = 0.05 and N=5, the relative shift is ≈ 4·10⁻³ (verified via full eigendecomposition in `palindromic_partner_f67.py`). The palindromic pairing F1 survives this shift exactly: α_b + α_p = 2γ₀ to machine precision, even as each individual rate deviates from its first-order value (see F68).
@@ -5501,6 +5516,29 @@ pair carries first-order ZZ. Proof:
 [`zeta2_anti_protection.py`](../simulations/zeta2_anti_protection.py). Since 2026-07-16 this
 law is Theorem B (the antiunitary column) of F131 below.
 
+**On the road (2026-09-02).** The law was detuned along a BOND for the first time (the
+flown n = 9 pair had been detuned by fields, Confirmation 24 and the ζ² law): F160's
+road u = J′/J on the wrap bond of the ring whose u = 0 end is this comb (n = N + 1),
+[The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md), proof
+[PROOF_CRACKED_RING_EXACT_CURVE](proofs/PROOF_CRACKED_RING_EXACT_CURVE.md) Theorem G. Every
+one of the 2558 exact collision pairs at the nine firing n ≤ 30 separates as the road
+leaves the comb (and at u = 1/2 none is closed, to forty digits). 2335 do so at
+first order in u, a theorem per pair: the first-order gap is Σ_τ(−1)^{k+1}w_k −
+Σ_σ(−1)^{k+1}w_k with w_k = (4/n)·sin²(kπ/n), F65's endpoint rates as a comb carrying F75's mirror sign,
+n·D decided exactly in ℤ[ζ_2n] and found nonzero. The other 223 stand at first order and all
+leave at second, a 40-digit reading with a decade law on every one. At odd n the
+first-order gap is (4/n)·(o_τ − o_σ), the difference of the two triples' odd-label
+counts, because k ↦ k(n+2) is a Galois automorphism of ℚ(ζ_2n) there and carries the
+collision with it; so a collision stands at first order iff both triples hold the same
+number of odd labels, and the separation speed takes only the values 0, 4/n, 8/n, 12/n.
+At even n every pair that stands, in this census (23), is a collision between two
+zero-sum triples whose DOUBLED sums agree as well (read exactly, not derived), and the 11 Θ-mirror pairs among
+them are even in u to all orders by the chiral K, the ζ² anti-protection law with u for
+ζ. The mechanism side of this law (Lam-Leung, Poonen-Rubinstein) has no input off the
+comb; what the road tests is the injectivity face, and at u = 1/2 no collision is left
+to forty digits. Each collision is a met coincidence; the rate at which the road dissolves
+it is forced.
+
 ### F130. The collision-decoupling law: equal level implies vanishing cross block (four-cell assembly of committed results, 2026-07-14 night; minted 2026-07-14)
 
 For ANY two distinct mode triples τ ≠ σ of the open chain (clean or not, any overlap),
@@ -8392,7 +8430,7 @@ not taken on the day F158 landed.
 
 ---
 
-### F160. The cracked ring is exactly solvable: with one bond of the XY ring detuned to u·J, u = J′/J, and E = 2J·cos k, for u < 1 the whole single-excitation spectrum is the zero set on the open interval (0, π) of G(k) = (1 − u²)·sin(Nk)·cos k + [(1 + u²)·cos(Nk) − 2u]·sin k = sin((N+1)k) − u²·sin((N−1)k) − 2u·sin k, multiplicities included, because det(2J·cos k·I − H) = J^N·G(k)/sin k (at u = 1 the band-edge levels sit at k = 0 and, for even N, k = π, where G vanishes for free; past u = 1 the departed levels ride the same curve continued to complex k); u is a boundary-condition parameter whose two ends are the two combs (u = 1 the ring's 2πm/N, u = 0 the open chain's πm/(N+1), F2b), the condition is the walk-time step's transmission amplitude closed into a loop, Re[e^(−iNk)/t(k)] = 1, the flat split 4δJ/N, δ = 1 − u, gets its next order ΔE_m = (4δJ/N)[1 + δ(½ − 1/(N·sin²k_m)) + O(δ²)], and past u = 1 how many levels leave the band is a parity law (Tier 1: derived and gated 2026-08-31 in THE_CRACKED_BELL §The crack is exactly solvable and stated the same day in the sibling COUPLING_DEFECT_WALK_TIME_STEP, both committed 2026-09-01 in 20bc844; registered 2026-09-01 as an INDEX of those two pages, adding only one-line consequences: the polynomial clothing of the identity, its band-edge factor forms, the N = 4 Perron series and the signature-(1,1) interlacing bound)
+### F160. The cracked ring is exactly solvable: with one bond of the XY ring detuned to u·J, u = J′/J, and E = 2J·cos k, for u < 1 the whole single-excitation spectrum is the zero set on the open interval (0, π) of G(k) = (1 − u²)·sin(Nk)·cos k + [(1 + u²)·cos(Nk) − 2u]·sin k = sin((N+1)k) − u²·sin((N−1)k) − 2u·sin k, multiplicities included, because det(2J·cos k·I − H) = J^N·G(k)/sin k (at u = 1 the band-edge levels sit at k = 0 and, for even N, k = π, where G vanishes for free; past u = 1 the departed levels ride the same curve continued to complex k); u is a boundary-condition parameter whose two ends are the two combs (u = 1 the ring's 2πm/N, u = 0 the open chain's πm/(N+1), F2b), the condition is the walk-time step's transmission amplitude closed into a loop, Re[e^(−iNk)/t(k)] = 1, the flat split 4δJ/N, δ = 1 − u, gets its next order ΔE_m = (4δJ/N)[1 + δ(½ − 1/(N·sin²k_m)) + O(δ²)], and past u = 1 how many levels leave the band is a parity law (Tier 1: derived and gated 2026-08-31 in THE_CRACKED_BELL §The crack is exactly solvable and stated the same day in the sibling COUPLING_DEFECT_WALK_TIME_STEP, both committed 2026-09-01 in 20bc844; registered 2026-09-01 as an INDEX of those two pages, adding only one-line consequences: the polynomial clothing of the identity, its band-edge factor forms, the N = 4 Perron series and the Weyl bound that caps the departures at one per side)
 
 **Why a number, and why it says so.** This entry indexes; it does not
 discover. The law was derived and gated on 2026-08-31 and committed on
@@ -8415,7 +8453,7 @@ pages, all of it one-line consequences: the polynomial form of the same
 identity, met EXACTLY over the integers rather than through an eigensolver,
 and the band-edge values that make the departure law a statement about two
 linear factors (both now also on the experiment's anchors), the N = 4 Perron
-series, and the interlacing bound that caps the departures at one per side. The
+series, and the Weyl bound that caps the departures at one per side. The
 exact-integer genre is not this entry's either: F157 built its locus
 polynomial over ℤ by Bareiss elimination and its counts by GF(p) ranks at two
 primes, and Seed and Divisor did before it; what is new is only the object
@@ -8453,7 +8491,11 @@ arithmetic to 1.7e-59 worst over that grid. The polynomial route removes the
 eigensolver from the identity altogether, which is what makes a sign count of
 G on (0, π) a COMPLETE count: a sign count is blind to a root of even order,
 and what excludes one is the identity together with the N sign changes
-exhausting degree N (gate E1b, on the crack side u < 1).
+exhausting degree N (gate E1b, on the crack side u < 1). Since 2026-09-02 the
+simplicity is a theorem rather than a sweep: G = 2AB with A = cos(k(N+1)/2) −
+u·cos(k(N−1)/2) and B = sin(k(N+1)/2) + u·sin(k(N−1)/2), the two reflection
+sectors through the crack, each an unreduced Jacobi block, and A = B = 0 forces
+u² = 1 (the proof's Corollary B, found by a review lens).
 
 **The two ends, and what u is.** u = 1 gives cos(Nk) = 1, the perfect ring on
 k = 2πm/N (the polynomial is then 2T_N(x/2) − 2); u = 0 gives sin((N+1)k) = 0,
@@ -8511,8 +8553,9 @@ own O(δ²) crossing deviation, not the law's error, and the first-order law
 would have said 1.000000.
 
 **The departures, written without a root.** (A *departure* here is a level
-leaving the band, not F86's departure from normality, which is a conditioning
-number of the same small matrices.) For u < 1 every level is strictly
+leaving the band, not the departure from normality of the F2b corollary and
+F89, which is a conditioning number of small non-normal matrices; this
+parenthetical filed that word under F86 until 2026-09-02, and F86 never uses it.) For u < 1 every level is strictly
 inside [−2J, 2J] (Perron-Frobenius: the weighted row sums are 2J except at
 the crack); at u = 1 the top level sits on the edge, and at even N the bottom
 one too. Past u = 1 the count is a parity law and
@@ -8536,8 +8579,8 @@ value, which is the same fact read from the other side); the adopted object
 reports the edge separately rather than folding it into a tolerance. The count itself is read off the polynomial by Descartes'
 rule, which is EXACT for a real-rooted polynomial (H is real symmetric): the
 sign variations of P(x + 2) count the levels above the band, of P(−x − 2) the
-levels below. The update has signature (1,1), one positive and one negative
-eigenvalue, so by interlacing it moves at most one level past each edge, and
+levels below. The update has eigenvalues (u, 0, …, 0, −u), one positive and one
+negative, so by Weyl's inequality it moves at most one level past each edge, and
 the count never exceeds one per side. The first draft of this count forgot the
 parity of N (*"two levels out of the band at every δ > 0"*, true at even N
 only), was caught in review before commit, and is the CAUGHT_ERRORS entry of
@@ -8592,7 +8635,13 @@ law and detune the comb, solving rather than sampling"*, and the comb it names
 is exactly this curve's u = 0 end. This entry supplies the SOLVED, detuned comb
 that item asked for and does not close it: the item asks whether a comb LAW
 (F129, F89's resonance, F145/F146, F65's root, F144's exception) dissolves off
-the comb, and none of those has been run on this road. `fw.Confirmations`:
+the comb, and on 2026-09-01 none of those had been run on this road. Since 2026-09-02
+F129 has, on [The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md): every
+one of its 2558 exact collision pairs at n ≤ 30 separates along this road, 2335 at
+first order by a theorem (the first-order gap is F65's endpoint rates signed, Theorem G
+of the proof) and all 223 others at second order by a 40-digit reading with a decade law,
+and the other four laws' conclusions are shown not to transport to a level list (F89's
+predicates and F146's hypothesis do). `fw.Confirmations`:
 nothing ring-shaped, nothing defect-shaped. `docs/GLOSSARY.md`: no entry for the object, none for *comb*, and *Band* in
 the pre-registration sense (fenced above); *impurity* is a free word in this
 repository and *Robin* is free as a boundary-condition word (every other hit
@@ -8621,11 +8670,23 @@ split's, and γ does not appear in G at all. Uniform bonds off the crack. The
 knob's sign, above. Not the blind seat: THE_SEAT_THAT_CUTS's open item asks for
 a detuned bond under a seat cut, a different object. No hardware claim.
 
-**Proof:** none in `docs/proofs/`; the derivation is the matching condition on
-the experiment ([The Cracked Bell](../experiments/THE_CRACKED_BELL.md) §The crack is
-exactly solvable: the plane-wave ansatz across the cracked bond, the 2×2
-determinant, the band-bottom expansion) and the sibling's scattering
-derivation. Open: a `PROOF_` home.
+**Proof:** [PROOF_CRACKED_RING_EXACT_CURVE](proofs/PROOF_CRACKED_RING_EXACT_CURVE.md)
+(2026-09-02): Theorem A the polynomial by the Laplace expansion along the crack row
+(three minors), with the matrix determinant lemma and the Cassini identity
+U_n² − U_{n+1}U_{n−1} = 1 as the second route; Corollary B the curve with its
+multiplicity clause (Perron-Frobenius keeps every level strictly inside for
+0 ≤ u < 1) and its simplicity clause (G = 2AB, the two reflection sectors, each a
+nonvanishing prefactor times an unreduced Jacobi block's characteristic polynomial,
+and a Bézout identity forbidding a common zero unless u² = 1: the spectrum is simple
+for every u ≥ 0 except u = 1); the two ends; Theorem D the join; Theorem E the
+split's next order written out to c_m; Theorem F the departures from the two linear
+factors and Weyl's inequality, the parity of N in the statement; Theorem G the
+chain-end velocity dE_k/du = (−1)^{k+1}·α_k/γ₀, F65's endpoint rates signed, from the
+polynomial's derivative and from the eigenvectors; nine symbolic gates, no floating
+point, in
+[`simulations/cracked_ring_exact_curve_proof.py`](../simulations/cracked_ring_exact_curve_proof.py).
+The matching-condition derivation stays on the experiment page as the route the law
+was found by.
 **Gate:** [`simulations/cracked_bell_gate.py`](../simulations/cracked_bell_gate.py)
 stage E (27 of the script's 70 PASS lines at run time, exit 0): every level on the curve (one
 Newton step moves an eigenvalue by at most 1.8e-14 over 48 (N, δ) points; the
@@ -8654,8 +8715,19 @@ pair reading refusing a crack too deep for its straddling-pair fence, and the
 departed level at u up to 1e10 judged by the exact polynomial's Newton step)
 with the four scalar faces `F160_Road`, `F160_Departures`,
 `F160_OddThreshold`, `F160_SplitCorrection` in `Formulas.cs`.
-**Typed:** not yet; no `Claim` in `RCPsiSquared.Core`, the `Crack` is
-MirrorWorld's and the main repo's typed layer still cites the experiment.
+**Typed:** `CrackedRingExactCurveClaim`
+([compute/RCPsiSquared.Core/Symmetry/CrackedRingExactCurveClaim.cs](../compute/RCPsiSquared.Core/Symmetry/CrackedRingExactCurveClaim.cs),
+2026-09-02, Tier1Derived, parents `TopologyBandEdgeClaim`, whose ring row is this
+curve's u = 1 end and whose §Scope fence is its Perron root, and
+`F2bXyChainSpectrumPi2Inheritance`, the u = 0 end). It carries the closed forms (the
+scaled integer polynomial, the two band-edge factors, the departure count by their
+signs, the odd threshold in lowest terms, c_m, the chain-end velocity) and
+deliberately not the elimination, which is `Crack`'s; no Diagnostics witness, the
+from-below home being MirrorWorld's `Crack` with its 74 tests, while the claim's own
+`CrackedRingExactCurveClaimTests` meet the polynomial against a Bareiss determinant
+over the integers and the factor forms against the unfactored polynomial. First use
+of the typed velocity: [The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md),
+F129's collisions on this road.
 
 ---
 

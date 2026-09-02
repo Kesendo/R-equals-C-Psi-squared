@@ -875,6 +875,18 @@ public static class KnowledgeRegistryFactory
             // Live: inspect --root blind (SeatCutBlindnessWitness, exact GF(p) Krylov ranks, no eigensolver).
             .RegisterSeatCutBlindnessClaim()
             .RegisterPalindromeTwoEndCountClaim()
+            // F160, the cracked ring is exactly solvable (Tier 1 derived, 2026-09-02; the law derived and gated
+            // 2026-08-31 in experiments/THE_CRACKED_BELL.md): one bond of the XY ring detuned to u*J has
+            // det(x I - H) = U_N(x/2) - u^2 U_{N-2}(x/2) - 2u, so the whole single-excitation spectrum is the
+            // zero set of one curve G(k) on (0, pi); u is a boundary condition between the chain comb (u = 0,
+            // F2b) and the ring comb (u = 1); the condition is the walk-time step's transmission amplitude with
+            // one round trip of phase; the split's next order is c_m = 1/2 - 1/(N sin^2 k_m); the departures past
+            // u = 1 are a parity law read off two linear factors, at most one per side by Weyl's inequality; and the
+            // road's velocity at the chain end is F65's rate comb with alternating sign. Parents
+            // TopologyBandEdgeClaim (the ring row and the Scope fence that is this curve's Perron root) and
+            // F2bXyChainSpectrumPi2Inheritance (the u = 0 end). No Diagnostics witness: the from-below home is
+            // MirrorWorld's Crack (compute/MirrorWorld/Crack.cs), which meets the identity over the integers.
+            .RegisterCrackedRingExactCurveClaim()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()

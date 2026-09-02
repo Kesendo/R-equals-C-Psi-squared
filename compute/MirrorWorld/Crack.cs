@@ -6,7 +6,13 @@ namespace MirrorWorld;
 // experiments/THE_CRACKED_BELL.md, its section "The crack is exactly solvable", whose gate is stage E of
 // simulations/cracked_bell_gate.py;
 // registry F160, minted the same evening as an INDEX of that section and of the sibling paragraph in
-// experiments/COUPLING_DEFECT_WALK_TIME_STEP.md, not as a finding of its own).
+// experiments/COUPLING_DEFECT_WALK_TIME_STEP.md, not as a finding of its own). Since 2026-09-02 the law
+// has a proof, docs/proofs/PROOF_CRACKED_RING_EXACT_CURVE.md (the determinant by Laplace, the curve, its
+// SIMPLICITY at every u >= 0 except u = 1 by the factorization G = 2AB into the two reflection sectors,
+// which is what licenses the root reading and the near-double-pair guard below, the join, c_m, the
+// departures by Weyl, and the chain-end velocity dE_k/du = (-1)^(k+1) alpha_k/gamma_0, F65's rates
+// signed), and a typed claim in the main repo, CrackedRingExactCurveClaim (RCPsiSquared.Core), which
+// carries the closed forms and NOT this elimination; the elimination stays here.
 //
 // THE PARENT IS THE CYCLOTOMY, not the frame and not the Warble. The choice is the content: u = J'/J
 // on one bond is a BOUNDARY-CONDITION parameter, and its two ends are exactly Cyclotomy's two Own
@@ -44,7 +50,7 @@ namespace MirrorWorld;
 //   G(k) = (1 - u^2) sin(Nk) cos k + [(1 + u^2) cos(Nk) - 2u] sin k
 //        = sin((N+1)k) - u^2 sin((N-1)k) - 2u sin k.
 //
-// Section E meets the identity through an eigensolver to 4.1e-13 relative. Here it is met EXACTLY:
+// Section E meets the identity through a determinant to 4.1e-13 relative (gate E1c). Here it is met EXACTLY:
 // the left side is the characteristic polynomial computed from the matrix by Faddeev-LeVerrier over
 // the integers (the matrix scaled by q, every division exact), the right side is the Chebyshev
 // recursion, and the two integer coefficient lists are compared cell for cell. Past the exact route's
@@ -107,8 +113,9 @@ public sealed class Crack : GameObject
     }
 
     // left: the road between the two combs, and what the road costs, the departures: the count of
-    // levels the road pushes out of the band past u = 1 (a departure here is that, not F86's departure
-    // from normality). NOT the combs: both ends are the Cyclotomy's, and neither is this object's to own.
+    // levels the road pushes out of the band past u = 1 (a departure here is that, not the departure from
+    // normality of the F2b corollary and F89; a first version filed that word under F86, which never uses
+    // it). NOT the combs: both ends are the Cyclotomy's, and neither is this object's to own.
     public override IReadOnlyList<string> Own => new[] { "road", "departures" };
 
     static long Gcd(long a, long b) { a = Math.Abs(a); b = Math.Abs(b); while (b != 0) (a, b) = (b, a % b); return a == 0 ? 1 : a; }

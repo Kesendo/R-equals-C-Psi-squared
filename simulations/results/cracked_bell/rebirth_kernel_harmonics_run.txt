@@ -1,0 +1,23 @@
+Read 1: the kernel's own spatial weight, RMS over the run of |FFT_a C_a(tau)|_q
+  N=8 m=1 delta=0.15: RMS |C_q| by q = q0:0.0000, q1:0.2753, q2:1.0264, q3:0.0934, q4:1.3936, q5:0.0934, q6:1.0264, q7:0.2753
+     largest q = 4 (N/2 = 4.0, 2m = 2), second q = 2, ratio second/first = 0.736; q = 0 exactly 5.5e-16; over q >= 1: min 0.0934, max 1.3936, spread (max-min)/min = 1391.6%
+  N=8 m=1 delta=0.05: RMS |C_q| by q = q0:0.0000, q1:0.0898, q2:0.9819, q3:0.0302, q4:1.3687, q5:0.0302, q6:0.9819, q7:0.0898
+     largest q = 4 (N/2 = 4.0, 2m = 2), second q = 2, ratio second/first = 0.717; q = 0 exactly 1.7e-16; over q >= 1: min 0.0302, max 1.3687, spread (max-min)/min = 4436.0%
+  N=8 m=2 delta=0.15: RMS |C_q| by q = q0:0.0000, q1:0.2753, q2:1.0264, q3:0.0934, q4:1.3936, q5:0.0934, q6:1.0264, q7:0.2753
+     largest q = 4 (N/2 = 4.0, 2m = 4), second q = 2, ratio second/first = 0.736; q = 0 exactly 5.5e-16; over q >= 1: min 0.0934, max 1.3936, spread (max-min)/min = 1391.6%
+  N=12 m=1 delta=0.1: RMS |C_q| by q = q0:0.0000, q1:0.3047, q2:0.8600, q3:0.0827, q4:1.3531, q5:0.0580, q6:1.5424, q7:0.0580, q8:1.3531, q9:0.0827, q10:0.8600, q11:0.3047
+     largest q = 6 (N/2 = 6.0, 2m = 2), second q = 4, ratio second/first = 0.877; q = 0 exactly 1.8e-15; over q >= 1: min 0.0580, max 1.5424, spread (max-min)/min = 2558.3%
+  N=11 m=1 delta=0.15: RMS |C_q| by q = q0:0.0000, q1:0.5182, q2:0.5004, q3:0.5731, q4:0.6413, q5:0.6791, q6:0.6791, q7:0.6413, q8:0.5731, q9:0.5004, q10:0.5182
+     largest q = 6 (N/2 = 5.5, 2m = 2), second q = 5, ratio second/first = 1.000; q = 0 exactly 5.6e-16; over q >= 1: min 0.5004, max 0.6791, spread (max-min)/min = 35.7%
+  N=16 m=1 delta=0.1: RMS |C_q| by q = q0:0.0000, q1:0.3674, q2:0.6500, q3:0.1135, q4:1.0170, q5:0.0734, q6:1.2889, q7:0.0683, q8:1.3862, q9:0.0683, q10:1.2889, q11:0.0734, q12:1.0170, q13:0.1135, q14:0.6500, q15:0.3674
+     largest q = 8 (N/2 = 8.0, 2m = 2), second q = 6, ratio second/first = 0.930; q = 0 exactly 8.6e-16; over q >= 1: min 0.0683, max 1.3862, spread (max-min)/min = 1930.2%
+  seed-blindness: max|C_a(tau; m=1) - C_a(tau; m=2)| at N=8, delta=0.15 = 0.0e+00 (compared as zero: True)
+Read 2: the Parseval split of the first rebirth V(T_0) = sum_q V_q, T_0 the free current's first zero of THAT geometry
+  N=8 m=1 delta=0.15: T_0 = 20.2953, V(T0) direct = 1.2744, sum_q V_q = 1.2744
+     V_q by q: q0:+0.0000, q1:+0.0261, q2:+0.6091, q3:+0.0018, q4:+0.0004, q5:+0.0018, q6:+0.6091, q7:+0.0261
+     share of |V_q|: q0:0.0000, q1:0.0205, q2:0.4780, q3:0.0014, q4:0.0003, q5:0.0014, q6:0.4780, q7:0.0205
+     share at q = +-2m: 95.6%; share at q = N/2: 0.031%
+  N=12 m=1 delta=0.1: T_0 = 46.8057, V(T0) direct = 1.4737, sum_q V_q = 1.4737
+     V_q by q: q0:-0.0000, q1:+0.0341, q2:+0.7069, q3:+0.0012, q4:-0.0054, q5:-0.0000, q6:+0.0001, q7:-0.0000, q8:-0.0054, q9:+0.0012, q10:+0.7069, q11:+0.0341
+     share of |V_q|: q0:0.0000, q1:0.0228, q2:0.4727, q3:0.0008, q4:0.0036, q5:0.0000, q6:0.0001, q7:0.0000, q8:0.0036, q9:0.0008, q10:0.4727, q11:0.0228
+     share at q = +-2m: 94.5%; share at q = N/2: 0.009%

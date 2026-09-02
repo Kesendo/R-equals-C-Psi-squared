@@ -931,7 +931,9 @@ gate("E2c and the matrix agrees at both ends (the ring's circulant, the chain's 
 # E2d what the ROAD costs, dynamically. The document says the endpoint does not cost the
 # circulation and that what dies, dies at delta = 0+ instead. Those four figures had no verifier:
 # E2 is purely spectral and evolves nothing. Three claims, from below.
-#   (i)  the spectrum is SIMPLE at every delta > 0 (swept, not sampled: this is what makes every
+#   (i)  the spectrum is SIMPLE at every delta > 0 (swept, not sampled; since 2026-09-02 also a theorem for every
+#        u >= 0 except u = 1, PROOF_CRACKED_RING_EXACT_CURVE Corollary B, G = 2AB; the "measured rather than
+#        proved" below is the sweep's own standing, kept as history: this is what makes every
 #        eigenstate a standing wave, and it is measured rather than proved).
 #   (ii) every eigenstate's circulation is then EXACTLY zero -- an exact route, so == 0.0.
 #   (iii) the persistent part dies at delta = 0+ while the oscillating part does not die at all:

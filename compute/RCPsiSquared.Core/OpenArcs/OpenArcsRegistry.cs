@@ -8343,8 +8343,35 @@ public static class OpenArcsRegistry
                 "together. (1) RUN THE COMB TEST: take the cheapest comb law and detune the comb, solving " +
                 "rather than sampling. (Since 2026-09-01 the SOLVED detuned comb exists: F160, the cracked " +
                 "ring's exact curve, u = J'/J on one bond interpolating the ring comb at u = 1 and this " +
-                "chain comb at u = 0; none of the five comb laws has been run on that road yet, so the item " +
-                "stands and now has its instrument.) (2) TWO LAWS ARE HALF DONE and only the other half is open. F143's " +
+                "chain comb at u = 0.) RUN 2026-09-02 for F129, experiments/THE_COMB_ON_THE_ROAD.md, gate " +
+                "simulations/comb_road_f129.py: every one of the 2558 exact F129 collision pairs at the " +
+                "nine firing n <= 30 separates as the road leaves the comb (and none is closed at u = 1/2 to " +
+                "forty digits), 2335 at first order by a THEOREM (the " +
+                "first-order gap is F65's endpoint rate comb with the chain reflection's sign, " +
+                "dE_k/du = (-1)^(k+1) alpha_k/gamma_0, PROOF_CRACKED_RING_EXACT_CURVE Theorem G, n times the gap " +
+                "decided exactly in Z[zeta_2n]) and all 223 others at second order, a 40-digit reading with a decade law " +
+                "on every one of them (c3 = 0 for all 223; for the 11 Theta-mirror pairs sigma = n - tau the gap is " +
+                "even in u to all orders, K H(u) K = -H(-u) at odd N, the zeta^2 anti-protection law with u for zeta). " +
+                "The dissolution is GRADED and its grading is itself a comb law: at odd n the first-order " +
+                "gap is (4/n)(o_tau - o_sigma), the difference of odd-label counts, by the Galois " +
+                "automorphism k -> k(n+2), so the speed takes only the values 0, 4/n, 8/n, 12/n (the coincidence " +
+                "met, its derivative forced); at even n every pair that stands in this census (23) is a collision " +
+                "of two ZERO-SUM triples, F89's resonance object, whose doubled sums agree too, read not derived, " +
+                "and a Theta-mirror collision pair stands at first order exactly when n is even, so the flown " +
+                "n = 9 pair separates on the road although the zeta^2 law protects it against ZZ. THE OTHER FOUR " +
+                "DO NOT TRANSPORT their conclusions to a level list, each for " +
+                "its own reason (F89's count needs the open chain's ordering sectors and the road is a ring " +
+                "at every u > 0; F145 and F144 are index arithmetic on the chiral involution a -> M - a; " +
+                "F146's hypothesis transports and its count does not; F65's Niven root is an ENDPOINT " +
+                "amplitude the ring lacks, and F65 entered instead as the road's velocity). So item (1) is " +
+                "DONE for the one law that could be asked and is not a verdict on the other four. The page's " +
+                "own gates and record had to be rewritten several times before they held on correct data (a " +
+                "decade-ratio window [7, 14] that read a vanishing next coefficient as a failure; a " +
+                "parity-uniform prediction that was the special case of the odd-count law; a float D == 0.0 " +
+                "that let exact zeros through where the exact test stood three lines above; a convergence " +
+                "test with its inequality inverted; a sweep record that reported fw.Confirmations empty when " +
+                "Confirmation 24 IS the census's n = 9 pair), the usual shape, recorded in " +
+                "docs/CAUGHT_ERRORS.md 2026-09-02. (2) TWO LAWS ARE HALF DONE and only the other half is open. F143's " +
                 "disorder half is done ('the kernel, its identity as the R-odd sector and its dimension " +
                 "floor(N/2) survive disorder') while its LONGITUDINAL-FIELD half is not, its own fence " +
                 "naming the break ('a longitudinal field breaks K h K = -h outright'); F140's off-locus " +

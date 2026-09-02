@@ -1,0 +1,10 @@
+  [PASS] P1 Theorem A: det(x I - H) == U_N(x/2) - u^2 U_{N-2}(x/2) - 2u as polynomials in (x, u), N = 3..9
+  [PASS] P2 Cassini: U_n^2 - U_{n+1} U_{n-1} == 1 in the 2cos normalization, n = 1..12
+  [PASS] P3 Corollary B: P(2 cos k) sin k == G(k), both printed forms, N = 3..9, exact (reduction modulo s^2 + c^2 - 1)
+  [PASS] P4 Theorem D: 1/t == (1+u^2)/(2u) + i(1-u^2) cot k/(2u), and Re[e^{-iNk}/t] - 1 == G/(2u sin k), N = 3..9, exact (reduction modulo s^2 + c^2 - 1)
+  [PASS] P5 Theorem E: delta^2 coefficient is -a1^2 s + 2 a1 c + s (roots (c +- 1)/s), and Delta E/(4 delta/N) == 1 + delta(1/2 - 1/(N s^2)) + O(delta^2)  (a1 = [(c - 1)/s, (c + 1)/s] (with c^2 + s^2 = 1))
+  [PASS] P6 Theorem F: P(+2) and P(-2) equal the two linear factors, N = 3..12; the odd-N threshold (N+1)/(N-1) is the exact positive root of P(-2)
+  [PASS] P7 Theorem G, exact: dP/du|0 = -2; dP/dx|0 at x = 2 cos theta is the displayed trig form (reduction); at sin((N+1)theta) = 0, cos((N+1)theta) = (-1)^k both 2/P' and 2 psi_k(0) psi_k(N-1) equal (-1)^(k+1) (4/(N+1)) sin^2 theta; N = 3..9
+  [PASS] P8 Corollary B's simplicity clause: G == 2AB symbolic in N (A = cos(k(N+1)/2) - u cos(k(N-1)/2), B = sin(k(N+1)/2) + u sin(k(N-1)/2)), and (cos a + u cos b)A + (sin a - u sin b)B == 1 - u^2 symbolic in N, so A = B = 0 forces u^2 = 1
+  [PASS] P9 the prefactor relations of the simplicity clause: A == cos(k/2) chi_e(2 cos k) and B == sin(k/2) chi_o(2 cos k) at even N, A == chi_e/2 and B == sin k chi_o at odd N, with chi_e chi_o == P, N = 3..9, u symbolic, exact in the half angle
+ALL GATES PASS
