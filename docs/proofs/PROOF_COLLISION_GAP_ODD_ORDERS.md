@@ -34,6 +34,12 @@ run committed at
 It imports the exact cyclotomic ring and the census from
 [`f129_level_collision_law.py`](../../simulations/f129_level_collision_law.py) and
 [`comb_road_f129.py`](../../simulations/comb_road_f129.py) rather than restating either.
+**Typed:** `CollisionGapOddOrdersClaim`
+([`compute/RCPsiSquared.Core/Symmetry/CollisionGapOddOrdersClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/CollisionGapOddOrdersClaim.cs)),
+Tier 1 derived, parent `CrackedRingExactCurveClaim`; it recomputes the census in ℤ[ζ_2n] at inspect
+time rather than storing it, and its from-below tests are `CollisionGapOddOrdersClaimTests` in
+`compute/RCPsiSquared.Core.Tests/`, where Theorem A is met by an independent exact power-series
+solution of F160's polynomial over ℚ, at the comb points where cos θ_k is rational.
 
 **Builds on:**
 - [PROOF_CRACKED_RING_EXACT_CURVE](PROOF_CRACKED_RING_EXACT_CURVE.md) Theorem A for the
@@ -707,7 +713,7 @@ family C at 2(n−10); C is not alone, family L being 3-free too | exact, ℤ[ζ
   two are different objects on different combs (modulus N there, n = N + 1 here) and
   nothing in this file transfers to that one.
 - **Five orders, not a general form.** Theorem A gives d₁ to d₅. The PARITY of the multipliers is
-a theorem at every m (§(d), from the chiral K); what is NOT proved is the RANGE, that an odd
+a theorem at every m (§(d), from two symmetries of the angle equation); what is NOT proved is the RANGE, that an odd
 d_{2m+1} reaches no further than X_{2m+2}, which is only visible in d₁, d₃ and d₅, and the fact
 that d₃ and d₅ carry no X₀ while d₁ does, which is read off the two cases. The ladder's general
 shape is open in that sense.

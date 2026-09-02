@@ -887,6 +887,20 @@ public static class KnowledgeRegistryFactory
             // F2bXyChainSpectrumPi2Inheritance (the u = 0 end). No Diagnostics witness: the from-below home is
             // MirrorWorld's Crack (compute/MirrorWorld/Crack.cs), which meets the identity over the integers.
             .RegisterCrackedRingExactCurveClaim()
+            // F161, each computed order of a collision gap reads one comb under an integer multiplier (Tier 1
+            // derived, 2026-09-02, docs/proofs/PROOF_COLLISION_GAP_ODD_ORDERS.md): expanding a chain level in the
+            // cracked ring's wrap bond puts each of the five computed coefficients on a multiplier ladder, the even
+            // orders on M_j with odd multipliers and the odd orders on X_2j = -M_{n+2j} with even ones; a collision is
+            // a rational identity among roots of unity, so it survives every multiplier that merely permutes the comb,
+            // which is a gcd. At odd n that empties the third order for EVERY collision pair; at even n the
+            // doubled-label ROT3 shape carries the twelve non-mirror standing pairs instead; and either way the first
+            // multiplier that fails is 3, the prime F129 needs for an odd-modulus collision to exist at all, so X_6
+            // first enters at fifth order. The sharp criterion is per minimal PIECE and its ratio-order, under which
+            // the 60 pairs with a vanishing second order are F129's family C. Parent CrackedRingExactCurveClaim
+            // (F160, the polynomial that is the whole input); F129 by anchor only, its typed home being Tier1Candidate.
+            // No Diagnostics witness: the claim itself recomputes in Z[zeta_2n] at call time, and the gate is
+            // simulations/collision_gap_odd_orders.py.
+            .RegisterCollisionGapOddOrdersClaim()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()

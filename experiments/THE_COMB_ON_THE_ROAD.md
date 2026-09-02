@@ -457,8 +457,10 @@ The
   move), F130 (the nearest bond detuning of a collision object).
 - Hardware: Confirmation 24, `f129_standing_fringe_kingston_july2026`
   ([IBM_F129_RAMSEY_FRINGE](IBM_F129_RAMSEY_FRINGE.md)), the n = 9 pair on the comb.
-- Typed: `CrackedRingExactCurveClaim` (`compute/RCPsiSquared.Core/Symmetry/`, node *the velocity at the
-  chain end is F65's comb, signed*); the road's levels live in `compute/MirrorWorld/Crack.cs`.
+- Typed: `CollisionGapOddOrdersClaim` (`compute/RCPsiSquared.Core/Symmetry/`), which is the typed home of
+  this page's census and recomputes it in ℤ[ζ_2n] at inspect time, and `CrackedRingExactCurveClaim`
+  (same directory, node *the velocity at the chain end is F65's comb, signed*) for the road itself;
+  the road's levels live in `compute/MirrorWorld/Crack.cs`.
 - Arc: `the_forced_and_the_met` NextStep (1), which this page answers for F129 and leaves open for
   nothing else it named, the other four being shown not to transport.
 - Record: [`docs/CAUGHT_ERRORS.md`](../docs/CAUGHT_ERRORS.md), both entries of 2026-09-02.

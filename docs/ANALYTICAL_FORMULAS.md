@@ -8736,7 +8736,7 @@ F129's collisions on this road. That velocity is the first term of a series, and
 computed orders reads the same comb under a different integer multiplier, and which of them
 vanish is decided by a gcd.
 
-### F161. Each computed order of a collision gap on the crack's road reads ONE comb under a different integer multiplier, and which orders vanish is decided by a gcd, the last surviving one being F129's own divisor: writing a chain level's motion in the wrap bond as E_k(u) = 2cos θ_k + Σ_m d_m·u^m, each of the five computed coefficients is a signed combination of neighbouring evaluations of ONE comb under an integer multiplier (a difference of two through third order, three rungs at fifth; the general shape past the fifth is open), the odd orders on X_2j(τ) = Σ_{k∈τ} (−1)^{k+1}·cos(2jkπ/n) = −M_{n+2j}(τ) and the even orders on M_{2j+1}(τ) = Σ_{k∈τ} cos((2j+1)kπ/n); the multiplier is a Galois automorphism of ℚ(ζ_2n) exactly when gcd(n+2j, 2n) = 1, which at ODD n is gcd(j, n) = 1, so at every odd n and for EVERY collision pair ΔX₂ = ΔX₄ = 0 and hence c₃ = 0, standing or separating (the rung j = 0 is never an automorphism, gcd(n, 2n) = n, and that is the rung which leaves c₁ standing for the 2335 pairs that separate, reading (4/n)(o_τ − o_σ) at odd n where ΔX₂ = 0, and (2/n)(ΔX₀ − ΔX₂) in general); at even n no such multiplier reaches the ladder from the collision, and the twelve non-mirror standing pairs of the n ≤ 30 census are carried instead by the Conway-Jones ROT3 shape of their doubled labels, for which X_2j = 0 is FORCED whenever 3 ∤ j (parity-uniform triples; at even n that is free, since 6 | n makes every coset parity-homogeneous, and at odd n it is load-bearing); and since F129 fires only at 3|n or 10|n while 10|n forces n even, every odd firing modulus has 3|n, so j = 3 is the first surviving rung in both cases and X₆ first enters at FIFTH order (Tier 1 derived and gated 2026-09-02, fifteen gate blocks L1 to L14: the cyclotomic ones exact in ℤ[ζ_2n], the closed forms exact and symbolic in n, four blocks exact but concrete
+### F161. Each computed order of a collision gap on the crack's road reads ONE comb under a different integer multiplier, and which orders vanish is decided by a gcd, the last surviving one being F129's own divisor: writing a chain level's motion in the wrap bond as E_k(u) = 2cos θ_k + Σ_m d_m·u^m, each of the five computed coefficients is a signed combination of neighbouring evaluations of ONE comb under an integer multiplier (a difference of two through third order, three rungs at fifth; the PARITY of the multipliers is a theorem at every order, from two symmetries of the angle equation, while their RANGE is not, so the general shape past the fifth is open), the odd orders on X_2j(τ) = Σ_{k∈τ} (−1)^{k+1}·cos(2jkπ/n) = −M_{n+2j}(τ) and the even orders on M_{2j+1}(τ) = Σ_{k∈τ} cos((2j+1)kπ/n); the multiplier is a Galois automorphism of ℚ(ζ_2n) exactly when gcd(n+2j, 2n) = 1, which at ODD n is gcd(j, n) = 1, so at every odd n and for EVERY collision pair ΔX₂ = ΔX₄ = 0 and hence c₃ = 0, standing or separating (the rung j = 0 is never an automorphism, gcd(n, 2n) = n, and that is the rung which leaves c₁ standing for the 2335 pairs that separate, reading (4/n)(o_τ − o_σ) at odd n where ΔX₂ = 0, and (2/n)(ΔX₀ − ΔX₂) in general); at even n no such multiplier reaches the ladder from the collision, and the twelve non-mirror standing pairs of the n ≤ 30 census are carried instead by the Conway-Jones ROT3 shape of their doubled labels, for which X_2j = 0 is FORCED whenever 3 ∤ j (parity-uniform triples; at even n that is free, since 6 | n makes every coset parity-homogeneous, and at odd n it is load-bearing); and since F129 fires only at 3|n or 10|n while 10|n forces n even, every odd firing modulus has 3|n, so j = 3 is the first surviving rung in both cases and X₆ first enters at FIFTH order (Tier 1 derived and gated 2026-09-02, fifteen gate blocks L1 to L14: the cyclotomic ones exact in ℤ[ζ_2n], the closed forms exact and symbolic in n, four blocks exact but concrete
 in N or n, and one error-model law on an eigensolver (L4), the only inexact gate on
 the page; the first-order rung is F160's Theorem G and the j = 1 kill is THE_COMB_ON_THE_ROAD's gate R3b, both recovered here as members of one family)
 
@@ -8828,10 +8828,24 @@ and n = 27; L9/L10 the even-n reading and the ROT3 lemma with its break-input; L
 eleven Θ-mirror standing pairs; L12 the second order and the 60; L13 the piece criterion and
 family C; L14 the two parity combs of the ring), run committed at
 [`collision_gap_odd_orders_run.txt`](../simulations/results/collision_gap_odd_orders/collision_gap_odd_orders_run.txt).
-**Typed:** not yet. The from-below home is the gate above; a claim carrying the
-closed coefficients and the gcd criterion is the natural next piece, alongside
-`CrackedRingExactCurveClaim`, which already holds the first-order rung as
-`ChainEndVelocity`.
+**Typed:** `CollisionGapOddOrdersClaim`
+([compute/RCPsiSquared.Core/Symmetry/CollisionGapOddOrdersClaim.cs](../compute/RCPsiSquared.Core/Symmetry/CollisionGapOddOrdersClaim.cs),
+2026-09-02, Tier1Derived, parent `CrackedRingExactCurveClaim`, whose polynomial is
+the whole input to the series and whose Theorem G is that series at first order).
+It carries Corollary C's multiplier form as exact rationals (the rungs, the weights
+and the prefactor per order, from which both the floating-point and the exact
+evaluation of d_m are assembled, so the closed form lives in one place), the gcd
+criterion on both ladders, the readings M_j and X_2j exactly in ℤ[ζ_2n], the
+doubled-label ROT3 test with its collapse closed form, and the second-order bound as
+`Count(C, n) + Count(L, n)` off the committed family inventory rather than restated.
+The census is RECOMPUTED from the triples at inspect time, not stored:
+`inspect --claim CollisionGapOddOrdersClaim` prints, among them, 2558 pairs, 2335
+separating and 223 standing, 627 at odd n with 627 vanishing third orders, 11
+Θ-mirror and 212 non-mirror standing pairs of which 212 have the sixth rung alive,
+12 even-n ROT3-and-parity-matched, and 60 with a vanishing second order. F129 is deliberately not a typed parent, its typed home
+`CrossTripleOrthogonalityClaim` being Tier1Candidate, which the tier rule forbids
+above a Tier1Derived child; it is carried by anchor and executably through
+`LevelCollisionCensus.Fires` and `CollisionFamilyInventory.Count`.
 
 ---
 
