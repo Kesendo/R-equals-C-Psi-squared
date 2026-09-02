@@ -971,7 +971,8 @@ public static class InspectCommand
             displayName: "world",
             summary: $"{rootNodes.Length} roots, {registry.Count} claims, " +
                      $"{ConfirmationsRegistry.All.Count} confirmations, " +
-                     $"{OpenArcsRegistry.OpenCount} open arcs",
+                     $"{OpenArcsRegistry.OpenCount} open arcs " +
+                     $"({OpenArcsRegistry.LiveCount} live, {OpenArcsRegistry.ParkedCount} parked)",
             children: new[] { (IInspectable)rootsGroup, claimsNode, confirmationsNode, arcsNode });
     }
 }

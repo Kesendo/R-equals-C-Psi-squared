@@ -1,9 +1,14 @@
 namespace RCPsiSquared.Core.OpenArcs;
 
 /// <summary>The lifecycle state of an open arc: started research thread that has not been
-/// declared finished. <see cref="Open"/> = still parked, awaiting its next step;
-/// <see cref="Retired"/> = closed for a recorded reason (subsumed, refuted, or completed
-/// elsewhere) and kept only as honest history.</summary>
+/// declared finished. <see cref="Open"/> = not finished; <see cref="Retired"/> = closed for a
+/// recorded reason (subsumed, refuted, or completed elsewhere) and kept only as honest history.
+///
+/// <para>There is deliberately no third member for "parked". Parked is not a lifecycle state,
+/// it is a REASON the next move is not takeable right now, and the arcs it applies to are
+/// unfinished exactly like the others; an enum member would throw that reason away. It lives
+/// on <see cref="OpenArc.ParkedReason"/> instead, which keeps the Open/Retired partition
+/// (and the test that guards it) meaningful.</para></summary>
 public enum OpenArcStatus
 {
     Open,
@@ -27,4 +32,5 @@ public sealed record OpenArc(
     string ParkedAt,
     string NextStep,
     OpenArcStatus Status,
-    string? RetiredReason = null);
+    string? RetiredReason = null,
+    string? ParkedReason = null);

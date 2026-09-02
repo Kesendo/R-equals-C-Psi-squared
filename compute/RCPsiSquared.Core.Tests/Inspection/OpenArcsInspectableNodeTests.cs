@@ -70,6 +70,55 @@ public class OpenArcsInspectableNodeTests
     }
 
     [Fact]
+    public void Registry_ArcsParkedInProseCarryTheTypedParkedReason()
+    {
+        // The defect this guards: "parked" used to live ONLY as prose inside arcs whose status is
+        // Open, so OpenCount reported them as work there is to do. It fails if a future session
+        // parks an arc in its prose and leaves the typed field null, which is exactly what had
+        // happened to both of the arcs it currently finds.
+        var parkedInProse = OpenArcsRegistry.All
+            .Where(a => (a.ParkedAt + a.NextStep + a.Origin).Contains("PARKED BY TOM")
+                     || (a.ParkedAt + a.NextStep + a.Origin).Contains("ARC PARKED"));
+
+        Assert.NotEmpty(parkedInProse);
+        Assert.All(parkedInProse, a =>
+        {
+            Assert.Equal(OpenArcStatus.Open, a.Status);
+            Assert.False(string.IsNullOrWhiteSpace(a.ParkedReason));
+        });
+    }
+
+    [Fact]
+    public void Registry_LiveCountIsOpenMinusParked_AndIsStrictlySmaller()
+    {
+        Assert.Equal(OpenArcsRegistry.OpenCount - OpenArcsRegistry.ParkedCount,
+                     OpenArcsRegistry.LiveCount);
+        // Anti-vacuity: if nothing were parked the identity above would hold trivially and this
+        // whole distinction would be dead weight.
+        Assert.True(OpenArcsRegistry.ParkedCount > 0);
+        Assert.True(OpenArcsRegistry.LiveCount < OpenArcsRegistry.OpenCount);
+    }
+
+    [Fact]
+    public void Registry_OnlyOpenArcsCarryAParkedReason()
+    {
+        Assert.All(
+            OpenArcsRegistry.All.Where(a => a.ParkedReason is not null),
+            a => Assert.Equal(OpenArcStatus.Open, a.Status));
+    }
+
+    [Fact]
+    public void ArcsNode_RendersTheParkedReasonForAParkedArc()
+    {
+        var parked = OpenArcsRegistry.All.First(a => a.ParkedReason is not null);
+        var child = OpenArcsInspectableNode.Build().Children
+            .Single(c => c.DisplayName == parked.Name);
+        Assert.Contains("PARKED:", child.Summary);
+        // The reason must actually reach the reader, not just exist on the record.
+        Assert.Contains(parked.ParkedReason!.Substring(0, 40), child.Summary);
+    }
+
+    [Fact]
     public void Registry_RetiredArcsCarryAReason()
     {
         Assert.All(

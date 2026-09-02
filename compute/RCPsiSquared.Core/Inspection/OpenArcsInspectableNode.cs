@@ -12,11 +12,14 @@ public static class OpenArcsInspectableNode
     public static IInspectable Build()
     {
         var entries = OpenArcsRegistry.All;
+        // Both counts are PREDICATES. The retired count used to be the complement of the open
+        // one, which silently absorbs any arc that is neither into "retired".
         int open = entries.Count(a => a.Status == OpenArcStatus.Open);
-        int retired = entries.Count - open;
+        int retired = entries.Count(a => a.Status == OpenArcStatus.Retired);
+        int parked = entries.Count(a => a.Status == OpenArcStatus.Open && a.ParkedReason is not null);
         return new InspectableNode(
             displayName: "arcs",
-            summary: $"{open} open arc(s), {retired} retired",
+            summary: $"{open} open arc(s) ({parked} of them parked), {retired} retired",
             children: entries.Select(Entry).ToArray());
     }
 
@@ -25,5 +28,7 @@ public static class OpenArcsInspectableNode
             displayName: a.Name,
             summary: a.Status == OpenArcStatus.Retired
                 ? $"retired: {a.RetiredReason}"
-                : $"{a.Opened} parked: {a.ParkedAt} -> next: {a.NextStep}");
+                : a.ParkedReason is not null
+                    ? $"{a.Opened} PARKED: {a.ParkedReason} -> next when it wakes: {a.NextStep}"
+                    : $"{a.Opened} parked: {a.ParkedAt} -> next: {a.NextStep}");
 }

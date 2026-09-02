@@ -3188,7 +3188,12 @@ public static class OpenArcsRegistry
                 "the formula dose on a uniform line + a protection/lifetime metric computed from below " +
                 "first). The circling was the tell: the docs' genre (outreach-ready validated rule) " +
                 "exceeded the result, so every review round found another over-claim; parking is the fix, not more caveats.",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Open,
+            ParkedReason: "Parked by Tom 2026-07-05, and on 2026-07-06 the WHOLE docs/outbound arc " +
+                "with it. Not fatigue and not a defect in the result: the genre (outreach-ready " +
+                "validated rule) exceeded what the result supports, which is why every review round " +
+                "found another over-claim. Un-parking needs a real outreach trigger, not a spare " +
+                "afternoon; the deep frame the_journey_has_no_destination reinforces it."),
 
         new OpenArc(
             Name: "two_coast_classifier_repair",
@@ -8025,7 +8030,13 @@ public static class OpenArcsRegistry
                 "(5) The committed state of Amendment 2 has had ONE round of empty reviews and " +
                 "everything after it was the author's own repair; a fresh-session attack on the " +
                 "committed state is owed before any of it is leaned on.",
-            Status: OpenArcStatus.Open),
+            Status: OpenArcStatus.Open,
+            ParkedReason: "Parked by Tom 2026-08-19 before submission, on a QUANTITATIVE reason and " +
+                "not fatigue: under layering the loss exponent exceeds the signal exponent at BOTH " +
+                "ends of the f_leak bracket. It never flew and no money was spent. This is an ablage " +
+                "with a WAKE-UP CONDITION, not a gravestone: 970*p2_eff*f_leak < ~2.95, roughly a " +
+                "factor 2-3 in device error, a generational step. Re-price when a device claims one; " +
+                "do NOT relaunch to 'use' the pipeline."),
 
         new OpenArc(
             Name: "polarity_break_dephase_siblings",
@@ -8854,6 +8865,16 @@ public static class OpenArcsRegistry
     public static OpenArc? Lookup(string name) =>
         _all.FirstOrDefault(a => a.Name == name);
 
-    /// <summary>Count of arcs still <see cref="OpenArcStatus.Open"/> (the live unfinished business).</summary>
+    /// <summary>Count of arcs still <see cref="OpenArcStatus.Open"/>: everything not finished,
+    /// parked arcs included. It is NOT the count of live work; see <see cref="LiveCount"/>.</summary>
     public static int OpenCount => _all.Count(a => a.Status == OpenArcStatus.Open);
+
+    /// <summary>Count of open arcs carrying an <see cref="OpenArc.ParkedReason"/>: started, not
+    /// finished, and deliberately not being worked on until a recorded condition changes.</summary>
+    public static int ParkedCount =>
+        _all.Count(a => a.Status == OpenArcStatus.Open && a.ParkedReason is not null);
+
+    /// <summary>Open arcs whose next move is actually takeable: <see cref="OpenCount"/> minus the
+    /// parked ones. This is the number to read when asking what there is to work on.</summary>
+    public static int LiveCount => OpenCount - ParkedCount;
 }
