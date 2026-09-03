@@ -1575,3 +1575,59 @@ A nonzero is a finding; the reflex that files it as noise is the defect.
 
 **Anchor:** the checks `W0` to `W8b`, with `W0d` and `W6c`, in `simulations/blind_seat_two_axes_proof.py`, §(i)'s four
 fences and its mutation paragraph, and §(j)'s table rows for block W.
+
+---
+
+## 2026-09-03 (third): typing F162 as a Claim, where the mathematics stood unchanged and every finding of the last two rounds sat in the previous round's repairs
+
+Four review rounds on `BlindSeatSectorFactorisationClaim` (commit `d5a10dd`), about sixty findings,
+**none in F162 itself**: the mathematics reviewer re-derived all seven laws on an independent port
+and every pinned literal reproduced. The defects were in the new file and, from round three on, in
+the repairs.
+
+**(1) An exception message that blames the construction sends the next session hunting a break that
+is not there.** The repeated-factor read normalised its gcd MONICALLY, justified by a docstring
+saying "both arguments being monic". That holds where the split is taken and is false where the
+multiplicity is: Q_S is monic in x but not in the knob, its leading knob-coefficient being c_S,
+which is 4 at N = 19 seat 3, where Q_E = 4t⁶ − 12t⁴ + 9t² = t²·(2t² − 3)². A monic normalisation
+asks for t³ − (3/2)t there and leaves the integers, and the guard fired with *"which cannot happen
+for monic integer arguments; the construction above is wrong"*. The construction was right. **A
+guard's message is claim-surface: it must name the thing that can actually be wrong**, and a
+precondition inherited from one call site is not a precondition of the method.
+
+**(2) A control that restates a term's parity instead of recomputing without it survives deleting
+that term.** `Control_DroppingCorollary11bsMirrorTerm` computed
+`exponent − Pairs(n)` and asked whether its parity differed, which is the tautology "is Pairs(n)
+odd". It called no resultant. Deleting from the claim the exact summand the test was NAMED for left
+it green; the law's own test caught that mutation, so the mutation battery reported a break and the
+vacuous control was never suspected. **A mutation battery reports on the file, not on the test that
+claims the mutation**: when a mutation reddens, check WHICH test.
+
+**(3) A fence paragraph rewritten from a reading of its source inverted one fence and dropped the
+two collisions nearest to it.** §(k) fences the *divisor law*, which is F157's gcd law on the seat
+index, against `Divisor.cs`'s frozen divisor of F140. The repair kept the identification and
+replaced the fence with its opposite, writing that the divisor law is *"this claim's own parent and
+not something it is fenced from"*, while `FrozenDivisorClaim` sits in the same assembly and
+`BlindSeat.cs` already writes that fence from the other side. In the same paragraph the *block* and
+*sector* targets were swapped, losing the `JointPopcountSectors` fence, and the *end pair* fence
+against F140's corner block was dropped. **Every fence that survived was a distant one and every
+fence that was lost was in this file's own assembly**, under an opening clause claiming the
+paragraph carried the source's fences rather than a shorter list of them.
+
+**(4) A sign read only inside a product of two symmetric factors cannot be gated there.** After a
+refactor moved the constant's falsifiable reading inside a helper, the public `SectorConstant` was
+consulted by one place only, the composition `lc = (−1)^C(p+1,2)·c_E·c_O`. An error common to both
+sectors cancels in that product, so dropping c_S's own (−1)^(p·r_S + n_S) left all twenty-five tests
+green. It is pinned on ONE factor now, `lc_t Q_S == c_S` per sector. **Ask of every sign whether any
+gate reads it alone**; a symmetric product is where a common error hides, and the refactor that
+created the gap was itself a repair.
+
+**(5) Two of the eight mutations run did not mutate what their names said.** One left a ternary
+still reading the parameter it was meant to ignore, so the method still broke and the test still
+reddened, for the wrong reason. The shape is item (2)'s twin from the other side and is now the
+second entry of this ledger to record it: **a mutation is a claim about the object and needs
+checking like one.**
+
+**Anchor:** `BlindSeatSectorFactorisationClaim` and its 25 from-below tests, five of them controls,
+three predicting the break count before the run; the eight-mutation battery; §(k) of
+`PROOF_BLIND_SEAT_TWO_AXES`.
