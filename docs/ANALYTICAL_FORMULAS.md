@@ -8222,8 +8222,22 @@ leaves open; do not report one as the other. That fence survives
 this Δ locus is also the crack's u locus up to the ring ends {±1}: what it
 identifies is the two perturbations' RESTRICTIONS to each reflection sector, at
 opposite signs of the knob in the odd one, and never the perturbations. That
-proof carries points and not counts, so the multiplicity clause above is untouched
-by it.
+proof's §(g) carries the COUNT as well, and it does not transport the way the
+locus does. Off the ring ends |u| = 1, at odd N the crack pays this entry's count
+exactly at every seat and every knob value, while at even N it pays the
+reflection-EVEN sector twice where the chain pays each sector once. AT the ring
+ends the crack pays ⌊(N−1)/2⌋ and ⌈(N−1)/2⌉ at every seat at either parity, and
+the two axes agree there at the reflection-fixed centre seat of an odd
+chain, provably, and at no other seat over N = 5..11, which is measured
+and not proved. Where
+the two loci break the two counts break with them, provably; over N = 6..14 no seat
+carries the same locus and a different count, which is measured and not proved. The multiplicity clause above is the
+chain's and is unchanged; what §(g) adds is that the same resultant carries it
+DOUBLED rather than not at all, the squaring happening inside each sector because
+striking disconnects that sector's Jacobi block, so halving is exact off {±1} and away from the
+reflection-fixed centre seat, where both sides vanish identically.
+Not written anywhere yet, and the natural next closed form: which of the k in
+1..N_node−1 fall in which reflection sector.
 
 **The parity-forced third kind (XY only).** A zero-diagonal Jacobi block of odd
 size is singular (det T_m = −b_{m−1}²·det T_{m−2} with det T₁ = 0, T_m the
@@ -8682,8 +8696,10 @@ knob's sign, above. Not the blind seat: THE_SEAT_THAT_CUTS's open item asks for
 a detuned bond under a seat cut, a different object; what does cross to the blind
 seat is Corollary B's FOLD alone, in
 [PROOF_BLIND_SEAT_TWO_AXES](proofs/PROOF_BLIND_SEAT_TWO_AXES.md), which folds the
-end-pair-anisotropic open chain the same way and gets the same two blocks, and
-which deliberately does NOT use the simplicity clause, that clause being stated
+end-pair-anisotropic open chain the same way and gets the same two blocks. Its
+section (g) then spends that same fold on the COUNT, comparing the even sector at
++u against the even sector at −u and fixing the ring ends at ⌊(N−1)/2⌋ and ⌈(N−1)/2⌉
+at every seat. It deliberately does NOT use the simplicity clause, that clause being stated
 for u >= 0 while half of its own u axis is negative. No hardware claim.
 
 **Proof:** [PROOF_CRACKED_RING_EXACT_CURVE](proofs/PROOF_CRACKED_RING_EXACT_CURVE.md)

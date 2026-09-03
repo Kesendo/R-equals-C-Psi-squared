@@ -61,7 +61,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Heisenberg Laplacian of D10 and not the (1,1) Haken-Strobl block); uniform bonds off the crack; no gamma
 /// anywhere in G (the Liouvillian rate of these coherences is the Absorption Theorem's -2 gamma and is not this
 /// claim's); no time (the beat on top of the split, its clocks and the gamma-dressing are the experiment's and
-/// MirrorWorld's Warble); not the blind seat (THE_SEAT_THAT_CUTS's detuned-bond item is a different object).
+/// MirrorWorld's Warble); not the blind seat (THE_SEAT_THAT_CUTS's detuned-bond item is a different object);
+/// what does cross is Corollary B's fold, which PROOF_BLIND_SEAT_TWO_AXES spends on the
+/// blind seat's locus and, in its section (g), on its count.
 /// The knob's sign: the crack weakens, u = 1 - delta; the walk-time step strengthens, u = 1 + delta; the
 /// statement in u is the one to port.</para>
 ///

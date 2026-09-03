@@ -66,13 +66,13 @@ counts both without distinguishing them.
 
 So we spoiled the chain, two ways — once by joining the two ends with a weak bond, once by putting
 an energy offset on those same two end sites — and watched. The middle seat of an odd chain stayed
-blind at every setting of either knob, provably; that its count stays the same size is measured
-rather than proved. Every other blind seat lost its blindness at once and got
-it back only at isolated, exceptional settings. Then the part we were not looking for: over the
-lengths we could reach, the exceptional settings of the two quite different knobs are the same ones,
-apart from the two settings at which the chain closes into a ring. That holds at every odd length we
-tried and at two thirds of the even ones. We already had a closed formula for one knob's settings.
-Where it holds, it is the formula for the other's as well.
+blind at every setting of either knob, and by the same amount, both provably. Every other blind
+seat lost its blindness at once and got it back only at isolated, exceptional settings. Then the
+part we were not looking for: over the lengths we could reach, the exceptional settings of the two
+quite different knobs are the same ones, apart from the two settings at which the chain closes
+into a ring. That holds at every odd length we tried and at two thirds of the even ones. We
+already had a closed formula for one knob's settings. Where it holds, it is the formula for the
+other's as well.
 
 ## What the repo already held, store by store
 
@@ -220,9 +220,13 @@ number, and it is a comb coincidence.
 The knob separates them, and it separates *seats*. Gate B1: at odd N = 5..13 the centre seat's
 resultant vanishes **identically** on both axes — a statement about the polynomial, not about
 sampled points, though the reflection argument already forces it and B1 is therefore a consistency
-check on the construction rather than evidence. Gate B2 adds what B1 does not say, that the centre's *value* stays (N−1)/2 at six
-rational couplings on both axes, over odd N = 5..11; the reflection argument already gives ≥ (N−1)/2
-as a theorem, so what B2 tests is the ≤ direction. Gate B4 is the anti-vacuity partner: all 16
+check on the construction rather than evidence. Gate B2 adds what B1 does not say, that the
+centre's *value* stays (N−1)/2 at six rational couplings on both axes, over odd N = 5..11; the
+reflection argument already gives ≥ (N−1)/2 as a theorem, so what B2 tests is the ≤ direction,
+which
+[PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) §(g) then gives at every
+coupling rather than at six: in the folded even block the centre is an END of a Jacobi chain, and
+an eigenvector there cannot vanish. Gate B4 is the anti-vacuity partner: all 16
 accidentally blind seats of N = 5..11 have a finite locus **on the u axis**, so they do move; the Δ
 leg falls out of C2 instead. Gate B5 records that at
 the centre the whole count is the forced one, which given A1 is a line of integer arithmetic rather
@@ -246,7 +250,14 @@ page's construction against all four rows of F157's committed table — N = 9 se
 N = 9 seat 2 → 2Δ² − 1; N = 11 seat 1 → Δ⁷ − 6Δ⁵ + 10Δ³ − 4Δ; N = 11 seat 2 → 3Δ⁴ − 4Δ² — as **real
 root sets**, which is all it can check: the resultant this page forms is a rational multiple of
 F157's P_j *squared*, so the multiplicity that F157 says carries the blind count at each Δ is
-present only doubled, and `_squarefree` discards it before any comparison. It is not tested here. Gate C2 then checks F157's *generating* formula Δ_k at all 52 non-centre seats of N = 5..11,
+present doubled, and `_squarefree` discards it before any comparison. No gate here reads it.
+Why it is doubled is [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md)
+§(g): the squaring happens inside each reflection sector, because striking a seat disconnects
+that sector's tridiagonal block into two halves and a blind eigenvalue is a common root of both.
+So the count is recoverable from the same resultant by halving, exactly, off the ring ends and
+away from the forced centre seat. At the ring ends the two axes part at every seat but that one,
+which is measured over N = 5..11 rather than proved. Gate C2 then checks F157's *generating* formula Δ_k at all 52
+non-centre seats of N = 5..11,
 of which 26 have a nonempty value set and 26 are empty (the 14 end seats by F157's degenerate case,
 the rest by N_node | j); it certifies that the locus is the set of *real conjugates* of the Δ_k,
 marginally weaker than the set claim. Since its `P is None` branch never fires, C2 also establishes
@@ -356,10 +367,17 @@ at every break and gated nothing.
   [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) proves it at every odd
   N, gives the even-N criterion, and derives the 22 seats. This page's staggering identity supplies
   only the *necessary* half; the sufficient half is the same Σ read one sector down.
-- **What neither this page nor that proof touches is MULTIPLICITY.** Every locus on both is a SET.
-  F157's blind count at a point of the Δ-locus is a multiplicity, load-bearing in F157, and the
-  resultant formed here is a rational multiple of F157's P_j *squared*, so the multiplicity
-  survives only doubled and `_squarefree` discards it before any comparison.
+- **Every LOCUS here is a SET, and no gate here compares two counts.** Gates B2, B3 and B5 do
+  read a count, at the centre seat and at the ring end; what this page never does is compare the
+  count on one axis with the count on the other, and the resultant it forms is a rational multiple
+  of F157's P_j *squared*, so the multiplicity survives doubled and `_squarefree` discards it
+  before any comparison. What the counts do is in
+  [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) §(g), and it is not
+  the same answer as for the loci. Off the ring ends |u| = 1 the two axes carry one count at odd N,
+  while at even N the crack pays the even sector twice and the chain pays each sector once; AT the
+  ring ends the crack is blind at every seat at once, at either parity. Where the
+  loci break the counts break with them, provably; whether the converse holds is measured over
+  N = 6..14 and not proved.
 - **The u ≥ 0 clause this page respects is the departure COUNT's, and it lives in
   `PROOF_CRACKED_RING_EXACT_CURVE` rather than in F160** (F160 has a u ≥ 0 clause of its own, on
   simplicity): *"its departure COUNT is stated for u ≥ 0, the object's range (at negative u
@@ -406,13 +424,16 @@ tests.
 
 ## What this opens
 
-1. **What the multiplicities do.** Item 1 used to ask for §(c) as a theorem, and
-   [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) answers it: the shape
-   conjectured here, u-locus = (even-sector Δ-locus) ∪ −(odd-sector Δ-locus), is right and holds at
-   every N. What it leaves is the question this page fenced off from the start. The two axes carry
-   the same POINTS; F157 says a seat's blind count at a point of the Δ-locus is the multiplicity of
-   that root, and nothing yet says the crack pays the same count at the same point. The construction
-   here cannot see it (the resultant is a multiple of P_j squared), so a different one is needed.
+1. **Which sector each of F157's k belongs to.** The two questions this item carried are both
+   answered in [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md): §(a) to
+   §(f) prove the shape conjectured here, and §(g) settles the count, which this page had fenced
+   off as unreachable. It is reachable, and the answer splits by parity: at odd N the crack pays
+   the chain's count exactly, off the ring ends; at even N it pays the EVEN sector twice where the
+   chain pays each sector once. What that leaves is one closed form. F157 writes the Δ-locus as
+   Δ_k over k ∈ 1..N_node−1 and reads the blind count as the number of k landing on a value; §(g)
+   reads the same count as b_E + b_O. Which k fall in which reflection sector is not written
+   anywhere, and with it the even-N count 2·b_E would be closed-form too. A parity of k is the
+   obvious guess and is not checked here.
 2. **Which interior perturbations carry the locus?** New, and generated by the retraction above.
    Read on EQUALITY, a reflection-symmetric interior diagonal pair reproduces the Δ-locus at 12 of
    48 seats at (1, N−2)

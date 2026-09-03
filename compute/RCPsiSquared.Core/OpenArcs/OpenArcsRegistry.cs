@@ -8297,10 +8297,11 @@ public static class OpenArcsRegistry
                 "ORTHOGONALITY_SELECTION_FAMILY is the four-knob precedent; and the repo-wide class-A/B/C " +
                 "fencing campaign on the gamma axis (arc site_resolved_vacuum_block, class B still 43 " +
                 "sites). The model-scope axis has no arc at all, which is the slot this fills.",
-            ParkedAt: "The instrument exists and one law is done. simulations/_delta_robustness_scout.py " +
-                "(LOCAL and gitignored: promote it before any result it produces is cited anywhere " +
-                "tracked) holds two run modes. `f157` samples Delta; `f157locus` SOLVES it, and the second " +
-                "is the one that matters. F157 IS SETTLED, both halves exactly. The mirror-forced centre " +
+            ParkedAt: "The instrument exists and one law is done. The prototype that solved it was a " +
+                "local scratch script with two run modes, one sampling Delta and one SOLVING it, and " +
+                "the solving one is the whole lesson; it has since been ported and is now the witness " +
+                "SeatBlindnessDeltaLocusWitness (inspect --root blindlocus), which is what to cite. " +
+                "F157 IS SETTLED, both halves exactly. The mirror-forced centre " +
                 "seat is blind at every Delta by a PROOF, and the argument is not new here: THE_SEAT_THAT_CUTS " +
                 "already derives it from the reflection and THE_BLIND_SITE gives the stronger, " +
                 "book-free form and states the transfer in as many words. What is added is the Delta " +
@@ -8444,7 +8445,7 @@ public static class OpenArcsRegistry
                 "end pair is special' is false for this locus, a symmetric interior diagonal pair " +
                 "reproducing it at 12 of 48 seats; only UNIFORMITY separates the crack, by four seats. " +
                 "PROVED the same day, docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md, gate " +
-                "simulations/blind_seat_two_axes_proof.py (23 checks): on the reflection-EVEN " +
+                "simulations/blind_seat_two_axes_proof.py (53 checks): on the reflection-EVEN " +
                 "subspace psi_{N-1} = psi_0, so the wrap bond acts exactly as the end-pair " +
                 "diagonal, and on the ODD subspace as its negative, so the cracked ring IS the " +
                 "anisotropic open chain sector by sector at +u and -u (F160 Corollary B already " +
@@ -8465,10 +8466,32 @@ public static class OpenArcsRegistry
                 "SWAPS them, so the relation holds exactly when the u locus is negation-closed. " +
                 "That turns the page's gate C8 from a measured biconditional into a consequence " +
                 "and PREDICTS the 22 breaking seats (checked against the committed list as a " +
-                "literal). Still unregistered, and the open question moved: the two axes carry " +
-                "the same POINTS, and whether they carry the same COUNT at a shared point is " +
-                "untouched, the resultant being a multiple of F157's P_j SQUARED. " +
-                "Run: python simulations/_delta_robustness_scout.py f157locus",
+                "literal). Still unregistered. THE COUNT IS SETTLED TOO, same proof, section (g), " +
+                "and it does NOT follow the locus: striking the seat splits the struck " +
+                "characteristic polynomial along the same two sectors, writing jr = min(j, N-1-j) " +
+                "for the seat's fold coordinate: " +
+                "chi(H_j) = 1/2(chi(E_jr)chi(O) + chi(E)chi(O_jr)), because a seat the " +
+                "reflection does not fix sits half in each sector, so off the degeneracy set the " +
+                "count is additive, blind(j) = b_E + b_O. At ODD N and |t| != 1 the two axes then " +
+                "pay the SAME count at every seat and every knob value; at EVEN N and |t| != 1 " +
+                "the crack pays the even sector TWICE while the chain pays b_E(t) + b_E(-t), and " +
+                "where the two LOCI break the two COUNTS break with them, provably (over " +
+                "N = 6..14 no seat carries the same locus and a different count, which is " +
+                "measured and not proved); at u = +-1, at either parity, the crack is blind by " +
+                "the degenerate-pair count floor/ceil((N-1)/2) at EVERY seat; the two axes agree " +
+                "there at the reflection-fixed centre seat of an odd chain, provably, and at no " +
+                "other seat over N = 5..11, which is MEASURED and not proved. The P_j SQUARED that " +
+                "was read as the obstacle is the answer: the squaring happens inside each " +
+                "sector, because striking disconnects that sector's Jacobi block and a blind " +
+                "root is common to both halves, and the two sectors' halves-resultants multiply " +
+                "to F157's own P_j, so the resultant carries the count DOUBLED and halving it is " +
+                "exact off {+-1} and away from the forced centre seat. Free with it: the centre " +
+                "seat's (N-1)/2, which the page could only measure at six couplings, holds at " +
+                "every coupling because a Jacobi eigenvector cannot vanish at an END of its " +
+                "chain, which is (J1) of the node-lemma proof and not new here. OPEN now: which of " +
+                "F157's k in 1..N_node-1 fall in which reflection sector, which would make the " +
+                "even-N count 2*b_E closed-form as well. " +
+                "Run: python simulations/blind_seat_two_axes_proof.py",
             Status: OpenArcStatus.Open),
         new OpenArc(
             Name: "the_gate_that_does_not_gate",

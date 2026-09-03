@@ -536,7 +536,8 @@ along the road by the signed F65 sums, is the subject of
   cut, a different object. What DOES cross between them is Corollary B's fold, and only
   it: [PROOF_BLIND_SEAT_TWO_AXES](PROOF_BLIND_SEAT_TWO_AXES.md) folds the
   end-pair-anisotropic open chain the same way and finds the same two blocks, the
-  anisotropy at +Δ giving the crack's even block and at −Δ its odd one. That file
+  anisotropy at +Δ giving the crack's even block and at −Δ its odd one. It spends that fold
+  twice over, on the blind seat's LOCUS and, in its section (g), on its COUNT. That file
   deliberately does NOT use the simplicity clause for its own degeneracy statement,
   because this file states that clause for u ≥ 0 and half of its u axis is negative; it
   proves the u² = 1 condition from the boundary system instead. Nothing of this file's

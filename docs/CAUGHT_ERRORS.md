@@ -1253,3 +1253,95 @@ their worst item inside the previous round's repair, twice in the very paragraph
 the previous defect. The second entry of this same date predicted the shape in advance ("Round two
 found its BLOCKER inside round one's repair, again"), and this session read that sentence only at
 round three, after walking the same curve.
+
+## 2026-09-02 (fourth) — `PROOF_BLIND_SEAT_TWO_AXES` §(g), the blind COUNT on two axes: nine defects in the first round, three of them in the gate written to prove the section, then nine more in the repair
+
+**Artifact.** `docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md` §(g),
+`simulations/blind_seat_two_axes_proof.py` block (K) with its committed run, and six surfaces the
+result was propagated to (`ANALYTICAL_FORMULAS.md` at F157 and F160,
+`THE_BLIND_SEAT_ON_THE_ROAD.md`, `PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md`,
+`PROOF_CRACKED_RING_EXACT_CURVE.md`, `OpenArcsRegistry.cs`, `CrackedRingExactCurveClaim.cs`). **How
+caught:** three empty rounds (a mathematician, a gate auditor with mutation powers, a cross-surface
+record auditor), then every finding re-measured from below before any of it was applied. The
+mathematics of the section survived all three; nothing below is a defect in a lemma.
+
+**(1) A theorem's bullet with no fence, and a gate whose index set removed the counterexample.** The
+even-N count law was written *"at even N: blind(j; H_u(t)) = 2·b_E(j; t)"* with no `|t| ≠ 1` clause,
+on two surfaces, while its own derivation ran *"off those two points"* and the bullet below it said
+the crack pays ⌊(N−1)/2⌋ at every seat there. It is false at both ring ends at every even N: at N =
+8, u = +1 it reads 3 = 0 at all eight seats. **The gate could not have caught it**, because gate K4
+iterated `locus_mus`, whose definition removes the ring ends before anything is compared. A gate
+that filters out the region where a claim is doubtful is not evidence for the claim there, and the
+fence and the filter have to be the same object. The fence is now gate K4c, which reads both sides
+AT the ring ends and finds them equal at 4 of 72 even-N seat-ends.
+
+**(2) A control that could not fire, because its hypothesis was wrong.** K1c was written to show
+that the squaring of F157's P_j depends on the reflection: it fed the R-breaking one-end family
+through the same door and required its sector resultants not to be squares. Measured: 0 of all
+triples, the control silent. The squaring does not depend on the reflection at all; it depends on
+the strike DISCONNECTING a tridiagonal block, which the one-end family's blocks also are. The
+control was rebuilt as one next-nearest entry, which does break tridiagonality, and now fires at 0
+of 10. **A control that passes by reporting nothing is indistinguishable from a control that cannot
+fire**; the only way to tell is to run it and read the population, not the verdict.
+
+**(3) An anti-vacuity partner that was a logical consequence of the check it guarded.** K0b asserted
+that the split identity with coefficient 1 in place of ½ must disagree. Given K0, that difference is
+−χ(H_j), so K0b fires exactly when the struck characteristic polynomial is identically zero, which
+it never is: it is monic of degree N−1. It stayed green under all twelve mutations, including four
+that reddened K0 itself. **An anti-vacuity check must be independent of the check it protects**;
+this one was its corollary. It now reads whether either summand suffices alone, which the centre
+seat answers one way and every other seat the other.
+
+**(4) A claim stated on four surfaces with no witness anywhere, and the data running the other
+way.** *"An even-N seat can have the same locus and a different count"* went into the proof, the
+companion page, the F157 entry and the arc, as the reason the count needed its own theorem.
+Enumerating every even-N locus point off the ring ends over N = 6..14: **no such seat exists**, and
+all 28 disagreements sit at committed locus-break seats, the 14 of the 22 that lie in that range.
+One direction is in fact a theorem in the other sense (loci parting forces counts parting, since a
+point s of the symmetric difference has b_E(s) = 0 and b_E(−s) ≥ 1, so the crack pays 0 where the
+chain pays at least 1), and the converse is measured. The sentence was invented to motivate the
+section and never checked; the honest version is now gate K4d.
+
+**(5) A criterion stated backwards, contradicted by the file's own gate literals.** *"at the two
+ring ends the agreement fails at any seat whose Δ-locus reaches ±1 at all"*. It fails at every seat
+EXCEPT the reflection-fixed centre, including seats whose Δ-locus does not reach ±1, and the file's
+own K3b pinned two of those. Now gate K5b.
+
+**(6) A misattribution one level down.** §(g) called the resultant of the two halves of a folded
+SECTOR block *"F157's own definition polynomial"*. F157's is the resultant of the two halves the
+seat cuts the FULL chain into. The two sector ones multiply to it up to sign, which is a better
+statement and is now gate K1b, with K1b2 as its control. Two corrections a later round made to this
+very sentence, and they are the point of the entry: the ratio is not "exactly −1", it is ±1 with a
+split of 22 and 10 over N = 4..10 and no sign law identified here; and K1b2's failing at 20 of 32
+ring seats is not the disconnection but the fact that on the ring the knob sits only in the wrap
+entry, so both principal submatrices are knob-free while the sector product is not.
+
+**(7) A paraphrase inside quotation marks.** The provenance section quoted the companion page as
+*"the resultant is a multiple of P_j squared, so this construction can never see it. A different one
+is needed."* That sentence exists nowhere; the page said *"The construction here cannot see it (the
+resultant is a multiple of P_j squared), so a different one is needed."* The same shape is in this
+ledger under 2026-06-22.
+
+**(8) A sweep record in the present tense about a store the same change was editing**, *"It owns no
+count on the u axis"*, said of the F157 entry in a change whose own diff adds one; and the OpenArcs
+registry missing from the sweep although `CLAUDE.md` names it by path and it held the exact prior
+the section overturns. That is the second time in three days the registry has been the store nobody
+swept.
+
+**(9) A simplify zero-test, in the check that was verifying a finding about a file whose docstring
+forbids simplify zero-tests.** Asked whether the crack at u = −1 carries the periodic or the
+antiperiodic comb, the first scratch check compared a characteristic polynomial against a
+trigonometric product through `sp.simplify`, and reported "neither" at N = 7. Redone by
+minimal-polynomial divisibility it is clean at N = 3..12. The trap does not stop being the trap
+because one is checking somebody else's version of it.
+
+**Fix.** All nine repaired; block (K) went from 17 checks to 27 and the file from 42 to 52 across
+the three rounds. A second empty round then found two more BLOCKERs and seven MAJORs, and a third
+two more BLOCKERs again, every one of them in the repair and none in the mathematics, which is the
+shape this ledger records over and over: a measured constant overstated from five samples to "every
+seat", a gate pointer to a check that lived only in a gitignored scratch file, two denominators
+invented, an inequality written the wrong way round, and a "because" that does not follow (a
+polynomial with no real roots need not be constant). Those are repaired too, and the entry above was
+itself corrected twice in the process. **Anchor:** the checks `K0b`, `K1b`, `K1b2`, `K1d`, `K1e2`,
+`K4c`, `K4d`, `K5b` and `K5c` in `simulations/blind_seat_two_axes_proof.py`, and §(h)'s table, which
+says for each row what would make it red.

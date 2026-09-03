@@ -1,7 +1,8 @@
-"""Why the crack axis and the anisotropy axis carry the same seat-blindness locus.
+"""Why the crack axis and the anisotropy axis carry one seat-blindness locus, and at odd N one count.
 
 Companion proof: docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md
-Companion page:  experiments/THE_BLIND_SEAT_ON_THE_ROAD.md  (whose section (c) this closes)
+Companion page:  experiments/THE_BLIND_SEAT_ON_THE_ROAD.md  (whose section (c) and whose open
+                 item 1 this closes, the locus in blocks L to T and the count in block K)
 
 WHAT IS GATED, in the order the proof needs it.
 
@@ -71,15 +72,46 @@ WHAT IS GATED, in the order the proof needs it.
                 gate's committed 22-seat list, taken as a LITERAL, and T5 checks that the
                 ring-ends clause in the criterion is load-bearing rather than decorative.
 
+(K)  THE COUNT, which is what the loci do not settle. Striking the seat splits chi(H_j) along
+     the same two sectors,
+
+         chi(H_j) = 1/2 * ( chi(E_jr)*chi(O) + chi(E)*chi(O_jr) ),   jr = min(j, N-1-j)
+
+     (and chi(E_jr)*chi(O) at the reflection-fixed centre seat, where e_j has no odd part), so
+     off the degeneracy set the count is additive, blind(j) = b_E + b_O, and the two sector
+     terms are exactly what L1 and P transport. Hence
+       odd N, |t| != 1:   blind_u(j, t) = blind_Delta(j, t) at every seat: the two axes carry
+                the same points AND the same count.
+       even N, |t| != 1:  blind_u = 2*b_E while blind_Delta = b_E(t) + b_E(-t), so the ring pays
+                the even sector twice and the counts agree only where that sector pays alike at
+                +-t. Where the two LOCI break the two COUNTS break with them, provably; the
+                converse is measured over N = 6..14 and not proved.
+       |t| = 1: additivity picks up its one correction. A shared eigenvalue has a
+                two-dimensional eigenspace and the seat misses it only when BOTH sector
+                eigenvectors vanish there, so
+                    blind(j) = b_E + b_O + #{shared lambda that neither sector misses at j}
+                and the ring pays floor/ceil((N-1)/2) at EVERY seat, the degenerate-pair count.
+     Two by-products. The same split says WHERE F157's P_j gets squared: inside a sector the
+     seat DISCONNECTS the tridiagonal block into two halves, the sector resultant is a t-free
+     constant times its halves' resultant SQUARED, and on the CHAIN those two sector halves'
+     resultants multiply to F157's own P_j. So the full resultant carries the count DOUBLED
+     rather than not at all, and halving it is exact off the degeneracy set and away from the
+     forced centre seat. And the centre seat's (N-1)/2, which the companion page could only
+     measure at six couplings, follows at every coupling because a Jacobi eigenvector cannot
+     vanish at an END of its chain, which is (J1) of the node-lemma proof and not new here.
+
 Every locus is SOLVED, never sampled: each is the real root set of a resultant or a
 discriminant, compared as the set of its irreducible rational factors that carry a real root,
 decided by Sturm counting. No root object is built and no trigonometric value is ever handed to
 a simplifier: sp.roots on an irreducible cubic reports .is_real as None and sp.simplify does not
 reduce P(2*cos(3*pi/7)) to 0, two defects docs/CAUGHT_ERRORS.md records for the companion gate,
 and a third was met while writing this one (sp.solve returned an empty solution set at N = 11
-for a system whose solutions the discriminant route exhibits). What is NOT gated here:
-multiplicity. Every locus below is a SET, F157's blind COUNT at a given Delta is a multiplicity,
-and the proof claims nothing about it.
+for a system whose solutions the discriminant route exhibits).
+
+Blocks L, C, B, P and T compare SETS. Block K compares COUNTS, and a count at an irrational
+locus point is a degree, so it is read over the field Q[t]/(mu) for mu the point's minimal
+polynomial. That is exact and builds no root object, which is what keeps the three traps above
+out of the count as well.
 """
 import sympy as sp
 
@@ -583,6 +615,850 @@ def gate_T():
           f"extras {sorted(no_ring - predicted)}")
 
 
+# ----------------------------------------------------------------- exact arithmetic in Q[t]/(mu)
+# The count at an IRRATIONAL locus point is a degree, so it needs a field, not a sample. The
+# field is Q[t]/(mu) for mu the point's minimal polynomial: exact, and it never builds a root
+# object, which is what makes it immune to the three sympy traps this file's docstring names.
+
+def _red(e, mu):
+    return sp.rem(sp.expand(e), mu, t)
+
+
+def _trim(a):
+    while a and a[0] == 0:
+        a = a[1:]
+    return a
+
+
+def _inv_mod_mu(c, mu):
+    if c.is_number:
+        return sp.Rational(1) / c
+    return sp.invert(sp.Poly(c, t), sp.Poly(mu, t)).as_expr()
+
+
+def _rem_mod_mu(a, b, mu):
+    """Remainder of a by b, x-polynomials high-degree-first, coefficients in Q[t]/(mu)."""
+    a, b = _trim(list(a)), _trim(list(b))
+    inv = _inv_mod_mu(b[0], mu)
+    b = [_red(c * inv, mu) for c in b]
+    while True:
+        a = _trim(a)
+        if len(a) < len(b):
+            return a
+        f = a[0]
+        for i in range(len(b)):
+            a[i] = _red(a[i] - f * b[i], mu)
+        a = a[1:]
+
+
+def _gcd_mod_mu(a, b, mu):
+    """gcd of two x-polynomials over the field Q[t]/(mu). Exact; mu must be irreducible."""
+    a, b = _trim(list(a)), _trim(list(b))
+    while b:
+        a, b = b, _rem_mod_mu(a, b, mu)
+    return a
+
+
+def gcd_deg_mod_mu(a, b, mu):
+    """Its degree, which is F157's count when the two arguments are chi(H) and chi(H_j)."""
+    g = _gcd_mod_mu(a, b, mu)
+    return len(g) - 1 if g else -1
+
+
+_CP_CACHE = {}
+
+
+def cp_coeffs(M, key):
+    if key not in _CP_CACHE:
+        _CP_CACHE[key] = sp.Poly(M.charpoly(x).as_expr(), x).all_coeffs()
+    return _CP_CACHE[key]
+
+
+def _fold(N, j):
+    return N // 2 if (N % 2 == 1 and j == (N - 1) // 2) else min(j, N - 1 - j)
+
+
+def _is_centre(N, j):
+    return N % 2 == 1 and j == (N - 1) // 2
+
+
+def blind_at(Hf, N, j, mu, sign=+1):
+    """F157's count at a root of mu, on family Hf, exact over Q[t]/(mu). sign=-1 reads it at -t."""
+    H = Hf(N, sign * t)
+    a = [_red(c, mu) for c in cp_coeffs(H, (Hf.__name__, N, sign, 'H'))]
+    b = [_red(c, mu) for c in cp_coeffs(strike(H, j), (Hf.__name__, N, sign, 'Hj', j))]
+    return gcd_deg_mod_mu(a, b, mu)
+
+
+def sector_counts_at(Hf, N, j, mu, sign=+1):
+    """(b_E, b_O, cross) at a root of mu: the two sector counts and the cross-sector gcd degree."""
+    H = Hf(N, sign * t)
+    E, O = block(H, N, +1), block(H, N, -1)
+    jr = _fold(N, j)
+    aE = [_red(c, mu) for c in cp_coeffs(E, (Hf.__name__, N, sign, 'E'))]
+    bE = gcd_deg_mod_mu(
+        aE, [_red(c, mu) for c in cp_coeffs(strike(E, jr), (Hf.__name__, N, sign, 'Ej', jr))], mu)
+    if O is None:
+        return bE, 0, 0
+    aO = [_red(c, mu) for c in cp_coeffs(O, (Hf.__name__, N, sign, 'O'))]
+    # at the reflection-fixed centre seat EVERY odd mode vanishes, so the count is the sector
+    bO = O.rows if _is_centre(N, j) else gcd_deg_mod_mu(
+        aO, [_red(c, mu) for c in cp_coeffs(strike(O, jr), (Hf.__name__, N, sign, 'Oj', jr))], mu)
+    return bE, bO, gcd_deg_mod_mu(aE, aO, mu)
+
+
+def shared_neither_at(Hf, N, j, mu, parts=False):
+    """#{lambda shared by the two sectors at which NEITHER sector eigenvector vanishes at j}.
+
+    An eigenvalue carried by both sectors has a two-dimensional eigenspace, and each such level
+    adds 1 + [both sector eigenvectors vanish at j] to the count while b_E + b_O already counts
+    it once per vanishing sector; so the correction to additivity is
+    #shared - #{even vanishes} - #{odd vanishes} + #{both vanish}, by inclusion-exclusion.
+
+    The LAST term is 0 on both families here, and provably: off the ring ends neither family has
+    a shared level at all, and AT the ring ends the two sector eigenvectors of a shared level are
+    the cosine and the sine of one mode about the reflection centre, whose squares sum to 1, so
+    they cannot both vanish at a site. Gate K2c reads that, because a term that is always zero
+    can carry a sign error forever. Read as degrees of gcds, exactly, over Q[t]/(mu).
+    """
+    H = Hf(N, t)
+    E, O = block(H, N, +1), block(H, N, -1)
+    if O is None:
+        return 0
+    jr = _fold(N, j)
+    cE = [_red(c, mu) for c in cp_coeffs(E, (Hf.__name__, N, 1, 'E'))]
+    cO = [_red(c, mu) for c in cp_coeffs(O, (Hf.__name__, N, 1, 'O'))]
+    cEj = [_red(c, mu) for c in cp_coeffs(strike(E, jr), (Hf.__name__, N, 1, 'Ej', jr))]
+    cOj = ([sp.Integer(0)] if _is_centre(N, j)
+           else [_red(c, mu) for c in cp_coeffs(strike(O, jr), (Hf.__name__, N, 1, 'Oj', jr))])
+    g = _gcd_mod_mu(cE, cO, mu)
+    a = gcd_deg_mod_mu(g, cEj, mu)
+    b = gcd_deg_mod_mu(g, cOj, mu)
+    c = gcd_deg_mod_mu(_gcd_mod_mu(g, cEj, mu), cOj, mu)
+    shared = len(_trim(g)) - 1
+    return (shared, a, b, c) if parts else shared - a - b + c
+
+
+def locus_mus(N, j):
+    """This seat's locus points on EITHER axis as minimal polynomials, the ring ends removed."""
+    out = set()
+    for Hf in (H_aniso, H_crack):
+        L = locus_full(Hf, N, j)
+        if L != 'ALL':
+            out |= set(L)
+    return sorted(out - RING, key=str)
+
+
+# ------------------------------------------------------- the block's literals, by provenance
+#
+# PINNED MEASUREMENTS, read off a run and frozen here so that a change in the objects moves the
+# measurement and not the expectation. They are regression pins, not predictions, and each says
+# what would move it.
+#
+# K2B_CORRECTED_SEATS: at how many (seat, ring end) pairs the correction term is strictly below
+# the shared-level count, that is where the naive sum b_E + b_O + shared overcounts. Moves with
+# the sector split, the fold coordinate or the field arithmetic.
+K2B_CORRECTED_SEATS = {5: 2, 6: 2, 7: 2, 8: 0, 9: 6, 10: 2, 11: 2, 12: 4}
+# K1D_SQUARE_SURVIVORS: how many fold seats still give a constant ratio once the sector block
+# carries one next-nearest entry. K3C_DISAGREEMENTS: over how many of K3's own triples the
+# R-breaking one-end family fails to track the crack.
+K1D_SQUARE_SURVIVORS = 0
+K1E2_SURVIVORS = 0
+# K2C_READINGS / K2C_SHARED: the population of the both-vanish check and the number of shared
+# levels it walks past, so that "the term is always 0" is not a statement about an empty loop.
+K2C_READINGS = 544
+K2C_SHARED = 552
+K3C_DISAGREEMENTS = 24
+# K1B_SIGNS: the constant in K1b is not merely nonzero, it is +-1, and which sign is NOT a law
+# this file identifies. The two counts are pinned so that a change moves the measurement and not
+# the expectation, and so that the doc cannot say "always -1" again.
+K1B_SIGNS = {-1: 22, 1: 10}
+# K3_AT_ORIGIN: how many of K3's readings sit at mu = t, that is at the knob value 0, where the
+# crack and the anisotropy are the SAME matrix and the comparison is a number against itself.
+# K3's informative population is the difference.
+K3_AT_ORIGIN = 20
+# K3D_ODD / K3D_EVEN: the two populations of Lemma 5-prime read on the counts.
+K6B_EXACT = 76
+K6B_BROKEN = [(6, 1, 't - 1'), (6, 4, 't - 1'), (9, 1, 't - 1'), (9, 1, 't + 1'),
+              (9, 7, 't - 1'), (9, 7, 't + 1'), (10, 2, 't - 1'), (10, 7, 't - 1')]
+K3D_ODD = 44
+K3D_EVEN = 22
+# K1E_CROSS_CONSTANT_N: over how many N the cross-sector resultant Res(chi_E, chi_O) is t-free on
+# the chain. It is measured, not derived: having no real roots would not make it constant.
+K1E_CROSS_CONSTANT_N = 12
+# K_EXPECTED: the population each check must reach, pinned. K4C_AGREEING_SEATS: the even-N
+# seat-ends at which blind_u happens to equal 2*b_E anyway, which is what K4c's fence allows.
+K_EXPECTED = {'K0': 98, 'K1': 92, 'K1b': 32, 'K1b2': 20, 'K1c': 184, 'K1e': 32,
+              'K2': 96, 'K3': 44, 'K4': 22, 'K6': 72}
+K4C_AGREEING_SEATS = [(6, 1, 't - 1'), (6, 4, 't - 1'), (10, 2, 't - 1'), (10, 7, 't - 1')]
+# EVEN_N_DIFFERENCES: the (N, seat, point) triples where the two axes pay different counts, with
+# both values. The values FOLLOW from the even-N law once b_E is known (2*b_E against
+# b_E(t) + b_E(-t)); as written they are read off a run.
+EVEN_N_DIFFERENCES = {
+    (8, 1, 't**2 - t - 1'): (1, 2), (8, 1, 't**2 + t - 1'): (1, 0),
+    (10, 1, 't**3 - t**2 - 2*t + 1'): (1, 2), (10, 1, 't**3 + t**2 - 2*t - 1'): (1, 0),
+}
+#
+# DERIVED here rather than read off THIS run, though both columns also appear in other committed
+# runs (the chain values in seat_cut_blindness_run.txt, the ring constant in gate B3 of
+# blind_seat_on_the_road_run.txt). (N, seat): (chain, ring) at u = +1. The ring value is
+# Lemma 4's degenerate-pair count floor((N-1)/2). The chain value is the multiplicity of
+# (Delta - 1) in F157's locus polynomial P_j. Two of the four keys are committed rows of F157's
+# table: (9, 1) is Delta^5 - 4Delta^3 + 3Delta, carrying Delta = 1 simply, and (11, 1) is
+# Delta^7 - 6Delta^5 + 10Delta^3 - 4Delta, with no root at 1. The other two come from F157's
+# committed GENERATOR P_j = Res_x(U_{N_node-1}, Delta*U_{j-1} - U_j): at (11, 3) it gives Delta^3,
+# again no root at 1, and (9, 7) is the reflection mirror of (9, 1), the same polynomial.
+ODD_N_RING_END_DIFFERENCES = {(9, 1): (1, 4), (9, 7): (1, 4), (11, 1): (0, 5), (11, 3): (0, 5)}
+
+
+# ----------------------------------------------------------------- (K) the count
+def gate_K():
+    print("\n(K) THE COUNT: the split of chi(H_j), and what each axis pays at a shared point")
+
+    # -- K0: the split identity. Two genuinely different routes to one polynomial: the N x N
+    # -- struck characteristic polynomial, and the two sector blocks. Symbolic in t AND x. The
+    # -- second clause is what K1's factorization rests on and nothing else gated.
+    bad, seen = [], 0
+    for name, Hf in (("aniso", H_aniso), ("crack", H_crack)):
+        for N in range(4, 11):
+            H = Hf(N)
+            E, O = block(H, N, +1), block(H, N, -1)
+            chE = sp.expand(E.charpoly(x).as_expr())
+            chO = sp.expand(O.charpoly(x).as_expr())
+            if sp.expand(H.charpoly(x).as_expr() - chE * chO) != 0:
+                bad.append((name, N, "chi(H) != chi(E)chi(O)"))
+            for j in range(N):
+                jr, seen = _fold(N, j), seen + 1
+                lhs = sp.expand(strike(H, j).charpoly(x).as_expr())
+                chEs = sp.expand(strike(E, jr).charpoly(x).as_expr())
+                if _is_centre(N, j):
+                    rhs = sp.expand(chEs * chO)
+                else:
+                    chOs = sp.expand(strike(O, jr).charpoly(x).as_expr())
+                    rhs = sp.expand(sp.Rational(1, 2) * (chEs * chO + chE * chOs))
+                if sp.expand(lhs - rhs) != 0:
+                    bad.append((name, N, j))
+    check("K0  chi(H) = chi(E)chi(O) and chi(H_j) = 1/2(chi(E_j)chi(O) + chi(E)chi(O_j))",
+          not bad and seen == K_EXPECTED.get('K0'),
+          f"symbolic in t and x, exact zero polynomial; {seen} seats over N = 4..10, both axes, "
+          f"expected {K_EXPECTED.get('K0')}; failures {bad}")
+
+    # -- K0b: BOTH sectors are load-bearing. At a seat the reflection does not fix, NEITHER
+    # -- summand alone is the struck polynomial; at the centre seat, where e_j has no odd part,
+    # -- exactly one of them IS. Two verdicts through one door, so neither is a code path.
+    wrong, centres = [], 0
+    for name, Hf in (("aniso", H_aniso), ("crack", H_crack)):
+        for N in range(4, 11):
+            H = Hf(N)
+            E, O = block(H, N, +1), block(H, N, -1)
+            chE, chO = sp.expand(E.charpoly(x).as_expr()), sp.expand(O.charpoly(x).as_expr())
+            for j in range(N):
+                jr = _fold(N, j)
+                lhs = sp.expand(strike(H, j).charpoly(x).as_expr())
+                even_only = sp.expand(lhs - sp.expand(strike(E, jr).charpoly(x).as_expr()) * chO)
+                odd_only = sp.expand(lhs - chE * sp.expand(strike(O, jr).charpoly(x).as_expr()))
+                if _is_centre(N, j):
+                    centres += 1
+                    if even_only != 0 or odd_only == 0:
+                        wrong.append((name, N, j, "centre"))
+                elif even_only == 0 or odd_only == 0:
+                    wrong.append((name, N, j, "one summand sufficed"))
+    check("K0b both sectors are load-bearing off the centre, and exactly the even one at it",
+          not wrong and centres == 6,
+          f"neither summand alone reproduces chi(H_j) at any of the {K_EXPECTED.get('K0') - centres} "
+          f"non-centre seats, and the even one alone does at all {centres} centre seats, expected "
+          f"6; failures {wrong}")
+
+    # -- K0c: the mutation is on the OBJECT. H_oneend does not commute with R, so it has no
+    # -- sector split; fed through the SAME door, K0 must break.
+    broke = []
+    for N in range(4, 11):
+        H = H_oneend(N)
+        E, O = block(H, N, +1), block(H, N, -1)
+        chE, chO = sp.expand(E.charpoly(x).as_expr()), sp.expand(O.charpoly(x).as_expr())
+        jr = _fold(N, 1)
+        lhs = sp.expand(strike(H, 1).charpoly(x).as_expr())
+        rhs = sp.expand(sp.Rational(1, 2) * (
+            sp.expand(strike(E, jr).charpoly(x).as_expr()) * chO
+            + chE * sp.expand(strike(O, jr).charpoly(x).as_expr())))
+        broke.append(sp.expand(lhs - rhs) != 0)
+    check("K0c mutation on the OBJECT: the one-end diagonal, which breaks R, breaks K0",
+          all(broke) and len(broke) == 7,
+          f"through the same door at {sum(broke)} of {len(broke)} N in 4..10, expected 7 of 7")
+
+    # -- K1: the resultant factorization. It is a CONSEQUENCE of K0 and the multiplicativity of
+    # -- the resultant, constant and sign included, and fed random polynomials with no matrix
+    # -- behind them it holds; so it is a consistency check on the algebra, not independent
+    # -- evidence. What it earns is that the displayed constant is the one the algebra gives.
+    bad, seen = [], 0
+    for name, Hf in (("aniso", H_aniso), ("crack", H_crack)):
+        for N in range(4, 11):
+            H = Hf(N)
+            E, O = block(H, N, +1), block(H, N, -1)
+            cE, cO = charpoly_expr(E).as_expr(), charpoly_expr(O).as_expr()
+            dE, dO = E.rows, O.rows
+            CX = sp.expand(sp.resultant(cE, cO, x))
+            for j in range(N):
+                if _is_centre(N, j):
+                    continue
+                jr, seen = _fold(N, j), seen + 1
+                full = sp.expand(sp.resultant(charpoly_expr(H).as_expr(),
+                                              charpoly_expr(strike(H, j)).as_expr(), x))
+                RE = sp.expand(sp.resultant(cE, charpoly_expr(strike(E, jr)).as_expr(), x))
+                RO = sp.expand(sp.resultant(cO, charpoly_expr(strike(O, jr)).as_expr(), x))
+                pred = sp.expand((-1) ** (dE * dO) * RE * RO * CX ** 2)
+                if sp.expand(2 ** N * full - pred) != 0:
+                    bad.append((name, N, j))
+    check("K1  2^N Res(chi_H, chi_H_j) = (-1)^(dE dO) R_E R_O Res(chi_E, chi_O)^2",
+          not bad and seen == K_EXPECTED.get('K1'),
+          f"exact polynomial identity in t, {seen} seats over N = 4..10, both axes, expected "
+          f"{K_EXPECTED.get('K1')}; failures {bad}")
+
+    # -- K1b: the bridge to F157. Its definition-route polynomial is the resultant of the two
+    # -- halves the seat cuts the FULL chain into; that polynomial is, up to sign, the PRODUCT of
+    # -- the same resultants taken inside the two sectors.
+    bad, seen, signs = [], 0, {}
+    for N in range(4, 11):
+        H = H_aniso(N)
+        for j in range(N):
+            if _is_centre(N, j) or j in (0, N - 1):
+                continue
+            seen += 1
+            Pfull = sp.expand(sp.resultant(charpoly_expr(H[:j, :j]).as_expr(),
+                                           charpoly_expr(H[j + 1:, j + 1:]).as_expr(), x))
+            prod, jr = sp.Integer(1), _fold(N, j)
+            for par in (+1, -1):
+                S = block(H, N, par)
+                SL, SR = S[:jr, :jr], S[jr + 1:, jr + 1:]
+                prod *= (sp.expand(sp.resultant(charpoly_expr(SL).as_expr(),
+                                                charpoly_expr(SR).as_expr(), x))
+                         if SL.rows and SR.rows else sp.Integer(1))
+            q = sp.cancel(Pfull / prod) if prod != 0 else sp.nan
+            if q not in (sp.Integer(1), sp.Integer(-1)):
+                bad.append((N, j, str(q)))
+            else:
+                signs[int(q)] = signs.get(int(q), 0) + 1
+    check("K1b on the CHAIN, F157's P_j is +-1 times the two SECTOR halves' resultants",
+          not bad and seen == K_EXPECTED.get('K1b') and signs == K1B_SIGNS,
+          f"the open chain only, where striking DISCONNECTS: {seen} seats over N = 4..10, "
+          f"expected {K_EXPECTED.get('K1b')}; the sign splits {signs}, expected {K1B_SIGNS}, and "
+          f"WHICH sign is not a law this file identifies; failures {bad}")
+
+    # -- K1b2: and it is a chain statement. On the ring the strike leaves ONE path, so the two
+    # -- principal submatrices are not the pieces the seat cuts; the discriminator the check
+    # -- actually reads is that on the ring the knob sits only in the wrap entry, so BOTH
+    # -- submatrices are knob-free while the sector halves' product is not, and the ratio stops
+    # -- being a constant. It fails at 20 of the 32 seats and survives at the other 12, which is
+    # -- why the count is pinned rather than the property asserted universally.
+    ring_fail, ring_seen = 0, 0
+    for N in range(4, 11):
+        H = H_crack(N)
+        for j in range(N):
+            if _is_centre(N, j) or j in (0, N - 1):
+                continue
+            ring_seen += 1
+            Pfull = sp.expand(sp.resultant(charpoly_expr(H[:j, :j]).as_expr(),
+                                           charpoly_expr(H[j + 1:, j + 1:]).as_expr(), x))
+            prod, jr = sp.Integer(1), _fold(N, j)
+            for par in (+1, -1):
+                S = block(H, N, par)
+                SL, SR = S[:jr, :jr], S[jr + 1:, jr + 1:]
+                prod *= (sp.expand(sp.resultant(charpoly_expr(SL).as_expr(),
+                                                charpoly_expr(SR).as_expr(), x))
+                         if SL.rows and SR.rows else sp.Integer(1))
+            q = sp.cancel(Pfull / prod) if prod != 0 else sp.nan
+            if not (q.is_number and q != 0):
+                ring_fail += 1
+    check("K1b2 control: on the RING the identity fails at most seats, the knob sitting in the wrap alone",
+          ring_fail == K_EXPECTED.get('K1b2') and ring_seen == K_EXPECTED.get('K1b'),
+          f"{ring_fail} of {ring_seen} ring seats fail through the same door, expected "
+          f"{K_EXPECTED.get('K1b2')} of {K_EXPECTED.get('K1b')}; it SURVIVES at the other "
+          f"{ring_seen - ring_fail}, so this pins a count and not a universal")
+
+    # -- K1c: and inside a sector the seat DISCONNECTS the block, so the sector resultant is a
+    # -- t-free constant times the sector halves' resultant SQUARED. With K1b that is where the
+    # -- squaring of P_j comes from, and K1e is the consequence.
+    bad, seen = [], 0
+    for name, Hf in (("aniso", H_aniso), ("crack", H_crack)):
+        for N in range(4, 11):
+            H = Hf(N)
+            for par in (+1, -1):
+                S = block(H, N, par)
+                for j in range(N):
+                    if _is_centre(N, j):
+                        continue
+                    jr = _fold(N, j)
+                    R = sp.expand(sp.resultant(charpoly_expr(S).as_expr(),
+                                               charpoly_expr(strike(S, jr)).as_expr(), x))
+                    if R == 0:
+                        continue
+                    seen += 1
+                    L, Rt = S[:jr, :jr], S[jr + 1:, jr + 1:]
+                    P = sp.Integer(1) if L.rows == 0 or Rt.rows == 0 else sp.expand(
+                        sp.resultant(charpoly_expr(L).as_expr(), charpoly_expr(Rt).as_expr(), x))
+                    q = sp.cancel(R / P ** 2)
+                    if not (q.is_number and q != 0):
+                        bad.append((name, N, par, j, str(q)))
+    check("K1c the sector resultant is a t-free constant times the sector halves' resultant SQUARED",
+          not bad and seen == K_EXPECTED.get('K1c'),
+          f"{seen} (axis, N, sector, seat) readings over N = 4..10, expected {K_EXPECTED.get('K1c')}; "
+          f"failures {bad}")
+
+    # -- K1d: the square is the DISCONNECTION, so it must go when the block stops being
+    # -- tridiagonal. One next-nearest entry through the same door, and the ratio stops being a
+    # -- constant.
+    survived, tried = 0, 0
+    for N in range(5, 11):
+        H = sp.Matrix(H_aniso(N))
+        H[0, 2] = H[0, 2] + 1
+        H[2, 0] = H[2, 0] + 1
+        H[N - 1, N - 3] = H[N - 1, N - 3] + 1
+        H[N - 3, N - 1] = H[N - 3, N - 1] + 1
+        S = block(H, N, +1)
+        d = S.rows
+        if d < 4:
+            continue
+        for jr in range(1, d - 1):
+            R = sp.expand(sp.resultant(charpoly_expr(S).as_expr(),
+                                       charpoly_expr(strike(S, jr)).as_expr(), x))
+            L, Rt = S[:jr, :jr], S[jr + 1:, jr + 1:]
+            if R == 0 or L.rows == 0 or Rt.rows == 0:
+                continue
+            P = sp.expand(sp.resultant(charpoly_expr(L).as_expr(), charpoly_expr(Rt).as_expr(), x))
+            q = sp.cancel(R / P ** 2) if P != 0 else sp.nan
+            tried += 1
+            if q.is_number and q != 0:
+                survived += 1
+    check("K1d control: one next-nearest entry, and the square is gone",
+          survived == K1D_SQUARE_SURVIVORS and tried == 10,
+          f"{survived} of {tried} fold seats over N = 5..10 still give a constant ratio, "
+          f"expected {K1D_SQUARE_SURVIVORS} of 10; so K1c reads the disconnection, not the "
+          f"construction")
+
+    # -- K1e: the headline four repo passages state. Off the centre seat the FULL resultant is a
+    # -- t-free rational constant times F157's P_j SQUARED. Like K1 it is a CONSEQUENCE of what
+    # -- sits above it, K1 with K1b and K1c and the t-freeness of the cross factor, on exactly
+    # -- this population; it earns its place by computing the composed statement directly, from
+    # -- the N x N matrix rather than from the pieces, so a slip in the composition would show.
+    bad, seen, cross_const = [], 0, 0
+    for N in range(3, 15):
+        H = H_aniso(N)
+        E, O = block(H, N, +1), block(H, N, -1)
+        cx = sp.expand(sp.resultant(charpoly_expr(E).as_expr(), charpoly_expr(O).as_expr(), x))
+        if cx.is_number and abs(cx) == 2 ** (N // 2):
+            cross_const += 1
+        else:
+            bad.append((N, "cross factor not +-2^floor(N/2)", str(cx)))
+    for N in range(4, 11):
+        H = H_aniso(N)
+        for j in range(N):
+            if _is_centre(N, j) or j in (0, N - 1):
+                continue
+            full = sp.expand(sp.resultant(charpoly_expr(H).as_expr(),
+                                          charpoly_expr(strike(H, j)).as_expr(), x))
+            Pj = sp.expand(sp.resultant(charpoly_expr(H[:j, :j]).as_expr(),
+                                        charpoly_expr(H[j + 1:, j + 1:]).as_expr(), x))
+            if Pj == 0:
+                continue
+            seen += 1
+            q = sp.cancel(full / Pj ** 2)
+            if not (q.is_number and q != 0):
+                bad.append((N, j, str(q)))
+    check("K1e on the CHAIN, Res(chi_H, chi_H_j) is a t-free constant times F157's P_j SQUARED",
+          not bad and seen == K_EXPECTED.get('K1e') and cross_const == K1E_CROSS_CONSTANT_N,
+          f"the claim four repo passages stated and none derived before the companion proof's "
+          f"section (g); {seen} readings over N = 4..10, expected {K_EXPECTED.get('K1e')}; the "
+          f"cross-sector factor is t-free at {cross_const} of {K1E_CROSS_CONSTANT_N} N here, and "
+          f"that proof derives it for every N from the geometric multiplicity of a tridiagonal "
+          f"block; failures {bad}")
+
+    # -- K1e2: K1e reads the DISCONNECTION too, not the chain's shape: moving the diagonal leaves
+    # -- it green, and only losing tridiagonality breaks it. One next-nearest entry, same door.
+    survived, tried = 0, 0
+    for N in range(5, 11):
+        H = sp.Matrix(H_aniso(N))
+        H[0, 2] = H[0, 2] + 1
+        H[2, 0] = H[2, 0] + 1
+        for j in range(1, N - 1):
+            full = sp.expand(sp.resultant(charpoly_expr(H).as_expr(),
+                                          charpoly_expr(strike(H, j)).as_expr(), x))
+            Pj = sp.expand(sp.resultant(charpoly_expr(H[:j, :j]).as_expr(),
+                                        charpoly_expr(H[j + 1:, j + 1:]).as_expr(), x))
+            if full == 0 or Pj == 0:
+                continue
+            tried += 1
+            q = sp.cancel(full / Pj ** 2)
+            if q.is_number and q != 0:
+                survived += 1
+    check("K1e2 control: one next-nearest entry on the chain, and K1e's constant is gone",
+          survived == K1E2_SURVIVORS and tried == 32,
+          f"{survived} of {tried} seats over N = 5..10 still give a t-free ratio, expected "
+          f"{K1E2_SURVIVORS} of 32; so K1e reads the disconnection. That it does NOT read the "
+          f"diagonal's POSITION is a separate statement and no check here makes it")
+
+    # -- K2a: the field arithmetic against two independent oracles. On a LINEAR mu the committed
+    # -- rational blind_count; on a QUADRATIC one sympy's own gcd over the number field, which is
+    # -- the only check here that exercises the polynomial branch of the modular inverse.
+    bad = []
+    for name, Hf in (("aniso", H_aniso), ("crack", H_crack)):
+        for N in range(4, 12):
+            for j in range(N):
+                for val in (sp.Integer(0), sp.Rational(1, 3), sp.Integer(1)):
+                    if blind_at(Hf, N, j, t - val) != blind_count(Hf(N, val), j):
+                        bad.append((name, N, j, str(val)))
+    # The DEGREE-4 mu is not decoration: the modular inverse's polynomial branch is reached only
+    # from degree 3 up. Counted over THIS check's own loop: 0 calls at t^2-3, 0 at t^2-1/2, and
+    # 258 at t^4-4t^2+2. So a quadratic oracle alone would leave that branch unread here.
+    nf, poly_branch = [], [0]
+    _orig_inv = _inv_mod_mu
+
+    def _counting_inv(c, mu, _f=_orig_inv, _n=poly_branch):
+        if not c.is_number:
+            _n[0] += 1
+        return _f(c, mu)
+
+    globals()['_inv_mod_mu'] = _counting_inv
+    for name, Hf in (("aniso", H_aniso), ("crack", H_crack)):
+        for N in (7, 9, 11):
+            for alpha, mu in ((sp.sqrt(3), t ** 2 - 3),
+                              (sp.sqrt(2) / 2, t ** 2 - sp.Rational(1, 2)),
+                              (sp.sqrt(2 + sp.sqrt(2)), t ** 4 - 4 * t ** 2 + 2)):
+                K = sp.QQ.algebraic_field(alpha)
+                for j in range(N):
+                    H = Hf(N, alpha)
+                    a = sp.Poly(H.charpoly(x).as_expr(), x, domain=K)
+                    b = sp.Poly(strike(H, j).charpoly(x).as_expr(), x, domain=K)
+                    if blind_at(Hf, N, j, mu) != sp.gcd(a, b).degree():
+                        nf.append((name, N, j, str(mu)))
+    globals()['_inv_mod_mu'] = _orig_inv
+    check("K2a the Q[t]/(mu) route against two independent oracles, rational and number-field",
+          not bad and not nf and poly_branch[0] > 0,
+          f"the committed rational blind_count at 3 knob values over N = 4..11, and sympy's gcd "
+          f"over Q(alpha) at two quadratic and one QUARTIC mu over N = 7, 9, 11; the modular "
+          f"inverse's polynomial branch was entered {poly_branch[0]} times, COUNTED rather than "
+          f"inferred; the two quadratic mu contribute 0 of those calls, which is why the quartic "
+          f"is in the loop; failures {bad + nf}")
+
+    # -- K2: the count decomposition. Off the degeneracy set, blind(j) = b_E + b_O exactly.
+    bad, seen = [], 0
+    for name, Hf in (("aniso", H_aniso), ("crack", H_crack)):
+        for N in range(4, 13):
+            for j in range(N):
+                for mu in locus_mus(N, j):
+                    bE, bO, cross = sector_counts_at(Hf, N, j, mu)
+                    if cross != 0:
+                        continue
+                    seen += 1
+                    if blind_at(Hf, N, j, mu) != bE + bO:
+                        bad.append((name, N, j, str(mu)))
+    check("K2  blind(j) = b_E + b_O at every locus point off the degeneracy set",
+          not bad and seen == K_EXPECTED.get('K2'),
+          f"{seen} (axis, N, seat, point) readings over N = 4..12, expected {K_EXPECTED.get('K2')}; "
+          f"failures {bad}")
+
+    # -- K2b: the correction term, where the additivity is replaced. blind = b_E + b_O + the
+    # -- shared levels NEITHER sector eigenvector misses at the seat, at both ring ends.
+    wrong, bitten = [], {}
+    for N in range(5, 13):
+        n_bitten = 0
+        for j in range(N):
+            for end in (t - 1, t + 1):
+                bE, bO, cross = sector_counts_at(H_crack, N, j, end)
+                neither = shared_neither_at(H_crack, N, j, end)
+                if blind_at(H_crack, N, j, end) != bE + bO + neither:
+                    wrong.append((N, j, str(end)))
+                if neither != cross:
+                    n_bitten += 1
+        bitten[N] = n_bitten
+    check("K2b the correction term at u = +-1: blind = b_E + b_O + #{shared lambda neither misses}",
+          not wrong and bitten == K2B_CORRECTED_SEATS,
+          f"every seat over N = 5..12, both ring ends; the correction is strictly below the "
+          f"shared count at {bitten} seat-ends per N, expected {K2B_CORRECTED_SEATS}; "
+          f"arithmetic failures {wrong}")
+
+    # -- K2c: the third inclusion-exclusion term is ZERO at every reading, on both families and
+    # -- at both ring ends, and it is zero for a reason rather than by luck: no site is a node of
+    # -- both the cosine and the sine of one mode. Without this the term could carry a sign error
+    # -- forever, since flipping it changes nothing the other checks read.
+    nonzero, shared_seen, seen = [], 0, 0
+    for Hf in (H_aniso, H_crack):
+        for N in range(5, 13):
+            for j in range(N):
+                for end in (t - 1, t + 1, t, t ** 2 - 3):
+                    shared, a, b, c = shared_neither_at(Hf, N, j, end, parts=True)
+                    seen += 1
+                    shared_seen += shared
+                    if c != 0:
+                        nonzero.append((Hf.__name__, N, j, str(end), c))
+    check("K2c the both-vanish term of the correction is 0 at every reading, and not vacuously",
+          not nonzero and seen == K2C_READINGS and shared_seen == K2C_SHARED,
+          f"{seen} readings over both families and N = 5..12, expected {K2C_READINGS}, carrying "
+          f"{shared_seen} shared levels in total, expected {K2C_SHARED}, so the term had somewhere "
+          f"to be nonzero; readings with a nonzero term {nonzero}")
+
+    # -- K3: the count theorem at ODD N. Same points AND same count, off the ring ends.
+    bad, seen, at_origin = [], 0, 0
+    for N in (5, 7, 9, 11, 13):
+        for j in range(N):
+            for mu in locus_mus(N, j):
+                seen += 1
+                if mu == t:
+                    at_origin += 1
+                if blind_at(H_crack, N, j, mu) != blind_at(H_aniso, N, j, mu):
+                    bad.append((N, j, str(mu)))
+    check("K3  ODD N: blind_u(j, t) = blind_Delta(j, t) at every locus point off the ring ends",
+          not bad and seen == K_EXPECTED.get('K3') and at_origin == K3_AT_ORIGIN,
+          f"{seen} (N, seat, point) readings over N = 5..13, expected {K_EXPECTED.get('K3')}; "
+          f"{at_origin} of them sit at mu = t, where the two families are the SAME matrix and the "
+          f"comparison is a number against itself, so the informative population is "
+          f"{seen - at_origin}; failures {bad}")
+
+    # -- K3b: and at the ring ends they DIFFER, against literals derived from F157's committed
+    # -- P_j and from Lemma 4. Its ring column repeats what K5 asserts over a wider range; its
+    # -- content is the four CHAIN numbers.
+    got = {}
+    for (N, j) in ODD_N_RING_END_DIFFERENCES:
+        got[(N, j)] = (blind_at(H_aniso, N, j, t - 1), blind_at(H_crack, N, j, t - 1))
+    check("K3b at u = +1 the two axes pay DIFFERENT counts, at the four seats named as literals",
+          got == ODD_N_RING_END_DIFFERENCES,
+          f"(chain, ring) = {got}, expected {ODD_N_RING_END_DIFFERENCES}")
+
+    # -- K3c: K3 is an equality between two readings of one routine, so a defect that moves BOTH
+    # -- axes alike survives it, a uniform miscount included. This is the control against the
+    # -- other failure: that the equality is a property of any two families rather than of these.
+    disagree, same, same_off_origin = 0, 0, 0
+    for N in (5, 7, 9, 11, 13):
+        for j in range(N):
+            for mu in locus_mus(N, j):
+                if blind_at(H_oneend, N, j, mu) != blind_at(H_crack, N, j, mu):
+                    disagree += 1
+                else:
+                    same += 1
+                    if mu != t:
+                        same_off_origin += 1
+    check("K3c control: a THIRD family tracks the crack only at the origin, where all three are one",
+          disagree == K3C_DISAGREEMENTS and same + disagree == K_EXPECTED.get('K3')
+          and same_off_origin == 0,
+          f"{disagree} of {disagree + same} triples disagree, expected {K3C_DISAGREEMENTS}, and "
+          f"the {same} that do not are ALL at mu = t, where all three families are one matrix "
+          f"({same_off_origin} agreements off the origin); so the separation off the origin is "
+          f"total and K3 reads these two families and not any two")
+
+    # -- K3d: Lemma 5-prime itself, which K3 uses and never tests. At ODD N the staggering bijection
+    # -- preserves each sector, so each sector count is negation-invariant; at EVEN N it swaps
+    # -- them, so the invariance must FAIL and the two counts cross over instead. Both halves
+    # -- through the same door, so neither is a code path.
+    bad, odd_seen, even_seen = [], 0, 0
+    for N in (5, 7, 9, 11, 13, 6, 8, 10, 12):
+        for j in range(N):
+            for mu in locus_mus(N, j):
+                bE, bO, _ = sector_counts_at(H_aniso, N, j, mu)
+                bEm, bOm, _ = sector_counts_at(H_aniso, N, j, mu, sign=-1)
+                if N % 2:
+                    odd_seen += 1
+                    if (bE, bO) != (bEm, bOm):
+                        bad.append(("odd sector not negation-invariant", N, j, str(mu)))
+                else:
+                    even_seen += 1
+                    if (bE, bO) != (bOm, bEm):
+                        bad.append(("even sectors do not cross over", N, j, str(mu)))
+    check("K3d Lemma 5-prime on the COUNTS: odd N preserves each sector, even N swaps them",
+          not bad and odd_seen == K3D_ODD and even_seen == K3D_EVEN,
+          f"{odd_seen} odd-N and {even_seen} even-N readings, expected {K3D_ODD} and {K3D_EVEN}; "
+          f"failures {bad}")
+
+    # -- K4: EVEN N, off the ring ends. The ring pays twice the even sector; the chain pays the
+    # -- even sector at t and at -t.
+    bad, seen = [], 0
+    for N in (6, 8, 10, 12):
+        for j in range(N):
+            for mu in locus_mus(N, j):
+                bE, bO, cross = sector_counts_at(H_aniso, N, j, mu)
+                if cross != 0:
+                    continue
+                seen += 1
+                bEm = sector_counts_at(H_aniso, N, j, mu, sign=-1)[0]
+                if blind_at(H_crack, N, j, mu) != 2 * bE:
+                    bad.append(("ring != 2 b_E", N, j, str(mu)))
+                if blind_at(H_aniso, N, j, mu) != bE + bEm:
+                    bad.append(("chain != b_E(t) + b_E(-t)", N, j, str(mu)))
+                # the crossover b_O(t) = b_E(-t) is K3d's even branch, on exactly this
+                # population; it is not repeated here
+    check("K4  EVEN N off the ring ends: blind_u = 2 b_E, blind_Delta = b_E(t) + b_E(-t)",
+          not bad and seen == K_EXPECTED.get('K4'),
+          f"{seen} readings over N = 6..12, expected {K_EXPECTED.get('K4')}; failures {bad}")
+
+    # -- K4b: the even-N counts genuinely PART, at four (N, seat, point) triples named with both
+    # -- values. A locus that moves must redden this rather than crash it.
+    got, missing = {}, []
+    for (N, j, sname) in EVEN_N_DIFFERENCES:
+        mu = next((m for m in locus_mus(N, j) if str(m) == sname), None)
+        if mu is None:
+            missing.append((N, j, sname))
+            continue
+        got[(N, j, sname)] = (blind_at(H_aniso, N, j, mu), blind_at(H_crack, N, j, mu))
+    check("K4b EVEN N: the counts differ at the four literal triples, two of them the ring paying 0",
+          got == EVEN_N_DIFFERENCES and not missing,
+          f"(chain, ring) = {got}, expected {EVEN_N_DIFFERENCES}; points no longer in the locus: "
+          f"{missing}")
+
+    # -- K4c: THE FENCE on K4, and the reason the even-N law needs one. At the ring ends the ring
+    # -- pays Lemma 4's count at every seat while 2*b_E is something else entirely, so K4's
+    # -- exclusion of {+-1} is load-bearing rather than an artefact of locus_mus.
+    agree, seen = [], 0
+    for N in (6, 8, 10, 12):
+        for j in range(N):
+            for end in (t - 1, t + 1):
+                seen += 1
+                b = blind_at(H_crack, N, j, end)
+                two = 2 * sector_counts_at(H_aniso, N, j, end)[0]
+                if b == two:
+                    agree.append((N, j, str(end)))
+    check("K4c the |t| != 1 fence on K4 is load-bearing: at the ring ends blind_u is mostly NOT 2 b_E",
+          sorted(agree) == sorted(K4C_AGREEING_SEATS) and seen == 72,
+          f"the two readings coincide at {len(agree)} of {seen} even-N seat-ends, expected "
+          f"{len(K4C_AGREEING_SEATS)} of 72: {agree}")
+
+    # -- K4d: WHERE the even-N counts part. If a seat's two loci differ, some point of the
+    # -- symmetric difference has b_E(t) >= 1 and b_E(-t) = 0, so the counts differ there too:
+    # -- that direction is a theorem. The converse is NOT, and this reads it: no seat carries
+    # -- the same locus and a different count anywhere in the range.
+    parting, same_locus_diff = set(), []
+    for N in (6, 8, 10, 12, 14):
+        for j in range(N):
+            lu, ld = locus_full(H_crack, N, j), locus_full(H_aniso, N, j)
+            if lu == 'ALL' or ld == 'ALL':
+                continue
+            same_locus = (lu == (ld | RING))
+            for mu in locus_mus(N, j):
+                if blind_at(H_aniso, N, j, mu) != blind_at(H_crack, N, j, mu):
+                    parting.add((N, j))
+                    if same_locus:
+                        same_locus_diff.append((N, j, str(mu)))
+    breaks = {(N, j) for (N, j) in COMMITTED_BREAKS if N <= 14}
+    check("K4d EVEN N: the counts part at exactly the seats where the loci break, and nowhere else",
+          parting == breaks and not same_locus_diff,
+          f"{len(parting)} parting seats over N = 6..14 against the {len(breaks)} committed break "
+          f"seats in that range; seats with the SAME locus and a different count: "
+          f"{same_locus_diff}")
+
+    # -- K5b: at the ring ends, WHERE the two axes still agree. Exactly the reflection-fixed
+    # -- centre seat of an odd chain, and no seat at all at even N.
+    wrong, seen = [], 0
+    for N in range(5, 12):
+        for end in (t - 1, t + 1):
+            seen += 1
+            agree = [j for j in range(N)
+                     if blind_at(H_aniso, N, j, end) == blind_at(H_crack, N, j, end)]
+            want = [(N - 1) // 2] if N % 2 else []
+            if agree != want:
+                wrong.append((N, str(end), agree, want))
+    check("K5b at the ring ends the axes agree at the odd-N centre seat ALONE, at even N nowhere",
+          not wrong and seen == 14,
+          f"{seen} (N, end) rows over N = 5..11, expected 14; the centre half follows from K5 and "
+          f"K7, the 'and nowhere else' half is this check's own content; disagreements {wrong}")
+
+    # -- K5c: WHICH spectrum the two ring ends carry, which the third bullet of the count theorem
+    # -- reads. Decided by an exact integer identity rather than by divisibility or a simplifier:
+    # -- the wrap bond +1 is a periodic boundary condition and -1 an ANTIperiodic one, so
+    # -- chi(H_u(+-1)) = 2*T_N(x/2) -+ 2, whose roots are 2cos(2*pi*m/N) and 2cos((2m+1)*pi/N).
+    bad, seen = [], 0
+    for N in range(3, 15):
+        T = sp.expand(sp.chebyshevt(N, x / 2))
+        for uval, offset in ((sp.Integer(1), -2), (sp.Integer(-1), 2)):
+            seen += 1
+            ch = sp.expand(H_crack(N, uval).charpoly(x).as_expr())
+            if sp.expand(ch - sp.expand(2 * T + offset)) != 0:
+                bad.append((N, int(uval)))
+    check("K5c the ring ends are the periodic and the ANTIperiodic comb: chi = 2*T_N(x/2) -+ 2",
+          not bad and seen == 24,
+          f"exact integer polynomial identity, {seen} readings over N = 3..14 at both ends, "
+          f"expected 24; failures {bad}")
+
+    # -- K5: the ring ends pay the number of degenerate pairs, at EVERY seat, from Lemma 4's
+    # -- combinatorial counts rather than from the measurement.
+    bad, seen = [], 0
+    for N in range(5, 13):
+        for j in range(N):
+            seen += 2
+            if blind_at(H_crack, N, j, t - 1) != (N - 1) // 2:
+                bad.append(("u = +1", N, j))
+            if blind_at(H_crack, N, j, t + 1) != -(-(N - 1) // 2):
+                bad.append(("u = -1", N, j))
+    check("K5  at u = +-1 EVERY seat pays floor/ceil((N-1)/2), Lemma 4's degenerate-pair count",
+          not bad and seen == 136,
+          f"{seen} seat-end readings over N = 5..12, expected 136; failures {bad}")
+
+    # -- K6: the multiplicity IS in the resultant, doubled. Off C the order of vanishing of the
+    # -- full resultant at mu is exactly twice the blind count.
+    bad, seen = [], 0
+    for name, Hf in (("aniso", H_aniso), ("crack", H_crack)):
+        for N in range(4, 12):
+            for j in range(N):
+                if _is_centre(N, j):
+                    continue
+                H = Hf(N)
+                full = sp.Poly(sp.expand(sp.resultant(charpoly_expr(H).as_expr(),
+                                                      charpoly_expr(strike(H, j)).as_expr(), x)), t)
+                if full.is_zero:
+                    continue
+                mult = {sp.factor(sp.monic(sp.Poly(f, t)).as_expr()): m
+                        for f, m in sp.factor_list(full.as_expr(), t)[1]}
+                for mu in locus_mus(N, j):
+                    if sector_counts_at(Hf, N, j, mu)[2] != 0:
+                        continue
+                    seen += 1
+                    if mult.get(mu, 0) != 2 * blind_at(Hf, N, j, mu):
+                        bad.append((name, N, j, str(mu)))
+    check("K6  off C the order of vanishing of Res(chi_H, chi_H_j) at mu is exactly 2 * blind(j)",
+          not bad and seen == K_EXPECTED.get('K6'),
+          f"{seen} readings over N = 4..11, both axes, expected {K_EXPECTED.get('K6')}; failures {bad}")
+
+    # -- K6b: and AT the ring ends halving is mostly still exact, which is the opposite of what a
+    # -- reader would guess from K6's fence. It fails at exactly the seat-ends where some shared
+    # -- level has ONE sector eigenvector vanishing at the seat; the cross-sector factor vanishes
+    # -- at every ring-end seat and is therefore NOT what breaks it.
+    exact, broken = 0, []
+    for N in range(5, 11):
+        H = H_crack(N)
+        for j in range(N):
+            if _is_centre(N, j):
+                continue
+            full = sp.Poly(sp.expand(sp.resultant(charpoly_expr(H).as_expr(),
+                                                  charpoly_expr(strike(H, j)).as_expr(), x)), t)
+            if full.is_zero:
+                continue
+            mult = {sp.factor(sp.monic(sp.Poly(f, t)).as_expr()): m
+                    for f, m in sp.factor_list(full.as_expr(), t)[1]}
+            for end in (t - 1, t + 1):
+                if mult.get(sp.factor(end), 0) == 2 * blind_at(H_crack, N, j, end):
+                    exact += 1
+                else:
+                    bE, bO, _ = sector_counts_at(H_crack, N, j, end)
+                    broken.append((N, j, str(end), bE + bO))
+    check("K6b at the ring ends halving stays exact except where a sector eigenvector vanishes",
+          exact == K6B_EXACT and [b[:3] for b in broken] == K6B_BROKEN
+          and all(b[3] > 0 for b in broken),
+          f"exact at {exact} of {exact + len(broken)} ring-end seat-ends, expected {K6B_EXACT}; "
+          f"the exceptions are {[b[:3] for b in broken]} and every one of them has b_E + b_O > 0")
+
+    # -- K7: the centre seat. b_O is the whole odd sector by reflection and b_E is 0 because the
+    # -- centre is an END of the folded even block, so the count is (N-1)/2 at EVERY knob value,
+    # -- the ring ends included.
+    bad, seen = [], 0
+    for N in (5, 7, 9, 11, 13):
+        c = (N - 1) // 2
+        for Hf in (H_aniso, H_crack):
+            for mu in (t, t - 1, t + 1, t - sp.Rational(7, 5), t ** 2 - 3, t ** 3 - 3 * t - 1):
+                seen += 1
+                if blind_at(Hf, N, c, mu) != (N - 1) // 2:
+                    bad.append((Hf.__name__, N, str(mu)))
+    check("K7  the centre seat pays (N-1)/2 at EVERY knob value on BOTH axes, rational or not",
+          not bad and seen == 60,
+          f"{seen} readings, 6 knob values incl. two irrational and both ring ends, N = 5..13, "
+          f"both axes, expected 60; failures {bad}")
+
+
 def main():
     print("=" * 86)
     print("PROOF_BLIND_SEAT_TWO_AXES: the crack axis and the anisotropy axis, sector by sector")
@@ -592,6 +1468,7 @@ def main():
     gate_B()
     gate_P()
     gate_T()
+    gate_K()
     print()
     print("=" * 86)
     print("VERDICT:", "ALL GREEN" if not _fails else f"{len(_fails)} FAILED: {_fails}")
