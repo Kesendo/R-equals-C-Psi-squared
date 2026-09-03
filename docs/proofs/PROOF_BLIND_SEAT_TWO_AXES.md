@@ -1071,7 +1071,9 @@ suffices alone, which the centre seat answers one way and every other seat the o
   this page is the site pair {p, N−1−p} the reflection joins, never
   [`Pair.cs`](../../compute/MirrorWorld/Pair.cs)'s bare coherence |i⟩⟨j| with its rate −2γk; the
   **end pair** is F157's {0, N−1}, which the companion page already fences against F140's
-  "corner block". A **block** here is the matrix of H restricted to one reflection sector, never
+  "corner block". The **divisor law** §(h)'s third fence names is F157's gcd law on the seat
+  index, never [`Divisor.cs`](../../compute/MirrorWorld/Divisor.cs)'s frozen divisor of F140,
+  which lives on the R₉₀ locus and has no seat in it. A **block** here is the matrix of H restricted to one reflection sector, never
   [`Block.cs`](../../compute/MirrorWorld/Block.cs)'s joint-popcount block (p, q). No γ and no
   Liouvillian appears anywhere in this file.
 - **Bare-letter lemma names are ambiguous in this neighbourhood** and this file numbers its own
