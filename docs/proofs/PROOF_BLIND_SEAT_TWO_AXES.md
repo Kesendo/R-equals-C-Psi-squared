@@ -5,20 +5,27 @@
 add closed forms, though fewer than it might look: the crack's count at u = +1, ⌊(N−1)/2⌋ at every
 seat, is the companion page's gate B3 and is committed, and what §(g) adds there is the PROOF;
 what is new is the other end, ⌈(N−1)/2⌉ at u = −1, and the centre seat's (N−1)/2 at every coupling
-on both axes. What it adds no closed form for is the crack's count BETWEEN the ring ends, which
-stays F157's Δ_k read through §(g)'s Theorem. Whether the harvest earns its own number is left
-open rather than decided here. **Status:** Tier 1 derived. Lemma 1 is a matrix identity at every N
-and every complex u. Lemma 2a is the fence-free Cramer argument of [The Seat That
+on both axes. What §(g) adds no closed form for is the crack's count BETWEEN the ring
+ends; §(h) closes that at even N as 2·#{k odd : Δ_k = t}, and at odd N away from the
+reflection-fixed centre seat it is F157's own #{k}, that seat paying (N−1)/2 at every coupling by
+§(g). What neither closes is the two sector halves-resultants of §(g)'s Corollary.
+Whether the harvest earns its own number is left open rather than decided here.
+**Status:** Tier 1 derived. Lemma 1 is a matrix identity at every N and every complex u.
+Lemma 2a is the fence-free Cramer argument of [The Seat That
 Cuts](../../experiments/THE_SEAT_THAT_CUTS.md) §7 read per eigenvalue; Lemma 2b, the sector split,
 is this file's. Lemma 3 is Lemma J of the node-lemma proof. Lemma 4 is this file's own
 boundary-system argument and is deliberately independent of F160, whose simplicity clause is
 fenced to u ≥ 0 while half of the u axis here is negative. Lemmas 6 and 7, the split of the struck
 characteristic polynomial and the count decomposition it carries, are this file's, as is the
-strengthening of Lemma 5 from sets to counts. Both Theorems are exact at every N ≥ 3 and both
-parities. **Date:** 2026-09-02. **Authors:** Thomas Wicht, Claude (Opus 5). **Script:**
-[`simulations/blind_seat_two_axes_proof.py`](../../simulations/blind_seat_two_axes_proof.py), 53
-checks under 50 labels in six blocks (L2a fires twice, L2b three times), exact in sympy, about 78
-seconds measured quiet under sympy 1.14.0, which is not in the dependency line in `CLAUDE.md`. Run
+strengthening of Lemma 5 from sets to counts. Lemma 8 is a TRANSPORT and not a new sign: the
+reflection parity (−1)^{k+1} of a mode is owned in six places for the chain's own comb, and what
+is this file's is that the blind mode of an END-DETUNED chain is still a single sine, so the law
+survives both the change of modulus to N_node and the loss of uniformity, and the index it then
+puts on §(g)'s two summands. Both Theorems are exact at every N ≥ 3 and both
+parities. **Date:** 2026-09-02, section (h) 2026-09-03. **Authors:** Thomas Wicht, Claude (Opus 5). **Script:**
+[`simulations/blind_seat_two_axes_proof.py`](../../simulations/blind_seat_two_axes_proof.py), 61
+checks under 58 labels in seven blocks (L2a fires twice, L2b three times), exact in sympy, about
+90 seconds measured quiet under sympy 1.14.0, which is not in the dependency line in `CLAUDE.md`. Run
 committed at
 [`blind_seat_two_axes_proof_run.txt`](../../simulations/results/blind_seat_two_axes/blind_seat_two_axes_proof_run.txt).
 **Closes:** the two questions carried by open item 1 of [The Blind Seat on the
@@ -27,7 +34,9 @@ identified mechanism at odd N = 5..17 and at 44 of 66 even-N seats; that page st
 and §(a) to §(f) here state why it holds, why it fails at the other 22, and why it holds at every
 N rather than at the ones that were reached. The item's second question asked whether a seat is
 blind by the same AMOUNT at a shared point, and recorded that the construction there cannot see
-it; §(g) answers it, and shows that the construction can see it after all, doubled.
+it; §(g) answers it, and shows that the construction can see it after all, doubled. §(g) then
+generated one more question on that page, which sector each of F157's node indices k belongs
+to, and §(h) closes that too, so the even-N count is closed-form.
 
 ## Statement
 
@@ -75,9 +84,17 @@ sector TWICE where the chain pays each sector once, and at the ring ends the cra
 every seat at once. The parity that split the loci splits the counts the same way, through the
 same commutation ΣR = (−1)^{N−1}RΣ.
 
+The two summands b_E and b_O are still measurements at that point. §(h) puts F157's own index
+on them: the blind mode at node index k is R-even for odd k and R-odd for even k, so
+at every seat with N_node ≥ 2, b_E counts the odd k landing on a value and b_O the even ones, and
+the even-N count becomes 2·#{k odd : Δ_k = t} off the ring ends, a closed form.
+
 ## What the repo already held, store by store
 
-Swept 2026-09-02 by three agents, one per primitive (the sector reduction, the blindness
+Swept twice. The second sweep, 2026-09-03 and for §(h) alone, is recorded inside that
+section rather than here, because what it returned changed that section from a discovery into a
+transport: the sign law it needed is owned in six places, and only the modulus is new. The
+first, for §(a) to §(g), was 2026-09-02 by three agents, one per primitive (the sector reduction, the blindness
 criterion, level crossings between symmetry sectors), each over the named stores rather than over
 the arc's vocabulary, then corrected by three empty review rounds which moved four claims here
 against the author. What was drafted as a new lemma turned out to be owned in folded form; what
@@ -655,7 +672,7 @@ of vanishing is not defined.)
 
 Inside a sector the seat DISCONNECTS the tridiagonal block into halves L and R′, so
 χ(S_jr) = χ(L)·χ(R′) and, by the node lemma, a blind λ is a common root of the two halves. Write
-Q_S = Res_x(χ(L), χ(R′)) for the sector's halves resultant; then R_S is a t-free rational
+Q_S = Res_x(χ(L), χ(R′)) for the sector's halves-resultant; then R_S is a t-free rational
 constant times Q_S², gate K1c. **The two Q_S multiply to F157's own polynomial**: F157's
 definition route is the resultant of the two halves the seat cuts the FULL chain into, and on the
 chain that equals ±Q_E·Q_O, gate K1b, which pins the ratio to ±1 and pins the split, 22 seats
@@ -703,9 +720,222 @@ Gates K0 to K7, twenty-eight checks: the split and its two controls, the resulta
 with the bridge to F157's P_j and its two next-nearest-entry controls, the field arithmetic
 against two independent oracles, the decomposition and its correction term, the odd-N theorem
 with two controls, the even-N law with its fence and its locus-versus-count reading, the ring
-ends, the doubling, and the centre seat. The table in §(h) says what would redden each.
+ends, the doubling, and the centre seat. The table in §(i) says what would redden each.
 
-## (h) The gates, in one table
+## (h) Which k sits in which sector, and the index it puts on b_E and b_O
+
+§(g) writes the blind count as b_E + b_O and leaves the two summands as things a sector block is
+asked for. F157 writes the same count as a number of node indices k. The two readings meet in one
+line. The line itself is not new: it is this repository's own reflection-parity law, read on a
+different comb. What IS new is that it survives the reading. The six places that own the law all
+read an eigenvector of the UNIFORM chain, and the matrix here has both ends detuned; that the
+blind mode of an end-detuned chain is still a SINGLE sine, on the seat's own node modulus, is
+what this section establishes and what puts F157's index on §(g)'s two summands.
+
+**What the sweep returned, and it moved this section from a discovery to a transport.** The sign
+law is owned in at least six places, none of them about F157:
+[PROOF_COLLISION_GAP_ODD_ORDERS](PROOF_COLLISION_GAP_ODD_ORDERS.md) §(b) states it as *"which
+sector one is in is decided by the parity of k"*;
+[SLOW_MODE_R_PARITY](../../experiments/SLOW_MODE_R_PARITY.md) derives it, *"b_k is R-even when k
+is odd, R-odd when k is even"*; [PROOF_K_PARTNERSHIP](PROOF_K_PARTNERSHIP.md) writes
+Rψ_k = (−1)^{k+1}ψ_k and credits F71; [HANDSHAKE_GEOMETRY](../../hypotheses/HANDSHAKE_GEOMETRY.md) carries it with a
+carrier-parity generalization (−1)^{k−c}; `Diagnostics/Ptf/DefectReadingEquivarianceClaim.cs`
+types it Tier 1; and `compute/MirrorWorld/Formulas.cs` holds it as a member,
+`F71_ReflectionParity(k)`, which is the bare parity with no modulus in it at all. Every one of
+the other five reads the UNIFORM chain's own Dirichlet comb, whose modulus is N+1. What
+returned nothing was the assignment for F157's k, and it said so in writing in three
+places: [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md) F157, the arc
+`the_forced_and_the_met` in `OpenArcsRegistry.cs`, and [The Blind Seat on the
+Road](../../experiments/THE_BLIND_SEAT_ON_THE_ROAD.md), the last adding *"A parity of k is the
+obvious guess and is not checked here"*. **This paragraph records what the sweep found, not what
+those three now say**: the same change that added this section rewrote all three to carry the
+answer, so the sentence quoted above no longer exists in the tree. `fw.Confirmations` (all 24
+entries), `docs/GLOSSARY.md` and
+[PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md) returned nothing
+on the sector ASSIGNMENT; the last of those does read the count one sector down, which is what
+§(g) uses. The gap is an index change and not a labelling oversight: F157's k rides the
+seat-dependent node modulus N_node = |N − 1 − 2j|, which is at most N − 1 and so never the chain's
+own N+1. That is arithmetic and no gate certifies it; what the gates read is everything downstream
+of it. `docs/CAUGHT_ERRORS.md` returned no entry on the assignment and two standing traps that sit
+on this path, and both are fenced below: the Ad_R grading read as Hilbert-space parity, and the
+vacuous anti-vacuity check that the 2026-09-02 entry logs for block K and that this block shipped
+twice before three rounds took it out.
+
+**One convention question, answered here so no reader has to ask it twice.** §(a) warns that this
+file's book (hop 1, a bare t) differs from F157's (hop 2, 2Δ per end, a Δ(N−5)·I shift) by a
+common scaling and a common shift, so a reader is right to look for a conversion. There is none to
+make. Subtracting the shift and dividing by 2 turns F157's half-block into this file's exactly, and
+Δ_k is a RATIO of two sines, so neither operation moves it: F157's Δ_k is a value of this file's t
+unchanged, and every display below uses it that way.
+
+> **Lemma 8.** Write n = N_node = |N − 1 − 2j|, θ_k = kπ/n and, with F157,
+> Δ_k = sin((j+1)θ_k)/sin(jθ_k). Let n ≥ 2 and k ∈ 1..n−1 be a non-pole index, that is
+> sin(jθ_k) ≠ 0. Then
+>
+>     ψ_l = sin((j − l)·θ_k),      l = 0 .. N−1
+>
+> is an eigenvector of A + Δ_k·D at the eigenvalue 2cos θ_k, it vanishes at seat j and is not
+> the zero vector, and
+>
+>     ψ_{N−1−l} = (−1)^{k+1}·ψ_l.
+>
+> So the blind mode at node index k lies in the R-EVEN sector when k is odd and in the R-ODD
+> sector when k is even.
+
+*Proof.* Three claims, and the first is F157's own derivation read forward rather than backward.
+
+The interior rows are the Chebyshev recursion sin((j−l+1)θ) + sin((j−l−1)θ) = 2cos θ·sin((j−l)θ),
+which holds at every angle, so rows 1 to N−2 cost nothing (and at j = 0 or j = N−1 there is no
+interior row j, but there sin(jθ_k) = 0 for every k, so every index is a pole and the lemma
+says nothing). Row 0 reads Δ·ψ_0 + ψ_1 = 2cos θ·ψ_0,
+which collapses to Δ·sin(jθ) = sin((j+1)θ); with ψ_{N−1} = −sin(qθ) and ψ_{N−2} = −sin((q−1)θ)
+for q = N−1−j, row N−1 collapses the same way to Δ·sin(qθ) = sin((q+1)θ). Those are exactly the
+two half-block conditions F157 derives separately and then matches, so both end rows hold at once
+at F157's own θ_k, and by F157's own branch analysis of cos((m+1)θ) = cos((1−m)θ) only there; the
+common value of the two ratios is Δ_k. Row j is one of the
+interior rows and is carried by the same recursion, which is the whole of the second claim: the
+two half-solutions F157 matches are ONE sine, and the relative sign the matching needs is the
+oddness of the sine rather than a second constant. ψ_j = sin 0 = 0, and ψ_0 = sin(jθ_k) ≠ 0 off the pole, so the
+vector is blind at j and not the zero vector.
+
+For the parity put m = j − q = 2j − N + 1, so |m| = n and mθ_k = ±kπ. Then
+
+    ψ_{N−1−l} = sin((m − (j − l))·θ_k) = sin(mθ_k)·cos((j−l)θ_k) − cos(mθ_k)·sin((j−l)θ_k)
+
+and sin(mθ_k) = sin(±kπ) = 0 while cos(mθ_k) = cos(kπ) = (−1)^k, which leaves
+ψ_{N−1−l} = −(−1)^k·ψ_l. ∎
+
+The mechanism is sin(kπ − φ) = (−1)^{k+1}·sin φ, which is the same identity that gives the law on
+the chain's own comb; only the angle that closes at kπ has changed, from (N+1)θ to N_node·θ. That
+is why the sign comes out the same on a modulus that is never the same. It is not quite the whole
+of the step, and the section's own word TRANSPORT names only half of it: every one of the six
+places above reads an eigenvector of the UNIFORM chain, while the matrix here is A + Δ_k·D, whose
+two ends are detuned. What is not obvious in advance is that the blind eigenvector of an
+end-detuned chain is still a SINGLE sine, and that is what the first two claims of the proof
+establish and what gate S1 reads against the family object.
+
+> **Corollary 8a.** At every seat with N_node ≥ 2 and every real Δ,
+>
+>     b_E(j; Δ) = #{ k odd,  1 ≤ k ≤ N_node−1, non-pole : Δ_k = Δ }
+>     b_O(j; Δ) = #{ k even, 1 ≤ k ≤ N_node−1, non-pole : Δ_k = Δ }
+
+*Proof.* It is a squeeze, and the direction Lemma 8 gives on its own is only one of the two.
+Distinct k in 1..N_node−1 give distinct θ_k in (0, π), hence distinct eigenvalues 2cos θ_k, which
+is F157's own multiplicity clause; each sector block has a simple spectrum, which Lemma 7 ASSUMES
+and its proof discharges for both families, so distinct k contribute distinct levels of the
+sector Lemma 8 assigns them to. That gives
+
+    b_E(j; Δ) ≥ #{k odd : Δ_k = Δ}     and     b_O(j; Δ) ≥ #{k even : Δ_k = Δ}.
+
+The reverse is not Lemma 8's to give: nothing in it says a blind level of a sector has to be one
+of the 2cos θ_k. What says so is that the two sides have equal SUMS. By Lemma 3 the chain's
+degeneracy set is empty, so Lemma 7 reads blind(j; Δ) = b_E + b_O; and F157's locus is exact, the
+seat blind at Δ exactly at the Δ_k, with blind(Δ) = #{k : Δ_k = Δ}. So the two sums agree, and
+two inequalities of the same sign under one equality of sums cannot be strict. ∎
+
+**Remark, and it is Lemma 5 arrived at from the index.** It sits after Corollary 8a and not
+before it, because the clauses below are about the SETS E(j) and O(j) of §(a), and it is 8a and
+not Lemma 8 that identifies those with the odd-k and even-k Δ values; Lemma 8 alone would give
+inclusions and not closure. Applying sin(aπ − x) = (−1)^{a+1}·sin x
+to the numerator and the denominator of Δ_{N_node−k} leaves exactly one sign, so
+
+    Δ_{N_node−k} = −Δ_k,
+
+and k is a pole exactly when N_node − k is, both conditions being N_node | jk. Now
+N_node ≡ N−1 (mod 2). At ODD N the modulus is EVEN, so k and N_node−k share a parity and, by
+Lemma 8 with Corollary 8a, a sector: each sector's locus is negation-closed. At EVEN N the
+modulus is ODD, so they differ in parity and swap sectors: O = −E. Those are Lemma 5's two
+clauses at every seat with N_node ≥ 2, reached from the index rather than from the commutation
+ΣR = (−1)^{N−1}RΣ, and there the two routes agree. They do not agree everywhere and the index
+route is the weaker: at the odd-N centre seat N_node = 0 and there is no index at all, while
+Lemma 5 still speaks. §(a)'s third convention has the sector the other way round there: O(j) is
+all of ℝ, every R-odd eigenvector vanishing at the fixed site, and E(j) is empty by (J1). Neither
+is anything the index could have said. Gate S2c reads the two identities the argument rests on,
+Δ_{N_node−k} = −Δ_k and the shared pole condition; what follows them, that k and N_node−k share a parity exactly when N
+is odd, is an identity of the integers and is not gated.
+
+> **Corollary 8b, the even-N count in closed form.** At even N and |t| ≠ 1,
+>
+>     blind(j; H_u(t)) = 2·#{ k odd, 1 ≤ k ≤ N_node−1, non-pole : Δ_k = t }
+
+*Proof.* The Theorem (count)'s second bullet reads blind(j; H_u(t)) = 2·b_E(j; t); Corollary 8a
+supplies b_E where N_node ≥ 2, and by Lemma 1 the crack's even sector at t IS the chain's, so the
+Theorem's b_E and Corollary 8a's are one number. At even N the node modulus |N − 1 − 2j| is ODD,
+so it is never 0 and the only case left out is N_node = 1, where the index range 1..N_node−1 is
+EMPTY: F157's locus is empty there and both sides are 0. That last case is argued and not gated,
+S4 skipping the seats it covers. ∎
+
+That is what open item 1 of the companion page asked for. The odd-N side needs nothing new: there
+the crack pays what the chain pays, and away from the reflection-fixed centre seat the chain's
+count is F157's own #{k}. AT that seat N_node = 0, so #{k} = 0 while the seat is in fact blind at
+every coupling by (N−1)/2; §(g)'s centre-seat corollary covers it and §(h) does not speak there.
+
+**Three fences, and each is a confusion this repository has already paid for once.**
+
+- **Not the chiral K.** The partner map ψ_k ↦ ψ_{N+1−k} is a different operator on the same
+  modes, and [PROOF_K_PARTNERSHIP](PROOF_K_PARTNERSHIP.md) keeps the two apart. The node index
+  has its own involution k ↦ N_node − k, and the Remark above says what that one does; it is not
+  the chiral partner map and it does not act on the same modulus.
+- **Not Ad_R.** The reflection's grading on OPERATOR space is not this Hilbert-space parity.
+  [The Blind Site](../../experiments/THE_BLIND_SITE.md) records that confusion as caught twice,
+  and every ψ here is a single-excitation vector.
+- **Not the superseded reflection-parity reading of the blind LAW.**
+  `Core/Symmetry/SeatCutBlindnessClaim.cs` records a *"reflection-parity reading"* as a rival to
+  the divisor law that was superseded, and warns that it agrees with the divisor law at every
+  seat of a prime chain, so N = 5 and N = 11 cannot tell them apart. That reading is about the
+  SEAT index; Lemma 8 is about the MODE index, and it is a statement about which sector a mode
+  lies in rather than about whether a seat is blind. The checks that read a seat against a sector
+  are S3 and S4, whose ranges are N = 5..14 and even N = 6..14, so the composites that
+  discriminate, 6, 8, 9, 10, 12 and 14, are swept rather than assumed away. S1, S2, S2b, S2c and
+  S2d reach N = 20, but they read modes and never a seat count, so the wider range is not what carries
+  this fence.
+
+Gates S0 to S4, eight checks. S1 and S2b read the mode and its parity at 812 (N, seat, k) modes
+over N = 5..20, exactly, as polynomial identities in the field ℚ(2cos(π/N_node)); S3 reads
+Corollary 8a against the SECTOR BLOCKS, which is block K's own route through a gcd over
+ℚ[t]/(μ), μ the Δ value's minimal polynomial, at 196 (seat, Δ) readings over N = 5..14. That is
+the point of S3: Corollary 8a's right-hand side counts k, while the left-hand side is computed by
+a route that never mentions a mode or a k. S2 reads the two ingredients of the parity apart, since
+the parity is their product; S2d is the block's one CONTROL, asserting that the same construction
+on the modulus N_node+1 carries no parity at all, so no mutation of the objects tests it and what
+does is feeding it the right modulus; S4 reads Corollary 8b against `blind_at` on the full crack
+matrix. The exactness discipline is block K's: the node angle never reaches a simplifier, every
+value lives in an integer minimal polynomial's quotient, and the field itself, the one every
+reduction happens modulo, is verified by S0 rather than trusted.
+
+**Block S was mutated nine times**, by hand and with no committed artifact: the parity exponent
+k+1 to k; the odd and even roles swapped in the k split; the sweep narrowed from N = 5..20 to
+5..13; the node modulus |N−1−2j| to |N−2j|; the anisotropy in `H_aniso` moved from (0, N−1) to
+(0, N−2); `min_poly_of` returning a non-minimal annihilator; S2d's control fed the RIGHT modulus;
+the node field replaced by the one at N_node+1; and S3's assertion that its eight balanced
+readings sit at Δ = 0 retargeted to Δ = 1, which reddens S3, since a clause that only ever agrees
+is the defect this block already shipped three times. Every check reddens under at least one. S2d
+is the block's only control, so a mutation of the objects is not what tests it; the seventh,
+feeding it the right modulus, is, and it reddens S2d alone. Three of the nine are there because an
+earlier build of this block was GREEN under them: the third, when four checks still had a bare
+sweep range; the fifth, when S1 wrote its own rows instead of reading `H_aniso`; and the seventh,
+which tests a control that exists only because the dead fence it replaced could not fire. That
+earlier build also had a ninth check asserting that the SWAPPED sector assignment is refuted,
+which is a strict consequence of S3 and could never redden alone; it had a tenth reading arithmetic
+about |N−1−2j| as though it certified the separation of two combs; and S1 wrote its own
+tridiagonal rows instead of reading `H_aniso`, so moving the anisotropy left it green. The first
+two are gone, the third is the fifth mutation above. THREE dead clauses went with them, ψ_j = 0
+and ψ ≠ 0 inside S1 and "the opposite sign at none" inside S2b: the first two are true of any
+input by how the mode is built, and the third is excluded by the pole test, so all three were
+red-makers no input could reach. The swap clause took two passes to remove rather than one. It
+began as a check of its own, was folded into S3's predicate when that check turned out to be S3's
+own consequence, and was still inert there for the same reason; what refutes the swap is S3's
+equality together with the pinned 188 readings that have #odd ≠ #even, and that is where it now
+lives.
+
+**What this opens, and it is one step.** §(g)'s Corollary factors F157's own definition
+polynomial as P_j = ±Q_E·Q_O, the two sectors' halves-resultants, and says in as many words that
+WHICH sign is not a law it identifies. Corollary 8a names the roots of each factor: Q_E should be
+the odd-k product and Q_O the even-k product, up to a rational constant. That is not checked here
+and it is not a corollary of anything above, since a factorization of a polynomial into two
+factors is not determined by the root sets alone without an argument about multiplicities.
+
+## (i) The gates, in one table
 
 | gate | what would make it red |
 |---|---|
@@ -759,6 +989,14 @@ ends, the doubling, and the centre seat. The table in §(h) says what would redd
 | K6 | one locus point off C where the resultant's order of vanishing is not exactly twice the count |
 | K6b | halving turning out to fail at the ring ends anywhere but the eight named seat-ends, or at one of those turning out not to have b_E + b_O > 0 |
 | K7 | the centre seat paying other than (N−1)/2 at one of six knob values, two of them irrational and two of them the ring ends |
+| S0 | the node field Q(2cos(π/n)) failing to be irreducible, or to carry the degree φ(2n)/2, or to divide U_{n−1}. Every reduction in the block happens modulo this polynomial, so a wrong one from sympy's algebraic machinery would silence the block rather than redden it |
+| S1 | one row of `H_aniso(N, Δ_k)`ψ = 2cos θ_k·ψ not vanishing in the field, or a population other than the pinned 812 modes and 412 poles. It reads the FAMILY OBJECT: an earlier build wrote the rows out by hand and stayed green when the anisotropy moved to (0, N−2). It asserts nothing about ψ_j = 0 or ψ ≠ 0, which are true of any input by construction |
+| S2 | the node angle not closing: S_{N_node}(x_k) ≠ 0, or T_{N_node}(x_k) ≠ (−1)^k, or a population other than the pinned 1224 angles. The parity is the product of the two, so this reads them apart, where a compensating pair of sign errors would be invisible |
+| S2b | one site where ψ_{N−1−l} ≠ (−1)^{k+1}ψ_l, or a population other than the pinned 812. An earlier build added "or the OPPOSITE sign also passing", which cannot happen: both signs at once force ψ = 0, which the pole test excludes. S2d is the live control instead |
+| S2c | Δ_{N_node−k} ≠ −Δ_k, or the pole condition not being shared by k and N_node−k, or a population other than the pinned 812. Those two readings are the Remark's content; its third clause, that k and N_node−k share a parity exactly when N is odd, was dropped from the check because it is an identity of the integers |
+| S2d | **a control: it asserts that something BREAKS.** The same mode built on the modulus N_node+1 carrying either reflection sign at even one of the pinned 851 constructions, or a population other than 851. So no mutation of the OBJECTS tests it; feeding it the right modulus does, and does redden it. It is what makes S2b a reading of the node angle rather than of the shape of the formula |
+| S3 | one (seat, Δ) reading where the sector blocks' b_E and b_O are not the odd-k and even-k counts, or one of the 8 balanced readings sitting anywhere but Δ = 0, or a minimal polynomial that does not annihilate its element or is not irreducible, or a sweep shrunk below the pinned 196 readings and 188 asymmetric ones |
+| S4 | one even-N locus point off the ring ends where the crack does not pay 2·#{k odd on that Δ}, read against `blind_at` on the full N × N crack matrix, which knows nothing about sectors or modes; or a population other than the pinned 36. A locus point carrying no node index predicts 0 and is read, not skipped |
 
 Three mutations of the objects were run by hand against an earlier build of this gate and all
 three went red: the wrong odd-sector sign, the crack fed through C1's door, and the criterion
@@ -772,8 +1010,10 @@ sector's pair basis, the centre seat's forced count, the fence read at a generic
 end read at u = 1/3 instead of u = 1, the wrap bond moved to (0, N−2), and the anisotropy moved to
 the pair (0, N−2). Every check in the block reddens under at least one of them except K0c, K1d and
 K1e2. Those three, and K1b2 and K3c beside them, are the block's controls: each asserts that
-something BREAKS, so each is red exactly when the block is healthy, and a mutation of the object
-is not what tests them.
+something BREAKS, so each is GREEN in a healthy block like every other check here, and red under
+the input that would repair what it fences; a mutation of the object is not what tests them.
+(This clause read "red exactly when the block is healthy" until 2026-09-03, which the committed
+run contradicts, all five being PASS; §(h)'s S2d row would have inherited the same wording.)
 
 Three of the twelve did not stay hand mutations, and each names a check that a whole class of
 defect walks past. K3 is an equality between two readings of one routine, so a uniform miscount
@@ -785,7 +1025,7 @@ with coefficient 1 must fail: given K0 that is equivalent to the struck characte
 being identically zero, so no input could ever redden it. K0b now reads whether either summand
 suffices alone, which the centre seat answers one way and every other seat the other.
 
-## (i) Scope and fences
+## (j) Scope and fences
 
 - **Multiplicity is in scope from §(g) on.** §(a) to §(f) compare SETS, with one exception that
   is not a comparison: gate C3 reads a COUNT on the ring, as a lower bound, to check the Remark
@@ -819,7 +1059,11 @@ suffices alone, which the centre seat answers one way and every other seat the o
 - **What is this file's own**: the comparison line in §(b), Lemma 2b, Lemma 4, Lemma 5's sector
   clause, the Remark in §(c), and the whole of §(g), that is Lemma 6, Lemma 7, the strengthening
   of Lemma 5 to counts, both corollaries and the reading of where the squaring happens; within
-  §(g) the centre seat's Jacobi-end step is (J1) of the node-lemma proof and is cited there.
+  §(g) the centre seat's Jacobi-end step is (J1) of the node-lemma proof and is cited there. In
+  §(h) this file's own are the TRANSPORT of the sign law to the node modulus, that is the single
+  sine on an end-detuned chain, together with the Remark and Corollaries 8a and 8b. The sign law
+  (−1)^{k+1} itself is F71's and is owned in six places named in §(h); Δ_k, the pole rule and the
+  multiplicity clause are F157's.
   Lemma 1's folded half is F160's, Lemma 2a is
   `THE_SEAT_THAT_CUTS` §7's, Lemma 3 is Lemma J of the node-lemma proof, and the Σ identities are
   the companion page's.

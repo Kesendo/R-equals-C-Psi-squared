@@ -1345,3 +1345,98 @@ polynomial with no real roots need not be constant). Those are repaired too, and
 itself corrected twice in the process. **Anchor:** the checks `K0b`, `K1b`, `K1b2`, `K1d`, `K1e2`,
 `K4c`, `K4d`, `K5b` and `K5c` in `simulations/blind_seat_two_axes_proof.py`, and §(h)'s table, which
 says for each row what would make it red.
+
+## 2026-09-03: `PROOF_BLIND_SEAT_TWO_AXES` §(h), which k sits in which sector: the block written the day after (K) repeated (K)'s own logged shape twice, and the section's headline claim was a discovery only until the sweep ran
+
+**Artifact.** `docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md` §(h),
+`simulations/blind_seat_two_axes_proof.py` block (S) with its committed run, and three surfaces the
+result was propagated to (`ANALYTICAL_FORMULAS.md` at F157, `THE_BLIND_SEAT_ON_THE_ROAD.md`,
+`OpenArcsRegistry.cs`). **How caught:** three empty rounds run in parallel on one state (a
+mathematician, a gate auditor with mutation powers, a prior-work and cross-surface auditor), then
+every finding re-measured from below before any of it was applied. The mathematics survived all
+three: Lemma 8, the Remark and both corollaries are unchanged in content. Everything below is in
+the writing or in the gate.
+
+**(1) The entry above logged a vacuous anti-vacuity check, and the next block written contained
+two.** The 2026-09-02 (fourth) entry records an *"anti-vacuity partner to K0"* that no input could
+redden, and §(i)'s narration of block K says so in as many words. The block written the next day
+shipped `S3b`, asserting that the SWAPPED sector assignment is refuted wherever it can be, whose
+predicate is a strict logical consequence of `S3`'s: S3 green forces (b_E, b_O) = (#odd, #even) at
+every reading, which forces S3b's counter to zero. Across twenty-two mutations run by a reviewer it
+never once reddened without S3. Beside it `S5` asserted that the node modulus is 0 exactly at the
+centre seat and always below N+1, both of which are identities of |N−1−2j| with no reference to a
+chain, a comb or an eigenvector, so no input could redden either clause. **A logged defect shape is
+not a fence against the same shape.** **And once was not enough.** The first repair deleted S3b and
+folded its assertion into S3's predicate, where it was inert for exactly the same reason: a reading
+with #odd ≠ #even at which (b_E, b_O) equals the SWAPPED tuple is a reading at which S3's own
+equality already fails. A fourth round caught that. The clause is gone rather than moved, and what
+refutes the swap is S3's equality together with the pinned count of readings that have
+#odd ≠ #even. S5 is gone too and the inequality is stated in the prose as the arithmetic it is. Three more dead clauses went with
+them: ψ_j = 0 and ψ ≠ 0 inside S1, true of any input because ψ_j is the base case of the recursion
+and ψ_0 is the pole test's own quantity, and *"the opposite sign at none"* inside S2b, where both
+signs at once force ψ = 0 and the pole test has already excluded it. All five were named in the
+gate table as things that would make a check red.
+
+**(2) A check that verified the mathematics against its own transcription of the object.** `S1`
+built the tridiagonal rows of A + Δ_k·D inline instead of reading `H_aniso`, the file's family
+object. Moving the anisotropy in `H_aniso` from (0, N−1) to (0, N−2) left S1 GREEN; only S3 and S4
+noticed, and then only through the count. Block K's own style, recorded in §(i), is to read the
+family objects and to mutate their entries. S1 now applies the entries of `H_aniso` one by one, and
+that mutation is one of the eight the section records.
+
+**(3) Four checks with a bare sweep range and no pinned population.** `S_N = range(5, 21)` with a
+predicate of `seen > 0`: narrowing it to N = 5..13 left S1, S2, S2b and S2c all green while
+§(h) quoted 812 modes and 1224 angles as though those were pinned. The file's own comment beside
+`S3_READINGS` states the standard, *"frozen from a run so that a shrinking sweep goes red instead of
+quiet"*, and block K meets it. Every check in block S now carries a population, and `S0`'s range of
+moduli is DERIVED from the sweep rather than written as a literal, so widening the sweep cannot
+leave a modulus unverified.
+
+**(4) The section's own headline was wrong until Stage 0 ran, and the three places it cited were
+about to stop saying what it quotes.** The result was drafted as a new sign law. The sweep found
+(−1)^{k+1} owned in six places, none of them about F157: `PROOF_COLLISION_GAP_ODD_ORDERS` §(b),
+`SLOW_MODE_R_PARITY`, `PROOF_K_PARTNERSHIP`, `HANDSHAKE_GEOMETRY`, `DefectReadingEquivarianceClaim`
+and MirrorWorld's `Formulas.F71_ReflectionParity`. What is this file's is the transport to the node
+modulus and the index it puts on b_E and b_O, and the section says so now. A second defect rode on
+the first: the sweep record cited three stores as saying, in the present tense, that the assignment
+is unwritten, while the same change rewrote all three to carry the answer, so the quoted sentence
+would not have existed anywhere once it landed. The house pattern was already in the repo
+(`PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md`: *"this sentence records what the sweep found, not
+what the entry now says"*) and was not used until a reviewer named it.
+
+**(5) A retraction that put the author's own error onto the page being corrected.**
+`THE_BLIND_SEAT_ON_THE_ROAD` asked *"which k fall in which reflection sector"* and named *"a parity
+of k"* as the obvious guess. The first draft of the update called that guess *"right in direction
+and too coarse as stated"*, on the ground that the assignment is per index rather than per Δ value.
+The page's question was already per index; per Δ was the author's own first scouting formulation,
+which the measurement corrected within the hour. **A retraction is a claim about the earlier text
+and needs the earlier text open beside it.** The page now reads that the guess was right, and says
+what was actually missing, the proof and the provenance.
+
+**(6) Two smaller ones, and both are about a proof's own bookkeeping.** Corollary 8a's proof read
+*"so a level blind in a sector is carried by exactly one k"*, which simplicity does not give:
+simplicity bounds the count from one side only, and the reverse needs the sums to agree, through
+Lemma 7 and F157's exactness. The corollary was right and its proof asserted the hard half. And the
+Remark deriving Lemma 5 from the index sat two paragraphs BEFORE the corollary that identifies E(j)
+and O(j) with the odd-k and even-k values, without which its clauses give inclusions and not
+closure; it now sits after it and says why.
+
+**(7) And one the ledger's own preamble had already ruled on.** The repair edited the ANCHOR line of
+the 2026-09-02 entry above, to redirect a section pointer the renumbering had staled. This file says
+*"Append-only"* in its header line and *"Entries are written at the moment of the catch and are never
+rewritten afterwards ... Read the file as dated minutes"* in its own What-it-is section. A stale
+pointer in a dated minute is not a defect; it is what a dated minute looks like. The edit is
+reverted and the renumbering is recorded here instead: what that entry calls §(h) is now §(i), and
+§(h) is the section this entry is about.
+
+**(8) One the new section inherited from the old, and would have propagated.** §(i)'s block-K
+paragraph said of its five controls *"each asserts that something BREAKS, so each is red exactly
+when the block is healthy"*. The committed run has all five at PASS, so the clause is false as
+English: a control that fences a break is GREEN while the break is there. The wording was
+committed and reviewed on 2026-09-02, and the first draft of §(h)'s S2d row copied it verbatim.
+Both are corrected in this change. **A sentence that survived a review is not thereby true, and
+copying it is how a wrong sentence acquires a second witness.**
+
+**Anchor:** the checks `S0` to `S4` in `simulations/blind_seat_two_axes_proof.py`, §(h)'s mutation
+paragraph, which names the three mutations that exist because an earlier build failed them, and
+§(i)'s table, whose rows were rewritten so that each names only red-makers an input can reach.

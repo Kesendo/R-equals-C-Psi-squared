@@ -8236,8 +8236,19 @@ chain's and is unchanged; what §(g) adds is that the same resultant carries it
 DOUBLED rather than not at all, the squaring happening inside each sector because
 striking disconnects that sector's Jacobi block, so halving is exact off {±1} and away from the
 reflection-fixed centre seat, where both sides vanish identically.
-Not written anywhere yet, and the natural next closed form: which of the k in
-1..N_node−1 fall in which reflection sector.
+Which of the k in 1..N_node−1 fall in which reflection sector is
+§(h) of that proof, and it is a TRANSPORT rather than a new sign: the mode at
+the node angle is ψ_l = sin((j−l)θ_k), whose reflection parity is (−1)^{k+1}, the
+same law F71 gives on the chain's own comb. What it is carried across is two
+things at once, the node modulus, which is at most N−1 and so never that comb,
+and the loss of uniformity, since the matrix here has both ends detuned while
+every prior reading of the sign law is on the uniform chain. Hence, at a seat with
+N_node ≥ 2, b_E counts the ODD k landing on a value and b_O the even ones, and
+the even-N count above closes to blind(j; u) = 2·#{k odd : Δ_k = u} off the ring
+ends. The N_node = 0 half above is untouched: there the index set is empty while
+the seat is blind at every Δ, so the k reading does not reach it. Still not written: the two
+sector halves-resultants Q_E and Q_O of that proof's §(g), whose roots §(h) now
+names but whose multiplicities it does not.
 
 **The parity-forced third kind (XY only).** A zero-diagonal Jacobi block of odd
 size is singular (det T_m = −b_{m−1}²·det T_{m−2} with det T₁ = 0, T_m the

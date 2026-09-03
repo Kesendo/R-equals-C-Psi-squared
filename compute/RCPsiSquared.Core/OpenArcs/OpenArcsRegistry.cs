@@ -8445,7 +8445,7 @@ public static class OpenArcsRegistry
                 "end pair is special' is false for this locus, a symmetric interior diagonal pair " +
                 "reproducing it at 12 of 48 seats; only UNIFORMITY separates the crack, by four seats. " +
                 "PROVED the same day, docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md, gate " +
-                "simulations/blind_seat_two_axes_proof.py (53 checks): on the reflection-EVEN " +
+                "simulations/blind_seat_two_axes_proof.py (61 checks): on the reflection-EVEN " +
                 "subspace psi_{N-1} = psi_0, so the wrap bond acts exactly as the end-pair " +
                 "diagonal, and on the ODD subspace as its negative, so the cracked ring IS the " +
                 "anisotropic open chain sector by sector at +u and -u (F160 Corollary B already " +
@@ -8488,9 +8488,29 @@ public static class OpenArcsRegistry
                 "exact off {+-1} and away from the forced centre seat. Free with it: the centre " +
                 "seat's (N-1)/2, which the page could only measure at six couplings, holds at " +
                 "every coupling because a Jacobi eigenvector cannot vanish at an END of its " +
-                "chain, which is (J1) of the node-lemma proof and not new here. OPEN now: which of " +
-                "F157's k in 1..N_node-1 fall in which reflection sector, which would make the " +
-                "even-N count 2*b_E closed-form as well. " +
+                "chain, which is (J1) of the node-lemma proof and not new here. THE INDEX IS ON " +
+                "THE COUNT TOO, 2026-09-03, section (h) of the same proof, and the sweep turned " +
+                "it from a discovery into a TRANSPORT: the mode at the node angle is " +
+                "psi_l = sin((j-l)*theta_k) with reflection parity (-1)^(k+1), which is F71's own " +
+                "sign law, owned in six places for the chain's Dirichlet comb (modulus N+1) and " +
+                "never before carried to the node comb (modulus N_node, which is at most N-1, so " +
+                "the two combs never coincide). It is carried across TWO things at once and the " +
+                "second is the harder one: every prior reading is on the UNIFORM chain, while " +
+                "this matrix has both ends detuned, and that the blind mode of an end-detuned " +
+                "chain is still a SINGLE sine is what the section establishes. Hence, at a seat " +
+                "with N_node >= 2, b_E counts the ODD k landing on a Delta value and b_O the " +
+                "even ones, and the even-N crack count closes to 2*#{k odd : Delta_k = t} off " +
+                "the ring ends; at the odd-N centre seat N_node = 0, the index set is empty and " +
+                "the k reading does not reach the seat, which stays section (g)'s (N-1)/2 at " +
+                "every coupling. Free with it: Delta_{N_node-k} = -Delta_k plus " +
+                "N_node = N-1 mod 2 reproduces Lemma 5's two clauses from the index alone, a " +
+                "second route to what the commutation gives at every seat the index reaches. " +
+                "OPEN now: the two sector halves-resultants Q_E and Q_O, whose product is F157's " +
+                "P_j up to sign. Section (h) names their ROOTS and says in as many words that the " +
+                "factorisation does NOT follow from the root sets, so this is a direction and not " +
+                "a step already taken; and the +-1 that section (g) leaves unidentified is a " +
+                "different indeterminacy from section (h)'s 'up to a rational constant', so " +
+                "naming the roots does not touch it. " +
                 "Run: python simulations/blind_seat_two_axes_proof.py",
             Status: OpenArcStatus.Open),
         new OpenArc(

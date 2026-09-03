@@ -67,6 +67,16 @@ PROOF_BLIND_SEAT_TWO_AXES: the crack axis and the anisotropy axis, sector by sec
   [PASS] K6b at the ring ends halving stays exact except where a sector eigenvector vanishes  exact at 76 of 84 ring-end seat-ends, expected 76; the exceptions are [(6, 1, 't - 1'), (6, 4, 't - 1'), (9, 1, 't - 1'), (9, 1, 't + 1'), (9, 7, 't - 1'), (9, 7, 't + 1'), (10, 2, 't - 1'), (10, 7, 't - 1')] and every one of them has b_E + b_O > 0
   [PASS] K7  the centre seat pays (N-1)/2 at EVERY knob value on BOTH axes, rational or not  60 readings, 6 knob values incl. two irrational and both ring ends, N = 5..13, both axes, expected 60; failures []
 
+(S) THE SECTOR OF k: the node mode, its parity, and the k-index on the count
+  [PASS] S0  the node field Q(2cos(pi/n)): irreducible, degree phi(2n)/2, divides U_{n-1}  18 moduli n = 2..19, the range derived from the sweep and not pinned as a literal; failures []
+  [PASS] S1  psi_l = sin((j-l)theta_k) is an EXACT eigenvector of H_aniso at Delta_k  812 (N, seat, k) modes over N = 5..20, expected 812, every row the zero element of Q[z]/(Phi), read off the family object H_aniso; 412 poles skipped, expected 412; failures []
+  [PASS] S2  the node angle closes: S_{N_node}(x_k) = 0 and T_{N_node}(x_k) = (-1)^k  1224 (N, seat, k) angles over N = 5..20, expected 1224, exact in Q[z]/(Phi); failures []
+  [PASS] S2b psi_{N-1-l} = (-1)^(k+1) psi_l at every site  812 modes over N = 5..20, expected 812, 412 poles skipped; failures []
+  [PASS] S2d control: the same mode built on the WRONG modulus carries NO reflection parity  851 constructions at modulus N_node+1 over N = 5..20, expected 851; 0 of them carry either sign, expected 0: []
+  [PASS] S2c Delta_{N_node-k} = -Delta_k, and k is a pole exactly when N_node-k is  812 index pairs over N = 5..20, expected 812; failures []
+  [PASS] S3  b_E = #{k odd on that Delta} and b_O = #{k even}, against the sector blocks  196 (seat, Delta) readings over N = 5..14, expected 196, of which 188 have #odd != #even and so exclude the swapped assignment, expected 188; the other 8 carry #odd = #even and are asserted, not narrated, to sit at Delta = 0, exceptions []; minimal-polynomial failures []; count failures []
+  [PASS] S4  EVEN N off the ring ends: the crack pays 2*#{k odd on that Delta}, closed form  36 (N, seat, locus point) readings over N = 6..14, expected 36, against blind_at on the full crack matrix; failures []
+
 ======================================================================================
 VERDICT: ALL GREEN
 ======================================================================================

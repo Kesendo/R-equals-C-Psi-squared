@@ -2,7 +2,8 @@
 
 Companion proof: docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md
 Companion page:  experiments/THE_BLIND_SEAT_ON_THE_ROAD.md  (whose section (c) and whose open
-                 item 1 this closes, the locus in blocks L to T and the count in block K)
+                 item 1 this closes: the locus in blocks L to T, the count in block K, and
+                 the index on that count in block S)
 
 WHAT IS GATED, in the order the proof needs it.
 
@@ -100,6 +101,22 @@ WHAT IS GATED, in the order the proof needs it.
      measure at six couplings, follows at every coupling because a Jacobi eigenvector cannot
      vanish at an END of its chain, which is (J1) of the node-lemma proof and not new here.
 
+(S)  WHICH k SITS IN WHICH SECTOR, which is the index block K leaves off b_E and b_O. F157
+     indexes the locus by k through the node angle theta_k = k*pi/N_node. The blind mode there
+     is one sine across the whole chain, psi_l = sin((j-l)*theta_k), the two halves F157 solves
+     separately written as one; and since N_node*theta_k = +-k*pi,
+
+         psi_{N-1-l} = (-1)^(k+1) * psi_l
+
+     so ODD k sits in the reflection-EVEN sector and EVEN k in the odd one. Hence b_E counts
+     the odd k landing on a Delta value and b_O the even ones, and block K's even-N law closes
+     to blind_u(j, t) = 2*#{k odd : Delta_k = t} off the ring ends. The sign law is NOT new
+     here: it is F71's, owned in six places, five of them on the chain's own Dirichlet comb at
+     modulus N+1 and the sixth a bare parity with no modulus in it. What
+     is new is that it survives the move to the node modulus on a chain whose two ends are
+     DETUNED, where the six owners all read the uniform chain. Free with it: Delta_{N_node-k} =
+     -Delta_k, which with N_node = N-1 mod 2 reproduces P's Lemma 5 from the index alone.
+
 Every locus is SOLVED, never sampled: each is the real root set of a resultant or a
 discriminant, compared as the set of its irreducible rational factors that carry a real root,
 decided by Sturm counting. No root object is built and no trigonometric value is ever handed to
@@ -108,10 +125,15 @@ reduce P(2*cos(3*pi/7)) to 0, two defects docs/CAUGHT_ERRORS.md records for the 
 and a third was met while writing this one (sp.solve returned an empty solution set at N = 11
 for a system whose solutions the discriminant route exhibits).
 
-Blocks L, C, B, P and T compare SETS. Block K compares COUNTS, and a count at an irrational
+Blocks L, C, B, P and T compare SETS. Blocks K and S compare COUNTS, and a count at an irrational
 locus point is a degree, so it is read over the field Q[t]/(mu) for mu the point's minimal
 polynomial. That is exact and builds no root object, which is what keeps the three traps above
 out of the count as well.
+
+Block S puts an INDEX on the two sector counts block K leaves as measurements, by reading F157's
+node mode and its reflection parity. Its arithmetic is block K's, moved from the count to the
+mode: every value lives in the quotient by an integer minimal polynomial, this time the one of
+2*cos(pi/N_node), so the node angle never reaches a simplifier either.
 """
 import sympy as sp
 
@@ -1459,6 +1481,426 @@ def gate_K():
           f"both axes, expected 60; failures {bad}")
 
 
+# ------------------------------------------------- (S) which k sits in which reflection sector
+#
+# F157 indexes the Delta-locus by k in 1..N_node-1 through the node angle theta_k = k*pi/N_node.
+# Lemma 8 reads the mode at that angle, psi_l = sin((j-l)*theta_k), and its reflection parity,
+# (-1)^(k+1). Everything below is a polynomial identity in v = 2*cos(theta_k) reduced modulo an
+# integer minimal polynomial: no trigonometric value is ever handed to a simplifier and no root
+# object is built, which is block K's discipline applied to the mode instead of to the count.
+#
+# The field is L = Q[z]/(Phi_n) with z = 2*cos(pi/n), n = N_node. Every 2*cos(k*pi/n) lives in it
+# as 2*T_k(z/2), so two node indices can be compared for an EQUAL Delta exactly, which grouping
+# by a simplified trigonometric value could not do.
+#
+# The sign law itself is NOT new here and the file does not claim it: R*psi_k = (-1)^(k+1)*psi_k
+# is owned for the uniform chain's own comb in PROOF_COLLISION_GAP_ODD_ORDERS (b), in
+# experiments/SLOW_MODE_R_PARITY.md, and typed as MirrorWorld's Formulas.F71_ReflectionParity.
+# What is read here is that it TRANSPORTS to the node comb, whose modulus N_node = |N-1-2j| is at
+# most N-1 and so never the chain's N+1 (arithmetic, not a gate: an earlier build asserted it as
+# one and no input could have reddened it), and what that transport buys is the k-index on b_E and
+# b_O. The matrix is A + Delta_k*D and NOT the uniform chain the six owners read, which is why the
+# single sine is a claim and not a restatement.
+
+z = sp.symbols('z')
+
+
+def n_node(N, j):
+    return abs(N - 1 - 2 * j)
+
+
+def S_cheb(n, v):
+    """sin(n*theta)/sin(theta) as an integer polynomial in v = 2*cos(theta); S_{-n} = -S_n."""
+    if n < 0:
+        return -S_cheb(-n, v)
+    return sp.expand(sp.chebyshevu(n - 1, v / 2))
+
+
+def T_cheb(n, v):
+    """cos(n*theta) as an integer polynomial in v = 2*cos(theta); T_{-n} = T_n."""
+    return sp.expand(sp.chebyshevt(abs(n), v / 2))
+
+
+_PHI_CACHE = {}
+
+
+def phi_2cos(n):
+    """The minimal polynomial of 2*cos(pi/n) over Q, as a Poly in z. Verified by S0."""
+    if n not in _PHI_CACHE:
+        _PHI_CACHE[n] = sp.Poly(sp.minimal_polynomial(2 * sp.cos(sp.pi / n), z), z, domain='QQ')
+    return _PHI_CACHE[n]
+
+
+def _pz(e):
+    return sp.Poly(e, z, domain='QQ')
+
+
+def _redz(e, phi):
+    """e mod phi, as a Poly in z over Q. Accepts an expression or a Poly."""
+    return (e if isinstance(e, sp.Poly) else _pz(e)).rem(phi)
+
+
+def _invz(p, phi):
+    return sp.invert(p, phi)
+
+
+_XK_CACHE, _SC_CACHE = {}, {}
+
+
+def _x_k(n, k):
+    """2*cos(k*pi/n) as an element of L, that is 2*T_k(z/2) reduced."""
+    if (n, k) not in _XK_CACHE:
+        _XK_CACHE[(n, k)] = _redz(2 * T_cheb(k, z), phi_2cos(n))
+    return _XK_CACHE[(n, k)]
+
+
+def _S_at(m, n, k):
+    """S_m evaluated at x_k, in L, by the recursion S_{m+1} = x*S_m - S_{m-1}."""
+    key = (m, n, k)
+    if key in _SC_CACHE:
+        return _SC_CACHE[key]
+    if m < 0:
+        out = -_S_at(-m, n, k)
+    elif m == 0:
+        out = _pz(0)
+    elif m == 1:
+        out = _pz(1)
+    else:
+        out = _redz(_x_k(n, k) * _S_at(m - 1, n, k) - _S_at(m - 2, n, k), phi_2cos(n))
+    _SC_CACHE[key] = out
+    return out
+
+
+def _T_at(m, n, k):
+    """T_m evaluated at x_k, in L. T_0 = 1, T_1 = x/2, T_{m+1} = x*T_m - T_{m-1}."""
+    m = abs(m)
+    a, b = _pz(1), _redz(_x_k(n, k) * sp.Rational(1, 2), phi_2cos(n))
+    if m == 0:
+        return a
+    for _ in range(m - 1):
+        a, b = b, _redz(_x_k(n, k) * b - a, phi_2cos(n))
+    return b
+
+
+def mode_data(N, j, k):
+    """(phi, x_k, Delta_k, psi) in L for seat j at node index k, or None at one of F157's poles."""
+    n = n_node(N, j)
+    phi = phi_2cos(n)
+    Sj = _S_at(j, n, k)
+    if Sj.is_zero:
+        return None
+    dk = _redz(_S_at(j + 1, n, k) * _invz(Sj, phi), phi)
+    psi = [_S_at(j - l, n, k) for l in range(N)]
+    return phi, _x_k(n, k), dk, psi
+
+
+def _coeff_vec(p, d):
+    c = p.all_coeffs()[::-1]
+    return [c[i] if i < len(c) else sp.Integer(0) for i in range(d)]
+
+
+def min_poly_of(el, phi, var):
+    """Minimal polynomial over Q of an element of L, by exact linear algebra on its powers.
+
+    Not an algebraic-number oracle: S3 checks that the answer annihilates the element and is
+    irreducible, so a wrong dependency cannot pass for a right one.
+    """
+    d = phi.degree()
+    powers, cur = [], _pz(1)
+    for r in range(d + 1):
+        powers.append(_coeff_vec(cur, d))
+        ns = sp.Matrix(powers).T.nullspace()
+        if ns:
+            w = ns[0] / ns[0][r]
+            return sp.expand(sum(w[i] * var ** i for i in range(r + 1)))
+        cur = _redz(cur * el, phi)
+    raise RuntimeError("no dependency within the degree of the field")
+
+
+def _sector_split_by_k(N, j):
+    """{Delta as an element of L: [#odd k, #even k]} at seat j, poles dropped."""
+    out = {}
+    for k in range(1, n_node(N, j)):
+        md = mode_data(N, j, k)
+        if md is None:
+            continue
+        key = md[2].as_expr()
+        out.setdefault(key, [0, 0])[0 if k % 2 else 1] += 1
+    return out
+
+
+# The sweep ranges. S3's and S4's are shorter because a sector count is a gcd over Q[t]/(mu).
+S_N = range(5, 21)
+S3_N = range(5, 15)
+S4_N = [6, 8, 10, 12, 14]
+
+# PINNED MEASUREMENTS, frozen from a run so that a shrinking sweep goes red instead of quiet.
+# Every check in this block carries one: the ranges above are bare literals, so without a pinned
+# population a narrowed sweep would pass in silence, which is the defect the 2026-09-02 entry of
+# docs/CAUGHT_ERRORS.md logs for block K and which came back here.
+S1_MODES, S1_POLES = 812, 412          # non-pole modes, and poles, over S_N
+S2_ANGLES = 1224                       # (N, seat, k) angles over S_N, poles included
+S2C_PAIRS = 812                        # non-pole k for which {k, N_node-k} is read; each
+                                       # unordered pair is therefore read twice
+S2D_TRIED, S2D_SURVIVORS = 851, 0      # wrong-modulus constructions tried, and how many keep
+                                       # a parity anyway; the population is pinned too, or a
+                                       # narrowed sweep would satisfy 'none survive' by
+                                       # trying none
+S3_READINGS = 196                      # (seat, Delta) readings over S3_N
+S3_ASYMMETRIC = 188                    # of those, the ones with #odd k != #even k
+S4_READINGS = 36                       # (N, seat, locus point) readings over S4_N
+
+
+def _entry_times(e, p, dk, phi):
+    """The matrix entry e, an element of Z[t], applied to a field element p at knob dk.
+
+    This is what lets S1 read the FAMILY OBJECT H_aniso rather than a second transcription of
+    it: an earlier build wrote the tridiagonal rows out by hand, and moving the anisotropy in
+    H_aniso left S1 green. Entries of both families are affine in t, which the assert pins.
+    """
+    q = sp.Poly(e, t)
+    assert q.degree() <= 1, "a family entry is not affine in the knob"
+    c0, c1 = q.nth(0), q.nth(1)
+    out = _pz(0)
+    if c0:
+        out = out + int(c0) * p
+    if c1:
+        out = out + int(c1) * _redz(dk * p, phi)
+    return out
+
+
+def gate_S():
+    print("\n(S) THE SECTOR OF k: the node mode, its parity, and the k-index on the count")
+
+    # -- S0: the field is verified, not trusted. Phi_n is irreducible, carries the degree the
+    # -- theory of Q(2cos(pi/n)) forces, and divides the integer polynomial whose roots are
+    # -- exactly the 2cos(k*pi/n); an irreducible divisor of U_{n-1}(z/2) of that degree can only
+    # -- be the minimal polynomial of a primitive one, and those are all conjugate, so the three
+    # -- together pin Phi_n. Every reduction below happens modulo it, and the range is DERIVED
+    # -- from the sweep rather than written as a literal, so widening S_N cannot leave a modulus
+    # -- unverified.
+    n_max = max(n_node(N, j) for N in S_N for j in range(N))
+    bad, seen = [], 0
+    for n in range(2, n_max + 1):
+        phi = phi_2cos(n)
+        seen += 1
+        deg_ok = phi.degree() == sp.totient(2 * n) // 2
+        irr_ok = phi.is_irreducible
+        div_ok = _pz(sp.expand(sp.chebyshevu(n - 1, z / 2))).rem(phi).is_zero
+        if not (deg_ok and irr_ok and div_ok):
+            bad.append((n, deg_ok, irr_ok, div_ok))
+    check("S0  the node field Q(2cos(pi/n)): irreducible, degree phi(2n)/2, divides U_{n-1}",
+          not bad and seen == n_max - 1,
+          f"{seen} moduli n = 2..{n_max}, the range derived from the sweep and not pinned as a "
+          f"literal; failures {bad}")
+
+    # -- S1: the mode itself. psi_l = sin((j-l)theta_k)/sin(theta_k) solves every row of
+    # -- (A + Delta_k*D)psi = 2cos(theta_k)*psi exactly in L, the two END rows included, which is
+    # -- where Delta_k comes from. The matrix is H_aniso, the file's own family object, read
+    # -- entry by entry. What this check does NOT assert is psi_j = 0 or psi != 0: psi_j is
+    # -- _S_at(0, ...) and psi_0 is the pole test's own quantity, so both would be true of any
+    # -- input and an earlier build named them as red-makers when nothing could redden them.
+    bad, seen, poles = [], 0, 0
+    for N in S_N:
+        Hsym = H_aniso(N)
+        for j in range(N):
+            n = n_node(N, j)
+            if n < 2:
+                continue                              # no k in range at all
+            for k in range(1, n):
+                md = mode_data(N, j, k)
+                if md is None:
+                    poles += 1
+                    continue
+                phi, xk, dk, psi = md
+                seen += 1
+                for a in range(N):
+                    r = -_redz(xk * psi[a], phi)
+                    for b in range(N):
+                        if Hsym[a, b] != 0:
+                            r += _entry_times(Hsym[a, b], psi[b], dk, phi)
+                    if not _redz(r, phi).is_zero:
+                        bad.append((N, j, k, a))
+    check("S1  psi_l = sin((j-l)theta_k) is an EXACT eigenvector of H_aniso at Delta_k",
+          not bad and seen == S1_MODES and poles == S1_POLES,
+          f"{seen} (N, seat, k) modes over N = 5..20, expected {S1_MODES}, every row the zero "
+          f"element of Q[z]/(Phi), read off the family object H_aniso; {poles} poles skipped, "
+          f"expected {S1_POLES}; failures {bad}")
+
+    # -- S2: the two ingredients of the parity, separately, because the parity is their product
+    # -- and a compensating pair of sign errors would be invisible in it. S_{N_node}(x_k) = 0
+    # -- says the node angle closes at a multiple of pi; T_{N_node}(x_k) = (-1)^k says which.
+    bad, seen = [], 0
+    for N in S_N:
+        for j in range(N):
+            n = n_node(N, j)
+            if n < 2:
+                continue
+            for k in range(1, n):
+                seen += 1
+                if (not _S_at(n, n, k).is_zero
+                        or not (_T_at(n, n, k) - _pz((-1) ** k)).is_zero):
+                    bad.append((N, j, k))
+    check("S2  the node angle closes: S_{N_node}(x_k) = 0 and T_{N_node}(x_k) = (-1)^k",
+          not bad and seen == S2_ANGLES,
+          f"{seen} (N, seat, k) angles over N = 5..20, expected {S2_ANGLES}, exact in "
+          f"Q[z]/(Phi); failures {bad}")
+
+    # -- S2b: Lemma 8's parity, psi_{N-1-l} = (-1)^(k+1) psi_l at EVERY site. An earlier build
+    # -- guarded it with "and the opposite sign at none", which cannot fire: both signs at once
+    # -- force 2*eps*psi = 0 in characteristic zero, and psi = 0 is what mode_data's pole test
+    # -- already excludes. The live control is S2d, which reads a DIFFERENT modulus.
+    bad, seen, poles = [], 0, 0
+    for N in S_N:
+        for j in range(N):
+            n = n_node(N, j)
+            if n < 2:
+                continue
+            for k in range(1, n):
+                md = mode_data(N, j, k)
+                if md is None:
+                    poles += 1
+                    continue
+                phi, xk, dk, psi = md
+                seen += 1
+                eps = (-1) ** (k + 1)
+                if any(not _redz(psi[N - 1 - l] - eps * psi[l], phi).is_zero for l in range(N)):
+                    bad.append((N, j, k))
+    check("S2b psi_{N-1-l} = (-1)^(k+1) psi_l at every site",
+          not bad and seen == S1_MODES and poles == S1_POLES,
+          f"{seen} modes over N = 5..20, expected {S1_MODES}, {poles} poles skipped; "
+          f"failures {bad}")
+
+    # -- S2d: the control S2b's dead fence was pretending to be. The SAME construction on the
+    # -- WRONG modulus, N_node + 1, keeps neither sign at any site pattern; so S2b reads the node
+    # -- angle and not the shape of the formula. It asserts that something BREAKS, so no mutation
+    # -- of the objects tests it: what does is feeding it the RIGHT modulus, under which it goes
+    # -- red. It PASSES in a healthy block, like every other check here.
+    survivors, seen = [], 0
+    for N in S_N:
+        for j in range(N):
+            n = n_node(N, j)
+            if n < 2:
+                continue
+            phi = phi_2cos(n + 1)
+            for k in range(1, n):
+                Sj = _S_at(j, n + 1, k)
+                if Sj.is_zero:
+                    continue
+                psi = [_S_at(j - l, n + 1, k) for l in range(N)]
+                seen += 1
+                for eps in (+1, -1):
+                    if all(_redz(psi[N - 1 - l] - eps * psi[l], phi).is_zero for l in range(N)):
+                        survivors.append((N, j, k, eps))
+    check("S2d control: the same mode built on the WRONG modulus carries NO reflection parity",
+          len(survivors) == S2D_SURVIVORS and seen == S2D_TRIED,
+          f"{seen} constructions at modulus N_node+1 over N = 5..20, expected {S2D_TRIED}; "
+          f"{len(survivors)} of them carry either sign, expected {S2D_SURVIVORS}: {survivors[:6]}")
+
+    # -- S2c: the Remark. Delta_{n-k} = -Delta_k and the pole condition shared by k and n-k are
+    # -- its two readings. Its third clause in an earlier build, that k and n-k share a parity
+    # -- exactly when n is even and that n is even exactly when N is odd, was deleted: both are
+    # -- identities of the integers with no reference to any object here.
+    bad, seen = [], 0
+    for N in S_N:
+        for j in range(N):
+            n = n_node(N, j)
+            if n < 2:
+                continue
+            phi = phi_2cos(n)
+            for k in range(1, n):
+                a, b = mode_data(N, j, k), mode_data(N, j, n - k)
+                if (a is None) != (b is None):
+                    bad.append((N, j, k, "pole condition not shared"))
+                    continue
+                if a is None:
+                    continue
+                seen += 1
+                if not _redz(a[2] + b[2], phi).is_zero:
+                    bad.append((N, j, k, "Delta_{n-k} != -Delta_k"))
+    check("S2c Delta_{N_node-k} = -Delta_k, and k is a pole exactly when N_node-k is",
+          not bad and seen == S2C_PAIRS,
+          f"{seen} index pairs over N = 5..20, expected {S2C_PAIRS}; failures {bad}")
+
+    # -- S3: the corroboration, and it is a second instrument and not a restatement. b_E and b_O
+    # -- here come from the SECTOR BLOCKS' characteristic polynomials by a gcd over Q[t]/(mu),
+    # -- block K's route, which never sees a mode or a k. The prediction comes from Lemma 8's
+    # -- closed form. Two roads to one pair of integers.
+    # --
+    # -- The SWAPPED assignment needs no clause of its own and gets none. An earlier build put it
+    # -- in a check of its own, S3b, and the repair then folded it into this predicate; both were
+    # -- inert, because (b_E, b_O) = (n_odd, n_even) at a reading with n_odd != n_even already
+    # -- excludes (n_even, n_odd). What refutes the swap is this check's own equality together
+    # -- with the pinned count of readings that HAVE n_odd != n_even, and that count is live.
+    bad, asym, mp_bad, balanced_off_zero, seen = [], 0, [], [], 0
+    for N in S3_N:
+        for j in range(N):
+            if n_node(N, j) < 2:
+                continue
+            phi = phi_2cos(n_node(N, j))
+            for dexpr, (n_odd, n_even) in _sector_split_by_k(N, j).items():
+                mu = min_poly_of(_pz(dexpr), phi, t)
+                muP = sp.Poly(mu, t)
+                # the minimal polynomial is checked and not trusted: it annihilates the element
+                # and it is irreducible, which is what the field Q[t]/(mu) below requires.
+                cs = muP.all_coeffs()[::-1]
+                ann = _redz(sum(cs[i] * _pz(dexpr) ** i for i in range(muP.degree() + 1)), phi)
+                if not ann.is_zero or not muP.is_irreducible:
+                    mp_bad.append((N, j, str(mu)))
+                    continue
+                bE, bO, _ = sector_counts_at(H_aniso, N, j, mu)
+                seen += 1
+                if n_odd != n_even:
+                    asym += 1
+                elif not sp.Poly(mu - t, t).is_zero:
+                    balanced_off_zero.append((N, j, str(mu)))
+                if (bE, bO) != (n_odd, n_even):
+                    bad.append((N, j, str(mu), (bE, bO), (n_odd, n_even)))
+    check("S3  b_E = #{k odd on that Delta} and b_O = #{k even}, against the sector blocks",
+          not bad and not mp_bad and not balanced_off_zero and seen == S3_READINGS
+          and asym == S3_ASYMMETRIC,
+          f"{seen} (seat, Delta) readings over N = 5..14, expected {S3_READINGS}, of which "
+          f"{asym} have #odd != #even and so exclude the swapped assignment, expected "
+          f"{S3_ASYMMETRIC}; the other {S3_READINGS - S3_ASYMMETRIC} carry #odd = #even and "
+          f"are asserted, not narrated, to sit at Delta = 0, exceptions {balanced_off_zero}; "
+          f"minimal-polynomial failures {mp_bad}; count failures {bad}")
+
+    # -- S4: the payoff, and the reason the item was open. The Theorem (count) gives the crack
+    # -- 2*b_E at even N off the ring ends; Lemma 8 turns that into an integer read off F157's
+    # -- own index set. Read against blind_at, which is block K's own reader on the full N x N
+    # -- matrices and knows nothing about sectors or modes. A locus point carrying NO node index
+    # -- predicts 0 and is READ rather than skipped, since that is the shape of the counterexample
+    # -- this check exists to catch.
+    bad, seen = [], 0
+    for N in S4_N:
+        for j in range(N):
+            if n_node(N, j) < 2:
+                continue
+            phi = phi_2cos(n_node(N, j))
+            split = _sector_split_by_k(N, j)
+            for mu in locus_mus(N, j):
+                # Several Delta_k can be CONJUGATE and share one minimal polynomial, which is
+                # the rule rather than the exception at even N: at N = 8 seat 1 the two roots of
+                # t^2 - t - 1 are Delta_1 and Delta_3. b_E is a gcd degree over Q[t]/(mu) and so
+                # is Galois-invariant, which forces those to agree; a disagreement would be a
+                # defect and is read as one rather than resolved by taking the last match. S3
+                # would already have caught such a disagreement over a wider range, so this is a
+                # defensive read and not an independent red-maker.
+                hits = {n_odd for dexpr, (n_odd, _e) in split.items()
+                        if sp.Poly(min_poly_of(_pz(dexpr), phi, t) - mu, t).is_zero}
+                if len(hits) > 1:
+                    bad.append((N, j, str(mu), "conjugate Delta_k disagree on #odd k", hits))
+                    continue
+                seen += 1
+                got, pred = blind_at(H_crack, N, j, mu), 2 * (hits.pop() if hits else 0)
+                if got != pred:
+                    bad.append((N, j, str(mu), got, pred))
+    check("S4  EVEN N off the ring ends: the crack pays 2*#{k odd on that Delta}, closed form",
+          not bad and seen == S4_READINGS,
+          f"{seen} (N, seat, locus point) readings over N = 6..14, expected {S4_READINGS}, "
+          f"against blind_at on the full crack matrix; failures {bad}")
+
+
 def main():
     print("=" * 86)
     print("PROOF_BLIND_SEAT_TWO_AXES: the crack axis and the anisotropy axis, sector by sector")
@@ -1469,6 +1911,7 @@ def main():
     gate_P()
     gate_T()
     gate_K()
+    gate_S()
     print()
     print("=" * 86)
     print("VERDICT:", "ALL GREEN" if not _fails else f"{len(_fails)} FAILED: {_fails}")
