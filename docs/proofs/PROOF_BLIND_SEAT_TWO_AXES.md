@@ -1383,8 +1383,11 @@ suffices alone, which the centre seat answers one way and every other seat the o
   [`Mirror.cs`](../../compute/MirrorWorld/Mirror.cs)'s f_P and f_Q, which pay λ → −λ − 2Nγ, and
   no spectrum is folded here. §(i) calls Lemma 10's object **the common factor** and never a
   divisor, because F139 uses "Chebyshev divisor" in the same polynomial-algebra sense one file
-  over; The uniform stretch between a seat's two mirror images is named
-  **the middle route** so that it has a name at all; §(i) does also call it a path, in the
+  over; The uniform stretch between a seat's two **mirror images** is
+  named **the middle route** so that it has a name at all; a mirror image here is a site's partner
+  under the chain reflection R and nothing more, never
+  [`Mirror.cs`](../../compute/MirrorWorld/Mirror.cs)'s block-lattice group of eight, which pays
+  λ → −λ − 2Nγ, and never Π; §(i) does also call it a path, in the
   ordinary graph sense the Statement uses for the open N-site path, and what is never meant is
   F89's `path-k` topology or
   [`Cyclotomy.cs`](../../compute/MirrorWorld/Cyclotomy.cs)'s `PathOrders`. No γ
