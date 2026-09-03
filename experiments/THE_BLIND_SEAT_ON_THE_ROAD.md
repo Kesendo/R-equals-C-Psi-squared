@@ -261,7 +261,10 @@ Res(α_p, α_{N−1−p}) times (−1)^binom(p+1,2) in the fold coordinate p, th
 generator up to a second sign §(i) also gives in closed form. So the constants inside the
 factorisation are numbers now, whether or not this page's own normalisation still throws one away.
 So the count is recoverable from the same resultant by halving, exactly, off the ring ends and
-away from the forced centre seat. At the ring ends the two axes part at every seat but that one,
+away from the forced centre seat. The typed home of that level is
+[`BlindSeatSectorFactorisationClaim`](../compute/RCPsiSquared.Core/Symmetry/BlindSeatSectorFactorisationClaim.cs)
+(`inspect --claim BlindSeatSectorFactorisationClaim`), which recomputes it from (N, j) alone.
+At the ring ends the two axes part at every seat but that one,
 which is measured over N = 5..11 rather than proved. Gate C2 then checks F157's *generating* formula Δ_k at all 52
 non-centre seats of N = 5..11,
 of which 26 have a nonempty value set and 26 are empty (the 14 end seats by F157's degenerate case,

@@ -8530,16 +8530,24 @@ public static class OpenArcsRegistry
                 + "pinned over. What is factorised is F157's own generator up to a second sign, "
                 + "closed form too, whose extra term is the price of carrying F157's SEAT index "
                 + "onto the fold coordinate: S_{p+n}(x_k) = (-1)^k * S_p(x_k) at every node. Gate "
-                + "block W, twenty-one checks. " +
+                + "block W, twenty-three checks. " +
                 "OPEN now, and smaller than what closed: on the RING the same identity is " +
                 "not a constant at 20 of the 32 seats (gate K1b2), and section (i) says " +
                 "nothing about what it is there; F157's hop-2 normalisation is untouched, " +
                 "so the un-normalised 128 that BlindSeat.cs carries at N = 9 seat 1 is " +
                 "still unidentified; and the arc's own question, which of our arithmetic " +
                 "laws are forced by a symmetry and which a perturbation dissolves, still " +
-                "stands on the laws it opened with. F162 is NOT typed: it has no Claim and no " +
-                "witness, where F161 got both the day before, so CLAUDE.md's C# witness rule is " +
-                "owed on it and is the cheapest next step here. " +
+                "stands on the laws it opened with. F162 IS typed since 2026-09-03, as " +
+                "BlindSeatSectorFactorisationClaim (Tier1Derived, parents SeatCutBlindnessClaim " +
+                "and CrackedRingExactCurveClaim), which recomputes section (i) on a road the gate " +
+                "does not take, Euclidean resultants at one integer knob at a time instead of " +
+                "Sylvester determinants in Z[t][x], and the sector parity as an exact remainder " +
+                "instead of readings in the node field; on that second road it reproduces four of " +
+                "block W's pinned populations. What the typing did NOT close is what the claim " +
+                "itself names as read rather than derived: that the sector left halves ARE alpha_p " +
+                "and the right halves the two combs is still the gate's W5, and the step from the " +
+                "factorisation's multiplicity to section (h) Corollary 8a's b_E is still measured " +
+                "against no b_E anywhere. " +
                 "Run: python simulations/blind_seat_two_axes_proof.py",
             Status: OpenArcStatus.Open),
         new OpenArc(

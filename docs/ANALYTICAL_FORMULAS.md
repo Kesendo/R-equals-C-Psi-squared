@@ -8918,13 +8918,40 @@ so that literal is accidentally convention-stable in exactly the range it is pin
 not so at N = 4..12. A sign law is a statement about a NAMED argument order; §(i) names one and
 the gate reads it.
 
+**Typed:** `BlindSeatSectorFactorisationClaim`
+([compute/RCPsiSquared.Core/Symmetry/BlindSeatSectorFactorisationClaim.cs](../compute/RCPsiSquared.Core/Symmetry/BlindSeatSectorFactorisationClaim.cs),
+2026-09-03, Tier1Derived, parents `SeatCutBlindnessClaim` (F157, whose locus polynomial this
+factorises and which states no sign and no leading coefficient) and `CrackedRingExactCurveClaim`
+(F160, whose proof owns the Cassini step)). It carries the sine quotient, the knob chain, the two
+sector combs, the pole split and both sign laws as exact integer and rational arithmetic from
+(N, j) alone, and RECOMPUTES the sweep at inspect time rather than storing it:
+`inspect --claim BlindSeatSectorFactorisationClaim` prints, among them, 72 seats in scope over
+N = 4..14, the fold profile {1:22, 2:18, 3:14, 4:10, 5:6, 6:2}, Q_E = −t² + 2t − 1 at N = 10 seat 2,
+and 16 sector readings carrying a repeated factor (the polynomial is printed
+`-t^2 + 2*t - 1`, the claim's own ASCII). The road is deliberately not the gate's: the
+gate builds every law-carrying resultant as a Sylvester determinant in ℤ[t][x] because sympy's own
+routine is the object under suspicion there, while the claim uses the Euclidean remainder sequence
+at one integer knob at a time with an interpolation whose held-back samples redden an
+underestimated knob-degree, and decides the sector parity as an exact remainder rather than at
+five hundred points of the node field. On that second road it reproduces four of block W's pinned
+populations, the seat count, the fold profile, the 20 pole shortfalls and the 16 repeated factors.
+Its from-below tests are `BlindSeatSectorFactorisationClaimTests` in
+`compute/RCPsiSquared.Core.Tests/`, whose lowest two pin the sine quotient against its own
+recursion and against the Chebyshev addition formula, and whose five controls each state why the break
+they assert is forced, three of them predicting its COUNT before the run: the two argument orders
+part at 6 of 50 seats outside and 24 of 100 sector readings inside, dropping Corollary 11b's mirror
+term parts the tie at 12 of 50, and the factorisation needs a squarefree comb, breaking at 16 of 42
+draws; the other two require the swapped sector assignment to fail and an interpolation given too
+small a knob-degree to throw rather than return a shorter polynomial.
+
 **Valid for:** the end-pair-anisotropic open chain A + t·D, single-excitation XY block, every
 N ≥ 4 and every interior seat the reflection does not fix. **Breaks for:** the R-fixed centre seat
 of an odd chain, where the seat cuts the chain into two equal matrices so that the outer resultant
 vanishes identically and there is no ratio to carry a sign. **True but empty at:** the end seats
 j = 0 and j = N−1, where α_p is the empty determinant and both sides are 1. **Says nothing about:** the ring,
 where §(g)'s gate K1b2 records that the same identity stops being a constant at 20 of 32 seats over
-N = 4..10, and F157's hop-2 normalisation, so the un-normalised 128 that `BlindSeat.cs` carries at
+N = 4..10 (a different population from the 20 pole shortfalls above), and F157's hop-2
+normalisation, so the un-normalised 128 that `BlindSeat.cs` carries at
 N = 9 seat 1 is not identified here.
 **Replaces:** reading a sign or a leading coefficient off a run, and normalising a locus
 polynomial primitive in order to compare two routes that differ by a constant.

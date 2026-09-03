@@ -32,11 +32,29 @@ there. Both Theorems are exact at every N ≥ 3 and both
 parities. **Date:** 2026-09-02, sections (h) and (i) 2026-09-03. **Authors:** Thomas Wicht, Claude (Opus 5). **Script:**
 [`simulations/blind_seat_two_axes_proof.py`](../../simulations/blind_seat_two_axes_proof.py), 84
 checks under 81 labels in eight blocks (L2a fires twice, L2b three times), exact in sympy, about
-two minutes measured quiet under sympy 1.14.0, which is not in the dependency line in `CLAUDE.md`.
+two minutes measured quiet under sympy 1.14.0.
 Every resultant in block W that carries a LAW is a Sylvester determinant the file builds itself,
-sympy's own routine appearing there only where it is the object under test; W0 to W0c say why. Run
+sympy's own routine appearing there only where it is the object under test; W0 to W0d say why. Run
 committed at
 [`blind_seat_two_axes_proof_run.txt`](../../simulations/results/blind_seat_two_axes/blind_seat_two_axes_proof_run.txt).
+**Typed:** §(i) alone, as
+[`BlindSeatSectorFactorisationClaim`](../../compute/RCPsiSquared.Core/Symmetry/BlindSeatSectorFactorisationClaim.cs),
+Tier 1 derived, parents `SeatCutBlindnessClaim` (F157, the locus it factorises) and
+`CrackedRingExactCurveClaim` (F160, the Cassini step); live at
+`dotnet run --project compute/RCPsiSquared.Cli -- inspect --claim BlindSeatSectorFactorisationClaim`.
+It recomputes Lemmas 9, 10 and 11 and Corollaries 10a, 10b and 11b at inspect time, and
+deliberately not on this script's road:
+resultants by the Euclidean remainder sequence rather than as Sylvester determinants, one integer
+knob at a time with an interpolation whose held-back samples make an underestimated knob-degree
+red, and the sector parity as the exact remainders S_{n+1} + 1 ≡ 0 (mod β_E) and
+S_{n+1} − 1 ≡ 0 (mod β_O) rather than as readings in the node field. On that second road it
+reproduces four of block W's pinned populations: the 72 seats, the fold profile
+{1:22, 2:18, 3:14, 4:10, 5:6, 6:2}, the 20 sector readings where a pole drops the knob-degree, and
+the 16 that carry a repeated factor. What it does NOT carry is what §(i) itself marks as read
+rather than derived, W5's identification of the sector halves and the step from a multiplicity to
+Corollary 8a's b_E, together with Corollary 11a's seat-versus-fold reading, the comparison
+against F157's four committed rows with its pinned per-row scales, the K1B_SIGNS convention
+reading and W0 to W0d, all of which stay in this script.
 **Closes:** the two questions carried by open item 1 of [The Blind Seat on the
 Road](../../experiments/THE_BLIND_SEAT_ON_THE_ROAD.md). Its §(c) was an observation with an
 identified mechanism at odd N = 5..17 and at 44 of 66 even-N seats; that page states the relation,

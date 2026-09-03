@@ -901,6 +901,22 @@ public static class KnowledgeRegistryFactory
             // No Diagnostics witness: the claim itself recomputes in Z[zeta_2n] at call time, and the gate is
             // simulations/collision_gap_odd_orders.py.
             .RegisterCollisionGapOddOrdersClaim()
+            // F162, the blind seat's sector factorisation (Tier 1 derived, 2026-09-03,
+            // docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md section (i)): on the end-pair-anisotropic open chain the
+            // congruence S_p*alpha_{N-1-p} = -S_n (mod alpha_p), the Chebyshev addition formula twice closed by
+            // F160's Cassini identity, carries the two reflection sectors' halves-resultants onto F157's own locus
+            // polynomial up to the single common factor Res(alpha_p, S_p) = (-1)^C(p,2). With every resultant taken
+            // FOLD HALF FIRST the outer one is (-1)^C(p+1,2)*Q_E*Q_O, an exponent reading the fold coordinate
+            // p = min(j, N-1-j) and NOT N, and each factor is an integer constant times one linear factor per
+            // NON-POLE root of its sector comb, a pole contributing a constant instead. That closes both constants
+            // sections (g) and (h) left open, and they turn out to be one object. Parents SeatCutBlindnessClaim
+            // (F157, the locus it factorises, which states no sign and no leading coefficient) and
+            // CrackedRingExactCurveClaim (F160, the Cassini step). No Diagnostics witness: the claim itself
+            // recomputes in Z[t] at call time on a road the gate does not take, Euclidean resultants instead of
+            // Sylvester determinants, one integer knob at a time instead of symbolically, and the sector parity as
+            // an exact remainder instead of readings in the node field; the gate is
+            // simulations/blind_seat_two_axes_proof.py block W.
+            .RegisterBlindSeatSectorFactorisationClaim()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
