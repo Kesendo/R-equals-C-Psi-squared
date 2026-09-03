@@ -1073,7 +1073,8 @@ suffices alone, which the centre seat answers one way and every other seat the o
   **end pair** is F157's {0, N−1}, which the companion page already fences against F140's
   "corner block". The **divisor law** §(h)'s third fence names is F157's gcd law on the seat
   index, never [`Divisor.cs`](../../compute/MirrorWorld/Divisor.cs)'s frozen divisor of F140,
-  which lives on the R₉₀ locus and has no seat in it. A **block** here is the matrix of H restricted to one reflection sector, never
+  which lives on the R₉₀ locus and has no seat in it. A **block** here is the matrix of H
+  restricted to one reflection sector, never
   [`Block.cs`](../../compute/MirrorWorld/Block.cs)'s joint-popcount block (p, q). No γ and no
   Liouvillian appears anywhere in this file.
 - **Bare-letter lemma names are ambiguous in this neighbourhood** and this file numbers its own
