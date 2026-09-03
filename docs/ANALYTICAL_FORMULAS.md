@@ -7365,6 +7365,17 @@ term non-negative, hence n_diff ≡ n_min, hence the criterion by the window abo
 tolerance, and the argument wants uniform γ in exactly the place the criterion does: under a profile a
 cell's real part is a SUM over its disagreeing sites, and n_diff is no longer what the trace counts.
 
+It also wants **γ > 0**, which this entry did not say until 2026-09-03 and which its own scope line
+admits, γ = 0 being uniform. The step that fails is the cancellation: equating
+−2γ·n_min·dim = −2γ·Σ_cells n_diff and dividing by 2γ is illegal at γ = 0, and the conclusion is
+false there rather than unproven, because with no dissipator every eigenvalue is purely imaginary,
+every block's floor is 0 and every block sits on it. Measured on the N = 4 chain at Δ = 1, J = 1,
+by the (N+1)² sweep: at γ = 0.5 the on-floor blocks number 16 and match the pinned set exactly,
+while at γ = 0 they number **25**, the whole grid, against 4N = 16 pinned. So the ⟸ direction is
+the one γ = 0 breaks; the ⟹ direction and the entry-wise identity are untouched by it, the
+Hermitian part being −2·diag(rate) at every rate including zero. The C# carrier already had the
+fence and the prose did not: `BlockSpectrumWitness` requires γ > 0 in its constructor.
+
 **What it locates: where a rate reading is the whole truth.** [F1](#f1)'s pairing distance projects onto
 rates, and the repo already knew that projection is blind to a break that moves only a frequency, which
 `F1SpectrumStatisticsTests` exhibits with a constructed spectrum. The criterion turns that from exhibited

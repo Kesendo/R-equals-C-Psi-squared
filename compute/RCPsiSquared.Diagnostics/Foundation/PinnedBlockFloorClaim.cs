@@ -207,7 +207,13 @@ public sealed class PinnedBlockFloorClaim : Claim
         "non-negative because n_min is the minimum over the block. Hence n_diff ≡ n_min on every cell. " +
         "By the window combinatorics that is min(p,q) = 0 or max(p,q) = N. No eigensolver, no tolerance, " +
         "and the argument needs uniform γ exactly where the criterion does: under a profile the cell's " +
-        "real part is a SUM over disagreeing sites and n_diff is no longer what the trace counts.";
+        "real part is a SUM over disagreeing sites and n_diff is no longer what the trace counts. " +
+        "It needs γ > 0 as well, and γ = 0 is uniform so the scope line admits it: dividing the " +
+        "equated traces by 2γ is illegal there, and the ⟸ is FALSE rather than unproven, every " +
+        "eigenvalue being purely imaginary, every floor 0 and every block on it. Measured on the " +
+        "N = 4 chain at Δ = 1, J = 1: 16 on-floor blocks at γ = 0.5, matching the pinned set, " +
+        "against 25 (the whole grid) at γ = 0, versus 4N = 16 pinned. The ⟹ and the entry-wise " +
+        "identity are untouched, Herm being −2·diag(rate) at every rate including zero.";
 
     public string TheThreeWords =>
         "FLOOR = the Absorption Theorem's bound, obeyed by every block. It is a floor on the DECAY RATE and " +

@@ -104,11 +104,26 @@ public sealed class Mirror : GameObject
     // The real part is exactly c at EVERY coupling: on those blocks the rate reading is whole,
     // and the Hamiltonian only turns the phase.
     //
-    // That is 4N of the (N+1)^2 blocks (2 pinned rows + 2 pinned columns, less the 4 corners
-    // counted twice), the corners among them, where the block is 1x1 and there is nothing to
-    // turn. On the remaining (N-1)^2 both sides can hop, A is no longer the whole off-diagonal
-    // story, and the real parts leave the diagonal: there a rate reading is the empty world's
-    // answer offered in a world that has a Hamiltonian.
+    // That is 4N of the (N+1)^2 blocks (2 pinned rows + 2 pinned columns, less the 4 one-cell
+    // blocks counted twice), those one-cell blocks among them, where the block is 1x1 and there
+    // is nothing to turn. They are called ONE-CELL and never "corner": F140's frozen divisor uses
+    // "corner block" for the (1,1)-type blocks, F125 for its own diagonal core, and Divisor.cs
+    // has a Corners() of its own -- three other objects behind the same word.
+    //
+    // On the remaining (N-1)^2 both sides can hop, A is no longer the whole off-diagonal story,
+    // and the real parts leave the diagonal: there a rate reading is the empty world's answer
+    // offered in a world that has a Hamiltonian. That is the OBSERVATION this class measures
+    // (the test asserts spread > 0 there) and it is NOT the proof of the converse: naming a
+    // mechanism forces nothing. The forcing is one line and it is a TRACE identity, F153's,
+    // which this class does not carry -- Re Tr L read off the cells against Re Tr L = Sum Re
+    // lambda gives Sum_cells (n_diff - n_min) = 0 with every term non-negative. See
+    // docs/ANALYTICAL_FORMULAS.md F153 and PinnedBlockFloorClaim.ConverseByTrace in the main
+    // repo; an earlier wording of F153 closed the converse with this paragraph's sentence and
+    // the entry now records that wording as superseded.
+    //
+    // Both readings want gamma > 0, and this class accepts any gamma: at gamma = 0 the diagonal
+    // is 0 on EVERY block, so nothing leaves it, the spread is 0 everywhere and the split below
+    // reports every block as whole. The tests run at gamma = 0.5.
     //
     // All three tests below are ENTRY-WISE, which is why no eigensolver appears: a constant
     // diagonal plus a purely imaginary, symmetric off-diagonal IS the proof that the real part
