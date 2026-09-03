@@ -1631,3 +1631,62 @@ checking like one.**
 **Anchor:** `BlindSeatSectorFactorisationClaim` and its 25 from-below tests, five of them controls,
 three predicting the break count before the run; the eight-mutation battery; §(k) of
 `PROOF_BLIND_SEAT_TWO_AXES`.
+
+## 2026-09-03 (fourth): a design to adopt F153 into MirrorWorld, where the object was already built under the design's own chosen name, and the sweep record that missed it named the file it was announced in
+
+The design proposed two MirrorWorld objects, `Pinned` and `VacuumBlock`, for F153 and F152, and
+opened with a Stage-0 sweep record naming six stores. Three empty reviewers ran on it. The
+mathematics of the adopted entries never moved; every finding was in the document.
+
+**(1) A store is not swept by being quoted.** The record named the OpenArcs registry and quoted it,
+from line 4177, for the arc `site_resolved_vacuum_block`. Line 7459 of the same file reads
+"F153 IS DONE (2026-08-13): PinnedBlockFloorClaim + PinnedBlockFloorWitness (inspect --root pinned)
++ PinnedBlockFloorClaimTests". The document's headline sentence, "owned by no object", was refuted
+3282 lines below the line it cited. **Naming a store in the record certifies that it was searched,
+and reading one entry out of it is not that**; the record read as complete because the store's name
+was in it.
+
+**(2) The typed layer has two halves and only one was in any store list.** `docs/ANALYTICAL_FORMULAS.md`,
+`docs/proofs/`, `experiments/`, `fw.Confirmations`, the glossary and the arcs were all named; the live
+witnesses in `compute/RCPsiSquared.Diagnostics/` were in no list, in CLAUDE.md or in the survey
+prompts. That is where F153 lives, with `IsPinned`, `PinnedBlockCount`, `DisagreementWindow`,
+`ConverseByTrace`, `ProfileHermitianPartResidual`, `CellRateSpread` and `ProfileTraceResidual`
+already built: every member the design proposed. And a result can be live there with **no `Claim`
+at all**, which is exactly what F152 is, so a sweep of the `Claim` graph alone would still have
+missed it. Three survey agents were dispatched and none was pointed at that directory:
+**dispatching more agents does not widen a store list.**
+
+**(3) The provenance story was inverted, and its own cited evidence said so.** The document told a
+chronology: a MirrorWorld test asserted `4N` on 2026-08-06, a week before F153 was registered, so
+"the number was inside the world and nobody noticed". F153's heading reads "entry-wise certificate
+2026-08-06" and its body cites that very test as its gate, at the line the document itself quoted.
+The test was not overlooked; it was the certificate F153 was built on. **A provenance claim is a
+claim**, and this one was refuted by the sentence offered as its support.
+
+**(4) A gate set of five with no power over the premise.** The object's only discriminator was the
+anisotropy Δ. Measured at N = 4 across Δ = 1, −1, 0, 0.5, 2: the certified `HermitianResidual` and
+the block `Leak` are exactly 0.0 in **every** row, because XXZ conserves magnetisation at every Δ.
+The one hypothesis that can break the object, H number-conserving with one Pauli string per jump
+operator, had no knob anywhere in the design. The source entry names the control the design lacked:
+"Add a transverse field and the identity survives bit-exact while the reading stops meaning
+anything." **A discriminator that cannot reach the premise is decoration**, however many rows it has.
+
+**(5) A dropped subordinate clause is what made a member wrong.** F153's own title carries
+"SCOPE: uniform γ REQUIRED **bar the four one-cell blocks**". The sweep paraphrase kept the scope
+and dropped the exception, and the design then asserted `RateSpread` "zero exactly when pinned AND
+gamma uniform", which is false on precisely those four blocks under any profile, for a dimensional
+reason. The gate written to check it is red on four of the 4N blocks it covers. **The clause a
+paraphrase drops is the clause the paraphrase was there to carry.**
+
+**(6) A sign omitted in the document that forbids copying signs.** The design's own "book" section
+carries F152's warning verbatim, "Never copy a sign or an imaginary value between the two", and two
+sections earlier writes the Δ = −1 face as "the signless form `D + A`" with no sign. Measured at
+N = 4: at Δ = +1 the residual against `−2i(D−A) − 2diag(γ)` is exactly 0.0 and against the signless
+form 8.0; at Δ = −1 exactly the reverse, and the correct form carries **`+2i`**. The general form is
+`−2i(Δ·D_J − A_J) − 2·diag(γ)`, with a single zero at Δ = +1, so the gate reading "at |Δ| ≠ 1 the
+residual is O(1)" presupposed a two-sided exactness that does not exist.
+
+**Anchor:** `docs/superpowers/specs/2026-09-03-pinned-and-vacuum-block-design.md` (local, gitignored);
+`compute/RCPsiSquared.Diagnostics/Foundation/PinnedBlockFloorClaim.cs` + `PinnedBlockFloorWitness.cs`;
+`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs:7459`; F152 and F153 in
+`docs/ANALYTICAL_FORMULAS.md`; the Δ table re-measured from below this session.
