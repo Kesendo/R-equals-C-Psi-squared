@@ -8885,6 +8885,54 @@ separating and 223 standing, 627 at odd n with 627 vanishing third orders, 11
 above a Tier1Derived child; it is carried by anchor and executably through
 `LevelCollisionCensus.Fires` and `CollisionFamilyInventory.Count`.
 
+### F162. A blind seat's two sector halves-resultants factor F157's own locus polynomial exactly, sign and leading coefficient included, and the sign reads the fold coordinate alone: with S_m = sin(mθ)/sin θ as a monic integer polynomial in x = 2cos θ (F157's U_{m−1}(x/2)), α_p = S_{p+1} − t·S_p the characteristic polynomial of the p-site chain carrying the knob at coordinate 0, p = min(j, N−1−j) the fold coordinate and N_node = |N−1−2j|, the congruence S_p·α_{N−1−p} ≡ −S_{N_node} (mod α_p), which is the Chebyshev addition formula twice closed by the Cassini identity S_{p+1}² − S_p·S_{p+2} = 1 that [F160](#f160)'s proof owns, carries the two reflection sectors' halves-resultants Q_E, Q_O onto the seat's own locus polynomial up to the single common factor Res(α_p, S_p) = (−1)^binom(p,2), so that with every resultant taken FOLD HALF FIRST, in the two sectors as well as outside, **Res(α_p, α_{N−1−p}) = (−1)^binom(p+1,2)·Q_E·Q_O**, an exponent reading the fold coordinate and not N; that object is [F157](#f157)'s own definition route Res(S_{N_node}, Δ·S_j − S_{j+1}) times (−1)^e with e = (N_node−1)(p+1) + p + binom(p,2) + [j > N−1−j]·binom(N_node,2), the last term being the price of carrying F157's SEAT index onto the fold coordinate through the node identity S_{p+N_node}(x_k) = (−1)^k·S_p(x_k); and each factor is **Q_S = c_S·∏(t − Δ_k) over the non-pole roots of β_S**, one factor per NON-POLE root and a pole root contributing a constant instead, so a Δ shared by several node indices repeats and, once Lemma 8 is read on the middle route to say that β_E carries the odd indices and β_O the even ones, that multiplicity in Q_E is the proof's Corollary 8a b_E, which is a corollary of those two and is measured against no b_E by any gate (N = 10 seat 2 gives Q_E = −(t−1)² from k = 1 and k = 3, N = 14 seat 3 a multiplicity of three, and F157's committed double root at N = 11 seat 2 is carried by k = 2 and k = 4, both EVEN and so both landing in Q_O, which is a repeated factor of one halves-resultant and not merely of a product), with c_S = (−1)^(p·r_S + n_S)·Res(h_S, S_p)·Res(g_S, S_{p+1}) a nonzero integer read off the pole split g_S = gcd(β_S, S_p), h_S = β_S/g_S, r_S = deg β_S, n_S = deg h_S; the two constants compose as lc_t(P_j) = (−1)^binom(p+1,2)·c_E·c_O with deg_t P_j = n_E + n_O, which against F157's four committed rows is the row itself times a sign, the sign being exactly what F157's primitive-and-positive normalisation discards; and the ±1 that carried this as open had no convention-free answer to give, a resultant being antisymmetric up to (−1)^(deg f·deg g) while `sympy.resultant` does not keep the order it is given, agreeing with the Sylvester determinant when deg f ≥ deg g and being (−1)^(deg f·deg g) times it when deg f < deg g (Tier 1 derived and gated 2026-09-03 in §(i) of [PROOF_BLIND_SEAT_TWO_AXES](proofs/PROOF_BLIND_SEAT_TWO_AXES.md), gate block W, twenty-three checks exact in sympy: the congruence as an exact remainder in ℤ[t][x] at 72 seats over N = 4..14, both sign laws and the generator tie in closed form at the same 72, the node identity at 1260 (n, p, k) and the sector parity at 500 readings in ℚ(2cos(π/n)), the factorisation read on its PRODUCT, the repeated-factor population pinned as a set, six controls that assert a break, among them W6c which shows the squarefree hypothesis is load-bearing and W0d which shows sympy is order-dependent at equal degrees, and W0 to W0c which read the Sylvester determinant against the DEFINITION lc(f)^deg(g)·∏g(α), including non-monic and degree-0 arguments, because the other resultant is the thing under suspicion)
+
+**What it adds, and to what.** [F157](#f157) owns the locus polynomial
+P_j(Δ) = Res_x(U_{N_node−1}, Δ·U_{j−1} − U_j) as a DEFINITION, together with Δ_k, the pole rule and
+the clause that a root's multiplicity is the blind count there; it states no leading coefficient,
+no sign and no factorisation, and prints its worked rows primitive with a positive leading
+coefficient, which is the normalisation that discards precisely the number this entry computes.
+§(g) of the proof measured P_j = ±Q_E·Q_O off a run and said in as many words that WHICH sign it
+did not identify; §(h) named the roots of each factor and said the factorisation does not follow
+from root sets alone. This entry is the answer to both, and they turn out to be one object: the
+congruence produces the product, and what is left over is a single resultant that evaluates to a
+sign. The Cassini step is [F160](#f160)'s and is cited rather than repeated; the Chebyshev
+addition formula appears in no proof of this repository and is written out in the section.
+
+**Which half is proved and which half is read.** The two sign laws, the constant and the generator
+tie are algebraic in p and N and hold at every seat; the sweep confirms them and does not carry
+them. What the sweep does carry is the parity: that β_E's roots are the ODD node indices is §(h)'s
+Lemma 8 read on the middle route, a uniform path, and it is decided in the node field at 500
+readings rather than asserted. The factorisation display alone is blind to it, holding for any
+monic SQUAREFREE β in place of β_S, which is why the parity has a check of its own. What NO gate reads is the
+last step, that the multiplicity so obtained is Corollary 8a's b_E; that follows from Lemma 8 and
+the parity check and is not measured against a b_E anywhere.
+
+**The convention half is a caution about the repository and not only about this entry.** The
+identity P_j = ±Q_E·Q_O is untouched by it, as is everything squared that rests on it, since a
+per-argument sign of ±1 cancels in |ratio| = 1 and in the proof's K1c and K1e. What is
+convention-carried is the pinned literal `K1B_SIGNS = {−1: 22, +1: 10}`: it is a reading of
+sympy's ordering AND of gate K1b's seat order at once, each of which moves six of fifty seats over
+N = 4..12, and over N = 4..10 the two conventions agree in TOTAL while disagreeing at four seats,
+so that literal is accidentally convention-stable in exactly the range it is pinned over and is
+not so at N = 4..12. A sign law is a statement about a NAMED argument order; §(i) names one and
+the gate reads it.
+
+**Valid for:** the end-pair-anisotropic open chain A + t·D, single-excitation XY block, every
+N ≥ 4 and every interior seat the reflection does not fix. **Breaks for:** the R-fixed centre seat
+of an odd chain, where the seat cuts the chain into two equal matrices so that the outer resultant
+vanishes identically and there is no ratio to carry a sign. **True but empty at:** the end seats
+j = 0 and j = N−1, where α_p is the empty determinant and both sides are 1. **Says nothing about:** the ring,
+where §(g)'s gate K1b2 records that the same identity stops being a constant at 20 of 32 seats over
+N = 4..10, and F157's hop-2 normalisation, so the un-normalised 128 that `BlindSeat.cs` carries at
+N = 9 seat 1 is not identified here.
+**Replaces:** reading a sign or a leading coefficient off a run, and normalising a locus
+polynomial primitive in order to compare two routes that differ by a constant.
+**Source:** [PROOF_BLIND_SEAT_TWO_AXES](proofs/PROOF_BLIND_SEAT_TWO_AXES.md) §(i);
+[`simulations/blind_seat_two_axes_proof.py`](../simulations/blind_seat_two_axes_proof.py) block W,
+run committed at
+[`blind_seat_two_axes_proof_run.txt`](../simulations/results/blind_seat_two_axes/blind_seat_two_axes_proof_run.txt).
+
 ---
 
 *Each formula in this document is a Liouvillian that does not need

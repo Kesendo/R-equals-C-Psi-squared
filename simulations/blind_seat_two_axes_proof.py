@@ -2,8 +2,9 @@
 
 Companion proof: docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md
 Companion page:  experiments/THE_BLIND_SEAT_ON_THE_ROAD.md  (whose section (c) and whose open
-                 item 1 this closes: the locus in blocks L to T, the count in block K, and
-                 the index on that count in block S)
+                 item 1 this closes: the locus in blocks L to T, the count in block K, the
+                 index on that count in block S, and the two constants of the proof's sections
+                 (g) and (h) in block W)
 
 WHAT IS GATED, in the order the proof needs it.
 
@@ -119,8 +120,9 @@ WHAT IS GATED, in the order the proof needs it.
 
 Every locus is SOLVED, never sampled: each is the real root set of a resultant or a
 discriminant, compared as the set of its irreducible rational factors that carry a real root,
-decided by Sturm counting. No root object is built and no trigonometric value is ever handed to
-a simplifier: sp.roots on an irreducible cubic reports .is_real as None and sp.simplify does not
+decided by Sturm counting. No root object is built anywhere except in block W's W0, which
+compares this file's Sylvester determinant against the DEFINITION of a resultant and therefore
+has to evaluate at roots; and no trigonometric value is ever handed to a simplifier: sp.roots on an irreducible cubic reports .is_real as None and sp.simplify does not
 reduce P(2*cos(3*pi/7)) to 0, two defects docs/CAUGHT_ERRORS.md records for the companion gate,
 and a third was met while writing this one (sp.solve returned an empty solution set at N = 11
 for a system whose solutions the discriminant route exhibits).
@@ -128,13 +130,17 @@ for a system whose solutions the discriminant route exhibits).
 Blocks L, C, B, P and T compare SETS. Blocks K and S compare COUNTS, and a count at an irrational
 locus point is a degree, so it is read over the field Q[t]/(mu) for mu the point's minimal
 polynomial. That is exact and builds no root object, which is what keeps the three traps above
-out of the count as well.
+out of the count as well. Block W compares POLYNOMIALS: the two constants the count leaves
+unidentified are a sign and a leading coefficient, and reading either needs a named argument
+order for the resultant, which is what its first three checks establish.
 
 Block S puts an INDEX on the two sector counts block K leaves as measurements, by reading F157's
 node mode and its reflection parity. Its arithmetic is block K's, moved from the count to the
 mode: every value lives in the quotient by an integer minimal polynomial, this time the one of
 2*cos(pi/N_node), so the node angle never reaches a simplifier either.
 """
+from math import comb
+
 import sympy as sp
 
 t, x, lam, u = sp.symbols('t x lam u')
@@ -791,9 +797,11 @@ K1E2_SURVIVORS = 0
 K2C_READINGS = 544
 K2C_SHARED = 552
 K3C_DISAGREEMENTS = 24
-# K1B_SIGNS: the constant in K1b is not merely nonzero, it is +-1, and which sign is NOT a law
-# this file identifies. The two counts are pinned so that a change moves the measurement and not
-# the expectation, and so that the doc cannot say "always -1" again.
+# K1B_SIGNS: the constant in K1b is not merely nonzero, it is +-1. The two counts are pinned so
+# that a change moves the measurement and not the expectation, and so that the doc cannot say
+# "always -1" again. WHICH sign is section (i)'s, and this literal is not the law: it is a reading
+# of sympy's argument order AND of the seat order below, each of which moves six of the fifty
+# seats at N = 4..12 (block W). The law itself needs a named order and is gate W3.
 K1B_SIGNS = {-1: 22, 1: 10}
 # K3_AT_ORIGIN: how many of K3's readings sit at mu = t, that is at the knob value 0, where the
 # crack and the anisotropy are the SAME matrix and the comparison is a number against itself.
@@ -963,8 +971,9 @@ def gate_K():
     check("K1b on the CHAIN, F157's P_j is +-1 times the two SECTOR halves' resultants",
           not bad and seen == K_EXPECTED.get('K1b') and signs == K1B_SIGNS,
           f"the open chain only, where striking DISCONNECTS: {seen} seats over N = 4..10, "
-          f"expected {K_EXPECTED.get('K1b')}; the sign splits {signs}, expected {K1B_SIGNS}, and "
-          f"WHICH sign is not a law this file identifies; failures {bad}")
+          f"expected {K_EXPECTED.get('K1b')}; the sign splits {signs}, expected {K1B_SIGNS}; the "
+          f"split is this READING's, sympy's order and the seat order, and the law is W3; "
+          f"failures {bad}")
 
     # -- K1b2: and it is a chain statement. On the ring the strike leaves ONE path, so the two
     # -- principal submatrices are not the pieces the seat cuts; the discriminator the check
@@ -1901,6 +1910,587 @@ def gate_S():
           f"against blind_at on the full crack matrix; failures {bad}")
 
 
+
+
+# ------------------------------------------- (W) the two constants section (g) and (h) leave open
+#
+# Section (g) reads P_j = +-Q_E*Q_O off a run and says WHICH sign it does not identify; section (h)
+# names the roots of each factor and says the factorisation does not follow from root sets alone.
+# Block W closes both, and it does so on a DIFFERENT ROAD from block K: every resultant that
+# carries a LAW here is the Sylvester determinant built in this file, and sympy's own routine
+# appears in W0b, W0c and the sympy leg of W4/W4b, where it is the object under test rather than
+# an instrument. That distinction is not fastidiousness. It is
+# what made the question answerable: sympy.resultant does not keep the order it is given, agreeing
+# with the Sylvester determinant when deg f >= deg g and being (-1)^(deg f * deg g) times it below,
+# so a sign law cannot be read off it without saying which order was meant (W0 to W0c). Block K is not wrong; it reads the pair, and W4 pins its
+# committed literal from here and shows what it carries.
+#
+# The mechanism, in one congruence. Write S_m for sin(m*theta)/sin(theta) as a monic integer
+# polynomial in x = 2*cos(theta), which is S_cheb above and block S's own S, and put
+#
+#     alpha_p = S_{p+1} - t*S_p     the charpoly of the path of p sites carrying t at coordinate 0
+#     p = jr = min(j, N-1-j)        the fold coordinate,  n = N_node = |N-1-2j|
+#
+# Then S_p * alpha_{N-1-p} = -S_n (mod alpha_p): the addition formula twice, plus Cassini
+# S_{p+1}^2 - S_p*S_{p+2} = 1, which is PROOF_CRACKED_RING_EXACT_CURVE's own gate P2. The two
+# sector left halves are literally alpha_p, and the two right halves are the reflection blocks of
+# the MIDDLE ROUTE, the uniform path the seat leaves between its two mirror images, whose comb is
+# F71's on its own Dirichlet modulus. So Q_E*Q_O = Res(alpha_p, S_n) and the whole question is the
+# common factor Res(alpha_p, S_p), which is a sign.
+
+def res_std(f, g):
+    """The Sylvester determinant of f and g in x, built here.
+
+    This is the textbook resultant, lc(f)^deg(g) * prod over roots of f of g(root), and W0 checks
+    it against that DEFINITION rather than against another resultant. sympy.resultant is not this
+    when deg f < deg g; see W0b. Matrices are refused outright, because feeding one silently
+    returns a number.
+    """
+    for e in (f, g):
+        assert not isinstance(e, sp.MatrixBase), "res_std takes polynomials; matrices go to res_m"
+    pf, pg = sp.Poly(f, x), sp.Poly(g, x)
+    m, n = pf.degree(), pg.degree()
+    if n <= 0:
+        return sp.expand(pg.LC() ** max(m, 0))
+    if m <= 0:
+        return sp.expand(pf.LC() ** n)
+    a, b = pf.all_coeffs(), pg.all_coeffs()
+    M = sp.zeros(m + n, m + n)
+    for i in range(n):
+        for k, c in enumerate(a):
+            M[i, i + k] = c
+    for i in range(m):
+        for k, c in enumerate(b):
+            M[n + i, i + k] = c
+    return sp.expand(M.det())
+
+
+def res_m(M1, M2):
+    """res_std of two matrices' characteristic polynomials; an empty block contributes Res(f,1)=1."""
+    if M1.rows == 0 or M2.rows == 0:
+        return sp.Integer(1)
+    return res_std(charpoly_expr(M1).as_expr(), charpoly_expr(M2).as_expr())
+
+
+def alpha_p(p):
+    return sp.expand(S_cheb(p + 1, x) - t * S_cheb(p, x))
+
+
+def beta_closed(n, parity):
+    """The middle route's sector charpolys in closed form: beta_E carries odd k, beta_O even k."""
+    if n <= 1:
+        return sp.Integer(1)
+    if n % 2 == 0:
+        return sp.expand(sp.cancel(S_cheb(n, x) / S_cheb(n // 2, x))) if parity == +1 \
+            else S_cheb(n // 2, x)
+    r = (n - 1) // 2
+    return sp.expand(S_cheb(r + 1, x) - S_cheb(r, x)) if parity == +1 \
+        else sp.expand(S_cheb(r + 1, x) + S_cheb(r, x))
+
+
+def eval_at_node(beta, n, k):
+    """beta(x) evaluated at x_k = 2*cos(k*pi/n), as an element of Q[z]/Phi, by Horner.
+
+    Block S's field arithmetic, reused: no root object is built and no trigonometric value ever
+    reaches a simplifier, so "beta_E vanishes exactly at the odd k" is decided exactly.
+    """
+    phi, xk = phi_2cos(n), _x_k(n, k)
+    acc = _pz(0)
+    for c in sp.Poly(beta, x).all_coeffs():
+        acc = _redz(acc * xk + _pz(int(c)), phi)
+    return acc
+
+
+def w_seats(N):
+    """Interior, non-R-fixed seats. W3c says why the centre seat is out, rather than assuming it."""
+    return [j for j in range(1, N - 1) if not _is_centre(N, j)]
+
+
+def pole_split(beta, p):
+    """(g, h, n_S, r_S): beta split against S_p into its pole part and its pole-free part.
+
+    F157's pole indices are exactly the k with S_p(x_k) = 0, so the gcd IS the pole part; nothing
+    is enumerated and no node index is built.
+    """
+    g = sp.gcd(sp.Poly(beta, x), sp.Poly(S_cheb(p, x), x))
+    h = sp.Poly(sp.cancel(beta / g.as_expr()), x)
+    return g, h, h.degree(), sp.Poly(beta, x).degree()
+
+
+def w_constant(g, h, n_S, r_S, p):
+    return ((-1) ** ((p * r_S + n_S) % 2)
+            * res_std(h.as_expr(), S_cheb(p, x)) * res_std(g.as_expr(), S_cheb(p + 1, x)))
+
+
+def w_monic(h, n_S, p):
+    """prod over non-pole k of that parity of (t - Delta_k), exactly and with no root object.
+
+    Delta_k = S_{p+1}(x_k)/S_p(x_k) and alpha_p = S_{p+1} - t*S_p, so the product of (t - Delta_k)
+    is Res(h, -alpha_p)/Res(h, S_p). This is what lets W6 read the ROOTS; degree and leading
+    coefficient cannot see them, which is how "every factor simple" survived a first build.
+    """
+    return sp.cancel((-1) ** (n_S % 2) * res_std(h.as_expr(), alpha_p(p))
+                     / res_std(h.as_expr(), S_cheb(p, x)))
+
+
+def w_Q(N, j, par, order="fold-first", conv="sylvester"):
+    """Q_S. Both the CONVENTION (W0b) and the ORDER (W8b) are load-bearing and both are read."""
+    p = _fold(N, j)
+    S = block(H_aniso(N), N, par)
+    L, R = S[:p, :p], S[p + 1:, p + 1:]
+    a, b = (L, R) if order == "fold-first" else (R, L)
+    if conv == "sympy":
+        return (sp.expand(sp.resultant(charpoly_expr(a).as_expr(),
+                                       charpoly_expr(b).as_expr(), x))
+                if a.rows and b.rows else sp.Integer(1))
+    return res_m(a, b)
+
+
+def w_P(H, N, j, order="fold-first", conv="sylvester"):
+    lo, hi = H[:j, :j], H[j + 1:, j + 1:]
+    if order == "fold-first" and j > N - 1 - j:
+        lo, hi = hi, lo
+    if conv == "sympy":
+        return sp.expand(sp.resultant(charpoly_expr(lo).as_expr(),
+                                      charpoly_expr(hi).as_expr(), x))
+    return res_m(lo, hi)
+
+
+def w_q(N, j, order="fold-first", conv="sylvester", H=None):
+    """The ratio P_j / (Q_E*Q_O).
+
+    order 'fold-first' is the law's, 'seat' is block K1b's outer order, 'sector-reversed' is W8b's
+    control. K1b already takes the fold half first INSIDE a sector, so 'seat' differs from the law
+    in the outer argument order alone, which is what lets W4b separate the two causes.
+    """
+    H = H_aniso(N) if H is None else H
+    outer = "seat" if order == "seat" else "fold-first"
+    inner = "right-first" if order == "sector-reversed" else "fold-first"
+    p, pr = _fold(N, j), sp.Integer(1)
+    for par in (+1, -1):
+        S = block(H, N, par)
+        L, R = S[:p, :p], S[p + 1:, p + 1:]
+        a, b = (L, R) if inner == "fold-first" else (R, L)
+        if conv == "sympy":
+            pr *= (sp.expand(sp.resultant(charpoly_expr(a).as_expr(),
+                                          charpoly_expr(b).as_expr(), x))
+                   if a.rows and b.rows else sp.Integer(1))
+        else:
+            pr *= res_m(a, b)
+    return sp.cancel(w_P(H, N, j, outer, conv) / pr)
+
+
+# PINNED MEASUREMENTS for block W, frozen from a run. The three sign readings are pinned APART
+# because the total hides the per-seat difference: over N = 4..10 the sympy reading and the
+# Sylvester reading at the same seat order agree in TOTAL while disagreeing at four seats, so the
+# committed K1B_SIGNS is accidentally convention-stable in exactly the committed range.
+W_SIGN = {(10, 'sympy'): {-1: 22, 1: 10}, (10, 'sylv'): {-1: 22, 1: 10},
+          (10, 'canon'): {-1: 24, 1: 8},
+          (12, 'sympy'): {-1: 34, 1: 16}, (12, 'sylv'): {-1: 32, 1: 18},
+          (12, 'canon'): {-1: 34, 1: 16}}
+W_FLIP_CONV = [(5, 1), (7, 1), (9, 3), (9, 7)]      # convention alone, N = 4..10
+W_FLIP_BOTH = [(5, 1), (5, 3), (7, 1), (7, 5), (9, 3), (9, 5)]   # K1b's road against the law's
+W_CAUSE_COUNTS = (6, 6)             # of the 50 seats at N = 4..12: convention alone, order alone
+W_SECTOR_ORDER_BREAKS = 12          # of 50 seats, N = 4..12, taking Q_S right-half-first
+W_ONEEND_SURVIVORS = 3              # of 24, N = 4..9: the R-breaking control
+W_SEATS_PER_P = {1: 22, 2: 18, 3: 14, 4: 10, 5: 6, 6: 2}         # over N = 4..14
+# W_REPEATED: the readings whose Q_S carries a REPEATED factor. Without it the words "with
+# repetition" would be untested: over N = 4..9 this population is EMPTY, which is exactly how an
+# earlier build of this block came to write "every factor simple" and stay green.
+W_REPEATED = [(10, 2, +1), (10, 2, -1), (10, 7, +1), (10, 7, -1),
+              (11, 2, -1), (11, 3, +1), (11, 7, +1), (11, 8, -1),
+              (14, 3, +1), (14, 3, -1), (14, 4, +1), (14, 4, -1),
+              (14, 9, +1), (14, 9, -1), (14, 10, +1), (14, 10, -1)]
+W_N = range(4, 15)
+W_SEATS = 72                        # non-centre interior seats over W_N
+W_F157_SCALES = {(9, 1): -1, (9, 2): -1, (11, 1): -1, (11, 2): 1}
+W1B_READINGS = (1260, 1014)         # (n, p, k) over n = 2..15, p = 0..11, and how many of
+                                    # those are not the trivial 0 = 0 at S_p(x_k) = 0 or p = 0
+W5_READINGS = (144, 110)            # (N, seat, sector) readings, and how many have a nonempty
+                                    # right half rather than the trivial 1 = 1
+W6_SHORTFALL = 20                   # readings where a pole root leaves deg_t Q_S below deg beta_S
+W6C_DRAWS = (54, 0, 26, 4)            # measured below: squarefree draws, their failures, then
+                                    # the non-squarefree draws and theirs
+W0D_ASYM = (12, 55)                 # measured below: asymmetric pairs, and equal-degree pairs
+W0C_READ = (33, 4)                  # W0c's own population: pairs with a nonzero resultant, and
+                                    # how many of those sit at EQUAL degrees
+W5B_READINGS = 500                  # (N, seat, sector, k) over N = 4..14
+W5C_READINGS = 113                  # non-pole k at the 36 seats where j > N-1-j
+W0_NONMONIC, W0_DEG0, W0_DIFF = 31, 15, 5   # of the 60 random pairs: lc(f) != 1; a degree-0
+                                    # argument; and where sympy parts from the Sylvester value
+
+
+def gate_W():
+    print("\n(W) the two constants: the sign of section (g) and the factorisation of section (h)")
+
+    # -- W0: the road. res_std is the Sylvester determinant, checked against the DEFINITION.
+    import random
+    random.seed(20260903)
+    pairs = []
+    for _ in range(60):
+        m, n = random.randint(0, 5), random.randint(0, 5)
+        lf, lg = random.choice([1, 1, 2, -3]), random.choice([1, 1, -2, 5])
+        pairs.append((sp.expand(lf * sp.prod([x - random.randint(-3, 3) for _ in range(m)])),
+                      sp.expand(lg * sp.prod([x - random.randint(-3, 3) for _ in range(n)])), m, n))
+    bad, diff, nonmonic, deg0 = [], 0, 0, 0
+    for f, g, m, n in pairs:
+        pf, pg = sp.Poly(f, x), sp.Poly(g, x)
+        prod = pf.LC() ** n                      # the factor a monic-only sweep never exercises
+        for r in sp.roots(pf, multiple=True):
+            prod *= pg.eval(r)
+        if sp.expand(res_std(f, g) - prod) != 0:
+            bad.append((m, n))
+        if sp.expand(sp.resultant(f, g, x) - prod) != 0:
+            diff += 1
+        nonmonic += (pf.LC() != 1)
+        deg0 += (m == 0 or n == 0)
+    check("W0  res_std IS lc(f)^deg(g)*prod g(alpha), against the definition and not another routine",
+          not bad and (nonmonic, deg0) == (W0_NONMONIC, W0_DEG0),
+          f"60 random pairs of degrees 0..5, {nonmonic} with lc(f) != 1 and {deg0} with a "
+          f"degree-0 argument, expected {W0_NONMONIC} and {W0_DEG0}: without those the "
+          f"lc(f)^deg(g) factor and both early returns go untested; failures {bad}")
+    check("W0b sympy.resultant DIFFERS from it, at a pinned population", diff == W0_DIFF,
+          f"{diff} of 60 pairs at this seed, expected {W0_DIFF}; every resultant that carries a "
+          f"LAW in block W is res_std, sympy's appearing only where it is the object under test")
+    bad, read, equal = [], 0, 0
+    for f, g, m, n in pairs:
+        if sp.resultant(f, g, x) == 0:
+            continue
+        read += 1
+        equal += (m == n)
+        want = res_std(f, g) * (-1) ** ((m * n) % 2) if m < n else res_std(f, g)
+        if sp.expand(sp.resultant(f, g, x) - want) != 0:
+            bad.append((m, n))
+    check("W0c the difference IS the swap: sympy = res_std times (-1)^(mn) exactly when deg f < deg g",
+          not bad and (read, equal) == W0C_READ,
+          f"{read} of 60 pairs are read, {equal} of them at EQUAL degrees where the rule's else "
+          f"branch asserts plain agreement, expected {W0C_READ}; sympy is order-dependent there "
+          f"too, correctly so, which is why the rule is stated by degree and not by symmetry; "
+          f"failures {bad}")
+
+    # -- W1: the congruence. This is the mechanism; everything below is its consequence.
+    bad, seen = [], 0
+    for N in W_N:
+        for j in w_seats(N):
+            p, n = _fold(N, j), abs(N - 1 - 2 * j)
+            seen += 1
+            lhs = sp.expand(S_cheb(p, x) * alpha_p(N - 1 - p) + S_cheb(n, x))
+            if sp.rem(sp.Poly(lhs, x), sp.Poly(alpha_p(p), x)) != 0:
+                bad.append((N, j))
+    check("W1  the congruence S_p * alpha_{N-1-p} = -S_{N_node} (mod alpha_p)",
+          not bad and seen == W_SEATS,
+          f"{seen} seats over N = 4..14, expected {W_SEATS}; exact remainder in Z[t][x]; "
+          f"failures {bad}")
+
+    # -- W2: the common factor, in closed form and t-free.
+    bad = []
+    for p in range(1, 14):
+        got = res_std(alpha_p(p), S_cheb(p, x))
+        if sp.expand(got - (-1) ** (comb(p, 2) % 2)) != 0:
+            bad.append((p, str(got)))
+    check("W2  Res(alpha_p, S_p) = (-1)^binom(p,2), and it carries no t",
+          not bad, f"p = 1..13; failures {bad}")
+
+    # -- W3: the sign law. Fold half first, in the sectors as well as outside.
+    bad, split, per_p = [], {}, {}
+    for N in W_N:
+        for j in w_seats(N):
+            p = _fold(N, j)
+            q = w_q(N, j)
+            if sp.expand(q - (-1) ** (comb(p + 1, 2) % 2)) != 0:
+                bad.append((N, j, str(q)))
+            split[int(q)] = split.get(int(q), 0) + 1
+            per_p[p] = per_p.get(p, 0) + 1
+    check("W3  the sign law: Res(alpha_p, alpha_{N-1-p}) = (-1)^binom(p+1,2) * Q_E * Q_O",
+          not bad and sum(split.values()) == W_SEATS,
+          f"{sum(split.values())} seats over N = 4..14, split {split}; the exponent reads the fold "
+          f"coordinate and N does not appear in it; failures {bad}")
+    check("W3b the N-independence is thinnest at the largest fold coordinate, and that is pinned",
+          per_p == W_SEATS_PER_P,
+          f"seats per p: {per_p}, expected {W_SEATS_PER_P}; p = 6 rests on 2 seats over this "
+          f"range, so the claim that N does not enter is thin exactly there and nowhere else")
+
+    # -- W3c: the fence, MEASURED. At the R-fixed centre seat there is no ratio to have a sign.
+    bad, seen = [], 0
+    for N in W_N:
+        if N % 2 == 0:
+            continue
+        j = (N - 1) // 2
+        seen += 1
+        if w_P(H_aniso(N), N, j) != 0:
+            bad.append(N)
+    check("W3c the centre seat is fenced BECAUSE P_j vanishes identically there, not by fiat",
+          not bad and seen == 5,
+          f"{seen} odd chains over N = 4..14; the seat cuts the chain into two EQUAL matrices, so "
+          f"the outer resultant is 0 in t and section (a)'s third convention is why; failures {bad}")
+
+    # -- W4 / W4b: what K1b's committed literal is a reading of.
+    counts = {k: {} for k in W_SIGN}
+    flip_conv, flip_both, conv_far, order_only = [], [], [], []
+    for N in range(4, 13):
+        for j in w_seats(N):
+            a = int(w_q(N, j, order="seat", conv="sympy"))
+            b = int(w_q(N, j, order="seat"))
+            c = int(w_q(N, j))
+            for hi in (10, 12):
+                if N <= hi:
+                    for key, v in ((( hi, 'sympy'), a), ((hi, 'sylv'), b), ((hi, 'canon'), c)):
+                        counts[key][v] = counts[key].get(v, 0) + 1
+            if a != b:
+                (flip_conv if N <= 10 else conv_far).append((N, j))
+            if b != c:
+                order_only.append((N, j))
+            if N <= 10 and a != c:
+                flip_both.append((N, j))
+    check("W4  K1b's committed K1B_SIGNS is reproduced, and the three readings are pinned apart",
+          counts == W_SIGN,
+          f"{ {k: counts[k] for k in sorted(counts)} }; the (10, 'sympy') row IS K1B_SIGNS")
+    check("W4b the committed split carries BOTH causes, named seat by seat and not by count",
+          flip_conv == W_FLIP_CONV and flip_both == W_FLIP_BOTH
+          and (len(flip_conv) + len(conv_far), len(order_only)) == W_CAUSE_COUNTS,
+          f"the convention alone flips {flip_conv} (expected {W_FLIP_CONV}); K1b's road against "
+          f"the law's flips {flip_both} (expected {W_FLIP_BOTH}). At N = 4..10 the two TOTALS "
+          f"agree while four seats do not, so K1B_SIGNS is accidentally convention-stable in "
+          f"exactly the range it is pinned over, and is not so at N = 4..12. Over the whole "
+          f"sweep N = 4..12 the CONVENTION alone moves {len(flip_conv) + len(conv_far)} of 50 "
+          f"seats and the SEAT ORDER alone moves {len(order_only)}, expected {W_CAUSE_COUNTS}: "
+          f"attributing the committed split to either cause alone would be wrong")
+
+    # -- W5: the sector halves are the middle route's two combs.
+    bad, seen, live = [], 0, 0
+    for N in W_N:
+        for j in w_seats(N):
+            p, n = _fold(N, j), abs(N - 1 - 2 * j)
+            for par in (+1, -1):
+                R = block(H_aniso(N), N, par)[p + 1:, p + 1:]
+                got = charpoly_expr(R).as_expr() if R.rows else sp.Integer(1)
+                if sp.expand(got - beta_closed(n, par)) != 0:
+                    bad.append((N, j, par))
+                seen += 1
+                live += bool(R.rows)
+    check("W5  the sector right halves ARE the middle route's combs: beta_E odd k, beta_O even k",
+          not bad and (seen, live) == W5_READINGS,
+          f"{seen} (N, seat, sector) readings, closed form against the block, of which {live} "
+          f"have a nonempty right half and are not 1 = 1, expected {W5_READINGS}; failures {bad}")
+
+    # -- W6 / W6b: the factorisation of section (h), READ ON ITS ROOTS.
+    bad, seen, repeated, shortfall = [], 0, [], 0
+    for N in W_N:
+        for j in w_seats(N):
+            p = _fold(N, j)
+            for par in (+1, -1):
+                R = block(H_aniso(N), N, par)[p + 1:, p + 1:]
+                beta = charpoly_expr(R).as_expr() if R.rows else sp.Integer(1)
+                g, h, nS, rS = pole_split(beta, p)
+                Q, c = w_Q(N, j, par), w_constant(g, h, nS, rS, p)
+                if sp.expand(Q - c * w_monic(h, nS, p)) != 0:
+                    bad.append((N, j, par, "product"))
+                Qp = sp.Poly(Q, t)
+                if Qp.degree() != nS or sp.expand(Qp.LC() - c) != 0:
+                    bad.append((N, j, par, "degree or leading coefficient"))
+                if nS >= 2 and sp.degree(sp.gcd(Qp, Qp.diff(t)), t) > 0:
+                    repeated.append((N, j, par))
+                shortfall += (nS != rS)
+                seen += 1
+    check("W6  Q_S = c_S * prod over the NON-POLE roots of beta_S of (t - Delta), one per root",
+          not bad and seen == 2 * W_SEATS and shortfall == W6_SHORTFALL,
+          f"{seen} readings, on the PRODUCT first and then on degree and leading coefficient. A "
+          f"pole root contributes a constant and no factor, so deg_t Q_S is below deg beta_S at "
+          f"{shortfall} of these, pinned. The identity holds for any monic SQUAREFREE beta (W6c), "
+          f"so it reads the roots and NOT which node indices they are; the parity is W5b's and "
+          f"W5's; failures {bad}")
+    check("W6b the factors REPEAT, at a pinned set, so 'per index' is not idle wording",
+          repeated == W_REPEATED,
+          f"{len(repeated)} readings carry a repeated factor, expected {len(W_REPEATED)}: "
+          f"{repeated}. The smallest is N = 10 seat 2, where the odd k = 1 and k = 3 give one "
+          f"Delta and Q_E = -(t-1)^2; at N = 14 seat 3 the multiplicity is three. Over N = 4..9 "
+          f"this population is EMPTY, which is why the sweep may not be narrowed")
+
+    # -- W7 / W7b: the two indeterminacies compose, and the product is F157's own polynomial.
+    D = sp.symbols("D")
+    rows = {(9, 1): D**5 - 4*D**3 + 3*D, (9, 2): 2*D**2 - 1,
+            (11, 1): D**7 - 6*D**5 + 10*D**3 - 4*D, (11, 2): 3*D**4 - 4*D**2}
+    bad, seen, scales = [], 0, {}
+    for N in W_N:
+        for j in w_seats(N):
+            p = _fold(N, j)
+            P = w_P(H_aniso(N), N, j)
+            cs, ns = {}, {}
+            for par in (+1, -1):
+                R = block(H_aniso(N), N, par)[p + 1:, p + 1:]
+                beta = charpoly_expr(R).as_expr() if R.rows else sp.Integer(1)
+                g, h, nS, rS = pole_split(beta, p)
+                cs[par], ns[par] = w_constant(g, h, nS, rS, p), nS
+            Pp = sp.Poly(P, t)
+            want = (-1) ** (comb(p + 1, 2) % 2) * cs[+1] * cs[-1]
+            if Pp.degree() != ns[+1] + ns[-1] or sp.expand(Pp.LC() - want) != 0:
+                bad.append((N, j, Pp.degree(), ns[+1] + ns[-1], str(Pp.LC()), str(want)))
+            seen += 1
+            if (N, j) in rows:
+                scales[(N, j)] = sp.cancel(P.subs(t, D) / rows[(N, j)])
+    check("W7  the two constants compose: lc_t(P_j) = (-1)^binom(p+1,2) * c_E * c_O, deg = n_E+n_O",
+          not bad and seen == W_SEATS, f"{seen} seats over N = 4..14; failures {bad}")
+    check("W7b P_j built here IS F157's four committed rows, times a pinned sign",
+          scales == W_F157_SCALES,
+          f"scales {{{', '.join(f'{k}: {v}' for k, v in sorted(scales.items()))}}}, expected "
+          f"{W_F157_SCALES}; F157 normalises its rows primitive with a positive leading "
+          f"coefficient, so the sign is exactly what that normalisation discards")
+
+    # -- W1b: Lemma 11, the node identity that carries the seat index onto the fold coordinate.
+    # -- It rests on the two readings gate S2 already pins, S_n(x_k) = 0 and S_{n+1}(x_k) = (-1)^k,
+    # -- and it is what makes F157's SEAT-indexed Delta_k this section's FOLD-indexed one.
+    bad, seen, live = [], 0, 0
+    for n in range(2, 16):
+        phi = phi_2cos(n)
+        for p in range(0, 12):
+            for k in range(1, n):
+                seen += 1
+                sp_val = _S_at(p, n, k)
+                live += not sp_val.is_zero
+                if (_S_at(p + n, n, k) - _redz((-1) ** (k % 2) * sp_val, phi)).rem(phi) != 0:
+                    bad.append((n, p, k))
+    check("W1b Lemma 11: S_{p+n}(x_k) = (-1)^k * S_p(x_k) at every node of the modulus-n comb",
+          not bad and (seen, live) == W1B_READINGS,
+          f"{seen} (n, p, k) readings over n = 2..15 and p = 0..11, of which {live} have "
+          f"S_p(x_k) != 0 and so are not 0 = 0, expected {W1B_READINGS}; exact in "
+          f"Q(2cos(pi/n)); failures {bad}")
+
+    # -- W5b: the content Corollary 10b actually needs and W6 does NOT read. W6's product identity
+    # -- is true of any monic SQUAREFREE beta (W6c), so it says nothing about which indices sit in
+    # -- sector; that is this check, and it is read in the node field rather than asserted.
+    bad, seen = [], 0
+    for N in W_N:
+        for j in w_seats(N):
+            n = abs(N - 1 - 2 * j)
+            for par in (+1, -1):
+                beta = beta_closed(n, par)
+                for k in range(1, n):
+                    seen += 1
+                    vanishes = eval_at_node(beta, n, k).is_zero
+                    if vanishes != ((k % 2 == 1) == (par == +1)):
+                        bad.append((N, j, par, k))
+    check("W5b beta_E vanishes at x_k for ODD k and beta_O for EVEN k, read in the node field",
+          not bad and seen == W5B_READINGS,
+          f"{seen} (N, seat, sector, k) readings over N = 4..14, expected {W5B_READINGS}; this is "
+          f"the parity W6 is blind to, W6's identity holding for any monic SQUAREFREE beta; it "
+          f"carries that jointly with W5 and neither alone; failures {bad}")
+
+    # -- W5c: and the same lemma makes F157's own SEAT form of Delta_k equal the FOLD form this
+    # -- section computes in. It is read only at the seats where the two differ as written.
+    bad, seen = [], 0
+    for N in W_N:
+        for j in w_seats(N):
+            if j <= N - 1 - j:
+                continue
+            n, p = abs(N - 1 - 2 * j), _fold(N, j)
+            phi = phi_2cos(n)
+            for k in range(1, n):
+                Sj, Sp = _S_at(j, n, k), _S_at(p, n, k)
+                if Sj.is_zero or Sp.is_zero:
+                    if Sj.is_zero != Sp.is_zero:
+                        bad.append(("pole", N, j, k))
+                    continue
+                seen += 1
+                a = _redz(_S_at(j + 1, n, k) * _invz(Sj, phi), phi)
+                b = _redz(_S_at(p + 1, n, k) * _invz(Sp, phi), phi)
+                if (a - b).rem(phi) != 0:
+                    bad.append((N, j, k))
+    check("W5c F157's seat-indexed Delta_k IS this section's fold-indexed one, and the poles agree",
+          not bad and seen == W5C_READINGS,
+          f"{seen} non-pole k at the {sum(1 for N in W_N for j in w_seats(N) if j > N - 1 - j)} "
+          f"seats where the two are different expressions, expected {W5C_READINGS}; failures {bad}")
+
+    # -- W7c: and the object section (i) factorises IS F157's own definition route, with the sign
+    # -- in closed form (Corollary 11b) rather than a reading at the four committed rows.
+    bad, seen = [], 0
+    for N in W_N:
+        for j in w_seats(N):
+            n, p = abs(N - 1 - 2 * j), _fold(N, j)
+            G = res_std(S_cheb(n, x), sp.expand(t * S_cheb(j, x) - S_cheb(j + 1, x)))
+            e = (n - 1) * (p + 1) + p + comb(p, 2) + (comb(n, 2) if j > N - 1 - j else 0)
+            seen += 1
+            if sp.expand(sp.cancel(w_P(H_aniso(N), N, j) / G) - (-1) ** (e % 2)) != 0:
+                bad.append((N, j))
+    check("W7c what is factorised here IS F157's generator Res(S_n, Delta*S_j - S_{j+1}), signed",
+          not bad and seen == W_SEATS,
+          f"{seen} seats over N = 4..14; the sign is Corollary 11b's closed form and the "
+          f"[j > N-1-j] term is Lemma 11's price; failures {bad}")
+
+    # -- W6c: squarefreeness is a HYPOTHESIS of W6's identity, not a convenience. beta_S has it
+    # -- because beta_S divides S_n; a repeated pole root leaves one in h_S, Res(h_S, S_p) is then
+    # -- 0 and the monic product divides by zero. Without this the section's "any monic beta"
+    # -- would be a wider claim than anything measured, which is the shape the ledger records.
+    random.seed(11)
+    sf_bad = nsf_bad = sf = nsf = 0
+    for _ in range(80):
+        p = random.randint(1, 6)
+        roots = [random.randint(-4, 4) for _ in range(random.randint(1, 5))]
+        beta = sp.expand(sp.prod([x - r for r in roots]))
+        squarefree = len(set(roots)) == len(roots)
+        g, h, nS, rS = pole_split(beta, p)
+        try:
+            ok = sp.expand(res_std(alpha_p(p), beta) - w_constant(g, h, nS, rS, p)
+                           * w_monic(h, nS, p)) == 0
+        except ZeroDivisionError:
+            ok = False
+        if squarefree:
+            sf += 1
+            sf_bad += not ok
+        else:
+            nsf += 1
+            nsf_bad += not ok
+    check("W6c CONTROL: W6's identity NEEDS beta squarefree, and breaks without it",
+          (sf, sf_bad, nsf, nsf_bad) == W6C_DRAWS,
+          f"{sf} squarefree draws with {sf_bad} failures and {nsf} non-squarefree with {nsf_bad}, "
+          f"expected {W6C_DRAWS}; so 'any monic beta' is false and 'any monic SQUAREFREE beta' is "
+          f"what the section may say")
+
+    # -- W0d: and sympy's routine is order-dependent at EQUAL degrees, correctly so. W0c compares
+    # -- one fixed order against res_std and cannot see this, so the sentence that says it needs
+    # -- its own reading.
+    random.seed(11)
+    asym, equal = 0, 0
+    for _ in range(200):
+        d1, d2 = random.randint(1, 4), random.randint(1, 4)
+        a = sp.expand(random.choice([1, 2, -3, 5])
+                      * sp.prod([x - random.randint(-3, 3) for _ in range(d1)]))
+        b = sp.expand(random.choice([1, 2, -3, 5])
+                      * sp.prod([x - random.randint(-3, 3) for _ in range(d2)]))
+        equal += (d1 == d2)
+        asym += sp.resultant(a, b, x) != sp.resultant(b, a, x)
+    check("W0d sympy is ORDER-DEPENDENT at equal degrees, so it is not a function of the pair",
+          (asym, equal) == W0D_ASYM,
+          f"{asym} of 200 random pairs have sympy(f,g) != sympy(g,f), {equal} of the 200 sitting "
+          f"at equal degrees, expected {W0D_ASYM}; the antisymmetry there is CORRECT, which is "
+          f"why the rule W0c reads is stated by degree and never by symmetry")
+
+    # -- W8: CONTROL. Break the reflection and the law must go, through the same door.
+    surv, tried = [], 0
+    for N in range(4, 10):
+        M = path_sym(N)
+        M[0, 0] += t                      # ONE end only: this does not commute with R
+        for j in w_seats(N):
+            tried += 1
+            if w_q(N, j, H=M) == (-1) ** (comb(_fold(N, j) + 1, 2) % 2):
+                surv.append((N, j))
+    check("W8  CONTROL: on the one-end family the law goes, at a pinned survivor count",
+          len(surv) == W_ONEEND_SURVIVORS and tried == 24,
+          f"{len(surv)} of {tried} seats over N = 4..9 keep the value anyway, expected "
+          f"{W_ONEEND_SURVIVORS}: {surv}; it is fed through the same door the real family uses")
+
+    # -- W8b: CONTROL. The order inside the sectors is load-bearing too, not only the outer one.
+    brk, tried = 0, 0
+    for N in range(4, 13):
+        for j in w_seats(N):
+            tried += 1
+            if w_q(N, j, order="sector-reversed") != (-1) ** (comb(_fold(N, j) + 1, 2) % 2):
+                brk += 1
+    check("W8b CONTROL: taking Q_S right-half-first breaks the law, at a pinned count",
+          brk == W_SECTOR_ORDER_BREAKS and tried == 50,
+          f"{brk} of {tried} seats over N = 4..12, expected {W_SECTOR_ORDER_BREAKS}; so 'fold half "
+          f"first' is a statement about the SECTORS as well and not only about P_j")
+
+
 def main():
     print("=" * 86)
     print("PROOF_BLIND_SEAT_TWO_AXES: the crack axis and the anisotropy axis, sector by sector")
@@ -1912,6 +2502,7 @@ def main():
     gate_T()
     gate_K()
     gate_S()
+    gate_W()
     print()
     print("=" * 86)
     print("VERDICT:", "ALL GREEN" if not _fails else f"{len(_fails)} FAILED: {_fails}")

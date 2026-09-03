@@ -8505,12 +8505,41 @@ public static class OpenArcsRegistry
                 "every coupling. Free with it: Delta_{N_node-k} = -Delta_k plus " +
                 "N_node = N-1 mod 2 reproduces Lemma 5's two clauses from the index alone, a " +
                 "second route to what the commutation gives at every seat the index reaches. " +
-                "OPEN now: the two sector halves-resultants Q_E and Q_O, whose product is F157's " +
-                "P_j up to sign. Section (h) names their ROOTS and says in as many words that the " +
-                "factorisation does NOT follow from the root sets, so this is a direction and not " +
-                "a step already taken; and the +-1 that section (g) leaves unidentified is a " +
-                "different indeterminacy from section (h)'s 'up to a rational constant', so " +
-                "naming the roots does not touch it. " +
+                "CLOSED 2026-09-03, both of them, in section (i) of the same proof and registered "
+                + "as F162: the two sector halves-resultants Q_E and Q_O. One congruence carries "
+                + "both, S_p * alpha_{N-1-p} = -S_{N_node} (mod alpha_p) with alpha_p = "
+                + "S_{p+1} - t*S_p and p the fold coordinate, the addition formula twice plus the "
+                + "Cassini identity PROOF_CRACKED_RING_EXACT_CURVE already owns. It leaves one "
+                + "common factor Res(alpha_p, S_p) = (-1)^binom(p,2), so with the FOLD HALF FIRST "
+                + "the sign is (-1)^binom(p+1,2), reading the fold coordinate and not N; and each "
+                + "Q_S is its own integer constant times the product of (t - Delta_k) over the "
+                + "non-pole node indices of that parity, one factor per NON-POLE index and a pole "
+                + "index contributing a constant instead, so the multiplicity of a value is "
+                + "section (h) Corollary 8a's own b_E or b_O, which follows from Lemma 8 and the "
+                + "parity check and is measured against no b_E by any gate. NOT simple: the "
+                + "factors repeat, N = 10 seat 2 giving Q_E = -(t-1)^2 and N = 14 seat 3 a "
+                + "multiplicity of three, which F157's committed double root at N = 11 seat 2 "
+                + "already implied. AND THE +-1 HAD NO CONVENTION-FREE ANSWER TO GIVE: a "
+                + "resultant is antisymmetric up to (-1)^(deg*deg) and sympy.resultant does not keep "
+                + "the order it is given, agreeing with the Sylvester determinant when "
+                + "deg f >= deg g and being (-1)^(deg*deg) times it below, and the "
+                + "committed K1B_SIGNS = {-1: 22, +1: 10} is a reading of that convention AND of "
+                + "block K1b's seat order together, each moving six of fifty seats over N = 4..12. Over "
+                + "N = 4..10 the two conventions agree in TOTAL while disagreeing at four seats, "
+                + "so that literal is accidentally convention-stable in exactly the range it is "
+                + "pinned over. What is factorised is F157's own generator up to a second sign, "
+                + "closed form too, whose extra term is the price of carrying F157's SEAT index "
+                + "onto the fold coordinate: S_{p+n}(x_k) = (-1)^k * S_p(x_k) at every node. Gate "
+                + "block W, twenty-one checks. " +
+                "OPEN now, and smaller than what closed: on the RING the same identity is " +
+                "not a constant at 20 of the 32 seats (gate K1b2), and section (i) says " +
+                "nothing about what it is there; F157's hop-2 normalisation is untouched, " +
+                "so the un-normalised 128 that BlindSeat.cs carries at N = 9 seat 1 is " +
+                "still unidentified; and the arc's own question, which of our arithmetic " +
+                "laws are forced by a symmetry and which a perturbation dissolves, still " +
+                "stands on the laws it opened with. F162 is NOT typed: it has no Claim and no " +
+                "witness, where F161 got both the day before, so CLAUDE.md's C# witness rule is " +
+                "owed on it and is the cheapest next step here. " +
                 "Run: python simulations/blind_seat_two_axes_proof.py",
             Status: OpenArcStatus.Open),
         new OpenArc(

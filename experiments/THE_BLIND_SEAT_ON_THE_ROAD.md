@@ -254,6 +254,12 @@ present doubled, and `_squarefree` discards it before any comparison. No gate he
 Why it is doubled is [PROOF_BLIND_SEAT_TWO_AXES](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md)
 §(g): the squaring happens inside each reflection sector, because striking a seat disconnects
 that sector's tridiagonal block into two halves and a blind eigenvalue is a common root of both.
+The multiple THIS page discards is the one §(g)'s gate K1e reads, and K1e asserts only that it is a t-free nonzero constant, not which. What §(i) and
+F162 add is one level down: each sector's halves-resultant is an integer constant times the
+product of (t − Δ_k) over the non-pole node indices of its parity, and the two multiply to
+Res(α_p, α_{N−1−p}) times (−1)^binom(p+1,2) in the fold coordinate p, that object being F157's own
+generator up to a second sign §(i) also gives in closed form. So the constants inside the
+factorisation are numbers now, whether or not this page's own normalisation still throws one away.
 So the count is recoverable from the same resultant by halving, exactly, off the ring ends and
 away from the forced centre seat. At the ring ends the two axes part at every seat but that one,
 which is measured over N = 5..11 rather than proved. Gate C2 then checks F157's *generating* formula Δ_k at all 52

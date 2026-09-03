@@ -1,6 +1,7 @@
 # PROOF: The Crack and the End-Pair Anisotropy Carry One Blindness Locus, and at Odd N One Count
 
-**Registry:** none. §(a) to §(f) are harvested from [F157](../ANALYTICAL_FORMULAS.md) and
+**Registry:** [F162](../ANALYTICAL_FORMULAS.md#f162), for §(i) alone; §(a) to §(h) carry none.
+§(a) to §(f) are harvested from [F157](../ANALYTICAL_FORMULAS.md) and
 [F160](../ANALYTICAL_FORMULAS.md) and add no closed form those two do not already carry. §(g) does
 add closed forms, though fewer than it might look: the crack's count at u = +1, ⌊(N−1)/2⌋ at every
 seat, is the companion page's gate B3 and is committed, and what §(g) adds there is the PROOF;
@@ -8,8 +9,12 @@ what is new is the other end, ⌈(N−1)/2⌉ at u = −1, and the centre seat's
 on both axes. What §(g) adds no closed form for is the crack's count BETWEEN the ring
 ends; §(h) closes that at even N as 2·#{k odd : Δ_k = t}, and at odd N away from the
 reflection-fixed centre seat it is F157's own #{k}, that seat paying (N−1)/2 at every coupling by
-§(g). What neither closes is the two sector halves-resultants of §(g)'s Corollary.
-Whether the harvest earns its own number is left open rather than decided here.
+§(g). What neither closed was the two sector halves-resultants of §(g)'s Corollary, and §(i)
+closes those: the sign is (−1)^binom(p+1,2) in the fold coordinate alone, each halves-resultant is
+its own constant times the product over the non-pole roots of its own comb, and what is factorised
+is F157's generator up to a second sign given in closed form. That is what F162 registers,
+and it registers §(i) and nothing else. Whether the §(a) to §(f) harvest earns a number is still
+left open rather than decided here.
 **Status:** Tier 1 derived. Lemma 1 is a matrix identity at every N and every complex u.
 Lemma 2a is the fence-free Cramer argument of [The Seat That
 Cuts](../../experiments/THE_SEAT_THAT_CUTS.md) §7 read per eigenvalue; Lemma 2b, the sector split,
@@ -21,11 +26,15 @@ strengthening of Lemma 5 from sets to counts. Lemma 8 is a TRANSPORT and not a n
 reflection parity (−1)^{k+1} of a mode is owned in six places for the chain's own comb, and what
 is this file's is that the blind mode of an END-DETUNED chain is still a single sine, so the law
 survives both the change of modulus to N_node and the loss of uniformity, and the index it then
-puts on §(g)'s two summands. Both Theorems are exact at every N ≥ 3 and both
-parities. **Date:** 2026-09-02, section (h) 2026-09-03. **Authors:** Thomas Wicht, Claude (Opus 5). **Script:**
-[`simulations/blind_seat_two_axes_proof.py`](../../simulations/blind_seat_two_axes_proof.py), 61
-checks under 58 labels in seven blocks (L2a fires twice, L2b three times), exact in sympy, about
-90 seconds measured quiet under sympy 1.14.0, which is not in the dependency line in `CLAUDE.md`. Run
+puts on §(g)'s two summands. Lemmas 9, 10 and 11 and the four corollaries of §(i) are this file's;
+the Cassini identity Lemma 9 turns on is `PROOF_CRACKED_RING_EXACT_CURVE` §(b)'s and is cited
+there. Both Theorems are exact at every N ≥ 3 and both
+parities. **Date:** 2026-09-02, sections (h) and (i) 2026-09-03. **Authors:** Thomas Wicht, Claude (Opus 5). **Script:**
+[`simulations/blind_seat_two_axes_proof.py`](../../simulations/blind_seat_two_axes_proof.py), 84
+checks under 81 labels in eight blocks (L2a fires twice, L2b three times), exact in sympy, about
+two minutes measured quiet under sympy 1.14.0, which is not in the dependency line in `CLAUDE.md`.
+Every resultant in block W that carries a LAW is a Sylvester determinant the file builds itself,
+sympy's own routine appearing there only where it is the object under test; W0 to W0c say why. Run
 committed at
 [`blind_seat_two_axes_proof_run.txt`](../../simulations/results/blind_seat_two_axes/blind_seat_two_axes_proof_run.txt).
 **Closes:** the two questions carried by open item 1 of [The Blind Seat on the
@@ -36,7 +45,10 @@ N rather than at the ones that were reached. The item's second question asked wh
 blind by the same AMOUNT at a shared point, and recorded that the construction there cannot see
 it; §(g) answers it, and shows that the construction can see it after all, doubled. §(g) then
 generated one more question on that page, which sector each of F157's node indices k belongs
-to, and §(h) closes that too, so the even-N count is closed-form.
+to, and §(h) closes that too, so the even-N count is closed-form. §(g) and §(h) then left two
+constants unidentified between them, the ±1 of §(g)'s Corollary and the rational constant of
+§(h)'s closing paragraph, both carried as open by the arc `the_forced_and_the_met`; §(i) closes
+both, and finds on the way that §(g)'s ±1 had no convention-free answer to give.
 
 ## Statement
 
@@ -676,7 +688,9 @@ Q_S = Res_x(χ(L), χ(R′)) for the sector's halves-resultant; then R_S is a t-
 constant times Q_S², gate K1c. **The two Q_S multiply to F157's own polynomial**: F157's
 definition route is the resultant of the two halves the seat cuts the FULL chain into, and on the
 chain that equals ±Q_E·Q_O, gate K1b, which pins the ratio to ±1 and pins the split, 22 seats
-carrying −1 and 10 carrying +1 over N = 4..10; WHICH sign is not a law this file identifies. The
+carrying −1 and 10 carrying +1 over N = 4..10. WHICH sign is §(i)'s Corollary 10a, once an
+argument order is named, and that split is a reading of TWO orders at once, sympy's and this
+gate's own, which §(i) separates. The
 same identity does not survive on the ring. What breaks it is not that striking leaves one path,
 though it does: for every interior seat of the ring BOTH principal submatrices omit one end of
 the wrap bond, so both are knob-free while the two sectors' halves still carry the knob, and the
@@ -720,7 +734,7 @@ Gates K0 to K7, twenty-eight checks: the split and its two controls, the resulta
 with the bridge to F157's P_j and its two next-nearest-entry controls, the field arithmetic
 against two independent oracles, the decomposition and its correction term, the odd-N theorem
 with two controls, the even-N law with its fence and its locus-versus-count reading, the ring
-ends, the doubling, and the centre seat. The table in §(i) says what would redden each.
+ends, the doubling, and the centre seat. The table in §(j) says what would redden each.
 
 ## (h) Which k sits in which sector, and the index it puts on b_E and b_O
 
@@ -928,14 +942,258 @@ own consequence, and was still inert there for the same reason; what refutes the
 equality together with the pinned 188 readings that have #odd ≠ #even, and that is where it now
 lives.
 
-**What this opens, and it is one step.** §(g)'s Corollary factors F157's own definition
+**What this opened, and §(i) is that step.** §(g)'s Corollary factors F157's own definition
 polynomial as P_j = ±Q_E·Q_O, the two sectors' halves-resultants, and says in as many words that
 WHICH sign is not a law it identifies. Corollary 8a names the roots of each factor: Q_E should be
 the odd-k product and Q_O the even-k product, up to a rational constant. That is not checked here
 and it is not a corollary of anything above, since a factorization of a polynomial into two
 factors is not determined by the root sets alone without an argument about multiplicities.
+§(i) supplies both: the constant in closed form, and the multiplicity by reading Lemma 8 on the
+middle route, a uniform path, rather than on the end-detuned chain.
 
-## (i) The gates, in one table
+## (i) The two constants, and the convention the sign lives in
+
+§(g) and §(h) leave two constants unidentified between them. This section closes both, and they
+turn out to be one object: a single congruence produces the product, and what is left over is a
+resultant that evaluates to a sign.
+
+**Notation, since this section computes rather than counts.** Write S_m for sin(mθ)/sin θ as a
+monic integer polynomial in x = 2cos θ, which is `S_cheb` in the gate and the S of §(h)'s block;
+in F157's letter S_m(x) = U_{m−1}(x/2), so F157's own P_j(Δ) = Res_x(U_{N_node−1}, Δ·U_{j−1} − U_j)
+reads here as Res(S_n, Δ·S_j − S_{j+1}). Put α_p = S_{p+1} − t·S_p, the characteristic polynomial
+of the p-site path carrying the knob at coordinate 0. Throughout, p = jr = min(j, N−1−j) is §(g)'s
+fold coordinate and n = N_node = |N−1−2j| is §(h)'s node modulus. The knob is this file's t
+throughout; §(h)'s convention paragraph settles that F157's Δ is that same t with no conversion to
+make, and Corollary 11a below settles the remaining half of it, that F157's SEAT-indexed Δ_k is
+the FOLD-indexed one this section computes with. Q_E and Q_O are §(g)'s: Q_S = Res(χ(L), χ(R′))
+for the two halves the struck seat cuts sector S's block into. **Every resultant that carries a
+LAW here is the Sylvester determinant lc(f)^{deg g}·∏g(α), built in the gate as `res_std`;
+sympy's own routine appears in block W only where it is the object under test.** That distinction
+is the section's subject, not its housekeeping: a resultant is antisymmetric up to
+(−1)^{deg f·deg g}, so a sign law has to name an argument order, and `sympy.resultant` does not
+keep the one it is given: it agrees with the Sylvester determinant when deg f ≥ deg g and is
+(−1)^{deg f·deg g} times it when deg f < deg g (gates W0 to W0c). At equal degrees it is
+order-dependent, and correctly so, gate W0d, which is why the rule is stated by degree and never
+by symmetry.
+
+**What the repo held, store by store.** [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md):
+F157 owns P_j as a DEFINITION, together with Δ_k, the pole rule and the multiplicity clause; it
+states no leading coefficient, no sign and no factorisation, and its four worked rows are printed
+primitive with a positive leading coefficient, which is the normalisation that discards exactly
+the number wanted here. F160 owns the ring's quantisation curve in the same U_n(x/2)
+normalisation. F139 owns a polynomial it also writes S_m, in the same 2cos normalisation but
+indexed one higher (F139's S_m(2cosθ) = sin((m+1)θ)/sinθ), and owns the product-to-sum rule, not
+the addition formula. [`docs/proofs/`](.):
+[PROOF_CRACKED_RING_EXACT_CURVE](PROOF_CRACKED_RING_EXACT_CURVE.md) §(b) owns the Cassini identity
+S_{p+1}² − S_p·S_{p+2} = 1, as its own gate P2, and until this change owned it alone; Lemma 9
+below uses it and cites it rather than repeating it. The Chebyshev ADDITION formula
+S_{a+b} = S_a·S_{b+1} − S_{a−1}·S_b is in no proof of this repository under any spelling, so
+Lemma 9's other half is written out here. Five other files in `docs/proofs/` form a resultant:
+`PROOF_CODIM1_BY_ADDITIVITY`, `PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE` and
+`PROOF_F103_F87_Z2_CUBED_REFINEMENT` are F89 fold certificates and divisibility arguments, and
+`PROOF_F127_RESIDUE_COLLAPSE` and `PROOF_F87_WINDOWED_MONOMIAL_CONVERSE` are resultant-and-Sturm
+questions on a different parameter; none states a closed form for a resultant.
+[`experiments/`](../../experiments/), null results included: nothing on either constant;
+[The Blind Seat on the Road](../../experiments/THE_BLIND_SEAT_ON_THE_ROAD.md) meets the rational
+multiple, records that its `_squarefree` discards it, and writes *"No gate here reads it."*
+[`OpenArcsRegistry.cs`](../../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs): the arc
+`the_forced_and_the_met` carried both as open and as two DIFFERENT indeterminacies, which was the
+right reading of what was then known and is the reading this section overturns: one congruence
+answers both.
+`fw.Confirmations`: nothing, and nothing here is proposed for a flight.
+[`docs/GLOSSARY.md`](../GLOSSARY.md): nothing, as §(a) already records.
+[`docs/CAUGHT_ERRORS.md`](../CAUGHT_ERRORS.md): no entry on the unresolved sign, but the
+2026-09-02 entry records that "exactly −1" was written once and repaired, so a constant sign is a
+shape this page has already shipped. `compute/`: `Cyclotomy.cs` holds integers and no polynomial
+algebra, `Crack.cs` holds a Chebyshev routine and no resultant, and `BlindSeat.cs` carries the
+N = 9 seat 1 locus un-normalised as 128·Δ(Δ−1)(Δ+1)(Δ²−3). That 128 is in F157's hop-2 book, not
+this file's, and this section does not identify it.
+
+**Lemma 9 (the congruence).** For p ≥ 1 and n ≥ 1, S_p·α_{N−1−p} ≡ −S_n (mod α_p).
+
+*Proof.* α_p is monic in x, so the reduction is a division in ℤ[t][x]. Write q = N−1−p, so that
+q − p = n. The addition formula at (a, b) = (n, p+1) and at (n, p) gives S_{q+1} = S_n·S_{p+2} −
+S_{n−1}·S_{p+1} and S_q = S_n·S_{p+1} − S_{n−1}·S_p, hence
+
+    α_q = S_{q+1} − t·S_q = S_n·(S_{p+2} − t·S_{p+1}) − S_{n−1}·(S_{p+1} − t·S_p),
+
+and the second summand is S_{n−1}·α_p, which vanishes modulo α_p. Multiply the first by S_p and
+use t·S_p ≡ S_{p+1}: it becomes S_n·(S_p·S_{p+2} − S_{p+1}²), and Cassini says that bracket
+is −1. ∎
+
+The congruence is the whole mechanism. S_n is the characteristic polynomial of the MIDDLE ROUTE,
+the uniform stretch the seat leaves standing between its own two mirror images, and the two
+sector LEFT halves are both literally α_p, because the reflection's sign only reaches the far end
+of the folded block and the near end is where the knob sits. So Q_E·Q_O = Res(α_p, S_n), and the
+only thing between that and F157's polynomial is the factor S_p the lemma had to introduce.
+
+**Lemma 10 (the common factor).** For p ≥ 1, Res(α_p, S_p) = (−1)^binom(p,2), with no t in it.
+
+*Proof.* S_p is monic of degree p−1 and α_p monic of degree p, so p(p−1) is even and the two
+orders agree; take the second, over the roots of S_p. Those are y_k = 2cos(kπ/p) for
+k = 1..p−1, simple and exhausting S_p. There S_p vanishes, so α_p(y_k) = S_{p+1}(y_k), and the
+recursion S_{p+1} + S_{p−1} = x·S_p gives S_{p+1}(y_k) = −S_{p−1}(y_k). Finally
+S_{p−1}(y_k) = sin((p−1)kπ/p)/sin(kπ/p) = (−1)^{k+1}, so the product over k is
+(−1)^{p−1}·(−1)^{Σ(k+1)} = (−1)^{(p−1)(p+4)/2}. That exponent differs from binom(p,2) by 2(p−1),
+which is even at every integer p. ∎
+
+**Corollary 10a (the sign, identified).** At every interior seat the reflection does not fix,
+
+    Res(α_p, α_{N−1−p})  =  (−1)^binom(p+1,2) · Q_E · Q_O,      p = min(j, N−1−j),
+
+with every resultant taken FOLD HALF FIRST, in the two sectors as well as outside.
+
+*Proof.* Lemma 9 gives S_p·α_{N−1−p} ≡ −S_n (mod α_p); α_p is monic, so Res(α_p, ·) depends on
+its second argument modulo α_p only and is multiplicative in it. Hence Res(α_p, S_p)·Res(α_p,
+α_{N−1−p}) = Res(α_p, −S_n) = (−1)^p·Res(α_p, S_n) = (−1)^p·Q_E·Q_O, the power being deg α_p = p,
+and Lemma 10 turns the left factor into (−1)^binom(p,2). The exponent is binom(p,2) + p =
+binom(p+1,2). ∎
+
+**The sign is a function of the fold coordinate and of nothing else.** N does not appear in it,
+and that is an algebraic statement about the display above, not a reading of a sweep. One caution
+about what gate W3 can see: swapping the two arguments of every resultant in the block leaves W3
+green, the induced factor being (−1)^{p(p−1)} = +1, so the ORIENTATION is read by W0 and by W6's
+degree line and not by the sign law's own check. It is worth
+saying because the reading §(g) pinned looks N-dependent: it is the same law seen through a
+seat-indexed argument order.
+
+**Corollary 10b (the factorisation, with its constant).** Let β_S be the sector characteristic
+polynomial of the middle route, so that β_E·β_O = S_n. Split β_S against S_p into its pole part
+g_S = gcd(β_S, S_p) and its pole-free part h_S = β_S/g_S, and put n_S = deg h_S, r_S = deg β_S.
+Then
+
+    Q_S  =  c_S · ∏ over the non-pole roots x_k of β_S of (t − Δ_k),
+    c_S  =  (−1)^(p·r_S + n_S) · Res(h_S, S_p) · Res(g_S, S_{p+1}),
+
+one factor per NON-POLE root of β_S, a pole root contributing a constant instead, so a value
+shared by several appears with that multiplicity and deg_t Q_S falls below deg β_S at 20 of the
+144 readings, the smallest being N = 7 seat 2 where β_E's one root is a pole and Q_E is a
+constant. In
+particular deg_t Q_S = n_S and lc_t Q_S = c_S, and c_S is a nonzero integer.
+
+*Proof.* Q_S = Res(α_p, β_S) = (−1)^{p·r_S}·Res(β_S, α_p), and β_S is monic, so the second factor
+is ∏ over the roots x_k of β_S of α_p(x_k). At a non-pole root α_p(x_k) = −S_p(x_k)·(t − Δ_k),
+with Δ_k = S_{p+1}(x_k)/S_p(x_k); at a pole root S_p(x_k) = 0 and the factor is the constant
+S_{p+1}(x_k). Collecting the n_S signs and reading the two remaining products as resultants
+against h_S and g_S gives the display. Both factors of c_S are integers because g_S and h_S are
+monic integer polynomials, β_S dividing the monic S_n; and c_S ≠ 0 because β_S divides S_n, which
+is squarefree, so h_S is coprime to S_p, while gcd(S_p, S_{p+1}) = 1 by the recursion. ∎
+
+**Corollary 10b is about roots; which roots they are is Lemma 8's, and the gate reads the two
+apart.** The identity of Corollary 10b holds for any monic SQUAREFREE β in
+place of β_S, so it carries no information about node indices at all, and gate W6, which reads it,
+is blind to the parity. Squarefreeness is where the pole split has to capture the full
+multiplicity; β_S has it because β_S divides S_n, and without it the identity fails, gate W6c,
+which draws squarefree and non-squarefree β through the same door and pins both outcomes. What supplies the parity is §(h)'s Lemma 8 read on the middle route, which
+is a UNIFORM path and hence F71's own comb rather than the end-detuned one §(h) had to transport
+it to: β_E carries the odd node indices and β_O the even ones, decided in the node field and not
+asserted. Two gates carry that jointly and neither alone: W5b reads the closed forms against the
+node comb and W5 reads the sector blocks against the closed forms, so swapping the parity inside
+the block reddens W5 only, while swapping it in the closed forms reddens both. Only
+with W5b does the factorisation say what Corollary 10b's display means, and only then does it
+compose with §(h): the multiplicity of a value Δ in Q_E is #{k odd, non-pole : Δ_k = Δ}, which is
+Corollary 8a's b_E(j; Δ) unchanged, and the same for Q_O and b_O. That composition is a corollary
+of Lemma 8 and W5b; no gate measures it against a b_E.
+
+**The factors repeat, and simplicity would contradict F157.** At N = 10 seat 2 the odd indices
+k = 1 and k = 3 give one and the same Δ, so Q_E = −(t−1)²; at N = 14 seat 3 the multiplicity is
+three. F157's committed row at N = 11 seat 2, 3Δ⁴ − 4Δ², has 0 as a double root carried by k = 2
+and k = 4, both even and so both landing in Q_O, which is a repeated factor of one halves-resultant
+and not merely of the product. An earlier build of this section wrote "every factor simple" and
+its gate read only the degree and the leading coefficient, which cannot see a repeated factor;
+that is recorded in `docs/CAUGHT_ERRORS.md` for 2026-09-03.
+
+**Lemma 11 (the node identity).** At every root x_k = 2cos(kπ/n) of S_n, for n ≥ 2 and every
+p ≥ 0 under the sine convention S_{−1} = −1,
+
+    S_{p+n}(x_k) = (−1)^k · S_p(x_k).
+
+*Proof.* The addition formula at (a, b) = (p, n) gives S_{p+n} = S_p·S_{n+1} − S_{p−1}·S_n. At x_k
+the second term vanishes and S_{n+1}(x_k) = sin(kπ + θ_k)/sin θ_k = (−1)^k. Those two readings are
+exactly what gate S2 pins for §(h). ∎
+
+**Corollary 11a.** F157's Δ_k, written with the SEAT index as sin((j+1)kπ/n)/sin(jkπ/n), is the
+fold-indexed S_{p+1}(x_k)/S_p(x_k) used above, and the two agree on which k is a pole. At a seat
+with j ≤ N−1−j the two are the same expression. At the mirror seats j = p + n, and Lemma 11 gives
+S_{j+1}(x_k) = (−1)^k·S_{p+1}(x_k) and S_j(x_k) = (−1)^k·S_p(x_k), so the factor cancels in the
+ratio and the vanishing of the denominator is unmoved. Gate W5c. ∎
+
+**Corollary 11b (what is factorised is F157's own generator).** With G_j = Res(S_n, Δ·S_j −
+S_{j+1}), which is F157's definition route in this section's letters,
+
+    Res(α_p, α_{N−1−p})  =  (−1)^e · G_j,     e = (n−1)(p+1) + p + binom(p,2) + [j > N−1−j]·binom(n,2).
+
+*Proof.* G_j = Res(S_n, −α_j) = (−1)^{n−1}·(−1)^{(n−1)j}·Res(α_j, S_n), the first power because
+deg S_n = n−1 and the second by antisymmetry. When j = p, Corollary 10a's chain gives
+Res(α_p, S_n) = (−1)^{p + binom(p,2)}·Res(α_p, α_{N−1−p}), which is the first three terms of e.
+When j > N−1−j then j = p + n, and Lemma 11 gives α_j(x_k) = (−1)^k·α_p(x_k) at every root of S_n,
+so Res(S_n, α_j) = ∏(−1)^k·Res(S_n, α_p) = (−1)^binom(n,2)·Res(S_n, α_p), which is the fourth
+term. Two bookkeepings are free and are named rather than performed: the antisymmetry factors
+(−1)^{(n−1)j} and (−1)^{(n−1)p} differ by (−1)^{(n−1)n}, which is +1, and e's first term may be
+written with j or with p for the same reason. Gate W7c, at all 72 seats; W7b reads the same thing against F157's four committed rows,
+where the sign is what F157's primitive-and-positive normalisation discards. ∎
+
+**Composition.** lc_t(P_j) = (−1)^binom(p+1,2)·c_E·c_O and deg_t P_j = n_E + n_O. Gate W7 reads
+it, and reddens only where W3 or W6's degree-and-leading-coefficient line does: given those two it
+is a theorem rather than an independent measurement, which is what it is there for.
+
+**What §(g)'s literal is a reading of.** The identity P_j = ±Q_E·Q_O and everything squared that
+rests on it are untouched by the convention question, since a per-argument sign of ±1 cancels in
+|ratio| = 1 and in K1c's and K1e's squares. What the committed literal K1B_SIGNS = {−1: 22,
++1: 10} is, on the other hand, is a reading of TWO choices at once: sympy's ordering, and K1b's own
+seat order, which puts the left half of the chain first whether or not it is the fold half. Gate W4
+reproduces the committed split from here and pins the three readings apart; W4b names the seats
+rather than counting them, and counts the two causes apart over its own sweep: over N = 4..12 the
+convention alone moves six of fifty seats and the seat order alone moves six. Over N = 4..10 the
+convention flips (5,1), (7,1), (9,3) and (9,7) while leaving the TOTAL at 22:10, so the committed
+literal is accidentally convention-stable in exactly the range it is pinned over, and is not so at
+N = 4..12, where the same comparison reads 34:16 against 32:18. A total is what hid this; the seat
+lists are what the gate pins now.
+
+**Four fences, and each is a place an earlier build of this section was wrong.**
+
+1. **The R-fixed centre seat is out**, because there the seat cuts the chain into two matrices
+   the reflection exchanges, which therefore share a characteristic polynomial, so the outer
+   resultant vanishes identically in t and there is no ratio to carry a sign. Gate W3c reads that
+   at the five odd chains in range, and what such a reading can do is worth saying: the vanishing
+   is forced by R-symmetry alone, so no mutation of an R-symmetric family reddens W3c, and it
+   reddens only through its own population pin or through a broken resultant. It is a READ that
+   decides a word, not evidence. §(a)'s third convention already covers that seat and §(g)'s centre-seat
+   corollary already pays its count; Corollary 10a does not speak there. The end seats j = 0 and
+   j = N−1 are out of the gate's sweep as well; there α_p is the empty determinant and both sides
+   of Corollary 10a are 1, so the statement is true and says nothing.
+2. **"Fold half first" is a statement about the sectors too**, not only about the outer resultant.
+   Taking Q_S with the right half first breaks the law at 12 of 50 seats over N = 4..12, gate W8b.
+3. **"Per non-pole root", never "simple"**, as above. The population that shows it begins at
+   N = 10: over N = 4..9 no reading in this BLOCK carries a repeated factor at all, so a sweep narrowed below
+   N = 10 would make the false clause unfalsifiable. Gate W6b pins the set of readings where the
+   repetition occurs, and empties, and reddens, if the sweep is narrowed.
+4. **What is thin at the largest fold coordinate is the gate's coverage, not the claim.**
+   Corollary 10a is algebraic in p and holds at every N; nothing about it rests on the sweep. But
+   over N = 4..14 the seats per p run 22, 18, 14, 10, 6, 2, so a reader checking the law by
+   reading the run sees p = 6 only twice. Gate W3b pins that profile, so a narrowed sweep reddens
+   rather than quietly thinning the one place the reading is thin.
+
+**Mutation record.** Block W carries twenty-three checks, and they fall into three kinds.
+**Six assert that something BREAKS**, W0b, W0c, W0d, W6c, W8 and W8b, so each is GREEN in a
+healthy block and the input that reddens it is the one that would repair what it fences, like the
+six §(j) already carries. **Two redden only through their own pin or a broken resultant**, W3b
+whose profile no arithmetic defect can move, and W3c whose content is forced by the reflection
+(fence 1). **The remaining fifteen redden under a mutation of the OBJECTS**, and those run were: the congruence's sign, both exponents of Lemma 10 and Corollary 10a,
+Lemma 11's (−1)^k, the constant's n_S term, the middle route's parity swap, W5b's parity
+condition, W5c's fold index, W7c's mirror-side term, the routing of the sector order, the routing
+of the outer order, the coefficient blocks of the Sylvester matrix, the swap rule stated the other
+way round, each pinned literal in turn, and, for the pinned checks, each literal in turn and the
+sweep narrowed to N = 4..9. Three are worth naming. Swapping the middle route's parity reddens W5 and W5b and leaves W6 GREEN, which is
+what shows W6 reads roots and not indices, and is why W5b exists at all. Dropping the sign in the
+monic product reddens W6 on the PRODUCT line alone, leaving its degree and leading-coefficient
+reading green, which is what shows the earlier check was blind rather than merely weak. Feeding
+W8's control the R-SYMMETRIC family through the same door reddens W8, which is what shows the
+control's door is the one the real family uses. Two attempted mutations turned out not to mutate the objects at all, one inserting a dead loop and
+one turning a check into a tautology; both were reported as dead checks before they were re-read,
+and both are in the ledger rather than in this list.
+
+## (j) The gates, in one table
 
 | gate | what would make it red |
 |---|---|
@@ -997,6 +1255,29 @@ factors is not determined by the root sets alone without an argument about multi
 | S2d | **a control: it asserts that something BREAKS.** The same mode built on the modulus N_node+1 carrying either reflection sign at even one of the pinned 851 constructions, or a population other than 851. So no mutation of the OBJECTS tests it; feeding it the right modulus does, and does redden it. It is what makes S2b a reading of the node angle rather than of the shape of the formula |
 | S3 | one (seat, Δ) reading where the sector blocks' b_E and b_O are not the odd-k and even-k counts, or one of the 8 balanced readings sitting anywhere but Δ = 0, or a minimal polynomial that does not annihilate its element or is not irreducible, or a sweep shrunk below the pinned 196 readings and 188 asymmetric ones |
 | S4 | one even-N locus point off the ring ends where the crack does not pay 2·#{k odd on that Δ}, read against `blind_at` on the full N × N crack matrix, which knows nothing about sectors or modes; or a population other than the pinned 36. A locus point carrying no node index predicts 0 and is read, not skipped |
+| W0 | res_std disagreeing with the DEFINITION lc(f)^deg(g)·∏g(α) at one of 60 random pairs, or the pairs losing their non-monic and degree-0 members, pinned at 31 and 15. Without those the lc(f)^deg(g) factor is 1 throughout and both early returns of the routine go untested, though production reaches them |
+| W0b | sympy.resultant agreeing with the Sylvester determinant everywhere, or differing at a population other than the pinned 5 of 60 |
+| W0c | the difference being anything but the swap: one pair where sympy is not res_std times (−1)^{deg f·deg g} exactly when deg f < deg g, or a population other than the 33 pairs with a nonzero resultant of which 4 sit at EQUAL degrees, where the rule's other branch asserts plain agreement |
+| W1 | one seat where S_p·α_{N−1−p} + S_{N_node} is not divisible by α_p; an exact remainder in ℤ[t][x], population pinned at 72 |
+| W1b | one (n, p, k) where S_{p+n}(x_k) ≠ (−1)^k·S_p(x_k), or a population other than the pinned 1260 of which 1014 are not the trivial 0 = 0 at S_p(x_k) = 0. It is Lemma 11, and Corollaries 11a and 11b both stand on it |
+| W2 | Res(α_p, S_p) carrying a t, or differing from (−1)^binom(p,2) at one p |
+| W3 | one non-centre seat where the ratio is not (−1)^binom(p+1,2). N appears nowhere in that exponent, so a law that secretly depended on N reddens here |
+| W3b | the seats-per-fold-coordinate profile differing from the pinned one. W3's own total already reddens on a narrowed sweep; what this row adds is WHICH p lost its seats, the largest being the one a reader can least check by eye |
+| W3c | its own population pin, or a broken resultant. **Not a mutation of any R-symmetric family**: the vanishing at the centre seat is forced by the reflection, so this row is a READ that decides a word, not evidence |
+| W4 | K1b's committed `K1B_SIGNS` not being reproduced from here, or the three readings not splitting as pinned |
+| W4b | the flipped seats differing from the two pinned LISTS, or the two causes not moving six of fifty seats each over N = 4..12. It names seats and not counts where it can, because over N = 4..10 the two totals agree while four seats do not |
+| W5 | one sector right half whose characteristic polynomial is not the middle route's comb of that parity, or a population other than the pinned 144 of which 110 have a nonempty right half rather than the trivial 1 = 1. With W5b it carries the parity jointly: swapping it inside the sector block reddens W5 alone, swapping it in the closed forms reddens both |
+| W5b | one (N, seat, sector, k) where β_E fails to vanish at x_k for odd k, or β_O for even k, or a population other than the pinned 500. **This is the parity W6 cannot see**, W6's identity holding for any monic SQUAREFREE β; swapping the parity in the closed forms reddens W5 and W5b and leaves W6 green, while swapping it inside the sector block reddens W5 alone, so the two carry it jointly |
+| W5c | one non-pole k where F157's seat-indexed Δ_k differs from the fold-indexed one, or a pole the two disagree about, or a population other than the pinned 113. It is read only at the 36 seats where the two are different expressions |
+| W6 | one reading where Q_S is not c_S times the product over the NON-POLE roots of β_S, or the pinned 20 readings where a pole root leaves deg_t Q_S below deg β_S. It reads the product and then degree and leading coefficient; the identity holds for any monic SQUAREFREE β (W6c), so this row is about roots and never about which node indices they are |
+| W0d | sympy turning out symmetric at equal degrees, or a population other than the pinned 12 asymmetric pairs of 200 with 55 at equal degrees. **A control**: W0c compares one fixed order and cannot see this, so the sentence that says it has its own reading |
+| W6c | **a control.** W6's identity surviving a non-squarefree β, or the two draw populations differing from the pinned 54 squarefree with 0 failures and 26 non-squarefree with 4. It is what makes "any monic SQUAREFREE β" a measured hypothesis rather than a convenient word |
+| W6b | the repeated-factor population differing from the pinned set, which a sweep narrowed below N = 10 empties |
+| W7 | one seat where lc_t(P_j) ≠ (−1)^binom(p+1,2)·c_E·c_O, or where deg_t P_j ≠ n_E + n_O. It reddens only where W3 or W6's degree line does: given those two it is a theorem, and it is here so that the composition is written down and not inferred |
+| W7b | the polynomial built here differing from F157's four committed rows by anything but the pinned sign |
+| W7c | one seat where what this section factorises is not F157's own generator Res(S_n, Δ·S_j − S_{j+1}) times Corollary 11b's sign. Dropping the mirror-side term reddens it at half the mirror seats |
+| W8 | **a control: it asserts that something BREAKS.** The R-breaking one-end family keeping the law at more than the three pinned seats. It is fed through the same door the real family uses, and feeding it the R-SYMMETRIC family reddens it |
+| W8b | **a control.** Q_S taken right-half-first keeping the law at other than the pinned 12 of 50 seats, which would mean "fold half first" need not be said of the sectors |
 
 Three mutations of the objects were run by hand against an earlier build of this gate and all
 three went red: the wrong odd-sector sign, the crack fed through C1's door, and the criterion
@@ -1025,7 +1306,7 @@ with coefficient 1 must fail: given K0 that is equivalent to the struck characte
 being identically zero, so no input could ever redden it. K0b now reads whether either summand
 suffices alone, which the centre seat answers one way and every other seat the other.
 
-## (j) Scope and fences
+## (k) Scope and fences
 
 - **Multiplicity is in scope from §(g) on.** §(a) to §(f) compare SETS, with one exception that
   is not a comparison: gate C3 reads a COUNT on the ring, as a lower bound, to check the Remark
@@ -1041,6 +1322,12 @@ suffices alone, which the centre seat answers one way and every other seat the o
   other perturbation, nothing about the Heisenberg book, and nothing about how the count varies
   ALONG either axis; F157's Δ_k comb remains the only closed form for that, and this file adds
   no closed form for the crack's count between the ring ends.
+- **What §(i) does NOT claim.** It is about the anisotropy axis and the chain. It says nothing
+  about the crack, where §(g) already records that the K1b identity fails at 20 of the same 32
+  seats; nothing about F157's hop-2 normalisation, so the un-normalised 128 that
+  [`BlindSeat.cs`](../../compute/MirrorWorld/BlindSeat.cs) carries at N = 9 seat 1 is not
+  identified here; and nothing about which sign a reader would get from a third argument order.
+  A sign law is a statement about a NAMED order, and §(i) names one.
 - **F157's standing fence is not lifted here.** *"A Δ is NOT the detuned bond that The Seat That
   Cuts leaves open; do not report one as the other."* Lemma 1 identifies no operators: P is a
   bond and D a diagonal, they sit in different positions on the full space, and what coincides
@@ -1063,11 +1350,17 @@ suffices alone, which the centre seat answers one way and every other seat the o
   §(h) this file's own are the TRANSPORT of the sign law to the node modulus, that is the single
   sine on an end-detuned chain, together with the Remark and Corollaries 8a and 8b. The sign law
   (−1)^{k+1} itself is F71's and is owned in six places named in §(h); Δ_k, the pole rule and the
-  multiplicity clause are F157's.
+  multiplicity clause are F157's. In §(i) this file's own are Lemma 9, Lemma 10, Lemma 11 and
+  Corollaries 10a, 10b, 11a and 11b, and the reading of what block K's committed sign literal is
+  a reading OF; Lemma 11 stands on the two node readings gate S2 pins for §(h), and the parity
+  the factorisation needs is §(h)'s Lemma 8 read on a uniform path, not a new sign. The
+  Cassini identity Lemma 9 turns on is `PROOF_CRACKED_RING_EXACT_CURVE` §(b)'s and is cited, not
+  repeated; the Chebyshev addition formula is standard and is written out in Lemma 9 because no
+  proof in this repository carries it.
   Lemma 1's folded half is F160's, Lemma 2a is
   `THE_SEAT_THAT_CUTS` §7's, Lemma 3 is Lemma J of the node-lemma proof, and the Σ identities are
   the companion page's.
-- **Two ordinary words here are typed objects elsewhere, and neither is meant.** A **pair** on
+- **Ordinary words here that are typed objects elsewhere, and none of them is meant.** A **pair** on
   this page is the site pair {p, N−1−p} the reflection joins, never
   [`Pair.cs`](../../compute/MirrorWorld/Pair.cs)'s bare coherence |i⟩⟨j| with its rate −2γk; the
   **end pair** is F157's {0, N−1}, which the companion page already fences against F140's
@@ -1075,8 +1368,27 @@ suffices alone, which the centre seat answers one way and every other seat the o
   index, never [`Divisor.cs`](../../compute/MirrorWorld/Divisor.cs)'s frozen divisor of F140,
   which lives on the R₉₀ locus and has no seat in it. A **block** here is the matrix of H
   restricted to one reflection sector, never
-  [`Block.cs`](../../compute/MirrorWorld/Block.cs)'s joint-popcount block (p, q). No γ and no
-  Liouvillian appears anywhere in this file.
+  [`Block.cs`](../../compute/MirrorWorld/Block.cs)'s joint-popcount block (p, q). A **sector**
+  here is always a reflection sector: the whole file sits inside one excitation number, so no
+  popcount grading is in play anywhere in it, and neither
+  [`JointPopcountSectors.cs`](../../compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs)
+  nor its witnesses are meant; "block K", "block S" and "block W" are the one place a **block**
+  here is a lettered group of gates rather than a sector's matrix. A **comb** is F157's node comb, the Δ_k indexed by
+  k ∈ 1..N_node−1, and in §(i) also the middle route's own Dirichlet comb of x-values; never
+  [`Cyclotomy.cs`](../../compute/MirrorWorld/Cyclotomy.cs)'s two combs, which are turn fractions
+  and not Δ values. A **pole** is F157's pole INDEX, a k at which S_p(x_k) = 0 so that Δ_k is not
+  defined and the degree drops; never
+  [`Cat.cs`](../../compute/MirrorWorld/Cat.cs)'s two immortal poles. The **folded half** is
+  F160's geometric fold along R and the **fold coordinate** is min(j, N−1−j); neither is
+  [`Mirror.cs`](../../compute/MirrorWorld/Mirror.cs)'s f_P and f_Q, which pay λ → −λ − 2Nγ, and
+  no spectrum is folded here. §(i) calls Lemma 10's object **the common factor** and never a
+  divisor, because F139 uses "Chebyshev divisor" in the same polynomial-algebra sense one file
+  over; The uniform stretch between a seat's two mirror images is named
+  **the middle route** so that it has a name at all; §(i) does also call it a path, in the
+  ordinary graph sense the Statement uses for the open N-site path, and what is never meant is
+  F89's `path-k` topology or
+  [`Cyclotomy.cs`](../../compute/MirrorWorld/Cyclotomy.cs)'s `PathOrders`. No γ
+  and no Liouvillian appears anywhere in this file.
 - **Bare-letter lemma names are ambiguous in this neighbourhood** and this file numbers its own
   for that reason. Three of the cited proofs have a Corollary C, two of them a Corollary B, and
   two a Lemma B, all of different objects, `PROOF_COLLISION_GAP_ODD_ORDERS.md`'s Lemma B being one

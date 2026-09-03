@@ -103,8 +103,10 @@ evening before and adding what a record auditor then found missing from it
   identity paragraph and on experiment pages (THE_BLIND_SITE gate G1, THE_SEAT_THAT_CUTS,
   THE_SPREAD_IS_A_RESONANCE, two F89 pages); this file's route is the Laplace expansion
   instead, with the matrix determinant lemma and the Cassini identity as the cross-check,
-  and the Cassini step is the quietest new thing in this file: it appears in no other
-  proof, and until this change nowhere in the repo. [PROOF_K_PARTNERSHIP](PROOF_K_PARTNERSHIP.md) Lemma 1 owns
+  and the Cassini step is the quietest new thing in this file: when it landed it appeared in no
+  other proof and nowhere else in the repo. It has one reader now,
+  [PROOF_BLIND_SEAT_TWO_AXES](PROOF_BLIND_SEAT_TWO_AXES.md) §(i), whose Lemma 9 closes with it
+  and cites this section rather than repeating it. [PROOF_K_PARTNERSHIP](PROOF_K_PARTNERSHIP.md) Lemma 1 owns
   KHK = −H for bipartite nearest-neighbour hopping, non-uniform J included, which is the
   identity the comb page's mirror-pair argument stands on (K·H(u)·K = −H(−u) at odd N is
   that lemma applied to the crack, whose wrap bond K leaves alone).

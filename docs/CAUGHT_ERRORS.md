@@ -1440,3 +1440,138 @@ copying it is how a wrong sentence acquires a second witness.**
 **Anchor:** the checks `S0` to `S4` in `simulations/blind_seat_two_axes_proof.py`, §(h)'s mutation
 paragraph, which names the three mutations that exist because an earlier build failed them, and
 §(i)'s table, whose rows were rewritten so that each names only red-makers an input can reach.
+
+## 2026-09-03 (second): `PROOF_BLIND_SEAT_TWO_AXES` §(i), the two constants: the false clause was refuted by a row the session had already been handed, the gate built to catch it was blind to the same half, two mutations did not mutate, and three sentences went on denying what the file next to them proves
+
+**Artifact.** `docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md` §(i) with the renumbering it forced,
+`simulations/blind_seat_two_axes_proof.py` block (W) and its committed run, and the five surfaces
+the result was carried to (`ANALYTICAL_FORMULAS.md` at F162, `THE_BLIND_SEAT_ON_THE_ROAD.md`,
+`PROOF_CRACKED_RING_EXACT_CURVE.md`, `OpenArcsRegistry.cs`, this file). **How caught:** one
+adversarial round before the section was written, then three empty rounds in parallel on the
+staged state, a mathematician with mutation powers, a cross-surface auditor and a returning
+reader; then every finding re-measured from below before any of it was applied. Lemma 9, Lemma 10 and
+Corollary 10a came through unchanged, and two of the findings turned into Lemma 11 with two
+corollaries rather than into caveats. **Corollary 10b did not**: it shipped a false clause, twice,
+each time about which objects the product runs over, and both times the check beside it could not
+see the difference. That is items (1) to (3) and it is the entry.
+
+**(1) The false clause, and the row that already refuted it.** The section's first draft said the
+factorisation Q_S = c_S·∏(t − Δ_k) has **every factor SIMPLE**, and reported it as the
+multiplicity argument §(h) says it does not have. It is false: the factors are indexed by the node
+index, so a Δ shared by several repeats, and at N = 10 seat 2 the odd indices k = 1 and k = 3 give
+one value, Q_E = −(t−1)². The counterexample was not far away and was not new. The session's own
+first scout, hours earlier, had handed over F157's committed row at N = 11 seat 2, 3Δ⁴ − 4Δ²,
+naming its double root as carried by k = 2 and k = 4, *both even*, and calling it in as many words
+*"a useful discriminating case"*. It was read, and the opposite was written. **A counterexample
+delivered in a scout's report is not thereby held**; the sentence it refutes can be composed the
+same hour, because a report is read for what it confirms. The repair composes better than the
+false clause did: the multiplicity of a value in Q_E is #{k odd, non-pole : Δ_k = Δ}, which is
+§(h)'s Corollary 8a b_E unchanged.
+
+**(2) The gate was built where the clause could not be seen.** The check read `deg_t Q_S` and
+`lc_t Q_S` against their closed forms, both of which are true of a repeated factorisation as well,
+so it was green on all 144 readings while the sentence beside it was false. This is the ledger's
+own **"the quantity the prose asserts is not the quantity the check reads"** shape, from a new
+direction: nothing was discarded by an `abs` or a `sorted`; the two readings were simply blind to
+the third. **A second, smaller version of it:** over N = 4..9 no reading in this file carries a
+repeated factor, so the whole population that refutes "simple" lives above N = 9, and a sweep
+whose range was chosen for cost would have made the false clause unfalsifiable. Gate `W6b` now
+pins that population as a SET and reddens if the sweep is narrowed.
+
+**(3) And the repair of that gate was blind to the same half, which is the entry's centre.** The
+new check reads the PRODUCT, exactly and with no root object, as
+(−1)^{n_S}·Res(h_S, α_p)/Res(h_S, S_p). An empty round then showed that this identity holds for
+**any monic β** in place of β_S: substituting the definitions it collapses to
+Res(g_S, α_p) = Res(g_S, S_{p+1}), true by construction for a SQUAREFREE β because g_S divides
+S_p. Fed forty random monic polynomials that know nothing about node indices, thirty-nine pass and
+the fortieth is item (13); fed β_O in β_E's place, it passes. So the new content of the corollary, that the roots are the node indices of ONE parity,
+was carried by nothing but a docstring, and the section's own sentence *"gate W6 reads the
+PRODUCT"* claimed for it a coverage it did not have. **The repair of a vacuous check is where the
+next vacuous check is written**, and the only reason this one was caught is that a round stood
+between it and the commit. `W5b` now decides the parity in the node field at 500 readings, and the
+mutation that swaps the middle route's parity reddens W5 and W5b while leaving W6 green, which is
+the evidence the two read different things.
+
+**(4) An attribution written into a check's own label before it was measured.** On finding that
+`sympy.resultant` does not preserve argument order, the session changed two things at once, the
+resultant routine and the argument order, and then wrote into a check's label that the committed
+`K1B_SIGNS` split *"is the seat order's, not the law's"*. Neither half had been measured apart.
+They were, and both causes are real: over N = 4..12 the convention alone moves six of fifty seats
+and the seat order alone moves six. The same over-reading reached the session's own running log,
+which recorded the split as *"22:10 ↔ 34:16 convention-dependence"*; 34:16 is the SAME convention
+over a wider population, and the convention's effect at that range is 34:16 against 32:18. **A
+total is what hid it**: over N = 4..10 the two conventions agree in total while disagreeing at
+four seats, so the committed literal is accidentally convention-stable in exactly the range it is
+pinned over. `W4b` now names the seats and counts the two causes apart, and a first version of
+that repair put the resulting counts on three surfaces while the gate read them on none.
+
+**(5) Two mutations that did not mutate, both reported as dead checks.** One was meant to break
+the Sylvester construction and inserted a dead loop; one was meant to break the seat-versus-fold
+comparison and instead compared a quantity with itself, which is a tautology and passes. Both
+printed **"RED: NONE, a check that cannot fail"** against checks that can, and in both cases the
+first reaction was to doubt the check. **A mutation is a claim like any other**, and a battery
+reporting a survivor is the moment to re-read the mutation before re-reading the check. Written
+properly, negating the Sylvester coefficient block reddens W0 and four checks downstream, and
+mis-indexing the fold form reddens W5c.
+
+**(6) A check whose own label named a factor it never exercised.** `W0` compares the file's
+Sylvester determinant against the definition lc(f)^{deg g}·∏g(α) on 60 random pairs, and every
+pair was built monic, so lc(f) was 1 throughout and the factor the label names was constant. Both
+degree-0 early returns of the routine were unreachable as well, though production reaches them
+through `Res(h_S, S_p)` with a constant argument. The pairs now carry non-monic leading
+coefficients and degree-0 members, both populations pinned, and the sympy-discrepancy count was
+re-measured rather than carried over.
+
+**(7) A provenance sentence from an agent, fenced rather than repeated.** The cross-surface round
+reported the un-normalised `128·Δ(Δ−1)(Δ+1)(Δ²−3)` in `BlindSeat.cs` as *"the repo's only
+surviving un-normalised value of the constant [§(i)] otherwise throws away"*. It is in F157's
+hop-2 book and this section computes in another; the identification was not made and §(k) now says
+so. Recorded because the sentence was attractive, was one clause from being repeated, and would
+have been a claim about a committed number that nothing here checks.
+
+**(8) A fence that its own section refuted three times.** §(k) said §(i) *"calls the uniform
+stretch between a seat's two mirror images the middle route and never a path"*, while §(i) used
+the word for that object twice and for a second object once. The two commits immediately before
+this one are fences of exactly this class. **A fence asserting that a word is absent is checkable
+and was not checked**, and it is worse than no fence, because it reads as handled. The repair
+names the object and says which foreign object is not meant, rather than claiming a word was
+avoided.
+
+**(9) A claim about the block, refuted by the block.** §(i) and the run file both said *"every
+resultant in block W is the Sylvester determinant built in this file"*. Four of the block's checks
+call sympy's routine, and must, because in those checks it is the object under test. The sentence
+that is true is narrower and is now the one written: every resultant that carries a LAW is the
+file's own.
+
+**(10) A markdown table split by a blank line.** The block's rows, seventeen at the time and
+twenty-one after the repair, were appended to §(j)'s gate table after an empty line, which ends the table body, so on GitHub they would have rendered
+as literal text with pipes. `.githooks/check_broken_tables.py` runs clean on that shape and does
+not see it. Caught by a reviewer reading the staged blob rather than the rendered page.
+
+**(11) The renumbering, recorded here because this file is append-only.** §(i) is new, so what the
+2026-09-03 (first) entry above calls §(i) is now §(j), and what it calls §(h) is unchanged. That
+entry's own item (7) records why a stale pointer in a dated minute is not repaired: *"it is what a
+dated minute looks like."* Nothing above this line was edited.
+
+**(12) And the fourth round found the same shape three more times.** A sentence in §(g) and
+another closing §(h) still declared the two constants unidentified, in the file whose §(i)
+identifies them; the block-W header comment still carried the "every resultant here is the
+Sylvester determinant" claim after the same sentence had been narrowed in two other places; and
+"one factor per ROOT" was false at 20 of 144 readings, where a pole root contributes a constant
+and no factor at all, while five surfaces carried four different wordings of it. **A repair
+applied where the finding pointed is not applied to the change**, and a claim about what a file
+does not do is checkable against that file, so it should be checked before it is written.
+
+**(13) And the fifth round found that two of the repair's own sentences were wider than what was
+measured, one of them wider than this session's own run.** The claim that
+`sympy.resultant` *"returns a function of the UNORDERED pair"* is false: at equal degrees it is
+order-dependent, correctly so, and 12 of 200 random pairs show it. The narrow statement, the one
+gate W0c actually encodes, was already in item (4) of this entry and was widened on its way to
+three claim surfaces. And the claim that the factorisation identity *"holds for any monic β"*
+needs β SQUAREFREE; 4 of 26 non-squarefree draws break it. **That one was measured and dismissed
+in the same hour it was written**: the run that produced the forty-draw experiment printed
+`mismatches = 1`, and the one was read as an edge case rather than as the hypothesis it was.
+A nonzero is a finding; the reflex that files it as noise is the defect.
+
+**Anchor:** the checks `W0` to `W8b`, with `W0d` and `W6c`, in `simulations/blind_seat_two_axes_proof.py`, §(i)'s four
+fences and its mutation paragraph, and §(j)'s table rows for block W.
