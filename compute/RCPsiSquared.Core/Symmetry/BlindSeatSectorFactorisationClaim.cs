@@ -951,7 +951,9 @@ public sealed class BlindSeatSectorFactorisationClaim : Claim
                          "(p = 0, both sides are 1) and OUT at the odd chain's centre seat (n = 0, the outer " +
                          "resultant vanishes identically and there is no ratio to carry a sign). Says nothing " +
                          "about the ring, where the same identity stops being a constant at 20 of 32 seats over " +
-                         "N = 4..10, a different population from the 20 pole shortfalls above, and " +
+                         "N = 4..10, a different population from the 20 pole shortfalls above (the proof's gate " +
+                         "K1b3, 2026-09-04, says what stands there and why those 12 stand, the divisibility " +
+                         "(N-1-2jr) | jr, no claim of its own yet), and " +
                          "nothing about F157's hop-2 normalisation, so MirrorWorld's un-normalised 128 at N = 9 " +
                          "seat 1 is not identified here. READ and not derived: that the sector left halves ARE " +
                          "alpha_p and the right halves the two combs (the gate's W5); and that the multiplicity " +

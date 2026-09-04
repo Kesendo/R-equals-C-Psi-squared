@@ -29,9 +29,9 @@ survives both the change of modulus to N_node and the loss of uniformity, and th
 puts on §(g)'s two summands. Lemmas 9, 10 and 11 and the four corollaries of §(i) are this file's;
 the Cassini identity Lemma 9 turns on is `PROOF_CRACKED_RING_EXACT_CURVE` §(b)'s and is cited
 there. Both Theorems are exact at every N ≥ 3 and both
-parities. **Date:** 2026-09-02, sections (h) and (i) 2026-09-03. **Authors:** Thomas Wicht, Claude (Opus 5). **Script:**
-[`simulations/blind_seat_two_axes_proof.py`](../../simulations/blind_seat_two_axes_proof.py), 84
-checks under 81 labels in eight blocks (L2a fires twice, L2b three times), exact in sympy, about
+parities. **Date:** 2026-09-02, sections (h) and (i) 2026-09-03, the ring half of §(g) 2026-09-04. **Authors:** Thomas Wicht, Claude (Opus 5, Fable 5.1 for the ring half). **Script:**
+[`simulations/blind_seat_two_axes_proof.py`](../../simulations/blind_seat_two_axes_proof.py), 85
+checks under 82 labels in eight blocks (L2a fires twice, L2b three times), exact in sympy, about
 two minutes measured quiet under sympy 1.14.0.
 Every resultant in block W that carries a LAW is a Sylvester determinant the file builds itself,
 sympy's own routine appearing there only where it is the object under test; W0 to W0d say why. Run
@@ -715,6 +715,65 @@ the wrap bond, so both are knob-free while the two sectors' halves still carry t
 ratio stops being a constant. It fails at 20 of the same 32 seats and survives at the other 12,
 so gate K1b2 pins that count rather than asserting a universal.
 
+**What stands where K1b stood, on the ring (2026-09-04).** Nothing replaces P_j, because striking
+a ring seat cuts nothing: H_j is one path, and a resultant of two halves has no halves to take.
+What the u-locus is read off is Res_x(χ(H), χ(H_j)) itself, and on the ring that polynomial is,
+exactly in u and at every seat the reflection does not fix (K1b2's population j = 1..N−2, and
+the two seats 0 and N−1 as well, where Q_E·Q_O = 1, gated in the same block),
+
+    Res_x(χ(H), χ(H_j)) = (−1)^⌊N/2⌋ · (Q_E·Q_O)² · (u−1)^{2⌊(N−1)/2⌋} · (u+1)^{2⌈(N−1)/2⌉}
+
+with a seat-independent sign, so the composed statement of K1 and K1c closes on the ring with a
+closed form for the factor the chain had as a constant: the cross-sector resultant is the two
+ring ends and nothing else, Res_x(χ(E), χ(O))² = 4^⌊N/2⌋·(u−1)^{2⌊(N−1)/2⌋}·(u+1)^{2⌈(N−1)/2⌉},
+no other root real or complex (that absence is read over N = 4..10 by the gate, not derived),
+and its order at each end is the count the Theorem (count) pays there: ⌊(N−1)/2⌋ at u = +1 and
+⌈(N−1)/2⌉ at u = −1, the number of level pairs the ring holds degenerate across the two sectors,
+one member in each. That each pair contributes order exactly ONE to the cross resultant is the
+transversality argument of Lemma 7's proof turned on the two sectors at once: the fold puts +u at
+coordinate 0 of E and −u at coordinate 0 of O, so at a shared level dλ_E/du = +|v_0|² and
+dλ_O/du = −|v_0|², nonzero by (J1) and of opposite sign, and the two levels cross rather than
+touch. At u = +1 that pairing is the pair structure the
+cracked-bell page reads as the m ↔ N−m pairs a crack splits (at u = −1 the pairing is in the
+antiperiodic comb, gate K5c, and no page splits it). The displayed sign is order-free, the two
+degrees N and N−1 having an even product, and (−1)^⌊N/2⌋ = (−1)^{N(N−1)/2} is interlacing's
+sign, not the ring's; what IS an argument-order reading, §(i), is the sign of Res_x(χ(E), χ(O))
+at N ≡ 2 (mod 4), which is why that factor is stated only through its square. Gate K1b3, exact zero
+polynomial at all 32 seats over N = 4..10, the ring-end exponents swapped as its mutation
+(invisible at odd N where the two exponents agree, so it must redden at every even-N seat and at
+no odd one).
+
+The 12 seats at which K1b2's identity stands are then not a residue of the chain identity but a
+divisibility. Q_S is the product over the roots μ of χ(SR) of χ(SL)(μ), and with the knob in one
+diagonal entry of SL each factor is linear in u, its u-coefficient being minus the sector's knob sign times χ(SL′)(μ),
+with SL′ the inner half with coordinate 0 struck, a plain path of length
+jr−1 in either sector; so Q_E·Q_O is u-free exactly when every root of each sector's outer half is
+a root of SL′. The two outer halves are the two reflection sectors of the symmetric sub-path on
+sites jr+1..N−2−jr, of length N−2jr−2, the ±1 far diagonal at even N and the centre row at odd N
+being that sub-path's own fold, so their combined comb is that path's spectrum, 2cos(πk/(n+1)) for
+k = 1..n with n = N−2jr−2. It lies in the comb 2cos(πk′/(m+1)) of the path of length m = jr−1
+exactly when (n+1) divides (m+1): the angle π/(n+1) of k = 1 must equal k′π/(m+1) for some
+integer k′, so m+1 = k′(n+1), and conversely every kπ/(n+1) is then kk′π/(m+1). No
+page of this repository states that containment law, so it is stated here; F157's per-mode
+congruence (N+1) | m(j+1) is the one-comb statement, not this two-comb one. With n+1 = N−2jr−1
+and m+1 = jr it reads
+
+    K1b stands on the ring at seat j  ⟺  (N − 1 − 2·jr) divides jr,   jr = min(j, N−1−j):
+
+the distance from the seat to its image under the reflection divides the seat's distance to the
+near end. Over
+N = 4..10 that names the 12 seats of j = 1..N−2 (4:{1,2}, 6:{2,3}, 7:{2,4}, 8:{3,4},
+10:{3,4,5,6}), none at N = 5 or 9, and the end seats trivially; that K1b2's knob-free product of
+the two principal submatrices' resultants is nonzero there follows too (gcd(jr+1, N−jr) =
+gcd(jr+1, d) = 1 when d | jr), so the ratio K1b2 reads is a nonzero constant and not 0/constant.
+Read against a LITERAL list of the twelve, not against K1b2's 32 − 20, with the modulus N − 2jr in
+place of N − 1 − 2jr as the mutation. Where the ring pays the chain's identity it does so because the fold hides the knob,
+not because the seat cuts; what the standing means for the seat is that its u-locus is the ring
+ends alone at every complex u, hence at odd N an EMPTY Δ-locus, so the divisibility is a
+closed-form SUFFICIENT condition for the companion page's "u-locus = the ring ends alone" seats,
+and not a necessary one: at N = 6 seats 1 and 4 carry Q_E·Q_O = −(u−1)², not constant and with
+no root off the ends.
+
 The order of vanishing is the number of coinciding root pairs only under transversality, and here
 it is: the fold puts t in one diagonal entry alone, so χ(R′) is t-free, and dα_i/dt = ±|v_i(0)|²,
 the sign being − in the crack's odd sector where the fold puts −t at coordinate 0; either way it
@@ -748,8 +807,8 @@ literal, which are exactly the ones where b_E + b_O > 0, that is where some shar
 sector eigenvector vanishing at the seat. The cross-sector factor vanishes at all 84, so it is
 not what breaks the halving; the correction term of Lemma 7 is.
 
-Gates K0 to K7, twenty-eight checks: the split and its two controls, the resultant factorization
-with the bridge to F157's P_j and its two next-nearest-entry controls, the field arithmetic
+Gates K0 to K7, twenty-nine checks: the split and its two controls, the resultant factorization
+with the bridge to F157's P_j, its ring replacement and its two next-nearest-entry controls, the field arithmetic
 against two independent oracles, the decomposition and its correction term, the odd-N theorem
 with two controls, the even-N law with its fence and its locus-versus-count reading, the ring
 ends, the doubling, and the centre seat. The table in §(j) says what would redden each.
@@ -1243,6 +1302,7 @@ and both are in the ledger rather than in this list.
 | K1 | the resultant factorization failing, its constant not being exactly 2^(−N), or the sign law being wrong at one N |
 | K1b | on the CHAIN, F157's definition polynomial not being a constant times the product of the two SECTOR halves' resultants |
 | K1b2 | that identity holding on the RING at more than the 12 seats where it survives; there both principal submatrices are knob-free while the sector halves are not, which is what breaks it |
+| K1b3 | on the RING, Res(χ(H), χ(H_j)) not being (−1)^⌊N/2⌋·(Q_E·Q_O)²·(u−1)^{2⌊(N−1)/2⌋}·(u+1)^{2⌈(N−1)/2⌉} as an exact polynomial at the 32 seats of j = 1..N−2 or, with Q_E·Q_O = 1, at the 14 end seats, the cross-sector resultant squared not being 4^⌊N/2⌋ times the ring ends alone, the 12 seats where K1b2's identity stands not being exactly the seats with (N−1−2jr) | jr against a literal list, Q_E·Q_O vanishing at one seat (which the u-free reading would misclassify), the swapped-exponent mutation failing to redden at one even-N seat or reddening at one odd-N seat, or the divisor N−2jr reddening nowhere |
 | K1c | a sector resultant not being a t-free constant times its own halves' resultant SQUARED |
 | K1d | that square surviving one next-nearest entry in the sector block, which would mean K1c reads the construction and not the disconnection |
 | K1e | on the CHAIN, Res(χ(H), χ(H_j)) not being a t-free constant times F157's P_j SQUARED. **This is the claim four passages of this repository state and none derives** |
@@ -1341,8 +1401,9 @@ suffices alone, which the centre seat answers one way and every other seat the o
   ALONG either axis; F157's Δ_k comb remains the only closed form for that, and this file adds
   no closed form for the crack's count between the ring ends.
 - **What §(i) does NOT claim.** It is about the anisotropy axis and the chain. It says nothing
-  about the crack, where §(g) already records that the K1b identity fails at 20 of the same 32
-  seats; nothing about F157's hop-2 normalisation, so the un-normalised 128 that
+  about the crack, where §(g) records that the K1b identity fails at 20 of the same 32
+  seats and, since 2026-09-04, what stands in its place and at which 12 seats the identity
+  stands and why (gate K1b3); nothing about F157's hop-2 normalisation, so the un-normalised 128 that
   [`BlindSeat.cs`](../../compute/MirrorWorld/BlindSeat.cs) carries at N = 9 seat 1 is not
   identified here; and nothing about which sign a reader would get from a third argument order.
   A sign law is a statement about a NAMED order, and §(i) names one.

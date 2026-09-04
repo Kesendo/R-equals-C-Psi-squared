@@ -818,8 +818,14 @@ K3D_EVEN = 22
 K1E_CROSS_CONSTANT_N = 12
 # K_EXPECTED: the population each check must reach, pinned. K4C_AGREEING_SEATS: the even-N
 # seat-ends at which blind_u happens to equal 2*b_E anyway, which is what K4c's fence allows.
-K_EXPECTED = {'K0': 98, 'K1': 92, 'K1b': 32, 'K1b2': 20, 'K1c': 184, 'K1e': 32,
+K_EXPECTED = {'K0': 98, 'K1': 92, 'K1b': 32, 'K1b2': 20, 'K1b3': 32, 'K1c': 184, 'K1e': 32,
               'K2': 96, 'K3': 44, 'K4': 22, 'K6': 72}
+# K1B3_STANDING: the 12 ring seats of j = 1..N-2 at which K1b2 finds the chain identity standing,
+# as a literal, so that the divisibility law (N - 1 - 2*jr) | jr is tested against a list and not
+# against the measurement it explains. 32 - 20 of K1b2 is the same number reached from the other
+# side. (Not "survivors": that noun is MirrorWorld's Survivor and F123's, fenced in this arc.)
+K1B3_STANDING = [(4, 1), (4, 2), (6, 2), (6, 3), (7, 2), (7, 4), (8, 3), (8, 4),
+                  (10, 3), (10, 4), (10, 5), (10, 6)]
 K4C_AGREEING_SEATS = [(6, 1, 't - 1'), (6, 4, 't - 1'), (10, 2, 't - 1'), (10, 7, 't - 1')]
 # EVEN_N_DIFFERENCES: the (N, seat, point) triples where the two axes pay different counts, with
 # both values. The values FOLLOW from the even-N law once b_E is known (2*b_E against
@@ -1005,6 +1011,72 @@ def gate_K():
           f"{ring_fail} of {ring_seen} ring seats fail through the same door, expected "
           f"{K_EXPECTED.get('K1b2')} of {K_EXPECTED.get('K1b')}; it SURVIVES at the other "
           f"{ring_seen - ring_fail}, so this pins a count and not a universal")
+
+    # -- K1b3: what stands where K1b stood, on the ring. Striking cuts nothing there, so there is
+    # -- no P_j; the object that carries the u-locus is Res(chi_H, chi_H_j) itself, and on the
+    # -- ring it is, exactly and at every interior non-centre seat, a seat-independent sign times
+    # -- the sector halves' product SQUARED times the two ring ends, each raised to twice the
+    # -- ring-end blind count of the count theorem. The cross factor Res(chi_E, chi_O) is those
+    # -- ring ends and nothing else: no other root, real or complex. Second half: the twelve seats
+    # -- where K1b2's identity stands are the seats where Q_E*Q_O is knob-free, a divisibility: the
+    # -- distance from the seat to its mirror seat divides the seat's distance to the near end.
+    # -- Two mutations through the same door: the ring-end exponents swapped (invisible at odd N,
+    # -- where they agree, so it must redden at every even-N seat and only there), and the
+    # -- modulus N - 2*jr in place of N - 1 - 2*jr. The end seats j = 0, N-1 are gated too, with
+    # -- Q_E*Q_O = 1 (the seat strikes coordinate 0 of each sector, no inner half).
+    bad, seen, standing, mut_law_red, mut_law_seen, mut_div_red, ends = [], 0, [], 0, 0, 0, 0
+    for N in range(4, 11):
+        H = H_crack(N)
+        E, O = block(H, N, +1), block(H, N, -1)
+        a, b = (N - 1) // 2, N // 2                     # the ring-end counts, u = +1 and u = -1
+        cross2 = sp.expand(sp.resultant(charpoly_expr(E).as_expr(), charpoly_expr(O).as_expr(), x) ** 2)
+        law_cross2 = sp.expand(4 ** (N // 2) * (t - 1) ** (2 * a) * (t + 1) ** (2 * b))
+        if sp.expand(cross2 - law_cross2) != 0:
+            bad.append(('cross', N))
+        for j in (0, N - 1):
+            ends += 1
+            lhs_end = sp.expand(sp.resultant(charpoly_expr(H).as_expr(),
+                                             charpoly_expr(strike(H, j)).as_expr(), x))
+            rhs_end = sp.expand((-1) ** (N // 2) * (t - 1) ** (2 * a) * (t + 1) ** (2 * b))
+            if sp.expand(lhs_end - rhs_end) != 0:
+                bad.append(('end seat', N, j))
+        for j in range(1, N - 1):
+            if _is_centre(N, j):
+                continue
+            seen += 1
+            jr = _fold(N, j)
+            prod = sp.Integer(1)
+            for S in (E, O):
+                SL, SR = S[:jr, :jr], S[jr + 1:, jr + 1:]
+                prod *= sp.expand(sp.resultant(charpoly_expr(SL).as_expr(),
+                                               charpoly_expr(SR).as_expr(), x))
+            lhs = sp.expand(sp.resultant(charpoly_expr(H).as_expr(),
+                                         charpoly_expr(strike(H, j)).as_expr(), x))
+            rhs = sp.expand((-1) ** (N // 2) * prod ** 2 * (t - 1) ** (2 * a) * (t + 1) ** (2 * b))
+            if sp.expand(lhs - rhs) != 0:
+                bad.append(('ring-law', N, j))
+            mut = sp.expand((-1) ** (N // 2) * prod ** 2 * (t - 1) ** (2 * b) * (t + 1) ** (2 * a))
+            if N % 2 == 0:
+                mut_law_seen += 1
+                mut_law_red += int(sp.expand(lhs - mut) != 0)
+            elif sp.expand(lhs - mut) != 0:
+                bad.append(('mutation visible at odd N', N, j))
+            if prod == 0:
+                bad.append(('Q_E Q_O vanishes, u-free reading undefined', N, j))
+            knobfree = sp.Poly(prod, t).degree() == 0
+            if knobfree:
+                standing.append((N, j))
+            if knobfree != (jr % (N - 1 - 2 * jr) == 0):
+                bad.append(('divisibility law', N, j))
+            mut_div_red += int((jr % (N - 2 * jr) == 0) != knobfree)
+    check("K1b3 on the RING, Res(chi_H, chi_H_j) = (-1)^floor(N/2) (Q_E Q_O)^2 (u-1)^2a (u+1)^2b, and the cross factor is the ring ends alone",
+          not bad and seen == K_EXPECTED.get('K1b3') and ends == 14 and standing == K1B3_STANDING
+          and mut_law_red == mut_law_seen and mut_law_seen > 0 and mut_div_red > 0,
+          f"exact in u at {seen} seats over N = 4..10, expected {K_EXPECTED.get('K1b3')}, and at "
+          f"{ends} end seats with Q_E Q_O = 1, expected 14; the "
+          f"seats where K1b2's identity stands are exactly those with (N-1-2jr) | jr: {standing}; exponents "
+          f"swapped reddens {mut_law_red} of {mut_law_seen} even-N seats, modulus N-2jr reddens "
+          f"{mut_div_red}; failures {bad}")
 
     # -- K1c: and inside a sector the seat DISCONNECTS the block, so the sector resultant is a
     # -- t-free constant times the sector halves' resultant SQUARED. With K1b that is where the

@@ -8961,7 +8961,9 @@ of an odd chain, where the seat cuts the chain into two equal matrices so that t
 vanishes identically and there is no ratio to carry a sign. **True but empty at:** the end seats
 j = 0 and j = N−1, where α_p is the empty determinant and both sides are 1. **Says nothing about:** the ring,
 where §(g)'s gate K1b2 records that the same identity stops being a constant at 20 of 32 seats over
-N = 4..10 (a different population from the 20 pole shortfalls above), and F157's hop-2
+N = 4..10 (a different population from the 20 pole shortfalls above) and gate K1b3 (2026-09-04)
+says what stands there, Res(χ(H), χ(H_j)) = (−1)^⌊N/2⌋·(Q_E·Q_O)²·(u−1)^{2⌊(N−1)/2⌋}·(u+1)^{2⌈(N−1)/2⌉},
+the identity standing at exactly the 12 seats where (N−1−2jr) | jr, and F157's hop-2
 normalisation, so the un-normalised 128 that `BlindSeat.cs` carries at
 N = 9 seat 1 is not identified here.
 **Replaces:** reading a sign or a leading coefficient off a run, and normalising a locus

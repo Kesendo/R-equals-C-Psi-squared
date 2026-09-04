@@ -8445,7 +8445,7 @@ public static class OpenArcsRegistry
                 "end pair is special' is false for this locus, a symmetric interior diagonal pair " +
                 "reproducing it at 12 of 48 seats; only UNIFORMITY separates the crack, by four seats. " +
                 "PROVED the same day, docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md, gate " +
-                "simulations/blind_seat_two_axes_proof.py (61 checks): on the reflection-EVEN " +
+                "simulations/blind_seat_two_axes_proof.py (61 checks that day, 82 since 2026-09-04): on the reflection-EVEN " +
                 "subspace psi_{N-1} = psi_0, so the wrap bond acts exactly as the end-pair " +
                 "diagonal, and on the ODD subspace as its negative, so the cracked ring IS the " +
                 "anisotropic open chain sector by sector at +u and -u (F160 Corollary B already " +
@@ -8531,9 +8531,13 @@ public static class OpenArcsRegistry
                 + "closed form too, whose extra term is the price of carrying F157's SEAT index "
                 + "onto the fold coordinate: S_{p+n}(x_k) = (-1)^k * S_p(x_k) at every node. Gate "
                 + "block W, twenty-three checks. " +
-                "OPEN now, and smaller than what closed: on the RING the same identity is " +
-                "not a constant at 20 of the 32 seats (gate K1b2), and section (i) says " +
-                "nothing about what it is there; F157's hop-2 normalisation is untouched, " +
+                "The RING half CLOSED 2026-09-04, section (g) + gate K1b3: no P_j exists there " +
+                "(striking cuts nothing), and Res(chi_H, chi_H_j) = (-1)^floor(N/2) (Q_E Q_O)^2 " +
+                "(u-1)^{2 floor((N-1)/2)} (u+1)^{2 ceil((N-1)/2)} exactly at all 32 seats, the " +
+                "cross-sector resultant being the two ring ends alone with the ring-end blind " +
+                "counts as its orders; the 12 seats where K1b2's identity stands are exactly " +
+                "those with (N-1-2jr) | jr, the fold hiding the knob, not the seat cutting. " +
+                "OPEN now, and smaller than what closed: F157's hop-2 normalisation is untouched, " +
                 "so the un-normalised 128 that BlindSeat.cs carries at N = 9 seat 1 is " +
                 "still unidentified; and the arc's own question, which of our arithmetic " +
                 "laws are forced by a symmetry and which a perturbation dissolves, still " +
