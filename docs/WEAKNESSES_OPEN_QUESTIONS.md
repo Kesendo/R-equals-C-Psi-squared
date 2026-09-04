@@ -194,8 +194,12 @@ improvement in peak created Sum-MI (ε→0 simulation ideal), but:
 - Improvement decreases with N (360× at N=5, 139× at N=9)
 - No formal proof of optimality
 - Hardware test shows 3.2× (not 360×) due to real-world constraints
-- θ is 1.68× more sensitive than CΨ as objective function (April 2026
-  cockpit finding), but the formula was not optimized for θ
+- θ improves by 1.68× against CΨ's 1.28× under edge sacrifice (April 2026
+  cockpit finding), and the formula was not optimized for θ. Whether that
+  makes θ the better objective is open on its own terms: θ is a function
+  of CΨ, its zero sits at the ¼ boundary, and the two ratios are taken
+  from different baselines, so the larger one is not yet a sharper
+  separation
 
 *In plain language:* the sacrifice-zone formula
 ([Resonant Return](../experiments/RESONANT_RETURN.md)) is our most
