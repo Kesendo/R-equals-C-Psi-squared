@@ -226,7 +226,8 @@ for J in [0.001, 0.005, 0.010, 0.020]:
 # ============================================================
 log()
 log("=" * 70)
-log("1 bit per ~21 pairs at J/γ=0.2 with 100% jitter.")
+log("1 bit per ~21 pairs at J/γ=0.2 with jitter sigma = 1.0,")
+log("which is 11.7% of the silent crossing time t0 = 8.5837.")
 log("Rate scales as (J/γ)² at small coupling.")
 log("CΨ crossing time = lock-in amplifier for weak quantum couplings.")
 log("=" * 70)

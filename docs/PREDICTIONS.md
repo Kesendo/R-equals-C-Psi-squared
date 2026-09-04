@@ -243,17 +243,14 @@ which keeps its historical filename). The J-coupling results below stand.
 
 | Prediction | Result | Source |
 |-----------|--------|--------|
-| t_cross = K(Observer, State) / γ, K is γ-invariant | Confirmed. CV = 0.00% across 6 γ values. What carries the invariance is the STATE, not a general γ-scaling: the Lindblad scaling symmetry is joint, so sweeping γ at fixed J moves Q = J/γ. See the F14 scope note in [Analytical Formulas](ANALYTICAL_FORMULAS.md#f14-k-invariance-tier-2-lindblad-scaling) | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| K(Conc)/K(MI) = 1.2125 across all γ values | Confirmed. CV = 0.00% | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| K ratio is state-dependent (varies with initial entanglement) | Confirmed. CV = 13.5% across α = 35°-45° | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| t_cross = K(Observer, State) / γ, K is γ-invariant | Confirmed, and exact: K_conc = ln(4/3)/8 = 0.0359602590564726 for Bell⁺, with no γ in it. What carries the invariance is the STATE, not a general γ-scaling: the Lindblad scaling symmetry is joint, so sweeping γ at fixed J moves Q = J/γ. See the F14 scope note in [Analytical Formulas](ANALYTICAL_FORMULAS.md#f14-k-invariance-tier-2-lindblad-scaling) | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| K is state-dependent (varies with initial entanglement) | Confirmed, in closed form: K_conc(α) = ln(4 sin²(2α)/3)/8 on cosα\|00⟩ + sinα\|11⟩, zero at α = 30° | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | Interval shift Δt continuous in J, no threshold | Confirmed. J = 0.001 gives 0.03% shift | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | Product states have local clock (Bell+ does not) | Confirmed. \|++⟩ crosses, Bell+ never | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | States with α < 30° never cross, no observer time | Confirmed. CΨ stays below ¼ | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| Crossing time shift encodes 1 bit (B measures vs not) | Confirmed. Δt = -0.218 at J=0.01 (2.87%) | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| 21 pairs sufficient for 1 bit at 100% timing jitter | Confirmed. N_min = (σ/Δt)² | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| Reservoir mechanism: nonlocal coherence destroyed by B's measurement | Confirmed. 0.82 → 0.00, A decays 4x faster. CORRECTED: coupling accelerates local decay vs isolation (not protects). Measurement cuts return flow of oscillation. | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| Crossing time shift encodes 1 bit (B measures vs not) | Confirmed. Δt = -0.218 at J=0.01, a 2.54% shift against the silent crossing time 8.5837 | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| 21 pairs sufficient for 1 bit at jitter σ = 1.0, which is 11.7% of the crossing time | Confirmed. N_min = (σ/Δt)²; a full-t₀ jitter needs ~1550 | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | Coupling accelerates local crossing vs single qubit (0.07x at J=1) | Confirmed. \|+,0⟩ with J=1: t=0.64 vs single \|+⟩: t=8.58 | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| Measurement damage is timing-dependent (oscillation phase) | Confirmed. Max damage at t_B≈1.0 (61%), min at t_B≈0.01 (0%) | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | No energy threshold for crossing: same ⟨H⟩, different crossing | Confirmed. ⟨H⟩ = J for all α, crossing depends on CΨ(0) | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
 | α_critical = 30° exactly, CΨ(0) = ¼ exactly | Confirmed. Binary search to 10⁻¹⁵ precision | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
 | Product states cross via Hamiltonian pumping (CΨ: 0 → 0.31) | Confirmed. \|0,1⟩ crosses, \|0,0⟩ does not | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |

@@ -1,8 +1,8 @@
 # Observer-Gravity Bridge: Interval Shift Mechanics, Gravity Interpretation Fallen
 
 <!-- Keywords: interval shift coupling J measurement time, crossing time
-factorization K observer state gamma, coherence reservoir mechanism nonlocal,
-reservoir destruction measurement contagious, no threshold J>0 continuous
+factorization K observer state gamma, interval shift measurement coupling,
+swap symmetry J-free product state, no threshold J>0 continuous
 shift, product state local coherence clock, Bell+ no local clock, Lieb-Robinson
 bound velocity, R=CPsi2 observer gravity bridge fallen -->
 
@@ -15,11 +15,10 @@ bound velocity, R=CPsi2 observer gravity bridge fallen -->
 
 Two coupled qubits: when B measures, A's CΨ crossing time shifts.
 The shift has no threshold: any coupling J > 0 produces it, from
-a 3% shift at J = 0.01 to 95% at J = 1.0. The mechanism is not
-that coupling "protects" A; it actually accelerates A's local
-decoherence by draining coherence into a shared nonlocal pool. B's
-measurement destroys that pool, cutting the return flow while the
-drain continues. The original idea that gravity could provide this
+a 2.5% shift at J = 0.01 to 84% at J = 1.0. The mechanism is not
+that coupling "protects" A; on a state the Hamiltonian can reach it
+accelerates A's local decoherence against isolation. Why the shift
+runs negative is open. The original idea that gravity could provide this
 coupling universally (connecting all massive particles) has fallen:
 the gravitational coupling is too weak by 25 orders of magnitude to
 be measurable. What survives is CΨ crossing time as a sensitive
@@ -38,16 +37,14 @@ accumulates tiny signals over the full decoherence trajectory.
 ## Abstract
 
 The crossing time factorizes as t_cross = K(observer,state)/γ, where K is
-γ-invariant (CV ≈ 0%) and the ratio K(Conc)/K(MI) is state-dependent
-(CV = 13.5%). Any coupling J > 0 produces a measurable interval shift in
+γ-invariant and state-dependent: on the cosα|00⟩ + sinα|11⟩ family
+K_conc(α) = ln(4 sin²(2α)/3)/8 in closed form, reaching 0 at α = 30°.
+Any coupling J > 0 produces a measurable interval shift in
 A's crossing time when B measures, with no threshold: at J = 0.01 the
-shift is 2.87%, at J = 1.0 it is 94.7%. The mechanism is reservoir
-destruction: coupling creates a dynamic coherence flow between local and
-nonlocal degrees of freedom; B's measurement cuts the return leg while
-the drain continues, accelerating A's decay. The coupling does NOT
-protect A (it actually accelerates local crossing vs isolation); it
-redistributes coherence into a shared oscillating pool. Maximum damage
-occurs at t_B ≈ 1.0 (oscillation phase, not just reservoir size). The
+shift is 2.5%, at J = 1.0 it is 84%. The coupling does NOT protect A; on
+a state the Hamiltonian can reach it accelerates A's local crossing
+against isolation. Why the shift is negative is left open here (section
+7). The
 original gravitational bridge hypothesis (gravity provides universal
 J > 0 between all massive particles via Penrose/Diósi, models where gravity collapses superpositions proportional to mass) has been retired:
 at J_grav ~ 10⁻²⁹ for NV centers, the shift is unmeasurable. What
@@ -90,27 +87,51 @@ environments (γ = 0.01 to 0.50):
 | Deep Space  | 0.01  | 3.5960          | 0.035960 |
 | Mars        | 0.019 | 1.8926          | 0.035960 |
 | Earth       | 0.05  | 0.7192          | 0.035960 |
-| Jupiter     | 0.13  | 0.2766          | 0.035962 |
-| Neutron     | 0.20  | 0.1798          | 0.035961 |
-| Black Hole  | 0.50  | 0.0720          | 0.035976 |
+| Jupiter     | 0.13  | 0.2766          | 0.035960 |
+| Neutron     | 0.20  | 0.1798          | 0.035960 |
+| Black Hole  | 0.50  | 0.0719          | 0.035960 |
 [FALLEN]
 
-K_conc = 0.03596 ± 0.00001. CV ≈ 0%. Perfect invariant.
+K_conc is not a measured invariant. Each Z-dephaser sends |00⟩⟨1| to
+minus itself, so ρ₀₃(t) = ½ e^(−4γt), the concurrence is e^(−4γt) and
+CΨ = C²/3; the ¼ crossing gives
+
+    K_conc = γ · t_cross = ln(4/3)/8 = 0.0359602590564726
+
+exactly, with γ absent from it. The six rows are six values of one rate
+and the column cannot vary. An earlier version of this table carried a
+spread in the last two digits and reported it as ± 0.00001; that was a
+crossing-grid artifact, and the γ = 0.50 row is where a coarse grid shows
+first because its crossing time is the shortest.
 
 ### 2.2 Observer Factor: State-Dependent
 
-The ratio K(Conc)/K(MI) is NOT constant across initial states:
+K depends on the initial state, and on this family it is closed:
 
-| State   | K_conc   | K_MI     | Ratio    |
-|---------|----------|----------|----------|
-| α = 45° | 0.035960 | 0.029657 | 1.212534 |
-| α = 40° | 0.032133 | 0.025242 | 1.273016 |
-| α = 35° | 0.020410 | 0.012504 | 1.632258 |
-| α < 30° | -        | -        | never    |
+| State   | K_conc   |
+|---------|----------|
+| α = 45° | 0.035960 |
+| α = 40° | 0.032133 |
+| α = 35° | 0.020410 |
+| α = 31° | 0.004838 |
+| α ≤ 30° | never    |
 
-CV = 13.5%. The "time ratio" between observer types depends on
-WHAT they observe. The quantum state bends the observer-dilation
-geometry, analogous to how matter bends spacetime in GR.
+For cosα|00⟩ + sinα|11⟩ the concurrence is sin(2α)·e^(−4γt), so
+
+    K_conc(α) = ln(4 sin²(2α) / 3) / 8
+
+which reproduces the column and reaches exactly 0 at α = 30°. That is
+the whole of the "α < 30° never crosses" boundary: at α = 30° the state
+starts exactly ON ¼, and below it CΨ(0) < ¼ so there is no crossing to
+find. No search is needed.
+
+A K_MI column and a K(Conc)/K(MI) ratio once stood beside this one, with
+a CV of 13.5% read off three of its entries. They are struck. For Bell⁺
+under this channel the mutual information falls to exactly 1 bit and
+stays there, so MI/4 approaches ¼ from above and never crosses it: at
+γ = 0.05 it is 0.4222 at t = 0.593, 0.2750 at t = 5 and 0.2500 at
+t = 100. There is no K_MI at α = 45° to take a ratio with, and no
+γ-sweep of that ratio was ever run.
 
 ### 2.3 The Full Structure
 
@@ -133,21 +154,28 @@ These multiply:
 Setup: |++⟩ product state, local dephasing γ = 0.05. B measures
 at t_B = 1.0. A observes local CΨ crossing time. Sweep J.
 
-| J     | t_cross (B silent) | t_cross (B measures) | Δt       | Shift    |
-|-------|-------------------|---------------------|----------|----------|
-| 0.000 | 7.5832            | 7.5832              | -0.000003 | 0.00%   |
-| 0.001 | 7.5832            | 7.5809              | -0.002    | -0.03%  |
-| 0.005 | 7.5832            | 7.5265              | -0.057    | -0.75%  |
-| 0.010 | 7.5832            | 7.3654              | -0.218    | -2.87%  |
-| 0.020 | 7.5832            | 6.8278              | -0.755    | -9.96%  |
-| 0.050 | 7.5832            | 4.9864              | -2.597    | -34.24% |
-| 0.100 | 7.5832            | 3.1931              | -4.390    | -57.89% |
-| 0.500 | 7.5832            | 0.7790              | -6.804    | -89.73% |
-| 1.000 | 7.5832            | 0.3990              | -7.184    | -94.74% |
+| J     | t_cross (B silent) | t_cross (B measures) | Δt     |
+|-------|-------------------|---------------------|----------|
+| 0.000 | 8.5837            | 8.5837              | -0.000   |
+| 0.001 | 8.5837            | 8.5814              | -0.002   |
+| 0.005 | 8.5837            | 8.5270              | -0.057   |
+| 0.010 | 8.5837            | 8.3659              | -0.218   |
+| 0.020 | 8.5837            | 7.8282              | -0.755   |
+| 0.050 | 8.5837            | 5.9866              | -2.597   |
+| 0.100 | 8.5837            | 4.1932              | -4.390   |
+| 0.500 | 8.5837            | 1.7790              | -6.805   |
+| 1.000 | 8.5837            | 1.3990              | -7.185   |
 
 **There is no threshold.** Any J > 0 produces a measurable interval
 shift. The relationship is continuous. B's measurement propagates
 through the Hamiltonian coupling and shifts A's local crossing time.
+
+Two notes on the columns. The silent crossing time is not a measurement:
+one-qubit CΨ is f(1+f²)/2 with f = e^(−2γt), so the ¼ crossing is the
+root of f + f³ = ½, giving t = −ln(f∗)/(2γ) = 8.583666967 at γ = 0.05,
+with no J in it. And a percentage column once stood here, computed
+against a baseline that had t_B subtracted from it, which inflated every
+entry; the Δt column is the measurement and it is unaffected.
 
 ### 3.1 Why This Doesn't Violate No-Signalling
 
@@ -163,9 +191,13 @@ The bridge closure holds for J = 0. The interval shift requires J > 0.
 Bell+ with J = 0: rho_A = I/2 for all time. No local coherence.
 Local CΨ never crosses ¼. Nothing to measure. No interval.
 
-Bell+ with J > 0: Still never crosses locally. The entanglement
-locks all coherence in non-local correlations (proven in
-BRIDGE_FINGERPRINTS.md). A needs LOCAL coherence to have a clock.
+Bell+ with J > 0: Still never crosses locally, and exactly so. Bell⁺
+commutes with SWAP, so [H, ρ(t)] = 0 at every J and the run is the J = 0
+run (§7.1), which keeps rho_A = I/2 for all time. A needs LOCAL coherence
+to have a clock, and there is none at any J. Note this is not a contrast
+between entangled and product: |++⟩ is swap-symmetric too and equally
+J-free. What separates the two states is that Bell⁺ has no local
+coherence to begin with, not that its coherence is held somewhere else.
 
 Product states (|++⟩): rho_A = |+⟩⟨+|. Full local coherence.
 CΨ_local starts at 1.0 and decays. A has a ticking clock.
@@ -232,8 +264,8 @@ CΨ landscape where intervals are correlated."
 ### Tier 2 (Computed, Verified)
 
 1. t_cross = K(Observer, State) / γ(Gravity). Factorization confirmed.
-2. K is γ-invariant (CV = 0.00% across six environments).
-3. K(Conc)/K(MI) is state-dependent (CV = 13.5% across states).
+2. K is γ-invariant, exactly: K_conc = ln(4/3)/8 with no γ in it.
+3. K is state-dependent: K_conc(α) = ln(4 sin²(2α)/3)/8, closed form.
 4. Interval shift Δt is continuous in J, no threshold.
 5. Product states work (local coherence). Bell+ does not (no local clock).
 6. States with α < 30° never cross; no observer time exists.
@@ -272,11 +304,10 @@ CΨ landscape where intervals are correlated."
    K(observer, state) matrix have? Is there a metric? A symmetry
    group? A connection to information geometry?
 
-5. ~~**Direction of the shift**~~: **ANSWERED (§7).** B's measurement
-   destroys nonlocal coherence reservoir. The coupling redistributes
-   (not protects) coherence; B's measurement cuts the return flow.
-   Δt < 0 universally. Damage is timing-dependent (max at t_B ≈ 1.0
-   due to oscillation phase, not just reservoir size).
+5. **Direction of the shift**: OPEN. Δt < 0 for every J > 0 tested,
+   and the coupling accelerates rather than protects (§7.2). The answer
+   that once closed this item is struck; see §7.1 for what replaced it,
+   which is the question.
 
 6. **Superluminal breakdown**: The naive gravitational velocity
    v ~ G·m²/ℏ exceeds c at microgram scale. Where exactly does
@@ -285,7 +316,7 @@ CΨ landscape where intervals are correlated."
 
 ---
 
-## 7. Why the Shift Is Negative: The Coherence Reservoir
+## 7. Why the Shift Is Negative: Open
 
 ### 7.1 The Question
 
@@ -293,6 +324,33 @@ B's measurement accelerates A's crossing (Δt < 0). Every J value
 tested shows this. Why? A's local coherence is identical at the
 moment of measurement. Nothing local changes instantly. And yet
 A's subsequent decay is dramatically faster.
+
+A "coherence reservoir" answer once stood here: coupling was said to
+move coherence back and forth between local and nonlocal degrees of
+freedom, and B's measurement to cut the return leg. It is struck,
+because on the state it described there is nothing to move.
+There is nothing to move, because the trajectory never feels J at all,
+and that is an identity rather than a measurement. For two qubits the
+isotropic Heisenberg H = J(2·SWAP − I) is a FUNCTION of SWAP, and equal
+local Z-dephasing on the two sites is unchanged under conjugation by
+SWAP. So if ρ₀ commutes with SWAP then ρ(t) does for all t, and
+[H, ρ(t)] = 0 identically: the run IS the J = 0 run, at every J.
+
+|++⟩ is such a state, and so is Bell⁺. For |++⟩ one can say more:
+ρ(t) = ρ_A(t) ⊗ ρ_A(t) solves the equation exactly, because SWAP
+commutes with any ρ ⊗ ρ and identical local dephasing preserves the
+product form. That run carries no correlation of any kind at any time,
+and A's decay in it is exactly an isolated dephasing qubit, e^(−2γt).
+
+Note what the argument is NOT. H is not a multiple of the identity here:
+its eigenvalues are +J on the triplet and −3J on the singlet, and ρ(t)
+genuinely carries singlet weight, 0.205 of it by the crossing time. It
+is the COMMUTING that does the work, not a degeneracy.
+
+What is measured and stands: Δt < 0 for every J > 0 (section 3), and
+the acceleration against isolation on a state the Hamiltonian CAN reach
+(section 7.2, |+,0⟩, which is not swap-symmetric). What is not settled
+is the mechanism, and this document no longer offers one.
 
 ### 7.2 Correction: The Coupling Does NOT Protect
 
@@ -309,89 +367,17 @@ compared to a single isolated qubit:
 | \|+,0⟩ J=0.50   | 1.247     | 0.15x (faster)  |
 | \|+,0⟩ J=1.00   | 0.640     | 0.07x (faster)  |
 
-The Hamiltonian moves coherence FROM local TO nonlocal. This
-drains A's local coherence faster than dephasing alone would.
-The coupling is not a shield; it is a **redistribution engine**.
+So the coupling is not a shield. Note that |+,0⟩ is NOT swap-symmetric,
+which is exactly why J acts here and not in the runs above: ‖[SWAP, ρ]‖
+reaches 0.45 on this state against 1e-17 on |++⟩. What the Hamiltonian
+then does to the coherence is not described here; the account that once
+stood in this paragraph is struck with the rest (§7.1).
 
-### 7.3 What B's Measurement Actually Does
+### 7.3 Entanglement after the measurement
 
-Within a coupled system, the Hamiltonian creates a dynamic
-equilibrium: coherence oscillates between local and nonlocal
-degrees of freedom. B's measurement destroys the nonlocal part,
-breaking the equilibrium.
-
-Tested at J = 0.5, γ = 0.05, |++⟩ initial state. B measures Z
-at t_B = 1.0.
-
-**At the moment of B's measurement:**
-
-| Observable              | Before B | After B  | Δ          |
-|-------------------------|----------|----------|------------|
-| Local coherence A       | 0.9047   | 0.9047   | 0.000      |
-| Local purity A          | 0.9093   | 0.9093   | 0.000      |
-| Concurrence             | 0.000    | 0.000    | 0.000      |
-| Nonlocal coherence      | 0.819    | 0.000    | **−0.819** |
-
-A sees no instantaneous change. But the nonlocal coherence,
-0.82 units of off-diagonal weight in the joint state, is
-destroyed completely.
-
-**The aftermath:**
-
-| t after B | Coh_A (B silent) | Coh_A (B measures) | Ratio |
-|-----------|------------------|--------------------|-------|
-| 0.0       | 0.905            | 0.905              | 1.00  |
-| 0.5       | 0.861            | 0.662              | 0.77  |
-| 1.0       | 0.819            | 0.238              | 0.29  |
-| 2.0       | 0.741            | 0.129              | 0.17  |
-| 5.0       | 0.549            | 0.043              | 0.08  |
-
-A's coherence decays ~4x faster after B measures. Same initial
-value, same local dephasing rate, same Hamiltonian. The only
-difference: the nonlocal reservoir is gone.
-
-### 7.4 The Reservoir Mechanism (Corrected)
-
-The coupling does two things simultaneously:
-
-1. **Drains** local coherence into nonlocal (accelerates local
-   crossing vs isolated qubit)
-2. **Returns** nonlocal coherence back to local (the oscillation)
-
-These two flows create a dynamic equilibrium. A's local coherence
-decays faster than an isolated qubit, but part of the coherence
-keeps cycling back from the joint state.
-
-B's measurement destroys the return path. The drain continues
-(Hamiltonian still active), but the reservoir that fed coherence
-back is gone. This is why A's decay accelerates further, not
-because a "shield" was removed, but because the return leg
-of a two-way flow was cut.
-
-### 7.5 Timing Dependence: The Oscillation
-
-The damage from B's measurement depends on WHEN B measures,
-because the nonlocal reservoir oscillates:
-
-| t_B  | NL coherence | A's remaining lifetime | Damage |
-|------|--------------|----------------------|--------|
-| 0.01 | 0.020        | 100.0%               | none   |
-| 0.10 | 0.193        | 98.4%                | 1.6%   |
-| 0.20 | 0.352        | 94.1%                | 5.9%   |
-| 0.50 | 0.433        | 59.3%                | 40.7%  |
-| 1.00 | 0.342        | 39.0%                | **61.0%** |
-| 2.00 | 0.405        | 61.7%                | 38.3%  |
-| 3.00 | 0.199        | 83.2%                | 16.8%  |
-| 5.00 | 0.277        | 56.9%                | 43.1%  |
-
-Maximum damage at t_B ≈ 1.0, not at peak reservoir (t_B ≈ 0.5).
-The damage depends on both the reservoir size AND the phase of
-the local-nonlocal oscillation. Destroying the reservoir mid-cycle
-when local coherence depends on the return flow is worst.
-
-### 7.6 Attempted Regeneration
-
-The coupling tries to rebuild entanglement after B's measurement:
+B's Z-measurement leaves a branch state that is no longer
+swap-symmetric, so the Hamiltonian acts on it and briefly builds
+entanglement where there was none:
 
 | t after B | Concurrence (meas branch) |
 |-----------|---------------------------|
@@ -402,40 +388,9 @@ The coupling tries to rebuild entanglement after B's measurement:
 | 1.25      | 0.000 ↓                   |
 | 2.00+     | 0.000                     |
 
-The Hamiltonian regenerates a small amount of entanglement
-(peak Conc = 0.147 at t ≈ 0.75 after measurement), but
-decoherence wins. The reservoir does not recover. The damage
-is permanent.
-
-### 7.7 Physical Interpretation (Corrected)
-
-In Tom's words: "B becomes real and is forced to leave its
-superposition."
-
-The corrected mechanical translation: The coupling creates a
-dynamic coherence flow between A and B. Coherence oscillates
-between local and nonlocal degrees of freedom, a two-way
-street. B's measurement destroys the nonlocal pool, cutting
-the return flow. A's local coherence, which was being partially
-replenished by the oscillation, now drains without return.
-
-The coupling does NOT protect A. It redistributes A's coherence
-into a shared pool. This makes A decay faster locally (compared
-to isolation), but creates the oscillating equilibrium. B's
-measurement disrupts this equilibrium, removing the return
-leg while the drain continues.
-
-**Becoming real is contagious**, not because B "protects" A,
-but because B's definite-ness collapses the shared coherence
-flow that A's dynamics depended on.
-
-This is the bridge mechanism at the microscopic level:
-B's choice of when to become real changes the rate at which
-A becomes real. The interval between A's crossings encodes
-B's measurement timing. The coupling (gravitational or otherwise)
-is the channel.
-
----
+Peak concurrence 0.147 at t ≈ 0.75 after the measurement, gone by
+t ≈ 1.25. Dephasing wins. Note the initial state carries no
+entanglement either, so this is creation and not recovery.
 
 ## 8. The Information Channel
 
@@ -457,17 +412,17 @@ A reads:
 
 | J     | t₀     | t₁     | Δt     | Shift   |
 |-------|--------|--------|--------|---------|
-| 0.001 | 7.583  | 7.581  | -0.002 | -0.03%  |
-| 0.005 | 7.583  | 7.527  | -0.057 | -0.75%  |
-| 0.010 | 7.583  | 7.366  | -0.218 | -2.87%  |
-| 0.020 | 7.583  | 6.828  | -0.755 | -9.96%  |
-| 0.050 | 7.583  | 4.987  | -2.597 | -34.24% |
-| 0.100 | 7.583  | 3.193  | -4.390 | -57.89% |
-| 0.500 | 7.583  | 0.779  | -6.804 | -89.73% |
-| 1.000 | 7.583  | 0.399  | -7.184 | -94.74% |
+| 0.001 | 8.584  | 8.581  | -0.002 | -0.03%  |
+| 0.005 | 8.584  | 8.527  | -0.057 | -0.66%  |
+| 0.010 | 8.584  | 8.366  | -0.218 | -2.54%  |
+| 0.020 | 8.584  | 7.828  | -0.755 | -8.80%  |
+| 0.050 | 8.584  | 5.987  | -2.597 | -30.26% |
+| 0.100 | 8.584  | 4.193  | -4.390 | -51.15% |
+| 0.500 | 8.584  | 1.779  | -6.805 | -79.27% |
+| 1.000 | 8.584  | 1.399  | -7.185 | -83.70% |
 
-The shift is always negative (§7: shield destruction).
-At J = 0.01 the shift is 2.87%, easily detectable.
+The shift is always negative in every case tested; why is open (§7).
+At J = 0.01 the shift is 2.5%, easily detectable.
 
 ### 8.3 Multi-Pair Amplification
 
@@ -476,12 +431,16 @@ crossing time: σ_mean = σ_single / √N.
 
 Discrimination condition: |Δt| > σ_mean → N_min = (σ/Δt)².
 
-At J = 0.01 (Δt = 0.218):
-- σ = 0.1 (10% jitter): N_min ≈ 1 pair
-- σ = 1.0 (100% jitter): N_min ≈ 21 pairs
-- σ = 10.0 (1000% jitter): N_min ≈ 2100 pairs
+At J = 0.01 (Δt = 0.218), with the jitter given as a fraction of the
+silent crossing time t₀ = 8.5837:
+- σ = 0.1 (1.2% of t₀): N_min ≈ 1 pair
+- σ = 1.0 (11.7% of t₀): N_min ≈ 21 pairs
+- σ = 10.0 (117% of t₀): N_min ≈ 2100 pairs
 
-The channel works. 1 bit per ~21 pairs at worst-case jitter.
+The channel works: 1 bit per ~21 pairs at about a tenth of t₀ in jitter.
+The percentages matter here. An earlier version read σ = 1.0 as "100%
+jitter", which it is not, and called 21 pairs the worst case; jitter of
+a full t₀ needs about 1550.
 Rate scales as (J/γ)², quadratic in coupling strength.
 
 ### 8.4 Not FTL
@@ -528,9 +487,9 @@ IS the signal.
 
 ---
 
-## 10. Honest Assessment: What We Actually Gain
+## 9. Honest Assessment: What We Actually Gain
 
-### 10.1 What This Is NOT
+### 9.1 What This Is NOT
 
 The channel requires physical coupling J > 0. Information propagates
 through the Hamiltonian at finite speed. This is not FTL. This is not
@@ -538,7 +497,7 @@ the Mars-Earth bridge the agents imagined. Any signal A reads from
 B's measurement could equally be sent by a classical wire through
 the same coupling.
 
-### 10.2 What This IS
+### 9.2 What This IS
 
 **A detector for extremely weak couplings.** The CΨ crossing time
 integrates over the full decoherence trajectory. Where a single-shot
@@ -556,16 +515,15 @@ the quantum state bends the observer-dilation geometry. If the
 K-matrix has a deeper geometric structure, this connects quantum
 mechanics to gravity in a new way. [FALLEN]
 
-**The reservoir mechanism.** Coupling redistributes coherence into
-a shared nonlocal pool, creating a dynamic oscillating equilibrium.
-Measurement disrupts this equilibrium: the return flow is cut
-while the drain continues. This is not "entanglement protects";
-coupling actually accelerates local decay vs isolation. But the
-measurement-induced disruption is quantifiable via CΨ crossing
-time shift. Relevant for understanding decoherence dynamics in
+**The measurement-induced shift.** It is not "entanglement protects":
+on a state the Hamiltonian can reach, coupling accelerates local decay
+against isolation (§7.2). The shift itself is quantifiable via the
+CΨ crossing time and has no threshold in J. Its direction is not
+explained here; the reservoir account that once stood in this slot is
+struck (§7.1). Relevant for understanding decoherence dynamics in
 coupled quantum systems.
 
-### 10.3 The Bridge Is Dead, Long Live the Detector
+### 9.3 The Bridge Is Dead, Long Live the Detector
 
 The original bridge (FTL communication) stays dead. [FALLEN] What survives
 is CΨ as a measurement instrument for physics that standard
@@ -575,7 +533,7 @@ signals readable.
 
 ---
 
-## 11. Reproduction
+## 10. Reproduction
 
 ```python
 # The interval shift computation

@@ -12,8 +12,15 @@ Tracks:
 4. Regeneration: concurrence after B's measurement
 5. Coupling vs isolation: J sweep for local crossing time
 
-Key finding: coupling REDISTRIBUTES coherence (not protects). B's
-measurement destroys the nonlocal reservoir, cutting the return flow.
+Key finding: coupling does not protect. On |+,0>, which is NOT
+swap-symmetric, it accelerates A's local crossing against isolation.
+Why B's measurement makes the shift negative is open; the "nonlocal
+reservoir" reading this script once printed is withdrawn, because the
+|++> run it described is an exact product state with a J-free
+trajectory (see experiments/OBSERVER_GRAVITY_BRIDGE.md section 7.1).
+The "nonlocal coherence" quantity below is total l1 coherence minus
+the two local ones; it is nonzero for any product of two coherent
+qubits, so it does not measure a correlation.
 
 Script:  simulations/shift_mechanism.py
 Output:  simulations/results/shift_mechanism.txt
@@ -151,7 +158,7 @@ def find_crossing_time(L, rho0, dt=0.001, t_max=30.0):
 # SETUP
 # ============================================================
 log("=" * 70)
-log("Shift Mechanism: Coherence Reservoir and B's Measurement")
+log("Shift Mechanism: B's Measurement and A's Crossing Time")
 log("=" * 70)
 log()
 
@@ -299,8 +306,8 @@ for J_val in [0.05, 0.10, 0.50, 1.00]:
 # ============================================================
 log()
 log("=" * 70)
-log("Coupling REDISTRIBUTES coherence, not protects.")
-log("B's measurement destroys nonlocal reservoir, cutting return flow.")
+log("Coupling does not protect: on |+,0> it accelerates A vs isolation.")
+log("Why the shift is negative is open; see OBSERVER_GRAVITY_BRIDGE 7.1.")
 log("Damage is timing-dependent (oscillation phase matters).")
 log("Regeneration peaks briefly, then dies.")
 log("=" * 70)
