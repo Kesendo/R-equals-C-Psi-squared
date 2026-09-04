@@ -298,15 +298,8 @@ out("=" * 70)
 
 out(f"\n  Q52 Hardware (25 time points):")
 
-# Check: does theta track CPsi monotonically?
-hw_cpsi_sorted = sorted([(d['cpsi'], d['theta']) for d in hw_data], reverse=True)
-monotonic_violations = 0
-for i in range(1, len(hw_cpsi_sorted)):
-    if hw_cpsi_sorted[i][1] > hw_cpsi_sorted[i-1][1] + 0.1:
-        monotonic_violations += 1
-
-out(f"  theta vs CPsi monotonicity violations: {monotonic_violations}")
-out(f"  (Expected: 0 if theta = f(CPsi) and CPsi monotonic)")
+# theta is arctan(sqrt(4*CPsi-1)) of the same CPsi, so comparing the two can
+# only restate the map. There is nothing here to check.
 
 # Check: does Bures velocity decrease with CPsi?
 hw_bv = np.array([d['bures'] for d in hw_data[1:]])
@@ -352,10 +345,18 @@ out(f"""
 
   WHAT WORKS:
 
-  1. theta and CPsi are ROBUST on hardware.
+  1. CPsi is ROBUST on hardware.
      - Q52: CΨ=1/4 crossing at 115.0 us, predicted 114.7 us (0.3% error)
      - Shadow Q80/Q102: CΨ trajectories track theoretical decay
-     - theta gives physically meaningful angular distance to boundary
+     - theta here is arctan(sqrt(4*CPsi - 1)) of the same CPsi, so it is
+       a rereading of instrument 1 and not an independent check. Below
+       1/4 this script clamps it to 0, where 7 distinct CPsi values on
+       Q80 and 7 on Q102 all report theta = 0.0
+     - Its slope steepens without bound at the boundary,
+       dtheta/dCPsi = 1/(2*CPsi*sqrt(4*CPsi - 1)), so theta stretches the
+       scale near 1/4. Whether that stretch helps a decision depends on
+       the error it stretches along with the signal, which this run does
+       not measure
 
   2. Psi-norm tracks coherence faithfully.
      - r(Psi, |rho01|) = {r_psi_r01:.3f} on Q52 (near-perfect correlation)
@@ -392,10 +393,19 @@ out(f"""
      - Requires Liouvillian eigenvectors, not measurable from data
      - And it's K_P ~ 1 anyway (uninteresting for pure dephasing)
 
-  9. Hardware-simulation gap is QUBIT-SPECIFIC.
-     - Q52 (good qubit): <1% CPsi deviation
-     - Q80 (bad qubit): 61% crossing time deviation
-     - The cockpit accuracy depends on qubit quality, not on the cockpit
+  9. Hardware-simulation gap, Q80 shadow.
+     - Hardware sits BELOW simulation at all 10 points, mean
+       |CPsi_hw - CPsi_sim| = 0.034. The offset is already 0.046 at
+       t/T2* = 0 (0.8175 against 0.8639), before any evolution, so part
+       of it is preparation and readout rather than decoherence. The
+       magnitude is not monotone afterwards (0.008 at 0.5, about 0.06
+       through 1.5-2.0, 0.003 at 4.5) and carries no shape this run can
+       resolve
+     - The hardware CPsi=1/4 crossing is 18.54 us. Both columns cross,
+       but the crossing loop runs only on the hardware one, so no
+       model-vs-hardware crossing comparison is computed here
+     - This qubit's crossing was measured again on March 18 at 15.29 us
+       (experiments/IBM_RUN3_PALINDROME.md), a separate run
 
   WHY NOT A (FULLY WORKS):
   - The most important instrument (Concurrence/PC1) cannot be tested
@@ -404,7 +414,7 @@ out(f"""
   - Curvature fails on sparse data
 
   WHY NOT C (FAILS):
-  - theta + CPsi work with sub-1% accuracy on good qubits
+  - CPsi crosses within sub-1% of prediction on a good qubit
   - The instruments that ARE computable give consistent, correct values
   - MI shows real physics on the 5-qubit chain
   - Nothing contradicts the cockpit's predictions

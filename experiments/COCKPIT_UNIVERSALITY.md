@@ -260,16 +260,25 @@ single-qubit tomography (Q52, 25 points), shadow measurements
 
 - Q52 (good qubit, T2 = 298 us): CΨ = ¼ crossing measured at
   115.0 us, predicted 114.7 us. **0.3% error.**
-- Internal consistency: Ψ-norm vs off-diagonal magnitude r = 1.000.
-  Bures velocity vs CΨ: r = 0.954. All instruments agree.
-- Q80 (problematic qubit, T2* = 11 us): 61.5% crossing-time
-  deviation. Accuracy depends on qubit quality, not on the cockpit.
+- Internal consistency: Ψ-norm vs off-diagonal magnitude r = 1.000, which
+  is the identity Ψ = 2|ρ01| at d = 2 rather than a check; Bures velocity
+  vs CΨ r = 0.954, which could have come out otherwise, though an
+  exponential decay makes a high correlation close to forced.
+- Q80: 61.5% crossing-time deviation against a T2* = 11 us measured six
+  days earlier, and 1.9% against a same-day Ramsey T2* = 17.36 us
+  ([IBM Run 3](IBM_RUN3_PALINDROME.md)). Accuracy depends on how fresh
+  the input calibration is, not on the cockpit.
 - 5-qubit sacrifice zone: Selective dynamical decoupling beats
   uniform DD by 3.2× in mutual information at t=4 Trotter steps.
 
 **Assessment.** The 4 instruments computable from existing data
-(θ, Ψ-norm, Bures velocity, decay rate) are mutually
-consistent and physically correct. The 3 remaining instruments
+(θ, Ψ-norm, Bures velocity, decay rate) give physically correct values.
+None of the agreements is a strong check. θ = arctan(√(4CΨ−1)) and
+Ψ = 2|ρ01| are functions of quantities already read, so their consistency
+is arithmetic; and under dephasing the Bures velocity goes as |ρ01|, which
+makes its high correlation with CΨ close to forced. What that correlation
+tests is the exponential decay model, not the instruments'
+independence. The 3 remaining instruments
 (Concurrence, curvature, Petermann factor) require 2-qubit
 tomography that does not yet exist in the dataset. The framework
 is not refuted; it is incompletely tested.

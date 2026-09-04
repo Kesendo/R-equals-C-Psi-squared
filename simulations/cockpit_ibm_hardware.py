@@ -393,6 +393,11 @@ out(f"\n  Predicted crossing: {pred['t_star_us']:.2f} us (t/T2* = {pred['t_star_
 out(f"  Measured crossing:  {pali['measured_crossing_us']:.2f} us (t/T2* = {pali['measured_crossing_over_T2star']:.3f})")
 out(f"  Deviation: {pali['deviation_from_prediction']*100:.1f}%")
 out(f"  Verdict: {pali['verdict']['summary']}")
+out("")
+out(f"    Read that verdict with experiments/IBM_RUN3_PALINDROME.md: the T2*")
+out(f"    behind the prediction was six days old, and a same-day Ramsey")
+out(f"    (17.36 us) puts the same measured crossing 1.9% away. T2* is the")
+out(f"    only input that differs between the two predictions.")
 
 
 # ================================================================
@@ -446,10 +451,18 @@ out(f"""
        to track coherence decay
 
   4. HARDWARE-SIMULATION GAP:
-     - Q80 palindrome: 61.5% deviation in crossing time
+     - Q80 palindrome: the 61.5% crossing-time deviation is against a
+       prediction fed a T2* measured six days earlier. That T2* had
+       drifted 58% (11.0 -> 17.36 us), and against a same-day Ramsey the
+       same measured crossing sits 1.9% away (IBM Run 3)
      - Q52 tomography: crossing location matches better
-     - The gap is qubit-specific (T2*, detuning, TLS coupling)
-     - Cockpit predictions should carry ~50% uncertainty margins
+     - So what to budget is the T2* input's error, the one input that
+       differs between this prediction and the corrected one, and not a
+       blanket margin. Against the measured CPsi trajectory
+       (experiments/IBM_RUN3_PALINDROME.md): stale T2* gives MAE 0.124
+       and a same-day Ramsey 0.043; a T2* fitted post-hoc on those same
+       eight points reaches 0.026, which is what one free parameter buys
+       and not a value a run can be given in advance
 
   5. MOST USEFUL NEW INSTRUMENT: CONCURRENCE (Instrument 2).
      In simulation, Concurrence = PC1 (r=0.98).
