@@ -42,8 +42,12 @@ so. The corrected derivation is cleaner and more general.
 **2. The θ frequency claim (Feb 8).** θ was claimed to predict oscillation
 frequency. Testing showed 8.4× discrepancy: the oscillation is
 Hamiltonian-driven, not θ-driven. θ was reinterpreted as a compass
-(angular distance from ¼), which is algebraically correct and now
-validated on hardware at 0.3% accuracy.
+(angular distance from ¼), which is algebraically correct. θ itself has
+not been measured as an angle on hardware; what has is the argument of
+the complex CΨ, which wears the same square-root form
+(`f95_angle_steering_kingston_may2026`, predicted against measured to
+within 6.8° to 15.7°). The sub-percent figures elsewhere in this
+document are crossing times.
 
 *What this means:* we thought θ was a clock (telling you *when* things
 happen). It is actually a compass (telling you *where you are* relative
@@ -69,8 +73,9 @@ was reinterpreted as a fixed-point existence condition.
 *What this means:* we thought ¼ was a ceiling that quantum systems could
 not break through. It is actually a threshold: below ¼, the system
 settles into a stable resting point; above ¼, it oscillates. The number
-¼ still marks a real transition, just a different kind than we first
-thought.
+¼ still marks where the iteration changes character, but not a moment
+when a system stops being quantum: CΨ crosses ¼ in both directions, and
+an upward crossing is coherence pumping back up.
 
 ---
 
