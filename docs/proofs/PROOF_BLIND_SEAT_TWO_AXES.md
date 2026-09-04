@@ -1463,7 +1463,14 @@ suffices alone, which the centre seat answers one way and every other seat the o
 - **The theorem is about the two named families**, the wrap bond and the end-pair diagonal. The
   companion page measured four interior perturbations and found none that carries the whole
   Δ-locus, the best reaching 44 of 48 seats by containment. Which interior perturbations do, and
-  at which seats, is untouched here. Lemma 1 says why the end pair is the one the crack meets,
+  at which seats, is untouched here. Since 2026-09-04 one half of that is settled elsewhere and it
+  is the half that was not the question: 32 of those 44 are seats where the perturbation leaves the
+  seat blind at EVERY knob value and so contains every locus for free, and that branch is read by an
+  overlap criterion on the unperturbed chain's blind eigenvectors, Corollary D of
+  [the span and node-lemma proof](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md), whose status is mixed:
+  sufficiency is a theorem, necessity is a theorem only when the perturbed sites lie on one side of
+  the seat and is false when they straddle it, and the bond face is measured rather than proved. Which interior
+  perturbations carry the locus on the branch that is about the locus is still open. Lemma 1 says why the end pair is the one the crack meets,
   and says nothing about why a symmetric interior diagonal pair comes close.
 - **"The end pair is special" is still refuted** for the locus, as the companion page found, and
   nothing here reinstates it. Lemma 1 is about the crack and the anisotropy sharing an end pair,

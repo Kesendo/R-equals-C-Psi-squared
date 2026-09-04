@@ -31,6 +31,14 @@ WHAT IS GATED, in the order the work found it.
     Sigma*H(x)*Sigma = -H(-x), which holds for the crack only at odd N and for the
     anisotropy at every N.
 
+(d) WHICH PERTURBATIONS CANNOT MOVE A BLIND SEAT AT ALL. Block (c)'s CONTAINS column counts two
+    things under one number, and at many seats the perturbation leaves the resultant identically
+    zero in its own knob: the seat is blind at EVERY knob value and contains every locus for free.
+    That branch is read by ONE criterion for both perturbation kinds, the overlap of a blind
+    eigenvector of the unperturbed chain with the perturbation direction, a sum of squares for a
+    diagonal and a product for a bond. Corollary D of
+    docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md, gates D0 to D8b.
+
 Every locus is SOLVED (the real roots of a resultant), never sampled: gate B1 evaluates the
 blindness ON the solved locus, because a sampled interior point misses it by construction.
 Gates C1a and C1b take their expectations as LITERALS from F157's committed table.
@@ -38,6 +46,9 @@ Gates C1a and C1b take their expectations as LITERALS from F157's committed tabl
 Companion page: experiments/THE_BLIND_SEAT_ON_THE_ROAD.md
 """
 from fractions import Fraction
+import itertools
+import math
+
 import sympy as sp
 
 # ------------------------------------------------- part (a): the accidental half
@@ -134,6 +145,17 @@ def H_symdiag(k):
         return H
     return build
 
+def H_onesite(k):
+    """CONTROL for part (d): the SAME diagonal shift on the single interior site k alone.
+    It breaks the reflection the other controls keep, which is exactly what gate D7 reads."""
+    def build(N):
+        if k <= 0 or k >= N - 1:
+            return None
+        H = _path_sym(N)
+        H[k, k] = t
+        return H
+    return build
+
 def H_symbond(k):
     """CONTROL: the reflection-symmetric interior BOND pair (k,k+1) and (N-2-k,N-1-k)."""
     def build(N):
@@ -189,6 +211,140 @@ def loci_equal(P, Q):
 
 def locus_is_identical(Hf, N, j):
     return _resultant(Hf, N, j) is None
+
+
+# ------------------------- part (d): blindness at every knob value, one overlap law
+
+# Block (c)'s CONTAINS column counts two different things under one number. At some seats the
+# perturbation leaves the resultant identically zero in the knob: the seat is blind at EVERY KNOB
+# VALUE, its locus is the whole line, and it therefore contains every locus for free. Part (d)
+# separates that branch from the rest and reads it as ONE criterion for both perturbation kinds.
+#
+# The criterion is the overlap. A perturbation direction V cannot move a level whose eigenvector
+# does not overlap it, and for the two kinds the overlap is a different shape:
+#     a diagonal on the site set S:  v^T V v = sum over m in S of v_m^2   (a sum of SQUARES)
+#     a bond (b, b+1):               v^T V v = 2 * v_b * v_(b+1)          (a PRODUCT)
+# so the diagonal needs a node on EVERY site of S and the bond needs one at EITHER end.
+#
+# h = gcd(j+1, N+1) is F157's own letter for this integer, and the entry that owns it
+# reserves g for gcd(2j+1, N), the OTHER book; h's aliasing degree minus one is
+# the uniform XY count (block (a) above reads the aliasing on the modulus n = N+1, which is a
+# different number and gate A4 mutates it), and F157 also gives h as the node-count
+# reduction gcd(j+1, N_node). The BLIND EIGENVECTORS at seat j of the unperturbed path,
+# the eigenvectors that vanish there and span what the seat cannot touch, are
+# v_l = sin((j-l)*c*pi/h) for c = 1..h-1, derived in Corollary D of
+# PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA, so v vanishes at site m exactly when h divides c*(j-m).
+
+def _cp_tridiag(diag, sym, bonds=None):
+    """Characteristic polynomial of a tridiagonal matrix, by the Jacobi three-term recursion.
+
+    `bonds[i]` is the entry between sites i and i+1, default 1 throughout.
+    """
+    p, pm1 = sp.Integer(1), sp.Integer(0)
+    for i, a in enumerate(diag):
+        b = 1 if bonds is None or i == 0 else bonds[i - 1]
+        p, pm1 = sp.expand((sym - a) * p - b**2 * pm1), p
+    return p
+
+def _bond_halves(N, j, bond, knob):
+    """The two halves when the single bond (bond, bond+1) carries the knob instead of 1."""
+    left = [1] * max(j - 1, 0)
+    right = [1] * max(N - j - 2, 0)
+    if bond < j - 1:
+        left[bond] = knob
+    elif bond > j:
+        right[bond - j - 1] = knob
+    # a bond incident on the seat is struck away with it and carries nothing
+    return left, right
+
+def _bond_shares_root_at(N, j, bond, tv):
+    bl, br = _bond_halves(N, j, bond, tv)
+    dl, dr = [0] * j, [0] * (N - j - 1)
+    if not dl or not dr:
+        return False
+    return sp.gcd(sp.Poly(_cp_tridiag(dl, x, bl), x),
+                  sp.Poly(_cp_tridiag(dr, x, br), x)).degree() >= 1
+
+def bond_blind_at_every_knob(N, j, bond):
+    """The bond twin of `blind_at_every_knob`, same two routes and the same honest status:
+    the integer probes decide every cell in the swept range and the symbolic resultant is
+    never the one that answers."""
+    for tv in _PROBES:
+        if not _bond_shares_root_at(N, j, bond, tv):
+            return False
+    bl, br = _bond_halves(N, j, bond, t)
+    dl, dr = [0] * j, [0] * (N - j - 1)
+    return sp.expand(sp.resultant(sp.Poly(_cp_tridiag(dl, x, bl), x),
+                                  sp.Poly(_cp_tridiag(dr, x, br), x), x)) == 0
+
+def _halves_diag(N, j, S, knob):
+    """The two principal submatrices' diagonals when the knob sits on the site set S."""
+    return ([knob if i in S else 0 for i in range(0, j)],
+            [knob if i in S else 0 for i in range(j + 1, N)])
+
+def _shares_root_at(N, j, S, tv):
+    dl, dr = _halves_diag(N, j, S, tv)
+    if not dl or not dr:
+        return False                       # an end seat: Lemma J1 forbids blindness outright
+    return sp.gcd(sp.Poly(_cp_tridiag(dl, x), x),
+                  sp.Poly(_cp_tridiag(dr, x), x)).degree() >= 1
+
+_PROBES = (1, 2, 3, 5, 7, 11, 13, 17, 19, 23)
+
+def blind_at_every_knob(N, j, S):
+    """Is seat j blind at EVERY value of the knob carried by the diagonal site set S? Exact.
+
+    A single integer knob value with no shared root PROVES the resultant is not identically
+    zero, which is why the probes come first; only the survivors pay for the symbolic
+    resultant. Both routes are exact, neither is a sample of a continuum.
+
+    HONEST STATUS OF THE TWO ROUTES: over the populations swept below they never disagree,
+    and no cell exists where the ten probes agree and the symbolic resultant is nonzero. So
+    the symbolic route is unexercised here and the redundancy is a design property rather
+    than a measured one; removing either route leaves every number in this file unchanged.
+    It is kept because the probes alone would make the verdict a sample, and the absence of
+    a separating cell in range is itself the finding rather than a reason to drop it.
+    """
+    for tv in _PROBES:
+        if not _shares_root_at(N, j, S, tv):
+            return False
+    dl, dr = _halves_diag(N, j, S, t)
+    return sp.expand(sp.resultant(sp.Poly(_cp_tridiag(dl, x), x),
+                                  sp.Poly(_cp_tridiag(dr, x), x), x)) == 0
+
+def overlap_is_zero(N, j, V, modulus=None):
+    """Does a blind eigenvector at seat j have zero overlap with the perturbation direction V?
+
+    V is given as ('diag', site set) or ('bond', b). The two shapes of v^T V v are a sum of
+    squares and a product, so the diagonal asks for a node on every site and the bond for a
+    node at either end. One criterion, two faces.
+
+    Basis and not span, deliberately: A's spectrum is simple, so every eigenvector vanishing
+    at the seat is a multiple of one v^(c) and the two readings agree.
+    """
+    h = math.gcd(j + 1, N + 1) if modulus is None else modulus(N, j)
+    if h < 2:
+        return False
+    kind, arg = V
+    for c in range(1, h):
+        if kind == 'diag':
+            if all((c * (j - m)) % h == 0 for m in arg):
+                return True
+        else:
+            if (c * (j - arg)) % h == 0 or (c * (j - arg - 1)) % h == 0:
+                return True
+    return False
+
+def _interior_sets(N, j, size):
+    """Site sets for the diagonal sweeps: interior sites only, the watched seat excluded.
+
+    Two exclusions, both deliberate and both narrowing what the sweeps certify. The seat's own
+    site is struck away with the seat and changes neither block, so it is trivial. The two chain
+    ends are dropped because the perturbations this file compares are interior ones. Nothing
+    below is measured at an end site or at the seat.
+    """
+    sites = [i for i in range(1, N - 1) if i != j]
+    return itertools.combinations(sites, size)
 
 
 # ------------------------------------------------------------------------ gates
@@ -456,7 +612,9 @@ def main():
     check("C7 none of the four interior perturbations tried does the same",
           all(v < denom[k] for k, v in others.items()),
           "best of them " + max(f"{v}/{denom[k]}" for k, v in others.items())
-          + "; the margin is narrow, and 'the end pair is special' is REFUTED for this locus")
+          + "; 'the end pair is special' is REFUTED for this locus. How wide the remaining gap "
+          + "is, this line does NOT say: part (d) splits the column and 32 of that 44 are seats "
+          + "blind at every knob value, so the genuine comparison is 48 against 12")
 
     # The break list and the negation-closure failure list, as SETS. Note which half is content:
     # C5b makes the Delta-locus negation-closed at every N and {+-1} is closed, so the right-hand
@@ -507,6 +665,241 @@ def main():
           f"u minus the ring ends takes exactly one of each +- pair at {len(good)} of "
           f"{len(breaks)} breaks and NOT at {bad}, where the Delta-locus contains +-1 itself "
           f"and u carries those two only as ring ends")
+
+    # ------------------------------------- part (d): blindness at every knob value, one law
+    print()
+    print("  " + "-" * 84)
+    print("  (d) WHAT THE CONTAINS COLUMN WAS COUNTING, AND THE ONE LAW UNDER IT.")
+    print("  At some seats the perturbation leaves the resultant identically zero in its own knob:")
+    print("  the seat is blind at EVERY KNOB VALUE, its locus is the whole line, and it contains")
+    print("  every locus for free. That branch is not about the Delta-locus at all, and it closes")
+    print("  to one criterion for both kinds, the OVERLAP v^T V v of a BLIND EIGENVECTOR of")
+    print("  the UNPERTURBED chain with the perturbation direction: a sum of squares for a")
+    print("  diagonal, so a node on every perturbed site; a product for a bond, so a node at")
+    print("  either end. Corollary D of docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md.")
+
+    # The split of block (c)'s own table. A READ; the gate on it is D0.
+    print()
+    split, fail_seats = {}, {}
+    for Hf, label in PERTURBATIONS:
+        every_knob = genuine = 0
+        fails = []
+        for (N, j) in nonempty:
+            P, Pd = _resultant(Hf, N, j), _resultant(H_delta, N, j)
+            if P == 'SKIP':
+                continue
+            if P is None:
+                every_knob += 1
+            elif locus_contains(P, Pd):
+                genuine += 1
+            else:
+                fails.append((N, j))
+        split[label] = (every_knob, genuine, len(fails))
+        fail_seats[label] = fails
+        print(f"      {label}:  CONTAINS {every_knob + genuine}/{every_knob + genuine + len(fails)}"
+              f"  =  {every_knob} blind at every knob + {genuine} genuine,  {len(fails)} fail")
+    best = "a reflection-SYMMETRIC interior diagonal pair (1, N-2)"
+    check("D0 the best interior row's CONTAINS column is mostly seats blind at EVERY knob value",
+          split[best][0] > split[best][1],
+          f"{split[best][0]} of its {split[best][0] + split[best][1]}; the {split[best][2]} it "
+          f"fails outright are {fail_seats[best]}, which is a READ printed here so the page's "
+          f"list of them has a producer, and it is reflection-closed: "
+          f"{sorted((N, N - 1 - j) for (N, j) in fail_seats[best]) == sorted(fail_seats[best])}")
+
+    # ------------------------------------------------ the law against the table it explains
+    # Block (c) runs on ODD N = 5..17; the sweeps below stop earlier. Without this join nothing
+    # would connect D0's split to the criterion, which is the whole motivation of part (d).
+    # TWO populations, deliberately. The table's own seats are the 48 with a nonempty Delta-locus,
+    # and that list EXCLUDES every centre seat, whose Delta-resultant vanishes identically. The
+    # centre seat is exactly where D3 shows the criterion's converse failing on this same (1, N-2)
+    # row, so certifying only the table's seats would take the green from the counterexamples
+    # being outside the loop. The full seat list is therefore read as well, and its disagreements
+    # are gated to sit AT centre seats, which is the one direction and not a set equality.
+    join_bad, join_cells, join_pos = [], 0, 0
+    full_bad, full_cells = [], 0
+    for k in (1, 2):
+        for N in ODD:
+            if k >= N - 1 - k:
+                continue
+            for j in range(N):
+                meas = _resultant(H_symdiag(k), N, j) is None
+                pred = overlap_is_zero(N, j, ('diag', {k, N - 1 - k}))
+                full_cells += 1
+                if meas != pred:
+                    full_bad.append((N, j, k))
+                if (N, j) not in nonempty:
+                    continue
+                join_cells += 1
+                join_pos += pred
+                if meas != pred:
+                    join_bad.append((N, j, k))
+    check("D8 THE JOIN: the criterion decides block (c)'s own two diagonal rows, seat by seat, "
+          "on the 48 seats that table runs on, over ODD N = 5..17",
+          not join_bad and 0 < join_pos < join_cells,
+          f"{join_cells} cells, {join_pos} blind at every knob and {join_cells - join_pos} not, "
+          f"0 disagreements")
+    check("D8b AND THE SEATS THAT LIST DROPS ARE NOT A FREE PASS: read over ALL seats of the same "
+          "N, the criterion DOES disagree, and exactly at the centre seats D3 names",
+          bool(full_bad) and all(N - 1 - 2 * j == 0 for (N, j, _) in full_bad),
+          f"{len(full_bad)} disagreements of {full_cells} cells, every one at a centre seat: "
+          f"{full_bad}; the 48-seat list excludes them because their Delta-resultant vanishes "
+          f"identically, so D8's green is scoped to that list and not to the N range")
+
+    # ------------------------------------------------------------- the law, both halves, diagonal
+    D_RANGE = range(5, 15)
+    onesided, straddling = [], []
+    for N in D_RANGE:
+        for j in range(1, N - 1):
+            for size in (1, 2, 3):
+                for S in _interior_sets(N, j, size):
+                    (onesided if (max(S) < j or min(S) > j) else straddling).append(
+                        (N, j, frozenset(S)))
+    one_truth = {k: blind_at_every_knob(k[0], k[1], set(k[2])) for k in onesided}
+    one_law = {k: overlap_is_zero(k[0], k[1], ('diag', set(k[2]))) for k in onesided}
+    fwd = [k for k in onesided if one_law[k] and not one_truth[k]]
+    cnv = [k for k in onesided if one_truth[k] and not one_law[k]]
+    n_law, n_true = sum(one_law.values()), sum(one_truth.values())
+    print()
+    print(f"    {len(onesided)} one-sided triples (N, seat, diagonal site set) over "
+          f"N = {D_RANGE.start}..{D_RANGE.stop - 1}, EVERY seat, the")
+    print(f"    centre seat included, site sets of size 1, 2 and 3. {n_true} are blind at every")
+    print(f"    knob value and {len(onesided) - n_true} are not.")
+    check("D1 THE FORWARD HALF (a theorem): a blind eigenvector with zero overlap leaves the "
+          "seat blind at every knob value",
+          not fwd and n_law > 0,
+          f"0 exceptions in the {n_law} triples where the LAW fires; the two counts below are "
+          f"equal BECAUSE both directions hold here, and each check guards the population that "
+          f"could refute IT, so killing either route reddens exactly one of D1 and D2")
+    check("D2 THE CONVERSE when the perturbed sites lie on ONE side of the seat (a theorem)",
+          not cnv and n_true > 0,
+          f"0 exceptions in the {n_true} triples that ARE blind at every knob value")
+
+    # Straddling is where the converse genuinely fails, and the centre seat is where it fails
+    # first: there the two halves have EQUAL length, so a mirrored knob pattern makes them the
+    # same matrix. This is what the earlier version of part (d) hid by dropping the centre seat.
+    str_fail = [k for k in straddling
+                if blind_at_every_knob(k[0], k[1], set(k[2]))
+                and not overlap_is_zero(k[0], k[1], ('diag', set(k[2])))]
+    small2 = sorted((N, j, tuple(sorted(S))) for (N, j, S) in str_fail if len(S) == 2)
+    L5, R5 = _halves_diag(5, 2, {1, 3}, t)
+    check("D3 THE CONVERSE IS FALSE WHEN S STRADDLES THE SEAT, and it fails first at the CENTRE "
+          "seat, at |S| = 2, on the road page's own (1, N-2) pair",
+          bool(small2) and all(N - 1 - 2 * j == 0 for (N, j, _) in small2)
+          and sp.Poly(_cp_tridiag(L5, x), x) == sp.Poly(_cp_tridiag(R5, x), x),
+          f"{len(small2)} failures at |S| = 2 over N = {D_RANGE.start}..{D_RANGE.stop - 1}, "
+          f"EVERY one at the centre seat; the smallest is N = 5 seat 2 with S = (1, 3), where "
+          f"the two halves are literally the same polynomial")
+    away = sorted((N, j, tuple(sorted(S))) for (N, j, S) in str_fail if N - 1 - 2 * j != 0)
+    print(f"    READ, not a census: away from the centre seat the smallest failures need "
+          f"|S| = 3; there are {len(away)} of them in this range,")
+    print(f"    {sorted({(N, j) for (N, j, _) in away})}, and the count GROWS with N, so no "
+          f"total here is a closed number.")
+
+    # Are the straddling failures the criterion in disguise? They are not: their shared factor
+    # still carries the knob. NOTE this cannot go red on a data input, since a knob-free shared
+    # level would give a blind eigenvector with zero overlap and the triple would not be in the list.
+    moving = []
+    for (N, j, S) in away:
+        dl, dr = _halves_diag(N, j, set(S), t)
+        gshared = sp.gcd(sp.Poly(_cp_tridiag(dl, x), x), sp.Poly(_cp_tridiag(dr, x), x))
+        facs = sp.factor_list(gshared.as_expr())[1]
+        moving.append(all(t in sp.Poly(f, x).as_expr().free_symbols for f, _ in facs))
+    check("D3b FORCED, and computed rather than asserted: every straddling failure's shared "
+          "factor carries the knob in EVERY one of its factors",
+          bool(moving) and all(moving),
+          f"{sum(moving)} of {len(moving)}; a knob-free factor would BE a blind eigenvector with zero "
+          f"overlap, so this check cannot go red on a data input and is here as the arithmetic "
+          f"face of that argument")
+
+    # Mutations of the modulus, scored against the one-sided truth table.
+    MUT = {"the node modulus |N-1-2j|": lambda N, j: abs(N - 1 - 2 * j),
+           "gcd(2j+1, N)": lambda N, j: math.gcd(2 * j + 1, N),
+           "gcd(j+1, N)": lambda N, j: math.gcd(j + 1, N),
+           "gcd(j, N+1)": lambda N, j: math.gcd(j, N + 1),
+           "N+1": lambda N, j: N + 1}
+    mut_scores = {name: sum(1 for k in onesided
+                            if overlap_is_zero(k[0], k[1], ('diag', set(k[2])), modulus=mod)
+                            != one_truth[k])
+                  for name, mod in MUT.items()}
+    check("D4 five wrong moduli in the same law all redden",
+          all(v > 0 for v in mut_scores.values()),
+          ", ".join(f"{k}: {v}" for k, v in mut_scores.items())
+          + f" disagreements of {len(onesided)}")
+
+    shiftable = [(N, j, S) for (N, j, S) in onesided
+                 if max(S) + 1 <= N - 2 and j not in {m + 1 for m in S}]
+    shifted = sum(1 for (N, j, S) in shiftable
+                  if overlap_is_zero(N, j, ('diag', {m + 1 for m in S})) != one_truth[(N, j, S)])
+    check("D5 the law reads the SITES too: shifting every perturbed site by one reddens it",
+          shifted > 0,
+          f"{shifted} disagreements of the {len(shiftable)} triples whose sites can all be "
+          f"shifted without hitting the seat or the chain end")
+
+    # ------------------------------------------------------------------------ the bond face
+    # An earlier version of this block claimed a bond could not take this route at all, because
+    # a blind eigenvector would need two consecutive zeros and Lemma J1 forbids that. That transplanted
+    # the DIAGONAL's condition. The bond's overlap is a PRODUCT, so one node suffices, and J1
+    # never applied. Read per cell, not as a total. D6b shifts the knob to the neighbouring bond
+    # and compares against the UNSHIFTED measurement: the criterion then disagrees at many cells,
+    # which is what pins the bond INDEX rather than only the bond count.
+    bond_cells, bond_bad, bond_pos = [], [], 0
+    for N in D_RANGE:
+        for j in range(1, N - 1):
+            for b in range(0, N - 1):
+                if b in (j - 1, j):
+                    continue                  # incident on the seat; struck away with it
+                meas = bond_blind_at_every_knob(N, j, b)
+                pred = overlap_is_zero(N, j, ('bond', b))
+                bond_cells.append((N, j, b))
+                bond_pos += meas
+                if meas != pred:
+                    bond_bad.append((N, j, b))
+    shiftable_bonds = [(N, j, b) for (N, j, b) in bond_cells if b > 0]
+    shift_bad = sum(1 for (N, j, b) in shiftable_bonds
+                    if overlap_is_zero(N, j, ('bond', b - 1)) != bond_blind_at_every_knob(N, j, b))
+    shift_fires = sum(1 for (N, j, b) in shiftable_bonds if overlap_is_zero(N, j, ('bond', b - 1)))
+    true_fires = sum(1 for (N, j, b) in shiftable_bonds if overlap_is_zero(N, j, ('bond', b)))
+    check("D6 THE BOND IS THE SAME LAW, cell by cell: a node at EITHER end of the knob-bearing "
+          "bond, the product where the diagonal has a sum of squares",
+          not bond_bad and 0 < bond_pos < len(bond_cells),
+          f"{len(bond_cells)} cells over N = {D_RANGE.start}..{D_RANGE.stop - 1}, every seat, "
+          f"{bond_pos} blind at every knob value and {len(bond_cells) - bond_pos} not, "
+          f"0 disagreements")
+    check("D6b the criterion reads the bond INDEX and not only how many bonds qualify: moving "
+          "the knob to the neighbouring bond disagrees with the unshifted measurement",
+          shift_bad > 0,
+          f"{shift_bad} disagreements of the {len(shiftable_bonds)} cells with a bond to its left; "
+          f"the shifted criterion also fires a different NUMBER of times ({shift_fires} against "
+          f"{true_fires}), so the off-by-one is not count-preserving either")
+
+    # The reflection buys nothing on this branch and everything on the other.
+    pair_vs_single = pair_seats = 0
+    for N in ODD:
+        for j in range(1, N - 1):
+            for m in range(1, (N - 1) // 2):
+                if m == j or N - 1 - m == j:
+                    continue
+                pair_seats += 1
+                if (overlap_is_zero(N, j, ('diag', {m, N - 1 - m}))
+                        != overlap_is_zero(N, j, ('diag', {m}))):
+                    pair_vs_single += 1
+    eq_pair = eq_single = live_pair = live_single = 0
+    for (N, j) in nonempty:
+        Pd = _resultant(H_delta, N, j)
+        P2 = _resultant(H_symdiag(1), N, j)
+        if P2 not in (None, 'SKIP'):
+            live_pair += 1
+            eq_pair += loci_equal(P2, Pd)
+        P1 = _resultant(H_onesite(1), N, j)
+        if P1 not in (None, 'SKIP'):
+            live_single += 1
+            eq_single += loci_equal(P1, Pd)
+    check("D7 the reflection buys nothing on this branch and IS what buys equality",
+          eq_pair > eq_single and pair_vs_single == 0,
+          f"on EQUALITY with the Delta-locus the pair scores {eq_pair} of {live_pair} live seats "
+          f"and the single site {eq_single} of {live_single}; the two agree on blindness at every "
+          f"knob value at all {pair_seats} pairs tried BECAUSE gcd(j+1, N+1) divides N-1-2j, not "
+          f"because it was measured")
 
     print()
     print("=" * 86)

@@ -19,8 +19,8 @@ says "odd orders", but §(a) below leans on the M ladder, which carries the even
 u = J′/J on the wrap bond leaves the open chain at u = 0 and reaches the ring at u = 1. J itself
 never enters: every H below is in units of J.
 **Gate:** `python simulations/blind_seat_on_the_road.py`
-([source](../simulations/blind_seat_on_the_road.py)), 25 checks under 20 labels in three blocks
-(A4 fires three times, C1 four), about 21 seconds measured quiet under **sympy 1.14.0**, which is
+([source](../simulations/blind_seat_on_the_road.py)), 37 checks under 32 labels in four blocks
+(A4 fires three times, C1 four), about 47 seconds measured quiet under **sympy 1.14.0**, which is
 the version the numbers below were produced with and matters because the third trap is a
 sympy-behaviour trap with two instances. sympy is not in the dependency line in `CLAUDE.md`. Run at
 [`blind_seat_on_the_road_run.txt`](../simulations/results/blind_seat_on_the_road/blind_seat_on_the_road_run.txt).
@@ -310,21 +310,63 @@ the ring ends: two predicates, two denominators.
 Asked the same way of everything, on the 48 seats with a nonempty Δ-locus, the predicate that means
 *carries the whole Δ-locus* is containment:
 
-| perturbation | locus = Δ-locus | Δ-locus ⊆ locus |
-|---|---|---|
-| the crack (wrap bond) | 8 of 48 | **48 of 48** |
-| an interior bond, asymmetric | 0 of 48 | 36 of 48 |
-| a symmetric interior bond pair | 0 of 48 | 36 of 48 |
-| a symmetric interior diagonal pair (1, N−2) | 12 of 48 | 44 of 48 |
-| a symmetric interior diagonal pair (2, N−3) | 16 of 46 | 22 of 46 |
+| perturbation | locus = Δ-locus | Δ-locus ⊆ locus | of which blind at EVERY knob |
+|---|---|---|---|
+| the crack (wrap bond) | 8 of 48 | **48 of 48** | 0 |
+| an interior bond, asymmetric | 0 of 48 | 36 of 48 | 36 |
+| a symmetric interior bond pair | 0 of 48 | 36 of 48 | 36 |
+| a symmetric interior diagonal pair (1, N−2) | 12 of 48 | 44 of 48 | 32 |
+| a symmetric interior diagonal pair (2, N−3) | 16 of 46 | 22 of 46 | 6 |
+
+The last row's denominator is 46 rather than 48 because at N = 5 the pair (2, N−3) degenerates onto
+the reflection-fixed centre site and the builder declines the two seats of that N.
 
 The table is a **read**, not a gate. On **equality** the crack loses, and must: it always carries
-the ring ends as well. On containment it is alone at 48 of 48 — which is C3 restated rather than a
-second measurement, since C3's equality already implies it — and gate C7, the one assertion here
+the ring ends as well. On containment it is alone at 48 of 48, which is C3 restated rather than a
+second measurement, since C3's equality already implies it; and gate C7, the one assertion here
 that carries new information, is that none of the four interior perturbations tried reaches that.
-The best of them is at 44, so the margin is four seats, not a gulf. Which interior
-perturbations carry the locus, and at which seats, is an open question this page did not have before
-the retraction.
+
+**The fourth column is why the third cannot be read at face value, and an earlier version of this
+page read it that way.** At those seats the perturbation leaves the resultant identically zero in
+its own knob: the seat is blind at *every* knob value, so its locus is the whole line and it
+contains every locus for free. That is not a statement about the Δ-locus at all. Split out by gate
+D0, the best interior row's 44 is 32 such seats plus 12 genuine ones, and both bond rows are
+nothing else. The sentence this page used to carry, that the margin to the crack *is four seats,
+not a gulf*, was setting 48 genuine containments beside 12. The four seats where that row fails
+outright, (15, 4), (15, 10), (17, 4) and (17, 12), are two reflection orbits and both sit at the
+top two N of the range, which is a read on where in the range they sit and not a statement about larger N.
+
+**One criterion covers both perturbation kinds.** What decides that branch is the OVERLAP of a blind
+eigenvector of the UNPERTURBED chain with the perturbation direction, and the two kinds differ only
+in the shape of that overlap: for a diagonal it is a sum of squares, so the vector needs a node on
+every perturbed site; for a bond it is the product 2·v_b·v_{b+1}, so one node at either end
+suffices. Written out with h = gcd(j+1, N+1), F157's own letter for this integer, which is the
+aliasing degree part (a) reads on the modulus n = N+1 and whose value minus one is that part's
+count:
+
+    a diagonal on S:      h | c·(j − m) for every m ∈ S, for some c ∈ 1..h−1
+    a bond (b, b+1):      h | c·(j − b) or h | c·(j − b − 1), for some c ∈ 1..h−1
+
+[Corollary D](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md) proves the forward half for a
+diagonal, and proves the converse when the perturbed sites lie on ONE side of the seat. It does not
+close the branch outright, and the reason matters here: this page's own diagonal rows use the pair
+(1, N−2), which STRADDLES every seat between them, and where the sites straddle the converse is
+false. It fails first at the reflection-fixed CENTRE seat, where the two halves have equal length:
+at N = 5 the pair (1, N−2) makes the two halves literally the same polynomial. So of the criterion's
+agreement on this page's rows, the forward direction is a theorem and the rest is measurement.
+
+Gate D8 carries the criterion against this page's own two diagonal rows, seat by seat, on the 48
+seats with a nonempty Δ-locus, over odd N = 5..17: 94 cells, 0 disagreements. That seat list drops
+every centre seat, whose Δ-resultant vanishes identically, and the centre seat is exactly where the
+converse fails, so gate D8b reads the same rows over ALL seats of the same N and finds 8
+disagreements of 149 cells, every one of them at a centre seat. Gate D6 reads the bond face over 570
+cells, and the bond face is a reading, not a theorem.
+
+An earlier version of this paragraph said the bond rows were a second mechanism and that what it is
+stays open. They are not, and it does not: that version had transplanted the diagonal's condition,
+asking for a node at BOTH ends of the bond, which Lemma J1 forbids outright. The product is why one
+end is enough. What IS still unnamed is the second route behind the straddling failures, where the
+two blocks share a knob-dependent factor.
 
 **Why the two axes can meet.** By Lemma B the wrap bond is rank one inside each reflection sector,
 with a sector-dependent sign η; the anisotropy is a diagonal on the same two sites and is likewise
@@ -454,7 +496,19 @@ tests.
 2. **Which interior perturbations carry the locus?** New, and generated by the retraction above.
    Read on EQUALITY, a reflection-symmetric interior diagonal pair reproduces the Δ-locus at 12 of
    48 seats at (1, N−2)
-   and 16 of 46 at (2, N−3), an interior bond at none. Which seats, and why those, is unasked.
+   and 16 of 46 at (2, N−3), an interior bond at none. **One half has an answer now, and it is the half
+   that was not the question.** The containment column's other branch, the seats blind at every knob
+   value, is [Corollary D](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md): one overlap
+   criterion covering both a diagonal and a bond, gated in part (d) here, gates D0 to D8b, and joined to this
+   page's own two diagonal rows by gates D8 and D8b. The reflection, which buys nothing there, is exactly what buys
+   equality, 12 of 16 for the pair against 0 of 16 for its single left site, where the 16 are the seats
+   left LIVE for that perturbation, the 48 minus the 32 it leaves blind at every knob value; the same
+   twelve seats the table reads as 12 of 48. What stays
+   open is the equality branch itself: which seats, and why those. Two smaller things the closing
+   exposed: the bond face is measured and not proved, since a blind eigenvector with a node at one end of
+   the bond is not itself preserved by the perturbation, only its level is stationary to first
+   order; and when the perturbed sites straddle the seat the converse is false, first at the centre
+   seat at |S| = 2 and away from it at |S| = 3, with the number of failures growing with N.
 3. **Ask each comb law which modulus its comb is on.** F157 survives detuning because its comb moves
    from the spectrum to the parameter, on the seat-dependent N_node. For F89's seed resonance,
    F145/F146, F65's Niven root and F144's exception the question is whether a parameter-side comb

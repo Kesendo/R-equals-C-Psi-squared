@@ -8443,7 +8443,10 @@ public static class OpenArcsRegistry
                 "Delta_k and is itself a cosine comb on the node modulus: the fence-free continuation " +
                 "changes comb, it does not leave comb country. REFUTED there and worth carrying: 'the " +
                 "end pair is special' is false for this locus, a symmetric interior diagonal pair " +
-                "reproducing it at 12 of 48 seats; only UNIFORMITY separates the crack, by four seats. " +
+                "reproducing it at 12 of 48 seats. The 'by four seats' reading of that margin is " +
+                "WITHDRAWN 2026-09-04: 32 of the interior row's 44 containments are seats " +
+                "blind at EVERY knob value, which contain every locus for free, so the " +
+                "comparison was 48 genuine containments against 12. " +
                 "PROVED the same day, docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md, gate " +
                 "simulations/blind_seat_two_axes_proof.py (61 checks that day, 82 since 2026-09-04): on the reflection-EVEN " +
                 "subspace psi_{N-1} = psi_0, so the wrap bond acts exactly as the end-pair " +
@@ -8559,6 +8562,41 @@ public static class OpenArcsRegistry
                 "and the right halves the two combs is still the gate's W5, and the step from the " +
                 "factorisation's multiplicity to section (h) Corollary 8a's b_E is still measured " +
                 "against no b_E anywhere. " +
+                "THE INTERIOR-PERTURBATION ITEM, HALF CLOSED 2026-09-04, and the half that " +
+                "closed is the half that was not the question. The road page's containment column " +
+                "counted two things under one number: at 32 of the best interior row's 44 seats " +
+                "the perturbation leaves the resultant identically zero in its own knob, so the " +
+                "seat is blind at EVERY knob value and contains every locus for free, and both " +
+                "bond rows are nothing else. That branch is read by ONE criterion for both " +
+                "perturbation kinds, Corollary D of PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA: the " +
+                "OVERLAP of a BLIND EIGENVECTOR of the unperturbed chain with the perturbation " +
+                "direction. The two kinds differ only in the shape of that overlap, a sum of " +
+                "squares for a diagonal (a node on EVERY perturbed site) and the product " +
+                "2*v_b*v_(b+1) for a bond (a node at EITHER end), which with F157's own letter " +
+                "h = gcd(j+1, N+1) reads: some c in 1..h-1 has h | c*(j - m) for all m in S, " +
+                "resp. h | c*(j - b) or h | c*(j - b - 1). STATUS, which is mixed and is stated " +
+                "that way on every surface: for a DIAGONAL sufficiency is a theorem from Lemma J, " +
+                "and so is necessity when the perturbed sites lie on ONE side of the seat, by " +
+                "Hellmann-Feynman on a knob-free simple level; when they STRADDLE the seat " +
+                "necessity is FALSE, first at the reflection-fixed CENTRE seat at |S| = 2, where " +
+                "the two halves have equal length and the pair (1, N-2) makes them the same " +
+                "polynomial at N = 5, and away from the centre at |S| = 3, 28 triples in the " +
+                "gated range with the count growing with N. For a BOND the criterion is a READING " +
+                "and not a theorem, exact at all 570 cells of N = 5..14. A first draft of this " +
+                "annotation said the bond was a SECOND mechanism and that what it is stays open; " +
+                "that draft had transplanted the diagonal's condition, asking for a node at both " +
+                "ends, which Lemma J1 forbids, and the product is why one end is enough. " +
+                "STILL OPEN: which interior perturbations carry the locus on the EQUALITY branch, " +
+                "which is the branch the item asked about; a proof of the bond face; and what the " +
+                "second route behind the STRADDLING failures is, where the two blocks share a " +
+                "knob-dependent factor. Gated in part (d) of " +
+                "simulations/blind_seat_on_the_road.py, D0 to D8b. D8 joins the criterion to the " +
+                "road page's own two diagonal rows on the 48 seats that table runs on, over odd " +
+                "N = 5..17, 0 disagreements; that seat list drops every centre seat, so D8b reads " +
+                "the same rows over EVERY seat of the same N and gates that each of the 8 " +
+                "disagreements among its 149 cells is AT a centre seat, which is the one " +
+                "direction and not a set equality (13 cells are at centre seats). " +
+                "Run: python simulations/blind_seat_on_the_road.py for part (d); " +
                 "Run: python simulations/blind_seat_two_axes_proof.py",
             Status: OpenArcStatus.Open),
         new OpenArc(

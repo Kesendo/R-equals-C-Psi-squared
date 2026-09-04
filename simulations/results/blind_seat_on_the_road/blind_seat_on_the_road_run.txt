@@ -50,11 +50,45 @@
       a reflection-SYMMETRIC interior diagonal pair (1, N-2):  EQUAL 12/48   CONTAINS 44/48
       a reflection-SYMMETRIC interior diagonal pair (2, N-3):  EQUAL 16/46   CONTAINS 22/46
   [PASS] C6 (C3 restated) the crack CONTAINS the whole Delta-locus at every seat with one  48/48
-  [PASS] C7 none of the four interior perturbations tried does the same  best of them 44/48; the margin is narrow, and 'the end pair is special' is REFUTED for this locus
+  [PASS] C7 none of the four interior perturbations tried does the same  best of them 44/48; 'the end pair is special' is REFUTED for this locus. How wide the remaining gap is, this line does NOT say: part (d) splits the column and 32 of that 44 are seats blind at every knob value, so the genuine comparison is 48 against 12
   [PASS] C8 even N=6..16: every break IS a non-closure (the converse is forced)  both sets are the same 22 seats
     READ: the relation still HOLDS at 44 of the 66 even-N seats.
     Parity decides whether the staggering identity FORCES it, not whether it holds.
   [PASS] C9 THE SECTOR-SPLIT SHAPE IS NOT UNIVERSAL at a break  u minus the ring ends takes exactly one of each +- pair at 20 of 22 breaks and NOT at [(12, 1), (12, 10)], where the Delta-locus contains +-1 itself and u carries those two only as ring ends
+
+  ------------------------------------------------------------------------------------
+  (d) WHAT THE CONTAINS COLUMN WAS COUNTING, AND THE ONE LAW UNDER IT.
+  At some seats the perturbation leaves the resultant identically zero in its own knob:
+  the seat is blind at EVERY KNOB VALUE, its locus is the whole line, and it contains
+  every locus for free. That branch is not about the Delta-locus at all, and it closes
+  to one criterion for both kinds, the OVERLAP v^T V v of a BLIND EIGENVECTOR of
+  the UNPERTURBED chain with the perturbation direction: a sum of squares for a
+  diagonal, so a node on every perturbed site; a product for a bond, so a node at
+  either end. Corollary D of docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md.
+
+      the crack (the wrap bond):  CONTAINS 48/48  =  0 blind at every knob + 48 genuine,  0 fail
+      an interior bond, reflection-ASYMMETRIC:  CONTAINS 36/48  =  36 blind at every knob + 0 genuine,  12 fail
+      a reflection-SYMMETRIC interior bond pair:  CONTAINS 36/48  =  36 blind at every knob + 0 genuine,  12 fail
+      a reflection-SYMMETRIC interior diagonal pair (1, N-2):  CONTAINS 44/48  =  32 blind at every knob + 12 genuine,  4 fail
+      a reflection-SYMMETRIC interior diagonal pair (2, N-3):  CONTAINS 22/46  =  6 blind at every knob + 16 genuine,  24 fail
+  [PASS] D0 the best interior row's CONTAINS column is mostly seats blind at EVERY knob value  32 of its 44; the 4 it fails outright are [(15, 4), (15, 10), (17, 4), (17, 12)], which is a READ printed here so the page's list of them has a producer, and it is reflection-closed: True
+  [PASS] D8 THE JOIN: the criterion decides block (c)'s own two diagonal rows, seat by seat, on the 48 seats that table runs on, over ODD N = 5..17  94 cells, 38 blind at every knob and 56 not, 0 disagreements
+  [PASS] D8b AND THE SEATS THAT LIST DROPS ARE NOT A FREE PASS: read over ALL seats of the same N, the criterion DOES disagree, and exactly at the centre seats D3 names  8 disagreements of 149 cells, every one at a centre seat: [(5, 2, 1), (9, 4, 1), (13, 6, 1), (17, 8, 1), (7, 3, 2), (9, 4, 2), (13, 6, 2), (15, 7, 2)]; the 48-seat list excludes them because their Delta-resultant vanishes identically, so D8's green is scoped to that list and not to the N range
+
+    4574 one-sided triples (N, seat, diagonal site set) over N = 5..14, EVERY seat, the
+    centre seat included, site sets of size 1, 2 and 3. 216 are blind at every
+    knob value and 4358 are not.
+  [PASS] D1 THE FORWARD HALF (a theorem): a blind eigenvector with zero overlap leaves the seat blind at every knob value  0 exceptions in the 216 triples where the LAW fires; the two counts below are equal BECAUSE both directions hold here, and each check guards the population that could refute IT, so killing either route reddens exactly one of D1 and D2
+  [PASS] D2 THE CONVERSE when the perturbed sites lie on ONE side of the seat (a theorem)  0 exceptions in the 216 triples that ARE blind at every knob value
+  [PASS] D3 THE CONVERSE IS FALSE WHEN S STRADDLES THE SEAT, and it fails first at the CENTRE seat, at |S| = 2, on the road page's own (1, N-2) pair  17 failures at |S| = 2 over N = 5..14, EVERY one at the centre seat; the smallest is N = 5 seat 2 with S = (1, 3), where the two halves are literally the same polynomial
+    READ, not a census: away from the centre seat the smallest failures need |S| = 3; there are 28 of them in this range,
+    [(8, 2), (8, 5), (11, 3), (11, 7), (14, 4), (14, 9)], and the count GROWS with N, so no total here is a closed number.
+  [PASS] D3b FORCED, and computed rather than asserted: every straddling failure's shared factor carries the knob in EVERY one of its factors  28 of 28; a knob-free factor would BE a blind eigenvector with zero overlap, so this check cannot go red on a data input and is here as the arithmetic face of that argument
+  [PASS] D4 five wrong moduli in the same law all redden  the node modulus |N-1-2j|: 134, gcd(2j+1, N): 248, gcd(j+1, N): 404, gcd(j, N+1): 324, N+1: 172 disagreements of 4574
+  [PASS] D5 the law reads the SITES too: shifting every perturbed site by one reddens it  324 disagreements of the 3014 triples whose sites can all be shifted without hitting the seat or the chain end
+  [PASS] D6 THE BOND IS THE SAME LAW, cell by cell: a node at EITHER end of the knob-bearing bond, the product where the diagonal has a sum of squares  570 cells over N = 5..14, every seat, 180 blind at every knob value and 390 not, 0 disagreements
+  [PASS] D6b the criterion reads the bond INDEX and not only how many bonds qualify: moving the knob to the neighbouring bond disagrees with the unshifted measurement  53 disagreements of the 505 cells with a bond to its left; the shifted criterion also fires a different NUMBER of times (178 against 165), so the off-by-one is not count-preserving either
+  [PASS] D7 the reflection buys nothing on this branch and IS what buys equality  on EQUALITY with the Delta-locus the pair scores 12 of 16 live seats and the single site 0 of 16; the two agree on blindness at every knob value at all 252 pairs tried BECAUSE gcd(j+1, N+1) divides N-1-2j, not because it was measured
 
 ======================================================================================
 VERDICT: ALL GREEN

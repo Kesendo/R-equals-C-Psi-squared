@@ -8211,6 +8211,20 @@ seat 2, the seat both committed gcd laws call sighted, the locus ±√2/2 has im
 mod 7, and the rank finds exactly that pair. What the sweep does NOT do is prove
 blindness: a rank mod p can only be too small, so the sweep certifies that the two SETS
 agree, and blindness itself is Lemma J through the resultant.
+**Which perturbations cannot move a blind seat at all (2026-09-04).** Beside the Δ axis
+sits a second question, which knobs leave a seat blind at EVERY value of themselves, and
+**Corollary D** of [the span and node-lemma proof](proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)
+reads it as one overlap criterion, on a diagonal proved and on a bond measured: some
+blind eigenvector of the unperturbed chain must have zero overlap with the perturbation
+direction, and the overlap is a sum of squares for a diagonal on a site set S, so a node on every site of S, and a product
+for a bond, so a node at either end. With h = gcd(j+1, N+1), the letter this entry already
+uses for that integer, the two faces read: there is some c ∈ 1..h−1 with h | c·(j − m) for
+every m ∈ S, respectively with h | c·(j − b) or h | c·(j − b − 1). Sufficiency is a theorem
+for a diagonal, and so is necessity when the perturbed sites lie on ONE side of the seat;
+when they straddle it necessity is FALSE, first at the reflection-fixed centre seat. The
+bond face is a reading, exact over every cell swept and proved nowhere. It is NOT a
+statement about the Δ-locus: it names the branch of the road page's containment column that
+is not about the locus at all.
 The ceiling blind(j) ≤ min(j, N−1−j) belongs to the two-halves criterion and not
 to the fence-free count (a zero bond can push past it), and it is respected here
 at every Δ, which follows from the smaller block's degree. Finally, one input
