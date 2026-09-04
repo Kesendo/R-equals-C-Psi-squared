@@ -382,9 +382,22 @@ Dominant frequency scales with total coupling:
 | 1.0 | 1.0 | 2.0 | 0.949 | 0.474 |
 | 2.0 | 2.0 | 4.0 | 1.898 | 0.474 |
 
-**Scaling law: f ≈ J_total / 2. Period: T ≈ 2 / (J_SA + J_SB).**
+**The dominant frequency is the Hamiltonian's largest Bohr frequency**, which
+for the two-spoke star has the closed form
 
-γ does not change the frequency, it only dampens:
+    f_dom = (J_SA + J_SB + √(J_SA² − J_SA·J_SB + J_SB²)) / π
+
+(exact; verified in [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md), and an
+instance of F148, the imaginary reach being the Hamiltonian spread). The rule
+of thumb f ≈ J_total/2 is not a scaling law: the ratio f/J_total is 3/(2π) =
+0.4775 at equal coupling and rises to 2/π = 0.6366 as one spoke dominates. The
+two symmetric rows above, which give 0.474 instead of 0.499, are that
+dependence showing rather than scatter.
+
+γ barely moves the frequency at these couplings. It is not exactly immune (the
+shift is second order in γ, and at J_SA=1, J_SB=2 it is 2.6e-6 in f units at
+γ = 0.005, four orders below this reading's 0.025 FFT bin), but nothing here
+can see it. What γ does visibly is dampen:
 
 | γ | f_dom | peaks found | last/first peak |
 |-------|-------|-------------|-----------------|

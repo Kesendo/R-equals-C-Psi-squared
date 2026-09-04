@@ -1031,15 +1031,51 @@ No self-consistent operating point exists.
 
 ### F29. Star-topology coupling threshold (Tier 2, N=3)
 
-    J_SB / J_SA >= 1.466    (at gamma = 0.05)
+    J_SB / J_SA >= 1.4630    (at Q = J_SA / gamma = 20)
 
-Threshold for observer-observer (AB) crossing through shared
-mediator S in star topology. Below: no AB crossing. Above: AB
-crosses 1/4. Receiver noise is fatal (gamma_A > 0.2 kills the
-connection); sender noise is tolerable (gamma_B <= 0.5).
+Threshold for observer-observer (AB) crossing of CPsi_AB = C * Psi through a
+shared mediator S. Below: no AB crossing. Above: AB crosses 1/4.
+
+**The knob is Q, not gamma, and that is exact.** The generator is linear in J
+and in gamma, so L(sJ, s*gamma) = s*L(J, gamma) and the trajectory at scaled
+rates is the same trajectory in rescaled time. The peak of CPsi over all t is
+therefore literally the same number at every gamma with Q held, and only the
+time grid can break it; measured, the ratio holds to seven digits from
+gamma = 0.0125 out to gamma = 2. Reading the threshold as "at gamma = 0.05"
+invites the confound the source document walked into, where a J-scan at fixed
+gamma and a gamma-scan at fixed J are one curve reported as two findings. At
+fixed gamma the ratio moves a lot with Q: 2.449 at Q = 5, 1.775 at Q = 10,
+1.463 at Q = 20, 1.314 at Q = 40.
+
+**The receiver/sender asymmetry is real, is about 1.7x rather than 3x, and it
+INVERTS.** Both boundaries must be read at the SAME partner rate; comparing a
+receiver row taken at one partner rate against a sender row taken at another is
+what produces the 3x figure. Converged (exact propagator and
+`simulations/star_topology_v3.py` at dt = 0.001 sampling every step, agreeing;
+J_SA = 1, J_SB = 2, gamma_S = 0.05):
+
+| partner rate | gamma_A boundary | gamma_B boundary | sender / receiver |
+|---|---|---|---|
+| 0.005 | 0.3248 | 0.5824 | 1.79 |
+| 0.05 | 0.2699 | 0.4735 | 1.75 |
+| 0.1 | 0.2117 | 0.3518 | 1.66 |
+| 0.2 | 0.1619 | 0.1105 | **0.68** |
+
+So the receiver is the fragile one over most of the range, by a factor near
+1.7, and at partner rate 0.2 the roles swap. gamma_A = 0.2 does NOT kill the
+connection: at gamma_B = 0.1 it peaks at 0.2527.
+
+**Watch the sampling.** `run_star_topology` defaults to `sample_every = 20`,
+i.e. it records the observable every 0.1 time units while integrating at
+dt = 0.005. The oscillation period here is about 0.66, so the default keeps
+six points per period and systematically misses peaks. On that default the
+"gamma_A > 0.2 kills" verdict reproduces exactly (peak 0.2491), and the
+threshold comes out at 1.4650, not the 1.466 the source states: that last
+digit was a slip on top of the sampling artifact.
 
 **Valid for:** 3-qubit star, Heisenberg, Z-dephasing,
-Bell_SA x |+>_B initial state.
+Bell_SA x |+>_B initial state, the CPsi = C * Psi book (NOT R = C * Psi^2,
+which the source document defines in the same section).
 **Replaces:** coupling sweep for star-topology crossing threshold.
 **Source:** [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 
@@ -6948,6 +6984,32 @@ Gate `simulations/star_saturation_gate.py`, extended for the non-isotropic rows 
 `simulations/ring_n4_lock_gate.py`. Sibling F147 is the one graph family whose
 ΔE_max has a closed form and is minimal; this entry is why that minimality, not the
 saturation, is what distinguishes it.
+
+**Corollary: the two-spoke star with UNEQUAL bonds** (a case F147's single-J
+Casimir does not reach). For H = J_SA*(XX+YY+ZZ)_{S,A} + J_SB*(XX+YY+ZZ)_{S,B},
+
+    ΔE_max = 2 * (J_SA + J_SB + √(J_SA² − J_SA*J_SB + J_SB²)),
+
+so by this entry max |Im λ| is the same number under uniform Z-dephasing. This is an
+identity, not a fit: the spectrum of that H is J_SA + J_SB fourfold (the S = 3/2
+multiplet) and −(J_SA + J_SB) ± 2√(J_SA² − J_SA*J_SB + J_SB²) twice each (the two
+S = 1/2 copies), so the difference of the extremes is the line above for every
+J_SA, J_SB ≥ 0. Do not certify it in floating point: on ten random coupling pairs
+nine give a residual near 1.8e-15 and one gives 0.0, so a float `== 0` here reports
+which couplings were handed to the eigensolver and not the identity. The Liouvillian
+half agrees at 1e-14 across γ = 0 to 50, and it carries no γ at all because this
+entry's attainment step does not. It collapses to F147's J*N/2 at N = 3 when
+J_SA = J_SB (6J in this Pauli convention), and to 4J, the single-bond triplet-singlet
+gap, when one spoke dies. The ratio ΔE_max/(J_SA + J_SB) is therefore NOT constant:
+3 at equal coupling, rising to 4 as one spoke dominates, which is why the rule of
+thumb f ≈ J_total/2 fits the ratios that happen to have been tried and no others.
+ΔE_max/(2π) is the frequency of the CΨ_AB trajectory that was measured, not of every
+observable: it bounds the support, and an observable overlapping only the lower lines
+peaks below it. At J_SA = 1, J_SB = 2 the trajectory of ⟨Z_A⟩ peaks at 0.4036, the
+SMALLEST Bohr frequency, while ⟨Z_B⟩ and ⟨Z_A Z_B⟩ peak at ΔE_max/(2π).
+Derived March 2026 in [Structural Cartography](../experiments/STRUCTURAL_CARTOGRAPHY.md)
+and left there unverified under a reviewer's name until it was recognised as this
+entry.
 
 Tier 1 derived. Both halves are proved above; the bound is
 `docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md` §5 and the attainment step's general

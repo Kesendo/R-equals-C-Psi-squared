@@ -530,34 +530,63 @@ projecting onto a **symmetric, underdamped eigenoperator** of the Liouvillian.
 Switch mode is where additional odd-sector components become visible.
 Repo shorthand: glide = dominant even-sector rotor, switch = mixing event.
 
-**4. Period-3 recurrence.** The reviewer derived a candidate frequency formula
-from the star-topology Hamiltonian eigenstructure:
+**4. Period-3 recurrence.** A candidate frequency formula was derived here from
+the star-topology Hamiltonian eigenstructure:
 
   f_dom = (J_SA + J_SB + sqrt(J_SA^2 - J_SA*J_SB + J_SB^2)) / pi
 
 For J_SA=1.0, J_SB=2.0: f_dom = (3 + sqrt(3)) / pi = 1.506
 
-This is a project-internal derivation from the model, not a standard formula.
-To be verified against FFT of the actual feature time series.
+**It is exact, and it is one of ours.** The expression is the largest Bohr
+frequency of the two-spoke star divided by 2*pi:
 
-**Frequency test results (March 10, verified):**
+  dE_max = 2 * (J_SA + J_SB + sqrt(J_SA^2 - J_SA*J_SB + J_SB^2))
 
-FFT on CΨ_AB time series, unitary (gamma=0), t=0 to 20:
+in the Pauli convention H = J*(XX+YY+ZZ) per bond. It is an identity rather than
+a fit: that H has spectrum J_SA + J_SB fourfold and
+-(J_SA + J_SB) +- 2*sqrt(J_SA^2 - J_SA*J_SB + J_SB^2) twice each, so the extremes
+differ by the line above for every non-negative pair. Not a float check: on ten
+random coupling pairs nine give a residual near 1.8e-15, so `== 0` there would be
+reporting the couplings and not the algebra. Under Z-dephasing the dissipative
+Liouvillian's max |Im lambda| matches at 1e-14, at every gamma from 0 to 50.
 
-| J_SA | J_SB | f_measured | f_GPT formula | f_ours (J_total/2) | GPT error | Our error | Winner |
-|---|---|---|---|---|---|---|---|
-| 0.5 | 1.0 | 0.7496 | 0.7531 | 0.7500 | 0.5% | 0.1% | Ours |
-| 1.0 | 1.0 | 0.9495 | 0.9549 | 1.0000 | 0.6% | 5.3% | GPT |
-| 1.0 | 2.0 | 1.4993 | 1.5063 | 1.5000 | 0.5% | 0.1% | Ours |
-| 1.0 | 3.0 | 2.0990 | 2.1154 | 2.0000 | 0.8% | 4.7% | GPT |
-| 2.0 | 4.0 | 2.9985 | 3.0125 | 3.0000 | 0.5% | 0.1% | Ours |
+That is [F148](../docs/ANALYTICAL_FORMULAS.md), the imaginary reach IS the
+Hamiltonian spread, which the repo proved in July; this expression is its
+closed form for the star with two unequal spokes, a case
+[F147](../docs/ANALYTICAL_FORMULAS.md) does not cover because F147 assumes one
+J. Set J_SA = J_SB and it collapses to 6*J_pauli; since S_i.S_j =
+(XX+YY+ZZ)/4 we have J_spin = 4*J_pauli, so 6*J_pauli = J_spin * 3/2, which is
+F147's J*N/2 at N = 3. The two J's are different symbols and that factor 4 is
+the whole content of the check. Let one spoke go to zero and it collapses to
+4*J_pauli, the gap of a single Heisenberg bond (+J on the triplet, -3J on the
+singlet).
 
-Both formulas are good but win in different regimes:
-- **Asymmetric (J_SA != J_SB):** Our formula f = J_total/2 wins (0.1% error)
-- **Symmetric (J_SA = J_SB):** GPT formula wins (0.6% vs 5.3%)
+**The comparison against f = J_total/2 (March 10), and why it decided nothing.**
 
-For our standard setup (J_SA=1.0, J_SB=2.0), dominant frequency = 1.4993,
-our prediction 1.5000 hits within 0.05%.
+| J_SA | J_SB | f_measured | closed form | J_total/2 |
+|---|---|---|---|---|
+| 0.5 | 1.0 | 0.7496 | 0.7531 | 0.7500 |
+| 1.0 | 1.0 | 0.9495 | 0.9549 | 1.0000 |
+| 1.0 | 2.0 | 1.4993 | 1.5063 | 1.5000 |
+| 1.0 | 3.0 | 2.0990 | 2.1154 | 2.0000 |
+| 2.0 | 4.0 | 2.9985 | 3.0125 | 3.0000 |
+
+The three rows where J_total/2 looks better are the SAME system scaled: 0.5:1,
+1:2 and 2:4 are all ratio 2, and the model has no absolute scale, so they carry
+one measurement between them, not three. The tally is one case against two, and
+the two are the ones where the formulas differ by more than the reading's own
+accuracy. At ratio 2 they differ by 0.5% while the FFT resolves 0.025 in f, so
+that row could not have decided anything either way.
+
+f/J_total is not a constant at all: it is 3/(2*pi) = 0.4775 at equal coupling,
+0.5021 at ratio 2, and rises to 2/pi = 0.6366 as one spoke dominates. J_total/2
+sits inside that range and matches the two ratios that were tried.
+
+The sibling document [Star Topology Observers](STAR_TOPOLOGY_OBSERVERS.md) 4.12
+measures the same frequency on the same system and reports f ≈ J_total/2 as a
+scaling law, without a link in either direction. Its own table already carries
+the refutation, the two symmetric-coupling rows reading 0.474 where the
+asymmetric ones read 0.499.
 
 The period-3 window recurrence is consistent with this frequency: at f=1.5,
 one full cycle takes T=0.667 time units. The glide-glide-switch pattern spans
