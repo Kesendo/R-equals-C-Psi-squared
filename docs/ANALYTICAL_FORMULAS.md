@@ -1031,7 +1031,7 @@ No self-consistent operating point exists.
 
 ### F29. Star-topology coupling threshold (Tier 2, N=3)
 
-    J_SB / J_SA >= 1.4630    (at Q = J_SA / gamma = 20)
+    J_SB / J_SA >= 1.46295    (at Q = J_SA / gamma = 20)
 
 Threshold for observer-observer (AB) crossing of CPsi_AB = C * Psi through a
 shared mediator S. Below: no AB crossing. Above: AB crosses 1/4.
@@ -1041,7 +1041,15 @@ and in gamma, so L(sJ, s*gamma) = s*L(J, gamma) and the trajectory at scaled
 rates is the same trajectory in rescaled time. The peak of CPsi over all t is
 therefore literally the same number at every gamma with Q held, and only the
 time grid can break it; measured, the ratio holds to seven digits from
-gamma = 0.0125 out to gamma = 2. Reading the threshold as "at gamma = 0.05"
+gamma = 0.0125 out to gamma = 2.
+
+Five decimals rather than four on purpose. The peak of CPsi is a supremum over
+continuous time, so every finite observation grid undershoots it and therefore
+OVERSHOOTS the threshold, converging from above: 1.463035 at grid 0.0083 and
+0.0042, 1.462984 at 0.002, 1.462952 at 0.001 and 0.0005. Locating the peak by
+bounded optimisation instead of sampling gives 1.4629518, which sits on the
+four-decimal rounding boundary, so quoting it to four would hide which side of
+1.46295 the value is on. Reading the threshold as "at gamma = 0.05"
 invites the confound the source document walked into, where a J-scan at fixed
 gamma and a gamma-scan at fixed J are one curve reported as two findings. At
 fixed gamma the ratio moves a lot with Q: 2.449 at Q = 5, 1.775 at Q = 10,

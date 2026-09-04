@@ -354,7 +354,7 @@ a mutual friend.
 
 ### Three conditions for AB crossing (at Q = J_SA/γ = 20)
 
-1. **Strong sender:** J_SB/J_SA >= 1.4630 ([F29](ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3); the knob is Q, not γ, exactly, since the generator is linear in J and in γ)
+1. **Strong sender:** J_SB/J_SA >= 1.46295 ([F29](ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3); the knob is Q, not γ, exactly, since the generator is linear in J and in γ)
 2. **Quiet receiver:** γ_A below a boundary that moves with γ_B, 0.2699 at γ_B = 0.05 and 0.2117 at γ_B = 0.1. Read at a MATCHED partner rate the sender tolerates about 1.7 times as much, and at partner rate 0.2 the asymmetry inverts and the sender becomes the fragile one
 3. **Deep pre-existing connection:** Initial C_SA > 0.8 (Bell-like). This third condition has no reproduction path in the repo; no committed script sweeps it.
 
@@ -467,7 +467,7 @@ They are not arbitrary; each one comes from the mathematics.
 | Value | Source |
 |-------|--------|
 | **1/4** | Discriminant of the fixed-point equation. Below 1/4: real fixed points exist. Above: complex. Algebraically exact within the iteration. |
-| **1.4630** | J_SB/J_SA threshold for AB crossing at Q = J_SA/γ = 20 (star topology, [F29](ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3)). The older ~1.466 was read off an observable sampled every 0.1 against a period of 0.66, which gives 1.4650. |
+| **1.46295** | J_SB/J_SA threshold for AB crossing at Q = J_SA/γ = 20 (star topology, [F29](ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3)). Five decimals because the value sits on the four-decimal boundary. The older ~1.466 was read off an observable sampled every 0.1 against a period of 0.66, which gives 1.4650. |
 | **1/3** | CΨ of a maximally entangled Bell pair (C = 1, Ψ = 1/3). |
 | **2γ** | Decay rate of the c− supermode (antisymmetric, slow). At **uniform γ** the 2γ rung exists at every coupling; it is the *slowest* nonzero rate only above the threshold Q*_gap(N). Under a per-site rate profile there is no single 2γ, and what replaces it is a floor rather than a value; on the anti-palindromic locus a ladder does return, with γ̄ in place of γ, under conditions the docstring of [`band_edge_profile_fence_gate.py`](../simulations/band_edge_profile_fence_gate.py) states. |
 | **8γ/3** | Concurrence-envelope decay rate at N=3, in the J/γ → ∞ limit; at finite coupling a three-level band (F33). |

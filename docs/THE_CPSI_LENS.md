@@ -111,7 +111,7 @@ In plain language: a conversation between two people is harder to maintain in a 
 
 In the tested star-topology sweeps (S coupled to A and B, no direct A-B coupling), the AB pair crossed the 1/4 threshold only when three conditions held simultaneously:
 
-- **The sender must be strongly engaged.** J_SB/J_SA ≥ 1.4630 at Q = J_SA/γ = 20. B must be coupled to the shared object more strongly than A. The threshold belongs to Q rather than to γ: the generator is linear in J and in γ, so scaling both together is only a choice of time unit.
+- **The sender must be strongly engaged.** J_SB/J_SA ≥ 1.46295 at Q = J_SA/γ = 20. B must be coupled to the shared object more strongly than A. The threshold belongs to Q rather than to γ: the generator is linear in J and in γ, so scaling both together is only a choice of time unit.
 - **The receiver must be quiet, and it is a range rather than a line.** The γ_A boundary moves with the sender's own rate: 0.2699 at γ_B = 0.05, 0.2117 at γ_B = 0.1, 0.1619 at γ_B = 0.2. Compared at a matched partner rate the sender tolerates about 1.7 times as much, and at partner rate 0.2 the asymmetry inverts.
 - **A pre-existing deep connection must exist.** The initial SA concurrence must be Bell-like (C_SA > 0.8). Unlike the other two, this one has no committed script behind it.
 
