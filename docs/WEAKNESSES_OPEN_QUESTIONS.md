@@ -218,7 +218,7 @@ These were once on the active list. They have since been answered.
 | N-Scaling Barrier | Resolved: crossing is local to entangled pairs. See [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
 | Gravitational invariance | Demoted: true but trivial (dimensionless ratios). Gravity interpretation moved to `recovered/` |
 | Spectral boundaries | Resolved: Re(λ) = −2γ⟨n_XY⟩ (Absorption Theorem). Min = 2γ, max = 2(N−1)γ for the generic band, above the coupling threshold Q*_gap(N); the kernel and the XOR drain sit outside it. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
-| Why factor 2 | Resolved: standing wave round trip. Unpaired modes are all-light (⟨n_XY⟩=N), paired average to half-light. Ratio = 2 by definition. See [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md) |
+| Why factor 2 | Resolved: it is the ratio of the full range (0 to 2Σγ) to the centre (Σγ), not a ratio between two sets of modes. The all-light modes ⟨n_XY⟩=N sit at 2Σγ and there are N+1 of them at each N, but they are paired, being the fast end of pairs whose slow end is the stationary set at Re=0. See [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md) §4.2 and [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md) Result 3 |
 | Spectral gap | Resolved above Q*_gap(N): 2γ = one absorption quantum, the cost of a single X/Y Pauli factor. Below the threshold the gap is Zeno-suppressed and the theorem supplies no lower bound; see [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) §4.3 |
 | IBM hardware | Resolved: Absorption Theorem ratio = 1.03 (3%) on Q52. Detuning oscillations at 470 μs, not cavity fringes. See [IBM Fringes + Absorption](../experiments/IBM_ABSORPTION_THEOREM.md) |
 

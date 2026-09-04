@@ -244,8 +244,12 @@ choice of bond strengths.
 
 This is where the cavity modes connect back to everything else in the
 project. The modes at zero noise are the skeleton of the resonator.
-Noise does not create new frequencies; it only adds decay to existing
-ones.
+Noise adds decay to them, and it does not create new ones. It can move
+them: a uniform gamma is a multiple of the identity on a number-conserving
+coherence block and provably cannot, but a gamma profile is an unequal
+real diagonal there and splits degenerate levels, and on the full
+Liouvillian even a uniform gamma shifts the frequencies against gamma = 0
+(measured at N=5, [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md)).
 
 At Σγ = 0: the palindrome equation reduces to Π L Π⁻¹ = -L.
 Every eigenvalue lambda pairs with -lambda. The stationary modes
@@ -259,15 +263,26 @@ a critical threshold (order ~0.25-0.50% of J in the cases examined).
 
 The cavity modes at zero noise are the **eigenfrequencies of the
 resonator** described in [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md).
-When noise shifts the palindrome from zero, these frequencies persist
-(noise never changes frequency, only decay rate). The sacrifice-zone
+When noise shifts the palindrome from zero, these frequencies persist as a
+comb, and what noise mainly does to them is add decay. It moves them too,
+uniform dephasing included, and it lifts degeneracies: at N=5 the 44
+distinct zero-noise frequencies become 113 under a uniform gamma and 121
+under a profile. So "persist" here means the comb survives with every mode
+having a nearby descendant, not that the individual values hold still. The
+one place where a frequency is exactly immune is a subspace on which the
+Hamming distance between bra and ket is constant, where the dissipator is
+a multiple of the identity (see
+[Structural Cartography](STRUCTURAL_CARTOGRAPHY.md)). The sacrifice-zone
 formula tunes which modes survive longest.
 
 ## Connection to hardware
 
 Applied to real IBM Torino data (Q85-Q94, sacrifice-zone profile):
-the 43 cavity mode frequencies persist under strongly asymmetric noise
-(Q85 at 26x more dephasing than Q87). The slowest oscillating modes
+the 43 cavity mode frequencies are all still there under strongly asymmetric
+noise (Q85 at 26x more dephasing than Q87). They are matched by binning, and
+the bins are wider than the shift a profile produces, so this is a statement
+about the comb surviving and not about the individual frequencies holding
+still. The slowest oscillating modes
 survive 2.80x longer under sacrifice vs uniform noise. IBM hardware
 measured 1.97x. The palindrome survives the asymmetry to the
 eigensolver's floor (F1 pairing distance 72.4 ε · spectral radius).

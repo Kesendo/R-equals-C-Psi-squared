@@ -387,10 +387,12 @@ not.
 - Not that one ratio always suffices. With J, γ_A and γ_B the unit still
   divides out, since L is homogeneous of degree 1 in all its rates jointly, but
   the shape then depends on J/γ_A and γ_B/γ_A separately rather than on a single
-  Q (`experiments/OBSERVER_DEPENDENT_VISIBILITY.md:154-160`, which resolves its
-  own earlier "depends on the absolute noise rate" wording at `:38` and `:114`
-  into exactly these ratios; that wording is never withdrawn there, and an
-  earlier draft of this section had adopted it as written).
+  Q (`experiments/OBSERVER_DEPENDENT_VISIBILITY.md`, its "Important Correction"
+  section, which resolves the same document's earlier "depends on the absolute
+  noise rate" wording into exactly these ratios; that wording has since been
+  withdrawn from the prose there and from the linked script, though the stored
+  output of the earlier run still carries it, and an earlier draft of this
+  section had adopted it as written).
 
 ## Open
 

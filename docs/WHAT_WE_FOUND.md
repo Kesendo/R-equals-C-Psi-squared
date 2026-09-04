@@ -500,10 +500,13 @@ the Pauli basis with eigenvalues −2γ × n_XY; (3) combining: Re(λ) equals
 the expectation of L_D over the eigenvector, which is −2γ⟨n_XY⟩. Verified
 on 1,342 modes across N=2 to N=5, coefficient of variation = 0.0000.
 
-The companion result: every palindromic pair is a standing wave. Tested
-on 10,748 pairs: 100% frequency match between partners. The round trip
-of the standing wave is 2Σγ, one full bounce between "being light" (X/Y
-Pauli factors, sensitive to dephasing) and "being lens" (I/Z, immune).
+The companion result: the spectrum is completely paired, at every N.
+21,840 eigenvalues across N = 2 to 7, 9,921 pairs of distinct partners and
+1,998 modes that are their own partner on the fixed locus. Each pair of
+distinct partners reads as a standing wave, the two sharing a frequency and
+splitting the absorption; the self-paired modes are standing waves at the
+node. The round trip is 2Σγ, one full bounce between "being light"
+(X/Y Pauli factors, sensitive to dephasing) and "being lens" (I/Z, immune).
 
 On IBM hardware (Q52 tomography, 25 time points): the Absorption
 Theorem ratio is 1.03 (3% deviation). The sector structure holds on

@@ -5269,18 +5269,28 @@ public static class OpenArcsRegistry
                 "N^2 coefficient 2.6x larger while calling the growth clearly sub-quadratic), and Step 3's " +
                 "shell table selects the two profiles through windows differing by a factor 10^6, dropping " +
                 "the modes that carry the high Q. THE OTHER HALF, prose rather than code: a family of " +
-                "unqualified 'the frequencies are immune to noise' statements that are true only for " +
-                "UNIFORM gamma. Verified sites: STRUCTURAL_CARTOGRAPHY (\"immune to any sigma_z dephasing " +
-                "configuration\", \"Gamma only damps, never shifts frequencies\", \"Asymmetric gamma changes " +
-                "nothing\"; its own SWEEP 4 uses " +
-                "a profile, and whose table prints three decimals, one order too coarse to see the shifts), " +
-                "CAVITY_MODES_FORMULA:246-248, QUANTUM_SONAR:119-123, IBM_CAVITY_SPECTRAL_ANALYSIS " +
-                "(four sentences, cited by phrase rather than by line because line numbers there have " +
-                "now gone stale twice: \"frequencies exist under all noise profiles\", \"When noise is turned on, the same frequencies persist\", \"Noise damps " +
-                "these modes without changing their frequencies\", \"It does not change the notes\"; " +
-                "the page runs the IBM concentrator profile and its own table already refutes it), " +
+                "unqualified 'the frequencies are immune to noise' statements. FOUR OF THE PROSE SITES " +
+                "ARE NOW REPAIRED (2026-09-04): STRUCTURAL_CARTOGRAPHY (both the SWEEP 4 verdict and the " +
+                "parameter-sweep summary, plus its SWEEP 2 line, which had already recorded a shift at " +
+                "gamma=1.0 while summarising that gamma only damps), CAVITY_MODES_FORMULA (the modes " +
+                "paragraph and the hardware paragraph), QUANTUM_SONAR (the correlated-bath row, scoped to " +
+                "its own resolution because its knobs are eta and phi rather than a gamma profile, so a " +
+                "shift on THAT knob is still unmeasured), and IBM_CAVITY_SPECTRAL_ANALYSIS (the " +
+                "noise-on paragraph and the closing \"does not change the notes\"). The repair also " +
+                "SHARPENED this arc's own summary, which said the statements are true for UNIFORM gamma: " +
+                "measured at N=5, Heisenberg, Sigma_gamma=0.25, uniform gamma leaves Im(lambda) EXACTLY at " +
+                "its gamma=0 values on the (0,1) coherence block (1.2361, 1.2361, 3.2361, 3.2361, 4.0000) " +
+                "because the dissipator is -2*gamma_l per site there and a uniform gamma is a multiple of " +
+                "the identity, while the profile [0.15,0.02,0.02,0.03,0.03] at the same Sigma_gamma splits " +
+                "the degenerate pairs (1.2342, 1.2394, 3.2356, 3.2372, 3.9933); but on the FULL Liouvillian " +
+                "uniform gamma already shifts against gamma=0 by up to 5.1e-2, and profile-against-uniform " +
+                "at equal Sigma_gamma moves 960 of the 1024 frequencies. So the immunity is uniform gamma " +
+                "ON A NUMBER-CONSERVING BLOCK, not uniform gamma. STILL UNPAID: " +
                 "ANALYTICAL_FORMULAS F11 (\"Valid for:** N=5 Heisenberg chain, ALL Z-dephasing profiles.\", the exact " +
-                "converse of the mechanism), and GPT_Prompts/PROMPT_GPT_APPLICATIONS:12/16-17, which is " +
+                "converse of the mechanism; NOT touched on 2026-09-04 because the eigenvector measurement " +
+                "that would settle it is confounded by degenerate-mode ordering, which is this arc's own " +
+                "argsort defect, and a registry entry deserves a clean one), and " +
+                "GPT_Prompts/PROMPT_GPT_APPLICATIONS:12/16-17, which is " +
                 "outward-facing. ibm_cavity_analysis.py prints \"The same 43 frequencies exist under all " +
                 "three profiles\" as a hardcoded string and bins with freq_tol = 0.1 in " +
                 "frequency_group_analysis, an order of magnitude above the shifts it would need to see. " +

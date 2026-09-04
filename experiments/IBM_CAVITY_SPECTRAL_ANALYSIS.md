@@ -61,9 +61,14 @@ are the **eigenfrequencies of the resonator** (see
 [Cavity Modes Formula](CAVITY_MODES_FORMULA.md)). The stationary count
 matches the Clebsch-Gordan formula (the angular-momentum addition rule that counts how many spin multiplets exist for N coupled qubits) exactly (120 = Sum_J m(J,5)*(2J+1)^2).
 
-When noise is turned on, the same frequencies persist. What changes is
-the damping: each mode acquires a decay rate that depends on how much
-noise it "sees." Modes localized on quiet qubits (Q86-Q94) see less
+When noise is turned on, the frequency comb persists and what changes
+most is the damping: each mode acquires a decay rate that depends on how
+much noise it "sees." The frequencies themselves are not fixed, and this
+page runs a deliberately non-uniform profile, which is the case that moves
+them (see [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md); the grouping
+below bins at freq_tol = 0.1, and the worst shift it has to swallow under
+this profile is 3.2e-2, so the margin is about threefold, not the order of
+magnitude the median shift would suggest). Modes localized on quiet qubits (Q86-Q94) see less
 noise. Modes touching the sacrifice qubit (Q85) see more.
 
 The sacrifice zone works because it creates a **spatial gradient** in
@@ -334,8 +339,9 @@ intervention in the mode structure of a quantum resonator:
 5. The slowest oscillating modes survive 2.80x longer
 6. These are the modes that carry quantum information across the chain
 
-The sacrifice zone tunes the resonator. It does not change the notes.
-It changes which notes ring longest.
+The sacrifice zone tunes the resonator. What it changes most is which
+notes ring longest; it detunes them a little as well, by less than the
+binning used here can see.
 
 ---
 

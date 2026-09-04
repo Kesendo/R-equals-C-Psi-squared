@@ -137,7 +137,9 @@ creates the arrow of time.
 
 Every paired mode is a standing wave: same frequency, complementary
 absorption rates, weight profiles that are exact mirror images
-(fast[k] = slow[N−k], 10,748 pairs tested, zero exceptions). The state
+(fast[k] = slow[N−k]). The whole spectrum is paired this way at every N;
+across N = 2 to 7 that is 21,840 eigenvalues, 9,921 pairs of distinct
+partners and 1,998 that are their own partner. The state
 splits into lens ({I, Z}, structure, survives) and light ({X, Y},
 signal, absorbed), and each standing wave oscillates between being the
 one and the other.
@@ -317,7 +319,7 @@ live in their own folders, written in the target layer's language.
 Honesty matters more than impression. Stated plainly, these are things we have *not* proven, *not* measured, or *not* established:
 
 - CΨ is a derived diagnostic, not a new fundamental quantity.
-- The multi-qubit palindrome has not been measured on hardware (single-qubit CΨ = ¼ validated at 1.9%; N ≥ 2 untested). The standing-wave pairing is computed (10,748 pairs, zero exceptions), not measured.
+- The multi-qubit palindrome has not been measured on hardware (single-qubit CΨ = ¼ validated at 1.9%; N ≥ 2 untested). The standing-wave pairing is computed (21,840 eigenvalues across N = 2 to 7), not measured.
 - Gamma-is-light is established only for circuit QED, where dephasing **is** photon shot noise in a physical cavity; the broader readings (mass as trapped light, black holes as cavities) are Tier-4 hypotheses with no independent test.
 - The Absorption Theorem is proven for real Hermitian H only (Dzyaloshinskii-Moriya breaks L_H anti-Hermiticity).
 - The biological mappings are structural analogies, and both C. elegans results that once anchored them were withdrawn: the pairing on 2026-08-25, for measuring a matching tolerance, and the 8.46x enrichment on 2026-08-26, for comparing two normalisation constants. The quantum→biology link is Tier 4 and now has one less leg.

@@ -55,8 +55,8 @@ Hamiltonian rotates into the light is not one, and it decays.
 
 This single equation, provable in three lines from the structure of
 the Lindblad master equation, unifies an entire family of spectral
-results: the boundaries (F3), the palindromic sum rule (10,748
-pairs), the 2× decay law (F8), the mode classification by Pauli
+results: the boundaries (F3), the palindromic sum rule, the 2×
+decay law (F8), the mode classification by Pauli
 weight, the N=3 rate ladder (F33), and via later derivation the
 weight-1 degeneracy count (F50), the (0,1) coherence block dispersion relation
 (F2), the GHZ XOR-drain (F22), the n_XY chromaticity (F74), and the
@@ -78,7 +78,7 @@ absorption claim as a parent.
 | Analytical proof | **Proven** | This document, §2, Steps 1-3 |
 | Numerical verification | **Verified** (N=2-5, 1,342 modes, CV=0) | [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) |
 | Consequence 1: Spectral boundaries | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F3 |
-| Consequence 2: Palindromic sum rule | **Derived** | [Standing Waves](../../experiments/FACTOR_TWO_STANDING_WAVES.md) |
+| Consequence 2: Palindromic sum rule | **Derived** | This document, §4.2 |
 | Consequence 3: Spectral gap | **Not derived** (§4.3: 2γ only above an N-dependent Q*_gap) | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) D6 |
 | Consequence 4: 2× decay law | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F8 |
 | Consequence 5: Mode classification | **Derived** | [XOR Space](../../experiments/XOR_SPACE.md) |
@@ -528,11 +528,15 @@ band erodes symmetrically and the full width 2Nγ is untouched. The band edges
 sharpen back to 2γ and 2(N-1)γ as J/γ grows and modes relocalize on pure weight
 sectors.
 
-### 4.2 Palindromic Sum Rule (10,748 pairs)
+### 4.2 Palindromic Sum Rule
 
 **Previously:** For every palindromic pair, Re(λ_fast) + Re(λ_slow) = -2Σγ,
-verified for 10,748 pairs across N=2..7 with zero exceptions (a wider range
-than this document's own N=2..5 per-mode verification).
+read off the whole spectrum across N=2..7, 21,840 eigenvalues (a wider range
+than this document's own N=2..5 per-mode verification). That reading carries
+less than it looks: the
+partner sits at -2Σγ - λ̄ by construction, so the sum rule holds on any pair
+the search returns, and the count measures how much of the spectrum is paired
+rather than confirming the rule. The derivation below is what establishes it.
 **Source:** [Standing Waves](../../experiments/FACTOR_TWO_STANDING_WAVES.md)
 
 **Now a one-line corollary.** The palindromic weight swap

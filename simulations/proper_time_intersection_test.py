@@ -244,7 +244,8 @@ for tau in tau_checks:
 
 log()
 log("  Non-universality confirmed: same τ_A, different CΨ_AB values.")
-log("  CΨ depends on absolute noise rate, not just local proper time.")
+log("  CΨ depends on the RATIOS among J, γ_A, γ_B, γ_S, not on any absolute rate:")
+log("  L is linear in J and in γ, so rescaling every rate together only rescales time.")
 
 # ============================================================
 # SUMMARY

@@ -243,7 +243,7 @@ which keeps its historical filename). The J-coupling results below stand.
 
 | Prediction | Result | Source |
 |-----------|--------|--------|
-| t_cross = K(Observer, State) / γ, K is γ-invariant | Confirmed. CV = 0.00% across 6 γ values | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| t_cross = K(Observer, State) / γ, K is γ-invariant | Confirmed. CV = 0.00% across 6 γ values. What carries the invariance is the STATE, not a general γ-scaling: the Lindblad scaling symmetry is joint, so sweeping γ at fixed J moves Q = J/γ. See the F14 scope note in [Analytical Formulas](ANALYTICAL_FORMULAS.md#f14-k-invariance-tier-2-lindblad-scaling) | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | K(Conc)/K(MI) = 1.2125 across all γ values | Confirmed. CV = 0.00% | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | K ratio is state-dependent (varies with initial entanglement) | Confirmed. CV = 13.5% across α = 35°-45° | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | Interval shift Δt continuous in J, no threshold | Confirmed. J = 0.001 gives 0.03% shift | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |

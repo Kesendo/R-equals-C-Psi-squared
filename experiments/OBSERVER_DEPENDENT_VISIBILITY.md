@@ -35,8 +35,12 @@ other γ fixed at 0.05). At the same coordinate time, observers with different
 to 0.261 (fast observer). A slightly noisier observer would see the peak
 drop below 1/4 entirely. Plotting CΨ_AB against proper time τ_A = γ_A·t
 does **not** collapse the curves: CΨ is not a function of local proper time
-alone. It depends on the absolute noise rate because the dynamics have
-multiple competing timescales (J, γ_A, γ_B, γ_S). **Important correction:**
+alone. It depends on the RATIOS among the competing timescales
+(J, γ_A, γ_B, γ_S), which is what γ_A·t leaves out: the Lindblad generator
+is linear in J and in γ, so L(λJ, λγ) = λ·L(J, γ) and an overall rescaling
+of every rate is only a choice of time unit. Sweeping γ_A at fixed J, γ_B
+and γ_S moves the ratios, and that is what the observers here differ by.
+**Important correction:**
 different γ_A values produce different Lindblad trajectories, not different
 views of the same evolved state. The correct statement: different local noise
 profiles open or close windows in which a persistent entanglement resource
@@ -111,8 +115,11 @@ CΨ_AB(τ_A) should give the same curve for all observers. It does not:
 | 0.050 | 0.131 | 0.141 | 0.169 | 0.261 |
 
 At the same proper time, different observers see completely different values.
-CΨ_AB is not a function of τ_A alone. It depends on the *absolute* noise rate,
-not just the elapsed proper time.
+CΨ_AB is not a function of τ_A alone. It depends on the *ratios* among
+J, γ_A, γ_B and γ_S, not just on the elapsed proper time. An absolute rate
+cannot decide it: rescaling every rate together rescales time and nothing
+else. What separates these observers is that γ_A moves while the other
+three stand still.
 
 This means: the visibility of the connection depends on **who you are** (your γ),
 not just **where you are** in your own timeline.

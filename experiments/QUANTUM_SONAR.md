@@ -120,8 +120,22 @@ GPT's experiment: test if correlated noise (shared bath on A+B) breaks
 the "noise only damps" rule. Two knobs: eta (local→correlated) and
 phi (ZZ bath→XX bath).
 
-**Frequencies: COMPLETELY IMMUNE.** f(c+)=1.499 and f(c-)=0.400 in every
-single configuration. Local, correlated ZZ, correlated XX, all mixtures.
+**Frequencies: no movement at this resolution.** f(c+)=1.499 and
+f(c-)=0.400 in every configuration read here: local, correlated ZZ,
+correlated XX, all mixtures. Three decimals is the resolution of that
+reading, not a bound on the effect, and the general "noise only damps"
+rule this sweep was testing is false as stated: dephasing shifts
+frequencies and splits degenerate levels, uniform or not, except on
+subspaces where the bra-ket Hamming distance is constant (measured at N=5
+in [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md)). The bath-geometry
+knobs here are eta and phi rather than a gamma profile, and they move the
+frequencies too: diagonalising this sweep's own Liouvillian shifts Im(lambda)
+by 1.33e-3 to 1.36e-3 against the local-bath case across correlated ZZ,
+correlated XX and the mixtures, and by 8.9e-4 at eta = 0.5. In the f = omega
+/ 2*pi units this table prints, the largest of those is 2.2e-4, against an
+FFT bin of 0.05 (t_max = 20.0). The shift is real and some 230 times below
+what the reading can see. The bath geometry selects which sector is loud; it
+does not leave the frequencies where they were.
 
 **Amplitude ratio flips:**
 

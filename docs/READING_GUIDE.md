@@ -495,9 +495,12 @@ explains what previously required separate derivations.
    projector readings, and the recentred diagonal seam L_D = γ(Q − N·I).
 
 2. [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md):
-   Every palindromic pair is a standing wave. 10,748 pairs tested, 100%
-   frequency match. The round trip is 2Σγ: one full bounce between
-   "being light" and "being lens."
+   Every palindromic pair is a standing wave, which follows from where the
+   partner sits. What is measured is how much of the spectrum is paired, and
+   the answer is all of it at every N: 21,840 eigenvalues across N = 2 to 7,
+   9,921 pairs of distinct partners plus 1,998 modes that are their own
+   partner. The round trip is 2Σγ, one full bounce between "being light"
+   and "being lens."
 
 3. [Concentrator Optics](../experiments/CONCENTRATOR_OPTICS.md):
    The concentrator is an entrance pupil. Q improves 2-7×, effective

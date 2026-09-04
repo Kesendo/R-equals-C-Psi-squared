@@ -683,9 +683,11 @@ reaches 7.4. XX symmetry is EXACT everywhere.
 | 0.500 | 1.499 | 0.400 | 3.75 | 12.6 | 10.7 |
 | 1.000 | 1.449 | 0.300 | 4.83 | 6.1 | 4.9 |
 
-**Frequencies do not change with gamma.** The ratio stays 3.75 from
-gamma=0.001 to gamma=0.500. Gamma only damps amplitude. The structure
-is entirely Hamiltonian. Only at extreme gamma=1.0 does a small shift appear.
+**These two frequencies do not change with gamma over this range.** The
+ratio stays 3.75 from gamma=0.001 to gamma=0.500, and gamma=1.0 produces a
+small shift. So the shift is present rather than absent, and what this sweep
+establishes is that it stays under the reading's resolution until gamma
+approaches J. The two-sector structure itself is Hamiltonian.
 
 ### SWEEP 3: Different initial states
 
@@ -710,16 +712,52 @@ they exist.
 | 0.05 | 0.05 | 0.20 | 1.499 | 0.400 | EXACT |
 | 0.05 | 0.05 | 0.00 | 1.499 | 0.400 | EXACT |
 
-**Completely invariant.** Asymmetric gamma, zero gamma_S, high gamma_S -
-nothing changes the frequencies or the XX symmetry. The structure is
-immune to any sigma_z dephasing configuration.
+**Unchanged at this resolution.** Asymmetric gamma, zero gamma_S, high
+gamma_S: the table's three decimals show no movement, and the XX symmetry
+is untouched.
+
+The reading is a 0.05-wide FFT bin (t_max = 20.0), so its three printed
+decimals are decimals of the bin grid, and it cannot settle the frequency
+question either way. The immunity does not hold in general.
+
+What decides it is exact and simple. In the coherence basis |i><j| the
+Z-dephasing dissipator is diagonal, with entry -2 * sum over the sites
+where i and j differ of gamma_l: for uniform gamma that is
+-2 * gamma * Hamming(i, j), the same Hamming distance the Absorption
+Theorem calls the XY weight. A frequency is therefore unmoved exactly when
+the dissipator is a multiple of the identity on an invariant subspace,
+which needs the Hamming distance to be CONSTANT there.
+
+Measured at N=5, J=1, uniform gamma = 0.137331 (deliberately non-dyadic),
+per joint-popcount block:
+
+| block | Hamming values | max shift of Im |
+|---|---|---|
+| (0,1), (0,2), (0,3), (0,4), (1,5), (2,5), (3,5), (4,5) | one value | < 2e-14 |
+| (1,1), (1,4), (4,4) | {0, 2} | 1.9e-2 |
+| (1,2), (1,3), (2,4), (3,4) | {1, 3} | 6.7e-2 |
+| (2,2), (2,3), (3,3) | {0, 2, 4} | 7.6e-2 |
+
+So being number-conserving is not the criterion: (1,1) and (2,2) conserve
+particle number and move. The immune blocks are the ones with a single
+Hamming value, which for a joint-popcount block (p, q) means p or q is 0
+or N. That is 4 * 2^N - 4 of the 4^N dimensions, 12.1% at N=5, and the
+share shrinks with N.
+
+On the full Liouvillian nothing is immune: at Sigma_gamma = 0.25 and N=5,
+uniform dephasing shifts frequencies against gamma = 0 by up to 5.1e-2,
+and a profile at the same total shifts them a further 2.8e-2. Away from
+the immune blocks the shift is second order in gamma, halving Sigma_gamma
+dividing it by four.
 
 ### Summary of parameter sweep
 
 The two-sector structure is **robust**:
 - f(c+) scales with J_total, f(c-) stays near 0.4 (Hamiltonian property)
-- Gamma only damps, never shifts frequencies (dissipation is irrelevant to structure)
-- Asymmetric gamma changes nothing (XX symmetry is Hamiltonian, not noise-dependent)
+- Gamma damps, and it also shifts frequencies wherever it is not a
+  multiple of the identity on the block being read (see above)
+- Asymmetric gamma leaves the XX symmetry alone, that symmetry being
+  Hamiltonian rather than noise-dependent, but it does move frequencies
 - Initial state selects which sectors are excited, not which sectors exist
 - The sectors become more separated with increasing coupling asymmetry
 
