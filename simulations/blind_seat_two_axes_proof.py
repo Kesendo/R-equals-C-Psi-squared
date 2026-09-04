@@ -118,6 +118,36 @@ WHAT IS GATED, in the order the proof needs it.
      DETUNED, where the six owners all read the uniform chain. Free with it: Delta_{N_node-k} =
      -Delta_k, which with N_node = N-1 mod 2 reproduces P's Lemma 5 from the index alone.
 
+(H)  THE HOP, which is what BlindSeat.cs's 128 is. Two books. F157's committed one at uniform
+     J = 1 with the ZZ coupling carrying Delta: hop 2 on every bond, and a ZZ diagonal paying
+     -Delta at a bond's own two ends and +Delta elsewhere, bond by bond, i.e. Delta*(N-5) in the
+     interior and Delta*(N-3) at the ends, which is SeatBlindnessDeltaLocusWitness.cs's
+     (b^2 = 4, diagonal Delta*(N-5), end shift 2*Delta) and at Delta = 1 is the integer matrix of
+     seat_cut_blindness.py se_hamiltonian_int (H0 compares the transcription entry for entry; the
+     C# BlindSeat.H() is the same recipe, READ and not run from here). And this file's: hop 1, a
+     bare t on the end pair. The two differ by a common shift Delta*(N-5)*I and the factor 2. The shift drops out of the halves-resultant outright (Res_x(f(x-c), g(x-c)) =
+     Res_x(f, g)); the factor does not: a resultant of bidegree (a, b) is homogeneous of degree
+     a*b under a common scaling of the two matrices, so
+
+         Res_F157(Delta) = 2^(j(N-1-j)) * Res_here(t = Delta)        (J = 1)
+
+     exactly at every interior seat, and at N = 9 seat 1 that is 2^(1*7) = 128. At a uniform
+     J the factor is (2J)^(j(N-1-j)) (H1c, at J = 2 and 3); the roots do not move, the constant
+     does. Res_F157 here is the HALVES-resultant in F157's matrix normalisation and not F157's
+     generator P_j = Res(S_n, Delta*S_j - S_{j+1}), a different object whose constant depends on
+     the Chebyshev book (1 in the monic 2cos book, 2^5 in the cos book at this seat) and which
+     the witness returns primitive; in the monic book 128*P_j IS the right-first halves-resultant
+     at N = 9 seat 1 (H5). The quotient is
+     primitive in Delta at every seat read (N = 4..12), so the hop's power is the whole of the
+     un-normalisation up to a sign, and the sign is an ORDER (bidegree 1*7 is odd): left-first
+     the Sylvester determinant gives -128 and right-first +128, and sympy.resultant returns +128
+     in BOTH orders, which is section (i)'s rule ((-1)^(deg f * deg g) times the Sylvester
+     determinant when deg f < deg g) and not a third value. One more thing the block separates:
+     the 2 in the end pair's 2*Delta is a BOND COUNT (an end site has one bond fewer, and the ZZ
+     diagonal jumps by 2J*Delta per lost bond) while the hop's 2 is XX+YY on one bond; they agree as
+     numbers under this normalisation at every Delta, and t = Delta needs nothing but h = 2. With
+     hop h and the ZZ unchanged the reading is t = 2*Delta/h (H3, at h = 3).
+
 Every locus is SOLVED, never sampled: each is the real root set of a resultant or a
 discriminant, compared as the set of its irreducible rational factors that carry a real root,
 decided by Sturm counting. No root object is built anywhere except in block W's W0, which
@@ -127,7 +157,7 @@ reduce P(2*cos(3*pi/7)) to 0, two defects docs/CAUGHT_ERRORS.md records for the 
 and a third was met while writing this one (sp.solve returned an empty solution set at N = 11
 for a system whose solutions the discriminant route exhibits).
 
-Blocks L, C, B, P and T compare SETS. Blocks K and S compare COUNTS, and a count at an irrational
+Blocks L, C, B, P and T compare SETS, block H two books of the same polynomial. Blocks K and S compare COUNTS, and a count at an irrational
 locus point is a degree, so it is read over the field Q[t]/(mu) for mu the point's minimal
 polynomial. That is exact and builds no root object, which is what keeps the three traps above
 out of the count as well. Block W compares POLYNOMIALS: the two constants the count leaves
@@ -2563,6 +2593,208 @@ def gate_W():
           f"first' is a statement about the SECTORS as well and not only about P_j")
 
 
+# ------------------------------------------------- (H) the hop, and what the 128 in BlindSeat.cs is
+H_SEATS_4_TO_11 = 40                 # interior non-centre seats over N = 4..11 (44 interior seats less 4 odd-N centres)
+H_CONTENT_ROWS = 50                  # N = 4..12: interior non-centre seats, every quotient primitive
+
+
+def H_f157(N, knob=t, hop=2):
+    """F157's committed book (seat_cut_blindness.py se_hamiltonian_int, BlindSeat.H()), the ZZ
+    coupling carrying Delta: hop on every bond, and a diagonal that pays -Delta at a bond's own two
+    ends and +Delta elsewhere, bond by bond. That diagonal is Delta*(N-5) in the interior and
+    Delta*(N-3) at the two ends, i.e. a common shift Delta*(N-5)*I plus 2*Delta on the end pair."""
+    M = sp.zeros(N, N)
+    for b in range(N - 1):
+        M[b, b + 1] += hop
+        M[b + 1, b] += hop
+    for s_ in range(N):
+        for b in range(N - 1):
+            M[s_, s_] += (-knob if (s_ == b or s_ == b + 1) else knob)
+    return M
+
+
+def _halves_res(M, j):
+    """Res_x(chi_L, chi_R) of the two principal submatrices seat j leaves behind, left first."""
+    L, R = M[:j, :j], M[j + 1:, j + 1:]
+    cL = (x * sp.eye(j) - L).det()
+    cR = (x * sp.eye(M.rows - 1 - j) - R).det()
+    return sp.expand(res_std(sp.expand(cL), sp.expand(cR)))
+
+
+def gate_H():
+    print("\n(H) the hop: F157's book is this file's times 2^(j(N-1-j)), the shift falling out")
+
+    # -- H0: the transcription. H_f157 is built here, so before anything is read off it, it is
+    #        compared entry for entry with the committed integer builder at Delta = 1, uniform J = 1,
+    #        both books. Without this every check below could pass on a mis-copied matrix.
+    import importlib.util as _ilu
+    import os as _os
+    _spec = _ilu.spec_from_file_location(
+        "seat_cut_blindness", _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "seat_cut_blindness.py"))
+    _scb = _ilu.module_from_spec(_spec)
+    _spec.loader.exec_module(_scb)
+    off = []
+    for N in range(3, 12):
+        bonds = [(b, b + 1, 1) for b in range(N - 1)]
+        theirs = sp.Matrix(_scb.se_hamiltonian_int(N, bonds, zz=True))
+        if H_f157(N, knob=1) != theirs:
+            off.append(N)
+    check("H0  H_f157 at Delta = 1 is se_hamiltonian_int's matrix entry for entry, N = 3..11",
+          not off, f"off at {off}")
+
+    # -- H1: the identity, exact in Delta. Both sides are the SAME left-first resultant of the two
+    #        half-blocks, one in F157's book and one in this file's, so the only things between them
+    #        are the hop and the shift; the claim is that the shift leaves no trace and the hop
+    #        leaves exactly its power at the resultant's bidegree.
+    bad, seats, zero_both = [], 0, 0
+    for N in range(4, 12):
+        for j in range(1, N - 1):
+            a, b = j, N - 1 - j
+            lhs = _halves_res(H_f157(N), j)
+            rhs = sp.expand(2 ** (a * b) * _halves_res(H_aniso(N), j))
+            if lhs == 0 and rhs == 0:
+                zero_both += 1          # the centre seat: both books' resultants vanish identically
+                continue
+            seats += 1
+            if sp.expand(lhs - rhs) != 0:
+                bad.append((N, j))
+    check("H1  Res_F157(Delta) = 2^(j(N-1-j)) * Res_here(t = Delta), exact at every non-centre seat",
+          not bad and seats == H_SEATS_4_TO_11 and zero_both == 4,
+          f"{seats} seats over N = 4..11 (expected {H_SEATS_4_TO_11}), {zero_both} centre seats "
+          f"vanishing in both books (expected 4, the odd N); off at {bad}")
+
+    # -- H1b: MUTATION. One more power of 2 reddens every seat, so H1 reads the exponent.
+    brk = 0
+    for N in range(4, 12):
+        for j in range(1, N - 1):
+            a, b = j, N - 1 - j
+            rhs = _halves_res(H_aniso(N), j)
+            if rhs == 0:
+                continue
+            if sp.expand(_halves_res(H_f157(N), j) - 2 ** (a * b + 1) * rhs) != 0:
+                brk += 1
+    check("H1b MUTATION: exponent j(N-1-j)+1 breaks H1 at every non-centre seat",
+          brk == H_SEATS_4_TO_11, f"{brk} of {H_SEATS_4_TO_11} broken")
+
+    # -- H1c: the J half of the hop. At a uniform J the hop is 2J and the ZZ diagonal J*Delta, so
+    #         the common factor is 2J and the constant is (2J)^(ab) while the roots stay at Delta.
+    #         Read at J = 2 and 3, N = 4..8, the two surfaces that say "(2J)^(j(N-1-j)) in general"
+    #         (the proof's Remark, BlindSeat.cs) being otherwise ungated.
+    bad, tried = [], 0
+    for J in (2, 3):
+        for N in range(4, 9):
+            for j in range(1, N - 1):
+                a, b = j, N - 1 - j
+                rhs = _halves_res(H_aniso(N), j)
+                if rhs == 0:
+                    continue
+                tried += 1
+                MJ = sp.zeros(N, N)
+                for bb in range(N - 1):
+                    MJ[bb, bb + 1] += 2 * J
+                    MJ[bb + 1, bb] += 2 * J
+                for s_ in range(N):
+                    for bb in range(N - 1):
+                        MJ[s_, s_] += (-J * t if (s_ == bb or s_ == bb + 1) else J * t)
+                if sp.expand(_halves_res(MJ, j) - (2 * J) ** (a * b) * rhs) != 0:
+                    bad.append((J, N, j))
+    check("H1c uniform J: the constant is (2J)^(j(N-1-j)) and the roots stay at Delta, J = 2 and 3 over N = 4..8",
+          not bad and tried == 36, f"{tried} seats (expected 36); off at {bad}")
+
+    # -- H2: the shift half. A COMMON shift c*I leaves the halves-resultant untouched, symbolically
+    #        in c; the same c on ONE half only does not. Without the second half this check would
+    #        pass on any matrix whose resultant ignores its diagonal altogether.
+    c = sp.symbols('c')
+    bad_common, bad_one, tried = [], 0, 0
+    for N in range(4, 10):
+        for j in range(1, N - 1):
+            M = H_aniso(N)
+            r0 = _halves_res(M, j)
+            if r0 == 0:
+                continue
+            tried += 1
+            if sp.expand(_halves_res(M + c * sp.eye(N), j) - r0) != 0:
+                bad_common.append((N, j))
+            Mo = M.copy()
+            for i_ in range(j + 1, N):
+                Mo[i_, i_] += c
+            if sp.expand(_halves_res(Mo, j) - r0) == 0:
+                bad_one += 1
+    check("H2  a COMMON shift c*I drops out of the halves-resultant, symbolic in c; a one-sided shift never does",
+          not bad_common and bad_one == 0 and tried == 24,
+          f"{tried} seats over N = 4..9; common-shift residue at {bad_common}; one-sided shift invisible at {bad_one}")
+
+    # -- H3: the hop half is a LAW, not a 2, and it shows which 2 is which. F157's end pair carries
+    #        2*Delta because an end site has ONE bond fewer than an interior site and the ZZ diagonal
+    #        pays -J at a bond's own ends and +J elsewhere, a jump of 2J per lost bond; the hop is the
+    #        OTHER 2J, XX+YY on one bond. So with hop h and the ZZ diagonal unchanged the factor is
+    #        h^(ab) and this file's t reads 2*Delta/h, which is Delta at every Delta exactly when
+    #        h = 2. An earlier build of this check asked hop 3 for t = Delta
+    #        and went red at 16 of 24 seats; that was the check reading the two 2s as one.
+    bad = []
+    for N in range(4, 10):
+        for j in range(1, N - 1):
+            a, b = j, N - 1 - j
+            rhs = _halves_res(H_aniso(N), j)
+            if rhs == 0:
+                continue
+            pred = sp.expand(3 ** (a * b) * rhs.subs(t, 2 * t / 3))
+            if sp.expand(_halves_res(H_f157(N, hop=3), j) - pred) != 0:
+                bad.append((N, j))
+    check("H3  hop 3, ZZ unchanged: Res = 3^(ab) * Res_here(t = 2*Delta/3) at every non-centre seat over N = 4..9",
+          not bad, f"off at {bad}")
+
+    # -- H4: a READING, not a claim. Over N = 4..12 the quotient Res_F157 / 2^(ab) is primitive in
+    #        Delta (content 1), so the hop's power is the WHOLE of the un-normalisation up to sign;
+    #        nothing else hides in BlindSeat.cs's 128. Pinned as a count because no lemma here says
+    #        it must hold at every N.
+    rows, prim = 0, 0
+    for N in range(4, 13):
+        for j in range(1, N - 1):
+            a, b = j, N - 1 - j
+            r = _halves_res(H_f157(N), j)
+            if r == 0:
+                continue
+            rows += 1
+            q = sp.Poly(sp.expand(r / 2 ** (a * b)), t)
+            if abs(sp.gcd_list(q.all_coeffs())) == 1:
+                prim += 1
+    check("H4  READING: the quotient is primitive in Delta at every non-centre seat over N = 4..12",
+          rows == H_CONTENT_ROWS and prim == rows, f"{prim} of {rows} primitive, expected {H_CONTENT_ROWS} rows")
+
+    # -- H5: the literal BlindSeat.cs and Formulas.cs quote, in its own book, and its sign. The
+    #        bidegree 1*7 is odd, so Res(chi_L, chi_R) = -Res(chi_R, chi_L) and the literal's sign is
+    #        a statement about an ORDER, as section (i) says of every sign here. Left-first, the order
+    #        this whole block names, the Sylvester determinant gives -128 and right-first +128. The
+    #        +128 the two MirrorWorld comments carry is what sympy.resultant returns, and it returns
+    #        it in BOTH orders here, which is section (i)'s rule at deg 1 < deg 7 (W0c) and is gated
+    #        as such. The 128 is identified either way; the sign was never a number of the physics.
+    #        (2^7 == 128 is not asserted: a literal identity cannot fail.)
+    # The literal is READ from BlindSeat.cs, not retyped, so a drift in the comment reddens this.
+    import re as _re
+    _bs = open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", "compute", "MirrorWorld",
+                             "BlindSeat.cs"), encoding="utf-8").read()
+    _m = _re.search(r"//\s*(128\*D\*\(D-1\)\*\(D\+1\)\*\(D\^2-3\))", _bs)
+    lit = sp.expand(sp.sympify(_m.group(1).replace("^", "**").replace("D", "t"))) if _m else None
+    left_first = _halves_res(H_f157(9), 1)
+    M = H_f157(9)
+    cL = sp.expand((x * sp.eye(1) - M[:1, :1]).det())
+    cR = sp.expand((x * sp.eye(7) - M[2:, 2:]).det())
+    right_first = sp.expand(res_std(cR, cL))
+    sym_lr = sp.expand(sp.resultant(cL, cR, x))
+    sym_rl = sp.expand(sp.resultant(cR, cL, x))
+    # F157's generator in the monic 2cos book: S_m = U_m(x/2) monic, P_1 = Res_x(S_5, t*S_0 - S_1).
+    S_ = lambda m: sp.expand(sp.chebyshevu(m, x / 2))
+    P_1 = sp.expand(res_std(S_(5), sp.expand(t * S_(0) - S_(1))))
+    check("H5  N = 9 seat 1: BlindSeat.cs's literal read from the file is right-first +128*(...), left-first -128, sympy +128 both orders, and 128*P_1 (monic book) = right-first",
+          lit is not None
+          and sp.expand(left_first + lit) == 0 and sp.expand(right_first - lit) == 0
+          and sp.expand(sym_lr - lit) == 0 and sp.expand(sym_rl - lit) == 0
+          and sp.expand(128 * P_1 - right_first) == 0,
+          f"literal {sp.factor(lit) if lit is not None else 'NOT FOUND in BlindSeat.cs'}; left-first {sp.factor(left_first)}; "
+          f"right-first {sp.factor(right_first)}; sympy {sp.factor(sym_lr)} / {sp.factor(sym_rl)}; P_1 {sp.factor(P_1)}")
+
+
 def main():
     print("=" * 86)
     print("PROOF_BLIND_SEAT_TWO_AXES: the crack axis and the anisotropy axis, sector by sector")
@@ -2575,6 +2807,7 @@ def main():
     gate_K()
     gate_S()
     gate_W()
+    gate_H()
     print()
     print("=" * 86)
     print("VERDICT:", "ALL GREEN" if not _fails else f"{len(_fails)} FAILED: {_fails}")

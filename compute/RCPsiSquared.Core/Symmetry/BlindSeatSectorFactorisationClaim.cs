@@ -955,7 +955,8 @@ public sealed class BlindSeatSectorFactorisationClaim : Claim
                          "K1b3, 2026-09-04, says what stands there and why those 12 stand, the divisibility " +
                          "(N-1-2jr) | jr, no claim of its own yet), and " +
                          "nothing about F157's hop-2 normalisation, so MirrorWorld's un-normalised 128 at N = 9 " +
-                         "seat 1 is not identified here. READ and not derived: that the sector left halves ARE " +
+                         "seat 1 is not identified here (it is 2^(1*7) at J = 1, the proof's section (a) Remark " +
+                         "and gate H since 2026-09-04). READ and not derived: that the sector left halves ARE " +
                          "alpha_p and the right halves the two combs (the gate's W5); and that the multiplicity " +
                          "of a shared Delta is section (h) Corollary 8a's b_E, which no gate measures against a b_E");
         }

@@ -8000,7 +8000,8 @@ and that proof's §(f) already records why the anisotropy cannot touch it: *"the
 ZZ term changes only the diagonal, which Lemma J never constrains."* So the
 mechanism was Δ-general from the day it was proved. And the evaluation is not
 untouched either. `compute/MirrorWorld/BlindSeat.cs` has carried the N = 9 seat 1
-factorisation `128·Δ(Δ−1)(Δ+1)(Δ²−3)` since 2026-08-30 and stops there; the arc
+factorisation `128·Δ(Δ−1)(Δ+1)(Δ²−3)` since 2026-08-30 (the 128 being 2^{1·7} at J = 1, the
+hop to the resultant's bidegree, `PROOF_BLIND_SEAT_TWO_AXES` §(a) Remark since 2026-09-04); the arc
 `the_forced_and_the_met` in the **OpenArcs registry** and `docs/CAUGHT_ERRORS.md` carry
 that one and also the N = 11 seat 1 value √(2−√2). Those are evaluations at particular seats and not at the two
 committed anisotropies (of the values named, only √(2−√2) ≈ 0.765 lies strictly between
@@ -8965,7 +8966,7 @@ N = 4..10 (a different population from the 20 pole shortfalls above) and gate K1
 says what stands there, Res(χ(H), χ(H_j)) = (−1)^⌊N/2⌋·(Q_E·Q_O)²·(u−1)^{2⌊(N−1)/2⌋}·(u+1)^{2⌈(N−1)/2⌉},
 the identity standing at exactly the 12 seats where (N−1−2jr) | jr, and F157's hop-2
 normalisation, so the un-normalised 128 that `BlindSeat.cs` carries at
-N = 9 seat 1 is not identified here.
+N = 9 seat 1 is not identified here (the proof's §(a) Remark identifies it, 2^{1·7} at J = 1).
 **Replaces:** reading a sign or a leading coefficient off a run, and normalising a locus
 polynomial primitive in order to compare two routes that differ by a constant.
 **Source:** [PROOF_BLIND_SEAT_TWO_AXES](proofs/PROOF_BLIND_SEAT_TWO_AXES.md) §(i);

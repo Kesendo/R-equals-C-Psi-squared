@@ -47,7 +47,9 @@ anisotropy. The two sites {0, N−1} are the **end pair**, not "the corner" (F14
 for a different object). This page writes H = A + Δ·(E₀₀ + E_{N−1,N−1}); F157's committed convention
 writes hop 2, 2Δ per end and a Δ(N−5)·I shift, which differ by a common scaling and a common shift,
 neither of which moves a coincidence between χ(H) and χ(H_j) — gate C1 checks this rather than
-asserting it.
+asserting it. What the scaling does move is the resultant's constant, by 2^{j(N−1−j)} at J = 1,
+which is what the 128 in `BlindSeat.cs` is
+([`PROOF_BLIND_SEAT_TWO_AXES`](../docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md) §(a) Remark, gate H).
 
 ## What this is about
 

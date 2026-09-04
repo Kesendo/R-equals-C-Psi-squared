@@ -29,11 +29,13 @@ survives both the change of modulus to N_node and the loss of uniformity, and th
 puts on §(g)'s two summands. Lemmas 9, 10 and 11 and the four corollaries of §(i) are this file's;
 the Cassini identity Lemma 9 turns on is `PROOF_CRACKED_RING_EXACT_CURVE` §(b)'s and is cited
 there. Both Theorems are exact at every N ≥ 3 and both
-parities. **Date:** 2026-09-02, sections (h) and (i) 2026-09-03, the ring half of §(g) 2026-09-04. **Authors:** Thomas Wicht, Claude (Opus 5, Fable 5.1 for the ring half). **Script:**
-[`simulations/blind_seat_two_axes_proof.py`](../../simulations/blind_seat_two_axes_proof.py), 85
-checks under 82 labels in eight blocks (L2a fires twice, L2b three times), exact in sympy, about
-two minutes measured quiet under sympy 1.14.0.
-Every resultant in block W that carries a LAW is a Sylvester determinant the file builds itself,
+parities. **Date:** 2026-09-02, sections (h) and (i) 2026-09-03, the ring half of §(g) and
+§(a)'s hop remark 2026-09-04. **Authors:** Thomas Wicht, Claude (Opus 5, Fable 5.1 for the ring
+half and the hop remark). **Script:**
+[`simulations/blind_seat_two_axes_proof.py`](../../simulations/blind_seat_two_axes_proof.py), 93
+checks under 90 labels in nine blocks (L2a fires twice, L2b three times), exact in sympy, about
+four minutes (240 s) measured quiet under sympy 1.14.0, block H about two of them.
+Every resultant in blocks W and H that carries a LAW is a Sylvester determinant the file builds itself,
 sympy's own routine appearing there only where it is the object under test; W0 to W0d say why. Run
 committed at
 [`blind_seat_two_axes_proof_run.txt`](../../simulations/results/blind_seat_two_axes/blind_seat_two_axes_proof_run.txt).
@@ -290,6 +292,40 @@ because without them not one number below can be reproduced:
    compared. The companion page counts 7 such seats in its odd range, the script carries them as an
    explicit `'ALL'` branch, and `BlindSeat.cs` already records the identically vanishing
    resultant.
+
+**Remark (the hop, and what `BlindSeat.cs`'s 128 is; 2026-09-04).** F157's committed book
+with the ZZ coupling carrying Δ is the one
+[`SeatBlindnessDeltaLocusWitness.cs`](../../compute/RCPsiSquared.Diagnostics/Foundation/SeatBlindnessDeltaLocusWitness.cs)
+builds (hop 2, diagonal Δ(N−5), end shift 2Δ; at Δ = 1 it is `se_hamiltonian_int`'s integer
+matrix, which gate H0 compares entry for entry; the Δ-carrying half is read off the witness and
+not run against it). The shift and the scaling do not leave the same trace on the halves-resultant.
+The shift leaves none, Res_x(f(x−c), g(x−c)) = Res_x(f, g) for any common c. The scaling leaves
+its power at the bidegree: a resultant of two polynomials of degrees a and b is homogeneous of
+degree a·b under a common scaling of both matrices, so with a = j and b = N−1−j sites in the two
+halves, at uniform J = 1,
+
+    Res_F157(Δ) = 2^{j(N−1−j)} · Res_here(t = Δ)
+
+exactly at every interior seat (at a uniform J the factor is (2J)^{j(N−1−j)}, gate H1c; the
+roots do not move, the constant does). Res_F157 is the HALVES-resultant in F157's matrix
+normalisation and not F157's generator P_j = Res(S_n, Δ·S_j − S_{j+1}), a different object
+whose constant depends on the Chebyshev book (1 in the monic 2cos book, 2^5 in the cos book at
+this seat) and which the witness returns primitive; in the monic book 128·P_j IS the right-first
+halves-resultant at N = 9 seat 1 (gate H5). At N = 9 seat 1 the factor is 2^{1·7} = 128, which is the constant
+[`compute/MirrorWorld/BlindSeat.cs`](../../compute/MirrorWorld/BlindSeat.cs) and
+`Formulas.cs` quote in `128·Δ(Δ−1)(Δ+1)(Δ²−3)` (H5 reads the literal off `BlindSeat.cs`
+rather than retyping it); the quotient is primitive in Δ at every seat
+read (gate H4, N = 4..12, a reading and not a lemma), so the hop's power is the whole of the
+un-normalisation up to a sign. The sign is an order: the bidegree 1·7 is odd, so Res(χ_L, χ_R) =
+−Res(χ_R, χ_L); left-first the Sylvester determinant gives −128 and right-first +128, and
+`sympy.resultant` returns +128 in BOTH orders, which is §(i)'s rule at deg 1 < deg 7 and not a
+third value (gate H5). Two cautions the gate met. First, the 2 in F157's end-pair 2Δ is a bond
+count, an end site having one bond fewer than an interior site and the ZZ diagonal jumping by
+2JΔ per lost bond, while the hop's 2 is XX+YY on one bond; they agree as numbers under this
+normalisation at every Δ, and t = Δ needs nothing but h = 2. With hop h and the ZZ unchanged
+the reading is t = 2Δ/h (gate H3 at h = 3). Second, the identity is about the two half-blocks
+a seat leaves behind, not about H itself: it says nothing about the crack, where the seat cuts
+nothing (§(g)). Gates H0 to H5, with H1c.
 
 ## (b) Lemma 1, the sector reduction
 
@@ -857,7 +893,9 @@ file's book (hop 1, a bare t) differs from F157's (hop 2, 2Δ per end, a Δ(N−
 common scaling and a common shift, so a reader is right to look for a conversion. There is none to
 make. Subtracting the shift and dividing by 2 turns F157's half-block into this file's exactly, and
 Δ_k is a RATIO of two sines, so neither operation moves it: F157's Δ_k is a value of this file's t
-unchanged, and every display below uses it that way.
+unchanged, and every display below uses it that way. What the division by 2 DOES move is the
+resultant's constant, by 2^{j(N−1−j)}; that is §(a)'s Remark, and it is why the 128 in
+`BlindSeat.cs` and §(a)'s halves-resultant at t = Δ are one object in two books.
 
 > **Lemma 8.** Write n = N_node = |N − 1 − 2j|, θ_k = kπ/n and, with F157,
 > Δ_k = sin((j+1)θ_k)/sin(jθ_k). Let n ≥ 2 and k ∈ 1..n−1 be a non-pole index, that is
@@ -1084,7 +1122,7 @@ answers both.
 shape this page has already shipped. `compute/`: `Cyclotomy.cs` holds integers and no polynomial
 algebra, `Crack.cs` holds a Chebyshev routine and no resultant, and `BlindSeat.cs` carries the
 N = 9 seat 1 locus un-normalised as 128·Δ(Δ−1)(Δ+1)(Δ²−3). That 128 is in F157's hop-2 book, not
-this file's, and this section does not identify it.
+this file's; this section does not identify it, §(a)'s Remark does (2^{1·7} at J = 1, gate H).
 
 **Lemma 9 (the congruence).** For p ≥ 1 and n ≥ 1, S_p·α_{N−1−p} ≡ −S_n (mod α_p).
 
@@ -1356,6 +1394,14 @@ and both are in the ledger rather than in this list.
 | W7c | one seat where what this section factorises is not F157's own generator Res(S_n, Δ·S_j − S_{j+1}) times Corollary 11b's sign. Dropping the mirror-side term reddens it at half the mirror seats |
 | W8 | **a control: it asserts that something BREAKS.** The R-breaking one-end family keeping the law at more than the three pinned seats. It is fed through the same door the real family uses, and feeding it the R-SYMMETRIC family reddens it |
 | W8b | **a control.** Q_S taken right-half-first keeping the law at other than the pinned 12 of 50 seats, which would mean "fold half first" need not be said of the sectors |
+| H0 | the gate's own transcription of F157's book differing entry for entry from `se_hamiltonian_int` at Δ = 1, N = 3..11; without it every H check could pass on a mis-copied matrix |
+| H1 | one non-centre seat over N = 4..11 where F157's-book halves-resultant is not exactly 2^{j(N−1−j)} times this file's at t = Δ, or a centre seat where only one book's resultant vanishes; 40 seats and 4 centres pinned |
+| H1b | **a mutation.** The exponent j(N−1−j)+1 keeping H1 at any seat. It certifies that H1 compares two NONZERO sides; the exponent's form is read by H1 and H3 together, not by this row |
+| H1c | a uniform J = 2 or 3 over N = 4..8 where the constant is not (2J)^{j(N−1−j)} or the roots move off Δ; 36 seats pinned |
+| H2 | a common shift c·I leaving a residue in the halves-resultant, symbolic in c; or a shift on ONE half only leaving none, which would mean the resultant never read the diagonal; 24 seats pinned |
+| H3 | hop 3 with the ZZ diagonal unchanged giving other than 3^{j(N−1−j)} times this file's resultant at t = 2Δ/3, which is the check that the end pair's 2Δ and the hop's 2 are different 2s |
+| H4 | **a reading.** A seat over N = 4..12 whose quotient Res_F157 / 2^{j(N−1−j)} has content other than 1, which would mean something besides the hop hides in the 128; 50 rows pinned |
+| H5 | the literal READ from `BlindSeat.cs`'s comment (not retyped; a drift there reddens it) being other than the right-first halves-resultant at N = 9 seat 1, or −128 left-first failing, or `sympy.resultant` returning other than +128 in either order, which would put the comments' sign outside §(i)'s degree rule, or 128·P_1 in the monic book differing from the right-first resultant, which would mean the Remark's fence against F157's generator names the wrong relation |
 
 Three mutations of the objects were run by hand against an earlier build of this gate and all
 three went red: the wrong odd-sector sign, the crack fed through C1's door, and the criterion
@@ -1403,9 +1449,9 @@ suffices alone, which the centre seat answers one way and every other seat the o
 - **What §(i) does NOT claim.** It is about the anisotropy axis and the chain. It says nothing
   about the crack, where §(g) records that the K1b identity fails at 20 of the same 32
   seats and, since 2026-09-04, what stands in its place and at which 12 seats the identity
-  stands and why (gate K1b3); nothing about F157's hop-2 normalisation, so the un-normalised 128 that
-  [`BlindSeat.cs`](../../compute/MirrorWorld/BlindSeat.cs) carries at N = 9 seat 1 is not
-  identified here; and nothing about which sign a reader would get from a third argument order.
+  stands and why (gate K1b3); nothing about F157's hop-2 normalisation, which is §(a)'s Remark's
+  (the 128 that [`BlindSeat.cs`](../../compute/MirrorWorld/BlindSeat.cs) carries at N = 9
+  seat 1 is 2^{1·7}, gate H); and nothing about which sign a reader would get from a third argument order.
   A sign law is a statement about a NAMED order, and §(i) names one.
 - **F157's standing fence is not lifted here.** *"A Δ is NOT the detuned bond that The Seat That
   Cuts leaves open; do not report one as the other."* Lemma 1 identifies no operators: P is a

@@ -477,8 +477,12 @@ public static class Formulas
     // its blindness at every Delta, provably (the seat's two principal submatrices are conjugate by
     // the chain reflection, so they share every root and their resultant vanishes identically). Every
     // other seat this law names is blind exactly on the zero set of one equation in Delta: at N = 9
-    // seat 1 the resultant is 128*D*(D-1)*(D+1)*(D^2-3), blind at 0, +-1 and +-sqrt(3) and nowhere
-    // else. Generic Delta gives [0,0,0,0,4,0,0,0,0], so |Delta| = 1 is an isolated point of the locus
+    // seat 1 the resultant, right half first, is 128*D*(D-1)*(D+1)*(D^2-3), blind at 0, +-1 and
+    // +-sqrt(3) and nowhere else. The 128 is the hop 2 (J = 1) to the bidegree 1*7, the two halves'
+    // sizes; the sign is an argument order (left half first -128, right half first +128, and
+    // sympy.resultant +128 in either order at these degrees): PROOF_BLIND_SEAT_TWO_AXES section (a),
+    // gate H.
+    // Generic Delta gives [0,0,0,0,4,0,0,0,0], so |Delta| = 1 is an isolated point of the locus
     // rather than a limit; it is NOT the only point of it.
     public static int F157_BlindHeisenberg(int n, int seat) => (Cyclotomy.Gcd(2 * seat + 1, n) - 1) / 2;
     public static int F157_BlindXY(int n, int seat) => Cyclotomy.Gcd(seat + 1, n + 1) - 1;

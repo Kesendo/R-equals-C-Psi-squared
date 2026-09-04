@@ -45,7 +45,14 @@ namespace MirrorWorld;
 // palindromic profile (their resultant is identically zero). Every OTHER seat the gcd law names is blind
 // exactly on the zero set of ONE equation in Delta: at N = 9 seat 1 that resultant factors as
 // 128*D*(D-1)*(D+1)*(D^2-3), so the seat is blind at Delta = 0, +-1 and +-sqrt(3) and nowhere else, and
-// the sqrt(3) row reproduces the isotropic row [0,1,0,0,4,0,0,1,0] exactly. So the MET kind is not an
+// the sqrt(3) row reproduces the isotropic row [0,1,0,0,4,0,0,1,0] exactly. The 128 is this book's hop
+// at J = 1 (2J on a bond, so (2J)^7 in general) raised to the resultant's bidegree 1*7, the sizes of
+// the two halves the seat leaves behind: a resultant is homogeneous of degree a*b under a common
+// scaling, so the main repo's primitive polynomial D*(D-1)*(D+1)*(D^2-3) is the same object in the
+// hop-1 book (PROOF_BLIND_SEAT_TWO_AXES section (a), gate H, 2026-09-04). Its sign is an order, the
+// bidegree being odd: left half first the Sylvester determinant gives -128, right half first +128, and
+// the +128 here is what sympy.resultant returns in either order at these degrees, the proof's degree
+// rule and not a third value. So the MET kind is not an
 // accident of the isotropic point, it is an accident of a codimension-one LOCUS that happens to contain
 // it; sampling Delta can only ever show the seats are not GENERICALLY blind (they are gone at 1/2, 3 and
 // 10^-6 alike, so |Delta| = 1 is an isolated point of that locus and not a limit). The first draft of

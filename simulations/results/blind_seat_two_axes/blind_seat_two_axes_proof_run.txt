@@ -103,6 +103,16 @@ PROOF_BLIND_SEAT_TWO_AXES: the crack axis and the anisotropy axis, sector by sec
   [PASS] W8  CONTROL: on the one-end family the law goes, at a pinned survivor count  3 of 24 seats over N = 4..9 keep the value anyway, expected 3: [(4, 2), (6, 3), (8, 4)]; it is fed through the same door the real family uses
   [PASS] W8b CONTROL: taking Q_S right-half-first breaks the law, at a pinned count  12 of 50 seats over N = 4..12, expected 12; so 'fold half first' is a statement about the SECTORS as well and not only about P_j
 
+(H) the hop: F157's book is this file's times 2^(j(N-1-j)), the shift falling out
+  [PASS] H0  H_f157 at Delta = 1 is se_hamiltonian_int's matrix entry for entry, N = 3..11  off at []
+  [PASS] H1  Res_F157(Delta) = 2^(j(N-1-j)) * Res_here(t = Delta), exact at every non-centre seat  40 seats over N = 4..11 (expected 40), 4 centre seats vanishing in both books (expected 4, the odd N); off at []
+  [PASS] H1b MUTATION: exponent j(N-1-j)+1 breaks H1 at every non-centre seat  40 of 40 broken
+  [PASS] H1c uniform J: the constant is (2J)^(j(N-1-j)) and the roots stay at Delta, J = 2 and 3 over N = 4..8  36 seats (expected 36); off at []
+  [PASS] H2  a COMMON shift c*I drops out of the halves-resultant, symbolic in c; a one-sided shift never does  24 seats over N = 4..9; common-shift residue at []; one-sided shift invisible at 0
+  [PASS] H3  hop 3, ZZ unchanged: Res = 3^(ab) * Res_here(t = 2*Delta/3) at every non-centre seat over N = 4..9  off at []
+  [PASS] H4  READING: the quotient is primitive in Delta at every non-centre seat over N = 4..12  50 of 50 primitive, expected 50 rows
+  [PASS] H5  N = 9 seat 1: BlindSeat.cs's literal read from the file is right-first +128*(...), left-first -128, sympy +128 both orders, and 128*P_1 (monic book) = right-first  literal 128*t*(t - 1)*(t + 1)*(t**2 - 3); left-first -128*t*(t - 1)*(t + 1)*(t**2 - 3); right-first 128*t*(t - 1)*(t + 1)*(t**2 - 3); sympy 128*t*(t - 1)*(t + 1)*(t**2 - 3) / 128*t*(t - 1)*(t + 1)*(t**2 - 3); P_1 t*(t - 1)*(t + 1)*(t**2 - 3)
+
 ======================================================================================
 VERDICT: ALL GREEN
 ======================================================================================

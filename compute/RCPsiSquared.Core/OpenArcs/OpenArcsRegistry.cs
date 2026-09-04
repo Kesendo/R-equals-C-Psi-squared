@@ -8537,9 +8537,16 @@ public static class OpenArcsRegistry
                 "cross-sector resultant being the two ring ends alone with the ring-end blind " +
                 "counts as its orders; the 12 seats where K1b2's identity stands are exactly " +
                 "those with (N-1-2jr) | jr, the fold hiding the knob, not the seat cutting. " +
-                "OPEN now, and smaller than what closed: F157's hop-2 normalisation is untouched, " +
-                "so the un-normalised 128 that BlindSeat.cs carries at N = 9 seat 1 is " +
-                "still unidentified; and the arc's own question, which of our arithmetic " +
+                "The hop-2 normalisation CLOSED 2026-09-04, section (a)'s Remark + gate H (eight " +
+                "checks): Res_F157(Delta) = 2^(j(N-1-j)) * Res_here(t = Delta) exactly at uniform J = 1 " +
+                "((2J)^(j(N-1-j)) in general, gated at J = 2 and 3), the common shift dropping out and the scaling paying " +
+                "its power at the resultant's bidegree, so BlindSeat.cs's 128 at N = 9 seat 1 is " +
+                "2^(1*7); the quotient is primitive at all 50 seats read, and the sign is an order " +
+                "(left-first -128, right-first +128, sympy +128 in both orders per section (i)'s " +
+                "degree rule). The 2 in the end pair's 2*Delta is a bond count (the ZZ jump per lost " +
+                "bond), the hop's 2 is XX+YY; they agree as numbers at every Delta, and t = Delta " +
+                "needs nothing but hop 2 (hop 3 reads t = 2*Delta/3). OPEN now: the arc's own " +
+                "question, which of our arithmetic " +
                 "laws are forced by a symmetry and which a perturbation dissolves, still " +
                 "stands on the laws it opened with. F162 IS typed since 2026-09-03, as " +
                 "BlindSeatSectorFactorisationClaim (Tier1Derived, parents SeatCutBlindnessClaim " +
