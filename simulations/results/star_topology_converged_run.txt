@@ -1,0 +1,165 @@
+
+=== threshold: Section 4.10: the threshold, both routes, and the grid it needs.
+March's own grid (dt=0.005, sample_every=20) reproduces to the last digit:
+   J_SB=1.4650: 0.249999
+   J_SB=1.4655: 0.250060
+   so that grid puts the threshold at 1.465002, not at the 1.466 March states
+converged, exact propagator, step halved:
+   dt=0.008: threshold J_SB = 1.462960
+   dt=0.004: threshold J_SB = 1.462951
+   dt=0.002: threshold J_SB = 1.462952
+   dt=0.001: threshold J_SB = 1.462952
+converged, the repo's own RK4 recording every step:
+   dt=0.001: threshold J_SB = 1.462948
+    [53 s]
+
+=== scale: Section 4.10: Q = J_SA/gamma is the knob, and absolute coupling is not a second one.
+peak CPsi_AB at ratio 2 with Q = 20 held, everything scaled by s:
+   gamma=0.0125  J=(0.2500, 0.5000): peak = 0.329241803
+   gamma=0.0250  J=(0.5000, 1.0000): peak = 0.329241803
+   gamma=0.0500  J=(1.0000, 2.0000): peak = 0.329241803
+   gamma=0.1000  J=(2.0000, 4.0000): peak = 0.329241803
+   gamma=0.5000  J=(10.0000, 20.0000): peak = 0.329241803
+   gamma=1.0000  J=(20.0000, 40.0000): peak = 0.329241803
+   gamma=2.0000  J=(40.0000, 80.0000): peak = 0.329241803
+the same check on a FIXED grid, which is the one that can fail:
+   (scaling the grid with s makes expm(L(sJ,sg)*dt/s) the SAME matrix as
+    expm(L(J,g)*dt), so the runs above are arithmetically identical)
+   gamma=0.0125  J=(0.2500, 0.5000) at dt=0.001, t_max=8: peak = 0.329241734
+   gamma=0.0250  J=(0.5000, 1.0000) at dt=0.001, t_max=8: peak = 0.329241734
+   gamma=0.0500  J=(1.0000, 2.0000) at dt=0.001, t_max=8: peak = 0.329241734
+   gamma=0.1000  J=(2.0000, 4.0000) at dt=0.001, t_max=8: peak = 0.329241803
+   gamma=0.5000  J=(10.0000, 20.0000) at dt=0.001, t_max=8: peak = 0.329227839
+March's two 'absolute coupling' rows, and the same two Q reached by moving gamma:
+   J=(0.50, 0.75) gamma=0.05  Q= 10  peak = 0.218177  does NOT cross
+   J=(1.00, 1.50) gamma=0.05  Q= 20  peak = 0.254779  crosses
+   J=(1.00, 1.50) gamma=0.10  Q= 10  peak = 0.218177  does NOT cross
+    [9 s]
+
+=== noise: Section 4.9: the two gamma scans, the fixed-product test, and the window column.
+the two scans (gamma_S=0.05, J=(1,2)); Window = longest single excursion
+   gamma_A=0.1, gamma_B=0.001   peak=0.3132  window=0.30761  lobes=1
+   gamma_A=0.1, gamma_B=0.1     peak=0.2941  window=0.12750  lobes=2
+   gamma_A=0.1, gamma_B=0.2     peak=0.2758  window=0.09263  lobes=2
+   gamma_A=0.001, gamma_B=0.1   peak=0.3455  window=0.31404  lobes=1
+   gamma_A=0.2, gamma_B=0.1     peak=0.2527  window=0.03315  lobes=2
+fixed-product test, gamma_A * gamma_B = 0.0025:
+   gamma_A=0.005  gamma_B=0.5    peak=0.2640  crosses
+   gamma_A=0.05   gamma_B=0.05   peak=0.3292  crosses
+   gamma_A=0.5    gamma_B=0.005  peak=0.2157  does NOT cross
+the window column, all three rates equal, converged in run length (t_max=160):
+   gamma=0.001   longest=0.354  total=9.426  lobes=61
+   gamma=0.01    longest=0.346  total=0.987  lobes=8
+   gamma=0.05    longest=0.311  total=0.311  lobes=1
+   gamma=0.1     longest=0.096  total=0.189  lobes=2
+   gamma=0.2     longest=0.000  total=0.000  lobes=0
+   the same total on shorter runs at gamma=0.001, which is what March had:
+      t_max=5.0   total=1.656  lobes=7
+      t_max=20.0  total=5.767  lobes=25
+      t_max=40.0  total=8.939  lobes=52
+      t_max=80.0  total=9.426  lobes=61
+    [255 s]
+
+=== curve: Sections 4.10 and 8.5: the threshold as a function of Q, and the fit.
+  gamma       Q  converged   March
+  0.001  1000.0    1.17642   1.183
+  0.010   100.0    1.22768   1.247
+  0.020    50.0    1.28532   1.296
+  0.050    20.0    1.46295   1.466
+  0.070    14.3    1.58542   1.634
+  0.100    10.0    1.77496   1.820
+  0.120     8.3    1.90495   1.929
+  0.150     6.7    2.10483   2.146
+  0.170     5.9    2.24103   2.253
+  0.200     5.0    2.44923   2.460
+  power fit: 7.2317*gamma^1.0810 + 1.1766   R2=0.999965  maxres=0.00430
+  linear   : 6.3698*gamma + 1.1537   R2=0.999110  maxres=0.02155
+  March's published fit 7.35*gamma^1.08 + 1.18 on March's own ten rows: maxres=0.03810, so it does not come from that table
+the quiet end: no plateau, and where the reading stops being about the system
+   gamma=0.001    Q=   1000: 1.17642
+   gamma=0.0003   Q=   3333: 1.14388
+   gamma=0.0001   Q=  10000: 1.11567
+   gamma=0.05     threshold at t_max 5/10/20/40/80: 1.46295 1.46295 1.46295 1.46295 1.46295
+   gamma=0.01     threshold at t_max 5/10/20/40/80: 1.22768 1.22768 1.22768 1.22768 1.22768
+   gamma=0.001    threshold at t_max 5/10/20/40/80: 1.17642 1.17642 1.17642 1.17642 1.17642
+   gamma=0.0001   threshold at t_max 5/10/20/40/80: 1.14824 1.12915 1.11847 1.11567 1.11567
+   gamma=0.0      threshold at t_max 5/10/20/40/80: 1.14451 1.12110 1.10471 1.08829 1.07965
+   and at gamma=0 with SYMMETRIC coupling, which never crosses however long the run:
+      t_max=   5.0: peak = 0.21962
+      t_max=  20.0: peak = 0.21962
+      t_max=  80.0: peak = 0.21962
+      t_max= 200.0: peak = 0.21962
+    [1173 s]
+
+=== coarse: Sections 4.9 and 4.10: the coarse ratio scan, and the boundaries Section 7 quotes.
+the coarse ratio scan of Section 4.10 (gamma=0.05, J_SA=1), converged:
+   J_SB=1.30: converged 0.2268   March 0.226   does not
+   J_SB=1.40: converged 0.2415   March 0.242   does not
+   J_SB=1.47: converged 0.2509   March 0.251   crosses
+   J_SB=2.00: converged 0.3292   March 0.329   crosses
+   J_SB=3.00: converged 0.4087   March 0.406   crosses
+the two noise boundaries at matched partner rates (J=(1,2), gamma_S=0.05):
+   partner rate   gamma_A      gamma_B      sender/receiver
+   0.005          0.3248       0.5824       1.79
+   0.05           0.2699       0.4735       1.75
+   0.1            0.2118       0.3519       1.66
+   0.2            0.1619       0.1105       0.68   INVERTED
+where the two boundaries cross, which is a solvable point and not a sampled row.
+They can only meet where both rates are equal, so it is the gamma solving
+peak CPsi_AB(gamma_A = gamma_B = gamma, gamma_S = 0.05) = 1/4:
+   gamma = 0.17292, and read as a partner rate it gives gamma_A = 0.17292, gamma_B = 0.17292, ratio 1.0000
+the two large-Q thresholds read at the Section 8.5 table's own t_max, for comparison:
+   gamma=0.0003   t_max=6: 1.15565
+   gamma=0.0001   t_max=6: 1.14824
+    [610 s]
+
+=== observers: Section 8.1: the N-observer thresholds.
+N=2 and N=3 thresholds, and the grid spread at N=3:
+   N=2: 1.462952
+   N=3 at dt=0.004: 3.650043
+   N=3 at dt=0.002: 3.649688
+   N=3 at dt=0.001: 3.649725
+   N=3 monotonicity, checked rather than assumed:
+      rises without a dip from 0.21570 at J_SB=2.0 to 0.26138 at 5.0
+   N=4 at March's two probes:
+      J_SB=2.0: 0.1639
+      J_SB=4.5: 0.1891
+    [63 s]
+
+=== direct: Section 8.3: direct A-B coupling, and why the shadow column reads exactly zero.
+   threshold at J_AB=0.0: 1.46295
+   threshold at J_AB=0.5: 1.34444
+   dominance crossover, J_SB=0: J_AB = 0.6889
+   the shadow sweep as the committed code runs it, with WHERE the peak falls,
+   which is the load-bearing step: an exact zero means the peak sits at t_measure.
+      J_AB=0.0   suppression 10.255836%   argmax of R_SB over t>=1: 1.800 without, 1.100 with
+      J_AB=0.1   suppression -2.943701%   argmax of R_SB over t>=1: 1.000 without, 1.100 with
+      J_AB=0.3   suppression 0.0%         argmax of R_SB over t>=1: 1.000 without, 1.000 with
+      J_AB=0.5   suppression 0.0%         argmax of R_SB over t>=1: 1.000 without, 1.000 with
+      J_AB=1.0   suppression 0.0%         argmax of R_SB over t>=1: 1.000 without, 1.000 with
+    [19 s]
+
+=== frequency: Section 4.12: the closed form and the gamma shift.
+   closed form at J=(1,2): 1.506259;  max Bohr frequency / 2pi: 1.506259
+   at gamma=0.005 the generator carries the dominant frequency both ways: 9.46410162 and 9.46409186
+      shift of the dominant pair: -1.55e-06 in f units
+      shift of the smallest:      -2.57e-06 in f units
+   second order in gamma; the coefficient is per mode, so name the mode:
+      gamma     dominant       smallest      
+      0.001     0.3902         0.6469        
+      0.002     0.3902         0.6468        
+      0.005     0.3902         0.6468        
+      0.01      0.3902         0.6468        
+      0.02      0.3902         0.6469        
+      0.05      0.3903         0.6472        
+    [0 s]
+
+=== others: Sections 4.2, 4.3, 4.5 and 4.11: the numbers that are not thresholds.
+   4.3  R_SA+R_SB: init 0.1111, peak 0.2705, ratio 2.43x
+   4.5  |0++> R_SA+R_SB: init 0.0000, peak 0.3636
+   4.2  W state R_SA+R_SB: init 0.0658, at t=5 0.0033
+   4.11 |0++> at J_SB=10, gamma=0.001, t_max=2.0: peak CPsi_AB = 0.29740  CROSSES
+   4.11 |0++> at J_SB=10, gamma=0.001, t_max=5.0: peak CPsi_AB = 0.29740  CROSSES
+   4.11 |0++> at J_SB=10, gamma=0.001, t_max=8.0: peak CPsi_AB = 0.29740  CROSSES
+   5.10 at t=2.2: CPsi_SA = 0.000000, CPsi_SB = 0.000000, CPsi_AB = 0.117235
+    [8 s]

@@ -112,14 +112,14 @@ In plain language: a conversation between two people is harder to maintain in a 
 In the tested star-topology sweeps (S coupled to A and B, no direct A-B coupling), the AB pair crossed the 1/4 threshold only when three conditions held simultaneously:
 
 - **The sender must be strongly engaged.** J_SB/J_SA ≥ 1.46295 at Q = J_SA/γ = 20. B must be coupled to the shared object more strongly than A. The threshold belongs to Q rather than to γ: the generator is linear in J and in γ, so scaling both together is only a choice of time unit.
-- **The receiver must be quiet, and it is a range rather than a line.** The γ_A boundary moves with the sender's own rate: 0.2699 at γ_B = 0.05, 0.2117 at γ_B = 0.1, 0.1619 at γ_B = 0.2. Compared at a matched partner rate the sender tolerates about 1.7 times as much, and at partner rate 0.2 the asymmetry inverts.
-- **A pre-existing deep connection must exist.** The initial SA concurrence must be Bell-like (C_SA > 0.8). Unlike the other two, this one has no committed script behind it.
+- **The receiver must be quiet, and it is a range rather than a line.** The γ_A boundary moves with the sender's own rate: 0.2699 at γ_B = 0.05, 0.2118 at γ_B = 0.1, 0.1619 at γ_B = 0.2. Unlike the threshold above these are rates rather than ratios, read at J_SA = 1, J_SB = 2, γ_S = 0.05, and they rescale with J. Compared at a matched partner rate the sender tolerates about 1.7 times as much at low rates, and past a partner rate of 0.17292 the asymmetry inverts.
+- **A pre-existing deep connection, at this working point.** The initial SA concurrence must be Bell-like (C_SA > 0.8) while J_SB and γ are held at 2 and 0.05. It is not a necessary condition: from a product state with C_SA = 0 the crossing still happens at J_SB = 10 and γ = 0.001, so what the initial state sets is the price. The C_SA > 0.8 figure itself, unlike the other two conditions, has no committed script behind it.
 
 These conditions are empirical regularities for CΨ in this topology; the numbers are in [F29](ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3). Whether they reduce to standard entanglement-transport analysis or indicate a distinct structural pattern remains open.
 
 ### 7. The structure of the initial connection matters, not just its strength
 
-The relationship between initial SA entanglement and AB crossing is non-monotonic. Using parametric Bell states (α|00⟩ + √(1−α²)|11⟩), there are two separate crossing windows and a dead zone between them. Very high AND very low initial entanglement can produce crossing, but medium entanglement cannot.
+The relationship between initial SA entanglement and AB crossing is non-monotonic. Using parametric Bell states (α|00⟩ + √(1−α²)|11⟩), there are two separate crossing windows and a dead zone between them. Very high AND very low initial entanglement can produce crossing, but medium entanglement cannot. This rests on the same uncommitted March run as the C_SA > 0.8 condition above; no script in the repository builds that family.
 
 This suggests that AB crossing depends on more than initial entanglement magnitude alone; the state-family structure also appears to matter.
 
@@ -131,7 +131,7 @@ At certain times in the star topology evolution, the AB pair shows nonzero CΨ w
 
 For two qubits with symmetric Heisenberg coupling, redistributing the same total noise between the qubits (all on A, all on B, or split equally) makes no difference to CΨ dynamics. Only the total noise budget matters.
 
-But in the star topology (asymmetric coupling), noise distribution matters enormously: receiver noise (γ_A) is far more destructive than sender noise (γ_B). The coupling structure breaks the symmetry that makes noise distribution irrelevant.
+But in the star topology (asymmetric coupling), noise distribution matters enormously: receiver noise (γ_A) is more destructive than sender noise (γ_B), by about 1.7× when the two are read at a matched partner rate, and the roles invert past a partner rate of 0.17292. The coupling structure breaks the symmetry that makes noise distribution irrelevant.
 
 This observation, applied to longer chains, led eventually to the
 sacrifice-zone formula ([Resonant Return](../experiments/RESONANT_RETURN.md)):
@@ -183,15 +183,13 @@ matches is a fact.
 
 In the simulation data, CΨ = 1/4 falls on a smooth curve; no other standard metric shows a transition at that point. The threshold is mathematically elegant but its physical significance depends on whether nature implements this specific self-referential rule, which is unproven.
 
-### The threshold formula
+### The threshold curve
 
-For the star topology AB crossing:
+For the star topology AB crossing the threshold is a function of Q = J_SA/γ alone:
 
-    J_th(γ) ≈ 7.35 · γ^1.08 + 1.18    (R² = 0.999)
+    J_SB/J_SA ≥ 2.449 at Q = 5,  1.775 at Q = 10,  1.46295 at Q = 20,  1.176 at Q = 1000
 
-A simple linear approximation also works well:
-
-    J_th(γ) ≈ 6.39 · γ + 1.16          (R² = 0.998)
+On the measured range a fit gives J_th(γ) ≈ 7.232 · γ^1.081 + 1.1766 at J_SA = 1, largest residual 0.0043. Its constant term is not an asymptote: the threshold keeps falling out to Q = 10⁴. The earlier pair of fits, 7.35 · γ^1.08 + 1.18 and a linear 6.39 · γ + 1.16 said to work "as well", are retired; the linear one is five times worse on converged data, and R² could not see the difference.
 
 No divergence or hard closure at any tested γ. The window narrows smoothly with increasing noise.
 

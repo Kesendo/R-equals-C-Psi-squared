@@ -583,10 +583,10 @@ f/J_total is not a constant at all: it is 3/(2*pi) = 0.4775 at equal coupling,
 sits inside that range and matches the two ratios that were tried.
 
 The sibling document [Star Topology Observers](STAR_TOPOLOGY_OBSERVERS.md) 4.12
-measures the same frequency on the same system and reports f ≈ J_total/2 as a
-scaling law, without a link in either direction. Its own table already carries
-the refutation, the two symmetric-coupling rows reading 0.474 where the
-asymmetric ones read 0.499.
+measured the same frequency on the same system and read f ≈ J_total/2 off it as
+a scaling law. Its own table already carried the refutation, the two
+symmetric-coupling rows reading 0.474 where the asymmetric ones read 0.499, and
+it now carries the closed form and links here.
 
 The period-3 window recurrence is consistent with this frequency: at f=1.5,
 one full cycle takes T=0.667 time units. The glide-glide-switch pattern spans
@@ -643,7 +643,7 @@ good structural guess to actual spectral claim."
 | Glide mode is symmetric rotor | c+ sector carries the fast oscillation |
 | Switch mode breaks symmetry | c-/aX sector has separate, slower frequency |
 | Period-3 recurrence | Consistent with f=1.506 sampling at window intervals |
-| f = J_total/2 = 1.500 | Matches f=1.506 from Liouvillian (0.4% difference) |
+| closed form = 1.5063 | Matches f=1.506 from the Liouvillian. The old rule of thumb J_total/2 gives 1.500 here; it is not a limiting case of the closed form but crosses it, exactly at J_SB/J_SA = 1.932 |
 
 ### Important caveat
 
@@ -694,6 +694,12 @@ parameter changes? Script: [`simulations/parameter_sweep.py`](../simulations/par
 | 3.0 | 2.098 | 0.450 | 4.67 | 2.000 | 4.9% | EXACT |
 | 4.0 | 2.747 | 0.450 | 6.11 | 2.500 | 9.9% | EXACT |
 | 5.0 | 3.347 | 0.450 | 7.44 | 3.000 | 11.6% | EXACT |
+
+The `f_pred` column is the retired rule of thumb J_total/2, kept because the
+sweep was run against it; its "Error" is that rule's error and not a measurement
+uncertainty. The closed form above replaces it, and the row where the rule is
+worst, J_SB = 0.5 at 73%, is the row where the two sectors merge and f(c+) is no
+longer the dominant Bohr frequency at all.
 
 **f(c+) scales with J_SB. f(c-) stays nearly constant (~0.4).**
 The sectors become MORE separated with increasing coupling asymmetry.

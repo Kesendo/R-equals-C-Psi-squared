@@ -1066,11 +1066,14 @@ J_SA = 1, J_SB = 2, gamma_S = 0.05):
 |---|---|---|---|
 | 0.005 | 0.3248 | 0.5824 | 1.79 |
 | 0.05 | 0.2699 | 0.4735 | 1.75 |
-| 0.1 | 0.2117 | 0.3518 | 1.66 |
+| 0.1 | 0.2118 | 0.3519 | 1.66 |
 | 0.2 | 0.1619 | 0.1105 | **0.68** |
 
 So the receiver is the fragile one over most of the range, by a factor near
-1.7, and at partner rate 0.2 the roles swap. gamma_A = 0.2 does NOT kill the
+1.7, and beyond a partner rate of 0.17292 the roles swap: the two boundary
+curves can only meet where the rates are equal, so the crossing is exactly the
+gamma solving peak CPsi_AB(gamma_A = gamma_B = gamma, gamma_S = 0.05) = 1/4, and
+at that rate both boundaries read 0.17292. gamma_A = 0.2 does NOT kill the
 connection: at gamma_B = 0.1 it peaks at 0.2527.
 
 **Watch the sampling.** `run_star_topology` defaults to `sample_every = 20`,

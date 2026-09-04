@@ -289,9 +289,11 @@ if __name__ == "__main__":
 
     # Claim: "r = 0.976 mixed XY correlation (N>=3)"
     print("\n--- XOR_SPACE: Mixed XY Pauli weight correlation ---")
-    # This was verified in xor_verify.py, just confirm the number
-    check("r = 0.976 for N=3 (verified in xor_verify.py)", True,
-          "Cross-reference: xor_detector_v3.py output shows r=0.984 for N=3")
+    # Removed: a third check(..., True), the same vacuous shape as the two
+    # below, and self-contradicting besides: it asserted r = 0.976 while its
+    # own detail string reported that the computation gives 0.984. The
+    # discrepancy is real and is flagged in the CONSISTENCY section further
+    # down; gating it needs a check that recomputes r.
 
     # =============================================================
     # CORE_ALGEBRA claims
@@ -328,15 +330,13 @@ if __name__ == "__main__":
     # =============================================================
     # WEAKNESSES claims (spot check)
     # =============================================================
-    print("\n--- WEAKNESSES: J threshold 1.466 ---")
+    print("\n--- WEAKNESSES: J threshold: run verify_star_topology.py ---")
 
-    # Claim: "J_SB/J_SA >= 1.466 for AB crossing at gamma=0.05"
-    # IMPORTANT: Uses Bell_SA ⊗ |+>_B (B in superposition, not |0>!)
-    # This was verified by verify_star_topology.py (8/8 pass) using star_topology_v2.py
-    # Our initial implementation used |0>_B which gives lower CPsi (no initial coherence on B)
-    # The threshold is CORRECT for the documented initial state Bell_SA+B.
-    check("J threshold 1.466 (verified by verify_star_topology.py, 8/8 pass)", True,
-          "Cross-reference: verify_star_topology.py with star_topology_v2.py")
+    # The star-topology threshold used to be "checked" here by passing the
+    # literal True, with a note saying verify_star_topology.py had verified it.
+    # A check that cannot fail is not a check, and the number it stood behind
+    # (1.466) was itself a sampling artifact; the converged value is 1.46295
+    # (F29). Run verify_star_topology.py for the gate that can fail.
 
     # =============================================================
     # CONSISTENCY CHECKS between documents
@@ -346,7 +346,9 @@ if __name__ == "__main__":
     print("  But xor_detector_v3.py computed r=0.984")
     print("  These used different state sets. Both are valid.")
     print("  The claim 'r > 0.9' is robust. The exact value depends on state selection.")
-    check("r > 0.9 for mixed XY correlation (robust across state sets)", True)
+    # Removed: this was check(..., True), the same shape as the star-topology
+    # one deleted above. A literal True cannot fail and so verifies nothing.
+    # If the r > 0.9 claim is worth gating, the gate has to recompute r.
 
     # Claim: Echo peak C_SB = 0.598 for N=3
     # This would require a full star simulation which we've done in qst_bridge.py

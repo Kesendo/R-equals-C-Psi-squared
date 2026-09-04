@@ -32,11 +32,17 @@ No-signalling holds exactly. Pre-encoded version also fails.
 Gravitational coupling provides J > 0 for all massive particles.
 Whether this constitutes a "bridge" beyond standard physics is unresolved.
 See [Observer x Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md).
-**Update 2026-03-06:** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
-quantifies the J > 0 case: AB crossing requires J_SB/J_SA >= 1.466 (at
-gamma=0.05), quiet receiver (gamma_A < ~0.25), and Bell-like initial state
-(C_SA > 0.8). Receiver noise is far more destructive than sender noise.
-The threshold scales with noise (1.18 at gamma->0, 2.15 at gamma=0.15).
+The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+quantifies the J > 0 case: AB crossing requires J_SB/J_SA ≥ 1.46295 (at
+Q = J_SA/γ = 20), a quiet receiver (γ_A < 0.2699 at a partner rate of 0.05,
+measured at J_SA = 1, J_SB = 2, γ_S = 0.05: unlike the threshold this boundary
+is not a pure ratio and rescales with J), and a Bell-like initial state
+(C_SA > 0.8), the last of these being a property of that working point rather
+than a necessary condition: from C_SA = 0 the crossing still happens, at five
+times the coupling and a fiftieth of the noise. Receiver noise costs more than
+sender noise by a factor near 1.7,
+and the two swap roles past a partner rate of 0.17292. The threshold is a function of Q alone: 2.449 at Q = 5, 1.775 at
+Q = 10, 1.176 at Q = 1000 and still falling.
 This provides the first concrete numbers for what "strong enough coupling"
 means in the reopened bridge scenario.
 **Built on**: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md),

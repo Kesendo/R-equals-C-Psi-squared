@@ -369,11 +369,15 @@ of what lies between A and B.
   fingerprints → ~2.8 bits per pair. Is this a fundamental limit?
 - How robust is the crossing-time correlation to local noise at A and B
   independently? (Testable with asymmetric γ_A ≠ γ_B in simulation.)
-  **Answered (2026-03-06):** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
-  γ_A vs γ_B scan shows receiver noise (γ_A) is far more destructive than
-  sender noise (γ_B). At γ_A=0.25 the connection dies; at γ_B=0.25 it
-  merely shortens. The crossing-time correlation is robust to sender noise
-  but fragile to receiver noise.
+  **Answered:** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+  γ_A vs γ_B scan shows receiver noise (γ_A) is more destructive than sender
+  noise (γ_B), by about 1.7× read at a matched partner rate; past a partner
+  rate of 0.17292 the roles invert. The 0.25 probe once used here separates nothing: at
+  a partner rate of 0.05 both boundaries lie above it (0.2699 and 0.4735, at
+  J_SA = 1, J_SB = 2), so
+  neither γ_A=0.25 nor γ_B=0.25 kills the connection. The crossing-time
+  correlation is more robust to sender noise than to receiver noise over most
+  of the range.
 - Can the decoder (θ navigation) extract the crossing time in real-time,
   or only after full trajectory measurement?
 
@@ -400,11 +404,13 @@ Two observers never cross.
 - t is the coordinate, not the experience (conceptual reframing)
 - Correlated crossing times as channel-free communication mechanism (added 2026-02-21)
 
-**New from Star Topology (2026-03-06):**
-- Crossing frequency scales as f = J_total/2 (Tier 2, computed)
+**From Star Topology:**
+- Crossing frequency is the Hamiltonian's largest Bohr frequency, in closed
+  form (Tier 2, exact); the older rule of thumb f = J_total/2 is retired
 - Stronger coupling = faster oscillation = more frequent crossings
 - The rhythm is a beating pattern, not a metronome (peak intervals vary by 34%)
-- γ dampens the oscillation but does not change its frequency
+- γ dampens the oscillation; the frequency shift it causes is second order in
+  γ and far below what any reading here resolves
 - This gives a concrete, computable "clock rate" for the crossing-rate hypothesis:
   the observer's experienced time rate is proportional to engagement strength
 

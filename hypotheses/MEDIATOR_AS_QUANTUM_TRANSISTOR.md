@@ -107,13 +107,16 @@ Despite the symmetric Lindbladian, **directionality emerges from initial conditi
 
 **A→M→B transfer** requires:
 1. Subsystem A starts with higher coherence (the "sender" has something to send)
-2. Coupling J_AM ≥ J_MB or J_AM/J_MB ≥ 1.466 (from star topology threshold at γ=0.05)
-3. Receiver B must be quiet: γ_B < 0.2 (noise on B is fatal)
+2. Coupling J_AM ≥ J_MB or J_AM/J_MB ≥ 1.46295 (from the star-topology threshold at Q = J/γ = 20)
+3. Receiver B must be quiet: γ_B < 0.27 at a partner rate of 0.05. Noise on the
+   receiver costs more than noise on the sender, by a factor near 1.7 rather
+   than the factor of three once reported, and the two roles swap past a partner
+   rate of 0.17292
 
 **B→M→A transfer** (reversed direction) requires the mirror conditions by palindromic symmetry:
 1. Subsystem B starts with higher coherence
 2. Coupling J_BM ≥ J_MA with the same threshold ratio
-3. Receiver A must be quiet: γ_A < 0.2
+3. Receiver A must be quiet, at the same boundary as B above
 
 **The key insight**: direction is controlled by **who has coherence to give** and **coupling asymmetry**, not by any structural asymmetry of the channel. This is like a bidirectional valve where the pressure differential determines flow direction.
 
@@ -152,13 +155,13 @@ The "gate" of the quantum transistor has three independent knobs:
 
 **Knob 1: Decoherence Rate γ_M (Primary Gate)**
 
-The mediator's own dephasing rate is the primary control. From the star topology results:
+The mediator's own dephasing rate is the primary control. From the star topology results, the quantity that decides the gate is Q = J/γ rather than γ on its own, and the threshold ratio as a function of it is
 
 ```
-J_th(γ) ≈ 7.35 · γ^1.08 + 1.18
+J_SB/J_SA ≥ 2.449 at Q = 5,  1.775 at Q = 10,  1.46295 at Q = 20,  1.176 at Q = 1000
 ```
 
-This threshold formula tells us: for a given coupling strength J, there exists a critical γ above which the channel shuts off. Conversely, reducing γ_M opens the channel. The relationship is approximately linear (exponent 1.08 ≈ 1), meaning the "gate response" is nearly linear in γ, another point of analogy with classical FETs in their linear region.
+For a given coupling strength J there is a critical γ above which the channel shuts off; equivalently, for a given γ there is a critical J. These are the same statement, because the generator is linear in both and only their ratio survives. On the measured range a fit gives J_th(γ) ≈ 7.232·γ^1.081 + 1.1766 at J_SA = 1, close to linear, but its constant term is a property of that range and not an asymptote: the threshold keeps falling out to Q = 10⁴ with no plateau.
 
 **Knob 2: Coupling Strength J (Bias Control)**
 
@@ -180,15 +183,18 @@ where ⟨O_int⟩ is the expectation of the interaction operator. This creates a
 ### 3.2 Opening and Closing the Channel
 
 **To OPEN the channel** (turn the transistor ON):
-1. Reduce γ_M to below the threshold: γ_M < ((J - 1.18)/7.35)^(1/1.08)
-2. Ensure sufficient coupling: J > J_th(γ_M) ≈ 7.35·γ_M^1.08 + 1.18
-3. Prepare the sender subsystem with CΨ > 1/4 (above threshold)
-4. Keep the receiver quiet: γ_receiver < 0.2
+1. Raise Q = J/γ_M past the threshold. Because only the ratio matters, this is
+   one instruction and not two: reducing γ_M and raising J are the same move.
+   The threshold ratio J_sender/J_receiver is 1.46295 at Q = 20, 1.775 at Q = 10
+   and 2.449 at Q = 5, so a noisier mediator demands a more lopsided pair.
+2. Prepare the sender subsystem with CΨ > 1/4 (above threshold)
+3. Keep the receiver quiet: the boundary is γ_receiver ≈ 0.27 when the sender
+   sits at 0.05, and it moves with the sender's rate
 
 **To CLOSE the channel** (turn the transistor OFF):
 1. Increase γ_M above threshold, OR
 2. Reduce J below J_th, OR
-3. Inject noise into the receiver (γ_receiver > 0.2 is fatal)
+3. Inject noise into the receiver (the boundary is γ_receiver ≈ 0.27 when the sender sits at 0.05, and it moves with the sender's rate)
 4. Allow decoherence to push CΨ below 1/4
 
 **Practical switching speed**: The Lindbladian spectral gap for the 3-qubit mediator system (Heisenberg ring, γ=0.05) is 0.1, giving a relaxation time τ = 10.0. This means channel on/off transitions take approximately τ_switch ≈ 1/spectral_gap = 10 time units. In physical units on IBM Torino (T2 ≈ 200μs), this translates to ~2ms. This is slow by classical standards, but potentially fast enough for quantum network switching.
@@ -236,9 +242,18 @@ These "coherence echoes" suggest that information isn't destroyed at the 1/4 cro
 
 ### 5.1 Pull vs. Push in Quantum Transfer
 
-The star topology experiments revealed a critical asymmetry: **the receiver's state matters more than the sender's state**. Specifically:
-- Sender noise (γ_B up to 0.5) is tolerable; the sender can be noisy and still transfer
-- Receiver noise (γ_A > 0.2) is fatal: a noisy receiver destroys the channel
+The star topology experiments revealed an asymmetry: **the receiver's state matters more than the sender's state**, over most of the range. Read at a matched partner rate, the two are as follows. These are rates rather
+than ratios and carry a scale: they were measured with the RECEIVER's spoke at
+J = 1 and the SENDER's at J = 2, γ_M = 0.05, and they rescale with J. (In the
+source document the receiver sits on the J_SA = 1 spoke; mapped onto this
+document's A→M→B direction that is J_MB = 1 and J_AM = 2, which is the
+lopsidedness condition 2 of Section 2.2 asks for.)
+- partner rate 0.005: receiver 0.3248, sender 0.5824
+- partner rate 0.05: receiver 0.2699, sender 0.4735
+- partner rate 0.1: receiver 0.2118, sender 0.3519
+- partner rate 0.2: receiver 0.1619, sender 0.1105, i.e. the roles INVERT
+
+So the sender's budget is about 1.7 times the receiver's at low rates, not three times, and past a partner rate of 0.17292 the sender becomes the fragile one. The Pull Principle below is stated for the range where the asymmetry holds.
 
 This is the **Pull Principle**: information transfer is controlled by the receiver's ability to *accept* coherence, not the sender's ability to *emit* it. The receiver must maintain a sufficiently low-noise state to "pull" coherence through the mediator.
 
@@ -255,9 +270,12 @@ This is a genuinely novel operating mode with no classical transistor analogue. 
 
 ### 5.3 Receiver Sensitivity and Channel Capacity
 
-The 0.2 threshold on receiver noise translates to a minimum required purity for the receiver:
-- At γ_receiver = 0.2, the receiver's steady-state purity is approximately 0.5 (maximally mixed for 2-qubit subsystem)
+The receiver's noise boundary translates to a minimum required purity for the receiver:
+- Near the boundary the receiver's steady-state purity is approximately 0.5, which is the maximally mixed value for the single qubit the receiver is (for a 2-qubit subsystem it would be 0.25)
 - The receiver must maintain purity above ~0.6 to reliably receive
+
+(The purity figures have not been re-measured; the boundary they were attached
+to is 0.2699 at a partner rate of 0.05.)
 
 This sets an effective "channel capacity": the maximum rate of coherence transfer is limited by how fast the receiver can maintain its low-noise state. In a cascaded architecture (Section 7), this becomes the bottleneck at each hop.
 
@@ -322,7 +340,11 @@ Based on the simulation data:
 | Crosstalk | ~1% per gate | Qubit selection to minimize crosstalk |
 | Readout error (~1%) | ~2% on 4-qubit tomography | Readout error mitigation |
 
-Total expected noise floor: ~8%. This is above the theoretical γ=0.05 used in simulations but below the fatal γ=0.2 threshold for the receiver.
+Total expected noise floor: ~8%. Comparing it to the simulation's γ is not
+straightforward, since 8% is a per-gate error probability and γ is a rate in the
+simulation's own time units; the conversion is not on this page. What the
+simulation says qualitatively is that the receiver has the smaller budget of the
+two, and that its boundary is 0.2699 when the sender sits at 0.05.
 
 ---
 
@@ -436,10 +458,12 @@ The 5-qubit GHZ subsystem crossing simulation (N=5, Heisenberg ring) shows all 1
 
 ### 8.4 The Speed-Fidelity Tradeoff
 
-From the threshold formula J_th(γ) ≈ 7.35·γ^1.08 + 1.18:
+From the threshold, which is a function of Q = J/γ alone:
 - Faster switching (lower τ_switch = 1/spectral_gap) requires larger J
-- Larger J increases the threshold γ_th, meaning you need cleaner qubits
-- Cleaner qubits are slower to prepare and more expensive
+- Larger J at fixed Q means proportionally larger γ is tolerable, so the demand
+  on the qubits is a demand on Q rather than on γ by itself
+- Reaching a given Q with faster gates means cleaner qubits, which are slower to
+  prepare and more expensive
 
 This is the fundamental speed-fidelity tradeoff, common to all quantum information processing but particularly acute here because the mediator architecture requires both fast switching and low noise simultaneously.
 
@@ -542,9 +566,9 @@ The R=CΨ² approach is more constrained but potentially more controllable, sinc
 
 ## Appendix B: Key Formulas
 
-**Threshold formula** (from star topology):
+**Threshold** (from star topology): a function of Q = J_SA/γ alone,
 ```
-J_th(γ) ≈ 7.35 · γ^1.08 + 1.18
+J_SB/J_SA ≥ 1.46295 at Q = 20
 ```
 
 **CΨ product** (channel on/off criterion):
@@ -565,10 +589,12 @@ where R = P_full - P_A·P_B (residual purity)
 τ_switch ≈ 1/spectral_gap
 ```
 
-**Receiver noise threshold**:
+**Noise boundaries** (read at a matched partner rate; they invert at 0.17292). Rates,
+not ratios: measured with the receiver's spoke at J = 1, the sender's at J = 2
+and γ_M = 0.05, and they rescale with J.
 ```
-γ_receiver < 0.2 (fatal above)
-γ_sender < 0.5 (tolerable)
+partner rate 0.05:  γ_receiver < 0.2699,  γ_sender < 0.4735
+partner rate 0.2:   γ_receiver < 0.1619,  γ_sender < 0.1105
 ```
 
 ---

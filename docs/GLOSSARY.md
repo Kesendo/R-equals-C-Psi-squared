@@ -355,8 +355,8 @@ a mutual friend.
 ### Three conditions for AB crossing (at Q = J_SA/γ = 20)
 
 1. **Strong sender:** J_SB/J_SA >= 1.46295 ([F29](ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3); the knob is Q, not γ, exactly, since the generator is linear in J and in γ)
-2. **Quiet receiver:** γ_A below a boundary that moves with γ_B, 0.2699 at γ_B = 0.05 and 0.2117 at γ_B = 0.1. Read at a MATCHED partner rate the sender tolerates about 1.7 times as much, and at partner rate 0.2 the asymmetry inverts and the sender becomes the fragile one
-3. **Deep pre-existing connection:** Initial C_SA > 0.8 (Bell-like). This third condition has no reproduction path in the repo; no committed script sweeps it.
+2. **Quiet receiver:** γ_A below a boundary that moves with γ_B, 0.2699 at γ_B = 0.05 and 0.2118 at γ_B = 0.1. Read at a MATCHED partner rate the sender tolerates about 1.7 times as much at low rates, and past a partner rate of 0.17292 the asymmetry inverts and the sender becomes the fragile one
+3. **Deep pre-existing connection:** Initial C_SA > 0.8 (Bell-like), and this holds AT that working point rather than in general: a product state with C_SA = 0 still crosses at five times the coupling and a fiftieth of the noise, so the initial state is a price and not a gate. The C_SA > 0.8 figure itself has no reproduction path in the repo; no committed script sweeps it.
 
 ---
 

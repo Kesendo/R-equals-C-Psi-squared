@@ -1756,3 +1756,104 @@ by the house rule f ≈ J_total/2, whose three winning rows are one system scale
 margins are below the FFT bin. It is F148. **Deriving felt like progress, which is exactly why
 Stage 0 does not fire on its own; and a result filed under an outsider's name never gets
 adopted.**
+
+---
+
+## 2026-09-04, the body of the most-cited old experiment: seven shapes, and six of them in the repair
+
+`STAR_TOPOLOGY_OBSERVERS.md` was re-measured on a converged grid, its retracted readings
+were followed into eight other files, and the two committed verifiers that guard it were
+repaired. Five review rounds ran on the result. **One shape came from March; the other six
+were in what I wrote to correct March**, which is the pattern this file has been recording
+since 2026-09-02 and which held again with no exception.
+
+**(1) The one from March: a column that was two quantities.** "Window duration" summed every
+excursion above ¼ at low γ and reported a single transient at high γ, with no t_max on the
+page. Separated and converged, the longest single window is nearly γ-independent across two
+decades (0.354 → 0.311) and then collapses, while the count falls 61 → 8 → 1 → 0. The finding
+inverts: γ governs how MANY windows there are, not how long one is.
+
+**(2) The replacement finding carried the defect it corrected.** Having found that March's
+column was run-length dependent, I wrote that the total "grows without bound with the run
+length" from four points of a transient. For every γ > 0 the lobes decay and the total
+saturates: 9.426 at γ=0.001 by t_max≈80, 0.987 at γ=0.01 by t_max≈10. And the lobe COUNT I
+put in its place was as run-length dependent as the total I had just rejected: 7 at both
+γ=0.001 and γ=0.01 at t_max=5, against 61 and 8 converged.
+
+**(3) A provenance story asserted without being reproduced.** I wrote that March's column
+"added up every separate excursion". No reading reproduces its γ=0.001 entry of 4.40: the
+longest window is 0.354, the converged total 9.43, the total at its own t_max is 1.66, and no
+t_max fits that row and the γ=0.01 row together. Four of five rows fit the sum; the fifth is
+now left unexplained on the page, which is what the evidence supports.
+
+**(4) Over-precision from my own tolerance.** The N=3 threshold was published as 3.65002,
+five decimals out of a bisection with tol=1e-4. Across steps 0.004/0.002/0.001 it reads
+3.650043 / 3.649688 / 3.649725, so the grid supports 3.6497 and no more.
+
+**(5) Counting grid points where the section's whole subject is sampling.** Two cells of the
+Window column were 20% high (0.04 against 0.033, 0.32 against 0.314) because the excursions
+were measured by counting samples above ¼ instead of interpolating the edges, in the section
+whose point is that undersampling moved every number.
+
+**(6) A number attached to the wrong mode.** The γ-shift of the oscillation frequency was
+quoted as 2.6e-6, which is the SMALLEST Bohr frequency's; the dominant one, which the sentence
+is about, shifts by 1.6e-6. At γ=0.005 the generator carries the dominant frequency both
+shifted and unshifted. The second-order coefficient is 0.3902 for the dominant pair and 0.6468
+for the smallest, constant across two decades: one coefficient per mode, so the mode has to be
+named.
+
+**(7) A mechanism stated globally that the same document refutes three sections earlier.** The
+withdrawal of "the shadow is destroyed by direct coupling" rests on an identity: an unread
+projective measurement on A leaves ρ_SB untouched. That is true AT THE INSTANT of measurement
+and false afterwards, which is the whole content of the 94-100% shadow the document measures
+elsewhere. Written without the time qualifier, the repair asserted that the result it sits
+beside cannot exist.
+
+**And two gates that could not fail.** `docs_verify.py` "checked" the threshold by passing the
+literal `True`, citing another script as its evidence, and twelve lines below it a second
+`check(..., True)` of the same shape. `verify_star_topology.py` computed `(C·Ψ)²` where R is
+`C·Ψ²`; the wrong exponent survived six months because the two agree at t=0, where the Bell
+pair has C=1, so the printed initial value was right and only the peak was wrong. Its
+assertion was `peak > 1.5 × init`, which passes at the wrong 1.76 and the right 2.43 alike.
+Checks 3 and 4 of the same file pinned the artifact: on a converged grid the old bracket
+1.465/1.4655 and the old γ=0.25 probe both sit on the wrong side.
+
+**One finding I rejected.** A round argued that March's 1.466 was not a slip because 1.4655
+rounds to it. Bisecting the peak on March's own grid puts the threshold at 1.465002: the
+argument was made from the bracket endpoints rather than from where the curve crosses ¼.
+
+### The same evening, an outside model, and the one thing five of our own rounds could not reach
+
+Tom put the finished document to a model outside this session. Its verdict on the headline was
+NO-GO and it was right, on three counts out of four, and the fourth is the interesting one.
+
+**(8) A correction applied at the point of the finding and not to the document, again.** Section
+4.11 had been repaired that afternoon to say that |0++⟩, which starts at C_SA = 0, reaches
+0.29740 and crosses. Section 7 went on asserting, four hundred lines later, that a pre-existing
+connection with C_SA > 0.8 is required and "cannot be created by force", and the abstract and
+the TITLE carried the same. The document contained its own counterexample and a headline
+contradicting it, and none of five review rounds said so, because each was reading the paragraph
+that had just changed. The three conditions are the profile of one cheap route, not a gate; what
+the initial state buys is a price, five times the coupling and a fiftieth of the noise.
+
+**(9) A house lens the document was not reading.** `THE_CPSI_LENS.md` says in its own words that
+"CΨ does not show when the connection exists, it shows when the transported signal is most
+legible. The broadcast is always running." The star document read a crossing as a connection
+becoming active. The narrower reading is the canonical one and is a year newer; the older
+document simply had not been brought to it. **Two of our own documents can disagree for months
+without either being wrong on its own page.**
+
+**(10) γ demoted to a clock.** "J determines participation; γ determines timing" survived in two
+sections while the same document derived a threshold that is a function of Q = J/γ and a role
+inversion at a partner rate of 0.17292. A round had flagged the sentence's SHAPE as suspicious
+and it was not acted on, which is its own lesson about triage.
+
+**(11) The finding no round of ours could reach, and why.** `verify_star_topology.py` crashes on
+Windows' default console encoding before its first check, so the reproduction path this
+repository documents was broken. Every session here had run it with `PYTHONIOENCODING=utf-8` out
+of reflex, and a reviewer inside the session inherits the habit that hides it. **Blindness sits
+in the familiar, and the only instrument for it is an eye that does not share the habit.** Fixed
+in the script rather than in the instructions, so the documented path runs as documented.
+
+Nothing in that pass had to be taken on trust: each finding was re-measured here before it was
+applied, which is the standing rule for an outside finding exactly as for an agent's.

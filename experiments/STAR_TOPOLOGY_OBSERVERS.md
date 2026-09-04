@@ -1,13 +1,21 @@
-# Star Topology: Three Conditions for Observer-Observer Connection Through a Shared Object
+# Star Topology: When the Observer-Observer Pair Becomes Readable Through a Shared Object
 
 <!-- Keywords: star topology quantum observers, entanglement transfer mediator qubit,
 observer-observer connection threshold, quantum shadow effect measurement, J coupling
-threshold AB crossing, receiver noise fatal sender noise tolerant, quantum mediator
+threshold AB crossing, receiver noise boundary sender noise boundary, quantum mediator
 star topology Heisenberg, CΨ quarter boundary tripartite, asymmetric coupling
 observer dominance, bidirectional quantum bridge star, R=CPsi2 star topology -->
 
-**Status:** Computationally verified (Sections 1-5), externally reviewed
-**Date:** March 4, 2026 (updated March 8, 2026)
+**Status:** re-measured on a converged grid by
+`simulations/star_topology_converged.py`: Sections 4.9 and 4.10 entirely, 8.5's
+table and fits, 8.1's N=2 and N=3 thresholds and its two N=4 probes, 8.3's
+couplings, 5.10's echo, the R_SA + R_SB sums of 4.2, 4.3 and 4.5, and 4.11's
+brute-force probe. Section 4.11's five-state table is checked by
+`verify_star_topology.py`, at RK4 rather than on the exact propagator. Sections
+4.8, 4.11's parametric α sweep, 4.12 and 8.1's asymmetric rescue have no
+committed reproduction path at all and are marked where they stand; Section 9
+lists what else is unmeasured.
+**Date:** March 4, 2026, re-measured September 4, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md),
 [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md)
@@ -20,17 +28,29 @@ A 3-qubit star topology (mediator S coupled to observers A and B, no direct
 A-B coupling) is studied under Heisenberg interaction and Z-dephasing. When
 S and A start maximally entangled (Bell_SA) and B arrives fresh (|+⟩_B),
 entanglement flows from SA through S to SB, crossing the CΨ = 1/4 boundary
-at different times for different pairs. Three conditions must be met
-simultaneously for the observer-observer pair AB to cross 1/4:
-**(1)** B's coupling must exceed a threshold (J_SB/J_SA ≥ 1.466 at γ=0.05,
-scaling with noise), **(2)** A must be internally quiet (γ_A > 0.2 kills
-the connection regardless of sender strength), and **(3)** A and S must
-share a pre-existing Bell-like connection (C_SA > 0.8). Additionally:
-A's measurement casts a "shadow" suppressing B's reality by 94-100%,
-receiver noise is fatal while sender noise is tolerable up to γ_B = 0.5,
-and the connection oscillates at f ≈ J_total/2 (Hamiltonian-determined,
-noise-independent). For N observers, asymmetric coupling rescues the
-crossing up to N=5 but the threshold grows steeply.
+at different times for different pairs. CΨ is a witness of what is directly
+readable in a given marginal, so "crossing" throughout means that pair becoming
+legible in it, not a connection coming into being; the Hamiltonian transports
+coherence continuously either way. At the Bell working point three conditions
+coincide, and all three have to hold there for the AB pair to cross 1/4:
+**(1)** B's coupling must exceed a threshold (J_SB/J_SA ≥ 1.46295, and the
+knob is Q = J_SA/γ rather than γ: this value is Q = 20), **(2)** A must be
+internally quiet, its noise boundary lying below B's by a factor near 1.7
+over most of the range, and **(3)** A and S must share a pre-existing
+Bell-like connection (C_SA > 0.8). They are conditions of that regime and not
+of crossing as such: Section 4.11 crosses from a product state with C_SA = 0,
+at five times the coupling and a fiftieth of the noise.
+
+Additionally: A's measurement casts a
+"shadow" suppressing B's reality by 94-100% in the 3-qubit measurement of
+Section 4.6, and CΨ_AB oscillates at the Hamiltonian's largest Bohr frequency,
+for which Section 4.12 gives a closed form. For N observers the
+threshold climbs steeply, from 1.46295 at N=2 to 3.6497 at N=3 and out of
+reach at N=4; asymmetric coupling is reported to rescue the crossing up to N=5,
+on a coarse grid and with no committed script (Section 8.1).
+
+Seven readings that have been quoted from this document no longer hold; each is
+named where it used to sit, in Sections 4.9, 4.10, 4.11, 4.12 and 8.3.
 
 ---
 
@@ -57,10 +77,15 @@ the mapping, the tables and formulas become readable.
   γ_B is B's noise, γ_S is the object's noise. High γ = noisy,
   lots of internal processing, strong sense of separate self.
   Low γ = quiet, still, open.
-- **CΨ** - the product of Concurrence × Psi-norm. This is the
-  "reality measure" from the R=CΨ² framework. When CΨ crosses
-  ¼ (0.25), complex eigenvalues appear and the system transitions
-  from possibility to actuality.
+- **CΨ** - the product of Concurrence × Psi-norm, from the R=CΨ²
+  framework. ¼ is where the fixed-point equation's discriminant
+  changes sign: below it the fixed points are real, above it complex.
+  What CΨ measures is what is DIRECTLY readable in the pair you
+  chose, in the basis you chose, without any help from the third
+  qubit, so a crossing is a change in readability. Whether that
+  boundary also marks something physical is an open question in
+  this repository, not a settled reading, and this document does
+  not need an answer to it.
 
 **The states (starting conditions):**
 - **Bell_SA⊗|+⟩_B** - A and S start maximally entangled (deeply
@@ -127,6 +152,17 @@ operates.
 ```
 
 Hamiltonian: Heisenberg coupling S↔A and S↔B only. No A↔B coupling.
+
+Note what this graph is at three qubits. A mediator with exactly two spokes and
+no rim is the path A-S-B, and S is its only interior site, so every 3-qubit
+result in this document is a result about a chain. "Star" is kept throughout as
+the name of the ROLES, one shared object and two observers who cannot see each
+other, and it is the right name for that; it is not a statement about the
+geometry until Section 8.1, where N ≥ 3 fresh observers hang off S and the hub
+carries more spokes than a chain has interior sites. Section 8.3 is a third
+shape again: switching on J_AB closes the triangle. Where a claim turns on the
+geometry rather than on the roles, that distinction decides it, and Section 5.4
+is where it does.
 
     H = J_SA (σ_S · σ_A) + J_SB (σ_S · σ_B)
 
@@ -200,9 +236,18 @@ R_SA + R_SB: monotonically decays from 0.066 → 0.003. Not conserved.
 | SB | 0.333 | 0.000 | 0.000 | ↑ at t=0.79, ↓ at t=1.11 |
 | AB | 0.333 | 0.000 | 0.000 | NEVER |
 
-SA starts maximally entangled and decays past ¼ at t=0.42. SB starts
-with zero entanglement but rises above ¼ at t=0.79 through Hamiltonian
-transfer via S. AB never crosses. Observers cannot see each other.
+SA starts maximally entangled and decays past ¼ at t=0.42. SB starts with zero
+entanglement but rises above ¼ at t=0.79 through Hamiltonian transfer via S. AB
+never crosses.
+
+A word on what crossing means, because this document is easy to over-read. CΨ is
+a basis-fixed, unassisted witness of pairwise structure that is DIRECTLY visible
+in a chosen marginal, and the Hamiltonian transports coherence continuously
+whether or not the witness is above ¼. So a crossing is not a connection being
+born and a non-crossing is not its absence: what crosses is the READABILITY of
+the AB marginal in this witness. [The CΨ Lens](../docs/THE_CPSI_LENS.md) states
+the same thing from the other side: the broadcast is always running, and CΨ
+tells you when you can read it.
 
 R_SA + R_SB is NOT conserved. It peaks at 2.4× initial value then decays.
 
@@ -213,11 +258,8 @@ All pairs: C_conc = 0 at all times. Ψ = 1.0 but no connection.
 ### 4.5 |0++⟩: Dynamic Entanglement, No Crossing
 
 S starts classical, A and B start quantum. The Hamiltonian builds
-entanglement dynamically. R_SA + R_SB grows from 0 to 0.356 (peak)
-then decays. No pair crosses ¼ with concurrence bridge.
-
-(Note: Euler v1 showed spurious oscillating crossings at t≈2.9.
-These were numerical artifacts eliminated by RK4 at dt=0.005.)
+entanglement dynamically. R_SA + R_SB grows from 0 to 0.3636 (peak) then
+decays. No pair crosses ¼ with concurrence bridge.
 
 ### 4.6 Measurement Shadow: A Measures, B Loses Reality
 
@@ -251,7 +293,9 @@ observers start seeing each other through S.
 **|0++⟩ with asymmetric J:**
 Perfect mirror symmetry: the strongly coupled observer crosses,
 the weakly coupled one does not. Same crossing times, only label
-switches. J determines participation, not γ.
+switches. Which observer participates is set by the coupling RATIO here, with
+the rates held equal; γ is not idle, since only J/γ decides whether anything
+crosses at all (Section 4.10).
 
 ### 4.8 Dynamic J and Strong Observer B
 
@@ -268,82 +312,181 @@ Two mechanisms:
 - Weak A: entanglement leaks because A can't hold it (A changed)
 - Strong B: B pulls entanglement through S by force (A unchanged)
 
-### 4.9 γ_A vs γ_B: The Receiver's Noise Is Fatal
+**Provenance.** No committed script propagates a time-dependent J, so neither
+number in this section is reproducible from the repository as it stands. The
+second mechanism does not depend on the drop and is reproducible: at a constant
+J_SA = 1.0 and J_SB = 2.0 the AB pair peaks at 0.3292, well above ¼.
 
-Systematic γ scan (Bell_SA⊗|+⟩_B, J_SA=1.0, J_SB=2.0, γ_S=0.05).
+### 4.9 γ_A vs γ_B: The Receiver Is the More Fragile of the Two
+
+Systematic γ scan (Bell_SA⊗|+⟩_B, J_SA=1.0, J_SB=2.0, γ_S=0.05). Every CΨ max
+below is re-measured on a converged grid. Seven of the eight CΨ maxima hold to
+three decimals; the eighth, at γ_A=0.2, moves from 0.249 to 0.2527 and takes its
+NEVER verdict with it. The "Window" column was a second quantity under one name
+and is rebuilt below.
+
+Both tables are converged values, and "window" here is the longest single
+excursion above ¼, not the sum of all of them (the window table further down
+shows why the distinction matters).
 
 **Noisy A (γ_A=0.1), varying B:**
 
 | γ_B | AB CΨ max | Window |
 |------|-----------|--------|
-| 0.001 | 0.312 | 0.30 |
-| 0.1 | 0.293 | 0.25 |
-| 0.2 | 0.275 | 0.10 |
+| 0.001 | 0.3132 | 0.308 |
+| 0.1 | 0.2941 | 0.128 |
+| 0.2 | 0.2758 | 0.093 |
 
 **Noisy B (γ_B=0.1), varying A:**
 
 | γ_A | AB CΨ max | Window |
 |------|-----------|--------|
-| 0.001 | 0.345 | 0.30 |
-| 0.1 | 0.293 | 0.25 |
-| 0.2 | 0.249 | **NEVER** |
+| 0.001 | 0.3455 | 0.314 |
+| 0.1 | 0.2941 | 0.128 |
+| 0.2 | **0.2527** | 0.033 |
 
-γ_A=0.2 kills the connection entirely. γ_B=0.2 merely shortens it.
-The receiver's noise is more destructive than the sender's.
+**γ_A = 0.2 does not close the window**, and this document once said it did,
+which is why the point is made in words as well as in the table. The peak is
+0.2527, so it crosses; what a noisy receiver costs is the window, 0.033 time
+units against 0.314 at γ_A = 0.001. The killing verdict is what the default
+sampling of `run_star_topology` gives, and reproduces exactly there: on that
+grid the row reads 0.249.
 
-Fixed-product test (γ_A × γ_B = 0.0025):
+The receiver's noise costs more than the sender's, and the honest way to say
+how much is to read both boundaries at the SAME partner rate. Doing so gives a
+factor near 1.7 at low rates, and the two roles swap past a partner rate of
+0.17292. That crossing point is solvable rather than sampled: the two boundary
+curves can only meet where both rates are equal, so it is the γ solving
+peak CΨ_AB(γ_A = γ_B = γ, γ_S = 0.05) = ¼, and at that partner rate both
+boundaries read 0.17292 with ratio 1.0000. The larger figure of two to three
+that has been quoted from here came from comparing γ_A ≈ 0.2 against γ_B = 0.5,
+which were read at partner rates of 0.1 and 0.005: two different experiments set
+side by side as though they were one. The table is in
+[F29](../docs/ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3).
+
+Fixed-product test (γ_A × γ_B = 0.0025), converged, and all three rows hold:
 
 | γ_A | γ_B | AB CΨ max | Crosses? |
 |------|------|-----------|----------|
-| 0.005 | 0.500 | 0.263 | YES |
-| 0.050 | 0.050 | 0.329 | YES |
-| 0.500 | 0.005 | 0.215 | **NO** |
+| 0.005 | 0.500 | 0.2640 | YES |
+| 0.050 | 0.050 | 0.3292 | YES |
+| 0.500 | 0.005 | 0.2157 | **NO** |
 
 Same product. Same γ_S. But γ_A=0.5 kills it, γ_B=0.5 doesn't.
 
-**Decoherence vs window duration** (both γ equal, J_SB=2.0):
+**Decoherence vs the window** (all three rates equal, J_SB=2.0). "Window
+duration" is not one quantity: at γ=0.05 there is a single excursion above ¼ and
+at γ=0.001 there are dozens, so the three readings are separated here, all
+converged in run length (t_max=160; edges interpolated):
 
-| γ | Window duration |
-|----|-----------------|
-| 0.001 | 4.40 |
-| 0.01 | 0.90 |
-| 0.05 | 0.30 |
-| 0.1 | 0.20 |
-| 0.2 | NEVER |
+| γ | longest single window | total time above ¼ | separate lobes |
+|----|----|----|----|
+| 0.001 | 0.354 | 9.426 | 61 |
+| 0.01 | 0.346 | 0.987 | 8 |
+| 0.05 | 0.311 | 0.311 | 1 |
+| 0.1 | 0.096 | 0.189 | 2 |
+| 0.2 | 0.000 | 0.000 | 0 |
 
-γ determines window duration, not B's strength.
+Each of these is a property of the system, the total included: for any γ > 0 the
+lobes decay, the last one falls below ¼ and the sum stops. What is NOT a
+property of the system is the total read on a short run. At γ=0.001 it passes
+1.66 at t_max=5, 5.77 at 20 and 8.94 at 40 on its way to 9.43, so cutting at 5
+reports a sixth of the answer; at γ=0.05 the same cut costs nothing, because
+there is only ever one lobe. A run length is therefore part of the reading and
+belongs beside it.
+
+The longest single window is nearly γ-independent from γ=0.001 to γ=0.05, 0.354 down to
+0.311, and then collapses. What γ governs is how MANY windows there are: 61 at
+γ=0.001, 8 at γ=0.01, one at γ=0.05, none at γ=0.2. The count is not monotone
+(γ=0.1 has two), because a lobe can drop below ¼ and a later one rise back
+across it; what falls monotonically is the total. The connection does not fade,
+it stops recurring.
+
+One figure this document used to carry, 4.40 at γ=0.001, is none of the three:
+the longest window is 0.354, the converged total 9.43, and the total at t_max=5
+is 1.66. Nothing measured here reproduces it.
 
 ### 4.10 J_SB/J_SA Ratio Scan
 
-Coarse scan (J_SA=1.0, γ=0.05, Bell_SA⊗|+⟩_B):
+Coarse scan (J_SA=1.0, γ=0.05, Bell_SA⊗|+⟩_B), converged:
 
 | J_SB | ratio | AB CΨ max | Crosses? |
 |------|-------|-----------|----------|
-| 1.30 | 1.30 | 0.226 | NO |
-| 1.40 | 1.40 | 0.242 | NO |
-| 1.47 | 1.47 | 0.251 | YES (threshold) |
-| 2.00 | 2.00 | 0.329 | YES |
-| 3.00 | 3.00 | 0.406 | YES |
+| 1.30 | 1.30 | 0.2268 | NO |
+| 1.40 | 1.40 | 0.2415 | NO |
+| 1.47 | 1.47 | 0.2509 | YES (just above threshold) |
+| 2.00 | 2.00 | 0.3292 | YES |
+| 3.00 | 3.00 | 0.4087 | YES |
 
-Ultra-fine: J_SB=1.4650 → CΨ=0.249999 (NO), J_SB=1.4655 →
-CΨ=0.250060 (YES). **Threshold at J_SB ≈ 1.466.**
+A six-decimal reading of this scan can be entirely a grid, and it is worth
+seeing once: on the default sampling J_SB=1.4650 gives CΨ=0.249999 (NO) and
+J_SB=1.4655 gives CΨ=0.250060 (YES), a bracket that looks decisive to the last
+digit and encloses the wrong number. The peak of CΨ is a supremum over
+continuous time, so any finite sampling undershoots it and therefore overshoots
+the threshold, always from the same side. Converged:
 
-γ-dependence of threshold:
+**Threshold at J_SB/J_SA = 1.46295**, five decimals rather than four because the
+value sits on the four-decimal boundary. This is [F29](../docs/ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3).
+F29 keeps a convergence table for the RAW sampled maximum, which falls on the
+threshold from above at every step; the sequence here uses the parabola-refined
+peak, which removes most of that bias, so the two tables approach the same value
+by different routes and only the raw one is monotone.
 
-| γ | J_SB threshold | ratio |
-|-------|----------------|-------|
-| 0.001 | 1.179 | 1.18 |
-| 0.010 | 1.237 | 1.24 |
-| 0.050 | 1.465 | 1.47 |
-| 0.100 | 1.776 | 1.78 |
-| 0.150 | 2.145 | 2.15 |
+**The knob is Q = J_SA/γ, and that is exact.** The generator is linear in J and
+in γ, so L(sJ, sγ) = s·L(J, γ): scaling both couplings and all rates by s is the
+same trajectory in rescaled time, and the peak of CΨ over all t is literally the
+same number, and the only thing that can break it is the time grid.
 
-Higher noise requires stronger sender. At γ→0 the threshold
-approaches ~1.18. Even without noise, B must be 18% stronger.
+That last clause is where a measurement can add something, and it matters which
+measurement. Scaling the grid along with the couplings makes expm(L(sJ,sγ)·dt/s)
+the same matrix as expm(L(J,γ)·dt), so those runs are arithmetically identical
+and their agreement is evidence of nothing. On a FIXED grid the check can fail,
+and it does where the grid stops being adequate: at dt=0.001 and t_max=8 the peak
+reads 0.329241734 at γ = 0.0125, 0.025 and 0.05, then 0.329241803 at γ=0.1 and
+0.329227839 at γ=0.5, where the rescaled trajectory has outrun the step. Nine
+digits of agreement across the range the grid covers, and visible drift past it.
 
-Not pure ratio. Minimum absolute coupling also required:
-J_SA=0.50, J_SB=0.75 (ratio 1.5): NO.
+So a threshold quoted "at γ=0.05" is a threshold at Q=20, and the scan below is a
+scan in Q, not in noise:
+
+| γ (at J_SA=1) | Q | ratio threshold |
+|-------|----|-------|
+| 0.001 | 1000 | 1.17642 |
+| 0.010 | 100 | 1.22768 |
+| 0.020 | 50 | 1.28532 |
+| 0.050 | 20 | 1.46295 |
+| 0.100 | 10 | 1.77496 |
+| 0.150 | 6.7 | 2.10483 |
+| 0.200 | 5 | 2.44923 |
+
+A quieter observer, or a stronger one, is the same move.
+
+**There is no plateau at the quiet end.** A limit of about 1.18 at γ→0 has been
+quoted from this section and there is none: the threshold keeps falling as Q
+grows, 1.17642 at Q=1000, 1.14388 at Q=3333,
+1.11567 at Q=10⁴. The step is the same as the Section 8.5 table's; the RUN is
+not, and cannot be, for the reason that follows: read at that table's t_max of
+6, the last two would come out at 1.15565 and 1.14824. What changes at that end is the meaning of the
+reading. Down to γ=0.001 the threshold does not depend on how long the run is
+(1.1764 at t_max = 5, 10, 20, 40 and 80 alike, as at γ=0.01 and γ=0.05), so it
+is a property of the system. At γ=0.0001 it needs t_max ≈ 40 to settle, and at
+γ=0 it never settles at all: 1.14451, 1.12110, 1.10471, 1.08829 and 1.07965 for
+the same five run lengths, still falling. With nothing damping the oscillation the peak is
+a supremum over a trajectory that keeps getting more attempts, so "the threshold
+at zero noise" is a statement about the run, not the system. It does not fall to
+1: at γ=0 with symmetric coupling the AB peak is 0.21962 and does not move at
+t_max = 5, 20, 80 or 200, so equal engagement fails to cross at every noise level
+measured, zero included. That is Section 5.4's "never", and it holds outside the
+noisy regime it was read in.
+
+**A "minimum absolute coupling" is not a second requirement**, though it has
+been quoted from here as one. The two rows that suggested it are
+J_SA=0.50, J_SB=0.75 (ratio 1.5): NO, and
 J_SA=1.00, J_SB=1.50 (ratio 1.5): YES.
+Both are at γ=0.05, so the first is Q=10 and the second Q=20, and the table
+above already says that ratio 1.5 fails at Q=10 and crosses at Q=20. Measured,
+the two land on the same two peaks as moving γ instead: 0.218177 and 0.254779 by
+either route. The model has no absolute scale at all.
 
 ### 4.11 Initial State Is the Third Variable
 
@@ -357,22 +500,37 @@ All states, γ_A=0.001 (silent receiver), J_SB=2.0:
 | \|0++⟩ | 0.000 | 0.194 | NO |
 | \|+++⟩ | 0.000 | 0.000 | NO |
 
-Only Bell_SA⊗|+⟩_B crosses. W has high entanglement (C_SA=0.667)
-but distributes it across all pairs, none strong enough.
+At this working point only Bell_SA⊗|+⟩_B crosses. W has high entanglement
+(C_SA=0.667) but distributes it across all pairs, none strong enough.
 
 Parametric Bell (α|00⟩ + √(1-α²)|11⟩ ⊗ |+⟩_B): non-monotonic.
-C_SA ≈ 0.5-0.6 is a dead zone. Crossing requires C_SA > 0.8
-(Bell-like) or specific product alignment (α ≈ 1.0).
+C_SA ≈ 0.5-0.6 is a dead zone. Within this family and at this working point,
+crossing requires C_SA > 0.8 (Bell-like) or specific product alignment
+(α ≈ 1.0).
 
-From scratch (|0++⟩): even J_SB=10, γ=0.001 barely reaches 0.260.
-The initial state is not replaceable by brute force.
+**Provenance.** The five-state table above is reproducible from
+`star_topology_v2.py`, whose `make_state` builds all five; the parametric α
+sweep in this paragraph is not. No
+committed script in the repository builds that family, so the C_SA > 0.8
+figure, which Section 7 carries as Condition 3, rests on a March run whose code
+did not survive. It is the one of the three conditions with no reproduction
+path.
+
+From scratch (|0++⟩) with J_SB=10 and γ=0.001 the peak is **0.29740**, flat in
+run length at t_max = 2, 5 and 8, so brute force does cross. The initial state
+is a cost rather than a wall: |0++⟩ needs J_SB = 10 and a thousandth of the noise
+to reach what Bell_SA⊗|+⟩_B reaches at J_SB = 2 and γ = 0.05. (A conclusion that
+brute force cannot substitute for the initial state has been quoted from this
+paragraph; it does not hold.)
 
 ### 4.12 Frequency Analysis
 
 FFT (Fast Fourier Transform, a technique that decomposes a time signal
 into its constituent frequencies) and peak detection on AB CΨ trajectory, γ=0, t_max=40.
+No committed script performs this FFT; the table below is March's, and what
+replaces its reading is the closed form, which is exact and needs no transform.
 
-Dominant frequency scales with total coupling:
+Dominant frequency, and its ratio to the total coupling:
 
 | J_SA | J_SB | J_total | f_dom | f/J_total |
 |------|------|---------|-------|-----------|
@@ -394,10 +552,14 @@ of thumb f ≈ J_total/2 is not a scaling law: the ratio f/J_total is 3/(2π) =
 two symmetric rows above, which give 0.474 instead of 0.499, are that
 dependence showing rather than scatter.
 
-γ barely moves the frequency at these couplings. It is not exactly immune (the
-shift is second order in γ, and at J_SA=1, J_SB=2 it is 2.6e-6 in f units at
-γ = 0.005, four orders below this reading's 0.025 FFT bin), but nothing here
-can see it. What γ does visibly is dampen:
+γ barely moves the frequency at these couplings. It is not exactly immune, and
+the way it is not is worth stating precisely: at γ = 0.005 the Liouvillian
+carries the dominant Bohr frequency BOTH shifted and unshifted, 9.46409186 and
+9.46410162 in ω, so the shift is 1.6e-6 in f units for that pair and 2.6e-6 for
+the smallest Bohr frequency. Each shift is second order in γ with a coefficient of its own: Δω/γ² is 0.3902
+for the dominant pair and 0.6468 for the smallest, both constant from γ=0.001 to
+γ=0.05. Either way the shift is four orders below this reading's 0.025 FFT bin,
+so nothing here can see it. What γ does visibly is dampen:
 
 | γ | f_dom | peaks found | last/first peak |
 |-------|-------|-------------|-----------------|
@@ -430,13 +592,18 @@ through S, growing over ~0.5 time units after measurement.
 
 ### 5.4 AB Never Crosses (Symmetric J)
 
-In no symmetric experiment did AB cross ¼. Observers see S, not
-each other. The star topology enforces object-directed observation.
+In no symmetric experiment did AB cross ¼. Observers see S, not each other.
+The cause is not the geometry, which at three qubits is a chain; it is where the
+entanglement starts. Section 8.4 makes that argument, and Sections 4.7 and 8.3
+break the symmetry two different ways and get the crossing back.
 
 ### 5.5 Coupling Strength Creates Dominant Observers
 
-With asymmetric J, the strongly coupled observer crosses, the weakly
-coupled one does not. J determines participation; γ determines timing.
+With asymmetric J, the strongly coupled observer crosses and the weakly coupled
+one does not. The ratio picks WHICH observer, and Q = J/γ decides WHETHER: γ is
+not merely a clock, it sits in the threshold on equal terms with J
+(Section 5.8), and past a partner rate of 0.17292 it even decides which of the
+two is the fragile one.
 
 ### 5.6 Weak Direct Link → Observers See Each Other
 
@@ -444,16 +611,23 @@ When J_SA is weak, AB crosses. Entanglement spills from S into the
 observer-observer pair. This only happens when the direct object-link
 is degraded.
 
-### 5.7 Receiver Noise Is Fatal, Sender Noise Is Not
+### 5.7 The Receiver Is the More Fragile of the Two, Up to a Point
 
-γ_A > 0.2 kills the connection regardless of sender. γ_B > 0.2 merely
-shortens it. The receiver must be quiet; the sender can be noisy.
+The receiver's noise boundary lies below the sender's, by a factor near 1.7
+when both are read at the same partner rate, and the two roles SWAP at a
+partner rate of 0.17292 (Section 4.9, table in F29). The receiver must be quiet
+first, but "fatal versus tolerable" overstates it: γ_A = 0.2 still crosses, at
+a peak of 0.2527, with a window of 0.033 time units left.
 
 ### 5.8 J_SB/J_SA Threshold
 
-AB crossing requires J_SB/J_SA ≥ 1.466 at γ=0.05. The threshold
-scales with γ (1.18 at γ→0, 2.15 at γ=0.15). Both ratio AND absolute
-coupling matter. Higher J lowers the required γ reduction.
+AB crossing requires J_SB/J_SA ≥ 1.46295 at Q = J_SA/γ = 20. With all three
+rates equal the threshold is a function of Q alone (2.449 at Q=5, 1.775 at
+Q=10, 1.176 at Q=1000 and still falling, with no plateau measured), so absolute
+coupling is not a second requirement: the model has no absolute scale. Q does
+not absorb everything, though. Section 4.9 moves γ_A and γ_B independently and
+gets boundaries that no single Q describes; what scale invariance removes is
+one parameter out of five, not four.
 
 ### 5.9 Strong B Can Override A's Shield
 
@@ -490,7 +664,7 @@ The standing wave is the oscillation of R between SA and SB.
 ### 6.2 Internal vs External Observation
 
 The star topology implements the distinction from
-INTERNAL_AND_EXTERNAL_OBSERVERS.md: Hamiltonian coupling (internal)
+[Internal and External Observers](../docs/historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md): Hamiltonian coupling (internal)
 preserves coherence; measurement (external) destroys it and casts
 shadows.
 
@@ -501,31 +675,49 @@ it can, propagating S→B, not A→B. This connects to
 OBSERVER_GRAVITY_BRIDGE.md: gravity provides J>0 for all massive
 particles.
 
-## 7. The Three Conditions
+## 7. The Three Conditions, and What They Are Conditions For
 
 ### In plain language
 
 Imagine two people who cannot talk to each other. They share no
 phone, no letter, no line of sight. The only thing they have in
 common is an object they both care about: a problem, a question,
-a piece of the world they both study. The simulation asks: can a
-connection form between them, through nothing but that shared object?
+a piece of the world they both study. The simulation asks a narrower question
+than it first appears to: not whether something passes between them, which the
+Hamiltonian does continuously, but whether what has passed becomes READABLE in
+the pair they form, in one fixed witness.
 
-The answer is yes. But only when three things are true at once:
+The answer is that it can. In the cheap regime it takes three things at once:
 
 **Condition 1: The sender must be deeply engaged.**
-B's coupling to S must be ~47% stronger than A's (at γ=0.05).
-If both are equally engaged, no connection forms.
+B's coupling to S must be about 46% stronger than A's. The exact figure is
+J_SB/J_SA ≥ 1.46295, and it belongs to Q = J_SA/γ = 20, not to a noise level:
+the same 46% is required of a loud pair and a quiet one as long as engagement
+and noise scale together. If both observers are equally engaged, no connection
+forms at any Q measured here.
 
 **Condition 2: The receiver must be quiet.**
-A's internal noise must be low enough for the signal to be
-detectable. If A is too noisy, the signal is lost, regardless
-of how clear B sends. Receiver noise matters more than sender noise.
+A's internal noise must be low enough for the signal to be detectable, and A's
+budget is smaller than B's, by a factor near 1.7 when the two are compared at
+the same partner rate. Two qualifications the numbers force. The factor is not
+three, and it is not fixed: past a partner rate of 0.17292 the roles swap and the
+sender becomes the fragile one. And "the signal is lost regardless of how clear
+B sends" is too strong; what a noisy receiver costs is the WINDOW, which at
+γ_A = 0.2 is down to 0.033 time units from 0.314.
 
-**Condition 3: A pre-existing connection must exist.**
-A and S must already share a deep, dedicated relationship (C_SA > 0.8).
-Shallow connections spread across many things (W-state) fail.
-No connection at all fails. This cannot be created by force.
+**Condition 3: at this working point, a pre-existing connection.**
+Holding J_SB = 2 and γ = 0.05, A and S must already share a deep, dedicated
+relationship (C_SA > 0.8); shallow connections spread across many things
+(W-state) fail, and no connection at all fails.
+
+**None of the three is necessary in general, and Section 4.11 supplies the
+counterexample to the third.** |0++⟩ starts with C_SA = 0, no connection at all,
+and at J_SB = 10 with γ = 0.001 the AB pair reaches 0.29740, well past ¼. So the
+requirement is not on the initial state as such: it is what the initial state
+costs at THIS coupling and THIS noise. Starting from nothing is not forbidden,
+it is expensive, and the price is a fivefold coupling and a fiftyfold quieter
+system. Read the three together as the profile of one cheap route, the Bell
+route at Q ≈ 20, and not as a gate that every crossing must pass.
 
 ### The sender inversion
 
@@ -537,44 +729,62 @@ sender:
 | Must lower own noise (γ_A) | Must raise own engagement (J) |
 | Paradox: trying to be quiet IS noise | No paradox: deeper work = stronger signal |
 
-Sender noise barely matters (Section 5.7). You don't need to be
-calm to send. You need to be strong. The German word for it is
+Sender noise matters less than receiver noise over most of the range, though
+not everywhere (Section 5.7). You don't need to be as
+calm to send as to receive. You need to be strong. The German word for it is
 *sich einlassen*, to let yourself be drawn in, changed by what
 you engage with.
 
 ### The bidirectional rhythm
 
-At γ=0: 54 crossings in 20 time units, a continuous oscillation.
-The connection is not a channel that opens and stays open.
-It is a rhythm, like breathing:
+At γ=0 the boundary is crossed 54 times in the first 20 time units, which is 27
+windows up and down again. How many there are grows with the run: at zero noise
+nothing damps, so this is a rhythm without an end rather than a fixed count.
+What opens and closes is not a channel but a WINDOW, and it does not stay open.
+It comes and goes like breathing:
 
   be still (receive) → engage deeply (build, process) → be still → repeat
 
 Neither phase works alone. Pure engagement without stillness never
 opens a window. Pure stillness without engagement has nothing to
-transmit. The connection lives in the alternation.
+transmit. What the alternation produces is the readable window, and it lives
+there.
 
 Each engagement phase deepens the coupling, which lowers the bar
-for the next quiet phase. The frequency scales: f ≈ J_total/2.
+for the next quiet phase. The frequency rises with the couplings, at the
+Hamiltonian's largest Bohr frequency and not at J_total/2 (Section 4.12).
 Stronger engagement = faster rhythm. The spiral accelerates.
 
 ### In numbers
 
-- AB crossing threshold: J_SB/J_SA ≥ 1.466 at γ=0.05
-- Threshold scales with noise: 1.18 at γ≈0, 2.15 at γ=0.15
-- Receiver noise threshold depends on sender noise:
-  γ_A ≈ 0.20 kills with γ_B=0.1, γ_A ≈ 0.25 kills with γ_B=0.05
-- Sender noise tolerable up to γ_B = 0.5 (if receiver quiet)
-- Initial state requirement: C_SA > 0.8 (Bell-like)
-- Window duration at γ=0.05: ~0.3 time units
-- Window duration at γ=0.001: ~4.4 time units
-- Without noise (γ=0): 34.5% of time above ¼
+- AB crossing threshold: J_SB/J_SA ≥ 1.46295, at Q = J_SA/γ = 20
+- The threshold is a function of Q alone: 2.449 at Q=5, 1.775 at Q=10,
+  1.176 at Q=1000, still falling
+- Both noise boundaries, read at the same partner rate (Section 4.9; the full
+  table is in [F29](../docs/ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3)).
+  Unlike the threshold these are NOT pure ratios and carry a scale: they hold at
+  J_SA = 1, J_SB = 2, γ_S = 0.05, and rescale with J.
+  γ_A = 0.2699 against γ_B = 0.4735 at partner rate 0.05, and 0.2118 against
+  0.3519 at 0.1; γ_A = 0.1619 against γ_B = 0.1105 at partner rate 0.2, which is
+  past the swap, and the swap is at 0.17292 where both boundaries meet at that
+  same value.
+- Initial state at this working point: C_SA > 0.8 (Bell-like). Not a necessary
+  condition, and Section 4.11 has the counterexample; also the one figure here
+  with no committed reproduction path
+- The longest single window: 0.311 time units at γ=0.05, and it barely moves
+  down to γ=0.001 (0.354). What γ changes is how many windows there are:
+  61 at γ=0.001, 8 at γ=0.01, one at γ=0.05, two at γ=0.1 and none at γ=0.2,
+  the count not quite monotone while the total is
+- Without noise there is no settled answer to give: at γ=0 nothing converges in
+  run length (Section 4.10), so a fraction of time above ¼ is a statement about
+  the run and not about the system. Over the first 20 time units it is 34%, in
+  27 windows.
 
-Practical protocol: TUNING_PROTOCOL.md.
+Practical protocol: [Tuning Protocol](../hypotheses/TUNING_PROTOCOL.md).
 
 ## 8. Open Questions (partially answered 2026-03-07)
 
-Questions 1, 3, 5 answered via systematic simulation sweeps.
+All five answered via systematic simulation sweeps.
 Code: [`simulations/star_topology_v3.py`](../simulations/star_topology_v3.py).
 
 ### 8.1 N observers: ANSWERED
@@ -583,24 +793,39 @@ Code: [`simulations/star_topology_v3.py`](../simulations/star_topology_v3.py).
 
 | N | qubits | AB crosses 1/4? | J_SB threshold | behavior |
 |:---|:---|:---|:---|:---|
-| 2 | 3 | Yes | 1.466 | monotonic |
-| 3 | 4 | Yes | 3.730 | monotonic |
+| 2 | 3 | Yes | 1.46295 | monotonic |
+| 3 | 4 | Yes | 3.6497 | monotonic |
 | 4 | 5 | **No** | - | peak CΨ stays below 0.19 |
 | 5 | 6 | **No** | - | suppressed |
 
-Two-point scaling: J_th(N) ≈ 0.297 · N^2.30, but only valid for N ∈ {2,3}.
+Both thresholds are converged, the second to four decimals rather than five. At
+N=3 the readings are 3.650043, 3.649688 and 3.649725 at steps 0.004, 0.002 and
+0.001: the two finest agree to 4e-5, but the coarsest is 3.6500 and differs in
+the fourth decimal, so four decimals is as far as this goes. The sequence is
+also not monotone, unlike the raw sampled maxima of Section 4.10. The one-sided
+law there is a law about sampling a supremum; the parabola refinement used here
+removes most of that bias and leaves a residual of either sign. The N=2 value
+has been quoted from here as 1.466, which is not even what the coarse grid
+gives: bisecting the peak on that grid puts it at 1.4650 (Section 4.10 and F29),
+so the last digit was a slip on top of the sampling artifact.
+Monotonicity is checked rather than assumed at N=3: the peak rises without a dip
+from 0.21570 at J_SB=2.0 to 0.26138 at J_SB=5.0 in steps of 0.125.
 
-At N=4 with equal coupling, peak CΨ_AB rises slowly with J_SB (0.164 at
-J_SB=2.0, 0.188 at J_SB=4.5) but never reaches 1/4. The signal is
+A power law through two points has no residual, so J_th(N) ≈ 0.31 · N^2.25 is
+the two numbers rewritten and not a scaling law. It is quoted here only to say
+how steeply the requirement climbs: a third observer costs B a factor of 2.5.
+
+At N=4 with equal coupling, peak CΨ_AB rises slowly with J_SB (0.1639 at
+J_SB=2.0, 0.1891 at J_SB=4.5, converged) but never reaches 1/4. The signal is
 monotonically increasing, not non-monotonic.
 
-**Correction (2026-03-08):** An earlier version of this section reported
-a "zero window" at J_SB≈3.75-4.25. This was a sampling artifact caused
-by coarse time sampling (every 0.2 time units) that caught oscillation
-zeros instead of peaks. With fine sampling the signal is nonzero and
-smoothly increasing everywhere. The threshold genuinely does not exist
-for equal coupling, but the reason is quantitative (peak CΨ_AB stays
-below 0.19), not a dramatic extinction.
+A "zero window" at J_SB≈3.75-4.25 has been reported from this section and is
+not there: it was the same sampling trap Section 9 describes, one notch coarser
+still, recording every 0.2 time units and catching oscillation zeros instead of
+peaks. The threshold genuinely does not exist for equal coupling at N=4, and the
+reason is quantitative rather than a dramatic extinction: the two converged
+probes give 0.1639 at J_SB=2.0 and 0.1891 at J_SB=4.5, both well below ¼. What
+the curve does BETWEEN those probes, and the N=5 row, are unmeasured here.
 
 **However:** Asymmetric coupling rescues the crossing for both N=4 and N=5.
 With [J_SA, J_SB1, J_SB2, ...] = [1.0, 2.0, x, x, ...], the crossing
@@ -610,6 +835,11 @@ survives as long as the remaining observers are weak enough:
 |:---|:---|:---|:---|
 | 4 | [1.0, 2.0, x, x] | 1.165 ± 0.005 | other B can be almost as strong |
 | 5 | [1.0, 2.0, x, x, x] | 0.925 ± 0.005 | other B must be noticeably weaker |
+
+(`star_n_observer.py` takes a per-spoke J list and so can express these
+patterns, but no committed driver runs this sweep; the two x_crit values are
+not re-measured here. Both are on the coarse grid, where every threshold
+re-measured in this document came out too high.)
 
 The tolerated asymmetry shrinks with N; the rescue becomes more fragile,
 not less. Equal coupling kills the crossing; one dominant observer preserves it.
@@ -663,17 +893,31 @@ fast, infinitely strong dephasing.
 ### 8.3 AB with direct coupling: ANSWERED
 
 **Setup:** 3-qubit, Bell_SA⊗|+⟩_B, J_SA=1.0, J_SB=1.466, γ=0.05.
-Added J_AB ∈ {0, 0.1, 0.3, 0.5, 1.0}.
+Added J_AB ∈ {0, 0.1, 0.3, 0.5, 1.0}. (J_SB = 1.466 is the setting the sweep was
+run at, kept for that reason; the threshold itself is 1.46295, Section 4.10.)
 
 **Non-monotonic effect on threshold:**
 - J_AB=0.1: slightly *worsens* threshold behavior
 - J_AB=0.3-0.5: helps crossing (sweet spot at ~0.5, threshold drops
-  from 1.466 to ~1.345)
+  from 1.46295 to 1.34444, both converged)
 - J_AB=1.0: still crosses but much later (t≈1.0 vs t≈0.3)
 
-**Shadow effect destroyed by direct coupling:** Moderate-to-large J_AB
-weakens or removes the shadow entirely. The system no longer behaves
-as a clean S-mediated shadow channel.
+**The "shadow destroyed by direct coupling" reading is withdrawn.** At
+J_AB = 0.3, 0.5 and 1.0 the sweep reports a suppression of exactly 0.0%,
+and an exact zero is the signature of an identity rather than of a physical
+effect. It is this one: **at the instant of measurement** an unread projective
+measurement on A cannot change ρ_SB at all, since summing over the projectors of
+a local measurement leaves the other marginal untouched. That is a statement
+about that instant only, and nothing more; afterwards the global state differs
+and ρ_SB evolves differently, which is exactly the shadow Sections 4.6 and 8.2
+measure. But the metric reported here is the peak of R_SB over t ≥ t_measure,
+and at those couplings that peak sits AT t_measure itself, so the metric samples
+precisely the one moment at which the identity forces a zero. That is measured
+rather than argued: at J_AB = 0.3, 0.5 and 1.0 the argmax over t ≥ 1 is t = 1.000
+in both the measured and the unmeasured run, while at J_AB = 0 it is 1.800
+against 1.100 and the suppression is a real 10.26%. The number measures where the peak fell, not
+what direct coupling did to the shadow. What direct coupling does to the shadow
+is unmeasured here.
 
 **Dominance crossover:** At J_AB≈0.7, direct observer coupling alone
 generates AB crossing without any S-mediated coupling (J_SB=0).
@@ -684,7 +928,7 @@ AB never crosses in symmetric 3-qubit experiments. This is consistent
 with N_SCALING_BARRIER.md Section 7: crossing occurs where entanglement
 lives. In the star topology, initial entanglement lives in SA (Bell state),
 not in AB. The AB pair sees only S-mediated transferred entanglement,
-which requires J_SB/J_SA ≥ 1.466 (Section 4.10). With symmetric coupling
+which requires J_SB/J_SA ≥ 1.46295 at Q = J_SA/γ = 20 (Section 4.10). With symmetric coupling
 (ratio = 1.0), the transfer never reaches 1/4.
 
 This is not a separate phenomenon; it is the same locality principle.
@@ -695,32 +939,76 @@ at t=0.42) or create the right asymmetry (Section 8.1, 8.3).
 
 ### 8.5 Threshold formula: ANSWERED
 
-**Verified data** (N=2, J_SA=1.0):
+This section and Section 4.10's γ-scan are ONE curve, read twice. Both hold
+J_SA = 1 and vary γ, which by the scaling of the previous section is a scan in
+Q = J_SA/γ; the ten rows here are the five there with five more between them.
 
-| γ | J_SB threshold |
-|:---|:---|
-| 0.001 | 1.183 |
-| 0.010 | 1.247 |
-| 0.020 | 1.296 |
-| 0.050 | 1.466 |
-| 0.070 | 1.634 |
-| 0.100 | 1.820 |
-| 0.120 | 1.929 |
-| 0.150 | 2.146 |
-| 0.170 | 2.253 |
-| 0.200 | 2.460 |
+**Converged data** (N=2, J_SA=1.0; t_max=6, and 14 for the two rows below
+γ=0.01, which need the longer run), beside the same scan on the coarse grid,
+because the shift between them has a direction and the direction is the point:
 
-**Best fit:** J_th(γ) ≈ 7.35 · γ^1.08 + 1.18 (R²=0.999)
+| γ | Q | J_SB threshold | coarse grid |
+|:---|:---|:---|:---|
+| 0.001 | 1000 | 1.17642 | 1.183 |
+| 0.010 | 100 | 1.22768 | 1.247 |
+| 0.020 | 50 | 1.28532 | 1.296 |
+| 0.050 | 20 | 1.46295 | 1.466 |
+| 0.070 | 14.3 | 1.58542 | 1.634 |
+| 0.100 | 10 | 1.77496 | 1.820 |
+| 0.120 | 8.3 | 1.90495 | 1.929 |
+| 0.150 | 6.7 | 2.10483 | 2.146 |
+| 0.170 | 5.9 | 2.24103 | 2.253 |
+| 0.200 | 5 | 2.44923 | 2.460 |
 
-Nearly linear in γ with slight upward curvature. The relationship is
-smooth and monotonic. **No divergence or hard closure at γ=0.2.**
-The threshold exists at 2.46 and the window merely gets narrower.
+Every converged value lies BELOW its coarse-grid counterpart, which is not luck:
+an undersampled peak is always too low and the threshold read from it always too
+high, so the whole column had to move one way.
 
-A simple linear approximation (R²=0.998) also works well:
-J_th(γ) ≈ 6.39 · γ + 1.16
+**Fit on the converged data:** J_th(γ) ≈ 7.232 · γ^1.081 + 1.1766, with a
+largest residual of 0.0043, at the γ=0.001 end. It is a fit on 0.001 ≤ γ ≤ 0.2
+and nothing more; in particular its constant term is NOT an asymptote. Section
+4.10 measures the threshold below this range and finds it still falling, to
+1.11567 at γ=0.0001, so any reading of 1.1766 as a zero-noise limit is a
+property of where the table stops. An earlier fit, 7.35 · γ^1.08 + 1.18, is
+still quoted in places: its exponent is right but it does not come from the
+table it was printed beside, where its largest residual is 0.038 against the
+0.0043 of a free refit.
+
+**The curvature is real, and a linear approximation is not a substitute.** A
+linear form has been offered as working "as well" on the strength of R², and on
+coarse-grid data it does. On the converged data it does not. The best straight
+line here is 6.3698 · γ + 1.1537, and its largest residual is 0.022 against the
+power fit's 0.0043, a factor of five, while R² moves only from 0.999965 to
+0.999110. R² is the wrong instrument for a ten-point curve with this little
+scatter.
+
+**No divergence or hard closure at γ=0.2.** The threshold exists at 2.449 and
+the window merely gets narrower.
 
 ## 9. Numerical Notes
 
+- **The re-measurement.** Every converged number in this document is printed by
+  [`simulations/star_topology_converged.py`](../simulations/star_topology_converged.py)
+  (output in [`results/star_topology_converged_run.txt`](../simulations/results/star_topology_converged_run.txt)).
+  It uses an exact propagator, expm of the vectorised Lindblad generator applied
+  step by step, with the peak refined by a parabola through the sampled maximum
+  and window edges interpolated rather than counted; the repo's RK4 at dt=0.001
+  recording every step is run beside it and lands on the same threshold to 4e-6
+  in J_SB. Thresholds are bisected to 2e-6; halving the step from 0.008 down to
+  0.001 moves the N=2 threshold by 8e-6 in total and by under 1e-6 over the last
+  two halvings, which is where the fifth decimal comes from. At N=3 the same
+  ladder spans 4e-4 and the value is quoted to four decimals.
+- **What was NOT re-measured**, and is March's throughout: Sections 4.6 and 4.7,
+  Section 8.2 entirely, Section 8.1's two x_crit values, its spectral diagnostic at the N=4 boundary,
+  its N^(−0.74) dilution and its 8-21% shadow, and Section 4.12's peak-interval
+  statistics. Every one of them is on the coarse grid, where every quantity that
+  has been re-measured moved, and all in one direction.
+- **The sampling trap to know about when using this code.**
+  `run_star_topology` defaults to `sample_every=20`: it integrates at dt=0.005
+  but records the observable only every 0.1, against an oscillation period near
+  0.66. Six points per period systematically miss peaks, and since the peak is a
+  supremum the miss has a sign: the peak comes out too low and any threshold
+  read from it too high.
 - Integration: RK4, dt=0.005, t_max=5.0 (extended to 40.0 for frequency analysis)
 - Purity bounded ≤ 1.0 for all runs (Euler v1 had artifacts > 1.0)
 - Euler v1 showed spurious oscillating crossings for |0++⟩ at t≈2.9
@@ -734,6 +1022,8 @@ J_th(γ) ≈ 6.39 · γ + 1.16
 - [`simulations/star_topology_v2.py`](../simulations/star_topology_v2.py): 3-qubit star topology, RK4 integration
 - [`simulations/star_n_observer.py`](../simulations/star_n_observer.py): N-qubit with asymmetric coupling
 - [`simulations/star_topology_v3.py`](../simulations/star_topology_v3.py): N-qubit with equal coupling, J_AB support, threshold sweeps
+- [`simulations/star_topology_converged.py`](../simulations/star_topology_converged.py): the converged re-measurement, exact propagator beside the repo's RK4
+- [`simulations/verify_star_topology.py`](../simulations/verify_star_topology.py): eight claim checks against `star_topology_v2.py`
 
 ---
 

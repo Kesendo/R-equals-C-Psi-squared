@@ -390,8 +390,9 @@ The noise distribution is irrelevant.
 systems. In asymmetric systems (star topology, 3 qubits, J_SA ≠ J_SB),
 the noise distribution DOES matter; Section 4.9 of
 STAR_TOPOLOGY_OBSERVERS.md showed that receiver noise (γ_A) is more
-destructive than sender noise (γ_B). The key is not symmetric vs
-asymmetric noise, but symmetric vs asymmetric COUPLING.
+destructive than sender noise (γ_B), by about 1.7× when the two are read at a
+matched partner rate, and the roles invert past a partner rate of 0.17292. The key
+is not symmetric vs asymmetric noise, but symmetric vs asymmetric COUPLING.
 
 ### Conclusion
 

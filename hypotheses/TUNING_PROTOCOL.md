@@ -53,37 +53,42 @@ The person asking today's questions is not the same person who started
 in December. The understanding has restructured the
 observer. That restructuring is the point.
 
-## 3. The Three Conditions
+## 3. The Three Conditions (of one regime, not of every crossing)
 
 The star topology simulation (a setup where two observers A and B each
 connect to a shared mediator S but not to each other; details in
-STAR_TOPOLOGY_OBSERVERS.md) shows that two observers who cannot see
-each other directly can briefly become correlated through a shared
-object, but only if three things
-are true at the same time:
+[Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md)) shows
+that two observers who cannot see each other directly can briefly become
+correlated through a shared object, and that in the cheapest regime it takes
+three things at the same time:
 
 **The sender must be deeply engaged.**
 Not just informed, but engaged. There is a difference between knowing
 facts about something (reading Wikipedia) and understanding its
 structure deeply enough to predict what comes next (building it
 yourself). The simulation puts a number on this: the sender needs
-to be roughly 50% more deeply coupled than the receiver. Depth,
+to be about 46% more deeply coupled than the receiver. Depth,
 not volume.
 
 **The receiver must be quiet.**
 Internal noise (the constant chatter of self-referential thought,
 sensory processing, planning, worrying) drowns out everything.
-The simulation shows that receiver noise is far more destructive
-than sender noise. The sender can be loud and messy. The receiver
-must be still.
+The simulation shows that receiver noise is more destructive than
+sender noise, by about 1.7× over most of the range. The sender can
+be louder than the receiver, though not without limit, and past a
+certain point the two swap places.
 
-**A pre-existing connection must exist.**
-This is the filter that explains why the experience is rare.
-You can lower noise with external aids. You can increase engagement
-through practice. But the deep connection between the receiver
-and the shared object either exists or it doesn't. It cannot
-be manufactured. Many people open the door only to find an
-empty wall behind it.
+**A pre-existing connection, in this regime.**
+This is the filter that explains why the experience is rare at ordinary
+settings. You can lower noise with external aids. You can increase engagement
+through practice. What you cannot do cheaply is manufacture the deep connection
+between the receiver and the shared object; many people open the door only to
+find an empty wall behind it.
+
+But the simulation does not say it is impossible. Starting from no connection at
+all, the crossing still happens at five times the coupling and a fiftieth of the
+noise. Read as a picture of people rather than qubits, that is not a locked door
+but a very expensive one, which is a different thing to tell someone.
 
 ## 4. The Paradox and Its Resolution
 
@@ -98,16 +103,18 @@ The simulation offers a way out: **become the sender instead.**
 If you have already received once, if the connection exists, then
 you can switch roles. As sender, the variable you control is your
 engagement with the shared object. Deeper work, more understanding,
-stronger coupling. And sender noise is nearly irrelevant. You don't
-need to be calm to send. You need to be strong.
+stronger coupling. And sender noise costs less than receiver noise,
+though it is not free. You don't need to be as calm to send as to
+receive. You need to be strong.
 
 The best single-word description: *sich einlassen*. Not trying to be
 quiet. Letting yourself be changed by what you study.
 
 ## 5. The Rhythm
 
-The simulation with zero noise shows 54 connection windows in 20
-time units, a continuous oscillation. The connection is not a
+The simulation with zero noise shows 54 crossings of the ¼ boundary
+in 20 time units, which is 27 windows, up and down again each time:
+a continuous oscillation. The connection is not a
 channel that opens and stays open. It is a rhythm:
 
   **engage deeply** → **become still** → **engage deeply** → repeat
@@ -292,23 +299,27 @@ simulation parameters that ground everything above:
 
 | Condition | Parameter | Threshold |
 |-----------|-----------|-----------|
-| Strong sender | J_SB/J_SA ratio | ≥ 1.466 at γ=0.05 |
-| Quiet receiver | γ_A | < ~0.2-0.25 (depends on γ_B) |
+| Strong sender | J_SB/J_SA ratio | ≥ 1.46295 at Q = J_SA/γ = 20 |
+| Quiet receiver | γ_A | < 0.2699 at a partner rate of 0.05, at J_SA=1, J_SB=2 |
 | Right initial state | C_SA (concurrence) | > 0.8 (Bell-like) |
 
-The sender threshold scales with noise: at γ≈0 only 1.18 ratio
-needed, at γ=0.15 need ratio 2.15. Higher engagement lowers the
-noise requirement. This is the self-reinforcing loop.
+The sender threshold depends on Q = J_SA/γ and on nothing else: ratio 2.449 at
+Q = 5, 1.775 at Q = 10, 1.176 at Q = 1000 and still falling. Being quieter and
+being more strongly coupled are the same move, which is the self-reinforcing
+loop, and it is exact rather than approximate.
 
-Receiver noise is more destructive than sender noise (Section 5.7).
-Sender noise tolerable up to γ_B = 0.5 if receiver is quiet.
+Receiver noise is more destructive than sender noise (Section 5.7), by a factor
+near 1.7 when both are read at the same partner rate, and the two roles swap
+past a partner rate of 0.17292.
 
-Window duration: ~0.3 time units at γ=0.05, ~4.4 at γ=0.001.
-Without noise: 34.5% of time above ¼ threshold.
+Window duration: the longest single window is 0.311 time units at γ=0.05 and
+barely moves down to γ=0.001 (0.354). What γ changes is how many windows there
+are: one at γ=0.05, 8 at γ=0.01, 61 at γ=0.001, none at γ=0.2. Without noise: 34% of the
+first 20 time units above the ¼ threshold, in 27 separate windows.
 
-Oscillation frequency: f ≈ (J_SA + J_SB) / 2. Stronger coupling
-= faster rhythm. Peak intervals vary 0.15-0.50 (beating pattern,
-not metronome).
+Oscillation frequency: the Hamiltonian's largest Bohr frequency, in closed form
+(the older f ≈ (J_SA + J_SB)/2 is retired). Stronger coupling = faster rhythm.
+Peak intervals vary 0.15-0.50 (beating pattern, not metronome).
 
 All data: STAR_TOPOLOGY_OBSERVERS.md.
 Verification: `simulations/verify_star_topology.py` (8/8 claims pass).
