@@ -1690,3 +1690,69 @@ residual is O(1)" presupposed a two-sided exactness that does not exist.
 `compute/RCPsiSquared.Diagnostics/Foundation/PinnedBlockFloorClaim.cs` + `PinnedBlockFloorWitness.cs`;
 `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs:7459`; F152 and F153 in
 `docs/ANALYTICAL_FORMULAS.md`; the Δ table re-measured from below this session.
+
+## 2026-09-04: three March experiments re-read with what we know now, where every one of five empty rounds found its worst item inside the repair before it, and none in the material
+
+Tom's idea was to re-read the old experiment documents; 53 have had no substantive edit since
+May. Three were worked. The mathematics of the underlying results never moved once. Shapes 133
+to 137.
+
+**(1) A fence written from the one case just exhibited, twice, and both times the truth was
+simpler and wider.** The repair of the frequency-immunity family wrote "what is exactly immune
+is uniform dephasing on a number-conserving coherence block", composed straight from the (0,1)
+block it had just measured. The blocks (1,1) and (2,2) conserve particle number and shift by
+1.9e-2 and 7.6e-2. In the coherence basis the dephasing dissipator is exactly diagonal with
+entry −2·Σ_{l: i_l≠j_l} γ_l, so the criterion is a CONSTANT HAMMING DISTANCE, which for a
+joint-popcount block (p,q) means p or q is 0 or N: 4·2^N − 4 of 4^N dimensions, 12.1% at N=5.
+Corrected, the same session wrote of a different object that "H = J(2·SWAP − I) acts on that
+manifold as a multiple of the identity"; H's eigenvalues are +J on the triplet and −3J on the
+singlet, and ρ(t) carries singlet weight up to 0.205. What does the work is that ρ₀ commuting
+with SWAP is preserved, and H is a FUNCTION of SWAP, so [H, ρ(t)] = 0 at every J. That
+statement also covers Bell⁺, which the wrong one did not.
+
+**(2) "Residual exactly 0.0" certified on the couplings that were to hand.** Registered as a
+corollary of F148 and repeated in the experiment: the two-spoke star spread
+ΔE_max = 2(J_SA + J_SB + √(J_SA² − J_SA·J_SB + J_SB²)) checked "at thirteen pairs including
+four random ones, residual exactly 0.0". On ten fresh random pairs nine give ≈1.8e-15; the
+round pairs give 0.0. The repo's own convention names this trap and it was quoted in this same
+session's morning. The identity IS exact and the exact route was two lines away: the spectrum
+is J_SA + J_SB fourfold and −(J_SA + J_SB) ± 2√(J_SA² − J_SA·J_SB + J_SB²) twice each.
+
+**(3) A ratio assembled across slices, written into the paragraph correcting that shape.** F29's
+repair reported the receiver's tolerance as "roughly a third of the sender's", dividing a γ_A
+boundary measured at partner rate 0.05 by a γ_B boundary measured at 0.005. At matched partner
+rates: 1.79, 1.75, 1.66, and at partner rate 0.2 it **inverts** to 0.68, the sender becoming
+the fragile one. F29 was being written precisely to fix "two rows from different slices read as
+one comparison" in the source document.
+
+**(4) A last digit on the rounding boundary, under a one-sidedly converging estimator.** The
+same repair published the coupling threshold as 1.4630 from an observation grid of 0.0042. A
+background run at grid 0.0005 returned 1.4629488, the other side of the four-decimal boundary.
+The direction is forced: the peak of CΨ is a supremum over continuous time, so every finite
+sampling undershoots the peak and overshoots the threshold, and the values fall from above,
+1.463035 → 1.462984 → 1.462952. Grid-free, 1.4629518. Now quoted to five decimals with the
+convergence table beside it.
+
+**(5) The tombstone covers its neighbour, and this is why all three documents lasted.**
+`FACTOR_TWO_STANDING_WAVES` led with "the expected factor-2 ratio was NOT found", and above that
+null result sat a table testing |Im λ| = |Im partner| and Re λ + Re partner = −2Σγ on pairs its
+own search had selected by |λ_j − (−2Σγ − λ̄_i)| < 1e-8, a single distance bounding both: 10,748
+of 10,748 with zero failures, and no other outcome possible. Underneath, `dists[i] = 999`
+excluded self-pairing, so its even-N deficit was the count of odd-sized degeneracy clusters on
+the fixed locus (2, 26, 316 exactly); the spectrum is 100% paired at every N, 21,840 eigenvalues,
+9,921 distinct pairs plus 1,998 self-paired, and the document had been measuring F1 and reporting
+a deficit that is not there. `OBSERVER_GRAVITY_BRIDGE` carries 24 [FALLEN] markers over the
+gravity reading, and beside them an interval table dividing by a baseline with t_B subtracted
+from it while calling it t_cross, a "coherence reservoir" mechanism describing flow through a
+state that is an exact product at every J and every time, and a timing table whose own script
+prints the opposite monotone. `STAR_TOPOLOGY_OBSERVERS` quoted an "ultra-fine" threshold to six
+decimals off six samples per oscillation period.
+
+**And the same disease at the level of the search.** The closed form for the star's dominant
+frequency was derived from below this session, with random-coupling checks, and it had been in
+`STRUCTURAL_CARTOGRAPHY` since 2026-03-10, in a file this session had opened and edited that
+morning. It was filed as "the GPT formula, to be verified" and then beaten in a comparison table
+by the house rule f ≈ J_total/2, whose three winning rows are one system scaled and whose
+margins are below the FFT bin. It is F148. **Deriving felt like progress, which is exactly why
+Stage 0 does not fire on its own; and a result filed under an outsider's name never gets
+adopted.**
