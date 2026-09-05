@@ -402,18 +402,18 @@
 
 ### OQ-247
 
-**Question:** **Non-Heisenberg models.** Does Finding 1 (all oscillation is palindromic) hold for XY, XXZ, or random-coupling Hamiltonians?
+**Question:** **Beyond the current quantum scope.** Which dissipative channels beyond local Z-dephasing admit a full-complex spectral fold, and what operator implements it? Non-Heisenberg Hermitian Hamiltonians under Z-dephasing are a resolved control, not an all-oscillation criterion.
 
-**Source:** `hypotheses/ENERGY_PARTITION.md` (line 198)
+**Source:** `hypotheses/ENERGY_PARTITION.md` (§4)
 **Section:** 4. Open Questions
 **Date:** March 27, 2026
 
-**Proposed Status:** resolved
+**Proposed Status:** open
 **Confidence:** high
 **Resolving documents:**
 - `experiments/NON_HEISENBERG_PALINDROME.md` (lines 81-94): XY, Ising, XXZ, and DM (Dzyaloshinskii-Moriya) all show 100% palindromic symmetry at N=3 and N=4 via uniform Pi operators
-**Rationale:** All standard coupling types tested and confirmed palindromic. The universality of "all oscillation is palindromic" is established for XY, XXZ, Ising, and DM couplings.
-**Search terms used:** "non-Heisenberg", "XY model", "XXZ", "random-coupling", "NON_HEISENBERG_PALINDROME"
+**Rationale:** XY, Ising, XXZ and DM tests extend the Hamiltonian family while retaining Z-dephasing. They do not answer whether a different dissipative channel has a full-complex fold, and spectral pairing is not a necessary condition for oscillation.
+**Search terms used:** "non-Heisenberg", "dissipative channel", "amplitude damping", "spectral fold", "NON_HEISENBERG_PALINDROME"
 
 ---
 

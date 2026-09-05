@@ -133,7 +133,7 @@ def main():
     W, signs = make_balanced_dale_network(N, n_exc, density=0.3, seed=42)
 
     print(f"\nN={N}, sweeping P (external drive)")
-    print(f"\n{'P':>6s}  {'n_osc':>6s}  {'E_freq':>8s}  {'E_decay':>8s}  "
+    print(f"\n{'P':>6s}  {'n_osc':>6s}  {'sum|Im|':>8s}  {'sum|Re|':>8s}  "
           f"{'ratio':>6s}  {'K_freq':>6s}  {'K_corr':>7s}  {'scalar_r':>8s}  {'fp_res':>9s}")
     print("-" * 65)
 
@@ -141,9 +141,9 @@ def main():
         J, x_star, equation_residual = build_jacobian_with_sigmoid(W, signs, tau_E, tau_I, 0.3, P)
         ev = np.linalg.eigvals(J)
 
-        E_freq = np.sum(np.abs(np.imag(ev)))
-        E_decay = np.sum(np.abs(np.real(ev)))
-        ratio = E_freq / E_decay if E_decay > 0 else 0
+        sum_abs_freq = np.sum(np.abs(np.imag(ev)))
+        sum_abs_decay = np.sum(np.abs(np.real(ev)))
+        ratio = sum_abs_freq / sum_abs_decay if sum_abs_decay > 0 else 0
         n_osc = np.sum(np.abs(np.imag(ev)) > frequency_tolerance)
 
         K_freq, K_corr = frequency_counts(ev, frequency_tolerance)
@@ -154,7 +154,7 @@ def main():
         if abs(ratio - 1.0) < 0.1:
             marker = " <-- crossover"
 
-        print(f"  {P:4.1f}  {n_osc:6d}  {E_freq:8.3f}  {E_decay:8.3f}  "
+        print(f"  {P:4.1f}  {n_osc:6d}  {sum_abs_freq:8.3f}  {sum_abs_decay:8.3f}  "
               f"{ratio:6.3f}  {K_freq:6d}  {K_corr:7d}  {residual:8.3f}  {equation_residual:9.2e}{marker}")
 
 

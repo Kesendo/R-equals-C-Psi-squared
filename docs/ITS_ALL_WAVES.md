@@ -365,4 +365,4 @@ The incompleteness is not: "We cannot know." The incompleteness is:
 - [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md): levels build on levels
 - [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): noise is structured, 15.5 bits
 - [Complete Mathematical Documentation](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md): the Tafelwerk
-- [Energy Partition](../hypotheses/ENERGY_PARTITION.md): all oscillation is palindromic, universal 2× decay law
+- [Energy Partition](../hypotheses/ENERGY_PARTITION.md): filtered-spectrum audit; zero removal strands exact partners, and the 2× reading is full range/centre rather than a mode-lifetime law

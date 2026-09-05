@@ -48,7 +48,7 @@ content remains in the matched list. This is a statement about the selected
 quantum family and filtering convention, not a necessary condition for
 oscillation in arbitrary open systems.
 
-[F8](../docs/ANALYTICAL_FORMULAS.md#f8-2-universal-decay-law-tier-1-corollary-of-absorption-theorem)
+[F8](../docs/ANALYTICAL_FORMULAS.md#f8-range-centre)
 identifies the ratio as the full decay interval's width 2Nγ divided by
 its centre Nγ. For γ>0 this is 2. At γ=0 that ratio is undefined.
 Neither this ratio nor spectral pairing labels a mode as signal or noise;

@@ -1771,7 +1771,7 @@ foreach (int n in new[] { 3, 4, 5 })
     var (qmax, qmin, qmean, qspread) = Formulas.F7_QSpectrum(n, 1.0, 0.5);
     Console.WriteLine($"  N={n}: F7 Q max/min/mean/spread = {qmax:0.00}/{qmin:0.00}/{qmean:0.0}/{qspread:0.00}");
 }
-Console.WriteLine($"  F8 range/centre law (N=4,g=0.5): full-width={Formulas.F8_DecayLaw(4, 0.5).Unpaired:0.0}, centre={Formulas.F8_DecayLaw(4, 0.5).PairedMean:0.0}, ratio=2 (not mode classes)");
+Console.WriteLine($"  F8 range/centre law (N=4,g=0.5): full-width={Formulas.F8_DecayLaw(4, 0.5).FullWidth:0.0}, centre={Formulas.F8_DecayLaw(4, 0.5).Centre:0.0}, ratio=2 (not mode classes)");
 Console.WriteLine($"  F12 single-qubit crossing t*/T2 = {Formulas.F12_CrossingFraction} (root of x^3+x=1/2)");
 Console.WriteLine($"  F16 fold R=C(Psi+R)^2, boundary CPsi={Formulas.F16_FoldBoundary} (Mandelbrot u->u^2+c)");
 Console.WriteLine($"  F25 CPsi Bell+ Z-deph: crossing f*={Formulas.F25_CrossingF}, K_Z={Formulas.F25_K};  F27 K_X=K_Y=ln2/8={Formulas.F27_KX:0.0000}, K_depol={Formulas.F27_KDepol}");

@@ -176,8 +176,8 @@ public class SmokeTests
         Assert.Equal(8, Formulas.F50_Weight1Degeneracy(4));                // 2N
         Assert.Equal(8, Formulas.F50_Weight1Degeneracy(3, triangleK3: true));
         Assert.Equal(new[] { 0, 2 }, Formulas.F34_QubitNecessity());       // d^2-2d=0
-        var (unp, pm) = Formulas.F8_DecayLaw(4, 0.5);
-        Assert.Equal(2.0, unp / pm, 10);                                   // the 2x ratio
+        var (fullWidth, centre) = Formulas.F8_DecayLaw(4, 0.5);
+        Assert.Equal(2.0, fullWidth / centre, 10);                          // the range/centre ratio
         var (mn, mx, bw) = Formulas.F3_RateBounds(4, 0.5);
         Assert.Equal(1.0, mn, 10);
         Assert.Equal(3.0, mx, 10);

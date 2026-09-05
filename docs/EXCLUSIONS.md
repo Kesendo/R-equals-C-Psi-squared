@@ -193,13 +193,13 @@ The same principle operates at every level of the framework:
 |-------|------------------|-----------|----------|
 | 1/4 crossing | Quantum coherence | Classical correlation | CΨ monotonicity (this exclusion) |
 | V-Effect (experiment) | Individual frequencies | New coupled frequencies | 100% NEW-NEW: no N=2 frequency survives in N=5 ([pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)) |
-| Energy partition (hypothesis) | Unstructured (unpaired) modes | Entropy | 2x decay law: unpaired modes die twice as fast ([Energy Partition](../hypotheses/ENERGY_PARTITION.md)) |
+| Energy-partition audit | A full palindromic spectrum | A filtered list with stranded partners | Removing zero roots strands their −2Nγ partners; this is not a physical conversion ([Energy Partition](../hypotheses/ENERGY_PARTITION.md)) |
 
-At each level:
-- The original information is irrecoverable (not stored, not preserved)
-- The conversion is irreversible (no mechanism to undo it)
-- The result has more structure than the input (109 frequencies from 4,
-  palindromic structure survives while noise dies 2x faster)
+These rows do not establish one general conversion principle. The first two
+belong to different protocols, while the third is an analysis-instrument
+effect rather than dynamics. In particular, the filtered census supplies no
+irreversibility or claim that a structured component outlives an unstructured
+one.
 
 Two N=2 resonators (each 2 frequencies, Q=1, no oscillation) couple
 through a mediator and produce an N=5 system with 109 frequencies and

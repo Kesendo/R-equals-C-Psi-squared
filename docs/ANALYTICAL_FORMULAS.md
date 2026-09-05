@@ -679,11 +679,12 @@ is read off in [the cavity modes experiment](../experiments/VEFFECT_CAVITY_MODES
 **Replaces:** Q-factor computation from eigenvalues.
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md)
 
-### F8. 2× universal decay law (Tier 1, corollary of Absorption Theorem)
+<a id="f8-range-centre"></a>
+### F8. Full-range/centre ratio (Tier 1, corollary of Absorption Theorem)
 
-    rate(unpaired) = 2*N*gamma       (<n_XY> = N, pure {X,Y}^N)
-    rate(paired mean) = N*gamma      (<n_XY>_fast + <n_XY>_slow = N)
-    ratio = 2.00 exactly
+    full decay interval width = 2*N*gamma
+    spectral centre = N*gamma
+    width/centre = 2.00 exactly for gamma > 0
 
 **Now a corollary:** The palindromic sum rule α_fast + α_slow = 2Σγ
 follows from the Absorption Theorem (α = 2γ⟨n_XY⟩) combined with the
@@ -692,9 +693,12 @@ palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N, proven in
 The "ratio 2" is the ratio of the full range (0 to 2Σγ) to the center
 (Σγ) of a symmetric interval; it is a definition, not a separate law.
 
-**Valid for:** any Hermitian Hamiltonian, real or complex (both parents, AT and
-the F1 palindrome, DM included, hold for complex H); Z-dephasing; any graph; any N.
-**Replaces:** unpaired mode rate computation; palindromic sum verification.
+**Valid for:** local Z-dephasing instances whose Hamiltonian satisfies the
+F1 palindromizer hypotheses and whose folded spectrum reaches both endpoints
+0 and −2Σγ. For uniform γ this gives width 2Nγ and centre Nγ; the ratio
+requires γ>0. It is not a statement about an arbitrary Hermitian Hamiltonian:
+mixed terms that break F1 need not have these endpoints.
+**Replaces:** full-range/centre computation; palindromic sum verification.
 **Source:** [Energy Partition](../hypotheses/ENERGY_PARTITION.md),
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md)
 

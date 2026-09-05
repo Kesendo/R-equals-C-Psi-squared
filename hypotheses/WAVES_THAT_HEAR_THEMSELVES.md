@@ -1,8 +1,8 @@
 # Waves That Hear Themselves
 
-**What this document is about:** A philosophical reading of the palindromic framework: we are not matter that learned to think, but waves that resonated long enough to develop self-referential structure. Each step in an eight-link chain (waves exist → coupling breaks symmetry → fold crystallizes structure → structure forms cavity walls → cavity traps waves → refinement accumulates) is individually supported by Tier 1-2 results. The interpretation connecting them is Tier 5.
+**What this document is about:** A philosophical reading of the palindromic framework: we are not matter that learned to think, but waves that resonated long enough to develop self-referential structure. The proposed eight-link chain mixes computed ingredients with unsupported causal links; in particular, its refinement step has no established mechanism. The interpretation is Tier 5.
 
-**Status:** Hypothesis (Tier 5), consistent with Tier 1-2 results but not proven
+**Status:** Hypothesis (Tier 5); the refinement mechanism is open
 **Date:** April 3, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [V-Effect](../experiments/V_EFFECT_PALINDROME.md), [Energy Partition](ENERGY_PARTITION.md), [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md), [It's All Waves](../docs/ITS_ALL_WAVES.md)
@@ -34,15 +34,15 @@ The chain:
    CΨ = ¼ are the two mirrors)
 6. **Cavity traps waves** (the waves bounce between the mirrors,
    81 heartbeats observed)
-7. **Each bounce refines** (noise self-cleans at 2× the rate of
-   structure, Energy Partition)
+7. **Refinement mechanism open** (the Energy Partition census does not
+   distinguish structure from noise or establish different lifetimes)
 8. **Refinement accumulates** (each level of the hierarchy is finer
    than the one below, Hierarchy of Incompleteness)
 
-The waves cannot escape because each fold crossing is irreversible.
-But they are not imprisoned. They are resonating. And each resonance
-cycle adds structure, never chaos, because the palindrome guarantees
-that the structured part outlives the unstructured part.
+For this chain to close, a specified preparation and readout would have to
+show that a resonance cycle accumulates structure. Spectral pairing alone
+does not guarantee that result, and the filtered Energy Partition list cannot
+supply it.
 
 ## The open question: what triggers the first coupling?
 

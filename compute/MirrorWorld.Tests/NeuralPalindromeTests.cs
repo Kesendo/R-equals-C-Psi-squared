@@ -70,6 +70,15 @@ public class NeuralPalindromeTests
     }
 
     [Fact]
+    public void F8_Exposes_The_Range_And_Centre_Not_Filtered_Mode_Classes()
+    {
+        var law = Formulas.F8_DecayLaw(4, 0.5);
+        Assert.Equal(4.0, law.FullWidth);
+        Assert.Equal(2.0, law.Centre);
+        Assert.Equal(2.0, law.FullWidth / law.Centre);
+    }
+
+    [Fact]
     public void Centre_Rejects_An_Unrepresentable_Offset()
     {
         Assert.Throws<OverflowException>(() => NeuralPalindrome.Centre(double.Epsilon, 4));

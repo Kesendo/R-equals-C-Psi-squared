@@ -214,9 +214,20 @@ def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
             "It depends on three ingredients",
             "Each finding below is computed and verified",
         ),
+        root / "docs/ANALYTICAL_FORMULAS.md": (
+            "F8. 2× universal decay law", "rate(unpaired)", "rate(paired mean)",
+        ),
+        root / "docs/ITS_ALL_WAVES.md": ("all oscillation is palindromic, universal 2× decay law",),
+        root / "docs/EXCLUSIONS.md": ("unpaired modes die twice as fast", "noise dies 2x faster"),
+        root / "docs/PREDICTIONS.md": ("now structurally confirmed in spirit", "universal building-block ratio"),
+        root / "hypotheses/WAVES_THAT_HEAR_THEMSELVES.md": ("noise self-cleans at 2×",),
+        root / "review/OPEN_QUESTIONS_INDEX.md": ("Does Finding 1 (all oscillation is palindromic)",),
+        root / "review/OPEN_QUESTIONS_INDEX_PROPOSAL_scope-extension.md": ("Does Finding 1 (all oscillation is palindromic)",),
         root / "hypotheses/README.md": ("unpaired modes decay 2x faster",),
         NEURAL / "veffect_exact.py": ("edge E-neurons",),
-        NEURAL / "veffect_and_heat.py": ("paired={", "unpaired={"),
+        NEURAL / "veffect_and_heat.py": (
+            "paired={", "unpaired={", "E_freq", "E_decay",
+        ),
     }
     for path, forbidden in surfaces.items():
         text = path.read_text(encoding="utf-8")
@@ -224,6 +235,12 @@ def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
             assert phrase not in text, f"{path}: stale label {phrase!r}"
     program = (root / "compute/MirrorWorld/Program.cs").read_text(encoding="utf-8")
     assert "full C. elegans chemical matrix fails support gate (253 nonempty E vs 18 I)" in program
+    veffect = (NEURAL / "veffect_and_heat.py").read_text(encoding="utf-8")
+    assert "{'n_osc':>6s}  {'sum|Im|':>8s}  {'sum|Re|':>8s}" in veffect
+    formulas = (root / "docs/ANALYTICAL_FORMULAS.md").read_text(encoding="utf-8")
+    f8 = formulas.split('<a id="f8-range-centre"></a>', 1)[1].split("\n---", 1)[0]
+    assert "any Hermitian Hamiltonian" not in f8
+    assert "satisfies the\nF1 palindromizer hypotheses" in f8
 
 
 @pytest.mark.parametrize("field,value", [

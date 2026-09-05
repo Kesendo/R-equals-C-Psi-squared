@@ -197,10 +197,10 @@ See [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), Sections 8
 
 These claims may be correct. They may also be artifacts of the agent's training data or tool usage. Until independently verified, they carry no epistemic weight.
 
-**Current status** (three of the four are settled):
+**Current status** (two of the four are settled):
 - **C_int ≫ C_ext (33:1): REFUTED.** [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9: "The 33:1 ratio claimed by the agents does not exist" (proper Lindblad simulation; 21 noise distributions on Bell+ gave identical dynamics).
 - **"δ requires dynamics (H≠0)": REFUTED.** [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md): the oscillation is J-driven with no threshold (born at Q=0+); §9 of this doc already carries the "interval shift continuous in J, no threshold" result that undercuts it.
-- **"C=0.5 is optimal observer": now structurally confirmed in spirit.** C=0.5 (half-occupation) is the framework's universal building-block ratio (V-Effect; [Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md): "population balance C=0.5 with broken magnitude symmetry"). The literal "max R at C=0.5" calculus claim was not separately re-tested.
+- **"C=0.5 is optimal observer": still unverified.** The literal "max R at C=0.5" claim has not been re-tested. Equal normalized E/I fractions give one half arithmetically, but [Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md) supplies no persistence optimum or neural boundary from that equality.
 - **"t_coh ~ N linear": still unverified** (no later test located).
 
 ---

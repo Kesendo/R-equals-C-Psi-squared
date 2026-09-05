@@ -572,7 +572,7 @@ What survives even without the philosophy:
 - [Hardware validation](../experiments/IBM_HARDWARE_SYNTHESIS.md) of the 1/4 crossing on IBM quantum processors (24,073 records, r* threshold precision 0.000014)
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW.md) via Pauli weight complementarity
 - [Energy-partition audit](../hypotheses/ENERGY_PARTITION.md): zero-root filtering stranded exact partners; the remaining frequency and decay sums are protocol diagnostics, not energies or mode populations
-- [F8 range/centre law](ANALYTICAL_FORMULAS.md#f8-2-universal-decay-law-tier-1-corollary-of-absorption-theorem): the full decay interval divided by its centre is 2 for γ>0; it is not a signal/noise lifetime law
+- [F8 range/centre law](ANALYTICAL_FORMULAS.md#f8-range-centre): the full decay interval divided by its centre is 2 for γ>0; it is not a signal/noise lifetime law
 - [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation gives spectral boundaries, factor 2 and the palindromic sum rule a common reading within the number-conserving family; the spectral gap it relocates rather than derives (2γ only above a coupling threshold). Verified on 1,342 modes, CV = 0
 - [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit
 - [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): coupled gain-loss systems have a finite stability window (Hopf bifurcation, γ_crit × J_bridge = 0.50)

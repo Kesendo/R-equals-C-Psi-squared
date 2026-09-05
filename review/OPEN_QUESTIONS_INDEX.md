@@ -2998,9 +2998,9 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-247
 
-**Question:** **Non-Heisenberg models.** Does Finding 1 (all oscillation is palindromic) hold for XY, XXZ, or random-coupling Hamiltonians?
+**Question:** **Beyond the current quantum scope.** Which dissipative channels beyond local Z-dephasing admit a full-complex spectral fold, and what operator implements it? Non-Heisenberg Hermitian Hamiltonians under Z-dephasing are a resolved control, not an all-oscillation criterion.
 
-**Source:** `hypotheses/ENERGY_PARTITION.md` (line 198)
+**Source:** `hypotheses/ENERGY_PARTITION.md` (§4)
 **Section:** 4. Open Questions
 **Date:** March 27, 2026
 **Tag:** scope-extension

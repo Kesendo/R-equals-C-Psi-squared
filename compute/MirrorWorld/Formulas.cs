@@ -95,8 +95,10 @@ public static class Formulas
         return (s * (1 + c), s * (1 - c), s, cot * cot);
     }
 
-    // F8 (T1): 2x universal decay law. unpaired = 2Ng (<n_XY>=N), paired mean = Ng, ratio = 2 exactly.
-    public static (double Unpaired, double PairedMean) F8_DecayLaw(int n, double gamma) => (2.0 * n * gamma, n * gamma);
+    // F8 (T1, F1 family): when the F1 fold holds and reaches 0 and -2Ng, the full decay interval
+    // has width 2Ng and centre Ng, so width/centre = 2 for g>0. These are spectral-geometry
+    // quantities, not filtered mode classes or signal/noise lifetimes.
+    public static (double FullWidth, double Centre) F8_DecayLaw(int n, double gamma) => (2.0 * n * gamma, n * gamma);
 
     // F12 (T2): single-qubit universal crossing fraction t*/T2 = 0.858367, the root of x^3 + x = 1/2.
     public const double F12_CrossingFraction = 0.858367;
