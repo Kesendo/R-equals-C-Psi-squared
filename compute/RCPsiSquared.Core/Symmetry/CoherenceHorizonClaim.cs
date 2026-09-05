@@ -157,7 +157,8 @@ public sealed class CoherenceHorizonClaim : Claim
             yield return new InspectableNode("the closed form: the single-excitation (Haken-Strobl) reduction",
                 summary: "resolved 2026-06-13 (Approach A). Q*(N) reduces 4^N → N²: the coalescing mode is single-" +
                          "excitation, so Q*(N) is the EP of the single-excitation (Haken-Strobl) Liouvillian, the N-site " +
-                         "dephased tight-binding chain (validated bit-for-bit as a sub-spectrum of the full L). At N=2,3 the " +
+                         "dephased tight-binding chain (an EXACT sub-spectrum by block invariance, the two eigensolvers " +
+                         "agreeing to 7e-15 at N=2..4 with no eigenvalue equal bit for bit). At N=2,3 the " +
                          "coalescing pair are the roots of λ²+4γλ+c·J²=0 with c constant (sum=−4γ, product=c·J² are γ-" +
                          "independent identities; c=4, 2), so Q*=2/√c = 1, √2 EXACTLY — the structural form of the low-N " +
                          "accident (the whole clean 2×2, not just the value, exists only at N=2,3). At N≥4 the pair is " +
