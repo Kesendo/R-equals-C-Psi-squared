@@ -9193,7 +9193,7 @@ public static class OpenArcsRegistry
                 "places. MirrorWorld cannot lean on Core's BigRational/GaussianInteger by design (no " +
                 "RCPsiSquared.* reference), so the shared primitive has to live in the world itself, " +
                 "the way PauliMode.Enumerate is the shared 4^N walk and Block.Binomial the shared " +
-                "binomial. This is a gap of the same kind as the 19 members: inside, not at the door. " +
+                "binomial. This is a gap of the same kind as the 18 members: inside, not at the door. " +
                 "NOT A LANE: the word-collision triage (Mirror, Pair, Witness, Hardness, Seed, Divisor, " +
                 "Marginal as ordinary words in older documents) is a sibling; its home is " +
                 "one_word_two_objects, not here. In this entry, witness and pair are the main repo's " +
