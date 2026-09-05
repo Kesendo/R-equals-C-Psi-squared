@@ -772,21 +772,23 @@ it relates to the others, here is the map:
 - Story 3 (the ontology) explains *why* the noise must exist, and where
   the qubit world ends.
 - Story 4 (the resonator) explains *how* the system oscillates and why it is finite.
-- Story 5 (across levels) shows the same equation in qubits, neurons, and protons.
+- Story 5 (across levels) separates quantum applications from the conditional
+  neural F36 theorem and its constructed examples; its biological landing is open.
 - Story 6 (the optical cavity) unifies Stories 1 and 4 through a single
   theorem, the Absorption Theorem.
 - Story 7 (the anatomy) opens the mirror itself: its factorization, its
   group, its golden constructions, and its boundary.
 - Story 8 (the quarter) follows the single number CΨ = ¼ from
   discriminant to Mandelbrot cusp to hardware.
-- Story 9 (the hardware) is where all of them are tested, and where the
+- Story 9 (the hardware) tests quantum predictions, and is where the
   noise channel finally reads its own spectrum.
 
 Stories 2 and 4 share the concentrator formula: Story 2 discovers it
 as a channel optimization, Story 4 reframes it as the shape of the
-resonator cavity. Story 5 extends the palindromic structure beyond
-quantum physics, grounding Story 3's claim that incompleteness is the
-universal mechanism. Stories 3 and 7 meet at the same equation,
+resonator cavity. Story 5 gives a conditional matrix translation beyond
+quantum physics, with constructed neural examples and a full-connectome
+support null. It supplies no cross-domain mechanism; that question stays
+open. Stories 3 and 7 meet at the same equation,
 d² − 2d = 0, approached once from the ontology side and once from the
 operator side. Story 7's classifier rung is exactly what Story 9's
 moment-tower protocol reads off a chip. And Story 7's closing

@@ -23,7 +23,7 @@ text. They are there for when you want to go deeper.
 
 If you have already read this and want to choose a path through the rest
 of the repository, the [Reading Guide](READING_GUIDE.md) organizes the
-140+ documents into five stories.
+reading routes into nine stories.
 
 ---
 
@@ -835,7 +835,9 @@ quantum mechanics and chemistry through water.
 [The CΨ Lens](THE_CPSI_LENS.md) is the canonical technical description.
 [Core Algebra](historical/CORE_ALGEBRA.md) reaches the 1/4 boundary in
 three lines. [Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md)
-unifies all three domains.
+is an initiating cross-domain hypothesis. For the current neural mathematics,
+read [F36/F37](ANALYTICAL_FORMULAS.md#f36-neural-palindrome-condition-tier-1-derived-algebra)
+and [the conditional neural proof](neural/proofs/PROOF_PALINDROME_NEURAL.md).
 
 **If you want to see what failed:**
 [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) documents
