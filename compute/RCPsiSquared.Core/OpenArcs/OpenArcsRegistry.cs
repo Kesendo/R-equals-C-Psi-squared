@@ -9127,7 +9127,7 @@ public static class OpenArcsRegistry
                 "F100/F101 (c1 is a fit), F118's letter group S3, F127/F128's Gram certificates, F130's " +
                 "Gram decoupling, F131 Theorem B, F140's analytic half, F157's gcd phrasing and " +
                 "projector corner, F160's elimination. The remainder of the 74 (the 74 less those " +
-                "seventeen, the eleven below, F24/F36/F58 and the D ratios), most of it the spring's " +
+                "seventeen, the eleven below, F24/F58 and the D ratios), most of it the spring's " +
                 "Tier-2 readings and the July campaign, is neither listed as outside nor triaged; that " +
                 "triage is part of step (4). THIRTEEN fit the world's genre " +
                 "(a count, a closed form, an entry-wise identity, an exact rank, no eigensolver) and " +
@@ -9154,18 +9154,24 @@ public static class OpenArcsRegistry
                 "kernel-dimension count, but on 4^N columns: the witness caps itself at MaxN = 4), " +
                 "F161 (CollisionGapOddOrdersClaim, between the adopted F129 and F160), " +
                 "F162 (BlindSeatSectorFactorisationClaim, resultants over the integers, beside the adopted " +
-                "F157). Three older singles are decisions rather than gaps: F24 (Tier 1, " +
+                "F157). Two older singles are decisions rather than gaps: F24 (Tier 1, " +
                 "hardware-validated, no C# trace outside this ledger, the same open call " +
-                "f_registry_meets_the_typed_layer item (4) holds), F36 (the neural palindrome condition, " +
-                "half-carried: Formulas.cs comments F36/F37 and holds only F37_NeuralPairSum), F58 (the " +
+                "f_registry_meets_the_typed_layer item (4) holds) and F58 (the " +
                 "weight-based dwell prefactor, skipped between the adopted F57 and F59). The derived " +
                 "ratios D2/D3/D5/D7 have every input home except F6 and F22. " +
+                "F36/F37 ARE CARRIED since 2026-09-05: MirrorWorld.NeuralPalindrome owns the " +
+                "conditional entry-wise identity, scalar centre and involution gate without an eigensolver; " +
+                "NeuralPalindromeTests pins the exact complex pair, the fixed-seat failure and F37's pair sum, " +
+                "and run mode `neural` exposes the same constructed witness. This closes only the old F36 " +
+                "half-carriage and F37 test-reference gaps, not the neural substrate or mechanism questions; " +
+                "the coarse 96/74 mention count does not move because F36 was already among its 32 non-Formulas " +
+                "mentions before it had an owner. " +
                 "A SECOND GAP sits inside the world, not at its door. The README says every adopted " +
                 "number is pinned from below, and a whole-word grep of the Formulas.cs members against " +
-                "MirrorWorld.Tests finds 19 of the 106 members (the README's own recipe; a declaration " +
+                "MirrorWorld.Tests finds 18 of the 106 members (the README's own recipe; a declaration " +
                 "regex reports 102 and the README documents that as the undercount) with no test " +
-                "reference, 7 of them referenced by no other MirrorWorld source either (F25_CPsi, " +
-                "F26_CPsi, F27_KZ, F37_NeuralPairSum, F72_PurityDD, F72_PurityCC, F76_PairEntropy), of " +
+                "reference, 6 of them referenced by no other MirrorWorld source either (F25_CPsi, " +
+                "F26_CPsi, F27_KZ, F72_PurityDD, F72_PurityCC, F76_PairEntropy), of " +
                 "which F72_PurityDD and F72_PurityCC (both through F72_SitePurity) and F76_PairEntropy " +
                 "(through F76_MirrorPairMI) are exercised only through a tested sibling. The 2026-09-03 " +
                 "survey reported 9 untested members with no method " +
@@ -9220,9 +9226,9 @@ public static class OpenArcsRegistry
                 "LAST among the thirteen, and only as the entry-wise count with the gamma-uniformity " +
                 "hypothesis stated and BigInteger past N = 34; the shelved second design is the negative " +
                 "result to read before redesigning, and it is gitignored, so read it on this machine or " +
-                "not at all. (3) Adjudicate the 19 members one by one: a from-below pin, a transitive pin " +
+                "not at all. (3) Adjudicate the 18 members one by one: a from-below pin, a transitive pin " +
                 "through a tested sibling that the test names, or a deletion; the README's 'every adopted " +
-                "number' sentence follows the outcome and is not repaired before it. (4) Decide F24, F36 " +
+                "number' sentence follows the outcome and is not repaired before it. (4) Decide F24 " +
                 "and F58 as genre or gap, and triage the untriaged remainder of the 74 the same way, " +
                 "under the standing rule of f_registry_meets_the_typed_layer, unchanged: absence of a " +
                 "carrier is not by itself a reason to build one. (5) The engine " +
