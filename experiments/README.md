@@ -19,8 +19,8 @@ information channels.
 All experiments are reproducible using Python, NumPy, and SciPy.
 Scripts are in [`simulations/`](../simulations/), results in [`simulations/results/`](../simulations/results/).
 
-**Index coverage:** 212 experiment writeups are tracked in this folder; all 212 are
-linked below (index swept and completed 2026-08-04; three added 2026-08-15).
+**Index coverage:** 223 experiment writeups are tracked in this folder; 213 are
+linked below. Ten pages from August and September 2026 are not yet indexed.
 
 ---
 
@@ -279,6 +279,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Dead Set at h = 0](LATTICE_DEAD_SET_H_ZERO.md) | Verified from below: the F132 dead-set law is generic along the h axis (allowed readouts ≥ 5·10⁻³, forbidden at machine zero), and at h = 0 it refines because the Majorana hopping graph disconnects into two components |
 | [Dead Set: the ZZ Face](LATTICE_DEAD_SET_ZZ_FACE.md) | Verified from below: turning on ZZ makes the F132 dead set jump to its full revived size already at zz = 10⁻⁴, while magnitudes cross over as zz^m with exact integer Majorana-degree orders, worst slope deviation 0.0006 |
 | [Lattice H-Thread](LATTICE_H_THREAD.md) | Verified from below: X^N is a third mirror of the F131 order-sorting law. With a field the one-sided reading leaves the world-family entirely, satisfying a mixed two-field pencil, and a second antiunitary mirror forces 48 of 63 readouts to zero |
+| [The Motion and the Missing Phase](THE_MOTION_AND_THE_MISSING_PHASE.md) | Exploration note: light on the centre seat of an odd chain leaves the reflection-odd motion (F157) and its X^N copy untouched while the phase between the copies fades at e^(−2γt), unseen by every page below N−2 sites (F70) yet a real entanglement loss; a CNOT decoder brings it onto the centre, and the cross-copy block is the Lattice's one-sided reading X^N ρ as a block of a state. With an end defect (XY, N = 7) one parity-forced blind vector survives and the decoded distance plateaus at 0.763 / 0.734 |
 
 ### The Frozen Band and the Ceiling
 
