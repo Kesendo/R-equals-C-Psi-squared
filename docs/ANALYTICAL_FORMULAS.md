@@ -1,7 +1,7 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-08-24 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-09-05 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -1202,50 +1202,64 @@ perspectives computed from the same density matrix.
 
 ---
 
-## Neural Analog (replace neural symmetry analysis)
+## Neural Analog
 
-### F36. Neural palindrome condition (Tier 1-2, proven + verified)
+### F36. Neural palindrome condition (Tier 1, derived algebra)
 
-    Q * J * Q + J + 2*S = 0
+    Q * J * Q + J + 2*s*I = 0,     Q^2 = I
 
-    Q = E-I neuron swap operator
-    J = Jacobian of Wilson-Cowan dynamics
-    S = (1/tau_E + 1/tau_I) / 2 * I
+    J = D + W_eff,  D = diag(d_i),  W_eff[i,i] = 0
+    Q = involutive permutation matrix; s = scalar
+    (a) d_i + d_Q(i) + 2*s = 0             for every i
+    (b) W_eff[Q(i),Q(j)] = -W_eff[i,j]     for every i != j
 
-Exact structural analog of quantum palindrome (Pi * L * Pi^-1 =
--L - 2*Σγ * I). Derived algebraically from quantum proof
-via E-I swap mapping. C. elegans connectome: the 8x against
-Erdos-Renyi (0.013 vs 0.108) is WITHDRAWN 2026-08-26. The two arms
-were normalised by different constants; matched, the ratio runs
-0.960 at N = 10, 0.841 at N = 20 and 0.748 at N = 26, and what
-that smaller residue is remains open
-(ALGEBRAIC_PALINDROME_NEURAL.md, the null table).
-The connectome-level palindrome reading was withdrawn on 2026-08-25
-(experiments/NEURAL_GAMMA_CAVITY.md); the algebra above is untouched
-by that.
+The full operator identity is equivalent to (a) and (b), for finite complex
+J and scalar s. It has the conjugation form of the quantum palindrome F1.
+For dᵢ = −1/τᵢ, an involutive E-I swap gives
+s = ½(1/τ_E + 1/τ_I). At equal time constants, (a) does not require
+opposite types. A fixed seat needs dᵢ = −s, as well as (b).
 
-**Valid for:** Wilson-Cowan neural networks with Dale's Law.
-**Replaces:** ad-hoc neural symmetry analysis; connectome
-palindromic quality assessment.
-**Source:** [Algebraic Palindrome Neural](neural/ALGEBRAIC_PALINDROME_NEURAL.md)
+If W_eff = α·diag(1/τᵢ)·W with zero-diagonal W and nonzero α, (b) is
+equivalent to W[Q(i),Q(j)] = −(τ_Q(i)/τᵢ)·W[i,j] for i ≠ j.
+At α = 0 the W condition is not necessary. Dale's Law alone is
+insufficient: it fixes signs on nonzero support, not Q-symmetric support
+or scaled magnitudes.
+
+**Valid for:** neural Jacobians satisfying the full identity, equivalently
+(a) and (b), with involutive Q and one scalar s. No biological brain
+result or hardware Confirmation follows from the conditional theorem.
+**Constructed computational gate:** [Python translation gate](../simulations/neural/neural_translation_gate.py).
+**Typed owner:** [MirrorWorld.NeuralPalindrome](../compute/MirrorWorld/NeuralPalindrome.cs),
+the real-matrix entrywise check, with [NeuralPalindromeTests](../compute/MirrorWorld.Tests/NeuralPalindromeTests.cs)
+and run mode `dotnet run --project compute/MirrorWorld -- neural`.
+**Source:** [Proof Palindrome Neural](neural/proofs/PROOF_PALINDROME_NEURAL.md).
+**Biological scope:** [Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md),
+gate G0b: the committed chemical connectome has 253 non-empty excitatory
+outgoing rows and 18 inhibitory ones, obstructing the required sign-reversing
+support bijection in the nonzero-gain, positive-row-scale model.
 
 ### F37. Neural eigenvalue pairing (Tier 1, from F36)
 
-    mu_k + mu_k' = -(1/tau_E + 1/tau_I)
+    mu' = -mu - 2*s
+    mu + mu' = -(1/tau_E + 1/tau_I)   when s = (1/tau_E + 1/tau_I)/2
 
-Analog of lambda + lambda' = -2*Σγ. Every neural mode
-pairs with a partner; decay rates sum to the E-I time constant sum.
-The mean pair sum is NOT a verification of this and never was: for a network
-with no self-coupling it equals trace(J)/(d/2) for ANY partition of the spectrum
-into pairs, palindromic or arbitrary (F137). The March figure "mean sum =
--0.3012 against a predicted -0.300" is therefore not a 1.6% agreement but a
-number the identity forbids for a full partition; what it says is that the
-reported figure was not one. The informative quantity is the max deviation of
-the individual pair sums, 1.6%. Corrected 2026-08-26.
+Conditional on F36, the **full complex eigenvalue multiset** is invariant
+under μ ↦ −μ − 2s, including algebraic multiplicity. For the involution
+Q² = I, Jv = μv gives J(Qv) = (−μ − 2s)Qv. At degeneracy, transport is
+between invariant subspaces, not a prescribed eigenvector basis. Pairing
+does not imply a real spectrum, stability, or silence.
 
-**Valid for:** linearized Wilson-Cowan networks satisfying F36.
-**Replaces:** neural eigenvalue computation for pairing verification.
-**Source:** [Proof Palindrome Neural](neural/proofs/PROOF_PALINDROME_NEURAL.md)
+For even dimension n, every partition of the full eigenvalue multiset into
+n/2 pairs has mean pair sum 2·trace(J)/n. That mean is not a pairing test
+(F137); the individual complex pair sums carry the spectral claim.
+
+**Valid for:** Jacobians satisfying F36; the reciprocal-time sum additionally
+uses its two-time-constant value of s.
+**Constructed computational gate:** [Python translation gate](../simulations/neural/neural_translation_gate.py),
+including multiplicity, complex-spectrum and Q-transport controls.
+**Typed owner:** [MirrorWorld.Formulas.F37_NeuralPairSum](../compute/MirrorWorld/Formulas.cs),
+conditional on F36, cross-checked in [NeuralPalindromeTests](../compute/MirrorWorld.Tests/NeuralPalindromeTests.cs).
+**Source:** [Proof Palindrome Neural](neural/proofs/PROOF_PALINDROME_NEURAL.md).
 
 ---
 
