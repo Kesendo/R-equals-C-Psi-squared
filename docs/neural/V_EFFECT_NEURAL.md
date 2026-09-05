@@ -1,293 +1,242 @@
-# The V-Effect and Thermal Window in Neural Networks
-
-**Status:** The frequency counts are computed; the mechanism that explained
-them is withdrawn (2026-08-26). See
-[Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md).
-**Result date:** March 27, 2026 (the change history lives in git)
-**Authors:** Thomas Wicht, Claude (Anthropic)
-**Domain:** Neuroscience / Computational Biology
-**Depends on:** [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md),
-[Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md)
-
----
-
-## What this document is about
-
-Two balanced neural networks, silent at the seeds used, are connected
-through a shared neuron, and 48 distinct oscillation frequencies appear.
-The count is real. The explanation this document was built on is not:
-the palindromic symmetry does not make a network silent, and the coupled
-construction never had the symmetry the coupling was supposed to break.
-
-The symmetry makes the spectrum invariant under μ ↦ −μ − 2s. That map
-sends the complex plane to itself, so it forbids no oscillation; of 200
-exactly palindromic draws at the coupling used here, 24 oscillate. And
-the coupled system has an odd number of seats, so its mediator is an
-unpaired seat at every coupling, zero included. See
-[Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md) for both
-measurements. What the frequency count tracks is an open question.
-
-A second discovery: in biological networks (where the symmetry is
-approximate, not exact), there exists a "thermal window." Too little
-metabolic drive: silence. Too much: saturation and silence again. In
-between, at the sweet spot where neurons are maximally sensitive,
-oscillation peaks at 124 frequencies. Life operates in the window.
-
----
-
-## Abstract
-
-When two neural networks that show no oscillation at the seeds used are
-coupled through a shared mediator, oscillatory modes appear, and their
-number is not monotone in the coupling strength. No requirement of exact
-palindromic symmetry stands behind it: the symmetry neither forbids
-oscillation nor is present in the coupled object
-([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md)).
-The name **V-Effect** is kept for the measured counts, after the quantum
-analog where coupling two 2-frequency systems creates 109 frequencies.
-
-In networks with approximate (biological) palindromic symmetry, a
-**thermal window** exists instead: external drive creates oscillatory
-modes up to a peak, then destroys them. At optimal drive (P ≈ 4 for
-N=50), the correlation space contains 124 distinct frequencies. At
-zero or saturating drive: zero frequencies.
-
----
-
-## 1. Background
-
-### The quantum V-Effect
-
-In quantum systems, two qubits each have 2 oscillatory frequencies.
-Coupling them through a mediator qubit (N=5 total) creates 109
-frequencies. This happens because the palindromic symmetry that
-holds for each pair individually BREAKS when a second bond forces
-conflicting demands on the shared qubit. The breaking releases new
-oscillatory modes.
-
-(See [V-Effect Palindrome](../../experiments/V_EFFECT_PALINDROME.md)
-for the quantum computation.)
-
-### The neural question
-
-Does the same effect exist in neural networks? Two requirements:
-1. Individual networks must have palindromic symmetry (exact or
-   approximate)
-2. Coupling must break that symmetry in a way that creates new
-   oscillatory modes
-
----
-
-## 2. What the Palindrome Does and Does Not Do
-
-### Approximate palindrome: no sharp threshold
-
-Networks built with Dale's Law and random magnitudes have approximate
-palindromic symmetry. How approximate is not a number this metric can give,
-it reading coupling magnitude rather than wiring
-([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md)); the exact
-residual = 0 rows further down are unaffected. Coupling two such networks
-barely moves the frequency count:
-
-| N per network | V-act | V-corr |
-|--------------|-------|--------|
-| 10 | 1.00 | 1.50 |
-| 50 | 0.69 | 0.52 |
-| 200 | 0.53 | 0.54 |
-
-(V = frequencies coupled / (2 × frequencies single). V > 1 = V-Effect.)
-
-At large N, the ratio falls BELOW 1: coupling actually reduces
-frequencies. No V-Effect.
-
-**Reason:** With approximate symmetry, there is no sharp threshold
-to cross. The palindrome was never exact, so there is nothing to
-break. The symmetry degrades gradually, not suddenly.
-
-### Exact palindrome: the silence is not the symmetry's doing
-
-Networks with Dale's Law AND the exact magnitude condition
-(W[Q(i),Q(j)] = -(τ_{Q(i)}/τ_i) · W[i,j], residual = 0) were reported
-here to have purely real eigenvalues. **They do not.** The condition
-pairs eigenvalues as μ ↦ −μ − 2s, which a conjugate pair satisfies as
-readily as a real one; 24 of 200 exactly palindromic draws oscillate at
-this very coupling, and at stronger coupling they also go unstable. The
-network used below is real-spectrumed because of the seed, not because
-of the symmetry.
-
-Coupling two such networks through a mediator neuron raises the measured
-residual and changes the frequency count. The residual rise is not
-evidence of a symmetry break: the mediator is an unpaired seat, so the
-coupled object fails the condition at every coupling including zero.
-
-| Coupling | K_activity (N=20) | K_correlation (N=20) |
-|----------|------------------|---------------------|
-| 0.00 | 0 | 0 |
-| 0.01 | 6 | 48 |
-| 0.05 | 7 | 62 |
-| 0.10 | 6 | 47 |
-
-**0 + 0 = 48 correlation frequencies** at coupling 0.01.
-
-Each individual network has zero oscillation at the seed used. The coupled pair has
-48 distinct frequencies in the correlation space (the mathematical
-space that tracks how every pair of neurons co-activates; for N
-neurons, there are N² possible pairs, so this space is much richer
-than the activity of individual neurons).
-
-For the full coupling sweep and the mechanism explanation, see
-[Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md).
-
-### The optimal coupling window
-
-The frequency count peaks at WEAK coupling (0.01-0.05) and falls
-at strong coupling. At coupling 1.0 with N=10, the system returns to
-zero frequencies. That is an N=10 statement: at N=20 the count settles
-instead, 31 correlation frequencies remaining at the strongest coupling
-tested ([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md)).
-
-This mirrors the quantum case: the V-Effect Q-factor peaks at
-moderate coupling J/γ and falls when coupling overwhelms the
-palindromic structure.
-
----
-
-## 3. The Thermal Window
-
-A separate phenomenon appears in networks with APPROXIMATE
-palindromic symmetry (biological Dale's Law networks). Instead
-of coupling two networks, we vary the external drive P (the
-neural analog of temperature: metabolic energy input).
-
-### Results (N=50, 25E+25I, τ_E=5, τ_I=10, α=0.3)
-
-| Drive P | Oscillatory modes | Correlation frequencies | Palindrome quality |
-|---------|------------------|------------------------|-------------------|
-| 0.0 | 10 | 4 | 0.998 |
-| 2.0 | 38 | 39 | 0.975 |
-| 3.0 | 40 | 90 | 0.929 |
-| 4.0 | 40 | 124 | 0.897 |
-| 5.0 | 38 | 81 | 0.936 |
-| 8.0 | 10 | 3 | 0.998 |
-| 10.0 | 0 | 0 | 1.000 |
-
-### Interpretation
-
-The external drive P shifts the operating point on the sigmoid
-activation function (the S-shaped curve that converts a neuron's
-input into a firing rate: low input → almost zero firing, high
-input → almost maximum firing, middle → steepest response).
-At three regimes:
-
-- **Cold (P < 1):** sigmoid is in its flat region. Small slope
-  means weak effective coupling. Few oscillatory modes.
-- **Warm (P ≈ 3-4):** sigmoid is near its inflection point.
-  Maximum slope, maximum effective coupling. Peak oscillation
-  (124 correlation frequencies).
-- **Hot (P > 6):** sigmoid saturates. Slope returns to zero.
-  Coupling dies. Zero oscillation.
-
-This is the **thermal window**: a range of metabolic drive where
-oscillation is sustained. Below or above: silence.
-
-### The palindrome quality trades off against oscillation
-
-At the oscillation peak (P=4), palindrome quality is at its WORST
-(0.897). At silence (P=0 or P=10), palindrome quality is BEST
-(0.998-1.000). The palindrome is most perfect when there is nothing
-to be palindromic about.
-
-This is consistent with the quantum energy partition: oscillation
-requires breaking the palindromic symmetry. The more oscillation,
-the more breaking. But the breaking is structured (palindromic pairs
-degrade together), not random.
-
----
-
-## 4. What Does NOT Work
-
-### Heat releases no modes, and not for the reason given here
-
-This network shows no oscillation at any drive P. The reason given here,
-that the drive shifts the operating point without breaking the structure,
-is wrong on both halves.
-
-The drive enters as a PER-ROW gain, J[i,j] = α·W[i,j]·dS_i/τ_i, and row
-scaling of W is exactly how the magnitude condition fails. The run's own
-residual is nonzero at every P, P = 0 included, and reaches 4.4e-2 at
-P = 3.5, more than the N=20 coupling row at c = 0.10 (3.45e-2, printed in
-the proof) credited with releasing six frequencies. So the structure IS broken and
-no modes appear: the run contradicts the "breaking releases oscillation"
-mechanism rather than supporting it. This is a null against the
-mechanism ([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md)).
-
-The "second mirror" reading, that two contradicting palindromic conditions
-at a shared neuron create the oscillation, is withdrawn. It requires each
-network to satisfy the condition separately with the same S, and the coupled
-object satisfies neither equation at any coupling; the code forms neither
-([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md)). What
-remains is that coupling changes the count and drive does not.
-
-### The 2× decay law does not hold
-
-In quantum systems, unpaired modes decay at exactly 2× the rate of
-paired modes (verified N=2 through N=5). In neural networks:
-
-| N | Paired rate | Unpaired rate | Ratio |
-|---|-----------|-------------|-------|
-| 10 | 0.100 | 0.163 | 1.63 |
-| 50 | 0.150 | 0.150 | 1.00 |
-| 100 | 0.154 | 0.128 | 0.84 |
-
-The ratio varies erratically. The 2× law is specific to the quantum
-Liouvillian structure (exact palindromic pairing with Σγ center)
-and does not transfer to the approximate neural case.
-
----
-
-## 5. The Hierarchy Connection
-
-From [Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md):
-perfect local stability (C=1) prevents connection. Only incomplete
-systems (C<1) can form higher-level structures.
-
-| | Quantum | Neural |
-|---|---------|--------|
-| Building block | Qubit (C=0.5, exact palindrome) | Exact E/I network (residual=0; silent at this seed, not by symmetry) |
-| Coupling | Second bond (N=3) | Mediator between networks |
-| Breaking | 14/36 Pauli combinations break | Palindrome residual rises |
-| Result | 4 → 109 frequencies | 0 → 48 correlation frequencies |
-| Optimum | Q-factor peaks at moderate J/γ | Frequencies peak at coupling 0.01-0.05 |
-
-The neural noble gas was a picture, not a measurement. Exactly palindromic
-networks oscillate and, at strong enough coupling, go unstable. The quantum
-column of this table stands on a theorem; the neural column stands on a
-frequency count whose mechanism is open.
-
----
-
-## 6. Open Questions
-
-1. How does the V-Effect frequency count scale with N?
-   (N=10: 6, N=20: 48. Quadratic? Cubic?)
-2. Does the optimal coupling window narrow or widen with N?
-3. Can the thermal window predict the frequency range of
-   biological neural oscillations (gamma band at ~40 Hz)?
-4. Does the 2× decay law hold in COUPLED exact networks
-   (where the V-Effect creates palindromic-like pairs)?
-
----
-
-## Scripts
-
-| Script | What it computes |
-|--------|-----------------|
-| [veffect_exact.py](../../simulations/neural/veffect_exact.py) | V-Effect with exact palindromic networks |
-| [veffect_and_heat.py](../../simulations/neural/veffect_and_heat.py) | Thermal window, approximate networks, 2× law |
-
----
-
-*Depends on:*
-[Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) (palindrome condition),
-[Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md) (why the mechanism does not hold),
-[Hierarchy of Incompleteness](../HIERARCHY_OF_INCOMPLETENESS.md) (C=1 dead end principle)
+# The neural V-effect: coupling and drive frequency censuses
+
+Last refreshed: 2026-09-05 (change history lives in git).
+
+The V-effect names the nonmonotone frequency-bin census in the synthetic
+coupling and drive sweeps below. Its mechanism is open. Exact conditional
+palindrome pairs full complex eigenvalues; it implies neither realness,
+stability, silence, optimality nor biology. P is an external drive parameter,
+not temperature, heat or metabolic input. These experiments establish no
+mechanism of life or Yerkes-Dodson law.
+
+The named stores checked are [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md)
+(F36/F37 supply conditional complex pairing; F137 separates trace from
+pairing), [docs/proofs](../proofs/MIRROR_SYMMETRY_PROOF.md) (quantum
+conjugation), [the neural proof store](proofs/PROOF_PALINDROME_NEURAL.md)
+(scalar entry conditions), and [experiments](../../experiments/NEURAL_GAMMA_CAVITY.md)
+(connectome support null and matcher controls). The
+[neural clock record](../../experiments/NEURAL_CLOCK_TWO_HANDS.md) supplies
+the trace identity, not invariance of individual rates. The hardware-flight
+search, including [the IBM synthesis](../../experiments/IBM_HARDWARE_SYNTHESIS.md),
+and [fw.Confirmations](../../simulations/framework/confirmations.py) supply
+no neural hardware confirmation. [GLOSSARY](../GLOSSARY.md) distinguishes
+evidence grades; [OpenArcs](../../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
+records conditional F36/F37 carriage with substrate questions open;
+[CAUGHT_ERRORS](../CAUGHT_ERRORS.md) records diagonal, normalization and
+matcher hazards. The current [README](README.md),
+[algebra page](ALGEBRAIC_PALINDROME_NEURAL.md), producers and
+[tests](../../simulations/neural/tests/test_neural_palindrome.py) distinguish
+constructed algebra from synthetic censuses. The committed
+[connectome controls](../../simulations/results/celegans_pairing_controls.txt)
+own a separate support/normalization audit; the
+[cavity output](../../simulations/results/neural_gamma_cavity.txt) explicitly
+rejects its headline pairing interpretation. Neither supplies the counts
+below, which come from the current stdout producers.
+
+## Observable and counting rules
+
+For eigenvalues λ_j of a real Jacobian J, activity frequencies are |Im λ_j|.
+The correlation census forms |Im(λ_i+λ_j)| for every ordered pair, including
+i=j: the spectrum of the formal Kronecker sum J⊗I+I⊗Jᵀ. It computes these
+sums directly, without measuring correlations or simulating co-activation.
+
+At absolute resolution ε, the shared
+[`frequency_counts`](../../simulations/neural/veffect_and_heat.py) discards
+frequencies ≤ ε, applies NumPy `round(frequency/ε)`, and counts distinct bins.
+K_act and K_corr use the same ε. The separate n_osc counts eigenvalues with
+|Im λ|>ε, retaining multiplicity and both conjugate partners. Zero means
+no resolved frequency under this predicate, not exact silence. These are
+not counts of sustained nonlinear oscillations. Frequencies have inverse
+model-time units; no biological Hz calibration is supplied. There is no
+Fourier/time grid: ε is the frequency-bin grid and the parameter grids are
+listed below.
+
+The scalar diagnostic is
+`r_s = ||QJQ+J+2sI||_F / ||J||_F`, with `ei_swap` supplying Q and
+s=(1/5+1/10)/2=0.15. It retains the diagonal and one scalar centre.
+Small coupling can give a small residual without establishing F36.
+
+## Coupling two constructed networks
+
+[`veffect_exact.py`](../../simulations/neural/veffect_exact.py) uses
+`build_exact_weights` from [the shared primitives](../../simulations/neural/neural_palindrome.py).
+Each constituent has N/2 E and N/2 I seats, τ_E=5, τ_I=10, linear gain
+α=0.5. A uses `RandomState(42)`, B `RandomState(99)`. The constructor uses
+a Bernoulli mask parameter 0.3, exponential base scale 0.3, paired-weight
+assignments and division by max|W|. The input mask density is not the final
+support density after partner overwrites. Both balanced constituents satisfy
+F36 by construction. At ε=10⁻⁶ both return K_act=K_corr=0 for N=10 and 20;
+the seed-42 N=30 single-network check also returns zero.
+
+The coupled matrix has N_c=2N+1 seats: A, B and excitatory mediator M=2N.
+For each offset o∈{0,N}, both directions between M and seats o and o+N−1
+receive +c. The Jacobian has J_ii=−1/τ_i and J_ij=αW_ij/τ_i; no fixed-point
+solver is involved. The mediator is fixed by Q and has diagonal −0.2
+rather than −s=−0.15. Thus this matrix fails F36 even at c=0. At c>0 the
+positive bridge also violates Dale source signs on one inhibitory column
+at N=10 and two at N=20. The exact constituents do not make this bridge
+an exact-palindromic or Dale-preserving perturbation.
+
+| c | N=10: K_act | K_corr | r_s | N=20: K_act | K_corr | r_s |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0.00 | 0 | 0 | 0.132127 | 0 | 0 | 0.095731 |
+| 0.01 | 2 | 6 | 0.132222 | 6 | 48 | 0.095793 |
+| 0.05 | 3 | 12 | 0.134480 | 7 | 62 | 0.097267 |
+| 0.10 | 3 | 12 | 0.141293 | 6 | 47 | 0.101734 |
+| 0.30 | 1 | 2 | 0.199466 | 5 | 34 | 0.140645 |
+| 0.50 | 1 | 2 | 0.279759 | 5 | 33 | 0.195902 |
+| 1.00 | 0 | 0 | 0.490095 | 5 | 31 | 0.347980 |
+
+“0+0=48” means zero constituent bin counts and 48 correlation bins for
+N_c=41, c=0.01, ε=10⁻⁶. It does not count modes released by a symmetry.
+N=10 returns to zero at c=1; N=20 still returns 31.
+
+The N=10 table survives ε/4, ε/16 and transposition. N=20 is numerically
+sensitive: at c=0.05 its (K_act,K_corr) reads (7,62), (8,72), (8,73) at
+ε=10⁻⁶, 2.5×10⁻⁷, 6.25×10⁻⁸. At the original ε, Jᵀ returns (7,64).
+Even c=0 reads (0,0) for J and (2,7) for Jᵀ. Transposition preserves the
+exact spectrum: these changes expose numerical sensitivity, not different
+physical modes. Neither 48 nor 62 is an established resolution-independent
+count.
+
+## External drive on one random Dale network
+
+[`veffect_and_heat.py`](../../simulations/neural/veffect_and_heat.py) uses one
+synthetic network: N=50, 25E+25I, `RandomState(42)`, mask density 0.3,
+exponential weight scale 0.3, zero self-coupling, source-column Dale signs
+and division by max|W|. No F36 magnitude relation is imposed. With
+τ_E=5, τ_I=10 and α=0.3, its model is
+
+```
+τ_i dx_i/dt = −x_i + S_i(α(Wx)_i + P),
+S_i(z) = 1 / (1 + exp(−a_i(z−θ_i))),
+(a_E,θ_E) = (1.3,4.0),  (a_I,θ_I) = (2.0,3.7).
+```
+
+Each P starts independently at x_i=0.3. The synchronous solver allows
+5000 iterations, requiring max|x_next−x|<10⁻¹² and the fresh equation
+residual max|x−S(αWx+P)|≤10⁻¹². Exhaustion raises an error. At the accepted
+point, g_i=a_i S_i(1−S_i) and
+J=diag(1/τ_i)[−I+α diag(g_i)W]. Drive changes row gains; this dependency
+alone does not explain the particular frequency census.
+
+The full P grid below uses ε=10⁻⁴. Every endpoint converges; the largest
+fresh equation residual is 5.17×10⁻¹⁴. Tightening the solver tolerance to
+10⁻¹⁴ leaves all listed K_act/K_corr unchanged.
+
+| P | n_osc | K_act | K_corr |
+|---:|---:|---:|---:|
+| 0.0 | 10 | 2 | 4 |
+| 0.5 | 14 | 3 | 7 |
+| 1.0 | 18 | 6 | 13 |
+| 1.5 | 32 | 8 | 22 |
+| 2.0 | 38 | 13 | 39 |
+| 2.5 | 40 | 17 | 60 |
+| 3.0 | 40 | 19 | 90 |
+| 3.5 | 40 | 15 | 107 |
+| 4.0 | 40 | 19 | 124 |
+| 5.0 | 38 | 15 | 81 |
+| 6.0 | 30 | 9 | 34 |
+| 8.0 | 10 | 2 | 3 |
+| 10.0 | 0 | 0 | 0 |
+
+124 is the largest K_corr on this declared P grid for this N=50, seed-42
+network, solver and ε. It is not a crossing value, universal constant,
+continuous-P optimum or biological frequency count. At P=0 the count is
+four, not zero. Resolution controls give:
+
+| P | K_corr, ε=10⁻⁴ | ε=2.5×10⁻⁵ | ε=6.25×10⁻⁶ |
+|---:|---:|---:|---:|
+| 0 | 4 | 13 | 48 |
+| 4 | 124 | 286 | 403 |
+| 10 | 0 | 0 | 4 |
+
+The sampled rise and fall survives; the counts and endpoint silence do
+not. This drive network also fails F36: r_s at P=4 is 0.102517, and at
+P=10 it remains 0.000159 rather than zero.
+
+## Companion measurements
+
+The random-network producer also couples seed-42 and seed-99 constituents
+at P=1.5, α=c=0.3, with the same bridge, density, τ_E/τ_I=5/10 and solver.
+At ε=10⁻⁴ it reports:
+
+| N per constituent | A: K_act | A: K_corr | Coupled: K_act | Coupled: K_corr |
+|---:|---:|---:|---:|---:|
+| 10 | 1 | 2 | 2 | 6 |
+| 20 | 3 | 12 | 5 | 16 |
+| 50 | 8 | 22 | 11 | 23 |
+| 100 | 15 | 32 | 16 | 33 |
+| 200 | 17 | 34 | 18 | 37 |
+
+Its printed ratios divide by two times A's count, although B uses another
+seed; they are not ratios to a measured sum of A and B.
+
+The constructed N=20, seed-42 network in `veffect_exact.py` separately
+receives sigmoid drive at α=0.5. At P=0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5,
+4, 5, 6 and 8 all endpoints converge and n_osc=K_act=K_corr=0 at ε=10⁻⁶.
+Its linear common-gain matrix satisfies F36; its sigmoid row gains do not:
+r_s=0.00138 at P=0 and 0.0443 at P=3.5. Failure of F36 is insufficient
+to produce a positive census.
+
+The decay table in `veffect_and_heat.py` classifies by |Im λ|>10⁻⁶, not by
+palindrome pairing. For seed-42 random constituents at P=1.5, α=0.3 and
+the same density/time constants, mean(−Re λ) in the real-at-resolution
+group divided by the oscillatory group is 1.626, 0.875, 1.000 and 0.836
+for N=10, 20, 50 and 100. This establishes no 2× decay law.
+
+The exact 200-seed F36 ensemble is separate: N=10, a linear gain scan,
+no mediator and no sigmoid drive. Its counterexamples and the next gates
+belong to the [mechanism constraint page](proofs/PROOF_VEFFECT_MECHANISM.md).
+No replacement mechanism is established.
+
+## Reproduce the census
+
+From the repository root with NumPy, SciPy and pytest. These commands print
+to stdout and do not rewrite tracked results.
+
+POSIX:
+
+```bash
+export PYTHONIOENCODING=utf-8
+python simulations/neural/veffect_exact.py
+python simulations/neural/veffect_and_heat.py
+python simulations/neural/neural_translation_gate.py
+python -m pytest simulations/neural/tests/ -q
+```
+
+PowerShell:
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'
+python simulations/neural/veffect_exact.py
+python simulations/neural/veffect_and_heat.py
+python simulations/neural/neural_translation_gate.py
+python -m pytest simulations/neural/tests/ -q
+```
+
+For the drive resolution table, run the Python block below using POSIX
+`python - <<'PY'` with a closing `PY`, or a PowerShell single-quoted
+here-string (`@'` and `'@`) piped to `python -`:
+
+```python
+import sys
+sys.path.insert(0, 'simulations/neural')
+import numpy as np
+from veffect_and_heat import (
+    make_balanced_dale_network, build_jacobian_with_sigmoid, frequency_counts,
+)
+W, signs = make_balanced_dale_network(50, 25, 0.3, 42)
+for P in [0, 4, 10]:
+    J, x, residual = build_jacobian_with_sigmoid(W, signs, 5, 10, .3, P)
+    values = np.linalg.eigvals(J)
+    print(P, residual,
+          [frequency_counts(values, e) for e in [1e-4, 2.5e-5, 6.25e-6]])
+```
+
+For coupling controls, import `veffect_exact`, replace its module binding
+`frequency_counts` with a wrapper calling the shared function at ε/4 or
+ε/16, then call `main()`; for the transpose control replace its `np.linalg.eigvals`
+binding with a wrapper applying a saved original function to `J.T`. Run each
+in a fresh Python process. For solver refinement, call `solve_fixed_point`
+with `tol=1e-14`, then rebuild J using the displayed row-gain equation.
