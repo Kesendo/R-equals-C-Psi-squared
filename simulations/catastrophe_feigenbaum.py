@@ -314,7 +314,21 @@ def part_4_structural_stability():
     log("  Thom-Arnold classification. Key property: STRUCTURAL STABILITY.")
     log("  Small perturbations cannot remove the bifurcation, only shift it.")
     log()
-    log("  Our recursion R = C(Ψ+R)² is exactly this fold, with a = 1-4CΨ.")
+    # The identification, checked rather than asserted: depressing CR^2 + (2CPsi-1)R + CPsi^2
+    # by x = R + (2CPsi-1)/(2C) and dividing by C gives x^2 + a with a = -(1-4CPsi)/(4C^2).
+    # The check can fail: a wrong sign or a missing 4C^2 breaks it at any (C, Psi) with C != 1/2.
+    for _C, _Psi in ((0.3, 0.5), (0.8, 0.2), (2.0, 0.1), (0.5, 0.4)):
+        _a = -(1.0 - 4.0 * _C * _Psi) / (4.0 * _C ** 2)
+        _shift = -(2.0 * _C * _Psi - 1.0) / (2.0 * _C)
+        for _x in (-1.7, 0.0, 0.9, 3.1):
+            _R = _x + _shift
+            _lhs = (_C * _R ** 2 + (2.0 * _C * _Psi - 1.0) * _R + _C * _Psi ** 2) / _C
+            assert abs(_lhs - (_x ** 2 + _a)) < 1e-12, (
+                "fold normal form: C=%g Psi=%g x=%g gives %.15g against %.15g"
+                % (_C, _Psi, _x, _lhs, _x ** 2 + _a))
+    log("  Our recursion R = C(Ψ+R)² is exactly this fold. Depressing it by")
+    log("  x = R + (2CΨ-1)/(2C) and dividing by C gives x² + a = 0 with")
+    log("  a = (4CΨ-1)/(4C²) = -D/(4C²), checked above at four (C,Ψ) and four x.")
     log()
     log("  The Renyi uniqueness result (today, March 22) adds:")
     log("  For R = C_α(Ψ+R)^α, the bifurcation threshold is:")
@@ -344,7 +358,7 @@ def part_4_structural_stability():
     log("  D = 0 (CΨ = 1/4): degenerate fixed point (fold bifurcation)")
     log("  D < 0 (CΨ > 1/4): no real fixed points (fold post-bifurcation)")
     log()
-    log("  Normal form substitution: x = R + (2CΨ-1)/(2C), a = (1-4CΨ)/(4C²)")
+    log("  Normal form substitution: x = R + (2CΨ-1)/(2C), a = (4CΨ-1)/(4C²) = -D/(4C²)")
     log("  gives x² + a = 0. This IS the fold catastrophe normal form.")
     log()
 

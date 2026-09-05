@@ -528,7 +528,18 @@ boundary. K_α invariance also confirmed for α=2,3,4 (CV=0% each, different
 K values). Script: [k_scaling_and_renyi.py](../../simulations/k_scaling_and_renyi.py).
 
 **Catastrophe classification.** The fold catastrophe x² + a = 0 IS the
-recursion R = C(Ψ+R)² with a = 1-4CΨ; the normal form is verified explicitly.
+recursion R = C(Ψ+R)², and the identification is one line of algebra rather than
+a numerical finding. Depress the quadratic CR² + (2CΨ-1)R + CΨ² = 0 by
+x = R + (2CΨ-1)/(2C) and divide by C:
+
+    x² + a = 0     with     a = (4CΨ - 1)/(4C²) = -D/(4C²)
+
+exactly, for every C ≠ 0. Since 4C² > 0 the sign of a is the sign of -D, so the
+fold's two real roots sit where a < 0, which is CΨ < 1/4, the side on which the
+recursion has its two real fixed points. The 1/(4C²) is the scaling between the
+recursion's knob and the catastrophe's; on the theorem's domain C ∈ [0,1] the two
+are the same number only at C = 1/2 (read for any real C, as this page states the
+algebra above, C = -1/2 does it as well).
 The Rényi uniqueness result (α=2 only) proves structural stability: only the
 fold has a state-independent boundary. Higher catastrophes (cusp α=3,
 swallowtail α=4) have Ψ-dependent thresholds and are rejected.
