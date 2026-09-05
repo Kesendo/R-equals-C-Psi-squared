@@ -123,32 +123,33 @@ stands in light (`docs/quantum/THE_LABEL_MAP.md:120`; working record: the arc
 `gamma_is_the_sender_not_the_watching`). Q counts turning per tick, not turning
 per glance.
 
-## Temperature enters only through the rate, and one rate was guessed
+## A thermal energy is not a dephasing rate
 
-Pure Z-dephasing exchanges no energy: it leaves the populations in the Z basis
-standing and removes only the off-diagonals. Its steady state is I/d, which is
-the β = 0 Gibbs state, so the repository is right to call it an
-infinite-temperature bath ([`KMS_DETAILED_BALANCE.md`](KMS_DETAILED_BALANCE.md)
-`:250`) rather than a bath with no temperature. What follows is sharper than
-"the formalism has no temperature": the channel **form** is T-independent, and
-the **rate** γ is the only place temperature can enter.
+Pure Z-dephasing is unital. It leaves every density matrix diagonal in the Z
+basis fixed and removes Z-basis off-diagonals; it therefore does not by itself
+select `I/d`, a Gibbs inverse temperature β, or a unique steady state. Once a
+Hamiltonian is added, the stationary set is a property of the full generator.
+For example, the selected finite unbiased-TFI runs in `docs/water/` reach
+`I/d`, whereas the all-site-dephased Heisenberg branch retains the F4 sector
+structure. Neither finite model assigns a bath temperature to the pure-Z
+channel.
 
-So a substrate γ that depends on T is not the error. The error is the
-functional form that was used for it. Two temperature-attributed rates exist in
-the repository and neither carries a derivation. The one the substrate documents
-divide by is a single table row,
-[`docs/water/HYDROGEN_BOND_QUBIT.md`](water/HYDROGEN_BOND_QUBIT.md) `:209`:
+No microscopic bath model, spectral density, cutoff, or system-bath coupling is
+specified for the selected proton coordinate. Thus `k_B T/ℏ` is neither its
+dephasing rate nor a universal bath-correlation time. A substrate γ may depend
+on temperature in a derived model, but it must be measured for that coordinate
+or calculated from a specified spectral density and coupling.
+
+The substrate documents historically divided by a temperature-attributed
+quantity from a single table row in the pre-repair baseline
+`ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/HYDROGEN_BOND_QUBIT.md:209`:
 
 > `| Thermal decoherence (300K, upper bound) | γ ~ kT/ℏ ~ 25 meV | Standard |`
 
 Its source column reads "Standard". A real pure-dephasing rate depends on the
-system-bath coupling strength and vanishes as that coupling vanishes; kT/ℏ is
-coupling-independent, so it cannot be a dephasing rate. It is the inverse
-thermal correlation time of the bath. The one defensible reading of it as a
-ceiling is a validity limit rather than a physical bound: at ħγ ≳ kT the
-Born-Markov assumption behind the Lindblad description fails, so a faster γ
-could not be described by this model in the first place. Everything below
-inherits that caveat, including the conclusion that survives.
+system-bath coupling strength and can vanish as that coupling vanishes; a
+coupling-independent thermal energy cannot supply that rate. Nor can the
+Born-Markov time-scale separation be inferred from temperature alone.
 
 The second temperature-attributed rate is not in a document at all. It is a
 printed line in a runner, `simulations/dna_base_pairing.py:195`, giving γ_deph
@@ -160,12 +161,12 @@ because what it turns out to be is not a second estimate.
 
 | System | Q as written | Numerator | Denominator | Site |
 |---|---|---|---|---|
-| liquid water, 300 K | 0.02 | J ~ 0.5 meV: a round value inside a cited row (Bove 2009, `HYDROGEN_BOND_QUBIT.md:204`) that is scoped to **ice**, applied here to liquid water without comment | the 25 meV estimate | `water/HYDROGEN_BOND_QUBIT.md:211` |
-| Zundel cation | 4.8 | J = 124 meV, no source. `water/PROTON_WIRE_CROSSING.md:246` (its own Open item 1) identifies 124 meV = 1000.1 cm⁻¹ as the H₅O₂⁺ shared-proton stretch fundamental, i.e. a vibrational quantum rather than an inter-site coupling | the 25 meV estimate | `water/HYDROGEN_BOND_QUBIT.md:255` |
+| liquid water, 300 K | 0.02 (historical direct-liquid-water value) | J ~ 0.5 meV: a round value inside the ice-scoped cited row (Bove 2009, pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/HYDROGEN_BOND_QUBIT.md:204`), applied to liquid water without comment | the 25 meV estimate | pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/HYDROGEN_BOND_QUBIT.md:211` |
+| Zundel cation | 4.8 (historical; no current Zundel-Q assignment) | J = 124 meV, no source. The pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/PROTON_WIRE_CROSSING.md:244-251` identifies 124 meV = 1000.1 cm⁻¹ as the H₅O₂⁺ shared-proton stretch fundamental, i.e. a vibrational quantum rather than an inter-site coupling | the 25 meV estimate | pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/HYDROGEN_BOND_QUBIT.md:255` |
 | DNA base pair | 0.01 | J = 0.5 cm⁻¹ | γ = 50 cm⁻¹ ≈ 6.2 meV, and **not** the 25 meV estimate. Both come from the cm⁻¹ set below | `experiments/DNA_BASE_PAIRING.md:96` (J), `:97` (γ) |
-| liquid water again, 300 K | 0.01 | the same J = 0.5 cm⁻¹ | the same γ = 50 cm⁻¹ | `water/PROTON_WATER_CHAIN.md:270`, `simulations/water/proton_water_chain.py:280-285` |
+| liquid water again, 300 K | 0.01 | the same J = 0.5 cm⁻¹ | the same γ = 50 cm⁻¹ | `simulations/water/proton_water_chain.py:280-285` |
 | enzyme active site | ~1 | J ~ 0.5 meV, water's numerator | γ ≈ 0.5 meV, a stipulated 50× reduction of the 25 meV estimate | `hypotheses/PROTEIN_AS_CONCENTRATOR.md:71` |
-| π-conjugated carbon, 300 K | ~100 | Hückel β ≈ 2.4 eV, carried by five documents and cited in none | the same 25 meV, now carrying its caveats at `carbon/README.md:263` and `FROST_CIRCLE_AS_THE_CLOCK_FACE.md:109` | `carbon/README.md:263` |
+| π-conjugated carbon, 300 K | ~100 (historical energy quotient; no current carbon-Q assignment) | Hückel β ≈ 2.4 eV, carried by five documents and cited in none | the 25 meV thermal energy, not an established γ | `carbon/README.md:263` |
 
 Dividing two energies is not itself a defect: ℏ cancels out of a ratio of
 rates, so E_J/E_γ is the same number as (E_J/ℏ)/(E_γ/ℏ). The defect is
@@ -188,15 +189,16 @@ four-parameter set, value for value.
 | J, ordinary H-bond | 0.5 meV | 0.5 cm⁻¹ | 4.03 cm⁻¹ | 8.1 |
 | γ | 25 meV | 50 cm⁻¹ | 201.6 cm⁻¹ | 4.0 |
 | J, Zundel | 124 meV | 250 cm⁻¹ | 1000 cm⁻¹ | 4.0 |
-| K, inter-bond | 0.1 meV (`HYDROGEN_BOND_QUBIT.md:149`) | 20 cm⁻¹ | 0.81 cm⁻¹ | 24.8 |
+| K, inter-bond | 0.1 meV (pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/HYDROGEN_BOND_QUBIT.md:149`) | 20 cm⁻¹ | 0.81 cm⁻¹ | 24.8 |
 
-**What the table shows, and what it does not.** Two consequences are solid. The
-γ row and the Zundel row are displaced by the same factor, so the Zundel Q
-survives the crossing: 250/50 = 5.0 against 124/25.85 = 4.8, using kT at 300 K
-rather than the table's rounded 25. The ordinary-water numerator is displaced by
-twice as much, and that extra factor of two is the entire difference between the
-two Q values the repository carries for one substance; converted rather than
-reused, the cm⁻¹ set gives 4.03/201.6 = **0.02**, the meV table's own number.
+**What the table shows, and what it does not.** The matching displacement of the
+γ and Zundel rows can make historical quotients numerically similar after a unit
+conversion. It does not identify a two-level Zundel coupling: 124 meV is the
+shared-proton stretch fundamental, and the 250 cm⁻¹ candidate is unsourced.
+Neither quotient therefore creates a current physical Zundel-Q assignment. For
+the ordinary-water rows, converting the entries gives the historical energy
+quotient 4.03/201.6 ≈ 0.02; that arithmetic likewise leaves its coordinate,
+coupling, and decoherence channel unresolved.
 
 What the table does **not** show is a mechanism, and an earlier version of this
 section claimed one: values carried across a unit change without converting. The
@@ -216,13 +218,15 @@ So the finding is the attribution and the arithmetic, not the story: the set
 names a source that does not carry it, and it is not the meV table in other
 units. Where 10 to 100 cm⁻¹ actually comes from is open.
 
-The 0.01 it produces stands in ten places, four as water's verdict
-(`HYDROGEN_BOND_QUBIT.md:141`, `PROTON_WATER_CHAIN.md:55`, `:270`,
-`carbon/README.md:386`) and six as DNA's (`HYDROGEN_BOND_QUBIT.md:178`,
-`DNA_BASE_PAIRING.md:47`, `:99`, `:141`, `:219`, and the experiments index at
-`experiments/README.md:138`). Eight of the ten now carry their scope; the two
-bare sweep rows, `HYDROGEN_BOND_QUBIT.md:141` and `DNA_BASE_PAIRING.md:99`, are
-covered by the note in their own section rather than in the row.
+In the pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc`, the
+0.01 appeared in ten places: four water readings
+(`docs/water/HYDROGEN_BOND_QUBIT.md:141`,
+`docs/water/PROTON_WATER_CHAIN.md:55,270`, `docs/carbon/README.md:386`) and six
+DNA readings (`docs/water/HYDROGEN_BOND_QUBIT.md:178`,
+`experiments/DNA_BASE_PAIRING.md:47,99,141,219`, and
+`experiments/README.md:138`). The baseline's two bare sweep rows were
+`docs/water/HYDROGEN_BOND_QUBIT.md:141` and
+`experiments/DNA_BASE_PAIRING.md:99`.
 
 **The rule this leaves.** γ is a rate, obtained either from a measured time as
 1/(2T₂) or computed from a bath spectral density together with a coupling
@@ -241,89 +245,42 @@ the right object for that slot at all is not settled anywhere, and
 `carbon/README.md:281` concedes the underlying two-state degree of freedom is
 not identified.
 
-## Read as times, and the estimate points the other way
+## A conditional ceiling in the selected-coordinate model
 
-With ℏ = 0.6582 meV·ps, and Q = 2·J·T₂/ℏ:
+With ℏ = 0.6582 meV·ps and the repository's `D[Z]` convention,
+`Q = 2·J·T₂/ℏ`. No proton-coordinate `T₂` or microscopic bath model is on
+file, so this relation supplies no water-model lower endpoint.
 
-| Statement | As a time |
-|---|---|
-| the imported estimate, read as a validity limit on the coherence rate: 1/T₂ ≤ kT/ℏ, at kT = 25.85 meV | T₂ ≥ **25.5 fs** |
-| Q = 1 at J = 0.5 meV, the ice-row splitting | needs T₂ = **658 fs** |
-| Q = 1 at J = 10 meV, the top of the strong-H-bond range (Cleland & Kreevoy 1994, 1 to 10 meV; at the bottom of that range, 329 fs) | needs T₂ = **33 fs** |
-| Q = 1 at J = 2.4 eV, Hückel β | needs T₂ = **0.14 fs** |
-
-**Where the floor comes from, and why it is 25.5 fs and not 13.** The estimate's
-one defensible reading is a Markov-validity limit: the bath correlation time
-ℏ/kT must be short against the time the model has the coherence surviving. In
-the Lindblad book a `D[Z]` channel at rate γ decays coherences at 2γ, so the
-condition binds 1/T₂ and not γ, and the floor is T₂ ≳ ℏ/kT = 25.5 fs at
-kT = 25.85 meV. Setting γ ≤ kT/ℏ instead permits T₂ = 13 fs, which is **half**
-the bath correlation time, i.e. exactly the regime where the description being
-used is guaranteed not to apply. The looser floor is self-undermining and the
-correct one is twice as high.
-
-The doubling carries all the way to Q, and every number below is the corrected
-one. Q ≥ 2·J·T₂/ℏ with T₂ ≥ ℏ/kT is simply **Q ≥ 2J/kT**, twice the bare quotient
-J/γ the substrate documents wrote down. For water that is 2·0.5/25.85 = **0.04**,
-not 0.02, and an earlier version of this document applied the doubling to carbon
-while leaving water's endpoint at the discredited 13 fs floor. The bare quotients
-in the provenance table are what those documents computed; the floors on Q are
-twice them.
-
-An upper estimate on γ is a **lower** bound on Q. It can place a system above a
-scale; it can never place one below. The two substrate conclusions therefore
-come apart:
-
-- **Carbon.** The requirement (0.14 fs) sits **186× below** the floor
-  (25.5 fs), i.e. Q ≳ 186. "Far above the framework window" is a lower-bound
-  claim and has a lower bound, so it holds. But a validity limit cannot bound a
-  physical rate, so what is supported is a disjunction and not a milder verdict:
-  **either** Q ≳ 186 for π-conjugated carbon at 300 K, **or** the Lindblad
-  description does not apply there, in which case the framework Q is not defined
-  for it. Both branches also inherit an uncited β.
-- **Water.** The requirement (658 fs for an ordinary hydrogen bond) sits
-  **26× above** the floor, i.e. Q ≳ 0.04. A floor twenty-six times under the
-  requirement decides nothing. "Classical at room temperature, overdamped" is an
-  upper-bound claim on Q, and the estimate supplies no upper bound on Q at all.
-
-**What does bound water's Q from above** is on the same page and was not used.
-A coherence carried by the proton in a hydrogen bond cannot outlive the bond,
-and `HYDROGEN_BOND_QUBIT.md:208` records the H-bond lifetime in liquid water as
-1 to 3 ps (Luzar & Chandler 1996). With T₂ ≲ 3 ps and J = 0.5 meV,
+One illustrative ceiling can be stated only after three additional
+stipulations: a chosen proton coordinate, the ice-derived `J = 0.5 meV`
+convention for that coordinate, and the use of the liquid-water H-bond lifetime
+as a proxy upper bound for its unavailable `T₂`. [Physical
+parameters](water/HYDROGEN_BOND_QUBIT.md#physical-parameters) records that
+lifetime as 1 to 3 ps (Luzar & Chandler 1996). Taking `T₂ ≲ 3 ps` gives
 
 > Q ≲ 2 · 0.5 meV · 3 ps / 0.6582 meV·ps ≈ **4.6**
 
-Two caveats travel with that number and neither is small. The 3 ps is the top of
-a **mean** bond lifetime, not a maximum, so the second digit is not decidable and
-the bound is an order of magnitude. And the J is the ice splitting the table
-above flags as applied to liquid water without comment: both endpoints of this
-band inherit it, so the band is conditional on the very input this document
-criticises. For a strong hydrogen bond at J = 10 meV the same lifetime gives
-Q ≲ 91 and bounds nothing useful.
+This is an illustrative conditional ceiling, `Q ≲ 4.6`, not a measurement or a
+bound for ordinary liquid water. The 3 ps value is the top of a mean bond
+lifetime rather than a maximum or a proton-coordinate coherence time. The
+`J = 0.5 meV` input is an ice-derived convention rather than a direct
+identification of a measured splitting with the matrix element `J`; its mapping
+and validity for liquid water are unverified. Without those stipulations, and
+without a coordinate `T₂` or bath model, the repository assigns no water Q.
 
-So ordinary liquid water sits somewhere in **0.04 ≲ Q ≲ 4.6**. That excludes
-anything carbon-like and it does not confirm the classical verdict. What it does
-is worse for deciding: the band **contains the whole framework-anchor range**
-[0.2, 2.0] (`Q_REGIME_ANCHORS.md:113`, the anchor table at `:7-18`), with room left over
-at both ends. Every anchor the framework names, onset, Balance, the F86 peak, is
-inside the band, so nothing in it can be ruled in or out. The band, not either
-endpoint, is what the repository currently knows.
+## A pre-repair water-folder mismatch
 
-## The water folder had answered the same question twice
-
-[`docs/water/README.md`](water/README.md) `:55`, embedding condition 4:
+The pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc` placed the
+following two readings side by side. At `docs/water/README.md:55`, embedding
+condition 4 read:
 
 > "**Decoherence ~ J** (proton tunneling rates and bath fluctuations on the
 > same picosecond scale) → Q is in the framework's testable range."
 
-[`docs/water/HYDROGEN_BOND_QUBIT.md`](water/HYDROGEN_BOND_QUBIT.md) `:211`:
+At `docs/water/HYDROGEN_BOND_QUBIT.md:211`, it read:
 
 > "For liquid water at 300K: J ~ 0.5 meV, γ ~ 25 meV. J/γ ~ 0.02.
 > Classical regime. The palindrome exists but is overdamped."
-
-That is the text as it stood until this audit; the second sentence has since
-been replaced there, and that page now carries the band and links here, so the
-two no longer disagree. What is worth keeping is how long they did.
 
 Same substance, same question. The README does not estimate a Q, it asserts one
 as an **embedding condition** ("under these conditions the F-chain inherits"),
@@ -373,9 +330,11 @@ not.
 
 ## What this does not claim
 
-- Not that water is quantum at room temperature, and not that it is classical.
-  The band 0.02 ≲ Q ≲ 4.6 is what the sources support; both verdicts in the
-  repository were stated outside it.
+- Not that ordinary liquid water has an assigned Q, or that it is quantum at
+  room temperature, or that it is classical. The sole water-adjacent numerical
+  statement is the illustrative conditional ceiling `Q ≲ 4.6`, which requires a
+  chosen coordinate, the ice-derived `J = 0.5 meV` convention, and the H-bond
+  lifetime proxy for the absent coordinate `T₂`; it has no lower endpoint.
 - Not a value for T₂ of the proton coordinate in a hydrogen bond. That number
   is not in this repository and this document does not supply one.
 - Not that the substrate Q values are arithmetically wrong. Given their inputs
@@ -396,16 +355,16 @@ not.
 
 ## Open
 
-- **The one missing number.** T₂ of the proton coordinate in a confined
-  hydrogen bond. With J already in the literature it collapses the band above
-  to a value. `docs/water/README.md:179` already scoped the search (a γ_Z(T)
-  estimate plus pump-probe IR data) and deferred it.
-- **The Zundel J.** 124 meV is unsourced and suspected to be a stretch
+- **Missing inputs for a water-model Q.** A proton coordinate, its associated
+  coupling, and a decoherence channel must all be selected. A
+  proton-coordinate T₂ would constrain the last input, but cannot alone
+  collapse a band. [The README's open follow-ups](water/README.md#open-follow-ups)
+  scopes the needed γ_Z(T) estimate and pump-probe IR data.
+- **The Zundel coupling.** 124 meV is unsourced and suspected to be a stretch
   fundamental; `experiments/DNA_BASE_PAIRING.md:96` carries the same cation at
-  250 cm⁻¹ ≈ 31 meV. The factor of four between them is the same displacement the
-  section above finds on the denominator, which is why the two Zundel Q values
-  agree; it does not tell us which numerator is right, and neither is sourced.
-  Open item 1 of `water/PROTON_WIRE_CROSSING.md:242`.
+  250 cm⁻¹ ≈ 31 meV. The historical 4.8 and 5.0 figures assign no current
+  Zundel Q; neither candidate coupling is sourced. [Open item 1](water/PROTON_WIRE_CROSSING.md#open)
+  retains the primary-source question.
 - **Where 10 to 100 cm⁻¹ came from.** The cm⁻¹ set names a source that does not
   carry it. Whether the range has a real origin elsewhere, or is the meV numbers
   transcribed, is not settled here. Two of the repository's substrate Q values

@@ -1,203 +1,155 @@
-# Water Domain (Hydrogen-Bond Qubit + Grotthuss Proton Chain)
+# Water-domain map: neutral proton-position wire
 
-The framework's structural inheritance applied to water. Hydrogen bonds carry a
-proton between two wells (donor / acceptor); the proton IS a qubit (d=2), and the
-F1 palindrome holds bit-exact. How far the rest of the F-chain follows, and what its
-grading means once it gets here, is [the crossing pass](PROTON_WIRE_CROSSING.md).
+This directory maps selected framework statements onto a deliberately narrow
+theoretical model: a **chosen two-level proton-position coordinate** (`|L⟩` /
+`|R⟩`) in a neutral, oriented, single-file, one-dimensional proton wire. It is
+not a model of a whole water molecule, bulk liquid water, ice, a branched
+network, an excess proton, a charged Grotthuss carrier, or a transport
+calculation.
 
-## Contents
+The local Z-dephasing channel and the selected Hamiltonian (including its
+coupling `J`) are modelling assumptions. They are not measured facts about
+water. The canonical scope, dipole map, and exclusions are in [the proton-wire
+crossing pass](PROTON_WIRE_CROSSING.md).
 
-- [HYDROGEN_BOND_QUBIT.md](HYDROGEN_BOND_QUBIT.md) (Tier 2, 2026-03-28): single
-  proton in a hydrogen bond as qubit; CΨ crossing through 1/4; double-well
-  tunneling timescales.
-- [PROTON_WATER_CHAIN.md](PROTON_WATER_CHAIN.md) (Tier 2, 2026-04-01): Grotthuss
-  proton chain N = 1..5 via Heisenberg (XX+YY+ZZ) and TFI (transverse-field
-  Ising) mappings. V-Effect table, sacrifice zone, DNA-comparison Phase 6.
-- [PROTON_WIRE_CROSSING.md](PROTON_WIRE_CROSSING.md) (Tier 2, 2026-07-31): the
-  crossing pass. What the framework's popcount grading IS on a proton wire (the
-  dipole moment, exactly), which of this folder's results are therefore
-  fixed-dipole statements, and what crosses regardless.
+The crossing pass controls the scope of this directory. Linked sibling pages
+record finite calculations for the selected coordinate; they do not enlarge
+this neutral-wire model into a molecular, charged-carrier, or transport claim.
 
-## Scripts
+## Map of this directory
 
-In [`simulations/water/`](../../simulations/water/):
+- [HYDROGEN_BOND_QUBIT.md](HYDROGEN_BOND_QUBIT.md) introduces the chosen
+  two-position coordinate for one O-H···O linkage.
+- [PROTON_WATER_CHAIN.md](PROTON_WATER_CHAIN.md) records the finite-chain
+  model calculations.
+- [PROTON_WIRE_CROSSING.md](PROTON_WIRE_CROSSING.md) supplies the domain map:
+  the neutral-wire dipole identity, the fixed-dipole boundary, the bias
+  exception, and the excluded physical situations.
 
-- `hydrogen_bond_qubit.py`: single-proton qubit + double-well computation.
-- `hydrogen_bond_palindrome.py`: water-chain Jacobian palindrome check.
-- `proton_water_chain.py`: full N=1..5 V-Effect + thermal + sacrifice analysis.
-- `proton_chain_memory_reading.py` (2026-05-04): trio's state-level diagnostics
-  (Frobenius static/memory partition + Π²-odd-fraction + per-proton Bloch
-  reading) on Heisenberg + Z-dephasing chain. Counterpart to the IBM Torino
-  single-qubit analysis in `simulations/memory_reading_ibm_torino.py`.
-- `proton_chain_dicke_anchor.py` (2026-05-17): F86b 3/8 Dicke-K-intermediate
-  anchor inheritance at t = 0 plus the (N+2)/[4·(N+1)] long-time α(∞) decay
-  (see Findings below). Bit-exact N = 4..16.
-- `proton_wire_crossing.py` (2026-07-31): the crossing-pass gate, 50 checks.
-  The dipole identity on every basis state, the currency table, the kernel
-  contrast between Heisenberg and the physical proton model, and the F1
-  palindrome across the inventory.
-- `proton_chain_ep_resonance.py` (2026-05-04 evening): F86 K_CC_pr per-bond
-  Q-scan on the popcount-(2, 3) block (c = 3) at N = 5, plus the popcount-
-  coherence-state state-level reading at the interior Q_peak. Confirms
-  the framework's Tier-1-candidate Interior HWHM-/Q* ≈ 0.746 and Endpoint
-  ≈ 0.766, both within tolerance of the abstract-qubit-level prediction
-  (0.756, 0.770).
+The associated model scripts live in
+[`simulations/water/`](../../simulations/water/), including
+`proton_wire_crossing.py`, `proton_chain_dicke_anchor.py`, and
+`proton_water_chain.py`.
 
-## Embedding Conditions
+## Embedding conditions, kept separate
 
-The framework's inheritance into water is clean because the four embedding
-conditions hold:
+The following are different kinds of statement; none follows merely from
+calling the coordinate a proton qubit.
 
-1. **2-Well tunneling** (proton in O-H...O double well) → d = 2 directly.
-2. **Z-dephasing** (water bath couples to proton position) → F1 palindrome form.
-3. **Uniform-J coupling** (Grotthuss adjacent-water tunneling) → Heisenberg /
-   XY chain.
-4. **Decoherence ~ J** (proton tunneling rates and bath fluctuations on the
-   same picosecond scale) → Q is in the framework's testable range.
+1. **Exact model algebra.** [F1](../ANALYTICAL_FORMULAS.md) is exact only
+   under its stated Hamiltonian and local-Z-dephasing hypotheses. In this
+   water mapping, the un-biased model must exclude the displayed longitudinal
+   double-well bias `Δ Σ_l Z_l`; see [the bias exception](PROTON_WIRE_CROSSING.md#the-bias-field-is-the-same-operator).
+   The un-biased transverse-field-Ising calculation has a machine-zero F1
+   residual in this selected model. That is a model result, not a property
+   measured for water.
 
-Under these conditions the F-chain (F1 → F4 → F49 → F71 → F77 → F78 → F79 →
-F80 → F81 → F82 → F83 → F84 → F85 → F86 → F87 → F88a → F88b) inherits to the chemistry
-without re-derivation. The inheritance is not uniform across that chain, and
-[the crossing pass](PROTON_WIRE_CROSSING.md) says where it divides: the members graded
-by the popcount (F4, F86b, F88b, F98) are statements about the wire's fixed-dipole
-sectors, while the palindrome members (F1, F87) hold on the physical proton model too.
+2. **Fixed-dipole structural results.** These require their own premises,
+   rather than one blanket “fixed-dipole” qualifier.
 
-## Comparison to Hardware
+   - [F4](../ANALYTICAL_FORMULAS.md)'s principal stationary-mode formula is
+     for the Heisenberg Hamiltonian at `Σγ = 0`. Its separate
+     **dephased-kernel extension** concerns a Heisenberg connected component
+     with local Z-dephasing on every site; it is this extension that yields
+     the `N + 1` kernel count under its stated conditions.
+   - F86b's `3/8` K-intermediate anchor, stated in [F88b's
+     multi-state Dicke extension](../ANALYTICAL_FORMULAS.md), is a static
+     formula for its specified even-`N` Dicke superposition.
+   - [F88b](../ANALYTICAL_FORMULAS.md) is the stated Krawtchouk formula
+     for its popcount-coherence inputs; its dynamical memory reading retains
+     F88b's own conditions.
+   - [F98](../ANALYTICAL_FORMULAS.md) additionally requires the
+     K-intermediate Dicke state, a magnetization-conserving Hamiltonian
+     (`[H, Ŵ] = 0`), all-site Z-dephasing, and a sector-uniform initial
+     diagonal. It is not implied by the F1 palindrome class.
 
-The water domain is the framework's CANONICAL setup: pure Z-dephasing with no
-T1 drives all states toward I/d (the d=0 axis, maximally mixed). Real qubit
-hardware (IBM, Google) has T1 amplitude damping which breaks the d=0-axis
-prediction by introducing a preferred direction (Z+ thermal). See the parallel
-[`simulations/memory_reading_ibm_torino.py`](../../simulations/memory_reading_ibm_torino.py)
-analysis for the hardware case.
+3. **Physical parameter assumptions.** The position coordinate, the choice
+   of `J`, and the selected Hamiltonian and decoherence channel are inputs to
+   the model. The repository does not identify a measured water value of
+   `Q = J/γ` from these calculations.
 
-## Findings since May 4
+4. **Excluded situations.** Bulk water, ice, branches, an excess proton, a
+   charged Grotthuss carrier, and a transport rate are outside this state
+   space. The [crossing pass's scope](PROTON_WIRE_CROSSING.md#scope-stated-plainly)
+   explains why.
 
-### F86b 3/8 K-intermediate anchor → 1/4 asymptote bridge (2026-05-17 evening)
+## Comparison to hardware
 
-The F86b 3/8 Dicke-K-intermediate anchor (Tier 1 derived this morning via X⊗N-
-eigenbasis decomposition, commit `b9ba5f6`, `compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs`)
-states: the Dicke superposition `ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩) / √2` on even N has
-Π²-odd Frobenius² total `α_total = 3/8` at t = 0 exactly.
+The pure-Z model is unital and fixes every Z-diagonal density matrix; it does
+not alone select `I/d`, a Gibbs β, or a unique steady state. In the
+crossing-pass calculations at `N = 3, 4, 5`, the selected un-biased TFI model
+has a one-dimensional kernel and reaches `I/d`; that finite-model calculation
+is not a general TFI theorem. The all-site-dephased Heisenberg branch instead
+retains the F4 sector structure. Hardware T1 amplitude damping introduces a
+preferred direction and therefore changes the comparison. See
+[`simulations/memory_reading_ibm_torino.py`](../../simulations/memory_reading_ibm_torino.py).
 
-Testing the inheritance to the proton water chain (Heisenberg + Z-dephasing,
-`simulations/water/proton_chain_dicke_anchor.py`) finds the closed-form bit-
-exactly at t = 0; F86b inheritance to the chemistry-grounded substrate
-confirmed, as expected from the four embedding conditions.
+Repository-recorded hardware flights test framework qubit models; they do not
+confirm water chemistry. This is not a statement about what hardware evidence
+may exist outside the repository.
 
-The new finding is the *long-time* behaviour under L evolution:
+## F86b and F98 in the selected model
 
-```
-α(∞)_KIntermediate(N even) = (N + 2) / [4·(N + 1)]
-```
-
-Bit-exact verified N = 4..16 via the script. Two ingredient closed forms enter the
-derivation:
-
-1. `‖P_{N/2−1}_odd‖² = C(N, N/2−1) / 2`: Π²-odd Frobenius² of the sub-mid sector
-   projector is **exactly half its rank**. Verified N = 4..16 via direct Krawtchouk
-   enumeration over Pauli-string supports.
-2. `‖P_{N/2}_odd‖² = 0`: mid-popcount Krawtchouk parity vanishing (odd-k
-   `K_k(N/2; N) = 0`). Standard.
-
-Combined via the kernel projection `ρ_∞ = (1/2)/C(N, m)·P_m + (1/2)/C(N, m+1)·P_{m+1}`:
+For even `N`, the K-intermediate Dicke state
 
 ```
-α(∞) = C(N, N/2) / [2·C(N+1, N/2)] = (N+2) / (4(N+1))
+ψ = (|D_{N/2−1}⟩ + |D_{N/2}⟩) / √2
 ```
 
-The asymptote at N → ∞ is exactly **1/4**: the `HalfAsStructuralFixedPoint²` =
-Mandelbrot cardioid maxval = Theorem 2 ceiling = CΨ fold boundary documented in
-`QuarterAsBilinearMaxvalClaim` and tied to `HalfAsStructuralFixedPointClaim`, both in
-`compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs`. The morning's
-*static* 3/8 anchor and the framework's *universal* 1/4 are connected by an
-explicit N-dependent decay curve traversed by KIntermediate states under Heisenberg-
-XY + Z-dephasing dynamics:
+has the F86b static output
 
 ```
-N=4:  α(0) = 3/8 = 0.375  → α(∞) = 3/10 ≈ 0.300   (Δ to 1/4 = 1/20)
-N=10: α(0) = 3/8 = 0.375  → α(∞) = 3/11 ≈ 0.273   (Δ to 1/4 = 1/44)
-N=20: α(0) = 3/8 = 0.375  → α(∞) = 11/42 ≈ 0.262  (Δ to 1/4 = 1/84)
-N→∞:  α(0) = 3/8          → α(∞) → 1/4            [universal boundary]
+α(t = 0) = 3/8.
 ```
 
-The water-chain experiment uncovered this because it asked a question that the
-abstract framework hadn't asked: not "what is α_total at t = 0" (the F86b
-question, closed in static form) but "what is α_total at t = ∞". The closed form is
-not specific to chain XY: it holds for any magnetization-conserving Hamiltonian with
-Z-dephasing on every site, and the bond topology drops out with it. That single
-condition is the whole premise; the palindrome class is not part of it, and neither
-is connectedness or uniform γ. `H = Σ_a X_a X_{a+1}` is truly-class and does not
-conserve magnetization, and it sends the same state to `I/2^N`, giving α(∞) = 0,
-while a soft DM chain and even `H = 0` land on the F98 value exactly; see
-[the F98 scope gate](../../simulations/f98_scope.py). The Heisenberg chain these
-water results were computed on conserves magnetization, which is why they hold.
+With the selected Heisenberg Hamiltonian and all-site Z-dephasing,
+[`proton_chain_dicke_anchor.py`](../../simulations/water/proton_chain_dicke_anchor.py)
+reproduces that structural identity and the F98 model output
 
-**Two new closed forms** (Tier 1 derived, bit-exact verified N=4..16):
+```
+‖P_{N/2−1, odd}‖² = C(N, N/2−1) / 2
+α(∞)_KIntermediate = (N + 2) / [4(N + 1)] → 1/4.
+```
 
-- `‖P_{N/2−1}_odd‖² = C(N, N/2−1) / 2`
-- `α(∞)_KIntermediate(N even) = (N + 2) / [4·(N + 1)]`
+These are formula and model outputs, not water measurements. More generally,
+F98 is the result with the K-intermediate Dicke state, a
+magnetization-conserving `H`, all-site Z-dephasing, and a sector-uniform
+initial diagonal; its conclusion does not cover arbitrary initial states or a
+Hamiltonian that changes `Ŵ`. The [F98 scope gate](../../simulations/f98_scope.py)
+and [crossing pass](PROTON_WIRE_CROSSING.md) give the contrasting cases.
 
-## The crossing pass, 2026-07-31
+## Dipole crossing and the bias boundary
 
-[The proton wire crossing](PROTON_WIRE_CROSSING.md) asks the question this folder had
-never asked of itself: what is the framework's grading, the popcount
-`Ŵ = Σ_l (I − Z_l)/2`, in a substrate whose qubit is a proton's **position** rather
-than a site's occupation? Nothing is being counted, so the operator cannot be a
-particle number the way it is in [carbon](../carbon/README.md).
+Only for a neutral point-charge wire with equal O···O spacing and a chosen
+orientation in one dimension does
 
-It is the wire's **electric dipole moment**, exactly: with the wire neutral in every
-configuration, `μ = Σ_j j·q_j` is origin-free and equals the popcount identically
-(verified on every basis state, N = 3..6). So `Ŵ` counts the protons that have crossed
-their own bond, and `[Ŵ, H] = 0` says not "the molecule does not ionize" but **the
-total dipole is fixed**.
+```
+μ = Ŵ = Σ_l (I − Z_l)/2
+```
 
-That relocates every popcount-graded result in this folder rather than removing any.
-F98, the F86b anchors, the F88b split and the F4 kernel are all bit-exact and all
-describe the wire's fixed-dipole sectors; the physical proton model (TFI) moves the
-dipole, and its Liouvillian kernel is one-dimensional at every N tested. Fixed dipole
-is not zero motion: `XX+YY` moves protons across their bonds in correlated pairs whose
-displacements cancel. What crosses regardless is the F1 palindrome, machine-zero on the
-physical model included, broken by the double-well bias, which is the same dipole
-operator coupled to a uniform electric field along the wire.
+hold, in units of elementary charge times the spacing. Under those conditions
+`[Ŵ, H] = 0` fixes the **total** dipole; it does not prohibit movement.
+`XX+YY` can move protons in correlated opposite directions while their net
+dipole displacement remains zero. The full derivation and its limits are in
+[the crossing pass](PROTON_WIRE_CROSSING.md#the-answer-popcount-is-the-wires-dipole-moment).
 
-The pass also narrowed an over-wide quantifier on F98 that had propagated from this
-README into three carbon docs and one typed claim; no verified number moved.
+The un-biased TFI F1 result is therefore only a result of this selected model.
+The longitudinal `Δ Σ_l Z_l` bias is the dipole coupled to a uniform field and
+is the relevant F1 exception here; see [the bias-field discussion](PROTON_WIRE_CROSSING.md#the-bias-field-is-the-same-operator).
 
-## Deferred Threads
+## Open follow-ups
 
-Open follow-up directions, parked here to be picked up when we next walk past:
-
-- **T-sweep as external chemistry hook (2026-05-04).** In water, J (proton
-  tunneling rate in the O-H...O double well) is largely T-stable, while γ_Z
-  (the Z-dephasing rate γ₀ in the framework convention; here the bath-fluctuation
-  rate from thermal motion) scales with temperature. Q = J / γ_Z(T) therefore
-  sweeps through the F86 resonance window as T varies. The Tier-1-candidate
-  EP-rotation universality (verified in the abstract framework, on IBM Torino,
-  and now in the proton chain; see PROTON_WATER_CHAIN.md §EP-Resonance
-  Inheritance) predicts a T-specific spectroscopic signature in the O-H stretch
-  band (~3400 cm⁻¹) with HWHM-/Q* ≈ 0.75. Picking this up needs (a) a γ_Z(T)
-  estimate for liquid / ice / confined water and (b) a literature search for
-  matching pump-probe IR data. Not a five-minute appendix; flagged for a
-  separate session.
-
-- **Π²-odd/memory popcount-mirror refinement (2026-05-04, RESOLVED).** The
-  earlier "0.5 exactly at any HD any bit positions" claim (now carried by
-  [PROOF_F86B_UNIVERSAL_SHAPE §Statement 2](../proofs/PROOF_F86B_UNIVERSAL_SHAPE.md);
-  the former monolithic PROOF_F86_QPEAK was split 2026-05-14) was refined into
-  a three-anchor closed form via Krawtchouk
-  polynomial analysis: α = 0 at popcount-mirror (odd N central pair),
-  α = (N+2)/(4(N+1)) at near-mirror near-half (even N central pairs),
-  α = 1/2 elsewhere; Π²-odd/memory = (1/2 − α·s) / (1 − s). Bit-exact
-  verified N = 3..16 (Krawtchouk) and N = 3..6 (vs. MemoryAxisRho).
-  Implementation: [`PopcountCoherencePi2Odd.cs`](../../compute/RCPsiSquared.Core/Symmetry/PopcountCoherencePi2Odd.cs)
-  + tests; refinement landed in [PROOF_F86B_UNIVERSAL_SHAPE §F88b popcount-coherence closed form](../proofs/PROOF_F86B_UNIVERSAL_SHAPE.md).
-
-- **DNA Phase 6 (Watson-Crick ↔ Hoogsteen tautomers).** Pre-existing in
-  `proton_water_chain.py`'s Phase 6 sketch; not yet run with the 2026-05-04
-  state-level tooling (MemoryAxisRho, BlochAxisReading) or the K_CC_pr
-  Q-scan. The proton between G-C / A-T pairs satisfies the four embedding
-  conditions on paper; the test would be the same script structure as
-  `proton_chain_memory_reading.py` and `proton_chain_ep_resonance.py` with
-  the asymmetric central-bond parameters from
+- **Temperature and parameters.** A chemistry-grounded relation between a
+  specified environment and the model inputs `J` and `γ` remains to be
+  established. No liquid-water `Q` is asserted here.
+- **Spectroscopy and pump-probe.** Whether a specified observable of a
+  confined neutral wire could read this model's dipole coordinate is an open
+  experimental and literature question. No observed water signature is
+  claimed.
+- **DNA tautomer coordinates.** A DNA application would need its own
+  coordinate, Hamiltonian, channel, and scope check; it does not inherit this
+  water-wire mapping automatically. The existing context is
   [`experiments/DNA_BASE_PAIRING.md`](../../experiments/DNA_BASE_PAIRING.md).
+- **Charged and branched extensions.** Extending the coordinate to an excess
+  proton, a branch, or a transport observable is separate work, not a
+  continuation inside this neutral one-dimensional state space.

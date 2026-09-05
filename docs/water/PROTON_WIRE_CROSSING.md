@@ -8,8 +8,10 @@
 
 Every result in this folder is graded by one number: the popcount `Ŵ = Σ_l (I − Z_l)/2`.
 The F4 kernel is `span(P_0, …, P_N)`, one projector per popcount. F98's long-time value
-is a ratio of binomials in the popcount. F86b's anchors are Dicke states, which are
-popcount eigenstates. F88b reads ρ through popcount sectors.
+is a ratio of binomials in the popcount. F86b's static Dicke anchor instead has its own
+state premise: a specified two-popcount Dicke superposition. F88b likewise reads its
+specified states through popcount sectors. These individual state premises neither make
+the F86b superposition a popcount eigenstate nor transfer automatically through `[Ŵ, H] = 0`.
 
 The [carbon crossing pass](../carbon/BENZENE_THREE_DEPHASE_LETTERS.md) had to ask what
 that operator is in its substrate, and the answer there was easy: the carbon qubit is
@@ -117,10 +119,11 @@ The physical model has a one-dimensional kernel: the maximally mixed state and n
 else. Reading `Ŵ` as the dipole says why. F4's kernel is one stationary mode per value
 of the dipole, which is a conservation law only as long as the dipole is fixed.
 
-**So the popcount-graded results in this folder describe the wire's fixed-dipole
-sectors.** F98's `α(∞) = (N+2)/[4(N+1)]`, the F86b anchors, the F88b memory split and
-the F4 kernel are all correct, all bit-exact, and all statements about a wire whose
-displaced charge never changes.
+**The fixed-dipole/dynamical results in this folder are the F4 kernel and F98's
+`α(∞) = (N+2)/[4(N+1)]`; their transfer to the wire requires `[Ŵ, H] = 0`.**
+F86b's static Dicke anchor remains under its own two-popcount Dicke-superposition
+premise, and F88b's memory split under its individual state premise. Neither is an
+automatic fixed-dipole transfer through `[Ŵ, H] = 0`.
 
 Fixed dipole is not zero motion, and the difference is worth being exact about. Under
 `XX+YY` protons do cross their bonds; they cross in correlated pairs whose displacements
@@ -232,7 +235,7 @@ diagonal within each of its two sectors. That last part is a property of the sta
 of H, so the result does not extend to arbitrary initial states: off a sector-uniform
 one, H must also mix within a sector, and `Σ ZZ` does not.
 
-The premise is now stated as `[H, Ŵ] = 0` in [the formula registry](../ANALYTICAL_FORMULAS.md#f98)
+The premise is now stated as `[H, Ŵ] = 0` in [the formula registry](../ANALYTICAL_FORMULAS.md)
 with a Valid-for / Breaks-for pair, and in the four downstream docs, one committed
 script and one typed claim that carried the old one. Every verified instance was already
 inside the corrected premise, so no number moved.
@@ -241,14 +244,11 @@ inside the corrected premise, so no number moved.
 
 ## Open
 
-1. **The Zundel J.** [The hydrogen bond as a qubit](HYDROGEN_BOND_QUBIT.md) uses
-   `J (tunneling) = 124 meV` for the Zundel cation, and that section cites no source.
-   `124 meV = 1000.1 cm⁻¹`, which is the region of the H₅O₂⁺ shared-proton **stretch
-   fundamental** rather than a tunnelling splitting. If that identification holds, the
-   row's `J/γ = 4.8` moves with it, and so do the downstream Zundel numbers. **Not yet
-   verified against primary sources**; the unit conversion and the missing citation are
-   checked, the spectroscopic identification is not. This wants a reading of the primary
-   literature before anything is rewritten.
+1. **The Zundel parameterization.** The older parameterization remains unresolved: its
+   energy scale may be a H₅O₂⁺ shared-proton stretch fundamental rather than a tunnelling
+   coupling. [The hydrogen bond as a qubit](HYDROGEN_BOND_QUBIT.md) now withholds Zundel
+   `Q` and crossing derivations. A primary-source reading is required before assigning a
+   tunnelling coupling or making any replacement numerical claim.
 2. **The branching oxygen.** The dipole identity is oriented-1D. Bulk water and ice need
    the charge read as a popcount over incident bonds, which is a different operator.
 3. **The charged wire.** Adding an excess proton leaves this state space. Whether the

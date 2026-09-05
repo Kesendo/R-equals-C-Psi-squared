@@ -284,17 +284,17 @@ through a hydrogen bond creates 104 new frequencies (V-Effect).
 The hydrogen bond is the palindromic coupling mechanism between
 Level 0 (qubit) and chemistry (molecules).
 
-Three regimes, depending on how fast the proton tunnels (J) compared
-to how fast the environment disturbs it (γ): J/γ ≪ 1 (classical), J/γ ~ 1
-(the critical boundary, strong H-bonds in enzymes), J/γ ≫ 1 (quantum, low
-temperature). Which of these bulk water at 300 K is in is not settled: the
-number once used to place it there is a floor, and the supported band
-0.04 ≲ Q ≲ 4.6 reaches, at its top, the value this same page calls quantum for
-the Zundel cation, and spans everything below
+For a chosen two-level model, the ratio `Q = J/γ` distinguishes the
+low- and high-coupling sides of its parameter scan. Ordinary liquid water
+has no repository Q or lower bound: its coordinate, coupling, and decoherence
+channel have not been fixed together. The sole water-adjacent number is an
+illustrative selected-coordinate proxy ceiling, `Q ≲ 4.6`, conditional on the
+ice-derived `J = 0.5 meV` convention and on using the 1–3 ps H-bond lifetime
+as a proxy for an unavailable coordinate `T₂`
 ([Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md)).
-In the Zundel configuration (proton centered, H₅O₂⁺): J/γ = 4.8,
-CΨ crosses 1/4 six times in 21 fs. Water is not near the fold.
-Water IS the fold, at every proton transfer.
+
+The repository likewise assigns no Zundel Q: the earlier 124-meV assignment
+does not establish a two-level coupling or a decoherence channel for H₅O₂⁺.
 See [Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md).
 
 Note: a classical model of the same system (treating donor and acceptor

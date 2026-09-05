@@ -3,8 +3,9 @@
 <!-- Keywords: Pi operator not KMS detailed balance, shifted anti-similarity
 Liouvillian, quantum detailed balance Alicki 1977, Roberts hidden time-reversal
 symmetry PRX Quantum 2021, tenfold Lindbladian classification Sa Prosen 2023,
-Buca-Prosen weak strong symmetry gap, infinite temperature dephasing bath,
-finite temperature obstruction 2:2 split Pi operator not palindrome, maximum entropy production rate
+Buca-Prosen weak strong symmetry gap, pure Z-dephasing algebra,
+finite-temperature thermal-jump comparison, 2:2 split Pi operator not palindrome,
+algebraic palindrome shift
 2Sgamma, R=CPsi2 KMS detailed balance -->
 
 **Status:** Literature review + formal analysis complete
@@ -25,9 +26,9 @@ The answer is no. Π is formally distinct from all existing classifications,
 including the most comprehensive 38-class framework (Sá-Prosen 2023).
 The closest relative is the "hidden time-reversal symmetry" of Roberts
 et al. (2021), but even that differs in key structural ways. Π appears
-to be a genuinely new type of Liouvillian symmetry, specific to
-infinite-temperature dephasing, that sits in a gap between existing
-frameworks.
+to be a genuinely new type of Liouvillian symmetry, specific to the pure
+Z-dephasing algebra, that sits in a gap between existing frameworks. That
+channel algebra alone does not identify a thermal bath or a temperature.
 
 ---
 
@@ -44,13 +45,12 @@ Lindbladian classification (Sá-Prosen 2023, 38 classes) does not contain
 Π due to the constant shift 2Sγ (though the shifted-spectrum SHAPE ±λ + ia is
 itself the "shifted sublattice symmetry" of Kawasaki-Mochizuki-Obuse 2022, a
 noninteracting cross-check we found afterward; the interacting Π and its per-site
-locality are new, see Question 1). Finite-temperature generalization of **Π**
-faces a fundamental obstruction: the 2:2 per-site Pauli split that makes Π work
-is specific to pure dephasing (T=∞). The spectral palindrome is a separate
-question and is not obstructed; it survives a thermal bath at the centre
-−Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md#f137)), which is the pairing this
-document's own body computes. The quantity 2Sγ equals the maximum
-entropy production rate in the system.
+locality are new, see Question 1). The known Π construction uses the 2:2
+per-site Pauli split of pure Z dephasing. That is an algebraic property of the
+jump channel, not a bath-temperature assignment. The spectral palindrome for
+thermal jump operators is a separate question; it survives at the centre
+−Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)). Here `2Sγ` is the algebraic
+shift of the pure-Z palindrome, not an entropy-production rate.
 
 ---
 
@@ -58,9 +58,9 @@ entropy production rate in the system.
 
 Π is **not** a standard quantum detailed balance (QDB) condition, but it is closely
 related to a recently identified class of **hidden time-reversal symmetries** in
-open quantum systems (Roberts-Lingenfelter-Clerk, PRX Quantum 2021). The connection
-to the KMS condition at β=0 is structural but not formal: KMS-DB at infinite
-temperature gives self-adjointness of the generator (real spectrum), while Π gives
+open quantum systems (Roberts-Lingenfelter-Clerk, PRX Quantum 2021). The comparison
+to KMS at β=0 is formal, not a bath assignment: a KMS-DB generator with
+equilibrium `I/d` is self-adjoint (real spectrum), while Π gives
 palindromic spectral pairing (complex spectrum with μ → -μ). These are different
 symmetries with different consequences. The Π condition appears to be a genuinely
 new type of Liouvillian symmetry that sits between the Buca-Prosen classification
@@ -206,16 +206,16 @@ The key structural differences:
 | Constant shift | None | 2Sγ |
 | Spectral consequence | Real eigenvalues | Palindromic complex pairs |
 | Involves adjoint? | Yes (L†) | No (L itself) |
-| Steady state role | Central (Θ depends on ρ_ss) | Implicit (shift = 2Sγ) |
+| Steady state role | Central (Θ depends on ρ_ss) | None; the shift is algebraic |
 
 Standard QDB is a statement about the *adjoint* of L being similar to L.
 Our Π is a statement about L being similar to its own *negative*.
 These are orthogonal directions in the space of Liouvillian symmetries.
 
-**A Lindbladian can satisfy both, one, or neither.** Pure dephasing without
-Hamiltonian satisfies both (the eigenvalues are real AND palindromic).
-Heisenberg + dephasing satisfies Π but not QDB (eigenvalues are palindromic
-but complex).
+**A Lindbladian can satisfy both, one, or neither.** Pure dephasing without a
+Hamiltonian is Hilbert-Schmidt self-adjoint and has a real palindromic spectrum;
+that algebraic fact does not choose a thermal state. Heisenberg + dephasing
+satisfies Π but not QDB (eigenvalues are palindromic but complex).
 
 ### The Alhambra-Woods connection (2017)
 
@@ -229,52 +229,49 @@ it pairs modes rather than reversing channels.
 
 ## Question 3: Does KMS at β=0 Reduce to Our Π?
 
-**Classification: UNLIKELY (different symmetries even at β=0)**
+**Classification: UNLIKELY (different symmetries; the pure-Z channel has no β)**
 
-### KMS at infinite temperature
+### The β=0 KMS reference point
 
-At β = 0 (infinite temperature), the equilibrium state is the maximally mixed
-state ρ_ss = I/d. The modular operator becomes:
+For a KMS-detailed-balance generator whose faithful equilibrium state is
+`ρ_ss = I/d`, the modular operator is
 
-    Δ = ρ_ss ⊗ ρ_ss⁻¹ = (I/d) ⊗ (dI) = I
+    Δ = ρ_ss ⊗ ρ_ss⁻¹ = (I/d) ⊗ (dI) = I.
 
-So Θ = I (trivial), and the KMS-detailed balance condition simplifies to:
+Its detailed-balance condition therefore becomes
 
-    L† = L     (self-adjointness in Hilbert-Schmidt norm)
+    L† = L     (self-adjointness in Hilbert-Schmidt norm).
 
-This means: the Liouvillian generator is a self-adjoint superoperator.
-Equivalently: all eigenvalues are real.
+This is a statement about a KMS generator with a specified equilibrium state,
+not a consequence of writing down a pure-Z jump operator.
 
-### Our system at β=0
+### The pure-Z model does not select β = 0
 
-Z-dephasing IS an infinite-temperature bath (it drives the system to
-ρ_ss = I/d). So our system IS at β=0. But our Liouvillian does NOT
-satisfy L† = L, because:
+The pure-Z dissipator is unital and fixes every density matrix diagonal in the
+Z basis. It does not alone select `I/d`, a unique steady state, or a Gibbs β.
+With a Hamiltonian, its stationary manifold is determined by the full
+generator: the selected finite unbiased-TFI runs reach `I/d`, whereas the
+all-site-dephased Heisenberg branch retains the F4 sector structure. Neither
+case makes the pure-Z channel a KMS bath at β = 0.
 
-- The Hamiltonian part L_H(ρ) = -i[H, ρ] is anti-self-adjoint: L_H† = -L_H
-- The dissipator part L_D is self-adjoint (diagonal in Pauli basis with real eigenvalues)
-- Therefore L = L_H + L_D has L† = -L_H + L_D ≠ L
+For the Hamiltonian-plus-dephasing generator,
 
-The KMS condition at β=0 is **not satisfied** by our system (whenever H ≠ 0).
-This is expected: QDB is generically violated when there is coherent driving
-or a nontrivial Hamiltonian. The Hamiltonian breaks time-reversal symmetry
-of transition rates.
+- `L_H(ρ) = -i[H, ρ]` is anti-self-adjoint: `L_H† = -L_H`;
+- `L_D` is self-adjoint in the Pauli basis with real eigenvalues; and
+- `L = L_H + L_D` therefore has `L† = -L_H + L_D ≠ L` whenever `H ≠ 0`.
 
-### What our system does satisfy
+So the β=0 KMS reference condition is not Π and is not implied by the pure-Z
+model.
 
-Instead of L† = L, our system satisfies:
+### What the model does satisfy
 
-    Π · L · Π⁻¹ = -L - 2Sγ · I
+Instead it satisfies
 
-This is a DIFFERENT symmetry. It doesn't require L to be self-adjoint.
-It allows complex eigenvalues. It pairs decay rates rather than forcing
-them to be real.
+    Π · L · Π⁻¹ = -L - 2Sγ · I.
 
-**The punchline:** At β=0, KMS gives L = L† (all real eigenvalues, no
-oscillation). We have something weaker but more general: palindromic
-pairing that accommodates oscillation. Our symmetry "knows about" the
-infinite-temperature bath (through the shift 2Sγ and the steady state
-being maximally mixed) but expresses it differently than KMS.
+This is a different symmetry. It does not require self-adjointness, permits
+complex eigenvalues, and pairs rates algebraically. The shift `2Sγ` contains no
+Gibbs state or bath temperature.
 
 ---
 
@@ -292,7 +289,8 @@ At finite temperature T, the bath has jump operators:
 where n̄ = 1/(exp(ℏω/kT) - 1) is the Bose-Einstein occupation number.
 
 The emission/absorption asymmetry ratio is (n̄+1)/n̄ = exp(ℏω/kT).
-At T→∞: ratio → 1, symmetric, approaches pure dephasing.
+At T→∞: ratio → 1, giving symmetric excitation and relaxation; this is not
+pure Z dephasing.
 At T→0: ratio → ∞, pure emission (amplitude damping).
 
 Our Π works because the per-site Pauli rates have a 2:2 split
@@ -351,13 +349,13 @@ finite T. Their framework is defined in the doubled Hilbert space and
 involves an antiunitary operator that depends on the bath temperature.
 Whether *their* construction produces a palindromic spectrum is still open.
 That the spectrum IS palindromic under a thermal bath is not: it is, at the
-centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md#f137)).
+centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)).
 
 ### Assessment
 
-The finite-T generalization faces a non-trivial obstruction: the known
-Π requires {I,Z} to be immune (2:2 split), which fails at any T < ∞
-because Z acquires a nonzero decay rate. Alternative pairings exist
+The thermal-jump comparison faces a non-trivial obstruction: the known Π
+requires {I,Z} to be immune (2:2 split), whereas the thermal jump model gives
+Z a nonzero decay rate. Alternative pairings exist
 for the thermal bath rates but are incompatible with Hamiltonian
 anti-commutation. A fundamentally different approach (e.g., Pauli-mixing
 Π, or working in the thermofield double) would be needed.
@@ -367,7 +365,7 @@ spectrum for XXZ + thermal bath at various temperatures and check whether any
 palindromic structure survives. It does, and not only approximately: exactly,
 about the centre −Σ(γ↓+γ↑)/2, proven by rational characteristic polynomial at
 N=2 and N=3 ([`thermal_palindrome_centre.py`](../simulations/thermal_palindrome_centre.py),
-[F137](ANALYTICAL_FORMULAS.md#f137)). The rate that appears is the sum γ↓+γ↑,
+[F137](ANALYTICAL_FORMULAS.md)). The rate that appears is the sum γ↓+γ↑,
 which is the r this document computed. What remains open below is the operator
 question, not the spectral one. If approximate
 palindrome is observed, construct Π numerically from eigenvector
@@ -378,61 +376,19 @@ PI_OPERATOR_ENTANGLEMENT.md).
 
 ---
 
-## Question 5: What Is 2Sγ in Thermodynamic Terms?
+## Question 5: What Is 2Sγ?
 
-**Classification: PLAUSIBLE (consistent interpretation, not proven)**
+**Classification: CONFIRMED (algebraic shift)**
 
-### The dephasing rate interpretation
+`2Sγ = 2 Σᵢ γᵢ` is the shift in the pure-Z palindrome. For the dissipator
+alone, it is the decay rate of a Pauli string carrying `X` or `Y` at every
+site. With a Hamiltonian, it remains the center-setting algebraic quantity in
 
-2Sγ = 2 Σᵢ γᵢ is the maximum possible dephasing rate in the system. It
-equals the rate of the fastest-decaying Pauli strings (those with all N
-sites in the {X,Y} set, i.e., XY-weight N).
+    Π · L · Π⁻¹ = -L - 2Sγ · I.
 
-### Connection to entropy production
-
-For Z-dephasing with uniform γ, the steady state is ρ_ss = I/2^N (maximally
-mixed). The von Neumann entropy of the steady state is S_max = N log 2.
-
-The entropy production rate of the dephasing process for a state ρ is:
-
-    σ̇ = -tr(L(ρ) · log ρ_ss) - d/dt S(ρ) = -d/dt D(ρ || ρ_ss)
-
-where D is the quantum relative entropy to the steady state. The dephasing
-drives D → 0 at rates determined by the Liouvillian eigenvalues. The maximum
-rate at which any single mode's contribution to D can decrease is 2Sγ.
-
-So 2Sγ is the **maximum entropy production rate** achievable by any single
-mode of the system. It is the rate at which the most quantum (most
-coherent, highest XY-weight) correlations are destroyed.
-
-### Is it a free energy?
-
-In classical detailed balance, the ratio P(A→B)/P(B→A) = exp(-ΔF/kT)
-involves the free energy difference. Our shift 2Sγ plays an analogous
-role: it sets the total "distance" that the palindrome spans, from rate 0
-(the steady state, zero entropy production) to rate 2Sγ (maximum entropy
-production).
-
-At infinite temperature, free energy F = E - TS is dominated by the
-entropy term. The "free energy" of the dephasing process is essentially
-the total entropy capacity, which scales as Sγ. The factor of 2 comes
-from the symmetric pairing: each side of the palindrome spans Sγ from
-the center.
-
-This analogy is structural, not formal. We cannot write 2Sγ = ΔF/kT
-in any rigorous thermodynamic sense because we are at T = ∞ and the
-standard free energy formalism breaks down. But the role is the same:
-2Sγ measures the total "thermodynamic distance" between the most stable
-(classical) and most fragile (quantum) modes.
-
-**Update (April 2026):** The entropy production analysis
-([Entropy Production](../experiments/ENTROPY_PRODUCTION.md)) confirms:
-the "thermodynamic distance" interpretation is ALGEBRAIC, not
-thermodynamic. The Crooks-like identity ln(d_fast/d_slow) =
-2 artanh(Δd/(2Σγ)) gives β_eff ≈ 1/Σγ, but this follows directly
-from d_fast + d_slow = 2Σγ. No Jarzynski equality holds (⟨exp(-Δd)⟩
-≈ 0.93, not 1). Carnot efficiency is not definable (T = ∞). The
-palindrome has the FORM of thermodynamics without the content.
+It is not an entropy-production rate, a free-energy difference, or evidence
+for a thermal equilibrium. Those meanings require a specified bath and a
+selected stationary state, neither of which is supplied by pure Z dephasing.
 
 ---
 
@@ -528,8 +484,8 @@ dynamics. No palindromic structures.
 | 2. Is Π related to quantum detailed balance? | Structurally parallel (both relate to time reversal) but formally distinct (DB uses L†, Π uses -L) | **UNLIKELY** (different symmetries) |
 | 3. Does KMS at β=0 reduce to Π? | No. KMS at β=0 gives L†=L (real spectrum). Π gives palindromic complex spectrum. Different conditions | **UNLIKELY** |
 | 4. Finite-T generalization of **Π**? | Obstructed: the thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y), a map that commutes with [H, ·] instead of anti-commuting, so no Π of this shape exists at T < ∞ | **UNLIKELY** (fundamental obstruction, and it is against Π) |
-| 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md#f137) | **CONFIRMED** (H = 0 derived here, H ≠ 0 measured N=2–5) |
-| 5. What is 2Sγ thermodynamically? | Maximum entropy production rate; total "thermodynamic distance" between most classical and most quantum modes | **PLAUSIBLE** (consistent but not proven) |
+| 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 derived here, H ≠ 0 measured N=2–5) |
+| 5. What is 2Sγ? | Algebraic shift of the pure-Z palindrome; not a thermodynamic quantity without a specified bath and stationary state | **CONFIRMED** |
 | 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá et al. (tenfold), MEP (η-pairing). None have the exact Π structure | **CONFIRMED** (relatives exist; Π is new) |
 
 ---
@@ -538,9 +494,10 @@ dynamics. No palindromic structures.
 
 **Π is genuinely new.** It is not quantum detailed balance, not KMS, not a
 standard Buca-Prosen symmetry, and not cleanly within the tenfold classification.
-It is a **shifted anti-similarity of the Liouvillian** specific to infinite-
-temperature dephasing baths, with structural parallels to (but formal differences
-from) hidden time-reversal symmetry.
+It is a **shifted anti-similarity of the Liouvillian** specific to the pure-Z
+dephasing algebra, with structural parallels to (but formal differences from)
+hidden time-reversal symmetry. The algebra does not itself identify a bath
+temperature.
 
 The closest living relative is the Roberts-Lingenfelter-Clerk hidden TRS
 framework, which also produces time-reversal-like symmetry in systems that
@@ -549,18 +506,18 @@ violate standard detailed balance. Establishing the formal connection
 and doubled Hilbert space) is the most promising direction for connecting
 Π to the broader literature.
 
-The finite-temperature obstruction is real and fundamental, and it is an
-obstruction **to Π**: the 2:2 per-site split that makes Π work is a property of
-pure dephasing (infinite T) that cannot be reproduced by a thermal bath at
-finite T. This makes Π an intrinsically infinite-temperature phenomenon.
+The thermal-jump obstruction is real and fundamental, and it is an obstruction
+**to Π**: the 2:2 per-site split that makes Π work is a property of pure Z
+dephasing and is absent from the thermal jump model. This identifies a channel
+algebra, not an intrinsically infinite-temperature phenomenon.
 
-**It is not an obstruction to the palindrome, and this document nearly said so
-itself.** The section above computes the thermal per-site rates
+**It is not an obstruction to the palindrome.** The thermal-jump section above
+computes the per-site rates
 [0, r/2, r/2, r] with r = γ(2n̄+1), notices that (0, r) and (r/2, r/2) both sum
 to r, and concludes that rate-pairing is possible in principle. It is: r is the
 total per-site rate γ↓ + γ↑, the tensor sum over sites gives a palindrome
 centred at −Σ(γ↓ᵢ + γ↑ᵢ)/2, and that survives the Heisenberg Hamiltonian too,
-measured at N = 2 through 5. See [F137](ANALYTICAL_FORMULAS.md#f137). What is
+measured at N = 2 through 5. See [F137](ANALYTICAL_FORMULAS.md). What is
 lost at finite T is the operator, not the symmetry of the spectrum, which is
 the distinction F137 was minted to draw.
 
@@ -658,7 +615,6 @@ the distinction F137 was minted to draw.
 
 ---
 
-*Π is not detailed balance. It is not KMS. It is time reversal without
-thermodynamic equilibrium, a mirror that exists because the bath is
-infinite and the dephasing treats all directions of decoherence equally.
-It is new, and the literature confirms it.*
+*Π is not detailed balance. It is not KMS. It is an algebraic mirror of the
+pure-Z dephasing generator; no bath temperature or thermodynamic equilibrium
+is implied by that mirror.*

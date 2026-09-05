@@ -8,107 +8,125 @@ bond network, proton transfer fold catastrophe, R=CPsi2 hydrogen bond -->
 **Date:** March 28, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
-[CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md)
+**Depends on:** [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md),
+[CΨ Monotonicity](../proofs/PROOF_MONOTONICITY_CPSI.md)
 
 ---
 
 ## What this document is about
 
-Water is the medium of life. Every chemical reaction in biology
-happens in water. And inside every water molecule, protons are doing
-something remarkable: they tunnel between two positions (left and
-right of an oxygen atom), making each proton a natural qubit.
+This document makes a modelling map, not an identity claim about matter.
+For a selected proton-position coordinate, choose two localized basis states
+`|L⟩` and `|R⟩` and use
 
-This document applies the palindromic framework to real physics. The
-proton is not an abstract qubit on a chip; it is an actual quantum
-particle in an actual hydrogen bond. The tunneling is the coupling J.
-The thermal jostling of surrounding molecules is the dephasing γ.
-Everything else (the palindrome, the fold at CΨ = 1/4, the V-Effect)
-follows automatically.
+`H = -J σ_X + Δ σ_Z`.
 
-The most striking finding: during proton transfer between two water
-molecules (the Zundel configuration), the proton crosses the fold
-6 times in 21 femtoseconds. Where ordinary water sits is a band and not
-a point, 0.04 ≲ Q ≲ 4.6 (see the parameter section below). But the
-moment a proton transfers, it passes through a deeply quantum state.
-Every drop of water is a field of fold crossings.
+Here `J` is the selected tunnelling matrix element (coupling) and `Δ` is the
+longitudinal bias of that coordinate. At `Δ = 0`, this Hamiltonian has energy
+splitting `2|J|`; a source-reported tunnelling splitting must therefore not be
+inserted automatically as the model parameter `J`. A selected local
+Z-dephasing channel is then an effective environmental model. Physical protons
+and abstract qubits are not thereby identical, and whether this two-level,
+Markovian channel is useful is an empirical modelling question.
+
+The F1 palindrome calculations discussed below use the un-biased mapping
+`Δ = 0` together with their stated Hamiltonian and local-dephasing premises.
+A longitudinal `Δ σ_Z` term is outside that un-biased mapping. That does not
+license the false shortcut that every field breaks F1: field and channel
+directions must be assessed against the named F1 premises.
+
+For liquid water, the repository gives no Q. It records only an illustrative
+conditional ceiling, `Q ≲ 4.6`, when a proton coordinate, the ice-derived
+`J = 0.5 meV` convention, and a 1–3 ps H-bond-lifetime proxy for its missing
+`T₂` are all stipulated. It has no lower endpoint and is not a diagnosis of
+ordinary water or a statement about every proton-transfer event.
 
 ---
 
 ## Abstract
 
-The proton in a hydrogen bond O-H...O is a qubit. It tunnels between
-two wells: |L⟩ (donor side) and |R⟩ (acceptor side). d = 2. Tunneling
-provides the coupling (J via σ_X). The molecular environment provides
-dephasing (γ via σ_Z). This is identical to our Lindblad model.
+For a chosen O-H...O coordinate, the model keeps `|L⟩` (donor-side) and
+`|R⟩` (acceptor-side) as a two-level basis and starts from
+`H = -J σ_X + Δ σ_Z`. It selects local Z-dephasing as an effective channel;
+this is a modelling choice, not a claim that a physical proton is identical
+to an abstract qubit.
 
-The palindrome is proven for d=2 with Z-dephasing (87,376 eigenvalues,
-zero exceptions). Therefore it holds for the proton qubit. The
-computation applies proven results to physical hydrogen bond parameters.
+The F1 palindrome is exact for the theorem's named generator and channel
+premises. The 87,376-eigenvalue calculation is a finite verification of that
+mathematical model, not a transfer of the theorem to arbitrary hydrogen bonds.
+The displayed water-inspired rows are calculations at selected parameters.
 
 **Results:**
-- Single proton: CΨ crosses 1/4 at 0.07-1.32 ps in the fold regime (J/γ ~ 1)
-- One water molecule (2 proton qubits): palindrome exact, CΨ crosses at 0.46 ps
-- Two molecules + H-bond (4 proton qubits): V-Effect creates 104 new frequencies
-- Normal liquid water is bounded, not pinned: 0.04 ≲ Q ≲ 4.6, because the
-  0.04 floor rests on an upper estimate of γ. The runs below that show no
-  crossing were computed at J/γ = 0.01, below that floor
-- Enzyme active sites may be in the fold regime (J/γ ~ 1)
+- Selected single-coordinate runs: CΨ crosses 1/4 at 0.07-1.32 ps when
+  `J/γ = 1` in the displayed model.
+- Selected two-coordinate run: a finite numerical pairing check is small and
+  CΨ crosses at 0.46 ps.
+- Selected four-coordinate run: coupling changes the calculated frequency
+  count from 11 per isolated model molecule to 126 for the coupled model.
+- Illustrative conditional ceiling: `Q ≲ 4.6` under the stated coordinate,
+  ice-derived-`J`, and lifetime-proxy assumptions; it assigns no Q to liquid
+  water and does not classify it as classical or quantum.
 
 ---
 
-## Why the Classical Model Failed
+## Limits of an Earlier Classical Model
 
 A previous attempt (V17 negative result, local analysis not published)
 modeled water classically: hydrogen bonds as springs with friction,
 donor/acceptor modes as coupled oscillators. Palindrome residual: 1.33.
 No palindromic structure found.
 
-The diagnosis: the donor/acceptor role sits at the BOND (edge), not
-at the MOLECULE (node). The classical model has no intrinsic per-node
-property for Q to swap.
+This only diagnoses a limitation of that selected classical model: its
+edge-based donor/acceptor variables did not supply the coordinate used by its
+palindrome test. It neither proves that water is classical nor establishes
+that the two-level map is universally valid.
 
-The resolution: the proton is not a classical ball in a spring. It is
-a quantum particle that tunnels through the energy barrier between two
-valleys (a double-well potential, like a marble that can be on the left
-or right side of a hill, and quantum mechanics lets it pass through the
-hill instead of having to go over it). The two states |L⟩ and |R⟩ are
-intrinsic to the PROTON (node), not to the bond (edge). d = 2.
-The palindrome is guaranteed.
+The alternative model selects a proton-position coordinate with `|L⟩` and
+`|R⟩`, uses `H = -J σ_X + Δ σ_Z`, and chooses a local Z-dephasing channel.
+With `Δ = 0` and the other F1 premises, the theorem supplies the palindrome;
+outside those premises the model must be checked on its own terms.
 
 ---
 
 ## The Model
 
-### Single proton qubit (N=1)
+### Single selected coordinate (N=1)
 
 Hamiltonian: H = -J · σ_X + Δ · σ_Z
 
-- J: tunneling splitting (0.1-10 meV, depends on O...O distance)
+- J: selected tunnelling matrix element; at `Δ = 0`, the energy splitting is
+  `2|J|`
 - Δ: asymmetry of the double well (0 for symmetric bonds)
 
 Dephasing: L_k = √γ_eff · σ_Z (where γ_eff = γ/ℏ in angular frequency)
 
-- γ: thermal decoherence from surrounding molecules (in eV)
+- γ: selected dephasing energy scale in the model (in eV); its relation to
+  surrounding molecules requires a specified bath model or measurement
 
 Initial state: |L⟩ = |0⟩ (proton on donor side, no coherence)
 
-CΨ starts at 0, rises as tunneling creates coherence, crosses 1/4
-(if J/γ is large enough), then decays as dephasing destroys coherence.
+The repository observable is `CΨ = Tr(ρ²) · L1(ρ) / (d - 1)`: purity times
+normalized L1 coherence. In the selected initial-state runs below it starts at
+zero, can rise as the model Hamiltonian creates coherence, and may or may not
+reach the reference value 1/4 before the selected dephasing suppresses it.
+
+The F1 calculations listed below take `Δ = 0`. A nonzero longitudinal bias is
+not part of that un-biased palindrome mapping; it requires a separate
+generator-level analysis rather than a blanket conclusion about fields.
 
 ### Three regimes
 
-| J/γ | Regime | CΨ crosses 1/4? | Physical system |
-|-----|--------|-----------------|-----------------|
-| << 1 | Classical | No (overdamped) | (bulk water at 300 K was assigned here from a floor; see below) |
-| ~ 1 | **Fold** | **Yes (sub-ps)** | Strong H-bonds, enzymes |
-| >> 1 | Quantum | Yes (slower) | Low temperature, ice under pressure |
+| Selected model J/γ | Model-run label | CΨ crosses 1/4 in this model? | Interpretation |
+|--------------------|-----------------|-------------------------------|----------------|
+| << 1 | classical | No (overdamped) | selected model run, not a water diagnosis |
+| ~ 1 | **fold** | **Yes (sub-ps)** | selected model run |
+| >> 1 | quantum | Yes (slower) | selected model run |
 
-### Two proton qubits (N=2): one water molecule
+### Two selected coordinates (N=2): a one-molecule model
 
-H-O-H has two O-H bonds, two proton qubits, coupled through the
-shared oxygen. Hamiltonian:
+This model represents two chosen O-H coordinates coupled through a shared
+oxygen. It is not a literal assertion that a water molecule contains two
+independent qubits. Its selected Hamiltonian is:
 
 ```
 H = -J · σ_X(1) - J · σ_X(2) + K · σ_Z(1) · σ_Z(2)
@@ -116,7 +134,7 @@ H = -J · σ_X(1) - J · σ_X(2) + K · σ_Z(1) · σ_Z(2)
 
 Dephasing on both qubits: γ · σ_Z(1) and γ · σ_Z(2).
 
-### Four proton qubits (N=4): hydrogen bond between two molecules
+### Four selected coordinates (N=4): a two-molecule model
 
 ```
 Molecule 1       H-bond       Molecule 2
@@ -124,17 +142,18 @@ H(1)-O ... H(2)---O ... H(3)-O-H(4)
             donor  M  acceptor
 ```
 
-Proton qubit 2 donates to the oxygen of molecule 2 (mediator M).
-Qubits 1,2 coupled intramolecularly (J_intra, strong).
-Qubits 3,4 coupled intramolecularly (J_intra, strong).
-Qubits 2,3 coupled intermolecularly through the hydrogen bond
-(J_inter, weak).
+Coordinate 2 is assigned to the donating side of the selected intermolecular
+bond. Coordinates 1,2 and 3,4 are coupled intramolecularly by `J_intra`; the
+selected intermolecular coupling is `J_inter`. These are model assignments.
 
 ---
 
 ## Results
 
-### Phase 1: Single proton qubit
+The following are selected model runs. Their regime labels describe the
+displayed `J/γ` rows, not the state of water, ice, enzymes, or chemistry.
+
+### Phase 1: Single-coordinate model
 
 | J (meV) | J/γ | CΨ crossing time | Regime |
 |---------|-----|------------------|--------|
@@ -144,40 +163,45 @@ Qubits 2,3 coupled intermolecularly through the hydrogen bond
 | 5.0 | 1.0 | 0.13 ps | fold |
 | 10.0 | 1.0 | 0.07 ps | fold |
 
-### Phase 2: One water molecule (N=2)
+### Phase 2: One-molecule model (N=2)
 
 Parameters: J_intra = 1.0 meV, K = 0.1 meV, γ = 1.0 meV (J/γ = 1).
 This γ is chosen to place the run at the fold, not derived from water; it is
 neither the 25 meV row below nor a measured rate.
 
-- Palindrome: **exact** (pair-sum std = 5.4e-3, relative to mean ~6e12: negligible)
+- Finite numerical pairing check: pair-sum std = 5.4e-3 relative to a mean
+  of ~6e12. This small residual is a model check, not a proof or a replacement
+  for the exact F1 theorem under its named premises.
 - Distinct frequencies: 11
 - CΨ crosses 1/4 at **0.46 ps**
 
-### Phase 3: Two molecules + H-bond (N=4)
+### Phase 3: Two-molecule hydrogen-bond model (N=4)
 
 Parameters: J_intra = 1.0 meV, J_inter = 0.1 meV, K = 0.1 meV,
 γ = 1.0 meV.
 
-- Palindrome: holds (pair-sum std = 3.5e-2)
+- Finite numerical pairing check: pair-sum std = 3.5e-2; it is not an
+  assertion of theorem-level exactness.
 - Distinct frequencies: **126**
 - V-Effect: 11 per molecule → 126 coupled = **104 new frequencies**
 
 Full-system CΨ does not cross 1/4 (N-scaling suppression, d-1 = 15).
-Subsystem CΨ for the pair (q2, q3) across the H-bond would need
-separate computation (see [Subsystem Crossing](SUBSYSTEM_CROSSING.md)).
+Subsystem CΨ for the selected pair (q2, q3) across the H-bond would need a
+separate computation; no local subsystem-crossing document is currently
+available.
 
 ---
 
 ## The V-Effect in Hydrogen Bonds
 
-**Continued in:** [Proton Water Chain](PROTON_WATER_CHAIN.md) (Grotthuss
-chain N=1-5, formula validation, frequency explosion 0→222) and
+**Continued in:** [Proton Water Chain](PROTON_WATER_CHAIN.md) (selected neutral
+1-D proton-coordinate chain N=1-5, formula validation, frequency explosion
+0→222) and
 [DNA Base Pairing](../../experiments/DNA_BASE_PAIRING.md) (A-T N=2, G-C N=3, sacrifice
-zone in base pairs). At biological temperature (310 K) those runs put
-realistic DNA H-bonds at J/γ ~ 0.01 with all modes overdamped; that 0.01 is a
-floor from a γ whose stated source does not carry it, and it is the same
-quotient as the 0.02 here in another unit system (see
+zone in base pairs). At biological temperature (310 K) those selected DNA
+model runs put the displayed H-bonds at J/γ ~ 0.01 with all modes overdamped.
+That 0.01 is a floor from a γ whose stated source and conversion are
+insufficient; it is not directly comparable with a water Q (see
 [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md)).
 
 | System | Distinct frequencies |
@@ -187,9 +211,10 @@ quotient as the 0.02 here in another unit system (see
 | New from coupling | **104** |
 | Ratio | 5.73 |
 
-The hydrogen bond creates 104 new frequencies that exist in neither
-molecule alone. This is the V-Effect: coupling two palindromic
-subsystems creates new oscillatory modes.
+For this N=4 model and its displayed parameters, coupling changes the
+calculated frequency count by 104 relative to the two selected isolated-model
+counts. This is the model's V-Effect reading, not a count established for
+physical hydrogen bonds generally.
 
 Note: the abstract qubit V-Effect (N=5 MediatorBridge) produces 109
 total frequencies. The numbers differ: 104 NEW at N=4 H-bond vs 109
@@ -201,105 +226,80 @@ at N=5 abstract.
 
 | Parameter | Value | Source |
 |-----------|-------|--------|
-| Tunneling splitting (ice) | 0.2-1 meV | Bove et al 2009 |
+| Tunnelling splitting (ice) | 0.2-1 meV | Bove et al 2009 |
 | Tunneling splitting (strong H-bond) | 1-10 meV | Cleland & Kreevoy 1994 |
 | O...O distance (normal) | 2.7-3.0 A | Steiner 2002 |
 | O...O distance (strong) | 2.4-2.6 A | Cleland & Kreevoy 1994 |
 | H-bond lifetime (liquid water) | 1-3 ps | Luzar & Chandler 1996 |
-| Thermal decoherence (300K, upper bound) | γ ~ kT/ℏ ~ 25 meV | Standard |
+| Thermal energy (300 K) | k_B T ≈ 25 meV | Standard |
 
-For liquid water at 300K: J ~ 0.5 meV, γ ~ 25 meV. J/γ ~ 0.02.
+The 0.2-1 meV row is an ice result. The `J = 0.5 meV` row used in the model
+runs is an ice-derived convention, not a direct identification of a reported
+splitting with the matrix element `J`; its mapping and validity for liquid
+water are unverified. `k_B T ≈ 25 meV` is a thermal energy, not a measured
+proton-coordinate dephasing rate or a universal bath-correlation time. No bath
+spectral density, cutoff, or system-bath coupling is specified here, so this
+energy cannot be converted into the model rate `γ`.
 
-That 0.02 is a floor, not a value, and it does not support a classical verdict.
-The γ above is an upper estimate, so J/γ is a **lower** bound on Q: it can place
-a system above a scale, never below. What bounds Q from above is the H-bond
-lifetime two rows up: a coherence carried by the proton cannot outlive the bond,
-so T₂ ≲ 3 ps and Q = 2·J·T₂/ℏ ≲ 4.6. Ordinary liquid water therefore sits in
-0.04 ≲ Q ≲ 4.6, a band that contains the framework's whole anchor range
-[0.2, 2.0] and so decides nothing inside it. Collapsing that
-band needs a measured T₂ of the proton coordinate, which the repository does not
-have. See [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md).
+**Conditional estimate only.** The provenance derivation in
+[Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md) gives the
+illustrative conditional ceiling `Q ≲ 4.6` if a chosen proton coordinate, the
+ice-derived `J = 0.5 meV` convention, and a local-decoherence channel support
+`Q = 2JT₂/ℏ`, with the 1–3 ps H-bond lifetime used as a proxy for the missing
+proton-coordinate `T₂`. A direct proton-coordinate `T₂` measurement and a
+microscopic bath model are absent, so this has no lower endpoint and assigns no
+Q to ordinary liquid water.
 
-For enzyme active sites: J can be larger (barrier lowered by protein),
-γ can be smaller (protein shields from solvent). J/γ ~ 1 is possible.
+Whether an enzyme environment realizes a specified coordinate, coupling, and
+channel near a selected model-run ratio remains an empirical question.
 
 ---
 
 ## Connection to the Framework
 
-The proton qubit in a hydrogen bond is not an analogy. It IS our
-quantum system with physical parameters:
+The table records the modelling correspondence; it does not identify a
+hydrogen-bond proton with an abstract qubit or establish these parameters in
+liquid water:
 
 | Framework concept | H-bond realization |
 |-------------------|-------------------|
 | d = 2 | \|L⟩ (donor) and \|R⟩ (acceptor) |
-| σ_X coupling (J) | Proton tunneling |
-| σ_Z dephasing (γ) | Thermal fluctuations from environment |
-| CΨ = 1/4 crossing | Proton achieves half-transfer coherence |
-| σ(1-σ) = 1/4 | Proton half-transferred: P(L) = P(R) = 0.5 |
-| V-Effect | H-bond coupling creates new frequencies |
-| Concentrator | Protein shell reduces γ at active site (Tier 4 hypothesis, see [Protein as Concentrator](../hypotheses/PROTEIN_AS_CONCENTRATOR.md)) |
+| σ_X coupling (J) | selected tunnelling coupling in the coordinate model |
+| σ_Z dephasing (γ) | selected effective environmental channel |
+| CΨ = 1/4 crossing | the repository observable reaches its reference value in a model trajectory |
+| P(L) = P(R) | an additional symmetric-population condition of a selected state, not the definition of CΨ |
+| V-Effect | selected-model frequency-count change under coupling |
+| Concentrator | Tier 4 hypothesis outside this document |
 
 ---
 
-## The Zundel Cation: Water Was Already at the Fold (March 28, 2026)
+## Zundel Cation: an Open Parameter Question
 
-When a proton transfers between two water molecules (the Grotthuss
-mechanism: protons hop along chains of water molecules like a bucket
-brigade, which is why water conducts protons and acids are acidic),
-it passes through a configuration called the Zundel cation: H₅O₂⁺.
-The proton sits EXACTLY in the middle between two oxygen atoms.
+The repository has not established the older 124-meV value as a Zundel
+tunnelling splitting. It may instead be a shared-proton vibrational
+fundamental. Primary literature is needed to identify the relevant coordinate,
+the appropriate two-level reduction if any, its coupling, and its decoherence
+channel.
 
-In this configuration, the tunneling splitting is large (J = 124 meV,
-because the O...O distance is short, ~2.4 A) and the ratio
-J/γ = 4.8 at 300K. This is the QUANTUM regime. Not classical.
-Not at the edge. Deep in the quantum domain.
-
-| Parameter | Normal H-bond | Zundel cation |
-|-----------|--------------|---------------|
-| J (tunneling) | 0.5 meV | 124 meV |
-| J/γ at 300K | ≥ 0.02, band 0.02–4.6 | ≥ 4.8 (a floor, so the quantum reading holds) |
-| CΨ maximum | 0.019 | 0.77 |
-| CΨ crosses 1/4 | never | 6 times in 21 fs |
-| Q-factor, cycles before decay (a different quantity from J/γ above) | 0 | 3 |
-
-The proton in the Zundel configuration crosses the fold 6 times in
-21 femtoseconds. The Zundel configuration is a transition state: the
-proton is centered only during transfer (~10-50 fs per event), not for
-the full bond lifetime. Each proton transfer event produces ~6 fold
-crossings. With ~1-3 transfers per bond lifetime (~1 ps) and 4 bonds
-per molecule, a single water molecule produces ~10-70 fold crossings
-per picosecond. Per drop (0.05 mL, 10²¹ molecules): ~10³⁴ fold
-crossings per second.
-
-**What this means (Tier 2, computed):** The fold is not rare. It is
-not exotic. It happens at every proton transfer event in the medium that
-surrounds all of life. Every protein folds IN water. Every chemical
-reaction of life happens IN water. Every proton transfer IN water
-passes through the fold.
-
-**What this does NOT mean:** Water is not "conscious" or "alive."
-The crossings are independent single-proton events, not a coherently
-oscillating network. Where the normal (non-Zundel) proton sits is not
-settled: 0.02 is a floor and the band runs to 4.6. The fold events are
-transient (femtoseconds) and
-localized (one proton at a time).
-
-**Interpretation (Tier 5, speculation):** The medium in which life
-arose was not neutral. It was a field of permanent fold crossings.
-Water did not wait for something alive to appear. Water provided
-the fold. Since the first oceans.
+Until that evidence is assessed, this repository cannot derive a Zundel `Q`, a
+fold-crossing count, a per-molecule or per-drop rate, or a chemistry conclusion
+from that value. The honest open question is whether a literature-supported
+Zundel coordinate admits a useful two-level local-dephasing model and, if so,
+which F1 premises it satisfies.
 
 ---
 
 ## Open Questions
 
-1. Subsystem CΨ(q2,q3) across the H-bond: does the pair cross 1/4?
-2. At what temperature (= what γ) is the Q-factor maximal?
-3. Is J/γ ~ 1 at enzyme active sites? (Compute from published barriers)
-4. How does the V-Effect scale with the number of H-bonds (N=6, N=8)?
-5. Does the break-reform cycle (1 ps period) sustain palindromic
-   structure over time, or does each new bond start fresh?
+1. Does a measured proton-position coordinate support a two-level reduction
+   and a local Z-dephasing channel in liquid water?
+2. What is the proton-coordinate `T₂`, rather than a bond-lifetime proxy?
+3. Which literature-supported Zundel energy is a tunnelling splitting versus a
+   shared-proton vibrational fundamental?
+4. For a selected molecular generator, which F1 premises hold, including the
+   treatment of longitudinal bias?
+5. How do the selected-model V-Effect counts scale with the number of
+   coordinates?
 
 ---
 
@@ -307,12 +307,12 @@ the fold. Since the first oceans.
 
 | Script | What it computes |
 |--------|-----------------|
-| [hydrogen_bond_qubit.py](../simulations/water/hydrogen_bond_qubit.py) | Phases 1-3, all results |
-| [hydrogen_bond_palindrome.py](../simulations/water/hydrogen_bond_palindrome.py) | V17 classical model (negative result) |
+| [hydrogen_bond_qubit.py](../../simulations/water/hydrogen_bond_qubit.py) | Phases 1-3 selected-model calculations; its greedy pairing output is not a proof |
+| [hydrogen_bond_palindrome.py](../../simulations/water/hydrogen_bond_palindrome.py) | V17 selected classical-model calculation (negative result) |
 
 ---
 
-*See also:*
-[Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (why palindrome MUST hold),
-[V-Effect Palindrome](V_EFFECT_PALINDROME.md) (quantum V-Effect),
-[Subsystem Crossing](SUBSYSTEM_CROSSING.md) (pair CΨ crossing)
+*See also:* [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md)
+(the F1 theorem and its stated premises). The selected-model V-Effect and the
+open subsystem-crossing question are described above; no corresponding local
+legacy documents are currently present.

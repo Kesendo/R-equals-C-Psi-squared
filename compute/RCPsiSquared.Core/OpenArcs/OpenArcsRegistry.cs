@@ -7142,9 +7142,9 @@ public static class OpenArcsRegistry
                 "typed and gated, agent-free by construction); the GAIN SIDE (GammaFold, " +
                 "L_anti(gamma) = L(-gamma) - 2*sigma*Id) is exact algebra whose emitter reading the repo " +
                 "itself disclaims (negated dephasing is time-reversed dephasing, not laser gain). " +
-                "Thermodynamic grounding: the dephasing bath is beta = 0 (KMS_DETAILED_BALANCE:250, " +
-                "'Z-dephasing IS an infinite-temperature bath'), and Pi's own 2:2 CONSTRUCTION is " +
-                "intrinsically infinite-temperature while the palindrome is NOT (F137: the thermal " +
+                "Thermodynamic grounding: pure Z dephasing is unital and non-primitive, fixing every " +
+                "Z-diagonal state rather than selecting a beta = 0 bath. Pi's own 2:2 CONSTRUCTION is " +
+                "a channel algebra, while the palindrome is NOT a bath assignment (F137: the thermal " +
                 "spectrum is exactly palindromic about -Sum(g_down+g_up)/2); the operational light " +
                 "content was always sender-side " +
                 "(GAMMA_AS_SIGNAL's Alice SETS the rates, 15.5 bits at 1% measurement precision; the " +
@@ -8138,29 +8138,24 @@ public static class OpenArcsRegistry
                 "carries physics. The repo owned that in three lineages that had never been in " +
                 "one room (Q_SCALE_THREE_BANDS line 83, THE_GENESIS_OF_AN_OSCILLATION line 53, " +
                 "ON_HOW_GAMMA_BECAME_THE_TICK). What was NOT owned is where each SUBSTRATE Q " +
-                "came from. Pure Z-dephasing is beta = 0, so the channel FORM is T-independent " +
-                "and the RATE is the only place temperature can enter; the substrate folders " +
-                "never chose a J or a gamma explicitly and divided by borrowed numbers instead. " +
-                "TWO borrowed denominators, one used four times and one twice. (1) 25 meV = kT/hbar, " +
-                "docs/water/HYDROGEN_BOND_QUBIT.md, source column Standard, its own row " +
-                "calling it an upper bound; water and carbon both divide by it. kT/hbar is " +
-                "coupling-independent so it cannot be a dephasing rate; its one defensible " +
-                "reading is a Born-Markov VALIDITY limit, and that limit binds the coherence " +
-                "rate 1/T2 = 2*gamma, not gamma, so the floor is T2 >= hbar/kT = 25.5 fs at " +
-                "kT = 25.85 meV and NOT 13 fs (setting gamma <= kT/hbar permits a coherence " +
-                "time of HALF the bath correlation time, i.e. exactly where the model cannot " +
-                "apply). THE DOUBLING CARRIES TO Q: Q >= 2*J*T2/hbar with T2 >= hbar/kT is " +
-                "Q >= 2J/kT, twice the bare quotient the substrate documents wrote down, so " +
-                "water floors at 0.04 and not 0.02 and carbon at 186 and not 100. The first " +
-                "repair pass applied the doubling to carbon and left water at the discredited " +
-                "13 fs floor, an internal contradiction a fourth review round caught. (2) 50 cm^-1, " +
+                "came from. Pure Z-dephasing is unital and non-primitive, fixing every Z-diagonal " +
+                "state; it does " +
+                "not select I/d, beta = 0, or a bath temperature. The substrate folders never chose " +
+                "a coordinate-specific J, gamma, or channel explicitly and divided by borrowed " +
+                "numbers instead. TWO borrowed denominators, one used four times and one twice. " +
+                "(1) 25 meV = kT, docs/water/HYDROGEN_BOND_QUBIT.md, source column Standard. " +
+                "It is a thermal energy reference, not a dephasing rate. No microscopic bath " +
+                "spectral density, cutoff, system-bath coupling, or proton-coordinate T2 is specified, " +
+                "so kT/hbar is not a universal bath-correlation time and supplies no Q floor. " +
+                "(2) 50 cm^-1, " +
                 "used by simulations/water/proton_water_chain.py line 281 and " +
                 "experiments/DNA_BASE_PAIRING.md lines 96-97 with an IDENTICAL three-regime set. " +
                 "dna_base_pairing.py line 193 names HYDROGEN_BOND_QUBIT.md as its source and " +
                 "that file contains NO cm^-1 at all: its 0.2-1 meV and 25 meV are 1.6-8.1 and " +
-                "201.6 cm^-1, against the 0.5 and 50 used. gamma and the Zundel J are each " +
-                "displaced by exactly 4.0, so the Zundel Q survives the crossing (250/50 = 5.0 " +
-                "against 124/25.85 = 4.8, kT at 300 K and not the table rounded 25); the " +
+                "201.6 cm^-1, against the 0.5 and 50 used. The numerical quotients 250/50 = 5.0 " +
+                "and 124/25.85 = 4.8 do not identify a Zundel two-level coupling or supply a " +
+                "current Zundel Q assignment; their apparent proximity is provenance to audit, not " +
+                "a physical crossing. The " +
                 "ordinary-water J is displaced by 8.1, and that extra factor of two IS the whole " +
                 "difference between the repo two water Q values. Converted rather than reused " +
                 "the cm^-1 set gives 4.03/201.6 = 0.02, the meV table own number, so the 0.01 " +
@@ -8174,15 +8169,10 @@ public static class OpenArcsRegistry
                 "RANGES where the meV table gives values; and that file separates sourced from " +
                 "unsourced explicitly at lines 198-199. The finding is the attribution and the " +
                 "arithmetic, not the story, and the finding survives the withdrawal. " +
-                "THE ASYMMETRY THAT MATTERS: an upper estimate on gamma is a LOWER " +
-                "bound on Q, so carbon far-above-the-window (186x below the floor) holds as " +
-                "a disjunction (either Q >= 186 or the Lindblad description does not apply " +
-                "there) while water classical-and-overdamped needed an UPPER bound and never " +
-                "had one. What DOES bound water was two rows above the gamma and unused since " +
-                "March: a proton coherence cannot outlive its hydrogen bond, 1-3 ps " +
-                "(Luzar and Chandler), giving Q <~ 4.6. Ordinary liquid water is " +
-                "0.02 <~ Q <~ 4.6, a band that CONTAINS the whole framework-anchor range " +
-                "[0.2, 2.0] (Q_REGIME_ANCHORS line 113) and therefore decides nothing inside it.",
+                "The water calculation has only an illustrative conditional ceiling: choosing a " +
+                "proton coordinate, the ice-derived J = 0.5 meV convention, and the 1-3 ps " +
+                "H-bond-lifetime proxy gives Q <~ 4.6. It supplies neither a lower endpoint nor " +
+                "a Q value for ordinary liquid water.",
             ParkedAt: "docs/Q_BELONGS_TO_NO_SUBSTANCE.md carries the result and its own sweep " +
                 "record. Landed in three stages after THREE blind fresh-agent review rounds on " +
                 "the first version found about 35 defects, three of which were about the COMMIT " +
@@ -8202,23 +8192,22 @@ public static class OpenArcsRegistry
                 "provenance; and no-arc-on-units contradicted the sentence before it, which " +
                 "cited gamma_book_enforced_nowhere, the units arc). It also missed " +
                 "whirlpool_carbon_layers, the substrate-mapping arc for these exact two folders. " +
-                "Corrected numerics: floor 13 -> 26 fs, ratios 100x -> 190x and 50x -> 26x, " +
-                "329 fs for J = 1 meV (a wrong table row), Q_max 72.4 = mu_max * J/gamma = " +
+                "The previous temperature-derived floor, ratios, and substrate Q band are removed: " +
+                "without a microscopic bath model they had no stated producer. The remaining " +
+                "parameter arithmetic is Q_max 72.4 = mu_max * J/gamma = " +
                 "3.618 * 20, i.e. object 2 is object 1 times a graph invariant and is fixed by " +
                 "Q not by gamma. A FOURTH round, scoped to the repair diff itself, found 14 " +
-                "more, of which the load-bearing ones were the water/carbon floor asymmetry " +
-                "above, the withdrawn transcription mechanism, a claimed retraction in " +
+                "more, including the withdrawn transcription mechanism, a claimed retraction in " +
                 "OBSERVER_DEPENDENT_VISIBILITY line 39 that retracts something else entirely " +
                 "(the absolute-rate wording at line 38 is never withdrawn there), and nine " +
                 "line pins the repair own edits had moved. Line pins are re-verified " +
                 "mechanically after every pass now; a repair that shifts lines invalidates " +
                 "the pins it did not touch.",
-            NextStep: "FIVE, and the first is the only one that collapses the band. " +
-                "(1) THE ONE MISSING NUMBER: T2 of the proton coordinate in a confined hydrogen " +
-                "bond. J is already in the literature, so this turns 0.02 <~ Q <~ 4.6 into a " +
-                "value. docs/water/README.md line 179 scoped the search (a gamma_Z(T) estimate " +
-                "plus pump-probe IR data) months ago and deferred it. With hbar = 0.6582 meV*ps " +
-                "and Q = 2*J*T2/hbar: Q = 1 needs T2 = 658 fs at J = 0.5 meV, 329 fs at 1 meV, " +
+            NextStep: "FIVE, and the first identifies the missing physical model. " +
+                "(1) Specify a proton-coordinate bath correlation function or spectral density, " +
+                "cutoff, and system-bath coupling, and measure its T2. Without them neither a " +
+                "dephasing rate nor a Q bound follows from temperature. With hbar = 0.6582 meV*ps " +
+                "and Q = 2*J*T2/hbar, Q = 1 needs T2 = 658 fs at J = 0.5 meV, 329 fs at 1 meV, " +
                 "33 fs at 10 meV. " +
                 "(2) WHICH J, and this is the substance of the document title: a substrate " +
                 "does not hand over one coupling (hardware has a MHz gate coupling and a static " +

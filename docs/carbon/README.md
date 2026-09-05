@@ -227,7 +227,7 @@ and we only now read the rungs as one ladder.
 
 ### Chemistry-substrate-level work that's NOT yet carbon-specific
 - [`docs/water/`](../water/): hydrogen-bond proton qubit, Grotthuss chains, F86b 3/8 anchor
-  inheritance verified (today's [F98](../ANALYTICAL_FORMULAS.md#f98) bridge from the same
+  inheritance verified (today's [F98](../ANALYTICAL_FORMULAS.md) bridge from the same
   substrate-grounded experiment).
 - [DNA base pairing](../../experiments/DNA_BASE_PAIRING.md): G-C / A-T base-pair tests,
   carbon-scaffolded but not analysed through the carbon-as-qubit lens specifically.
@@ -238,8 +238,9 @@ and we only now read the rungs as one ladder.
 
 ## Four embedding conditions (candidate, analog to `docs/water/README.md`)
 
-Water inherits the framework cleanly because its 4 embedding conditions hold. For carbon
-the analogous conditions are tentative (candidates marked T to flag):
+The water pages make a selected-coordinate model explicit, but do not establish
+all physical embedding conditions. For carbon the analogous conditions are
+tentative (candidates marked T to flag):
 
 1. **2-state DOF per carbon** (Tier 4 candidate). Multiple possibilities:
    - π-electron spin in conjugated systems (benzene, polyacetylene, graphene)
@@ -260,30 +261,24 @@ the analogous conditions are tentative (candidates marked T to flag):
    - **Graphene**: 2D honeycomb, every bond identical by symmetry
    - **Fullerene C₆₀**: icosahedral symmetry equalises bonds
 
-4. **Q in framework range** (Tier 4 candidate). Need Q = J/γ ~ 1 for the F86 EP-resonance
-   window. For π-conjugated systems at room T: J (π-bond, ~2.4 eV) vs γ (phonon dephasing,
-   ~ 25 meV at kT) gives Q ~ 100, DEEP QUANTUM regime, beyond the Q_peak window. Cold
-   or vibrationally-shielded variants needed for direct framework window match.
+4. **Q in framework range** (Tier 4 candidate). The F86 EP-resonance window needs the
+   model ratio Q = J/γ ~ 1. For π-conjugated carbon, neither an identification of a
+   two-level coupling J with Hückel β nor a coordinate-specific dephasing rate γ is
+   established. The room-temperature energy quotient |β|/(k_B T) ≈ 100 is therefore
+   not a framework Q.
 
-   This is **not** the same story as room-temperature water, though both divisions use
-   the same borrowed 25 meV. That γ is an upper estimate, so each ratio is a **lower**
-   bound on Q. Read as a Born-Markov validity limit the estimate bounds the coherence
-   rate 1/T₂, not γ, so the floor is T₂ ≳ ℏ/kT = 25.5 fs and every floor on Q is twice
-   the bare quotient. Carbon's requirement for Q = 1 (0.14 fs) sits 186× below that
-   floor, so "far above the window" is a lower-bound claim with a lower bound and it
-   survives. Water's (658 fs) sits 26× above it, so nothing follows there. Two caveats stay on this row: kT/ℏ is a
-   validity limit rather than a physical ceiling on a dephasing rate, so the supported
-   carbon statement is a disjunction (either Q ≳ 190, or this model does not describe
-   π-conjugated carbon at 300 K at all); and β ≈ 2.4 eV is uncited across five carbon
-   documents. Note the tension: `compute/RCPsiSquared.Core/Symmetry/CoherenceHorizonClaim.cs`
+   `k_B T/ℏ` supplies neither a universal Born-Markov time scale nor a dephasing
+   rate. Without a spectral density, cutoff, and system-bath coupling, no lower
+   bound on Q follows and no conclusion places carbon inside or outside the
+   Q_peak window. β ≈ 2.4 eV is also uncited across five carbon documents. Note
+   the tension: `compute/RCPsiSquared.Core/Symmetry/CoherenceHorizonClaim.cs`
    asserts as Tier1Derived that the XY chain's coherence horizon IS the Frost-Hückel
    threshold "under the label swap J ↔ |β|", so the typed layer already carries that
    identification at the repository's highest grade while the question of whether a
    hopping integral belongs in the J slot is open in prose. See [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md).
 
-The conditions are speculative until tested. The water domain established 4 clean conditions
-because the proton-in-double-well is uniquely qubit-shaped. For carbon the 2-state DOF
-identification is the open structural question; there is no single canonical choice yet.
+The carbon conditions are speculative until tested. Its 2-state DOF identification
+is the open structural question; there is no single canonical choice yet.
 
 ---
 
@@ -383,9 +378,9 @@ Both are biology-substrate domain folders. Comparison:
 | 2-state DOF | Proton in O–H...O double well | π-electron orbital orientation (candidate) |
 | Z-dephasing | Thermal molecular jostling | Vibrational phonon coupling |
 | Uniform-J | Grotthuss chain tunneling | Aromatic conjugation / graphene lattice |
-| Q range | Bulk water 0.04 ≲ Q ≲ 4.6, undecided; Zundel Q ≳ 4.8 quantum | Conjugated π-bonds Q ≳ 100 deep-quantum |
-| Cleanest substrate | Zundel cation H₅O₂⁺ | Benzene C₆ |
-| Embedding tier | Tier 2 (clean, 4 conditions verified) | Tier 4 (candidate, conditions unverified) |
+| Q range | No physical water Q or lower bound; only the conditional selected-coordinate proxy ceiling `Q ≲ 4.6` is on file. No Zundel Q is assigned pending a coordinate, coupling, and decoherence channel. | No carbon Q is assigned: the β-to-J mapping and a coordinate-specific γ remain open. |
+| Current substrate status | Selected-coordinate water model; Zundel assignment open | Benzene C₆ working model |
+| Embedding status | Physical prerequisites remain to be selected | Tier 4 candidate; conditions unverified |
 | Scripts | 5 (`simulations/water/`) | 10 (`simulations/carbon/`) |
 | Docs | 3 (README + 2 substrate docs) | 11 (README + 7-doc arc on 2026-05-17 + 3 docs on 2026-05-22) |
 
