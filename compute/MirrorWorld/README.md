@@ -44,6 +44,7 @@ x/y/z; that is the inheritance edge System → Object.
 | File | What |
 |------|------|
 | `World.cs`, `GameObject.cs` | the root + the own-vs-inherited base |
+| `NeuralPalindrome.cs` | F36/F37's **conditional matrix identity** QJQ + J + 2sI = 0 for an involutive permutation Q. Own: the identity reading, offset s (spectral centre −s), pair sum −2s via `Formulas.F37_NeuralPairSum`, and the entrywise residual. Static arithmetic helper, no parent or eigensolver. Dale signs alone do not imply the identity. Brains, connectomes, temperature, Hopf behaviour, and a V-effect mechanism are outside its scope. Source: [neural algebra](../../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md). Run mode `neural` prints a constructed complex-pair example and a fixed-seat counterexample. |
 | `Pair.cs` | a bare coherence \|i⟩⟨j\|, disagreement k = popcount(i⊕j), rate −2γk (empty world: dephasing only) |
 | `PauliMode.cs` | the symmetry-adapted superposition (a Pauli string of XY-weight k), four Klein cells; `Enumerate` the shared 4^N basis |
 | `Block.cs` | Grading B, the (N+1)² joint-popcount blocks C(N,p)·C(N,q) |
@@ -201,6 +202,7 @@ already lived this split; the block-local cut just NAMES why.
 
 ```bash
 dotnet run --project compute/MirrorWorld                  # the full sober run (the closed-form base)
+dotnet run --project compute/MirrorWorld -- neural        # F36/F37: conditional matrix identity, constructed examples, entrywise residuals
 dotnet run --project compute/MirrorWorld -- grow          # Field: the empty world splits (rules 1-3)
 dotnet run --project compute/MirrorWorld -- live 4 chain  # Restless: the living world (novelty born); args: N [topology]
 dotnet run --project compute/MirrorWorld -- cone 60       # Cone: the single-excitation light-cone at large N

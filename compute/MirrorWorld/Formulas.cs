@@ -162,12 +162,11 @@ public static class Formulas
     public const double F18_FoldThresholdBell = 0.00249;
     public const double F18_FoldThresholdProduct = 0.00497;
 
-    // F36/F37 (T1, neural): the Wilson-Cowan palindrome Q*J*Q + J + 2S = 0 (structural analog of
-    // Pi*L*Pi^-1 = -L - 2 Sg), eigenvalue pairing mu_k + mu_k' = -(1/tau_E + 1/tau_I). C.elegans
-    // connectome residual 0.013 vs random 0.108: the 8x is WITHDRAWN 2026-08-26
-    // (unmatched normalisation under a metric that reads coupling magnitude);
-    // see docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
-    public static double F37_NeuralPairSum(double tauE, double tauI) => -(1.0 / tauE + 1.0 / tauI);
+    // F36/F37 (T1, conditional): a Wilson-Cowan/neural Jacobian satisfying Q*J*Q + J + 2s*I = 0
+    // with involutive Q and scalar s has pair sum -2s = -(1/tau_E + 1/tau_I).
+    // Dale signs alone are insufficient; the C. elegans comparison is withdrawn.
+    // Scope and assumptions: docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
+    public static double F37_NeuralPairSum(double tauE, double tauI) => -2 * NeuralPalindrome.Centre(tauE, tauI);
 
     // F61 (T1): the bit_a parity Pi^2_X = Z^{tensor N} (the global Z-string), companion to F38's X^N.
     // On a Pauli string it is (-1)^{n_X+n_Y} = (-1)^k, the disagreement-count parity the Hamiltonian

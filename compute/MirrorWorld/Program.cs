@@ -3,6 +3,21 @@ using MirrorWorld;
 
 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;   // dots, not commas
 
+// ---- run mode "neural": the conditional F36/F37 matrix identity ----
+if (args.Length > 0 && args[0] == "neural")
+{
+    double[,] nj = { { -0.5, -0.25 }, { 0.25, -0.25 } };
+    double ns = NeuralPalindrome.Centre(2, 4);
+    double[,] fixedSeat = { { -0.5, 0, 0 }, { 0, -0.25, 0 }, { 0, 0, -0.5 } };
+    Console.WriteLine("F36/F37: conditional matrix identity Q J Q + J + 2s I = 0, Q² = I");
+    Console.WriteLine("  constructed example: J=[[-0.5,-0.25],[0.25,-0.25]], permutation=[1,0]");
+    Console.WriteLine($"  s={ns}; exact dyadic entrywise residual={NeuralPalindrome.MaxResidual(nj, [1, 0], ns)}");
+    Console.WriteLine($"  closed-quadratic complex pair: {-ns} ± {Math.Sqrt(3) / 8:G17}i (no eigensolver)");
+    Console.WriteLine($"  fixed-seat example: diag(-0.5,-0.25,-0.5), permutation=[1,0,2]; residual={NeuralPalindrome.MaxResidual(fixedSeat, [1, 0, 2], ns)}");
+    Console.WriteLine($"  biological-parameter pair sum F37(5,10)={Formulas.F37_NeuralPairSum(5, 10):0.0}");
+    return;
+}
+
 // ---- run mode "grow": the diagonal protocol, step 1 (the world splits) ----
 // ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md, rules 1-3 running in time. No Hamiltonian yet: a field of
 // possibilities under the one question, structure (the diagonal) staying while novelty (off-diagonal)
