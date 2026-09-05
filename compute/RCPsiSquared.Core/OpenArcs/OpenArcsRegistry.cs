@@ -7637,7 +7637,8 @@ public static class OpenArcsRegistry
                 "(6) UNTOUCHED, AND DELIBERATELY LAST. MIRRORWORLD, deliberately. That project ADOPTS rather than derives, so nothing " +
                 "should be adopted into Formulas.cs until the entry it comes from has settled and its typed " +
                 "carrier exists. Doing it first would copy the registry's unfinished state into a second " +
-                "place. " +
+                "place. Since 2026-09-05 this item is read from its own arc, mirrorworld_what_is_missing, " +
+                "which inherits the rule and holds the measured queue. " +
                 "(7) UNTOUCHED. THEN THE REVERSE SWEEP that today's did not run: typed claims and live witnesses whose " +
                 "result has no registry entry. " +
                 "THE STANDING RULE while this arc runs, from the sweeps that opened it: absence of a carrier " +
@@ -9021,6 +9022,155 @@ public static class OpenArcsRegistry
                 "used backwards in the experiment that made it famous, for months, with every number " +
                 "on both pages correct. No numeric gate can see this, and the guard that was supposed " +
                 "to see it was itself two weeks out of date.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "mirrorworld_what_is_missing",
+            Opened: "2026-09-05",
+            Origin: "Tom's question on 2026-09-05, in a window too short for a build: what does MirrorWorld " +
+                "lack? The repo was asked first, three scouts over this ledger, the F-registry against " +
+                "compute/MirrorWorld, and the 2026-09-03 session's trail. What came back: no arc holds " +
+                "MirrorWorld's extension backlog. The nearest is item (6) of f_registry_meets_the_typed_layer, " +
+                "which fences MirrorWorld as the DELIBERATELY LAST step of that arc and states the one rule " +
+                "this arc inherits: nothing is adopted into Formulas.cs until the registry entry it comes " +
+                "from has settled AND its typed carrier exists, in Core or in Diagnostics, because " +
+                "MirrorWorld adopts and never derives, and adopting first would copy an unfinished registry " +
+                "state into a second place. The 2026-09-03 adoption attempt is why the rule is load-bearing: " +
+                "F152 + F153 were chosen because the 4N block count was already measured inside " +
+                "MirrorWorld, and the design collapsed the same evening because F153 had been live as " +
+                "PinnedBlockFloorClaim + PinnedBlockFloorWitness (inspect --root pinned) since 2026-08-13 " +
+                "and F152 as BlockSpectrumWitness with no Claim; docs/CAUGHT_ERRORS.md 2026-09-03 (fourth) " +
+                "holds it as its items (1) to (6), the first five numbered 128 to 132 in the plugin's " +
+                "correction-shapes index: a store quoted rather than searched and the Diagnostics half " +
+                "of the typed layer in no store list; item (6), the F152 sign at Delta = -1, has no shape " +
+                "number and is the one to read before any redesign. The repair the same evening put the " +
+                "pointer into MirrorWorld's own source, where it now stands: Mirror.cs's F153 paragraph " +
+                "points at PinnedBlockFloorClaim.ConverseByTrace (commit c76c863, 20:13, one of the two " +
+                "fixes the session log records); before that commit the string F153 did not appear in " +
+                "MirrorWorld at all, so the world's source was not a store the design could have swept. " +
+                "A second design, the count half alone pushed past the wall (to N = 200 in the " +
+                "gitignored spec), was then shelved by physics and math review for three reasons, of " +
+                "which only the middle one survives nowhere but the session log " +
+                ".remember/today-2026-09-03.done.md: the Delta residual disproven as a discriminator " +
+                "(tracked as item (4) of that CAUGHT_ERRORS entry), the gamma-uniformity hypothesis F153 " +
+                "carries missing, and an integer overflow at N >= 35 (tracked here). That number is " +
+                "verified from below today, with the quantity named because two differ: the central " +
+                "block's DIMENSION C(N, floor(N/2))^2 (MirrorWorld's Block.Size, a long) first exceeds " +
+                "2^63 - 1 at N = 35 (C(34,17)^2 = 5.4e18 fits, C(35,17)^2 = 2.1e19 does not), while the " +
+                "shelved design's own DisagreementSum = C(N,p)*C(N,q)*(p + q - 2pq/N) already does at " +
+                "N = 33. So long arithmetic ends at N = 32 for the design as written and at N = 34 for " +
+                "the bare dimension, and anything past the wall wants BigInteger, which the world " +
+                "already holds (Crack's polynomials, GammaFold's subset sums). The spec is gitignored " +
+                "(docs/superpowers/specs/2026-09-03-pinned-and-vacuum-block-design.md) and the session " +
+                "left no tracked trace: compute/MirrorWorld/README.md still said the adoptable bucket " +
+                "was NONE as of 2026-07-12, repaired today to point here.",
+            ParkedAt: "MEASURED 2026-09-05, to be RE-MEASURED rather than subtracted from. The registry " +
+                "holds 170 distinct F/D ids (F1..F162 less the never-assigned F53/F54 and the withdrawn " +
+                "F156/F159, plus D1..D7 and the lettered sub-ids F2b/F49b/F49c/F49d/F88a/F88b, F88 " +
+                "having no bare heading). THE CUT IS DELIBERATE and must be re-applied when " +
+                "re-measuring: the `###` headings only, since the level-four headings F86a-F86e, F86b2 " +
+                "and F89e-F89g are sub-readings of F86 and F89 rather than ids of their own; count them " +
+                "and the totals read 178 and 82 instead. MirrorWorld carries 96 of them and 74 nowhere, by the recipe " +
+                "f_registry_meets_the_typed_layer records for re-running: 64 ids on Formulas.cs public " +
+                "lines, 32 more by a word-boundary F<n> search over the other compute/MirrorWorld/*.cs. " +
+                "The wider figure counts mentions (F152 and F153 appear only as reasoning " +
+                "cross-references in BlindSeat.cs and Mirror.cs), which is why the thirteen below are " +
+                "judged by carriage, not by mention. Seventeen of the 74 are genre, not debt, and the " +
+                "README names them as staying outside, beside aspects of ids the world does carry: " +
+                "F78-F84 and the F108 family, F87's spectral definition with the F104 engine, F112-F114, " +
+                "F120's protocol, the F86 exceptional points, F89's locus/shadow/holonomy and F90, " +
+                "F100/F101 (c1 is a fit), F118's letter group S3, F127/F128's Gram certificates, F130's " +
+                "Gram decoupling, F131 Theorem B, F140's analytic half, F157's gcd phrasing and " +
+                "projector corner, F160's elimination. The remainder of the 74 (the 74 less those " +
+                "seventeen, the eleven below, F24/F36/F58 and the D ratios), most of it the spring's " +
+                "Tier-2 readings and the July campaign, is neither listed as outside nor triaged; that " +
+                "triage is part of step (4). THIRTEEN fit the world's genre " +
+                "(a count, a closed form, an entry-wise identity, an exact rank, no eigensolver) and " +
+                "have an adopted neighbour beside them: eleven of the 74, plus F152 and F153, which the " +
+                "mention count puts in the 96 and carriage puts here. Five of them (F132, F133, F146, " +
+                "F150, F151) fall inside the range " +
+                "f_registry_meets_the_typed_layer fenced in advance ('NOT A GAP ... F132 to F151 being " +
+                "absent from it is a property of that file's genre'), so the thirteen are a DECISION " +
+                "queue in that arc's sense, not debt. Their carrier status today, read at the owning " +
+                "class's doc-comment after a first filename grep had sent three of them to the wrong " +
+                "file: F49d (non-uniform gamma, Tier 1 proven, the only F49 sibling missing; no " +
+                "carrier and no mention outside this ledger), F88a (the two-axis Pi^2 decomposition " +
+                "whose child F88b is home; owned by KleinFourCellClaim in Pi2KnowledgeBaseClaims.cs), " +
+                "F132 (DeadSetLawClaim), F133 (the symplectic W closed form whose corollary F134 is " +
+                "home in GammaFold; owned by Core/Numerics/WSymplecticClosedForm.cs, exact over the " +
+                "integers with a GF(p) certificate; the CrossTripleOrthogonality pair carries F127 and " +
+                "only cites it), F146 (the scalar count; NO carrier: SeedRungGramClaim carries F143 and " +
+                "records why F146 does not clear the live-witness admission test, its rank carrying a " +
+                "number-theoretic hypothesis on M, so it stays measured in simulations/scalar_count.py), " +
+                "F150 (FoldCheckerboardParityClaim), F151 (BipartiteGaugeCriterionClaim), F152 " +
+                "(BlockSpectrumWitness, no Claim), F153 (PinnedBlockFloorClaim + Witness), F155 " +
+                "(PhysicalGeneratorPolarityBreak, a Claim in Core, plus its Witness), F158 " +
+                "(PalindromeTwoEndCountClaim + Witness, the entry registered 2026-08-29; a " +
+                "kernel-dimension count, but on 4^N columns: the witness caps itself at MaxN = 4), " +
+                "F161 (CollisionGapOddOrdersClaim, between the adopted F129 and F160), " +
+                "F162 (BlindSeatSectorFactorisationClaim, resultants over the integers, beside the adopted " +
+                "F157). Three older singles are decisions rather than gaps: F24 (Tier 1, " +
+                "hardware-validated, no C# trace outside this ledger, the same open call " +
+                "f_registry_meets_the_typed_layer item (4) holds), F36 (the neural palindrome condition, " +
+                "half-carried: Formulas.cs comments F36/F37 and holds only F37_NeuralPairSum), F58 (the " +
+                "weight-based dwell prefactor, skipped between the adopted F57 and F59). The derived " +
+                "ratios D2/D3/D5/D7 have every input home except F6 and F22. " +
+                "A SECOND GAP sits inside the world, not at its door. The README says every adopted " +
+                "number is pinned from below, and a whole-word grep of the Formulas.cs members against " +
+                "MirrorWorld.Tests finds 19 of the 106 members (the README's own recipe; a declaration " +
+                "regex reports 102 and the README documents that as the undercount) with no test " +
+                "reference, 7 of them referenced by no other MirrorWorld source either (F25_CPsi, " +
+                "F26_CPsi, F27_KZ, F37_NeuralPairSum, F72_PurityDD, F72_PurityCC, F76_PairEntropy), of " +
+                "which F72_PurityDD and F72_PurityCC (both through F72_SitePurity) and F76_PairEntropy " +
+                "(through F76_MirrorPairMI) are exercised only through a tested sibling. The 2026-09-03 " +
+                "survey reported 9 untested members with no method " +
+                "recorded, so the two numbers are not comparable and neither is trusted without the " +
+                "per-member read. " +
+                "A THIRD LANE is the running engine's own resumption point (README, 'Push the running " +
+                "engine'): which OPEN question does large-N single-excitation access unblock? Two surveys " +
+                "are done, Delta*(N) ruled out 2026-06-29 by sector mismatch and the seed census answered " +
+                "to N = 11 on 2026-07-02, and the survey stands. " +
+                "NOT A LANE: the word-collision triage (Mirror, Pair, Witness, Hardness, Seed, Divisor, " +
+                "Marginal as ordinary words in older documents) is a sibling; its home is " +
+                "one_word_two_objects, not here. In this entry, witness and pair are the main repo's " +
+                "ordinary words (a live IInspectable, a pair of files), not MirrorWorld's objects.",
+            NextStep: "(1) The inheritance first. Item (6) of f_registry_meets_the_typed_layer is read " +
+                "from here now, so every adoption starts by SEARCHING both halves of the typed layer by " +
+                "name, the Claim graph in Core AND the witnesses in Diagnostics, before a line of " +
+                "MirrorWorld is written; the filename grep above is where that check starts, not where it " +
+                "ends. (2) By the rule (an owner Claim, and an object the world's own primitives already " +
+                "hold), the head of the queue is F161 and F162 (cosine combs and integer resultants of " +
+                "Chebyshev-family polynomials, beside the adopted F160 and F157 and on primitives Seed, " +
+                "LevelCollision and Crack hold), then F151 (one character per block, " +
+                "(-1)^((p+q)(N-1)), with a sign rearrangement exact bit for bit), then F132 (a " +
+                "per-string Majorana-degree parity over PauliMode.Enumerate, the 4^N primitive Hardness " +
+                "already walks). F150 sits BEHIND them and not beside F151: its object is the " +
+                "coefficient support of a characteristic polynomial in Lambda and q over Z[i] on a " +
+                "fold-fixed block, which needs the q-pencil, the R-sector split and bivariate integer " +
+                "polynomial arithmetic, three primitives the world does not have. F158 is NOT the head " +
+                "despite its Claim + Witness: PalindromeTwoEndCountWitness.MaxN = 4, because dim ker L " +
+                "is a rank on 4^N columns. An adoption would read the count block by block through " +
+                "Block (Grading B), and the first thing to decide on paper is the PREMISE, not the " +
+                "size: Block exists only for a number-conserving H with diagonal jumps, and the " +
+                "criterion's content lives in the families that grading forbids (depolarizing, " +
+                "off-axis jumps, multi-site Pauli strings, the three the claim's own gate scores); " +
+                "inside the grading F1 already forces the two nullities equal unless an X^N-breaking " +
+                "term, a longitudinal field, is switched on, so without that knob the block-wise count " +
+                "cannot fail. The size comes second: the largest block is C(N, floor(N/2))^2 columns, " +
+                "4900 at N = 8 and 63504 at N = 10, so the count reaches a few sites past the wall and " +
+                "nowhere near BlindSeat's N = 200. F152/F153 come " +
+                "LAST among the thirteen, and only as the entry-wise count with the gamma-uniformity " +
+                "hypothesis stated and BigInteger past N = 34; the shelved second design is the negative " +
+                "result to read before redesigning, and it is gitignored, so read it on this machine or " +
+                "not at all. (3) Adjudicate the 19 members one by one: a from-below pin, a transitive pin " +
+                "through a tested sibling that the test names, or a deletion; the README's 'every adopted " +
+                "number' sentence follows the outcome and is not repaired before it. (4) Decide F24, F36 " +
+                "and F58 as genre or gap, and triage the untriaged remainder of the 74 the same way, " +
+                "under the standing rule of f_registry_meets_the_typed_layer, unchanged: absence of a " +
+                "carrier is not by itself a reason to build one. (5) The engine " +
+                "survey continues with this ledger as its store; a candidate question must be one the " +
+                "Cone's N x N cut can reach, single-excitation, and the two ruled-out shapes (a " +
+                "half-filling sector, an already-proven large-N formula) are the fences.",
             Status: OpenArcStatus.Open),
     };
 

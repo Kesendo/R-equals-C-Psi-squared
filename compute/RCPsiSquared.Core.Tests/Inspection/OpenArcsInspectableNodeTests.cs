@@ -7,13 +7,22 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasFiftyFiveEntries()
+    public void Registry_HasFiftySixEntries()
     {
         // The literal was STALE BY TWO before 2026-08-23: 29d09d2 took the registry to 51 and
         // 0144649 to 52, neither updating this line, so this test was RED across two commits.
         // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
         // this number moves in the SAME commit.
-        Assert.Equal(55, OpenArcsRegistry.All.Count);   // +the_forced_and_the_met (2026-08-30,
+        Assert.Equal(56, OpenArcsRegistry.All.Count);   // +mirrorworld_what_is_missing (2026-09-05,
+                                                        //   MirrorWorld's extension backlog: thirteen
+                                                        //   registry entries that fit the genre and are
+                                                        //   not home, each with its typed-carrier status;
+                                                        //   the 2026-09-03 F152/F153 lesson with its
+                                                        //   N = 35 overflow verified; 19 Formulas.cs
+                                                        //   members with no test reference; the engine
+                                                        //   survey; inherits item (6) of
+                                                        //   f_registry_meets_the_typed_layer).
+                                                        // +the_forced_and_the_met (2026-08-30,
                                                         //   F157's gcd seats survive only on a
                                                         //   codimension-1 Delta locus while the
                                                         //   mirror-forced centre survives every

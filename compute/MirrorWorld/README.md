@@ -243,9 +243,13 @@ Two paths are open.
 `Program.cs` print line and a from-below assertion in `SmokeTests.cs`, then build/test/commit.
 The 2026-06-28 remnant list is empty, the delta-survey SHORTLIST (F75/F76, F88b, F91-F93,
 F95, F99) is home, the F87-hardness bloc landed as `Hardness.cs`, and the golden router
-followed as `Router.cs`. Remaining candidates from the survey's wider adoptable bucket:
-NONE -- the singles bucket emptied 2026-07-12 (F74 + F77 + F73 + F72 + F94/F96 adopted; F100/F101 re-examined and OUT, the c₁ fit is the blocker; see "Still outside" above) --
-plus FUTURE registry entries: when a new F-number lands as a closed form (or as an exact
+followed as `Router.cs`. The queue of what is not yet home lives in the main repo's arc
+`mirrorworld_what_is_missing` (`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`, opened
+2026-09-05): thirteen registry entries that fit the genre and are not home here, each with
+its typed-carrier status, the 2026-09-03 F152/F153 lesson, and the rule that a form comes home only
+after its registry entry has settled and its typed carrier exists (F100/F101 re-examined and OUT,
+the c₁ fit is the blocker; see "Still outside" above). The same door stays open for FUTURE
+registry entries: when a new F-number lands as a closed form (or as an exact
 rearrangement, the operator genre), it comes home here. The 2026-08-24 adoption took the other
 door, the one GammaFold's per-site turns opened: `BlindSeat` came home on the genre gate BEFORE
 any F-number existed; the main repo minted F157 for the seat-cut laws the same evening, and its
