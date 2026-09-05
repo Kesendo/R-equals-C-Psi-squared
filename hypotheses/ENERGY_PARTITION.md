@@ -28,7 +28,7 @@ owns the biological support null and constructed counterexamples.
 [thermal_emergence.py](../simulations/thermal_emergence.py) use open
 Heisenberg chains with uniform J=1 and Z-dephasing γ=0.1, N=2…5.
 They discard eigenvalues with |λ|≤10⁻⁸ before searching for the reflected
-partner −λ−2Nγ with a relative tolerance of 10⁻⁶.
+partner target=−λ−2Nγ with distance < 10⁻⁶·max(1, |target|).
 
 The [full-spectrum quantum theorem](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 pairs the zero modes with roots at −2Nγ. Removing the zero roots leaves
