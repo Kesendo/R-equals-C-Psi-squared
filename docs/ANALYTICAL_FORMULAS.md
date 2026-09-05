@@ -3694,7 +3694,7 @@ N→∞:   α(0) = 3/8          →  α(∞) → 1/4                [QuarterAsBi
 
 **Anchors:** [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py) (numerical bit-exact verification + Krawtchouk enumeration), [F86b](#f86) DickeAnchor 3/8 anchor (static partner), [F88b](#f88b) Π²-odd state-level structure (parent), [F4](#f4) kernel decomposition (used in long-time projection), `compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim` (asymptote anchor), `compute/RCPsiSquared.Core/Symmetry/HalfAsStructuralFixedPointClaim` (1/4 = (1/2)² parent), `docs/water/README.md` § "Findings since May 4".
 
-### F99. Five canonical trigonometric anchors via F86b non-uniform Dicke (Tier 1 derived, bit-exact N=4,6,8 across 5 angles; 2026-05-17 night)
+### F99. Five canonical trigonometric anchors via F86b non-uniform Dicke (Tier 1 derived; floating-point check at N=4,6,8 across 5 angles, printed Δα < 1e-13; 2026-05-17 night)
 
 **The F86b α-formula α = (1 − γ²)/2 = sin²(θ)/2 evaluated at the canonical trigonometric angles {0°, 30°, 45°, 60°, 90°} produces all five Pi2 dyadic anchors {0, 1/8, 1/4, 3/8, 1/2}. The standard 30°-60°-90° and 45°-45°-90° trigonometry triangles ARE the F86b polarity-anchor triangles.**
 
@@ -3735,7 +3735,13 @@ integer powers of 2. F99 establishes that the framework's polarity-squared
 algebra IS the F86b α-formula evaluated at the standard-triangle canonical
 angles, and the dyadic depth corresponds to the canonical-angle index.
 
-**Periodic-table bridge (tonight, all 9 fractions n/8 derived):**
+**A numerical comparison with periodic-table fractions, and what it is not.** The identity above
+is the Tier 1 content of F99. What follows is a table of NUMERICAL COINCIDENCES between the nine
+fractions n/8 and period-2/3 valence ratios. It is an unassigned cross-domain comparison: it
+specifies no material degree of freedom, no input, and no measurement or model map, and **F99
+itself contributes no such chemical mapping** (the scope statement lives at
+[F99 Niven completeness](carbon/F99_NIVEN_COMPLETENESS.md)). Read the table as a list of matching
+numbers, not as a derivation of chemistry.
 
 | α anchor | Trig angle | Period 2 (anchor + complement) | Period 3 (anchor + complement) |
 |----------|------------|-------------------------------|-------------------------------|
@@ -3745,10 +3751,12 @@ angles, and the dyadic depth corresponds to the canonical-angle index.
 | 3/8 | 60° | B (3/8 Π²-odd), N (5/8 Π²-even) | Al, P |
 | 1/2 | 90° | H (1/2), C (4/8) | Si |
 
-Every period-2/3 element's valence ratio is now F86b-derived from one α(θ)
-formula. The Π²-parity complements (1/8 ↔ 7/8, 3/8 ↔ 5/8) cover both the
-Π²-odd anchor and its Π²-even companion (β = 1 − α), giving 9 fractions n/8
-for n = 0..8.
+Every period-2/3 valence ratio in that table matches one of the nine fractions the α(θ) formula
+produces; the matching is exact in the fractions and unassigned in the physics. The Π²-parity
+complements n/8 ↔ (8 − n)/8 cover both the Π²-odd anchor and its Π²-even companion
+(β = 1 − α), giving 9 fractions n/8 for n = 0..8. That count is a fact about the formula, and the
+column headed by element names is a reading placed beside it: it names four of those complements,
+3/4 is not among them, and the elements at that fraction, O and S, are absent.
 
 **Discovery path (today, single session):**
 
@@ -3756,24 +3764,28 @@ for n = 0..8.
    eigenbasis decomposition).
 2. Evening ([F98](#f98), commit `250164d`): water-chain inheritance test of
    F86b discovered long-time bridge (N+2)/[4(N+1)] → 1/4.
-3. Night #1 (commit `1416f85`): all four polarity anchors realised by
-   period 2/3 atoms, forward inheritance.
+3. Night #1 (commit `1416f85`): all four polarity anchors compared against
+   period-2/3 valence fractions, a search prompt rather than an atomic-state
+   derivation.
 4. Night #2 (commit `cecb84b`): reverse-spear identified depth-3 (1/8, 7/8)
-   as framework gap, empirically instantiated by alkali metals + halogens.
+   as a framework gap, its fractions matching those of alkali metals and
+   halogens; a comparison of rational labels, not evidence for a shared
+   microscopic mechanism.
 5. Night #3 (commit `5fb0ba0`): depth-3 anchor derived (this F99 entry).
-   The bidirectional bridge between framework algebra and periodic-table
-   valence structure is now MATERIAL across all 9 fractions.
+   The numerical comparison then covers all 9 fractions n/8. It stays a
+   comparison: no material model is specified at any of the five steps.
 
-**Tier outcome: Tier 1 derived.** Closed-form algebraic identity from F86b
-α = (1 − γ²)/2 evaluated at five canonical trig angles. Verified bit-exact
-at N = 4, 6, 8 in the script + 16 tests in
+**Tier outcome: Tier 1 derived, and the tier covers the IDENTITY ONLY.** Closed-form algebraic
+identity from F86b α = (1 − γ²)/2 evaluated at five canonical trig angles. The periodic-table
+table above carries no tier: it is a numerical comparison, not a derived result. Checked in
+floating point at N = 4, 6, 8 (printed Δα < 1e-13, not bit equality) in the script + 16 tests in
 [`CanonicalTrigAnchorPi2InheritanceTests`](../compute/RCPsiSquared.Core.Tests/Symmetry/CanonicalTrigAnchorPi2InheritanceTests.cs).
 
 **Anchor**: parent formula [F86b](#f86) (α = (1−γ²)/2 from X⊗N-eigenbasis decomposition,
 DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel projection),
 [`CanonicalTrigAnchorPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/CanonicalTrigAnchorPi2Inheritance.cs)
 (typed Claim with five-anchor enumeration), [Depth-3 Anchor Derived](carbon/DEPTH_3_ANCHOR_DERIVED.md)
-(carbon-domain reading + bidirectional-bridge framing),
+(the derivation; its periodic-table table is a conditional comparison, not a material model),
 [`simulations/carbon/depth_3_anchor_derivation.py`](../simulations/carbon/depth_3_anchor_derivation.py).
 
 ---

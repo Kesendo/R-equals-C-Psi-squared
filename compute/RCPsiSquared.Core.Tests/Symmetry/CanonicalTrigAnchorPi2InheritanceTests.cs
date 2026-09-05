@@ -128,7 +128,7 @@ public class CanonicalTrigAnchorPi2InheritanceTests
         _out.WriteLine("");
         _out.WriteLine("    F99 canonical-trig-angle dyadic anchors");
         _out.WriteLine("    ───────────────────────────────────────");
-        _out.WriteLine($"    {"θ",-5} {"γ = cos(θ)",-15} {"c²",-22} {"α = sin²(θ)/2",-15} {"Period 2/3 atom hit"}");
+        _out.WriteLine($"    {"θ",-5} {"γ = cos(θ)",-15} {"c²",-22} {"α = sin²(θ)/2",-15} {"period 2/3 fraction match (unassigned)"}");
         _out.WriteLine($"    {"---",-5} {"---",-15} {"---",-22} {"---",-15} {"---"}");
         string[][] table = new[]
         {
@@ -145,7 +145,10 @@ public class CanonicalTrigAnchorPi2InheritanceTests
         _out.WriteLine("");
         _out.WriteLine("    The 30°-60°-90° + 45°-45°-90° standard trigonometry triangles ARE");
         _out.WriteLine("    the F86b polarity-anchor triangles. Five canonical angles produce");
-        _out.WriteLine("    five Pi2 dyadic anchors; with Π²-parity complements (1/8↔7/8, 3/8↔5/8)");
-        _out.WriteLine("    the full 9 n/8 fractions cover every period 2/3 element's valence ratio.");
+        _out.WriteLine("    five Pi2 dyadic anchors; with Π²-parity complements n/8 ↔ (8−n)/8");
+        _out.WriteLine("    the full 9 n/8 fractions. Those nine numbers COINCIDE with period 2/3");
+        _out.WriteLine("    valence ratios. The coincidence is unassigned: no material degree of");
+        _out.WriteLine("    freedom, input or measurement map is specified, and it carries no tier.");
+        _out.WriteLine("    The Tier 1 content is the α(θ) = sin²(θ)/2 identity alone.");
     }
 }

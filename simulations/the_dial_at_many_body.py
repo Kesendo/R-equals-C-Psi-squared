@@ -2,9 +2,13 @@
 The dial at many-body: what the clock's memory hand actually does
 (a closed form, a crossover, and a skipped band).
 
-We asked whether the clock's slowest-mode angle walks through the element markings as
-Q = J/gamma sweeps (DEPTH_3: theta -> alpha = sin^2(theta)/2 -> valences; 60 deg = Boron
-3/8, 45 = Beryllium 1/4, 30 = Lithium 1/8, at the canonical Q = sqrt(3), 1, 1/sqrt(3)).
+We asked whether the clock's slowest-mode angle walks through the F99 markings as
+Q = J/gamma sweeps (DEPTH_3: theta -> alpha = sin^2(theta)/2; 60 deg = 3/8, 45 = 1/4,
+30 = 1/8, at the canonical Q = sqrt(3), 1, 1/sqrt(3)). Those three fractions coincide
+with the valence ratios of B, Be and Li, and the element names below are used as labels
+for the angles only: the coincidence is unassigned (no material degree of freedom, input
+or measurement map is specified) and carries no tier. See
+docs/carbon/F99_NIVEN_COMPLETENESS.md.
 Reading the Heisenberg chain under Z-dephasing, the honest answer is more interesting
 than a smooth sweep, and the clock corrected the clean story itself:
 

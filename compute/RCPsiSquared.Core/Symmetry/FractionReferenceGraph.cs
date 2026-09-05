@@ -99,10 +99,13 @@ public sealed class FractionReferenceGraph
             new(1.0 / 8.0, 0.0, "F99 canonical-trig adjacent: γ=cos(0°)=1 → γ=cos(30°)=√3/2",
                 FractionReferenceDirection.Backward, "CanonicalTrigAnchorPi2Inheritance"),
 
-            // === Π²-parity complements (periodic-table fractions n/8 ↔ (8−n)/8) ===
-            // The full n/8 ↔ (8−n)/8 complement family at valence n: three non-trivial
-            // pairs + one self-mirror at n=4 (carbon). Pair-sum-constant is the F1
-            // periodic palindrome over periods 2-6 (project_periodic_palindrome).
+            // === Π²-parity complements, n/8 ↔ (8−n)/8 ===
+            // The full complement family: three non-trivial pairs + one self-mirror at n=4.
+            // Pair-sum-constant is the F1 periodic palindrome over periods 2-6
+            // (project_periodic_palindrome). The element names below LABEL the fractions and
+            // nothing more: the coincidence with period-2/3 valence ratios is unassigned (no
+            // material degree of freedom, input or measurement map is specified anywhere in
+            // this graph), and it carries no tier. See docs/carbon/F99_NIVEN_COMPLETENESS.md.
             new(1.0 / 8.0, 7.0 / 8.0, "Π²-parity complement: Li/Na (1/8) ↔ F/Cl (7/8) periodic-table",
                 FractionReferenceDirection.Mirror, "project_v_effect_combinatorial memory"),
             new(1.0 / 4.0, 3.0 / 4.0, "Π²-parity complement: Be/Mg (1/4) ↔ O/S (3/4) periodic-table (alkaline-earth ↔ chalcogen, F1 palindrome)",

@@ -28,8 +28,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Discovery path</b>: today (2026-05-17) morning derived F86b 3/8 at γ = 1/2
 /// (uniform Dicke), evening derived F98 long-time bridge to 1/4 (water-chain
 /// inheritance); night #2 identified depth-3 (1/8) as a framework gap empirically
-/// instantiated by alkali metals (Li, Na at 1/8 valence) and halogens (F, Cl at
-/// 7/8); night #3 (this commit) closed the gap via non-uniform Dicke at γ = √3/2,
+/// matched in fraction by alkali metals (Li, Na at 1/8 valence) and halogens (F, Cl at
+/// 7/8), a comparison of rational labels rather than a shared microscopic mechanism;
 /// then noticed that ALL FIVE dyadic anchors live on canonical trig angles.</para>
 ///
 /// <para><b>Three typed parents</b>: <see cref="QuarterAsBilinearMaxvalClaim"/>
@@ -39,7 +39,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// F86b uniform-Dicke <see cref="DickeAnchor"/> enum produces only the 0°, 60°,
 /// 90° subset; F99 extends to the full five-anchor set via non-uniform Dicke.</para>
 ///
-/// <para><b>Periodic-table bridge (closed tonight, all 9 fractions n/8 derived):</b></para>
+/// <para><b>A numerical comparison with periodic-table fractions, and what it is not.</b>
+/// The nine fractions n/8 the formula produces coincide numerically with period-2/3 valence
+/// ratios. That is an UNASSIGNED cross-domain comparison: no material degree of freedom, no
+/// input and no measurement or model map is specified, and this claim contributes no chemical
+/// mapping. The scope statement is <c>docs/carbon/F99_NIVEN_COMPLETENESS.md</c>. The list below
+/// below holds matching numbers only, and carries no tier:</para>
 /// <list type="bullet">
 ///   <item>α = 0 (0°, endpoint) → noble gases He, Ne, Ar</item>
 ///   <item>α = 1/8 (30°) → Li, Na (1/8) + F, Cl (7/8 = 1 − 1/8 complement)</item>
@@ -48,8 +53,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>α = 1/2 (90°) → H, C, Si</item>
 /// </list>
 ///
-/// <para><b>Tier outcome: <see cref="Tier.Tier1Derived"/>.</b> All five canonical
-/// anchors verified bit-exact (Δα &lt; 1e-13) at N = 4, 6, 8 in the test suite.
+/// <para><b>Tier outcome: <see cref="Tier.Tier1Derived"/>, and the tier covers the IDENTITY
+/// ONLY.</b> All five canonical
+/// anchors checked in floating point at N = 4, 6, 8 in the test suite (printed
+/// Δα &lt; 1e-13, not bit equality).
 /// The α(θ) = sin²(θ)/2 closed form is direct algebraic identity from the F86b
 /// non-uniform Dicke X⊗N-overlap.</para>
 ///
@@ -153,7 +160,8 @@ public sealed class CanonicalTrigAnchorPi2Inheritance : Claim, IF99AnchorBearing
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F99 + " +
                "simulations/carbon/depth_3_anchor_derivation.py (bit-exact verification N=4..8 across 5 anchors) + " +
-               "docs/carbon/DEPTH_3_ANCHOR_DERIVED.md (derivation + bidirectional-bridge framing) + " +
+               "docs/carbon/DEPTH_3_ANCHOR_DERIVED.md (derivation; its periodic-table table is an " +
+               "unassigned comparison, not a material model) + " +
                "compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs (F86b uniform-Dicke 3-anchor enum, parent) + " +
                "compute/RCPsiSquared.Core/Symmetry/KIntermediateAsymptoteQuarterInheritance.cs (F98 dynamic companion)")
     {
@@ -193,8 +201,12 @@ public sealed class CanonicalTrigAnchorPi2Inheritance : Claim, IF99AnchorBearing
             }
             yield return new InspectableNode("standard triangles",
                 summary: "30°-60°-90° (sides 1:√3:2) + 45°-45°-90° (sides 1:1:√2) ARE the F86b polarity-anchor triangles");
-            yield return new InspectableNode("periodic-table bridge",
-                summary: "5 angles → 5 α anchors → 9 n/8 fractions (with Π²-parity complements 1/8↔7/8, 3/8↔5/8) cover every period 2/3 element's valence ratio");
+            yield return new InspectableNode("periodic-table fractions (a numerical comparison)",
+                summary: "5 angles → 5 α anchors → 9 n/8 fractions (with Π²-parity complements " +
+                         "n/8 ↔ (8−n)/8). Those nine numbers coincide with the period-2/3 valence " +
+                         "ratios; the coincidence is unassigned (no material degree of freedom, input or " +
+                         "measurement map is specified) and carries no tier. The Tier 1 content is the " +
+                         "α(θ) = sin²(θ)/2 identity alone.");
         }
     }
 
