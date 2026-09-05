@@ -13,7 +13,7 @@ R=CPsi2 entropy production -->
 - [KMS Detailed Balance](../docs/KMS_DETAILED_BALANCE.md) (2Σγ as max entropy rate)
 - [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Π chiral, Hopf = chiral breaking)
 - [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) (gain-loss system)
-- [Energy Partition](../hypotheses/ENERGY_PARTITION.md) (2x decay law)
+- [Energy Partition](../hypotheses/ENERGY_PARTITION.md) (filtered-spectrum audit and F8 range/centre distinction)
 
 ---
 

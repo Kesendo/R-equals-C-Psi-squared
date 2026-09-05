@@ -217,12 +217,21 @@ def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
         root / "docs/ANALYTICAL_FORMULAS.md": (
             "F8. 2× universal decay law", "rate(unpaired)", "rate(paired mean)",
         ),
-        root / "docs/ITS_ALL_WAVES.md": ("all oscillation is palindromic, universal 2× decay law",),
+        root / "docs/ITS_ALL_WAVES.md": (
+            "all oscillation is palindromic, universal 2× decay law",
+            "only oscillation the system has", "the 4 unpaired modes",
+            "creates new palindromic oscillation and sheds the rest",
+        ),
         root / "docs/EXCLUSIONS.md": ("unpaired modes die twice as fast", "noise dies 2x faster"),
         root / "docs/PREDICTIONS.md": ("now structurally confirmed in spirit", "universal building-block ratio"),
         root / "hypotheses/WAVES_THAT_HEAR_THEMSELVES.md": ("noise self-cleans at 2×",),
         root / "review/OPEN_QUESTIONS_INDEX.md": ("Does Finding 1 (all oscillation is palindromic)",),
         root / "review/OPEN_QUESTIONS_INDEX_PROPOSAL_scope-extension.md": ("Does Finding 1 (all oscillation is palindromic)",),
+        root / "docs/proofs/PROOF_ABSORPTION_THEOREM.md": (
+            "The 2× Decay Law (F8)", 'What F8 calls\n"unpaired" means *not self-paired*',
+        ),
+        root / "docs/READING_GUIDE.md": ("the 2× decay law a common reading",),
+        root / "docs/proofs/README.md": ("sum rule, 2x decay law",),
         root / "hypotheses/README.md": ("unpaired modes decay 2x faster",),
         NEURAL / "veffect_exact.py": ("edge E-neurons",),
         NEURAL / "veffect_and_heat.py": (

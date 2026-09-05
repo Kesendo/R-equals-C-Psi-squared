@@ -458,7 +458,7 @@ explains what previously required separate derivations.
    Re(λ) = −2γ⟨n_XY⟩. The absorption rate of any eigenmode equals twice
    the dephasing rate times the mode's mean light content. Three-step
    proof from L_H anti-Hermitian. Gives the spectral boundary formula, the
-   palindromic sum rule and the 2× decay law a common reading; the spectral
+   palindromic sum rule and F8 full-range/centre ratio a common reading; the spectral
    gap it relocates rather than derives.
    Extended in 2026 to per-eigenmode Rayleigh form, two-sided and
    projector readings, and the recentred diagonal seam L_D = γ(Q − N·I).

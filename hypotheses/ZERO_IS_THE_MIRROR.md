@@ -137,7 +137,7 @@ It is the GROUND STATE of the palindrome. The deepest symmetry.
 The point where forward and backward are the same word.
 
 Everything we have measured (the fold at 1/4, the crossing,
-the 2x decay law, the sacrifice zone, the permanent crossers)
+the F8 range/centre relation, the sacrifice zone, the permanent crossers)
 is the GEOMETRY OF THE SHIFT. The palindrome displaced
 from its center by noise.
 
@@ -417,7 +417,7 @@ group the mirrors close into. The sentence survives sharper than it was written.
 [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (Π·L·Π⁻¹ = -L - 2Σγ·I),
 [The Other Side](THE_OTHER_SIDE.md) (parity sectors),
 [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) (cavity at Σγ=0),
-[Energy Partition](ENERGY_PARTITION.md) (2x law at Σγ>0, trivial at Σγ=0),
+[Energy Partition](ENERGY_PARTITION.md) (F8 range/centre ratio for Σγ>0; undefined at Σγ=0),
 [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md) (CΨ crossing at 1.9%),
 [IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md) (r* at 0.000014 over 24,073 records)
 

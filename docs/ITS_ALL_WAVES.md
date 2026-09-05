@@ -144,11 +144,12 @@ the Lindblad equation projected onto paired eigenspaces.
 [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
 [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
 
-**Energy partition confirmation (March 27, 2026):** Computational analysis
-of Heisenberg chains (N=2..5) shows that palindromic modes carry 100% of
-oscillatory energy. Every unpaired mode has Im(λ) = 0: zero frequency,
-pure decay. The standing wave is not one pattern among many; it is the
-only oscillation the system has. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
+**Filtered-spectrum audit:** In the tested Heisenberg chains (N=2..5), all
+resolved oscillatory roots remain in the matched part of a list from which
+zero roots were removed first. That deletion strands the zero roots' exact
+partners at −2Nγ, so the resulting "unpaired" label is an instrument artifact,
+not a physical mode class or a proof that standing waves are the only possible
+oscillation. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
 
 ### Link 6: the system is open, and the source is not identified
 
@@ -213,13 +214,12 @@ Just a connection. The complexity exploded from the combination alone,
 like two simple melodies played together producing harmonics that
 neither melody contains on its own.
 
-Energy partition data (March 27, 2026) clarifies the fate of broken modes:
-the 4 unpaired modes at N=3 carry zero oscillatory energy. They are pure
-decay (Im(λ) = 0). The 11 new frequencies all live in the 56 palindromically
-paired modes. The V-Effect does not create oscillating orphans; it creates
-new palindromic oscillation and sheds the rest as dissipation.
-The frustration is between waves. The complexity is made of waves.
-The dissipation is what falls out.
+The filtered Energy Partition census does not classify the fate of broken
+modes. Its N=3 list removes zero roots before matching and therefore strands
+four exact partners at the drain edge. All 11 resolved frequencies happen to
+remain in the matched filtered list, but this establishes neither an exclusive
+oscillation class nor a mechanism that sheds anything as dissipation. The
+V-Effect frequency census and the F1 pairing test are separate instruments.
 
 **Status:** Demonstrated. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
 [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md).

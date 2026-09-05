@@ -350,4 +350,4 @@ binning used here can see.
 [IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md) (24,073 records, r* threshold),
 [IBM Concentrator](IBM_CONCENTRATOR.md) (hardware test, 2-3x measured),
 [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) (the resonator paradigm),
-[Energy Partition](../hypotheses/ENERGY_PARTITION.md) (2x decay law)
+[Energy Partition](../hypotheses/ENERGY_PARTITION.md) (filtered-spectrum audit and F8 range/centre distinction)

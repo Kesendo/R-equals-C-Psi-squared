@@ -150,4 +150,4 @@ for the modes that matter most.
 [IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) (the 2.80x result),
 [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) (the eigenfrequencies),
 [Resonant Return](RESONANT_RETURN.md) (the sacrifice-zone formula),
-[Energy Partition](../hypotheses/ENERGY_PARTITION.md) (2x decay law)
+[Energy Partition](../hypotheses/ENERGY_PARTITION.md) (filtered-spectrum audit and F8 range/centre distinction)

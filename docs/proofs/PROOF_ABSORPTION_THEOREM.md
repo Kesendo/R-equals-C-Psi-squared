@@ -18,7 +18,7 @@ The Absorption Theorem reads the decay rate of any Lindblad eigenmode straight o
 
 where ⟨n_XY⟩ is the average number of X or Y factors (the "light content") in the eigenmode's Pauli decomposition. The dissipator is built from Z, so it sorts every Pauli letter into two classes: the lens {I, Z}, which the dephasing passes through without cost, and the light {X, Y}, absorbed at exactly 2γ per factor. A mode's lifetime is therefore fixed by one number, how much of its own structure it exposes to the light: eigenmodes carrying no light are immortal (rate 0), eigenmodes of pure {X, Y}^⊗N content die fastest (rate 2Nγ). The number is a property of the eigenmode, not of Pauli content as such: H rotates {I, Z} strings into the light, and for the Heisenberg chain only two {I, Z} strings are frozen outright (I^⊗N and Z^⊗N), the rest of the (N+1)-dimensional F4 kernel being superpositions.
 
-This is the rate-side companion of the F1 palindrome. Π swaps light and lens, so paired eigenvalues satisfy ⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N and sit symmetrically about the center, which is the F8 factor-of-two decay law in one line. The recentred face L_D = γ(Q − N·I), with Q = Σ_l Z_l⊗Z_l, shifts the absorption ladder's midpoint to zero and is literally the same diagonal that the F87 girth-moment machinery and the palindrome share: one diagonal, three readings (absorption rates, palindromic pairing, power-sum expansion).
+This is the rate-side companion of the F1 palindrome. Π swaps light and lens, so paired eigenvalues satisfy ⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N and sit symmetrically about the center, which gives F8's full-range/centre ratio when the folded spectrum reaches both endpoints. The recentred face L_D = γ(Q − N·I), with Q = Σ_l Z_l⊗Z_l, shifts the absorption ladder's midpoint to zero and is literally the same diagonal that the F87 girth-moment machinery and the palindrome share: one diagonal, three readings (absorption rates, palindromic pairing, power-sum expansion).
 
 The identity is exact and verified per mode at N=2..5. It is a reading, not a shortcut: ⟨n_XY⟩ is defined from the eigenvector, so evaluating it means already having diagonalized. What it replaces is not the computation but the mystery, by saying what the real part *is*. Where the light content is known in advance, as it is for pure-weight modes, it does predict the rate outright.
 
@@ -56,7 +56,7 @@ Hamiltonian rotates into the light is not one, and it decays.
 This single equation, provable in three lines from the structure of
 the Lindblad master equation, unifies an entire family of spectral
 results: the boundaries (F3), the palindromic sum rule, the 2×
-decay law (F8), the mode classification by Pauli
+full-range/centre ratio (F8), the mode classification by Pauli
 weight, the N=3 rate ladder (F33), and via later derivation the
 weight-1 degeneracy count (F50), the (0,1) coherence block dispersion relation
 (F2), the GHZ XOR-drain (F22), the n_XY chromaticity (F74), and the
@@ -80,7 +80,7 @@ absorption claim as a parent.
 | Consequence 1: Spectral boundaries | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F3 |
 | Consequence 2: Palindromic sum rule | **Derived** | This document, §4.2 |
 | Consequence 3: Spectral gap | **Not derived** (§4.3: 2γ only above an N-dependent Q*_gap) | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) D6 |
-| Consequence 4: 2× decay law | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F8 |
+| Consequence 4: full-range/centre ratio | **Derived within the F1 endpoint scope** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F8 |
 | Consequence 5: Mode classification | **Derived** | [XOR Space](../../experiments/XOR_SPACE.md) |
 | Consequence 6: N=3 rate ladder | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F33 |
 | Consequence 7: The recentred face | **Derived** | This document, Section 4.7 |
@@ -671,34 +671,28 @@ echo cycles or T2 is using the second statement and is untouched by the
 threshold; only claims about the slowest mode of the full Liouvillian, and about
 mixing to the steady manifold, need the Q*_gap condition.
 
-### 4.4 The 2× Decay Law (F8)
+### 4.4 The Full-Range/Centre Ratio (F8)
 
-**Previously:** Unpaired modes (at the palindrome extremes) decay at rate
-2Nγ, while paired modes average rate Nγ. The ratio is exactly 2.
+For a local-Z-dephasing instance satisfying F1 and reaching both folded
+endpoints, the kernel roots at rate 0 pair with drain roots at rate 2Σγ.
+The fixed locus is the spectral centre Σγ. Hence full width/centre=2 when
+Σγ>0 (uniformly, 2Nγ/(Nγ)=2). This is spectral geometry, not a lifetime law
+for two physical mode classes.
+
+Self-paired roots sit at the fixed centre. Distinct partner pairs occupy the
+rest of the folded spectrum, including the endpoint pair 0↔2Σγ. The filtered
+classifier in [Energy Partition](../../hypotheses/ENERGY_PARTITION.md) removes
+zero roots before matching and thereby strands their drain partners; its word
+"unpaired" must not be redefined as "not self-paired".
+
+The mean over the *whole spectrum* is a separate reading: it is Σγ for any
+Hermitian H under this dissipator, with no F1 symmetry needed, because
+Tr(L_H)=0 and Tr(L_D)=−γN·d² in the uniform case. F8 adds the pairwise fold and
+the endpoint reach, both of which require its stated scope. A generic H that
+breaks F1 need not have width 2Nγ or centre Nγ.
+
 **Source:** [Analytical Formulas](../ANALYTICAL_FORMULAS.md), F8;
 [Energy Partition](../../hypotheses/ENERGY_PARTITION.md)
-
-**Now explained.** Two words have to be kept apart first, because F8's phrasing
-compresses them. Every mode is palindromically paired; the drain modes at 2Nγ
-are the partners of the kernel modes at 0 (0 + 2Nγ = 2Σγ). What F8 calls
-"unpaired" means *not self-paired*: a mode whose Π-partner is a different mode,
-which is why it can sit at an extreme. A **self-paired** mode is its own partner
-and therefore has nowhere to sit but the fixed point of the reflection.
-
-That fixed point is the palindrome center α = Σγ = Nγ, corresponding to
-⟨n_XY⟩ = N/2, an equal mix of light and lens. The full range spans 0 (lens) to
-2Σγ (light).
-
-The ratio 2 is the ratio of the maximum (2Σγ) to the center (Σγ), and it is not
-a dynamical law. Two different averages meet at that centre and it is worth
-keeping them apart. The mean over the *whole spectrum* is Σγ for any Hermitian
-H, with no symmetry needed: Tr(L_H) = 0 and Tr(L_D) = −γN·d², since summing
-n_XY over all 4^N strings gives N·d²/2. Verified at 3.0000000000·γ and
-4.0000000000·γ for a random complex Hermitian H at N=3 and N=4. F8's statement
-is the stronger one, that *each palindromic pair* averages Σγ, and that does need
-F1. The two coincide exactly when the spectrum is palindromic. The numerator,
-max = 2Nγ, belongs to the number-conserving family either way, so for a generic
-H the ratio is not 2 at all.
 
 ### 4.5 Mode Classification by Light Content
 
