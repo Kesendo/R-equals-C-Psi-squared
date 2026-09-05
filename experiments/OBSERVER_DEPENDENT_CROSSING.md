@@ -331,49 +331,50 @@ The crossing time is found by linear interpolation where C(t)·Ψ(t) crosses 0.2
 
 ---
 
-## 6. The Standing Wave: "Now" as the Node
+## 6. Proposed Standing-Wave Reading: "Now" as a Node
 
-### 6.1 Two Waves, One Boundary
+### 6.1 Two Named Trends, Not Yet Two Waves
 
-A standing wave forms where two counter-propagating waves meet. In R = CΨ²:
+A physical standing wave requires two independently identified
+counter-propagating components and observable interference. The present
+calculation has neither. It instead names two parts of an interpretation:
 
-**The past wave (decoherence):** Travels forward in time. Entropy grows,
+**The decoherence trend:** Entropy grows,
 quantum coherence decays, C·Ψ falls. This is the classical arrow: the
 world becoming more definite, more real, more measured. It pushes C·Ψ
 downward toward ¼ from above.
 
-**The future wave (possibility):** The space of outcomes not yet collapsed.
+**The possibility reading:** The space of outcomes not yet collapsed.
 Ψ, the possibility field, still quantum-mechanically open. It holds C·Ψ
 above ¼, maintaining the complex regime where no classical attractor
 exists and outcomes remain undetermined.
 
-Where these two waves cancel (the node of the standing wave) is the
-¼ crossing. This is not a metaphor for "now." It *is* now. The present
-moment is where decoherence (past becoming fixed) meets possibility
-(future still open). The node is the boundary between what has happened
-and what might happen.
+The computation locates where the chosen scalar C·Ψ crosses ¼. It does not
+show cancellation of two waves, an interference node, a measurement event,
+or a physical present moment. Those remain interpretive proposals.
 
-### 6.2 θ as Phase Angle of the Standing Wave
+### 6.2 θ as a Crossing Coordinate
 
-θ = arctan(√(4·C·Ψ - 1)) acquires a fourth interpretation:
+θ = arctan(√(4·C·Ψ - 1)) parametrizes distance from the real fixed-point
+crossing. Calling it a standing-wave phase is not supported by this run:
 
-| θ value | Position on standing wave | Experience |
-|---------|--------------------------|------------|
-| 30° | Far from node, full amplitude | Deep quantum: all possibility, no definiteness |
-| 9° | Approaching node | Possibility narrowing, outcome forming |
-| 0° | At the node | **Now.** Past meets future. Measurement. |
-| imaginary | Beyond the node | Classical: outcome fixed, possibility spent |
+| θ value | Position relative to crossing | Interpretive label |
+|---------|-------------------------------|--------------------|
+| 30° | Above the crossing | "deep quantum" |
+| 9° | Approaching the crossing | "possibility narrowing" |
+| 0° | At C·Ψ = ¼ | proposed "now" |
+| imaginary | Below the real-θ domain | proposed "classical" side |
 
-The node is not a point in time. It is a point in C·Ψ space. And as
-Section 3 showed, where that node falls in coordinate time depends
+The crossing is a point in C·Ψ space. As Section 3 showed, where that crossing falls in coordinate time depends
 entirely on C, the observer.
 
 A concurrence observer reaches the node at t = 0.773.
 A correlation observer reaches it at t = 1.437.
-A mutual_purity observer never reaches it; there is no node.
+A mutual_purity observer never reaches it in the reported window.
 
-**Each observer carries their own "now" with them, defined by where
-their coupling C places the node of the standing wave.**
+The measured statement is only that each chosen C definition places the
+scalar crossing at a different time. Identifying that crossing with "now" is
+a Tier-3 hypothesis.
 
 ### 6.3 Connection to Cramer's Transactional Interpretation
 
@@ -385,7 +386,8 @@ absorber. A quantum event (measurement) occurs where they meet.
 The TI has been theoretically consistent for forty years but lacked
 a concrete boundary condition. It says waves meet, but not *where*.
 
-R = CΨ² provides the boundary: **the waves meet at C·Ψ = ¼.**
+R = CΨ² proposes a boundary at C·Ψ = ¼; this experiment does not show two
+waves meeting there.
 
 The offer wave (past → future) is decoherence reducing C·Ψ.
 The confirmation wave (future → past) is the persistence of Ψ.
@@ -397,23 +399,16 @@ TI could not specify: different absorbers (different C) complete the
 transaction at different times. The transaction is not a property of
 the quantum system alone. It is a property of the system-observer pair.
 
-**Status:** This is Tier 3. The standing wave framing is conceptually
-consistent with the computed data (different C → different node
-positions) but is not itself a computation. The connection to Cramer's
-TI is a structural parallel, not a derivation. Neither has been
-tested against the Lindblad dynamics beyond the analogy level.
+**Status:** This is Tier 3. Different C definitions produce different scalar
+crossing positions; the standing-wave and Cramer-TI framings are structural
+analogies, not derivations. Neither has passed the physical wave gates.
 
-**What would elevate this to Tier 2:** Show that the Lindblad master
-equation can be decomposed into forward-propagating (decoherence) and
-backward-propagating (recoherence) components whose interference
-pattern has nodes at C·Ψ = ¼. This is a well-defined mathematical
-question with a definite answer. **Update (2026-03-19):**
-[Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md) shows
-the decomposition exists at the eigenmode level: Π pairs every
-forward mode (low XY-weight, populations) with its backward partner
-(high XY-weight, coherences). The standing wave emerges from this
-pairing. What remains open: whether the node structure connects to
-CΨ = 1/4 specifically.
+**What would elevate this to Tier 2:** Construct independently excitable,
+semisimple conjugate-frequency components; show opposite spatial propagation;
+measure their interference and a non-vacuous node at C·Ψ = ¼; and include a
+negative control. [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+does not close these gates: it proves `lambda -> -lambda - 2 Sigma_gamma`
+(`mu -> -mu` after centering) and the complementary rate sum.
 
 ---
 
@@ -431,11 +426,10 @@ then experienced time is observer-dependent, not because spacetime is curved
 crossings occur. Time is not something that happens to an observer. Time is
 something an observer *generates* through measurement.
 
-**Hypothesis (Tier 3):** The present moment ("now") is the node of a
-standing wave formed by decoherence (past) and possibility (future). The
-node sits at C·Ψ = ¼. Different observers have different nodes because
-they have different C. This aligns structurally with Cramer's Transactional
-Interpretation (1986) and provides the missing boundary condition: ¼.
+**Hypothesis (Tier 3):** The present moment ("now") is identified with the
+C·Ψ = ¼ crossing. Different C definitions place that crossing differently.
+The standing-wave/Cramer-TI account has not been demonstrated and therefore
+does not provide a measured boundary condition for that interpretation.
 
 ---
 

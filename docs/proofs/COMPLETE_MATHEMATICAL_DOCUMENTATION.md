@@ -88,8 +88,12 @@ the Liouvillian spectrum is palindromic: for every eigenvalue λ, the value
 **Verification.** 87,376 eigenvalues, N=2 through N=8, zero exceptions.
 All topologies (chain, star, ring, complete, binary tree). Non-uniform γ.
 
-**Physical meaning.** Π is time reversal in a rescaled frame. It maps
-exp(+μt) to exp(-μt), forward to backward.
+**Exact meaning.** Π is a linear similarity that maps
+`lambda -> -lambda - 2 Sigma_gamma`, or `mu -> -mu` after centering. Calling
+this physical time reversal would require additional antiunitary/dynamical
+structure; calling the paired modes forward/backward waves would additionally
+require conjugate-frequency, excitation, semisimplicity, spatial-propagation,
+and interference gates. None follows from this proof alone.
 
 **Scope boundary.** The FULL mirror only at d=2 (qubits). The per-site split
 d immune vs (d²-d) decaying is balanced only when d²-2d=0, giving d=2

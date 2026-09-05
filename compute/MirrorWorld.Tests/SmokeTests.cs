@@ -192,6 +192,10 @@ public class SmokeTests
         Assert.Equal(1.0, mn, 10);
         Assert.Equal(3.0, mx, 10);
         Assert.Equal(2.0, bw, 10);
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F3_RateBounds(1, 0.5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F3_RateBounds(4, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F3_RateBounds(4, double.NaN));
+        Assert.Throws<OverflowException>(() => Formulas.F3_RateBounds(int.MaxValue, double.MaxValue));
         Assert.Equal(0.25, Formulas.F16_FoldBoundary);                     // the 1/4 fold
         Assert.Equal(Math.Log(2) / 8, Formulas.F27_KX, 10);               // K_X = ln2/8
         Assert.Equal(+1, Formulas.F38_PiSquared(0, 0));                    // Pi^2 parity

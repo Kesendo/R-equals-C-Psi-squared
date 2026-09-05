@@ -489,13 +489,16 @@ the Pauli basis with eigenvalues −2γ × n_XY; (3) combining: Re(λ) equals
 the expectation of L_D over the eigenvector, which is −2γ⟨n_XY⟩. Verified
 on 1,342 modes across N=2 to N=5, coefficient of variation = 0.0000.
 
-The companion result: the spectrum is completely paired, at every N.
-21,840 eigenvalues across N = 2 to 7, 9,921 pairs of distinct partners and
-1,998 modes that are their own partner on the fixed locus. Each pair of
-distinct partners reads as a standing wave, the two sharing a frequency and
-splitting the absorption; the self-paired modes are standing waves at the
-node. The round trip is 2Σγ, one full bounce between "being light"
-(X/Y Pauli factors, sensitive to dephasing) and "being lens" (I/Z, immune).
+The companion finite census accounts for the complete spectrum: 21,840
+eigenvalues across N = 2 to 7, 9,921 distinct pairs and 1,998 eigenvalues on
+the fixed locus. F1 transports `λ` linearly to `−λ−2Σγ`, hence centered
+`μ→−μ`; conjugate closure is a separate Lindbladian property. The common
+theorem-level reading is the rate sum `d_slow+d_fast=2Σγ` (slow is nearer
+zero). A physical standing-wave interpretation additionally requires a
+diagonalizable or semisimple imaginary-centered pair, independently
+established opposite spatial propagation, and a preparation/readout that sees
+both members. Fixed-locus eigenvalues and defective Jordan blocks do not gain
+that interpretation automatically.
 
 On IBM hardware (Q52 tomography, 25 time points): the Absorption
 Theorem ratio is 1.03 (3% deviation). The sector structure holds on
@@ -504,8 +507,8 @@ A 2.8% slow tail exists at the resolution limit.
 
 For the proof, see
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md).
-For the standing wave data, see
-[Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md).
+For the finite pair census and the gated standing-wave reading, see
+[Pair Census](../experiments/FACTOR_TWO_STANDING_WAVES.md).
 
 
 ## What we did not find
@@ -576,7 +579,7 @@ What survives even without the philosophy:
 - [Hardware validation](../experiments/IBM_HARDWARE_SYNTHESIS.md) of the 1/4 crossing on IBM quantum processors (24,073 records, r* threshold precision 0.000014)
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW.md) via Pauli weight complementarity
 - [Energy-partition audit](../hypotheses/ENERGY_PARTITION.md): zero-root filtering stranded exact partners; the remaining frequency and decay sums are protocol diagnostics, not energies or mode populations
-- [F8 range/centre law](ANALYTICAL_FORMULAS.md#f8-range-centre): the full decay interval divided by its centre is 2 for γ>0; it is not a signal/noise lifetime law
+- [F8 range/centre law](ANALYTICAL_FORMULAS.md#f8-range-centre): when the F1 palindromizer holds and reaches both spectral endpoints, the full decay interval divided by its centre is 2 for γ>0; it is not a signal/noise lifetime law
 - [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation gives spectral boundaries, factor 2 and the palindromic sum rule a common reading within the number-conserving family; the spectral gap it relocates rather than derives (2γ only above a coupling threshold). Verified on 1,342 modes, CV = 0
 - [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit
 - [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): coupled gain-loss systems have a finite stability window (Hopf bifurcation, γ_crit × J_bridge = 0.50)

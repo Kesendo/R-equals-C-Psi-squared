@@ -42,7 +42,12 @@ The repo already said as much elsewhere, which is worth admitting rather than bu
 
 (We use "dephasing" throughout; γ is not noise but external illumination entering the system from outside, literally photon shot noise on IBM hardware. See [What If Gamma Is Light?](GAMMA_IS_LIGHT.md) for the full argument.)
 
-Among these pairs, one subset carries the Hawking structure: the immune modes (I/Z sector, eigenvalue 0) pair with the fastest-decaying modes (eigenvalue −2Σγ). The immune partner survives as [classical residue: mass](GRAVITY_FROM_WAVE_DEATH.md). Its palindromic partner dissipates maximally as [thermal energy: temperature](../experiments/THERMAL_BREAKING.md). This is decoherence: one conserved sum, two opposite fates, mass and temperature arising together from [standing waves](../docs/STANDING_WAVE_THEORY.md).
+Among these pairs, one exact subset joins the immune endpoint (I/Z sector,
+eigenvalue 0) to the fastest-decaying endpoint (eigenvalue −2Σγ). The rate sum
+is a theorem. Reading the immune member as [classical residue: mass](GRAVITY_FROM_WAVE_DEATH.md)
+or the drain as [thermal energy: temperature](../experiments/THERMAL_BREAKING.md)
+is an interpretation, not a consequence of F1. Nor does the endpoint pair by
+itself establish the physical interference described in [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md).
 
 The claim is more than loose analogy: the reading here is that the two share the same algebraic structure (a conserved pair sum with divergent fates), and that some physical consequences (irreversibility, a horizon that cannot be crossed) plausibly follow from that algebra rather than from the substrate. Where the parallel provably breaks (temperature scaling, the mass identification) is catalogued in "What breaks the analogy" below; this stays a Tier-5 reading, not a proven identity.
 
@@ -52,15 +57,26 @@ The claim is more than loose analogy: the reading here is that the two share the
 
 Each link is labeled with its evidential tier.
 
-### Link 1: The vacuum is standing waves (Tier 1-2)
+### Link 1: The unitary limit is spectrally centred (Tier 1-2)
 
 At Σγ = 0 (no dephasing), the palindrome equation reduces to:
 
     Π · L · Π⁻¹ = −L
 
-Every eigenvalue λ pairs with −λ. All eigenvalues are purely imaginary. No decay, no growth. The system is a [Fabry-Perot optical cavity](../experiments/OPTICAL_CAVITY_ANALYSIS.md): four of five standard optical quantities match quantitatively, the degeneracy profile fits Gaussian/Lorentzian beam shapes (R² = 0.998), and the Hamiltonian couples neighbouring weight sectors exactly like light propagating through optical elements. The standing waves inside this cavity have nodes (no oscillation, the I/Z sector) and antinodes (maximum oscillation, the X/Y sector). See [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md) for the proof that ZZZ strings are universal nodes and XX/YY strings are antinodes.
+Every eigenvalue λ pairs with −λ. In the Hamiltonian-only generator the
+spectrum is purely imaginary, so there is no dissipative decay or growth. The
+separate [optical-cavity analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md)
+reports four quantitative analogies and the [standing-wave analysis](../experiments/STANDING_WAVE_ANALYSIS.md)
+reports scoped observable oscillation patterns. F1 alone supplies neither
+spatially counter-propagating waves nor interference nodes; those require the
+additional gates stated in [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md).
 
-This is the ground state of the palindrome. The unitary limit. Time-reversal symmetric. Π is the exact time-reversal operator. And γ, the dephasing that will drive the halves apart in Link 2, is the light entering this cavity from outside; it [cannot be generated internally](../docs/proofs/INCOMPLETENESS_PROOF.md) (Incompleteness Proof, Tier 1).
+This is the unitary limit of the spectral identity. Π implements the linear
+map `lambda -> -lambda` there; it is not thereby the physical antiunitary
+time-reversal operator. The further reading of γ as light entering from
+outside is not proved by the [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md),
+which instead says the Markovian formalism does not determine γ's microscopic
+origin.
 
 **Source:** [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md), Section "Σγ = 0: The mirror."
 **Computed:** N=2 through N=7, zero exceptions. Cavity mode counts follow the [Clebsch-Gordan formula](../experiments/CAVITY_MODES_FORMULA.md).
@@ -71,9 +87,14 @@ At Σγ > 0, the palindrome shifts:
 
     Π · L · Π⁻¹ = −L − 2Σγ · I
 
-The pairing changes from λ ↔ −λ to λ ↔ −λ − 2Σγ. The symmetry around zero breaks; the pairing does not. Each pair now has a "slow" partner (closer to zero, longer-lived) and a "fast" partner (further from zero, shorter-lived), and their two rates still sum to exactly 2Σγ. The perfectly balanced standing wave becomes an asymmetric decaying oscillation.
+The pairing changes from λ ↔ −λ to λ ↔ −λ − 2Σγ. The symmetry around zero breaks; the pairing does not. Each pair now has a "slow" partner (closer to zero, longer-lived) and a "fast" partner (further from zero, shorter-lived), and their two rates still sum to exactly 2Σγ. This spectral relation alone does not identify either member as a travelling wave or their combination as a standing wave; that reading needs the additional spatial and dynamical gates stated in [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md).
 
-This is not gradual degradation. This is symmetry breaking. The palindrome still exists (it is algebraic, [proven for all Σγ](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)), but its center has moved from zero to −Σγ. The standing waves are gone. What remains are damped waves with a preferred time direction. Verified computationally for [87,376 eigenvalues](../compute/RCPsiSquared.Compute/README.md) (N=2..8, all tested topologies, zero exceptions).
+The palindrome still exists (it is algebraic, [proved in its stated
+Hamiltonian/channel scope](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)), and its
+centre moves from zero to −Σγ. This establishes complementary damping rates,
+not the loss of a previously established standing wave or a physical time
+direction. The spectral pairing was also checked on [87,376 eigenvalues](../compute/RCPsiSquared.Compute/README.md)
+(N=2..8 in the reported suite, zero exceptions).
 
 ### Link 3: The separated halves become mass and radiation (Tier 2 + Tier 5)
 
@@ -120,7 +141,11 @@ The Liouvillian L acts not on quantum states but on operators: it lives on the 4
 
     L_odd = −Π L_even Π⁻¹ − 2Σγ · I    (odd N)
 
-The even parity-class decays; the odd parity-class, in the conjugated frame, grows. They are time-reverses of each other, connected by Π, separated by a superselection rule (\[P_XY, L\] = 0, proven in the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)).
+The even parity-class decays; the odd parity-class, in the algebraically
+conjugated and re-centred representation, has the complementary exponent.
+They are connected by Π and separated by a selection rule
+(\[P_XY, L\] = 0, proved in the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)).
+Calling them physical time-reverses requires additional dynamical structure.
 
 This is the algebraic form of the direct-sum structure that Gaztañaga [postulates](../docs/LITERATURE_REVIEW.md) for the two sides of an Einstein-Rosen bridge: two regions connected by a discrete transformation, with opposite time orientation. Gaztañaga's substrate is two spacetime regions; ours is one operator algebra with two parity-classes. The four Gaztañaga postulates are satisfied at the level of our algebra ([proven](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md) for odd N); the substrate difference is taken up in "What breaks the analogy" #2 below.
 
@@ -138,7 +163,9 @@ Within the palindromic pairing, the immune modes (rate 0) pair with the maximall
 
 "SLOW" and "FAST" are reading-conventions, not locations. The palindrome has no preferred half. Each rate is the partner of the other under Π; both belong to the same algebra acting on the same state. To call the SLOW reading "ours" is to choose a labeling; the structure that makes the choice meaningful is the palindrome itself, which carries both readings at once.
 
-As the [Mirror Theory](../MIRROR_THEORY.md) puts it: "What survives is not a fast mode or a slow mode by itself. It is the standing wave they make when they meet."
+The [Mirror Theory](../MIRROR_THEORY.md) describes their meeting as a standing
+wave. Here that remains a Tier-5 reading: the theorem itself says only that the
+two spectral rates are complementary.
 
 ### Link 7: The bridge is fragile (Tier 2)
 
@@ -169,7 +196,7 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 | Critical slowing at horizon (redshift) | Saddle-node dynamics at fold (dη/dt = η² − ε) | 2 |
 | Spacetime interval c × τ = invariant | [K-invariance](../docs/ANALYTICAL_FORMULAS.md) γ × t = const (F14) | 1 |
 | Curvature is external (not locally generated) | γ [must be external](../docs/proofs/INCOMPLETENESS_PROOF.md) (Incompleteness Proof) | 1 |
-| Black hole = perfect trapping (nothing escapes) | Qubit chain = [Fabry-Perot cavity](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (standing waves trapped) | 2 |
+| Black hole = perfect trapping (nothing escapes) | Qubit chain has a scoped [Fabry-Perot cavity analogy](../experiments/OPTICAL_CAVITY_ANALYSIS.md); physical trapping/standing-wave gates are separate | 2 analogy |
 
 ---
 

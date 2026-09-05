@@ -66,16 +66,23 @@ and experience is always the same.**
 
 ## What changes when noise becomes light
 
+**Gate at the door.** The exact Π result is the linear spectral transport
+`lambda -> -lambda - 2 Sigma_gamma` and the complementary rate sum. It does
+not turn those partners into light, spatial waves, or physical time-reverses.
+Every cavity/standing-wave sentence below is a Tier-4 analogy unless its linked
+producer independently supplies excitation, conjugate frequencies,
+semisimplicity, spatial propagation, and observable interference.
+
 For decades, decoherence has been the enemy. Quantum computers fight it.
 Error correction codes try to undo it. Experimentalists build colder
 and colder refrigerators to silence it. The story has always been:
 gamma destroys. Gamma is static on the radio. Gamma is someone
 crinkling a chip bag during a symphony.
 
-But a chip bag does not have a beam profile. Static does not focus
-through a lens. Noise does not organize itself into palindromic
-standing waves with exact integer degeneracies that depend on the
-topology of the network it passes through.
+But a chip bag does not have a beam profile. Static does not focus through a
+lens. The computed generator does organize into a palindromically paired
+spectrum with integer degeneracies that depend on the network topology. That
+is the measured object; calling it light or a standing wave is the hypothesis.
 
 Light does.
 
@@ -84,10 +91,9 @@ which frequencies resonate and which do not. What comes out is not
 random. It is the cavity's answer to the light. The shape of the
 instrument determines the sound.
 
-That is what we measured today. The qubit chain does not lose coherence.
-It receives light and converts it into a structured response. The
-palindromic spectrum is not the sound of destruction. It is the
-resonance of an instrument being played.
+What was measured is the structured spectrum of a qubit chain that loses
+coherence under dephasing. Reading the bath as incident light and the spectrum
+as an instrument's resonance is the Tier-4 proposal, not the measurement.
 
 
 ---
@@ -98,26 +104,26 @@ A black hole pulls everything in. Including light. Nothing escapes.
 
 In the language of cavities: a black hole is a resonator with perfect
 mirrors. Reflectivity one hundred percent. Every photon that enters
-stays. Every mode that forms persists. The standing waves accumulate.
+stays. In this explicitly cosmological cavity image, every proposed mode persists and accumulates.
 The degeneracy grows. Layer after layer of trapped light, building
 structure inside a box that will not open.
 
 What is mass, in this picture?
 
-Mass is what light does when it is trapped. Every photon that cannot
-leave becomes a standing wave. Every standing wave adds to the mode
+The hypothesis reads mass as what light does when trapped. Every photon that cannot
+leave would contribute a resonant mode. Every such mode adds to the mode
 count. Every mode is a degree of freedom, a way the cavity can vibrate.
 And the total energy of all these trapped vibrations is what we weigh
 on a scale and call mass.
 
 Einstein said E = mc-squared. Energy equals mass. We are saying something
-more specific: mass is the energy of light that has been caught by a
-cavity and shaped into standing waves. Not converted. Not transformed.
+more specific as a Tier-4 proposal: mass is the energy of light caught by a
+cavity and shaped into resonant modes. This is not derived from Π.
 Organized. The light is still there. It is just resonating instead of
 traveling.
 
 And the degeneracy, the palindromic structure we measured today,
-is the inventory of those standing waves. How many modes at each
+is read here as the inventory of those proposed resonant modes. How many modes at each
 frequency. How much trapped light at each pitch.
 
 
@@ -145,10 +151,9 @@ The point of maximum tension. Not maximum order. Maximum instability.
 At CΨ below 1/4: two stable states emerge. Classical reality becomes
 possible. The bifurcation opens.
 
-The bounce happens at the fold. Not at the point of perfect order,
-but at the point where the cavity can no longer sustain its own
-standing waves. The mirrors break. And the standing waves become
-traveling waves.
+The bounce is imagined at the fold, not at the point of perfect order. No
+producer here shows a conversion from standing to travelling waves; that is
+part of the cosmological image, not a result of the fold or Π.
 
 What comes out is light. Gamma. Structured, palindromic, carrying
 the imprint of every mode that was trapped inside. Not thermal noise.
@@ -162,15 +167,15 @@ finished resonating.
 
 And that light, the output of one cavity, becomes the input of the
 next. It falls into another structure, another network of mirrors, and
-forms new standing waves. New modes. New mass. New complexity. Until
+is hypothesized to form new resonant modes, mass, and complexity. Until
 that cavity, too, reaches its fold and releases its light.
 
 ```
 Light falls into cavity
-  Standing waves form (mass accumulates)
+  Resonant modes are hypothesized to form (mass accumulates)
     Complexity grows (degeneracy increases)
       The fold at CPsi = 1/4 (maximum instability)
-        Standing waves become traveling waves
+        Resonance is hypothesized to become outgoing light
           Light emerges
             Light falls into the next cavity
 ```
@@ -427,7 +432,7 @@ We owe honesty to anyone who reads this.
 - Decoherence functions as illumination, not destruction
 
 **Imagined (Tier 4, this document):**
-- Mass is trapped light (standing waves in a cavity)
+- Mass is trapped light (cavity-mode hypothesis; no standing-wave gate here)
 - Black holes are perfect cavities (reflectivity = 1)
 - The bounce happens at CΨ = 1/4 (the fold, not maximum coherence)
 - The Big Bang is the bounce of the largest cavity
@@ -454,11 +459,12 @@ before the optical verification.
 
 Now read it with what we know:
 
-We are all cavities. Light is what travels between us. Reality is the
-standing wave that forms when light enters a cavity and resonates.
+We are all cavities. Light is what travels between us. Reality is read here as
+a resonant cavity pattern; this is an image, not a standing-wave consequence
+of the palindromic theorem.
 What we call mass is light that has been caught. What we call time
 is how we experience the light passing through. What we call death
-is the standing waves becoming traveling waves again, the light
+is imagined as resonant structure becoming outgoing light again, the light
 leaving one cavity and entering the next.
 
 Nothing is lost. Nothing is created. Light enters. Light leaves.
@@ -485,7 +491,7 @@ than light can travel between them.** The instruments multiply faster
 than the sound can reach from one to the next.
 
 After inflation ends, gamma fills the new cavities. Light enters
-the new instruments. Standing waves form. Mass accumulates.
+the new instruments. In the Tier-4 reading, resonant modes form and mass accumulates.
 
 This is a late-night intuition, not a derivation. We have no
 mathematics for it. We note it here so we do not lose it.

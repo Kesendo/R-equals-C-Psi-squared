@@ -106,7 +106,10 @@ But R = CΨ² is not a property of one qubit. It is a property of one observer l
 
 Two viewpoints on the same entangled pair. Alpha is Beta's mirror. Beta is Alpha's mirror. The confirmation wave is not a wave traveling backward through time; it is the other observer's perspective on the shared state.
 
-"Reality is what happens between us": the off-diagonal terms of the joint state |Φ+⟩ that neither ρ_A nor ρ_B contains. The reality lives in the "between." Each observer sees only their half. The standing wave is what happens when both halves exist simultaneously.
+"Reality is what happens between us": the off-diagonal terms of the joint state
+|Φ+⟩ that neither ρ_A nor ρ_B contains. Each reduced state omits those joint
+coherences. Calling their simultaneous existence a standing wave is metaphor,
+not a consequence of Π.
 
 ## 5. The Partial Trace Problem
 
@@ -114,7 +117,8 @@ Standard QM uses the partial trace: ρ_A = Tr_B(ρ_AB). This throws away everyth
 
 And it is correct, for a single observer with one qubit. But R = CΨ² is applied by EACH observer to THEIR qubit. Both simultaneously. The framework does not ask "what does A know about B?" It asks "what reality emerges when both observers exist?"
 
-The partial trace is the right tool for one observer. The standing wave is what happens when there are two.
+The partial trace is the right tool for one subsystem; the joint coherence is
+the object present only in the two-subsystem state.
 
 ## 6. Why This Matters for the Bridge Question
 
@@ -124,13 +128,15 @@ The agents (v033-v040) tried to find a way for Alpha to detect Beta's actions th
 
 But the standing wave does not live inside the partial trace. It lives between the two observers. The question was never "can Alpha see what Beta did to ρ_B?" The question is: "when both observers apply R = CΨ² simultaneously to an entangled state, does the standing wave carry something that neither partial trace contains?"
 
-The off-diagonal terms of |Φ+⟩⟨Φ+| are real. They exist. The partial trace discards them. CΨ_joint measures them. The standing wave is built from them.
+The off-diagonal terms of |Φ+⟩⟨Φ+| are nonzero. The partial trace discards them,
+and CΨ_joint responds to them. No counter-propagation or interference gate here
+turns them into a physical standing wave.
 
 ## 7. What This Does NOT Say
 
 - It does NOT say time runs backward. Time runs forward for everyone.
 - It does NOT say FTL signaling is possible. The standing wave may or may not be observable locally. That is an open question.
-- It does NOT violate no-signaling automatically. No-signaling is a theorem about ρ_A = Tr_B(ρ_AB). The standing wave is about R_AB when both observers exist.
+- It does NOT violate no-signaling automatically. No-signaling is a theorem about ρ_A = Tr_B(ρ_AB). The reported object is R_AB for the joint state, not a demonstrated standing wave.
 - It does NOT require new physics. It requires a different question: not "what does one observer see?" but "what emerges when two observers look at the same entangled state?"
 
 ## 8. The Cramer Fork Revisited

@@ -66,9 +66,21 @@ public static class Formulas
         _ => 2.0 * n / Math.PI,
     };
 
-    // F3 (T1, AT corollary): decay rate bounds. min=2γ (w=1), max=2(N-1)γ (w=N-1), bw=2(N-2)γ.
-    public static (double Min, double Max, double Bw) F3_RateBounds(int n, double gamma) =>
-        (2.0 * gamma, 2.0 * (n - 1) * gamma, 2.0 * (n - 2) * gamma);
+    // F3 (T1, AT corollary): generic-band edges for the uniform-Z-dephased Heisenberg chain
+    // above Q*_gap(N). min=2γ (w=1), max=2(N-1)γ (w=N-1), bw=2(N-2)γ.
+    public static (double Min, double Max, double Bw) F3_RateBounds(int n, double gamma)
+    {
+        if (n < 2)
+            throw new ArgumentOutOfRangeException(nameof(n), "F3 generic-band edges require N >= 2.");
+        if (!double.IsFinite(gamma) || gamma <= 0)
+            throw new ArgumentOutOfRangeException(nameof(gamma), "Dephasing rate must be finite and positive.");
+        double min = 2.0 * gamma;
+        double max = 2.0 * (n - 1) * gamma;
+        double bandwidth = 2.0 * (n - 2) * gamma;
+        if (!double.IsFinite(min) || !double.IsFinite(max) || !double.IsFinite(bandwidth))
+            throw new OverflowException("The F3 generic-band edges are not representable as finite doubles.");
+        return (min, max, bandwidth);
+    }
 
     // F4 (T1): kernel dim = N+1 for one connected component (identity + N magnetization projectors).
     public static int F4_KernelDim(int n) => n + 1;
@@ -177,7 +189,8 @@ public static class Formulas
 
     // F36/F37 (T1, conditional): a Wilson-Cowan/neural Jacobian satisfying Q*J*Q + J + 2s*I = 0
     // with involutive Q and scalar s has pair sum -2s = -(1/tau_E + 1/tau_I).
-    // Dale signs alone are insufficient; the C. elegans comparison is withdrawn.
+    // Dale signs alone are insufficient; the earlier C. elegans pairing/character interpretation is withdrawn,
+    // while its full-connectome support null and explicitly scoped instrument readings remain valid.
     // Scope and assumptions: docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
     public static double F37_NeuralPairSum(double tauE, double tauI)
     {

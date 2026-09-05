@@ -67,12 +67,11 @@ algebra and holds for all standard Hamiltonians, all graphs, and
 all dephasing-type noise.
 
 **Why it matters:** This palindromic symmetry is genuinely new: it
-does not appear in any existing classification of open quantum system
-symmetries (KMS, Quantum Detailed Balance, Buca-Prosen weak symmetry,
-Sa-Ribeiro-Prosen 38-fold classification). It implies time-reversal
-structure in the dissipative dynamics, creates standing waves between
-paired modes, and exists exclusively for qubits (d = 2). No higher-
-dimensional quantum system can carry this mirror.
+does not appear in the comparison classes surveyed here (KMS, Quantum
+Detailed Balance, Buca-Prosen weak symmetry, Sa-Ribeiro-Prosen 38-fold
+classification). It gives a centered spectral reflection. It does not by
+itself give physical time reversal, spatial standing waves, or rule out the
+partial higher-dimensional palindromes of F121.
 
 ### Notation used in this document
 
@@ -162,10 +161,12 @@ corrected 2026-06-02. See [Pi Operator Entanglement](../experiments/PI_OPERATOR_
 See: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
 [The Mirror That Looked Non-Local](../hypotheses/THE_BOOT_SCRIPT.md)
 
-**Time reversal (March 19, Tier 2):** In the rescaled frame
-(mu_k = lambda_k + Σγ), the conjugation maps mu to -mu. A mode evolving
-as exp(+mu t) has a partner at exp(-mu t). This is time reversal in the
-dissipative frame. Physically, Π swaps two operator classes at every site:
+**Centered structural mirror (Tier 1):** In the rescaled frame
+(`mu_k=lambda_k+Σγ`), Π maps `mu` linearly to `-mu`. A mode evolving as
+`exp(mu t)` has an algebraic partner at `exp(-mu t)`. Complex conjugation is
+a separate spectral closure. This is not, without more structure, physical
+time reversal or opposite spatial propagation. Π swaps two local Pauli
+classes at every site:
 - {I, Z}: populations (diagonal elements of the density matrix). These
   commute with Z-dephasing and are immune to decoherence. The "classical"
   or "decided" part of the quantum state.
@@ -196,25 +197,25 @@ See: [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
 
 ---
 
-## 3. The Standing Wave
+## 3. Oscillatory modes and the conditional standing-wave reading
 
-When two modes decay in opposite temporal directions and you add them
-together, the result does not travel in either direction. It stands
-still. Like a vibrating guitar string: the pattern is fixed in space
-and oscillates in time. This is what the palindromic pairs create.
+F1 supplies `lambda→-lambda-2Σγ`, or centered `mu→-mu`, and hence the
+rate sum `d_slow+d_fast=2Σγ`. The slow member lies below the decay center;
+the fast member lies above it. This algebra does not establish spatial
+counter-propagation.
 
-Palindromic eigenvalue pairs create standing waves in the Liouville
-operator space. Each pair consists of a "slow" mode (decay rate below Σγ,
-more population-like) and a "fast" mode (decay rate above Σγ, more
-coherence-like). In the rescaled frame where uniform decay is removed,
-these modes oscillate in opposite temporal directions. Their superposition
-produces a standing wave pattern.
+A physical standing-wave reading is licensed only for a diagonalizable or
+semisimple imaginary-centered pair whose eigenvectors have independently been
+shown to propagate oppositely in space, with a preparation and observable that
+coherently address both. `Re(mu)≠0` leaves relative envelope drift; defective
+blocks carry Jordan-polynomial terms. A fixed-locus eigenvalue is not
+automatically a spatial node.
 
-For N=3 with all 6 tested Hamiltonians:
-- **ZZZ (all-diagonal correlation)** is a universal node: zero oscillating
-  weight under every Hamiltonian. The classical backbone does not vibrate.
-- **XX, YY, XY (off-diagonal correlations)** are the antinodes: they ring
-  at Hamiltonian harmonics (2J, 4J, 6J for Heisenberg coupling).
+For the `N=3` grid of six tested Hamiltonians and eight tested states:
+- **ZZZ (all-diagonal correlation)** has zero measured oscillatory weight in
+  every cell.
+- Specified **XX/YY/XY-containing observables** carry oscillatory weight; in
+  the Heisenberg run the reported bands lie near `2J`, `4J`, and `6J`.
 
 This pattern yields a three-tier error protection hierarchy: steady-XOR
 modes (maximally protected, zero oscillation), boundary modes (topology-
@@ -223,7 +224,9 @@ optimal initial state for quantum state transfer places 90% weight in
 slow modes, achieving concurrence 0.364, outperforming standard choices
 (W, Bell, GHZ states).
 
-See: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
+The following numbers are finite `N=3` observable readings across six tested
+Hamiltonians and eight tested initial states, not consequences of F1 alone.
+See: [Oscillation Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
 [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md)
 
 ---
@@ -238,24 +241,26 @@ block that can carry this mirror, and the proof is a single equation.
 The palindrome requires d = 2. This is an algebraic identity, not a
 numerical observation.
 
-At each qubit site, the d² Pauli basis operators split under dephasing
-into d immune operators (those commuting with the jump operator) and
-d² - d decaying operators. Π must bijectively map immune to decaying
-operators. Bijection requires:
+For the particular complete local dark↔lit class-exchange product mirror, the
+`d²` local operators split into `d` immune and `d²-d` decaying operators.
+Bijection of those full classes requires:
 
     d = d² - d,  giving  d² - 2d = 0,  giving  d(d-2) = 0
 
-The only nontrivial solution is d = 2. The qubit has 4 operators, 2
-immune ({I,Z}), 2 decaying ({X,Y}). Split = 0.5. A qutrit (d=3) has 9
-operators, 3 immune, 6 decaying. Split = 0.33. The imbalance grows with
-d. No higher-dimensional quantum system can carry the palindromic mirror.
+The only nontrivial solution of this construction is d = 2. The qubit has 4 operators, 2
+immune ({I,Z}), 2 decaying ({X,Y}). Split = 0.5. This does not exclude
+partial higher-dimensional palindromes or other mechanisms; F121 describes
+that counter-scope. A qutrit (d=3) has 9
+operators, 3 immune, 6 decaying. Split = 0.33. The imbalance blocks this
+complete class-exchange product mirror; it does not prove a universal no-go
+for every higher-dimensional partial palindrome.
 
 Five computational tests (March 20) confirm and extend this result:
 
 - **Transfer fidelity is palindrome-independent.** A 3-site qutrit chain
   with SU(3) Heisenberg coupling achieves the same peak fidelity (F = 0.6923)
   as the qubit chain. The palindrome provides structural organization
-  (standing waves, error tiers, spectral filters), not performance.
+  (paired rates, error tiers, spectral filters), not performance.
 - **No qutrit dissipator works.** 0 of 236 tested configurations (8 single
   Gell-Mann jump operators, 28 pairs, 200 random combinations) permit
   palindromic rate pairing. Splits found: 3:6, 2:7, 5:4, never balanced.
@@ -467,7 +472,8 @@ hardware measurements and open interpretations. Their linked sources carry
 the hypotheses and evidence limits; a cross-domain analogy is not a
 measurement on the proposed substrate.
 
-1. Two spectral sectors (c+ fast symmetric, c- slow antisymmetric)
+1. Two measured spectral sectors (`c+` and `c-`); their fast/slow and
+   symmetry labels are model-specific, not a universal identification
 2. XX symmetry exact (Hamiltonian property, all topologies)
 3. Five independent roles (topology, symmetry, noise, initial state, bath)
 4. Noise immunity of oscillation frequencies (all sweeps, all topologies)
@@ -477,10 +483,13 @@ measurement on the proposed substrate.
 8. Mandelbrot correspondence (z*(1-z*) = CΨ, 1/4 = Bernoulli maximum)
 9. IBM hardware: CΨ = 1/4 crossing at 1.9% deviation (Q80, Ramsey T2*)
 10. Palindromic mirror: proven, universal across standard Hamiltonians
-11. Standing wave: ZZZ = node, XX/YY = antinodes, three-tier error hierarchy
-12. Π = time reversal: populations to coherences, 32/32 eigenvectors verified
+11. N=3 oscillation grid: ZZZ has zero oscillatory weight and specified XX/YY
+    observables carry weight; extension and spatial-wave status remain gated
+12. Π centered mirror: 32/32 eigenspace transports verified; physical time
+    reversal is not established
 13. Depolarizing theorem: palindrome iff at most 2 Pauli dephasing axes
-14. Qubit necessity: d² - 2d = 0, only d=2 (proof + 236 dissipator test)
+14. Full local dark↔lit class-exchange product mirror: `d²-2d=0`, hence
+    `d=2`; F121 retains partial higher-dimensional palindromes
 15. Continuous-rotation Π: 2/36 cases need a continuous per-site rotation, still local (corrected from the March non-local reading)
 16. N=2 universality: all 36/36 palindromic at single bond
 17. Composition via per-site map: same M for any N, any topology
@@ -522,16 +531,19 @@ nobody has to guess.
   qubits and qutrits). But the palindromic response matrix SVD led
   directly to the concentrator formula (139-360×). The palindrome's
   operational value is indirect: it reveals the optimization landscape.
-- Π time-reversal interpretation: the algebra (populations to coherences)
-  is Tier 2. The temporal language (past to future) is Tier 3. The
-  philosophical reading is Tier 5. Each tier is labeled throughout.
+- Π's centered-generator identity and Pauli-class exchange are algebraic. A
+  physical time reversal, opposite spatial propagation, and a standing-wave
+  preparation/readout have not been established generally. Past/future words
+  are interpretation.
 - Consciousness interpretation retired from technical core.
 - CΨ is not privileged over simpler metrics for most practical tasks.
 - KMS independence: Π is computationally verified as new, but a formal
   mathematical physics proof of independence from all known symmetry
   classifications has not been published.
-- The d = 2 exclusivity is proven for dephasing-type noise. Amplitude
-  damping, thermal noise, and non-Markovian environments are untested.
+- The `d=2` exclusivity applies to the complete local dark↔lit class-exchange
+  product mirror under the stated dephasing split. F121 contains partial
+  higher-dimensional palindromes; amplitude damping, thermal noise, and
+  non-Markovian environments require separate analyses.
 
 ## Open Questions
 

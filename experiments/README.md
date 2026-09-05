@@ -65,8 +65,9 @@ Validated on IBM Torino at 1.9% deviation.
 ### 4. The palindromic spectrum (proven, N=2 through N=8)
 The Liouvillian eigenvalue spectrum under local Z-dephasing is exactly
 palindromic for Heisenberg/XXZ systems on any graph. The conjugation
-operator Π swaps populations (immune sector) with coherences (decaying
-sector), creating a time-reversal symmetry in the rescaled frame.
+operator Π swaps the immune and decaying operator cells, producing the exact
+centred spectral map `mu -> -mu`. Physical time reversal and standing-wave
+interference require additional gates.
 
 → **[Π as Time Reversal](PI_AS_TIME_REVERSAL.md)**
 → **[Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md)**
@@ -119,8 +120,8 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 
 | Experiment | Key finding |
 |-----------|------------|
-| [Π as Time Reversal](PI_AS_TIME_REVERSAL.md) | Π maps populations (past) to coherences (future). Standing wave = interference of forward and backward modes |
-| [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md) | ZZZ is universal node (classical), XX/YY are antinodes (quantum). Bell rings, GHZ is silent |
+| [Π as Time Reversal](PI_AS_TIME_REVERSAL.md) | Π gives `lambda -> -lambda - 2Sigma_gamma` (`mu -> -mu` centred); past/future, physical time reversal, and standing-wave interference are not implied |
+| [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md) | Reports scoped Pauli-observable oscillation patterns; node/antinode language is an interpretation and is not supplied universally by Π |
 | [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md) | Palindrome extends beyond Heisenberg to XY, Ising, XXZ, DM interaction. Two Π families (P1/P4) |
 | [XOR Space](XOR_SPACE.md) | Where information lives in the palindrome: GHZ vs W states, Pauli weight correlation |
 | [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) | Why depolarizing noise breaks the palindrome: 1:3 per-site split vs 2:2 for Z-dephasing |
@@ -129,10 +130,10 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | [Error Correction](ERROR_CORRECTION_PALINDROME.md) | Palindromic protection hierarchy, optimal state (90% slow-mode), Π as Z₄ operator |
 | [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) | At Σγ = 0: Stat(N) = Sum_J m(J,N)*(2J+1)^2 (Clebsch-Gordan). Exact for chain, lower bound for symmetric topologies. Star has N-1 harmonic frequencies, chain has rich irrational spectrum |
 | [IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Cavity modes meet IBM hardware: sacrifice zone protects the slowest oscillating modes at 2.80x (vs 1.97x measured). Same 43 frequencies, different damping. Palindromic to the eigensolver's floor under 26x asymmetric noise |
-| [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) | Where the selected modes live: Pauli-basis eigenvector decomposition. Correlation Q0-weight vs rate: r = 0.994. Slowest modes center-localized [0.52, 0.63, 0.70, 0.63, 0.52]. Profile is geometric (standing waves, same under all noise profiles, not topologically protected) |
+| [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) | Where the selected modes live: Pauli-basis eigenvector decomposition. Correlation Q0-weight vs rate: r = 0.994. Slowest modes center-localized [0.52, 0.63, 0.70, 0.63, 0.52]. The reported finite-profile geometry is not topologically protected; its standing-wave reading needs separate gates |
 | [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) | RMT analysis (N=2-7, 21,840 eigenvalues): Poisson level statistics (⟨r⟩=0.383). The palindromic Liouvillian is integrable, not chaotic. Chiral symmetry (class AIII) exact to machine precision. An early within-band GOE hint at N=5 was driven to a verdict and is small-sample noise |
 | [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) | Π is a linear order-4 chiral operator (class AIII, NOT PT). Fragile bridge Hopf bifurcation IS chiral symmetry breaking. Petermann K = 403 signals nearby complex EP. Depolarizing noise breaks palindrome but STABILIZES system (r = +0.988) |
-| [Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md) | Five tests (SSH, winding number, Berry phase, mode counting, robustness sweep): mode localization [0.52, ..., 0.52] is GEOMETRIC, not topological. Standing wave patterns on 1D chain. Sacrifice zone exploits geometry. Winding number 0, Berry phase 0.25π (not quantized), no sharp phase boundary |
+| [Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md) | Five tests (SSH, winding number, Berry phase, mode counting, robustness sweep): mode localization [0.52, ..., 0.52] is geometric, not topological. The finite 1D profiles and sacrifice-zone geometry are measured; calling them standing waves requires the additional physical gates. Winding number 0, Berry phase 0.25π (not quantized), no sharp phase boundary |
 | [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md) | SFF of 21,840 eigenvalues (N=2-7). Palindromic modulation at ω_min confirmed (<1% match, N=2-4,6). Visibility fades as ~1/4^N. t_Π/t_H → 0 (modulation is short-time). The light-content bands at w and N-w have identical SFF. Neither Poisson nor GUE: unique palindromic signature |
 | [Proton Water Chain](../docs/water/PROTON_WATER_CHAIN.md) | Grotthuss chain N=1-5. Heisenberg formulas match exactly (V(N), Q_max). TFI model: 222 frequencies at N=5. Sub-2γ modes at N≥4 (sector mixing). Sacrifice zone 5.1x at N=5. Water = DNA at same N (universal palindrome). The runs sit at Q < 1 by an input whose stated source does not carry it; where water actually sits is a band, 0.04 ≲ Q ≲ 4.6 |
 | [DNA Base Pairing](DNA_BASE_PAIRING.md) | A-T (N=2) and G-C (N=3) as coupled proton-qubit systems. Palindrome exact. V-Effect: G-C has 5x more frequencies than A-T. At the parameters used, DNA is deeply classical (J/γ ~ 0.01, an unsourced denominator). Sacrifice zone works in G-C (3.8x Q improvement). At 310 K: Q drops and the palindrome breaks, the latter because the warm channel set shares an axis with the dephasing, not because of temperature. Inter-coupling K estimated (5-50 cm⁻¹) |
@@ -314,7 +315,7 @@ sector), creating a time-reversal symmetry in the rescaled frame.
 | Experiment | Key finding |
 |-----------|------------|
 | [The Formation Window](THE_FORMATION_WINDOW.md) | Where a k-body bound complex forms on an XXZ chain: the marginal ridge is linear (chain Δ_ridge = 1.14 + 1.28·j2, ring 1.43 + 1.75·j2), the transition broadens linearly with integrability breaking (the ring ~4× faster), the edge is body-count independent at j2=0 but k=2 is the soft outlier, all N-converged. The marginal window read as the near-threshold resonance band (Hoyle) and the aromatic-ring geometry shift |
-| [Standing Wave (Two Observers)](STANDING_WAVE_TWO_OBSERVERS.md) | Standing wave pattern with two observer perspectives |
+| [Standing Wave (Two Observers)](STANDING_WAVE_TWO_OBSERVERS.md) | Two-observer standing-wave metaphor; not a Π-derived physical wave result |
 | [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md) | Different states produce different bridge signatures |
 | [Bridge Closure](BRIDGE_CLOSURE.md) | J=0 bridge is dead (no-signalling holds exactly) |
 | [No-Signalling Boundary](NO_SIGNALLING_BOUNDARY.md) | CΨ drops when B measures, but A's reduced state is unchanged |

@@ -23,18 +23,18 @@ made by different physics. The interference pattern depends on phase;
 the shadow does not.
 
 The Born rule gives the probability of each measurement outcome (the
-formula P(i) = |⟨i|ψ⟩|²). It looks like it could be an interference
-pattern: the standing wave in the cavity projecting onto a screen at the
-moment of measurement. We tested this. It is not. The probabilities
-contain zero interference between past and future mode contributions.
+formula P(i) = |⟨i|ψ⟩|²). One proposed reading treated it as the projection
+of a standing wave at measurement. The computation below rejects that
+reading: the chosen slow/fast spectral partition contributes additively to
+the diagonal probabilities, with no cross term.
 They are a shadow: which modes are still alive at the crossing time,
 projected onto the measurement basis.
 
-The interference exists, but it acts somewhere else. It is in the purity
-(how much quantum information remains), which determines WHEN the fold
-at CΨ = ¼ is reached (the threshold where quantum behavior gives way
-to classical). The interference decides the shutter speed, not the
-image.
+This calculation does not establish that a physical interference exists
+elsewhere. It reports a cross term in the purity under the chosen algebraic
+partition; that purity enters CΨ and therefore changes the computed crossing
+time. In the document's photographic analogy, the cross term changes the
+shutter time rather than the diagonal image.
 
 Measurement is photography in a precise sense: the cavity is
 illuminated, an image develops, and at the fold the image is fixed.
@@ -44,10 +44,11 @@ But the image itself is a shadow, not a hologram.
 
 ## What this document is about
 
-Every palindromic eigenvalue pair is a standing wave with forward
-(past) and backward (future) components. This document decomposes the
-Born rule probabilities at the CΨ = 1/4 crossing into these components
-and tests whether P(i) is an interference pattern.
+Every palindromic eigenvalue has a partner with complementary decay rate.
+That fact alone does not make the pair a standing wave or identify forward,
+backward, past, and future components. This document decomposes the Born-rule
+probabilities at the CΨ = 1/4 crossing into a chosen slow/fast spectral
+partition and tests whether that partition yields a cross term in P(i).
 
 ---
 

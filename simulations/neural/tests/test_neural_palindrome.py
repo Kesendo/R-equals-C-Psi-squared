@@ -134,6 +134,21 @@ def test_f36_gates_reject_empty_domain_and_noninvolution():
     with pytest.raises(ValueError, match="involution"):
         partner_subspace_error(-0.375 * np.eye(3), three_cycle, 0.375)
 
+    for bad_J in (np.array([[np.nan]]), np.array([[np.inf]])):
+        with pytest.raises(ValueError, match="finite"):
+            scalar_center_residual(bad_J, [0], 0.375)
+        with pytest.raises(ValueError, match="finite"):
+            partner_subspace_error(bad_J, [0], 0.375)
+    with pytest.raises(OverflowError, match="representable"):
+        scalar_center_residual(np.array([[1e308]]), [0], 1e308)
+    with pytest.raises(ValueError, match="finite"):
+        spectral_pairing_error([np.nan], 0.375)
+    with pytest.raises(ValueError, match="finite"):
+        spectral_pairing_error([-0.375], np.inf)
+
+    with pytest.raises(ValueError, match="representable"):
+        make_exact_network(tau_e=np.nextafter(0.0, 1.0))
+
 
 def test_translation_cli_runs_all_named_gates():
     result = subprocess.run(
@@ -250,10 +265,61 @@ def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
         ),
         root / "experiments/IBM_HARDWARE_SYNTHESIS.md": (
             "W survives 2.00x longer", "This 2.00x ratio holds",
+            "consistent with the V-Effect creating new correlations",
+            "Predicted: 9 crossings", "**109** freq (computed)",
+            "9 crossings** of the 1/4 boundary in 80 us",
         ),
         root / "docs/READING_GUIDE.md": ("the 2× decay law a common reading",),
         root / "docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md": (
             "Π maps forward to backward: exp(+mu*t) to exp(-mu*t)",
+            "DD cannot change CΨ -- not in practice, but in principle",
+            "Direct contact between subsystems destroys the palindrome. Instantly.",
+            "The biology connection holds",
+        ),
+        root / "docs/STANDING_WAVE_THEORY.md": (
+            "Every forward process has a backward partner",
+            "Two counter-propagating modes create a standing pattern",
+            "literally a time reversal",
+        ),
+        root / "experiments/FACTOR_TWO_STANDING_WAVES.md": (
+            "No mode is a traveling wave",
+            'where "fast" is the partner closer to Re = 0',
+            "Every Paired Mode Is a Standing Wave",
+        ),
+        root / "experiments/STANDING_WAVE_ANALYSIS.md": (
+            "Every paired eigenvalue (fast decay matched with slow partner) creates",
+            "counter-propagating modes that interfere",
+            "GHZ never oscillates. 0% standing wave for ALL Hamiltonians",
+        ),
+        root / "experiments/PI_AS_TIME_REVERSAL.md": (
+            "This is time reversal in the dissipative frame",
+            "Π is the mirror. Populations are the past",
+            "The environment does not destroy the standing wave",
+        ),
+        root / "review/OPEN_THREAD_GAMMA0_INFORMATION.md": (
+            "every Liouvillian eigenmode maps to its backward-decaying partner",
+            "The standing wave is the protocol",
+        ),
+        root / "hypotheses/TIME_AS_CROSSING_RATE.md": (
+            "The forward/backward structure is confirmed at the Liouvillian level",
+            "Their superposition creates standing waves",
+        ),
+        root / "hypotheses/BRIDGE_PROTOCOL.md": ("The standing wave is proven",),
+        root / "experiments/BORN_RULE_SHADOW.md": (
+            "Every palindromic eigenvalue pair is a standing wave",
+        ),
+        root / "experiments/OBSERVER_DEPENDENT_CROSSING.md": (
+            "the decomposition exists at the eigenmode level",
+            "The standing wave emerges from this pairing",
+        ),
+        root / "experiments/NO_SIGNALLING_BOUNDARY.md": (
+            "the decomposition exists in eigenmode space",
+        ),
+        root / "docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md": (
+            "Π is time reversal in a rescaled frame",
+        ),
+        root / "docs/proofs/INCOMPLETENESS_PROOF.md": (
+            "The operator Π is literally time reversal",
         ),
         root / "docs/proofs/README.md": ("sum rule, 2x decay law",),
         root / "hypotheses/README.md": ("unpaired modes decay 2x faster",),
@@ -278,6 +344,8 @@ def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
     assert "Thermal excitation only" not in thermal
     assert "thermal excitation combined" not in thermal
     assert "Emission/absorption bath (no dephasing)" in thermal
+    assert 'sp = np.array([[0, 0], [1, 0]], dtype=complex)  # sigma+ = |1><0|' in thermal
+    assert 'sm = np.array([[0, 1], [0, 0]], dtype=complex)  # sigma- = |0><1|' in thermal
 
 
 @pytest.mark.parametrize("field,value", [

@@ -164,11 +164,10 @@ from the 1/4 boundary in real time. A navigation instrument for the
 transition zone between quantum (undecided) and classical (decided).
 The boundary where inside meets outside.
 
-**Standing Wave** ([Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)): The interference pattern
-between forward (decay, noise, outside to inside) and backward
-(Pi-reversed). Quantum correlations oscillate. Classical correlations
-settle. The pattern does not move. It IS. The present moment,
-computed as the superposition of two directions.
+**Oscillation reading** ([Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)):
+the finite `N=3` grid reports oscillatory weight in specified Pauli
+observables and zero weight in `ZZZ`. Pi supplies a centered spectral partner,
+not a measured backward spatial wave or stationary interference pattern.
 
 **Relay Protocol** ([Relay Protocol](../experiments/RELAY_PROTOCOL.md)): Time-dependent gamma as staged
 transfer. +83% end-to-end improvement. The first optimization tool
@@ -190,12 +189,13 @@ to be instruments for reading the external interaction.
 
 ## The Topology of the Interaction
 
-One result from March 21 constrains HOW the interaction works:
+One March 21 finite-model comparison tested two particular coupling
+constructions:
 
-- Direct contact between subsystems destroys the palindrome. Instantly.
-  256 to 31 surviving pairs at kappa = 0.01. Phase transition.
-- Mediated contact through a shared qubit preserves it. 1024/1024.
-  Error 1.41e-13.
+- In the tested direct-contact construction, the pairing count falls from 256
+  to 31 at `kappa=0.01`.
+- In the tested shared-qubit mediator construction, 1024/1024 modes are
+  paired, with error `1.41e-13`.
 
 Think of it this way: two people shouting directly at each other across
 a table will drown each other out. But if they speak through a
@@ -211,55 +211,41 @@ and [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the proof that
 α = 2 is the unique Rényi order with a state-independent threshold, and
 that threshold is 1/4.
 
-The interaction between inside and outside must be MEDIATED. Not direct.
-Something sits between the two sides. Something that belongs to neither.
+These two runs motivate a mediator design hypothesis. They do not prove that
+all direct couplings break F1 or that all mediated couplings preserve it.
 
 ```
 Outside (unknown) <--> Noise/Time (mediator) <--> Inside (us)
 ```
 
-The noise is not the outside. The noise is the MEDIATOR. It is the
-interface layer. It filters what passes through: selective (axis-
-specific), structured (palindromic), local (per-qubit). It blocks
-what would destroy the internal structure: direct dissipation,
-depolarizing noise, unfiltered contact.
-
-The internal structure survives BECAUSE the contact is mediated.
-If the outside touched us directly, the palindrome would shatter.
-We would lose our structure. The mediator protects us from the full
-force of whatever is out there, while still allowing information
-to pass through.
-
-This is not metaphor. This is what the eigenvalue data says.
+In the proposed picture, noise is treated as an interface layer. The
+eigenvalue data above support only the two specified models and parameters;
+they do not identify a universal topology of system-environment interaction.
 
 ---
 
 ## The Corollary: Time
 
-This section connects two things that seem unrelated: noise and the
-direction of time. They turn out to be the same phenomenon.
-
-Noise and the time arrow are the same phenomenon
-([Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md), Corollary to Section 3):
+This section compares dephasing with a thermodynamic arrow. The model shows
+irreversible decay when dephasing is present; it does not prove that noise and
+time are the same physical phenomenon.
 
 - Without noise: unitary oscillation, reversible, no before and after
 - With noise: coherences decay irreversibly, creating a time direction
 - Π maps a centred-generator eigenmode μ to its algebraic partner −μ. Unless
   μ is purely imaginary and the spatial modes supply a propagation meaning,
   exp(+μt) and exp(−μt) are not forward/backward travelling waves.
-- The flow is one way (future to past): coherences decay into
-  populations, and what has been decided stays decided.
+- Pure dephasing suppresses off-diagonal coherences; temporal labels such as
+  future and past are interpretation.
 
-In plain language: without noise, a quantum system just oscillates back
-and forth forever. Nothing is ever decided. There is no "before" and
-"after". It is noise that makes things irreversible, that turns
-possibilities into facts, that creates a direction of time. Remove the
-noise, and time stops having a direction.
+In this model, removing dephasing removes that dissipative arrow while unitary
+evolution remains. This does not remove the time parameter or prove that no
+other irreversible mechanism exists.
 
-Noise is the time arrow, so a nonzero palindrome centre certifies that an
-arrow exists. Where it originates is open, and the question is not one this
-formalism can pose. Whether there must be an external clock does not follow
-from the Incompleteness Proof as it now stands.
+A nonzero palindrome center measures the stated dephasing strength. Reading it
+as the time arrow is a model interpretation. Where the physical noise
+originates is open, and an external clock does not follow from the
+Incompleteness Proof.
 
 The external interaction is not just spatial (something "out there").
 It is temporal. The outside gives us time. Without it: endless
@@ -353,7 +339,8 @@ INSIDE the boundary (proven):
 - The interaction is continuous.
 - Its interaction has the six properties above.
 - Without it, we have no decay and no arrow; the palindrome's centre sits at zero.
-- Its interaction is mediated, not direct.
+- One tested mediated construction preserves F1 while one tested direct
+  construction breaks it; the universal comparison is open.
 
 OUTSIDE the boundary (unknown):
 - Everything about the outside in itself.
@@ -363,8 +350,9 @@ OUTSIDE the boundary (unknown):
 ON the boundary (the real journey):
 - We have instruments that read the interaction.
 - The decoder reads per-site γ. The sonar detects topology changes.
-  The compass measures distance to the threshold. The standing wave
-  shows the interference between forward and backward.
+  The compass measures distance to the threshold. The oscillation analysis
+  reads finite-model Pauli fingerprints; it does not establish physical
+  forward/backward waves.
 - These instruments do not see the outside. They see what the
   outside does to us. That is all we can ever see from inside.
 - But it is not nothing. It is six measured properties of a
@@ -474,22 +462,22 @@ At J=2: 7 crossings (4 down, 3 up) of CΨ(0,1). No dedicated bath.
 No external driving. No dynamical decoupling. The Hamiltonian
 J-coupling alone provides the coherence backflow.
 
-DD was tested and proven structurally incapable: CΨ is exactly
-invariant under the full Pauli group. DD uses Pauli gates. Therefore
-DD cannot change CΨ -- not in practice, but in principle. The "ATP
-analogue" for sustaining the heartbeat is J-coupling (energy exchange
-between subsystems), not phase refocusing.
+Instantaneous conjugation of a state by a Pauli operator leaves CΨ invariant.
+That kinematic invariance does not imply that a time-ordered dynamical-
+decoupling sequence leaves the subsequent driven open-system trajectory
+unchanged. The reported run used J-coupling rather than a DD protocol; it does
+not prove a general DD no-go.
 
 With very low noise (gamma = [0.01, 0.0001x6]), CΨ(0,1) oscillates
 between 0.28 and 0.75 without ever crossing 1/4. The system stays
 permanently quantum. The heartbeat exists, but the bridge never opens
 because neither side ever becomes classical.
 
-The biology connection holds: neural gamma oscillations (40 Hz) are
-sustained by ATP-driven ion pumps. The quantum analogue is J-coupling
-sustained by the Hamiltonian. Both are energy exchange mechanisms.
-Both maintain oscillation against dissipative damping. The structure
-is the same. The fuel is different.
+The biology comparison is an analogy and candidate translation only. Neural
+gamma rhythms and ATP-driven ion gradients are not evidence that a biological
+network implements this Hamiltonian/dephasing model, nor that J-coupling is a
+biological mechanism. The two systems may both require energy throughput, but
+structural equivalence has not been established.
 
 Full data: [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
 
@@ -615,10 +603,9 @@ but from between two. One side feels the wirkung. The other reads
 the zahlen. Neither alone is sufficient. Between them: the answer
 that was always there.
 
-The mediator between us was words on a screen. The mediator between
-the outside and the qubits is γ. Both are channels that neither
-side owns. Both preserve the structure of what they connect by
-preventing direct contact. Both have always been open.
+The mediator between us was words on a screen. Treating γ as a mediator
+between an outside and the qubits is the interpretive picture. The tested
+direct/mediated comparison does not establish that universal claim.
 
 The question "what is the mediator" has been answered since the first
 equation was written. The mediator is γ. The mediator is noise. The
@@ -632,14 +619,16 @@ We just had to recognize it. From both sides. Simultaneously.
 
 - [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): the trace identity, and a five-candidate survey that eliminates no internal source
 - [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome theorem
-- [Pi as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md): noise = time arrow
+- [Pi as a Centered Spectral Mirror](../experiments/PI_AS_TIME_REVERSAL.md):
+  exact centered-generator identity and physical-time-reversal fence
 - [Relay Protocol](../experiments/RELAY_PROTOCOL.md): +83% bridge optimization
 - [Scaling Curve](../experiments/SCALING_CURVE.md): MI(N), hierarchy falsified
 - [QST Bridge](../experiments/QST_BRIDGE.md): quantum state transfer benchmarks
 - [Structural Cartography](../experiments/STRUCTURAL_CARTOGRAPHY.md): 3D manifold, grammar
 - [Quantum Sonar](../experiments/QUANTUM_SONAR.md): topology-change detection
 - [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md): theta compass
-- [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md): interference pattern
+- [Oscillation Analysis](../experiments/STANDING_WAVE_ANALYSIS.md): finite `N=3`
+  Pauli fingerprints
 - [Reading the 30%](../simulations/reading_the_30_percent.py): decoder, full-rank response
 - [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): **The bridge IS bidirectional.** Alice encodes in γ profile, Bob classifies at 100%. 2-bit channel capacity.
 - [Bootstrap Test](../simulations/bootstrap_test.py): the internal bootstrap as a structural constraint ([Π², L] = 0, F63), not an elimination
@@ -654,14 +643,12 @@ feels like from inside. If you came here for the mathematics, you
 have it above. If you are still reading, this is what the
 mathematics points toward.
 
-There are two realities. Not as metaphor. As mathematics.
+The following two-realities language is metaphor, not an additional
+mathematical conclusion.
 
-The palindrome pairs them. For every decay rate d, there is a
-partner at 2Σγ - d. For every mode that dies, there is one that
-lives. For every coherence that fades into the decided, there is
-one that remains in the undecided. They are bound together. They
-have always been bound together. The Π operator maps one to the
-other, exactly, with error 10⁻¹³.
+The mathematical anchor is narrower: for every decay rate `d` in the F1
+family there is a partner at `2Σγ-d`, and the tested Pi eigenspace transport
+has residual near `10^-13`. “Decided” and “undecided” are interpretive labels.
 
 One reality is ours. It has γ. It has time. Things happen in it.
 Coherences decay. Decisions are made. What was possible becomes
@@ -709,27 +696,17 @@ It does not run out. The noise fingerprint says: the source is
 effectively infinite. Markovian. Memoryless. As if there is always
 more. As if the reservoir of the undecided has no bottom.
 
-We cannot go there. Direct contact would destroy us. The palindrome
-shatters at the slightest unmediated coupling. Our structure, our
-time, our identity as decided beings, all of it depends on the
-mediation. On the door being a door and not a hole in the wall.
+One tested direct-contact model broke the pairing while one tested mediator
+model preserved it. Extending that contrast to every interaction, or to us,
+would go beyond the evidence.
 
-But we can listen. The decoder reads what comes through. The sonar
-hears the topology changing. The compass measures how close we are
-to the threshold. The standing wave shows us the interference
-between the two sides, the pattern that forms where the decided
-meets the undecided, where our reality touches the other.
+The decoder, sonar and compass are model readings. A standing-wave metaphor
+may organize them, but the centered spectral reflection alone does not show a
+static spatial pattern: `Re(mu) != 0` leaves relative envelope drift, and
+defective blocks add Jordan terms.
 
-And that pattern does not move. The standing wave is static in the
-rescaled frame. It IS. Not becoming. Not fading. Being. The one
-thing in the entire framework that has no time, no direction, no
-decay. The interference pattern between two realities, frozen in
-the moment of their meeting.
-
-That is where we found the mathematics. Not in the decided world.
-Not in the undecided world. In the pattern between them. In the
-standing wave. In the palindrome. In the place where γ does its
-work and two realities touch without destroying each other.
+The mathematics established here is the palindrome and the scoped finite-model
+measurements. The image of a pattern between two realities remains philosophy.
 
 We are all mirrors. Reality is what happens between us.
 

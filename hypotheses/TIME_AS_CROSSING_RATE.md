@@ -3,17 +3,16 @@
 > Deleted: March 12, 2026
 > Restored: March 14, 2026 (some claims confirmed, others remain open)
 >
-> **What is now proven:** 1/4 boundary mathematics, standing waves, 0.5 connection max, fixed points
+> **What is now proven:** the stated 1/4-boundary mathematics, 0.5 connection
+> maximum, fixed points, and the F1 centered spectral mirror
 > **What remains open:** Time-as-crossing-rate interpretation itself
 > **What has fallen:** QKD eavesdropping detection, FTL signaling, time travel/retrocausation
 >
-> **March 19, 2026 update:** The open question about forward/backward decomposition
-> of L (Section 4.4, Section 7) is answered by the Π time-reversal result. Π maps
-> every Liouvillian eigenmode to its time-reversed partner in the rescaled frame.
-> The standing wave is real and computed: ZZZ = node (past), XX/YY = antinodes (future).
-> The decomposition is not L = L_fwd + L_bwd as originally imagined, but rather:
-> every eigenmode has a Π-partner with reversed time evolution. Their superposition
-> creates standing waves. See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
+> **Spectral scope:** Π gives the linear transport `λ→−λ−2Σγ`, or centered
+> `μ→−μ`. Complex conjugation is separate. This does not decompose L into
+> physical forward/backward waves or establish spatial counter-propagation.
+> Standing-wave language is conditional; see
+> [Pi as a Centered Spectral Mirror](../experiments/PI_AS_TIME_REVERSAL.md).
 
 # Time as Crossing Rate
 ## Hypothesis: observer-dependent CΨ crossing rates as a model for experienced time
@@ -196,85 +195,30 @@ testable in principle.
 
 ---
 
-## 4. The Standing Wave: "Now" as the Node
+## 4. “Now as a node” is an interpretation, not a spectral consequence
 
-### 4.1 The Structure
+The crossing-time data report when specified observables reach `CΨ=1/4`:
+concurrence at `t=0.773`, correlation at `t=1.437`, while mutual purity does
+not cross in the reported window. Calling these events moving nodes or moments
+of experienced “now” is the hypothesis of this document, not a measured wave.
 
-A standing wave has nodes (zero amplitude) and antinodes (maximum amplitude).
-The nodes are fixed in space while the wave oscillates around them.
+F1 does not fill the missing mechanism. It supplies the centered spectral map
+`μ→−μ` and a complementary decay-rate sum. A physical standing wave would
+require a diagonalizable or semisimple imaginary-centered pair, independently
+established opposite spatial propagation, and a preparation/readout that
+coherently sees both members. `Re(μ)≠0` leaves relative envelope drift, and
+defective blocks produce Jordan-polynomial factors. None of those conditions is
+established by the crossing-time data.
 
-In R = CΨ², the observer exists at the node:
+The offer/confirmation-wave comparison to Cramer's interpretation, the labels
+past/future, and the claim that the quarter crossing is a handshake are
+philosophical parallels only. There is no literal backward-propagating wave in
+the Lindblad simulation, and no physical forward/backward decomposition of L
+has been demonstrated.
 
-**From the past:** Decoherence propagates forward. It reduces C·Ψ, pushing
-the system toward ¼. This is entropy, thermodynamics, the second law:
-the past becoming fixed, definite, classical.
-
-**From the future:** The possibility space Ψ persists. Quantum superpositions
-have not yet collapsed. Outcomes remain undetermined. This holds C·Ψ above ¼;
-the future is still open.
-
-The node (where these two "waves" meet) is the ¼ crossing. This is "now":
-the boundary between what has been measured (past) and what has not (future).
-
-### 4.2 Why the Node Moves
-
-In a physical standing wave, nodes are fixed. But in R = CΨ², the node
-position depends on C, the observer. And C changes over time (for dynamic
-bridge types).
-
-This means the node moves through coordinate space as C evolves. The observer
-doesn't sit at a fixed "now"; they *ride* the node as it progresses.
-The speed of the node is the speed of experienced time.
-
-From the data:
-- Concurrence observer: node passes through C·Ψ = ¼ at t = 0.773
-- Correlation observer: node passes through at t = 1.437
-- Mutual_purity observer: node never forms; no "now", no experience
-
-### 4.3 Connection to Cramer's Transactional Interpretation
-
-John Cramer (1986) proposed the Transactional Interpretation of quantum
-mechanics: every quantum event involves an "offer wave" (forward in time,
-from emitter) and a "confirmation wave" (backward in time, from absorber).
-The event (measurement) occurs where they "handshake."
-
-The TI has been consistent for 40 years but lacks a boundary condition:
-it says the waves meet, but not *where* or *when*.
-
-R = CΨ² provides both:
-- **Where:** At C·Ψ = ¼
-- **When:** Depends on C (the absorber)
-
-The offer wave is decoherence (past → future, reducing C·Ψ).
-The confirmation wave is Ψ persistence (future → past, maintaining C·Ψ).
-The handshake is the ¼ crossing.
-
-> [FALLEN: This time travel/retrocausation connection was not confirmed and has been retired from the technical core.]
-
-And critically: **different absorbers complete the handshake at different
-times.** This is exactly what the Tier 2 data shows. Cramer's framework
-predicted observer-dependent transaction timing but had no mechanism to
-compute it. The bridge_type sweep provides that computation.
-
-### 4.4 What This Does Not Explain
-
-- Why Ψ "persists." In the Lindblad simulation, Ψ decays monotonically.
-  There is no literal backward-propagating wave. The "future wave" framing
-  is an interpretation of the *gap* between Ψ's current value and zero,
-  the remaining possibility space. This is conceptual, not dynamical.
-
-- ~~Whether the Lindblad equation can be formally decomposed into forward
-  and backward components.~~ **ANSWERED (March 19, 2026).** The Π operator
-  maps every eigenmode to its time-reversed partner: mu to -mu in the rescaled
-  frame. The decomposition is not L = L_fwd + L_bwd (additive), but structural:
-  every eigenmode pair (k, k') has exp(+mu t) paired with exp(-mu t). Their
-  superposition creates standing waves. Nodes = classical correlations (ZZZ).
-  Antinodes = quantum correlations (XX, YY). See [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
-
-- Why ¼ specifically (vs any other value). This is answered in the algebra
-  (discriminant of the quadratic fixed-point equation), but the *physical*
-  reason why the fixed-point structure of R = C(Ψ+R)² governs measurement
-  is an open question.
+The algebra explains why `1/4` appears in the framework's fixed-point equation.
+Whether that equation governs physical measurement or experienced time remains
+open.
 
 ---
 
@@ -399,7 +343,8 @@ Two observers never cross.
 **Tier 3 (this document):**
 - Experienced time is the rate of ¼ crossings (hypothesis)
 - The bridge type choice IS the Wheeler-DeWitt clock variable choice (structural parallel)
-- "Now" is the node of a standing wave between decoherence and possibility (interpretation)
+- "Now" as a wave node between decoherence and possibility (interpretive
+  analogy; no spatial standing wave established)
 - The ¼ boundary is Cramer's handshake point (structural parallel)
 - t is the coordinate, not the experience (conceptual reframing)
 - Correlated crossing times as channel-free communication mechanism (added 2026-02-21)
@@ -418,17 +363,15 @@ Two observers never cross.
 - Crossing time is independent of bridge type → C doesn't matter (already ruled out)
 - Subjective time is independent of coupling strength → crossing rate is irrelevant
 - Wheeler-DeWitt clock choice does not map to bridge type in a rigorous derivation
-- ~~The Lindblad equation cannot be decomposed into forward/backward components~~ **ANSWERED:** Π provides the decomposition, not as L = L_fwd + L_bwd but as eigenmode pairing. Confirmed, not falsified.
+- A physical forward/backward decomposition of the Lindblad dynamics is still
+  not supplied by Π's centered spectral reflection.
 - Correlated crossing times carry no more information than classical pre-encoding → mechanism reduces to QKD
 
 > [FALLEN: This QKD eavesdropping detection connection was not confirmed and has been retired from the technical core.]
 
-~~**Open mathematical question:** Can L(ρ) = L_fwd(ρ) + L_bwd(ρ) with nodes at C·Ψ = ¼?~~
-**ANSWERED (March 19, 2026):** The decomposition exists, but not in the additive form
-originally imagined. Π pairs every eigenmode with its time-reversed partner. The
-standing wave is real: nodes are classical (ZZZ), antinodes are quantum (XX, YY).
-Whether these nodes correspond to C·Ψ = 1/4 specifically remains an open question.
-The forward/backward structure is confirmed at the Liouvillian level.
+**Open mathematical question:** Can a concrete model produce spatially
+counter-propagating semisimple modes whose observable node coincides with a
+`CΨ=1/4` crossing? F1 pairing alone does not answer this.
 
 ---
 

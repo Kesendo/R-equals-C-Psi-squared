@@ -1763,7 +1763,7 @@ Console.WriteLine($"  coherence horizon Q*(N) exact: N=2..5 = {Formulas.Qstar(2)
 foreach (int n in new[] { 3, 4, 5 })
 {
     var (mn, mx, bw) = Formulas.F3_RateBounds(n, 0.5);
-    Console.WriteLine($"  N={n}: F3 min={mn:0.0}/max={mx:0.0}/bw={bw:0.0}  F4 kernel={Formulas.F4_KernelDim(n)}  F5 depol-err={Formulas.F5_DepolError(n, 0.5):0.000}  F23 XOR-frac={Formulas.F23_XorFraction(n):0.0000}  F50 w1-deg={Formulas.F50_Weight1Degeneracy(n)}");
+    Console.WriteLine($"  N={n}: F3 Heisenberg generic band above Q*_gap min={mn:0.0}/max={mx:0.0}/bw={bw:0.0}  F4 kernel={Formulas.F4_KernelDim(n)}  F5 depol-err={Formulas.F5_DepolError(n, 0.5):0.000}  F23 XOR-frac={Formulas.F23_XorFraction(n):0.0000}  F50 w1-deg={Formulas.F50_Weight1Degeneracy(n)}");
 }
 Console.WriteLine($"  F33 N=3 rates (g=0.5, J/g->inf limit; rungs 0,2g,4g,6g exact at every J) = [{string.Join(", ", Formulas.F33_N3Rates(0.5).Select(x => x.ToString("0.000")))}]  (<n_XY>=1, 4/3, 5/3)");
 foreach (int n in new[] { 3, 4, 5 })

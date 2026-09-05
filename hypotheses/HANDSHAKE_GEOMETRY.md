@@ -12,11 +12,11 @@
 
 Open a chain of qubits to the world and let each site quietly dephase along Z. The way the
 chain relaxes is not arbitrary: its decay spectrum reads the same left to right, a
-palindrome around the summed dephasing. That palindromic standing wave is a resource, and
+palindrome around the summed dephasing. That palindromic spectral pairing is a resource, and
 like any resource it can be read; but reading it takes a choice of how to look.
 
 A handshake is that choice: a specification h = (N, k, t, basis) of how to interrogate the
-wave. N is the chain length, k picks which mode you listen to, t fixes when you look, and
+resource. N is the chain length, k picks which mode you read, t fixes when you look, and
 basis fixes which quadrature you measure. The handshake says nothing and sends nothing; it
 agrees on a correlation, a way to read what is already there.
 

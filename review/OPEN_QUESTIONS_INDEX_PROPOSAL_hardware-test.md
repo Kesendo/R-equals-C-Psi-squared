@@ -31,7 +31,13 @@
 **Proposed Status:** open
 **Confidence:** high
 **Resolving documents:** none
-**Rationale:** The standing-wave mathematics is proven (Tier 2): the Pi operator acts as time reversal, creating counter-propagating modes whose interference produces the palindromic spectrum. However, no experimental protocol exists to directly measure this interference. The question is explicitly listed as open.
+**Rationale:** The proven Tier-2 statement is the linear spectral transport
+`lambda -> -lambda - 2 Sigma_gamma` (equivalently `mu -> -mu` after centering),
+plus the complementary decay-rate sum. It does not by itself construct
+counter-propagating spatial modes or their interference. A standing-wave claim
+therefore still needs an independently excited semisimple conjugate-frequency
+pair, a spatial propagation observable, and an interference/null control. No
+protocol in the repository has closed those gates, so the question remains open.
 **Search terms used:** "standing wave", "future and past", "interference", "measured", "Pi time reversal"
 
 ---

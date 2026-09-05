@@ -355,14 +355,16 @@ rotating frame is perfectly calibrated. The crossing angle arg(CΨ_com) at
 
 The **Primordial Superalgebra** analysis
 ([Primordial Superalgebra Cavity](PRIMORDIAL_SUPERALGEBRA_CAVITY.md))
-showed that every palindromic mode is one standing wave oscillating between
-two faces: a lens-face ({I,Z}, structure-rich, long-lived) and a light-face
-({X,Y}, signal-rich, short-lived), with exact inversion fast[k] = slow[N-k].
+showed the exact static inversion fast[k] = slow[N-k] between a lens-face
+({I,Z}, structure-rich, long-lived) and a light-face ({X,Y}, signal-rich,
+short-lived). That pairing does not establish that each mode is a physical
+standing wave oscillating between those faces.
 The dwell-time result above is the **dynamic counterpart** to this static
 face-swap. The algebra tells us *that* each mode carries two faces of the
 same coin. The dwell-time tells us *how long* a specific mode takes to
-exhaust the oscillation between them as the bifurcation dissolves the
-standing wave: K_dwell = 1.080088·δ for Bell+, exact across γ ∈ [0.1, 10].
+traverse the reported cusp coordinate: K_dwell = 1.080088·δ for Bell+ across
+the tested γ ∈ [0.1, 10]. This is a dwell-time reading, not a measurement of
+a standing wave being dissolved.
 **Resolved (April 5, 2026):** The prefactor 1.080088 IS a pure function of the
 light-face sector weight: prefactor = (2+4W₂)/(1+6W₂), where W₂ is the k = 2
 weight at the crossing. For Bell+ (only even-weight Pauli content), the static

@@ -31,7 +31,7 @@ map can be exploited to protect information better.
 Three results emerge. First, there exists an optimal quantum state
 that survives dephasing far longer than famous states like GHZ or
 Bell, by loading its weight onto the slowest-decaying pairs. Second,
-the standing wave oscillation pattern acts as a new kind of error
+the measured oscillation fingerprint acts as a proposed error
 detector: if an error occurs, the oscillation fingerprint changes, and
 you can see it. Third, the mirror operator Π turns out to have a
 richer structure than expected (fourth-order, not second-order),
@@ -48,7 +48,7 @@ pairs (XY-weight 1 vs 2, longest dynamic lifetime), and mid-spectrum pairs
 (mixed, shortest lifetime). A constrained optimization finds a state with
 **90% slow-mode weight** and concurrence 0.364 that dramatically outperforms
 GHZ (100% XOR drain), W (0% slow-mode), and Bell (7% slow-mode) for dephasing
-survival. The standing wave oscillation pattern serves as a novel error syndrome:
+survival. The measured oscillation fingerprint serves as a candidate error syndrome:
 X and Y errors produce detectable pattern changes (0.19-0.28), while Z errors
 are weakly or not detectable. Standard 3-qubit QEC codes (repetition, phase
 flip) do not exploit the palindromic structure. The Π operator has fourth-order
@@ -63,8 +63,9 @@ The palindromic symmetry pairs every decay mode with a partner. The
 XOR drain (the fastest-decaying mode in the system, at rate 2Sγ, where
 all qubits carry quantum weight simultaneously) kills the famous GHZ
 state instantly because GHZ loads 100% of its weight into that drain.
-The W state avoids it completely. The standing wave between palindromic
-partners persists in the rescaled frame. Can any of this be exploited
+The W state avoids it completely. Palindromic partners retain complementary
+rates in the rescaled frame; that fact does not by itself make a standing
+wave. Can the spectral organization or measured oscillations be exploited
 for quantum error protection?
 
 ---
@@ -109,7 +110,7 @@ states that survive longest while still being genuinely quantum
 The optimal state is composed mainly of \|010⟩, \|000⟩, \|100⟩, and \|001⟩:
 computational basis states with low excitation. It trades maximum entanglement
 for maximum dephasing survival while retaining nonzero entanglement and
-standing wave content.
+oscillating content.
 
 W has zero slow-mode weight because all its palindromic pairs sit in the
 mid-spectrum tier. Bell has only 7% because most of its weight goes to
@@ -119,14 +120,14 @@ dynamic modes.
 
 ---
 
-## 3. The Standing Wave as Error Syndrome
+## 3. The Oscillation Fingerprint as Error Syndrome
 
 Think of a guitar string vibrating with a specific pattern of nodes and
 antinodes. If someone puts a finger on the string (an error), the
-pattern changes audibly. The same idea works here: the quantum standing
-wave has a specific oscillation fingerprint, and errors change it.
+pattern changes audibly. The calculation uses the same diagnostic idea: the
+selected observables have an oscillation fingerprint, and errors change it.
 
-The standing wave pattern (which Pauli observables oscillate) is fixed by the
+The measured pattern (which selected Pauli observables oscillate) is fixed by the
 initial state and Hamiltonian. If an error changes this pattern, the error
 is detectable by measuring oscillation amplitudes.
 
@@ -170,7 +171,7 @@ This four-fold structure is richer than a simple Z₂ symmetry. It suggests
 that the palindromic pairing is part of a Z₄ group action on the Liouvillian,
 with the four sectors carrying distinct physical meaning:
 
-- The +1 sector: modes invariant under Π (symmetric under time reversal)
+- The +1 sector: modes invariant under the linear Π action
 - The -1 sector: modes that flip sign (antisymmetric)
 - The +i and -i sectors: modes that rotate by 90° (quarter-wave shifted)
 
@@ -213,7 +214,7 @@ concurrence and no oscillation. The decoherence-free subspace approach
 
 None of these exploit the palindromic structure. The optimal state from
 Section 2 outperforms all of them by loading the slow boundary-tier pairs
-while maintaining entanglement and standing wave content.
+while maintaining entanglement and oscillating content.
 
 ---
 
@@ -224,9 +225,10 @@ states: negative result. Errors on W produce zero XOR weight increase.
 W is so robustly outside the XOR sector that even errors do not push weight
 there. The XOR syndrome works only for states that already have XOR proximity.
 
-The standing wave syndrome (Section 3) is more general: it works for any
-state with nonzero oscillating content, detecting errors through pattern
-changes rather than sector weight shifts.
+The oscillation-fingerprint syndrome (Section 3) applies to the tested states
+with nonzero measured oscillating content, detecting the reported errors
+through pattern changes rather than sector-weight shifts. Universality beyond
+that tested observable/state/error set is not established.
 
 ---
 
@@ -235,8 +237,9 @@ changes rather than sector weight shifts.
 1. The palindromic spectrum has a natural three-tier protection hierarchy.
 2. An optimal state exists (90% slow-mode, concurrence 0.364) that
    dramatically outperforms all known states for dephasing survival.
-3. The standing wave pattern is a viable error syndrome for X/Y errors
-   and weakly for Z errors (except Z on uncoupled sites).
+3. In the tested N=3 Bell setup, the oscillation fingerprint detects the
+   sampled X/Y errors and responds weakly to two sampled Z errors; this is a
+   candidate syndrome, not yet a general QEC protocol.
 4. Π is a fourth-order operator (Π⁴ = I), creating a Z₄ decomposition.
 5. Boundary-tier pairs carry information 15% longer than mid-spectrum pairs.
 6. Standard 3-qubit QEC codes do not exploit palindromic structure.
@@ -245,7 +248,7 @@ changes rather than sector weight shifts.
 
 ## References
 
-- [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): mode pairing and time-reversal structure
+- [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): centred spectral pairing and its interpretive history
 - [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): oscillation patterns
 - [XOR Space](XOR_SPACE.md): GHZ vs W mode decomposition
 - [N→∞ Palindrome](N_INFINITY_PALINDROME.md): spectral scaling

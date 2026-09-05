@@ -20,9 +20,10 @@
 > document untouched is its solid core: every two-term coupling is palindromic at N = 2
 > (§3), the 14 that break do so as a many-body effect at N ≥ 3 (§4), and the palindrome
 > exists only for qubits, d = 2, by the counting `d(d − 2) = 0` (§5). The speculative
-> "shared clock" reading in §7 rested on the non-local premise and is retracted; the rest of
-> the interpretation (Ψ² as a mode meeting its own mirror) does not need non-locality and is
-> reframed in place. Sections 1, 2, 6 are kept below, marked, for the record of how we saw
+> "shared clock" reading in §7 rested on the non-local premise and is retracted. The remaining
+> §7 imagery is explicitly interpretive: Π proves a centred spectral partner, not physical
+> time reversal, counter-propagation, or interference. Sections 1, 2, 6 are kept below,
+> marked, for the record of how we saw
 > it then.
 
 ---
@@ -259,10 +260,11 @@ giving d(d - 2) = 0. The only nonzero solution is d = 2.
 | d = 4 (ququart) | 4:12 | NO (16 vs 144) | Broken |
 | d = d | d:(d^2 - d) | Only d = 2 | Only qubits |
 
-The palindromic framework, the mirror, the standing wave, the time reversal,
-the boot script, all of it exists because qubits have the unique property
-that exactly half the Pauli basis commutes with Z and exactly half
-anti-commutes. No other dimension has this balance.
+The full palindromic linear similarity exists because qubits have the unique
+property that exactly half the Pauli basis commutes with Z and exactly half
+anti-commutes. No other dimension has this balance. The counting proves the
+spectral mirror; it does not prove a physical standing wave or time-reversal
+operation.
 
 Script: `simulations/mirror_structure_deep.py` (Section 2)
 Results: `simulations/results/mirror_structure_deep.txt`
@@ -340,10 +342,11 @@ logic gates are there, the connections are there. But nothing happens. No
 "now switch" and "now read." No sequence. No causality. Just a static
 circuit.
 
-The Π operator is a clock. It defines which modes are "before" and which
-are "after." It pairs each forward mode (exp(+mu*t)) with its backward
-partner (exp(-mu*t)). Without Π, there is no pairing, no standing wave,
-no palindromic structure, no time reversal.
+The exact result is narrower than the clock image: Π pairs centred spectral
+values `mu` and `-mu`. It does not label them "before" and "after," make them
+forward/backward waves, or prove their interference. Those claims would need
+independent physical time-reversal, excitation, semisimplicity,
+conjugate-frequency, spatial-propagation, and observable-interference gates.
 
 For all cases, each site has its own clock. Site 1 defines its own time
 direction: "my I and Z are past, my X and Y are future." Site 2 does the
@@ -420,14 +423,15 @@ Psi corresponds to the modes with nonzero XY-weight: the off-diagonal
 elements, the undecided quantum aspect of the density matrix. These are
 what the palindrome pairs.
 
-**Psi-squared (Self-encounter):** The possibility meets its own time-reversed
-image. Psi encountering Psi through the Π operator. mu meeting -mu. Forward
-meeting backward. The mode interfering with its own mirror.
+**Psi-squared (spectral self-pairing):** Π maps a centred spectral value `mu`
+to `-mu`. Calling this a possibility meeting its time-reversed image is an
+interpretive gloss, not a dynamical statement about two excited waves.
 
-What emerges from this self-encounter is a standing wave. The nodes (ZZZ,
-classical, w=0) are where the interference is perfectly destructive in the
-rescaled frame. The antinodes (XX/YY, quantum, w=N) are where the
-interference is constructive: maximum oscillation. The pattern is R.
+Separate simulations report which selected Pauli observables oscillate or do
+not oscillate for particular Hamiltonians and seeds. That is not yet a
+standing-wave construction: no from-below gate here supplies two spatially
+counter-propagating, conjugate-frequency excited modes and an interference
+null. The node/antinode language is therefore analogy, not what Π establishes.
 
 The V-effect data shows where this self-encounter fails: at the boundary
 between classical and quantum (w=1 and w=2). The modes that are partly
@@ -438,9 +442,9 @@ extremes stay perfectly paired.
 
 Script connections:
 - Psi = coherences, XY-weight in the Liouvillian: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
-- Psi-squared = palindromic self-pairing, Π maps weight k to N-k: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
+- Psi-squared = palindromic spectral pairing, Π maps weight k to N-k: [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
 - C = coupling condition, Mandelbrot fixed point: [The Interpretation](../docs/THE_INTERPRETATION.md)
-- R = standing wave, stable oscillation pattern: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)
+- R = proposed standing-wave reading of scoped oscillation patterns: [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)
 - Break at boundary, w=1/w=2 differentiation: [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)
 
 ---
@@ -472,7 +476,7 @@ Script connections:
 ### Experiments
 - [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md): 36/36 scorecard, the Π families (all local)
 - [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): anatomy of the break at N=3
-- [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
+- [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md): exact spectral pairing plus the historical past/future interpretation
 - [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md): 2:2 split theorem, counting argument
 - [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md): nodes, antinodes, frequencies
 

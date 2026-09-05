@@ -98,9 +98,12 @@ public class F3DecayRateBoundsPi2InheritanceTests
     }
 
     [Fact]
-    public void MinRate_NegativeGamma_Throws()
+    public void Rate_Readings_Reject_Invalid_Or_Unrepresentable_Gamma()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().MinRate(-0.05));
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().MinRate(double.NaN));
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().MaxRate(3, double.PositiveInfinity));
+        Assert.Throws<OverflowException>(() => BuildClaim().MaxRate(int.MaxValue, double.MaxValue));
     }
 
     [Fact]

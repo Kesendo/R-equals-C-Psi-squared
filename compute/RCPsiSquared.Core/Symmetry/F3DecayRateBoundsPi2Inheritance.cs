@@ -12,9 +12,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   XOR boundary = 2·N·γ        (sits above max rate; XOR drain sector)
 /// </code>
 ///
-/// <para>F3 gives the universal bounds on decay rates for any Liouvillian
-/// eigenmode under Heisenberg + uniform Z-dephasing, derived directly from
-/// the Absorption Theorem α = 2γ·⟨n_XY⟩:</para>
+/// <para>F3 gives the generic-band edges for the uniform-Z-dephased Heisenberg
+/// chain above Q*_gap(N). The coefficient comes from the Absorption Theorem
+/// α = 2γ·⟨n_XY⟩; that theorem alone does not make these full-spectrum bounds:</para>
 ///
 /// <list type="bullet">
 ///   <item><b>min rate = 2γ:</b> smallest nonzero ⟨n_XY⟩ ≈ 1 (pure weight-1
@@ -70,14 +70,14 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     public Claim? BitATwin => null;
 
     /// <summary>Covered by the Hadamard X↔Z duality (Case 2 of docs/proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md):
-    /// F3's universal decay-rate bounds are a Lindblad Re(λ) statement, 2γ·⟨n_XY⟩ off the Absorption Theorem;
+    /// F3's regime-scoped generic-band edges are a Lindblad Re(λ) statement, 2γ·⟨n_XY⟩ off the Absorption Theorem;
     /// the global Hadamard U_H maps Z-dephasing to X-dephasing preserving the popcount reading, so it
     /// transports to the bit_a axis with no bespoke twin owed.</summary>
     public BitATwinClassification BitATwinStatus => BitATwinClassification.CoveredByHadamardDuality;
     public Pi2DyadicLadderClaim Ladder { get; }
     public F50WeightOneDegeneracyPi2Inheritance F50 { get; }
 
-    /// <summary>The "2" universal coefficient in F3's rate bounds. Live from
+    /// <summary>The "2" universal coefficient in F3's regime-scoped generic-band formulas. Live from
     /// Pi2DyadicLadder a_0; transitively from F50's DecayRateFactor.</summary>
     public double RateCoefficient => Ladder.Term(0);
 
@@ -85,24 +85,24 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     /// Identical to F50's universal weight-1 eigenvalue position |Re(λ)|.</summary>
     public double MinRate(double gammaZero)
     {
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        return RateCoefficient * gammaZero;
+        ValidateGamma(gammaZero);
+        return Finite(RateCoefficient * gammaZero);
     }
 
     /// <summary>F3's max decay rate: 2·(N−1)·γ for fastest paired w=N−1 modes.</summary>
     public double MaxRate(int N, double gammaZero)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F3 requires N ≥ 2.");
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        return RateCoefficient * (N - 1) * gammaZero;
+        ValidateGamma(gammaZero);
+        return Finite(RateCoefficient * (N - 1) * gammaZero);
     }
 
     /// <summary>F3's bandwidth: max − min = 2·(N−2)·γ.</summary>
     public double Bandwidth(int N, double gammaZero)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F3 requires N ≥ 2.");
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        return RateCoefficient * (N - 2) * gammaZero;
+        ValidateGamma(gammaZero);
+        return Finite(RateCoefficient * (N - 2) * gammaZero);
     }
 
     /// <summary>The XOR drain boundary rate 2·N·γ. Sits ABOVE the F3 max range
@@ -111,9 +111,19 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     public double XorBoundary(int N, double gammaZero)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F3 requires N ≥ 1.");
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        return RateCoefficient * N * gammaZero;
+        ValidateGamma(gammaZero);
+        return Finite(RateCoefficient * N * gammaZero);
     }
+
+    private static void ValidateGamma(double gammaZero)
+    {
+        if (!double.IsFinite(gammaZero) || gammaZero < 0)
+            throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be finite and ≥ 0.");
+    }
+
+    private static double Finite(double value) => double.IsFinite(value)
+        ? value
+        : throw new OverflowException("The F3 rate reading is not representable as a finite double.");
 
     /// <summary>Drift check: F3's MinRate IS F50's universal weight-1 eigenvalue
     /// position (= |EigenvaluePosition(γ)|).</summary>
@@ -147,7 +157,7 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     public F3DecayRateBoundsPi2Inheritance(
         Pi2DyadicLadderClaim ladder,
         F50WeightOneDegeneracyPi2Inheritance f50)
-        : base("F3 decay rate bounds: min = 2γ (= F50), max = 2(N−1)γ, bandwidth = 2(N−2)γ, XOR boundary = 2Nγ; all '2's = a_0; corollary of Absorption Theorem",
+        : base("F3 Heisenberg-chain generic-band edges above Q*_gap: min = 2γ (= F50), max = 2(N−1)γ, bandwidth = 2(N−2)γ; XOR boundary = 2Nγ is a separate spectral endpoint; all '2's = a_0",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F3 + " +
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md + " +
@@ -160,17 +170,17 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F3 decay rate bounds as Pi2-Foundation a_0 + F50 inheritance";
+        "F3 regime-scoped generic-band edges as Pi2-Foundation a_0 + F50 inheritance";
 
     public override string Summary =>
-        $"min = 2γ (= F50), max = 2(N−1)γ, bandwidth = 2(N−2)γ, XOR boundary = 2Nγ; the universal '2' = a_0 (= {RateCoefficient}); corollary of Absorption Theorem α = 2γ·⟨n_XY⟩ ({Tier.Label()})";
+        $"uniform-Z Heisenberg chain above Q*_gap: generic-band min = 2γ (= F50), max = 2(N−1)γ, bandwidth = 2(N−2)γ; separate XOR endpoint = 2Nγ; coefficient 2 = a_0 (= {RateCoefficient}) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return new InspectableNode("F3 closed-form bounds",
-                summary: "min rate = 2γ (w=1 pure); max rate = 2(N−1)γ (w=N−1 paired); bandwidth = 2(N−2)γ; XOR boundary 2Nγ (above max); corollary of α = 2γ·⟨n_XY⟩");
+            yield return new InspectableNode("F3 regime-scoped generic-band edges",
+                summary: "uniform-Z Heisenberg chain above Q*_gap: min rate = 2γ (w=1 pure); max rate = 2(N−1)γ (w=N−1 paired); bandwidth = 2(N−2)γ; XOR boundary 2Nγ is a separate endpoint");
             yield return InspectableNode.RealScalar("RateCoefficient (= a_0 = 2)", RateCoefficient);
             yield return new InspectableNode("F50 inheritance (min rate)",
                 summary: $"F3's min rate = 2γ IS F50's |EigenvaluePosition|. F50.DecayRateFactor (= {F50.DecayRateFactor}) is the same '2' as F3's RateCoefficient.");

@@ -118,13 +118,36 @@ def _matrix_and_permutation(J, perm):
     Q = permutation_matrix(perm)
     if J.ndim != 2 or J.shape != Q.shape:
         raise ValueError("J must be square with one row per permutation index")
+    try:
+        finite = bool(np.all(np.isfinite(J)))
+    except TypeError as exc:
+        raise ValueError("J must contain finite numeric entries") from exc
+    if not finite:
+        raise ValueError("J must contain finite numeric entries")
     return J, Q
 
 
+def _frobenius_norm_finite(matrix):
+    """Stable Frobenius norm for an already finite matrix."""
+    maximum = float(np.max(np.abs(matrix), initial=0.0))
+    if maximum == 0.0:
+        return 0.0
+    scaled = np.abs(matrix) / maximum
+    value = maximum * float(np.sqrt(np.sum(scaled * scaled)))
+    if not np.isfinite(value):
+        raise OverflowError("Frobenius norm is not representable")
+    return value
+
+
 def _normalized_residual(residual, J):
-    norm_J = np.linalg.norm(J, "fro")
+    if not np.all(np.isfinite(residual)):
+        raise OverflowError("residual is not representable with finite arithmetic")
+    norm_J = _frobenius_norm_finite(J)
     # At the zero matrix, report the absolute residual instead of dividing by zero.
-    return float(np.linalg.norm(residual, "fro") / (norm_J if norm_J else 1.0))
+    value = _frobenius_norm_finite(residual) / (norm_J if norm_J else 1.0)
+    if not np.isfinite(value):
+        raise OverflowError("normalized residual is not representable")
+    return float(value)
 
 
 def scalar_center_residual(J, perm, s):
@@ -140,7 +163,17 @@ def scalar_center_residual(J, perm, s):
         raise ValueError("perm must be an involution for the F36 gate")
     if np.ndim(s) != 0 or not np.isfinite(s):
         raise ValueError("s must be a finite scalar")
-    residual = Q @ J @ Q.T + J + 2 * s * np.eye(J.shape[0])
+    with np.errstate(over="ignore", invalid="ignore"):
+        residual = Q @ J @ Q.T + J + 2 * s * np.eye(J.shape[0])
+    if not np.all(np.isfinite(residual)):
+        # Reassociate the scalar diagonal so an exact cancellation such as
+        # J=-sI remains representable even when 2s alone would overflow.
+        centred = J.copy()
+        with np.errstate(over="ignore", invalid="ignore"):
+            centred[np.diag_indices_from(centred)] += s
+            residual = Q @ centred @ Q.T + centred
+        if not np.all(np.isfinite(centred)) or not np.all(np.isfinite(residual)):
+            raise OverflowError("centred F36 residual is not representable")
     return _normalized_residual(residual, J)
 
 
@@ -168,10 +201,15 @@ def spectral_pairing_error(values, s):
     values = np.asarray(values, dtype=complex)
     if values.ndim != 1 or values.size == 0:
         raise ValueError("values must be a nonempty one-dimensional array")
-    if np.ndim(s) != 0:
-        raise ValueError("s must be a scalar")
-    targets = -values - 2 * s
-    costs = np.abs(values[:, None] - targets[None, :])
+    if not np.all(np.isfinite(values)):
+        raise ValueError("values must contain only finite eigenvalues")
+    if np.ndim(s) != 0 or not np.isfinite(s):
+        raise ValueError("s must be a finite scalar")
+    with np.errstate(over="ignore", invalid="ignore"):
+        targets = -values - 2 * s
+        costs = np.abs(values[:, None] - targets[None, :])
+    if not np.all(np.isfinite(targets)) or not np.all(np.isfinite(costs)):
+        raise OverflowError("pairing targets are not representable")
     rows, columns = linear_sum_assignment(costs)
     return float(np.max(costs[rows, columns]))
 
@@ -250,9 +288,18 @@ def make_exact_network(n=10, tau_e=5.0, tau_i=10.0, alpha=0.5,
         raise ValueError("density must be in [0, 1]")
     if not isinstance(seed, Integral) or isinstance(seed, bool):
         raise ValueError("seed must be an integer")
+    with np.errstate(over="ignore", divide="ignore", invalid="ignore"):
+        rates = np.array([1.0 / tau_e, 1.0 / tau_i])
+        ratios = np.array([tau_e / tau_i, tau_i / tau_e])
+    if not np.all(np.isfinite(rates)) or not np.all(np.isfinite(ratios)):
+        raise ValueError("derived rates and E/I weight ratios must be representable")
     W, signs, perm = build_exact_weights(n, n // 2, tau_e, tau_i, density, seed)
-    J = build_linear_jacobian(W, signs, tau_e, tau_i, alpha)
-    return J, perm, 0.5 * (1 / tau_e + 1 / tau_i)
+    with np.errstate(over="ignore", divide="ignore", invalid="ignore"):
+        J = build_linear_jacobian(W, signs, tau_e, tau_i, alpha)
+        s = 0.5 * (rates[0] + rates[1])
+    if not np.all(np.isfinite(W)) or not np.all(np.isfinite(J)) or not np.isfinite(s):
+        raise ValueError("derived weights, Jacobian and centre must be representable")
+    return J, perm, float(s)
 
 
 def exact_ensemble_census():
@@ -333,7 +380,11 @@ def partner_subspace_error(J, perm, s, cluster_tol=1e-7):
     largest = 0.0
     for cluster in clusters:
         source = invariant_subspace(cluster, len(cluster))
-        partner = invariant_subspace(-cluster - 2 * s, len(cluster))
+        with np.errstate(over="ignore", invalid="ignore"):
+            partner_centers = -cluster - 2 * s
+        if not np.all(np.isfinite(partner_centers)):
+            raise OverflowError("partner cluster centres are not representable")
+        partner = invariant_subspace(partner_centers, len(cluster))
         angles = subspace_angles(Q @ source, partner)
         if angles.size:
             largest = max(largest, float(np.max(np.sin(angles))))

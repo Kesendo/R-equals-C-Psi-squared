@@ -30,10 +30,10 @@ You cannot build a mirror between one thing and three things, for the
 same reason you cannot pair up five people for a dance when there are
 only two chairs.
 
-This is not just a technical limitation. In the time-reversal language
-of [Π as Time Reversal](PI_AS_TIME_REVERSAL.md), it means the future
-is exponentially larger than the past. There are overwhelmingly more
-ways to be undecided than decided.
+The technical result is the counting mismatch. The older past/future
+language of [Π as Time Reversal](PI_AS_TIME_REVERSAL.md) is an interpretation,
+not a physical time-reversal theorem: the decaying operator sector is
+exponentially larger than the immune sector.
 
 ---
 
@@ -228,33 +228,32 @@ making the decaying sector exponentially larger.
 
 ---
 
-## 7. What This Means for Time Reversal
+## 7. What This Means for the Mirror Count
 
-[Π as Time Reversal](PI_AS_TIME_REVERSAL.md) established that Π is a
-time-reversal operator: it swaps populations (past, classical, persistent)
-with coherences (future, quantum, fragile). The palindrome exists because
-past and future have equal weight at each site.
+[Π as Time Reversal](PI_AS_TIME_REVERSAL.md) established a linear similarity
+for the Z-dephasing generator. It swaps the immune and decaying local operator
+cells and yields `lambda -> -lambda - 2 Sigma_gamma`. This is a spectral
+mirror, not by itself physical time reversal or a past/future identification.
 
 Under depolarizing noise, this balance is destroyed:
 
-- **Past** (immune sector): only {I} per site, giving 1^N = 1 string
+- **Immune sector:** only {I} per site, giving 1^N = 1 string
   for the entire system. For N=3, one string (III). For N=10, still
   one string.
 
-- **Future** (decaying sector): {X, Y, Z} per site, giving 3^N strings.
+- **Decaying sector:** {X, Y, Z} per site, giving 3^N strings.
   For N=3, twenty-seven strings. For N=10, fifty-nine thousand and forty-nine.
 
-The ratio past/future = (1/3)^N. It is not just unequal. It is
-exponentially unequal. The future is exponentially larger than the past.
+The immune/decaying count ratio is (1/3)^N. It is exponentially unequal.
 
 No bijective mirror can exist between a set of size 1 and a set of size 3^N.
-The mirror Π requires exactly as much past as future at each site.
-Depolarizing noise breaks this by making almost everything quantum and
-almost nothing classical.
+The Z-dephasing construction of Π requires equally sized local cells.
+Depolarizing noise breaks this condition by leaving one immune and three
+decaying operator directions per site.
 
-In the time-reversal language: depolarizing noise is a universe where
-there are exponentially more ways to be undecided than decided. The
-arrow of time is not merely present. It is overwhelming.
+Any past/future or arrow-of-time gloss is optional interpretation. The result
+proved here is the exponential cell-count mismatch and failure of the same
+bijective palindromizer.
 
 ---
 
@@ -305,8 +304,8 @@ is exactly (2/3) N γ, independent of the Hamiltonian.
 ## References
 
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): Π operator and the palindrome theorem
-- [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
-- [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): the standing wave requires a mirror
+- [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): exact centred spectral pairing and the historical past/future reading
+- [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): gated standing-wave interpretation of the mirror
 - [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): palindrome across all standard models
 - Script: [`simulations/depolarizing_analysis.py`](../simulations/depolarizing_analysis.py)
 - Results: [`simulations/results/depolarizing_analysis.txt`](../simulations/results/depolarizing_analysis.txt)

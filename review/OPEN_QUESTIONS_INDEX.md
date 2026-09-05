@@ -670,7 +670,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-183
 
-**Question:** **Two decoherence exits.** The lens and the Mandelbrot cusp protect different state classes and lead to different classical ensembles. See [Cusp-Lens Connection](CUSP_LENS_CONNECTION.md) for why they do not unify.
+**Question:** **Two decoherence exits.** The lens and the Mandelbrot cusp protect different state classes and lead to different classical ensembles. See [Cusp-Lens Connection](../experiments/CUSP_LENS_CONNECTION.md) for why they do not unify.
 
 **Source:** `experiments/CONCENTRATOR_GEOMETRY.md` (line 189)
 **Section:** Open questions
@@ -1454,7 +1454,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-086
 
-**Question:** **Higher grid positions: topology-dependent (resolved).** The d_real(2) sequence differs between topologies (Chain=14, Star=16, Complete=36 at N=4). The weight-2 kernel vectors transform under mixed (non-trivial) S_N representations -- the triangle inequality argument from Step 5 does not apply. A universal formula for d_real(k≥2) does not exist; any formula must incorporate the graph's bond structure. See [Weight-2 Kernel](../../experiments/WEIGHT2_KERNEL.md).
+**Question:** **Higher grid positions: topology-dependent (resolved).** The d_real(2) sequence differs between topologies (Chain=14, Star=16, Complete=36 at N=4). The weight-2 kernel vectors transform under mixed (non-trivial) S_N representations -- the triangle inequality argument from Step 5 does not apply. A universal formula for d_real(k≥2) does not exist; any formula must incorporate the graph's bond structure. See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
 
 **Source:** `docs/proofs/PROOF_WEIGHT1_DEGENERACY.md` (line 334)
 **Section:** Open questions
@@ -1554,7 +1554,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-126
 
-**Question:** ~~**Does degeneracy shape state-space geometry?**~~ **PARTIALLY RESOLVED.** QFI speed correlates with d_total(k) at even N (r = 0.99 at N = 4); weaker at odd N (r ≈ 0.55). The center spike drives the peak QFI speed, independent of initial state. See [Bures Degeneracy](BURES_DEGENERACY.md).
+**Question:** ~~**Does degeneracy shape state-space geometry?**~~ **PARTIALLY RESOLVED.** QFI speed correlates with d_total(k) at even N (r = 0.99 at N = 4); weaker at odd N (r ≈ 0.55). The center spike drives the peak QFI speed, independent of initial state. See [Bures Degeneracy](../experiments/BURES_DEGENERACY.md).
 
 **Source:** `experiments/DEGENERACY_PALINDROME.md` (line 413)
 **Section:** Open questions
@@ -1895,7 +1895,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-298
 
-**Question:** **Is the boundary observable?** The standing wave forms at the interface between sectors. Can the node/antinode structure be measured directly, not just computed from the Liouvillian? Note: the "other side" has a physical realization: the laser regime (Σγ < 0), where gain replaces loss and all eigenvalues mirror. See [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
+**Question:** **Is a spatial standing-wave reading observable?** F1 supplies a spectral interface, not by itself a node/antinode pattern. In cases where opposite spatial propagation and the needed dynamical conditions are established independently, can that structure be measured directly? The gain-side analogy is discussed in [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
 
 **Source:** `hypotheses/THE_OTHER_SIDE.md` (line 585)
 **Section:** 11. Open Questions
@@ -2129,7 +2129,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-079
 
-**Question:** **Breaks for:** the same conditions that break the Parity Selection Rule (transverse fields with odd n_XY terms, amplitude damping). See the [Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md) scope section.
+**Question:** **Breaks for:** the same conditions that break the Parity Selection Rule (transverse fields with odd n_XY terms, amplitude damping). See the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) scope section.
 
 **Source:** `docs/proofs/DIRECT_SUM_DECOMPOSITION.md` (line 388)
 **Section:** Scope and limitations
@@ -2948,7 +2948,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-170
 
-**Question:** **Depolarizing noise.** ANSWERED (March 19, 2026). The palindrome breaks because depolarizing noise splits {I,X,Y,Z} into 1 immune and 3 decaying (1:3), making bijective mirroring impossible. The error is exactly (2/3)Sγ, Hamiltonian-independent. The future is exponentially larger than the past: ratio = (1/3)^N per site. No threshold exists in the Z-deph to depol interpolation. See [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md).
+**Question:** **Depolarizing noise.** ANSWERED (March 19, 2026). The palindrome breaks because depolarizing noise splits {I,X,Y,Z} into 1 immune and 3 decaying (1:3), making bijective mirroring impossible. The error is exactly (2/3)Sγ, Hamiltonian-independent. The future is exponentially larger than the past: ratio = (1/3)^N per site. No threshold exists in the Z-deph to depol interpolation. See [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md).
 
 **Source:** `experiments/PI_AS_TIME_REVERSAL.md` (line 347)
 **Section:** 6. Open Questions
@@ -2978,7 +2978,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-221
 
-**Question:** **ANSWERED (2026-03-08):** The relationship is non-monotonic, not a simple threshold. Two separate crossing windows exist for parametric Bell states; a dead zone lies between them. The minimum C_SA(0) depends on coupling strength J_SB. See [N-Scaling Barrier](N_SCALING_BARRIER.md) Section 8, Q4.
+**Question:** **ANSWERED (2026-03-08):** The relationship is non-monotonic, not a simple threshold. Two separate crossing windows exist for parametric Bell states; a dead zone lies between them. The minimum C_SA(0) depends on coupling strength J_SB. See [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) Section 8, Q4.
 
 **Source:** `experiments/SUBSYSTEM_CROSSING.md` (line 305)
 **Section:** 6. Open Questions
@@ -2988,7 +2988,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-231
 
-**Question:** How does the pair asymmetry (excited unevenly within a palindromic pair) relate to channel directionality? If mode A→B excites the "slow" partner while B→A excites the "fast" partner, the channel would be directional. This connects to the push/pull principle in the [Scaling Curve](SCALING_CURVE.md).
+**Question:** How does the pair asymmetry (excited unevenly within a palindromic pair) relate to channel directionality? If mode A→B excites the "slow" partner while B→A excites the "fast" partner, the channel would be directional. This connects to the push/pull principle in the [Scaling Curve](../experiments/SCALING_CURVE.md).
 
 **Source:** `experiments/XOR_SPACE.md` (line 258)
 **Section:** Open Question
@@ -3275,7 +3275,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-122
 
-**Question:** **Closed form for inner positions: topology-dependent (partially resolved).** d_real(2) differs between topologies (Chain=14, Star=16, Complete=36 at N=4). No universal formula exists for k ≥ 2. The weight-2 kernel vectors transform under mixed S_N representations, not the trivial representation as at k=1. See [Weight-2 Kernel](WEIGHT2_KERNEL.md).
+**Question:** **Closed form for inner positions: topology-dependent (partially resolved).** d_real(2) differs between topologies (Chain=14, Star=16, Complete=36 at N=4). No universal formula exists for k ≥ 2. The weight-2 kernel vectors transform under mixed S_N representations, not the trivial representation as at k=1. See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
 
 **Source:** `experiments/DEGENERACY_PALINDROME.md` (line 394)
 **Section:** Open questions
@@ -3387,7 +3387,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-284
 
-**Question:** **4. Backreaction requires external physics.** In GR, Hawking radiation removes mass from the black hole (backreaction). Within pure Lindblad dynamics, L_H (wave propagation) and L_D (wave death) are independent: the dissipator does not influence the Hamiltonian, so mass cannot redirect waves. However, [Gravity from Wave Death](GRAVITY_FROM_WAVE_DEATH.md) describes a self-limiting feedback loop: mass → gravity (via GR) → attracts more waves → more wave death → more mass, with [logistic saturation](GRAVITY_FROM_WAVE_DEATH.md) as the finite supply of coherences (4^N modes) is consumed. The loop closes, but only if external physics (GR or equivalent) provides the gravity → attraction step. Within the Lindblad framework alone, the feedback loop remains open (gap #7 in Gravity from Wave Death).
+**Question:** **4. Backreaction requires external physics.** In GR, Hawking radiation removes mass from the black hole (backreaction). Within pure Lindblad dynamics, L_H (wave propagation) and L_D (wave death) are independent: the dissipator does not influence the Hamiltonian, so mass cannot redirect waves. However, [Gravity from Wave Death](../hypotheses/GRAVITY_FROM_WAVE_DEATH.md) describes a self-limiting feedback loop: mass → gravity (via GR) → attracts more waves → more wave death → more mass, with [logistic saturation](../hypotheses/GRAVITY_FROM_WAVE_DEATH.md) as the finite supply of coherences (4^N modes) is consumed. The loop closes, but only if external physics (GR or equivalent) provides the gravity → attraction step. Within the Lindblad framework alone, the feedback loop remains open (gap #7 in Gravity from Wave Death).
 
 **Source:** `hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md` (line 159)
 **Section:** What breaks the analogy

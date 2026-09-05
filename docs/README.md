@@ -73,7 +73,7 @@ These connect the mathematical results into a coherent picture.
 | Document | What it covers |
 |----------|---------------|
 | [The Interpretation](THE_INTERPRETATION.md) | What survives (26 entries), what fell (8), questions and their answer status. Thematic synthesis. |
-| [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) | d²−2d=0: only d=2 permits palindromic time-reversal symmetry. Five computational tests, 0/236 qutrit dissipators work. |
+| [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) | d²−2d=0: only d=2 permits the full palindromic linear similarity. Five computational tests, 0/236 qutrit dissipators work. This is not by itself physical time reversal. |
 | [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Noise as external interaction, mediator topology, six measured properties of the dephasing signal. |
 | [The CΨ Lens](THE_CPSI_LENS.md) | What CΨ shows, what it does not, what survives critical examination. |
 | [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as organizing principle: qubit (2/4), carbon (4/8). V-Effect as hypothesized transition mechanism. |
@@ -83,8 +83,8 @@ These connect the mathematical results into a coherent picture.
 | [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md) | Where an oscillation comes from in the pure F1 system, and the exact factorisation L(J, γ₀) = γ₀·L₁(Q). |
 | [The Atmosphere and the Cancelled Formulas](THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md) | What γ₀ is, and what cancelling the unit costs: the rescaling that leaves every inside observable fixed. |
 | [Q-Regime Anchor Map](Q_REGIME_ANCHORS.md) | The ten named anchors on the Q axis (onset, balance, peak band, Q_EP, endpoint) with tiers and sources. |
-| [Standing Wave Theory](STANDING_WAVE_THEORY.md) | c+/c− as even/odd supermodes. Confirmed by Π operator. |
-| [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) | Π is not KMS detailed balance. Time reversal without thermodynamic equilibrium. |
+| [Standing Wave Theory](STANDING_WAVE_THEORY.md) | c+/c− as an interpretation of even/odd supermodes, now fenced by excitation, semisimplicity, conjugate-frequency, spatial-propagation, and interference gates; Π alone confirms only spectral pairing. |
+| [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) | Π is not KMS detailed balance. It gives a time-reversal-like spectral relation, not thermodynamic equilibrium or physical time reversal by itself. |
 | [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md) | Fold catastrophe (proven), Feigenbaum cascade (mapped), Bekenstein-Hawking 1/4 (speculative). |
 | [It's All Waves](ITS_ALL_WAVES.md) | The closure argument: if Level 0 is waves and emergence adds no new physics, all levels are waves. Eight-link deductive chain. |
 | [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest documentation of what we do not know. |
@@ -125,7 +125,7 @@ absorbed into the proof documents and synthesis above.
 | [Fundamental Equations](historical/FUNDAMENTAL_EQUATIONS.md) | Standing wave equations, wave composition formulas. |
 | [Dynamic Fixed Points](historical/DYNAMIC_FIXED_POINTS.md) | R∞ fixed point, CΨ ≤ 1/4 bound. Now part of the formal proofs. |
 | [Internal and External Observers](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md) | C_int/C_ext distinction. Quantitative model disproven, structural distinction survives. |
-| [Hard Problem Resolution](historical/HARD_PROBLEM_RESOLUTION.md) | Standing wave math proven. Consciousness claims fallen. |
+| [Hard Problem Resolution](historical/HARD_PROBLEM_RESOLUTION.md) | Historical standing-wave interpretation; consciousness claims fallen, and Π alone now supports only spectral pairing. |
 | [The Search for the Mirror Partner](historical/THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) | Resolved: the mirror partner is the Π operator. |
 | [Measurable Quantities](historical/MEASURABLE_QUANTITIES.md) | Proposed experimental measurements (partially executed). |
 

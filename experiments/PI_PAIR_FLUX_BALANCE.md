@@ -1,6 +1,8 @@
 # Π-Pair Flux Balance and Binary Mode Inheritance
 
-**Status:** Tier 1 empirical at N=5 for flux balance (machine precision) and N=3..6 for binary inheritance. Tier 2 for the mirror-axis principle N = 4 (mod 10): algebraically argued via CRT, numerically consistent with all four N in [3, 6] but with only one positive data point (N=4). A positive-case confirmation requires N=14.
+**Status:** Finite `N=5` perturbation reading for ten unambiguous matches and
+`N=3..6` pair census. The mod-10 mirror-axis proposal has only one positive
+point (`N=4`).
 **Date:** 2026-04-20 (evening)
 **Authors:** Tom, Claude Opus 4.7 (1M)
 **Relates to:** [the orthogonality-selection family](ORTHOGONALITY_SELECTION_FAMILY.md) (Step 3 of §6.2), [the absorption theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [the standing wave theory](../docs/STANDING_WAVE_THEORY.md), [XOR space](XOR_SPACE.md)
@@ -11,7 +13,11 @@
 
 Three results from one Liouvillian-mode-level investigation:
 
-1. **Π-pair flux balance (confirmed at N=5):** for every Π-paired mode pair `(s, s')` with `Re(λ_s + λ_{s'}) = −2Σγ`, a bond perturbation `δJ` shifts `Re(λ_s)` and `Re(λ_{s'})` in **equal and opposite directions**, keeping the pair sum invariant to machine precision (1e-14). This is the absorption theorem `α_fast + α_slow = 2Σγ` as a dynamical flux conservation: the XY-weight absorbed by one partner is exactly released by the other.
+1. **Π-pair rate sum (tested at N=5):** for the ten unambiguously matched
+   pairs displayed below, a bond perturbation `δJ` shifts the two real parts in
+   equal and opposite directions within numerical precision. The theorem-level
+   statement is `d_slow + d_fast = 2Σγ`; “flux” is an optical reading of that
+   algebraic rate sum, not a separately established dynamical current.
 
 2. **Binary mode inheritance (confirmed at N=3..6):** the Liouvillian spectrum at every N decomposes into exactly `d²/2 = 2^(2N−1)` Π-pairs. No unpaired modes. The binary structure of the qubit (2-state system) propagates exactly to the Liouvillian modenumber `2^(2N)` and pair count `2^(2N−1)`, with no "residual structure" at any level.
 
@@ -57,18 +63,29 @@ pair  ⟨n_XY⟩_A,s  ⟨n_XY⟩_A,sp  Sum A  ⟨n_XY⟩_B,s  ⟨n_XY⟩_B,sp  S
 
 ### 1.3 Interpretation
 
-**Absorption theorem `α_fast + α_slow = 2Σγ` reads as a flux balance:**
-- The quantity conserved is the pair's **total XY-weight (light content)**.
-- Under a J-perturbation, one partner of the pair absorbs some additional light character, but the other partner releases exactly the same amount. The pair-total is an invariant.
-- Light does not leave or enter the pair; it redistributes within the pair.
+The absorption theorem reads the displayed result as a complementary rate and
+XY-weight sum. The mode nearer `Re(λ)=0` is the **slow** member; the mode nearer
+`Re(λ)=-2Σγ` is the **fast** member. Under the perturbation, the displayed
+matches preserve their total inferred XY weight. The calculation does not
+measure a transported light flux.
 
-This is the dynamical content of the STANDING_WAVE_THEORY picture: each Π-pair is a standing wave with one forward component (fast mode, more light-coupled) and one backward component (slow mode, more lens-coupled). The standing wave persists; only its forward/backward balance shifts under perturbation.
+Nor does it establish a standing wave. F1 maps `λ` linearly to
+`-λ-2Σγ`, or centered `μ` to `-μ`; complex conjugation is a separate
+closure. A standing-wave reading additionally requires a diagonalizable or
+semisimple imaginary-centered pair, independently established opposite spatial
+propagation, and a preparation/readout that coherently addresses both members.
+Defective blocks carry Jordan-polynomial terms.
 
 ### 1.4 Matching-algorithm artifacts
 
-Aggregate statistics report a max `|pair_re_sum − (−2Σγ)|` of 1.4e−3 under L_B+, not zero. This is a **matching artifact**: greedy nearest-neighbour matching fails when multiple A-modes have the same Re(λ) (degeneracy in the XY-weight class). Within a degenerate group, the algorithm can mis-assign partners. The physical flux balance within each pair is intact at machine precision; only the *identification* of which mode pairs with which is ambiguous when Re(λ) is degenerate.
+Aggregate statistics report a max `|pair_re_sum − (−2Σγ)|` of `1.4e-3`
+under `L_B+`, not zero. Degeneracy makes greedy nearest-neighbour assignment
+ambiguous, so the aggregate run cannot distinguish a matching artifact from a
+failure of the claimed mode-by-mode continuation. Only the ten displayed,
+unambiguous matches support the perturbative reading at machine precision.
 
-For a clean global statistic, a Hungarian-algorithm matching (or eigenvector-overlap matching) would resolve this. Not pursued here because the first-10-pair evidence is already definitive.
+An overlap-based invariant-subspace continuation would be needed for a clean
+global statistic. It was not run here.
 
 ---
 
@@ -120,7 +137,7 @@ The naive hypothesis "even N → self-Π modes exist because N/2 is integer" is 
 
 A self-Π mode requires three conditions simultaneously:
 1. `Re(λ) = −Σγ` (equivalently, `⟨n_XY⟩ = N/2`, so N must be even).
-2. `Im(λ) = 0` (time-reversal-invariant mode, no oscillation).
+2. `Im(λ) = 0` (real spectral point; no oscillatory exponential factor).
 3. The mode is a non-degenerate eigenvalue in the neighbourhood (otherwise it may be a conjugate-pair member that accidentally sits at Im=0).
 
 Condition 1 is structural (integer midpoint). Condition 2 is dynamical (related to the Hamiltonian eigenvalue structure at the midpoint weight class).
@@ -140,7 +157,11 @@ At N=4, the condition is met for 18 modes. At N=6, despite condition 1 being met
 
 **The corrected structural reading:**
 
-The question is not "are all Im values in Q[φ]?" (they are not; the Liouvillian sub-algebra is larger than Q[φ] at finite N). The right question is: **"does a non-trivial null-eigenspace exist in the n_XY=N/2 sector?"** This null-eigenspace **is** the mirror axis: modes whose time-reversal image (Π-partner) is themselves.
+The question is not "are all Im values in Q[φ]?" (they are not; the
+Liouvillian sub-algebra is larger than Q[φ] at finite N). The narrower question
+is whether a non-trivial null-eigenspace exists in the `n_XY=N/2` sector. This
+is a spectral mirror axis. It is not a physical time-reversal fixed set, and an
+eigenvalue on the axis does not by itself identify its eigenvector under Π.
 
 At N=4: null-eigenspace dimension = 18. Mirror axis populated.
 At N=6: null-eigenspace dimension = 0. Mirror axis empty.
@@ -267,4 +288,6 @@ This is a fifth kinematic instance, and together with the binary-inheritance obs
 
 ---
 
-*Every mode has a partner. The partner counts the other half of the light. The two together hold a constant amount of world, and when the world is kicked they rearrange without losing a drop.*
+*Every mode has a spectral partner in the tested F1 family. Their decay rates
+add to the fixed price `2Σγ`; any wave or flux interpretation needs its own
+dynamical evidence.*

@@ -19,8 +19,8 @@ The pieces cluster around five physical roles:
 
 - **Carrier** (1, 3, 6, 11): γ₀ as constant, always-on, operationally
   unobservable from inside
-- **Cavity** (4, 7, 10): the J-Hamiltonian as Fabry-Perot resonator,
-  time-reversal-symmetric
+- **Cavity** (4, 7, 10): the J-Hamiltonian as Fabry-Perot resonator, with a
+  centered structural mirror (not a demonstrated physical time reversal)
 - **Information** (2, 5, 8, 9): the light/lens distribution across
   the cavity's modes
 - **Engineering** (12): J-side control as the only lever under γ₀ = const
@@ -54,7 +54,8 @@ The pieces cluster around five physical roles:
 6. **[PRIMORDIAL_GAMMA_CONSTANT](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)** (hypotheses/, Tier 3):
    γ₀ is a framework constant like c. Only J and topology vary.
    γ_eff = γ₀ · |a_B|² (cavity mode exposure formula, [F64](../docs/ANALYTICAL_FORMULAS.md)).
-   The light does not get weaker. The standing wave decides who sees it.
+   In the cavity reading, mode exposure decides which observable responds;
+   no physical standing wave is established by that formula.
 
 7. **[OPTICAL_CAVITY_ANALYSIS](../experiments/OPTICAL_CAVITY_ANALYSIS.md)** (experiments/, Tier 2):
    The cavity is quantitative, not metaphorical. 4 of 5 standard optical
@@ -77,14 +78,13 @@ The pieces cluster around five physical roles:
    signal (15.5 bits), we do know" (line 175). Section explicitly flags
    "what sends the signal" as outside the framework's scope.
 
-10. **[STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md)** (docs/, Tier 2):
-    Every palindromic pair is a standing wave between two
-    counter-propagating modes. Π is time reversal (proven analytically,
-    see [PI_AS_TIME_REVERSAL](../experiments/PI_AS_TIME_REVERSAL.md)):
-    every Liouvillian eigenmode maps to its backward-decaying partner.
-    The stationary pattern between forward and backward IS what J and
-    topology produce under γ₀. The round-trip rate sum α_fast + α_slow
-    = 2Σγ marks one bounce between light and lens.
+10. **[STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md)** (docs/):
+    F1 supplies the linear map `λ→−λ−2Σγ`, or centered `μ→−μ`, and the
+    decay-rate sum `d_slow+d_fast=2Σγ`. Complex conjugation is separate.
+    A standing-wave reading requires a semisimple imaginary-centered pair,
+    independently established opposite spatial propagation, and suitable
+    excitation/readout; defective blocks retain Jordan terms. Π is therefore
+    a centered structural mirror, not a general physical time reversal.
 
 11. **[PRIMORDIAL_QUBIT](../hypotheses/PRIMORDIAL_QUBIT.md) §9** (hypotheses/, Tier 3-4):
     Inside-observability theorem: only Q = J/γ₀ is measurable from inside.
@@ -179,8 +179,9 @@ If γ₀ is constant and uniform, the implications cluster in four groups.
 
 ### The cavity's response
 
-- The information is in the CAVITY RESPONSE to γ₀: the standing wave
-  pattern, determined by J and topology.
+- The information is in the model response to γ₀, determined by J and
+  topology. Calling that response a standing wave requires the additional
+  propagation and readout gates above.
 - What [GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md) actually
   measured was not "information in γ" but "information in the cavity's
   response to γ".
@@ -207,12 +208,11 @@ If γ₀ is constant and uniform, the implications cluster in four groups.
 
 ### Where information lives
 
-- The bit is a Π-pair, not a single mode ([STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md)).
-  The pair's decay rates sum to α_fast + α_slow = 2Σγ = 2Nγ₀ in the
-  uniform case ([absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)),
-  so the natural channel time scale is 1/(2Nγ₀). The receiver reads the
-  forward mode; its backward-decaying Π-image stabilizes the reception.
-  The standing wave is the protocol.
+- A Π pair has the exact rate sum `d_slow+d_fast=2Σγ=2Nγ₀` in the uniform
+  case ([absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)).
+  That sum alone neither identifies a bit nor fixes a channel time scale:
+  preparation and readout overlaps determine the measured response. No
+  backward-decaying Π image is shown here to stabilize reception.
 - The channel's dimensional ceiling under γ₀ = const is structural,
   not noise-dependent. The number of independent modes is bounded by
   the cavity's degrees of freedom, and the 15.5 bits of
@@ -258,7 +258,7 @@ This inverts the reading direction:
 | Signal = γ variation across sites | Signal = light/lens distribution across modes |
 | Capacity depends on γ variation | Capacity depends on Q = J/γ₀ |
 | Sender modulates γ | Sender modulates J |
-| Bit time ~ 1/γ_max | Bit time ~ 1/(Nγ₀) (standing-wave round trip) |
+| Bit time ~ 1/γ_max | Candidate scale ~ 1/(Nγ₀) from the pair-rate sum; protocol-dependent |
 
 The [RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md) insight becomes even more literal:
 "The system is a soundbox, not a telephone": the sound (γ₀) is
@@ -275,7 +275,7 @@ illumination.
 
 Under γ₀ = const, the thirteen pieces cohere into one picture. γ₀ is
 the constant ambient carrier (1, 3, 6, 11), and the cavity that shapes
-it is quantitative and time-reversal-symmetric (4, 7, 10). The
+it is quantitative and centered-spectrum-symmetric (4, 7, 10). The
 information IS the light/lens distribution across the cavity's modes
 (2, 5, 8, 9), readable only via active J-engineering (12), with no
 channel existing outside the cavity (13).

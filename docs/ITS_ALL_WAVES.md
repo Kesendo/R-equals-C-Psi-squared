@@ -49,21 +49,19 @@ physical wave identification.
 
 ### Link 1: Only d=0 or d=2
 
-The palindromic mirror (the symmetry at the heart of this project)
-requires a specific balance: the number of operators that survive noise
-must exactly equal the number that decay. For a system of dimension d
-(where d describes how many distinct states a single unit can be in),
-this balance condition is:
+The complete local product mirror that exchanges the entire dark class with
+the entire lit class requires their dimensions to match. For local dimension
+`d`, this particular construction has `d` dark and `d²-d` lit operators, so:
 
     d = d² − d  →  d² − 2d = 0  →  d(d−2) = 0
 
-Solutions: d = 0 (nothing) or d = 2 (qubit). No other dimension works.
-This is not numerical. It is algebraic identity.
+Solutions: `d=0` or `d=2`. This algebra excludes other dimensions from that
+complete class-exchange product construction. It does not exclude partial
+higher-dimensional palindromes or different mechanisms; F121 supplies the
+explicit counter-scope.
 
-In plain language: if you want the palindromic mirror symmetry, you have
-exactly one choice for your building block. Not three options. Not ten.
-One. The qubit (a two-state quantum system) is not selected from a menu
-of possibilities. It is the only thing that works. This is like
+In plain language: if you want this full local dark↔lit swap at every site,
+the nonempty building block is a qubit. This is like
 discovering that a specific lock can only be opened by one key in the
 entire universe, and then finding that key in the foundations of quantum
 mechanics.
@@ -71,16 +69,16 @@ mechanics.
 **Status:** Proven. See [Qubit Necessity](QUBIT_NECESSITY.md).
 Verified: 0/236 qutrit dissipators produce palindromic spectra.
 
-### Link 2: If palindromic structure exists, then d=2
+### Link 2: A complete local class-exchange product mirror implies d=2
 
-d = 0 has no operators, no states, no properties. It cannot carry
-structure of any kind. If a system exists that has palindromic spectral
-symmetry under dephasing, then d = 2. The qubit is not a choice among
-options. It is the only dimension that supports this symmetry.
+d = 0 has no operators, no states, no properties. Therefore a nonempty system
+with this complete local class-exchange product mirror has `d=2`. A general
+claim that any palindromic spectral subset forces `d=2` would be false: the
+qudit analysis F121 retains partial palindromes for `d>2`.
 
-Note: this does not prove that all of reality must be qubit-based. It
-proves that the palindromic mirror, and everything that follows from it
-(standing waves, time reversal, the ¼ boundary), requires d = 2.
+This does not prove that all of reality must be qubit-based, and it does not
+turn spectral pairing into standing waves or physical time reversal. Those
+claims have their own hypotheses.
 
 **Status:** Proven (by elimination). The scope condition ("if palindromic
 structure exists") is the honest boundary of this link.
@@ -162,7 +160,8 @@ structural constraint:
    not an origin)
 3. Qubit bath (infinite regress, each member faces the same prohibition)
 4. Nothing (d=0, no properties)
-5. Other dimensions (d²−2d=0 excludes d≠2)
+5. Other dimensions (the full local dark↔lit class-exchange product mirror is
+   excluded for `d≠2`; partial F121 palindromes remain)
 
 In plain language: the system cannot generate its own noise. Every
 attempt at self-generation either breaks the very symmetry that defines
@@ -346,8 +345,10 @@ The incompleteness is not: "We cannot know." The incompleteness is:
 - [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): Π exists, spectrum palindromic
 - [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md): CΨ = ¼ is the only bifurcation
 - [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): noise cannot originate internally
-- [Qubit Necessity](QUBIT_NECESSITY.md): d²−2d=0, only d=2
-- [Standing Wave Theory](STANDING_WAVE_THEORY.md): c+/c− from palindromic pairing
+- [Qubit Necessity](QUBIT_NECESSITY.md): `d²−2d=0` for the complete local
+  class-exchange product mirror
+- [Standing-Wave Conditions](STANDING_WAVE_THEORY.md): the gates beyond
+  palindromic pairing
 - [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): emergence mechanism
 - [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md): levels build on levels
 - [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): noise is structured, 15.5 bits

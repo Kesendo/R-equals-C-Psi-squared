@@ -317,9 +317,11 @@ averages, not a common fitted rate for both pairs in each class.
 Response fits do not identify a full set of Liouvillian eigenvalue partners.
 
 Finding 10: The MI enhancement ratio (Selective/Uniform) grows from
-1-2x at t=1us to 2-4x at t=5us across all pairs. This temporal growth
-is consistent with the V-Effect creating new correlations over time.
-Definitive proof would require MI measurements for all 10 qubit pairs
+1-2x at t=1us to 2-4x at t=5us across all pairs. This is a response ratio
+for one selective-DD protocol. The neural V-effect is a frequency-bin census
+under a different generator and observable, so it neither explains this growth
+nor establishes that the hardware protocol creates new correlations. Extending
+the hardware description would require MI measurements for all 10 qubit pairs
 (including non-adjacent), not just the 4 nearest-neighbor pairs.
 
 ## Comparing models and hardware
@@ -334,8 +336,8 @@ constructed matrices and molecular calculations are separate model results.
 | Edge/interior response decay | Fitted class-mean ratio **≈1.91x** | No neural 2x law from F36 | Not tested | Specified IBM protocol |
 | 1/4 boundary | **1.9% dev**, r* 0.000014 | F36 supplies no neural threshold | 0.46 ps (water model) | IBM observation and separate molecular calculation |
 | Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
-| V-Effect | MI enhancement grows with time | Protocol-dependent frequency bins; coupled odd construction fails F36 | **109** freq (computed) | Distinct response and spectral diagnostics; common mechanism unestablished |
-| CΨ oscillation | Predicted: 9 crossings | Not tested | 6 crossings (Zundel) | Testable (Exp B) |
+| V-Effect | MI enhancement grows with time | Protocol-dependent frequency bins; coupled odd construction fails F36 | Coupled model: 126 total, 104 new (11 per isolated side) | Distinct response and spectral diagnostics; common mechanism unestablished |
+| CΨ oscillation | Qualitative measurement proposal; no committed numeric producer | Not tested | 6 crossings (Zundel) | Proposed measurement (Exp B) |
 | GHZ vs W | No supported universal ratio; J=0 pure-dephasing control gives 1.5x | Not applicable | Not applicable | Proposed measurement (Exp A) |
 | Long-range MI | **3.71x** (2,4) pair | Not tested | Not tested | Qubit confirmed |
 
@@ -370,10 +372,12 @@ likewise does not substitute for a hardware spectral measurement.
 
 ---
 
-The CΨ-oscillation prediction and the open GHZ/W comparison are testable with
-concrete IBM experiments. See below.
+The open CΨ-oscillation and GHZ/W comparisons can be turned into IBM
+experiments, but the numerical forecasts formerly printed here have no
+committed producer. The proposals below therefore specify observables, not
+predicted counts or times.
 
-## Proposed IBM experiments (simulation predictions included)
+## Proposed IBM experiments
 
 ### Experiment A: GHZ vs W decay (3 qubits, proposed)
 
@@ -396,30 +400,21 @@ noise calibration, fit model and uncertainty. Purity and fidelity answer
 different questions and must not substitute for the specified coherence
 observable.
 
-### Experiment B: CΨ oscillation (3 qubits, ~15 minutes QPU time)
+### Experiment B: CΨ oscillation (3 qubits, proposed)
 
 Prepare Bell pair on Q0-Q1: (|00> + |11>)/sqrt(2). Prepare Q2 in
 |+> (coherent bath). Let the system evolve under Heisenberg coupling.
-Measure CΨ of the Q0-Q1 pair via partial-trace tomography at 15
-delay points (0 to 10 us, fine resolution).
+Measure CΨ of the Q0-Q1 pair via partial-trace tomography. A runnable producer
+or calibration pass must first set the coupling/noise model, time window and a
+sampling grid fine enough for its predicted extrema; the earlier mixture of a
+0-10 us grid with an 80 us crossing count was not one executable protocol.
 
-**Simulation prediction** (J=0.5 MHz, gamma_pair=0.014/us,
-gamma_bath=0.008/us):
-
-- CΨ starts at 0.33 (above 1/4)
-- Oscillates with period ~1.5 us
-- **9 crossings** of the 1/4 boundary in 80 us
-- ~4 visible oscillation cycles before damping
-- CΨ settles below 1/4 after ~7 us
-
-This is 9 crossings, not 81 (the original simulation used J/gamma
-= 50,000; IBM hardware has J/gamma ~ 50). But the oscillation IS
-visible and the 1/4 boundary crossings are countable.
-
-The critical observable: CΨ should NOT decay monotonically (as it
-does for a single qubit). It should oscillate. If it oscillates
-and crosses 1/4 multiple times, the multi-qubit CΨ dynamics are
-confirmed.
+The measurement question is whether CΨ is nonmonotonic and whether it crosses
+1/4 under that pre-registered model and grid. A crossing count, period or
+settling time is not predicted here until a committed producer and stored
+result own those numbers. Observing oscillation would characterize this
+multi-qubit protocol; it would not by itself confirm the full Liouvillian
+palindrome.
 
 ---
 

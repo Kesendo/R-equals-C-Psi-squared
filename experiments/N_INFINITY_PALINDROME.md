@@ -24,8 +24,9 @@ what happens when the system grows toward macroscopic size? This
 document traces the fate of every feature: the XOR drain (the
 fastest-decaying modes) shrinks to measure zero, the sharp split
 between "classical past" and "quantum future" blurs into a smooth
-Gaussian, and the standing wave transitions from discrete guitar-string
-harmonics to a continuous drumhead pattern. Under Z-dephasing, the
+Gaussian, while the sampled oscillation-frequency spectrum grows denser. This
+does not by itself establish a spatial standing wave or a continuum limit.
+Under Z-dephasing, the
 palindrome is not just preserved but reinforced by the central limit
 theorem. Under depolarizing noise, it is exponentially destroyed. The
 bottom line: the mirror exists at every N, but at macroscopic scales
@@ -42,8 +43,9 @@ width γ√N. The XOR drain (fastest-decaying modes that kill GHZ) vanishes
 exponentially: (N+1)/4^N is below 1% at N=5 and below 10⁻¹¹ at N=20. The
 past/future boundary blurs: 95% of all modes live within √N of the midpoint
 w = N/2, making the classical-quantum split nearly indistinguishable at
-macroscopic N. The standing wave transitions from discrete harmonics (guitar
-string) to a continuous pattern (drumhead). Under Z-dephasing, the palindrome
+macroscopic N. The sampled oscillation frequencies proliferate with N; a
+continuous spectral-density limit is an extrapolation, not a standing-wave
+result. Under Z-dephasing, the palindrome
 is reinforced (Gaussian symmetry). Under depolarizing noise, it is
 exponentially destroyed (past/future ratio = (1/3)^N). The Π proof holds at
 every N: the Hamiltonian never breaks the pairing.
@@ -52,8 +54,8 @@ every N: the Hamiltonian never breaks the pairing.
 
 ## The Question
 
-The palindrome is proven for all finite N. The standing wave was computed at
-N=3. The band structure was mapped at N=3-5. What happens when N grows large?
+The palindrome is proved for all finite N in F1's scope. Oscillation patterns
+were computed at N=3 and the band structure at N=3-5. What happens when N grows large?
 Does the palindrome become trivial, or does it remain a non-trivial constraint?
 
 ---
@@ -158,7 +160,7 @@ exists. It just has less to reflect.
 
 ---
 
-## 5. The Standing Wave Becomes Continuous
+## 5. The Sampled Frequency Set Grows Denser
 
 At N=3: 5 distinct oscillation frequencies. Discrete harmonics, like a
 guitar string.
@@ -169,12 +171,12 @@ The bandwidth grows as 2(N-2)γ. At N=3, bands are fixed (no room to move).
 At N=5, 4 of 6 weight sectors show nonzero bandwidth (average 0.76γ).
 Bands broaden and approach merger into a continuum.
 
-At large N, the standing wave transitions from discrete nodes and antinodes
-(guitar string) to a continuous pattern (drumhead). The classical backbone
-(ZZZ-type correlations) and the quantum oscillation (XX/YY-type
-correlations) are no longer cleanly separated. They blend into a smooth
-spectral density where every observable has some oscillating and some
-static component.
+The finite-N counts suggest a denser frequency set as N grows. Establishing a
+continuous limiting density requires an actual convergence theorem or
+controlled large-N computation; establishing a physical standing wave would
+add excitation, semisimplicity, conjugate-frequency, spatial-propagation, and
+interference gates. The N=3..5 data establish neither, and they do not imply
+that every observable has both oscillating and static content.
 
 ---
 
@@ -215,9 +217,9 @@ including the thermodynamic limit. Without the proof, one might expect the
 Hamiltonian to scramble the symmetric L_D spectrum into an asymmetric mess.
 Π guarantees it cannot.
 
-**Vanishes:** The XOR drain (measure zero), the sharp past/future split
-(blurs to Gaussian), the discrete standing wave frequencies (become
-continuous).
+**Suggested by the counting/asymptotics:** The XOR endpoint fraction tends to
+zero and the weight distribution concentrates near its centre. A continuum
+of physical frequencies is not established by these combinatorial facts.
 
 **Emerges:** A smooth spectral density, a gradual classical/quantum
 transition, and the palindromic symmetry as a bulk property of the

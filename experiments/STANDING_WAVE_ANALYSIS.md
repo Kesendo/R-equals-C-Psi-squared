@@ -1,266 +1,99 @@
-# Standing Wave Patterns: Which Parts of the Quantum World Vibrate and Which Stand Still?
+# N=3 Oscillation and Pauli-Fingerprint Analysis
 
-<!-- Keywords: standing wave open quantum system, palindromic eigenvalue oscillation,
-quantum classical backbone decoherence, Liouvillian standing wave pattern,
-GHZ silent W oscillation state, quantum correlation antinode node, Heisenberg
-dephasing standing wave, Pauli fingerprint oscillation, state Hamiltonian
-cross table quantum, rescaled frame palindromic pairs, R=CPsi2 standing wave -->
+<!-- Keywords: N=3 oscillation census, Pauli fingerprint, conditional standing
+wave, Heisenberg dephasing, state Hamiltonian cross table -->
 
-**Status:** Computationally verified (N=3, 6 Hamiltonians, 8 initial states)
+**Status:** Computational reading at `N=3`, 6 Hamiltonians and 8 initial states
 **Date:** March 19, 2026
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Script:** [standing_wave_analysis.py](../simulations/standing_wave_analysis.py)
 
 ---
 
-## What this document is about
+## Scope
 
-When you pluck a guitar string, it does not just vibrate randomly. It
-forms a standing wave: some points on the string move wildly (antinodes)
-while other points stay perfectly still (nodes). The pattern depends on
-two things: the shape of the string and how you pluck it.
+This experiment decomposes specified `N=3` evolutions into Liouvillian modes
+and reports which Pauli observables have oscillatory weight. It does not prove
+that every palindromic eigenvalue pair is a pair of spatially
+counter-propagating waves.
 
-The palindromic symmetry creates the same thing in quantum systems.
-Every paired eigenvalue (fast decay matched with slow partner) creates
-a counter-propagating mode, and these modes interfere into standing
-waves. Some quantum correlations oscillate (antinodes). Others are
-frozen (nodes). And the pattern depends on two things: the Hamiltonian
-(the shape of the string) and the initial quantum state (how you pluck
-it).
+F1 supplies the linear spectral transport
+`lambda -> -lambda-2 Sigma_gamma`, or `mu -> -mu` after centering. Complex
+conjugation is a separate spectral closure. A standing-wave interpretation is
+available only for diagonalizable or semisimple pairs on the centered
+imaginary axis, after opposite spatial propagation and the relevant
+excitation/readout overlaps have been independently established. When
+`Re(mu) != 0`, relative envelope drift remains; defective blocks add Jordan
+terms. The calculations below are therefore described directly as oscillation
+and Pauli-fingerprint measurements.
 
-The most striking result (at N=3, the size tested here): the classical
-backbone of the system (the all-Z ZZZ correlation, measuring whether all
-qubits point up or down) never oscillates. It is always a node, across all
-6 Hamiltonians and 8 initial states. The quantum correlations (XX, YY type,
-measuring entanglement between qubits) are the antinodes. The quantum
-world breathes. The classical world is the skeleton.
+## Setup and spectral reading
 
----
-
-## Abstract
-
-The palindromic spectral symmetry pairs every Liouvillian eigenvalue λ with
-a partner at −2Σγ − λ. In the rescaled frame (uniform decay envelope
-factored out), each pair has centered eigenvalues +μ and −μ, creating
-counter-propagating modes that interfere into **standing wave patterns**.
-Quantum correlations (XX, YY, XY-type Pauli strings) oscillate at
-Hamiltonian harmonics (2J, 4J, 6J for Heisenberg) while the classical
-Z-backbone (ZZZ) remains static. Three rules hold across all 6 Hamiltonians
-and 8 initial states tested, all at N=3: **GHZ never oscillates** (0%
-standing wave for all models), **Bell always oscillates** (40-65% for all
-models), and **the all-Z string is always a node** (classical correlations
-are static). "Universal" here is across the Hamiltonian × state grid at N=3;
-extension to N≥4 is untested.
-The standing wave is a state × Hamiltonian property: neither the state
-nor the Hamiltonian alone determines which correlations oscillate.
-
----
-
-## Background
-
-### How the palindrome creates standing waves
-
-The Liouvillian superoperator L generates the master equation dρ/dt = L(ρ).
-The palindromic symmetry ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
-pairs every eigenvalue: if λ is an eigenvalue, so is −2Σγ − λ. Define
-centered eigenvalues μ_k = λ_k + Σγ. Then every palindromic pair has
-+μ and −μ, symmetric around zero.
-
-In the rescaled frame (imagine turning up the volume on a recording
-that is fading out, so you can hear the melody underneath; mathematically,
-multiplying ρ(t) by exp(+Σγ·t) to remove the uniform decay envelope),
-one mode grows as exp(+μt) while its partner
-decays as exp(−μt). When both are excited by the initial state, their
-superposition creates oscillation: a standing wave. The wave is "nearly
-standing" because |Re(μ)| is 100-350× smaller than |Im(μ)|, meaning the
-modes oscillate hundreds of times before amplitude drift becomes significant.
-
-### Nodes and antinodes
-
-In a classical standing wave, **nodes** are positions of zero amplitude
-(static) and **antinodes** are positions of maximum amplitude (oscillating).
-In the quantum standing wave, "position" is replaced by "Pauli string":
-each tensor product of Pauli operators (like XXZ, ZZZ, YYI) has a specific
-oscillation amplitude. Some Pauli strings oscillate strongly (antinodes);
-others remain static (nodes).
-
-### What CΨ and the palindrome are
-
-CΨ = Tr(ρ²) × L₁/(d−1) is the product of state purity and normalized
-coherence, with a critical boundary at CΨ = 1/4
-([Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md)). The palindromic
-eigenvalue pairing that creates the standing wave is the same structure
-that makes the CΨ = 1/4 boundary universal and that enables the dephasing
-channel ([γ as Signal](GAMMA_AS_SIGNAL.md)).
-
----
-
-## Setup
-
-N=3 qubits, Heisenberg coupling (J=1), local Z-dephasing (γ=0.05).
-Full Liouvillian eigendecomposition (64 eigenvalues, 32 palindromic pairs,
-100%, max error 1.44×10⁻¹⁴). Each initial state decomposed into
-eigenmodes. Rescaled frame analysis to identify oscillating components.
-
----
-
-## Result 1: Spectrum Structure
-
-The 64 eigenvalues organize into categories:
+The producer uses `N=3`, `J=1`, local Z-dephasing `gamma=0.05`, and a full
+64-dimensional Liouvillian eigendecomposition. It reports 32 palindromic
+pairs with maximum matching error `1.44e-14`.
 
 | Category | Pairs | Frequencies |
-|----------|-------|-------------|
-| Steady-XOR | 4 | μ = ±0.15, real |
-| Decay (real) | 8 | μ = ±0.05, real |
-| ω ≈ 2J (fundamental) | 8 | period ≈ π |
-| ω ≈ 4J (2nd harmonic) | 4 | period ≈ π/2 |
-| ω ≈ 6J (3rd harmonic) | 8 | period ≈ π/3 |
+|---|---:|---|
+| Steady-XOR | 4 | centered `mu=+/-0.15`, real |
+| Decay | 8 | centered `mu=+/-0.05`, real |
+| Fundamental | 8 | `omega approx 2J` |
+| Second harmonic | 4 | `omega approx 4J` |
+| Third harmonic | 8 | `omega approx 6J` |
 
-The asymmetry |Re(μ)| ≈ 0.017 is 100-350× smaller than the oscillation
-frequencies. The waves complete hundreds of cycles before amplitude drift
-becomes significant.
+In this run, the measured `|Re(mu)| approx 0.017` for the oscillatory bands is
+roughly 100--350 times smaller than their frequencies. This finite numerical
+ratio describes slow envelope drift in the tested model; it is not a proof of
+a stationary spatial pattern.
 
----
+## Pauli-observable results
 
-## Result 2: Antinodes (Oscillating) and Nodes (Static)
+For the tested Hamiltonian-by-state grid, `ZZZ` has zero reported oscillatory
+weight. Oscillatory readings occur in Pauli strings including `IYY`, `XXZ`,
+`ZXX`, `YYI`, `XZX`, and `YIY`. “Node” and “antinode” may be used as shorthand
+for zero and nonzero oscillatory observable weight in this finite table, not as
+a universal spatial-wave theorem.
 
-The standing wave has a clear physical fingerprint:
-
-**Antinodes** (quantum correlations, oscillating):
-- ω ≈ 2J: IYY, XXZ, ZXX, YYI (nearest-neighbor)
-- ω ≈ 4J: 8 Pauli strings (mixed-range)
-- ω ≈ 6J: XZX, YIY (long-range, sites 0 and 2)
-
-**Universal node** (classical, static): **ZZZ never oscillates.** The
-all-Z correlation is static across every initial state and every
-Hamiltonian tested.
-
-Physical meaning: quantum correlations (XX, YY, XY-type) oscillate at
-Hamiltonian harmonics. The classical Z-backbone stands still. The quantum
-world breathes; the classical world is the skeleton.
-
----
-
-## Result 3: State × Hamiltonian Cross-Table
-
-This table is the core of the experiment. Each cell shows what percentage
-of the quantum state's information lives in oscillating modes. 0% means
-completely silent (pure decay, no vibration). Higher percentages mean
-more of the state participates in the standing wave. The rows are
-different initial states; the columns are different types of quantum
-interaction.
-
-The standing wave is not a property of the state or the Hamiltonian alone.
-It is a joint property: which correlations oscillate depends on both.
-
-| | Heisenberg | XY | Ising | DM (Dzyaloshinskii-Moriya, an asymmetric spin interaction) | XXZ | Heis+DM |
-|---|---|---|---|---|---|---|
+| | Heisenberg | XY | Ising | DM | XXZ | Heisenberg+DM |
+|---|---:|---:|---:|---:|---:|---:|
 | GHZ | 0% | 0% | 0% | 0% | 0% | 0% |
 | W | 0% | 5.6% | 44.4% | 50% | 1.3% | 10.4% |
 | Bell | 48.6% | 40.6% | 50% | 40.6% | 65.5% | 65.3% |
-| \|+++⟩ | 0% | 40.6% | 62.5% | 40.6% | 38.3% | 43.4% |
+| `|+++>` | 0% | 40.6% | 62.5% | 40.6% | 38.3% | 43.4% |
 
-(Percentage = fraction of state weight in oscillating palindromic pairs.)
+The percentage is the producer's fraction of state weight in modes it labels
+oscillatory. Thus, within this exact `N=3` grid:
 
-### Three rules (universal across the Hamiltonian × state grid at N=3)
+- GHZ has 0% in all six columns.
+- Bell has 40.6--65.5% in all six columns.
+- W varies from 0% to 50%, demonstrating Hamiltonian dependence.
+- `ZZZ` has zero oscillatory weight for all eight tested states and all six
+  Hamiltonians.
 
-1. **GHZ never oscillates.** 0% standing wave for ALL Hamiltonians.
-   GHZ projects 100% onto XOR modes (maximum decay rate, no oscillation).
-   See [XOR Space](XOR_SPACE.md).
+These are finite-grid empirical statements. They do not license “for every
+Hamiltonian,” “for every initial state,” or an extension to `N>=4`.
 
-2. **Bell always oscillates.** 40-65% standing wave for ALL Hamiltonians.
-   Bell is the universal oscillator.
+## State fingerprints under the Heisenberg run
 
-3. **ZZZ is always a node.** The classical Z-correlation is static across
-   all states and all models.
+| State | Oscillatory weight | Top Pauli oscillator | Nonzero Pauli entries |
+|---|---:|---|---:|
+| `|010>` | 44.4% | `ZIZ` | 26 |
+| `|+-+>` | 44.5% | `IXI` | 26 |
+| Bell(0,1) | 48.6% | `XXZ` | 26 |
+| Bell + `|+++>` | 20.2% | `YYI` | 48 |
+| Bell + W | 28.8% | `YYX` | 50 |
+| GHZ | 0% | none | 0 |
+| W | 0% | none | 0 |
 
-### Hamiltonian-dependent findings
-
-- W oscillates under DM (50%) and Ising (44.4%) but NOT under Heisenberg
-  (0%). The Hamiltonian determines whether W's palindromic modes are
-  oscillatory or real-valued.
-- |+++⟩ under Ising reaches 62.5%, the highest value in the entire table.
-- Breaking Z-isotropy (XXZ, Heis+DM) produces the richest spectra with
-  6 distinct frequencies instead of 2-3.
-
----
-
-## Result 4: Each State Has a Unique Pauli Fingerprint
-
-| State | osc% | Top Pauli oscillator | Antinodes |
-|-------|------|---------------------|-----------|
-| \|010⟩ | 44.4% | ZIZ | 26 |
-| \|+-+⟩ | 44.5% | IXI | 26 |
-| Bell(0,1) | 48.6% | XXZ | 26 |
-| Bell+\|+++⟩ | 20.2% | YYI | 48 |
-| Bell+W | 28.8% | YYX | 50 |
-| GHZ | 0% | (none) | 0 |
-| W | 0% | (none) | 0 |
-
-Each oscillating state activates different Pauli strings: |010⟩ oscillates
-Z-type correlations, |+-+⟩ oscillates X-type, Bell oscillates XX/YY-type.
-The standing wave pattern encodes which correlations the initial state
-carries.
-
----
-
-## Result 5: Two Ingredients Required
-
-Just as a guitar needs both a string that can vibrate at certain
-frequencies AND a pluck that excites those frequencies, a quantum
-standing wave requires both:
-
-
-**(a)** Oscillating palindromic pairs (Im(μ) ≠ 0)
-**(b)** Both members of the pair excited by the initial state
-
-No single natural quantum state satisfies both conditions alone for
-Heisenberg coupling. Bell has (a) but not always (b). |+++⟩ has (b) but
-not (a). The superposition Bell+|+++⟩ has both, producing the first
-identified "standing wave state" with 22% standing wave weight.
-
----
-
-## Connection to Later Results
-
-The standing wave analysis connects three parts of the framework:
-
-The **Π as Time Reversal** result ([Π as Time Reversal](PI_AS_TIME_REVERSAL.md))
-identified the physical meaning: Π maps populations (immune sector, "past")
-to coherences (decaying sector, "future"). The standing wave is the
-interference between these two sectors. Nodes are the past (decided,
-classical). Antinodes are where past and future meet (oscillating, quantum).
-
-The **XOR Space** result ([XOR Space](XOR_SPACE.md)) explains GHZ's
-silence: GHZ projects 100% onto the XOR drain (maximum decay rate, no
-oscillation partner). It has the fastest-decaying modes, not the
-oscillating ones.
-
-The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) uses
-the same palindromic mode structure as an antenna. The standing wave
-describes how information oscillates *within* the system. The γ channel
-describes how information enters *from outside*. Both rely on the
-palindromic pairing that creates linearly independent mode responses.
-
----
+The table establishes dependence on both preparation and Hamiltonian. A
+physical standing wave would additionally require evidence that the relevant
+mode pair propagates in opposite spatial directions and that the preparation
+and observable excite both members with the required relation.
 
 ## Reproducibility
 
-| Script | What it computes |
-|--------|-----------------|
-| [standing_wave_analysis.py](../simulations/standing_wave_analysis.py) | Full eigendecomposition, state decomposition, rescaled frame, Pauli fingerprints |
-| [standing_wave_analysis.txt](../simulations/results/standing_wave_analysis.txt) | Complete numerical results |
-
-Requirements: Python, NumPy. Runtime: ~10 seconds for N=3.
-Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
-
----
-
-## References
-
-- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindromic theorem
-- [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): Π maps populations ↔ coherences (past ↔ future)
-- [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): the conceptual framework (December 2025)
-- [XOR Space](XOR_SPACE.md): GHZ → XOR drain (explains 0% oscillation)
-- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): palindrome universal across all models
-- [γ as Signal](GAMMA_AS_SIGNAL.md): the palindromic mode structure as information channel
+- [standing_wave_analysis.py](../simulations/standing_wave_analysis.py): full
+  eigendecomposition, state decomposition, and Pauli fingerprints
+- [standing_wave_analysis.txt](../simulations/results/standing_wave_analysis.txt):
+  committed output
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): F1 partner map
+- [Conditional standing-wave account](../docs/STANDING_WAVE_THEORY.md)

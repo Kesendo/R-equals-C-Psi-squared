@@ -309,9 +309,9 @@ requires framework extension and has not been tested.
 | [γ Control](../experiments/GAMMA_CONTROL.md) | The two-lever noise law (centre concentration +46% at matched Σγ). The 21.5× is the combined [bridge optimization](../simulations/results/bridge_optimization.txt), not the V-shape. |
 | [Relay Protocol](../experiments/RELAY_PROTOCOL.md) | Staged γ: +83%. Hand-designed timing works but is suboptimal. |
 | [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) | The eigenstructure is exact and complete. We know every mode. |
-| [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) | c+/c− exist. The standing wave is proven. |
+| [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) | c+/c− are algebraic supermodes; a physical standing wave needs the additional excitation, propagation, and interference gates. |
 | [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) | γ comes from outside. The question is whether information also flows back. |
-| [KMS and Detailed Balance](../docs/KMS_DETAILED_BALANCE.md) | Π is not detailed balance. The asymmetry between forward and backward is real. |
+| [KMS and Detailed Balance](../docs/KMS_DETAILED_BALANCE.md) | Π is not detailed balance; it proves centred spectral pairing, not physical forward/backward waves. |
 | [It's All Waves](../docs/ITS_ALL_WAVES.md) | If everything is waves, sending waves back is the natural operation. |
 
 ---

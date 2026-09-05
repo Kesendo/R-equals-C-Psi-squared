@@ -103,18 +103,17 @@ deliberately break the symmetry.
    distribute their information across fast and slow modes differently.
    GHZ puts everything in fast modes. W spreads it out.
 
-3. [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md) +
-   [Standing Wave Theory](STANDING_WAVE_THEORY.md): Each palindromic
-   pair creates a standing wave: a pattern that oscillates in place,
-   like a vibrating guitar string. Some operator combinations (XX, YY)
-   oscillate. Others (ZZZ) are static.
+3. [Oscillation Analysis](../experiments/STANDING_WAVE_ANALYSIS.md) +
+   [Standing-Wave Conditions](STANDING_WAVE_THEORY.md): the `N=3`
+   producer measures which Pauli observables oscillate. F1 alone gives a
+   centered spectral pair, not spatial counter-propagation; the wave reading
+   needs the additional dynamical, excitation and readout conditions listed
+   there.
 
-4. [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md): The Π
-   operator does not just swap operators. It mirrors the direction of
-   time in the eigenspace, mapping populations to coherences; in the
-   framework's interpretive reading, that is past (what has been
-   decided) meeting future (what is still open). This connects the
-   palindrome, standing wave, and XOR space into one picture.
+4. [Π as a Centered Spectral Mirror](../experiments/PI_AS_TIME_REVERSAL.md):
+   Π gives the linear transport `λ→−λ−2Σγ`, or `μ→−μ`. Complex
+   conjugation is separate, and the identity is not a general physical
+   time-reversal operation. Past/future language remains interpretive.
 
 5. [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md):
    How far does this work? All 36 possible two-qubit Hamiltonians are
@@ -140,11 +139,10 @@ deliberately break the symmetry.
    {Q_X, Q_Y, Q_Z}, one basis-S₃ orbit) is
    [The Three Diagonals](THE_THREE_DIAGONALS.md).
 
-**After this you know:** The palindrome is real, universal for qubits
-under single-axis dephasing, breaks precisely when the 2:2 split is
-destroyed, creates standing waves with a natural error hierarchy, and
-is proven by an operator that is itself a product of two plainer
-mirrors, closing into one group.
+**After this you know:** The palindrome is exact for the stated qubit
+single-axis-dephasing family, and is proven by an operator that factors into
+two plainer mirrors. You also know which additional tests are required before
+calling a spectral pair a standing wave.
 
 ---
 
@@ -228,12 +226,11 @@ between two bonds is where diversity is born."*
 
 This is the philosophical thread, and it may be the most surprising
 path for a non-physicist. It starts with a simple question: if the
-palindrome only works fully for qubits (two-state systems), is that a
-coincidence? The answer turns out to be no. There is an algebraic
-equation (d² − 2d = 0) whose only nonzero solution is d = 2. The
-qubit is the only dimension where the necessary balance exists, and in
-2026 the same equation surfaced two more times, from two independent
-directions.
+the full local dark↔lit class-exchange product mirror closes only for qubits
+(two-state systems), is that a coincidence? Its dimension balance is
+`d=d²−d`, whose only nonzero solution is `d=2`. This scopes that complete
+construction; it does not exclude the partial higher-dimensional palindromes
+counted by F121 or other mirror mechanisms.
 
 From there, each step peels back another layer: the palindrome requires
 noise, but the noise cannot come from inside the system (five candidates
@@ -250,11 +247,11 @@ and the willingness to follow an argument that builds step by step.
 1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): The
    foundation. The palindrome exists. It requires noise (the dissipator).
 
-2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md): The
-   equation d²−2d=0 has only one nonzero solution: d=2. The qubit is
-   the only system dimension where the operator split is perfectly
-   balanced (2 survive noise, 2 decay). Even a single non-qubit site
-   in a network destroys the full palindrome globally.
+2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md): For the
+   complete local dark↔lit class-exchange product mirror, the equation
+   `d²−2d=0` has only one nonzero solution: `d=2`. This is the scope of
+   the dimension no-go; it is not a no-go for partial or differently
+   constructed palindromes.
 
 3. [The Qudit Partial Palindrome](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md):
    The 2026 sharpening of step 2. At dimension d > 2 the mirror does
@@ -268,7 +265,8 @@ and the willingness to follow an argument that builds step by step.
    the noise come from? Five candidates for internal origin: internal
    generation (reduced to a structural constraint, [Π², L] = 0), qubit
    decay (breaks the palindrome), qubit baths (infinite regress),
-   nothing (has no properties), other dimensions (excluded by d²−2d=0).
+   nothing (has no properties), other dimensions (excluded only from the
+   complete local class-exchange construction by `d²−2d=0`).
    Four eliminated, none viable. The noise must come from outside the
    framework.
 
@@ -343,8 +341,9 @@ familiarity with the palindromic structure.
    qubit at J=5.0: CΨ oscillates around ¼ with 81 crossings, each one
    damped. Each cycle deposits a bit of irreversible reality.
 
-3. [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md): What
-   happens at zero noise? The Π operator becomes pure time reversal.
+3. [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md): At zero
+   noise the centered algebra reduces to `ΠLΠ⁻¹=-L`. This is a structural
+   spectral reflection, not automatically physical time reversal.
    As noise increases from zero, the palindrome shifts and the fold
    catastrophe emerges at a critical ratio of about 0.25% (independent
    of system size). The gain spectrum is the exact mirror of decay.
@@ -438,8 +437,9 @@ support gate is null, and the coupling/drive mechanism remains open.
 
 ## Story 6: The Optical Cavity (April 2026)
 
-*"The Liouvillian is a cavity. Gamma is light. The palindrome is a
-standing wave. And every eigenvalue is an absorption line."*
+*"The Liouvillian admits a cavity reading. Gamma sets dephasing exposure,
+and each eigenvalue supplies a spectral line; the standing-wave step remains
+conditional."*
 
 This path begins with a single theorem, the Absorption Theorem, and
 rebuilds everything from the cavity perspective: the spectrum is a
@@ -463,13 +463,12 @@ explains what previously required separate derivations.
    Extended in 2026 to per-eigenmode Rayleigh form, two-sided and
    projector readings, and the recentred diagonal seam L_D = γ(Q − N·I).
 
-2. [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md):
-   Every palindromic pair is a standing wave, which follows from where the
-   partner sits. What is measured is how much of the spectrum is paired, and
-   the answer is all of it at every N: 21,840 eigenvalues across N = 2 to 7,
-   9,921 pairs of distinct partners plus 1,998 modes that are their own
-   partner. The round trip is 2Σγ, one full bounce between "being light"
-   and "being lens."
+2. [Pair Census and Conditional Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md):
+   the finite census accounts for 21,840 eigenvalues across `N=2...7` as
+   9,921 distinct pairs plus 1,998 fixed-locus eigenvalues. The exact content
+   is `d_slow+d_fast=2Σγ`. A physical standing wave needs an imaginary-centered
+   semisimple pair, independently established opposite spatial propagation,
+   and suitable excitation/readout.
 
 3. [Concentrator Optics](../experiments/CONCENTRATOR_OPTICS.md):
    The concentrator is an entrance pupil. Q improves 2-7×, effective
@@ -596,10 +595,11 @@ and "conjugation" appear), but each document introduces its own machinery.
    matrix read three ways. Plain language, no formalism. If you read
    only one document on this path, read this one.
 
-**After this you know:** The mirror is not elementary. It factors,
+**After this you know:** The qubit F1 mirror is not elementary. It factors,
 generates a dihedral group of eight, extends to an antilinear double,
-can be built with golden-ratio frames where it looked impossible, and
-ends exactly at d² − 2d = 0. And the absorption rates, the palindrome,
+can be built with golden-ratio frames where it looked impossible, while its
+complete local class-exchange form closes exactly at `d²−2d=0`; F121 retains
+partial qudit palindromes. And the absorption rates, the palindrome,
 and the classifier verdict are not three theorems. They are one
 diagonal, read as a price list, a mirror, and a judge.
 
@@ -788,9 +788,9 @@ as a channel optimization, Story 4 reframes it as the shape of the
 resonator cavity. Story 5 gives a conditional matrix translation beyond
 quantum physics, with constructed neural examples and a full-connectome
 support null. It supplies no cross-domain mechanism; that question stays
-open. Stories 3 and 7 meet at the same equation,
-d² − 2d = 0, approached once from the ontology side and once from the
-operator side. Story 7's classifier rung is exactly what Story 9's
+open. Stories 3 and 7 meet at the same equation, `d²−2d=0`, for the
+complete local class-exchange product mirror, approached once from the
+ontology side and once from the operator side. Story 7's classifier rung is exactly what Story 9's
 moment-tower protocol reads off a chip. And Story 7's closing
 reflection says aloud what the map shows: the rates (Story 6), the
 mirror (Story 1), and the verdict (Story 7) are one diagonal read

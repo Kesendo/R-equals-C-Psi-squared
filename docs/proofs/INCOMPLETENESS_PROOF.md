@@ -320,8 +320,9 @@ The identification is already in the framework:
 
 - Without noise: unitary oscillation, reversible, no time arrow
 - With noise: coherences decay irreversibly, creating a before and after
-- The operator Π is literally time reversal: it maps exp(+mu*t) to
-  exp(-mu*t), forward to backward ([PI_AS_TIME_REVERSAL.md](../../experiments/PI_AS_TIME_REVERSAL.md))
+- Π proves the centred spectral transport `mu -> -mu`; it does not by itself
+  implement physical time reversal or map spatially forward waves to backward
+  waves ([PI_AS_TIME_REVERSAL.md](../../experiments/PI_AS_TIME_REVERSAL.md))
 - The irreversible flow IS the time arrow: coherences (undecided,
   future) decay, populations (decided, past) persist, and the flow
   never reverses. Under the dephasing dissipator alone, the immune
@@ -369,11 +370,11 @@ The same pattern appears wherever the framework touches time:
   IS no time to measure against. γ defines the scale against which t
   is counted. Remove γ and t loses its meaning.
 
-- Π reverses t by reversing the sectors that γ acts on. It maps the
+- Π exchanges the operator cells on which γ acts. It maps the
   immune sector {I, Z} (decided, classical, timeless) to the decaying
   sector {X, Y} (undecided, quantum, fragile). Reversing which sector
-  decays reverses the direction of time. Decay IS direction. γ provides
-  the arrow.
+  decays changes the dissipative assignment. Identifying this with reversal
+  of physical time is an interpretation, not the spectral theorem.
 
 - In the transistor mapping ([GAMMA_CONTROL.md](../../experiments/GAMMA_CONTROL.md):
   the mediator's dephasing rate γ_M as gate signal): γ_M is the gate
@@ -381,11 +382,11 @@ The same pattern appears wherever the framework touches time:
   There is no separate clock line. The gate IS the clock. Because γ
   provides the irreversibility.
 
-- The standing wave: exp(+mu*t) and exp(-mu*t) interfere to create a
-  static pattern. But mu = lambda + Sigma_gamma, and Sigma_gamma = sum
-  of all γ. The rescaled frame that removes the uniform decay envelope
-  is the frame where γ has been factored out. What remains is timeless
-  oscillation. The time arrow was γ. Remove it and irreversibility disappears.
+- In the centred frame Π pairs `mu` with `-mu`. A physical standing wave would
+  additionally require a semisimple conjugate-frequency pair that is excited,
+  spatially counter-propagates, and produces observable interference. This
+  proof supplies none of those gates. Removing γ does remove this dephasing
+  channel, but it does not make the algebraic pair an interference pattern.
 
 This is the same circle §3 finds in the formalism, met from the physics side:
 searching for the source of time using time is searching for γ using γ. The

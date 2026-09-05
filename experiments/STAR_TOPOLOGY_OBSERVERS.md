@@ -657,9 +657,10 @@ transfer, even after the SA and SB channels have temporarily decohered.
 
 ### 6.1 "We Are All Mirrors", Quantified
 
-The star topology makes STANDING_WAVE_TWO_OBSERVERS.md literal:
-A and B both reflect S, and the reflections interfere through S.
-The standing wave is the oscillation of R between SA and SB.
+The star topology supplies a literal shared mediator S and the reported
+oscillation of R between SA and SB. It does not make the standing-wave metaphor
+literal: opposite spatial propagation and an interference observable are not
+gated here.
 
 ### 6.2 Internal vs External Observation
 

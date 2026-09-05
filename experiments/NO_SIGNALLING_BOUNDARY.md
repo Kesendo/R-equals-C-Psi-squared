@@ -229,13 +229,12 @@ be the pair, not the qubit.
    asks: can L(ρ) = L_fwd(ρ) + L_bwd(ρ) with nodes at CΨ = ¼? If yes,
    the crossing is not just a threshold but a dynamical fixed point
    of the evolution operator. This is independent of the bridge question.
-   **Update (2026-03-19):** [Π as Time Reversal](PI_AS_TIME_REVERSAL.md)
-   shows the decomposition exists in eigenmode space: Π pairs every
-   forward-decaying mode with its backward partner, and populations
-   ("past") swap with coherences ("future"). This is not an additive
-   generator split L = L_fwd + L_bwd, but a paired eigenmode structure.
-   The question may need reformulation: the forward/backward structure
-   is in the spectrum, not in the generator.
+   **Current scope:** [Π as Time Reversal](PI_AS_TIME_REVERSAL.md) proves
+   the centred spectral pairing `mu -> -mu` and the complementary rate
+   sum. It does not produce an additive generator split, spatially
+   counter-propagating modes, or an interference node. The proposed
+   decomposition therefore remains open rather than being supplied in
+   eigenmode space.
 
 4. **Operator feedback under separation.** STILL OPEN but likely moot.
    The feedback depends on global observables (ρ_AB) which are inaccessible

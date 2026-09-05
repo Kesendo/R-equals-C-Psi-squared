@@ -18,7 +18,10 @@ The bidirectional-bridge search in this repository went through several construc
 
 What was missing, until today, was a single name for the operational object that all of these pieces describe. A shared receiver preparation is not an encoding (information gets attached to a signal), not a channel (disturbances propagate), not a protocol in the communication-theory sense (send/receive cycles). It is an **agreement between observers on how to specify the shared palindromic resource**. The algebraic structure of that agreement is this document's subject.
 
-"Handshake" is the name because every observable correlation on the bridge requires both parties to select from the same algebra. Without that agreement the standing wave is still there, but no observable correlation is read. The act of choosing the same handshake tuple is what makes the bridge visible to both sides.
+"Handshake" is the name because every reported correlation on the bridge
+requires both parties to select from the same algebra. Without that agreement
+the palindromic spectral resource remains, but the chosen correlation is not
+read. F1 does not establish a physical standing wave behind that resource.
 
 ## The handshake tuple
 
