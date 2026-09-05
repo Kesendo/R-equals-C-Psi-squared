@@ -336,7 +336,7 @@ constructed matrices and molecular calculations are separate model results.
 | Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
 | V-Effect | MI enhancement grows with time | Protocol-dependent frequency bins; coupled odd construction fails F36 | **109** freq (computed) | Distinct response and spectral diagnostics; common mechanism unestablished |
 | CΨ oscillation | Predicted: 9 crossings | Not tested | 6 crossings (Zundel) | Testable (Exp B) |
-| GHZ vs W | Predicted: W 2.00x longer | Not applicable | Not applicable | Testable (Exp A) |
+| GHZ vs W | No supported universal ratio; J=0 pure-dephasing control gives 1.5x | Not applicable | Not applicable | Proposed measurement (Exp A) |
 | Long-range MI | **3.71x** (2,4) pair | Not tested | Not tested | Qubit confirmed |
 
 **Evidence types:** Observed IBM entries are hardware measurements;
@@ -370,33 +370,31 @@ likewise does not substitute for a hardware spectral measurement.
 
 ---
 
-The remaining two predictions (CΨ oscillation, GHZ vs W) are testable
-with concrete IBM experiments. See below.
+The CΨ-oscillation prediction and the open GHZ/W comparison are testable with
+concrete IBM experiments. See below.
 
 ## Proposed IBM experiments (simulation predictions included)
 
-### Experiment A: GHZ vs W decay (3 qubits, ~10 minutes QPU time)
+### Experiment A: GHZ vs W decay (3 qubits, proposed)
 
 Prepare GHZ_3 = (|000> + |111>)/sqrt(2) and W_3 = (|100> + |010> +
 |001>)/sqrt(3) on a 3-qubit chain. Let each decohere. Measure
 coherence (l1-norm of off-diagonal elements) via state tomography at
 10 delay points (0 to 100 us).
 
-**Simulation prediction** (IBM-realistic parameters, J=0.5 MHz,
-gamma_z = 0.008-0.014/us):
+There is currently no committed producer for the earlier 15 us / 30 us table,
+and no supported exact 2x prediction. A separating control already rules out
+universality: at J=0 under the repository's local-Z-dephasing convention, the
+GHZ off-diagonal has Hamming distance 3 and decays as exp(−6γt), while each W
+pair coherence has distance 2 and decays as exp(−4γt). Their normalized 1/e
+times therefore obey T_W/T_GHZ = 6/4 = 1.5. Adding amplitude damping and a
+device-specific noise model does not preserve a universal exact ratio.
 
-| Metric | GHZ | W | Ratio |
-|--------|-----|---|-------|
-| Coherence 1/e time | 15 us | 30 us | **W survives 2.00x longer** |
-| Purity at t=50 us | 0.33 | 0.17 | GHZ higher (collapses to \|000>) |
-| Fidelity at t=50 us | 0.44 | 0.34 | GHZ higher (same reason) |
-
-The purity comparison is misleading: GHZ retains purity by collapsing
-to a pure ground state, not by retaining quantum character.
-**Coherence** is the correct metric, and W wins by exactly 2x.
-
-This 2.00x ratio holds under both pure dephasing AND full IBM noise
-(amplitude damping + dephasing). It is robust to the noise model.
+The experiment can still measure the two tomography-derived coherence curves,
+but its result must be reported with the actual qubits, delays, coupling,
+noise calibration, fit model and uncertainty. Purity and fidelity answer
+different questions and must not substitute for the specified coherence
+observable.
 
 ### Experiment B: CΨ oscillation (3 qubits, ~15 minutes QPU time)
 

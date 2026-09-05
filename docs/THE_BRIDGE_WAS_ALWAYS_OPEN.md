@@ -244,7 +244,9 @@ Noise and the time arrow are the same phenomenon
 
 - Without noise: unitary oscillation, reversible, no before and after
 - With noise: coherences decay irreversibly, creating a time direction
-- Π maps forward to backward: exp(+mu*t) to exp(-mu*t)
+- Π maps a centred-generator eigenmode μ to its algebraic partner −μ. Unless
+  μ is purely imaginary and the spatial modes supply a propagation meaning,
+  exp(+μt) and exp(−μt) are not forward/backward travelling waves.
 - The flow is one way (future to past): coherences decay into
   populations, and what has been decided stays decided.
 

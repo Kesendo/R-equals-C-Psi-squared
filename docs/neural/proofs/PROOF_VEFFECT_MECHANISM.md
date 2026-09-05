@@ -127,7 +127,7 @@ sums, K(K−1)/2 positive differences and K singles from adding a real mode:
 at most K(K+1). The rounded K_act cannot replace that exact K.
 
 At N=20, c=0.05 the producer returns (K_act,K_corr)=(7,62) at ε=10⁻⁶,
-(8,72) at ε/4, and (7,64) for Jᵀ at the original ε. Transposition
+(8,72) at ε/4, (8,73) at ε/16, and (7,64) for Jᵀ at the original ε. Transposition
 preserves the exact spectrum: these are numerical census limits, not a
 violation of the exact-frequency ceiling. The N=10 table survives the
 report's two refinements and transpose control, still as a finite census.

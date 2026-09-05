@@ -98,7 +98,18 @@ public static class Formulas
     // F8 (T1, F1 family): when the F1 fold holds and reaches 0 and -2Ng, the full decay interval
     // has width 2Ng and centre Ng, so width/centre = 2 for g>0. These are spectral-geometry
     // quantities, not filtered mode classes or signal/noise lifetimes.
-    public static (double FullWidth, double Centre) F8_DecayLaw(int n, double gamma) => (2.0 * n * gamma, n * gamma);
+    public static (double FullWidth, double Centre) F8_DecayLaw(int n, double gamma)
+    {
+        if (n <= 0)
+            throw new ArgumentOutOfRangeException(nameof(n), "Site count must be positive.");
+        if (!double.IsFinite(gamma) || gamma <= 0)
+            throw new ArgumentOutOfRangeException(nameof(gamma), "Dephasing rate must be finite and positive.");
+        double centre = n * gamma;
+        double fullWidth = 2.0 * centre;
+        if (!double.IsFinite(centre) || !double.IsFinite(fullWidth))
+            throw new OverflowException("The F8 range and centre are not representable as finite doubles.");
+        return (fullWidth, centre);
+    }
 
     // F12 (T2): single-qubit universal crossing fraction t*/T2 = 0.858367, the root of x^3 + x = 1/2.
     public const double F12_CrossingFraction = 0.858367;

@@ -465,16 +465,20 @@ the number-conserving family's N+1).
 
 Why does this unify everything?
 
-- **Spectral boundaries:** The minimum rate is 2γ (one light factor).
-  The maximum paired rate is 2(N−1)γ (N−1 light factors). These are
-  the bottom and top rungs of the ladder.
-- **Factor 2:** The full decay interval has width 2Nγ and centre Nγ, so
-  width/centre=2 for γ>0. Calling the upper-edge roots "unpaired" after
-  deleting their zero partners does not create a distinct physical class.
-- **Spectral gap:** Above an N-dependent coupling threshold Q*_gap(N) the gap
-  is 2γ, the cost of one light factor. This one is *relocated* by the
-  theorem rather than derived from it: the theorem places no lower bound
-  on ⟨n_XY⟩, and below Q*_gap(N) the gap is Zeno-suppressed and far smaller.
+- **F3 generic band:** For the uniform-Z-dephased Heisenberg chain, above its
+  N-dependent Q*_gap(N), the nonzero generic band runs from 2γ (one light
+  factor) to 2(N−1)γ (N−1 light factors). Below that threshold the band erodes
+  symmetrically to fractional rates; these are not universal bounds for an
+  arbitrary Hamiltonian.
+- **F8 full range:** Where the F1 palindromizer holds and the spectrum reaches
+  both 0 and −2Nγ, the full decay range has width 2Nγ and centre Nγ, hence
+  width/centre=2 for γ>0. The number-conserving F1 family here has those
+  endpoints. Calling upper-edge roots "unpaired" after deleting their zero
+  partners does not create a distinct physical class.
+- **Spectral gap:** In the same F3 Heisenberg-chain regime above Q*_gap(N), the
+  gap is 2γ. This is *relocated* by the theorem rather than derived from it:
+  the theorem places no lower bound on ⟨n_XY⟩, and below Q*_gap(N) the gap is
+  Zeno-suppressed and far smaller.
 - **Palindromic sum rule:** Paired modes swap light and lens
   (⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N). From the theorem:
   α_fast + α_slow = 2γN = 2Σγ.

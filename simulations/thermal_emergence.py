@@ -288,7 +288,7 @@ for gamma_val in [0.01, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0]:
     print(f"{gamma_val:8.2f} {n_osc:6d} {max_freq:10.4f} {E_freq:10.4f} {pct:7.1f}")
 
 
-print("\n--- Thermal excitation only (no dephasing): increasing n_bar ---")
+print("\n--- Emission/absorption bath (no dephasing): increasing n_bar ---")
 header = f"{'n_bar':>8} {'Gamma':>8} {'n_osc':>6} {'max_freq':>10} {'Efreq':>10}"
 print(f"\n{header}")
 print("-" * len(header))
@@ -308,7 +308,7 @@ for n_bar in [0.01, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0]:
     print(f"{n_bar:8.2f} {Gamma_th:8.2f} {n_osc:6d} {max_freq:10.4f} {E_freq:10.4f}")
 
 
-print("\n--- Dephasing + thermal excitation combined ---")
+print("\n--- Dephasing + emission/absorption bath ---")
 print("Baseline: gamma=0.1 (dephasing), adding thermal Gamma=0.1")
 header = f"{'n_bar':>8} {'n_osc':>6} {'max_freq':>10} {'Efreq':>10} {'Edecay':>10} {'freq/decay':>10}"
 print(f"\n{header}")

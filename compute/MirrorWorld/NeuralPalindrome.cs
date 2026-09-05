@@ -19,7 +19,7 @@ public static class NeuralPalindrome
     }
 
     // Malformed permutations throw; a valid permutation of order other than 1 or 2 returns false.
-    // The empty permutation is the identity on the zero-dimensional space.
+    // This general predicate accepts the empty identity; F36-facing gates reject n=0 below.
     public static bool IsInvolution(int[] permutation)
     {
         ArgumentNullException.ThrowIfNull(permutation);
@@ -35,7 +35,7 @@ public static class NeuralPalindrome
         return true;
     }
 
-    // Maximum absolute entry of Q J Q + J + 2s I. The empty matrix has residual zero.
+    // Maximum absolute entry of Q J Q + J + 2s I, for the F36 domain n >= 1.
     // This is a floating-point reading; zero is exact for the constructed dyadic example.
     // Diagonals are centred before summation; unrepresentable intermediates or residuals throw.
     public static double MaxResidual(double[,] j, int[] permutation, double s)
@@ -45,6 +45,8 @@ public static class NeuralPalindrome
         int n = j.GetLength(0);
         if (j.GetLength(1) != n)
             throw new ArgumentException("Matrix must be square.", nameof(j));
+        if (n == 0)
+            throw new ArgumentException("F36 requires at least one neural unit.", nameof(j));
         if (permutation.Length != n)
             throw new ArgumentException("Permutation length must match the matrix dimension.", nameof(permutation));
         if (!IsInvolution(permutation))

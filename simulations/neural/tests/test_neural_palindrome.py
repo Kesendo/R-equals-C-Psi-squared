@@ -121,8 +121,18 @@ def test_transport_rejects_missing_algebraic_partner_multiplicity():
         partner_subspace_error(np.diag([-0.5, -0.25, -0.25]), [1, 0, 2], 0.375)
 
 
-def test_transport_empty_matrix_has_no_angles():
-    assert partner_subspace_error(np.empty((0, 0)), np.array([], dtype=int), 0.375) == 0.0
+def test_f36_gates_reject_empty_domain_and_noninvolution():
+    empty = np.empty((0, 0))
+    with pytest.raises(ValueError, match="at least one"):
+        scalar_center_residual(empty, np.array([], dtype=int), 0.375)
+    with pytest.raises(ValueError, match="at least one"):
+        partner_subspace_error(empty, np.array([], dtype=int), 0.375)
+
+    three_cycle = np.array([1, 2, 0])
+    with pytest.raises(ValueError, match="involution"):
+        scalar_center_residual(-0.375 * np.eye(3), three_cycle, 0.375)
+    with pytest.raises(ValueError, match="involution"):
+        partner_subspace_error(-0.375 * np.eye(3), three_cycle, 0.375)
 
 
 def test_translation_cli_runs_all_named_gates():
@@ -213,6 +223,7 @@ def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
             "All oscillation is palindromic",
             "It depends on three ingredients",
             "Each finding below is computed and verified",
+            "The minimum rate is 2γ (one light factor)",
         ),
         root / "docs/ANALYTICAL_FORMULAS.md": (
             "F8. 2× universal decay law", "rate(unpaired)", "rate(paired mean)",
@@ -221,6 +232,11 @@ def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
             "all oscillation is palindromic, universal 2× decay law",
             "only oscillation the system has", "the 4 unpaired modes",
             "creates new palindromic oscillation and sheds the rest",
+            "all topologies,\nall standard Hamiltonians",
+            "Palindromic pairs are standing waves",
+            "Π maps forward to backward: it is time reversal in the eigenspace",
+            "Premise A is proven. Premise B is demonstrated",
+            '"Wave" here means: solution of a linear differential',
         ),
         root / "docs/EXCLUSIONS.md": ("unpaired modes die twice as fast", "noise dies 2x faster"),
         root / "docs/PREDICTIONS.md": ("now structurally confirmed in spirit", "universal building-block ratio"),
@@ -229,8 +245,16 @@ def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
         root / "review/OPEN_QUESTIONS_INDEX_PROPOSAL_scope-extension.md": ("Does Finding 1 (all oscillation is palindromic)",),
         root / "docs/proofs/PROOF_ABSORPTION_THEOREM.md": (
             "The 2× Decay Law (F8)", 'What F8 calls\n"unpaired" means *not self-paired*',
+            "partner sits at -2Σγ - λ̄ by construction",
+            "reflection λ → −λ* − 2σ",
+        ),
+        root / "experiments/IBM_HARDWARE_SYNTHESIS.md": (
+            "W survives 2.00x longer", "This 2.00x ratio holds",
         ),
         root / "docs/READING_GUIDE.md": ("the 2× decay law a common reading",),
+        root / "docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md": (
+            "Π maps forward to backward: exp(+mu*t) to exp(-mu*t)",
+        ),
         root / "docs/proofs/README.md": ("sum rule, 2x decay law",),
         root / "hypotheses/README.md": ("unpaired modes decay 2x faster",),
         NEURAL / "veffect_exact.py": ("edge E-neurons",),
@@ -250,6 +274,10 @@ def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
     f8 = formulas.split('<a id="f8-range-centre"></a>', 1)[1].split("\n---", 1)[0]
     assert "any Hermitian Hamiltonian" not in f8
     assert "satisfies the\nF1 palindromizer hypotheses" in f8
+    thermal = (root / "simulations/thermal_emergence.py").read_text(encoding="utf-8")
+    assert "Thermal excitation only" not in thermal
+    assert "thermal excitation combined" not in thermal
+    assert "Emission/absorption bath (no dephasing)" in thermal
 
 
 @pytest.mark.parametrize("field,value", [

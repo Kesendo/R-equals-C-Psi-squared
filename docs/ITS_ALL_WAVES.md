@@ -5,7 +5,7 @@ standing wave c+ c- palindromic modes, emergence no new physics V-Effect,
 Level 0 waves Level N waves deductive, Legobaustein argument abgeschlossenheit,
 hierarchy incompleteness wave basis, R=CPsi2 closure argument waves -->
 
-**Status:** Deductive consequence of Tier 1-2 results
+**Status:** Open interpretive hypothesis; the proposed closure does not follow from F1
 **Date:** March 23, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -21,17 +21,15 @@ build is still made of Lego bricks. No matter how you combine them, you
 will never produce water, or fire, or music. The material determines
 what is possible.
 
-This document makes that argument for quantum systems under dephasing
-noise. It shows, step by step, that the mathematical foundation of these
-systems consists entirely of wave modes. Then it shows that when you
-combine simple systems into larger ones, no new type of ingredient
-appears. You get more waves, more complex waves, but only waves.
+This document asks whether that argument can be made for quantum systems under
+dephasing noise. The exact foundation available here is a spectral mirror.
+Calling every mirrored mode a wave and showing that composition introduces no
+new kind of object are additional premises, not consequences already proved.
 
-The argument has eight links, like a chain. Each link builds on the one
-before it. If the chain holds, the conclusion is inescapable: every
-level of complexity in this framework is made of the same thing. The
-first six links are mathematically proven. The seventh is demonstrated
-at one transition. The eighth is their logical consequence.
+The proposed argument has eight links. Several component results are exact,
+but Link 5 needs extra dynamical/spatial hypotheses and Link 7 is a finite
+census rather than a closure theorem. Link 8 therefore remains an open
+interpretive proposal.
 
 If you want to understand how the R=CΨ² framework connects its
 individual results into a single picture, this is where that happens.
@@ -44,15 +42,10 @@ standing wave idea specifically, see
 
 ## The Chain
 
-Eight statements. Each builds on the previous. The first seven are
-computationally or analytically verified. The eighth is their logical
-consequence.
-
-What follows is a logical argument in the style of a mathematical proof:
-start with something you can verify, derive the next thing from it,
-repeat until the conclusion is unavoidable. You do not need to
-understand every equation. What matters is the *structure*: each step
-makes the next one possible, and skipping a step breaks the chain.
+Eight statements are placed in sequence below. Their evidence levels differ;
+the sequence is a map of a possible argument, not a completed mathematical
+proof. In particular, spectral pairing cannot silently substitute for a
+physical wave identification.
 
 ### Link 1: Only d=0 or d=2
 
@@ -117,30 +110,29 @@ Liouvillian eigenvalue λ has a partner −(λ + 2Sγ). The spectrum is
 palindromic, meaning the list of eigenvalues reads the same forwards
 and backwards when centered appropriately.
 
-Verified for 87,376 eigenvalues, N=2 through N=8, all topologies,
-all standard Hamiltonians. Zero exceptions.
+The one-full-spectrum-per-size census N=2 through N=8 contains 87,376
+eigenvalues and has zero pairing exceptions. Separate finite sweeps cover the
+tested graph topologies and Hamiltonian bond families; they are not additional
+members of that 87,376 count and do not mean "all standard Hamiltonians."
 
 **Status:** Proven. See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md),
 [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md).
 
-### Link 5: Palindromic pairs are standing waves
+### Link 5: When a palindromic pair admits a standing-wave reading
 
-Each palindromic pair (λ, −λ−2Sγ) generates two modes: one decaying
-as exp(+μt), one as exp(−μt) in the centered frame. Their even
-superposition c+ and odd superposition c− form a standing wave pattern.
+F1 itself supplies the linear spectral transport λ → −λ−2Sγ. In centered
+coordinates μ=λ+Sγ this is μ → −μ. That algebra alone does not turn every pair
+into two counter-propagating waves: when Re μ≠0 the factors exp(±μt) include
+relative growth and decay, and defective blocks also carry Jordan-polynomial
+terms. Π is the algebraic partner map, not a general time-reversal operator.
 
-Imagine a guitar string vibrating. The wave travels left, bounces off
-the end, and comes back traveling right. The forward and backward waves
-combine into a standing wave: a pattern that oscillates in place but
-does not travel. That is exactly what each palindromic pair does. One
-eigenvalue drives a mode forward in time, its partner drives the
-corresponding mode backward. Together, they create a standing pattern.
+For diagonalizable pairs on the imaginary centered axis whose eigenvectors
+have independently been identified as opposite spatial propagation modes,
+even and odd combinations can have the familiar standing-wave reading. The
+guitar-string picture is useful only inside that additional dynamical and
+spatial scope; it is not a consequence of spectral pairing alone.
 
-Π maps forward to backward: it is time reversal in the eigenspace.
-The standing wave is not a metaphor. It is the explicit solution of
-the Lindblad equation projected onto paired eigenspaces.
-
-**Status:** Proven. See [Standing Wave Theory](STANDING_WAVE_THEORY.md),
+**Status:** Conditional interpretation, beyond F1 alone. See [Standing Wave Theory](STANDING_WAVE_THEORY.md),
 [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
 [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md).
 
@@ -239,17 +231,19 @@ old palindrome with a richer one. See
 
 ### Link 8: Therefore, all levels are waves
 
-This is the closure argument. It works by the simplest logic there is.
+This is the proposed closure argument and the point where its missing premise
+becomes explicit.
 
-**Premise A (proven):** Level 0 consists exclusively of standing wave
-modes (Links 1-5).
+**Premise A is not established:** Level 0 has an exact F1 spectral pairing,
+but that does not make every Liouvillian mode a standing wave (Links 1-5).
 
 **Premise B (demonstrated for N=2→N=3, not proven in general):** Higher
 levels emerge through operations that do not introduce new fundamental
 constituents (Link 7).
 
-**Conclusion:** If Premise B holds at all levels, then no level of the
-hierarchy can contain anything that is not a wave.
+**Conclusion:** The closure does not follow. Even a general proof of Premise B
+would still need a physical wave identification at Level 0 rather than the
+spectral mirror alone.
 
 In plain language: if your only building material is wood, and your only
 tool is a saw (which also produces wood pieces), then everything you
@@ -259,12 +253,11 @@ something the system does not already contain.
 
 You cannot build water from Lego bricks.
 
-**Strength of the conclusion:** The conclusion is as strong as Premise B.
-Premise A is proven. Premise B is demonstrated at one transition (V-Effect)
-and consistent with known physics at higher levels (Schrödinger equation,
-LCAO (Linear Combination of Atomic Orbitals), phonon theory all use wave modes). But a mathematical proof by
-induction across all levels does not exist. The argument is deductively
-valid; its empirical reach depends on whether Premise B generalizes.
+**Strength of the conclusion:** The proposed closure currently has two open
+premises. F1 proves spectral pairing, not the Level-0 wave identification, and
+the V-effect census does not prove that every higher-level transition preserves
+one kind of constituent. Standard wave descriptions at later levels are useful
+comparisons, not an induction across all levels.
 
 ---
 
@@ -272,11 +265,11 @@ valid; its empirical reach depends on whether Premise B generalizes.
 
 This argument has clear boundaries:
 
-**It does not say what the waves are made of.** The framework describes
-the structure (palindromic pairs, standing patterns, decay rates) but
-not the substrate. "Wave" here means: solution of a linear differential
-equation with paired eigenvalues. Not water waves. Not sound waves.
-Mathematical wave modes of the Lindblad equation.
+**It does not establish that every paired mode is a wave.** The framework
+describes spectral partners and decay rates. A standing or propagating-wave
+label additionally needs a spatial observable and dynamical conditions; being
+a solution of a linear differential equation with paired eigenvalues is not
+enough.
 
 **It does not say what sends the signal, and no longer that anything does.**
 Link 6 was read as proving noise comes
@@ -300,30 +293,24 @@ the closure property holds explicitly at the transition from N=2 to N=3.
 
 ## The hierarchy, restated
 
-The following table shows how the wave pattern repeats at every level
-of physical reality we know. Level 0 is what this project proves.
-Levels 1 through 4 are standard physics that has been known for decades.
-The point is not that any individual level is surprising. The point is
-that the pattern never breaks: every level is built from wave modes of
-the level below it, and no level introduces a fundamentally new type
-of ingredient.
+The following table compares several established wave descriptions with the
+project's Level-0 spectral object. The rows do not prove a continuous hierarchy
+or that every level is made only from wave modes of the level below it.
 
 | Level | What exists | What it is, physically | Wave type | Source |
 |-------|-------------|----------------------|-----------|--------|
-| 0 | Qubit palindromic modes | c+/c− standing wave from Π pairing | Liouvillian eigenmodes | **This framework** |
+| 0 | Qubit palindromic modes | Exact Π spectral partner; standing-wave reading only with extra dynamical/spatial conditions | Liouvillian eigenmodes | **This framework** |
 | 1 | Electron orbitals | Standing waves in Coulomb potential | Schrödinger eigenstates | Standard QM |
 | 2 | Molecular orbitals | Standing waves across bonded atoms | LCAO superpositions | Standard QM |
 | 3 | Crystal lattice vibrations | Phonons | Quantized displacement waves | Condensed matter |
 | 4 | Magnetic order | Magnons (spin waves) | Collective spin excitations | Condensed matter |
 | ... | ... | ... | ... | ... |
 
-Level 0 is proven within R=CΨ². Levels 1–4 are standard physics results
-that independently confirm the wave-mode pattern. The closure argument
-(Link 8) bridges them: if Level 0 feeds into Level 1, and both are
-wave-based, the transition preserves the type. But the bridge from
-Liouvillian eigenmodes (Level 0) to Schrödinger eigenstates (Level 1)
-is not formally constructed in this framework. It is consistent, not
-proven.
+The Level-0 spectral pairing is proven within R=CΨ²; its universal standing-wave
+reading is not. Levels 1–4 are standard physics results in their own scopes.
+No formal bridge from Liouvillian eigenmodes (Level 0) to Schrödinger
+eigenstates (Level 1), nor a proof that such a bridge preserves one universal
+"wave" type, is constructed here.
 
 ---
 

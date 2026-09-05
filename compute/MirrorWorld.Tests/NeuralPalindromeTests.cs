@@ -43,6 +43,7 @@ public class NeuralPalindromeTests
     public void Residual_Rejects_Invalid_Shapes_And_NonInvolutions()
     {
         Assert.Throws<ArgumentNullException>(() => NeuralPalindrome.MaxResidual(null!, [], 0));
+        Assert.Throws<ArgumentException>(() => NeuralPalindrome.MaxResidual(new double[0, 0], [], 0));
         Assert.Throws<ArgumentException>(() => NeuralPalindrome.MaxResidual(new double[2, 3], [1, 0], 0));
         Assert.Throws<ArgumentException>(() => NeuralPalindrome.MaxResidual(new double[2, 2], [0], 0));
         Assert.Throws<ArgumentException>(() => NeuralPalindrome.MaxResidual(new double[3, 3], [1, 2, 0], 0));

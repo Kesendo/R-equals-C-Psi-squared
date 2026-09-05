@@ -180,6 +180,14 @@ public class SmokeTests
         Assert.Equal(4.0, f8.FullWidth, 10);
         Assert.Equal(2.0, f8.Centre, 10);
         Assert.Equal(2.0, f8.FullWidth / f8.Centre, 10);                    // the range/centre ratio
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F8_DecayLaw(0, 0.5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F8_DecayLaw(-1, 0.5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F8_DecayLaw(4, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F8_DecayLaw(4, -0.5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F8_DecayLaw(4, double.NaN));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F8_DecayLaw(4, double.PositiveInfinity));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F8_DecayLaw(4, double.NegativeInfinity));
+        Assert.Throws<OverflowException>(() => Formulas.F8_DecayLaw(2, double.MaxValue));
         var (mn, mx, bw) = Formulas.F3_RateBounds(4, 0.5);
         Assert.Equal(1.0, mn, 10);
         Assert.Equal(3.0, mx, 10);

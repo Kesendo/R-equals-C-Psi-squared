@@ -533,10 +533,12 @@ sectors.
 **Previously:** For every palindromic pair, Re(λ_fast) + Re(λ_slow) = -2Σγ,
 read off the whole spectrum across N=2..7, 21,840 eigenvalues (a wider range
 than this document's own N=2..5 per-mode verification). That reading carries
-less than it looks: the
-partner sits at -2Σγ - λ̄ by construction, so the sum rule holds on any pair
-the search returns, and the count measures how much of the spectrum is paired
-rather than confirming the rule. The derivation below is what establishes it.
+less than it looks: once the linear F1 target −λ−2Σγ is chosen, the real-part
+sum is fixed, so the count measures how much of the spectrum is paired rather
+than confirming the rule. Lindblad spectra are also closed under complex
+conjugation; composing that separate closure with F1 gives the
+frequency-preserving spectral representative −λ̄−2Σγ. It is not the vector
+transport performed by Π. The derivation below is what establishes the sum.
 **Source:** [Standing Waves](../../experiments/FACTOR_TWO_STANDING_WAVES.md)
 
 **Now a one-line corollary.** The palindromic weight swap
@@ -828,9 +830,10 @@ coordinate:
 
 - **the absorption ladder** (this proof): Re(λ) = −2γ⟨n_XY⟩, rates as light;
 - **the palindrome** (F1/F8), which stands on this diagonal only in part: the
-  reflection λ → −λ* − 2σ of spec(L) about −Nγ is equivalent to spec(M)
-  symmetric about 0, and partners then carry complementary light. That the
-  partner is Πv is F1's, a statement about L_H (§4.2), not about this diagonal;
+  linear F1 transport is λ → −λ − 2σ, equivalently μ → −μ for μ = λ+σ,
+  and `Πv` is its partner vector. Hermiticity preservation separately closes
+  the spectrum under λ → λ̄; only their composition gives the alternative
+  spectral representative −λ̄−2σ. Partners then carry complementary light;
   ⟨n_XY⟩_s + ⟨n_XY⟩_f = N (the §4.2 sum rule, test-gated per mode in C#,
   [`F8PartnerLightComplementarityTests`](../../compute/RCPsiSquared.Diagnostics.Tests/Ptf/F8PartnerLightComplementarityTests.cs):
   the palindrome pairing IS complementary light in absorption coordinates);

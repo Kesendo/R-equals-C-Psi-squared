@@ -134,8 +134,12 @@ def scalar_center_residual(J, perm, s):
     Floating arithmetic residuals are returned without tolerance or clipping.
     """
     J, Q = _matrix_and_permutation(J, perm)
-    if np.ndim(s) != 0:
-        raise ValueError("s must be a scalar")
+    if J.shape[0] == 0:
+        raise ValueError("F36 requires at least one neural unit")
+    if not is_involution(perm):
+        raise ValueError("perm must be an involution for the F36 gate")
+    if np.ndim(s) != 0 or not np.isfinite(s):
+        raise ValueError("s must be a finite scalar")
     residual = Q @ J @ Q.T + J + 2 * s * np.eye(J.shape[0])
     return _normalized_residual(residual, J)
 
@@ -298,16 +302,19 @@ def partner_subspace_error(J, perm, s, cluster_tol=1e-7):
 
     A tolerance cluster is a numerical resolution choice, not proof of exact
     degeneracy. A missing partner or wrong selected algebraic dimension raises
-    ValueError rather than comparing unequal-dimensional subspaces. The empty
-    matrix has no angles and returns 0.0.
+    ValueError rather than comparing unequal-dimensional subspaces. F36 is
+    stated for at least one neural unit and an involution; inputs outside that
+    domain raise rather than producing a vacuous pass.
     """
     J, Q = _matrix_and_permutation(J, perm)
+    if J.shape[0] == 0:
+        raise ValueError("F36 requires at least one neural unit")
+    if not is_involution(perm):
+        raise ValueError("perm must be an involution for the F36 gate")
     if np.ndim(s) != 0 or not np.isfinite(s):
         raise ValueError("s must be a finite scalar")
     if not np.isfinite(cluster_tol) or cluster_tol <= 0:
         raise ValueError("cluster_tol must be finite and positive")
-    if J.shape[0] == 0:
-        return 0.0
     T, _ = schur(J, output="complex")
     clusters = _eigenvalue_clusters(np.diag(T), cluster_tol)
 
