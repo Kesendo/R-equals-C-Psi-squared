@@ -18,12 +18,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// on-axis diabolic), <c>experiments/F89_MONODROMY_MIRROR.md</c> (the (1,2) octic's off-axis defective
 /// branch points), <c>F86/LocalGlobalEpLink</c> (the N≥5 (1,2) block, non-normal-simple on axis).</para>
 ///
-/// Q*(N) is the threshold where, sweeping
-/// Q = J/γ downward, the slowest non-zero Liouvillian mode stops oscillating (the coherence hand
-/// freezes): Q*(2)=1, Q*(3)=√2, Q*(4)≈1.8787, Q*(5)≈2.3737. The witness verifies these match, bit
-/// for bit, the carbon Frost-Hückel coherent↔incoherent threshold (√2 / 1.879 / 2.372 at N=3/4/5)
-/// under the label swap J ↔ |β|: the XY chain's coherence horizon IS the Frost-Hückel threshold of
-/// the same polyene (the cross-substrate identity). N=2 (Q*=1) is the exceptional point itself, the
+/// Q*(N) is the single-excitation EP, where the slowest mode of the (1,1) block coalesces:
+/// Q*(2)=1, Q*(3)=√2, Q*(4)=1.87874, Q*(5)=2.37367. Sweeping Q = J/γ downward, the slowest
+/// non-zero mode of the FULL Liouvillian stops oscillating (the coherence hand freezes) at a
+/// slightly smaller Q, the handover Q_h = 1 / √2 / 1.87854 / 2.37217, the same pair's floor
+/// crossing; the two are one event at N=2,3 and separate from N=4. The witness verifies that the
+/// HANDOVER carries the three decimals of the carbon Frost-Hückel coherent↔incoherent
+/// threshold (√2 / 1.879 / 2.372 at N=3/4/5) under the label swap J ↔ |β|: three decimals, not bit
+/// for bit, and at N=5 the EP rounds to 2.374 instead. N=2 (Q*=1) is the exceptional point itself, the
 /// base rung the carbon polyene layer (N≥3) cannot reach; the quantum side supplies it.
 ///
 /// <para>What is VERIFIED N=2..5: the ladder Q*(N) and its carbon identity, the band-edge
