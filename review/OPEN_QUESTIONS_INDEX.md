@@ -2259,7 +2259,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-255
 
-**Question:** Asymptotic constant: Is the quantum bridge's proposed large-coupling stability asymptote exactly 1/2, and can it be derived for its declared model and limit?
+**Question:** Asymptotic constant: Is the quantum bridge's proposed large-coupling product limit γ_crit × J_bridge → 1/2 exact, and can it be derived for its declared model and limit?
 
 **Source:** `hypotheses/FRAGILE_BRIDGE.md`
 **Section:** 6. Open questions
