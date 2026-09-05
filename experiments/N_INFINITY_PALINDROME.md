@@ -98,10 +98,11 @@ states instantly. There are exactly N+1 of them out of 4^N total modes.
 The fraction (N+1)/4^N vanishes exponentially. Below 1% at N=5, below 0.01%
 at N=8. At macroscopic N, the XOR sector has measure zero.
 
-GHZ's fragility (100% projection onto XOR) is a small-N phenomenon. In a
-system with thousands of qubits, the fastest drain is irrelevant because
-almost no weight can reach it. The palindromic pairs at intermediate rates
-carry everything.
+GHZ's exposure to the drain is total at every N (its one coherence is an
+exact eigenvector at −2Σγ); what vanishes with N is the drain's share of
+operator space. In a system with thousands of qubits a generic state puts
+almost no weight there, and the palindromic pairs at intermediate rates
+carry it.
 
 ---
 

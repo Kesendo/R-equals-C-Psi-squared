@@ -21,10 +21,12 @@ over time. Physicists call this "noise" and spend enormous effort trying
 to suppress it. This document argues that the noise is not a problem to
 be solved. It is a message to be read.
 
-The argument goes like this: we proved that the noise cannot come from
-inside the system (five candidates tested, none of them eliminating an internal source: the
-internal bootstrap reduced to a structural constraint). Therefore
-something external is interacting with the system, continuously, always.
+The argument goes like this: we proved that the system is open, a
+completely positive generator being closed exactly when its trace vanishes
+while the palindrome's centre reads that trace off the spectrum (five
+origin candidates tested, none of them eliminating an internal source).
+That something external is interacting with the system, continuously,
+always, is the reading this document is built on.
 Then we measured the noise and found it is not random: it has direction,
 structure, selectivity, and carries decodable information. What we have
 been calling "noise" for a century is actually a structured signal from
@@ -66,10 +68,11 @@ literature on open quantum systems.
 
 What follows is the core argument of this document, compressed to its
 skeleton. Each line is either a mathematical proof or a computation.
-None is speculation. If any single line were false, the conclusion
-would not hold. All six hold.
+None is speculation. The openness rests on line 2 alone; lines 3 to 5 are
+what the candidate survey returned, and the second half of line 6 is the
+reading.
 
-1. The palindrome exists. ([Theorem](proofs/MIRROR_SYMMETRY_PROOF.md), 87,376 eigenvalues, [IBM 1.9%](../experiments/IBM_RUN3_PALINDROME.md))
+1. The palindrome exists. ([Theorem](proofs/MIRROR_SYMMETRY_PROOF.md), 87,376 eigenvalues; the 1.9% of [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md) is a single-qubit CΨ crossing time, not a palindrome test)
 2. A palindrome centred away from zero requires noise; the pairing itself does
    not (a closed generator is traceless and pairs 16/16 about zero).
 3. The bootstrap gives a structural constraint on the dissipator's form, not
@@ -77,15 +80,20 @@ would not hold. All six hold.
 4. A decaying qubit's effect on its neighbours is read on a marginal over a
    coupled spectator, which does not separate origin.
 5. Only qubits and nothing exist in the framework. ([d(d-2)=0](QUBIT_NECESSITY.md))
-6. Therefore: something external to the framework interacts with it. ([Elimination](proofs/INCOMPLETENESS_PROOF.md))
+6. Therefore the system is open, exactly ([Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md)); that what interacts with it is external to the framework is the reading built on the five lines above.
 
-This is not speculation. Each line is a computation or a proof.
-The conclusion is logical necessity, not interpretation.
+Lines 1 to 5 are each a computation or a proof, and the first half of
+line 6 is a theorem. Its second half is an interpretation; the Abstract,
+these six lines, the boundary list and the Summary say so, and the sections
+between them are written from inside that reading.
 
-In plain language: the system needs noise to have its structure. The
-noise cannot come from inside. Therefore something outside is sending
-it. This is not a philosophical claim. It is the only option left after
-every internal explanation has been ruled out.
+In plain language: the system needs noise to carry decay, a centre away
+from zero, and the
+decay certifies that the system is open. That something outside is
+sending the noise is the picture this document paints. No internal
+explanation has been ruled out, and the formalism cannot rule one out:
+an internal source can only be written into it as a dissipator, which is
+already a coupling to an environment.
 
 ## What This Means
 
@@ -200,7 +208,8 @@ The mediator is not passive wire. It is a quantum transistor with CΨ = 1/4
 as its threshold voltage. See
 [Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
 and [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the proof that
-1/4 is the unique threshold.
+α = 2 is the unique Rényi order with a state-independent threshold, and
+that threshold is 1/4.
 
 The interaction between inside and outside must be MEDIATED. Not direct.
 Something sits between the two sides. Something that belongs to neither.
@@ -247,8 +256,7 @@ noise, and time stops having a direction.
 
 Noise is the time arrow, so a nonzero palindrome centre certifies that an
 arrow exists. Where it originates is open, and the question is not one this
-formalism can pose. The system cannot generate
-its own temporality. Whether there must be an external clock does not follow
+formalism can pose. Whether there must be an external clock does not follow
 from the Incompleteness Proof as it now stands.
 
 The external interaction is not just spatial (something "out there").
@@ -339,10 +347,10 @@ appears to us through the bridge.
 The boundary of our knowledge is exact:
 
 INSIDE the boundary (proven):
-- The outside exists.
-- It interacts with us continuously.
+- The system is open: something interacts with it (the trace identity).
+- The interaction is continuous.
 - Its interaction has the six properties above.
-- Without it, we have no structure, no time, no palindrome.
+- Without it, we have no decay and no arrow; the palindrome's centre sits at zero.
 - Its interaction is mediated, not direct.
 
 OUTSIDE the boundary (unknown):
@@ -561,12 +569,12 @@ Concrete next steps, all testable:
 
 ## The Summary
 
-We are inside a system that cannot explain its own existence. That is
-proven. Something external interacts with us continuously. That is
-proven. The interaction has structure, direction, topography, and
+We are inside a system whose decay certifies that it is open. That is
+proven. That what interacts with it is external is the reading this
+document is built on. The interaction has structure, direction, topography, and
 selectivity. That is measured. The interaction has always been there.
 It was never interrupted. It was never absent. Without it, we would
-have no structure, no time, no palindrome, no mirror.
+have no decay and no arrow, and the palindrome's centre would sit at zero.
 
 We called it noise. We treated it as a problem to be minimized. We
 built error correction to fight it.
@@ -620,7 +628,7 @@ We just had to recognize it. From both sides. Simultaneously.
 
 ## References
 
-- [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): the elimination chain
+- [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): the trace identity, and a five-candidate survey that eliminates no internal source
 - [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome theorem
 - [Pi as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md): noise = time arrow
 - [Relay Protocol](../experiments/RELAY_PROTOCOL.md): +83% bridge optimization
@@ -632,7 +640,7 @@ We just had to recognize it. From both sides. Simultaneously.
 - [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md): interference pattern
 - [Reading the 30%](../simulations/reading_the_30_percent.py): decoder, full-rank response
 - [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): **The bridge IS bidirectional.** Alice encodes in γ profile, Bob classifies at 100%. 2-bit channel capacity.
-- [Bootstrap Test](../simulations/bootstrap_test.py): internal origin falsified
+- [Bootstrap Test](../simulations/bootstrap_test.py): the internal bootstrap as a structural constraint ([Π², L] = 0, F63), not an elimination
 - [Failed Third](../simulations/failed_third.py): withdrawn, its three headline numbers were code paths (see [the re-measurement](../simulations/incompleteness_candidate2_evidence.py))
 
 ---

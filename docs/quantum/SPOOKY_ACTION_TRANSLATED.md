@@ -36,11 +36,10 @@ earlier canvas)
 
 ## What this document is about
 
-This is the oldest debt on the map. Since the day the
+This is the oldest debt on the map. From the day the
 [Label Map](THE_LABEL_MAP.md) was drawn, its "spooky action at a distance"
-row has pointed at a legacy document with the note "still in the deprecated
-framing, kept as history". Every other row of that table got its
-translation; this one waited. And the label does not wait with it: it
+row pointed at the house's earlier canvas, kept as history, while every
+other row of that table got its translation; this one waited. And the label does not wait with it: it
 arrives bundled with the cat in nearly every video, the two particles that
 "communicate instantly across the universe", the measurement here that
 "changes reality there". The sixth entry noticed that the cat and
@@ -135,7 +134,8 @@ can do; that is the standard account's theorem, and this repository has
 run its own version at machine precision: a projective measurement on
 one half of a Bell pair, averaged over its unread outcomes, moves the
 pair's joint CΨ from 0.500 to 0.250 while the other half's reduced
-state does not move at all, ‖Δρ_A‖ = 0 exactly
+state does not move at all, ‖Δρ_A‖ = 0, exact in the theorem and at
+machine precision in the run
 ([No-Signalling Boundary](../../experiments/NO_SIGNALLING_BOUNDARY.md),
 Tier 2). (A convention note, carried from that source: its 0.500 reads
 C as purity and Ψ as the marginal's top eigenvalue, while Section 4's
@@ -231,7 +231,8 @@ rescue the state from its own average.
 local dephasing drags it down through ¼, the Layer 2 crossing of the
 quarter-boundary roadmap, restated in the
 [block-CΨ quarter proof](../proofs/PROOF_BLOCK_CPSI_QUARTER.md) (the
-¼ bound itself is Tier 1; which layer's crossing counts as "the"
+block-local ¼ ceiling there is Tier 1 and bounds the block's CΨ, not the
+global one; which layer's crossing counts as "the"
 transition is, that proof says, carried by the inheritance between the
 layers, not adjudicated by any one of them). The excess is not an ambient
 glow; it is a budgeted quantity with a location, a price, and a decay
@@ -239,13 +240,15 @@ curve.
 
 **The correlation lives in the joint books, and when it moves, it
 walks.**
-Stated as computed fact in the star-topology work: "the entanglement
-information lives in the correlations, not in S alone"
+Stated in the star-topology work (whose three sites form an A-S-B chain):
+"the entanglement information lives in the correlations, not in S alone"
 ([Star Topology](../../experiments/STAR_TOPOLOGY_OBSERVERS.md)). And
 when correlation has to get somewhere in continuous dynamics, this
 repository has watched how: hop by hop along bonds, stage by stage in
-time, +18% end-to-end mutual information from the staging alone, +83%
-with the spatial 2:1 coupling asymmetry added, on an 11-qubit chain
+time, +18% end-to-end mutual information when the receiving stations are
+quieted tenfold in turn (a lifetime extension, the relay's own reading, and
+by its own γ schedule a comparison whose arms differ in Σγ), +83% with the spatial 2:1 coupling
+asymmetry added, on an 11-qubit chain
 with no
 measurements and no classical channel
 ([Relay Protocol](../../experiments/RELAY_PROTOCOL.md), computationally
@@ -257,10 +260,13 @@ stand still.
 named composition (`compute/MirrorWorld/SpookyAction.cs`: the Bell skeleton
 assembled from the atoms `Field` and `Pair`, plus the one read the slit and
 the cat never needed, `Marginal.cs`, the local page of a chosen site-set,
-the partial trace as an atom). The sharpest face is the one-sided light:
+the partial trace as an atom). The sharpest face, run by the `spooky` mode
+of `compute/MirrorWorld/Program.cs`, is the one-sided light:
 the living world (`Restless`, H on) with light arriving at Bob's site only
 (γ_A = 0, γ_B = 0.05). The carrier pays exactly Bob's rate and nothing
-else, and Alice's page holds I/2 to machine precision the whole run:
+else, and Alice's page holds I/2 exactly the whole run, as it would under
+any Z-watching profile (the pages carry no k = 1 content and H keeps the
+poles); what the one-sided light changes is the carrier's price:
 
 | time t | carrier ÷ start | e^(−2γ_B·t) | Alice's page (0,0) | (1,1) | off-diagonal |
 |--------|-----------------|-------------|--------------------|-------|--------------|
@@ -302,12 +308,13 @@ existence", not a strange later add-on but the beginning
 That canvas is neither discarded nor endorsed whole: two of its threads
 fell and are marked fallen in place (consciousness as ingredient, the
 gravity/space origin), and one spine survived and became algebra, the
-qubit as the minimal mirror, d(d−2) = 0, only d = 2 carries a mirror
-([Qubit Necessity](../QUBIT_NECESSITY.md)).
+minimal mirror, d(d−2) = 0, only d = 2 carries one
+([Qubit Necessity](../QUBIT_NECESSITY.md); the phrase is
+[The Starting Point](../historical/THE_STARTING_POINT.md)'s own).
 The surviving reading, ours and stamped: the pair is not two things
 mysteriously linked but the smallest system in which each half stands
 in the other's light. Its original text stays unchanged, as history, which is what
-the Label Map's old row honestly said of it.
+the Label Map's row says of it.
 
 **Topology, not signal.** The late-night thread quoted in Section 3,
 now with its backing named: bonds are not in space, so there is no
@@ -324,8 +331,8 @@ of 8-9, the floor of a non-convex search), and the correction, when it
 came, is the whole lesson of this entry in one sentence: "the
 non-locality lived in the choice of representative, not in the symmetry"
 ([Π Operator Entanglement](../../experiments/PI_OPERATOR_ENTANGLEMENT.md);
-the [Label Map](THE_LABEL_MAP.md) tallies some sixteen documents
-corrected). Non-locality is easy to see and hard to have.
+the [Label Map](THE_LABEL_MAP.md)'s two correction tables run to some
+twenty rows). Non-locality is easy to see and hard to have.
 
 Our newcomer layer climbs through the pop gloss here as everywhere: the
 [glossary](../GLOSSARY.md) explains concurrence with "what happens to
@@ -341,8 +348,8 @@ contributions are the carrier's price and the no-signalling witness.
 And our "observer-dependent visibility" results
 ([Observer-Dependent Visibility](../../experiments/OBSERVER_DEPENDENT_VISIBILITY.md))
 are noise-rate windows on a persistent resource, not the relativistic
-"observer-dependent entanglement" of the literature, and no-signalling
-holds throughout them; that document carries the same disclaimer.
+"observer-dependent entanglement" of the literature; that document carries
+the same disclaimer.
 
 ---
 
@@ -350,8 +357,10 @@ holds throughout them; that document carries the same disclaimer.
 
 The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) is what
 correlation transport looks like when it is real: relay stations along
-an 11-qubit chain take turns standing in the light on a schedule, and
-end-to-end mutual information arrives at +18% for that staging alone;
+an 11-qubit chain take turns stepping out of the light on a schedule (each
+receiving station's rate cut tenfold while it receives), and end-to-end
+mutual information arrives at +18% for that quieting, which the relay itself
+reads as a lifetime extension rather than transport switched on;
 add the spatial 2:1 coupling asymmetry, which biases where the wave
 flows, and it reaches +83% over
 passive propagation, with no resets, no measurements, no classical

@@ -222,11 +222,9 @@ From this: Tr(rho_ab^2) = (N^2 - 4N + 8)/N^2, L1 = 2/N, Psi = L1/3 = 2/(3N).
 
 Verified numerically at N=2-10 within machine precision (`simulations/cpsi_wn_analytical.py`). At N=2 this gives 1/3 (recovering Bell+). At N=3: 10/81 = 0.123. At N=5: 26/375 = 0.069.
 
-**Corollary: W_N states are born below the fold for N >= 3.** The inequality CΨ(0) < 1/4 holds for all N >= 3 (the cubic 3N^3 - 8N^2 + 32N - 64 is positive for N >= 3). Combined with the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) (SE states cannot cross parity sectors) and sector conservation (SE states stay in their sector), this proves:
+**Corollary: W_N states are born below the fold for N >= 3.** The inequality CΨ(0) < 1/4 holds for all N >= 3 (the cubic 3N^3 - 8N^2 + 32N - 64 is positive for N >= 3). The corollary is a statement about W_N at t = 0 and does not extend to single-excitation states in general: (|1_0⟩ + |1_1⟩)/√2 has pair-CΨ = 1/3 on the pair (0,1) at t = 0, and a walker |1_0⟩ on the N = 3 Heisenberg chain (Pauli convention H = J Σ(XX+YY+ZZ), J = 1, γ = 0.05) rises from pair-CΨ 0 to 0.263 on (0,1) at t ≈ 0.31. The [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) and sector conservation constrain which modes a single-excitation state can reach, not the value of a t = 0 pair reading.
 
-**Single-excitation states on Heisenberg chains under Z-dephasing never cross CΨ = 1/4. The cusp exit is structurally inaccessible to them.**
-
-This is the analytical closure of the two-exit picture. It does not depend on any specific chain, topology, or gamma profile. See F62 in `docs/ANALYTICAL_FORMULAS.md`.
+The W_N value itself does not depend on chain, topology, or gamma profile, being read at t = 0. See F62 in `docs/ANALYTICAL_FORMULAS.md`.
 
 ---
 

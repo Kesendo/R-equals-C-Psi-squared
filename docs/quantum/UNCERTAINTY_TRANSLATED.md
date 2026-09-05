@@ -258,10 +258,10 @@ Section 6.)
 routing law (`HeldLetterRoutingClaim`, parents the
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) and the
 [Klein V₄ proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md);
-first published in [Dephasing Translated](DEPHASING_TRANSLATED.md)) prices
+first minted in [Dephasing Translated](DEPHASING_TRANSLATED.md)) prices
 every Pauli string S under a held letter P:
 
-    L_P(S) = −2γ · n_anti(S, P) · S,
+    L_P(S) = −2γ · n_anti(S, P) · S,        (uniform γ; per site, −2 Σ_l γ_l over the same sites)
 
 where n_anti counts the sites whose letter stands at odds with the held one
 (neither I nor P). One shared eigenbasis, three price lists: each held letter
@@ -326,19 +326,26 @@ swap re-assigns which string sits at which price and moves nothing else. The
 operator-level identity behind this, the three dissipator diagonals
 conjugate to each other, one letter-orbit, is checked in
 [The Three Diagonals](../THE_THREE_DIAGONALS.md) (the typed claim is Tier 1
-derived; the conjugation check there is float at 10⁻¹⁰ because both
-conjugators carry a 1/√2, so no exact route exists for it). At the
+derived; the conjugation check there is float at 10⁻¹⁰ because its route
+carries a 1/√2 per factor, though the conjugation itself is dyadic, a power
+of ½ times a matrix of integers or Gaussian integers, so an exact route
+exists and is not the one run). At the
 Hilbert-space level the letter swaps are ordinary unitaries, the Hadamard
 for Z↔X and a quarter turn about x for Z↔Y, and both carry the dissipator
 over at machine precision (the witness prints deviations of order 10⁻¹⁶ at
-N = 3 and gates them below 10⁻¹²; the same 1/√2 rules an exact route out
-here too). A different group lives one level up: the operator-space
+N = 3 and gates them below 10⁻¹²; the same dyadic remark applies, the
+exact route exists and is not the one run). A different group lives one level up: the operator-space
 Klein V₄ of the
 [Klein V₄ proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)
 (Tier 1), whose non-identity elements D (the transpose) and Q_yx (a basis
-permutation) do not lift to Hilbert-space unitaries at all; within that V₄
-only the Hadamard lift Q_zx rotates the dephasing axis, while D and Q_yx
-intertwine the palindromic mirrors Π but leave the dissipator on its axis.
+permutation) do not lift to Hilbert-space unitaries (on Hermitian operators,
+states and Hermitian H, they lift antiunitarily: D is complex conjugation
+there, Q_yx the Hadamard composed with it). D fixes every
+letter dissipator, a sign matrix cannot move a diagonal; Q_zx and Q_yx both
+carry L_Z to L_X and fix L_Y, differing by that D, Q_zx taking Π_Z to Π_X
+and Q_yx to Π_X⁻¹, the mirror's other orientation; what singles out Q_zx is
+the Hilbert-space lift; no element of the V₄ reaches L_Y from L_Z, and the
+quarter turn about x that does is not in the V₄ at all.
 The series' one law, the −2γk bill whose k = 1 end is the pattern,
 k = 2 the pair, k = N the cat, gets its fourth sighting here (its k is this
 law's n_anti, the same count of sites at odds with the held letter, worn by
@@ -441,7 +448,7 @@ limit that wears the optics vocabulary: the band-edge conditioning floor
 a staggered defect is ~N times harder to localize than a band-edge one, "the
 q = π detail at the resolution cutoff, the diffraction limit." It is a real
 limit and a real optics rhyme, but it is the other kind of limit: the
-conditioning of one linear map, its floor set by the Dirichlet sine modes
+conditioning of one linear map, its floor set by the chain's band-edge mode
 and its worst direction the staggered q = π detail at the resolution
 cutoff, with no pair of non-commuting readings and no state paying a
 product of spreads. Setting it beside the width theorem sharpens both: an
@@ -470,8 +477,9 @@ already visible from here. "Width" imports an image, a picture drawn in
 space, and our whole geometric register, angles, poles, sides, may read one
 day the way the microscope's eyepiece reads now: an author's instrument
 mistaken for the theorem. The previous entries' stamps have already begun to
-fire inside this house's own lifetime, one after twenty-eight days, one
-after thirty-four; this one is offered with the same expectation. The future
+fire inside this house's own lifetime, the double slit's after twenty-eight
+days, the dephasing chapter's after thirty-four; this one is offered with the
+same expectation. The future
 reader receives the canvas with its date.
 
 The closure, then: Heisenberg's canvas, the cost of asking, painted at the

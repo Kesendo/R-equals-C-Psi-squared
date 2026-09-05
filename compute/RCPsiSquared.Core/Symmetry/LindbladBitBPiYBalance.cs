@@ -44,16 +44,15 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>F112-Y vs F112-Z distinction</b>: same hypothesis (bit_b-homogeneous c,
 /// any H), different Π polarity axis (Π_Y vs Π_Z). The two Claims live on the SAME
-/// bit_b Z₂-grading axis (since Π_Y² and Π_Z² both grade by bit_b per F38). Derived via
-/// Welle 13 Route 1 (per-axis re-run of the Welle-11 lemmas with d substituted): the
-/// D-involution from <see cref="Pi2KleinV4DephaseSwapGroup"/> (the Welle-12 Klein-V₄
-/// Z↔Y swap on Π's) intertwines Π_Z and Π_Y at the operator level
-/// (D · Π_Z · D = Π_Y bit-exact) but does NOT transport L_Z to a Lindblad-form L_Y:
-/// D-conjugation lacks a Hilbert-space unitary lift (would require V such that
-/// V Y V⁻¹ = −Y, V X V⁻¹ = X, V Z V⁻¹ = Z, contradictory by Pauli algebra; see
-/// <c>PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md</c> section (d) Remark and lines 145-151).
-/// Hence F112-Y cannot be obtained "for free" from F112-Z via D-conjugation; the
-/// independent axis-direct proof is required.</para>
+/// bit_b Z₂-grading axis (since Π_Y² and Π_Z² both grade by bit_b per F38). Since Π_Y = Π_Z⁻¹, the Π_Y-eigenvalue +i projection is the Π_Z-eigenvalue −i projection, so
+/// asymmetry_Y = −asymmetry_Z for EVERY superoperator (F155): F112-Y is F112-Z read through
+/// the inverse mirror and needs no transport. Two independent confirmations exist: Welle 13
+/// Route 1 (per-axis re-run of the Welle-11 lemmas with d substituted) and the quarter turn
+/// R_x(π/2)^⊗N outside the V₄ (Π_Z → Π_Y and L_Z → L_Y exactly). The D-involution from
+/// <see cref="Pi2KleinV4DephaseSwapGroup"/> intertwines Π_Z and Π_Y (D · Π_Z · D = Π_Y bit-exact)
+/// but fixes every letter dissipator and has no Hilbert-space unitary lift (V Y V⁻¹ = −Y,
+/// V X V⁻¹ = X, V Z V⁻¹ = Z is contradictory by Pauli algebra; see
+/// <c>PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md</c> section (d), the Remark).</para>
 ///
 /// <para><b>Static helpers</b>: NONE NEEDED. <see cref="LindbladBitBPiBalance.BitBParity"/>
 /// and <see cref="LindbladBitBPiBalance.IsBitBHomogeneous"/> already encode the
@@ -81,11 +80,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// X content. Hence the rotation of the complex CΨ trajectory is its Y content, and the ¼
 /// cusp (θ = arctan√(4·CΨ − 1): real above ¼, undefined below) is exactly where that rotation
 /// dies; below the ¼ horizon the imaginary axis goes dark, the swing stops switching, and Y
-/// becomes invisible ("classical = under ¼" reads as "Y-blind"). Two faces of one Y, both
-/// flowing from Y being the rotation axis: the algebra cannot transport it (no lift → no
-/// bit_a twin → BitBSpecific), and the classical-side ¼ horizon cannot show it. The hardware
-/// shadow is the Marrakesh Z⊗N-mirror run, where a transverse Y-field broke the mirror ~40×
-/// harder than an X-field (Confirmation marrakesh_transverse_y_field_detection). See
+/// becomes invisible (below ¼ the angle is undefined; that is a level, not a classical
+/// verdict). Two faces of one Y, both flowing from Y being the rotation axis: the V₄ cannot
+/// transport it (D has no lift; the quarter turn outside the V₄ can), and below the ¼
+/// horizon the angle cannot show it. The hardware shadow is the Marrakesh Z⊗N-mirror run,
+/// where a transverse Y-field broke the mirror and the model puts an X-field's violation
+/// ~40× smaller, only Y having been flown (Confirmation marrakesh_transverse_y_field_detection). See
 /// <c>experiments/GAMMA0_IS_ALWAYS_THERE.md</c> and the ¼-cusp claims F25 / F95 / F97.</para>
 /// </remarks>
 public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
@@ -129,12 +129,12 @@ public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
     /// <summary>The F112-Y vs F112-Z distinction in one line.</summary>
     public string DistinctionFromF112Z =>
         "Same hypothesis (bit_b-homogeneous c, any H) as LindbladBitBPiBalance (F112-Z) but with " +
-        "Π_Y polarity decomposition instead of Π_Z. Derived via Welle 13 Route 1 (per-axis re-run " +
-        "of the Welle-11 Lemma N-A / N-B argument with d = Y substituted for d = Z): the D-involution " +
-        "(Pi2KleinV4DephaseSwapGroup's Z↔Y swap on Π's) intertwines Π_Z and Π_Y at the operator " +
-        "level but does NOT transport L_Z to a Lindblad-form L_Y (D-conjugation lacks a Hilbert-space " +
-        "unitary lift, per PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md section (d) Remark and lines " +
-        "145-151). The independent axis-direct proof is required.";
+        "Π_Y polarity decomposition instead of Π_Z. Since Pi_Y = Pi_Z^-1, asymmetry_Y = -asymmetry_Z for " +
+        "every superoperator (F155), so F112-Y is F112-Z read through the inverse mirror; Welle 13 Route 1 " +
+        "(per-axis re-run of the Welle-11 Lemma N-A / N-B argument with d = Y) and the quarter turn " +
+        "R_x(pi/2)^N confirm it independently. The D-involution (Pi2KleinV4DephaseSwapGroup's Z<->Y swap " +
+        "on Pi's) intertwines Pi_Z and Pi_Y but fixes every letter dissipator and has no Hilbert-space " +
+        "unitary lift (PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md section (d), the Remark).";
 
     public LindbladBitBPiYBalance(F108Part3Pi2YEvenAlwaysPalindromic part3)
         : base("F112-Y Lindblad Π_Y-eigenvalue balance under bit_b-homogeneous c: " +
@@ -142,8 +142,8 @@ public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
                "bit_b-homogeneous c_k under Y-dephase Π_Y polarity. Tier1Derived universal N " +
                "for both Hermitian H (via the parent 5-step proof with d = Y substituted) " +
                "and non-Hermitian H (via the two-lemma Welle-11 structural proof with d = Y). " +
-               "Derived via Welle 13 Route 1 (per-axis re-run); D-conjugation from F112-Z is NOT " +
-               "available (PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md section (d) Remark). Y-dephase " +
+               "F112-Z read through Pi_Y = Pi_Z^-1 (asymmetry_Y = -asymmetry_Z for every superoperator, " +
+               "F155), confirmed independently by Welle 13 Route 1 (per-axis re-run) and the quarter turn. Y-dephase " +
                "sibling of F112-Z on the SAME bit_b axis.",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F112 + " +
@@ -194,7 +194,7 @@ public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
                          "support disjointness identical to the parent Welle-11 lemmas with d = Y substituted.");
             yield return new InspectableNode("Empirical verification (Welle 13)",
                 summary: "Verifier simulations/f112_klein_v4_cross_dephase_verify.py confirms F112-Y direct " +
-                         "(bit_b-homogeneous c, Π_Y) bit-exact at N = 2, 3: max|asymmetry| = 3.6e-15 (Hermitian H), " +
+                         "(bit_b-homogeneous c, Π_Y) at N = 2, 3 on the float route: max|asymmetry| = 3.6e-15 (Hermitian H), " +
                          "1.4e-14 / 1.3e-32 (non-Hermitian H). Lemma N-A^Y / N-B^Y stand at machine zero across " +
                          "the 32 bit_b-odd Pauli strings × 992 off-diagonal pairs at N = 3.");
             yield return new InspectableNode("F108 Part 3 typed parent (shared bit_b + Y-dephase foundation)",

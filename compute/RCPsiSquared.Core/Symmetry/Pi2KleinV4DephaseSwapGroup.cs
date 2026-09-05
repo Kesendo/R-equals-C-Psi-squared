@@ -77,19 +77,25 @@ namespace RCPsiSquared.Core.Symmetry;
 /// a Lindblad-form-preserving similarity. The D and Q_yx (= H) involutions
 /// are operator-space-only: they do NOT lift to Hilbert-space unitaries
 /// (D-conjugation would require V such that V·Y·V⁻¹ = −Y, V·X·V⁻¹ = X,
-/// V·Z·V⁻¹ = Z, which is impossible by Pauli algebra). So D and H
-/// intertwine the Π_d operators but do NOT transport L between dephase
-/// representations. F112-Y cannot be obtained "for free" from F112-Z via
-/// D-conjugation; it requires Route 1 (direct bit_b axis re-run with d = Y
-/// phase).</para>
+/// V·Z·V⁻¹ = Z, which is impossible by Pauli algebra). So D fixes every
+/// letter dissipator and transports nothing between letters, while H = Q_zx·D
+/// carries L_Z to L_X as Q_zx does (landing the mirror on Π_X⁻¹); no element
+/// carries L_Z to L_Y. D does not rotate the dephasing letter, so it carries no
+/// Z-dephasing channel to a Y-dephasing one; it does carry the F112-Z identity to
+/// F112-Y, since F112's hypothesis class is D-invariant (H ↦ −Hᵀ, c ↦ c̄) and
+/// D·Π_Z·D = Π_Y = Π_Z⁻¹, the same fact as asymmetry_Y = −asymmetry_Z (F155). The
+/// quarter turn R_x(π/2)^⊗N outside the V₄ and Route 1 confirm it independently.</para>
 ///
 /// <para>Bottom line: Klein-V₄ equivariance is genuine for Route 1
-/// (universal across all three letters) and partial for Route 2 (only the
-/// Hadamard {I, Q_zx} subgroup transports L). F1-family identities
+/// (universal across all three letters) and partial for Route 2 within the V₄
+/// (both Q's transport L between Z and X, D transports none; the Y case needs no
+/// transport, Π_Y = Π_Z⁻¹ giving asymmetry_Y = −asymmetry_Z for every
+/// superoperator, F155). F1-family identities
 /// depending only on Π_d / Π_d² eigenvalue structure and Pauli-support
 /// disjointness transfer freely between all three dephase letters;
-/// identities depending on the Lindblad-form L itself transfer only
-/// between (Z, X) via Q_zx.</para>
+/// identities depending on the Lindblad-form L itself transfer within the
+/// V₄ between (Z, X) only, via either Q; the Clifford quarter turns outside
+/// the V₄ reach (Z, Y) and (Y, X).</para>
 ///
 /// <para>Tier1Derived universal N per the two PROOF docs. No <see cref="IZ2AxisClaim"/>
 /// implementation: Klein-V₄ does not sit on a single Z₂ axis cleanly. It is the
@@ -230,23 +236,27 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                          "eigenvalue structure + Pauli-support disjointness transfer universally " +
                          "(all three d), substituting axis_d (bit_b for Z/Y, bit_a for X). The " +
                          "F112 Welle 13 closure (PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) is the " +
-                         "first formalization. Route 2 (Hadamard transport via Q_zx): identities " +
-                         "depending on L itself transfer only between (Z, X) via Q_zx, which is " +
-                         "the operator-space lift of U_H^⊗N. D and Q_yx (= H) are operator-space-" +
-                         "only and do NOT transport L between dephase representations: D is the " +
+                         "first formalization. Route 2 (conjugation transport): identities " +
+                         "depending on L itself transfer within the V4 between (Z, X) only, via Q_zx (the " +
+                         "operator-space lift of U_H^⊗N) or via Q_yx; the Y case needs no transport, Pi_Y = Pi_Z^-1 " +
+                         "giving asymmetry_Y = -asymmetry_Z for every superoperator (F155). D and Q_yx (= H) are operator-space-" +
+                         "only. D does NOT transport L between dephase representations: it is the " +
                          "transpose ρ ↦ ρ^T, so D·L_Z·D⁻¹ stays a valid Z-dephasing Lindbladian " +
-                         "(= L_Z with H → −H^T) — it keeps Lindblad form but does not rotate the " +
-                         "dephasing axis (no Hilbert-space lift for D). F108 Welle 14 closure " +
+                         "(= L_Z with H → −H^T), keeping Lindblad form without rotating the " +
+                         "dephasing axis; Q_yx = Q_zx·D does rotate it, L_Z to L_X, landing the " +
+                         "mirror on Π_X⁻¹, and no element reaches L_Y. F108 Welle 14 closure " +
                          "(PROOF_F108_KLEIN_V4_EQUIVALENCE.md): F108 Part 3 follows from Part 1 via " +
                          "OPERATOR-SPACE D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact; bilinear " +
                          "set fixed); F108 Part 2 follows from Part 1 via HILBERT-SPACE Hadamard " +
                          "transport (U_op = U_H^⊗N ⊗ (U_H^⊗N)^*; bilinear-set bijection). " +
                          "PERMUTED operator-space Klein-V₄ for Π_5b: the canonical-Π pairings fail " +
-                         "(Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X), H · Π_5b(Y) · H ≠ ±Π_5b(X), residual 2.0 " +
+                         "(Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X), H · Π_5b(Y) · H ≠ ±Π_5b(X), largest entry difference 2.0 " +
                          "at N=1,2,3), but H serves the Z↔X pairing instead: H · Π_5b(Z) · H = Π_5b(X) " +
-                         "bit-exact (closed 2026-05-29). So {I, D, H} acts on Π_5b at the operator level " +
-                         "(D: Z↔Y, H: Z↔X); only Q_zx (= H·D) leaves the canonical set. F112-Y cannot be " +
-                         "obtained 'for free' from F112-Z via D-conjugation; the correct path is Route 1.");
+                         "bit-exact (closed 2026-05-29). So D realizes Z↔Y and H realizes Z↔X on Π_5b at the " +
+                         "operator level, and the two do not compose inside the canonical set: Q_zx (= H·D) leaves it. " +
+                         "D does not rotate the dephasing letter (no Z-channel becomes a Y-channel) yet carries the " +
+                         "F112-Z identity to F112-Y, the same fact as Pi_Y = Pi_Z^-1 (F155); the quarter turn R_x(pi/2)^N " +
+                         "and Route 1 confirm it independently.");
             yield return new InspectableNode("No IZ2AxisClaim implementation",
                 summary: "Klein-V₄ does not sit on a single Z₂ axis cleanly. It is the cross-axis " +
                          "primitive that intertwines the bit_a and bit_b axes of the Klein V₄ on " +

@@ -38,7 +38,7 @@ this entry's held letter leaves of the rotation),
 
 ## What this document is about
 
-The first three entries in this series were born from labels heard in passing:
+The first two entries in this series were born from labels heard in passing:
 a video promised teleportation, a gloss promised two states at once. This entry
 is different. "Noise" is not a label we stumbled over; it is the label this
 repository was born against. The founding observation of the whole project is
@@ -73,7 +73,8 @@ between two basis states, the bill is itemized site by site:
 Populations (k = 0) pay nothing to the channel; under the dephasing alone the
 diagonal is immortal (once the Heisenberg chain's H is on it rotates {I, Z}
 strings into the light, and only I^⊗N and Z^⊗N stay frozen outright, the
-rest of the (N+1)-dimensional kernel being superpositions). And the
+rest of the kernel, N+1 dimensions when the light falls on every site, being
+superpositions). And the
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) (Tier 1, verified
 over 1,342 modes, the ratio equal to 1 to 14 decimal places with zero
 coefficient of variation) sharpens this into the statement
@@ -85,8 +86,10 @@ where ⟨n_XY⟩ is how much of the mode's structure stands at odds with the
 letter the dephasing holds (uniform γ; with per-site rates the theorem's
 second form weights each site's share, Re(λ) = −2 Σ_l γ_l · light_l). The
 Hamiltonian, the part of the physics we design, the "signal",
-contributes exactly zero to the real part. Every lifetime in the system is
-set by the dephasing alone. And the total, Σγ, is not bookkeeping: it is the
+contributes exactly zero to the real part. Every lifetime is the dephasing's
+price on a shape the Hamiltonian chooses, so the coupling still moves
+lifetimes, through the modes and never through the rate. And the total, Σγ,
+is not bookkeeping: it is the
 exact center of the spectral mirror, Π·L·Π⁻¹ = −L − 2Σγ (the operator
 identity measured to N = 5, where Π can still be built explicitly; the
 pairing it forces verified over 87,376 eigenvalues with zero exceptions).
@@ -197,23 +200,28 @@ same object, rewritten relative to another letter, is untouched. "Noise" is
 the name that separation gets when it is filed from the stance of the letter
 that pays for it.
 As of this entry the identification is typed into the Claim graph
-(as `HeldLetterRoutingClaim`, named `WatchedLetterRoutingClaim` until
-2026-08-09; Tier 1 derived, parents Absorption + Klein V₄)
+(as `HeldLetterRoutingClaim`; Tier 1 derived, parents Absorption + Klein V₄;
+its earlier name is on the [Label Map](THE_LABEL_MAP.md))
 and recomputed live at `inspect --root label`: all 3·4^N (letter, string)
 pairs dense against the closed form, the repriced-count control, and the
 fact that only the identity rides free under every held letter.
 
-**The light does not come from inside.** The repository's
-incompleteness argument ([The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md),
-typed as the noise-origin exclusion, live at `inspect --root noise-origin`)
-eliminates every internal candidate: the dephasing cannot originate within
-the d(d−2) = 0 ontology, so the channel is an interaction with something
-outside it. "The noise IS the interaction." What the interaction is, the
-exclusion does not establish; what was ever positively read of it are
-measured properties of a source: directional, with topography, effectively
-infinite, not chaotic, read off the measured γ. A century of
-reading it as
-random disturbance is the label's silence, not the channel's.
+**The light certifies an open system.** The centre of the palindrome is the
+trace of the generator, −Σγ = trace(L)/4^N, and a completely positive
+generator has zero trace exactly when its dissipator vanishes, so a
+palindrome centred away from zero is a certificate that the system is open
+([The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md), typed as
+`NoiseOriginExclusionClaim`, live at `inspect --root noise-origin`). That is
+the exact part, and it stops there: the argument does not say where the
+light comes from. No internal candidate is eliminated, and the formalism
+cannot pose the question, because an internal source can only be written
+into it as a dissipator, which is already a coupling to an environment.
+"The noise IS the interaction" and "from outside" are the readings of
+Section 5. What is positively known of the channel is the model of γ that
+hardware fits, directional, per site and phase-only, and one theorem, the
+exact symmetry; memorylessness is the Lindblad premise, not a measurement.
+A century of reading it as random disturbance is the label's silence, not
+the channel's.
 
 **The walk in the light is the wave, caught and released.** The
 single-excitation
@@ -229,9 +237,11 @@ recomputed live at `inspect --root renewal`; the walk-time step it grew from
 runs in MirrorWorld as `walk N`.
 
 **The hardware anchor.** On real devices the sending is measured, not
-postulated: γ = 1/(2·T₂), the repo's calibration chain, with the honest note
-that the code convention γ₀ = 0.05 is a convenient round number playing the
-same role as the hardware's ~5·10³ Hz (T₂* ~ 100 µs). From inside, only the
+postulated: γ = 1/(2·T₂), the repo's calibration chain (the γ rows of the
+[glossary](../GLOSSARY.md)), with the honest note that the code convention
+γ₀ = 0.05 is a convenient round number playing the same role as the
+hardware's ~5·10³ Hz (T₂* ~ 100 µs; [Q regime anchors](../Q_REGIME_ANCHORS.md)).
+From inside, only the
 ratio Q = J/γ₀
 is readable; the absolute strength of the light cancels out of every
 observable, the way an absolute tempo would.
@@ -272,8 +282,9 @@ reading; the −2γk underneath it is not.
 ## 6. An honest note on our own house
 
 Our own docs climb through the pop label too. The
-[glossary](../GLOSSARY.md) glosses γ as a decoherence rate where "higher γ =
-faster loss"; the founding docs open with "Physicists call this 'noise' and
+[glossary](../GLOSSARY.md) glosses γ as a decoherence rate, "higher γ means
+faster loss of coherence", and files the reading of γ itself as light under
+Tier 4 in the same row; the founding docs open with "Physicists call this 'noise' and
 spend enormous effort trying to suppress it." Those are ladders, kept on
 purpose, and this entry is where the ladder is kicked away, not a reason to
 gentrify the rungs.
@@ -284,8 +295,9 @@ proven under. Real hardware also has amplitude damping (T₁, the σ± channels)
 and that is a genuinely different object: it moves populations, breaks the
 Π² symmetry, and the repository's own diagnostics
 ([F84](../proofs/PROOF_F84_AMPLITUDE_DAMPING.md)) separate the two on
-hardware in one number (zero only at detailed balance, where cooling
-equals heating). "Noise" as a pop label bundles both; the translation
+hardware in one number, zero only at detailed balance where cooling equals
+heating, within the local σ± and Pauli-letter family the identification is
+proven for. "Noise" as a pop label bundles both; the translation
 here unbundles them and speaks only for the dephasing half.
 
 ---
@@ -297,9 +309,9 @@ in time. The [concentrator](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md)
 (formerly "sacrifice zone") shapes WHERE the light falls: concentrate it on
 one edge site and the peak created nearest-neighbour MI (edge pair
 included) beats a smoothly graded
-profile by 360× at N = 5, 139× at N = 9, in simulation (a transport number;
-the lifetime reading the arc once attached to it was never computed and is
-retracted), while on ibm_torino the companion measurement beat uniform
+profile by 360× at N = 5, 139× at N = 9, in simulation (a peak created
+nearest-neighbour Sum-MI ratio, a transport number, not a lifetime), while
+on ibm_torino the companion measurement beat uniform
 decoupling by up to 3.2×, its mechanism attribution still open. The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
 shapes WHEN: relay stations take turns standing in the light, each stage
 clocked at t = K/γ, for +18% end-to-end mutual information alone, +83% once

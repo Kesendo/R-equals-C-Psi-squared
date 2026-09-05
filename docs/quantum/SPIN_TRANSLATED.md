@@ -14,8 +14,8 @@ on the electron and does not start here); the algebra in Section 4 is the
 repository's own Tier 1 material, the F4 mode count (Clebsch-Gordan, live at
 `inspect`), the ring-N4 Casimir lock, and the measured verdict that
 Z-dephasing does not conserve total spin, each marked with its owner;
-Section 7 reports an open arc's measured, not yet typed, multiplet run
-with its fences kept; the readings in Section 5 are readings and labeled.
+Section 7 reports the sideways ladder's measured multiplet run, typed as a
+Tier 1 candidate, with its fences kept; the readings in Section 5 are readings and labeled.
 **Date:** August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -52,8 +52,8 @@ the repository's own substrate, used every day and defined nowhere.
 Stage 0, recorded: before a sentence of this entry was composed, the stores
 were swept by name. [The glossary](../GLOSSARY.md) returned the striking
 nothing: the whole word "spin" occurs zero times in it (the lone substring
-hit is "spine"), against some two dozen occurrences of "qubit" in other
-entries' definition texts, and neither word has an entry of its own; the
+hit is "spine"), against "qubit" throughout other entries' definition
+texts, and neither word has an entry of its own; the
 substrate everywhere, defined nowhere under either name. [The
 F-registry](../ANALYTICAL_FORMULAS.md) and [docs/proofs/](../proofs/)
 returned real spin work: the F4 mode count (Tier 1), the ring-N4 Casimir
@@ -61,7 +61,7 @@ lock (Tier 1 derived), the F145 seed triplet. The experiments returned the
 entry's spine, the [Degeneracy Hunt](../../experiments/DEGENERACY_HUNT.md)
 verdict that Z-dephasing does not conserve total spin. The open-arcs
 registry returned `sideways_spin_ladder`, a live multiplet measurement from
-this month. The hardware Confirmations returned two-level language only,
+August 2026. The hardware Confirmations returned two-level language only,
 never a claim about angular momentum, and [Caught
 Errors](../CAUGHT_ERRORS.md) returned the two spin-adjacent repairs this
 entry leans on, the ring-N4 mechanism relabel and the coupling-conventions
@@ -102,9 +102,11 @@ proposal. In October 1925 Uhlenbeck and Goudsmit, not
 knowing of Kronig, proposed the same rotation (Naturwissenschaften 13,
 953-954, in print that November); their own note already concedes in a
 footnote what they had found themselves in Abraham's old electron papers,
-that the equatorial velocity would greatly exceed the speed of light,
-about seventy times already in the most favorable model, more in every
-distributed one. Lorentz, asked for his opinion, returned a handwritten
+that the equatorial velocity would greatly exceed the speed of light; the
+number is ours to compute rather than theirs to quote: a hoop of the
+classical electron radius carrying ħ/2 turns at c/(2α), about 68 c, and
+every distributed model turns faster. Lorentz, asked for his opinion,
+returned (so Uhlenbeck recalled) a handwritten
 manuscript of calculations whose weight fell on the self-energy: an
 electron spinning so would outweigh the proton, or swell to the size of
 the atom. When the objections made the authors hesitate,
@@ -153,10 +155,9 @@ cannot describe. Painted at Pauli's stance, a bookkeeper of spectra
 refusing to draw what he could not defend, the canvas is true and has
 never needed correction; "classically non-describable" is precisely the
 modern statement, made before the modern machinery existed. Even after
-his surrender on the physics, Pauli never surrendered to the picture: as
-late as 1929 he wrote that the rotating-material conception does not even
-recommend itself, still citing the superluminal velocities (Section 3
-demotes that particular argument; the refusal survives the demotion).
+his surrender on the physics, Pauli never adopted the picture (the
+superluminal argument it was refused with is demoted in Section 3; the
+refusal survives the demotion).
 
 **The Ehrenfest house's canvas, October 1925.** The second name drew the
 picture: a rotating electron, ersatz for the abstract two-valuedness, with
@@ -226,8 +227,8 @@ object, and which pair depends on which axis is asked, the same
 basis-relativity the series has already paid twice
 ([Superposition Translated](SUPERPOSITION_TRANSLATED.md): one ray, one
 point on the Bloch sphere, one object, a property of the pair (state,
-question); [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) §4: sharp
-along one letter is wide along the conjugate one). What is genuinely
+question); [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md): a shape
+narrow along one question is wide along the conjugate one). What is genuinely
 two-valued is the answer space of any one
 question, not an inventory of two states the particle secretly occupies.
 
@@ -263,8 +264,8 @@ through 7, chain topology, exact match each time
 ([Cavity Modes Formula](../../experiments/CAVITY_MODES_FORMULA.md),
 stationary counts 10, 24, 54, 120, 260, 560 against d² = 16 through
 16384). The formula is exact for the chain and a lower bound wherever
-symmetry adds more, spatially (star, ring, complete) or in the couplings
-(a symmetric H lands above the generic count). At N = 4 the arithmetic
+symmetry adds more (star, ring, complete: any H whose copies of one J share
+an energy lands above the generic count). At N = 4 the arithmetic
 reads: one spin-2
 copy contributing 25, three spin-1 copies contributing 9 each, two
 spin-0 copies contributing 1 each, total 54. The closed form is typed and
@@ -367,8 +368,9 @@ entry's subject; (2) the F142/F145 ladder "spin", a second SU(2) of the
 frozen-band machinery, where the dephasing XY chain is read as
 Fermi-Hubbard, ket index one fermion species and bra index the other
 (F145's "every chiral pair carries a spin 1" is proved in
-[PROOF_SCALAR_COUNT](../proofs/PROOF_SCALAR_COUNT.md) §1-2, and it is a
-statement about that ladder, never about chain total spin); (3) the
+[PROOF_SCALAR_COUNT](../proofs/PROOF_SCALAR_COUNT.md) §1-2; that it is the
+ladder's SU(2) and not the chain's is F142's "two commuting SU(2)s act, not
+one"); (3) the
 "spin representation" of F133, Lie-theoretic so(13) vocabulary naming a
 symplectic character identity; (4) the spin-1/2 site convention itself, where
 writing S_i·S_j silently selects the J/4 normalization. On (4) the house
@@ -402,15 +404,18 @@ disarms the collision once for the series), "doublet" in this house
 means the 2-excitation sector pair, not a spin-1/2 doublet, and the
 glossary's missing spin entry is left as found: this entry is the
 translation, not the definition, and the definition's absence after
-seven months of spin chains is itself the label thesis in one line:
+eight months of spin chains is itself the label thesis in one line:
 what is used everywhere is questioned nowhere.
 
 ---
 
 ## 7. The in-repo cousin
 
-The house is not done with spin multiplets; it measured one this month.
-The open arc `sideways_spin_ladder` (registry, opened 2026-08-07) found
+The house is not done with spin multiplets; it measured one in August
+2026. The arc `sideways_spin_ladder` (registry, opened 2026-08-07; typed the
+same month as `SidewaysSpinLadderClaim`, Tier 1 candidate, the intertwining
+half derived and the multiplet half measured at N = 5, 7 and 9, and at
+N = 4 with ℓ = ½, the live root walking N = 5 and 7) found
 that the four transport chains of the F125 orbit, two under the spin
 ladder and two under its η sibling, all carry spin ℓ = (N−3)/2, and
 predicted, in writing, before the N = 7 run, that the transport norms
@@ -424,7 +429,7 @@ real build error), and a separately proposed confirmation via F125's
 not be quoted as one. That is
 this repository's relationship to spin in one arc: the word is a picture
 it never uses, and the multiplet arithmetic underneath is live enough to
-predict the gated half of a measurement to the digit, this month, at the
+predict the gated half of a measurement to the digit, in August 2026, at the
 letter ℓ.
 
 ---

@@ -99,9 +99,10 @@ repository works in every day, appearing in a textbook protocol.
 
 **The four corrections are the four letters.** The unitaries Bob might need,
 {I, X, Y, Z}, taken modulo global phase, form the Klein four-group V₄: the
-same four-element group that quarters our Pauli basis into Klein cells
-(bit_a and bit_b of those cells are precisely the characters of conjugation
-by Z^⊗N and by X^⊗N) and indexes the first two axes of
+same four-element group that quarters our Pauli basis into the framework's
+Klein cells (bit_a and bit_b of those cells are precisely the characters of
+conjugation by Z^⊗N and by X^⊗N; MirrorWorld's `PauliMode` cells are a
+different quartering, by (n_Y, n_Z) parity) and indexes the first two axes of
 the hardware diagnosis lens. Acting by conjugation on Bob's qubit, the four
 corrections are exactly the four unitary mirrors of the one-qubit operator
 space; conjugation by each letter flips precisely the two letter parities

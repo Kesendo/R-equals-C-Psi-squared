@@ -15,8 +15,7 @@ palindrome pairing proven in the
 together with two Tier 1 registry corollaries (F60, F23) and one Tier 2
 drain fraction (F22), each marked where it appears; the readings in
 Section 5 are readings and labeled.
-**Date:** July 11, 2026 (computed tables + run link added July 12, 2026);
-repainted August 9, 2026
+**Date:** July 11, 2026; repainted August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Double Slit Translated](DOUBLE_SLIT_TRANSLATED.md) (the k = 1
@@ -229,8 +228,8 @@ not superposed cats. You can run it yourself:
 **The cat and the immortal share one bill.** The Absorption Theorem's
 Hamming-complement pair-sum (the corollary its proof labels F89c,
 Tier 1) says that for any basis states a, b, the bills of |a⟩⟨b| and of
-its bit-flipped partner |a⟩⟨b̄|, the magnitudes of their rates, add to
-exactly 2Σγ. Take b to be ā, the cat pairing: the partner of the cat
+its bit-flipped partner |a⟩⟨b̄|, the dissipator's diagonal entries, add to
+exactly 2Σγ, and for the cat pairing both are exact rates. Take b to be ā, the cat pairing: the partner of the cat
 coherence is |a⟩⟨a|, a population, disagreement zero, rate zero,
 immortal. One bill of 2Σγ for the pair; the immortal member pays
 nothing; the cat member pays all of it. (The Π mirror below hands the
@@ -247,8 +246,12 @@ The palindrome theorem
 verified over 87,376 eigenvalues with zero exceptions) pairs every decay
 rate d, the magnitude of an eigenvalue's real part, with 2Σγ − d, and Π
 flips the disagreement count k to N − k. The
-fastest sector in the whole spectrum, the N+1 modes at −2Σγ that the
-repository calls the XOR modes, is the palindromic partner of the
+fastest sector in the whole spectrum, the modes at −2Σγ that the
+repository calls the XOR modes (N+1 of them on the XY and Heisenberg
+chains this entry works in, a count that is not number conservation's, a
+non-uniform longitudinal field keeps the number and leaves two at N = 3
+and 4; the value is a ceiling for any Hermitian H, the count is the
+chain's), is the palindromic partner of the
 steady-state sector at 0 (see the XOR modes entry in the
 [glossary](../GLOSSARY.md)). The cat's coherence lives at that edge. It
 is not an exotic paradox bolted onto quantum mechanics from outside; it
@@ -266,13 +269,14 @@ it is priced, and the price is beyond any budget: the cat coherence's
 lifetime is the single-site lifetime divided by the number of sites that
 must agree to disagree. Two repository numbers sharpen the same point
 from other sides. The GHZ cat is already born below the quarter: the
-global CΨ(0)
-for GHZ_N equals 1/(2^N − 1) (F60, Tier 1), under the ¼ boundary from
-N = 3 on, "the problem is not how fast GHZ dies; the problem is that it
-was never in the quantum regime to begin with"
+global CΨ(0) for GHZ_N equals 1/(2^N − 1) (F60, Tier 1), under ¼ from
+N = 3 on, so before any light arrives its fixed-point pair is already real
 ([Dwell Prefactor Generalized](../../experiments/DWELL_PREFACTOR_GENERALIZED.md)).
+That places GHZ relative to the cusp and says nothing about it being
+classical: ¼ is a level a trajectory can re-enter, not a door that shuts
+([glossary](../GLOSSARY.md), the CΨ entry).
 And the drain itself shrinks: the XOR sector's share of operator space
-is (N+1)/4^N (F23, Tier 1), so at macroscopic N the edge has measure
+is (N+1)/4^N on that family (F23, Tier 1), so at macroscopic N the edge has measure
 zero, "the mirror exists at every N, but at macroscopic scales it has
 less and less to reflect"
 ([N to Infinity Palindrome](../../experiments/N_INFINITY_PALINDROME.md)).
@@ -333,12 +337,11 @@ the XOR modes are "where quantum information goes to die", and the GHZ
 state, Schrödinger's cat, "falls 100% into these modes". The ladder
 stays, and this entry is where it is kicked away: nothing dies in the
 exact statement, the entry pays the full bill and the books move to the
-correlations, sorting, not destruction. One small repair landed beside
-this entry: the glossary's Pauli-weight line conflated the total
-non-identity weight with the XY-weight that Π actually flips; the
-[mirror symmetry proof](../proofs/MIRROR_SYMMETRY_PROOF.md) is explicit
-that the flipped count is the XY-weight alone, and the glossary cell now
-says so.
+correlations, sorting, not destruction. The glossary's Pauli-weight cell
+names the count Π flips as the XY-weight alone, the sites carrying X or Y,
+not the total non-identity weight; the
+[mirror symmetry proof](../proofs/MIRROR_SYMMETRY_PROOF.md) is explicit on
+it.
 
 And a scope note owed to the series' own discipline: this entry
 translates the cat's coherence and its price. It does not translate the

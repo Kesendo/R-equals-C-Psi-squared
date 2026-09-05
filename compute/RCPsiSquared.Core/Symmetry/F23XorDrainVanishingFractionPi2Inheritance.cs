@@ -21,12 +21,13 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>N = 20: ≈ 10⁻¹¹</item>
 /// </list>
 ///
-/// <para>The (N+1) numerator is combinatorial (counts XOR-drain Pauli strings);
+/// <para>The (N+1) numerator counts the XOR-drain eigenmodes, one per popcount
+/// sector (the Pauli strings of XY-weight N that span the drain number 2^N);
 /// the 4^N denominator is the full Pauli-operator-space dimension. F23 typifies
 /// the contrast: linear growth in N (numerator) against exponential decay
 /// (denominator), making the XOR drain's measure go to zero exponentially fast.
-/// "GHZ fragility is a small-N phenomenon; at macroscopic N the XOR sector
-/// has measure zero" (the structural reading).</para>
+/// The drain's share of operator space vanishes with N while GHZ_N's coherence sits
+/// entirely in it at every N (F22): what shrinks is the drain's measure, not GHZ's exposure.</para>
 ///
 /// <para>Pi2-Foundation anchors:</para>
 /// <list type="bullet">
@@ -45,12 +46,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// into 4-blocks × N parities); F73 uses 4 · γ_T1 decay coefficient; F23
 /// uses 4^N as the denominator of fraction-counting.</para>
 ///
-/// <para>Tier1Derived: combinatorial proof in
-/// <c>experiments/N_INFINITY_PALINDROME.md</c>; the (N+1) count of
-/// XOR-drain Pauli strings combined with the 4^N total gives the closed form
-/// directly. Valid for any N, Z-dephasing.</para>
+/// <para>Tier1Derived: the (N+1) count is the eigenvectors X^⊗N·P_k, one per popcount
+/// sector: F4's kernel dimension for a connected chain, Π_c(|c|+1) over components
+/// (PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md), carried onto the −2Σγ eigenspace by
+/// F1 where F1 holds, and the same vectors directly under a uniform field; the table is in
+/// <c>experiments/N_INFINITY_PALINDROME.md</c>. Combined with the 4^N total it gives
+/// the closed form directly. Valid for any N under Z-dephasing on the
+/// XY/Heisenberg chain with every bond non-zero and every site dephased (γ_l > 0),
+/// whose count the N+1 is (a zero bond raises it to Π_c(|c|+1); a zero γ on one seat
+/// leaves N+1 at N = 3, 4, while γ on the N = 3 middle seat alone gives 12 on XY and 10
+/// on Heisenberg; a longitudinal field keeps it only if uniform); number conservation alone does not
+/// give it (XY plus a non-uniform longitudinal field keeps [H, ΣZ] = 0 and leaves 2
+/// modes at N = 3, 4), a pure Ising ZZ chain gives 2^N and a generic Hermitian H
+/// none (GLOSSARY, the −2Σγ row).</para>
 ///
-/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F23 (line 187) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F23 +
 /// <c>experiments/N_INFINITY_PALINDROME.md</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2OperatorSpaceMirrorClaim.cs</c>
@@ -83,7 +93,7 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim, IZ2AxisC
         return Math.Pow(BaseFactor, N);
     }
 
-    /// <summary>The XOR-drain Pauli-string count: (N + 1).</summary>
+    /// <summary>The XOR-drain eigenmode count: (N + 1), one per popcount sector.</summary>
     public int XorDrainCount(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F23 requires N ≥ 1.");
@@ -98,9 +108,10 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim, IZ2AxisC
     }
 
     /// <summary>Whether the XOR drain is "macroscopically negligible" at N.
-    /// Threshold = 10⁻⁶ (one part per million); reached at N ≈ 11. Below this
-    /// the XOR sector contributes to GHZ-fragility; above this it has effectively
-    /// zero measure on the operator space.</summary>
+    /// Threshold = 10⁻⁶ (one part per million); first reached at N = 12
+    /// ((N+1)/4^N = 2.9·10⁻⁶ at N = 11, 7.8·10⁻⁷ at N = 12). The threshold is a
+    /// convention; what it reads is the drain's share of operator space, not GHZ's
+    /// exposure to it, which is total at every N.</summary>
     public bool IsMacroscopicallyNegligible(int N, double threshold = 1e-6)
     {
         if (threshold <= 0) throw new ArgumentOutOfRangeException(nameof(threshold), threshold, "threshold must be > 0.");
@@ -136,19 +147,19 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim, IZ2AxisC
         "F23 XOR drain (N+1)/4^N as Pi2-Foundation a_{-1} + OperatorSpaceMirror inheritance";
 
     public override string Summary =>
-        $"fraction(XOR) = (N+1)/4^N; 4 = a_{{-1}} (= {BaseFactor}); vanishes exponentially: 6.25% at N=3, 0.59% at N=5, ≈10⁻¹¹ at N=20; GHZ-fragility is a small-N phenomenon ({Tier.Label()})";
+        $"fraction(XOR) = (N+1)/4^N; 4 = a_{{-1}} (= {BaseFactor}); vanishes exponentially: 6.25% at N=3, 0.59% at N=5, ≈10⁻¹¹ at N=20; the drain's share of operator space vanishes with N, GHZ_N's exposure to it does not ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("F23 closed form",
-                summary: "fraction(XOR) = (N+1)/4^N; combinatorial proof in N_INFINITY_PALINDROME; (N+1) numerator counts XOR-drain Pauli strings; 4^N denominator is full Pauli operator-space");
+                summary: "fraction(XOR) = (N+1)/4^N; the (N+1) numerator counts XOR-drain eigenmodes, one per popcount sector (the eigenvectors X^N P_k; F4's kernel dimension carried onto -2*Sigma_gamma by F1 where F1 holds; the table is in N_INFINITY_PALINDROME); 4^N denominator is full Pauli operator-space");
             yield return InspectableNode.RealScalar("BaseFactor (= a_{-1} = 4)", BaseFactor);
             yield return new InspectableNode("Pi2OperatorSpaceMirror sibling",
                 summary: "F23's 4^N denominator IS Pi2OperatorSpaceMirror's OperatorSpace; both share the same a_{-1}^N = (4)^N = d²·d²·...·d² = (2^N)² ladder anchor at index n = -(2N-1)");
             yield return new InspectableNode("vanishing-measure reading",
-                summary: "GHZ-fragility lives in the XOR drain; at macroscopic N (>~11 for ppm threshold) the drain's measure is zero on the operator space. F23 quantifies the small-N-only character of GHZ-fragility.");
+                summary: "GHZ_N's coherence lives in the XOR drain at every N; what vanishes with N (below one ppm from N = 12) is the drain's share of operator space, what a random operator puts there. F23 quantifies the drain's measure, not GHZ's exposure.");
             yield return new InspectableNode("N=3 verified",
                 summary: $"XorDrainCount={XorDrainCount(3)}, OperatorSpaceDim={OperatorSpaceDim(3)}, fraction={XorDrainFraction(3):P4} (6.25%)");
             yield return new InspectableNode("N=5 verified",

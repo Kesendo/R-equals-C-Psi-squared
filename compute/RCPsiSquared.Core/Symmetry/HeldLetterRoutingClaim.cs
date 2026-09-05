@@ -9,7 +9,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// and its entire action is a price list read off the held letter:
 ///
 /// <code>
-///     L_P(S) = −2γ · n_anti(S, P) · S,     n_anti = #sites where S_l ∉ {I, P}
+///     L_P(S) = −2γ · n_anti(S, P) · S,     n_anti = #sites where S_l ∉ {I, P}   (uniform γ; per site −2 Σ_l γ_l over those sites)
 /// </code>
 ///
 /// the disagreement with P alone. The object never changes between held letters; only the price

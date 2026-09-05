@@ -630,7 +630,7 @@ if (args.Length > 0 && args[0] == "blind")
 // in docs/quantum/DOUBLE_SLIT_TRANSLATED.md.
 if (args.Length > 0 && args[0] == "doubleslit")
 {
-    const double dsg = 0.05, dsdt = 0.05;   // gamma = 0.05: the canonical hardware-anchored rate
+    const double dsg = 0.05, dsdt = 0.05;   // gamma = 0.05: the code convention gamma_0 (a round number standing in for the hardware's ~5e3 Hz)
     var dsworld = new World();
     var ds = new DoubleSlit(dsworld, dsg);
     double fringe0 = ds.Fringe;
@@ -639,7 +639,7 @@ if (args.Length > 0 && args[0] == "doubleslit")
     Console.WriteLine($"  the k=1 coherence, rate {ds.BetweenRate:0.00} = -2*gamma -- the generator of |rho_LR(t)| = e^(-2*gamma*t).");
     Console.WriteLine("  the watching never touches the humps; it carves the between away. Meaning: DOUBLE_SLIT_TRANSLATED.md");
     Console.WriteLine();
-    Console.WriteLine($"  gamma = {dsg} (canonical, hardware-anchored); the coherence 1/e time is 1/(2*gamma) = 10");
+    Console.WriteLine($"  gamma = {dsg} (the code convention gamma_0, a round number in the hardware's range); the coherence 1/e time is 1/(2*gamma) = 10");
     Console.WriteLine($"  {"t",5} {"humps",8} {"fringe",8} {"fringe/f0",10} {"e^(-2gt)",9}");
     for (int s = 0; s <= 600; s++)
     {
@@ -649,7 +649,8 @@ if (args.Length > 0 && args[0] == "doubleslit")
     }
     Console.WriteLine();
     Console.WriteLine("  the humps stay flat (the particle face, never watched away); the fringe fades on the exp");
-    Console.WriteLine("  law (the wave face, the between paying -2gamma). The pattern is what not being watched looks like.");
+    Console.WriteLine("  law (the wave face, the between paying -2gamma), stepped here by the world's forward Euler at");
+    Console.WriteLine("  dt = 0.05 beside the exact column. The pattern is what not being watched looks like.");
     return;
 }
 
@@ -698,7 +699,9 @@ if (args.Length > 0 && args[0] == "cat")
     foreach (int nn in new[] { 1, 2, 4, 8, 16, 32, 64 })
         Console.WriteLine($"  {nn,4} {-2.0 * catg * nn,10:0.00} {1.0 / (2.0 * catg * nn),10:0.0000}");
     Console.WriteLine("  the bigger the superposition, the deeper the rate and the shorter the life -- k=1 the slit,");
-    Console.WriteLine("  k=N the cat, one law. A real cat is N ~ 10^23: the 'both at once' is gone before it begins.");
+    Console.WriteLine("  k=N the cat, one law (the empty world's rate; with a Hamiltonian that moves the poles it is the");
+    Console.WriteLine("  opening slope, which decoherence then compounds). A real cat is N ~ 10^23: the 'both at once' is");
+    Console.WriteLine("  gone before it begins.");
     return;
 }
 
@@ -710,7 +713,7 @@ if (args.Length > 0 && args[0] == "cat")
 // rate while the unwatched page stays I/2. Meaning in docs/quantum/SPOOKY_ACTION_TRANSLATED.md.
 if (args.Length > 0 && args[0] == "spooky")
 {
-    const double spg = 0.05, spdt = 0.05;   // gamma = 0.05: the canonical hardware-anchored rate
+    const double spg = 0.05, spdt = 0.05;   // gamma = 0.05: the code convention gamma_0 (a round number standing in for the hardware's ~5e3 Hz)
     var spworld = new World();
     var sp = new SpookyAction(spworld, spg);
     double spook0 = sp.Spook;
@@ -731,7 +734,8 @@ if (args.Length > 0 && args[0] == "spooky")
     Console.WriteLine();
     Console.WriteLine("  the one-sided watching (the living world, Restless): only site B watched, siteGammas = {0, gamma},");
     Console.WriteLine("  H ON (J=1, ZZ on). The poles |00>,|11> are equal-energy H-eigenstates, so the carrier rotates");
-    Console.WriteLine("  nothing and pays exactly -2*gamma_B -- and the UNWATCHED page A stays I/2 the whole time:");
+    Console.WriteLine("  nothing and pays exactly -2*gamma_B; page A stays I/2 the whole time, as it does under every Z");
+    Console.WriteLine("  profile (no k=1 content, H keeps the poles): what the one-sided light changes is the carrier's price:");
     var spw = new Restless(spworld, 2, 1.0, spg, siteGammas: new[] { 0.0, spg }, zz: 1.0);
     spw.Seed(0b00, 0.5); spw.Seed(0b11, 0.5); spw.SeedCoherence(0b00, 0b11, 0.5);
     var spPageA = new Marginal(spw, new[] { 0 });
@@ -750,7 +754,8 @@ if (args.Length > 0 && args[0] == "spooky")
     Console.WriteLine($"  {"N",4} {"pair-at-ends",13} {"cat k=N",8}");
     foreach (int nn in new[] { 2, 4, 8, 16, 32 })
         Console.WriteLine($"  {nn,4} {-4.0 * spg,13:0.00} {-2.0 * spg * nn,8:0.00}");
-    Console.WriteLine("  the pair at the two ends of an N-chain keeps k=2 at any separation (rate flat); the cat's k=N");
+    Console.WriteLine("  the pair at the two ends of an N-chain keeps k=2 at any separation (rate flat in the empty world;");
+    Console.WriteLine("  with H on it is the exact rate only at N=2, the opening slope beyond); the cat's k=N");
     Console.WriteLine("  grows. The watching reads disagreement, never distance. Meaning: SPOOKY_ACTION_TRANSLATED.md");
     return;
 }
@@ -764,7 +769,7 @@ if (args.Length > 0 && args[0] == "spooky")
 if (args.Length > 0 && args[0] == "witness")
 {
     var ww = new World();
-    const double wg = 0.05;   // the canonical hardware-anchored gamma for the priced column
+    const double wg = 0.05;   // the code convention gamma_0 for the priced column
     Console.WriteLine("the witness reading (F135 + F136): who records, and what -- closed form, no propagator");
     Console.WriteLine("  Pointer = Z_S in the witness's equator (ZY). Bell = 1/2 Phi + 1/2 Psi, zero pointer content,");
     Console.WriteLine("  letter = dresser parity (m odd YY, m even XX). RoleSwap = the pendant reads backwards (YZ).");

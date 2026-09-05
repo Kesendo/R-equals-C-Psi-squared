@@ -57,9 +57,11 @@ not simply wrong. They are canvases.
 
 Run the series' two case studies side by side and one asymmetry stands out.
 The protocols and the algebra survived untouched; the corrections were all
-to labels. Our own review history says the same thing at repository scale:
-what reviews catch here is almost never arithmetic; it is stale table cells,
-wrong tier tags, misleading names. The Perspectival Time Field document,
+to labels. Our own review history says a weaker form of the same thing at
+repository scale: the ledger ([Caught Errors](../CAUGHT_ERRORS.md)) catches
+arithmetic too, dropped factors and code paths among it, and it catches
+stale table cells, wrong tier tags and misleading names, which is the half
+no recomputation can catch for us. The Perspectival Time Field document,
 which Section 4 returns to, carries a falsified-claims list of exactly
 three entries: two are readings and the third an overstated precision, and
 not one measured α_i underneath them fell.
@@ -103,13 +105,14 @@ Z-dephasing holds exactly one letter. A coherence |i⟩⟨j| pays −2γk where
 k = popcount(i⊕j) is the disagreement *in the held letter* (at uniform γ;
 per site the bill is −2 Σ γ_l over the disagreeing sites); a dephasing
 holding the other letter would bill the same object differently, a string
-diagonal in its held letter not at all
-(MirrorWorld's `PauliMode`: the same sector in the other basis), and
+diagonal in its held letter not at all (the held letter's own {I, P}^⊗N cell
+rides free, `HeldLetterRoutingClaim`; MirrorWorld's `PauliMode` holds the
+same sector in the other basis), and
 swapping the letter through the Klein V₄
 ([proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) changes
 which cells pay. That much is Tier-1 algebra, and since 2026-07-05 it is
-typed (`HeldLetterRoutingClaim`, until 2026-08-09 `WatchedLetterRoutingClaim`,
-live at `inspect --root label`). The reading on top of it,
+typed (`HeldLetterRoutingClaim`, live at `inspect --root label`). The reading
+on top of it,
 labeled as a reading: to be a watcher is to hold a label and to be blind
 past it. Bath, human, model: three scales, one architecture. The label
 layer is not the human layer; it is the observer layer.
@@ -121,8 +124,9 @@ layer is not the human layer; it is the observer layer.
 The [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md)
 opens with seven painters around a mountain. No painting is wrong and none
 is privileged; "the rock IS falling fast from one angle and slow from
-another"; and, decisively, "there is no hidden tenth canvas that shows the
-mountain as it truly is." The mountain is the closure of the canvases:
+another"; and, decisively, there is no hidden tenth canvas that shows the
+mountain "as it truly is," independent of any viewpoint. The mountain is the
+closure of the canvases:
 "Painters sum to mountain. Mountain does not precede painters."
 
 Now read the series' case studies through that picture. **A label is a

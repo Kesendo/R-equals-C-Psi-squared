@@ -13,8 +13,7 @@ Section 4 is the same Tier 1 per-coherence bill proven in the
 [block-CΨ quarter proof](../proofs/PROOF_BLOCK_CPSI_QUARTER.md), read at
 N = 1; the conjugate-question note in Section 4 is our own assembly and is
 marked as such; the readings in Section 5 are readings and labeled.
-**Date:** July 11, 2026 (computed table + run link added July 12, 2026);
-repainted August 9, 2026
+**Date:** July 11, 2026; repainted August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Superposition Translated](SUPERPOSITION_TRANSLATED.md) (the
@@ -359,15 +358,17 @@ The repository ran its own dephasing-dial cousin of the which-path lamp
 without knowing it, in
 continuous Lindblad dynamics:
 [Observer-Dependent Visibility](../../experiments/OBSERVER_DEPENDENT_VISIBILITY.md)
-holds one entangled star network fixed and turns exactly one knob, a local
+holds one entangled three-site network fixed (the A-S-B path; "star" there
+names the roles) and turns exactly one knob, a local
 dephasing rate γ_A. At the slow rate (γ_A = 0.03) CΨ (there:
 concurrence × normalized l1-coherence) crosses the ¼ boundary clearly; at
 the fastest rate in the sweep (γ_A = 0.20) the crossing barely shows at
 all, and a slightly faster one would close it entirely, while the
 underlying
 resource, measured
-with assistance, persists (graded Weakly to Moderately in the doc's own
-table). That is the
+with assistance, persists (its dependence on the noise profile graded
+Weakly for the concurrence of assistance and Moderately for the localizable
+entanglement in the doc's own table). That is the
 double slit's lesson in
 our own laboratory dialect: different local light profiles produce
 different direct-visibility windows for a resource that remains available

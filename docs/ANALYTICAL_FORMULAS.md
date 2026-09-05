@@ -446,7 +446,7 @@ At γ ~ 0.001 (typical IBM): error < 0.1%.
 
 ### F22. GHZ XOR-drain (Tier 2, verified N=2-5)
 
-    GHZ  -> 100% weight in XOR modes (N+1 modes at rate 2*Σγ)
+    GHZ  -> 100% weight in XOR modes (the modes at rate 2*Σγ: N+1 on the XY/Heisenberg/XXZ members, 2^N under Ising)
     W    -> 0% XOR, 100% palindromic  (N >= 3)
     Bell -> 0% XOR, 100% palindromic  (N >= 3, Hamming distance 2)
 
@@ -464,13 +464,14 @@ outperforms GHZ for state transfer (0% vs 100% drain weight).
     fraction(XOR) = (N+1) / 4^N
 
 N=3: 6.25%. N=5: 0.59%. N=8: 0.014%. N=20: ~10^-11.
-GHZ fragility is a small-N phenomenon; at macroscopic N the XOR
-sector has measure zero.
+The drain's share of operator space vanishes with N; GHZ_N's coherence sits
+entirely in it at every N (F22), so what shrinks is the drain's measure, not
+GHZ's exposure.
 
-**Valid for:** any N, Z-dephasing.
+**Valid for:** any N, Z-dephasing on the XY/Heisenberg chain with every bond non-zero and every site dephased (γ_l > 0), whose count the N+1 is (a zero bond raises it to Π_c(|c|+1); a zero γ on one seat leaves N+1 at N = 3, 4, while γ on the N = 3 middle seat alone gives 12 on XY and 10 on Heisenberg; a longitudinal field keeps it only if uniform); number conservation alone does not give it (XY plus a non-uniform longitudinal field keeps [H, ΣZ] = 0 and leaves 2 modes at N = 3, 4), a pure Ising ZZ chain gives 2^N and a generic Hermitian H none (the glossary's −2Σγ row).
 **Replaces:** large-N XOR mode counting; confirms the drain is
 irrelevant at macroscopic scale.
-**Source:** [N->infinity Palindrome](../experiments/N_INFINITY_PALINDROME.md)
+**Source:** the count is the eigenvectors X^⊗N·P_k, k = 0..N, one per popcount sector; that is F4's kernel dimension, N+1 for a connected chain and Π_c(|c|+1) over components in general ([F4 kernel proof](proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md)), carried onto the −2Σγ eigenspace by F1 (Π maps ker L onto it) where F1 holds, and the same vectors directly under a uniform field, where F1 does not; the (N+1)/4^N table is [N->infinity Palindrome](../experiments/N_INFINITY_PALINDROME.md)
 
 ### F33. The N=3 rate ladder (Tier 1 for the pure-weight rungs; the two fractional rates are a J/gamma -> infinity limit)
 
@@ -1787,7 +1788,7 @@ below 1/4 as soon as N >= 3, regardless of any dynamics:
 | N | CPsi(0)        | Above 1/4?              |
 |---|----------------|-------------------------|
 | 2 | 1/3 = 0.3333   | Yes (Bell+ crosses)     |
-| 3 | 1/7 = 0.1429   | No (already classical)  |
+| 3 | 1/7 = 0.1429   | No (below the fold)     |
 | 4 | 1/15 = 0.0667  | No                      |
 | 5 | 1/31 = 0.0323  | No                      |
 
@@ -1795,10 +1796,13 @@ Derivation: C(0) = 1 (pure state), and the only nonzero off-diagonal matrix
 elements are `rho[0...0, 1...1]` = 1/2 and its conjugate, giving L1 coherence
 = 1 and Psi(0) = L1/(d - 1) = 1/(2^N - 1). Therefore CPsi(0) = 1/(2^N - 1).
 
-For N >= 3, GHZ_N starts in the classical regime of the R = CPsi^2 framework
-before any dephasing acts on it. This is gamma-independent: reducing the
-dephasing rate cannot fix the geometric deficit. The only escape is to
-change the state.
+For N >= 3, GHZ_N starts below the fold of the R = CPsi^2 recursion before
+any dephasing acts on it, its fixed-point pair real from the start (a position
+relative to the cusp, not a classical verdict; the glossary's 1/4 row). This is gamma-independent: reducing the
+dephasing rate cannot fix the geometric deficit, and on a chain where GHZ_N
+is an H eigenstate no trajectory lifts it back; the escape is to change the
+state, which a Hamiltonian that moves the poles does (Hadamard^⊗3 takes
+GHZ_3 to 3/7).
 
 This geometric statement complements F22 (GHZ projects 100% of its coherent
 weight onto the fastest-decaying XOR modes at rate 2*Sigma*gamma). The two
@@ -1806,7 +1810,7 @@ arguments converge: GHZ encoding is structurally unsuitable for state
 transfer, regardless of how slowly it would decay.
 
 **Valid for:** GHZ_N for any N >= 2, gamma-independent.
-**Replaces:** trajectory simulation to confirm GHZ_N (N >= 3) never crosses 1/4.
+**Replaces:** trajectory simulation to confirm GHZ_N (N >= 3) never crosses 1/4 under Z-dephasing on a chain where it is an H eigenstate.
 **Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4; main README Section 6 Rule 1 (avoid GHZ, prefer W-type encodings).
 
 ### F61. n_XY Parity Selection Rule (Tier 1, proven, verified 69 configs N=2-7)
@@ -1877,9 +1881,12 @@ from which Tr(rho_ab^2) = (N^2 - 4N + 8)/N^2, L1 = 2/N, Psi = 2/(3N).
 **Corollary (W_N born below the fold).** For N >= 3, CΨ(0) < 1/4.
 Proof: 2(N^2 - 4N + 8)/(3N^3) < 1/4 iff 3N^3 - 8N^2 + 32N - 64 > 0.
 At N=3 this evaluates to 41 > 0, and the cubic is monotonically increasing
-for N >= 3. Combined with the Parity Selection Rule (F61), this proves
-that single-excitation states on Heisenberg chains under Z-dephasing
-never cross CΨ = 1/4. The cusp exit is structurally inaccessible to them.
+for N >= 3. This is a statement about W_N at t = 0; it does not extend to
+single-excitation states in general: (|1_0> + |1_1>)/sqrt(2) has pair-CΨ = 1/3
+on the pair (0,1) at t = 0, W_3's global CΨ(0) = 2/7 sits above 1/4, and a
+walker |1_0> on the N = 3 Heisenberg chain (Pauli convention H = J Σ(XX+YY+ZZ),
+J = 1, γ = 0.05) rises from 0 to pair-CΨ 0.263 on (0,1) at t ≈ 0.31; F61 (n_XY
+parity) does not enter a t = 0 pair value.
 
 **Valid for:** W_N on any N-qubit system, pair-independent (permutation symmetry).
 **Verified:** numerically at N=2-10, all within machine precision.
@@ -2093,7 +2100,7 @@ exact to machine precision. For the uniform N-site XY chain with endpoint Z-deph
 
 ### F69. GHZ+W sector mix lifts pair-CΨ(0) above the fold at N=3 (Tier 1, sextic minimal polynomial, verified)
 
-Neither |GHZ_3⟩ (F60: pair-CΨ = 0) nor |W_3⟩ (F62: pair-CΨ = 10/81 ≈ 0.1235) crosses the CΨ = 1/4 fold at t = 0. Their symmetric superposition
+Neither |GHZ_3⟩ (pair-CΨ = 0; F60's global value is 1/7) nor |W_3⟩ (F62: pair-CΨ = 10/81 ≈ 0.1235) crosses the CΨ = 1/4 fold at t = 0. Their symmetric superposition
 
     |ψ(α)⟩ = α |GHZ_3⟩ + √(1-α²) |W_3⟩,    α ∈ [0, 1]
 

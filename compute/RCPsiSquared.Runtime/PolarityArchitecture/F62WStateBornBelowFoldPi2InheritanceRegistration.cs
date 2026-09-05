@@ -14,10 +14,12 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///   <item><see cref="QuarterAsBilinearMaxvalClaim"/>: typed parent grounding
 ///         the "fold IS the bilinear-apex maxval = (1/2)²" reading; same
 ///         anchor as F57, Dicke, F60.</item>
-///   <item><see cref="F61BitAParityPi2Inheritance"/>: typed parent grounding
-///         "Combined with the Parity Selection Rule (F61), this proves that
-///         single-excitation states never cross CΨ = 1/4." F61 + F62
-///         together close the SE-regime structural-outside-framework reading.</item>
+///   <item><see cref="F61BitAParityPi2Inheritance"/>: typed parent for the n_XY
+///         parity of W_N's coherent content. F62 itself is a statement about W_N at
+///         t = 0; single-excitation states in general are not born below the fold
+///         ((|1₀⟩+|1₁⟩)/√2 has pair-CΨ = 1/3 on the pair (0,1)) and a walker can cross it
+///         upward under the chain's H (N = 3 Heisenberg, Pauli convention H = J Σ(XX+YY+ZZ),
+///         J = 1, γ = 0.05: pair-CΨ 0.263 on (0,1) at t ≈ 0.31).</item>
 /// </list>
 ///
 /// <para>Tier consistency: F62 is Tier 1 analytical; verified numerically

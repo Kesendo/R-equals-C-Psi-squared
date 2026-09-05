@@ -17,7 +17,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </code>
 ///
 /// <para>F62 is the W-state companion to <see cref="F60GhzBornBelowFoldPi2Inheritance"/>:
-/// both are pair-CΨ closed forms for canonical N-qubit states that fail to cross
+/// F60 a global CΨ closed form and F62 a pair-reduced one, for canonical N-qubit states that fail to cross
 /// the bilinear-apex fold for N ≥ 3. The two states sit at opposite ends of the
 /// popcount spectrum:</para>
 ///
@@ -33,12 +33,13 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <list type="bullet">
 ///   <item><b>F60 mechanism</b>: GHZ has only TWO basis states, so the
-///         off-diagonal weight 1/2 is split among 2^N − 1 mass-positions of
-///         the d²-dim Hilbert space; CΨ scales as 1/(2^N − 1).</item>
+///         two off-diagonal entries of 1/2 give l1 = 1, normalised by d − 1 = 2^N − 1,
+///         the l1-coherence maximum on the d-dimensional Hilbert space; CΨ scales
+///         as 1/(2^N − 1).</item>
 ///   <item><b>F62 mechanism</b>: W_N has N basis states, each with weight
-///         1/N; pair-reduced ρ has off-diagonal 1/N; CΨ scales as 1/N.
-///         Cubic decay 1/N³ comes from L1 (2/N), Ψ (2/(3N)), and Tr(ρ²)
-///         all carrying 1/N factors.</item>
+///         1/N; the pair-reduced ρ has off-diagonal 1/N, l1 = 2/N, Ψ = 2/(3N),
+///         and its purity (N² − 4N + 8)/N² → 1, so CΨ = 2(N² − 4N + 8)/(3N³)
+///         scales as 2/(3N); the N³ is the denominator's, not a cubic decay.</item>
 /// </list>
 ///
 /// <para>Pi2-Foundation anchors:</para>
@@ -51,23 +52,22 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <c>2(N² − 4N + 8)</c>. Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0)
 ///         = polynomial root d. Same anchor as F1, F66, F86 Q_EP, F60
 ///         (mirror partner of F60's 1/2 off-diagonal: a_0 ↔ a_2).</item>
-///   <item><b>F61 cited in F62 proof</b>: per ANALYTICAL_FORMULAS F62
-///         "Combined with the Parity Selection Rule (F61), this proves that
-///         single-excitation states on Heisenberg chains under Z-dephasing
-///         never cross CΨ = 1/4." F61 is the bit_a parity claim: W-states
-///         have purely even n_XY content, so SE optimisers cannot reach
-///         odd-n_XY modes (per F61's accessibility ceiling). F62 + F61
-///         together close the "single-excitation regime is structurally
-///         outside the framework" reading.</item>
-///   <item><b>"3 N³" denominator</b>: combinatorial (3 from L1 normalization
-///         2/3, N³ from the three 1/N factors). NOT Pi2-anchored.</item>
+///   <item><b>Scope</b>: F62 is a statement about W_N at t = 0 and does not
+///         extend to single-excitation states in general: (|1₀⟩+|1₁⟩)/√2 has
+///         pair-CΨ = 1/3 on the pair (0,1) at t = 0, the walker |1₀⟩ on the N = 3
+///         Heisenberg chain (Pauli convention H = J Σ(XX+YY+ZZ), J = 1, γ = 0.05)
+///         rises from 0 to pair-CΨ 0.263 on (0,1) at t ≈ 0.31, and W₃'s
+///         global CΨ(0) = 2/7 sits above 1/4; F61 (n_XY parity) does not enter a
+///         t = 0 pair value. The encoding, not the sector, is the constraint.</item>
+///   <item><b>"3 N³" denominator</b>: the 3 is d − 1 for a two-qubit pair
+///         (Ψ = L1/(d − 1)), the N³ the purity's N² times Ψ's N. NOT Pi2-anchored.</item>
 /// </list>
 ///
 /// <para>Tier1Derived: F62 is Tier 1 analytical; verified numerically
 /// N=2..10 within machine precision. The Pi2-Foundation anchoring is
 /// algebraic-trivial composition.</para>
 ///
-/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F62 (line 1255) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F62 +
 /// <c>simulations/cpsi_wn_analytical.py</c> +
 /// <c>experiments/CUSP_LENS_CONNECTION.md</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
@@ -92,7 +92,7 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim, IF99AnchorBear
     /// <inheritdoc />
     /// <remarks>Parent role: feeds the F99 inheritance graph structurally
     /// but the claim's own value does not sit on the F86b α-axis.
-    /// W-state fold mirror to F60, same mechanism via Quarter.</remarks>
+    /// W-state fold mirror to F60, same anchor via Quarter, a different mechanism.</remarks>
     public F99AnchorRole F99Role => F99AnchorRole.Parent;
 
     /// <inheritdoc />
@@ -105,10 +105,10 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim, IF99AnchorBear
     /// (previously registration-discard only).</summary>
     public QuarterAsBilinearMaxvalClaim Quarter { get; }
 
-    /// <summary>F61 bit_a parity selection rule — the typed parent that
-    /// grounds F62's "single-excitation states never cross 1/4" assertion.
-    /// F61 + F62 together close the SE-regime structural-outside-framework
-    /// reading. Added 2026-05-16 as a typed ctor parent (previously
+    /// <summary>F61 bit_a parity selection rule, the typed parent for the n_XY
+    /// parity of W_N's coherent content. It does not enter F62's t = 0 value, and
+    /// F62 does not extend to single-excitation states in general (see the Scope
+    /// item above). Added 2026-05-16 as a typed ctor parent (previously
     /// registration-discard only).</summary>
     public F61BitAParityPi2Inheritance F61 { get; }
 
@@ -176,7 +176,7 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim, IF99AnchorBear
 
     public override string Summary =>
         $"CΨ(0)_W_N = 2(N²−4N+8)/(3N³): fold = a_3 = 1/4; numerator 2 = a_0; off-diagonal 1/N (combinatorial); " +
-        $"born below fold for N ≥ 3 (cubic monotonicity); F61 parity rule completes the proof ({Tier.Label()})";
+        $"born below fold for N ≥ 3 (cubic monotonicity); a statement about W_N at t = 0 only ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -190,10 +190,10 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim, IF99AnchorBear
                 summary: "FoldPosition = a_3 = 1/4 (same as F57, Dicke, F60); NumeratorTwoCoefficient = a_0 = 2 (same as F1, F66, F86 Q_EP); 1/N off-diagonal combinatorial");
             yield return InspectableNode.RealScalar("FoldPosition (= a_3 = 1/4)", FoldPosition);
             yield return InspectableNode.RealScalar("NumeratorTwoCoefficient (= a_0 = 2)", NumeratorTwoCoefficient);
-            yield return new InspectableNode("F61 parity-rule citation",
-                summary: "F62 + F61 together: SE states have purely even n_XY (F61); W_N is SE; W_N born below fold for N ≥ 3 (F62); SE optimisers structurally cannot cross 1/4 on Heisenberg + Z-dephasing");
+            yield return new InspectableNode("scope",
+                summary: "F62 is about W_N at t = 0; single-excitation states in general are not born below the fold ((|1_0>+|1_1>)/sqrt2 has pair-CΨ = 1/3 on (0,1), W_3's global CΨ(0) = 2/7) and a walker crosses it upward under the chain's H (N = 3 Heisenberg, Pauli convention H = J Σ(XX+YY+ZZ), J = 1, γ = 0.05: pair-CΨ 0.263 on (0,1) at t ≈ 0.31)");
             yield return new InspectableNode("operational consequence",
-                summary: "single-excitation regime is outside framework's quantum band for N ≥ 3, regardless of γ. Multi-excitation encodings required (Dicke, mirror-pair, etc.)");
+                summary: "W_N encodings start below the fold for N ≥ 3, regardless of γ; the single-excitation sector as a whole does not, so the encoding, not the sector, is the constraint");
             // Verified table from ANALYTICAL_FORMULAS F62 at N ∈ {2, 3, 5, 10}
             foreach (int N in new[] { 2, 3, 5, 10 })
             {
@@ -201,7 +201,7 @@ public sealed class F62WStateBornBelowFoldPi2Inheritance : Claim, IF99AnchorBear
                 yield return new InspectableNode(
                     $"N={N}",
                     summary: $"CΨ(0) = 2({N}²−4·{N}+8)/(3·{N}³) = {cpsi:G6}; " +
-                             $"above fold: {cpsi > FoldPosition} ({(cpsi > FoldPosition ? "Bell+ regime, W_2 = Bell+" : "born classical")})");
+                             $"above fold: {cpsi > FoldPosition} ({(cpsi > FoldPosition ? "Bell+ regime, W_2 = Bell+" : "below the fold")})");
             }
         }
     }

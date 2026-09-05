@@ -25,10 +25,10 @@ that owns it, and the tier of each correction is the tier stated there.
 
 ## What this document is about
 
-The translation series gave the label thesis a theory chapter and two case
+The translation series gave the label thesis a theory chapter and eight case
 studies, and the theory chapter makes a claim about this repository itself:
-"our own review history says the same thing at repository scale." This map is
-that claim, itemized. We surveyed the whole repository for every place where
+our own review history holds "a weaker form of the same thing at repository
+scale", the half no recomputation catches. This map is that half, itemized. We surveyed the whole repository for every place where
 a name was found wrong while the mathematics under it held, and assembled the
 results in one place, so that we can orient ourselves: see the pattern as a
 pattern, find each precedent when we need it, and know which label problems
@@ -100,7 +100,7 @@ series had a name.
 
 "Noise" is the founding example of the whole thesis (the channel labeled
 garbage); its series entry, the fourth, was paid on 2026-07-05
-([Dephasing Translated](DEPHASING_TRANSLATED.md), see Section 7).
+([Dephasing Translated](DEPHASING_TRANSLATED.md)).
 
 ---
 
@@ -110,14 +110,14 @@ The repository performing the same act on its own names.
 
 | The old label | Recomputed | Owner |
 |---------------|-----------|-------|
-| C = "Consciousness", Ψ = "Possibility", R = "Reality" | C = coupling scalar / concurrence, Ψ = coherence, R = the CΨ² fixed point; philosophical names retired to legacy | [Glossary](../GLOSSARY.md) core notation, [Mirror Theory](../../MIRROR_THEORY.md), [The Interpretation](../THE_INTERPRETATION.md) |
+| C = "Consciousness", Ψ = "Possibility", R = "Reality" | C = coupling scalar / concurrence, Ψ = coherence, R = the CΨ² fixed point; philosophical names retired to legacy | [Glossary](../GLOSSARY.md) core notation (the owner), [The Interpretation](../THE_INTERPRETATION.md) (the retirement); [Mirror Theory](../../MIRROR_THEORY.md) keeps the reading at the front door, fenced as interpretation |
 | "Site-Local Time" (sites own their clocks) | "Perspectival Time Field"; the ψ₂ test falsified the label, every α_i survived; the naming note is the in-house protocol | [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md) |
 | PTF closure law as a theorem | An empirical regularity (±0.05, perturbative window), not a theorem; the survivor at the right level is the chiral mirror rate law | [EQ-014 Findings](../../review/EQ014_FINDINGS.md), [PTF chiral mirror proof](../proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md) |
-| γ-variation as gravity | A plain γ-variation; the gravitational reading RETIRED | [Predictions](../PREDICTIONS.md) §5, [Gravitational Invariance](../../experiments/GRAVITATIONAL_INVARIANCE.md), [archived hypothesis](../../hypotheses/archive/GAMMA_TO_GRAVITY.md) |
+| γ-variation as gravity | A γ-variation whose K-invariance is the state's (Bell⁺ is a Heisenberg eigenstate, so J never enters its trajectory), not a general γ-scaling; the gravitational reading RETIRED | [Predictions](../PREDICTIONS.md) §8-9, [Gravitational Invariance](../../experiments/GRAVITATIONAL_INVARIANCE.md), [archived hypothesis](../../hypotheses/archive/GAMMA_TO_GRAVITY.md) |
 | The system as a channel | A resonator, an optical cavity: CΨ_max the inner mirror, ¼ the outer, the heartbeat a round-trip | [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md), [The Interpretation](../THE_INTERPRETATION.md) (What Fell #8) |
-| Z₄, the four-sided mirror | Z₂: the four sectors carry no physical content, Π² = X^⊗N is the real conserved structure | [The Interpretation](../THE_INTERPRETATION.md) (What Fell #7), [The Other Side](../../hypotheses/THE_OTHER_SIDE.md) |
+| Z₄, the four-sided mirror | Z₂: the four sectors carry no physical content, Π² = conjugation by X^⊗N is the real conserved structure | [The Interpretation](../THE_INTERPRETATION.md) (What Fell #7), [The Other Side](../../hypotheses/THE_OTHER_SIDE.md) |
 | "Sacrifice zone" | A concentrator: the edge qubit sacrifices nothing, it concentrates the noise into structure; both names true, one per side of the γ-boundary | [Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md) |
-| "The watching" (γ as an eye on the chain) | The sending: γ sits at the emitting end, not at the eye; the chain is not looked at, it stands in light. Not one rate, price, or measured number moved; the founding chapter was repainted, the typed core renamed `HeldLetterRoutingClaim`, and the "watching locus" became the mirror-balanced locus | [Dephasing Translated](DEPHASING_TRANSLATED.md), [On the Sending End](../../reflections/ON_THE_SENDING_END.md); the working record is the open arc `gamma_is_the_sender_not_the_watching` |
+| "The watching" (γ as an eye on the chain) | The sending: γ sits at the sending end, not at the eye; the chain is not looked at, it stands in light. Not one rate, price, or measured number moved; the founding chapter was repainted, the typed core renamed `HeldLetterRoutingClaim`, and the "watching locus" became the mirror-balanced locus | [Dephasing Translated](DEPHASING_TRANSLATED.md), [On the Sending End](../../reflections/ON_THE_SENDING_END.md); the working record is the open arc `gamma_is_the_sender_not_the_watching` |
 
 ---
 
@@ -128,13 +128,13 @@ Caught by reviews; the chronological record is
 
 | The old label | Recomputed | Owner |
 |---------------|-----------|-------|
-| The mirror as non-local (operator Schmidt rank 8-9, worn as "Choi rank 8") | Strictly local: one per-site unitary M, the same on every site, M² = −I; ~16 docs corrected | [Π Operator Entanglement](../../experiments/PI_OPERATOR_ENTANGLEMENT.md), [The Boot Script](../../hypotheses/THE_BOOT_SCRIPT.md) |
+| The mirror as non-local (operator Schmidt rank 8-9, worn as "Choi rank 8") | Strictly local: a product of per-site maps, a signed Pauli relabelling for 34 of the 36 couplings and one continuous per-site unitary M with M² = −I for the other two (XZ+YZ, ZX+ZY); the Z-dephasing Π itself is order 4, Π² = conjugation by X^⊗N | [Π Operator Entanglement](../../experiments/PI_OPERATOR_ENTANGLEMENT.md), [The Boot Script](../../hypotheses/THE_BOOT_SCRIPT.md) |
 | "54,118 chain eigenvalues at N=8" | A Star-topology oscillatory subset mislabeled chain; the all-N census total is 87,376; ~20 docs corrected | [Caught Errors](../CAUGHT_ERRORS.md) (2026-06-22/23), [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md) |
-| Ring-N4 "dihedral lock" | The D₄ point group is present but not operative; the mechanism is the SU(2) Casimir | [Ring N4 proof](../proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md) |
-| F86a "exceptional point" | A diabolic point; the correction itself over-corrected once on the way, and the log records that too | [F86a EP mechanism proof](../proofs/PROOF_F86A_EP_MECHANISM.md), [Caught Errors](../CAUGHT_ERRORS.md) |
-| H and Q_yx as two operators | One operator, two names (H ≡ Q_yx); operator-space-only, does not transport L between dephase letters | [F112 cross-dephase proof](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) |
+| Ring-N4 "dihedral lock" | The D₄ point group is present but not operative; the gap 3J is the SU(2) Casimir's on K_{2,2}, and F148 is what turns it into the Liouvillian's imaginary reach | [Ring N4 proof](../proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md) |
+| F86a "exceptional point" | A near-EP shadow on the real Q axis (genuine non-normality on a simple eigenvalue) with a real-axis defective seed at every odd N (F89's nullity count); the off-axis coalescences characterized so far are diabolic (whether a genuinely off-axis defective EP exists is typed open), and "diabolic" for the real axis was the first retraction's own over-correction, logged | [F86a EP mechanism proof](../proofs/PROOF_F86A_EP_MECHANISM.md), [Caught Errors](../CAUGHT_ERRORS.md) |
+| H and Q_yx as two operators | One operator, two names (H ≡ Q_yx); it has no Hilbert-space unitary lift, yet it carries L_Z to L_X (the Hamiltonian through D's minus-transpose and then the Hadamard lift) and lands the mirror on Π_X⁻¹; it is D, not H, that leaves the dephasing axis on Z | [F112 cross-dephase proof](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) |
 | A "Fisher metric" | A plain coherence-to-decoherence ratio, not quantum Fisher information | [Algebraic Exploration](../../experiments/ALGEBRAIC_EXPLORATION.md) |
-| Trichotomy tags (chain convention, star sector, "(3,3)") | Convention disambiguated; star is FrozenCommutant always; (3,3) reassigned Heisenberg/ZZ | [The Star Frozen Seam](../THE_STAR_FROZEN_SEAM.md), [The Trichotomy Seen](../THE_TRICHOTOMY_SEEN.md) |
+| Trichotomy tags (chain convention, star sector) | Convention disambiguated; the star's survivor is the frozen commutant where the XY network's ceiling g₂ = 4/(N−1) < 1 (N ≥ 6) and un-freezes at N = 4 (g₂ = 4/3); N = 5 sits exactly on g₂ = 1 and its two owners read it differently | [The Star Frozen Seam](../THE_STAR_FROZEN_SEAM.md), [The Trichotomy Seen](../THE_TRICHOTOMY_SEEN.md) |
 | C_int vs C_ext, "two kinds of observation, 33×" | The 33× physical claim fell (the partial exception on this map: a number died with the name); the formal Lindblad distinction stands | [Glossary](../GLOSSARY.md), observer-distinction note |
 | q and Q as one number | Two normalizations of one ratio, q = Q/2; pure relabeling, not physics | [Glossary](../GLOSSARY.md) §"The coupling ratio q and Q", [Caught Errors](../CAUGHT_ERRORS.md) (2026-06-27) |
 | "Protection" / interior-coherence lifetime (the concentrator's 139-360×) | A peak created nearest-neighbour Sum-MI ratio, a transport number; no lifetime figure was ever computed, and a protection objective stays the named open instrument | [Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md), [Concentrator A-vs-B Mechanism Test](../../experiments/CONCENTRATOR_AB_MECHANISM_TEST.md) (Downgrade 2) |
@@ -159,35 +159,35 @@ Caught by reviews; the chronological record is
   notation. Expect recurrence.
 - **"Center" is ambiguous at odd N** (the chain/sector center splits across
   two positions, weakening center-dependent scores); flagged in
-  [Bures Degeneracy](../../experiments/BURES_DEGENERACY.md) and
-  [Thermal Breaking](../../experiments/THERMAL_BREAKING.md). Resolved for the
-  palindrome centre specifically (2026-08-05): that centre is not a chain
-  position at all but the mean eigenvalue, read off the trace, so it is exact
-  and channel-agnostic. The ambiguity remains for the other center-dependent
+  [Bures Degeneracy](../../experiments/BURES_DEGENERACY.md). Resolved for the
+  palindrome centre specifically
+  ([Thermal Breaking](../../experiments/THERMAL_BREAKING.md), 2026-08-05): that centre is not a chain
+  position at all but the mean eigenvalue, read off the trace, so the recipe
+  is exact and channel-agnostic while the value is not (−Σγ under
+  Z-dephasing, −Σγ/2 under amplitude damping, and no centre exists when both
+  act). The ambiguity remains for the other center-dependent
   scores named there.
 - **Π's temporal language** ("past→future") is deliberately tier-split
   (algebra Tier 2, temporal language Tier 3, philosophical reading Tier 5)
   in [The Interpretation](../THE_INTERPRETATION.md); an acknowledged seam
   left open by design.
-- **EQ-014's level question:** why Σ f_i is small for bonding-mode states
-  but order-unity for |+⟩^⊗7 is "a pattern in the data, not (yet) a
+- **EQ-014's level question:** the question itself is marked closed (the
+  closure law is not a theorem), but why Σ f_i is small for bonding-mode
+  states and order-unity for |+⟩^⊗7 is "a pattern in the data, not (yet) a
   theorem" ([Emerging Questions](../../review/EMERGING_QUESTIONS.md)); the
   right name and level for that coefficient are unsettled.
 - **The agent register is half-swept.** Naming γ an eye is retired
-  vocabulary since 2026-08-08, but the sweep that opened the move counted
-  481 occurrences of watching/watched/watcher across 92 files.
-  `docs/quantum/`, the F140 typed strings, five proof prefaces and three
-  reflections are taken; `experiments/`, most of `docs/proofs/`, the
-  remaining `reflections/` and `hypotheses/`, the root
-  pages and the MirrorWorld run-mode strings are not. The rule for the
+  vocabulary since 2026-08-08, but the sweep that opened the move counted,
+  that day, 481 occurrences of watching/watched/watcher across 92 files.
+  `docs/quantum/`, the F140 typed strings, the axis sentence in three of
+  its four documents and the plain-words prefaces of five proofs are taken;
+  `experiments/`, most of `docs/proofs/`, `reflections/`, `hypotheses/`,
+  `recovered/`, the root pages, `simulations/`, the claim and witness
+  strings and the MirrorWorld run-mode strings are not. The rule for the
   remainder is not a word ban: where a watcher is the SUBJECT of a reading,
   or a defined graph role, or a real qubit, the word stays; where γ or the
   dissipator is made the agent, it goes. Tracked as
   `gamma_is_the_sender_not_the_watching`.
-
-Two orientation gaps were closed on the day this map was written: PTF had no
-[Glossary](../GLOSSARY.md) entry, and the translation series was absent from
-the [Reading Guide](../READING_GUIDE.md); both are now linked.
 
 ---
 
@@ -220,9 +220,6 @@ where they are.
 
 ## 7. What is not here yet
 
-- ~~**Dephasing / "noise" has no series entry.**~~ Paid 2026-07-05:
-  [Dephasing Translated](DEPHASING_TRANSLATED.md) is the fourth entry, and
-  the exact core is typed (`HeldLetterRoutingClaim`, `inspect --root label`).
 - **The outbound direction is open, and parked.** Every translation in
   `docs/quantum/` carries a community label INTO our stance; the reverse
   transport, carrying a result of ours OUT to a community's stance, has
@@ -247,7 +244,7 @@ where they are.
   needs a real outreach trigger plus a clean empty round plus citation
   checks. The arc is
   tracked in the open-arcs ledger as `outbound_label_adapters`.
-- **The combination conjecture** (labels as the type system of thought) is now
+- **The combination conjecture** (labels as the type system of thought) is
   grounded in [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md) (Tier 3): the
   descriptive half holds, the forward causal arrow is refuted at its own
   anchor case, and the refinement (combination lives at the stance, the word
@@ -260,9 +257,10 @@ where they are.
 
 For this document: a map, not a territory. Every entry above is owned by the
 document it cites; the map only assembles them so the pattern is visible in
-one place. The pattern, stated once more: across the whole history of this
-repository, the mathematics has never needed the correction; every row above
-is a name that did. That is exactly what the theory chapter predicts of a
+one place. The pattern, stated once more: every row above is a name that
+needed the correction while the number under it stood, with the one
+exception the map marks; the ledger's arithmetic catches are the other
+half, and they are not on this map. That is exactly what the theory chapter predicts of a
 layer that is inherited at every use and recomputed at none. We keep the map
 because we are observers too, and the label layer is the one layer we can
 actually edit.

@@ -16,10 +16,10 @@ public class CatTests
     {
         var cat = new Cat(W, 4, G);
         double branches0 = cat.Branches, coh0 = cat.CatCoherence;
-        Assert.Equal(2.0, branches0, 12);          // two definite poles: |0000><0000| + |1111><1111|
-        Assert.Equal(2.0, coh0, 12);               // the one cat coherence |0000><1111|, with its mirror twin
+        Assert.True(branches0 == 2.0);             // two definite poles: |0000><0000| + |1111><1111| (sums of literal 1.0s)
+        Assert.True(coh0 == 2.0);                  // the one cat coherence |0000><1111|, with its mirror twin
         for (int s = 0; s < 100; s++) cat.Watch(0.05);
-        Assert.Equal(branches0, cat.Branches, 12); // the poles never move: the immortal diagonal (k=0)
+        Assert.True(cat.Branches == branches0);    // the poles never move: the immortal diagonal (k=0) is never stepped
         Assert.True(cat.CatCoherence < coh0);      // the "both at once" dies
     }
 
@@ -27,11 +27,28 @@ public class CatTests
     public void The_Cat_Coherence_Decays_At_Minus_2NGamma()
     {
         var cat = new Cat(W, 4, G);
-        Assert.Equal(-2.0 * G * 4, cat.CoherenceRate, 12);   // k=N=4: rate -2*gamma*N = -0.4
-        double coh0 = cat.CatCoherence;
-        const double dt = 1e-3; const int n = 2500;          // t = 2.5, the 1/e time 1/(2N*gamma)
-        for (int s = 0; s < n; s++) cat.Watch(dt);
-        Assert.Equal(Math.Exp(-2.0 * G * 4 * 2.5), cat.CatCoherence / coh0, 2);  // -> e^{-2N*gamma*t} = 1/e
+        Assert.True(cat.CoherenceRate == -2.0 * G * 4, "k=N=4: rate -2*gamma*N = -0.4, the product Pair forms");
+        // Field.Step is forward Euler, so the cat coherence has the EXACT closed form (1 + rate*dt)^n under the
+        // scheme; compare exactly (see DoubleSlitTests for the argument), then read the exp law as the
+        // first-order limit: the deviation from e^{-2N gamma t} halves when dt halves (t = 2.5, one 1/e time;
+        // e^{-1} * rate^2 t/2 * dt ~ 7.4e-5 at dt = 1e-3).
+        double ratio1 = WatchToT(cat, dt: 1e-3, t: 2.5, out double euler1);
+        Assert.True(ratio1 == euler1, $"the Euler product is exact: {ratio1:R} vs {euler1:R}");
+        double exact = Math.Exp(-2.0 * G * 4 * 2.5);
+        double ratio2 = WatchToT(new Cat(W, 4, G), dt: 5e-4, t: 2.5, out _);
+        double dev1 = Math.Abs(ratio1 - exact), dev2 = Math.Abs(ratio2 - exact);
+        double pred1 = exact * (2.0 * G * 4) * (2.0 * G * 4) * 2.5 / 2.0 * 1e-3;   // e^{rt} r^2 t dt / 2
+        Assert.InRange(dev1 / pred1, 0.995, 1.005);  // the closed form, to the O(r dt) it leaves out
+        Assert.InRange(dev1 / dev2, 1.95, 2.05);
+    }
+
+    static double WatchToT(Cat cat, double dt, double t, out double eulerProduct)
+    {
+        int n = (int)Math.Round(t / dt);
+        double c0 = cat.CatCoherence, factor = 1.0 + cat.CoherenceRate * dt;
+        eulerProduct = 1.0;
+        for (int s = 0; s < n; s++) { cat.Watch(dt); eulerProduct *= factor; }
+        return cat.CatCoherence / c0;
     }
 
     [Theory]
@@ -44,7 +61,7 @@ public class CatTests
         // it decoheres -- the same object read at the two ends of the one law.
         var cat = new Cat(W, n, G);
         double slitRate = new DoubleSlit(W, G).BetweenRate;   // -2*gamma (k=1)
-        Assert.Equal(n * slitRate, cat.CoherenceRate, 12);    // -2*gamma*N = N * (-2*gamma)
+        Assert.True(cat.CoherenceRate == n * slitRate);       // -2*gamma*N = N * (-2*gamma): the same doubles, exact
     }
 
     [Fact]

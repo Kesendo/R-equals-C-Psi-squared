@@ -13,8 +13,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   Off-diagonal element:  ρ[0...0, 1...1] = 1/2  (and its conjugate)
 ///   Other off-diagonal:    0
 ///
-///   For N ≥ 3: CΨ(0) &lt; 1/4 always; GHZ is born below the fold,
-///              γ-independent, no dynamics can fix the geometric deficit.
+///   For N ≥ 3: CΨ(0) &lt; 1/4; GHZ is born below the fold, γ-independent;
+///              under Z-dephasing on a chain where GHZ is an H eigenstate no
+///              trajectory lifts it back (a Hamiltonian that moves the poles
+///              can: Hadamard^⊗3 takes GHZ_3 to 3/7).
 /// </code>
 ///
 /// <para>F60 is the first F-formula whose primary anchor lands DIRECTLY on the
@@ -41,11 +43,13 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         Same anchor as F57 + Dicke (<see cref="QuarterAsBilinearMaxvalClaim"/>).</item>
 /// </list>
 ///
-/// <para>The structural reading: GHZ's geometric off-diagonal weight (= 1/2,
-/// the polarity-pair) divided by the Hilbert-space-minus-1 (= 2^N − 1) gives
-/// CΨ(0). The "− 1" subtraction is the Bloch-state normalisation. For N ≥ 3
+/// <para>The structural reading: GHZ's two off-diagonal entries of 1/2 (the
+/// polarity pair), l1 = 1, divided by the Hilbert-space-minus-1 (= 2^N − 1) give
+/// CΨ(0). The "− 1" is the l1-coherence normalisation (its maximum on d levels
+/// is d − 1). For N ≥ 3
 /// the inverse 1/(2^N − 1) drops below 1/4 (i.e. below a_3), placing GHZ
-/// outside the framework's quantum regime regardless of γ.</para>
+/// below the fold regardless of γ, its fixed-point pair real from the start (a
+/// position relative to the cusp, not a classical verdict).</para>
 ///
 /// <para>Operational consequence (per ANALYTICAL_FORMULAS): "the only escape
 /// is to change the state." GHZ encoding is structurally unsuitable for
@@ -53,8 +57,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// XOR-drain confirms via independent argument).</para>
 ///
 /// <para>Tier1Derived: F60 is Tier 1 geometric corollary. Closed form
-/// derived directly from C(0) = 1 (pure state) + L1-off-diagonal coherence
-/// = 1 + Ψ(0) = 1/(2^N − 1) = L1/(d−1). The Pi2-Foundation anchoring is
+/// derived directly from C(0) = 1 (pure state), l1 off-diagonal coherence = 1,
+/// Ψ(0) = L1/(d−1) = 1/(2^N − 1). The Pi2-Foundation anchoring is
 /// algebraic-trivial composition.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F60 +
@@ -189,15 +193,15 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim, IF99AnchorBearing
             yield return new InspectableNode("operational consequence",
                 summary: "for N ≥ 3 GHZ is structurally unsuitable for state transfer; γ-reduction cannot fix the geometric deficit; only escape = change the state (W-type encodings preferred per F22 + Rule 1)");
             yield return new InspectableNode("F60 ↔ F62 sibling",
-                summary: "F60 (GHZ): pair-CΨ(0) = 1/(2^N − 1) below fold for N ≥ 3; F62 (W_N): pair-CΨ(0) = 10/81 ≈ 0.124 also below fold at N=3; F69 (GHZ+W mix): unique optimum above 1/4 via sextic root");
-            // Verified table from ANALYTICAL_FORMULAS F60
+                summary: "F60 (GHZ): global CΨ(0) = 1/(2^N − 1) on the 2^N-dimensional state, below fold for N ≥ 3; F62 (W_N): pair-reduced CΨ(0) = 10/81 ≈ 0.124 also below fold at N=3; F69 (GHZ+W mix): unique optimum above 1/4 via sextic root");
+            // Verified table: N = 2..5 from ANALYTICAL_FORMULAS F60, N = 6 by the closed form
             for (int N = 2; N <= 6; N++)
             {
                 double cpsi = CPsiAtZeroForGhz(N);
                 yield return new InspectableNode(
                     $"N={N}",
                     summary: $"CΨ(0) = 1/(2^{N} − 1) = 1/{HilbertSpaceDimension(N) - 1.0:G6} = {cpsi:G6}; " +
-                             $"above fold: {cpsi > FoldPosition} ({(cpsi > FoldPosition ? "Bell+ regime" : "born classical")})");
+                             $"above fold: {cpsi > FoldPosition} ({(cpsi > FoldPosition ? "Bell+ regime" : "below the fold")})");
             }
         }
     }

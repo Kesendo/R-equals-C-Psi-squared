@@ -87,15 +87,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md and
 /// simulations/f112_klein_v4_cross_dephase_verify.py (Welle 13). Caveat: the
 /// D-involution (Z↔Y swap in Pi2KleinV4DephaseSwapGroup) is operator-space-only
-/// and does NOT transport L_Z to a Lindblad-form L_Y; F112-Y requires the direct
-/// re-run, not D-conjugation.</para>
+/// and does NOT rotate the dephasing letter (D·L_Z·D⁻¹ is L_Z again, with H → −Hᵀ);
+/// it does carry the F112-Z identity to F112-Y, since D·Π_Z·D = Π_Y = Π_Z⁻¹ and the
+/// hypothesis class is D-invariant (the same fact as asymmetry_Y = −asymmetry_Z, F155).</para>
 ///
 /// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.BitB"/>;
-/// no BitA twin Claim registered. As of Welle 13 the bit_a-axis sibling F112-X
-/// (Π_X polarity with bit_a-homogeneous c) is Tier1Derived universal N via the
-/// same proof structure with axis = bit_a substituted (see cross-dephase proof
-/// doc), but it lives in the proof file rather than as a separate Claim, so
-/// <see cref="BitATwinClassification.BitBSpecific"/> still applies here. Ctor parent
+/// the bit_a twin is <see cref="LindbladBitAPiBalance"/> (F112-X, wired Welle 15). Ctor parent
 /// <see cref="F108Part1Pi2EvenAlwaysPalindromic"/> records the shared bit_b
 /// foundation: F112 uses the F38 / F63 Π² eigenvalue formula on Pauli strings in
 /// exactly the same way F108 does, and the bilinear set {XX, YY, YZ, ZY, ZZ}

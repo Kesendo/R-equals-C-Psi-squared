@@ -7,13 +7,13 @@ letter S3 does not normalize D4, no order-48 completion, closure 96 times 2^N,
 dephasing diagonal Q = sum_l kron(P_l, P_l transpose), disagreement count,
 ThreeDephasingDiagonalsOrbitClaim, inspect root diagonal, R=CPsi2 -->
 
-**Status:** Synthesis. The result is Tier 1 derived, typed as `ThreeDephasingDiagonalsOrbitClaim`, and recomputed live at `inspect --root diagonal` (the "orbit" node). Verified at N = 2, 3 (orbit size, the basis moves) and N = 2..4 (same spectrum). These are float comparisons at tolerance 10⁻¹⁰, not bit-exact ones: both conjugators carry a 1/√2.
+**Status:** Synthesis. The result is Tier 1 derived, typed as `ThreeDephasingDiagonalsOrbitClaim`, and recomputed live at `inspect --root diagonal` (the "orbit" node). Verified at N = 2, 3 (orbit size, the basis moves) and N = 2..4 (same spectrum). These are float comparisons, at 10⁻¹⁰ for the conjugations in the verifier and the claim battery and 10⁻⁹ for the spectra and in the live witness, not bit-exact ones: the route as run carries a 1/√2 per factor. The conjugation itself is dyadic (per site h P h = ½ times an integer matrix, so on coherence space the conjugation is 2^(−2N) times a matrix of integers, Gaussian integers for the yz turn), so an exact route exists and is not the one run.
 **Date:** 2026-06-15
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Builds on:**
 - [PROOF_ABSORPTION_THEOREM.md](proofs/PROOF_ABSORPTION_THEOREM.md) §4.7: the Z diagonal Q_Z and L_D = γ·(Q_Z − N·I).
 - [reflections/ON_THE_ONE_DIAGONAL.md](../reflections/ON_THE_ONE_DIAGONAL.md): one diagonal, read three ways (rate / mirror / judge). The three readings are there in words; the D₄ that carries them is in the R·D proof below, not in that reflection.
-- [reflections/D_PI_Z_EQUALS_PI_Y.md](../reflections/D_PI_Z_EQUALS_PI_Y.md): D·Π_Z·D = Π_Y, the three-fold at the palindromizer level.
+- [reflections/D_PI_Z_EQUALS_PI_Y.md](../reflections/D_PI_Z_EQUALS_PI_Y.md): D·Π_Z·D = Π_Y, the Z↔Y swap at the palindromizer level (the three-fold there is the Klein V₄ proof's).
 - [PROOF_PI_FACTORS_AS_R_TIMES_D.md](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §5: the letter-S₃ side of the mirror group, and its resolution (the expected order-48 completion does not exist).
 
 ---
@@ -32,7 +32,7 @@ These three diagonals sit inside a larger web of symmetries, two distinct three-
 
 ## Abstract
 
-Z-dephasing of a spin chain touches exactly one diagonal of the Liouvillian: Q_Z = Σ_l Z_l ⊗ Z_l, whose integer levels are the disagreement count k = popcount(i ⊕ j), making L_D diagonal with entries −2γk (the Absorption Theorem, §4.7). That diagonal is one of **three**: Q_X, Q_Y, Q_Z, one per dephasing axis, and {Q_X, Q_Y, Q_Z} is exactly **one orbit**, of size three, under the single-qubit letter moves. The three are conjugate, hence co-spectral, so "the one diagonal" is provably one face of a three-fold. The Y diagonal carries a sign (Yᵀ = −Y), and that sign is what closes the orbit; the lesson of how it was found is the reason this is generated as three operators, not three spectra. The three diagonals (permuted by the letter-S₃) and the three readings within one diagonal (the mirror group D₄) are two distinct three-folds, and they do **not** assemble into a semidirect product: the letter moves do not normalise D₄ (§4).
+Z-dephasing of a spin chain touches exactly one diagonal of the Liouvillian: Q_Z = Σ_l Z_l ⊗ Z_l, whose integer levels N − 2k read the disagreement count k = popcount(i ⊕ j), making L_D = γ(Q_Z − N·I) diagonal with entries −2γk (the Absorption Theorem, §4.7). That diagonal is one of **three**: Q_X, Q_Y, Q_Z, one per dephasing axis, and {Q_X, Q_Y, Q_Z} is exactly **one orbit**, of size three, under the single-qubit letter moves. The three are conjugate, hence co-spectral, so "the one diagonal" is provably one face of a three-fold. The Y diagonal carries a sign (Yᵀ = −Y), and that sign is what closes the orbit; the lesson of how it was found is the reason this is generated as three operators, not three spectra. The three diagonals (permuted by the letter-S₃) and the three readings within one diagonal (the mirror group D₄) are two distinct three-folds, and they do **not** assemble into a semidirect product: the letter moves do not normalise D₄ (§4).
 
 ## §1 The object: one diagonal per dephasing axis
 
@@ -59,9 +59,9 @@ The three diagonals are one orbit of the single-qubit basis moves
 each acting by conjugation, Ad_U(Q) = U·Q·U†:
 
   **h_zx · Q_Z · h_zx⁻¹ = Q_X**,
-  **h_yz · Q_Z · h_yz⁻¹ = Q_Y**   (both machine-zero, below 10⁻¹⁴ at N = 3; the exact residual is BLAS-dependent, so no digits are pinned here).
+  **h_yz · Q_Z · h_yz⁻¹ = Q_Y**   (both machine-zero on the route as run; the exact residual is BLAS-dependent, so no digits are pinned here, and the gates sit at 10⁻¹⁰ for the conjugations in the verifier and the claim battery, 10⁻⁹ for the spectra and in the live witness).
 
-The group these two generate is **not** S₃ and it is worth saying why, because the name has been wrong here. R_x(π/2) is a quarter-turn on the letters (Y → Z → −Y → −Z), so h_yz has order 4 and ⟨h_zx, h_yz⟩ has order **24**, the single-qubit Clifford group modulo phases. The genuine letter-S₃ is generated by the **involutive** transposition Cliffords, ⟨h_zx, t_yz⟩ with t_yz = Ad of (Y + Z)/√2, and has order 6. Both groups induce the same action here: the orbit of Q_Z has size exactly **3** under either (verified N = 2, 3, 4), carrying Q_Z to the three dephasing diagonals and no further, and both realise the full S₃ on those three. The order-6 group acts faithfully; the order-24 one acts through its quotient by a kernel of order 4, because Q_P is quadratic in P_l and so cannot see a letter move that only changes signs. Conjugate operators have the same eigenvalues (they are co-spectral), so
+The group these two generate is **not** S₃ and it is worth saying why, because the name is a trap here. R_x(π/2) is a quarter-turn on the letters (Y → Z → −Y → −Z), so h_yz has order 4 and ⟨h_zx, h_yz⟩ has order **24**, the single-qubit Clifford group modulo phases. The genuine letter-S₃ is generated by the **involutive** transposition Cliffords, ⟨h_zx, t_yz⟩ with t_yz = Ad of (Y + Z)/√2, and has order 6. Both groups induce the same action here: the orbit of Q_Z has size exactly **3** under either (verified N = 2, 3), carrying Q_Z to the three dephasing diagonals and no further, and both realise the full S₃ on those three. The order-6 group acts faithfully; the order-24 one acts through its quotient by a kernel of order 4, because Q_P is quadratic in P_l and so cannot see a letter move that only changes signs. Conjugate operators have the same eigenvalues (they are co-spectral), so
 
   **spec(Q_X) = spec(Q_Y) = spec(Q_Z)**   (verified N = 2..4).
 
@@ -71,7 +71,7 @@ The letter moves permute {X, Y, Z}; the three diagonals are their orbit. "The on
 
 The orbit was found by a physics-first gate, and the way it fired is worth keeping. With the naive Q_Y = +Σ Y_l ⊗ Y_l (forgetting Yᵀ = −Y), the orbit does **not** close: applying h_yz gives −Σ kron(Y, Y), one sign flip from the naive +Σ kron(Y, Y). Yet a **spectrum-only** check passes anyway, because the spectrum of Q_Y is symmetric about 0, so +Q_Y and −Q_Y are co-spectral. A test that compared eigenvalues would have reported success while the operator identity was off by a sign.
 
-So the gate separated **spectrum** from **operator**: the witness builds all three Q_X, Q_Y, Q_Z as operators and checks the conjugation identity h·Q·h⁻¹ = Q′ entry by entry (to a 10⁻¹⁰ tolerance; the 1/√2 in the conjugators rules out an exact comparison), rather than merely comparing eigenvalues. The physical content lives in the operator (the Y-transpose); the spectrum is blind to it. That is why the three diagonals are *generated*, not inferred from their spectra.
+So the gate separated **spectrum** from **operator**: the witness builds all three Q_X, Q_Y, Q_Z as operators and checks the conjugation identity h·Q·h⁻¹ = Q′ entry by entry (to a 10⁻¹⁰ tolerance on the route as run, which carries a 1/√2 per factor; the conjugation itself is dyadic and an exact route exists), rather than merely comparing eigenvalues. The physical content lives in the operator (the Y-transpose); the spectrum is blind to it. That is why the three diagonals are *generated*, not inferred from their spectra.
 
 ## §4 The structure: two three-folds that do not lock into one group
 
@@ -88,15 +88,15 @@ That pattern is a fact about the two factors, and it is **not** evidence of a se
 
   **h_zx · R · h_zx⁻¹ = the one-sided multiplication by Z^⊗N, which is outside the eight elements of ⟨R, D⟩.**
 
-The coherence-space closure ⟨R, D, h_zx, t_yz⟩ has order 96·2^N (384 at N = 2, 768 at N = 3), not the 48 an S₃ ⋉ D₄ would have. This is settled in `PROOF_PI_FACTORS_AS_R_TIMES_D` §5 ("Resolution of the S₃ side", 2026-06-15, with its own gate at N = 2, 3): the abstract S₃ ⋉ D₄ has no faithful finite realisation here. What survives, and is the content of this note, is the orbit: three diagonals, one letter-S₃ action, one shared spectrum.
+The coherence-space closure ⟨R, D, h_zx, t_yz⟩ has order 96·2^N (384 at N = 2, 768 at N = 3), not the 48 an S₃ ⋉ D₄ would have. This is settled in `PROOF_PI_FACTORS_AS_R_TIMES_D` §5 ("Resolution of the S₃ side", 2026-06-15, with its own gate at N = 2, 3): the abstract S₃ ⋉ D₄ is not realised inside the coherence-space group these mirrors generate. What survives, and is the content of this note, is the orbit: three diagonals, one letter-S₃ action, one shared spectrum.
 
-One subtlety pins the two apart. **D (the transpose) FIXES every diagonal**, D·Q·D = +Q (it is the rate reading); it does **not** permute them. The basis-S₃ permutes the diagonals; D does not. The proof's phrase "D = the Z↔Y swap" lives on the **palindromizer** Π (a symmetry operator from the referenced proofs that exchanges the slow and fast decay modes, the spectral palindrome), where D·Π_Z·D = Π_Y (`D_PI_Z_EQUALS_PI_Y`), not on the diagonal Q. The Π-level three-fold and the Q-level three-fold are parallel but distinct realizations of the same letter permutation.
+One subtlety pins the two apart. **D (the transpose) FIXES every diagonal**, D·Q·D = +Q (it is the rate reading); it does **not** permute them. The basis-S₃ permutes the diagonals; D does not. The proof's D as the Z↔Y swap lives on the **palindromizer** Π (a symmetry operator from the referenced proofs that exchanges the slow and fast decay modes, the spectral palindrome), where D·Π_Z·D = Π_Y (`D_PI_Z_EQUALS_PI_Y`), not on the diagonal Q. The Π-level three-fold and the Q-level three-fold are parallel but distinct realizations of the same letter permutation.
 
 ## §5 The completion, and how it closed
 
-The D₄ core ⟨R, D⟩ is typed (`MirrorGroupD4Claim`). The completion by the letter moves was expected to be the order-48 **S₃-letter-action ⋉ D₄**, and `PROOF_PI_FACTORS_AS_R_TIMES_D` §5 named it open on the day this note was written. It closed the same day, and the answer is the one §4 states: the linear letter-S₃ exists as superoperators, but it does not normalise D₄, so the order-48 group is not there to be built.
+The D₄ core ⟨R, D⟩ is typed (`MirrorGroupD4Claim`). The completion by the letter moves was expected to be the order-48 **S₃-letter-action ⋉ D₄**, and the answer is the one §4 states: the linear letter-S₃ exists as superoperators, but it does not normalise D₄, so the order-48 group is not there to be built.
 
-The question this section used to pose closed with it. It asked whether the dephase-letter-swap S₃ acting on the palindromizers Π is the **same** abstract S₃ as the letter-S₃ of this note acting on the diagonals Q. There were never two S₃'s. One letter-S₃ acts in both places, and it acts differently because the two objects have different sensitivities: it acts faithfully on the diagonals, which are quadratic in the letters and therefore blind to sign, and it carries Clifford signs on the palindromizers, giving a larger orbit there. The same asymmetry is what §4's closing subtlety records, where D fixes every diagonal but swaps Π_Z with Π_Y.
+One question closes with it: whether the dephase-letter-swap S₃ acting on the palindromizers Π is the **same** abstract S₃ as the letter-S₃ of this note acting on the diagonals Q. There were never two S₃'s. One letter-S₃ acts in both places, and it acts differently because the two objects have different sensitivities: it acts faithfully on the diagonals, which are quadratic in the letters and therefore blind to sign, and it carries Clifford signs on the palindromizers, giving a larger orbit there. The same asymmetry is what §4's closing subtlety records, where D fixes every diagonal but swaps Π_Z with Π_Y.
 
 The arc `linear_s3_mirror_completion` is retired (`inspect --root arcs`); its resolution note is the anchor.
 
