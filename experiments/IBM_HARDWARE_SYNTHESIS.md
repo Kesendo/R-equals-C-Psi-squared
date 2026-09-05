@@ -301,17 +301,19 @@ stale T2* from 6 days prior gave 61% error; same-day T2* gave 1.9%.
 | 6 | Permanent crossers: dephasing signature | 181-day history | **Visible** |
 | 7 | r is structural (CV ~ 0.20) | 181-day history | **Visible** |
 | 8 | 84% pure dephasing in crossers | 181-day history | **Visible** |
-| 9 | Reported edge/interior decay ratio 1.97x | 5-qubit chain, selective DD | **Protocol-specific observation** |
+| 9 | Fitted edge/interior mean decay ratio ≈1.91x | 5-qubit chain, selective DD | **Protocol-specific observation** |
 | 10 | V-Effect: MI enhancement grows with time | 5-qubit chain, selective DD | **Partial** |
 | 11 | Resonator propagates beyond neighbors | 10-pair analysis, raw counts | **Visible** |
 | 12 | Full palindromic eigenvalue pairing | Requires multi-qubit spectral reconstruction | **Not measured by these runs** |
 
-Finding 9 (March 29 re-analysis): Under selective DD, the sacrifice-
-edge pair (0,1) and far-edge pair (3,4) decay at gamma = 0.204/us.
-Interior pairs (1,2) and (2,3) decay at gamma = 0.107/us. Ratio:
-**1.97x** (the reported comparison to 2.00x gives 1.5% deviation). This ratio appears
-only under selective DD (Uniform: 3.14x, No DD: 2.36x). The selective
-treatment gives the reported edge/interior response-rate contrast.
+Finding 9: Fit each pair's five stored `pair_mi` values in the
+[selective-DD data](../data/ibm_sacrifice_zone_march2026/sacrifice_zone_hw_selective_dd_20260324_191523.json)
+at t = 1…5 µs by unweighted least squares to MI(t) = A exp(−γt),
+with no offset. Average the fitted rates of edge pairs (0,1) and (3,4),
+and separately those of interior pairs (1,2) and (2,3). The class means
+are approximately 0.2042/µs and 0.1072/µs; their ratio, using unrounded
+fits, is **≈1.91x**. The rounded 0.204/µs and 0.107/µs are class
+averages, not a common fitted rate for both pairs in each class.
 Response fits do not identify a full set of Liouvillian eigenvalue partners.
 
 Finding 10: The MI enhancement ratio (Selective/Uniform) grows from
@@ -329,7 +331,7 @@ constructed matrices and molecular calculations are separate model results.
 | Prediction | Qubit (IBM) | Neural (WC/C. elegans) | H-Bond | Scope |
 |------------|-------------|----------------------|--------|-------------|
 | Palindromic pairing | Full eigenvalue pairing not measured | Conditional F36 constructions; full chemical connectome support fails | Two-proton model calculation | Separate algebra and model tests; no cross-domain hardware confirmation |
-| Edge/interior response decay | Reported **1.97x** | No neural 2x law from F36 | Not tested | Specified IBM protocol |
+| Edge/interior response decay | Fitted class-mean ratio **≈1.91x** | No neural 2x law from F36 | Not tested | Specified IBM protocol |
 | 1/4 boundary | **1.9% dev**, r* 0.000014 | F36 supplies no neural threshold | 0.46 ps (water model) | IBM observation and separate molecular calculation |
 | Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
 | V-Effect | MI enhancement grows with time | Protocol-dependent frequency bins; coupled odd construction fails F36 | **109** freq (computed) | Distinct response and spectral diagnostics; common mechanism unestablished |
@@ -435,7 +437,7 @@ confirmed.
 - **84.1%** pure dephasing in permanent crossers
 - **12** permanent crossers (9% of chip)
 - **3.73** mean T1/T2 ratio for permanent crossers
-- **1.97x** edge/interior decay rate ratio (theory: 2.00x, deviation 1.5%)
+- **≈1.91x** edge/interior mean decay-rate ratio from the specified pair-MI fits
 - **3.71x** center-to-far-edge MI enhancement under selective DD (non-adjacent pair)
 
 ---

@@ -2,7 +2,7 @@
 
 <!-- Keywords: quantum resonator impedance matching, CΨ quarter boundary resonance,
 standing wave bidirectional bridge, impedance oscillation heartbeat,
-RFID backscatter quantum analogue, biology resonator not transmitter,
+RFID backscatter quantum analogue, open biological resonance analogy,
 gamma absorption modulation state-dependent, sacrifice-zone antenna shape,
 Q-factor crossing count optimization, R=CPsi2 resonance paradigm -->
 

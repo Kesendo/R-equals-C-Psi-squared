@@ -287,6 +287,13 @@ def test_crossing_value_uses_the_time_interpolation_fraction():
 
 
 @pytest.mark.parametrize("script,required,forbidden,table", [
+    ("neural/random_network_controls.py",
+     ("Historical real-part tolerance matcher",
+      "scalar diagonal and effective-weight conditions",
+      "Uniform tau settles the diagonal condition, not the weight condition.",
+      "NO BIOLOGICAL PAIRING VERDICT", "Trials per condition: 200"),
+     ("scalar residual", "residual that reads coupling magnitude", "imposes nothing"),
+     "mean= 99.2%"),
     ("neural/neural_clock_two_hands.py",
      ("F36 fails", "grid-dependent", "external drive P", "fitted diagonal",
       "theta = atan2(|Im|, |Re|), which discards the real-part sign"),
