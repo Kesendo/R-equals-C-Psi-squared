@@ -1,46 +1,26 @@
 #!/usr/bin/env python3
 """
-The two-handed clock on the neural side, and which hand is graph-blind.
+Neural matrix census: spectral angles, trace, and fitted residuals.
 
-PARTIAL WITHDRAWAL 2026-08-26: the two C. elegans COMPARISON rows this script
-prints (Erdos-Renyi and degree-preserving) are withdrawn. The residual has the
-closed form sqrt(2)*||W_eff||/||J|| on blocks this sparse, so it reads coupling
-magnitude and not wiring, and an empty network scores a perfect 0. On top of
-that the two arms are normalised differently: the connectome globally, by
-max|W| over the whole animal, and random_dale_network by its own maximum. The
-Takt result (the diagonal piece closing to zero) is untouched. See
-docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md and
+With zero self-coupling, mean Re(lambda) = trace(J)/n
+= -(n_E/tau_E + n_I/tau_I)/n. Only for equal E/I counts is this -S.
+Individual real and imaginary parts can both change under coupling or drive.
+The angle atan2(|Im|, |Re|) discards the real-part sign and is no stability test.
+Pairing alone implies neither real eigenvalues nor silence (F36/F37).
+
+The mediator construction has an unmatched excitatory seat: F36 fails for
+its E/I swap at s=S even at zero coupling. Counts and extrema are readings
+on the displayed grids and thresholds, hence grid-dependent. P is external
+drive, without a temperature calibration. The sigmoid builder performs 500
+updates without checking the fixed-point equation residual.
+
+residual_split fits a diagonal matrix, so its diagonal residual is zero by
+construction. It is not the scalar-centre F36 test. With disjoint coupling
+and Q-transformed supports, its off-diagonal norm reads coupling magnitude.
+The connectome and random controls also use different normalizations; these
+rows cannot establish a wiring advantage. Current scalar-identity controls:
+neural_translation_gate.py, docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md and
 experiments/NEURAL_CLOCK_TWO_HANDS.md.
-
-SEAM 2 (the clock). The neural Jacobian eigenvalues mu = -rate + i*omega are
-the same clock object as the quantum Liouvillian: a Takt hand (radial decay)
-and a Rotation hand (angular omega), with per-mode angle
-theta = atan2(|omega|, rate)  (0 deg = pure decay, 90 deg = pure rotation).
-The V-Effect and the thermal window move ONLY the Rotation hand; the Takt
-stays pinned.
-
-SEAM 1 (which hand is graph-blind). The Takt is graph-blind by an exact
-identity:
-    mean Re(lambda) = trace(J)/d = -(1/tau_E + 1/tau_I)/2 = -S,
-set only by the membrane constants, because the synaptic graph W contributes
-NOTHING to the diagonal of J -- it is "traceless," exactly as the Hamiltonian
-commutator -i[H,.] is traceless in the quantum Liouvillian, where only the
-gamma's set the trace (= the palindrome center 2*Sum gamma). The wiring lives
-entirely in the off-diagonal -- the Rotation. And there C. elegans is matched
-by a degree-preserving rewire but NOT by Erdos-Renyi: even the Rotation is set
-by the coarse degree structure. THAT SECOND HALF IS WITHDRAWN, see the notice
-above: the comparison rows cannot support it.
-
-So the neural reading of F1's topology-blindness: the palindrome center is
-bath-set (gamma) in the quantum case and membrane-set (1/tau) here; in neither
-does the graph touch it. Dale's Law (local, per-neuron) gives the signs for
-free; only the off-diagonal magnitude-match is graph-dependent, and only at
-the coarse degree level.
-
-Builders are copied minimally from veffect_exact.py / veffect_and_heat.py /
-validation_checks.py (siblings in this directory; the neural scripts already
-each redefine these small helpers, so this probe follows suit rather than
-importing modules that run on import).
 """
 import json
 import os
@@ -52,7 +32,7 @@ NEURAL_DIR = SCRIPT_DIR  # this script lives in simulations/neural/
 
 TAU_E, TAU_I = 5.0, 10.0          # one clock for both parts
 S = (1.0 / TAU_E + 1.0 / TAU_I) / 2.0     # palindrome center -> spectral center is -S
-GAP = 1.0 / TAU_E + 1.0 / TAU_I           # Takt gap = 2S ; tau_clock = 1/GAP
+GAP = 1.0 / TAU_E + 1.0 / TAU_I           # reciprocal-time sum = 2S
 ALPHA = 0.5
 
 
@@ -183,9 +163,11 @@ def swap_Q(signs):
 
 
 def residual_split(J, Q):
-    """Return (diag_residual, offdiag_residual) of Q J Q + J + 2 S, both
-    normalised by ||J||. The diagonal piece is the Takt (self-decay) part;
-    the off-diagonal piece is the Rotation (coupling) part."""
+    """Return normalized residuals after fitting a separate centre per seat.
+
+    The fitted diagonal cancels by construction; the off-diagonal residual
+    is a coupling diagnostic, not a frequency or scalar-centre test.
+    """
     QJQ = Q @ J @ Q.T
     S_diag = -(np.diag(QJQ) + np.diag(J)) / 2.0
     R = QJQ + J + 2 * np.diag(S_diag)
@@ -235,22 +217,26 @@ def random_dale_network(rng, n_total, signs, density):
 
 # ==========================================================================
 print("=" * 72)
-print("PART A  --  the two hands on the neural clock  (seam 2)")
-print(f"  tau_E={TAU_E}, tau_I={TAU_I}  ->  Takt gap = 1/tau_E + 1/tau_I = {GAP:.3f}")
-print(f"  spectral center should sit at -S = {-S:+.3f}  (= trace(J)/d)")
+print("PART A  --  neural matrix census")
+print(f"  tau_E={TAU_E}, tau_I={TAU_I}  ->  1/tau_E + 1/tau_I = {GAP:.3f}")
+print(f"  balanced-population mean real part = -S = {-S:+.3f}")
+print("  Counts/extrema are grid-dependent; angles do not test stability.")
 print("=" * 72)
 
-# 1. the silent noble gas: exact palindrome
+# 1. One paired-weight construction at the displayed coupling and seed
 W, signs = build_exact_palindromic_network(20, TAU_E, TAU_I, seed=42)
 J = build_linear_jacobian(W, signs, TAU_E, TAU_I, ALPHA)
 n_rot, th_max, mre = clock(np.linalg.eigvals(J))
 dres, ores = residual_split(J, swap_Q(signs))
-print(f"\n  exact palindrome (N=20): off-diag residual {ores:.1e}  "
-      f"-> n_rotating={n_rot}, theta_max={th_max:.1f} deg  (SILENT)")
-print(f"      mean Re(lambda) = {mre:+.4f}   (Takt pinned at -S={-S:+.3f})")
+print(f"\n  paired-weight construction (N=20): off-diag residual {ores:.1e}  "
+      f"-> n_rotating={n_rot}, theta_max={th_max:.1f} deg")
+print(f"      mean Re(lambda) = {mre:+.4f}   (balanced trace/n={-S:+.3f})")
+print("      This seed's count does not make pairing a silence condition.")
 
-# 2. V-Effect: couple two exact nets, sweep coupling -> Rotation hand wakes up
-print("\n  V-EFFECT  (two exact nets + 1 mediator, coupling sweep):")
+# 2. Couple two constructions through one mediator and count complex roots
+print("\n  COUPLING CENSUS  (two constructions + 1 mediator):")
+print("  F36 fails for this odd-seat E/I swap at s=S, including zero coupling.")
+print("  |Im| threshold = 1e-6; the bridge need not preserve Dale source signs.")
 print(f"  {'coupling':>8s}  {'n_rotating':>10s}  {'theta_max':>9s}  {'mean Re':>9s}")
 print("  " + "-" * 44)
 N = 20
@@ -273,29 +259,28 @@ for g in [0.0, 0.01, 0.05, 0.1, 0.3, 0.5, 1.0]:
         Wt[off + N - 1, 2 * N] = g
     Jc = build_linear_jacobian(Wt, signs_c, TAU_E, TAU_I, ALPHA)
     n_rot, th_max, mre = clock(np.linalg.eigvals(Jc))
-    mark = "  <- Rotation wakes" if (g in (0.01, 0.05)) else ""
-    print(f"  {g:8.2f}  {n_rot:10d}  {th_max:8.1f}  {mre:+9.4f}{mark}")
+    print(f"  {g:8.2f}  {n_rot:10d}  {th_max:8.1f}  {mre:+9.4f}")
 
-# 3. thermal window: sweep drive P -> Rotation hand sweeps up and back
-print("\n  THERMAL WINDOW  (approximate net, drive P sweep):")
+# 3. External-input sweep through the sigmoid row slopes
+print("\n  INPUT CENSUS  (external drive P, sigmoid Jacobian):")
+print("  |Im| threshold = 1e-5; 500 updates, no fixed-point residual check.")
 print(f"  {'P':>6s}  {'n_rotating':>10s}  {'theta_max':>9s}  {'mean Re':>9s}")
 print("  " + "-" * 42)
 Wb, signs_b = make_balanced_network(50, density=0.3, seed=42)
 for P in [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0]:
     Jp = build_jacobian_with_sigmoid(Wb, signs_b, TAU_E, TAU_I, 0.3, P)
     n_rot, th_max, mre = clock(np.linalg.eigvals(Jp), tol=1e-5)
-    mark = "  <- widest angle" if P == 4.0 else ""
-    print(f"  {P:6.1f}  {n_rot:10d}  {th_max:8.1f}  {mre:+9.4f}{mark}")
+    print(f"  {P:6.1f}  {n_rot:10d}  {th_max:8.1f}  {mre:+9.4f}")
 
 # ==========================================================================
 print("\n" + "=" * 72)
-print("PART B  --  which hand is graph-blind  (seam 1)")
-print("  Takt = trace(J)/d = -S : the synaptic graph W never touches the")
-print("  diagonal, so the spectral center is membrane-set, not graph-set.")
+print("PART B  --  trace and fitted coupling residuals")
+print("  Zero self-coupling fixes trace(J)/n for fixed type counts and leaks.")
+print("  It does not fix individual real parts or establish spectral pairing.")
 print("=" * 72)
 
-# the Takt identity, exactly, on three different graphs
-print("\n  THE TAKT IS THE TRACE (exact, graph-blind):")
+# The trace identity on three zero-self-coupling matrices
+print("\n  TRACE/N AT EQUAL E/I COUNTS:")
 print(f"  {'graph':>22s}  {'mean Re(lambda)':>15s}  {'-S target':>10s}")
 print("  " + "-" * 52)
 rng = np.random.RandomState(7)
@@ -307,8 +292,11 @@ for label, Wd in [("balanced random", demo_W),
     _, _, mre = clock(np.linalg.eigvals(Jd))
     print(f"  {label:>22s}  {mre:+15.6f}  {-S:+10.4f}")
 
-# C. elegans vs degree-preserved vs ER: the Rotation (off-diag) residual
-print("\n  THE ROTATION LIVES ON COARSE DEGREE STRUCTURE (C. elegans):")
+# C. elegans vs degree-preserved vs ER: fitted residual diagnostic
+print("\n  FITTED RESIDUAL COMPARISON (C. elegans):")
+print("  The fitted diagonal cancels by definition, not by an F36 test.")
+print("  Disjoint supports reduce this reading to coupling magnitude.")
+print("  Connectome and random controls use different normalizations.")
 ce_path = os.path.join(NEURAL_DIR, "celegans_connectome.json")
 with open(ce_path) as f:
     data = json.load(f)
@@ -348,23 +336,18 @@ for trial in range(n_trials):
     _, o_er = residual_split(build_linear_jacobian(W_er, signs_sub, TAU_E, TAU_I, 0.3), Q)
     er_off.append(o_er)
 
-print(f"  {'':>22s}  {'diag (Takt)':>12s}  {'off-diag (Rotation)':>20s}")
+print(f"  {'':>22s}  {'diag (fit)':>12s}  {'off-diag':>20s}")
 print("  " + "-" * 58)
 print(f"  {'C. elegans':>22s}  {np.mean(ce_diag):12.1e}  {np.mean(ce_off):20.4f}")
 print(f"  {'degree-preserved':>22s}  {'(identical)':>12s}  {np.mean(dp_off):20.4f}")
 print(f"  {'Erdos-Renyi (Dale)':>22s}  {'(identical)':>12s}  {np.mean(er_off):20.4f}")
-print(f"\n  C. elegans / degree-preserved = {np.mean(ce_off)/np.mean(dp_off):.2f}  (WITHDRAWN: cannot move)")
-print(f"  C. elegans / Erdos-Renyi      = {np.mean(ce_off)/np.mean(er_off):.2f}  (WITHDRAWN: two normalisations)")
+print(f"\n  C. elegans / degree-preserved = {np.mean(ce_off)/np.mean(dp_off):.2f}  (fitted-residual ratio)")
+print(f"  C. elegans / Erdos-Renyi      = {np.mean(ce_off)/np.mean(er_off):.2f}  (different normalizations)")
 
 print("\n" + "=" * 72)
 print("READING")
-print("  The Takt hand is the trace: -(1/tau_E + 1/tau_I)/2, membrane-set,")
-print("  graph-blind by an exact identity (W is traceless in J, as -i[H,.]")
-print("  is traceless in L; only the bath sets the center). Coupling and")
-print("  drive move only the Rotation hand. THAT IS THE RESULT THAT STANDS.")
-print("  The two comparison rows above are WITHDRAWN (2026-08-26): the")
-print("  two arms were normalised by different constants, and on blocks this")
-print("  sparse the residual collapses to coupling magnitude alone. Nothing")
-print("  here says whether the")
-print("  Rotation hand reads the fine wiring; that question is reopened.")
+print("  The invariant is trace(J)/n, with type counts and leaks held fixed.")
+print("  Coupling and drive can change individual decay rates and frequencies.")
+print("  The fitted-residual comparisons establish no wiring advantage.")
+print("  Scalar-identity and multiplicity controls: neural_translation_gate.py.")
 print("=" * 72)

@@ -1,15 +1,12 @@
 """
-Energy Partition Experiment
-===========================
-Where do waves go when the palindrome breaks?
+Filtered-spectrum frequency and decay weight diagnostic.
 
-For Heisenberg qubit chains (N=2..5) under Z-dephasing:
-  - Compute Liouvillian eigenvalues
-  - Classify modes as palindromically paired or unpaired
-  - Compute oscillatory energy |Im(lambda)| in each category
-  - Result: 100% of oscillatory energy lives in palindromic modes
-
-Finding 1 in ENERGY_PARTITION.md.
+For these Heisenberg chains under local Z-dephasing the full multiset pairs
+by F1. Here matching excludes zero roots (|lambda| <= 1e-8), removing the
+partners of roots near -2*sum_gamma. An unmatched filtered root therefore
+does not demonstrate symmetry breaking. The nearest-target lookup below
+tests support, not multiplicity, and is no independent F1 certificate.
+Sums of |Im(lambda)| and |Re(lambda)| are spectral weights, not energies.
 
 Script: simulations/energy_partition.py
 Output: stdout (run with PYTHONIOENCODING=utf-8 on Windows)
@@ -52,9 +49,10 @@ def build_liouvillian(H, gamma, N):
 
 
 def classify_modes(evals, Sg, tol=1e-6):
-    """Classify eigenvalues as palindromically paired or unpaired.
+    """Mark whether the supplied array contains a nearby reflected target.
 
     Mirror formula: partner of λ is −(λ + 2Sγ)
+    Targets can be reused; this support lookup is multiplicity-blind.
     Returns: paired_mask, unpaired_mask (boolean arrays)
     """
     n = len(evals)
@@ -71,7 +69,7 @@ def classify_modes(evals, Sg, tol=1e-6):
 
 
 def energy_partition(evals, paired_mask):
-    """Compute oscillatory energy |Im(λ)| and decay |Re(λ)| for each category."""
+    """Sum frequency weight |Im(λ)| and decay weight |Re(λ)| by category."""
     freq = np.abs(evals.imag)
     decay = np.abs(evals.real)
 
@@ -94,11 +92,14 @@ def energy_partition(evals, paired_mask):
 
 
 # =================================================================
-# EXPERIMENT 1: V-Effect scaling (N=2..5, fixed J and γ)
+# EXPERIMENT 1: Filtered-support scaling (N=2..5, fixed J and γ)
 # =================================================================
 print("=" * 70)
-print("EXPERIMENT 1: V-Effect scaling")
-print("Where does oscillatory energy go as the palindrome partially breaks?")
+print("EXPERIMENT 1: Filtered-spectrum frequency weight")
+print("For these Z-dephased Heisenberg chains the full multiset pairs (F1).")
+print("This matching excludes zero roots (|lambda| <= 1e-8).")
+print("Unmatched means no target remains after deletion; it is not F1 failure.")
+print("The nearest-target lookup ignores multiplicity; weights are not energies.")
 print("=" * 70)
 
 J = 1.0
@@ -129,25 +130,24 @@ for N in [2, 3, 4, 5]:
     decay_pct = 100 * E['decay_paired'] / E['decay_total'] if E['decay_total'] > 0 else 0
 
     print(f"\nN={N}  ({d2} modes, {n_total} non-steady)")
-    print(f"  Palindromic pairing: {n_paired}/{n_total} = {pct:.1f}%")
-    print(f"  Oscillatory energy (|Im(λ)|):")
+    print(f"  Filtered support matching: {n_paired}/{n_total} = {pct:.1f}%")
+    print(f"  Oscillatory frequency weight (|Im(λ)|):")
     print(f"    Paired:   {E['freq_paired']:10.4f}  ({freq_pct:.1f}%)")
     print(f"    Unpaired: {E['freq_unpaired']:10.4f}  ({100-freq_pct:.1f}%)")
     print(f"    Total:    {E['freq_total']:10.4f}")
-    print(f"  Decay energy (|Re(λ)|):")
+    print(f"  Decay weight (|Re(λ)|):")
     print(f"    Paired:   {E['decay_paired']:10.4f}  ({decay_pct:.1f}%)")
     print(f"    Unpaired: {E['decay_unpaired']:10.4f}  ({100-decay_pct:.1f}%)")
     print(f"    Total:    {E['decay_total']:10.4f}")
 
 
 # =================================================================
-# EXPERIMENT 2: γ sweep at N=3 (V-Effect active)
+# EXPERIMENT 2: γ sweep at N=3
 # =================================================================
 print("\n")
 print("=" * 70)
 print("EXPERIMENT 2: Dephasing sweep at N=3")
-print("Does the energy partition change as γ crosses J?")
-print("CΨ = ¼ predicted near J/γ ~ 1")
+print("Filtered spectral weights as gamma/J changes; no state CΨ is computed.")
 print("=" * 70)
 
 N = 3
@@ -179,12 +179,12 @@ for gamma in [0.001, 0.005, 0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0
 
 
 # =================================================================
-# EXPERIMENT 3: J/γ ratio sweep at N=3, looking for fold catastrophe
+# EXPERIMENT 3: J/γ ratio sweep at N=3
 # =================================================================
 print("\n")
 print("=" * 70)
 print("EXPERIMENT 3: Coupling sweep at N=3 (fixed γ=1.0)")
-print("Track oscillatory vs decay energy across coupling strengths")
+print("Track filtered frequency and decay weights across coupling strengths")
 print("=" * 70)
 
 N = 3

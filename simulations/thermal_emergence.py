@@ -1,14 +1,17 @@
 """
-Thermal Emergence Experiment
-=============================
-What emerges from heat?
+Filtered decay readings and quantum thermal-bath probes.
 
-Part A: Decay rate comparison (universal 2x law)
-Part B: Time evolution (structure survives, heat dies)
-Part C: Thermal bath only (heat cannot create oscillation)
-Part D: Effect of heat on waves (dephasing vs thermal excitation)
+Parts A/B and the pure-dephasing rows in D use Heisenberg + local
+Z-dephasing, whose full multiset pairs by F1. Their matching excludes zero
+roots (|lambda| <= 1e-8); the remaining unmatched roots have lost partners.
+The nearest-target classifier ignores multiplicity. Filtered mean-decay
+ratios describe that deletion, not a physical selection or cleaning law.
 
-Findings 2 and 3 in ENERGY_PARTITION.md.
+Part B propagates |100><100| and measures distance to I/d, a stationary
+reference that need not be this initial state's long-time limit.
+Parts C/D use quantum emission/absorption with bath occupation n_bar;
+that thermal-bath parameter is distinct from external neural drive P.
+Frequency and decay sums are spectral weights, not energies.
 
 Script: simulations/thermal_emergence.py
 Output: stdout (run with PYTHONIOENCODING=utf-8 on Windows)
@@ -73,7 +76,10 @@ def thermal_ops(Gamma, n_bar, N):
 
 
 def classify_modes_Sg(evals, Sg, tol=1e-6):
-    """Classify using known Sg (for pure dephasing)."""
+    """Look up reflected support using Sg for pure dephasing.
+
+    Targets may be reused, so this does not test multiset multiplicity.
+    """
     n = len(evals)
     paired = np.zeros(n, dtype=bool)
 
@@ -91,8 +97,11 @@ def classify_modes_Sg(evals, Sg, tol=1e-6):
 # PART A: Decay rate comparison (paired vs unpaired)
 # =================================================================
 print("=" * 70)
-print("PART A: Decay rate comparison")
-print("Do unpaired modes die faster than paired modes?")
+print("PART A: Filtered decay rate comparison")
+print("For the pure Z-dephasing rows, the full multiset pairs (F1).")
+print("This matching excludes zero roots (|lambda| <= 1e-8).")
+print("Unpaired below means the filtered support lookup finds no target.")
+print("Filtered mean-decay ratios are not a physical selection law.")
 print("=" * 70)
 
 J = 1.0
@@ -130,10 +139,6 @@ for N in [2, 3, 4, 5]:
     if np.sum(paired) > 0 and np.sum(unpaired) > 0:
         ratio = np.mean(decay_unpaired) / np.mean(decay_paired)
         print(f"  Ratio (unpaired/paired mean decay): {ratio:.4f}")
-        if ratio > 1:
-            print(f"  --> Unpaired modes die {ratio:.1f}x FASTER")
-        else:
-            print(f"  --> Paired modes die {1/ratio:.1f}x FASTER")
 
 
 # =================================================================
@@ -142,7 +147,8 @@ for N in [2, 3, 4, 5]:
 print("\n\n" + "=" * 70)
 print("PART B: Time evolution")
 print("Starting from |down,up,up> (single excitation, NOT eigenstate)")
-print("As heat dissipates, does palindromic structure survive?")
+print("Track coherence and population deviation from the stationary reference I/d.")
+print("I/d need not be the initial state's long-time limit.")
 print("=" * 70)
 
 N = 3
@@ -155,7 +161,7 @@ H = heisenberg_H(N, J)
 L_ops = dephasing_ops(gamma, N)
 L = build_liouvillian(H, L_ops)
 
-# Steady state: maximally mixed
+# Stationary reference: maximally mixed (not the unique stationary state)
 rho_ss = np.eye(d, dtype=complex) / d
 rho_ss_vec = rho_ss.flatten()
 
@@ -179,7 +185,7 @@ print(f"Unpaired mean decay: {np.mean(decay_u):.4f} (slowest: {np.min(decay_u):.
 print(f"Unpaired halflife:   {np.log(2)/np.min(decay_u):.2f}")
 print(f"Slowest paired halflife: {np.log(2)/np.min(decay_p):.2f}")
 
-# Time evolution: track distance from steady state and spectral content
+# Time evolution: track distance from I/d and matrix-entry weights
 print(f"\n{'t':>6} {'|delta_rho|':>12} {'coherence':>12} {'population':>12} "
       f"{'coh_frac':>10} {'comment':>20}")
 print("-" * 75)
@@ -188,7 +194,7 @@ for t in [0, 0.1, 0.2, 0.5, 1.0, 2.0, 3.0, 5.0, 7.0, 10.0, 15.0, 20.0, 30.0]:
     rho_t_vec = expm(L * t) @ rho0_vec
     delta = rho_t_vec - rho_ss_vec
 
-    # Total deviation from equilibrium
+    # Total deviation from the stationary reference I/d
     norm_delta = np.sqrt(np.real(np.dot(delta.conj(), delta)))
 
     rho_t = rho_t_vec.reshape(d, d)
@@ -198,7 +204,7 @@ for t in [0, 0.1, 0.2, 0.5, 1.0, 2.0, 3.0, 5.0, 7.0, 10.0, 15.0, 20.0, 30.0]:
     np.fill_diagonal(off_diag, 0)
     coh_power = np.sum(np.abs(off_diag) ** 2)
 
-    # Diagonal deviation from equilibrium = population imbalance
+    # Diagonal deviation from I/d
     diag_dev = np.abs(np.diag(rho_t) - 1.0 / d)
     pop_dev = np.sum(diag_dev ** 2)
 
@@ -206,7 +212,7 @@ for t in [0, 0.1, 0.2, 0.5, 1.0, 2.0, 3.0, 5.0, 7.0, 10.0, 15.0, 20.0, 30.0]:
     coh_frac = coh_power / total_dev if total_dev > 1e-30 else 0
 
     if norm_delta < 1e-6:
-        comment = "equilibrium"
+        comment = "near I/d"
     elif coh_frac > 0.5:
         comment = "coherence dominant"
     elif coh_frac < 0.01:
@@ -223,7 +229,7 @@ for t in [0, 0.1, 0.2, 0.5, 1.0, 2.0, 3.0, 5.0, 7.0, 10.0, 15.0, 20.0, 30.0]:
 # =================================================================
 print("\n\n" + "=" * 70)
 print("PART C: Thermal bath only (J=0)")
-print("Can heat alone create palindromic oscillation?")
+print("Emission/absorption bath occupation n_bar; count complex roots at J=0.")
 print("=" * 70)
 
 N = 3
@@ -249,11 +255,12 @@ for n_bar in [0.0, 0.01, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0]:
 
 
 # =================================================================
-# PART D: Effect of heat on waves
+# PART D: Compare dephasing and thermal emission/absorption
 # =================================================================
 print("\n\n" + "=" * 70)
-print("PART D: Does heat affect waves?")
-print("Compare: Z-dephasing (phase noise) vs thermal excitation (energy noise)")
+print("PART D: Spectral response to quantum dissipators")
+print("Compare Z-dephasing with thermal emission/absorption at bath occupation n_bar.")
+print("n_bar is a quantum bath parameter, distinct from external neural drive P.")
 print("=" * 70)
 
 N = 3

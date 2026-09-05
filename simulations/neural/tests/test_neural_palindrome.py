@@ -284,3 +284,50 @@ def test_crossing_value_uses_the_time_interpolation_fraction():
     assert interpolated_value(0.125, 0.625, fraction=0.75) == 0.5
     # Same path away from the crossing guards against returning constant 0.5.
     assert interpolated_value(0.125, 0.625, fraction=0.25) == 0.25
+
+
+@pytest.mark.parametrize("script,required,forbidden,table", [
+    ("neural/neural_clock_two_hands.py",
+     ("F36 fails", "grid-dependent", "external drive P", "fitted diagonal"),
+     ("(SILENT)", "Rotation wakes", "THERMAL WINDOW", "move only the Rotation",
+      "ROTATION LIVES ON COARSE DEGREE"), "theta_max"),
+    ("neural/exact_pairing_test.py",
+     ("legacy real-part matcher", "neural_translation_gate.py"),
+     ("EXACT palindrome achieved", "exact only at zero coupling", "98.2%"), "mean_sum"),
+    ("neural/wilson_cowan_palindrome.py",
+     ("conditional matrix probe", "Unequal decay rates alone", "distinct-rate heuristic"),
+     ("biological analogue",), "rate="),
+    ("neural/neural_crown_switch.py",
+     ("external drive P",), ("thermal window",), "2nd rate"),
+    ("energy_partition.py",
+     ("matching excludes zero roots", "full multiset pairs", "frequency weight"),
+     ("palindrome partially breaks", "CΨ = ¼ predicted", "self-cleaning"), "Efreq_tot"),
+    ("thermal_emergence.py",
+     ("matching excludes zero roots", "full multiset pairs", "Thermal bath only (J=0)"),
+     ("universal 2x", "As heat dissipates", "x FASTER", "self-cleaning"), "n_bar"),
+])
+def test_current_producer_output_scopes_its_reading(script, required, forbidden, table):
+    """Execute every table, also inspecting the module's public docstring.
+
+    These guards fail on the original producers' actual output, even when
+    explanatory Markdown elsewhere already says the right thing.
+    """
+    import os
+
+    path = NEURAL.parent / script
+    result = subprocess.run(
+        [sys.executable, "-c",
+         "import runpy, sys; m = runpy.run_path(sys.argv[1], run_name='__main__'); "
+         "print(m.get('__doc__', ''))", str(path)],
+        capture_output=True, text=True, encoding="utf-8", check=False,
+        env={**os.environ, "PYTHONIOENCODING": "utf-8", "OPENBLAS_NUM_THREADS": "1",
+             "MKL_NUM_THREADS": "1", "OMP_NUM_THREADS": "1"},
+        timeout=180,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert result.stderr == ""
+    assert table in result.stdout  # Do not satisfy the guard by dropping the tables.
+    for phrase in forbidden:
+        assert phrase not in result.stdout
+    for phrase in required:
+        assert phrase in result.stdout

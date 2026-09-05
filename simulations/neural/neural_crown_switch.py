@@ -120,7 +120,7 @@ def main():
           lambda a: build_linear_jacobian(W, signs, TAU_E, TAU_I, a),
           [0.05, 0.2, 0.5, 1.0, 1.5, 2.0, 3.0, 5.0, 8.0], "alpha")
 
-    sweep("axis 2: drive P (sigmoid Jacobian, the thermal window), alpha=0.3",
+    sweep("axis 2: external drive P (sigmoid Jacobian), alpha=0.3",
           lambda P: build_jacobian_with_sigmoid(W, signs, TAU_E, TAU_I, 0.3, P),
           [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0], "P")
 

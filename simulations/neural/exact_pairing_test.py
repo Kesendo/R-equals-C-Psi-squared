@@ -1,25 +1,16 @@
 #!/usr/bin/env python3
 """
-Is the Wilson-Cowan palindrome EXACT or just approximate?
+Wilson-Cowan legacy real-part matcher and coupling/sparsity diagnostic.
 
-In the quantum Lindblad case:
-  lambda_k + lambda_{paired} = -2*sum_gamma  (EXACT, for all k)
+The matcher sorts by real part and pairs endpoints, ignoring imaginary
+parts. Its mean pair sum is fixed by the trace; its standard deviation
+does not test full complex multiset pairing. The printed Q-residual is a
+separate scalar-identity reading for the selected E/I permutation.
+Disjoint supports make the off-diagonal residual a coupling-norm reading.
 
-This holds for ANY coupling strength. It's an algebraic identity, not
-a numerical coincidence.
-
-Question: does the Wilson-Cowan Jacobian have the same property?
-  mu_k + mu_{paired} = constant?
-
-If yes: there must be a hidden algebraic structure (a classical Pi).
-If no: the palindrome is approximate and the 98.2% is a sparsity artifact.
-
-That second branch is where the evidence now sits, and this script's framing
-predates it: on blocks this sparse the residual collapses to a multiple of
-||W_eff||/||J|| whenever no Q-partner pair of edges is present, so it reads
-coupling magnitude rather than wiring (2026-08-26,
-docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md). The 98.2% itself has still had
-no degree-matched control.
+The canonical F36/F37 scalar identity, complex-multiset and transport
+controls live in neural_translation_gate.py and neural_palindrome.py;
+see docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md for the empirical scope.
 """
 import numpy as np
 import json
@@ -41,10 +32,10 @@ def build_jacobian(W, tau_exc, tau_inh, signs, alpha=0.3):
 
 
 def best_pairing(eigenvalues):
-    """Find the best pairing of eigenvalues and report pair sums.
+    """Pair real-part-sorted endpoints and return real sums, pairs, spectrum.
 
-    For N eigenvalues (N even), find the pairing that minimizes
-    the variance of pair sums. Returns pair sums and the pairing.
+    This legacy heuristic ignores imaginary parts; it is no complex
+    pairing certificate or optimization over complex assignments.
     """
     evs = np.array(sorted(eigenvalues, key=lambda x: x.real))
     n = len(evs)
@@ -75,6 +66,7 @@ def best_pairing(eigenvalues):
 # === Test 1: Pure structure (no connectome, synthetic network) ===
 print("=" * 65)
 print("TEST 1: Synthetic balanced network, varying coupling strength")
+print("legacy real-part matcher; canonical controls: neural_translation_gate.py")
 print("=" * 65)
 
 N = 10
@@ -97,11 +89,11 @@ predicted_sum = -(1.0 / tau_E + 1.0 / tau_I)
 
 print(f"\nN={N}, E={n_exc}, I={N-n_exc}")
 print(f"tau_E={tau_E}, tau_I={tau_I}")
-print(f"Predicted pairing sum (from tau): {predicted_sum:.4f}")
-print(f"  (if palindrome is exact: all pair sums = {predicted_sum:.4f})")
+print(f"Trace-implied mean pair sum (from tau): {predicted_sum:.4f}")
+print("  Real sums alone do not test complex multiset pairing.")
 print()
 print(f"{'alpha':>8s}  {'mean_sum':>10s}  {'std_sum':>10s}  "
-      f"{'min_sum':>10s}  {'max_sum':>10s}  {'exact?':>8s}")
+      f"{'min_sum':>10s}  {'max_sum':>10s}  {'small std?':>8s}")
 print("-" * 65)
 
 for alpha in [0.0, 0.001, 0.01, 0.05, 0.1, 0.3, 0.5, 1.0, 2.0, 5.0]:
@@ -123,8 +115,8 @@ print("TEST 2: Does a conjugation Q exist for Wilson-Cowan?")
 print("=" * 65)
 
 print("""
-For Lindblad: Pi L Pi^{-1} = -L - 2Sg*I (EXACT)
-For Wilson-Cowan: Q J Q^{-1} = -J - c*I ?
+For Heisenberg + local Z-dephasing: Pi L Pi^{-1} = -L - 2Sg*I
+For Wilson-Cowan: Q J Q^{-1} = -J + c*I ?, with c = -(1/tau_E + 1/tau_I)
 
 If J = T*(-I + alpha*W) where T = diag(1/tau_i):
   Q must satisfy: Q*T*Q^{-1} maps tau_E <-> tau_I
@@ -197,7 +189,7 @@ print("TEST 3: Condition for exact palindrome in Wilson-Cowan")
 print("=" * 65)
 
 print("""
-Q*J*Q^{-1} + J + c*I = 0 requires (off-diagonal):
+Q*J*Q^{-1} + J - c*I = 0 requires (off-diagonal), at nonzero alpha:
   (1/tau_{Q(i)}) * W[Q(i),Q(j)] + (1/tau_i) * W[i,j] = 0
 
 For E-I swap Q: tau_{Q(i)} swaps E<->I. So:
@@ -207,12 +199,9 @@ For E-I swap Q: tau_{Q(i)} swaps E<->I. So:
 The coupling matrix must be ANTISYMMETRIC under the E-I swap,
 scaled by the tau ratio. Random weights violate this.
 
-But in the QUANTUM case, the analogous condition is satisfied
-automatically by the Pauli algebra. The commutator [H, rho] has
-a built-in antisymmetry: H*rho - rho*H.
-
-Wilson-Cowan dynamics dX/dt = JX has no such built-in antisymmetry.
-The palindrome is exact only at zero coupling and approximate otherwise.
+Unequal leaks and Dale signs do not enforce the scaled coupling condition.
+Constrained nonzero coupling can satisfy it; the scalar residual must be
+checked independently of the real-part matcher below.
 """)
 
 # Verify: construct a W that satisfies the exact condition
@@ -244,9 +233,9 @@ QJQ_ex = Q_perm @ J_exact @ Q_perm.T
 res_ex = QJQ_ex + J_exact - c * np.eye(N)
 err_ex = np.linalg.norm(res_ex)
 
-print(f"  Constructed W satisfying antisymmetry condition")
+print(f"  Constructed W: scalar residual and legacy matcher readings")
 print(f"  ||Q*J*Q^T + J - c*I|| = {err_ex:.2e}")
 print(f"  Pair sums: mean={np.mean(sums_ex):.6f}, std={np.std(sums_ex):.6f}")
 print(f"  Predicted: {c:.6f}")
 if np.std(sums_ex) < 1e-8:
-    print(f"  >>> EXACT palindrome achieved with constrained W!")
+    print(f"  >>> Real-part sum std < 1e-8; see scalar residual above.")

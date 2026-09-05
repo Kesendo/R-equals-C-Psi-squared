@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-Phase 1, Test 2: Wilson-Cowan neural population model - palindrome test.
+Wilson-Cowan conditional matrix probe with a distinct-rate heuristic.
 
-Wilson-Cowan has SELECTIVE damping: excitatory (tau_E) and inhibitory (tau_I)
-populations decay at different rates. This is the biological analogue of
-the 2:2 Pauli split that makes the quantum palindrome possible.
-
-Test: does the linearized Jacobian of a Wilson-Cowan network have
-palindromic eigenvalue pairing?
+Unequal decay rates alone do not imply F36/F37 pairing: the full scalar
+identity must also hold. This exploratory matcher rounds real parts,
+discards multiplicities and zero rates, and fits a centre from the extrema.
+Its percentage is not a complex-multiset or biological validation.
+The builder uses a single-node sigmoid iterate for the chain; it does not
+verify a chain fixed point. P is external input, not temperature.
+Canonical scalar-identity controls: neural_translation_gate.py.
 
 Usage: python wilson_cowan_palindrome.py
 """
@@ -29,7 +30,7 @@ def build_jacobian_chain(N, tau_E=8.0, tau_I=18.0,
                           a_E=1.3, a_I=2.0, theta_E=4.0, theta_I=3.7):
     """
     Build Jacobian for chain of N Wilson-Cowan E-I nodes.
-    Uses approximate fixed point from literature (E*~0.2, I*~0.4).
+    Uses a damped single-node sigmoid iterate, not a verified chain equilibrium.
     """
     # Find single-node fixed point by iteration
     E, I = 0.1, 0.1
@@ -103,7 +104,7 @@ def run_test(N, tau_E, tau_I, label="", **kwargs):
 
     print(f"\n{'='*60}")
     print(f"{label}N={N}, tau_E={tau_E}, tau_I={tau_I}, ratio={tau_I/tau_E:.1f}")
-    print(f"Fixed point: E*={E_star:.4f}, I*={I_star:.4f}")
+    print(f"Single-node iterate: E*={E_star:.4f}, I*={I_star:.4f}")
     print(f"Eigenvalues:")
 
     for ev in sorted(eigenvalues, key=lambda x: x.real):
@@ -112,7 +113,7 @@ def run_test(N, tau_E, tau_I, label="", **kwargs):
         print(f"  rate={rate:8.4f}  freq={freq:8.4f}")
 
     print(f"\nDistinct rates: {total}, Center: {center:.4f}")
-    print(f"Paired: {paired}/{total} = {score:.1f}%")
+    print(f"Matched distinct-rate heuristic: {paired}/{total} = {score:.1f}%")
     if pairs:
         for a, b in pairs:
             print(f"  {a:.4f} + {b:.4f} = {a+b:.4f} (2*center={2*center:.4f})")
@@ -121,7 +122,9 @@ def run_test(N, tau_E, tau_I, label="", **kwargs):
 
 
 print("=" * 60)
-print("PHASE 1, TEST 2: WILSON-COWAN PALINDROME TEST")
+print("WILSON-COWAN: conditional matrix probe")
+print("Unequal decay rates alone do not establish F36/F37.")
+print("The distinct-rate heuristic does not test full complex multiplicity.")
 print("=" * 60)
 
 # Single node
