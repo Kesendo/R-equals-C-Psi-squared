@@ -69,6 +69,28 @@ public class NeuralPalindromeTests
         Assert.Equal(-0.3, Formulas.F37_NeuralPairSum(5, 10), 15);
     }
 
+    [Fact]
+    public void Centre_Rejects_An_Unrepresentable_Offset()
+    {
+        Assert.Throws<OverflowException>(() => NeuralPalindrome.Centre(double.Epsilon, 4));
+        Assert.Throws<OverflowException>(() => NeuralPalindrome.Centre(2, double.Epsilon));
+    }
+
+    [Fact]
+    public void Large_Centred_Diagonal_Cancels_Before_Overflow()
+    {
+        Assert.Equal(0.0, NeuralPalindrome.MaxResidual(new double[,] { { -1e308 } }, [0], 1e308));
+    }
+
+    [Fact]
+    public void Residual_Rejects_Unrepresentable_Arithmetic()
+    {
+        double[,] offDiagonal = { { 0, 1e308 }, { 1e308, 0 } };
+        Assert.Throws<OverflowException>(() => NeuralPalindrome.MaxResidual(offDiagonal, [1, 0], 0));
+        Assert.Throws<OverflowException>(() => NeuralPalindrome.MaxResidual(new double[,] { { 1e308 } }, [0], 1e308));
+        Assert.Throws<OverflowException>(() => NeuralPalindrome.MaxResidual(new double[,] { { 1e308 } }, [0], 0));
+    }
+
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]

@@ -12,7 +12,10 @@ public static class NeuralPalindrome
             throw new ArgumentOutOfRangeException(nameof(tauE), "Time constant must be finite and positive.");
         if (!double.IsFinite(tauI) || tauI <= 0)
             throw new ArgumentOutOfRangeException(nameof(tauI), "Time constant must be finite and positive.");
-        return 0.5 / tauE + 0.5 / tauI;
+        double s = 0.5 / tauE + 0.5 / tauI;
+        if (!double.IsFinite(s))
+            throw new OverflowException("The centre offset is not representable as a finite double.");
+        return s;
     }
 
     // Malformed permutations throw; a valid permutation of order other than 1 or 2 returns false.
@@ -34,6 +37,7 @@ public static class NeuralPalindrome
 
     // Maximum absolute entry of Q J Q + J + 2s I. The empty matrix has residual zero.
     // This is a floating-point reading; zero is exact for the constructed dyadic example.
+    // Diagonals are centred before summation; unrepresentable intermediates or residuals throw.
     public static double MaxResidual(double[,] j, int[] permutation, double s)
     {
         ArgumentNullException.ThrowIfNull(j);
@@ -55,7 +59,18 @@ public static class NeuralPalindrome
         for (int i = 0; i < n; i++)
             for (int k = 0; k < n; k++)
             {
-                double residual = j[permutation[i], permutation[k]] + j[i, k] + (i == k ? 2 * s : 0);
+                double permutedEntry = j[permutation[i], permutation[k]];
+                double entry = j[i, k];
+                if (i == k)
+                {
+                    permutedEntry += s;
+                    entry += s;
+                    if (!double.IsFinite(permutedEntry) || !double.IsFinite(entry))
+                        throw new OverflowException("A centred diagonal entry is not representable as a finite double.");
+                }
+                double residual = permutedEntry + entry;
+                if (!double.IsFinite(residual))
+                    throw new OverflowException("An entrywise residual is not representable as a finite double.");
                 worst = Math.Max(worst, Math.Abs(residual));
             }
         return worst;
