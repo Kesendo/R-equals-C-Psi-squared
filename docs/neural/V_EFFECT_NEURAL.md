@@ -195,6 +195,12 @@ No replacement mechanism is established.
 From the repository root with NumPy, SciPy and pytest. These commands print
 to stdout and do not rewrite tracked results.
 
+The recorded tables use Python 3.12.9, NumPy 2.4.2 and SciPy 1.16.3 on
+64-bit Windows. NumPy reports scipy-openblas/OpenBLAS 0.3.31.dev for BLAS
+and LAPACK, with `USE64BITINT` (ILP64). This numerical backend is part of
+the recorded protocol because the N=20 bins show eigensolver/roundoff
+sensitivity; these versions are not universal dependency requirements.
+
 POSIX:
 
 ```bash
