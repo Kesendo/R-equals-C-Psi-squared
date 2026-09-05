@@ -147,7 +147,7 @@ def build_linear_jacobian(W, signs, tau_e, tau_i, alpha):
 
 
 def make_exact_network(n=10, tau_e=5.0, tau_i=10.0, alpha=0.5,
-                       density=0.3, seed=42):
+                       seed=42, density=0.3):
     """Return (J, perm, s) for the balanced E/I construction, centered at -s."""
     if n <= 0 or n % 2:
         raise ValueError("n must be a positive even number for balanced E/I pairs")

@@ -64,6 +64,16 @@ def test_exact_network_has_scalar_identity_and_partner_subspaces():
     assert partner_subspace_error(J, perm, s) < 1e-8
 
 
+def test_exact_network_positional_seed_matches_keyword_seed():
+    positional_J, positional_perm, positional_s = make_exact_network(10, 5, 10, 0.5, 0)
+    keyword_J, keyword_perm, keyword_s = make_exact_network(
+        n=10, tau_e=5, tau_i=10, alpha=0.5, seed=0
+    )
+    assert np.array_equal(positional_J, keyword_J)
+    assert np.array_equal(positional_perm, keyword_perm)
+    assert positional_s == keyword_s
+
+
 def test_degenerate_transport_compares_subspaces_not_individual_vectors():
     J = -0.375 * np.eye(4)
     perm = np.array([1, 0, 3, 2])
