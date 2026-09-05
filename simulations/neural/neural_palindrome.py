@@ -7,6 +7,83 @@ from scipy.linalg import schur, subspace_angles
 from scipy.optimize import linear_sum_assignment
 
 
+def make_balanced_dale_network(n=50, n_exc=25, density=0.3, seed=42):
+    """Return balanced Dale weights with the original drive-sweep RNG recipe.
+
+    Balance refers only to the E/I population; no palindrome is imposed.
+    """
+    if not isinstance(n, Integral) or isinstance(n, bool) or n <= 0 or n % 2:
+        raise ValueError("n must be a positive even integer")
+    if (not isinstance(n_exc, Integral) or isinstance(n_exc, bool)
+            or n_exc != n // 2):
+        raise ValueError("n_exc must equal n // 2 for balanced E/I populations")
+    if not isinstance(density, Real) or not np.isfinite(density) or not 0 <= density <= 1:
+        raise ValueError("density must be finite and in [0, 1]")
+    if not isinstance(seed, Integral) or isinstance(seed, bool):
+        raise ValueError("seed must be an integer")
+    rng = np.random.RandomState(seed)
+    signs = np.ones(n)
+    signs[rng.choice(n, n - n_exc, replace=False)] = -1
+    mask = rng.random((n, n)) < density
+    np.fill_diagonal(mask, False)
+    weights = rng.exponential(0.3, (n, n))
+    W = np.where(mask, weights * signs[None, :], 0.0)
+    maximum = np.max(np.abs(W))
+    if maximum > 0:
+        W /= maximum
+    return W, signs
+
+
+def typed_sigmoid(inputs: np.ndarray, signs: np.ndarray,
+                  a_e: float = 1.3, theta_e: float = 4.0,
+                  a_i: float = 2.0, theta_i: float = 3.7) -> np.ndarray:
+    """Vectorized E/I sigmoid, using the drive model's per-type parameters."""
+    slopes = np.where(signs > 0, a_e, a_i)
+    thresholds = np.where(signs > 0, theta_e, theta_i)
+    return 1.0 / (1.0 + np.exp(np.clip(-slopes * (inputs - thresholds), -500, 500)))
+
+
+def solve_fixed_point(W, signs, alpha=0.3, drive=4.0, tol=1e-12,
+                      max_iter=5000, *, a_e=1.3, theta_e=4.0,
+                      a_i=2.0, theta_i=3.7):
+    """Return (x, max|x-F(x)|) after synchronous fixed-point convergence.
+
+    Start at x=0.3. Stop only when max|x_next-x| < tol; the returned residual
+    is a fresh evaluation of the equation at x_next. No convergence is assumed
+    for arbitrary coupling: exhausted iterations raise with the last residual.
+    """
+    W = np.asarray(W)
+    signs = np.asarray(signs)
+    if (W.ndim != 2 or W.shape[0] == 0 or W.shape[0] != W.shape[1]
+            or not np.isrealobj(W) or not np.all(np.isfinite(W))):
+        raise ValueError("W must be a nonempty finite real square matrix")
+    if signs.shape != (W.shape[0],) or not np.all(np.isin(signs, [-1, 1])):
+        raise ValueError("signs must have one +1 or -1 per row of W")
+    for name, value in (("alpha", alpha), ("drive", drive), ("tol", tol),
+                        ("a_e", a_e), ("theta_e", theta_e),
+                        ("a_i", a_i), ("theta_i", theta_i)):
+        if not isinstance(value, Real) or not np.isfinite(value):
+            raise ValueError(f"{name} must be a finite real number")
+    if tol <= 0:
+        raise ValueError("tol must be positive")
+    if (not isinstance(max_iter, Integral) or isinstance(max_iter, bool)
+            or max_iter <= 0):
+        raise ValueError("max_iter must be a positive integer")
+
+    def evaluate(x):
+        return typed_sigmoid(alpha * W @ x + drive, signs, a_e, theta_e, a_i, theta_i)
+
+    x = np.full(W.shape[0], 0.3)
+    for _ in range(max_iter):
+        candidate = evaluate(x)
+        last_residual = float(np.max(np.abs(candidate - x)))
+        x = candidate
+        if last_residual < tol:
+            return x, float(np.max(np.abs(x - evaluate(x))))
+    raise RuntimeError(f"fixed point did not converge in {max_iter} iterations; "
+                       f"last residual={last_residual:.16g}")
+
+
 def _validated_permutation(perm):
     perm = np.asarray(perm)
     if (
