@@ -53,8 +53,18 @@ growth and decay remain in the centered frame. If the block is defective,
 Jordan chains add polynomial factors `t^k exp(lambda t)`. Neither case is
 captured by the two-sinusoid guitar-string formula.
 
-A self-paired eigenvalue on `Re(lambda)=-Sigma_gamma` is merely on the spectral
-fixed locus. It is not automatically a spatial node or standing wave.
+The fixed locus depends on the map. Linear F1 self-pairing requires the exact
+complex point `lambda=-Sigma_gamma`; the whole line
+`Re(lambda)=-Sigma_gamma` is fixed only by the composite
+`lambda -> -conj(lambda)-2 Sigma_gamma`. Neither condition makes a mode a
+spatial node or standing wave. In a defective block, F1 transports the whole
+generalized eigenspace and its Jordan-chain data; a multiplicity census alone
+does not choose a basis of modes.
+
+For the committed `N=2,...,7` spectra, the linear F1 census has 10,903
+unordered two-member orbits and 34 fixed eigenvalues. The composite census has
+9,921 unordered two-member orbits and 1,998 eigenvalues on its fixed line. Both
+counts include algebraic multiplicity; neither is a wave count.
 
 ## What the N=3 computation measured
 

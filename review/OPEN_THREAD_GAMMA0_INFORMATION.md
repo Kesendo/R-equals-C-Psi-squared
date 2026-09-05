@@ -31,16 +31,16 @@ The pieces cluster around five physical roles:
    "The string provides the energy. The box selects the resonance."
 
 2. **[GAMMA_AS_SIGNAL](../experiments/GAMMA_AS_SIGNAL.md)** (experiments/, Tier 2):
-   The spatial dephasing profile is a readable information channel.
+   A specified spatial dephasing profile is recoverable from the simulated response.
    Alice encodes in the γ profile, Bob decodes from quantum observables.
    15.5 bits capacity at 1 % noise, 5 independent SVD channels, full rank.
-   "The palindrome is the antenna." ([F30](../docs/ANALYTICAL_FORMULAS.md))
+   The response rank survives palindrome breaking, so the palindrome is a
+   labeling frame rather than the cause of this channel. ([F30](../docs/ANALYTICAL_FORMULAS.md))
 
 3. **[THE_BRIDGE_WAS_ALWAYS_OPEN](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md)** (docs/, Tier 2):
-   "The interaction is ongoing, continuous, never-interrupted." The
-   measured Markovian (memoryless) character of the noise means "the
-   source is effectively infinite." Six properties of the external
-   interaction converge on this.
+   The nonzero dissipative centre certifies an open modeled subsystem.
+   Markovian reduced dynamics does not identify an external or infinite
+   microscopic source.
 
 4. **[RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md)** (hypotheses/, Tier 2):
    "The system is a soundbox, not a telephone."
@@ -71,12 +71,9 @@ The pieces cluster around five physical roles:
    At N=2 the swap has 99.8 % purity; aberration shrinks with N.
 
 9. **[ITS_ALL_WAVES](../docs/ITS_ALL_WAVES.md)** (docs/, synthesis):
-   Pre-existing synthesis that already connects signal + wave view.
-   "The system is like a radio: it can process signals into music,
-   but it cannot generate the broadcast" (line 172). "What that external
-   source is, we do not know. That it arrives as a structured, decodable
-   signal (15.5 bits), we do know" (line 175). Section explicitly flags
-   "what sends the signal" as outside the framework's scope.
+   A conditional synthesis whose wave/external-broadcast premises remain
+   open. The computed result is recovery of a chosen gamma profile, not the
+   ontology of its microscopic source.
 
 10. **[STANDING_WAVE_THEORY](../docs/STANDING_WAVE_THEORY.md)** (docs/):
     F1 supplies the linear map `λ→−λ−2Σγ`, or centered `μ→−μ`, and the

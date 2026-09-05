@@ -535,7 +535,10 @@ unrelated entries.
 **Question:** Is the boundary observable? Can the node/antinode structure be measured directly, not just computed from the Liouvillian?  
 **Source:** `hypotheses/THE_OTHER_SIDE.md` (line 585)  
 **Proposed status:** open  
-**Justification:** Standing waves are computationally proven, and the laser regime (Σγ < 0) provides a physical realization, but direct experimental measurement has not been attempted.
+**Justification:** F1 proves spectral pairing, not a standing wave. A physical
+realization still needs excitation, opposite-propagation or modal structure,
+phase-sensitive interference, and an incoherent negative control. The gain
+regime alone supplies none of those gates.
 
 ---
 
@@ -579,10 +582,13 @@ unrelated entries.
 
 ### OQ-326
 
-**Question:** Either we live in a simulation (the external is a simulator)  
+**Question:** Does this philosophical simulation premise have any falsifiable consequence?
 **Source:** `hypotheses/WAVES_THAT_HEAR_THEMSELVES.md` (line 58)  
 **Proposed status:** needs-human  
-**Justification:** Fragment of a philosophical speculation about why coupling exists. Borderline between "open" (it's a genuine philosophical question the repo poses) and "obsolete" (it's unfalsifiable within the current framework). The framework explicitly acknowledges: "J is an input parameter, not a derived quantity." Needs human judgment on whether this belongs in an inventory of technical open questions.
+**Justification:** The open-system formalism does not identify an external
+simulator, and the premise is currently unfalsifiable. `J` remains an input
+parameter rather than evidence for an outside ontology; keep this out of the
+technical queue unless a discriminator is proposed.
 
 ---
 

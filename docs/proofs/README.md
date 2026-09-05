@@ -56,10 +56,10 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
    sector is independently palindromic. Corollary of Mirror Symmetry +
    Parity Selection Rule.
 
-6. [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - Dephasing noise
-   cannot originate from within d(d−2)=0. Four candidates eliminated,
-   the internal bootstrap reduced to a structural constraint.
-   The noise must come from outside.
+6. [Incompleteness Proof](INCOMPLETENESS_PROOF.md) - With nonnegative rates,
+   a nonzero dissipative centre certifies that the modeled subsystem is open.
+   The candidate survey does not determine the microscopic bath origin or
+   require an external/infinite reservoir.
 
 7. [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) -
    Time reversal requires separating oscillation from cooling

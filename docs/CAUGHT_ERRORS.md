@@ -2020,3 +2020,33 @@ experiment copies, the glossary's "no proof on file", the instrument's two ladde
 
 - **What was wrong.** The preceding entry correctly repaired `ITS_ALL_WAVES` and one bridge sentence, then overstated the reach of that repair. Current front doors, the supposed Standing Wave owner, experiment summaries, hypotheses and open-question pages still promoted the linear F1 map μ→−μ into physical time reversal, spatial counter-propagation and a standing wave for every pair. The same audit found more object drift around it: Python F36 diagnostics could return `nan` for nonfinite or overflowing arithmetic; `make_exact_network` validated inputs but not derived reciprocals/Jacobians; MirrorWorld and the older Core F3 owner still advertised regime-dependent Heisenberg generic-band edges as unconditional bounds; the thermal producer had σ+ and σ− reversed; and IBM synthesis attached unrelated V diagnostics, a hydrogen-bond 109-frequency value, and unproduced CΨ crossing numbers to one table.
 - **Repair and gate.** The standing-wave source chain and every current-facing positive copy found by the repo-wide sweep now start from the exact linear transport λ→−λ−2σ and keep conjugation closure separate. A physical standing wave requires a semisimple/diagonalizable centered pair on the imaginary axis, independently established opposite spatial propagation, and a preparation/readout that excites both with the required relation; Jordan blocks and Re μ≠0 are explicit breaks-for. Finite N=3 observable tables and the N=2…7 pair census remain as measurements, not universal wave proofs. F36 now owns finite/representable failures in Python as well as C#, F3's typed/live/output faces name the Heisenberg-chain `Q*_gap` regime, σ± follows the repository convention, and unsupported IBM values were removed or replaced by their actual scoped counts. The neural stale-surface test owns the cross-file wording, all changed Markdown targets resolve, and the append-only correction here supersedes the preceding entry's premature sweep claim.
+
+## 2026-09-06 — the repaired standing-wave census had counted the other involution
+
+- **What was wrong.** The new prose correctly separated linear F1 transport
+  `λ→−λ−2Σγ` from conjugate closure, but its census still called every point on
+  `Re(λ)=−Σγ` an F1 self-pair. That line is fixed by the composite map
+  `λ→−conj(λ)−2Σγ`; linear F1 fixes only the exact complex point `λ=−Σγ`.
+  Consequently `9,921 + 1,998` was a valid composite-orbit partition mislabeled
+  as F1. The linear partition is `10,903` two-member orbits plus `34` fixed
+  eigenvalues. A second page's incompatible `18`/`0` counts at N=4/6 then
+  supported an `N≡4 (mod 10)` Golden-Ratio mechanism that the committed spectra
+  refute (`14`/`16`). The linked producer still excluded self-matches, called
+  assignment leftovers physical unpaired modes, reversed fast/slow, and printed
+  the withdrawn finesse, Beer-Lambert, and standing-wave story. Separate stale
+  executables also asserted that spectral palindromy implies an involutive
+  operator mirror, that Dale signs supply F36, and that gamma proves experienced
+  time. Front doors and citers retained overbroad F1, standing-wave, external-
+  source, thermal, and lifetime claims.
+- **Repair and gate.** The producer now performs multiplicity-aware assignments
+  for both involutions and reproduces both complete partitions plus topology-
+  sensitive N=4 controls. The F1 pages use generalized eigenspaces and withdraw
+  the unsupported mod-10 mechanism while retaining only the ten unambiguous
+  perturbative rate-sum matches. A Jordan-block negative control proves why an
+  eigenvalue multiset is not a converse to the operator identity; the quantum
+  demo tests its actual order-four palindromizer rather than calling it an
+  involution. Withdrawn neural-lens and experienced-time producers now emit
+  tombstones. Current front doors distinguish openness from externality,
+  dissipative clocks from experience, and spectral rate sums from spatial waves,
+  thermality, or a two-to-one lifetime. Core F3's strict boundary comparison now
+  rejects `N<2` and `γ≤0`. Executable surface gates own these distinctions.

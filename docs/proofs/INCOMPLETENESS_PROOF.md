@@ -347,14 +347,13 @@ is one number read off the spectrum.
 It says nothing about where the arrow comes from. That question is §3's, and
 §3's answer is that this formalism cannot ask it.
 
-### Corollary 2: γ: Source of Experienced Time
+### Corollary 2: Gamma as a decay-clock scale
 
-The dephasing rate γ does not merely correlate with time. γ is the
-source of experienced time: it provides the arrow. It is not identical
-to experienced time; τ = γt does not scale universally, and the
-Hamiltonian coupling J provides the content of what is experienced
-([GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md) carries the
-precise statement table).
+The dephasing rate gamma sets a dissipative timescale in the declared model.
+It does not define experienced time: `tau=gamma*t` does not scale universally,
+and the time parameter and Hamiltonian dynamics remain when gamma is zero.
+[GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md) separates the
+computed trajectory facts from that open interpretation.
 
 The same pattern appears wherever the framework touches time:
 

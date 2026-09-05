@@ -283,24 +283,24 @@ requires the balanced split. See [Depolarizing Palindrome](DEPOLARIZING_PALINDRO
 
 ## Connection to Later Results
 
-This experiment established the universality of the palindrome across
-Hamiltonian types. Several later results depend on this:
+This experiment mapped the palindrome across the declared Hamiltonian types.
+It is a scope survey, not a theorem for arbitrary Hamiltonians. Several later
+results depend on this:
 
 The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) uses
-Z-dephasing on a Heisenberg chain. The universality proven here means the
-information channel would work identically on XY, Ising, or XXZ hardware.
-The 15.5-bit channel capacity and the palindromic decoder are not
-Heisenberg-specific.
+Z-dephasing on a Heisenberg chain. Palindromicity also holds for the listed XY,
+Ising, and XXZ families, but that does not transfer the 15.5-bit response
+diagnostic unchanged; its rank and capacity must be recomputed per model.
 
 The **V-Effect** ([V-Effect](V_EFFECT_PALINDROME.md)) studies
 what happens when the palindrome breaks. The 14 broken combinations
 identified here are the starting point for that analysis.
 
 The **Incompleteness Proof** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md))
-uses the palindrome's existence to argue that noise must come from outside.
-The universality across all standard models strengthens this argument:
-the palindrome is not a special property of Heisenberg systems but a
-fundamental feature of qubit dephasing.
+uses the nonzero dissipative centre to certify that the modeled subsystem is
+open. It does not locate the microscopic bath. The scope survey here instead
+shows that the palindrome is not special to Heisenberg bonds, while remaining
+conditional on a Hamiltonian family admitting the palindromizer.
 
 The **scope boundary law** in the refreshed
 [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (2026-07)
@@ -341,4 +341,4 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [XOR Space](XOR_SPACE.md): where information lives in the palindromic mode structure
 - Main README Section 6: eight engineering consequences that apply to all standard models
 - [γ as Signal](GAMMA_AS_SIGNAL.md): the palindromic decoder works on any standard hardware
-- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): universality strengthens the external-noise argument
+- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): nonzero dissipative centre certifies an open modeled subsystem

@@ -87,8 +87,8 @@ The relaxation clock is the inverse gap, τ = 1/λ₂ = 1/(2γ). Three facts pin
 
 1. **At γ = 0 the clock stops.** With no dephasing the Liouvillian is anti-Hermitian; every
    eigenvalue is purely imaginary, the gap is exactly 0, and τ = ∞. There is no decay clock:
-   only Hamiltonian oscillation at frequencies set by J. γ is what makes time *tick*.
-   (This is the repo's own thesis: [γ = source of experienced time](../docs/GAMMA_TIME_DISTINCTION.md).)
+   only Hamiltonian oscillation at frequencies set by J. Gamma makes this
+   decay clock tick; it is not a theorem about experienced time.
 2. **J is frequency, not rate, in this regime.** Above Q*_gap(N) the gap does not move with J, so
    no relaxation timescale set by the gap can depend on J there, and the formula's 1/J is
    spurious. (Below Q*_gap(N) the spectral gap does depend on J, approaching
@@ -193,6 +193,6 @@ rᵢ + r₍ₙ₋₁₋ᵢ₎ = 2Nγ holds across the full rate multiset.
 - [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): `Re(λ) = −2γ⟨n_XY⟩`, the master rate identity; τ = 1/(2γ) is its slowest-mode case. (Generality to complex Hermitian H closed here.)
 - [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md): **D6** (spectral gap = 2γ, mixing time); F3 / F8 / F74 are decay-rate corollaries of the Absorption Theorem.
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the 2γ floor / palindromic spectrum.
-- [γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md): γ as the source of experienced time.
+- [γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md): gamma as the declared decay-clock scale; experienced time remains open.
 - `simulations/decay_derivation.py`: decay spectrum is J-independent rational multiples of γ.
 - Lindblad, G. (1976). "On the generators of quantum dynamical semigroups." Commun. Math. Phys. 48, 119–130.

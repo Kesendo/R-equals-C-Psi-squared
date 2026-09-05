@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F3 closed form (Tier 1, corollary of Absorption Theorem; ANALYTICAL_FORMULAS line 128):
+/// <summary>F3 closed form (Tier 1, corollary of the Absorption Theorem):
 ///
 /// <code>
 ///   min rate    = 2·γ           (w=1 modes, pure sector)
@@ -51,7 +51,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// XOR boundary IS F43's XOR-sector rate. F3 is composition of F50 + Pi2DyadicLadder
 /// + Absorption Theorem.</para>
 ///
-/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F3 (line 128) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F3 +
 /// <c>docs/proofs/PROOF_ABSORPTION_THEOREM.md</c> +
 /// <c>docs/water/PROTON_WATER_CHAIN.md</c> (hybrid-mode caveat) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs</c>
@@ -110,7 +110,7 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     /// F43's XorSectorRate at the same N, γ.</summary>
     public double XorBoundary(int N, double gammaZero)
     {
-        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "F3 requires N ≥ 1.");
+        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F3 requires N ≥ 2.");
         ValidateGamma(gammaZero);
         return Finite(RateCoefficient * N * gammaZero);
     }
@@ -143,6 +143,9 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     /// Always true (XOR drain ⟨n_XY⟩ = N exceeds paired-mode max N−1).</summary>
     public bool XorBoundaryAboveMaxRate(int N, double gammaZero)
     {
+        if (!double.IsFinite(gammaZero) || gammaZero <= 0)
+            throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero,
+                "The strict XOR-above-max comparison requires finite γ₀ > 0.");
         return XorBoundary(N, gammaZero) > MaxRate(N, gammaZero);
     }
 

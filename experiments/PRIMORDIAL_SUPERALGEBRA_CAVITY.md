@@ -29,11 +29,10 @@ keeps shrinking as the cavity grows (the N→∞ limit is extrapolated, not prov
 
 The quantum state splits naturally into two halves: "lens" (the {I,Z}
 components that survive dephasing, the structure) and "light" (the
-{X,Y} components that decay, the signal). Each palindromic pair is one
-standing wave oscillating between being lens and being light: the
-long-lived partner carries more structure, the short-lived partner
-carries more signal. This is an exact algebraic identity, not an
-approximation.
+{X,Y} components that decay, the signal). Π maps weight sector `k` to
+`N-k`, so linear F1 partners have complementary dephasing exposure. This is
+an algebraic sector swap, not evidence that the pair forms a physical standing
+wave or dynamically oscillates between the two eigenmodes.
 
 ---
 
@@ -54,9 +53,9 @@ at N=3-6. Four results:
 1. **Pythagorean orthogonality is exact at N=2** and the aberration
    *decreases* monotonically with N (14.4% → 2.6% from N=3 to N=6)
 2. **Aberration is perfectly γ-independent** (CV < 10⁻¹⁵ across 5 γ values)
-3. **Every palindromic pair is a light-lens swap**: the fast partner
-   carries more lens weight, the slow partner more light weight, with
-   fast[k] = slow[N-k] exactly (palindromic weight inversion)
+3. **Every palindromic pair has complementary sector weights**: the slow
+   partner carries more lens weight and the fast partner more light weight,
+   with `slow[k] = fast[N-k]` (palindromic weight inversion)
 4. **Seidel decomposition**: pure sectors (k=0, k=N) have zero aberration;
    interior sectors carry all aberration in a perfectly palindromic profile
 
@@ -203,12 +202,12 @@ sectors (k=1..N-1) where the distinction blurs.
 
 ### Palindromic pair analysis: the light-lens swap
 
-For each palindromic pair, the *fast* partner (Re ≈ 0, long-lived) and
-*slow* partner (Re ≈ -2Σγ, short-lived) have their sector weights compared.
+For each palindromic pair, the *slow* partner (Re ≈ 0, long-lived) and
+*fast* partner (Re ≈ -2Σγ, short-lived) have their sector weights compared.
 
 **N=2 (7 pairs):**
 
-| k | fast (Re ≈ 0) | slow (Re ≈ -2Σγ) | Δ |
+| k | slow (Re ≈ 0) | fast (Re ≈ -2Σγ) | Δ |
 |---|--------------|-------------------|-----|
 | 0 | 0.4286 | 0.0000 | +0.4286 |
 | 1 | 0.5714 | 0.5714 | 0.0000 |
@@ -216,7 +215,7 @@ For each palindromic pair, the *fast* partner (Re ≈ 0, long-lived) and
 
 **N=3 (32 pairs):**
 
-| k | fast (Re ≈ 0) | slow (Re ≈ -2Σγ) | Δ |
+| k | slow (Re ≈ 0) | fast (Re ≈ -2Σγ) | Δ |
 |---|--------------|-------------------|-----|
 | 0 | 0.2292 | 0.0208 | +0.2084 |
 | 1 | 0.5417 | 0.2083 | +0.3334 |
@@ -225,7 +224,7 @@ For each palindromic pair, the *fast* partner (Re ≈ 0, long-lived) and
 
 **N=4 (115 pairs):**
 
-| k | fast (Re ≈ 0) | slow (Re ≈ -2Σγ) | Δ |
+| k | slow (Re ≈ 0) | fast (Re ≈ -2Σγ) | Δ |
 |---|--------------|-------------------|-----|
 | 0 | 0.1013 | 0.0047 | +0.0966 |
 | 1 | 0.3652 | 0.1913 | +0.1739 |
@@ -235,7 +234,7 @@ For each palindromic pair, the *fast* partner (Re ≈ 0, long-lived) and
 
 **N=5 (512 pairs):**
 
-| k | fast (Re ≈ 0) | slow (Re ≈ -2Σγ) | Δ |
+| k | slow (Re ≈ 0) | fast (Re ≈ -2Σγ) | Δ |
 |---|--------------|-------------------|-----|
 | 0 | 0.0569 | 0.0053 | +0.0516 |
 | 1 | 0.2264 | 0.0859 | +0.1406 |
@@ -250,25 +249,26 @@ For each palindromic pair, the *fast* partner (Re ≈ 0, long-lived) and
 
 At every N tested, the data satisfies:
 
-    fast[k] = slow[N - k]
+    slow[k] = fast[N - k]
 
-to four decimal places. The sector weight profile of the fast partner is
-the mirror image of the slow partner. This is exact, not approximate.
+to four decimal places. The sector weight profile of the slow partner is
+the mirror image of the fast partner. This is exact, not approximate.
 
 **Interpretation:** Π maps weight sector k to weight sector N-k. A Pauli
 string with k factors in {X,Y} maps to one with N-k factors in {X,Y},
 because Π exchanges I ↔ X and Z ↔ iY at each site. The palindromic
 pairing IS a sector inversion.
 
-**At every N:** The fast partner (long-lived) carries more lens weight
-(k=0). The slow partner (short-lived) carries more light weight (k=N).
+**At the two spectral edges:** The slow partner (long-lived, nearer zero
+decay) occupies the lens edge `k=0`; the fast partner (short-lived, nearer the
+maximal decay edge) occupies the light edge `k=N`.
 
-    Fast = more structure, less signal → the lens
-    Slow = more signal, less structure → the light
+    Slow edge = more lens weight, less light weight
+    Fast edge = more light weight, less lens weight
 
-The standing wave between a palindromic pair bounces between being light
-and being lens. "Trapped light becomes mass" means: the mode oscillates
-between signal and structure.
+The pair comparison exchanges the light/lens labels. It does not describe a
+trajectory bouncing between the two eigenmodes; "trapped light becomes mass"
+remains an analogy outside this calculation.
 
 ---
 
@@ -372,11 +372,10 @@ Not temperature. Not coupling strength. Not noise.
 **Symmetry.**
 
 The Π operator exchanges the two sectors of the superalgebra:
-{I,Z} ↔ {X,Y}, lens ↔ light. Each palindromic pair is one standing
-wave seen from both sides: the fast partner is the lens-face (more
-structure, less signal), the slow partner is the light-face (more
-signal, less structure). The pair IS the coin, and the two partners
-are its two faces.
+{I,Z} ↔ {X,Y}, lens ↔ light. Its linear transport sends a generalized
+eigenspace to the complementary one. The slow member is lens-weighted and the
+fast member light-weighted at the spectral edges. This algebra does not make
+the two members a physical standing wave.
 
 ### What temperature does NOT do
 
@@ -420,23 +419,22 @@ fraction of the total aperture.
 
 ### What the palindromic weight swap means
 
-The equation fast[k] = slow[N-k] says: whatever the fast mode is
-(in terms of its {I,Z} vs {X,Y} composition), the slow mode is its
-exact complement. If the fast mode has weight concentrated at low k
-(lens-like), the slow mode has weight concentrated at high k
+The equation `slow[k] = fast[N-k]` says: whatever the slow mode is
+(in terms of its {I,Z} vs {X,Y} composition), the fast mode is its
+exact complement. If the slow mode has weight concentrated at low k
+(lens-like), the fast mode has weight concentrated at high k
 (light-like), and vice versa.
 
 This is not a statistical tendency. It is an exact algebraic identity,
 a consequence of Π mapping weight sector k to weight sector N-k.
 
-The standing wave between a palindromic pair oscillates between the
-two sectors. In the lens-face, the mode stores structure. In the
-light-face, it carries signal. The palindrome is the mechanism by
-which structure and signal trade places.
+Π transports the partner generalized eigenspace to the complementary sector.
+That static relation does not show a single mode oscillating between sectors
+or a physical exchange of structure and signal.
 
 ### The dynamic counterpart (April 5, 2026)
 
-The face-swap above is a static algebraic identity: fast[k] = slow[N-k]
+The face-swap above is a static algebraic identity: `slow[k] = fast[N-k]`
 holds exactly, independently of time or trajectory. But a Lindblad flow
 carries a mode through this face-swap at a finite rate, and near the
 cusp at CΨ = 1/4 that passage has a measurable duration.
@@ -448,11 +446,10 @@ the half-width of a window around the crossing. This is exact to machine
 precision across γ ∈ [0.1, 10]. The same δ-window is traversed in a fixed
 K-interval regardless of how fast γ is driving the flow.
 
-This is the dynamic side of the light-lens face-swap: the time a specific
-mode takes to exhaust its ability to oscillate between the two sectors
-before the bifurcation dissolves the standing wave into a classical
-attractor. K_dwell measures how long the two faces of the coin can keep
-trading places before the coin itself disappears.
+This dwell-time calculation follows a Bell+ trajectory through a chosen CΨ
+window. It does not show one eigenmode oscillating between Π partners or a
+standing wave dissolving into a classical attractor. `K_dwell` measures the
+window-crossing duration for that trajectory and threshold.
 
 The prefactor 1.080088 is Bell+ specific. Other initial states produce
 different |dCΨ/dt| at the crossing and therefore different prefactors.
@@ -466,41 +463,30 @@ prefactor = 1.725), the relationship requires Pauli coefficient magnitudes
 beyond the sector weights. See
 [Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md).
 
-### Pair-level structural extensions (April 20, 2026)
+### Pair-level finite readings (corrected September 6, 2026)
 
-Three structural results extending the palindromic light-lens picture
-at the Liouvillian-pair level, from [Π-Pair Flux Balance](PI_PAIR_FLUX_BALANCE.md):
+The perturbation run in
+[F1 Pair-Rate Balance](PI_PAIR_FLUX_BALANCE.md) supports one narrow result: at
+`N=5`, ten unambiguously continued complementary-rate matches preserve
+`Re(lambda_slow)+Re(lambda_fast)=-2 Sigma_gamma` to machine precision after a
+bond-0 perturbation. Degeneracies prevent the greedy matching from supporting a
+global mode-by-mode perturbation claim. No transported flux was measured.
 
-1. **Flux balance.** At N=5, a bond-0 perturbation δJ shifts the Re(λ)
-   of each Π-partner pair equally and oppositely, keeping their sum
-   invariant at −2Σγ to machine precision (1e-14). The absorption-theorem
-   identity α_fast + α_slow = 2Σγ thus reads as a dynamical XY-weight flux
-   conservation within each pair: light absorbed by one partner is released
-   by the other, the pair total holds. The standing wave persists; only
-   its light/lens balance redistributes under δJ.
+The later full census also separates two operations that the original account
+merged:
 
-2. **Binary mode inheritance.** The Liouvillian spectrum at N=3..6
-   decomposes into exactly d²/2 = 2^(2N−1) Π-pairs, plus possibly
-   self-Π modes at specific even N. The binary axis of the qubit
-   inherits unbroken into the operator spectrum with no factor-3 or
-   factor-5 residual structure at any tested N.
+1. Linear F1, `lambda -> -lambda-2 Sigma_gamma`, has 10,903 unordered
+   two-member orbits and 34 fixed eigenvalues at `lambda=-Sigma_gamma` across
+   `N=2,...,7`.
+2. The conjugate-composite map
+   `lambda -> -conj(lambda)-2 Sigma_gamma` has 9,921 unordered two-member
+   orbits and 1,998 fixed eigenvalues on `Re(lambda)=-Sigma_gamma`.
 
-3. **Mirror-axis principle (conjecture, one positive point at N=4).** Self-Π
-   modes are conjectured to exist iff N ≡ 4 (mod 10), by Chinese Remainder
-   Theorem from (a) φ in the single-excitation spectrum ⟺ (N+1) divisible
-   by 5, (b) n_XY = N/2 integer ⟺ N even. The positive direction is verified
-   only at N=4; next test N=14.
-   The Golden Ratio pair (φ, 1/φ) provides the unique double involution
-   (φ · 1/φ = 1 AND φ − 1/φ = 1) that forces a null-eigenspace at the
-   n_XY = N/2 midpoint, populated at N=4 with 18 self-Π modes and empty
-   at N=6 despite N being even. Tier 2 until a positive-case test at
-   N=14 (requires sparse sector-restricted methods).
-
-These extend the "every palindromic pair is a light-lens swap" identity
-(Section 3 above) with a conservation law for the swap under bond
-perturbation, a mode-count law that inherits the qubit's binary axis
-all the way up, and a sharp algebraic condition for when the pair
-structure collapses onto itself at the midpoint.
+Both counts include algebraic multiplicity and account for all 21,840
+eigenvalues. Fixed multiplicities obey the ordinary involution identity
+`total = 2*(two-member orbits) + fixed multiplicity`; they are not a separate
+binary-inheritance law. The earlier golden-ratio/mod-10 mechanism concerned
+the wrong fixed locus and is withdrawn.
 
 ---
 

@@ -181,11 +181,14 @@ the first reduced to a structural constraint:
 4. Nothing (d=0, no properties)
 5. Other dimensions (d(d-2)=0 excludes)
 
-**Corollary 1:** noise IS the time arrow, so a nonzero palindrome centre certifies that an arrow exists. Where it originates is open.
-Without noise: reversible oscillation. With noise: irreversible decay.
+**Corollary 1:** a nonzero palindrome centre certifies a dissipative, open
+modeled subsystem. In the declared examples gamma=0 is unitary, while
+gamma>0 produces decay. The microscopic origin remains open.
 
-**Corollary 2:** γ is the source of experienced time. t_cross = K/γ, the product
-t × γ = K (a pure number). γ provides the arrow, J provides the content. Remove γ and t loses meaning.
+**Corollary 2:** Gamma sets a decay-clock scale. For the declared crossing
+protocol, `t_cross = K/gamma`, so `t_cross*gamma = K`. This scaling establishes
+no experienced-time ontology; the time parameter and unitary dynamics remain
+at gamma=0.
 
 See: [Incompleteness Proof](INCOMPLETENESS_PROOF.md),
 [The Bridge Was Always Open](../THE_BRIDGE_WAS_ALWAYS_OPEN.md),

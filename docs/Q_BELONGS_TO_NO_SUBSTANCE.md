@@ -400,6 +400,8 @@ not.
 - [`docs/THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md`](THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md): what cancelling the unit costs.
 - [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md): one tick = 1/γ₀.
 - [`docs/GLOSSARY.md`](GLOSSARY.md) §T₂ → γ: the measured route, and its two books.
-- [`docs/GAMMA_TIME_DISTINCTION.md`](GAMMA_TIME_DISTINCTION.md): γ as the source of experienced time; its Part 3 verdict on τ = γt is sharpened by the scale reading here.
+- [`docs/GAMMA_TIME_DISTINCTION.md`](GAMMA_TIME_DISTINCTION.md): gamma as a
+  decay-clock scale; experienced time remains an open interpretation, and its
+  Part 3 result on `tau=gamma*t` is sharpened by the scale reading here.
 - [`docs/water/README.md`](water/README.md), [`docs/carbon/README.md`](carbon/README.md): the substrate folders whose Q values this document audits.
 - The model dissipator this all refers to is built in [`simulations/water/hydrogen_bond_qubit.py`](../simulations/water/hydrogen_bond_qubit.py) `:132` as `√(γ/ℏ)·σ_z`, which does honour the rate conversion its own prose then bypasses.

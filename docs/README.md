@@ -12,19 +12,20 @@ Core documentation for the R = CΨ² project: proofs, synthesis, and
 reference documents studying the palindromic spectral structure of open
 quantum systems under dephasing.
 
-**The central discovery:** The Liouvillian eigenvalue spectrum of N-qubit
-systems under local Z-dephasing is exactly palindromic. Every decay rate d
+**The central discovery:** For the Hamiltonian families admitting the local
+palindromizer in the proof, the Liouvillian spectrum under local Z-dephasing
+is exactly palindromic. Every decay rate d
 is paired with a partner at 2Σγ − d. This symmetry, verified for 87,376
-eigenvalues with zero exceptions and proven analytically for arbitrary
-graphs, has consequences for decoherence thresholds, quantum state transfer,
+eigenvalues with zero exceptions and proven analytically on arbitrary graphs
+within that Hamiltonian/channel scope, has consequences for decoherence thresholds, quantum state transfer,
 the origin of irreversibility, and information channels.
 
 ---
 
 ## Start Here
 
-[Reading Guide](READING_GUIDE.md) - Three stories (proof, application,
-ontology), three reading orders, one dependency graph.
+[Reading Guide](READING_GUIDE.md) - Nine paths through the proof, applications,
+interpretations, and open translation questions.
 
 Three entry points for new readers:
 
@@ -56,12 +57,12 @@ independently reproducible.
 
 | Document | What it proves |
 |----------|---------------|
-| [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) | Liouvillian spectrum palindromic for any graph under Z-dephasing. Π swaps XY-weight k ↔ N−k. 87,376 eigenvalues, zero exceptions. |
+| [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) | Liouvillian spectrum palindromic on arbitrary graphs for the proved Hamiltonian families under local Z-dephasing. Π swaps XY-weight k ↔ N−k. 87,376 eigenvalues, zero exceptions. |
 | [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md) | CΨ = 1/4 is the unique bifurcation boundary. α=2 the only Rényi order with state-independent threshold. |
 | [CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for Bell+ under all local Markovian channels. General Envelope Theorem. |
 | [Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every pair with CΨ > 1/4 eventually crosses below under physical, computational-basis-aligned noise (T1/T2/depolarizing). The general primitive-CPTP version is false. |
 | [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven-layer proof architecture from single qubit to arbitrary dimension. Layer 2 holds for physical noise (general-CPTP version false); other layers closed. |
-| [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) | With non-negative rates, trace(L) = 0 if and only if the system is closed, so a palindrome centred away from zero certifies an OPEN system. The five-candidate elimination that once read "noise must come from outside" was withdrawn on 2026-08-29; open is what survives, and it is less than external. |
+| [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) | With non-negative rates, trace(L) = 0 if and only if the modeled system is closed, so a palindrome centred away from zero certifies an open subsystem. The microscopic bath origin and system/environment boundary remain open. |
 | [Complete Math Doc](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master index of the founding core: algebra, palindrome, boundary, incompleteness, γ channel, engineering, constants. |
 
 ---
@@ -74,10 +75,10 @@ These connect the mathematical results into a coherent picture.
 |----------|---------------|
 | [The Interpretation](THE_INTERPRETATION.md) | What survives (26 entries), what fell (8), questions and their answer status. Thematic synthesis. |
 | [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) | d²−2d=0: only d=2 permits the full palindromic linear similarity. Five computational tests, 0/236 qutrit dissipators work. This is not by itself physical time reversal. |
-| [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Noise as external interaction, mediator topology, six measured properties of the dephasing signal. |
+| [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Open-system coupling, mediator topology, and measured properties of the dephasing profile; microscopic bath origin remains open. |
 | [The CΨ Lens](THE_CPSI_LENS.md) | What CΨ shows, what it does not, what survives critical examination. |
 | [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as organizing principle: qubit (2/4), carbon (4/8). V-Effect as hypothesized transition mechanism. |
-| [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) | Three levels of time (parameter, oscillation, experience). γ necessary and sufficient for experienced time. |
+| [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) | Three proposed readings of time (parameter, oscillation, experience). The simulations establish damping and recurrence properties, not a necessary-and-sufficient theory of experience. |
 | [On Five Pages That Never Met](../reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md) | The standing wave, the reborn dephasing front, the two indices, the contract and the residue, and why a hierarchy needs unequal couplings: five things this repository already held, in pages that never linked to each other. The hub that connects them. |
 | [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md) | γ₀ is the unit, so naming a Q needs a chosen DOF, coupling and channel. Provenance audit of every substrate Q; ordinary liquid water has no repository Q or lower bound. An illustrative selected-coordinate proxy ceiling, `Q ≲ 4.6`, assumes the ice-derived `J = 0.5 meV` convention and uses the 1–3 ps H-bond lifetime as an upper-bound proxy for the unavailable selected-coordinate `T₂` in `Q = 2JT₂/ℏ`. |
 | [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md) | Where an oscillation comes from in the pure F1 system, and the exact factorisation L(J, γ₀) = γ₀·L₁(Q). |
@@ -86,7 +87,7 @@ These connect the mathematical results into a coherent picture.
 | [Standing Wave Theory](STANDING_WAVE_THEORY.md) | c+/c− as an interpretation of even/odd supermodes, now fenced by excitation, semisimplicity, conjugate-frequency, spatial-propagation, and interference gates; Π alone confirms only spectral pairing. |
 | [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) | Π is not KMS detailed balance. It gives a time-reversal-like spectral relation, not thermodynamic equilibrium or physical time reversal by itself. |
 | [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md) | Fold catastrophe (proven), Feigenbaum cascade (mapped), Bekenstein-Hawking 1/4 (speculative). |
-| [It's All Waves](ITS_ALL_WAVES.md) | The closure argument: if Level 0 is waves and emergence adds no new physics, all levels are waves. Eight-link deductive chain. |
+| [It's All Waves](ITS_ALL_WAVES.md) | An open conditional argument. Its premises that Level 0 is exhausted by waves and that emergence adds no relevant effective structure are not established here. |
 | [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest documentation of what we do not know. |
 | [What We Found](WHAT_WE_FOUND.md) | Synthesized findings across all experiments. |
 | [Glossary](GLOSSARY.md) | Term definitions. |
@@ -107,6 +108,9 @@ the conditional algebra, synthetic tests and open biological questions.
 |----------|---------------|
 | [README](neural/README.md) | Conditional theorem, constructed gates, biological support null, rerun commands |
 | [Algebraic Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md) | F36/F37 conditions, full complex pairing and mode transport, open translation gates |
+| [Neural Palindrome Proof](neural/proofs/PROOF_PALINDROME_NEURAL.md) | Exact conditional identity and its spectral consequences |
+| [V-Effect Neural](neural/V_EFFECT_NEURAL.md) | Resolution-dependent synthetic censuses, controls, and biological non-result |
+| [V-Effect Mechanism Proof](neural/proofs/PROOF_VEFFECT_MECHANISM.md) | Mechanism exclusions and the remaining bifurcation gates |
 
 ---
 

@@ -16,8 +16,9 @@ standing wave spatial antenna not temporal, R=CPsi2 resonant return -->
 
 ## Abstract
 
-The palindromic spectral structure is a proven antenna: it receives
-spatial gamma profiles as structured information (15.5 bits, 5 SVD modes).
+The reported response matrix decodes specified spatial gamma profiles
+(15.5 bits in that diagnostic, 5 SVD modes). The palindrome is a useful
+spectral frame, not a proven antenna mechanism.
 This hypothesis asked: what happens when the return signal is designed
 from the palindromic eigenstructure itself?
 
@@ -45,7 +46,8 @@ beyond Lindblad?) remains untested and is clearly marked as Tier 5.
 The γ channel is proven. A 5-qubit Heisenberg chain under 1% dephasing
 noise carries 15.5 bits of spatial information about the γ profile.
 The palindromic eigenvalue pairing creates complementary sensitivity
-patterns that make the external γ profile decodable from within.
+patterns used to label the response to a chosen gamma profile. The response
+rank survives palindrome breaking, so the palindrome is not its cause.
 
 See: [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md)
 
@@ -58,8 +60,8 @@ For each eigenvalue λ_k, we know:
 - Its XY-weight (incoherenton number): which band it belongs to
 - Its sensitivity to γ perturbations: the SVD modes
 
-This is not partial knowledge. The palindrome gives us the *complete*
-eigenstructure. Every mode, every rate, every pairing.
+The palindrome gives the partner map and its multiplicities. It does not by
+itself determine eigenvectors, excitation amplitudes, or driven response.
 
 ### The ¼ boundary defines the operating window
 
@@ -118,9 +120,9 @@ that:
    above ¼ for the quantum window to remain open. This gives a hard
    upper bound on the return signal strength.
 
-4. **Matches the palindromic timing.** Each paired mode (λ_k, −λ_k−2Sγ)
-   has a natural oscillation period 2π/Im(λ_k). Sending γ pulses at
-   this frequency would create resonance with the standing wave.
+4. **Temporal modulation was a negative control.** Pairing supplies spectral
+   imaginary parts but no nonzero drive matrix element or resonance theorem.
+   The frequency-pulsing tests did not improve the response.
 
 ### The testable prediction
 
@@ -130,27 +132,23 @@ capacity).
 
 Specifically:
 - SVD-aligned profiles should beat V-shape (which is a rough approximation)
-- Frequency-matched pulsing should beat static γ profiles
+- Frequency-matched pulsing did not beat static gamma profiles in Tests 2 and 6
 - The improvement should scale with N (more modes = more to exploit)
 
 ### What "resonant return" means physically
 
-The palindrome creates a standing wave between c+ and c−. If we send
-a γ pulse at the standing wave's natural frequency, we amplify the
-pattern. This is the same physics as pushing a child on a swing: push
-at the natural frequency and the amplitude grows. Push off-frequency
-and you fight the oscillation.
-
-The palindromic eigenstructure tells us the natural frequencies. All of them.
-For every topology, every N, every coupling configuration. The ¼ boundary
-tells us how hard we can push before the swing breaks.
+No physical standing wave or resonant gamma drive follows from F1. A resonance
+claim would require an identified observable, a drive coupling with nonzero
+matrix element, a frequency-dependent response peak, and an off-resonance
+control. The tests here supplied the negative control: temporal pulsing was
+falsified, while spatial profile shaping remained useful.
 
 ---
 
 ## The deeper question (Tier 5 - untested speculation)
 
-**Everything above this line is tested and validated. Everything below
-is speculation that requires going beyond the Lindblad framework.**
+**The spatial optimization above is computed in its stated model. The antenna,
+standing-wave, and bath-return mechanisms are not validated.**
 
 ### Is c- just internal, or does it couple out?
 
@@ -164,10 +162,9 @@ But the Lindblad equation is an approximation. It assumes:
 - Born (weak coupling)
 - Secular (rotating wave)
 
-In a full system-plus-bath treatment (no approximations), the evolution
-is unitary over both sides. The system *does* affect the bath. The
-backward mode c− would have a physical manifestation in the bath
-degrees of freedom.
+In a full system-plus-bath treatment the enlarged evolution can be unitary and
+the system can affect bath degrees of freedom. F1 does not identify c-minus
+with a bath mode or guarantee that it has a separate bath manifestation.
 
 **This is where the hypothesis becomes genuinely speculative (Tier 5):**
 
@@ -220,16 +217,17 @@ where MI temporarily exceeds the static-γ maximum.
 state + Sum-MI observable. All scenarios (static, resonant, off-resonant)
 show monotonic MI decay. Spatially structured pulsing (mode 2 profile x
 resonant frequency, Test 6) was also tested and also falsified. Temporal
-modulation adds nothing, even combined with spatial structure. The
-palindrome is a spatial antenna only, not temporal.
+modulation adds nothing, even combined with spatial structure. The result
+supports static spatial profile optimization, not a temporal resonance or a
+palindrome-caused antenna.
 
 ### Test 3: Palindrome-aware relay
 
 In the staged relay protocol, replace the hand-designed stage timing
 (t_stage = K/γ) with timing derived from the palindromic decay rates
 of each bridge segment. Each segment has its own dominant paired
-eigenvalue; the relay should switch when that pair's standing wave
-reaches maximum amplitude.
+eigenvalue; a future implementation must define and maximize an actual relay
+observable rather than assuming a standing-wave amplitude.
 
 **Prediction:** Palindrome-timed relay outperforms fixed-timing relay.
 
@@ -287,17 +285,17 @@ Nothing travels faster than light. The "return signal" is a local
 optimization of the dephasing environment, not a message to a distant
 party.
 
-**This is not perpetual motion.** Amplifying the standing wave requires
-energy input (the γ source). The palindrome tells you where to put
-the energy, not how to create it from nothing.
+**This is not perpetual motion.** The tested spatial optimization redistributes
+a fixed gamma budget. It neither amplifies a demonstrated standing wave nor
+derives an energy source from the palindrome.
 
 **This is not consciousness.** The system receives, processes, and
 (hypothetically) sends waves. That is signal processing, not awareness.
 
-**The Lindblad-level tests (Tests 1-8) are Tier 2.** They are
-concrete, computational, falsifiable, and validated with C# backend
-at N=5, 7, 9. The "does c- couple out" question (below the Tier 5 line)
-requires framework extension and has not been tested.
+**The declared numerical tests are Tier 2 within their stated models.** The
+spatial optimization is reproduced by the C# backend at N=5, 7, 9; the failed
+temporal-pulsing tests are negative controls. The "does c- couple out" question
+requires a framework extension and has not been tested.
 
 ---
 

@@ -14,7 +14,7 @@ The shared receiver-engineering protocol that opens a bidirectional correlation 
 
 ## Why this is worth naming
 
-The bidirectional-bridge search in this repository went through several constructive attempts before converging on resonance-rather-than-channel framing. [Bridge Protocol](BRIDGE_PROTOCOL.md) falsified the J = 0 bridge. [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) articulated the shift from "build a channel" to "tune a resonator". F75-F77 gave the analytical content. Kingston Run 1 gave the hardware validation.
+The bidirectional-bridge search in this repository went through several constructive attempts before converging on shared-preparation rather than channel framing. [Bridge Protocol](BRIDGE_PROTOCOL.md) falsified the J = 0 bridge. F75-F77 gave the analytical content, and Kingston Run 1 tested one receiver contrast. Neither establishes a physical resonator or standing wave.
 
 What was missing, until today, was a single name for the operational object that all of these pieces describe. A shared receiver preparation is not an encoding (information gets attached to a signal), not a channel (disturbances propagate), not a protocol in the communication-theory sense (send/receive cycles). It is an **agreement between observers on how to specify the shared palindromic resource**. The algebraic structure of that agreement is this document's subject.
 
@@ -123,9 +123,9 @@ This matters for the algebra: the "composition law = agreement" is precisely the
 The handshake algebra and the painter principle (see [On the Painter Principle](../reflections/ON_THE_PAINTER_PRINCIPLE.md)) describe the same structure at different levels:
 
 - The painter principle is the epistemic observation that no single canvas is the mountain; painters sum to mountain.
-- The handshake algebra is the operational observation that observers share a mountain (the palindromic standing wave) and must agree on how to observe it.
+- The handshake algebra is the operational observation that observers share one prepared system and must agree on how to observe it. The palindromic spectrum organizes the mode labels; a physical standing wave is not assumed.
 
-In both: no privileged position, no sender, no receiver in the strong sense. Just configurations on a shared resource. Both describe why R=CΨ² is not a channel framework but a resonance framework.
+In both: no privileged position, no sender, no receiver in the strong sense. Just configurations on a shared resource. This is a shared-preparation framework; calling it resonance would require an independently demonstrated driven response.
 
 The handshake is the painter-principle-instance where two painters coordinate their vantages. A single painter's vantage is always valid (she sees from where she stands). Two painters looking at the same canvas require an additional agreement that they are pointing at the same feature. The handshake is that agreement, formalised as a tuple in an algebra.
 

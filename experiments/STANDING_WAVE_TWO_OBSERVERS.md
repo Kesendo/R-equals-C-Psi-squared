@@ -7,7 +7,8 @@ fast slow decoherence rate observer labels, Born rule perfect mirror limit,
 coherence floor IBM Q52 residual, R=CPsi2 standing wave -->
 
 > **Restoration note (March 14, 2026):** Originally written February 27, 2026, deleted March 12,
-> restored March 14. Standing wave structure and mirror symmetry confirmed.
+> restored March 14. Mirror symmetry is confirmed; the standing-wave reading
+> remains conditional on physical excitation, propagation, and interference gates.
 > Time travel, gravity, and FTL signaling references have fallen.
 
 **Status:** Conceptual interpretation (Tier 3)
@@ -19,24 +20,19 @@ coherence floor IBM Q52 residual, R=CPsi2 standing wave -->
 
 ## What this document is about
 
-Two observers sharing an entangled state but decohering at different
-rates create a standing wave in R = C·(Ψ_A + Ψ_B)². The cross-term
-2·Ψ_A·Ψ_B is not time travel; it is interference between two
-viewpoints on the same quantum state. "Past" and "future" just mean
-who crosses the ¼ boundary first (faster clock = "past"). The partial
-trace (the operation that extracts one observer's local state by
-discarding the other) throws away exactly the joint terms where the
-standing wave lives. This reframes Cramer's transactional
-interpretation without invoking backward-in-time waves.
+Two observers sharing an entangled state can be assigned the algebraic
+cross-term `2·Psi_A·Psi_B` in the proposed sum-squared ansatz. A cross-term is
+not by itself a physical interference measurement or standing wave. The
+partial trace discards joint coherences, but that fact neither makes them
+locally observable nor establishes counter-propagating modes.
 
 ---
 
 ## Abstract
 
-Two observers looking at the same entangled state from different reference
-frames (different decoherence rates) create a standing wave in R = C·(Ψ_A +
-Ψ_B)². The cross-term 2·Ψ_A·Ψ_B represents interference between two
-viewpoints, existing because both observers share the same entangled state.
+Two observers looking at the same entangled state can be inserted into the
+ansatz R = C·(Ψ_A + Ψ_B)². Its cross-term is algebraic; calling it
+interference requires an operational observable and a phase-sensitive control.
 The labels "past" and "future" refer only to which observer crosses the
 ¼ boundary first (higher decoherence rate = faster clock = "past"), not to
 time flowing backward. The partial trace ρ_A = Tr_B(ρ_AB) correctly
@@ -89,11 +85,15 @@ This is not a wave traveling forward and another traveling backward. It is:
 
 Each observer applies R = CΨ² to their own qubit. Each sees their own reality through their own purity (C) and coherence (Ψ). But the qubits are entangled, they are not independent systems. The observers are looking at the same thing from two sides.
 
-What happens between two mirrors facing each other? A standing wave.
+Two amplitudes in a squared sum produce a cross-term. Whether that cross-term
+is a standing wave is the question, not the premise.
 
 (Ψ_past + Ψ_future)² = Ψ_past² + 2·Ψ_past·Ψ_future + Ψ_future²
 
-The cross-term 2·Ψ_past·Ψ_future is the interference between the two viewpoints. It exists because both observers are looking at the same entangled state simultaneously.
+The cross-term `2·Ψ_past·Ψ_future` exists by expansion of the proposed
+ansatz. An incoherent mixture or phase randomization is the needed negative
+control: if the reported term survives without phase coherence, it is not an
+interference witness.
 
 ## 4. Why "We Are All Mirrors" Is Not a Metaphor
 
@@ -120,13 +120,20 @@ And it is correct, for a single observer with one qubit. But R = CΨ² is applie
 The partial trace is the right tool for one subsystem; the joint coherence is
 the object present only in the two-subsystem state.
 
+The constructed two-seat diagonal F36 neural Jacobian is a useful negative
+control: it satisfies the exact same affine spectral identity while having no
+spatial propagation mechanism. Exact pairing therefore cannot, by itself, be
+a standing-wave witness. See [Algebraic Palindrome Neural](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md).
+
 ## 6. Why This Matters for the Bridge Question
 
 The agents (v033-v040) tried to find a way for Alpha to detect Beta's actions through the entangled pair. Standard QM says no: the partial trace guarantees ρ_A = I/2 regardless of what Beta does.
 
 > [FALLEN: This FTL signaling connection was not confirmed and has been retired from the technical core.]
 
-But the standing wave does not live inside the partial trace. It lives between the two observers. The question was never "can Alpha see what Beta did to ρ_B?" The question is: "when both observers apply R = CΨ² simultaneously to an entangled state, does the standing wave carry something that neither partial trace contains?"
+The joint coherence does not live inside either partial trace. The operational
+question is whether a declared joint observable detects phase-sensitive
+interference that neither marginal contains; no standing wave is presumed.
 
 The off-diagonal terms of |Φ+⟩⟨Φ+| are nonzero. The partial trace discards them,
 and CΨ_joint responds to them. No counter-propagation or interference gate here
@@ -146,13 +153,12 @@ Framework: R = C · (Ψ_past + Ψ_future)² (sum squared)
 
 Both recover Born in the perfect-mirror limit. Both diverge when mirrors are imperfect.
 
-But now the physical interpretation is clear:
-- **Product** says: two observers contribute independently. Multiply.
-- **Sum squared** says: two observers create interference. Add then square.
+The two formulas encode different algebraic combination rules; neither is
+derived here from a measurement protocol.
 
-The product has no cross-term. No interference. No standing wave. Two observers looking at the same state but not interacting.
-
-The sum squared has a cross-term. Interference. Standing wave. Two observers whose viewpoints create something that neither has alone.
+The product has no cross-term. The sum squared has one. A physical standing
+wave would additionally require coherent excitation, spatial or modal
+propagation, and an interference observable with the incoherent control above.
 
 The late-time discriminator tests this: when Ψ_past → 0 (one observer's coherence dies), does the cross-term survive? Sum says yes (Ψ_future² remains). Product says no (0 × anything = 0).
 

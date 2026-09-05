@@ -54,27 +54,48 @@ spatial propagation nor that preparation/readout condition.
 If `Re(mu) != 0`, the two centered factors also have relative growth and decay,
 so they are not a stationary equal-envelope wave pair. If a block is defective,
 its evolution contains Jordan-polynomial factors such as `t^k exp(lambda t)`;
-an eigenvalue-pair count does not remove them. Self-pairing on the centered
-line likewise means only that the eigenvalue lies on the fixed locus, not that
-the mode is automatically a node of a spatial standing wave.
+an eigenvalue-pair count does not remove them. The linear F1 fixed locus is the
+single complex point `lambda=-Sigma_gamma`, not the whole centered vertical
+line. F1 maps generalized eigenspaces (and their Jordan-chain lengths) at
+`lambda` to those at `-lambda-2 Sigma_gamma`; it does not select individual
+vectors inside a degenerate eigenspace.
 
 ## Finite pair census
 
-The producer enumerates 21,840 eigenvalues for `N=2,...,7` and finds the
-following complete palindromic accounting:
+The producer enumerates 21,840 eigenvalues for `N=2,...,7`. There are two
+different complete orbit censuses, because there are two different involutions.
+For the **linear F1 map** `lambda -> -lambda-2 Sigma_gamma`:
 
-| N | Total | Distinct partner members | Self-paired on `Re(lambda)=-Sigma_gamma` | Accounted for |
+| N | Total | Unordered two-member F1 orbits | F1-fixed multiplicity at `lambda=-Sigma_gamma` | Accounted for |
 |---|---:|---:|---:|---:|
-| 2 | 16 | 6 | 10 | 100% |
-| 3 | 64 | 64 | 0 | 100% |
-| 4 | 256 | 104 | 152 | 100% |
-| 5 | 1,024 | 1,024 | 0 | 100% |
-| 6 | 4,096 | 2,260 | 1,836 | 100% |
-| 7 | 16,384 | 16,384 | 0 | 100% |
+| 2 | 16 | 6 | 4 | 100% |
+| 3 | 64 | 32 | 0 | 100% |
+| 4 | 256 | 121 | 14 | 100% |
+| 5 | 1,024 | 512 | 0 | 100% |
+| 6 | 4,096 | 2,040 | 16 | 100% |
+| 7 | 16,384 | 8,192 | 0 | 100% |
 
-Equivalently, the census contains 9,921 distinct unordered pairs and 1,998
-self-paired eigenvalues. These are multiplicity counts, not counts of physical
-traveling or standing waves.
+Thus the linear census contains 10,903 unordered two-member orbits and 34
+fixed eigenvalues, counted with algebraic multiplicity.
+
+For the **composite map**
+`lambda -> -conj(lambda)-2 Sigma_gamma`, obtained by following conjugate closure
+with F1, the fixed locus is the full line `Re(lambda)=-Sigma_gamma`:
+
+| N | Total | Unordered two-member composite orbits | Composite-fixed multiplicity on `Re(lambda)=-Sigma_gamma` | Accounted for |
+|---|---:|---:|---:|---:|
+| 2 | 16 | 3 | 10 | 100% |
+| 3 | 64 | 32 | 0 | 100% |
+| 4 | 256 | 52 | 152 | 100% |
+| 5 | 1,024 | 512 | 0 | 100% |
+| 6 | 4,096 | 1,130 | 1,836 | 100% |
+| 7 | 16,384 | 8,192 | 0 | 100% |
+
+This second census contains 9,921 unordered two-member orbits and 1,998 fixed
+eigenvalues. Neither census counts physical traveling or standing waves. The
+composite census preserves `Im(lambda)` and is useful for grouping equal
+frequencies, but only the linear census is the orbit structure transported by
+`Pi`.
 
 The measured mean decay over each complete spectrum is `Sigma_gamma`:
 
@@ -97,14 +118,15 @@ The earlier inverse naming is not used here.
 The same finite pairing census was run on chain, star, and ring topologies at
 `N=3,4,5`; all spectra were fully accounted for. At `N=4`:
 
-| N=4 | Chain | Star | Ring |
+| Linear F1 census at N=4 | Chain | Star | Ring |
 |---|---:|---:|---:|
-| Self-paired eigenvalues | 152 | 126 | 156 |
-| Distinct unordered pairs | 52 | 65 | 50 |
+| F1-fixed multiplicity at `lambda=-Sigma_gamma` | 14 | 16 | 24 |
+| Unordered two-member F1 orbits | 121 | 120 | 116 |
 | Accounted for | 100% | 100% | 100% |
 
-Topology changes the spectrum and fixed-locus multiplicity. This table tests
-the F1 pairing in those models; it does not test spatial counter-propagation.
+Topology changes the spectrum and exact-point multiplicity. This table tests
+the linear F1 orbit accounting in those models; it does not test spatial
+counter-propagation.
 
 ## Factor two
 

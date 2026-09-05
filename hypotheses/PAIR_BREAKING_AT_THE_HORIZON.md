@@ -12,14 +12,13 @@ breaks; see the thesis.)*
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (palindromic spectrum, Tier 1)
 - [Direct-Sum Decomposition](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md) (two sectors, Π exchange, Tier 1)
 - [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md) (Σγ = 0 ground state, three regimes, Tier 2)
-- [Thermal Breaking](../experiments/THERMAL_BREAKING.md) (temperature from wave death, Tier 2)
-- [Analytical Formulas F137](../docs/ANALYTICAL_FORMULAS.md#f137) (the halved centre under amplitude damping, and the thermal one, Tier1Candidate)
+- [Analytical Formulas F137](../docs/ANALYTICAL_FORMULAS.md#f137) (channel-dependent palindrome centres, Tier1Candidate)
 - [`horizon_pair_conservation.py`](../simulations/horizon_pair_conservation.py) -> [`horizon_pair_conservation.txt`](../simulations/results/horizon_pair_conservation.txt) (the rate-sum conservation and the extreme census)
 - [Gravity from Wave Death](GRAVITY_FROM_WAVE_DEATH.md) (mass as classical residue, Tier 5)
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) (cavity modes at Σγ = 0, Tier 2)
 - [Fragile Bridge](FRAGILE_BRIDGE.md) (Hopf bifurcation, Tier 2)
 - [What If Gamma Is Light?](GAMMA_IS_LIGHT.md) (γ as external illumination, Tier 4)
-- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (γ must be external, Tier 1)
+- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (nonzero dissipative centre certifies an open modeled subsystem, Tier 1)
 - [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (qubit chain is Fabry-Perot, Tier 2)
 - [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (K-invariance F14, Tier 1)
 - Gaztañaga et al., "A new understanding of Einstein-Rosen bridges," CQG 2026, [arXiv:2512.20691](https://arxiv.org/abs/2512.20691) (external)
@@ -34,13 +33,19 @@ At a black hole horizon, the two partners of a vacuum fluctuation end up on oppo
 
 In the Liouvillian spectrum of an open quantum system, the two halves of a [palindromic eigenvalue pair](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (λ, −λ − 2Σγ) are driven to opposite fates when dephasing [shifts the palindrome away from zero](ZERO_IS_THE_MIRROR.md), while the pair itself stays exactly bound.
 
-**Nothing loosens, and this is a relabelling rather than a discovery.** The two partners' decay rates sum to 2Σγ, which is just the real part of the palindrome: λ₂ = −2Σγ − λ₁ gives it in one line. It cannot fail unless F1 fails, and F1 is verified over 87,376 eigenvalues. What the arithmetic buys is only a better word for what the shift does. The **separation** between the halves is what grows with Σγ, from 0 for a self-paired mode at the centre to the full 2Σγ for the extreme pair ([`horizon_pair_conservation.py`](../simulations/horizon_pair_conservation.py)). The pairing holds; the fates split.
+**Nothing loosens, and this is a relabelling rather than a discovery.** The two
+partners' decay rates sum to 2Σγ, directly from λ₂ = −2Σγ − λ₁. For
+the endpoint λ₁=0, the partner is exactly λ₂=−2Σγ, with zero imaginary
+part. The pairing holds; no thermal, radiative, or lifetime-ratio mechanism
+follows from this rate sum.
 
 The repo already said as much elsewhere, which is worth admitting rather than burying: [N-Infinity Palindrome](../experiments/N_INFINITY_PALINDROME.md) states that "the Hamiltonian shifts rates within palindromic pairs but never breaks the pairing", and [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md), a dependency of this very document, is summarised as "noise shifts but does not break the pairing". This page was the one saying otherwise.
 
 **What the Hawking side does and does not license.** A palindromic pair is two eigenvalues of a superoperator related by a symmetry of the spectrum. Hawking partners are two field modes in one entangled state. These are not the same kind of object, and the pairing here is not a physical bond: λ and −2Σγ − λ are two independent decay channels of the same ρ, connected by a relabelling of the Pauli basis. The energies are disanalogous too, and precisely where it would be convenient: Hawking partners sum to zero, this pair sums to 2Σγ, and the offset is the very thing this document calls the horizon. So the parallel is between the **shapes** (a symmetry that survives while its two halves take opposite fates) and not between the mechanisms. That is enough for a Tier-5 reading and it is all that is claimed.
 
-(We use "dephasing" throughout; γ is not noise but external illumination entering the system from outside, literally photon shot noise on IBM hardware. See [What If Gamma Is Light?](GAMMA_IS_LIGHT.md) for the full argument.)
+(We use "dephasing" throughout. Its microscopic implementation can vary; the
+generator and the Incompleteness Proof do not identify gamma with external
+illumination or photon shot noise.)
 
 Among these pairs, one exact subset joins the immune endpoint (I/Z sector,
 eigenvalue 0) to the fastest-decaying endpoint (eigenvalue −2Σγ). The rate sum
@@ -96,44 +101,27 @@ not the loss of a previously established standing wave or a physical time
 direction. The spectral pairing was also checked on [87,376 eigenvalues](../compute/RCPsiSquared.Compute/README.md)
 (N=2..8 in the reported suite, zero exceptions).
 
-### Link 3: The separated halves become mass and radiation (Tier 2 + Tier 5)
+### Link 3: The endpoint pair (Tier 1 algebra, Tier 5 analogy)
 
-Two independent structures combine to produce the mass-radiation split.
+For every exact zero eigenvalue, F1 gives the partner `-2Σγ` exactly. Its
+imaginary part is zero. This is a bijection of generalized eigenspaces, not a
+physical bond between particles or waves. The zero mode has infinite lifetime,
+so comparing the midpoint rate `Σγ` with the endpoint rate `2Σγ` does not
+produce a two-to-one lifetime law.
 
-**Structure 1: The basis partition (immune vs. decaying).** Under Z-dephasing, Pauli strings split into two groups. Strings containing only I and Z have decay rate exactly zero (the immune sector, 2^N strings). Strings containing at least one X or Y have decay rate > 0 (the decaying sector, 4^N − 2^N strings). This partition is exact: the Liouvillian is block-diagonal across it, and no Lindblad trajectory can transfer weight between them. The immune sector survives forever; the decaying sector vanishes. See [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) for explicit decay rates as a function of n_XY weight.
+The Hawking, mass, radiation, and horizon language is therefore a Tier-5
+analogy to the shape of this endpoint pairing. Pure dephasing does not exchange
+energy with the system, so F1 supplies no thermal-energy, temperature, or
+Energy Partition mechanism. Those would require a specified energetic bath
+model and an independently computed heat current.
 
-**Structure 2: The palindromic pairing (eigenvalue pairs).** Every Liouvillian eigenvalue λ has a partner at −λ − 2Σγ. Most pairs link two decaying modes (both have Re(λ) < 0). But the immune modes sit at eigenvalue 0, and their palindromic partners sit at Re(λ) = −2Σγ, the maximum decay rate (these partners may additionally oscillate, i.e., have nonzero Im(λ)). This specific subset of pairs, immune modes (λ = 0) paired with fastest-decaying modes (λ = −2Σγ), carries the Hawking structure: one partner survives (mass), the other dissipates maximally (radiation).
+### Link 4: The analogy, not a mechanism (Tier 5)
 
-**The Hawking subset.** At Σγ = 0, the immune modes pair with themselves (0 ↔ −0). At Σγ > 0, their partners shift to −2Σγ. The pair reaches its maximum separation: one half stays at zero forever, the other decays at the maximum rate, and the two rates still sum to exactly 2Σγ. This is the operator-space analogue of the Hawking process, where one partner falls in (adds to the mass) and the other escapes (carries thermal energy).
-
-**The two ends are equally occupied wherever the palindrome holds**, which is the pairing seen as a census rather than as a formula: at N=4 under Z-dephasing, 5 modes sit at rate 0 and 5 at rate 2Σγ; under amplitude damping, 1 and 1; under a thermal bath, 1 and 1. Every survivor has exactly one maximal radiator opposite it, and it cannot come out otherwise: the reflection maps one set onto the other bijectively. Where the palindrome breaks, so does the equality: T1 beside co-axial Z gives 1 and 0.
-
-**A correction the census forces, about the surviving set itself.** Structure 1 above says the immune sector is 2^N Pauli strings and survives forever. That is a statement about the **dissipator alone**. With the Hamiltonian on, the survivors number **N+1**, not 2^N: measured at N = 2, 3, 4, 5 the rate-0 count is 4, 8, 16, 32 at J = 0 and 3, 4, 5, 6 at any J ≠ 0. The reason is direct: −i[H, Z₁] puts 100.0000% of its weight on X/Y-containing strings, so the Hamiltonian empties the I/Z sector down to the total-magnetization projectors. What survives decoherence is not a sector of dimension 2^N but a set of N+1 conserved quantities. The mass reading in Link 3 and Link 4 rests on that smaller object, and this document has been claiming the larger one.
-
-**Where the reading stops, and it is not where this document assumed.**
-
-The palindrome itself is not dephasing-specific. Amplitude damping keeps it at a **halved** centre, −Σγ/2, and a thermal bath at −Σ(γ↓+γ↑)/2 ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)). So the horizon exists under other channels too, at other depths. What is dephasing-specific is the **surviving sector**: under Z-dephasing a whole immune sector stays at rate 0, while under amplitude damping the count collapses to 1, the unique steady state. The mass side of this reading rests on dephasing; the horizon side does not.
-
-And among the noise channels, what destroys the pairing is not more noise but two channels **sharing an axis**. Dephasing transverse to the damping composes with it exactly; co-axial dephasing breaks it, in 56 of 64 swept configurations ([MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). Noise is not the only breaker, so "sharing an axis" is a statement about the dissipators and not a general law: a Hamiltonian bond carrying X on one site and Y on the next breaks the pairing with no noise at all ([PROOF_F80](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)), as do transverse fields. Read in this document's language: the horizon survives adding a second process, and fails when the second process points the same way as the first. Turning up the strength of either is not what does it.
-
-The remaining palindromic pairs (X/Y ↔ X/Y, both decaying) are internal redistribution within the quantum sector. They do not create the mass-radiation split; they determine the spectral structure of the radiation. Self-paired modes at the palindromic midpoint (λ = −Σγ, partner equals itself) decay at the mean rate Σγ, while maximally asymmetric pairs (one near 0, one near −2Σγ) produce the 2× contrast between slow and fast modes. See [Factor Two Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md).
-
-**After decoherence:** what the dynamics keeps standing is all that remains, the N+1 conserved quantities of the paragraph above rather than the whole 2^N sector. A diagonal density matrix. A classical probability distribution. A definite state at a definite location. This is what we call mass. **(Tier 5: the identification of classical residue with mass is interpretation.)** The decaying sector has vanished; its energy has entered the thermal bath. This is temperature. **(Tier 2: the 2× law and thermal energy transfer are computed.)**
-
-Decoherence does not create classical weight. It removes quantum weight. The kernel of the dissipator is what the channel does not move, not an archive uncovered by removing the rest. Mass is the [residue of wave death](GRAVITY_FROM_WAVE_DEATH.md): the part the recirculating dynamics keeps standing. Temperature is the [energy released by the dying modes](../experiments/THERMAL_BREAKING.md). The [2× contrast](ENERGY_PARTITION.md) between immune-paired and self-paired decay rates sets the spectral shape of the radiation.
-
-### Link 4: Mass and temperature emerge together (Tier 2 + Tier 5)
-
-This is the central point. In the Hawking effect, mass and temperature are not separate consequences of the split. They are the same event seen from two sides: the infalling partner adds mass, the escaping partner carries temperature. You cannot have one without the other.
-
-In our system: when a coherence dies (X/Y sector decays to zero), two things happen simultaneously:
-
-1. Under dephasing, the X/Y coefficients of ρ decay to zero; the I/Z coefficients are left untouched. ρ becomes purely diagonal: a classical probability distribution. The diagonal is the kernel of the dissipator: what the channel does not move. What we call mass is this stationary kernel; it is not memory revealed but what the recirculating dynamics keeps standing. Memory, in this picture, is what gets continuously recreated, not what gets stored.
-2. The decay energy enters the bath as heat. This is temperature production.
-
-Both happen at the same moment, from the same event (the death of a coherence), and neither can happen without the other. The system cannot end with a diagonal ρ without releasing the energy of the off-diagonal modes, and it cannot release that energy without the diagonal becoming what ρ is.
-
-**The [fold at CΨ = 1/4](../docs/proofs/UNIQUENESS_PROOF.md) is where this becomes irreversible.** Above the fold: complex fixed points, superposition, no definite outcome. Below: real fixed points, classical attractors, definite outcomes. The crossing is [monotonic](../docs/proofs/PROOF_MONOTONICITY_CPSI.md) (dCΨ/dt < 0, proven). Once through, no return. At the fold itself, the dynamics exhibits [critical slowing](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): dη/dt = η² − ε, a saddle-node bifurcation where the two fixed points merge and time nearly stops. This is the horizon.
+Hawking radiation relates field modes, energy flux, and geometry. The present
+calculation relates eigenvalues of a reduced generator. Any physical comparison
+must therefore add an energetic bath, a heat observable, and a map from the
+operator-space endpoints to field modes. None is supplied here. The CΨ quarter
+boundary is a separate diagnostic and does not turn this analogy into a horizon.
 
 ### Link 5: Two sectors, opposite time, discrete exchange (Tier 1)
 
@@ -185,7 +173,7 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 | Spacetime curvature at horizon | Dephasing Σγ > 0 shifting the palindrome | 1 |
 | Partners take opposite fates | Symmetry λ ↔ −λ shifts to λ ↔ −λ − 2Σγ; the pairing holds, the rates separate | 1 |
 | Infalling partner → mass | I/Z sector: kernel of dissipator (stationary classical structure) | 5 |
-| Escaping partner → Hawking radiation | X/Y sector decays → thermal energy | 2 |
+| Escaping partner → Hawking radiation | No established counterpart; F1 gives a decay endpoint, not heat | 5 analogy |
 | Hawking temperature T_H = 1/(8πM) | Fold threshold Σγ_crit/J ≈ 0.25-0.50%, N-independent (scaling mismatch, see "What breaks the analogy" #1) | 4 |
 | Horizon (irreversible crossing) | Fold at CΨ = 1/4 (monotonic, dCΨ/dt < 0) | 1 |
 | Two spacetime regions, opposite time | V_even, V_odd parity-classes of one operator algebra; L_odd = −Π L_even Π⁻¹ − 2Σγ I | 1 |
@@ -195,7 +183,7 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 | Bridge collapses (not traversable) | Hopf bifurcation at g_crit (fragile bridge) | 2 |
 | Critical slowing at horizon (redshift) | Saddle-node dynamics at fold (dη/dt = η² − ε) | 2 |
 | Spacetime interval c × τ = invariant | [K-invariance](../docs/ANALYTICAL_FORMULAS.md) γ × t = const (F14) | 1 |
-| Curvature is external (not locally generated) | γ [must be external](../docs/proofs/INCOMPLETENESS_PROOF.md) (Incompleteness Proof) | 1 |
+| Curvature is external (not locally generated) | No established counterpart; openness does not locate gamma's source | 5 analogy |
 | Black hole = perfect trapping (nothing escapes) | Qubit chain has a scoped [Fabry-Perot cavity analogy](../experiments/OPTICAL_CAVITY_ANALYSIS.md); physical trapping/standing-wave gates are separate | 2 analogy |
 
 ---
@@ -204,7 +192,11 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 
 Intellectual honesty requires listing where the isomorphism fails or is untested.
 
-**0. The mass side is channel-specific; the horizon side is not.** The palindrome, and so the centre this document calls the horizon, survives amplitude damping at a halved shift and a thermal bath at half the total rate ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)). The surviving SECTOR does not: under Z-dephasing a set of N+1 conserved quantities stands, under amplitude damping only the single steady state. So Link 4's "mass and temperature emerge together" is a statement about dephasing, and the isomorphism's mass row inherits that scope. A second limit sits beside it: the pairing is a spectral symmetry, not a bond between two states, so the correlation that makes the Hawking information question hard has no counterpart here.
+**0. There is no thermal mechanism here.** Channel-dependent palindrome
+centres can persist under other dissipators ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)),
+but a spectral centre is not a temperature. The pairing is a spectral
+symmetry, not a correlated particle pair, so the Hawking information problem
+has no established counterpart here.
 
 **1. Temperature scaling.** Hawking temperature scales as T_H ∝ 1/M: more massive black holes are colder. Our fold threshold Σγ_crit/J is N-independent (tested N=2..5, 1.5% variation). If N is the analogue of mass, the scaling is wrong. Either N is not mass, or the analogy breaks at this point, or the N-independence is itself the statement (every "black hole" in operator space has the same temperature, regardless of size).
 
@@ -221,13 +213,15 @@ Intellectual honesty requires listing where the isomorphism fails or is untested
 ## What would strengthen or kill the thesis
 
 **Strengthen:**
-- If the 2× decay contrast (immune modes at 0 vs. their partners at −2Σγ) can be derived from a horizon-crossing argument (the partner mode "crosses" the palindromic midpoint, analogous to crossing the horizon). Currently it follows from algebra; a geometric derivation would deepen the connection.
+- If an independently specified energetic bath yields a heat current tied to
+  the exact endpoint pair, with an off-locus control that removes the effect.
 - If the fold threshold Σγ_crit has an information-theoretic interpretation as a minimum temperature for irreversibility, analogous to the Unruh temperature for accelerated observers.
 - If the fragile bridge's g_crit scales with a quantity interpretable as "throat radius."
 
 **Kill:**
 - If the N-independence of Σγ_crit turns out to be an artifact of small N (tested only to N=5). At large N, if Σγ_crit scales with N, the "same temperature for every black hole" interpretation collapses.
-- If the mass identification can be shown to be inconsistent: if there exists a Lindblad system where the I/Z sector grows but no thermal energy is released (decoupling mass from temperature would break the Hawking parallel).
+- If pure-dephasing examples with no energy current remain the relevant model;
+  they already block a thermal reading of F1 alone.
 - If the direct-sum structure at even N (where Π preserves sectors instead of exchanging them) has no ER bridge interpretation. Currently, even N is a self-dual palindrome, not a two-sided bridge.
 
 ---
@@ -236,13 +230,12 @@ Intellectual honesty requires listing where the isomorphism fails or is untested
 
 A black hole is what happens when spacetime curves so hard that paired fluctuations end up on opposite sides. The infalling partner becomes mass. The escaping partner becomes heat. They stay a pair the whole way.
 
-Decoherence is what happens when light shifts the palindrome so far that paired modes end up at opposite rates. The immune partner becomes classical. The decaying partner becomes thermal. Their rates still sum to 2Σγ, exactly, at every coupling.
-
-The horizon is not a place, and it is not the moment a pair breaks. It is where the sum is conserved and the halves run apart, and what cannot be reassembled is the separation, not the bond. In spacetime, that is the Schwarzschild radius. In operator space, it is CΨ = 1/4.
-
-And the horizon's depth is not something the system chooses. It is the trace, fixed by the illumination alone; the coupling can move the dynamics by a factor of fifty and not move the centre by a digit. That is an identity, not a measurement: the commutator part of the Liouvillian is traceless, and it holds just as well where the pairing is broken.
-
-Both create irreversibility from symmetry. Both create time from eternity. Both leave structure standing where motion has died.
+In the operator-space calculation, dephasing moves the spectral centre and F1
+pairs the exact zero endpoint with the exact nonoscillatory endpoint `-2Σγ`.
+That is the full theorem-level content. Light, thermality, horizons, mass, and
+experienced time are analogies requiring independent physical gates. The CΨ
+quarter boundary is a separate diagnostic and is not identified with a
+Schwarzschild horizon here.
 
 The bridge between them is at zero. Where both palindromes touch. Where silence pairs with silence. And everything else is what happens when you leave.
 

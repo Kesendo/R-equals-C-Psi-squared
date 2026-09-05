@@ -55,7 +55,6 @@ public class F3DecayRateBoundsPi2InheritanceTests
     [Theory]
     [InlineData(3, 0.05, 0.3)]    // 2·3·0.05 = 0.3
     [InlineData(5, 0.1, 1.0)]     // 2·5·0.1 = 1.0
-    [InlineData(1, 0.5, 1.0)]     // 2·1·0.5 = 1.0
     public void XorBoundary_Equals2NGamma(int N, double gammaZero, double expected)
     {
         Assert.Equal(expected, BuildClaim().XorBoundary(N, gammaZero), precision: 14);
@@ -86,6 +85,18 @@ public class F3DecayRateBoundsPi2InheritanceTests
     public void XorBoundaryAboveMaxRate(int N, double gammaZero)
     {
         Assert.True(BuildClaim().XorBoundaryAboveMaxRate(N, gammaZero));
+    }
+
+    [Fact]
+    public void XorBoundary_NLessThanTwo_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().XorBoundary(N: 1, gammaZero: 0.05));
+    }
+
+    [Fact]
+    public void XorBoundaryAboveMaxRate_RequiresStrictlyPositiveGamma()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().XorBoundaryAboveMaxRate(N: 2, gammaZero: 0.0));
     }
 
     [Fact]

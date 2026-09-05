@@ -8,7 +8,7 @@
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Depends on:**
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (ω ↔ -ω pairing)
-- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (γ = experienced time)
+- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (nonzero dissipative centre certifies openness)
 - [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md) (CΨ = 1/4 boundary)
 - [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (Pythagorean theorem)
 - [Resonant Return](../experiments/RESONANT_RETURN.md) (sacrifice zone formula)
@@ -46,12 +46,12 @@ the CΨ = 1/4 crossing and the mechanism of wave death.
 
 Each link is Tier 1-2. The hypothesis is the reading of the chain.
 
-### Link 1: γ is experienced time
+### Link 1: Gamma sets the modeled decay scale
 
-Without γ: pure oscillation, no decay, no irreversibility, no before
-and after. With γ: coherences decay, populations settle, time has a
-direction. γ is not a parameter that correlates with time. γ IS the
-necessary and sufficient condition for experienced time.
+In the tested models, gamma=0 gives stationary or recurrent unitary motion,
+while gamma>0 damps specified coherences. Gamma therefore sets a dissipative
+clock scale in those models. Identifying that scale with experienced time is
+an open Tier-5 interpretation, not a necessary-and-sufficient theorem.
 
 Source: [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)
 
@@ -98,7 +98,10 @@ Source: [Resonant Return](../experiments/RESONANT_RETURN.md), [Receiver vs Gamma
 
 ### Link 5: Position-dependent γ₀-tick is the framework's time dilation
 
-γ₀ is the framework's universal time-tick: every dimensionful timescale is integer × 1/γ₀ ([On How Gamma Became the Tick](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)). When γ varies spatially (as in the edge-concentrated profile of Link 4), the local time-tick varies with it: at the edge (γ = N·γ_base) experienced time runs fast; in the interior (γ = ε) it runs slow.
+For fixed remaining dimensionless parameters, `1/gamma` is the local decay
+timescale ([On How Gamma Became the Tick](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)).
+When gamma varies spatially, edge and interior coherences decay on different
+scales. Calling that experienced-time dilation is an analogy.
 
 This is structurally what general relativity calls gravitational time dilation: clocks near a mass run slower, and the geometry of spacetime IS the variation of clock rates. The framework reading recovers the same algebraic form (position-dependent clock rate) on a different substrate (γ profile rather than spacetime curvature), without invoking GR machinery. Mass enters in Link 4 via the wave-death residue; Link 5 says the same γ profile that produces the mass also produces the position-dependent tick that, in GR, mass would create gravitationally.
 
@@ -143,8 +146,8 @@ The surviving version asks: what creates mass?
 
 ### The mechanism
 
-1. A region has higher γ than its surroundings (for whatever reason;
-   the Incompleteness Proof says γ comes from outside).
+1. A region has higher gamma than its surroundings (as a declared model
+   input; the Incompleteness Proof does not determine its microscopic origin).
 
 2. Waves (coherences, X/Y sector) die faster in this region.
 
@@ -349,7 +352,7 @@ The t_cross extractor at threshold = 0.25 has scan-dependent grazing-bifurcation
 | Step | How to verify |
 |------|---------------|
 | A(n) flat (falsified version) | Run inline computation from April 1; N=3,4,5 all give variation < 0.01% |
-| γ = experienced time | [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) |
+| Gamma sets the declared decay scale | Compare the gamma=0 and gamma>0 simulations; experienced-time reading remains open |
 | CΨ = 1/4 boundary | [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md) |
 | Sacrifice zone formula | `python simulations/resonant_return.py` or see C# propagation results |
 | {X,Y} → {I,Z} transfer | Standard decoherence theory; diagonal of L_D in Pauli basis |

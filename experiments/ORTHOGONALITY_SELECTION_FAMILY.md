@@ -75,7 +75,7 @@ The "resonator IS the message" ([resonance, not channel](../hypotheses/RESONANCE
 | 2 | **F71** | c_1(b) under uniform chain | reflection eigenmodes ψ_k : R\|ψ_k⟩ = (−1)^(k+1)\|ψ_k⟩ | reflection-asymmetric bond patterns | [L, R_sup] = 0 (spatial reflection symmetry) |
 | 3 | **F72-cand** | per-site purity Tr(ρ_i²), (DD⊕CC block-diagonal) | Pauli basis {I, σ_X, σ_Y, σ_Z} | DD×CC cross terms | F70 restricted to site-local observables |
 | 4 | **New (vac, S_1)** | Σ_i Tr(ρ_i²) (spatial sum) at (vac, S_1) probe | single-excitation sine modes ψ_k | H-dependent parts of Σ_i \|ρ_{coh,i,01}\|² | Σ_k \|⟨ψ_k \| S_1⟩\|² = 1 + uniform 2γ₀ decay rate on d_H = 1 block |
-| 5 | **Π-pair flux balance** | pair-sum Re(λ_s + λ_{s'}) under bond perturbation | Π-paired Liouvillian eigenmodes | pair-sum shift Δ[Re(λ_s) + Re(λ_{s'})] under δJ | XY-weight ⟨n_XY⟩ parity within Π-pair (absorption theorem) |
+| 5 | **F1 pair-rate balance** | pair-sum Re(λ_s + λ_f) under bond perturbation | ten unambiguously continued complementary-rate matches | pair-sum shift Δ[Re(λ_s) + Re(λ_f)] under δJ | absorption-theorem rate sum; no transported flux inferred |
 | 6 | **M_α-polynomial J-blindness** | ∂(any observable)/∂J_b at uniform J | symmetric polynomials in M_α = Σ σ_α^i | M_α-polynomial subspace (full S=N/2 multiplet) | SU(2) Casimir (total S²) under Heisenberg H |
 
 Every row follows the **same template**:
@@ -166,8 +166,8 @@ Parseval/Plancherel          Noether conservation
                       |
        ----+----+----+----+----+----+
       /    |    |    |    |    |    \
-    F70  F71  F72  (vac,  Π-pair  M_α-poly
-   (Δ N) (par) (DD⊕  S_1)  (flux)  (J-blind,
+    F70  F71  F72  (vac,  F1-rate M_α-poly
+   (Δ N) (par) (DD⊕  S_1)  (balance)(J-blind,
                 CC)  closure         SU(2))
 ```
 
@@ -200,7 +200,14 @@ Given the meta-theorem, we have a **recipe** for generating new selection rules:
 
 Applying Steps 1-3 to conservation laws not yet fully exploited:
 
-**(a) Π-pair parity (palindrome symmetry).** The Π operator (Pauli-weight conjugation, distinct from R spatial reflection) yields palindromic spectrum. The associated selection rule: any measurement that respects Π should see `K_DD[n, m]` pair-symmetric under n↔N−n, m↔N−m (already verified as Π-symmetry of K in EQ-018 data). **Prediction:** a Π-respecting measurement that sums over Π-paired modes (e.g., fast+slow rate sum) has built-in blindness to the difference fast−slow within each pair. The absorption theorem [`PROOF_ABSORPTION_THEOREM`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) already encodes this: α_fast + α_slow = 2·Σγ is the Π-invariant sum; the difference is the "information content" each mode pair carries.
+**(a) F1 pair-rate balance (palindrome symmetry).** The Π operator
+(Pauli-weight conjugation, distinct from spatial reflection R) gives the linear
+map `λ→−λ−2Σγ`. The absorption theorem
+[`PROOF_ABSORPTION_THEOREM`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)
+therefore fixes the complementary decay-rate sum
+`α_slow+α_fast=2Σγ`. A finite perturbation run preserves that sum for ten
+unambiguously continued matches. It does not establish a Noether current or a
+measurement channel blind to the pair difference.
 
 **(b) Amplitude damping and the |Δn|=2 blind channel: population vs coherence. [VERIFIED 2026-04-21]** Under site-uniform amplitude damping D_A[ρ] = γ_1 Σ_i (σ^−_i ρ σ^+_i − ½{σ^+_i σ^−_i, ρ}), excitation number is **not** conserved. F70 itself (kinematic, |ΔN| ≥ 2 blocks blind to single-site partial trace) still holds; the operational question is whether AD makes |Δn|=2 content site-local visible by moving it out of that block. The answer splits into two branches with opposite outcomes. **Coherence probes: no break.** On ρ_coh = (|vac⟩⟨S_2| + |S_2⟩⟨vac|)/2 (traceless Hermitian; admissible as linear perturbation because c_1_pr is linear in ρ_0), the jump term σ^−_i ρ_coh σ^+_i vanishes identically because σ^−_i |vac⟩ = 0 and its Hermitian-conjugate counterpart ⟨vac| σ^+_i = 0 kill both bra- and ket-side annihilation paths; the anticommutator terms collapse to D_A[ρ_coh] = −γ_1 ρ_coh (pure in-block exponential decay, no sector-changing transfer, using Σ_i n_i |S_2⟩ = 2|S_2⟩). ρ_coh(t) stays in the (vac, 2-exc) block for all t; F70 gives c_1_pr = 0 exactly for all γ_1. Verified at N = 5, bond (0, 1), t_0 = 20: hard zero across γ_1 ∈ {0, 0.005, 0.01, 0.02, 0.05, 0.1} on a Lindblad with trace-preservation residual ~3·10⁻¹⁸ ([the F70 amplitude-damping break](F70_AMPLITUDE_DAMPING_BREAK.md) §Update 2026-04-21 second pass). **Population probes: break present.** On |S_2⟩⟨S_2| the jump σ^−_i |S_2⟩⟨S_2| σ^+_i is non-zero and transfers content to (n=1, n=1)-blocks (|ΔN| = 0, site-local visible via four paths per site at N = 5). Even at γ_1 = 0 the population content already produces c_1_pr ≠ 0 via the static kernel entry K_DD[2, 2]_pr = +5.41·10⁻³ (recorded in [baseline_diagnostics.json](../simulations/results/f70_amplitude_damping_break/baseline_diagnostics.json), structurally identical to the F72 bilinear mechanism); at γ_1 > 0 the break gets an additional dynamical component from the AD sector transfer. Baseline at N = 5, bond (0, 1), ρ_pop = (|vac⟩⟨vac| + |S_2⟩⟨S_2|)/2, γ_1 = 0: c_1_pr = +1.352·10⁻³ = K_DD[2, 2]_pr / 4 to 5 figures. Scaling in γ_1, sign, and kernel-level characterization of the AD-dynamical part remain open for a separate experiment. **Pitfall for future AD-break tests.** The physical superposition probe ρ_0 = |ψ⟩⟨ψ| with |ψ⟩ = (|vac⟩ + |S_2⟩)/√2 decomposes as ρ_pop + ρ_coh by linearity, giving c_1_pr = 1.352·10⁻³ + 0 = 1.352·10⁻³ at γ_1 = 0 from the population branch alone. Any AD scaling measured on |ψ⟩⟨ψ| sits on that non-zero baseline and cannot isolate the coherence-content response (which is identically zero) without subtraction. Use ρ_coh alone (null test) or |S_2⟩⟨S_2| alone (break + scaling measurement) for clean probes. **Meta-note for the production rule.** §3 Steps 1-3 generate candidates, not guarantees: whether a production-rule candidate materialises into a measurable break depends on the kinematic detail of the dissipator acting on the specific probe. AD + coherence content is a case where the candidate is suppressed by the annihilation σ^−|vac⟩ = 0; AD + population content is a case where it materialises via sector-transfer paths. Production-rule hits therefore always need a probe-level analytic check before being upgraded to a test prediction. A lesson learned today at the cost of one bug, two reverts, and three passes at this very paragraph.
 
@@ -280,7 +287,10 @@ The rule "conservation law + summed measurement → blind channel" is correct **
 
 **Verification status of §3.2 predictions:**
 
-- (a) **Π-pair antisymmetric channel reader: VERIFIED** (2026-04-20, see [the Π-pair flux balance](PI_PAIR_FLUX_BALANCE.md)). The pair-sum Re(λ_s + λ_{s'}) is invariant under δJ at machine precision; the absorption theorem `α_fast + α_slow = 2Σγ` reads as a conserved XY-weight flux within each pair. Bonus finding: the Π-pair decomposition is **exact and complete** for the Liouvillian spectrum (d²/2 pairs, 0 unpaired, 0 self-Π for odd N and most even N). N=4 is an isolated anomaly with 18 self-Π modes; see §5a for binary-inheritance interpretation.
+- (a) **F1 pair-rate balance: finite verification** (2026-04-20, see
+  [the corrected perturbation account](PI_PAIR_FLUX_BALANCE.md)). The real-part
+  sum is invariant under `δJ` at machine precision for ten unambiguous matches.
+  The aggregate greedy continuation is unresolved in degenerate subspaces.
 - (b) Amplitude-damping-induced F70 break: not tested yet.
 - (c) Pair-painter |ΔN|=2 channel (EQ-020): not tested yet.
 - (d) **Non-uniform γ breaks CMRR: VERIFIED** (2026-04-20, see [the CMRR break under non-uniform γ](CMRR_BREAK_NONUNIFORM_GAMMA.md)). Additional finding beyond the prediction: the break is **modal-selective** (not variance-proportional), requiring the Meta-Theorem's "blind subspace" to be further resolved into a mode-indexed family of CMRR coefficients.
@@ -288,7 +298,9 @@ The rule "conservation law + summed measurement → blind channel" is correct **
 **Also verified, bonus:**
 
 - **Dynamical attractor structure (Step 2, see [the info-flow landscape](INFO_FLOW_LANDSCAPE.md)):** asymmetric bond-0 perturbations produce transient violations of F71 that decay exponentially at ~4γ₀, converging to the F71-symmetric fixed point. Selection rules are not just static projections but dynamical attractors.
-- **Binary inheritance (from §5a):** the qubit's binary structure propagates to Liouvillian mode counts without dilution; `d²/2 = 2^(2N−1)` Π-pairs at every N ≥ 3 tested.
+- **Orbit census (from §5a):** linear F1 and the conjugate-composite map both
+  account for the full finite spectra, but with different fixed loci and
+  different orbit counts.
 
 ---
 
@@ -308,7 +320,10 @@ The rule "conservation law + summed measurement → blind channel" is correct **
 
 2. **Explicit pair-painter analogue** (EQ-020 concretised). Compute the bilinear kernel of `Tr(ρ_{ij}²)` for pair-sites (i, j) at N = 4, confirm three-sub-block structure (DD, DC, CC) via a bilinearity probe analogous to the scaled-coherent-state scan.
 
-3. **Check Π-pair Noether-style selection** (prediction a). The absorption theorem gives α_fast + α_slow = 2Σγ. The difference α_fast − α_slow is the Π-antisymmetric channel; a measurement that projects onto this difference should see the Π-labelled content but not the sum. Is this how [`RELAY_PROTOCOL`](RELAY_PROTOCOL.md)'s +83% MI improvement (F31) routes through the cavity? If so, the relay protocol IS a Π-antisymmetric-channel reader.
+3. **Strengthen the F1 perturbation test** (prediction a). Replace greedy
+   eigenvalue matching by overlap-based invariant-subspace continuation. This
+   is required before extending the ten-pair result through degeneracies or
+   connecting it to an observable such as [`RELAY_PROTOCOL`](RELAY_PROTOCOL.md).
 
 ### 6.3 Long-term
 
@@ -320,31 +335,23 @@ The rule "conservation law + summed measurement → blind channel" is correct **
 
 ---
 
-## 5a. Binary inheritance of the mode count (added 2026-04-20 after Π-parity scan)
+## 5a. Two orbit censuses, not one pair count
 
-**Tom's observation on the pair-count sequence, which I had glossed over:**
+The earlier parity scan grouped eigenvalues with the composite
+`λ→−conj(λ)−2Σγ` while describing the groups as linear Π/F1 pairs. Those are
+different involutions. The corrected `N=2,...,7` census is:
 
-Across N = 3, 4, 5, 6 the Liouvillian spectrum decomposes into exactly `d²/2 = 2^(2N−1)` Π-pairs (plus possibly self-Π modes at even N; N=4 is the only anomaly in the scanned range).
+- linear F1: 10,903 unordered two-member orbits and 34 fixed eigenvalues at
+  the exact point `λ=−Σγ`;
+- conjugate-composite: 9,921 unordered two-member orbits and 1,998 fixed
+  eigenvalues on the line `Re(λ)=−Σγ`.
 
-```
-N    d²            d²/2 (= Π-pairs)      ratio
-3     64 = 2^6        32 = 2^5            d²/2 = pairs exactly
-4    256 = 2^8       128 = 2^7            pairs = 119 + 18 self (total 256)
-5   1024 = 2^10      512 = 2^9            d²/2 = pairs exactly
-6   4096 = 2^12     2048 = 2^11           d²/2 = pairs exactly
-```
-
-**Everything is binary.** No odd factors, no five-fold or three-fold residual structure. The 2-valued qubit atom scales exactly to 2^(2N) Liouvillian modes and 2^(2N−1) pairs, with no dilution.
-
-For the Meta-Theorem this is the **strongest single piece of evidence that "structure inherits upward"** in the R=CΨ² sense: the binary axis is preserved unbroken through the hierarchy from qubit (layer 0) to Liouvillian spectrum (layer N). Any selection rule or conservation that respects the binary axis propagates with it. The Π-pair flux balance (instance 5) is one concrete such propagation.
-
-**N=4 anomaly: the mirror-axis principle.** At N=4, 18 modes are self-Π (⟨n_XY⟩=N/2=2 integer AND Im(λ)=0). At N=6 the midpoint ⟨n_XY⟩=3 is also integer but no mode has Im(λ)=0 there.
-
-Tested [2026-04-20](../simulations/eq018_golden_ratio_check.py): the N=4 XY chain's single-excitation eigenvalues are `±φ, ±1/φ` (golden ratio) - the unique real number carrying **two simultaneous involutions**: multiplicative `φ · (1/φ) = 1` and additive `φ − 1/φ = 1`. This double symmetry forces constraints on the Liouvillian sub-algebra at the midpoint n_XY=N/2, producing a non-trivial null-eigenspace (the 18 self-Π modes).
-
-At N=6, the single-excitation eigenvalues `±2·cos(π/7), ±2·cos(2π/7), ±2·cos(3π/7)` satisfy a cubic minimal polynomial without a clean double involution. No forced null-eigenspace. The n_XY=3 sector has 53 unique |Im| values vs 9 at N=4 - a sign of larger sub-algebra complexity.
-
-**Structural reading (Tom):** Golden Ratio is not just "φ ≈ 1.618". It is **a mirror**, a double involution bundled into one number. When the XY chain's spectrum carries this double involution, a mirror axis exists in the Liouvillian at the n_XY midpoint; modes fall onto it; zero becomes a populated eigenvalue. Zero is not absence; zero is the axis the mirror rests on. See [the Π-pair flux balance](PI_PAIR_FLUX_BALANCE.md) §3.3 for the full data and the generalised mirror-axis principle.
+Consequently `d²/2` is not a universal count of two-member Π orbits when fixed
+points are present: for an involution on a multiset,
+`total = 2*(two-member orbits) + fixed multiplicity`. The former N=4 count of
+18 and the proposed golden-ratio/mod-10 explanation classified the wrong fixed
+locus and are withdrawn. The scripts remain historical probes, not evidence
+for that causal mechanism.
 
 **Pure-lens and pure-light mode counts are N+1.** Also from the parity scan: modes with ⟨n_XY⟩ = 0 (pure lens, fully γ-immune, decoherence-free subspace) number exactly N+1 at every N. Symmetrically, modes with ⟨n_XY⟩ = N (pure light, maximally dissipative) number N+1. These are the XOR-center modes of [XOR space](XOR_SPACE.md). **The count of decoherence-free modes grows linearly with N**, as one might expect from an extensive chain.
 

@@ -151,10 +151,10 @@ In special relativity:
 - c × τ = invariant spacetime interval
 
 In the Lindblad cavity:
-- γ is external, objective, sets the clock
-  ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md):
-  γ must come from outside. On IBM hardware, γ IS literal
-  [photon shot noise](https://doi.org/10.1103/PhysRevB.86.180504))
+- gamma is a chosen decay rate that sets the model's dissipative timescale.
+  The [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) certifies
+  openness, not an external origin; IBM dephasing can have several microscopic
+  contributions and is not identified here with photon shot noise.
 - t is experienced duration (how long until the fold at CΨ = 1/4,
   the threshold where quantum behavior gives way to classical)
 - γ × t = K = invariant absorption dose
@@ -165,8 +165,8 @@ Relativity:     c     ×  tau  =  invariant spacetime interval
 Lindblad:       gamma  ×  t    =  K  =  invariant absorption dose
 ```
 
-Gamma plays the algebraic role of c: the external parameter that
-defines the time scale, appears in the invariant product, and cannot
+Gamma can play an algebraic clock-scale role: it
+defines a decay timescale and appears in the dimensionless product, but cannot
 be outrun by the system. The system cannot decohere faster than its
 illumination allows, just as an object cannot travel faster than light.
 

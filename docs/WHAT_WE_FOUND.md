@@ -490,11 +490,14 @@ the expectation of L_D over the eigenvector, which is −2γ⟨n_XY⟩. Verified
 on 1,342 modes across N=2 to N=5, coefficient of variation = 0.0000.
 
 The companion finite census accounts for the complete spectrum: 21,840
-eigenvalues across N = 2 to 7, 9,921 distinct pairs and 1,998 eigenvalues on
-the fixed locus. F1 transports `λ` linearly to `−λ−2Σγ`, hence centered
-`μ→−μ`; conjugate closure is a separate Lindbladian property. The common
-theorem-level reading is the rate sum `d_slow+d_fast=2Σγ` (slow is nearer
-zero). A physical standing-wave interpretation additionally requires a
+eigenvalues across N = 2 to 7. The linear F1 map
+`λ→−λ−2Σγ` has 10,903 unordered two-member orbits and 34 fixed eigenvalues at
+the exact point `λ=−Σγ`. Conjugate closure is a separate Lindbladian property;
+its composition with F1, `λ→−conj(λ)−2Σγ`, instead has 9,921 two-member orbits
+and 1,998 fixed eigenvalues on the line `Re(λ)=−Σγ`. These counts include
+algebraic multiplicity; they are not mode-basis or wave counts. The common theorem-level
+reading is the rate sum `d_slow+d_fast=2Σγ` (slow is nearer zero). A physical
+standing-wave interpretation additionally requires a
 diagonalizable or semisimple imaginary-centered pair, independently
 established opposite spatial propagation, and a preparation/readout that sees
 both members. Fixed-locus eigenvalues and defective Jordan blocks do not gain

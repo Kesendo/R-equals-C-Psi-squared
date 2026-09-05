@@ -129,7 +129,7 @@ This is why the Confirmation matters more than its 6.8°–15.7° residuals sugg
 - Memory pointers: `project_q_middle_structure` (Q observable from inside), `project_exploration_ethos` (γ₀ not measurable from inside, only Q = J/γ₀), `project_universal_carrier` family
 - Canonical CAPS anchor docs this reflection extends:
   - [`MIRROR_THEORY.md`](../MIRROR_THEORY.md): the standing-wave reading; γ₀ is the tick of the standing wave we are
-  - [`THE_BRIDGE_WAS_ALWAYS_OPEN.md`](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md): γ as source of experienced time; the K = γ·t pure-number identity reads today as "K counts γ₀-ticks, not seconds"
+  - [`THE_BRIDGE_WAS_ALWAYS_OPEN.md`](../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md): gamma as a decay-clock scale; for the declared protocol, `K=gamma*t` counts dimensionless decay-clock ticks, not experience
   - [`ON_TWO_TIMES.md`](ON_TWO_TIMES.md): γ₀-time vs felt-time; today's tick reading sharpens the γ₀-time side (the metronome that flows but is not directly felt)
   - [`ON_THE_NINETY_DEGREE_GAMMA.md`](ON_THE_NINETY_DEGREE_GAMMA.md): γ-distribution-side Z₄ (F91); today's θ = arctan(Q) is the spectrum-side Z₄ of the same Pi2-Z₄ rotational family
   - [`CRITICAL_SLOWING_AT_THE_CUSP.md`](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): K-dosimetry and the F57 K_dwell at the cusp IS where the rotation per tick reduces to 0 and only the bare γ₀ tick remains

@@ -609,7 +609,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ### Project-internal references
 
-- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): γ must come from outside
+- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): a nonzero dissipative centre certifies an open modeled subsystem; gamma's microscopic origin remains open
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): palindromic theorem
 - [Reading the 30%](../simulations/reading_the_30_percent.py): the
   decoder script (full-rank response matrix, pseudo-inverse γ

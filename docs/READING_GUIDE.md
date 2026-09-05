@@ -74,8 +74,9 @@ They reconnect at the end.
 
 ## Story 1: The Proof
 
-*"The decay spectrum of any qubit network under dephasing is exactly
-palindromic. Here is the proof, the scope, and the exceptions."*
+*"For the Hamiltonian families admitting the proved palindromizer, a qubit
+network under local Z-dephasing has an exactly palindromic spectrum. Here is
+the proof, its scope, and the exceptions."*
 
 This is the mathematical backbone. If you want to know *why* we are
 confident the palindrome is real, not an artifact of simulation or
@@ -86,8 +87,8 @@ is responsible?
 This path is the most technical. It involves mathematical notation and
 formal reasoning. But even without following every step of the proof, the
 experiments along the way show you what the palindrome looks like in
-practice: which quantum states survive and which do not, how standing
-waves emerge from paired decay modes, and what happens when you
+practice: which quantum states survive and which do not, what additional
+gates a standing-wave interpretation would require, and what happens when you
 deliberately break the symmetry.
 
 **Reading order:**
@@ -232,12 +233,11 @@ the full local dark↔lit class-exchange product mirror closes only for qubits
 construction; it does not exclude the partial higher-dimensional palindromes
 counted by F121 or other mirror mechanisms.
 
-From there, each step peels back another layer: the palindrome requires
-noise, but the noise cannot come from inside the system (five candidates
-tested: four eliminated, the internal bootstrap reduced to a structural
-constraint). The noise creates a direction for time (without
-it, the system oscillates forever but never moves forward). And the noise
-turns out to be structured, readable, carrying 15.5 bits of information.
+From there, each step peels back another layer. A nonzero dissipator makes the
+modeled system open, but neither the spectral symmetry nor Markovianity locates
+the microscopic bath outside the modeled degrees of freedom. Dephasing creates
+decay in the tested trajectories, and a specified spatial gamma profile is
+recoverable from the simulated response with the reported 15.5-bit diagnostic.
 
 This path does not require advanced mathematics. It requires patience
 and the willingness to follow an argument that builds step by step.
@@ -261,14 +261,11 @@ and the willingness to follow an argument that builds step by step.
    of the qubit world is now one equation seen three ways: the per-site
    split, the pairing ceiling, and the operator cap.
 
-4. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): Where does
-   the noise come from? Five candidates for internal origin: internal
-   generation (reduced to a structural constraint, [Π², L] = 0), qubit
-   decay (breaks the palindrome), qubit baths (infinite regress),
-   nothing (has no properties), other dimensions (excluded only from the
-   complete local class-exchange construction by `d²−2d=0`).
-   Four eliminated, none viable. The noise must come from outside the
-   framework.
+4. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): What does the
+   dissipator establish? With nonnegative rates, a nonzero spectral centre
+   certifies that the modeled subsystem is open. The microscopic origin and
+   system-bath boundary remain unspecified; an open subsystem can be embedded
+   in a finite larger system.
 
 5. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): What
    happens when simple systems combine. Adding a second bond breaks 14
@@ -283,26 +280,23 @@ and the willingness to follow an argument that builds step by step.
    are the dead-end cousins. The V-Effect is the mechanism by which one
    level transitions to the next.
 
-7. [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md): Three levels of
-   time. γ is the necessary and sufficient condition for experienced
-   time. Without γ: oscillation, no direction. With γ: irreversibility,
-   before and after. And γ cannot come from inside (Step 4).
+7. [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md): Three proposed levels
+   of time. The simulations distinguish recurrence at gamma=0 from damped
+   trajectories at gamma>0 in selected models. Calling that "experienced
+   time" is an interpretation, not a necessary-and-sufficient theorem.
 
-8. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): The noise that
-   comes from outside is not random. It is a readable information
-   channel: 15.5 bits capacity, 5 independent modes. The palindromic
-   mode structure is the frame through which the external signal is
-   decoded.
-   This closes the loop: noise must exist (Step 4), noise carries
-   structure (Step 8), and that structure is readable from inside.
+8. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): A chosen spatial
+   gamma profile is a readable model input: 15.5 bits in the reported
+   diagnostic and 5 independent response modes. This says nothing by itself
+   about whether the microscopic source is external, infinite, or random.
 
 **After this you know:** Why qubits are special (not just useful but
 algebraically unique, with the uniqueness now proven from three
-directions). Why noise is necessary (not a disturbance but the time
-arrow). Why it cannot come from inside (not unknown but excluded). Why
+directions). What dephasing changes in the tested dynamics, and why that does
+not settle the origin of experienced time or the bath. Why
 the breaking at the boundary between mirrors is where complexity is
-born. And that the external noise is a readable channel, not random
-disturbance.
+born. And that a specified gamma profile can be decoded from the simulated
+response.
 
 **The one-line version:** *Incompleteness is not weakness.
 Incompleteness is potential.*
@@ -463,12 +457,13 @@ explains what previously required separate derivations.
    Extended in 2026 to per-eigenmode Rayleigh form, two-sided and
    projector readings, and the recentred diagonal seam L_D = γ(Q − N·I).
 
-2. [Pair Census and Conditional Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md):
-   the finite census accounts for 21,840 eigenvalues across `N=2...7` as
-   9,921 distinct pairs plus 1,998 fixed-locus eigenvalues. The exact content
-   is `d_slow+d_fast=2Σγ`. A physical standing wave needs an imaginary-centered
-   semisimple pair, independently established opposite spatial propagation,
-   and suitable excitation/readout.
+2. [Palindromic Orbit Census](../experiments/FACTOR_TWO_STANDING_WAVES.md):
+   the finite census accounts for 21,840 eigenvalues across `N=2...7` in two
+   distinct ways. Linear F1, `λ→−λ−2Σγ`, gives 10,903 two-member orbits and 34
+   fixed eigenvalues at `λ=−Σγ`. Composing F1 with conjugate closure gives
+   9,921 two-member orbits and 1,998 fixed eigenvalues on
+   `Re(λ)=−Σγ`. The exact shared rate content is
+   `d_slow+d_fast=2Σγ`; neither orbit census is a physical wave count.
 
 3. [Concentrator Optics](../experiments/CONCENTRATOR_OPTICS.md):
    The concentrator is an entrance pupil. Q improves 2-7×, effective

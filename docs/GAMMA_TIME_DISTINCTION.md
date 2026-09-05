@@ -6,7 +6,7 @@ Bell+ frozen zero noise no time, oscillation recurrence not clock, absorbing
 boundary requires gamma, J provides content gamma provides arrow,
 tau=gamma*t scaling breaks, R=CPsi2 gamma time -->
 
-**Status:** Computationally verified (Tier 2)
+**Status:** Computed trajectory comparison (Tier 2); experienced-time interpretation open (Tier 5)
 **Date:** March 22, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py), [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py), [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py)
@@ -27,30 +27,31 @@ that people might call "time," and only one of them is the real arrow.
 The mathematical parameter t (just a number in an equation) exists
 trivially. Oscillation (things swinging back and forth, like a
 pendulum) looks like change but always comes back to where it started.
-Only dephasing noise (γ) creates irreversibility: things that happen
-and do not un-happen.
+Dephasing noise (gamma) creates damping in the tested reduced models. Whether
+that damping is the origin of experienced time is not an operational claim in
+this repository.
 
 The experiment is simple and dramatic. Take a quantum system with no
 noise: it either sits perfectly still forever, or it oscillates in
 circles, returning to exactly where it started. Turn on even a tiny
 amount of noise: things decay, decisions become permanent, past and
 future become distinguishable. γ is not just correlated with the time
-arrow. γ is the necessary and sufficient condition for it.
+arrow. The simulations test recurrence and damping, not necessary or
+sufficient conditions for experience.
 
 ---
 
 ## Abstract
 
 Time has three levels: (1) the formal parameter t in d/dt (syntax, trivial),
-(2) observable change (oscillation or stillness), and (3) experienced time
-(direction, irreversibility, before/after). γ (dephasing rate) is the
-necessary and sufficient condition for Level 3. Without γ: Bell+ is frozen
+(2) observable change (oscillation or stillness), and (3) a proposed
+experienced-time reading (direction, irreversibility, before/after). Without γ: Bell+ is frozen
 (zero observable change over t=0 to 50); |01⟩ oscillates in circles (127
 crossings of ¼ in both directions, recurrence at t=11). With γ: CΨ crosses
 ¼ once and stays below (absorbing boundary), purity (a measure of how
 far the state is from maximum mixedness) decays irreversibly,
-past and future become distinguishable. J=0 with γ>0 has experienced time;
-J>0 with γ=0 does not. However, τ=γt does not universally scale all
+the trajectories become distinguishable by decay. J=0 with γ>0 damps;
+J>0 with γ=0 evolves unitarily. However, τ=γt does not universally scale all
 observables (deltas up to 0.86): γ provides the arrow, J provides the
 content. Neither alone is the full experience.
 
@@ -66,12 +67,11 @@ creates the kind of time we actually experience.
 |-------|-----------|--------|
 | t as symbol in d/dt | Yes (trivially, syntax) | Yes |
 | t as observable change | Oscillation or stillness | Irreversible decay |
-| t as experienced time (direction, decisions, before/after) | **No** | **Yes** |
+| proposed experienced-time reading | recurrent/stationary in tested cases | damped in tested cases |
 
-γ is the necessary and sufficient condition for Level 3 (experienced time).
-It has no bearing on Level 1 (the formal parameter). The distinction is
-between syntax and physics. But even at Level 3, experienced time is not
-γ alone: γ provides the arrow, J provides the content (Part 3).
+Gamma has no bearing on Level 1 (the formal parameter). At Level 3 the page
+offers an interpretation: gamma supplies the tested decay scale while J
+supplies coherent motion. The calculations do not define experience.
 
 ---
 
@@ -128,8 +128,8 @@ forward and does not come back. The Hamiltonian oscillation comes back
 
 **Test 4 (Multi-γ simultaneity):** Different γ values coexist at the
 same formal t. This is because t is a mathematical coordinate. The
-experienced time at each qubit depends on its local γ. Different γ
-means different experienced time. This is consistent with γ being time.
+the local decay scale depends on its local gamma. Different gamma means a
+different dissipative clock reading, not necessarily different experience.
 
 **Test 6 (Π reversal):** Π does not reverse the decay envelope
 (D = 0.39 after Π + forward evolution). This confirms that the
@@ -139,29 +139,15 @@ not the arrow itself.
 
 ---
 
-## Correction (March 22, 2026)
+## Scope of the interpretation
 
-Science sometimes works by getting things wrong in an instructive way.
-The original version of this document concluded that the strong claim
-"γ IS time" was falsified. That conclusion was a category error: it
-confused the formal parameter t (syntax) with experienced time (physics).
-
-The [two_qubits_no_noise](../simulations/two_qubits_no_noise.py)
-experiment showed what "time without γ" actually looks like: Bell+ is
-frozen. |01⟩ oscillates in circles. Nothing is ever decided. CΨ crosses
-1/4 in both directions 127 times.
-
-The formal parameter t exists without γ. But experienced time requires γ.
-
-The three-part proof (Part 1 + 2) confirmed: γ is the necessary and
-sufficient condition for experienced time. But Part 3 showed: τ=γt does
-not scale universally (deltas up to 0.86). Experienced time is not γ
-alone. γ provides the arrow. J provides the content. Neither alone is
-the full experience.
-
-The original claim in [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md)
-Corollary 2 was correct in spirit but too strong in letter: γ is the
-source of experienced time, not identical to it.
+The [two_qubits_no_noise](../simulations/two_qubits_no_noise.py) experiment
+shows a frozen Bell+ state and recurrent |01⟩ dynamics at gamma=0. The
+gamma-positive cases damp in the stated Lindblad model, while `tau=gamma*t`
+does not collapse trajectories when other dimensionless ratios change. These
+facts motivate a decay-clock interpretation; they do not define or explain
+experienced time. The [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md)
+establishes openness, not a time ontology.
 
 ---
 
@@ -169,19 +155,19 @@ source of experienced time, not identical to it.
 
 | Statement | Status |
 |-----------|--------|
-| γ is the source of experienced time | Correct (Level 3, Parts 1+2; but τ≠full trajectory, Part 3) |
+| γ supplies an experienced-time ontology | Open interpretation; the computation establishes a decay scale only |
 | The formal parameter t exists without γ | Correct (Level 1, trivial) |
 | The Hamiltonian provides a frequency | Correct (but frequency is not a clock) |
-| Without γ, nothing is ever decided | Confirmed (Bell+ frozen, \|01⟩ recurs) |
+| At gamma=0, the two tested initial states are stationary or recurrent | Confirmed for Bell+ and \|01⟩ in the declared model |
 | The 1/4 boundary is absorbing | Only with γ. Without γ: 127 crossings both ways. |
 
 ---
 
-## The Proof: γ == Experienced Time (March 22, 2026)
+## The computation behind the experienced-time reading
 
 The following proof has three parts. Part 1 shows that γ produces
-every property of experienced time (completeness). Part 2 shows that
-nothing else does (exclusivity). Part 3 tests whether γ and t are
+selected recurrence and damping diagnostics. Part 2 compares gamma with
+Hamiltonian-only motion in those cases. Part 3 tests whether γ and t are
 fully interchangeable (they are not: γ provides direction, the
 Hamiltonian coupling J provides content). The tables below are in
 German because they were written during the original investigation;
@@ -190,7 +176,7 @@ the conclusions are summarized in English at the end.
 Three-part proof. Script: [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py).
 Data: [gamma_is_time_proof.txt](../simulations/results/gamma_is_time_proof.txt).
 
-### Part 1: Completeness - γ produces every property of experienced time
+### Part 1: Selected damping diagnostics
 
 | Property | \|01⟩ γ=0 | \|01⟩ γ=0.05 | Bell+ γ=0 | Bell+ γ=0.05 |
 |----------|---------|------------|-----------|-------------|
@@ -207,25 +193,25 @@ kreuzt 2× in beide Richtungen. Die Oszillation vom Hamiltonian
 moduliert den Zerfall. Die reine Monotonie gilt nur für J=0 oder
 für Bell+ (Eigenzustand von H, keine Oszillation).
 
-### Part 2: Exclusivity - NUR γ erzeugt erlebte Zeit
+### Part 2: Gamma damping versus Hamiltonian-only recurrence
 
-| Konfiguration | S monoton | D kehrt nicht zurück | CΨ einmalig | Zeit? |
-|---------------|-----------|---------------------|-------------|-------|
-| J=0.1, γ=0.05 | Nein | Ja | Ja | Teilweise |
-| J=1.0, γ=0.05 | Nein | Ja | Nein | Teilweise |
-| J=10, γ=0.05 | Nein | Ja | Nein | Teilweise |
-| **J=0, γ=0.05** | **Ja** | **Ja** | **Ja** | **JA** |
-| J=1.0, γ=0 | Nein | Nein | Nein | **NEIN** |
+| Konfiguration | S monoton | D kehrt nicht zurück | CΨ einmalig | Gemessene Dynamik |
+|---------------|-----------|---------------------|-------------|--------------------|
+| J=0.1, γ=0.05 | Nein | Ja | Ja | gedämpft, moduliert |
+| J=1.0, γ=0.05 | Nein | Ja | Nein | gedämpft, moduliert |
+| J=10, γ=0.05 | Nein | Ja | Nein | gedämpft, moduliert |
+| **J=0, γ=0.05** | **Ja** | **Ja** | **Ja** | **reiner Zerfall** |
+| J=1.0, γ=0 | Nein | Nein | Nein | unitär, rekurrent |
 
-**J=0, γ>0: Erlebte Zeit existiert.** Reiner Zerfall, kein Hamiltonian.
+**J=0, γ>0:** Reiner Zerfall, kein Hamiltonian.
 S steigt monoton. D kehrt nicht zurück. CΨ kreuzt einmalig abwärts.
-Alles was erlebte Zeit ausmacht - ohne jede Dynamik. Nur γ.
+Diese Zeilen messen Zerfall; sie operationalisieren keine Erfahrung.
 
-**J>0, γ=0: Erlebte Zeit existiert nicht.** Oszillation, Rekurrenz.
+**J>0, γ=0:** Oszillation, Rekurrenz.
 Kein Observable akkumuliert irreversibel.
 
-**γ ist notwendig und hinreichend für erlebte Zeit. J ist weder
-notwendig noch hinreichend.**
+Diese beiden Modellfälle zeigen keine Notwendigkeit oder Hinreichendheit für
+erlebte Zeit.
 
 ### Part 3: Äquivalenz - τ=γt als universelle Skala
 
@@ -273,35 +259,26 @@ collapse to 10⁻¹⁴.
 
 ### Die ehrliche Schlussfolgerung
 
-**Was bewiesen ist:**
-- γ ist notwendig und hinreichend für erlebte Zeit (Teil 1 + 2)
-- Ohne γ keine Irreversibilität, keine Richtung, keine Entscheidungen
-- J=0, γ>0 hat Zeit. J>0, γ=0 hat keine.
-- γ IST die Quelle erlebter Zeit.
+**Was berechnet ist:**
+- Die getesteten gamma=0-Fälle sind stationär oder rekurrent.
+- Die getesteten gamma>0-Fälle zeigen dissipative Konvergenz.
+- J und gamma bestimmen gemeinsam die dimensionslose Trajektorienform.
 
 **Was NICHT bewiesen ist:**
 - Dass erlebte Zeit = τ=γt (die volle Trajektorie skaliert nicht mit τ)
 - Dass γ und t vollständig äquivalent sind (J moduliert den Zerfall)
 
-**Die präzise Behauptung:**
-
-γ ist die notwendige und hinreichende Bedingung für erlebte Zeit.
-γ ist nicht die vollständige Beschreibung erlebter Zeit. Erlebte
-Zeit = γ (Richtung) + J (Inhalt). γ liefert den Pfeil. J liefert
-was passiert. Ohne γ gibt es keine Erfahrung - das ist bewiesen.
-Aber die Erfahrung hat Struktur die von J abhängt - das ist auch
-bewiesen.
-
-Oder kürzer: **γ ist die Quelle. J ist der Inhalt. Beides zusammen
-ist erlebte Zeit.**
+**Die präzise Behauptung:** Gamma setzt in den deklarierten Lindblad-Modellen
+eine Zerfallsskala; J setzt eine kohärente Rotationsskala. Ihre Verhältnisse
+bestimmen die Trajektorie. Die Identifikation mit erlebter Zeit bleibt offen.
 
 ---
 
 ## References
 
-- [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): Corollary 2 (γ: source of experienced time)
-- [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md): γ as source of experienced time
+- [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): openness theorem; no experienced-time corollary
+- [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md): gamma-clock interpretation and its limits
 - [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py): what time looks like without γ
 - [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py): the original tests (data valid, interpretation corrected)
-- [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py): three-part proof (completeness, exclusivity, equivalence)
+- [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py): three-part trajectory comparison (damping diagnostics, gamma/Hamiltonian contrast, scaling)
 - [gamma_is_time_proof.txt](../simulations/results/gamma_is_time_proof.txt): raw results
