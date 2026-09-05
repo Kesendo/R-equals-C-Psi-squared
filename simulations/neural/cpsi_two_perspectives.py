@@ -14,6 +14,11 @@ from scipy.linalg import expm
 from neural_palindrome import build_linear_jacobian, make_balanced_dale_network
 
 
+def interpolated_value(start, end, fraction):
+    """Read a value at the same fraction used to interpolate its sample time."""
+    return start + fraction * (end - start)
+
+
 def main():
     # ================================================================
     # Instrument control: E/I character under a greedy real-part matcher
@@ -148,7 +153,7 @@ def main():
            (cpsi_E[k] < cpsi_I[k] and cpsi_E[k+1] >= cpsi_I[k+1]):
             frac = (0.5 - cpsi_E[k]) / (cpsi_E[k+1] - cpsi_E[k]) if abs(cpsi_E[k+1] - cpsi_E[k]) > 1e-15 else 0
             crossing_t = times[k] + frac * (times[k+1] - times[k])
-            crossing_val = (cpsi_E[k] + cpsi_E[k+1]) / 2
+            crossing_val = interpolated_value(cpsi_E[k], cpsi_E[k+1], frac)
             break
 
     print(f"\n{'t':>6s}  {'CΨ_E':>8s}  {'CΨ_I':>8s}  {'sum':>8s}  {'E-I':>8s}")
@@ -207,7 +212,7 @@ def main():
                 # Crossing found
                 frac = abs(cE_k - cI_k) / (abs(cE_k - cI_k) + abs(cE_k1 - cI_k1))
                 cross_t = times_fine[k] + frac * (times_fine[k+1] - times_fine[k])
-                cross_val = (cE_k + cE_k1) / 2  # approximately 0.5 at crossing
+                cross_val = interpolated_value(cE_k, cE_k1, frac)
                 crossing_values.append(cross_val)
                 crossing_times_list.append(cross_t)
                 break

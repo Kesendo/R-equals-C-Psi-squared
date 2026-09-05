@@ -247,3 +247,40 @@ def test_legacy_residual_wrapper_rejects_nonuniform_type_diagonals():
     with pytest.raises(ValueError, match="scalar_center_residual"):
         palindrome_residual(np.diag([-0.5, -0.25, -0.4, -0.25]),
                             np.array([1, -1, 1, -1]))
+
+
+def test_fixed_point_rechecks_equation_after_small_expanding_update():
+    from neural_palindrome import solve_fixed_point
+
+    W = np.array([[0.0, 100.0], [100.0, 0.0]])
+    drive = 4 + np.log(0.3001 / (1 - 0.3001)) / 1.3 - 30
+    x, residual = solve_fixed_point(W, [1, 1], alpha=1, drive=drive,
+                                    tol=0.001, max_iter=100)
+    rhs = 1 / (1 + np.exp(-1.3 * (W @ x + drive - 4)))
+    assert residual <= 0.001
+    assert np.max(np.abs(x - rhs)) <= 0.001
+
+
+def test_fixed_point_exhaustion_reports_fresh_equation_residual():
+    from neural_palindrome import solve_fixed_point
+
+    W = np.array([[0.0, 100.0], [100.0, 0.0]])
+    drive = 4 + np.log(0.3001 / (1 - 0.3001)) / 1.3 - 30
+    candidate = 1 / (1 + np.exp(-1.3 * (W @ np.full(2, 0.3) + drive - 4)))
+    rhs = 1 / (1 + np.exp(-1.3 * (W @ candidate + drive - 4)))
+    expected = np.max(np.abs(candidate - rhs))
+    assert expected > 0.001
+    with pytest.raises(RuntimeError, match="last residual=") as exc:
+        solve_fixed_point(W, [1, 1], alpha=1, drive=drive,
+                          tol=0.001, max_iter=1)
+    reported = float(str(exc.value).split("last residual=")[1])
+    assert abs(reported - expected) <= 4 * np.finfo(float).eps * expected
+
+
+def test_crossing_value_uses_the_time_interpolation_fraction():
+    from cpsi_two_perspectives import interpolated_value
+
+    # An asymmetric crossing: the midpoint would be 0.375, not 0.5.
+    assert interpolated_value(0.125, 0.625, fraction=0.75) == 0.5
+    # Same path away from the crossing guards against returning constant 0.5.
+    assert interpolated_value(0.125, 0.625, fraction=0.25) == 0.25
