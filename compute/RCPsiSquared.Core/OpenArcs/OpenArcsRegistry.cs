@@ -9130,6 +9130,19 @@ public static class OpenArcsRegistry
                 "engine'): which OPEN question does large-N single-excitation access unblock? Two surveys " +
                 "are done, Delta*(N) ruled out 2026-06-29 by sector mismatch and the seed census answered " +
                 "to N = 11 on 2026-07-02, and the survey stands. " +
+                "A FOURTH GAP, raised by Tom the same morning when the overflow came up (do we not have " +
+                "something for that by now?): the world does, four times over and shared nowhere. Its " +
+                "exact arithmetic past the wall is GF(p) at two primes, and ModInverse, ModPow and " +
+                "RankModP are each written out in Seed.cs, Divisor.cs and BlindSeat.cs, with Crack.cs " +
+                "carrying a fourth copy under the names MulMod and PowMod; the prime list " +
+                "{2147483647, 999999937} is copied into Seed, BlindSeat and Crack, and Divisor carries " +
+                "its own {998244353, 1004535809}, chosen 1 mod 4 so that i has a square root. The " +
+                "known trap on this road, (a % p + p) evaluated in int before widening for p near " +
+                "2^30, which cost four hours on 2026-07-03, would have to be found and fixed in four " +
+                "places. MirrorWorld cannot lean on Core's BigRational/GaussianInteger by design (no " +
+                "RCPsiSquared.* reference), so the shared primitive has to live in the world itself, " +
+                "the way PauliMode.Enumerate is the shared 4^N walk and Block.Binomial the shared " +
+                "binomial. This is a gap of the same kind as the 19 members: inside, not at the door. " +
                 "NOT A LANE: the word-collision triage (Mirror, Pair, Witness, Hardness, Seed, Divisor, " +
                 "Marginal as ordinary words in older documents) is a sibling; its home is " +
                 "one_word_two_objects, not here. In this entry, witness and pair are the main repo's " +
@@ -9170,7 +9183,14 @@ public static class OpenArcsRegistry
                 "carrier is not by itself a reason to build one. (5) The engine " +
                 "survey continues with this ledger as its store; a candidate question must be one the " +
                 "Cone's N x N cut can reach, single-excitation, and the two ruled-out shapes (a " +
-                "half-filling sector, an already-proven large-N formula) are the fences.",
+                "half-filling sector, an already-proven large-N formula) are the fences. (6) One " +
+                "exact-arithmetic primitive for the world: a single ModInverse/ModPow/RankModP with " +
+                "one prime list (Divisor's 1 mod 4 pair serves both the plain ranks and its square " +
+                "root of -1; 2^31 - 1 is 3 mod 4 and cannot), adopted by Seed, Divisor, BlindSeat and Crack in turn, each " +
+                "swap gated by the object's existing from-below tests reading the same counts before " +
+                "and after; the int-before-widening trap gets its guard once, in the primitive, and " +
+                "a test that fails on the top residues at p near 2^30. Do this BEFORE F161/F162 come " +
+                "home, since both would otherwise bring a fifth copy.",
             Status: OpenArcStatus.Open),
     };
 

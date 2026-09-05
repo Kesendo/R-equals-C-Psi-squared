@@ -19,7 +19,8 @@ public class OpenArcsInspectableNodeTests
                                                         //   not home, each with its typed-carrier status;
                                                         //   the 2026-09-03 F152/F153 lesson with its
                                                         //   N = 35 overflow verified; 19 Formulas.cs
-                                                        //   members with no test reference; the engine
+                                                        //   members with no test reference; four private
+                                                        //   copies of the GF(p) arithmetic; the engine
                                                         //   survey; inherits item (6) of
                                                         //   f_registry_meets_the_typed_layer).
                                                         // +the_forced_and_the_met (2026-08-30,
