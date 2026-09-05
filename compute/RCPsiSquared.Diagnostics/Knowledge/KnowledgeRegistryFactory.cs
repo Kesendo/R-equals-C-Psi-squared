@@ -577,8 +577,10 @@ public static class KnowledgeRegistryFactory
             // equal to the EP at N=2,3 only and below it from N=4 by the trace dressing ((2w2−1)/c)². Both are
             // readings of the dephasing side; what the Hückel matrix supplies is the HAMILTONIAN, exactly (the
             // single-excitation block IS that matrix at α=0, β=J, residual 0.0), and a STATIC Frost or Hückel
-            // spectrum holds no threshold to compare a ladder against, no independent chemistry computation
-            // having been on the other side of that comparison. N=2 (Q*=1) is the EP
+            // spectrum holds no threshold to compare a ladder against; that is a fact about the construction and
+            // not about a molecule (a threshold read off the Hückel side's OWN dephasing extension is untested
+            // here rather than non-existent), the load-bearing statement being that no independent chemistry
+            // computation was ever on the other side of that comparison. N=2 (Q*=1) is the EP
             // itself. The mode that coalesces at Q*(N) is the {0,2}-coherence
             // (population/antisymmetric block) at ALL N=2..5, a genuine √-EP (phase rigidity r→0; corrected
             // 2026-06-13); the band edge 2cos(π/(N+1)) is the co-located γ-protected survivor, not the freezer

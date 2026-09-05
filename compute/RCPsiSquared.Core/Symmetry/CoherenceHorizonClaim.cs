@@ -103,8 +103,9 @@ public sealed class CoherenceHorizonClaim : Claim
                "and below it from N=4 by the trace dressing ((2w2−1)/c)². Both are readings of the dephasing side. What " +
                "the Hückel matrix supplies is the HAMILTONIAN, exactly: the single-excitation block of H is that matrix at " +
                "α=0, β=J, entry for entry (residual 0.0, the ZZ diagonal weight as control), and a STATIC Frost or " +
-               "Hückel spectrum holds no threshold for the ladder to agree with, no independent chemistry " +
-               "computation having been on the other side of that comparison. N=2 (Q*=1) is the exceptional point itself. " +
+               "Hückel spectrum holds no threshold for the ladder to agree with; that is a fact about the " +
+               "construction and not about a molecule, the load-bearing statement being that no independent " +
+               "chemistry computation was ever on the other side of that comparison. N=2 (Q*=1) is the exceptional point itself. " +
                "The mode that coalesces at Q*(N) is the {0,2}-coherence " +
                "at ALL N=2..5, a genuine √-EP, on the floor Re = −2γ (weights ½/½) at N=2,3 only and below it from N=4; " +
                "the band edge is the co-located γ-protected survivor (no bifurcation at N=4). Closed form (2026-06-13): Q*(N) reduces to the single-excitation (Haken-Strobl) Liouvillian; " +

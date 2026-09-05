@@ -472,14 +472,20 @@ public sealed class CoherenceHorizonWitness : IInspectable
             rows.Add(InspectableNode.RealScalar($"max |H_SE − J·A| at N={n}", HuckelResidual(n), "0.0#####"));
         return new InspectableNode("what the Hückel matrix supplies (exact)",
             summary: "the single-excitation block of H in the site basis IS the Hückel matrix at α=0, β=J, entry for " +
-                     "entry: Jordan-Wigner sends (J/2)Σ(X_lX_{l+1} + Y_lY_{l+1}) onto the tridiagonal hopping matrix " +
-                     $"itself, so the residual is exactly {HuckelResidual(5).ToString("0.0#####", Inv)} and not merely " +
-                     "small. That is the whole of the inheritance and it is a statement about the HAMILTONIAN. It stops " +
+                     "entry: (J/2)(X_lX_{l+1} + Y_lY_{l+1}) = J(σ⁺σ⁻ + h.c.), so restricting this number-conserving " +
+                     $"chain to the one-excitation sector leaves that matrix and the residual is exactly {HuckelResidual(5).ToString("0.0#####", Inv)}, " +
+                     "not merely small, at couplings that are not dyadic as well. That is the whole of the inheritance and " +
+                     "it is a statement about the HAMILTONIAN, and about the XY chain rather than spin chains in general: " +
+                     "the ZZ term puts weight on the single-excitation diagonal where this matrix carries none, which is " +
+                     "the control (ZzDiagonalWeight against XyDiagonalWeight), and a longitudinal field does the same; a " +
+                     "non-uniform J leaves the bond entries no longer equal to one β. It stops " +
                      "there: both Q_h and the EP are readings of the dephasing side, and a Hückel or Frost construction " +
-                     "is a static spectrum with no γ, no bath and no time in it, so there is no threshold on that side to " +
-                     "compare a ladder against. Anything that reads as such a comparison has this witness's own numbers " +
-                     "on both sides of it. The gate can fail: a ZZ term, a non-uniform J or a longitudinal field each " +
-                     "put a non-zero entry where the adjacency matrix has none.",
+                     "is a STATIC spectrum with no γ, no bath and no time in it, so it carries no threshold for the ladder " +
+                     "to agree with. That is a fact about the CONSTRUCTION and not about a molecule: a real polyene " +
+                     "dephases, and a threshold read off the Hückel side's OWN dephasing extension is untested here rather " +
+                     "than non-existent. What this rests on is narrower and firmer, namely that no independent chemistry " +
+                     "computation was ever on the other side of that comparison, which had this witness's own numbers on " +
+                     "both.",
             children: rows);
     }
 
