@@ -301,18 +301,18 @@ stale T2* from 6 days prior gave 61% error; same-day T2* gave 1.9%.
 | 6 | Permanent crossers: dephasing signature | 181-day history | **Visible** |
 | 7 | r is structural (CV ~ 0.20) | 181-day history | **Visible** |
 | 8 | 84% pure dephasing in crossers | 181-day history | **Visible** |
-| 9 | 2x decay law: edge pairs at 1.97x interior | 5-qubit chain, selective DD | **Visible** |
+| 9 | Reported edge/interior decay ratio 1.97x | 5-qubit chain, selective DD | **Protocol-specific observation** |
 | 10 | V-Effect: MI enhancement grows with time | 5-qubit chain, selective DD | **Partial** |
 | 11 | Resonator propagates beyond neighbors | 10-pair analysis, raw counts | **Visible** |
-| 12 | Palindromic pairing (indirect) | 2x law + neural + H-bond | **Cross-level** |
+| 12 | Full palindromic eigenvalue pairing | Requires multi-qubit spectral reconstruction | **Not measured by these runs** |
 
 Finding 9 (March 29 re-analysis): Under selective DD, the sacrifice-
 edge pair (0,1) and far-edge pair (3,4) decay at gamma = 0.204/us.
 Interior pairs (1,2) and (2,3) decay at gamma = 0.107/us. Ratio:
-**1.97x** (theory predicts 2.00x, deviation 1.5%). This ratio appears
+**1.97x** (the reported comparison to 2.00x gives 1.5% deviation). This ratio appears
 only under selective DD (Uniform: 3.14x, No DD: 2.36x). The selective
-treatment creates the cleanest separation between fast boundary modes
-and slow interior modes.
+treatment gives the reported edge/interior response-rate contrast.
+Response fits do not identify a full set of Liouvillian eigenvalue partners.
 
 Finding 10: The MI enhancement ratio (Selective/Uniform) grows from
 1-2x at t=1us to 2-4x at t=5us across all pairs. This temporal growth
@@ -320,61 +320,51 @@ is consistent with the V-Effect creating new correlations over time.
 Definitive proof would require MI measurements for all 10 qubit pairs
 (including non-adjacent), not just the 4 nearest-neighbor pairs.
 
-## Cross-level evidence: the resonator across domains
+## Comparing models and hardware
 
-The predictions are not "qubit predictions." They are resonator
-predictions with multiple physical realizations. What is untestable
-on one level may be confirmed on another.
+Each column has its own generator, observables and evidence. An IBM
+response-rate ratio does not establish a neural or molecular palindrome;
+constructed matrices and molecular calculations are separate model results.
 
-| Prediction | Qubit (IBM) | Neural (WC/C. elegans) | H-Bond | Cross-level |
+| Prediction | Qubit (IBM) | Neural (WC/C. elegans) | H-Bond | Scope |
 |------------|-------------|----------------------|--------|-------------|
-| Palindromic pairing | Indirect: 2x law 1.97x | 100% WC (by construction); C. elegans WITHDRAWN 2026-08-25 | Exact (2-proton) | **Supported, but not by the worm** |
-| 2x decay law | **1.97x** (1.5% dev) | 1.63x (N=10, not 2x) | Not tested | Quantum-specific |
-| 1/4 boundary | **1.9% dev**, r* 0.000014 | Not 1/4 (Hopf, gain=1) | 0.46 ps (water) | Qubit + H-bond |
+| Palindromic pairing | Full eigenvalue pairing not measured | Conditional F36 constructions; full chemical connectome support fails | Two-proton model calculation | Separate algebra and model tests; no cross-domain hardware confirmation |
+| Edge/interior response decay | Reported **1.97x** | No neural 2x law from F36 | Not tested | Specified IBM protocol |
+| 1/4 boundary | **1.9% dev**, r* 0.000014 | F36 supplies no neural threshold | 0.46 ps (water model) | IBM observation and separate molecular calculation |
 | Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
-| V-Effect | Partial (MI grows) | **0+0=48** freq (computed) | **109** freq (computed) | Computed both |
+| V-Effect | MI enhancement grows with time | Protocol-dependent frequency bins; coupled odd construction fails F36 | **109** freq (computed) | Distinct response and spectral diagnostics; common mechanism unestablished |
 | CΨ oscillation | Predicted: 9 crossings | Not tested | 6 crossings (Zundel) | Testable (Exp B) |
 | GHZ vs W | Predicted: W 2.00x longer | Not applicable | Not applicable | Testable (Exp A) |
 | Long-range MI | **3.71x** (2,4) pair | Not tested | Not tested | Qubit confirmed |
 
-**Tier system:** Qubit (IBM) = Tier 3 (measured hardware). Wilson-Cowan =
-Tier 2 (computed). C. elegans = withdrawn (see the palindromic-pairing row). H-Bond = Tier 2
-(computed from proven framework). Cross-level synthesis = Tier 4 (motivated
-by convergence across domains).
+**Evidence types:** Observed IBM entries are hardware measurements;
+predicted entries remain proposals for tests. Neural F36/F37
+are conditional algebra with constructed computational examples; the
+[connectome support test](NEURAL_GAMMA_CAVITY.md) is null for the proposed
+biological landing. The [neural frequency census](../docs/neural/V_EFFECT_NEURAL.md)
+has an open mechanism. Molecular entries are model calculations. None of
+these substitutions extends what the IBM experiments measured.
 
-## Palindromic pairing: reclassified
-
-Previously listed as "untestable on hardware." Reclassified:
+## What would measure palindromic pairing
 
 **Direct measurement on qubit hardware:** Not performed. Would require
 multi-qubit Liouvillian spectroscopy (eigenvalue extraction from process
 tomography or Hamiltonian learning).
 
-**Indirect hardware evidence:** The 2x decay law (edge pairs at 1.97x
-interior rate under selective DD) is a direct CONSEQUENCE of palindromic
-pairing. Paired modes decay at rate gamma, unpaired at 2*gamma. The
-1.97x ratio on IBM hardware is within 1.5% of the predicted 2.00x.
+**The response-rate limit:** The edge/interior fits above do not identify
+eigenvalue partners. [Energy Partition](../hypotheses/ENERGY_PARTITION.md)
+explains the quantum range/centre ratio and the effect of discarding zero
+roots; neither supplies a theorem assigning all paired modes one decay
+rate and all unpaired modes twice that rate.
 
-**Cross-level confirmation:**
-- Wilson-Cowan model: 100% pairing by construction (Tier 2)
-- C. elegans connectome: **withdrawn**. The 8.46x against Erdős-Rényi is a
-  normalisation artifact (2026-08-26): the two arms were divided by different
-  constants, and the arms' mean ‖W_eff‖ differs by 8.50, so the ratio tracked
-  coupling magnitude. Matched against one rule the ratio runs 0.960 at N = 10,
-  0.841 at N = 20 and 0.748 at N = 26, a much smaller residue of open origin. The degree-preserving rewiring that scores an
-  identical 1.0 is withdrawn with it, being unable to move such a metric. The connectome pairing
-  reading was separately withdrawn 2026-08-25 as a reading of the matching
-  tolerance ([Neural Gamma Cavity](NEURAL_GAMMA_CAVITY.md))
-- Hydrogen bond (2-proton): exact pairing, std 5.4e-3 (Tier 2)
-- Analytical proof: holds for all N, all topologies (Tier 1)
-
-**Revised status:** Indirectly supported on qubit hardware (one 5-qubit run,
-2x law 1.97x), supported on the molecular level and on CONSTRUCTED neural
-networks, analytically proven for all N and topologies (the proof, not
-the hardware, is the all-N/all-topology result). The biological leg is gone:
-as of 2026-08-25 no connectome result supports this row, and on C. elegans the
-palindrome theorem does not even apply, its condition (b) failing on a count of
-253 against 18.
+The [quantum proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) owns pairing
+under its Hamiltonian and dephasing assumptions. The
+[neural proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md) owns F36/F37
+under both scalar-diagonal and effective-weight conditions. Its constructed
+examples test that algebra, not biological neural circuits or IBM hardware.
+The [full connectome support obstruction](NEURAL_GAMMA_CAVITY.md) prevents
+that model from furnishing a biological example. A molecular-model result
+likewise does not substitute for a hardware spectral measurement.
 
 ---
 

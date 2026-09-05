@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 """
-WITHDRAWN 2026-08-26 (the C. elegans comparisons; the algebra is unaffected).
-On blocks this sparse the residual collapses to sqrt(2)*||W_eff||/||J||
-whenever no Q-partner pair of edges is present (198 of 200 blocks at N=10), so
-it almost never gets to see the wiring; an empty block scores a perfect 0. The Erdos-Renyi control here is normalised by its OWN maximum while
-the connectome block carries the global max|W| = 37, so the 8x compares two
-constants; the degree-preserving control cannot move under such a metric and
-mostly does not run. See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
+Q6: Historical real-part tolerance matcher and random-network controls.
 
-Q6: Does the 98.2% palindromic pairing require C. elegans topology?
+The percentages below are scores of check_palindrome, which discards
+imaginary parts and matches decay rates within a fraction of their range.
+They do not test the scalar F36 identity or establish biological pairing.
+The connectome uses global normalization and random controls use their own
+maxima, so coupling scales also differ between arms.
 
-Control experiment: generate random networks with the same parameters
-(N=10, E=5, I=5, tau_E=10, tau_I=20, alpha=0.3) but random connectivity.
-If random networks also show ~98%, the palindrome is GENERIC to any
-balanced oscillatory network. If they show significantly less, the
-C. elegans topology is essential.
+The default balanced controls use N=10, E=5, I=5, tau_E=10, tau_I=20,
+alpha=0.3. They explore matcher sensitivity, not a topology requirement
+for the theorem. Current scalar and support gates live in
+neural_translation_gate.py and celegans_pairing_controls.py; see
+docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md for their scope and the full
+chemical-connectome support null.
 
 Controls:
   A. Erdos-Renyi random graphs (same density as C. elegans subnetworks)
@@ -242,7 +241,7 @@ mean_density = np.mean(densities)
 # === Main ===
 
 print("=" * 70)
-print("Q6: Random Network Controls for Palindromic Pairing")
+print("Q6: Historical real-part tolerance matcher and random-network controls")
 print("=" * 70)
 print(f"\nC. elegans subnetwork density: {mean_density:.2f} (mean over 200 samples)")
 print(f"Parameters: N=10, tau_E=10, tau_I=20, alpha=0.3")
@@ -345,13 +344,12 @@ for a in [0.01, 0.05, 0.1, 0.3, 0.5, 1.0, 2.0, 5.0]:
     print(f"  {a:6.2f}    {np.mean(sc):5.1f}%  {np.std(sc):5.1f}%  "
           f"[{np.min(sc):.0f}%, {np.max(sc):.0f}%]")
 
-print(f"  >>> NO VERDICT is drawn from this comparison: WITHDRAWN 2026-08-26.")
-print("      The arms are normalised by different constants, so the gap between")
-print("      them measures those constants; and the score is a threshold on a")
-print("      residual that reads coupling magnitude on blocks this sparse.")
-print("      The branch verdicts this block used to print, in either direction,")
-print("      were readings of that artifact. Selective damping in particular is")
-print("      NOT the mechanism: at uniform tau the damping condition holds for")
-print("      every permutation and imposes nothing.")
+print("  >>> NO BIOLOGICAL PAIRING VERDICT follows from these matcher scores.")
+print("      The matcher discards imaginary parts and uses a range-based tolerance.")
+print("      Different normalization rules also change coupling scales between arms.")
+print("      F36 requires both scalar diagonal and effective-weight conditions.")
+print("      Uniform tau settles the diagonal condition, not the weight condition.")
+print("      Use neural_translation_gate.py for the scalar identity and")
+print("      celegans_pairing_controls.py for the biological support gate.")
 print("      See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md and")
 print("      docs/neural/proofs/PROOF_PALINDROME_NEURAL.md Step 3.")

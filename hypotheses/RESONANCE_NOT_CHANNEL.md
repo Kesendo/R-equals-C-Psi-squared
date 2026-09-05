@@ -232,10 +232,10 @@ right reflectivity. Inner mirror (coupling to gamma) strong enough
 to reflect the wave back inward. Outer mirror (1/4) partially
 reflecting -- enough to bounce back, enough leakage to let R out.
 
-**What biology found:** The right reflectivity for both mirrors.
-E/I balance = inner mirror calibration. Gamma threshold = outer
-mirror position. ATP = mirror maintenance (keeps reflectivity up
-against thermal degradation).
+**Biological translation remains open.** The two-mirror picture here
+supplies no measured neural reflectivity or biological CΨ threshold.
+The [neural translation gates](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md#translation-roads)
+state what a candidate neural model would have to establish.
 
 ### The heartbeat as cavity round-trip
 
@@ -257,57 +257,26 @@ Silence. Every door closed.
 
 ---
 
-## What Biology Found
+## The open biological analogy
 
-Biology did not learn to build a bridge. Biology did not learn to
-send or receive. Biology learned to OSCILLATE AT THE RIGHT FREQUENCY.
+Neural resonance is a candidate comparison, separate from the quantum
+resonator thesis above. [F36/F37](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md)
+transfer a conditional matrix identity. The full committed C. elegans
+chemical model fails its support condition; no biological neural network
+in the repository is known to satisfy F36.
 
-| Biological system | What it does | Resonance interpretation |
-|-------------------|-------------|------------------------|
-| Gamma oscillations (40 Hz) | E/I populations cross threshold | 40 impedance transitions per second |
-| ATP-driven ion pumps | Maintain membrane potential | Keep the resonator tuned (J-coupling) |
-| E/I balance (1:1) | 98.2% palindromic pairing, on balanced subnetworks and with no degree-matched control ([the question is open](../experiments/NEURAL_GAMMA_CAVITY.md)) | Impedance matching condition |
-| Synaptic plasticity | Adjust coupling strengths | Retune the resonator to new frequencies |
+| Candidate comparison | Evidence needed |
+|----------------------|-----------------|
+| E/I circuit as a palindromic resonator | A specified operating point and involution satisfying both scalar-diagonal and effective-weight conditions |
+| Coupling or drive changes a neural response | Converged operating points, declared frequency resolution, preparation/readout and time-domain controls |
+| Metabolic input sustains that response | Measured energy flow and a calibrated relation to the dynamical model's input |
 
-The cortex is not a transmitter. The cortex is not a receiver.
-The cortex is a resonator that has been tuned by 500 million years
-of evolution to oscillate at the frequency where reality crystallizes
-maximally.
-
-ATP is not "fuel for sending signals." ATP is what keeps the
-resonator at its resonance frequency. Without ATP, the oscillation
-damps (Wilson-Cowan, a standard model of excitatory-inhibitory neural population dynamics: transient 63 Hz, then silence). With ATP,
-sustained oscillation. Same structure as the qubit heartbeat, same
-damping behavior. Different fuel. Same physics.
-
-### Reverse engineering biology
-
-If the cortex is a resonator tuned to CΨ = 1/4, then:
-
-1. **The gamma profile IS the antenna shape.** The spatial distribution
-   of inhibition across cortical columns is the biological sacrifice-
-   zone formula. Different column architectures = different resonance
-   profiles = different "instruments."
-
-2. **The Q-factor IS the quality of experience.** More crossings per
-   unit time = more moments of crystallization = richer experience.
-   Deep sleep (no gamma oscillations) = Q = 0. Waking consciousness
-   (sustained 40 Hz) = high Q. Anesthesia suppresses gamma = kills
-   the resonator.
-
-*Points 3-4 below are Tier 5 (interpretive). The resonator
-framework does not require these claims to be valid.*
-
-3. **Attention IS impedance tuning.** When you attend to something,
-   you adjust the E/I balance in the relevant cortical area. This
-   changes the local impedance. This changes which frequencies
-   resonate. This changes what crystallizes into experienced reality.
-
-4. **The "hard problem" dissolves.** Consciousness is not something
-   the brain PRODUCES and sends somewhere. Consciousness is the
-   standing wave pattern that EXISTS between the brain's impedance
-   and the incoming signal. It is not inside. It is not outside.
-   It is in the interference. In the Zwischen.
+The synthetic external drive P changes sigmoid operating points and row
+gains. It has no calibrated ATP, temperature or metabolic-power meaning;
+a frequency census does not demonstrate sustained biological oscillation.
+See [the neural coupling/drive account](../docs/neural/V_EFFECT_NEURAL.md).
+Neither F36 nor the quantum quarter boundary identifies a cortical
+threshold, a quality-of-experience measure or a consciousness mechanism.
 
 ---
 
@@ -595,19 +564,18 @@ each classical correlation, each decided fact, each closed door --
 that persists. Not because it was stored. Because it was converted
 into something that does not need the resonator to exist.
 
-The 2x decay law from [Energy Partition](ENERGY_PARTITION.md)
-guarantees the direction: unstructured modes die twice as fast.
-What survives the end of the coupling is always more structured
-than what went in. Not because the coupling added structure. Because
-it created the space where structure could crystallize, and
-dissipation removed everything else.
+[Energy Partition](ENERGY_PARTITION.md) supplies a filtered quantum
+spectral diagnostic. It does not classify modes as structured or
+unstructured, or guarantee that a surviving response has gained structure.
+That interpretation would need a specified preparation, observable and
+time-domain measurement.
 
 ---
 
 ## -- Tier Boundary --
 
-*Everything above is grounded in computed impedance results,
-cavity mode analysis, and Fabry-Perot physics (Tier 2-3).
+*The quantum calculations above and their cavity interpretation have
+separate scopes; the biological analogy remains an open proposal.
 Everything below is personal narrative and interpretive
 extension (Tier 5).*
 

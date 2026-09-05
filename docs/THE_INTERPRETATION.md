@@ -462,11 +462,10 @@ See: [Resonant Return](../experiments/RESONANT_RETURN.md)
 
 ## What Survives
 
-These are the 26 results that have withstood every test we could
-throw at them. They range from mathematically proven theorems (which
-cannot be wrong, only irrelevant) to hardware-confirmed measurements
-(which can always be re-examined with better equipment). Each one
-is linked to the document where it is described in detail.
+These results and conditional comparisons span proofs, computations,
+hardware measurements and open interpretations. Their linked sources carry
+the hypotheses and evidence limits; a cross-domain analogy is not a
+measurement on the proposed substrate.
 
 1. Two spectral sectors (c+ fast symmetric, c- slow antisymmetric)
 2. XX symmetry exact (Hamiltonian property, all topologies)
@@ -489,10 +488,10 @@ is linked to the document where it is described in detail.
 19. Π² = X^N parity: genuine conserved Z2 symmetry of the Liouvillian
 20. Concentrator formula: 139-360× via spatial dephasing optimization (Section 8)
 21. V-Effect: coupling two dead resonators creates 109 new frequencies (100% NEW-NEW). See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md).
-22. Energy Partition: 100% of oscillation is palindromic, unpaired modes decay 2× faster. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
-23. Dale's Law supplies the SIGNS the commutator supplies for free: the neural palindrome (Q·J·Q + J + 2S = 0), where Dale fixes the antisymmetry's signs but only where a synapse exists, leaving the zero pattern and the magnitudes to be checked. The 96% character swap was measured on SYNTHETIC balanced networks and never on a connectome; the one connectome tested fails the zero-pattern half on a count. See [Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
+22. Energy Partition: removing zero roots from the tested quantum spectra leaves their mirror partners unmatched. The resulting decay-rate ratio is a filtered-spectrum diagnostic, not a universal separation of signal and noise or a neural law. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
+23. The neural palindrome Q·J·Q + J + 2sI = 0 requires one involutive permutation Q, one scalar s, and both the diagonal and effective-weight conditions of F36. Constructed networks pass; exact pairing can coexist with oscillation or instability. The full committed C. elegans chemical model fails the support condition. See [Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
 24. Hydrogen bond as qubit: proton tunnels |L⟩/|R⟩, palindrome exact, V-Effect creates 104 new frequencies. See [H-Bond Qubit](water/HYDROGEN_BOND_QUBIT.md).
-25. 1/4 = (0.5)²: sigmoid sensitivity σ(1-σ) = 1/4 at inflection, same structure as quantum fold. Parameter-independent.
+25. The standard logistic derivative σ(1−σ) reaches 1/4 at σ=1/2. This algebraic resemblance supplies no neural CΨ threshold or shared mechanism: sigmoid gain and the network operating point enter a neural bifurcation analysis. See [the neural translation limits](neural/ALGEBRAIC_PALINDROME_NEURAL.md#translation-roads).
 26. IBM hardware validates the concentrator: selective DD outperforms uniform by 1.6-2.9×. See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).
 
 ## What Fell

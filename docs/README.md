@@ -42,7 +42,7 @@ Three entry points for new readers:
 ```
 docs/
   proofs/        ← Formal proofs (7 documents)
-  neural/        ← Palindromic symmetry in biological neural networks
+  neural/        ← Conditional algebra, constructed tests, biological support null
   historical/    ← Legacy documents, superseded or resolved (10 documents)
   (this folder)  ← Synthesis, reference, and navigation
 ```
@@ -96,16 +96,17 @@ These connect the mathematical results into a coherent picture.
 
 ## Neural Systems (`neural/`)
 
-The palindromic spectral symmetry, derived and proven in quantum systems,
-has a classical analog in neural networks. Dale's Law (E neurons excite,
-I neurons inhibit) provides the SIGNS of the antisymmetry that the quantum
-commutator provides outright, and only where a synapse exists; the zero pattern
-and the magnitudes are separate requirements. No quantum physics required to read these documents.
+The quantum conjugation pattern transfers to a neural Jacobian only under
+F36's scalar-diagonal and effective-weight conditions. Constructed networks
+satisfy that identity; Dale's Law alone does not supply it. The full committed
+C. elegans chemical model fails the support condition, and no biological
+neural network in the repository is known to pass F36. These documents give
+the conditional algebra, synthetic tests and open biological questions.
 
 | Document | What it covers |
 |----------|---------------|
-| [README](neural/README.md) | Entry point for neuroscience readers |
-| [Algebraic Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md) | Derived condition, C. elegans test, validation checks |
+| [README](neural/README.md) | Conditional theorem, constructed gates, biological support null, rerun commands |
+| [Algebraic Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md) | F36/F37 conditions, full complex pairing and mode transport, open translation gates |
 
 ---
 
@@ -141,7 +142,7 @@ BLACK_WHITE_HOLES_BIGBANG, PREDICTIONS, SELF_CONSISTENCY_SCHWARZSCHILD (disprove
 |----------|-------|
 | Experiments (61 documents) | [experiments/](../experiments/README.md) |
 | Hydrogen bond as qubit | [docs/water/HYDROGEN_BOND_QUBIT.md](water/HYDROGEN_BOND_QUBIT.md) |
-| Neural systems (no quantum needed) | [neural/](neural/README.md) |
+| Conditional neural algebra and its tests | [neural/](neural/README.md) |
 | Open hypotheses | [hypotheses/](../hypotheses/README.md) |
 | Reading Guide (guided tour) | [READING_GUIDE.md](READING_GUIDE.md) |
 | Repository root | [README.md](../README.md) |
