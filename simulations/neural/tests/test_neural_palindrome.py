@@ -145,3 +145,105 @@ def test_optimized_translation_cli_rejects_bad_scalar_reading():
     )
     assert result.returncode != 0, result.stdout
     assert "PASS" not in result.stdout
+
+
+def test_drive_fixed_point_reports_equation_residual():
+    from neural_palindrome import make_balanced_dale_network, solve_fixed_point
+
+    W, signs = make_balanced_dale_network(n=50, n_exc=25, density=0.3, seed=42)
+    x, residual = solve_fixed_point(W, signs, alpha=0.3, drive=4,
+                                    tol=1e-12, max_iter=5000)
+    slopes = np.where(signs > 0, 1.3, 2.0)
+    thresholds = np.where(signs > 0, 4.0, 3.7)
+    rhs = 1 / (1 + np.exp(-slopes * (0.3 * W @ x + 4 - thresholds)))
+    assert residual < 1e-10
+    assert np.max(np.abs(x - rhs)) < 1e-10
+
+
+def test_drive_fixed_point_rejects_unconverged_iterate():
+    from neural_palindrome import make_balanced_dale_network, solve_fixed_point
+
+    W, signs = make_balanced_dale_network(n=50, n_exc=25, seed=42)
+    with pytest.raises(RuntimeError, match=r"last residual[=: ]+[0-9]"):
+        solve_fixed_point(W, signs, alpha=0.3, drive=4,
+                          tol=1e-12, max_iter=1)
+
+
+@pytest.mark.parametrize("module", [
+    "veffect_exact", "veffect_and_heat", "cpsi_two_perspectives",
+    "celegans_trichotomy", "validation_checks", "find_quarter",
+])
+def test_producer_import_is_silent(module):
+    result = subprocess.run(
+        [sys.executable, "-c", f"import {module}"], cwd=NEURAL,
+        capture_output=True, text=True, check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    assert result.stdout == ""
+    assert result.stderr == ""
+
+
+@pytest.mark.parametrize("field,value", [
+    ("n", 0), ("n", 3), ("n", True), ("n_exc", 24),
+    ("density", np.nan), ("density", -1), ("seed", None),
+])
+def test_balanced_dale_builder_validates_inputs(field, value):
+    from neural_palindrome import make_balanced_dale_network
+
+    with pytest.raises(ValueError, match=field):
+        make_balanced_dale_network(**{field: value})
+
+
+@pytest.mark.parametrize("field,value", [
+    ("W", np.ones((2, 3))), ("W", np.full((2, 2), np.nan)),
+    ("signs", [1]), ("signs", [1, 0]),
+    ("alpha", np.inf), ("drive", np.nan), ("tol", 0),
+    ("max_iter", 0), ("max_iter", 1.5), ("max_iter", True),
+])
+def test_fixed_point_validates_inputs(field, value):
+    from neural_palindrome import solve_fixed_point
+
+    args = dict(W=np.zeros((2, 2)), signs=[1, -1], alpha=0.3,
+                drive=4, tol=1e-12, max_iter=5000)
+    args[field] = value
+    with pytest.raises(ValueError, match=field):
+        solve_fixed_point(**args)
+
+
+@pytest.mark.parametrize("module", ["veffect_exact", "veffect_and_heat"])
+def test_frequency_counts_share_explicit_resolution(module):
+    import importlib
+
+    producer = importlib.import_module(module)
+    values = np.array([0.104j, -0.104j, 0.106j, -0.106j])
+    activity, correlation = producer.frequency_counts(values, frequency_tolerance=0.01)
+    assert activity == 2
+    assert correlation == 1
+
+
+def test_exact_producer_legacy_helpers_keep_balanced_linear_callers():
+    from veffect_exact import (
+        build_exact_palindromic_network, build_linear_jacobian,
+        count_freqs, count_corr_freqs, palindrome_residual,
+    )
+
+    W, signs, _ = build_exact_palindromic_network(10, 5, 5, 10, seed=42)
+    J = build_linear_jacobian(W, signs, 5, 10, 0.5)
+    assert palindrome_residual(J, signs) == 0.0
+    assert count_freqs(np.array([0.2j, -0.2j])) == 1
+    assert count_corr_freqs(np.array([0.2j, -0.2j])) == 1
+
+
+def test_legacy_residual_wrapper_rejects_odd_seat():
+    from veffect_exact import palindrome_residual
+
+    with pytest.raises(ValueError, match="scalar_center_residual"):
+        palindrome_residual(np.diag([-0.5, -0.25, -0.5]), np.array([1, -1, 1]))
+
+
+def test_legacy_residual_wrapper_rejects_nonuniform_type_diagonals():
+    from veffect_exact import palindrome_residual
+
+    with pytest.raises(ValueError, match="scalar_center_residual"):
+        palindrome_residual(np.diag([-0.5, -0.25, -0.4, -0.25]),
+                            np.array([1, -1, 1, -1]))

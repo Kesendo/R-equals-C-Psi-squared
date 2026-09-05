@@ -1,38 +1,12 @@
 #!/usr/bin/env python3
-"""F77-style trichotomy classification of C. elegans subcircuits.
+"""Thresholded scalar-center and complex spectral readings of subcircuits.
 
-The existing palindrome test (algebraic_palindrome.py, celegans_palindrome.py)
-gives a binary reading: how palindromic is the subcircuit, with a worm/
-random ratio of ~8x against Erdos-Renyi. THAT RATIO IS WITHDRAWN (2026-08-26):
-the control is normalised to its own maximum while the connectome block is
-normalised globally by max|W| = 37, and the residual tracks coupling scale, so
-the comparison measures the constant. Matched, the ratio runs 0.960 at N = 10,
-0.841 at N = 20 and 0.748 at N = 26, and nothing reverses: the 8x is gone and
-the smaller residue is an open question. The classification below normalises its control the same way and
-inherits the defect. See docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md and
-experiments/NEURAL_GAMMA_CAVITY.md. This script refines that by classifying each
-subcircuit into one of three classes, the neural analogue of the F77
-trichotomy on the quantum side:
-
-  truly:  Q*J*Q + J + 2S*I = 0 holds exactly (algebraic equation closes,
-          residual ~ 0). Strict palindrome, no residual operator.
-
-  soft:   eigenvalues of J still come in palindromic pairs (lambda <-> -2S - lambda),
-          but the algebraic equation has nonzero residual. Spectral
-          symmetry without operator symmetry.
-
-  hard:   eigenvalues do NOT come in palindromic pairs. Both spectral
-          and operator symmetry fail.
-
-Thresholds:
-  truly_residual < 0.01 * ||J||  -> algebraic equation holds to 1%
-  paired_max_dev < 0.05 * |lambda|  -> every eigenvalue has a partner within 5%
-
-Tested over 200 random C. elegans 5E+5I subcircuits and 200 random
-Dale's-law controls of matched density.
-
-Self-contained (no imports from sibling neural scripts to avoid
-top-level-script side effects).
+The labels truly/soft/hard are numerical bins, not exact F36 verdicts.
+The scalar residual uses the declared s=(1/tau_E+1/tau_I)/2 and a chosen
+E/I swap; complex spectral assignment preserves multiplicities. Controls
+use unequal weight normalizations, so biological comparisons are not valid.
+Equal worm/degree-preserved scores do not establish degree-distribution
+causality: the withdrawn fitted metric is insensitive to these rewires.
 """
 from __future__ import annotations
 
@@ -40,6 +14,8 @@ import json
 from pathlib import Path
 
 import numpy as np
+
+from neural_palindrome import scalar_center_residual, spectral_pairing_error
 
 SCRIPT_DIR = Path(__file__).parent
 
@@ -93,44 +69,16 @@ def build_swap(signs):
     return perm, Q
 
 
-def palindrome_residual_norm(J, Q):
-    """Return ||Q*J*Q + J + 2S*I||_F / ||J||_F where S is chosen to zero
-    the diagonal (matches the algebraic_palindrome.py convention)."""
-    QJQ = Q @ J @ Q.T
-    S_diag = -(np.diag(QJQ) + np.diag(J)) / 2.0
-    R = QJQ + J + 2.0 * np.diag(S_diag)
-    norm_J = np.linalg.norm(J)
-    return float(np.linalg.norm(R) / norm_J), float(S_diag.mean())
-
-
-def palindromic_pairing_max_deviation(J, S):
-    """For each eigenvalue lambda of J, find the closest partner candidate
-    among {-2S - lambda_j} and return the worst (max) deviation as a fraction
-    of |lambda|.
-
-    Small => paired. Large => some eigenvalues are unpartnered.
-    """
-    evals = np.linalg.eigvals(J)
-    n = len(evals)
-    max_rel_dev = 0.0
-    for i in range(n):
-        target = -2.0 * S - evals[i]
-        deviations = np.abs(evals - target)
-        nearest = float(np.min(deviations))
-        scale = max(abs(evals[i]), 1e-10)
-        rel_dev = nearest / scale
-        if rel_dev > max_rel_dev:
-            max_rel_dev = rel_dev
-    return max_rel_dev
-
-
 def classify_subcircuit(W, signs, tau_E, tau_I, alpha=0.3,
                         truly_threshold=0.01, pairing_threshold=0.05):
     """Return ('truly'|'soft'|'hard', residual_norm, max_pair_deviation)."""
-    _, Q = build_swap(signs)
+    perm, _ = build_swap(signs)
     J = build_jacobian(W, tau_E, tau_I, signs, alpha=alpha)
-    r_tot, S = palindrome_residual_norm(J, Q)
-    pair_dev = palindromic_pairing_max_deviation(J, S)
+    s = 0.5 * (1 / tau_E + 1 / tau_I)
+    r_tot = scalar_center_residual(J, perm, s)
+    values = np.linalg.eigvals(J)
+    scale = float(np.max(np.abs(values)))
+    pair_dev = spectral_pairing_error(values, s) / (scale if scale else 1.0)
 
     if r_tot < truly_threshold:
         return 'truly', r_tot, pair_dev
@@ -140,15 +88,10 @@ def classify_subcircuit(W, signs, tau_E, tau_I, alpha=0.3,
 
 
 def degree_preserving_rewire(W, signs, n_swaps=None, rng=None):
-    """Degree-preserving randomization: keep each neuron's in/out-degree
-    sequence, randomly reroute edges. Inlined from validation_checks.py
-    to avoid top-level-script side effects on import.
+    """Rewire same-sign edges, keeping row weights and in/out degree counts.
 
-    This null was called the proper one and is not (withdrawn 2026-08-26):
-    it keeps every weight in its own row, and on blocks this sparse the
-    residual is a function of the weight multiset, so the null cannot move
-    the number by construction. An identical score against it is an identity
-    of the instrument, not a wiring result.
+    On the sparse blocks used here, the fitted residual is often unchanged
+    or no valid swap occurs. Equality cannot establish degree causality.
     """
     if rng is None:
         rng = np.random.RandomState()
@@ -190,9 +133,9 @@ def main():
     n_total = 2 * n_half
     n_trials = 200
 
-    print(f'F77 trichotomy on C. elegans subcircuits ({n_half}E + {n_half}I)')
+    print(f'Thresholded scalar-center / spectral readings on C. elegans subcircuits ({n_half}E + {n_half}I)')
     print(f'tau_E={tau_E}, tau_I={tau_I}, alpha=0.3, n_trials={n_trials}')
-    print(f'Thresholds: truly r_tot<0.01, soft pair_dev<0.05')
+    print(f'Threshold labels only: truly scalar_r<0.01, soft assigned_complex_error/max|mu|<0.05')
     print('=' * 78)
 
     sources = ('worm', 'random_dale', 'degree_preserved')
@@ -229,20 +172,14 @@ def main():
         counts['random_dale'][klass_r] += 1
         residuals['random_dale'].append(r_tot_r)
 
-        # Degree-preserving null: keeps the worm's degree sequence,
-        # randomly reroutes edges. Tests whether the trichotomy
-        # enrichment is due to specific wiring or just degree distribution
-        # (the caveat this used to cite, that the binary palindrome advantage
-        # is fully explained by degree distribution, is struck through at
-        # docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md: the metric does not read
-        # the degree distribution either.)
+        # Degree-preserving null: inspect its score without inferring causality.
         W_dp = degree_preserving_rewire(W_sub, signs_sub, rng=rng)
         klass_dp, r_tot_dp, _ = classify_subcircuit(
             W_dp, signs_sub, tau_E, tau_I, alpha=0.3)
         counts['degree_preserved'][klass_dp] += 1
         residuals['degree_preserved'].append(r_tot_dp)
 
-    print(f'{"":<18s} | {"truly":>8s} | {"soft":>8s} | {"hard":>8s} | residual: median')
+    print(f'{"":<18s} | {"truly":>8s} | {"soft":>8s} | {"hard":>8s} | scalar residual: median')
     print('-' * 78)
     for src in sources:
         c = counts[src]
@@ -256,10 +193,9 @@ def main():
           f'erdos_dale={p_truly["random_dale"]:.1%}, '
           f'degree_preserved={p_truly["degree_preserved"]:.1%}')
     print()
-    print('Reading: if "worm" and "degree_preserved" are similar but both '
-          'much higher than "random_dale", the trichotomy enrichment is due '
-          'to degree distribution alone (per existing caveat). If "worm" is '
-          'distinctly higher than "degree_preserved", specific wiring contributes.')
+    print("Equal worm/degree-preserved scores do not establish degree-distribution causality.")
+    print("The withdrawn fitted metric is insensitive to these rewires; sparse nulls often do not move.")
+    print("Random controls retain a different weight normalization; these fractions are not biological evidence.")
 
 
 if __name__ == '__main__':
