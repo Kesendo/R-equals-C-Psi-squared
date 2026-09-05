@@ -563,8 +563,9 @@ public sealed class BlockSpectrumWitness : IInspectable
                 summary: "the single-excitation populations (n_diff=0) + coherences (n_diff=2) — ONE sector, two " +
                          "regimes: inspect --root ceiling (StructuralCeilingWitness) reads the HIGH-Q dark [H,A]=0 " +
                          "commutant (g2=strict_gap/2γ, the S_N standard rep, g2(K_N)=4/N, star 4/(N−1)); inspect " +
-                         "--root horizon (CoherenceHorizonWitness) reads the LOW-Q √-EP Q*(N) where it stops " +
-                         "oscillating (the Haken-Strobl reduction 4^N→N², = the carbon Frost-Hückel threshold). " +
+                         "--root horizon (CoherenceHorizonWitness) reads the LOW-Q √-EP Q*(N) where the pair " +
+                         "coalesces, and the handover Q_h just below it where the slowest mode stops oscillating " +
+                         "(the Haken-Strobl reduction 4^N→N², whose Hamiltonian block is the Hückel matrix exactly). " +
                          "inspect --root secondclock stitches the two regimes."),
             new InspectableNode("(2,2)/(p,p) — half-filling: a DISTINCT {0,2}-coherence",
                 summary: "NOT the (1,1) mode — same n_diff∈{0,2} histogram, but the TWO-excitation filling sector " +

@@ -56,8 +56,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md</c> + <c>reflections/ON_TWO_TIMES.md</c> +
 /// <c>reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md</c> +
 /// <c>compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs</c> (the live lab).
-/// The carbon-layer twin of the same ladder is <c>docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md</c>,
-/// a parked seam.</para></summary>
+/// The Hückel-side companion of the same ladder is <c>docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md</c>,
+/// which reads the hopping matrix our single-excitation block already is.</para></summary>
 public sealed class ClockHandLadderClaim : Claim
 {
     /// <summary>Parent: the F2b band edge 2J·cos(π/(N+1)) the coherence hand is γ-protected to (N≥3).</summary>

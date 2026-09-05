@@ -5,6 +5,7 @@ using System.Linq;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Numerics;
+using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -26,13 +27,18 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// handover is a crossing and never an avoided one: (−1)^{n_XY} commutes with L (the Absorption proof's
 /// parity-preserving mixing), so the (1,1) pair (light 0, 2) and the (0,1) survivor (light 1) never hybridize.
 ///
-/// <para>The carbon coherent↔incoherent threshold of <c>docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md</c>
-/// (√2 / 1.879 / 2.372 at N=3/4/5, the same bisection under the label swap J ↔ |β|) is, as its script
-/// frost_circle_as_clock.py computes it, the HANDOVER's three decimals: 2.372 is Q_h(5) = 2.37217 rounded, while
-/// the EP Q*(5) = 2.37367 would print 2.374. The XY
-/// chain's coherence horizon IS the Frost-Hückel threshold of the same polyene, at the handover. N=2 (Q*=1) is the exceptional point itself (γ=J), the
-/// base rung the carbon polyene layer (N≥3) cannot reach; the quantum side supplies it. This witness
-/// is the "C# witness first" port of the probe <c>simulations/carbon_quantum_same_mountain.py</c>.</para>
+/// <para>What the Hückel side supplies, and where it stops. The single-excitation block of H in the site
+/// basis IS the Hückel matrix at α=0, β=J: (J/2)(X_lX_{l+1} + Y_lY_{l+1}) = J(σ⁺_lσ⁻_{l+1} + h.c.), so
+/// restricting this number-conserving chain to the one-excitation sector leaves the tridiagonal hopping matrix
+/// with off-diagonal J and nothing on the diagonal, and <see cref="HuckelResidual"/> is exactly 0.0, not small.
+/// The sign β = +J is a choice and not a claim: on a bipartite chain the sublattice operator diag((−1)^l)
+/// conjugates A into −A, so the two signs give the same spectrum. That is the
+/// whole of the inheritance, and it is a statement about the HAMILTONIAN. Both thresholds live on the
+/// dephasing side, and a Hückel or Frost construction is a STATIC spectrum with no γ, no bath and no time in
+/// it, so it carries no threshold to compare against; a threshold read off the Hückel side's own dephasing
+/// extension is untested here rather than non-existent, and what this rests on is that no independent chemistry
+/// computation was ever on the other side, which had this witness's own numbers on both.
+/// N=2 (Q*=1) is the exceptional point itself (γ=J), where the ±J band mode ceases to be the gap mode.</para>
 ///
 /// <para>The handover reuses <see cref="Symphony"/> as the spectrum engine: bisect γ at J=1 on whether
 /// <see cref="Symphony.Clock"/>.Omega (max|Im λ| among the modes at the slowest non-zero decay rate)
@@ -60,13 +66,6 @@ public sealed class CoherenceHorizonWitness : IInspectable
     /// <summary>The spectrum-reading grid: the clock reads the eigenvalues, so the time grid is
     /// resolution-independent; a small grid keeps the per-build cost down.</summary>
     private const int SpectrumPoints = 8;
-
-    /// <summary>The carbon Frost-Hückel coherent↔incoherent thresholds (FROST_CIRCLE_AS_THE_CLOCK_FACE.md):
-    /// √2 / 1.879 / 2.372 at N=3/4/5. N=2 has no carbon entry (the polyene layer starts at N≥3).</summary>
-    private static readonly Dictionary<int, double> Carbon = new()
-    {
-        { 3, Math.Sqrt(2.0) }, { 4, 1.879 }, { 5, 2.372 },
-    };
 
     private readonly Dictionary<int, double> _horizonCache = new();
 
@@ -105,9 +104,64 @@ public sealed class CoherenceHorizonWitness : IInspectable
         new Symphony(n: n, j: J, gamma: gamma, initialState: InitialStateKind.BellPair,
             tPoints: SpectrumPoints).Clock.Omega;
 
-    /// <summary>The carbon threshold for this N (the Frost-Hückel coherent↔incoherent value), or null
-    /// for N=2 (no polyene entry).</summary>
-    public double? CarbonThreshold(int n) => Carbon.TryGetValue(n, out var c) ? c : null;
+    /// <summary>The single-excitation block of H in the site basis: the N×N matrix ⟨i|H|j⟩ over the
+    /// computational states carrying exactly one excitation, site l being bit N−1−l of the index.</summary>
+    public static ComplexMatrix SingleExcitationBlock(int n, double j = J)
+    {
+        var H = new ChainSystem(n, j, 0.0).BuildHamiltonian();
+        var block = ComplexMatrix.Build.Dense(n, n);
+        for (int r = 0; r < n; r++)
+            for (int c = 0; c < n; c++)
+                block[r, c] = H[1 << (n - 1 - r), 1 << (n - 1 - c)];
+        return block;
+    }
+
+    /// <summary>max entry-wise |H_SE − J·A|, with A the open chain's adjacency matrix (unit off-diagonal
+    /// on the bonds, zero elsewhere): the Hückel matrix at α=0, β=J. This is exactly 0.0, not small.
+    /// Jordan-Wigner sends (J/2)Σ(X_lX_{l+1} + Y_lY_{l+1}) onto the hopping matrix itself, so the block
+    /// is that matrix rather than an approximation of it. The gate has something to catch: a ZZ term or a
+    /// longitudinal field puts weight on the diagonal, where A carries none, and a non-uniform J leaves the
+    /// bond entries no longer equal to one β. Measured on the Heisenberg chain, whose builder differs from
+    /// the XY one in BOTH the hop (J/2 against J) and the added ZZ, the residual is 0.5; the ZZ part alone is
+    /// isolated by <see cref="ZzDiagonalWeight"/>.</summary>
+    public static double HuckelResidual(int n, double j = J)
+    {
+        var block = SingleExcitationBlock(n, j);
+        double worst = 0.0;
+        for (int r = 0; r < n; r++)
+            for (int c = 0; c < n; c++)
+            {
+                double huckel = Math.Abs(r - c) == 1 ? j : 0.0;
+                worst = Math.Max(worst, (block[r, c] - huckel).Magnitude);
+            }
+        return worst;
+    }
+
+    /// <summary>The ZZ term's own footprint on the single-excitation block, isolated from the couplings the
+    /// two <see cref="HamiltonianType"/> builders happen to use: the largest |diagonal| entry of the
+    /// Heisenberg chain's block. The Hückel matrix has a zero diagonal and so does the XY chain's block, at
+    /// every coupling, so this weight is what the ZZ adds and nothing else. It is non-zero at every N≥2
+    /// (0.25 / 0.5 / 0.25 / 0.5 at N=2..5, the bond-parity of a single flipped site), which is why the
+    /// Hückel identity is a statement about the XY chain and not about spin chains in general.</summary>
+    public static double ZzDiagonalWeight(int n)
+    {
+        var H = new ChainSystem(n, J, 0.0, HamiltonianType.Heisenberg).BuildHamiltonian();
+        double worst = 0.0;
+        for (int i = 0; i < n; i++)
+            worst = Math.Max(worst, H[1 << (n - 1 - i), 1 << (n - 1 - i)].Magnitude);
+        return worst;
+    }
+
+    /// <summary>The largest |diagonal| entry of the XY chain's single-excitation block, the quantity
+    /// <see cref="ZzDiagonalWeight"/> is measured against: exactly 0.0, at every coupling.</summary>
+    public static double XyDiagonalWeight(int n, double j = J)
+    {
+        var block = SingleExcitationBlock(n, j);
+        double worst = 0.0;
+        for (int i = 0; i < n; i++)
+            worst = Math.Max(worst, block[i, i].Magnitude);
+        return worst;
+    }
 
     /// <summary>The low-N band-edge coincidence 2cos(π/(N+1)): equal to Q*(N) at N=2,3 only
     /// (1 = 2cos60°, √2 = 2cos45°), then departing (Q*(4)=1.8785 ≠ φ=1.618).</summary>
@@ -376,10 +430,9 @@ public sealed class CoherenceHorizonWitness : IInspectable
         $"Symphony.Clock.Omega at J=1: {Horizon(2).ToString("0.#####", Inv)}, {Horizon(3).ToString("0.#####", Inv)}, " +
         $"{Horizon(4).ToString("0.#####", Inv)}, {Horizon(5).ToString("0.#####", Inv)}). Equal at N=2,3, where the EP sits on " +
         "the floor Re = −2γ; apart from N=4 by ((2w2−1)/c)², the square of the EP's excess light over the split " +
-        "coefficient (see the excess-light node). The handover's three decimals " +
-        "are the carbon Frost-Hückel coherent↔incoherent threshold's as its script computes them (√2 / 1.879 / 2.372 at " +
-        "N=3/4/5, FROST_CIRCLE_AS_THE_CLOCK_FACE.md, the same bisection under the label swap J ↔ |β|); the EP's differ at " +
-        "N=5 (2.374). " +
+        "coefficient (see the excess-light node). Both are readings of the dephasing side; what the Hückel " +
+        $"matrix supplies is the Hamiltonian, exactly (HuckelResidual(5) = {HuckelResidual(5).ToString("0.0#####", Inv)}, " +
+        "see the inheritance node). " +
         "Sector overview: inspect --root blockspectrum (this zooms the (1,1) single-excitation {0,2} sector — " +
         "the low-Q EP regime; --root ceiling reads its high-Q regime).";
 
@@ -388,6 +441,7 @@ public sealed class CoherenceHorizonWitness : IInspectable
         get
         {
             yield return TheLadder();
+            yield return TheHuckelInheritance();
             yield return TheEpBase();
             yield return TheBandEdgeCoincidence();
             yield return TheEpVerdict();
@@ -395,42 +449,47 @@ public sealed class CoherenceHorizonWitness : IInspectable
         }
     }
 
-    /// <summary>the ladder: the computed Q*(N) for N=2..5 with the carbon comparison; confirm they match.</summary>
+    /// <summary>the ladder: the computed handover Q_h(N) for N=2..5, live.</summary>
     private InspectableNode TheLadder()
     {
-        var ns = new[] { 2, 3, 4, 5 };
         var rungs = new List<IInspectable>();
-        bool allMatch = true;
-        foreach (int n in ns)
-        {
-            double q = Horizon(n);
-            double? c = CarbonThreshold(n);
-            string carbonStr = c is { } cv ? cv.ToString("0.####", Inv) : "none (no polyene entry)";
-            bool match = c is { } cm && Math.Abs(q - cm) < 0.01;
-            if (c is not null && !match) allMatch = false;
-            rungs.Add(InspectableNode.RealScalar($"Q*({n})", q, "0.#####"));
-            rungs.Add(new InspectableNode($"N={n}: Q* vs carbon",
-                summary: $"Q*({n}) = {q.ToString("0.#####", Inv)}, carbon = {carbonStr}" +
-                         (c is null ? " (the EP base, quantum-only)" : $" → {(match ? "match ✓" : "MISMATCH")}")));
-        }
+        foreach (int n in new[] { 2, 3, 4, 5 })
+            rungs.Add(InspectableNode.RealScalar($"Q_h({n})", Horizon(n), "0.#####"));
         return new InspectableNode("the ladder",
-            summary: $"the computed Q*(N) (live, bisected γ on Symphony.Clock.Omega at J=1): " +
+            summary: $"the computed handover Q_h(N) (live, bisected γ on Symphony.Clock.Omega at J=1): " +
                      $"N=2 → {Horizon(2).ToString("0.#####", Inv)}, N=3 → {Horizon(3).ToString("0.#####", Inv)} (√2), " +
-                     $"N=4 → {Horizon(4).ToString("0.#####", Inv)}, N=5 → {Horizon(5).ToString("0.#####", Inv)}. " +
-                     $"Carbon Frost-Hückel threshold (N=3/4/5): √2 / 1.879 / 2.372. " +
-                     $"{(allMatch ? "All N≥3 rungs match the carbon ladder ✓ (the same mountain, label swap J ↔ |β|)." : "A rung does NOT match the carbon ladder; investigate.")}",
+                     $"N=4 → {Horizon(4).ToString("0.#####", Inv)}, N=5 → {Horizon(5).ToString("0.#####", Inv)}, each to " +
+                     "this bisection's own resolution (the resolution node reads it per N). The SE-block reading of the " +
+                     "same event is 1 / √2 / 1.87854 / 2.37217, and the EP a second event from N=4 (1.87874 / 2.37367).",
             children: rungs);
     }
 
-    /// <summary>the EP base (N=2): Q*(2)=1 is the exceptional point, the rung the polyene layer cannot reach.</summary>
+    /// <summary>what the Hückel matrix supplies here: the Hamiltonian, exactly. The residual is 0.0.</summary>
+    private InspectableNode TheHuckelInheritance()
+    {
+        var rows = new List<IInspectable>();
+        foreach (int n in new[] { 2, 3, 4, 5, 6 })
+            rows.Add(InspectableNode.RealScalar($"max |H_SE − J·A| at N={n}", HuckelResidual(n), "0.0#####"));
+        return new InspectableNode("what the Hückel matrix supplies (exact)",
+            summary: "the single-excitation block of H in the site basis IS the Hückel matrix at α=0, β=J, entry for " +
+                     "entry: Jordan-Wigner sends (J/2)Σ(X_lX_{l+1} + Y_lY_{l+1}) onto the tridiagonal hopping matrix " +
+                     $"itself, so the residual is exactly {HuckelResidual(5).ToString("0.0#####", Inv)} and not merely " +
+                     "small. That is the whole of the inheritance and it is a statement about the HAMILTONIAN. It stops " +
+                     "there: both Q_h and the EP are readings of the dephasing side, and a Hückel or Frost construction " +
+                     "is a static spectrum with no γ, no bath and no time in it, so there is no threshold on that side to " +
+                     "compare a ladder against. Anything that reads as such a comparison has this witness's own numbers " +
+                     "on both sides of it. The gate can fail: a ZZ term, a non-uniform J or a longitudinal field each " +
+                     "put a non-zero entry where the adjacency matrix has none.",
+            children: rows);
+    }
+
+    /// <summary>the EP base (N=2): Q*(2)=1 is the exceptional point itself.</summary>
     private InspectableNode TheEpBase()
     {
         double q2 = Horizon(2);
         return new InspectableNode("the EP base (N=2)",
             summary: $"Q*(2) = {q2.ToString("0.#####", Inv)} is the exceptional point itself (γ=J, the two clocks " +
-                     "merge into one). It is the base rung the carbon polyene layer (N≥3) cannot reach: the quantum " +
-                     "side supplies it. Carbon's coherent↔incoherent ladder begins at N=3 (a polyene needs ≥3 sites); " +
-                     "the EP is below it. Mechanism note: at N=2 the crossover the bisection lands is NOT the pulled " +
+                     "merge into one). Mechanism note: at N=2 the crossover the bisection lands is NOT the pulled " +
                      "coherence hand 2√(J²−γ²) freezing. Symphony.Clock.Omega(2) reads the ±J band mode (Omega=1) right " +
                      "down to γ=J, then drops to 0, because that band mode ceases to be the slowest-decay (gap) mode " +
                      "exactly at γ=J, which coincides with the exceptional point. So Q*(2)=1 marks the ±J band mode " +
@@ -447,8 +506,8 @@ public sealed class CoherenceHorizonWitness : IInspectable
             summary: $"Q*(N) = 2cos(π/(N+1)) at N=2,3 ONLY: 1 = 2cos60° and √2 = 2cos45° = " +
                      $"{be3.ToString("0.#####", Inv)} match Q*(2)/Q*(3). It is a low-N accident, departing at N≥4: " +
                      $"2cos(π/5) = φ = {phi.ToString("0.#####", Inv)} but Q*(4) = {EpQ(4).ToString("0.#####", Inv)} " +
-                     $"≠ φ. This is why the carbon note saw \"√2 exact at " +
-                     "N=3, the rest awaiting a clean form\": the band edge is the right answer only where it happens to " +
+                     $"≠ φ. This is why √2 looked exact at " +
+                     "N=3 while the rest awaited a clean form: the band edge is the right answer only where it happens to " +
                      "coincide with the horizon.");
     }
 

@@ -629,7 +629,7 @@ public static class InspectCommand
             _ => new StructuralCeilingWitness(), RequiresN: false),
         new("protection", "the qudit mirror-protection scaling law: the per-site product mirror protects (2d)^N / d^{2N} = (2/d)^N of the coherence space, decaying exponentially in d; = 1 ⟺ d=2 (the qubit is the unique full-mirror dimension). Rates stay d-independent.",
             _ => new QuditMirrorProtectionWitness(), RequiresN: false),
-        new("horizon", "the coherence horizon Q*(N): where the slowest mode stops oscillating = the carbon Frost-Hückel coherent↔incoherent threshold",
+        new("horizon", "the coherence horizon Q*(N): the single-excitation EP, and the handover Q_h below it where the full Liouvillian's slowest mode stops oscillating (one event at N=2,3, two from N=4)",
             _ => new CoherenceHorizonWitness(), RequiresN: false),
         new("epcharacter", "the artifact-free EP-character diagnostic (Riesz ‖P‖ / departure-from-normality / geo-vs-alg): the non-eig sibling of PhaseRigidity that confirms the coherence-horizon √-EP is genuinely DEFECTIVE (a Jordan block, dep≈4, geo 1<alg 2), not a diabolic degeneracy. Gate-first (toy Jordan→DEFECTIVE, diag→DIABOLIC); the family that misfired in the F86a retraction is here corroborating-but-not-load-bearing",
             _ => new EpCharacterWitness(), RequiresN: false),

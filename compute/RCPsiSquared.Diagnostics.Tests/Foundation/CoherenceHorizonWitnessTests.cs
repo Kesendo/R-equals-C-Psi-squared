@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
@@ -19,25 +20,54 @@ public class CoherenceHorizonWitnessTests
         Assert.Equal(expectedQStar, q, 2);        // the precise live Q*(N) at 2 decimals
     }
 
-    /// <summary>The literal "quantum = carbon" check: the live-computed Horizon(n) equals the actual
-    /// Frost-Hückel coherent↔incoherent doc value from docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md
-    /// (√2 / 1.879 / 2.372 at N=3/4/5) at 2-decimal tolerance. N=2 is excluded: it is the EP base, the
-    /// rung the polyene layer (N≥3) cannot reach, so it has no carbon doc value.</summary>
+    /// <summary>The inheritance, exactly: the single-excitation block of H in the site basis IS the
+    /// Hückel matrix at α=0, β=J. (J/2)(X_lX_{l+1} + Y_lY_{l+1}) = J(σ⁺_lσ⁻_{l+1} + h.c.), so restricting
+    /// the number-conserving chain to the one-excitation sector leaves the tridiagonal hopping matrix and
+    /// the entry-wise residual is 0.0, with no tolerance admissible. Run across couplings, not only at the
+    /// unit dyadic one that cannot break it: 1/3 and 0.1 are not representable in binary, and the identity
+    /// still holds bit for bit because J/2 halves exactly and the XX and YY halves resum to J.</summary>
     [Theory]
-    [InlineData(3, 1.41421356)]   // √2
-    [InlineData(4, 1.879)]
-    [InlineData(5, 2.372)]
-    public void Horizon_EqualsCarbonDocValue(int n, double carbonDoc)
+    [InlineData(2, 1.0)]
+    [InlineData(3, 1.0)]
+    [InlineData(4, 1.0)]
+    [InlineData(5, 1.0)]
+    [InlineData(6, 1.0)]
+    [InlineData(3, 0.1)]
+    [InlineData(4, 1.0 / 3.0)]
+    [InlineData(5, 2.718281828459045)]
+    [InlineData(6, 1e-7)]
+    public void SingleExcitationBlock_IsExactlyTheHuckelMatrix(int n, double j)
     {
-        var w = new CoherenceHorizonWitness();
-        Assert.Equal(carbonDoc, w.Horizon(n), 2);  // quantum coherence horizon = carbon Frost-Hückel threshold
+        double residual = CoherenceHorizonWitness.HuckelResidual(n, j);
+        Assert.True(residual == 0.0,
+            $"N={n}, J={j:R}: the single-excitation block departs from the Hückel matrix by {residual:E3}; " +
+            "this residual has an exact route (both sides are built from the same J) and any non-zero " +
+            "value is a finding about the construction, not a tolerance to widen");
+    }
+
+    /// <summary>The control the gate above needs, isolating the term that actually discriminates. The
+    /// two HamiltonianType builders differ in their coupling convention as well as in the ZZ, so a bare
+    /// XY-against-Heisenberg distance would fire on the halved hop alone and would say nothing about ZZ.
+    /// The diagonal does say it: the Hückel matrix and the XY block both carry an exactly zero diagonal at
+    /// every coupling, and the ZZ term puts weight there at every N.</summary>
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void ZzPutsWeightWhereTheHuckelDiagonalIsEmpty(int n)
+    {
+        double xy = CoherenceHorizonWitness.XyDiagonalWeight(n);
+        double zz = CoherenceHorizonWitness.ZzDiagonalWeight(n);
+        Assert.True(xy == 0.0, $"N={n}: the XY single-excitation diagonal is {xy:E3}, not the exact 0.0 the identity needs");
+        Assert.True(zz > 0.2, $"N={n}: the ZZ term leaves only {zz:E3} on the diagonal, so this control cannot separate it");
     }
 
     [Fact]
     public void N2_IsTheExceptionalPointBase()
     {
         var w = new CoherenceHorizonWitness();
-        Assert.Equal(1.0, w.Horizon(2), 3);  // the EP, the rung carbon (N≥3) cannot reach
+        Assert.Equal(1.0, w.Horizon(2), 3);  // the EP itself: γ=J, where the ±J band mode ceases to be the gap mode
     }
 
     [Theory]

@@ -22,13 +22,23 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Q*(2)=1, Q*(3)=√2, Q*(4)=1.87874, Q*(5)=2.37367. Sweeping Q = J/γ downward, the slowest
 /// non-zero mode of the FULL Liouvillian stops oscillating (the coherence hand freezes) at a
 /// slightly smaller Q, the handover Q_h = 1 / √2 / 1.87854 / 2.37217, the same pair's floor
-/// crossing; the two are one event at N=2,3 and separate from N=4. The witness verifies that the
-/// HANDOVER carries the three decimals of the carbon Frost-Hückel coherent↔incoherent
-/// threshold (√2 / 1.879 / 2.372 at N=3/4/5) under the label swap J ↔ |β|: three decimals, not bit
-/// for bit, and at N=5 the EP rounds to 2.374 instead. N=2 (Q*=1) is the exceptional point itself, the
-/// base rung the carbon polyene layer (N≥3) cannot reach; the quantum side supplies it.
+/// crossing; the two are one event at N=2,3 and separate from N=4. N=2 (Q*=1) is the exceptional point
+/// itself, where the ±J band mode ceases to be the gap mode.
 ///
-/// <para>What is VERIFIED N=2..5: the ladder Q*(N) and its carbon identity, the band-edge
+/// <para>What the Hückel side supplies, and where it stops. The single-excitation block of H in the site
+/// basis IS the Hückel matrix at α=0, β=J: Jordan-Wigner sends (J/2)Σ(X_lX_{l+1} + Y_lY_{l+1}) onto the
+/// tridiagonal hopping matrix itself, so <c>CoherenceHorizonWitness.HuckelResidual</c> is exactly 0.0 at
+/// N=2..6, with the Heisenberg chain rejected as its control. That inheritance is a statement about the
+/// HAMILTONIAN and it ends there. Both Q*(N) and Q_h(N) are readings of the DEPHASING side, and a Hückel
+/// or Frost construction is a STATIC spectrum with no γ, no bath and no time in it, so it holds no
+/// threshold for a ladder to agree with, and no independent chemistry computation was ever on the other
+/// side of that comparison (a threshold read off the Hückel side's own dephasing extension is untested
+/// here, not non-existent). The three decimals √2 / 1.879 / 2.372 that
+/// <c>docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md</c> tabulates are Q_h's, computed by that note's own
+/// script from this same XY/Z-dephasing Liouvillian under the labels β ↔ J; at N=5 the EP would print
+/// 2.374 instead. Nothing from a carbon material enters that ladder at any point.</para>
+///
+/// <para>What is VERIFIED N=2..5: the ladder Q*(N), the band-edge
 /// coincidence Q*(N) = 2cos(π/(N+1)) at N=2,3 only, and (corrected 2026-06-13, phase-rigidity
 /// review) the freezing mechanism. The mode that COALESCES at Q*(N) is the {0,2}-coherence
 /// (population / antisymmetric-coherence block: all of its weight on n_diff ∈ {0, 2}) at ALL N=2..5, a
@@ -57,8 +67,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (NOT half-filling: at N=6 the (2,2) block's handover Q_h matches the full-L survivor, the half-filling
 /// (3,3) block does not) is resolved by docs/proofs/PROOF_RING_HANDOVER_SLOPE.md: slope Q_h → N·√3/(2π),
 /// the darkness-1 sibling of Q*, adversarially reviewed 2026-07-19 (two refute-first lenses, independent
-/// rebuilds; the proof's Review section holds the record). Concrete
-/// carbon-ring probe: benzene C₆ Q* = 1.609 (the benzene node, simulations/carbon/benzene_two_clocks.py).</para>
+/// rebuilds; the proof's Review section holds the record). Concrete ring instance:
+/// the N=6 ring's own Q* = 1.609 (simulations/carbon/benzene_two_clocks.py).</para>
 ///
 /// <para>Live witnesses: <c>inspect --root horizon</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs</c>, the ladder + the eig
@@ -73,7 +83,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (the band edge 2cos(π/(N+1)) the horizon coincides with at N=2,3).</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F2b corollary "Coherence horizon Q*(N)" +
-/// <c>docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md</c> (the carbon-layer twin) +
+/// <c>docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md</c> (the Hückel-side companion) +
 /// <c>compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs</c> (the live lab,
 /// <c>inspect --root horizon</c>).</para></summary>
 public sealed class CoherenceHorizonClaim : Claim
@@ -90,10 +100,12 @@ public sealed class CoherenceHorizonClaim : Claim
         F2bXyChainSpectrumPi2Inheritance bandEdge)
         : base("The coherence horizon Q*(N) = 1 / √2 / 1.87874 / 2.37367 for N=2..5 (the single-excitation EP); the " +
                "full Liouvillian's clock is handed over at Q_h = 1 / √2 / 1.87854 / 2.37217, equal to the EP at N=2,3 " +
-               "and below it from N=4 by the trace dressing ((2w2−1)/c)², and it is Q_h's three decimals the carbon " +
-               "Frost-Hückel coherent↔incoherent threshold's script computes (√2 / 1.879 / 2.372 at N=3/4/5) under the label swap " +
-               "J ↔ |β| (the cross-substrate identity); N=2 (Q*=1) is the exceptional point, the base rung the " +
-               "carbon polyene layer (N≥3) cannot reach. The mode that coalesces at Q*(N) is the {0,2}-coherence " +
+               "and below it from N=4 by the trace dressing ((2w2−1)/c)². Both are readings of the dephasing side. What " +
+               "the Hückel matrix supplies is the HAMILTONIAN, exactly: the single-excitation block of H is that matrix at " +
+               "α=0, β=J, entry for entry (residual 0.0, the ZZ diagonal weight as control), and a STATIC Frost or " +
+               "Hückel spectrum holds no threshold for the ladder to agree with, no independent chemistry " +
+               "computation having been on the other side of that comparison. N=2 (Q*=1) is the exceptional point itself. " +
+               "The mode that coalesces at Q*(N) is the {0,2}-coherence " +
                "at ALL N=2..5, a genuine √-EP, on the floor Re = −2γ (weights ½/½) at N=2,3 only and below it from N=4; " +
                "the band edge is the co-located γ-protected survivor (no bifurcation at N=4). Closed form (2026-06-13): Q*(N) reduces to the single-excitation (Haken-Strobl) Liouvillian; " +
                "N=2,3 the pair are roots of λ²+4γλ+c·J²=0 (c=4,2) so Q*=2/√c=1,√2 exactly; N≥4 collectively dressed, " +
@@ -101,7 +113,7 @@ public sealed class CoherenceHorizonClaim : Claim
                "(PROOF_COHERENCE_HORIZON_SLOPE: the resummed coherence-ladder dispersion λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π).",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F2b corollary \"Coherence horizon Q*(N)\" + " +
-               "docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md (the carbon-layer twin) + " +
+               "docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md (the Hückel-side companion) + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/CoherenceHorizonWitness.cs (CoherenceHorizonWitness, inspect --root horizon) + " +
                "docs/proofs/PROOF_COHERENCE_HORIZON_SLOPE.md (the asymptotic slope 2/π) + simulations/coherence_horizon_slope.py")
     {
@@ -109,12 +121,12 @@ public sealed class CoherenceHorizonClaim : Claim
         BandEdge = bandEdge ?? throw new ArgumentNullException(nameof(bandEdge));
     }
 
-    public override string DisplayName => "The coherence horizon Q*(N): the carbon coherent↔incoherent threshold made exact";
+    public override string DisplayName => "The coherence horizon Q*(N): the EP and the clock's handover";
 
     public override string Summary =>
         $"Q*(N) = 1/√2/1.87874/2.37367 (N=2..5), the EP; the clock's takeover is the handover Q_h = 1/√2/1.87854/2.37217 " +
-        $"(= Q* at N=2,3, below it from N=4 by the trace dressing), whose three decimals the carbon Frost-Hückel threshold's script computes under J ↔ |β|; " +
-        $"N=2 (Q*=1) is the EP base; the {{0,2}}-coherence coalesces (√-EP) at every N, on the floor at N=2,3 only. Closed form (2026-06-13): Q*(N) is " +
+        $"(= Q* at N=2,3, below it from N=4 by the trace dressing). Both are readings of the dephasing side; what the Hückel matrix supplies is the Hamiltonian, exactly (the single-excitation block IS that matrix at α=0, β=J, residual 0.0). " +
+        $"N=2 (Q*=1) is the EP itself; the {{0,2}}-coherence coalesces (√-EP) at every N, on the floor at N=2,3 only. Closed form (2026-06-13): Q*(N) is " +
         $"the single-excitation (Haken-Strobl) EP, λ²+4γλ+c·J²=0 at N=2,3 (Q*=2/√c=1,√2), transcendental N≥4; " +
         $"asymptotic slope 2/π (derived) ({Tier.Label()})";
 
@@ -122,14 +134,27 @@ public sealed class CoherenceHorizonClaim : Claim
     {
         get
         {
-            yield return new InspectableNode("the ladder = carbon (verified N=2..5)",
-                summary: "Q*(N) = 1 / √2 / 1.8787 / 2.3737 for N=2..5, bisected on Symphony.Clock.Omega at J=1, equals " +
-                         "the carbon Frost-Hückel coherent↔incoherent threshold (√2 / 1.879 / 2.372 at N=3/4/5) under the " +
-                         "label swap J ↔ |β|: the XY chain's coherence horizon IS the Frost-Hückel threshold of the same " +
-                         "polyene. Live: inspect --root horizon.");
+            yield return new InspectableNode("the ladder (verified N=2..5)",
+                summary: "Q*(N) = 1 / √2 / 1.87874 / 2.37367 for N=2..5, the EP read on the single-excitation block; the " +
+                         "handover Q_h = 1 / √2 / 1.87854 / 2.37217 is the second event, and it is Q_h that " +
+                         "inspect --root horizon bisects on Symphony.Clock.Omega at J=1. The three " +
+                         "decimals √2 / 1.879 / 2.372 that docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md tabulates are the " +
+                         "HANDOVER's, computed by that note's own script from this same Liouvillian under the labels β ↔ J; " +
+                         "at N=5 the EP would print 2.374. Live: inspect --root horizon.");
+            yield return new InspectableNode("what the Hückel matrix supplies (exact)",
+                summary: "the single-excitation block of H in the site basis IS the Hückel matrix at α=0, β=J, entry for entry: " +
+                         "(J/2)(X_lX_{l+1} + Y_lY_{l+1}) = J(σ⁺σ⁻ + h.c.), so restricting this number-conserving chain to the " +
+                         "one-excitation sector leaves the tridiagonal hopping matrix, and CoherenceHorizonWitness.HuckelResidual " +
+                         "is exactly 0.0 at N=2..6 and at couplings that are not dyadic. That is the whole of the inheritance and " +
+                         "it is a statement about the HAMILTONIAN, and about the XY chain rather than spin chains in general: the " +
+                         "ZZ term puts weight on the single-excitation diagonal where the Hückel matrix carries none, which is the " +
+                         "control. Both thresholds are readings of the DEPHASING side, and a STATIC Frost or Hückel spectrum has " +
+                         "no term for it, so it carries no threshold for the ladder to agree with. The narrower statement this " +
+                         "repair actually rests on: no independent chemistry computation was ever on the other side of that " +
+                         "comparison. Whether a threshold read off the Hückel side's OWN dephasing extension agrees is untested " +
+                         "here, not non-existent.");
             yield return new InspectableNode("the EP base (N=2)",
-                summary: "Q*(2) = 1 is the exceptional point itself (γ=J), the base rung the carbon polyene layer (N≥3) " +
-                         "cannot reach (a polyene needs ≥3 sites); the quantum side supplies it.");
+                summary: "Q*(2) = 1 is the exceptional point itself (γ=J), where the ±J band mode ceases to be the gap mode.");
             yield return new InspectableNode("the band-edge coincidence (N=2,3)",
                 summary: "Q*(N) = 2cos(π/(N+1)) at N=2,3 ONLY: 1 = 2cos60°, √2 = 2cos45°. A low-N accident, departing at " +
                          "N≥4 (Q*(4)=1.8787 ≠ φ=1.618); this is why the √2 looked exact at N=3 (the clean 2×2) and the rest is transcendental.");
@@ -167,24 +192,27 @@ public sealed class CoherenceHorizonClaim : Claim
                          "range ladder dispersion λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π; the nearest-neighbour telegrapher truncation " +
                          "gives the wrong √2/π; canonical Q*(4)=1.87874, Q*(5)=2.37367). Verifiers coherence_horizon_se_block.py + " +
                          "coherence_horizon_slope.py (self-validating); proof PROOF_COHERENCE_HORIZON_SLOPE.md.");
-            yield return new InspectableNode("the benzene ring instance + the V-Effect seam (ring-specific)",
-                summary: "the ring carbon case (2026-06-13, verifier simulations/carbon/benzene_two_clocks.py). " +
-                         "Benzene C₆'s own coherence horizon (Uhr 2, the single-excitation {0,2}-EP via the same " +
-                         "Haken-Strobl reduction) is Q* = 1.609, transcendental like N≥4 and below every open polyene " +
-                         "(the closed ring, beating at the full 2|β| band edge, holds coherence to a lower Q). But " +
-                         "benzene (even N) is where the 2-excitation V-Effect seam opens: the mode that " +
+            yield return new InspectableNode("the N=6 ring + the V-Effect seam (ring-specific)",
+                summary: "the N=6 XX+YY ring with all-site dephasing (2026-06-13, verifier simulations/carbon/benzene_two_clocks.py). " +
+                         "Its coherence horizon (Uhr 2, the single-excitation {0,2}-EP via the same " +
+                         "Haken-Strobl reduction) is Q* = 1.609, transcendental like N≥4 and below the open N=6 chain's 2.889: the closed " +
+                         "ring beats at the full 2J band edge and so holds its coherence to a lower Q. On the even-N ring the " +
+                         "2-excitation V-Effect seam opens: the mode that " +
                          "overtakes the band-edge beat in the FULL 4^6 Liouvillian is a DOUBLE-excitation coherence " +
-                         "(filling sector (2,2)/(4,4)), so the full-L handover (~1.95) SPLITS from the clean SE-EP Uhr 2 " +
+                         "(filling sector (2,2)/(4,4)), so the full-L handover Q_h = 2.0000000 (the (2,2)-sector root solve on the " +
+                         "darkness=1 criterion, simulations/ring_handover_qh.py; 2 is this ring's value and not a law, the " +
+                         "same solve giving 2.35038584 at N=8 and 2.83519426 at N=10 against the derived slope √3/(2π)) " +
+                         "SPLITS from the clean SE-EP Uhr 2 " +
                          "(1.609). For the open chains the Absorption Theorem co-locates the two at Re = −2γ (that IS the " +
-                         "ladder); benzene breaks it. The split is RING-SPECIFIC: the open even-N chain N=6 overtaker " +
+                         "ladder); the closed ring does not. The split is RING-SPECIFIC: the open even-N chain N=6 overtaker " +
                          "spreads across all fillings at its own SE-EP, so the double-excitation seam is a feature of the " +
-                         "closed ring's interior 2-excitation doublet, not even N alone. Aromaticity (Hückel 4n+2) " +
-                         "is NOT the discriminant (tested C4/C8 in simulations/carbon/aromatic_ring_v_effect.py): the " +
+                         "closed ring's interior 2-excitation doublet, not even N alone. The 4n+2 / 4n labels " +
+                         "do not discriminate across the N=4 and N=8 ring scans (simulations/carbon/aromatic_ring_v_effect.py): the " +
                          "seam is RING-UNIVERSAL, the off-centre (2,2)/(N−2,N−2) doublet (not half-filling; the " +
                          "sector gate in PROOF_RING_HANDOVER_SLOPE.md), a sibling of the " +
-                         "incompleteness V-Effect (docs/HIERARCHY_OF_INCOMPLETENESS.md). The 4n anti-aromatics C4 and C8 " +
-                         "do NOT group (C4 is a small-ring anomaly, its seam dominates even at weak dephasing). Carbon " +
-                         "doc: FROST_CIRCLE_AS_THE_CLOCK_FACE.md.");
+                         "incompleteness V-Effect (docs/HIERARCHY_OF_INCOMPLETENESS.md). The N=4 and N=8 rings " +
+                         "do NOT group (N=4 is a small-ring anomaly, its seam dominates even at weak dephasing). Hückel-side " +
+                         "companion: FROST_CIRCLE_AS_THE_CLOCK_FACE.md.");
             yield return Horizon;   // typed parent edge
             yield return BandEdge;  // typed parent edge
         }

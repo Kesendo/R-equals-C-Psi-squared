@@ -214,10 +214,9 @@ form 2√(J²−γ²) exact.
 ([`ClockHandLadderWitness.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs)).
 **Typed claim:** `ClockHandLadderClaim`
 ([`ClockHandLadderClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/ClockHandLadderClaim.cs)).
-**Carbon-layer twin:** [The Frost Circle Is the Face of the Clock](carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md).
+**Hückel-side companion:** [The Frost Circle Is the Face of the Clock](carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md).
 
-**Coherence horizon Q*(N) (our label for the ladder the carbon coherent↔incoherent threshold
-climbs; which of its two events the carbon digits carry is settled below).**
+**Coherence horizon Q*(N).**
 Sweeping Q downward, the slowest mode of the SINGLE-EXCITATION block coalesces, its two
 eigenvectors falling into one, at per-N values (closed form at N=2,3; transcendental at N≥4):
 
@@ -228,16 +227,23 @@ SMALLER Q, so the downward sweep reaches it a little later: the handover
 Q_h = 1 / √2 / 1.87854 / 2.37217, which is the same pair's floor crossing. The two events are ONE
 at N=2,3 and separate from N=4; the paragraphs below are about that separation.
 
-The ladder is verified to the three decimals the carbon Frost-Hückel coherent↔incoherent threshold carries
-(√2 / 1.879 / 2.372 at N=3/4/5) under the label swap J ↔ |β|, Z-dephasing ↔ Holstein
-phonon. Those three decimals are its script's HANDOVER digits: at N=4 the two events round alike
-(Q_h = 1.87854, Q* = 1.87874), at N=5 they do not (2.372 is Q_h = 2.37217; the EP rounds to 2.374),
-so what is verified is the ladder to three decimals, not a bit-for-bit equality.
+[The Frost Circle Is the Face of the Clock](carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md) tabulates
+√2 / 1.879 / 2.372 at N=3/4/5. Those are the HANDOVER's digits, and that note's own script computed
+them from this same XY/Z-dephasing Liouvillian under the labels β ↔ J: at N=4 the two events round
+alike (Q_h = 1.87854, Q* = 1.87874), at N=5 they do not (2.372 is Q_h = 2.37217; the EP rounds to
+2.374).
 
-Same ladder, two labels: the dimensionful unit (β or J) is the carrier carrying no
-information, the dimensionless Q*(N) is the shared mountain. N=2 (Q*=1) is the exceptional
-point itself, the base rung the polyene layer (N≥3) cannot reach; the quantum side supplies
-it. Q*(N) equals the band edge 2cos(π/(N+1)) at N=2 and N=3 ONLY (1 = 2cos60°, √2 = 2cos45°),
+What the Hückel side supplies is the HAMILTONIAN, and it supplies it exactly. Jordan-Wigner sends
+(J/2)Σ(X_lX_{l+1} + Y_lY_{l+1}) onto the tridiagonal hopping matrix, so the single-excitation block of
+H IS the Hückel matrix at α = 0, β = J, entry for entry: residual 0.0 at N=2..6, with the Heisenberg
+chain rejected as the control (`CoherenceHorizonWitness.HuckelResidual`, `inspect --root horizon`).
+The inheritance ends there. Both Q*(N) and Q_h(N) are readings of the DEPHASING side, and a Frost or
+Hückel construction is a STATIC spectrum with no γ, no bath and no time in it, so it holds no
+threshold for this ladder to agree with. The narrower statement this rests on, and the load-bearing one:
+no independent chemistry computation was ever on the other side of that comparison, which had our own
+numbers on both. Whether a threshold read off the Hückel side's own dephasing extension agrees is
+untested here, not non-existent. N=2 (Q*=1) is the exceptional
+point itself. Q*(N) equals the band edge 2cos(π/(N+1)) at N=2 and N=3 ONLY (1 = 2cos60°, √2 = 2cos45°),
 a low-N accident departing at N≥4 (Q*=1.8787 ≠ φ); that is why the √2 looked exact at N=3 and
 "the rest awaited a clean form". **Mechanism and closed form, both resolved 2026-06-13.**
 The mechanism (phase rigidity, after
@@ -277,7 +283,7 @@ Liouvillian's clock is a SECOND event, the handover Q_h (below). So Q*(N) is, at
 The closed form (Approach A, `simulations/coherence_horizon_se_block.py`): **Q*(N) reduces from 4^N
 to N².** The coalescing mode lives in the single-excitation sector, so Q*(N) is the exceptional
 point of the single-excitation (Haken-Strobl) Liouvillian, the N-site dephased tight-binding chain
-ρ⁽¹⁾ (validated bit-for-bit as a sub-spectrum of the full L). At N=2,3 the coalescing pair are the
+ρ⁽¹⁾ (the SAME block: max|L_se − L_(1,1)| = 0.0, entry for entry, while no eigenvalue of the two dense spectra agrees bit for bit, nearest distance 9.2e-15 at N=4). At N=2,3 the coalescing pair are the
 roots of **λ² + 4γλ + c·J² = 0 with c constant** (sum = −4γ and product = c·J² are γ-independent
 identities; c=4 at N=2, c=2 at N=3), so **Q*(N) = 2/√c → 1, √2 exactly**. That is the structural
 form of the 2cos(π/(N+1)) low-N accident: not only the value, the whole clean-2×2 picture exists
@@ -321,9 +327,10 @@ Tier1-standard, reviewed 2026-07-19): the (2,2) slow mode obeys the SE coherence
 Qq = √3, the **darkness-1 sibling** of the SE coherence horizon (the same dispersion's EP at Qq = 2 →
 Q* = N/π); Q_h/Q* = √3/2 asymptotically. (The earlier "c_eff ≈ 12 flat, ~0.29N" was the finite-N Q_h/N,
 refuted as a constant, c_eff climbs toward 4π²/3 = 13.16.) So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
-SE-EP are mechanistically distinct and their values merely CROSS near N≈10 (benzene's 2.0-vs-1.609
-split is a small-N feature; N=6 ≈ exactly 2 is a hexagon coincidence).
-**Verified:** N=2..5 vs carbon (`simulations/carbon_quantum_same_mountain.py`); the {0,2}-coherence
+SE-EP are mechanistically distinct and their values merely CROSS near N≈10 (the N=6 ring's 2.0-vs-1.609
+split is a small-N feature; N=6 = exactly 2 is a hexagon coincidence).
+**Verified:** the ladder N=2..5 and which of the two events its three decimals belong to
+(`simulations/handover_vs_ep_digits.py`); the {0,2}-coherence
 EP at all N via phase rigidity (2026-06-13); the single-excitation reduction, the N=2,3 closed forms
 and the N≥4 transcendental verdict (`simulations/coherence_horizon_se_block.py`, self-validating
 N=2..8).
