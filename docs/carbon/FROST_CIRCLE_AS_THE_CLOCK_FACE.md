@@ -63,23 +63,30 @@ frequencies or lifetimes.
 | five-site chain | 5 | `2 cos(π/6) = √3` |
 | C₆-shaped chain | 6 | `2 cos(π/7)` |
 
-## Selected-model Q* values
+## Selected-model handover values
 
 Within the selected XY/Z-dephasing model, `Q = J/γ`. The band-edge coherence is
-γ-protected in the F2b clock regime; `Q*` marks a change in which selected
-Liouvillian mode is slowest, when a non-oscillating relaxation overtakes the
-band-edge coherence. It is not a Q assigned to carbon.
+γ-protected in the F2b clock regime; the value below marks a change in which
+selected Liouvillian mode is slowest, when a non-oscillating relaxation overtakes
+the band-edge coherence. That event is the HANDOVER `Q_h`, and it is what the
+cited script bisects. It is not a Q assigned to carbon.
 
-| Selected open XY chain N | Q* |
-|--------------------------|----|
-| 3 | 1.414 (`√2` to the reported precision) |
-| 4 | 1.879 |
-| 5 | 2.374 |
+| Selected open XY chain N | `Q_h` (what the script computes) | single-excitation EP `Q*` |
+|--------------------------|----------------------------------|---------------------------|
+| 3 | 1.414 (`√2` to the reported precision) | `√2`, the same value |
+| 4 | 1.879 (1.87854) | 1.87874 |
+| 5 | 2.372 (2.37217) | 2.37367 |
+
+The two coincide at N=2,3, where the coalescing pair is a clean 2×2, and separate
+from N=4; three decimals hide the separation at N=4 and show it at N=5. The
+framework side of this ladder is the [coherence horizon entry](../ANALYTICAL_FORMULAS.md)
+of the F-formula registry.
 
 The selected C₆-ring single-excitation erasure point is `Q* = 1.609`
 ([`benzene_two_clocks.py`](../../simulations/carbon/benzene_two_clocks.py)).
-The separate selected full-Liouvillian handover is near `Q ≈ 1.95`, where a
-double-excitation coherence overtakes the band-edge mode. These are distinct
+The separate selected full-Liouvillian handover sits at `Q_h = 2.0000000`, where a
+two-excitation coherence, the `(2,2)/(N−2,N−2)` doublet, reaches the floor and the
+band-edge mode takes over (bisected over all joint-popcount sectors to 8e-10). These are distinct
 selected-model values, not material crossovers or physical carbon Q values.
 
 The dense C₆ full-Liouvillian calculation in
@@ -94,8 +101,8 @@ C₆ handover or the general clock law.
 | Frost circle, radius `2\|β\|` | static Hückel spectrum | Tier 2 structural comparison |
 | selected open XY band edge | `ω_mem = 2J cos(π/(N+1))` | Tier 1, F2b model result |
 | selected all-site Z jump | dephasing floor `2γ`, lifetime `1/(2γ)` | Tier 1 model algebra |
-| selected open-chain crossover | listed Q* ladder | Tier 2 selected-model result |
-| selected C₆ ring | single-excitation `1.609`; full-L handover `≈1.95` | selected-model readings |
+| selected open-chain crossover | listed `Q_h` ladder (EP `Q*` beside it) | Tier 2 selected-model result |
+| selected C₆ ring | single-excitation `1.609`; full-L handover `2.0000000` | selected-model readings |
 | `β → J` | conditional Hückel/framework translation | Tier 2; material convention unassigned |
 
 ## Material-facing question

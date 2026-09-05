@@ -310,7 +310,8 @@ DARKNESS −Re λ/(2γ) against √(Q*−Q) at fixed γ: c_d = 1.0293 / 0.9139 /
 halves of that definition are load-bearing: read the split in λ instead of the darkness, or against a
 swept γ instead of a swept J, and the coefficient is a different one; and this c_d is not the c of
 λ²+4γλ+c·J² above. It gives 0.000197 / 0.001499 / 0.005004 against the measured gaps
-0.000197 / 0.001496 / 0.004972, the leading-order error growing 0.04% / 0.22% / 0.65% with N.
+0.000197 / 0.001496 / 0.004972, the leading-order error growing 0.04% / 0.23% / 0.66% / 1.3% /
+2.2% at N=4..8 (`inspect --root horizon`, the excess-light node, which carries the series).
 **Ring:** the survivor is the 2-EXCITATION doublet (2,2)/(N−2,N−2) (particle-hole partners, isospectral;
 full-Liouvillian-verified at N=6, NOT half-filling, correcting an earlier label), and the handover is a
 frozen LEVEL CROSSING (|Im| ≈ 1e-15, a different sector than the SE-EP), growing linearly with

@@ -13,10 +13,10 @@ The two share the floor Re = -2g (both <n_diff> = 1, Absorption-Theorem-pinned) 
 the coalescer's coherence share exceeds 1/2 and it sits below the floor, so for the open chains the full-L
 crossover is the HANDOVER Q_h (1, sqrt2, 1.87854, 2.37217), below the SE-EP (1, sqrt2, 1.87874, 2.37367) by
 the trace dressing ((2w2-1)/c)^2; the three-decimal ladder 1.879 / 2.372 is Q_h's.
-Benzene, being even-N HALF-FILLED, sits on F2b's open "double-excitation V-Effect seam (co-located at
-even N)": the full 4^6 Liouvillian's slowest mode below the beat is a DOUBLE-EXCITATION mode (filling
-sector (2,2)/(4,4)), so the full-L handover (~1.95) does NOT coincide with the clean SE-EP Uhr 2
-(1.609). That split is benzene's concrete probe of the open seam.
+Benzene sits on F2b's "double-excitation V-Effect seam" through its 2-excitation (2,2)/(4,4)
+doublet, not through half filling: the full 4^6 Liouvillian's slowest mode below the beat is a DOUBLE-EXCITATION mode (filling
+sector (2,2)/(4,4)), so the full-L handover (2.0000000, bisected over the joint-popcount sectors)
+does NOT coincide with the clean SE-EP Uhr 2 (1.609). That split is benzene's concrete probe of the open seam.
 
 Model note (carbon = XY, free fermions). H is XY only, no ZZ: the physically correct Hueckel
 pi-hopping model. The seam mode (sector (2,2)/(4,4)) is a frozen DRESSED magnon-admixture - its
@@ -166,7 +166,7 @@ def _assert_benzene_uhr2():
 
 # ---- 4. The V-Effect seam: benzene's full-L handover is a DOUBLE-excitation mode, != Uhr 2 ----
 def _assert_benzene_v_effect():
-    # below the beat (Q=1.6 < the ~1.95 handover) the full-L slowest mode is FROZEN and lives in the
+    # below the beat (Q=1.6 < the handover 2.0000000) the full-L slowest mode is FROZEN and lives in the
     # double-excitation filling sectors (2,2)/(4,4), NOT the single-excitation (1,1) of Uhr 2.
     g = 1.0 / 1.6
     w, sectors = slowest_full(6, 1.0, g, ring=True, vectors=True)
@@ -176,14 +176,16 @@ def _assert_benzene_v_effect():
     assert (1, 1) not in sectors, "the overtaking mode must NOT be the single-excitation Uhr 2"
     print(f"[4] benzene V-Effect seam: below the beat the slowest mode is DOUBLE-excitation "
           f"{sectors} (frozen),")
-    print("    != the single-excitation Uhr 2. So the full-L handover (~1.95) splits from the clean")
-    print("    SE-EP Uhr 2 (1.609): benzene (even-N, half-filled) sits on F2b's open V-Effect seam.")
+    print("    != the single-excitation Uhr 2. So the full-L handover (2.0000000) splits from the")
+    print("    clean SE-EP Uhr 2 (1.609): benzene sits on F2b's V-Effect seam through its (2,2)/(4,4)")
+    print("    doublet.")
 
 
 # ---- 5. The split is RING-SPECIFIC: the open even-N chain does NOT show the clean double-excitation
 #         seam. Its overtaker spreads across fillings (single-excitation included), and its full-L
-#         handover sits at its SE-EP (co-located), so the V-Effect is a feature of the closed ring at
-#         half-filling (the C=0.5 boundary; aromaticity is NOT the discriminant, see
+#         handover sits just below its SE-EP (2.884 against 2.889, the trace dressing, not a second
+#         sector), so the V-Effect is a feature of the closed ring's 2-excitation doublet
+#         (the C=0.5 boundary; aromaticity is NOT the discriminant, see
 #         aromatic_ring_v_effect.py), not of even N alone. ----
 def _assert_v_effect_is_ring_specific():
     g = 1.0 / 2.4   # open chain N=6, below its handover (2.884; its SE-EP at 2.889)
@@ -194,7 +196,8 @@ def _assert_v_effect_is_ring_specific():
     assert dbl < 0.6, f"chain overtaker should NOT be the clean double-excitation seam (got {sectors})"
     print(f"[5] ring-specific: open chain N=6 overtaker spreads across fillings {sectors};")
     print("    single-excitation present, double-excitation not dominant, UNLIKE benzene's pure (2,2)/(4,4).")
-    print("    The V-Effect double-excitation seam is a feature of the closed ring at half-filling (C=0.5), not even N alone.")
+    print("    The V-Effect two-excitation seam is a feature of the closed ring's (2,2)/(N-2,N-2)")
+    print("    doublet, not of half filling and not of even N alone.")
 
 
 if __name__ == "__main__":
