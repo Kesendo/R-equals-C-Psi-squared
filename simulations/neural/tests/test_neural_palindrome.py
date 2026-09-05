@@ -33,3 +33,9 @@ def test_fixed_seat_is_rejected_by_scalar_residual_but_not_old_fit():
 def test_pairing_error_preserves_multiplicity():
     values = np.array([-0.5 + 0j, -0.25 + 0j, -0.25 + 0j])
     assert spectral_pairing_error(values, s=0.375) > 0.2
+
+
+def test_pairing_error_keeps_imaginary_parts():
+    values = np.array([-0.5 + 1j, -0.25 - 2j])
+    # Both assigned differences are exactly -1j; real parts alone would pair.
+    assert spectral_pairing_error(values, s=0.375) == 1.0
