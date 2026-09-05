@@ -16,7 +16,7 @@ public static class HandoverFloorClaimRegistration
         {
             var survival = b.Get<AbsorptionTheoremClaim>();                  // -2g<n_XY> (the survivor rate)
             var floor = b.Get<F50WeightOneDegeneracyPi2Inheritance>();       // the F50 off-diagonal floor =1
-            var chainSolution = b.Get<CoherenceHorizonClaim>();             // the chain handover = Q*(N)
+            var chainSolution = b.Get<CoherenceHorizonClaim>();             // the chain handover = the horizon's floor crossing (= Q*(N) at N=2,3 only)
             return new HandoverFloorClaim(survival, floor, chainSolution);
         });
 }

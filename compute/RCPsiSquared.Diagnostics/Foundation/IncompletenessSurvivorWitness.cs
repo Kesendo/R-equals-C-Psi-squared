@@ -34,9 +34,10 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     private const double Qh = 0.5;          // H = qh*(XX+YY) reproduces the carbon J=1
     private const double KernelTol = 1e-7;
 
-    /// <summary>The canonical coherence-horizon ladder Q*(N) (F2b corollary / <see cref="CoherenceHorizonClaim"/>),
-    /// indexed by N: the chain handover co-locates with this. One shared source for the handover node and the
-    /// <c>HandoverFloorClaim</c> battery, instead of two literal copies of 1.87874 / 2.88925.</summary>
+    /// <summary>The canonical coherence-horizon EP ladder Q*(N) (F2b corollary / <see cref="CoherenceHorizonClaim"/>),
+    /// indexed by N: the chain handover sits AT this at N=2,3 and just below it from N=4 (the trace dressing,
+    /// <c>CoherenceHorizonWitness</c>). One shared source for the handover node and the <c>HandoverFloorClaim</c>
+    /// battery, instead of two literal copies of 1.87874 / 2.88925.</summary>
     public static readonly double[] CoherenceHorizonQStar = { 0, 0, 1.0, 1.41421, 1.87874, 2.37367, 2.88925 };
 
     // HandoverQ is pure in (N, topology) (gamma-independent by construction, J fixed via Qh), so memoize it:
@@ -112,9 +113,10 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     /// off-diagonal floor ⟨n_XY⟩ = 1 (the (0,1) band edge, Re = −2γ exactly), so the band edge takes
     /// over. Below it the dressed interior mode is darker (the incomplete survives); above it the F50
     /// floor wins. A closed, F50-grounded condition; spectral, γ-independent (depends only on Q=J/γ).
-    /// Bisects <see cref="Interior22NXy"/> = 1; NaN if no crossing in [lo,hi]. (CHAIN handover = the
-    /// coherence horizon Q*(N) by filling-degeneracy; RING = a distinct (2,2) level crossing that grows
-    /// ~linearly. Verifier: simulations/carbon/handover_q.py.)</summary>
+    /// Bisects <see cref="Interior22NXy"/> = 1; NaN if no crossing in [lo,hi]. (CHAIN handover = the coherence
+    /// horizon's floor crossing by filling-degeneracy: the EP Q*(N) at N=2,3, below it from N=4 by the floor
+    /// strain ((2w2−1)/c)²; RING = a distinct (2,2) level crossing that grows ~linearly. Verifier:
+    /// simulations/carbon/handover_q.py.)</summary>
     public static double HandoverQ(int n, TopologyKind topology, double lo = 0.5, double hi = 12.0, double tol = 1e-4)
     {
         if (n < 4) return double.NaN;   // (2,2) is interior only for N≥4
@@ -189,19 +191,20 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
             children: kids);
     }
 
-    /// <summary>The handover Q across topologies: the chain handover IS the coherence horizon Q*(N)
-    /// (filling-degeneracy), the ring is a distinct (2,2) free-fermion level crossing that GROWS
-    /// ~linearly (not saturating). N-independent of the witness's own N (shows the ladder).</summary>
+    /// <summary>The handover Q across topologies: the chain handover is the coherence horizon's floor crossing
+    /// (filling-degeneracy), equal to the EP Q*(N) at N=2,3 and below it from N=4 by the trace dressing; the ring
+    /// is a distinct (2,2) free-fermion level crossing that GROWS ~linearly (not saturating). N-independent of
+    /// the witness's own N (shows the ladder).</summary>
     private InspectableNode TheHandoverNode()
     {
         var kids = new List<IInspectable>();
         foreach (int n in new[] { 4, 5, 6 })
         {
             double qh = HandoverQ(n, TopologyKind.Chain);
-            kids.Add(new InspectableNode($"chain N={n} (= Q*(N))",
-                summary: $"handover Q={qh.ToString("0.0000", Inv)} = the coherence horizon Q*({n})=" +
+            kids.Add(new InspectableNode($"chain N={n} (below the EP Q*(N) by the trace dressing)",
+                summary: $"handover Q={qh.ToString("0.0000", Inv)} vs the EP Q*({n})=" +
                          $"{CoherenceHorizonQStar[n].ToString("0.0000", Inv)} (filling-degenerate; gap {(CoherenceHorizonQStar[n] - qh).ToString("+0.0000;-0.0000", Inv)} " +
-                         "= the trace dressing, exact only at the clean-2x2 N=2,3 - a coalescence/EP)"));
+                         "= ((2w2-1)/c)^2, the trace dressing: zero only at the clean-2x2 N=2,3 where the EP sits on the floor)"));
         }
         foreach (int n in new[] { 6, 8 })
         {
@@ -214,8 +217,8 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         return new InspectableNode("the handover Q (the incomplete meets the F50 floor)",
             summary: "the diagonal (p,p) survivor brightens with Q until ⟨n_XY⟩ reaches the F50 OFF-diagonal floor =1 " +
                      "(the (0,1) band edge / Uhr 1, Re=-2γ exactly), where the band edge takes over: a closed, F50-grounded " +
-                     "condition (spectral, depends only on Q=J/γ). CHAIN: filling-degenerate, so the handover IS the " +
-                     "coherence horizon Q*(N) (a coalescence/EP). RING: a distinct 2-excitation (2,2)/(N-2,N-2) doublet (NOT " +
+                     "condition (spectral, depends only on Q=J/γ). CHAIN: filling-degenerate, so the handover is the " +
+                     "coherence horizon's floor crossing: the EP Q*(N) at N=2,3, below it from N=4 by the trace dressing. RING: a distinct 2-excitation (2,2)/(N-2,N-2) doublet (NOT " +
                      "half-filling) free-fermion LEVEL CROSSING, asymptotic slope sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, " +
                      "reviewed 2026-07-19; the darkness-1 sibling of Q*, ratio sqrt3/2; the earlier ~0.29N/c_eff~12 was finite-N Q_h/N, " +
                      "refuted, c_eff climbs toward 4pi^2/3=13.16); NOT " +

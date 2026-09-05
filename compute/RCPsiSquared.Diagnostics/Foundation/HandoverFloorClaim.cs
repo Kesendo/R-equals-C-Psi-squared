@@ -18,11 +18,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// exactly; parent <see cref="F50WeightOneDegeneracyPi2Inheritance"/>). That meeting is the handover.
 /// Spectral (state-independent), depends only on Q = J/γ.</para>
 ///
-/// <para><b>THE CHAIN SOLUTION = the coherence horizon Q*(N).</b> The open XY chain is filling-
-/// degenerate (free-fermion/OBC), so the crossing is the single-excitation {0,2}-coherence point =
-/// Q*(N) (parent <see cref="CoherenceHorizonClaim"/>), a coalescence/EP. It coincides with Q*(N)
-/// exactly only at the clean-2×2 N=2,3 (a tangency) and sits just below it by the trace dressing
-/// O((tr−1)²) at N≥4 (gap 0.0002/0.0015/0.0050 at N=4/5/6).</para>
+/// <para><b>THE CHAIN SOLUTION = the coherence horizon's floor crossing.</b> The open XY chain is filling-
+/// degenerate (free-fermion/OBC), so the crossing is where the single-excitation {0,2}-coherence pair of
+/// <see cref="CoherenceHorizonClaim"/> meets the floor. It coincides with the EP Q*(N) exactly at N=2,3,
+/// where the pair is a clean 2×2 and the EP itself sits on the floor (coherence share w2 = ½, Absorption
+/// Theorem), and sits below it from N=4 by ((2w2−1)/c)² to leading order (the excess light: the EP is below
+/// the floor by 2γ(2w2−1), the pair splits into two real branches below Q*, the darker one reaches the floor
+/// at Q_h): 1.97e-4 / 1.50e-3 / 4.97e-3 at N=4/5/6 (live: inspect --root horizon, the excess-light node).</para>
 ///
 /// <para><b>THE RING SOLUTION = a distinct 2-excitation level crossing; slope √3/(2π) DERIVED.</b>
 /// The wrap bond breaks filling-degeneracy; the survivor is the 2-EXCITATION doublet (2,2)/(N−2,N−2)
@@ -46,7 +48,8 @@ public sealed class HandoverFloorClaim : Claim
     /// <summary>Typed parent: the F50 off-diagonal floor (Re = −2γ, ⟨n_XY⟩ = 1) the survivor rises to.</summary>
     public F50WeightOneDegeneracyPi2Inheritance Floor { get; }
 
-    /// <summary>Typed parent: the chain solution - the handover IS the coherence horizon Q*(N).</summary>
+    /// <summary>Typed parent: the chain solution - the handover is the coherence horizon's floor crossing (= Q*(N)
+    /// at N=2,3, below it from N=4 by the trace dressing).</summary>
     public CoherenceHorizonClaim ChainSolution { get; }
 
     public readonly record struct BatteryCase(string Name, string Detail, string Expected, string Actual)
@@ -68,8 +71,9 @@ public sealed class HandoverFloorClaim : Claim
         : base("The handover Q (where the incompleteness survivor stops winning and the band edge takes over) has a CLOSED, " +
                "F50-grounded condition: the diagonal (p,p) survivor decays at -2g<n_XY> (Absorption Theorem, <n_XY><1, the " +
                "incomplete out-survives) and brightens with Q until <n_XY> reaches the F50 off-diagonal floor =1 (the (0,1) band " +
-               "edge, Re=-2g exactly). CHAIN: filling-degenerate, so the handover IS the coherence horizon Q*(N) (a coalescence/EP; " +
-               "= Q* exactly at the clean-2x2 N=2,3, just below by trace dressing O((tr-1)^2) at N>=4). RING: a DISTINCT " +
+               "edge, Re=-2g exactly). CHAIN: filling-degenerate, so the handover is where the coherence horizon's {0,2} pair meets the floor: " +
+               "= the EP Q*(N) exactly at the clean-2x2 N=2,3 (the EP sits on the floor, w2 = 1/2), below it from N>=4 by " +
+               "((2w2-1)/c)^2, the trace dressing (1.97e-4 / 1.50e-3 / 4.97e-3 at N=4/5/6). RING: a DISTINCT " +
                "2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling) free-fermion LEVEL CROSSING, asymptotic slope " +
                "sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the darkness-1 sibling of Q*, ratio sqrt3/2; " +
                "the earlier ~0.29N/c_eff~12 was the finite-N Q_h/N, refuted, c_eff climbs toward 4pi^2/3=13.16); " +
@@ -91,11 +95,12 @@ public sealed class HandoverFloorClaim : Claim
     private static string Fmt(double v) => v.ToString("0.####", CultureInfo.InvariantCulture);
 
     public override string DisplayName =>
-        "The handover Q = the F50-floor condition: chain = Q*(N), ring = a distinct (2,2) level crossing (Tier1Candidate)";
+        "The handover Q = the F50-floor condition: chain = the coherence horizon's floor crossing (= Q*(N) at N=2,3 only), ring = a distinct (2,2) level crossing (Tier1Candidate)";
 
     public override string Summary =>
-        "the handover (the incompleteness survivor's darkness rises to the F50 floor <n_XY>=1) is closed: the CHAIN handover IS " +
-        "the coherence horizon Q*(N), the RING is a distinct 2-excitation (2,2) doublet level crossing, asymptotic slope " +
+        "the handover (the incompleteness survivor's light rises to the F50 floor <n_XY>=1) is closed: the CHAIN handover is " +
+        "where the coherence horizon's {0,2} pair meets the floor (= the EP Q*(N) at N=2,3, below it from N=4 by the trace " +
+        "dressing ((2w2-1)/c)^2, the square of the EP's excess light over the split coefficient), the RING is a distinct 2-excitation (2,2) doublet level crossing, asymptotic slope " +
         "sqrt3/(2pi)~0.276 derived (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the earlier ~0.29N was finite-N Q_h/N); " +
         $"the same band-edge floor governs the XXZ Delta-axis too (cross-axis universal): the CHAIN Delta*(N) descends to " +
         $"the SU(2) point Delta=1, the RING Delta*(N) HUMPS (peak ~1.31-1.33 near N=9-10, then descends; limit open) - one " +
@@ -110,9 +115,10 @@ public sealed class HandoverFloorClaim : Claim
                 summary: "the diagonal (p,p) survivor decays at -2g<n_XY> (Absorption Theorem, a_0) with fractional <n_XY><1, " +
                          "out-surviving the bare band edge; the handover is where it brightens to the F50 OFF-diagonal floor " +
                          "<n_XY>=1 (the (0,1) band edge, Re=-2g). Closed, spectral, depends only on Q=J/g.");
-            yield return new InspectableNode("chain = Q*(N) (a coalescence/EP)",
-                summary: "the open XY chain is filling-degenerate, so the handover is the single-excitation {0,2}-coherence point " +
-                         "= the coherence horizon Q*(N); = Q* exactly only at the clean-2x2 N=2,3, just below by trace dressing at N>=4.");
+            yield return new InspectableNode("chain = the coherence horizon's floor crossing (= Q*(N) at N=2,3 only)",
+                summary: "the open XY chain is filling-degenerate, so the handover is where the single-excitation {0,2} pair meets " +
+                         "the floor Re=-2g: = the EP Q*(N) exactly at the clean-2x2 N=2,3 (the EP sits on the floor, w2 = 1/2), " +
+                         "below it from N>=4 by ((2w2-1)/c)^2, the trace dressing.");
             yield return new InspectableNode("ring = a distinct (2,2) level crossing, growing",
                 summary: "the wrap bond breaks filling-degeneracy; the 2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling; a " +
                          "free-fermion dephasing mode) hands over by a frozen level crossing, asymptotic slope sqrt3/(2pi)~0.276 " +
@@ -165,12 +171,17 @@ public sealed class HandoverFloorClaim : Claim
         cases.Add(new BatteryCase("the F50 floor: the (0,1) band edge <n_XY> = 1 (Re=-2g)",
             $"N=6, Q=2: (0,1) band-edge <n_XY> = {Fmt(floor)}", "1", Math.Abs(floor - 1.0) < 1e-6 ? "1" : Fmt(floor)));
 
-        // 2. CHAIN = Q*(N): the chain handover reproduces the coherence horizon Q*(4) (shared ladder).
+        // 2. CHAIN below Q*(4) by the trace dressing: the (2,2) handover (bisected at 1e-4 in Q) agrees with the
+        //    SE-block handover Q_h(4) within that tolerance, and the EP Q*(4) sits above the SE-block Q_h by 1.97e-4
+        //    (above the (2,2) reading by 1.56e-4), more than the tolerance. (This case once read "= Q*(4)" at
+        //    |diff| < 0.01, fifty times the N=4 gap it was hiding.)
         double qStar4 = IncompletenessSurvivorWitness.CoherenceHorizonQStar[4];
         double qhChain4 = IncompletenessSurvivorWitness.HandoverQ(4, TopologyKind.Chain);
-        cases.Add(new BatteryCase("chain handover = the coherence horizon Q*(4)",
-            $"HandoverQ(4, chain) = {Fmt(qhChain4)} vs Q*(4) = {Fmt(qStar4)}", "= Q*(4)",
-            Math.Abs(qhChain4 - qStar4) < 0.01 ? "= Q*(4)" : Fmt(qhChain4)));
+        double qhSe4 = new CoherenceHorizonWitness().HandoverQ(4);
+        bool case2 = Math.Abs(qhChain4 - qhSe4) <= 1e-4 && qStar4 - qhSe4 > 1e-4;
+        cases.Add(new BatteryCase("chain handover = the floor crossing Q_h(4), below the EP Q*(4)",
+            $"HandoverQ(4, chain) = {Fmt(qhChain4)} vs SE-block Q_h(4) = {Fmt(qhSe4)} (tol 1e-4), Q*(4) = {Fmt(qStar4)}",
+            "= Q_h(4), < Q*(4)", case2 ? "= Q_h(4), < Q*(4)" : Fmt(qhChain4)));
 
         // 3. CHAIN below Q* by the trace dressing (N=6): 0 < Q*(6) - handover < 0.02.
         double qhChain6 = IncompletenessSurvivorWitness.HandoverQ(6, TopologyKind.Chain);

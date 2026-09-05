@@ -93,17 +93,29 @@ public class SmokeTests
     {
         Assert.Equal(1.0, Formulas.Qstar(2), 4);
         Assert.Equal(Math.Sqrt(2), Formulas.Qstar(3), 4);
-        Assert.Equal(1.8787, Formulas.Qstar(4), 4);
-        Assert.Equal(2.3737, Formulas.Qstar(5), 4);
+        Assert.True(Formulas.Qstar(4) == 1.878738, "Q*(4) table row is not the census value");
+        Assert.True(Formulas.Qstar(5) == 2.373671, "Q*(5) table row is not the census value");
         // N=6..8: the exact SE-EP (coherence_horizon_se_block.py qstar_se), NOT the 2N/pi asymptote.
         Assert.Equal(2.889253, Formulas.Qstar(6), 4);
         Assert.Equal(3.419782, Formulas.Qstar(7), 4);
         Assert.Equal(3.961618, Formulas.Qstar(8), 4);
-        // the finite-N EP sits strictly BELOW the asymptote it approaches (the bug returned the asymptote):
-        for (int n = 4; n <= 8; n++)
+        // N=9..24: the consecutive SE-EP census (qstar_se, 2026-09-05), pinned EXACTLY: the table IS the
+        // number, so a digit tolerance here would only hide a mistyped row. Prior scattered values
+        // (N=9, 11, 13, 16, 20, 24) all reproduced to six digits by the same run.
+        double[] census = { 4.512298, 5.070085, 5.633710, 6.202221, 6.774887, 7.351131, 7.930495, 8.512605,
+                            9.097154, 9.683887, 10.272587, 10.863071, 11.455180, 12.048780, 12.643749, 13.239985 };
+        for (int n = 9; n <= 24; n++)
+            Assert.True(Formulas.Qstar(n) == census[n - 9], $"Q*({n}) table row is not the census value");
+        // the finite-N EP sits strictly BELOW the asymptote it approaches (the bug returned the asymptote),
+        // and the residual 2N/pi - Q* GROWS with N (1.13 at N=8 -> 2.04 at N=24), so the asymptote is a
+        // ceiling, not an approximation that improves within the table:
+        for (int n = 4; n <= 24; n++)
             Assert.True(Formulas.Qstar(n) < 2.0 * n / Math.PI, $"Q*({n}) must be below the 2N/pi asymptote");
-        // monotone increasing across the exact->asymptote splice at N=8->9 (used by any horizon sweep):
-        for (int n = 2; n <= 8; n++)
+        for (int n = 8; n < 24; n++)
+            Assert.True(2.0 * n / Math.PI - Formulas.Qstar(n) < 2.0 * (n + 1) / Math.PI - Formulas.Qstar(n + 1),
+                $"the residual 2N/pi - Q* stopped growing at N={n}");
+        // monotone increasing across the exact->asymptote splice at N=24->25 (used by any horizon sweep):
+        for (int n = 2; n <= 24; n++)
             Assert.True(Formulas.Qstar(n) < Formulas.Qstar(n + 1), $"Q*(N) not monotone at N={n}");
     }
 

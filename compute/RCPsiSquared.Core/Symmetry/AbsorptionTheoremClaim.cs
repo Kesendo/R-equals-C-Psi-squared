@@ -20,10 +20,11 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   {0, −2γ₀, −4γ₀, ..., −2N·γ₀}. Mixing across weight sectors USUALLY moves a
 ///   mode off the grid, to a non-integer ⟨n_XY⟩ between the rungs (F33's 4/3 and
 ///   5/3 at N=3), but it need not: a mixture whose light content AVERAGES to an
-///   integer lands exactly on a rung. The {0,2}-coherence is the standing example,
+///   integer lands exactly on a rung. The {0,2}-coherence at N=2,3 is the standing example,
 ///   n_diff histogram {0: ½, 2: ½} and ⟨n_diff⟩ = 1, sitting on the −2γ₀ rung
 ///   beside the pure distance-1 modes (see CoherenceHorizonClaim and
-///   PROOF_CHAIN_GAP_DOMINANCE); LEffMirrorAxisClaim carries the same shape one
+///   PROOF_CHAIN_GAP_DOMINANCE; from N=4 the same mode's split tilts toward 2 and it
+///   leaves the rung by its excess light 2w2 − 1); LEffMirrorAxisClaim carries the same shape one
 ///   rung up at ⟨n_XY⟩ = 2. So the occupants of a rung are not all of pure weight,
 ///   and sitting ON the grid is not a weight certificate. The maximum rate 2γ₀·N is attained within
 ///   the number-conserving XY/Heisenberg family, not for a generic

@@ -126,6 +126,18 @@ public sealed class EpCharacterWitness : IInspectable
         if (n < MinN || n > MaxN)
             throw new ArgumentOutOfRangeException(nameof(n), $"the SE coherence horizon needs N in {MinN}..{MaxN}; got {n}");
         if (_qstarCache.TryGetValue(n, out var q)) return q;
+        q = BisectEpQ(n);
+        _qstarCache[n] = q;
+        return q;
+    }
+
+    /// <summary>The bisection behind <see cref="Qstar"/>, for any N ≥ 2 (an N²-dim eigenproblem): the largest
+    /// g (smallest Q) at which the slowest non-zero SE mode stops oscillating. On THIS spectrum, which holds no
+    /// (0,1) band-edge survivor at −2γ, that criterion lands on the EP itself; on the full Liouvillian the same
+    /// criterion lands on the handover Q_h, where the split pair's darker real branch reaches the floor (equal
+    /// to the EP at N=2,3 only; see <see cref="CoherenceHorizonWitness"/>).</summary>
+    public static double BisectEpQ(int n)
+    {
         double lo = 0.02, hi = 6.0;
         for (int it = 0; it < 70; it++)
         {
@@ -137,9 +149,7 @@ public sealed class EpCharacterWitness : IInspectable
             double bandIm = nz.Where(e => Math.Abs(e.Real - gap) < 1e-7).Max(e => Math.Abs(e.Imaginary));
             if (bandIm > 1e-7) lo = m; else hi = m;   // still oscillating ⟹ need more g (lower Q)
         }
-        q = J / (0.5 * (lo + hi));
-        _qstarCache[n] = q;
-        return q;
+        return J / (0.5 * (lo + hi));
     }
 
     /// <summary>The slowest non-zero oscillating conjugate pair about to freeze on the SE block at

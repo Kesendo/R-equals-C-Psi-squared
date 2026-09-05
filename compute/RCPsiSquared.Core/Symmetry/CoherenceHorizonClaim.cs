@@ -29,12 +29,20 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>What is VERIFIED N=2..5: the ladder Q*(N) and its carbon identity, the band-edge
 /// coincidence Q*(N) = 2cos(π/(N+1)) at N=2,3 only, and (corrected 2026-06-13, phase-rigidity
 /// review) the freezing mechanism. The mode that COALESCES at Q*(N) is the {0,2}-coherence
-/// (population / antisymmetric-coherence block, n_diff histogram {0: ½, 2: ½}, ⟨n_diff⟩ = 1) at
-/// ALL N=2..5, a genuine square-root EP (phase rigidity r → 0, Im ∝ √(Q−Q*)); there is NO sector
-/// bifurcation at N=4. The band edge 2cos(π/(N+1)) is the co-located SURVIVOR (the |vac⟩⟨ψ_k|
-/// coherence hand, Uhr 1, γ-protected, r ≈ 1) sharing the gap Re = −2γ only because the Absorption
-/// Theorem pins both (both ⟨n_diff⟩ = 1). So Q*(N) is at once a {0,2}-coherence EP (the erasure
-/// point, which climbs the ladder) and a band-edge crossing (Uhr 1 survives). The closed form
+/// (population / antisymmetric-coherence block: all of its weight on n_diff ∈ {0, 2}) at ALL N=2..5, a
+/// genuine square-root EP (phase rigidity r → 0, Im ∝ √(Q−Q*)); there is NO sector bifurcation at N=4.
+/// Its weights are ½/½ (⟨n_diff⟩ = 1, the floor Re = −2γ) at N=2,3 ONLY, where the pair is a clean 2×2;
+/// from N=4 its coherence share w2 exceeds ½ (0.5072 / 0.5177 at N=4/5) and, by the Absorption Theorem
+/// Re λ = −2γ⟨n_diff⟩ = −4γ·w2, the coalescer sits BELOW the floor by 2γ(2w2−1) at every Q ≥ Q*. The band
+/// edge 2cos(π/(N+1)) is the co-located SURVIVOR (the |vac⟩⟨ψ_k| coherence hand, Uhr 1, γ-protected,
+/// r ≈ 1, ⟨n_diff⟩ = 1 exactly); the two share the floor at N=2,3 only, and exactly there for a reason: at an
+/// EP the pair's light is its Jordan plane's mean light (the trace-midpoint 2×2 of PROOF_F86B_UNIVERSAL_SHAPE),
+/// and a plane of one population direction (light 0) and one coherence direction (light 2) has mean 1.
+/// Consequence: the takeover of the FULL Liouvillian's clock is a second event, the handover Q_h where the
+/// split pair's darker real branch reaches the floor (an exact crossing between blocks of opposite (−1)^{n_XY}
+/// parity, never avoided), Q_h = Q* − ((2w2−1)/c)² to leading order (1.87854 / 2.37217 at N=4/5 against the
+/// EP's 1.87874 / 2.37367; equal at N=2,3), live at inspect --root horizon. So Q*(N) is at once a
+/// {0,2}-coherence EP (the erasure point, which climbs the ladder) and a band-edge crossing (Uhr 1 survives). The closed form
 /// (resolved 2026-06-13, single-excitation reduction): Q*(N) reduces 4^N → N² (the coalescing mode
 /// is single-excitation, so Q*(N) is the EP of the Haken-Strobl Liouvillian); at N=2,3 the pair are
 /// roots of λ²+4γλ+c·J²=0 (c=4, 2), giving Q* = 2/√c = 1, √2 exactly; at N≥4 the pair is collectively
@@ -78,12 +86,14 @@ public sealed class CoherenceHorizonClaim : Claim
     public CoherenceHorizonClaim(
         ClockHandLadderClaim horizon,
         F2bXyChainSpectrumPi2Inheritance bandEdge)
-        : base("The coherence horizon Q*(N) = 1 / √2 / 1.8787 / 2.3737 for N=2..5, verified equal to the carbon " +
-               "Frost-Hückel coherent↔incoherent threshold (√2 / 1.879 / 2.372 at N=3/4/5) under the label swap " +
+        : base("The coherence horizon Q*(N) = 1 / √2 / 1.87874 / 2.37367 for N=2..5 (the single-excitation EP); the " +
+               "full Liouvillian's clock is handed over at Q_h = 1 / √2 / 1.87854 / 2.37217, equal to the EP at N=2,3 " +
+               "and below it from N=4 by the trace dressing ((2w2−1)/c)², and it is Q_h's three decimals the carbon " +
+               "Frost-Hückel coherent↔incoherent threshold's script computes (√2 / 1.879 / 2.372 at N=3/4/5) under the label swap " +
                "J ↔ |β| (the cross-substrate identity); N=2 (Q*=1) is the exceptional point, the base rung the " +
                "carbon polyene layer (N≥3) cannot reach. The mode that coalesces at Q*(N) is the {0,2}-coherence " +
-               "at ALL N=2..5, a genuine √-EP; the band edge is the co-located γ-protected survivor (no bifurcation " +
-               "at N=4). Closed form (2026-06-13): Q*(N) reduces to the single-excitation (Haken-Strobl) Liouvillian; " +
+               "at ALL N=2..5, a genuine √-EP, on the floor Re = −2γ (weights ½/½) at N=2,3 only and below it from N=4; " +
+               "the band edge is the co-located γ-protected survivor (no bifurcation at N=4). Closed form (2026-06-13): Q*(N) reduces to the single-excitation (Haken-Strobl) Liouvillian; " +
                "N=2,3 the pair are roots of λ²+4γλ+c·J²=0 (c=4,2) so Q*=2/√c=1,√2 exactly; N≥4 collectively dressed, " +
                "the exact condition transcendental; the asymptotic slope is DERIVED = 2/π " +
                "(PROOF_COHERENCE_HORIZON_SLOPE: the resummed coherence-ladder dispersion λ²+8γλ+4J²q², EP at Q*=2/q_min → 2N/π).",
@@ -100,8 +110,9 @@ public sealed class CoherenceHorizonClaim : Claim
     public override string DisplayName => "The coherence horizon Q*(N): the carbon coherent↔incoherent threshold made exact";
 
     public override string Summary =>
-        $"Q*(N) = 1/√2/1.8787/2.3737 (N=2..5) = the carbon Frost-Hückel coherent↔incoherent threshold under J ↔ |β|; " +
-        $"N=2 (Q*=1) is the EP base; the {{0,2}}-coherence coalesces (√-EP) at every N. Closed form (2026-06-13): Q*(N) is " +
+        $"Q*(N) = 1/√2/1.87874/2.37367 (N=2..5), the EP; the clock's takeover is the handover Q_h = 1/√2/1.87854/2.37217 " +
+        $"(= Q* at N=2,3, below it from N=4 by the trace dressing), whose three decimals the carbon Frost-Hückel threshold's script computes under J ↔ |β|; " +
+        $"N=2 (Q*=1) is the EP base; the {{0,2}}-coherence coalesces (√-EP) at every N, on the floor at N=2,3 only. Closed form (2026-06-13): Q*(N) is " +
         $"the single-excitation (Haken-Strobl) EP, λ²+4γλ+c·J²=0 at N=2,3 (Q*=2/√c=1,√2), transcendental N≥4; " +
         $"asymptotic slope 2/π (derived) ({Tier.Label()})";
 
@@ -123,8 +134,8 @@ public sealed class CoherenceHorizonClaim : Claim
             yield return new InspectableNode("the EP mechanism: the {0,2}-coherence coalesces at every N",
                 summary: "corrected 2026-06-13 (phase-rigidity review, superseding an earlier \"sector bifurcation at N=4\" " +
                          "reading that was an argmax-Re / Im-tracking artifact). The mode that coalesces at Q*(N) is the " +
-                         "{0,2}-coherence (population/antisymmetric block, n_diff histogram {0: ½, 2: ½}, ⟨n_diff⟩=1) at ALL " +
-                         "N=2..5, a genuine square-root EP. CONFIRMED ARTIFACT-FREE (gate-first on known defective + diabolic " +
+                         "{0,2}-coherence (population/antisymmetric block, all weight on n_diff ∈ {0,2}; the split ½/½ and " +
+                         "⟨n_diff⟩=1 at N=2,3 only, w2 = 0.5072/0.5177 at N=4/5) at ALL N=2..5, a genuine square-root EP. CONFIRMED ARTIFACT-FREE (gate-first on known defective + diabolic " +
                          "toys, diabolic control at γ=0): the coalescing pair has departure-from-normality ≈ 4 as the split→0, " +
                          "geometric mult 1 < algebraic mult 2, Schur off-diagonal = the departure (the Jordan coupling), and the " +
                          "two eigenvectors merge (|cos|→1). The eig-phase-rigidity r → 0 (the older read; r at Q* ≈ 0.0/0.015/0.026 " +
@@ -132,8 +143,10 @@ public sealed class CoherenceHorizonClaim : Claim
                          "and is the F86a-misfire-prone family, so it CORROBORATES the EP here but is not load-bearing; the " +
                          "defective-Jordan measure above is. Im ∝ √(Q−Q*). NO bifurcation at N=4. The band edge 2cos(π/(N+1)) " +
                          "(Im = φ at N=4, √3 at N=5) is the " +
-                         "co-located SURVIVOR, the γ-protected |vac⟩⟨ψ_k| coherence hand (Uhr 1, r ≈ 1), sharing the gap " +
-                         "Re = −2γ only because the Absorption Theorem pins both (both ⟨n_diff⟩=1). So Q*(N) is at once a " +
+                         "co-located SURVIVOR, the γ-protected |vac⟩⟨ψ_k| coherence hand (Uhr 1, r ≈ 1, ⟨n_diff⟩=1 exactly), " +
+                         "sharing the floor Re = −2γ with the coalescer at N=2,3 only: by the Absorption Theorem Re λ = −2γ⟨n_diff⟩, " +
+                         "and from N=4 the coalescer's ⟨n_diff⟩ = 2w2 > 1 puts it below the floor; the clock's takeover is then the " +
+                         "handover Q_h = Q* − ((2w2−1)/c)², a second event (inspect --root horizon). So Q*(N) is at once a " +
                          "{0,2}-coherence EP (the erasure point, climbs the ladder) and a band-edge crossing (Uhr 1 survives). " +
                          "Probe: simulations/coherence_horizon_se_block.py + simulations/review_coherence_horizon_ep.py. " +
                          "Live artifact-free witness (the non-eig sibling of PhaseRigidity, gate-first): " +

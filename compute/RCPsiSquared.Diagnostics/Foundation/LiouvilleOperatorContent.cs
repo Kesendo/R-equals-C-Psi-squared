@@ -8,8 +8,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <summary>Operator content of a Liouville-space vector. Reshape vec[a·d+b] → ρ[a,b] (the
 /// <c>PauliDephasingDissipator.BuildZ</c> convention <see cref="Symphony"/> and
 /// <c>ChainSystem.BuildLiouvillian</c> use), then bucket its weight by n_diff = popcount(a⊕b).
-/// Histogram {0:½, 2:½} marks a population/antisymmetric coherence (the freezing block of the
-/// coherence horizon); {1:1} marks a |vac⟩⟨ψ_k| band coherence (the γ-protected survivor).</summary>
+/// Weight on n_diff ∈ {0, 2} only marks a population/antisymmetric coherence (the freezing block of the
+/// coherence horizon; its split is ½/½ exactly where the mode sits on the floor Re = −2γ, i.e. N=2,3 for the
+/// coalescer, and tilts toward 2 from N=4); {1:1} marks a |vac⟩⟨ψ_k| band coherence (the γ-protected
+/// survivor). Mean n_diff = Re λ/(−2γ) for every eigenvector (the Absorption Theorem).</summary>
 public static class LiouvilleOperatorContent
 {
     /// <summary>The n_diff histogram (normalized weight per popcount(a⊕b)) and its mean, for an

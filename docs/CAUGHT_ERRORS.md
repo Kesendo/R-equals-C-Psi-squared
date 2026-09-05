@@ -1857,3 +1857,82 @@ in the script rather than in the instructions, so the documented path runs as do
 
 Nothing in that pass had to be taken on trust: each finding was re-measured here before it was
 applied, which is the standing rule for an outside finding exactly as for an agent's.
+
+## 2026-09-05: the coalescer and the floor, where one letter held two numbers for three months and every instrument that could have told them apart carried a tolerance wider than their distance
+
+The arc `site_resolved_vacuum_block` carried a strain since 2026-08-02: `CoherenceHorizonClaim`
+said the mode that coalesces at Q*(N) is the {0,2}-coherence with histogram {0: ½, 2: ½} at ALL
+N = 2..5, two censuses found no {0,2} mode on the floor at N = 4, 5, and the arc's own diagnosis
+was a Q-mismatch, to be settled by a census at Q* that "nobody has run". Run on the
+single-excitation block at Q*(1 + 10⁻³), it settles in one line the repo already owned: the
+Absorption Theorem, Re λ = −2γ⟨n_diff⟩, makes a (1,1)-block mode sit on the floor iff its coherence
+share w2 is exactly ½, which the clean 2×2 forces at N = 2, 3 and nothing forces from N = 4
+(w2 = 0.5072 / 0.5177 / 0.5293 / 0.5524 at N = 4 / 5 / 6 / 8). The claim was right about the
+support and wrong about the weights, in more copies than one sweep found: the first pass listed
+nine, the first round added five, the second round five more.
+
+**(1) One letter, two numbers, held as one number at two precisions.** The full Liouvillian's
+clock is handed over where its gap mode stops oscillating; the SE block's pair coalesces where the
+same criterion lands on the N²-dim (1,1) block, which holds no (0,1) survivor. The full L holds the (0,1) survivor at exactly
+−2γ, so between the handover and the EP the split pair's darker real branch is the gap and the
+freeze lands on the handover Q_h = 1.87854 / 2.37217 (N = 4 / 5); the SE block has no survivor, so
+the same bisection lands on the EP Q* = 1.87874 / 2.37367. The repo carried both, in
+`CoherenceHorizonWitness` and `EpCharacterWitness`, each pinned by its own test at a precision
+that could not see the other, and read the pair as a coarse and a fine value of one threshold.
+`ANALYTICAL_FORMULAS.md` had the right sentence (the handover "coincides with Q*(N) exactly only at
+the clean-2×2 N = 2, 3 ... sits just below it by the trace dressing", with the three gaps) thirty
+lines below the wrong one ("both ⟨n_diff⟩ = 1"), and `HandoverFloorClaim`'s battery certified
+"chain handover = Q*(4)" at |diff| < 0.01, fifty times the 1.97 × 10⁻⁴ it was hiding, a gap its
+next case (N = 6, in (0, 0.02)) asserts is real. The SE-block instrument's own ladder assert compared the handover digits to the EP at 2 × 10⁻³
+and passed the N = 5 gap of 1.5 × 10⁻³ by 5 × 10⁻⁴.
+
+**(2) A summary sentence contradicted by its own children, masked by a format one digit short.**
+`inspect --root horizon` printed hist {0:0.49, 2:0.51} at N = 4 and {0:0.46, 2:0.54}, mean n_diff
+1.1 at N = 5 directly under a summary saying ½/½ and ⟨n_diff⟩ = 1 at all N. The mean was formatted
+"0.0". And the numbers were not even the coalescer's: the witness read its EP verdict at the
+handover, below the EP, where the pair has split, and the minimum-rigidity pick landed on one of
+the two real arms (the bright one, 1.029 / 1.071, in that day's run; the two arms' rigidities are
+within 10% of each other and the eigensolver decides), twice the EP's excess light. The test's
+window 0.8..1.2 passed it and its comment attributed the drift to "bisection / cluster noise". The
+drift is Re λ.
+
+**(3) The sweep quoted the store and did not search it.** The draft that resolved the strain named
+`experiments/` and `PROOF_COHERENCE_HORIZON_SLOPE.md` in its sweep and reported neither
+`FOLD_AND_CUSP_TWO_SEAMS.md` (the drift −2.029 / −2.071 at N = 4 / 5, "the cusp is not pinned")
+nor the slope proof's cross-check 2(b) (the pair's rate "grows from 4 at N = 2, 3 toward 8"),
+which already held the physics of §1; nor `HandoverFloorClaim`, the typed home of §3's object,
+which lives in the Diagnostics half; nor `PROOF_RING_HANDOVER_SLOPE.md` line 20, which has the
+handover-below-the-EP mechanism in closed form on the ring. Two empty rounds found all four. What
+the draft genuinely added was the Absorption reading (w2 = ½ ⟺ on the floor), the census at
+Q*(1 + δ), the finite-N coefficient c(N) with Q* − Q_h = ((2w2 − 1)/c)² to leading order (within
+0.04% .. 2.2% at N = 4..8, the deficit a negative linear term), c = √(2/Q*) exactly at N = 2, 3
+from the 2×2, and the two-numbers reading of (1).
+
+**(4) A carbon identity pinned at three decimals that belong to the other number.** The
+Frost-Hückel note's 2.372 is Q_h(5) rounded; the EP's 2.37367 prints 2.374. The claim paired
+"Q* = 2.3737" with "carbon 2.372" and called it verified equal; the identity is Q_h = Q_h, the
+same bisection under a label swap.
+
+**(5) What the second round added.** The interpreter: "floor strain" was a word for the arc's
+documentation tension transplanted onto a quantity the repo already calls the trace dressing and
+the drift; it is now the EP's excess light 2w2 − 1, and "freeze" is kept for the pair at the EP
+while Q_h is the handover, the clock's takeover. Two parents the first pass did not cite: the
+"exactly at N = 2, 3" is the trace-midpoint law of `PROOF_F86B_UNIVERSAL_SHAPE.md` (an EP's light is
+its Jordan plane's mean light, and rungs 0 and 2 average to 1), and the handover is an exact
+crossing because (−1)^{n_XY} commutes with L (the Absorption proof), so the (1,1) pair and the (0,1)
+survivor never hybridize; `SecondClockRegimeClaim` said "the two clocks coalesce", which they
+cannot. The auditor: the leading-order percentages had been quoted in the limit δ → 0 beside rows
+printed at δ = 0.001 (a ratio of two cuts, the same day's shape 135), "fifty times" was measured
+against the wrong case, the glossary's formula had been written for both chains where it holds
+for XY alone (the Heisenberg gap threshold sits ABOVE its (1,1) EP), and `HandoverFloorClaim`'s
+own display name still said "= Q*(N)" after three repairs in the same file. One reviewer number I
+first refused and then had to take: a round put the closure residual's norm at 2√3 for every N ≥ 4;
+I computed the spectral norm (2.414 at N = 4, 2.000 at N = 5), called it wrong, and the next round
+showed it is the Frobenius norm, √12 at every N ≥ 4 (two entries of 2, four of 1). It was right in
+its norm, and a refusal that names no norm is the same shape as the claim it refuses. What is
+landed is the max entry, 2. What is landed elsewhere: the reading at the EP from
+above, the identity gated at the eigensolver's own residual rather than a number, the closure
+compared at 0.0, the survivor and trichotomy labels, the knowledge-registry comment, the two
+experiment copies, the glossary's "no proof on file", the instrument's two ladders,
+`Formulas.Qstar` to N = 24. Not landed, in another session's working set that day:
+`ANALYTICAL_FORMULAS.md` :236 / :251 / :263 and the carbon note.

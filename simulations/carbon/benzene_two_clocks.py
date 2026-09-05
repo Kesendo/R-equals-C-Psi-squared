@@ -9,8 +9,10 @@ The carbon-ring instance of docs/ANALYTICAL_FORMULAS.md F2b "The two clocks"
      the coherence hand freezes. Benzene Q* = 1.609 (the ring SE-EP; transcendental, like the chain
      ladder at N>=4, no clean 2x2).
 
-The two share the gap Re = -2g (both <n_diff> = 1, Absorption-Theorem-pinned); for the open chains
-that degeneracy co-locates the full-L crossover with the SE-EP (the ladder 1, sqrt2, 1.879, 2.372).
+The two share the floor Re = -2g (both <n_diff> = 1, Absorption-Theorem-pinned) at N=2,3 only; from N=4
+the coalescer's coherence share exceeds 1/2 and it sits below the floor, so for the open chains the full-L
+crossover is the HANDOVER Q_h (1, sqrt2, 1.87854, 2.37217), below the SE-EP (1, sqrt2, 1.87874, 2.37367) by
+the trace dressing ((2w2-1)/c)^2; the three-decimal ladder 1.879 / 2.372 is Q_h's.
 Benzene, being even-N HALF-FILLED, sits on F2b's open "double-excitation V-Effect seam (co-located at
 even N)": the full 4^6 Liouvillian's slowest mode below the beat is a DOUBLE-EXCITATION mode (filling
 sector (2,2)/(4,4)), so the full-L handover (~1.95) does NOT coincide with the clean SE-EP Uhr 2
@@ -184,7 +186,7 @@ def _assert_benzene_v_effect():
 #         half-filling (the C=0.5 boundary; aromaticity is NOT the discriminant, see
 #         aromatic_ring_v_effect.py), not of even N alone. ----
 def _assert_v_effect_is_ring_specific():
-    g = 1.0 / 2.4   # open chain N=6, below its handover (~2.89 = its SE-EP)
+    g = 1.0 / 2.4   # open chain N=6, below its handover (2.884; its SE-EP at 2.889)
     w, sectors = slowest_full(6, 1.0, g, ring=False, vectors=True)
     single = sum(v for (a, b), v in sectors.items() if (a, b) == (1, 1))
     dbl = sum(v for (a, b), v in sectors.items() if {a, b} <= {2, 4})

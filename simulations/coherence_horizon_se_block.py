@@ -44,16 +44,27 @@ def qstar_se(N, J=1.0, lo=0.02, hi=6.0):
     return J / (0.5 * (lo + hi))
 
 
-# Anchors: the live-witness ladder.
-LADDER = {2: 1.0, 3: np.sqrt(2.0), 4: 1.87850, 5: 2.37220}
+# Anchors, two ladders. EP: the SE-block coalescence (this file's qstar_se; C# EpCharacterWitness.Qstar).
+# HANDOVER: the full-L clock's takeover (C# CoherenceHorizonWitness.Horizon), the Q_h where the split pair's
+# darker real branch reaches the floor Re = -2g: equal to the EP at N=2,3 (the EP sits on the floor, w2 = 1/2)
+# and below it from N=4 by the trace dressing ((2w2-1)/c)^2, the square of the EP's excess light over the
+# split coefficient. The two were once held here as one number at two precisions, under a 2e-3 tolerance
+# that passed the N=5 gap of 1.5e-3 by 5e-4.
+LADDER_EP = {2: 1.0, 3: np.sqrt(2.0), 4: 1.87874, 5: 2.37367}
+LADDER_HANDOVER = {2: 1.0, 3: np.sqrt(2.0), 4: 1.87854, 5: 2.37217}
+LADDER = LADDER_EP
 
 
 def _assert_ladder():
-    for N, q in LADDER.items():
+    for N, q in LADDER_EP.items():
         got = qstar_se(N)
-        assert abs(got - q) < 2e-3, f"SE Q*({N})={got:.5f} != ladder {q:.5f}"
-    print("[Task1] SE builder reproduces the witness ladder:",
-          {N: round(qstar_se(N), 5) for N in LADDER})
+        assert abs(got - q) < 1e-5, f"SE Q*({N})={got:.6f} != EP ladder {q:.5f}"
+    for N in (2, 3):
+        assert abs(LADDER_EP[N] - LADDER_HANDOVER[N]) == 0.0, f"N={N}: EP and handover must coincide exactly"
+    for N in (4, 5):
+        assert LADDER_EP[N] - LADDER_HANDOVER[N] > 1e-4, f"N={N}: the handover must sit resolvably below the EP"
+    print("[Task1] SE builder reproduces the EP ladder (the handover sits below it from N=4):",
+          {N: round(qstar_se(N), 6) for N in LADDER_EP})
 
 
 def _L_full(N, J, g):
@@ -227,13 +238,13 @@ def _assert_closed_forms():
 
 def _report_canonical():
     """N>=4 is transcendental, so the canonical Q*(4)/Q*(5) are the high-precision SE-EP values
-    (they supersede the 1.8785/2.3722 bisection digits). Plus the diffusive asymptotic slope."""
+    (the 1.8785/2.3722 full-L bisection digits are the handover Q_h, a second event, not a coarser Q*). Plus the diffusive asymptotic slope."""
     # N=2,3 exact closed forms validate the bisector's precision
     print(f"[Task5] precision check vs the closed forms: Q*(2)={qstar_se(2):.8f} (exact 1), "
           f"Q*(3)={qstar_se(3):.8f} (exact sqrt2={np.sqrt(2.0):.8f})")
     q4, q5 = qstar_se(4), qstar_se(5)
     print(f"[Task5] canonical (SE-EP, transcendental): Q*(4)={q4:.6f}, Q*(5)={q5:.6f} "
-          f"(supersede the 1.8785/2.3722 grid digits)")
+          f"(the 1.8785/2.3722 grid digits are the handover Q_h, not a coarser Q*)")
     # diffusive asymptotic: Q*(N) ~ a N + b + c/N, fit on N=8..14
     Ns = np.arange(8, 15)
     ys = np.array([qstar_se(int(N)) for N in Ns])

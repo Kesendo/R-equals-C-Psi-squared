@@ -98,15 +98,15 @@ def main():
         assert abs(mx - be) < 1e-5, f"N={N}: max|Im| at −2γ is not the band edge"
         assert res < 1e-10, f"N={N}: the vacuum ladder is not an exact −2γ eigenoperator"
 
-    print("(i) the Q-floor = the Coherence Horizon Q*(N) (band edge is the gap only above it):")
+    print("(i) the Q-floor = the handover Q_h(N), the EP Q*(N) just above it (band edge is the gap only above Q_h):")
     for N in (4, 5):
         qfail, qhold = q_floor_bracket(N)
         qstar = qstar_se(N)
-        print(f"  N={N}: floor in ({qfail}, {qhold}); Coherence Horizon Q*(N) = {qstar:.4f} sits inside "
-              f"-> regime (i) is thread (a)")
-        assert qfail < qstar < qhold, f"N={N}: the gap-dominance floor must equal the Coherence Horizon Q*(N)"
+        print(f"  N={N}: floor in ({qfail}, {qhold}); the EP Q*(N) = {qstar:.4f} sits inside, and so does the "
+              f"handover Q_h just below it (the bracket cannot separate them) -> regime (i) is thread (a)")
+        assert qfail < qstar < qhold, f"N={N}: the gap-dominance floor bracket must hold the EP Q*(N) (and the handover just below it)"
 
-    print("\nOK: (i) the gap-dominance Q-floor = the Coherence Horizon Q*(N) (resolved, thread a). "
+    print("\nOK: (i) the gap-dominance Q-floor = the handover Q_h(N), the EP Q*(N) just above it (resolved, thread a). "
           "(ii) max|Im| at the gap = band edge confirmed N=3,4,5; the general proof (max frequency in the "
           "protected n_XY=1 subspace = E1) is the open remainder -- see the module docstring.")
 

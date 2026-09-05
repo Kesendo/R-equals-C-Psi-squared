@@ -8,7 +8,7 @@ one quantity, `rate_slow(Q)` decomposed by the change-number Δn.
 **Verifier:** [`birth_canal_junction_nature.py`](../simulations/birth_canal_junction_nature.py)
 (self-validating, gate-first).
 **Builds on:** [`VacuumBlockReductionClaim`](../compute/RCPsiSquared.Diagnostics/Foundation/VacuumBlockReductionClaim.cs)
-(the (0,1) reduction), `HandoverFloorClaim` (the junction = Q*(N)),
+(the (0,1) reduction), `HandoverFloorClaim` (the junction = the handover Q_h, = Q*(N) at N=2,3 only),
 [`PROOF_STRUCTURAL_CEILING.md`](proofs/PROOF_STRUCTURAL_CEILING.md) §7 (the star ceiling); the Absorption
 floor is `AbsorptionTheoremClaim`.
 
@@ -59,7 +59,7 @@ change-number **Δn = |p_col − p_row|** (the n_diff parity of `JointPopcountSe
 - **sterile ↔ birth-canal** (`PostEpFlowField.BirthCanalDeviation` / `IsInBirthCanal`,
   `BirthCanalSurfaceWitness`, `inspect --root surface`): reads whether rate_slow(Q) is Q-flat. Sterile
   = Q-independent closed form (frozen, "no creation"); birth canal = Q-modulated.
-- **odd ↔ even junction** (the handover Q*(N); arc `birth_canal_horizon_junction`): reads whether the
+- **odd ↔ even junction** (the handover Q_h, = Q*(N) at N=2,3 and just below it from N=4; arc `birth_canal_horizon_junction`): reads whether the
   Δn=0 interior overtakes the Δn=1 band edge as the survivor.
 
 ## The seam
@@ -70,7 +70,7 @@ distinct mechanisms:
 | mechanism | what changes | example (verifier) |
 |---|---|---|
 | **odd-drift** | the same Δn=1 survivor drifts (non-uniform γ; no Δn switch) | N=5 canal [.25,1.5,1.5,1.5,.25], Deviation 0.085 |
-| **junction** | Δn flips 0→1: the interior overtakes the band edge (= the handover Q*(N)) | N=6 deep-edge, Deviation 0.408, Δn 0→1 |
+| **junction** | Δn flips 0→1: the interior overtakes the band edge (= the handover Q_h, just below Q*(N) from N=4) | N=6 deep-edge, Deviation 0.408, Δn 0→1 |
 
 Sterile = the Δn=1 band edge reigns and is Q-flat (the −2γ floor; e.g. uniform N=5, where the (0,1) band
 edge stays the global slowest across the whole probe window because at uniform γ its rate is Q-invariant,

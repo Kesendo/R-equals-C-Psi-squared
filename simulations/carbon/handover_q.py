@@ -17,12 +17,13 @@ depends only on Q=J/g, NOT on J and g separately).
    dressed interior mode is darker (the incomplete survives). Above: it crosses and the F50 floor
    takes over. So Q_handover := the Q where <n_XY>_interior(Q) = 1. Monotone => a single crossing.
 
-2. THE CHAIN SOLUTION = the coherence horizon Q*(N). The open XY chain is FILLING-DEGENERATE
-   (free-fermion/OBC: every (p,p) block ties; (1,1)-only handover == all-p handover), so the
-   crossing is the single-excitation {0,2}-coherence point = Q*(N) (F2b corollary): a square-root
-   EP / coalescence. It coincides with Q*(N) EXACTLY at the clean-2x2 N=2,3 (a tangency: darkness
-   touches 1 at the EP, no transversal crossing) and sits just BELOW it by the trace dressing
-   O((tr-1)^2) at N>=4. So the chain handover inherits an already-characterized ladder
+2. THE CHAIN SOLUTION = the coherence horizon's floor crossing. The open XY chain is FILLING-
+   DEGENERATE (free-fermion/OBC: every (p,p) block ties; (1,1)-only handover == all-p handover), so
+   the crossing is where the single-excitation {0,2} pair of the coherence horizon Q*(N) (F2b
+   corollary, a square-root EP) meets the floor. It coincides with the EP EXACTLY at the clean-2x2
+   N=2,3, where the EP itself sits on the floor (the pair's light is 1: a tangency, no transversal
+   crossing), and sits just BELOW it by the trace dressing ((2w2-1)/c)^2 at N>=4, the square of the
+   EP's excess light over the split coefficient (2026-09-05, CoherenceHorizonWitness). So the chain handover inherits an already-characterized ladder
    (closed 2/sqrt(c) at N=2,3, transcendental ~0.59N at N>=4).
 
 3. THE RING SOLUTION = a distinct (2,2) free-fermion level crossing, GROWING ~linearly (NOT
@@ -143,9 +144,9 @@ def _assert_condition():
     print("    the interior survivor's <n_XY>(Q) rises MONOTONICALLY through it -> a single handover Q.")
 
 
-# ============================ 2. THE CHAIN SOLUTION = Q*(N) ============================
+# ================= 2. THE CHAIN SOLUTION = the horizon's floor crossing (Q*(N) at N=2,3) =================
 def _assert_chain():
-    print("[2] CHAIN: filling-degenerate => handover = the coherence horizon Q*(N).")
+    print("[2] CHAIN: filling-degenerate => handover = the coherence horizon's floor crossing (= Q*(N) at N=2,3 only).")
     print(f"      {'N':>2} | {'(1,1)-only':>10} {'all-p':>9} {'Q*(N)':>9} | gap below Q* (trace dressing)")
     prev_gap = -1.0
     for N in (4, 5, 6):

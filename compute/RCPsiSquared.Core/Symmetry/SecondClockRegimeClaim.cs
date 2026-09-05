@@ -41,8 +41,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/SecondClockRegimeWitness.cs</c>).</para></summary>
 public sealed class SecondClockRegimeClaim : Claim
 {
-    /// <summary>Parent: the EP regime. On a dispersive band the second clock coalesces with the band edge
-    /// at the finite coherence horizon Q*(N) (a √-EP). Tier1Derived since 2026-07-19.</summary>
+    /// <summary>Parent: the EP regime. On a dispersive band the second clock's pair coalesces at the finite
+    /// coherence horizon Q*(N) (a √-EP), landing on the band edge's floor Re = −2γ at N=2,3 and below it from
+    /// N=4; the two clocks never coalesce with each other (opposite (−1)^{n_XY} parity, they only cross).
+    /// Tier1Derived since 2026-07-19.</summary>
     public CoherenceHorizonClaim Horizon { get; }
 
     /// <summary>Parent: the CEILING regime. On a degenerate band the second clock is the darkest commutant
@@ -93,8 +95,9 @@ public sealed class SecondClockRegimeClaim : Claim
                          "leaf manifold, g2=4/(N−1)). At m=3 it equals 1 exactly (marginal); m≤2 reaches the floor.");
             yield return new InspectableNode("knob 2: dispersion → the low-Q character (EP vs gradual)",
                 summary: "once the second clock reaches the floor, the band's dispersion sets HOW: a dispersive band " +
-                         "(real cosine spectrum: chain, disordered chain, ring, star N=4) makes the two clocks coalesce " +
-                         "at a sharp √-EP coherence horizon Q*(N); a flat/marginal band (star N=5) gives only asymptotic " +
+                         "(real cosine spectrum: chain, disordered chain, ring, star N=4) makes the second clock's pair coalesce " +
+                         "at a sharp √-EP coherence horizon Q*(N) (on the band edge's floor at N=2,3, below it from N=4; the " +
+                         "two clocks themselves only cross, at the handover Q_h); a flat/marginal band (star N=5) gives only asymptotic " +
                          "1−c/Q² protection (no sharp horizon).");
             yield return new InspectableNode("the N=4 anomalies = the (2,2) half-filling sector",
                 summary: "ring-4 (GRADUAL) and complete-4 (CEILING, 2−2/√3) live in the (2,2) two-excitation sector — " +

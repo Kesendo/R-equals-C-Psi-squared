@@ -34,7 +34,7 @@ The question the trichotomy answers: **does the longest-lived survivor reach the
 
 - **chain** (blue) and **ring** (green) climb to the `−2γ` floor (`⟨n_XY⟩ = 1`) and **un-freeze** there:
   the survivor switches from the frozen `(p,p)` interior (●) to the oscillating `(0,1)` band edge (□).
-  The chain crosses at its coherence horizon `Q*(6) ≈ 2.88`; the ring at its handover `Q_h = 2`.
+  The chain crosses at its handover `Q_h(6) = 2.884` (the pair's EP `Q*(6) = 2.889` just above); the ring at its handover `Q_h = 2`.
 - **star** (red) saturates *below* the floor, on the structural ceiling `g₂ = 4/(N−1) = 0.8`, and stays
   frozen at **every** `Q`; its survivor is the `[H,A] = 0` commutant coherence, dark by construction.
 
@@ -56,7 +56,7 @@ TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as 
 │   ├── chain
 │   │   ├── Q=1     (1,1) Δn=0 | UnfreezingSeEp | frozen      | r=0.93 | ⟨n_XY⟩=0.069
 │   │   ├── Q=2     (2,2) Δn=0 | UnfreezingSeEp | frozen      | r=0.70 | ⟨n_XY⟩=0.307   ← r dips toward the EP
-│   │   └── Q=3     (0,1) Δn=1 | UnfreezingSeEp | oscillating | r=1.00 | ⟨n_XY⟩=1       ← un-freezes at Q*(6)≈2.88
+│   │   └── Q=3     (0,1) Δn=1 | UnfreezingSeEp | oscillating | r=1.00 | ⟨n_XY⟩=1       ← the clock handed over at Q_h(6)≈2.884 (the pair's EP at 2.889)
 │   ├── ring
 │   │   ├── Q=1.5   (2,2) Δn=0 | FrozenLevelCrossing | frozen      | r=0.51 | ⟨n_XY⟩=0.632
 │   │   ├── Q=2     (2,2) Δn=0 | FrozenLevelCrossing | frozen      | r=0.50 | ⟨n_XY⟩=1     ← bounded r: a crossing, not an EP
@@ -65,11 +65,11 @@ TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as 
 │       ├── Q=1.5   (1,1) Δn=0 | FrozenCommutant | frozen | r=0.43 | ⟨n_XY⟩=0.425
 │       ├── Q=6     (5,5) Δn=0 | FrozenCommutant | frozen | r=0.91 | ⟨n_XY⟩=0.774
 │       └── Q=50    (1,1) Δn=0 | FrozenCommutant | frozen | r=0.87 | ⟨n_XY⟩=0.8       ← saturates on the ceiling
-├── the threshold ladder over N
-│   ├── N=4   chain Q*=1.879 | ring Q_h=n/a | star g₂=1.333 → UN-FREEZES (g₂>1; the star outlier)
-│   ├── N=5   chain Q*=2.372 | ring Q_h=1.491 | star g₂=1.0   → UN-FREEZES (marginal)
-│   ├── N=6   chain Q*=2.884 | ring Q_h=2.0   | star g₂=0.8   → frozen (g₂<1)
-│   └── N=8   chain Q*=3.940 | ring Q_h=2.35  | star g₂=0.571 → frozen (g₂<1)
+├── the threshold ladder over N   (chain: the handover Q_h, the floor crossing; = the EP Q*(N) at N=2,3 only, below it from N=4 by the trace dressing ((2w2−1)/c)²)
+│   ├── N=4   chain Q_h=1.879 | ring Q_h=n/a | star g₂=1.333 → UN-FREEZES (g₂>1; the star outlier)
+│   ├── N=5   chain Q_h=2.372 | ring Q_h=1.491 | star g₂=1.0   → UN-FREEZES (marginal)
+│   ├── N=6   chain Q_h=2.884 | ring Q_h=2.0   | star g₂=0.8   → frozen (g₂<1)
+│   └── N=8   chain Q_h=3.940 | ring Q_h=2.35  | star g₂=0.571 → frozen (g₂<1)
 ├── the Δn seam (absolute): sterile / odd-drift / junction
 │   ├── uniform N=5     Sterile  | Deviation=−0.000 | Δn 1→1
 │   ├── canal N=5       OddDrift | Deviation=0.085  | Δn 1→1
@@ -108,7 +108,7 @@ sees `r` while that sector is the survivor; pinning shows the whole curve):
 | sector `(m,m)` | chain | ring | star |
 |----------------|-------|------|------|
 | N=4 `(2,2)` | `r → 0` at **Q=1.88**, coincident with the `|Im|` birth, an **EP** at `Q*(4)=1.879` | `r` stays bounded (bottoms `~0.4`), `|Im|` **never born**: the ring's lone frozen case, its `(2,2)` sector sitting on the same commutant ceiling as the complete graph `K₄` (no handover; the ladder's `Q_h=n/a`) | `r` dips but stays bounded, `|Im|` **never born**, frozen |
-| N=6 `(3,3)` | `r → 0` at **Q=2.89**, coincident with the `|Im|` birth, an **EP** at `Q*(6)=2.884` | `r` stays bounded (bottoms `~0.3`), dip and onset at different `Q`, a **level crossing** | `r` dips but stays bounded, no `|Im|` onset, frozen |
+| N=6 `(3,3)` | `r → 0` at **Q=2.89**, coincident with the `|Im|` birth, an **EP** at `Q*(6)=2.889` (the handover `Q_h(6)=2.884` just below) | `r` stays bounded (bottoms `~0.3`), dip and onset at different `Q`, a **level crossing** | `r` dips but stays bounded, no `|Im|` onset, frozen |
 
 (The chain's `r`-at-the-bottom is *not* a fixed number: it is the value of an unbounded `1/√K` evaluated
 wherever the finite `Q`-grid happens to land relative to the singularity, so it swings by orders of

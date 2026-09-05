@@ -571,14 +571,17 @@ public static class KnowledgeRegistryFactory
             // inherited cap.
             .RegisterTopologyBandEdgeClaim()
             // The coherence horizon Q*(N) (Tier1Derived since 2026-07-19, the ring-seam open piece
-            // resolved by the reviewed PROOF_RING_HANDOVER_SLOPE; landed 2026-06-12): Q*(N) = 1/√2/1.8785/2.3722
-            // for N=2..5, the Q below which the slowest non-zero Liouvillian mode stops oscillating
-            // (the coherence hand freezes), verified equal to the carbon Frost-Hückel coherent↔incoherent
-            // threshold under J ↔ |β| (the cross-substrate identity). N=2 (Q*=1) is the EP base the
+            // resolved by the reviewed PROOF_RING_HANDOVER_SLOPE; landed 2026-06-12): the EP Q*(N) = 1/√2/1.87874/2.37367
+            // for N=2..5 (the single-excitation pair coalesces); the Q below which the slowest non-zero mode of the
+            // full Liouvillian stops oscillating (the clock's takeover) is the handover Q_h = 1/√2/1.87854/2.37217,
+            // equal to the EP at N=2,3 only and below it from N=4 by the trace dressing ((2w2−1)/c)²; the carbon
+            // Frost-Hückel coherent↔incoherent threshold under J ↔ |β| (the cross-substrate identity) computes, in
+            // its script, Q_h's three decimals. N=2 (Q*=1) is the EP base the
             // carbon polyene layer cannot reach. The mode that coalesces at Q*(N) is the {0,2}-coherence
             // (population/antisymmetric block) at ALL N=2..5, a genuine √-EP (phase rigidity r→0; corrected
             // 2026-06-13); the band edge 2cos(π/(N+1)) is the co-located γ-protected survivor, not the freezer
-            // (no bifurcation at N=4). Closed form OPEN = the {0,2}-block discriminant. Live: inspect --root
+            // (no bifurcation at N=4; the pair's weights are ½/½ and the EP on the floor at N=2,3 only). Closed form: 1, √2
+            // exactly at N=2,3 (a clean 2×2), transcendental from N=4, slope 2/π derived. Live: inspect --root
             // horizon. Two typed parents,
             // both registered in this chain: ClockHandLadderClaim (the clock's Q-floor made exact,
             // directly above) + F2bXyChainSpectrumPi2Inheritance (the band edge, registered earlier in this chain).

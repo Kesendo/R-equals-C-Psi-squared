@@ -30,21 +30,39 @@ public static class Formulas
         n >= 3 ? 2.0 * j * Math.Cos(Math.PI / (n + 1)) : 2.0 * Math.Sqrt(Math.Max(0.0, j * j - gamma * gamma));
 
     // Coherence horizon Q*(N) (T1): the single-excitation EP (coherence_horizon_se_block.py, qstar_se;
-    // PROOF_COHERENCE_HORIZON_SLOPE). N=2,3 clean closed forms (1, sqrt2); N=4..8 the transcendental
+    // PROOF_COHERENCE_HORIZON_SLOPE). N=2,3 clean closed forms (1, sqrt2); N=4..24 the transcendental
     // SE-EP values, each strictly BELOW the 2N/pi asymptote it approaches from below. Only the slope
-    // 2/pi is the clean N->inf limit, so N>=9 falls back to the asymptote -- a documented approximation
-    // that OVERSHOOTS the true finite-N EP (still ~+29% at N=8), so extend the exact table if a larger
+    // 2/pi is the clean N->inf limit, so N>=25 falls back to the asymptote -- a documented approximation
+    // that OVERSHOOTS the true finite-N EP: the residual 2N/pi - Q* keeps GROWING through N=120
+    // (1.13 at N=8, 2.04 at N=24, 4.03 at N=120 from PROOF_COHERENCE_HORIZON_SLOPE's sparse table), so the relative overshoot shrinks only slowly
+    // (+27% at N=9, +15% at N=24) and never vanishes at any tabulated N. Extend the table if a larger
     // N matters. (The N=6,7,8 exact values landed 2026-07-12 after an empty review caught N>=6 silently
-    // using the asymptote, ~30% high, as if exact.)
+    // using the asymptote, ~30% high, as if exact; N=9..24 landed 2026-09-05 from the consecutive census.)
     public static double Qstar(int n) => n switch
     {
         2 => 1.0,
         3 => Math.Sqrt(2.0),
-        4 => 1.8787,
-        5 => 2.3737,
+        4 => 1.878738,
+        5 => 2.373671,
         6 => 2.889253,
         7 => 3.419782,
         8 => 3.961618,
+        9 => 4.512298,
+        10 => 5.070085,
+        11 => 5.633710,
+        12 => 6.202221,
+        13 => 6.774887,
+        14 => 7.351131,
+        15 => 7.930495,
+        16 => 8.512605,
+        17 => 9.097154,
+        18 => 9.683887,
+        19 => 10.272587,
+        20 => 10.863071,
+        21 => 11.455180,
+        22 => 12.048780,
+        23 => 12.643749,
+        24 => 13.239985,
         _ => 2.0 * n / Math.PI,
     };
 

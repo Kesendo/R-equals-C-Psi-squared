@@ -1634,7 +1634,8 @@ public sealed class SeamMovement : IInspectable
     public double GammaRecovered { get { Ensure(); return _gammaRec; } }
 
     /// <summary>True iff the band edge IS the gap mode at this (N, J, γ): the shared two-sided regime
-    /// flag for both anchors. Below the coherence horizon Q*(N) this is false and neither anchor may be
+    /// flag for both anchors. Below the handover Q_h(N) (= the coherence horizon Q*(N) at N=2,3, just below it
+    /// from N=4; CoherenceHorizonWitness) this is false and neither anchor may be
     /// trusted.</summary>
     public bool Protected { get { Ensure(); return _protected; } }
 
@@ -1709,7 +1710,7 @@ public sealed class SeamMovement : IInspectable
               $"γ₀_rec = gap/2 = {_gammaRec.ToString("0.#####", Inv)} (model γ₀ = {p.Gamma.ToString("0.###", Inv)}, " +
               $"residual {Math.Abs(_gammaRec - p.Gamma).ToString("E2", Inv)}). Operational reading: one external " +
               $"rate R [{p.LabUnit}⁻¹] → γ₀ = R/2. Typed parent AbsorptionTheoremClaim."
-            : $"γ-anchor OUTSIDE the protected regime (Q = {_q.ToString("0.###", Inv)} < Q*(N)): the slowest mode is an " +
+            : $"γ-anchor OUTSIDE the protected regime (Q = {_q.ToString("0.###", Inv)} < Q_h(N), the handover): the slowest mode is an " +
               $"overdamped coherence below the 2γ₀ floor, so gap/2 = {_gammaRec.ToString("0.#####", Inv)} UNDER-recovers " +
               $"γ₀ = {p.Gamma.ToString("0.###", Inv)}. The γ-anchor is NOT regime-free (it shares the horizon with the " +
               "J-anchor). See CoherenceHorizonClaim.";
@@ -1743,7 +1744,7 @@ public sealed class SeamMovement : IInspectable
 
     /// <summary>the gate — the over-determination / domain detector. γ-anchor → γ₀, J-anchor → J,
     /// and the inside-known Q ties them: J_rec/γ₀_rec == Q. Fires when the spectrum leaves the
-    /// (XY, Q ≥ Q*(N)) domain.</summary>
+    /// (XY, Q ≥ Q_h(N), the handover) domain.</summary>
     private InspectableNode GateLens()
     {
         string body;

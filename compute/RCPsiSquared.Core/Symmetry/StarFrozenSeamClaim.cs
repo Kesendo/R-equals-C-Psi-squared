@@ -61,7 +61,8 @@ public sealed class StarFrozenSeamClaim : Claim
     public StarFrozenSeamClaim(StructuralCeilingClaim ceiling, SecondClockRegimeClaim regime)
         : base("On the star the longest-lived coherence never un-freezes: its survivor is frozen (|Im|=0) at " +
                "every Q for N≥5, and that threshold IS the structural ceiling read dynamically. As Q grows the " +
-               "chain un-freezes at the SE-EP coherence horizon Q*(N) and the ring at its handover (the band edge " +
+               "chain's pair un-freezes at its SE-EP coherence horizon Q*(N), its clock handed to the band edge at Q_h just " +
+               "below (= Q* at N=2,3 only), and the ring at its handover (the band edge " +
                "overtakes the frozen (2,2) seam), but the star's survivor is the darkest [H,A]=0 commutant (1,1) " +
                "coherence — it commutes with H, so it cannot oscillate (frozen by construction) — and it is the " +
                "survivor exactly when it undercuts the −2γ floor, i.e. g2=4/(N−1)≤1 (N≥5). N=4 (g2=4/3>1) un-freezes " +

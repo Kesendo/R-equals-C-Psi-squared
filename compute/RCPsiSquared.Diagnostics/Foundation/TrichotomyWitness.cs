@@ -175,7 +175,8 @@ public sealed class TrichotomyWitness : IInspectable
             //   star  → FrozenCommutant: the flat-band hub's survivor IS the [H,A]=0 commutant coherence at
             //           EVERY Q (that is why it is frozen); its rate only approaches the ceiling g2=4/(N−1)
             //           asymptotically, so the mechanism is commutant throughout, not just near the ceiling.
-            //   chain → UnfreezingSeEp: the dispersive-band SE-EP (frozen below Q*, un-freezes above).
+            //   chain → UnfreezingSeEp: the dispersive-band SE-EP, where the (1,1) pair's beat dies at Q*(N); the gap's
+            //   hand is handed to the band edge at Q_h just below it (= Q* at N=2,3 only; CoherenceHorizonWitness).
             //   ring  → FrozenLevelCrossing: the wrap-bond (2,2) level crossing — EXCEPT the N=4 ring (2,2),
             //           which sits ON the K_4/ring-4 commutant ceiling (g2=1) and routes FrozenCommutant,
             //           caught by the relative rate-match to the high-Q commutant asymptote.
@@ -275,14 +276,14 @@ public sealed class TrichotomyWitness : IInspectable
         }
     }
 
-    /// <summary>2. ThresholdLadder — the three thresholds over N: chain Q*(N), ring Q_h→N√3/(2π) (slope √3/(2π)≈0.276 DERIVED, PROOF_RING_HANDOVER_SLOPE), star g2=4/(N−1).
+    /// <summary>2. ThresholdLadder — the three thresholds over N: chain Q_h (the floor crossing, = Q*(N) at N=2,3 only), ring Q_h→N√3/(2π) (slope √3/(2π)≈0.276 DERIVED, PROOF_RING_HANDOVER_SLOPE), star g2=4/(N−1).
     /// N=4 star is the lone (2,2)/K₄ outlier (g2=4/3>1, un-freezes). The per-N rows are LAZY
     /// (<see cref="LadderRows"/> is a <c>yield</c> iterator): the <see cref="IncompletenessSurvivorWitness.HandoverQ"/>
     /// and <see cref="StructuralCeilingWitness.CommutantDarkest"/> compute for each N runs only when this node's
     /// children are enumerated, so a shallow render that stops at this slice header pays nothing.</summary>
     private InspectableNode TheThresholdLadder() => new(
         "the threshold ladder over N",
-        summary: "chain Q*(N) / ring Q_h→N√3/(2π) / star g2=4/(N−1); N=4 star outlier", children: LadderRows());
+        summary: "chain Q_h (the handover, below the EP Q*(N) by the trace dressing from N=4) / ring Q_h→N√3/(2π) / star g2=4/(N−1); N=4 star outlier", children: LadderRows());
 
     /// <summary>The per-N rows of <see cref="TheThresholdLadder"/>, computed lazily: each N's HandoverQ +
     /// CommutantDarkest runs only as the renderer pulls the next row.</summary>
@@ -290,12 +291,12 @@ public sealed class TrichotomyWitness : IInspectable
     {
         for (int n = 4; n <= 8; n++)
         {
-            double chainQStar = IncompletenessSurvivorWitness.HandoverQ(n, TopologyKind.Chain);
+            double chainQh = IncompletenessSurvivorWitness.HandoverQ(n, TopologyKind.Chain);
             double ringQh = IncompletenessSurvivorWitness.HandoverQ(n, TopologyKind.Ring);
             double starCeil = StructuralCeilingWitness.CommutantDarkest("star", n, 1, 1) ?? double.NaN;
             string starVerdict = starCeil <= 1.0 ? "frozen (g2≤1)" : "UN-FREEZES (g2>1; (0,1) edge at √(N−1)·J)";
             yield return new InspectableNode($"N={n}",
-                summary: $"chain Q*={chainQStar.ToString("0.###", Inv)} | ring Q_h={ringQh.ToString("0.###", Inv)} | " +
+                summary: $"chain Q_h={chainQh.ToString("0.###", Inv)} | ring Q_h={ringQh.ToString("0.###", Inv)} | " +
                          $"star g2=4/(N−1)={starCeil.ToString("0.###", Inv)} → {starVerdict}");
         }
     }

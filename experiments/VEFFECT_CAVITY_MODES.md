@@ -218,8 +218,9 @@ On the chain it holds 6N−4 eigenvalues, the extra 2(N−2) being the total-spi
 ladder S⁻P_m, which commutes with H and is built entirely from distance-1
 coherences, so it sits at −2γ for the same reason the blocks do (residual exactly
 0, at γ = 0.05 and γ = 0.9). The full composition of that line, including how a
-mode of MIXED light content can reach it (the repository's {0,2}-coherence, whose
-n_diff histogram {0: ½, 2: ½} averages to 1), belongs to the Absorption Theorem
+mode of MIXED light content can reach it (the repository's {0,2}-coherence at N = 2, 3,
+whose n_diff histogram {0: ½, 2: ½} averages to 1; from N = 4 its split tilts toward 2 and
+it sits below the line by its excess light), belongs to the Absorption Theorem
 and is the `site_resolved_vacuum_block` arc's, not this document's. Both readings
 above are the CHAIN's; the ring at N=4 puts extra oscillating modes on the same
 line.
