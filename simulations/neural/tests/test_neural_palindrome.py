@@ -74,6 +74,27 @@ def test_exact_network_positional_seed_matches_keyword_seed():
     assert positional_s == keyword_s
 
 
+@pytest.mark.parametrize("field,value", [
+    ("n", 0), ("n", -2), ("n", 3), ("n", 10.0), ("n", True),
+    ("tau_e", np.nan), ("tau_e", np.inf), ("tau_e", 0),
+    ("tau_i", np.nan), ("tau_i", -np.inf), ("tau_i", -1),
+    ("alpha", np.nan), ("alpha", np.inf), ("alpha", -np.inf),
+    ("density", np.nan), ("density", -1), ("density", 2),
+    ("seed", 0.5), ("seed", None), ("seed", True),
+])
+def test_exact_network_rejects_invalid_inputs(field, value):
+    with pytest.raises(ValueError, match=field):
+        make_exact_network(**{field: value})
+
+
+def test_complex_transport_distinguishes_reflection_from_conjugated_target():
+    J = np.array([[-0.5, -0.25], [0.25, -0.25]])
+    assert partner_subspace_error(J, [1, 0], s=0.375) < 1e-12
+    # Here the two roots are conjugates about -s. The incorrect target
+    # -conj(mu)-2*s is mu itself, so it would falsely accept identity Q.
+    assert partner_subspace_error(J, [0, 1], s=0.375) > 0.8
+
+
 def test_degenerate_transport_compares_subspaces_not_individual_vectors():
     J = -0.375 * np.eye(4)
     perm = np.array([1, 0, 3, 2])
@@ -113,3 +134,14 @@ def test_translation_cli_runs_all_named_gates():
     assert result.stderr == ""
     assert "(10.0, 200, 167, 45)" in result.stdout
     assert result.stdout.splitlines()[-1] == "ALL NEURAL TRANSLATION GATES PASS"
+
+
+def test_optimized_translation_cli_rejects_bad_scalar_reading():
+    result = subprocess.run(
+        [sys.executable, "-O", "-c",
+         "import neural_translation_gate as gate; "
+         "gate.scalar_center_residual = lambda *args: 1.0; gate.main()"],
+        cwd=NEURAL, capture_output=True, text=True, check=False,
+    )
+    assert result.returncode != 0, result.stdout
+    assert "PASS" not in result.stdout

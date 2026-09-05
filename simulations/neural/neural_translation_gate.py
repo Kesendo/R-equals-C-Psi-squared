@@ -17,24 +17,36 @@ else:
     )
 
 
+def _require(condition, message):
+    """Keep verdict checks active even when Python runs with optimization."""
+    if not condition:
+        raise RuntimeError(message)
+
+
 def main():
     J = np.array([[-0.5, -0.25], [0.25, -0.25]])
     perm = np.array([1, 0])
     values = np.linalg.eigvals(J)
-    assert is_involution(perm)
-    assert scalar_center_residual(J, perm, 0.375) == 0.0
-    assert spectral_pairing_error(values, 0.375) < 1e-13
-    assert np.max(np.abs(values.imag)) > 0.2
+    _require(is_involution(perm), "two-seat permutation must be an involution")
+    _require(scalar_center_residual(J, perm, 0.375) == 0.0,
+             "dyadic scalar-center residual must be zero")
+    _require(spectral_pairing_error(values, 0.375) < 1e-13,
+             "dyadic complex spectrum must pair")
+    _require(np.max(np.abs(values.imag)) > 0.2, "dyadic pair must be nonreal")
     print("PASS exact complex dyadic two-seat gate")
 
     fixed = np.diag([-0.5, -0.25, -0.5])
-    assert fitted_offdiagonal_residual(fixed, [1, 0, 2]) == 0.0
-    assert scalar_center_residual(fixed, [1, 0, 2], 0.375) > 0.2
+    _require(fitted_offdiagonal_residual(fixed, [1, 0, 2]) == 0.0,
+             "fixed-seat fitted off-diagonal residual must be zero")
+    _require(scalar_center_residual(fixed, [1, 0, 2], 0.375) > 0.2,
+             "scalar-center residual must reject the fixed seat")
     print("PASS fixed-seat scalar rejection; fitted off-diagonal residual = 0")
 
-    assert spectral_pairing_error([-0.5, -0.25, -0.25], 0.375) > 0.2
+    _require(spectral_pairing_error([-0.5, -0.25, -0.25], 0.375) > 0.2,
+             "spectral pairing must reject mismatched multiplicity")
     print("PASS multiplicity rejection")
-    assert spectral_pairing_error([-0.5 + 1j, -0.25 - 2j], 0.375) == 1.0
+    _require(spectral_pairing_error([-0.5 + 1j, -0.25 - 2j], 0.375) == 1.0,
+             "spectral pairing must retain imaginary parts")
     print("PASS full-complex negative control")
 
     expected = [
@@ -45,21 +57,21 @@ def main():
     print("Ensemble (alpha, scalar-pass, oscillatory, unstable), 200 seeds per alpha:")
     for row, target in zip(rows, expected):
         print(row)
-        assert row == target, (row, target)
-    assert rows == expected
+        _require(row == target, f"ensemble row {row} differs from {target}")
+    _require(rows == expected, "ensemble census differs from the five expected rows")
 
     J, perm, s = make_exact_network()
     scalar = scalar_center_residual(J, perm, s)
     transport = partner_subspace_error(J, perm, s)
-    assert scalar < 1e-13
-    assert transport < 1e-8
+    _require(scalar < 1e-13, f"exact-network scalar residual too large: {scalar}")
+    _require(transport < 1e-8, f"exact-network transport error too large: {transport}")
     print(f"PASS exact network: scalar residual={scalar:.6e}, transport sine={transport:.6e}")
 
     degenerate = partner_subspace_error(-0.375 * np.eye(4), [1, 0, 3, 2], 0.375)
-    assert degenerate < 1e-12
+    _require(degenerate < 1e-12, f"degenerate transport error too large: {degenerate}")
     print(f"PASS degenerate invariant-subspace transport: sine={degenerate:.6e}")
     wrong = partner_subspace_error(np.diag([-0.5, -0.5, -0.25, -0.25]), [1, 0, 3, 2], 0.375)
-    assert wrong > 0.9
+    _require(wrong > 0.9, f"wrong permutation was not rejected: {wrong}")
     print(f"PASS wrong-permutation transport rejection: sine={wrong:.6e}")
     print("ALL NEURAL TRANSLATION GATES PASS")
 
