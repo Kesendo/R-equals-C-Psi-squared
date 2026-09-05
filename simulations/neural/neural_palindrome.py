@@ -48,9 +48,9 @@ def solve_fixed_point(W, signs, alpha=0.3, drive=4.0, tol=1e-12,
                       a_i=2.0, theta_i=3.7):
     """Return (x, max|x-F(x)|) after synchronous fixed-point convergence.
 
-    Start at x=0.3. Stop only when max|x_next-x| < tol; the returned residual
-    is a fresh evaluation of the equation at x_next. No convergence is assumed
-    for arbitrary coupling: exhausted iterations raise with the last residual.
+    Start at x=0.3. Stop only when max|x_next-x| < tol and the fresh equation
+    residual at x_next is <= tol. No convergence is assumed for arbitrary
+    coupling: exhausted iterations raise with the last fresh equation residual.
     """
     W = np.asarray(W)
     signs = np.asarray(signs)
@@ -76,10 +76,11 @@ def solve_fixed_point(W, signs, alpha=0.3, drive=4.0, tol=1e-12,
     x = np.full(W.shape[0], 0.3)
     for _ in range(max_iter):
         candidate = evaluate(x)
-        last_residual = float(np.max(np.abs(candidate - x)))
+        update_residual = float(np.max(np.abs(candidate - x)))
         x = candidate
-        if last_residual < tol:
-            return x, float(np.max(np.abs(x - evaluate(x))))
+        last_residual = float(np.max(np.abs(x - evaluate(x))))
+        if update_residual < tol and last_residual <= tol:
+            return x, last_residual
     raise RuntimeError(f"fixed point did not converge in {max_iter} iterations; "
                        f"last residual={last_residual:.16g}")
 
