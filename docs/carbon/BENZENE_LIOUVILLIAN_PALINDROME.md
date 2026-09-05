@@ -1,13 +1,14 @@
-# Benzene's Open-System Liouvillian: F1 Palindrome under Vibrational Dephasing
+# Selected C₄/C₆ Ring Liouvillians: F1 Palindrome and Bond-Jump Comparison
 
 **Date:** 2026-05-22
 **Authors:** Tom + Claude
-**Status:** the Holstein result follows from F1 (proven); the Peierls break is
-verified numerically at C₄ and C₆; the Peierls-instability reading is a Tier 2
-structural analogy. The benzene-as-qubit-ring embedding is itself a Tier 4
-candidate (see [README](README.md), "Four embedding conditions").
+**Status:** F1 proves the selected XX+YY + all-site-Z model palindrome; the
+selected bond-jump comparison is numerically evaluated at C₄ and C₆. The
+material-carbon degree of freedom, β-to-J convention, bath channel and rate, and
+therefore material γ, T₂, and Q remain unassigned (see [README](README.md#conditional-c4-and-c6-working-model)
+and [Q audit](../Q_BELONGS_TO_NO_SUBSTANCE.md)).
 **Script:** [`simulations/carbon/benzene_liouvillian_palindrome.py`](../../simulations/carbon/benzene_liouvillian_palindrome.py)
-**Tested:** cyclobutadiene C₄ ring, benzene C₆ ring.
+**Tested:** selected C₄ and C₆ spin rings.
 **Answers:** [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) open
 question 1 / [README](README.md) open question 2.
 
@@ -23,69 +24,67 @@ statement. F1 is the **open-system** claim: the Liouvillian spectrum of an XY-cl
 Hamiltonian under Z-dephasing is closed under λ → −λ − 2Σγ, palindromic about the
 centre −Σγ.
 
-Does benzene's open-system Liouvillian, the π-system plus a vibrational bath,
-satisfy F1?
+Does the selected C₄/C₆ open-system model satisfy F1, and what changes when its
+local jump is replaced by the selected bond jump?
 
-## The model, and the fork in "vibrational dephasing"
+## The selected model and jump comparison
 
-Benzene's six π-electrons hop on the C₆ ring. In the framework's qubit picture the
-Hückel π-hopping is the XX+YY ring (the Jordan-Wigner image of free-fermion
-hopping); the closed-system palindrome of BENZENE_HUCKEL_FRAMEWORK_LENS is its
-many-body spectrum reflected about 0. (A fermionic Hückel ring carries a
-Jordan-Wigner boundary-parity string on its closing bond; this is immaterial here,
-since F1 is proven for any XX+YY spin graph and benzene is modelled as that spin
-ring directly.)
+Choose a site occupation `n_l = (I − Z_l)/2` and the XX+YY ring as a free-hopping
+mathematical model. The Hückel `β → J` relation is a Tier-2 structural translation
+within that selected model, not a material-carbon assignment. F1 applies to the
+selected XX+YY/XY spin graph with all-site local Z-dephasing; it does not identify
+the physical carbon degree of freedom or a molecular bath.
 
-"Vibrational dephasing" is not one thing. A phonon bath couples to the π-system in
-one of two physically distinct ways, and F1's reach depends on which:
+Two deliberately selected jump channels make the scope comparison:
 
-- **Holstein, on-site.** The phonon couples to the local π-density n_l. The
-  dephasing dissipator is D[n_l]. Because D[αA + βI] = α²·D[A] for Hermitian A, and
-  n_l = (I − Z_l)/2, this is D[n_l] = ¼·D[Z_l]: exactly the framework's Z-dephasing,
-  up to a rate factor. F1 is proven for XY-on-any-graph under Z-dephasing, so it
-  must apply.
+- **Local density / Z.** If the selected jump is the local density `n_l`, then
+  `D[n_l] = ¼·D[Z_l]`; equivalently the script evaluates local Z-dephasing. F1
+  applies to this selected channel.
 
-- **Peierls, bond (SSH).** The phonon couples to the C-C bond and modulates the
-  hopping integral β. The jump operator is the bond operator B_b = X_aX_b + Y_aY_b
-  itself, a two-body operator. This is not Z-dephasing; F1 does not cover it.
+- **Bond B.** The selected jump is `B_b = X_aX_b + Y_aY_b`, a two-body operator.
+  This is outside F1's Z-dephasing hypothesis.
+
+These two selected channels are not an exhaustive classification of physical bath
+couplings and do not establish a material Holstein or Peierls bath.
 
 ## Result
 
-The Liouvillian L = −i[H,·] + Σ D[√γ·jump] was built for the C₄ and C₆ rings. For
-the Holstein rows the spectrum is tested against the strict F1 involution
-λ → −λ − 2Σγ about the predicted centre −Σγ; for the Peierls rows, which have no F1
-prediction, against the most generous reflection (about the spectrum mean). The
-residual is the largest distance from a reflected eigenvalue to the nearest actual
-one.
+The selected Liouvillian `L = −i[H,·] + Σ D[√γ·jump]` was built for C₄ and C₆.
+For local-Z rows the spectrum is tested against the strict F1 involution
+λ → −λ − 2Σγ about the predicted centre −Σγ; for bond-B rows, which have no F1
+prediction, it is tested against the most generous reflection (about the spectrum
+mean). The residual is the largest distance from a reflected eigenvalue to the
+nearest actual one.
 
 | Ring | Coupling | Reflection centre | Residual | Palindrome |
 |------|----------|-------------------|----------|------------|
-| C₄ (cyclobutadiene) | Holstein, D[Z_l] | −Σγ = −4 | 3.5 × 10⁻⁸ | holds |
-| C₄ | Peierls, D[B_b] | n/a (no palindrome) | ≈ 11 | broken |
-| C₆ (benzene) | Holstein, D[Z_l] | −Σγ = −6 | 1.2 × 10⁻⁷ | holds |
-| C₆ | Peierls, D[B_b] | n/a (no palindrome) | ≈ 14 | broken |
+| C₄ selected ring | local Z, D[Z_l] | −Σγ = −4 | 3.5 × 10⁻⁸ | holds |
+| C₄ selected ring | bond B, D[B_b] | n/a (no palindrome) | ≈ 11 | broken |
+| C₆ selected ring | local Z, D[Z_l] | −Σγ = −6 | 1.2 × 10⁻⁷ | holds |
+| C₆ selected ring | bond B, D[B_b] | n/a (no palindrome) | ≈ 14 | broken |
 
-Under Holstein coupling the palindrome holds: the residual against the strict F1
-involution sits at the numerical floor of the non-Hermitian eigendecomposition,
-with the centre at the predicted −Σγ exactly (−4 for C₄, −6 for C₆, at γ = 1 per
-site). F1 proves the palindrome exact; this is the first direct F1 confirmation on
-a carbon substrate. Under Peierls coupling the palindrome is not weakened but gone:
+For the selected local-Z channel, the strict-F1 residual is at the numerical floor
+of the non-Hermitian eigendecomposition, with centres −4 and −6 at `γ = 1` per
+site; F1 proves this model palindrome exact. For the selected bond-B channel,
 even the most generous reflection leaves a residual of order the spectral width.
 
-## The answer to Question 2
+## Answer within the selected comparison
 
-**Yes, conditionally.** Benzene's open-system Liouvillian inherits the F1 palindrome
-exactly when its vibrational bath couples on-site (Holstein, to the π-density), and
-not when it couples to the bond (Peierls, to the hopping). On this graph, which is bipartite, the closed-system
-Coulson-Rushbrooke palindrome and the open-system F1 palindrome hold together under,
-and only under, on-site dephasing. They are siblings and not one lifting into the
-other: F1 holds on odd rings too, where Coulson-Rushbrooke fails (see
-[the framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)).
+For the selected XX+YY plus all-site-local-Z model, F1 supplies the exact
+palindrome. For the selected bond-B jump, the listed finite C₄/C₆ simulations do
+not show that F1 symmetry. This compares two chosen jump operators; it neither
+classifies a molecular environment nor says that either channel is exhaustive.
 
-## The structure of the Peierls break
+Coulson-Rushbrooke/K and F1 remain structural siblings on distinct objects:
+Coulson-Rushbrooke and K pair a single-particle Hückel hopping problem, whereas
+F1 pairs a Liouvillian operator space. K is the formal framework partner of the
+Hückel bipartite condition; it fails on odd rings, while F1 remains
+topology-blind within its selected Hamiltonian-and-Z-channel scope. No material
+embedding follows from their shared pairing shape (see [the framework lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)).
 
-The break is not a near-miss; it is a clean, fully characterised break, verified
-on the C₄ and C₆ rings by a γ-scan of the Peierls-coupled Liouvillian.
+## Structure of the selected bond-B break
+
+The selected bond-B jump gives a clear numerical break in its C₄/C₆ γ-scan.
 
 **It is linear in γ.** For small γ the palindrome residual, measured against the
 most generous reflection (the spectrum mean), grows as 4(N+2)·γ: ratio 24.00 at
@@ -101,69 +100,49 @@ the spectrum. No real centre rescues it; the only surviving involution is comple
 conjugation, the conjugate-pairing every Lindbladian spectrum has, not the F1
 mirror. The Lindblad zero mode (the steady state) is intact.
 
-**It is an F87-hard, depolarising-type breaker.** Under the F87 trichotomy the
-Peierls Liouvillian is hard: the spectrum does not close under λ → −λ − 2Σγ at all
-(F1-strict residual 16.5 at C₄, 22.5 at C₆, against the 10⁻⁷ floor of the Holstein
-case). And it breaks the way F1's one known analytic breaker breaks: a
-like-for-like depolarising-noise scan on the same ring is also γ-linear (slope
-1.00, residual (2/3)·Σγ). Peierls bond dephasing and scalar depolarising noise are
-the same kind of F1-breaker, a γ-linear hard break; they differ only in prefactor.
+**It is outside F1's jump premise.** The selected bond-B Liouvillian does not
+close under λ → −λ − 2Σγ (F1-strict residual 16.5 at C₄, 22.5 at C₆, against
+the 10⁻⁷ floor of the selected local-Z case). A like-for-like selected
+depolarising-noise scan on the same ring is also γ-linear (slope 1.00, residual
+(2/3)·Σγ). These are model-channel comparisons, not a statement about a
+material bath.
 
-This says something sharp about the bond operator B = X_aX_b + Y_aY_b. B is a
-truly-class bond bilinear, and the benzene Hamiltonian is built from nothing else
-(H = Σ_b B_b); as a Hamiltonian term B is fully F1-compatible. The same B as a
-dissipator jump operator, D[B], is a hard F1-breaker. The F87 trichotomy classifies
-Hamiltonian terms; an operator's truly-class membership earns it no protection
-when it drives the bath instead. F1's shield is specific: it requires the
-dephasing channel itself to be Z-type. A truly-class Hamiltonian is necessary but
-not sufficient.
-
-## Why the breaking coupling is the Peierls coupling (Tier 2 reading)
-
-The coupling that destroys the F1 palindrome is the Peierls coupling, and the
-Peierls instability is the textbook mechanism by which a conjugated system breaks
-its own bond-length-alternation symmetry (polyacetylene dimerises; the SSH model is
-built on it). Framework palindrome and chemical aromatic symmetry may be losing the
-same thing: a Holstein bath dephases site occupations and leaves the bipartite Z₂
-mirror intact; a Peierls bath dephases bonds and is exactly the symmetry-breaking
-channel. This mirrors BENZENE_HUCKEL_FRAMEWORK_LENS's reading of the non-bipartite
-C₃ ring as a carbon-level F87 Brecher: there the static graph breaks the mirror,
-here the bath does. This is a structural reading, not a proven identity; the
-verified content is the dichotomy in the table above.
+This says something scoped about the selected bond operator
+`B = X_aX_b + Y_aY_b`. It is a truly-class Hamiltonian bilinear in the selected
+`H = Σ_b B_b`, yet `D[B]` is outside F1's Z-dephasing hypothesis. F87 classifies
+Hamiltonian terms; it does not make the same operator an F1-compatible dissipator
+jump. The simulation establishes that model distinction only.
 
 ## Framework-vocabulary translation
 
-| Benzene / chemistry | Framework | Status |
-|---------------------|-----------|--------|
-| Hückel π-hopping on C₆ ring | XX+YY qubit ring, N=6 | Tier 2 structural identification |
-| Holstein phonon (on-site, π-density) | Z-dephasing D[Z_l], via D[n_l] = ¼·D[Z_l] | Tier 1 algebraic match |
-| Peierls/SSH phonon (bond, hopping) | bond-operator dephasing D[B_b] | Tier 2 structural identification |
-| F1 palindrome holds (Holstein) | F1, proven for XY-on-graph + Z-deph | Tier 1 |
-| F1 palindrome breaks (Peierls) | non-Z-dephasing, outside F1 | Tier 1 numerical (C₄, C₆) |
-| Peierls instability / SSH dimerisation | the F1-breaking channel | Tier 2 reading |
+| Hückel/framework model item | Selected framework object | Status |
+|------------------------------|---------------------------|--------|
+| free Hückel hopping on C₆ graph | XX+YY spin ring, N=6 | Tier 2 structural translation |
+| selected site occupation and density jump | local Z-dephasing, `D[n_l] = ¼·D[Z_l]` | exact once `n_l` and the jump are selected |
+| selected bond operator | bond-jump dephasing `D[B_b]` | finite comparison channel |
+| local-Z selected model | F1, proven for XY-on-graph + Z-dephasing | Tier 1 model result |
+| bond-B selected model | outside F1; numerical C₄/C₆ comparison | selected-model simulation |
 
 ## Open follow-ups
 
-- A mixed Holstein + Peierls bath: real conjugated systems have both. At what
-  mixing ratio does the palindrome onset, and is the crossover sharp?
-- F98 ((N+2)/[4(N+1)] → 1/4 long-time bridge): F98's long-time asymptote depends on
-  a specific KIntermediate Dicke initial state, not on the bond graph. Whether the
-  Holstein-coupled C₆ ring inherits it, with N = 6 giving α(∞) = 8/28 = 2/7, is the
-  still-open question 2 of BENZENE_HUCKEL_FRAMEWORK_LENS.
-- The open-system clock: [The Frost Circle Is the Face of the Clock](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
-  reads the slowest mode of this same Holstein-coupled ring Liouvillian as a running clock, its
-  band-edge coherence hand (ω = 2|β|, the Frost radius) and its erasure point Q* = 1.609. FROST
-  builds on this note for the open-system π-qubit map; the link back makes the pair reciprocal.
+- A mixed selected `D[Z] + D[B]` jump model: what interpolation does its finite
+  spectrum show? This would remain a model-channel scan until a material channel
+  is independently specified.
+- F98 ((N+2)/[4(N+1)] → 1/4 long-time bridge): F98 needs its specified
+  KIntermediate initial state, a magnetization-conserving H, and all-site
+  Z-dephasing. [The C₄/C₆ selected-ring instances](BENZENE_F98_LONG_TIME.md)
+  give 3/10 and 2/7; they are not a material-bath assignment.
+- The [selected-model clock comparison](FROST_CIRCLE_AS_THE_CLOCK_FACE.md) reports
+  frequencies and Q* values only after choosing its XX+YY Hamiltonian and
+  Z-dephasing rate; it supplies no carbon `γ`, `T₂`, or Q.
 
 ## Anchor
 
 - Scripts: [`simulations/carbon/benzene_liouvillian_palindrome.py`](../../simulations/carbon/benzene_liouvillian_palindrome.py)
-  (the Q2 result), [`simulations/carbon/peierls_break_structure.py`](../../simulations/carbon/peierls_break_structure.py)
-  (the break-structure γ-scan)
+  (the selected channel comparison), [`simulations/carbon/peierls_break_structure.py`](../../simulations/carbon/peierls_break_structure.py)
+  (the selected bond-jump γ-scan)
 - Companion doc: [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md)
   (the closed-system half), [README.md](README.md)
 - Framework anchors: [F1 palindrome](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven),
   [`compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs`](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs),
   [`docs/proofs/MIRROR_SYMMETRY_PROOF.md`](../proofs/MIRROR_SYMMETRY_PROOF.md)
-- Literature: Peierls (1955), instability of the 1D metal; Su, Schrieffer, Heeger
-  (1979), the SSH model; Holstein (1959), the molecular-crystal polaron.

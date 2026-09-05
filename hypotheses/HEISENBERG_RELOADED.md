@@ -232,16 +232,15 @@ spin / Ising end, I/Z-dominated with a small magnon admixture, non-rotating, sub
 two ends of this doc's own family are the two clocks of the carbon read-through, charge and
 spin, with the Heisenberg / SU(2) point sitting between them on the band-edge side.
 
-**We looked at the bridge.** §8 and the closing line above said the V-Effect bridge between
-levels had never been looked at, only witnessed by the algebra. The carbon detour of the
-same day held its child, EXCHANGE_FROM_V_EFFECT's J_eff = (3/8)·α²/J, against real carotenoid
-singlet-fission data
-([Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)):
-the established superexchange-via-charge-transfer singlet-fission coupling has exactly that
-Anderson bridge²/gap form, the dark 2Ag state is the V-Effect "both-pairs-triplet", and the
-order of magnitude (~10 meV) lands. Indirect, with the carbon embedding still Tier 4, but it
-is the first time we held the bridge against a measured number.
+**We looked at the bridge model.** §8 and the closing line above said the V-Effect bridge
+between levels had never been looked at, only witnessed by the algebra. The named
+direct-Heisenberg calculation in EXCHANGE_FROM_V_EFFECT gives `J_eff = (3/8)·α²/J` for its
+two-pair model. [Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)
+keeps a Tier 3 structural analogy only: no specified molecular Hamiltonian, bath,
+state/preparation, or producer maps that calculation to a carotenoid state or to a physical
+singlet-fission bridge. It therefore establishes neither a real-data bridge, a state identity,
+nor a material energy-scale agreement.
 
 Neither closes the structural gap (the Level-0 → Level-1 morphism is still asserted, not
-traced). But the axis the sketch named is now walkable, and the bridge it could only witness
-is now, once, looked at. The line *"hingesehen haben wir nie"* is, gently, no longer quite true.
+traced). The axis the sketch named is walkable in its selected model, and the bridge has a
+named direct-Heisenberg calculation; a material singlet-fission mapping remains open.

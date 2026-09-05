@@ -1,27 +1,14 @@
-"""Question 2 (docs/carbon, open question): does benzene's open-system Liouvillian
-show the F1 palindrome under vibrational dephasing?
+"""Selected C6 spin-ring comparison for the F1 palindrome.
 
-BENZENE_HUCKEL_FRAMEWORK_LENS.md settled the closed system (the Hueckel MO spectrum
-is palindromic, Coulson-Rushbrooke beside F1, on H). Question 2 is the OPEN system: build
-the benzene-pi + vibrational-dephasing Liouvillian and check the F1 palindrome
-Spec(L) closed under lambda -> -lambda - 2*Sigma_gamma.
+The Hamiltonian below is an XX+YY ring and the two dissipators are deliberately
+chosen model jumps: local ``Z_l`` dephasing and bond-operator ``B_b`` dephasing.
+If a site occupation ``n_l = (I-Z_l)/2`` and its density jump have first been
+selected, then ``D[n_l] = D[Z_l]/4``.  That algebra does not identify a carbon
+degree of freedom, a beta-to-J conversion, a bath, gamma, T2, or Q.
 
-Benzene C6 pi-system in the framework qubit picture: the Hueckel pi-hopping is the
-XX+YY ring Hamiltonian (the Jordan-Wigner image of free-fermion hopping). The
-carbon-substrate subtlety is the vibrational coupling, and Q2's answer bifurcates
-on it:
-
-  (A) Holstein / on-site coupling: the phonon couples to the local pi-density n_l.
-      The dephasing dissipator is D[n_l]; since D[a*Z + b*I] = a^2 * D[Z], we get
-      D[n_l] = D[(I - Z_l)/2] = (1/4) * D[Z_l]. That IS the framework's Z-dephasing,
-      so F1 (proven for XY-on-any-graph + Z-dephasing) forces the palindrome.
-
-  (B) Peierls / SSH / bond coupling: the phonon couples to the C-C bond and
-      modulates the hopping. The jump operator is the bond operator B_b itself.
-      This is NOT Z-dephasing; F1 does not cover it. Whether the palindrome
-      survives is the open part of Question 2 and is what this script tests.
-
-Tom 2026-05-22: try to answer Q2; a null result is also fine.
+F1 covers the selected XX+YY plus all-site-Z model, so this script checks its
+palindrome there.  The bond-jump comparison lies outside that F1 premise.  Neither
+calculation classifies a molecular vibrational environment.
 """
 import sys
 import numpy as np
@@ -87,7 +74,7 @@ def palindrome_residual(L, f1_centre=None):
     return centre.real, resid
 
 
-print(f"=== Q2: benzene-ring Liouvillian palindrome, N={N} (d={d}, L is {d * d}x{d * d}) ===\n")
+print(f"=== Q2: selected C{N} XX+YY-ring Liouvillian palindrome (d={d}, L is {d * d}x{d * d}) ===\n")
 
 h_ev = np.linalg.eigvalsh(H)
 h_resid = float(np.max(np.abs(np.sort(h_ev) + np.sort(h_ev)[::-1])))
@@ -97,9 +84,9 @@ print(f"closed-system sanity: many-body H spectrum palindromic about 0, "
 sigma_gamma = N * gamma          # F1 centre is -Sigma_gamma for the Z-dephasing case
 
 for name, L, f1_centre in [
-    ("(A) Holstein on-site dephasing  D[Z_l]   = framework Z-dephasing, F1 applies",
+    ("(A) selected local-Z jump       D[Z_l]   F1 premise",
      L_H + D_site, -sigma_gamma),
-    ("(B) Peierls bond dephasing      D[B_b]   not Z-dephasing, F1 does not cover",
+    ("(B) selected bond jump          D[B_b]   outside F1 premise",
      L_H + D_bond, None),
 ]:
     centre, resid = palindrome_residual(L, f1_centre)

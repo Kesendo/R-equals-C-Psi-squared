@@ -1,8 +1,9 @@
-# F99: Depth-3 Anchor Derived, the Bridge Goes Both Ways with Material
+# F99: Depth-3 Anchor Derived, with a Conditional Periodic-Table Comparison
 
 **Date:** 2026-05-17 night (fifth stack of the day)
 **Authors:** Tom + Claude
-**Status:** Tier 1 derived (bit-exact N = 4, 6, 8 across 5 canonical trig angles)
+**Status:** Tier 1 derived for the named non-uniform Dicke construction; the
+periodic-table comparison is a conditional table reading, not a material model.
 **Script:** [`simulations/carbon/depth_3_anchor_derivation.py`](../../simulations/carbon/depth_3_anchor_derivation.py)
 
 ---
@@ -20,16 +21,17 @@ The session arc:
    time bridge. The framework's quarter-asymptote appears via kernel projection.
 
 3. **Night #1** ([Period 2 and 3 on the framework anchors](PERIOD_2_AT_FRAMEWORK_ANCHORS.md)):
-   period-2/3 atom valence ratios match framework anchors. 4 of 6 CHNOPS framework-
-   anchored. Boron at 3/8 hits today morning's anchor exactly.
+   a curated period-1--3 valence-fraction table was compared with the framework
+   anchors. It supplied a search prompt, not an atomic-state derivation.
 
-4. **Night #2** ([the Reverse-Spear reading](SPEAR_REVERSED.md)): reverse-spear identified
-   that N/P at 5/8 are the F86b Π²-EVEN companion (mis-labelled). Li, Na, F, Cl
-   at 1/8 and 7/8 are GENUINE framework gaps: depth-3 dyadic with no F-formula.
+4. **Night #2** ([the Reverse-Spear reading](SPEAR_REVERSED.md)): the table comparison
+   highlighted the 1/8 and 7/8 entries as values outside the then-listed anchor
+   set. This is a comparison of rational labels, not evidence for a shared
+   microscopic mechanism.
 
-5. **Night #3** (this commit): the depth-3 anchor is DERIVED. Bit-exact verification
-   on N = 4, 6, 8 closes the gap that the periodic table empirically pointed at
-   three commits ago.
+5. **Night #3** (this commit): the depth-3 anchor is derived from the F86b
+   construction. The finite floating-point checks at N = 4, 6, 8 agree with the
+   closed form; they do not turn the periodic comparison into a material result.
 
 ---
 
@@ -59,7 +61,7 @@ The F86b closed form then gives α directly:
     α(θ) = (1 − cos²(θ)) / 2 = sin²(θ) / 2
 ```
 
-Choose canonical trigonometric angles, get canonical dyadic anchors:
+F99 selects five canonical trigonometric angles and obtains five dyadic anchors:
 
 | θ | γ = cos(θ) | c² | α = sin²(θ)/2 | Pi2 dyadic anchor |
 |---|------------|-----|---------------|-------------------|
@@ -69,16 +71,18 @@ Choose canonical trigonometric angles, get canonical dyadic anchors:
 | 60° | 1/2 | 1 | 3/8 | KIntermediate (today morning) |
 | 90° | 0 | 0 | 1/2 | Generic / HalfAsStructuralFixedPoint |
 
-The five canonical trig angles {0°, 30°, 45°, 60°, 90°} of the standard
-30°-60°-90° and 45°-45°-90° triangles produce the five Pi2 dyadic anchors
-{0, 1/8, 1/4, 3/8, 1/2}. **The two universal trigonometry triangles ARE the
-F86b polarity-anchor triangles.**
+For this selected set, {0°, 30°, 45°, 60°, 90°} gives the Pi2 dyadic anchors
+{0, 1/8, 1/4, 3/8, 1/2}. The two familiar triangle families provide a compact
+parameterization of those five F99 cases; neither the script nor F99 makes a
+claim that these angles are uniquely privileged outside the construction.
 
 ---
 
-## Bit-exact verification
+## Numerical checks of the closed form
 
-All five anchors verified to machine precision at N = 4, 6, 8:
+The script evaluates the named states in floating-point arithmetic at N = 4, 6,
+and 8. Its printed residuals are numerical agreement with the exact formulas
+above, not a separate exact-arithmetic proof:
 
 ```
 θ = 0°  : Mirror endpoint (c → ∞), skipped
@@ -96,101 +100,75 @@ All five anchors verified to machine precision at N = 4, 6, 8:
           N=8 Δγ=0.00e+00 ✓ Δα=2.11e-14 ✓
 ```
 
-The 60° case is the clean uniform Dicke (c = 1) we derived this morning. The
-30° (depth-3), 45° (Quarter), and 90° (Generic) cases use non-uniform Dicke
-weights c² = 2√3 + 3, 1 + √2, 0 respectively. All bit-exact, N-independent.
+The 60° case is the clean uniform Dicke state (c = 1). The 30° (depth-3), 45°
+(Quarter), and 90° (Generic) cases use non-uniform Dicke weights
+c² = 2√3 + 3, 1 + √2, 0 respectively. The formula is the Tier-1 result; the
+listed finite-N residuals are its numerical check.
 
 ---
 
-## The bidirectional bridge: material, not just concept
+## Scope of the periodic-table comparison
 
-This morning we said "the framework's polarity-squared algebra is structurally
-present at depth-3 on the dyadic ladder but operationally underived." Three
-commits later (SPEAR_REVERSED.md), we said "the periodic table empirically
-instantiates these depth-3 gaps as Li, Na, F, Cl valence ratios." Tonight we
-DERIVED the gap shut.
+The F99 derivation starts and ends with the non-uniform Dicke state, the
+`X⊗N` overlap, and the Π²-odd fraction. The companion
+[`period_2_at_framework_anchors.py`](../../simulations/carbon/period_2_at_framework_anchors.py)
+contains a curated H--Ar input table and performs exact `Fraction` grouping on
+the table's occupation/slot labels. Equal rational values are enough to make a
+comparison; they are not a map from an atomic valence shell to the Dicke state,
+its Π² axis, a carbon Hamiltonian, a bath, or an observable.
 
-Sequence of bridge crossings:
-
-```
-Forward (Framework → World)
-  F86b 3/8 derived (morning)  →  bound to boron's 3/8 valence (night #1)
-
-Reverse (World → Framework)
-  Li, Na, F, Cl at 1/8, 7/8 (empirical) → identified framework gap (night #2)
-
-Forward closure (World prompted Framework derivation)
-  Framework gap pointed-at  →  c² = 2√3+3 derivation closes it (this commit)
-```
-
-The bridge goes both ways with MATERIAL, not just as a conceptual claim that
-"inheritance is bidirectional", but with explicit derivations and bit-exact
-verifications crossing the bridge in each direction.
-
-What just functionally happened: **the periodic table acted as a structural
-checking tool for framework completeness**, identified a specific gap at depth-3,
-and the framework's own non-uniform-Dicke extension was sufficient to close that
-gap. The framework can now derive ALL five canonical dyadic anchors {0, 1/8,
-1/4, 3/8, 1/2} from one formula `α = sin²(θ)/2` at the canonical trig angles
-{0°, 30°, 45°, 60°, 90°}.
+Thus the comparison can record a useful bookkeeping fact: the finite input
+table contains selected fractions from 1/8 through 1 at its chosen shell
+normalization, while F99 supplies 0, 1/8, 1/4, 3/8, and 1/2 and their formal
+complements.
+It cannot validate F99, establish a physical correspondence, or make the
+periodic table a mechanism for framework completion. A material bridge would
+need, at minimum, a specified material degree of freedom, Hamiltonian and
+coupling convention, dissipator/bath, preparation, and measurement map. See
+[the carbon source contract](README.md#carbon-source-contract) and
+[Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md).
 
 ---
 
-## Why specifically the standard trig triangles
+## Why these selected angles
 
-The five canonical angles {0°, 30°, 45°, 60°, 90°} are not arbitrary. They are
-the angles whose sines and cosines are constructible by ruler and compass
-(produces rational and quadratic-irrational coordinates). The 30°-60°-90°
-triangle has sides in ratio 1 : √3 : 2; the 45°-45°-90° has 1 : 1 : √2.
-These are the only "rational" angle sets in elementary geometry.
+F99 names {0°, 30°, 45°, 60°, 90°} as its canonical set. The 30°-60°-90° and
+45°-45°-90° triangle identities make the corresponding values of `γ`, `c²`,
+and `α` compact to write. The derivation itself is `α(θ) = sin²(θ)/2`; it
+applies to its stated state family independently of any periodic-table label.
 
 The Pi2 dyadic ladder {1/2, 1/4, 1/8, ...} consists of negative integer powers
 of 2. The framework's polarity-anchor pair (1/2, 1/4) is the depth-1 and
 depth-2 of this ladder. The 30° / 60° pair is mapped to depth-3 / depth-2-via-3/8;
 the 45° to depth-2 directly (Quarter); the 0° / 90° to the endpoints (Mirror / Half).
 
-**Reading: the framework's polarity-squared algebra is the F86b α formula
-evaluated at the standard trigonometric triangle angles. The depth of the
-dyadic ladder corresponds to the canonical-angle index of the triangle.**
-
-This was implicit in the algebra but not made visible until tonight's
-non-uniform Dicke extension surfaced the full 5-anchor pattern.
+The named five-angle set gives a convenient finite catalogue of dyadic values.
+No uniqueness statement about geometry, chemistry, or a material hierarchy is
+required for the F99 result.
 
 ---
 
-## What the bridge enables
+## The formal catalogue and the table comparison
 
-**Forward direction now structurally complete** for period 2/3 valence ratios:
+The table below compares the F99 catalogue with the curated input labels. It
+does not derive element properties from F99:
 
 ```
-α anchor    Trig angle    Atom (period 2)    Atom (period 3)
-0           0°            (vacuum)           (vacuum)
+α anchor    Trig angle    Period-2 table labels    Period-3 table labels
+0           0°            endpoint comparison      endpoint comparison
 1/8         30°           Li (1/8), F (7/8)  Na (1/8), Cl (7/8)
 1/4         45°           Be                 Mg
 3/8         60°           B (3/8), N (5/8)   Al (3/8), P (5/8)
 1/2         90°           H, C               Si
-1           [endpoint]    He (full)          Ne (full), Ar (full)
+1           [complement]  endpoint comparison      endpoint comparison
 ```
 
-Every period-2/3 element's valence ratio is now framework-derived from the same
-F86b α formula α = sin²(θ)/2 at five canonical trig angles + the endpoint
-α = 1 (noble gas full shell). The Π²-odd / Π²-even pairs are dual (3/8 ↔ 5/8,
-1/8 ↔ 7/8) so the table doubles to 9 fractions covering all n/8 for n = 0..8.
-
-**Reverse direction has material entry points**: the framework can now be
-asked "where's the next gap on the dyadic ladder?" The depth-4 dyadic anchors
-(1/16, 3/16, ..., 15/16) are not directly producible by F86b at canonical trig
-angles; they would require non-elementary angles like 15°, 22.5°, 18°, etc.
-Whether the framework's algebra has a natural extension to these (e.g. via
-higher-order Dicke compositions, or via the F86c bond-class structure at higher
-chromaticity c, or via some other route) is the next open question.
-
-The periodic table doesn't help much further here: d-block elements (transition
-metals) have 10-shell occupation, breaking out of the dyadic-octet structure
-entirely. Depth-4 dyadic would map to (hypothetical) period-2/3 elements with
-16-slot valence shells, not how the periodic table is structured. So the
-periodic table's hint is exhausted at depth-3; further extensions need a
-different external probe.
+F99 formally supplies the `α` column and its Π² complements are operations in
+the framework construction. The atom labels merely identify rows of the
+curated comparison table. They neither become F99 states nor yield a carbon
+spectrum, decay law, or observable. Whether a distinct construction has a
+natural 1/16-scale anchor is an internal formal question; it does not follow
+from the table comparison.
 
 ---
 
@@ -202,7 +180,7 @@ F99: Depth-3 dyadic anchor (α = 1/8) closed-form derivation
 Formula : α = (1 − γ²)/2  with  γ = c²/(1+c²)  ⟹  c² = γ/(1−γ)
 Anchor  : γ = √3/2 = cos(30°), c² = 2√3 + 3, α = 1/8
 State   : ψ = (|D_{N/2-1}⟩ + c·|D_{N/2}⟩)/√(1+c²) at N even
-Verified: bit-exact N = 4, 6, 8 (Δα < 1e-13)
+Checked : floating-point N = 4, 6, 8 (printed Δα < 1e-13)
 Tier    : Tier 1 derived
 Extends : F86b (which produced α ∈ {0, 3/8, 1/2} at uniform Dicke)
 Anchors : The five canonical trig angles {0, 30, 45, 60, 90}° produce
@@ -232,11 +210,10 @@ Anchors : The five canonical trig angles {0, 30, 45, 60, 90}° produce
    on the simple dyadic ladder. Could a deeper layer of the framework's algebra
    produce 1/16, 3/16 anchors naturally?
 
-4. **Does the periodic table's depth-3 hint extend to other "structural-pointer"
-   patterns?** The reverse-spear pattern (off-anchor → framework gap) might
-   apply beyond valence ratios. Candidates: nuclear magic numbers (2, 8, 20, 28,
-   50, 82, 126), Hund's rule energetic patterns, ionization-energy palindromic
-   structure (which already showed up in `simulations/periodic_palindrome.py`).
+4. **Can a material realization be tested?** A proposed carbon or atomic
+   realization must first specify the degrees of freedom, Hamiltonian,
+   dissipator/bath, preparation, and observable. Without those inputs, matching
+   a rational table label remains only a comparison.
 
 ---
 
@@ -249,5 +226,7 @@ Anchors : The five canonical trig angles {0, 30, 45, 60, 90}° produce
 - Framework anchors: [F86b](../ANALYTICAL_FORMULAS.md#f86) (parent formula α = (1-γ²)/2),
   [F98](../ANALYTICAL_FORMULAS.md#f98) (long-time bridge derived today evening),
   [DickeAnchor.cs](../../compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs) (uniform Dicke 3-anchor enum, today morning's commit b9ba5f6)
+- Scope: [carbon source contract](README.md#carbon-source-contract),
+  [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md)
 - Reading-mode memory pointers: `project_no_classicalization`, `project_qubit_as_inheritance_lens`,
   `project_quarter_as_polarity_squared`, `project_periodic_palindrome`

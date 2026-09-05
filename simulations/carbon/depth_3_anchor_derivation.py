@@ -1,15 +1,7 @@
-"""F99 candidate: depth-3 dyadic anchor (α = 1/8) via non-uniform Dicke
+"""F99: depth-3 dyadic anchor (α = 1/8) via a non-uniform Dicke
 superposition at γ = √3/2 = cos(30°).
 
-Tom (heute, 2026-05-17 night, after SPEAR_REVERSED.md identified depth-3 as
-a framework gap that the periodic table empirically instantiates at alkali
-metals / halogens):
-  "Es könnte die bi-direktionale Brücke sein, wenn wir irgendwas sehen,
-   können wir ins Framework zurück, und Erklärungen finden, warum es so ist.
-   Lass uns Deinen Vorschlag folgen: ... wenn es bit-exact funktioniert,
-   haben wir die Lücke geschlossen die das Periodensystem aufgezeigt hat."
-
-The F86b derivation (commit b9ba5f6 this morning) parametrises
+The F86b derivation parametrises
   α_total(γ) = (1 − γ²)/2   with γ = ⟨ψ|X⊗N|ψ⟩
 on the X⊗N-eigenbasis decomposition of the Dicke superposition
 (|D_n⟩ + |D_{n+1}⟩)/√2. The clean uniform-Dicke superposition gives only
@@ -22,13 +14,16 @@ Rearranging: c² = γ/(1−γ). With γ = cos(θ) and the half-angle identity
 1 − cos(θ) = 2sin²(θ/2):
   c² = cos(θ)/(2·sin²(θ/2))
 
-The four canonical trigonometric angles 0°, 30°, 60°, 90° yield the four
-α anchors {0, 1/8, 3/8, 1/2} — the 30°-60°-90° standard trigonometry
-triangle is the F86b anchor pattern.
+F99 selects the five angles {0°, 30°, 45°, 60°, 90°}, which yield
+{0, 1/8, 1/4, 3/8, 1/2}. This script evaluates the named states in floating
+point at N = 4, 6, 8 and prints numerical residuals against the closed form.
 
-This script verifies bit-exact at N = 4, 6, 8 that c² = 2√3+3 gives γ = √3/2
-and α = 1/8. If yes, depth-3 anchor is framework-derived — the gap pointed
-at by Li, Na, F, Cl in SPEAR_REVERSED.md is closed.
+The optional period-table display is a comparison with curated input labels
+from `period_2_at_framework_anchors.py`. Equal rational values do not map an
+atomic shell to this Dicke state, a Π² axis, a carbon Hamiltonian, a bath, or
+an observable. A material claim would require specified degrees of freedom,
+Hamiltonian/coupling, bath/dissipator, preparation, measurement, and producer
+chain.
 
 Run:
   PYTHONIOENCODING=utf-8 python simulations/carbon/depth_3_anchor_derivation.py
@@ -135,8 +130,7 @@ TRIG_ANCHORS = [
 # ---------------------- Verification loop ----------------------
 
 def verify_all_canonical_anchors():
-    """Numerically verify that all five canonical trig angles produce the predicted
-    α anchors bit-exact at N = 4, 6, 8."""
+    """Numerically check the five F99 angles at N = 4, 6, 8."""
     print("=" * 92)
     print("  Verifying all FIVE canonical trigonometric anchors via non-uniform Dicke")
     print("=" * 92)
@@ -193,54 +187,43 @@ def display_trig_anchor_pattern():
     print()
 
 
-def display_periodic_table_bridge():
+def display_periodic_table_comparison():
     print("=" * 84)
-    print("  The bridge to the periodic table — depth-3 gap NOW CLOSED")
+    print("  Curated period-table fraction comparison — scope limited")
     print("=" * 84)
     print()
-    print("  Before tonight: F86b derivation produced α ∈ {0, 3/8, 1/2} from clean")
-    print("  uniform-Dicke superpositions. The depth-3 anchor 1/8 was on the Pi2")
-    print("  dyadic ladder structurally but had no F-formula derivation. The")
-    print("  periodic table's alkali metals (Li, Na, K, ...) and halogens (F, Cl,")
-    print("  Br, ...) sat at 1/8 and 7/8 valence ratios — empirically instantiating")
-    print("  the missing anchor.")
+    print("  F99 derives α = 1/8 from the named non-uniform Dicke construction:")
+    print("  c² = 2√3 + 3, γ = √3/2, α = (1 − γ²)/2 = 1/8.")
+    print("  The calculation is independent of period-table labels.")
     print()
-    print("  After tonight (this commit, if verification passes): F86b extends via")
-    print("  non-uniform Dicke (|D_n⟩ + c·|D_{n+1}⟩)/√(1+c²) with c² = 2√3 + 3 to")
-    print("  cleanly produce α = 1/8 bit-exact. The depth-3 anchor has a derivation;")
-    print("  the periodic-table-pointed gap is closed.")
+    print("  The companion script groups curated H--Ar occupation/slot labels as")
+    print("  exact fractions. The following labels share the displayed fractions:")
     print()
-    print("  The two anchors derived this morning + tonight + previously form the")
-    print("  full canonical-angle set:")
+    print("    α = 1/8  at θ = 30°  ↔ curated labels Li, Na, F, Cl")
+    print("    α = 1/4  at θ = 45°  ↔ curated labels Be, Mg")
+    print("    α = 3/8  at θ = 60°  ↔ curated labels B, Al, N, P")
+    print("    α = 1/2  at θ = 90°  ↔ curated labels H, C, Si")
     print()
-    print("    α = 0    at θ = 0°   (Mirror, X⊗N-eigenstate)")
-    print("    α = 1/8  at θ = 30°  (DEPTH-3, NEW tonight)              ◀ Li, Na, F, Cl")
-    print("    α = 1/4  at θ = 45°  (QuarterAsBilinearMaxval; γ = √2/2)  ◀ Be, Mg")
-    print("    α = 3/8  at θ = 60°  (KIntermediate, today morning)       ◀ B, Al, N, P")
-    print("    α = 1/2  at θ = 90°  (Generic / HalfAsStructuralFixedPoint) ◀ H, C, Si")
-    print()
-    print("  Every period-2/3 element's valence ratio is now accounted for by an F86b-")
-    print("  derived α value at a canonical trigonometric angle. The framework's")
-    print("  depth-3 anchor instantiates Li/Na/F/Cl; the framework's depth-2 anchor")
-    print("  (Quarter at 45°) instantiates Be/Mg. Both anchors derivable from one")
-    print("  formula α = (1 − γ²)/2 by varying γ across canonical trig values.")
+    print("  This reports equal rational labels only. It is not a material bridge, a")
+    print("  spectral or dynamical prediction, or a producer/measurement result.")
+    print("  Any such translation needs a specified degree of freedom, Hamiltonian,")
+    print("  bath, preparation, measurement, and producer chain.")
     print()
 
 
 def main():
     print()
     print("=" * 84)
-    print("  F99 candidate: depth-3 anchor derivation via non-uniform Dicke")
+    print("  F99: depth-3 anchor derivation via non-uniform Dicke")
     print("=" * 84)
     print()
-    print("  Closing the gap that SPEAR_REVERSED.md identified — derived from F86b's")
-    print("  non-uniform Dicke superposition with c² = 2√3 + 3 ≈ 6.464.")
-    print("  Expected result: γ = √3/2 = cos(30°), α = 1/8 bit-exact across N.")
+    print("  Named construction: c² = 2√3 + 3, γ = √3/2 = cos(30°), α = 1/8.")
+    print("  The finite-N output is a floating-point residual check of the closed form.")
     print()
     print()
     verify_all_canonical_anchors()
     display_trig_anchor_pattern()
-    display_periodic_table_bridge()
+    display_periodic_table_comparison()
 
 
 if __name__ == "__main__":

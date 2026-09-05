@@ -1,51 +1,20 @@
-"""From the per-Painter Re/Im alternation to a measurable anisotropic-T2
-prediction for a y-field aromatic ring.
+"""Numerical Painter sector classification and axis-probe tail fits.
 
-The companion script carbon_ptf_real_imag_per_painter.py showed, on the
-N = 4 Hückel + y-Zeeman ring under Holstein dephasing, that the slowest
-Liouvillian eigenmodes alternate per-Painter in a clean Re/Im pattern:
+The selected N = 4 XX+YY ring has a transverse Y field and all-site local-Z
+dephasing. Local Z is an F1-instance channel; a selected bond jump would be
+outside F1's jump premise. Neither channel is assigned here to a Holstein or
+material bath.
 
-  Mode 1  ω = 0    decay 0.172    Re-flavor   (per-site content {I, X, Z})
-  Mode 2  ω = 0    decay 0.219    Im-flavor   (per-site content Y only)
-  Mode 3  ω = 0    decay 0.597    Re-flavor
-  Mode 4  ω = 0    decay 0.901    Im-flavor
-  Mode 5  ω = 0    decay 2.067    Im-flavor
-  Mode 6,7  ω = ±3.83  fastest    mixed (complex pair)
+The script diagonalizes the Liouvillian numerically, decomposes each reduced
+single-site eigenmode into {I, X, Y, Z}, and classifies Y/non-Y weights using
+a 1e-8 ratio tolerance. A Y-only classification refers to the Pauli Y matrix,
+which is purely imaginary and antisymmetric; it does not say a general complex
+reduced eigenmode is real antisymmetric.
 
-The alternation is the slow-mode hierarchy's n_Y-parity sectorization at the
-single-site projection level. Re-flavor modes carry NO Y content per site
-(equivalently, their per-site reduced operators are real-symmetric 2 × 2);
-Im-flavor modes are pure Y per site (anti-symmetric 2 × 2).
-
-This script makes that sectorization quantitative and then turns it into
-something a chemist could measure. Two questions:
-
-  (Q1) Is the n_Y-parity assignment bit-exact at the operator level? Each
-       slow eigenmode is a 4^N-dim operator; project per-site into the four
-       Pauli labels {I, X, Y, Z}; sum |coefficient|² over Y-channels vs over
-       non-Y-channels; the alternation predicts the ratio is either 0 or
-       infinite per mode (one channel exactly empty).
-
-  (Q2) Does the alternation imply anisotropic transverse relaxation?
-       Prepare the ring with single-site magnetization along X-axis vs along
-       Y-axis; propagate ρ under the full Liouvillian; track ⟨X⟩(t), ⟨Y⟩(t),
-       ⟨Z⟩(t). Fit single-exponential decay to the long-time tail of each.
-       Prediction: T2(x_init) maps onto the slowest Re-flavor mode (k = 1),
-       T2(y_init) maps onto the slowest Im-flavor mode (k = 2). At h_y/γ =
-       0.5 the ratio T2(y)/T2(x) = 0.172/0.219 ≈ 0.787, so y-magnetization
-       decays ≈ 1.27× faster than x-magnetization.
-
-The Bloch picture for a chemist: ordinary T2 is isotropic in a pure
-on-site-dephasing bath (x and y magnetisations decay at the same rate).
-Add a static y-Zeeman and the isotropy breaks; T2(x) ≠ T2(y), and the gap
-size is closed-form in h_y / γ.
-
-For NMR readers: this is exactly the regime where TROSY-Difference and
-EXSY-Asymmetry techniques live. TROSY-Difference reads the multiplet
-component split that arises from anisotropic transverse relaxation;
-EXSY-Asymmetry reads cross-peak intensity differences I_AB vs I_BA from
-differential T1/T2 between sites. Both are diagnostic of the painter
-alternation without requiring full process tomography.
+It also propagates selected X/Y/Z axis probes and reports their specified
+single-exponential tail fits. These are selected-model probe-decay observations,
+not T1/T2, FID, TROSY, EXSY, or material predictions. Relation of the tail fits
+to the slow-mode rates requires a convergence check.
 """
 from __future__ import annotations
 
@@ -190,16 +159,16 @@ def fit_exp_tail(t, signal, frac_tail=0.5):
 def run(N=4, h_zeeman=0.5, gamma=1.0, t_max=20.0, n_steps=400, n_slowest=8):
     print()
     print("=" * 96)
-    print(f"N = {N} carbon ring, h_y_Zeeman = {h_zeeman}, γ_Holstein = {gamma}")
+    print(f"N = {N} selected XX+YY ring, h_y = {h_zeeman}, γ_local-Z = {gamma}")
     print("=" * 96)
     print()
 
     H = hueckel_ring_H(N) + h_zeeman * zeeman_y_total(N)
-    c_holstein = [site_op(N, l, "Z") for l in range(N)]
-    L = lindbladian_vec(H, c_holstein, [gamma] * N)
+    c_local_z = [site_op(N, l, "Z") for l in range(N)]
+    L = lindbladian_vec(H, c_local_z, [gamma] * N)
     d = 2**N
 
-    print("Q1: n_Y-parity sectorization of slow modes (bit-exact?)")
+    print("Q1: numerical Y/non-Y classification of slow modes (1e-8 tolerance)")
     print("-" * 96)
     eigvals, eigvecs = np.linalg.eig(L)
     order = np.argsort(eigvals.real)[::-1]
@@ -226,8 +195,8 @@ def run(N=4, h_zeeman=0.5, gamma=1.0, t_max=20.0, n_steps=400, n_slowest=8):
         print(f"{k:>3}  {eigvals[k].real:>+10.6f}  {eigvals[k].imag:>+10.6f}  "
               f"{i_w:>10.6f}  {xz_w:>10.6f}  {y_w:>10.6f}  {flavor}")
     print()
-    print("Re-flavor = no Y per site (= zero anti-symmetric content of per-site projection)")
-    print("Im-flavor = only Y per site (= zero non-trivial real-symmetric content)")
+    print("Re-flavor = numerically non-Y by the Pauli-weight diagnostic")
+    print("Im-flavor = numerically Y-only; σY is purely imaginary and antisymmetric")
     print()
 
     re_modes = [(k, dec) for (k, dec, om, fl, _, _, _) in flavor_table if fl.startswith("Re")]
@@ -235,25 +204,24 @@ def run(N=4, h_zeeman=0.5, gamma=1.0, t_max=20.0, n_steps=400, n_slowest=8):
     print(f"Slowest Re-flavor mode: k={re_modes[0][0]}, Re(λ) = {re_modes[0][1]:+.6f}")
     print(f"Slowest Im-flavor mode: k={im_modes[0][0]}, Re(λ) = {im_modes[0][1]:+.6f}")
     ratio_pred = abs(re_modes[0][1]) / abs(im_modes[0][1])
-    print(f"Slow-mode prediction for T2(x_init) / T2(y_init) = "
-          f"|Re(λ_im)| / |Re(λ_re)| = {1.0/ratio_pred:.6f}")
+    print(f"Slow-mode Im/Re rate ratio = |Re(λ_im)| / |Re(λ_re)| = {1.0/ratio_pred:.6f}")
     print()
 
-    # ---- Q2: anisotropic T2 from full propagation ----
-    print("Q2: anisotropic T2 from initial-state preparation")
+    # ---- Q2: axis-probe tail fits from full propagation ----
+    print("Q2: selected-model axis-probe tail fits")
     print("-" * 96)
 
-    # observables: total magnetization along each axis
+    # selected total Pauli-coordinate readouts along each axis
     Mx = sum(site_op(N, l, "X") for l in range(N))
     My = sum(site_op(N, l, "Y") for l in range(N))
     Mz = sum(site_op(N, l, "Z") for l in range(N))
 
-    # initial states: maximally mixed plus a tiny single-site magnetisation
-    # along the desired axis. Use site 0 (ring is translation-symmetric so any
+    # initial states: maximally mixed plus a tiny single-site Pauli probe
+    # along the desired axis. Use site 0 (the selected ring is translation-symmetric so any
     # site works). Use the linearised-response coefficient (don't add full ‖σ‖
     # for trace-1 reasons; just a small probe).
     rho0_mixed = np.eye(d, dtype=complex) / d
-    eps = 1.0 / d  # small magnetisation amplitude
+    eps = 1.0 / d  # small probe amplitude
     rho0_x = rho0_mixed + eps * site_op(N, 0, "X") / d
     rho0_y = rho0_mixed + eps * site_op(N, 0, "Y") / d
     rho0_z = rho0_mixed + eps * site_op(N, 0, "Z") / d
@@ -281,63 +249,60 @@ def run(N=4, h_zeeman=0.5, gamma=1.0, t_max=20.0, n_steps=400, n_slowest=8):
     mx_x, my_x, mz_x = propagate_and_track(rho0_x)
     rate_x_x, _ = fit_exp_tail(ts, mx_x)
     rate_x_y, _ = fit_exp_tail(ts, my_x)
-    print(f"  ⟨Mx⟩(t) tail decay rate: {rate_x_x:+.6f}    T2(x_init via Mx) ≈ {1.0/rate_x_x:.4f}")
-    print(f"  ⟨My⟩(t) tail decay rate: {rate_x_y:+.6f}    T2(x_init via My) ≈ "
-          f"{1.0/rate_x_y if not np.isnan(rate_x_y) else float('nan'):.4f}")
+    print(f"  ⟨Mx⟩(t) specified tail-fit rate: {rate_x_x:+.6f}")
+    print(f"  ⟨My⟩(t) specified tail-fit rate: {rate_x_y:+.6f}")
     print()
 
     print("Initial state: ρ_mixed + ε · Y_0 / d  (probe along y at site 0)")
     mx_y, my_y, mz_y = propagate_and_track(rho0_y)
     rate_y_x, _ = fit_exp_tail(ts, mx_y)
     rate_y_y, _ = fit_exp_tail(ts, my_y)
-    print(f"  ⟨Mx⟩(t) tail decay rate: {rate_y_x:+.6f}    T2(y_init via Mx) ≈ "
-          f"{1.0/rate_y_x if not np.isnan(rate_y_x) else float('nan'):.4f}")
-    print(f"  ⟨My⟩(t) tail decay rate: {rate_y_y:+.6f}    T2(y_init via My) ≈ {1.0/rate_y_y:.4f}")
+    print(f"  ⟨Mx⟩(t) specified tail-fit rate: {rate_y_x:+.6f}")
+    print(f"  ⟨My⟩(t) specified tail-fit rate: {rate_y_y:+.6f}")
     print()
 
     print("Initial state: ρ_mixed + ε · Z_0 / d  (probe along z at site 0)")
     mx_z, my_z, mz_z = propagate_and_track(rho0_z)
     rate_z_z, _ = fit_exp_tail(ts, mz_z)
-    print(f"  ⟨Mz⟩(t) tail decay rate: {rate_z_z:+.6f}    T1(z_init via Mz) ≈ {1.0/rate_z_z:.4f}")
+    print(f"  ⟨Mz⟩(t) specified tail-fit rate: {rate_z_z:+.6f}")
     print()
 
     print("-" * 96)
-    print("Comparison:")
+    print("Numerical comparison (tail-fit convergence not established):")
     tol_rel = 0.02  # 2% tail-fit tolerance against asymptotic slow-mode prediction
     def ok(meas, pred):
         return abs(meas - pred) / max(abs(pred), 1e-12) < tol_rel
 
     print(f"  Slowest Re-flavor mode  |Re(λ_k=1)| = {abs(re_modes[0][1]):.6f}")
-    print(f"  ⟨Mx⟩ tail rate from x-probe         = {rate_x_x:.6f}   "
-          f"(match within {tol_rel*100:.0f}%: {ok(rate_x_x, abs(re_modes[0][1]))})")
-    print(f"  ⟨Mz⟩ tail rate from z-probe         = {rate_z_z:.6f}   "
-          f"(match within {tol_rel*100:.0f}%: {ok(rate_z_z, abs(re_modes[0][1]))})")
+    print(f"  ⟨Mx⟩ tail-fit rate from x-probe     = {rate_x_x:.6f}   "
+          f"(within {tol_rel*100:.0f}% threshold: {ok(rate_x_x, abs(re_modes[0][1]))})")
+    print(f"  ⟨Mz⟩ tail-fit rate from z-probe     = {rate_z_z:.6f}   "
+          f"(within {tol_rel*100:.0f}% threshold: {ok(rate_z_z, abs(re_modes[0][1]))})")
     print()
     print(f"  Slowest Im-flavor mode  |Re(λ_k=2)| = {abs(im_modes[0][1]):.6f}")
-    print(f"  ⟨My⟩ tail rate from y-probe         = {rate_y_y:.6f}   "
-          f"(match within {tol_rel*100:.0f}%: {ok(rate_y_y, abs(im_modes[0][1]))})")
+    print(f"  ⟨My⟩ tail-fit rate from y-probe     = {rate_y_y:.6f}   "
+          f"(within {tol_rel*100:.0f}% threshold: {ok(rate_y_y, abs(im_modes[0][1]))})")
     print()
-    print(f"  T2 anisotropy ratio  T2(x)/T2(y)   = "
+    print(f"  Axis-probe inverse-rate ratio       = "
           f"{(1.0/rate_x_x)/(1.0/rate_y_y):.4f}")
-    print(f"  Slow-mode prediction               = "
+    print(f"  Slow-mode Im/Re rate ratio          = "
           f"{abs(im_modes[0][1])/abs(re_modes[0][1]):.4f}")
+    print("  Their relation is a convergence question, not a causal assignment.")
     print()
 
 
 def main():
     print("=" * 96)
-    print("From per-Painter Re/Im alternation to anisotropic T2 in a y-field")
+    print("Numerical per-Painter Y/non-Y classification and axis-probe tail fits")
     print("=" * 96)
     print()
-    print("This script (a) confirms the painter alternation is the slow-mode hierarchy's")
-    print("n_Y-parity sectorization at bit-exact precision; and (b) propagates single-")
-    print("site magnetization probes under the full Liouvillian to read out the")
-    print("anisotropic T2 predicted by the alternation.")
+    print("This script (a) numerically classifies the slow-mode Pauli weights at a")
+    print("1e-8 tolerance; and (b) propagates selected single-site Pauli probes under")
+    print("the full Liouvillian to report specified tail fits.")
     print()
-    print("The bridge: a chemist could test this prediction with two FID experiments")
-    print("(90° pulse along orthogonal axes, then watch the decay) without needing")
-    print("full process tomography. The ratio T2(x_init)/T2(y_init) is a number that")
-    print("the algebra predicts in closed form from h_y and γ.")
+    print("These outputs are selected-model observations. They do not define T1/T2,")
+    print("FID, TROSY, EXSY, or a material observable without a separately specified")
+    print("degree of freedom, Hamiltonian, bath, preparation, and measurement operator.")
 
     run(N=4, h_zeeman=0.5, gamma=1.0, t_max=20.0, n_steps=200, n_slowest=8)
 

@@ -1,18 +1,11 @@
-"""Does the V-Effect coherence seam track AROMATICITY (Hueckel 4n+2)? It does NOT.
+"""Selected C4/C6/C8 ring-model comparison of V-Effect sector rows.
 
-Tested by comparing the anti-aromatic 4n rings cyclobutadiene C4 and cyclooctatetraene C8 (both with
-degenerate zero-energy non-bonding MOs) against the aromatic 4n+2 benzene C6. RESULT (2026-06-13):
-
-  The V-Effect seam (the frozen DOUBLE-excitation mode that overtakes the band-edge beat) is
-  RING-UNIVERSAL, not aromaticity-specific. At strong dephasing (low Q) ALL rings (C4, C6, C8) hand
-  over to a frozen double-excitation mode: the C=0.5 HALF-FILLING boundary, a sibling of the
-  incompleteness V-Effect (docs/HIERARCHY_OF_INCOMPLETENESS.md) on the filling axis.
-
-  Aromaticity (4n+2 vs 4n) is REFUTED as the discriminant: the 4n anti-aromatics C4 and C8 do NOT
-  group together. C4 is a small-ring ANOMALY (its double-excitation mode is anomalously slow,
-  <n_diff> < 1, so it dominates even at WEAK dephasing); C8 (the next 4n) behaves like aromatic C6
-  (the oscillating band-edge survivor leads at weak dephasing). The seam is the C=0.5 half-filling
-  boundary made dynamic, not Hueckel's rule.
+The conventional C4/C6/C8 labels and their 4n/4n+2 occupancy labels specify finite
+Hückel/XY graph inputs only. This script compares the selected XX+YY ring with
+uniform local-Z dephasing at Q=1.5 and Q=10. In those three rows, the slowest sector
+does not sort solely by the 4n/4n+2 label. That finite model result neither tests nor
+refutes chemical aromaticity, and it establishes no material mechanism, stability,
+half-filling law, or universal ring statement.
 
 The full 4^8 Liouvillian (C8) is too big for dense eigendecomposition, so we use a SECTOR-PROJECTED
 Liouvillian: the XY ring H conserves excitation number and the Z-dephasing is diagonal, so L is
@@ -86,40 +79,39 @@ def _assert_sector_method_validates():
         print(f"[1] cross-check C{N} ring Q=2: sector Re={re_s:+.5f} |Im|={im_s:.3f} sec={sec} == full-L Re={sf.real.max():+.5f}")
 
 
-def _assert_seam_is_ring_universal():
-    """At strong dephasing (Q=1.5) EVERY ring hands over to a FROZEN double-excitation mode (a diagonal
-    (a,a) sector with 2 <= a <= N-2). The seam is the C=0.5 half-filling boundary, not aromaticity."""
+def _assert_selected_strong_dephasing_rows():
+    """For the selected C4/C6/C8 rows at Q=1.5, the slowest mode is a frozen
+    diagonal double-excitation sector. This is not a universal or material claim."""
     for N in (4, 6, 8):
         re, im, (a, b) = global_slowest(N, 1.0, 1.0 / 1.5, ring=True)
         assert im < 1e-6, f"C{N} Q=1.5: slowest should be FROZEN, got |Im|={im}"
         assert a == b and 2 <= a <= N - 2, f"C{N} Q=1.5: slowest sector {(a, b)} is not double-excitation (a,a)"
-        print(f"[2] ring-universal seam, C{N} Q=1.5: FROZEN double-excitation sector {(a, b)} (Re={re:+.4f})")
+        print(f"[2] selected C{N} row, Q=1.5: frozen double-excitation sector {(a, b)} (Re={re:+.4f})")
 
 
-def _assert_aromaticity_refuted():
-    """At weak dephasing (Q=10) the discriminant: C4 (anomaly) is FROZEN double-excitation, while C6
-    AND C8 are the OSCILLATING band-edge survivor (0,1). The 4n anti-aromatics C4 and C8 do NOT
-    group -> aromaticity (4n+2 vs 4n) is NOT the discriminant."""
+def _assert_selected_weak_dephasing_rows():
+    """For the selected C4/C6/C8 rows at Q=10, C4 is frozen in (2,2) while
+    C6/C8 have oscillating (0,1) rows. This finite comparison has no chemical inference."""
     res = {}
     for N in (4, 6, 8):
         re, im, sec = global_slowest(N, 1.0, 1.0 / 10.0, ring=True)
         res[N] = (re, im, sec)
         kind = "OSCILLATING band-edge" if im > 1e-6 else "FROZEN double-excitation"
-        print(f"[3] aromaticity test, C{N} Q=10: {kind} sector={sec} |Im|={im:.3f}")
-    assert res[4][1] < 1e-6 and res[4][2] == (2, 2), "C4 should be FROZEN (2,2) at weak dephasing (the anomaly)"
+        print(f"[3] selected C{N} row, Q=10: {kind} sector={sec} |Im|={im:.3f}")
+    assert res[4][1] < 1e-6 and res[4][2] == (2, 2), "C4 should be FROZEN (2,2) at selected Q=10"
     assert res[6][1] > 1.9 and res[6][2] == (0, 1), "C6 should be the OSCILLATING band-edge (0,1)"
-    assert res[8][1] > 1.9 and res[8][2] == (0, 1), "C8 should behave like C6, NOT like C4 (band-edge survivor)"
-    print("    -> C4 (4n) != C8 (4n): the anti-aromatics do NOT group; aromaticity is REFUTED.")
-    print("       The seam tracks ring + half-filling (C=0.5), not Hueckel's 4n+2. C4 is a small-ring anomaly.")
+    assert res[8][1] > 1.9 and res[8][2] == (0, 1), "C8 should give the selected oscillating (0,1) row"
+    print("    -> selected C4 and C8 rows differ despite sharing the 4n label; C6/C8 coincide here.")
+    print("       This is a finite selected-model comparison, not an aromaticity discriminant or mechanism.")
 
 
 if __name__ == "__main__":
     for N in (4, 6, 8):
         mos = huckel_mos(N, ring=True)
-        print(f"  C{N} ring MOs {np.round(mos, 2)} (zero non-bonding: {int(np.sum(np.abs(mos) < 1e-9))})")
+        print(f"  selected C{N} ring eigenvalues {np.round(mos, 2)} (zero entries: {int(np.sum(np.abs(mos) < 1e-9))})")
     print()
     _assert_sector_method_validates()
-    _assert_seam_is_ring_universal()
-    _assert_aromaticity_refuted()
-    print("\nAll asserts passed: the V-Effect seam is the ring/half-filling C=0.5 boundary (universal),")
-    print("NOT aromaticity (C4 != C8 refutes 4n+2); C4 is a small-ring anomaly.")
+    _assert_selected_strong_dephasing_rows()
+    _assert_selected_weak_dephasing_rows()
+    print("\nAll asserts passed for the selected C4/C6/C8 XX+YY plus local-Z rows.")
+    print("They do not establish a universal ring/half-filling law or a chemical aromaticity mechanism.")

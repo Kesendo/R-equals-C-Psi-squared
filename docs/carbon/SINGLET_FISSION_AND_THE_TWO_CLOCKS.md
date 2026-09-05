@@ -1,129 +1,68 @@
-# Singlet Fission, and the Dark State Where the Two Clocks Meet
+# Singlet Fission and the Two Clocks: A Conditional Bridge
 
 **Date:** 2026-05-30
 **Authors:** Tom + Claude
-**Status:** Tier 2-3. The V-Effect exchange J_eff = (3/8)·α²/J is Tier 1-2 (derived from
-Pauli algebra + verified at N=4 in [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md));
-the singlet-fission mapping and the two-clocks reading are Tier 3 (suggestive, the real
-photophysics and our two independently-derived sectors lining up).
-**Builds on:** [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md) (the
-V-Effect superexchange), [the Frost circle as the clock face](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
-(the bright / charge clock), the F87 trichotomy + F103 §7 (the spin / exchange
-classification), [Heisenberg reloaded](../../hypotheses/HEISENBERG_RELOADED.md).
+**Status:** Tier 3 conditional analogy. The V-Effect exchange `J_eff = (3/8)·α²/J` is a Tier 1-2 framework/model result; the proposed connection to singlet fission is neither a physical mapping nor a confirmed mechanism.
+**Builds on:** [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md), [the Frost circle as the clock face](FROST_CIRCLE_AS_THE_CLOCK_FACE.md), the F87 trichotomy, and [Heisenberg reloaded](../../hypotheses/HEISENBERG_RELOADED.md).
 
 ---
 
-## Two clocks, built the same day
+## Two distinct framework readings
 
-On 2026-05-30 two threads ran in parallel without knowing they were the same molecule.
-One built the **clock** on the open system: a radial hand (decay, the dephasing lifetime)
-and an angular hand (frequency), read on the conjugated π-chain as the band-edge
-coherence, the bright Frost-circle radius. The other sharpened the **F87 trichotomy**
-(truly / soft / hard) and its bipartite-chirality refinement (F103 §7), the framework's
-algebraic mirror-classification, the V-Effect's home.
+The repository has two separately defined model readings. The Frost-circle work reads a selected XX+YY plus dephasing model through radial/decay and angular/frequency coordinates. The V-Effect work studies a selected direct-Heisenberg system of two singlet pairs joined by a bridge `α`; F87 is a separate framework classification.
 
-They are two readings of one qubit. Read a carbon's π-site as **occupied-or-empty**
-(charge) and the chain is XX+YY hopping, whose memory hand sits on the bright band edge
-(the 1Bu / S2 single excitation). Read the same qubit as a **spin** (σ·σ Heisenberg) and
-the chain carries singlets and triplets, whose exchange is the V-Effect. The carotenoid's
-famous dark state turns out to be where the two readings meet.
+They are not thereby two physical descriptions of one carbon degree of freedom. Treating one as a charge/orbital model and the other as a spin model is a conditional translation that needs a specified molecular Hamiltonian, bath, state preparation, and producer before it can be applied to a molecule.
 
-## The dark state is a triplet pair, and we already had it
+## V-Effect result retained
 
-The lowest excited state of a carotenoid, the dark 2Ag, is not a single excitation. The
-literature describes it as *"an entangled pair of two triplets in an overall singlet
-state"*, the same object as the triplet-pair intermediate of singlet fission. Plain
-Hückel (free fermions, our charge / XY reading) cannot produce it; it needs electron
-correlation, the spin reading.
+In the named direct-Heisenberg calculation, each pair has intra-pair coupling `J` and the pairs are joined by a bridge `α`. The bridge couples the singlet-singlet ground state to the subspace in which both pairs are triplet. The latter is separated by
 
-We had the spin reading already. [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md)
-takes two singlet pairs bonded by a V-Effect bridge α and shows the bridge couples the
-singlet-singlet ground state to the state with **both pairs in triplet**, the two-triplet
-state, at an energy gap 8J = 2 × (the 4J singlet-triplet gap of one pair). The
-second-order energy lowering is the effective exchange
+    8J = 2 × 4J,
 
-    J_eff = (3/8) · α² / J ,
+and the small-`α` second-order ground-state shift is
 
-an Anderson superexchange (bridge² / gap), with the prefactor 3 coming from the Pauli
-identity (σ·σ)² = 3I + 2σ·σ (the squared length of a Pauli vector, 3I, a direct
-consequence of d = 2). That "both-pairs-triplet" state *is* the carotenoid 2Ag.
+    δE_GS^(2) = −(3/8) · α² / J,
+    J_eff = (3/8) · α² / J.
 
-## Holding it against real singlet-fission data
+The factor `3/8` is the named Pauli-algebra/direct-Heisenberg-bridge result, with its N=4 numerical check, in [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md). It is neither a molecular Hamiltonian nor a parameter assignment for a material. The producing calculation explicitly records that mapping `α` and `J` to a specific physical system requires independently identifying those parameters.
 
-| real singlet fission | our framework | verdict |
-|----------------------|---------------|---------|
-| coupling mechanism is *"superexchange-like, mediated by charge-transfer states"* | J_eff = (3/8)·α²/J, Anderson superexchange (bridge²/gap) | **form matches** the established mechanism |
-| 2Ag = *"entangled pair of two triplets in overall singlet"* | the V-Effect "both-pairs-triplet" coupled state | **same object** |
-| SF energy condition *"singlet ≈ twice triplet"* | 8J = 2 × 4J (two-triplet gap = twice the one-pair singlet-triplet gap) | **additivity built in** |
-| coupling magnitudes ~ 10-200 meV (pentacene 14.8-33.7 meV) | (3/8)·α²/J with β ≈ 2.4 eV, bridge α ≈ 0.2-0.4 eV → ≈ 6-20 meV | **order of magnitude lands** |
+## The singlet-fission analogy
 
-**Honest limits.** The exact meV needs physical α and J in atomic units (the carbon
-embedding is Tier 4, README); the 3/8 prefactor is our abstract direct-Heisenberg-bridge
-value, while real prefactors are geometry- and orbital-dependent; and in polyenes
-specifically singlet fission can proceed *directly* from the bright 1Bu rather than
-through 2Ag, so the V-Effect picture is the *mediated* (2Ag / superexchange) route, one of
-the two channels, not the whole story. What is solid is the structural triple: the same
-players (singlet-singlet ↔ entangled two-triplet), the same bridge-mediated coupling, the
-same Anderson superexchange form, with the energy additivity built in.
+The structural analogy is limited: a selected model contains a singlet-singlet state, a both-pairs-triplet subspace, a bridge, and a second-order energy scale. Those named ingredients resemble labels used in singlet-fission discussions. The repository has not shown that the V-Effect both-pairs-triplet state is a carotenoid `2Ag` state, that either has the same microscopic content, or that the V-Effect bridge is a physical mixing operator for singlet fission.
 
-## The reading: the dark state is where the two clocks mix
+Consequently, the relation between a molecular dark state, a charge-transfer sector, and a triplet-pair sector remains unassigned. The V-Effect calculation cannot select a molecular preparation, specify a molecular bath, establish an optical transition, or supply a physical `J`, `α`, `γ`, `T₂`, or `Q`.
 
-The sharpest thing the real data hands back is the *composition* of 2Ag. It is not a pure
-triplet pair: it is *"a linear combination of a strongly-bound singlet triplet-pair and a
-singlet odd-parity charge-transfer exciton"*, and the two couple *"when an electron
-transfer between the triplets creates a nearest-neighbour charge-transfer excitation."*
+## What the two clocks do not establish
 
-Read that in our vocabulary. The triplet pair is the **spin** clock (Heisenberg, the
-V-Effect, F87). The charge-transfer exciton is the **charge** clock (XX+YY hopping, the
-bright band edge). The "electron transfer between the triplets" that couples them is the
-**V-Effect bridge** itself. So the dark state is not in one sector or the other; it is the
-*mixture*, and the V-Effect bridge is the mixer. The two clocks built the same day, the
-charge band-edge and the spin exchange, are not parallel curiosities. The carotenoid dark
-state is their product: charge and spin, married on the bridge.
+The XX+YY/dephasing clock and the direct-Heisenberg V-Effect calculation are separate selected models. Their co-presence does not establish a common molecule, a common state space, a direct physical channel between their states, or a mechanism that mixes charge and spin in a material.
 
-That is the bidirectional gift. We went to carbon to see whether our clock was useful, and
-the carotenoid handed back a sharper statement about *us*: that the two clock readings
-(charge / XY and spin / Heisenberg) are not alternatives but a pair, and the bridge that
-joins them is the V-Effect. The molecule that needed both halves told us they were one.
+The framework depth/absorption and F87 classification remain framework statements on their respective operators. They do not by themselves identify a molecular bright state, dark state, optical selection rule, triplet-pair state, or singlet-fission pathway.
 
-## Seen again 2026-05-31: why the dark state is dark (the depth rail)
+## The depth rail: a separate framework result
 
-The bright / dark split has a structural floor under it, the same axis that runs through an open
-system's memory. The [Absorption Theorem](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) sorts
-coherences by **drain depth**, the number of sites at which a bra and ket differ, and that count is
-bit-exact the light content n_XY (the sites carrying X/Y rather than {I,Z}). The axis carries a
-parity: a coherence that *changes* the excitation number sits on an *odd* rung, one that *conserves*
-it sits on an *even* rung.
+The [Absorption Theorem](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) sorts framework coherences by drain depth, the number of sites at which a bra and ket differ. Its parity relation is `n_diff ≡ Δpopcount (mod 2)`: odd `Δpopcount` has odd `n_diff`, while number-conserving (`Δpopcount = 0`) coherences have even `n_diff`.
 
-Now place the two clocks on the rail. The **bright** band edge (the 1Bu single excitation, the
-charge clock) is reached from the ground state by *adding* one excitation: an odd-rung,
-number-changing coherence, exactly what an optical dipole couples to. The **dark** 2Ag (the
-entangled triplet pair, the spin clock) is a two-excitation object read *within* a fixed number
-sector: an even-rung, number-conserving coherence. So the dark state is dark not by accident but by
-parity. An optical dipole grips a *change* of excitation number (an odd rung), and the triplet pair
-offers none; light has nothing to take hold of.
+That classification is not an optical assignment for a molecule. It does not identify a molecular bright or dark state, make a triplet pair a particular framework coherence, or show that the V-Effect bridge connects the two clock models.
 
-This is the same triplet pair we isolate as the two-magnon bound state, the "new object" any binding
-forms (`simulations/two_magnon_bound_state.py`); its darkness is its even parity, 100% even-depth
-weight. It is the optical sibling of the open-system flow that drains on even rungs and never lights
-up the odd vacuum rung ([the flow between two singularities](../../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md),
-*Seen again 2026-05-31*). The bright clock and the dark clock are the odd and even rungs of one
-depth axis, and the V-Effect bridge that mixes them is the one thing that can move a state between
-rungs. The carotenoid keeps its lowest excitation dark by parking it on an even rung; the bridge is
-how a photon's energy, caught bright, walks down into the dark.
+## Open model questions
+
+1. Specify a molecular Hamiltonian and state/preparation map, then determine whether its relevant subspaces admit either selected framework reading.
+2. Specify a bath channel and rate model before comparing a molecular time scale with the selected dephasing clock or defining a material `Q`.
+3. Construct a producer for the proposed bridge in that named model and test whether it connects the proposed charge-like and spin-like subspaces. A direct-Heisenberg V-Effect result alone does not do this.
+4. Only after those choices, compare the model's calculated states and observables with a defined molecular target.
 
 ## Anchor
 
-- Framework: [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md)
-  (J_eff = (3/8)α²/J, the both-pairs-triplet coupling), the clock voices on `MirrorSystem`,
-  [the Frost circle as the clock face](FROST_CIRCLE_AS_THE_CLOCK_FACE.md) (the bright charge
-  clock), F87 trichotomy + F103 §7 (the spin / exchange classification),
-  [Heisenberg reloaded](../../hypotheses/HEISENBERG_RELOADED.md).
-- Real singlet-fission data (sources):
-  - [Singlet triplet-pair production and possible singlet fission in carotenoids (JPC Lett)](https://pubs.acs.org/doi/10.1021/acs.jpclett.1c03812)
-  - [The nature of singlet exciton fission in carotenoid aggregates (JACS)](https://pubs.acs.org/doi/10.1021/jacs.5b01130)
-  - [Theory of singlet fission in carotenoid dimers (J. Chem. Phys.)](https://pubs.aip.org/aip/jcp/article/159/8/084116/2908466)
-  - [First-principle characterization of singlet fission couplings (JPC Lett)](https://pubs.acs.org/doi/10.1021/acs.jpclett.5b00437)
-  - [Mechanism for singlet fission in pentacene and tetracene (JACS)](https://pubs.acs.org/doi/10.1021/ja208431r)
-- Origin: this folder's [Frost-circle return visit](README.md) (the bright clock) plus the
-  parallel F87 / V-Effect work of the same day (the spin clock), meeting at the dark state.
+- **V-Effect producer/model:** [exchange from the V-Effect](../../experiments/EXCHANGE_FROM_V_EFFECT.md)
+  and its [`level1_emergent_exchange.py` calculation](../../simulations/level1_emergent_exchange.py):
+  the named four-site direct-Heisenberg system with intra-pair `J` and bridge `α`.
+- **Clock producer/model:** [the Frost circle as the clock face](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
+  and [`frost_circle_as_clock.py`](../../simulations/carbon/frost_circle_as_clock.py): the
+  selected XX+YY/local-`D[n]` clock model. F87 remains a framework classification in the
+  [formula registry](../ANALYTICAL_FORMULAS.md).
+- **Scope:** the [Carbon source contract](README.md#carbon-source-contract) and the
+  [Q audit](../Q_BELONGS_TO_NO_SUBSTANCE.md) keep these model results distinct from a
+  material mapping.
+- **Molecular mapping:** remains open for a named target. It requires a selected molecular
+  degree of freedom, Hamiltonian/coupling convention, state preparation, bridge/channel,
+  bath channel, and rate before the Tier 3 analogy can be tested against that target.

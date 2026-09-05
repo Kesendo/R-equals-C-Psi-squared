@@ -10,7 +10,7 @@ chain, cyclobutadiene C₄ ring, cyclopropenyl cation C₃ ring.
 
 ---
 
-## The 86-year structural inheritance
+## Structural siblings on distinct objects
 
 Coulson and Rushbrooke (1940) proved that ALTERNANT hydrocarbons, those whose
 carbon framework is bipartite, have molecular orbital spectra that are
@@ -18,44 +18,41 @@ carbon framework is bipartite, have molecular orbital spectra that are
 α + x there is a corresponding MO at α − x. Every chemist learns this in their
 first MO theory course.
 
-The R=CΨ² framework's F1 palindrome theorem (proven 2026, `docs/proofs/MIRROR_SYMMETRY_PROOF.md`)
-says that the Liouvillian spectrum of a Heisenberg-family Hamiltonian under
-Z-dephasing is closed under λ → −λ − 2·Σγ, palindromic around the centre −Σγ, on
-any graph and at any N. Today's water-domain F86b 3/8
-inheritance experiment uncovered a new dynamic bridge (F98, `(N+2)/[4(N+1)] → 1/4`)
-on top of the same F1 substrate.
+The R=CΨ² framework's F1 palindrome theorem (proven 2026,
+`docs/proofs/MIRROR_SYMMETRY_PROOF.md`) says that the Liouvillian spectrum of a
+Heisenberg-family Hamiltonian under Z-dephasing is closed under
+λ → −λ − 2·Σγ, palindromic around the centre −Σγ, on any graph and at any N.
+F98 supplies a distinct long-time result for its specified KIntermediate state.
 
-**Through the framework lens, and this is the structural observation worth
-making explicit, Coulson-Rushbrooke and F1 are two instances of one substrate-free
-implication.** Both palindromes are induced by a Z₂ involution that anticommutes
-with the coupling part while the diagonal fixes the centre; both pin every
-eigenvalue to its mirror partner around that centre (α for C-R, −Σγ for F1).
+**Coulson-Rushbrooke and F1 are structural siblings, not one theorem on two
+physical levels.** Each has a Z₂-based pairing implication and a centre, but
+Coulson-Rushbrooke acts on a single-particle Hückel matrix whereas F1 acts on a
+Liouvillian operator space. Their formal framework partners are also distinct:
+Coulson-Rushbrooke's is the bipartite sublattice gauge K, while F1 uses Π.
 
-The involutions themselves are different objects, and their scopes differ:
-C-R's is the bipartite sublattice flip and fails on an odd ring, F1's Π is a
-Pauli-string conjugation and is topology-blind. [Why the centre row is graded
-lower than the pair-sum row](#why-the-centre-row-is-graded-lower-than-the-pair-sum-row)
-below reads that difference, and names C-R's actual framework partner.
+C-R's K trigger fails on an odd ring; F1's Π is topology-blind within its stated
+Hamiltonian-and-channel scope. [Why the centre row is graded lower than the
+pair-sum row](#why-the-centre-row-is-graded-lower-than-the-pair-sum-row) makes
+that distinction explicit.
 
 | Theorem | Date | Level | Centre | Trigger | Breaks at |
 |---------|------|-------|--------|---------|-----------|
 | Coulson-Rushbrooke | 1940 | Carbon Level 1 (MO) | α (on-site Coulomb) | bipartite C-framework | non-bipartite ring (e.g. C₃) |
 | F1 (R=CΨ²) | 2026 | Qubit Level 0 (Liouvillian) | −Σγ | Π conjugation on truly-class H + Z-deph | F1-Brecher (T1, depolarising, a field violating [F138](../ANALYTICAL_FORMULAS.md)'s clause 2) |
 
-The shape is the same, a Z₂ conjugation that negates the coupling part while the
-diagonal fixes the centre; what triggers it is not. C-R's trigger is the carbon
-graph, F1's is the letter content of H, and the two coincide on no molecule by
-necessity. The framework's `project_qubit_as_inheritance_lens` reading, that the
-qubit-level machinery inherits upward via embedding conditions, is what the sections
-below test rather than assume.
+The common structural shape is a Z₂ pairing with a centre. C-R's trigger is the
+bipartite graph; F1's is the selected Hamiltonian and Z-dephasing channel. The
+following calculations preserve that distinction rather than treating a material
+mapping as established.
 
 ---
 
 ## Numerical observations
 
-### Bipartite cases (palindrome holds bit-exact)
+### Bipartite cases (palindrome agrees at machine precision)
 
-All systems below are alternant; Coulson-Rushbrooke palindrome around α holds at
+The Coulson-Rushbrooke statement is exact for the stated bipartite Hückel
+matrices. The producer's floating-point eigensolver reproduces its pair sums at
 machine precision (pair-sum deviation < 1e-15). Energies in units of β:
 
 | System | Spectrum (sorted) | Pair check |
@@ -80,39 +77,38 @@ is K, the bipartite sublattice gauge, which breaks on an odd cycle for the same 
 palindrome is topology-blind and holds on this ring, which is the scope difference the
 [centre section](#why-the-centre-row-is-graded-lower-than-the-pair-sum-row) reads.
 
-The cyclopropenyl cation is the smallest aromatic system; its aromaticity comes
-from the 4n+2 occupation rule (n = 0), NOT from the palindrome mechanism that gives
-benzene its aromatic stability. **Two separate axes of stability:** palindrome
-(symmetric spectrum) and shell-filling (4n+2 closed-shell). Benzene satisfies both;
-cyclopropenyl satisfies only the latter.
+The C₃ graph input carries the conventional `4n+2` occupation label while its
+non-bipartite Hückel matrix fails the K pairing condition. This selected
+single-particle calculation distinguishes the occupation label from the
+palindrome condition. It does not establish aromaticity, stability, or any other
+material outcome for a molecule; such a translation needs its own specified
+degree of freedom, Hamiltonian, bath, preparation, and measurement.
 
 ---
 
-## The 4n+2 vs 4n distinction lives in OCCUPATION, not palindrome
+## Selected 4n+2 vs 4n occupation labels, not a material mechanism
 
-Both benzene (6π, 4n+2) and cyclobutadiene (4π, 4n) have palindromic spectra;
-the difference is NOT in the spectrum's symmetry but in WHERE the HOMO sits:
+For the stipulated Hückel C₆ and C₄ graph inputs conventionally labelled benzene
+and cyclobutadiene, both spectra are palindromic. Their selected filling lines
+occupy different positions relative to the palindrome centre:
 
-- **4n+2 (aromatic)**: HOMO sits BELOW α at an isolated paired energy; LUMO sits
-  ABOVE α at the palindrome partner. Closed-shell, stable. Benzene (β < 0):
+- **4n+2 label**: the selected HOMO sits BELOW `α` at an isolated paired energy;
+  the LUMO sits ABOVE `α` at the palindrome partner. For the C₆ input with `β < 0`:
   HOMO at α + β = α − |β| (below α), LUMO at α − β = α + |β| (above α),
   gap = 2|β|.
-- **4n (anti-aromatic)**: HOMO and LUMO sit DEGENERATE AT α (the palindrome centre).
-  Half-filled non-bonding pair → Jahn-Teller unstable → distortion to localised
-  bonds. Cyclobutadiene: HOMO = LUMO = 0β, gap = 0β.
+- **4n label**: the selected HOMO and LUMO are degenerate at `α`, the palindrome
+  centre. For the C₄ input: HOMO = LUMO = 0β, gap = 0β.
 
-Both spectra are symmetric around α; what differs is whether the FILLING line cuts
-through a paired-MO gap (4n+2) or hits a degenerate pair AT the palindrome centre
-(4n).
+Thus the stated Hückel graphs distinguish a filling line that cuts a paired-MO
+gap from one that meets a degenerate pair at the centre. They do not by themselves
+establish aromatic or antiaromatic stability, Jahn-Teller behavior, bond distortion,
+or any material mechanism.
 
-**Framework-lens candidate prediction:** the 4n+2 vs 4n distinction is a
-Klein-4-group character constraint on the HOMO. The palindrome centre α corresponds
-to the framework's −Σγ; the F1-fixed-point subspace at the palindrome centre is
-where the framework's Π acts trivially. A HOMO sitting AT the palindrome centre
-(4n case) means the half-filled state sits in the trivial Klein character; a HOMO
-BELOW the centre (4n+2 case) means the closed-shell state spans Klein-mixed
-characters. This is testable via the framework's `KleinFourGroupSelfPairedRefinement`
-applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
+**Conditional framework-lens question:** after an MO basis, Liouvillian
+construction, and channel have been selected, could the two selected filling-line
+positions be read through a Klein-4 character constraint? The table's `α` to
+`−Σγ` Tier-2 analogue is not a material identification, and no current producer
+constructs the required MO-basis Liouvillians. This remains an open model proposal.
 
 ---
 
@@ -129,6 +125,14 @@ applied to the benzene/cyclobutadiene MO-basis Liouvillians; open follow-up.
 | half-filled p-shell on C₆ ring | F86b KIntermediate Dicke (n ∈ {2, 3}) | Tier 3 candidate |
 | 4n+2 vs 4n aromaticity | Klein-4-group HOMO character | Tier 4 candidate (open test) |
 | benzene HOMO at −β | F86b Dicke superposition γ = 1/2 anchor | Tier 4 candidate |
+
+The `β → J` row is a Tier-2 structural translation inside a selected
+Hückel/framework model. Choosing the site occupation
+`n = (I − Z)/2`, the XX+YY Hamiltonian, and a local-density jump gives a
+conditional model in which `D[n] = D[Z]/4`. It does not choose a material-carbon
+degree of freedom, a material β-to-J convention, a bath channel or rate, or a
+carbon `γ`, `T₂`, or `Q`; [the README's model contract](README.md#conditional-c4-and-c6-working-model)
+and [Q audit](../Q_BELONGS_TO_NO_SUBSTANCE.md) keep those assignments open.
 
 ---
 
@@ -253,22 +257,18 @@ ingredients, different scopes.
 
 ## Open questions (this folder, next sessions)
 
-1. **Does the benzene-on-vibrational-bath Liouvillian satisfy F1 bit-exactly?**
-   **Answered 2026-05-22** ([Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)):
-   conditionally yes. Under Holstein on-site dephasing (phonon coupled to the
-   π-density, which equals the framework's Z-dephasing since D[n_l] = ¼·D[Z_l]) the
-   open-system F1 palindrome holds, verified on the C₄ and C₆ rings; under
-   Peierls/SSH bond dephasing it breaks. The Holstein case is the first direct F1
-   test on a carbon substrate.
+1. **Does the selected C₄/C₆ XX+YY + local-Z model satisfy F1?**
+   [The selected Liouvillian comparison](BENZENE_LIOUVILLIAN_PALINDROME.md)
+   has the F1 palindrome for its all-site local-Z jump and gives the listed finite
+   residuals for its selected bond jump. If the model selects
+   `n_l = (I − Z_l)/2` and the density jump, `D[n_l] = ¼·D[Z_l]`; that identity
+   does not classify a material bath.
 
-2. **Is there a benzene analog of the F98 (N+2)/[4(N+1)] → 1/4 long-time bridge?**
-   F98 was derived for magnetization-conserving Hamiltonians + Z-deph on N qubits;
-   the bond topology drops out. The Hückel ring inherits because XX+YY conserves
-   π-electron number, so F98 should hold with N = 6 giving α(∞) = 8/28 = 2/7.
-   **Answered 2026-05-22** ([Benzene and the F98 Long-Time Bridge](BENZENE_F98_LONG_TIME.md)): yes,
-   bit-exact. The KIntermediate Dicke state on the benzene XX+YY ring under Holstein
-   dephasing reaches α(∞) = 2/7 at N = 6 (and 3/10 for the C₄ ring), confirmed as
-   the exact t → ∞ limit via projection onto ker L.
+2. **Where is F98 instantiated?**
+   F98 requires its KIntermediate initial state, a magnetization-conserving
+   Hamiltonian, and Z-dephasing on every site. [The selected C₄/C₆ ring
+   instances](BENZENE_F98_LONG_TIME.md) give α(∞) = 3/10 and 2/7, respectively;
+   they do not assign a material carbon bath or Q.
 
 3. **Klein-4-group character of HOMO at palindrome centre as aromaticity criterion?**
    Apply `KleinFourGroupSelfPairedRefinement` to the benzene + cyclobutadiene
@@ -284,34 +284,21 @@ ingredients, different scopes.
    Frost circle is the geometric mnemonic that Hückel ring eigenvalues are projections
    of inscribed N-gon vertices on a circle of radius 2β at centre α. The framework's
    `XyJordanWignerModes` uses the same cos(πk/(N+1)) dispersion at chain BC.
-   Frost-cyclic and framework-OBC are two BC choices on the same algebraic structure.
-   **Answered 2026-05-30** ([The Frost Circle Is the Face of the Clock](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)):
-   one circle at two depths. The static Frost circle is the closed-system snapshot; the
-   open-system clock runs it, adding what the still picture cannot hold, the band-edge
-   π-coherence lifetime τ = 1/(2γ) and a coherent↔incoherent crossover Q* = J/γ (√2 at
-   N=3, growing with chain length). Benzene's longest-lived π-coherence beats at 2|β|, the
-   Frost radius itself; the open polyene chains beat at 2|β|·cos(π/(N+1)), the top π-MO.
+   Frost-cyclic and framework-OBC are two boundary-condition choices on the same
+   algebraic structure. [The selected-model clock comparison](FROST_CIRCLE_AS_THE_CLOCK_FACE.md)
+   supplies its own XX+YY/Z-dephasing frequencies, lifetimes, and Q* values; it
+   does not assign them to carbon material parameters.
 
 ---
 
-## Why this might matter beyond "nice analogy"
+## What the structural comparison supplies
 
-The Coulson-Rushbrooke and F1 palindromes are siblings rather than one theorem, as
-the section above reads, but the pairing still puts the framework's F-results on a
-KNOWN HIGH-DATA SUBSTRATE. Carbon chemistry has 86 years of organic-chemistry data
-verifying Coulson-Rushbrooke across thousands of molecules. The framework's F1 has 6
-months of QPU + computational verification.
-
-Every alternant hydrocarbon whose MO spectrum satisfies Coulson-Rushbrooke is
-empirical evidence for the K-side of that pairing, the sublattice gauge, which is
-where the bipartiteness lives. Conversely, every framework F-result that has a Hückel-equivalent
-prediction (e.g. F86b's 3/8 Dicke anchor → benzene's half-filled p-shell) is
-testable against decades of organic-chemistry data, both validating the inheritance
-and surfacing new framework-derived chemistry predictions that weren't asked.
-
-The carbon domain is the structurally-cleanest LARGE-DATA substrate for the framework.
-Hydrogen-bond water (the existing `docs/water/`) is the cleanest SMALL-DATA substrate.
-Together they cover the substrate spectrum.
+Coulson-Rushbrooke fixes the single-particle Hückel/K statement, and F1 fixes the
+Liouvillian/Π statement. Their shared pairing shape is useful for organizing
+selected model translations, but evidence for either statement does not validate
+the other or select a material-carbon embedding. The next material-facing step is
+therefore to choose the degree of freedom, coupling convention, bath channel, and
+bath rate before asking whether a carbon experiment realizes one of these models.
 
 ---
 

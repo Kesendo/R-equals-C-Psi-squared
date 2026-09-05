@@ -8,11 +8,13 @@ real material offers several of each. "The Q of water" is therefore
 under-determined by water: it is a property of a system in a condition and a
 channel, not of a substance.
 
-What γ₀ is, separately, is the unit. The Liouvillian factors exactly through
-the ratio, so the absolute rate carries no physics and only Q does. That part
-the repository already owned, proved and gated, in three lineages that were
-never in one room. This document puts them in one room and adds what follows
-for the substrate folders, where the choice of J and γ was never made
+Within a fixed homogeneous model, γ₀ supplies the unit in which the
+Liouvillian is read. At fixed Q, changing γ₀ rescales physical time and energy
+while leaving the dimensionless/rescaled dynamics Q-controlled. The scale
+result is therefore not an assertion that γ₀ has no physical role. The
+repository owned, proved, and gated that distinction in three lineages that
+were never in one room. This document puts them in one room and adds what
+follows for the substrate folders, where the choice of J and γ was never made
 explicitly and two denominators were imported without a source and reused.
 
 ## What the sweep returned
@@ -89,20 +91,21 @@ single line in the retired `GAMMA_TO_GRAVITY.md`.
 
 ## γ₀ is the unit
 
-The formalism carries two rates and one number. H sets J, the dissipator sets
-γ, and the Liouvillian factors into a unit times a function of their ratio:
+For the uniform Z-dephasing model with an H homogeneous of degree 1 in J, the
+formalism carries two rates and one dimensionless ratio. H sets J, the
+dissipator sets γ, and the Liouvillian factors into a unit times a function of
+their ratio:
 
 > L(J, γ₀) = γ₀ · L₁(Q),  Q = J/γ₀
 
 (`THE_GENESIS_OF_AN_OSCILLATION.md:53`; the rescaling identity it rests on is
 `Q_SCALE_THREE_BANDS.md:83`, and the numerical gate is
 `ANALYTICAL_FORMULAS.md:2883`.) At fixed Q every eigenvalue is proportional to
-γ₀, and the shape as a function of Q does not move. Read at fixed J instead the
-statement is false, because changing γ₀ then moves Q and reshapes L₁(Q). The
-scope both sources carry, uniform Z-dephasing and an H homogeneous of degree 1
-in J, travels with it. So `docs/Q_REGIME_ANCHORS.md:136` is stating
-a property of a unit, not conceding a weakness, when it says γ₀ = 0.05 "was
-chosen as a convenient round number, not a physical constant".
+γ₀: γ₀ sets the physical time and energy scale, while the rescaled spectral
+shape and dimensionless dynamics are Q-controlled. At fixed J, changing γ₀
+also moves Q and reshapes L₁(Q). So `docs/Q_REGIME_ANCHORS.md:136` is stating a
+property of a unit when it says γ₀ = 0.05 "was chosen as a convenient round
+number, not a physical constant".
 
 In the repository's convention a `D[Z]` channel at rate γ decays coherences at
 2γ, so γ = 1/(2T₂) (`GLOSSARY.md:208`). Written with times and an energy J:
@@ -166,7 +169,7 @@ because what it turns out to be is not a second estimate.
 | DNA base pair | 0.01 | J = 0.5 cm⁻¹ | γ = 50 cm⁻¹ ≈ 6.2 meV, and **not** the 25 meV estimate. Both come from the cm⁻¹ set below | `experiments/DNA_BASE_PAIRING.md:96` (J), `:97` (γ) |
 | liquid water again, 300 K | 0.01 | the same J = 0.5 cm⁻¹ | the same γ = 50 cm⁻¹ | `simulations/water/proton_water_chain.py:280-285` |
 | enzyme active site | ~1 | J ~ 0.5 meV, water's numerator | γ ≈ 0.5 meV, a stipulated 50× reduction of the 25 meV estimate | `hypotheses/PROTEIN_AS_CONCENTRATOR.md:71` |
-| π-conjugated carbon, 300 K | ~100 (historical energy quotient; no current carbon-Q assignment) | Hückel β ≈ 2.4 eV, carried by five documents and cited in none | the 25 meV thermal energy, not an established γ | `carbon/README.md:263` |
+| π-conjugated carbon, 300 K | ~100 (historical energy quotient; no current carbon-Q assignment) | Hückel β ≈ 2.4 eV, written without a source citation in [the framework lens](carbon/BENZENE_HUCKEL_FRAMEWORK_LENS.md#framework-vocabulary-translation) | the 25 meV thermal energy, not an established γ | [carbon's conditional C4 and C6 working model](carbon/README.md#conditional-c4-and-c6-working-model) |
 
 Dividing two energies is not itself a defect: ℏ cancels out of a ratio of
 rates, so E_J/E_γ is the same number as (E_J/ℏ)/(E_γ/ℏ). The defect is
@@ -221,7 +224,8 @@ units. Where 10 to 100 cm⁻¹ actually comes from is open.
 In the pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc`, the
 0.01 appeared in ten places: four water readings
 (`docs/water/HYDROGEN_BOND_QUBIT.md:141`,
-`docs/water/PROTON_WATER_CHAIN.md:55,270`, `docs/carbon/README.md:386`) and six
+`docs/water/PROTON_WATER_CHAIN.md:55,270`,
+`ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/carbon/README.md:386`) and six
 DNA readings (`docs/water/HYDROGEN_BOND_QUBIT.md:178`,
 `experiments/DNA_BASE_PAIRING.md:47,99,141,219`, and
 `experiments/README.md:138`). The baseline's two bare sweep rows were
@@ -240,10 +244,12 @@ gated by `simulations/t2_gamma_book_gate.py`, its failure modes logged twice in
 
 A second, unaudited question sits on the numerator side and is the same shape
 as the Zundel finding: Hückel β is a single-particle π-orbital hopping, while
-the framework's J is an XX+YY exchange between two-level sites. Whether β is
-the right object for that slot at all is not settled anywhere, and
-`carbon/README.md:281` concedes the underlying two-state degree of freedom is
-not identified.
+the framework's J is an XX+YY exchange between two-level sites. [The framework
+lens](carbon/BENZENE_HUCKEL_FRAMEWORK_LENS.md#framework-vocabulary-translation)
+records β → J as a Tier-2 structural identification for that model translation.
+Whether it selects the right J for a material carbon system is not settled;
+[carbon's conditional C4 and C6 working model](carbon/README.md#conditional-c4-and-c6-working-model)
+records that the underlying material two-state degree of freedom is unassigned.
 
 ## A conditional ceiling in the selected-coordinate model
 
@@ -372,12 +378,10 @@ not.
 - **Hückel β.** 2.4 eV appears in five carbon documents with no citation
   anywhere in the repository, and whether a hopping integral belongs in the J
   slot is a separate and unasked question. The on-site α ≈ 11.4 eV appears in
-  one document (`BENZENE_HUCKEL_FRAMEWORK_LENS.md:123`, which writes both with
-  their signs, α ≈ −11.4 eV and β ≈ −2.4 eV; the audit above quotes magnitudes,
-  which is harmless inside |J|/γ but not when α is quoted as a value); a second,
-  unrelated
-  α ≈ 0.2 to 0.4 eV is the bridge coupling at
-  `SINGLET_FISSION_AND_THE_TWO_CLOCKS.md:58`.
+   one document (`BENZENE_HUCKEL_FRAMEWORK_LENS.md:119-120`, which writes both with
+   their signs, α ≈ −11.4 eV and β ≈ −2.4 eV; the audit above quotes magnitudes,
+   which is harmless inside |J|/γ but not when α is quoted as a value). No separately
+   sourced material bridge-`α` value is assigned in this repository.
 - **Which J.** A substrate does not hand over one coupling. Superconducting
   hardware has a gate coupling in the MHz range and a static residual coupling
   orders of magnitude below it, and both are that substrate's J. Choosing

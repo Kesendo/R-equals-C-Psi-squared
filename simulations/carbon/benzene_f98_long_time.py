@@ -11,19 +11,16 @@ F98 was derived for any bond graph (the topology drops out: the
 t -> inf limit projects onto ker L per F4) and verified bit-exact N = 4..16 on
 the Heisenberg CHAIN, in simulations/water/proton_chain_dicke_anchor.py.
 
-Question 5 asks for the BENZENE instance. Benzene's Hueckel pi-system is the
-XX+YY RING (not the Heisenberg chain), and Holstein on-site dephasing is the
-framework's Z-dephasing (BENZENE_LIOUVILLIAN_PALINDROME.md: D[n_l] = 1/4 D[Z_l]).
-Both differ from the chain F98 was verified on. The benzene ring is still
-magnetization-conserving (XX+YY commutes with the pi-electron number) and the Holstein bath is still
-Z-dephasing, so F98's preconditions hold and the long-time fraction should be
-(N+2)/[4(N+1)]: 3/10 for the C4 ring, 2/7 for the C6 benzene ring.
+This is a selected XX+YY spin ring (not a molecular-dynamics calculation) with
+all-site Z dephasing.  F98 applies because this model conserves
+W = Sum_l (I-Z_l)/2 and starts in its specified KIntermediate Dicke state.  It
+therefore predicts (N+2)/[4(N+1)]: 3/10 for C4 and 2/7 for C6.
 
-This script evolves the KIntermediate Dicke state under the actual benzene-ring
-Holstein Liouvillian (the exact t -> inf limit, via projection onto ker L) and
-confirms alpha(inf). The Pi^2 machinery (the Lindbladian builder, pi2_split, the
-propagator) is reused from the water F98 script; the only new piece is the XX+YY
-ring Hamiltonian in place of the Heisenberg chain.
+If site occupation n_l and a density jump are selected, D[n_l] = D[Z_l]/4 is an
+exact operator identity.  It does not assign a physical carbon coordinate,
+beta-to-J conversion, bath, gamma, T2, or Q.  The Pi^2 machinery (the Lindbladian
+builder, pi2_split, the propagator) is reused from the water F98 script; the new
+piece is the XX+YY ring Hamiltonian in place of the Heisenberg chain.
 """
 import sys
 import numpy as np
@@ -96,11 +93,15 @@ def pi2_odd_total(rho, N):
             np.linalg.norm(rho_odd, "fro") ** 2)
 
 
-# ---- the only new piece: the benzene Hueckel pi-ring Hamiltonian ---------------
+# ---- selected XX+YY ring Hamiltonian --------------------------------------------
 def benzene_ring_hamiltonian(N):
-    """XX+YY ring on N sites: H = Sum_{ring bonds} (X_a X_b + Y_a Y_b), the
-    Jordan-Wigner image of Hueckel pi-hopping. Truly-class (F87): XX, YY are
-    both Pi^2-even. This replaces the water script's Heisenberg chain."""
+    """XX+YY ring on N sites: H = Sum_{ring bonds} (X_a X_b + Y_a Y_b).
+
+    This is the selected spin model.  Its hopping-style structural comparison to
+    a Hueckel ring does not furnish a material Hamiltonian or a beta-to-J map.
+    Truly-class (F87): XX, YY are both Pi^2-even. This replaces the water script's
+    Heisenberg chain.
+    """
     bonds = [(l, (l + 1) % N) for l in range(N)]          # ring, incl. wrap-around
     return sum(site_op(SX, a, N) @ site_op(SX, b, N)
                + site_op(SY, a, N) @ site_op(SY, b, N)
@@ -128,7 +129,7 @@ def verify(N, gamma=0.5):
     rho0 = np.outer(psi, psi.conj())
     tot0, odd0 = pi2_odd_total(rho0, N)
 
-    print(f"=== C{N} benzene ring: F98 long-time bridge "
+    print(f"=== selected C{N} XX+YY ring: F98 long-time bridge "
           f"(d={d}, L is {d * d}x{d * d}) ===")
     print(f"  KIntermediate Dicke (|D_{m}> + |D_{m + 1}>)/sqrt(2)")
     print(f"  alpha(t=0)   = {odd0 / tot0:.8f}   (F86b static anchor: 3/8 = 0.375)")
@@ -149,13 +150,13 @@ def verify(N, gamma=0.5):
     print(f"  F98 (N+2)/[4(N+1)] = {alpha_f98} = {float(alpha_f98):.8f}   "
           f"|diff| = {abs(alpha_inf - float(alpha_f98)):.2e}")
 
-    # cross-check: does the benzene dynamics land on the exact F98 rho_inf?
+    # Cross-check: does the selected dynamics land on the exact F98 rho_inf?
     rho_formula = 0.5 * (popcount_projector(m, N) / comb(N, m)
                          + popcount_projector(m + 1, N) / comb(N, m + 1))
     print(f"  ||rho_inf - F98 formula rho_inf||_F = "
           f"{np.linalg.norm(rho_inf - rho_formula, 'fro'):.2e}")
 
-    verdict = ("F98 HOLDS on the benzene ring"
+    verdict = ("F98 HOLDS on the selected XX+YY ring"
                if abs(alpha_inf - float(alpha_f98)) < 1e-9 else "MISMATCH")
     print(f"  -> {verdict}")
 
@@ -171,8 +172,8 @@ def verify(N, gamma=0.5):
 
 
 if __name__ == "__main__":
-    print("Question 5: does the F98 (N+2)/[4(N+1)] long-time bridge inherit to")
-    print("the benzene ring? F98 was verified on the Heisenberg chain; benzene")
-    print("is the XX+YY ring under Holstein (= Z) dephasing.\n")
+    print("Question 5: does the F98 (N+2)/[4(N+1)] long-time bridge hold for")
+    print("the selected XX+YY ring with all-site Z dephasing?  This is a model")
+    print("instance, not a material-carbon assignment.\n")
     verify(4)        # cyclobutadiene C4 ring: alpha(inf) = 6/20 = 3/10
-    verify(6)        # benzene C6 ring:        alpha(inf) = 8/28 = 2/7
+    verify(6)        # C6 ring:                alpha(inf) = 8/28 = 2/7
