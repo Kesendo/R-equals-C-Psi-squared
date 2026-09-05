@@ -41,8 +41,8 @@ ALPHA = 0.5
 def clock(ev, tol=1e-6):
     """Read the two hands off a spectrum.
 
-    Returns (n_rotating, theta_max_deg, mean_Re). theta is the angle of each
-    eigenvalue from the pure-decay (negative-real) axis.
+    Returns (n_rotating, theta_max_deg, mean_Re).
+    theta = atan2(|Im|, |Re|), which discards the real-part sign.
     """
     im = np.abs(ev.imag)
     re = np.abs(ev.real)

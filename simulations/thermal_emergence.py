@@ -216,7 +216,7 @@ for t in [0, 0.1, 0.2, 0.5, 1.0, 2.0, 3.0, 5.0, 7.0, 10.0, 15.0, 20.0, 30.0]:
     elif coh_frac > 0.5:
         comment = "coherence dominant"
     elif coh_frac < 0.01:
-        comment = "population only"
+        comment = "coherence below 1%"
     else:
         comment = f"mixed ({100*coh_frac:.0f}% coh)"
 

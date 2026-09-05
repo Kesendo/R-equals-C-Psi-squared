@@ -288,11 +288,13 @@ def test_crossing_value_uses_the_time_interpolation_fraction():
 
 @pytest.mark.parametrize("script,required,forbidden,table", [
     ("neural/neural_clock_two_hands.py",
-     ("F36 fails", "grid-dependent", "external drive P", "fitted diagonal"),
+     ("F36 fails", "grid-dependent", "external drive P", "fitted diagonal",
+      "theta = atan2(|Im|, |Re|), which discards the real-part sign"),
      ("(SILENT)", "Rotation wakes", "THERMAL WINDOW", "move only the Rotation",
       "ROTATION LIVES ON COARSE DEGREE"), "theta_max"),
     ("neural/exact_pairing_test.py",
-     ("legacy real-part matcher", "neural_translation_gate.py"),
+     ("legacy real-part matcher", "neural_translation_gate.py",
+      "For the even-N spectra displayed here, its mean pair sum is fixed by the trace."),
      ("EXACT palindrome achieved", "exact only at zero coupling", "98.2%"), "mean_sum"),
     ("neural/wilson_cowan_palindrome.py",
      ("conditional matrix probe", "Unequal decay rates alone", "distinct-rate heuristic"),
@@ -305,8 +307,9 @@ def test_crossing_value_uses_the_time_interpolation_fraction():
      ("matching excludes zero roots", "full multiset pairs", "frequency weight"),
      ("palindrome partially breaks", "CΨ = ¼ predicted", "self-cleaning"), "Efreq_tot"),
     ("thermal_emergence.py",
-     ("matching excludes zero roots", "full multiset pairs", "Thermal bath only (J=0)"),
-     ("universal 2x", "As heat dissipates", "x FASTER", "self-cleaning"), "n_bar"),
+     ("matching excludes zero roots", "full multiset pairs", "Thermal bath only (J=0)",
+      "coherence below 1%"),
+     ("universal 2x", "As heat dissipates", "x FASTER", "self-cleaning", "population only"), "n_bar"),
 ])
 def test_current_producer_output_scopes_its_reading(script, required, forbidden, table):
     """Execute every table, also inspecting the module's public docstring.
@@ -320,7 +323,7 @@ def test_current_producer_output_scopes_its_reading(script, required, forbidden,
     result = subprocess.run(
         [sys.executable, "-c",
          "import runpy, sys; m = runpy.run_path(sys.argv[1], run_name='__main__'); "
-         "print(m.get('__doc__', ''))", str(path)],
+         "print(m.get('__doc__', '')); print(getattr(m.get('clock'), '__doc__', ''))", str(path)],
         capture_output=True, text=True, encoding="utf-8", check=False,
         env={**os.environ, "PYTHONIOENCODING": "utf-8", "OPENBLAS_NUM_THREADS": "1",
              "MKL_NUM_THREADS": "1", "OMP_NUM_THREADS": "1"},

@@ -3,7 +3,8 @@
 Wilson-Cowan legacy real-part matcher and coupling/sparsity diagnostic.
 
 The matcher sorts by real part and pairs endpoints, ignoring imaginary
-parts. Its mean pair sum is fixed by the trace; its standard deviation
+parts. For the even-N spectra displayed here, its mean pair sum is fixed by the trace.
+Its standard deviation
 does not test full complex multiset pairing. The printed Q-residual is a
 separate scalar-identity reading for the selected E/I permutation.
 Disjoint supports make the off-diagonal residual a coupling-norm reading.
