@@ -698,8 +698,8 @@ establish neither a symmetry-release mechanism nor a 2× decay law.
 
 ### The neural quarter needs its own observable
 
-Two normalized complementary amplitudes have product 1/4 when they are
-equal. That arithmetic does not identify them with quantum purity and
+For normalized squared-amplitude fractions p_E+p_I=1, equality gives
+p_E=p_I=1/2 and p_E p_I=1/4. That arithmetic does not identify them with quantum purity and
 coherence, nor supply a neural stability boundary. F36/F37 contain no
 neural CΨ = 1/4 mechanism.
 ([Neural mechanism constraints](neural/proofs/PROOF_VEFFECT_MECHANISM.md))
