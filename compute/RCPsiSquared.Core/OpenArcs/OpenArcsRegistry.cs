@@ -9235,6 +9235,81 @@ public static class OpenArcsRegistry
                 "a test that fails on the top residues at p near 2^30. Do this BEFORE F161/F162 come " +
                 "home, since both would otherwise bring a fifth copy.",
             Status: OpenArcStatus.Open),
+        new OpenArc(
+            Name: "mirrorworld_owns_no_time",
+            Opened: "2026-09-05",
+            Origin: "Tom, 2026-09-05: a session in the Fable window (2026-06-11 to about 06-22) had " +
+                "flagged the absence of time in MirrorWorld as the biggest and most important hole it " +
+                "saw, and it was not followed because time is one of the hardest topics, so it became " +
+                "debt. THE FINDING IS RECORDED NOWHERE, and that is the first result of this arc. Not " +
+                "in mirrorworld_what_is_missing, opened the SAME DAY and asking literally what " +
+                "MirrorWorld lacks, which answers entirely with the adoption backlog (F161/F162, the " +
+                "untested Formulas members, the four-times-duplicated GF(p) arithmetic); not in the " +
+                "README inventory pass of 2026-07-03 (turning this world around and looking at what is " +
+                "missing), which found the missing MIRROR and produced Mirror.cs; not in the memory " +
+                "store. So the look-back gate could not reach it: a sweep returns what the stores hold, " +
+                "and this was never in one. The gate protects against re-deriving what we own; it " +
+                "cannot protect what was never written down. " +
+                "VERIFIED FROM BELOW 2026-09-05, in the source rather than from the recollection. " +
+                "MirrorWorld has 36 files: 30 GameObjects, each with the two-bucket Own/Inherited split " +
+                "that IS this world's ontology, and 5 static classes with no parent and no buckets " +
+                "(Formulas, Topology, Redistribution, WalkTime, Warble). Every Own list was read. Rates " +
+                "are owned everywhere (Pair: disagreement/rate; PauliMode: letters/k/rate/klein), " +
+                "thresholds are owned (Survivor: regime/parity/Qstar), and NO OBJECT OWNS A DURATION. " +
+                "Two of the five static classes are exactly the two time readings: WalkTime (the " +
+                "arrival-time step) and Warble (T_zero, T_rev, the gamma-dressed clock). The world " +
+                "states the absence exactly once, at Crack.cs:33-37: NO TIME IS OWNED HERE, and that is " +
+                "deliberate; the objects that hold a time are static classes, not GameObjects; no " +
+                "GameObject owns one. So the world has a RULE for time, and the rule is to file it " +
+                "outside the ontology. " +
+                "THE SHARPEST PIECE, and it is not a hard one. Clock.cs is 24 lines, its constructor " +
+                "takes (World, J, gamma) and NO N, and its Own is { Q, theta } with theta = arctan(Q). " +
+                "The typed Tier1Derived ClockHandLadderClaim in Core says: the two clocks, omega_mem " +
+                "(coherence hand) = the gamma-protected F2b band edge 2J cos(pi/(N+1)) for N>=3, Takt " +
+                "hand = 2 gamma, theta = arctan(Q cos(pi/(N+1))) for N>=3 and arctan(sqrt(Q^2-1)) at " +
+                "N=2. MirrorWorld's Clock cannot express that angle, having no N, and its two hands " +
+                "live in the doc comment above the class as prose, with no Alpha and no Omega member. " +
+                "The other hand IS already in the world, as Formulas.OmegaMem (pinned at N=3,4,5 in " +
+                "SmokeTests), in the static class, joined to Clock by nothing. So what is missing here " +
+                "is not a theory of time: it is an INCOMPLETE ADOPTION of a settled Tier-1 claim, which " +
+                "is this world's daily business. " +
+                "WHAT THE MAIN REPO HOLDS AND MIRRORWORLD DOES NOT CITE (zero hits for these filenames " +
+                "anywhere under compute/MirrorWorld): reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md, " +
+                "t = K/gamma_0 and t is the shadow that face casts at our local tick; " +
+                "docs/GAMMA_TIME_DISTINCTION.md, the three levels (the formal parameter t, observable " +
+                "change, experienced time with its direction) with gamma provides the arrow and J " +
+                "provides the content, of which MirrorWorld holds only level 1, dt as an RK4 argument; " +
+                "reflections/ON_LEAVING_THE_CIRCLE.md, every mode turns and fades, those are the two " +
+                "clocks, and THE CUT IS T, which carries its own fence, this is a seeing and not a " +
+                "proof, and that fence is the likely reason the sober world never took it.",
+            ParkedAt: "Nothing is built. The inventory is taken and every load-bearing line verified in " +
+                "the source. Two smaller finds sit beside it, owned by no arc: Formulas.D6_MixingTime " +
+                "(n log 4 / 2 gamma) is a genuine DURATION and is UNTESTED, printed at Program.cs:1767 " +
+                "while SmokeTests pins D6_Gap beside it and not it; and two live tensions in the main " +
+                "repo, TRAPPED_LIGHT_LOCALIZATION.md:160 still calling gamma times t = K proven after " +
+                "F14 took a state-scope fence on 2026-08-29, and hypotheses/WHAT_QUBITS_EXPERIENCE.md " +
+                "stating the arrow-as-bent-angle reading that its own typed claim marks EXCLUDED.",
+            NextStep: "(1) THE SMALL MOVE FIRST, because it needs no theory of time: give Clock its N " +
+                "and both hands. Adopt ClockHandLadderClaim properly, so the object owns the Takt hand " +
+                "2 gamma, the coherence hand omega_mem already sitting in Formulas, and the GEARED " +
+                "angle arctan(Q cos(pi/(N+1))) with its N=2 branch, instead of the ungeared arctan(Q) " +
+                "it owns now. That is one adoption in this world's own genre, and it is the crack in " +
+                "the wall: afterwards there exists an object that owns both hands, and the question " +
+                "whether anything owns a DURATION has somewhere to land. (2) Then the real question, " +
+                "which is hard and is why this was parked for two months: does a duration belong in the " +
+                "Own bucket of any object here, or is the world right that time is a parameter of a run " +
+                "and never a possession? Crack.cs:33 answers yes to the second, in one comment, with no " +
+                "argument. That answer has never been tested against t = K/gamma_0, which says the " +
+                "opposite: that t is DERIVED, the shadow of a dimensionless face at a local tick, and a " +
+                "derived quantity is exactly the kind of thing this world owns. (3) The genre question " +
+                "that decides (2): MirrorWorld adopts closed forms and refuses ways. A duration is a " +
+                "way's length. Mirror.cs drew that line once (states and their mirrors live here, the " +
+                "paths stay in the main repo) and Seed.cs refined it (the way's LEAF comes home, the " +
+                "way does not). Whether a duration is a leaf or a way is what to settle before anything " +
+                "is built, and it is the same question ON_LEAVING_THE_CIRCLE answers with THE CUT IS T. " +
+                "(4) The two smaller finds in ParkedAt are cheap and are not this arc's subject; they " +
+                "belong to whoever passes next.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

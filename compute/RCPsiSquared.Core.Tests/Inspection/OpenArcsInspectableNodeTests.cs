@@ -7,13 +7,18 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasFiftySixEntries()
+    public void Registry_HasFiftySevenEntries()
     {
         // The literal was STALE BY TWO before 2026-08-23: 29d09d2 took the registry to 51 and
         // 0144649 to 52, neither updating this line, so this test was RED across two commits.
         // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
         // this number moves in the SAME commit.
-        Assert.Equal(56, OpenArcsRegistry.All.Count);   // +mirrorworld_what_is_missing (2026-09-05,
+        Assert.Equal(57, OpenArcsRegistry.All.Count);   // +mirrorworld_owns_no_time (2026-09-05: no
+                                                        //   GameObject owns a duration, the two
+                                                        //   time readings are static classes, and
+                                                        //   Clock owns arctan(Q) without the N its
+                                                        //   own Tier-1 claim gears it by)
+                                                        // +mirrorworld_what_is_missing (2026-09-05,
                                                         //   MirrorWorld's extension backlog: thirteen
                                                         //   registry entries that fit the genre and are
                                                         //   not home, each with its typed-carrier status;
