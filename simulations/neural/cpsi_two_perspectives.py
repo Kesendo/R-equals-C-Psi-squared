@@ -3,8 +3,10 @@
 
 The pairs ignore imaginary parts, use a fitted range midpoint, and do not
 test the scalar-s F36 identity or Qv transport. Character-swap statistics
-and matched-pair percentages are not theorem evidence. The later time
-series report E/I squared-norm fractions, normalized to sum to one.
+and matched-pair percentages are not theorem evidence. The first time-series
+tables report E/I squared-norm fractions, normalized to sum to one at each
+time. The final table reports E/I squared amplitudes relative to the initial
+total squared norm; its sum evolves with the total squared amplitude.
 """
 import numpy as np
 from scipy.linalg import expm
@@ -230,11 +232,11 @@ def main():
 
 
     # ================================================================
-    # Alternative: CΨ_E and CΨ_I as ABSOLUTE energies (not fractions)
+    # Alternative: E/I squared amplitudes divided by the initial total squared norm
     # ================================================================
     print("\n" + "=" * 65)
-    print("ALTERNATIVE: Absolute CΨ_E(t) and CΨ_I(t)")
-    print("Not normalized by total. Do they individually cross 1/4?")
+    print("ALTERNATIVE: CΨ_E(t) and CΨ_I(t) relative to initial total squared norm")
+    print("Their sum evolves with total squared amplitude. Do they individually cross 1/4?")
     print("=" * 65)
 
     delta0 = np.random.RandomState(1).randn(N)
