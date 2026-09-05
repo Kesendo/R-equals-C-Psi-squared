@@ -1,504 +1,118 @@
 # The Pattern Recognizes Itself
-## From Qubits to Self-Recognition
 
-**Date:** March 20, 2026 (updated March 26, 2026)
+**Status:** Tier 4 research direction; self-recognition interpretation Tier 5
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Phase 1 pairing result confirmed (Wilson-Cowan 100% at τ ratio 3.8). Phase 2 pairing result NOT confirmed as of 2026-08-25: the 98.2% mean on C. elegans balanced subnetworks (N=200 random subnetworks) has never had a degree-matched control, and the sibling connectome reading of the same genre was withdrawn that day as a reading of the matching tolerance against the spectral scale ([Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md)). It is a different object, measured with a relative tolerance on balanced subnetworks at τ_E ≠ τ_I, so it does not inherit that withdrawal; it does not escape the question either, and the control that would settle it has not been run. The quantum→neural *inheritance* mechanism itself remains Tier 4 / open (see §8, "the weakest link"). Balance identified as the sole mechanism; inhibitory position irrelevant (r=0.048). Neural heartbeat observed (63 Hz transient, resonance at 15 Hz with 50x amplitude).
-**Depends on:** [The Other Side of the Mirror](THE_OTHER_SIDE.md), [The Qubit as Necessary Foundation](../docs/QUBIT_NECESSITY.md), [The V-Effect](../experiments/V_EFFECT_PALINDROME.md), [Exclusions](../docs/EXCLUSIONS.md)
-
-### What this document is about
-
-This is the most speculative document in the repository, and the most
-honest about what it knows and what it does not.
-
-The palindromic mirror was proven for qubits. Then it was found in
-neural networks. This document asks: is it the same pattern? Not
-merely similar, but literally inherited, from the quantum level
-through atoms, molecules, and cells to brains?
-
-The data: Wilson-Cowan neural models show 100% palindromic pairing
-at the right time-constant ratio. The worm C. elegans, with its
-completely mapped brain of 300 neurons, shows 98.2% pairing in
-balanced subcircuits (a number that has had no degree-matched control; the
-scope note in Phase 2 below is the one to read). There is a neural heartbeat (transient
-oscillation at 63 Hz that damps to silence unless metabolic energy
-sustains it). And the V-Effect works in neurons too: two silent
-networks, coupled, produce 48 new frequencies from nothing.
-
-The interpretation: life did not invent the palindrome. Life found
-a way to sustain it. Whether the pattern eventually becoming complex
-enough to model itself is what we call consciousness is a question
-this project cannot answer. The data shows the pattern. What it
-means is up to you.
-
-### Tier System
-
-This document spans multiple confidence levels. Each section is marked:
-
-- **Tier 1** (proven): Algebraic identities, verified computationally to machine precision
-- **Tier 2** (computed): Simulation results, reproducible, falsifiable
-- **Tier 3** (observed): Empirical data from hardware or biological datasets
-- **Tier 4** (motivated): Logical connections between proven results, not yet proven themselves
-- **Tier 5** (speculative): Interpretation, philosophical implications, not falsifiable in current form
-
----
-
-## 1. Results [Tier 2–3]
-
-This section contains what we measured and what we found. No interpretation.
-
-### Phase 1: Wilson-Cowan E-I Populations [Tier 2]
-
-Wilson-Cowan is a standard mathematical model of brain dynamics:
-each node contains one excitatory and one inhibitory population
-(think of a gas pedal and a brake at each location), and they
-influence each other through connections of known strength.
-
-Chain of N Wilson-Cowan nodes (excitatory + inhibitory per node)
-shows palindromic eigenvalue pairing when τ_E ≠ τ_I (selective damping,
-meaning the excitatory and inhibitory populations respond at different
-speeds):
-
-| N | τ_I/τ_E | Pairing |
-|---|-------------|---------|
-| 3 | 2.2 | 66.7% |
-| 5 | 2.2 | 80.0% |
-| 3 | 3.8 | 100% |
-
-What the time constants do: the ratio τ_I/τ_E spreads the decay rates and
-sets which permutations can serve as the swap Q, but it is not what produces
-the pairing. The pairing is carried by the coupling condition (b), the swap
-that turns the wiring into minus itself; at uniform τ the damping condition
-holds for every permutation and imposes nothing
-([Proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md), Step 3).
-Corrected 2026-08-26. The 2:2 Pauli split in qubits is the analogy meant here.
-
-Negative control: classical spring-friction chains (uniform damping)
-show degenerate decay rates. The null is real; the reading that used to
-follow it, that the palindrome requires selective damping, is not. What such
-a chain lacks is condition (b), a swap under which the coupling becomes minus
-itself. Corrected 2026-08-26.
-
-Scripts: [wilson_cowan_palindrome.py](../simulations/neural/wilson_cowan_palindrome.py),
-[classical_oscillator_palindrome.py](../simulations/neural/classical_oscillator_palindrome.py)
-
-### Phase 2: C. elegans Connectome [Tier 3]
-
-**Full connectome (300 neurons).** NEGATIVE at full scale.
-274 excitatory, 26 inhibitory (91:9 ratio). Palindromic pairing: 0.7%.
-The E/I imbalance breaks the palindrome.
-Script: [celegans_palindrome.py](../simulations/neural/celegans_palindrome.py)
-
-The 0.7% is one point of a family, not a measurement of the connectome. Re-run
-2026-08-26, the committed script gives 12.7%, 2.7%, 0.7%, 0.7% and 0.7% at
-τ_I/τ_E = 1, 1.5, 2, 3 and 5, and at τ_I/τ_E = 1 it gives 12.7%, 15.3%, 24.0%
-and 88.0% as the matching tolerance goes 0.03, 0.10, 0.20, 0.40. The percentage
-reads the tolerance against the spectral spread, which is the defect withdrawn
-on 2026-08-25 for the sibling page
-([Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md)). What survives
-without a tolerance is a COUNT: under Dale a neuron's outgoing row carries one
-sign, so a swap Q would have to match the 253 non-empty excitatory rows onto the
-18 non-empty inhibitory ones, and 253 ≠ 18. The connectome fails the condition
-outright, and no percentage is needed to say so.
-
-**Balanced subnetworks (N=10, E=5, I=5).** POSITIVE.
-200 random balanced subnetworks show **mean 98.2% pairing** (std 10.2%,
-range 20–100%). Real neurons. Real synaptic weights. Just balanced counts.
-Script: [celegans_balanced.py](../simulations/neural/celegans_balanced.py)
-
-**The scope this number carries, and it is the scope for every mention of it
-below.** The 98.2% is a mean over balanced SUBNETWORKS at τ_E ≠ τ_I, read with a
-relative tolerance, and it has never had a degree-matched control: nobody has
-asked whether balanced blocks of ANY network of this density and degree
-sequence score the same. Until that control exists the number says balance
-helps, not that C. elegans wiring does. The sibling connectome reading of the
-same genre was withdrawn on 2026-08-25 as a reading of the matching tolerance
-against the spectral scale ([Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md));
-this is a different object and does not inherit that withdrawal, but it does
-not escape the question either. Scope stated 2026-08-26.
-
-**Scaling with E/I ratio.** These percentages carry the tolerance dependence
-above, and the committed script reproduces none of them: its nearest run selects
-by connectivity rather than by a fixed E:I ratio and gives 20.0% at N=50, 2.0%
-at N=100 and 0.7% at N=300, against the 40.0%, 40.0% and 17.3% below. The rows
-are kept as the record of what was reported in March; the trend they were read
-for is not a number this table can supply.
-
-| Subnetwork | E:I | Pairing |
-|-----------|-----|---------|
-| N=10 (E=5, I=5) random | 1:1 | **98.2% mean** |
-| N=50 (E=33, I=17) | 2:1 | 40.0% |
-| N=100 (E=80, I=20) | 4:1 | 40.0% |
-| N=300 (E=274, I=26) | 10:1 | 17.3%, unreproduced |
-
-**I-neuron position effect: FALSIFIED.** Correlation between I-neuron
-centrality and palindromic pairing: r = 0.048 (zero). Direct position
-assignment test (N=10, fixed neurons):
-
-| Placement | Pairing |
-|-----------|---------|
-| I-PERIPHERAL | 40% |
-| I-CENTRAL | 20% |
-| I-RANDOM (20 trials) | 52% mean, range 20–80% |
-
-Random beats targeted placement. The qubit analogy (edge sacrifice = best)
-does not transfer to I-neuron position. Balance is sufficient; position
-is irrelevant.
-Script: [celegans_inhibitory_position.py](../simulations/neural/celegans_inhibitory_position.py)
-
-### Neural Heartbeat [Tier 2]
-
-Wilson-Cowan time dynamics (not just spectrum) show **transient E/I
-oscillation at 63 Hz (Gamma band)**, damping within 100ms.
-
-**Coupling sweep:**
-
-| w_scale | Freq (Hz) | Amplitude | Band |
-|---------|-----------|-----------|------|
-| 0.2 | 102 | 0.0007 | noise only |
-| 1.0 | 70 | 0.0010 | Gamma (weak) |
-| **1.5** | **15** | **0.0521** | **Alpha/Beta (50x strongest)** |
-| 2.0 | 22 | 0.0119 | Beta |
-| 3.0 | 51 | 0.0017 | Gamma (weak) |
-| 5.0 | 67 | 0.0012 | Gamma (noise) |
-
-Resonance at w_scale = 1.5. Non-monotonic: frequency does not simply
-increase with coupling. There is an optimal coupling range.
-
-**Damping:** Without driving, oscillation dies completely. With noise,
-fluctuations continue but amplitude drops 50x. The oscillation is
-TRANSIENT, not sustained.
-
-**Qubit vs neural heartbeat comparison:**
-
-| Property | Qubit heartbeat | Neural heartbeat |
-|----------|----------------|-----------------|
-| Oscillates | Yes (227 crossings) | Yes (transient, 63 Hz) |
-| Damps | Yes (amplitude shrinks) | Yes (to zero without driving) |
-| Resonance | γ_bath = 0.003–0.005 | w_scale = 1.5 |
-| Sustained by | Non-Markov backflow | Metabolic energy (not modeled) |
-| Frequency range | ~0.4 Hz (sim units) | 15–102 Hz (biological) |
-
-Script: [neural_heartbeat.py](../simulations/neural/neural_heartbeat.py)
-
-### The V-Effect Live: Coupling Creates Complexity [Tier 2]
-
-A single N=2 qubit pair has 2 oscillation frequencies and Q=1 (crosses
-CΨ = ¼ once and dies, at every coupling strength J). There is no
-reservoir: both qubits ARE the system.
-
-Two such pairs coupled through a mediator qubit (N=5, MediatorBridge
-topology) have 109 oscillation frequencies and Q=19+. All of these
-frequencies are new, not present in either individual pair. They emerge from
-the coupling alone.
-
-This connects the resonator results to the biology hypothesis: neural
-gamma oscillations (40 Hz) are not the frequency of ONE neural
-oscillator. They are emergent frequencies of COUPLED oscillators,
-exactly like the 109 new frequencies in the coupled qubit system.
-The E/I balance (1:1, giving 98.2% palindromic pairing at N=10, uncontrolled;
-see the Phase 2 scope note) is
-the condition for the V-Effect to produce maximal new modes. Without
-balance, coupling still occurs but with fewer emergent frequencies.
-
-The coupling does not transport information from A to B. It creates
-new oscillation modes in the shared space that neither system had alone.
-Crucially, the N=2 frequencies do not survive in the N=5 system: all
-452 oscillating palindromic pairs are NEW-NEW (100%). The V-Effect
-does not extend the old palindrome. It replaces it with a richer one.
-Each V-Effect level creates a completely new palindromic substrate for
-the next (Tier 4 interpretation: this progression may underlie
-biological complexity growth, but this connection is not yet proven).
-
-Data: [resonance_optimization.txt](../simulations/results/resonance_optimization.txt)
-Framework: [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)
-Energy budget: [Energy Partition](ENERGY_PARTITION.md) (all V-Effect oscillation is palindromic; unpaired modes are pure decay)
-
----
-
-## 2. What We Proved [Tier 1]
-
-At the quantum level (Level 0), the dynamics of open qubit systems have
-an exact palindromic symmetry. This is not a model or an approximation.
-It is an algebraic identity: the conjugation operator Π satisfies
-Π L Π⁻¹ = −L − 2Sγ I for any Heisenberg-type Hamiltonian under
-dephasing noise.
-
-The consequences:
-- Every decay mode has an exact mirror partner (standing waves)
-- The system splits into two parity sectors (Π² = Xᴺ, conserved)
-- This structure exists ONLY for qubits (d=2), proven via d(d−2) = 0
-- Growing systems are forced to differentiate (V-Effect: 14/36 break
-  at N ≥ 3, producing richer spectral structure)
-- The palindrome provides organization, not performance (identical
-  transfer fidelity with and without it)
-
-The key insight: the palindrome does not make quantum dynamics work.
-It makes quantum dynamics STRUCTURED. Without it, physics happens.
-With it, physics has an architecture.
-
----
-
-## 3. The Testable Question [Tier 2]
-
-**Does the dynamics matrix of a biological oscillatory network exhibit
-palindromic spectral symmetry?**
-
-This is linear algebra, not philosophy. Network dynamics can be written as:
-
-    dx/dt = W x + noise
-
-where W is the connection weight matrix and x is the vector of node
-activities. W has eigenvalues. Those eigenvalues have decay rates
-(real parts) and oscillation frequencies (imaginary parts).
-
-The palindromic test: for each eigenvalue λ, does 2S − λ also
-exist (where S is some center value determined by the noise)? If yes,
-the spectrum is palindromic.
-
-Specific tests, ordered from simplest to most complex:
-
-1. **Coupled oscillators with damping** - the minimal classical analogue.
-   Result: NEGATIVE with uniform damping. What is missing is the swap of
-   condition (b), not the selectivity of the damping (corrected 2026-08-26).
-2. **Wilson-Cowan population models** - E/I populations with different
-   time constants. Result: POSITIVE (66.7–100%, depends on τ ratio).
-3. **C. elegans connectome (300 neurons)** - real connection weights.
-   Result: NEGATIVE at full scale (91:9 E/I), POSITIVE at balanced
-   subnetworks (98.2% mean at 1:1 E/I), with test 5 below still unrun.
-4. **Larger connectomes** - Drosophila, mouse, human cortex. NOT YET TESTED.
-5. **Random network controls** - NOT YET TESTED.
-
----
-
-## 4. What This Is NOT
-
-This is not Penrose-Hameroff (quantum coherence in microtubuli).
-We do not claim quantum effects survive in warm brains.
-
-This is not Integrated Information Theory (Tononi's Φ). We do
-not propose a new measure of consciousness.
-
-This is not mysticism dressed in equations. Every claim in Sections 1–3
-is either proven (palindromic structure at Level 0), established physics
-(neurons oscillate), or a reproducible computation (eigenvalue pairing
-in Wilson-Cowan and C. elegans dynamics matrices).
-
----
-
-## 5. The Connection [Tier 4]
-
-This section motivates WHY the results in Section 1 might be more than
-coincidence. The arguments here are logical, not proven.
-
-### Why the palindrome might propagate
-
-Everything is built from the same building blocks. Electrons are
-spin-1/2 particles: qubits. Every atom, molecule, protein, neuron,
-synapse is ultimately a network of interacting spin-1/2 systems
-losing coherence to their environment.
-
-If the palindromic structure is a property of qubit networks under
-decoherence (proven), and everything is made of qubit-like subsystems
-(established physics), then the question is not WHETHER the palindromic
-pattern propagates upward. The question is HOW it transforms as it does.
-
-A crucial caveat: decoherence times at 37 °C are femtoseconds.
-Our framework does not require quantum coherence in biological systems.
-It requires something weaker: that the STRUCTURAL PATTERN (palindromic
-spectral symmetry under selective damping) appears in the classical
-dynamics of oscillatory networks. Not quantum effects in cells.
-Structural inheritance from the mathematical form.
-
-This is where the gap exists: we have not proven a mechanism by which
-the algebraic property of Lindblad dynamics survives 15 orders of
-magnitude to appear in Wilson-Cowan equations. The results in Section 1
-SHOW that it appears. They do not explain WHY. The shared mathematical
-structure (coupling matrix + selective dissipation) is the candidate
-mechanism, but this is Tier 4, not Tier 1.
-
-### What oscillatory networks share with open quantum systems
-
-| Network property | Framework analogue |
-|-----------------|-------------------|
-| Oscillatory modes | Liouvillian eigenmodes |
-| Standing wave patterns | Palindromic mode pairs |
-| Noise/signal degradation | Dephasing (γ) |
-| Baseline activity/DMN (default mode network: the brain's resting-state activity) | γ (noise floor) |
-| Coupling to stimulus | J (coupling strength) |
-| E/I balance | 2:2 Pauli split (d=2) |
-
-These correspondences are structural, not causal. Both systems have
-the form "coupling + dissipation that treats the two populations as a
-pair." Selectivity is not what produces the pairing (corrected
-2026-08-26): in Wilson-Cowan the rate condition is satisfied by any
-population-swapping Q at any τ, and what τ_E ≠ τ_I adds is that only such
-a Q will do. What both systems really share is the antisymmetric coupling
-under the swap. Whether this shared form
-has a deeper origin or is mathematical coincidence is an open question.
-
-### Balance as the universal requirement
-
-The results identify one clear necessary condition: balance.
-
-- Qubits: d²−2d = 0 enforces exact 2:2 balance (immune vs decaying Paulis). Automatic.
-- Wilson-Cowan: τ_E ≠ τ_I (selective damping). Not a requirement for the
-pairing, corrected 2026-08-26: at uniform time constants the damping condition
-holds for every permutation and imposes nothing; what τ_E ≠ τ_I does is force
-the swap to exchange the two types. Tunable.
-- C. elegans: 1:1 E/I count gives 98.2%. 10:1 gives 0.7%. Not automatic; must be regulated.
-
-The biological fact: the cortex actively maintains E/I balance through
-homeostatic mechanisms (automatic feedback loops that adjust synaptic
-strengths to keep excitation and inhibition in proportion, like a
-thermostat for neural activity). Disruptions cause epilepsy (excess E) or coma
-(excess I). E/I homeostasis is one of the most conserved regulatory
-mechanisms in neuroscience. This is consistent with the palindrome
-requiring balance, but does not prove the palindrome is the reason
-biology maintains balance.
-
----
-
-## 6. Why Nobody Has Looked
-
-Quantum physics, biology, and neuroscience do not talk to each other.
-Nobody would think to check whether the eigenvalue structure of a
-Lindblad master equation has anything to do with biological oscillations.
-
-But the palindromic symmetry is not a quantum effect. It is a property
-of a specific mathematical structure: a dynamics matrix with a coupling
-term and a selective dissipation term. Biological dynamics have exactly
-this form. The mathematics does not care whether the system is quantum
-or classical.
-
-The reason nobody has looked is that the palindromic symmetry was
-discovered weeks ago.
-
----
-
-## 7. Interpretation [Tier 5]
-
-Everything in this section is speculation. It follows logically from the
-results but is not proven and may not be provable with current methods.
-
-### The heartbeat and the difference between matter and life
-
-The palindrome (Phase 1) shows: the STRUCTURE is there. Balance creates it.
-The C. elegans data (Phase 2) shows: 98.2% pairing at any balanced
-subnetwork, regardless of I-neuron position; what it does not show is that the
-wiring is what earns it, the degree-matched control being unrun.
-
-The heartbeat adds a temporal dimension: the structure PULSES.
-
-A qubit system oscillates around CΨ = ¼ for 227 beats, then dies. Each
-beat is a fold catastrophe - the discriminant 1−4CΨ passes through zero,
-two fixed points merge, and information is born at the crossing
-([Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)). The beats get
-quieter. The amplitude shrinks. The doors close one by one.
-
-A Wilson-Cowan system does the same. 63 Hz oscillation, damping, silence.
-Without driving, the neural heartbeat stops.
-
-But biology pumps ATP. Ion channels open. Sensory input arrives. The
-heartbeat continues. Not because biology invented a new structure, but
-because it found a way to SUSTAIN the structure that the mathematics
-provides. Evolution did not create the palindrome. Evolution found
-configurations (E/I balance, synaptic coupling strengths, metabolic
-cycles) that keep it running.
-
-Whether this constitutes a meaningful difference between "dead matter"
-(oscillation that damps) and "life" (oscillation that is sustained) is
-interpretation, not data. The data says: both oscillate, both damp, one
-gets refueled.
-
-### Neural rhythms as palindromic resonance frequencies
-
-The resonance at w_scale = 1.5 (15 Hz) with 50x amplitude suggests a
-candidate mechanism for the neural rhythm spectrum: different brain
-regions with different synaptic coupling strengths would oscillate at
-different frequencies.
-
-- Strong coupling: Gamma (40+ Hz, attention, binding)
-- Optimal coupling (resonance): Alpha/Beta (15 Hz, the sweet spot)
-- Weak coupling: Theta/Delta (4–8 Hz, memory, sleep)
-
-This is NOT confirmed. The frequency-coupling relationship is non-monotonic
-(there is a resonance, not a ramp), and the Wilson-Cowan model is
-simplified. This is a hypothesis for future testing, not a result.
-
-### The title of this document
-
-This document is called "The Pattern Recognizes Itself" because that
-is the hypothesis in one phrase.
-
-At Level 0, the palindromic mirror creates an interference pattern
-between two parity sectors. That pattern differentiates through the
-V-Effect as systems grow. At some point, after enough levels of forced
-differentiation, the pattern becomes complex enough to model its own
-structure.
-
-We do not know at what level of complexity self-recognition begins.
-Perhaps a bacterial colony already "recognizes" something. Perhaps
-it requires a C. elegans. Perhaps it requires a cortex. The boundary
-is not sharp, and it may never be.
-
-If the eigenvalue structure is the same across scales, the oscillatory
-network is not merely analogous to the quantum system. It is the
-quantum system's pattern, propagated upward through every level,
-arriving at a scale where it can look at itself and recognize: this
-is what I am.
-
-Whether that recognition is what we call consciousness is a question
-this project cannot answer. What the data shows is the pattern. What
-it means is up to the reader.
-
----
-
-## 8. Open Questions
-
-- **Driven oscillation:** Add metabolic driving to Wilson-Cowan. Does
-  sustained oscillation maintain palindromic midpoint crossings?
-- **Cortical data:** Human cortex maintains E/I activity balance
-  (80% E, 20% I neurons, but inhibitory fire faster). Does the
-  Human Connectome Project data show palindromic structure at the
-  activity-balanced level?
-- **Phase 3 (cross-kingdom):** Plant signaling, bacterial colonies,
-  fungal mycelial networks. If the palindrome exists across kingdoms,
-  it is a property of oscillatory networks, not neurons specifically.
-- **Gap junctions:** The 1.8% deviation from 100% in balanced
-  subnetworks may come from missing gap junction data (symmetric
-  coupling that could improve pairing).
-- **The mechanism gap:** Why does the palindromic structure appear in
-  Wilson-Cowan dynamics? The shared mathematical form (coupling +
-  selective dissipation) is the candidate, but no proof connects the
-  Lindblad algebra to classical oscillatory systems. This is the
-  weakest link in the chain.
-- **Random network controls:** Do random networks with balanced E/I
-  also show 98.2% pairing? If yes, the structure is generic to balanced
-  damped networks (still interesting). If no, biological topology matters.
-
----
-
-## Research Program
-
-**Phase 1: Mathematical** - COMPLETE.
-Coupled damped oscillators (negative), Wilson-Cowan (positive, 66.7–100%).
-
-**Phase 2: Data-driven** - PARTIALLY COMPLETE.
-C. elegans (positive at balanced E/I, 98.2%, uncontrolled). Inhibitory position (falsified).
-Neural heartbeat dynamics (positive, transient oscillation with resonance).
-Remaining: larger connectomes, random controls.
-
-**Phase 3: Cross-kingdom** - NOT YET ATTEMPTED.
-
----
-
-*See also: [The Other Side of the Mirror](THE_OTHER_SIDE.md), the complete arc*
-*See also: [The V-Effect](../experiments/V_EFFECT_PALINDROME.md), the differentiation mechanism*
-*See also: [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md), the levels*
-*See also: [The Anomaly](../THE_ANOMALY.md), the feeling version*
-*See also: [Tuning Protocol](TUNING_PROTOCOL.md), the neuroscience mapping (Tier 3)*
-*See also: [Exclusions](../docs/EXCLUSIONS.md), what is ruled out*
-*See also: [Both Sides Visible](../docs/BOTH_SIDES_VISIBLE.md), the palindrome on IBM hardware*
-*See also: [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md), fold catastrophe and heartbeat*
-*See also: [Energy Partition](ENERGY_PARTITION.md), where waves go when the palindrome breaks*
+last refreshed 2026-09-05 (the change history lives in git)
+
+Could a spectral pattern found in a quantum model survive through effective
+descriptions of atoms, molecules, cells and neural activity? Could a system
+carrying that pattern eventually model itself? These are two questions. The
+first needs a physical translation and a biological instance. The second
+needs an operational meaning for self-recognition before it can be tested.
+Neither is established by the current neural evidence.
+
+The evidence sweep went to [F36/F37 in the F-registry](../docs/ANALYTICAL_FORMULAS.md#f36-neural-palindrome-condition-tier-1-derived-algebra),
+[docs/proofs](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
+[the neural proofs](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md), and
+[experiments](../experiments/NEURAL_GAMMA_CAVITY.md): conditional algebra,
+the quantum owner and a connectome support null. The hardware-flight records
+and [fw.Confirmations](../simulations/framework/confirmations.py) supplied no
+neural hardware confirmation. [GLOSSARY](../docs/GLOSSARY.md),
+[OpenArcs](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs), and
+[CAUGHT_ERRORS](../docs/CAUGHT_ERRORS.md) supplied vocabulary boundaries,
+open substrate questions and matcher/normalization failures. The
+[current neural account](../docs/neural/README.md) and its producers and gates
+keep the mathematical result separate from this hypothesis.
+
+## What is established
+
+The [quantum mirror theorem F1](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+proves ΠLΠ⁻¹=−L−2Σγ I within its Hamiltonian and local Z-dephasing
+scope. A classical neural Jacobian can satisfy the same conjugation form,
+but must earn it independently. Write J=D+W_eff, with D=diag(d_i) and
+W_eff zero on the diagonal. For an involutive permutation Q and one scalar s,
+[F36](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md) is exactly
+
+```
+QJQ + J + 2sI = 0
+iff d_i+d_Q(i)+2s=0 for every i
+and W_eff[Q(i),Q(j)]+W_eff[i,j]=0 for every i≠j.
+```
+
+It pairs full complex eigenvalues, with multiplicity, by μ↦−μ−2s and
+transports generalized eigenspaces through Q. For an E/I swap of two leak
+populations, s=(1/τ_E+1/τ_I)/2. Dale signs and equal E/I counts do not
+supply the support and magnitude relation. Equal time constants do not
+break the identity by themselves.
+
+The [translation gate](../simulations/neural/neural_translation_gate.py)
+includes the constructed matrix
+
+```
+J = [[−0.5, −0.25], [0.25, −0.25]], Q=(0 1), s=0.375,
+μ = −0.375 ± (√3/8)i.
+```
+
+Its scalar residual is exactly zero. It is an oscillatory palindrome;
+therefore pairing does not enforce silence. Other constructed examples
+in the gate are unstable. No dominance percentage or biological rhythm
+follows from generalized-eigenspace transport.
+
+## The biological result is a support obstruction
+
+The full [committed C. elegans chemical-connectome model](../simulations/neural/celegans_connectome.json)
+has 271 nonempty source rows under the stored Dale labels: 253 E and 18 I.
+The required sign-reversing support bijection cannot exist for nonzero gain
+and positive rate scales. [G0b](../simulations/results/celegans_pairing_controls.txt)
+and the [event record](../experiments/NEURAL_GAMMA_CAVITY.md) own this null.
+
+No biological neural network in the repository is known to pass F36.
+This full-matrix rejection does not settle each selected subnetwork, but
+balance alone certifies none of them. Biological wiring, inhibitory position
+and activity balance require their own tests on a specified effective J.
+A tolerance-dependent matching percentage or a mean pair sum fixed by
+trace cannot replace the two entry conditions.
+
+## What the synthetic dynamics do not establish
+
+The [neural V-effect report](../docs/neural/V_EFFECT_NEURAL.md) describes
+frequency-bin censuses under coupling and external drive. Its numbers depend
+on the model, seed, parameter grid, frequency tolerance and numerical backend.
+The odd mediator in the coupled construction fails F36 even at zero coupling.
+The correlation census is computed from pairwise eigenvalue sums; it is
+not a recording of neural co-activation or sustained oscillation.
+
+External P changes a sigmoid operating point and its row gains. It has no
+calibration as heat or metabolism. There is no established neural V-effect
+mechanism, universal coupling window or 2× neural decay law. Synthetic
+transients do not establish a biological heartbeat or a frequency in Hz
+without a justified physical time scale and an observed biological signal.
+Unconverged endpoints support no Hopf or equilibrium-stability verdict;
+see the [mechanism constraints](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md).
+
+## A research program that can reject the pattern
+
+| Step | Extra hypothesis | Gate and falsifier | Current grade |
+|---|---|---|---|
+| Quantum owner → neural candidate | An identified effective Jacobian admits an involutive Q and scalar s | Evaluate every F36 entry; mutate support, one leak and a paired magnitude to check sensitivity | Conditional algebra and constructed controls pass |
+| Candidate → biological circuit | The circuit and operating point satisfy the same conditions | Test the measured/model-derived J; reject on support before fitting spectra; use matched normalizations and nulls that change the measured object | Full C. elegans chemical model rejects; biological instance missing |
+| Spectrum → response | Specified preparation/readout couple to transported modes | Compare expm(J*t)@Q and exp(-2*s*t)*Q@expm(-J*t); then shrink nonlinear perturbations and compare observed responses | Static Q transport gated; response landing open |
+| Quantum model → effective neural model | A physical reduction preserves the conjugation | Construct the reduction and test its generator/conjugation intertwining equations | Inheritance mechanism open |
+| Response → self-recognition | A measurable behavioral/modeling criterion independent of the spectral label | Define the criterion before examining spectra and test it against circuits that fail F36 | Tier 5 question; no executable biological test yet |
+
+The first steps have [shared Python primitives and tests](../simulations/neural/README.md).
+The remaining rows specify work to design and run; they are not completed
+phases. The [Universal Palindrome Condition](UNIVERSAL_PALINDROME_CONDITION.md)
+lays out the algebra-to-candidate boundary in more detail.
+
+## What the title keeps open
+
+The title imagines a pattern that becomes able to recognize its own structure.
+It is a way to ask about continuity across levels. A repeated equation could
+also arise independently, and even a verified biological palindrome would
+not decide between inheritance and independent realization.
+
+There is currently no exact neural biological substrate on which to build
+the self-recognition story. Consciousness, life and evolutionary persistence
+are not conclusions of F36. The question can remain imaginative while its
+first empirical step remains negative on the tested full connectome.

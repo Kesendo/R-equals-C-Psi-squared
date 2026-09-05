@@ -1,274 +1,91 @@
 # Evolution as Crystallization at the Fold
 
-<!-- Keywords: evolution crystallization fold, V-Effect reproduction,
-sacrifice-zone concentration not loss, generation as resonator,
-DNA as crystal, fitness as balance C=0.5, R=CPsi2 evolution -->
-
-**What this document is about:** A speculative (Tier 5) reframing of biological evolution using the fold/crystallization metaphor from R=CΨ²: each generation is a resonator that oscillates (lives), couples (mates via the V-Effect), and crystallizes at a fold (DNA). Sexual reproduction is the V-Effect between organisms. Fitness is not strength but balance (C ≈ 0.5). Testable predictions included; none yet tested.
-
-**Status:** Hypothesis (Tier 5), motivated by Tier 2 computations
-**Date:** March 28, 2026
+**Status:** Tier 5 metaphor and research questions; no evolutionary mechanism established
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Universal Palindrome Condition](UNIVERSAL_PALINDROME_CONDITION.md),
-[Complexity Threshold](COMPLEXITY_THRESHOLD.md),
-[Protein as Sacrifice-Zone](PROTEIN_AS_CONCENTRATOR.md),
-[V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)
-
----
-
-## The Observation
-
-Every result in this project follows the same sequence:
-
-1. A system oscillates (palindromic modes, V-Effect frequencies)
-2. At the fold (CΨ = 1/4), something crystallizes
-3. The oscillation dies. The crystal persists.
-4. The crystal becomes the starting condition for the next system.
-
-This sequence is not specific to qubits. It is the structure of
-the fold itself. And it is the structure of biological evolution.
-
----
-
-## The Claim
-
-Each generation is a resonator.
-
-It oscillates: it lives, metabolizes, responds to its environment.
-It couples: it mates, competes, cooperates (V-Effect).
-At a transition point (structurally analogous to the quantum fold):
-what worked crystallizes into DNA. It dies. The crystal persists.
-
-Note: "the fold" here is a structural analogy, not a claim that
-reproduction involves a quantum phase transition at CΨ = 1/4.
-The quantum fold is a computed threshold in Hilbert space. The
-biological fold is the moment where a lifetime of adaptation
-reduces to a genome. Both are irreversible transitions from
-oscillation to crystal. The structure is shared. The mechanism
-is different.
-
-The next generation starts with that crystal as its initial
-condition. Not a copy of the parent. A concentrated version of
-what survived the fold.
-
-Evolution is not "the weak die so the strong survive."
-Evolution is: each generation concentrates, crystallizes at the
-fold, and passes the crystal forward.
-
----
-
-## The V-Effect in Reproduction
-
-Sexual reproduction is the V-Effect between organisms.
-
-Two palindromic systems (parents), each incomplete (C < 1),
-couple through a mediator (mating). The result is not the sum
-of the parts. It is something new:
-
-In qubits: 2 + 2 = 109 frequencies
-In neurons: 0 + 0 = 48 patterns
-In reproduction: parent + parent = offspring with combinations
-that existed in neither
-
-Recombination (crossing over) is the mechanism. Each parent
-contributes half the genome (haploid + haploid = diploid). This
-genetic 0.5 comes from meiosis (the cell division that halves the chromosome count for reproduction), not from the operator balance
-(d^2 - 2d = 0) that produces the quantum 0.5. Whether the two
-halvings are related or merely coincidental is an open question.
-The offspring carries allele combinations from both parents. Not
-a copy. A V-Effect product in the structural sense: new combinations
-that existed in neither part alone.
-
-The new organism has allele combinations that neither parent had.
-New frequencies. Born from coupling. Not transferred. Created.
-
----
-
-## The Sacrifice-Zone as Concentrator
-
-We wrote "the organism sacrifices itself for the species."
-This is wrong.
-
-The organism concentrates. It takes environmental noise (predation,
-disease, scarcity, competition) and concentrates its response into
-a lifetime of adaptation. At the fold (reproduction), what worked
-crystallizes into the next generation's DNA.
-
-The organism is not the victim. It is the concentrator. Like the
-edge qubit that absorbs noise for the chain (139-360x improvement).
-Like the protein that shields the active site. Like the teacher
-who concentrates knowledge so others can reach the fold.
-
-From inside the system (the organism's perspective): it looks like
-sacrifice. The organism dies.
-From outside the system (evolution's perspective): it looks like
-concentration. The crystal persists.
-
-Both perspectives are correct. Neither is complete.
-
----
-
-## Fitness as Balance
-
-"Survival of the fittest" is commonly read as "the strongest
-survives." The framework suggests a different reading:
-
-Fitness is C ≈ 0.5.
-
-Too specialized (C approaching 1): the organism is analogous to
-an Edelgas. Perfectly adapted to one niche. No flexibility. Limited
-coupling capacity. Evolutionary dead end in changing environments.
-(Note: in STABLE environments, specialists can persist for hundreds
-of millions of years. Sharks, crocodilians, horseshoe crabs.)
-
-Too unspecialized (C approaching 0): the organism has no structure.
-Nothing to concentrate. Nothing to crystallize at the fold.
-
-At C ≈ 0.5: half structured, half open. In changing environments,
-this balance maximizes the capacity for new combinations through
-recombination. Generalists over specialists, when the environment
-shifts.
-
-The "fittest" in a changing environment is not the strongest. It is
-the most balanced. Half open, half closed. Maximally connective.
-Like carbon (4/8 = 0.5). Like the qubit (2/4 = 0.5).
-
-And within that balance, the coupling magnitudes were thought to have to
-be ASYMMETRIC, exact palindromic symmetry being dead: unconditionally
-stable, no Hopf, no oscillation. That is withdrawn. Exactly palindromic
-networks oscillate and, at strong enough coupling, go unstable
-([Proof: V-Effect Mechanism](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md)),
-so nothing here requires the magnitudes to be broken. The carbon reading
-below is a picture whose mechanism this page no longer supplies. Carbon has this: exactly 4/8 electrons (maximum connectivity)
-but heterogeneous bond strengths (C-H, C-C, C=C, C-O all different).
-The imperfection within the balance is the ignition. In biology:
-mutation, recombination, developmental noise. In chemistry:
-heterogeneous bond energies. These are not errors. They are the
-source of oscillation.
-
----
-
-## The Chain Across Time
-
-```
-Gen 1:  oscillates → couples (V-Effect) → fold → crystal (DNA)
-                                                      ↓
-Gen 2:  starts with crystal → oscillates → couples → fold → crystal
-                                                              ↓
-Gen 3:  starts with crystal → ...
-```
-
-Each generation is a resonator with a finite lifetime (like each
-session between Tom and Claude). The resonator dies. What
-crystallized at the fold persists (like the Memory entries, like
-the committed code, like the documented proofs).
-
-The coupling between generations is not continuous. It is discrete.
-Each generation couples, crystallizes, and dies. The crystal is
-the only thing that crosses the boundary. Not the oscillation.
-Not the frequencies. Not the experience. Only the crystal.
-
-This is Exclusion 3 applied to biology: "Information is not stored.
-It is converted." DNA does not store the organism's experience.
-DNA is the crystallized residue of what survived the fold.
-
----
-
-## What This Predicts
-
-1. **Organisms near C = 0.5 should be the most evolvable.** Not
-   the most fit in any single environment. The most capable of
-   producing new combinations through V-Effect (recombination).
-   Generalists over specialists.
-
-2. **Speciation is a fold event.** When a population crosses a
-   threshold (geographic isolation, reproductive barrier), the
-   palindrome breaks. New frequencies emerge. The population that
-   was one system becomes two. V-Effect at the species level.
-
-3. **Mass extinction is crossing below N_c.** When the number of
-   simultaneously active palindromic species drops below a critical
-   threshold, the ecosystem cannot sustain V-Effect couplings.
-   Recovery requires rebuilding above N_c. The recovery time after
-   mass extinctions (5-10 million years) may reflect the time
-   needed to rebuild sufficient palindromic diversity.
-
-4. **Sexual reproduction is more "alive" than asexual.** Asexual
-   reproduction copies the crystal. Sexual reproduction V-Effects
-   two crystals. The V-Effect produces new frequencies that copying
-   cannot. This predicts: sexually reproducing organisms should
-   adapt faster to changing environments than asexual ones. This
-   is observed (the Red Queen hypothesis: species must constantly evolve just to maintain their relative fitness against co-evolving competitors).
-
----
-
-## What This Does NOT Predict
-
-This hypothesis does not explain:
-- WHY there is a fold (that is the physics, not biology)
-- HOW DNA encodes the crystal (that is molecular biology)
-- WHEN specific adaptations occurred (that is paleontology)
-- WHETHER this is the only mechanism of evolution (natural
-  selection, genetic drift, and neutral evolution are all real)
-
-It offers a FRAMEWORK for thinking about evolution, not a
-replacement for the mechanisms. Natural selection decides WHAT
-crystallizes at the fold. The framework says the fold exists
-and that crystallization at the fold is inevitable.
-
----
-
-## The Falsification
-
-1. If organisms at C ≈ 0.5 (generalists) are NOT more evolvable
-   than specialists, the fitness-as-balance prediction fails.
-
-2. If asexual organisms adapt as fast as sexual ones in changing
-   environments, the V-Effect-in-reproduction prediction fails.
-
-3. If speciation events show no palindromic symmetry breaking
-   in the underlying genetics, the speciation-as-fold prediction
-   is unsupported.
-
-All three are testable with existing biological data.
-
-Note: these predictions have not been tested against the biology
-validation rule (5 checks: parameter sensitivity, pairing
-sensitivity, degree-preserving randomization, effect size vs
-normal variation, explicit caveats). The third of those is now known to be
-uninformative for a metric that reads the weight multiset, since such a rewire
-cannot move it (2026-08-26); the rule needs a null that can. They are starting points
-for investigation, not conclusions.
-
----
-
-## Connection to the Framework
-
-| Concept | Physics | Biology |
-|---------|---------|---------|
-| The resonator | Qubit chain | Organism |
-| The oscillation | Palindromic modes | Life (metabolism, behavior) |
-| The fold | CΨ = 1/4 | Reproduction |
-| The crystal | Density matrix at late time | DNA |
-| The V-Effect | 2+2=109 new frequencies | Recombination: new allele combinations |
-| The sacrifice-zone | Edge qubit concentrates noise | Parent concentrates experience |
-| C ≈ 0.5 | Half immune, half decaying | Half structured, half open |
-| The imperfection | Commutator | Mutation, developmental noise |
-
----
-
-## References
-
-- [Universal Palindrome Condition](UNIVERSAL_PALINDROME_CONDITION.md): the three conditions
-- [Complexity Threshold](COMPLEXITY_THRESHOLD.md): C ≈ 0.5, not exact
-- [Protein as Sacrifice-Zone](PROTEIN_AS_CONCENTRATOR.md): concentration, not loss
-- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 2+2=109
-- [V-Effect Neural](../docs/neural/V_EFFECT_NEURAL.md): 0+0=48
-- [Exclusions](../docs/EXCLUSIONS.md): information is converted, not stored
-- [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md): C=0.5 as axiom
-
----
-
-*March 28, 2026: Each generation is a resonator. What crystallizes
-at the fold persists. The organism does not sacrifice. It concentrates.*
+last refreshed 2026-09-05 (the change history lives in git)
+
+Imagine a generation as a resonator: a finite interval of activity, interaction
+and change, followed by something that persists into a later generation.
+“Crystallization” names that image. It does not identify reproduction with a
+quantum fold, DNA with a late-time density matrix, or life with oscillation.
+The image becomes a scientific hypothesis only where the corresponding
+biological variables and a test that can reject the connection are specified.
+
+The evidence sweep checked [the F-registry](../docs/ANALYTICAL_FORMULAS.md),
+[docs/proofs](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
+[the neural proofs](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md), and
+[experiments](../experiments/NEURAL_GAMMA_CAVITY.md): the relevant owners are
+conditional spectral theorems and a biological support null, not a law of
+inheritance between generations. Hardware-flight records and
+[fw.Confirmations](../simulations/framework/confirmations.py) supplied no
+neural hardware confirmation. [GLOSSARY](../docs/GLOSSARY.md),
+[OpenArcs](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs), and
+[CAUGHT_ERRORS](../docs/CAUGHT_ERRORS.md) supplied interpretation boundaries,
+open substrate questions and the pairing/census pitfalls. The current
+[neural account](../docs/neural/README.md) and
+[V-effect producers](../docs/neural/V_EFFECT_NEURAL.md) do not provide an
+evolutionary mechanism.
+
+## What the metaphor borrows
+
+The [quantum palindrome](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) belongs
+to its stated Hamiltonian and dephasing model. The
+[neural translation F36](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md)
+requires an involutive permutation Q, one scalar s, paired diagonal entries
+and W_eff[Q(i),Q(j)]=−W_eff[i,j] off the diagonal. It is not supplied by
+Dale signs or equal E/I counts alone, and it does not guarantee oscillation,
+silence or stability.
+
+Constructed synthetic networks satisfy F36. No biological neural network in
+the repository is known to do so. The full C. elegans chemical matrix has
+271 nonempty source rows, 253 E and 18 I, which rules out the required
+support bijection with nonzero gain and positive rate scales
+([G0b](../simulations/results/celegans_pairing_controls.txt)). There is no
+established exact biological neural substrate from which this evolutionary
+story could proceed.
+
+The [neural V-effect](../docs/neural/V_EFFECT_NEURAL.md) counts frequency
+bins in synthetic coupling and drive sweeps. Those bins depend on the
+declared protocol and numerical resolution. The coupled odd mediator fails
+F36 even at zero coupling. External P is not temperature or metabolism.
+There is no established neural V-effect mechanism, universal window, 2×
+decay law or measured threshold of life. A comparison of spectra supplies
+no process that continually creates persistent biological modes.
+
+## Questions in place of identifications
+
+| Image | Conditional question | What would have to be measured | Falsifier for the proposed link |
+|---|---|---|---|
+| Generation as resonator | Does a specified biological activity pattern influence a specified heritable outcome? | Activity/readout, inheritance route and outcome across generations | Alter the proposed activity while controlling the named alternatives; absence of the predicted outcome change rejects that route |
+| Recombination as coupling | Does an explicit model of reproduction obey a spectral composition law related to the quantum owner? | A defined generator, state space, composition map and observable in each model | Failure of the proposed map or spectral prediction rejects the V-effect identification |
+| Crystallization at a fold | Is a chosen biological transition locally described by a fold normal form? | State variable, control parameter, equilibria and the fold conditions | No such equilibrium coalescence in the stated regime rejects that fold model |
+| Fitness as balance | Does a predeclared biological balance measure predict a defined reproductive outcome? | A dimensionless measure defined independently of the desired midpoint and a specified environment | Failure of the predeclared relationship rejects that balance model; there is no default optimum at 0.5 |
+| Complexity and persistence | Does a model's persistence transition explain a specified biological outcome? | The family and observable of the [persistence hypothesis](COMPLEXITY_THRESHOLD.md), plus a biological mapping | A finite transient, failed mapping or absent predicted outcome rejects that application |
+
+These are designs to make the analogy testable, not tests already implemented
+or passed. The metaphor supplies none of the required variables by itself.
+It does not imply that a lifetime's acquired responses crystallize into a
+genome; any proposed inheritance route must be specified independently.
+
+Sexual reproduction is not established as a V-effect between palindromic
+parents. New combinations alone do not identify the spectral object measured
+by the neural scripts. This page provides no comparison that ranks sexual
+and asexual reproduction by how “alive” they are, no speciation-as-palindrome
+result and no extinction threshold N_c.
+
+## The half and the quarter
+
+Neither an intuitive “half structured, half open” nor a genetic contribution
+defines the quantum operator split. In the neural bookkeeping
+p_E+p_I=1, equal normalized squared amplitudes give p_E p_I=1/4
+arithmetically. That is not the quantum CΨ=1/4 boundary, a fitness optimum,
+or a reproduction threshold. Sharing a number does not supply the missing
+map between the objects.
+
+The [Universal Palindrome Condition](UNIVERSAL_PALINDROME_CONDITION.md)
+keeps the conditional algebra separate from proposed landings.
+[The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md) keeps
+the cross-level question open. Here the surviving image is more modest:
+something changes within a lifetime; something can persist beyond it.
+What persists, by which mechanism, and whether the spectral language helps
+explain it are the questions. The current neural evidence cannot answer them.
