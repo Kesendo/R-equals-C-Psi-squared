@@ -113,7 +113,8 @@ governing dispersion `λ² + 8γλ + 4J²q²` is established for the `(2,2)` mod
 proof's load-bearing test); the explicit two-particle EOM resummation (the dilute-limit argument that the
 `(2,2)` density mode reduces to two SE coherence ladders) is the physically-transparent remaining write-out,
 not yet set down term-by-term as the SE proof does for one particle. Topology: the ring (the `q_min = 2π/N`
-COM density wave); the chain handover is the co-located SE-EP (filling-degenerate), a different mechanism.
+COM density wave); the chain handover is the floor crossing of the SE pair (filling-degenerate), a different
+mechanism: it equals the SE-EP at N=2,3 and sits just below it from N=4.
 
 Axis: the dephasing Q-axis (XY, free fermions) only. The XXZ anisotropy Δ-axis handover (`Δ*`, the same
 `darkness = 1` floor driven by the anisotropy instead of Q; ANALYTICAL_FORMULAS "the handover Δ",

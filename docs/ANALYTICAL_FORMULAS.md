@@ -216,15 +216,25 @@ form 2√(J²−γ²) exact.
 ([`ClockHandLadderClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/ClockHandLadderClaim.cs)).
 **Carbon-layer twin:** [The Frost Circle Is the Face of the Clock](carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md).
 
-**Coherence horizon Q*(N) (our label for the carbon coherent↔incoherent threshold).**
-Sweeping Q downward, the slowest mode stops oscillating (the coherence hand freezes) at
-per-N values (closed form at N=2,3; transcendental at N≥4):
+**Coherence horizon Q*(N) (our label for the ladder the carbon coherent↔incoherent threshold
+climbs; which of its two events the carbon digits carry is settled below).**
+Sweeping Q downward, the slowest mode of the SINGLE-EXCITATION block coalesces, its two
+eigenvectors falling into one, at per-N values (closed form at N=2,3; transcendental at N≥4):
 
-    Q*(N):   N=2 → 1,   N=3 → √2,   N=4 → 1.8787,   N=5 → 2.3737
+    Q*(N):   N=2 → 1,   N=3 → √2,   N=4 → 1.87874,   N=5 → 2.37367
 
-verified bit-for-bit against the carbon Frost-Hückel coherent↔incoherent threshold
+The FULL Liouvillian's slowest mode stops oscillating (the coherence hand freezes) at a slightly
+SMALLER Q, so the downward sweep reaches it a little later: the handover
+Q_h = 1 / √2 / 1.87854 / 2.37217, which is the same pair's floor crossing. The two events are ONE
+at N=2,3 and separate from N=4; the paragraphs below are about that separation.
+
+The ladder is verified to the three decimals the carbon Frost-Hückel coherent↔incoherent threshold carries
 (√2 / 1.879 / 2.372 at N=3/4/5) under the label swap J ↔ |β|, Z-dephasing ↔ Holstein
-phonon. Same ladder, two labels: the dimensionful unit (β or J) is the carrier carrying no
+phonon. Those three decimals are its script's HANDOVER digits: at N=4 the two events round alike
+(Q_h = 1.87854, Q* = 1.87874), at N=5 they do not (2.372 is Q_h = 2.37217; the EP rounds to 2.374),
+so what is verified is the ladder to three decimals, not a bit-for-bit equality.
+
+Same ladder, two labels: the dimensionful unit (β or J) is the carrier carrying no
 information, the dimensionless Q*(N) is the shared mountain. N=2 (Q*=1) is the exceptional
 point itself, the base rung the polyene layer (N≥3) cannot reach; the quantum side supplies
 it. Q*(N) equals the band edge 2cos(π/(N+1)) at N=2 and N=3 ONLY (1 = 2cos60°, √2 = 2cos45°),
@@ -233,8 +243,12 @@ a low-N accident departing at N≥4 (Q*=1.8787 ≠ φ); that is why the √2 loo
 The mechanism (phase rigidity, after
 an earlier "sector bifurcation at N=4" reading that contradicted the two-clocks corollary above
 and was an argmax-Re / Im-tracking artifact): the mode that COALESCES at Q*(N) is the
-{0,2}-coherence (population / antisymmetric-coherence block, n_diff histogram {0: ½, 2: ½},
-⟨n_diff⟩ = 1) at ALL N = 2..5, a genuine square-root EP (Im ∝ √(Q−Q*)). The EP-ness is **confirmed
+{0,2}-coherence (the slowest mode of the single-excitation (1,1) block, whose basis is entirely
+n_diff ∈ {0, 2}) at ALL N = 2..5, a genuine square-root EP (Im ∝ √(Q−Q*)). Its weights are ½/½ (⟨n_diff⟩ = 1,
+the floor Re = −2γ) at N=2,3 ONLY, where the pair is a clean 2×2; from N=4 its coherence share w2
+exceeds ½ (0.5072 / 0.5177 at N=4/5, read AT the EP; w2 then rises with Q toward (N−1)/(N+1),
+reaching 0.59996 / 0.66663 by Q = 200) and, by the Absorption Theorem Re λ = −2γ⟨n_diff⟩ = −4γ·w2,
+the coalescer sits BELOW the floor by 2γ(2w2−1), its excess light, at every Q ≥ Q*. The EP-ness is **confirmed
 artifact-free** (gate-first on known defective + diabolic toys, with a diabolic control on the same object
 at γ=0): the coalescing pair's **departure-from-normality → ≈ 4** as the pair-split → 0, its **geometric
 multiplicity 1 < algebraic multiplicity 2**, the Schur off-diagonal equal to that departure (the literal
@@ -247,10 +261,17 @@ It **corroborates** the EP here (it agrees with the artifact-free verdict, becau
 defective), but the defective-Jordan measure is what the EP-ness rests on. There is NO sector bifurcation at
 N=4: the {0,2}-coherence is the N-continuation of the N=2 coalescing mode 2√(J²−γ²). The band edge
 2cos(π/(N+1)) is the co-located SURVIVOR, not the freezer: the |vac⟩⟨ψ_k| coherence hand (Uhr 1,
-γ-protected, r ≈ 1, Im γ-independent to 1e-15) sits at the SAME gap Re = −2γ as the
-{0,2}-coherence EP only because the Absorption Theorem pins both (both ⟨n_diff⟩ = 1), and that
-degeneracy is what fooled the Im-tracking. So Q*(N) is, at every N≥3, simultaneously a
-{0,2}-coherence EP (Uhr 2, the erasure point, which CLIMBS the ladder) and a band-edge crossing
+γ-protected, r ≈ 1, ⟨n_diff⟩ = 1 exactly, Im γ-independent to 1e-15) sits at the gap Re = −2γ.
+The two share that floor at N=2,3 only, and exactly there for a reason: at N=2,3 the pair spans an
+EXACT invariant plane, one pure population direction (light 0) and one pure coherence direction
+(light 2), span{P, [h,P]} closing under L_se to 1e-15 there and not at all from N=4. That plane's
+trace is −4γ identically, so at the coalescence the double root takes the midpoint and carries light
+1; above it the pair is a complex-conjugate pair whose trace is still exactly −4γ, so each branch
+carries light 1 along the WHOLE branch, at every Q ≥ Q*, not only at the coalescence (w2 =
+0.500000000 out to Q = 200 at N=2,3). That shared floor is what fooled the Im-tracking. From N=4
+the floor is the survivor's alone and the takeover of the full
+Liouvillian's clock is a SECOND event, the handover Q_h (below). So Q*(N) is, at every N≥3, a
+{0,2}-coherence EP (Uhr 2, the erasure point, which CLIMBS the ladder) beside a band-edge crossing
 (Uhr 1, which SURVIVES the handover).
 
 The closed form (Approach A, `simulations/coherence_horizon_se_block.py`): **Q*(N) reduces from 4^N
@@ -260,8 +281,9 @@ point of the single-excitation (Haken-Strobl) Liouvillian, the N-site dephased t
 roots of **λ² + 4γλ + c·J² = 0 with c constant** (sum = −4γ and product = c·J² are γ-independent
 identities; c=4 at N=2, c=2 at N=3), so **Q*(N) = 2/√c → 1, √2 exactly**. That is the structural
 form of the 2cos(π/(N+1)) low-N accident: not only the value, the whole clean-2×2 picture exists
-only at N=2,3. At N≥4 the pair is collectively dressed (its trace departs from −4γ by 1.017 / 1.043
-/ 1.072 at N=4/5/6), so there is no clean 2×2 and the exact EP condition is transcendental (the SE
+only at N=2,3. At N≥4 the pair is collectively dressed (its trace departs from −4γ, by
+1.0144 / 1.0354 / 1.0586 read AT the EP and 1.017 / 1.043 / 1.072 read at Q = 1.1·Q*, at N=4/5/6),
+so there is no clean 2×2 and the exact EP condition is transcendental (the SE
 slowest-mode double root), a **diffusive long-wavelength critical damping**: Q*(N) grows linearly with
 **asymptotic slope exactly 2/π** (derived 2026-06-15, `proofs/PROOF_COHERENCE_HORIZON_SLOPE.md`). The slow
 mode is a population coupled to the FULL ladder of coherence ranges r (geometric decay μ^r), not a two-field
@@ -279,9 +301,16 @@ edge until, as Q rises, its darkness reaches the F50-pinned off-diagonal floor �
 band edge / Uhr 1, Re = −2γ exactly). That meeting is the handover: a closed, F50-grounded condition
 (spectral, state-independent, depends only on Q = J/γ). Its solution is topology-specific.
 **Chain:** filling-degenerate (free-fermion/OBC, the (1,1)-only handover equals the all-(p,p)
-handover bit-for-bit), so the chain handover IS the single-excitation Q*(N), a coalescence/EP. It
-coincides with Q*(N) exactly only at the clean-2×2 N=2,3 (a tangency: ⟨n_XY⟩ touches 1 at the EP) and
-sits just below it by the trace dressing O((tr−1)²) at N≥4 (gap 0.0002/0.0015/0.0050 at N=4/5/6).
+handover bit-for-bit), so the chain handover is the FLOOR CROSSING of that same single-excitation
+pair: it equals the EP Q*(N) only at the clean-2×2 N=2,3, where ⟨n_XY⟩ reaches 1 exactly at the EP
+and stays 1 above it (a √-approach, so the contact is not tangential: the derivative diverges there).
+From N=4 it sits below the EP by the trace dressing Q* − Q_h = ((2w2−1)/c_d)² to leading order, the
+excess light squared over c_d, the coefficient of the √-split of the two real branches read in the
+DARKNESS −Re λ/(2γ) against √(Q*−Q) at fixed γ: c_d = 1.0293 / 0.9139 / 0.8278 at N=4/5/6. Both
+halves of that definition are load-bearing: read the split in λ instead of the darkness, or against a
+swept γ instead of a swept J, and the coefficient is a different one; and this c_d is not the c of
+λ²+4γλ+c·J² above. It gives 0.000197 / 0.001499 / 0.005004 against the measured gaps
+0.000197 / 0.001496 / 0.004972, the leading-order error growing 0.04% / 0.22% / 0.65% with N.
 **Ring:** the survivor is the 2-EXCITATION doublet (2,2)/(N−2,N−2) (particle-hole partners, isospectral;
 full-Liouvillian-verified at N=6, NOT half-filling, correcting an earlier label), and the handover is a
 frozen LEVEL CROSSING (|Im| ≈ 1e-15, a different sector than the SE-EP), growing linearly with

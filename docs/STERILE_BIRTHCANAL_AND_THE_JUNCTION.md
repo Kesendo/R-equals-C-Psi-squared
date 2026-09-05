@@ -33,7 +33,7 @@ floor: Q-flat at uniform γ (its dissipator is scalar there), Q-drifting at non-
 number-conserving interior (the diagonal (p,p), the {0,2}-coherence) sits at −2γ⟨n_XY⟩(Q), brightening
 toward the floor as Q rises. Two boundaries are then facets of this one object: the sterile↔birth-canal
 boundary (`BirthCanalSurfaceWitness`) reads whether `rate_slow(Q)` is Q-flat; the odd↔even junction (the
-handover Q*(N)) reads whether the Δn = 0 interior overtakes the Δn = 1 band edge. The seam is
+handover Q_h, = Q*(N) at N=2,3 only) reads whether the Δn = 0 interior overtakes the Δn = 1 band edge. The seam is
 **junction ⟹ birth canal, but not conversely**: the canal is also entered by the Δn = 1 survivor itself
 drifting under a non-uniform profile (odd-drift, no Δn switch), so the junction is a strict sub-mechanism.
 When the Δn = 0 interior is the survivor, its nature is topology-set: ring (2,2) is a frozen level
@@ -111,7 +111,7 @@ When the Δn=0 interior is the survivor, its nature is topology-set, not γ-prof
   `SecondClockRegimeClaim`; the floor is `AbsorptionTheoremClaim`.
 - Code: `PostEpFlowField`, `BirthCanalSurfaceWitness` (`--root surface`), `SectorReductionWitness`
   (`--root reduction`), `IncompletenessSurvivorWitness` (`--root survivor`).
-- Prior ground truth: `simulations/carbon/handover_q.py` (the chain = Q*(N) / ring = N√3/(2π) handover, slope DERIVED in `docs/proofs/PROOF_RING_HANDOVER_SLOPE.md`),
+- Prior ground truth: `simulations/carbon/handover_q.py` (the chain handover Q_h, = Q*(N) at N=2,3 only / ring = N√3/(2π), slope DERIVED in `docs/proofs/PROOF_RING_HANDOVER_SLOPE.md`),
   `simulations/birth_canal_n6_mode_crossing.py` (the N=6 deep-edge crossing).
 - `docs/ANALYTICAL_FORMULAS.md` F2b corollary (the handover entry); `docs/HIERARCHY_OF_INCOMPLETENESS.md`
   (the C=0.5 / sterile reading).

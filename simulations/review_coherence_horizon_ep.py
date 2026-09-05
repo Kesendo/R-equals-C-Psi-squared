@@ -2,7 +2,8 @@
 
 GATE-FIRST. The claim under review: the slowest single-excitation {0,2}-coherence
 mode of the dephased XY chain undergoes a GENUINE square-root (2nd-order, DEFECTIVE)
-exceptional point at Q*(N) = {1, sqrt2, 1.879, 2.372, ...}.
+exceptional point at Q*(N) = {1, sqrt2, 1.87874, 2.37367, ...} (the EP; the full-L clock is
+handed over at Q_h just below it from N=4).
 
 The existing evidence is eig-based PhaseRigidity r = 1/sqrt(K) -- the SAME instrument
 family that misfired in the F86a retraction (read r->0 / K large on a merely

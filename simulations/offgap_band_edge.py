@@ -10,8 +10,10 @@ WHAT IS CONFIRMED HERE (gate-first, full 4^N Liouvillian, N=3,4,5):
        This holds for N >= 3, the range swept here. At N = 2 it is FALSE for Q > 2/sqrt(3):
        PROOF_CHAIN_GAP_DOMINANCE section 4.2, gate simulations/mixed02_block_threshold.py;
   the vacuum-anchored |vac⟩⟨ψ_k| ladder are exact eigenoperators at −2γ+iE_k (residual ~1e-16);
-  (i)  the Q-FLOOR is the COHERENCE HORIZON Q*(N): the band edge is the gap (the coherence hand) only
-       above Q*(N) (1.879 / 2.374 at N=4/5, → 2N/π); the numerical floor brackets Q*(N) exactly. Below it
+  (i)  the Q-FLOOR is the HANDOVER Q_h(N), the coherence horizon's floor crossing: the band edge is
+       the gap (the coherence hand) only above Q_h (1.87854 / 2.37217 at N=4/5), with the EP Q*(N)
+       (1.87874 / 2.37367, → 2N/π) just above it; the numerical floor brackets both, too coarse to
+       separate them. Below it
        the overdamped {0,2}-coherence diffusion mode is slower than the −2γ band edge AND non-oscillating,
        so it takes the gap and the clock freezes. So regime (i) is RESOLVED by thread (a)
        (PROOF_COHERENCE_HORIZON_SLOPE); only (ii) remains the open proof.
@@ -71,7 +73,8 @@ def vac_ladder_residual(N, J=1.0, g=0.1):
 
 def q_floor_bracket(N, J=1.0):
     """(Q_fail, Q_hold): descending in Q, the band edge is the gap mode at Q_hold but not at the next-lower
-    grid point Q_fail. The floor sits between them (and equals the Coherence Horizon Q*(N))."""
+    grid point Q_fail. The floor is the handover Q_h(N), with the EP Q*(N) just above it; this bracket
+    is far too coarse to separate the two (they differ by 2e-4 at N=4) and holds both."""
     be = band_edge(N, J)
     last_ok = None
     for Q in [20, 10, 6, 4, 3, 2.5, 2.25, 2, 1.85, 1.7, 1.5, 1.3, 1.1]:
