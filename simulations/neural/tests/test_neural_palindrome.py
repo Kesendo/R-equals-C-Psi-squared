@@ -298,7 +298,9 @@ def test_crossing_value_uses_the_time_interpolation_fraction():
      ("conditional matrix probe", "Unequal decay rates alone", "distinct-rate heuristic"),
      ("biological analogue",), "rate="),
     ("neural/neural_crown_switch.py",
-     ("external drive P",), ("thermal window",), "2nd rate"),
+     ("external drive P", "sampled leading-angle category change", "threshold = 2 deg",
+      "sampled grid", "no mode tracking"),
+     ("thermal window", "CROWN SWITCH", "no neural crown switch on that axis"), "2nd rate"),
     ("energy_partition.py",
      ("matching excludes zero roots", "full multiset pairs", "frequency weight"),
      ("palindrome partially breaks", "CΨ = ¼ predicted", "self-cleaning"), "Efreq_tot"),
@@ -331,3 +333,16 @@ def test_current_producer_output_scopes_its_reading(script, required, forbidden,
         assert phrase not in result.stdout
     for phrase in required:
         assert phrase in result.stdout
+
+
+@pytest.mark.parametrize("axis,changes", [([0.01, 0.02], 0), ([0.01, 0.06], 1)])
+def test_leading_angle_category_counts_sampled_threshold_changes(axis, changes, capsys):
+    from neural_crown_switch import sweep
+
+    # The eigenvectors of this real rotation block are constant along the
+    # path; crossing 2 degrees alone cannot demonstrate a mode-identity swap.
+    sweep("continuous rotation block", lambda v: np.array([[-1., -v], [v, -1.]]),
+          axis, "omega")
+    output = capsys.readouterr().out
+    assert "CROWN SWITCH" not in output
+    assert output.count("<-- sampled leading-angle category change") == changes

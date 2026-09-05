@@ -145,7 +145,7 @@ for i in range(N):
 alpha_test = 0.3
 J_test = build_jacobian(W, tau_E, tau_I, signs, alpha=alpha_test)
 
-# Check Q J Q^{-1} + J + c*I = 0
+# Check Q J Q^{-1} + J - c*I = 0
 QJQ = Q_perm @ J_test @ Q_perm.T  # Q^{-1} = Q^T for permutation
 
 # What is c?

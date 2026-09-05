@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
-"""Does the neural Jacobian show the crown switch? (the open question of NEURAL_CLOCK_TWO_HANDS)
+"""Sampled leading-angle categories of neural Jacobian spectra.
 
-The quantum flow has a crown switch: along Q the longest-lived (slowest) mode flips character at
-the exceptional point, the crown of "longest memory" passing from one rung to another. The neural
-clock doc asked (open work, lines 197-203) whether a neural axis exists along which the slowest
-SURVIVING mode relays from a rotating edge to a near-conserved survivor.
+At each grid point, sort eigenvalues by descending real part and report
+the first two rates (-Re) and angles atan2(|Im|, |Re|). Categorize the first
+angle by whether it exceeds 2 degrees. A sampled leading-angle category
+change marks different categories at adjacent samples; no mode tracking
+or exceptional-point detection is performed. Ties follow the eigensolver
+and sort order, and negative reported rates indicate growth.
 
-We read THEIR Jacobian (the builders are copied verbatim from neural_clock_two_hands.py, which
-itself copies them from the neural arc; the module prints on import, so we do not import it) and
-ask OUR question, nothing forced: along the coupling alpha and along the drive P, track the
-slowest mode's rate and its clock angle theta = atan2(|omega|, |Re|). A crown switch is a point
-where the slowest mode's IDENTITY changes and its character flips (rotating <-> near-decay), i.e.
-a rotating mode overtakes a pure-decay survivor (or vice versa) as the longest-lived one.
-
-Honest by construction: if there is no switch (the slowest mode keeps its character across the
-axis), we report that.
+An unchanged category on the sampled grid establishes no absence of a
+crossing between samples or of a mode-identity change. Coupling, external
+drive P and the leak-time ratio are the three displayed axes. The sigmoid
+builder uses 500 updates without a fixed-point residual check.
 """
 import numpy as np
 
@@ -84,10 +81,12 @@ def build_jacobian_with_sigmoid(W, signs, tau_E, tau_I, alpha, P):
 
 
 def slowest_reading(J):
-    """The longest-lived (slowest) mode: rate = -max Re, its angle theta, and the 2nd-slowest
-    angle (so a crown crossing between two modes is visible)."""
+    """Read rates and angles of the first two roots in descending Re order.
+
+    The reading does not match mode identities across parameter samples.
+    """
     ev = np.linalg.eigvals(J)
-    order = np.argsort(ev.real)[::-1]            # most-positive Re first = longest-lived
+    order = np.argsort(ev.real)[::-1]            # largest real part first, including growth
     lam0 = ev[order[0]]
     lam1 = ev[order[1]]
     def th(l):
@@ -96,15 +95,15 @@ def slowest_reading(J):
 
 
 def sweep(label, jac_of, axis_vals, axis_name):
-    print(f"\n  {label}  (slowest = longest-lived surviving mode)")
-    print(f"  {axis_name:>8s}  {'rate':>7s}  {'theta':>7s}  {'2nd rate':>8s}  {'2nd th':>7s}   character")
+    print(f"\n  {label}  (leading = largest real part)")
+    print(f"  {axis_name:>8s}  {'rate':>7s}  {'theta':>7s}  {'2nd rate':>8s}  {'2nd th':>7s}   angle category")
     prev = None
     for v in axis_vals:
         r0, t0, r1, t1 = slowest_reading(jac_of(v))
-        char = "ROTATING edge" if t0 > 2.0 else "near-decay survivor"
+        char = "above 2 deg" if t0 > 2.0 else "at/below 2 deg"
         switch = ""
         if prev is not None and (prev > 2.0) != (t0 > 2.0):
-            switch = "   <-- CROWN SWITCH"
+            switch = "   <-- sampled leading-angle category change"
         prev = t0
         print(f"  {v:8.3f}  {r0:7.4f}  {t0:7.2f}  {r1:8.4f}  {t1:7.2f}   {char}{switch}")
 
@@ -112,8 +111,9 @@ def sweep(label, jac_of, axis_vals, axis_name):
 def main():
     W, signs = make_balanced_network(50, density=0.3, seed=42)
     print("=" * 72)
-    print("Neural crown-switch probe: does the slowest mode relay rotating <-> near-conserved?")
-    print(f"  Wilson-Cowan balanced E-I net, N=50, tau_E={TAU_E}, tau_I={TAU_I} (their model, unbent)")
+    print("Neural leading-angle census: threshold = 2 deg, on the sampled grid")
+    print("  Adjacent angle categories only; no mode tracking or EP detection.")
+    print(f"  Wilson-Cowan balanced E-I net, N=50, tau_E={TAU_E}, tau_I={TAU_I}")
     print("=" * 72)
 
     sweep("axis 1: coupling alpha (linear Jacobian, no drive)",
@@ -128,9 +128,9 @@ def main():
           lambda r: build_linear_jacobian(W, signs, TAU_E, TAU_E * r, 0.5),
           [1.0, 1.5, 2.0, 3.0, 4.0, 6.0, 8.0], "tauI/E")
 
-    print("\n  reading: a CROWN SWITCH is a sign change of the slowest mode's character")
-    print("  (rotating edge <-> near-decay survivor) as the axis is tuned. If none appears, the")
-    print("  slowest mode keeps its character and there is no neural crown switch on that axis.")
+    print("\n  Each marker is a sampled leading-angle category change across the 2 deg threshold.")
+    print("  No marker means no category change between these sampled endpoints.")
+    print("  Crossings between samples and mode-identity changes are not tested.")
 
 
 if __name__ == "__main__":
