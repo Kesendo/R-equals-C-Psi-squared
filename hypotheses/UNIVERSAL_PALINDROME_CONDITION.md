@@ -72,7 +72,7 @@ Dale's Law supplies source signs, not paired support or scaled magnitudes.
 | Generator | Liouvillian L in F1's family | Specified Jacobian J |
 | Mirror | Pauli-space conjugation Π | Involutive permutation Q |
 | Coupling relation | Conjugation of the commutator in F1 | Additional signed support and magnitude relation on W_eff |
-| Diagonal relation | Dephasing shift 2Σγ | One paired diagonal sum 2s |
+| Diagonal relation | Dephasing shift 2Σγ | One paired diagonal sum −2s |
 | Spectral consequence | λ+λ′=−2Σγ | μ+μ′=−2s, conditional on F36 |
 | Mode statement | Transport under the owner's conjugation | Q transports generalized eigenspaces; no dominance percentage follows |
 | Current grade | Proven within the quantum model's scope | Constructed instances; biological landing missing |
