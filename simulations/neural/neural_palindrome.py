@@ -1,5 +1,7 @@
 """Matrix diagnostics for the conditional identity Q J Q.T + J + 2 s I = 0."""
 
+from numbers import Integral, Real
+
 import numpy as np
 from scipy.linalg import schur, subspace_angles
 from scipy.optimize import linear_sum_assignment
@@ -148,11 +150,24 @@ def build_linear_jacobian(W, signs, tau_e, tau_i, alpha):
 
 def make_exact_network(n=10, tau_e=5.0, tau_i=10.0, alpha=0.5,
                        seed=42, density=0.3):
-    """Return (J, perm, s) for the balanced E/I construction, centered at -s."""
-    if n <= 0 or n % 2:
-        raise ValueError("n must be a positive even number for balanced E/I pairs")
-    if tau_e <= 0 or tau_i <= 0:
-        raise ValueError("time constants must be positive")
+    """Return (J, perm, s) for the balanced E/I construction, centered at -s.
+
+    Require positive even integer n, positive finite time constants, finite
+    real alpha, density in [0, 1], and an integer RandomState seed.
+    """
+    if not isinstance(n, Integral) or n <= 0 or n % 2:
+        raise ValueError("n must be a positive even integer for balanced E/I pairs")
+    for name, value in (("tau_e", tau_e), ("tau_i", tau_i),
+                        ("alpha", alpha), ("density", density)):
+        if not isinstance(value, Real) or not np.isfinite(value):
+            raise ValueError(f"{name} must be a finite real number")
+    for name, value in (("tau_e", tau_e), ("tau_i", tau_i)):
+        if value <= 0:
+            raise ValueError(f"{name} must be positive")
+    if not 0 <= density <= 1:
+        raise ValueError("density must be in [0, 1]")
+    if not isinstance(seed, Integral) or isinstance(seed, bool):
+        raise ValueError("seed must be an integer")
     W, signs, perm = build_exact_weights(n, n // 2, tau_e, tau_i, density, seed)
     J = build_linear_jacobian(W, signs, tau_e, tau_i, alpha)
     return J, perm, 0.5 * (1 / tau_e + 1 / tau_i)
