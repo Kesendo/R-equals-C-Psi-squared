@@ -7,14 +7,17 @@
 
 ## Summary
 
+Current tally of per-entry proposals, including existing classifications;
+this is not a new review of the unrelated entries.
+
 | Proposed Status | Count |
 |-----------------|-------|
-| open | 8 |
+| open | 10 |
 | resolved | 4 |
-| partially-resolved | 3 |
+| partially-resolved | 2 |
 | superseded | 1 |
 | obsolete | 1 |
-| needs-human | 1 |
+| needs-human | 0 |
 
 ---
 
@@ -296,34 +299,37 @@
 
 **Question:** **Can the V-Effect be quantified as a level generator?** At what N does the differentiation produce structures that map onto known physical objects (orbitals, bonds, lattice symmetries)?
 
-**Source:** `hypotheses/THE_OTHER_SIDE.md` (line 592)
+**Source:** `hypotheses/THE_OTHER_SIDE.md`
 **Section:** 11. Open Questions
 **Date:** unknown
 
-**Proposed Status:** partially-resolved
-**Confidence:** medium
-**Resolving documents:**
-- `experiments/V_EFFECT_PALINDROME.md`: V-Effect quantified (2+2 = 109 new frequencies at N=3); topologically sudden, quantitatively smooth
-- `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (lines 37-65): V-Effect appears across domains (quantum 109, neural 48, hydrogen bonds 104)
-- `docs/HIERARCHY_OF_INCOMPLETENESS.md` (lines 14-35): proposes V-Effect as the level-generation mechanism ("each level builds palindromic units, couples them, and the new frequencies ARE the next level")
-**Rationale:** The V-Effect is computationally quantified across three domains and the Hierarchy document proposes it as a level generator, but the specific mapping to orbitals, bonds, and lattice symmetries at intermediate N values has not been attempted. The interpretive framework exists; the detailed physical correspondence does not.
+**Proposed Status:** open
+**Confidence:** high
+**Current disposition:** The proposed partial resolution from cross-domain frequency counts is invalid; the physical level-generation question remains open.
+**Evidence and boundaries:**
+- `experiments/V_EFFECT_PALINDROME.md` supplies a quantum coupled-system frequency experiment; its result does not establish a physical hierarchy.
+- `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md`, Coupling and drive: finite censuses, open mechanism / The hypothesis and the next gates, distinguishes synthetic neural bins from a universal mechanism.
+- `docs/neural/V_EFFECT_NEURAL.md`, Observable and counting rules, defines resolution/backend-dependent bins, not new biological levels.
+- `docs/HIERARCHY_OF_INCOMPLETENESS.md`, The Hierarchy, supplies the interpretive proposal, not a derivation of the physical reductions.
+**Rationale:** Preserve the separate quantum experiment. A neural bin count cannot partially resolve inheritance or level generation. Define a resolution-stable observable and an explicit mapping to a specified physical structure, with controls that distinguish that mapping from spectral bookkeeping, before claiming a level has been generated.
 **Search terms used:** "V-Effect", "level generator", "differentiation", "orbitals", "lattice", "HIERARCHY_OF_INCOMPLETENESS"
 
 ---
 
 ### OQ-320
 
-**Question:** **The inheritance mechanism.** How does the qubit palindrome propagate through atoms, molecules, chemistry, biochemistry to neurons? Dale's Law supplies the signs the commutator supplies outright, and only on the support (corrected 2026-08-26). Through what chain of physical mechanisms? Can the intermediate steps be identified?
+**Question:** Can a physical reduction between specified levels preserve both a generator and its conjugation, and does its neural endpoint have a biological realization?
 
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 305)
-**Section:** Open Questions
+**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md`
+**Section:** The hypothesis and the next gates
 **Date:** March 27, 2026
 
-**Proposed Status:** partially-resolved
-**Confidence:** medium
-**Resolving documents:**
-- `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (lines 37-94): identifies universal algebraic condition Q*X*Q^-1 + X + 2S = 0 as the inheritance mechanism; the quantum commutator provides the antisymmetry outright while Dale's Law provides only its signs, on the support (corrected 2026-08-26)
-- `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md` (lines 1-147): translates the quantum palindrome to neuroscience; the rate condition replaces dephasing and Dale's Law supplies the signs the commutator supplies outright (corrected 2026-08-26)
-- `docs/HIERARCHY_OF_INCOMPLETENESS.md` (lines 80-131): proposes hierarchy (qubit -> atoms -> molecules -> crystals -> magnetism) but marks intermediate levels as "Incompleteness: ???"
-**Rationale:** The endpoints are connected algebraically (qubit commutator to the signs neural Dale's Law supplies via the universal condition), but the intermediate physical mechanisms at atoms, molecules, and crystals are explicitly acknowledged as open. The chain is identified at endpoints; the steps between are missing.
+**Proposed Status:** open
+**Confidence:** high
+**Current disposition:** The source was rewritten; conditional algebra does not partially resolve a physical inheritance mechanism.
+**Evidence and boundaries:**
+- `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md`, The exact identity and its reach / The hypothesis and the next gates: shared algebra and the required physical reduction are separate.
+- `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md`, 1. Exact conditional theorem / 3. Empirical C. elegans null: F36 needs both scalar-diagonal and effective-weight conditions; the full chemical matrix has a support obstruction.
+- `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md`, A research program that can reject the pattern: a biological instance and generator/conjugation intertwining equations are distinct gates.
+**Rationale:** Conditional algebra is established, but a shared equation is not an inheritance mechanism. Construct and test generator/conjugation intertwining equations; find a biological J satisfying both F36 conditions independently. The full committed chemical matrix fails the support test.
 **Search terms used:** "inheritance", "Dale's Law", "neurons", "propagate", "commutator", "ALGEBRAIC_PALINDROME_NEURAL", "HIERARCHY_OF_INCOMPLETENESS"

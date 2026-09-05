@@ -9,12 +9,17 @@
 
 ## Status summary
 
+Current tally of the per-entry proposals; `ANSWERED` and dated `resolved`
+entries count as resolved. This updates counts, not the classification of
+unrelated entries.
+
 | Status | Count | OQ-IDs |
 |--------|-------|--------|
-| open | 31 | OQ-014, OQ-038, OQ-043, OQ-062, OQ-068, OQ-075, OQ-092, OQ-093, OQ-099, OQ-102, OQ-123, OQ-125, OQ-132, OQ-135, OQ-136, OQ-146, OQ-158, OQ-167, OQ-177, OQ-178, OQ-181, OQ-182, OQ-184, OQ-223, OQ-224, OQ-253, OQ-281, OQ-283, OQ-290, OQ-298, OQ-317 |
-| resolved | 17 | OQ-027, OQ-029, OQ-078, OQ-086, OQ-087, OQ-143, OQ-149, OQ-171, OQ-179, OQ-192, OQ-210, OQ-238, OQ-242, OQ-277, OQ-280, OQ-285, OQ-312 |
+| open | 30 | OQ-014, OQ-038, OQ-043, OQ-062, OQ-068, OQ-075, OQ-092, OQ-093, OQ-099, OQ-102, OQ-123, OQ-125, OQ-132, OQ-135, OQ-136, OQ-146, OQ-158, OQ-167, OQ-177, OQ-178, OQ-181, OQ-182, OQ-184, OQ-224, OQ-253, OQ-281, OQ-283, OQ-290, OQ-298, OQ-317 |
+| resolved | 19 | OQ-027, OQ-029, OQ-078, OQ-086, OQ-087, OQ-143, OQ-149, OQ-171, OQ-179, OQ-192, OQ-210, OQ-223, OQ-229, OQ-238, OQ-242, OQ-277, OQ-280, OQ-285, OQ-312 |
 | partially-resolved | 6 | OQ-024, OQ-126, OQ-191, OQ-230, OQ-252, OQ-301 |
-| needs-human | 8 | OQ-039, OQ-047, OQ-097, OQ-104, OQ-229, OQ-294, OQ-321, OQ-326 |
+| needs-human | 6 | OQ-039, OQ-047, OQ-097, OQ-104, OQ-294, OQ-326 |
+| superseded | 1 | OQ-321 |
 
 ---
 
@@ -103,10 +108,11 @@
 
 ### OQ-068
 
-**Question:** How does the V-Effect frequency count scale with N? (N=10: 6, N=20: 48. Quadratic? Cubic?)  
-**Source:** `docs/neural/V_EFFECT_NEURAL.md` (line 251)  
-**Proposed status:** open  
-**Justification:** Listed as open question in V_EFFECT_NEURAL.md §6. Data points exist but no scaling law or functional form has been determined.
+**Question:** Define a resolution-stable spectral observable for the synthetic neural coupling experiment before asking how it scales with constituent size N.
+**Source:** `docs/neural/V_EFFECT_NEURAL.md`, Observable and counting rules; Coupling two constructed networks
+**Proposed status:** open
+**Current disposition:** Use this current gate in place of the original question.
+**Justification:** Raw K_act/K_corr are frequency bins dependent on cutoff, grid and numerical backend. Specify normalization and multiplicity, refine frequency resolution, transpose the matrix, and vary seeds before fitting N scaling. OQ-321 is the duplicate of this gate.
 
 ---
 
@@ -453,10 +459,11 @@
 
 ### OQ-253
 
-**Question:** Multiple bridges: What if two chains are connected by more than one qubit pair? Does γ_crit recover N-independence when bridges scale with N?  
-**Source:** `hypotheses/FRAGILE_BRIDGE.md` (line 282)  
-**Proposed status:** open  
-**Justification:** Listed as open question in FRAGILE_BRIDGE.md §6. No computational verification of multi-bridge scenarios found.
+**Question:** Multiple bridges: What if two quantum chains are connected by more than one qubit pair? Does the stability threshold become N-independent when bridges scale with N?
+**Source:** `hypotheses/FRAGILE_BRIDGE.md`, 6. Open questions
+**Proposed status:** open
+**Current disposition:** Use this current gate in place of the original question.
+**Justification:** The multi-bridge quantum question remains separate from the neural analogy. Sigmoid saturation alone establishes no biological safety mechanism; any neural comparison must continue an equilibrium branch and certify its stability or bifurcation independently (docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md, A bounded iteration cannot locate a Hopf bifurcation; Quantum shapes for the next gates).
 
 ---
 
@@ -552,19 +559,21 @@
 
 ### OQ-317
 
-**Question:** Antiferromagnet test: conditions 1 and 3 are problematic. Heisenberg exchange is SYMMETRIC under sublattice swap (not antisymmetric).  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 281)  
-**Proposed status:** open  
-**Justification:** The three universal conditions may not be met for antiferromagnets. The correct Q and "antisymmetry" for magnetic systems are unidentified.
+**Question:** For a declared magnetic effective generator, does an explicitly chosen invertible linear map satisfy QXQ⁻¹+X+2sI=0?
+**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md`, The exact identity and its reach; The hypothesis and the next gates
+**Proposed status:** open
+**Current disposition:** Use this current gate in place of the original question.
+**Justification:** Check the generator and map, not a sublattice label. Equal decay rates are not an obstruction by themselves. A neural population-swap convention does not transfer automatically to a magnetic model.
 
 ---
 
 ### OQ-321
 
-**Question:** V-Effect scaling with N. Neural: 0+0=6 (N=10), 0+0=48 (N=20). How does the number of V-Effect frequencies scale with N?  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 311)  
-**Proposed status:** needs-human  
-**Justification:** Overlaps with OQ-068 (same question about V-Effect frequency scaling with N, different source files: neural doc vs UNIVERSAL_PALINDROME_CONDITION). OQ-321 adds neural-specific data points. Candidate for merge with OQ-068.
+**Question:** Define a resolution-stable spectral observable before neural N scaling.
+**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md`, Coupling and drive: finite censuses, open mechanism; The hypothesis and the next gates
+**Proposed status:** superseded
+**Current disposition:** Superseded by the current OQ-068 measurement gate.
+**Justification:** Duplicate of OQ-068. The current producer uses a shared bin resolution, but counts remain resolution/backend dependent. Importing the sampled counts into a scaling fit does not resolve that problem.
 
 ---
 
@@ -589,7 +598,7 @@ Same pattern as OQ-041/OQ-045 and OQ-042/OQ-046 from Batch 6. Recommend removing
 
 **Cluster 3: V-Effect frequency scaling**  
 OQ-068 (V_EFFECT_NEURAL.md), OQ-321 (UNIVERSAL_PALINDROME_CONDITION.md)  
-Same question with partially overlapping data. Recommend merging into OQ-068 with OQ-321's neural data points added.
+OQ-321 is superseded by OQ-068's measurement-definition gate. Raw frequency bins depend on resolution and backend; the duplicate's sampled counts are not additional scaling evidence.
 
 **Cluster 4: Cross-batch duplicates**  
 OQ-229 duplicates OQ-228 (math-proof, same formula from same source file)  
@@ -599,7 +608,7 @@ OQ-294 duplicates OQ-012 (math-proof, same "14 combos" question from different s
 
 ## Patterns
 
-1. **High resolution rate.** 17 of 62 entries (27%) are resolved, the highest rate of any batch so far. Many numerical-verification entries are self-documenting results (VERIFIED, ANSWERED, falsified) rather than open questions, which made classification straightforward.
+1. **Resolved inventory entries.** 19 of 62 per-entry proposals are resolved (including dated resolved/ANSWERED labels). Several are result statements rather than questions.
 
 2. **Falsified claims properly documented.** OQ-238, OQ-242 (BRIDGE_PROTOCOL FTL claims), OQ-285 (inverted HO) are all correctly marked FALLEN/falsified in source. The repo's intellectual honesty convention works well for this tag.
 

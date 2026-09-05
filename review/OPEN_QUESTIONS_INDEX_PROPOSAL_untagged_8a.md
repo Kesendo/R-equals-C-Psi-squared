@@ -11,7 +11,8 @@
 
 | Status | Count | OQ-IDs |
 |--------|-------|--------|
-| open | 18 | OQ-050, OQ-063, OQ-064, OQ-065, OQ-066, OQ-067, OQ-069, OQ-070, OQ-071, OQ-073, OQ-074, OQ-085, OQ-089, OQ-116, OQ-124, OQ-127, OQ-128, OQ-130 |
+| open | 15 | OQ-050, OQ-063, OQ-064, OQ-065, OQ-066, OQ-069, OQ-073, OQ-074, OQ-085, OQ-089, OQ-116, OQ-124, OQ-127, OQ-128, OQ-130 |
+| obsolete | 3 | OQ-067, OQ-070, OQ-071 |
 | resolved | 7 | OQ-010, OQ-080, OQ-082, OQ-084, OQ-106, OQ-107, OQ-112 |
 | needs-human | 16 | OQ-002, OQ-006, OQ-007, OQ-008, OQ-009, OQ-015, OQ-017, OQ-023, OQ-025, OQ-030, OQ-037, OQ-051, OQ-056, OQ-057, OQ-108, OQ-113 |
 
@@ -174,64 +175,71 @@
 
 ### OQ-064
 
-**Question:** Does the palindromic quality correlate with known functional circuits in C. elegans?  
-**Source:** `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md` (line 427)  
-**Proposed status:** open  
-**Justification:** Open question #1 in ALGEBRAIC_PALINDROME_NEURAL.md. The palindrome residual metric is defined but correlation with motor/sensory/interneuron layers is not computed.
+**Question:** Which declared C. elegans circuit subnetworks admit an involutive sign-reversing support automorphism, and then pass both scalar-diagonal and effective-weight conditions of F36?
+**Source:** `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md`, 3. Empirical C. elegans null; 4. Gated mode transport
+**Proposed status:** open
+**Current disposition:** Use this current gate in place of the original question.
+**Justification:** The full chemical matrix has a support obstruction. Functional-circuit comparisons first need an actual candidate Q, matched units and normalization, and pre-registered complex-spectrum and invariant-subspace tests. The fitted coupling-norm residual does not establish a pairing-quality correlation.
 
 ---
 
 ### OQ-065
 
-**Question:** Does the Drosophila connectome (100k+ neurons) show the same topological E-I symmetry?  
-**Source:** `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md` (line 429)  
-**Proposed status:** open  
-**Justification:** Open question #2. Only C. elegans (300 neurons) tested. Drosophila remains untested.
+**Question:** Does a declared Drosophila effective connectivity matrix admit an involutive sign-reversing support automorphism and satisfy F36 at a specified operating point?
+**Source:** `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md`, 1. Exact conditional theorem; 3. Empirical C. elegans null
+**Proposed status:** open
+**Current disposition:** Use this current gate in place of the original question.
+**Justification:** No topological E/I symmetry is established in C. elegans to transfer. Declare the data, Dale labels, source orientation, leak rates and gains; reject on support before testing magnitudes or fitting spectra.
 
 ---
 
 ### OQ-066
 
-**Question:** Can the palindrome quality predict dynamical stability or oscillatory properties of a neural circuit?  
-**Source:** `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md` (line 431)  
-**Proposed status:** open  
-**Justification:** Open question #3. Palindrome metric and V-Effect frequencies are computed but predictive validation against known circuit dynamics is not performed.
+**Question:** After checking F36 separately, what do the spectral abscissa, full complex spectrum and readout-coupled invariant subspaces predict about a specified circuit's linear response?
+**Source:** `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md`, 2. Constructed exact networks; 4. Gated mode transport
+**Proposed status:** open
+**Current disposition:** Use this current gate in place of the original question.
+**Justification:** Exact palindrome does not predict stability or silence. Pre-register these dynamical observables and validate them against trajectories at a converged operating point; do not substitute a pairing-quality score.
 
 ---
 
 ### OQ-067
 
-**Question:** Is the topological E-I symmetry a consequence of developmental constraints or functional requirements?  
-**Source:** `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md` (line 433)  
-**Proposed status:** open  
-**Justification:** Open question #4. (The degree-preserving reading this line rested on was withdrawn 2026-08-26: that null cannot move a metric which reads the weight multiset, so it shows nothing about degree distribution either.) The developmental-vs-functional origin question is unresolved.
+**Question:** Developmental or functional origin of an established biological topological E/I symmetry.
+**Source:** `docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md`, 3. Empirical C. elegans null
+**Proposed status:** obsolete
+**Current disposition:** The original premise is invalid; retire this question.
+**Justification:** The assumed symmetry has not been established. The full committed chemical matrix rejects the required sign-reversing support bijection. OQ-064/065 supply the prior biological-instance gate; an origin question becomes meaningful only after an instance is found.
 
 ---
 
 ### OQ-069
 
-**Question:** Does the optimal coupling window narrow or widen with N?  
-**Source:** `docs/neural/V_EFFECT_NEURAL.md` (line 253)  
-**Proposed status:** open  
-**Justification:** Open question #1 in V_EFFECT_NEURAL.md. Computed at N=10, 20 but scaling law to large N is not established.
+**Question:** For a declared resolution-stable response or spectral observable, does a coupling interval defined by a pre-specified criterion change with N?
+**Source:** `docs/neural/V_EFFECT_NEURAL.md`, Observable and counting rules; Coupling two constructed networks
+**Proposed status:** open
+**Current disposition:** Use this current gate in place of the original question.
+**Justification:** An optimal window inferred from raw bin maxima is ill-posed. OQ-068 must first define and validate the observable; then hold leak times, gain, support family, normalization and bridge protocol fixed during the N comparison.
 
 ---
 
 ### OQ-070
 
-**Question:** Can the thermal window predict the frequency range of biological neural oscillations (gamma band at ~40 Hz)?  
-**Source:** `docs/neural/V_EFFECT_NEURAL.md` (line 254)  
-**Proposed status:** open  
-**Justification:** Open question #3. Thermal window is demonstrated computationally but mapping to biological gamma band is not validated.
+**Question:** Prediction of biological gamma-band frequencies from a neural thermal window.
+**Source:** `docs/neural/V_EFFECT_NEURAL.md`, External drive on one random Dale network
+**Proposed status:** obsolete
+**Current disposition:** The original premise is invalid; retire this question.
+**Justification:** P is external drive, with no thermal, metabolic or biological Hz calibration. The synthetic frequency-bin census supplies no such prediction. A new biological frequency test needs a declared physical time scale, operating point and measured readout.
 
 ---
 
 ### OQ-071
 
-**Question:** Does the 2x decay law hold in COUPLED exact networks?  
-**Source:** `docs/neural/V_EFFECT_NEURAL.md` (line 256)  
-**Proposed status:** open  
-**Justification:** Open question #4. The 2x law holds in quantum (exact, N=2-5) but fails in neural (ratio 0.84-1.63). Whether it holds in V-Effect-created coupled palindromic networks is untested.
+**Question:** A 2× decay law in the current coupled exact-neural-network experiment.
+**Source:** `docs/neural/V_EFFECT_NEURAL.md`, Coupling two constructed networks; Companion measurements
+**Proposed status:** obsolete
+**Current disposition:** The original premise is invalid; retire this question.
+**Justification:** The odd mediator violates the scalar F36 condition even at zero coupling, so exact constituents do not yield a coupled F36 system. No neural 2× law is established. Any new test must first construct a coupled J satisfying every F36 entry and define the decay populations independently of a real-at-resolution classification.
 
 ---
 
@@ -414,7 +422,7 @@ Six entries spanning one resolved question. Five are redundant.
 
 1. **Collection artifact rate: 39% (16/41).** The untagged batch has the highest artifact rate of any batch, as predicted. Section headings, status metadata, document titles, and result statements dominate the needs-human category.
 
-2. **Neural open questions form a coherent cluster.** OQ-064 through OQ-071 (8 entries) from ALGEBRAIC_PALINDROME_NEURAL.md and V_EFFECT_NEURAL.md are all genuine, well-formulated open questions about neural palindromic structure. All remain open.
+2. **Neural dispositions differ.** This batch contains seven entries from OQ-064..071; OQ-068 belongs to numerical-verification. OQ-064/065/066 and OQ-069 now ask for support, dynamical and resolution-stable measurement gates. OQ-067/070/071 have invalid premises and are proposed obsolete. Conditional constructed algebra establishes no biological E/I symmetry, thermal frequency prediction or coupled neural 2× law.
 
 3. **Tier 5 philosophical questions.** The STANDING_WAVE_THEORY.md cluster (OQ-006 through OQ-009) represents the only purely philosophical entries in the inventory. They were written in December 2025 and are from the oldest document in the repo.
 
