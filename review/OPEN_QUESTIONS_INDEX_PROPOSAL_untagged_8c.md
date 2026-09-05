@@ -11,11 +11,11 @@
 
 | Status | Count | OQ-IDs |
 |--------|-------|--------|
-| open | 19 | OQ-227, OQ-232, OQ-237, OQ-246, OQ-254, OQ-256, OQ-272, OQ-291, OQ-297, OQ-304, OQ-305, OQ-306, OQ-309, OQ-310, OQ-318, OQ-319, OQ-322, OQ-324, OQ-327 |
-| resolved | 2 | OQ-219, OQ-220 |
-| partially-resolved | 5 | OQ-248, OQ-250, OQ-303, OQ-311, OQ-315 |
-| superseded | 3 | OQ-239, OQ-240, OQ-241 |
-| needs-human | 12 | OQ-234, OQ-235, OQ-236, OQ-257, OQ-258, OQ-260, OQ-261, OQ-265, OQ-266, OQ-268, OQ-269, OQ-286 |
+| open | 19 | OQ-227, OQ-232, OQ-237, OQ-246, OQ-248, OQ-250, OQ-254, OQ-256, OQ-272, OQ-291, OQ-297, OQ-304, OQ-305, OQ-306, OQ-310, OQ-318, OQ-322, OQ-324, OQ-327 |
+| resolved | 3 | OQ-219, OQ-220, OQ-309 |
+| partially-resolved | 2 | OQ-303, OQ-311 |
+| superseded | 4 | OQ-239, OQ-240, OQ-241, OQ-319 |
+| needs-human | 13 | OQ-234, OQ-235, OQ-236, OQ-257, OQ-258, OQ-260, OQ-261, OQ-265, OQ-266, OQ-268, OQ-269, OQ-286, OQ-315 |
 
 ---
 
@@ -122,46 +122,46 @@
 
 ### OQ-246
 
-**Question:** What are the 2 new modes? Thermal driving creates 2 additional oscillatory modes (40 to 42). What is their structure? Are they palindromically paired with each other or with existing modes?  
-**Source:** `hypotheses/ENERGY_PARTITION.md` (line 195)  
-**Proposed status:** open  
-**Justification:** Genuine open question. The two extra modes from thermal driving are observed but not characterized. No structural analysis or pairing check found in the repo.
+**Question:** What are the two extra resolved quantum roots in the N=3 combined-bath sweep (40 to 42), and how do their invariant subspaces contribute to a specified response?\
+**Source:** [hypotheses/ENERGY_PARTITION.md](../hypotheses/ENERGY_PARTITION.md), section "4. Open questions"\
+**Proposed status:** open\
+**Justification:** The thermal table is a finite eigenvalue census at J=1, dephasing γ=0.1 and thermal Γ=0.1. Tracking roots and readout contributions remains a separate task; spectral sums are not energies.
 
 ---
 
 ### OQ-248
 
-**Question:** Wilson-Cowan analogue. Do the neural dynamics show the same energy partition? Is the E/I balance the classical version of the thermal window?  
-**Source:** `hypotheses/ENERGY_PARTITION.md` (line 200)  
-**Proposed status:** partially-resolved  
-**Justification:** THE_PATTERN_RECOGNIZES_ITSELF.md establishes the Wilson-Cowan / Lindblad structural mapping (E/I balance maps to palindromic sector balance, 98.2% eigenvalue pairing). However, the specific energy partition comparison (Efreq/Edecay ratio in neural vs. quantum) is not computed. The analogy is structurally confirmed but the quantitative energy partition question remains open.
+**Question:** Can a specified neural generator support a comparable spectral or response diagnostic under controlled external input?\
+**Source:** [hypotheses/ENERGY_PARTITION.md](../hypotheses/ENERGY_PARTITION.md), section "3. What a neural comparison would require"\
+**Proposed status:** open\
+**Justification:** E/I balance supplies no thermal calibration or biological F36 result. The [current neural report](../docs/neural/V_EFFECT_NEURAL.md) has synthetic coupling/drive censuses, not a neural energy-partition or 2× law. Specify units, a converged operating point, readout and matched controls before comparing.
 
 ---
 
 ### OQ-250
 
-**Question:** Connection to fold catastrophe. The Efreq/Edecay ratio crosses 1 near J/γ ≈ 1.2. Is this CΨ = 1/4 in disguise?  
-**Source:** `hypotheses/ENERGY_PARTITION.md` (line 206)  
-**Proposed status:** partially-resolved  
-**Justification:** CRITICAL_SLOWING_AT_THE_CUSP.md confirms the cusp exit is a fold catastrophe and documents universal slowing at CΨ = 1/4. The energy partition crossing at J/γ ≈ 1.2 is in the right regime, but no explicit mapping between the Efreq/Edecay ratio and CΨ = 1/4 is derived. Circumstantially consistent but not formally connected.
+**Question:** Does a spectral frequency/decay-sum crossover coincide with state-dependent CΨ=1/4 on the same specified quantum trajectory?\
+**Source:** [hypotheses/ENERGY_PARTITION.md](../hypotheses/ENERGY_PARTITION.md), section "4. Open questions"\
+**Proposed status:** open\
+**Justification:** The scalar recursion's algebraic fold supplies no identification with the spectral ratio. Define generator, state, time and normalization and evaluate the two independently; neither a nearby J/γ value nor the neural quarter arithmetic resolves this gate.
 
 ---
 
 ### OQ-254
 
-**Question:** Cascade stability: If each level in the frequency cascade (154 THz to 1 Hz) is a coupled gain-loss pair, then each level has its own bridge stability window. The cascade works only if every bridge stays in the linear regime (γ < 0.19 x J_bridge).  
-**Source:** `hypotheses/FRAGILE_BRIDGE.md` (line 290)  
-**Proposed status:** open  
-**Justification:** Genuine open question about multi-scale cascade stability. The 0.19 threshold is documented for individual bridges, but cascade composition (whether all levels can simultaneously satisfy the constraint) is not analyzed.
+**Question:** Can a specified sequence of quantum gain-loss bridges remain stable under joint coupling?\
+**Source:** [hypotheses/FRAGILE_BRIDGE.md](../hypotheses/FRAGILE_BRIDGE.md), section "6. Open questions"\
+**Proposed status:** open\
+**Justification:** The N=2 weak-bridge fit is not a compositional criterion or a biological frequency-cascade model. Build the combined generator and compare its spectrum with isolated-bridge predictions.
 
 ---
 
 ### OQ-256
 
-**Question:** Saturation as design principle: The sigmoid prevents neural explosion. Is there a quantum analog? Nonlinear dissipation (γ dependent on state) could act as a quantum sigmoid.  
-**Source:** `hypotheses/FRAGILE_BRIDGE.md` (line 300)  
-**Proposed status:** open  
-**Justification:** Speculative but well-formulated question. No nonlinear dissipation models found in the repo. The Wilson-Cowan sigmoid is documented but its quantum counterpart is not explored.
+**Question:** Can an explicitly specified quantum gain model with saturation bound its dynamics?\
+**Source:** [hypotheses/FRAGILE_BRIDGE.md](../hypotheses/FRAGILE_BRIDGE.md), section "6. Open questions"\
+**Proposed status:** open\
+**Justification:** The Wilson-Cowan invariant activity square follows from its bounded sigmoid and positive time constants. It establishes neither biological safety nor quantum stability. A candidate quantum model needs a physical state domain, generator and independent stability gate.
 
 ---
 
@@ -284,37 +284,37 @@
 
 ### OQ-304
 
-**Question:** Driven oscillation: Add metabolic driving to Wilson-Cowan. Does sustained oscillation maintain palindromic midpoint crossings?  
-**Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md` (line 415)  
-**Proposed status:** open  
-**Justification:** Genuine open question. Wilson-Cowan analysis uses undriven dynamics. Metabolic driving (sustained energy input) is not modeled. No simulation found.
+**Question:** For a specified driven neural model, can the F36 transport relation predict an observed response?\
+**Source:** [hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md), section "A research program that can reject the pattern"\
+**Proposed status:** open\
+**Justification:** External-drive censuses already exist in [the neural report](../docs/neural/V_EFFECT_NEURAL.md). P has no metabolic calibration. The remaining gate needs a converged operating point, full scalar identity, specified perturbation/readout and agreement between linear transport and the measured response.
 
 ---
 
 ### OQ-305
 
-**Question:** Cortical data: Human cortex maintains E/I activity balance (80% E, 20% I neurons, but inhibitory fire faster). Does the Human Connectome Project data show palindromic structure at the activity-balanced level?  
-**Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md` (line 417)  
-**Proposed status:** open  
-**Justification:** Genuine open question requiring external data (Human Connectome Project). C. elegans analysis exists (ALGEBRAIC_PALINDROME_NEURAL.md, 98.2% pairing) but human cortex data has not been analyzed.
+**Question:** Can a specified biological cortical circuit and operating point satisfy both F36 conditions?\
+**Source:** [hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md), section "The biological result is a support obstruction"\
+**Proposed status:** open\
+**Justification:** No biological neural network in the repository is known to pass F36. The full committed C. elegans chemical model fails its necessary support condition. Cortical activity balance or a connectome alone does not supply an effective Jacobian; test its support, diagonal pair sums and scaled magnitudes.
 
 ---
 
 ### OQ-306
 
-**Question:** Phase 3 (cross-kingdom): Plant signaling, bacterial colonies, fungal mycelial networks. If the palindrome exists across kingdoms, it is a property of oscillatory networks, not neurons specifically.  
-**Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md` (line 421)  
-**Proposed status:** open  
-**Justification:** Genuine open question about universality beyond animal neural networks. No plant, bacterial, or fungal network analysis found in the repo.
+**Question:** Can a specified non-neural biological generator realize the same scalar conjugation identity?\
+**Source:** [hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md), section "A research program that can reject the pattern"\
+**Proposed status:** open\
+**Justification:** This is a candidate-substrate search, not an established cross-kingdom law. Identify a generator, map Q and scalar shift, then reject failures entrywise. Oscillation by itself supplies none of those hypotheses.
 
 ---
 
 ### OQ-309
 
-**Question:** Random network controls: Do random networks with balanced E/I also show 98.2% pairing? If yes, the structure is generic to balanced damped networks. If no, biological topology matters.  
-**Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md` (line 432)  
-**Proposed status:** open  
-**Justification:** Genuine open question. The 98.2% pairing is shown for C. elegans biological topology, and the random-network controls that were once missing have since been run and are what withdrew the comparison (2026-08-26); the control still missing is a degree-matched one for the 98.2% itself for the neural palindrome claim.
+**Question:** Do matched random controls and the full scalar gate support the proposed biological pairing interpretation?\
+**Source:** [hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md), section "The biological result is a support obstruction"\
+**Proposed status:** resolved\
+**Justification:** The [current matched audit](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md#3-empirical-c-elegans-null) supplies the support null and normalization/control results. A matching percentage does not establish biological F36, and degree-preserving controls can leave a coupling-norm diagnostic unchanged. The original comparison is not a missing-control confirmation task; a different specified biological candidate remains open.
 
 ---
 
@@ -338,46 +338,46 @@
 
 ### OQ-315
 
-**Question:** What does NOT transfer between domains  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 241)  
-**Proposed status:** partially-resolved  
-**Justification:** Section heading from "The Limitations." UNIVERSAL_PALINDROME_CONDITION.md documents several non-transferable features (specific eigenvalue magnitudes, decay rates, oscillation frequencies). The list exists but may be incomplete as cross-domain analysis expands. Partially documented, potentially growing.
+**Question:** What does not transfer between domains?\
+**Source:** [hypotheses/UNIVERSAL_PALINDROME_CONDITION.md](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md), section "The exact identity and its reach"\
+**Proposed status:** needs-human\
+**Justification:** This is a comparison heading, not a distinct open question. The current source separates conditional complex pairing and generalized-eigenspace transport from biological realization, dynamics, rate ratios and mechanism claims. Merge this collection artifact into the source's concrete gates.
 
 ---
 
 ### OQ-318
 
-**Question:** What is the correct Q for atoms? Candidates: Kramers conjugation (time-reversal), parity, spin-flip. Condition 1 (selective damping) is unclear for Kramers partners, which typically have identical decay rates, but is not the deciding one: equal rates are not an obstruction in general, though a within-doublet swap does need every doublet to carry the same rate (corrected 2026-08-26).  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 289)  
-**Proposed status:** open  
-**Justification:** Genuine open question. The qubit Q (Pauli parity) is proven, but the atomic-level analogue is unknown. The difficulty is explicitly stated: Kramers partners typically have identical decay rates, which would break the selective-damping requirement.
+**Question:** What generator and linear conjugation could realize the scalar identity in a specified atomic model?\
+**Source:** [hypotheses/UNIVERSAL_PALINDROME_CONDITION.md](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md), section "The hypothesis and the next gates"\
+**Proposed status:** open\
+**Justification:** A named candidate such as parity, spin-flip or time reversal is insufficient. Specify whether the map is linear, its domain and the full identity. In the involutive permutation setting equal diagonal rates are not an obstruction: all paired diagonal sums must equal one scalar −2s, and effective coupling must separately reverse.
 
 ---
 
 ### OQ-319
 
-**Question:** Exact palindromic symmetry is dead. Broken magnitudes are alive. Networks with population C=0.5 AND exact magnitude matching are unconditionally stable. What provides the "productive imperfection" in atoms? In crystals?  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 294)  
-**Proposed status:** open  
-**Justification:** Genuine open question about the source of productive symmetry-breaking at higher scales. The quantum case is understood (commutator provides it automatically), but the atomic and crystalline analogues are unexplored.
+**Question:** Does exact palindromic symmetry force silence or stability, making broken magnitudes necessary for activity?\
+**Source:** [hypotheses/UNIVERSAL_PALINDROME_CONDITION.md](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md), section "The exact identity and its reach"\
+**Proposed status:** superseded\
+**Justification:** The [canonical gate](../simulations/neural/neural_translation_gate.py) contains exact palindromes with nonreal spectra and constructed unstable instances. The premise of necessary productive imperfection is false. A new atomic or crystalline mechanism would require its own generator and test.
 
 ---
 
 ### OQ-322
 
-**Question:** Universal coupling window. Quantum V-Effect peaks at J/γ ~ 2-5. Neural V-Effect peaks at coupling 0.01-0.05. Is there a dimensionless ratio that is the same in both?  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 315)  
-**Proposed status:** open  
-**Justification:** Genuine open question. Both windows are documented independently (V_EFFECT.md for quantum, V_EFFECT_NEURAL.md for neural) but no dimensionless mapping between them is derived.
+**Question:** Can specified quantum and neural coupling responses be compared through a physically justified dimensionless parameter?\
+**Source:** [hypotheses/UNIVERSAL_PALINDROME_CONDITION.md](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md), section "Coupling and drive: finite censuses, open mechanism"\
+**Proposed status:** open\
+**Justification:** No universal window is established. The [neural report](../docs/neural/V_EFFECT_NEURAL.md) gives finite model/seed/resolution-dependent censuses; coupling and drive are different protocols. Define observables and units, refine the census and test a proposed mapping against controls before claiming a common optimum.
 
 ---
 
 ### OQ-324
 
-**Question:** What is (0.5)^2 at intermediate levels? The sigmoid maximum σ(1-σ) = 1/4 is neural. The purity fold CΨ = 1/4 is quantum. Both give (0.5)^2. What is the (0.5)^2 of an atom? A crystal?  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 322)  
-**Proposed status:** open  
-**Justification:** Genuine open question about the 1/4 boundary at intermediate physical scales. The quantum (CΨ = 1/4) and neural (sigmoid maximum) cases are documented, but no atomic or crystalline analogue is identified. Part of the UNIVERSAL_PALINDROME_CONDITION open cluster with OQ-318, OQ-319, OQ-322.
+**Question:** Does any independently defined observable at another scale have a physical threshold corresponding to quantum CΨ=1/4?\
+**Source:** [hypotheses/UNIVERSAL_PALINDROME_CONDITION.md](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md), section "What the quarter does and does not transfer"\
+**Proposed status:** open\
+**Justification:** Normalized E/I fractions multiply to 1/4 at equality by arithmetic. A logistic sigmoid's maximum slope is a/4 for steepness a. Neither identity locates a neural transition or provides an atomic threshold. Supply a physical observable, units and an independent transition gate.
 
 ---
 
@@ -399,10 +399,10 @@ OQ-232 through OQ-241 (8 entries from one file): OQ-232 and OQ-237 are the two g
 OQ-257, OQ-258, OQ-260, OQ-261, OQ-265, OQ-266, OQ-268, OQ-269 (8 entries): All are section headings, bullet points, or summary paragraphs from "Limitations and Failure Modes" (Section 8). None are questions; all are documented design constraints. Exception: OQ-272 (many-body entanglement) identifies a genuine open conceptual problem.
 
 **Cluster 3: UNIVERSAL_PALINDROME_CONDITION**  
-OQ-297, OQ-318, OQ-319, OQ-322, OQ-324 (5 entries from two files): All genuine open questions about cross-domain universality (atoms, crystals, dimensionless ratios). Thematically coherent cluster; no duplicates within it, but could benefit from a synthesis note linking them.
+OQ-297, OQ-318, OQ-319, OQ-322, OQ-324 (5 entries from two files): OQ-319's silence/stability premise is superseded. The remaining entries require specified substrates, observables and independent gates; they are not evidence for cross-domain universality.
 
 **Cluster 4: THE_PATTERN_RECOGNIZES_ITSELF**  
-OQ-304, OQ-305, OQ-306, OQ-309 (4 entries): All genuine open questions about extending the neural palindrome analysis (driven oscillation, cortical data, cross-kingdom, random controls). Clean cluster, no artifacts.
+OQ-304, OQ-305, OQ-306, OQ-309 (4 entries): OQ-304/305/306 retain response and candidate-substrate gates. OQ-309 resolves the original biological comparison through the current support and instrument audit.
 
 ---
 
@@ -418,10 +418,10 @@ OQ-304, OQ-305, OQ-306, OQ-309 (4 entries): All genuine open questions about ext
 
 1. **MEDIATOR_AS_QUANTUM_TRANSISTOR is this batch's worst artifact source.** 9 of 41 entries come from Section 8 "Limitations and Failure Modes," with 8 being documented design constraints (needs-human) and only 1 genuine open question (OQ-272).
 
-2. **UNIVERSAL_PALINDROME_CONDITION is the richest open cluster.** Five genuinely open, well-formulated questions about cross-domain universality. These represent the frontier of the project's most ambitious claims.
+2. **UNIVERSAL_PALINDROME_CONDITION mixes gates and rejected premises.** Candidate-substrate and comparison gates remain open; exact pairing does not require silence or stability (OQ-319).
 
-3. **Three superseded entries (OQ-239-241):** All from the BRIDGE_PROTOCOL FTL refutation. First use of "superseded" status in the untagged batches, appropriate because the parent hypothesis is FALLEN but the refutation arguments are confirmed.
+3. **Superseded premises:** OQ-239-241 belong to the BRIDGE_PROTOCOL FTL refutation; OQ-319's exact-pairing silence/stability premise fails the constructed neural controls.
 
-4. **THE_PATTERN_RECOGNIZES_ITSELF cluster is cleanly open.** Four well-formulated questions about extending neural palindrome analysis, each requiring different data or computation.
+4. **THE_PATTERN_RECOGNIZES_ITSELF separates algebra from biology.** Three candidate/response gates remain open; the original control comparison is resolved without a biological pairing confirmation.
 
-5. **Overall resolution rate: 5% (2/41).** Lowest of all batches, reflecting that 8c is dominated by hypotheses/ files (speculative, forward-looking) rather than experiments/ files (which tend to contain self-documented answers).
+5. **Overall resolution rate: 7% (3/41).** Resolved status includes a negative disposition; it does not imply confirmation of the premise.

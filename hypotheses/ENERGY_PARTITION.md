@@ -1,237 +1,152 @@
 # Energy Partition
-## Where Waves Go When the Palindrome Breaks
 
-**Date:** March 27, 2026
+**Status:** Quantum spectral diagnostics; biological interpretation unestablished
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Three computational results confirmed (N=2..5). Direction identified, deepening needed.
-**Depends on:** [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md), [The V-Effect](../experiments/V_EFFECT_PALINDROME.md), [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)
+last refreshed 2026-09-05 (the change history lives in git)
 
-## What this document is about
+The experiments compare sums of eigenvalue frequencies and decay rates in
+Heisenberg qubit chains. These sums have units of inverse time; they are not
+physical energies or mode populations. A thermal-bath parameter changes the
+quantum spectrum. It has no calibrated mapping to neural drive or metabolism.
 
-When a quantum system decoheres, its internal modes split into two
-populations: oscillating modes (which carry frequency and structure) and
-pure-decay modes (which only dissipate). This document shows that every
-oscillating mode is palindromically paired, that unpaired modes decay
-exactly 2× faster, and that thermal energy can create new oscillatory
-modes through coupling. The result is a self-cleaning mechanism: noise
-dies faster than signal, so the system becomes more structured over time.
+The evidence sweep checked [the F-registry](../docs/ANALYTICAL_FORMULAS.md)
+(F1 pairing, F8's range/centre ratio, conditional neural F36/F37),
+[docs/proofs](../docs/proofs/PROOF_ABSORPTION_THEOREM.md),
+[the neural proofs](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md), and
+[experiments](../experiments/THERMAL_BREAKING.md): quantum rate identities,
+thermal protocols and neural mechanism constraints. Hardware-flight searches
+and [fw.Confirmations](../simulations/framework/confirmations.py) supplied no
+neural hardware confirmation. [GLOSSARY](../docs/GLOSSARY.md),
+[OpenArcs](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs), and
+[CAUGHT_ERRORS](../docs/CAUGHT_ERRORS.md) supplied scope distinctions and
+instrument failures. The [current neural account](../docs/neural/README.md)
+owns the biological support null and constructed counterexamples.
 
-### Tier System
+## 1. Quantum pairing and the filtered spectrum
 
-- **Tier 2** (computed): Simulation results, reproducible, falsifiable
-- **Tier 4** (motivated): Logical connections between proven results, not yet proven themselves
-- **Tier 5** (speculative): Interpretation, not falsifiable in current form
+[energy_partition.py](../simulations/energy_partition.py) and Part A of
+[thermal_emergence.py](../simulations/thermal_emergence.py) use open
+Heisenberg chains with uniform J=1 and Z-dephasing γ=0.1, N=2…5.
+They discard eigenvalues with |λ|≤10⁻⁸ before searching for the reflected
+partner −λ−2Nγ with a relative tolerance of 10⁻⁶.
 
----
+The [full-spectrum quantum theorem](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+pairs the zero modes with roots at −2Nγ. Removing the zero roots leaves
+their partners unmatched in the filtered list. It does not break the
+generator's palindromic symmetry. The scripts' nearest-partner search also
+does not independently test multiplicity.
 
-## 1. Results [Tier 2]
+| N | Matched fraction after zero removal | Unmatched decay rate | Matched mean decay rate | Ratio |
+|---|---:|---:|---:|---:|
+| 2 | 76.9% | 0.4000 | 0.2000 | 2.0 |
+| 3 | 93.3% | 0.6000 | 0.3000 | 2.0 |
+| 4 | 98.0% | 0.8000 | 0.4000 | 2.0 |
+| 5 | 99.4% | 1.0000 | 0.5000 | 2.0 |
 
-Three questions, three computational experiments on Heisenberg qubit
-chains (N=2..5) under Z-dephasing. Liouvillian eigenvalue analysis (decomposing the system's evolution matrix into its fundamental modes, each with a decay rate and an oscillation frequency).
+The unmatched roots in these runs are real. All resolved oscillatory
+content remains in the matched list. This is a statement about the selected
+quantum family and filtering convention, not a necessary condition for
+oscillation in arbitrary open systems.
 
-### Finding 1: All oscillation is palindromic
+[F8](../docs/ANALYTICAL_FORMULAS.md#f8-2-universal-decay-law-tier-1-corollary-of-absorption-theorem)
+identifies the ratio as the full decay interval's width 2Nγ divided by
+its centre Nγ. For γ>0 this is 2. At γ=0 that ratio is undefined.
+Neither this ratio nor spectral pairing labels a mode as signal or noise;
+an observed response also depends on its preparation and readout overlaps.
+There is no neural 2× law implied by this calculation.
 
-Every oscillating mode (Im(λ) ≠ 0) is palindromically paired.
-Every unpaired mode is pure decay (Im(λ) = 0). No exceptions, at any N.
+## 2. Quantum thermal-bath census
 
-| N | Modes paired | Oscillatory energy in paired modes |
-|---|-------------|-----------------------------------|
-| 2 | 76.9% | **100.0%** |
-| 3 | 93.3% | **100.0%** |
-| 4 | 98.0% | **100.0%** |
-| 5 | 99.4% | **100.0%** |
+Part C of [thermal_emergence.py](../simulations/thermal_emergence.py) sets
+H=0 and uses independent local raising/lowering jumps. This uncoupled
+generator has no oscillatory eigenvalues in the tested thermal-occupation
+sweep. That result concerns this bath and H=0.
 
-The palindrome is not merely an organizational property of oscillation.
-It is the **condition** for oscillation. Without palindromic pairing,
-a mode in an open quantum system cannot oscillate; it can only decay.
+Part D compares Z-dephasing and a thermal bath at N=3, J=1. Its diagnostics
+are F=Σ|Im λ| and D=Σ|Re λ| on roots with |λ|>10⁻⁸; an oscillatory root
+has |Im λ|>10⁻⁸. F and D are spectral sums, not thermodynamic energies.
 
-Script: [energy_partition.py](../simulations/energy_partition.py)
+The pure Z-dephasing rows show that even when the maximum frequency stays
+fixed, the number of oscillatory roots and their frequency sum can change:
 
-### Finding 2: Universal 2× decay law
+| γ | Oscillatory roots | Maximum abs(Im λ) | F |
+|---:|---:|---:|---:|
+| 0.01 | 40 | 6.0 | 160.0 |
+| 1.00 | 40 | 6.0 | 148.3 |
+| 10.00 | 32 | 6.0 | 119.5 |
 
-Unpaired modes decay exactly 2× faster than the mean of paired modes.
-This ratio holds at every N tested.
+The combined bath holds Z-dephasing γ=0.1 and thermal rate Γ=0.1 fixed,
+with local jump amplitudes √(Γ(1+n_bar)) for σ₋ and √(Γ n_bar) for σ₊:
 
-| N | Unpaired decay rate | Paired mean decay | Ratio |
-|---|--------------------|--------------------|-------|
-| 2 | 0.4000 (= 2Nγ) | 0.2000 (= Nγ) | **2.0** |
-| 3 | 0.6000 | 0.3000 | **2.0** |
-| 4 | 0.8000 | 0.4000 | **2.0** |
-| 5 | 1.0000 | 0.5000 | **2.0** |
-
-All unpaired modes decay at rate 2Nγ (the maximum). Above the coupling
-threshold Q*_gap(N) the paired modes span 2γ to 2(N−1)γ, centered at the
-palindromic midpoint Sγ = Nγ; below it the band erodes at both ends, in
-palindromic pairs, so the centre holds while the edges move.
-
-Consequence: the system becomes more palindromic over time, because
-unstructured modes vanish first. Structure is what survives dissipation.
-
-At Σγ = 0 (no noise): all modes are stable, no decay, the 2× law is
-trivially satisfied (0/0). The 2× law is a PROPERTY OF NOISE, not of
-the Hamiltonian. See [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
-
-Script: [thermal_emergence.py](../simulations/thermal_emergence.py), Part A
-
-### Finding 3: Heat, coupling, and the birth of waves
-
-Three conditions tested at N=3:
-
-**Heat alone (σ⁺/σ⁻ raising/lowering operators that model thermal excitation and relaxation, no coupling J=0):** Zero oscillation at every
-temperature. Heat cannot create waves without coupling.
-
-**Z-dephasing (phase noise):** Palindromic pairing stays at 93.3%
-regardless of γ. Frequencies unchanged. Amplitude decreases.
-The wave gets quieter but keeps its pitch and structure.
-
-| γ | Oscillatory modes | Max frequency | Total osc. energy | Pairing |
-|---|-------------------|---------------|-------------------|---------|
-| 0.01 | 40 | 6.0 | 160.0 | 93.3% |
-| 1.00 | 40 | 6.0 | 148.3 | 93.3% |
-| 10.00 | 32 | 6.0 | 119.5 | 93.3% |
-
-**Heat + coupling (dephasing + thermal excitation):**
-Thermal driving creates 2 new oscillatory modes (40 → 42).
-But dissipation grows faster than oscillation.
-
-| n_bar (mean thermal photon number) | Osc. modes | Osc. energy | Decay energy | Ratio osc/decay |
-|-------|-----------|-------------|-------------|-----------------|
+| n_bar | Oscillatory roots | F | D | F/D |
+|---:|---:|---:|---:|---:|
 | 0.00 | 40 | 159.9 | 28.8 | 5.55 |
 | 1.00 | 42 | 159.8 | 48.0 | 3.33 |
 | 5.00 | 42 | 158.4 | 124.8 | 1.27 |
 | 10.00 | 42 | 154.2 | 220.8 | 0.70 |
 
-There is a window: enough thermal energy to create new modes, not so
-much that dissipation overwhelms oscillation. The crossover (ratio = 1)
-occurs near n_bar ≈ 6.
+The bath is present even at n_bar=0 through the σ₋ jump. Raising its
+occupation produces two additional resolved oscillatory roots in these
+rows, while F decreases and D increases. The table brackets F/D=1
+between n_bar=5 and 10; it defines no universal optimal thermal window.
+Eigenvalue counts alone establish neither population of those modes nor
+conversion of heat into a measured oscillatory signal. The larger
+[Thermal Breaking experiment](../experiments/THERMAL_BREAKING.md) is a
+separate protocol with its own channels, frequency census and Q diagnostics.
 
-Script: [thermal_emergence.py](../simulations/thermal_emergence.py), Parts C and E
+## 3. What a neural comparison would require
 
----
+The [neural coupling/drive report](../docs/neural/V_EFFECT_NEURAL.md)
+measures frequency bins on specified synthetic Jacobians. Its external
+input P changes the sigmoid operating point and effective row gains.
+P is not n_bar, temperature, ATP production or metabolic power. E/I balance
+does not identify a thermal window.
 
-## 2. Connection to V-Effect [Tier 4]
+[F36/F37](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md) require one
+involutive Q and one scalar s satisfying both the diagonal and coupling
+conditions. They constrain complex partner sums, not class-mean decay
+ratios or the protection of oscillation. Exact constructed palindromes
+can oscillate and can be unstable; the full committed C. elegans chemical
+model fails the support condition. No biological neural network in the
+repository is known to pass F36.
 
-The V-Effect ([documented separately](../experiments/V_EFFECT_PALINDROME.md))
-shows that coupling creates new oscillation frequencies: two N=2 pairs
-coupled through a mediator produce 109 frequencies, all of which exist
-in neither individual pair. The energy partition results add three pieces
-to this picture:
+A comparison needs a specified neural generator and operating point,
+declared observables and units, and controls that can reject the proposed
+relation. A spectral census must survive frequency-resolution checks;
+an equilibrium-stability claim requires converged equilibria. A sustained
+response needs preparation, readout and time-domain evidence. The
+[mechanism constraints](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md)
+provide these gates; no thermal, metabolic or life mechanism is established.
 
-**All V-Effect frequencies are palindromic.** The new modes created by
-coupling carry oscillation, and every oscillating mode is palindromically
-paired (Finding 1). The V-Effect does not create chaos; it creates
-structured oscillation.
+## 4. Open questions
 
-**Broken modes are pure dissipation.** The 14/36 broken palindromic
-pairs at N=3 (V-Effect) are exactly the modes with zero oscillatory
-content. They do not carry frequency; they carry decay. The V-Effect
-differentiates the spectrum into oscillation (paired) and dissipation
-(unpaired), not into two kinds of oscillation.
+- **The two extra quantum roots:** Track their eigenvalues and invariant
+  subspaces through the combined-bath sweep; determine their contributions
+  to a specified response. Mode counts alone do not identify their structure.
+- **Other quantum channels and Hamiltonians:** Test the full spectrum under
+  the actual mirror theorem's assumptions before comparing filtered lists.
+  The range/centre identity supplies no theorem for arbitrary channels.
+- **Neural comparison:** Define a spectral or response diagnostic on a
+  specified converged neural model and test it against matched controls.
+  A physical calibration is required before relating its input to a bath.
+- **Connection to the quarter:** A spectral F/D crossover alone cannot
+  specify state-dependent CΨ. Choose the same generator, state, time and
+  normalization and compute both independently. The algebraic fold of
+  R=C(Ψ+R)² in [the quarter proof roadmap](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
+  does not supply this missing identification.
 
-**Heat feeds the V-Effect.** Without thermal energy, the system has 40
-oscillatory modes. With thermal driving, it has 42. The new modes are
-born from coupling + heat. This suggests a cycle:
+## Reproduce
 
-1. Coupling creates oscillatory modes (V-Effect)
-2. Heat provides energy to populate those modes
-3. Unpaired modes dissipate (2× faster), removing noise
-4. What remains is palindromic oscillation
+From the repository root in PowerShell:
 
-Biology performs step 2 through metabolism (ATP). Step 3 is automatic
-(the 2× law). The result is sustained, structured oscillation, which is
-exactly what neural rhythms are.
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'
+python simulations/energy_partition.py
+python simulations/thermal_emergence.py
+python simulations/neural/neural_translation_gate.py
+python -m pytest simulations/neural/tests/ -q
+```
 
-The quantitative relationship between thermal occupation and frequency
-diversity is computed in [Thermal Breaking](../experiments/THERMAL_BREAKING.md):
-at N=5, heat increases frequency count from 111 to 445 (4x). The trade-off
-between Q-factor (how sharp and long-lived each resonance is) and diversity, and the self-heating feedback loop, are
-documented there.
-
----
-
-## 3. The Two Paths [Tier 5]
-
-Everything in this section is interpretation.
-
-### R = CΨ² and E = mc²
-
-Both formulas have the form: observable = constant × (something)².
-The energy partition results suggest they describe two phases of the
-same system, separated by the fold catastrophe (a bifurcation where two solution branches merge and vanish) at CΨ = ¼:
-
-- **Palindromically paired modes** oscillate, carry frequency (E = hf),
-  and define the structured regime: R = CΨ².
-- **Unpaired modes** decay without oscillating, carry no frequency, and
-  define the thermal regime: pure dissipation.
-
-Waves do not "leave" the palindrome and become energy. They stop being
-waves. What remains after they decay is not redirected energy but
-entropy. The transition is not redistribution; it is annihilation of
-oscillatory content.
-
-### The thermal window
-
-Biology does not operate in vacuum (no heat, all structure) or in
-thermal chaos (all heat, no structure). It operates in a window where
-thermal energy creates new oscillatory modes through coupling, while
-the 2× law ensures noise dies faster than signal. This window exists
-because:
-
-- The palindrome protects oscillation (Finding 1)
-- Heat feeds coupling (Finding 3)
-- Dissipation is self-cleaning (Finding 2)
-
-Whether this window is the physical basis for the "zone of life"
-(warm enough to create modes, structured enough to sustain them) is
-speculation. The data shows the window exists in qubit systems. Whether
-it scales to biological systems is an open question.
-
----
-
-## 4. Open Questions
-
-- **Analytical proof of the 2× law.** The ratio is exact at N=2..5.
-  Is it a theorem for all N? For all Heisenberg-type Hamiltonians?
-  For all dephasing models?
-- **What are the 2 new modes?** Thermal driving creates 2 additional
-  oscillatory modes (40 → 42). What is their structure? Are they
-  palindromically paired with each other or with existing modes?
-- **Non-Heisenberg models.** Does Finding 1 (all oscillation is
-  palindromic) hold for XY, XXZ, or random-coupling Hamiltonians?
-- **Wilson-Cowan analogue.** Do the neural dynamics show the same
-  energy partition? Is the E/I balance the classical version of the
-  thermal window?
-- **Biological metabolic rates.** ATP production rates could be mapped
-  to n_bar. Does the optimal n_bar window (ratio osc/decay > 1)
-  correspond to physiological metabolic rates?
-- **Connection to fold catastrophe.** The Efreq/Edecay ratio crosses 1
-  near J/γ ≈ 1.2. Is this CΨ = ¼ in disguise?
-  **PARTIAL:** [Proof Roadmap](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
-  Layer 6 proves the fold catastrophe x² + a = 0 IS the recursion
-  R = C(Ψ+R)² with a = 1-4CΨ. The fold connection is established.
-  What remains: verify numerically that J/γ ≈ 1.2 (where Efreq/Edecay = 1)
-  corresponds to CΨ = ¼ for the same system parameters.
-
----
-
-## Scripts
-
-Run with `PYTHONIOENCODING=utf-8 python <script>` on Windows.
-
-**[energy_partition.py](../simulations/energy_partition.py)** (Finding 1)
-- Experiment 1: V-Effect scaling N=2..5, oscillatory energy partition (paired vs unpaired)
-- Experiment 2: Dephasing sweep at N=3, palindromic pairing stable at 93.3%
-- Experiment 3: Coupling sweep at N=3, Efreq/Edecay crossover at J/γ ≈ 1.2
-
-**[thermal_emergence.py](../simulations/thermal_emergence.py)** (Findings 2 and 3)
-- Part A: Decay rate comparison, universal 2× law (N=2..5)
-- Part B: Time evolution from |↓↑↑⟩, coherence buildup and decay
-- Part C: Thermal bath only (J=0), zero oscillation at any temperature
-- Part D: Effect of heat on waves, dephasing vs thermal excitation vs combined
-
----
-
-*See also: [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md), the main hypothesis*
-*See also: [The V-Effect](../experiments/V_EFFECT_PALINDROME.md), the differentiation mechanism*
-*See also: [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md), why coupling creates, not transmits*
-*See also: [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md), the fold catastrophe and heartbeat*
+The two quantum scripts print their historical diagnostic labels to stdout.
+Interpret those labels using the definitions above. For current neural
+producers and controls, use [the neural operator's manual](../simulations/neural/README.md).

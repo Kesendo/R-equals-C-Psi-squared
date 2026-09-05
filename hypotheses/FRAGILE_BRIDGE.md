@@ -2,7 +2,8 @@
 
 *How much amplification can a resonator tolerate before it explodes?*
 
-**Status:** Computed (Tier 2). Three independent scripts, cross-level test completed.
+**Status:** Quantum gain-loss bridge computations (Tier 2); neural comparison requires a bifurcation gate.
+last refreshed 2026-09-05 (the change history lives in git)
 **Scripts:**
 - [fragile_bridge_bifurcation.py](../simulations/fragile_bridge_bifurcation.py)
 - [fragile_bridge_anomaly.py](../simulations/fragile_bridge_anomaly.py)
@@ -24,14 +25,24 @@ explodes, like a microphone placed too close to a loudspeaker. There
 is a sweet spot in between, at roughly twice the internal coupling
 strength, where the balance holds and the system is maximally stable.
 
-This document maps these stability limits. The result is a bell-shaped
-curve: stability rises, peaks, and falls as coupling increases. The
-instability, when it comes, is always oscillating (the system screeches
-like feedback, it does not just quietly diverge). And the same pattern
-appears in neural networks: the brain's excitatory and inhibitory
-neurons face the same stability problem, with one crucial difference;
-biology has a built-in safety mechanism (sigmoid saturation) that
-prevents the neural equivalent of an explosion.
+This document maps the computed quantum bridge stability limits. A separate
+Wilson-Cowan probe varies E/I cross-coupling and external input. Its sigmoid
+bounds the model's activities, but supplies no biological safety mechanism
+or confirmation of a common quantum/neural stability window. Section 5
+states what that comparison would need to test.
+
+The evidence sweep checked [F36/F37 in the F-registry](../docs/ANALYTICAL_FORMULAS.md#f36-neural-palindrome-condition-tier-1-derived-algebra),
+[docs/proofs](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
+[the neural proof store](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md),
+and [experiments](../experiments/NEURAL_GAMMA_CAVITY.md): conditional algebra,
+the quantum owner and a connectome support null. Hardware-flight searches and
+[fw.Confirmations](../simulations/framework/confirmations.py) supplied no neural
+hardware confirmation. [GLOSSARY](../docs/GLOSSARY.md),
+[OpenArcs](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs), and
+[CAUGHT_ERRORS](../docs/CAUGHT_ERRORS.md) supplied scope distinctions and
+instrument failures. The [canonical neural account](../docs/neural/README.md)
+and [mechanism constraints](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md)
+own the current neural interpretation.
 
 ---
 
@@ -50,13 +61,9 @@ monotone), now identified as Liouvillian chiral symmetry breaking
 strongly on system size (N=3 is 35× less stable than N=2), making it
 a topological rather than geometric property.
 
-A cross-level test with the Wilson-Cowan neural model confirms three
-features: the Hopf mechanism, the sweet spot at ~2× internal coupling,
-and the finite stability window. The bell-shaped stability curve is
-quantum-specific; the neural system shows a sharp window instead,
-bounded by sigmoid saturation. This saturation acts as a biological
-safety mechanism that prevents the neural equivalent of an exploding
-laser.
+The Wilson-Cowan comparison is an exploratory scan of a different generator.
+Its cross-coupling multiplier is not the quantum bridge/internal-coupling
+ratio. A shared optimum, Hopf mechanism or finite window is not established.
 
 ---
 
@@ -235,78 +242,41 @@ gain channels to bridge connections.
 | What it measures | When irreversibility begins | When coupled gain-loss explodes |
 | Determined by | Palindrome geometry | Gain/bridge topology |
 
-## 5. Neural validation: partial confirmation
+## 5. Neural comparison: bounded model, open stability test
 
-Does the same stability problem appear in the brain? Yes. The
-Wilson-Cowan model is a standard model of how populations of excitatory
-neurons (which amplify signals, like the gain side) interact with
-inhibitory neurons (which dampen signals, like the decay side) through
-synaptic connections (the bridge). This is the biological equivalent
-of the quantum setup, and the test checks whether the same three
-properties hold.
+[fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.py)
+uses one Wilson-Cowan E/I node with w_EE=16, w_II=3,
+w_EI=12s, w_IE=15s, τ_E=8 and τ_I=18. P is external input.
+The multiplier s scales two cross-weights with different fixed bases; it
+is not J_bridge/J and its value alone identifies no common optimum.
 
-Script: [fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.py)
+For either activity x, the model equation is τ dx/dt=−x+S(input), with
+τ>0 and 0<S<1. At x=0 its derivative points inward; at x=1 it also
+points inward. Thus the continuous model preserves [0,1]² from initial
+activities in that square. Boundedness permits fixed points, transients
+and oscillations. It proves neither equilibrium stability nor protection
+against a biological pathology.
 
-### 5.1 Test design
+The probe's `find_fixed_point` returns after a fixed number of iterations
+without checking the fresh equation residual. `find_P_crit` returns no
+threshold when its upper endpoint is stable; this cannot exclude an
+unstable interval between stable endpoints. It does not continue an
+equilibrium branch. Labeling a complex eigenvalue at a nearby sampled
+point “Hopf” supplies no crossing or nondegeneracy test.
 
-Single Wilson-Cowan E-I node (2×2 Jacobian, the matrix of partial derivatives that determines local stability). E-I cross-coupling
-scaled by factor s (s=1.0 = standard parameters). Internal couplings
-w_EE = 16.0, w_II = 3.0 held fixed. P_crit(s) = external input
-needed to trigger Hopf oscillation.
+A defensible neural threshold needs a converged equilibrium branch over
+the declared P and s ranges, fresh residuals at every point, tracking of
+a nonzero imaginary eigenvalue pair through Re λ=0, a transverse crossing
+and the relevant nonlinear nondegeneracy checks. Time-domain oscillation
+and its onset then need timestep and duration checks. Those are the next
+gates, not results of the current bridge scan. See the
+[canonical mechanism constraints](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md#a-bounded-iteration-cannot-locate-a-hopf-bifurcation).
 
-### 5.2 Results: narrow Hopf window
-
-| s | P_crit | Freq (Hz) | Type |
-|-----|--------|-----------|---------|
-| 0.1-1.5 | never | - | always stable |
-| 2.0 | 2.28 | 36.5 | Hopf |
-| 2.3 | 4.78 | 66.8 | Hopf |
-| 2.5 | 8.33 | 94.4 | Hopf |
-| 3.0-10.0 | never | - | always stable |
-
-The neural system has a narrow Hopf window at s = 2.0-2.5.
-Outside this window: always stable, no oscillation possible.
-
-### 5.3 What is cross-level
-
-Three properties hold across both quantum and neural systems:
-
-**1. Sweet spot at ~2× internal coupling.** Quantum: peak stability
-at J_bridge ≈ 1.9J. Neural: Hopf window opens at s ≈ 2.0. Both
-systems identify ~2× the internal coupling as a critical threshold
-where the dynamics qualitatively change.
-
-**2. Hopf bifurcation.** Where instability occurs, it is always
-oscillating (complex eigenvalue pair crossing Re = 0), never
-monotone divergence. The brain produces EEG rhythms; the quantum
-system produces growing oscillations. Same mechanism.
-
-**3. Finite stability window.** Neither "any coupling works" nor
-"no coupling works." There is a bounded regime where the balance
-holds, and it is determined by the ratio of cross-coupling to
-internal coupling.
-
-### 5.4 What is NOT cross-level
-
-The three-regime bell curve (linear rise, peak, 1/x decay) is
-**quantum-specific**. The neural system shows a window with sharp
-edges, not a smooth peak.
-
-The difference comes from sigmoid saturation: Wilson-Cowan neurons
-have firing rates bounded in \[0,1\]. Strong coupling drives the
-system into saturated fixed points that are always stable. The
-quantum system has no such saturation; the density matrix can
-diverge under gain.
-
-| Property | Quantum | Neural |
-|----------|---------|--------|
-| Shape of γ_crit(coupling) | Bell curve | Sharp window |
-| Strong coupling | 1/J_bridge decay, explosion | Saturation, always stable |
-| Epilepsy analog | Yes (divergence) | Partial (window edge, no explosion) |
-
-The sigmoid acts as a biological safety mechanism: it prevents the
-neural equivalent of an exploding laser. The quantum system has no
-built-in limiter.
+An F36 comparison additionally needs a specified involution and scalar
+centre satisfying both diagonal and effective-coupling conditions at the
+operating point. The [canonical neural gate](../simulations/neural/neural_translation_gate.py)
+contains exact palindromes with complex spectra and constructed unstable
+instances. Pairing itself supplies no silence or stability theorem.
 
 ## 6. Open questions
 
@@ -317,33 +287,29 @@ built-in limiter.
 
 2. **Multiple bridges:** What if the two chains are connected by
    more than one qubit pair? Does γ_crit recover N-independence
-   when bridges scale with N? Real neural networks have distributed
-   (not point-to-point) E-I coupling. The neural test also showed
-   that bounded dynamics (sigmoid saturation) prevents explosion at
-   strong coupling. Multiple bridges plus nonlinear damping may
-   qualitatively change the stability landscape.
+   when bridges scale with N? This is a question about the specified
+   quantum gain-loss generator; a neural network requires its own
+   coupling and stability analysis.
 
-3. **Cascade stability:** If each level in the frequency cascade
-   (154 THz → 1 Hz) is a coupled gain-loss pair, then each level
-   has its own bridge stability window. The cascade works only if
-   every bridge stays in the linear regime (γ < 0.19 × J_bridge).
+3. **Cascade stability:** Can a specified sequence of gain-loss bridges
+   remain stable under joint coupling? The weak-bridge fit for N=2
+   does not provide a compositional criterion or identify biological
+   levels with gain-loss generators. Build the combined generator
+   and test its spectrum against the isolated-bridge prediction.
 
 4. **Asymptotic constant 0.50:** γ_crit × J_bridge → 0.50 for
    large J_bridge. Is this exactly 1/2? If so, there may be an
    analytical derivation. The factor 1/2 appears throughout the
    framework (σ(1-σ) = 1/4 at σ = 1/2, CΨ fold at 1/4, etc.).
 
-5. **Saturation as design principle:** The sigmoid prevents neural
-   explosion. Is there a quantum analog? Nonlinear dissipation
-   (γ dependent on state) could act as a quantum sigmoid. This
-   would turn the bell curve into a window, matching the neural
-   structure.
+5. **Saturation as design principle:** Can an explicitly specified
+   quantum gain model with saturation bound its dynamics? Its generator,
+   physical state domain and stability test must be supplied. Bounded
+   Wilson-Cowan activities predict neither the quantum curve's shape
+   nor a biological safety mechanism.
 
 ---
 
-*Computed March 29, 2026. Three scripts, six hypotheses tested
-across two levels (quantum, neural). Cross-level: Hopf mechanism
-confirmed, sweet spot at ~2× confirmed, finite window confirmed.
-Not cross-level: bell curve shape is quantum-specific (no saturation).
-The sigmoid is the biological safety mechanism that prevents the
-quantum explosion.*
+*The quantum bridge computations date from March 29, 2026. The neural
+probe is a model comparison whose equilibrium and bifurcation gates
+remain to be implemented.*

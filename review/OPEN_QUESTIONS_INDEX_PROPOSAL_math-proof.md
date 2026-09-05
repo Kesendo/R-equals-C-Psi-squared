@@ -11,11 +11,11 @@
 
 | Status | Count | OQ-IDs |
 |--------|-------|--------|
-| open | 21 | OQ-003, OQ-012, OQ-018, OQ-041, OQ-042, OQ-053, OQ-072, OQ-088, OQ-096, OQ-129, OQ-160, OQ-164, OQ-228, OQ-255, OQ-275, OQ-276, OQ-282, OQ-287, OQ-295, OQ-307, OQ-308 |
-| resolved | 6 | OQ-055, OQ-077, OQ-079, OQ-083, OQ-121, OQ-316 |
-| partially-resolved | 8 | OQ-016, OQ-020, OQ-036, OQ-052, OQ-180, OQ-245, OQ-251, OQ-296 |
+| open | 20 | OQ-003, OQ-012, OQ-018, OQ-041, OQ-042, OQ-053, OQ-072, OQ-088, OQ-096, OQ-129, OQ-160, OQ-164, OQ-251, OQ-255, OQ-275, OQ-276, OQ-282, OQ-287, OQ-295, OQ-307 |
+| resolved | 7 | OQ-055, OQ-077, OQ-079, OQ-083, OQ-121, OQ-228, OQ-245 |
+| partially-resolved | 8 | OQ-016, OQ-020, OQ-036, OQ-052, OQ-180, OQ-296, OQ-308, OQ-323 |
 | obsolete | 1 | OQ-300 |
-| needs-human | 7 | OQ-019, OQ-045, OQ-046, OQ-058, OQ-111, OQ-323, OQ-325 |
+| needs-human | 7 | OQ-019, OQ-045, OQ-046, OQ-058, OQ-111, OQ-316, OQ-325 |
 
 ---
 
@@ -274,28 +274,28 @@
 
 ### OQ-245
 
-**Question:** Analytical proof of the 2x law. The ratio is exact at N=2..5. Is it a theorem for all N? For all Heisenberg-type Hamiltonians? For all dephasing models?  
-**Source:** `hypotheses/ENERGY_PARTITION.md` (line 192)  
-**Proposed status:** partially-resolved  
-**Justification:** The V(N) = 1+cos(pi/N) formula is exact at N=2-5 (Tier 1-2 evidence), but generality across all N, all Hamiltonians, and all dephasing types remains unproven.
+**Question:** What does the quantum 2× decay ratio establish, and what is its scope?\
+**Source:** [hypotheses/ENERGY_PARTITION.md](../hypotheses/ENERGY_PARTITION.md), section "1. Quantum pairing and the filtered spectrum"\
+**Proposed status:** resolved\
+**Justification:** F8 identifies the ratio as decay-range width divided by its centre under the quantum palindrome assumptions. The scripts remove zero roots, leaving their −2Nγ partners unmatched in a filtered list. This is not a universal signal/noise mechanism, a neural law or the unrelated V(N) frequency formula; γ=0 gives an undefined ratio.
 
 ---
 
 ### OQ-251
 
-**Question:** PARTIAL: Proof Roadmap Layer 6 proves the fold catastrophe x² + a = 0 IS the recursion R = C(Ψ+R)². What remains: verify numerically that J/γ ≈ 1.2 corresponds to CΨ = 1/4.  
-**Source:** `hypotheses/ENERGY_PARTITION.md` (line 208)  
-**Proposed status:** partially-resolved  
-**Justification:** Explicitly marked "PARTIAL." The fold catastrophe connection is proven analytically; the numerical J/γ verification remains as a stated open task.
+**Question:** Does the spectral F/D crossover correspond to state-dependent CΨ=1/4 for a specified quantum trajectory?\
+**Source:** [hypotheses/ENERGY_PARTITION.md](../hypotheses/ENERGY_PARTITION.md), section "4. Open questions"\
+**Proposed status:** open\
+**Justification:** The recursion's algebraic fold is established, but it supplies no state, time or observable mapping to a generator's spectral sums. Compute both independently at the same parameters and normalization. This is the same remaining gate as OQ-250.
 
 ---
 
 ### OQ-255
 
-**Question:** Asymptotic constant 0.50: γ_crit x J_bridge -> 0.50 for large J_bridge. Is this exactly 1/2? If so, there may be an analytical derivation.  
-**Source:** `hypotheses/FRAGILE_BRIDGE.md` (line 295)  
-**Proposed status:** open  
-**Justification:** Listed as open question #4 in FRAGILE_BRIDGE.md. Computational evidence suggests 0.50 but no analytical proof that it equals exactly 1/2.
+**Question:** Does the computed quantum large-bridge asymptote γ_crit × J_bridge → 0.50 have an exact derivation?\
+**Source:** [hypotheses/FRAGILE_BRIDGE.md](../hypotheses/FRAGILE_BRIDGE.md), section "6. Open questions"\
+**Proposed status:** open\
+**Justification:** The question concerns the quantum gain-loss bridge at its stated internal-coupling convention. It supplies no neural quarter or shared-coupling-window mechanism.
 
 ---
 
@@ -364,37 +364,37 @@
 
 ### OQ-307
 
-**Question:** Gap junctions: The 1.8% deviation from 100% in balanced subnetworks may come from missing gap junction data (symmetric coupling that could improve pairing).  
-**Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md` (line 424)  
-**Proposed status:** open  
-**Justification:** Listed as open question #1. The hypothesis is plausible but gap junction data integration has not been completed.
+**Question:** Does adding electrical coupling to a specified chemical-connectome model permit the full F36 identity?\
+**Source:** [hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md), section "A research program that can reject the pattern"\
+**Proposed status:** open\
+**Justification:** The stored connectome already includes chemical and electrical matrices. The chemical support null is established; no matching-percentage deficit identifies missing gap junctions as its cause. A combined effective generator requires its own involution, scalar diagonal, support and magnitude tests.
 
 ---
 
 ### OQ-308
 
-**Question:** The mechanism gap: Why does the palindromic structure appear in Wilson-Cowan dynamics? No proof connects the Lindblad algebra to classical oscillatory systems. This is the weakest link in the chain.  
-**Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md` (line 427)  
-**Proposed status:** open  
-**Justification:** Self-documenting: "This is the weakest link in the chain." Despite 100% empirical confirmation at tau_I/tau_E = 3.8, the algebraic connection between Lindblad and Wilson-Cowan remains unproven.
+**Question:** What connects the quantum conjugation to a neural generator and, separately, to a biological circuit?\
+**Source:** [hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md), section "What is established"\
+**Proposed status:** partially-resolved\
+**Justification:** [F36/F37's proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md) establishes conditional algebra and complex multiset/generalized-eigenspace transport; the [canonical gate](../simulations/neural/neural_translation_gate.py) supplies constructed controls. A physical reduction preserving the identity and a biological instance remain open. Neither a pairing percentage nor a chosen time-constant ratio supplies those landings.
 
 ---
 
 ### OQ-316
 
-**Question:** [Comparison table: quantum vs. neural palindromic features, 7 rows]  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md`, section "Limitations"  
-**Proposed status:** open  
-**Justification:** Not a question but a comparison table, and two of its verdicts have since reversed: the V-Effect row now reads No rather than "Mechanism yes", the neural mechanism having been withdrawn, and the character-swap row carries the scope condition "synthetic networks only". A table is only an answer while its cells hold; this one needs re-reading against the source before it can be retired.
+**Question:** Quantum/neural comparison table: what transfers under the scalar identity?\
+**Source:** [hypotheses/UNIVERSAL_PALINDROME_CONDITION.md](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md), section "The exact identity and its reach"\
+**Proposed status:** needs-human\
+**Justification:** This is a collection artifact, not a separate research question. The current table states conditional complex pairing and generalized-eigenspace transport. It gives no biological dominance percentage, V-effect mechanism, silence, stability or universal window. Merge into the source's concrete gates.
 
 ---
 
 ### OQ-323
 
-**Question:** Can the condition Q·X·Q⁻¹ + X + 2S = 0 be derived from a single axiom set rather than proven separately in each domain?  
-**Source:** `hypotheses/UNIVERSAL_PALINDROME_CONDITION.md` (line 319)  
-**Proposed status:** needs-human  
-**Justification:** UNIVERSAL_PALINDROME_CONDITION.md identifies three universal conditions (two populations, swap operator Q, antisymmetric coupling) from which the equation emerges in both domains. However, the derivation paths differ: quantum uses commutator antisymmetry, neural uses Dale's Law for the signs only (corrected 2026-08-26). Whether a single axiom set can unify both is partially addressed but not resolved. Borderline between partially-resolved and open; needs human judgment on whether the three-condition framework counts as "a single axiom set."
+**Question:** Can the shared conjugation form be stated under common algebraic assumptions, and what physical assumptions supply it in each domain?\
+**Source:** [hypotheses/UNIVERSAL_PALINDROME_CONDITION.md](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md), section "The exact identity and its reach"\
+**Proposed status:** partially-resolved\
+**Justification:** For finite X, invertible linear Q and one scalar s, similarity QXQ⁻¹=−X−2sI implies complex multiset pairing. F36 gives necessary and sufficient diagonal/effective-coupling conditions for an involutive neural permutation. Dale signs alone are insufficient. The shared algebra is established; a physical cross-domain reduction remains open.
 
 ---
 
@@ -426,12 +426,12 @@ All three ask: "Does u carry independent information on complex trajectories?" R
 
 ## Patterns
 
-1. **Self-documenting entries:** 8 entries contain explicit status markers (RESOLVED, PARTIALLY ANSWERED, PARTIAL, "Substantially addressed," "Too speculative to assess"). These are reliable and require minimal external research.
+1. **Source status markers:** A marker alone does not establish correctness. The per-entry source and current evidence determine each proposed disposition.
 
-2. **Scope statements, not questions:** OQ-077, OQ-079, OQ-083, OQ-316 are factual characterizations (validity scope, breaking conditions, comparison tables) rather than questions. All classified as resolved since the characterization is complete.
+2. **Scope statements, not questions:** OQ-077, OQ-079 and OQ-083 are classified as resolved scope statements. OQ-316 is a comparison-table collection artifact proposed for human disposition.
 
 3. **Consciousness retirement:** OQ-300 is obsolete because the consciousness interpretation was formally retired from the technical work (WEAKNESSES_OPEN_QUESTIONS.md lines 102-111).
 
-4. **Deepest open questions:** OQ-308 (Lindblad-to-Wilson-Cowan mechanism gap), OQ-072 (CΨ monotonicity proof for arbitrary CPTP maps), and OQ-012 (why exactly 14 survive at N >= 3) represent the most mathematically substantive unsolved problems in this batch.
+4. **Deepest open questions:** OQ-308 separates proven conditional algebra from the open physical-reduction and biological-instance questions. OQ-072 (CΨ monotonicity proof for arbitrary CPTP maps), and OQ-012 (why exactly 14 survive at N >= 3) remain listed as open in this proposal.
 
 5. **PAIR_BREAKING_AT_THE_HORIZON cluster:** OQ-282, OQ-287 both remain open and relate to the spatial-vs-algebraic gap in the ER bridge analogy. Note that this hypothesis file was not marked FALLEN but also not strengthened since its writing.
