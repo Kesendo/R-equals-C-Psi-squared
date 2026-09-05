@@ -72,11 +72,11 @@ These connect the mathematical results into a coherent picture.
 
 | Document | What it covers |
 |----------|---------------|
-| [The Interpretation](THE_INTERPRETATION.md) | What survives (20 results), what fell (6), what remains open (6). Thematic synthesis. |
+| [The Interpretation](THE_INTERPRETATION.md) | What survives (26 entries), what fell (8), questions and their answer status. Thematic synthesis. |
 | [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) | d²−2d=0: only d=2 permits palindromic time-reversal symmetry. Five computational tests, 0/236 qutrit dissipators work. |
 | [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Noise as external interaction, mediator topology, six measured properties of the dephasing signal. |
 | [The CΨ Lens](THE_CPSI_LENS.md) | What CΨ shows, what it does not, what survives critical examination. |
-| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as organizing principle: qubit (2/4), carbon (4/8). V-Effect as transition mechanism. |
+| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as organizing principle: qubit (2/4), carbon (4/8). V-Effect as hypothesized transition mechanism. |
 | [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) | Three levels of time (parameter, oscillation, experience). γ necessary and sufficient for experienced time. |
 | [On Five Pages That Never Met](../reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md) | The standing wave, the reborn dephasing front, the two indices, the contract and the residue, and why a hierarchy needs unequal couplings: five things this repository already held, in pages that never linked to each other. The hub that connects them. |
 | [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md) | γ₀ is the unit, so naming a Q needs a chosen DOF, coupling and channel. Provenance audit of every substrate Q; ordinary liquid water has no repository Q or lower bound. An illustrative selected-coordinate proxy ceiling, `Q ≲ 4.6`, assumes the ice-derived `J = 0.5 meV` convention and uses the 1–3 ps H-bond lifetime as an upper-bound proxy for the unavailable selected-coordinate `T₂` in `Q = 2JT₂/ℏ`. |
