@@ -113,10 +113,10 @@ def main():
 
 
     # ================================================================
-    # IDEA 3: CΨ_E * CΨ_I away from balance
+    # IDEA 3: CPsi_E * CPsi_I away from balance
     # ================================================================
     print("\n" + "=" * 65)
-    print("IDEA 3: Does CΨ_E * CΨ_I stay at 1/4 away from balance?")
+    print("IDEA 3: Does CPsi_E * CPsi_I stay at 1/4 away from balance?")
     print("=" * 65)
 
     from scipy.linalg import expm
@@ -124,7 +124,7 @@ def main():
     N = 20
     tau_E, tau_I = 5.0, 10.0
 
-    print(f"\n  {'E:I':>6s}  {'CΨ_E(t=5)':>10s}  {'CΨ_I(t=5)':>10s}  {'product':>8s}  {'=1/4?':>6s}")
+    print(f"\n  {'E:I':>6s}  {'CPsi_E(t=5)':>11s}  {'CPsi_I(t=5)':>11s}  {'product':>8s}  {'=1/4?':>6s}")
     print(f"  {'-'*50}")
 
     for n_e in [18, 15, 12, 10, 8, 5, 2]:

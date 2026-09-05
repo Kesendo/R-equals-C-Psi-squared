@@ -77,6 +77,13 @@ public class NeuralPalindromeTests
     }
 
     [Fact]
+    public void PairSum_Rejects_An_Unrepresentable_Doubling()
+    {
+        Assert.True(double.IsFinite(NeuralPalindrome.Centre(1e-308, 1e-308)));
+        Assert.Throws<OverflowException>(() => Formulas.F37_NeuralPairSum(1e-308, 1e-308));
+    }
+
+    [Fact]
     public void Large_Centred_Diagonal_Cancels_Before_Overflow()
     {
         Assert.Equal(0.0, NeuralPalindrome.MaxResidual(new double[,] { { -1e308 } }, [0], 1e308));

@@ -114,7 +114,7 @@ def main():
         signs_c[N:2*N] = signs_B
         signs_c[2*N] = 1.0  # mediator
 
-        # Coupling: mediator connects to edge E-neurons of each network
+        # Coupling: mediator connects to the two indexed endpoints of each network
         for coupling_strength in [0.0, 0.01, 0.05, 0.1, 0.3, 0.5, 1.0]:
             W_test = W_c.copy()
             for offset in [0, N]:

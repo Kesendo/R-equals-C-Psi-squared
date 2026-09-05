@@ -166,7 +166,13 @@ public static class Formulas
     // with involutive Q and scalar s has pair sum -2s = -(1/tau_E + 1/tau_I).
     // Dale signs alone are insufficient; the C. elegans comparison is withdrawn.
     // Scope and assumptions: docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md.
-    public static double F37_NeuralPairSum(double tauE, double tauI) => -2 * NeuralPalindrome.Centre(tauE, tauI);
+    public static double F37_NeuralPairSum(double tauE, double tauI)
+    {
+        double pairSum = -2 * NeuralPalindrome.Centre(tauE, tauI);
+        if (!double.IsFinite(pairSum))
+            throw new OverflowException("The neural partner sum is not representable as a finite double.");
+        return pairSum;
+    }
 
     // F61 (T1): the bit_a parity Pi^2_X = Z^{tensor N} (the global Z-string), companion to F38's X^N.
     // On a Pauli string it is (-1)^{n_X+n_Y} = (-1)^k, the disagreement-count parity the Hamiltonian

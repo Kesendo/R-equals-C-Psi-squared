@@ -183,6 +183,49 @@ def test_producer_import_is_silent(module):
     assert result.stderr == ""
 
 
+def test_find_quarter_runs_on_windows_default_codepage():
+    """The documented producer must not require a UTF-8 console."""
+    import os
+
+    result = subprocess.run(
+        [sys.executable, "find_quarter.py"], cwd=NEURAL,
+        capture_output=True, text=True, encoding="cp1252", check=False,
+        env={**os.environ, "PYTHONIOENCODING": "cp1252",
+             "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1",
+             "OMP_NUM_THREADS": "1"},
+        timeout=180,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert result.stderr == ""
+    assert "SUMMARY: Where is 1/4?" in result.stdout
+
+
+def test_neural_surfaces_do_not_reintroduce_withdrawn_labels():
+    root = NEURAL.parent.parent
+    surfaces = {
+        root / "compute/MirrorWorld/Program.cs": (
+            "Q J Q + J + 2S", "0.013 vs 0.108", "F8 2x law", "unpaired=",
+        ),
+        root / "experiments/NEURAL_CLOCK_TWO_HANDS.md": ("stale printed interpretations",),
+        root / "docs/WHAT_WE_FOUND.md": (
+            "Unpaired modes die exactly twice as fast",
+            "noise self-cleans at double the rate",
+            "All oscillation is palindromic",
+            "It depends on three ingredients",
+            "Each finding below is computed and verified",
+        ),
+        root / "hypotheses/README.md": ("unpaired modes decay 2x faster",),
+        NEURAL / "veffect_exact.py": ("edge E-neurons",),
+        NEURAL / "veffect_and_heat.py": ("paired={", "unpaired={"),
+    }
+    for path, forbidden in surfaces.items():
+        text = path.read_text(encoding="utf-8")
+        for phrase in forbidden:
+            assert phrase not in text, f"{path}: stale label {phrase!r}"
+    program = (root / "compute/MirrorWorld/Program.cs").read_text(encoding="utf-8")
+    assert "full C. elegans chemical matrix fails support gate (253 nonempty E vs 18 I)" in program
+
+
 @pytest.mark.parametrize("field,value", [
     ("n", 0), ("n", 3), ("n", True), ("n_exc", 24),
     ("density", np.nan), ("density", -1), ("seed", None),

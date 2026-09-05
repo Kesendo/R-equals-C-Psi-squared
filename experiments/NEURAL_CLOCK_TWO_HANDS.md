@@ -5,8 +5,8 @@ individual decay rates and frequencies can both move. The tables below
 record the clock probe's numerical outputs, not a palindrome, biological
 or V-effect mechanism. Use the [canonical neural account](../docs/neural/README.md)
 and [mechanism constraints](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md)
-for current gates. The historical producer still prints interpretations
-that these controls do not support.
+for current gates. The producer now labels its thresholds, trace scope and
+negative controls explicitly; the tables remain a historical sampled probe.
 
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
@@ -179,8 +179,8 @@ python simulations/neural/neural_translation_gate.py
 python -m pytest simulations/neural/tests/ -q
 ```
 
-The first command reproduces the historical probe and its stale printed
-interpretations. It runs on import, so use it as a script. The latter two
+The first command reproduces the historical probe with its current scoped
+labels. It runs on import, so use it as a script. The latter two
 run the current scalar-identity, complex-pairing and subspace-transport
 controls. For the current coupling/drive producers and their declared
 resolution, use [the neural operator's manual](../simulations/neural/README.md).

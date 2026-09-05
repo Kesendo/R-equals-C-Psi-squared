@@ -177,23 +177,23 @@ def main():
         ev = np.linalg.eigvals(J)
 
         # Classify by the imaginary-part resolution, not by palindrome pairing
-        paired_rates = []
-        unpaired_rates = []
+        oscillatory_rates = []
+        real_rates = []
         for e in ev:
             rate = -e.real
             if abs(e.imag) > decay_frequency_tolerance:
-                paired_rates.append(rate)
+                oscillatory_rates.append(rate)
             else:
-                unpaired_rates.append(rate)
+                real_rates.append(rate)
 
-        if paired_rates and unpaired_rates:
-            mean_p = np.mean(paired_rates)
-            mean_u = np.mean(unpaired_rates)
+        if oscillatory_rates and real_rates:
+            mean_p = np.mean(oscillatory_rates)
+            mean_u = np.mean(real_rates)
             ratio = mean_u / mean_p if mean_p > 0 else 0
             print(f"  {N:3d}  {mean_p:12.6f}  {mean_u:14.6f}  {ratio:6.3f}")
         else:
-            print(f"  {N:3d}  insufficient data (paired={len(paired_rates)}, "
-                  f"unpaired={len(unpaired_rates)})")
+            print(f"  {N:3d}  insufficient data (oscillatory={len(oscillatory_rates)}, "
+                  f"real={len(real_rates)})")
 
 
     # ================================================================

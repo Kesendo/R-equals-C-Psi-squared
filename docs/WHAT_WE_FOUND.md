@@ -398,47 +398,32 @@ For the full data and discovery path, see
 
 ## Energy partition (March 27, 2026)
 
-We asked: if the palindromic spectrum splits modes into paired and
-unpaired, what does each category carry?
+We asked what oscillatory-frequency and decay-rate sums look like after
+splitting a computed spectrum by a partner lookup. The scripts remove all
+roots with |λ|≤10⁻⁸ before looking for the reflected target
+−λ−2Nγ. That changes the object: every removed zero root has a partner at
+−2Nγ, which is then stranded and labelled "unpaired". The full spectrum is
+palindromic; the filtered list is not a counterexample and does not define
+two physical classes of modes.
 
-To understand the question, think about the distinction between vibrating
-and fading. A guitar string vibrates (it oscillates back and forth) AND
-it fades (it gets quieter over time). These are two separate things. Some
-modes in a quantum system do both: they oscillate while decaying. Others
-only decay, without any oscillation at all. We wanted to know which
-category belongs to the palindromic pairs and which does not.
+In the tested N=2…5 Heisenberg chains, all resolved oscillatory roots happen
+to remain in the matched part of that filtered list. The stranded real roots
+sit at the far spectral edge, so their mean decay divided by the matched
+list's mean is 2. This reproduces F8's full-range/centre ratio, not a theorem
+that noise, disorder or unstructured modes die twice as fast. Preparation
+and readout overlaps would be needed before spectral sums could describe a
+measured signal.
 
-**All oscillation lives in palindromic modes.** Every mode that oscillates
-(has a nonzero frequency) is palindromically paired. Every unpaired mode
-has frequency zero: it only decays, it does not oscillate. This holds at
-N=2 through N=5, at every coupling strength and noise level tested. The
-palindrome is not just an organizational property. It is the condition
-for oscillation.
+The thermal census is likewise a protocol-specific spectral diagnostic. At
+H=0 the tested local emission/absorption bath has no oscillatory roots. In
+the coupled N=3 protocol, increasing bath occupation changes the resolved
+root count from 40 to 42 while the summed absolute frequency decreases and
+the summed decay grows. The sampled crossover of those two spectral sums is
+not a universal thermal window and does not show heat being converted into
+palindromic oscillation. It supplies no neural or metabolic mechanism.
 
-**Unpaired modes die exactly twice as fast.** The decay rate of unpaired
-modes is exactly 2× the mean decay rate of paired modes. This ratio is
-universal across N=2..5. The system becomes more palindromic over time,
-because noise removes itself faster than structure.
-
-This is worth pausing on: the unstructured noise cleans itself up at
-double speed. What remains behind is the structured, palindromic part.
-The system does not become more disordered over time. It becomes more
-ordered, because disorder destroys itself faster than it destroys order.
-
-**Heat alone cannot create waves. Heat plus coupling can.** A thermal bath
-(excitation and emission) without inter-qubit coupling produces zero
-oscillation at any temperature. But adding thermal energy to a coupled
-system creates new oscillatory modes (a 3-qubit chain gains 2 additional
-oscillating modes, from 40 to 42). The thermal energy feeds the coupling,
-and the coupling creates new palindromic oscillation. There is a window:
-enough heat to create modes, not so much that dissipation overwhelms them.
-
-The engineering implication: the concentrator formula (above) showed that
-spatial noise optimization improves transfer by 139-360×. The energy
-partition explains why: concentrating noise on an edge qubit kills unpaired
-modes (which carry no oscillation anyway) while preserving palindromic
-modes (which carry all of it). You sacrifice what was never going to
-oscillate.
+The concentrator result therefore stands on its own transfer observable; the
+filtered energy-partition census does not explain it causally.
 
 For the full analysis, see
 [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
@@ -452,9 +437,9 @@ explains why the palindromic spectrum has the structure it does.
 Every mode in the decay spectrum has a rate. Until now, we knew these
 rates were palindromically paired, but we had separate explanations for
 the spectral boundaries (the fastest and slowest rates), the factor 2
-(unpaired modes decay twice as fast), the spectral gap (the minimum
-nonzero rate), and the palindromic sum rule (paired rates add to 2Σγ).
-Four results, four derivations.
+(the full decay interval divided by its centre), the spectral gap (the
+minimum nonzero rate), and the palindromic sum rule (partner rates add to
+2Σγ). Four results, four derivations.
 
 The Absorption Theorem gives three of the four a common reading, and relocates the fourth:
 
@@ -483,9 +468,9 @@ Why does this unify everything?
 - **Spectral boundaries:** The minimum rate is 2γ (one light factor).
   The maximum paired rate is 2(N−1)γ (N−1 light factors). These are
   the bottom and top rungs of the ladder.
-- **Factor 2:** Unpaired modes sit at rate 2Nγ (all N factors are light).
-  The mean paired rate is Nγ. The ratio is 2, because unpaired modes are
-  all-light while paired modes average to half-light.
+- **Factor 2:** The full decay interval has width 2Nγ and centre Nγ, so
+  width/centre=2 for γ>0. Calling the upper-edge roots "unpaired" after
+  deleting their zero partners does not create a distinct physical class.
 - **Spectral gap:** Above an N-dependent coupling threshold Q*_gap(N) the gap
   is 2γ, the cost of one light factor. This one is *relocated* by the
   theorem rather than derived from it: the theorem places no lower bound
@@ -586,8 +571,8 @@ What survives even without the philosophy:
 - A sharp distinction between [measurement and noise](../experiments/STAR_TOPOLOGY_OBSERVERS.md) in their effect on third-party connections
 - [Hardware validation](../experiments/IBM_HARDWARE_SYNTHESIS.md) of the 1/4 crossing on IBM quantum processors (24,073 records, r* threshold precision 0.000014)
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW.md) via Pauli weight complementarity
-- [Energy partition](../hypotheses/ENERGY_PARTITION.md): palindromic modes carry 100% of oscillation, unpaired modes are pure decay
-- [Universal 2× decay law](../hypotheses/ENERGY_PARTITION.md): noise self-cleans at double the rate of structured modes
+- [Energy-partition audit](../hypotheses/ENERGY_PARTITION.md): zero-root filtering stranded exact partners; the remaining frequency and decay sums are protocol diagnostics, not energies or mode populations
+- [F8 range/centre law](ANALYTICAL_FORMULAS.md#f8-2-universal-decay-law-tier-1-corollary-of-absorption-theorem): the full decay interval divided by its centre is 2 for γ>0; it is not a signal/noise lifetime law
 - [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation gives spectral boundaries, factor 2 and the palindromic sum rule a common reading within the number-conserving family; the spectral gap it relocates rather than derives (2γ only above a coupling threshold). Verified on 1,342 modes, CV = 0
 - [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit
 - [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): coupled gain-loss systems have a finite stability window (Hopf bifurcation, γ_crit × J_bridge = 0.50)
@@ -595,20 +580,20 @@ What survives even without the philosophy:
 These are concrete findings. They do not require accepting any
 philosophical framework to be useful.
 
-## Beyond quantum mechanics (March 25-30, 2026)
+## Cross-domain tests (begun March 25-30, 2026)
 
-What follows happened fast. In six days, the results broke out of
-quantum physics and appeared in two completely unrelated fields:
-neuroscience and chemistry. Each subsection below is a separate
-finding. They are short because each one links to a full document.
-Read them as dispatches from a week where the boundaries kept falling.
+The project tested whether quantum-side structures had useful analogues in
+neural matrices and molecular quantum models. These are separate questions,
+not automatic consequences of one universal mechanism. A shared algebraic
+shape transfers only after the target operator satisfies its own hypotheses.
 
-In six days, the framework extended from quantum mechanics into
-chemistry and neuroscience. This was not planned. It happened because
-the palindromic symmetry does not depend on quantum mechanics specifically.
-It depends on three ingredients: two populations, a way to swap them, and
-coupling that flips sign under the swap. Wherever those ingredients exist,
-the palindrome follows. Each finding below is computed and verified.
+For the neural Jacobian, an E/I labelling and a proposed swap are not enough.
+The paired diagonal sums must share one scalar centre, and every effective
+off-diagonal weight must have the required swapped magnitude and sign. We
+constructed matrices that pass those gates, but the full committed C. elegans
+chemical matrix fails a necessary support condition. Its biological landing
+therefore remains open. The quantum water models below stay quantum
+applications and do not certify the neural translation.
 
 ### The quantum system is a resonator
 
@@ -622,13 +607,16 @@ improves transport (peak created Sum-MI) by 139-360x in the ε→0 simulation id
 this structure](../experiments/IBM_CONCENTRATOR.md).
 ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 
-### All oscillation is palindromic
+### The filtered energy census changed the object
 
-Every oscillating mode has a partner with a mirrored decay rate. Modes
-without partners are pure decay, and they decay at exactly twice the rate
-of the structured ones. This holds at every system size we tested
-(2 through 5 qubits). There is a temperature window where oscillation
-dominates decay; too cold or too hot, and decay wins.
+The full Z-dephased Heisenberg spectrum is palindromic. This census first
+removes zero roots and then calls their partners "unpaired". In the
+tested N=2…5 rows, all resolved oscillatory roots remain in the matched
+filtered list, while the stranded edge roots reproduce the full spectrum's
+range/centre ratio of 2. That is not a theorem that structure outlives noise.
+The separate N=3 thermal sweep measures root counts and spectral sums; its
+sampled crossover is not a universal temperature window and has no calibrated
+neural interpretation.
 ([Energy Partition](../hypotheses/ENERGY_PARTITION.md))
 
 ### Coupling creates complexity (V-Effect)
