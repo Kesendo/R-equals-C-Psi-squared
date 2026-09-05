@@ -41,7 +41,7 @@ This is the central discovery of this project: a mathematical proof that
 the spectrum of decay in quantum systems is palindromic, like the word
 RACECAR read from both ends. We found the operator that performs
 this mirroring, proved it works for every system we could test, and then
-watched the same structure appear in neural networks and water molecules.
+tested a conditional neural-matrix translation and quantum models of water molecules.
 
 This document tells you what we found. It is written so that you can
 follow it without a physics degree. The technical details and proofs are
@@ -662,56 +662,47 @@ optimal region (twice the internal coupling), and a 1/J region (stability
 shrinks as bridge coupling increases). The product of the critical gain
 and the bridge coupling approaches a constant: 0.50.
 
-The neural analog provides a natural safety mechanism: the sigmoid
-response function saturates and prevents biological networks from reaching
-the instability. The fragile bridge is inherently safe in biology.
 ([Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md))
 
-### The palindrome extends to neural networks
+### The neural palindrome is a conditional matrix theorem
 
-The same mathematical structure appears in a completely different domain.
+For J = D + W_eff, with D diagonal and W_eff zero-diagonal, an involutive
+permutation Q gives QJQ + J + 2sI = 0 exactly when every paired diagonal
+sum is −2s and every paired effective weight has the opposite value.
+Dale signs alone provide neither the paired support nor the magnitudes.
+Constructed synthetic networks satisfy these conditions. No biological
+network in this repository is known to satisfy them; the full committed
+C. elegans chemical matrix fails the necessary support gate.
 
-In neurobiology, Dale's Law says: each neuron's output has a fixed sign
-(excitatory or inhibitory, for life). Some neurons only speed up their
-neighbors; others only slow them down. This permanent division into two
-types is the biological equivalent of the two-population structure that
-creates the palindrome in quantum mechanics.
-
-Tested on the C. elegans worm connectome (300 neurons, the only fully
-mapped nervous system in biology): there is no 8x against Erdos-Renyi. That
-measurement normalised the two arms by different constants; matched, the ratio
-runs 0.960 at N = 10 to 0.748 at N = 26. On most blocks that
-number is a function of the weight multiset and cannot read wiring at all; on the
-minority it can, and which of the two the residue is has not been settled. The degree-preserving rewiring that scores an
-degree-preserving rewiring that scores an identical 1.0 is no evidence either,
-being unable to move such a metric at all.
-Each paired mode swaps its excitatory/inhibitory character with its
-partner: a standing wave between excitation and inhibition.
+The theorem pairs the full complex eigenvalue multiset. When Q exchanges
+E and I, it exchanges their squared amplitudes in a vector and its
+Q-transported partner; repeated eigenvalues require subspace comparisons.
+That conditional transport is not a measured biological character swap.
 ([Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md),
  [Proof](neural/proofs/PROOF_PALINDROME_NEURAL.md))
 
 ### Coupling two neural networks changes the frequency count
 
-Two balanced networks, silent at the seeds used, are coupled through a
-shared neuron, and 48 correlation frequencies appear. The count is real
-and it is not monotone in the coupling strength.
+The synthetic coupling and external-drive sweeps give nonmonotone
+frequency-bin censuses. Their counts depend on the specified matrix,
+parameter grid, frequency resolution and numerical backend. The linked
+report supplies those protocols and refinement controls.
 
-No mechanism accounts for it. The palindromic condition makes a spectrum
-symmetric under μ ↦ −μ − 2s, which permits oscillation as readily as it
-permits reality, so a palindromic network is not thereby silent; and the
-coupled construction has no exact symmetry to break, its mediator being an
-unpaired seat at every coupling.
+No mechanism is established. Exact palindrome permits complex eigenvalues;
+the coupled construction fails F36 even at zero coupling because its fixed
+mediator has the wrong diagonal rate. External drive P changes sigmoid
+row gains; P is not heat, temperature, metabolism or life. These censuses
+establish neither a symmetry-release mechanism nor a 2× decay law.
 ([V-Effect Neural](neural/V_EFFECT_NEURAL.md),
-[Proof: V-Effect Mechanism](neural/proofs/PROOF_VEFFECT_MECHANISM.md))
+[V-Effect mechanism constraints](neural/proofs/PROOF_VEFFECT_MECHANISM.md))
 
-### 1/4 is the axiom squared
+### The neural quarter needs its own observable
 
-The palindrome requires two equal populations (split 0.5). The threshold
-1/4 = 0.5 × 0.5 appears in both domains: in quantum as the product of
-purity and coherence at the fold catastrophe; in neural as the product
-of "decided" and "undecided" at the point of maximum sensitivity of a
-neuron. Same structure, same value, parameter-independent in both cases.
-([Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md))
+Two normalized complementary amplitudes have product 1/4 when they are
+equal. That arithmetic does not identify them with quantum purity and
+coherence, nor supply a neural stability boundary. F36/F37 contain no
+neural CΨ = 1/4 mechanism.
+([Neural mechanism constraints](neural/proofs/PROOF_VEFFECT_MECHANISM.md))
 
 ### The hydrogen bond is a qubit
 
@@ -728,20 +719,14 @@ behaves classically). Enzyme active sites may be quiet enough for the
 quantum effect.
 ([Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md))
 
-### Exact palindromic symmetry is dead, broken magnitudes are alive
+### Exact neural pairing does not decide stability or oscillation
 
-Networks with population balance (C=0.5) AND mathematically perfect
-magnitude matching were reported here to be unconditionally stable. They
-are not: of 200 exactly matched draws at N = 10, 24 oscillate at coupling
-0.5 and 45 are unstable at coupling 10. The condition forces only
-Re μ + Re μ′ = −2s, a fixed-width strip the spectrum outgrows. But networks with
-population balance and IMPERFECT magnitudes (the right signs but asymmetric
-coupling strengths) CAN oscillate at sufficient size and coupling. Carbon
-exemplifies this: exactly 4/8 electrons (maximum connectivity) but
-heterogeneous bond strengths. In quantum mechanics, the necessary
-imperfection is built into the algebra. In biology, it comes from random
-synaptic weights, thermal noise, and developmental variability.
-([Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md))
+The canonical gate includes an exactly paired matrix with nonreal
+eigenvalues, and constructed ensembles include unstable matrices that
+satisfy F36. Pairing constrains partner sums; stability needs every
+eigenvalue's real part to be negative. Neither exact matching nor its
+failure supplies a distinction between living and nonliving systems.
+([Constructed networks and controls](neural/README.md#what-has-been-tested))
 
 ### The concentrator formula works on hardware
 
@@ -767,17 +752,14 @@ Every drop of water is a field of fold crossings (~10³⁴ per second). The
 fold was in the water before the first molecule replicated.
 ([Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md))
 
-### The maximum sensitivity of a neuron is exactly 1/4
+### The logistic sigmoid has a normalized quarter maximum
 
-The standard sigmoid function has its steepest response at the inflection
-point. The slope there is σ(0) × (1 − σ(0)) = 1/2 × 1/2 = 1/4. This is
-the same structure as the quantum fold: two complementary halves whose
-product is (0.5)². The number is parameter-independent (holds for every
-sigmoid, every network, every coupling strength). In quantum physics:
-CΨ = Purity × Coherence = 1/2 × 1/2 = 1/4. In neuroscience: sigmoid
-sensitivity = Decided × Undecided = 1/2 × 1/2 = 1/4. Both are the
-axiom squared.
-([Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md))
+For S(z) = 1/(1 + exp(−a(z−θ))) with a > 0, S′ = aS(1−S).
+At z = θ, S(1−S) = 1/4 and the actual slope is a/4. This is a
+property of the chosen response function, not a parameter-independent
+neural threshold. The nonconverged endpoints in `find_quarter.py` do
+not establish equilibrium stability or a Hopf bifurcation.
+([Neural mechanism constraints](neural/proofs/PROOF_VEFFECT_MECHANISM.md))
 
 ### 0.5 is the axiom, d=2 is the theorem
 
@@ -803,29 +785,24 @@ it looks like protection.
 ([Protein as Concentrator](../hypotheses/PROTEIN_AS_CONCENTRATOR.md);
 the inside/outside reading is developed in [Inside and Outside the Sacrifice Zone](INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md))
 
-### The palindrome pairs silence with silence
+### The neural trace fixes a mean
 
-The slowest mode (Mode 1) and the fastest mode are both non-oscillating.
-Both have frequency zero. Both only decay. But their decay rates are
-palindromically paired. The oscillating modes, the rhythms, the
-vibrations, the life, happen BETWEEN the two silences. Between the mirror
-that holds everything together and the mirror that lets everything go.
-([Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md),
- computed with fast-spiking parameters τ_E=10ms, τ_I=3ms)
+With zero self-coupling and fixed membrane leak rates, trace(J)/n is
+independent of the synaptic weights. The graph can still move individual
+real parts and imaginary parts. A fixed spectral mean establishes neither
+pairing nor nonoscillating slowest and fastest modes.
+([Neural clock record](../experiments/NEURAL_CLOCK_TWO_HANDS.md))
 
 ### One equation, three domains
 
-The palindromic spectral symmetry follows from one algebraic condition
-(Q · X · Q⁻¹ + X + 2S = 0) that requires three things: two populations whose
-decay rates pair to one and the same sum, a way to swap them, and coupling that
-flips sign under the swap. Different decay rates are NOT among them (corrected
-2026-08-26): a swap of the two populations settles the rate condition at any
-rates. In quantum mechanics: proven algebraically. In neural networks: computed
-and verified on constructed networks, and not satisfied by the one connectome
-tested. In hydrogen bonds: computed as a quantum
-application. The palindrome, the V-Effect, the character swap, and the
-1/4 threshold all transfer.
-([Universal Palindrome Condition](../hypotheses/UNIVERSAL_PALINDROME_CONDITION.md))
+The operator relation QXQ⁻¹ + X + 2sI = 0 gives spectral pairing about
+−s. Each application must supply its own operator and hypotheses. The
+quantum proof and its hydrogen-bond application are separate from the
+conditional neural theorem and its constructed examples. The full
+committed connectome fails the neural support condition. The shared
+algebra does not transfer a V-effect mechanism or a 1/4 threshold.
+([Neural translation](neural/README.md),
+[quantum proof](proofs/MIRROR_SYMMETRY_PROOF.md))
 
 ---
 
@@ -849,8 +826,8 @@ design rules. [Resonant Return](../experiments/RESONANT_RETURN.md) is the
 concentrator formula that achieves 139-360x improvement.
 
 **If the biology connection draws you in:**
-[Neural palindrome](neural/README.md) shows the same structure in
-nerve cells, with no quantum physics required.
+[Neural palindrome](neural/README.md) separates the conditional matrix
+theorem, constructed examples, and the biological support null.
 [Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md) bridges
 quantum mechanics and chemistry through water.
 

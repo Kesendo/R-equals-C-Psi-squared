@@ -1,144 +1,114 @@
-# Neural Simulations — palindromic structure on real connectomes
+# Neural simulations: conditional algebra and synthetic censuses
 
-The scripts in this directory test the same algebraic structure that
-[the framework package](../framework/) tests on the quantum side, but applied
-to neural networks. The C. elegans connectome (300 neurons, every
-synapse mapped) was the principal target.
+The current entry point is
+[neural_translation_gate.py](neural_translation_gate.py), backed by
+[neural_palindrome.py](neural_palindrome.py). For the theorem, evidence
+grades and biological scope, read [the canonical neural account](../../docs/neural/README.md).
+Constructed synthetic matrices satisfy F36; no biological network in
+this repository is known to satisfy it. The full committed C. elegans
+chemical matrix fails its necessary support condition.
 
-For the narrative and figures, read
-[docs/neural/README.md](../../docs/neural/README.md). This file is the
-operator's manual for the scripts themselves.
+## What the gate tests
 
----
+For J=D+W_eff, with D diagonal and W_eff zero-diagonal, one involutive
+permutation Q and one scalar s must satisfy
 
-## The structural parallel
-
-| Quantum side | Neural side |
-|--------------|-------------|
-| Lindbladian L = −i[H, ρ] + Σ_l γ_l ⋅ (Z_l ρ Z_l − ρ) | Wilson-Cowan Jacobian J |
-| Π conjugation (per-site I↔X, Y↔Z with phase i) | Q permutation (E ↔ I swap, sign-flipped) |
-| 2Σγ shift on the spectrum | 2S = (1/τ_E + 1/τ_I) shift, a SCALAR (not a site sum: the quantum column's Σγ is one, this is not) |
-| Operator equation Π·L·Π⁻¹ + L + 2Σγ·I = 0 | Operator equation Q·J·Q + J + 2S = 0 |
-| Holds for every Heisenberg/XXZ + Z-dephasing | Holds when E−I population balance + magnitude condition |
-| Confirmed 2026-04-26 on `ibm_marrakesh`, `ibm_kingston` | NOT confirmed on the connectome. The 2026-03-26 reading (8× against Erdős–Rényi) was withdrawn 2026-08-26 as a difference of normalisation constants, and the connectome pairing reading was withdrawn 2026-08-25 ([Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md)). What holds on the neural side is the algebra on constructed networks |
-
-Same equation, two substrates, ONE confirmation. The quantum side flew; the
-neural side has the algebra and no animal. The framework that
-[the framework package](../framework/) formalizes for the quantum case is the
-same framework these scripts test for the classical-neural case.
-
----
-
-## Scripts
-
-### Connectome data and core test
-
-| Script | Purpose |
-|--------|---------|
-| `celegans_connectome.json` | 300×300 chemical and electrical wiring matrices, E/I classification. Source: WormNeuroAtlas, Cook et al. 2019. |
-| `celegans_neuron_ids.txt` | Neuron names indexed to the matrices. |
-| `celegans_palindrome.py` | Builds the Wilson-Cowan Jacobian J from the connectome, computes its eigenvalue spectrum, tests palindromic pairing. **Same absolute-tolerance matcher genre as the two withdrawn scripts below**; read the withdrawal before using its numbers. |
-| `algebraic_palindrome.py` | Tests the operator equation Q·J·Q + J + 2·S = 0 (the strict analogue of `palindrome_residual` in framework.py). |
-
-### Network-property analysis
-
-| Script | Purpose |
-|--------|---------|
-| `celegans_balanced.py` | Restricts to subnetworks with E ≈ I population balance, the prerequisite for palindrome at all. |
-| `celegans_inhibitory_position.py` | Tests whether the inhibitory neurons' positions in the connectome matter for palindrome strength. |
-| `random_network_controls.py` | Erdős–Rényi controls. **Its 8× is withdrawn 2026-08-26**: the control is normalised to its own maximum while the connectome block is normalised globally, and the metric tracks coupling scale, so the comparison measures the constant. |
-| `dense_balanced_test.py` | Dense balanced random networks as a stricter null. |
-| `validation_checks.py` | Sensitivity sweep (bootstrap, parameter perturbation). |
-
-### Wilson-Cowan dynamics
-
-| Script | Purpose |
-|--------|---------|
-| `wilson_cowan_palindrome.py` | The analytic Wilson-Cowan model with palindromic constraint imposed; sanity check that the equation has nontrivial solutions. |
-| `classical_oscillator_palindrome.py` | Coupled-oscillator analogue, simpler than W-C, same structure. |
-| `neural_heartbeat.py` | Time-domain trace of an exact-palindromic neural network (silent) vs broken-palindrome (oscillating). The neural V-Effect. |
-
-### V-Effect on neural side
-
-| Script | Purpose |
-|--------|---------|
-| `veffect_exact.py` | Two exactly-palindromic E-I populations, coupled through a mediator. Up to 62 oscillation modes emerge from coupling alone. |
-| `veffect_and_heat.py` | Adds external drive ("temperature"). Shows the thermal window: drive creates oscillations up to a peak, then destroys them. |
-| `fragile_bridge_neural.py` | Tests how robust the V-Effect bridge is to perturbation. |
-
-### CΨ on neural side
-
-| Script | Purpose |
-|--------|---------|
-| `cpsi_candidates.py`, `cpsi_deep_dive.py`, `cpsi_interference.py`, `cpsi_two_perspectives.py` | Candidate definitions of CΨ for neural networks. The CΨ = 1/4 fold from quantum has neural analogues but the right operational definition for biology is open. |
-| `find_quarter.py` | Searches for the 1/4 boundary in neural parameter space. |
-
-### Hopf and complexity
-
-| Script | Purpose |
-|--------|---------|
-| `hopf_threshold.py` | Hopf bifurcation onset as a function of network size. |
-| `complexity_threshold.py` | Tests the C = 0.5 universality across N. |
-| `balance_vs_size.py` | E-I balance requirement scales with N or with degree distribution? |
-| `exact_pairing_test.py` | Stress test for the eigenvalue-pairing tolerance. |
-
-### γ-as-cavity for neural
-
-| Script | Purpose |
-|--------|---------|
-| `neural_gamma_cavity.py` | Treats γ as a cavity-mode parameter on neural side. The neural analogue of [GAMMA_AS_SIGNAL](../../experiments/GAMMA_AS_SIGNAL.md). **Its results were withdrawn on 2026-08-25**; read [Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md) before using anything from it, and `celegans_pairing_controls.py` below for the controls that replaced it. |
-| `neural_gamma_cavity_unpaired.py` | Same, restricted to unpaired modes (the residual that doesn't pair). **Also withdrawn**: the count of unpaired modes depends on the order the eigenvalues arrive in. |
-| `celegans_pairing_controls.py` | The 2026-08-25 control suite that withdrew the two above: tolerance sweep, normalisation sweep, Dale ablation, degree-matched null, ordering orbit, limit-cycle integration, the exact GF(p) rank chain, and the three gates (G0c, G0d, G0e) that recompute the 2026-08-26 normalisation withdrawal from the connectome file. 44 gates. |
-
----
-
-## How to run
-
-The scripts are standalone (no shared entry point). Each prints its
-results to stdout. Connectome data is loaded from the JSON file in this
-directory.
-
-```bash
-# Core results
-python celegans_palindrome.py        # eigenvalue pairing on real worm
-python algebraic_palindrome.py       # ‖Q·J·Q + J + 2·S‖ on real worm
-python random_network_controls.py    # its 8× is withdrawn (normalisation artifact)
-
-# V-Effect on neural
-python veffect_exact.py              # two silent populations → oscillating
-python neural_heartbeat.py           # time-domain demo
-
-# Sensitivity
-python validation_checks.py          # parameter sweep
+```
+d_i+d_Q(i)+2s = 0,
+W_eff[Q(i),Q(j)]+W_eff[i,j] = 0  (i ≠ j).
 ```
 
-Dependencies: numpy, scipy, matplotlib. Some scripts also use networkx.
+Then QJQ+J+2sI=0 and the full complex eigenvalue multiset pairs under
+λ↦−λ−2s, preserving multiplicity. With paired leaks −1/τ_E and −1/τ_I,
+s=(1/τ_E+1/τ_I)/2. Dale signs alone provide neither support symmetry nor
+the scaled magnitudes. A fitted per-seat centre is not this scalar test.
+Exact pairing implies neither a real spectrum, silence, stability nor
+biological behavior. See [F36/F37's proof](../../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md).
 
----
+The gate includes the exact nonreal two-seat example, fixed-seat
+rejection, full complex assignment and multiplicity controls, a
+constructed ensemble, and Q transport into partner invariant subspaces
+with a wrong-Q negative control. The historical 96% eigenvector
+character-match reading is not a current result.
 
-## What today (2026-04-26) adds to these scripts
+## Current producers and controls
 
-The hardware confirmation on `ibm_marrakesh` and `ibm_kingston` of the
-quantum operator equation Π·L·Π⁻¹ + L + 2Σγ·I = 0 establishes the
-algebraic structure as observable in physical hardware. The C. elegans
-test in `algebraic_palindrome.py` was always testing the *same equation*
-in a different vocabulary. Q ↔ Π. J ↔ L. S ↔ Σγ.
+| File | Purpose and scope |
+|---|---|
+| [neural_palindrome.py](neural_palindrome.py) | Shared constructed-network builders, scalar residual, full complex assignment, subspace transport, frequency-independent ensemble census and fixed-point solver. |
+| [neural_translation_gate.py](neural_translation_gate.py) | Canonical executable gate for the conditional translation and its negative controls. |
+| [tests/test_neural_palindrome.py](tests/test_neural_palindrome.py) | Focused algebra, defective/degenerate transport, input-validation, producer and convergence tests. |
+| [veffect_exact.py](veffect_exact.py) | Linear coupling and sigmoid-drive censuses on constructed constituents. The added fixed excitatory mediator fails F36 even at zero coupling; the bridge need not preserve Dale signs. |
+| [veffect_and_heat.py](veffect_and_heat.py) | Synthetic random Dale-network coupling/drive censuses. P is external input. The sigmoid builder returns (J, x, fresh equation residual) and raises if its fixed-point solve does not converge. |
+| [find_quarter.py](find_quarter.py) | Candidate-quarter probes. Its bounded-iteration endpoints include large equation residuals and support no equilibrium-stability or Hopf verdict. |
+| [cpsi_two_perspectives.py](cpsi_two_perspectives.py) | Normalized E/I amplitude readings. A product of 1/4 at equal fractions is arithmetic, not quantum CΨ or a neural threshold; its greedy real-part matcher is not the canonical complex/transport gate. |
+| [celegans_pairing_controls.py](celegans_pairing_controls.py) | Full-connectome support gate G0b, matcher/tolerance and normalization controls, dynamics probes and exact-rank checks. Its run rewrites [the result file](../results/celegans_pairing_controls.txt). |
+| [celegans_connectome.json](celegans_connectome.json), [neuron IDs](celegans_neuron_ids.txt) | Stored chemical/electrical matrices, Dale labels and names. Chemical sources are rows; respect transposition and rate-scaling conventions. |
 
-What this means: the worm result and the Heron-r2 result are not
-analogues. They are two readings of the same underlying algebraic
-identity, executed on two physically distinct substrates. The
-"palindromic symmetry" is not a quantum-only or a neural-only property;
-it is a structural property of any open dynamical system whose
-generator factors through the Q (or Π) involution and whose dissipation
-shifts the spectrum by the corresponding 2S (or 2Σγ).
+The two V-effect producers count |Im λ| activity bins and
+|Im(λ_i+λ_j)| correlation bins at a declared absolute resolution.
+The latter is a formal eigenvalue-sum census, not a measured correlation
+signal. Zero means no resolved frequency under that predicate.
+The [protocol report](../../docs/neural/V_EFFECT_NEURAL.md) gives every
+seed, parameter grid, solver setting and backend. Its 48/62/124 counts
+are not invariants: the drive row at P=4 changes 124→286→403 under
+frequency-grid refinement. These scripts establish no V-effect
+mechanism, 2× decay law, thermal, metabolic or life interpretation.
 
-The qubits proved it in quantum hardware in April. The worm did not prove it in
-March, and that is the correction of 2026-08-25: the connectome reading was
-withdrawn ([Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md)), the
-8× against Erdős-Rényi is withdrawn as a normalisation artifact (matched, the
-ratio runs 0.960 at N = 10 to 0.748 at N = 26, a smaller residue of open origin),
-the degree-preserving null that scores 1.0 went with it since it cannot move such
-a metric, and on the connectome itself no admissible Q exists at all, on a
-count of 253 against 18. What the neural side has is the algebra, verified on
-constructed networks. Same equation, ONE confirmation, and an open question on
-the other substrate.
+## Historical exploration scripts
+
+These files are useful for locating how a question was probed. Their
+printed headlines and local matchers are not substitutes for the current
+gate. In particular, several execute their entire experiment on import.
+
+| Files | Reading constraint |
+|---|---|
+| `celegans_palindrome.py`, `algebraic_palindrome.py` | Early eigenvalue matching and fitted off-diagonal residuals; neither alone tests the full conditional identity. |
+| `celegans_balanced.py`, `celegans_inhibitory_position.py`, `balance_vs_size.py` | Population and subnetwork probes. Balance alone does not establish F36. |
+| `random_network_controls.py`, `dense_balanced_test.py`, `validation_checks.py` | Early random and sensitivity comparisons; check matching, normalization and support against the current audit. |
+| `wilson_cowan_palindrome.py`, `classical_oscillator_palindrome.py` | Model-specific Jacobian/oscillator explorations; apply the scalar conditions to each proposed matrix. |
+| `neural_heartbeat.py`, `fragile_bridge_neural.py` | Particular time-domain and bridge probes. An example with real eigenvalues supplies no silence or biological-safety theorem. |
+| `cpsi_candidates.py`, `cpsi_deep_dive.py`, `cpsi_interference.py` | Candidate neural quantities; none establishes a quantum CΨ observable or universal neural quarter boundary. |
+| `hopf_threshold.py`, `complexity_threshold.py`, `exact_pairing_test.py` | Threshold and matcher explorations; any bifurcation claim needs a converged equilibrium branch and crossing/nondegeneracy checks. |
+| `neural_gamma_cavity.py`, `neural_gamma_cavity_unpaired.py` | Absolute-tolerance/order-sensitive pairing instruments. Read the [cavity event record](../../experiments/NEURAL_GAMMA_CAVITY.md) and current support controls before using their output. |
+| `neural_clock_two_hands.py`, `neural_crown_switch.py` | Trace/angle and leading-mode probes. The [clock record](../../experiments/NEURAL_CLOCK_TWO_HANDS.md) states their scope: a fixed trace does not fix individual rates, and its fitted diagonal residual is vacuous. |
+| `celegans_trichotomy.py`, `neural_flavor_rule.py` | Exploratory classifications; classification labels do not establish F36 or biological pairing. |
+
+The canonical gate, shared primitives, `veffect_exact.py`,
+`veffect_and_heat.py`, `find_quarter.py` and
+`cpsi_two_perspectives.py` can be imported without running their experiment.
+For direct imports of the producers, place this directory on `sys.path`;
+their sibling imports use that path. Do not assume the same import safety
+for other scripts.
+
+## Run from the repository root
+
+NumPy, SciPy and pytest are needed for the canonical gate and tests.
+Some historical plots/probes additionally use matplotlib or networkx.
+
+PowerShell:
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'
+python simulations/neural/neural_translation_gate.py
+python -m pytest simulations/neural/tests/ -q
+
+# Current stdout-only frequency censuses
+python simulations/neural/veffect_exact.py
+python simulations/neural/veffect_and_heat.py
+
+# Connectome audit: rewrites simulations/results/celegans_pairing_controls.txt
+python simulations/neural/celegans_pairing_controls.py
+```
+
+On POSIX shells use `export PYTHONIOENCODING=utf-8` before the same
+`python` commands. The [typed counterpart](../../compute/MirrorWorld/NeuralPalindrome.cs)
+can be checked with .NET 10:
+
+```bash
+dotnet test compute/MirrorWorld.Tests --filter NeuralPalindromeTests
+dotnet run --project compute/MirrorWorld -- neural
+```
+
+Quantum hardware results belong to their quantum operators and protocols.
+They do not confirm this neural translation on an animal.
