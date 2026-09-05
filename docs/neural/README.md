@@ -1,178 +1,176 @@
-# Neural Systems and the Palindromic Symmetry
+# Neural systems: the conditional palindrome and its tests
 
-**No quantum physics required.** The results here are derived from
-quantum theory but stated and tested in purely classical terms.
-If you work with neural network dynamics, connectome data, or
-computational biology, everything in this section is written for you.
-If you have never heard of any of those, this section shows that the
-palindromic symmetry we found in quantum physics also appears in
-biological brains, which is either a coincidence or a clue.
+Last refreshed: 2026-09-05 (change history lives in git).
 
----
+This folder translates an operator identity owned by the quantum side into
+conditions on a classical neural Jacobian. It holds exactly on networks built
+to meet those conditions. No biological neural network in this repository is
+known to satisfy F36; the committed C. elegans chemical-connectome model fails
+its support condition.
 
-## What is the palindromic symmetry?
+The stores checked for this page are [the F-registry](../ANALYTICAL_FORMULAS.md)
+(F36/F37 own the conditional theorem; F137 separates a trace from pairing),
+[docs/proofs](../proofs/MIRROR_SYMMETRY_PROOF.md) (the quantum conjugation),
+[the neural proof store](proofs/PROOF_PALINDROME_NEURAL.md) (the scalar conditions
+and mode transport), and [experiments](../../experiments/NEURAL_GAMMA_CAVITY.md)
+(the connectome support null and matcher controls). Searches of the hardware
+flight records and [fw.Confirmations](../../simulations/framework/confirmations.py)
+returned no neural hardware confirmation. [The glossary](../GLOSSARY.md) fences
+the evidence grades; [OpenArcs](../../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
+records F36/F37's typed carriage and remaining substrate questions;
+[CAUGHT_ERRORS](../CAUGHT_ERRORS.md) records the diagonal-condition,
+normalisation and matcher failures. The current
+[Python primitives](../../simulations/neural/neural_palindrome.py),
+[translation gate](../../simulations/neural/neural_translation_gate.py),
+[tests](../../simulations/neural/tests/test_neural_palindrome.py),
+[MirrorWorld owner](../../compute/MirrorWorld/NeuralPalindrome.cs) and
+[neural run description](../../compute/MirrorWorld/README.md) supply constructed
+checks. The [V-effect page](V_EFFECT_NEURAL.md), its
+[mechanism analysis](proofs/PROOF_VEFFECT_MECHANISM.md), and the
+[coupling](../../simulations/neural/veffect_exact.py) and
+[drive](../../simulations/neural/veffect_and_heat.py) producers concern synthetic
+frequency censuses, with the mechanism open.
 
-When a network of neurons oscillates (excitatory populations that
-speed things up, inhibitory populations that slow things down, coupled
-together), the dynamics are governed by numbers called eigenvalues.
-Each eigenvalue determines one mode of the system's behavior: how
-fast it decays, how fast it oscillates, or both.
+## What transfers exactly
 
-These eigenvalues have a hidden structure: their decay rates can
-be **palindromic**, mirrored around a center point, like the word
-"racecar" reads the same forwards and backwards. If the rates are
-{0.03, 0.05, 0.08, 0.10, 0.12}, the palindromic partner of 0.03
-is 0.12 (they sum to 0.15), the partner of 0.05 is 0.10, and 0.08
-sits at the center.
+The [quantum owner, F1](../proofs/MIRROR_SYMMETRY_PROOF.md), is the conjugation
+ΠLΠ⁻¹ = −L − 2Σγ I under its stated Hamiltonian and dephasing hypotheses.
+The neural transfer is finite-dimensional algebra:
 
-In quantum physics, this symmetry is exact (proven algebraically;
-see [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md)).
-Here we ask: does the same structure appear in biological neural
-networks, and if so, why?
+```
+J = D + W_eff,  D = diag(d_i),  W_eff[i,i] = 0,
+Q = an involutive permutation, Q² = I,  s = one scalar.
 
----
+Q J Q⁻¹ = −J − 2s I
+    iff d_i + d_Q(i) + 2s = 0                    for every i
+    and W_eff[Q(i),Q(j)] + W_eff[i,j] = 0        for every i ≠ j.
+```
 
-## What we found
+This is [F36](../ANALYTICAL_FORMULAS.md#f36-neural-palindrome-condition-tier-1-derived-algebra).
+It pairs the full complex eigenvalue multiset by λ ↦ −λ − 2s, preserving
+algebraic multiplicity: the centre is −s and the partner shift is −2s.
+[F37](../ANALYTICAL_FORMULAS.md#f37-neural-eigenvalue-pairing-tier-1-from-f36)
+gives λ + λ′ = −(1/τ_E + 1/τ_I) when d_i = −1/τ_i and Q exchanges the two
+time-constant populations, so s = (1/τ_E + 1/τ_I)/2.
 
-The short version, as of the corrections of 2026-08-25 and 2026-08-26: the
-palindromic symmetry is a well-defined condition on a neural network's
-wiring, it can be written down entirely in neural terms, and **the one
-animal we tested does not satisfy it.** The math predicted a structure;
-the data did not confirm it. What survives is the translation and the
-proof, not a finding about brains.
+For the common-gain model W_eff = α diag(1/τ_i)W, with column j the source,
+the W-only condition is W[Q(i),Q(j)] = −(τ_Q(i)/τ_i)W[i,j] **only when
+α ≠ 0**. At α = 0 the effective coupling vanishes whatever W is. Dale signs
+supply neither the paired support nor the scaled magnitudes. Equal time
+constants make the diagonal condition automatic for any involutive Q; they
+do not supply the coupling condition.
 
-1. **The symmetry has ONE ingredient, and it is not the one the
-   textbooks supply.** The condition is that some swap Q of the neurons
-   turns the wiring into minus itself. The two things usually named
-   beside it, different time constants for excitatory and inhibitory
-   neurons (selective damping) and Dale's Law, are weaker than they
-   look. At uniform time constants the damping condition reads the same
-   on both sides for every permutation and imposes nothing; what
-   τ_E ≠ τ_I does is force the swap to exchange the two types. Dale's
-   Law fixes the SIGNS of the wiring condition, and only where synapses
-   exist, leaving the zero pattern and the magnitudes to be checked.
-   ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md),
-   [Proof](proofs/PROOF_PALINDROME_NEURAL.md))
+The [algebra page](ALGEBRAIC_PALINDROME_NEURAL.md) gives the construction,
+fixed-seat condition and invariant-subspace transport. The
+[proof](proofs/PROOF_PALINDROME_NEURAL.md) derives each step. Exact palindrome
+alone implies neither real eigenvalues, stability, silence, nor a biological
+mechanism.
 
-   *Why this matters:* the appealing version of this story, that the
-   palindrome falls out of two things every neuroscience textbook takes
-   for granted, is the version we wrote for five months and it is not
-   what the proof says. On C. elegans the wiring condition fails
-   outright, and on a count rather than a close call: a qualifying swap
-   would have to send each of the 253 neurons with a non-empty
-   excitatory row to one of the 18 with a non-empty inhibitory row.
+## What has been tested
 
-2. **An exact algebraic condition** for a perfect palindrome is derived
-   from quantum theory. It predicts a specific magnitude ratio between
-   partnered E-E and I-I connections, testable on any connectome with
-   known E/I labels and synaptic weights.
-   ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md))
+The canonical [Python gate](../../simulations/neural/neural_translation_gate.py)
+and [MirrorWorld tests](../../compute/MirrorWorld.Tests/NeuralPalindromeTests.cs)
+include the exactly representable example
+J = [[−0.5, −0.25], [0.25, −0.25]], Q = (0 1), s = 0.375.
+Its entrywise residual is zero and its eigenvalues are
+−0.375 ± (√3/8)i: an exact palindrome with oscillation.
 
-   *What this means practically:* the condition is a statement you can
-   write down for any wiring diagram with E/I labels and weights. Turning
-   it into a usable measurement is the part that is still open. The number
-   we computed from it, the palindrome residual, evaluates only half the
-   condition and, on blocks as sparse as a connectome's, reads the weight
-   multiset rather than the wiring
-   ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md), question 0).
+The Python construction's current census uses N = 10, five E and five I seats,
+τ_E = 5, τ_I = 10, density 0.3, and seeds 0…199 at each α:
 
-3. **There is no C. elegans palindromic advantage of the size once claimed.**
-   Give the worm and the control the same normalisation rule and the ratio
-   runs **0.960** at N = 10, 0.841 at N = 20 and 0.748 at N = 26: parity at
-   the smallest size, and a smaller gap at the larger ones whose origin the
-   instrument does not decide. Normalised by different constants, as an
-   earlier measurement was, the ratio tracks coupling magnitude to half a
-   percent and says nothing about wiring.
-   ([Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md),
-   [Algebraic residual analysis](ALGEBRAIC_PALINDROME_NEURAL.md))
+| α | Scalar identity passes | Complex spectrum | Unstable |
+|---|---:|---:|---:|
+| 0.5 | 200/200 | 24 | 0 |
+| 1.5 | 200/200 | 110 | 1 |
+| 3.0 | 200/200 | 149 | 15 |
+| 5.0 | 200/200 | 159 | 24 |
+| 10.0 | 200/200 | 167 | 45 |
 
-   *Context:* C. elegans is a tiny worm whose complete neural wiring
-   diagram (300 neurons, every connection mapped) is one of the best-
-   studied networks in biology. Erdős-Rényi networks are the simplest
-   possible random networks: connect each pair of neurons with equal
-   probability. It is tempting to read the 8× as biology selecting for
-   this structure, and the source does not support that: against a
-   degree-preserving rewiring, the null that keeps every neuron's
-   connection count and shuffles only who connects to whom, the residual
-   is 0.0129 against C. elegans's 0.0128, a ratio of 0.997. That row is
-   itself withdrawn and is not the evidence: the rewire keeps every weight
-   in its own row, so it cannot move a metric that reads the weight
-   multiset, and a ratio of one is an identity of the instrument. The 8× measured
-   a normalisation; the matched measurement is the one above.
+Here a scalar pass means relative Frobenius residual < 10⁻¹³; complex means
+some |Im λ| > 10⁻⁸; unstable means max Re λ > 0. These are finite synthetic
+ensemble counts, not population estimates or measurements of brains. The gate
+also rejects an incorrect fixed-seat leak, mismatched multiplicity, discarded
+imaginary parts, and a wrong Q even when the spectrum pairs.
 
----
+The drive window is a separate measurement on **one synthetic random Dale
+network**: N = 50, 25E + 25I, seed 42, density 0.3, τ_E = 5, τ_I = 10,
+α = 0.3. In [the drive producer](../../simulations/neural/veffect_and_heat.py),
+external input P changes the sigmoid operating point and hence the row gains
+of the effective coupling. Its frequency census has a window in P. The name
+“thermal window” refers here to this external-drive sweep; P has no calibrated
+meaning as temperature, metabolism or life. The producer declares its frequency
+resolution and reports the fixed-point equation residual. See
+[the coupling/drive account](V_EFFECT_NEURAL.md).
 
-4. **The V-Effect mechanism is withdrawn; the frequency counts remain.**
-   The premise, that a palindromic network cannot oscillate, is false: the
-   condition makes the spectrum symmetric under μ ↦ −μ − 2s, which forbids
-   nothing off the real axis. Over 200 draws of the generator that produced
-   the original result, 24 are exactly palindromic AND oscillate at the very
-   coupling the result was read at. The coupled system was never palindromic
-   either: it has an odd number of seats, so the mediator is unpaired at
-   every coupling.
+## What failed
 
-   *In plain language:* connecting two networks does change how many
-   frequencies the dynamics carries, non-monotonically in the coupling
-   strength, and that measurement stands. What we cannot say is that the
-   connection released something a symmetry was holding down.
-   ([Proof: V-Effect Mechanism](proofs/PROOF_VEFFECT_MECHANISM.md))
+The C. elegans support gate is null for the proposed biological landing.
+The committed chemical matrix has **271 nonempty output rows: 253 excitatory
+and 18 inhibitory** under the stored Dale labels. Sign reversal by Q requires
+a bijection between those two sets, so no qualifying E/I swap exists for the
+full matrix with nonzero gain and positive rate scales. The
+[G0b code](../../simulations/neural/celegans_pairing_controls.py),
+[stored output](../../simulations/results/celegans_pairing_controls.txt), and
+[event record](../../experiments/NEURAL_GAMMA_CAVITY.md) own this result.
+It does not decide every selected subnetwork or every neural model.
 
-5. **A thermal window exists** for approximate (biological) networks.
-   External drive creates oscillatory modes up to a peak (124
-   correlation frequencies at optimal drive), then destroys them.
-   ([V-Effect and Thermal Window](V_EFFECT_NEURAL.md))
+A fitted off-diagonal residual can be zero while the scalar diagonal condition
+fails. On disjoint Q-partner supports it reduces to a coupling-norm reading;
+unequal normalisations therefore cannot establish a wiring advantage.
+The [algebra page](ALGEBRAIC_PALINDROME_NEURAL.md#3-empirical-c-elegans-null)
+states the precise collapse condition and matched measurements.
 
-   *In plain language:* a little bit of external input (think:
-   sensory stimulation) helps neural oscillations. Too much destroys
-   them. There is a sweet spot. This is consistent with observations
-   that moderate arousal improves cognitive performance while extreme
-   arousal impairs it (the Yerkes-Dodson curve, the empirical observation that performance
-   peaks at moderate arousal and drops at both extremes, that psychology
-   has known for over a century, now with a potential mathematical
-   mechanism).
+The proposed V-effect mechanism fails: an exact palindrome can oscillate,
+and the coupled construction's fixed mediator violates the scalar condition
+even at zero coupling. Coupling and drive change frequency counts, but those
+censuses establish no symmetry-release mechanism and no 2× decay law. A fixed
+spectral mean is a trace identity; it does not keep individual decay rates fixed.
 
----
+## What remains open
 
-## Returning, 2026-05-30: the clock
+The next translation must identify the quantum owner, the neural candidate,
+the added hypotheses, and a gate that can reject it. The
+[translation roads](ALGEBRAIC_PALINDROME_NEURAL.md#translation-roads)
+retain concrete candidates from the repo's eleven-axis rulebook, including
+local blindness, topology, dynamics after spectral transport, and the
+two-mirror construction. The rulebook generates directions; an axis is not
+evidence. Each untested landing stays open.
 
-The arc above is from March 2026. Returning with the clock we built since (a
-Takt hand for the decay, a Rotation hand for the oscillation), the same spectra
-read differently. The average decay rate is exactly the trace of J over its
-size, −(1/τ_E + 1/τ_I)/2, set by the membrane constants alone: the synaptic
-graph never touches the diagonal of J, so the Takt hand is graph-blind by an
-exact identity. That is the neural twin of the quantum mirror's center 2Σγ being
-set by the bath rather than by the Hamiltonian. Through the clock, the V-Effect
-and the thermal window move only the Rotation hand; the Takt stays pinned. And
-the rotation is faint, a few degrees off the decay axis, so the March frequency
-counts are real but pale: the substrate lives almost entirely on its Takt. See
-[The Clock's Two Hands](../../experiments/NEURAL_CLOCK_TWO_HANDS.md).
+The biological task is to find a specified circuit, operating point and
+involution satisfying both F36 conditions. The dynamics task is to determine
+what the coupling/drive census tracks with consistent resolution, converged
+operating points, and controls that separate changes of support, sign and
+magnitude. Neither question is settled by a good pair-sum average.
 
----
+## How to rerun
 
-## Documents
+From the repository root, with NumPy, SciPy, pytest and .NET 10 available:
 
-| Document | What it covers |
-|----------|---------------|
-| [Algebraic Palindrome](ALGEBRAIC_PALINDROME_NEURAL.md) | Palindrome condition, C. elegans test, E-I standing wave |
-| [The Clock's Two Hands](../../experiments/NEURAL_CLOCK_TWO_HANDS.md) | Takt = trace (membrane-set, graph-blind); Rotation = off-diagonal (degree-set); V-Effect and thermal window move only the Rotation |
-| [Neural Gamma Cavity](../../experiments/NEURAL_GAMMA_CAVITY.md) | The pairing score and the 18 unpaired modes read the matching tolerance and the eigenvalue ordering, not the spectrum. What the page carries: a limit cycle at those parameters, shortest sampled period 5.74 time constants with periods growing towards both folds; and a zero-multiplicity that exceeds degree-matched rewiring. The band in Hz is a unit choice, the integrated model having no tau |
-| [V-Effect and Thermal Window](V_EFFECT_NEURAL.md) | Coupling changes the frequency count, thermal window, 2× law; the "individually silent" premise is withdrawn |
-| [Proof: Palindrome](proofs/PROOF_PALINDROME_NEURAL.md) | Derivation of palindrome condition in 6 steps |
-| [Proof: V-Effect](proofs/PROOF_VEFFECT_MECHANISM.md) | The mechanism refuted: the palindrome is a spectral involution and forbids no oscillation; what the coupling sweep does and does not measure |
+```bash
+PYTHONIOENCODING=utf-8 python simulations/neural/neural_translation_gate.py
+PYTHONIOENCODING=utf-8 python -m pytest simulations/neural/tests/test_neural_palindrome.py -q
+dotnet test compute/MirrorWorld.Tests --filter NeuralPalindromeTests
+dotnet run --project compute/MirrorWorld -- neural
+```
 
-Start with the Algebraic Palindrome document: it states the condition in
-neural terms, tests it on a connectome, and is honest about what its
-instrument can and cannot see. If you want the derivation, read the
-Palindrome Proof. The V-Effect documents are worth reading for what a
-mechanism looks like when it does not survive its own construction.
+PowerShell:
 
----
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'
+python simulations/neural/neural_translation_gate.py
+python -m pytest simulations/neural/tests/test_neural_palindrome.py -q
+dotnet test compute/MirrorWorld.Tests --filter NeuralPalindromeTests
+dotnet run --project compute/MirrorWorld -- neural
+```
 
-## Prerequisites
+For the synthetic censuses, use the same UTF-8 setting and run
+`python simulations/neural/veffect_exact.py` and
+`python simulations/neural/veffect_and_heat.py`; both print to stdout.
+`python simulations/neural/celegans_pairing_controls.py` reruns the larger
+connectome audit and rewrites its linked result file.
 
-None for the main results. For the quantum foundation:
-- [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md) (the original quantum proof)
-- [The Interpretation](../THE_INTERPRETATION.md) (what the palindrome means physically)
-
-For the original C. elegans hypothesis:
-- [The Pattern Recognizes Itself](../../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md)
+Related readings: [the neural clock](../../experiments/NEURAL_CLOCK_TWO_HANDS.md)
+for the trace invariant; [the connectome event](../../experiments/NEURAL_GAMMA_CAVITY.md)
+for its separate cavity and zero-multiplicity questions; and
+[the initiating hypothesis](../../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md)
+for the cross-domain question.
