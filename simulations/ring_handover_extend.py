@@ -11,13 +11,17 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 print("=" * 90)
 print("(a) Q_h(k=2) extended to N=14 (shift-invert), for the asymptotic-slope trend")
 print("=" * 90)
-qh = {6: 1.99414, 8: 2.35039, 10: 2.84023, 12: 3.35977}
+# N=6/8/10 by a root solve on the same darkness=1 criterion (N=6 is EXACTLY 2 = N/3);
+# N=12/14 from qh_sector, which its own docstring caps at +-0.01 (it breaks at hi-lo<0.02).
+qh = {6: 2.00000000, 8: 2.35038584, 10: 2.83519426, 12: 3.35977}
+COARSE = {12, 14}                     # the rungs carrying the +-0.01, marked in the table
 qh[14] = qh_sector(14, 2)
 print(f"{'N':>4} {'Q_h':>10} {'Q_h/N':>9} {'local slope (dQ_h/dN)':>22}")
 Ns = sorted(qh)
 for i, N in enumerate(Ns):
     ls = "" if i == 0 else f"{(qh[N]-qh[Ns[i-1]])/(N-Ns[i-1]):>22.5f}"
-    print(f"{N:>4} {qh[N]:>10.5f} {qh[N]/N:>9.5f} {ls}")
+    mark = " +-0.01" if N in COARSE else "       "
+    print(f"{N:>4} {qh[N]:>10.5f}{mark} {qh[N]/N:>9.5f} {ls}")
 
 print("\n" + "=" * 90)
 print("(b) the (2,2) seam HIGH-Q darkness (Q=200) vs the commutant forms (cross-session: b191df3)")
