@@ -4,11 +4,12 @@
 K_death universal dose, immortal palindromic modes, gamma role of c,
 entrance pupil window, cavity mass distribution, R=CPsi2 mass hypothesis -->
 
-**Status:** Center-localized mode energy confirmed (consistent with mass
-= trapped light). K_death = ln(10) = 2.303 above the coupling threshold
+**Status:** Center-weighted late-time XY diagnostic observed for N=4,5 in the
+declared sacrifice-zone runs. K_death = ln(10) = 2.303 above the coupling threshold
 Q*_gap(N) (from D6; below it the slowest mortal mode is slower and the dose
 grows). Gamma plays the algebraic
-role of c (K = γt invariant). E = mγ² as conversion: open question.
+role of an inverse-time scale in K = γt. No mass, light, or energy-conversion
+mechanism is established.
 **Date:** April 4, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -28,24 +29,23 @@ is the weight.
 
 If the qubit chain is a cavity and gamma is the light that enters it,
 the same pattern should hold: light enters at the surface (the entrance
-pupil), propagates inward, and the surviving standing waves concentrate
-in the center. The center holds the trapped light. If mass is trapped
-light, then mass is in the center.
+pupil), and the late-time transverse diagnostic might be centre-weighted. The
+simulation tests that spatial diagnostic; it does not measure light or mass.
 
-This document tests that picture. The answer: yes. The surviving mode
-energy is center-localized (ratio 1.3-1.4), consistent with
+The declared runs give a centre/edge ratio of 1.3-1.4 for the late-time XY
+diagnostic, consistent with
 [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994).
-The entrance pupil is transparent. The focus is dense. The pattern
-matches stars, atoms, and black holes.
+This finite numerical resemblance does not establish a match to stars, atoms,
+or black holes.
 
 ---
 
 ## Result 1: Surviving mode energy is center-localized
 
-If mass = trapped light ([gamma is light](../hypotheses/GAMMA_IS_LIGHT.md)),
-then the observable for "mass" is the surviving mode energy: the {X,Y}
-coherences still oscillating at late times. These are the standing waves
-that have not yet been absorbed. The fire, not the ash.
+The computed observable is the site-resolved late-time {X,Y} weight in the
+declared simulation. Calling it mass, trapped light, or standing-wave energy
+would require independent energetic and interference observables that are not
+present here.
 
 Under the sacrifice zone at t = 20:
 
@@ -69,21 +69,17 @@ N = 5:
 Center/edge ratio: 1.37 (N=4), 1.30 (N=5), taken against the mean of the
 two edges. Both edges hold less surviving mode energy than the centre, and
 the entrance pupil is the lower of the two: 0.209 against site 3's 0.213 at
-N=4, 0.165 against site 4's 0.174 at N=5. Light enters there and
-concentrates in the center. The surface is a window, not a wall.
+N=4, 0.165 against site 4's 0.174 at N=5. The sampled XY weight is lower
+at both edges than in the centre. The entrance-pupil language is an analogy.
 
-Under uniform gamma: ALL mode energy is absorbed by t = 20. No spatial
-structure. The sacrifice zone (entrance pupil) is necessary for any
-surviving mode energy to exist at late times.
+Under uniform gamma in these runs, the sampled late-time XY diagnostic is
+numerically absent at t=20. The comparison shows that the chosen sacrifice
+profile preserves more of that diagnostic; it is not a general necessity
+theorem.
 
-If mass = trapped light, then:
-- Mass forms in the CENTER (where standing waves concentrate)
-- The entrance pupil is necessary for mass to exist (it shields the
-  interior), but does not hold the mass
-- Stars: surface radiates, core holds mass
-- Atoms: electron cloud outside, nucleus inside
-- Black holes: event horizon at surface, singularity at center
-- Our cavity: entrance pupil at edge, trapped light in center
+The calculation establishes only the two finite centre/edge ratios above. It
+does not infer where mass forms or a causal relation to stellar, atomic, or
+black-hole structure.
 
 *Source: [`trapped_light_localization.py`](../simulations/trapped_light_localization.py).
 See also: [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994, March 30)*
@@ -127,36 +123,33 @@ What the cavity always retains is lens content, never light.
 
 ---
 
-## Result 3: Immortal modes are massless
+## Result 3: Zero-rate modes are structural, not an energy census
 
 The N+1 immortal modes (zero absorption rate) are the operators that
 describe the system's overall state and the conserved quantities in each
 magnetization sector. They never absorb because they contain no
 transverse (X,Y) content: they are pure structure, invisible to the
-light. In the mass = trapped light picture, they are massless.
+declared dephasing channel. This says nothing about their mass or energy.
 
-The palindrome protects paired modes from complete absorption. At any
-finite time, each pair retains amplitude. The cavity resists total
-absorption. Even under thermal flooding (n_bar = 10), 82% of modes
-still oscillate ([Thermal Blackbody](THERMAL_BLACKBODY.md)). The
-palindrome is algebraic, not thermodynamic.
+The nontrivial kernel blocks complete convergence to zero. That fact follows
+from stationary modes, not protection of every paired mode or a physical
+absorption-energy balance. The separate [Thermal Blackbody](THERMAL_BLACKBODY.md)
+census is algebraic, not thermodynamic.
 
 ---
 
-## Result 4: Gamma plays the role of c
+## Result 4: Gamma supplies an inverse-time scale
 
-In special relativity:
-- c is external, objective, sets the clock
-- τ is experienced time (proper time, observer-dependent)
-- c × τ = invariant spacetime interval
+As a dimensional analogy only, special relativity supplies a velocity scale
+and proper time whose product has dimensions of length. No identification of
+those quantities with the open-system variables below is established.
 
 In the Lindblad cavity:
 - gamma is a chosen decay rate that sets the model's dissipative timescale.
   The [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) certifies
   openness, not an external origin; IBM dephasing can have several microscopic
   contributions and is not identified here with photon shot noise.
-- t is experienced duration (how long until the fold at CΨ = 1/4,
-  the threshold where quantum behavior gives way to classical)
+- t is the evolution parameter
 - γ × t = K = invariant absorption dose
   ([F14](../docs/ANALYTICAL_FORMULAS.md), proven)
 
@@ -165,15 +158,13 @@ Relativity:     c     ×  tau  =  invariant spacetime interval
 Lindblad:       gamma  ×  t    =  K  =  invariant absorption dose
 ```
 
-Gamma can play an algebraic clock-scale role: it
-defines a decay timescale and appears in the dimensionless product, but cannot
-be outrun by the system. The system cannot decohere faster than its
-illumination allows, just as an object cannot travel faster than light.
+Gamma defines a decay timescale and appears in the dimensionless product K.
+There is no speed-limit theorem here: Liouvillian decay rates also depend on
+the channel, system size, Hamiltonian and mode content.
 
-Whether E = m × γ² holds as a mass-energy conversion is genuinely open.
-The framework has γ where Einstein has c, t where Einstein has τ, and
-K where Einstein has the spacetime interval. The algebra matches.
-The physics is unproven.
+No computed quantity in this experiment supports `E=m*gamma^2` or an
+energy-conversion causality. The dimensional resemblance to `c*tau` is not a
+physical equivalence.
 
 ---
 
@@ -181,10 +172,10 @@ The physics is unproven.
 
 1. **Surviving mode energy is center-localized** (Tier 2-3)
 2. **K_death = 2.303 above Q*_gap(N)** (Tier 2)
-3. **Immortal modes are massless** (Tier 3)
-4. **The palindrome prevents total absorption** (Tier 2)
-5. **Gamma plays the role of c** (Tier 2-3, algebraic parallel)
-6. **E = mγ² as mass-energy conversion** (open, Tier 4-5)
+3. **The zero-rate sector is insensitive to the declared dephasing channel** (Tier 1 within scope)
+4. **The kernel prevents convergence of the full operator space to zero** (Tier 1 within scope)
+5. **Gamma has units of inverse time and forms K=gamma*t** (dimensional identity)
+6. **No mass-energy conversion is established**
 
 ---
 

@@ -118,6 +118,32 @@ public class F3DecayRateBoundsPi2InheritanceTests
     }
 
     [Fact]
+    public void EveryRateReading_RejectsZeroGamma()
+    {
+        var f = BuildClaim();
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.MinRate(0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.MaxRate(2, 0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.Bandwidth(2, 0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.XorBoundary(2, 0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.MinRateMatchesF50(0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.BandwidthIsMaxMinusMin(2, 0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.XorBoundaryAboveMaxRate(2, 0.0));
+    }
+
+    [Fact]
+    public void EveryNDependentRateReading_RequiresNAtLeastTwo()
+    {
+        var f = BuildClaim();
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.MaxRate(1, 0.05));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.Bandwidth(1, 0.05));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.XorBoundary(1, 0.05));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.BandwidthIsMaxMinusMin(1, 0.05));
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.XorBoundaryAboveMaxRate(1, 0.05));
+    }
+
+    [Fact]
     public void MaxRate_NLessThanTwo_Throws()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().MaxRate(N: 1, gammaZero: 0.05));

@@ -3,16 +3,28 @@ SPECTRAL ORBIT CENSUS: LINEAR F1 AND CONJUGATE-COMPOSITE MAPS
 linear F1:            lambda -> -lambda - 2*Sigma
 conjugate-composite:  lambda -> -conj(lambda) - 2*Sigma
 All assignments consume spectral occurrences with multiplicity.
+Primary numerical tolerance TOL=1e-08 (not exact arithmetic).
 
 N=2: linear pairs=6 fixed=4; composite pairs=3 fixed=10; max residuals=2.78e-15,1.61e-15
+     mean decay=0.100000; Sigma=0.100000
 N=3: linear pairs=32 fixed=0; composite pairs=32 fixed=0; max residuals=1.84e-14,3.43e-14
+     mean decay=0.150000; Sigma=0.150000
 N=4: linear pairs=121 fixed=14; composite pairs=52 fixed=152; max residuals=6.61e-14,7.79e-14
+     mean decay=0.200000; Sigma=0.200000
 N=5: linear pairs=512 fixed=0; composite pairs=512 fixed=0; max residuals=1.87e-13,1.89e-13
+     mean decay=0.250000; Sigma=0.250000
 N=6: linear pairs=2040 fixed=16; composite pairs=1130 fixed=1836; max residuals=6.92e-13,3.05e-13
+     mean decay=0.300000; Sigma=0.300000
 N=7: linear pairs=8192 fixed=0; composite pairs=8192 fixed=0; max residuals=1.18e-12,1.55e-12
+     mean decay=0.350000; Sigma=0.350000
 
 linear F1 total:       pairs=10903 fixed=34
 conjugate-composite:   pairs=9921 fixed=1998
+
+TOLERANCE STABILITY (numerical multiplicities)
+tol=1e-06: BASELINE
+tol=1e-08: PASS stable
+tol=1e-10: PASS stable
 
 N=4 topology negative control (the fixed counts are topology-sensitive):
 N=4 chain     linear: pairs=121 fixed=14

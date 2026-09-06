@@ -62,7 +62,10 @@ vectors inside a degenerate eigenspace.
 
 ## Finite pair census
 
-The producer enumerates 21,840 eigenvalues for `N=2,...,7`. There are two
+The producer numerically enumerates 21,840 eigenvalues for `N=2,...,7` at
+primary matching tolerance `1e-8`. Repeating the complete census at `1e-6`,
+`1e-8`, and `1e-10` gives the same multiplicities; these are tolerance-stable
+eigensolver counts, not exact-arithmetic multiplicities. There are two
 different complete orbit censuses, because there are two different involutions.
 For the **linear F1 map** `lambda -> -lambda-2 Sigma_gamma`:
 
@@ -97,7 +100,8 @@ composite census preserves `Im(lambda)` and is useful for grouping equal
 frequencies, but only the linear census is the orbit structure transported by
 `Pi`.
 
-The measured mean decay over each complete spectrum is `Sigma_gamma`:
+The producer also emits the measured mean decay over each complete spectrum;
+at the printed precision it is `Sigma_gamma`:
 
 | N | 2 | 3 | 4 | 5 | 6 | 7 |
 |---|---:|---:|---:|---:|---:|---:|
@@ -115,8 +119,8 @@ The earlier inverse naming is not used here.
 
 ## Topology sweep
 
-The same finite pairing census was run on chain, star, and ring topologies at
-`N=3,4,5`; all spectra were fully accounted for. At `N=4`:
+The producer's topology negative control is restricted to chain, star, and
+ring at `N=4`; all three spectra are fully accounted for:
 
 | Linear F1 census at N=4 | Chain | Star | Ring |
 |---|---:|---:|---:|

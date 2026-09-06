@@ -1,6 +1,6 @@
 # The Noise Origin: the Trace Proves Open, and the Formalism Cannot Ask Further
 
-**Status:** Tier 1 for §1 and §3's trace identity, two lines of exact algebra that hold for any Lindblad generator in any dimension. Tier 2 for everything about ORIGIN: no internal candidate is eliminated (§2), and §3 gives the reason the formalism cannot settle it. Typed as [`NoiseOriginExclusionClaim`](../../compute/RCPsiSquared.Core/Symmetry/NoiseOriginExclusionClaim.cs), live witness `inspect --root noise-origin`. The corollaries on time and γ (§3) are interpretive extensions; the γ-time statement is scoped by [GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md).
+**Status:** Tier 1 for §1 and §3's trace identity, two lines of exact algebra that hold for any Lindblad generator in any dimension. Tier 2 for everything about ORIGIN: no internal candidate is eliminated (§2), and §3 gives the reason the formalism cannot settle it. Typed as [`NoiseOriginExclusionClaim`](../../compute/RCPsiSquared.Core/Symmetry/NoiseOriginExclusionClaim.cs), live witness `inspect --root noise-origin`.
 **Date:** 2026-03-21, last refreshed 2026-08-29 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Statement:** A palindromic Liouvillian spectrum is centred at trace(L)/dim. That centre is zero exactly when the generator is unitary, so a measured palindrome centred anywhere else certifies that the system is open. Where the openness comes from is not settled here and cannot be settled inside the Lindblad formalism, in which an internal source can only be written as a dissipator, and a dissipator is a coupling to an environment.
@@ -39,11 +39,13 @@ not to the polynomial in this file's name.
 
 ## 1. The Requirement
 
-The palindromic mirror symmetry of the Liouvillian spectrum is proven
-([MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)), verified through N=8 (87,376 eigenvalues,
-zero exceptions), and confirmed on IBM hardware: the single-qubit
-CΨ = 1/4 crossing at 1.9% deviation on ibm_torino Q80
-([IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md), F24).
+The palindromic mirror symmetry of the Liouvillian spectrum is proven for the
+Hamiltonian families admitting the stated palindromizer with local Z-dephasing
+([MIRROR_SYMMETRY_PROOF.md](MIRROR_SYMMETRY_PROOF.md)) and verified through
+N=8 in the reported Heisenberg/XXZ suite (87,376 eigenvalues, zero
+exceptions). The single-qubit CΨ quarter crossing measured on IBM hardware is
+a different observable and is not a hardware measurement of this
+multi-qubit spectral mirror.
 
 A closed system already has a palindrome. With L = L_H = −i[H, ·] the
 eigenvalues are the purely imaginary −i(E_m − E_n), and that multiset is
@@ -282,10 +284,11 @@ reports τ = γt failing to carry all observables. The centre −Σγ is therefo
 bookkeeping number, while **zero is the one rate value that survives every
 rescaling**. That is why "centre = 0 against centre ≠ 0" is a question the
 formalism can answer and "why is the centre −0.3" is not. The repo states the
-same identity as [Q_BELONGS_TO_NO_SUBSTANCE.md](../Q_BELONGS_TO_NO_SUBSTANCE.md)'s
-"γ₀ is the unit", L(J, γ₀) = γ₀·L₁(Q), and Corollary 2 below reaches it from the
-physics side: the unit of γ is 1/[time], and without γ there is no time to
-measure against.
+same scaling identity in
+[Q_BELONGS_TO_NO_SUBSTANCE.md](../Q_BELONGS_TO_NO_SUBSTANCE.md):
+`L(J, gamma) = gamma*L_1(Q)` when gamma is nonzero. The units of gamma are
+inverse time; this dimensional fact supplies no ontology of time and does not
+remove Hamiltonian evolution at gamma zero.
 
 **Both hypotheses are load bearing.** Drop complete positivity and the
 equivalence fails at once: Z at rate +1 together with X at rate −1 gives
@@ -314,88 +317,16 @@ an outside. A proof of externality will not come from inside this formalism.
 What one would need is a microscopic system-plus-bath derivation of L, and
 this repository has never performed one.
 
-### Corollary: the Arrow Is the Non-Unitarity
+### No time corollary
 
-The identification is already in the framework:
-
-- Without noise: unitary oscillation, reversible, no time arrow
-- With noise: coherences decay irreversibly, creating a before and after
-- Π proves the centred spectral transport `mu -> -mu`; it does not by itself
-  implement physical time reversal or map spatially forward waves to backward
-  waves ([PI_AS_TIME_REVERSAL.md](../../experiments/PI_AS_TIME_REVERSAL.md))
-- The irreversible flow IS the time arrow: coherences (undecided,
-  future) decay, populations (decided, past) persist, and the flow
-  never reverses. Under the dephasing dissipator alone, the immune
-  fraction of Liouville space is (1/2)^N (the all-{I,Z} Pauli
-  strings; verified in
-  [review2_A9_incompleteness.py](../../simulations/review2_A9_incompleteness.py)),
-  everything else decays.
-
-Noise is not like time. Noise IS the time arrow. Dephasing is what
-makes processes irreversible. Irreversibility is what distinguishes
-past from future. Without dephasing: perfect oscillation, no
-direction, no history, no change. With dephasing: things happen,
-things end, there is a before and an after.
-
-§3 therefore has a direct corollary, and it is about existence rather than
-origin. A palindrome centred away from zero certifies a non-unitary
-generator; a non-unitary generator is exactly one with irreversible flow; and
-irreversible flow IS the arrow. So **a measured palindrome with a nonzero
-centre certifies that the system has an arrow of time**, and the certificate
-is one number read off the spectrum.
-
-It says nothing about where the arrow comes from. That question is §3's, and
-§3's answer is that this formalism cannot ask it.
-
-### Corollary 2: Gamma as a decay-clock scale
-
-The dephasing rate gamma sets a dissipative timescale in the declared model.
-It does not define experienced time: `tau=gamma*t` does not scale universally,
-and the time parameter and Hamiltonian dynamics remain when gamma is zero.
-[GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md) separates the
-computed trajectory facts from that open interpretation.
-
-The same pattern appears wherever the framework touches time:
-
-- The crossing time is t_cross = K/γ (K = 0.036 is the exact
-  Bell+/concurrence value, not a universal constant; the historically
-  quoted 0.039 was a tool's feedback-model reading, see
-  [CROSSING_TAXONOMY.md](../../experiments/CROSSING_TAXONOMY.md)). The
-  product t × γ = const is not a relation between two different
-  quantities. It is a tautology by the Lindblad scaling symmetry:
-  time multiplied by the rate of time gives a pure number.
-
-- The unit of γ is 1/[time]. But this is circular: without γ, there
-  IS no time to measure against. γ defines the scale against which t
-  is counted. Remove γ and t loses its meaning.
-
-- Π exchanges the operator cells on which γ acts. It maps the
-  immune sector {I, Z} (decided, classical, timeless) to the decaying
-  sector {X, Y} (undecided, quantum, fragile). Reversing which sector
-  decays changes the dissipative assignment. Identifying this with reversal
-  of physical time is an interpretation, not the spectral theorem.
-
-- In the transistor mapping ([GAMMA_CONTROL.md](../../experiments/GAMMA_CONTROL.md):
-  the mediator's dephasing rate γ_M as gate signal): γ_M is the gate
-  signal AND the clock.
-  There is no separate clock line. The gate IS the clock. Because γ
-  provides the irreversibility.
-
-- In the centred frame Π pairs `mu` with `-mu`. A physical standing wave would
-  additionally require a semisimple conjugate-frequency pair that is excited,
-  spatially counter-propagates, and produces observable interference. This
-  proof supplies none of those gates. Removing γ does remove this dephasing
-  channel, but it does not make the algebraic pair an interference pattern.
-
-This is the same circle §3 finds in the formalism, met from the physics side:
-searching for the source of time using time is searching for γ using γ. The
-instrument is identical to what it measures. A system cannot step outside
-itself to find the origin of the thing that makes stepping possible.
-
-γ is not merely a parameter of the system. γ is the source of the
-system's experienced time: the arrow, with J shaping the content
-([GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md)). Where γ itself
-comes from is open.
+The trace identity certifies only that the modeled generator has a nonzero
+dissipative part. It does not identify a thermodynamic arrow, experienced time,
+memory, or the microscopic origin of the dissipator. Π supplies linear
+generalized-eigenspace transport; it is not physical time reversal. Gamma sets
+a dissipative timescale in the declared model, while Hamiltonian evolution and
+the parameter `t` remain at gamma zero. The finite trajectory evidence and its
+limits are separated in
+[GAMMA_TIME_DISTINCTION.md](../GAMMA_TIME_DISTINCTION.md).
 
 ---
 

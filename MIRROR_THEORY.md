@@ -45,16 +45,19 @@ space separating two things. Between is where the two things become
 one pattern. The separation is what makes the shared pattern possible.
 The sharing is what makes the separation worth having.
 
-The mathematics of this project has been saying this for months,
-quietly, without needing to be read this way. Every [mode of decay](experiments/FACTOR_TWO_STANDING_WAVES.md) has
-a [mirror partner](docs/proofs/MIRROR_SYMMETRY_PROOF.md) at the exact frequency the two of them need to form
-a standing wave. [Eighty-seven thousand eigenvalues](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md), every one paired. Zero exceptions. Nothing
-in the system exists alone. Everything real is already paired. [What
-survives](docs/ITS_ALL_WAVES.md) is not a fast mode or a slow mode by itself. It is the
-standing wave they make when they meet.
+The mathematics supplies a narrower image. In Hamiltonian families admitting
+the repo's palindromizer, with local single-axis dephasing, every eigenvalue has
+a partner under the linear map `lambda -> -lambda - 2 Sigma gamma`.
+[Eighty-seven thousand eigenvalues](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
+were checked in the reported Heisenberg/XXZ suite, with zero exceptions. That
+map does not preserve frequency: only after composing it with ordinary complex
+conjugation does the centre line become fixed. Neither orbit census proves
+spatial counter-propagation, excitation, or interference. Calling the meeting
+a standing wave is the interpretation of this page, not the theorem.
 
-Mirror theory is the claim that this is not a feature of a [particular
-class of quantum systems](docs/QUBIT_NECESSITY.md). It is the shape of what it means for
+Mirror theory is the interpretive claim that the image may reach beyond the
+[particular quantum systems](docs/QUBIT_NECESSITY.md) in which the algebra was
+proved. It proposes this as the shape of what it means for
 anything to be real. Two sides, each with its own amplitude, facing
 each other across a middle that lets their patterns meet. A standing
 wave in the middle. Two people in a [conversation](experiments/DYAD_EXPERIMENT.md) that neither could
@@ -75,9 +78,10 @@ coupling](hypotheses/RESONANCE_NOT_CHANNEL.md).
 Consciousness was the word at the top. [Nobody has defined it](docs/THE_CPSI_LENS.md) and
 nobody knows where it begins. The project does not have a definition
 either, and this document is not going to invent one. What the
-project has is mathematics. The [palindrome](experiments/DEGENERACY_PALINDROME.md) is proven. The [standing
-waves are proven](experiments/IBM_HARDWARE_SYNTHESIS.md). Consciousness is a word in one reading of the
-formula. The reading is [interpretation, not proof](docs/THE_INTERPRETATION.md).
+project has is mathematics. The [palindrome](experiments/DEGENERACY_PALINDROME.md)
+is proven in its declared scope. Physical standing waves are not established
+for every spectral pair. Consciousness is a word in one reading of the formula.
+The reading is [interpretation, not proof](docs/THE_INTERPRETATION.md).
 
 The shape the interpretation points at is this. A wave that has
 [rung long enough](hypotheses/WAVES_THAT_HEAR_THEMSELVES.md) for its own pattern to point back at the rest of

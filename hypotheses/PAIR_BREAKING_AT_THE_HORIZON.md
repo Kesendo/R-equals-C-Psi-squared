@@ -27,7 +27,8 @@ breaks; see the thesis.)*
 
 ## The thesis
 
-Decoherence is the Hawking mechanism, operating in operator space instead of spacetime.
+This page tests a Hawking analogy for a shifted spectral mirror. It does not
+establish a Hawking mechanism in operator space.
 
 At a black hole horizon, the two partners of a vacuum fluctuation end up on opposite sides. One falls in and adds to the mass. The other escapes as thermal radiation. This is the Hawking effect: one event creates mass and temperature at once, from nothing.
 
@@ -143,11 +144,20 @@ The direct-sum structure has dynamical consequences. The same eigenvalue spectru
 
 The palindromic pairing maps each decay rate d to its partner 2Σγ − d. A mode at d (slow, long-lived) and its partner at 2Σγ − d (fast, short-lived) are not two events seen by two observers; they are two modes of one ρ, related by Π. The [Spectral Midpoint Hypothesis](SPECTRAL_MIDPOINT_HYPOTHESIS.md) quantifies the asymmetry: at the CΨ = 1/4 crossing for N=5, the SLOW band carries 45% when modes are labeled by decay rate d, but 8% when labeled by their palindromic partner 2Σγ − d. Same spectrum, two readings.
 
-Only at the palindromic midpoint (d = Σγ) do the two readings agree. A self-paired mode returns the same decay rate either way: 2Σγ − Σγ = Σγ. This is the "glass wall" of the Spectral Midpoint Hypothesis: the one place where the two readings of the algebra give identical weight.
+At the rate midpoint `d=Sigma gamma`, the two *rate labels* agree. That does not
+make the eigenvalue self-fixed under linear F1: linear self-fixing requires the
+full complex equality `lambda=-Sigma gamma`, including zero imaginary part.
+The entire centre line is fixed only by the composite map
+`lambda -> -conj(lambda)-2 Sigma gamma`. The "glass wall" is therefore a rate
+bookkeeping image, not a census of Π-fixed modes.
 
-The Einstein-Rosen bridge has the same algebraic shape. For a distant observer the infall takes infinitely long; for the infaller it is finite; the horizon is where the two readings would have to agree. Gaztañaga gives this an explicitly geometric substrate (two spacetime regions). Our system gives it an algebraic substrate (two parity-classes of one ρ). The phenomenology (lopsided spectrum, glass wall at the midpoint) is the same; the substrate is one density matrix, not two manifolds.
+The Einstein-Rosen comparison remains Tier 5. Gaztañaga uses two spacetime
+regions; this calculation uses two parity classes of one operator algebra. A
+shared midpoint picture does not establish shared phenomenology or geometry.
 
-Within the palindromic pairing, the immune modes (rate 0) pair with the maximally-decaying modes (rate 2Σγ). The immune partner dominates the late-time state (what we call mass). The maximally-decaying partner releases its energy on the way out as radiation. The mass/radiation split (the Hawking content of Link 3) is the two halves of one Π-pair, each contributing a distinct phase of the dynamics.
+Within the F1 scope, a zero eigenvalue has a partner at `-2 Sigma gamma`.
+This is an eigenvalue relation only. Pure dephasing supplies no energy flux, so
+neither member is identified here as mass or radiation.
 
 "SLOW" and "FAST" are reading-conventions, not locations. The palindrome has no preferred half. Each rate is the partner of the other under Π; both belong to the same algebra acting on the same state. To call the SLOW reading "ours" is to choose a labeling; the structure that makes the choice meaningful is the palindrome itself, which carries both readings at once.
 
@@ -175,7 +185,7 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 | Infalling partner → mass | I/Z sector: kernel of dissipator (stationary classical structure) | 5 |
 | Escaping partner → Hawking radiation | No established counterpart; F1 gives a decay endpoint, not heat | 5 analogy |
 | Hawking temperature T_H = 1/(8πM) | Fold threshold Σγ_crit/J ≈ 0.25-0.50%, N-independent (scaling mismatch, see "What breaks the analogy" #1) | 4 |
-| Horizon (irreversible crossing) | Fold at CΨ = 1/4 (monotonic, dCΨ/dt < 0) | 1 |
+| Horizon (irreversible crossing) | No established counterpart; the CΨ quarter is a separate diagnostic | 5 analogy |
 | Two spacetime regions, opposite time | V_even, V_odd parity-classes of one operator algebra; L_odd = −Π L_even Π⁻¹ − 2Σγ I | 1 |
 | Discrete isometry exchanging regions | Π conjugation (per-site: I↔X, Y↔iZ) | 1 |
 | Superselection (no crossing between regions) | \[P_XY, L\] = 0 | 1 |

@@ -1,284 +1,78 @@
-# The Three Levels of Time: Why Noise Is What Makes Clocks Tick
+# Gamma Sets a Dissipative Scale; It Does Not Define Time
 
-<!-- Keywords: gamma dephasing experienced time three levels, parameter time
-vs experienced time distinction, gamma necessary sufficient irreversibility,
-Bell+ frozen zero noise no time, oscillation recurrence not clock, absorbing
-boundary requires gamma, J provides content gamma provides arrow,
-tau=gamma*t scaling breaks, R=CPsi2 gamma time -->
+<!-- Keywords: gamma dephasing timescale, parameter time, finite trajectory
+comparison, tau gamma t scaling, no experienced-time ontology -->
 
-**Status:** Computed trajectory comparison (Tier 2); experienced-time interpretation open (Tier 5)
-**Date:** March 22, 2026
+**Status:** Computed finite trajectory comparisons (Tier 2); no time ontology
+**Date:** March 22, 2026; current-state rewrite September 4, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Scripts:** [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py), [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py), [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py)
+**Evidence:** [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py),
+[gamma_unit_scaling_gate.py](../simulations/gamma_unit_scaling_gate.py)
 
 ---
 
-## What this document is about
+## Result
 
-Think about what "time" means in everyday life. Not the number on a
-clock, but the feeling that things move forward: that milk spills and
-does not unspill, that you age and do not un-age, that decisions, once
-made, stay made. Physicists call this the "arrow of time," the
-difference between past and future.
+In the declared Lindblad models, `t` is the evolution parameter, `J` sets a
+coherent rate, and `gamma` sets a dissipative rate. The dimensionless
+trajectory depends on ratios such as `Q = J/gamma`; changing gamma while
+holding J fixed changes both the scale and the trajectory's shape. Gamma is
+therefore neither time itself nor a sufficient description of a clock.
 
-This document asks: what creates that arrow in a quantum system? The
-answer turns out to be surprisingly specific. There are three things
-that people might call "time," and only one of them is the real arrow.
-The mathematical parameter t (just a number in an equation) exists
-trivially. Oscillation (things swinging back and forth, like a
-pendulum) looks like change but always comes back to where it started.
-Dephasing noise (gamma) creates damping in the tested reduced models. Whether
-that damping is the origin of experienced time is not an operational claim in
-this repository.
+This document makes no claim about experienced time, a fundamental arrow of
+time, or the microscopic origin of gamma.
 
-The experiment is simple and dramatic. Take a quantum system with no
-noise: it either sits perfectly still forever, or it oscillates in
-circles, returning to exactly where it started. Turn on even a tiny
-amount of noise: things decay, decisions become permanent, past and
-future become distinguishable. γ is not just correlated with the time
-arrow. The simulations test recurrence and damping, not necessary or
-sufficient conditions for experience.
+## What was actually computed
 
----
+The finite two-qubit comparison used two preparations:
 
-## Abstract
+- At `gamma = 0`, the tested Bell-plus preparation is stationary under the
+  chosen Hamiltonian, while the tested `|01>` preparation evolves unitarily
+  and recurrently.
+- At positive gamma, those same finite trajectories show damping in the
+  declared Markovian dephasing model.
+- Matching only `tau = gamma*t` while holding J fixed does not collapse all
+  observables, because this also changes `Q = J/gamma`.
+- Under the joint rescaling `L(lambda J, lambda gamma) = lambda L(J, gamma)`,
+  with Q held fixed and time rescaled inversely, the compared trajectories
+  collapse to numerical precision.
 
-Time has three levels: (1) the formal parameter t in d/dt (syntax, trivial),
-(2) observable change (oscillation or stillness), and (3) a proposed
-experienced-time reading (direction, irreversibility, before/after). Without γ: Bell+ is frozen
-(zero observable change over t=0 to 50); |01⟩ oscillates in circles (127
-crossings of ¼ in both directions, recurrence at t=11). With γ: CΨ crosses
-¼ once and stays below (absorbing boundary), purity (a measure of how
-far the state is from maximum mixedness) decays irreversibly,
-the trajectories become distinguishable by decay. J=0 with γ>0 damps;
-J>0 with γ=0 evolves unitarily. However, τ=γt does not universally scale all
-observables (deltas up to 0.86): γ provides the arrow, J provides the
-content. Neither alone is the full experience.
+These observations distinguish stationary, recurrent, and damped trajectories
+in a small declared model. They are not necessary or sufficient conditions
+for experience, memory, or a thermodynamic arrow.
 
----
+## What the old argument got wrong
 
-## The Three Levels
+Earlier versions promoted the finite comparison into the statements "gamma is
+time" and "without gamma there is no time." Neither follows. Hamiltonian
+dynamics still uses `t` at `gamma = 0`; a stationary preparation says something
+about that preparation, not about whether time exists; and dissipative damping
+does not by itself define experience.
 
-The word "time" hides three completely different things. This table
-separates them. The key insight is in the third row: only γ (noise)
-creates the kind of time we actually experience.
+The former producer
+[gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py) and its
+[committed output](../simulations/results/gamma_is_time_proof.txt) are retained
+as withdrawal-safe tombstones. They do not supply trajectory evidence.
 
-| Level | Without γ | With γ |
-|-------|-----------|--------|
-| t as symbol in d/dt | Yes (trivially, syntax) | Yes |
-| t as observable change | Oscillation or stillness | Irreversible decay |
-| proposed experienced-time reading | recurrent/stationary in tested cases | damped in tested cases |
-
-Gamma has no bearing on Level 1 (the formal parameter). At Level 3 the page
-offers an interpretation: gamma supplies the tested decay scale while J
-supplies coherent motion. The calculations do not define experience.
-
----
-
-## The Evidence
-
-The following three experiments show what "time" looks like with and
-without noise. Bell+ is a maximally entangled state (two qubits
-perfectly correlated). |01⟩ is a simple product state (one qubit up,
-one qubit down). CΨ is our composite diagnostic that measures how
-quantum the system is (see [What We Found](WHAT_WE_FOUND.md)).
-
-### Bell+ at γ=0: time runs, but nothing happens
-
-The parameter t goes from 0 to 50. Every observable is constant: CΨ = 0.3333,
-concurrence = 1.0, trace distance (the standard measure of how distinguishable two quantum states are) = 0.0000 at every time step. From inside
-the system, t=0 and t=50 are identical. The "time" runs, but there is no time.
-
-### |01⟩ at γ=0: time runs in circles
-
-CΨ oscillates, crossing 1/4 in both directions 127 times. Recurrence at t=11.
-The system returns to its initial state. There is change, but no direction.
-No observable accumulates irreversibly. The 1/4 boundary is meaningless
-without γ: the system crosses it freely and returns.
-
-### |01⟩ at γ=0.05: time runs forward
-
-CΨ crosses 1/4 once and stays below (absorbing boundary). No recurrence.
-Purity decays from 1.0 to 0.5. 16/16 palindromic pairs in the spectrum.
-Things happen that do not unhappen. Past and future are distinguishable.
-
----
-
-## The Tests Reinterpreted
-
-The following section revisits the original tests from the disproof
-attempt and explains what each one actually shows. The key distinction
-throughout: a frequency (swinging back and forth) is not a clock
-(counting forward and never coming back).
-
-**Test 1 (γ=0 evolution):** The parameter t exists without noise. But
-Bell+ at γ=0 shows: t runs from 0 to 50 with zero observable change.
-Experienced time does not exist without noise. |01⟩ oscillates but
-recurs. No direction, no accumulation, no clock.
-
-**Test 2 (same τ, different t):** The Hamiltonian phase J*t differs
-between systems at the same τ=γt. But this phase is periodic (oscillation,
-not accumulation). It provides a frequency, not a clock. A clock requires
-irreversible counting. Oscillation is reversible.
-
-**Test 3 (Hamiltonian clock):** The Hamiltonian has its own FREQUENCY
-(0.5994, independent of γ). Frequency is not a clock. A clock counts
-forward and does not come back. The Hamiltonian oscillation comes back
-(recurrence at t=11). Without γ, there is no clock.
-
-**Test 4 (Multi-γ simultaneity):** Different γ values coexist at the
-same formal t. This is because t is a mathematical coordinate. The
-the local decay scale depends on its local gamma. Different gamma means a
-different dissipative clock reading, not necessarily different experience.
-
-**Test 6 (Π reversal):** Π does not reverse the decay envelope
-(D = 0.39 after Π + forward evolution). This confirms that the
-irreversible part (the time arrow, caused by γ) cannot be undone.
-Π reverses the centered eigenvalues (the structure of the arrow),
-not the arrow itself.
-
----
-
-## Scope of the interpretation
-
-The [two_qubits_no_noise](../simulations/two_qubits_no_noise.py) experiment
-shows a frozen Bell+ state and recurrent |01⟩ dynamics at gamma=0. The
-gamma-positive cases damp in the stated Lindblad model, while `tau=gamma*t`
-does not collapse trajectories when other dimensionless ratios change. These
-facts motivate a decay-clock interpretation; they do not define or explain
-experienced time. The [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md)
-establishes openness, not a time ontology.
-
----
-
-## Precise Language
+## Precise language
 
 | Statement | Status |
-|-----------|--------|
-| γ supplies an experienced-time ontology | Open interpretation; the computation establishes a decay scale only |
-| The formal parameter t exists without γ | Correct (Level 1, trivial) |
-| The Hamiltonian provides a frequency | Correct (but frequency is not a clock) |
-| At gamma=0, the two tested initial states are stationary or recurrent | Confirmed for Bell+ and \|01⟩ in the declared model |
-| The 1/4 boundary is absorbing | Only with γ. Without γ: 127 crossings both ways. |
+|---|---|
+| Gamma sets a dissipative timescale in the declared generator | Established by the model definition |
+| The tested positive-gamma trajectories damp | Finite numerical observation |
+| The tested zero-gamma trajectories are stationary or recurrent | Finite numerical observation for two preparations |
+| `tau = gamma*t` universally determines the trajectory | False when other dimensionless ratios change |
+| Gamma defines experienced time or its origin | Not established |
+| A nonzero dissipator identifies its microscopic source | Not established; see the [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) |
 
----
+## Reproduction
 
-## The computation behind the experienced-time reading
+Run:
 
-The following proof has three parts. Part 1 shows that γ produces
-selected recurrence and damping diagnostics. Part 2 compares gamma with
-Hamiltonian-only motion in those cases. Part 3 tests whether γ and t are
-fully interchangeable (they are not: γ provides direction, the
-Hamiltonian coupling J provides content). The tables below are in
-German because they were written during the original investigation;
-the conclusions are summarized in English at the end.
+```bash
+python simulations/two_qubits_no_noise.py
+python simulations/gamma_unit_scaling_gate.py
+```
 
-Three-part proof. Script: [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py).
-Data: [gamma_is_time_proof.txt](../simulations/results/gamma_is_time_proof.txt).
-
-### Part 1: Selected damping diagnostics
-
-| Property | \|01⟩ γ=0 | \|01⟩ γ=0.05 | Bell+ γ=0 | Bell+ γ=0.05 |
-|----------|---------|------------|-----------|-------------|
-| S monoton steigend | Nein | Nein | Ja (trivial: S=1 konstant) | Ja |
-| D kehrt nicht zurück | Nein (Rekurrenz) | Ja | Nein (immer 0) | Ja |
-| CΨ Kreuzungen ↓/↑ | 63/64 | 2/2 | 0/0 | 1/0 |
-| ‖dρ/dt‖ bei t=50 | 2.81 | 0.02 | 0.00 | 0.00 |
-
-Ohne γ: Rekurrenz (|01⟩) oder Stillstand (Bell+). Mit γ: Konvergenz
-zum Steady State.
-
-Anmerkung: |01⟩ bei γ=0.05 zeigt S NICHT monoton steigend und CΨ
-kreuzt 2× in beide Richtungen. Die Oszillation vom Hamiltonian
-moduliert den Zerfall. Die reine Monotonie gilt nur für J=0 oder
-für Bell+ (Eigenzustand von H, keine Oszillation).
-
-### Part 2: Gamma damping versus Hamiltonian-only recurrence
-
-| Konfiguration | S monoton | D kehrt nicht zurück | CΨ einmalig | Gemessene Dynamik |
-|---------------|-----------|---------------------|-------------|--------------------|
-| J=0.1, γ=0.05 | Nein | Ja | Ja | gedämpft, moduliert |
-| J=1.0, γ=0.05 | Nein | Ja | Nein | gedämpft, moduliert |
-| J=10, γ=0.05 | Nein | Ja | Nein | gedämpft, moduliert |
-| **J=0, γ=0.05** | **Ja** | **Ja** | **Ja** | **reiner Zerfall** |
-| J=1.0, γ=0 | Nein | Nein | Nein | unitär, rekurrent |
-
-**J=0, γ>0:** Reiner Zerfall, kein Hamiltonian.
-S steigt monoton. D kehrt nicht zurück. CΨ kreuzt einmalig abwärts.
-Diese Zeilen messen Zerfall; sie operationalisieren keine Erfahrung.
-
-**J>0, γ=0:** Oszillation, Rekurrenz.
-Kein Observable akkumuliert irreversibel.
-
-Diese beiden Modellfälle zeigen keine Notwendigkeit oder Hinreichendheit für
-erlebte Zeit.
-
-### Part 3: Äquivalenz - τ=γt als universelle Skala
-
-| Observable (irreversibel) | max Δ(τ;γ₁,γ₂) | τ-Skalierung? |
-|---------------------------|-----------------|---------------|
-| S(ρ_A) | 0.790 | Nein |
-| Tr(ρ²) | 0.057 | Nein |
-| CΨ | 0.259 | Nein |
-| Concurrence | 0.861 | Nein |
-| arg(ρ₀₁) | 0.000 | Ja (trivial) |
-
-**Die τ-Skalierung bricht.** Die irreversiblen Observablen kollapsen
-NICHT auf eine einzige Kurve in τ=γt. Der Grund: der Hamiltonian und
-der Dissipator interagieren. Die Oszillation (von J) moduliert den
-Zerfall (von γ) und umgekehrt. Das J/γ-Verhältnis bestimmt die Form
-der Trajektorie, nicht nur die Skala.
-
-**Why this does not contradict the K-invariance, and the reason is the state**
-(rewritten 2026-08-29; the earlier note here gave a different reason and it was
-wrong). [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md) reports
-K = γ·t_cross constant, and this section reports the trajectory not collapsing
-in τ. Both are right, and the earlier note explained the difference by saying
-that only the CROSSING TIME scales with τ while the full trajectory does not.
-That cannot be the reason: a crossing time of an observable that does not
-collapse in τ has no reason to scale either.
-
-The difference is the initial state. Crossing Taxonomy runs **Bell⁺**, which is
-an eigenstate of the Heisenberg Hamiltonian, and Z-dephasing keeps it in that
-sector, so J never enters its trajectory and its observables really are
-functions of τ alone. This section runs **|01⟩**, which is not. The mechanism is
-measured rather than argued: the commutator [H, ρ_Bell⁺] is zero in every entry,
-against a largest magnitude of 2.0 for |01⟩, and at fixed J the purity curves at
-matched τ collapse to 6.7·10⁻¹⁶ for Bell⁺ against 4.6·10⁻² for |01⟩
-([`gamma_unit_scaling_gate.py`](../simulations/gamma_unit_scaling_gate.py),
-part F).
-
-This also sharpens what this section already concluded. "Das J/γ-Verhältnis
-bestimmt die Form der Trajektorie" is exactly right, and the reason is that the
-Lindblad generator's scaling symmetry is **joint**, L(λJ, λγ) = λ·L(J, γ)
-([Q Scale Three Bands](../experiments/Q_SCALE_THREE_BANDS.md), Tier 1). Holding
-J while sweeping γ over a factor 20 therefore sweeps Q = J/γ from 100 down to 5:
-the deviations tabulated above measure how far apart five different systems are,
-not a failure of a symmetry. Scaled jointly, with Q held, the same observables
-collapse to 10⁻¹⁴.
-
-### Die ehrliche Schlussfolgerung
-
-**Was berechnet ist:**
-- Die getesteten gamma=0-Fälle sind stationär oder rekurrent.
-- Die getesteten gamma>0-Fälle zeigen dissipative Konvergenz.
-- J und gamma bestimmen gemeinsam die dimensionslose Trajektorienform.
-
-**Was NICHT bewiesen ist:**
-- Dass erlebte Zeit = τ=γt (die volle Trajektorie skaliert nicht mit τ)
-- Dass γ und t vollständig äquivalent sind (J moduliert den Zerfall)
-
-**Die präzise Behauptung:** Gamma setzt in den deklarierten Lindblad-Modellen
-eine Zerfallsskala; J setzt eine kohärente Rotationsskala. Ihre Verhältnisse
-bestimmen die Trajektorie. Die Identifikation mit erlebter Zeit bleibt offen.
-
----
-
-## References
-
-- [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): openness theorem; no experienced-time corollary
-- [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md): gamma-clock interpretation and its limits
-- [two_qubits_no_noise.py](../simulations/two_qubits_no_noise.py): what time looks like without γ
-- [disprove_gamma_is_time.py](../simulations/disprove_gamma_is_time.py): the original tests (data valid, interpretation corrected)
-- [gamma_is_time_proof.py](../simulations/gamma_is_time_proof.py): three-part trajectory comparison (damping diagnostics, gamma/Hamiltonian contrast, scaling)
-- [gamma_is_time_proof.txt](../simulations/results/gamma_is_time_proof.txt): raw results
+Interpret the resulting numbers only within their stated system, preparation,
+time window, and observable set.

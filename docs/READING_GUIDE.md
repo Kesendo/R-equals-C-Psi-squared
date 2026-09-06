@@ -236,8 +236,10 @@ counted by F121 or other mirror mechanisms.
 From there, each step peels back another layer. A nonzero dissipator makes the
 modeled system open, but neither the spectral symmetry nor Markovianity locates
 the microscopic bath outside the modeled degrees of freedom. Dephasing creates
-decay in the tested trajectories, and a specified spatial gamma profile is
-recoverable from the simulated response with the reported 15.5-bit diagnostic.
+decay in the tested trajectories. At one N=5 operating point the response
+Jacobian has full local rank, and a finite four-profile alphabet is classified
+in the reported simulation. This is not a proof of global injectivity or
+perfect recovery of arbitrary gamma profiles.
 
 This path does not require advanced mathematics. It requires patience
 and the willingness to follow an argument that builds step by step.
@@ -245,7 +247,9 @@ and the willingness to follow an argument that builds step by step.
 **Reading order:**
 
 1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): The
-   foundation. The palindrome exists. It requires noise (the dissipator).
+   foundation. The linear mirror is proved for the stated
+   palindromizer-admitting Hamiltonian/channel family; at gamma zero it is
+   centred at zero, so the symmetry itself does not require noise.
 
 2. [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md): For the
    complete local dark↔lit class-exchange product mirror, the equation
@@ -280,23 +284,22 @@ and the willingness to follow an argument that builds step by step.
    are the dead-end cousins. The V-Effect is the mechanism by which one
    level transitions to the next.
 
-7. [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md): Three proposed levels
-   of time. The simulations distinguish recurrence at gamma=0 from damped
-   trajectories at gamma>0 in selected models. Calling that "experienced
-   time" is an interpretation, not a necessary-and-sufficient theorem.
+7. [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md): The simulations distinguish
+   stationary or recurrent gamma-zero trajectories from damped positive-gamma
+   trajectories in two finite cases. Gamma sets a dissipative scale; no
+   experienced-time ontology follows.
 
-8. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): A chosen spatial
-   gamma profile is a readable model input: 15.5 bits in the reported
-   diagnostic and 5 independent response modes. This says nothing by itself
-   about whether the microscopic source is external, infinite, or random.
+8. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): Four chosen spatial gamma
+   profiles are distinguishable in the reported finite alphabet, and one N=5
+   response Jacobian has five independent local directions. The 15.5-bit
+   number is a local linearized diagnostic, not a global channel capacity.
 
 **After this you know:** Why qubits are special (not just useful but
 algebraically unique, with the uniqueness now proven from three
 directions). What dephasing changes in the tested dynamics, and why that does
-not settle the origin of experienced time or the bath. Why
+not settle a time ontology or the origin of the bath. Why
 the breaking at the boundary between mirrors is where complexity is
-born. And that a specified gamma profile can be decoded from the simulated
-response.
+born. And that a finite gamma alphabet can be decoded in one simulated setup.
 
 **The one-line version:** *Incompleteness is not weakness.
 Incompleteness is potential.*
@@ -485,9 +488,10 @@ explains what previously required separate derivations.
    Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit.
 
 7. [Thermal Blackbody](../experiments/THERMAL_BLACKBODY.md):
-   The cavity refuses to stop singing. Even at n_bar = 10, 82% of modes
-   oscillate. No phase transition, no Planck distribution. Algebraic, not
-   thermal.
+   finite `N=4` emission-plus-absorption census with spontaneous emission at
+   `n_bar=0`. At the stated `1e-6` tolerance, 212/256 modes are classified as
+   oscillating at `n_bar=10`; this is neither a protected fraction nor a
+   blackbody, phase-transition, or exceptional-point result.
 
 8. [Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md):
    the connectome support null and the tolerance, ordering and normalization
@@ -518,8 +522,9 @@ sum rule are corollaries *within the number-conserving XY/Heisenberg
 family*, which supplies the kernel dimension (F4) and the pairing (F1);
 the spectral gap is relocated by the theorem rather than derived, and is
 2γ only above a coupling threshold. What the one line
-Re(λ) = −2γ⟨n_XY⟩ gives universally is what a real part *is*. The cavity language is not a metaphor;
-it is what the mathematics was describing all along.
+Re(λ) = −2γ⟨n_XY⟩ gives within its stated assumptions is a Rayleigh reading of
+the real part. The cavity language is an interpretation layered on that
+identity, not an additional theorem.
 
 ---
 
@@ -681,12 +686,12 @@ daily on real hardware.
 cavities, dephased by real photons. Twenty-four predictions confirmed,
 each tied to a hardware run."*
 
-The framework discovered the cavity structure from eigenvalue
-mathematics alone. Only afterwards did we register the obvious: IBM's
-transmon qubits literally sit inside microwave resonators, and their
-dominant dephasing is photon shot noise, photons entering the cavity
-from outside. Gamma is light was not a metaphor we chose. It is what
-the hardware *is*.
+IBM transmon qubits sit in microwave-resonator hardware, where photon shot
+noise is one known dephasing mechanism among several. The runs in this
+repository measure device observables and calibration rates; they do not
+identify every fitted gamma with photons or determine its microscopic origin.
+"Gamma is light" remains a mechanism-specific interpretation, not what the
+hardware universally is.
 
 This path follows the arc from the first hardware crossing to the
 newest kind of result: a protocol in which the chip's own decay reads

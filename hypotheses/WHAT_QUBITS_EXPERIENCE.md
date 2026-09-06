@@ -6,7 +6,7 @@
 **Date:** April 1, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Depends on:**
-- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (γ = experienced time)
+- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (open-system decay-clock scale; no experienced-time identification)
 - [Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md) (cross term)
 - [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (Pythagorean theorem)
 - [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md) (Σγ = 0 as origin)

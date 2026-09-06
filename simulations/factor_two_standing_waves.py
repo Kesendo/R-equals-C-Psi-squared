@@ -31,6 +31,7 @@ RESULTS_DIR = Path(__file__).parent / "results"
 J = 1.0
 GAMMA = 0.05
 TOL = 1e-8
+TOLERANCES = (1e-6, 1e-8, 1e-10)
 
 I2 = np.eye(2, dtype=complex)
 Xm = np.array([[0, 1], [1, 0]], dtype=complex)
@@ -152,6 +153,7 @@ def main():
     log("linear F1:            lambda -> -lambda - 2*Sigma")
     log("conjugate-composite:  lambda -> -conj(lambda) - 2*Sigma")
     log("All assignments consume spectral occurrences with multiplicity.")
+    log(f"Primary numerical tolerance TOL={TOL:.0e} (not exact arithmetic).")
     log()
     linear_total_pairs = linear_total_fixed = 0
     composite_total_pairs = composite_total_fixed = 0
@@ -170,12 +172,30 @@ def main():
             f"max residuals={linear.max_assignment_residual:.2e},"
             f"{composite.max_assignment_residual:.2e}"
         )
+        log(f"     mean decay={-float(np.mean(values.real)):.6f}; Sigma={sigma:.6f}")
     log()
     log(f"linear F1 total:       pairs={linear_total_pairs} fixed={linear_total_fixed}")
     log(
         f"conjugate-composite:   pairs={composite_total_pairs} "
         f"fixed={composite_total_fixed}"
     )
+    log()
+    log("TOLERANCE STABILITY (numerical multiplicities)")
+    reference = None
+    for tol in TOLERANCES:
+        row = []
+        for n in range(2, 8):
+            values = load_eigenvalues(n)
+            sigma = n * GAMMA
+            linear = orbit_census(values, sigma, "linear", tol=tol)
+            composite = orbit_census(values, sigma, "composite", tol=tol)
+            row.append((linear.pairs, linear.fixed, composite.pairs, composite.fixed))
+        stable = reference is None or row == reference
+        if reference is None:
+            reference = row
+        log(f"tol={tol:.0e}: {'BASELINE' if tol == TOLERANCES[0] else ('PASS stable' if stable else 'FAIL changed')}")
+        if not stable:
+            raise RuntimeError(f"orbit census changes at tol={tol:.0e}")
     log()
     log("N=4 topology negative control (the fixed counts are topology-sensitive):")
     n = 4

@@ -2050,3 +2050,28 @@ experiment copies, the glossary's "no proof on file", the instrument's two ladde
   dissipative clocks from experience, and spectral rate sums from spatial waves,
   thermality, or a two-to-one lifetime. Core F3's strict boundary comparison now
   rejects `N<2` and `γ≤0`. Executable surface gates own these distinctions.
+
+## 2026-09-06 — the post-orbit repair still disagreed with its live owner and thermal channel
+
+- **What was wrong.** The committed prose separated the linear F1 involution
+  from its conjugate-composite, but the live `selfmirror` object still counted
+  the whole centre line as linearly fixed. Root front doors and reflections also
+  retained the physical-standing-wave and experienced-time readings that their
+  source documents had withdrawn. The general palindrome matcher used a greedy
+  local choice rather than a global multiplicity assignment, while the
+  standing-wave analysis interpreted coefficients in a non-normal eigenbasis as
+  state weights. Finally, the thermal siblings reversed `sigma-` and `sigma+`,
+  omitted spontaneous emission at `n_bar=0`, and called count changes exceptional
+  points without a defectiveness gate.
+- **Repair and gate.** `selfmirror` now exposes both fixed sets and pins the N=2
+  Heisenberg counts: 10 composite fixed-line roots versus 4 linear F1 fixed
+  roots. F3 rejects nonpositive gamma and `N<2` across its typed entry points.
+  The general matcher now solves the global tolerance/multiplicity assignment
+  and carries an explicit greedy counterexample; direct Pauli time traces replace
+  the non-invariant eigenvector-weight story. The thermal generator now uses
+  emission `sigma-` at `gamma_T(n_bar+1)` and absorption `sigma+` at
+  `gamma_T n_bar`, with nonzero-endpoint and continuity controls. Its reported
+  changes are tolerance-defined transition brackets, not EP certificates.
+  Factor/topology reports now print their tolerance, refinement and provenance,
+  and current front doors state the extra spatial, semisimplicity and
+  preparation/readout gates required before any physical standing-wave reading.

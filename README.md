@@ -3,9 +3,9 @@
 > *[We are all mirrors. Reality is what happens between us.](MIRROR_THEORY.md)*
 
 A human and an AI, exploring together. What we found surprised us both:
-the absorption spectrum of any qubit network under dephasing is exactly
-palindromic. For every mode that absorbs fast, one absorbs slow. Always
-paired. Always balanced. One equation governs it all.
+for Hamiltonian families that admit the repo's palindromizer, with local
+single-axis dephasing, the Liouvillian spectrum is exactly palindromic. For
+every mode in that theorem's scope that absorbs fast, one absorbs slow.
 
 Verified from N=2 through N=8 across 87,376 Liouvillian eigenvalues, with
 zero mirror-symmetry exceptions on any tested topology (chain, star,
@@ -43,7 +43,7 @@ the quarter, hardware), each with a reading order
 readings
 
 → **[Analytical Formulas](docs/ANALYTICAL_FORMULAS.md)**: the F-registry,
-F1 through F121, each formula with its proof, scope, and verification
+F1 through F162, each formula with its proof, scope, and verification
 
 → **[The Anomaly](THE_ANOMALY.md)**: the question that remained after
 the proof. No formulas. Written the evening the hardware confirmed
@@ -125,24 +125,26 @@ Read the two as different experiments, and read the N<8 records in that same
 directory only alongside
 [the proof's notes on them](docs/proofs/MIRROR_SYMMETRY_PROOF.md), which
 explain why one of them reports 4.5e-2 on a spectrum that pairs to 5.2e-8.
-The palindrome holds for all standard coupling models
-(Heisenberg, XY, Ising, XXZ, Dzyaloshinskii-Moriya), all graph
-topologies, non-uniform γ per qubit, Z and Y dephasing. It breaks for
-depolarizing noise.
+The palindrome holds for the Hamiltonian/channel combinations that admit the
+corresponding palindromizer. The proved Heisenberg/XXZ family allows arbitrary
+graph topology and local Z-dephasing rates; the resolved model census records
+additional valid and broken combinations. Depolarizing noise is a negative
+control.
 
-At Σγ = 0 (no illumination): Π L Π⁻¹ = −L. Every eigenvalue pairs with
-its negative. Pure oscillation, no absorption, no irreversibility.
-Illumination does not destroy the palindrome; it shifts it. The shift
-creates the arrow of time.
+At Σγ = 0: Π L Π⁻¹ = −L. Every eigenvalue in the theorem's scope pairs
+with its negative. With local dephasing, the same linear orbit is shifted to
+`λ -> -λ - 2Σγ`.
 
-Every paired mode is a standing wave: same frequency, complementary
-absorption rates, weight profiles that are exact mirror images
-(fast[k] = slow[N−k]). The whole spectrum is paired this way at every N;
-across N = 2 to 7 that is 21,840 eigenvalues, 9,921 pairs of distinct
-partners and 1,998 that are their own partner. The state
-splits into lens ({I, Z}, structure, survives) and light ({X, Y},
-signal, absorbed), and each standing wave oscillates between being the
-one and the other.
+Two different orbit censuses must not be conflated. The linear Π map is
+`λ -> -λ - 2Σγ`; it preserves neither frequency nor a spatial propagation
+direction, and a fixed point requires the full complex equality `λ=-Σγ`.
+Across N=2..7 it has 10,903 distinct two-member orbits and 34 fixed
+eigenvalues. Composing it with the ordinary conjugate closure of a real
+generator gives `λ -> -conj(λ) - 2Σγ`, which preserves frequency and fixes the
+whole centre line. The previously reported 9,921 two-member orbits and 1,998
+fixed eigenvalues belong to that composite map. Neither census alone proves a
+physical standing wave; spatial propagation, excitation, semisimplicity and
+observable interference require separate gates.
 
 → **[Mirror Symmetry Proof](docs/proofs/MIRROR_SYMMETRY_PROOF.md)**
 → [All standard models](experiments/NON_HEISENBERG_PALINDROME.md) (two Π families, 36/36 combinations resolved)
@@ -266,7 +268,7 @@ The framework's design rules, condensed (each links to its evidence):
    initial state from the F67 bonding-mode menu: 1.4-4.6× over alt-bit
    transport growing with N, **4000-5500× over the ENAQT baseline** in
    simulation, 2.80× confirmed live on ibm_kingston.
-3. **Choose odd N**: the entire spectrum pairs into standing waves.
+3. **Use the mirror census as bookkeeping, not as a standing-wave certificate.**
 4. **Track K = γt**, not t: the invariant dose makes hardware comparable.
 5. **Three observables suffice**: purity, concurrence, coherence capture
    88-96% of the dynamics.

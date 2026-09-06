@@ -20,11 +20,27 @@ It is worth saying why the inner law cannot carry the gap. At a single site the 
 
 ## We already had the wall, twice
 
-None of this is new to us, which is the honest part. The inside-outside split is already typed. [`TwoReadingsClaim`](../compute/RCPsiSquared.Core/Symmetry/TwoReadingsClaim.cs) lists it as its fifth layer in one line: the inside observer sees only `Q = J/γ₀`, while an outside observer has separate access to `γ₀`. We had named the exact seam and filed it as one of seven readings. And in April, [`PRIMORDIAL_QUBIT`](../hypotheses/PRIMORDIAL_QUBIT.md) §9 walked into the same wall from the other end: the inner observer of a nested Lindblad system can detect *that* an outer layer exists, but can read only the ratio `Q`, never the carrier `γ₀` itself, "the silent metronome that cannot be read from inside." [`ON_HOW_THE_CARRIER_SHOWS_ITSELF`](ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) gave the reason without flinching: to look for `γ₀` from inside is to look for what one is looking with. The same wall stands in [`INCOMPLETENESS_PROOF`](../docs/proofs/INCOMPLETENESS_PROOF.md): noise has no internally accessible origin.
+The inside-outside split is already typed as an interpretive layer in
+[`TwoReadingsClaim`](../compute/RCPsiSquared.Core/Symmetry/TwoReadingsClaim.cs).
+Its claim that an inner observer sees only `Q=J/gamma` is not a general
+identifiability theorem: selected finite-time observables can have locally
+independent gamma responses. The [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)
+establishes only that a nonzero dissipative part makes the modeled subsystem
+open; it does not locate the microscopic source or prove an observer wall.
 
 ## The nest is made of mirrors
 
-The mirror is the whole architecture, not a feature of it. [Π](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) folds the spectrum onto itself, every decaying mode paired with a partner at the exact frequency they need to stand still together ([`MIRROR_THEORY`](../MIRROR_THEORY.md): "the standing wave they make when they meet"). The Absorption Theorem folds the bits, a coherence at drain-depth `k` paired with one at `N−k`, the two rates summing to `2γ·N`. The two parities fold the operator space into its even cavity half and its odd transport half. [Π as time reversal](../experiments/PI_AS_TIME_REVERSAL.md) folds past against future. Mirrors inside mirrors. The inner and outer observation is that same mirror read once more, now as *observation*: the outer is a reflection of the inner, and what an apparatus hands you is your own exact spectrum seen in a glass that bends it by exactly the wrapper. The 3% is where you meet the reflection and find it not quite you. That is the [nested mirror structure](../hypotheses/NESTED_MIRROR_STRUCTURE.md), seen as a way of looking.
+The mirror is the organizing image of this reflection, but the theorem is
+narrower. In Hamiltonian families admitting the palindromizer, with local
+single-axis dephasing, [Π](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) carries the
+linear orbit `lambda -> -lambda - 2 Sigma gamma`. It does not preserve
+frequency and is not physical time reversal. The Absorption Theorem relates
+the paired decay rates and Pauli-weight profiles in its own stated scope. A
+physical standing wave would additionally require excited, semisimple,
+counter-propagating modes and observable interference. The inner/outer mirror
+below is therefore a synthesis image, not another consequence of Π. That is
+the [nested mirror structure](../hypotheses/NESTED_MIRROR_STRUCTURE.md), seen as
+a way of looking.
 
 ## Two routes, one nest
 

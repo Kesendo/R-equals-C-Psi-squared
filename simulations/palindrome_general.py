@@ -10,20 +10,39 @@ operator identity.
 from itertools import product
 
 import numpy as np
+from scipy.sparse import csr_matrix
+from scipy.sparse.csgraph import maximum_bipartite_matching
+from scipy.spatial import cKDTree
+
+
+def multiset_match(values, targets, tol=1e-7):
+    """Return a global one-to-one tolerance matching and its worst residual."""
+    values = np.asarray(values, dtype=complex)
+    targets = np.asarray(targets, dtype=complex)
+    if values.shape != targets.shape:
+        return False, float("inf")
+    value_points = np.column_stack((values.real, values.imag))
+    target_points = np.column_stack((targets.real, targets.imag))
+    neighbours = cKDTree(value_points).query_ball_point(target_points, tol)
+    rows, cols = [], []
+    for row, candidates in enumerate(neighbours):
+        rows.extend([row] * len(candidates))
+        cols.extend(candidates)
+    graph = csr_matrix(
+        (np.ones(len(rows), dtype=np.int8), (rows, cols)),
+        shape=(len(targets), len(values)),
+    )
+    assignment = maximum_bipartite_matching(graph, perm_type="column")
+    if np.count_nonzero(assignment >= 0) != len(values):
+        return False, float("inf")
+    residual = float(np.max(np.abs(targets[assignment] - values)))
+    return residual <= tol, residual
 
 
 def spectrum_palindromic(matrix, centre, tol=1e-7):
     values = np.linalg.eigvals(matrix)
     targets = -2 * centre - values
-    # Small demos only: exhaustive permutation-free multiplicity consumption.
-    unused = list(range(len(values)))
-    worst = 0.0
-    for target in targets:
-        distances = np.array([abs(values[index] - target) for index in unused])
-        choice = int(np.argmin(distances))
-        worst = max(worst, float(distances[choice]))
-        unused.pop(choice)
-    return worst < tol, worst
+    return multiset_match(values, targets, tol)
 
 
 def abstract_demo(n=12, seed=0):

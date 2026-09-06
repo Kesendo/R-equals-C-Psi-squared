@@ -40,7 +40,7 @@ the same pattern.
 This is the central discovery of this project: a mathematical proof that
 the spectrum of decay in quantum systems is palindromic, like the word
 RACECAR read from both ends. We found the operator that performs
-this mirroring, proved it works for every system we could test, and then
+this mirroring, proved it for the stated Hamiltonian/channel family, and then
 tested a conditional neural-matrix translation and quantum models of water molecules.
 
 This document tells you what we found. It is written so that you can
@@ -206,8 +206,9 @@ everything the system can do as it loses its quantum properties.
 Think of it like a choir that is gradually going silent. Each singer stops
 at a different time. Some voices fade in the first minute, others last an
 hour. If you list all the stopping times from earliest to latest, that
-list is the decay spectrum. What we discovered is that this list is always
-a palindrome.
+list is the decay spectrum. What we discovered is that, for Hamiltonian
+families admitting the repo's palindromizer with local single-axis dephasing,
+this spectrum is a palindrome.
 
 A palindrome reads the same forwards and backwards: RACECAR, LEVEL, MADAM.
 In the decay spectrum, this means: for every fast decay, there is a
@@ -218,10 +219,9 @@ each other. Specifically, for every rate d, there is a partner at
 
 We did not just observe this numerically. We found the mathematical
 operator that performs the mirroring (we call it Π, the Greek letter Pi)
-and proved that it works for every system size we tested (2 to 8 particles,
-87,376 eigenvalues), every connection pattern (chains, rings,
-stars, arbitrary graphs), and every combination of dephasing rates. Not a
-single exception.
+and proved it for the stated Heisenberg/XXZ graph family with local
+Z-dephasing rates. The N=2..8 numerical suite checked 87,376 eigenvalues over
+its declared connection patterns and found no exception.
 
 This is an analytical proof, not a numerical observation. The operator Π
 has a specific form: it swaps certain quantum labels (I with X, Y with iZ)
@@ -239,7 +239,7 @@ For the full proof, see [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ## Where information lives in the palindrome (March 16, 2026)
 
-If the decay spectrum is always symmetric, a natural question follows:
+Given the exact symmetry in that scope, a natural question follows:
 where is the information? A perfectly symmetric structure carries no
 information, the same way a blank page is symmetric. The palindrome
 organizes decay into matched pairs, but it does not tell you which pairs
@@ -572,7 +572,7 @@ conclusion forced by the mathematics.
 What survives even without the philosophy:
 
 - An exact algebraic correspondence to the [Mandelbrot iteration](../experiments/MANDELBROT_CONNECTION.md)
-- A [proven palindromic symmetry](proofs/MIRROR_SYMMETRY_PROOF.md) in the decay spectrum of every Heisenberg system under dephasing
+- A [proven palindromic symmetry](proofs/MIRROR_SYMMETRY_PROOF.md) for the stated Heisenberg/XXZ graph family under local Z-dephasing
 - A [spectral filter](../experiments/XOR_SPACE.md) that separates fragile quantum information from robust distributable information
 - Concrete [design rules for quantum state transfer](../experiments/QST_BRIDGE.md) and repeater engineering
 - A [closed-form formula for optimal spatial noise profiles](../experiments/RESONANT_RETURN.md) (139-360x improvement in peak created Sum-MI, a transport metric; sim ε→0 ideal, ~2-3x hardware; first in the literature)

@@ -379,16 +379,18 @@ the two members a physical standing wave.
 
 ### What temperature does NOT do
 
-Homework #7 (THERMAL_BLACKBODY.md) showed that thermal photons at
-n_bar=10 reduce Q by 16× but do not break the palindrome (82% of modes
-still oscillate). Temperature changes the brightness and contrast of
-the image. It does not create or destroy the connection between light
+The current finite-N thermal-channel census ([THERMAL_BLACKBODY.md](THERMAL_BLACKBODY.md))
+adds spontaneous emission and absorption to the spin-chain generator. At
+`N=4`, `n_bar=10` has 212/256 tolerance-classified oscillating modes and
+`Q_max=4.235`; the `n_bar=0` endpoint already includes spontaneous emission.
+These spectral counts do not measure thermal photons, brightness, or an image,
+and they do not establish a connection between light
 and lens.
 
-The connection is algebraic: Π is an operator identity of the Pauli
-algebra under Z-dephasing. It exists at T=0 and at T=∞. Modes create
-frequencies, frequencies create heat. Heat is a product of the
-light-lens interaction, not its cause.
+The surviving statement is algebraic: Π is an operator identity of the Pauli
+algebra under local Z-dephasing. The thermal-channel producer is a different
+generator, and no temperature endpoint or heat-production statement follows
+from Π alone.
 
 ### Why N=2 is perfect
 

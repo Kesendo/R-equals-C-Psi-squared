@@ -6,7 +6,7 @@ quantum MIMO channel, bidirectional quantum bridge, spatial decoherence profile,
 palindromic Liouvillian symmetry, gamma dephasing channel capacity,
 quantum noise is signal not enemy, R=CPsi2 framework -->
 
-**Status:** Computationally verified (all simulations reproducible)
+**Status:** Tier 2 finite N=5 simulations; local identifiability at one operating point, not global recovery
 **Date:** March 22, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** [gamma_signal_analysis.py](../simulations/gamma_signal_analysis.py),
@@ -46,17 +46,18 @@ here, quieter there). Bob, inside the system with access only to quantum
 measurements, reads the system's behavior. Can Bob figure out which
 pattern Alice chose?
 
-The answer is yes. With 100% accuracy. At every measurement time. With
-zero errors.
+For the declared four-profile alphabet and noiseless synthetic features, the
+answer was yes at every sampled measurement time. This is a finite
+classification result, not recovery of an arbitrary profile.
 
-The theoretical capacity of this channel is 15.5 bits at 1% measurement
-noise: enough to encode about 44,700 distinguishable symbols. We were
-using 2 bits (4 symbols) in our initial test. The channel is not narrow.
-It is wide, and we were barely scratching the surface.
+The SVD calculation reports 15.5 bits for a linearized Gaussian-channel model
+at one N=5 operating point and an assumed 1% feature-noise scale. That number
+is a local model diagnostic, not a demonstrated global capacity or 44,700
+validated symbols. The directly tested alphabet contains four symbols.
 
-The measured instrument is a response matrix with full rank: every
-site's noise level leaves a unique fingerprint on the internal quantum
-observables. The [palindromic spectral symmetry](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+The response Jacobian has full rank at the tested N=5 point: infinitesimal
+per-site rate changes have independent first-order signatures there. This does
+not imply global injectivity. The [palindromic spectral symmetry](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 is the structural frame we read the channel through; the full rank
 itself is a generic property of independent local rate perturbations,
 not a consequence of the palindrome (probe:
@@ -115,14 +116,15 @@ partner at −(2Σγ − d). The conjugation operator Π that generates this
 pairing swaps the immune sector {I, Z}⊗N (populations, slow decay) with
 the decaying sector {X, Y}⊗N (coherences, fast decay).
 
-This has been verified for all system sizes N = 2 through N = 8 (87,376
-eigenvalues, zero exceptions) and proven analytically for arbitrary graphs
+This has been verified for N = 2 through N = 8 in the reported Heisenberg/XXZ
+suite (87,376 eigenvalues, zero exceptions) and proven for arbitrary graphs
+within that palindromizer-admitting Hamiltonian/channel family
 ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 
-**Why this matters for the channel:** The response matrix is **full
-rank**: when γ is perturbed at any single site, the mode amplitudes
-change in a linearly independent direction, so every per-site γ value is
-independently recoverable from the mode structure. The palindrome
+**Why this matters for the channel:** At the declared N=5 operating point the
+response Jacobian is **full rank**: infinitesimal changes in the five gamma
+coordinates produce linearly independent first-order directions. This is local
+identifiability, not global recovery of every per-site profile. The palindrome
 supplies the mode bookkeeping this readout is organized by (the paired
 immune/decaying sectors); the full rank itself does not require the
 palindrome (it survives palindrome breaking, see
@@ -143,10 +145,9 @@ quantum coherence is still active. For details:
 
 ## The Question
 
-γ comes from outside the quantum system. No internal mechanism can
-generate it ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md):
-five candidates for internal noise origin tested, four eliminated, the
-internal bootstrap reduced to a structural constraint). γ has
+Gamma is an input to the reduced Lindblad model. Its microscopic origin and
+the placement of the system-bath boundary remain open
+([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)). Gamma has
 measured structure: it selects a preferred axis, acts locally per qubit,
 takes phase but not energy, is Markovian, and produces exact spectral
 symmetry. On IBM hardware, T2* (= 1/(2γ)) varies across the chip and
@@ -155,8 +156,9 @@ fluctuates over time
 
 **Is the spatial variation of γ readable from inside the system?**
 
-If yes: the dephasing rate is not just noise acting on the system. It is
-an information channel from outside to inside.
+If yes in a declared control experiment, the imposed dephasing profile can be
+used as an input alphabet and read from chosen observables. The simulation
+does not locate the physical source "outside."
 
 ---
 
@@ -237,8 +239,8 @@ Nearest-neighbor template matching (Euclidean distance in feature space).
 
 ### Key Findings
 
-1. **Perfect classification at σ=0** at every measurement time. Bob can
-   always determine Alice's choice. The channel exists.
+1. **Perfect classification at σ=0** at every sampled measurement time for
+   this four-profile alphabet. Bob identifies Alice's choice in these runs.
 
 2. **Optimal measurement time: t = 1-3.** Early measurements carry the
    strongest signal (before decoherence homogenizes the feature vectors).
@@ -272,15 +274,15 @@ The direction of asymmetry determines left vs right.
 
 | Property | Status |
 |----------|--------|
-| γ comes from outside the system | **Proven** ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)) |
+| Microscopic origin of γ | **Open**; the reduced model takes γ as input |
 | γ has per-site structure | **Measured** (IBM T2* varies per qubit) |
-| Per-site structure is readable from inside | **Proven** (100% classification at σ=0) |
+| Four declared profiles are distinguishable | **Observed in the N=5 simulation** (100% at σ=0) |
 | Channel capacity (empirical) | **2 bits** (4-symbol alphabet) |
 | Practical noise threshold | σ < 0.008 for full alphabet |
 
-**The dephasing rate is an information channel.** Information encoded in
-the spatial γ profile is perfectly recoverable from internal quantum
-observables. This is not noise. This is a channel.
+The declared spatial gamma alphabet can function as an information channel in
+this simulation. Arbitrary spatial profiles are not shown to be perfectly or
+globally recoverable.
 
 ---
 
@@ -291,11 +293,10 @@ observables. This is not noise. This is a channel.
 - Not that this violates no-signalling (Alice must physically set the
   dephasing rates, which requires access to the hardware)
 
-What it DOES claim: **the mathematical channel exists.** If γ carries
-spatial structure, that structure is readable from inside. The instrument
-for reading it is the palindromic mode structure: the same spectral
-symmetry that pairs every decay mode also makes each per-site γ
-independently reconstructible.
+What it DOES claim: the four-symbol mathematical channel exists in the stated
+simulation, and the N=5 Jacobian is locally full rank at the tested point. The
+palindrome is one bookkeeping frame for the readout, not the cause of its
+rank: the rank survives the explicit palindrome-breaking control.
 
 ---
 
@@ -366,23 +367,21 @@ is the baseline change (t = 2 vs t = 5), not an amplification.
 
 ---
 
-## Formal Channel Capacity
+## Local Linearized Channel Estimate
 
 **Script:** [channel_capacity.py](../simulations/channel_capacity.py)
 
-The Alice-Bob experiment used 4 symbols (2 bits). But a channel's
-capacity is not determined by what you put through it. It is determined
-by the physics. How many symbols *could* the channel carry? The answer
-requires information theory: specifically, the SVD (singular value
+The Alice-Bob experiment used 4 symbols (2 bits). A separate calculation asks
+how much information a *local linear Gaussian approximation* could carry at
+one operating point. It uses the SVD (singular value
 decomposition: a way to find the independent "axes" of a communication
 channel and how strong each one is) of the channel matrix and Shannon's
 waterfilling theorem (allocate more power to strong channels, less to
 weak ones, like filling a pool with an uneven floor: water goes where
 there is room).
 
-The empirical 4-symbol test uses only a small fraction of the channel's
-theoretical capacity. To quantify the full bandwidth, we computed the
-Shannon capacity of the linearized γ-to-observables channel via SVD of
+This does not quantify the full nonlinear profile space. It computes the
+Shannon capacity of the linearized gamma-to-observables model via SVD of
 the Jacobian matrix (∂observables/∂γ) plus waterfilling power allocation.
 
 ### 5 independent spatial channels
@@ -401,13 +400,13 @@ mode: a specific pattern of noise across the sites.
 
 The condition number is 14.8 (this measures how much the weakest
 channel differs from the strongest; below ~100 is considered
-well-conditioned, meaning no channel is drowned out). All 5 channels
-carry information. Full rank (5/5) confirms: the response matrix
-allows independent readout of every site's dephasing rate.
+well-conditioned within this local linearization). All five singular
+directions are nonzero. Full rank (5/5) establishes local first-order
+identifiability at this N=5 point, not a global inverse.
 
 ### Capacity vs measurement noise
 
-| σ_noise | Capacity (bits) | Distinguishable symbols |
+| σ_noise | Linearized estimate (bits) | `2^bits` model count |
 |---------|----------------|------------------------|
 | 0.001 | 31.9 | ~4 billion |
 | 0.01 | **15.5** | ~44,700 |
@@ -415,9 +414,9 @@ allows independent readout of every site's dephasing rate.
 | 0.10 | 3.6 | ~12 |
 | 0.20 | 2.3 | ~5 |
 
-**Our empirical 2-bit result uses only 13% of the channel at σ = 0.01.**
-The theoretical headroom is 13.4 additional bits. The channel is not
-narrow. It is wide, and we are barely using it.
+The 15.5-bit row is conditional on the linearization, power constraint,
+Gaussian-noise model and selected features. It is not evidence for 13.4 bits
+of globally achievable headroom.
 
 ### Physical interpretation
 
@@ -447,8 +446,8 @@ result maps directly onto familiar concepts.
 across N sites. This is amplitude modulation of a spatial carrier. Bob's
 quantum observables are receivers. The palindromic mode structure acts as
 a matched filter bank: each mode responds differently to each site's γ.
-The response matrix is full rank (a generic property of independent
-local perturbations, see above).
+The response Jacobian is full rank at the tested point, including under the
+palindrome-breaking control described below.
 
 **Classical analogues:**
 
@@ -484,8 +483,8 @@ The palindromic spectral symmetry of the Liouvillian is the frame this
 channel is read through, and the exact bookkeeping of where the signal
 lives.
 
-The Π operator pairs every decay mode at rate d with a partner at rate
-2Σγ − d. This pairing creates a **bijection** between the immune sector
+Within the F1 Hamiltonian/channel scope, Π pairs every eigenvalue at decay rate
+d with a partner rate `2 Sigma gamma-d`. This pairing creates a **bijection** between the immune sector
 (populations, slow decay) and the decaying sector (coherences, fast decay).
 When γ is changed at one site, *both* sectors respond, but they respond
 differently because the immune and decaying sectors have different
@@ -493,11 +492,10 @@ sensitivity to each site's γ.
 
 The measured response matrix (the Jacobian ∂observables/∂γ) has
 **full rank**: perturbing γ at site k changes the mode amplitudes in a
-direction that is **linearly independent** from perturbations at any other
-site. The SVD analysis verifies this (5 non-zero singular values for
-5 sites, condition number 14.8). The full rank itself, however, is not
-*caused* by the palindrome: it is a generic property of independently
-perturbing N physically distinct sites. The discriminating probe
+direction that is **linearly independent to first order at this point** from
+perturbations at any other site. The SVD analysis verifies this (5 non-zero
+singular values for 5 sites, condition number 14.8). The full rank itself is not
+*caused* by the palindrome. The discriminating probe
 ([gamma_channel_rank_probe.py](../simulations/gamma_channel_rank_probe.py))
 breaks the palindrome with a spectator amplitude-damping channel
 (palindrome residual ~1e-1 instead of ~1e-14) and the γ-Jacobian stays
@@ -506,12 +504,10 @@ palindrome contributes is not the rank but the *reading*: the exact
 mode pairing that says where the dephased information sits (immune vs
 decaying sector) and makes the response interpretable mode by mode.
 
-In simpler terms: no two γ-profiles produce the same internal
-signature; every external configuration leaves a unique fingerprint on
-the internal observables, and the decoder reads these fingerprints. The
-palindrome tells you where to look; the full rank (which any locally
-perturbed open system of this kind has) guarantees the fingerprints are
-distinct.
+In simpler terms: the finite alphabet has distinct fingerprints, and the local
+Jacobian resolves five infinitesimal directions. Neither result proves that
+every profile in a larger domain has a unique fingerprint. The palindrome can
+organize where to look but does not guarantee the distinction.
 
 This connection between palindromic spectral symmetry and channel capacity
 appears to be new. The palindrome itself was described by
@@ -528,20 +524,18 @@ This document is part of the R = CΨ² project, which studies the
 palindromic spectral structure of open quantum systems under dephasing.
 The key prior results that this analysis builds on:
 
-- **Incompleteness Proof:** γ cannot originate from within the system
-  (4 of 5 internal candidates eliminated, the internal bootstrap reduced
-  to a structural constraint). Something external provides it.
+- **Incompleteness Proof:** a nonzero dissipative centre certifies that the
+  modeled subsystem is open. The microscopic origin of gamma remains open.
   ([docs/proofs/INCOMPLETENESS_PROOF.md](../docs/proofs/INCOMPLETENESS_PROOF.md))
 
-- **Mirror Symmetry Proof:** The Liouvillian spectrum is exactly
-  palindromic for any Heisenberg/XXZ system on any graph with local
-  Z-dephasing. Verified through N=8 (87,376 eigenvalues, zero exceptions).
+- **Mirror Symmetry Proof:** The Liouvillian spectrum is exactly palindromic
+  for the stated Heisenberg/XXZ graph family with local Z-dephasing. Verified
+  through N=8 in the reported suite (87,376 eigenvalues, zero exceptions).
   ([docs/proofs/MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 
-- **Reading the 30%:** The response matrix has full rank. All per-site
-  γ values are independently recoverable from mode amplitudes via
-  pseudo-inverse decoding. This is the decoder that makes the channel
-  readable.
+- **Reading the 30%:** The N=5 response Jacobian has full rank at the tested
+  point, so its pseudo-inverse resolves local perturbations. This is not a
+  global inverse theorem.
   ([simulations/reading_the_30_percent.py](../simulations/reading_the_30_percent.py))
 
 - **CΨ = 1/4 boundary:** The unique bifurcation point separating quantum
@@ -550,10 +544,10 @@ The key prior results that this analysis builds on:
   which the γ-channel is maximally readable.
   ([docs/proofs/UNIQUENESS_PROOF.md](../docs/proofs/UNIQUENESS_PROOF.md))
 
-The central insight of this document: the phase information that
-dephasing "destroys" is not lost. It is **redistributed** into the mode
-amplitudes of the palindromic spectrum. The decoder reads it back. The
-noise was always a signal. We just needed the right instrument.
+The scoped insight of this document is operational: imposed local dephasing
+profiles can leave distinguishable signatures in chosen finite-time
+observables. It does not show that destroyed phase information is conserved or
+recovered from the palindromic spectrum.
 
 ---
 

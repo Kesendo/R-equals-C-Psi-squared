@@ -50,6 +50,11 @@ def test_factor_two_report_pins_full_and_topology_censuses():
     assert "N=4 chain     linear: pairs=121 fixed=14" in output
     assert "N=4 star      linear: pairs=120 fixed=16" in output
     assert "N=4 ring      linear: pairs=116 fixed=24" in output
+    assert "TOLERANCE STABILITY" in output
+    assert "tol=1e-06" in output
+    assert "tol=1e-08" in output
+    assert "tol=1e-10" in output
+    assert "mean decay=0.350000" in output
     for forbidden in ("finesse", "Beer-Lambert", "unpaired", "halve absorption"):
         assert forbidden.lower() not in output.lower()
 
@@ -64,6 +69,41 @@ def test_general_demo_states_sufficiency_and_runs_negative_control():
     assert "jordan negative control" in output.lower()
     assert "quantum operator identity tested" in output.lower()
     assert "if and only if" not in output.lower()
+
+
+def test_general_matcher_uses_global_multiplicity_assignment():
+    module = _load("simulations/palindrome_general.py")
+    # Greedy nearest-neighbour consumes 0.2 for the first target and then fails;
+    # the valid assignment is 0.11 -> 0.0 and 0.2 -> 0.2.
+    ok, worst = module.multiset_match(
+        values=[0.0, 0.2], targets=[0.11, 0.2], tol=0.12
+    )
+    assert ok
+    assert abs(worst - 0.11) < 1e-12
+
+
+def test_thermal_builder_includes_spontaneous_emission_at_zero():
+    module = _load("simulations/thermal_blackbody.py")
+    cold = module.build_thermal_liouvillian(1, [0.0], 0.0, [0.1])
+    near = module.build_thermal_liouvillian(1, [0.0], 1e-9, [0.1])
+    assert module.Sm[0, 1] == 1  # sigma- = |0><1|, emission
+    assert module.Sp[1, 0] == 1  # sigma+ = |1><0|, absorption
+    assert abs(cold).max() > 0.0
+    assert abs(near - cold).max() < 1e-8
+
+
+def test_repaired_standing_wave_report_uses_direct_observables():
+    output = _run("simulations/standing_wave_analysis.py")
+    assert "DIRECT PAULI-OBSERVABLE TIME TRACES" in output
+    assert "half-range" in output
+    for forbidden in ("osc%", "state weight in modes", "standing wave active"):
+        assert forbidden.lower() not in output.lower()
+
+
+def test_thermal_transition_surface_requires_defectiveness_gate():
+    module = _load("simulations/thermal_ep_analysis.py")
+    assert "not EP certificates" in (ROOT / "simulations/results/thermal_blackbody.txt").read_text(encoding="utf-8")
+    assert module.oscillating_count([1 + 0j, 1 + 2j]) == 1
 
 
 def test_withdrawn_lens_direct_run_emits_no_decomposition():

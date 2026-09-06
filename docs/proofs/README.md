@@ -30,9 +30,10 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
 
 **Start here if you want the theorem:**
 
-1. [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - The Liouvillian
-   spectrum is palindromic. Π swaps XY-weight k ↔ N−k. Verified for
-   87,376 eigenvalues, zero exceptions.
+1. [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) - For the stated
+   palindromizer-admitting Hamiltonian family with local Z-dephasing, the
+   Liouvillian spectrum is palindromic and Π swaps XY-weight k ↔ N−k.
+   Verified for 87,376 eigenvalues in the reported suite, zero exceptions.
 
 **Then the boundary:**
 
@@ -107,8 +108,8 @@ Mirror Symmetry Proof          Uniqueness Proof
    V_odd blocks)           │
         │                  ▼
         ▼            Incompleteness
-  Direct-Sum         (noise must come
-  Decomposition       from outside)
+  Direct-Sum         (openness certified;
+  Decomposition       microscopic origin open)
   (L = L_even ⊕            │
    L_odd; odd N:            ▼
    Π exchanges       Time Irreversibility
@@ -137,7 +138,7 @@ synthesized.
 | Palindromic eigenvalues verified | 87,376 (zero exceptions) | [Mirror Symmetry](MIRROR_SYMMETRY_PROOF.md) |
 | IBM hardware deviation | 1.9% | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |
 | General primitive CPTP crossing | FALSE (Case C counterexample, entangled fixed point CΨ=0.2935; the old 300-map sweep was a sampling artifact) | [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) |
-| Internal noise candidates eliminated | 4 of 5 (the internal-bootstrap candidate reduced to a structural constraint) | [Incompleteness](INCOMPLETENESS_PROOF.md) |
+| Internal noise candidates eliminated | 0; the survey constrains forms but does not determine origin | [Incompleteness](INCOMPLETENESS_PROOF.md) |
 | {L_H, L_D+Σγ} = 0 at N=2 | exact (24/24 entries) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Cross term at N=3 | ~2%, γ-independent | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Weight-1 degeneracy d_real(1) | 2N exactly (any connected graph) | [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) |

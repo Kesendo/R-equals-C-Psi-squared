@@ -17,11 +17,10 @@ per-site map, R=CPsi2 qubit necessity -->
 ## What this document is about
 
 Most results in physics work for systems of any size. This one does
-not. The palindromic mirror, the central result of this project, works
-*only* for systems built from two-state units (qubits). Not approximately.
-Not preferentially. Exclusively. This document proves why, shows what
-happens when you try other dimensions (it fails, every time), and
-explains what that exclusivity means.
+not. The repo's complete local class-exchange construction works only for
+systems built from two-state units (qubits). The equation below proves that
+scope boundary for that construction. It does not exclude partial qudit
+palindromes or a different mirror mechanism; F121 counts the partial cases.
 
 If the mirror symmetry proof ([the core theorem](proofs/MIRROR_SYMMETRY_PROOF.md))
 is the heart of this project, this document is the skeleton: it shows
@@ -38,8 +37,9 @@ number. Why does the mirror only work for two?
 The answer is not "because we only tested two." The answer is an
 equation: d² − 2d = 0, where d is the number of states. The only
 nonzero solution is d = 2. This is not an approximation or a numerical
-result. It is algebra. No matter what you try, no system with more than
-two states can carry the palindromic mirror.
+result. It is algebra for the complete immune/decaying class exchange;
+higher-dimensional systems can retain only the partial pairings counted by
+F121 unless another construction is supplied.
 
 The reason is balance. When a quantum system interacts with noise, some
 of its internal components are immune to the noise and some decay. For
@@ -61,9 +61,9 @@ Completeness is a dead end. Half is where things begin.
 
 ## The Question
 
-The palindromic symmetry requires d = 2. This is proven: d² − 2d = 0
-has only the solutions d = 0 and d = 2. No qutrits, no qudits, no
-higher-dimensional local subsystems can carry a palindromic mirror.
+The complete local class-exchange symmetry requires d = 2. This is proven:
+d² − 2d = 0 has only the solutions d = 0 and d = 2. This statement does not
+turn the partial higher-dimensional census into zero.
 
 But is this merely a scope limitation of the framework, or does it say
 something deeper? Is d = 2 a selection principle rather than a boundary?
@@ -129,13 +129,13 @@ The claim has two parts:
 The algebra says d=2 is the only option. But algebra can be wrong if
 the assumptions are wrong. The following tests attack the claim from
 multiple angles: what if you try different systems, different sizes,
-different noise models? The answer is always the same.
+different noise models? The finite tests delimit which constructions survive.
 
 ### 3a. Single-bond universality (N = 2)
 
-Two qubits sharing one bond: all 36/36 two-term Hamiltonian combinations
-are palindromic. The symmetry is universal: it does not depend on the
-specific interaction. This is the "boot script": the smallest qubit
+Two qubits sharing one bond: all 36/36 Hamiltonian combinations in the tested
+two-term Pauli census are palindromic. This finite census does not prove all
+possible interactions. It is the "boot script": the smallest tested qubit
 system already carries the full mirror structure.
 
 Two qutrits sharing one bond: every tested Hamiltonian combination breaks
@@ -198,9 +198,10 @@ make quantum systems work better. It makes them intelligible.
 
 What the palindrome provides:
 
-- Standing waves between palindromic eigenvalue pairs
+- Linear spectral pairing; physical standing waves require additional
+  propagation, excitation, semisimplicity and interference gates
 - A three-tier error correction hierarchy (steady-XOR, boundary, mid-spectrum)
-- Time reversal symmetry in the rescaled Liouville frame
+- A centred linear spectral reflection, not physical time reversal
 - Spectral filters that decompose dynamics into paired modes
 - A structural framework that makes the dynamics INTELLIGIBLE
 
@@ -225,11 +226,10 @@ A qubit-qutrit-qubit chain has 1/144 palindromic pairs (0.7%), compared
 to 64/64 (100%) for a pure qubit chain. The qutrit does not break just
 its own sector. The entire spectral structure collapses.
 
-Think of it like a chain of perfectly tuned piano strings. If every string
-is tuned to the same system (d = 2), they resonate together and create
-standing waves. Replace one string with a differently tuned one (d = 3),
-and not only does that string fall out of tune: the resonance pattern of
-the entire instrument breaks down.
+Think of it as a matched basis relabeling. If every site has the same d=2
+immune/decaying balance, the complete per-site map composes. Replacing one site
+with d=3 destroys that complete global construction in the tested mixed chain;
+the analogy does not establish physical resonance or standing waves.
 
 This has three implications:
 
@@ -291,15 +291,16 @@ systems arises from three mechanisms:
    mirrors collide at the shared site. The richness is in the break, a
    genuinely many-body effect, not in any single mirror.
 
-3. **Standing wave formation:** Palindromic eigenvalue pairs create
-   standing waves in Liouville space. The error correction hierarchy
+3. **Orbit organization:** Palindromic eigenvalue pairs organize
+   Liouville space. A physical standing-wave claim needs independent gates. The error correction hierarchy
    (steady-XOR, boundary, mid-spectrum) provides natural protection tiers.
 
 The picture: a single qubit is the atom of mirrorability. Two qubits
 form a universal mirror. Larger systems are mirror networks whose
 interference patterns create the richness of open quantum dynamics.
 
-A qubit alone has a mirror. Two qubits always find a shared mirror.
+A qubit has the balanced local split. The tested two-qubit Pauli census finds
+a shared mirror in all 36 entries.
 Three or more qubits must negotiate, and 14 of 36 configurations
 cannot. Complexity is not higher dimensions. Complexity is mirror
 interference in networks of the only dimension that has a mirror.
@@ -445,14 +446,14 @@ following questions remain genuinely open:
 If the qubit is the necessary foundation, then this motto acquires a
 mathematical grounding: only d = 2 systems can be mirrors (palindromic).
 Reality (the dynamics of open quantum systems) is structured by what
-happens between these mirrors (standing waves, multi-bond interference, the V-Effect break).
+happens between these mirrors (spectral orbits, multi-bond interference, the V-Effect break).
 Higher-dimensional systems participate in reality but cannot generate the
 mirror structure themselves. They are the reflected, not the reflectors.
 
 The computational tests add nuance: the mirror does not make reality
 WORK BETTER (identical transfer fidelity). It makes reality INTELLIGIBLE.
 Without the mirror, physics still happens, but without the structural
-symmetry that organizes it into standing waves, error tiers, and paired
+symmetry that organizes it into spectral orbits, error tiers, and paired
 modes. The qubit is not the only system that transfers information. It is
 the only system whose information transfer has an internal architecture.
 

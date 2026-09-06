@@ -1638,35 +1638,26 @@ uniform DD by 3.2× in mutual information on 5-qubit chain.
 a qubit pair. Single-qubit instruments consistent, 2-qubit untested.
 **Source:** [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md)
 
-### F52. Thermal oscillation resilience (Tier 2, verified N=4)
+### F52. Thermal oscillating-count census (Tier 2, numerical N=4)
 
-    f_osc(n_bar) ~ 82%    (stable to ±2 modes out of 256, N=4)
-    |Delta_osc| <= 4       (for n_bar in [0, 50])
+For the `N=4` Heisenberg chain, the producer counts eigenvalues with
+`|Im lambda| > 1e-6` along a finite `n_bar` grid. The channel convention is
 
-The fraction of oscillating modes is approximately stable under
-thermal load. Q_max degrades 16× (68.3 → 4.2), mode count doubles
-(47 → 103 distinct frequencies), but the oscillating fraction stays
-near 82%. The cavity loses sharpness, not voice.
+    sigma- = |0><1|  (emission),    rate gamma_T (n_bar+1)
+    sigma+ = |1><0|  (absorption),  rate gamma_T n_bar.
 
-**Mechanism (April 5, 2026):** L(n_bar) = L_0 + n_bar · L_thermal
-is linear in n_bar, so eigenvalues move continuously. The oscillating
-count can only change at isolated exceptional-point (EP) crossings
-where a real pair splits into a complex conjugate pair (or vice
-versa). At N=4: four EP crossings in \[0, 2\], each affecting exactly
-2 eigenvalues. No macroscopic fraction ever changes character.
+Thus spontaneous emission is already present at `n_bar=0`; this endpoint is
+not the pure-Z-dephasing generator. The `n_bar=1e-9` row is the explicit
+continuity control beside zero.
 
-**Not invariant:** the earlier claim "82% ± 1% invariant" was too
-strong. The correct statement: oscillating fraction is stable to
-< 1% with isolated EP crossings, not topologically protected. At
-n_bar = 50 the fraction drops to 80.5% (−4 modes).
+Changes in the tolerance-defined oscillating count are recorded only as
+transition brackets. A coalescence or count change is not by itself an
+exceptional point: defectiveness or Jordan-chain growth must be gated before
+the EP label is used. No thermal-photon activation, standing-wave destruction,
+blackbody transition, Planck law, or cavity-survival mechanism is inferred
+from this finite spectral table.
 
-**No phase transition.** Frequency distribution follows neither
-Planck nor Stefan-Boltzmann. The mode spectrum is set by the cavity
-geometry (J topology), not by thermal statistics.
-
-**Valid for:** N=4 Heisenberg chain, Z-dephasing + amplitude damping.
-**Replaces:** thermal Liouvillian sweep to check cavity survival.
-The answer is: the cavity survives; no sweep needed.
+**Valid for:** the stated N=4 chain, rates, grid, and numerical tolerance.
 **Source:** [Thermal Blackbody](../experiments/THERMAL_BLACKBODY.md),
 [`thermal_ep_analysis.py`](../simulations/thermal_ep_analysis.py)
 

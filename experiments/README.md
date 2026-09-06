@@ -379,5 +379,5 @@ simulation script. All use NumPy + SciPy. Typical runtime: seconds to
 minutes on a standard laptop.
 
 **If you want a guided reading path:** See the [Reading Guide](../docs/READING_GUIDE.md),
-which organizes the experiments into three stories: the proof, the
-application, and the ontology.
+which organizes the repository into nine paths, each with its own reading
+order and evidence boundary.

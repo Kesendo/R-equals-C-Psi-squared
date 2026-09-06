@@ -61,28 +61,26 @@ spatial node or standing wave. In a defective block, F1 transports the whole
 generalized eigenspace and its Jordan-chain data; a multiplicity census alone
 does not choose a basis of modes.
 
-For the committed `N=2,...,7` spectra, the linear F1 census has 10,903
+For the committed `N=2,...,7` spectra, a numerical multiplicity-aware census
+has 10,903
 unordered two-member orbits and 34 fixed eigenvalues. The composite census has
 9,921 unordered two-member orbits and 1,998 eigenvalues on its fixed line. Both
-counts include algebraic multiplicity; neither is a wave count.
+counts consume occurrences with multiplicity and are stable across matching
+tolerances `1e-6`, `1e-8`, and `1e-10`; they are not exact-arithmetic counts,
+and neither is a wave count.
 
-## What the N=3 computation measured
+## What the N=3 computation now measures
 
-The finite calculation in
-[N=3 Oscillation and Pauli-Fingerprint Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)
-uses 6 Hamiltonians and 8 initial states. In that grid:
+The repaired finite calculation in
+[N=3 Direct Pauli-Observable Time Traces](../experiments/STANDING_WAVE_ANALYSIS.md)
+propagates four specified states in the `N=3` Heisenberg chain and reports
+sampled ranges of seven direct Pauli expectations. It deliberately does not
+report `sum |c_k|^2` as eigenmode “state weight”: for a non-normal generator
+that quantity is not invariant, and degeneracy makes it basis-dependent.
 
-- `ZZZ` has zero reported oscillatory weight.
-- Bell preparations have 40.6--65.5% oscillatory weight across the six tested
-  Hamiltonians.
-- GHZ has 0% across those same six columns.
-- W varies from 0% to 50%, showing that the reading depends on both state and
-  Hamiltonian.
-
-The Heisenberg run includes oscillatory Pauli observables at frequencies near
-`2J`, `4J`, and `6J`. These are real finite-model observations. “Node” and
-“antinode” are acceptable shorthand inside that measured observable table, but
-not universal labels derived from F1.
+The direct table is an observable-time-trace result only. Its nonzero sampled
+half-ranges show variation of the named expectation values; they do not by
+themselves establish a spatial node, antinode, or standing wave.
 
 ## What Pi means here
 

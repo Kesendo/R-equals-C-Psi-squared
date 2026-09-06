@@ -128,16 +128,16 @@ The two independent sectors do not see each other. But they are both shaped by �
 **Date:** 2026-04-12
 **Source:** Tom's recollection of structure established two weeks earlier, now linked to EQ-008
 
-Correction of a prior formulation: this is not a new thesis but already established structure in the repo (see [GAMMA_IS_LIGHT](../hypotheses/GAMMA_IS_LIGHT.md), [DECOHERENCE_RELATIVITY](../experiments/DECOHERENCE_RELATIVITY.md), [OBSERVER_DEPENDENT_CROSSING](../experiments/OBSERVER_DEPENDENT_CROSSING.md), [OBSERVER_DEPENDENT_VISIBILITY](../experiments/OBSERVER_DEPENDENT_VISIBILITY.md)). Three distinct quantities, not an identification chain:
+Historical question record. The metaphorical identification below is not an established result. For the current evidential boundary, see [GAMMA_TIME_DISTINCTION](../docs/GAMMA_TIME_DISTINCTION.md): γ is a declared decoherence rate and finite protocols can define a decay-clock scale, but neither light nor experienced time is thereby identified.
 
 - γ is light
 - y is the time axis (Lindblad-t as parametric axis)
 - t is our time, experienced or felt (observer time)
 
-The new question arising from EQ-008 plus this recollection: if γ acts on the sectors and γ is light, then γ per sector ([LIGHT_DOSE_RESPONSE](../experiments/LIGHT_DOSE_RESPONSE.md)) actually measures the **light dose per sector**. The rate at which a sector reaches its final state is a statement about the "illumination" of that sector from the time axis y. The experienced time t of the observer selects where on y to look.
+The historical question asked whether a per-sector γ reading in [LIGHT_DOSE_RESPONSE](../experiments/LIGHT_DOSE_RESPONSE.md) could be interpreted as light dose and then related to experienced time. That interpretation remains a metaphor, not a measurement or derived identification.
 
 **Status:** closed by reflection ([ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT](../reflections/ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md), commits 149ba8f and f2cae43)
-**Result:** The per-sector table from LIGHT_DOSE_RESPONSE reads as a shadow structure. γ is uniform light; what varies per sector is not the incident amount but what each sector's modes cast as shadow on themselves. Three layers: (1) self-shadow of a mode from its own Pauli content (Z/I immune, XY exposed; absorption theorem makes this quantitative), (2) shadow profile of a sector as the distribution of mode exposures within it, (3) wandering shadow through eigenvector rotation as γ shifts the Hamiltonian-dissipator balance. Interior sector (2,2) has the deepest rotation because dimension 100 leaves the most room to rotate; edge sector (0,1) has dimension 5 and is nearly linear. The y/t language: γ is the light, y is the time axis along which the illumination falls, t is the observer selecting where on y to stand. What the observer experiences is not γ itself but γ minus their own shadow.
+**Result (scoped):** The finite per-sector table records mode exposure and eigenvector rotation as γ changes the Hamiltonian-dissipator balance. The former light/shadow and y/t language is retained only as historical metaphor; it does not establish incident light, observer time, or an experienced-time law.
 
 ---
 

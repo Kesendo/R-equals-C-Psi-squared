@@ -140,9 +140,10 @@ public static class InspectCommand
         return new MirrorSystem(N, hamiltonian, channels);
     }
 
-    /// <summary>The self-mirror fixed point AS AN OBJECT: build the system (the x/y/z frame) exactly as
-    /// --root mirror does, then return the <see cref="SelfMirrorObject"/> that INHERITS it. The jump:
-    /// System (bears x/y/z) → Object (inherits the frame, is the F1 fixed point Re λ = −σ).</summary>
+    /// <summary>The conjugate-composite fixed line AS AN OBJECT: build the system (the x/y/z frame)
+    /// exactly as --root mirror does, then return the <see cref="SelfMirrorObject"/> that inherits it.
+    /// The object reports Re λ = −σ for λ ↦ −2σ − conj(λ), and fences the smaller linear-F1
+    /// fixed-point subset λ = −σ.</summary>
     private static IInspectable BuildSelfMirrorRoot(ArgParser p, int N)
     {
         if (N < 1 || N > 7)
@@ -911,7 +912,7 @@ public static class InspectCommand
             c => new ZeroSectorImmunityWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                                c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false, HonorsOptionalN: true),
-        new("selfmirror", "the self-mirror fixed point AS AN OBJECT (the jump: the System bears x/y/z, the Object inherits it). It does NOT own x/y/z (z=watched Re λ, x-y=motion Im λ, σ=center, all the system's); its only delta is BEING the F1 fixed point Re λ = −σ, the k=N/2 self-mirror rung (even-N populated, odd-N empty)",
+        new("selfmirror", "the conjugate-composite fixed line AS AN OBJECT: Re λ = −σ is fixed by λ ↦ −2σ − conj(λ); only its Im λ = 0 subset at λ = −σ is fixed by linear F1 λ ↦ −2σ − λ. The System bears x/y/z and the Object inherits that frame",
             c => BuildSelfMirrorRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 4), RequiresN: false, HonorsOptionalN: true),
         new("seedcount", "the seed-existence counting theorem live: r(0⁺) − r(∞) = N − 1 (odd N) on the (1,2) " +
             "block via the three counting lemmas: (N2) the −2 rung = N−1 paths of N vertices, (FF) nullity(C) " +

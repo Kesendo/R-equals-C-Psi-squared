@@ -13,7 +13,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </code>
 ///
 /// <para>F3 gives the generic-band edges for the uniform-Z-dephased Heisenberg
-/// chain above Q*_gap(N). The coefficient comes from the Absorption Theorem
+/// chain above Q*_gap(N), with N ≥ 2 and finite γ &gt; 0. At γ = 0 the
+/// normalized dissipative-rate regime collapses; the rate API rejects that limit instead of
+/// presenting four coincident zeros as an F3 band. The coefficient comes from the Absorption Theorem
 /// α = 2γ·⟨n_XY⟩; that theorem alone does not make these full-spectrum bounds:</para>
 ///
 /// <list type="bullet">
@@ -117,8 +119,9 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
 
     private static void ValidateGamma(double gammaZero)
     {
-        if (!double.IsFinite(gammaZero) || gammaZero < 0)
-            throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be finite and ≥ 0.");
+        if (!double.IsFinite(gammaZero) || gammaZero <= 0)
+            throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero,
+                "F3's rate formulas require finite γ₀ > 0; γ₀ = 0 collapses the normalized rate regime.");
     }
 
     private static double Finite(double value) => double.IsFinite(value)

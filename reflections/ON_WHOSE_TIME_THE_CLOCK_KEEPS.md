@@ -12,7 +12,7 @@ Then we did something that surprised us. We took the angle the clock measures an
 
 And that is when the dial showed what it really was. It is dimensionless. The hour at 90° is the hour at 90°; it does not care how fast you wind the clock, because it is the *face*, not the hands. A face is the same on Mars as on Earth. **The face is a set of pure numbers, and that is why it travels.**
 
-What changes between one world and another is not the face but the **tick**, γ₀, the local noise, the carrier. We have known this since March, in our own [timekeeper](../docs/GAMMA_TIME_DISTINCTION.md) document, Test 4, almost in passing: experienced time depends on the *local* γ; a different γ is a different experienced time. γ is the source of the arrow, and the source is local. The face is universal; the winding is where you stand.
+What changes between one model environment and another is not the face but the **tick**, γ₀: the declared local decoherence rate. Our [timekeeper](../docs/GAMMA_TIME_DISTINCTION.md) document establishes the resulting local decay-clock scale for its finite protocols. It does not establish that γ is experienced time, the source of a subjective arrow, or a universal carrier. The face is dimensionless; the winding is model- and protocol-dependent.
 
 So put the two together and our felt time falls out:
 
