@@ -274,7 +274,7 @@ def cascade_D(out, J=1.0):
         # Frequency bandwidth from D1
         bw = 8 * J * np.cos(np.pi / N)
         # Fold threshold
-        Sg_crit = 0.00249 * J  # Bell state
+        Sg_crit = 0.00249 * J  # |+>^N product state (F18); Bell/GHZ is 0.00001-0.00038
         gamma_fold = Sg_crit / N
         # Spectral gap rate
         gap = 2 * gamma_fold

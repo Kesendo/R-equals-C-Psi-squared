@@ -1,6 +1,6 @@
 ======================================================================
 UNIVERSALITY V33: Reconstruction and Verification
-Started: 2026-03-29 14:09:41
+Started: 2026-09-06 10:11:49
 ======================================================================
 
 ======================================================================
@@ -11,16 +11,16 @@ Heisenberg chain, J=1.0, two initial states
   --- Initial state: |+⟩^N ---
 
   N=2  16x16  Σγ_crit=0.00247  Σγ_crit/J=0.00247  (0.4s)
-  N=3  64x64  Σγ_crit=0.00250  Σγ_crit/J=0.00250  (5.4s)
-  N=4  256x256  Σγ_crit=0.00252  Σγ_crit/J=0.00252  (10.1s)
-  N=5  1024x1024  Σγ_crit=0.00247  Σγ_crit/J=0.00247  (35.8s)
+  N=3  64x64  Σγ_crit=0.00250  Σγ_crit/J=0.00250  (3.8s)
+  N=4  256x256  Σγ_crit=0.00252  Σγ_crit/J=0.00252  (8.8s)
+  N=5  1024x1024  Σγ_crit=0.00247  Σγ_crit/J=0.00247  (33.1s)
 
   --- Initial state: Bell/GHZ (|00..0⟩+|11..1⟩)/sqrt(2) ---
 
-  N=2  16x16  Σγ_crit=0.00038  Σγ_crit/J=0.00038  (0.4s)
-  N=3  64x64  Σγ_crit=0.00001  Σγ_crit/J=0.00001  (3.6s)
-  N=4  256x256  Σγ_crit=0.00002  Σγ_crit/J=0.00002  (2.6s)
-  N=5  1024x1024  Σγ_crit=0.00002  Σγ_crit/J=0.00002  (22.7s)
+  N=2  16x16  Σγ_crit=0.00038  Σγ_crit/J=0.00038  (0.3s)
+  N=3  64x64  Σγ_crit=0.00001  Σγ_crit/J=0.00001  (2.5s)
+  N=4  256x256  Σγ_crit=0.00002  Σγ_crit/J=0.00002  (3.8s)
+  N=5  1024x1024  Σγ_crit=0.00002  Σγ_crit/J=0.00002  (24.4s)
 
   Summary:
     N         |+⟩^N      Bell/GHZ   Ratio +/Bell
@@ -37,13 +37,13 @@ Heisenberg chain, J=1.0, two initial states
 AUFGABE B: Kavitaetsmoden bei Σγ = 0
 ======================================================================
 
-  N=2  d²=16  steady=10  oscillating=6  distinct_freq=1
+  N=2  d²=16  steady=10  oscillating=6  decaying=0  distinct_freq=1
     frequencies: [4.0000]
-  N=3  d²=64  steady=24  oscillating=40  distinct_freq=3
+  N=3  d²=64  steady=24  oscillating=40  decaying=0  distinct_freq=3
     frequencies: [2.0000, 4.0000, 6.0000]
-  N=4  d²=256  steady=54  oscillating=202  distinct_freq=14
+  N=4  d²=256  steady=54  oscillating=202  decaying=0  distinct_freq=14
     frequencies: [1.1716, 1.3643, 1.4641, 2.5359, 2.6357, ... (14 total)]
-  N=5  d²=1024  steady=120  oscillating=904  distinct_freq=43
+  N=5  d²=1024  steady=120  oscillating=904  decaying=0  distinct_freq=43
     frequencies: [0.4076, 0.5928, 0.7639, 0.8812, 1.1188, ... (43 total)]
 
 ======================================================================
@@ -52,16 +52,22 @@ AUFGABE C: Gain = exaktes Spiegelbild von Decay?
 
   N=2: midpoint decay=-0.100000, gain=0.100000
         |Im| match error: 4.44e-16
-        |Re| mirror error: 2.00e-01
-        Mirror: CHECK MANUALLY
+        |Re| mirror error: 2.64e-16
+        eigensolver floor: 1.46e-14   ratio worst/floor: 0.030
+        control (spurious -2Σγ shift): 2.00e-01   = 1.4e+13 x floor
+        Mirror: EXACT to the solver floor
   N=3: midpoint decay=-0.100000, gain=0.100000
         |Im| match error: 1.78e-14
-        |Re| mirror error: 2.00e-01
-        Mirror: CHECK MANUALLY
+        |Re| mirror error: 6.91e-15
+        eigensolver floor: 8.59e-14   ratio worst/floor: 0.207
+        control (spurious -2Σγ shift): 2.00e-01   = 2.3e+12 x floor
+        Mirror: EXACT to the solver floor
   N=5: midpoint decay=-0.100000, gain=0.100000
         |Im| match error: 7.46e-14
-        |Re| mirror error: 2.00e-01
-        Mirror: CHECK MANUALLY
+        |Re| mirror error: 1.60e-14
+        eigensolver floor: 2.66e-12   ratio worst/floor: 0.028
+        control (spurious -2Σγ shift): 2.00e-01   = 7.5e+10 x floor
+        Mirror: EXACT to the solver floor
 
 ======================================================================
 AUFGABE D: Gekoppelte Palindrome (Decay + Gain)
@@ -89,14 +95,34 @@ System A: dephasing +g, System B: dephasing -g
     1.00    -0.0000    4.000000    UNSTABLE
 
 ======================================================================
+AUFGABE E: Does CPsi cross 1/4 from BELOW under gain?
+Near-mixed start, negative Sigma_gamma; positivity tracked alongside
+======================================================================
+
+  start: p=0.104570, CPsi(0)=0.009000, min eig=0.2239
+
+   Sigma_g      CPsi_max    min eig rho   crosses 1/4?   physical?
+  ------------------------------------------------------------------
+    -0.010        0.0362      1.026e-01          False        True
+    -0.020        0.3524     -3.002e-01           True       False
+    -0.040      342.9761     -6.077e+00           True       False
+    -0.050    12516.6969     -2.082e+01           True       False
+
+  Rows that cross 1/4 upward AND stay a density matrix: 0 of 4.
+  Every upward crossing happens only after rho has left the set of density
+  matrices, so the gain side gives no fold from below in this system.
+
+
+======================================================================
 SUMMARY
 ======================================================================
 
-A) Σγ_crit/J: N-independent for both initial states
-B) At Σγ=0: only steady + purely oscillating modes, no decay
-C) Gain spectrum is exact mirror of decay spectrum
-D) WITH bridge: UNSTABLE above critical g
-   WITHOUT bridge: marginal stable at all g
+A) Σγ_crit/J over N=2..5: |+⟩^N spread 1.0218 (2.2%), Bell/GHZ spread 26.0000 (2500.0%).
+   Flat within a couple of percent for the product state; the Bell/GHZ threshold is not N-independent.
+B) At Σγ=0: steady + purely oscillating only; modes with a real part outside ±1e-8: 0 (worst over N=2..5).
+C) Gain spectrum is the exact mirror of the decay spectrum: worst error 0.207 x the eigensolver floor, while a spurious -2Σγ shift sits at 7.5e+10 x the floor.
+D) WITH bridge: UNSTABLE at g ∈ {0.10, 0.20, 0.50} of 5 sampled.
+   WITHOUT bridge: UNSTABLE at 0.05, 0.10, 0.20, 0.50, 1.00.
 
-Completed: 2026-03-29 14:11:07
-Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\universality_v33.txt
+Completed: 2026-09-06 10:13:13
+Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\fold_threshold_universality.txt

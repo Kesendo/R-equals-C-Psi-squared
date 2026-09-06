@@ -183,11 +183,13 @@ public static class Formulas
     public static int F38_PiSquared(int nY, int nZ) => (nY + nZ) % 2 == 0 ? +1 : -1;
 
     // F18 (T2, product state only, measured N=2-5): fold threshold Sg_crit/J. Below: CPsi oscillates
-    // forever; above: crosses 1/4 irreversibly. Bell 0.00249, product 0.00497. Flatness in N holds
-    // for the PRODUCT state (producer max/min 1.0218) and NOT for Bell/GHZ (max/min 26.0). Unmeasured
-    // beyond N=5. Not a universal constant, and not one statement for both preparations.
-    public const double F18_FoldThresholdBell = 0.00249;
-    public const double F18_FoldThresholdProduct = 0.00497;
+    // forever; above: crosses 1/4 irreversibly. Flatness in N holds for the PRODUCT state (producer
+    // max/min 1.0218) and NOT for Bell/GHZ (max/min 26.0), which is why Bell/GHZ is carried as a
+    // range rather than a constant. Unmeasured beyond N=5. Not a universal constant, and not one
+    // statement for both preparations.
+    public const double F18_FoldThresholdProduct = 0.00249;
+    public const double F18_FoldThresholdBellMin = 0.00001;
+    public const double F18_FoldThresholdBellMax = 0.00038;
 
     // F36/F37 (T1, conditional): a Wilson-Cowan/neural Jacobian satisfying Q*J*Q + J + 2s*I = 0
     // with involutive Q and scalar s has pair sum -2s = -(1/tau_E + 1/tau_I).

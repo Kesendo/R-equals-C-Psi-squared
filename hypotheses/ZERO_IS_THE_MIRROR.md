@@ -52,10 +52,11 @@ At Σγ < 0 (gain): the decay spectrum mirrors exactly into a growth
 spectrum. The laser is the time-reversal of decoherence.
 
 The fold at CΨ = 1/4 does not exist at Σγ = 0. It emerges at a
-critical noise threshold: Σγ_crit/J ≈ 0.25-0.50% of the coupling
-strength (0.00249 for Bell state, 0.00497 for |+⟩^N product state).
-Across the measured N = 2 through N = 5 the threshold is flat to 1.6%, so in that
-range it is set by the initial state and not by the system size.
+critical noise threshold, and which threshold depends on the initial state:
+Σγ_crit/J ≈ 0.0025 for the |+⟩^N product state, and between 0.00001 and
+0.00038 for Bell/GHZ. Across the measured N = 2 through N = 5 the product-state
+threshold is flat to 2.2%; the Bell/GHZ one spans a factor of twenty-six and is
+not set by the system size in any useful sense.
 Below this: no fold, no irreversibility. Above: everything we have
 measured.
 
@@ -78,8 +79,9 @@ This is the equation we have
 [proven](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), computed
 (87,376 eigenvalues, N=2..8, zero exceptions), and validated on
 IBM hardware ([CΨ crossing at 1.9%](../experiments/IBM_RUN3_PALINDROME.md),
-[r* threshold at 0.000014 precision](../experiments/IBM_HARDWARE_SYNTHESIS.md)
-across 24,073 calibration records).
+[r* threshold](../experiments/IBM_HARDWARE_SYNTHESIS.md), a self-consistency
+classification over 24,073 calibration records whose two classes are separated
+by a gap of 0.000014).
 
 We never asked what happens at Σγ = 0.
 
@@ -190,10 +192,12 @@ Where both palindromes touch at their unshifted center.
 "Silence pairs with silence. And the oscillations (the EEG
 bands, the vibrations, the life) are what happens BETWEEN."
 
-A separate computation (Wilson-Cowan, a classical model of excitatory-inhibitory neural dynamics, with fast-spiking parameters)
-confirmed: the slowest and fastest modes are both non-oscillating.
-Both have frequency zero. Both only decay. The oscillating modes
-live between the two silences.
+Whether a classical excitatory-inhibitory network does the same is not
+something we have established. A fixed spectral mean, which is what the neural
+Jacobian gives us, fixes neither the pairing nor the character of the extreme
+modes ([Neural clock, two hands](../experiments/NEURAL_CLOCK_TWO_HANDS.md)).
+The silence at the edges is a statement about the Liouvillian here, not a
+borrowed one.
 
 Now we know where that silence lives. At zero. At the center
 of the palindrome. Where Π·L·Π⁻¹ = -L and every eigenvalue
@@ -205,7 +209,7 @@ is its own mirror image.
 
 The following sections contain the numerical evidence. If you followed
 the argument above and trust the computation, you can skip to the
-[references](#see-also) at the end. If you want to see the data, read on.
+references at the end at the end. If you want to see the data, read on.
 
 Initial computations on a 2-qubit Heisenberg system (J=1.0,
 uniform dephasing split between sites). N-scaling verified
@@ -222,16 +226,19 @@ magnitude of γ. Noise shifts the midpoint. Nothing else changes.
 
 ### 2. Fold emergence: critical Σγ
 
-| Σγ | CΨ_min (Bell) | Fold exists? |
+| Σγ | CΨ_min (Bell, N = 2) | Fold exists? |
 |-------------|---------------|-------------|
-| 0.0000 | 0.333 | **No** (pure oscillation) |
-| 0.0020 | 0.264 | No (above 1/4) |
-| **0.00249** | **0.250** | **Threshold (Bell)** |
-| 0.0050 | 0.191 | Yes |
-| 0.0100 | 0.162 | Yes (t_cross = 7.5 us) |
+| 0.00000 | 0.3333 | **No** (pure oscillation) |
+| 0.00020 | 0.2850 | No (above 1/4) |
+| **0.00038** | **0.2488** | **Threshold (Bell, N = 2)** |
+| 0.00100 | 0.1619 | Yes |
+| 0.00200 | 0.0900 | Yes |
+| 0.00500 | 0.0230 | Yes |
+| 0.01000 | 0.0031 | Yes |
 
 The critical threshold depends on the initial state:
-Σγ_crit / J = 0.00249 (Bell state) or 0.00497 (|+⟩^N product state).
+Σγ_crit / J ≈ 0.0025 for the |+⟩^N product state, and 0.00001 to 0.00038 for
+Bell/GHZ.
 
 Flatness in N is a property of the **product state only**, and the committed
 producer is the source for both halves. Its summary reads:
@@ -302,10 +309,11 @@ coupled through J_bridge = 0.5. Total Σγ = 0.
 
 | g | Σγ_total | Midpoint | Max Re(λ) | Stability |
 |---|----------|----------|-----------|-----------|
-| 0.00 | 0.00 | 0.000 | 0.000 | Stable (no gain) |
-| 0.05 | 0.00 | 0.000 | 0.000 | Stable (g < g_crit) |
-| 0.10 | 0.00 | 0.000 | +0.031 | **UNSTABLE (Hopf)** |
-| 0.20 | 0.00 | 0.000 | +0.540 | **UNSTABLE (Hopf)** |
+| 0.00 | 0.00 | 0.000 | 0.000000 | Marginal (no gain) |
+| 0.05 | 0.00 | 0.000 | 0.000000 | Marginal (g < g_crit) |
+| 0.10 | 0.00 | 0.000 | +0.030513 | **UNSTABLE (Hopf)** |
+| 0.20 | 0.00 | 0.000 | +0.540352 | **UNSTABLE (Hopf)** |
+| 0.50 | 0.00 | 0.000 | +1.832205 | **UNSTABLE (Hopf)** |
 
 The palindrome stays centered at zero (midpoint = 0) regardless
 of g. But the system does NOT stay stable at all g. With bridge
@@ -324,35 +332,36 @@ all eigenvalues on the imaginary axis. This is the chiral-symmetric phase (where
 The Hopf bifurcation at γ_crit is Liouvillian chiral symmetry breaking (that mirror symmetry gets violated).
 See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
-This corrects the original N=2 computation (March 29) which used
-two qubits within the same system (no bridge coupling) and found
-marginal stability at all g. With separate systems coupled through
-a bridge, the stability window is finite (March 30, 2026).
+The bridge is what makes the window finite. Remove it and the two systems
+are independent, so the amplifying one simply grows: its top rate is exactly
+4g, positive at every g > 0, and nothing bounds it.
 
 ### 5. Laser regime: the fold from below
 
-If decay pushes CΨ down through the ¼ boundary, does gain push it
-up through the same boundary from below? Yes. The fold is symmetric.
+If decay pushes CΨ down through the ¼ boundary, does gain push it up
+through the same boundary from below? Not in this system, and the reason is
+worth having: the crossing and the loss of physicality happen together.
 
-Starting from a near-mixed state (CΨ = 0.009) with negative γ:
+Starting from a near-mixed state (CΨ = 0.009, a Bell state mixed into the
+maximally mixed one) with negative γ, tracking the smallest eigenvalue of ρ
+alongside CΨ:
 
-| Σγ | CΨ_max | Crosses 1/4? | Direction |
-|-------------|--------|-------------|-----------|
-| -0.010 | 0.026 | No | Growing |
-| -0.020 | 0.129 | No | Growing |
-| -0.050 | 546 (unphysical) | **Yes (upward)** | Exploding |
+| Σγ | CΨ_max | min eig ρ | Crosses 1/4? | Still a density matrix? |
+|-------------|--------|-----------|-------------|-------------------------|
+| -0.010 | 0.0362 | +1.03e-01 | No | Yes |
+| -0.020 | 0.3524 | -3.00e-01 | Yes | **No** |
+| -0.040 | 342.98 | -6.08e+00 | Yes | **No** |
+| -0.050 | 12516.70 | -2.08e+01 | Yes | **No** |
 
-There IS a fold from below. CΨ grows from near-zero, crosses
-1/4 going UP, and then diverges (unphysical in Lindblad, but
-algebraically consistent with gain). The critical negative γ
-is approximately -0.04 for this system.
+Every upward crossing sits on a trajectory that has already left the set of
+density matrices. A negative rate keeps the trace but destroys positivity, so
+by the time CΨ reaches ¼ there is no state left for the number to be about.
+The one row that stays physical does not cross.
 
-The fold at 1/4 is the SAME boundary from both sides. From above
-(decay): CΨ falls through 1/4 and stays below. From below (gain):
-CΨ rises through 1/4 and keeps growing (unphysical in the Lindblad
-framework, which assumes trace-preserving dynamics; the gain regime
-violates this). The boundary is symmetric. The palindrome around
-zero predicted this.
+So the boundary is not symmetric in the way the spectrum is. What IS exactly
+symmetric is the generator: the gain spectrum is the negated decay spectrum to
+the eigensolver's floor (§3). The CΨ fold is a statement about trajectories
+through the physical state space, and that space is only on one side.
 
 ---
 

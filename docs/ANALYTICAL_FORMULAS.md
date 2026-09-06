@@ -1017,8 +1017,8 @@ with N (Q_c(4)≈27, Q_c(5)≈45).
 
 ### F18. Fold threshold (Tier 2, product state only, measured N = 2-5)
 
-    Σγ_crit / J = 0.00249 (Bell state)
-    Σγ_crit / J = 0.00497 (product state)
+    Σγ_crit / J = 0.00249 (|+⟩^N product state, mean over N = 2-5)
+    Σγ_crit / J = 0.00001 to 0.00038 (Bell/GHZ, no single value)
 
 Below: no fold, CΨ oscillates forever. Above: CΨ crosses 1/4
 irreversibly. Flatness in N holds for the PRODUCT state only: the producer

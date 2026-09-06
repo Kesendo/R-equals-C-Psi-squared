@@ -225,6 +225,29 @@ public class SmokeTests
     }
 
     [Fact]
+    public void F18_FoldThreshold_MatchesTheProducer()
+    {
+        // simulations/results/fold_threshold_universality.txt, AUFGABE A, N = 2..5.
+        // |+>^N: 0.00247 / 0.00250 / 0.00252 / 0.00247, mean 0.00249, spread 1.0218.
+        double[] product = { 0.00247, 0.00250, 0.00252, 0.00247 };
+        Assert.Equal(product.Average(), Formulas.F18_FoldThresholdProduct, 10);
+        Assert.True(product.Max() / product.Min() < 1.03,
+            "the product-state threshold is the N-flat one");
+
+        // Bell/GHZ: 0.00038 / 0.00001 / 0.00002 / 0.00002. Spread 26, so it is carried
+        // as a range; a single Bell constant is what the old reading got wrong.
+        double[] bell = { 0.00038, 0.00001, 0.00002, 0.00002 };
+        Assert.Equal(bell.Min(), Formulas.F18_FoldThresholdBellMin, 10);
+        Assert.Equal(bell.Max(), Formulas.F18_FoldThresholdBellMax, 10);
+        Assert.True(bell.Max() / bell.Min() > 20.0,
+            "the Bell/GHZ threshold is not N-flat and must not be one number");
+
+        // The two preparations are different objects: the product mean must not sit
+        // inside the Bell range, and must not be twice any Bell value either.
+        Assert.True(Formulas.F18_FoldThresholdProduct > Formulas.F18_FoldThresholdBellMax);
+    }
+
+    [Fact]
     public void Dwell_And_InitialCPsi_Family()
     {
         Assert.Equal(1.0 / 3, Formulas.F60_GhzCPsi0(2), 10);

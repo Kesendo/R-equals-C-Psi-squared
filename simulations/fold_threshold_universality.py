@@ -225,6 +225,8 @@ log("AUFGABE B: Kavitaetsmoden bei Σγ = 0")
 log("=" * 70)
 log()
 
+cavity_decaying = []
+
 for N in [2, 3, 4, 5]:
     H = build_H_chain(N, J=1.0)
     gammas = [0.0] * N
@@ -235,6 +237,7 @@ for N in [2, 3, 4, 5]:
     tol_im = 1e-8
     steady = 0
     oscillating = 0
+    decaying = 0
     freqs = set()
     for ev in evals:
         if abs(ev.real) < tol_re and abs(ev.imag) < tol_im:
@@ -242,14 +245,17 @@ for N in [2, 3, 4, 5]:
         elif abs(ev.real) < tol_re and abs(ev.imag) > tol_im:
             oscillating += 1
             freqs.add(round(abs(ev.imag), 4))
+        else:
+            decaying += 1
 
     freq_list = sorted(freqs)
     freq_str = ", ".join(f"{f:.4f}" for f in freq_list[:5])
     if len(freq_list) > 5:
         freq_str += f", ... ({len(freq_list)} total)"
 
+    cavity_decaying.append((N, decaying))
     log(f"  N={N}  d²={len(evals)}  steady={steady}  oscillating={oscillating}"
-        f"  distinct_freq={len(freq_list)}")
+        f"  decaying={decaying}  distinct_freq={len(freq_list)}")
     log(f"    frequencies: [{freq_str}]")
 
 # ================================================================
@@ -260,6 +266,8 @@ log("=" * 70)
 log("AUFGABE C: Gain = exaktes Spiegelbild von Decay?")
 log("=" * 70)
 log()
+
+mirror_results = []
 
 for N in [2, 3, 5]:
     gamma_val = 0.1
@@ -278,20 +286,22 @@ for N in [2, 3, 5]:
     im_gain = np.sort(np.abs(ev_gain.imag))
     im_error = np.max(np.abs(im_decay - im_gain))
 
-    # Re mirror: decay around -Σγ, gain around +Σγ
-    # For decay: centered Re = Re(λ) + Σγ
-    # For gain: centered Re = Re(λ) - (-Σγ) = Re(λ) + Σγ
-    # The mirror means: sorted centered decay Re = -sorted centered gain Re
-    re_decay_c = np.sort(ev_decay.real + gamma_val)
-    re_gain_c = np.sort(ev_gain.real + gamma_val)  # +gamma_val because Σγ_gain = -gamma_val
-    # Actually: mirror means λ_decay + λ_gain_mirror = -2Σγ_decay
-    # Simpler: just check that the SETS of Re values are negated
-    re_decay_s = np.sort(ev_decay.real)
-    re_gain_s = np.sort(-ev_gain.real)  # negate gain eigenvalues
-    # shift: decay midpoint = -Σγ, gain midpoint = +Σγ
-    # so -ev_gain should be shifted by -2Σγ to match ev_decay
-    re_gain_shifted = np.sort(-ev_gain.real - 2*gamma_val)
-    re_error = np.max(np.abs(np.sort(ev_decay.real) - re_gain_shifted))
+    # The mirror: the gain generator L(-γ) carries the decay spectrum negated.
+    # Both spectra are palindromic about their own midpoint (-Σγ and +Σγ), so
+    # the sets already align once the gain side is negated; no further shift.
+    re_error = np.max(np.abs(np.sort(ev_decay.real) - np.sort(-ev_gain.real)))
+
+    # Error model: a non-normal eigensolve carries a backward error scaling with
+    # eps·||L||₂ and the matrix dimension. The gate is that bound; the ratio is
+    # reported so a drift shows up as a growing ratio rather than a passing test.
+    d2 = L_decay.shape[0]
+    floor = np.finfo(float).eps * np.linalg.norm(L_decay, 2) * d2
+    worst = max(re_error, im_error)
+
+    # Positive control: the same comparison with a spurious -2Σγ shift, which is
+    # what a mis-stated mirror would look like. It must fail by many decades.
+    control = np.max(np.abs(np.sort(ev_decay.real)
+                            - np.sort(-ev_gain.real - 2 * gamma_val)))
 
     midpoint_decay = np.mean(ev_decay.real)
     midpoint_gain = np.mean(ev_gain.real)
@@ -299,9 +309,19 @@ for N in [2, 3, 5]:
     log(f"  N={N}: midpoint decay={midpoint_decay:.6f}, gain={midpoint_gain:.6f}")
     log(f"        |Im| match error: {im_error:.2e}")
     log(f"        |Re| mirror error: {re_error:.2e}")
-    is_exact = im_error < 1e-10 and re_error < 1e-10
-    is_approx = im_error < 1e-6 and re_error < 1e-6
-    log(f"        Mirror: {'EXACT' if is_exact else 'APPROXIMATE' if is_approx else 'CHECK MANUALLY'}")
+    log(f"        eigensolver floor: {floor:.2e}   ratio worst/floor: {worst/floor:.3f}")
+    log(f"        control (spurious -2Σγ shift): {control:.2e}"
+        f"   = {control/floor:.1e} x floor")
+    mirror_ok = worst <= floor
+    mirror_results.append((N, worst, floor, control))
+    log(f"        Mirror: {'EXACT to the solver floor' if mirror_ok else 'FAILED'}")
+    if not mirror_ok:
+        raise AssertionError(
+            f"N={N}: mirror error {worst:.3e} exceeds the solver floor {floor:.3e}")
+    if control <= 1e6 * floor:
+        raise AssertionError(
+            f"N={N}: control {control:.3e} is not separated from the floor; "
+            "the comparison cannot detect a wrong shift")
 
 # ================================================================
 # AUFGABE D: Gekoppelte Palindrome (Decay + Gain mit Bridge)
@@ -338,6 +358,7 @@ log("  WITH bridge (J_bridge=0.5):")
 log(f"  {'g':>6}  {'Midpoint':>9}  {'Max Re(l)':>10}  {'Stable?':>10}")
 log(f"  {'-'*45}")
 
+bridge_with = []
 for g in [0.00, 0.05, 0.10, 0.20, 0.50]:
     L = build_coupled_system(g, J_bridge=0.5)
     evals = eigvals(L)
@@ -349,6 +370,7 @@ for g in [0.00, 0.05, 0.10, 0.20, 0.50]:
         stable = "Marginal"
     else:
         stable = "Stable"
+    bridge_with.append((g, stable))
     log(f"  {g:>6.2f}  {midpoint:>9.4f}  {max_re:>10.6f}  {stable:>10}")
 
 log()
@@ -356,6 +378,7 @@ log("  WITHOUT bridge (J_bridge=0):")
 log(f"  {'g':>6}  {'Midpoint':>9}  {'Max Re(l)':>10}  {'Stable?':>10}")
 log(f"  {'-'*45}")
 
+bridge_without = []
 for g in [0.00, 0.05, 0.10, 0.20, 0.50, 1.00]:
     L = build_coupled_system(g, J_bridge=0.0)
     evals = eigvals(L)
@@ -367,19 +390,101 @@ for g in [0.00, 0.05, 0.10, 0.20, 0.50, 1.00]:
         stable = "Marginal"
     else:
         stable = "Stable"
+    bridge_without.append((g, stable))
     log(f"  {g:>6.2f}  {midpoint:>9.4f}  {max_re:>10.6f}  {stable:>10}")
 
 # ================================================================
+# ================================================================
+# AUFGABE E: der Fold von unten (Gain-Seite)
+# ================================================================
+log()
+log("=" * 70)
+log("AUFGABE E: Does CPsi cross 1/4 from BELOW under gain?")
+log("Near-mixed start, negative Sigma_gamma; positivity tracked alongside")
+log("=" * 70)
+log()
+
+_psi_bell = np.zeros(4, dtype=complex)
+_psi_bell[0] = _psi_bell[3] = 1 / np.sqrt(2)
+_B = np.outer(_psi_bell, _psi_bell.conj())
+_I4 = np.eye(4) / 4
+
+# Pick the mixing so the run starts at CPsi = 0.009, well below the fold.
+_lo, _hi = 0.0, 1.0
+for _ in range(60):
+    _p = (_lo + _hi) / 2
+    if cpsi((1 - _p) * _I4 + _p * _B, 2) < 0.009:
+        _lo = _p
+    else:
+        _hi = _p
+_p = (_lo + _hi) / 2
+rho0_mixed = (1 - _p) * _I4 + _p * _B
+log(f"  start: p={_p:.6f}, CPsi(0)={cpsi(rho0_mixed, 2):.6f},"
+    f" min eig={np.linalg.eigvalsh(rho0_mixed).min():.4f}")
+log()
+
+H_gain = build_H_chain(2, J=1.0)
+log(f"  {'Sigma_g':>8}  {'CPsi_max':>12}  {'min eig rho':>13}  {'crosses 1/4?':>13}"
+    f"  {'physical?':>10}")
+log(f"  {'-' * 66}")
+
+gain_rows = []
+for Sg in [-0.010, -0.020, -0.040, -0.050]:
+    L = build_L(H_gain, 2, [Sg / 2] * 2)
+    ev, V = eig(L)
+    coeffs = np.linalg.inv(V) @ rho0_mixed.flatten()
+    cpsi_max, min_eig = -1.0, 1.0
+    for t in np.arange(0, 60.001, 0.05):
+        r = (V @ (np.exp(ev * t) * coeffs)).reshape(4, 4)
+        r = (r + r.conj().T) / 2
+        min_eig = min(min_eig, float(np.linalg.eigvalsh(r).min().real))
+        cpsi_max = max(cpsi_max, cpsi(r, 2))
+    crosses = cpsi_max > 0.25
+    physical = min_eig > -1e-9
+    gain_rows.append((Sg, cpsi_max, min_eig, crosses, physical))
+    log(f"  {Sg:>8.3f}  {cpsi_max:>12.4f}  {min_eig:>13.3e}  {str(crosses):>13}"
+        f"  {str(physical):>10}")
+
+log()
+crossing_and_physical = [r for r in gain_rows if r[3] and r[4]]
+log(f"  Rows that cross 1/4 upward AND stay a density matrix:"
+    f" {len(crossing_and_physical)} of {len(gain_rows)}.")
+if crossing_and_physical:
+    raise AssertionError(
+        "a physical upward crossing was found; the reading below is stale")
+log("  Every upward crossing happens only after rho has left the set of density")
+log("  matrices, so the gain side gives no fold from below in this system.")
+log()
+
 log()
 log("=" * 70)
 log("SUMMARY")
 log("=" * 70)
 log()
-log("A) Σγ_crit/J: N-independent for both initial states")
-log("B) At Σγ=0: only steady + purely oscillating modes, no decay")
-log("C) Gain spectrum is exact mirror of decay spectrum")
-log("D) WITH bridge: UNSTABLE above critical g")
-log("   WITHOUT bridge: marginal stable at all g")
+spread_p = max(ratios_p) / min(ratios_p)
+spread_b = max(ratios_b) / min(ratios_b)
+log(f"A) Σγ_crit/J over N=2..5: |+⟩^N spread {spread_p:.4f}"
+    f" ({(spread_p - 1) * 100:.1f}%), Bell/GHZ spread {spread_b:.4f}"
+    f" ({(spread_b - 1) * 100:.1f}%).")
+log("   Flat within a couple of percent for the product state; the Bell/GHZ"
+    " threshold is not N-independent.")
+
+worst_decay = max(d for _, d in cavity_decaying)
+log(f"B) At Σγ=0: steady + purely oscillating only; modes with a real part"
+    f" outside ±1e-8: {worst_decay} (worst over N=2..5).")
+
+worst_ratio = max(w / f for _, w, f, _ in mirror_results)
+worst_control = min(c / f for _, _, f, c in mirror_results)
+log(f"C) Gain spectrum is the exact mirror of the decay spectrum: worst error"
+    f" {worst_ratio:.3f} x the eigensolver floor, while a spurious -2Σγ shift"
+    f" sits at {worst_control:.1e} x the floor.")
+
+unstable_with = [f"{g:.2f}" for g, v in bridge_with if v == "UNSTABLE"]
+unstable_without = [f"{g:.2f}" for g, v in bridge_without if v == "UNSTABLE"]
+log(f"D) WITH bridge: UNSTABLE at g ∈ {{{', '.join(unstable_with)}}}"
+    f" of {len(bridge_with)} sampled.")
+log(f"   WITHOUT bridge: UNSTABLE at"
+    f" {'none of the ' + str(len(bridge_without)) + ' sampled' if not unstable_without else ', '.join(unstable_without)}.")
 log()
 log(f"Completed: {clock.strftime('%Y-%m-%d %H:%M:%S')}")
 log(f"Results: {OUT_PATH}")
