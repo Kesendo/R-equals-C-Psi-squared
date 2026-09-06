@@ -58,3 +58,4 @@ AUFGABE C: N-scaling (N=3 per chain, 6 qubits, 4096x4096)
 
    J_bridge   gamma_crit(N=2)   gamma_crit(N=3)     ratio    time
   -----------------------------------------------------------------
+      0.100          0.017292          0.000500     0.029  581.6s
