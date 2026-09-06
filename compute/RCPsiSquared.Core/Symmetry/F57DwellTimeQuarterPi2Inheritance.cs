@@ -176,10 +176,10 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>The identity above, computed: F58 evaluated at the exact
     /// W₂ = f*²/2 against <see cref="BellPlusKDwellPrefactor"/>. Both routes are
-    /// float, so the residual is rounding only: measured 4.4·10⁻¹⁶, two eps,
+    /// float, so the residual is rounding only: measured 4.441·10⁻¹⁶, two eps,
     /// and gated at 8 eps. Feeding the rounded 0.3709 instead misses by
-    /// 3.6·10⁻⁵, eleven orders larger, which is what the round-trip through a
-    /// four-digit weight costs.</summary>
+    /// 3.578·10⁻⁵, a factor 8.06·10¹⁰ larger, which is what the round-trip through
+    /// a four-digit weight costs.</summary>
     public bool EvenWeightPrefactorReducesToF57() =>
         Math.Abs(EvenWeightPrefactor(BellPlusW2AtCrossing) - BellPlusKDwellPrefactor)
             < 8.0 * F25CPsiBellPlusPi2Inheritance.MachineEps;

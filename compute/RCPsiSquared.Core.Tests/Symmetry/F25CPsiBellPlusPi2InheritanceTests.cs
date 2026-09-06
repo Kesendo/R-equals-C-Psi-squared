@@ -82,7 +82,8 @@ public class F25CPsiBellPlusPi2InheritanceTests
     public void BellPlusDCPsiDtMagnitude_IsTheLiveDerivativeAtTheCrossingTime()
     {
         // The per-γ magnitude is not a second formula: it is DCPsiDtAtTime read at
-        // t = K/γ, divided by γ. Checked at three γ, exactly the same double each time.
+        // t = K/γ, divided by γ. Checked at three γ; the routes differ by a rounding of ln
+        // and exp, up to 1 ulp, so this is gated at 14 decimals rather than compared exactly.
         var f = BuildClaim();
         foreach (double gamma in new[] { 0.01, 0.05, 10.0 })
         {
@@ -141,8 +142,8 @@ public class F25CPsiBellPlusPi2InheritanceTests
     [Fact]
     public void CrossingFConsistency_FailsOnTheFourDigitTabulation()
     {
-        // The gate has to be able to fail: at 8 eps the old 4-decimal f* = 0.8612
-        // misses the fold by 3.7e-6, sixteen thousand million eps.
+        // The gate has to be able to fail: at 8 eps the 4-decimal f* = 0.8612 misses the
+        // fold by 1.295e-5, fifty-eight thousand million eps.
         double tabulated = 0.8612;
         double cpsi = tabulated * (1.0 + tabulated * tabulated) / 6.0;
         Assert.True(Math.Abs(cpsi - 0.25) > 8.0 * MachineEps);

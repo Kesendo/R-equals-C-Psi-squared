@@ -17,14 +17,31 @@ public class ComplexCuspSpiralFieldTests
     [Fact]
     public void Constructor_AcceptsNegativeOmega_BecauseOneOfItsTwoHardwareSpiralsTurnsThatWay()
     {
-        // arg = φ₀ − Ω·t, so the counter-clockwise Kingston pair (B_high, +15° → +79°) needs Ω < 0.
-        // The ladder is geometric in |Ω| and carries the sign, so the reading mirrors exactly.
+        // arg = φ₀ − Ω·t, so the counter-clockwise Kingston pair (B_high, +15° → +79°) needs
+        // Ω < 0. The assertions have to reach the LADDER, not just the static function: the
+        // ladder is what carries the sign, and a gate on ComplexCuspSpiral.CrossingArgument
+        // alone would still pass with the sign line deleted from the field.
         var ccw = new ComplexCuspSpiralField(omega: -0.4);
         var cw = new ComplexCuspSpiralField(omega: 0.4);
-        Assert.Equal(-ComplexCuspSpiral.CrossingArgument(0.5, 0.4, 0.0),
-                      ComplexCuspSpiral.CrossingArgument(0.5, -0.4, 0.0));
+
+        var ccwCurve = LadderCurve(ccw);
+        var cwCurve = LadderCurve(cw);
+        Assert.Equal(cwCurve.X.Count, ccwCurve.X.Count);
+        for (int i = 0; i < cwCurve.X.Count; i++)
+        {
+            Assert.True(ccwCurve.X[i] < 0.0, $"the counter-clockwise ladder must be negative; rung {i} = {ccwCurve.X[i]:R}");
+            Assert.Equal(-cwCurve.X[i], ccwCurve.X[i]);      // mirrored rung for rung, exactly
+            Assert.Equal(-cwCurve.Y[i], ccwCurve.Y[i], 12);  // and so is the crossing angle
+        }
         Assert.Contains("-0.4", ccw.DisplayName);
-        Assert.Contains("0.4", cw.DisplayName);
+    }
+
+    private static RCPsiSquared.Core.Inspection.InspectablePayload.Curve LadderCurve(ComplexCuspSpiralField field)
+    {
+        var node = ((RCPsiSquared.Core.Inspection.IInspectable)field).Children
+            .First(c => c.Payload is RCPsiSquared.Core.Inspection.InspectablePayload.Curve curve
+                        && curve.XLabel == "Ω");
+        return (RCPsiSquared.Core.Inspection.InspectablePayload.Curve)node.Payload;
     }
 
     [Fact]

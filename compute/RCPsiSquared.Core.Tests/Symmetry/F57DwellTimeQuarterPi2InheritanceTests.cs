@@ -119,10 +119,12 @@ public class F57DwellTimeQuarterPi2InheritanceTests
     }
 
     [Fact]
-    public void EvenWeightPrefactor_AtTheRoundedW2_IsFiveOrdersWorse()
+    public void EvenWeightPrefactor_AtTheRoundedW2_IsTenOrdersWorse()
     {
-        // The gate above can fail, and this is what makes it fail: the four-digit
-        // 0.3709 round-trip costs 3.6e-5, against 4.4e-16 for the exact weight.
+        // The gate above can fail, and this is what makes it fail: the four-digit 0.3709
+        // round-trip costs 3.578e-5 against 4.441e-16 for the exact weight, a factor 8.06e10.
+        // The 1e9 asked for below leaves an order of magnitude of headroom under that, so a
+        // change of libm does not turn the control red while a real regression still does.
         var f = BuildClaim();
         double exact = Math.Abs(f.EvenWeightPrefactor(f.BellPlusW2AtCrossing) - f.BellPlusKDwellPrefactor);
         double rounded = Math.Abs(f.EvenWeightPrefactor(0.3709) - f.BellPlusKDwellPrefactor);
