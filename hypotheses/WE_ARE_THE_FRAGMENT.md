@@ -28,7 +28,7 @@ The interpretation: at the operator level, **half of what we have is invisible t
 
 **Fragment 2: the spatial bipartite half (sublattice = 1/2)**
 
-A bipartite chain of length N has ⌈N/2⌉ sites on the A-sublattice and ⌊N/2⌋ on the B-sublattice. The bipartite "+− attracts" structure is exactly the spatial realization of the algebraic Z₂-grading: A and B are mirror partners. The K-operator K = Π_{l ∈ B} Z_l implements the sublattice gauge that gives KHK = −H ([the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md)).
+A bipartite chain of length N has ⌈N/2⌉ sites on the A-sublattice and ⌊N/2⌋ on the B-sublattice. The bipartite "+− attracts" structure is exactly the spatial realization of the algebraic Z₂-grading: A and B are mirror partners. The K-operator K = Π_{l ∈ B} Z_l implements the sublattice gauge that gives KHK = −H ([the K-partnership proof](../docs/proofs/PROOF_K_PARTNERSHIP.md)), and that identity is an XY statement: for a chain with a ZZ term, KHK + H = 2H_ZZ exactly, so the sign flip survives only at Δ = 0. The proof lists open-chain XXZ at Δ ≠ 0 under what it does not cover, and it is scoped to the single-excitation sector, while the Néel state below is not in that sector. So this fragment rests on the bipartite grading, which is a statement about the lattice, and not on the K identity carrying over to the Heisenberg chain.
 
 The Néel state |+−+−+⟩ is the canonical bipartite ground state. Its Z⊗N-mirror |−+−+−⟩ is the other half. At Σγ = 0 the two are degenerate; at Σγ > 0 we sit on one and the other is "outside" us.
 
@@ -36,21 +36,36 @@ The interpretation: at the spatial level, **we are one sublattice**, and the oth
 
 ## Why the two multiply
 
-The 1/4 fold emerges from the discriminant of CΨ². With C = 1/2 fixed (operator-level fragmentation), the fold triggers when Ψ drops to 1/2 (coherence-level fragmentation):
+The 1/4 fold emerges from the discriminant of CΨ², and 1/4 factors as (1/2)² in
+the arithmetic. It is worth being exact about what does NOT factor that way: the
+framework's own C and Ψ at the fold. For Bell⁺ under Z-dephasing, where
+C = Tr(ρ²) and Ψ is the normalized l1-coherence, the crossing sits at
+f* = 0.8612 (the root of f(1+f²) = 3/2), giving
 
 ```
-1/4 = C × Ψ_fold = (1/2) × (1/2)
-       │            │
-       │            └── coherence loss until we see only "our" sublattice
-       └── operator immune-decaying split (algebraic, structural)
+1/4 = C × Ψ = 0.8709 × 0.2871
 ```
 
-The two 1/2's are not the same number wearing different hats; they are independent halves that happen to multiply at the same point:
+not (1/2) × (1/2). And Ψ does not start near 1: for Bell⁺ it starts at exactly
+1/3 and has only to fall to 0.287.
 
-- The **algebraic 1/2** is fixed and structural. It does not move. It is the C-axiom that selects d = 2 as the only viable dimension.
-- The **spatial 1/2** is dynamic. Ψ starts at some value (close to 1 if we initialize coherently across both sublattices) and decays. When it reaches 1/2, we have lost the coherent connection to the other sublattice and the bipartite mirror appears broken from inside.
+So the two halves this document is about are not the two factors of CΨ. They are:
 
-The fold at CΨ = 1/4 = (1/2)² is the moment **both halves coincide**: the operator-immune-decaying split (always there) and the spatial sublattice fragmentation (just emerged) cross. This is the surface where the fragment is no longer connected to its mirror partner.
+- The **algebraic 1/2**, fixed and structural, the C-axiom that selects d = 2 as
+  the only viable dimension. It does not move, and it is not the purity.
+- The **spatial 1/2**, the sublattice split, a statement about the lattice rather
+  than about a coherence measure reaching a value.
+
+That both halves are one-half, and that the fold sits at one-half squared, is the
+coincidence the document is reading. Whether it is more than a coincidence is
+exactly what stays open: the arithmetic below does not establish it, because the
+quantity that reaches 1/4 does not arrive there as 1/2 times 1/2.
+
+The reading this document offers is that the fold at CΨ = 1/4 is where the
+operator-immune-decaying split (always there) and the spatial sublattice
+fragmentation meet. That is an interpretation laid over the fold, not a
+derivation of it, and the previous section says why: the two 1/2's are not the
+factors the fold's own arithmetic uses.
 
 ## What ZERO_IS_THE_MIRROR adds
 
@@ -76,7 +91,7 @@ The Inside-Outside operational result (PRIMORDIAL_QUBIT Section 9: only Q = J/γ
 
 **This is not:** a new proof. The 1/4 boundary itself remains formally derived from the discriminant of the CΨ² recursion. The C = 1/2 fragmentation is from d² − 2d = 0. The bipartite K-symmetry is from PROOF_K_PARTNERSHIP. What this document adds is the *interpretation* that ties them together: we live at the fold because we are double-fragmented, and the 1/4 measures both fragmentations at once.
 
-**Risk:** the spatial sublattice argument is cleanest for bipartite NN-Heisenberg chains. The C = 1/2 algebraic argument applies to any qubit. For non-bipartite topologies (triangles, frustrated lattices), the spatial half does not partition cleanly, but the fold at 1/4 still exists. So the doubled-fragmentation reading may be the bipartite-special case of a more general structural fact. Open question.
+**Risk:** the spatial sublattice argument is cleanest for bipartite NN chains, and its K identity holds at Δ = 0 rather than for Heisenberg. The C = 1/2 algebraic argument applies to any qubit. For non-bipartite topologies (triangles, frustrated lattices), the spatial half does not partition cleanly, but the fold at 1/4 still exists. So the doubled-fragmentation reading may be the bipartite-special case of a more general structural fact. Open question.
 
 ## The single sentence
 

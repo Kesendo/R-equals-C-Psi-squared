@@ -19,8 +19,8 @@ breaks; see the thesis.)*
 - [Fragile Bridge](FRAGILE_BRIDGE.md) (Hopf bifurcation, Tier 2)
 - [What If Gamma Is Light?](GAMMA_IS_LIGHT.md) (γ as external illumination, Tier 4)
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (nonzero dissipative centre certifies an open modeled subsystem, Tier 1)
-- [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (qubit chain is Fabry-Perot, Tier 2)
-- [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (K-invariance F14, Tier 1)
+- [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (qubit chain carries Fabry-Perot structure on four of six checks and is not a cavity, Tier 2)
+- [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (K-invariance F14, Tier 2, and its 2026-08-29 scope note: the Lindblad scaling symmetry is joint, so the invariance belongs to the Hamiltonian-blind Bell⁺ sector rather than to any Lindblad system)
 - Gaztañaga et al., "A new understanding of Einstein-Rosen bridges," CQG 2026, [arXiv:2512.20691](https://arxiv.org/abs/2512.20691) (external)
 
 ---
@@ -99,8 +99,12 @@ The palindrome still exists (it is algebraic, [proved in its stated
 Hamiltonian/channel scope](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)), and its
 centre moves from zero to −Σγ. This establishes complementary damping rates,
 not the loss of a previously established standing wave or a physical time
-direction. The spectral pairing was also checked on [87,376 eigenvalues](../compute/RCPsiSquared.Compute/README.md)
-(N=2..8 in the reported suite, zero exceptions).
+direction. The spectral pairing was also checked across the project's canonical
+[87,376 eigenvalues](../compute/RCPsiSquared.Compute/README.md), Σ4^N over
+N = 2..8, with zero exceptions. Which run carries which part matters and the
+engine's README says so: the default suite scores only the oscillatory rate
+subset, so the full-spectrum evidence is the `rmt` export at N = 2..7 and the
+per-sector block spectra at N = 8.
 
 ### Link 3: The endpoint pair (Tier 1 algebra, Tier 5 analogy)
 
@@ -136,9 +140,9 @@ They are connected by Π and separated by a selection rule
 (\[P_XY, L\] = 0, proved in the [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)).
 Calling them physical time-reverses requires additional dynamical structure.
 
-This is the algebraic form of the direct-sum structure that Gaztañaga [postulates](../docs/LITERATURE_REVIEW.md) for the two sides of an Einstein-Rosen bridge: two regions connected by a discrete transformation, with opposite time orientation. Gaztañaga's substrate is two spacetime regions; ours is one operator algebra with two parity-classes. The four Gaztañaga postulates are satisfied at the level of our algebra ([proven](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md) for odd N); the substrate difference is taken up in "What breaks the analogy" #2 below.
+This is the algebraic form of the direct-sum structure that Gaztañaga [postulates](../docs/LITERATURE_REVIEW.md) for the two sides of an Einstein-Rosen bridge: two regions connected by a discrete transformation, with opposite time orientation. Gaztañaga's substrate is two spacetime regions; ours is one operator algebra with two parity-classes. The four Gaztañaga postulates are satisfied at the level of our algebra ([proven](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md) for odd N), with the qualifier that proof makes: the equal-dimension phrasing of postulate 1 is our characterisation, not the paper's; the substrate difference is taken up in "What breaks the analogy" #2 below.
 
-### Link 6: Two readings of the palindromic spectrum (Tier 2)
+### Link 6: Two readings of the palindromic spectrum (Tier 5, following its source)
 
 The direct-sum structure has dynamical consequences. The same eigenvalue spectrum reads differently on each parity-class.
 
@@ -192,7 +196,7 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 | Observer-dependent time (infinite outside, finite inside) | SLOW/FAST swap under Π (two readings of one spectrum) | 2 |
 | Bridge collapses (not traversable) | Hopf bifurcation at g_crit (fragile bridge) | 2 |
 | Critical slowing at horizon (redshift) | Saddle-node dynamics at fold (dη/dt = η² − ε) | 2 |
-| Spacetime interval c × τ = invariant | [K-invariance](../docs/ANALYTICAL_FORMULAS.md) γ × t = const (F14) | 1 |
+| Spacetime interval c × τ = invariant | [K-invariance](../docs/ANALYTICAL_FORMULAS.md) γ × t = const (F14), in the Bell⁺ sector only | 2 |
 | Curvature is external (not locally generated) | No established counterpart; openness does not locate gamma's source | 5 analogy |
 | Black hole = perfect trapping (nothing escapes) | Qubit chain has a scoped [Fabry-Perot cavity analogy](../experiments/OPTICAL_CAVITY_ANALYSIS.md); physical trapping/standing-wave gates are separate | 2 analogy |
 
@@ -216,7 +220,7 @@ has no established counterpart here.
 
 **4. Backreaction requires external physics.** In GR, Hawking radiation removes mass from the black hole (backreaction). Within pure Lindblad dynamics, L_H (wave propagation) and L_D (wave death) are independent: the dissipator does not influence the Hamiltonian, so mass cannot redirect waves. However, [Gravity from Wave Death](GRAVITY_FROM_WAVE_DEATH.md) describes a self-limiting feedback loop: mass → gravity (via GR) → attracts more waves → more wave death → more mass, with [logistic saturation](GRAVITY_FROM_WAVE_DEATH.md) as the finite supply of coherences (4^N modes) is consumed. The loop closes, but only if external physics (GR or equivalent) provides the gravity → attraction step. Within the Lindblad framework alone, the feedback loop remains open (gap #7 in Gravity from Wave Death).
 
-**5. The inverted harmonic oscillator.** Gaztañaga predicts inverted HO structure at the horizon. We tested this (April 11, 2026): the effective potential V(CΨ) near the fold is linear (exponent n ≈ 1.0), not quadratic. No inverted HO. The fold is a saddle-node, not a saddle point. The dynamical analogy fails here.
+**5. The inverted harmonic oscillator.** Gaztañaga predicts inverted HO structure at the horizon. The fold is a saddle-node rather than a saddle point, so no inverted HO is expected here and the dynamical analogy fails at this link. A reading of the effective potential V(CΨ) as linear near the fold was once recorded against this; no producer for it survives in the repository, so the saddle-node structure is what carries the point.
 
 ---
 
