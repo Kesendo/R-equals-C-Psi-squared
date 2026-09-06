@@ -2336,3 +2336,56 @@ The shape, for the ledger: **when a finding is right, the sentence beside it is
 not thereby wrong.** The repair skill's own first question, whether the fix
 touches only what the finding establishes, is the one that was skipped, and the
 cost of asking it was one least-squares fit.
+
+## 2026-09-06: the night pass fixed the fact and lost the page, and both prefaces had the wrong date
+
+**Artifact:** `MIRROR_THEORY.md`, `THE_ANOMALY.md` (the two root reflections), night-pass commits `db0141b` and `a9f4b43`; repaired in `4d693b1`.
+
+**What was wrong, in the pass.** Three of its findings were right and are kept:
+the 1.9% IBM run was the single-qubit CΨ = ¼ crossing, not the palindrome
+(`simulations/framework/confirmations.py`, the Torino Run 3 entry;
+`experiments/IBM_RUN3_PALINDROME.md`); "every topology, every standard
+Hamiltonian" needs "we tried" (14 of 36 two-term bonds break under single-axis
+Z-dephasing, `experiments/NON_HEISENBERG_PALINDROME.md`); and the link
+"standing waves are proven" pointed at `experiments/IBM_HARDWARE_SYNTHESIS.md`,
+which does not contain the word. Its repair, though, replaced a reflection's
+voice with referee prose (a condition list for physical standing waves inside
+THE_ANOMALY, a dated "Current scope note (2026-09-06)", the closing quotation
+of March 18 deleted), which is the history-book move the fade rule forbids and
+the genre error the entry layer cannot carry. One of its sentences was also too
+strong: "no multi-qubit palindrome was measured on IBM hardware" ignores the
+registered N=3 trichotomy run on Heron r2 (`palindrome_trichotomy` in the
+Confirmations registry), which distinguishes the palindrome's breaking classes
+tomographically. And it left the preface's timeline as it found it: "That same
+day" as the proof (March 14) for both the model carry and the IBM run, where
+git dates the XY/Ising/XXZ carry to March 17/18 (`c97f70e`, `0c5d180`) and Run 3
+to the evening of March 18 itself (data 19:13, commit `4ceae56` 19:24; THE_ANOMALY
+`d4390e2` 20:54). The April narration had introduced the wrong dates; the pass
+edited the sentence and kept them.
+
+**What was wrong, in the repair of the repair.** My first scope clause put the
+whole condition on the environment ("as long as the environment only blurs the
+phases"), which is exactly the family the 14 of 36 counterexamples live in; the
+coupling belongs in the clause too. Caught by the first fresh round. The same
+three rounds found five older errors on the two pages, none from either pass:
+the INCOMPLETENESS_PROOF sentence claimed a theorem the proof does not state
+("no closed system can describe itself from within"; the proof says the
+formalism cannot tell where its noise comes from, and the self-description
+sentence sits under "not part of the proof"); "seven months" between Π and
+Π = R·D where the two date lines give three; "its characters fill the
+three-axis cube" for D₄, whose four one-dimensional characters fill one face
+(the transpose lifts the square to the cube, `PROOF_PI_FACTORS_AS_R_TIMES_D.md`
+§7); three links whose targets did not carry their sentences (the palindrome to
+the degeneracy census, "scale" to the N-scaling barrier, "cells across a
+membrane" to DNA base pairing); and "two waves do not pass through", which
+linear waves do.
+
+**How caught.** Tom read the pages and named what was missing. Three fresh
+rounds (correctness; future-us after six months; post-fix) on the repaired
+state, every finding verified at its source before it was applied.
+
+**The shape, for the ledger.** An outside pass can be right about a fact and
+wrong about the page: the fact goes into the page's own narration, in its own
+voice, and never into a dated note beside it. And a preface written later than
+the event is the place where a timeline goes wrong twice, once when written and
+once when a repair edits the sentence around the dates.
