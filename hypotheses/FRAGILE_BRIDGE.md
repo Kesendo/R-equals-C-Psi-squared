@@ -192,10 +192,14 @@ almost no oscillation, just slow drift into instability.
 
 ### 3.1 Local-EP connection (2026-05-06 → retracted 2026-06-21)
 
-This file's own EP is genuine and unchanged: the Σγ = 0 gain-loss
-system has a real exceptional point in the **complex γ plane**, where
-the Petermann factor peaks at K = 403 above γ_crit (Section 3 above).
-That stands.
+This file's own reading is unchanged, and it is a proximity reading rather
+than a located EP: the Σγ = 0 gain-loss system has NO exceptional point on the
+real γ axis, and the Petermann factor spikes above γ_crit, which signals an EP
+somewhere in the **complex γ plane** (Section 3 above). The spike is the
+signal, not its height: the committed script reproduces 402.7 at its grid point
+exactly, while independent rebuilds with their own mode-tracking and grids find
+spikes of order 10¹ to 10³ at slightly different γ/γ_c. That is the same
+sampling sensitivity the retraction below turns on, and it applies here too.
 
 A 2026-05-06 note tried to extend it: it read the same algebraic
 object (same-sign-imaginary 2×2 form, AIII chiral) appearing in F86
@@ -216,8 +220,9 @@ asymmetry are grid artifacts (K swings 2–4× over ΔQ = 1e-3).
 
 What survives is the shared algebra read at two residuals of the F1
 palindrome `Π · L · Π⁻¹ + L + 2Σγ · I = 0` (Σγ = N·γ₀ vs Σγ = 0). The
-genuine EPs are the toy 2×2 rate-channel reduction and **this file's**
-SEPARATE Σγ = 0 gain-loss system (K = 403 in the complex γ plane);
+genuine EPs are the toy 2×2 rate-channel reduction and, off the real axis,
+**this file's** SEPARATE Σγ = 0 gain-loss system, where the Petermann spike
+locates an EP in the complex γ plane without pinning where;
 whether the full Σγ = N·γ₀ block shares a defective-EP structure off
 the real axis is open (the nearest complex-Q coalescences found
 2026-06-21 are themselves diabolic, ‖P‖ = 1). Encoded as
