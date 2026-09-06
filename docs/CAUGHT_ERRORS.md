@@ -2259,3 +2259,51 @@ were right, because it is evidence about how we review.
   the reviewer had walked past it: the producer laid one power law across a regime
   boundary the document itself draws, so its headline R² of −0.115 described a curve
   nobody claims.
+
+## 2026-09-06: the acquittal above compared the dense solver with itself
+
+The entry two above records a reviewer's estimator finding as not surviving
+recomputation. That record is wrong, and this is the append that says so.
+
+- **What the acquittal measured.** `max_re_sparse` has two branches:
+  `if d2 <= 4096` it calls `scipy.linalg.eigvals` on the dense matrix, and only
+  above that does it run the norm fit (`expm_multiply`, five samples, a slope on
+  log‖v‖). The quoted agreement, 0.161594 against 0.16159398 and 0.375854 against
+  0.37585402, is at 2 and 3 qubits per chain, i.e. d² = 256 and 4096. Both take
+  the dense branch. The two numbers being compared were the same call. The norm
+  fit was never exercised, so nothing about it was established either way.
+
+- **What it does when it is exercised.** Forcing the norm-fit branch on the same
+  generator, against dense `eigvals` on the same matrix:
+
+  | qubits/chain | γ | exact max Re | norm fit | error |
+  |---|---|---|---|---|
+  | 2 | 0.05 | 0.16159398 | 0.14740773 | −8.8% |
+  | 2 | 0.10 | 0.37585402 | 0.22473545 | −40.2% |
+  | 3 | 0.005 | 0.01101912 | 0.00000000 | −100% |
+  | 3 | 0.01 | 0.03460492 | 0.00762543 | −78.0% |
+  | 3 | 0.05 | 0.28017076 | 0.07600485 | −72.9% |
+
+  The under-report is one-sided, so a bisection reading it calls an unstable point
+  stable and its γ_crit is biased HIGH. The companion sentence "max Re is exactly
+  0.0 for γ ≤ 0.01" is also a 2-per-chain statement: at 3 per chain the exact
+  values there are +0.011 and +0.035.
+
+- **What survives of the reviewer's finding, and what does not.** The estimator is
+  materially inaccurate where a reference exists, so "the γ_crit values rest on an
+  estimator nobody checked" was right and was rejected. The quoted reversal
+  rate(0.0625) below rate(0.03125) still does not reproduce, and the N=2 and N=3
+  rows of the scaling table do not go through the estimator at all: they are dense
+  eigenvalues. The one row that does is **N=4**, d² = 65536, where the norm fit is
+  the whole instrument and no dense reference is affordable. So the error there is
+  not measured, it is uncharacterised, and 0.00119 is fenced accordingly in
+  `hypotheses/FRAGILE_BRIDGE.md`.
+
+- **The shape, which is the reason this is here.** A branch selected by size was
+  read as a branch always taken. The check ran, passed, and answered a different
+  question than the one asked, and its own numbers agreeing "to six decimals"
+  should have been the tell: an estimator that agrees with an exact solver to six
+  decimals is usually the exact solver. Beside it, the same day, the F18 Bell/GHZ
+  threshold turned out to be a bisector's residual bracket printed as a
+  measurement. Both are the same failure: a number was read without asking which
+  code path produced it.

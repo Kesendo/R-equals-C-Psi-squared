@@ -240,19 +240,35 @@ even-length chains are more stable than odd-length ones.
 
 γ_crit depends strongly on chain length, and non-monotonically:
 
-| N (per chain) | γ_crit (J_bridge=0.10) | Ratio to N=2 |
-|---------------|----------------------|-------------|
-| 2 | 0.01729 | 1.000 |
-| 3 | 0.00052 | 0.030 |
-| 4 | 0.00119 | 0.069 |
+| N (per chain) | γ_crit (J_bridge=0.10) | Ratio to N=2 | instrument |
+|---------------|----------------------|-------------|------------|
+| 2 | 0.017292 | 1.000 | dense eigenvalues |
+| 3 | 0.000515 | 0.030 | dense eigenvalues |
+| 4 | 0.001186 | 0.069 | norm-fit estimator, error uncharacterised |
 
-N=3 is 33× less stable than N=2, but N=4 is 2.3× MORE stable
-than N=3. The scaling is **non-monotonic**: even chain lengths
-(N=2, N=4) are more stable than odd (N=3). This may reflect
-pairing symmetry within each chain (all qubits paired at even N,
-one unpaired at odd N).
+The first two rows are exact eigenvalues of the coupled generator: at 4 and 6
+qubits the Liouvillian is 256² and 4096², and `max_re_sparse` solves it densely.
+N=3 is 33.6× less stable than N=2 on those numbers. The
+[bifurcation producer](../simulations/fragile_bridge_bifurcation.py) reaches
+0.000500 for the same point on a tighter bisection, i.e. 34.6×; the two agree to
+3%, which is the resolution of the claim.
 
-No simple power law or exponential fits these three points.
+The third row is a different instrument and carries a different weight. At 8
+qubits the generator is 65536², beyond a dense solve here, so γ_crit(N=4) is
+bisected on a norm fit: propagate a random vector, take the slope of log‖v‖ over
+five samples. Where that fit CAN be checked against exact eigenvalues, at 4 and 6
+qubits, it under-reports max Re(λ) by 8.8% to 100%, always in the same direction,
+which biases a bisection's γ_crit high. At 8 qubits there is no reference, so the
+error is not measured and 0.001186 is a reading of the estimator rather than of
+the spectrum.
+
+**So the even/odd reading is not supported by this table.** "N=4 is 2.3× more
+stable than N=3" compares a dense number with an estimator number whose one-sided
+bias points the same way as the claimed effect. A parity law in the chain length
+would be an attractive thing to have, and it needs the N=4 point measured by an
+instrument with a known error before it can be asserted; a sector-resolved solve
+or a Krylov eigensolver with a residual bound would supply one. No simple power
+law or exponential fits the three points either.
 
 This is fundamentally different from the fold threshold
 (Σγ_crit/J ≈ 0.5% for the product state, flat in N over the measured N = 2-5). The fold is a **geometric**
@@ -306,10 +322,16 @@ instances. Pairing itself supplies no silence or stability theorem.
 
 ## 6. Open questions
 
-1. **N-scaling law (partially answered):** N=4 computed
-   (65536×65536 sparse, expm_multiply, a SciPy routine that computes the matrix exponential acting on a vector without forming the full matrix). Result: non-monotonic
-   (N=4 more stable than N=3). Even/odd parity effect suspected.
-   N=5 would test this (1048576×1048576, feasible but slow).
+1. **N-scaling law (open, and the N=4 point needs a better instrument first):**
+   N=4 was computed at 65536×65536 through `expm_multiply`, a SciPy routine that
+   applies the matrix exponential to a vector without forming the operator, with
+   γ_crit bisected on the growth rate that fit returns. Measured against exact
+   eigenvalues at the two smaller sizes, that fit under-reports max Re(λ) by 8.8%
+   to 100%, one-sided, which pushes a bisected γ_crit up. The suspected even/odd
+   parity effect is exactly what such a bias would manufacture, so N=5 is not the
+   next step: re-measuring N=4 with a bounded-error instrument is. A Krylov
+   eigensolver carrying a residual bound, or a solve restricted to the sector the
+   leading mode lives in, would give one.
 
 2. **Multiple bridges:** What if the two chains are connected by
    more than one qubit pair? Does γ_crit recover N-independence

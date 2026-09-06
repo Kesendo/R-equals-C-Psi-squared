@@ -1804,7 +1804,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-252
 
-**Question:** **N-scaling law (partially answered):** N=4 computed (65536×65536 sparse, expm_multiply, a SciPy routine that computes the matrix exponential acting on a vector without forming the full matrix). Result: non-monotonic (N=4 more stable than N=3). Even/odd parity effect suspected. N=5 would test this (1048576×1048576, feasible but slow).
+**Question:** **N-scaling law (open; the N=4 point needs a bounded-error instrument first):** N=4 was computed at 65536×65536 through `expm_multiply`, with γ_crit bisected on the growth rate that norm fit returns. Checked against exact eigenvalues at the two smaller sizes, the fit under-reports max Re(λ) by 8.8% to 100%, one-sided, which biases a bisected γ_crit high, in the same direction as the suspected even/odd parity effect. So N=5 is not the next step: re-measuring N=4 with a Krylov eigensolver carrying a residual bound, or a sector-restricted solve, is.
 
 **Source:** `hypotheses/FRAGILE_BRIDGE.md` (line 277)
 **Section:** 6. Open questions
