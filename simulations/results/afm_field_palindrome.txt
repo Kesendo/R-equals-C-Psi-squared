@@ -23,8 +23,14 @@ The commutator column is the mechanism, read directly. At amplitude 0.3 it is a
 few ulp rather than 0.0 because 0.3 is not dyadic; the exact assertion below runs
 at a dyadic amplitude, where it is 0.0 to the bit.
 
-The disordered profile carries no order at all and breaks the pairing anyway,
-as strongly as the staggered one. What the uniform profile has is not order but
+The disordered profile carries no order at all and breaks the pairing anyway.
+How MUCH it breaks it is a separate question from whether: at N=4 it breaks
+the pairing slightly harder than the staggered profile, at N=2 far less. The
+size tracks the commutator, not the order. At N=2, where both profiles are
+R-odd and so both respond quadratically, the defect ratio 112 sits close to
+the squared commutator ratio 122; at N=3 and N=4 the two directions differ in
+reflection parity and no single power relates them.
+What the uniform profile has is not order but
 a vanishing commutator: sum_k Z_k is the conserved total spin of the Heisenberg
 bond, so its superoperator is diagonal with purely imaginary spectrum and commutes
 with the rest of the generator. It can only move frequencies. A global offset is

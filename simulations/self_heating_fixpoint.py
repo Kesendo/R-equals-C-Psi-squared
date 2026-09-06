@@ -163,9 +163,10 @@ def no_self_heating_fixed_point(log):
             gibbs = float(np.trace(hamiltonian @ gibbs_state(hamiltonian, n_bar, dimension)).real)
             worst_residual = max(worst_residual, residual)
             worst_gibbs = max(worst_gibbs, gibbs)
-            if n_bar in (1e-4, 1.0, 50.0):
-                log(f"{n:3d} {n_bar:8.4g} {closed:13.6f} {measured:13.6f} "
-                    f"{residual:11.2e} {gibbs:10.4f}")
+            # Print every occupation. Printing three of nine and then reporting
+            # a worst-case over all nine put the summary's number in no row.
+            log(f"{n:3d} {n_bar:8.4g} {closed:13.6f} {measured:13.6f} "
+                f"{residual:11.2e} {gibbs:10.4f}")
         log("")
 
     # The gate is the closed form, which a wrong steady state breaks at once, and

@@ -150,8 +150,12 @@ Every non-constant profile can, and order has nothing to do with it:
 | 4 | disordered, all positive | 2.70 | 4.97e-2 |
 
 A disordered all-positive profile carries no antiferromagnetic order at all and
-breaks the pairing as readily as the staggered one; a perfectly ordered uniform
-profile does not break it at all. A global offset is free for the same reason,
+breaks the pairing anyway, here slightly harder than the staggered one; a
+perfectly ordered uniform profile does not break it at all. How much a profile
+breaks it is a separate question from whether, and it tracks the commutator
+rather than the order: at N = 2 the same disordered profile breaks the pairing
+112 times less than the staggered one, its commutator being 11 times smaller
+and the response quadratic in it. A global offset is free for the same reason,
 so the defect is a function of the profile's deviation from constant. This is
 the repository's own distinction: [Mirror Symmetry
 Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) records uniform 64/64 against
@@ -177,9 +181,9 @@ bump responds linearly, which reproduces the arc's own `(1,1,1,1+eps)` sweep
 [F131](../docs/ANALYTICAL_FORMULAS.md)'s order-sorting law read as a response
 order: along an R-odd direction the Liouville spectrum is even in the parameter,
 so the linear term is absent and the leading response is quadratic. The
-staggered profile is R-odd at even `N`, which is the whole reason it alone gives
-a clean square there; at `N=3` it is not R-odd and no clean power should be
-expected.
+staggered profile is R-odd at even `N`, which is why it gives a clean square
+there, as do the other two R-odd directions in the table; at `N=3` it is not
+R-odd and no clean power should be expected.
 
 So the field costs the rate pairing exactly its non-commuting part, at an order
 its reflection parity fixes. Order in the antiferromagnetic sense is neither

@@ -3,7 +3,7 @@
 <!-- Keywords: thermal amplitude damping sigma minus sigma plus finite
 occupation spectral census F137 palindrome centre frequency bins -->
 
-**Status:** finite numerical census plus one-qubit direction gate; `n_bar` is an external channel parameter
+**Status:** an algebraic non-existence argument for `beta > 0`, checked against a finite numerical census and a one-qubit direction gate; `n_bar` is an external channel parameter
 **Producers:** [v_effect_thermal.py](../simulations/v_effect_thermal.py), [self_heating_fixpoint.py](../simulations/self_heating_fixpoint.py)
 **Outputs:** [spectral census](../simulations/results/v_effect_thermal.txt), [channel audit](../simulations/results/self_heating_fixpoint.txt)
 
@@ -108,11 +108,13 @@ so its energy is
 
     Tr(H rho_steady) = (N-1) * <Z>^2 = (N-1) / (2 n_bar + 1)^2 >= 0
 
-which reproduces to `8e-16` at every `N` and `n_bar` measured. Meanwhile
-`tr H = 0` exactly, so a Gibbs state at any `beta > 0` has
-`Tr(H rho_Gibbs) < 0` strictly. The gap is a non-negative number minus a
-negative one and cannot vanish, at any `N`, any rate, and any map from `n_bar`
-to a temperature.
+which reproduces to `7.55e-15` at worst over the producer's nine occupations
+(the three printed rows are tighter, at `8.9e-16`). Meanwhile `tr H = 0`
+exactly, so `Tr(H rho_beta) = 0` at `beta = 0`, and since
+`d/d(beta) Tr(H rho_beta) = -Var_beta(H) < 0` for this non-constant `H`, any
+`beta > 0` gives `Tr(H rho_Gibbs) < 0` strictly. The gap is a non-negative
+number minus a negative one and cannot vanish, at any `N`, any rate, and any
+map from `n_bar` to a temperature with `beta > 0`.
 
 That is stronger than a sweep and it is also what a sweep could never have
 shown: a scan reporting "no sign change over five decades" is reporting an

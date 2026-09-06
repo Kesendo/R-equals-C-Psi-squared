@@ -143,8 +143,14 @@ def render_report():
         "few ulp rather than 0.0 because 0.3 is not dyadic; the exact assertion below runs",
         "at a dyadic amplitude, where it is 0.0 to the bit.",
         "",
-        "The disordered profile carries no order at all and breaks the pairing anyway,",
-        "as strongly as the staggered one. What the uniform profile has is not order but",
+        "The disordered profile carries no order at all and breaks the pairing anyway.",
+        "How MUCH it breaks it is a separate question from whether: at N=4 it breaks",
+        "the pairing slightly harder than the staggered profile, at N=2 far less. The",
+        "size tracks the commutator, not the order. At N=2, where both profiles are",
+        "R-odd and so both respond quadratically, the defect ratio 112 sits close to",
+        "the squared commutator ratio 122; at N=3 and N=4 the two directions differ in",
+        "reflection parity and no single power relates them.",
+        "What the uniform profile has is not order but",
         "a vanishing commutator: sum_k Z_k is the conserved total spin of the Heisenberg",
         "bond, so its superoperator is diagonal with purely imaginary spectrum and commutes",
         "with the rest of the generator. It can only move frequencies. A global offset is",
@@ -212,9 +218,29 @@ def render_report():
             raise RuntimeError(
                 f"a commuting profile moved the rates at N={n}: {rate_defect(n, uniform):.3e}")
         # (2) Order is not the discriminator: a disordered profile must break too.
-        if rate_defect(n, disordered) < 1e-4:
+        #     The scale to beat is the commuting case, which is exactly inert, so
+        #     the gate is "far above the uniform profile's own residual" rather
+        #     than a bare constant. The uniform residual is ~1e-14 here, so this
+        #     asks for six clear decades and is not a threshold that happens to
+        #     pass: at N=2 the disordered defect is 1.5e-04 against a 1e-11 bar.
+        floor = max(rate_defect(n, uniform), 1e-15)
+        bar = 1e3 * floor
+        d_dis = rate_defect(n, disordered)
+        if d_dis < bar:
             raise RuntimeError(
-                f"a disordered non-constant profile did not break the pairing at N={n}")
+                f"a disordered non-constant profile did not break the pairing at "
+                f"N={n}: {d_dis:.3e} against a bar of {bar:.3e}")
+        # The seed must not be what makes this true. Ten further draws, all of
+        # which must break the pairing by the same margin.
+        for trial in range(10):
+            probe = np.random.default_rng(1000 + trial).uniform(0.05, 0.55, size=n)
+            if abs(probe - probe.mean()).max() < 1e-9:
+                continue
+            d_probe = rate_defect(n, probe)
+            if d_probe < bar:
+                raise RuntimeError(
+                    f"disordered draw {trial} did not break the pairing at N={n}: "
+                    f"{d_probe:.3e} against a bar of {bar:.3e}")
     # (3) A global offset is inert. The exact route is the reason, not the
     #     consequence: the offset part of any profile is a multiple of sum_k Z_k,
     #     which commutes with the bond Hamiltonian exactly, so it cannot reach a
