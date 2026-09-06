@@ -52,7 +52,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>F-chain extensions to k-body (per F85 verified table):</para>
 ///
 /// <list type="bullet">
-///   <item>F77 trichotomy: extends via <c>_pauli_tuple_is_truly</c></item>
+///   <item>F87 trichotomy: extends via <c>_pauli_tuple_is_truly</c></item>
 ///   <item>F80 Spec(M) = 2i·Spec(H): extends verbatim; verified k=3,4</item>
 ///   <item>F81 Π·M·Π⁻¹ = M − 2·L_{H_odd}: verbatim, verified k=3 chain N=4</item>
 ///   <item>F82 T1 dissipator: dissipator-only, body-count-independent</item>

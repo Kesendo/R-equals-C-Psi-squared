@@ -1,4 +1,4 @@
-"""d=0 sector-population reading of the F77 trichotomy on Marrakesh data.
+"""d=0 sector-population reading of the F87 trichotomy on Marrakesh data.
 
 The existing palindrome_trichotomy confirmation (Confirmations) reads the
 trichotomy via ⟨X₀Z₂⟩ at full 9-Pauli-pair tomography. This script shows

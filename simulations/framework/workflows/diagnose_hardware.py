@@ -118,7 +118,7 @@ def diagnose_hardware(
 
     The diagnostic codifies the lens-readings developed in the 2026-04-30
     brainstorming arc:
-      - F77 trichotomy per category (truly / soft / hard).
+      - F87 trichotomy per category (truly / soft / hard).
       - F83 anti-fraction prediction (closed form on H letters).
       - F82/F84 amplitude-damping signature: truly's ⟨Z,Z⟩ damping IS the
         operational F82 prediction (M=0 lens; environment shines through).
@@ -185,7 +185,7 @@ def diagnose_hardware(
         readings.append({
             'lens': 'F77',
             'class': f77,
-            'reading': f"{category} is {f77} per F77 trichotomy classifier",
+            'reading': f"{category} is {f77} per F87 trichotomy classifier",
         })
 
         # Structure lens: raw Z₂³ axes (bit_a, bit_b, Y-parity) per term and

@@ -598,7 +598,7 @@ def klein_index(letters):
     The Klein index is the parity-sum of per-letter (bit_a, bit_b)
     contributions. Two Pauli terms with the same Klein index are in
     the same Klein-class; their pair is "homogeneous" in the sense
-    relevant to F77 trichotomy.
+    relevant to the F87 trichotomy.
 
     Single-letter Klein indices:
         I → (0, 0),  X → (1, 0),  Y → (1, 1),  Z → (0, 1)

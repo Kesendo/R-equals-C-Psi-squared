@@ -398,7 +398,7 @@ public static class ConfirmationsRegistry
             ExperimentDoc: "data/ibm_soft_break_april2026/README.md",
             FrameworkPrimitive: "sector_populations (d_zero diagnostic)",
             Description:
-                "Retrospective d=0-axis reading of the F77 trichotomy from existing Marrakesh data. The same three Hamiltonian classes the April-26 run discriminated via ⟨X₀Z₂⟩ at 9-Pauli-pair tomography are also discriminated by ⟨n⟩ from just the Z-basis ZZ counts. " +
+                "Retrospective d=0-axis reading of the F87 trichotomy from existing Marrakesh data. The same three Hamiltonian classes the April-26 run discriminated via ⟨X₀Z₂⟩ at 9-Pauli-pair tomography are also discriminated by ⟨n⟩ from just the Z-basis ZZ counts. " +
                 "Operational consequence: the trichotomy can be read with 1/9 the Pauli-measurement cost when the question is classification, not full M-spectrum reconstruction. See simulations/d_zero_trichotomy_marrakesh.py.",
             QubitPath: new[] { 48, 49, 50 }),
 

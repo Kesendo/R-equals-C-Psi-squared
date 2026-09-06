@@ -1,4 +1,8 @@
-"""Tests for F77 trichotomy classifier (truly / soft / hard) at k=2 and k≥3."""
+"""Tests for the F87 trichotomy classifier (truly / soft / hard) at k=2 and k≥3.
+
+The module and this file keep the f77 name for historical reasons; the theorem
+is F87. F77 is the unrelated multi-drop MM(0) saturation result.
+"""
 from __future__ import annotations
 
 import sys
