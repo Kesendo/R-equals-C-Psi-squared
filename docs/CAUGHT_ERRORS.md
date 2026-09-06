@@ -2307,3 +2307,32 @@ recomputation. That record is wrong, and this is the append that says so.
   threshold turned out to be a bisector's residual bracket printed as a
   measurement. Both are the same failure: a number was read without asking which
   code path produced it.
+
+## 2026-09-06: a right finding about one quantity, applied to the phrase next to it
+
+An empty round found that `ComplexCuspSpiral.WindingRate` computes Ω/(4γ) while
+documenting it as radians per e-fold of RADIAL DECAY. That is correct and it was
+repaired: 4γ is what the coherence factor f decays at, the magnitude
+|CΨ_com| = f(1+f²)/6 sheds e-folds at 4γ(1+3f²)/(1+f²) instead, and across the
+run from 1/3 to the ¼ circle the two readings differ by 1.9255760.
+
+The same finding also said the class header's "winds inward as a logarithmic
+spiral" was true only asymptotically, since ln r is not linear in φ. That was
+applied without being measured, and it is wrong. Fitting ln|CΨ_com| against the
+phase over exactly the observed run gives a worst departure of 0.0018 against a
+span of 0.2877, i.e. **0.6%**; over thirty e-folds of f it is 2%. The spiral is
+logarithmic where it is looked at, and the retraction has itself been retracted,
+with a gate now pinning the 1% linearity and a bent-arc control that rejects a
+curve at 12.5% of the span.
+
+The two claims share an input and are not the same claim. The factor
+(1+3f²)/(1+f²) runs from 2 to 1.8517 across the visited range, which is a large
+error in a DENOMINATOR (it is the whole 1.93) and a small one in a CURVATURE (a
+7% drift in the slope, accumulating to 0.6% of the total). A finding about the
+first does not reach the second, and the six documents that call the trajectory a
+logarithmic spiral were about to be edited on the strength of it.
+
+The shape, for the ledger: **when a finding is right, the sentence beside it is
+not thereby wrong.** The repair skill's own first question, whether the fix
+touches only what the finding establishes, is the one that was skipped, and the
+cost of asking it was one least-squares fit.

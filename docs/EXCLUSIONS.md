@@ -195,7 +195,7 @@ The same principle operates at every level of the framework:
 | Level | What is converted | Into what | Evidence |
 |-------|------------------|-----------|----------|
 | 1/4 crossing | Quantum coherence | Classical correlation | CΨ monotonicity (this exclusion) |
-| V-Effect (census) | Individual frequency bins | Coupled frequency bins | The N=2 bins fall into no N=5 bin, and all 452 oscillating pairs are NEW-NEW under that labelling; OLD and NEW are bin labels, not mode identities ([pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)) |
+| V-Effect (census) | Individual frequency bins | Coupled frequency bins | The N=2 bins fall into no N=5 bin, and all 452 oscillating pairs are NEW-NEW under that labelling ([pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)); OLD and NEW are bin labels rather than mode identities, which the census's own write-up states and the result file does not ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)) |
 | Energy-partition audit | A full palindromic spectrum | A filtered list with stranded partners | Removing zero roots strands their −2Nγ partners; this is not a physical conversion ([Energy Partition](../hypotheses/ENERGY_PARTITION.md)) |
 
 These rows do not establish one general conversion principle. The first two
@@ -264,7 +264,7 @@ CΨ = 1/4 crossing equation) confirmed on IBM Torino at 1.9% deviation
 ([IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)); the N-qubit
 pairing itself is algebraic + numerical, not yet a hardware readout.
 
-**Cross-domain (tested 2026-05-01, hardened 2026-06-28):** the F1 pair-sum-constant signature was tested on the periodic table of the elements, across three property scales and five periods (first ionization energies, Pauling and Allen electronegativities; the sweep and its numbers live in [`simulations/periodic_palindrome.py`](../simulations/periodic_palindrome.py) and §3 of [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md)). The current verdict is the hardened one: the pair-sum-constant statistic is satisfied exactly by any linear ramp, the original shuffle-null significance was largely a monotonic-smoothness artifact, and the sign-flip-null re-analysis finds a residual mirror-respecting signal that cannot be pinned to F1 specifically, neither validating nor refuting it ([the hardened re-analysis](carbon/PERIODIC_PALINDROME_HARDENED.md)). The hardening ran on the five ionization-energy rows and the two Allen-labelled rows; the Pauling scale of the original sweep was never put through the sign-flip null, so it carries the older shuffle-null reading and nothing stronger. The cross-domain transport from quantum F1 to atomic shell Hamiltonians remains empirical, not derived.
+**Cross-domain (tested 2026-05-01, hardened 2026-06-28):** the F1 pair-sum-constant signature was tested on the periodic table of the elements, across three property scales, with a different number of rows each (five periods of first ionization energies, four of Pauling and two of Allen electronegativity; the sweep and its numbers live in [`simulations/periodic_palindrome.py`](../simulations/periodic_palindrome.py) and §3 of [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md)). The current verdict is the hardened one: the pair-sum-constant statistic is satisfied exactly by any linear ramp, the original shuffle-null significance was largely a monotonic-smoothness artifact, and the sign-flip-null re-analysis finds a residual mirror-respecting signal that cannot be pinned to F1 specifically, neither validating nor refuting it ([the hardened re-analysis](carbon/PERIODIC_PALINDROME_HARDENED.md)). The hardening ran on the five ionization-energy rows and the two Allen-labelled rows; the Pauling scale of the original sweep was never put through the sign-flip null, so it carries the older shuffle-null reading and nothing stronger. The cross-domain transport from quantum F1 to atomic shell Hamiltonians remains empirical, not derived.
 
 **Ruled out:**
 - "The symmetry is approximate and breaks at some scale": it is
@@ -345,7 +345,7 @@ exactly invariant: Delta = 0.00e+00 for all 16 two-qubit Pauli strings
 
 The second half is weaker, and inherits Exclusion 3's: the sequence as a
 whole cannot restore CΨ only where the free evolution between the pulses
-decreases it, which is proven for the single-qubit envelope and open for
+decreases it, which is proven for the 2-qubit envelope and open for
 the N ≥ 3 full state, where it genuinely rises at N ≥ 4 under strong
 coupling. So the pulses are exactly not the mechanism at any N, and
 "the sequence cannot restore CΨ" holds within Exclusion 3's scope.

@@ -93,6 +93,64 @@ public class ComplexCuspSpiralTests
 
     [Theory]
     [InlineData(0.05, 0.4)]
+    [InlineData(0.5, 1.5)]
+    [InlineData(1.3, -0.7)]
+    public void TheSpiral_IsLogarithmicOverTheRangeItIsObservedIn(double gamma, double omega)
+    {
+        // "Logarithmic spiral" is a claim about ln|CPsi| against the phase, and it is a different
+        // claim from the winding rate's denominator. The rate factor (1+3f^2)/(1+f^2) moves from
+        // 2 to 1.8517 across the visited run, which is enough to make Omega/(4*gamma) the wrong
+        // radians-per-magnitude-e-fold by 1.93 and NOT enough to bend the spiral: over 1/3 down
+        // to the quarter circle, ln|CPsi| is linear in the phase to 0.6% of its own total change.
+        const int samples = 400;
+        double tc = ComplexCuspSpiral.CrossingTime(gamma);
+        var phase = new double[samples];
+        var logRadius = new double[samples];
+        for (int i = 0; i < samples; i++)
+        {
+            double t = tc * i / (samples - 1.0);
+            phase[i] = ComplexCuspSpiral.Argument(omega, 0.0, t);
+            logRadius[i] = Math.Log(ComplexCuspSpiral.Magnitude(gamma, t));
+        }
+
+        // Least squares of logRadius against phase, then the worst residual.
+        double meanX = phase.Average(), meanY = logRadius.Average();
+        double sxy = 0.0, sxx = 0.0;
+        for (int i = 0; i < samples; i++)
+        {
+            sxy += (phase[i] - meanX) * (logRadius[i] - meanY);
+            sxx += (phase[i] - meanX) * (phase[i] - meanX);
+        }
+        double slope = sxy / sxx, intercept = meanY - slope * meanX;
+        double worst = 0.0;
+        for (int i = 0; i < samples; i++)
+            worst = Math.Max(worst, Math.Abs(logRadius[i] - (slope * phase[i] + intercept)));
+
+        double span = Math.Abs(logRadius[^1] - logRadius[0]);
+        Assert.Equal(Math.Log(4.0 / 3.0), span, 10);              // 1/3 down to 1/4
+        Assert.True(worst / span < 0.01,
+            $"worst departure from a straight line {worst:E3} against a span of {span:E3}");
+
+        // And the gate can fail. The control is a bend scaled to this run's own span, so it
+        // means the same thing at every gamma and Omega: an arc rising to 12.5% of the span at
+        // the midpoint, which is symmetric and so survives the linear fit almost entirely.
+        for (int i = 0; i < samples; i++)
+        {
+            double u = i / (samples - 1.0);
+            logRadius[i] += 0.5 * span * u * (1.0 - u);
+        }
+        meanY = logRadius.Average();
+        sxy = 0.0;
+        for (int i = 0; i < samples; i++) sxy += (phase[i] - meanX) * (logRadius[i] - meanY);
+        slope = sxy / sxx; intercept = meanY - slope * meanX;
+        worst = 0.0;
+        for (int i = 0; i < samples; i++)
+            worst = Math.Max(worst, Math.Abs(logRadius[i] - (slope * phase[i] + intercept)));
+        Assert.True(worst / span > 0.01, "the linearity check must be able to reject a bent curve");
+    }
+
+    [Theory]
+    [InlineData(0.05, 0.4)]
     [InlineData(0.5, 0.4)]
     [InlineData(0.05, 1.5)]
     [InlineData(1.3, -0.7)]

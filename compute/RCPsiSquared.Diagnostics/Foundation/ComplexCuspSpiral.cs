@@ -2,10 +2,16 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The complex-plane face of the interior horizon: when a common Z-drift Ω sits under the
 /// dephasing, the Bell+ coherence CΨ_com = C·Ψ_com becomes complex (ρ₀₃ = ½·e^{i(φ₀−Ωt)}) and the
-/// trajectory winds inward. The cusp CΨ = ¼, a point on the real line
-/// (<see cref="InteriorHorizon"/>), is the circle |CΨ| = ¼ here. The spiral is logarithmic only
-/// asymptotically: ln|CΨ_com| is linear in the phase once f ≪ 1, and the whole visited range
-/// 1/3 → ¼ is where it is not (see <see cref="MagnitudeEFoldRate"/>).
+/// trajectory winds inward as a logarithmic spiral. The cusp CΨ = ¼, a point on the real line
+/// (<see cref="InteriorHorizon"/>), is the circle |CΨ| = ¼ here.
+///
+/// <para>Logarithmic is the right word and it was measured, not assumed: over the observed run
+/// from |CΨ_com| = 1/3 to the ¼ circle, ln|CΨ_com| is linear in the phase to 0.0018 out of a
+/// total change of 0.288, i.e. 0.6%. It stays that good further out (2% over thirty e-folds of
+/// f), because the only departure from linearity is the slowly varying factor
+/// <see cref="MagnitudeEFoldRate"/>/4γ = (1+3f²)/(1+f²), which moves from 2 to 1.85 across the
+/// visited range. That factor matters for <see cref="WindingRate"/>, which divides by the wrong
+/// e-fold if it is ignored; it does not bend the spiral appreciably.</para>
 ///
 /// <para>The radial magnitude is unchanged and Ω-independent: |CΨ_com|(t) = f(1+f²)/6, f = e^{−4γt}
 /// (F25, the same law <see cref="InteriorHorizon.BellPlusCpsi"/> reads on the line). So every spiral
