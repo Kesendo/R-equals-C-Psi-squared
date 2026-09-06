@@ -3,7 +3,10 @@
 **Naming note (2026-07-05):** renamed from "Sacrifice-Zone Qubit Mapping". The
 noisy edge qubit sacrifices nothing; it concentrates the noise (the misnomer
 was resolved 2026-03-28). The frozen `sacrifice_zone_mapping.*` script and data
-keep their original names as the provenance of the run.
+keep their original names, which is where this work started: the engineering
+rule was "protect the receiver side, sacrifice the sender side", and the noun
+outlived the rule. The names are the lineage, not a freeze; the script was last
+changed on 2026-09-06, when its coupling map was corrected.
 
 <!-- Keywords: concentrator qubit selection IBM Torino, heavy-hex topology
 chain optimization mode protection, T2 calibration data cavity mode
@@ -36,7 +39,7 @@ picking the qubits with the best T2 times (the standard approach), we
 select chains where a noisy qubit sits at the edge, providing the
 concentrator benefit for free. On IBM Torino's 133-qubit chip, this
 mode-based selection outperforms naive T2 maximization by 2.6× in
-protection factor, despite using qubits with 2.3× lower average T2.
+protection factor, despite using qubits with 1.9× lower average T2.
 
 ---
 
@@ -49,7 +52,6 @@ edge should provide the concentrator benefit *for free*.
 
 We test this on IBM Torino's heavy-hex topology using real T2
 calibration data (181 days, 24,073 records). On the latest calibration
-date 133 qubits carry T2 data; the `from_heavy_hex(7)` coupling map used
 date 133 qubits carry T2 data, and we search the device's own coupling map,
 150 edges over those 133 qubits. 359 five-qubit chains exist on it. We compare
 two chain selection strategies:
@@ -61,8 +63,8 @@ Result: **Zero overlap** in the top-10 lists. Concentrator chains
 achieve **3.12x** mean protection factor vs **1.19x** for mean-T2
 chains. Mode-based selection outperforms naive T2 maximization by 2.6x.
 
-The best concentrator chain has only 81 us mean T2 but 2.86x protection.
-The best T2 chain has 217 us mean T2 but only 1.06x protection.
+The best concentrator chain has only 138 us mean T2 but 3.42x protection.
+The best T2 chain has 234 us mean T2 but only 1.12x protection.
 **Worse qubits, better modes.**
 
 ---
@@ -91,8 +93,8 @@ T₁-aware form is the right one instead.
 The score is a ratio of γ values, so it is unchanged by a global factor on all
 rates. That is **not** the same as being independent of the model, and the
 difference matters here: the T₁-aware form is not a global factor, because the
-T₁ share of the decay is wildly uneven across this chip. On Q85, the sacrifice
-qubit in four of the five headline chains, T₁ = 2.9 µs against T₂ = 5.0 µs, so
+T₁ share of the decay is wildly uneven across this chip. On Q85, the concentrator
+qubit in all five headline chains, T₁ = 2.9 µs against T₂ = 5.0 µs, so
 the 1/(2T₁) term carries most of the coherence decay, while the interior qubits
 sit near 40%. Under that model Q85's D[Z] rate would fall several-fold more than
 the interior's and the ranking would not survive. A σ⁻ channel also breaks the Π
@@ -103,10 +105,12 @@ either. (σ⁻ *alone* would not break it: it would move the centre to
 that breaks.) Everything below is a statement about the dephasing-only model
 these scripts implement.
 
-Related, and unhandled by either script: Q53, which appears in two of the five
-headline chains, reports T₂ = 62.4 > 2·T₁ = 44.8 on this calibration date. That
-is a broken record (the typed layer clamps it, `IbmCalibration.cs`), and the
-dephasing-only form is silent about it only because it never reads T₁.
+Related, and unhandled by either script: Q53 reports T₂ = 62.4 > 2·T₁ = 44.8 on
+this calibration date. That is a broken record (the typed layer clamps it,
+`IbmCalibration.cs`), and the dephasing-only form is silent about it only
+because it never reads T₁. Q53 sits in none of the ten chains the current search
+returns; the broken record is a property of the calibration file rather than of
+any chain, which is why it is kept here.
 
 ### Spectral verification
 
@@ -135,14 +139,16 @@ as the concentrator endpoint.
 
 | Chain | Score | mean T2 | Protection |
 |-------|-------|---------|-----------|
-| [18, 89, 19, 90, 60] | 1.0 | 217.3 us | 1.06x |
-| [88, 18, 89, 19, 90] | 1.1 | 207.6 us | 1.12x |
-| [19, 90, 60, 96, 26] | 0.7 | 203.1 us | 1.34x |
-| [4, 76, 51, 82, 10] | 0.9 | 202.3 us | 1.16x |
-| [13, 56, 20, 90, 60] | 0.8 | 198.5 us | 1.22x |
+| [10, 11, 12, 18, 31] | 1.1 | 234.5 us | 1.12x |
+| [8, 9, 10, 11, 12] | 0.9 | 217.9 us | 1.31x |
+| [9, 10, 11, 12, 18] | 2.0 | 216.5 us | 1.21x |
+| [9, 10, 11, 12, 13] | 2.0 | 216.3 us | 1.21x |
+| [10, 11, 12, 13, 14] | 2.1 | 214.6 us | 1.12x |
 
-All have concentrator scores near 1.0 (uniform noise). The quiet qubits
-provide long T2 but no differential protection.
+All have concentrator scores between 1 and 2 (nearly uniform noise). The quiet
+qubits provide long T2 but no differential protection. None of these five
+contains Q85: a chain selected for mean T2 does not run through the chip's
+noisiest qubit, which is the whole of the contrast below.
 
 ### Head-to-head
 
@@ -151,7 +157,7 @@ provide long T2 but no differential protection.
 | Mean protection factor | **3.12x** | 1.19x |
 | Mean T2 | 113.3 us | 220.0 us |
 | Mean concentrator score | 26.1 | 1.6 |
-| Palindrome backward error (see below) | 53.3-73.1 ε | 60.2-76.5 ε |
+| Palindrome backward error (see below) | 52.7-72.1 ε | 52.1-68.4 ε |
 
 The concentrator chains have 1.9x lower mean T2 but 2.6x higher
 protection. Choosing "worse" qubits with the right spatial pattern
@@ -159,9 +165,12 @@ outperforms choosing the "best" qubits naively.
 
 **The palindrome column was void and has been replaced (2026-08-05).** It used
 to report 96-98% for concentrator chains and 85-92% for mean-T2 chains, and
-neither number measured the palindrome. Measured on the mean-T2 top chain
-[18, 89, 19, 90, 60], the
-palindromic symmetry holds **to the eigensolver's own accuracy**: comparing the
+neither number measured the palindrome. Measured on a 5-site chain carrying the
+γ of qubits [18, 89, 19, 90, 60] (those five were the mean-T2 top row of an
+earlier search and are not adjacent on Torino, so this is a Liouvillian with
+real measured rates rather than a layout; the palindrome does not know about
+layout), the palindromic symmetry holds **to the eigensolver's own accuracy**:
+comparing the
 960 oscillatory rates against their mirror image 2·Σγ − rate as sorted multisets
 gives a residual of **1.8e-14**. The theorem is proven analytically; what this
 measures is that nothing in the numerics contradicts it at that scale.
@@ -211,15 +220,17 @@ max|rate| spreads the same ten chains by **15.0×**, because max|rate| is only t
 real part while the spectrum is dominated by |Im| (ρ / max|rate| is 47× to 600×
 here).
 
-Measured: **53.3 to 76.5 ε** across the ten chains, a **1.44×** band (1.4353). That band
+Measured: **52.1 to 72.1 ε** across the ten chains, a **1.384×** band. That band
 is at its floor, not merely small: **one sensitivity of the measurement alone
 exceeds it, and a second is of the same size**.
 
 Permuting only the ORDER in which the five jump operators are summed into L, at
 identical physics and identical γ, moves this same number across all 120 orders
-from 51.2 to 90.9, a **1.77×** spread. (Measured on the mean-T2 top chain
-[18, 89, 19, 90, 60]; one chain, all 120 orders, and identical under both
-in-place and out-of-place accumulation.) Ten physically different chains vary
+from 51.2 to 90.9, a **1.77×** spread. (Measured on one 5-site chain carrying the T₂-derived γ of qubits
+[18, 89, 19, 90, 60]; all 120 orders, identical under both in-place and
+out-of-place accumulation. Those five qubits do not form a path on Torino, so
+the run is a 5-site Heisenberg Liouvillian carrying real measured rates rather
+than a realizable chain; nothing in this paragraph depends on the layout.) Ten physically different chains vary
 less than one re-associated sum on a single chain. That is this repo's documented case-3 residual, a
 deterministic function of an input the physics does not contain.
 

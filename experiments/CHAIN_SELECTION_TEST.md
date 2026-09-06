@@ -34,8 +34,14 @@ a chain with good qubits but no contrast?
 
 ## Setup
 
-Two 5-qubit chains from [Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md),
-using real IBM Torino calibration data (2026-02-10):
+Two 5-qubit γ profiles, using real IBM Torino calibration data (2026-02-10).
+Both were taken from the top rows of an early
+[Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md) search whose chain finder
+walked a synthetic heavy-hex graph rather than Torino's own. Neither set of five
+qubits is a path on the device, and the current search returns neither, so read
+what follows as two 5-site Heisenberg chains carrying real per-qubit rates, not
+as two layouts you could run. The comparison itself does not depend on the
+layout: the producer reads only T₁ and T₂ per qubit, never a coupling map.
 
 ### Chain A (Sacrifice-Top): [80, 8, 79, 53, 85]
 
@@ -77,7 +83,9 @@ Sum(gamma) = 0.012, contrast (max/min) = 1.9x, score = 1.06x
 | Slowest osc. rate | 0.0188 | 0.0046 | |
 | Correlation (edge weight vs rate) | r = 0.994 | r = 0.841 | |
 
-The protection factor (2.86x vs 1.06x) matches the mapping exactly.
+The protection factor (2.86x vs 1.06x) reproduces what the mapping reported for
+these same two profiles at the time. The mapping's current top rows are
+different chains and read 3.42x against 1.12x.
 
 **The palindrome row was void and has been replaced (2026-08-05).** The
 sentence that stood here called the sub-100% scores "numerical tolerance
@@ -114,7 +122,7 @@ ranking the arithmetic. Permuting only the order in which the jump operators are
 summed into L moves this number by 1.77× at fixed physics (one chain, all 120
 orders), and permuting only the ARRAY ORDER of the eigenvalues, same spectrum, by
 a further 1.29×. Both exceed
-the 1.44× that separates the ten chains in the mapping run. Full working in
+the 1.384× that separates the ten chains in the mapping run. Full working in
 [Concentrator Qubit Mapping](CONCENTRATOR_MAPPING.md).
 
 ### 2. Mode localization is geometric (chain-determined)
